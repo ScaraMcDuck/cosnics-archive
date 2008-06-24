@@ -81,14 +81,17 @@ class UserForm extends FormValidator {
 		$this->addElement('text', User :: PROPERTY_PHONE, Translation :: get('PhoneNumber'));
 		// Language
 		$adm = AdminDataManager :: get_instance();
-		$languages = $adm->retrieve_languages();
-		$lang_options = array();
-		
-		while ($language = $languages->next_result())
-		{
-			$lang_options[$language->get_folder()] = $language->get_english_name();	
-		}
+		$lang_options = $adm->get_languages();
 		$this->addElement('select', User :: PROPERTY_LANGUAGE, Translation :: get('Language'), $lang_options);
+		// Theme
+		$user_can_have_theme = PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME);
+		if ($user_can_have_theme)
+		{
+			$theme_options = array();
+			$theme_options[''] = '-- ' . Translation :: get('PlatformDefault') . ' --';
+			$theme_options = array_merge($theme_options, Theme :: get_themes());
+			$this->addElement('select', User :: PROPERTY_THEME, Translation :: get('Theme'), $theme_options);
+		}
 		// Disk Quota
 		$this->addElement('text', User :: PROPERTY_DISK_QUOTA, Translation :: get('DiskQuota'));
 		$this->addRule(User :: PROPERTY_DISK_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
@@ -169,6 +172,13 @@ class UserForm extends FormValidator {
   		  	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
  		   	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
  		   	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
+ 		   	
+			$user_can_have_theme = PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME);
+			if ($user_can_have_theme)
+			{
+				$user->set_theme($values[User :: PROPERTY_THEME]);
+			}
+ 		   	
 			$user->set_platformadmin(intval($values['admin'][User :: PROPERTY_PLATFORMADMIN]));
     		$send_mail = intval($values['mail']['send_mail']);
     		if ($send_mail)
@@ -224,6 +234,13 @@ class UserForm extends FormValidator {
  		   	if ($values[User :: PROPERTY_DISK_QUOTA] != '')
  		   	$user->set_disk_quota(intval($values[User :: PROPERTY_DISK_QUOTA]));
  		   	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
+ 		   	
+			$user_can_have_theme = PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME);
+			if ($user_can_have_theme)
+			{
+				$user->set_theme($values[User :: PROPERTY_THEME]);
+			}
+ 		   	
  		   	$user->set_platformadmin(intval($values['admin'][User :: PROPERTY_PLATFORMADMIN]));
     		$send_mail = intval($values['mail']['send_mail']);
     		if ($send_mail)
@@ -274,6 +291,13 @@ class UserForm extends FormValidator {
 		$defaults[User :: PROPERTY_PICTURE_URI] = $user->get_picture_uri();
 		$defaults[User :: PROPERTY_PHONE] = $user->get_phone();
 		$defaults[User :: PROPERTY_LANGUAGE] = $user->get_language();
+		
+		$user_can_have_theme = PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME);
+		if ($user_can_have_theme)
+		{
+			$defaults[User :: PROPERTY_THEME] = $user->get_theme();
+		}
+			
 		parent :: setDefaults($defaults);
 	}
 

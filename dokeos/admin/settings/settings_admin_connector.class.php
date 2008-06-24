@@ -15,31 +15,14 @@ class SettingsAdminConnector
 	function get_languages()
 	{
 		$adm = AdminDataManager :: get_instance();
-		$options = array();
-		
-		$languages = $adm->retrieve_languages();
-		while ($language = $languages->next_result())
-		{
-			$options[$language->get_folder()] = $language->get_original_name();
-		}
+		$options = $adm->get_languages();
 		
 		return $options;
 	}
 	
 	function get_themes()
 	{
-		$options = array();
-		
-		$path = Path :: get(SYS_LAYOUT_PATH);
-		$directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
-		
-		foreach($directories as $index => $directory)
-		{
-			if (substr($directory, 0 , 1) != '.')
-			{
-				$options[$directory] = DokeosUtilities :: underscores_to_camelcase($directory);
-			}
-		}
+		$options = Theme :: get_themes();
 		
 		return $options;
 	}

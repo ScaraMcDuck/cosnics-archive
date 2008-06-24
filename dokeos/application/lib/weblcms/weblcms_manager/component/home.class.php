@@ -124,8 +124,15 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 				$weblcms->set_course($course);
 				$weblcms->load_tools();
 				$tools = $weblcms->get_registered_tools();
-				$html[] = '<li><a href="'. $this->get_course_viewing_url($course) .'">'.$course->get_name().'</a>';
-				$html[] = '<br />'. $course->get_id() .' - '. $course->get_titular();
+				$html[] = '<li><a href="'. $this->get_course_viewing_url($course) .'">'.$course->get_name().'</a>';				
+				$html[] = '<br />'. $course->get_id();
+				
+				$course_titular = $course->get_titular_string();
+				if (!is_null($course_titular))
+				{
+					$html[] = ' - ' . $course_titular;
+				}
+				
 				foreach($tools as $index => $tool)
 				{					  
 					if($tool->visible && $weblcms->tool_has_new_publications($tool->name))

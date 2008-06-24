@@ -35,7 +35,7 @@ class Course {
 	const PROPERTY_DB = 'db_name';
 	const PROPERTY_NAME = 'title';
 	const PROPERTY_PATH = 'directory';
-	const PROPERTY_TITULAR = 'tutor_name';
+	const PROPERTY_TITULAR = 'titular';
 	const PROPERTY_LANGUAGE = 'course_language';
 	const PROPERTY_EXTLINK_URL = 'department_url';
 	const PROPERTY_EXTLINK_NAME = 'department_name';
@@ -169,6 +169,26 @@ class Course {
     {
     	return $this->get_default_property(self :: PROPERTY_TITULAR);
     }
+    
+    /**
+     * Returns the titular as a string
+     */
+    function get_titular_string()
+    {
+    	$titular_id = $this->get_titular();
+    	
+    	if (!is_null($titular_id))
+    	{
+			$udm = UsersDataManager :: get_instance();
+			$user = $udm->retrieve_user($titular_id);
+			return $user->get_lastname() . ' ' . $user->get_firstname();
+    	}
+    	else
+    	{
+    		return null;
+    	}
+    }
+    
     /**
      * Returns the language of this course object
      * @return String The Language

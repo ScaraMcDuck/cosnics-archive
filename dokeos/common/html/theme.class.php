@@ -109,5 +109,23 @@ class Theme
 		}
 		return self :: $instance;
 	}
+	
+	function get_themes()
+	{
+		$options = array();
+		
+		$path = Path :: get(SYS_LAYOUT_PATH);
+		$directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
+		
+		foreach($directories as $index => $directory)
+		{
+			if (substr($directory, 0 , 1) != '.')
+			{
+				$options[$directory] = DokeosUtilities :: underscores_to_camelcase($directory);
+			}
+		}
+		
+		return $options;
+	}
 }
 ?>

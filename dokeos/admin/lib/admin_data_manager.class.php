@@ -67,5 +67,18 @@ abstract class AdminDataManager
 	abstract function retrieve_setting_from_variable_name($variable, $application = 'admin');
 	
 	abstract function retrieve_language_from_english_name($english_name);
+	
+	function get_languages()
+	{
+		$options = array();
+		
+		$languages = $this->retrieve_languages();
+		while ($language = $languages->next_result())
+		{
+			$options[$language->get_folder()] = $language->get_original_name();
+		}
+		
+		return $options;
+	}
 }
 ?>

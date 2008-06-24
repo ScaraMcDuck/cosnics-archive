@@ -7,8 +7,10 @@
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
 require_once Path :: get_user_path(). 'lib/user.class.php';
+require_once Path :: get_admin_path(). 'settings/settings_admin_connector.class.php';
 require_once dirname(__FILE__).'/course.class.php';
 require_once dirname(__FILE__).'/course_category.class.php';
+
 
 class CourseForm extends FormValidator {
 
@@ -88,15 +90,18 @@ class CourseForm extends FormValidator {
 		$this->addElement('text', Course :: PROPERTY_EXTLINK_URL, Translation :: get('DepartmentUrl'));
 		
 		$adm = AdminDataManager :: get_instance();
-		$languages = $adm->retrieve_languages();
-		$lang_options = array();
-		
-		while ($language = $languages->next_result())
-		{
-			$lang_options[$language->get_folder()] = $language->get_english_name();	
-		}
-
+		$lang_options = $adm->get_languages();
 		$this->addElement('select', Course :: PROPERTY_LANGUAGE, Translation :: get('Language'), $lang_options);
+		
+		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
+		
+		if ($course_can_have_theme)
+		{
+			$theme_options = array();
+			$theme_options[''] = '-- ' . Translation :: get('PlatformDefault') . ' --';
+			$theme_options = array_merge($theme_options, Theme :: get_themes());
+			$this->addElement('select', Course :: PROPERTY_THEME, Translation :: get('Theme'), $theme_options);
+		}
 
 		$course_access = array();
 		$course_access[] =& $this->createElement('radio', null, null, Translation :: get('CourseAccessOpenWorld'), COURSE_VISIBILITY_OPEN_WORLD);
@@ -144,10 +149,18 @@ class CourseForm extends FormValidator {
     	$course->set_visual($values[Course :: PROPERTY_VISUAL]);
     	$course->set_name($values[Course :: PROPERTY_NAME]);
     	$course->set_category_code($values[Course :: PROPERTY_CATEGORY_CODE]);
-    	$course->set_titular($values[Course :: PROPERTY_TITULAR]);
-    	$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
+    	
+		$course->set_titular($values[Course :: PROPERTY_TITULAR]);
+		$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
     	$course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
     	$course->set_language($values[Course :: PROPERTY_LANGUAGE]);
+		
+		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
+		if ($course_can_have_theme)
+		{
+			$course->set_theme($values[Course :: PROPERTY_THEME]);
+		}
+		
     	$course->set_visibility($values[Course :: PROPERTY_VISIBILITY]);
     	$course->set_subscribe_allowed($values[Course :: PROPERTY_SUBSCRIBE_ALLOWED]);
     	$course->set_unsubscribe_allowed($values[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED]);
@@ -164,22 +177,17 @@ class CourseForm extends FormValidator {
     	$course->set_visual($values[Course :: PROPERTY_VISUAL]);
     	$course->set_name($values[Course :: PROPERTY_NAME]);
     	$course->set_category_code($values[Course :: PROPERTY_CATEGORY_CODE]);
-
-		if (!$this->user->is_platform_admin())
-		{
-			$titular = $values[Course :: PROPERTY_TITULAR];
-		}
-		else
-		{
-			$udm = UsersDataManager :: get_instance();
-			$user = $udm->retrieve_user($values[Course :: PROPERTY_TITULAR]);
-			$titular = $user->get_lastname(). ' ' .$user->get_firstname();
-		}
-
-		$course->set_titular($titular);
+		$course->set_titular($values[Course :: PROPERTY_TITULAR]);
     	$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
     	$course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
     	$course->set_language($values[Course :: PROPERTY_LANGUAGE]);
+    	
+		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
+		if ($course_can_have_theme)
+		{
+			$course->set_theme($values[Course :: PROPERTY_THEME]);
+		}
+    	
     	$course->set_visibility($values[Course :: PROPERTY_VISIBILITY]);
     	$course->set_subscribe_allowed($values[Course :: PROPERTY_SUBSCRIBE_ALLOWED]);
     	$course->set_unsubscribe_allowed($values[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED]);
@@ -233,6 +241,14 @@ class CourseForm extends FormValidator {
 		$defaults[Course :: PROPERTY_VISIBILITY] = $course->get_visibility();
 		$defaults[Course :: PROPERTY_SUBSCRIBE_ALLOWED] = $course->get_subscribe_allowed();
 		$defaults[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED] = $course->get_unsubscribe_allowed();
+		
+		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
+		
+		if ($course_can_have_theme)
+		{
+			$defaults[Course :: PROPERTY_THEME] = $course->get_theme();
+		}
+		
 		parent :: setDefaults($defaults);
 	}
 }

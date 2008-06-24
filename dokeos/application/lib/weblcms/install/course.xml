@@ -10,7 +10,7 @@
   <property name="category_code" type="text" length="40"/>
   <property name="visibility" type="integer" length="1" default="0"/>
   <property name="show_score" type="integer" notnull="1" default="1"/>
-  <property name="tutor_name" type="text" length="200"/>
+  <property name="titular" type="integer"/>
   <property name="visual_code" type="text" length="40"/>
   <property name="department_name" type="text" length="30"/>
   <property name="department_url" type="text" length="180"/>
