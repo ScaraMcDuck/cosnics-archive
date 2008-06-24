@@ -410,7 +410,7 @@ class DatabaseMigrationDataManager extends MigrationDataManager
 		{
 			$query = 'SELECT CRL.user_id FROM ' . $this->get_table_name('weblcms_course_rel_user'). ' CRL WHERE CRL.user_id IN (
 					  SELECT UU.user_id FROM ' . $this->get_table_name('user_user'). ' UU WHERE CONCAT(UU.lastname,\' \',UU.firstname) IN (
-					  SELECT C.tutor_name FROM ' . $this->get_table_name('weblcms_course'). ' C WHERE C.code = CRL.course_code)) AND CRL.status = 1 AND CRL.course_code = \'' . $course . '\';';
+					  SELECT C.titular FROM ' . $this->get_table_name('weblcms_course'). ' C WHERE C.code = CRL.course_code)) AND CRL.status = 1 AND CRL.course_code = \'' . $course . '\';';
 			
 			$result = $this->connection->query($query);
 			$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);

@@ -31,11 +31,9 @@ class UserManagerCreatorComponent extends UserManagerComponent
 		$user->set_password(1);
 		
 		$user_info = $this->get_user();
-		$user->set_creator_id($user_info->get_user_id());
+		$user->set_creator_id($user_info->get_id());
 		
 		$form = new UserForm(UserForm :: TYPE_CREATE, $user, $this->get_user(), $this->get_url());
-		
-
 		
 		if($form->validate())
 		{
