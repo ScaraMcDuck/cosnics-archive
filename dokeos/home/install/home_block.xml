@@ -7,6 +7,7 @@
   <property name="sort" type="integer" unsigned="1" notnull="1"/>
   <property name="application" type="text" length="255" unsigned="1" notnull="1"/>
   <property name="component" type="text" length="255" unsigned="1" notnull="1"/>
+  <property name="user" type="integer" unsigned="1" notnull="0"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

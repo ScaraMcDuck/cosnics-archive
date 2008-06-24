@@ -42,7 +42,7 @@ class AdminConfigurerComponent extends AdminComponent
 		if($form->validate())
 		{
 			$success = $form->update_configuration();
-			$this->redirect('url', Translation :: get($success ? 'ConfigurationUpdated' : 'ConfigurationNotUpdated'), ($success ? false : true), array(Admin :: PARAM_ACTION => Admin :: ACTION_CONFIGURE_PLATFORM));
+			$this->redirect('url', Translation :: get($success ? 'ConfigurationUpdated' : 'ConfigurationNotUpdated'), ($success ? false : true), array(Admin :: PARAM_ACTION => Admin :: ACTION_CONFIGURE_PLATFORM, Admin :: PARAM_APPLICATION => $application));
 		}
 		else
 		{

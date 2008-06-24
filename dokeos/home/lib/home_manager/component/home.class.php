@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../home_manager.class.php';
 require_once dirname(__FILE__).'/../home_manager_component.class.php';
+require_once dirname(__FILE__).'/../../home_row.class.php';
 
 class HomeManagerHomeComponent extends HomeManagerComponent
 {
@@ -20,25 +21,70 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 	{
 		$html = array();
 		
-		$rows = $this->retrieve_home_rows();
-		$row_number = 0;
+		$user = $this->get_user();		
+		$user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: APPLICATION_NAME);
+		
+		// TODO: Implement some kind of system which sets the homepage user according to some general things:
+		// 1. User is logged in or not (anonymous leads to query problems)
+		// 2. User can configure his own homepage
+		
+		// Get user id
+		if ($user_home_allowed && Authentication :: is_valid())
+		{
+			$user_id = $user->get_id();
+		}
+		else
+		{
+			$user_id = '0';
+		}
+		
+		$rows_condition = new EqualityCondition(HomeRow :: PROPERTY_USER, $user_id);
+		$rows = $this->retrieve_home_rows($rows_condition);
+		
+		// If the homepage can be personalised but we have no rows, get the
+		// default (to prevent lockouts) and display a warning / notification
+		// which tells the user he can personalise his homepage
+		if ($user_home_allowed && Authentication :: is_valid() && $rows->size() == 0)
+		{
+			$user_id = '0';
+			$rows_condition = new EqualityCondition(HomeRow :: PROPERTY_USER, $user_id);
+			$rows = $this->retrieve_home_rows($rows_condition);
+			$html[] = '<div class="row" style="margin-bottom: 1%;">';
+			$html[] = '<div class="column" style="width: 100%;">';
+			$html[] = '<div class="block" style="background-image: url('. Theme :: get_common_img_path() .'status_warning.png);">';
+			$html[] = '<div class="title">'. Translation :: get('PersonalHomepage') .'<a href="#" class="closeEl">[-]</a></div>';
+			$html[] = '<div class="description">';
+			$html[] = Translation :: get('PersonalHomepageWarning');
+			$html[] = '<div style="clear: both;"></div>';
+			$html[] = '</div>';
+			$html[] = '</div>';
+			$html[] = '</div>';
+			$html[] = '</div>';
+			$html[] = '<div style="clear: both;"></div>';
+		}
 		
 		while ($row = $rows->next_result())
 		{
-			$row_number++;
-			$html[] = '<div class="row" id="r'. $row->get_id() .'_'. $row->get_title() .'" style="'.($row->get_height() > 10 ? 'height: '. $row->get_height() .'%; ' : '') . ($row_number < $rows->size() ? 'margin-bottom: 1%;' : '') .'">';
+			$rows_position = $rows->position();
+			$html[] = '<div class="row" id="r'. $row->get_id() .'_'. $row->get_title() .'" style="'.($row->get_height() > 10 ? 'height: '. $row->get_height() .'%; ' : '') . ($rows_position != 'last' ? 'margin-bottom: 1%;' : '') .'">';
 			
-			$condition = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $row->get_id());
+			$conditions = array();
+			$conditions[] = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $row->get_id());
+			$conditions[] = new EqualityCondition(HomeColumn :: PROPERTY_USER, $user_id);
+			$condition = new AndCondition($conditions);
 			
+			// Get the user or platform columns
 			$columns = $this->retrieve_home_columns($condition);
-			$column_number = 0;
 			
 			while ($column = $columns->next_result())
 			{
-				$column_number++;
-				$html[] = '<div class="column" id="c'. $column->get_id() .'" style="width: '. $column->get_width() .'%;'. ($column_number < $columns->size() ? 'margin-right: 1%;' : '') .'">';
+				$columns_position = $columns->position();
+				$html[] = '<div class="column" id="c'. $column->get_id() .'" style="width: '. $column->get_width() .'%;'. ($columns_position != 'last' ? ' margin-right: 1%;' : '') .'">';
 				
-				$condition = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $column->get_id());
+				$conditions = array();
+				$conditions[] = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $column->get_id());
+				$conditions[] = new EqualityCondition(HomeBlock :: PROPERTY_USER, $user_id);
+				$condition = new AndCondition($conditions);
 				
 				$blocks = $this->retrieve_home_blocks($condition);
 				

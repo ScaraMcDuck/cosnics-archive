@@ -7,6 +7,7 @@ class HomeRow {
 	const PROPERTY_TITLE = 'title';
 	const PROPERTY_SORT = 'sort';
 	const PROPERTY_HEIGHT = 'height';
+	const PROPERTY_USER = 'user';
 	
 	private $id;
 	private $defaultProperties;
@@ -38,7 +39,7 @@ class HomeRow {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_HEIGHT);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_HEIGHT, self :: PROPERTY_USER);
 	}
 	
 	static function is_default_property_name($name)
@@ -84,6 +85,16 @@ class HomeRow {
 	function set_height($height)
 	{
 		$this->set_default_property(self :: PROPERTY_HEIGHT, $height);
+	}
+	
+    function get_user()
+    {
+    	return $this->get_default_property(self :: PROPERTY_USER);
+    }
+	
+	function set_user($user)
+	{
+		$this->set_default_property(self :: PROPERTY_USER, $user);
 	}
 	
 	function update()
