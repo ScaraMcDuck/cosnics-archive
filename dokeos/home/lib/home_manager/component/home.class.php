@@ -66,7 +66,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		while ($row = $rows->next_result())
 		{
 			$rows_position = $rows->position();
-			$html[] = '<div class="row" id="r'. $row->get_id() .'_'. $row->get_title() .'" style="'.($row->get_height() > 10 ? 'height: '. $row->get_height() .'%; ' : '') . ($rows_position != 'last' ? 'margin-bottom: 1%;' : '') .'">';
+			$html[] = '<div class="row" id="r_'. $row->get_id() .'_'. $row->get_title() .'" style="'.($row->get_height() > 10 ? 'height: '. $row->get_height() .'%; ' : '') . ($rows_position != 'last' ? 'margin-bottom: 1%;' : '') .'">';
 			
 			$conditions = array();
 			$conditions[] = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $row->get_id());
@@ -79,7 +79,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 			while ($column = $columns->next_result())
 			{
 				$columns_position = $columns->position();
-				$html[] = '<div class="column" id="c'. $column->get_id() .'" style="width: '. $column->get_width() .'%;'. ($columns_position != 'last' ? ' margin-right: 1%;' : '') .'">';
+				$html[] = '<div class="column" id="c_'. $column->get_id() .'" style="width: '. $column->get_width() .'%;'. ($columns_position != 'last' ? ' margin-right: 1%;' : '') .'">';
 				
 				$conditions = array();
 				$conditions[] = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $column->get_id());
@@ -113,60 +113,67 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 				$html[] = '</div>';
 			}
 		
-		$html[] = '</div>';
-		$html[] = '<div style="clear: both;"></div>';
+			$html[] = '</div>';
+			$html[] = '<div style="clear: both;"></div>';
 		
 		}
 		$html[] = '<div style="clear: both;"></div>';
 		
-		
 		$html[] = '<script type="text/javascript">';
-		$html[] = '$(document).ready(';
-		$html[] = '	function () {';
-		$html[] = '		$(\'a.closeEl\').bind(\'click\', toggleContent);';
-		$html[] = '		$(\'div.column\').Sortable(';
-		$html[] = '			{';
-		$html[] = '				accept: \'block\',';
-		$html[] = '				helperclass: \'sortHelper\',';
-		$html[] = '				activeclass : 	\'sortableactive\',';
-		$html[] = '				hoverclass : 	\'sortablehover\',';
-		$html[] = '				handle: \'div.title\',';
-		$html[] = '				tolerance: \'pointer\',';
-		$html[] = '				onChange : function(ser)';
-		$html[] = '				{';
-		$html[] = '				},';
-		$html[] = '				onStart : function()';
-		$html[] = '				{';
-		$html[] = '					$.iAutoscroller.start(this, document.getElementsByTagName(\'body\'));';
-		$html[] = '				},';
-		$html[] = '				onStop : function()';
-		$html[] = '				{';
-		$html[] = '					$.iAutoscroller.stop();';
-		$html[] = '				}';
-		$html[] = '			}';
-		$html[] = '		);';
-		$html[] = '	}';
-		$html[] = ');';
-		$html[] = 'var toggleContent = function(e)';
-		$html[] = '{';
-		$html[] = '	var targetContent = $(\'div.description\', this.parentNode.parentNode);';
-		$html[] = '	if (targetContent.css(\'display\') == \'none\') {';
-		$html[] = '		targetContent.slideDown(300);';
-		$html[] = '		$(this).html(\'[-]\');';
-		$html[] = '	} else {';
-		$html[] = '		targetContent.slideUp(300);';
-		$html[] = '		$(this).html(\'[+]\');';
-		$html[] = '	}';
-		$html[] = '	return false;';
-		$html[] = '};';
-		$html[] = 'function serialize(s)';
-		$html[] = '{';
-		$html[] = '	serial = $.SortSerialize(s);';
-		$html[] = '	alert(serial.hash);';
-		$html[] = '};';
+		$html[] = '
+$(".title").click(function()
+{
+	$(this).next(".description").slideToggle(300);
+});
+					';
+//		$html[] = '$(document).ready(';
+//		$html[] = '	function () {';
+//		$html[] = '		$(\'a.closeEl\').bind(\'click\', toggleContent);';
+//		
+//		$html[] = '		$(\'div.column\').Sortable(';
+//		$html[] = '			{';
+//		$html[] = '				accept: \'block\',';
+//		$html[] = '				helperclass: \'sortHelper\',';
+//		$html[] = '				activeclass : 	\'sortableactive\',';
+//		$html[] = '				hoverclass : 	\'sortablehover\',';
+//		$html[] = '				handle: \'div.title\',';
+//		$html[] = '				tolerance: \'pointer\',';
+//		$html[] = '				onChange : function(ser)';
+//		$html[] = '				{';
+//		$html[] = '				},';
+//		$html[] = '				onStart : function()';
+//		$html[] = '				{';
+//		$html[] = '					$.iAutoscroller.start(this, document.getElementsByTagName(\'body\'));';
+//		$html[] = '				},';
+//		$html[] = '				onStop : function()';
+//		$html[] = '				{';
+//		$html[] = '					$.iAutoscroller.stop();';
+//		$html[] = '				}';
+//		$html[] = '			}';
+//		$html[] = '		);';
+//
+//		$html[] = '	}';
+//		$html[] = ');';
+//		$html[] = 'var toggleContent = function(e)';
+//		$html[] = '{';
+//		$html[] = '	var targetContent = $(\'div.description\', this.parentNode.parentNode);';
+//		$html[] = '	if (targetContent.css(\'display\') == \'none\') {';
+//		$html[] = '		targetContent.slideDown(300);';
+//		$html[] = '		$(this).html(\'[-]\');';
+//		$html[] = '	} else {';
+//		$html[] = '		targetContent.slideUp(300);';
+//		$html[] = '		$(this).html(\'[+]\');';
+//		$html[] = '	}';
+//		$html[] = '	return false;';
+//		$html[] = '};';
+//		$html[] = 'function serialize(s)';
+//		$html[] = '{';
+//		$html[] = '	serial = $.SortSerialize(s);';
+//		$html[] = '	alert(serial.hash);';
+//		$html[] = '};';
 		$html[] = '</script>';
-		
-		$html[] = '<a href="#" onClick="serialize(); return false;" >serialize all lists</a>';
+//		
+//		$html[] = '<a href="#" onClick="serialize(); return false;" >serialize all lists</a>';
 		
 		
 		return implode("\n", $html);
