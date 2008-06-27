@@ -86,7 +86,11 @@ abstract class HomeDataManager
 	
 	abstract function retrieve_home_rows($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
+	abstract function retrieve_home_column($id);
+	
 	abstract function retrieve_home_columns($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	
+	abstract function retrieve_home_block($id);
 	
 	abstract function retrieve_home_blocks($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	

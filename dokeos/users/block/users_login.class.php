@@ -16,7 +16,7 @@ class UsersLogin extends UsersBlock
 	{
 		$html = array();
 		
-		$html[] = '<div class="block" id="b'. $this->get_block_info()->get_id() .'" style="background-image: url('.Theme :: get_common_img_path().'block_user.png);">';
+		$html[] = '<div class="block" id="block_'. $this->get_block_info()->get_id() .'" style="background-image: url('.Theme :: get_img_path().'block_user.png);">';
 		$html[] = '<div class="title">'. Translation :: get('User') .'<a href="#" class="closeEl">[-]</a></div>';
 		$html[] = '<div class="description">';
 		$html[] = $this->display_anonymous_right_menu();
