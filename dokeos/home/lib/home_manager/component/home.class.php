@@ -66,7 +66,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		while ($row = $rows->next_result())
 		{
 			$rows_position = $rows->position();
-			$html[] = '<div class="row" id="r_'. $row->get_id() .'_'. $row->get_title() .'" style="'.($row->get_height() > 10 ? 'height: '. $row->get_height() .'%; ' : '') . ($rows_position != 'last' ? 'margin-bottom: 1%;' : '') .'">';
+			$html[] = '<div class="row" id="row_'. $row->get_id() .'" style="'.($row->get_height() > 10 ? 'height: '. $row->get_height() .'%; ' : '') . ($rows_position != 'last' ? 'margin-bottom: 1%;' : '') .'">';
 			
 			$conditions = array();
 			$conditions[] = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $row->get_id());
@@ -79,7 +79,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 			while ($column = $columns->next_result())
 			{
 				$columns_position = $columns->position();
-				$html[] = '<div class="column" id="c_'. $column->get_id() .'" style="width: '. $column->get_width() .'%;'. ($columns_position != 'last' ? ' margin-right: 1%;' : '') .'">';
+				$html[] = '<div class="column" id="column_'. $column->get_id() .'" style="width: '. $column->get_width() .'%;'. ($columns_position != 'last' ? ' margin-right: 1%;' : '') .'">';
 				
 				$conditions = array();
 				$conditions[] = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $column->get_id());
@@ -119,62 +119,62 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		}
 		$html[] = '<div style="clear: both;"></div>';
 		
-		$html[] = '<script type="text/javascript">';
-		$html[] = '
-$(".title").click(function()
-{
-	$(this).next(".description").slideToggle(300);
-});
-					';
-//		$html[] = '$(document).ready(';
-//		$html[] = '	function () {';
-//		$html[] = '		$(\'a.closeEl\').bind(\'click\', toggleContent);';
-//		
-//		$html[] = '		$(\'div.column\').Sortable(';
-//		$html[] = '			{';
-//		$html[] = '				accept: \'block\',';
-//		$html[] = '				helperclass: \'sortHelper\',';
-//		$html[] = '				activeclass : 	\'sortableactive\',';
-//		$html[] = '				hoverclass : 	\'sortablehover\',';
-//		$html[] = '				handle: \'div.title\',';
-//		$html[] = '				tolerance: \'pointer\',';
-//		$html[] = '				onChange : function(ser)';
-//		$html[] = '				{';
-//		$html[] = '				},';
-//		$html[] = '				onStart : function()';
-//		$html[] = '				{';
-//		$html[] = '					$.iAutoscroller.start(this, document.getElementsByTagName(\'body\'));';
-//		$html[] = '				},';
-//		$html[] = '				onStop : function()';
-//		$html[] = '				{';
-//		$html[] = '					$.iAutoscroller.stop();';
-//		$html[] = '				}';
-//		$html[] = '			}';
-//		$html[] = '		);';
-//
-//		$html[] = '	}';
-//		$html[] = ');';
-//		$html[] = 'var toggleContent = function(e)';
-//		$html[] = '{';
-//		$html[] = '	var targetContent = $(\'div.description\', this.parentNode.parentNode);';
-//		$html[] = '	if (targetContent.css(\'display\') == \'none\') {';
-//		$html[] = '		targetContent.slideDown(300);';
-//		$html[] = '		$(this).html(\'[-]\');';
-//		$html[] = '	} else {';
-//		$html[] = '		targetContent.slideUp(300);';
-//		$html[] = '		$(this).html(\'[+]\');';
-//		$html[] = '	}';
-//		$html[] = '	return false;';
-//		$html[] = '};';
-//		$html[] = 'function serialize(s)';
-//		$html[] = '{';
-//		$html[] = '	serial = $.SortSerialize(s);';
-//		$html[] = '	alert(serial.hash);';
-//		$html[] = '};';
-		$html[] = '</script>';
-//		
-//		$html[] = '<a href="#" onClick="serialize(); return false;" >serialize all lists</a>';
-		
+		if ($user_home_allowed && Authentication :: is_valid())
+		{
+			$html[] = '<script type="text/javascript">';
+			$html[] = '
+
+(function($){
+
+	var columns = $(".column");
+	
+	var sortableChange = function(e, ui){
+		if(ui.sender){
+			var w = ui.element.width();
+			ui.placeholder.width(w);
+			ui.helper.css("width",ui.element.children().width());
+		}
+	};
+
+	var sortableUpdate = function(e, ui){
+		var column = $(this).attr("id");
+		var order = $(this).sortable("serialize");
+
+		$.post("'. Path :: get(WEB_PATH) . 'home/ajax/block_sort.php", { column: column, order: order });
+
+	};
+	
+	var collapseItem = function(){
+		$(this).parent().next(".description").slideToggle(300);
+	};
+	
+	$(document).ready(function(){
+
+		$("a.closeEl").bind(\'click\', collapseItem);
+	
+		$("div.column").sortable({
+			handle: \'div.title\',
+			cancel: \'.closeEl\',
+			opacity: 0.8,
+			cursor: \'move\',
+			helper: \'clone\',
+			placeholder: \'sortHelper\',
+			revert: true,
+			scroll: true,
+			connectWith: columns,
+			start: function(e,ui) {
+				ui.helper.css("width", ui.item.width());
+				ui.helper.css("border", "2px solid red");
+			},
+			change: sortableChange,
+			update: sortableUpdate
+		});
+
+	});
+
+})(jQuery);';
+			$html[] = '</script>';
+		}		
 		
 		return implode("\n", $html);
 	}
