@@ -25,7 +25,7 @@ class WeblcmsExtra extends WeblcmsBlock
 		$weblcms = $this->get_parent();
 		$course_categories = $weblcms->retrieve_course_user_categories(null, null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
 
-		$html[] = '<div class="block" id="b'. $this->get_block_info()->get_id() .'" style="background-image: url('.Theme :: get_common_img_path().'block_'.strtolower(PersonalCalendar :: APPLICATION_NAME).'.png);">';
+		$html[] = '<div class="block" id="block_'. $this->get_block_info()->get_id() .'" style="background-image: url('.Theme :: get_img_path().'block_'.strtolower(Weblcms :: APPLICATION_NAME).'.png);">';
 		$html[] = '<div class="title">'. $this->get_block_info()->get_title() .'<a href="#" class="closeEl">[-]</a></div>';
 		$html[] = '<div class="description">';
 
