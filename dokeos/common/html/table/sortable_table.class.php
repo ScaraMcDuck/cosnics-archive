@@ -104,6 +104,10 @@ class SortableTable extends HTML_Table
 	 */
 	var $td_attributes;
 	/**
+	 * Additional attributes for the tr-tags
+	 */
+	var $tr_attributes;
+	/**
 	 * Array with names of the other tables defined on the same page of this
 	 * table
 	 */
@@ -124,7 +128,7 @@ class SortableTable extends HTML_Table
 	 */
 	function SortableTable($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $default_column = 1, $default_items_per_page = 20, $default_order_direction = SORT_ASC)
 	{
-		parent :: HTML_Table(array ('class' => 'data_table'));
+		parent :: HTML_Table(array ('class' => 'data_table'), 0, true);
 		$this->table_name = $table_name;
 		$this->additional_parameters = array ();
 		$this->param_prefix = $table_name.'_';
@@ -293,6 +297,7 @@ class SortableTable extends HTML_Table
 			{
 				$html[] = '</form>';
 			}
+			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/table_ajax.js' .'"></script>';
 		}
 		return implode("\n",$html);
 	}
@@ -319,11 +324,17 @@ class SortableTable extends HTML_Table
 		$offset = $pager->getOffsetByPageId();
 		$from = $offset[0] - 1;
 		$table_data = $this->get_table_data($from);
+		
 		foreach ($table_data as $index => $row)
 		{
+			$row_id = $row[0];
 			$row = $this->filter_data($row);
-			$this->addRow($row);
+			$current_row = $this->addRow($row);
+			$this->setRowAttributes($current_row, array('id' => 'row_' . $row_id), true);
 		}
+		//$thead =& $this->getHeader();
+		//$thead->addRow($row);
+		
 		$this->altRowAttributes(0, array ('class' => 'row_odd'), array ('class' => 'row_even'), true);
 		foreach ($this->th_attributes as $column => $attributes)
 		{
@@ -428,6 +439,7 @@ class SortableTable extends HTML_Table
 		{
 			$link = $label;
 		}
+		
 		$this->setHeaderContents(0, $column, $link);
 		if (!is_null($td_attributes))
 		{
@@ -576,6 +588,7 @@ class SortableTable extends HTML_Table
 				$row[$index] = '-';
 			}
 		}
+				
 		return $row;
 	}
 	/**
