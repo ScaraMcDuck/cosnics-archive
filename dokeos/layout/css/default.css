@@ -1701,7 +1701,7 @@ ul.toolbar li.last span {
 }
 .portal_search_result:hover {
 	border-color: #E0E0E0;
-	background-color: #F9F9F9;
+	background-color: #f6f6f6;
 }
 .portal_search_result_title {
 	font-size: 120%;

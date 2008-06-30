@@ -1564,7 +1564,7 @@ ul.toolbar li.last span {
  *****************************************************/
 .sortHelper
 {
-	border: 1px dashed #666;
+	border: 1px dashed #c0c0c0;
 	background-color: #F2F2F2;
 	-moz-border-radius: 10px;
 }

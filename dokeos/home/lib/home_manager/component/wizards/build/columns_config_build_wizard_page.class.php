@@ -25,7 +25,7 @@ class ColumnsConfigBuildWizardPage extends BuildWizardPage
 		$row_amount = $values['rowsamount'];
 		
 		$this->addElement('static', null, null, $this->get_preview_html());
-		$this->addElement('static', null, null,'<script type="text/javascript" src="'. $this->get_parent()->get_path(WEB_LIB_PATH) .'javascript/home.js"></script>');
+		$this->addElement('static', null, null,'<script type="text/javascript" src="'. $this->get_parent()->get_path(WEB_LIB_PATH) .'javascript/home_admin.js"></script>');
 		$this->addElement('static', null, null,'<br />');
 		
 		for ($i=1; $i <= $row_amount; $i++)
