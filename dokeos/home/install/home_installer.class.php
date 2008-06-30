@@ -43,7 +43,7 @@ class HomeInstaller extends Installer
 	{
 		$row = new HomeRow();
 		$row->set_title(Translation :: get('Site'));
-		$row->set_user('1');
+		$row->set_user('0');
 		if (!$row->create())
 		{
 			return false;
