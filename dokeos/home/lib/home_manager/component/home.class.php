@@ -46,21 +46,10 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		// which tells the user he can personalise his homepage
 		if ($user_home_allowed && Authentication :: is_valid() && $rows->size() == 0)
 		{
-			$user_id = '0';
-			$rows_condition = new EqualityCondition(HomeRow :: PROPERTY_USER, $user_id);
+			$this->create_user_home();
+			
+			$rows_condition = new EqualityCondition(HomeRow :: PROPERTY_USER, $user->get_id());
 			$rows = $this->retrieve_home_rows($rows_condition);
-			$html[] = '<div class="row" style="margin-bottom: 1%;">';
-			$html[] = '<div class="column" style="width: 100%;">';
-			$html[] = '<div class="block" style="background-image: url('. Theme :: get_common_img_path() .'status_warning.png);">';
-			$html[] = '<div class="title">'. Translation :: get('PersonalHomepage') .'<a href="#" class="closeEl">[-]</a></div>';
-			$html[] = '<div class="description">';
-			$html[] = Translation :: get('PersonalHomepageWarning');
-			$html[] = '<div style="clear: both;"></div>';
-			$html[] = '</div>';
-			$html[] = '</div>';
-			$html[] = '</div>';
-			$html[] = '</div>';
-			$html[] = '<div style="clear: both;"></div>';
 		}
 		
 		while ($row = $rows->next_result())
@@ -121,62 +110,54 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		
 		if ($user_home_allowed && Authentication :: is_valid())
 		{
-			$html[] = '<script type="text/javascript">';
-			$html[] = '
-
-(function($){
-
-	var columns = $(".column");
-	
-	var sortableChange = function(e, ui){
-		if(ui.sender){
-			var w = ui.element.width();
-			ui.placeholder.width(w);
-			ui.helper.css("width",ui.element.children().width());
-		}
-	};
-
-	var sortableUpdate = function(e, ui){
-		var column = $(this).attr("id");
-		var order = $(this).sortable("serialize");
-
-		$.post("'. Path :: get(WEB_PATH) . 'home/ajax/block_sort.php", { column: column, order: order });
-
-	};
-	
-	var collapseItem = function(){
-		$(this).parent().next(".description").slideToggle(300);
-	};
-	
-	$(document).ready(function(){
-
-		$("a.closeEl").bind(\'click\', collapseItem);
-	
-		$("div.column").sortable({
-			handle: \'div.title\',
-			cancel: \'.closeEl\',
-			opacity: 0.8,
-			cursor: \'move\',
-			helper: \'clone\',
-			placeholder: \'sortHelper\',
-			revert: true,
-			scroll: true,
-			connectWith: columns,
-			start: function(e,ui) {
-				ui.helper.css("width", ui.item.width());
-				ui.helper.css("border", "2px solid red");
-			},
-			change: sortableChange,
-			update: sortableUpdate
-		});
-
-	});
-
-})(jQuery);';
-			$html[] = '</script>';
+			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' .'"></script>';
 		}		
 		
 		return implode("\n", $html);
+	}
+	
+	function create_user_home()
+	{
+		$user = $this->get_user();
+		
+		$rows_condition = new EqualityCondition(HomeRow :: PROPERTY_USER, '0');
+		$rows = $this->retrieve_home_rows($rows_condition);
+		
+		while ($row = $rows->next_result())
+		{
+			$old_row_id = $row->get_id();
+			$row->set_user($user->get_id());
+			$row->create();
+			
+			$conditions = array();
+			$conditions[] = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $old_row_id);
+			$conditions[] = new EqualityCondition(HomeColumn :: PROPERTY_USER, '0');
+			$condition = new AndCondition($conditions);
+			
+			$columns = $this->retrieve_home_columns($condition);
+			
+			while ($column = $columns->next_result())
+			{
+				$old_column_id = $column->get_id();
+				$column->set_user($user->get_id());
+				$column->set_row($row->get_id());
+				$column->create();
+				
+				$conditions = array();
+				$conditions[] = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $old_column_id);
+				$conditions[] = new EqualityCondition(HomeBlock :: PROPERTY_USER, '0');
+				$condition = new AndCondition($conditions);
+				
+				$blocks = $this->retrieve_home_blocks($condition);
+				
+				while ($block = $blocks->next_result())
+				{
+					$block->set_user($user->get_id());
+					$block->set_column($column->get_id());
+					$block->create();
+				}				
+			}
+		}
 	}
 }
 ?>
