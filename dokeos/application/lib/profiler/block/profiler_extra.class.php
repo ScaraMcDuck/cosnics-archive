@@ -23,7 +23,7 @@ class ProfilerExtra extends ProfilerBlock
 		$html = array();
 		
 		$html[] = '<div class="block" id="block_'. $this->get_block_info()->get_id() .'" style="background-image: url('.Theme :: get_img_path().'block_'.strtolower(Profiler :: APPLICATION_NAME).'.png);">';
-		$html[] = '<div class="title">'. $this->get_block_info()->get_title() .'<a href="#" class="closeEl">[-]</a></div>';
+		$html[] = '<div class="title">'. $this->get_block_info()->get_title() .'<a href="#" class="closeEl"><img class="visible"'. ($this->get_block_info()->is_visible() ? ' style="display: block"' : ' style="display: none"') .' src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible"'. ($this->get_block_info()->is_visible() ? ' style="display: none"' : ' style="display: block"') .' src="'.Theme :: get_common_img_path().'action_invisible.png" /></a></div>';
 		$html[] = '<div class="description"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') .'>';
 		
 		$html[] = 'In de 13e eeuw zag de Vlaamse kust er nog enigszins anders uit dan tegenwoordig. Koksijde, nu een heuse badstad, was toen niet meer dan een verzameling van wat krakkemikkige houten huisjes en zand... heel veel zand.  Bij volle maan trekt een processie van monniken door deze duinen, de rode gloed van de zonsondergang is net onder de horizon verdwenen. Plots worden de vrome mannen aangevallen door een hele bende krijgers die uit de richting van het water lijken te komen. De monniken proberen te vluchten, maar kunnen de geoefende krijgers uiteraard niet voorblijven. Op het laatste moment komt een geharnaste ridder tussenbeide en weet de geestelijken van een gewisse dood te redden.';
