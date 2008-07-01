@@ -1569,6 +1569,11 @@ ul.toolbar li.last span {
 	-moz-border-radius: 10px;
 }
 
+.closeEl
+{
+	display: none;
+}
+
 /*************************************************************/
 /*   Design:   Multiflex-3 Update-7 / Drop-Down Menu         */
 /*-----------------------------------------------------------*/

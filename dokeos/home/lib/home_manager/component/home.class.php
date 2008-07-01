@@ -24,10 +24,6 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		$user = $this->get_user();		
 		$user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: APPLICATION_NAME);
 		
-		// TODO: Implement some kind of system which sets the homepage user according to some general things:
-		// 1. User is logged in or not (anonymous leads to query problems)
-		// 2. User can configure his own homepage
-		
 		// Get user id
 		if ($user_home_allowed && Authentication :: is_valid())
 		{

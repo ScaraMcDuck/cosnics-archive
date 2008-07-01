@@ -27,7 +27,7 @@ class PersonalCalendarMonth extends PersonalCalendarBlock
 		
 		$html[] = '<div class="block" id="block_'. $this->get_block_info()->get_id() .'" style="background-image: url('.Theme :: get_img_path().'block_'.strtolower(PersonalCalendar :: APPLICATION_NAME).'.png);">';
 		$html[] = '<div class="title">'. $this->get_block_info()->get_title() .'<a href="#" class="closeEl">[-]</a></div>';
-		$html[] = '<div class="description" style="text-align: center;">';
+		$html[] = '<div class="description"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') .'>';
 		
 		$time = isset ($_GET['time']) ? intval($_GET['time']) : time();
 		$minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this->get_parent(), $time, 'link');
