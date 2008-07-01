@@ -26,7 +26,7 @@ class PersonalMessengerNew extends PersonalMessengerBlock
 		
 		$html[] = '<div class="block" id="block_'. $this->get_block_info()->get_id() .'" style="background-image: url('.Theme :: get_img_path().'block_'.strtolower(PersonalMessenger :: APPLICATION_NAME).'.png);">';
 		$html[] = '<div class="title">'. $this->get_block_info()->get_title() .'<a href="#" class="closeEl">[-]</a></div>';
-		$html[] = '<div class="description">';
+		$html[] = '<div class="description"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') .'>';
 		
 		$publications = $personal_messenger->retrieve_personal_message_publications($this->get_condition(), array (), array (), 5);
 		

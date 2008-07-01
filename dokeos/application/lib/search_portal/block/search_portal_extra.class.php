@@ -24,7 +24,7 @@ class SearchPortalExtra extends SearchPortalBlock
 		
 		$html[] = '<div class="block" id="block_'. $this->get_block_info()->get_id() .'" style="background-image: url('.Theme :: get_img_path().'block_'.strtolower(SearchPortal :: APPLICATION_NAME).'.png);">';
 		$html[] = '<div class="title">'. $this->get_block_info()->get_title() .'<a href="#" class="closeEl">[-]</a></div>';
-		$html[] = '<div class="description">';
+		$html[] = '<div class="description"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') .'>';
 		
 		$html[] = 'Search Portal test block ...';
 		

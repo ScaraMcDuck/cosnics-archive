@@ -27,7 +27,7 @@ class PersonalCalendarTest extends PersonalCalendarBlock
 		
 		$html[] = '<div class="block" id="block_'. $this->get_block_info()->get_id() .'" style="background-image: url('.Theme :: get_img_path().'block_'.strtolower(PersonalCalendar :: APPLICATION_NAME).'.png);">';
 		$html[] = '<div class="title">'. $this->get_block_info()->get_title() .'<a href="#" class="closeEl">[-]</a></div>';
-		$html[] = '<div class="description">';
+		$html[] = '<div class="description"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') .'>';
 		
 		$html[] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Fusce eget tortor. Mauris tristique nibh sagittis diam. Donec lobortis, lorem at condimentum tincidunt, lectus quam egestas est, quis vulputate sapien nunc et felis. Etiam iaculis dui at nulla. Quisque eu lectus. Duis tempus. Suspendisse ut nulla. Donec egestas metus hendrerit ipsum. Mauris fermentum metus at ipsum. Aenean eget eros quis purus iaculis ultrices. Nunc pede.';
 		$html[] = '<br />';
