@@ -16,12 +16,12 @@ class DocumentPublicationListRenderer extends TableLearningObjectPublicationList
     	{
     		$this->set_header($column++, '', false);
     	}
-    	$this->set_header($column++, Translation :: get('Type'), true);
-    	$this->set_header($column++, Translation :: get('Title'), true);
-		$this->set_header($column++, Translation :: get('Description'), true);
-		$this->set_header($column++, Translation :: get('PublishedOn'), true);
-		$this->set_header($column++, Translation :: get('PublishedBy'), true);
-		$this->set_header($column++, Translation :: get('PublishedFor'), true);
+    	$this->set_header($column++, Translation :: get('Type'), false);
+    	$this->set_header($column++, Translation :: get('Title'), false);
+		$this->set_header($column++, Translation :: get('Description'), false);
+		$this->set_header($column++, Translation :: get('PublishedOn'), false);
+		$this->set_header($column++, Translation :: get('PublishedBy'), false);
+		$this->set_header($column++, Translation :: get('PublishedFor'), false);
     	if($browser->is_allowed(EDIT_RIGHT) || $browser->is_allowed(DELETE_RIGHT))
     	{
     		$this->set_header($column++, '', false);

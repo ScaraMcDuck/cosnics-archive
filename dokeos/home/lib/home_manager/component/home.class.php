@@ -64,6 +64,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 			while ($column = $columns->next_result())
 			{
 				$columns_position = $columns->position();
+				
 				$html[] = '<div class="column" id="column_'. $column->get_id() .'" style="width: '. $column->get_width() .'%;'. ($columns_position != 'last' ? ' margin-right: 1%;' : '') .'">';
 				
 				$conditions = array();
@@ -99,10 +100,10 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 			}
 		
 			$html[] = '</div>';
-			$html[] = '<div style="clear: both;"></div>';
+			$html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
 		
 		}
-		$html[] = '<div style="clear: both;"></div>';
+		$html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
 		
 		if ($user_home_allowed && Authentication :: is_valid())
 		{

@@ -60,7 +60,7 @@ class Document extends LearningObject
 
 	function get_url()
 	{
-		return Path :: get(SYS_FILE_PATH) . $this->get_path();
+		return Path :: get(WEB_FILE_PATH) . $this->get_path();
 	}
 	function get_full_path()
 	{

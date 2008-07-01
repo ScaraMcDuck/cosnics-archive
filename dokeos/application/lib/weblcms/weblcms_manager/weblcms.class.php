@@ -883,9 +883,9 @@ class Weblcms extends WebApplication
      * @param Course $course
      * @return String
      */
-	function get_course_viewing_link($course)
+	function get_course_viewing_link($course, $encode = false)
 	{
-		return $this->get_link(array (self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id()));
+		return $this->get_link(array (self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id()), $encode);
 	}
 
     /**

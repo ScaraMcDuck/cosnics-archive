@@ -103,6 +103,7 @@ img
 	border-top: 1px solid #4171B5;
 	background-color: #E5EDF9;
 	font-size: 12px;
+	clear: both;
 }
 #footer .copyright
 {
