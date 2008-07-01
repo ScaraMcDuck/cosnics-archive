@@ -24,17 +24,11 @@ class WeblcmsExtra extends WeblcmsBlock
 		
 		$weblcms = $this->get_parent();
 		$course_categories = $weblcms->retrieve_course_user_categories(null, null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
-
-		$html[] = '<div class="block" id="block_'. $this->get_block_info()->get_id() .'" style="background-image: url('.Theme :: get_img_path().'block_'.strtolower(Weblcms :: APPLICATION_NAME).'.png);">';
-		$html[] = '<div class="title">'. $this->get_block_info()->get_title() .'<a href="#" class="closeEl"><img class="visible"'. ($this->get_block_info()->is_visible() ? ' style="display: block"' : ' style="display: none"') .' src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible"'. ($this->get_block_info()->is_visible() ? ' style="display: none"' : ' style="display: block"') .' src="'.Theme :: get_common_img_path().'action_invisible.png" /></a></div>';
-		$html[] = '<div class="description"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') .'>';
-
 		$courses = $weblcms->retrieve_courses($this->get_user_id(), null, null, null, null, array(Course :: PROPERTY_NAME), array(SORT_ASC));
+
+		$html[] = $this->display_header();
 		$html[] = $this->display_course_digest($courses);
-		
-		$html[] = '<div style="clear: both;"></div>';
-		$html[] = '</div>';
-		$html[] = '</div>';
+		$html[] = $this->display_footer();
 
 		return implode("\n", $html);
 	}
