@@ -98,6 +98,19 @@
 //		{
 //			$(this).parent().css("border-bottom-width", widthBorder + "px");
 //		}
+
+		var isVisible = $(this).children(".invisible").css('display');
+		
+		if (isVisible == 'block')
+		{
+			$(this).children(".invisible").css('display', 'none');
+			$(this).children(".visible").css('display', 'block');
+		}
+		else
+		{
+			$(this).children(".invisible").css('display', 'block');
+			$(this).children(".visible").css('display', 'none');
+		}
 		
 		$.post(	"./home/ajax/block_visibility.php",
 				{ block: $(this).parent().parent().attr("id")}//,
