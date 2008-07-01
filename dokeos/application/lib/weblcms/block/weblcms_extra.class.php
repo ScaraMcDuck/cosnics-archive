@@ -48,7 +48,7 @@ class WeblcmsExtra extends WeblcmsBlock
 			while ($course = $courses->next_result())
 			{
 				$weblcms = $this->get_parent();
-				$html[] = '<li><a href="'. $weblcms->get_course_viewing_link($course) .'">'.$course->get_name().'</a>';
+				$html[] = '<li><a href="'. $weblcms->get_course_viewing_link($course, true) .'">'.$course->get_name().'</a>';
 				//$html[] = '<br />'. $course->get_id() .' - '. $course->get_titular();
 				$html[] = '</li>';
 			}
