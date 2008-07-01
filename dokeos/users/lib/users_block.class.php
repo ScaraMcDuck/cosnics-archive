@@ -2,6 +2,8 @@
 /**
  * @package application.lib.weblcms
  */
+ 
+require_once Path :: get_library_path() . 'block.class.php';
 
 /**
 ==============================================================================
@@ -11,14 +13,8 @@
 ==============================================================================
  */
 
-class UsersBlock
+class UsersBlock extends Block
 {
-	const PARAM_ACTION = 'block_action';
-		
-	private $parent;
-	private $type;
-	private $block_info;
-	private $configuration;
 	
 	/**
 	 * Constructor.
@@ -28,9 +24,7 @@ class UsersBlock
 	 */
 	function UsersBlock($parent, $block_info)
 	{
-		$this->parent = $parent;
-		$this->block_info = $block_info;
-		$this->configuration = $block_info->get_configuration();
+		parent :: __construct($parent, $block_info);
 	}
 	
 	/**
@@ -39,7 +33,7 @@ class UsersBlock
 	 * @param Weblcms $weblcms The weblcms in
 	 * which the created component will be used
 	 */
-	static function factory($weblcms, $block)
+	static function factory($users, $block)
 	{
 		$type = $block->get_component();
 		$filename = dirname(__FILE__).'/../block/users_'.$type.'.class.php';
@@ -49,48 +43,7 @@ class UsersBlock
 		}
 		$class = 'Users'.DokeosUtilities :: underscores_to_camelcase($type);
 		require_once $filename;
-		return new $class($weblcms, $block);
-	}
-
-	/**
-	 * Returns the tool which created this publisher.
-	 * @return RepositoryTool The tool.
-	 */
-	function get_parent()
-	{
-		return $this->parent;
-	}
-	
-	function get_configuration()
-	{
-		return $this->configuration;
-	}
-
-	/**
-	 * @see RepositoryTool::get_user_id()
-	 */
-	function get_user_id()
-	{
-		return $this->get_parent()->get_user_id();
-	}
-	
-	function get_user()
-	{
-		return $this->get_parent()->get_user();
-	}
-
-	/**
-	 * Returns the types of learning object that this object may publish.
-	 * @return array The types.
-	 */
-	function get_type()
-	{
-		return $this->type;
-	}
-	
-	function get_block_info()
-	{
-		return $this->block_info;
+		return new $class($users, $block);
 	}
 }
 ?>
