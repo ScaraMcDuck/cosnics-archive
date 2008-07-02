@@ -557,7 +557,7 @@ abstract class RepositoryDataManager
 	 * Retrieves the complex learning object items with the given condition
 	 * @param Condition 
 	 */
-	abstract function retrieve_complex_learning_object_items($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+	abstract function retrieve_complex_learning_object_items($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
 
 	/**
 	 * Deletes the given learning object version from persistent storage.
