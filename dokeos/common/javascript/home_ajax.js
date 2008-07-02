@@ -118,12 +118,32 @@
 		);
 	};
 	
+	var hoverInItem = function(){
+		$(this).children("a:not(.closeEl)").children("img").fadeIn(150);
+	};
+	
+	var hoverOutItem = function(){
+		$(this).children("a:not(.closeEl)").children("img").fadeOut(150);
+	};
+	
+	var deleteItem = function(){
+		var confirmation = confirm('Are you sure ?');
+		if (confirmation)
+		{
+			$(this).parent().parent().remove();
+		}
+	};
+	
 	$(document).ready(function(){
 	
 		countColumns  = $("div.column").length;
 
 		$("a.closeEl").bind('click', collapseItem);
-		$("a.closeEl").css('display', "block");
+		$("a.closeEl").css('display', 'block');
+		$("a.deleteEl").bind('click', deleteItem);
+		
+		$("div.title").bind('mouseenter', hoverInItem);
+		$("div.title").bind('mouseleave', hoverOutItem);
 	
 		$("div.column").sortable({
 			handle: 'div.title',

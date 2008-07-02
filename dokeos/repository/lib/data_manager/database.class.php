@@ -1240,7 +1240,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * @param Record $record
 	 * @return ComplexLearningObjectItem
 	 */
-	function record_to_learning_object($record, $additional_properties_known = false)
+	function record_to_complex_learning_object($record, $additional_properties_known = false)
 	{
 		if (!is_array($record) || !count($record))
 		{

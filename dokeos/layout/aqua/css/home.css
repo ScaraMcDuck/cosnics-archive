@@ -50,12 +50,26 @@ div.block div.title
 div.block div.title a
 {
 	position: absolute;
-	right: 0px;
 	top: 0px;
 	font-weight: normal;
 	font-size: 11px;
 	text-decoration: none;
 	color: #000066;
+}
+
+div.block div.title a.closeEl
+{
+	right: 0px;
+}
+
+div.block div.title a.editEl
+{
+	right: 22px;
+}
+
+div.block div.title a.deleteEl
+{
+	right: 44px;
 }
 
 div.block div.description
