@@ -31,6 +31,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	const ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE = 'loa';
 	const ALIAS_TYPE_TABLE = 'tt';
 	const ALIAS_LEARNING_OBJECT_PARENT_TABLE = 'lop';
+	const ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE = 'cloi';
 
 	/**
 	 * The database connection.
@@ -159,7 +160,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		/*
 		 * Always respect display order as a last resort.
 		 */
@@ -186,7 +187,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$maxObjects = null;
 		}
-		
+
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
@@ -866,7 +867,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			list($table, $column) = explode('.', $name, 2);
 		}
-		
+
 		$prefix = '';
 		if (isset($column))
 		{
@@ -949,7 +950,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				$match = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
 				$condition = new AndCondition(array ($match, $condition_owner));
 			}
-			
+
 			$params = array ();
 			if (isset ($condition))
 			{
@@ -1048,5 +1049,296 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		  return false;
 		}
 	}
+
+
+	/**
+	 * Returns the next available complex learning object ID.
+	 * @return int The ID.
+	 */
+	function get_next_complex_learning_object_item_id()
+	{
+		$id = $this->connection->nextID($this->get_table_name('complex_learning_object'));
+		return $id;
+	}
+
+	/**
+	 * Creates a new complex learning object in the database
+	 * @param ComplexLearningObject $clo - The complex learning object
+	 * @return True if success
+	 */
+	function create_complex_learning_object_item($clo_item)
+	{
+		$props = array();
+		foreach ($clo_item->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('complex_learning_object_item'), $props, MDB2_AUTOQUERY_INSERT);
+		if ($clo_item->is_extended())
+		{
+			$props = array();
+			foreach ($clo_item->get_additional_properties() as $key => $value)
+			{
+				$props[$this->escape_column_name($key)] = $value;
+			}
+			$props[$this->escape_column_name(ComplexLearningObjectItem :: PROPERTY_ID)] = $clo_item->get_id();
+			$type = $this->determine_learning_object_type($clo_item->get_lo_id());
+			$this->connection->extended->autoExecute($this->get_table_name('complex_' . $type), $props, MDB2_AUTOQUERY_INSERT);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Updates a complex learning object in the database
+	 * @param ComplexLearningObject $clo - The complex learning object
+	 * @return True if success
+	 */
+	function update_complex_learning_object_item($clo_item)
+	{
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_ID, $clo_item->get_id());
+
+		$props = array();
+		foreach ($clo_item->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('complex_learning_object_item'), $props, MDB2_AUTOQUERY_UPDATE, $condition);
+		if ($clo_item->is_extended())
+		{
+			$props = array();
+			foreach ($clo_item->get_additional_properties() as $key => $value)
+			{
+				$props[$this->escape_column_name($key)] = $value;
+			}
+			$type = $this->determine_learning_object_type($clo_item->get_lo_id());
+			$this->connection->extended->autoExecute($this->get_table_name('complex_' . $type), $props, MDB2_AUTOQUERY_UPDATE, $condition);
+		}
+		return true;
+	}
+
+	/**
+	 * Deletes a complex learning object in the database
+	 * @param ComplexLearningObject $clo - The complex learning object
+	 * @return True if success
+	 */
+	function delete_complex_learning_object_item($clo_item)
+	{
+		/*if($this->learning_object_is_published($clo_item->get_id()))
+		{
+			return false;
+		}*/
+
+		$query = 'DELETE FROM '.$this->escape_table_name('complex_learning_object_item');
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_ID, $clo_item->get_id());
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+
+		if ($clo_item->is_extended())
+		{
+			$type = $this->determine_learning_object_type($clo_item->get_lo_id());
+			$query = 'DELETE FROM '.$this->get_table_name('complex_' . $type);
+
+			$params = array ();
+			if (isset ($condition))
+			{
+				$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+				$translator->translate($condition);
+				$query .= $translator->render_query();
+				$params = $translator->get_parameters();
+			}
+
+			$this->connection->setLimit(1);
+			$statement = $this->connection->prepare($query);
+			$res = $statement->execute($params);
+		}
+
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $clo_item->get_id());
+		$items = $this->retrieve_complex_learning_object_items($condition);
+
+		foreach($items as $item)
+		{
+			$this->delete_complex_learning_object_item($item);
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Retrieves a complex learning object from the database with a given id
+	 * @param Int $clo_id
+	 * @return The complex learning object
+	 */
+	function retrieve_complex_learning_object_item($clo_item_id)
+	{
+		// Retrieve main table
+
+		$query = 'SELECT * FROM '.$this->escape_table_name('complex_learning_object_item').' AS '.
+				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
+
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_ID, $clo_item_id);
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		$rec1 = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$res->free();
+
+		// Determine type
+
+		$type = $this->determine_learning_object_type($rec1[ComplexLearningObjectItem :: PROPERTY_LO_ID]);
+
+		// Retrieve extended table
+
+		$query = 'SELECT * FROM '.$this->escape_table_name('complex_' . $type).' AS '.
+				 self :: ALIAS_TYPE_TABLE;
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($clo_item_id);
+		$rec2 = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$res->free();
+
+		$record = array_merge($rec1, $rec2);
+		return self :: record_to_complex_learning_object_item($record, true);
+	}
+
+	/**
+	 * Mapper for a record to a complex learning object item
+	 * @param Record $record
+	 * @return ComplexLearningObjectItem
+	 */
+	function record_to_learning_object($record, $additional_properties_known = false)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (ComplexLearningObjectItem :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+
+		if ($additional_properties_known)
+		{
+			$additionalProp = array ();
+			foreach (ComplexLearningObjectItem :: get_additional_property_names() as $prop)
+			{
+				$defaultProp[$prop] = $record[$prop];
+			}
+		}
+		else
+		{
+			$additionalProp = null;
+		}
+
+		$type = $this->determine_learning_object_type($record[ComplexLearningObjectItem :: PROPERTY_ID]);
+
+		return ComplexLearningObjectItem :: factory($type, $defaultProp, $additionalProp);
+	}
+
+	/**
+	 * Counts the available complex learning objects with the given condition
+	 * @param Condition $condition
+	 * @return Int the amount of complex learning objects
+	 */
+	function count_complex_learning_object_items($condition)
+	{
+		$query = 'SELECT COUNT('.self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE.'.'.
+				 $this->escape_column_name(ComplexLearningObjectItem :: PROPERTY_ID).') FROM '.
+				 $this->escape_table_name('complex_learning_object_item').' AS '.
+				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+		return $record[0];
+	}
+
+	/**
+	 * Retrieves the complex learning object items with the given condition
+	 * @param Condition
+	 */
+	function retrieve_complex_learning_object_items($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+		$query = 'SELECT * FROM ' . $this->escape_table_name('complex_learning_object_item') . ' AS ' .
+				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$orderBy[] = ComplexLearningObjectItem :: PROPERTY_ID;
+		$orderDir[] = SORT_ASC;
+		$order = array ();
+
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects < 0)
+		{
+			$maxObjects = null;
+		}
+		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+
+		return new DatabaseComplexLearningObjectItemResultSet($this, $res, false);
+	}
+
+
 }
 ?>

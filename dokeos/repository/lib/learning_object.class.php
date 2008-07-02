@@ -816,6 +816,16 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return false;
 	}
+	
+	/**
+	 * Determines whether this learning object is a complex learning object
+	 * @return boolean True if the LO is a CLO
+	 */
+	function is_complex_learning_object()
+	{
+		return false;
+	}
+	
 	/**
 	 * Gets the name of the icon corresponding to this learning object.
 	 */

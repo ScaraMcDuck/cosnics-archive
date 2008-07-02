@@ -10,6 +10,9 @@ require_once dirname(__FILE__) . '/../../learning_object.class.php';
  */
 class Exercise extends LearningObject
 {
-
+	function is_complex_learning_object()
+	{
+		return true;
+	}
 }
 ?>
