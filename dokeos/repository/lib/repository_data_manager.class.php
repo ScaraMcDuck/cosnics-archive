@@ -513,6 +513,53 @@ abstract class RepositoryDataManager
 	abstract function delete_learning_object($object);
 
 	/**
+	 * Returns the next available complex learning object ID.
+	 * @return int The ID.
+	 */
+	abstract function get_next_complex_learning_object_item_id();
+	
+	/**
+	 * Creates a new complex learning object in the database
+	 * @param ComplexLearningObject $clo - The complex learning object
+	 * @return True if success
+	 */
+	abstract function create_complex_learning_object_item($clo_item);
+	
+	/**
+	 * Updates a complex learning object in the database
+	 * @param ComplexLearningObject $clo - The complex learning object
+	 * @return True if success
+	 */
+	abstract function update_complex_learning_object_item($clo_item);
+	
+	/**
+	 * Deletes a complex learning object in the database
+	 * @param ComplexLearningObject $clo - The complex learning object
+	 * @return True if success
+	 */
+	abstract function delete_complex_learning_object_item($clo_item);
+	
+	/**
+	 * Retrieves a complex learning object from the database with a given id
+	 * @param Int $clo_id
+	 * @return The complex learning object 
+	 */
+	abstract function retrieve_complex_learning_object_item($clo_item_id);
+	
+	/**
+	 * Counts the available complex learning objects with the given condition
+	 * @param Condition $condition
+	 * @return Int the amount of complex learning objects
+	 */
+	abstract function count_complex_learning_object_items($condition);
+	
+	/**
+	 * Retrieves the complex learning object items with the given condition
+	 * @param Condition 
+	 */
+	abstract function retrieve_complex_learning_object_items($type = null, $condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+
+	/**
 	 * Deletes the given learning object version from persistent storage.
 	 * This function deletes
 	 * - the selected version
@@ -525,7 +572,6 @@ abstract class RepositoryDataManager
 	 *                 is in use.
 	 */
 	abstract function delete_learning_object_version($object);
-
 
 	/**
 	 * Gets all learning objects from this user id, and removes them
