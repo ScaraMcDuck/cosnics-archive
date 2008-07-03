@@ -39,8 +39,7 @@ class HomeRowForm extends FormValidator {
 		$this->addElement('text', HomeRow :: PROPERTY_TITLE, Translation :: get('HomeRowTitle'));
 		$this->addRule(HomeRow :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 		
-		$this->addElement('text', HomeRow :: PROPERTY_HEIGHT, Translation :: get('HomeRowHeight'));
-		$this->addRule(HomeRow :: PROPERTY_HEIGHT, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('hidden', HomeRow :: PROPERTY_USER);
 				
 		$this->addElement('submit', 'home_row', Translation :: get('Ok'));
     }
@@ -62,7 +61,6 @@ class HomeRowForm extends FormValidator {
     	$values = $this->exportValues();
     	
     	$homerow->set_title($values[HomeRow :: PROPERTY_TITLE]);
-    	$homerow->set_height($values[HomeRow :: PROPERTY_HEIGHT]);
     	
     	return $homerow->update();
     }
@@ -73,7 +71,6 @@ class HomeRowForm extends FormValidator {
     	$values = $this->exportValues();
     	
     	$homerow->set_title($values[HomeRow :: PROPERTY_TITLE]);
-    	$homerow->set_height($values[HomeRow :: PROPERTY_HEIGHT]);
     	
     	return $homerow->create();
     }
@@ -89,7 +86,7 @@ class HomeRowForm extends FormValidator {
 		$homerow = $this->homerow;
 		$defaults[HomeRow :: PROPERTY_ID] = $homerow->get_id();
 		$defaults[HomeRow :: PROPERTY_TITLE] = $homerow->get_title();
-		$defaults[HomeRow :: PROPERTY_HEIGHT] = $homerow->get_height();
+		$defaults[HomeRow :: PROPERTY_USER] = $homerow->get_user();
 		parent :: setDefaults($defaults);
 	}
 }

@@ -5,10 +5,15 @@
 require_once dirname(__FILE__).'/../home_manager.class.php';
 require_once dirname(__FILE__).'/../home_manager_component.class.php';
 require_once dirname(__FILE__).'/../../home_data_manager.class.php';
+require_once dirname(__FILE__).'/../../home_row.class.php';
+require_once dirname(__FILE__).'/../../home_column.class.php';
+require_once dirname(__FILE__).'/../../home_block.class.php';
 require_once dirname(__FILE__).'/wizards/build_wizard.class.php';
 
 class HomeManagerManagerComponent extends HomeManagerComponent
 {
+	private $user_id;
+	
 	/**
 	 * Runs this component and displays its output.
 	 */
@@ -21,12 +26,25 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeManager')));
 		
-		if (!$this->get_user()->is_platform_admin())
+		$user = $this->get_user();		
+		$user_home_allowed = $this->get_platform_setting('allow_user_home');
+		
+		// Get user id
+		if ($user_home_allowed && Authentication :: is_valid())
 		{
-			$this->display_header($trail);
-			Display :: display_error_message(Translation :: get('NotAllowed'));
-			$this->display_footer();
-			exit;
+			$this->user_id = $user->get_id();
+		}
+		else
+		{
+			if (!$user->is_platform_admin())
+			{
+				$this->display_header($trail);
+				Display :: display_error_message(Translation :: get('NotAllowed'));
+				$this->display_footer();
+				exit;
+			}
+			
+			$this->user_id = '0';
 		}
 		
 		$this->display_header($trail);
@@ -39,7 +57,11 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 	
 	function get_preview_html()
 	{
-		$rows = $this->retrieve_home_rows();
+		$user_id = $this->user_id;
+		
+		$rows_condition = new EqualityCondition(HomeRow :: PROPERTY_USER, $user_id);
+		$rows = $this->retrieve_home_rows($rows_condition);
+		
 		$values = $this->values;
 		$row_amount = $values['rowsamount'];
 		
@@ -54,7 +76,11 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			$html[] = $this->get_row_modification_links($row, $rows->position());
 			$html[] = '<br />';
 			
-			$condition = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $row->get_id());
+			$conditions = array();
+			$conditions[] = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $row->get_id());
+			$conditions[] = new EqualityCondition(HomeColumn :: PROPERTY_USER, $user_id);
+			$condition = new AndCondition($conditions);
+			
 			$columns = $this->retrieve_home_columns($condition);
 			
 			while ($column = $columns->next_result())
@@ -65,7 +91,11 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 				$html[] = $this->get_column_modification_links($column, $columns->position());
 				$html[] = '<br />';
 
-				$condition = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $column->get_id());
+				$conditions = array();
+				$conditions[] = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $column->get_id());
+				$conditions[] = new EqualityCondition(HomeBlock :: PROPERTY_USER, $user_id);
+				$condition = new AndCondition($conditions);
+				
 				$blocks = $this->retrieve_home_blocks($condition);
 				
 				while ($block = $blocks->next_result())

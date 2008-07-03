@@ -22,7 +22,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		$html = array();
 		
 		$user = $this->get_user();		
-		$user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: APPLICATION_NAME);
+		$user_home_allowed = $this->get_platform_setting('allow_user_home');
 		
 		// Get user id
 		if ($user_home_allowed && Authentication :: is_valid())
@@ -51,7 +51,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		while ($row = $rows->next_result())
 		{
 			$rows_position = $rows->position();
-			$html[] = '<div class="row" id="row_'. $row->get_id() .'" style="'.($row->get_height() > 10 ? 'height: '. $row->get_height() .'%; ' : '') . ($rows_position != 'last' ? 'margin-bottom: 1%;' : '') .'">';
+			$html[] = '<div class="row" id="row_'. $row->get_id() .'" style="'.($rows_position != 'last' ? 'margin-bottom: 1%;' : '') .'">';
 			
 			$conditions = array();
 			$conditions[] = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $row->get_id());

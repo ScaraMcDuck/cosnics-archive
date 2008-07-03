@@ -152,9 +152,9 @@ abstract class HomeManagerComponent {
 		return $this->get_parent()->get_applications();
 	}
 	
-	function truncate_home()
+	function truncate_home($user_id)
 	{
-		return $this->get_parent()->truncate_home();
+		return $this->get_parent()->truncate_home($user_id);
 	}
 	
 	function get_parameters($include_search = false)

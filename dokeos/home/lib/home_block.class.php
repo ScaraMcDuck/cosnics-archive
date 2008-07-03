@@ -174,10 +174,9 @@ class HomeBlock {
 	function delete()
 	{
 		$hdm = HomeDataManager :: get_instance();
-		$success_config = $hdm->delete_home_block_configs($this);
-		$success_block = $hdm->delete_home_block($this);
+		$success = $hdm->delete_home_block($this);
 		
-		if (!$success_block || !$success_config)
+		if (!$success)
 		{
 			return false;
 		}

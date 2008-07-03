@@ -45,6 +45,8 @@ class HomeColumnForm extends FormValidator {
 		
 		$this->addElement('text', HomeColumn :: PROPERTY_WIDTH, Translation :: get('HomeColumnWidth'));
 		$this->addRule(HomeColumn :: PROPERTY_WIDTH, Translation :: get('ThisFieldIsRequired'), 'required');
+		
+		$this->addElement('hidden', HomeColumn :: PROPERTY_USER);
 				
 		$this->addElement('submit', 'home_column', Translation :: get('Ok'));
     }
@@ -88,7 +90,10 @@ class HomeColumnForm extends FormValidator {
     
 	function get_rows()
 	{
-		$rows = HomeDataManager :: get_instance()->retrieve_home_rows();
+		$user_id = $this->homecolumn->get_user();
+		$condition = new EqualityCondition(HomeRow :: PROPERTY_USER, $user_id);
+		
+		$rows = HomeDataManager :: get_instance()->retrieve_home_rows($condition);
 		$row_options = array();
 		while ($row = $rows->next_result())
 		{
@@ -111,6 +116,8 @@ class HomeColumnForm extends FormValidator {
 		$defaults[HomeColumn :: PROPERTY_TITLE] = $homecolumn->get_title();
 		$defaults[HomeColumn :: PROPERTY_ROW] = $homecolumn->get_row();
 		$defaults[HomeColumn :: PROPERTY_WIDTH] = $homecolumn->get_width();
+		$defaults[HomeColumn :: PROPERTY_USER] = $homecolumn->get_user();
+				
 		parent :: setDefaults($defaults);
 	}
 }

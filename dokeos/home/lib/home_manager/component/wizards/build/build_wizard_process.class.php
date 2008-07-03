@@ -29,7 +29,9 @@ class BuildWizardProcess extends HTML_QuickForm_Action
 		$values = $page->controller->exportValues();
 		$failures = 0;
 		
-		if (!$this->parent->truncate_home())
+		$user_id = $this->parent->get_build_user_id();
+		
+		if (!$this->parent->truncate_home($user_id))
 		{
 			$failures++;
 		}
@@ -40,8 +42,8 @@ class BuildWizardProcess extends HTML_QuickForm_Action
 		{
 			$row = new HomeRow();
 			$row->set_title($values['row'.$i]['title']);
-			$row->set_height($values['row'.$i]['height']);
 			$row->set_sort($i);
+			$row->set_user($user_id);
 			
 			if (!$row->create())
 			{
@@ -58,6 +60,7 @@ class BuildWizardProcess extends HTML_QuickForm_Action
 				$column->set_title($values['row'.$i]['column'. $j]['title']);
 				$column->set_width($values['row'.$i]['column'. $j]['width']);
 				$column->set_sort($j);
+				$column->set_user($user_id);
 				
 				if (!$column->create())
 				{
@@ -75,8 +78,14 @@ class BuildWizardProcess extends HTML_QuickForm_Action
 					$component = explode('.', $values['row'.$i]['column'. $j]['block'. $k]['component']);
 					$block->set_application($component[0]);
 					$block->set_component($component[1]);
+					$block->set_user($user_id);
 					
 					if (!$block->create())
+					{
+						$failures++;
+					}
+					
+					if (!HomeDataManager :: get_instance()->create_block_properties($block))
 					{
 						$failures++;
 					}
