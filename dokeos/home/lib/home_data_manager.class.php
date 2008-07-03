@@ -94,7 +94,7 @@ abstract class HomeDataManager
 	
 	abstract function retrieve_home_blocks($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
-	abstract function truncate_home();
+	abstract function truncate_home($user_id);
 	
 	/**
 	 * Returns the names of the applications known to this
@@ -214,14 +214,22 @@ abstract class HomeDataManager
 	
 	abstract function delete_home_block_config($home_block_config);
 	
+	abstract function delete_home_block_configs($home_block);
+	
 	abstract function retrieve_home_block_config($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
 	abstract function count_home_block_config($condition = null);
 	
-	function retrieve_block_properties($component)
+	function retrieve_block_properties($application, $component)
 	{
-		$application = explode('.', strtolower($component), 2);
-		$path = dirname(__FILE__).'/../../application/lib/'. $application[0] . '/block/'. $application[0] . $application[1] . '.xml';
+		if (Application :: is_application($application))
+		{
+			$path = dirname(__FILE__).'/../../application/lib/'. $application . '/block/'. $application . '_' . $component . '.xml';
+		}
+		else
+		{
+			$path = dirname(__FILE__).'/../../'. $application . '/block/'. $application . '_' . $component . '.xml';
+		}
 		
 		if (file_exists($path))
 		{
@@ -242,5 +250,26 @@ abstract class HomeDataManager
 			return null;
 		}
 	}	
+	
+	function create_block_properties($block)
+	{
+    	$homeblockconfigs = $this->retrieve_block_properties($block->get_application(), $block->get_component());
+    	
+    	foreach ($homeblockconfigs as $variable => $value)
+    	{
+    		$homeblockconfig = new HomeBlockConfig($block->get_id());
+    		{
+    			$homeblockconfig->set_variable($variable);
+    			$homeblockconfig->set_value($value);
+    			
+    			if (!$homeblockconfig->create())
+    			{
+    				return false;
+    			}
+    		}
+    	}
+    	
+    	return true;
+	}
 }
 ?>

@@ -309,9 +309,9 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 		return HomeDataManager :: get_instance()->get_applications();
 	}
 	
-	function truncate_home()
+	function truncate_home($user_id)
 	{
-		return HomeDataManager :: get_instance()->truncate_home();
+		return HomeDataManager :: get_instance()->truncate_home($user_id);
 	}
 	
 	function retrieve_home_block_config($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)

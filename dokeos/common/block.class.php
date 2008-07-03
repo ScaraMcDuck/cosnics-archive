@@ -3,6 +3,8 @@
 class Block {
 	
 	const PARAM_ACTION = 'block_action';
+	const BLOCK_LIST_SIMPLE = 'simple';
+	const BLOCK_LIST_ADVANCED = 'advanced';
 	
 	private $parent;
 	private $type;
@@ -72,12 +74,21 @@ class Block {
 		$html = array();
 		
 		$html[] = '<div class="block" id="block_'. $this->get_block_info()->get_id() .'" style="background-image: url('.Theme :: get_img_path().'block_'.$this->get_block_info()->get_application().'.png);">';
+		$html[] = $this->display_title();
+		$html[] = '<div class="description"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') .'>';
+		
+		return implode ("\n", $html);
+	}
+	
+	function display_title()
+	{
+		$html = array();
+		
 		$html[] = '<div class="title">'. $this->get_block_info()->get_title();
 		$html[] = '<a href="#" class="closeEl"><img class="visible"'. ($this->get_block_info()->is_visible() ? ' style="display: block;"' : ' style="display: none;"') .' src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible"'. ($this->get_block_info()->is_visible() ? ' style="display: none;"' : ' style="display: block;"') .' src="'.Theme :: get_common_img_path().'action_invisible.png" /></a>';
 		$html[] = '<a href="#" class="editEl"><img style="display: none;" src="'.Theme :: get_common_img_path().'action_edit.png" /></a>';
 		$html[] = '<a href="#" class="deleteEl"><img style="display: none;" src="'.Theme :: get_common_img_path().'action_delete.png" /></a>';
 		$html[] = '</div>';
-		$html[] = '<div class="description"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') .'>';
 		
 		return implode ("\n", $html);
 	}
@@ -91,6 +102,122 @@ class Block {
 		$html[] = '</div>';
 		
 		return implode ("\n", $html);
+	}
+	
+	function get_platform_blocks($type = self :: BLOCK_LIST_SIMPLE)
+	{
+		$result = array();
+		$applications_options = array();
+		$components_options = array();
+		
+		$applications = Application :: load_all();
+		
+		foreach ($applications as $application)
+		{
+			$path = dirname(__FILE__).'/../application/lib/'.$application.'/block';
+			if ($handle = opendir($path))
+			{
+				while (false !== ($file = readdir($handle)))
+				{
+					if (!is_dir($file) && stripos($file, '.class.php') !== false)
+					{
+						
+						$component = str_replace('.class.php', '', $file);
+						$component = str_replace($application . '_', '', $component);
+						
+						$applications_options[$application] = Translation :: get(Application :: application_to_class($application));
+						$components_options[$application][$component] = DokeosUtilities :: underscores_to_camelcase($component);
+					}
+				}
+				closedir($handle);
+			}
+		}
+		
+		$core_applications = array('admin', 'tracking', 'repository', 'users', 'class_group', 'rights', 'home', 'menu');
+		
+		foreach ($core_applications as $core_application)
+		{
+			$path = dirname(__FILE__).'/../'.$core_application.'/block';
+			if ($handle = opendir($path))
+			{
+				while (false !== ($file = readdir($handle)))
+				{
+					if (!is_dir($file) && stripos($file, '.class.php') !== false)
+					{
+						
+						$component = str_replace('.class.php', '', $file);
+						$component = str_replace($core_application . '_', '', $component);
+						
+						$applications_options[$core_application] = Translation :: get(Application :: application_to_class($core_application));
+						$components_options[$core_application][$component] = DokeosUtilities :: underscores_to_camelcase($component);
+					}
+				}
+				closedir($handle);
+			}
+		}
+		
+		asort($applications_options);
+		
+		$result['applications'] = $applications_options;
+		$result['components'] = $components_options;
+		
+		return $result;
+	}
+	
+	/*
+	 * We keep this since Quickform's hierselect element
+	 * only works if javascript is enabled
+	 */
+	function get_platform_blocks_deprecated()
+	{
+		$application_components = array();
+		$applications = Application :: load_all();
+		
+		foreach ($applications as $application)
+		{
+			$path = dirname(__FILE__).'/../application/lib/'.$application.'/block';
+			if ($handle = opendir($path))
+			{
+				while (false !== ($file = readdir($handle)))
+				{
+					if (!is_dir($file) && stripos($file, '.class.php') !== false)
+					{
+						$component = str_replace('.class.php', '', $file);
+						$component = str_replace($application . '_', '', $component);
+						$value = $application . '.' . $component;
+						$display = Translation :: get(Application :: application_to_class($application)) . '&nbsp;>&nbsp;' . DokeosUtilities :: underscores_to_camelcase($component);
+						$application_components[$value] = $display;
+					}
+				}
+				closedir($handle);
+			}
+		}
+		
+		$core_applications = array('admin', 'tracking', 'repository', 'users', 'class_group', 'rights', 'home', 'menu');
+		
+		foreach ($core_applications as $core_application)
+		{
+			$path = dirname(__FILE__).'/../'.$core_application.'/block';
+			if ($handle = opendir($path))
+			{
+				while (false !== ($file = readdir($handle)))
+				{
+					if (!is_dir($file) && stripos($file, '.class.php') !== false)
+					{
+						$component = str_replace('.class.php', '', $file);
+						$component = str_replace($core_application . '_', '', $component);
+						$value = $core_application . '.' . $component;
+						$display = Translation :: get(Application :: application_to_class($core_application)) . '&nbsp;>&nbsp;' . DokeosUtilities :: underscores_to_camelcase($component);
+						$application_components[$value] = $display;
+					}
+				}
+				closedir($handle);
+			}
+		}
+		
+		asort($application_components);
+		
+		return $application_components;
 	}
 }
 ?>

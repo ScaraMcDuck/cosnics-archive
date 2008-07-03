@@ -6,7 +6,6 @@ class HomeRow {
 	const PROPERTY_ID = 'id';
 	const PROPERTY_TITLE = 'title';
 	const PROPERTY_SORT = 'sort';
-	const PROPERTY_HEIGHT = 'height';
 	const PROPERTY_USER = 'user';
 	
 	private $id;
@@ -39,7 +38,7 @@ class HomeRow {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_HEIGHT, self :: PROPERTY_USER);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_USER);
 	}
 	
 	static function is_default_property_name($name)
@@ -75,16 +74,6 @@ class HomeRow {
 	function set_title($title)
 	{
 		$this->set_default_property(self :: PROPERTY_TITLE, $title);
-	}
-	
-    function get_height()
-    {
-    	return $this->get_default_property(self :: PROPERTY_HEIGHT);
-    }
-	
-	function set_height($height)
-	{
-		$this->set_default_property(self :: PROPERTY_HEIGHT, $height);
 	}
 	
     function get_user()
@@ -125,8 +114,8 @@ class HomeRow {
 	
 	function delete()
 	{
-		$wdm = HomeDataManager :: get_instance();
-		$success = $wdm->delete_home_row($this);
+		$hdm = HomeDataManager :: get_instance();
+		$success = $hdm->delete_home_row($this);
 		if (!$success)
 		{
 			return false;

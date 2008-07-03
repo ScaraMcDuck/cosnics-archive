@@ -48,6 +48,7 @@
 	
 	var resizableStop = function(e, ui) {
 		var columnId = $(this).attr("id");
+		var rowId = $(this).parent().attr("id");
 		
 		var widthBox = $(this).width();
 		var widthRow = $(this).parent().width();
@@ -56,7 +57,7 @@
 		
 		var widthCurrentTotal = 0;
 		
-		$("div.column").each(function(i){			
+		$("#"+ rowId + " div.column").each(function(i){			
 			var curWidthBox = $(this).width();
 			var curWidthPercentage = (curWidthBox / widthRow) * 100;
 			curWidthPercentage = parseInt(curWidthPercentage.toFixed(0));
@@ -85,6 +86,7 @@
 	var collapseItem = function(){
 		$(this).parent().next(".description").slideToggle(300);
 		
+		// Make bottom border for title disappear ?
 //		var border = $(this).parent().css("border-bottom-width");
 //		var pos = border.search("px");
 //		var borderValue = border.substring(0, pos);
@@ -130,7 +132,19 @@
 		var confirmation = confirm('Are you sure ?');
 		if (confirmation)
 		{
+			var column_id = $(this).parent().parent().parent().attr("id");
+			
 			$(this).parent().parent().remove();
+			$.post(	"./home/ajax/block_delete.php",
+					{ block: $(this).parent().parent().attr("id")}//,
+					//function(data){alert("Data Loaded: " + data);}					
+			);
+			
+			var order = $("#" + column_id).sortable("serialize");
+			$.post(	"./home/ajax/block_sort.php",
+					{ column: column_id, order: order }//,
+					//function(data){alert("Data Loaded: " + data);}
+			);
 		}
 	};
 	

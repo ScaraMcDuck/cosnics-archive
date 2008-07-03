@@ -567,27 +567,30 @@ class DatabaseHomeDataManager extends HomeDataManager
 		}
 	}
 	
-	function truncate_home()
+	function truncate_home($user_id)
 	{
 		$failures = 0;
 		
 		$query = 'DELETE FROM '.$this->escape_table_name('block');
+		$query .= ' WHERE '.$this->escape_column_name(HomeBlock :: PROPERTY_USER).'=?';
 		$sth = $this->connection->prepare($query);
-		if (!$sth->execute())
+		if (!$sth->execute($user_id))
 		{
 			$failures++;
 		}
 		
 		$query = 'DELETE FROM '.$this->escape_table_name('column');
+		$query .= ' WHERE '.$this->escape_column_name(HomeColumn :: PROPERTY_USER).'=?';
 		$sth = $this->connection->prepare($query);
-		if (!$sth->execute())
+		if (!$sth->execute($user_id))
 		{
 			$failures++;
 		}
 		
 		$query = 'DELETE FROM '.$this->escape_table_name('row');
+		$query .= ' WHERE '.$this->escape_column_name(HomeRow :: PROPERTY_USER).'=?';
 		$sth = $this->connection->prepare($query);
-		if (!$sth->execute())
+		if (!$sth->execute($user_id))
 		{
 			$failures++;
 		}
@@ -743,6 +746,14 @@ class DatabaseHomeDataManager extends HomeDataManager
 	
 	function delete_home_row($home_row)
 	{
+		$condition = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $home_row->get_id());
+		$columns = $this->retrieve_home_columns($condition);
+		
+		while($column = $columns->next_result())
+		{
+			$this->delete_home_column($column);
+		}
+		
 		$query = 'DELETE FROM '.$this->escape_table_name('row').' WHERE '.$this->escape_column_name(HomeRow :: PROPERTY_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		if ($statement->execute($home_row->get_id()))
@@ -757,6 +768,14 @@ class DatabaseHomeDataManager extends HomeDataManager
 	
 	function delete_home_column($home_column)
 	{
+		$condition = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $home_column->get_id());
+		$blocks = $this->retrieve_home_blocks($condition);
+		
+		while($block = $blocks->next_result())
+		{
+			$this->delete_home_block($block);
+		}
+		
 		$query = 'DELETE FROM '.$this->escape_table_name('column').' WHERE '.$this->escape_column_name(HomeColumn :: PROPERTY_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		if ($statement->execute($home_column->get_id()))
@@ -771,6 +790,11 @@ class DatabaseHomeDataManager extends HomeDataManager
 	
 	function delete_home_block($home_block)
 	{
+		if (!$this->delete_home_block_configs($home_block))
+		{
+			return false;
+		}
+		
 		$query = 'DELETE FROM '.$this->escape_table_name('block').' WHERE '.$this->escape_column_name(HomeBlock :: PROPERTY_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		if ($statement->execute($home_block->get_id()))

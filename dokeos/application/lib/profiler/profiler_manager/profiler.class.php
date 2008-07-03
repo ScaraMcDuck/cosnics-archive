@@ -98,9 +98,9 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
     /**
 	 * Renders the profiler block and returns it. 
 	 */
-	function render_block($type, $block_info)
+	function render_block($block)
 	{
-		$block = ProfilerBlock :: factory($type, $this, $block_info);
+		$block = ProfilerBlock :: factory($this, $block);
 		return $block->run();
 	}
 	

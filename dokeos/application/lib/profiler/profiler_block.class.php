@@ -32,8 +32,9 @@ class ProfilerBlock extends Block
 	 * @param Weblcms $weblcms The weblcms in
 	 * which the created component will be used
 	 */
-	static function factory($type, $profiler, $block_info)
+	static function factory($profiler, $block)
 	{
+		$type = $block->get_component();
 		$filename = dirname(__FILE__).'/block/profiler_'.$type.'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
@@ -41,7 +42,7 @@ class ProfilerBlock extends Block
 		}
 		$class = 'Profiler'.ucfirst($type);
 		require_once $filename;
-		return new $class($profiler, $block_info);
+		return new $class($profiler, $block);
 	}
 }
 ?>

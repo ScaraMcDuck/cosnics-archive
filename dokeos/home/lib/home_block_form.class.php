@@ -42,8 +42,15 @@ class HomeBlockForm extends FormValidator {
 		$this->addElement('select', HomeBlock :: PROPERTY_COLUMN, Translation :: get('HomeBlockColumn'), $this->get_columns());
 		$this->addRule(HomeBlock :: PROPERTY_COLUMN, Translation :: get('ThisFieldIsRequired'), 'required');
 		
-		$this->addElement('select', HomeBlock :: PROPERTY_COMPONENT, Translation :: get('HomeBlockComponent'), $this->get_application_components());
+		//$blocks = Block :: get_platform_blocks();
+		
+		//$select = $this->addElement('hierselect', HomeBlock :: PROPERTY_COMPONENT, Translation :: get('HomeBlockComponent'));
+		//$select->setOptions(array($blocks['applications'], $blocks['components']));
+		
+		$this->addElement('select', HomeBlock :: PROPERTY_COMPONENT, Translation :: get('HomeBlockComponent'), Block :: get_platform_blocks_deprecated());
 		$this->addRule(HomeBlock :: PROPERTY_COMPONENT, Translation :: get('ThisFieldIsRequired'), 'required');
+		
+		$this->addElement('hidden', HomeBlock :: PROPERTY_USER);
 				
 		$this->addElement('submit', 'home_block', Translation :: get('Ok'));
     }
@@ -51,6 +58,8 @@ class HomeBlockForm extends FormValidator {
     function build_editing_form()
     {
 	   	$this->build_basic_form();
+	   	$block = $this->getElement(HomeBlock :: PROPERTY_COMPONENT);
+	   	//$block->freeze();
     	$this->addElement('hidden', HomeBlock :: PROPERTY_ID );
     }
     
@@ -63,8 +72,21 @@ class HomeBlockForm extends FormValidator {
     {
     	$homeblock = $this->homeblock;
     	$values = $this->exportValues();
+    	$component = explode('.', $values[HomeBlock :: PROPERTY_COMPONENT]);
+    	$hdm = HomeDataManager :: get_instance();
     	
-    	    	$component = explode('.', $values[HomeBlock :: PROPERTY_COMPONENT]);
+    	if ($homeblock->get_application() != $component[0] || $homeblock->get_component() != $component[1])
+    	{
+    		if (!$hdm->delete_home_block_configs($homeblock))
+    		{
+    			return false;
+    		}
+    		
+    		if (!$hdm->create_block_properties($homeblock))
+    		{
+    			return false;
+    		}
+    	}
     	
     	$homeblock->set_title($values[HomeBlock :: PROPERTY_TITLE]);
     	$homeblock->set_column($values[HomeBlock :: PROPERTY_COLUMN]);
@@ -78,7 +100,6 @@ class HomeBlockForm extends FormValidator {
     {
     	$homeblock = $this->homeblock;
     	$values = $this->exportValues();
-    	$failures = 0;
     	
     	$component = explode('.', $values[HomeBlock :: PROPERTY_COMPONENT]);
     	
@@ -89,38 +110,25 @@ class HomeBlockForm extends FormValidator {
     	
     	if (!$homeblock->create())
     	{
-    		$failures++;
+    		return false;
     	}
     	
-    	$homeblockconfigs = HomeDataManager :: get_instance()->retrieve_block_properties($values[HomeBlock :: PROPERTY_COMPONENT]);
+    	$success_config = HomeDataManager :: get_instance()->create_block_properties($homeblock);
     	
-    	foreach ($homeblockconfigs as $variable => $value)
-    	{
-    		$homeblockconfig = new HomeBlockConfig($homeblock->get_id());
-    		{
-    			$homeblockconfig->set_variable($variable);
-    			$homeblockconfig->set_value($value);
-    			
-    			if (!$homeblockconfig->create())
-    			{
-    				$failures++;
-    			}
-    		}
-    	}
-    	
-    	if ($failures > 0)
+    	if (!$success_config)
     	{
     		return false;
     	}
-    	else
-    	{
-    		return true;
-    	}
+   
+    	return true;
     }
     
 	function get_columns()
 	{
-		$columns = HomeDataManager :: get_instance()->retrieve_home_columns();
+		$user_id = $this->homeblock->get_user();
+		$condition = new EqualityCondition(HomeColumn :: PROPERTY_USER, $user_id);
+		
+		$columns = HomeDataManager :: get_instance()->retrieve_home_columns($condition);
 		$column_options = array();
 		while ($column = $columns->next_result())
 		{
@@ -128,40 +136,6 @@ class HomeBlockForm extends FormValidator {
 		}
 		
 		return $column_options;
-	}
-	
-	
-	// TODO: Put this in some kind of general class ?
-	function get_application_components()
-	{
-		$application_components = array();
-		$applications = HomeDataManager :: get_instance()->get_applications();
-		
-		foreach ($applications as $application)
-		{
-			$path = dirname(__FILE__).'/../../application/lib/'.$application.'/block';
-			if ($handle = opendir($path))
-			{
-				while (false !== ($file = readdir($handle)))
-				{
-					if (!is_dir($file) && stripos($file, '.class.php') !== false)
-					{
-						
-						$component = str_replace('.class.php', '', $file);
-						$component = str_replace($application . '_', '', $component);
-						$value = $application . '.' . $component;
-						$display = Translation :: get(Application :: application_to_class($application)) . '&nbsp;>&nbsp;' . DokeosUtilities :: underscores_to_camelcase($component);
-						$application_components[$value] = $display;
-					}
-				}
-				closedir($handle);
-			}
-		}
-		
-		$application_components['User'] = 'User';
-		asort($application_components);
-		
-		return $application_components;
 	}
     
 	/**
@@ -177,6 +151,7 @@ class HomeBlockForm extends FormValidator {
 		$defaults[HomeBlock :: PROPERTY_TITLE] = $homeblock->get_title();
 		$defaults[HomeBlock :: PROPERTY_COLUMN] = $homeblock->get_column();
 		$defaults[HomeBlock :: PROPERTY_COMPONENT] = $homeblock->get_component();
+		$defaults[HomeBlock :: PROPERTY_USER] = $homeblock->get_user();
 		parent :: setDefaults($defaults);
 	}
 }

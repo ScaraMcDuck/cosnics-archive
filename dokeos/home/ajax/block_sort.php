@@ -23,7 +23,7 @@ function unserialize_jquery($jquery)
 $user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: APPLICATION_NAME);
 
 if ($user_home_allowed && Authentication :: is_valid())
-{	
+{
 	$user_id		= Session :: get_user_id();
 	$column_data	= explode('_', $_POST['column']);
 	$blocks			= unserialize_jquery($_POST['order']);

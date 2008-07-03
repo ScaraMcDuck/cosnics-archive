@@ -9,6 +9,8 @@ require_once dirname(__FILE__).'/wizards/build_wizard.class.php';
 
 class HomeManagerBuilderComponent extends HomeManagerComponent
 {
+	private $build_user_id;
+	
 	/**
 	 * Runs this component and displays its output.
 	 */
@@ -21,16 +23,33 @@ class HomeManagerBuilderComponent extends HomeManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeBuilder')));
 		
-		if (!$this->get_user()->is_platform_admin())
+		$user = $this->get_user();
+		$user_home_allowed = $this->get_platform_setting('allow_user_home');
+		
+		if ($user_home_allowed && Authentication :: is_valid())
 		{
-			$this->display_header($trail);
-			Display :: display_error_message(Translation :: get("NotAllowed"));
-			$this->display_footer();
-			exit;
+			$this->build_user_id = $user->get_id();
+		}
+		else
+		{
+			if (!$user->is_platform_admin())
+			{
+				$this->display_header($trail);
+				Display :: display_error_message(Translation :: get('NotAllowed'));
+				$this->display_footer();
+				exit;
+			}
+			
+			$this->build_user_id = '0';
 		}
 
 		$bw = new BuildWizard($this);
 		$bw->run(); 
+	}
+	
+	function get_build_user_id()
+	{
+		return $this->build_user_id;
 	}
 }
 ?>
