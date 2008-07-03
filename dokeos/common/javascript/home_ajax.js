@@ -148,6 +148,57 @@
 		}
 	};
 	
+	var removeScreen = function(e, ui){
+		$("#main #addBlock").slideToggle(300, function()
+ 		{
+ 			$("#main #addBlock").remove();
+ 		});
+ 		
+		$("a.addEl").bind('click', addItem);
+		$("a.addEl").unbind('click', removeScreen);
+	};
+	
+	var addItem = function(e, ui){
+		var content = '<div id="addBlock" style="margin-bottom: 1%; display: none; background-color: #F6F6F6; padding: 15px; -moz-border-radius: 10px;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.<br /><br />Sed velit. Aenean lacus nibh, ullamcorper eu, sollicitudin ut, sodales non, quam.<br /><br /><img id="block" src="./layout/aqua/img/common/status_confirmation.png" /><br /><br /><a class="closeScreen" href="#">Close screen</a></div>';
+		$("#main").prepend(content);
+		$("#main #addBlock").slideToggle(300);
+		
+		$("a.addEl").unbind('click', addItem);
+		$("a.addEl").bind('click', removeScreen);
+		$("a.closeScreen").bind('click', removeScreen);
+		
+		$("img#block").bind('click', addBlock);
+	};
+	
+	var addBlock = function(e, ui){
+	
+		var column = $(".column:first-child");
+		var column_id = column.attr("id");
+		var order = column.sortable("serialize");
+	
+		$.post(	"./home/ajax/block_add.php",
+				{ column : column_id, order : order},
+				function(data){
+					column.prepend(data);
+					order = column.sortable("serialize");
+					
+					$("a.closeEl").bind('click', collapseItem);
+					$("a.closeEl").css('display', 'block');
+					$("a.deleteEl").bind('click', deleteItem);
+					
+					$("div.title").bind('mouseenter', hoverInItem);
+					$("div.title").bind('mouseleave', hoverOutItem);
+					
+					$("a.addEl").bind('click', addItem);
+					
+					$.post(	"./home/ajax/block_sort.php",
+							{ column: column_id, order: order }//,
+							//function(data){alert("Data Loaded: " + data);}
+					);
+				}
+		);
+	};
+	
 	$(document).ready(function(){
 	
 		countColumns  = $("div.column").length;
@@ -158,6 +209,8 @@
 		
 		$("div.title").bind('mouseenter', hoverInItem);
 		$("div.title").bind('mouseleave', hoverOutItem);
+		
+		$("a.addEl").bind('click', addItem);
 	
 		$("div.column").sortable({
 			handle: 'div.title',
