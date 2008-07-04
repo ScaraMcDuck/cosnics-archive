@@ -101,8 +101,8 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		
 			$html[] = '</div>';
 			$html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
-		
 		}
+		
 		$html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
 		
 		if ($user_home_allowed && Authentication :: is_valid())
@@ -110,7 +110,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' .'"></script>';
 		}
 		
-		$html[] = '<a class="addEl" href="#">[ Add Content ]</a>';
+		$html[] = '<a class="addEl" style="display: none;" href="#">[ Add Content ]</a>';
 		
 		return implode("\n", $html);
 	}
