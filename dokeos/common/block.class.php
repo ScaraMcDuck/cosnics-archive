@@ -85,12 +85,41 @@ class Block {
 		$html = array();
 		
 		$html[] = '<div class="title">'. $this->get_block_info()->get_title();
-		$html[] = '<a href="#" class="closeEl"><img class="visible"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none;"') .' src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible"'. ($this->get_block_info()->is_visible() ? ' style="display: none;"' : '') .' src="'.Theme :: get_common_img_path().'action_invisible.png" /></a>';
-		$html[] = '<a href="#" class="editEl"><img src="'.Theme :: get_common_img_path().'action_edit.png" /></a>';
-		$html[] = '<a href="#" class="deleteEl"><img src="'.Theme :: get_common_img_path().'action_delete.png" /></a>';
+		$html[] = '<a href="'. $this->get_block_visibility_link($this->get_block_info()) .'" class="closeEl"><img class="visible"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none;"') .' src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible"'. ($this->get_block_info()->is_visible() ? ' style="display: none;"' : '') .' src="'.Theme :: get_common_img_path().'action_invisible.png" /></a>';
+		$html[] = '<a href="'. $this->get_block_editing_link($this->get_block_info()) .'" class="editEl"><img src="'.Theme :: get_common_img_path().'action_edit.png" /></a>';
+		$html[] = '<a href="'. $this->get_block_deleting_link($this->get_block_info()) .'" class="deleteEl"><img src="'.Theme :: get_common_img_path().'action_delete.png" /></a>';
 		$html[] = '</div>';
 		
 		return implode ("\n", $html);
+	}
+	
+	function get_block_visibility_link($home_block)
+	{
+		return $this->get_link(array (HomeManager :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME, HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK, HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
+	}
+	
+	function get_block_deleting_link($home_block)
+	{
+		return '#';
+	}
+	
+	function get_block_editing_link($home_block)
+	{
+		return $this->get_link(array (HomeManager :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME, HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK, HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
+	}
+	
+	public function get_link($parameters = array (), $encode = false)
+	{
+		$link = 'index_'. HomeManager :: APPLICATION_NAME .'.php';
+		if (count($parameters))
+		{
+			$link .= '?'.http_build_query($parameters);	
+		}
+		if ($encode)
+		{
+			$link = htmlentities($link);
+		}
+		return $link;
 	}
 	
 	function display_footer()
