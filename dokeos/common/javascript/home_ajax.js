@@ -180,12 +180,16 @@
 	{
 		$("div.title a").toggle();
 		
+		$("a.closeEl").unbind();
 		$("a.closeEl").bind('click', collapseItem);
+		$("a.deleteEl").unbind();
 		$("a.deleteEl").bind('click', deleteItem);
-
+		
+		$("div.titlediv.title").unbind();
 		$("div.title").bind('mouseenter', hoverInItem);
 		$("div.title").bind('mouseleave', hoverOutItem);
-
+		
+		$("a.addEl").unbind();
 		$("a.addEl").bind('click', showBlockScreen);
 	}
 
