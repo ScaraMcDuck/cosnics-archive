@@ -85,9 +85,9 @@ class Block {
 		$html = array();
 		
 		$html[] = '<div class="title">'. $this->get_block_info()->get_title();
-		$html[] = '<a href="#" class="closeEl"><img class="visible"'. ($this->get_block_info()->is_visible() ? ' style="display: block;"' : ' style="display: none;"') .' src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible"'. ($this->get_block_info()->is_visible() ? ' style="display: none;"' : ' style="display: block;"') .' src="'.Theme :: get_common_img_path().'action_invisible.png" /></a>';
-		$html[] = '<a href="#" class="editEl"><img style="display: none;" src="'.Theme :: get_common_img_path().'action_edit.png" /></a>';
-		$html[] = '<a href="#" class="deleteEl"><img style="display: none;" src="'.Theme :: get_common_img_path().'action_delete.png" /></a>';
+		$html[] = '<a href="#" class="closeEl"><img class="visible"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none;"') .' src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible"'. ($this->get_block_info()->is_visible() ? ' style="display: none;"' : '') .' src="'.Theme :: get_common_img_path().'action_invisible.png" /></a>';
+		$html[] = '<a href="#" class="editEl"><img src="'.Theme :: get_common_img_path().'action_edit.png" /></a>';
+		$html[] = '<a href="#" class="deleteEl"><img src="'.Theme :: get_common_img_path().'action_delete.png" /></a>';
 		$html[] = '</div>';
 		
 		return implode ("\n", $html);

@@ -29,7 +29,8 @@ $user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: AP
 
 if ($user_home_allowed && Authentication :: is_valid())
 {
-	$user_id	= Session :: get_user_id();
+	$user_id		= Session :: get_user_id();
+	$component		= explode('.', $_POST['component']);
 	$column_data	= explode('_', $_POST['column']);
 	$blocks			= unserialize_jquery($_POST['order']);
 	
@@ -39,10 +40,9 @@ if ($user_home_allowed && Authentication :: is_valid())
 	
 	$block = new HomeBlock();
 	$block->set_column($column_data[1]);
-	$block->set_title('AjaxTest');
-	$block->set_sort('1');
-	$block->set_application('search_portal');
-	$block->set_component('extra');
+	$block->set_title(DokeosUtilities :: underscores_to_camelcase($component[1]));
+	$block->set_application($component[0]);
+	$block->set_component($component[1]);
 	$block->set_visibility('1');
 	$block->set_user($user_id);
 	
