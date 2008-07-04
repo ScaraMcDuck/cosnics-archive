@@ -71,7 +71,8 @@
 				);
 	};
 
-	var collapseItem = function() {
+	var collapseItem = function(e) {
+		e.preventDefault();
 		$(this).parent().next(".description").slideToggle(300);
 
 		// Make bottom border for title disappear ?
@@ -107,7 +108,8 @@
 		$(this).children("a").fadeOut(150);
 	};
 
-	var deleteItem = function() {
+	var deleteItem = function(e) {
+		e.preventDefault();
 		var confirmation = confirm('Are you sure ?');
 		if (confirmation) {
 			var columnId = $(this).parent().parent().parent().attr("id");
