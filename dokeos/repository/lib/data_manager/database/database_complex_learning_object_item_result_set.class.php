@@ -44,7 +44,7 @@ class DatabaseComplexLearningObjectItemResultSet extends ResultSet {
     {
 		if ($record = $this->handle->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			return $this->data_manager->record_to_complex_learning_object($record, $this->single_type);
+			return $this->data_manager->record_to_complex_learning_object_item($record, null, $this->single_type);
 		}
     	return null;
     }

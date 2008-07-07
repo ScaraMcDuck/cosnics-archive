@@ -12,8 +12,10 @@ require_once dirname(__FILE__).'/repository_data_manager.class.php';
 class ComplexLearningObjectItem
 {
 	const PROPERTY_ID = 'id';
-	const PROPERTY_LO_ID = 'lo_id';
+	const PROPERTY_REF = 'ref';
 	const PROPERTY_PARENT = 'parent';
+	const PROPERTY_USER_ID = 'user_id';
+	const PROPERTY_COMPLEX_REF = 'complex_ref';
 
 	private $defaultProperties;
 	private $additionalProperties;
@@ -72,13 +74,32 @@ class ComplexLearningObjectItem
 		$this->defaultProperties = $defaultProperties;
 	}
 	
+		
+	/**
+	 * Retrieves the default properties of this class
+	 * @return Array of Objects
+	 */
+	function get_additional_properties()
+	{
+		return $this->additionalProperties;
+	}
+	
+	/**
+	 * Sets the default properties of this class
+	 * @param Array Of Objects $defaultProperties
+	 */
+	function set_additional_properties($additionalProperties)
+	{
+		$this->additionalProperties = $additionalProperties;
+	}
+	
 	/**
 	 * Get the default property names
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_LO_ID, self :: PROPERTY_PARENT);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_REF, self :: PROPERTY_PARENT, PROPERTY_USER_ID, PROPERTY_COMPLEX_REF);
 	}
 	
 	/**
@@ -103,22 +124,22 @@ class ComplexLearningObjectItem
     
     function get_id()
     {
-    	return $this->id;
+    	return $this->get_default_property(self :: PROPERTY_ID);
     }
     
     function set_id($id)
 	{
-		$this->id = $id;
+		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
 	
-    function get_lo_id()
+    function get_ref()
     {
-    	return $this->get_default_property(self :: PROPERTY_LO_ID);
+    	return $this->get_default_property(self :: PROPERTY_REF);
     }
     
-	function set_lo_id($lo_id)
+	function set_ref($ref)
 	{
-		$this->set_default_property(self :: PROPERTY_LO_ID, $lo_id);
+		$this->set_default_property(self :: PROPERTY_REF, $ref);
 	}
     
     function get_parent()
@@ -129,6 +150,26 @@ class ComplexLearningObjectItem
 	function set_parent($parent)
 	{
 		$this->set_default_property(self :: PROPERTY_PARENT, $parent);
+	}
+	
+	function get_user_id()
+    {
+    	return $this->get_default_property(self :: PROPERTY_USER_ID);
+    }
+	
+	function set_user_id($user_id)
+	{
+		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
+	}
+	
+	function get_complex_ref()
+    {
+    	return $this->get_default_property(self :: PROPERTY_COMPLEX_REF);
+    }
+	
+	function set_complex_ref($complex_ref)
+	{
+		$this->set_default_property(self :: PROPERTY_COMPLEX_REF, $complex_ref);
 	}
 	
 	function update()
@@ -171,10 +212,18 @@ class ComplexLearningObjectItem
 	/**
 	 * Creates an instance of an extended class with the given type
 	 */
-	static function factory($type, $defaultProperties, $additionalProperties)
+	static function factory($type, $defaultProperties = array(), $additionalProperties = array())
 	{
-		$class = 'Complex'.DokeosUtilities :: underscores_to_camelcase($type);
-		return new $class ($defaultProperties, $additionalProperties);
+		if($type)
+		{
+			$class = 'Complex'.DokeosUtilities :: underscores_to_camelcase($type);
+			require_once dirname(__FILE__).'/learning_object/'.$type.'/complex_'.$type.'.class.php';
+			return new $class ($defaultProperties, $additionalProperties); 
+		}
+		else
+		{ 
+			return new self ($defaultProperties, $additionalProperties); 
+		}
 	}
 
 }
