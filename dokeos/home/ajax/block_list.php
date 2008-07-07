@@ -28,27 +28,37 @@ if ($user_home_allowed && Authentication :: is_valid())
 	echo '</div>';
 	
 	echo '<div style="clear: both;">';
+	
+	echo '<div id="applications" style="float: left; margin-right: 30px;">';
+	echo '<div id="show_all" style="clear: both; margin-bottom: 5px;"><a href="#">' . Translation :: get('ShowAll') . '</a></div>';
 	foreach ($applications as $application_key => $application_value)
 	{
+		echo '<div class="application" id="'. $application_key .'" style="clear: both; margin-bottom: 5px;"><a href="#">' . $application_value . '</a></div>';
+	}
+	echo '</div>';
+	
+	echo '<div id="components">';
+	foreach ($applications as $application_key => $application_value)
+	{
+		echo '<div id="components_'. $application_key .'" style="float: left;">';
 		$application_components = array(); 
 		foreach($components[$application_key] as $component_key => $component_value)
 		{
 			$component_title = $application_value . ' > ' . $component_value;
 			$component_id = $application_key . '.' . $component_key;
 			
-			echo '<div class="component" id="'. $component_id .'" style="float: left; background-color: white; margin-right: 5px; margin-bottom: 5px; height: 75px; width: 100px; overflow: hidden; text-align: center; font-size: 75%; font-weight: bolder;">';
+			echo '<div class="component" id="'. $component_id .'" style="float: left; background-color: white; margin-right: 5px; margin-bottom: 5px; height: 75px; width: 75px; overflow: hidden; text-align: center; font-size: 75%; font-weight: bolder;">';
 			echo '<img style="margin: 5px;" src="'. Theme :: get_img_path('admin') . 'place_' . $application_key .'.png" alt="'. $component_title .'" title="'. $component_title .'"/>';
 			echo '<br />';
 			echo $component_value;
-//			echo '';
-//			echo '';
-//			echo '';
-//			echo '';
 			echo '</div>';
 			
 			$application_components[] = Translation :: get($component_value);
 		}
+		echo '</div>';
 	}
+	echo '</div>';
+	
 	echo '<div class="clear">&nbsp;</div>';
 	echo '</div>';
 	
