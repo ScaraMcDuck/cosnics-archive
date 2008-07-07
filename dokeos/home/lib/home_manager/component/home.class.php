@@ -110,7 +110,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' .'"></script>';
 		}
 		
-		$html[] = '<a class="addEl" style="display: none;" href="#">[ Add Content ]</a>';
+		$html[] = '<a class="addEl" href="#">[ Add Content ]</a>';
 		
 		return implode("\n", $html);
 	}

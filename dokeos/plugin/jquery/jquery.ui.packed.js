@@ -75,7 +75,7 @@ $.fn.remove = function() {
 
 // $.widget is a factory to create jQuery plugins
 // taking some boilerplate code out of the plugin code
-// created by Scott González and Jörn Zaefferer
+// created by Scott GonzÃ¡lez and JÃ¶rn Zaefferer
 function getter(namespace, plugin, method) {
 	var methods = $[namespace][plugin].getter || [];
 	methods = (typeof methods == "string" ? methods.split(/,?\s+/) : methods);
@@ -854,6 +854,286 @@ $.ui.plugin.add("draggable", "stack", {
 
 })(jQuery);
 /*
+ * jQuery UI Droppable
+ *
+ * Copyright (c) 2008 Paul Bakaus
+ * Dual licensed under the MIT (MIT-LICENSE.txt)
+ * and GPL (GPL-LICENSE.txt) licenses.
+ * 
+ * http://docs.jquery.com/UI/Droppables
+ *
+ * Depends:
+ *	ui.core.js
+ *	ui.draggable.js
+ */
+(function($) {
+
+$.widget("ui.droppable", {
+	init: function() {
+
+		this.element.addClass("ui-droppable");
+		this.isover = 0; this.isout = 1;
+		
+		//Prepare the passed options
+		var o = this.options, accept = o.accept;
+		o = $.extend(o, {
+			accept: o.accept && o.accept.constructor == Function ? o.accept : function(d) {
+				return $(d).is(accept);
+			}
+		});
+		
+		//Store the droppable's proportions
+		this.proportions = { width: this.element.outerWidth(), height: this.element.outerHeight() };
+		
+		// Add the reference and positions to the manager
+		$.ui.ddmanager.droppables.push(this);
+		
+	},
+	plugins: {},
+	ui: function(c) {
+		return {
+			draggable: (c.currentItem || c.element),
+			helper: c.helper,
+			position: c.position,
+			absolutePosition: c.positionAbs,
+			options: this.options,
+			element: this.element
+		};
+	},
+	destroy: function() {
+		var drop = $.ui.ddmanager.droppables;
+		for ( var i = 0; i < drop.length; i++ )
+			if ( drop[i] == this )
+				drop.splice(i, 1);
+		
+		this.element
+			.removeClass("ui-droppable ui-droppable-disabled")
+			.removeData("droppable")
+			.unbind(".droppable");
+	},
+	over: function(e) {
+		
+		var draggable = $.ui.ddmanager.current;
+		if (!draggable || (draggable.currentItem || draggable.element)[0] == this.element[0]) return; // Bail if draggable and droppable are same element
+		
+		if (this.options.accept.call(this.element,(draggable.currentItem || draggable.element))) {
+			$.ui.plugin.call(this, 'over', [e, this.ui(draggable)]);
+			this.element.triggerHandler("dropover", [e, this.ui(draggable)], this.options.over);
+		}
+		
+	},
+	out: function(e) {
+		
+		var draggable = $.ui.ddmanager.current;
+		if (!draggable || (draggable.currentItem || draggable.element)[0] == this.element[0]) return; // Bail if draggable and droppable are same element
+		
+		if (this.options.accept.call(this.element,(draggable.currentItem || draggable.element))) {
+			$.ui.plugin.call(this, 'out', [e, this.ui(draggable)]);
+			this.element.triggerHandler("dropout", [e, this.ui(draggable)], this.options.out);
+		}
+		
+	},
+	drop: function(e,custom) {
+		
+		var draggable = custom || $.ui.ddmanager.current;
+		if (!draggable || (draggable.currentItem || draggable.element)[0] == this.element[0]) return false; // Bail if draggable and droppable are same element
+		
+		var childrenIntersection = false;
+		this.element.find(".ui-droppable").not(".ui-draggable-dragging").each(function() {
+			var inst = $.data(this, 'droppable');
+			if(inst.options.greedy && $.ui.intersect(draggable, $.extend(inst, { offset: inst.element.offset() }), inst.options.tolerance)) {
+				childrenIntersection = true; return false;
+			}
+		});
+		if(childrenIntersection) return false;
+		
+		if(this.options.accept.call(this.element,(draggable.currentItem || draggable.element))) {
+			$.ui.plugin.call(this, 'drop', [e, this.ui(draggable)]);
+			this.element.triggerHandler("drop", [e, this.ui(draggable)], this.options.drop);
+			return true;
+		}
+		
+		return false;
+		
+	},
+	activate: function(e) {
+		
+		var draggable = $.ui.ddmanager.current;
+		$.ui.plugin.call(this, 'activate', [e, this.ui(draggable)]);
+		if(draggable) this.element.triggerHandler("dropactivate", [e, this.ui(draggable)], this.options.activate);
+		
+	},
+	deactivate: function(e) {
+		
+		var draggable = $.ui.ddmanager.current;
+		$.ui.plugin.call(this, 'deactivate', [e, this.ui(draggable)]);
+		if(draggable) this.element.triggerHandler("dropdeactivate", [e, this.ui(draggable)], this.options.deactivate);
+		
+	}
+});
+
+$.extend($.ui.droppable, {
+	defaults: {
+		disabled: false,
+		tolerance: 'intersect'
+	}
+});
+
+$.ui.intersect = function(draggable, droppable, toleranceMode) {
+	
+	if (!droppable.offset) return false;
+	
+	var x1 = (draggable.positionAbs || draggable.position.absolute).left, x2 = x1 + draggable.helperProportions.width,
+		y1 = (draggable.positionAbs || draggable.position.absolute).top, y2 = y1 + draggable.helperProportions.height;
+	var l = droppable.offset.left, r = l + droppable.proportions.width,
+		t = droppable.offset.top, b = t + droppable.proportions.height;
+	
+	switch (toleranceMode) {
+		case 'fit':
+			return (l < x1 && x2 < r
+				&& t < y1 && y2 < b);
+			break;
+		case 'intersect':
+			return (l < x1 + (draggable.helperProportions.width / 2) // Right Half
+				&& x2 - (draggable.helperProportions.width / 2) < r // Left Half
+				&& t < y1 + (draggable.helperProportions.height / 2) // Bottom Half
+				&& y2 - (draggable.helperProportions.height / 2) < b ); // Top Half
+			break;
+		case 'pointer':
+			return (l < ((draggable.positionAbs || draggable.position.absolute).left + (draggable.clickOffset || draggable.offset.click).left) && ((draggable.positionAbs || draggable.position.absolute).left + (draggable.clickOffset || draggable.offset.click).left) < r
+				&& t < ((draggable.positionAbs || draggable.position.absolute).top + (draggable.clickOffset || draggable.offset.click).top) && ((draggable.positionAbs || draggable.position.absolute).top + (draggable.clickOffset || draggable.offset.click).top) < b);
+			break;
+		case 'touch':
+			return (
+					(y1 >= t && y1 <= b) ||	// Top edge touching
+					(y2 >= t && y2 <= b) ||	// Bottom edge touching
+					(y1 < t && y2 > b)		// Surrounded vertically
+				) && (
+					(x1 >= l && x1 <= r) ||	// Left edge touching
+					(x2 >= l && x2 <= r) ||	// Right edge touching
+					(x1 < l && x2 > r)		// Surrounded horizontally
+				);
+			break;
+		default:
+			return false;
+			break;
+		}
+	
+};
+
+/*
+	This manager tracks offsets of draggables and droppables
+*/
+$.ui.ddmanager = {
+	current: null,
+	droppables: [],
+	prepareOffsets: function(t, e) {
+		
+		var m = $.ui.ddmanager.droppables;
+		var type = e ? e.type : null; // workaround for #2317
+		for (var i = 0; i < m.length; i++) {
+			
+			if(m[i].options.disabled || (t && !m[i].options.accept.call(m[i].element,(t.currentItem || t.element)))) continue;
+			m[i].visible = m[i].element.is(":visible"); if(!m[i].visible) continue; //If the element is not visible, continue
+			m[i].offset = m[i].element.offset();
+			m[i].proportions = { width: m[i].element.outerWidth(), height: m[i].element.outerHeight() };
+			
+			if(type == "dragstart" || type == "sortactivate") m[i].activate.call(m[i], e); //Activate the droppable if used directly from draggables
+		}
+		
+	},
+	drop: function(draggable, e) {
+		
+		var dropped = false;
+		$.each($.ui.ddmanager.droppables, function() {
+			
+			if(!this.options) return;
+			if (!this.options.disabled && this.visible && $.ui.intersect(draggable, this, this.options.tolerance))
+				dropped = this.drop.call(this, e);
+			
+			if (!this.options.disabled && this.visible && this.options.accept.call(this.element,(draggable.currentItem || draggable.element))) {
+				this.isout = 1; this.isover = 0;
+				this.deactivate.call(this, e);
+			}
+			
+		});
+		return dropped;
+		
+	},
+	drag: function(draggable, e) {
+		
+		//If you have a highly dynamic page, you might try this option. It renders positions every time you move the mouse.
+		if(draggable.options.refreshPositions) $.ui.ddmanager.prepareOffsets(draggable, e);
+		
+		//Run through all droppables and check their positions based on specific tolerance options
+		$.each($.ui.ddmanager.droppables, function() {
+			
+			if(this.options.disabled || this.greedyChild || !this.visible) return;
+			var intersects = $.ui.intersect(draggable, this, this.options.tolerance);
+			
+			var c = !intersects && this.isover == 1 ? 'isout' : (intersects && this.isover == 0 ? 'isover' : null);
+			if(!c) return;
+			
+			var parentInstance;
+			if (this.options.greedy) {
+				var parent = this.element.parents('.ui-droppable:eq(0)');
+				if (parent.length) {
+					parentInstance = $.data(parent[0], 'droppable');
+					parentInstance.greedyChild = (c == 'isover' ? 1 : 0);
+				}
+			}
+			
+			// we just moved into a greedy child
+			if (parentInstance && c == 'isover') {
+				parentInstance['isover'] = 0;
+				parentInstance['isout'] = 1;
+				parentInstance.out.call(parentInstance, e);
+			}
+			
+			this[c] = 1; this[c == 'isout' ? 'isover' : 'isout'] = 0;
+			this[c == "isover" ? "over" : "out"].call(this, e);
+			
+			// we just moved out of a greedy child
+			if (parentInstance && c == 'isout') {
+				parentInstance['isout'] = 0;
+				parentInstance['isover'] = 1;
+				parentInstance.over.call(parentInstance, e);
+			}
+		});
+		
+	}
+};
+
+/*
+ * Droppable Extensions
+ */
+
+$.ui.plugin.add("droppable", "activeClass", {
+	activate: function(e, ui) {
+		$(this).addClass(ui.options.activeClass);
+	},
+	deactivate: function(e, ui) {
+		$(this).removeClass(ui.options.activeClass);
+	},
+	drop: function(e, ui) {
+		$(this).removeClass(ui.options.activeClass);
+	}
+});
+
+$.ui.plugin.add("droppable", "hoverClass", {
+	over: function(e, ui) {
+		$(this).addClass(ui.options.hoverClass);
+	},
+	out: function(e, ui) {
+		$(this).removeClass(ui.options.hoverClass);
+	},
+	drop: function(e, ui) {
+		$(this).removeClass(ui.options.hoverClass);
+	}
+});
+
+})(jQuery);
+/*
  * jQuery UI Resizable
  *
  * Copyright (c) 2008 Paul Bakaus
@@ -1614,6 +1894,270 @@ $.ui.plugin.add("resizable", "alsoResize", {
 	
 	stop: function(e, ui){
 		$(this).removeData("resizable-alsoresize-start");
+	}
+});
+
+})(jQuery);
+/*
+ * jQuery UI Selectable
+ *
+ * Copyright (c) 2008 Richard D. Worth (rdworth.org)
+ * Dual licensed under the MIT (MIT-LICENSE.txt)
+ * and GPL (GPL-LICENSE.txt) licenses.
+ * 
+ * http://docs.jquery.com/UI/Selectables
+ *
+ * Depends:
+ *	ui.core.js
+ */
+(function($) {
+
+$.widget("ui.selectable", $.extend($.ui.mouse, {
+	init: function() {
+		var self = this;
+		
+		this.element.addClass("ui-selectable");
+		
+		this.dragged = false;
+
+		// cache selectee children based on filter
+		var selectees;
+		this.refresh = function() {
+			selectees = $(self.options.filter, self.element[0]);
+			selectees.each(function() {
+				var $this = $(this);
+				var pos = $this.offset();
+				$.data(this, "selectable-item", {
+					element: this,
+					$element: $this,
+					left: pos.left,
+					top: pos.top,
+					right: pos.left + $this.width(),
+					bottom: pos.top + $this.height(),
+					startselected: false,
+					selected: $this.hasClass('ui-selected'),
+					selecting: $this.hasClass('ui-selecting'),
+					unselecting: $this.hasClass('ui-unselecting')
+				});
+			});
+		};
+		this.refresh();
+
+		this.selectees = selectees.addClass("ui-selectee");
+		
+		this.mouseInit();
+		
+		this.helper = $(document.createElement('div')).css({border:'1px dotted black'});
+	},
+	toggle: function() {
+		if(this.options.disabled){
+			this.enable();
+		} else {
+			this.disable();
+		}
+	},
+	destroy: function() {
+		this.element
+			.removeClass("ui-selectable ui-selectable-disabled")
+			.removeData("selectable")
+			.unbind(".selectable");
+		this.mouseDestroy();
+	},
+	mouseStart: function(e) {
+		var self = this;
+		
+		this.opos = [e.pageX, e.pageY];
+		
+		if (this.options.disabled)
+			return;
+
+		var options = this.options;
+
+		this.selectees = $(options.filter, this.element[0]);
+
+		// selectable START callback
+		this.element.triggerHandler("selectablestart", [e, {
+			"selectable": this.element[0],
+			"options": options
+		}], options.start);
+
+		$('body').append(this.helper);
+		// position helper (lasso)
+		this.helper.css({
+			"z-index": 100,
+			"position": "absolute",
+			"left": e.clientX,
+			"top": e.clientY,
+			"width": 0,
+			"height": 0
+		});
+
+		if (options.autoRefresh) {
+			this.refresh();
+		}
+
+		this.selectees.filter('.ui-selected').each(function() {
+			var selectee = $.data(this, "selectable-item");
+			selectee.startselected = true;
+			if (!e.ctrlKey) {
+				selectee.$element.removeClass('ui-selected');
+				selectee.selected = false;
+				selectee.$element.addClass('ui-unselecting');
+				selectee.unselecting = true;
+				// selectable UNSELECTING callback
+				self.element.triggerHandler("selectableunselecting", [e, {
+					selectable: self.element[0],
+					unselecting: selectee.element,
+					options: options
+				}], options.unselecting);
+			}
+		});
+		
+		var isSelectee = false;
+		$(e.target).parents().andSelf().each(function() {
+			if($.data(this, "selectable-item")) isSelectee = true;
+		});
+		return this.options.keyboard ? !isSelectee : true;
+	},
+	mouseDrag: function(e) {
+		var self = this;
+		this.dragged = true;
+		
+		if (this.options.disabled)
+			return;
+
+		var options = this.options;
+
+		var x1 = this.opos[0], y1 = this.opos[1], x2 = e.pageX, y2 = e.pageY;
+		if (x1 > x2) { var tmp = x2; x2 = x1; x1 = tmp; }
+		if (y1 > y2) { var tmp = y2; y2 = y1; y1 = tmp; }
+		this.helper.css({left: x1, top: y1, width: x2-x1, height: y2-y1});
+
+		this.selectees.each(function() {
+			var selectee = $.data(this, "selectable-item");
+			//prevent helper from being selected if appendTo: selectable
+			if (!selectee || selectee.element == self.element[0])
+				return;
+			var hit = false;
+			if (options.tolerance == 'touch') {
+				hit = ( !(selectee.left > x2 || selectee.right < x1 || selectee.top > y2 || selectee.bottom < y1) );
+			} else if (options.tolerance == 'fit') {
+				hit = (selectee.left > x1 && selectee.right < x2 && selectee.top > y1 && selectee.bottom < y2);
+			}
+
+			if (hit) {
+				// SELECT
+				if (selectee.selected) {
+					selectee.$element.removeClass('ui-selected');
+					selectee.selected = false;
+				}
+				if (selectee.unselecting) {
+					selectee.$element.removeClass('ui-unselecting');
+					selectee.unselecting = false;
+				}
+				if (!selectee.selecting) {
+					selectee.$element.addClass('ui-selecting');
+					selectee.selecting = true;
+					// selectable SELECTING callback
+					self.element.triggerHandler("selectableselecting", [e, {
+						selectable: self.element[0],
+						selecting: selectee.element,
+						options: options
+					}], options.selecting);
+				}
+			} else {
+				// UNSELECT
+				if (selectee.selecting) {
+					if (e.ctrlKey && selectee.startselected) {
+						selectee.$element.removeClass('ui-selecting');
+						selectee.selecting = false;
+						selectee.$element.addClass('ui-selected');
+						selectee.selected = true;
+					} else {
+						selectee.$element.removeClass('ui-selecting');
+						selectee.selecting = false;
+						if (selectee.startselected) {
+							selectee.$element.addClass('ui-unselecting');
+							selectee.unselecting = true;
+						}
+						// selectable UNSELECTING callback
+						self.element.triggerHandler("selectableunselecting", [e, {
+							selectable: self.element[0],
+							unselecting: selectee.element,
+							options: options
+						}], options.unselecting);
+					}
+				}
+				if (selectee.selected) {
+					if (!e.ctrlKey && !selectee.startselected) {
+						selectee.$element.removeClass('ui-selected');
+						selectee.selected = false;
+
+						selectee.$element.addClass('ui-unselecting');
+						selectee.unselecting = true;
+						// selectable UNSELECTING callback
+						self.element.triggerHandler("selectableunselecting", [e, {
+							selectable: self.element[0],
+							unselecting: selectee.element,
+							options: options
+						}], options.unselecting);
+					}
+				}
+			}
+		});
+		
+		return false;
+	},
+	mouseStop: function(e) {
+		var self = this;
+		
+		this.dragged = false;
+		
+		var options = this.options;
+
+		$('.ui-unselecting', this.element[0]).each(function() {
+			var selectee = $.data(this, "selectable-item");
+			selectee.$element.removeClass('ui-unselecting');
+			selectee.unselecting = false;
+			selectee.startselected = false;
+			self.element.triggerHandler("selectableunselected", [e, {
+				selectable: self.element[0],
+				unselected: selectee.element,
+				options: options
+			}], options.unselected);
+		});
+		$('.ui-selecting', this.element[0]).each(function() {
+			var selectee = $.data(this, "selectable-item");
+			selectee.$element.removeClass('ui-selecting').addClass('ui-selected');
+			selectee.selecting = false;
+			selectee.selected = true;
+			selectee.startselected = true;
+			self.element.triggerHandler("selectableselected", [e, {
+				selectable: self.element[0],
+				selected: selectee.element,
+				options: options
+			}], options.selected);
+		});
+		this.element.triggerHandler("selectablestop", [e, {
+			selectable: self.element[0],
+			options: this.options
+		}], this.options.stop);
+		
+		this.helper.remove();
+		
+		return false;
+	}
+}));
+
+$.extend($.ui.selectable, {
+	defaults: {
+		distance: 1,
+		delay: 0,
+		cancel: ":input",
+		appendTo: 'body',
+		autoRefresh: true,
+		filter: '*',
+		tolerance: 'touch'
 	}
 });
 
