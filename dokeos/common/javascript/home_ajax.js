@@ -146,6 +146,7 @@
 			order :order
 		}, function(data) {
 			column.prepend(data);
+			$("div.title a").css('display', 'none');
 			order = column.sortable("serialize");
 
 			bindIcons();
@@ -160,8 +161,6 @@
 	};
 
 	function bindIcons() {
-		$("div.title a").toggle();
-
 		$("a.closeEl").unbind();
 		$("a.closeEl").bind('click', collapseItem);
 		$("a.deleteEl").unbind();
@@ -181,6 +180,7 @@
 
 		countColumns = $("div.column").length;
 
+		$("div.title a").toggle();
 		bindIcons();
 
 		$("div.column").sortable( {
