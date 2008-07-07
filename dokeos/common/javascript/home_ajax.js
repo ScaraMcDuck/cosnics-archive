@@ -2,10 +2,6 @@
 
 	var columns = $(".column");
 
-	var widthBorder = 1;
-
-	var widthColumns = [];
-
 	var countColumns = 0;
 
 	var sortableStart = function(e, ui) {
@@ -75,21 +71,6 @@
 		e.preventDefault();
 		$(this).parent().next(".description").slideToggle(300);
 
-		// Make bottom border for title disappear ?
-		// var border = $(this).parent().css("border-bottom-width");
-		// var pos = border.search("px");
-		// var borderValue = border.substring(0, pos);
-		//		
-		// if (borderValue != 0)
-		// {
-		// widthBorder = borderValue;
-		// $(this).parent().css("border-bottom-width", "0px");
-		// }
-		// else
-		// {
-		// $(this).parent().css("border-bottom-width", widthBorder + "px");
-		// }
-		
 		$(this).children(".invisible").toggle();
 		$(this).children(".visible").toggle();
 
@@ -145,7 +126,7 @@
 			{
 				$("#main #addBlock").slideToggle(300);
 			}
-			
+
 			$("a.addEl").hide();
 			$("a.closeScreen").bind('click', removeBlockScreen);
 			$(".component").bind('click', addBlock);
@@ -177,28 +158,27 @@
 					);
 		});
 	};
-	
-	function bindIcons()
-	{
+
+	function bindIcons() {
 		$("div.title a").toggle();
-		
+
 		$("a.closeEl").unbind();
 		$("a.closeEl").bind('click', collapseItem);
 		$("a.deleteEl").unbind();
 		$("a.deleteEl").bind('click', deleteItem);
-		
-		$("div.titlediv.title").unbind();
+
+		$("div.title").unbind();
 		$("div.title").bind('mouseenter', hoverInItem);
 		$("div.title").bind('mouseleave', hoverOutItem);
-		
+
 		$("a.addEl").unbind();
 		$("a.addEl").bind('click', showBlockScreen);
 	}
 
 	$(document).ready( function() {
-		
+
 		$("a.addEl").toggle();
-		
+
 		countColumns = $("div.column").length;
 
 		bindIcons();
