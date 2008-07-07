@@ -4,6 +4,7 @@
  * @subpackage datamanager
  */
 require_once dirname(__FILE__).'/database/database_learning_object_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_complex_learning_object_item_result_set.class.php';
 require_once dirname(__FILE__).'/../repository_data_manager.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../learning_object.class.php';
@@ -1070,7 +1071,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		$props = array();
 		foreach ($clo_item->get_default_properties() as $key => $value)
-		{
+		{ 
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$this->connection->loadModule('Extended');
@@ -1083,7 +1084,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				$props[$this->escape_column_name($key)] = $value;
 			}
 			$props[$this->escape_column_name(ComplexLearningObjectItem :: PROPERTY_ID)] = $clo_item->get_id();
-			$type = $this->determine_learning_object_type($clo_item->get_lo_id());
+			$type = $this->determine_learning_object_type($clo_item->get_ref());
 			$this->connection->extended->autoExecute($this->get_table_name('complex_' . $type), $props, MDB2_AUTOQUERY_INSERT);
 		}
 
@@ -1195,7 +1196,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
@@ -1209,8 +1210,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 		// Determine type
 
-		$type = $this->determine_learning_object_type($rec1[ComplexLearningObjectItem :: PROPERTY_LO_ID]);
-
+		$type = $this->determine_learning_object_type($rec1[ComplexLearningObjectItem :: PROPERTY_REF]);
+		
 		// Retrieve extended table
 
 		$query = 'SELECT * FROM '.$this->escape_table_name('complex_' . $type).' AS '.
@@ -1219,7 +1220,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
@@ -1232,7 +1233,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res->free();
 
 		$record = array_merge($rec1, $rec2);
-		return self :: record_to_complex_learning_object_item($record, true);
+		return self :: record_to_complex_learning_object_item($record, $type, true);
 	}
 
 	/**
@@ -1240,7 +1241,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * @param Record $record
 	 * @return ComplexLearningObjectItem
 	 */
-	function record_to_complex_learning_object($record, $additional_properties_known = false)
+	function record_to_complex_learning_object_item($record, $type = null, $additional_properties_known = false)
 	{
 		if (!is_array($record) || !count($record))
 		{
@@ -1265,8 +1266,6 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$additionalProp = null;
 		}
 
-		$type = $this->determine_learning_object_type($record[ComplexLearningObjectItem :: PROPERTY_ID]);
-
 		return ComplexLearningObjectItem :: factory($type, $defaultProp, $additionalProp);
 	}
 
@@ -1281,11 +1280,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				 $this->escape_column_name(ComplexLearningObjectItem :: PROPERTY_ID).') FROM '.
 				 $this->escape_table_name('complex_learning_object_item').' AS '.
 				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
-
+				 
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
@@ -1310,7 +1309,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
@@ -1322,7 +1321,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 		for ($i = 0; $i < count($orderBy); $i ++)
 		{
-			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+			$order[] = $this->escape_column_name($orderBy[$i], false).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
 		}
 		if (count($order))
 		{

@@ -2,16 +2,24 @@
 <object name="complex_learning_object_item">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="lo_id" type="integer" unsigned="1" notnull="1" default="0"/>
+  <property name="ref" type="integer" unsigned="1" notnull="1" default="0"/>
   <property name="parent" type="integer" unsigned="1" notnull="1" default="0"/>
+  <property name="user_id" type="integer" unsigned="1" notnull="1" default="0"/>
+  <property name="complex_ref" type="integer" unsigned="1" notnull="1" default="0"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
  </index>
- <index name="lo_id">
-  <indexproperty name="lo_id"/>
+ <index name="ref">
+  <indexproperty name="ref"/>
  </index>
  <index name="parent">
   <indexproperty name="parent"/>
+ </index>
+ <index name="user_id">
+  <indexproperty name="user_id"/>
+ </index>
+ <index name="complex_ref">
+  <indexproperty name="complex_ref"/>
  </index>
 </object>

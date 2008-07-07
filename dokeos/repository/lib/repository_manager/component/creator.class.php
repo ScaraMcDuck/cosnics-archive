@@ -56,7 +56,12 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			if ($lo_form->validate())
 			{
 				$object = $lo_form->create_learning_object();
-				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), $object->get_parent_id());
+				if($object->is_complex_learning_object())
+				{
+					$this->redirect(RepositoryManager :: ACTION_CREATE_COMPLEX_LEARNING_OBJECTS, null, 0, false, array(RepositoryManager :: PARAM_CLOI_REF => $object->get_id()));
+				}
+				else
+					$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), $object->get_parent_id());
 			}
 			else
 			{

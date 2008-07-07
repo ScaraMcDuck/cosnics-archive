@@ -226,4 +226,10 @@ $lang['repository']['NoSurveyQuestionCategories']='(No categories)';
 $lang['repository']['NoSurveyAnswerCategories']='(No categories)';
 $lang['repository']['LearningStyleSurveyCategoryList']='Survey Categories';
 $lang['repository']['LearningStyleSurveyOutline']='Survey Outline';
+$lang['repository']['FillIn']='Please fill in the necessary fields to create a complex learning object';
+$lang['repository']['Test']='Test';
+$lang['repository']['SurveySectionQuestion']='Question';
+$lang['repository']['SurveySectionQuestion']='Question';
+$lang['repository']['SurveySectionQuestion']='Question';
+$lang['repository']['SurveySectionQuestion']='Question';
 ?>

@@ -162,6 +162,12 @@ abstract class RepositoryManagerComponent {
 	{
 		return $this->get_parent()->get_url($additional_parameters, $include_search, $encode_entities);
 	}
+	
+	public function get_link($parameters = array (), $encode = false)
+	{
+		return $this->get_parent()->get_link($parameters, $encode);
+	}
+	
 	/**
 	 * @see RepositoryManager::redirect()
 	 */
@@ -426,6 +432,21 @@ abstract class RepositoryManagerComponent {
 		$class = 'RepositoryManager'.$type.'Component';
 		require_once $filename;
 		return new $class($repository_manager);
+	}
+	
+	function count_complex_learning_object_items($condition)
+	{
+		return $this->get_parent()->count_complex_learning_object_items($condition);
+	}
+	
+	function retrieve_complex_learning_object_items($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+		return $this->get_parent()->retrieve_complex_learning_object_items($condition, $orderBy, $orderDir, $offset, $maxObjects);
+	}
+	
+	function retrieve_complex_learning_object_item($cloi_id)
+	{
+		return $this->get_parent()->retrieve_complex_learning_object_item($cloi_id);
 	}
 }
 ?>

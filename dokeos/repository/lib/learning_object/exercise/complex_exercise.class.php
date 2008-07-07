@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-require_once dirname(__FILE__) . '/../../complex_learning_object.class.php';
+require_once dirname(__FILE__) . '/../../complex_learning_object_item.class.php';
 /**
  * This class represents a complex exercise (used to create complex learning objects)
  */
@@ -17,12 +17,12 @@ class ComplexExercise extends ComplexLearningObjectItem
 		return $this->get_additional_property(self :: PROPERTY_TEST);
 	}
 
-	function set_test ($test)
+	function set_test($test)
 	{
 		return $this->set_additional_property(self :: PROPERTY_TEST, $test);
 	}
 	
-	function get_additional_property_names()
+	static function get_additional_property_names()
 	{
 		return array(self :: PROPERTY_TEST);
 	}

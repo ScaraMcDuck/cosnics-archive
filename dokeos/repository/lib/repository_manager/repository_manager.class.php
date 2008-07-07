@@ -53,6 +53,11 @@ class RepositoryManager
 	const PARAM_COMPARE_VERSION = 'compare';
 	const PARAM_PUBLICATION_APPLICATION = 'application';
 	const PARAM_PUBLICATION_ID = 'publication';
+	const PARAM_CLOI_REF = 'cloi_ref';
+	const PARAM_CLOI_PARENT = 'cloi_parent';
+	const PARAM_CLOI_ID = 'cloi_id';
+	const PARAM_CLOI_ROOT_ID = 'cloi_root_id';
+	const PARAM_RECYCLE_SELECTED_CLOI = 'cloi_recycle_selected';
 
 	/**#@-*/
    /**#@+
@@ -74,6 +79,11 @@ class RepositoryManager
 	const ACTION_VIEW_QUOTA = 'quota';
 	const ACTION_COMPARE_LEARNING_OBJECTS = 'compare';
 	const ACTION_UPDATE_LEARNING_OBJECT_PUBLICATION = 'publicationupdater';
+	const ACTION_CREATE_COMPLEX_LEARNING_OBJECTS = 'createcomplex';
+	const ACTION_UPDATE_COMPLEX_LEARNING_OBJECTS = 'updatecomplex';
+	const ACTION_DELETE_COMPLEX_LEARNING_OBJECTS = 'deletecomplex';
+	const ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS = 'browsecomplex';
+	
 	/**#@-*/
    /**#@+
     * Property of this repository manager.
@@ -119,6 +129,18 @@ class RepositoryManager
 		$component = null;
 		switch ($action)
 		{
+			case self :: ACTION_CREATE_COMPLEX_LEARNING_OBJECTS :
+				$component = RepositoryManagerComponent :: factory('ComplexCreator', $this);
+				break;
+			case self :: ACTION_UPDATE_COMPLEX_LEARNING_OBJECTS :
+				$component = RepositoryManagerComponent :: factory('ComplexUpdater', $this);
+				break;
+			case self :: ACTION_DELETE_COMPLEX_LEARNING_OBJECTS :
+				$component = RepositoryManagerComponent :: factory('ComplexDeleter', $this);
+				break;
+			case self :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS :
+				$component = RepositoryManagerComponent :: factory('ComplexBrowser', $this);
+				break;
 			case self :: ACTION_VIEW_LEARNING_OBJECTS :
 				$component = RepositoryManagerComponent :: factory('Viewer', $this);
 				break;
@@ -406,7 +428,7 @@ class RepositoryManager
 		{
 			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
 		}
-		if ($new_category_id)
+		if (isset($new_category_id) && $new_category_id >= 0)
 		{
 			$params[self :: PARAM_CATEGORY_ID] = $new_category_id;
 		}
@@ -1007,6 +1029,24 @@ class RepositoryManager
 	function get_platform_setting($variable, $application = self :: APPLICATION_NAME)
 	{
 		return PlatformSetting :: get($variable, $application = self :: APPLICATION_NAME);
+	}
+	
+	function count_complex_learning_object_items($condition)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->count_complex_learning_object_items($condition);
+	}
+	
+	function retrieve_complex_learning_object_items($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->retrieve_complex_learning_object_items($condition, $orderBy, $orderDir, $offset, $maxObjects);
+	}
+	
+	function retrieve_complex_learning_object_item($cloi_id)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->retrieve_complex_learning_object_item($cloi_id);
 	}
 }
 ?>
