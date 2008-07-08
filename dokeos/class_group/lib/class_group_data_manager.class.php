@@ -20,12 +20,6 @@ abstract class ClassGroupDataManager
 	private static $instance;
 
 	/**
-	 * Associative array that maps learning object types to their
-	 * corresponding array of property names.
-	 */
-	private $typeProperties;
-
-	/**
 	 * Array which contains the registered applications running on top of this
 	 * repositorydatamanager
 	 */

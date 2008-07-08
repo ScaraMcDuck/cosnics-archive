@@ -23,7 +23,7 @@ abstract class Installer
 	/**
 	 * The datamanager which can be used by the installer of the application
 	 */
-	private $datamanager;
+	private $data_manager;
 	
 	/**
 	 * Message to be displayed upon completion of the installation procedure
@@ -37,10 +37,10 @@ abstract class Installer
 	/**
 	 * Constructor
 	 */
-    function Installer($form_values, $datamanager = null)
+    function Installer($form_values, $data_manager = null)
     {
     	$this->form_values = $form_values;
-    	$this->datamanager = $datamanager;
+    	$this->data_manager = $data_manager;
     	$this->message = array();
     }
     
@@ -173,14 +173,14 @@ abstract class Installer
     	return $this->form_values;
     }
     
-    function set_datamanager($datamanager)
+    function set_data_manager($data_manager)
     {
-    	$this->datamanager = $datamanager;
+    	$this->data_manager = $data_manager;
     }
     
-    function get_datamanager()
+    function get_data_manager()
     {
-    	return $this->datamanager;
+    	return $this->data_manager;
     }
     
     function retrieve_message()
@@ -196,7 +196,7 @@ abstract class Installer
 	{
 		$storage_unit_info = self :: parse_xml_file($path);
 		$this->add_message(self :: TYPE_NORMAL, Translation :: get('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
-		if (!$this->datamanager->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
+		if (!$this->data_manager->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
 		{
 			return $this->installation_failed(Translation :: get('StorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em>');
 		}
@@ -322,7 +322,7 @@ abstract class Installer
 		{
 			$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
 			
-			$this->set_datamanager(TrackingDataManager :: get_instance());
+			$this->set_data_manager(TrackingDataManager :: get_instance());
 			
 			foreach($files as $file)
 			{

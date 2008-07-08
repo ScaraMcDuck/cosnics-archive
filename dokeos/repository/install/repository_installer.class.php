@@ -30,6 +30,7 @@ class RepositoryInstaller extends Installer
 	 */
 	function install_extra()
 	{
+		$rdm	= $this->get_data_manager();
 		$dir	= dirname(__FILE__) . '/../lib/learning_object';
 		$files	= FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
 		
@@ -40,6 +41,15 @@ class RepositoryInstaller extends Installer
 				if (!$this->create_storage_unit($file))
 				{
 					return false;
+				}
+				
+				$properties = array ();
+				$doc = new DOMDocument();
+				$doc->load($file);
+				$xml_properties = $doc->getElementsByTagname('property');
+				foreach($xml_properties as $index => $property)
+				{
+					$rdm->register_learning_object_property($file, trim($property->getAttribute('name')));
 				}
 			}
 		}
