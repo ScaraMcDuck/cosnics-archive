@@ -477,6 +477,10 @@ abstract class RepositoryDataManager
 	 * @return boolean True if creation succceeded, false otherwise.
 	 */
 	abstract function create_learning_object($object, $type);
+	
+	abstract function register_learning_object_property($type, $property);
+	
+	abstract function load_learning_object_properties();
 
 	/**
 	 * Updates the given learning object in persistent storage.
@@ -703,41 +707,51 @@ abstract class RepositoryDataManager
 	 */
 	private function load_types()
 	{
-		$path = dirname(__FILE__).'/learning_object';
-		if ($handle = opendir($path))
+		//TODO: Clean this up a bit. Is there an even better way to do this? 
+		$this->typeProperties = $this->load_learning_object_properties();
+		
+		foreach($this->typeProperties as $type => $type_properties)
 		{
-			while (false !== ($file = readdir($handle)))
-			{
-				$p = $path.'/'.$file;
-				if (is_dir($p) && self :: is_learning_object_type_name($file))
-				{
-					require_once $p.'/'.$file.'.class.php';
-					$f = $p.'/'.$file.'.xml';
-					// XXX: Always require a file, even if empty?
-					if (is_file($f))
-					{
-						$properties = array ();
-						$doc = new DOMDocument();
-						$doc->load($f);
-						$xml_properties = $doc->getElementsByTagname('property');
-						foreach($xml_properties as $index => $property)
-						{
-							$properties[] = trim($property->getAttribute('name'));
-						}
-						$this->register_type($file, $properties);
-					}
-					else
-					{
-						$this->register_type($file);
-					}
-				}
-			}
-			closedir($handle);
+			$path = dirname(__FILE__).'/learning_object/' . $type . '/' . $type . '.class.php';
+			require_once $path;
 		}
-		else
-		{
-			die('Failed to load learning object types');
-		}
+		
+//		$path = dirname(__FILE__).'/learning_object';
+//		if ($handle = opendir($path))
+//		{
+//			while (false !== ($file = readdir($handle)))
+//			{
+//				$p = $path.'/'.$file;
+//				if (is_dir($p) && self :: is_learning_object_type_name($file))
+//				{
+//					require_once $p.'/'.$file.'.class.php';
+//					$f = $p.'/'.$file.'.xml';
+//					// XXX: Always require a file, even if empty?
+//					
+//					if (is_file($f))
+//					{
+//						$properties = array ();
+//						$doc = new DOMDocument();
+//						$doc->load($f);
+//						$xml_properties = $doc->getElementsByTagname('property');
+//						foreach($xml_properties as $index => $property)
+//						{
+//							$properties[] = trim($property->getAttribute('name'));
+//						}
+//						$this->register_type($file, $properties);
+//					}
+//					else
+//					{
+//						$this->register_type($file);
+//					}
+//				}
+//			}
+//			closedir($handle);
+//		}
+//		else
+//		{
+//			die('Failed to load learning object types');
+//		}
 	}
 
 	/**

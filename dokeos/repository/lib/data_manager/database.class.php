@@ -333,6 +333,47 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 		return true;
 	}
+	
+	function register_learning_object_property($type, $property)
+	{
+		$props = array();
+		
+		$props['type'] = $type;
+		$props['property'] = $property;
+		
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('learning_object_properties'), $props, MDB2_AUTOQUERY_INSERT);
+		
+		return true;
+	}
+	
+	function load_learning_object_properties()
+	{
+		$adm = AdminDataManager :: get_instance();
+		$properties = array();
+		
+		//$learning_object_types = $adm->retrieve_activated_learning_object_types();
+		
+		// TODO: Store "activated" LO-types in DB and retrieve them here.
+		$learning_object_types = array('announcement', 'calendar_event', 'category', 'chatbox', 'description', 'document', 'exercise', 'feedback', 'fill_in_blanks_question', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'learning_path_item', 'learning_style_survey', 'learning_style_survey_answer', 'learning_style_survey_category', 'learning_style_survey_profile', 'learning_style_survey_question', 'learning_style_survey_result', 'learning_style_survey_section', 'learning_style_survey_user_answer', 'link', 'matching_question', 'multiple_choice_question', 'open_question', 'personal_message', 'portfolio_item', 'profile', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki');
+		
+		foreach($learning_object_types as $learning_object_type)
+		{
+			$properties[$learning_object_type] = array();
+		}
+		
+		$query = 'SELECT * FROM ' . $this->escape_table_name('learning_object_properties');
+		
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute();
+		
+		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$properties[$record['type']][] = $record['property'];
+		}
+		
+		return $properties;
+	}
 
 	// Inherited.
 	function update_learning_object($object)
