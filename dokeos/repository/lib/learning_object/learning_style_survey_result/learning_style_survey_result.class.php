@@ -98,6 +98,11 @@ class LearningStyleSurveyResult extends LearningObject
 	{
 		return false;
 	}
+	
+	static function get_additional_property_names()
+	{
+		return array (self :: PROPERTY_PROFILE_ID, self :: PROPERTY_RESULT_METADATA);
+	}
 }
 
 ?>

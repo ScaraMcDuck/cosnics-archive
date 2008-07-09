@@ -188,5 +188,10 @@ class Profile extends LearningObject
 	{
 		return false;
 	}
+	
+	static function get_additional_property_names()
+	{
+		return array (self :: PROPERTY_ADDRESS, self :: PROPERTY_AIM, self :: PROPERTY_COMPETENCES, self :: PROPERTY_DIPLOMAS, self :: PROPERTY_FAX, self :: PROPERTY_ICQ, self :: PROPERTY_MAIL, self :: PROPERTY_MSN, self :: PROPERTY_OPEN, self :: PROPERTY_PHONE, self :: PROPERTY_PICTURE, self :: PROPERTY_SKYPE, self :: PROPERTY_TEACHING, self :: PROPERTY_YIM);
+	}
 }
 ?>

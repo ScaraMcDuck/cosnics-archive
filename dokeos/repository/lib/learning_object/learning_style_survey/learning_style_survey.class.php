@@ -70,6 +70,11 @@ class LearningStyleSurvey extends LearningObject
 		}
 		return $this->sections;
 	}
+	
+	static function get_additional_property_names()
+	{
+		return array (self :: PROPERTY_SURVEY_TYPE);
+	}
 }
 
 ?>

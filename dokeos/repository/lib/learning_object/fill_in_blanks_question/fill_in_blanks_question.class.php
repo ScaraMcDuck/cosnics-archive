@@ -13,5 +13,10 @@ class FillInBlanksQuestion extends LearningObject {
 	function set_answer ($answer) {
 		return $this->set_additional_property(self :: PROPERTY_ANSWER, $answer);
 	}
+	
+	static function get_additional_property_names()
+	{
+		return array (self :: PROPERTY_ANSWER);
+	}
 }
 ?>

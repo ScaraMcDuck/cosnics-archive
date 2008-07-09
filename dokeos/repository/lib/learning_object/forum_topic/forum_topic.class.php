@@ -137,5 +137,10 @@ class ForumTopic extends LearningObject
 	{
 		return false;
 	}
+	
+	static function get_additional_property_names()
+	{
+		return array (self :: PROPERTY_MAIL_NOTIFICATION, self :: PROPERTY_LOCKED);
+	}
 }
 ?>

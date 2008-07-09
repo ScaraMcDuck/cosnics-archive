@@ -53,5 +53,10 @@ class MatchingQuestion extends LearningObject
 	{
 		return count($this->get_matches());
 	}
+	
+	static function get_additional_property_names()
+	{
+		return array (self :: PROPERTY_MATCHES, self :: PROPERTY_OPTIONS);
+	}
 }
 ?>
