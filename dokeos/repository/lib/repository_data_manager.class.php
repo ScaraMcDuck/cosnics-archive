@@ -78,21 +78,24 @@ abstract class RepositoryDataManager
 	 */
 	function get_registered_types($only_master_types = false)
 	{
-		$types = array_keys($this->typeProperties);
-		if(!$only_master_types)
-		{
-			return $types;
-		}
-		$master_types = array();
-		foreach($types as $index => $type)
-		{
-			$class_type = LearningObject::type_to_class($type);
-			if(call_user_func(array($class_type,'is_master_type')))
-			{
-				$master_types[] = $type;
-			}
-		}
-		return $master_types;
+//		$types = array_keys($this->typeProperties);
+//		if(!$only_master_types)
+//		{
+//			return $types;
+//		}
+//		$master_types = array();
+//		foreach($types as $index => $type)
+//		{
+//			$class_type = LearningObject::type_to_class($type);
+//			if(call_user_func(array($class_type,'is_master_type')))
+//			{
+//				$master_types[] = $type;
+//			}
+//		}
+//		return $master_types;
+
+		// TODO: Temporary fix untill active learning objects are registered in the DB 
+		return array('announcement', 'calendar_event', 'category', 'chatbox', 'description', 'document', 'exercise', 'feedback', 'fill_in_blanks_question', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'learning_path_item', 'learning_style_survey', 'learning_style_survey_answer', 'learning_style_survey_category', 'learning_style_survey_profile', 'learning_style_survey_question', 'learning_style_survey_result', 'learning_style_survey_section', 'learning_style_survey_user_answer', 'link', 'matching_question', 'multiple_choice_question', 'open_question', 'personal_message', 'portfolio_item', 'profile', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki');
 	}
 
 	/**
