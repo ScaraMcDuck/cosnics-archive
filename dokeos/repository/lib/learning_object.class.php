@@ -833,6 +833,15 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	function is_complex_learning_object()
 	{
+		$file = dirname(__FILE__) . '/learning_object/' . $this->get_type() . '/complex_' . $this->get_type() . '.class.php';
+
+		if(file_exists($file))
+		{ 
+			require_once($file);
+			$class = 'Complex' . $this->type_to_class($this->get_type());
+			$object = new $class();
+			return count($object->get_allowed_types()) > 0;
+		}
 		return false;
 	}
 	

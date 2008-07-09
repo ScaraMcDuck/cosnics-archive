@@ -58,6 +58,14 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 				{
 					$title_short = mb_substr($title_short,0,50).'&hellip;';
 				}
+				
+				if($learning_object->is_complex_learning_object())
+				{
+					$title_short = '<a href="' . $this->browser->get_url(
+						array(RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->browser->get_root()->get_id(), 
+							  RepositoryManager :: PARAM_CLOI_ID => $cloi->get_id())) . '">' . $title_short . '</a>'; 
+				}
+				
 				return $title_short; //'<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
 			case LearningObject :: PROPERTY_DESCRIPTION :
 				$description = strip_tags($learning_object->get_description());
@@ -75,50 +83,28 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */
-	private function get_modification_links($learning_object)
+	private function get_modification_links($cloi)
 	{
-//		$toolbar_data = array();
-//		$toolbar_data[] = array(
-//			'href' => $this->browser->get_learning_object_editing_url($learning_object),
-//			'label' => Translation :: get('Edit'),
-//			'img' => Theme :: get_common_img_path().'action_edit.png'
-//		);
-//		$html = array ();
-//		if ($url = $this->browser->get_learning_object_recycling_url($learning_object))
-//		{
-//			$toolbar_data[] = array(
-//				'href' => $url,
-//				'label' => Translation :: get('Remove'),
-//				'img' => Theme :: get_common_img_path().'action_recycle_bin.png',
-//				'confirm' => true
-//			);
-//		}
-//		else
-//		{
-//			$toolbar_data[] = array(
-//				'label' => Translation :: get('Remove'),
-//				'img' => Theme :: get_common_img_path().'action_recycle_bin_na.png'
-//			);
-//		}
-//		if($this->browser->get_number_of_categories() > 1)
-//		{
-//			$toolbar_data[] = array(
-//				'href' => $this->browser->get_learning_object_moving_url($learning_object),
-//				'label' => Translation :: get('Move'),
-//				'img' => Theme :: get_common_img_path().'action_move.png'
-//			);
-//		}
-//		$toolbar_data[] = array(
-//			'href' => $this->browser->get_learning_object_metadata_editing_url($learning_object),
-//			'label' => Translation :: get('Metadata'),
-//			'img' => Theme :: get_common_img_path().'action_metadata.png'
-//		);
-//		$toolbar_data[] = array(
-//			'href' => $this->browser->get_learning_object_rights_editing_url($learning_object),
-//			'label' => Translation :: get('Rights'),
-//			'img' => Theme :: get_common_img_path().'action_rights.png'
-//		);
-//		return DokeosUtilities :: build_toolbar($toolbar_data);
+		$toolbar_data = array();
+		
+		if($cloi->is_extended())
+		{
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_complex_learning_object_item_edit_url($cloi),
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_img_path().'action_edit.png'
+			);
+		}
+		
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_complex_learning_object_item_delete_url($cloi),
+			'label' => Translation :: get('Delete'),
+			'img' => Theme :: get_common_img_path().'action_delete.png',
+			'confirm' => true
+		);
+		
+		
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

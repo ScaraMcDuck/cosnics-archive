@@ -30,7 +30,7 @@ class ComplexExercise extends ComplexLearningObjectItem
 	function get_allowed_types()
 	{
 		return array('fill_in_blanks_question', 'matching_question', 'multiple_choice_question',
-					 'open_question');
+					 'open_question', 'exercise');
 	}
 }
 ?>

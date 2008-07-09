@@ -88,20 +88,23 @@ class ComplexLearningObjectMenu extends HTML_Menu
 		
 		while ($object = $objects->next_result())
 		{
-			$lo = $datamanager->retrieve_learning_object($object->get_ref());
-			$menu_item = array();
-			$menu_item['title'] = $lo->get_title();
-			$menu_item['url'] = $this->get_cloi_url($object->get_id());
-		
-			$sub_menu_items = $this->get_menu_items($object);
-			if(count($sub_menu_items) > 0)
+			if($object->is_extended())
 			{
-				$menu_item['sub'] = $sub_menu_items;
+				$lo = $datamanager->retrieve_learning_object($object->get_ref());
+				$menu_item = array();
+				$menu_item['title'] = $lo->get_title();
+				$menu_item['url'] = $this->get_cloi_url($object->get_id());
+			
+				$sub_menu_items = $this->get_menu_items($object);
+				if(count($sub_menu_items) > 0)
+				{
+					$menu_item['sub'] = $sub_menu_items;
+				}
+			
+				$menu_item['class'] = 'type_' . $lo->get_type();
+				$menu_item[OptionsMenuRenderer :: KEY_ID] = $object->get_id();
+				$menu[$object->get_id()] = $menu_item;
 			}
-		
-			$menu_item['class'] = 'type_' . $lo->get_type();
-			$menu_item[OptionsMenuRenderer :: KEY_ID] = $object->get_id();
-			$menu[$object->get_id()] = $menu_item;
 		}
 		
 		return $menu;

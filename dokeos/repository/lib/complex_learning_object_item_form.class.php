@@ -173,10 +173,14 @@ abstract class ComplexLearningObjectItemForm extends FormValidator
 	static function factory($form_type, $complex_learning_object_item,
 							$form_name, $method = 'post', $action = null)
 	{
+		if(!$complex_learning_object_item->is_extended()) return null;
+		
 		$rdm = RepositoryDataManager :: get_instance();
 		$type = $rdm->determine_learning_object_type($complex_learning_object_item->get_ref());
 		$class =  'Complex'.DokeosUtilities :: underscores_to_camelcase($type).'Form';
-		require_once dirname(__FILE__).'/learning_object/'.$type.'/complex_'.$type.'_form.class.php';
+		$file = dirname(__FILE__).'/learning_object/'.$type.'/complex_'.$type.'_form.class.php';
+		
+		require_once $file; 
 		return new $class ($form_type, $complex_learning_object_item,
 						   $form_name, $method, $action);
 	}

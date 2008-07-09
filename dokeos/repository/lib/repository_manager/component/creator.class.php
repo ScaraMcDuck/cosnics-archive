@@ -26,18 +26,38 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$type_form = new FormValidator('create_type', 'post', $this->get_url());
+		$cloi_id = $_GET[RepositoryManager :: PARAM_CLOI_ID]; 
+		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
+		
 		$type_options = array ();
 		$type_options[''] = '&nbsp;';
-		foreach ($this->get_learning_object_types(true) as $type)
+		$extra_params = array();
+		
+		if(isset($cloi_id) && isset($root_id))
 		{
-			$type_options[$type] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
+			$cloi = $this->retrieve_complex_learning_object_item($cloi_id);
+			$types = $cloi->get_allowed_types();
+			foreach($types as $type)
+			{
+				$type_options[$type] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
+			}
+			
+			$extra_params = array(RepositoryManager :: PARAM_CLOI_ID => $cloi_id, 
+								  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id);
 		}
+		else
+		{
+			foreach ($this->get_learning_object_types(true) as $type)
+			{
+				$type_options[$type] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
+			}
+		}
+		
+		$type_form = new FormValidator('create_type', 'post', $this->get_url($extra_params));
+		
 		asort($type_options);
 		$type_form->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, Translation :: get('CreateANew'), $type_options, array('class' => 'learning-object-creation-type'));
 		$type_form->addElement('submit', 'submit', Translation :: get('Ok'));
-
-
 
 		$import_form = new FormValidator('import_csv', 'post', $this->get_url());
 		$import_form->addElement('html', '<br /><br /><br />');
@@ -48,19 +68,23 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		$import_form->addElement('submit', 'course_import', Translation :: get('Ok'));
 
 		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE) : $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE]);
+
 		if ($type)
 		{
 			$category = $_GET[RepositoryManager :: PARAM_CATEGORY_ID];
 			$object = new AbstractLearningObject($type, $this->get_user_id(), $category);
-			$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type)));
+			$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array_merge($extra_params,array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type))), null, (count($extra_params) != 2));
+			
 			if ($lo_form->validate())
 			{
 				$object = $lo_form->create_learning_object();
-				if($object->is_complex_learning_object())
+
+				if($lo_form->get_create_complex() || count($extra_params) == 2)
 				{
-					$this->redirect(RepositoryManager :: ACTION_CREATE_COMPLEX_LEARNING_OBJECTS, null, 0, false, array(RepositoryManager :: PARAM_CLOI_REF => $object->get_id()));
+					$params = array_merge(array(RepositoryManager :: PARAM_CLOI_REF => $object->get_id()), $extra_params);
+					$this->redirect(RepositoryManager :: ACTION_CREATE_COMPLEX_LEARNING_OBJECTS, null, 0, false, $params);
 				}
-				else
+				else 
 					$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), $object->get_parent_id());
 			}
 			else

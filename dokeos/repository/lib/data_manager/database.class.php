@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/database/database_complex_learning_object_item_
 require_once dirname(__FILE__).'/../repository_data_manager.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../learning_object.class.php';
+require_once dirname(__FILE__).'/../complex_learning_object_item.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once Path :: get_admin_path().'lib/admin_data_manager.class.php';
 
@@ -1218,29 +1219,40 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		// Determine type
 
 		$type = $this->determine_learning_object_type($rec1[ComplexLearningObjectItem :: PROPERTY_REF]);
+		$cloi = ComplexLearningObjectItem :: factory($type, array(), array());
 		
-		// Retrieve extended table
-
-		$query = 'SELECT * FROM '.$this->escape_table_name('complex_' . $type).' AS '.
-				 self :: ALIAS_TYPE_TABLE;
-
-		$params = array ();
-		if (isset ($condition))
+		$bool = false;
+		$rec2 = array();
+		
+		if($cloi->is_extended())
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
+		
+			// Retrieve extended table
+	
+			$query = 'SELECT * FROM '.$this->escape_table_name('complex_' . $type).' AS '.
+					 self :: ALIAS_TYPE_TABLE;
+	
+			$params = array ();
+			if (isset ($condition))
+			{
+				$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
+				$translator->translate($condition);
+				$query .= $translator->render_query();
+				$params = $translator->get_parameters();
+			}
+	
+			$this->connection->setLimit(1);
+			$statement = $this->connection->prepare($query);
+			$res = $statement->execute($clo_item_id);
+			$rec2 = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$res->free();
+
+			$bool = true;
 		}
-
-		$this->connection->setLimit(1);
-		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($clo_item_id);
-		$rec2 = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-		$res->free();
-
+		
 		$record = array_merge($rec1, $rec2);
-		return self :: record_to_complex_learning_object_item($record, $type, true);
+		
+		return self :: record_to_complex_learning_object_item($record, $type, $bool);
 	}
 
 	/**
@@ -1254,26 +1266,31 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
+		
+		$cloi = ComplexLearningObjectItem :: factory($type, array(), array());
+		
 		$defaultProp = array ();
-		foreach (ComplexLearningObjectItem :: get_default_property_names() as $prop)
+		foreach ($cloi->get_default_property_names() as $prop)
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
+		$cloi->set_default_properties($defaultProp);
 
-		if ($additional_properties_known)
+		if ($additional_properties_known && $type)
 		{
 			$additionalProp = array ();
-			foreach (ComplexLearningObjectItem :: get_additional_property_names() as $prop)
+			foreach ($cloi->get_additional_property_names() as $prop)
 			{
-				$defaultProp[$prop] = $record[$prop];
+				$additionalProp[$prop] = $record[$prop];
 			}
+			$cloi->set_additional_properties($additionalProp);
 		}
 		else
 		{
 			$additionalProp = null;
 		}
 
-		return ComplexLearningObjectItem :: factory($type, $defaultProp, $additionalProp);
+		return $cloi;
 	}
 
 	/**
@@ -1342,7 +1359,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 
-		return new DatabaseComplexLearningObjectItemResultSet($this, $res, false);
+		return new DatabaseComplexLearningObjectItemResultSet($this, $res, true);
 	}
 
 
