@@ -54,7 +54,6 @@ class RepositoryManager
 	const PARAM_PUBLICATION_APPLICATION = 'application';
 	const PARAM_PUBLICATION_ID = 'publication';
 	const PARAM_CLOI_REF = 'cloi_ref';
-	const PARAM_CLOI_PARENT = 'cloi_parent';
 	const PARAM_CLOI_ID = 'cloi_id';
 	const PARAM_CLOI_ROOT_ID = 'cloi_root_id';
 	const PARAM_RECYCLE_SELECTED_CLOI = 'cloi_recycle_selected';
@@ -1047,6 +1046,18 @@ class RepositoryManager
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->retrieve_complex_learning_object_item($cloi_id);
+	}
+	
+	function get_complex_learning_object_item_edit_url($cloi)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_COMPLEX_LEARNING_OBJECTS, 
+			self :: PARAM_CLOI_ID => $cloi->get_id()));
+	}
+	
+	function get_complex_learning_object_item_delete_url($cloi)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_LEARNING_OBJECTS, 
+			self :: PARAM_CLOI_ID => $cloi->get_id()));
 	}
 }
 ?>

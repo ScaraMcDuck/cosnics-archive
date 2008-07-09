@@ -21,9 +21,10 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 		$trail = new BreadcrumbTrail();
 
 		$owner = $this->get_user()->get_id();
-		$ref = $_GET[RepositoryManager :: PARAM_CLOI_REF]?$_GET[RepositoryManager :: PARAM_CLOI_REF]:0;
-		$parent = $_GET[RepositoryManager :: PARAM_CLOI_PARENT]?$_GET[RepositoryManager :: PARAM_CLOI_PARENT]:0;
-
+		$ref = $_GET[RepositoryManager :: PARAM_CLOI_REF];
+		$parent = $_GET[RepositoryManager :: PARAM_CLOI_ID];
+		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
+		
 		if(!isset($ref))
 		{
 			$this->display_header($trail);	
@@ -35,23 +36,40 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 
 		$cloi->set_ref($ref);
 		$cloi->set_complex_ref(0);
-		$cloi->set_parent($parent);
+		$cloi->set_parent($parent?$parent:0);
 		$cloi->set_user_id($owner);
 		
-		$cloi_form = ComplexLearningObjectItemForm :: factory(ComplexLearningObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post', $this->get_url(array(RepositoryManager :: PARAM_CLOI_REF => $ref)));		
+		$cloi_form = ComplexLearningObjectItemForm :: factory(ComplexLearningObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post', 
+						$this->get_url(array(RepositoryManager :: PARAM_CLOI_REF => $ref, 
+											 RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id,
+											 RepositoryManager :: PARAM_CLOI_ID => $parent)));		
 		
-		if ($cloi_form->validate())
-		{ 
-			$cloi_form->create_complex_learning_object_item();
-			$cloi = $cloi_form->get_complex_learning_object_item();
-			$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $cloi->get_id()));
+		$lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($ref);
+		
+		if($cloi_form)
+		{
+			if ($cloi_form->validate())
+			{ 
+				$cloi_form->create_complex_learning_object_item();
+				$cloi = $cloi_form->get_complex_learning_object_item();
+				$root_id = $root_id?$root_id:$cloi->get_id();
+				if($lo->is_complex_learning_object()) $id = $cloi->get_id(); else $id = $cloi->get_parent();
+				$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id));
+			}
+			else
+			{
+				$this->display_header($trail);
+				echo '<p>' . Translation :: get('FillIn') . '</p>';
+				$cloi_form->display();
+				$this->display_footer();
+			}
 		}
 		else
 		{
-			$this->display_header($trail);
-			echo '<p>' . Translation :: get('FillIn') . '</p>';
-			$cloi_form->display();
-			$this->display_footer();
+			$cloi->create();
+			$root_id = $root_id?$root_id:$cloi->get_id();
+			if($lo->is_complex_learning_object()) $id = $cloi->get_id(); else $id = $cloi->get_parent();
+			$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id));
 		}
 	}
 }

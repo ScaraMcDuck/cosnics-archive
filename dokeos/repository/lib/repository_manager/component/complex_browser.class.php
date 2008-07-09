@@ -30,15 +30,15 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		$cloi_id = $_GET[RepositoryManager :: PARAM_CLOI_ID];
 		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
 		
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('MyRepository')));
+		
 		if(isset($cloi_id) && isset($root_id))
 		{
 			$this->cloi = $this->retrieve_complex_learning_object_item($cloi_id);
 			$this->root = $this->retrieve_complex_learning_object_item($root_id);
 		}
-		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('MyRepository')));
-		
-		if(!isset($cloi_id))
+		else
 		{
 			$this->display_header($trail, false);
 			$this->display_error_message(Translation :: get('NoCLOISelected'));
@@ -51,6 +51,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		
 		$output = $this->get_learning_objects_html();
 		$menu = $this->get_menu();
+		$extra = $this->get_extra();
 		
 		$this->display_header($trail, false);
 		
@@ -59,7 +60,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			echo '<div><div style="width: 80%; float: left;">' . $output . '</div>';
 			echo '<div style="width: 18%; float: right;">' . $menu->render_as_tree() . '</div>';
 			echo '</div><div class="clear"></div>';
-			echo '<p><img src="' . Translation :: get('AddLearningObject') . '</p>';
+			echo '<br /><div>' . $extra . '</div>';
 		}
 		else
 			echo $output;
@@ -93,6 +94,29 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			return new ComplexLearningObjectMenu($this->root, $this->cloi);
 		}
 		return null;
+	}
+	
+	private function get_extra()
+	{
+		$toolbar_data = array();
+		
+		$link = $this->get_link(array(RepositoryManager :: PARAM_ACTION => 
+			RepositoryManager :: ACTION_CREATE_LEARNING_OBJECTS, 
+			RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->root->get_id(), 
+			RepositoryManager :: PARAM_CLOI_ID => $this->cloi->get_id()));
+		
+		$toolbar_data[] = array(
+			'href' => $link,
+			'label' => Translation :: get('AddLearningObject') ,
+			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL,
+			'img' => Theme :: get_common_img_path().'action_add.png'
+		);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
+	}
+	
+	function get_root()
+	{
+		return $this->root;
 	}
 }
 ?>

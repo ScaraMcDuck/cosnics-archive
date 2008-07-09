@@ -43,6 +43,8 @@ abstract class LearningObjectForm extends FormValidator
 	private $extra;
 	
 	protected $form_type;
+	
+	private $allow_create_complex;
 
 	/**
 	 * Constructor.
@@ -56,13 +58,15 @@ abstract class LearningObjectForm extends FormValidator
 	 * @param string $method The method to use ('post' or 'get').
 	 * @param string $action The URL to which the form should be submitted.
 	 */
-	protected function __construct($form_type, $learning_object, $form_name, $method = 'post', $action = null, $extra = null)
+	protected function __construct($form_type, $learning_object, $form_name, $method = 'post', 
+						$action = null, $extra = null, $allow_create_complex = false)
 	{
 		parent :: __construct($form_name, $method, $action);
 		$this->form_type = $form_type;
 		$this->learning_object = $learning_object;
 		$this->owner_id = $learning_object->get_owner_id();
 		$this->extra = $extra;
+		$this->allow_create_complex = $allow_create_complex;
 		if ($this->form_type == self :: TYPE_EDIT || $this->form_type == self :: TYPE_REPLY)
 		{
 			$this->build_editing_form();
@@ -264,9 +268,10 @@ EOT;
 	 */
 	protected function add_footer()
 	{
+		$object = $this->learning_object;
+		
 		if ($this->supports_attachments())
 		{
-			$object = $this->learning_object;
 			if ($this->form_type != self :: TYPE_REPLY)
 			{
 				$attached_objects = $object->get_attached_learning_objects();
@@ -290,6 +295,9 @@ EOT;
 			}
 			$elem->setDefaultCollapsed(count($attachments) == 0);
 		}
+		
+		if($object->is_complex_learning_object() && $this->allow_create_complex)
+			$this->addElement('checkbox', 'create_complex', Translation :: get('CreateComplex'));
 		$this->addElement('submit', 'submit', Translation :: get('Ok'));
 	}
 
@@ -465,12 +473,12 @@ EOT;
 	 * @param string $method The method to use ('post' or 'get').
 	 * @param string $action The URL to which the form should be submitted.
 	 */
-	static function factory($form_type, $learning_object, $form_name, $method = 'post', $action = null, $extra = null)
+	static function factory($form_type, $learning_object, $form_name, $method = 'post', $action = null, $extra = null, $allow_create_complex = false)
 	{
 		$type = $learning_object->get_type();
 		$class = LearningObject :: type_to_class($type).'Form';
 		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_form.class.php';
-		return new $class ($form_type, $learning_object, $form_name, $method, $action, $extra);
+		return new $class ($form_type, $learning_object, $form_name, $method, $action, $extra, $allow_create_complex);
 	}
 	/**
 	 * Validates this form
@@ -493,6 +501,17 @@ EOT;
 	function get_path($path_type)
 	{
 		return Path :: get($path_type);
+	}
+	
+	function get_create_complex()
+	{
+		$values = $this->exportValues();
+		return $values['create_complex'];
+	}
+	
+	function set_allow_create_complex($bool)
+	{
+		$this->allow_create_complex = $bool;
 	}
 }
 ?>
