@@ -13,5 +13,10 @@ class RssFeed extends LearningObject {
 	function set_url ($url) {
 		return $this->set_additional_property(self :: PROPERTY_URL, $url);
 	}
+	
+	static function get_additional_property_names()
+	{
+		return array (self :: PROPERTY_URL);
+	}
 }
 ?>

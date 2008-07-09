@@ -39,5 +39,10 @@ class MultipleChoiceQuestion extends LearningObject
 	{
 		return $this->get_additional_property(self :: PROPERTY_ANSWER_TYPE);
 	}
+	
+	static function get_additional_property_names()
+	{
+		return array (self :: PROPERTY_ANSWER_TYPE, self :: PROPERTY_OPTIONS);
+	}
 }
 ?>

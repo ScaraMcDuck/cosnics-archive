@@ -33,6 +33,11 @@ class LearningStyleSurveyAnswer extends LearningObject
 	{
 		return false;
 	}
+	
+	static function get_additional_property_names()
+	{
+		return array (self :: PROPERTY_ANSWER_CATEGORY_IDS);
+	}
 }
 
 ?>

@@ -33,5 +33,10 @@ class Feedback extends LearningObject {
 		$icons['informative'] = Translation :: get('informative');
 		return $icons;
 	}
+	
+	static function get_additional_property_names()
+	{
+		return array (self :: PROPERTY_ICON);
+	}
 }
 ?>

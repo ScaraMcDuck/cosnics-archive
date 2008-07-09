@@ -42,6 +42,11 @@ class LearningStyleSurveyQuestion extends LearningObject
 	{
 		return false;
 	}
+	
+	static function get_additional_property_names()
+	{
+		return array (self :: PROPERTY_QUESTION_CATEGORY_IDS);
+	}
 }
 
 ?>
