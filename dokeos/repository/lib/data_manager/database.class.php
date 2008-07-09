@@ -204,7 +204,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			return array();
 		}
 		$id = $learning_object->get_id();
-		$query = 'SELECT '.implode(',', array_map(array($this, 'escape_column_name'), $this->get_additional_properties($type))).' FROM '.$this->escape_table_name($type).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+		$query = 'SELECT '.implode(',', array_map(array($this, 'escape_column_name'), $learning_object->get_additional_property_names())).' FROM '.$this->escape_table_name($type).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
@@ -332,47 +332,6 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 
 		return true;
-	}
-	
-	function register_learning_object_property($type, $property)
-	{
-		$props = array();
-		
-		$props['type'] = $type;
-		$props['property'] = $property;
-		
-		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('learning_object_properties'), $props, MDB2_AUTOQUERY_INSERT);
-		
-		return true;
-	}
-	
-	function load_learning_object_properties()
-	{
-		$adm = AdminDataManager :: get_instance();
-		$properties = array();
-		
-		//$learning_object_types = $adm->retrieve_activated_learning_object_types();
-		
-		// TODO: Store "activated" LO-types in DB and retrieve them here.
-		$learning_object_types = array('announcement', 'calendar_event', 'category', 'chatbox', 'description', 'document', 'exercise', 'feedback', 'fill_in_blanks_question', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'learning_path_item', 'learning_style_survey', 'learning_style_survey_answer', 'learning_style_survey_category', 'learning_style_survey_profile', 'learning_style_survey_question', 'learning_style_survey_result', 'learning_style_survey_section', 'learning_style_survey_user_answer', 'link', 'matching_question', 'multiple_choice_question', 'open_question', 'personal_message', 'portfolio_item', 'profile', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki');
-		
-		foreach($learning_object_types as $learning_object_type)
-		{
-			$properties[$learning_object_type] = array();
-		}
-		
-		$query = 'SELECT * FROM ' . $this->escape_table_name('learning_object_properties');
-		
-		$statement = $this->connection->prepare($query);
-		$res = $statement->execute();
-		
-		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$properties[$record['type']][] = $record['property'];
-		}
-		
-		return $properties;
 	}
 
 	// Inherited.
@@ -844,10 +803,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		$defaultProp[LearningObject :: PROPERTY_CREATION_DATE] = self :: from_db_date($defaultProp[LearningObject :: PROPERTY_CREATION_DATE]);
 		$defaultProp[LearningObject :: PROPERTY_MODIFICATION_DATE] = self :: from_db_date($defaultProp[LearningObject :: PROPERTY_MODIFICATION_DATE]);
+		
+		$learning_object = LearningObject :: factory($record[LearningObject :: PROPERTY_TYPE], $record[LearningObject :: PROPERTY_ID], $defaultProp);
+		
 		if ($additional_properties_known)
 		{
+			$properties = $learning_object->get_additional_property_names();
+			
 			$additionalProp = array ();
-			$properties = $this->get_additional_properties($record[LearningObject :: PROPERTY_TYPE]);
 			if (count($properties) > 0)
 			{
 				foreach ($properties as $prop)
@@ -860,7 +823,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$additionalProp = null;
 		}
-		return LearningObject :: factory($record[LearningObject :: PROPERTY_TYPE], $record[LearningObject :: PROPERTY_ID], $defaultProp, $additionalProp);
+		
+		$learning_object->set_additional_properties($additionalProp);
+		
+		return $learning_object;
 	}
 
 	/**

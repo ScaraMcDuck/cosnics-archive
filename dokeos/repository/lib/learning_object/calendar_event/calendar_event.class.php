@@ -58,5 +58,10 @@ class CalendarEvent extends LearningObject
 	{
 		return true;
 	}
+	
+	static function get_additional_property_names()
+	{
+		return array (self :: PROPERTY_START_DATE, self :: PROPERTY_END_DATE);
+	}
 }
 ?>

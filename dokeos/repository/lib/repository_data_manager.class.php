@@ -70,17 +70,6 @@ abstract class RepositoryDataManager
 	}
 
 	/**
-	 * Returns the properties that are specific to the passed type of
-	 * learning object.
-	 * @param string $type The learning object type.
-	 * @return array The properties.
-	 */
-	function get_additional_properties($type)
-	{
-		return $this->typeProperties[$type];
-	}
-
-	/**
 	 * Returns the learning object types registered with the data manager.
 	 * @param boolean $only_master_types Only return the master type learning
 	 * objects (which can exist on their own). Returns all learning object types
@@ -477,10 +466,6 @@ abstract class RepositoryDataManager
 	 * @return boolean True if creation succceeded, false otherwise.
 	 */
 	abstract function create_learning_object($object, $type);
-	
-	abstract function register_learning_object_property($type, $property);
-	
-	abstract function load_learning_object_properties();
 
 	/**
 	 * Updates the given learning object in persistent storage.
@@ -707,76 +692,14 @@ abstract class RepositoryDataManager
 	 */
 	private function load_types()
 	{
-		//TODO: Clean this up a bit. Is there an even better way to do this? 
-		$this->typeProperties = $this->load_learning_object_properties();
+		//TODO: Store "activated" LO-types in DB and retrieve them here.
+		$learning_object_types = array('announcement', 'calendar_event', 'category', 'chatbox', 'description', 'document', 'exercise', 'feedback', 'fill_in_blanks_question', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'learning_path_item', 'learning_style_survey', 'learning_style_survey_answer', 'learning_style_survey_category', 'learning_style_survey_profile', 'learning_style_survey_question', 'learning_style_survey_result', 'learning_style_survey_section', 'learning_style_survey_user_answer', 'link', 'matching_question', 'multiple_choice_question', 'open_question', 'personal_message', 'portfolio_item', 'profile', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki');
 		
-		foreach($this->typeProperties as $type => $type_properties)
+		foreach($learning_object_types as $learning_object_type)
 		{
-			$path = dirname(__FILE__).'/learning_object/' . $type . '/' . $type . '.class.php';
+			$path = dirname(__FILE__).'/learning_object/' . $learning_object_type . '/' . $learning_object_type . '.class.php';
 			require_once $path;
 		}
-		
-//		$path = dirname(__FILE__).'/learning_object';
-//		if ($handle = opendir($path))
-//		{
-//			while (false !== ($file = readdir($handle)))
-//			{
-//				$p = $path.'/'.$file;
-//				if (is_dir($p) && self :: is_learning_object_type_name($file))
-//				{
-//					require_once $p.'/'.$file.'.class.php';
-//					$f = $p.'/'.$file.'.xml';
-//					// XXX: Always require a file, even if empty?
-//					
-//					if (is_file($f))
-//					{
-//						$properties = array ();
-//						$doc = new DOMDocument();
-//						$doc->load($f);
-//						$xml_properties = $doc->getElementsByTagname('property');
-//						foreach($xml_properties as $index => $property)
-//						{
-//							$properties[] = trim($property->getAttribute('name'));
-//						}
-//						$this->register_type($file, $properties);
-//					}
-//					else
-//					{
-//						$this->register_type($file);
-//					}
-//				}
-//			}
-//			closedir($handle);
-//		}
-//		else
-//		{
-//			die('Failed to load learning object types');
-//		}
-	}
-
-	/**
-	 * Registers a learning object type with this data manager.
-	 * @param string $type The name of the type.
-	 * @param array $additionalProperties The additional properties
-	 *                                    associated with the type. May be
-	 *                                    omitted if none.
-	 */
-	private function register_type($type, $additionalProperties = array ())
-	{
-		if (array_key_exists($type, $this->typeProperties))
-		{
-			die('Type already registered: '.$type);
-		}
-		$this->typeProperties[$type] = $additionalProperties;
-	}
-	/**
-	 * Checks if a learning object type is allready registered with this
-	 * datamanager
-	 * @return boolean
-	 */
-	private function is_registered_type($type)
-	{
-		return array_key_exists($type, $this->typeProperties);
 	}
 
 	/**
@@ -825,7 +748,6 @@ abstract class RepositoryDataManager
 			$this->register_application($application);
 		}
 	}
-
 
 	/**
 	 * Gets the disk space consumed by the given user.

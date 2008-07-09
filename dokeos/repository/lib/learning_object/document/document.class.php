@@ -120,5 +120,10 @@ class Document extends LearningObject
 		fpassthru($fp);
 		return true;
 	}
+	
+	static function get_additional_property_names()
+	{
+		return array (self :: PROPERTY_FILENAME, self :: PROPERTY_FILESIZE, self :: PROPERTY_PATH);
+	}
 }
 ?>
