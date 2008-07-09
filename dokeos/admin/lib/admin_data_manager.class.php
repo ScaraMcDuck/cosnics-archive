@@ -52,21 +52,35 @@ abstract class AdminDataManager
 	
 	abstract function get_next_language_id();
 	
+	abstract function get_next_registration_id();
+	
 	abstract function create_language($language);
+	
+	abstract function create_registration($registration);
 	
 	abstract function create_setting($setting);
 	
 	abstract function record_to_language($record);
 	
 	abstract function record_to_setting($record);
+	
+	abstract function record_to_registration($record);
 
 	abstract function retrieve_languages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
 	
 	abstract function retrieve_settings($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
 	
+	abstract function retrieve_registrations($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+	
 	abstract function retrieve_setting_from_variable_name($variable, $application = 'admin');
 	
 	abstract function retrieve_language_from_english_name($english_name);
+	
+	abstract function update_setting($setting);
+	
+	abstract function update_registration($registration);
+	
+	abstract function delete_registration($registration);
 	
 	function get_languages()
 	{

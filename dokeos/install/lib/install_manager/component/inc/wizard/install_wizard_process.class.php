@@ -64,7 +64,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		foreach($applications as $application)
 		{
 			$toolPath = $path.'/'. $application .'/install';
-			if (is_dir($toolPath) && (preg_match('/^[a-z][a-z_]+$/', $application) > 0))
+			if (is_dir($toolPath) && Application :: is_application_name($application))
 			{
 				$check_name = 'install_' . $application;
 				if (isset($values[$check_name]) && $values[$check_name] == '1')
@@ -81,11 +81,11 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 					$application_path = dirname(__FILE__).'/../../application/lib/' . $application . '/';
 					if (!FileSystem::remove($application_path))
 					{
-						$this->process_result($application, array('success' => false, 'message' => Translation :: get('ApplicationRemoveFailed')));
+						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveFailed')));
 					}
 					else
 					{
-						$this->process_result($application, array('success' => true, 'message' => Translation :: get('ApplicationRemoveSuccess')));
+						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveSuccess')));
 					}
 				}
 			}
@@ -116,48 +116,30 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		
 		if (MDB2 :: isError($connection))
 		{
-			return array('success' => false, 'message' => (Translation :: get('DBConnectError') . $connection->getMessage()));
+			return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => (Translation :: get('DBConnectError') . $connection->getMessage()));
 		}
 		else
 		{
 			$drop_query = 'DROP DATABASE IF EXISTS ' . $values['database_name'];
-			$connection->exec($drop_query);
-			
-			$create_query = 'CREATE DATABASE IF NOT EXISTS '. $values['database_name'] . ' DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci';
-			$connection->exec($create_query);
-			
-			return array('success' => true, 'message' => Translation :: get('DBCreated'));
+			$drop_result = $connection->exec($drop_query);
+			if (!MDB2 :: isError($drop_result))
+			{
+				$create_query = 'CREATE DATABASE IF NOT EXISTS '. $values['database_name'] . ' DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci';
+				$create_result = $connection->exec($create_query);
+				if (!MDB2 :: isError($create_result))
+				{
+					return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('DBCreated'));
+				}
+				else
+				{
+					return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => (Translation :: get('DBCreateError') . ' ' . mysql_error()));
+				}
+			}
+			else
+			{
+				return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => (Translation :: get('DBDropError') . ' ' . mysql_error()));
+			}
 		}
-		
-		
-//		mysql_connect($values['database_host'], $values['database_username'], $values['database_password']);
-//		
-//		if(mysql_errno() > 0)
-//		{
-//			$no		= mysql_errno();
-//			$msg	= mysql_error();
-//			
-//			return array('success' => false, 'message' => ('['.$no.'] &ndash; '.$msg));
-//		}
-//		else
-//		{
-//			if (mysql_query('DROP DATABASE IF EXISTS ' . $values['database_name']))
-//			{
-//				if (mysql_query('CREATE DATABASE IF NOT EXISTS '. $values['database_name'] . ' DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci'))
-//				{
-//					return array('success' => true, 'message' => Translation :: get('DBCreated'));
-//				}
-//				else
-//				{
-//					return array('success' => false, 'message' => (Translation :: get('DBCreateError') . ' ' . mysql_error()));
-//				}
-//			}
-//			else
-//			{
-//				return array('success' => false, 'message' => (Translation :: get('DBDropError') . ' ' . mysql_error()));
-//			}
-//		}
-//		$this->add_message(Translation :: get('ApplicationInstallFailed'));
 	}
 	
 	function create_folders()
@@ -169,10 +151,10 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 			$path = $files_path . $directory;
 			if (!FileSystem :: create_dir($path))
 			{
-				return array('success' => false, 'message' => Translation :: get('FoldersCreatedFailed'));
+				return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedFailed'));
 			}
 		}
-		return array('success' => true, 'message' => Translation :: get('FoldersCreatedSuccess'));
+		return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedSuccess'));
 	}
 	
 	function write_config_file($values)
@@ -181,7 +163,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		
 		if ($content === false)
 		{
-			return array('success' => false, 'message' => Translation :: get('ConfigWriteFailed'));
+			return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
 		}
 		
 		$config['{DATABASE_DRIVER}']	= $values['database_driver'];
@@ -208,16 +190,16 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 			if (fwrite($fp, $content))
 			{
 				fclose($fp);
-				return array('success' => true, 'message' => Translation :: get('ConfigWriteSuccess'));
+				return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteSuccess'));
 			}
 			else
 			{
-				return array('success' => false, 'message' => Translation :: get('ConfigWriteFailed'));
+				return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
 			}
 		}
 		else
 		{
-			return array('success' => false, 'message' => Translation :: get('ConfigWriteFailed'));
+			return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
 		}
 	}
 	

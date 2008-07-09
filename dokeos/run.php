@@ -7,10 +7,6 @@
  * This script will load the requested application and call its run() function.
  */
 $application_key = $_GET['application'];
-foreach(explode('_',$application_key) as $key => $value)
-{
-	$application_class .= ucfirst($value);
-}
 $this_section = $application_key;
 $application_path = dirname(__FILE__).'/application/lib/'.$application_key.'/'.$application_key.'_manager/'.$application_key.'.class.php';
 
@@ -36,7 +32,7 @@ if (!Authentication :: is_valid())
 $usermgr = new UserManager(Session :: get_user_id());
 $user = $usermgr->retrieve_user(Session :: get_user_id());
 // Load & run the application
-$app = new $application_class($user);
+$app = Application :: factory($application_key, $user);
 $app->set_parameter('application',$application_key);
 $app->run();
 ?>

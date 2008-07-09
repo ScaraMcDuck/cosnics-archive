@@ -5,8 +5,10 @@
  */
 require_once dirname(__FILE__).'/database/database_setting_result_set.class.php';
 require_once dirname(__FILE__).'/database/database_language_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_registration_result_set.class.php';
 require_once dirname(__FILE__).'/../admin_data_manager.class.php';
 require_once dirname(__FILE__).'/../language.class.php';
+require_once dirname(__FILE__).'/../registration.class.php';
 require_once dirname(__FILE__).'/../setting.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once 'MDB2.php';
@@ -152,6 +154,13 @@ class DatabaseAdminDataManager extends AdminDataManager
 		$res = $statement->execute($params);
 		return $res;
 	}
+	
+	static function is_date_column($name)
+	{
+		// TODO: Temporary bugfix, publication dates were recognized as LO-dates and wrongfully converted
+		return false;
+		//return ($name == LearningObject :: PROPERTY_CREATION_DATE || $name == LearningObject :: PROPERTY_MODIFICATION_DATE);
+	}
 
 	/**
 	 * Expands a table identifier to the real table name. Currently, this
@@ -179,6 +188,21 @@ class DatabaseAdminDataManager extends AdminDataManager
 		}
 
 		return new Language($record[Language :: PROPERTY_ID], $defaultProp);
+	}
+	
+	function record_to_registration($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (Registration :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+
+		return new Registration($record[Registration :: PROPERTY_ID], $defaultProp);
 	}
 	
 	function record_to_setting($record)
@@ -274,6 +298,45 @@ class DatabaseAdminDataManager extends AdminDataManager
 		return new DatabaseSettingResultSet($this, $res);
 	}
 	
+	function retrieve_registrations($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+		$query = 'SELECT * FROM ';
+		$query .= $this->escape_table_name('registration');
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		/*
+		 * Always respect alphabetical order as a last resort.
+		 */
+		$orderBy[] = Registration :: PROPERTY_NAME;
+		$orderDir[] = SORT_ASC;
+		$order = array ();
+
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects < 0)
+		{
+			$maxObjects = null;
+		}
+		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		return new DatabaseRegistrationResultSet($this, $res);
+	}
+	
 	function retrieve_language_from_english_name($english_name)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('language').' WHERE '.$this->escape_column_name(Language :: PROPERTY_ENGLISH_NAME).'=?';
@@ -304,10 +367,44 @@ class DatabaseAdminDataManager extends AdminDataManager
 		return true;
 	}
 	
+	function update_registration($registration)
+	{
+		$where = $this->escape_column_name(Registration :: PROPERTY_ID).'='.$registration->get_id();
+		$props = array();
+		foreach ($registration->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('registration'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+
+		return true;
+	}
+	
+	function delete_registration($registration)
+	{
+		$query = 'DELETE FROM '.$this->escape_table_name('registration').' WHERE '.$this->escape_column_name(Registration :: PROPERTY_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		if ($statement->execute($registration->get_id()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	// Inherited.
 	function get_next_language_id()
 	{
 		return $this->connection->nextID($this->get_table_name('language'));
+	}
+	
+	// Inherited.
+	function get_next_registration_id()
+	{
+		return $this->connection->nextID($this->get_table_name('registration'));
 	}
 	
 	// Inherited.
@@ -327,6 +424,26 @@ class DatabaseAdminDataManager extends AdminDataManager
 
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('language'), $props, MDB2_AUTOQUERY_INSERT))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	function create_registration($registration)
+	{
+		$props = array();
+		foreach ($registration->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$props[$this->escape_column_name(Registration :: PROPERTY_ID)] = $registration->get_id();
+
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('registration'), $props, MDB2_AUTOQUERY_INSERT))
 		{
 			return true;
 		}

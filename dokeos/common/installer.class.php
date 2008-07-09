@@ -11,6 +11,7 @@ require_once Path :: get_tracking_path() .'lib/tracker_registration.class.php';
 require_once Path :: get_tracking_path() .'lib/event_rel_tracker.class.php';
 require_once Path :: get_admin_path() .'lib/admin_data_manager.class.php';
 require_once Path :: get_admin_path() .'lib/setting.class.php';
+require_once Path :: get_admin_path() .'lib/registration.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
  
 abstract class Installer
@@ -19,6 +20,8 @@ abstract class Installer
 	const TYPE_CONFIRM = '2';
 	const TYPE_WARNING = '3';
 	const TYPE_ERROR = '4';
+	const INSTALL_SUCCESS = 'success';
+	const INSTALL_MESSAGE = 'message';
 	
 	/**
 	 * The datamanager which can be used by the installer of the application
@@ -45,7 +48,12 @@ abstract class Installer
     }
     
     function install()
-    {
+    {    	
+    	if (!$this->register_application())
+    	{
+    		return false;
+    	}
+    	
 		$dir = $this->get_path();
 		$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
 		
@@ -421,6 +429,36 @@ abstract class Installer
 		}
 		
 		return true;
+	}
+	
+	function register_application()
+	{
+		
+		$application_class = str_replace('Installer', '', get_class($this));
+		$application = DokeosUtilities :: camelcase_to_underscores($application_class);
+		
+		if (Application :: is_application($application))
+		{
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('RegisteringApplication'));
+			
+			$application_registration = new Registration();
+			$application_registration->set_type(Registration :: TYPE_APPLICATION);
+			$application_registration->set_name($application);
+			$application_registration->set_status(Registration :: STATUS_ACTIVE);
+			
+			if (!$application_registration->create())
+			{
+				return $this->installation_failed(Translation :: get('ApplicationRegistrationFailed'));
+			}
+			else
+			{
+				return true;
+			}
+		}
+		else
+		{
+			return true;
+		}
 	}
 	
 	function installation_failed($error_message)

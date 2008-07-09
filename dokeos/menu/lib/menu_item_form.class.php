@@ -106,13 +106,13 @@ class MenuItemForm extends FormValidator {
 	
 	function get_applications()
 	{
-		$items = MenuDataManager :: get_instance()->get_applications();
+		$items = Application :: load_all();
 		$applications = array();
 		$applications[''] = Translation :: get('Root');
 		
-		foreach($items as $key => $value)
+		foreach($items as $item)
 		{
-			$applications[$value] = ucfirst($value);
+			$applications[$item] = Translation :: get(Application :: application_to_class($item));
 		}
 		return $applications;
 	}

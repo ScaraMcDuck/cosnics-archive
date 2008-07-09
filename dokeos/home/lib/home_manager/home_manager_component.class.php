@@ -147,11 +147,6 @@ abstract class HomeManagerComponent {
 		return $this->get_parent()->retrieve_home_block_config($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
-	function get_applications()
-	{
-		return $this->get_parent()->get_applications();
-	}
-	
 	function truncate_home($user_id)
 	{
 		return $this->get_parent()->truncate_home($user_id);

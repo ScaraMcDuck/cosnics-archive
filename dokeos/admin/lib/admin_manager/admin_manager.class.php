@@ -338,9 +338,14 @@ class Admin
 		$info[] = $migration_manager->get_application_platform_admin_links();	
 
 		// 10.The links for the plugin applications running on top of the essential Dokeos components
+		$path = Path :: get_application_path() . 'lib';
+		
 		$applications = Application :: load_all();
 		foreach($applications as $index => $application_name)
 		{
+			$toolPath = $path . '/' . $application_name . '/' . $application_name . '_manager';
+			require_once $toolPath . '/' . $application_name . '.class.php';
+			
 			$application = Application::factory($application_name);
 			$links = $application->get_application_platform_admin_links();
 			if ($links['application']['name'])

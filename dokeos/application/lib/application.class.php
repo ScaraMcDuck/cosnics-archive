@@ -4,6 +4,8 @@
  * @package application
  */
 require_once(Path :: get_library_path().'filesystem/filesystem.class.php');
+require_once(Path :: get_admin_path().'lib/admin_data_manager.class.php');
+require_once(Path :: get_admin_path().'lib/registration.class.php');
 /**
  * This	is the base class for all applications based on the learning object
  * repository.
@@ -80,7 +82,7 @@ abstract class Application
 	 * /application/lib/weblcms/weblcms.class.php. Applications must extend the
 	 * Application class.
 	 */
-	public static function load_all()
+	public static function load_all_from_filesystem()
 	{
 		$applications = array ();
 		$path = dirname(__FILE__);
@@ -99,6 +101,24 @@ abstract class Application
 		}
 		return $applications;
 	}
+	
+	public static function load_all()
+	{
+		// TODO: Include application manager classes here ?
+		$adm = AdminDataManager :: get_instance();
+		$condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);
+		
+		$applications = $adm->retrieve_registrations($condition);
+		$active_applications = array();
+		
+		while ($application = $applications->next_result())
+		{
+			$active_applications[] = $application->get_name();
+		}
+		
+		return $active_applications;
+	}
+	
 	/**
 	 * Determines if a given name is the name of an application
 	 * @param string $name
@@ -145,7 +165,7 @@ abstract class Application
 	 * @return Application An instance of the application corresponding to the
 	 * given $application
 	 */
-	public static function factory($application,$user = null)
+	public static function factory($application, $user = null)
 	{
 		$class = Application::application_to_class($application);
 		return new $class($user);

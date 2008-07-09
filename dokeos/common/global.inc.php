@@ -149,7 +149,6 @@ unset($error_message);
 --------------------------------------------
 */
 
-$adm = AdminDataManager :: get_instance();
 if(PlatformSetting :: get('server_type') == 'test')
 {
 	/*
@@ -195,105 +194,6 @@ else
 	--------------------------------------------
 	*/
 	error_reporting(E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR);
-
-	if(!isset($HTTP_GET_VARS)) { $HTTP_GET_VARS=$_GET; }
-	if(!isset($HTTP_POST_VARS)) { $HTTP_POST_VARS=$_POST; }
-	if(!isset($HTTP_POST_FILES)) { $HTTP_POST_FILES=$_FILES; }
-	if(!isset($HTTP_SESSION_VARS)) { $HTTP_SESSION_VARS=$_SESSION; }
-	if(!isset($HTTP_SERVER_VARS)) { $HTTP_SERVER_VARS=$_SERVER; }
-
-	// Register GET variables into $GLOBALS
-	if(sizeof($HTTP_GET_VARS))
-	{
-		$_GET=array();
-
-		foreach($HTTP_GET_VARS as $key=>$val)
-		{
-			if(!ini_get('magic_quotes_gpc'))
-			{
-				if(is_string($val))
-				{
-					$HTTP_GET_VARS[$key]=addslashes($val);
-				}
-			}
-
-			$_GET[$key]=$HTTP_GET_VARS[$key];
-
-			if(!isset($_SESSION[$key]) && $key != 'includePath')
-			{
-				$GLOBALS[$key]=$HTTP_GET_VARS[$key];
-			}
-		}
-	}
-
-	// Register POST variables into $GLOBALS
-	if(sizeof($HTTP_POST_VARS))
-	{
-		$_POST=array();
-
-		foreach($HTTP_POST_VARS as $key=>$val)
-		{
-			if(!ini_get('magic_quotes_gpc'))
-			{
-				if(is_string($val))
-				{
-					$HTTP_POST_VARS[$key]=addslashes($val);
-				}
-			}
-
-			$_POST[$key]=$HTTP_POST_VARS[$key];
-
-			if(!isset($_SESSION[$key]) && $key != 'includePath')
-			{
-				$GLOBALS[$key]=$HTTP_POST_VARS[$key];
-			}
-		}
-	}
-
-	if(sizeof($HTTP_POST_FILES))
-	{
-		$_FILES=array();
-
-		foreach($HTTP_POST_FILES as $key=>$val)
-		{
-			$_FILES[$key]=$HTTP_POST_FILES[$key];
-
-			if(!isset($_SESSION[$key]) && $key != 'includePath')
-			{
-				$GLOBALS[$key]=$HTTP_POST_FILES[$key];
-			}
-		}
-	}
-
-	// Register SESSION variables into $GLOBALS
-	if(sizeof($HTTP_SESSION_VARS))
-	{
-		if(!is_array($_SESSION))
-		{
-			$_SESSION=array();
-		}
-
-		foreach($HTTP_SESSION_VARS as $key=>$val)
-		{
-			$_SESSION[$key]=$HTTP_SESSION_VARS[$key];
-			$GLOBALS[$key]=$HTTP_SESSION_VARS[$key];
-		}
-	}
-
-	// Register SERVER variables into $GLOBALS
-	if(sizeof($HTTP_SERVER_VARS))
-	{
-		$_SERVER=array();
-		foreach($HTTP_SERVER_VARS as $key=>$val)
-		{
-			$_SERVER[$key]=$HTTP_SERVER_VARS[$key];
-
-			if(!isset($_SESSION[$key]) && $key != 'includePath')
-			{
-				$GLOBALS[$key]=$HTTP_SERVER_VARS[$key];
-			}
-		}
-	}
 }
 
 //error_reporting(E_ALL);
@@ -345,8 +245,6 @@ if (isset($_GET['logout']))
 	$user = $udm->retrieve_user(Session :: get_user_id());
 	
 	Events :: trigger_event('logout', 'users', array('server' => $_SERVER, 'user' => $user));
-	// TODO: Reimplement tracking
-	//LoginDelete($uid, $statsDbName);
 	$udm = UsersDataManager::get_instance();
 	$udm->logout();
 	header("Location: index.php");

@@ -39,7 +39,7 @@ class AdminBrowserComponent extends AdminComponent
 	 * @return string $html HTML representation of the actions.
 	 */
 	function get_application_platform_admin_sections()
-	{
+	{		
 		$html = array();
 		$search_form_index = 0;
 		foreach ($this->get_application_platform_admin_links() as $application_links)
