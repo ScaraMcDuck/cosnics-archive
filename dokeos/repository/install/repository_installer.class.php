@@ -32,17 +32,37 @@ class RepositoryInstaller extends Installer
 	{
 		$rdm	= $this->get_data_manager();
 		$dir	= dirname(__FILE__) . '/../lib/learning_object';
+		
+		// Get the learning object xml-files if they exist
 		$files	= FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
 		
 		foreach($files as $file)
 		{
 			if ((substr($file, -3) == 'xml'))
 			{
-				// Create the lo-table that stores the additional lo-properties
+				// Create the learning object table that stores the additional lo-properties
 				if (!$this->create_storage_unit($file))
 				{
 					return false;
 				}
+			}
+		}
+		
+		// Register the learning objects
+		$folders	= FileSystem :: get_directory_content($dir, FileSystem :: LIST_DIRECTORIES, false);
+		
+		foreach($folders as $folder)
+		{
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('LearningObjectRegistration') . ': <em>'.Translation :: get(LearningObject :: type_to_class($folder) . 'TypeName') . '</em>');
+			
+			$learning_object_registration = new Registration();
+			$learning_object_registration->set_type(Registration :: TYPE_LEARNING_OBJECT);
+			$learning_object_registration->set_name($folder);
+			$learning_object_registration->set_status(Registration :: STATUS_ACTIVE);
+			
+			if (!$learning_object_registration->create())
+			{
+				return $this->installation_failed(Translation :: get('LearningObjectRegistrationFailed'));
 			}
 		}
 		

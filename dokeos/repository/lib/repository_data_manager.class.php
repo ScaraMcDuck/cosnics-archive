@@ -181,6 +181,7 @@ abstract class RepositoryDataManager
 		$result = false;
 		foreach($applications as $index => $application_name)
 		{
+			
 			$application = Application::factory($application_name);
 			if ($application->any_learning_object_is_published($ids))
 			{
@@ -698,10 +699,12 @@ abstract class RepositoryDataManager
 		//TODO: Store "activated" LO-types in DB and retrieve them here.
 		$learning_object_types = array('announcement', 'calendar_event', 'category', 'chatbox', 'description', 'document', 'exercise', 'feedback', 'fill_in_blanks_question', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'learning_path_item', 'learning_style_survey', 'learning_style_survey_answer', 'learning_style_survey_category', 'learning_style_survey_profile', 'learning_style_survey_question', 'learning_style_survey_result', 'learning_style_survey_section', 'learning_style_survey_user_answer', 'link', 'matching_question', 'multiple_choice_question', 'open_question', 'personal_message', 'portfolio_item', 'profile', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki');
 		
+		$path = Path :: get_repository_path() . 'lib/learning_object/';
+		
 		foreach($learning_object_types as $learning_object_type)
 		{
-			$path = dirname(__FILE__).'/learning_object/' . $learning_object_type . '/' . $learning_object_type . '.class.php';
-			require_once $path;
+			$learning_object_path = $path . $learning_object_type . '/' . $learning_object_type . '.class.php';
+			require_once $learning_object_path;
 		}
 	}
 
@@ -727,28 +730,18 @@ abstract class RepositoryDataManager
 	}
 
 	/**
-	 * Registers an application with this repository datamanager.
-	 * @param string $application The application name.
-	 */
-	function register_application($application)
-	{
-		if (in_array($application, $this->applications))
-		{
-			die('Application already registered: '.$application);
-		}
-		$this->applications[] = $application;
-	}
-
-	/**
-	 * Loads the applications installed on the system and uses the function
-	 * register_application to register them.
+	 * Loads the applications installed on the system
 	 */
 	private function load_applications()
 	{
+		$path = Path :: get_application_path() . 'lib';
 		$applications = Application::load_all();
+		$this->applications = $applications;
+		
 		foreach($applications as $index => $application)
 		{
-			$this->register_application($application);
+			$toolPath = $path . '/' . $application . '/' . $application . '_manager';
+			require_once $toolPath . '/' . $application . '.class.php';
 		}
 	}
 

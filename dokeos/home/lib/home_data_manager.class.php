@@ -5,6 +5,7 @@
  */
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../../repository/lib/repository_data_manager.class.php';
+require_once dirname(__FILE__).'/../../application/lib/application.class.php';
 
 /**
  *	This is a skeleton for a data manager for the Users table.
@@ -21,19 +22,11 @@ abstract class HomeDataManager
 	private static $instance;
 
 	/**
-	 * Array which contains the registered applications running on top of this
-	 * repositorydatamanager
-	 */
-	private $applications;
-
-	/**
 	 * Constructor.
 	 */
 	protected function HomeDataManager()
 	{
 		$this->initialize();
-		$this->applications = array();
-		$this->load_applications();
 	}
 	
 	/**
@@ -89,94 +82,6 @@ abstract class HomeDataManager
 	abstract function retrieve_home_blocks($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
 	abstract function truncate_home($user_id);
-	
-	/**
-	 * Returns the names of the applications known to this
-	 * repository datamanager.
-	 * @return array The applications.
-	 */
-	function get_registered_applications()
-	{
-		return $this->applications;
-	}
-
-	/**
-	 * Registers an application with this repository datamanager.
-	 * @param string $application The application name.
-	 */
-	function register_application($application)
-	{
-		if (in_array($application, $this->applications))
-		{
-			die('Application already registered: '.$application);
-		}
-		$this->applications[] = $application;
-	}
-
-	/**
-	 * Loads the applications installed on the system. Applications are classes
-	 * in the /application/lib subdirectory. Each application is a directory,
-	 * which in its turn contains a class file named after the application. For
-	 * instance, the weblcms application is the class Weblcms, defined in
-	 * /application/lib/weblcms/weblcms.class.php. Applications must extend the
-	 * Application class.
-	 */
-	private function load_applications()
-	{
-		$path = dirname(__FILE__).'/../../application/lib';
-		if ($handle = opendir($path))
-		{
-			while (false !== ($file = readdir($handle)))
-			{
-				$toolPath = $path.'/'. $file .'/'.$file.'_manager';
-				if (is_dir($toolPath) && self :: is_application_name($file))
-				{
-					require_once $toolPath.'/'.$file.'.class.php';
-					$this->register_application($file);
-				}
-			}
-			closedir($handle);
-		}
-		else
-		{
-			die('Failed to load applications');
-		}
-	}
-
-	/**
-	 * Converts an application name to the corresponding class name.
-	 * @param string $application The application name.
-	 * @return string The class name.
-	 */
-	static function application_to_class($application)
-	{
-		return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $application));
-	}
-
-	/**
-	 * Converts an application class name to the corresponding application name.
-	 * @param string $class The class name.
-	 * @return string The application name.
-	 */
-	static function class_to_application($class)
-	{
-		return preg_replace(array ('/^([A-Z])/e', '/([A-Z])/e'), array ('strtolower(\1)', '"_".strtolower(\1)'), $class);
-	}
-
-	/**
-	 * Determines whether or not the given name is a valid application name.
-	 * @param string $name The name to evaluate.
-	 * @return True if the name is a valid application name, false otherwise.
-	 */
-	static function is_application_name($name)
-	{
-		return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
-	}
-	
-	function get_applications()
-	{
-		return $this->applications;
-	}
 	
 	abstract function retrieve_home_row_at_sort($sort, $direction);
 	

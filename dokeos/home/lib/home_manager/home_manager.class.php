@@ -304,11 +304,6 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 		return HomeDataManager :: get_instance()->retrieve_home_row($id);
 	}
 	
-	function get_applications()
-	{
-		return HomeDataManager :: get_instance()->get_applications();
-	}
-	
 	function truncate_home($user_id)
 	{
 		return HomeDataManager :: get_instance()->truncate_home($user_id);

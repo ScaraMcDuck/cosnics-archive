@@ -76,23 +76,36 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 				
 				while ($block = $blocks->next_result())
 				{
+					$path = Path :: get_application_path() . 'lib';
+					
 					$application = $block->get_application();
 					$application_class = Application :: application_to_class($application);
 					
 					if(!Application :: is_application($application))
 					{
 						$application_class .= 'Manager';
+						
+						if (!is_null($this->get_user()))
+						{
+							$app = new $application_class($this->get_user());
+							$html[] = $app->render_block($block);
+						}
+						elseif($application == 'user' && $block->get_component() == 'login')
+						{
+							$app = new $application_class($this->get_user());
+							$html[] = $app->render_block($block);
+						}
 					}
-					
-					if (!is_null($this->get_user()))
+					else
 					{
-						$app = new $application_class($this->get_user());
-						$html[] = $app->render_block($block);
-					}
-					elseif($application == 'user' && $block->get_component() == 'login')
-					{
-						$app = new $application_class($this->get_user());
-						$html[] = $app->render_block($block);
+						$toolPath = $path . '/' . $application . '/' . $application . '_manager';
+						require_once $toolPath . '/' . $application . '.class.php';
+						
+						if (!is_null($this->get_user()))
+						{
+							$app = Application :: factory($application, $this->get_user());
+							$html[] = $app->render_block($block);
+						}
 					}
 				}
 						
