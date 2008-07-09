@@ -38,18 +38,10 @@ class RepositoryInstaller extends Installer
 		{
 			if ((substr($file, -3) == 'xml'))
 			{
+				// Create the lo-table that stores the additional lo-properties
 				if (!$this->create_storage_unit($file))
 				{
 					return false;
-				}
-				
-				$properties = array ();
-				$doc = new DOMDocument();
-				$doc->load($file);
-				$xml_properties = $doc->getElementsByTagname('property');
-				foreach($xml_properties as $index => $property)
-				{
-					$rdm->register_learning_object_property($file, trim($property->getAttribute('name')));
 				}
 			}
 		}

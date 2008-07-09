@@ -577,6 +577,16 @@ class LearningObject implements AccessibleLearningObject
 	}
 	
 	/**
+	 * Sets the additional (type-specific) properties of this learning
+	 * object.
+	 * @param array An associative array containing the properties.
+	 */
+	function set_additional_properties($additional_properties)
+	{
+		$this->additionalProperties = $additional_properties;
+	}
+	
+	/**
 	 * Assigns the learning object a display order index. Only applicable
 	 * if this type allows ordering. This also happens automatically upon
 	 * invocation of {@link #create()}.
@@ -854,6 +864,11 @@ class LearningObject implements AccessibleLearningObject
 	static function get_default_property_names()
 	{
 		return array (self :: PROPERTY_OWNER_ID,self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_COMMENT);
+	}
+	
+	static function get_additional_property_names()
+	{
+		return array ();
 	}
 
 	/**
