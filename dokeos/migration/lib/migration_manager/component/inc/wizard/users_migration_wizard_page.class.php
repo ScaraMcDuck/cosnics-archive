@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../../../../migration_data_manager.class.php'
 require_once dirname(__FILE__) . '/../../../../old_migration_data_manager.class.php'; 
 require_once dirname(__FILE__) . '/../../../../logger.class.php'; 
 require_once dirname(__FILE__) . '/../../../../import.class.php'; 
-require_once dirname(__FILE__) . '/../../../../../../users/lib/usersdatamanager.class.php'; 
+require_once dirname(__FILE__) . '/../../../../../../users/lib/users_data_manager.class.php'; 
 
 /**
  * Class for user migration execution

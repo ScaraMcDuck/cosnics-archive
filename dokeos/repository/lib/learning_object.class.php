@@ -9,7 +9,7 @@ require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once dirname(__FILE__).'/learning_object_difference.class.php';
 require_once dirname(__FILE__).'/learning_object_display.class.php';
-require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
 /**
  *	This class represents a learning object in the repository. Every object
  *	that can be associated with a module is in fact a learning object.

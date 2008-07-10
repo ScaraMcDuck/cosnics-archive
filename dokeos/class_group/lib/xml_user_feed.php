@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/../../common/condition/equality_condition.class
 require_once dirname(__FILE__).'/../../common/condition/not_condition.class.php';
 require_once dirname(__FILE__).'/../../common/condition/and_condition.class.php';
 require_once dirname(__FILE__).'/../../common/condition/or_condition.class.php';
-require_once dirname(__FILE__).'/../../users/lib/usersdatamanager.class.php';
+require_once dirname(__FILE__).'/../../users/lib/users_data_manager.class.php';
 
 if (Authentication :: is_valid())
 {

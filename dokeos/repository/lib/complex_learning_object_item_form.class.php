@@ -6,7 +6,7 @@
  */
 
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
 require_once dirname(__FILE__).'/repository_data_manager.class.php';
 require_once dirname(__FILE__).'/complex_learning_object_item.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';

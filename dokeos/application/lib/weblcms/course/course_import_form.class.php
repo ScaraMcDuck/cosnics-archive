@@ -8,7 +8,7 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
 require_once Path :: get_library_path().'import/import.class.php';
 require_once dirname(__FILE__).'/course.class.php';
 require_once dirname(__FILE__).'/course_category.class.php';
-require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
 
 class CourseImportForm extends FormValidator {
 	

@@ -11,7 +11,7 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
 require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
-require_once Path :: get_user_path().'lib/usersdatamanager.class.php';
+require_once Path :: get_user_path().'lib/users_data_manager.class.php';
 require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 
 /**

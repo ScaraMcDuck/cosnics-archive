@@ -3,10 +3,10 @@
  * @package users.lib.usermanager.component.adminuserbrowser
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
-require_once dirname(__FILE__).'/adminuserbrowsertabledataprovider.class.php';
-require_once dirname(__FILE__).'/adminuserbrowsertablecolumnmodel.class.php';
-require_once dirname(__FILE__).'/adminuserbrowsertablecellrenderer.class.php';
-require_once dirname(__FILE__).'/../../usermanager.class.php';
+require_once dirname(__FILE__).'/admin_user_browser_table_data_provider.class.php';
+require_once dirname(__FILE__).'/admin_user_browser_table_column_model.class.php';
+require_once dirname(__FILE__).'/admin_user_browser_table_cell_renderer.class.php';
+require_once dirname(__FILE__).'/../../user_manager.class.php';
 /**
  * Table to display a set of users.
  */

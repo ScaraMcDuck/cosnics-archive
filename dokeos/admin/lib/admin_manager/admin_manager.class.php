@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/admin_manager_component.class.php';
 require_once dirname(__FILE__).'/../admin_data_manager.class.php';
 
 require_once Path :: get_repository_path(). 'lib/repository_manager/repository_manager.class.php';
-require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
+require_once Path :: get_user_path(). 'lib/usermanager/user_manager.class.php';
 require_once Path :: get_class_group_path(). 'lib/class_group_manager/class_group_manager.class.php';
 require_once Path :: get_tracking_path(). 'lib/tracking_manager/tracking_manager.class.php';
 require_once Path :: get_rights_path(). 'lib/rights_manager/rights_manager.class.php';

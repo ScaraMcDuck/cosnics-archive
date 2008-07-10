@@ -5,7 +5,7 @@
  * @subpackage ieee_lom
  */
 require_once(dirname(__FILE__).'/ieee_lom.class.php');
-require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
 require_once Path :: get_admin_path().'lib/admin_data_manager.class.php';
 /**
  * This class automatically generates IEEE LOM compatible metadata for learning

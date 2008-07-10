@@ -6,7 +6,7 @@ The file is based on the fill_tables file and has been modded by Maarten Dauwe
 
 require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once dirname(__FILE__).'/../lib/repository_data_manager.class.php';
-require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
 Translation :: set_application('repository');
 Display :: display_header();
 set_time_limit(0);
