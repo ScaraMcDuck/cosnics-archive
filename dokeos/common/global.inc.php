@@ -109,8 +109,10 @@ define('TOOL_COURSE_RIGHTS_OVERVIEW', 'course_rights');
 // Add the path to the pear packages to the include path
 require_once dirname(__FILE__).'/configuration/configuration.class.php';
 require_once dirname(__FILE__).'/filesystem/path.class.php';
-require_once dirname(__FILE__).'/configuration/platform_setting.class.php';
+require_once Path :: get_library_path().'/configuration/platform_setting.class.php';
 ini_set('include_path',realpath(Path :: get_plugin_path().'pear'));
+
+require_once Path :: get_library_path().'/database/connection.class.php';
 
 // TODO: Move this to a common area since it's used everywhere.
 require_once Path :: get_library_path().'session/request.class.php';
@@ -133,8 +135,8 @@ require_once 'MDB2.php';
 Session :: start($already_installed);
 
 // Test database connection
-$conf = Configuration :: get_instance();
-$connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'));
+
+$connection = Connection :: get_instance()->get_connection();
 
 if (MDB2 :: isError($connection))
 {

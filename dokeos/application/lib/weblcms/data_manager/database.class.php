@@ -36,8 +36,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 	function initialize()
 	{
-		$conf = Configuration :: get_instance();
-		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseWeblcmsDataManager','debug')));
+		$this->connection = Connection :: get_instance()->get_connection();
+		$this->connection->setOption('debug_handler', array(get_class($this),'debug'));
+		
 		$this->prefix = 'weblcms_';
 		$this->connection->query('SET NAMES utf8');
 	}

@@ -48,7 +48,6 @@ abstract class RepositoryDataManager
 		$this->typeProperties = array ();
 		$this->load_types();
 		$this->applications = array();
-		$this->load_applications();
 	}
 
 	/**
@@ -113,7 +112,10 @@ abstract class RepositoryDataManager
 	 */
 	function is_extended_type($type)
 	{
-		return (count($this->typeProperties[$type]) > 0);
+		$temp_class = LearningObject :: factory($type);
+		$has_additional_properties = count($temp_class->get_additional_property_names()) > 0;
+		unset($temp_class);
+		return $has_additional_properties;
 	}
 
 	/**
@@ -726,23 +728,12 @@ abstract class RepositoryDataManager
 	 */
 	function get_registered_applications()
 	{
-		return $this->applications;
-	}
-
-	/**
-	 * Loads the applications installed on the system
-	 */
-	private function load_applications()
-	{
-		$path = Path :: get_application_path() . 'lib';
-		$applications = Application::load_all();
-		$this->applications = $applications;
-		
-		foreach($applications as $index => $application)
+		if (!isset($this->applications) || count($this->applications) == 0)
 		{
-			$toolPath = $path . '/' . $application . '/' . $application . '_manager';
-			require_once $toolPath . '/' . $application . '.class.php';
+			$this->applications = Application::load_all();
 		}
+		
+		return $this->applications;
 	}
 
 	/**

@@ -139,12 +139,14 @@ class Block {
 		$applications_options = array();
 		$components_options = array();
 		
-		$applications = Application :: load_all();
+		$applications = Application :: load_all(false);
+		
+		$path = Path :: get_application_path() .'/lib/';
 		
 		foreach ($applications as $application)
 		{
-			$path = dirname(__FILE__).'/../application/lib/'.$application.'/block';
-			if ($handle = opendir($path))
+			$application_path = $path . $application . '/block';
+			if ($handle = opendir($application_path))
 			{
 				while (false !== ($file = readdir($handle)))
 				{
@@ -164,10 +166,12 @@ class Block {
 		
 		$core_applications = array('admin', 'tracking', 'repository', 'users', 'class_group', 'rights', 'home', 'menu');
 		
+		$path = Path :: get(SYS_PATH);
+		
 		foreach ($core_applications as $core_application)
 		{
-			$path = dirname(__FILE__).'/../'.$core_application.'/block';
-			if ($handle = opendir($path))
+			$application_path = $path . $core_application . '/block';
+			if ($handle = opendir($application_path))
 			{
 				while (false !== ($file = readdir($handle)))
 				{
@@ -200,12 +204,14 @@ class Block {
 	function get_platform_blocks_deprecated()
 	{
 		$application_components = array();
-		$applications = Application :: load_all();
+		$applications = Application :: load_all(false);
+		
+		$path = Path :: get_application_path() .'/lib/';
 		
 		foreach ($applications as $application)
 		{
-			$path = dirname(__FILE__).'/../application/lib/'.$application.'/block';
-			if ($handle = opendir($path))
+			$application_path = $path . $application . '/block';
+			if ($handle = opendir($application_path))
 			{
 				while (false !== ($file = readdir($handle)))
 				{
@@ -224,10 +230,12 @@ class Block {
 		
 		$core_applications = array('admin', 'tracking', 'repository', 'users', 'class_group', 'rights', 'home', 'menu');
 		
+		$path = Path :: get(SYS_PATH);
+		
 		foreach ($core_applications as $core_application)
 		{
-			$path = dirname(__FILE__).'/../'.$core_application.'/block';
-			if ($handle = opendir($path))
+			$application_path = $path . $core_application . '/block';
+			if ($handle = opendir($application_path))
 			{
 				while (false !== ($file = readdir($handle)))
 				{

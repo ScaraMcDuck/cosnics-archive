@@ -39,10 +39,13 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 	function initialize()
 	{
 		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
-		$conf = Configuration :: get_instance();
-		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseTrackingDataManager','debug')));
-		if (PEAR::isError($this)) {
-   		 die($this->connection->getMessage());
+		
+		$this->connection = Connection :: get_instance()->get_connection();
+		$this->connection->setOption('debug_handler', array(get_class($this),'debug'));
+		
+		if (PEAR::isError($this))
+		{
+			die($this->connection->getMessage());
 		}
 		$this->prefix = 'tracker_';
 		$this->connection->query('SET NAMES utf8');

@@ -37,8 +37,9 @@ class DatabaseMenuDataManager extends MenuDataManager
 
 	function initialize()
 	{
-		$conf = Configuration :: get_instance();
-		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseMenuDatamanager','debug')));
+		$this->connection = Connection :: get_instance()->get_connection();
+		$this->connection->setOption('debug_handler', array(get_class($this),'debug'));
+		
 		$this->prefix = 'menu_';
 		$this->connection->query('SET NAMES utf8');
 	}

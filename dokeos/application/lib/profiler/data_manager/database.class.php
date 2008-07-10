@@ -20,8 +20,10 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 	{
 		PEAR :: setErrorHandling(PEAR_ERROR_CALLBACK, array (get_class(), 'handle_error'));
 		$this->userDM = UsersDataManager :: get_instance();
-		$conf = Configuration :: get_instance();
-		$this->connection = MDB2 :: connect($conf->get_parameter('database', 'connection_string'),array('debug'=>3,'debug_handler'=>array('DatabaseProfilerDatamanager','debug')));
+		
+		$this->connection = Connection :: get_instance()->get_connection();
+		$this->connection->setOption('debug_handler', array(get_class($this),'debug'));
+		
 		if (PEAR::isError($this)) {
    		 die($this->connection->getMessage());
 		}

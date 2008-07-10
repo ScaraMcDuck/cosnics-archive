@@ -82,19 +82,22 @@ abstract class Application
 	 * /application/lib/weblcms/weblcms.class.php. Applications must extend the
 	 * Application class.
 	 */
-	public static function load_all_from_filesystem()
+	public static function load_all_from_filesystem($include_application_classes = true)
 	{
 		$applications = array ();
 		$path = dirname(__FILE__);
-		$directories = Filesystem::get_directory_content($path,Filesystem::LIST_DIRECTORIES,false);
+		$directories = Filesystem :: get_directory_content($path, Filesystem::LIST_DIRECTORIES,false);
 		foreach($directories as $index => $directory)
 		{
 			$application_name = basename($directory);
-			if(Application::is_application_name($application_name))
+			if(Application :: is_application_name($application_name))
 			{
-				require_once($directory.'/'.$application_name.'_manager/'.$application_name.'.class.php');
 				if (!in_array($application_name, $applications))
 				{
+					if ($include_application_classes)
+					{
+						require_once($directory . '/' . $application_name . '_manager/' . $application_name . '.class.php');
+					}
 					$applications[] = $application_name;
 				}
 			}
@@ -102,9 +105,9 @@ abstract class Application
 		return $applications;
 	}
 	
-	public static function load_all()
+	public static function load_all($include_application_classes = true)
 	{
-		// TODO: Include application manager classes here ?
+		$path = Path :: get_application_path() . 'lib';
 		$adm = AdminDataManager :: get_instance();
 		$condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);
 		
@@ -113,6 +116,10 @@ abstract class Application
 		
 		while ($application = $applications->next_result())
 		{
+			if ($include_application_classes)
+			{
+				require_once $path . '/' . $application->get_name() . '/' . $application->get_name() . '_manager/'.$application->get_name().'.class.php';
+			}
 			$active_applications[] = $application->get_name();
 		}
 		
