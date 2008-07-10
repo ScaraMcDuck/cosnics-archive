@@ -90,6 +90,9 @@ class ComplexLearningObjectMenu extends HTML_Menu
 		{
 			if($object->is_extended())
 			{
+				if($object->is_complex_ref())
+					$object = $datamanager->retrieve_complex_learning_object_item($object->get_ref());
+				
 				$lo = $datamanager->retrieve_learning_object($object->get_ref());
 				$menu_item = array();
 				$menu_item['title'] = $lo->get_title();

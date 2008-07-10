@@ -34,9 +34,17 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 			return $this->get_modification_links($cloi);
 		}
 		
-		if(!$this->learning_object || $this->learning_object->get_id() != $cloi->get_ref())
-		{
-			$learning_object = $this->browser->retrieve_learning_object($cloi->get_ref());
+		if($cloi->is_complex_ref())
+		{ 
+			$ref_item = $this->browser->retrieve_complex_learning_object_item($cloi->get_ref());
+			$ref = $ref_item->get_ref();
+		}
+		else
+			$ref = $cloi->get_ref();
+		
+		if(!$this->learning_object || $this->learning_object->get_id() != $ref)
+		{ 
+			$learning_object = $this->browser->retrieve_learning_object($ref);
 			$this->learning_object = $learning_object;
 		}
 		else

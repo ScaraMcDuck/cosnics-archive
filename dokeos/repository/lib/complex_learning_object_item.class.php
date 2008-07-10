@@ -209,6 +209,11 @@ class ComplexLearningObjectItem
 		return array();
 	}
 	
+	function is_complex()
+	{
+		return count($this->get_allowed_types()) > 0;
+	}
+	
 	/**
 	 * Creates an instance of an extended class with the given type
 	 */

@@ -24,6 +24,7 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 		$ref = $_GET[RepositoryManager :: PARAM_CLOI_REF];
 		$parent = $_GET[RepositoryManager :: PARAM_CLOI_ID];
 		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
+		$is_complex = $_GET[RepositoryManager :: PARAM_CLOI_COMPLEX_REF];
 		
 		if(!isset($ref))
 		{
@@ -32,19 +33,41 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 			$this->display_footer();
 		}
 
-		$cloi = ComplexLearningObjectItem :: factory(RepositoryDataManager :: get_instance()->determine_learning_object_type($ref));
+		if($is_complex)
+		{
+			$item = $this->retrieve_complex_learning_object_item($ref);
+			$typeref = $item->get_ref();
+		}
+		else
+			$typeref = $ref;
+		
+		$type = RepositoryDataManager :: get_instance()->determine_learning_object_type($typeref);
+		$cloi = ComplexLearningObjectItem :: factory($type);
 
 		$cloi->set_ref($ref);
-		$cloi->set_complex_ref(0);
-		$cloi->set_parent($parent?$parent:0);
+		$cloi->set_complex_ref($is_complex?$is_complex:0);
 		$cloi->set_user_id($owner);
+		$cloi->set_parent($parent?$parent:0);
 		
+		if(count($cloi->get_allowed_types()) > 0 && isset($root_id) && isset($parent) && !isset($is_complex))
+		{
+			$cloi->set_parent(0);
+			$cloi->create();
+			$ref = $cloi->get_id();
+			
+			$cloi = ComplexLearningObjectItem :: factory($type);
+			$cloi->set_ref($ref);
+			$cloi->set_complex_ref(1);
+			$is_complex = 1;
+			$cloi->set_parent($parent?$parent:0);
+			$cloi->set_user_id($owner);
+		}
+	
 		$cloi_form = ComplexLearningObjectItemForm :: factory(ComplexLearningObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post', 
 						$this->get_url(array(RepositoryManager :: PARAM_CLOI_REF => $ref, 
 											 RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id,
-											 RepositoryManager :: PARAM_CLOI_ID => $parent)));		
-		
-		$lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($ref);
+											 RepositoryManager :: PARAM_CLOI_ID => $parent,
+											 RepositoryManager :: PARAM_CLOI_COMPLEX_REF => $is_complex)));		
 		
 		if($cloi_form)
 		{
@@ -53,7 +76,7 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 				$cloi_form->create_complex_learning_object_item();
 				$cloi = $cloi_form->get_complex_learning_object_item();
 				$root_id = $root_id?$root_id:$cloi->get_id();
-				if($lo->is_complex_learning_object()) $id = $cloi->get_id(); else $id = $cloi->get_parent();
+				if($cloi->is_complex()) $id = $cloi->get_id(); else $id = $cloi->get_parent();
 				$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id));
 			}
 			else
@@ -68,7 +91,7 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 		{
 			$cloi->create();
 			$root_id = $root_id?$root_id:$cloi->get_id();
-			if($lo->is_complex_learning_object()) $id = $cloi->get_id(); else $id = $cloi->get_parent();
+			if($cloi->is_complex()) $id = $cloi->get_id(); else $id = $cloi->get_parent();
 			$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id));
 		}
 	}

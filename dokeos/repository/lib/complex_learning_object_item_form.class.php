@@ -43,10 +43,6 @@ abstract class ComplexLearningObjectItemForm extends FormValidator
 		parent :: __construct($form_name, $method, $action);
 		$this->form_type = $form_type;
 		$this->complex_learning_object_item = $complex_learning_object_item;
-		
-		/*$this->owner = $complex_learning_object_item->get_user_id();
-		$this->learning_object_id = $complex_learning_object_item->get_lo_id();
-		$this->parent = $complex_learning_object_item->get_parent();*/
 
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
@@ -176,7 +172,18 @@ abstract class ComplexLearningObjectItemForm extends FormValidator
 		if(!$complex_learning_object_item->is_extended()) return null;
 		
 		$rdm = RepositoryDataManager :: get_instance();
-		$type = $rdm->determine_learning_object_type($complex_learning_object_item->get_ref());
+		
+		if($complex_learning_object_item->is_complex_ref())
+		{
+			$ref_item = RepositoryDataManager :: get_instance()->
+					retrieve_complex_learning_object_item($complex_learning_object_item->get_ref());
+			$ref = $ref_item->get_ref();
+		}
+		else
+			$ref = $complex_learning_object_item->get_ref();
+			
+		$type = $rdm->determine_learning_object_type($ref);
+		
 		$class =  'Complex'.DokeosUtilities :: underscores_to_camelcase($type).'Form';
 		$file = dirname(__FILE__).'/learning_object/'.$type.'/complex_'.$type.'_form.class.php';
 		
