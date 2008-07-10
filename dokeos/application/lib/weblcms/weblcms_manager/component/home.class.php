@@ -23,12 +23,15 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		$course_categories = $this->retrieve_course_user_categories(null, null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
 
 		echo '<div class="maincontent">';
-		$courses = $this->retrieve_courses($this->get_user_id(), 0);
+		
+		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
+		$courses = $this->retrieve_courses($this->get_user_id(), $condition);
 		echo $this->display_course_digest($courses);
 
 		while ($course_category = $course_categories->next_result())
 		{
-			$courses = $this->retrieve_courses($this->get_user_id(), $course_category->get_id());
+			$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_category->get_id());
+			$courses = $this->retrieve_courses($this->get_user_id(), $condition);
 			echo $this->display_course_digest($courses, $course_category);
 		}
 

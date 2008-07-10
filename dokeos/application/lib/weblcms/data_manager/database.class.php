@@ -885,18 +885,29 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	}
 
 	// TODO: Change $category from user's personal course list to condition object thus eliminating the need for another parameter
-	function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	// TODO: Maybe also try to eliminate the user ?
+	function retrieve_courses($user = null, $condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course');
-		if (isset($user) && isset($category))
+		if (isset($user))
 		{
 			$query .= ' JOIN '. $this->escape_table_name('course_rel_user') .' ON '.$this->escape_table_name('course').'.'.$this->escape_column_name(Course :: PROPERTY_ID).'='.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('course_code');
-			$query .= ' WHERE '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_id').'=?';
-			$query .= ' AND '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_course_cat').'=?';
+			
+			$params = array ();
+			if (isset ($condition))
+			{
+				$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+				$translator->translate($condition);
+				$query .= $translator->render_query();
+				$params = $translator->get_parameters();
+			}
+			
+			$query .= ' AND '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_id').'=?';
+			//$query .= ' AND '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_course_cat').'=?';
 			$query .= ' ORDER BY '. $this->escape_table_name('course_rel_user') .'.'.$this->escape_column_name(CourseUserRelation :: PROPERTY_SORT);
-			$params = array($user, $category);
+			$params[] = $user;
 		}
-		elseif(!isset($user) && !isset($category))
+		elseif(!isset($user))
 		{
 			$params = array ();
 			if (isset ($condition))

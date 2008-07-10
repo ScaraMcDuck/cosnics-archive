@@ -33,7 +33,7 @@ class CourseBrowserTableDataProvider extends ObjectTableDataProvider
 		$order_property = $this->get_order_property($order_property);
 		$order_direction = $this->get_order_property($order_direction);
        
-      return $this->get_browser()->retrieve_courses(null, null, $this->get_condition(), $offset, $count, $order_property, $order_direction);
+      return $this->get_browser()->retrieve_courses(null, $this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
   /**
    * Gets the number of courses in the table

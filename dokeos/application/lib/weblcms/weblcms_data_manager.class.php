@@ -474,7 +474,7 @@ abstract class WeblcmsDataManager
 	 * @param int $maxObjects
 	 * @return CourseResultSet
 	 */
-	abstract function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_courses($user = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
 	/**
 	 * Retrieve a series of courses for a specific user + the relation
