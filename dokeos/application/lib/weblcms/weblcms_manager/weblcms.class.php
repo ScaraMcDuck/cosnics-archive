@@ -776,9 +776,9 @@ class Weblcms extends WebApplication
 	 * @param int $maxObjects
 	 * @return CourseResultSet
 	 */
-	function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_courses($user = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_courses($user, $category, $condition, $offset, $count, $order_property, $order_direction);
+		return WeblcmsDataManager :: get_instance()->retrieve_courses($user, $condition, $offset, $count, $order_property, $order_direction);
 	}
 
 	/**

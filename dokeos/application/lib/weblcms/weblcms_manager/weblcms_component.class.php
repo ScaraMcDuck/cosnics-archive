@@ -408,9 +408,9 @@ abstract class WeblcmsComponent
 	/**
 	 * @see Weblcms::retrieve_courses()
 	 */	
-	function retrieve_courses($user = null, $category = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_courses($user = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->get_parent()->retrieve_courses($user, $category, $condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_courses($user, $condition, $offset, $count, $order_property, $order_direction);
 	}
 	
 	/**

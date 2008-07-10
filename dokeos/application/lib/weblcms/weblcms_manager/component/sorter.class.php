@@ -246,13 +246,17 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
 		
 		$course_categories = $this->retrieve_course_user_categories($condition, null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
-		$courses = $this->retrieve_courses($this->get_user_id(), 0);
+		
+		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
+		
+		$courses = $this->retrieve_courses($this->get_user_id(), $condition);
 		echo $this->display_course_digest($courses);
 		
 		$cat_key = 0;
 		while ($course_category = $course_categories->next_result())
 		{
-			$courses = $this->retrieve_courses($this->get_user_id(), $course_category->get_id());
+			$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $course_category->get_id());
+			$courses = $this->retrieve_courses($this->get_user_id(), $condition);
 			echo $this->display_course_digest($courses, $course_category, $cat_key, $course_categories->size());
 			$cat_key++;
 		}
