@@ -7,6 +7,7 @@
 require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once Path :: get_home_path() . 'lib/home_manager/home_manager.class.php';
 require_once Path :: get_home_path() . 'lib/home_data_manager.class.php';
+require_once Path :: get_user_path() . 'lib/usermanager/usermanager.class.php';
 
 Translation :: set_application('home');
 Theme :: set_application($this_section);
@@ -48,17 +49,24 @@ if ($user_home_allowed && Authentication :: is_valid())
 	
 	$block->create();
 	
-	$application_class = Application :: application_to_class($block->get_application());
+	$usermgr = new UserManager($user_id);
+	$user = $usermgr->get_user();
+	
+	$application = $block->get_application();
+	$application_class = Application :: application_to_class($application);
 	
 	if(!Application :: is_application($application))
 	{
 		$application_class .= 'Manager';
+		$app = new $application_class($user);		
+	}
+	else
+	{
+		$path = Path :: get_application_path() . 'lib' . '/' . $application . '/' . $application . '_manager' . '/' . $application . '.class.php';
+		require_once $path;
+		$app = Application :: factory($application, $user);
 	}
 	
-	$usermgr = new UserManager($user_id);
-	$user = $usermgr->get_user();
-	
-	$app = new $application_class($user);
 	echo $app->render_block($block);
 }
 ?>

@@ -11,9 +11,10 @@ class DocumentDisplay extends LearningObjectDisplay
 {
 	//Inherited
 	function get_full_html()
-	{
+	{	
 		$html = parent :: get_full_html();
 		$object = $this->get_learning_object();
+		
 		return preg_replace('|</div>\s*$|s', '<div class="document_link" style="margin-top: 1em;"><a href="'.htmlentities($object->get_url()).'">'.htmlentities($object->get_filename()).'</a> ('.Filesystem::format_file_size($object->get_filesize()).')</div></div>', $html);
 	}
 	//Inherited

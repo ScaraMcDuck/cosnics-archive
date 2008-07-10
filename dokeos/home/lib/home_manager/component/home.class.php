@@ -74,10 +74,10 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 				
 				$blocks = $this->retrieve_home_blocks($condition);
 				
+				$path = Path :: get_application_path() . 'lib';
+				
 				while ($block = $blocks->next_result())
-				{
-					$path = Path :: get_application_path() . 'lib';
-					
+				{					
 					$application = $block->get_application();
 					$application_class = Application :: application_to_class($application);
 					

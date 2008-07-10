@@ -343,9 +343,6 @@ class Admin
 		$applications = Application :: load_all();
 		foreach($applications as $index => $application_name)
 		{
-			$toolPath = $path . '/' . $application_name . '/' . $application_name . '_manager';
-			require_once $toolPath . '/' . $application_name . '.class.php';
-			
 			$application = Application::factory($application_name);
 			$links = $application->get_application_platform_admin_links();
 			if ($links['application']['name'])

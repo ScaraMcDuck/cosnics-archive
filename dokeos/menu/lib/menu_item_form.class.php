@@ -106,7 +106,7 @@ class MenuItemForm extends FormValidator {
 	
 	function get_applications()
 	{
-		$items = Application :: load_all();
+		$items = Application :: load_all(false);
 		$applications = array();
 		$applications[''] = Translation :: get('Root');
 		

@@ -17,7 +17,6 @@ require_once dirname(__FILE__).'/../personal_calendar_block.class.php';
  */
 class PersonalCalendar extends WebApplication
 {
-	// TODO: Rewrite Personal Calendar app to standard application layout
 	const APPLICATION_NAME = 'personal_calendar';
 	
 	const PARAM_ACTION = 'go';
