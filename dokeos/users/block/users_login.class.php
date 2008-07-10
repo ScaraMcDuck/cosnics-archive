@@ -65,6 +65,16 @@ class UsersLogin extends UsersBlock
 		}
 		else
 		{
+			$user = $this->get_user();
+			$html[] = '<table width="200">';
+			$html[] = '<tr>';
+			$html[] = '<td rowspan="2" width="70"><img src="'.$user->get_full_picture_url().'" /></td>';
+			$html[] = '<td valign="top">'.$user->get_fullname().'</td>';
+			$html[] = '</tr>';
+			$html[] = '<tr>';
+			$html[] = '<td></td>';
+			$html[] = '</tr>';
+			$html[] = '</table>';
 			$html[] = '<a href="index.php?logout=true">Logout</a>';
 		}
 	
