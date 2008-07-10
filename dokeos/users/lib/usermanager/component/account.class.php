@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../usermanager.class.php';
 require_once dirname(__FILE__).'/../usermanagercomponent.class.php';
-require_once dirname(__FILE__).'/../accountform.class.php';
+require_once dirname(__FILE__).'/../../account_form.class.php';
 require_once dirname(__FILE__).'/../../usersdatamanager.class.php';
 
 class UserManagerAccountComponent extends UserManagerComponent
