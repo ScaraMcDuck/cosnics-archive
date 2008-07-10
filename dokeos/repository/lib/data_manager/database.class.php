@@ -715,23 +715,6 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
 	/**
-	 * Returns the database connection directly. You should not use this
-	 * method, as it only applies for DatabaseRepositoryDataManager, and not
-	 * for other RepositoryDataManager implementations. The reason why this
-	 * method is accessible is so application data managers that use the same
-	 * database may reuse the connection.
-	 * @return DB_connection The database connection.
-	 */
-	function get_connection()
-	{
-		/*
-		 * TODO: Move connection out of the repository libraries, using a
-		 *       singleton pattern.
-		 */
-		return $this->connection;
-	}
-
-	/**
 	 * Returns the prefix for database table names, if any. This method is
 	 * visible for the same reason as get_connection().
 	 * @return string The prefix.
