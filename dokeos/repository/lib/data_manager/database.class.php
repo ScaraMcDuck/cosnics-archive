@@ -1231,7 +1231,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$is_complex_ref = $rec1[ComplexLearningObjectItem :: PROPERTY_COMPLEX_REF];
 		if($is_complex_ref)
 		{
-			$item = $this->retrieve_learning_object_item($rec1[ComplexLearningObjectItem :: PROPERTY_REF]);
+			$item = $this->retrieve_complex_learning_object_item($rec1[ComplexLearningObjectItem :: PROPERTY_REF]);
 			$ref = $item->get_ref();
 		}
 		else

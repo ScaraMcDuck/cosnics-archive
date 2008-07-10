@@ -56,6 +56,7 @@ class RepositoryManager
 	const PARAM_CLOI_REF = 'cloi_ref';
 	const PARAM_CLOI_ID = 'cloi_id';
 	const PARAM_CLOI_ROOT_ID = 'cloi_root_id';
+	const PARAM_CLOI_COMPLEX_REF = 'cloi_complex_ref';
 	const PARAM_REMOVE_SELECTED_CLOI = 'cloi_delete_selected';
 
 	/**#@-*/

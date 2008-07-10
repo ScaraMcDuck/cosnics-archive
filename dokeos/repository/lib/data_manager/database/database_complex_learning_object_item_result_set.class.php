@@ -44,7 +44,15 @@ class DatabaseComplexLearningObjectItemResultSet extends ResultSet {
     {
 		if ($record = $this->handle->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$type = $this->data_manager->determine_learning_object_type($record[ComplexLearningObjectItem :: PROPERTY_REF]);
+			if($record[ComplexLearningObjectItem :: PROPERTY_COMPLEX_REF])
+			{
+				$ref_item = $this->data_manager->retrieve_complex_learning_object_item($record[ComplexLearningObjectItem :: PROPERTY_REF]);
+				$ref = $ref_item->get_ref();
+			}
+			else
+				$ref = $record[ComplexLearningObjectItem :: PROPERTY_REF];
+				
+			$type = $this->data_manager->determine_learning_object_type($ref);
 			return $this->data_manager->record_to_complex_learning_object_item($record, $type, $this->single_type);
 		}
     	return null;
