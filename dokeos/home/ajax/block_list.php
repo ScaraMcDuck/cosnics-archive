@@ -14,6 +14,8 @@ Theme :: set_application($this_section);
 
 $user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: APPLICATION_NAME);
 
+// TODO: Add styles to css instead of leaving them hardcoded.
+
 if ($user_home_allowed && Authentication :: is_valid())
 {
 	$user_id	= Session :: get_user_id();
@@ -62,7 +64,7 @@ if ($user_home_allowed && Authentication :: is_valid())
 	echo '<div class="clear">&nbsp;</div>';
 	echo '</div>';
 	
-	echo '<div style="position: relative; bottom: -15px; padding: 5px 0px 5px 0px; margin: 0px -15px 0px -15px; text-align: center;">';
+	echo '<div style="position: relative; bottom: -15px; padding: 5px 0px 5px 0px; margin: 0px -15px 0px -15px; text-align: center; background: url('. Theme :: get_img_path() .'background_ajax_add.png)#F6F6F6 no-repeat top center;">';
 	echo '<a class="closeScreen" href="#"><img src="'. Theme :: get_img_path() .'action_ajax_add.png" alt="'. Translation :: get('close') .'" title="'. Translation :: get('close') .'" /></a>';
 	echo '</div>';
 	echo '</div>';
