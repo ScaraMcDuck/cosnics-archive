@@ -1071,13 +1071,21 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->extended->autoExecute($this->get_table_name('complex_learning_object_item'), $props, MDB2_AUTOQUERY_INSERT);
 		if ($clo_item->is_extended())
 		{
+			if($clo_item->is_complex_ref())
+			{
+				$ref_item = $this->retrieve_complex_learning_object_item($clo_item->get_ref());
+				$ref = $ref_item->get_ref();
+			}
+			else
+				$ref = $clo_item->get_ref();
+			
 			$props = array();
 			foreach ($clo_item->get_additional_properties() as $key => $value)
 			{
 				$props[$this->escape_column_name($key)] = $value;
 			}
 			$props[$this->escape_column_name(ComplexLearningObjectItem :: PROPERTY_ID)] = $clo_item->get_id();
-			$type = $this->determine_learning_object_type($clo_item->get_ref());
+			$type = $this->determine_learning_object_type($ref);
 			$this->connection->extended->autoExecute($this->get_table_name('complex_' . $type), $props, MDB2_AUTOQUERY_INSERT);
 		}
 
@@ -1096,18 +1104,27 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$props = array();
 		foreach ($clo_item->get_default_properties() as $key => $value)
 		{
+			if($key == ComplexLearningObjectItem :: PROPERTY_ID) continue;
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('complex_learning_object_item'), $props, MDB2_AUTOQUERY_UPDATE, $condition);
-		if ($clo_item->is_extended())
+		if ($clo_item->is_extended() && !$clo_item->is_complex_ref())
 		{
+			if($clo_item->is_complex_ref())
+			{
+				$ref_item = $this->retrieve_complex_learning_object_item($clo_item->get_ref());
+				$ref = $ref_item->get_ref();
+			}
+			else
+				$ref = $clo_item->get_ref();
+			
 			$props = array();
 			foreach ($clo_item->get_additional_properties() as $key => $value)
 			{
 				$props[$this->escape_column_name($key)] = $value;
 			}
-			$type = $this->determine_learning_object_type($clo_item->get_lo_id());
+			$type = $this->determine_learning_object_type($ref);
 			$this->connection->extended->autoExecute($this->get_table_name('complex_' . $type), $props, MDB2_AUTOQUERY_UPDATE, $condition);
 		}
 		return true;
@@ -1131,42 +1148,50 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
 
-		$this->connection->setLimit(1);
+		//$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 
 		if ($clo_item->is_extended())
 		{
-			$type = $this->determine_learning_object_type($clo_item->get_lo_id());
+			if($clo_item->is_complex_ref())
+			{
+				$ref_item = $this->retrieve_complex_learning_object_item($clo_item->get_ref());
+				$ref = $ref_item->get_ref();
+			}
+			else
+				$ref = $clo_item->get_ref();
+			
+			$type = $this->determine_learning_object_type($ref);
 			$query = 'DELETE FROM '.$this->get_table_name('complex_' . $type);
 
 			$params = array ();
 			if (isset ($condition))
 			{
-				$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+				$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
 				$translator->translate($condition);
 				$query .= $translator->render_query();
 				$params = $translator->get_parameters();
 			}
 
-			$this->connection->setLimit(1);
+			//$this->connection->setLimit(1);
 			$statement = $this->connection->prepare($query);
 			$res = $statement->execute($params);
 		}
 
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $clo_item->get_id());
+		/*$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $clo_item->get_id());
 		$items = $this->retrieve_complex_learning_object_items($condition);
 
 		foreach($items as $item)
 		{
 			$this->delete_complex_learning_object_item($item);
-		}
+		}*/
 
 		return true;
 
@@ -1203,7 +1228,16 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 		// Determine type
 
-		$type = $this->determine_learning_object_type($rec1[ComplexLearningObjectItem :: PROPERTY_REF]);
+		$is_complex_ref = $rec1[ComplexLearningObjectItem :: PROPERTY_COMPLEX_REF];
+		if($is_complex_ref)
+		{
+			$item = $this->retrieve_learning_object_item($rec1[ComplexLearningObjectItem :: PROPERTY_REF]);
+			$ref = $item->get_ref();
+		}
+		else
+			$ref = $rec1[ComplexLearningObjectItem :: PROPERTY_REF];
+
+		$type = $this->determine_learning_object_type($ref);
 		$cloi = ComplexLearningObjectItem :: factory($type, array(), array());
 		
 		$bool = false;

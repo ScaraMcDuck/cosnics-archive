@@ -99,7 +99,7 @@ class ComplexLearningObjectItem
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_REF, self :: PROPERTY_PARENT, PROPERTY_USER_ID, PROPERTY_COMPLEX_REF);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_REF, self :: PROPERTY_PARENT, self :: PROPERTY_USER_ID, self :: PROPERTY_COMPLEX_REF);
 	}
 	
 	/**
@@ -162,7 +162,7 @@ class ComplexLearningObjectItem
 		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
 	}
 	
-	function get_complex_ref()
+	function is_complex_ref()
     {
     	return $this->get_default_property(self :: PROPERTY_COMPLEX_REF);
     }

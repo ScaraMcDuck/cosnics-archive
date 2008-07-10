@@ -90,14 +90,14 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		if($cloi->is_extended())
 		{
 			$toolbar_data[] = array(
-				'href' => $this->browser->get_complex_learning_object_item_edit_url($cloi),
+				'href' => $this->browser->get_complex_learning_object_item_edit_url($cloi, $this->browser->get_root()->get_id()),
 				'label' => Translation :: get('Edit'),
 				'img' => Theme :: get_common_img_path().'action_edit.png'
 			);
 		}
 		
 		$toolbar_data[] = array(
-			'href' => $this->browser->get_complex_learning_object_item_delete_url($cloi),
+			'href' => $this->browser->get_complex_learning_object_item_delete_url($cloi, $this->browser->get_root()->get_id()),
 			'label' => Translation :: get('Delete'),
 			'img' => Theme :: get_common_img_path().'action_delete.png',
 			'confirm' => true

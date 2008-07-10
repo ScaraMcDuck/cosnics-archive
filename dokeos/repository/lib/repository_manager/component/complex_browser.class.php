@@ -47,7 +47,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		}
 		
 		$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $this->cloi->get_ref())), Translation :: get('ViewLearningObject')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewComplexLearningObject')));
+		$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
 		
 		$output = $this->get_learning_objects_html();
 		$menu = $this->get_menu();
@@ -75,6 +75,12 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	{
 		$table = new ComplexBrowserTable($this, $this->get_parameters(), $this->get_condition());
 		return $table->as_html();
+	}
+	
+	public function get_parameters()
+	{
+		$param = array(RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->root->get_id());
+		return array_merge($param, parent :: get_parameters());
 	}
 	
 	private function get_condition()
