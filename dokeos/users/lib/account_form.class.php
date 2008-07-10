@@ -3,8 +3,8 @@
  * @package users.lib.usermanager
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/../user.class.php';
-require_once dirname(__FILE__).'/../usersdatamanager.class.php';
+require_once dirname(__FILE__).'/user.class.php';
+require_once dirname(__FILE__).'/users_data_manager.class.php';
 
 class AccountForm extends FormValidator {
 

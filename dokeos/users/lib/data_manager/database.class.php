@@ -4,9 +4,9 @@
  * @subpackage datamanager
  */
 require_once dirname(__FILE__).'/database/databaseuserresultset.class.php';
-require_once dirname(__FILE__).'/../usersdatamanager.class.php';
+require_once dirname(__FILE__).'/../users_data_manager.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
-require_once dirname(__FILE__).'/../userquota.class.php';
+require_once dirname(__FILE__).'/../user_quota.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/learning_object.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once 'MDB2.php';
@@ -145,13 +145,13 @@ class DatabaseUsersDataManager extends UsersDataManager
 	//Inherited.
 	function update_user_quota($user_quota)
 	{
-		$where = $this->escape_column_name(Userquota :: PROPERTY_USER_ID).'='.$user_quota->get_user_id(). ' AND '. $this->escape_column_name(Userquota :: PROPERTY_LEARNING_OBJECT_TYPE).'="'.$user_quota->get_learning_object_type(). '"';
+		$where = $this->escape_column_name(UserQuota :: PROPERTY_USER_ID).'='.$user_quota->get_user_id(). ' AND '. $this->escape_column_name(UserQuota :: PROPERTY_LEARNING_OBJECT_TYPE).'="'.$user_quota->get_learning_object_type(). '"';
 		$props = array();
 		foreach ($user_quota->get_default_properties() as $key => $value)
 		{
 			$props[$this->escape_column_name($key)] = $value;
 		}
-		$props[Userquota :: PROPERTY_USER_ID] = $user_quota->get_user_id();
+		$props[UserQuota :: PROPERTY_USER_ID] = $user_quota->get_user_id();
 		$this->connection->loadModule('Extended');
 		$quota_type = $this->retrieve_version_type_quota($this->retrieve_user($user_quota->get_user_id()), $user_quota->get_learning_object_type());
 		if ($quota_type)

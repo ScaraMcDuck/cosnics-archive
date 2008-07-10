@@ -11,7 +11,7 @@ require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
 require_once Path :: get_library_path().'condition/not_condition.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
-require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
 require_once dirname(__FILE__).'/component/profile_publication_browser/profile_publication_browser_table.class.php';
 require_once dirname(__FILE__).'/../profile_publisher.class.php';

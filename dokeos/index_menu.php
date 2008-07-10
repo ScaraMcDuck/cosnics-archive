@@ -3,7 +3,7 @@ $this_section = 'menu';
 
 require_once dirname(__FILE__).'/common/global.inc.php';
 require_once Path :: get_menu_path() . 'lib/menu_manager/menu_manager.class.php';
-require_once Path :: get_user_path() . 'lib/usermanager/usermanager.class.php';
+require_once Path :: get_user_path() . 'lib/usermanager/user_manager.class.php';
 
 Translation :: set_application('menu');
 Theme :: set_application($this_section);

@@ -3,8 +3,8 @@
  * @package users.lib.usermanager
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/../user.class.php';
-require_once dirname(__FILE__).'/../userquota.class.php';
+require_once dirname(__FILE__).'/user.class.php';
+require_once dirname(__FILE__).'/user_quota.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_repository_path(). 'lib/abstract_learning_object.class.php';
 
@@ -71,7 +71,7 @@ class UserQuotaForm extends FormValidator {
     	$failures = 0;
     	foreach($this->learning_object_types as $type)
     	{
-    		$userquota = new Userquota();
+    		$userquota = new UserQuota();
     		$userquota->set_learning_object_type($type);
     		$userquota->set_user_quota($values[$type]);
     		$userquota->set_user_id($user->get_id());

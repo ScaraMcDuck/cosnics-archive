@@ -206,7 +206,7 @@ else
  */
 
 // TODO: Are these includes still necessary ?
-require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
  
 // Login
 if(isset($_POST['login']))
@@ -301,7 +301,7 @@ if (isset($_GET['logout']))
 
 if (isset($_SESSION['_uid']))
 {
-	require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
+	require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
 	$language_interface = UsersDataManager :: get_instance()->retrieve_user(Session :: get_user_id())->get_language();
 }
 else

@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/subscribed_user_browser_table_column_model.class.php';
 require_once Path :: get_user_path(). 'lib/user_table/default_user_table_cell_renderer.class.php';
 require_once Path :: get_user_path(). 'lib/user.class.php';
-require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
+require_once Path :: get_user_path(). 'lib/usermanager/user_manager.class.php';
 /**
  * Cell rendere for the learning object browser table
  */

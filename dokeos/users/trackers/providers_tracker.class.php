@@ -4,7 +4,7 @@
  * @package users.lib.trackers
  */
  
-require_once dirname(__FILE__) . '/usertracker.class.php';
+require_once dirname(__FILE__) . '/user_tracker.class.php';
  
 /**
  * This class tracks the provider that a user uses

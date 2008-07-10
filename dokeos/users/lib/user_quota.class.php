@@ -15,7 +15,7 @@
  *	@author Dieter De Neef
  */
 
-class Userquota
+class UserQuota
 {
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_LEARNING_OBJECT_TYPE = 'learning_object_type';
@@ -39,7 +39,7 @@ class Userquota
 	 * @param array $defaultProperties The default properties of the user
 	 *                                 object. Associative array.
 	 */
-	function Userquota($user_id = 0, $defaultProperties = array ())
+	function UserQuota($user_id = 0, $defaultProperties = array ())
 	{
 		$this->user_id = $user_id;
 		$this->defaultProperties = $defaultProperties;

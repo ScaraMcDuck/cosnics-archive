@@ -19,7 +19,7 @@ require_once Path :: get_library_path().'condition/not_condition.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once dirname(__FILE__).'/component/admin_course_browser/admin_course_browser_table.class.php';
 require_once dirname(__FILE__).'/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
-require_once Path :: get_user_path(). 'lib/usersdatamanager.class.php';
+require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
 require_once dirname(__FILE__).'/../weblcms_block.class.php';
 
 /**

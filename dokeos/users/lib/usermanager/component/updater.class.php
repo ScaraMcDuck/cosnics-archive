@@ -2,10 +2,10 @@
 /**
  * @package users.lib.usermanager.component
  */
-require_once dirname(__FILE__).'/../usermanager.class.php';
-require_once dirname(__FILE__).'/../usermanagercomponent.class.php';
-require_once dirname(__FILE__).'/../userform.class.php';
-require_once dirname(__FILE__).'/../../usersdatamanager.class.php';
+require_once dirname(__FILE__).'/../user_manager.class.php';
+require_once dirname(__FILE__).'/../user_manager_component.class.php';
+require_once dirname(__FILE__).'/../../user_form.class.php';
+require_once dirname(__FILE__).'/../../users_data_manager.class.php';
 
 class UserManagerUpdaterComponent extends UserManagerComponent
 {

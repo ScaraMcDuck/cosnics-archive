@@ -11,7 +11,7 @@ $this_section = $application_key;
 $application_path = dirname(__FILE__).'/application/lib/'.$application_key.'/'.$application_key.'_manager/'.$application_key.'.class.php';
 
 require_once dirname(__FILE__).'/common/global.inc.php';
-require_once Path :: get_user_path(). 'lib/usermanager/usermanager.class.php';
+require_once Path :: get_user_path(). 'lib/usermanager/user_manager.class.php';
 
 // If application path doesn't exist, block the user
 if(!file_exists($application_path))

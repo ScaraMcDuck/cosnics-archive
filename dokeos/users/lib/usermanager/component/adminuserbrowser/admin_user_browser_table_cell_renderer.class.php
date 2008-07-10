@@ -2,10 +2,10 @@
 /**
  * @package users.lib.usermanager.component.adminuserbrowser
  */
-require_once dirname(__FILE__).'/adminuserbrowsertablecolumnmodel.class.php';
+require_once dirname(__FILE__).'/admin_user_browser_table_column_model.class.php';
 require_once dirname(__FILE__).'/../../../user_table/default_user_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../../user.class.php';
-require_once dirname(__FILE__).'/../../usermanager.class.php';
+require_once dirname(__FILE__).'/../../user_manager.class.php';
 /**
  * Cell renderer for the user object browser table
  */

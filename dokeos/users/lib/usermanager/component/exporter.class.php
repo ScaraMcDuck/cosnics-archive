@@ -2,9 +2,9 @@
 /**
  * @package users.lib.usermanager.component
  */
-require_once dirname(__FILE__).'/../usermanager.class.php';
-require_once dirname(__FILE__).'/../usermanagercomponent.class.php';
-require_once dirname(__FILE__).'/../userexportform.class.php';
+require_once dirname(__FILE__).'/../user_manager.class.php';
+require_once dirname(__FILE__).'/../user_manager_component.class.php';
+require_once dirname(__FILE__).'/../../user_export_form.class.php';
 require_once Path :: get_library_path().'export/export.class.php';
 
 class UserManagerExporterComponent extends UserManagerComponent
