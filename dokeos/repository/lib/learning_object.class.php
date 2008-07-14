@@ -953,7 +953,7 @@ class LearningObject implements AccessibleLearningObject
 	 *                                    retrieval.
 	 * @return LearningObject The newly instantiated learning object.
 	 */
-	static function factory($type, $id, $defaultProperties, $additionalProperties)
+	static function factory($type, $id = null, $defaultProperties = array(), $additionalProperties = array())
 	{
 		$class = self :: type_to_class($type);
 		return new $class ($id, $defaultProperties, $additionalProperties);
