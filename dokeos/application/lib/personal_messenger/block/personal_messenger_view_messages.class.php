@@ -96,12 +96,12 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
 		$html[] = $new? '<img width="15" height="15" src="'.Theme :: get_common_img_path().'learning_object/personal_message_new.png" />' : '<img width="15" height="15" src="'.Theme :: get_common_img_path().'learning_object/personal_message_na.png" />';
 		
 		$html[] = '<a href="'. $personal_messenger->get_publication_viewing_link($publication) .'">';
-		$html[] = $this->str_trim($publication->get_publication_sender()->get_fullname(),15) . $separator;
-		$html[] = $this->str_trim($publication->get_publication_object()->get_title(),10) . $separator;
-		$html[] = '<i>';
-		$html[] = $this->str_trim(strip_tags($publication->get_publication_object()->get_description()));
+		$html[] = $this->str_trim($publication->get_publication_sender()->get_fullname()) . $separator;
+		$html[] = $this->str_trim($publication->get_publication_object()->get_title());
+		$html[] = '</a><br /><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		$html[] = $this->str_trim(strip_tags($publication->get_publication_object()->get_description()),50);
 		$html[] = '</i>';
-		$html[] = '</a><br />	';
+		$html[] = '<br />	';
 	}
 	
 	function is_new(&$publication,&$arr_pub_new)
