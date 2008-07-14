@@ -94,10 +94,6 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
 	{
 		$separator = ' - ';
 		$html[] = $new? '<img width="15" height="15" src="'.Theme :: get_common_img_path().'learning_object/personal_message_new.png" />' : '<img width="15" height="15" src="'.Theme :: get_common_img_path().'learning_object/personal_message_na.png" />';
-		if($new)
-		{
-			//$html[] = '<u>';
-		}
 		
 		$html[] = '<a href="'. $personal_messenger->get_publication_viewing_link($publication) .'">';
 		$html[] = $this->str_trim($publication->get_publication_sender()->get_fullname(),15) . $separator;
@@ -106,31 +102,18 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
 		$html[] = $this->str_trim(strip_tags($publication->get_publication_object()->get_description()));
 		$html[] = '</i>';
 		$html[] = '</a><br />	';
-		
-		if($new)
-		{
-			//$html[] = '</u>';
-		}
 	}
 	
 	function is_new(&$publication,&$arr_pub_new)
 	{
 		$result = false;
 		foreach($arr_pub_new as $publication_new)
-		//for($i=0;$i<$arr_pub_new->count();$i = $i+1)
 		{
 			if($publication->get_publication_object()->get_id() == $publication_new->get_publication_object()->get_id())
 			{
 				$result = true;
 			}
 		}
-		//while ($publication_new = $publications_new->next_result())
-		//{
-			//if($publication->get_publication_object()->get_id() == $publication_new->get_publication_object()->get_id())
-			//{
-				//$result = true;
-			//}
-		//}
 		return $result;
 	}
 	
