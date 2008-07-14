@@ -69,12 +69,12 @@ class ValidateDatabaseConnection extends HTML_QuickForm_Rule
 		
 		if (MDB2 :: isError($connection))
 		{
-			MDB2 :: disconnect();
+			//MDB2 :: disconnect();
 			return false;
 		}
 		else
 		{
-			MDB2 :: disconnect();
+			//MDB2 :: disconnect();
 			return true;
 		}
 	}
