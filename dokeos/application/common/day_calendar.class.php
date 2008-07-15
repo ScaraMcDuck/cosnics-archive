@@ -59,7 +59,7 @@ class DayCalendar extends CalendarTable
 	/**
 	 * Builds the table
 	 */
-	private function build_table()
+	protected function build_table()
 	{
 		for ($hour = 0; $hour < 24; $hour += $this->get_hour_step())
 		{
