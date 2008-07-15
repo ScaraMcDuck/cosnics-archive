@@ -41,6 +41,8 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
 		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TYPE);
 		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE);
 		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION);
+		//$columns[] = new ObjectTableColumn(ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER);
+		$columns[] = new ObjectTableColumn('subitems');
 		//$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE);
 		$columns[] = self :: get_modification_column();
 		return $columns;

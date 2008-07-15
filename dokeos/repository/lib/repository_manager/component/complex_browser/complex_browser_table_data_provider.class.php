@@ -35,7 +35,7 @@ class ComplexBrowserTableDataProvider extends ObjectTableDataProvider
 		$order_direction = $this->get_order_property($order_direction);
     	
       	// We always use title as second sorting parameter
-		$order_property[] = ComplexLearningObjectItem :: PROPERTY_ID;
+		$order_property[] = ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER;
 		$order_direction[] = SORT_ASC;
 		
       return $this->get_browser()->retrieve_complex_learning_object_items($this->get_condition(), $order_property, $order_direction, $offset, $count);
