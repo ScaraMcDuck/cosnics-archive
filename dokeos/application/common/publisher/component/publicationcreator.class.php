@@ -103,11 +103,11 @@ abstract class PublisherPublicationcreatorComponent extends PublisherComponent
 	 */
 	private function get_editing_form($learning_object_id)
 	{
-		$learning_object = RepositoryDataManager :: get_instance()->retrieve_object($learning_object_id);
-		$form = ObjectForm :: factory(ObjectForm :: TYPE_REPLY, $learning_object, 'edit', 'post', $this->get_url(array (Publisher :: PARAM_ID => $learning_object_id, Publisher :: PARAM_EDIT => 1)));
+		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
+		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_REPLY, $learning_object, 'edit', 'post', $this->get_url(array (Publisher :: PARAM_ID => $learning_object_id, Publisher :: PARAM_EDIT => 1)));
 		if ($form->validate())
 		{
-			$learning_object = $form->create_object();
+			$learning_object = $form->create_learning_object();
 			return $this->get_publication_form($learning_object->get_id(), true);
 		}
 		else
