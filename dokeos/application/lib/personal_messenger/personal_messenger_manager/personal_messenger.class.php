@@ -35,6 +35,7 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 	const PARAM_FOLDER = 'folder';
 	const PARAM_PERSONAL_MESSAGE_ID = 'pm';
 	const PARAM_MARK_TYPE = 'type';
+	const PARAM_USER_ID = 'user_id';
 
 	const ACTION_FOLDER_INBOX = 'inbox';
 	const ACTION_FOLDER_OUTBOX = 'outbox';
@@ -594,7 +595,13 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 	 */
 	function get_publication_reply_url($personal_message)
 	{
-		return $this->get_url(array (PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_CREATE_PUBLICATION, PersonalMessagePublisher :: PARAM_ACTION => 'publicationcreator', PersonalMessagePublisher :: PARAM_ID => $personal_message->get_personal_message(), self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(), PersonalMessagePublisher :: PARAM_EDIT => 1));
+		return $this->get_url(
+			array (PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_CREATE_PUBLICATION, 
+				   PersonalMessagePublisher :: PARAM_ACTION => 'publicationcreator', 
+				   PersonalMessagePublisher :: PARAM_ID => $personal_message->get_personal_message(), 
+				   self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(), 
+				   PersonalMessagePublisher :: PARAM_EDIT => 1,
+				   self :: PARAM_USER_ID => $personal_message->get_sender()));
 	}
 
 	/**

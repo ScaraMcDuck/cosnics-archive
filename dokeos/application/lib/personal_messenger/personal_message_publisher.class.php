@@ -40,8 +40,8 @@ class PersonalMessagePublisher extends Publisher
 		
 		require_once dirname(__FILE__).'/publisher/personal_message_'.$action.'.class.php';
 		$class = 'PersonalMessagePublisher'.ucfirst($action).'Component';
-		$component = new $class ($this);
-		$out .= $component->as_html().'</div></div>';
+		$component = new $class ($this); 
+		$out .= $component->as_html(array(PersonalMessenger :: PARAM_USER_ID => $_GET[PersonalMessenger :: PARAM_USER_ID])).'</div></div>';
 		return $out;
 	}
 }
