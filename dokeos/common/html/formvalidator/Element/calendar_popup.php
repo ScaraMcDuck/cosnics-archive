@@ -32,7 +32,7 @@ $DaysLong = array(Translation :: get("SundayLong"), Translation :: get("MondayLo
 $MonthsLong = array(Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
 
 
-$iso_lang = $adm->retrieve_language_from_english_name($language_interface)->get_isocode();
+$iso_lang = AdminDataManager :: get_instance()->retrieve_language_from_english_name($language_interface)->get_isocode();
 if(empty($document_language))
 {
   //if there was no valid iso-code, use the english one

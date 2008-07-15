@@ -28,7 +28,7 @@ function openCalendar(form, field) {
 			datevalues[dateindex++] = forminputs[i].value;
 		}
 	}
-    
+    window.open('<?php echo Path :: get(WEB_LIB_PATH); ?>html/formvalidator/Element/calendar_popup.php', 'calendar', 'width=220,height=200,status=no');
 	day = datevalues[0];
 	month = datevalues[1];
 	year = datevalues[2];
@@ -44,7 +44,7 @@ function openCalendar(form, field) {
  */
 function formatNum2(i, valtype) {
     f = (i < 10 ? '0' : '') + i;
-    if (valtype && valtype != '') {
+    if (valtype && valtype !== '') {
         switch(valtype) {
             case 'month':
                 f = (f > 12 ? 12 : f);
@@ -76,7 +76,7 @@ function initCalendar() {
 		day = window.opener.day;
 		month = window.opener.month;
 		year  = window.opener.year;   
-        if (isNaN(year) || isNaN(month) || isNaN(day) || day == 0) {
+        if (isNaN(year) || isNaN(month) || isNaN(day) || day === 0) {
             dt      = new Date();
             year    = dt.getFullYear();
             month   = dt.getMonth();
@@ -102,7 +102,7 @@ function initCalendar() {
 
     cnt.innerHTML = "";
 
-    str = ""
+    str = "";
 
     //heading table
     str += '<table class="calendar"><tr><th class="monthyear" width="50%">';
@@ -144,7 +144,7 @@ function initCalendar() {
         } else {
             style = '';
         }
-        str += "<td" + style + "><a href=\"javascript:returnDate(" + i +","+month+","+year + ");\">" + i + "</a></td>"
+        str += "<td" + style + "><a href=\"javascript:returnDate(" + i +","+month+","+year + ");\">" + i + "</a></td>";
         dayInWeek++;
     }
     for (i = dayInWeek; i < 7; i++) {
