@@ -18,7 +18,7 @@ class MiniDayCalendar extends DayCalendar
 	
 	protected function build_table()
 	{
-		for ($hour = 7; $hour < 24; $hour += $this->get_hour_step())
+		for ($hour = 0; $hour < 24; $hour += $this->get_hour_step())
 		{
 			$table_start_date = mktime($hour, 0, 0, date('m', $this->get_display_time()), date('d', $this->get_display_time()), date('Y', $this->get_display_time()));
 			$table_end_date = strtotime('+'.$this->get_hour_step().' hours', $table_start_date);

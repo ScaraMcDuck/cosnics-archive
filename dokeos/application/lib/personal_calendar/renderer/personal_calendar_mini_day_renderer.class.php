@@ -62,42 +62,8 @@ class PersonalCalendarMiniDayRenderer extends PersonalCalendarRenderer
 	 */
 	private function render_event($event, $table_start_date, $calendar_hour_step)
 	{
-		/*
-		$table_end_date = strtotime('+'.$calendar_hour_step.' Hours',$table_start_date);
-		$start_date = $event->get_start_date();
-		$end_date = $event->get_end_date();
-		
-		$html[] = '<div class="event" style="border-left: 5px solid '.$this->get_color(Translation :: get(Application :: application_to_class($event->get_source()))).';">';
-		
-		if($start_date >= $table_start_date && $start_date < $table_end_date)
-		{
-			$html[] = date('H:i',$start_date);
-		}
-		else
-		{
-			$html[] = '&darr;';
-		}
-		
-		$html[] = '<a href="'.$event->get_url().'">';
-		$html[] = htmlspecialchars($event->get_title());
-		$html[] = '</a>';
-		
-		if ($start_date != $end_date && $end_date > strtotime('+'. $calendar_hour_step .' hours', $start_date))
-		{
-			if($end_date > $table_start_date && $end_date <= $table_end_date)
-			{
-				$html[] = date('H:i',$end_date);
-			}
-			else
-			{
-				$html[] = '&darr;';
-			}
-		}
-		
-		$html[] = '</div>';
-		return implode("\n", $html);
-		//*/
-		$html[] = '<a href="'.$event->get_url().'"><img border="0" alt="'.$event->get_title().'" src="'.Theme :: get_common_img_path().'action_posticon.png"/></a>';
+		//$html[] = '<a href="'.$event->get_url().'"><img border="0" alt="'.$event->get_title().'" src="'.Theme :: get_common_img_path().'action_posticon.png"/></a>';
+		$html[] = '<img border="0" alt="'.$event->get_title().'" src="'.Theme :: get_common_img_path().'action_posticon.png"/>';
 		return implode("\n",$html);
 	}
 }
