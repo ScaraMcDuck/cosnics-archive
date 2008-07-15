@@ -58,12 +58,14 @@ class PersonalMessagePublisherPublicationCreatorComponent extends PublisherPubli
 		$out = ($new ? Display :: display_normal_message(htmlentities(Translation :: get('LearningObjectCreated')), true) : '');
 		$tool = $this->get_parent()->get_parent();
 		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
+		$edit = $_GET[Publisher :: PARAM_EDIT];
+		$user = $_GET[PersonalMessenger :: PARAM_USER_ID];
 		
 		$form = new PersonalMessagePublicationForm($learning_object, $this->get_user(),$this->get_url(array (PersonalMessagePublisher :: PARAM_ID => $learning_object->get_id())));
-		if ($form->validate())
+		if ($form->validate() || ($edit && $user))
 		{
 			$failures = 0;
-			if ($form->create_learning_object_publication())
+			if ($form->create_learning_object_publication(array($user)))
 			{
 				$message = 'ProfilePublished';
 			}
@@ -73,7 +75,7 @@ class PersonalMessagePublisherPublicationCreatorComponent extends PublisherPubli
 				$message = 'ProfileNotPublished';
 			}
 			
-			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES));
+			//$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES));
 		}
 		else
 		{

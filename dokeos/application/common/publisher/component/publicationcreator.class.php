@@ -18,14 +18,14 @@ abstract class PublisherPublicationcreatorComponent extends PublisherComponent
 	/*
 	 * Inherited
 	 */
-	function as_html()
+	function as_html($params = array())
 	{
 		$oid = $_GET[Publisher :: PARAM_ID];
 		if ($oid)
 		{
 			if ($_GET[Publisher :: PARAM_EDIT])
 			{
-				return $this->get_editing_form($oid);
+				return $this->get_editing_form($oid, $params);
 			}
 			return $this->get_publication_form($oid);
 		}
@@ -101,14 +101,14 @@ abstract class PublisherPublicationcreatorComponent extends PublisherComponent
 	/**
 	 * Gets the editing form
 	 */
-	private function get_editing_form($learning_object_id)
+	private function get_editing_form($learning_object_id, $params = array())
 	{
 		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
-		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_REPLY, $learning_object, 'edit', 'post', $this->get_url(array (Publisher :: PARAM_ID => $learning_object_id, Publisher :: PARAM_EDIT => 1)));
+		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_REPLY, $learning_object, 'edit', 'post', $this->get_url(array_merge($params,array (Publisher :: PARAM_ID => $learning_object_id, Publisher :: PARAM_EDIT => 1))));
 		if ($form->validate())
 		{
 			$learning_object = $form->create_learning_object();
-			return $this->get_publication_form($learning_object->get_id(), true);
+			return $this->get_publication_form($learning_object->get_id(), true, $params);
 		}
 		else
 		{

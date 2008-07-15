@@ -99,14 +99,17 @@ class PersonalMessagePublicationForm extends FormValidator
 	 * Creates a learning object publication using the values from the form.
 	 * @return LearningObjectPublication The new publication
 	 */
-    function create_learning_object_publication()
+    function create_learning_object_publication($extra_rec = array())
     {
 		$values = $this->exportValues();
 		$pmdm = PersonalMessengerDataManager :: get_instance();
 
 		$failures = 0;
 
-		foreach ($values['recipients'] as $recip)
+		$recepients = array_merge($extra_rec, $values['recipients']);
+		print_r($recepients);
+
+		foreach ($recepients as $recip)
 		{
 			if ($recip != $this->form_user->get_id())
 			{
