@@ -71,7 +71,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 				{
 					$title_short = '<a href="' . $this->browser->get_url(
 						array(RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->browser->get_root()->get_id(), 
-							  RepositoryManager :: PARAM_CLOI_ID => $cloi->get_id())) . '">' . $title_short . '</a>'; 
+							  RepositoryManager :: PARAM_CLOI_ID => $cloi->get_ref())) . '">' . $title_short . '</a>'; 
 				}
 				
 				return $title_short; //'<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
@@ -83,6 +83,13 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 					$description = mb_substr(strip_tags($learning_object->get_description()),0,200).'&hellip;';
 				}
 				return $description;
+			case 'subitems':
+				if($cloi->is_complex())
+				{
+					$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi->get_ref());
+					return $this->browser->count_complex_learning_object_items($condition);
+				}
+				return 0;
 		}
 	}
 	/**
@@ -103,6 +110,13 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 				'img' => Theme :: get_common_img_path().'action_edit.png'
 			);
 		}
+		else
+		{
+			$toolbar_data[] = array(
+				'label' => Translation :: get('EditNA'),
+				'img' => Theme :: get_common_img_path().'action_edit_na.png'
+			);
+		}
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_complex_learning_object_item_delete_url($cloi, $this->browser->get_root()->get_id()),
@@ -111,8 +125,71 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 			'confirm' => true
 		);
 		
+		$allowed = $this->check_move_allowed($cloi);
+		
+		if($allowed["moveup"])
+		{
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root()->get_id(), RepositoryManager :: PARAM_DIRECTION_UP),
+				'label' => Translation :: get('MoveUp'),
+				'img' => Theme :: get_common_img_path().'action_up.png',
+			);
+		}
+		else
+		{
+			$toolbar_data[] = array(
+				'label' => Translation :: get('MoveUpNA'),
+				'img' => Theme :: get_common_img_path().'action_up_na.png',
+			);
+
+		}
+		
+		if($allowed["movedown"])
+		{
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root()->get_id(), RepositoryManager :: PARAM_DIRECTION_DOWN),
+				'label' => Translation :: get('MoveDown'),
+				'img' => Theme :: get_common_img_path().'action_down.png',
+			);
+		}
+		else
+		{
+			$toolbar_data[] = array(
+				'label' => Translation :: get('MoveDownNA'),
+				'img' => Theme :: get_common_img_path().'action_down_na.png',
+			);	
+		}	
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);
+	}
+	
+	private function check_move_allowed($cloi)
+	{
+		$moveup_allowed = true;
+		$movedown_allowed = true;
+		
+		$count = $this->browser->count_complex_learning_object_items($this->browser->get_condition());
+		if($count == 1)
+		{
+			$moveup_allowed = false;
+			$movedown_allowed = false;
+		}
+		else
+		{
+			if($cloi->get_display_order() == 1)
+			{
+				$moveup_allowed = false;
+			}
+			else
+			{
+				if($cloi->get_display_order() == $count)
+				{
+					$movedown_allowed = false;
+				}
+			}
+		}
+		
+		return array('moveup' =>$moveup_allowed, 'movedown' => $movedown_allowed);
 	}
 }
 ?>

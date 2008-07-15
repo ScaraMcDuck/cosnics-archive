@@ -458,5 +458,10 @@ abstract class RepositoryManagerComponent {
 	{
 		return $this->get_parent()->get_complex_learning_object_item_delete_url($cloi, $root_id);
 	}
+	
+	function get_complex_learning_object_item_move_url($cloi, $root_id, $direction)
+	{
+		return $this->get_parent()->get_complex_learning_object_item_move_url($cloi, $root_id, $direction);
+	}
 }
 ?>

@@ -58,6 +58,9 @@ class RepositoryManager
 	const PARAM_CLOI_ROOT_ID = 'cloi_root_id';
 	const PARAM_CLOI_COMPLEX_REF = 'cloi_complex_ref';
 	const PARAM_REMOVE_SELECTED_CLOI = 'cloi_delete_selected';
+	const PARAM_MOVE_DIRECTION = 'move_direction';
+	const PARAM_DIRECTION_UP = 'up';
+	const PARAM_DIRECTION_DOWN = 'down';
 
 	/**#@-*/
    /**#@+
@@ -83,6 +86,7 @@ class RepositoryManager
 	const ACTION_UPDATE_COMPLEX_LEARNING_OBJECTS = 'updatecomplex';
 	const ACTION_DELETE_COMPLEX_LEARNING_OBJECTS = 'deletecomplex';
 	const ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS = 'browsecomplex';
+	const ACTION_MOVE_COMPLEX_LEARNING_OBJECTS = 'movecomplex';
 	
 	/**#@-*/
    /**#@+
@@ -192,6 +196,9 @@ class RepositoryManager
 				$this->set_parameter(self :: PARAM_CATEGORY_ID, null);
 				$this->force_menu_url($this->recycle_bin_url, true);
 				$component = RepositoryManagerComponent :: factory('RecycleBinBrowser', $this);
+				break;
+			case self :: ACTION_MOVE_COMPLEX_LEARNING_OBJECTS :
+				$component = RepositoryManagerComponent :: factory('ComplexOrderMover', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
@@ -1065,6 +1072,14 @@ class RepositoryManager
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_LEARNING_OBJECTS, 
 			self :: PARAM_CLOI_ID => $cloi->get_id(),
 			self :: PARAM_CLOI_ROOT_ID => $root_id));
+	}
+	
+	function get_complex_learning_object_item_move_url($cloi, $root_id, $direction)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MOVE_COMPLEX_LEARNING_OBJECTS, 
+			self :: PARAM_CLOI_ID => $cloi->get_id(),
+			self :: PARAM_CLOI_ROOT_ID => $root_id,
+			self :: PARAM_MOVE_DIRECTION => $direction));
 	}
 }
 ?>

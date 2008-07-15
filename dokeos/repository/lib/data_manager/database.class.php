@@ -1358,7 +1358,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$params = $translator->get_parameters();
 		}
 
-		$orderBy[] = ComplexLearningObjectItem :: PROPERTY_ID;
+		$orderBy[] = ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER;
 		$orderDir[] = SORT_ASC;
 		$order = array ();
 

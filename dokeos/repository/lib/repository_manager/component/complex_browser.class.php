@@ -83,7 +83,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		return array_merge($param, parent :: get_parameters());
 	}
 	
-	private function get_condition()
+	function get_condition()
 	{
 		$cloi_id = $_GET[RepositoryManager :: PARAM_CLOI_ID];
 		if(isset($cloi_id))

@@ -16,6 +16,7 @@ class ComplexLearningObjectItem
 	const PROPERTY_PARENT = 'parent';
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_COMPLEX_REF = 'complex_ref';
+	const PROPERTY_DISPLAY_ORDER = 'display_order';
 
 	private $defaultProperties;
 	private $additionalProperties;
@@ -99,7 +100,8 @@ class ComplexLearningObjectItem
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_REF, self :: PROPERTY_PARENT, self :: PROPERTY_USER_ID, self :: PROPERTY_COMPLEX_REF);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_REF, self :: PROPERTY_PARENT, 
+		self :: PROPERTY_USER_ID, self :: PROPERTY_COMPLEX_REF, self :: PROPERTY_DISPLAY_ORDER);
 	}
 	
 	/**
@@ -170,6 +172,16 @@ class ComplexLearningObjectItem
 	function set_complex_ref($complex_ref)
 	{
 		$this->set_default_property(self :: PROPERTY_COMPLEX_REF, $complex_ref);
+	}
+	
+	function get_display_order()
+	{
+		return $this->get_default_property(self :: PROPERTY_DISPLAY_ORDER);
+	}
+	
+	function set_display_order($display_order)
+	{
+		$this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
 	}
 	
 	function update()
