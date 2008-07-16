@@ -70,6 +70,38 @@ class ClassGroupBrowserTableCellRenderer extends DefaultClassGroupTableCellRende
 			'img' => Theme :: get_common_img_path().'action_edit.png'
 		);
 		
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_classgroup_rel_user_subscribing_url($classgroup),
+			'label' => Translation :: get('AddUsers'),
+			'img' => Theme :: get_common_img_path().'action_subscribe.png',
+		);
+		
+		$condition = new EqualityCondition(ClassGroupRelUser :: PROPERTY_CLASSGROUP_ID, $classgroup->get_id());
+		$users = $this->browser->retrieve_classgroup_rel_users($condition);
+		$visible = ($users->size() > 0);
+		
+		if($visible)
+		{
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_classgroup_emptying_url($classgroup),
+				'label' => Translation :: get('Truncate'),
+				'img' => Theme :: get_common_img_path().'action_recycle_bin.png',
+			);
+		}
+		else
+		{
+			$toolbar_data[] = array(
+				'label' => Translation :: get('TruncateNA'),
+				'img' => Theme :: get_common_img_path().'action_recycle_bin_na.png',
+			);
+		}
+		
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_classgroup_delete_url($classgroup),
+			'label' => Translation :: get('Delete'),
+			'img' => Theme :: get_common_img_path().'action_delete.png'
+		);
+		
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }

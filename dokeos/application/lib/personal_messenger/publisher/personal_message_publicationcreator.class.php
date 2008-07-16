@@ -75,7 +75,7 @@ class PersonalMessagePublisherPublicationCreatorComponent extends PublisherPubli
 				$message = 'ProfileNotPublished';
 			}
 			
-			//$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES));
+			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES));
 		}
 		else
 		{

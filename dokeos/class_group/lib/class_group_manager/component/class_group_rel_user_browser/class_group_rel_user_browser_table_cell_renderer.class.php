@@ -39,6 +39,8 @@ class ClassGroupRelUserBrowserTableCellRenderer extends DefaultClassGroupRelUser
 			case 'User' :
 				$user_id = parent :: render_cell($column, $classgroupreluser);
 				$user = UserManager :: retrieve_user($user_id);
+//				return '<a href="' . Path :: get(WEB_PATH) . 'index_user.php?go=view&id=' . $user->get_id() .
+//					'">' . $user->get_username() . '</a>';
 				return $user->get_username();
 		}
 		return parent :: render_cell($column, $classgroupreluser);

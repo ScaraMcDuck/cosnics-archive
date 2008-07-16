@@ -39,7 +39,9 @@ class ClassGroupManagerUnsubscriberComponent extends ClassGroupManagerComponent
 			foreach ($ids as $id)
 			{
 				$classgroupreluser_ids = explode('|', $id);
-				$classgroupreluser = $this->retrieve_classgroup_rel_user($classgroupreluser_ids[1], $classgroupreluser_ids[2]);
+				$classgroupreluser = $this->retrieve_classgroup_rel_user($classgroupreluser_ids[1], $classgroupreluser_ids[0]);
+
+				if(!isset($classgroupreluser)) continue;
 				
 				if ($classgroupreluser_ids[0] == $classgroupreluser->get_classgroup_id())
 				{
@@ -49,7 +51,7 @@ class ClassGroupManagerUnsubscriberComponent extends ClassGroupManagerComponent
 					}
 					else
 					{
-						Events :: trigger_event('unsubscribe', 'class_group', array('target_class_group_id' => $classgroupreluser->get_classgroup_id(), 'target_user_id' => $classgroupreluser->get_user_id(), 'action_user_id' => $user->get_id()));
+						Events :: trigger_event('unsubscribe_user', 'class_group', array('target_class_group_id' => $classgroupreluser->get_classgroup_id(), 'target_user_id' => $classgroupreluser->get_user_id(), 'action_user_id' => $user->get_id()));
 					}
 				}
 				else

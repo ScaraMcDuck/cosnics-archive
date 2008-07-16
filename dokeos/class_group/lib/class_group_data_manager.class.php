@@ -87,7 +87,7 @@ abstract class ClassGroupDataManager
 	
 	abstract function retrieve_classgroups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
-	abstract function retrieve_classgroup_rel_user($user_id);
+	abstract function retrieve_classgroup_rel_user($user_id, $group_id);
 	
 	abstract function retrieve_classgroup_rel_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 }

@@ -22,7 +22,7 @@ if (Authentication :: is_valid())
 	if (isset($_GET['query']))
 	{
 		$query_condition = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*'. $_GET['query'] .'*');
-
+		
 		if (isset ($query_condition))
 		{
 			$conditions[] = $query_condition;
@@ -71,7 +71,7 @@ function dump_tree($objects)
 		echo '<node id="user" class="type_category unlinked" title="Users">', "\n";
 		foreach ($objects as $lo)
 		{
-			echo '<leaf id="'. $lo->get_user_id(). '" class="'. 'type type_user'. '" title="'. htmlentities($lo->get_username()). '" description="'. htmlentities($lo->get_firstname()) . ' ' . htmlentities($lo->get_lastname()) . '"/>'. "\n";
+			echo '<leaf id="'. $lo->get_id(). '" class="'. 'type type_user'. '" title="'. htmlentities($lo->get_username()). '" description="'. htmlentities($lo->get_firstname()) . ' ' . htmlentities($lo->get_lastname()) . '"/>'. "\n";
 		}
 		echo '</node>', "\n";
 	}
@@ -83,6 +83,6 @@ function contains_results($objects)
 	{
 		return true;
 	}
-	return false;
+	return true;
 }
 ?>

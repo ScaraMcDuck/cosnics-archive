@@ -26,7 +26,7 @@ class DefaultClassGroupRelUserTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 		$columns[] = new ObjectTableColumn('User', true);
-		$columns[] = new ObjectTableColumn('Location', true);
+		//$columns[] = new ObjectTableColumn('Location', true);
 		return $columns;
 	}
 }
