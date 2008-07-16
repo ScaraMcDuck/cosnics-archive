@@ -40,36 +40,5 @@ class ActionSelectionSubscribeWizardPage extends SubscribeWizardPage
 		$this->setDefaultAction('next');
 		$this->_formBuilt = true;
 	}
-//	/**
-//	 * Determines if an action is available
-//	 * @param const $action On of the actions defined in this class
-//	 * @return boolean True of the given action is available in the current
-//	 * course.
-//	 */
-//	private function is_available($action)
-//	{
-//		$dm = WeblcmsDatamanager::get_instance();
-//		switch($action)
-//		{
-//			case self::ACTION_BACKUP:
-//			case self::ACTION_EMPTY:
-//				if($dm->count_learning_object_publications($this->get_parent()->get_course_id()) == 0)
-//				{
-//					return false;
-//				}
-//				return true;
-//			case self::ACTION_COPY:
-//				if($dm->count_learning_object_publications($this->get_parent()->get_course_id()) == 0)
-//				{
-//					return false;
-//				}
-//				$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_STATUS, 1);
-//				if($dm->count_course_user_relations($condition) <= 1)
-//				{
-//					return false;
-//				}
-//				return true;
-//		}
-//	}
 }
 ?>

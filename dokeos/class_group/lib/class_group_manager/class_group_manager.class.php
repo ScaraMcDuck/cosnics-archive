@@ -83,6 +83,9 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 			case self :: ACTION_EDIT_CLASSGROUP :
 				$component = ClassGroupManagerComponent :: factory('Editor', $this);
 				break;
+			case self :: ACTION_DELETE_CLASSGROUP :
+				$component = ClassGroupManagerComponent :: factory('Deleter', $this);
+				break;
 			case self :: ACTION_TRUNCATE_CLASSGROUP :
 				$component = ClassGroupManagerComponent :: factory('Truncater', $this);
 				break;
@@ -309,9 +312,9 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		return ClassGroupDataManager :: get_instance()->retrieve_classgroup_rel_users($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
-	function retrieve_classgroup_rel_user($user_id)
+	function retrieve_classgroup_rel_user($user_id, $group_id)
 	{
-		return ClassGroupDataManager :: get_instance()->retrieve_classgroup_rel_user($user_id);
+		return ClassGroupDataManager :: get_instance()->retrieve_classgroup_rel_user($user_id, $group_id);
 	}
 	
 	/**
@@ -457,11 +460,17 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	
 	function get_classgroup_rel_user_subscribing_url($classgroup)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER_TO_CLASSGROUP));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER_TO_CLASSGROUP, self :: PARAM_CLASSGROUP_ID => $classgroup->get_id()));
+	}
+	
+	function get_classgroup_delete_url($classgroup)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_CLASSGROUP, self :: PARAM_CLASSGROUP_ID => $classgroup->get_id()));
 	}
 	
 	private function parse_input_from_table()
-	{
+	{ 
+//		print_r($_POST); echo("<br />"); print_r($_GET);
 		if (isset ($_POST['action']))
 		{
 			if (isset($_POST['table']) && $_POST['table'] == ClassGroupRelUserBrowserTable :: DEFAULT_NAME)

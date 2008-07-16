@@ -81,13 +81,27 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
-		// TODO: Make this invisible if there aren't any relations
-		$toolbar_data[] = array(
-			'href' => $this->get_classgroup_emptying_url($classgroup),
-			'label' => Translation :: get('Truncate'),
-			'img' => Theme :: get_common_img_path().'action_recycle_bin.png',
-			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-		);
+		$condition = new EqualityCondition(ClassGroupRelUser :: PROPERTY_CLASSGROUP_ID, $classgroup->get_id());
+		$users = $this->retrieve_classgroup_rel_users($condition);
+		$visible = ($users->size() > 0);
+		
+		if($visible)
+		{
+			$toolbar_data[] = array(
+				'href' => $this->get_classgroup_emptying_url($classgroup),
+				'label' => Translation :: get('Truncate'),
+				'img' => Theme :: get_common_img_path().'action_recycle_bin.png',
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			);
+		}
+		else
+		{
+			$toolbar_data[] = array(
+				'label' => Translation :: get('TruncateNA'),
+				'img' => Theme :: get_common_img_path().'action_recycle_bin_na.png',
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			);
+		}
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
 	}

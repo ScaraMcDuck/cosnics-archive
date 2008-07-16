@@ -22,7 +22,7 @@ class GroupSelectionSubscribeWizardPage extends SubscribeWizardPage
 	function buildForm()
 	{
 		$datamanager = UsersDataManager :: get_instance();
-		$groups = $this->get_parent()->retrieve_classgroups(null, null, null, array(Group :: PROPERTY_NAME), array(SORT_ASC));
+		$groups = $this->get_parent()->retrieve_classgroups(null, null, null, array(ClassGroup :: PROPERTY_NAME), array(SORT_ASC));
 		$group_options = array();
 		
 		while ($group = $groups->next_result())
@@ -36,7 +36,15 @@ class GroupSelectionSubscribeWizardPage extends SubscribeWizardPage
 		$prevnext[] = & $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');		
+		$this->set_defaults();
 		$this->_formBuilt = true;
+	}
+	
+	function set_defaults()
+	{
+		$defaults = array();
+		$defaults['Group'] = $_GET[ClassGroupManager :: PARAM_CLASSGROUP_ID];
+		$this->setDefaults($defaults);
 	}
 }
 ?>

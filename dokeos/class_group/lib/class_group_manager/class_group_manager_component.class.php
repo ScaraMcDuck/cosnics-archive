@@ -90,9 +90,9 @@ abstract class ClassGroupManagerComponent {
 		return $this->get_parent()->retrieve_classgroup_rel_users($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
-	function retrieve_classgroup_rel_user($user_id)
+	function retrieve_classgroup_rel_user($user_id, $group_id)
 	{
-		return $this->get_parent()->retrieve_classgroup_rel_user($user_id);
+		return $this->get_parent()->retrieve_classgroup_rel_user($user_id, $group_id);
 	}
 	
 	function count_classgroups($conditions = null)
@@ -239,6 +239,11 @@ abstract class ClassGroupManagerComponent {
 	function get_classgroup_rel_user_subscribing_url($classgroup)
 	{
 		return $this->get_parent()->get_classgroup_rel_user_subscribing_url($classgroup);
+	}
+	
+	function get_classgroup_delete_url($classgroup)
+	{
+		return $this->get_parent()->get_classgroup_delete_url($classgroup);
 	}
 	
 	/**

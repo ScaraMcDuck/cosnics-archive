@@ -13,13 +13,15 @@ class UserSelectionSubscribeWizardPage extends SubscribeWizardPage
 {
 	function buildForm()
 	{
-		$url = Path :: get_class_group_path().'lib/xml_user_feed.php';
+		$url = Path :: get(WEB_PATH).'class_group/lib/xml_user_feed.php';
+	
 		$locale = array ();
 		$locale['Display'] = Translation :: get('SelectUsers');
 		$locale['Searching'] = Translation :: get('Searching');
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
 		$hidden = false;
+
 		$elem = $this->addElement('element_finder', 'users', Translation :: get('Users'), $url, $locale, null);
 		//$elem->excludeElements(array($this->form_user->get_id()));
 		//$elem->setDefaultCollapsed(false);

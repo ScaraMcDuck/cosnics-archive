@@ -404,12 +404,15 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 		return new DatabaseClassGroupRelUserResultSet($this, $res);
 	}
 	
-	function retrieve_classgroup_rel_user($user_id)
+	function retrieve_classgroup_rel_user($user_id, $group_id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('class_group_rel_user');
 		
-		$params = array ();		
-		$condition = new EqualityCondition(ClassGroupRelUser :: PROPERTY_USER_ID, $user_id);
+		$params = array ();
+		$conditions = array();		
+		$conditions[] = new EqualityCondition(ClassGroupRelUser :: PROPERTY_USER_ID, $user_id);
+		$conditions[] = new EqualityCondition(ClassGroupRelUser :: PROPERTY_CLASSGROUP_ID, $group_id);
+		$condition = new AndCondition($conditions);
 		
 		if (isset ($condition))
 		{
@@ -418,7 +421,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+//		echo($query);
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
