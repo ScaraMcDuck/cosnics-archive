@@ -302,7 +302,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 		
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
