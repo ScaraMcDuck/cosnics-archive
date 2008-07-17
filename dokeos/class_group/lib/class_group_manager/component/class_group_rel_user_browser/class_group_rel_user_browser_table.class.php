@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../../class_group_manager.class.php';
  */
 class ClassGroupRelUserBrowserTable extends ObjectTable
 {
-	const DEFAULT_NAME = 'class_group_rel_user_browser_table';
+	const DEFAULT_NAME = 'class_group_browser_table';
 	
 	/**
 	 * Constructor
@@ -26,7 +26,7 @@ class ClassGroupRelUserBrowserTable extends ObjectTable
 		parent :: __construct($data_provider, ClassGroupRelUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
-		$actions[ClassGroupManager :: PARAM_UNSUBSCRIBE_SELECTED] = Translation :: get('UnsubsribeSelected');
+		$actions[ClassGroupManager :: PARAM_UNSUBSCRIBE_SELECTED] = Translation :: get('UnsubscribeSelected');
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}

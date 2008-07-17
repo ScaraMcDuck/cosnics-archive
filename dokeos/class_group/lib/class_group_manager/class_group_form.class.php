@@ -105,5 +105,10 @@ class ClassGroupForm extends FormValidator {
 		$defaults[ClassGroup :: PROPERTY_DESCRIPTION] = $classgroup->get_description();
 		parent :: setDefaults($defaults);
 	}
+	
+	function get_classgroup()
+	{
+		return $this->classgroup;
+	}
 }
 ?>

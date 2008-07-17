@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../class_group_manager.class.php';
 require_once dirname(__FILE__).'/../class_group_manager_component.class.php';
+require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class ClassGroupManagerTruncaterComponent extends ClassGroupManagerComponent
 {
@@ -14,7 +15,9 @@ class ClassGroupManagerTruncaterComponent extends ClassGroupManagerComponent
 		if (!$user->is_platform_admin())
 		{
 			$trail = new BreadcrumbTrail();
-			$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+			$admin = new Admin();
+			$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+			$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('ClassGroupList')));
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('EmptyGroup')));
 			
 			$this->display_header($trail);
@@ -71,7 +74,10 @@ class ClassGroupManagerTruncaterComponent extends ClassGroupManagerComponent
 				
 			}
 			
-			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS));
+			if(count($ids) == 1)
+				$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_VIEW_CLASSGROUP, ClassGroupManager :: PARAM_CLASSGROUP_ID => $ids[0]));
+			else
+				$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS));
 		}
 		else
 		{

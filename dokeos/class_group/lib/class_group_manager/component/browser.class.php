@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/../class_group_manager.class.php';
 require_once dirname(__FILE__).'/../class_group_manager_component.class.php';
 require_once dirname(__FILE__).'/class_group_browser/class_group_browser_table.class.php';
 require_once dirname(__FILE__).'/../../class_group_menu.class.php';
+require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
  */
@@ -21,7 +22,8 @@ class ClassGroupManagerBrowserComponent extends ClassGroupManagerComponent
 		$this->firstletter = $_GET[ClassGroupManager :: PARAM_FIRSTLETTER];
 
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+		$admin = new Admin();
+		$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ClassGroupList')));
 		
 		if (!$this->get_user()->is_platform_admin())

@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/../class_group_manager.class.php';
 require_once dirname(__FILE__).'/../class_group_manager_component.class.php';
 require_once dirname(__FILE__).'/../class_group_form.class.php';
 require_once dirname(__FILE__).'/../../class_group_data_manager.class.php';
+require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class ClassGroupManagerCreatorComponent extends ClassGroupManagerComponent
 {
@@ -15,7 +16,8 @@ class ClassGroupManagerCreatorComponent extends ClassGroupManagerComponent
 	function run()
 	{		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+		$admin = new Admin();
+		$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ClassGroupCreate')));
 
 		if (!$this->get_user()->is_platform_admin())
@@ -31,7 +33,15 @@ class ClassGroupManagerCreatorComponent extends ClassGroupManagerComponent
 		if($form->validate())
 		{
 			$success = $form->create_classgroup();
-			$this->redirect('url', Translation :: get($success ? 'ClassGroupCreated' : 'ClassGroupNotCreated'), ($success ? false : true), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS));
+			if($success)
+			{
+				$classgroup = $form->get_classgroup();
+				$this->redirect('url', Translation :: get('ClassGroupCreated'), (false), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_VIEW_CLASSGROUP, ClassGroupManager :: PARAM_CLASSGROUP_ID => $classgroup->get_id()));
+			}
+			else
+			{
+				$this->redirect('url', Translation :: get('ClassGroupNotCreated'), (true), array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS));
+			}
 		}
 		else
 		{
