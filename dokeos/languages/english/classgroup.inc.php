@@ -35,4 +35,8 @@ $lang['classgroup']['SelectedUserAddedToGroupDupes'] = 'Selected User Added To G
 $lang['classgroup']['SelectedUserNotAddedToGroupDupes'] = 'Selected User Not Added To Group';
 $lang['classgroup']['SelectedUsersAddedToGroupDupes'] = 'Selected Users Added To Group';
 $lang['classgroup']['SelectedUsersNotAddedToGroupDupes'] = 'Selected Users Not Added To Group';
+$lang['classgroup']['SelectedClassRelUserDeleted'] = 'Selected Class Rel User Deleted';
+$lang['classgroup']['SelectedClassRelUserNotDeleted'] = 'Selected Class Rel User Not Deleted';
+$lang['classgroup']['SelectedClassRelUsersDeleted'] = 'Selected Class Rel Users Deleted';
+$lang['classgroup']['SelectedClassRelUsersNotDeleted'] = 'Selected Class Rel Users Not Deleted';
 ?>
