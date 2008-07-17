@@ -9,6 +9,8 @@
  * This class provides the needed functionality to show a page in a maintenance
  * wizard.
  */
+ require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
+ 
 class SubscribeWizardDisplay extends HTML_QuickForm_Action_Display
 {
 	/**
@@ -31,7 +33,18 @@ class SubscribeWizardDisplay extends HTML_QuickForm_Action_Display
 	function _renderForm($current_page)
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->parent->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('ClassGroups')));
+		$admin = new Admin();
+		$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+		$trail->add(new Breadcrumb($this->parent->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('ClassGroupList')));
+		
+		$classgroup_id = $_GET[ClassGroupManager :: PARAM_CLASSGROUP_ID];
+		
+		if(isset($classgroup_id))
+		{
+			$classgroup = $this->parent->retrieve_classgroup($classgroup_id);
+			$trail->add(new Breadcrumb($this->parent->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_VIEW_CLASSGROUP, ClassGroupManager :: PARAM_CLASSGROUP_ID => $classgroup_id)), $classgroup->get_name()));
+		}
+		
 		$trail->add(new Breadcrumb($this->parent->get_url(), Translation :: get('SubscribeUsersToGroup')));
 		
 		$this->parent->display_header($trail);

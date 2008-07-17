@@ -473,50 +473,32 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 //		print_r($_POST); echo("<br />"); print_r($_GET);
 		if (isset ($_POST['action']))
 		{
-			if (isset($_POST['table']) && $_POST['table'] == ClassGroupRelUserBrowserTable :: DEFAULT_NAME)
+			$selected_ids = $_POST[ClassGroupRelUserBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			
+			if (empty ($selected_ids))
 			{
-				$selected_ids = $_POST[ClassGroupRelUserBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
-				
-				if (empty ($selected_ids))
-				{
-					$selected_ids = array ();
-				}
-				elseif (!is_array($selected_ids))
-				{
-					$selected_ids = array ($selected_ids);
-				}
-				switch ($_POST['action'])
-				{
-					case self :: PARAM_UNSUBSCRIBE_SELECTED :
-						$this->set_action(self :: ACTION_UNSUBSCRIBE_USER_FROM_CLASSGROUP);
-						$_GET[self :: PARAM_CLASSGROUP_REL_USER_ID] = $selected_ids;
-						break;
-				}
+				$selected_ids = array ();
 			}
-			elseif(isset($_POST['table']) && $_POST['table'] == ClassGroupBrowserTable :: DEFAULT_NAME)
+			elseif (!is_array($selected_ids))
 			{
-				$selected_ids = $_POST[ClassGroupBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
-				if (empty ($selected_ids))
-				{
-					$selected_ids = array ();
-				}
-				elseif (!is_array($selected_ids))
-				{
-					$selected_ids = array ($selected_ids);
-				}
-				
-				switch ($_POST['action'])
-				{
-					case self :: PARAM_REMOVE_SELECTED :
-						$this->set_action(self :: ACTION_DELETE_CLASSGROUP);
-						$_GET[self :: PARAM_CLASSGROUP_ID] = $selected_ids;
-						break;
-					case self :: PARAM_TRUNCATE_SELECTED :
-						$this->set_action(self :: ACTION_TRUNCATE_CLASSGROUP);
-						$_GET[self :: PARAM_CLASSGROUP_ID] = $selected_ids;
-						break;
-				}
+				$selected_ids = array ($selected_ids);
 			}
+			switch ($_POST['action'])
+			{
+				case self :: PARAM_UNSUBSCRIBE_SELECTED :
+					$this->set_action(self :: ACTION_UNSUBSCRIBE_USER_FROM_CLASSGROUP);
+					$_GET[self :: PARAM_CLASSGROUP_REL_USER_ID] = $selected_ids;
+					break;
+				case self :: PARAM_REMOVE_SELECTED :
+					$this->set_action(self :: ACTION_DELETE_CLASSGROUP);
+					$_GET[self :: PARAM_CLASSGROUP_ID] = $selected_ids;
+					break;
+				case self :: PARAM_TRUNCATE_SELECTED :
+					$this->set_action(self :: ACTION_TRUNCATE_CLASSGROUP);
+					$_GET[self :: PARAM_CLASSGROUP_ID] = $selected_ids;
+					break;
+			}
+			
 		}
 	}
 }

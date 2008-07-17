@@ -4,6 +4,7 @@ require_once dirname(__FILE__).'/../class_group_manager_component.class.php';
 require_once dirname(__FILE__).'/../../class_group_data_manager.class.php';
 require_once dirname(__FILE__).'/class_group_rel_user_browser/class_group_rel_user_browser_table.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
+require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 {
@@ -27,7 +28,9 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 				Display :: display_not_allowed();
 			}
 			
-			$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('Groups')));
+			$admin = new Admin();
+			$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+			$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('ClassGroupList')));
 			$trail->add(new Breadcrumb($this->get_url(), $classgroup->get_name()));
 			
 			$this->display_header($trail);
