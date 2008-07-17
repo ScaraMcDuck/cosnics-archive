@@ -800,4 +800,15 @@ $lang['general']['Migration'] = 'Migration';
 $lang['general']['True'] = 'True';
 $lang['general']['False'] = 'False';
 $lang['general']['Dokeos'] = 'Dokeos';
+$lang['general']['AC'] = 'A-C';
+$lang['general']['DF'] = 'D-F';
+$lang['general']['GI'] = 'G-I';
+$lang['general']['JL'] = 'J-L';
+$lang['general']['MO'] = 'M-O';
+$lang['general']['PR'] = 'P-R';
+$lang['general']['SU'] = 'S-U';
+$lang['general']['VX'] = 'V-X';
+$lang['general']['YZ'] = 'Y-Z';
+$lang['general']['Administration'] = 'Administration';
+$lang['general']['Previous'] = 'Previous';
 ?>
