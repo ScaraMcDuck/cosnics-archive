@@ -53,7 +53,7 @@ class SubscribeWizardProcess extends HTML_QuickForm_Action
 						}
 						else
 						{
-							Events :: trigger_event('subscribe_user', 'class_group', array('target_class_group_id' => $groupreluser->get_classgroup_id(), 'target_user_id' => $groupreluser->get_user_id(), 'action_user_id' => $user));
+							Events :: trigger_event('subscribe_user', 'class_group', array('target_class_group_id' => $groupreluser->get_classgroup_id(), 'target_user_id' => $groupreluser->get_user_id(), 'action_user_id' => $this->parent->get_user()->get_id()));
 						}
 					}
 					else
