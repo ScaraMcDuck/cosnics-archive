@@ -42,7 +42,8 @@ class ClassGroupManagerSubscribeUserBrowserComponent extends ClassGroupManagerCo
 		
 		$output = $this->get_user_subscribe_html();
 		
-		$this->display_header($trail);
+		$this->display_header($trail, false, true);
+		$this->display_user_search_form();
 		echo $output;
 		$this->display_footer();
 		
@@ -71,7 +72,12 @@ class ClassGroupManagerSubscribeUserBrowserComponent extends ClassGroupManagerCo
 		{
 			$conditions[] = new NotCondition(new EqualityCondition(User :: PROPERTY_USER_ID, $user->get_user_id()));
 		}
-
+		
+		$user_search_condition = $this->get_user_search_condition();
+		
+		if (count($user_search_condition))
+			$conditions[] = $user_search_condition;
+		
 		if(count($conditions) == 0) return null;
 		
 		$condition = new AndCondition($conditions);

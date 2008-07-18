@@ -4,6 +4,7 @@
  */
 require_once dirname(__FILE__).'/class_group_manager_component.class.php';
 require_once dirname(__FILE__).'/class_group_search_form.class.php';
+require_once dirname(__FILE__).'/class_group_user_search_form.class.php';
 require_once dirname(__FILE__).'/../class_group_data_manager.class.php';
 require_once dirname(__FILE__).'/../class_group.class.php';
 require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
@@ -48,6 +49,9 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	
 	private $parameters;
 	private $search_parameters;
+	private $user_search_parameters;
+	private $search_form;
+	private $user_search_form;
 	private $user_id;
 	private $user;
 	private $category_menu;
@@ -163,6 +167,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		{
 			$this->display_search_form();
 		}
+
 		echo '<div class="clear">&nbsp;</div>';
 		if ($msg = $_GET[self :: PARAM_MESSAGE])
 		{			
@@ -177,6 +182,11 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	private function display_search_form()
 	{
 		echo $this->get_search_form()->display();
+	}
+	
+	function display_user_search_form()
+	{
+		echo $this->get_user_search_form()->display();
 	}
 	
 	function count_classgroups($condition = null)
@@ -259,6 +269,11 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		return $this->get_search_form()->get_condition();
 	}
 	
+	function get_user_search_condition()
+	{
+		return $this->get_user_search_form()->get_condition();
+	}
+	
 	private function get_search_form()
 	{
 		if (!isset ($this->search_form))
@@ -268,9 +283,23 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		return $this->search_form;
 	}
 	
+	private function get_user_search_form()
+	{
+		if (!isset ($this->user_search_form))
+		{
+			$this->user_search_form = new UserSearchForm($this, $this->get_url(array(self :: PARAM_CLASSGROUP_ID => $_GET[self :: PARAM_CLASSGROUP_ID])));
+		}
+		return $this->user_search_form;
+	}
+	
 	function get_search_validate()
 	{
 		return $this->get_search_form()->validate();
+	}
+	
+	function get_user_search_validate()
+	{
+		return $this->get_user_search_form()->validate();
 	}
 
 	/**
@@ -279,14 +308,21 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	 * returned list?
 	 * @return array The list of parameters.
 	 */
-	function get_parameters($include_search = false)
+	function get_parameters($include_search = false, $include_user_search = false)
 	{
+		$parms = $this->parameters;
+		
 		if ($include_search && isset ($this->search_parameters))
 		{
-			return array_merge($this->search_parameters, $this->parameters);
+			$parms = array_merge($this->search_parameters, $parms);
 		}
 		
-		return $this->parameters;
+		if ($include_user_search && isset ($this->user_search_parameters))
+		{
+			$parms = array_merge($this->user_search_parameters, $parms);
+		}
+		
+		return $parms;
 	}
 	/**
 	 * Gets the value of a parameter.
@@ -375,9 +411,9 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	 * resulting URL ? (default = false).
 	 * @return string The requested URL.
 	 */
-	function get_url($additional_parameters = array (), $include_search = false, $encode_entities = false, $x = null)
+	function get_url($additional_parameters = array (), $include_search = false, $encode_entities = false, $x = null, $include_user_search = false)
 	{
-		$eventual_parameters = array_merge($this->get_parameters($include_search), $additional_parameters);
+		$eventual_parameters = array_merge($this->get_parameters($include_search, $include_user_search), $additional_parameters);
 		$url = $_SERVER['PHP_SELF'].'?'.http_build_query($eventual_parameters);
 		if ($encode_entities)
 		{
