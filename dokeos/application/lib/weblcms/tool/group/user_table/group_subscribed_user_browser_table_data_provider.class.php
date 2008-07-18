@@ -18,7 +18,7 @@ class GroupSubscribedUserBrowserTableDataprovider  extends ObjectTableDataProvid
   function GroupSubscribedUserBrowserTableDataprovider($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
-    $this->wdm = WeblcmsDataManager :: get_instance();
+    	$this->wdm = WeblcmsDataManager :: get_instance();
   }
   /**
    * Gets the users

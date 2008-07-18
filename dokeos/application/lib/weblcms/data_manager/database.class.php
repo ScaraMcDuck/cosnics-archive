@@ -1853,6 +1853,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function retrieve_group_users($group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		$user_ids = $this->retrieve_group_user_ids($group);
+		
+		$udm = UsersDataManager::get_instance();
+		
 		if(count($user_ids)>0)
 		{
 			$user_condition = new InCondition('user_id',$user_ids);
@@ -1864,10 +1867,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			{
 				$condition = new AndCondition($condition,$user_condition);
 			}
-			$udm = UsersDataManager::get_instance();
 			return $udm->retrieve_users($condition , $offset , $count, $order_property, $order_direction);
 		}
-		return null;
+		else
+		{
+			// TODO: We need a better fix for this !
+			$condition = new EqualityCondition('user_id','-1000');
+			return $udm->retrieve_users($condition , $offset , $count, $order_property, $order_direction);
+		}
 	}
 	// Inherited
 	function count_group_users($group,$conditions = null)
@@ -1888,7 +1895,10 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$udm = UsersDataManager::get_instance();
 			return $udm->count_users($conditions);
 		}
-		return 0;
+		else
+		{
+			return 0;
+		}
 	}
 	// Inherited
 	function retrieve_possible_group_users($group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
