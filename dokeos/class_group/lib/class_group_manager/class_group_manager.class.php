@@ -499,6 +499,10 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 					$this->set_action(self :: ACTION_UNSUBSCRIBE_USER_FROM_CLASSGROUP);
 					$_GET[self :: PARAM_CLASSGROUP_REL_USER_ID] = $selected_ids;
 					break;
+				case self :: PARAM_SUBSCRIBE_SELECTED :
+					$this->set_action(self :: ACTION_SUBSCRIBE_USER_TO_CLASSGROUP); 
+					$_GET[self :: PARAM_USER_ID] = $selected_ids;
+					break;
 				case self :: PARAM_REMOVE_SELECTED :
 					$this->set_action(self :: ACTION_DELETE_CLASSGROUP);
 					$_GET[self :: PARAM_CLASSGROUP_ID] = $selected_ids;

@@ -30,7 +30,7 @@ class ClassGroupManagerSubscribeUserBrowserComponent extends ClassGroupManagerCo
 			$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_VIEW_CLASSGROUP, ClassGroupManager :: PARAM_CLASSGROUP_ID => $classgroup_id)), $this->classgroup->get_name()));
 		}
 		
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('GroupRelUserCreate')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddUsers')));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
@@ -52,7 +52,7 @@ class ClassGroupManagerSubscribeUserBrowserComponent extends ClassGroupManagerCo
 	
 	function get_user_subscribe_html()
 	{
-		$table = new SubscribeUserBrowserTable($this, array(), $this->get_subscribe_condition());
+		$table = new SubscribeUserBrowserTable($this, array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_SUBSCRIBE_USER_BROWSER, ClassGroupManager :: PARAM_CLASSGROUP_ID => $this->classgroup->get_id()), $this->get_subscribe_condition());
 
 		$html = array();
 		$html[] = $table->as_html();
