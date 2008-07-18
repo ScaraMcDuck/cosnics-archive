@@ -42,7 +42,7 @@ FCKConfig.StartupShowBlocks = false ;
 FCKConfig.Debug = false ;
 FCKConfig.AllowQueryStringDebug = true ;
 
-FCKConfig.SkinPath = FCKConfig.BasePath + 'skins/aqua/' ;
+//FCKConfig.SkinPath = FCKConfig.BasePath + 'skins/classic/' ;
 FCKConfig.PreloadImages = [ FCKConfig.SkinPath + 'images/toolbar.start.gif', FCKConfig.SkinPath + 'images/toolbar.buttonarrow.gif' ] ;
 
 FCKConfig.PluginsPath = FCKConfig.BasePath + 'plugins/' ;
@@ -117,7 +117,7 @@ FCKConfig.ToolbarSets["FullHTML"] = [
 ] ;
 
 FCKConfig.ToolbarSets["Basic"] = [
-	['Bold','Italic','Underline','-','OrderedList','UnorderedList','-','Link','Unlink','-','TextColor','BGColor','-','Rule','Link','-','Image','Flash']
+	['Bold','Italic','Underline','-','OrderedList','UnorderedList','-','Link','Unlink','-','TextColor','BGColor','-','Rule','-','Image','Flash']
 ] ;
 
 FCKConfig.EnterMode = 'p' ;			// p | div | br
