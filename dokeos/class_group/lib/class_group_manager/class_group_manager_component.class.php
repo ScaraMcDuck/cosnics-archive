@@ -236,9 +236,14 @@ abstract class ClassGroupManagerComponent {
 		return $this->get_parent()->get_classgroup_rel_user_unsubscribing_url($classgroupreluser);
 	}
 	
-	function get_classgroup_rel_user_subscribing_url($classgroup)
+	function get_classgroup_rel_user_subscribing_url($classgroup, $user)
 	{
-		return $this->get_parent()->get_classgroup_rel_user_subscribing_url($classgroup);
+		return $this->get_parent()->get_classgroup_rel_user_subscribing_url($classgroup, $user);
+	}
+	
+	function get_classgroup_suscribe_user_browser_url($classgroup)
+	{
+		return $this->get_parent()->get_classgroup_suscribe_user_browser_url($classgroup);
 	}
 	
 	function get_classgroup_delete_url($classgroup)

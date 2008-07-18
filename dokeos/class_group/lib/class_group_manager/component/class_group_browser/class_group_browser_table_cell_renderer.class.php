@@ -71,7 +71,7 @@ class ClassGroupBrowserTableCellRenderer extends DefaultClassGroupTableCellRende
 		);
 		
 		$toolbar_data[] = array(
-			'href' => $this->browser->get_classgroup_rel_user_subscribing_url($classgroup),
+			'href' => $this->browser->get_classgroup_suscribe_user_browser_url($classgroup),
 			'label' => Translation :: get('AddUsers'),
 			'img' => Theme :: get_common_img_path().'action_subscribe.png',
 		);

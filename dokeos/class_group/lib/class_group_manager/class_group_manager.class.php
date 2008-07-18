@@ -30,7 +30,8 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	const PARAM_CLASSGROUP_REL_USER_ID = 'classgroup_rel_user_id';
 	const PARAM_USER_ID = 'user_id';
 	const PARAM_REMOVE_SELECTED = 'delete';
-	const PARAM_UNSUBSCRIBE_SELECTED = 'unsubscribe';
+	const PARAM_UNSUBSCRIBE_SELECTED = 'unsubscribe_selected';
+	const PARAM_SUBSCRIBE_SELECTED = 'subscribe_selected';
 	const PARAM_TRUNCATE_SELECTED = 'truncate';
 	const PARAM_FIRSTLETTER = 'firstletter';
 	const PARAM_COMPONENT_ACTION = 'action';
@@ -42,6 +43,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	const ACTION_TRUNCATE_CLASSGROUP = 'truncate';
 	const ACTION_VIEW_CLASSGROUP = 'view';
 	const ACTION_SUBSCRIBE_USER_TO_CLASSGROUP = 'subscribe';
+	const ACTION_SUBSCRIBE_USER_BROWSER = 'subscribe_browser';
 	const ACTION_UNSUBSCRIBE_USER_FROM_CLASSGROUP = 'unsubscribe';
 	
 	private $parameters;
@@ -100,6 +102,9 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 				break;
 			case self :: ACTION_SUBSCRIBE_USER_TO_CLASSGROUP :
 				$component = ClassGroupManagerComponent :: factory('Subscriber', $this);
+				break;
+			case self :: ACTION_SUBSCRIBE_USER_BROWSER :
+				$component = ClassGroupManagerComponent :: factory('SubscribeUserBrowser', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CLASSGROUPS);
@@ -458,9 +463,14 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_USER_FROM_CLASSGROUP, self :: PARAM_CLASSGROUP_REL_USER_ID => $classgroupreluser->get_classgroup_id() . '|' . $classgroupreluser->get_user_id()));
 	}
 	
-	function get_classgroup_rel_user_subscribing_url($classgroup)
+	function get_classgroup_rel_user_subscribing_url($classgroup, $user)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER_TO_CLASSGROUP, self :: PARAM_CLASSGROUP_ID => $classgroup->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER_TO_CLASSGROUP, self :: PARAM_CLASSGROUP_ID => $classgroup->get_id(), self :: PARAM_USER_ID => $user->get_id()));
+	}
+	
+	function get_classgroup_suscribe_user_browser_url($classgroup)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER_BROWSER, self :: PARAM_CLASSGROUP_ID => $classgroup->get_id()));
 	}
 	
 	function get_classgroup_delete_url($classgroup)

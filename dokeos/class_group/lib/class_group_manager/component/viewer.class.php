@@ -8,7 +8,7 @@ require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.p
 
 class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 {
-	private $group;
+	private $classgroup;
 	
 	/**
 	 * Runs this component and displays its output.
@@ -78,7 +78,7 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 		);
 		
 		$toolbar_data[] = array(
-			'href' => $this->get_classgroup_rel_user_subscribing_url($classgroup),
+			'href' => $this->get_classgroup_suscribe_user_browser_url($classgroup),
 			'label' => Translation :: get('AddUsers'),
 			'img' => Theme :: get_common_img_path().'action_subscribe.png',
 			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
