@@ -13,7 +13,7 @@ require_once Path :: get_user_path(). 'lib/usermanager/user_manager.class.php';
  */
 class SubscribeUserBrowserTable extends ObjectTable
 {
-	const DEFAULT_NAME = 'subscribe_user_browser_table';
+	const DEFAULT_NAME = 'class_group_browser_table';
 	
 	/**
 	 * Constructor
