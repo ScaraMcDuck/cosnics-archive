@@ -32,7 +32,7 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 			$admin = new Admin();
 			$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 			$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('ClassGroupList')));
-			$trail->add(new Breadcrumb($this->get_url(), $classgroup->get_name()));
+			$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_CLASSGROUP_ID => $id)), $classgroup->get_name()));
 			
 			$this->display_header($trail, false);
 			
