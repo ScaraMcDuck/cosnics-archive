@@ -49,9 +49,9 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 		// Do something with the arguments
 		if($args[1] == 'query')
 		{
-			//echo '<pre>';
-		 	//echo($args[2]);
-		 	//echo '</pre>';
+//			echo '<pre>';
+//		 	echo($args[2]);
+//		 	echo '</pre>';
 		}
 	}
 	
@@ -318,6 +318,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	{
 		$params = array ();
 		$query = 'SELECT COUNT(*) FROM '.$this->escape_table_name('class_group_rel_user');
+		
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
@@ -325,6 +326,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
+		
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);

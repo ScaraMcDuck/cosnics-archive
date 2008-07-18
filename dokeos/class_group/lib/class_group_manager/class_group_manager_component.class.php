@@ -118,6 +118,16 @@ abstract class ClassGroupManagerComponent {
 		return $this->get_parent()->get_search_condition();
 	}
 	
+	function get_user_search_condition()
+	{
+		return $this->get_parent()->get_user_search_condition();
+	}
+	
+	function display_user_search_form()
+	{
+		return $this->get_parent()->display_user_search_form();
+	}
+	
 	/**
 	 * Retrieve the user manager in which this component is active
 	 * @return GroupsManager
@@ -190,9 +200,9 @@ abstract class ClassGroupManagerComponent {
 	/**
 	 * @see GroupsManager::get_url()
 	 */
-	function get_url($additional_parameters = array(), $include_search = false, $encode_entities = false)
+	function get_url($additional_parameters = array(), $include_search = false, $encode_entities = false, $include_user_search = false)
 	{
-		return $this->get_parent()->get_url($additional_parameters, $include_search, $encode_entities);
+		return $this->get_parent()->get_url($additional_parameters, $include_search, $encode_entities, $include_user_search);
 	}
 	
 	/**

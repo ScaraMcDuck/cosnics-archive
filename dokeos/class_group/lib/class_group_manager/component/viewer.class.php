@@ -5,6 +5,7 @@ require_once dirname(__FILE__).'/../../class_group_data_manager.class.php';
 require_once dirname(__FILE__).'/class_group_rel_user_browser/class_group_rel_user_browser_table.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
+require_once Path :: get_user_path() . 'lib/users_data_manager.class.php';
 
 class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 {
@@ -33,9 +34,11 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 			$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('ClassGroupList')));
 			$trail->add(new Breadcrumb($this->get_url(), $classgroup->get_name()));
 			
-			$this->display_header($trail);
+			$this->display_header($trail, false);
 			
-			echo '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path() .'place_classgroup.png);">';
+			$this->display_user_search_form();
+			
+			echo '<div class="clear"></div><div class="learning_object" style="background-image: url('. Theme :: get_common_img_path() .'place_classgroup.png);">';
 			echo '<div class="title">'. Translation :: get('Description') .'</div>';
 			echo $classgroup->get_description();
 			echo '</div>';
@@ -60,7 +63,24 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 	{
 		$conditions = array();
 		$conditions[] = new EqualityCondition(ClassGroupRelUser :: PROPERTY_CLASSGROUP_ID, $_GET[ClassGroupManager :: PARAM_CLASSGROUP_ID]);
-		$condition = new OrCondition($conditions);
+		
+		$user_search_condition = $this->get_user_search_condition();
+		if($user_search_condition)
+		{
+			$userconditions = array();
+			
+			$users = UsersDataManager :: get_instance()->retrieve_users($user_search_condition);
+			while($user = $users->next_result())
+			{
+				$userconditions[] = new EqualityCondition(ClassGroupRelUser :: PROPERTY_USER_ID, $user->get_id());
+			}
+			
+			if(count($userconditions))
+				$conditions[] = new OrCondition($userconditions);
+				
+		}
+
+		$condition = new AndCondition($conditions);
 		
 		return $condition;
 	}
