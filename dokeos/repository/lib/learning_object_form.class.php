@@ -17,7 +17,7 @@ require_once dirname(__FILE__).'/learning_object_category_menu.class.php';
 require_once dirname(__FILE__).'/learning_object.class.php';
 require_once dirname(__FILE__).'/abstract_learning_object.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once dirname(__FILE__).'/options_menu_renderer.class.php';
+require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class.php';
 /**
  * A form to create and edit a LearningObject.
  */

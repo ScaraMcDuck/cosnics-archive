@@ -11,7 +11,7 @@
 require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
 require_once dirname(__FILE__).'/../../learning_object_category_menu.class.php';
-require_once dirname(__FILE__).'/../../options_menu_renderer.class.php';
+require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
  * Repository manager component to move learning objects between categories in

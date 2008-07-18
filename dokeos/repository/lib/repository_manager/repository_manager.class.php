@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../repository_data_manager.class.php';
 require_once dirname(__FILE__).'/../learning_object_category_menu.class.php';
 require_once dirname(__FILE__).'/../learning_object.class.php';
 require_once dirname(__FILE__).'/../learning_object_publication_attributes.class.php';
-require_once dirname(__FILE__).'/../options_menu_renderer.class.php';
+require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class.php';
 require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
