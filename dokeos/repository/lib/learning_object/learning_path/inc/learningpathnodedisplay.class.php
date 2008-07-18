@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage learning_path
  */
-require_once dirname(__FILE__).'/../../../tree_menu_renderer.class.php';
+require_once Path :: get_library_path() . 'html/menu/tree_menu_renderer.class.php';
 require_once dirname(__FILE__).'/learningpathtable.class.php';
 
 

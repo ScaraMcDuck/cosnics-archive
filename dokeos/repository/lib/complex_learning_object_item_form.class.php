@@ -10,7 +10,7 @@ require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
 require_once dirname(__FILE__).'/repository_data_manager.class.php';
 require_once dirname(__FILE__).'/complex_learning_object_item.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once dirname(__FILE__).'/options_menu_renderer.class.php';
+require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class.php';
 /**
  * A form to create and edit a ComplexComplexLearningObjectItemItem.
  */
