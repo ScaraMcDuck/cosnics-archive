@@ -132,6 +132,8 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 		$result []= 'oFCKeditor.Config[ "DefaultLanguage" ] = "'.$editor_lang.'" ;';
 		$result []= 'oFCKeditor.Value = "'.str_replace('"', '\"', str_replace(array ("\r\n", "\n", "\r", "/"), array (' ', ' ', ' ', '\/'), $this->getValue())).'" ;';
 		$result []= 'oFCKeditor.ToolbarSet = \''. ($this->fullPage ? 'FullHTML' : 'Basic' ).'\';';
+		$result []= 'oFCKeditor.Config[ "SkinPath" ] = oFCKeditor.BasePath + "editor/skins/'. Theme :: get_theme() .'/";';
+		//$result []= 'alert(oFCKeditor.BasePath + \'editor/skins/'. Theme :: get_theme() .'/\');';
 		$result []= 'oFCKeditor.Create();';
 		$result []= "\n/* ]]> */\n";
 		$result []= '</script>';
