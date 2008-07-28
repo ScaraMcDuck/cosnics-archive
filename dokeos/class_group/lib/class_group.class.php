@@ -16,12 +16,7 @@ class ClassGroup
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_DESCRIPTION = 'description';
 	const PROPERTY_SORT = 'sort';
-
-	/**
-	 * Numeric identifier of the group object.
-	 */
-	private $id;
-
+	
 	/**
 	 * Default properties of the group object, stored in an associative
 	 * array.
@@ -37,7 +32,6 @@ class ClassGroup
 	 */
 	function ClassGroup($id = 0, $defaultProperties = array ())
 	{
-		$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
 	}
 	
@@ -57,6 +51,11 @@ class ClassGroup
 	function get_default_properties()
 	{
 		return $this->defaultProperties;
+	}
+	
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
 	}
 	
 	/**
@@ -96,7 +95,7 @@ class ClassGroup
 	 */
 	function get_id()
 	{
-		return $this->id;
+		return $this->get_default_property(self :: PROPERTY_ID);
 	}
 	
 	/**
@@ -128,7 +127,7 @@ class ClassGroup
 	 */
 	function set_id($id)
 	{
-		$this->id = $id;
+		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}		
 	
 	/**
