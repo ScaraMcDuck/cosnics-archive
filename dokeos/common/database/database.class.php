@@ -4,6 +4,7 @@
  */
 
 require_once dirname(__FILE__) . '/object_result_set.class.php';
+require_once dirname(__FILE__) . '/connection.class.php';
 
 /**
  * This class provides basic functionality for database connections
@@ -11,16 +12,18 @@ require_once dirname(__FILE__) . '/object_result_set.class.php';
  * Select(with use of conditions), Count(with use of conditions)
  * @author Sven Vanpoucke
  */
-abstract class Database
+class Database
 {
 	private $connection;
 	private $prefix;
+	private $aliases;
 	
 	/**
 	 * Constructor
 	 */
-	function Database()
+	function Database($aliases)
 	{
+		$this->aliases = $aliases;
 		$this->initialize();
 	}
 	
@@ -38,7 +41,7 @@ abstract class Database
 	 * Returns the prefix
 	 * @return String the prefix
 	 */
-	protected function get_prefix()
+	function get_prefix()
 	{
 		return $this->prefix;
 	}
@@ -47,7 +50,7 @@ abstract class Database
 	 * Sets the prefix
 	 * @param String $prefix
 	 */
-	protected function set_prefix($prefix)
+	function set_prefix($prefix)
 	{
 		$this->prefix = $prefix;		
 	}
@@ -56,7 +59,7 @@ abstract class Database
 	 * Returns the connection
 	 * @return Connection the connection
 	 */
-	protected function get_connection()
+	function get_connection()
 	{
 		return $this->connection;
 	}
@@ -65,7 +68,7 @@ abstract class Database
 	 * Sets the connection
 	 * @param Connection $connection
 	 */
-	protected function set_connection($connection)
+	function set_connection($connection)
 	{
 		$this->connection = $connection;
 	}
@@ -269,15 +272,9 @@ abstract class Database
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$this->connection->loadModule('Extended');
-		if($this->connection->extended->autoExecute($this->get_table_name($table_name), $props, MDB2_AUTOQUERY_UPDATE, $condition))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-
+		$this->connection->extended->autoExecute($this->get_table_name($table_name), $props, MDB2_AUTOQUERY_UPDATE, $condition);
+		
+		return true;
 	}
 	
 	/**
@@ -369,7 +366,10 @@ abstract class Database
 		return new ObjectResultSet($this, $res, $classname);
 	}
 	
-	abstract function get_alias($table_name);
+	function get_alias($table_name)
+	{
+		return $this->aliases[$table_name];
+	}
 
 	/**
 	 * Function to check whether a column is a date column or not
