@@ -25,7 +25,7 @@ class Setting
 	 */
 	function Setting($id = 0, $defaultProperties = array ())
 	{
-		$this->id = $id;
+		$this->set_id($id);
 		$this->defaultProperties = $defaultProperties;
 	}
 	
@@ -45,6 +45,11 @@ class Setting
 	function get_default_properties()
 	{
 		return $this->defaultProperties;
+	}
+	
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
 	}
 	
 	/**
@@ -84,7 +89,7 @@ class Setting
 	 */
 	function get_id()
 	{
-		return $this->id;
+		return $this->get_default_property(self :: PROPERTY_ID);
 	}
 	
 	/**
@@ -120,8 +125,8 @@ class Setting
 	 */
 	function set_id($id)
 	{
-		$this->id = $id;
-	}	
+		$this->set_default_property(self :: PROPERTY_ID, $id);
+	}		
 	
 	/**
 	 * Sets the application of this setting.

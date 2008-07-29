@@ -85,7 +85,7 @@ class AdminInstaller extends Installer
 		
 		$settings = array();
 		$settings[] = array('admin', 'site_name', $values['platform_name']);
-		$settings[] = array('admin', 'server_type', 'production');
+		$settings[] = array('admin', 'server_type', 'production'); 
 		$settings[] = array('admin', 'platform_language', $values['platform_language']);
 		$settings[] = array('admin', 'version', '2.0');
 		$settings[] = array('admin', 'theme', 'aqua');
@@ -111,6 +111,7 @@ class AdminInstaller extends Installer
 			
 			if (!$setting_object->update())
 			{
+				print_r($setting);
 				return false;
 			}
 		}
