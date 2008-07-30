@@ -59,10 +59,7 @@ class ConditionTranslator
 	 * @return string The WHERE clause.
 	 */
 	function translate_aggregate_condition($condition)
-	{
-    	$parameters = $this->parameters;
-    	$prefix_properties = $this->prefix_properties;
-		
+	{		
 		if ($condition instanceof AndCondition)
 		{
 			$cond = array ();
@@ -117,14 +114,13 @@ class ConditionTranslator
 	 */
 	function translate_in_condition($condition)
 	{
-    	$parameters = $this->parameters;
     	$prefix_properties = $this->prefix_properties;
     	$query = $this->query;
 		
 		if ($condition instanceof InCondition)
 		{
 			$name = $condition->get_name();
-			$where_clause = $this->data_manager->escape_column_name($name).' IN (';
+			$where_clause = $this->data_manager->escape_column_name($name, $prefix_properties).' IN (';
 			$values = $condition->get_values();
 			$placeholders = array();
 			foreach($values as $index => $value)
@@ -153,7 +149,6 @@ class ConditionTranslator
 	 */
 	function translate_simple_condition($condition)
 	{
-		$parameters = $this->parameters;
     	$prefix_properties = $this->prefix_properties;
     	$data_manager = $this->data_manager;
     	$query = $this->query;

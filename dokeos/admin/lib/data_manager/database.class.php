@@ -3,47 +3,46 @@
  * @package admin
  * @subpackage datamanager
  */
-require_once dirname(__FILE__).'/database/database_setting_result_set.class.php';
-require_once dirname(__FILE__).'/database/database_language_result_set.class.php';
-require_once dirname(__FILE__).'/database/database_registration_result_set.class.php';
-require_once dirname(__FILE__).'/../admin_data_manager.class.php';
-require_once dirname(__FILE__).'/../language.class.php';
-require_once dirname(__FILE__).'/../registration.class.php';
-require_once dirname(__FILE__).'/../setting.class.php';
+require_once Path :: get_admin_path() . 'lib/data_manager/database/database_setting_result_set.class.php';
+require_once Path :: get_admin_path() . 'lib/data_manager/database/database_language_result_set.class.php';
+require_once Path :: get_admin_path() . 'lib/data_manager/database/database_registration_result_set.class.php';
+require_once Path :: get_admin_path() . 'lib/admin_data_manager.class.php';
+require_once Path :: get_admin_path() . 'lib/language.class.php';
+require_once Path :: get_admin_path() . 'lib/registration.class.php';
+require_once Path :: get_admin_path() . 'lib/setting.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once Path :: get_library_path().'database/database.class.php';
 require_once 'MDB2.php';
 
 class DatabaseAdminDataManager extends AdminDataManager
 {
-	private $db;
+	private $database;
 	
 	function initialize()
 	{
-		$this->db = new Database(array('language' => 'lang', 'setting' => 'setting', 'registration' => 'reg'));
-		$this->db->set_prefix('admin_'); 
+		$this->database = new Database(array('language' => 'lang', 'setting' => 'setting', 'registration' => 'reg'));
+		$this->database->set_prefix('admin_'); 
 	}
 	
     function retrieve_languages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
-		return $this->db->retrieve_objects('language', 'Language', $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects('language', $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
     function retrieve_settings($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
-		return $this->db->retrieve_objects('setting', 'Setting', $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects('setting', $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
 	function retrieve_registrations($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
-		return $this->db->retrieve_objects('registration', 'Registration', $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects('registration', $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
 	function retrieve_language_from_english_name($english_name)
 	{
 		$condition = new EqualityCondition(Language :: PROPERTY_ENGLISH_NAME, $english_name);
-		$languages = $this->retrieve_languages($condition);
-		return $languages->next_result();
+		return $this->database->retrieve_object('language', $condition);
 	}
 	
 	function retrieve_setting_from_variable_name($variable, $application = 'admin')
@@ -53,64 +52,63 @@ class DatabaseAdminDataManager extends AdminDataManager
 		$conditions[] = new EqualityCondition(Setting :: PROPERTY_VARIABLE, $variable);
 		$condition = new AndCondition($conditions);
 	
-		$settings = $this->retrieve_settings($condition);
-		return $settings->next_result();
+		return $this->database->retrieve_object('setting', $condition);
 	}
 	
 	function update_setting($setting)
 	{
 		$condition = new EqualityCondition(Setting :: PROPERTY_ID, $setting->get_id());
-		return $this->db->update($setting, 'setting', $condition);
+		return $this->database->update($setting, $condition);
 	}
 	
 	function update_registration($registration)
 	{
 		$condition = new EqualityCondition(Registration :: PROPERTY_ID, $registration->get_id());
-		return $this->db->update($registration, 'registration', $condition);
+		return $this->database->update($registration, $condition);
 	}
 	
 	function delete_registration($registration)
 	{
 		$condition = new EqualityCondition(Registration :: PROPERTY_ID, $registration->get_id());
-		return $this->db->delete('registration', $condition);
+		return $this->database->delete('registration', $condition);
 	}
 	
 	// Inherited.
 	function get_next_language_id()
 	{
-		return $this->db->get_next_id('language');
+		return $this->database->get_next_id('language');
 	}
 	
 	// Inherited.
 	function get_next_registration_id()
 	{
-		return $this->db->get_next_id('registration');
+		return $this->database->get_next_id('registration');
 	}
 	
 	// Inherited.
 	function get_next_setting_id()
 	{
-		return $this->db->get_next_id('setting');
+		return $this->database->get_next_id('setting');
 	}
 	
 	function create_language($language)
 	{
-		return $this->db->create($language, 'language');
+		return $this->database->create($language);
 	}
 	
 	function create_registration($registration)
 	{
-		return $this->db->create($registration, 'registration');
+		return $this->database->create($registration);
 	}
 	
 	function create_setting($setting)
 	{
-		return $this->db->create($setting, 'setting');
+		return $this->database->create($setting);
 	}	
 	
-	function create_storage_unit($name,$properties,$indexes)
+	function create_storage_unit($name, $properties, $indexes)
 	{
-		return $this->db->create_storage_unit($name,$properties,$indexes);
+		return $this->database->create_storage_unit($name, $properties, $indexes);
 	}
 
 }

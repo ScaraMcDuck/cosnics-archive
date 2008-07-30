@@ -5,6 +5,7 @@
 
 require_once dirname(__FILE__) . '/object_result_set.class.php';
 require_once dirname(__FILE__) . '/connection.class.php';
+require_once Path :: get_library_path() . '/dokeos_utilities.class.php';
 
 /**
  * This class provides basic functionality for database connections
@@ -148,32 +149,31 @@ class Database
 		$database_name = $this->connection->quoteIdentifier($dsn['database']);
 		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
-	
 		
 	/**
-	 * Maps a record to a class object
-	 * @param Record $record record from database
-	 * @param String $classname Class name to create new object
-	 * @return new object from classname
+	 * Maps a record to an object
+	 * @param Record $record a record from the database
+	 * @param String $class Class to create new object
+	 * @return new object from type Class
 	 */
-	function record_to_classobject($record, $classname)
+	function record_to_object($record, $class_name)
 	{
 	    if (!is_array($record) || !count($record))
 		{
 		    throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
-		$defaultProp = array ();
+		$default_properties = array ();
 		 
-		$class = new $classname($defaultProp);
+		$object = new $class_name($default_properties);
 		 
-		foreach ($class->get_default_property_names() as $prop)
+		foreach ($object->get_default_property_names() as $property)
 		{
-		    $defaultProp[$prop] = $record[$prop]; 
+		    $default_properties[$property] = $record[$property]; 
 		}
 		
-		$class->set_default_properties($defaultProp);
+		$object->set_default_properties($default_properties);
 		 
-		return $class;
+		return $object;
 	}
 	
 	/**
@@ -183,7 +183,7 @@ class Database
 	 * @param Array $indexes the table indexes
 	 * @return true if the storage unit is succesfully created
 	 */
-	function create_storage_unit($name,$properties,$indexes)
+	function create_storage_unit($name, $properties, $indexes)
 	{
 		$name = $this->get_table_name($name);
 		$this->connection->loadModule('Manager');
@@ -239,15 +239,18 @@ class Database
 	/**
 	 * 
 	 */
-	function create($object, $table_name)
+	function create($object)
 	{
+		$object_table = DokeosUtilities :: camelcase_to_underscores(get_class($object));
+		
 		$props = array();
 		foreach ($object->get_default_properties() as $key => $value)
 		{
 			$props[$this->escape_column_name($key)] = $value;
-		}
+		}		
 		$this->connection->loadModule('Extended');
-		if ($this->connection->extended->autoExecute($this->get_table_name($table_name), $props, MDB2_AUTOQUERY_INSERT))
+		
+		if ($this->connection->extended->autoExecute($this->get_table_name($object_table), $props, MDB2_AUTOQUERY_INSERT))
 		{
 			return true;
 		}
@@ -264,15 +267,17 @@ class Database
 	 * @param Condition $condition The condition for the item that has to be updated
 	 * @return True if update is successfull
 	 */
-	function update($object, $table_name, $condition)
+	function update($object, $condition)
 	{
+		$object_table = DokeosUtilities :: camelcase_to_underscores(get_class($object));
+		
 		$props = array();
 		foreach ($object->get_default_properties() as $key => $value)
 		{
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name($table_name), $props, MDB2_AUTOQUERY_UPDATE, $condition);
+		$this->connection->extended->autoExecute($this->get_table_name($object_table), $props, MDB2_AUTOQUERY_UPDATE, $condition);
 		
 		return true;
 	}
@@ -287,6 +292,7 @@ class Database
 	{
 		$query = 'DELETE FROM '.$this->escape_table_name($table_name).' WHERE '.$condition;
 		$sth = $this->connection->prepare($query);
+		
 		if($res = $sth->execute())
 		{
 			return true;
@@ -310,7 +316,7 @@ class Database
 		
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, null);
+			$translator = new ConditionTranslator($this, $params);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
@@ -333,7 +339,7 @@ class Database
 	 * @param Array(String) $orderDir the list of order directions for the orderBy list
 	 * @return ResultSet 
 	 */
-	function retrieve_objects($table_name, $classname, $condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_objects($table_name, $condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name($table_name). ' AS '. $this->get_alias($table_name);
 
@@ -363,7 +369,31 @@ class Database
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
-		return new ObjectResultSet($this, $res, $classname);
+		return new ObjectResultSet($this, $res, $table_name);
+	}
+	
+	function retrieve_object($table_name, $condition = null)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name($table_name);
+		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$res->free();
+		
+		$class_name = DokeosUtilities :: underscores_to_camelcase($table_name);
+		
+		return self :: record_to_object($record, $class_name);
 	}
 	
 	function get_alias($table_name)
@@ -382,5 +412,4 @@ class Database
 	}
 
 }
-
 ?>
