@@ -24,21 +24,21 @@ require_once 'MDB2.php';
 
 class DatabaseUsersDataManager extends UsersDataManager
 {
-	private $db;
+	private $database;
 	
 	/**
 	 * Initializes the connection
 	 */
 	function initialize()
 	{
-		$this->db = new Database(array('user' => 'u','user_quota' => 'uq'));
-		$this->db->set_prefix('user_');
+		$this->database = new Database(array('user' => 'u','user_quota' => 'uq'));
+		$this->database->set_prefix('user_');
 	}
 	
 	function update_user($user)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_ID, $user->get_id());
-		return $this->db->update($user, 'user', $condition);
+		return $this->database->update($user, $condition);
 	}
 	
 	function update_user_quota($user_quota)
@@ -48,18 +48,18 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_LEARNING_OBJECT_TYPE, $user_quota->get_learning_object_type());
 		$condition = new AndCondition($conditions);
 		
-		return $this->db->update($user_quota,'user_quota',$condition);
+		return $this->database->update($user_quota, $condition);
 	}
 	
 	function get_next_user_id()
 	{
-		return $this->db->get_next_id('user');
+		return $this->database->get_next_id('user');
 	}
 	
 	function delete_user($user)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_ID, $user->get_id());
-		return $this->db->delete('user', $condition);
+		return $this->database->delete('user', $condition);
 	}
 	
 	function delete_all_users()
@@ -73,34 +73,32 @@ class DatabaseUsersDataManager extends UsersDataManager
 	
 	function create_user($user)
 	{
-		return $this->db->create($user, 'user');
+		return $this->database->create($user);
 	}
 	
 	// Inherited.
 	function create_storage_unit($name,$properties,$indexes)
 	{
-		return $this->db->create_storage_unit($name,$properties,$indexes);
+		return $this->database->create_storage_unit($name, $properties, $indexes);
 	}
 
 
 	function retrieve_user($id)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_USER_ID, $id);
-		$users = $this->db->retrieve_objects('user','User',$condition);
-		return $users->next_result();
+		return $this->database->retrieve_object('user', $condition);
 	}
 
 	function retrieve_user_by_username($username)
 	{
-		$condition = new EqualityCondition(User :: PROPERTY_USERNAME,$username);
-		$users = $this->db->retrieve_objects('user','User',$condition);
-		return $users->next_result();
+		$condition = new EqualityCondition(User :: PROPERTY_USERNAME, $username);
+		return $this->database->retrieve_object('user', $condition);
 	}
 	
 	function retrieve_users_by_email($email)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_EMAIL, $email);
-		$users = $this->db->retrieve_objects('user','User',$condition);
+		$users = $this->database->retrieve_objects('user', $condition);
 		return $users->next_result();
 	}
 
@@ -115,17 +113,17 @@ class DatabaseUsersDataManager extends UsersDataManager
 			$conditions = new EqualityCondition(User :: PROPERTY_USER_ID,$user_id);
 			$condition = new AndCondition($conditions);
 		}
-		return $this->db->count_objects('user',$condition) < 1;
+		return $this->database->count_objects('user', $condition) < 1;
 	}
 
 	function count_users($condition = null)
 	{
-		return $this->db->count_objects('user', $condition);
+		return $this->database->count_objects('user', $condition);
 	}
 
 	function retrieve_users($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
-		return $this->db->retrieve_objects('user', 'User', $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects('user', $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 
 	//Inherited.
@@ -136,11 +134,9 @@ class DatabaseUsersDataManager extends UsersDataManager
 		$conditions[] = new EqualityCondition('learning_object_type',$type);
 		$condition = new AndCondition($conditions);
 		
-		$res = $this->db->retrieve_objects('user_quota','UserQuota',$condition);
+		$user_quotum = $this->database->retrieve_object('user_quota', $condition);
 		
-		$record = $res->next_result();
-		
-		return $record->get_user_quota();
+		return $user_quotum->get_user_quota();
 		
 		/*
 		$query = 'SELECT * FROM '.$this->escape_table_name('user_quota').' WHERE '.$this->escape_column_name(User :: PROPERTY_USER_ID).'=? AND '.$this->escape_column_name('learning_object_type').'=?';

@@ -21,7 +21,7 @@ class ObjectResultSet extends ResultSet {
 	/**
 	 * The classname to map the object to
 	 */
-	private $classname;
+	private $class_name;
 	
 	/**
 	 * Create a new resultset for handling a set of learning objects
@@ -30,11 +30,11 @@ class ObjectResultSet extends ResultSet {
 	 * @param DB_result $handle The handle to retrieve records from a database
 	 * resultset
 	 */
-    function ObjectResultSet($data_manager, $handle, $classname)
+    function ObjectResultSet($data_manager, $handle, $table_name)
     {
     	$this->data_manager = $data_manager;
     	$this->handle = $handle;
-    	$this->classname = $classname;
+    	$this->class_name = DokeosUtilities :: underscores_to_camelcase($table_name);
     }
     
  	/*
@@ -44,7 +44,7 @@ class ObjectResultSet extends ResultSet {
     {
 		if ($record = $this->handle->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			return $this->data_manager->record_to_classobject($record, $this->classname);
+			return $this->data_manager->record_to_object($record, $this->class_name);
 		}
     	return null;
     }
