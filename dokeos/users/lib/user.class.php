@@ -324,7 +324,7 @@ class User
 	 */
 	function set_id($user_id)
 	{
-		$this->user_id = $user_id;
+		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
 	}
 
 	/**
