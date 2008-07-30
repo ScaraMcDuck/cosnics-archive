@@ -88,7 +88,7 @@ class User
 	 */
 	function User($user_id = 0, $defaultProperties = array ())
 	{
-		$this->user_id = $user_id;
+		$this->set_id($user_id);
 		$this->defaultProperties = $defaultProperties;
 	}
 
@@ -108,6 +108,11 @@ class User
 	function get_default_properties()
 	{
 		return $this->defaultProperties;
+	}
+	
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
 	}
 
 	/**
@@ -147,7 +152,7 @@ class User
 	 */
 	function get_id()
 	{
-		return $this->user_id;
+		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 
 	/**
