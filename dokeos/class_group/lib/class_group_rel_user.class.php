@@ -11,6 +11,8 @@ require_once dirname(__FILE__).'/class_group_data_manager.class.php';
 
 class ClassGroupRelUser
 {
+	const CLASS_NAME = __CLASS__;
+	
 	const PROPERTY_CLASSGROUP_ID = 'classgroup_id';
 	const PROPERTY_USER_ID = 'user_id';
 
@@ -98,6 +100,11 @@ class ClassGroupRelUser
 	{
 		$gdm = ClassGroupDataManager :: get_instance();
 		return $gdm->create_classgroup_rel_user($this);
+	}
+	
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>

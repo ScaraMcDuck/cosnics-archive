@@ -30,6 +30,8 @@ require_once Path :: get_library_path().'image_manipulation/image_manipulation.c
 
 class User
 {
+	const CLASS_NAME				= __CLASS__;
+	
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_LASTNAME = 'lastname';
 	const PROPERTY_FIRSTNAME = 'firstname';
@@ -598,6 +600,11 @@ class User
 		$udm = UsersDataManager :: get_instance();
 		$this->set_id($udm->get_next_user_id());
 		return $udm->create_user($this);
+	}
+	
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>

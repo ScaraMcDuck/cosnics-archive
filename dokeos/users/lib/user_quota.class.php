@@ -17,10 +17,11 @@
 
 class UserQuota
 {
-	const PROPERTY_USER_ID = 'user_id';
-	const PROPERTY_LEARNING_OBJECT_TYPE = 'learning_object_type';
-	const PROPERTY_USER_QUOTA = 'user_quota';
+	const CLASS_NAME					= __CLASS__;
 	
+	const PROPERTY_USER_ID				= 'user_id';
+	const PROPERTY_LEARNING_OBJECT_TYPE	= 'learning_object_type';
+	const PROPERTY_USER_QUOTA 			= 'user_quota';
 
 	/**
 	 * Numeric identifier of the userquota object.
@@ -155,6 +156,11 @@ class UserQuota
 	{
 		$udm = UsersDataManager :: get_instance();
 		return $udm->update_user_quota($this);
+	}
+	
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>
