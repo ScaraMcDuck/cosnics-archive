@@ -26,23 +26,23 @@ class DatabaseAdminDataManager extends AdminDataManager
 	
     function retrieve_languages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
-		return $this->database->retrieve_objects('language', $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(Language :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
     function retrieve_settings($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
-		return $this->database->retrieve_objects('setting', $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(Setting :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
 	function retrieve_registrations($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
-		return $this->database->retrieve_objects('registration', $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(Registration :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
 	function retrieve_language_from_english_name($english_name)
 	{
 		$condition = new EqualityCondition(Language :: PROPERTY_ENGLISH_NAME, $english_name);
-		return $this->database->retrieve_object('language', $condition);
+		return $this->database->retrieve_object(Language :: get_table_name(), $condition);
 	}
 	
 	function retrieve_setting_from_variable_name($variable, $application = 'admin')
@@ -52,7 +52,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 		$conditions[] = new EqualityCondition(Setting :: PROPERTY_VARIABLE, $variable);
 		$condition = new AndCondition($conditions);
 	
-		return $this->database->retrieve_object('setting', $condition);
+		return $this->database->retrieve_object(Setting :: get_table_name(), $condition);
 	}
 	
 	function update_setting($setting)
@@ -70,25 +70,25 @@ class DatabaseAdminDataManager extends AdminDataManager
 	function delete_registration($registration)
 	{
 		$condition = new EqualityCondition(Registration :: PROPERTY_ID, $registration->get_id());
-		return $this->database->delete('registration', $condition);
+		return $this->database->delete($registration->get_table_name(), $condition);
 	}
 	
 	// Inherited.
 	function get_next_language_id()
 	{
-		return $this->database->get_next_id('language');
+		return $this->database->get_next_id(Language :: get_table_name());
 	}
 	
 	// Inherited.
 	function get_next_registration_id()
 	{
-		return $this->database->get_next_id('registration');
+		return $this->database->get_next_id(Registration :: get_table_name());
 	}
 	
 	// Inherited.
 	function get_next_setting_id()
 	{
-		return $this->database->get_next_id('setting');
+		return $this->database->get_next_id(Setting :: get_table_name());
 	}
 	
 	function create_language($language)
@@ -104,7 +104,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 	function create_setting($setting)
 	{
 		return $this->database->create($setting);
-	}	
+	}
 	
 	function create_storage_unit($name, $properties, $indexes)
 	{

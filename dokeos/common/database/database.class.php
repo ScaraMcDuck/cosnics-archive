@@ -241,7 +241,7 @@ class Database
 	 */
 	function create($object)
 	{
-		$object_table = DokeosUtilities :: camelcase_to_underscores(get_class($object));
+		$object_table = $object->get_table_name();
 		
 		$props = array();
 		foreach ($object->get_default_properties() as $key => $value)
@@ -269,7 +269,7 @@ class Database
 	 */
 	function update($object, $condition)
 	{
-		$object_table = DokeosUtilities :: camelcase_to_underscores(get_class($object));
+		$object_table = $object->get_table_name();
 		
 		$props = array();
 		foreach ($object->get_default_properties() as $key => $value)

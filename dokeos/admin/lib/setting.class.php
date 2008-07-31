@@ -8,6 +8,8 @@ require_once dirname(__FILE__).'/admin_data_manager.class.php';
 
 class Setting
 {
+	const CLASS_NAME				= __CLASS__;
+	
 	const PROPERTY_ID				= 'id';
 	const PROPERTY_APPLICATION		= 'application';
 	const PROPERTY_VARIABLE			= 'variable';
@@ -184,6 +186,11 @@ class Setting
 	function update()
 	{
 		return AdminDataManager :: get_instance()->update_setting($this);
+	}
+	
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>

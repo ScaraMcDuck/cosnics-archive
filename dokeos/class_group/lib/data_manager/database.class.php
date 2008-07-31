@@ -40,20 +40,20 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	
 	function get_next_classgroup_id()
 	{
-		$id = $this->database->get_next_id('class_group');
+		$id = $this->database->get_next_id(ClassGroup :: get_table_name());
 		return $id;
 	}
 	
 	function delete_classgroup($classgroup)
 	{
 		$condition = new EqualityCondition(ClassGroup :: PROPERTY_ID, $classgroup->get_id());
-		return $this->database->delete('class_group', $condition);
+		return $this->database->delete($classgroup->get_table_name(), $condition);
 	}
 	
 	function truncate_classgroup($classgroup)
 	{
 		$condition = new EqualityCondition(ClassGroupRelUser :: PROPERTY_CLASSGROUP_ID, $classgroup->get_id());
-		return $this->database->delete('class_group_rel_user', $condition);
+		return $this->database->delete(ClassGroupRelUser :: get_table_name(), $condition);
 	}
 	
 	function delete_classgroup_rel_user($classgroupreluser)
@@ -63,7 +63,7 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 		$conditions[] = new EqualityCondition(ClassGroupRelUser :: PROPERTY_USER_ID, $classgroupreluser->get_user_id());
 		$condition = new AndCondition($conditions);
 		
-		return $this->database->delete('class_group_rel_user', $condition);
+		return $this->database->delete($classgroupreluser->get_table_name(), $condition);
 	}
 	
 	function create_classgroup($classgroup)
@@ -78,22 +78,22 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 	
 	function count_classgroups($condition = null)
 	{
-		return $this->database->count_objects('class_group', $condition);
+		return $this->database->count_objects(ClassGroup :: get_table_name(), $condition);
 	}
 	
 	function count_classgroup_rel_users($condition = null)
 	{
-		return $this->database->count_objects('class_group_rel_user', $condition);
+		return $this->database->count_objects(ClassGroupRelUser :: get_table_name(), $condition);
 	}
 	
 	function retrieve_classgroups($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
-		return $this->database->retrieve_objects('class_group', $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(ClassGroup :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
 	function retrieve_classgroup_rel_users($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
-		return $this->database->retrieve_objects('class_group_rel_user', $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(ClassGroupRelUser :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
 	function retrieve_classgroup_rel_user($user_id, $group_id)
@@ -103,13 +103,13 @@ class DatabaseClassGroupDataManager extends ClassGroupDataManager
 		$conditions[] = new EqualityCondition(ClassGroupRelUser :: PROPERTY_CLASSGROUP_ID, $group_id);
 		$condition = new AndCondition($conditions);
 		
-		return $this->database->retrieve_object('class_group_rel_user', $condition);
+		return $this->database->retrieve_object(ClassGroupRelUser :: get_table_name(), $condition);
 	}
 	
 	function retrieve_classgroup($id)
 	{
 		$condition = new EqualityCondition(ClassGroup :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object('class_group', $condition);
+		return $this->database->retrieve_object(ClassGroup :: get_table_name(), $condition);
 	}
 	
 	function create_storage_unit($name, $properties, $indexes)

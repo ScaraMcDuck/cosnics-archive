@@ -53,13 +53,13 @@ class DatabaseUsersDataManager extends UsersDataManager
 	
 	function get_next_user_id()
 	{
-		return $this->database->get_next_id('user');
+		return $this->database->get_next_id(User :: get_table_name());
 	}
 	
 	function delete_user($user)
 	{
-		$condition = new EqualityCondition(User :: PROPERTY_ID, $user->get_id());
-		return $this->database->delete('user', $condition);
+		$condition = new EqualityCondition(User :: PROPERTY_USER_ID, $user->get_id());
+		return $this->database->delete($user->get_table_name(), $condition);
 	}
 	
 	function delete_all_users()
@@ -77,7 +77,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 	}
 	
 	// Inherited.
-	function create_storage_unit($name,$properties,$indexes)
+	function create_storage_unit($name, $properties, $indexes)
 	{
 		return $this->database->create_storage_unit($name, $properties, $indexes);
 	}
@@ -86,19 +86,19 @@ class DatabaseUsersDataManager extends UsersDataManager
 	function retrieve_user($id)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_USER_ID, $id);
-		return $this->database->retrieve_object('user', $condition);
+		return $this->database->retrieve_object(User :: get_table_name(), $condition);
 	}
 
 	function retrieve_user_by_username($username)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_USERNAME, $username);
-		return $this->database->retrieve_object('user', $condition);
+		return $this->database->retrieve_object(User :: get_table_name(), $condition);
 	}
 	
 	function retrieve_users_by_email($email)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_EMAIL, $email);
-		$users = $this->database->retrieve_objects('user', $condition);
+		$users = $this->database->retrieve_objects(User :: get_table_name(), $condition);
 		return $users->next_result();
 	}
 
@@ -113,17 +113,17 @@ class DatabaseUsersDataManager extends UsersDataManager
 			$conditions = new EqualityCondition(User :: PROPERTY_USER_ID,$user_id);
 			$condition = new AndCondition($conditions);
 		}
-		return $this->database->count_objects('user', $condition) < 1;
+		return $this->database->count_objects(User :: get_table_name(), $condition) < 1;
 	}
 
 	function count_users($condition = null)
 	{
-		return $this->database->count_objects('user', $condition);
+		return $this->database->count_objects(User :: get_table_name(), $condition);
 	}
 
 	function retrieve_users($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
-		return $this->database->retrieve_objects('user', $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(User :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 
 	//Inherited.
@@ -131,10 +131,10 @@ class DatabaseUsersDataManager extends UsersDataManager
 	{
 		$conditions = array();
 		$conditions[] = new EqualityCondition(User :: PROPERTY_USER_ID,$user->get_id());
-		$conditions[] = new EqualityCondition('learning_object_type',$type);
+		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_LEARNING_OBJECT_TYPE,$type);
 		$condition = new AndCondition($conditions);
 		
-		$user_quotum = $this->database->retrieve_object('user_quota', $condition);
+		$user_quotum = $this->database->retrieve_object(UserQuota :: get_table_name(), $condition);
 		
 		return $user_quotum->get_user_quota();
 		

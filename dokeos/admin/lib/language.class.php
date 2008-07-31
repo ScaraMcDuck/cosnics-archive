@@ -8,13 +8,14 @@ require_once dirname(__FILE__).'/admin_data_manager.class.php';
 
 class Language
 {
+	const CLASS_NAME				= __CLASS__;
+	
 	const PROPERTY_ID				= 'id';
 	const PROPERTY_ORIGINAL_NAME	= 'original_name';
 	const PROPERTY_ENGLISH_NAME		= 'english_name';
 	const PROPERTY_ISOCODE			= 'isocode';
 	const PROPERTY_FOLDER			= 'folder';
 	const PROPERTY_AVAILABLE		= 'available';
-	
 	
 	private $id;
 	private $defaultProperties;
@@ -229,6 +230,11 @@ class Language
 	function update()
 	{
 		return AdminDataManager :: get_instance()->update_language($this);
+	}
+	
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>

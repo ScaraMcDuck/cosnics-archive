@@ -8,6 +8,8 @@ require_once dirname(__FILE__).'/admin_data_manager.class.php';
 
 class Registration
 {
+	const CLASS_NAME				= __CLASS__;
+	
 	const PROPERTY_ID		= 'id';
 	const PROPERTY_TYPE		= 'type';
 	const PROPERTY_NAME		= 'name';
@@ -194,6 +196,11 @@ class Registration
 	function update()
 	{
 		return AdminDataManager :: get_instance()->update_registration($this);
+	}
+	
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>

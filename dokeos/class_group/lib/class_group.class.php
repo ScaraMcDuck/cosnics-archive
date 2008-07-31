@@ -12,6 +12,8 @@ require_once dirname(__FILE__).'/class_group_data_manager.class.php';
 
 class ClassGroup
 {
+	const CLASS_NAME = __CLASS__;
+	
 	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_DESCRIPTION = 'description';
@@ -184,6 +186,11 @@ class ClassGroup
 		}
 
 		return true;	
+	}
+	
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>
