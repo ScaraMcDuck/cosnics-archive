@@ -4,6 +4,7 @@
  */
 require_once dirname(__FILE__).'/../personal_calendar.class.php';
 require_once dirname(__FILE__).'/../personal_calendar_component.class.php';
+require_once dirname(__FILE__).'/../../../profiler/profiler_manager/profiler.class.php';
 
 class PersonalCalendarDeleterComponent extends PersonalCalendarComponent
 {
