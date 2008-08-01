@@ -37,7 +37,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 	
 	function update_user($user)
 	{
-		$condition = new EqualityCondition(User :: PROPERTY_ID, $user->get_id());
+		$condition = new EqualityCondition(User :: PROPERTY_USER_ID, $user->get_id());
 		return $this->database->update($user, $condition);
 	}
 	
@@ -58,8 +58,10 @@ class DatabaseUsersDataManager extends UsersDataManager
 	
 	function delete_user($user)
 	{
+		// @Todo: review the user's objects on deletion 
+		// (currently: when the user is deleted, the user's objects remain, and refer to an invalid user)
 		$condition = new EqualityCondition(User :: PROPERTY_USER_ID, $user->get_id());
-		return $this->database->delete($user->get_table_name(), $condition);
+		return $this->db->delete('user', $condition);
 	}
 	
 	function delete_all_users()
@@ -102,6 +104,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		return $users->next_result();
 	}
 
+	/*
 	//Inherited.
 	function is_username_available($username, $user_id = null)
 	{
@@ -110,11 +113,39 @@ class DatabaseUsersDataManager extends UsersDataManager
 		{
 			$conditions = array();
 			$conditions[] = new EqualityCondition(User :: PROPERTY_USERNAME,$username);
-			$conditions = new EqualityCondition(User :: PROPERTY_USER_ID,$user_id);
+			$conditions[] = new EqualityCondition(User :: PROPERTY_USER_ID,$user_id);
 			$condition = new AndCondition($conditions);
 		}
+<<<<<<< .mine
+		return !($this->db->count_objects('user',$condition) == 1);
+=======
 		return $this->database->count_objects(User :: get_table_name(), $condition) < 1;
+>>>>>>> .r15882
 	}
+	//*/
+	///*
+	function is_username_available($username, $user_id = null)
+	{
+		$params = array();
+		$query = 'SELECT username FROM '.$this->database->escape_table_name('user').' WHERE '.$this->database->escape_column_name(User :: PROPERTY_USERNAME).'=?';
+		$params[] = $username;
+		if ($user_id)
+		{
+			$query .=  ' AND '.$this->database->escape_column_name(User :: PROPERTY_USER_ID).' !=?';
+			$params[] = $user_id;
+		}
+		$statement = $this->database->get_connection()->prepare($query);
+		$result = $statement->execute($params);
+		if ($result->numRows() == 1)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	//*/
 
 	function count_users($condition = null)
 	{
