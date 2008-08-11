@@ -201,7 +201,23 @@ class ComplexLearningObjectItem
 	function delete()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		return $rdm->delete_complex_learning_object_item($this);
+		$succes = $rdm->delete_complex_learning_object_item($this);
+		
+		if($succes)
+		{
+			$conditions[] = new InEqualityCondition(self :: PROPERTY_DISPLAY_ORDER, InEqualityCondition :: GREATER_THAN, $this->get_display_order());
+			$conditions[] = new EqualityCondition(self :: PROPERTY_PARENT, $this->get_parent());
+			$condition = new AndCondition($conditions); print_r($condition);
+			$items = $rdm->retrieve_complex_learning_object_items($condition);
+			
+			while($item = $items->next_result())
+			{
+				$item->set_display_order($item->get_display_order() - 1);
+				$item->update();
+			}
+		}
+		
+		return $succes;
 	}
 	
 	/**
