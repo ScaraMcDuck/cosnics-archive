@@ -69,9 +69,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		// Do something with the arguments
 		if($args[1] == 'query')
 		{
-			//echo '<pre>';
-		 	//echo($args[2]);
-		 	//echo '</pre>';
+//			echo '<pre>';
+//		 	echo($args[2]);
+//		 	echo '</pre>';
 		}
 	}
 
@@ -1381,6 +1381,29 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		return new DatabaseComplexLearningObjectItemResultSet($this, $res, true);
 	}
 
+	function select_next_display_order($parent_id)
+	{
+		$query = 'SELECT MAX(' . ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
+			$this->escape_table_name('complex_learning_object_item');
+	
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent_id);
+		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+	
+		return $record[0] + 1;
+	}
 
 }
 ?>
