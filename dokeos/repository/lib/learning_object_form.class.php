@@ -43,8 +43,6 @@ abstract class LearningObjectForm extends FormValidator
 	private $extra;
 	
 	protected $form_type;
-	
-	private $allow_create_complex;
 
 	/**
 	 * Constructor.
@@ -59,14 +57,13 @@ abstract class LearningObjectForm extends FormValidator
 	 * @param string $action The URL to which the form should be submitted.
 	 */
 	protected function __construct($form_type, $learning_object, $form_name, $method = 'post', 
-						$action = null, $extra = null, $allow_create_complex = false)
+						$action = null, $extra = null)
 	{
 		parent :: __construct($form_name, $method, $action);
 		$this->form_type = $form_type;
 		$this->learning_object = $learning_object;
 		$this->owner_id = $learning_object->get_owner_id();
 		$this->extra = $extra;
-		$this->allow_create_complex = $allow_create_complex;
 		if ($this->form_type == self :: TYPE_EDIT || $this->form_type == self :: TYPE_REPLY)
 		{
 			$this->build_editing_form();
@@ -296,8 +293,6 @@ EOT;
 			$elem->setDefaultCollapsed(count($attachments) == 0);
 		}
 		
-		if($object->is_complex_learning_object() && $this->allow_create_complex)
-			$this->addElement('checkbox', 'create_complex', Translation :: get('CreateComplex'));
 		$this->addElement('submit', 'submit', Translation :: get('Ok'));
 	}
 
@@ -501,17 +496,6 @@ EOT;
 	function get_path($path_type)
 	{
 		return Path :: get($path_type);
-	}
-	
-	function get_create_complex()
-	{
-		$values = $this->exportValues();
-		return $values['create_complex'];
-	}
-	
-	function set_allow_create_complex($bool)
-	{
-		$this->allow_create_complex = $bool;
 	}
 }
 ?>

@@ -56,48 +56,51 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 	 */
 	private function get_modification_links($learning_object)
 	{
-		$toolbar_data = array();
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_learning_object_editing_url($learning_object),
-			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'action_edit.png'
-		);
-		$html = array ();
-		if ($url = $this->browser->get_learning_object_recycling_url($learning_object))
+		if(get_class($this->browser) == 'RepositoryManagerBrowseComponent')
 		{
+			$toolbar_data = array();
 			$toolbar_data[] = array(
-				'href' => $url,
-				'label' => Translation :: get('Remove'),
-				'img' => Theme :: get_common_img_path().'action_recycle_bin.png',
-				'confirm' => true
+				'href' => $this->browser->get_learning_object_editing_url($learning_object),
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_img_path().'action_edit.png'
 			);
-		}
-		else
-		{
+			$html = array ();
+			if ($url = $this->browser->get_learning_object_recycling_url($learning_object))
+			{
+				$toolbar_data[] = array(
+					'href' => $url,
+					'label' => Translation :: get('Remove'),
+					'img' => Theme :: get_common_img_path().'action_recycle_bin.png',
+					'confirm' => true
+				);
+			}
+			else
+			{
+				$toolbar_data[] = array(
+					'label' => Translation :: get('Remove'),
+					'img' => Theme :: get_common_img_path().'action_recycle_bin_na.png'
+				);
+			}
+			if($this->browser->get_number_of_categories() > 1)
+			{
+				$toolbar_data[] = array(
+					'href' => $this->browser->get_learning_object_moving_url($learning_object),
+					'label' => Translation :: get('Move'),
+					'img' => Theme :: get_common_img_path().'action_move.png'
+				);
+			}
 			$toolbar_data[] = array(
-				'label' => Translation :: get('Remove'),
-				'img' => Theme :: get_common_img_path().'action_recycle_bin_na.png'
+				'href' => $this->browser->get_learning_object_metadata_editing_url($learning_object),
+				'label' => Translation :: get('Metadata'),
+				'img' => Theme :: get_common_img_path().'action_metadata.png'
 			);
-		}
-		if($this->browser->get_number_of_categories() > 1)
-		{
 			$toolbar_data[] = array(
-				'href' => $this->browser->get_learning_object_moving_url($learning_object),
-				'label' => Translation :: get('Move'),
-				'img' => Theme :: get_common_img_path().'action_move.png'
+				'href' => $this->browser->get_learning_object_rights_editing_url($learning_object),
+				'label' => Translation :: get('Rights'),
+				'img' => Theme :: get_common_img_path().'action_rights.png'
 			);
+			return DokeosUtilities :: build_toolbar($toolbar_data);
 		}
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_learning_object_metadata_editing_url($learning_object),
-			'label' => Translation :: get('Metadata'),
-			'img' => Theme :: get_common_img_path().'action_metadata.png'
-		);
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_learning_object_rights_editing_url($learning_object),
-			'label' => Translation :: get('Rights'),
-			'img' => Theme :: get_common_img_path().'action_rights.png'
-		);
-		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

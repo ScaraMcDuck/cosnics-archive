@@ -48,17 +48,17 @@ class ComplexLearningObjectMenu extends HTML_Menu
 		$menu = $this->get_menu($root);
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
-		$this->forceCurrentUrl($this->get_cloi_url($current_item->get_id()));
+		$this->forceCurrentUrl($this->get_cloi_url($current_item));
 	}
 	
 	function get_menu($root)
 	{
 		$menu = array();
 		$datamanager = $this->dm;
-		$lo = $datamanager->retrieve_learning_object($root->get_ref());
+		$lo = $datamanager->retrieve_learning_object($root);
 		$menu_item = array();
 		$menu_item['title'] = $lo->get_title();
-		$menu_item['url'] = $this->get_cloi_url($root->get_id());
+		$menu_item['url'] = $this->get_cloi_url($root);
 	
 		$sub_menu_items = $this->get_menu_items($root);
 		if(count($sub_menu_items) > 0)
@@ -67,8 +67,8 @@ class ComplexLearningObjectMenu extends HTML_Menu
 		}
 	
 		$menu_item['class'] = 'type_' . $lo->get_type();
-		$menu_item[OptionsMenuRenderer :: KEY_ID] = $root->get_id();
-		$menu[$root->get_id()] = $menu_item;
+		$menu_item[OptionsMenuRenderer :: KEY_ID] = $root;
+		$menu[$root] = $menu_item;
 		return $menu;
 	}
 	
@@ -82,7 +82,7 @@ class ComplexLearningObjectMenu extends HTML_Menu
 	 */
 	private function get_menu_items($cloi)
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi->get_id());
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi);
 		$datamanager = $this->dm;
 		$objects = $datamanager->retrieve_complex_learning_object_items($condition);
 		
@@ -90,23 +90,20 @@ class ComplexLearningObjectMenu extends HTML_Menu
 		{
 			if($object->is_extended())
 			{
-				if($object->is_complex_ref())
-					$object = $datamanager->retrieve_complex_learning_object_item($object->get_ref());
-				
 				$lo = $datamanager->retrieve_learning_object($object->get_ref());
 				$menu_item = array();
 				$menu_item['title'] = $lo->get_title();
-				$menu_item['url'] = $this->get_cloi_url($object->get_id());
+				$menu_item['url'] = $this->get_cloi_url($object->get_ref());
 			
-				$sub_menu_items = $this->get_menu_items($object);
+				$sub_menu_items = $this->get_menu_items($object->get_ref());
 				if(count($sub_menu_items) > 0)
 				{
 					$menu_item['sub'] = $sub_menu_items;
 				}
 			
 				$menu_item['class'] = 'type_' . $lo->get_type();
-				$menu_item[OptionsMenuRenderer :: KEY_ID] = $object->get_id();
-				$menu[$object->get_id()] = $menu_item;
+				$menu_item[OptionsMenuRenderer :: KEY_ID] = $object->get_ref();
+				$menu[$object->get_ref()] = $menu_item;
 			}
 		}
 		
@@ -115,7 +112,7 @@ class ComplexLearningObjectMenu extends HTML_Menu
 
 	private function get_cloi_url($cloi_id)
 	{
-		return htmlentities(sprintf($this->urlFmt, $cloi_id, $this->root->get_id()));
+		return htmlentities(sprintf($this->urlFmt, $cloi_id, $this->root));
 	}
 	
 	/**

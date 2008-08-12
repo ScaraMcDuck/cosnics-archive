@@ -173,14 +173,7 @@ abstract class ComplexLearningObjectItemForm extends FormValidator
 		
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		if($complex_learning_object_item->is_complex_ref())
-		{
-			$ref_item = RepositoryDataManager :: get_instance()->
-					retrieve_complex_learning_object_item($complex_learning_object_item->get_ref());
-			$ref = $ref_item->get_ref();
-		}
-		else
-			$ref = $complex_learning_object_item->get_ref();
+		$ref = $complex_learning_object_item->get_ref();
 			
 		$type = $rdm->determine_learning_object_type($ref);
 		

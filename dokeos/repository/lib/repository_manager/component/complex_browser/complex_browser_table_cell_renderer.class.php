@@ -33,14 +33,8 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		{
 			return $this->get_modification_links($cloi);
 		}
-		
-		if($cloi->is_complex_ref())
-		{ 
-			$ref_item = $this->browser->retrieve_complex_learning_object_item($cloi->get_ref());
-			$ref = $ref_item->get_ref();
-		}
-		else
-			$ref = $cloi->get_ref();
+
+		$ref = $cloi->get_ref();
 		
 		if(!$this->learning_object || $this->learning_object->get_id() != $ref)
 		{ 
@@ -70,7 +64,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 				if($learning_object->is_complex_learning_object())
 				{
 					$title_short = '<a href="' . $this->browser->get_url(
-						array(RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->browser->get_root()->get_id(), 
+						array(RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->browser->get_root(), 
 							  RepositoryManager :: PARAM_CLOI_ID => $cloi->get_ref())) . '">' . $title_short . '</a>'; 
 				}
 				
@@ -105,7 +99,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		if($cloi->is_extended())
 		{
 			$toolbar_data[] = array(
-				'href' => $this->browser->get_complex_learning_object_item_edit_url($cloi, $this->browser->get_root()->get_id()),
+				'href' => $this->browser->get_complex_learning_object_item_edit_url($cloi, $this->browser->get_root()),
 				'label' => Translation :: get('Edit'),
 				'img' => Theme :: get_common_img_path().'action_edit.png'
 			);
@@ -119,7 +113,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		}
 		
 		$toolbar_data[] = array(
-			'href' => $this->browser->get_complex_learning_object_item_delete_url($cloi, $this->browser->get_root()->get_id()),
+			'href' => $this->browser->get_complex_learning_object_item_delete_url($cloi, $this->browser->get_root()),
 			'label' => Translation :: get('Delete'),
 			'img' => Theme :: get_common_img_path().'action_delete.png',
 			'confirm' => true
@@ -130,7 +124,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		if($allowed["moveup"])
 		{
 			$toolbar_data[] = array(
-				'href' => $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root()->get_id(), RepositoryManager :: PARAM_DIRECTION_UP),
+				'href' => $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_UP),
 				'label' => Translation :: get('MoveUp'),
 				'img' => Theme :: get_common_img_path().'action_up.png',
 			);
@@ -147,7 +141,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		if($allowed["movedown"])
 		{
 			$toolbar_data[] = array(
-				'href' => $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root()->get_id(), RepositoryManager :: PARAM_DIRECTION_DOWN),
+				'href' => $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_DOWN),
 				'label' => Translation :: get('MoveDown'),
 				'img' => Theme :: get_common_img_path().'action_down.png',
 			);

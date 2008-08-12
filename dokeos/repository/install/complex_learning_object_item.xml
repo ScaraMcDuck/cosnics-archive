@@ -5,7 +5,6 @@
   <property name="ref" type="integer" unsigned="1" notnull="1" default="0"/>
   <property name="parent" type="integer" unsigned="1" notnull="1" default="0"/>
   <property name="user_id" type="integer" unsigned="1" notnull="1" default="0"/>
-  <property name="complex_ref" type="integer" unsigned="1" notnull="1" default="0"/>
   <property name="display_order" type="integer" unsigned="1" notnull="1" default="0"/>
  </properties>
  <index name="id" type="primary">
@@ -19,9 +18,6 @@
  </index>
  <index name="user_id">
    <indexproperty name="user_id" />
- </index>
- <index name="complex_ref">
-   <indexproperty name="complex_ref" />
  </index>
  <index name="display_order" >
    <indexproperty name="display_order" />
