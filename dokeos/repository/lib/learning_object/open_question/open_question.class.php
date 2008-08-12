@@ -10,5 +10,9 @@ require_once dirname(__FILE__) . '/../../learning_object.class.php';
  */
 class OpenQuestion extends LearningObject
 {
+	function get_allowed_types()
+	{
+		return array();
+	}
 }
 ?>

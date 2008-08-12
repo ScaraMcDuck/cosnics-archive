@@ -19,8 +19,8 @@ require_once dirname(__FILE__).'/complex_browser/complex_browser_table.class.php
  */
 class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponent
 {
-	private $cloi;
-	private $root;
+	private $cloi_id;
+	private $root_id;
 	
 	/**
 	 * Runs this component and displays its output.
@@ -35,8 +35,8 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		
 		if(isset($cloi_id) && isset($root_id))
 		{
-			$this->cloi = $this->retrieve_complex_learning_object_item($cloi_id);
-			$this->root = $this->retrieve_complex_learning_object_item($root_id);
+			$this->cloi_id = $cloi_id;
+			$this->root_id = $root_id;
 		}
 		else
 		{
@@ -46,7 +46,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			exit;
 		}
 		
-		$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $this->cloi->get_ref())), Translation :: get('ViewLearningObject')));
+		$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), Translation :: get('ViewLearningObject')));
 		$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
 		
 		$output = $this->get_learning_objects_html();
@@ -79,25 +79,24 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	
 	public function get_parameters()
 	{
-		$param = array(RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->root->get_id());
+		$param = array(RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->root_id);
 		return array_merge($param, parent :: get_parameters());
 	}
 	
 	function get_condition()
 	{
-		$cloi_id = $_GET[RepositoryManager :: PARAM_CLOI_ID];
-		if(isset($cloi_id))
+		if(isset($this->cloi_id))
 		{
-			return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi_id);
+			return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->cloi_id);
 		}
 		return null;
 	}
 	
 	private function get_menu()
 	{
-		if(isset($this->cloi) && isset($this->root))
+		if(isset($this->cloi_id) && isset($this->root_id))
 		{
-			return new ComplexLearningObjectMenu($this->root, $this->cloi);
+			return new ComplexLearningObjectMenu($this->root_id, $this->cloi_id);
 		}
 		return null;
 	}
@@ -108,8 +107,8 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		
 		$link = $this->get_link(array(RepositoryManager :: PARAM_ACTION => 
 			RepositoryManager :: ACTION_CREATE_LEARNING_OBJECTS, 
-			RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->root->get_id(), 
-			RepositoryManager :: PARAM_CLOI_ID => $this->cloi->get_id()));
+			RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->root_id, 
+			RepositoryManager :: PARAM_CLOI_ID => $this->cloi_id));
 		
 		$toolbar_data[] = array(
 			'href' => $link,
@@ -122,7 +121,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	
 	function get_root()
 	{
-		return $this->root;
+		return $this->root_id;
 	}
 }
 ?>

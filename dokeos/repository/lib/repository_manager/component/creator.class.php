@@ -26,23 +26,23 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$cloi_id = $_GET[RepositoryManager :: PARAM_CLOI_ID]; 
+		$clo_id= $_GET[RepositoryManager :: PARAM_CLOI_ID]; 
 		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
 		
 		$type_options = array ();
 		$type_options[''] = '&nbsp;';
 		$extra_params = array();
 		
-		if(isset($cloi_id) && isset($root_id))
+		if(isset($clo_id) && isset($root_id))
 		{
-			$cloi = $this->retrieve_complex_learning_object_item($cloi_id);
-			$types = $cloi->get_allowed_types();
+			$clo = $this->retrieve_learning_object($clo_id);
+			$types = $clo->get_allowed_types();
 			foreach($types as $type)
 			{
 				$type_options[$type] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
 			}
 			
-			$extra_params = array(RepositoryManager :: PARAM_CLOI_ID => $cloi_id, 
+			$extra_params = array(RepositoryManager :: PARAM_CLOI_ID => $clo_id, 
 								  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id);
 		}
 		else
@@ -73,13 +73,13 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		{
 			$category = $_GET[RepositoryManager :: PARAM_CATEGORY_ID];
 			$object = new AbstractLearningObject($type, $this->get_user_id(), $category);
-			$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array_merge($extra_params,array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type))), null, (count($extra_params) != 2));
+			$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array_merge($extra_params,array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type))), null);
 			
 			if ($lo_form->validate())
 			{
 				$object = $lo_form->create_learning_object();
 
-				if($lo_form->get_create_complex() || count($extra_params) == 2)
+				if($object->is_complex_learning_object() || count($extra_params) == 2)
 				{
 					$params = array_merge(array(RepositoryManager :: PARAM_CLOI_REF => $object->get_id()), $extra_params);
 					$this->redirect(RepositoryManager :: ACTION_CREATE_COMPLEX_LEARNING_OBJECTS, null, 0, false, $params);

@@ -88,6 +88,7 @@ class RepositoryManager
 	const ACTION_DELETE_COMPLEX_LEARNING_OBJECTS = 'deletecomplex';
 	const ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS = 'browsecomplex';
 	const ACTION_MOVE_COMPLEX_LEARNING_OBJECTS = 'movecomplex';
+	const ACTION_SELECT_LEARNING_OBJECTS = 'selectobjects';
 	
 	/**#@-*/
    /**#@+
@@ -145,6 +146,9 @@ class RepositoryManager
 				break;
 			case self :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS :
 				$component = RepositoryManagerComponent :: factory('ComplexBrowser', $this);
+				break;
+			case self :: ACTION_SELECT_LEARNING_OBJECTS :
+				$component = RepositoryManagerComponent :: factory('LearningObjectSelector', $this);
 				break;
 			case self :: ACTION_VIEW_LEARNING_OBJECTS :
 				$component = RepositoryManagerComponent :: factory('Viewer', $this);
