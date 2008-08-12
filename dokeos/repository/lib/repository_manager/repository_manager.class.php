@@ -62,6 +62,7 @@ class RepositoryManager
 	const PARAM_MOVE_DIRECTION = 'move_direction';
 	const PARAM_DIRECTION_UP = 'up';
 	const PARAM_DIRECTION_DOWN = 'down';
+	const PARAM_ADD_OBJECTS = 'add_objects'; 
 
 	/**#@-*/
    /**#@+
@@ -89,6 +90,7 @@ class RepositoryManager
 	const ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS = 'browsecomplex';
 	const ACTION_MOVE_COMPLEX_LEARNING_OBJECTS = 'movecomplex';
 	const ACTION_SELECT_LEARNING_OBJECTS = 'selectobjects';
+	const ACTION_ADD_LEARNING_OBJECT = 'addobject';
 	
 	/**#@-*/
    /**#@+
@@ -149,6 +151,9 @@ class RepositoryManager
 				break;
 			case self :: ACTION_SELECT_LEARNING_OBJECTS :
 				$component = RepositoryManagerComponent :: factory('LearningObjectSelector', $this);
+				break;
+			case self :: ACTION_ADD_LEARNING_OBJECT :
+				$component = RepositoryManagerComponent :: factory('AddLearningObjects', $this);
 				break;
 			case self :: ACTION_VIEW_LEARNING_OBJECTS :
 				$component = RepositoryManagerComponent :: factory('Viewer', $this);
@@ -252,6 +257,10 @@ class RepositoryManager
 					$this->set_action(self :: ACTION_DELETE_COMPLEX_LEARNING_OBJECTS);
 					$_GET[self :: PARAM_CLOI_ID] = $selected_ids;
 					break;
+				case self :: PARAM_ADD_OBJECTS :
+					$this->set_action(self :: ACTION_ADD_LEARNING_OBJECT);
+					$_GET[self :: PARAM_CLOI_REF] = $selected_ids;
+					break;
 			}
 		}
 	}
@@ -286,7 +295,7 @@ class RepositoryManager
 		}
 		
 		$categories = $this->breadcrumbs;
-		if (count($categories) > 0)
+		if (count($categories) > 0 && $this->get_action() == self :: ACTION_BROWSE_LEARNING_OBJECTS)
 		{
 			foreach($categories as $category)
 			{
@@ -1085,6 +1094,28 @@ class RepositoryManager
 			self :: PARAM_CLOI_ID => $cloi->get_id(),
 			self :: PARAM_CLOI_ROOT_ID => $root_id,
 			self :: PARAM_MOVE_DIRECTION => $direction));
+	}
+	
+	function get_browse_complex_learning_object_url($object)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, 
+			self :: PARAM_CLOI_ID => $object->get_id(),
+			self :: PARAM_CLOI_ROOT_ID => $object->get_id()));
+	}
+	
+	function get_add_existing_learning_object_url($root_id, $clo_id)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SELECT_LEARNING_OBJECTS, 
+			self :: PARAM_CLOI_ID => $clo_id,
+			self :: PARAM_CLOI_ROOT_ID => $root_id));
+	}
+	
+	function get_add_learning_object_url($learning_object, $cloi_id, $root_id)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_ADD_LEARNING_OBJECT, 
+			self :: PARAM_CLOI_REF => $learning_object->get_id(),
+			self :: PARAM_CLOI_ID => $cloi_id,
+			self :: PARAM_CLOI_ROOT_ID => $root_id));
 	}
 }
 ?>

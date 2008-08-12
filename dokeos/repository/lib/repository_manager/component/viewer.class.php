@@ -231,6 +231,15 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 						'img' => Theme :: get_common_img_path().'action_rights.png',
 						'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
+					if($object->is_complex_learning_object())
+					{
+						$toolbar_data[] = array(
+							'href' => $this->get_browse_complex_learning_object_url($object),
+							'img' => Theme :: get_common_img_path().'action_browser.png',
+							'label' => Translation :: get('BrowseComplex'),
+							'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+						);
+					}
 				}
 				else
 				{

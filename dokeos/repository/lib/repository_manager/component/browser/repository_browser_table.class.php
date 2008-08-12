@@ -25,13 +25,18 @@ class RepositoryBrowserTable extends ObjectTable
 		$renderer = new RepositoryBrowserTableCellRenderer($browser);
 		$data_provider = new RepositoryBrowserTableDataProvider($browser, $condition);
 		parent :: __construct($data_provider, RepositoryBrowserTable :: DEFAULT_NAME, $model, $renderer);
-		$this->set_additional_parameters($parameters);
-		if(get_class($this->browser) == 'RepositoryManagerBrowseComponent')
+		if(get_class($browser) == 'RepositoryManagerBrowserComponent')
 		{
 			$actions = array();
 			$actions[RepositoryManager :: PARAM_RECYCLE_SELECTED] = Translation :: get('RemoveSelected');
 			$actions[RepositoryManager :: PARAM_MOVE_SELECTED] = Translation :: get('MoveSelected');
 		}
+		if(get_class($browser) == 'RepositoryManagerLearningObjectSelectorComponent')
+		{
+			$actions = array();
+			$actions[RepositoryManager :: PARAM_ADD_OBJECTS] = Translation :: get('AddObjects');
+		}
+		$this->set_additional_parameters($parameters);
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}

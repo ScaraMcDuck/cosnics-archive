@@ -56,7 +56,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 	 */
 	private function get_modification_links($learning_object)
 	{
-		if(get_class($this->browser) == 'RepositoryManagerBrowseComponent')
+		if(get_class($this->browser) == 'RepositoryManagerBrowserComponent')
 		{
 			$toolbar_data = array();
 			$toolbar_data[] = array(
@@ -99,6 +99,30 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 				'label' => Translation :: get('Rights'),
 				'img' => Theme :: get_common_img_path().'action_rights.png'
 			);
+			
+			if($learning_object->is_complex_learning_object())
+			{
+				$toolbar_data[] = array(
+					'href' => $this->browser->get_browse_complex_learning_object_url($learning_object),
+					'img' => Theme :: get_common_img_path().'action_browser.png',
+					'label' => Translation :: get('BrowseComplex'),
+				);
+			}
+			
+			return DokeosUtilities :: build_toolbar($toolbar_data);
+		}
+		
+		if(get_class($this->browser) == 'RepositoryManagerLearningObjectSelectorComponent')
+		{
+			$toolbar_data = array();
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_add_learning_object_url($learning_object,
+					$this->browser->get_cloi_id(), 
+					$this->browser->get_root_id()),
+				'label' => Translation :: get('Add'),
+				'img' => Theme :: get_common_img_path().'action_add.png'
+			);
+			
 			return DokeosUtilities :: build_toolbar($toolbar_data);
 		}
 	}
