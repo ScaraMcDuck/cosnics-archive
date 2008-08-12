@@ -44,6 +44,11 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			
 			$extra_params = array(RepositoryManager :: PARAM_CLOI_ID => $clo_id, 
 								  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id);
+			$extra = '<a href="' . $this->get_add_existing_learning_object_url($root_id, $clo_id) . '">' . Translation :: get('AddExistingLearningObject') . '</a><br /><br />';
+			
+			$root = $this->retrieve_learning_object($root_id);
+			$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), $root->get_title()));
+			$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $clo_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
 		}
 		else
 		{
@@ -143,8 +148,13 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		}
 		else
 		{
-			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
+			if($extra)
+				$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddLearningObject')));
+			else
+				$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
+				
 			$this->display_header($trail);
+			echo $extra;
 			$quotamanager = new QuotaManager($this->get_user());
 			if ( $quotamanager->get_available_database_space() <= 0)
 			{

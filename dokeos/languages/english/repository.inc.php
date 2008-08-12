@@ -229,7 +229,7 @@ $lang['repository']['LearningStyleSurveyOutline']='Survey Outline';
 $lang['repository']['FillIn']='Please fill in the necessary fields for the complex learning object';
 $lang['repository']['Test']='Test';
 $lang['repository']['SurveySectionQuestion']='Question';
-$lang['repository']['SurveySectionQuestion']='Question';
+$lang['repository']['BrowseComplex']='Browse Complex';
 $lang['repository']['SurveySectionQuestion']='Question';
 $lang['repository']['SurveySectionQuestion']='Question';
 ?>

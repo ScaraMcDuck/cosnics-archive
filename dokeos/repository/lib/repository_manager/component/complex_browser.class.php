@@ -45,8 +45,8 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			$this->display_footer();
 			exit;
 		}
-		
-		$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), Translation :: get('ViewLearningObject')));
+		$root = $this->retrieve_learning_object($root_id);
+		$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), $root->get_title()));
 		$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
 		
 		$output = $this->get_learning_objects_html();
