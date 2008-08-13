@@ -260,6 +260,52 @@ abstract class RepositoryDataManager
 		}
 		return !$this->any_learning_object_is_published($forbidden);
 	}
+	
+	function complex_learning_object_adaption_allowed($clo, $root_clo)
+	{
+		if($this->learning_object_is_published($clo))
+			return false;
+		
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $clo->get_id());
+		$items = $this->retrieve_complex_learning_object_items($condition);
+		if($items->size() > 1)
+			return false;
+		if($items->size() == 1)
+			if($clo->get_id() == $root_clo->get_id())
+				return false;
+			else
+			{
+				$parent = $this->retrieve_learning_object($items->next_result()->get_parent());
+				return $this->complex_learning_object_adaption_allowed($parent, $root_clo);
+			}
+		if($items->size() == 0)
+			if($clo->get_id() == $root_clo->get_id())
+				return true;
+			else
+				return false;
+	}
+	
+	/**
+	 * Copies a complex learning object
+	 */
+	function copy_complex_learning_object($clo)
+	{
+		$clo->create_all();
+		
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $clo->get_id());
+		$items = $this->retrieve_complex_learning_object_items($condition);
+		while($item = $items->next_result())
+		{
+			$nitem = new ComplexLearningObjectItem();			
+			$nitem->set_user_id($item->get_user_id());
+			$nitem->set_display_order($item->get_display_order());
+			$nitem->set_parent($clo->get_id());
+			$nitem->set_ref($item->get_ref());
+			$nitem->create();
+		}
+		
+		return $clo;
+	}
 
 	/**
 	 * Determines whether a version is revertable.
