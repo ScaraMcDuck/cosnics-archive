@@ -847,6 +847,11 @@ class LearningObject implements AccessibleLearningObject
 		return count($this->get_allowed_types()) > 0;
 	}
 	
+	function get_allowed_types()
+	{
+		return array();
+	}
+	
 	/**
 	 * Gets the name of the icon corresponding to this learning object.
 	 */
