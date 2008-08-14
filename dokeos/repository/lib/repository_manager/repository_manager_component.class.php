@@ -478,5 +478,10 @@ abstract class RepositoryManagerComponent {
 	{
 		return $this->get_parent()->get_add_learning_object_url($learning_object, $cloi_id, $root_id);
 	}
+	
+	function get_export_learning_object_url($learning_object)
+	{
+		return $this->get_parent()->get_export_learning_object_url($learning_object);
+	}
 }
 ?>

@@ -91,6 +91,8 @@ class RepositoryManager
 	const ACTION_MOVE_COMPLEX_LEARNING_OBJECTS = 'movecomplex';
 	const ACTION_SELECT_LEARNING_OBJECTS = 'selectobjects';
 	const ACTION_ADD_LEARNING_OBJECT = 'addobject';
+	const ACTION_EXPORT_LEARNING_OBJECTS = 'export';
+	const ACTION_IMPORT_LEARNING_OBJECTS = 'import';
 	
 	/**#@-*/
    /**#@+
@@ -209,6 +211,12 @@ class RepositoryManager
 				break;
 			case self :: ACTION_MOVE_COMPLEX_LEARNING_OBJECTS :
 				$component = RepositoryManagerComponent :: factory('ComplexOrderMover', $this);
+				break;
+			case self :: ACTION_EXPORT_LEARNING_OBJECTS :
+				$component = RepositoryManagerComponent :: factory('Exporter', $this);
+				break;
+			case self :: ACTION_IMPORT_LEARNING_OBJECTS :
+				$component = RepositoryManagerComponent :: factory('Importer', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
@@ -1116,6 +1124,17 @@ class RepositoryManager
 			self :: PARAM_CLOI_REF => $learning_object->get_id(),
 			self :: PARAM_CLOI_ID => $cloi_id,
 			self :: PARAM_CLOI_ROOT_ID => $root_id));
+	}
+	
+	function get_export_learning_object_url($learning_object)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EXPORT_LEARNING_OBJECTS, 
+			self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
+	}
+	
+	function get_import_learning_object_url()
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_IMPORT_LEARNING_OBJECTS));
 	}
 }
 ?>

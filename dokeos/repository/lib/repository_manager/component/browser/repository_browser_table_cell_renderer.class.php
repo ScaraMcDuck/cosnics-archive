@@ -109,6 +109,12 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 				);
 			}
 			
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_export_learning_object_url($learning_object),
+				'img' => Theme :: get_common_img_path().'action_save.png',
+				'label' => Translation :: get('Export'),
+			);
+			
 			return DokeosUtilities :: build_toolbar($toolbar_data);
 		}
 		
