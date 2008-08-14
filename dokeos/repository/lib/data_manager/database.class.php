@@ -1201,46 +1201,20 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
-		$rec1 = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$res->free();
 
 		// Determine type
 
-		$ref = $rec1[ComplexLearningObjectItem :: PROPERTY_REF];
+		$ref = $record[ComplexLearningObjectItem :: PROPERTY_REF];
 
 		$type = $this->determine_learning_object_type($ref);
 		$cloi = ComplexLearningObjectItem :: factory($type, array(), array());
 		
 		$bool = false;
-		$rec2 = array();
 		
 		if($cloi->is_extended())
-		{
-		
-			// Retrieve extended table
-	
-			$query = 'SELECT * FROM '.$this->escape_table_name('complex_' . $type).' AS '.
-					 self :: ALIAS_TYPE_TABLE;
-	
-			$params = array ();
-			if (isset ($condition))
-			{
-				$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
-				$translator->translate($condition);
-				$query .= $translator->render_query();
-				$params = $translator->get_parameters();
-			}
-	
-			$this->connection->setLimit(1);
-			$statement = $this->connection->prepare($query);
-			$res = $statement->execute($clo_item_id);
-			$rec2 = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-			$res->free();
-
 			$bool = true;
-		}
-		
-		$record = array_merge($rec1, $rec2);
 		
 		return self :: record_to_complex_learning_object_item($record, $type, $bool);
 	}
@@ -1266,13 +1240,35 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		$cloi->set_default_properties($defaultProp);
 
-		if ($additional_properties_known && $type)
+		if ($additional_properties_known && $type && $cloi->is_extended())
 		{
 			$additionalProp = array ();
-			foreach ($cloi->get_additional_property_names() as $prop)
+			
+			$query = 'SELECT * FROM '.$this->escape_table_name('complex_' . $type).' AS '.
+					 self :: ALIAS_TYPE_TABLE;
+			
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_ID, $record['id']);
+			
+			$params = array ();
+			if (isset ($condition))
 			{
-				$additionalProp[$prop] = $record[$prop];
+				$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
+				$translator->translate($condition);
+				$query .= $translator->render_query();
+				$params = $translator->get_parameters();
 			}
+		
+			$this->connection->setLimit(1);
+			$statement = $this->connection->prepare($query);
+			$res = $statement->execute($params);
+			$rec2 = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+			$res->free();
+			
+			foreach ($cloi->get_additional_property_names() as $prop)
+			{ 
+				$additionalProp[$prop] = $rec2[$prop];
+			}
+			
 			$cloi->set_additional_properties($additionalProp);
 		}
 		else

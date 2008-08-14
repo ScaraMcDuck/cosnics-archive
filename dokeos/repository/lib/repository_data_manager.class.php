@@ -5,6 +5,8 @@
  */
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/learning_object_publication_attributes.class.php';
+require_once dirname(__FILE__).'/learning_object.class.php';
+require_once dirname(__FILE__).'/complex_learning_object_item.class.php';
 require_once dirname(__FILE__).'/data_manager/database/database_learning_object_result_set.class.php';
 require_once dirname(__FILE__).'/../../application/lib/application.class.php';
 
@@ -258,10 +260,15 @@ abstract class RepositoryDataManager
 			$versions = $this->get_version_ids($object);
 			$forbidden = array_merge($children, $versions);
 		}
+//		if($object->is_complex_learning_object())
+//		{
+//			//return $this->complex_learning_object_removal_allowed($object, $object);	
+//		}
+		
 		return !$this->any_learning_object_is_published($forbidden);
 	}
 	
-	function complex_learning_object_adaption_allowed($clo, $root_clo)
+	function complex_learning_object_removal_allowed($clo, $root_clo)
 	{
 		if($this->learning_object_is_published($clo))
 			return false;
@@ -276,7 +283,7 @@ abstract class RepositoryDataManager
 			else
 			{
 				$parent = $this->retrieve_learning_object($items->next_result()->get_parent());
-				return $this->complex_learning_object_adaption_allowed($parent, $root_clo);
+				return $this->complex_learning_object_removal_allowed($parent, $root_clo);
 			}
 		if($items->size() == 0)
 			if($clo->get_id() == $root_clo->get_id())
@@ -291,7 +298,12 @@ abstract class RepositoryDataManager
 	function copy_complex_learning_object($clo)
 	{
 		$clo->create_all();
-		
+		$this->copy_complex_children($clo);
+		return $clo;
+	}
+	
+	function copy_complex_children($clo)
+	{
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $clo->get_id());
 		$items = $this->retrieve_complex_learning_object_items($condition);
 		while($item = $items->next_result())
@@ -302,9 +314,15 @@ abstract class RepositoryDataManager
 			$nitem->set_parent($clo->get_id());
 			$nitem->set_ref($item->get_ref());
 			$nitem->create();
+			$lo = $this->retrieve_learning_object($item->get_ref());
+			if($lo->is_complex_learning_object())
+			{
+				$lo->create_all();
+				$nitem->set_ref($lo->get_id());
+				$nitem->update();
+				$this->copy_complex_learning_object($lo);
+			}
 		}
-		
-		return $clo;
 	}
 
 	/**

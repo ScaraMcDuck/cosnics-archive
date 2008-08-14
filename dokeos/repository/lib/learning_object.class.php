@@ -970,5 +970,10 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return Path :: get($path_type);
 	}
+	
+	function get_allowed_types()
+	{
+		return array();
+	}
 }
 ?>
