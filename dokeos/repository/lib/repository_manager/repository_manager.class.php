@@ -453,7 +453,7 @@ class RepositoryManager
 		{
 			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
 		}
-		if (isset($new_category_id) && $new_category_id >= 0)
+		if ($new_category_id)
 		{
 			$params[self :: PARAM_CATEGORY_ID] = $new_category_id;
 		}

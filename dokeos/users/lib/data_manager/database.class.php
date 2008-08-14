@@ -61,7 +61,7 @@ class DatabaseUsersDataManager extends UsersDataManager
 		// @Todo: review the user's objects on deletion 
 		// (currently: when the user is deleted, the user's objects remain, and refer to an invalid user)
 		$condition = new EqualityCondition(User :: PROPERTY_USER_ID, $user->get_id());
-		return $this->db->delete('user', $condition);
+		return $this->database->delete($user->get_table_name(), $condition);
 	}
 	
 	function delete_all_users()
@@ -75,7 +75,12 @@ class DatabaseUsersDataManager extends UsersDataManager
 	
 	function create_user($user)
 	{
-		return $this->database->create($user);
+		$this->database->create($user);
+		
+		// Create the user's root category for the repository
+		RepositoryDataManager :: get_instance()->create_root_category($user->get_id());
+		
+		return true;
 	}
 	
 	// Inherited.
@@ -104,7 +109,6 @@ class DatabaseUsersDataManager extends UsersDataManager
 		return $users->next_result();
 	}
 
-	/*
 	//Inherited.
 	function is_username_available($username, $user_id = null)
 	{
@@ -113,39 +117,11 @@ class DatabaseUsersDataManager extends UsersDataManager
 		{
 			$conditions = array();
 			$conditions[] = new EqualityCondition(User :: PROPERTY_USERNAME,$username);
-			$conditions[] = new EqualityCondition(User :: PROPERTY_USER_ID,$user_id);
+			$conditions = new EqualityCondition(User :: PROPERTY_USER_ID, $user_id);
 			$condition = new AndCondition($conditions);
 		}
-<<<<<<< .mine
-		return !($this->db->count_objects('user',$condition) == 1);
-=======
-		return $this->database->count_objects(User :: get_table_name(), $condition) < 1;
->>>>>>> .r15882
+		return !($this->database->count_objects(User :: get_table_name(), $condition) == 1);
 	}
-	//*/
-	///*
-	function is_username_available($username, $user_id = null)
-	{
-		$params = array();
-		$query = 'SELECT username FROM '.$this->database->escape_table_name('user').' WHERE '.$this->database->escape_column_name(User :: PROPERTY_USERNAME).'=?';
-		$params[] = $username;
-		if ($user_id)
-		{
-			$query .=  ' AND '.$this->database->escape_column_name(User :: PROPERTY_USER_ID).' !=?';
-			$params[] = $user_id;
-		}
-		$statement = $this->database->get_connection()->prepare($query);
-		$result = $statement->execute($params);
-		if ($result->numRows() == 1)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
-	//*/
 
 	function count_users($condition = null)
 	{
@@ -161,13 +137,21 @@ class DatabaseUsersDataManager extends UsersDataManager
 	function retrieve_version_type_quota($user, $type)
 	{
 		$conditions = array();
-		$conditions[] = new EqualityCondition(User :: PROPERTY_USER_ID,$user->get_id());
-		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_LEARNING_OBJECT_TYPE,$type);
+		$conditions[] = new EqualityCondition(User :: PROPERTY_USER_ID, $user->get_id());
+		$conditions[] = new EqualityCondition(UserQuota :: PROPERTY_LEARNING_OBJECT_TYPE, $type);
 		$condition = new AndCondition($conditions);
 		
-		$user_quotum = $this->database->retrieve_object(UserQuota :: get_table_name(), $condition);
+		$version_type_quota_set = $this->database->count_objects(UserQuota :: get_table_name(), $condition) > 0;
 		
-		return $user_quotum->get_user_quota();
+		if ($version_type_quota_set)
+		{
+			$user_quotum = $this->database->retrieve_object(UserQuota :: get_table_name(), $condition);
+			return $user_quotum->get_user_quota();
+		}
+		else
+		{
+			return null;
+		}
 		
 		/*
 		$query = 'SELECT * FROM '.$this->escape_table_name('user_quota').' WHERE '.$this->escape_column_name(User :: PROPERTY_USER_ID).'=? AND '.$this->escape_column_name('learning_object_type').'=?';
