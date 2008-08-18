@@ -48,6 +48,8 @@ class RepositoryManagerExporterComponent extends RepositoryManagerComponent
 			header('Content-transfer-encoding: binary');
 			$fp = fopen($path, 'r');
 			fpassthru($fp);
+			fclose($fp);
+			Filesystem :: remove($path);
 			
 		}
 	}

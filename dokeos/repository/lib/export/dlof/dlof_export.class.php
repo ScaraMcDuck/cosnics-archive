@@ -3,6 +3,7 @@
  * @package export
  */
 require_once dirname(__FILE__).'/../learning_object_export.class.php';
+require_once Path :: get_library_path() . 'filecompression/filecompression.class.php';
 
 /**
  * Exports learning object to the dokeos learning object format (xml)
@@ -23,27 +24,27 @@ class DlofExport extends LearningObjectExport
 		$this->doc = new DOMDocument();
   		$this->doc->formatOutput = true;
   		$this->export_lo($learning_object, $this->doc);
-  		$path = Path :: get(SYS_TEMP_PATH) . 'learning_object.xml';
-  		//$path = FileSystem :: create_safe_name($path);
-		$this->doc->save($path);
+  		$path = Path :: get(SYS_TEMP_PATH). $learning_object->get_owner_id();
+  		
+  		if(!is_dir($path)) mkdir($path);
+  		
+  		$path .= '/learning_object.xml';
+  		
+  		//$path = FileSystem :: create_safe_name($path); 
+		$this->doc->save($path); 
 		
 		if(count($this->files) > 0)
 		{
-			$zippath = Path :: get(SYS_TEMP_PATH) . 'files.zip';
-			//$zippath = FileSystem :: create_safe_name($path);
-			$zip = new ZipArchive();
-			if ($zip->open($zippath) === TRUE) 
+			$directory = Path :: get(SYS_TEMP_PATH) . $learning_object->get_owner_id() . '/';
+			foreach($this->files as $file)
 			{
-			    foreach($this->files as $file)
-			    {
-			    	$zip->addFile($file);
-			    }
-			    $zip->addFile($path);
-			    $zip->close();
-			    echo 'ok';
-			} else {
-			    echo 'failed';
+				Filesystem :: copy_file($file, $directory . basename($file));
 			}
+			
+			$zip = Filecompression :: factory();
+			$zippath = $zip->create_archive($directory);
+			
+			Filesystem :: remove($directory);
 			
 			return $zippath;
 		}
@@ -75,7 +76,7 @@ class DlofExport extends LearningObjectExport
   		
   		if($learning_object->get_type() == 'document')
   		{
-  			$this->files[] = Path :: get(SYS_FILE_PATH) . $learning_object->get_id() . '/' . $learning_object->get_filename();
+  			$this->files[] = Path :: get(SYS_FILE_PATH) . 'repository/' . $learning_object->get_owner_id() . '/' . $learning_object->get_filename();
   		}
   		
   		$extended = $doc->createElement( "extended" );
