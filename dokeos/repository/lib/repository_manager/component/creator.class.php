@@ -112,7 +112,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			{
 				$importer = LearningObjectImport :: factory($extension);
 				$lo = $importer->import_learning_object($file, $this->get_parent(), $this->get_user(), $_FILES['file']['name']);
-				//$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectImported'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $lo->get_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $lo->get_id()));
+				$this->redirect(RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, Translation :: get('ObjectImported'), 0, false, array(RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $lo->get_id()));
 			}
 			else
 			{

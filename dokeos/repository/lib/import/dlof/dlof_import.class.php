@@ -13,6 +13,7 @@ class DlofImport extends LearningObjectImport
 	private $rdm;
 	private $doc;
 	private $user;
+	private $files;
 	
 	function DlofImport()
 	{
@@ -33,24 +34,29 @@ class DlofImport extends LearningObjectImport
 			{
 				if(strpos($f, '.dlof') !== false)
 				{
-					$file = $f;
+					$file = $dir . $f;
 				}
 				else
 				{
 					$new_unique_filename = 
 						Filesystem :: copy_file_with_double_files_protection($dir, $f, Path :: get(SYS_REPO_PATH) . $user->get_id() . '/', $f, true);
-					$files[$f] = $new_unique_filename;
+					$this->files[$f] = $new_unique_filename;
 				}
 			}
 			
+		}
+		
+		$doc = $this->doc;
+		$doc = new DOMDocument();
+		$doc->load($file);
+		$learning_object = $doc->getElementsByTagname('learning_object')->item(0);
+		
+		if($temp)
+		{
 			Filesystem :: remove($temp);
 		}
 		
-//		$doc = $this->doc;
-//		$doc = new DOMDocument();
-//		$doc->load($file);
-//		$learning_object = $doc->getElementsByTagname('learning_object')->item(0);
-//		return $this->import_lo($learning_object);
+		return $this->import_lo($learning_object);
 	}
 	
 	public function import_lo($learning_object)
@@ -88,6 +94,18 @@ class DlofImport extends LearningObjectImport
 					if($node->nodeName == "#text") continue;
 					$additionalProperties[$node->nodeName] = $node->nodeValue;
 				}
+				
+				if($type == 'document')
+				{
+					$filename = $additionalProperties['filename'];
+					if($this->files[$filename] != null && $this->files[$filename] != $filename)
+					{
+						$additionalProperties['filename'] = $this->files[$filename];
+					}
+					
+					$additionalProperties['path'] = $this->user->get_id() . '/' . $this->files[$filename];
+				}
+				
 				
 				$lo->set_additional_properties($additionalProperties);
 			}
