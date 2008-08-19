@@ -963,6 +963,7 @@ class LearningObject implements AccessibleLearningObject
 	static function factory($type, $id = null, $defaultProperties = array(), $additionalProperties = array())
 	{
 		$class = self :: type_to_class($type);
+		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'.class.php';
 		return new $class ($id, $defaultProperties, $additionalProperties);
 	}
 	

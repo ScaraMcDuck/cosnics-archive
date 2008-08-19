@@ -2,7 +2,8 @@
 /**
  * @package export
  */
-require_once dirname(__FILE__).'/../learning_object_export.class.php';
+require_once dirname(__FILE__).'/../learning_object_import.class.php';
+require_once Path :: get_library_path() . 'filecompression/filecompression.class.php';
 
 /**
  * Exports learning object to the dokeos learning object format (xml)
@@ -11,93 +12,121 @@ class DlofImport extends LearningObjectImport
 {
 	private $rdm;
 	private $doc;
+	private $user;
 	
 	function DlofImport()
 	{
 		$this->rdm = RepositoryDataManager :: get_instance();	
 	}
 	
-	public function export_learning_object($learning_object)
+	public function import_learning_object($file, $repository_manager, $user, $original_name)
 	{
-		$this->doc = new DOMDocument();
-  		$this->doc->formatOutput = true;
-  		$this->export_lo($learning_object, $this->doc);
-  
-		echo $this->doc->saveXML();
+		$this->user = $user;
+		if(strpos($original_name, '.zip') !== false)
+		{
+			$zip = Filecompression :: factory();
+			$temp = $zip->extract_file($file);
+			$dir = $temp . '/' . $user->get_id() . '/'; 
+			$files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES_AND_DIRECTORIES, false);
+			
+			foreach($files as $f)
+			{
+				if(strpos($f, '.dlof') !== false)
+				{
+					$file = $f;
+				}
+				else
+				{
+					$new_unique_filename = 
+						Filesystem :: copy_file_with_double_files_protection($dir, $f, Path :: get(SYS_REPO_PATH) . $user->get_id() . '/', $f, true);
+					$files[$f] = $new_unique_filename;
+				}
+			}
+			
+			Filesystem :: remove($temp);
+		}
+		
+//		$doc = $this->doc;
+//		$doc = new DOMDocument();
+//		$doc->load($file);
+//		$learning_object = $doc->getElementsByTagname('learning_object')->item(0);
+//		return $this->import_lo($learning_object);
 	}
 	
-	public function export_lo($learning_object, $parent)
+	public function import_lo($learning_object)
 	{
-		$doc = $this->doc;
-		
-		$lo = $doc->createElement( "learning_object" );
-  		$parent->appendChild( $lo );
-  		
-  		$export_prop = array(LearningObject :: PROPERTY_TYPE, LearningObject :: PROPERTY_TITLE, LearningObject :: PROPERTY_DESCRIPTION, LearningObject :: PROPERTY_COMMENT,
-  						  	 LearningObject :: PROPERTY_CREATION_DATE, LearningObject :: PROPERTY_MODIFICATION_DATE);
-  		
-  		$general = $doc->createElement( "general" );
-  		$lo->appendChild( $general );
-  		
-  		foreach($export_prop as $prop)
-  		{
-	  		$property = $doc->createElement( $prop);
-	  		$general->appendChild($property);
-	  		
-	  		$text = $doc->createTextNode($learning_object->get_default_property($prop));
-			$text = $property->appendChild($text);
-  		}
-  		
-  		$extended = $doc->createElement( "extended" );
-  		$lo->appendChild( $extended );
-  		
-  		foreach($learning_object->get_additional_properties() as $prop => $value)
-  		{
-  			$property = $doc->createElement( $prop);
-	  		$extended->appendChild($property);
-	  		
-	  		$text = $doc->createTextNode($value);
-			$text = $property->appendChild($text);
-  		}
-  		
-  		$type = $doc->createAttribute("type");
-		$lo->appendChild($type);
-  		
-		if($learning_object->is_complex_learning_object())
-		{	
-			$text = $doc->createTextNode("complex");
-			$type->appendChild($text);
+		$lotype = $learning_object->getAttribute('type');
+		if($learning_object->hasChildNodes())
+		{ 
+			$general = $learning_object->getElementsByTagName('general')->item(0);
 			
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $learning_object->get_id());
-			$children = $this->rdm->retrieve_complex_learning_object_items($condition);
+			$type = $general->getElementsByTagName('type')->item(0)->nodeValue;
+			$title = $general->getElementsByTagName('title')->item(0)->nodeValue;
+			$description = $general->getElementsByTagName('description')->item(0)->nodeValue;
+			$comment = $general->getElementsByTagName('comment')->item(0)->nodeValue;
+			$created = $general->getElementsByTagName('created')->item(0)->nodeValue;
+			$modified = $general->getElementsByTagName('modified')->item(0)->nodeValue;
 			
-			if($children->size() > 0)
+			$lo = LearningObject :: factory($type);
+			$lo->set_title($title);
+			$lo->set_description($description);
+			$lo->set_comment($comment);
+			$lo->set_creation_date($created);
+			$lo->set_modification_date($modified);
+			$lo->set_owner_id($this->user->get_id());
+			$lo->set_parent_id($this->rdm->retrieve_root_category($this->user->get_id())->get_id());
+			
+			$extended = $learning_object->getElementsByTagName('extended')->item(0);
+			
+			if($extended->hasChildNodes())
 			{
-				$sub_items = $doc->createElement("sub_items");
-				$lo->appendChild($sub_items);	
-			}
-			
-			while($child = $children->next_result())
-			{
-				$sub_item = $doc->createElement("sub_item");
-				$sub_items->appendChild($sub_item);	
-		
-				foreach($child->get_additional_properties() as $prop => $value)
-		  		{
-		  			$property = $doc->createAttribute($prop);
-					$sub_item->appendChild($property);
-			  		
-			  		$text = $doc->createTextNode($value);
-					$text = $property->appendChild($text);
-		  		}
+				$nodes = $extended->childNodes;
+				$additionalProperties = array();
+
+				foreach($nodes as $node)
+				{
+					if($node->nodeName == "#text") continue;
+					$additionalProperties[$node->nodeName] = $node->nodeValue;
+				}
 				
-				$this->export_lo($this->rdm->retrieve_learning_object($child->get_ref()), $sub_item);
+				$lo->set_additional_properties($additionalProperties);
 			}
-		}
-		else
-		{
-			$text = $doc->createTextNode("simple");
-			$type->appendChild($text);
+			
+			$lo->create_all();
+			
+			$subitems = $learning_object->getElementsByTagName('sub_items')->item(0);
+			$children = $subitems->childNodes;
+			for($i = 0; $i < $children->length; $i++)
+			{
+				$subitem = $children->item($i);
+				if($subitem->nodeName == "#text") continue;
+				
+				$learning_object = $subitem->getElementsByTagname('learning_object')->item(0);
+				$childlo = $this->import_lo($learning_object);
+				
+				$cloi = ComplexLearningObjectItem :: factory($childlo->get_type);
+				
+				$cloi->set_ref($childlo->get_id());
+				$cloi->set_user_id($this->user->get_id());
+				$cloi->set_parent($lo->get_id());
+				$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($lo->get_id()));
+				
+				if($subitem->hasAttributes())
+				{ 
+					$additionalProperties = array();
+					foreach ($subitem->attributes as $attrName => $attrNode) 
+					{
+						$additionalProperties[$attrName] = $attrNode;
+					}
+					
+					$cloi->setAdditionalProperties($additionalProperties);
+				}
+				
+				$cloi->create();
+				
+			}
+			
+			return $lo;
 		}
 	}
 }

@@ -28,7 +28,7 @@ class DlofExport extends LearningObjectExport
   		
   		if(!is_dir($path)) mkdir($path);
   		
-  		$path .= '/learning_object.xml';
+  		$path .= '/learning_object.dlof';
   		
   		//$path = FileSystem :: create_safe_name($path); 
 		$this->doc->save($path); 

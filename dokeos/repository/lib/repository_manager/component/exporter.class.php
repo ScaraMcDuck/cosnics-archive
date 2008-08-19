@@ -51,6 +51,10 @@ class RepositoryManagerExporterComponent extends RepositoryManagerComponent
 			fclose($fp);
 			Filesystem :: remove($path);
 			
+			$path = Path :: get(SYS_TEMP_PATH). $lo->get_owner_id();
+			if(file_exists($path) && is_dir($path))
+				Filesystem :: remove($path);
+			
 		}
 	}
 }
