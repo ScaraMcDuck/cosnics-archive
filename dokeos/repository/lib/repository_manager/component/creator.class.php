@@ -8,9 +8,9 @@ require_once dirname(__FILE__).'/../repository_manager_component.class.php';
 require_once dirname(__FILE__).'/../../learning_object_form.class.php';
 require_once dirname(__FILE__).'/../../abstract_learning_object.class.php';
 require_once dirname(__FILE__).'/../../repository_data_manager.class.php';
-require_once Path :: get_library_path().'import/import.class.php';
+require_once dirname(__FILE__).'/../../import/learning_object_import.class.php';
 require_once dirname(__FILE__).'/../../quota_manager.class.php';
-require_once dirname(__FILE__).'/csv_creator.class.php';
+//require_once dirname(__FILE__).'/csv_creator.class.php';
 /**
  * Repository manager component which gives the user the possibility to create a
  * new learning object in his repository. When no type is passed to this
@@ -101,50 +101,25 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			}
 		}
 
-		
 		else if ($import_form->validate())
 		{
-			$category = $_GET[RepositoryManager :: PARAM_CATEGORY_ID];
-			$csvarray = Import :: read_csv($_FILES['file']['tmp_name']);			
-			$csvcreator = new CSVCreator();
-
-			$true=$csvcreator->quota_check($csvarray,$this->get_user());
-			if ($true)
-			{	
-				$typearray = $this->get_learning_object_types(true);
-				$temparray= $csvcreator->csv_validate($typearray, $csvarray);
-				if (!($temparray[0]=='faultyarrayreturn'))
-				{
-					for($i = 0;$i <count($temparray);$i++)
-					{
-						$temparray[$i]->create_learning_object();
-					}
-					$message= 'You created '.count($temparray).' objects';
-					//this redirect is a solution to show the ROOT directory , needs to be modded when 						//users get chance to include 'category' into csv files
+			$file = $_FILES['file']['tmp_name'];
+			$path_parts = pathinfo($_FILES['file']['name']);
+			$extension = $path_parts['extension'];
+			$extension = $extension == 'zip' ? 'dlof' : $extension;
 			
-					$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, $message,1);					
-				}
-				else
-				{
-					$errormessage= 'The folowing rows have been reported as wrong: ';
-					for ($i = 1 ; $i < count($temparray); $i++)
-					{
-						$errormessage=$errormessage.' '.$temparray[$i];
-					}
-					
-					$this->display_header($trail);							
-					Display :: display_warning_message($errormessage);			
-					$this->display_footer();
-				}
+			if(LearningObjectImport :: type_supported($extension))
+			{
+				$importer = LearningObjectImport :: factory($extension);
+				$lo = $importer->import_learning_object($file, $this->get_parent(), $this->get_user(), $_FILES['file']['name']);
+				//$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectImported'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $lo->get_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $lo->get_id()));
 			}
-			//To much to be imported
-			else 
-			{	
+			else
+			{
 				$this->display_header($trail);	
-				Display :: display_warning_message('Your quota would be exceeded by importing this CSV , aborted.');			
+				Display :: display_warning_message(Translation :: get('FileTypeNotSupported'));			
 				$this->display_footer();
 			}
-			
 		}
 		else
 		{

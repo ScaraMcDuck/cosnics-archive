@@ -1070,7 +1070,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('complex_learning_object_item'), $props, MDB2_AUTOQUERY_INSERT);
 		if ($clo_item->is_extended())
-		{
+		{ 
 			$ref = $clo_item->get_ref();
 			
 			$props = array();

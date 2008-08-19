@@ -49,6 +49,18 @@ abstract class LearningObjectImport
 		}
 		return $types;
 	}
+	
+	public static function type_supported($type)
+	{
+		$supported_types = self :: get_supported_filetypes();
+			
+		foreach($supported_types as $supported_type)
+			if($supported_type == $type)
+				return true;
+		
+		return false;
+	}
+	
 	/**
 	 * Factory function to create an instance of an export class
 	 * @param string $type One of the supported file types returned by the
@@ -56,14 +68,14 @@ abstract class LearningObjectImport
 	 * @param string $filename The desired filename for the export file
 	 * (extension will be automatically added depending on the given $type)
 	 */
-	public static function factory($type, $filename = 'import')
+	public static function factory($type)
 	{
 		$file = dirname(__FILE__).'/'.$type.'/'.$type.'_import.class.php';
-		$class = DokeosUtilities :: underscores_to_camelcase($type).'Export';
+		$class = DokeosUtilities :: underscores_to_camelcase($type).'Import';
 		if(file_exists($file))
 		{
 			require_once($file);
-			return new $class($filename.'.'.$type);
+			return new $class();
 		}
 	}
 	
@@ -72,6 +84,6 @@ abstract class LearningObjectImport
 		return Path :: get($path_type);
 	}
 	
-	abstract function import_learning_object($file);
+	abstract function import_learning_object($file, $repository_manager, $user, $original_name);
 }
 ?>

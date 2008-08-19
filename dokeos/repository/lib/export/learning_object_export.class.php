@@ -56,14 +56,14 @@ abstract class LearningObjectExport
 	 * @param string $filename The desired filename for the export file
 	 * (extension will be automatically added depending on the given $type)
 	 */
-	public static function factory($type, $filename = 'export')
+	public static function factory($type)
 	{
 		$file = dirname(__FILE__).'/'.$type.'/'.$type.'_export.class.php';
 		$class = DokeosUtilities :: underscores_to_camelcase($type).'Export';
 		if(file_exists($file))
 		{
 			require_once($file);
-			return new $class($filename.'.'.$type);
+			return new $class();
 		}
 	}
 	

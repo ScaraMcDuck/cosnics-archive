@@ -270,7 +270,7 @@ class Filesystem
 			$it = new DirectoryIterator($path);
 		}
 		foreach ( $it as $entry)
-		{
+		{ 
 			if($it->isDot())
 			{
 				continue;
@@ -287,7 +287,8 @@ class Filesystem
 				//$result[] = $entry->getRealPath();
 				$result[] = $entry->__toString();
 			}
-		}
+		} 
+	
 		return $result;
 	}
 	/**
@@ -371,7 +372,7 @@ class Filesystem
 	{
 		$source_file = $source_path . $source_filename;
 		$destination_file = $destination_path . $destination_filename;
-		
+
 		if(!file_exists($source_file) || !is_file($source_file)) return null;
 		
 		if($source_filename == $destination_filename)
