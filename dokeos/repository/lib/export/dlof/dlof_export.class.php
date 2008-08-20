@@ -29,8 +29,7 @@ class DlofExport extends LearningObjectExport
   		if(!is_dir($path)) mkdir($path);
   		
   		$path .= '/learning_object.dlof';
-  		
-  		//$path = FileSystem :: create_safe_name($path); 
+
 		$this->doc->save($path); 
 		
 		if(count($this->files) > 0)
@@ -38,7 +37,8 @@ class DlofExport extends LearningObjectExport
 			$directory = Path :: get(SYS_TEMP_PATH) . $learning_object->get_owner_id() . '/';
 			foreach($this->files as $file)
 			{
-				Filesystem :: copy_file($file, $directory . basename($file));
+				$newfile = $directory . 'data/' . basename($file);
+				Filesystem :: copy_file($file, $newfile);
 			}
 			
 			$zip = Filecompression :: factory();

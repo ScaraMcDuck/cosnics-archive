@@ -23,7 +23,7 @@ class PclzipFilecompression extends Filecompression
 		$dir = $this->create_temporary_directory();
 		$pclzip = new PclZip($file);
 		if($pclzip->extract(PCLZIP_OPT_PATH, $dir) == 0)
-		{
+		{ 
 			return false;
 		}
 		Filesystem::create_safe_names($dir);
@@ -33,7 +33,7 @@ class PclzipFilecompression extends Filecompression
 	{
 		$archive_file = Filesystem::create_unique_name($this->get_path(SYS_TEMP_PATH),uniqid().'.zip');
 		$archive_file = realpath($this->get_path(SYS_TEMP_PATH)).$archive_file;
-		$content = Filesystem::get_directory_content($path);
+		$content = Filesystem::get_directory_content($path, Filesystem :: LIST_FILES, true);
 		$pclzip = new PclZip($archive_file);
 		// Looks like the PCLZIP_OPT_REMOVE_PATH parameter can't deal with the drive-letter in Windows-paths, so we remove it here.
 		$path_to_remove = ereg_replace('^[A-Z]:','',realpath(dirname($path)));
