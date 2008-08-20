@@ -27,21 +27,16 @@ class DlofImport extends LearningObjectImport
 		{
 			$zip = Filecompression :: factory();
 			$temp = $zip->extract_file($file);
-			$dir = $temp . '/' . $user->get_id() . '/'; 
-			$files = Filesystem :: get_directory_content($dir, Filesystem :: LIST_FILES_AND_DIRECTORIES, false);
+			$dir = $temp . '/' . $user->get_id() . '/';
+			$files = Filesystem :: get_directory_content($dir . 'data/', Filesystem :: LIST_FILES_AND_DIRECTORIES, false);
+			$file = $dir . 'learning_object.dlof';
 			
 			foreach($files as $f)
 			{
-				if(strpos($f, '.dlof') !== false)
-				{
-					$file = $dir . $f;
-				}
-				else
-				{
-					$new_unique_filename = 
-						Filesystem :: copy_file_with_double_files_protection($dir, $f, Path :: get(SYS_REPO_PATH) . $user->get_id() . '/', $f, true);
-					$this->files[$f] = $new_unique_filename;
-				}
+				$repdir = Path :: get(SYS_REPO_PATH) . $user->get_id() . '/';
+				$new_unique_filename = Filesystem :: create_unique_name($repdir, $f);
+				Filesystem :: copy_file($dir . 'data/' . $f, $repdir . $new_unique_filename, false);
+				$this->files[$f] = $new_unique_filename;
 			}
 			
 		}
