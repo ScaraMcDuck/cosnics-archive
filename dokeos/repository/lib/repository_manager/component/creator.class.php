@@ -64,7 +64,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		$type_form->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, Translation :: get('CreateANew'), $type_options, array('class' => 'learning-object-creation-type'));
 		$type_form->addElement('submit', 'submit', Translation :: get('Ok'));
 
-		$import_form = new FormValidator('import_csv', 'post', $this->get_url());
+		$import_form = new FormValidator('import_csv', 'post', $this->get_url($extra_params));
 		$import_form->addElement('html', '<br /><br /><br />');
 		$import_form->addElement('static', 'info', '<b> Importeer hier</b>');
 		$import_form->addElement('html', '<br /><br />');
@@ -112,7 +112,13 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			{
 				$importer = LearningObjectImport :: factory($extension);
 				$lo = $importer->import_learning_object($file, $this->get_parent(), $this->get_user(), $_FILES['file']['name']);
-				$this->redirect(RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, Translation :: get('ObjectImported'), 0, false, array(RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $lo->get_id()));
+				if(count($extra_params) == 2)
+				{
+					$params = array_merge(array(RepositoryManager :: PARAM_CLOI_REF => $lo->get_id()), $extra_params);
+					$this->redirect(RepositoryManager :: ACTION_CREATE_COMPLEX_LEARNING_OBJECTS, null, 0, false, $params);
+				}
+				else
+					$this->redirect(RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, Translation :: get('ObjectImported'), 0, false, array(RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $lo->get_id()));
 			}
 			else
 			{
