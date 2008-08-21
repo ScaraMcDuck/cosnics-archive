@@ -15,6 +15,9 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
  */
 class PublisherCLOBrowserComponent extends PublisherComponent
 {
-	
+	function as_html()
+	{
+		echo "test";
+	}
 }
 ?>
