@@ -52,13 +52,7 @@ abstract class LearningObjectImport
 	
 	public static function type_supported($type)
 	{
-		$supported_types = self :: get_supported_filetypes();
-			
-		foreach($supported_types as $supported_type)
-			if($supported_type == $type)
-				return true;
-		
-		return false;
+		return in_array($type, self :: get_supported_filetypes());
 	}
 	
 	/**

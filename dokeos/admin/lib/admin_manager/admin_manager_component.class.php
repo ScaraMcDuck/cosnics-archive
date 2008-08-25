@@ -136,5 +136,15 @@ abstract class AdminComponent {
 	{
 		return $this->get_parent()->get_path($path_type);
 	}
+	
+	function set_parameter($name, $value)
+	{
+		return $this->get_parent()->set_parameter($name, $value);
+	}
+	
+	function get_user_id()
+	{
+		return $this->get_parent()->get_user_id();
+	}
 }
 ?>

@@ -29,7 +29,7 @@ class Admin
 	const PARAM_ERROR_MESSAGE = 'error_message';
 
 	const ACTION_ADMIN_BROWSER = 'browse';
-	const ACTION_SYSTEM_ANNOUNCEMENTS = 'systemannouncements';
+	const ACTION_SYSTEM_ANNOUNCER = 'announce';
 	const ACTION_LANGUAGES = 'languages';
 	const ACTION_CONFIGURE_PLATFORM = 'configure';
 
@@ -59,8 +59,8 @@ class Admin
 			case self :: ACTION_CONFIGURE_PLATFORM :
 				$component = AdminComponent :: factory('Configurer', $this);
 				break;
-			case self :: ACTION_SYSTEM_ANNOUNCEMENTS :
-				$component = AdminComponent :: factory('SystemAnnouncements', $this);
+			case self :: ACTION_SYSTEM_ANNOUNCER :
+				$component = AdminComponent :: factory('Announcer', $this);
 				break;
 			default :
 				$component = AdminComponent :: factory('Browser', $this);
@@ -283,6 +283,11 @@ class Admin
 	{
 		return $this->user;
 	}
+	
+	function get_user_id()
+	{
+		return $this->user->get_id();
+	}
 
 	/**
 	 * Sets the value of a parameter.
@@ -302,7 +307,7 @@ class Admin
 		// 1. Admin-core components
 		$links		= array();
 		$links[]	= array('name' => Translation :: get('Settings'), 'action' => 'manage', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM)));
-		$links[]	= array('name' => Translation :: get('SystemAnnouncements'), 'action' => 'announce', 'url' => $this->get_link());
+		$links[]	= array('name' => Translation :: get('SystemAnnouncements'), 'action' => 'announce', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SYSTEM_ANNOUNCER)));
 		$info[]		= array('application' => array('name' => Translation :: get('Admin'), 'class' => self :: APPLICATION_NAME), 'links' => $links);
 		
 		// 2. Repository
