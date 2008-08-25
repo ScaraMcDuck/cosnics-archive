@@ -964,6 +964,10 @@ class RepositoryManager
 			$create['title'] = Translation :: get('Create');
 			$create['url'] = $this->get_learning_object_creation_url();
 			$create['class'] = 'create';
+			$import = array ();
+			$import['title'] = Translation :: get('Import');
+			$import['url'] = $this->get_learning_object_creation_url();
+			$import['class'] = 'import';
 			$quota = array ();
 			$quota['title'] = Translation :: get('Quota');
 			$quota['url'] = $this->get_quota_url();
@@ -988,6 +992,7 @@ class RepositoryManager
 			$extra_items[] = $pub;
 			$extra_items[] = $trash;
 			$extra_items[] = $create;
+			$extra_items[] = $import;
 			$extra_items[] = $quota;
 			if ($force_search || $this->get_search_form()->validate())
 			{
