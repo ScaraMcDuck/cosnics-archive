@@ -106,6 +106,7 @@ class RepositoryManager
 	private $quota_url;
 	private $publication_url;
 	private $create_url;
+	private $import_url;
 	private $recycle_bin_url;
 	private $breadcrumbs;
 	/**#@-*/
@@ -123,6 +124,7 @@ class RepositoryManager
 		$this->publication_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_MY_PUBLICATIONS), false, false, 'dddd');
 		$this->quota_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_QUOTA, self :: PARAM_CATEGORY_ID => null));
 		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_LEARNING_OBJECTS));
+		$this->import_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_IMPORT_LEARNING_OBJECTS));
 		$this->recycle_bin_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS, self :: PARAM_CATEGORY_ID => null));
 	}
 	/**
@@ -216,6 +218,7 @@ class RepositoryManager
 				$component = RepositoryManagerComponent :: factory('Exporter', $this);
 				break;
 			case self :: ACTION_IMPORT_LEARNING_OBJECTS :
+				$this->force_menu_url($this->import_url, true);
 				$component = RepositoryManagerComponent :: factory('Importer', $this);
 				break;
 			default :
@@ -506,6 +509,14 @@ class RepositoryManager
 	function get_learning_object_creation_url()
 	{
 		return $this->create_url;
+	}
+	/**
+	 * Gets the URL to the learning object import page.
+	 * @return string The URL.
+	 */
+	function get_learning_object_importing_url()
+	{
+		return $this->import_url;
 	}
 	/**
 	 * Gets the URL to the recycle bin.
@@ -966,7 +977,7 @@ class RepositoryManager
 			$create['class'] = 'create';
 			$import = array ();
 			$import['title'] = Translation :: get('Import');
-			$import['url'] = $this->get_learning_object_creation_url();
+			$import['url'] = $this->get_learning_object_importing_url();
 			$import['class'] = 'import';
 			$quota = array ();
 			$quota['title'] = Translation :: get('Quota');
@@ -1130,16 +1141,10 @@ class RepositoryManager
 			self :: PARAM_CLOI_ID => $cloi_id,
 			self :: PARAM_CLOI_ROOT_ID => $root_id));
 	}
-	
-	function get_export_learning_object_url($learning_object)
+	function get_learning_object_exporting_url($learning_object)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EXPORT_LEARNING_OBJECTS, 
 			self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
-	}
-	
-	function get_import_learning_object_url()
-	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_IMPORT_LEARNING_OBJECTS));
 	}
 }
 ?>
