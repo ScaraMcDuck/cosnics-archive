@@ -1237,6 +1237,14 @@ ul.tree-menu li div a.create
 }
 
 /*
+ * Tweak: Import icon.
+ */
+ul.tree-menu li div a.import
+{
+	background-image: url(../img/common/treemenu/import.png);
+}
+
+/*
  * Tweak: Search results icon.
  */
 ul.tree-menu li div a.search_results
