@@ -43,14 +43,14 @@ class Document extends LearningObject
 	}
 	function delete()
 	{
-		$path = Path :: get(SYS_FILE_PATH) . $this->get_path();
+		$path = Path :: get(SYS_REPO_PATH) . $this->get_path();
 		Filesystem::remove($path);
 		parent :: delete();
 	}
 
 	function delete_version()
 	{
-		$path = Path :: get(SYS_FILE_PATH) . $this->get_path();
+		$path = Path :: get(SYS_REPO_PATH) . $this->get_path();
 		if (RepositoryDataManager :: get_instance()->is_only_document_occurence($this->get_path()))
 		{
 			Filesystem::remove($path);
