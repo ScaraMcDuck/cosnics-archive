@@ -10,25 +10,24 @@
 abstract class LearningObjectExport
 {
 	/**
-	 * The filename which will be used for the export file.
+	 * The learning object to be exported.
 	 */
-	private $filename;
+	private $learning_object;
 	/**
 	 * Constructor
-	 * @param string $filename
+	 * @param string $learning_object
 	 */
-	public function LearningObjectExport($filename)
+	public function LearningObjectExport($learning_object)
 	{
-		$this->filename = $filename;
-		Export::get_supported_filetypes();
+		$this->learning_object = $learning_object;
 	}
 	/**
-	 * Gets the filename
-	 * @return string
+	 * Gets the learning object
+	 * @return LearningObject
 	 */
-	protected function get_filename()
+	protected function get_learning_object()
 	{
-		return $this->filename;
+		return $this->learning_object;
 	}
 
 	/**
@@ -56,14 +55,14 @@ abstract class LearningObjectExport
 	 * @param string $filename The desired filename for the export file
 	 * (extension will be automatically added depending on the given $type)
 	 */
-	public static function factory($type)
+	public static function factory($type, $learning_object)
 	{
 		$file = dirname(__FILE__).'/'.$type.'/'.$type.'_export.class.php';
 		$class = DokeosUtilities :: underscores_to_camelcase($type).'Export';
 		if(file_exists($file))
 		{
 			require_once($file);
-			return new $class();
+			return new $class($learning_object);
 		}
 	}
 	
@@ -72,6 +71,6 @@ abstract class LearningObjectExport
 		return Path :: get($path_type);
 	}
 	
-	abstract function export_learning_object($learning_object);
+	abstract function export_learning_object();
 }
 ?>

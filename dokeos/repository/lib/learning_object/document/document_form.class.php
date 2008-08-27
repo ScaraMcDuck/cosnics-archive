@@ -243,7 +243,7 @@ class DocumentForm extends LearningObjectForm
 
 	private static function get_upload_path()
 	{
-		return Path :: get(SYS_FILE_PATH);
+		return Path :: get(SYS_REPO_PATH);
 	}
 }
 ?>

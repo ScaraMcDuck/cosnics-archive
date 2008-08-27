@@ -22,7 +22,7 @@ class RepositoryManagerExporterComponent extends RepositoryManagerComponent
 		if($id)
 		{
 			$lo = $this->retrieve_learning_object($id);
-			$exporter = LearningObjectExport :: factory('dlof');
+			$exporter = LearningObjectExport :: factory('dlof', $lo);
 			$path = $exporter->export_learning_object($lo);
 			
 			header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
@@ -30,6 +30,7 @@ class RepositoryManagerExporterComponent extends RepositoryManagerComponent
 			header('Pragma: no-cache');
 			header('Content-type: application/octet-stream');
 			header('Content-length: '.filesize($path));
+			
 			if (preg_match("/MSIE 5.5/", $_SERVER['HTTP_USER_AGENT']))
 			{
 				header('Content-Disposition: filename= '.basename($path));
@@ -38,23 +39,20 @@ class RepositoryManagerExporterComponent extends RepositoryManagerComponent
 			{
 				header('Content-Disposition: attachment; filename= '.basename($path));
 			}
+			
 			if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE'))
 			{
 				header('Pragma: ');
 				header('Cache-Control: ');
 				header('Cache-Control: public'); // IE cannot download from sessions without a cache
 			}
+			
 			header('Content-Description: '.basename($path));
 			header('Content-transfer-encoding: binary');
 			$fp = fopen($path, 'r');
 			fpassthru($fp);
 			fclose($fp);
 			Filesystem :: remove($path);
-			
-			$path = Path :: get(SYS_TEMP_PATH). $lo->get_owner_id();
-			if(file_exists($path) && is_dir($path))
-				Filesystem :: remove($path);
-			
 		}
 	}
 }
