@@ -7,9 +7,9 @@ require_once Path :: get_application_library_path() . 'publisher/component/brows
  * This class represents a profile publisher component which can be used
  * to browse through the possible learning objects to publish.
  */
-class ProfilePublisherBrowserComponent extends PublisherBrowserComponent
+class SystemAnnouncerBrowserComponent extends PublisherBrowserComponent
 {
-	function ProfilePublisherBrowserComponent($parent)
+	function SystemAnnouncerBrowserComponent($parent)
 	{
 		parent :: __construct($parent);
 		$this->set_browser_actions($this->get_default_browser_actions());

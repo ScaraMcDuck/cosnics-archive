@@ -23,7 +23,7 @@ class SystemAnnouncerPublicationCreatorComponent extends PublisherPublicationCre
 		$tool = $this->get_parent()->get_parent();
 		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
 		
-		$form = new ProfilePublicationForm($learning_object, $this->get_user(),$this->get_url(array (ProfilePublisher :: PARAM_ID => $learning_object->get_id())));
+		$form = new SystemAnnouncementForm($learning_object, $this->get_user(),$this->get_url(array (SystemAnnouncer :: PARAM_ID => $learning_object->get_id())));
 		if ($form->validate())
 		{
 			$failures = 0;

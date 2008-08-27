@@ -16,6 +16,18 @@ class SystemAnnouncementForm extends FormValidator
    /**#@+
     * Constant defining a form parameter
  	*/
+ 	
+ 	const PARAM_STATUS = 'status';
+	const PARAM_FOREVER = 'forever';
+	const PARAM_FROM_DATE = 'from_date';
+	const PARAM_TO_DATE = 'to_date';
+	const PARAM_HIDDEN = 'hidden';
+	const PARAM_EMAIL = 'email';
+	
+	const STATUS_NORMAL = 'normal';
+	const STATUS_ERROR = 'error';
+	const STATUS_WARNING = 'warning';
+	const STATUS_INFO = 'info';
 
 	/**#@-*/
 	/**
@@ -35,7 +47,7 @@ class SystemAnnouncementForm extends FormValidator
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function ProfilePublicationForm($learning_object, $form_user, $action)
+    function SystemAnnouncementForm($learning_object, $form_user, $action)
     {
 		parent :: __construct('publish', 'post', $action);
 		$this->learning_object = $learning_object;
@@ -60,7 +72,19 @@ class SystemAnnouncementForm extends FormValidator
 	 */
     function build_form()
     {
-
+    	$status_options = array();
+    	$status_options[self :: STATUS_NORMAL] = Translation :: get('Normal');
+    	$status_options[self :: STATUS_INFO] = Translation :: get('Information');
+    	$status_options[self :: STATUS_ERROR] = Translation :: get('Error');
+    	$status_options[self :: STATUS_WARNING] = Translation :: get('Warning');
+    	
+		$this->addElement('select', self :: PARAM_STATUS, Translation :: get('Status'), $status_options);
+		$this->add_forever_or_timewindow();
+		$this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));
+		if($this->email_option)
+		{
+			$this->addElement('checkbox', self::PARAM_EMAIL, Translation :: get('SendByEMail'));
+		}
 		$this->addElement('submit', 'submit', Translation :: get('Ok'));
     }
 
