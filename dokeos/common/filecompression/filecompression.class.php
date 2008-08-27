@@ -10,6 +10,8 @@ require_once(dirname(__FILE__).'/../filesystem/filesystem.class.php');
  */
 abstract class Filecompression
 {
+	private $filename;
+	
 	/**
 	 * Constructor
 	 */
@@ -70,6 +72,16 @@ abstract class Filecompression
 	protected function get_path($path_type)
 	{
 		return Path :: get($path_type);
-	}    
+	}
+	
+	function set_filename($filename)
+	{
+		$this->filename = Filesystem :: create_safe_name($filename) . '.dlof';
+	}
+	
+	function get_filename()
+	{
+		return $this->filename;
+	}
 }
 ?>

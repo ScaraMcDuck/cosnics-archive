@@ -100,6 +100,12 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 				'img' => Theme :: get_common_img_path().'action_rights.png'
 			);
 			
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_learning_object_exporting_url($learning_object),
+				'img' => Theme :: get_common_img_path().'action_save.png',
+				'label' => Translation :: get('Export'),
+			);
+			
 			if($learning_object->is_complex_learning_object())
 			{
 				$toolbar_data[] = array(
@@ -108,12 +114,6 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 					'label' => Translation :: get('BrowseComplex'),
 				);
 			}
-			
-			$toolbar_data[] = array(
-				'href' => $this->browser->get_learning_object_exporting_url($learning_object),
-				'img' => Theme :: get_common_img_path().'action_save.png',
-				'label' => Translation :: get('Export'),
-			);
 			
 			return DokeosUtilities :: build_toolbar($toolbar_data);
 		}

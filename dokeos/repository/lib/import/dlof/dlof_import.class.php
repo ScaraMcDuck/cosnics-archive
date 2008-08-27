@@ -25,13 +25,16 @@ class DlofImport extends LearningObjectImport
 		$file = $this->get_learning_object_file();
 		$user = $this->get_user();
 		
-		if(strpos($this->get_learning_object_file_property('name'), '.zip') !== false)
+		$zip = Filecompression :: factory();
+		$temp = $zip->extract_file($this->get_learning_object_file_property('tmp_name'));
+		$dir = $temp . '/';
+		
+		$lo_data_dir = $dir . 'data/';
+		$path = $dir . 'learning_object.xml';
+		
+		if (file_exists($lo_data_dir))
 		{
-			$zip = Filecompression :: factory();
-			$temp = $zip->extract_file($this->get_learning_object_file_property('tmp_name'));
-			$dir = $temp . '/' . $user->get_id() . '/';
-			$files = Filesystem :: get_directory_content($dir . 'data/', Filesystem :: LIST_FILES_AND_DIRECTORIES, false);
-			$path = $dir . 'learning_object.dlof';
+			$files = Filesystem :: get_directory_content($lo_data_dir, Filesystem :: LIST_FILES_AND_DIRECTORIES, false);
 			
 			foreach($files as $f)
 			{
@@ -40,15 +43,11 @@ class DlofImport extends LearningObjectImport
 				Filesystem :: copy_file($dir . 'data/' . $f, $repdir . $new_unique_filename, false);
 				$this->files[$f] = $new_unique_filename;
 			}
-			
-		}
-		else
-		{
-			$path = $this->get_learning_object_file_property('tmp_name');
 		}
 		
 		$doc = $this->doc;
 		$doc = new DOMDocument();
+		
 		$doc->load($path);
 		$learning_object = $doc->getElementsByTagname('learning_object')->item(0);
 		
