@@ -12,24 +12,26 @@ class DlofImport extends LearningObjectImport
 {
 	private $rdm;
 	private $doc;
-	private $user;
 	private $files;
 	
-	function DlofImport()
+	function DlofImport($learning_object_file, $user, $category)
 	{
-		$this->rdm = RepositoryDataManager :: get_instance();	
+		$this->rdm = RepositoryDataManager :: get_instance();
+		parent :: __construct($learning_object_file, $user, $category);	
 	}
 	
-	public function import_learning_object($file, $repository_manager, $user, $original_name)
+	public function import_learning_object()
 	{
-		$this->user = $user;
-		if(strpos($original_name, '.zip') !== false)
+		$file = $this->get_learning_object_file();
+		$user = $this->get_user();
+		
+		if(strpos($this->get_learning_object_file_property('name'), '.zip') !== false)
 		{
 			$zip = Filecompression :: factory();
-			$temp = $zip->extract_file($file);
+			$temp = $zip->extract_file($this->get_learning_object_file_property('tmp_name'));
 			$dir = $temp . '/' . $user->get_id() . '/';
 			$files = Filesystem :: get_directory_content($dir . 'data/', Filesystem :: LIST_FILES_AND_DIRECTORIES, false);
-			$file = $dir . 'learning_object.dlof';
+			$path = $dir . 'learning_object.dlof';
 			
 			foreach($files as $f)
 			{
@@ -40,10 +42,14 @@ class DlofImport extends LearningObjectImport
 			}
 			
 		}
+		else
+		{
+			$path = $this->get_learning_object_file_property('tmp_name');
+		}
 		
 		$doc = $this->doc;
 		$doc = new DOMDocument();
-		$doc->load($file);
+		$doc->load($path);
 		$learning_object = $doc->getElementsByTagname('learning_object')->item(0);
 		
 		if($temp)
@@ -51,10 +57,10 @@ class DlofImport extends LearningObjectImport
 			Filesystem :: remove($temp);
 		}
 		
-		return $this->import_lo($learning_object);
+		return $this->create_learning_object($learning_object);
 	}
 	
-	public function import_lo($learning_object)
+	public function create_learning_object($learning_object)
 	{
 		$lotype = $learning_object->getAttribute('type');
 		if($learning_object->hasChildNodes())
@@ -74,8 +80,8 @@ class DlofImport extends LearningObjectImport
 			$lo->set_comment($comment);
 			$lo->set_creation_date($created);
 			$lo->set_modification_date($modified);
-			$lo->set_owner_id($this->user->get_id());
-			$lo->set_parent_id($this->rdm->retrieve_root_category($this->user->get_id())->get_id());
+			$lo->set_owner_id($this->get_user()->get_id());
+			$lo->set_parent_id($this->get_category());
 			
 			$extended = $learning_object->getElementsByTagName('extended')->item(0);
 			
@@ -98,7 +104,7 @@ class DlofImport extends LearningObjectImport
 						$additionalProperties['filename'] = $this->files[$filename];
 					}
 					
-					$additionalProperties['path'] = $this->user->get_id() . '/' . $this->files[$filename];
+					$additionalProperties['path'] = $this->get_user()->get_id() . '/' . $this->files[$filename];
 				}
 				
 				
@@ -120,7 +126,7 @@ class DlofImport extends LearningObjectImport
 				$cloi = ComplexLearningObjectItem :: factory($childlo->get_type);
 				
 				$cloi->set_ref($childlo->get_id());
-				$cloi->set_user_id($this->user->get_id());
+				$cloi->set_user_id($this->get_user()->get_id());
 				$cloi->set_parent($lo->get_id());
 				$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($lo->get_id()));
 				
