@@ -8,6 +8,8 @@ require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.p
 
 class SystemAnnouncement
 {
+	const CLASS_NAME = __CLASS__;
+	
 	const PROPERTY_ID = 'id';
 	const PROPERTY_LEARNING_OBJECT_ID = 'learning_object';
 	const PROPERTY_FROM_DATE = 'from_date';
@@ -16,15 +18,18 @@ class SystemAnnouncement
 	const PROPERTY_PUBLISHER = 'publisher';
 	const PROPERTY_PUBLISHED = 'published';
 	const PROPERTY_MODIFIED = 'modified';
-	const PROPERTY_DISPLAY_ORDER = 'display_order';
 	const PROPERTY_EMAIL_SENT = 'email_sent';
+	const PROPERTY_STATUS = 'status';
 
 	private $id;
 	private $defaultProperties;
 	
-	function LearningObjectPublication($id = 0, $defaultProperties = array ())
+	private $target_class_groups;
+	private $target_users;
+	
+	function SystemAnnouncement($id = 0, $defaultProperties = array ())
 	{
-		$this->id = $id;
+		$this->set_id($id);
 		$this->defaultProperties = $defaultProperties;
 	}
 	
@@ -37,10 +42,10 @@ class SystemAnnouncement
 	{
 		return $this->defaultProperties;
 	}
-	
+
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_LEARNING_OBJECT_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_EMAIL_SENT);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_LEARNING_OBJECT_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_EMAIL_SENT, self :: PROPERTY_STATUS);
 	}
 	
 	function set_default_property($name, $value)
@@ -55,7 +60,7 @@ class SystemAnnouncement
 	
 	function get_id()
 	{
-		return $this->id;
+		return $this->get_default_property(self :: PROPERTY_ID);
 	}
 	
 	function get_learning_object_id()
@@ -93,19 +98,19 @@ class SystemAnnouncement
 		return $this->get_default_property(self :: PROPERTY_MODIFIED);
 	} 
 	
-	function get_display_order()
-	{
-		return $this->get_default_property(self :: PROPERTY_DISPLAY_ORDER);
-	}
-	
 	function get_email_sent()
 	{
 		return $this->get_default_property(self :: PROPERTY_EMAIL_SENT);
 	}
 	
+	function get_status()
+	{
+		return $this->get_default_property(self :: PROPERTY_STATUS);
+	}
+	
 	function set_id($id)
 	{
-		$this->id = $id;
+		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}	
 	
 	function set_learning_object_id($id)
@@ -143,14 +148,14 @@ class SystemAnnouncement
 		$this->set_default_property(self :: PROPERTY_MODIFIED, $modified);
 	}
 	
-	function set_display_order($display_order)
-	{
-		$this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $display_order);
-	}
-	
 	function set_email_sent($email_sent)
 	{
 		$this->set_default_property(self :: PROPERTY_EMAIL_SENT, $email_sent);
+	}
+	
+	function set_status($status)
+	{
+		$this->set_default_property(self :: PROPERTY_STATUS, $status);
 	}
 	
 	function get_publication_object()
@@ -188,6 +193,58 @@ class SystemAnnouncement
 	function update()
 	{
 		return AdminDataManager :: get_instance()->update_system_announcement($this);
+	}
+	
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+	
+	function is_hidden()
+	{
+		return $this->hidden;
+	}
+	
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
+	
+	function is_visible_for_target_users()
+	{
+		return (!$this->is_hidden()) && ( $this->is_forever() || ($this->get_from_date() <= time() && time() <= $this->get_to_date()) );
+	}
+	
+	function get_target_users()
+	{
+		if (!isset($this->target_users))
+		{
+			$adm = AdminDataManager :: get_instance();
+			$this->target_users = $adm->retrieve_system_announcement_target_users($this);
+		}
+		
+		return $this->target_users;
+	}
+	
+	function get_target_class_groups()
+	{
+		if (!isset($this->target_class_groups))
+		{
+			$adm = AdminDataManager :: get_instance();
+			$this->target_class_groups = $adm->retrieve_system_announcement_target_class_groups($this);
+		}
+		
+		return $this->target_class_groups;
+	}
+	
+	function set_target_users($target_users)
+	{
+		$this->target_users = $target_users;
+	}
+	
+	function set_target_class_groups($target_groups)
+	{
+		$this->target_class_groups = $target_groups;
 	}
 }
 ?>

@@ -811,4 +811,16 @@ $lang['general']['VX'] = 'V-X';
 $lang['general']['YZ'] = 'Y-Z';
 $lang['general']['Administration'] = 'Administration';
 $lang['general']['Previous'] = 'Previous';
+$lang['general']['Publish'] = 'Publish';
+$lang['general']['EditAndPublish'] = 'Edit and publish';
+$lang['general']['PublicationcreatorTitle'] = 'Create';
+$lang['general']['BrowserTitle'] = 'Browse';
+$lang['general']['FinderTitle'] = 'Find';
+$lang['general']['Confirmation'] = 'Confirmation';
+$lang['general']['Warning'] = 'Warning';
+$lang['general']['Information'] = 'Information';
+$lang['general']['Forever'] = 'Forever';
+$lang['general']['LimitedPeriod'] = 'Limited period';
+$lang['general']['Hidden'] = 'Hidden';
+$lang['general']['PublicationPeriod'] = 'Publication period';
 ?>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="system_announcement_class_group">
+ <properties>
+  <property name="system_announcement" type="integer" unsigned="1" notnull="1"/>
+  <property name="class_group" type="integer" unsigned="1" notnull="1"/>
+ </properties>
+ <index name="id" type="primary">
+  <indexproperty name="system_announcement"/>
+  <indexproperty name="class_group"/>
+ </index>
+</object>
