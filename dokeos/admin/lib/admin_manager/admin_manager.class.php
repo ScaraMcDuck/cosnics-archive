@@ -27,7 +27,7 @@ class Admin
 	const PARAM_APPLICATION = 'application';
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
-	const PARAM_SYSTEM_ANNOUNCEMENT_ID = 'sysannouncement';
+	const PARAM_SYSTEM_ANNOUNCEMENT_ID = 'announcement';
 	
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_EDIT_SELECTED = 'edit_selected';
@@ -73,7 +73,7 @@ class Admin
 			case self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS :
 				$component = AdminComponent :: factory('SystemAnnouncementBrowser', $this);
 				break;
-			case self :: ACTION_EDIT_SYSTEM_ANNOUNCEMENTS :
+			case self :: ACTION_EDIT_SYSTEM_ANNOUNCEMENT :
 				$component = AdminComponent :: factory('SystemAnnouncementEditor', $this);
 				break;
 			case self :: ACTION_DELETE_SYSTEM_ANNOUNCEMENT :
@@ -324,7 +324,7 @@ class Admin
 		// 1. Admin-core components
 		$links		= array();
 		$links[]	= array('name' => Translation :: get('Settings'), 'action' => 'manage', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM)));
-		$links[]	= array('name' => Translation :: get('SystemAnnouncements'), 'action' => 'announce', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_SYSTEM_ANNOUNCER)));
+		$links[]	= array('name' => Translation :: get('SystemAnnouncements'), 'action' => 'announce', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_SYSTEM_ANNOUNCEMENT)));
 		$info[]		= array('application' => array('name' => Translation :: get('Admin'), 'class' => self :: APPLICATION_NAME), 'links' => $links);
 		
 		// 2. Repository
@@ -397,6 +397,17 @@ class Admin
 	}
 	
 	/**
+	 * Retrieve a system announcement
+	 * @param int $id
+	 * @return SystemAnnouncement
+	 */
+	function retrieve_system_announcement($id)
+	{
+		$pmdm = AdminDataManager :: get_instance();
+		return $pmdm->retrieve_system_announcement($id);
+	}
+	
+	/**
 	 * Retrieve a series of system announcements
 	 * @param Condition $condition
 	 * @param array $orderBy
@@ -423,7 +434,7 @@ class Admin
 	
 	function get_system_announcement_editing_url($system_announcement)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement->get_id()));
 	}
 }
 ?>

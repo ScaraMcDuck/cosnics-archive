@@ -127,6 +127,12 @@ class DatabaseAdminDataManager extends AdminDataManager
 		return $this->database->count_objects(SystemAnnouncement :: get_table_name(), $condition);
 	}
 	
+	function retrieve_system_announcement($id)
+	{
+		$condition = new EqualityCondition(SystemAnnouncement :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(SystemAnnouncement :: get_table_name(), $condition);
+	}	
+	
 	function retrieve_system_announcements($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		return $this->database->retrieve_objects(SystemAnnouncement :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);

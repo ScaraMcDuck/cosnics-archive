@@ -65,7 +65,6 @@ class SystemAnnouncementBrowserTableCellRenderer extends DefaultSystemAnnounceme
 			$toolbar_data[] = array(
 				'href' => $edit_url,
 				'label' => Translation :: get('Edit'),
-				'confirm' => true,
 				'img' => Theme :: get_common_img_path().'action_edit.png'
 			);
 			

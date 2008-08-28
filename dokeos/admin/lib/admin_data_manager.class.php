@@ -93,6 +93,13 @@ abstract class AdminDataManager
 	 */	
     abstract function count_system_announcements($condition = null);
     
+	/**
+	 * Retrieve a system announcement
+	 * @param int $id
+	 * @return SystemAnnouncement
+	 */	
+	abstract function retrieve_system_announcement($id);
+    
     /**
 	 * Retrieve a series of system announcements 
 	 * @param Condition $condition

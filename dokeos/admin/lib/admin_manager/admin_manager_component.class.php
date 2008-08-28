@@ -164,6 +164,14 @@ abstract class AdminComponent {
 	}
 	
 	/**
+	 * @see Admin :: retrieve_system_announcement()
+	 */
+	function retrieve_system_announcement($id)
+	{
+		return $this->get_parent()->retrieve_system_announcement($id);
+	}
+	
+	/**
 	 * @see Admin :: retrieve_system_announcements()
 	 */
 	function retrieve_system_announcements($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
