@@ -47,11 +47,15 @@ abstract class AdminDataManager
 	
 	abstract function get_next_registration_id();
 	
+	abstract function get_next_system_announcement_id();
+	
 	abstract function create_language($language);
 	
 	abstract function create_registration($registration);
 	
 	abstract function create_setting($setting);
+	
+	abstract function create_system_announcement($system_announcement);
 
 	abstract function retrieve_languages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
 	
@@ -82,5 +86,26 @@ abstract class AdminDataManager
 		return $options;
 	}
 	
+    /**
+	 * Count the system announcements
+	 * @param Condition $condition
+	 * @return int
+	 */	
+    abstract function count_system_announcements($condition = null);
+    
+    /**
+	 * Retrieve a series of system announcements 
+	 * @param Condition $condition
+	 * @param array $orderBy
+	 * @param array $orderDir
+	 * @param int $offset
+	 * @param int $maxObjects
+	 * @return SystemAnnouncementResultSet
+	 */	
+    abstract function retrieve_system_announcements($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+    
+    abstract function retrieve_system_announcement_target_class_groups($system_announcement);
+    
+    abstract function retrieve_system_announcement_target_users($system_announcement);
 }
 ?>

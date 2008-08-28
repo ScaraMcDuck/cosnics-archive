@@ -146,5 +146,52 @@ abstract class AdminComponent {
 	{
 		return $this->get_parent()->get_user_id();
 	}
+	
+	/**
+	 * @see Admin :: get_parameter()
+	 */
+	function get_parameter($name)
+	{
+		return $this->get_parent()->get_parameter($name);
+	}
+	
+	/**
+	 * @see Admin :: get_parameters()
+	 */
+	function get_parameters()
+	{
+		return $this->get_parent()->get_parameters();
+	}
+	
+	/**
+	 * @see Admin :: retrieve_system_announcements()
+	 */
+	function retrieve_system_announcements($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+		return $this->get_parent()->retrieve_system_announcements($condition, $orderBy, $orderDir, $offset, $maxObjects);
+	}
+	
+	/**
+	 * @see Admin :: count_system_announcements()
+	 */
+	function count_system_announcements($condition = null)
+	{
+		return $this->get_parent()->count_system_announcements($condition);
+	}
+	
+	function get_system_announcement_deleting_url($system_announcement)
+	{
+		return $this->get_parent()->get_system_announcement_deleting_url($system_announcement);
+	}
+	
+	function get_system_announcement_viewing_url($system_announcement)
+	{
+		return $this->get_parent()->get_system_announcement_viewing_url($system_announcement);
+	}
+	
+	function get_system_announcement_editing_url($system_announcement)
+	{
+		return $this->get_parent()->get_system_announcement_editing_url($system_announcement);
+	}	
 }
 ?>

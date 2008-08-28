@@ -366,6 +366,7 @@ class Database
 		{
 			$maxObjects = null;
 		}
+		
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
@@ -387,6 +388,7 @@ class Database
 		
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
+		
 		$res = $statement->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$res->free();

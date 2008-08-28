@@ -27,11 +27,19 @@ class Admin
 	const PARAM_APPLICATION = 'application';
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
+	const PARAM_SYSTEM_ANNOUNCEMENT_ID = 'sysannouncement';
+	
+	const PARAM_DELETE_SELECTED = 'delete_selected';
+	const PARAM_EDIT_SELECTED = 'edit_selected';
 
 	const ACTION_ADMIN_BROWSER = 'browse';
-	const ACTION_SYSTEM_ANNOUNCER = 'announce';
 	const ACTION_LANGUAGES = 'languages';
 	const ACTION_CONFIGURE_PLATFORM = 'configure';
+	const ACTION_CREATE_SYSTEM_ANNOUNCEMENT = 'sysannouncer';
+	const ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS = 'sysbrowser';
+	const ACTION_EDIT_SYSTEM_ANNOUNCEMENT = 'syseditor';
+	const ACTION_DELETE_SYSTEM_ANNOUNCEMENT = 'sysdeleter';
+	const ACTION_VIEW_SYSTEM_ANNOUNCEMENT = 'sysviewer';
 
 	private $parameters;
 
@@ -59,8 +67,17 @@ class Admin
 			case self :: ACTION_CONFIGURE_PLATFORM :
 				$component = AdminComponent :: factory('Configurer', $this);
 				break;
-			case self :: ACTION_SYSTEM_ANNOUNCER :
-				$component = AdminComponent :: factory('Announcer', $this);
+			case self :: ACTION_CREATE_SYSTEM_ANNOUNCEMENT :
+				$component = AdminComponent :: factory('SystemAnnouncementCreator', $this);
+				break;
+			case self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS :
+				$component = AdminComponent :: factory('SystemAnnouncementBrowser', $this);
+				break;
+			case self :: ACTION_EDIT_SYSTEM_ANNOUNCEMENTS :
+				$component = AdminComponent :: factory('SystemAnnouncementEditor', $this);
+				break;
+			case self :: ACTION_DELETE_SYSTEM_ANNOUNCEMENT :
+				$component = AdminComponent :: factory('SystemAnnouncementDeleter', $this);
 				break;
 			default :
 				$component = AdminComponent :: factory('Browser', $this);
@@ -91,7 +108,7 @@ class Admin
 		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
 		if ($display_search)
 		{
-			$this->display_search_form();
+			//$this->display_search_form();
 		}
 		echo '<div class="clear">&nbsp;</div>';
 		
@@ -366,6 +383,47 @@ class Admin
 	function get_path($path_type)
 	{
 		return Path :: get($path_type);
+	}
+	
+	/**
+	 * Count the system announcements
+	 * @param Condition $condition
+	 * @return int
+	 */
+	function count_system_announcements($condition = null)
+	{
+		$pmdm = AdminDataManager :: get_instance();
+		return $pmdm->count_system_announcements($condition);
+	}
+	
+	/**
+	 * Retrieve a series of system announcements
+	 * @param Condition $condition
+	 * @param array $orderBy
+	 * @param array $orderDir
+	 * @param int $offset
+	 * @param int $maxObjects
+	 * @return SystemAnnouncementResultSet
+	 */
+	function retrieve_system_announcements($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+		$pmdm = AdminDataManager :: get_instance();
+		return $pmdm->retrieve_system_announcements($condition, $orderBy, $orderDir, $offset, $maxObjects);
+	}
+	
+	function get_system_announcement_deleting_url($system_announcement)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement->get_id()));
+	}
+
+	function get_system_announcement_viewing_url($system_announcement)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement->get_id()));
+	}
+	
+	function get_system_announcement_editing_url($system_announcement)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement->get_id()));
 	}
 }
 ?>
