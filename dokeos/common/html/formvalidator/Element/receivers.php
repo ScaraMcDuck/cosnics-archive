@@ -80,7 +80,7 @@ class HTML_QuickForm_receivers extends HTML_QuickForm_group
 		$renderer = new HTML_QuickForm_Renderer_Default();
 		$renderer->setElementTemplate('{element}');
 		$select_boxes = $this->_elements[2];
-		$select_boxes->setElementTemplate('<div style="margin-left:20px;display:block;" id="receivers_'.$select_boxes->getName().'">'.$select_boxes->_elementTemplate.'</div>');
+		$select_boxes->setElementTemplate('<div style="margin-left:20px;;" id="receivers_'.$select_boxes->getName().'">'.$select_boxes->_elementTemplate.'</div>');
 		parent :: accept($renderer);
 		$js = $this->getElementJS();
 		return $renderer->toHtml().$js;
@@ -90,10 +90,15 @@ class HTML_QuickForm_receivers extends HTML_QuickForm_group
 	 */
 	function getElementJS()
 	{
+		$value = $this->getValue();
+		
 		$js = "<script type=\"text/javascript\">
-					/* <![CDATA[ */
-					receivers_hide('receivers_to');
-					function receivers_show(item) {
+					/* <![CDATA[ */";
+					if ($value['receivers'] != '1')
+					{
+						$js .= "receivers_hide('receivers_to');";
+					}
+					$js .= "function receivers_show(item) {
 						el = document.getElementById(item);
 						el.style.display='';
 					}

@@ -183,6 +183,7 @@ class SystemAnnouncementForm extends FormValidator
 		$defaults['said'] = $system_announcement->get_id();
 		$defaults[SystemAnnouncement :: PROPERTY_FROM_DATE] = $system_announcement->get_from_date();
 		$defaults[SystemAnnouncement :: PROPERTY_TO_DATE] = $system_announcement->get_to_date();
+		$defaults[SystemAnnouncement :: PROPERTY_STATUS] = $system_announcement->get_status();
 		if($defaults[SystemAnnouncement :: PROPERTY_FROM_DATE] != 0)
 		{
 			$defaults[self :: PARAM_FOREVER] = 0;
@@ -198,6 +199,12 @@ class SystemAnnouncementForm extends FormValidator
 		{
 			$defaults[self :: PARAM_TARGETS][self :: PARAM_TARGETS_TO][] = self :: PARAM_TARGET_GROUP_PREFIX . '-'.$class_group;
 		}
+		
+		if (count($users) > 0 || count($class_groups) > 0)
+		{
+			$defaults[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] = '1';
+		}
+		
 		parent::setDefaults($defaults);
     }
 }
