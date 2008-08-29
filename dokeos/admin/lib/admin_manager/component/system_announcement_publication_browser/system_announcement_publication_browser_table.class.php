@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../../admin_manager.class.php';
  */
 class SystemAnnouncementPublicationBrowserTable extends ObjectTable
 {
-	const DEFAULT_NAME = 'system_announcement_publication_browser_table';
+	const DEFAULT_NAME = 'sys_browser_table';
 	
 	/**
 	 * Constructor

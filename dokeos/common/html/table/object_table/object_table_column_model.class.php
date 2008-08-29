@@ -103,7 +103,7 @@ class ObjectTableColumnModel
 	 */
 	function set_default_order_direction($direction)
 	{
-		return $this->order_direction;
+		$this->order_direction = $direction;
 	}
 }
 ?>

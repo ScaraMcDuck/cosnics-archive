@@ -201,5 +201,18 @@ abstract class AdminComponent {
 	{
 		return $this->get_parent()->get_system_announcement_publication_editing_url($system_announcement_publication);
 	}	
+	
+	function get_system_announcement_publication_creating_url()
+	{
+		return $this->get_parent()->get_system_announcement_publication_creating_url();
+	}
+	
+	/**
+	 * @see Admin :: not_allowed()
+	 */
+	function not_allowed()
+	{
+		$this->get_parent()->not_allowed();
+	}
 }
 ?>
