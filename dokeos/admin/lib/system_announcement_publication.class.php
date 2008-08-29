@@ -200,6 +200,11 @@ class SystemAnnouncementPublication
 		return $this->hidden;
 	}
 	
+	function is_forever()
+	{
+		return $this->get_from_date() == 0 && $this->get_to_date() == 0;
+	}
+	
 	function set_default_properties($defaultProperties)
 	{
 		$this->defaultProperties = $defaultProperties;
