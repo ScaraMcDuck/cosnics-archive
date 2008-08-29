@@ -14,14 +14,22 @@ class AdminSystemAnnouncementBrowserComponent extends AdminComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();		
-		
-		$output = $this->get_publications_html();
-		
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SystemAnnouncements')));
 		
+		$user = $this->get_user();
+		
+		if (!$user->is_platform_admin())
+		{
+			$this->not_allowed();
+		}
+		
+		$publications_table = $this->get_publications_html();
+		$toolbar = $this->get_toolbar();
+		
 		$this->display_header($trail, true);
-		echo $output;
+		echo $toolbar;
+		echo $publications_table;
 		$this->display_footer();
 	}
 	
@@ -67,6 +75,19 @@ class AdminSystemAnnouncementBrowserComponent extends AdminComponent
 		}
 		
 		return $condition;
+	}
+	
+	function get_toolbar()
+	{
+		$toolbar_data = array();
+		$toolbar_data[] = array(
+			'href' => $this->get_system_announcement_publication_creating_url(),
+			'label' => Translation :: get('Publish'),
+			'img' => Theme :: get_common_img_path().'action_publish.png',
+			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+		);
+
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>

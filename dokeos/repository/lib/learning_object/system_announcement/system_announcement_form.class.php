@@ -32,15 +32,15 @@ class SystemAnnouncementForm extends LearningObjectForm
 	}
 	function create_learning_object()
 	{
-		$object = new Feedback();
-		$object->set_icon($this->exportValue( SystemAnnouncement :: PROPERTY_ICON));
+		$object = new SystemAnnouncement();
+		$object->set_icon($this->exportValue(SystemAnnouncement :: PROPERTY_ICON));
 		$this->set_learning_object($object);
 		return parent :: create_learning_object();
 	}
 	function update_learning_object()
 	{
 		$object = $this->get_learning_object();
-		$object->set_icon($this->exportValue(Feedback :: PROPERTY_ICON));
+		$object->set_icon($this->exportValue(SystemAnnouncement :: PROPERTY_ICON));
 		return parent :: update_learning_object();
 	}
 }

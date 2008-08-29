@@ -79,6 +79,9 @@ class Admin
 			case self :: ACTION_DELETE_SYSTEM_ANNOUNCEMENT :
 				$component = AdminComponent :: factory('SystemAnnouncementDeleter', $this);
 				break;
+			case self :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT :
+				$component = AdminComponent :: factory('SystemAnnouncementViewer', $this);
+				break;
 			default :
 				$component = AdminComponent :: factory('Browser', $this);
 		}
@@ -324,7 +327,7 @@ class Admin
 		// 1. Admin-core components
 		$links		= array();
 		$links[]	= array('name' => Translation :: get('Settings'), 'action' => 'manage', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM)));
-		$links[]	= array('name' => Translation :: get('SystemAnnouncements'), 'action' => 'announce', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_SYSTEM_ANNOUNCEMENT)));
+		$links[]	= array('name' => Translation :: get('SystemAnnouncements'), 'action' => 'list', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)));
 		$info[]		= array('application' => array('name' => Translation :: get('Admin'), 'class' => self :: APPLICATION_NAME), 'links' => $links);
 		
 		// 2. Repository
@@ -435,6 +438,19 @@ class Admin
 	function get_system_announcement_publication_editing_url($system_announcement_publication)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement_publication->get_id()));
+	}
+	
+	function get_system_announcement_publication_creating_url()
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_SYSTEM_ANNOUNCEMENT));
+	}
+	
+	/**
+	 * Wrapper for Display :: display_not_allowed().
+	 */
+	function not_allowed()
+	{
+		Display :: display_not_allowed();
 	}
 }
 ?>
