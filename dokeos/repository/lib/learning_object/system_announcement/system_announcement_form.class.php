@@ -11,20 +11,37 @@ require_once dirname(__FILE__).'/system_announcement.class.php';
  */
 class SystemAnnouncementForm extends LearningObjectForm
 {
-	// Inherited
+	protected function build_creation_form()
+	{
+		parent :: build_creation_form();
+		$this->addElement('select', SystemAnnouncement :: PROPERTY_ICON, Translation :: get('icon'), SystemAnnouncement :: get_possible_icons());
+	}
+	protected function build_editing_form()
+	{
+		parent :: build_editing_form();
+		$this->addElement('select', SystemAnnouncement :: PROPERTY_ICON, Translation :: get('icon'), SystemAnnouncement :: get_possible_icons());
+	}
+	function setDefaults($defaults = array ())
+	{
+		$lo = $this->get_learning_object();
+		if (isset($lo))
+		{
+			$defaults[SystemAnnouncement :: PROPERTY_ICON] = $lo->get_icon();
+		}
+		parent :: setDefaults($defaults);
+	}
 	function create_learning_object()
 	{
-		$object = new SystemAnnouncement();
+		$object = new Feedback();
+		$object->set_icon($this->exportValue( SystemAnnouncement :: PROPERTY_ICON));
 		$this->set_learning_object($object);
 		return parent :: create_learning_object();
 	}
-
-	function set_csv_values($valuearray)
+	function update_learning_object()
 	{
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
-		parent :: set_values($defaults);			
-	}	
+		$object = $this->get_learning_object();
+		$object->set_icon($this->exportValue(Feedback :: PROPERTY_ICON));
+		return parent :: update_learning_object();
+	}
 }
 ?>
