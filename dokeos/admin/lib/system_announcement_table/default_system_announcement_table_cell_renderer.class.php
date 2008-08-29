@@ -4,15 +4,15 @@
  */
 
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../system_announcement.class.php';
+require_once dirname(__FILE__).'/../system_announcement_publication.class.php';
 require_once Path :: get_user_path(). 'lib/user.class.php';
 
-class DefaultSystemAnnouncementTableCellRenderer implements ObjectTableCellRenderer
+class DefaultSystemAnnouncementPublicationTableCellRenderer implements ObjectTableCellRenderer
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultSystemAnnouncementTableCellRenderer()
+	function DefaultSystemAnnouncementPublicationTableCellRenderer()
 	{
 	}
 	/**
@@ -29,7 +29,7 @@ class DefaultSystemAnnouncementTableCellRenderer implements ObjectTableCellRende
 			$user = $profile_publication->get_publication_publisher();
 			switch ($property)
 			{
-				case SystemAnnouncement :: PROPERTY_LEARNING_OBJECT_ID :
+				case SystemAnnouncementPublication :: PROPERTY_LEARNING_OBJECT_ID :
 					return $profile_publication->get_publication_object()->get_title();
 			}
 		}

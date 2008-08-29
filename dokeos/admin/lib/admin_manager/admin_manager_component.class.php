@@ -164,42 +164,42 @@ abstract class AdminComponent {
 	}
 	
 	/**
-	 * @see Admin :: retrieve_system_announcement()
+	 * @see Admin :: retrieve_system_announcement_publication()
 	 */
-	function retrieve_system_announcement($id)
+	function retrieve_system_announcement_publication($id)
 	{
-		return $this->get_parent()->retrieve_system_announcement($id);
+		return $this->get_parent()->retrieve_system_announcement_publication($id);
 	}
 	
 	/**
-	 * @see Admin :: retrieve_system_announcements()
+	 * @see Admin :: retrieve_system_announcement_publications()
 	 */
-	function retrieve_system_announcements($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	function retrieve_system_announcement_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
-		return $this->get_parent()->retrieve_system_announcements($condition, $orderBy, $orderDir, $offset, $maxObjects);
+		return $this->get_parent()->retrieve_system_announcement_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
 	
 	/**
-	 * @see Admin :: count_system_announcements()
+	 * @see Admin :: count_system_announcement_publications()
 	 */
-	function count_system_announcements($condition = null)
+	function count_system_announcement_publications($condition = null)
 	{
-		return $this->get_parent()->count_system_announcements($condition);
+		return $this->get_parent()->count_system_announcement_publications($condition);
 	}
 	
-	function get_system_announcement_deleting_url($system_announcement)
+	function get_system_announcement_publication_deleting_url($system_announcement_publication)
 	{
-		return $this->get_parent()->get_system_announcement_deleting_url($system_announcement);
+		return $this->get_parent()->get_system_announcement_publication_deleting_url($system_announcement_publication);
 	}
 	
-	function get_system_announcement_viewing_url($system_announcement)
+	function get_system_announcement_publication_viewing_url($system_announcement_publication)
 	{
-		return $this->get_parent()->get_system_announcement_viewing_url($system_announcement);
+		return $this->get_parent()->get_system_announcement_publication_viewing_url($system_announcement_publication);
 	}
 	
-	function get_system_announcement_editing_url($system_announcement)
+	function get_system_announcement_publication_editing_url($system_announcement_publication)
 	{
-		return $this->get_parent()->get_system_announcement_editing_url($system_announcement);
+		return $this->get_parent()->get_system_announcement_publication_editing_url($system_announcement_publication);
 	}	
 }
 ?>

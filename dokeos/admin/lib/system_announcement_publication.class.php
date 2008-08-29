@@ -6,7 +6,7 @@
 require_once dirname(__FILE__).'/admin_data_manager.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 
-class SystemAnnouncement
+class SystemAnnouncementPublication
 {
 	const CLASS_NAME = __CLASS__;
 	
@@ -19,7 +19,6 @@ class SystemAnnouncement
 	const PROPERTY_PUBLISHED = 'published';
 	const PROPERTY_MODIFIED = 'modified';
 	const PROPERTY_EMAIL_SENT = 'email_sent';
-	const PROPERTY_STATUS = 'status';
 
 	private $id;
 	private $defaultProperties;
@@ -27,7 +26,7 @@ class SystemAnnouncement
 	private $target_class_groups;
 	private $target_users;
 	
-	function SystemAnnouncement($id = 0, $defaultProperties = array ())
+	function SystemAnnouncementPublication($id = 0, $defaultProperties = array ())
 	{
 		$this->set_id($id);
 		$this->defaultProperties = $defaultProperties;
@@ -45,7 +44,7 @@ class SystemAnnouncement
 
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_LEARNING_OBJECT_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_EMAIL_SENT, self :: PROPERTY_STATUS);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_LEARNING_OBJECT_ID, self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED, self :: PROPERTY_MODIFIED, self :: PROPERTY_EMAIL_SENT);
 	}
 	
 	function set_default_property($name, $value)
@@ -103,11 +102,6 @@ class SystemAnnouncement
 		return $this->get_default_property(self :: PROPERTY_EMAIL_SENT);
 	}
 	
-	function get_status()
-	{
-		return $this->get_default_property(self :: PROPERTY_STATUS);
-	}
-	
 	function set_id($id)
 	{
 		$this->set_default_property(self :: PROPERTY_ID, $id);
@@ -153,11 +147,6 @@ class SystemAnnouncement
 		$this->set_default_property(self :: PROPERTY_EMAIL_SENT, $email_sent);
 	}
 	
-	function set_status($status)
-	{
-		$this->set_default_property(self :: PROPERTY_STATUS, $status);
-	}
-	
 	function get_publication_object()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
@@ -180,19 +169,25 @@ class SystemAnnouncement
 		$now = time();
 		$this->set_published($now);
 		$adm = AdminDataManager :: get_instance();
-		$id = $adm->get_next_system_announcement_id();
+		$id = $adm->get_next_system_announcement_publication_id();
 		$this->set_id($id);
-		return $adm->create_system_announcement($this);
+		
+		$success = $adm->create_system_announcement_publication($this);
+		$users = $this->get_target_users();
+		$class_groups = $this->get_target_class_groups();
+		// TODO: Write target users and class groups to DB.
+		
+		return $success;
 	}
 	
 	function delete()
 	{
-		return AdminDataManager :: get_instance()->delete_system_announcement($this);
+		return AdminDataManager :: get_instance()->delete_system_announcement_publication($this);
 	}
 	
 	function update()
 	{
-		return AdminDataManager :: get_instance()->update_system_announcement($this);
+		return AdminDataManager :: get_instance()->update_system_announcement_publication($this);
 	}
 	
 	static function get_table_name()
@@ -220,7 +215,7 @@ class SystemAnnouncement
 		if (!isset($this->target_users))
 		{
 			$adm = AdminDataManager :: get_instance();
-			$this->target_users = $adm->retrieve_system_announcement_target_users($this);
+			$this->target_users = $adm->retrieve_system_announcement_publication_target_users($this);
 		}
 		
 		return $this->target_users;
@@ -231,7 +226,7 @@ class SystemAnnouncement
 		if (!isset($this->target_class_groups))
 		{
 			$adm = AdminDataManager :: get_instance();
-			$this->target_class_groups = $adm->retrieve_system_announcement_target_class_groups($this);
+			$this->target_class_groups = $adm->retrieve_system_announcement_publication_target_class_groups($this);
 		}
 		
 		return $this->target_class_groups;

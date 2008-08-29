@@ -47,7 +47,7 @@ abstract class AdminDataManager
 	
 	abstract function get_next_registration_id();
 	
-	abstract function get_next_system_announcement_id();
+	abstract function get_next_system_announcement_publication_id();
 	
 	abstract function create_language($language);
 	
@@ -55,7 +55,7 @@ abstract class AdminDataManager
 	
 	abstract function create_setting($setting);
 	
-	abstract function create_system_announcement($system_announcement);
+	abstract function create_system_announcement_publication($system_announcement_publication);
 
 	abstract function retrieve_languages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
 	
@@ -91,14 +91,14 @@ abstract class AdminDataManager
 	 * @param Condition $condition
 	 * @return int
 	 */	
-    abstract function count_system_announcements($condition = null);
+    abstract function count_system_announcement_publications($condition = null);
     
 	/**
 	 * Retrieve a system announcement
 	 * @param int $id
-	 * @return SystemAnnouncement
+	 * @return SystemAnnouncementPublication
 	 */	
-	abstract function retrieve_system_announcement($id);
+	abstract function retrieve_system_announcement_publication($id);
     
     /**
 	 * Retrieve a series of system announcements 
@@ -107,12 +107,12 @@ abstract class AdminDataManager
 	 * @param array $orderDir
 	 * @param int $offset
 	 * @param int $maxObjects
-	 * @return SystemAnnouncementResultSet
+	 * @return SystemAnnouncementPublicationResultSet
 	 */	
-    abstract function retrieve_system_announcements($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+    abstract function retrieve_system_announcement_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
     
-    abstract function retrieve_system_announcement_target_class_groups($system_announcement);
+    abstract function retrieve_system_announcement_publication_target_class_groups($system_announcement_publication);
     
-    abstract function retrieve_system_announcement_target_users($system_announcement);
+    abstract function retrieve_system_announcement_publication_target_users($system_announcement_publication);
 }
 ?>

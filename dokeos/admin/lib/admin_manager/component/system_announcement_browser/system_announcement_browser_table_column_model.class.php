@@ -2,11 +2,11 @@
 /**
  * @package application.lib.profiler.profiler_manager.component.profilepublicationbrowser
  */
-require_once dirname(__FILE__).'/../../../system_announcement_table/default_system_announcement_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../system_announcement_publication_table/default_system_announcement_publication_table_column_model.class.php';
 /**
  * Table column model for the publication browser table
  */
-class SystemAnnouncementBrowserTableColumnModel extends DefaultSystemAnnouncementTableColumnModel
+class SystemAnnouncementPublicationBrowserTableColumnModel extends DefaultSystemAnnouncementPublicationTableColumnModel
 {
 	/**
 	 * The tables modification column
@@ -15,7 +15,7 @@ class SystemAnnouncementBrowserTableColumnModel extends DefaultSystemAnnouncemen
 	/**
 	 * Constructor
 	 */
-	function SystemAnnouncementBrowserTableColumnModel()
+	function SystemAnnouncementPublicationBrowserTableColumnModel()
 	{
 		parent :: __construct();
 		$this->set_default_order_column(1);
