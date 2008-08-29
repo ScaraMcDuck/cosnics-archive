@@ -390,21 +390,21 @@ class Admin
 	 * @param Condition $condition
 	 * @return int
 	 */
-	function count_system_announcements($condition = null)
+	function count_system_announcement_publications($condition = null)
 	{
 		$pmdm = AdminDataManager :: get_instance();
-		return $pmdm->count_system_announcements($condition);
+		return $pmdm->count_system_announcement_publications($condition);
 	}
 	
 	/**
 	 * Retrieve a system announcement
 	 * @param int $id
-	 * @return SystemAnnouncement
+	 * @return SystemAnnouncementPublication
 	 */
-	function retrieve_system_announcement($id)
+	function retrieve_system_announcement_publication($id)
 	{
 		$pmdm = AdminDataManager :: get_instance();
-		return $pmdm->retrieve_system_announcement($id);
+		return $pmdm->retrieve_system_announcement_publication($id);
 	}
 	
 	/**
@@ -414,27 +414,27 @@ class Admin
 	 * @param array $orderDir
 	 * @param int $offset
 	 * @param int $maxObjects
-	 * @return SystemAnnouncementResultSet
+	 * @return SystemAnnouncementPublicationResultSet
 	 */
-	function retrieve_system_announcements($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	function retrieve_system_announcement_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		$pmdm = AdminDataManager :: get_instance();
-		return $pmdm->retrieve_system_announcements($condition, $orderBy, $orderDir, $offset, $maxObjects);
+		return $pmdm->retrieve_system_announcement_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
 	
-	function get_system_announcement_deleting_url($system_announcement)
+	function get_system_announcement_publication_deleting_url($system_announcement_publication)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement_publication->get_id()));
 	}
 
-	function get_system_announcement_viewing_url($system_announcement)
+	function get_system_announcement_publication_viewing_url($system_announcement_publication)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement_publication->get_id()));
 	}
 	
-	function get_system_announcement_editing_url($system_announcement)
+	function get_system_announcement_publication_editing_url($system_announcement_publication)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement_publication->get_id()));
 	}
 }
 ?>

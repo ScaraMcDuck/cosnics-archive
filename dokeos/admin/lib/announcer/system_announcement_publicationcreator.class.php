@@ -3,7 +3,7 @@
  * @package application.lib.profiler.publisher
  */
 require_once Path :: get_application_library_path() . 'publisher/component/publicationcreator.class.php';
-require_once dirname(__FILE__).'/../system_announcement_form.class.php';
+require_once dirname(__FILE__).'/../system_announcement_publication_form.class.php';
 /**
  * This class represents a profile publisher component which can be used
  * to create a new learning object before publishing it.
@@ -23,7 +23,7 @@ class SystemAnnouncerPublicationCreatorComponent extends PublisherPublicationCre
 		$tool = $this->get_parent()->get_parent();
 		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
 		
-		$form = new SystemAnnouncementForm($learning_object, $this->get_user(),$this->get_url(array (SystemAnnouncer :: PARAM_ID => $learning_object->get_id())));
+		$form = new SystemAnnouncementPublicationForm($learning_object, $this->get_user(),$this->get_url(array (SystemAnnouncer :: PARAM_ID => $learning_object->get_id())));
 		if ($form->validate())
 		{
 			$failures = 0;

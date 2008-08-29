@@ -10,7 +10,7 @@ require_once Path :: get_admin_path() . 'lib/admin_data_manager.class.php';
 require_once Path :: get_admin_path() . 'lib/language.class.php';
 require_once Path :: get_admin_path() . 'lib/registration.class.php';
 require_once Path :: get_admin_path() . 'lib/setting.class.php';
-require_once Path :: get_admin_path() . 'lib/system_announcement.class.php';
+require_once Path :: get_admin_path() . 'lib/system_announcement_publication.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once Path :: get_library_path().'database/database.class.php';
 require_once 'MDB2.php';
@@ -21,7 +21,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 	
 	function initialize()
 	{
-		$this->database = new Database(array('language' => 'lang', 'setting' => 'setting', 'registration' => 'reg', 'system_announcement' => 'sa'));
+		$this->database = new Database(array('language' => 'lang', 'setting' => 'setting', 'registration' => 'reg', 'system_announcement_publication' => 'sa'));
 		$this->database->set_prefix('admin_'); 
 	}
 	
@@ -92,9 +92,9 @@ class DatabaseAdminDataManager extends AdminDataManager
 		return $this->database->get_next_id(Setting :: get_table_name());
 	}
 	
-	function get_next_system_announcement_id()
+	function get_next_system_announcement_publication_id()
 	{
-		return $this->database->get_next_id(SystemAnnouncement :: get_table_name());
+		return $this->database->get_next_id(SystemAnnouncementPublication :: get_table_name());
 	}
 	
 	function create_language($language)
@@ -112,9 +112,9 @@ class DatabaseAdminDataManager extends AdminDataManager
 		return $this->database->create($setting);
 	}
 	
-	function create_system_announcement($system_announcement)
+	function create_system_announcement_publication($system_announcement_publication)
 	{
-		return $this->database->create($system_announcement);
+		return $this->database->create($system_announcement_publication);
 	}
 	
 	function create_storage_unit($name, $properties, $indexes)
@@ -122,28 +122,28 @@ class DatabaseAdminDataManager extends AdminDataManager
 		return $this->database->create_storage_unit($name, $properties, $indexes);
 	}
 	
-	function count_system_announcements($condition = null)
+	function count_system_announcement_publications($condition = null)
 	{
-		return $this->database->count_objects(SystemAnnouncement :: get_table_name(), $condition);
+		return $this->database->count_objects(SystemAnnouncementPublication :: get_table_name(), $condition);
 	}
 	
-	function retrieve_system_announcement($id)
+	function retrieve_system_announcement_publication($id)
 	{
-		$condition = new EqualityCondition(SystemAnnouncement :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(SystemAnnouncement :: get_table_name(), $condition);
+		$condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(SystemAnnouncementPublication :: get_table_name(), $condition);
 	}	
 	
-	function retrieve_system_announcements($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	function retrieve_system_announcement_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
-		return $this->database->retrieve_objects(SystemAnnouncement :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(SystemAnnouncementPublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
-	function retrieve_system_announcement_target_class_groups($system_announcement)
+	function retrieve_system_announcement_publication_target_class_groups($system_announcement_publication)
 	{
 		return array();
 	}
 	
-	function retrieve_system_announcement_target_users($system_announcement)
+	function retrieve_system_announcement_publication_target_users($system_announcement_publication)
 	{
 		return array();
 	}

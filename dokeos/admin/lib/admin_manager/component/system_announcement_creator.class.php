@@ -26,7 +26,7 @@ class AdminSystemAnnouncementCreatorComponent extends AdminComponent
 	
 	private function get_publisher_html()
 	{		
-		$pub = new SystemAnnouncer($this, 'announcement', true);
+		$pub = new SystemAnnouncer($this, 'system_announcement', true);
 		$html[] =  $pub->as_html();
 		
 		return implode($html, "\n");

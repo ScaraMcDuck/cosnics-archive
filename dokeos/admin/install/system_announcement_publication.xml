@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="system_announcement">
+<object name="system_announcement_publication">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="learning_object" type="integer" notnull="1"/>
@@ -10,7 +10,6 @@
   <property name="published" type="integer" notnull="1"/>
   <property name="modified" type="integer" notnull="1"/>
   <property name="email_sent" type="integer" length="1" notnull="1"/>
-  <property name="status" type="integer" length="1" notnull="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

@@ -6,7 +6,7 @@ require_once Path :: get_library_path(). 'database/result_set.class.php';
 /**
  * Resultset to hold a set of learning objects
  */
-class DatabaseSystemAnnouncementResultSet extends ResultSet {
+class DatabaseSystemAnnouncementPublicationResultSet extends ResultSet {
 	/**
 	 * The datamanager used to retrieve objects from the repository
 	 */
@@ -22,7 +22,7 @@ class DatabaseSystemAnnouncementResultSet extends ResultSet {
 	 * @param DB_result $handle The handle to retrieve records from a database
 	 * resultset
 	 */
-    function DatabaseSystemAnnouncementResultSet($data_manager, $handle)
+    function DatabaseSystemAnnouncementPublicationResultSet($data_manager, $handle)
     {
     	$this->data_manager = $data_manager;
     	$this->handle = $handle;
@@ -34,7 +34,7 @@ class DatabaseSystemAnnouncementResultSet extends ResultSet {
     {
 		if ($record = $this->handle->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			return $this->data_manager->record_to_system_announcement($record);
+			return $this->data_manager->record_to_system_announcement_publication($record);
 		}
     	return null;
     }

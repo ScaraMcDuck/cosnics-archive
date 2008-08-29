@@ -9,14 +9,14 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table_
  * This class implements some functions to allow profile browser tables to
  * retrieve information about the profile objects to display.
  */
-class SystemAnnouncementBrowserTableDataProvider extends ObjectTableDataProvider
+class SystemAnnouncementPublicationBrowserTableDataProvider extends ObjectTableDataProvider
 {
   /**
    * Constructor
    * @param ProfileManagerComponent $browser
    * @param Condition $condition
    */
-  function SystemAnnouncementBrowserTableDataProvider($browser, $condition)
+  function SystemAnnouncementPublicationBrowserTableDataProvider($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
   }
@@ -33,7 +33,7 @@ class SystemAnnouncementBrowserTableDataProvider extends ObjectTableDataProvider
 		$order_property = $this->get_order_property($order_property);
 		$order_direction = $this->get_order_property($order_direction);
     	
-      return $this->get_browser()->retrieve_system_announcements($this->get_condition(), $order_property, $order_direction, $offset, $count);
+      return $this->get_browser()->retrieve_system_announcement_publications($this->get_condition(), $order_property, $order_direction, $offset, $count);
     }
   /**
    * Gets the number of profile objects in the table
@@ -41,7 +41,7 @@ class SystemAnnouncementBrowserTableDataProvider extends ObjectTableDataProvider
    */
     function get_object_count()
     {
-      return $this->get_browser()->count_system_announcements($this->get_condition());
+      return $this->get_browser()->count_system_announcement_publications($this->get_condition());
     }
 }
 ?>

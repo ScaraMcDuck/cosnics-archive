@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../admin_manager.class.php';
 require_once dirname(__FILE__).'/../admin_manager_component.class.php';
-require_once dirname(__FILE__).'/system_announcement_browser/system_announcement_browser_table.class.php';
+require_once dirname(__FILE__).'/system_announcement_publication_browser/system_announcement_publication_browser_table.class.php';
 /**
  * Admin component to manage system announcements
  */
@@ -29,7 +29,7 @@ class AdminSystemAnnouncementBrowserComponent extends AdminComponent
 	{
 		$parameters = $this->get_parameters(true);
 		
-		$table = new SystemAnnouncementBrowserTable($this, null, $parameters, $this->get_condition());
+		$table = new SystemAnnouncementPublicationBrowserTable($this, null, $parameters, $this->get_condition());
 		
 		$html = array();
 		$html[] = $table->as_html();
@@ -46,19 +46,19 @@ class AdminSystemAnnouncementBrowserComponent extends AdminComponent
 		{
 			$conditions = array();
 			
-			$conditions[] = new EqualityCondition(SystemAnnouncement :: PROPERTY_HIDDEN, false);
+			$conditions[] = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_HIDDEN, false);
 			
 			$time_conditions = array();
 			
 			$forever_conditions = array();
 			//$forever_conditions[] = new EqualityCondition();
-			$forever_conditions[] = new EqualityCondition(SystemAnnouncement :: PROPERTY_FROM_DATE, 0);
-			$forever_conditions[] = new EqualityCondition(SystemAnnouncement :: PROPERTY_TO_DATE, 0);
+			$forever_conditions[] = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_FROM_DATE, 0);
+			$forever_conditions[] = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_TO_DATE, 0);
 			$time_conditions[] = new AndCondition($forever_conditions);
 			
 			$limited_conditions = array();
-			$limited_conditions[] = new InequalityCondition(SystemAnnouncement :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time());
-			$limited_conditions[] = new InequalityCondition(SystemAnnouncement :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time());
+			$limited_conditions[] = new InequalityCondition(SystemAnnouncementPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time());
+			$limited_conditions[] = new InequalityCondition(SystemAnnouncementPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time());
 			$time_conditions[] = new AndCondition($limited_conditions);
 			
 			$conditions[] = new OrCondition($time_conditions);
