@@ -38,7 +38,7 @@ class SystemAnnouncer extends Publisher
 		$out .= '</ul><div class="tabbed-pane-content">';
 		$action = $this->get_action();
 		
-		require_once dirname(__FILE__).'/announcer/system_announcement_publication_'.$action.'.class.php';
+		require_once dirname(__FILE__).'/announcer/system_announcement_'.$action.'.class.php';
 		$class = 'SystemAnnouncer'.ucfirst($action).'Component';
 		$component = new $class ($this);
 		$out .= $component->as_html().'</div></div>';
