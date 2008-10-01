@@ -17,6 +17,14 @@ require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 
 abstract class Tool
 {
+	const PARAM_ACTION = 'tool_action';
+	const ACTION_PUBLISH = 'publish';
+	
+	/**
+	 * The action of the tool
+	 */
+	private $action;
+	
 	/**
 	 * The application that the tool is associated with.
 	 */
@@ -37,6 +45,17 @@ abstract class Tool
 		$this->parent = $parent;
 		$this->properties = $parent->get_tool_properties($this->get_tool_id());
 		$this->load_rights();
+		$this->set_action(isset($_POST[self :: PARAM_ACTION]) ? $_POST[self :: PARAM_ACTION] : $_GET[self :: PARAM_ACTION]);
+	}
+	
+	function set_action($action)
+	{
+		$this->action = $action;
+	}
+	
+	function get_action()
+	{
+		return $this->action;
 	}
 
 	/**
@@ -284,5 +303,20 @@ abstract class Tool
 	{
 		return $this->get_parent()->get_path($path_type);
 	}
+	
+	/** Dummy functions so we can use the same component class for both tool and repositorytool **/
+	function perform_requested_action()
+	{
+	}
+	
+	function get_categories($list = false)
+	{
+	}
+
+	function get_category($id)
+	{
+		
+	}
+
 }
 ?>

@@ -86,7 +86,7 @@ abstract class PublisherPublicationcreatorComponent extends PublisherComponent
 	private function get_creation_form($type)
 	{
 		$default_lo = $this->get_default_learning_object($type);
-		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $default_lo, 'create', 'post', $this->get_url(array ('type' => $type)));
+		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $default_lo, 'create', 'post', $this->get_url(array_merge(array ('type' => $type),$this->get_extra_parameters())));
 		if ($form->validate())
 		{
 			$object = $form->create_learning_object();
@@ -104,7 +104,7 @@ abstract class PublisherPublicationcreatorComponent extends PublisherComponent
 	private function get_editing_form($learning_object_id, $params = array())
 	{
 		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
-		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_REPLY, $learning_object, 'edit', 'post', $this->get_url(array_merge($params,array (Publisher :: PARAM_ID => $learning_object_id, Publisher :: PARAM_EDIT => 1))));
+		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_REPLY, $learning_object, 'edit', 'post', $this->get_url(array_merge($this->get_extra_parameters(), array_merge($params,array (Publisher :: PARAM_ID => $learning_object_id, Publisher :: PARAM_EDIT => 1)))));
 		if ($form->validate())
 		{
 			$learning_object = $form->create_learning_object();
@@ -124,5 +124,10 @@ abstract class PublisherPublicationcreatorComponent extends PublisherComponent
 	 * publication was made.
 	 */
 	abstract function get_publication_form($learning_object_id, $new = false);
+	
+	function get_extra_parameters()
+	{
+		return array();
+	}
 }
 ?>

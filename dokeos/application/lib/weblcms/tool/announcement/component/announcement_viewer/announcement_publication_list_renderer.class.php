@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  * @subpackage announcement
  */
-require_once dirname(__FILE__).'/../../browser/list_renderer/list_learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/list_learning_object_publication_list_renderer.class.php';
 /**
  * Renderer to display a list of announcement publications.
  */

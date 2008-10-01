@@ -62,7 +62,7 @@ class LearningObjectPublicationForm extends FormValidator
 	 */
     function LearningObjectPublicationForm($learning_object, $tool, $email_option = false, $course)
     {
-    	$url = $tool->get_url(array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id()));
+    	$url = $tool->get_url(array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH));
 		parent :: __construct('publish', 'post', $url);
 		$this->tool = $tool;
 		$this->learning_object = $learning_object;
