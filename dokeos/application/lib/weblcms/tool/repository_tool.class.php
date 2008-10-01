@@ -18,7 +18,6 @@ require_once dirname(__FILE__) . '/../learning_object_publication_form.class.php
 
 abstract class RepositoryTool extends Tool
 {
-	const PARAM_ACTION = 'tool_action';
 	const PARAM_PUBLICATION_ID = 'pid';
 
 	const ACTION_EDIT = 'edit';
@@ -60,7 +59,7 @@ abstract class RepositoryTool extends Tool
 	 // XXX: should all this really be handled here?
 	function perform_requested_actions()
 	{
-		$action = isset($_POST[self :: PARAM_ACTION]) ? $_POST[self :: PARAM_ACTION] : $_GET[self :: PARAM_ACTION];
+		$action = $this->get_action();
 		if(isset($action))
 		{
 			$datamanager = WeblcmsDataManager :: get_instance();

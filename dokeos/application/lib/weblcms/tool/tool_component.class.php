@@ -1,0 +1,202 @@
+<?php
+/**
+ * $Id$
+ * Repository tool
+ * @package application.weblcms.tool
+ */
+
+/**
+==============================================================================
+ *	This is the base class component for all tool components used in applications.
+ *
+ *	@author Sven Vanpoucke
+==============================================================================
+ */
+
+abstract class ToolComponent
+{
+	private static $component_count = 0;
+	private $id;
+	/** The parent tool **/
+	private $tool;
+	
+	/**
+	 * Constructor
+	 * @param Tool $tool the parent tool
+	 */
+    function ToolComponent($tool) 
+    {
+		$this->tool = $tool;
+		$this->id =  ++self :: $component_count;
+    }
+    
+    /**
+     * Returns the tool to which this component belongs to
+     * @return Tool 
+     */
+    function get_tool()
+	{
+		return $this->tool;
+	}
+	
+	/** Delegation functions **/
+	
+	function display_header($breadcrumbtrail, $append = array())
+	{
+		$this->tool->display_header($breadcrumbtrail, $append);
+	}
+	
+	function display_footer()
+	{
+		$this->tool->display_footer();
+	}
+	
+	function disallow()
+	{
+		$this->tool->disallow();
+	}
+
+	function get_tool_id()
+	{
+		return $this->tool->get_tool_id();
+	}
+
+	/**
+	 * @see WebApplication :: get_user()
+	 */
+	function get_user()
+	{
+		return $this->tool->get_user();
+	}
+
+	/**
+	 * @see WebApplication :: get_user_id()
+	 */
+	function get_user_id()
+	{
+		return $this->tool->get_user_id();
+	}
+
+	function get_user_info($user_id)
+	{
+		return $this->tool->get_user_info($user_id);
+	}
+
+	/**
+	 * @see WebApplication :: get_course_id()
+	 */
+	function get_course()
+	{
+		return $this->tool->get_course();
+	}
+
+	/**
+	 * @see WebApplication :: get_course_id()
+	 */
+	function get_course_id()
+	{
+		return $this->tool->get_course_id();
+	}
+
+	/**
+	 * @see WebApplication :: get_groups()
+	 */
+	function get_groups()
+	{
+		return $this->tool->get_groups();
+	}
+
+	/**
+	 * @see WebApplication :: get_parameters()
+	 */
+	function get_parameters()
+	{
+		return $this->tool->get_parameters();
+	}
+
+	/**
+	 * @see WebApplication :: get_parameter()
+	 */
+	function get_parameter($name)
+	{
+		return $this->tool->get_parameter($name);
+	}
+
+	/**
+	 * @see WebApplication :: set_parameter()
+	 */
+	function set_parameter($name, $value)
+	{
+		$this->tool->set_parameter($name, $value);
+	}
+
+	/**
+	 * @see WebApplication :: get_url()
+	 */
+	function get_url($parameters = array(), $encode = false, $filter = false, $filterOn = array())
+	{
+		return $this->tool->get_url($parameters, $encode, $filter, $filterOn);
+	}
+
+	/**
+	 * @see WebApplication :: get_url()
+	 */
+	function redirect($action = null, $message = null, $error_message = false, $extra_params = null)
+	{
+		return $this->tool->redirect($action, $message, $error_message, $extra_params);
+	}
+
+	/**
+	 * Check if the current user has a given right in this tool
+	 * @param int $right
+	 * @return boolean True if the current user has the right
+	 */
+	function is_allowed($right)
+	{
+		return $this->tool->is_allowed($right);
+	}
+
+	/**
+	 * @see WebLcms::get_last_visit_date()
+	 */
+	function get_last_visit_date()
+	{
+		return $this->tool->get_last_visit_date();
+	}
+	
+	function get_path($path_type)
+	{
+		return $this->tool->get_path($path_type);
+	}
+	
+	function perform_requested_actions()
+	{
+		return $this->tool->perform_requested_actions();
+	}
+	
+	function get_categories($list = false)
+	{
+		return $this->tool->get_categories($list);
+	}
+
+	function get_category($id)
+	{
+		return $this->tool->get_category($id);
+	}
+	
+	static function factory($tool_name, $component_name, $tool)
+	{
+		$filename = dirname(__FILE__).'/'.
+			DokeosUtilities :: camelcase_to_underscores($tool_name).'/component/' . 
+			DokeosUtilities :: camelcase_to_underscores($tool_name). '_' . 
+			DokeosUtilities :: camelcase_to_underscores($component_name). '.class.php';
+		if (!file_exists($filename) || !is_file($filename))
+		{
+			die('Failed to load "'.$component_name.'" component');
+		}
+		$class = $tool_name . 'Tool'.$component_name.'Component';
+		require_once $filename;
+		return new $class($tool);
+	}
+	
+}

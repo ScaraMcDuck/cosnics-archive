@@ -4,6 +4,7 @@
  */
 require_once Path :: get_application_library_path() . 'publisher/component/publicationcreator.class.php';
 require_once dirname(__FILE__).'/../learning_object_publication_form.class.php';
+require_once dirname(__FILE__).'/../tool/tool.class.php';
 /**
  * This class represents a profile publisher component which can be used
  * to create a new learning object before publishing it.
@@ -30,7 +31,6 @@ class LearningObjectPublisherPublicationCreatorComponent extends PublisherPublic
 			//$parameters['action'] = RepositoryTool::ACTION_SHOW_NORMAL_MESSAGE;
 			$parameters['message'] = Translation :: get('ObjectPublished');
 			$parameters['pcattree'] = $publication->get_category_id();
-			$parameters['admin'] = 0;
 			$url = $this->get_url($parameters);
 			// Redirect to location where the publication was made
 			header('Location: '.$url);
@@ -43,6 +43,11 @@ class LearningObjectPublisherPublicationCreatorComponent extends PublisherPublic
 			$out .= $form->toHtml();
 		}
 		return $out;
+	}
+	
+	function get_extra_parameters()
+	{
+		return array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH);
 	}
 }
 ?>
