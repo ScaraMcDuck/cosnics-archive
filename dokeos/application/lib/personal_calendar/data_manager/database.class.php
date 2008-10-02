@@ -134,7 +134,7 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 	public function count_publication_attributes($type = null, $condition = null)
 	{
 		$condition = new EqualityCondition('publisher', Session :: get_user_id());
-		return $this->db->count_objects('publisher', $condition);
+		return $this->db->count_objects('publication', $condition);
 	}
 	/**
 	 * @see Application::delete_learning_object_publications()
