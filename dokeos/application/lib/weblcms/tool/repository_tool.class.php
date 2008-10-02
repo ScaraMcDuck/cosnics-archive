@@ -58,8 +58,8 @@ abstract class RepositoryTool extends Tool
 	 // TODO: add some input validation to check if the requested action can be performed
 	 // XXX: should all this really be handled here?
 	function perform_requested_actions()
-	{
-		$action = $this->get_action();
+	{ 
+		$action = $this->get_action(); 
 		if(isset($action))
 		{
 			$datamanager = WeblcmsDataManager :: get_instance();
@@ -89,21 +89,26 @@ abstract class RepositoryTool extends Tool
 				case self :: ACTION_DELETE:
 					if($this->is_allowed(DELETE_RIGHT))
 					{
-						$publication = $datamanager->retrieve_learning_object_publication($_GET[self :: PARAM_PUBLICATION_ID]);
+						$ids = $_GET[self :: PARAM_PUBLICATION_ID];
+						$publication = $datamanager->retrieve_learning_object_publication($ids);
 						if($publication->delete())
 						{
 							$message = htmlentities(Translation :: get('LearningObjectPublicationDeleted'));
-						}
+						} 
 					}
 					break;
 				case self :: ACTION_DELETE_SELECTED:
 					if($this->is_allowed(DELETE_RIGHT))
-					{
-						$publication_ids = $_POST[self :: PARAM_PUBLICATION_ID];
-						//TODO: delete all selected publications in a single action/query
+					{ 
+						if(isset($_GET[self :: PARAM_PUBLICATION_ID]))
+							$publication_ids = $_GET[self :: PARAM_PUBLICATION_ID]; 
+						else
+							$publication_ids = $_POST[self :: PARAM_PUBLICATION_ID]; 
+						
+						//TODO: delete all selected publications in a single action/query  
 						foreach($publication_ids as $index => $pid)
 						{
-							$publication = $datamanager->retrieve_learning_object_publication($pid);
+							$publication = $datamanager->retrieve_learning_object_publication($pid); 
 							$publication->delete();
 						}
 						if(count($publication_ids) > 1)

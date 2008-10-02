@@ -31,7 +31,6 @@ class AnnouncementTool extends RepositoryTool
 				$component = AnnouncementToolComponent :: factory('Publisher', $this);
 				break;
 			default :
-				$this->set_action(self :: ACTION_VIEW_ANNOUNCEMENTS);
 				$component = AnnouncementToolComponent :: factory('Viewer', $this);
 		}
 		$component->run();

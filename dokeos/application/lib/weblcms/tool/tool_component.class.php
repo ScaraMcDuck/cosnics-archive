@@ -51,6 +51,11 @@ abstract class ToolComponent
 		$this->tool->display_footer();
 	}
 	
+	function get_action()
+	{
+		return $this->tool->get_action();
+	}
+	
 	function disallow()
 	{
 		$this->tool->disallow();

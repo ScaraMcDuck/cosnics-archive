@@ -22,6 +22,7 @@ class LearningObjectPublisher extends Publisher
 	function LearningObjectPublisher($parent, $types, $mail_option = false)
 	{
 		parent :: __construct($parent, $types, $mail_option = false);
+		$this->set_extra_parameters(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH));
 		$this->set_publisher_actions(array ('publicationcreator','browser', 'finder'));
 	}
 
@@ -37,7 +38,7 @@ class LearningObjectPublisher extends Publisher
 		{
 			$out .= '<li><a';
 			if ($this->get_action() == $action) $out .= ' class="current"';
-			$out .= ' href="'.$this->get_url(array (Publisher :: PARAM_ACTION => $action), true).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
+			$out .= ' href="'.$this->get_url(array (Publisher :: PARAM_ACTION => $action, Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH), true).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 		$action = $this->get_action();
@@ -64,5 +65,7 @@ class LearningObjectPublisher extends Publisher
 	{
 		return $this->get_parent()->get_course_id();
 	}
+	
+	
 }
 ?>
