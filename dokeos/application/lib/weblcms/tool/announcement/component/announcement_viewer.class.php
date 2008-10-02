@@ -17,6 +17,7 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		$trail = new BreadcrumbTrail();
 		
 		$this->display_header($trail);
+		echo '<a name="top"></a>';
 		if($this->is_allowed(ADD_RIGHT))
 		{
 			echo '<p><a href="' . $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH), true) . '"><img src="'.Theme :: get_common_img_path().'action_publish.png" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';
