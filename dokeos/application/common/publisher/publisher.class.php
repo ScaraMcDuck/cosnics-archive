@@ -33,6 +33,8 @@ class Publisher
 	
 	private $publisher_actions;
 	
+	private $parameters;
+	
 	/**
 	 * Constructor.
 	 * @param array $types The learning object types that may be published.
@@ -149,6 +151,16 @@ class Publisher
 	function with_mail_option()
 	{
 		return $this->mail_option;
+	}
+	
+	function get_extra_parameters()
+	{
+		return $this->parameters;
+	}
+	
+	function set_extra_parameters($parameters)
+	{
+		$this->parameters = $parameters;
 	}
 }
 ?>

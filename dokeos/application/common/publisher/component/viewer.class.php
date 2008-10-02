@@ -23,13 +23,13 @@ class PublisherViewerComponent extends PublisherComponent
 			$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($_GET[Publisher :: PARAM_ID]);
 			$toolbar_data = array();
 			$toolbar_data[] = array(
-				'href' => $this->get_url(array (Publisher :: PARAM_ACTION => 'publicationcreator', Publisher :: PARAM_ID => $learning_object->get_id())),
+				'href' => $this->get_url(array_merge($this->get_extra_parameters(), array (Publisher :: PARAM_ACTION => 'publicationcreator', Publisher :: PARAM_ID => $learning_object->get_id()))),
 				'img' => Theme :: get_common_img_path().'action_publish.png',
 				'label' => Translation :: get('Publish'),
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);
 			$toolbar_data[] = array(
-				'href' => $this->get_url(array (Publisher :: PARAM_ACTION => 'publicationcreator', Publisher :: PARAM_ID => $learning_object->get_id(), ObjectPublisher :: PARAM_EDIT => 1)),
+				'href' => $this->get_url(array_merge($this->get_extra_parameters(), array (Publisher :: PARAM_ACTION => 'publicationcreator', Publisher :: PARAM_ID => $learning_object->get_id(), ObjectPublisher :: PARAM_EDIT => 1))),
 				'img' => Theme :: get_common_img_path().'action_editpublish.png',
 				'label' => Translation :: get('EditAndPublish'),
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL

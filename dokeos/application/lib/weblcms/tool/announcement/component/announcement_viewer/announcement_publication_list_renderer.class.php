@@ -73,20 +73,9 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		$publications = $this->get_publications();
 		if(count($publications) == 0)
 		{
-			$html_bottom[] = Display::display_normal_message(Translation :: get('NoPublicationsAvailable'),true);
+			$html[] = Display::display_normal_message(Translation :: get('NoPublicationsAvailable'),true);
 		}
-		$html_top[] = '<div style="width:19%; float: left;">';
-		if(count($publications) >= 1)
-		{
-			$html_top[] = '<div style="border-bottom: 1px solid grey; padding: 5px;">';
-			//$delete_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_DELETE, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
-			$html_top[] = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'action_delete.png"  alt="' . Translation :: get('Clear_list_of_announcements') . '"/> ' . Translation :: get('Clear_list_of_announcements') . '</a>';
-			$html_top[] = '</div>';
-		}
-		
-		$html_bottom[] = '<div style="width:79%; padding-left: 1%; float:right; border-left: 1px solid grey;">';
-		$html_top[] = '<div style="padding: 5px;">';
-		
+
 		foreach ($publications as $index => $publication)
 		{
 			$first = ($index == 0);
@@ -94,15 +83,10 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 			$html_bottom[] = '<a name="' . $index . '"></a>';
 			$html_bottom[] = $this->render_publication($publication, $first, $last);
 			$html_bottom[] = '<a href="#top">' . Translation :: get('Go_To_Top') . '</a><br /><br />';
-			$html_top[] = '<a href="#' . $index . '">' . $this->render_title($publication) . '</a><br />';
 		}
 		
 		$html_bottom[] = '</div>';
-		$html_top[] = '</div></div>';
-		
-		$str .= implode("\n", $html_top);
-		$str .= implode("\n", $html_bottom);
-		return $str;
+		return implode("\n", $html_bottom);
 	}
 }
 ?>

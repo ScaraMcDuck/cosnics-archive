@@ -110,5 +110,15 @@ abstract class PublisherComponent
 	{
 		return $this->parent->redirect($action, $message, $error_message, $extra_params);
 	}
+	
+	function get_extra_parameters()
+	{
+		return $this->parent->get_extra_parameters();
+	}
+	
+	function set_extra_parameters($parameters)
+	{
+		$this->parent->set_extra_parameters($parameters);
+	}
 }
 ?>

@@ -45,9 +45,5 @@ class LearningObjectPublisherPublicationCreatorComponent extends PublisherPublic
 		return $out;
 	}
 	
-	function get_extra_parameters()
-	{
-		return array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH);
-	}
 }
 ?>

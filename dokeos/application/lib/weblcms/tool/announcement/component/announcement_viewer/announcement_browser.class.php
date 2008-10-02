@@ -18,16 +18,18 @@ class AnnouncementBrowser extends LearningObjectPublicationBrowser
 	/**
 	 * @see LearningObjectPublicationBrowser::LearningObjectPublicationBrowser()
 	 */
+	private $publications;
+	
 	function AnnouncementBrowser($parent)
 	{
 		parent :: __construct($parent, 'announcement');
-		if(isset($_GET['pid']))
+		if(isset($_GET['pid']) && $parent->get_action() == 'view')
 		{
 			$this->set_publication_id($_GET['pid']);
 			$renderer = new LearningObjectPublicationDetailsRenderer($this);
 		}
 		else
-		{
+		{ 
 			$renderer = new AnnouncementPublicationListRenderer($this);
 		}
 		$this->set_publication_list_renderer($renderer);
@@ -38,31 +40,37 @@ class AnnouncementBrowser extends LearningObjectPublicationBrowser
 	 */
 	function get_publications($from, $count, $column, $direction)
 	{
-		$datamanager = WeblcmsDataManager :: get_instance();
-		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'announcement');
-		$condition = $tool_condition;
-		if($this->is_allowed(EDIT_RIGHT))
+		if(empty($this->publications))
 		{
-			$user_id = null;
-			$groups = null;
-		}
-		else
-		{
-			$user_id = $this->get_user_id();
-			$groups = $this->get_groups();
-		}
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups, $condition, false, array (Announcement :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
-		$visible_publications = array ();
-		while ($publication = $publications->next_result())
-		{
-			// If the publication is hidden and the user is not allowed to DELETE or EDIT, don't show this publication
-			if (!$publication->is_visible_for_target_users() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
+			$datamanager = WeblcmsDataManager :: get_instance();
+			$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'announcement');
+			$condition = $tool_condition;
+			if($this->is_allowed(EDIT_RIGHT))
 			{
-				continue;
+				$user_id = null;
+				$groups = null;
 			}
-			$visible_publications[] = $publication;
+			else
+			{
+				$user_id = $this->get_user_id();
+				$groups = $this->get_groups();
+			}
+			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups, $condition, false, array (Announcement :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
+			$visible_publications = array ();
+			while ($publication = $publications->next_result())
+			{
+				// If the publication is hidden and the user is not allowed to DELETE or EDIT, don't show this publication
+				if (!$publication->is_visible_for_target_users() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
+				{
+					continue;
+				}
+				$visible_publications[] = $publication;
+			}
+			$this->publications = $visible_publications;
 		}
-		return $visible_publications;
+		
+		return $this->publications;
+		
 	}
 	/**
 	 * Retrieves the number of published annoucements

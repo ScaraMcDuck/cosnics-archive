@@ -124,10 +124,6 @@ abstract class PublisherPublicationcreatorComponent extends PublisherComponent
 	 * publication was made.
 	 */
 	abstract function get_publication_form($learning_object_id, $new = false);
-	
-	function get_extra_parameters()
-	{
-		return array();
-	}
+
 }
 ?>
