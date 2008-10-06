@@ -68,7 +68,7 @@ class RepositoryManagerAddLearningObjectsComponent extends RepositoryManagerComp
 					}
 				}
 				
-			$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get($message), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $parent,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root));
+			$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get($message), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $parent,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root, 'publish' => $_GET['publish']));
 		}
 		else
 		{

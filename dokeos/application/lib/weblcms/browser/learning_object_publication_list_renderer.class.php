@@ -254,7 +254,7 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_feedback_action($publication)
 	{
-		$feedback_url = $this->get_url(array (RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+		$feedback_url = $this->get_url(array (RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'), true);
 		$feedback_link = '<a href="'.$feedback_url.'"><img src="'.Theme :: get_common_img_path().'action_browser.png" alt=""/></a>';
 		return $feedback_link;
 	}
