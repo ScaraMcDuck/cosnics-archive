@@ -106,8 +106,16 @@ abstract class PublisherCreatorComponent extends PublisherComponent
 		if ($form->validate())
 		{
 			$learning_object = $form->create_learning_object();
-			$redirect_params = array_merge($this->get_extra_parameters(), array(Publisher :: PARAM_ID => $learning_object->get_id(), Publisher :: PARAM_ACTION => 'publicationcreator', Publisher :: PARAM_EDIT => $edit));
-			$this->redirect('publicationcreator','',false,$redirect_params);
+
+			if($learning_object->is_complex_learning_object())
+			{
+				header('Location: index_repository_manager.php?go=createcomplex&publish=1&cloi_ref=' . $learning_object->get_id());
+			}
+			else
+			{
+				$redirect_params = array_merge($this->get_extra_parameters(), array(Publisher :: PARAM_ID => $learning_object->get_id(), Publisher :: PARAM_ACTION => 'publicationcreator', Publisher :: PARAM_EDIT => $edit));
+				$this->redirect('publicationcreator','',false,$redirect_params);
+			}
 		}
 		else
 		{

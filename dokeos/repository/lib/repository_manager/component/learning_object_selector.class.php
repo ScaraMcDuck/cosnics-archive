@@ -31,7 +31,8 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
 		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('MyRepository')));
+		if(!isset($_GET['publish']))
+			$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('MyRepository')));
 		
 		if(isset($cloi_id) && isset($root_id))
 		{
@@ -46,13 +47,15 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 			exit;
 		}
 		$root = $this->retrieve_learning_object($root_id);
-		$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), $root->get_title()));
-		$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
-		
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddExistingLearningObject')));
+		if(!isset($_GET['publish']))
+		{
+			$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), $root->get_title()));
+			$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
+			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddExistingLearningObject')));
+		}
 		
 		$output = $this->get_learning_objects_html();
-		$this->display_header($trail, true);
+		$this->display_header($trail, true, false);
 		echo $output;
 		$this->display_footer();
 	}
@@ -71,7 +74,7 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 		}
 		$parameters = array_merge($parameters, 
 			array(RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),
-				  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id()));
+				  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => $_GET['publish']));
 			
 		$table = new RepositoryBrowserTable($this, $parameters, $condition);
 		return $table->as_html();

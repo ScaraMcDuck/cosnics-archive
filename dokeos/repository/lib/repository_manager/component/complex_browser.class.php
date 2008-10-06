@@ -29,9 +29,11 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	{
 		$cloi_id = $_GET[RepositoryManager :: PARAM_CLOI_ID];
 		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
+		$publish = $_GET['publish'];
 		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('MyRepository')));
+		if(!isset($publish))
+			$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('MyRepository')));
 		
 		if(isset($cloi_id) && isset($root_id))
 		{
@@ -40,20 +42,27 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		}
 		else
 		{
-			$this->display_header($trail, false);
+			$this->display_header($trail, false, false);
 			$this->display_error_message(Translation :: get('NoCLOISelected'));
 			$this->display_footer();
 			exit;
 		}
 		$root = $this->retrieve_learning_object($root_id);
-		$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), $root->get_title()));
-		$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
+		
+		if(!isset($publish))
+		{
+			$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), $root->get_title()));
+			$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
+		}
 		
 		$output = $this->get_learning_objects_html();
 		$menu = $this->get_menu();
 		$extra = $this->get_extra();
 		
-		$this->display_header($trail, false);
+		if(isset($publish))
+			$this->display_header($trail, false, false);
+		else
+			$this->display_header($trail);
 		
 		if($menu)
 		{
@@ -108,7 +117,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		$link = $this->get_link(array(RepositoryManager :: PARAM_ACTION => 
 			RepositoryManager :: ACTION_CREATE_LEARNING_OBJECTS, 
 			RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->root_id, 
-			RepositoryManager :: PARAM_CLOI_ID => $this->cloi_id));
+			RepositoryManager :: PARAM_CLOI_ID => $this->cloi_id, 'publish' => $_GET['publish']));
 		
 		$toolbar_data[] = array(
 			'href' => $link,

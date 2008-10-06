@@ -45,7 +45,7 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 			$cloi_form = ComplexLearningObjectItemForm :: factory(ComplexLearningObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post', 
 							$this->get_url(array(RepositoryManager :: PARAM_CLOI_REF => $ref, 
 												 RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id,
-												 RepositoryManager :: PARAM_CLOI_ID => $parent)));		
+												 RepositoryManager :: PARAM_CLOI_ID => $parent, 'publish' => $_GET['publish'])));		
 			
 			if($cloi_form)
 			{
@@ -55,11 +55,11 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 					$cloi = $cloi_form->get_complex_learning_object_item();
 					$root_id = $root_id?$root_id:$cloi->get_id();
 					if($cloi->is_complex()) $id = $cloi->get_ref(); else $id = $cloi->get_parent();
-					$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id));
+					$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));
 				}
 				else
 				{
-					$this->display_header($trail);
+					$this->display_header($trail, false, false);
 					echo '<p>' . Translation :: get('FillIn') . '</p>';
 					$cloi_form->display();
 					$this->display_footer();
@@ -70,11 +70,11 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 				$cloi->create();
 				$root_id = $root_id?$root_id:$cloi->get_id();
 				if($cloi->is_complex()) $id = $cloi->get_ref(); else $id = $cloi->get_parent();
-				$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id));
+				$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));
 			}
 		}
 		else
-			$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $ref,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $ref));
+			$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $ref,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $ref, 'publish' => $_GET['publish']));
 	}
 }
 ?>

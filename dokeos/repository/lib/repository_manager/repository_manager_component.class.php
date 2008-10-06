@@ -38,9 +38,9 @@ abstract class RepositoryManagerComponent {
 	/**
 	 * @see RepositoryManager::display_header()
 	 */
-	function display_header($breadcrumbtrail, $display_search = false)
+	function display_header($breadcrumbtrail, $display_search = false, $display_menu = true)
 	{
-		$this->get_parent()->display_header($breadcrumbtrail, $display_search);
+		$this->get_parent()->display_header($breadcrumbtrail, $display_search, $display_menu);
 	}
 	/**
 	 * @see RepositoryManager::display_footer()

@@ -298,13 +298,13 @@ class RepositoryManager
 	 * @param boolean $display_search Should the header include a search form or
 	 * not?
 	 */
-	function display_header($breadcrumbtrail, $display_search = false)
+	function display_header($breadcrumbtrail, $display_search = false, $display_menu = true)
 	{
 		if (is_null($breadcrumbtrail))
 		{
 			$breadcrumbtrail = new BreadcrumbTrail();
 		}
-		
+
 		$categories = $this->breadcrumbs;
 		if (count($categories) > 0 && $this->get_action() == self :: ACTION_BROWSE_LEARNING_OBJECTS)
 		{
@@ -321,10 +321,19 @@ class RepositoryManager
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
 		Display :: display_header($breadcrumbtrail);
-		echo '<div style="float: left; width: 20%;">';
-		$this->display_learning_object_categories();
-		echo '</div>';
-		echo '<div style="float: right; width: 80%;">';
+		
+		if($display_menu)
+		{
+			echo '<div style="float: left; width: 20%;">';
+			$this->display_learning_object_categories();
+			echo '</div>';
+			echo '<div style="float: right; width: 80%;">';
+		}
+		else
+		{
+			echo '<div>';
+		}
+		
 		echo '<div>';
 		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
 		if ($display_search)
