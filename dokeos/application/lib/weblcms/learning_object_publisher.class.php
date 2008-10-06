@@ -23,7 +23,7 @@ class LearningObjectPublisher extends Publisher
 	{
 		parent :: __construct($parent, $types, $mail_option = false);
 		$this->set_extra_parameters(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH));
-		$this->set_publisher_actions(array ('publicationcreator','browser', 'finder'));
+		$this->set_publisher_actions(array ('creator','browser', 'finder'));
 	}
 
 	/**

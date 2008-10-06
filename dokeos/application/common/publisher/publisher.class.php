@@ -47,7 +47,7 @@ class Publisher
 		$this->default_learning_objects = array();
 		$this->types = (is_array($types) ? $types : array ($types));
 		$this->mail_option = $mail_option;
-		$this->set_publisher_actions(array ('publicationcreator','browser', 'finder'));
+		$this->set_publisher_actions(array ('creator','browser', 'finder'));
 		$parent->set_parameter(Publisher :: PARAM_ACTION, $this->get_action());
 	}
 
@@ -88,7 +88,7 @@ class Publisher
 	 */
 	function get_action()
 	{
-		return ($_GET[Publisher :: PARAM_ACTION] ? $_GET[Publisher :: PARAM_ACTION] : 'publicationcreator');
+		return ($_GET[Publisher :: PARAM_ACTION] ? $_GET[Publisher :: PARAM_ACTION] : 'creator');
 	}
 
 	function get_url($parameters = array(), $encode = false)

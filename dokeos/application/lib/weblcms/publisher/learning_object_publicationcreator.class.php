@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../learning_object_publication_form.class.php';
 require_once dirname(__FILE__).'/../tool/tool.class.php';
 /**
  * This class represents a profile publisher component which can be used
- * to create a new learning object before publishing it.
+ * to publish learning objects passed to it.
  */
 class LearningObjectPublisherPublicationCreatorComponent extends PublisherPublicationCreatorComponent
 {
