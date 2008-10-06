@@ -63,7 +63,7 @@ class PublisherBrowserComponent extends PublisherComponent
 		);
 		
 		$browser_actions[] = array(
-			'href' => $this->get_url(array_merge($this->get_extra_parameters(), array (Publisher :: PARAM_ACTION => 'publicationcreator', Publisher :: PARAM_ID => '__ID__', Publisher :: PARAM_EDIT => 1))),
+			'href' => $this->get_url(array_merge($this->get_extra_parameters(), array (Publisher :: PARAM_ACTION => 'creator', Publisher :: PARAM_ID => '__ID__', Publisher :: PARAM_EDIT => 1))),
 			'img' => Theme :: get_common_img_path().'action_editpublish.png',
 			'label' => Translation :: get('EditAndPublish')
 		);
