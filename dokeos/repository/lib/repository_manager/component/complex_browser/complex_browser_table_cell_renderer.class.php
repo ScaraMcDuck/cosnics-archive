@@ -65,7 +65,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 				{
 					$title_short = '<a href="' . $this->browser->get_url(
 						array(RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->browser->get_root(), 
-							  RepositoryManager :: PARAM_CLOI_ID => $cloi->get_ref())) . '">' . $title_short . '</a>'; 
+							  RepositoryManager :: PARAM_CLOI_ID => $cloi->get_ref(), 'publish' => $_GET['publish'])) . '">' . $title_short . '</a>'; 
 				}
 				
 				return $title_short; //'<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
