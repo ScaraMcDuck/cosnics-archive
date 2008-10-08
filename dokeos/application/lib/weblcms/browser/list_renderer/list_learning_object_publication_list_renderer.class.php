@@ -21,12 +21,27 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		{
 			$html[] = Display::display_normal_message(Translation :: get('NoPublicationsAvailable'),true);
 		}
+		$html[] = '<form name="publication_list" action="' . $this->get_url() . '" method="GET" />';
 		foreach ($publications as $index => $publication)
 		{
 			$first = ($index == 0);
 			$last = ($index == count($publications) - 1);
 			$html[] = $this->render_publication($publication, $first, $last);
 		}
+		$html[] = '</form>';
+		
+		$html[] = '<div class="sortable_table_selection_controls">';
+		//$html[] = '<a href="?'.$params.'&amp;'.$this->param_prefix.'selectall=1" onclick="setCheckbox(\'form_'.$this->table_name.'\', true); return false;">'.Translation :: get('SelectAll').'</a>';
+		//$html[] = '<a href="?'.$params.'"  onclick="setCheckbox(\'form_'.$this->table_name.'\', false); return false;">'.Translation :: get('UnSelectAll').'</a> ';
+		$html[] = '<select name="actions">';
+		foreach ($this->form_actions as $action => $label)
+		{
+			$html[] = '<option value="'.$action.'">'.$label.'</option>';
+		}
+		$html[] = '</select>';
+		$html[] = ' <input type="submit" value="'.Translation :: get('Ok').'"/>';
+		$html[] = '</div>';
+		
 		return implode("\n", $html);
 	}
 
@@ -53,6 +68,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		{
 			$icon_suffix = '_new';
 		}
+		$html[] = '<input type="checkbox" name="id[]" value="' . $publication->get_id() . '"/>';
 		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path(). 'learning_object/' .$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);

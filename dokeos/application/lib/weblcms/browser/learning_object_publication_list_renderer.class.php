@@ -16,6 +16,8 @@ abstract class LearningObjectPublicationListRenderer
 	protected $browser;
 
 	private $parameters;
+	
+	private $actions;
 
 	/**
 	 * Constructor.
@@ -23,10 +25,20 @@ abstract class LearningObjectPublicationListRenderer
 	 *                                    renderer with.
 	 * @param array $parameters The parameters to pass to the renderer.
 	 */
-	function LearningObjectPublicationListRenderer($browser, $parameters = array ())
+	function LearningObjectPublicationListRenderer($browser, $parameters = array (), $actions)
 	{
 		$this->parameters = $parameters;
 		$this->browser = $browser;
+	}
+	
+	function get_actions()
+	{
+		return $this->actions;
+	}
+	
+	function set_actions($actions)
+	{
+		$this->actions = $actions;
 	}
 
 	/**
