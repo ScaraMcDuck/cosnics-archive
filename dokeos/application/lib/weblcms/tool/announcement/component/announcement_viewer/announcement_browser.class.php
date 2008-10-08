@@ -43,8 +43,7 @@ class AnnouncementBrowser extends LearningObjectPublicationBrowser
 		if(empty($this->publications))
 		{
 			$datamanager = WeblcmsDataManager :: get_instance();
-			$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'announcement');
-			$condition = $tool_condition;
+			$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'announcement');
 			if($this->is_allowed(EDIT_RIGHT))
 			{
 				$user_id = null;

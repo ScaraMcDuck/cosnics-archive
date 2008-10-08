@@ -1794,3 +1794,33 @@ ul.toolbar li.last span {
 	background-color: rgb(227,227,227);
 	text-decoration: none;
 }
+
+div.actionbar
+{
+	background-color: lightblue; 
+	border: 1px solid grey; 
+	height: 40px; 
+	padding: 5px;
+}
+
+div.actionbar div.leftmenu
+{
+	float: left;
+	height: 40px;
+	padding-right: 10px;
+}
+
+div.actionbar div.middlemenu
+{
+	float: left;
+	height: 40px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+div.actionbar div.rightmenu
+{
+	width: 210px;
+	float: right;
+	height: 40px;
+}
