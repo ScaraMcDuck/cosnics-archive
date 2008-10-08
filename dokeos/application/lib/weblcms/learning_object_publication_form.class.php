@@ -60,9 +60,9 @@ class LearningObjectPublicationForm extends FormValidator
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function LearningObjectPublicationForm($learning_object, $tool, $email_option = false, $course)
+    function LearningObjectPublicationForm($learning_object, $tool, $email_option = false, $course, $publisher = true)
     {
-    	$url = $tool->get_url(array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH));
+    	$url = $tool->get_url(array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $publisher?Tool :: ACTION_PUBLISH:null));
 		parent :: __construct('publish', 'post', $url);
 		$this->tool = $tool;
 		$this->learning_object = $learning_object;

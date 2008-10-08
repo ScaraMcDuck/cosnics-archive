@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/and_condition.class.php';
 require_once dirname(__FILE__).'/or_condition.class.php';
 require_once dirname(__FILE__).'/not_condition.class.php';
 require_once dirname(__FILE__).'/in_condition.class.php';
+require_once dirname(__FILE__).'/like_condition.class.php';
 
 class ConditionTranslator
 {

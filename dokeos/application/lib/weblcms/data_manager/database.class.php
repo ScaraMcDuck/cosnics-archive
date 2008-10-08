@@ -238,7 +238,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $record[0];
 	}
 
-	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $learning_object = null)
+	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $learning_object = null, $search_condition = null)
 	{
 		if(is_array($groups))
 		{
@@ -265,8 +265,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (!is_null($translator))
 		{
 			$query .= $translator->render_query();
+			if($search_condition)
+				$query .= ' AND ';
 			$params = $translator->get_parameters();
 		}
+		
+		if($search_condition)
+			$query .= 'learning_object IN (SELECT id FROM repository_learning_object WHERE ' . $search_condition . ')';
+		
 		/*
 		 * Always respect display order as a last resort.
 		 */

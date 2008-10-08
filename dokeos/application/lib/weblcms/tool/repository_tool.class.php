@@ -71,7 +71,7 @@ abstract class RepositoryTool extends Tool
 						$pid = isset($_GET[self :: PARAM_PUBLICATION_ID]) ? $_GET[self :: PARAM_PUBLICATION_ID] : $_POST[self :: PARAM_PUBLICATION_ID];
 						$publication = $datamanager->retrieve_learning_object_publication($pid);
 						$this->set_parameter(self :: PARAM_ACTION,self :: ACTION_EDIT);
-						$form = new LearningObjectPublicationForm($publication->get_learning_object(),$this, false, $this->get_parent()->get_course());
+						$form = new LearningObjectPublicationForm($publication->get_learning_object(),$this, false, $this->get_parent()->get_course(), false);
 						$form->set_publication($publication);
 						if( $form->validate())
 						{
@@ -207,8 +207,9 @@ abstract class RepositoryTool extends Tool
 					break;
 			}
 		}
-		if(isset($message))
+		if(isset($message) && $message!='')
 		{
+			//$this->redirect($this->get_url(array(Tool :: PARAM_ACTION => null)), $message);
 			return Display::display_normal_message($message,true);
 		}
 	}
