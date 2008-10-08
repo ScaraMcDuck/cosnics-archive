@@ -2,12 +2,14 @@
 /**
  * $Id: announcementbrowser.class.php 9148 2006-08-23 07:46:27Z bmol $
  * Announcement tool - browser
- * @package application.weblcms.tool
- * @subpackage exercise
+ * @package application.weblcms.tool.exercise.component
+ * @subpackage exercise_viewer
  */
-require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
-require_once dirname(__FILE__).'/../../learning_object_publication_browser.class.php';
+require_once dirname(__FILE__).'/../../../../weblcms_data_manager.class.php';
+require_once dirname(__FILE__).'/../../../../learning_object_publication_browser.class.php';
 require_once dirname(__FILE__).'/exercise_publication_list_renderer.class.php';
+require_once Path :: get_repository_path().'lib/learning_object/exercise/complex_exercise.class.php';
+require_once Path :: get_repository_path().'lib/learning_object/exercise/exercise.class.php';
 
 class ExerciseBrowser extends LearningObjectPublicationBrowser
 {
@@ -33,7 +35,7 @@ class ExerciseBrowser extends LearningObjectPublicationBrowser
 			$user_id = $this->get_user_id();
 			$groups = $this->get_groups();
 		}
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups, $condition, false, array (Announcement :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups, $condition, false, array (ComplexExercise :: PROPERTY_DISPLAY_ORDER), array (SORT_ASC));
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{
