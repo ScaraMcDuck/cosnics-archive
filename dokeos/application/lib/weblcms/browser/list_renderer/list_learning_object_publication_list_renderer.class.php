@@ -107,7 +107,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		if($this->get_actions())
 			$html[] = '<input type="checkbox" name="pid[]" value="' . $publication->get_id() . '"/>';
 		$html[] = '</div>';
-		$html[] = '</div>';
+		$html[] = '</div><br />';
 		return implode("\n", $html);
 	}
 }
