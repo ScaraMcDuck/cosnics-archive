@@ -31,7 +31,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 			$html[] = $this->render_publication($publication, $first, $last);
 		}
 		
-		if($this->get_actions())
+		if($this->get_actions() && count($publications) > 0)
 		{
 			foreach($_GET as $parameter => $value)
 			{
