@@ -88,7 +88,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	
 	public function get_parameters()
 	{
-		$param = array(RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->root_id);
+		$param = array(RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->root_id, RepositoryManager :: PARAM_CLOI_ID => $this->cloi_id, 'publish' => $_GET['publish']);
 		return array_merge($param, parent :: get_parameters());
 	}
 	
@@ -125,6 +125,19 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL,
 			'img' => Theme :: get_common_img_path().'action_add.png'
 		);
+		
+		if($_GET['publish'])
+		{
+			$link = $_SESSION['redirect_url'];
+			
+			$toolbar_data[] = array(
+				'href' => $link,
+				'label' => Translation :: get('PublishLearningObject') ,
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL,
+				'img' => Theme :: get_common_img_path().'action_publish.png'
+			);
+		}
+		
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 	

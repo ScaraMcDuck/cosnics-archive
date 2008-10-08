@@ -21,11 +21,11 @@ class LearningObjectPublisherPublicationCreatorComponent extends PublisherPublic
 	function get_publication_form($learning_object_id, $new = false)
 	{
 		$out = ($new ? Display :: display_normal_message(htmlentities(Translation :: get('ObjectCreated')), true) : '');
-		$tool = $this->get_parent()->get_parent();
+		$tool = $this->get_parent()->get_parent(); 
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
 		$form = new LearningObjectPublicationForm($object, $tool, $this->get_parent()->with_mail_option(), $this->get_parent()->get_course());
 		if ($form->validate())
-		{
+		{ 
 			$publication = $form->create_learning_object_publication();
 			// TODO: Use a function for this.
 			//$parameters['action'] = RepositoryTool::ACTION_SHOW_NORMAL_MESSAGE;

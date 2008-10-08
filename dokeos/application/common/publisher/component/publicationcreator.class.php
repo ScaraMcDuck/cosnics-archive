@@ -13,7 +13,10 @@ abstract class PublisherPublicationCreatorComponent extends PublisherComponent
 	/*
 	 * Returns the html code for this publisher's form for a given object id.
 	 */
-	function as_html($params = array()) {
+	function as_html($params = array()) 
+	{
+		unset($_SESSION['redirect_url']);
+		
 		$oid = $_GET[Publisher :: PARAM_ID];
 		$edit = $_GET[Publisher :: PARAM_EDIT];
 		return $this->get_publication_form($oid, ($edit == 0));
