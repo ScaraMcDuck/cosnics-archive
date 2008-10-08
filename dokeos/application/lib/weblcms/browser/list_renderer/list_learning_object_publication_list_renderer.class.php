@@ -21,26 +21,48 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		{
 			$html[] = Display::display_normal_message(Translation :: get('NoPublicationsAvailable'),true);
 		}
-		$html[] = '<form name="publication_list" action="' . $this->get_url() . '" method="GET" />';
+		if($this->get_actions())
+			$html[] = '<form name="publication_list" action="' . $this->get_url() . '" method="GET" >';
+			
 		foreach ($publications as $index => $publication)
 		{
 			$first = ($index == 0);
 			$last = ($index == count($publications) - 1);
 			$html[] = $this->render_publication($publication, $first, $last);
 		}
-		$html[] = '</form>';
 		
-		$html[] = '<div class="sortable_table_selection_controls">';
-		//$html[] = '<a href="?'.$params.'&amp;'.$this->param_prefix.'selectall=1" onclick="setCheckbox(\'form_'.$this->table_name.'\', true); return false;">'.Translation :: get('SelectAll').'</a>';
-		//$html[] = '<a href="?'.$params.'"  onclick="setCheckbox(\'form_'.$this->table_name.'\', false); return false;">'.Translation :: get('UnSelectAll').'</a> ';
-		$html[] = '<select name="actions">';
-		foreach ($this->form_actions as $action => $label)
+		if($this->get_actions())
 		{
-			$html[] = '<option value="'.$action.'">'.$label.'</option>';
+			foreach($_GET as $parameter => $value)
+			{
+				$html[] = '<input type="hidden" name="' . $parameter . '" value="' . $value . '" />';
+			}
+			$html[] = '<script type="text/javascript">
+							/* <![CDATA[ */
+							function setCheckbox(formName, value) {
+								var d = document[formName];
+								for (i = 0; i < d.elements.length; i++) {
+									if (d.elements[i].type == "checkbox") {
+									     d.elements[i].checked = value;
+									}
+								}
+							}
+							/* ]]> */
+							</script>';
+			
+			$html[] = '<div style="text-align: right;">';
+			$html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">'.Translation :: get('SelectAll').'</a>';
+			$html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">'.Translation :: get('UnSelectAll').'</a><br />';
+			$html[] = '<select name="tool_action">';
+			foreach ($this->get_actions() as $action => $label)
+			{
+				$html[] = '<option value="'.$action.'">'.$label.'</option>';
+			}
+			$html[] = '</select>';
+			$html[] = ' <input type="submit" value="'.Translation :: get('Ok').'"/>';
+			$html[] = '</form>';
+			$html[] = '</div>';
 		}
-		$html[] = '</select>';
-		$html[] = ' <input type="submit" value="'.Translation :: get('Ok').'"/>';
-		$html[] = '</div>';
 		
 		return implode("\n", $html);
 	}
@@ -68,7 +90,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		{
 			$icon_suffix = '_new';
 		}
-		$html[] = '<input type="checkbox" name="id[]" value="' . $publication->get_id() . '"/>';
+		
 		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path(). 'learning_object/' .$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
@@ -82,6 +104,8 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		$html[] = '</div>';
 		$html[] = '<div class="publication_actions">';
 		$html[] = $this->render_publication_actions($publication,$first,$last);
+		if($this->get_actions())
+			$html[] = '<input type="checkbox" name="pid[]" value="' . $publication->get_id() . '"/>';
 		$html[] = '</div>';
 		$html[] = '</div>';
 		return implode("\n", $html);

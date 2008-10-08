@@ -44,7 +44,7 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		
 		//echo '</div></div>';*/
 
-		echo '<div style="width:100%; float:right;>';
+		echo '<div style="width:100%; float:right;">';
 		echo $browser->as_html();
 		echo '</div>';
 		
