@@ -1111,14 +1111,14 @@ class RepositoryManager
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_COMPLEX_LEARNING_OBJECTS, 
 			self :: PARAM_CLOI_ID => $cloi->get_id(),
-			self :: PARAM_CLOI_ROOT_ID => $root_id));
+			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));
 	}
 	
 	function get_complex_learning_object_item_delete_url($cloi, $root_id)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_LEARNING_OBJECTS, 
 			self :: PARAM_CLOI_ID => $cloi->get_id(),
-			self :: PARAM_CLOI_ROOT_ID => $root_id));
+			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));
 	}
 	
 	function get_complex_learning_object_item_move_url($cloi, $root_id, $direction)
@@ -1126,7 +1126,7 @@ class RepositoryManager
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MOVE_COMPLEX_LEARNING_OBJECTS, 
 			self :: PARAM_CLOI_ID => $cloi->get_id(),
 			self :: PARAM_CLOI_ROOT_ID => $root_id,
-			self :: PARAM_MOVE_DIRECTION => $direction));
+			self :: PARAM_MOVE_DIRECTION => $direction, 'publish' => $_GET['publish']));
 	}
 	
 	function get_browse_complex_learning_object_url($object)
@@ -1140,7 +1140,7 @@ class RepositoryManager
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SELECT_LEARNING_OBJECTS, 
 			self :: PARAM_CLOI_ID => $clo_id,
-			self :: PARAM_CLOI_ROOT_ID => $root_id));
+			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));
 	}
 	
 	function get_add_learning_object_url($learning_object, $cloi_id, $root_id)
@@ -1148,7 +1148,7 @@ class RepositoryManager
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_ADD_LEARNING_OBJECT, 
 			self :: PARAM_CLOI_REF => $learning_object->get_id(),
 			self :: PARAM_CLOI_ID => $cloi_id,
-			self :: PARAM_CLOI_ROOT_ID => $root_id));
+			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));
 	}
 	function get_learning_object_exporting_url($learning_object)
 	{
