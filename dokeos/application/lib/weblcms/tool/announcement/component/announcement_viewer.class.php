@@ -24,26 +24,7 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		
 		echo '<br /><a name="top"></a>';
 		echo $this->perform_requested_actions();
-		echo $this->bar->as_html();
-		
-		/*$publications = $browser->get_publications();
-	
-		//echo '<div style="width:19%; float: left;">';
-		
-		$index = 0;
-		$publication_ids = array();
-		foreach($publications as $publication)
-		{
-			$publication_html[] = '<a href="#' . $index . '">' . $browser->get_publication_list_renderer()->render_title($publication) . '</a><br />';
-			$publication_ids[] = $publication->get_id();
-			$index++;
-		}
-		
-		//echo '<div style="padding: 5px; line-height: 20px;">';
-		//echo implode("\n", $publication_html);
-		
-		//echo '</div></div>';*/
-
+		echo $this->bar->as_html() . '<br />';
 		echo '<div style="width:100%; float:right;">';
 		echo $browser->as_html();
 		echo '</div>';
