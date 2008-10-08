@@ -68,7 +68,7 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 	/**
 	 * Overriding default function
 	 */
-	function as_html()
+	/*function as_html()
 	{
 		$publications = $this->get_publications();
 		if(count($publications) == 0)
@@ -87,6 +87,6 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		
 		$html_bottom[] = '</div>';
 		return implode("\n", $html_bottom);
-	}
+	}*/
 }
 ?>
