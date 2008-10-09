@@ -30,6 +30,7 @@ abstract class RepositoryTool extends Tool
 	const ACTION_MOVE_SELECTED_TO_CATEGORY = 'move_selected_to_category';
 	const ACTION_SHOW_NORMAL_MESSAGE = 'show_normal_message';
 	const ACTION_SHOW_DETAIL_FEEDBACK = 'show_detail_and_feedback';
+	const ACTION_TOGGLE_VISIBILITY_SELECTED = 'toggle_visibility_selected';
 
 	/**
 	 * @see Application :: get_categories()
@@ -127,6 +128,30 @@ abstract class RepositoryTool extends Tool
 						$publication = $datamanager->retrieve_learning_object_publication($_GET[self :: PARAM_PUBLICATION_ID]);
 						$publication->toggle_visibility();
 						if($publication->update())
+						{
+							$message = htmlentities(Translation :: get('LearningObjectPublicationVisibilityChanged'));
+						}
+					
+					}
+					break;
+				case self :: ACTION_TOGGLE_VISIBILITY_SELECTED:
+					if($this->is_allowed(EDIT_RIGHT))
+					{
+						if(isset($_GET[self :: PARAM_PUBLICATION_ID]))
+							$publication_ids = $_GET[self :: PARAM_PUBLICATION_ID]; 
+						else
+							$publication_ids = $_POST[self :: PARAM_PUBLICATION_ID]; 
+						foreach($publication_ids as $index => $pid)
+						{
+							$publication = $datamanager->retrieve_learning_object_publication($pid);
+							$publication->toggle_visibility();
+							$publication->update();
+						}
+						if(count($publication_ids) > 1)
+						{
+							$message = htmlentities(Translation :: get('LearningObjectPublicationsVisibilityChanged'));
+						}
+						else
 						{
 							$message = htmlentities(Translation :: get('LearningObjectPublicationVisibilityChanged'));
 						}

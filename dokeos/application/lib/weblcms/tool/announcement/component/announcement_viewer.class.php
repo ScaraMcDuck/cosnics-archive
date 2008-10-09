@@ -42,6 +42,12 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 				'img' => Theme :: get_common_img_path().'action_publish.png'
 		);
 		
+		$actions[] = array(
+				'href' => $this->get_url(),
+				'label' => Translation :: get('Show All'),
+				'img' => Theme :: get_common_img_path().'action_browser.png'
+		);
+		
 		return $actions;
 	}
 	
