@@ -18,6 +18,10 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 		{
 			$html[] = Display::display_normal_message(Translation :: get('NoPublicationsAvailable'),true);
 		}
+		
+		if($this->get_actions())
+			$html[] = '<form name="publication_list" action="' . $this->get_url(array('view' => $_GET['view'])) . '" method="GET" >';
+		
 		foreach ($publications as $index => $publication)
 		{
 			$first = $index == 0;
@@ -34,6 +38,40 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 				$html[] = '<h3>'.Translation :: get(date('F',$start_time).'Long').' '.date('Y',$start_time).'</h3>';
 			}
 			$html[] = implode("\n",$rendered_publication_start_time);
+		}
+		
+		if($this->get_actions() && count($publications) > 0)
+		{
+			foreach($_GET as $parameter => $value)
+			{
+				$html[] = '<input type="hidden" name="' . $parameter . '" value="' . $value . '" />';
+			}
+			
+			$html[] = '<script type="text/javascript">
+							/* <![CDATA[ */
+							function setCheckbox(formName, value) {
+								var d = document[formName];
+								for (i = 0; i < d.elements.length; i++) {
+									if (d.elements[i].type == "checkbox") {
+									     d.elements[i].checked = value;
+									}
+								}
+							}
+							/* ]]> */
+							</script>';
+			
+			$html[] = '<div style="text-align: right;">';
+			$html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">'.Translation :: get('SelectAll').'</a>';
+			$html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">'.Translation :: get('UnSelectAll').'</a><br />';
+			$html[] = '<select name="tool_action">';
+			foreach ($this->get_actions() as $action => $label)
+			{
+				$html[] = '<option value="'.$action.'">'.$label.'</option>';
+			}
+			$html[] = '</select>';
+			$html[] = ' <input type="submit" value="'.Translation :: get('Ok').'"/>';
+			$html[] = '</form>';
+			$html[] = '</div>';
 		}
 		return implode("\n", $html);
 	}
