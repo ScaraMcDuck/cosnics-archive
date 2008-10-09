@@ -31,12 +31,11 @@ class AnnouncementBrowser extends LearningObjectPublicationBrowser
 		else
 		{ 
 			$renderer = new AnnouncementPublicationListRenderer($this);
-		}
-		
-		$actions = array(Tool :: ACTION_DELETE => Translation :: get('Delete selected'), 
+			$actions = array(Tool :: ACTION_DELETE => Translation :: get('Delete selected'), 
 						 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
 						 Tool :: ACTION_SHOW => Translation :: get('Show'));
-		$renderer->set_actions($actions);
+			$renderer->set_actions($actions);
+		}
 		
 		$this->set_publication_list_renderer($renderer);
 	}

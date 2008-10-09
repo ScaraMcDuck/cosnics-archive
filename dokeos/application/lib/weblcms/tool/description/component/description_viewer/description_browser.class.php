@@ -5,9 +5,13 @@
  * @package application.weblcms.tool
  * @subpackage description
  */
-require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
-require_once dirname(__FILE__).'/../../learning_object_publication_browser.class.php';
+//require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
+require_once dirname(__FILE__).'/../../../../weblcms_data_manager.class.php';
+require_once dirname(__FILE__).'/../../../../learning_object_publication.class.php';
+require_once dirname(__FILE__).'/../../../../learning_object_publication_browser.class.php';
 require_once dirname(__FILE__).'/description_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/learning_object_publication_details_renderer.class.php';
+require_once Path :: get_repository_path() . 'lib/learning_object/description/description.class.php';
 /**
  * This class allows the end user to browse through published descriptions.
  */
@@ -21,6 +25,10 @@ class DescriptionBrowser extends LearningObjectPublicationBrowser
 		parent :: __construct($parent, 'description');
 		$renderer = new DescriptionPublicationListRenderer($this);
 		$this->set_publication_list_renderer($renderer);
+		$actions = array(Tool :: ACTION_DELETE => Translation :: get('Delete selected'), 
+						 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
+						 Tool :: ACTION_SHOW => Translation :: get('Show'));
+		$renderer->set_actions($actions);
 	}
 	/*
 	 * Inherited.
@@ -40,7 +48,7 @@ class DescriptionBrowser extends LearningObjectPublicationBrowser
 			$user_id = $this->get_user_id();
 			$groups = $this->get_groups();
 		}
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups, $condition, false);
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups, $condition, false, array (LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $this->get_parent()->get_condition());
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{
