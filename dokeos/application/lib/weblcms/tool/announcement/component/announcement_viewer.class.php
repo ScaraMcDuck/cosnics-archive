@@ -23,7 +23,7 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		$this->display_header($trail);
 		
 		echo '<br /><a name="top"></a>';
-		echo $this->perform_requested_actions();
+		//echo $this->perform_requested_actions();
 		echo $this->bar->as_html() . '<br />';
 		echo '<div style="width:100%; float:right;">';
 		echo $browser->as_html();
