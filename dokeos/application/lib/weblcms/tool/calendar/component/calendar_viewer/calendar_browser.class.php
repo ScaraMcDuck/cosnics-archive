@@ -60,7 +60,10 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 				case CalendarBrowser::CALENDAR_LIST_VIEW:
 				{
 					$renderer = new CalendarListRenderer($this);
-					//$renderer->set_display_time($time);
+					$actions = array(Tool :: ACTION_DELETE => Translation :: get('Delete selected'), 
+						 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
+						 Tool :: ACTION_SHOW => Translation :: get('Show'));
+					$renderer->set_actions($actions);
 					break;
 				}
 				default:
@@ -70,6 +73,7 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 				}
 			}
 		}
+			
 		$this->set_publication_list_renderer($renderer);
 	}
 
