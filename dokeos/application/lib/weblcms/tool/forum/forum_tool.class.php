@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  * @subpackage forum
  */
-require_once dirname(__FILE__).'/../repository_tool.class.php';
+//require_once dirname(__FILE__).'/../repository_tool.class.php';
 require_once dirname(__FILE__).'/forum_browser.class.php';
 require_once dirname(__FILE__).'/forum_topic_browser.class.php';
 require_once dirname(__FILE__).'/forum_post_browser.class.php';
@@ -14,7 +14,7 @@ require_once dirname(__FILE__).'/../../learning_object_publication_category_mana
 /**
  * This tool allows a user to publish forums in his or her course.
  */
-class ForumTool extends RepositoryTool
+class ForumTool extends Tool
 {
 	/*
 	 * Inherited.

@@ -5,14 +5,14 @@
  * @package application.weblcms.tool
  * @subpackage maintenance
  */
-require_once dirname(__FILE__).'/../repository_tool.class.php';
+//require_once dirname(__FILE__).'/../repository_tool.class.php';
 require_once dirname(__FILE__).'/inc/maintenance_wizard.class.php';
 /**
  * This tool implements some maintenance tools for a course.
  * It gives a course administrator the possibilities to copy course content,
  * remove publications from the course, create & restore backups,...
  */
-class MaintenanceTool extends RepositoryTool
+class MaintenanceTool extends Tool
 {
 	function run()
 	{

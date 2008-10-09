@@ -5,12 +5,12 @@
  * @package application.weblcms.tool
  * @subpackage wiki
  */
-require_once dirname(__FILE__).'/../repository_tool.class.php';
+//require_once dirname(__FILE__).'/../repository_tool.class.php';
 require_once dirname(__FILE__).'/wiki_browser.class.php';
 /**
  * This tool allows a user to publish wikis in his or her course.
  */
-class WikiTool extends RepositoryTool
+class WikiTool extends Tool
 {
 	// Inherited.
 	function run()

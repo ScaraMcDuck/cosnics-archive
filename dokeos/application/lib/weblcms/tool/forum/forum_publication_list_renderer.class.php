@@ -28,7 +28,7 @@ class ForumPublicationListRenderer extends TableLearningObjectPublicationListRen
     	}
     	if($browser->is_allowed(EDIT_RIGHT) || $browser->is_allowed(DELETE_RIGHT))
     	{
-    		$actions[RepositoryTool::ACTION_DELETE_SELECTED] = Translation :: get('Delete');
+    		$actions[Tool::ACTION_DELETE_SELECTED] = Translation :: get('Delete');
     		$this->table->set_form_actions($actions);
     	}
     }

@@ -5,12 +5,12 @@
  * @package application.weblcms.tool
  * @subpackage learning_path
  */
-require_once dirname(__FILE__).'/../repository_tool.class.php';
+//require_once dirname(__FILE__).'/../repository_tool.class.php';
 require_once dirname(__FILE__).'/learning_path_browser.class.php';
 /**
  * This tool allows a user to publish learning paths in his or her course.
  */
-class LearningPathTool extends RepositoryTool
+class LearningPathTool extends Tool
 {
 	// Inherited.
 	function run()

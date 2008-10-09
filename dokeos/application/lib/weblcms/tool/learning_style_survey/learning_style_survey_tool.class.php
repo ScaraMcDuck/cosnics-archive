@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../repository_tool.class.php';
+//require_once dirname(__FILE__).'/../repository_tool.class.php';
 require_once dirname(__FILE__).'/learning_style_survey_browser.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_form.class.php';
@@ -11,7 +11,7 @@ require_once Path :: get_library_path().'condition/equality_condition.class.php'
 /**
  * @author Tim De Pauw
  */
-class LearningStyleSurveyTool extends RepositoryTool
+class LearningStyleSurveyTool extends Tool
 {
 	const PARAM_SURVEY_PROFILE_ID = 'survey_profile';
 	const PARAM_VIEW_SURVEY_RESULTS = 'view_survey_results';

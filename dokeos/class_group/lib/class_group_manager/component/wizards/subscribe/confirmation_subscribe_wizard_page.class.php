@@ -18,7 +18,7 @@ class ConfirmationSubscribeWizardPage extends SubscribeWizardPage
 	/**
 	 * Constructor
 	 * @param string $name The name of this MaintenanceWizardPage
-	 * @param RepositoryTool $parent The repository tool in which this
+	 * @param Tool $parent The repository tool in which this
 	 * MaintenanceWizardPage is used
 	 * @param string $message The message which has to be confirmed by the user
 	 */

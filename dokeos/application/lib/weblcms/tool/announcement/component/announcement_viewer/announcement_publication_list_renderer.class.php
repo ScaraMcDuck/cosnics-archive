@@ -25,7 +25,7 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		if (!$first)
 		{
 			$up_img = 'action_up.png';
-			$up_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_DOWN, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+			$up_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 			$up_link = '<a href="'.$up_url.'"><img src="'.Theme :: get_common_img_path().$up_img.'" alt=""/></a>';
 		}
 		else
@@ -48,7 +48,7 @@ class AnnouncementPublicationListRenderer extends ListLearningObjectPublicationL
 		if (!$last)
 		{
 			$down_img = 'action_down.png';
-			$down_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_UP, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+			$down_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 			$down_link = '<a href="'.$down_url.'"><img src="'.Theme :: get_common_img_path().$down_img.'"  alt=""/></a>';
 		}
 		else

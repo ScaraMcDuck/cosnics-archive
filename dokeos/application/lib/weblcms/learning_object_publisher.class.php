@@ -51,7 +51,7 @@ class LearningObjectPublisher extends Publisher
 	}
 	
 	/**
-	 * @see RepositoryTool::get_course()
+	 * @see Tool::get_course()
 	 */
 	function get_course()
 	{
@@ -59,7 +59,7 @@ class LearningObjectPublisher extends Publisher
 	}
 	
 	/**
-	 * @see RepositoryTool::get_course_id()
+	 * @see Tool::get_course_id()
 	 */
 	function get_course_id()
 	{

@@ -45,7 +45,7 @@ abstract class LearningObjectPublicationBrowser
 
 	/**
 	 * Constructor.
-	 * @param RepositoryTool $parent The tool that instantiated this browser.
+	 * @param Tool $parent The tool that instantiated this browser.
 	 * @param mixed $types The types of learning objects for which
 	 *                     publications need to be displayed.
 	 */
@@ -122,7 +122,7 @@ abstract class LearningObjectPublicationBrowser
 
 	/**
 	 * Returns the repository tool that this browser is associated with.
-	 * @return RepositoryTool The tool.
+	 * @return Tool The tool.
 	 */
 	function get_parent()
 	{
@@ -139,7 +139,7 @@ abstract class LearningObjectPublicationBrowser
 	}
 
 	/**
-	 * @see RepositoryTool :: get_user_id()
+	 * @see Tool :: get_user_id()
 	 */
 	function get_user_id()
 	{
@@ -152,7 +152,7 @@ abstract class LearningObjectPublicationBrowser
 	}
 
 	/**
-	 * @see RepositoryTool :: get_groups()
+	 * @see Tool :: get_groups()
 	 */
 	function get_groups()
 	{
@@ -160,7 +160,7 @@ abstract class LearningObjectPublicationBrowser
 	}
 
 	/**
-	 * @see RepositoryTool :: get_course_id()
+	 * @see Tool :: get_course_id()
 	 */
 	function get_course_id()
 	{
@@ -168,7 +168,7 @@ abstract class LearningObjectPublicationBrowser
 	}
 
 	/**
-	 * @see RepositoryTool :: get_categories()
+	 * @see Tool :: get_categories()
 	 */
 	function get_categories($list = false)
 	{
@@ -176,7 +176,7 @@ abstract class LearningObjectPublicationBrowser
 	}
 
 	/**
-	 * @see RepositoryTool :: get_url()
+	 * @see Tool :: get_url()
 	 */
 	function get_url($parameters = array(), $encode = false)
 	{
@@ -184,7 +184,7 @@ abstract class LearningObjectPublicationBrowser
 	}
 
 	/**
-	 * @see RepositoryTool :: get_parameters()
+	 * @see Tool :: get_parameters()
 	 */
 	function get_parameters ()
 	{
@@ -192,7 +192,7 @@ abstract class LearningObjectPublicationBrowser
 	}
 
 	/**
-	 * @see RepositoryTool :: get_parameter()
+	 * @see Tool :: get_parameter()
 	 */
 	 function get_parameter($name)
 	 {

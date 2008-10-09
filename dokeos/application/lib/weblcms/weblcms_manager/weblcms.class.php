@@ -839,7 +839,7 @@ class Weblcms extends WebApplication
 	{
 		$class = Tool :: type_to_class($tool);
 		$tool_object = new $class ($this);
-		if(is_subclass_of($tool_object,'RepositoryTool'))
+		if(is_subclass_of($tool_object,'Tool'))
 		{
 			$last_visit_date = $this->get_last_visit_date($tool);
 			$wdm = WeblcmsDataManager :: get_instance();

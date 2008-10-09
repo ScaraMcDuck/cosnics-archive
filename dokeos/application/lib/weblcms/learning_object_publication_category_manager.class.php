@@ -61,7 +61,7 @@ class LearningObjectPublicationCategoryManager
 		return $this->parent->get_url($parameters, $encode);
 	}
 	/**
-	 * @see RepositoryTool :: get_categories()
+	 * @see Tool :: get_categories()
 	 */
 	function get_categories($list = false)
 	{
