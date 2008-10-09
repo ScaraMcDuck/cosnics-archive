@@ -21,7 +21,7 @@ class ExerciseToolViewerComponent extends ExerciseToolComponent
 		$trail = new BreadCrumbTrail();
 		$this->display_header($trail);
 		
-		echo $this->perform_requested_actions();
+		//echo $this->perform_requested_actions();
 		
 		$action_bar = new ActionBarRenderer($this->get_left_actions(), $this->get_right_actions(), $this->get_url());
 		echo $action_bar->as_html();
@@ -49,7 +49,7 @@ class ExerciseToolViewerComponent extends ExerciseToolComponent
 	
 		if(count($publications) >= 1)
 		{
-			$delete_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_DELETE_SELECTED, RepositoryTool :: PARAM_PUBLICATION_ID => $publication_ids), true);
+			$delete_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_DELETE_SELECTED, Tool :: PARAM_PUBLICATION_ID => $publication_ids), true);
 			echo '<br /><a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'action_delete.png"  alt="' . Translation :: get('Clear_list_of_announcements') . '"/> ' . Translation :: get('Clear_list_of_announcements') . '</a>';
 		}*/
 		

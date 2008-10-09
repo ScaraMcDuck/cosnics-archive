@@ -19,7 +19,7 @@ class MigrationWizardDisplay extends HTML_QuickForm_Action_Display
 	private $parent;
 	/**
 	 * Constructor
-	 * @param RepositoryTool $parent The repository tool in which the wizard
+	 * @param Tool $parent The repository tool in which the wizard
 	 * runs
 	 */
 	public function MigrationWizardDisplay($parent)

@@ -18,7 +18,7 @@ abstract class SubscribeWizardPage extends HTML_QuickForm_Page
 	/**
 	 * Constructor
 	 * @param string $name A unique name of this page in the wizard
-	 * @param RepositoryTool $parent The repository tool in which the wizard
+	 * @param Tool $parent The repository tool in which the wizard
 	 * runs.
 	 */
 	public function SubscribeWizardPage($name,$parent,$wizard = null)
@@ -31,7 +31,7 @@ abstract class SubscribeWizardPage extends HTML_QuickForm_Page
 	}
 	/**
 	 * Returns the repository tool in which this wizard runs
-	 * @return RepositoryTool
+	 * @return Tool
 	 */
 	function get_parent()
 	{

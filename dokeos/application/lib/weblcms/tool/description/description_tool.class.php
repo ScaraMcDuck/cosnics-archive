@@ -5,12 +5,12 @@
  * @package application.weblcms.tool
  * @subpackage description
  */
-require_once dirname(__FILE__).'/../repository_tool.class.php';
+//require_once dirname(__FILE__).'/../repository_tool.class.php';
 require_once dirname(__FILE__).'/description_browser.class.php';
 /**
  * This tool allows a user to publish descriptions in his or her course.
  */
-class DescriptionTool extends RepositoryTool
+class DescriptionTool extends Tool
 {
 	// Inherited.
 	function run()

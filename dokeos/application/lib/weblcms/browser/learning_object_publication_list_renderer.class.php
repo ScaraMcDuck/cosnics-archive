@@ -179,7 +179,7 @@ abstract class LearningObjectPublicationListRenderer
 		if (!$first)
 		{
 			$up_img = 'action_up.png';
-			$up_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_UP, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+			$up_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 			$up_link = '<a href="'.$up_url.'"><img src="'.Theme :: get_common_img_path().$up_img.'" alt=""/></a>';
 		}
 		else
@@ -201,7 +201,7 @@ abstract class LearningObjectPublicationListRenderer
 		if (!$last)
 		{
 			$down_img = 'action_down.png';
-			$down_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_DOWN, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+			$down_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 			$down_link = '<a href="'.$down_url.'"><img src="'.Theme :: get_common_img_path().$down_img.'"  alt=""/></a>';
 		}
 		else
@@ -218,7 +218,7 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_visibility_action($publication)
 	{
-		$visibility_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_TOGGLE_VISIBILITY, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+		$visibility_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 		if($publication->is_hidden())
 		{
 			$visibility_img = 'action_invisible.png';
@@ -242,7 +242,7 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_edit_action($publication)
 	{
-		$edit_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_EDIT, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+		$edit_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 		$edit_link = '<a href="'.$edit_url.'"><img src="'.Theme :: get_common_img_path().'action_edit.png"  alt=""/></a>';
 		return $edit_link;
 	}
@@ -254,7 +254,7 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_delete_action($publication)
 	{
-		$delete_url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_DELETE, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+		$delete_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'action_delete.png"  alt=""/></a>';
 		return $delete_link;
 	}
@@ -266,7 +266,7 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_feedback_action($publication)
 	{
-		$feedback_url = $this->get_url(array (RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'), true);
+		$feedback_url = $this->get_url(array (Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'), true);
 		$feedback_link = '<a href="'.$feedback_url.'"><img src="'.Theme :: get_common_img_path().'action_browser.png" alt=""/></a>';
 		return $feedback_link;
 	}
@@ -281,7 +281,7 @@ abstract class LearningObjectPublicationListRenderer
 		$categories = $this->browser->get_categories(true);
 		if(count($categories) > 1)
 		{
-			$url = $this->get_url(array (RepositoryTool :: PARAM_ACTION => RepositoryTool :: ACTION_MOVE_TO_CATEGORY, RepositoryTool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+			$url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 			$link = '<a href="'.$url.'"><img src="'.Theme :: get_common_img_path().'action_move.png"  alt=""/></a>';
 		}
 		else

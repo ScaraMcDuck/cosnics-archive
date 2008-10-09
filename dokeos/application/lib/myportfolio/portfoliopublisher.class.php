@@ -70,7 +70,7 @@ class PortfolioPublisher
 
 	/**
 	 * Returns the tool which created this publisher.
-	 * @return RepositoryTool The tool.
+	 * @return Tool The tool.
 	 */
 	function get_parent()
 	{
@@ -78,7 +78,7 @@ class PortfolioPublisher
 	}
 
 	/**
-	 * @see RepositoryTool::get_user_id()
+	 * @see Tool::get_user_id()
 	 */
 	function get_user_id()
 	{
@@ -109,7 +109,7 @@ class PortfolioPublisher
 	}
 
 	/**
-	 * @see RepositoryTool::get_url()
+	 * @see Tool::get_url()
 	 */
 	function get_url($parameters = array(), $encode = false)
 	{
@@ -117,7 +117,7 @@ class PortfolioPublisher
 	}
 
 	/**
-	 * @see RepositoryTool::get_parameters()
+	 * @see Tool::get_parameters()
 	 */
 	function get_parameters()
 	{
@@ -125,7 +125,7 @@ class PortfolioPublisher
 	}
 
 	/**
-	 * @see RepositoryTool::set_parameter()
+	 * @see Tool::set_parameter()
 	 */
 	function set_parameter($name, $value)
 	{

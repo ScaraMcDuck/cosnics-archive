@@ -53,7 +53,7 @@ class Publisher
 
 	/**
 	 * Returns the tool which created this publisher.
-	 * @return RepositoryTool The tool.
+	 * @return Tool The tool.
 	 */
 	function get_parent()
 	{
@@ -61,7 +61,7 @@ class Publisher
 	}
 
 	/**
-	 * @see RepositoryTool::get_user_id()
+	 * @see Tool::get_user_id()
 	 */
 	function get_user_id()
 	{

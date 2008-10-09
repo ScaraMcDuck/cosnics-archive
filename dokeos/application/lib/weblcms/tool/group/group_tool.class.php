@@ -45,7 +45,7 @@ class GroupTool extends Tool
 		$dm = WeblcmsDataManager :: get_instance();
 		$course = $this->get_parent()->get_course();
 		$groups = $dm->retrieve_groups($course->get_id());
-		$param_add_group[RepositoryTool :: PARAM_ACTION] = self :: ACTION_ADD_GROUP;
+		$param_add_group[Tool :: PARAM_ACTION] = self :: ACTION_ADD_GROUP;
 		$this->search_form = new GroupToolSearchForm($this, $this->get_url());
 		// We are inside a group area
 		if (!is_null($this->get_parent()->get_group()))
@@ -133,7 +133,7 @@ class GroupTool extends Tool
 		// We are outside a group area
 		else
 		{
-			switch ($_GET[RepositoryTool :: PARAM_ACTION])
+			switch ($_GET[Tool :: PARAM_ACTION])
 			{
 				// Create a new group
 				case self :: ACTION_ADD_GROUP :

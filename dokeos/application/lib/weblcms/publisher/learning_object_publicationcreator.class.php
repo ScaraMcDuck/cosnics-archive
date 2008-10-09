@@ -28,7 +28,7 @@ class LearningObjectPublisherPublicationCreatorComponent extends PublisherPublic
 		{ 
 			$publication = $form->create_learning_object_publication();
 			// TODO: Use a function for this.
-			//$parameters['action'] = RepositoryTool::ACTION_SHOW_NORMAL_MESSAGE;
+			//$parameters['action'] = Tool::ACTION_SHOW_NORMAL_MESSAGE;
 			$parameters['message'] = Translation :: get('ObjectPublished');
 			$parameters['pcattree'] = $publication->get_category_id();
 			$url = $this->get_url($parameters);

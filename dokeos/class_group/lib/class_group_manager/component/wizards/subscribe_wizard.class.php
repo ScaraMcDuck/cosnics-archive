@@ -26,7 +26,7 @@ class SubscribeWizard extends HTML_QuickForm_Controller
 	private $parent;
 	/**
 	 * Creates a new MaintenanceWizard
-	 * @param RepositoryTool $parent The repository tool in which this wizard
+	 * @param Tool $parent The repository tool in which this wizard
 	 * runs.
 	 */
 	function SubscribeWizard($parent)

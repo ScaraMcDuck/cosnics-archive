@@ -5,12 +5,12 @@
  * @package application.weblcms.tool
  * @subpackage document
  */
-require_once dirname(__FILE__).'/../repository_tool.class.php';
+//require_once dirname(__FILE__).'/../repository_tool.class.php';
 require_once Path :: get_library_path().'filecompression/filecompression.class.php';
 /**
  * This tool allows a user to publish documents in his or her course.
  */
-class DocumentTool extends RepositoryTool
+class DocumentTool extends Tool
 {
 	const ACTION_DOWNLOAD = 'download';
 	const ACTION_ZIP_AND_DOWNLOAD = 'zipanddownload';
@@ -57,7 +57,7 @@ class DocumentTool extends RepositoryTool
 			}
 			if($_SESSION['documenttoolmode'] == 0)
 			{
-				$download_parameters[RepositoryTool::PARAM_ACTION] = self::ACTION_ZIP_AND_DOWNLOAD;
+				$download_parameters[Tool::PARAM_ACTION] = self::ACTION_ZIP_AND_DOWNLOAD;
 				$html[] =  '<li style="display: inline; margin: 0 1ex 0 0; padding: 0">';
 				$html[] =   '<a href="' . $this->get_url($download_parameters) . '">';
 				$html[] = '<img src="'.Theme :: get_common_img_path().'action_save.png" alt="'.Translation :: get('Download').'" style="vertical-align:middle;"/> ';
@@ -96,14 +96,14 @@ class DocumentTool extends RepositoryTool
 	}
 	function perform_requested_actions()
 	{
-		$action = isset($_POST[RepositoryTool :: PARAM_ACTION]) ? $_POST[RepositoryTool :: PARAM_ACTION] : $_GET[RepositoryTool :: PARAM_ACTION];
+		$action = isset($_POST[Tool :: PARAM_ACTION]) ? $_POST[Tool :: PARAM_ACTION] : $_GET[Tool :: PARAM_ACTION];
 		if( isset($action) )
 		{
 			$datamanager = WeblcmsDataManager :: get_instance();
 			switch($action)
 			{
 				case self::	ACTION_DOWNLOAD:
-					$publication_id = $_GET[RepositoryTool :: PARAM_PUBLICATION_ID];
+					$publication_id = $_GET[Tool :: PARAM_PUBLICATION_ID];
 					$publication = $datamanager->retrieve_learning_object_publication($publication_id);
 					$document = $publication->get_learning_object();
 					$document->send_as_download();

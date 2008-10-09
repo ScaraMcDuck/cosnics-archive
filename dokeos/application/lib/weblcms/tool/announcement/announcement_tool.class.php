@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  * @subpackage announcement
  */
-require_once dirname(__FILE__).'/../repository_tool.class.php';
+
 require_once dirname(__FILE__).'/announcement_tool_component.class.php';
 /**
  * This tool allows a user to publish announcements in his or her course.
