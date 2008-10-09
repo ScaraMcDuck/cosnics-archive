@@ -19,10 +19,15 @@ abstract class Tool
 {
 	const PARAM_ACTION = 'tool_action';
 	const PARAM_PUBLICATION_ID = 'pid';
+	const PARAM_MOVE = 'move';
 	const PARAM_VISIBILITY = 'visible';
-	
+
 	const ACTION_PUBLISH = 'publish';
 	const ACTION_EDIT = 'edit';
+	const ACTION_MOVE_UP = 'move_up';
+	const ACTION_MOVE_DOWN = 'move_down';
+	const ACTION_MOVE_TO_CATEGORY = 'move_to_category';
+	const ACTION_MOVE_SELECTED_TO_CATEGORY = 'move_selected_to_category';
 	const ACTION_DELETE = 'delete';
 	const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
 	const ACTION_SHOW = 'show';
@@ -78,6 +83,22 @@ abstract class Tool
 		{
 			case self :: ACTION_EDIT :
 				$component = ToolComponent :: factory('', 'Edit', $this);
+				break;
+			case self :: ACTION_MOVE_UP:
+				$_GET[self :: PARAM_MOVE] = -1;
+				$component = ToolComponent :: factory('', 'Move', $this);
+				
+				break;
+			case self :: ACTION_MOVE_DOWN:
+				$_GET[self :: PARAM_MOVE] = 1;
+				$component = ToolComponent :: factory('', 'Move', $this);
+				
+				break;
+			case self :: ACTION_MOVE_TO_CATEGORY:
+				$component = ToolComponent :: factory('', 'MoveSelectedToCategory', $this);
+				break;
+			case self :: ACTION_MOVE_SELECTED_TO_CATEGORY:
+				$component = ToolComponent :: factory('', 'MoveSelectedToCategory', $this);
 				break;
 			case self :: ACTION_DELETE :
 				$component = ToolComponent :: factory('', 'Delete', $this);
