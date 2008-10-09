@@ -47,7 +47,7 @@ class WeekCalendarLearningObjectPublicationListRenderer extends LearningObjectPu
 			}
 			$table_date = $next_table_date;
 		}
-		$url_format = $this->get_url(array('time' => '-TIME-'));
+		$url_format = $this->get_url(array('time' => '-TIME-', 'view' => $_GET['view']));
 		$calendar_table->add_calendar_navigation($url_format);
 		$html[] = $calendar_table->toHtml();
 		return implode("\n",$html);

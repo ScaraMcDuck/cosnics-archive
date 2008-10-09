@@ -17,20 +17,15 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 			return;
 		}
 		$this->bar = new ActionBarRenderer($this->get_left_actions(), $this->get_right_actions(), 
-			(($_GET['view'] == 'list') || (!isset($_GET['view']))?
-			$this->get_url():null));
-		
+			($_GET['view'] == 'list')?$this->get_url(array('view' => $_GET['view'])):null);
+
 		$time = isset($_GET['time']) ? intval($_GET['time']) : time();
 		$this->set_parameter('time',$time);
-
 		$browser = new CalendarBrowser($this);
 		
 		$trail = new BreadcrumbTrail();
-		
 		$this->display_header($trail);
-		
 		echo '<br /><a name="top"></a>';
-		//echo $this->perform_requested_actions();
 		echo $this->bar->as_html() . '<br />';
 		echo '<div style="width:100%; float:right;">';
 		echo $browser->as_html();
@@ -48,12 +43,14 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 				'label' => Translation :: get('Publish'),
 				'img' => Theme :: get_common_img_path().'action_publish.png'
 		);
-		
-		$actions[] = array(
-				'href' => $this->get_url(),
-				'label' => Translation :: get('Show All'),
-				'img' => Theme :: get_common_img_path().'action_browser.png'
-		);
+		if($_GET['view'] == 'list')
+		{
+			$actions[] = array(
+					'href' => $this->get_url(array('view' => 'list')),
+					'label' => Translation :: get('Show All'),
+					'img' => Theme :: get_common_img_path().'action_browser.png'
+			);
+		}
 		
 		return $actions;
 	}
@@ -63,22 +60,22 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 		$toolbar_data = array();
 		
 		$toolbar_data[] = array(
-			'href' => $this->get_url(array('view'=>'list')),
+			'href' => $this->get_url(array('view'=>'list', 'time' => $_GET['time'])),
 			'img' => Theme :: get_img_path().'tool_calendar_down.png',
 			'label' => Translation :: get('ListView'),
 		);
 		$toolbar_data[] = array(
-			'href' => $this->get_url(array('view'=>'month')),
+			'href' => $this->get_url(array('view'=>'month', 'time' => $_GET['time'])),
 			'img' => Theme :: get_img_path().'tool_calendar_month.png',
 			'label' => Translation :: get('MonthView'),
 		);
 		$toolbar_data[] = array(
-			'href' => $this->get_url(array('view'=>'week')),
+			'href' => $this->get_url(array('view'=>'week', 'time' => $_GET['time'])),
 			'img' => Theme :: get_img_path().'tool_calendar_week.png',
 			'label' => Translation :: get('WeekView'),
 		);
 		$toolbar_data[] = array(
-			'href' => $this->get_url(array('view'=>'day')),
+			'href' => $this->get_url(array('view'=>'day', 'time' => $_GET['time'])),
 			'img' => Theme :: get_img_path().'tool_calendar_day.png',
 			'label' => Translation :: get('DayView'),
 		);
