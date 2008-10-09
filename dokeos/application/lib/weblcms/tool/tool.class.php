@@ -19,11 +19,14 @@ abstract class Tool
 {
 	const PARAM_ACTION = 'tool_action';
 	const PARAM_PUBLICATION_ID = 'pid';
+	const PARAM_VISIBILITY = 'visible';
 	
 	const ACTION_PUBLISH = 'publish';
 	const ACTION_EDIT = 'edit';
 	const ACTION_DELETE = 'delete';
 	const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
+	const ACTION_SHOW = 'show';
+	const ACTION_HIDE = 'hide';
 	
 	/**
 	 * The action of the tool
@@ -80,6 +83,14 @@ abstract class Tool
 				$component = ToolComponent :: factory('', 'Delete', $this);
 				break;
 			case self :: ACTION_TOGGLE_VISIBILITY :
+				$component = ToolComponent :: factory('', 'ToggleVisibility', $this);
+				break;
+			case self :: ACTION_SHOW :
+				$_GET[PARAM_VISIBILITY] = 0;
+				$component = ToolComponent :: factory('', 'ToggleVisibility', $this);
+				break;
+			case self :: ACTION_HIDE :
+				$_GET[PARAM_VISIBILITY] = 1;
 				$component = ToolComponent :: factory('', 'ToggleVisibility', $this);
 				break;
 		}
