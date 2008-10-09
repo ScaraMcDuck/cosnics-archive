@@ -18,7 +18,10 @@ require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 abstract class Tool
 {
 	const PARAM_ACTION = 'tool_action';
+	const PARAM_PUBLICATION_ID = 'pid';
+	
 	const ACTION_PUBLISH = 'publish';
+	const ACTION_EDIT = 'edit';
 	
 	/**
 	 * The action of the tool
@@ -61,7 +64,22 @@ abstract class Tool
 	/**
 	 * Runs the tool, performing whatever actions are necessary.
 	 */
-	abstract function run();
+	function run()
+	{
+		$action = $this->get_action();
+		$component = null;
+
+		switch ($action)
+		{
+			case self :: ACTION_EDIT :
+				$component = ToolComponent :: factory('', 'Edit', $this);
+				break;
+		}
+		if($component)
+			$component->run();
+		
+		return $component;
+	}
 
 	/**
 	 * Returns the application that this tool is associated with.

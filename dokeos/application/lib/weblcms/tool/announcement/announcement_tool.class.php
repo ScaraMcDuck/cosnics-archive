@@ -20,8 +20,10 @@ class AnnouncementTool extends RepositoryTool
 	function run()
 	{
 		$action = $this->get_action();
-		$component = null;
-
+		$component = parent :: run();
+		
+		if($component) return;
+		
 		switch ($action)
 		{
 			case self :: ACTION_VIEW_ANNOUNCEMENTS :

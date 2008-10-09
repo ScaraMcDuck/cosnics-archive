@@ -193,7 +193,7 @@ abstract class ToolComponent
 	{
 		$filename = dirname(__FILE__).'/'.
 			DokeosUtilities :: camelcase_to_underscores($tool_name).'/component/' . 
-			DokeosUtilities :: camelcase_to_underscores($tool_name). '_' . 
+			DokeosUtilities :: camelcase_to_underscores($tool_name). ($tool_name?'_':'') . 
 			DokeosUtilities :: camelcase_to_underscores($component_name). '.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
