@@ -85,12 +85,12 @@ abstract class Tool
 				$component = ToolComponent :: factory('', 'Edit', $this);
 				break;
 			case self :: ACTION_MOVE_UP:
-				$_GET[self :: PARAM_MOVE] = -1;
+				$_GET[self :: PARAM_MOVE] = 1;
 				$component = ToolComponent :: factory('', 'Move', $this);
 				
 				break;
 			case self :: ACTION_MOVE_DOWN:
-				$_GET[self :: PARAM_MOVE] = 1;
+				$_GET[self :: PARAM_MOVE] = -1;
 				$component = ToolComponent :: factory('', 'Move', $this);
 				
 				break;

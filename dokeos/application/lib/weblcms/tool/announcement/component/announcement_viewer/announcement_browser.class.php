@@ -7,9 +7,9 @@
  */
 require_once dirname(__FILE__).'/../../../../weblcms_data_manager.class.php';
 require_once dirname(__FILE__).'/../../../../learning_object_publication_browser.class.php';
-require_once dirname(__FILE__).'/announcement_publication_list_renderer.class.php';
 require_once dirname(__FILE__).'/../../../../browser/list_renderer/learning_object_publication_details_renderer.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object/announcement/announcement.class.php';
+require_once Path :: get_repository_path() . 'lib/learning_object/description/description.class.php';
 /**
  * Browser to allow the user to view the published announcements
  */
@@ -30,7 +30,7 @@ class AnnouncementBrowser extends LearningObjectPublicationBrowser
 		}
 		else
 		{ 
-			$renderer = new AnnouncementPublicationListRenderer($this);
+			$renderer = new ListLearningObjectPublicationListRenderer($this);
 			$actions = array(Tool :: ACTION_DELETE => Translation :: get('Delete selected'), 
 						 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
 						 Tool :: ACTION_SHOW => Translation :: get('Show'));

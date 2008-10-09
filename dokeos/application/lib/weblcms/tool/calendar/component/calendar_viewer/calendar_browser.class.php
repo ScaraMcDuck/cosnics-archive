@@ -5,14 +5,14 @@
  * @package application.weblcms.tool
  * @subpackage calendar
  */
-require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
-require_once dirname(__FILE__).'/../../learning_object_publication_browser.class.php';
+require_once dirname(__FILE__).'/../../../../weblcms_data_manager.class.php';
+require_once dirname(__FILE__).'/../../../../learning_object_publication_browser.class.php';
 require_once dirname(__FILE__).'/calendar_list_renderer.class.php';
-require_once dirname(__FILE__).'/../../browser/list_renderer/mini_month_calendar_learning_object_publication_list_renderer.class.php';
-require_once dirname(__FILE__).'/../../browser/list_renderer/month_calendar_learning_object_publication_list_renderer.class.php';
-require_once dirname(__FILE__).'/../../browser/list_renderer/week_calendar_learning_object_publication_list_renderer.class.php';
-require_once dirname(__FILE__).'/../../browser/list_renderer/day_calendar_learning_object_publication_list_renderer.class.php';
-require_once dirname(__FILE__).'/../../browser/list_renderer/learning_object_publication_details_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/mini_month_calendar_learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/month_calendar_learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/week_calendar_learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/day_calendar_learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/learning_object_publication_details_renderer.class.php';
 
 class CalendarBrowser extends LearningObjectPublicationBrowser
 {
@@ -21,7 +21,7 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 	const CALENDAR_DAY_VIEW = 'day';
 	const CALENDAR_LIST_VIEW = 'list';
 	private $publications;
-	function CalendarBrowser($parent, $types)
+	function CalendarBrowser($parent)
 	{
 		parent :: __construct($parent, 'calendar');
 		if(isset($_GET['pid']))
@@ -31,42 +31,33 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 		}
 		else
 		{
-			$renderer = new CalendarListRenderer($this);
-		}
-		$this->set_publication_list_renderer($renderer);
-	}
-
-	function set_view($view = CALENDAR_MONTH_VIEW,$time = null)
-	{
-		if(is_null($time))
-		{
 			$time = time();
-		}
-		$this->time = $time;
-		switch($view)
-		{
-			case CalendarBrowser::CALENDAR_DAY_VIEW:
+
+			switch($_GET['view'])
 			{
-				$renderer = new DayCalendarLearningObjectPublicationListRenderer($this);
-				$renderer->set_display_time($time);
-				break;
-			}
-			case CalendarBrowser::CALENDAR_WEEK_VIEW:
-			{
-				$renderer = new WeekCalendarLearningObjectPublicationListRenderer($this);
-				$renderer->set_display_time($time);
-				break;
-			}
-			case CalendarBrowser::CALENDAR_MONTH_VIEW:
-			{
-				$renderer = new MonthCalendarLearningObjectPublicationListRenderer($this);
-				$renderer->set_display_time($time);
-				break;
-			}
-			default:
-			{
-				$renderer = new CalendarListRenderer($this);
-				break;
+				case CalendarBrowser::CALENDAR_DAY_VIEW:
+				{
+					$renderer = new DayCalendarLearningObjectPublicationListRenderer($this);
+					$renderer->set_display_time($time);
+					break;
+				}
+				case CalendarBrowser::CALENDAR_WEEK_VIEW:
+				{
+					$renderer = new WeekCalendarLearningObjectPublicationListRenderer($this);
+					$renderer->set_display_time($time);
+					break;
+				}
+				case CalendarBrowser::CALENDAR_MONTH_VIEW:
+				{
+					$renderer = new MonthCalendarLearningObjectPublicationListRenderer($this);
+					$renderer->set_display_time($time);
+					break;
+				}
+				default:
+				{
+					$renderer = new CalendarListRenderer($this);
+					break;
+				}
 			}
 		}
 		$this->set_publication_list_renderer($renderer);
@@ -91,7 +82,7 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 		}
 		$datamanager = WeblcmsDataManager :: get_instance();
 		$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'calendar');
-		$this->publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups,$condition)->as_array();
+		$this->publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups,$condition, false, array(), array(), 0, -1, null, $this->get_parent()->get_condition())->as_array();
 		return $this->publications;
 	}
 
