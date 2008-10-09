@@ -21,6 +21,8 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 	const CALENDAR_DAY_VIEW = 'day';
 	const CALENDAR_LIST_VIEW = 'list';
 	private $publications;
+	private $time;
+	
 	function CalendarBrowser($parent)
 	{
 		parent :: __construct($parent, 'calendar');
@@ -31,7 +33,9 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 		}
 		else
 		{
-			$time = time();
+			$time = isset($_GET['time']) ? intval($_GET['time']) : time();
+			$this->time = $time;
+			//$this->set_parameter('time',$time);
 
 			switch($_GET['view'])
 			{
@@ -53,9 +57,15 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 					$renderer->set_display_time($time);
 					break;
 				}
-				default:
+				case CalendarBrowser::CALENDAR_LIST_VIEW:
 				{
 					$renderer = new CalendarListRenderer($this);
+					//$renderer->set_display_time($time);
+					break;
+				}
+				default:
+				{
+					$renderer = new MonthCalendarLearningObjectPublicationListRenderer($this);
 					break;
 				}
 			}
