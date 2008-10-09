@@ -22,6 +22,8 @@ abstract class Tool
 	
 	const ACTION_PUBLISH = 'publish';
 	const ACTION_EDIT = 'edit';
+	const ACTION_DELETE = 'delete';
+	const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
 	
 	/**
 	 * The action of the tool
@@ -73,6 +75,12 @@ abstract class Tool
 		{
 			case self :: ACTION_EDIT :
 				$component = ToolComponent :: factory('', 'Edit', $this);
+				break;
+			case self :: ACTION_DELETE :
+				$component = ToolComponent :: factory('', 'Delete', $this);
+				break;
+			case self :: ACTION_TOGGLE_VISIBILITY :
+				$component = ToolComponent :: factory('', 'ToggleVisibility', $this);
 				break;
 		}
 		if($component)
@@ -329,11 +337,31 @@ abstract class Tool
 	
 	function get_categories($list = false)
 	{
+		return $this->get_parent()->get_categories($list);
 	}
 
+	/**
+	 * @see Application :: get_category()
+	 */
 	function get_category($id)
 	{
-		
+		return $this->get_parent()->get_category($id);
+	}
+	
+	private function build_move_to_category_form($action)
+	{
+		$form = new FormValidator($action,'get',$this->get_url());
+		$categories = $this->get_categories(true);
+		$form->addElement('select', LearningObjectPublication :: PROPERTY_CATEGORY_ID, Translation :: get('Category'), $categories);
+		$form->addElement('submit', 'submit', Translation :: get('Ok'));
+		$parameters = $this->get_parameters();
+		$parameters['pcattree'] = $_GET['pcattree'];
+		$parameters[self :: PARAM_ACTION] = $action;
+		foreach($parameters as $key => $value)
+		{
+			$form->addElement('hidden',$key,$value);
+		}
+		return $form;
 	}
 
 }
