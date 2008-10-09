@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname(__FILE__) . '/../../learning_object_publication_form.class.php';
+
 class ToolEditComponent extends ToolComponent
 {
 	function run()
