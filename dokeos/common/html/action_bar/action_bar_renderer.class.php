@@ -56,7 +56,7 @@ class ActionBarRenderer
 		$html[] = '  $("#abtext").bind("click", showBlockScreen);';
 		$html[] = '  function showBlockScreen()';
 		$html[] = '  {';
-		$html[] = '     $("div.actionbar").toggle(); return false;';
+		$html[] = '     $("div.actionbar").slideToggle(); return false;';
 		$html[] = '  }';
 		$html[] = '</script>';
 		
