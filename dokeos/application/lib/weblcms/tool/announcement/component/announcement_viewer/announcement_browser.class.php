@@ -33,7 +33,7 @@ class AnnouncementBrowser extends LearningObjectPublicationBrowser
 			$renderer = new AnnouncementPublicationListRenderer($this);
 		}
 		
-		$actions = array(RepositoryTool :: ACTION_DELETE_SELECTED => Translation :: get('Delete selected'), RepositoryTool :: ACTION_TOGGLE_VISIBILITY_SELECTED => Translation :: get('Toggle Visibility'));
+		$actions = array(Tool :: ACTION_DELETE => Translation :: get('Delete selected'), Tool :: ACTION_TOGGLE_VISIBILITY => Translation :: get('Toggle Visibility'));
 		$renderer->set_actions($actions);
 		
 		$this->set_publication_list_renderer($renderer);

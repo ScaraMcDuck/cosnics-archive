@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/announcement_tool_component.class.php';
 /**
  * This tool allows a user to publish announcements in his or her course.
  */
-class AnnouncementTool extends RepositoryTool
+class AnnouncementTool extends Tool
 {
 	const ACTION_VIEW_ANNOUNCEMENTS = 'view';
 	
