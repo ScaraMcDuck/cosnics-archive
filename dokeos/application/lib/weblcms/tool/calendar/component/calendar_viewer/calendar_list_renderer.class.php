@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  * @subpackage calendar
  */
-require_once dirname(__FILE__).'/../../browser/list_renderer/list_learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/list_learning_object_publication_list_renderer.class.php';
 /**
  * A renderer to display a list view of a calendar
  */
