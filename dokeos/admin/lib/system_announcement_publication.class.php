@@ -197,12 +197,20 @@ class SystemAnnouncementPublication
 	
 	function is_hidden()
 	{
-		return $this->hidden;
+		return $this->get_hidden();
 	}
 	
 	function is_forever()
 	{
 		return $this->get_from_date() == 0 && $this->get_to_date() == 0;
+	}
+	
+	/**
+	 * Toggles the visibility of this publication.
+	 */
+	function toggle_visibility()
+	{
+		$this->set_hidden(!$this->is_hidden());
 	}
 	
 	function set_default_properties($defaultProperties)

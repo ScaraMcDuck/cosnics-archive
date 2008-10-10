@@ -194,5 +194,54 @@ class SystemAnnouncementPublicationForm extends FormValidator
 		
 		parent::setDefaults($defaults);
     }
+    
+    function update_learning_object_publication()
+    {
+		$values = $this->exportValues();
+		
+		if ($values[self :: PARAM_FOREVER] != 0)
+		{
+			$from = $to = 0;
+		}
+		else
+		{
+			$from = DokeosUtilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
+			$to = DokeosUtilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
+		}
+		$hidden = ($values[SystemAnnouncementPublication :: PROPERTY_HIDDEN] ? 1 : 0);
+		
+		if($values[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] == 1)
+		{
+			foreach($values[self::PARAM_TARGETS][self :: PARAM_TARGETS_TO] as $index => $target)
+			{
+				list($type,$id) = explode('-',$target);
+				if($type == self :: PARAM_TARGET_GROUP_PREFIX)
+				{
+					$class_groups[] = $id;
+				}
+				elseif($type == self :: PARAM_TARGET_USER_PREFIX)
+				{
+					$users[] = $id;
+				}
+			}
+		}
+
+		$pub = $this->system_announcement_publication;
+		$pub->set_modified(time());
+		$pub->set_hidden($hidden);
+		$pub->set_from_date($from);
+		$pub->set_to_date($to);
+		$pub->set_target_class_groups($class_groups);
+		$pub->set_target_users($users);
+
+		if ($pub->update())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+    }
 }
 ?>

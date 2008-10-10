@@ -14,7 +14,7 @@ class AdminSystemAnnouncementEditorComponent extends AdminComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('EditSystemAnnouncement')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('EditSystemAnnouncementPublication')));
 		
 		$user = $this->get_user();
 		
@@ -36,8 +36,8 @@ class AdminSystemAnnouncementEditorComponent extends AdminComponent
 			$form->set_system_announcement_publication($system_announcement_publication);
 			if( $form->validate())
 			{
-				$form->update_learning_object_publication();
-				$message = htmlentities(Translation :: get('LearningObjectPublicationUpdated'));
+				$success = $form->update_learning_object_publication();
+				$this->redirect('url', Translation :: get(($success ? 'SystemAnnouncementPublicationUpdated' : 'SystemAnnouncementPublicationNotUpdated')), ($success ? false : true), array(Admin :: PARAM_ACTION => Admin :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
 			}
 			else
 			{
