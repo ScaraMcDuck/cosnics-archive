@@ -75,6 +75,27 @@ class SystemAnnouncementPublicationBrowserTableCellRenderer extends DefaultSyste
 				'confirm' => true,
 				'img' => Theme :: get_common_img_path().'action_delete.png'
 			);
+			
+			$visibility_url = $this->browser->get_system_announcement_publication_visibility_url($system_announcement_publication);
+			if($system_announcement_publication->is_hidden())
+			{
+				$visibility_img = 'action_invisible.png';
+			}
+			elseif($system_announcement_publication->is_forever())
+			{
+				$visibility_img = 'action_visible.png';
+			}
+			else
+			{
+				$visibility_img = 'action_period.png';
+			}
+			
+			$toolbar_data[] = array(
+				'href' => $visibility_url,
+				'label' => Translation :: get('Hide'),
+				'img' => Theme :: get_common_img_path().$visibility_img
+			);
+			
 		}
 	
 		return DokeosUtilities :: build_toolbar($toolbar_data);

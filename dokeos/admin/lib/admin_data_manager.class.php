@@ -71,7 +71,11 @@ abstract class AdminDataManager
 	
 	abstract function update_registration($registration);
 	
+	abstract function update_system_announcement_publication($system_announcement_publication);
+	
 	abstract function delete_registration($registration);
+	
+	abstract function delete_system_announcement_publication($system_announcement_publication);
 	
 	function get_languages()
 	{

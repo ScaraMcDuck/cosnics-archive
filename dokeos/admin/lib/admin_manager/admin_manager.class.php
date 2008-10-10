@@ -40,6 +40,7 @@ class Admin
 	const ACTION_EDIT_SYSTEM_ANNOUNCEMENT = 'syseditor';
 	const ACTION_DELETE_SYSTEM_ANNOUNCEMENT = 'sysdeleter';
 	const ACTION_VIEW_SYSTEM_ANNOUNCEMENT = 'sysviewer';
+	const ACTION_HIDE_SYSTEM_ANNOUNCEMENT = 'sysvisibility';
 
 	private $parameters;
 
@@ -81,6 +82,9 @@ class Admin
 				break;
 			case self :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT :
 				$component = AdminComponent :: factory('SystemAnnouncementViewer', $this);
+				break;
+			case self :: ACTION_HIDE_SYSTEM_ANNOUNCEMENT :
+				$component = AdminComponent :: factory('SystemAnnouncementHider', $this);
 				break;
 			default :
 				$component = AdminComponent :: factory('Browser', $this);
@@ -296,6 +300,7 @@ class Admin
 		{
 			$url = 'index.php';
 		}
+		
 		header('Location: '.$url);
 	}
 
@@ -428,6 +433,11 @@ class Admin
 	function get_system_announcement_publication_deleting_url($system_announcement_publication)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement_publication->get_id()));
+	}
+	
+	function get_system_announcement_publication_visibility_url($system_announcement_publication)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_HIDE_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement_publication->get_id()));
 	}
 
 	function get_system_announcement_publication_viewing_url($system_announcement_publication)

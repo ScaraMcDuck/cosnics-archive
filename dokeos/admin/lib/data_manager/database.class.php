@@ -68,10 +68,22 @@ class DatabaseAdminDataManager extends AdminDataManager
 		return $this->database->update($registration, $condition);
 	}
 	
+	function update_system_announcement_publication($system_announcement_publication)
+	{
+		$condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_ID, $system_announcement_publication->get_id());
+		return $this->database->update($system_announcement_publication, $condition);
+	}
+	
 	function delete_registration($registration)
 	{
 		$condition = new EqualityCondition(Registration :: PROPERTY_ID, $registration->get_id());
 		return $this->database->delete($registration->get_table_name(), $condition);
+	}
+	
+	function delete_system_announcement_publication($system_announcement_publication)
+	{
+		$condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_ID, $system_announcement_publication->get_id());
+		return $this->database->delete($system_announcement_publication->get_table_name(), $condition);
 	}
 	
 	// Inherited.

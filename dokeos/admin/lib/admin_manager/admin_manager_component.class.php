@@ -192,6 +192,11 @@ abstract class AdminComponent {
 		return $this->get_parent()->get_system_announcement_publication_deleting_url($system_announcement_publication);
 	}
 	
+	function get_system_announcement_publication_visibility_url($system_announcement_publication)
+	{
+		return $this->get_parent()->get_system_announcement_publication_visibility_url($system_announcement_publication);
+	}
+	
 	function get_system_announcement_publication_viewing_url($system_announcement_publication)
 	{
 		return $this->get_parent()->get_system_announcement_publication_viewing_url($system_announcement_publication);

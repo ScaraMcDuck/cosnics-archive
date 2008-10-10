@@ -4,7 +4,6 @@
  */
 require_once dirname(__FILE__).'/../admin_manager.class.php';
 require_once dirname(__FILE__).'/../admin_manager_component.class.php';
-require_once dirname(__FILE__).'/../../system_announcement_publication_form.class.php';
 
 class AdminSystemAnnouncementViewerComponent extends AdminComponent
 {	
