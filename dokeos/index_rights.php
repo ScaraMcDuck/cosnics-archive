@@ -2,7 +2,7 @@
 $this_section = 'rights';
 require_once dirname(__FILE__).'/common/global.inc.php';
 require_once Path :: get_rights_path(). 'lib/rights_manager/rights_manager.class.php';
-require_once Path :: get_user_path(). 'lib/usermanager/user_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_manager/user_manager.class.php';
 
 Translation :: set_application($this_section);
 Theme :: set_application($this_section);

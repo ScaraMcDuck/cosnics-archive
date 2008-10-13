@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../../configuration_form.class.php';
 /**
  * Admin component
  */
-class AdminConfigurerComponent extends AdminComponent
+class AdminConfigurerComponent extends AdminManagerComponent
 {
 	private $application;
 	
@@ -28,7 +28,7 @@ class AdminConfigurerComponent extends AdminComponent
 		}
 		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get(Application :: application_to_class($application)) . '&nbsp;' . Translation :: get('Settings')));
 
 		if (!$this->get_user()->is_platform_admin())
@@ -37,12 +37,12 @@ class AdminConfigurerComponent extends AdminComponent
 			exit;
 		}
 		
-		$form = new ConfigurationForm($application, 'config', 'post', $this->get_url(array(Admin :: PARAM_APPLICATION => $application)));
+		$form = new ConfigurationForm($application, 'config', 'post', $this->get_url(array(AdminManager :: PARAM_APPLICATION => $application)));
 		
 		if($form->validate())
 		{
 			$success = $form->update_configuration();
-			$this->redirect('url', Translation :: get($success ? 'ConfigurationUpdated' : 'ConfigurationNotUpdated'), ($success ? false : true), array(Admin :: PARAM_ACTION => Admin :: ACTION_CONFIGURE_PLATFORM, Admin :: PARAM_APPLICATION => $application));
+			$this->redirect('url', Translation :: get($success ? 'ConfigurationUpdated' : 'ConfigurationNotUpdated'), ($success ? false : true), array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_APPLICATION => $application));
 		}
 		else
 		{
@@ -112,7 +112,7 @@ $(\'div.application_current\').mouseout(function(){
 			{
 				$html[] = '<div class="application">';
 			}
-			$html[] = '<a href="'. $this->get_url(array(Admin :: PARAM_ACTION => Admin :: ACTION_CONFIGURE_PLATFORM, ADMIN :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
+			$html[] = '<a href="'. $this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
 			$html[] = '<img src="'. Theme :: get_img_path() . 'place_' . $application_links['application']['class'] .'.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'];
 			$html[] = '</a>';
 			$html[] = '</div>';

@@ -18,7 +18,7 @@ class SystemAnnouncerFinderComponent extends PublisherFinderComponent
 	function SystemAnnouncerFinderComponent($parent)
 	{
 		parent :: __construct($parent);
-		$this->get_form()->addElement('hidden', Admin :: PARAM_ACTION);
+		$this->get_form()->addElement('hidden', AdminManager :: PARAM_ACTION);
 		$this->get_form()->addElement('hidden', Application :: PARAM_APPLICATION);
 	}
 }

@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../admin_search_form.class.php';
 /**
  * Admin component
  */
-class AdminBrowserComponent extends AdminComponent
+class AdminBrowserComponent extends AdminManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.

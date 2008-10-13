@@ -8,18 +8,19 @@ require_once dirname(__FILE__).'/admin_manager_component.class.php';
 require_once dirname(__FILE__).'/../admin_data_manager.class.php';
 
 require_once Path :: get_repository_path(). 'lib/repository_manager/repository_manager.class.php';
-require_once Path :: get_user_path(). 'lib/usermanager/user_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_manager/user_manager.class.php';
 require_once Path :: get_class_group_path(). 'lib/class_group_manager/class_group_manager.class.php';
 require_once Path :: get_tracking_path(). 'lib/tracking_manager/tracking_manager.class.php';
 require_once Path :: get_rights_path(). 'lib/rights_manager/rights_manager.class.php';
 require_once Path :: get_home_path(). 'lib/home_manager/home_manager.class.php';
 require_once Path :: get_menu_path(). 'lib/menu_manager/menu_manager.class.php';
 require_once Path :: get_migration_path(). 'lib/migration_manager/migration_manager.class.php';
+require_once dirname(__FILE__).'/../admin_block.class.php';
 
 /**
  * The admin allows the platform admin to configure certain aspects of his platform
  */
-class Admin
+class AdminManager
 {
 	const APPLICATION_NAME = 'admin';
 
@@ -50,7 +51,7 @@ class Admin
 	 * Constructor
 	 * @param User $user The current user
 	 */
-    function Admin($user = null) {
+    function AdminManager($user = null) {
     	$this->user = $user;
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
@@ -66,28 +67,28 @@ class Admin
 		switch ($action)
 		{
 			case self :: ACTION_CONFIGURE_PLATFORM :
-				$component = AdminComponent :: factory('Configurer', $this);
+				$component = AdminManagerComponent :: factory('Configurer', $this);
 				break;
 			case self :: ACTION_CREATE_SYSTEM_ANNOUNCEMENT :
-				$component = AdminComponent :: factory('SystemAnnouncementCreator', $this);
+				$component = AdminManagerComponent :: factory('SystemAnnouncementCreator', $this);
 				break;
 			case self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS :
-				$component = AdminComponent :: factory('SystemAnnouncementBrowser', $this);
+				$component = AdminManagerComponent :: factory('SystemAnnouncementBrowser', $this);
 				break;
 			case self :: ACTION_EDIT_SYSTEM_ANNOUNCEMENT :
-				$component = AdminComponent :: factory('SystemAnnouncementEditor', $this);
+				$component = AdminManagerComponent :: factory('SystemAnnouncementEditor', $this);
 				break;
 			case self :: ACTION_DELETE_SYSTEM_ANNOUNCEMENT :
-				$component = AdminComponent :: factory('SystemAnnouncementDeleter', $this);
+				$component = AdminManagerComponent :: factory('SystemAnnouncementDeleter', $this);
 				break;
 			case self :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT :
-				$component = AdminComponent :: factory('SystemAnnouncementViewer', $this);
+				$component = AdminManagerComponent :: factory('SystemAnnouncementViewer', $this);
 				break;
 			case self :: ACTION_HIDE_SYSTEM_ANNOUNCEMENT :
-				$component = AdminComponent :: factory('SystemAnnouncementHider', $this);
+				$component = AdminManagerComponent :: factory('SystemAnnouncementHider', $this);
 				break;
 			default :
-				$component = AdminComponent :: factory('Browser', $this);
+				$component = AdminManagerComponent :: factory('Browser', $this);
 		}
 		$component->run();
     }
@@ -461,6 +462,15 @@ class Admin
 	function not_allowed()
 	{
 		Display :: display_not_allowed();
+	}
+	
+    /**
+	 * Renders the users block and returns it. 
+	 */
+	function render_block($block)
+	{
+		$admin_block = AdminBlock :: factory($this, $block);
+		return $admin_block->run();
 	}
 }
 ?>

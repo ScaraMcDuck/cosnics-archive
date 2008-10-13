@@ -3,7 +3,7 @@ $this_section = 'home';
 
 require_once dirname(__FILE__).'/common/global.inc.php';
 require_once Path :: get_home_path() . 'lib/home_manager/home_manager.class.php';
-require_once Path :: get_user_path() . 'lib/usermanager/user_manager.class.php';
+require_once Path :: get_user_path() . 'lib/user_manager/user_manager.class.php';
 
 Translation :: set_application('home');
 Theme :: set_application($this_section);

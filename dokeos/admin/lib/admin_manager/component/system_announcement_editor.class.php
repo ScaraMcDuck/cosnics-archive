@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/../admin_manager.class.php';
 require_once dirname(__FILE__).'/../admin_manager_component.class.php';
 require_once dirname(__FILE__).'/../../system_announcement_publication_form.class.php';
 
-class AdminSystemAnnouncementEditorComponent extends AdminComponent
+class AdminSystemAnnouncementEditorComponent extends AdminManagerComponent
 {	
 	/**
 	 * Runs this component and displays its output.
@@ -24,7 +24,7 @@ class AdminSystemAnnouncementEditorComponent extends AdminComponent
 			exit;
 		}
 		
-		$id = $_GET[Admin :: PARAM_SYSTEM_ANNOUNCEMENT_ID];
+		$id = $_GET[AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID];
 		
 		if ($id)
 		{
@@ -37,7 +37,7 @@ class AdminSystemAnnouncementEditorComponent extends AdminComponent
 			if( $form->validate())
 			{
 				$success = $form->update_learning_object_publication();
-				$this->redirect('url', Translation :: get(($success ? 'SystemAnnouncementPublicationUpdated' : 'SystemAnnouncementPublicationNotUpdated')), ($success ? false : true), array(Admin :: PARAM_ACTION => Admin :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
+				$this->redirect('url', Translation :: get(($success ? 'SystemAnnouncementPublicationUpdated' : 'SystemAnnouncementPublicationNotUpdated')), ($success ? false : true), array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
 			}
 			else
 			{

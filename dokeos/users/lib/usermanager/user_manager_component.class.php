@@ -27,7 +27,7 @@ abstract class UserManagerComponent {
 	 * @param UserManager $user_manager The user manager which
 	 * provides this component
 	 */
-    function usermanagercomponent($user_manager) {
+    function UserManagerComponent($user_manager) {
     	$this->user_manager = $user_manager;
 		$this->id =  ++self :: $component_count;
     }

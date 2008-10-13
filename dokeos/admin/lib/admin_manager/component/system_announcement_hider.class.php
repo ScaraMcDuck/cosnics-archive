@@ -5,14 +5,14 @@
 require_once dirname(__FILE__).'/../admin_manager.class.php';
 require_once dirname(__FILE__).'/../admin_manager_component.class.php';
 
-class AdminSystemAnnouncementHiderComponent extends AdminComponent
+class AdminSystemAnnouncementHiderComponent extends AdminManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$ids = $_GET[Admin :: PARAM_SYSTEM_ANNOUNCEMENT_ID];
+		$ids = $_GET[AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID];
 		$failures = 0;
 		
 		if (!empty ($ids))
@@ -56,7 +56,7 @@ class AdminSystemAnnouncementHiderComponent extends AdminComponent
 				}
 			}
 			
-			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(Admin :: PARAM_ACTION => Admin :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
+			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
 		}
 		else
 		{
