@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../category_manager_component.class.php';
 /**
  * Component to delete a category
  */
-class CategoryManagerCategoryDeleterComponent extends CategoryManagerComponent
+class CategoryManagerDeleterComponent extends CategoryManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.

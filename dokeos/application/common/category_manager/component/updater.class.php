@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../category_manager_component.class.php';
 require_once dirname(__FILE__).'/../category.class.php';
 require_once dirname(__FILE__).'/../category_form.class.php';
 
-class CategoryManagerCategoryUpdaterComponent extends CategoryManagerComponent
+class CategoryManagerCategoryComponent extends CategoryManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.

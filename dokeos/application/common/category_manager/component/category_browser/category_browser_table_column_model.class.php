@@ -2,8 +2,8 @@
 /**
  * @package repository.repositorymanager
  */
-require_once dirname(__FILE__).'/../../../tables/category_table/default_category_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../category.class.php';
+
+require_once dirname(__FILE__).'/../../category.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
 /**
