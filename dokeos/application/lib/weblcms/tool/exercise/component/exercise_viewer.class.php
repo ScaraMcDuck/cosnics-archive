@@ -2,7 +2,8 @@
 /**
  * @package application.weblcms.tool.exercise.component
  */
-require_once dirname(__FILE__).'/exercise_viewer/exercise_browser.class.php';
+
+require_once dirname(__FILE__).'/exercise_publication_table/exercise_publication_table.class.php';
 require_once Path :: get_library_path().'/html/action_bar/action_bar_renderer.class.php';
 
 /**
@@ -21,51 +22,22 @@ class ExerciseToolViewerComponent extends ExerciseToolComponent
 		$trail = new BreadCrumbTrail();
 		$this->display_header($trail);
 		
-		//echo $this->perform_requested_actions();
-		
 		$action_bar = new ActionBarRenderer($this->get_left_actions(), $this->get_right_actions(), $this->get_url());
 		echo $action_bar->as_html();
 		
-		//echo '<div style="width:19%; float: left;">';
-		//echo '<div style="border-bottom: 1px solid grey; padding: 5px; line-height: 25px;">';
+		echo '<div style="width:19%; float: left;">';
+		echo '<div style="border-bottom: 1px solid grey; padding: 5px; line-height: 25px;">';
+		echo 'hier komen de categoriekes';
 		
-		/*if($this->is_allowed(ADD_RIGHT))
-		{
-			//echo '<p><a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.Theme :: get_common_img_path().'action_publish.png" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';
-			echo '<a href="' . $this->get_url(array(ExerciseTool :: PARAM_ACTION => ExerciseTool :: ACTION_PUBLISH), true) . '"><img src="'.Theme :: get_common_img_path().'action_publish.png" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a>';
-		}*/
-		
-		$browser = new ExerciseBrowser($this);
-		/*$publications = $browser->get_publications();
-		
-		$index = 0;
-		$publication_ids = array();
-		foreach($publications as $publication)
-		{
-			$publication_html[] = '<a href="#' . $index . '">' . $browser->get_publication_list_renderer()->render_title($publication) . '</a><br />';
-			$publication_ids[] = $publication->get_id();
-			$index++;
-		}
-	
-		if(count($publications) >= 1)
-		{
-			$delete_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_DELETE_SELECTED, Tool :: PARAM_PUBLICATION_ID => $publication_ids), true);
-			echo '<br /><a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'action_delete.png"  alt="' . Translation :: get('Clear_list_of_announcements') . '"/> ' . Translation :: get('Clear_list_of_announcements') . '</a>';
-		}*/
-		
-		//echo '</div><div style="padding: 5px; line-height: 20px;">';
-		
-		//echo implode("\n", $publication_html);
-		//echo '</div></div>';
-		echo '<div style="width:100%; padding-left: 1%; float:right; border-left: 1px solid grey;">';
-		echo $browser->as_html();
+		echo '</div></div>';
+		echo '<div style="width:79%; padding-left: 1%; float:right; border-left: 1px solid grey;">';
+		$table = new ExercisePublicationTable($this, $this->get_user(), array('exercise'), null);
+		echo $table->as_html();
 		echo '</div>';
 		
-		
-		$browser = new ExerciseBrowser($this);
-		//echo $browser->as_html();
 		$this->display_footer();
 	}
+
 }
 
 ?>
