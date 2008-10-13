@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/category_browser_table_column_model.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
-require_once Path :: get_user_path() . 'lib/users_data_manager.class.php';
+require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
 require_once dirname(__FILE__).'/../../category.class.php';
 require_once dirname(__FILE__).'/../../category_manager.class.php';
 /**

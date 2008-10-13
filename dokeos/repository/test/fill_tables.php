@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once dirname(__FILE__).'/../lib/repository_data_manager.class.php';
-require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 
 Translation :: set_application('repository');
 
@@ -45,13 +45,6 @@ else
 	//$learning_paths = rand(100,500);
 
 	$randomTexts[] = 'Lorem ipsum dolor sit amet consectetuer adipiscing elit Cras vel erat Phasellus est Curabitur nunc leo laoreet eu varius sit amet faucibus faucibus magna Quisque venenatis ante quis dictum sodales orci velit molestie';
-	$randomTexts[] = '我能吞下 玻璃而 不伤身体';
-	$randomTexts[] = 'Μπορώ να φάω σπασμένα γυαλιά χωρίς να πάθω τίποτα.';
-	$randomTexts[] = 'काचं शक्नोम्यत्तुम् । नोपहिनस्ति मा';
-	$randomTexts[] = 'Jeg kan spise glas det gør ikke ondt på mig';
-	$randomTexts[] = 'ღმერთსი შემვედრე, ნუთუ კვლა დამხსნას სოფლისა შრომასა, ცეცხლს, წყალსა და მიწასა, ჰაერთა';
-	$randomTexts[] = 'தேமதுரத் தமிழோசை உலகமெலாம் பரவும்வகை செய்தல் வேண்டும';
-	$randomTexts[] = 'Я могу есть стекло, оно мне не вредит';
 	$words = array ();
 	foreach ($randomTexts as $index => $randomText)
 	{
@@ -59,7 +52,7 @@ else
 	}
 
 	// Create some random users
-	$usermanager = UsersDataManager :: get_instance();
+	$usermanager = UserDataManager :: get_instance();
 	$usermanager->delete_all_users();
 
 	title('Create users');

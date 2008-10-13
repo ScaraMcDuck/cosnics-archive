@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../../repository_data_manager.class.php';
-require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 require_once dirname(__FILE__).'/../../quota_manager.class.php';
 
 class CsvCreator

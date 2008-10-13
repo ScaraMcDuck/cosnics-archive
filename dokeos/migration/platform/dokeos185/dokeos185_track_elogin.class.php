@@ -4,7 +4,7 @@
  */
 
 require_once dirname(__FILE__) . '/../../lib/import/import_track_elogin.class.php';
-require_once dirname(__FILE__) . '/../../../users/trackers/login_logout_tracker.class.php';
+require_once dirname(__FILE__) . '/../../../user/trackers/login_logout_tracker.class.php';
 
 /**
  * This class presents a Dokeos185 track_e_login

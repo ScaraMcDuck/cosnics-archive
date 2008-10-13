@@ -5,7 +5,7 @@
  * @author Dieter De Neef
  */
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
-require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 
 /**
  *	This class represents a personal message. 
@@ -240,7 +240,7 @@ class PersonalMessagePublication
 	
 	function get_publication_user($user_id)
 	{
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		return $udm->retrieve_user($user_id);
 	}
 	

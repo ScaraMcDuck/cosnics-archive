@@ -171,7 +171,7 @@ class DocumentForm extends LearningObjectForm
 		$errors = array ();
 
 		$owner_id = $this->get_owner_id();
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 
 		$owner = $udm->retrieve_user($owner_id);
 

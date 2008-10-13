@@ -8,12 +8,12 @@ $langFile = 'classgroup';
 require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once dirname(__FILE__).'/class_group_data_manager.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once dirname(__FILE__).'/../../users/lib/user.class.php';
+require_once dirname(__FILE__).'/../../user/lib/user.class.php';
 require_once dirname(__FILE__).'/../../common/condition/equality_condition.class.php';
 require_once dirname(__FILE__).'/../../common/condition/not_condition.class.php';
 require_once dirname(__FILE__).'/../../common/condition/and_condition.class.php';
 require_once dirname(__FILE__).'/../../common/condition/or_condition.class.php';
-require_once dirname(__FILE__).'/../../users/lib/users_data_manager.class.php';
+require_once dirname(__FILE__).'/../../user/lib/user_data_manager.class.php';
 
 if (Authentication :: is_valid())
 {
@@ -48,7 +48,7 @@ if (Authentication :: is_valid())
 		$condition = null;
 	}
 
-	$dm = UsersDataManager :: get_instance();
+	$dm = UserDataManager :: get_instance();
 	$objects = $dm->retrieve_users($condition);
 
 	while ($lo = $objects->next_result())

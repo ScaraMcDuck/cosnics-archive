@@ -3,7 +3,7 @@
  * @package application.lib.profiler
  */
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
-require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 
 /**
  *	This class represents a ProfilePublication. 
@@ -168,7 +168,7 @@ class ProfilePublication
 	
 	function get_publication_publisher()
 	{
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		return $udm->retrieve_user($this->get_publisher());
 	}
 	

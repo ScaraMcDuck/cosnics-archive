@@ -1866,7 +1866,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$user_ids = $this->retrieve_group_user_ids($group);
 		
-		$udm = UsersDataManager::get_instance();
+		$udm = UserDataManager::get_instance();
 		
 		if(count($user_ids)>0)
 		{
@@ -1904,7 +1904,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 				$conditions = new AndCondition($condition,$conditions);
 			}
 			
-			$udm = UsersDataManager::get_instance();
+			$udm = UserDataManager::get_instance();
 			return $udm->count_users($conditions);
 		}
 		else
@@ -1915,7 +1915,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	// Inherited
 	function retrieve_possible_group_users($group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		$udm = UsersDataManager::get_instance();
+		$udm = UserDataManager::get_instance();
 		$query = 'SELECT user_id FROM '. $this->escape_table_name('course_rel_user') .' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).'=?';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($group->get_course_code());
@@ -1953,7 +1953,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$conditions = array();
 		}
-		$udm = UsersDataManager::get_instance();
+		$udm = UserDataManager::get_instance();
 		$query = 'SELECT user_id FROM '. $this->escape_table_name('course_rel_user') .' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).'=?';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($group->get_course_code());

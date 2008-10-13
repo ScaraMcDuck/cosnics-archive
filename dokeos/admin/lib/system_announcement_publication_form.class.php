@@ -5,7 +5,7 @@
 require_once dirname(__FILE__) . '/system_announcement_publication.class.php';
 require_once Path :: get_library_path() . 'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_plugin_path() . 'html2text/class.html2text.inc';
-require_once Path :: get_user_path() . 'lib/users_data_manager.class.php';
+require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
 require_once Path :: get_class_group_path() . 'lib/class_group_data_manager.class.php';
 /**
  * This class represents a form to allow a user to publish a learning object.
@@ -152,7 +152,7 @@ class SystemAnnouncementPublicationForm extends FormValidator
     		$receiver_choices[self :: PARAM_TARGET_GROUP_PREFIX.'-'.$class_group->get_id()] = Translation :: get('Group').': '.$class_group->get_name();
     	}
     	
-    	$users = UsersDataManager :: get_instance()->retrieve_users();
+    	$users = UserDataManager :: get_instance()->retrieve_users();
     	
     	while ($user = $users->next_result())
     	{

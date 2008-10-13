@@ -71,7 +71,7 @@ class User
 	 */
 	function update()
 	{
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		$success = $udm->update_user($this);
 		if (!$success)
 		{
@@ -560,7 +560,7 @@ class User
 	 */
 	function get_version_type_quota($type)
 	{
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		return $udm->retrieve_version_type_quota($this, $type);
 	}
 
@@ -588,7 +588,7 @@ class User
 	 */
 	function delete()
 	{
-		return UsersDataManager :: get_instance()->delete_user($this);
+		return UserDataManager :: get_instance()->delete_user($this);
 	}
 
 	/**
@@ -597,7 +597,7 @@ class User
 	 */
 	function create()
 	{
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		$this->set_id($udm->get_next_user_id());
 		return $udm->create_user($this);
 	}

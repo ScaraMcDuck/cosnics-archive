@@ -10,7 +10,7 @@
 	require_once 'HTML/QuickForm/Controller.php';
 	require_once 'HTML/QuickForm/Rule.php';
 	require_once 'HTML/QuickForm/Action/Display.php';
-	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/users_migration_wizard_page.class.php');
+	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/user_migration_wizard_page.class.php');
 	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/system_settings_migration_wizard_page.class.php');
 	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/personal_agendas_migration_wizard_page.class.php');
 	require_once(dirname(__FILE__) . '/lib/migration_manager/component/inc/wizard/classes_migration_wizard_page.class.php');

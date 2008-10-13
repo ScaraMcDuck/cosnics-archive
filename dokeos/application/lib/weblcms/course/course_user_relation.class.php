@@ -136,7 +136,7 @@ class CourseUserRelation {
 	 */
 	function get_user_object()
 	{
-		$udm = UsersDatamanager::get_instance();
+		$udm = UserDataManager::get_instance();
 		return $udm->retrieve_user($this->user);
 	}
 

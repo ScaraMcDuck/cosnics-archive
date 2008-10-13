@@ -3,7 +3,7 @@
  * $Id: personal_calendar_installer.class.php 12686 2007-07-03 11:32:57Z bmol $
  * @package users.install
  */
-require_once dirname(__FILE__).'/../lib/users_data_manager.class.php';
+require_once dirname(__FILE__).'/../lib/user_data_manager.class.php';
 require_once dirname(__FILE__).'/../lib/user.class.php';
 require_once Path :: get_tracking_path() .'lib/events.class.php';
 require_once Path :: get_tracking_path() .'install/tracking_installer.class.php';
@@ -20,7 +20,7 @@ class UsersInstaller extends Installer
 	 */
     function UsersInstaller($values)
     {
-    	parent :: __construct($values, UsersDataManager :: get_instance());
+    	parent :: __construct($values, UserDataManager :: get_instance());
     }
 	/**
 	 * Runs the install-script.

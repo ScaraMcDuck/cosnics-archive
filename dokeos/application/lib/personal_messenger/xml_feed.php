@@ -12,7 +12,7 @@ require_once Path :: get_library_path().'condition/equality_condition.class.php'
 require_once Path :: get_library_path().'condition/not_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
 require_once Path :: get_library_path().'condition/or_condition.class.php';
-require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 
 if (Authentication :: is_valid())
 {
@@ -48,7 +48,7 @@ if (Authentication :: is_valid())
 		$condition = null;
 	}
 
-	$dm = UsersDataManager :: get_instance();
+	$dm = UserDataManager :: get_instance();
 	$objects = $dm->retrieve_users($condition);
 
 	while ($lo = $objects->next_result())

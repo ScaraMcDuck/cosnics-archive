@@ -54,7 +54,7 @@ class GroupTool extends Tool
 			$group_action = $_GET[self :: PARAM_GROUP_ACTION];
 			if ($user_action == UserTool :: USER_DETAILS)
 			{
-				$udm = UsersDataManager :: get_instance();
+				$udm = UserDataManager :: get_instance();
 				$user = $udm->retrieve_user($_GET[Weblcms :: PARAM_USERS]);
 				$details = new UserDetails($user);
 				$this->display_header($trail);
@@ -76,7 +76,7 @@ class GroupTool extends Tool
 						}
 						if(isset($_GET[Weblcms::PARAM_USERS]))
 						{
-							$udm = UsersDataManager :: get_instance();
+							$udm = UserDataManager :: get_instance();
 							$user = $udm->retrieve_user($_GET[Weblcms :: PARAM_USERS]);
 							$group = $this->get_parent()->get_group();
 							$group->subscribe_users($user);
@@ -117,7 +117,7 @@ class GroupTool extends Tool
 						}
 						if($group_action == self :: ACTION_UNSUBSCRIBE && isset($_GET[Weblcms::PARAM_USERS]))
 						{
-							$udm = UsersDataManager :: get_instance();
+							$udm = UserDataManager :: get_instance();
 							$user = $udm->retrieve_user($_GET[Weblcms :: PARAM_USERS]);
 							$group->unsubscribe_users($user);
 							$html[] = Display::display_normal_message(Translation :: get('UserUnsubscribed'),true);

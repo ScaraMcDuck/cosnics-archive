@@ -25,7 +25,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 
 	function initialize()
 	{
-		$this->userDM = UsersDataManager :: get_instance();
+		$this->userDM = UserDataManager :: get_instance();
 		
 		$this->connection = Connection :: get_instance()->get_connection();
 		$this->connection->setOption('debug_handler', array(get_class($this),'debug'));

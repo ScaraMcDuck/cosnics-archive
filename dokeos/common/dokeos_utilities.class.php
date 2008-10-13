@@ -8,7 +8,7 @@ require_once Path :: get_library_path().'condition/and_condition.class.php';
 require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_library_path().'condition/pattern_match_condition.class.php';
 require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
-require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 
 /**
  * This class provides some common methods that are used throughout the
@@ -309,7 +309,7 @@ class DokeosUtilities
 	function build_uses($publication_attr)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		$html 	= array ();
 		$html[] = '<ul class="publications_list">';
 		foreach ($publication_attr as $info)

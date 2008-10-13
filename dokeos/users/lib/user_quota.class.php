@@ -154,7 +154,7 @@ class UserQuota
 	 */
 	function update()
 	{
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		return $udm->update_user_quota($this);
 	}
 	

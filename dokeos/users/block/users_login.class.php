@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__).'/../lib/users_block.class.php';
+require_once dirname(__FILE__).'/../lib/user_block.class.php';
 
-class UsersLogin extends UsersBlock
+class UserLogin extends UserBlock
 {
 	/**
 	 * Runs this component and displays its output.

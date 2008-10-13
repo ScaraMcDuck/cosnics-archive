@@ -13,7 +13,7 @@ require_once Path :: get_library_path().'authentication/authentication.class.php
  *	@author Hans De Bisschop
  *	@author Dieter De Neef
  */
-abstract class UsersDataManager
+abstract class UserDataManager
 {
 	/**
 	 * Instance of this class for the singleton pattern.
@@ -29,7 +29,7 @@ abstract class UsersDataManager
 	/**
 	 * Constructor.
 	 */
-	protected function UsersDataManager()
+	protected function UserDataManager()
 	{
 		$this->initialize();
 	}
@@ -48,7 +48,7 @@ abstract class UsersDataManager
 	 * Uses a singleton pattern and a factory pattern to return the data
 	 * manager. The configuration determines which data manager class is to
 	 * be instantiated.
-	 * @return UsersDataManager The data manager.
+	 * @return UserDataManager The data manager.
 	 */
 	static function get_instance()
 	{
@@ -56,7 +56,7 @@ abstract class UsersDataManager
 		{
 			$type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
 			require_once dirname(__FILE__).'/data_manager/'.strtolower($type).'.class.php';
-			$class = $type.'UsersDataManager';
+			$class = $type.'UserDataManager';
 			self :: $instance = new $class ();
 		}
 		return self :: $instance;

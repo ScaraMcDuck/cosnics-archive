@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../../../../migration_data_manager.class.php'
 require_once dirname(__FILE__) . '/../../../../old_migration_data_manager.class.php'; 
 require_once dirname(__FILE__) . '/../../../../logger.class.php'; 
 require_once dirname(__FILE__) . '/../../../../import.class.php'; 
-require_once dirname(__FILE__) . '/../../../../../../users/lib/users_data_manager.class.php'; 
+require_once dirname(__FILE__) . '/../../../../../../user/lib/user_data_manager.class.php'; 
 
 /**
  * Class for user migration execution
@@ -98,7 +98,7 @@ class UsersMigrationWizardPage extends MigrationWizardPage
 		if(isset($exportvalues['migrate_users']) && $exportvalues['migrate_users'] == 1)
 		{	
 			$lcms_users = array();
-			$resultset = UsersDataManager :: get_instance()->retrieve_users();
+			$resultset = UserDataManager :: get_instance()->retrieve_users();
 		
 			while ($lcms_user = $resultset->next_result())
 			{
