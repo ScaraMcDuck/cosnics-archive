@@ -102,7 +102,7 @@ class Path
 			case SYS_APP_REPOSITORY_PATH :
 				return self :: get(SYS_PATH) . 'repository/';
 			case SYS_APP_USER_PATH :
-				return self :: get(SYS_PATH) . 'users/';
+				return self :: get(SYS_PATH) . 'user/';
 			case SYS_APP_MENU_PATH :
 				return self :: get(SYS_PATH) . 'menu/';
 			case SYS_APP_HOME_PATH :

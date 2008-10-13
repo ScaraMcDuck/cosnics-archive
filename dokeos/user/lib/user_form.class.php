@@ -189,7 +189,7 @@ class UserForm extends FormValidator {
     		$value = $user->update();
     		
     		if($value)
-    			Events :: trigger_event('update', 'users', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
+    			Events :: trigger_event('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
     		
     		return $value;
     	}
@@ -251,7 +251,7 @@ class UserForm extends FormValidator {
     		$value = $user->create();
     		
     		if($value)
-    			Events :: trigger_event('create', 'users', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
+    			Events :: trigger_event('create', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
     		
     		return $value;
     	}

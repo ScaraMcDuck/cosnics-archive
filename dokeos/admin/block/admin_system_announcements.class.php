@@ -17,8 +17,27 @@ class AdminSystemAnnouncements extends AdminBlock
 		$html = array();
 		
 		$html[] = $this->display_header();
-		
+		$html[] = $this->get_system_announcements();
 		$html[] = $this->display_footer();
+		
+		return implode("\n", $html);
+	}
+	
+	function get_system_announcements()
+	{
+		$html = array();
+		
+		$html[] = '<ul style="list-style: none; margin: 0px; padding: 0px;">';
+		
+		$announcements = $this->get_parent()->retrieve_system_announcement_publications();
+		
+		while($announcement = $announcements->next_result())
+		{
+			$object = $announcement->get_publication_object();
+			$html[] = '<li style="margin-bottom: 2px;"><img style="vertical-align: middle;" src="'. Theme :: get_common_img_path() .'treemenu_types/'. $object->get_icon_name() .'.png" />&nbsp;&nbsp;<a href="'. $this->get_parent()->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT, AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $announcement->get_id())) .'">'. $object->get_title() .'</a></li>';
+		}
+		
+		$html[] = '</ul>';
 		
 		return implode("\n", $html);
 	}

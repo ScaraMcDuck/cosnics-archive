@@ -13,12 +13,12 @@ require_once Path :: get_library_path().'filesystem/filesystem.class.php';
  * This installer can be used to create the storage structure for the
  * users application.
  */
-class UsersInstaller extends Installer
+class UserInstaller extends Installer
 {
 	/**
 	 * Constructor
 	 */
-    function UsersInstaller($values)
+    function UserInstaller($values)
     {
     	parent :: __construct($values, UserDataManager :: get_instance());
     }

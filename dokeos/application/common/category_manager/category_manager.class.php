@@ -2,7 +2,7 @@
 /**
  * @package application.lib.encyclopedia
  */
-require_once dirname(__FILE__) . '/category.class.php';
+require_once dirname(__FILE__) . '/platform_category.class.php';
 require_once dirname(__FILE__) . '/category_form.class.php';
 require_once dirname(__FILE__) . '/category_manager_component.class.php';
 /**

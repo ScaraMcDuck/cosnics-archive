@@ -18,7 +18,8 @@ class SystemAnnouncer extends Publisher
 	function SystemAnnouncer($parent, $types, $mail_option = false)
 	{
 		parent :: __construct($parent, $types, $mail_option = false);
-		$this->set_publisher_actions(array ('publicationcreator','browser', 'finder'));
+		$this->set_extra_parameters(array());
+		$this->set_publisher_actions(array ('creator','browser', 'finder'));
 	}
 
 	/**

@@ -177,7 +177,7 @@ class Block {
 			}
 		}
 		
-		$core_applications = array('admin', 'tracking', 'repository', 'users', 'class_group', 'rights', 'home', 'menu');
+		$core_applications = array('admin', 'tracking', 'repository', 'user', 'class_group', 'rights', 'home', 'menu');
 		
 		$path = Path :: get(SYS_PATH);
 		
@@ -241,7 +241,7 @@ class Block {
 			}
 		}
 		
-		$core_applications = array('admin', 'tracking', 'repository', 'users', 'class_group', 'rights', 'home', 'menu');
+		$core_applications = array('admin', 'tracking', 'repository', 'user', 'class_group', 'rights', 'home', 'menu');
 		
 		$path = Path :: get(SYS_PATH);
 		

@@ -408,6 +408,7 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
+		
 		$statement = $this->connection->prepare($query);
 		$result = $statement->execute($params);
 		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);

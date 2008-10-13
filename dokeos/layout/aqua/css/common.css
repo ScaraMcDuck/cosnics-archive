@@ -530,7 +530,7 @@ div.metadata div.title
 /* Learning object display styles */
 div.learning_object
 {
-	border: 1px solid grey; #F0F0F0
+	border: 1px solid #F0F0F0;
 	margin: 0 0 1em 0;
 	padding: 10px 10px 10px 44px;
 	background-position: 10px 10px;
@@ -539,7 +539,7 @@ div.learning_object
 div.learning_object div.title
 {
 	font-weight: bold;
-	border-bottom: 1px solid grey; #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
 	width: 60%;
 	margin-bottom: 1em;
 }

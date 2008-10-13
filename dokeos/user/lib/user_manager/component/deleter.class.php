@@ -30,7 +30,7 @@ class UserManagerDeleterComponent extends UserManagerComponent
 			$success = $user->delete();
 			
 			if($success)
-    			Events :: trigger_event('delete', 'users', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
+    			Events :: trigger_event('delete', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
 			
 			$this->redirect('url', Translation :: get($success ? 'UserDeleted' : 'UserNotDeleted'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
 

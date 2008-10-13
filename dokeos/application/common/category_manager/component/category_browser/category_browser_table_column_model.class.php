@@ -3,7 +3,7 @@
  * @package repository.repositorymanager
  */
 
-require_once dirname(__FILE__).'/../../category.class.php';
+require_once dirname(__FILE__).'/../../platform_category.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
 /**
@@ -41,7 +41,7 @@ class CategoryBrowserTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 		$columns[] = new ObjectTableColumn('', false);
-		$columns[] = new ObjectTableColumn(Category :: PROPERTY_NAME, true);
+		$columns[] = new ObjectTableColumn(PlatformCategory :: PROPERTY_NAME, true);
 		return $columns;
 	}
 }
