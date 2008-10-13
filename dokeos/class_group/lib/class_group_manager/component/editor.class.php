@@ -14,8 +14,8 @@ class ClassGroupManagerEditorComponent extends ClassGroupManagerComponent
 	function run()
 	{	
 		$trail = new BreadcrumbTrail();
-		$admin = new Admin();
-		$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+		$admin = new AdminManager();
+		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('ClassGroupList')));
 		
 		$id = $_GET[ClassGroupManager :: PARAM_CLASSGROUP_ID];

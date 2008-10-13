@@ -181,8 +181,8 @@ require_once dirname(__FILE__).'/../users_block.class.php';
 	 */
 	function render_block($block)
 	{
-		$weblcms_block = UsersBlock :: factory($this, $block);
-		return $weblcms_block->run();
+		$user_block = UsersBlock :: factory($this, $block);
+		return $user_block->run();
 	}
 	
 	/**

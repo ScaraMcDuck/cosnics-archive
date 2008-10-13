@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-abstract class AdminComponent {
+abstract class AdminManagerComponent {
 
 	/**
 	 * The admin in which this componet is used
@@ -24,55 +24,55 @@ abstract class AdminComponent {
 	 */
 	private static $admin_count = 0;
 	
-	protected function AdminComponent($admin) {
+	protected function AdminManagerComponent($admin) {
 		$this->admin = $admin;
 		$this->id =  ++self :: $admin_count;
 	}
 	
 	/**
-	 * @see Admin::display_header()
+	 * @see AdminManager ::display_header()
 	 */
 	function display_header($breadcrumbs = array (), $display_search = false)
 	{
 		$this->get_parent()->display_header($breadcrumbs, $display_search);
 	}
 	/**
-	 * @see Admin::display_footer()
+	 * @see AdminManager ::display_footer()
 	 */
 	function display_footer()
 	{
 		$this->get_parent()->display_footer();
 	}
 	/**
-	 * @see Admin::display_message()
+	 * @see AdminManager ::display_message()
 	 */
 	function display_message($message)
 	{
 		$this->get_parent()->display_message($message);
 	}
 	/**
-	 * @see Admin::display_error_message()
+	 * @see AdminManager ::display_error_message()
 	 */
 	function display_error_message($message)
 	{
 		$this->get_parent()->display_error_message($message);
 	}
 	/**
-	 * @see Admin::display_error_page()
+	 * @see AdminManager ::display_error_page()
 	 */
 	function display_error_page($message)
 	{
 		$this->get_parent()->display_error_page($message);
 	}
 	/**
-	 * @see Admin::display_warning_page()
+	 * @see AdminManager ::display_warning_page()
 	 */
 	function display_warning_page($message)
 	{
 		$this->get_parent()->display_warning_page($message);
 	}
 	/**
-	 * @see Admin::display_popup_form()
+	 * @see AdminManager ::display_popup_form()
 	 */
 	function display_popup_form($form_html)
 	{
@@ -80,7 +80,7 @@ abstract class AdminComponent {
 	}
 	
 	/**
-	 * @see Admin::display_popup_form()
+	 * @see AdminManager ::display_popup_form()
 	 */
 	function get_application_platform_admin_links()
 	{
@@ -88,7 +88,7 @@ abstract class AdminComponent {
 	}
 	
 	/**
-	 * @see Admin::get_url()
+	 * @see AdminManager ::get_url()
 	 */
 	function get_url($additional_parameters = array(), $include_search = false, $encode_entities = false)
 	{
@@ -148,7 +148,7 @@ abstract class AdminComponent {
 	}
 	
 	/**
-	 * @see Admin :: get_parameter()
+	 * @see AdminManager :: get_parameter()
 	 */
 	function get_parameter($name)
 	{
@@ -156,7 +156,7 @@ abstract class AdminComponent {
 	}
 	
 	/**
-	 * @see Admin :: get_parameters()
+	 * @see AdminManager :: get_parameters()
 	 */
 	function get_parameters()
 	{
@@ -164,7 +164,7 @@ abstract class AdminComponent {
 	}
 	
 	/**
-	 * @see Admin :: retrieve_system_announcement_publication()
+	 * @see AdminManager :: retrieve_system_announcement_publication()
 	 */
 	function retrieve_system_announcement_publication($id)
 	{
@@ -172,7 +172,7 @@ abstract class AdminComponent {
 	}
 	
 	/**
-	 * @see Admin :: retrieve_system_announcement_publications()
+	 * @see AdminManager :: retrieve_system_announcement_publications()
 	 */
 	function retrieve_system_announcement_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
@@ -180,7 +180,7 @@ abstract class AdminComponent {
 	}
 	
 	/**
-	 * @see Admin :: count_system_announcement_publications()
+	 * @see AdminManager :: count_system_announcement_publications()
 	 */
 	function count_system_announcement_publications($condition = null)
 	{
@@ -213,7 +213,7 @@ abstract class AdminComponent {
 	}
 	
 	/**
-	 * @see Admin :: not_allowed()
+	 * @see AdminManager :: not_allowed()
 	 */
 	function not_allowed()
 	{

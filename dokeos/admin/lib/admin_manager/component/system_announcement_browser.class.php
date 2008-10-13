@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/system_announcement_publication_browser/system_
 /**
  * Admin component to manage system announcements
  */
-class AdminSystemAnnouncementBrowserComponent extends AdminComponent
+class AdminSystemAnnouncementBrowserComponent extends AdminManagerComponent
 {
     
 	function run()

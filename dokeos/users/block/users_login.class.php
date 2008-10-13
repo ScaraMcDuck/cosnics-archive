@@ -23,17 +23,6 @@ class UsersLogin extends UsersBlock
 		return implode("\n", $html);
 	}
 	
-	function display_title()
-	{
-		$html = array();
-		
-		$html[] = '<div class="title">'. $this->get_block_info()->get_title();
-		$html[] = '<a href="#" class="closeEl"><img class="visible"'. ($this->get_block_info()->is_visible() ? ' style="display: block;"' : ' style="display: none;"') .' src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible"'. ($this->get_block_info()->is_visible() ? ' style="display: none;"' : ' style="display: block;"') .' src="'.Theme :: get_common_img_path().'action_invisible.png" /></a>';
-		$html[] = '</div>';
-		
-		return implode ("\n", $html);
-	}
-	
 	function display_anonymous_right_menu()
 	{
 		global $loginFailed, $plugins;
@@ -105,6 +94,21 @@ class UsersLogin extends UsersBlock
 		$form->addRule('password', Translation :: get('ThisFieldIsRequired'), 'required');
 		$form->addElement('submit','submitAuth',Translation :: get('Ok'));
 		return $form->toHtml();
+	}
+	
+	function is_editable()
+	{
+		return false;
+	}
+	
+	function is_hidable()
+	{
+		return false;
+	}
+	
+	function is_deletable()
+	{
+		return false;
 	}
 }
 ?>

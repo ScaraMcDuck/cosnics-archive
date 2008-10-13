@@ -37,7 +37,7 @@ class SystemAnnouncerPublicationCreatorComponent extends PublisherPublicationCre
 				$message = 'SystemAnnouncementNotPublished';
 			}
 			
-			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(Admin :: PARAM_ACTION => Admin :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
+			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
 		}
 		else
 		{

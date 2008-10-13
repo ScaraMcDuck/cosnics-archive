@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../admin_manager.class.php';
 require_once dirname(__FILE__).'/../admin_manager_component.class.php';
 
-class AdminSystemAnnouncementViewerComponent extends AdminComponent
+class AdminSystemAnnouncementViewerComponent extends AdminManagerComponent
 {	
 	/**
 	 * Runs this component and displays its output.
@@ -23,7 +23,7 @@ class AdminSystemAnnouncementViewerComponent extends AdminComponent
 			exit;
 		}
 		
-		$id = $_GET[Admin :: PARAM_SYSTEM_ANNOUNCEMENT_ID];
+		$id = $_GET[AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID];
 		
 		if ($id)
 		{

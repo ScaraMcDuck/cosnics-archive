@@ -85,9 +85,22 @@ class Block {
 		$html = array();
 		
 		$html[] = '<div class="title">'. $this->get_block_info()->get_title();
-		$html[] = '<a href="'. $this->get_block_visibility_link($this->get_block_info()) .'" class="closeEl"><img class="visible"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none;"') .' src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible"'. ($this->get_block_info()->is_visible() ? ' style="display: none;"' : '') .' src="'.Theme :: get_common_img_path().'action_invisible.png" /></a>';
-		$html[] = '<a href="'. $this->get_block_editing_link($this->get_block_info()) .'" class="editEl"><img src="'.Theme :: get_common_img_path().'action_edit.png" /></a>';
-		$html[] = '<a href="'. $this->get_block_deleting_link($this->get_block_info()) .'" class="deleteEl"><img src="'.Theme :: get_common_img_path().'action_delete.png" /></a>';
+		
+		if ($this->is_hidable())
+		{
+			$html[] = '<a href="'. $this->get_block_visibility_link($this->get_block_info()) .'" class="closeEl"><img class="visible"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none;"') .' src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible"'. ($this->get_block_info()->is_visible() ? ' style="display: none;"' : '') .' src="'.Theme :: get_common_img_path().'action_invisible.png" /></a>';
+		}
+		
+		if ($this->is_editable())
+		{
+			$html[] = '<a href="'. $this->get_block_editing_link($this->get_block_info()) .'" class="editEl"><img src="'.Theme :: get_common_img_path().'action_edit.png" /></a>';
+		}
+		
+		if ($this->is_deletable())
+		{
+			$html[] = '<a href="'. $this->get_block_deleting_link($this->get_block_info()) .'" class="deleteEl"><img src="'.Theme :: get_common_img_path().'action_delete.png" /></a>';
+		}
+		
 		$html[] = '</div>';
 		
 		return implode ("\n", $html);
@@ -255,6 +268,21 @@ class Block {
 		asort($application_components);
 		
 		return $application_components;
+	}
+	
+	function is_editable()
+	{
+		return true;
+	}
+	
+	function is_hidable()
+	{
+		return true;
+	}
+	
+	function is_deletable()
+	{
+		return true;
 	}
 }
 ?>

@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/../admin_manager.class.php';
 require_once dirname(__FILE__).'/../admin_manager_component.class.php';
 require_once dirname(__FILE__).'/../../system_announcer.class.php';
 
-class AdminSystemAnnouncementCreatorComponent extends AdminComponent
+class AdminSystemAnnouncementCreatorComponent extends AdminManagerComponent
 {	
 	/**
 	 * Runs this component and displays its output.

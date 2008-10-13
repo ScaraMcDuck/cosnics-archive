@@ -33,8 +33,8 @@ class SubscribeWizardDisplay extends HTML_QuickForm_Action_Display
 	function _renderForm($current_page)
 	{
 		$trail = new BreadcrumbTrail();
-		$admin = new Admin();
-		$trail->add(new Breadcrumb($admin->get_link(array(Admin :: PARAM_ACTION => Admin :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+		$admin = new AdminManager();
+		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->parent->get_url(array(ClassGroupManager :: PARAM_ACTION => ClassGroupManager :: ACTION_BROWSE_CLASSGROUPS)), Translation :: get('ClassGroupList')));
 		
 		$classgroup_id = $_GET[ClassGroupManager :: PARAM_CLASSGROUP_ID];

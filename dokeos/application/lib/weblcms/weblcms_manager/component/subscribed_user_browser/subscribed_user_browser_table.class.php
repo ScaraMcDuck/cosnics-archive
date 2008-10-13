@@ -7,7 +7,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 require_once dirname(__FILE__).'/subscribed_user_browser_table_data_provider.class.php';
 require_once dirname(__FILE__).'/subscribed_user_browser_table_column_model.class.php';
 require_once dirname(__FILE__).'/subscribed_user_browser_table_cell_renderer.class.php';
-require_once Path :: get_user_path(). 'lib/usermanager/user_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_manager/user_manager.class.php';
 /**
  * Table to display a list of users not subscribed to a course.
  */
