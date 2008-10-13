@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../category_manager.class.php';
 require_once dirname(__FILE__).'/../category_manager_component.class.php';
-require_once dirname(__FILE__).'/../category.class.php';
+require_once dirname(__FILE__).'/../platform_category.class.php';
 require_once dirname(__FILE__).'/../category_form.class.php';
 
 class CategoryManagerCreatorComponent extends CategoryManagerComponent
@@ -27,7 +27,7 @@ class CategoryManagerCreatorComponent extends CategoryManagerComponent
 			exit;
 		}
 
-		$category = new Category();
+		$category = new PlatformCategory();
 		$category->set_parent(isset($category_id)?$category_id:0);
 		
 		$form = new CategoryForm(CategoryForm :: TYPE_CREATE, $this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $category_id)), $category, $user);

@@ -31,7 +31,7 @@ class CategoryBrowserTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null, $order_direction = null)
     {
 		//$order_property = $this->get_order_property($order_property);
-		$order_property = array(Category :: PROPERTY_DISPLAY_ORDER);
+		$order_property = array(PlatformCategory :: PROPERTY_DISPLAY_ORDER);
 		//$order_direction = $this->get_order_property($order_direction);
 		$order_direction = array(SORT_ASC);
        

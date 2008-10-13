@@ -1,6 +1,6 @@
 <?php
 
-require_once Path :: get_application_library_path(). 'category_manager/category.class.php';
+require_once Path :: get_application_library_path(). 'category_manager/platform_category.class.php';
 require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
 
 /**
@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
  *	@author Sven Vanpoucke
  */
 
-class WeblcmsCategory extends Category
+class WeblcmsCategory extends PlatformCategory
 {
 	function create()
 	{

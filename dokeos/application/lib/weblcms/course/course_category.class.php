@@ -31,7 +31,7 @@ class CourseCategory {
 	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_CODE = 'code';
-	const PROPERTY_PARENT = 'parent_id';
+	const PROPERTY_PARENT = 'parent';
 	const PROPERTY_TREE_POS = 'tree_pos';
 	const PROPERTY_CHILDREN_COUNT = 'children_count';
 	const PROPERTY_AUTH_COURSE_CHILD = 'auth_course_child';

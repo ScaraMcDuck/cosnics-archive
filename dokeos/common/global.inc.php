@@ -216,7 +216,7 @@ if(isset($_POST['login']))
 	if(!is_null($user))
 	{
 		Session :: register('_uid', $user->get_id());
-		Events :: trigger_event('login', 'users', array('server' => $_SERVER, 'user' => $user));
+		Events :: trigger_event('login', 'user', array('server' => $_SERVER, 'user' => $user));
 		// TODO: Tracking framework
 		//loginCheck($_SESSION['_uid']);
 		//event_login();
@@ -246,7 +246,7 @@ if (isset($_GET['logout']))
 	$udm = UserDataManager::get_instance();
 	$user = $udm->retrieve_user(Session :: get_user_id());
 	
-	Events :: trigger_event('logout', 'users', array('server' => $_SERVER, 'user' => $user));
+	Events :: trigger_event('logout', 'user', array('server' => $_SERVER, 'user' => $user));
 	$udm = UserDataManager::get_instance();
 	$udm->logout();
 	header("Location: index.php");

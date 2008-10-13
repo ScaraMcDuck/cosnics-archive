@@ -36,7 +36,7 @@ class CategoryManagerDeleterComponent extends CategoryManagerComponent
 			
 			foreach($ids as $id)
 			{
-    			$categories = $this->retrieve_categories(new EqualityCondition(Category :: PROPERTY_ID, $id));
+    			$categories = $this->retrieve_categories(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $id));
     			$category = $categories->next_result();
     			
     			if($parent == -1) $parent = $category->get_parent();

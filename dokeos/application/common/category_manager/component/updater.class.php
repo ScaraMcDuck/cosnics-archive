@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../category_manager.class.php';
 require_once dirname(__FILE__).'/../category_manager_component.class.php';
-require_once dirname(__FILE__).'/../category.class.php';
+require_once dirname(__FILE__).'/../platform_category.class.php';
 require_once dirname(__FILE__).'/../category_form.class.php';
 
 class CategoryManagerCategoryComponent extends CategoryManagerComponent
@@ -27,7 +27,7 @@ class CategoryManagerCategoryComponent extends CategoryManagerComponent
 			exit;
 		}
 
-		$categories = $this->retrieve_categories(new EqualityCondition(Category :: PROPERTY_ID, $category_id));
+		$categories = $this->retrieve_categories(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $category_id));
 		$category = $categories->next_result();
 		
 		$form = new CategoryForm(CategoryForm :: TYPE_EDIT, $this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $category->get_id())), $category, $user);

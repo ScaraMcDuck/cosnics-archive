@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../category_manager.class.php';
 require_once dirname(__FILE__).'/../category_manager_component.class.php';
-require_once dirname(__FILE__).'/../category.class.php';
+require_once dirname(__FILE__).'/../platform_category.class.php';
 require_once dirname(__FILE__).'/../category_form.class.php';
 
 class CategoryManagerMoverComponent extends CategoryManagerComponent
@@ -29,7 +29,7 @@ class CategoryManagerMoverComponent extends CategoryManagerComponent
 			exit;
 		}
 
-		$categories = $this->retrieve_categories(new EqualityCondition(Category :: PROPERTY_ID, $category_id));
+		$categories = $this->retrieve_categories(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $category_id));
 		$category = $categories->next_result();
 		$parent = $category->get_parent();
 		
@@ -37,8 +37,8 @@ class CategoryManagerMoverComponent extends CategoryManagerComponent
 		$new_place = $display_order + $direction;
 		$category->set_display_order($new_place);
 		
-		$conditions[] = new EqualityCondition(Category :: PROPERTY_DISPLAY_ORDER, $new_place);
-		$conditions[] = new EqualityCondition(Category :: PROPERTY_PARENT, $parent);
+		$conditions[] = new EqualityCondition(PlatformCategory :: PROPERTY_DISPLAY_ORDER, $new_place);
+		$conditions[] = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent);
 		$condition = new AndCondition($conditions);
 		$categories = $this->retrieve_categories($condition);
 		$newcategory = $categories->next_result();

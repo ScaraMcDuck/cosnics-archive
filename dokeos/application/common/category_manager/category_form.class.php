@@ -3,7 +3,7 @@
  * @package reservations.lib.forms
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/category.class.php';
+require_once dirname(__FILE__).'/platform_category.class.php';
 
 class CategoryForm extends FormValidator {
 
@@ -48,8 +48,8 @@ class CategoryForm extends FormValidator {
 		$this->addElement('html', '<span class="category">' . Translation :: get('Required') . '</span>');
     	
 		// Name
-		$this->addElement('text', Category :: PROPERTY_NAME, Translation :: get('Name'));
-		$this->addRule(Category :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', PlatformCategory :: PROPERTY_NAME, Translation :: get('Name'));
+		$this->addRule(PlatformCategory :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		// Submit button
 		$this->addElement('submit', 'submit', 'OK');
@@ -63,20 +63,20 @@ class CategoryForm extends FormValidator {
      */
     function build_editing_form()
     {
-    	$this->addElement('hidden', Category :: PROPERTY_ID);
+    	$this->addElement('hidden', PlatformCategory :: PROPERTY_ID);
     }
 
 	function create_category()
 	{
 		$category = $this->category;
-		$category->set_name($this->exportValue(Category :: PROPERTY_NAME));
+		$category->set_name($this->exportValue(PlatformCategory :: PROPERTY_NAME));
 		return $category->create();
 	}
 
     function update_category()
     {
 		$category = $this->category;
-		$category->set_name($this->exportValue(Category :: PROPERTY_NAME));
+		$category->set_name($this->exportValue(PlatformCategory :: PROPERTY_NAME));
 		return $category->update();
     }
 
@@ -87,8 +87,8 @@ class CategoryForm extends FormValidator {
 	function setDefaults($defaults = array ())
 	{
 		$category = $this->category;
-		$defaults[Category :: PROPERTY_ID] = $category->get_id();
-		$defaults[Category :: PROPERTY_NAME] = $category->get_name();
+		$defaults[PlatformCategory :: PROPERTY_ID] = $category->get_id();
+		$defaults[PlatformCategory :: PROPERTY_NAME] = $category->get_name();
 		parent :: setDefaults($defaults);
 	}
 }

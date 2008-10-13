@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/category_browser_table_column_model.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
 require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
-require_once dirname(__FILE__).'/../../category.class.php';
+require_once dirname(__FILE__).'/../../platform_category.class.php';
 require_once dirname(__FILE__).'/../../category_manager.class.php';
 /**
  * Cell rendere for the learning object browser table
@@ -39,9 +39,9 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 		{
 			switch ($property)
 			{
-				case Category :: PROPERTY_ID :
+				case PlatformCategory :: PROPERTY_ID :
 					return $category->get_id();
-				case Category :: PROPERTY_NAME : 
+				case PlatformCategory :: PROPERTY_NAME : 
 					$url = $this->browser->get_browse_categories_url($category->get_id());
 					return '<a href="' . $url . '" alt="' . $category->get_name() . '">' . $category->get_name() . '</a>';
 			}

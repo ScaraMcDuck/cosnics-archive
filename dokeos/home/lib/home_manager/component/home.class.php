@@ -83,8 +83,8 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 					
 					if(!Application :: is_application($application))
 					{
-						$path = Path :: get(SYS_PATH) . $application . '/lib/' . $application . '_manager' . '/' . $application . '_manager.class.php';
-						require_once $path;
+						$sys_app_path = Path :: get(SYS_PATH) . $application . '/lib/' . $application . '_manager' . '/' . $application . '_manager.class.php';
+						require_once $sys_app_path;
 						
 						$application_class .= 'Manager';
 						

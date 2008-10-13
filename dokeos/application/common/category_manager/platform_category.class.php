@@ -9,7 +9,7 @@
  *	@author Sven Vanpoucke
  */
 
-abstract class Category
+abstract class PlatformCategory
 {
 	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
@@ -30,7 +30,7 @@ abstract class Category
 	 *                                 object. Associative array.
 	 */
 	 
-	function Category($defaultProperties = array ())
+	function PlatformCategory($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}

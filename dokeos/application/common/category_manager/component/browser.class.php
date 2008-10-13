@@ -36,13 +36,13 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 	function get_condition()
 	{
 		$cat_id = $this->get_category();
-		$condition = new EqualityCondition(Category :: PROPERTY_PARENT, $cat_id);
+		$condition = new EqualityCondition(PlatfromCategory :: PROPERTY_PARENT, $cat_id);
 		
 		$search = $this->ab->get_query();
 		if(isset($search) && ($search != ''))
 		{
 			$conditions = array();
-			$conditions[] = new LikeCondition(Category :: PROPERTY_NAME, $search);
+			$conditions[] = new LikeCondition(PlaformCategory :: PROPERTY_NAME, $search);
 			$orcondition = new OrCondition($conditions);
 			
 			$conditions = array();

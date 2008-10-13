@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application name="users">
+<application name="user">
 	<event name="login">
 		<tracker name ="login_logout" />
 		<tracker name ="browsers" />
