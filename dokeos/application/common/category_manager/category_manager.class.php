@@ -4,6 +4,7 @@
  */
 require_once dirname(__FILE__) . '/category.class.php';
 require_once dirname(__FILE__) . '/category_form.class.php';
+require_once dirname(__FILE__) . '/category_manager_component.class.php';
 /**
 ==============================================================================
  *	This class provides the means to manage categories.
@@ -49,23 +50,22 @@ abstract class CategoryManager
 		switch ($action)
 		{
 			case self :: ACTION_BROWSE_CATEGORIES :
-				$component = CategoryManagerComponent :: factory('CategoryBrowser', $this);
+				$component = CategoryManagerComponent :: factory('Browser', $this);
 				break;
 			case self :: ACTION_CREATE_CATEGORY :
-				$component = CategoryManagerComponent :: factory('CategoryCreator', $this);
+				$component = CategoryManagerComponent :: factory('Creator', $this);
 				break;
 			case self :: ACTION_UPDATE_CATEGORY :
-				$component = CategoryManagerComponent :: factory('CategoryUpdater', $this);
+				$component = CategoryManagerComponent :: factory('Updater', $this);
 				break;
 			case self :: ACTION_DELETE_CATEGORY :
-				$component = CategoryManagerComponent :: factory('CategoryDeleter', $this);
+				$component = CategoryManagerComponent :: factory('Deleter', $this);
 				break;
 			case self :: ACTION_MOVE_CATEGORY :
-				$component = CategoryManagerComponent :: factory('CategoryMover', $this);
+				$component = CategoryManagerComponent :: factory('Mover', $this);
 				break;
 			default :
-				$this->set_action(self :: ACTION_BROWSE_ITEMS);
-				$component = CategoryManagerComponent :: factory('CategoryBrowser', $this);
+				$component = CategoryManagerComponent :: factory('Browser', $this);
 		}
 		$component->run();
 	}
@@ -161,6 +161,37 @@ abstract class CategoryManager
 	function get_category_form()
 	{
 		return new CategoryForm();
+	}
+	
+	function get_browse_categories_url($category_id = 0)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CATEGORIES,
+								    self :: PARAM_CATEGORY_ID => $category_id));
+	}
+	
+	function get_create_category_url($category_id)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_CATEGORY,
+									self :: PARAM_CATEGORY_ID => $category_id));
+	}
+	
+	function get_update_category_url($category_id)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_CATEGORY,
+								    self :: PARAM_CATEGORY_ID => $category_id));
+	}
+	
+	function get_delete_category_url($category_id)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_CATEGORY,
+								    self :: PARAM_CATEGORY_ID => $category_id));
+	}
+	
+	function get_move_category_url($category_id, $direction = 1)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_CATEGORY,
+								    self :: PARAM_CATEGORY_ID => $category_id,
+								    self :: PARAM_DIRECTION => $direction));
 	}
 	
 	abstract function count_categories($condition);

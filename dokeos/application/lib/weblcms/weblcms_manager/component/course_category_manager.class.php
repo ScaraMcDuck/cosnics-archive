@@ -1,0 +1,31 @@
+<?php
+/**
+ * @package application.weblcms.weblcms_manager.component
+ */
+require_once dirname(__FILE__).'/../weblcms.class.php';
+require_once dirname(__FILE__).'/../weblcms_component.class.php';
+require_once dirname(__FILE__).'/../../course/course_category_form.class.php';
+require_once dirname(__FILE__).'/../../course/course_category_menu.class.php';
+require_once dirname(__FILE__).'/../../category_manager/weblcms_category_manager.class.php';
+
+/**
+ * Weblcms component allows the user to manage course categories
+ */
+class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
+{
+	/**
+	 * Runs this component and displays its output.
+	 */
+	function run()
+	{
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
+		
+		$category_manager = new WeblcmsCategoryManager($this);
+		
+		$this->display_header($trail);
+		$category_manager->run();
+		$this->display_footer();
+	}
+}
+?>

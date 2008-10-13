@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../category_manager_component.class.php';
 require_once dirname(__FILE__).'/category_browser/category_browser_table.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
-class CategoryManagerCategoryBrowserComponent extends CategoryManagerComponent
+class CategoryManagerBrowserComponent extends CategoryManagerComponent
 {
 	private $ab;
 	
@@ -65,7 +65,7 @@ class CategoryManagerCategoryBrowserComponent extends CategoryManagerComponent
 		$tb_data[] = array(
 				'href' => $this->get_create_category_url($_GET[CategoryManager :: PARAM_CATEGORY_ID]),
 				'label' => Translation :: get('Add'),
-				'img' => Theme :: get_theme_path() . 'action_add.png'
+				'img' => Theme :: get_common_img_path() . 'action_add.png'
 		);
 		
 		return $tb_data;

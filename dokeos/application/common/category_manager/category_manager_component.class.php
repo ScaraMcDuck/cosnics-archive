@@ -41,13 +41,6 @@ abstract class CategoryManagerComponent
 		return $this->parent->get_user();
 	}
 
-
-	/**
-	 * Returns the publisher component's output in HTML format.
-	 * @return string The output.
-	 */
-	abstract function as_html();
-
 	/**
 	 * @see ObjectPublisher::get_url()
 	 */
@@ -109,14 +102,49 @@ abstract class CategoryManagerComponent
 		$this->parent->set_extra_parameters($parameters);
 	}
 	
+	function count_categories($condition)
+	{
+		return $this->parent->count_categories($condition);
+	}
+	
+	function retrieve_categories($condition, $offset, $count, $order_property, $order_direction)
+	{
+		return $this->parent->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
+	}
+	
+	function get_browse_categories_url($category_id = 0)
+	{
+		return $this->get_parent()->get_browse_categories_url($category_id);
+	}
+	
+	function get_create_category_url($category_id)
+	{
+		return $this->get_parent()->get_create_category_url($category_id);
+	}
+	
+	function get_update_category_url($category_id)
+	{
+		return $this->get_parent()->get_update_category_url($category_id);
+	}
+	
+	function get_delete_category_url($category_id)
+	{
+		return $this->get_parent()->get_delete_category_url($category_id);
+	}
+	
+	function get_move_category_url($category_id, $direction = 1)
+	{
+		return $this->get_parent()->get_move_category_url($category_id, $direction);
+	}
+	
 	static function factory($type, $parent)
 	{
-		$filename = dirname(__FILE__).'/component/'.Utilities :: camelcase_to_underscores($type).'.class.php';
+		$filename = dirname(__FILE__).'/component/'.DokeosUtilities :: camelcase_to_underscores($type).'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" component');
 		}
-		$class = 'ReservationsManager'.$type.'Component';
+		$class = 'CategoryManager'.$type.'Component';
 		require_once $filename;
 		return new $class($parent);
 	}

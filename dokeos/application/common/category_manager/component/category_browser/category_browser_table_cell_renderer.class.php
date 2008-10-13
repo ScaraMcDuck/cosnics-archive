@@ -5,12 +5,12 @@
 require_once dirname(__FILE__).'/category_browser_table_column_model.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
 require_once Path :: get_user_path() . 'lib/users_data_manager.class.php';
-require_once dirname(__FILE__).'/../../../category.class.php';
-require_once dirname(__FILE__).'/../../reservations_manager.class.php';
+require_once dirname(__FILE__).'/../../category.class.php';
+require_once dirname(__FILE__).'/../../category_manager.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
-class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
+class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 {
 	/**
 	 * The repository browser component
@@ -23,7 +23,7 @@ class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
 	 */
 	function CategoryBrowserTableCellRenderer($browser)
 	{
-		parent :: __construct();
+		//parent :: __construct();
 		$this->browser = $browser;
 		$this->count = $browser->count_categories($browser->get_condition());
 	}
@@ -71,13 +71,13 @@ class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
 		$toolbar_data[] = array(
 				'href' => $this->browser->get_update_category_url($category->get_id()),
 				'label' => Translation :: get('Edit'),
-				'img' => Theme :: get_theme_path() . 'action_edit.png'
+				'img' => Theme :: get_common_img_path() . 'action_edit.png'
 		);
 		
 		$toolbar_data[] = array(
 				'href' => $this->browser->get_delete_category_url($category->get_id()),
 				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_theme_path() . 'action_delete.png',
+				'img' => Theme :: get_common_img_path() . 'action_delete.png',
 				'confirm' => true
 		);
 		
@@ -86,14 +86,14 @@ class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
 			$toolbar_data[] = array(
 					'href' => $this->browser->get_move_category_url($category->get_id(), -1),
 					'label' => Translation :: get('MoveUp'),
-					'img' => Theme :: get_theme_path() . 'action_up.png',
+					'img' => Theme :: get_common_img_path() . 'action_up.png',
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 					'label' => Translation :: get('MoveUpNA'),
-					'img' => Theme :: get_theme_path() . 'action_up_na.png',
+					'img' => Theme :: get_common_img_path() . 'action_up_na.png',
 			);
 		}
 		
@@ -102,14 +102,14 @@ class CategoryBrowserTableCellRenderer extends ObjectTableCellRenderer
 			$toolbar_data[] = array(
 					'href' => $this->browser->get_move_category_url($category->get_id(), 1),
 					'label' => Translation :: get('MoveDown'),
-					'img' => Theme :: get_theme_path() . 'action_down.png',
+					'img' => Theme :: get_common_img_path() . 'action_down.png',
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 					'label' => Translation :: get('MoveDownNA'),
-					'img' => Theme :: get_theme_path() . 'action_down_na.png',
+					'img' => Theme :: get_common_img_path() . 'action_down_na.png',
 			);
 		}
 		
