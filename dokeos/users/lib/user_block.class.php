@@ -13,7 +13,7 @@ require_once Path :: get_library_path() . 'block.class.php';
 ==============================================================================
  */
 
-class UsersBlock extends Block
+class UserBlock extends Block
 {
 	
 	/**
@@ -22,7 +22,7 @@ class UsersBlock extends Block
 	 * @param  boolean $email_option If true the publisher has the option to
 	 * send the published learning object by email to the selecter target users.
 	 */
-	function UsersBlock($parent, $block_info)
+	function UserBlock($parent, $block_info)
 	{
 		parent :: __construct($parent, $block_info);
 	}
@@ -36,12 +36,12 @@ class UsersBlock extends Block
 	static function factory($users, $block)
 	{
 		$type = $block->get_component();
-		$filename = dirname(__FILE__).'/../block/users_'.$type.'.class.php';
+		$filename = dirname(__FILE__).'/../block/user_'.$type.'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" block');
 		}
-		$class = 'Users'.DokeosUtilities :: underscores_to_camelcase($type);
+		$class = 'User'.DokeosUtilities :: underscores_to_camelcase($type);
 		require_once $filename;
 		return new $class($users, $block);
 	}

@@ -5,7 +5,7 @@
  * @author Dieter De Neef
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 require_once Path :: get_user_path(). 'lib/user.class.php';
 require_once Path :: get_admin_path(). 'settings/settings_admin_connector.class.php';
 require_once dirname(__FILE__).'/course.class.php';
@@ -54,7 +54,7 @@ class CourseForm extends FormValidator {
 		}
 		else
 		{
-			$udm = UsersDataManager :: get_instance();
+			$udm = UserDataManager :: get_instance();
 			$condition = new EqualityCondition(User :: PROPERTY_STATUS, 1);
 
 			$user_options = array();

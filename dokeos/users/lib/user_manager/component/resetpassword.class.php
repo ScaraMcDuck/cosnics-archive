@@ -6,7 +6,7 @@
 require_once dirname(__FILE__).'/../user_manager.class.php';
 require_once dirname(__FILE__).'/../user_manager_component.class.php';
 require_once dirname(__FILE__).'/../../register_form.class.php';
-require_once dirname(__FILE__).'/../../users_data_manager.class.php';
+require_once dirname(__FILE__).'/../../user_data_manager.class.php';
 require_once Path :: get_library_path().'authentication/authentication.class.php';
 require_once Path :: get_library_path().'mail/mail.class.php';
 /**
@@ -43,7 +43,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 		$request_user_id = $_GET[User::PROPERTY_USER_ID];
 		if(!is_null($request_key) && !is_null($request_user_id))
 		{
-			$udm = UsersDataManager :: get_instance();
+			$udm = UserDataManager :: get_instance();
 			$user = $udm->retrieve_user($request_user_id);
 			if($this->get_user_key($user) == $request_key)
 			{
@@ -65,7 +65,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 		$form->addElement('submit', 'submit', Translation :: get('Ok'));
 		if ($form->validate())
 		{
-			$udm = UsersDataManager :: get_instance();
+			$udm = UserDataManager :: get_instance();
 			$values = $form->exportValues();
 			$users = $udm->retrieve_users_by_email($values[User :: PROPERTY_EMAIL]);
 			if(count($users) == 0)

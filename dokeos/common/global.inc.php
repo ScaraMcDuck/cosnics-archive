@@ -206,12 +206,12 @@ else
  */
 
 // TODO: Are these includes still necessary ?
-require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
  
 // Login
 if(isset($_POST['login']))
 {
-	$udm = UsersDataManager::get_instance();
+	$udm = UserDataManager::get_instance();
 	$user = $udm->login($_POST['login'],$_POST['password']);
 	if(!is_null($user))
 	{
@@ -243,11 +243,11 @@ if (isset($_GET['logout']))
 		$query_string='?language='.$_SESSION['user_language_choice'];
 	}
 	
-	$udm = UsersDataManager::get_instance();
+	$udm = UserDataManager::get_instance();
 	$user = $udm->retrieve_user(Session :: get_user_id());
 	
 	Events :: trigger_event('logout', 'users', array('server' => $_SERVER, 'user' => $user));
-	$udm = UsersDataManager::get_instance();
+	$udm = UserDataManager::get_instance();
 	$udm->logout();
 	header("Location: index.php");
 	exit();
@@ -301,8 +301,8 @@ if (isset($_GET['logout']))
 
 if (isset($_SESSION['_uid']))
 {
-	require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
-	$language_interface = UsersDataManager :: get_instance()->retrieve_user(Session :: get_user_id())->get_language();
+	require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
+	$language_interface = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id())->get_language();
 }
 else
 {

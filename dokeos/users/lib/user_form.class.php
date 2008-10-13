@@ -4,7 +4,7 @@
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/user.class.php';
-require_once dirname(__FILE__).'/users_data_manager.class.php';
+require_once dirname(__FILE__).'/user_data_manager.class.php';
 
 class UserForm extends FormValidator {
 
@@ -158,7 +158,7 @@ class UserForm extends FormValidator {
     	{
 			$user->set_picture_file($_FILES[User :: PROPERTY_PICTURE_URI]);
     	}
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
     	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME], $values[User :: PROPERTY_USER_ID]))
     	{
     		$user->set_lastname($values[User :: PROPERTY_LASTNAME]);
@@ -214,7 +214,7 @@ class UserForm extends FormValidator {
     	{
 			$user->set_picture_file($_FILES[User :: PROPERTY_PICTURE_URI]);
     	}
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
     	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME], $values[User :: PROPERTY_USER_ID]))
     	{
     		$user->set_id($values[User :: PROPERTY_USER_ID]);

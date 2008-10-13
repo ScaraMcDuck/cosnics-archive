@@ -37,7 +37,7 @@ class HTML_QuickForm_Rule_DiskQuota extends HTML_QuickForm_Rule
 	function validate($file)
 	{
 		$size = $file['size'];
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		$user = $udm->retrieve_user(Session :: get_user_id());
 		$quotamanager = new QuotaManager($user);
 		$available_disk_space = $quotamanager->get_available_disk_space();

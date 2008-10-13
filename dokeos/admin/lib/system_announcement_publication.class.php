@@ -155,7 +155,7 @@ class SystemAnnouncementPublication
 	
 	function get_publication_publisher()
 	{
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		return $udm->retrieve_user($this->get_publisher());
 	}
 	

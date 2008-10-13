@@ -9,7 +9,7 @@ require_once 'HTML/QuickForm/Action/Display.php';
 require_once dirname(__FILE__).'/wizard/system_migration_wizard_page.class.php';
 require_once dirname(__FILE__).'/wizard/settings_migration_wizard_page.class.php';
 require_once dirname(__FILE__).'/wizard/migration_wizard_display.class.php';
-require_once dirname(__FILE__).'/wizard/users_migration_wizard_page.class.php';
+require_once dirname(__FILE__).'/wizard/user_migration_wizard_page.class.php';
 require_once dirname(__FILE__).'/wizard/classes_migration_wizard_page.class.php';
 require_once dirname(__FILE__).'/wizard/courses_migration_wizard_page.class.php';
 require_once dirname(__FILE__).'/wizard/system_settings_migration_wizard_page.class.php';

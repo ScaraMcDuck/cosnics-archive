@@ -179,7 +179,7 @@ class Course {
     	
     	if (!is_null($titular_id))
     	{
-			$udm = UsersDataManager :: get_instance();
+			$udm = UserDataManager :: get_instance();
 			$user = $udm->retrieve_user($titular_id);
 			return $user->get_lastname() . ' ' . $user->get_firstname();
     	}

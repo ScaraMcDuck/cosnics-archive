@@ -45,7 +45,7 @@ class UserTool extends Tool
 		switch($user_action)
 		{
 			case UserTool::USER_DETAILS:
-				$udm = UsersDataManager::get_instance();
+				$udm = UserDataManager::get_instance();
 				if(isset($_GET[Weblcms::PARAM_USERS]))
 				{
 					$user = $udm->retrieve_user($_GET[Weblcms::PARAM_USERS]);

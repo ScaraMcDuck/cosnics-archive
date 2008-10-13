@@ -21,7 +21,7 @@ class GroupSelectionSubscribeWizardPage extends SubscribeWizardPage
 	
 	function buildForm()
 	{
-		$datamanager = UsersDataManager :: get_instance();
+		$datamanager = UserDataManager :: get_instance();
 		$groups = $this->get_parent()->retrieve_classgroups(null, null, null, array(ClassGroup :: PROPERTY_NAME), array(SORT_ASC));
 		$group_options = array();
 		

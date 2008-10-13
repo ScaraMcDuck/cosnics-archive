@@ -5,7 +5,7 @@
  */
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
-require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 /**
 ==============================================================================
  *	This is a skeleton for a data manager for the Weblcms application. Data

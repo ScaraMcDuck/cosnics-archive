@@ -4,7 +4,7 @@
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/user.class.php';
-require_once dirname(__FILE__).'/users_data_manager.class.php';
+require_once dirname(__FILE__).'/user_data_manager.class.php';
 
 class RegisterForm extends FormValidator {
 	
@@ -116,7 +116,7 @@ class RegisterForm extends FormValidator {
 			$user->set_picture_uri($picture_location);
 			move_uploaded_file($temp_picture_location, $picture_location);			
     	}
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
     	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME], $values[User :: PROPERTY_USER_ID]))
     	{
     		$user->set_id($values[User :: PROPERTY_USER_ID]);

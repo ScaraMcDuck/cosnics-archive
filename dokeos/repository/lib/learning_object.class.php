@@ -9,7 +9,7 @@ require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once dirname(__FILE__).'/learning_object_difference.class.php';
 require_once dirname(__FILE__).'/learning_object_display.class.php';
-require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 /**
  *	This class represents a learning object in the repository. Every object
  *	that can be associated with a module is in fact a learning object.
@@ -484,7 +484,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	function get_available_version_count()
 	{
-		$owner = UsersDataManager :: get_instance()->retrieve_user($this->get_owner_id());
+		$owner = UserDataManager :: get_instance()->retrieve_user($this->get_owner_id());
 		$qm = new QuotaManager($owner);
 		return $qm->get_max_versions($this->get_type())-$this->get_version_count();
 

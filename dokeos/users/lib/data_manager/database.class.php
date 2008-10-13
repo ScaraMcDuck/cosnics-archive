@@ -4,7 +4,7 @@
  * @subpackage datamanager
  */
 require_once dirname(__FILE__).'/database/databaseuserresultset.class.php';
-require_once dirname(__FILE__).'/../users_data_manager.class.php';
+require_once dirname(__FILE__).'/../user_data_manager.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../user_quota.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/learning_object.class.php';
@@ -22,7 +22,7 @@ require_once 'MDB2.php';
 ==============================================================================
  */
 
-class DatabaseUsersDataManager extends UsersDataManager
+class DatabaseUserDataManager extends UserDataManager
 {
 	private $database;
 	

@@ -4,13 +4,13 @@
  */
 require_once dirname(__FILE__).'/user_manager_component.class.php';
 require_once dirname(__FILE__).'/../user_search_form.class.php';
-require_once dirname(__FILE__).'/../users_data_manager.class.php';
+require_once dirname(__FILE__).'/../user_data_manager.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
-require_once dirname(__FILE__).'/../users_block.class.php';
+require_once dirname(__FILE__).'/../user_block.class.php';
 
 /**
  * A user manager provides some functionalities to the admin to manage
@@ -181,7 +181,7 @@ require_once dirname(__FILE__).'/../users_block.class.php';
 	 */
 	function render_block($block)
 	{
-		$user_block = UsersBlock :: factory($this, $block);
+		$user_block = UserBlock :: factory($this, $block);
 		return $user_block->run();
 	}
 	
@@ -251,7 +251,7 @@ require_once dirname(__FILE__).'/../users_block.class.php';
 	 */
 	function count_users($condition = null)
 	{
-		return UsersDataManager :: get_instance()->count_users($condition);
+		return UserDataManager :: get_instance()->count_users($condition);
 	}
 
 	/**
@@ -391,7 +391,7 @@ require_once dirname(__FILE__).'/../users_block.class.php';
 	 */
 	function retrieve_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return UsersDataManager :: get_instance()->retrieve_users($condition, $offset, $count, $order_property, $order_direction);
+		return UserDataManager :: get_instance()->retrieve_users($condition, $offset, $count, $order_property, $order_direction);
 	}
 
 	/**
@@ -483,13 +483,13 @@ require_once dirname(__FILE__).'/../users_block.class.php';
 	 */
 	function retrieve_user($id)
 	{
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		return $udm->retrieve_user($id);
 	}
 
 	function retrieve_user_by_username($username)
 	{
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		return $udm->retrieve_user_by_username($username);
 	}
 
@@ -498,7 +498,7 @@ require_once dirname(__FILE__).'/../users_block.class.php';
 	 */
 	function user_deletion_allowed($user)
 	{
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		return $udm->user_deletion_allowed($user);
 	}
 

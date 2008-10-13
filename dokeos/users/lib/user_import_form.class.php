@@ -5,7 +5,7 @@
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_library_path().'import/import.class.php';
 require_once dirname(__FILE__).'/user.class.php';
-require_once dirname(__FILE__).'/users_data_manager.class.php';
+require_once dirname(__FILE__).'/user_data_manager.class.php';
 
 class UserImportForm extends FormValidator {
 	
@@ -105,7 +105,7 @@ class UserImportForm extends FormValidator {
     {
     	$failures = 0;
     	$udm = $this->udm;
-    	$udm = UsersDataManager :: get_instance();
+    	$udm = UserDataManager :: get_instance();
 		
 		//1. Check if username exists
 		if (!$udm->is_username_available($csvuser[User :: PROPERTY_USERNAME]))

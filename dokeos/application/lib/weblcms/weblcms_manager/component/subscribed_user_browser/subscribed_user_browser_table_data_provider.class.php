@@ -21,7 +21,7 @@ class SubscribedUserBrowserTableDataProvider extends ObjectTableDataProvider
   function SubscribedUserBrowserTableDataProvider($browser, $condition)
   {
     parent :: __construct($browser, $condition);
-    $this->udm = UsersDataManager :: get_instance($browser->get_user_id());
+    $this->udm = UserDataManager :: get_instance($browser->get_user_id());
   }
   /**
    * Gets the users

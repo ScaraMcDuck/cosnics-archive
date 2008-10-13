@@ -5,7 +5,7 @@ require_once dirname(__FILE__).'/../../class_group_data_manager.class.php';
 require_once dirname(__FILE__).'/class_group_rel_user_browser/class_group_rel_user_browser_table.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
-require_once Path :: get_user_path() . 'lib/users_data_manager.class.php';
+require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
 
 class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 {
@@ -69,7 +69,7 @@ class ClassGroupManagerViewerComponent extends ClassGroupManagerComponent
 		{
 			$userconditions = array();
 			
-			$users = UsersDataManager :: get_instance()->retrieve_users($user_search_condition);
+			$users = UserDataManager :: get_instance()->retrieve_users($user_search_condition);
 			while($user = $users->next_result())
 			{
 				$userconditions[] = new EqualityCondition(ClassGroupRelUser :: PROPERTY_USER_ID, $user->get_id());

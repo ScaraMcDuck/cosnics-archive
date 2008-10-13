@@ -83,7 +83,7 @@ class ProfileDisplay extends LearningObjectDisplay
 		if($object->get_picture())
 		{
 			$user_id = $object->get_owner_id();
-			$udm = UsersDataManager :: get_instance();
+			$udm = UserDataManager :: get_instance();
 			$user = $udm->retrieve_user($user_id);
 			if($user->has_picture())
 			{

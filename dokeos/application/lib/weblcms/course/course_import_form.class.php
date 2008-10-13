@@ -8,7 +8,7 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
 require_once Path :: get_library_path().'import/import.class.php';
 require_once dirname(__FILE__).'/course.class.php';
 require_once dirname(__FILE__).'/course_category.class.php';
-require_once Path :: get_user_path(). 'lib/users_data_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 
 class CourseImportForm extends FormValidator {
 	
@@ -98,7 +98,7 @@ class CourseImportForm extends FormValidator {
     function get_teacher_info($user_name)
     {
     	$udm = $this->udm;
-    	$udm = UsersDataManager :: get_instance();
+    	$udm = UserDataManager :: get_instance();
     	if (!$udm->is_username_available($user_name))
     	{
     		return $udm->get_user_info($user_name);
