@@ -842,7 +842,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			{
 				while (false !== ($file = readdir($handle)))
 				{
-					if (substr($file, 0, 1) != '.')
+					if (substr($file, 0, 1) != '.' && $file != 'component')
 					{
 						$file_path = $tool_dir.DIRECTORY_SEPARATOR.$file;
 						if (is_dir($file_path))
