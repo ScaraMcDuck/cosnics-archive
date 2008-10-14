@@ -23,8 +23,11 @@ class ActionBarRenderer
 	{
 		$html = array();
 		
-		$html[] = '<a id="abtext" href="#">ActionBar</a>';
+		$html[] = '<div id="abtext" style="clear: both; margin-bottom: 10px; display: none;"><a href="#"><img src="'. Theme :: get_common_img_path() .'action_bar.png" style="vertical-align: middle;" />&nbsp;'. Translation :: get('ShowActionBar') .'</a></div>';
 		$html[] = '<div id="actionbar" class="actionbar">';
+		
+		//$html[] = '<div style="float: left; padding: 5px; margin: -5px 0px -5px -5px; background-color: #4271B5;"><img src="'. Theme :: get_common_img_path() .'actionbar_title.png"><br /><img src="'. Theme :: get_common_img_path() .'action_actionbar_add.png" id="abhide" /></div>';
+		$html[] = '<div id="abhidecontainer" style="float: left; padding: 5px; margin: -5px 0px -5px -5px; background-color: #4271B5;"><img src="'. Theme :: get_common_img_path() .'actionbar_title.png" id="abhide" /></div>';
 		
 		if(count($this->left_actions) > 0)
 		{
@@ -50,13 +53,31 @@ class ActionBarRenderer
 			$html[] = '  <div class="rightmenu">';
 		
 		$html[] = '  </div>';
+		$html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
+		//$html[] = '<div id="abhidecontainer" style="display: none; clear: both; margin: 0px 0px -6px 0px; text-align: center; background-image: url('. Theme :: get_common_img_path() .'background_ajax_add.png); background-repeat: no-repeat; background-position: top center; padding-top: 5px; padding-bottom: 5px;"><img src="'. Theme :: get_common_img_path() .'action_ajax_add.png" id="abhide" /></div>';
 		$html[] = '</div>';
 		
 		$html[] = '<script language="JavaScript">';
+		$html[] = '  $("#abhide").attr(\'src\', \''. Theme :: get_common_img_path() .'action_actionbar_hide.png\');';
+		
 		$html[] = '  $("#abtext").bind("click", showBlockScreen);';
 		$html[] = '  function showBlockScreen()';
 		$html[] = '  {';
-		$html[] = '     $("div.actionbar").slideToggle(); return false;';
+		$html[] = '     $("#abtext").slideToggle(300, function()';
+		$html[] = '     {';
+		$html[] = '     	$("div.actionbar").slideToggle(300);';
+		$html[] = '     });';
+		$html[] = '     return false;';
+		$html[] = '  }';
+		
+		$html[] = '  $("#abhide").bind("click", hideBlockScreen);';
+		$html[] = '  function hideBlockScreen()';
+		$html[] = '  {';
+		$html[] = '     $("div.actionbar").slideToggle(300, function()';
+		$html[] = '     {';
+		$html[] = '     	$("#abtext").slideToggle(300);';
+		$html[] = '     });';
+		$html[] = '     return false;';
 		$html[] = '  }';
 		$html[] = '</script>';
 		
