@@ -24,7 +24,7 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		
 		echo '<br /><a name="top"></a>';
 		//echo $this->perform_requested_actions();
-		echo $this->bar->as_html() . '<br />';
+		echo $this->bar->as_html();
 		echo '<div style="width:100%; float:right;">';
 		echo $browser->as_html();
 		echo '</div>';
@@ -44,7 +44,7 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		
 		$actions[] = array(
 				'href' => $this->get_url(),
-				'label' => Translation :: get('Show All'),
+				'label' => Translation :: get('ShowAll'),
 				'img' => Theme :: get_common_img_path().'action_browser.png'
 		);
 		

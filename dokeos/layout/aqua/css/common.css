@@ -1797,23 +1797,23 @@ ul.toolbar li.last span {
 
 div.actionbar
 {
-	background-color: lightblue; 
-	border: 1px solid grey; 
-	height: 40px; 
+	background-color: #E5EDF9; 
+	border: 1px solid #4271B5;
 	padding: 5px;
+	margin-bottom: 10px;
+	background-image: url(../img/common/background_actionbar_title.png);
+	background-repeat: repeat-y;
 }
 
 div.actionbar div.leftmenu
 {
 	float: left;
-	height: 40px;
 	padding-right: 10px;
 }
 
 div.actionbar div.middlemenu
 {
 	float: left;
-	height: 40px;
 	padding-left: 5px;
 	padding-right: 5px;
 }
@@ -1822,5 +1822,4 @@ div.actionbar div.rightmenu
 {
 	width: 210px;
 	float: right;
-	height: 40px;
 }
