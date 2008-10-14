@@ -1,6 +1,6 @@
 <?php
 /**
- * @package users.lib.usermanager.component.adminuserbrowser
+ * @package users.lib.usermanager.component.admin_user_browser
  */
 require_once dirname(__FILE__).'/../../../user_table/default_user_table_column_model.class.php';
 require_once dirname(__FILE__).'/../../../user.class.php';

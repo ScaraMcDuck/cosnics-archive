@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../user_manager.class.php';
 require_once dirname(__FILE__).'/../user_manager_component.class.php';
-require_once dirname(__FILE__).'/adminuserbrowser/admin_user_browser_table.class.php';
+require_once dirname(__FILE__).'/admin_user_browser/admin_user_browser_table.class.php';
 require_once dirname(__FILE__).'/../../user_menu.class.php';
 
 class UserManagerAdminUserBrowserComponent extends UserManagerComponent

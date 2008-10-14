@@ -1,6 +1,6 @@
 <?php
 /**
- * @package users.lib.usermanager.component.adminuserbrowser
+ * @package users.lib.usermanager.component.admin_user_browser
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_data_provider.class.php';
 /**
