@@ -55,15 +55,13 @@ class UserLogin extends UserBlock
 		else
 		{
 			$user = $this->get_user();
-			$html[] = '<table width="200">';
-			$html[] = '<tr>';
-			$html[] = '<td rowspan="2" width="70"><img src="'.$user->get_full_picture_url().'" /></td>';
-			$html[] = '<td valign="top">'.$user->get_fullname().'</td>';
-			$html[] = '</tr>';
-			$html[] = '<tr>';
-			$html[] = '<td></td>';
-			$html[] = '</tr>';
-			$html[] = '</table>';
+			
+			$html[] = '<img src="'.$user->get_full_picture_url().'" />';
+			$html[] = '<br />';
+			$html[] = '<br />';
+			$html[] = $user->get_fullname() . '<br />';
+			$html[] = $user->get_email() . '<br />';
+			$html[] = '<br />';
 			$html[] = '<a href="index.php?logout=true">Logout</a>';
 		}
 	
