@@ -38,4 +38,7 @@ $lang['home']['HomeBlockColumn'] = 'Column';
 $lang['home']['HomeBlockContainsBlocks'] = 'Contains Blocks ?';
 $lang['home']['HomeManagerIntro'] = 'Schematic preview of homepage layout ...';
 $lang['home']['HomeManager'] = 'Manager';
+
+$lang['home']['ShowAll'] = 'Show all';
+$lang['home']['AddNewBlocks'] = 'Add new blocks';
 ?>
