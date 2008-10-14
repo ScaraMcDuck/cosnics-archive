@@ -528,7 +528,7 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 		$links[] = array('name' => Translation :: get('Create'), 'action' => 'add', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
 		$links[] = array('name' => Translation :: get('Export'), 'action' => 'export', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
 		$links[] = array('name' => Translation :: get('Import'), 'action' => 'import', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
-		return array('application' => array('name' => Translation :: get('Users'), 'class' => 'users'), 'links' => $links, 'search' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
+		return array('application' => array('name' => Translation :: get('Users'), 'class' => 'user'), 'links' => $links, 'search' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
 	}
 
 	/**
