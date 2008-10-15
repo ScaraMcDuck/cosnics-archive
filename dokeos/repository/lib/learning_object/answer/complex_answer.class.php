@@ -7,21 +7,21 @@ require_once dirname(__FILE__) . '/../../complex_learning_object_item.class.php'
 
 class ComplexAnswer extends ComplexLearningObjectItem
 {
-	const PROPERTY_WEIGHT = 'weight';
+	const PROPERTY_SCORE = 'score';
 	
-	function get_weight() 
+	function get_score() 
 	{
-		return $this->get_additional_property(self :: PROPERTY_WEIGHT);
+		return $this->get_additional_property(self :: PROPERTY_SCORE);
 	}
 	
-	function set_weight($weight)
+	function set_score($score)
 	{
-		$this->set_additional_property(self :: PROPERTY_WEIGHT, $weight);
+		$this->set_additional_property(self :: PROPERTY_SCORE, $score);
 	}
 	
 	static function get_additional_property_names()
 	{
-		return array(self :: PROPERTY_WEIGHT);
+		return array(self :: PROPERTY_SCORE);
 	}
 	
 	function get_allowed_types()

@@ -12,7 +12,7 @@ class QuestionForm extends LearningObjectForm
     protected function build_creation_form()
     {
     	parent :: build_creation_form();
-    	$this->add_select(Question :: PROPERTY_QUESTION_TYPE, Translation :: get('Type'), Question :: get_question_types());
+    	$this->add_select(Question :: PROPERTY_QUESTION_TYPE, Translation :: get('Question type'), Question :: get_question_types());
     }
     // Inherited
     protected function build_editing_form()
@@ -27,7 +27,7 @@ class QuestionForm extends LearningObjectForm
 	
 		if (isset ($lo))
 		{
-			$defaults[Question :: PROPERTY_QUESTION_TYPE] = $lo->get_type();
+			$defaults[Question :: PROPERTY_QUESTION_TYPE] = $lo->get_question_type();
 		}
 		parent :: setDefaults($defaults);
 	}
@@ -41,18 +41,24 @@ class QuestionForm extends LearningObjectForm
 	// Inherited
 	function create_learning_object()
 	{ 
-		$lo = $this->get_learning_object();
-		$values = $this->exportValues();
-		$lo->set_test($values[ComplexExercise :: PROPERTY_TEST]); 
+		$lo = new Question();
+		$this->set_learning_object($lo);
+		$this->set_question_type($lo);
 		return parent :: create_learning_object();
 	}
 	// Inherited
 	function update_learning_object()
 	{
-		$cloi = $this->get_learning_object();
-		$values = $this->exportValues();
-		$cloi->set_test($values[Question :: PROPERTY_QUESTION_TYPE]);
+		$lo = $this->get_learning_object();
+		$this->set_question_type($lo);
 		return parent :: update_learning_object();
+	}
+	
+	function set_question_type($lo) 
+	{
+		$values = $this->exportValues();
+		$question_types = $lo->get_question_types();
+		$lo->set_question_type($question_types[$values[Question :: PROPERTY_QUESTION_TYPE]]);
 	}
 }
 ?>
