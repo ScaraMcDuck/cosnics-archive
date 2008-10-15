@@ -137,6 +137,16 @@ abstract class CategoryManagerComponent
 		return $this->get_parent()->get_move_category_url($category_id, $direction);
 	}
 	
+	function get_category()
+	{
+		return $this->get_parent()->get_category();
+	}
+	
+	function get_category_form()
+	{
+		return $this->get_parent()->get_category_form();
+	}
+	
 	static function factory($type, $parent)
 	{
 		$filename = dirname(__FILE__).'/component/'.DokeosUtilities :: camelcase_to_underscores($type).'.class.php';

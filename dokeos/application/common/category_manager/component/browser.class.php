@@ -3,9 +3,11 @@
  * @package reservation.lib.reservation_manager.component
  */
 require_once dirname(__FILE__).'/../category_manager.class.php';
+require_once dirname(__FILE__).'/../category_menu.class.php';
 require_once dirname(__FILE__).'/../category_manager_component.class.php';
 require_once dirname(__FILE__).'/category_browser/category_browser_table.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
+
 
 class CategoryManagerBrowserComponent extends CategoryManagerComponent
 {
@@ -17,7 +19,10 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 	function run()
 	{		
 		$this->ab = new ActionBarRenderer($this->get_left_toolbar_data(), array(), $this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $this->get_category())));	
+		$menu = new CategoryMenu($_GET[CategoryManager :: PARAM_CATEGORY_ID], $this->get_parent());
+		
 		echo $this->ab->as_html() . '<br />';
+		echo '<div style="float: left; padding-right: 20px;">' . $menu->render_as_tree() . '</div>';
 		echo $this->get_user_html();
 	}
 	
@@ -36,7 +41,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 	function get_condition()
 	{
 		$cat_id = $this->get_category();
-		$condition = new EqualityCondition(PlatfromCategory :: PROPERTY_PARENT, $cat_id);
+		$condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $cat_id);
 		
 		$search = $this->ab->get_query();
 		if(isset($search) && ($search != ''))
@@ -50,6 +55,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 			$conditions[] = $condition;
 			$condition = new AndCondition($conditions);
 		}
+	
 		return $condition;
 	}
 	

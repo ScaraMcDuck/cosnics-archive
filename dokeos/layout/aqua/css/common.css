@@ -1823,3 +1823,19 @@ div.actionbar div.rightmenu
 	width: 210px;
 	float: right;
 }
+
+div.configuration_form {
+	clear: both;
+	margin: 20px 2px 2px 2px;
+	padding: 10px;
+	border: 1px solid #ebebeb;
+}
+
+div.configuration_form span.category
+{
+	position: relative;
+	top: -20px;
+	background-color: #FFFFFF;
+	font-weight: bold;
+	padding: 0px 5px 0px 5px;
+}

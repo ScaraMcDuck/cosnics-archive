@@ -42,8 +42,6 @@ class CategoryForm extends FormValidator {
      */
     function build_basic_form()
     {	
-    	$this->addElement('html', '<div style="float: left;width: 100%;">');
-    	
     	$this->addElement('html', '<div class="configuration_form">');
 		$this->addElement('html', '<span class="category">' . Translation :: get('Required') . '</span>');
     	
@@ -51,11 +49,12 @@ class CategoryForm extends FormValidator {
 		$this->addElement('text', PlatformCategory :: PROPERTY_NAME, Translation :: get('Name'));
 		$this->addRule(PlatformCategory :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		
+		$this->addElement('html', '<div style="clear: both;"></div>');
+		$this->addElement('html', '</div>');
+		
 		// Submit button
 		$this->addElement('submit', 'submit', 'OK');
 		
-		$this->addElement('html', '<div style="clear: both;"></div>');
-		$this->addElement('html', '</div>');
     }
 
     /**

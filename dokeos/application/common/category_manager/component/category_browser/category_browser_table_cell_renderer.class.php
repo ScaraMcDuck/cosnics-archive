@@ -51,7 +51,7 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 		$title = $column->get_title();
 		if($title == '')
 		{
-			$img = Theme :: get_theme_path() . 'treemenu_types/category.png';
+			$img = Theme :: get_common_img_path() . 'treemenu_types/category.png';
 			return '<img src="' . $img . '"alt="category" />';
 		}
 			
@@ -113,7 +113,7 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 			);
 		}
 		
-		return Utilities :: build_toolbar($toolbar_data);
+		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
 ?>
