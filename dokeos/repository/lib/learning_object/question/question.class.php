@@ -30,7 +30,7 @@ class Question extends LearningObject
 		$this->set_additional_property(self :: PROPERTY_QUESTION_TYPE, $value);
 	}
 	
-	function get_additional_property_names() 
+	static function get_additional_property_names() 
 	{
 		return array(self :: PROPERTY_QUESTION_TYPE);
 	}
@@ -43,14 +43,14 @@ class Question extends LearningObject
 	static function get_question_types()
 	{
 		return array(
-		TYPE_OPEN,
-		TYPE_MATCHING,
-		TYPE_FILL_IN_BLANKS,
-		TYPE_MULTIPLE_CHOICE,
-		TYPE_MULTIPLE_ANSWER,
-		TYPE_YES_NO,
-		TYPE_PERCENTAGE,
-		TYPE_SCORE
+		self :: TYPE_OPEN,
+		self :: TYPE_MATCHING,
+		self :: TYPE_FILL_IN_BLANKS,
+		self :: TYPE_MULTIPLE_CHOICE,
+		self :: TYPE_MULTIPLE_ANSWER,
+		self :: TYPE_YES_NO,
+		self :: TYPE_PERCENTAGE,
+		self :: TYPE_SCORE
 		);
 	}
 }
