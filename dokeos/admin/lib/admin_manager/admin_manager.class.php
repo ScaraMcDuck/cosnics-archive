@@ -42,6 +42,7 @@ class AdminManager
 	const ACTION_DELETE_SYSTEM_ANNOUNCEMENT = 'sysdeleter';
 	const ACTION_VIEW_SYSTEM_ANNOUNCEMENT = 'sysviewer';
 	const ACTION_HIDE_SYSTEM_ANNOUNCEMENT = 'sysvisibility';
+	const ACTION_MANAGE_CATEGORIES = 'manage_categories';
 
 	private $parameters;
 
@@ -86,6 +87,9 @@ class AdminManager
 				break;
 			case self :: ACTION_HIDE_SYSTEM_ANNOUNCEMENT :
 				$component = AdminManagerComponent :: factory('SystemAnnouncementHider', $this);
+				break;
+			case self :: ACTION_MANAGE_CATEGORIES :
+				$component = AdminManagerComponent :: factory('CategoryManager', $this);
 				break;
 			default :
 				$component = AdminManagerComponent :: factory('Browser', $this);
@@ -334,6 +338,7 @@ class AdminManager
 		$links		= array();
 		$links[]	= array('name' => Translation :: get('Settings'), 'action' => 'manage', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM)));
 		$links[]	= array('name' => Translation :: get('SystemAnnouncements'), 'action' => 'list', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)));
+		$links[]	= array('name' => Translation :: get('ManageCategories'), 'action' => 'list', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES)));
 		$info[]		= array('application' => array('name' => Translation :: get('Admin'), 'class' => self :: APPLICATION_NAME), 'links' => $links);
 		
 		// 2. Repository
