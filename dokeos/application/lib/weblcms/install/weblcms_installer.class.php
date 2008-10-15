@@ -39,12 +39,13 @@ class WeblcmsInstaller extends Installer
 		//Creating Language Skills
 		$cat = new CourseCategory();
 		$cat->set_name('Language skills');
-		$cat->set_code('LANG');
+		//$cat->set_code('LANG');
 		$cat->set_parent('0');
-		$cat->set_tree_pos('1');
-		$cat->set_children_count('0');
-		$cat->set_auth_course_child('1');
-		$cat->set_auth_cat_child('1');
+		//$cat->set_tree_pos('1');
+		//$cat->set_children_count('0');
+		//$cat->set_auth_course_child('1');
+		//$cat->set_auth_cat_child('1');
+		$cat->set_display_order(1);
 		if (!$cat->create())
 		{
 			return false;
@@ -53,12 +54,13 @@ class WeblcmsInstaller extends Installer
 		//creating PC Skills
 		$cat = new CourseCategory();
 		$cat->set_name('PC skills');
-		$cat->set_code('PC');
+		//$cat->set_code('PC');
 		$cat->set_parent('0');
-		$cat->set_tree_pos('2');
-		$cat->set_children_count('0');
-		$cat->set_auth_course_child('1');
-		$cat->set_auth_cat_child('1');
+		//$cat->set_tree_pos('2');
+		//$cat->set_children_count('0');
+		//$cat->set_auth_course_child('1');
+		//$cat->set_auth_cat_child('1');
+		$cat->set_display_order(1);
 		if (!$cat->create())
 		{
 			return false;
@@ -67,12 +69,13 @@ class WeblcmsInstaller extends Installer
 		//creating Projects
 		$cat = new CourseCategory();
 		$cat->set_name('Projects');
-		$cat->set_code('PROJ');
+		//$cat->set_code('PROJ');
 		$cat->set_parent('0');
-		$cat->set_tree_pos('3');
-		$cat->set_children_count('0');
-		$cat->set_auth_course_child('1');
-		$cat->set_auth_cat_child('1');
+		//$cat->set_tree_pos('3');
+		//$cat->set_children_count('0');
+		//$cat->set_auth_course_child('1');
+		//$cat->set_auth_cat_child('1');
+		$cat->set_display_order(1);
 		if (!$cat->create())
 		{
 			return false;
