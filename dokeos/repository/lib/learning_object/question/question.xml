@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="multiple_choice_question">
+<object name="question">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="question_type" type="text" notnull="1"/>
