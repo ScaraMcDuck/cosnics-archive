@@ -11,10 +11,13 @@
   <property name="auth_course_child" type="integer" length="1" default="1"/>
   <property name="auth_cat_child" type="integer" length="1" default="1"/>
  </properties>
+ <index name="id" type="primary">
+ <indexproperty name="id"/>
+ </index> 
  <index name="code" type="unique">
   <indexproperty name="code"/>
  </index>
- <index name="parent_id">
+ <index name="parent">
   <indexproperty name="parent"/>
  </index>
  <index name="tree_pos">
