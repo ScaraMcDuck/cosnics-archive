@@ -42,7 +42,7 @@ class LearningObjectPublication
 	private $parent_id;
 	private $category;
 	private $targetUsers;
-	private $targetGroups;
+	private $targetCourseGroups;
 	private $fromDate;
 	private $toDate;
 	private $hidden;
@@ -64,7 +64,7 @@ class LearningObjectPublication
 	 * in which this publication is stored
 	 * @param array $targetUsers The users for which this publication is made.
 	 * If this array contains no elements, the publication is for everybody.
-	 * @param array $targetGroups The groups for which this publication is made.
+	 * @param array $targetCourseGroups The course_groups for which this publication is made.
 	 * If this array contains no elements, the publication is for everybody.
 	 * @param int $fromDate The date on which this publication should become
 	 * available. If value is 0, publication is available forever.
@@ -77,7 +77,7 @@ class LearningObjectPublication
 	 * @param int $displayOrder The display order of this publication in its
 	 * location (course - tool - category)
 	 */
-	function LearningObjectPublication($id, $learningObject, $course, $tool, $category, $targetUsers, $targetGroups, $fromDate, $toDate, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, $emailSent)
+	function LearningObjectPublication($id, $learningObject, $course, $tool, $category, $targetUsers, $targetCourseGroups, $fromDate, $toDate, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, $emailSent)
 	{
 		$this->id = $id;
 		$this->learningObject = $learningObject;
@@ -86,7 +86,7 @@ class LearningObjectPublication
 		$this->parent_id = 0;
 		$this->category = $category;
 		$this->targetUsers = $targetUsers;
-		$this->targetGroups = $targetGroups;
+		$this->targetCourseGroups = $targetCourseGroups;
 		$this->fromDate = $fromDate;
 		$this->toDate = $toDate;
 		$this->publisher = $publisher;
@@ -157,13 +157,13 @@ class LearningObjectPublication
 		return $this->targetUsers;
 	}
 	/**
-	 * Gets the list of target groups of this publication
-	 * @return array An array of group ids.
+	 * Gets the list of target course_groups of this publication
+	 * @return array An array of course_group ids.
 	 * @see is_for_everybody()
 	 */
-	function get_target_groups()
+	function get_target_course_groups()
 	{
-		return $this->targetGroups;
+		return $this->targetCourseGroups;
 	}
 	/**
 	 * Gets the date on which this publication becomes available
@@ -211,7 +211,7 @@ class LearningObjectPublication
 	  
 	/**
 	 * Determines whether this publication was sent by email to the users and
-	 * groups for which this publication was made
+	 * course_groups for which this publication was made
 	 * @return boolean True if an email was sent
 	 */
 	function is_email_sent()
@@ -239,7 +239,7 @@ class LearningObjectPublication
 
 	function is_for_everybody()
 	{
-		return (!count($this->get_target_users()) && !count($this->get_target_groups()));
+		return (!count($this->get_target_users()) && !count($this->get_target_course_groups()));
 	}
 
 	function is_visible_for_target_users()
@@ -293,9 +293,9 @@ class LearningObjectPublication
 		$this->targetUsers = $targetUsers;
 	}
 
-	function set_target_groups($targetGroups)
+	function set_target_course_groups($targetCourseGroups)
 	{
-		$this->targetGroups = $targetGroups;
+		$this->targetCourseGroups = $targetCourseGroups;
 	}
 
 	function set_from_date($fromDate)

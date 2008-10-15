@@ -1,12 +1,12 @@
 <?php
 /**
  * $Id$
- * Group tool
+ * CourseGroup tool
  * @package application.weblcms.tool
- * @subpackage group
+ * @subpackage course_group
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_data_provider.class.php';
-class GroupSubscribedUserBrowserTableDataprovider  extends ObjectTableDataProvider
+class CourseGroupSubscribedUserBrowserTableDataprovider  extends ObjectTableDataProvider
 {
   private $wdm;
 
@@ -15,7 +15,7 @@ class GroupSubscribedUserBrowserTableDataprovider  extends ObjectTableDataProvid
    * @param WeblcmsComponent $browser
    * @param Condition $condition
    */
-  function GroupSubscribedUserBrowserTableDataprovider($browser, $condition)
+  function CourseGroupSubscribedUserBrowserTableDataprovider($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
     	$this->wdm = WeblcmsDataManager :: get_instance();
@@ -33,7 +33,7 @@ class GroupSubscribedUserBrowserTableDataprovider  extends ObjectTableDataProvid
 		$order_property = $this->get_order_property($order_property);
 		$order_direction = $this->get_order_property($order_direction);
 
-      return $this->wdm->retrieve_group_users($this->get_browser()->get_group(),$this->get_condition(), $offset, $count, $order_property, $order_direction);
+      return $this->wdm->retrieve_course_group_users($this->get_browser()->get_course_group(),$this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
   /**
    * Gets the number of users in the table
@@ -41,7 +41,7 @@ class GroupSubscribedUserBrowserTableDataprovider  extends ObjectTableDataProvid
    */
     function get_object_count()
     {
-      return $this->wdm->count_group_users($this->get_browser()->get_group(),$this->get_condition());
+      return $this->wdm->count_course_group_users($this->get_browser()->get_course_group(),$this->get_condition());
     }
 }
 ?>

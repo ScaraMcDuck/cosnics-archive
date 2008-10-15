@@ -104,11 +104,11 @@ abstract class ToolComponent
 	}
 
 	/**
-	 * @see WebApplication :: get_groups()
+	 * @see WebApplication :: get_course_groups()
 	 */
-	function get_groups()
+	function get_course_groups()
 	{
-		return $this->tool->get_groups();
+		return $this->tool->get_course_groups();
 	}
 
 	/**

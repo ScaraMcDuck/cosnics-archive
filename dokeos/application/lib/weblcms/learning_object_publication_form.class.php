@@ -19,11 +19,11 @@ class LearningObjectPublicationForm extends FormValidator
  	*/
 	// XXX: Some of these constants heavily depend on FormValidator.
 	const PARAM_CATEGORY_ID = 'category';
-	const PARAM_TARGETS = 'target_users_and_groups';
+	const PARAM_TARGETS = 'target_users_and_course_groups';
 	const PARAM_RECEIVERS = 'receivers';
 	const PARAM_TARGETS_TO = 'to';
 	const PARAM_TARGET_USER_PREFIX = 'user';
-	const PARAM_TARGET_GROUP_PREFIX = 'group';
+	const PARAM_TARGET_COURSE_GROUP_PREFIX = 'course_group';
 	const PARAM_FOREVER = 'forever';
 	const PARAM_FROM_DATE = 'from_date';
 	const PARAM_TO_DATE = 'to_date';
@@ -94,12 +94,12 @@ class LearningObjectPublicationForm extends FormValidator
 		$users = $publication->get_target_users();
 		foreach($users as $index => $user_id)
 		{
-			$defaults['target_users_and_groups']['to'][] = 'user-'.$user_id;
+			$defaults['target_users_and_course_groups']['to'][] = 'user-'.$user_id;
 		}
-		$groups = $publication->get_target_groups();
-		foreach($groups as $index => $group_id)
+		$course_groups = $publication->get_target_course_groups();
+		foreach($course_groups as $index => $course_group_id)
 		{
-			$defaults['target_users_and_groups']['to'][] = 'group-'.$group_id;
+			$defaults['target_users_and_course_groups']['to'][] = 'course_group-'.$course_group_id;
 		}
 		parent::setDefaults($defaults);
     }
@@ -140,10 +140,10 @@ class LearningObjectPublicationForm extends FormValidator
 			$receiver_choices[self :: PARAM_TARGET_USER_PREFIX.'-'.$user->get_id()] = $user->get_fullname();
 		}
 
-		$groups = $this->course->get_groups();
-		foreach($groups as $index => $group)
+		$course_groups = $this->course->get_course_groups();
+		foreach($course_groups as $index => $course_group)
 		{
-			$receiver_choices[self :: PARAM_TARGET_GROUP_PREFIX.'-'.$group->get_id()] = Translation :: get('Group').': '.$group->get_name();
+			$receiver_choices[self :: PARAM_TARGET_COURSE_GROUP_PREFIX.'-'.$course_group->get_id()] = Translation :: get('CourseGroup').': '.$course_group->get_name();
 		}
 		$attributes = array(self :: PARAM_RECEIVERS => $receiver_choices);
 		$this->addElement('receivers', self :: PARAM_TARGETS, Translation :: get('PublishFor'),$attributes);
@@ -177,15 +177,15 @@ class LearningObjectPublicationForm extends FormValidator
 		$hidden = ($values[self :: PARAM_HIDDEN] ? 1 : 0);
 		$category = $values[self :: PARAM_CATEGORY_ID];
 		$users = array ();
-		$groups = array ();
+		$course_groups = array ();
 		if($values[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] == 1)
 		{
 			foreach($values[self::PARAM_TARGETS][self :: PARAM_TARGETS_TO] as $index => $target)
 			{
 				list($type,$id) = explode('-',$target);
-				if($type == self :: PARAM_TARGET_GROUP_PREFIX)
+				if($type == self :: PARAM_TARGET_COURSE_GROUP_PREFIX)
 				{
-					$groups[] = $id;
+					$course_groups[] = $id;
 				}
 				elseif($type == self :: PARAM_TARGET_USER_PREFIX)
 				{
@@ -200,7 +200,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$modifiedDate = time();
 		$pub->set_modified_date($modifiedDate);
 		$pub->set_target_users($users);
-		$pub->set_target_groups($groups);
+		$pub->set_target_course_groups($course_groups);
 		$pub->update();
 		return $pub;
     }
@@ -225,15 +225,15 @@ class LearningObjectPublicationForm extends FormValidator
 		$hidden = ($values[self :: PARAM_HIDDEN] ? 1 : 0);
 		$category = $values[self :: PARAM_CATEGORY_ID];
 		$users = array ();
-		$groups = array ();
+		$course_groups = array ();
 		if($values[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] == 1)
 		{
 			foreach($values[self::PARAM_TARGETS][self :: PARAM_TARGETS_TO] as $index => $target)
 			{
 				list($type,$id) = explode('-',$target);
-				if($type == self :: PARAM_TARGET_GROUP_PREFIX)
+				if($type == self :: PARAM_TARGET_COURSE_GROUP_PREFIX)
 				{
-					$groups[] = $id;
+					$course_groups[] = $id;
 				}
 				elseif($type == self :: PARAM_TARGET_USER_PREFIX)
 				{
@@ -248,7 +248,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$publisher = $this->tool->get_user_id();
 		$modifiedDate = time();
 		$publicationDate = time();
-		$pub = new LearningObjectPublication(null, $this->learning_object, $course, $tool, $category, $users, $groups, $from, $to, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, false);
+		$pub = new LearningObjectPublication(null, $this->learning_object, $course, $tool, $category, $users, $course_groups, $from, $to, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, false);
 		$pub->create();
 		if($this->email_option && $values[self::PARAM_EMAIL])
 		{
@@ -260,7 +260,7 @@ class LearningObjectPublicationForm extends FormValidator
 			
 			$subject = '['.$site_name_setting->get_value().'] '.$learning_object->get_title();
 			$body = new html2text($display->get_full_html());
-			// TODO: send email to correct users/groups. For testing, the email is sent now to the publisher.
+			// TODO: send email to correct users/course_groups. For testing, the email is sent now to the publisher.
 			$user = $this->user;
 			$mail = Mail :: factory($learning_object->get_title(), $body->get_text(), $user->get_email());
 			

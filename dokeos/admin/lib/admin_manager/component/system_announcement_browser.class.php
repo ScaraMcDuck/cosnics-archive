@@ -5,6 +5,7 @@
 require_once dirname(__FILE__).'/../admin_manager.class.php';
 require_once dirname(__FILE__).'/../admin_manager_component.class.php';
 require_once dirname(__FILE__).'/system_announcement_publication_browser/system_announcement_publication_browser_table.class.php';
+require_once Path :: get_library_path().'html/toolbar/toolbar.class.php';
 /**
  * Admin component to manage system announcements
  */
@@ -79,15 +80,10 @@ class AdminSystemAnnouncementBrowserComponent extends AdminManagerComponent
 	
 	function get_toolbar()
 	{
-		$toolbar_data = array();
-		$toolbar_data[] = array(
-			'href' => $this->get_system_announcement_publication_creating_url(),
-			'label' => Translation :: get('Publish'),
-			'img' => Theme :: get_common_img_path().'action_publish.png',
-			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-		);
-
-		return DokeosUtilities :: build_toolbar($toolbar_data);
+		$toolbar = new Toolbar();
+		$toolbar->add_item(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_img_path().'action_publish.png', $this->get_system_announcement_publication_creating_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
+		return $toolbar->as_html();
 	}
 }
 ?>

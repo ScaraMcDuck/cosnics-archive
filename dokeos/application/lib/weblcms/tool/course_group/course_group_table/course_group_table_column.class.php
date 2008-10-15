@@ -1,16 +1,16 @@
 <?php
 /**
- * $Id: grouptool.class.php 12541 2007-06-06 07:34:34Z bmol $
- * Group tool
+ * $Id: course_grouptool.class.php 12541 2007-06-06 07:34:34Z bmol $
+ * CourseGroup tool
  * @package application.weblcms.tool
- * @subpackage group
+ * @subpackage course_group
  */
-class GroupTableColumn
+class CourseGroupTableColumn
 {
 	/**
-	 * The property of the group which will be displayed in this column.
+	 * The property of the course_group which will be displayed in this column.
 	 */
-	private $group_property;
+	private $course_group_property;
 	/**
 	 * The title of the column.
 	 */
@@ -21,17 +21,17 @@ class GroupTableColumn
 	private $sortable;
 	/**
 	 * Constructor. Either defines a column that displays a default property
-	 * of groups, or arbitrary content.
+	 * of course_groups, or arbitrary content.
 	 * @param string $property_name_or_column_title If the column contains arbitrary content, the title of the column. If
 	 *   it displays a user property, that particular property, a User::PROPERTY_* constant.
 	 * @param boolean $contains_user_property True if the column displays a user property, false otherwise.
 	 */
-	function GroupTableColumn($property_name_or_column_title, $contains_group_property = false)
+	function CourseGroupTableColumn($property_name_or_column_title, $contains_course_group_property = false)
 	{
-		if ($contains_group_property)
+		if ($contains_course_group_property)
 		{
-			$this->group_property = $property_name_or_column_title;
-			$this->title = Translation :: get(ucfirst($this->group_property));
+			$this->course_group_property = $property_name_or_column_title;
+			$this->title = Translation :: get(ucfirst($this->course_group_property));
 			$this->sortable = true;
 		}
 		else
@@ -41,13 +41,13 @@ class GroupTableColumn
 		}
 	}
 	/**
-	 * Gets the group property that this column displays.
+	 * Gets the course_group property that this column displays.
 	 * @return string The property name, or null if the column contains
 	 *                arbitrary content.
 	 */
-	function get_group_property()
+	function get_course_group_property()
 	{
-		return $this->group_property;
+		return $this->course_group_property;
 	}
 	/**
 	 * Gets the title of this column.

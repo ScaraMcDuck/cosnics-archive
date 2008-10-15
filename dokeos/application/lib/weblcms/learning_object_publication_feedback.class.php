@@ -24,7 +24,7 @@ class LearningObjectPublicationFeedback extends LearningObjectPublication
 	 * in which this publication is stored
 	 * @param array $targetUsers The users for which this publication is made.
 	 * If this array contains no elements, the publication is for everybody.
-	 * @param array $targetGroups The groups for which this publication is made.
+	 * @param array $targetCourseGroups The course_groups for which this publication is made.
 	 * If this array contains no elements, the publication is for everybody.
 	 * @param int $fromDate The date on which this publication should become
 	 * available. If value is 0, publication is available forever.
@@ -63,9 +63,9 @@ class LearningObjectPublicationFeedback extends LearningObjectPublication
 		parent :: set_target_users(array());
 	}
 
-	function set_target_groups($targetGroups)
+	function set_target_course_groups($targetCourseGroups)
 	{
-		parent :: set_target_groups(array());
+		parent :: set_target_course_groups(array());
 	}
 
 	function set_from_date($fromDate)

@@ -52,14 +52,14 @@ class AnnouncementBrowser extends LearningObjectPublicationBrowser
 			if($this->is_allowed(EDIT_RIGHT))
 			{
 				$user_id = null;
-				$groups = null;
+				$course_groups = null;
 			}
 			else
 			{
 				$user_id = $this->get_user_id();
-				$groups = $this->get_groups();
+				$course_groups = $this->get_course_groups();
 			}
-			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups, $condition, false, array (Announcement :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $this->get_parent()->get_condition());
+			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups, $condition, false, array (Announcement :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $this->get_parent()->get_condition());
 			$visible_publications = array ();
 			while ($publication = $publications->next_result())
 			{

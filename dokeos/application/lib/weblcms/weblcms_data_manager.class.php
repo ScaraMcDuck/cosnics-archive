@@ -121,15 +121,15 @@ abstract class WeblcmsDataManager
 	 * @param mixed $users The IDs of the users who should have access to the
 	 *                     publications, or null if any. An empty array means
 	 *                     the publication should be accessible to all users.
-	 * @param mixed $groups The IDs of the groups that should have access to
+	 * @param mixed $course_groups The IDs of the course_groups that should have access to
 	 *                      the publications, or null if any. An empty array
 	 *                      means the publication should be accessible to all
-	 *                      groups.
+	 *                      course_groups.
 	 * @param Condition $condition A Condition for publication selection. See
 	 *                             the Conditions framework.
 	 * @param boolean $allowDuplicates Whether or not to allow the same
 	 *                                 publication to be returned twice, e.g.
-	 *                                 if it was published for several groups
+	 *                                 if it was published for several course_groups
 	 *                                 that the user is a member of. Defaults
 	 *                                 to false.
 	 * @param array $orderBy The properties to order publications by.
@@ -141,7 +141,7 @@ abstract class WeblcmsDataManager
 	 * @param int $maxObjects The maximum number of objects to retrieve.
 	 * @return ResultSet A set of LearningObjectPublications.
 	 */
-	abstract function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array ('display_order'), $orderDir = array (SORT_ASC), $offset = 0, $maxObjects = -1);
+	abstract function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $course_groups = null, $condition = null, $allowDuplicates = false, $orderBy = array ('display_order'), $orderDir = array (SORT_ASC), $offset = 0, $maxObjects = -1);
 
 	/**
 	 * Counts learning object publications in persistent storage.
@@ -151,18 +151,18 @@ abstract class WeblcmsDataManager
 	 *                          located in, or null if none.
 	 * @param mixed $users The IDs of the user who should have access to the
 	 *                     publications, or null if none.
-	 * @param mixed $groups The IDs of the groups who should have access to
+	 * @param mixed $course_groups The IDs of the course_groups who should have access to
 	 *                      the publications, or null if none.
 	 * @param Condition $condition A Condition for publication selection. See
 	 *                             the Conditions framework.
 	 * @param boolean $allowDuplicates Whether or not to allow the same
 	 *                                 publication to be returned twice, e.g.
-	 *                                 if it was published for several groups
+	 *                                 if it was published for several course_groups
 	 *                                 that the user is a member of. Defaults
 	 *                                 to false.
 	 * @return int The number of matching learning object publications.
 	 */
-	abstract function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false);
+	abstract function count_learning_object_publications($course = null, $categories = null, $users = null, $course_groups = null, $condition = null, $allowDuplicates = false);
 
 	/**
 	 * Count the number of courses
@@ -640,70 +640,70 @@ abstract class WeblcmsDataManager
 	  */
 	abstract function get_last_visit_date($course_code,$user_id,$module_name = null,$category_id = 0);
 	/**
-	 * Deletes a group
-	 * @param int $id The group id
+	 * Deletes a course_group
+	 * @param int $id The course_group id
 	 */
-	abstract function delete_group($id);
+	abstract function delete_course_group($id);
 	/**
-	 * Creates a group
-	 * @param Group $group
+	 * Creates a course_group
+	 * @param CourseGroup $course_group
 	 */
-	abstract function create_group($group);
+	abstract function create_course_group($course_group);
 	/**
-	 * Updates a group
-	 * @param Group $group
+	 * Updates a course_group
+	 * @param CourseGroup $course_group
 	 */
-	abstract function update_group($group);
+	abstract function update_course_group($course_group);
 	/**
-	 * Retrieves a group
+	 * Retrieves a course_group
 	 * @param int id
 	 */
-	abstract function retrieve_group($id);
+	abstract function retrieve_course_group($id);
 	/**
-	 * Retrieves the groups defined in a given course
+	 * Retrieves the course_groups defined in a given course
 	 * @param string $course_code
 	 */
-	abstract function retrieve_groups($course_code,$category = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_course_groups($course_code,$category = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	/**
-	 * Retrieves the groups from a given course in which the given user is
+	 * Retrieves the course_groups from a given course in which the given user is
 	 * subscribed
 	 * @param User The user
 	 * @param Course The course
-	 * @return DatabaseGroupResultSet
+	 * @return DatabaseCourseGroupResultSet
 	 */
-	abstract function retrieve_groups_from_user($user,$course = null);
+	abstract function retrieve_course_groups_from_user($user,$course = null);
 	/**
-	 * Retrieves the users in a group
+	 * Retrieves the users in a course_group
 	 */
-	abstract function retrieve_group_users($group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_course_group_users($course_group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	/**
-	 * Counts the users in a group
+	 * Counts the users in a course_group
 	 */
-	abstract function count_group_users($group,$conditions = null);
+	abstract function count_course_group_users($course_group,$conditions = null);
 	/**
-	 * Retrieves the users that can be subscribed to a group
+	 * Retrieves the users that can be subscribed to a course_group
 	 */
-	abstract function retrieve_possible_group_users($group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_possible_course_group_users($course_group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	/**
-	 * Counts the users that can be subscribed to a group
+	 * Counts the users that can be subscribed to a course_group
 	 */
-	abstract function count_possible_group_users($group,$conditions = null);
+	abstract function count_possible_course_group_users($course_group,$conditions = null);
 	/**
-	 * Subscribes users to groups
+	 * Subscribes users to course_groups
 	 * @param array|User $users A single user or an array of users
-	 * @param array|Group $groups A single group or an array of groups
+	 * @param array|CourseGroup $course_groups A single course_group or an array of course_groups
 	 */
-	abstract function subscribe_users_to_groups($users,$groups);
+	abstract function subscribe_users_to_course_groups($users,$course_groups);
 	/**
-	 * Unsubscribes users from groups
+	 * Unsubscribes users from course_groups
 	 * @param array|User $users A single user or an array of users
-	 * @param array|Group $groups A single group or an array of groups
+	 * @param array|CourseGroup $course_groups A single course_group or an array of course_groups
 	 */
-	abstract function unsubscribe_users_from_groups($users,$groups);
+	abstract function unsubscribe_users_from_course_groups($users,$course_groups);
 	/**
-	 * Is user member of the group
+	 * Is user member of the course_group
 	 */
-	abstract function is_group_member($group,$user);
+	abstract function is_course_group_member($course_group,$user);
 	
 	abstract function get_next_category_id();
 	abstract function select_next_display_order($parent_category_id);

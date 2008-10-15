@@ -62,16 +62,16 @@ class ExercisePublicationTableDataProvider extends ObjectTableDataProvider
 		if($this->parent->is_allowed(EDIT_RIGHT))
 		{
 			$user_id = null;
-			$groups = null;
+			$course_groups = null;
 		}
 		else
 		{
 			$user_id = $this->parent->get_user_id();
-			$groups = $this->parent->get_groups();
+			$course_groups = $this->parent->get_course_groups();
 		}
 		$course = $this->parent->get_course_id();
-		//echo $course.";".$owner.";".$groups.";".$condition.";".$columns.";".$direction;
-    	$publications = $datamanager->retrieve_learning_object_publications($course, null, $owner, $groups, $condition, false, array(), array(), 0, -1, null, $lo_condition);
+		//echo $course.";".$owner.";".$course_groups.";".$condition.";".$columns.";".$direction;
+    	$publications = $datamanager->retrieve_learning_object_publications($course, null, $owner, $course_groups, $condition, false, array(), array(), 0, -1, null, $lo_condition);
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{

@@ -36,8 +36,8 @@ class SearchTool extends Tool
 		{
 			$datamanager = WeblcmsDataManager :: get_instance();
 			$user_id = $this->get_user_id();
-			$groups = $this->get_groups();
-			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups);
+			$course_groups = $this->get_course_groups();
+			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups);
 			$ids = array();
 			$id = $publications->next_learning_object_id();
 			while($id != null)

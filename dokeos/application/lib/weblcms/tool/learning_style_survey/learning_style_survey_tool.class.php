@@ -90,7 +90,7 @@ class LearningStyleSurveyTool extends Tool
 					{
 						$this->display_header($trail);
 						echo $toolbar;
-						// TODO: filter on users or groups somehow?
+						// TODO: filter on users or course_groups somehow?
 						$condition = new EqualityCondition(LearningStyleSurveyResult :: PROPERTY_PROFILE_ID, $profile_id);
 						$results = $dm->retrieve_learning_objects('learning_style_survey_result', $condition);
 						if (!$results->is_empty())

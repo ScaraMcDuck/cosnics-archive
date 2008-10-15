@@ -118,11 +118,11 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_groups()
+	 * @see Weblcms::get_course_groups()
 	 */	
-	function get_groups()
+	function get_course_groups()
 	{
-		return $this->get_parent()->get_groups();
+		return $this->get_parent()->get_course_groups();
 	}
 	
 	/**

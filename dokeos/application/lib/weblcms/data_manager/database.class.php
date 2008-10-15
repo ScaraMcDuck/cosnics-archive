@@ -5,7 +5,7 @@
  * @subpackage datamanager
  */
 require_once dirname(__FILE__).'/database/database_course_result_set.class.php';
-require_once dirname(__FILE__).'/database/database_group_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_course_group_result_set.class.php';
 require_once dirname(__FILE__).'/database/database_course_category_result_set.class.php';
 require_once dirname(__FILE__).'/database/database_course_user_category_result_set.class.php';
 require_once dirname(__FILE__).'/database/database_course_user_relation_result_set.class.php';
@@ -244,30 +244,30 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $record[0];
 	}
 
-	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $learning_object = null, $search_condition = null)
+	function retrieve_learning_object_publications($course = null, $categories = null, $users = null, $course_groups = null, $condition = null, $allowDuplicates = false, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $learning_object = null, $search_condition = null)
 	{
-		if(is_array($groups))
+		if(is_array($course_groups))
 		{
-			if(count($groups) == 0)
+			if(count($course_groups) == 0)
 			{
-				$groups = null;
+				$course_groups = null;
 			}
 			else
 			{
-				$group_ids = array();
-				foreach($groups as $index => $group)
+				$course_group_ids = array();
+				foreach($course_groups as $index => $course_group)
 				{
-					$group_ids[] = $group->get_id();
+					$course_group_ids[] = $course_group->get_id();
 				}
-				$groups = $group_ids;
+				$course_groups = $course_group_ids;
 			}
 		}
 		$params = array ();
-		$query = 'SELECT '.($allowDuplicates ? '' : 'DISTINCT ').'p.* FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
+		$query = 'SELECT '.($allowDuplicates ? '' : 'DISTINCT ').'p.* FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_course_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
 		/*
 		 * Add WHERE clause (also extends $params).
 		 */
-		$translator = $this->get_publication_retrieval_where_clause($learning_object, $course, $categories, $users, $groups, $condition, $params);
+		$translator = $this->get_publication_retrieval_where_clause($learning_object, $course, $categories, $users, $course_groups, $condition, $params);
 		if (!is_null($translator))
 		{
 			$query .= $translator->render_query();
@@ -304,28 +304,28 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return new DatabaseLearningObjectPublicationResultSet($this, $res);
 	}
 
-	function count_learning_object_publications($course = null, $categories = null, $users = null, $groups = null, $condition = null, $allowDuplicates = false, $learning_object = null)
+	function count_learning_object_publications($course = null, $categories = null, $users = null, $course_groups = null, $condition = null, $allowDuplicates = false, $learning_object = null)
 	{
-		if(is_array($groups))
+		if(is_array($course_groups))
 		{
-			if(count($groups) == 0)
+			if(count($course_groups) == 0)
 			{
-				$groups = null;
+				$course_groups = null;
 			}
 			else
 			{
-				$group_ids = array();
-				foreach($groups as $index => $group)
+				$course_group_ids = array();
+				foreach($course_groups as $index => $course_group)
 				{
-					$group_ids[] = $group->get_id();
+					$course_group_ids[] = $course_group->get_id();
 				}
-				$groups = $group_ids;
+				$course_groups = $course_group_ids;
 			}
 		}
 		$params = array ();
-		$query = 'SELECT COUNT('.($allowDuplicates ? '*' : 'DISTINCT p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID)).') FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
+		$query = 'SELECT COUNT('.($allowDuplicates ? '*' : 'DISTINCT p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID)).') FROM '.$this->escape_table_name('learning_object_publication').' AS p LEFT JOIN '.$this->escape_table_name('learning_object_publication_course_group').' AS pg ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pg.'.$this->escape_column_name('publication').' LEFT JOIN '.$this->escape_table_name('learning_object_publication_user').' AS pu ON p.'.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=pu.'.$this->escape_column_name('publication');
 		
-		$translator = $this->get_publication_retrieval_where_clause($learning_object, $course, $categories, $users, $groups, $condition, $params);
+		$translator = $this->get_publication_retrieval_where_clause($learning_object, $course, $categories, $users, $course_groups, $condition, $params);
 		if (!is_null($translator))
 		{
 			$query .= $translator->render_query();
@@ -445,7 +445,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $record[0];
 	}
 
-	private function get_publication_retrieval_where_clause ($learning_object, $course, $categories, $users, $groups, $condition, $params)
+	private function get_publication_retrieval_where_clause ($learning_object, $course, $categories, $users, $course_groups, $condition, $params)
 	{
 		$cond = array ();
 		if (!is_null($learning_object))
@@ -473,7 +473,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			}
 		}
 		$accessConditions = array ();
-		// Add condition to retrieve publications for given users (user=id and group=null)
+		// Add condition to retrieve publications for given users (user=id and course_group=null)
 		if (!is_null($users))
 		{
 			if (!is_array($users))
@@ -488,29 +488,29 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$accessConditions[] = new OrCondition($userConditions);
 
 		}
-		// Add condition to retrieve publications for given groups (user=null and group=id)
-		if (!is_null($groups))
+		// Add condition to retrieve publications for given course_groups (user=null and course_group=id)
+		if (!is_null($course_groups))
 		{
-			if (!is_array($groups))
+			if (!is_array($course_groups))
 			{
-				$groups = array ($groups);
+				$course_groups = array ($course_groups);
 			}
-			$groupConditions = array();
-			foreach ($groups as $g)
+			$course_groupConditions = array();
+			foreach ($course_groups as $g)
 			{
-				$groupConditions[] = new EqualityCondition('group_id', $g);
+				$course_groupConditions[] = new EqualityCondition('course_group_id', $g);
 			}
-			$accessConditions[] = new OrCondition($groupConditions);
+			$accessConditions[] = new OrCondition($course_groupConditions);
 
 		}
-		if(!is_null($groups) || !is_null($users))
+		if(!is_null($course_groups) || !is_null($users))
 		{
-			// Add condition to retrieve publications for everybody (user=null and group=null)
-			$accessConditions[] = new AndCondition(new EqualityCondition('user',null),new EqualityCondition('group_id',null));
+			// Add condition to retrieve publications for everybody (user=null and course_group=null)
+			$accessConditions[] = new AndCondition(new EqualityCondition('user',null),new EqualityCondition('course_group_id',null));
 		}
 
 		/*
-		 * Add user/group conditions to global condition.
+		 * Add user/course_group conditions to global condition.
 		 */
 		if (count($accessConditions))
 		{
@@ -566,28 +566,28 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$props[$this->escape_column_name('user')] = $user_id;
 			$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_user'), $props, MDB2_AUTOQUERY_INSERT);
 		}
-		$groups = $publication->get_target_groups();
-		foreach($groups as $index => $group_id)
+		$course_groups = $publication->get_target_course_groups();
+		foreach($course_groups as $index => $course_group_id)
 		{
 			$props = array();
 			$props[$this->escape_column_name('publication')] = $publication->get_id();
-			$props[$this->escape_column_name('group_id')] = $group_id;
-			$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_group'), $props, MDB2_AUTOQUERY_INSERT);
+			$props[$this->escape_column_name('course_group_id')] = $course_group_id;
+			$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_course_group'), $props, MDB2_AUTOQUERY_INSERT);
 		}
 		return true;
 	}
 
 	function update_learning_object_publication($publication)
 	{
-		// Delete target users and groups
+		// Delete target users and course_groups
 		$parameters['id'] = $publication->get_id();
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_user').' WHERE publication = ?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute($parameters['id']);
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_course_group').' WHERE publication = ?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute($parameters['id']);
-		// Add updated target users and groups
+		// Add updated target users and course_groups
 		$users = $publication->get_target_users();
 		$this->connection->loadModule('Extended');
 		foreach($users as $index => $user_id)
@@ -597,13 +597,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$props[$this->escape_column_name('user')] = $user_id;
 			$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_user'), $props, MDB2_AUTOQUERY_INSERT);
 		}
-		$groups = $publication->get_target_groups();
-		foreach($groups as $index => $group_id)
+		$course_groups = $publication->get_target_course_groups();
+		foreach($course_groups as $index => $course_group_id)
 		{
 			$props = array();
 			$props[$this->escape_column_name('publication')] = $publication->get_id();
-			$props[$this->escape_column_name('group_id')] = $group_id;
-			$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_group'), $props, MDB2_AUTOQUERY_INSERT);
+			$props[$this->escape_column_name('course_group_id')] = $course_group_id;
+			$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_course_group'), $props, MDB2_AUTOQUERY_INSERT);
 		}
 		// Update publication properties
 		$where = $this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'='.$publication->get_id();
@@ -646,7 +646,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_user').' WHERE publication = ?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute($publication->get_id());
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_course_group').' WHERE publication = ?';
 		$statement = $this->connection->prepare($query);
 		$statement->execute($publication->get_id());
 		$query = 'UPDATE '.$this->escape_table_name('learning_object_publication').' SET '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'='.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'-1 WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX).'>?';
@@ -1457,8 +1457,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 				)';
 		$statement = $this->connection->prepare($sql);
 		$statement->execute($course_code);
-		// Delete target groups
-		$sql = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_group').'
+		// Delete target course_groups
+		$sql = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_course_group').'
 				WHERE publication IN (
 					SELECT id FROM '.$this->escape_table_name('learning_object_publication').'
 					WHERE course = ?
@@ -1725,13 +1725,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function record_to_publication($record)
 	{
 		$obj = RepositoryDataManager :: get_instance()->retrieve_learning_object($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
-		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_course_group').' WHERE publication = ?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($record[LearningObjectPublication :: PROPERTY_ID]);
-		$target_groups = array();
-		while($target_group = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		$target_course_groups = array();
+		while($target_course_group = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$target_groups[] = $target_group['group_id'];
+			$target_course_groups[] = $target_course_group['course_group_id'];
 		}
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_user').' WHERE publication = ?';
 		$sth = $this->connection->prepare($query);
@@ -1741,45 +1741,45 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$target_users[] = $target_user['user'];
 		}
-		return new LearningObjectPublication($record[LearningObjectPublication :: PROPERTY_ID], $obj, $record[LearningObjectPublication :: PROPERTY_COURSE_ID], $record[LearningObjectPublication :: PROPERTY_TOOL], $record[LearningObjectPublication :: PROPERTY_CATEGORY_ID], $target_users, $target_groups, $record[LearningObjectPublication :: PROPERTY_FROM_DATE], $record[LearningObjectPublication :: PROPERTY_TO_DATE], $record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID], $record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE], $record[LearningObjectPublication :: PROPERTY_MODIFIED_DATE], $record[LearningObjectPublication :: PROPERTY_HIDDEN] != 0, $record[LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX],$record[LearningObjectPublication :: PROPERTY_EMAIL_SENT]);
+		return new LearningObjectPublication($record[LearningObjectPublication :: PROPERTY_ID], $obj, $record[LearningObjectPublication :: PROPERTY_COURSE_ID], $record[LearningObjectPublication :: PROPERTY_TOOL], $record[LearningObjectPublication :: PROPERTY_CATEGORY_ID], $target_users, $target_course_groups, $record[LearningObjectPublication :: PROPERTY_FROM_DATE], $record[LearningObjectPublication :: PROPERTY_TO_DATE], $record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID], $record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE], $record[LearningObjectPublication :: PROPERTY_MODIFIED_DATE], $record[LearningObjectPublication :: PROPERTY_HIDDEN] != 0, $record[LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX],$record[LearningObjectPublication :: PROPERTY_EMAIL_SENT]);
 	}
-	function record_to_group($record)
+	function record_to_course_group($record)
 	{
 		if (!is_array($record) || !count($record))
 		{
 			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
-		foreach (Group :: get_default_property_names() as $prop)
+		foreach (CourseGroup :: get_default_property_names() as $prop)
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
 
-		return new Group($record[Group :: PROPERTY_ID], $record[Group::PROPERTY_COURSE_CODE], $defaultProp);
+		return new CourseGroup($record[CourseGroup :: PROPERTY_ID], $record[CourseGroup::PROPERTY_COURSE_CODE], $defaultProp);
 	}
 	// Inherited
-	function delete_group($id)
+	function delete_course_group($id)
 	{
-		// TODO: Delete subscription of users in this group
-		// TODO: Delete other group stuff
-		// Delete group
-		$sql = 'DELETE FROM '.$this->escape_table_name('group').' WHERE id = ?';
+		// TODO: Delete subscription of users in this course_group
+		// TODO: Delete other course_group stuff
+		// Delete course_group
+		$sql = 'DELETE FROM '.$this->escape_table_name('course_group').' WHERE id = ?';
 		$statement = $this->connection->prepare($sql);
 		$statement->execute($id);
 	}
 	// Inherited
-	function create_group($group)
+	function create_course_group($course_group)
 	{
 		$props = array();
-		$props[Group :: PROPERTY_ID] = $group->get_id();
-		$props[Group :: PROPERTY_COURSE_CODE] = $group->get_course_code();
-		$props[Group :: PROPERTY_NAME] = $group->get_name();
-		$props[Group :: PROPERTY_DESCRIPTION] = $group->get_description();
-		$props[Group :: PROPERTY_MAX_NUMBER_OF_MEMBERS] = $group->get_max_number_of_members();
-		$props[Group :: PROPERTY_SELF_REG] = $group->is_self_registration_allowed();
-		$props[Group :: PROPERTY_SELF_UNREG] = $group->is_self_unregistration_allowed();
+		$props[CourseGroup :: PROPERTY_ID] = $course_group->get_id();
+		$props[CourseGroup :: PROPERTY_COURSE_CODE] = $course_group->get_course_code();
+		$props[CourseGroup :: PROPERTY_NAME] = $course_group->get_name();
+		$props[CourseGroup :: PROPERTY_DESCRIPTION] = $course_group->get_description();
+		$props[CourseGroup :: PROPERTY_MAX_NUMBER_OF_MEMBERS] = $course_group->get_max_number_of_members();
+		$props[CourseGroup :: PROPERTY_SELF_REG] = $course_group->is_self_registration_allowed();
+		$props[CourseGroup :: PROPERTY_SELF_UNREG] = $course_group->is_self_unregistration_allowed();
 		$this->connection->loadModule('Extended');
-		if ($this->connection->extended->autoExecute($this->get_table_name('group'), $props, MDB2_AUTOQUERY_INSERT))
+		if ($this->connection->extended->autoExecute($this->get_table_name('course_group'), $props, MDB2_AUTOQUERY_INSERT))
 		{
 			return true;
 		}
@@ -1788,50 +1788,50 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			return false;
 		}
 	}
-	function get_next_group_id()
+	function get_next_course_group_id()
 	{
-		return $this->connection->nextID($this->get_table_name('group'));
+		return $this->connection->nextID($this->get_table_name('course_group'));
 	}
 	// Inherited
-	function update_group($group)
+	function update_course_group($course_group)
 	{
-		$where = $this->escape_column_name(Group :: PROPERTY_ID).'="'. $group->get_id().'"';
+		$where = $this->escape_column_name(CourseGroup :: PROPERTY_ID).'="'. $course_group->get_id().'"';
 		$props = array();
-		foreach ($group->get_default_properties() as $key => $value)
+		foreach ($course_group->get_default_properties() as $key => $value)
 		{
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->escape_table_name('group'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		$this->connection->extended->autoExecute($this->escape_table_name('course_group'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;
 	}
 	// Inherited
-	function retrieve_group($id)
+	function retrieve_course_group($id)
 	{
-		$query = 'SELECT * FROM '. $this->escape_table_name('group');
+		$query = 'SELECT * FROM '. $this->escape_table_name('course_group');
 		$query .= ' WHERE '.$this->escape_column_name('id').'=?';
 		$params[] = $id;
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
-		return $this->record_to_group($res->fetchRow(MDB2_FETCHMODE_ASSOC));
+		return $this->record_to_course_group($res->fetchRow(MDB2_FETCHMODE_ASSOC));
 	}
 	// Inherited
 	//@todo: Take parameters into account
-	function retrieve_groups($course_code,$category = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_course_groups($course_code,$category = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		$query = 'SELECT * FROM '. $this->escape_table_name('group');
+		$query = 'SELECT * FROM '. $this->escape_table_name('course_group');
 		$query .= ' WHERE '.$this->escape_column_name('course_code').'=?';
 		$params[] = $course_code;
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
-		return new DatabaseGroupResultSet($this, $res);
+		return new DatabaseCourseGroupResultSet($this, $res);
 	}
 	// Inherited
-	function retrieve_group_user_ids($group)
+	function retrieve_course_group_user_ids($course_group)
 	{
-		$query = 'SELECT user_id FROM '.$this->escape_table_name('group_rel_user');
-		$query .= ' WHERE '.$this->escape_column_name('group_id').'=?';
-		$params[] = $group->get_id();
+		$query = 'SELECT user_id FROM '.$this->escape_table_name('course_group_rel_user');
+		$query .= ' WHERE '.$this->escape_column_name('course_group_id').'=?';
+		$params[] = $course_group->get_id();
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		$user_ids = array();
@@ -1842,29 +1842,29 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $user_ids;
 	}
 	// Inherited
-	function retrieve_groups_from_user($user,$course = null)
+	function retrieve_course_groups_from_user($user,$course = null)
 	{
 		if(!is_null($course))
 		{
-			$query = 'SELECT g.* FROM '. $this->escape_table_name('group').' g, '. $this->escape_table_name('group_rel_user').' u';
-			$query .= ' WHERE g.id = u.group_id AND g.'.$this->escape_column_name('course_code').'=? AND u.user_id = ?';
+			$query = 'SELECT g.* FROM '. $this->escape_table_name('course_group').' g, '. $this->escape_table_name('course_group_rel_user').' u';
+			$query .= ' WHERE g.id = u.course_group_id AND g.'.$this->escape_column_name('course_code').'=? AND u.user_id = ?';
 			$params[] = $course->get_id();
 			$params[] = $user->get_id();
 		}
 		else
 		{
-			$query = 'SELECT g.* FROM '. $this->escape_table_name('group').' g, '. $this->escape_table_name('group_rel_user').' u';
-			$query .= ' WHERE g.id = u.group_id AND u.user_id = ?';
+			$query = 'SELECT g.* FROM '. $this->escape_table_name('course_group').' g, '. $this->escape_table_name('course_group_rel_user').' u';
+			$query .= ' WHERE g.id = u.course_group_id AND u.user_id = ?';
 			$params[] = $user->get_id();
 		}
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
-		return new DatabaseGroupResultSet($this, $res);
+		return new DatabaseCourseGroupResultSet($this, $res);
 	}
 	// Inherited
-	function retrieve_group_users($group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_course_group_users($course_group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		$user_ids = $this->retrieve_group_user_ids($group);
+		$user_ids = $this->retrieve_course_group_user_ids($course_group);
 		
 		$udm = UserDataManager::get_instance();
 		
@@ -1889,9 +1889,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 	// Inherited
-	function count_group_users($group,$conditions = null)
+	function count_course_group_users($course_group,$conditions = null)
 	{
-		$user_ids = $this->retrieve_group_user_ids($group);
+		$user_ids = $this->retrieve_course_group_user_ids($course_group);
 		if(count($user_ids) > 0)
 		{
 			$condition = new InCondition('user_id',$user_ids);
@@ -1913,12 +1913,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 	// Inherited
-	function retrieve_possible_group_users($group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_possible_course_group_users($course_group,$condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		$udm = UserDataManager::get_instance();
 		$query = 'SELECT user_id FROM '. $this->escape_table_name('course_rel_user') .' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).'=?';
 		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($group->get_course_code());
+		$res = $statement->execute($course_group->get_course_code());
 		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$course_user_ids[] = $record[User::PROPERTY_USER_ID];
@@ -1931,7 +1931,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$condition = new InCondition(User::PROPERTY_USER_ID,$course_user_ids);
 		}
-		$user_ids = $this->retrieve_group_user_ids($group);
+		$user_ids = $this->retrieve_course_group_user_ids($course_group);
 		if(count($user_ids)>0)
 		{
 			$user_condition = new NotCondition(new InCondition('user_id',$user_ids));
@@ -1947,7 +1947,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $udm->retrieve_users($condition , $offset , $count, $order_property, $order_direction);
 	}
 	// Inherited
-	function count_possible_group_users($group,$conditions = null)
+	function count_possible_course_group_users($course_group,$conditions = null)
 	{
 		if(!is_array($conditions))
 		{
@@ -1956,13 +1956,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$udm = UserDataManager::get_instance();
 		$query = 'SELECT user_id FROM '. $this->escape_table_name('course_rel_user') .' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).'=?';
 		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($group->get_course_code());
+		$res = $statement->execute($course_group->get_course_code());
 		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$course_user_ids[] = $record[User::PROPERTY_USER_ID];
 		}
 		$conditions[] = new InCondition(User::PROPERTY_USER_ID,$course_user_ids);
-		$user_ids = $this->retrieve_group_user_ids($group);
+		$user_ids = $this->retrieve_course_group_user_ids($course_group);
 		if(count($user_ids) > 0)
 		{
 			$user_condition = new NotCondition(new InCondition('user_id',$user_ids));
@@ -1972,55 +1972,55 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $udm->count_users($condition);
 	}
 	// Inherited
-	function subscribe_users_to_groups($users,$groups)
+	function subscribe_users_to_course_groups($users,$course_groups)
 	{
 		if(!is_array($users))
 		{
 			$users = array($users);
 		}
-		if(!is_array($groups))
+		if(!is_array($course_groups))
 		{
-			$groups = array($groups);
+			$course_groups = array($course_groups);
 		}
 		foreach($users as $index => $user)
 		{
 			$props = array();
 			$props[User :: PROPERTY_USER_ID] = $user->get_id();
-			foreach($groups as $index => $group)
+			foreach($course_groups as $index => $course_group)
 			{
-				$props['group_id'] = $group->get_id();
+				$props['course_group_id'] = $course_group->get_id();
 				$this->connection->loadModule('Extended');
-				$this->connection->extended->autoExecute($this->get_table_name('group_rel_user'), $props, MDB2_AUTOQUERY_INSERT);
+				$this->connection->extended->autoExecute($this->get_table_name('course_group_rel_user'), $props, MDB2_AUTOQUERY_INSERT);
 			}
 		}
 	}
 	// Inherited
-	function unsubscribe_users_from_groups($users,$groups)
+	function unsubscribe_users_from_course_groups($users,$course_groups)
 	{
 		if(!is_array($users))
 		{
 			$users = array($users);
 		}
-		if(!is_array($groups))
+		if(!is_array($course_groups))
 		{
-			$groups = array($groups);
+			$course_groups = array($course_groups);
 		}
 		foreach($users as $index => $user)
 		{
-			foreach($groups as $index => $group)
+			foreach($course_groups as $index => $course_group)
 			{
-				$sql = 'DELETE FROM '.$this->escape_table_name('group_rel_user').' WHERE group_id = ? AND user_id = ?';
+				$sql = 'DELETE FROM '.$this->escape_table_name('course_group_rel_user').' WHERE course_group_id = ? AND user_id = ?';
 				$statement = $this->connection->prepare($sql);
-				$statement->execute(array($group->get_id(),$user->get_id()));
+				$statement->execute(array($course_group->get_id(),$user->get_id()));
 			}
 		}
 	}
 	//Inherited
-	function is_group_member($group,$user)
+	function is_course_group_member($course_group,$user)
 	{
-		$sql = 'SELECT * FROM '.$this->escape_table_name('group_rel_user').' WHERE group_id = ? AND user_id = ?';
+		$sql = 'SELECT * FROM '.$this->escape_table_name('course_group_rel_user').' WHERE course_group_id = ? AND user_id = ?';
 		$statement = $this->connection->prepare($sql);
-		$res = $statement->execute(array($group->get_id(),$user->get_id()));
+		$res = $statement->execute(array($course_group->get_id(),$user->get_id()));
 		return $res->numRows() > 0;
 	}
 
@@ -2139,13 +2139,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function record_to_learning_object_publication_feedback($record)
 	{
 		$obj = RepositoryDataManager :: get_instance()->retrieve_learning_object($record[LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID]);
-		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_group').' WHERE publication = ?';
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_course_group').' WHERE publication = ?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($record[LearningObjectPublication :: PROPERTY_ID]);
-		$target_groups = array();
-		while($target_group = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		$target_course_groups = array();
+		while($target_course_group = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			$target_groups[] = $target_group['group_id'];
+			$target_course_groups[] = $target_course_group['course_group_id'];
 		}
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_user').' WHERE publication = ?';
 		$sth = $this->connection->prepare($query);

@@ -33,8 +33,8 @@ class DropboxBrowser extends LearningObjectPublicationBrowser
 		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'dropbox');
 		$condition = $tool_condition;
 		$user_id = $this->get_user_id();
-		$groups = $this->get_groups();
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups, $condition, false, array (LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
+		$course_groups = $this->get_course_groups();
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups, $condition, false, array (LearningObjectPublication :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{

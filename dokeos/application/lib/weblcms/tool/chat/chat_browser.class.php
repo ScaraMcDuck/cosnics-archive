@@ -33,14 +33,14 @@ class ChatBrowser extends LearningObjectPublicationBrowser
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			$user_id = null;
-			$groups = null;
+			$course_groups = null;
 		}
 		else
 		{
 			$user_id = $this->get_user_id();
-			$groups = $this->get_groups();
+			$course_groups = $this->get_course_groups();
 		}
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups, $condition, false, array (Description :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups, $condition, false, array (Description :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{

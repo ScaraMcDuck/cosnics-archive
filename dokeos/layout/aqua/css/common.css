@@ -1795,33 +1795,44 @@ ul.toolbar li.last span {
 	text-decoration: none;
 }
 
-div.actionbar
+div.action_bar
 {
 	background-color: #E5EDF9; 
 	border: 1px solid #4271B5;
 	padding: 5px;
 	margin-bottom: 10px;
-	background-image: url(../img/common/background_actionbar_title.png);
-	background-repeat: repeat-y;
 }
 
-div.actionbar div.leftmenu
+div.action_bar div.common_menu
 {
 	float: left;
 	padding-right: 10px;
 }
 
-div.actionbar div.middlemenu
+div.action_bar div.tool_menu
 {
 	float: left;
 	padding-left: 5px;
 	padding-right: 5px;
 }
 
-div.actionbar div.rightmenu
+div.action_bar div.search_menu
 {
 	width: 210px;
 	float: right;
+}
+
+div.action_bar #action_bar_hide_container
+{
+	display: none;
+	clear: both;
+	margin: 0px -6px -6px -6px;
+	text-align: center;
+	background-image: url(../img/common/background_ajax_hide.png);
+	background-repeat: no-repeat;
+	background-position: bottom center;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 div.configuration_form {

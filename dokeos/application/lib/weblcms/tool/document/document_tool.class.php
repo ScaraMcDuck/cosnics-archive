@@ -135,17 +135,17 @@ class DocumentTool extends Tool
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			$user_id = null;
-			$groups = null;
+			$course_groups = null;
 		}
 		else
 		{
 			$user_id = $this->get_user_id();
-			$groups = $this->get_groups();
+			$course_groups = $this->get_course_groups();
 		}
 		$target_path = current($category_folder_mapping);
 		foreach($category_folder_mapping as $category_id => $dir)
 		{
-			$publications = $dm->retrieve_learning_object_publications($this->get_course_id(), $category_id, $user_id, $groups);
+			$publications = $dm->retrieve_learning_object_publications($this->get_course_id(), $category_id, $user_id, $course_groups);
 			while($publication = $publications->next_result())
 			{
 				$document = $publication->get_learning_object();

@@ -152,11 +152,11 @@ abstract class LearningObjectPublicationBrowser
 	}
 
 	/**
-	 * @see Tool :: get_groups()
+	 * @see Tool :: get_course_groups()
 	 */
-	function get_groups()
+	function get_course_groups()
 	{
-		return $this->parent->get_groups();
+		return $this->parent->get_course_groups();
 	}
 
 	/**

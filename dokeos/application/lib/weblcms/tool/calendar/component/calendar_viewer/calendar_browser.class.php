@@ -87,16 +87,16 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			$user_id = null;
-			$groups = null;
+			$course_groups = null;
 		}
 		else
 		{
 			$user_id = $this->get_user_id();
-			$groups = $this->get_groups();
+			$course_groups = $this->get_course_groups();
 		}
 		$datamanager = WeblcmsDataManager :: get_instance();
 		$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'calendar');
-		$this->publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $groups,$condition, false, array(), array(), 0, -1, null, $this->get_parent()->get_condition())->as_array();
+		$this->publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups,$condition, false, array(), array(), 0, -1, null, $this->get_parent()->get_condition())->as_array();
 		return $this->publications;
 	}
 
