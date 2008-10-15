@@ -4,6 +4,7 @@
  */
 require_once Path :: get_application_library_path(). 'category_manager/category_manager.class.php';
 require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
+require_once dirname(__FILE__) . '/course_category.class.php';
 
 class WeblcmsCategoryManager extends CategoryManager
 {
@@ -14,7 +15,7 @@ class WeblcmsCategoryManager extends CategoryManager
 
 	function get_category()
 	{
-		return new WeblcmsCategory();
+		return new CourseCategory();
 	}
 	
 	function get_category_form()

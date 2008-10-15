@@ -20,7 +20,7 @@ require_once dirname(__FILE__).'/../course/course_user_category.class.php';
 require_once dirname(__FILE__).'/../course/course_user_relation.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/data_manager/database.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
-require_once dirname(__FILE__) . '/../category_manager/weblcms_category.class.php';
+require_once dirname(__FILE__) . '/../category_manager/course_category.class.php';
 
 class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 {
@@ -2166,14 +2166,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function delete_category($category)
 	{
-		$condition = new EqualityCondition(WeblcmsCategory :: PROPERTY_ID, $category->get_id());
+		$condition = new EqualityCondition(CourseCategory :: PROPERTY_ID, $category->get_id());
 		$succes = $this->db->delete('course_category', $condition);
 		
 		$query = 'UPDATE '.$this->db->escape_table_name('course_category').' SET '.
-				 $this->db->escape_column_name(WeblcmsCategory :: PROPERTY_DISPLAY_ORDER).'='.
-				 $this->db->escape_column_name(WeblcmsCategory :: PROPERTY_DISPLAY_ORDER).'-1 WHERE '.
-				 $this->db->escape_column_name(WeblcmsCategory :: PROPERTY_DISPLAY_ORDER).'>? AND ' .
-				 $this->db->escape_column_name(WeblcmsCategory :: PROPERTY_PARENT) . '=?';
+				 $this->db->escape_column_name(CourseCategory :: PROPERTY_DISPLAY_ORDER).'='.
+				 $this->db->escape_column_name(CourseCategory :: PROPERTY_DISPLAY_ORDER).'-1 WHERE '.
+				 $this->db->escape_column_name(CourseCategory :: PROPERTY_DISPLAY_ORDER).'>? AND ' .
+				 $this->db->escape_column_name(CourseCategory :: PROPERTY_PARENT) . '=?';
 		$statement = $this->db->get_connection()->prepare($query); 
 		$statement->execute(array($category->get_display_order(), $category->get_parent()));
 		
@@ -2181,14 +2181,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	}
 	
 	function update_category($category)
-	{
-		$condition = new EqualityCondition(WeblcmsCategory :: PROPERTY_ID, $category->get_id());
-		return $this->db->update($category, 'course_category', $condition);
+	{ 
+		$condition = new EqualityCondition(CourseCategory :: PROPERTY_ID, $category->get_id());
+		return $this->db->update($category, $condition);
 	}
 	
 	function create_category($category)
 	{
-		return $this->db->create($category, 'course_category');
+		return $this->db->create($category);
 	}
 	
 	function count_categories($conditions = null)
@@ -2198,15 +2198,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->db->retrieve_objects('course_category', 'WeblcmsCategory', $condition, $offset, $count, $order_property, $order_direction);
+		return $this->db->retrieve_objects('course_category', $condition, $offset, $count, $order_property, $order_direction);
 	}
 	
 	function select_next_display_order($parent_category_id)
 	{
-		$query = 'SELECT MAX(' . WeblcmsCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
-		$this->db->escape_table_name('category');
+		$query = 'SELECT MAX(' . CourseCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
+		$this->db->escape_table_name('course_category');
 	
-		$condition = new EqualityCondition(WeblcmsCategory :: PROPERTY_PARENT, $parent_category_id);
+		$condition = new EqualityCondition(CourseCategory :: PROPERTY_PARENT, $parent_category_id);
 		print_r($condition);
 		$params = array ();
 		if (isset ($condition))

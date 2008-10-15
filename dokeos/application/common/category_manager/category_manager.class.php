@@ -17,6 +17,7 @@ abstract class CategoryManager
 {
 	const PARAM_ACTION = 'category_action';
 	const PARAM_CATEGORY_ID = 'category_id';
+	const PARAM_DIRECTION = 'direction';
 	const PARAM_REMOVE_SELECTED_CATEGORIES = 'remove_selected_categories';
 	
 	const ACTION_BROWSE_CATEGORIES = 'browse_categories';
@@ -155,7 +156,7 @@ abstract class CategoryManager
 	
 	function get_category()
 	{
-		return new Category();
+		return new PlatformCategory();
 	}
 	
 	function get_category_form()

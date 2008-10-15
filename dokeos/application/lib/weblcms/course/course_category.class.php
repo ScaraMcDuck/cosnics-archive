@@ -26,7 +26,7 @@ require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
  *
  */
 
-class CourseCategory {
+class CourseCategory2 {
 
 	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';

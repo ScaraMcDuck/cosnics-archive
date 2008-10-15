@@ -269,7 +269,7 @@ class Database
 	 */
 	function update($object, $condition)
 	{
-		$object_table = $object->get_table_name();
+		$object_table = $object->get_table_name(); 
 		
 		$props = array();
 		foreach ($object->get_default_properties() as $key => $value)

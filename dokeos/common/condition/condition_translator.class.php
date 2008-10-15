@@ -44,7 +44,8 @@ class ConditionTranslator
 			$this->strings[] = $this->translate_simple_condition($condition);
 		}
 		else
-		{
+		{ 
+			//print_r($condition);
 			die('Need a Condition instance');
 		}
     }

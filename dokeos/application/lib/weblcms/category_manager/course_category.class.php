@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/../weblcms_data_manager.class.php';
  *	@author Sven Vanpoucke
  */
 
-class WeblcmsCategory extends PlatformCategory
+class CourseCategory extends PlatformCategory
 {
 	function create()
 	{
@@ -28,5 +28,10 @@ class WeblcmsCategory extends PlatformCategory
 	function delete()
 	{
 		return WeblcmsDataManager :: get_instance()->delete_category($this);
+	}
+	
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores('CourseCategory');
 	}
 }
