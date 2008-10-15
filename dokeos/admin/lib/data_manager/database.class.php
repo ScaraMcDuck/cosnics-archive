@@ -10,6 +10,7 @@ require_once Path :: get_admin_path() . 'lib/admin_data_manager.class.php';
 require_once Path :: get_admin_path() . 'lib/language.class.php';
 require_once Path :: get_admin_path() . 'lib/registration.class.php';
 require_once Path :: get_admin_path() . 'lib/setting.class.php';
+require_once Path :: get_admin_path() . 'lib/category_manager/admin_category.class.php';
 require_once Path :: get_admin_path() . 'lib/system_announcement_publication.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once Path :: get_library_path().'database/database.class.php';
@@ -21,7 +22,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 	
 	function initialize()
 	{
-		$this->database = new Database(array('language' => 'lang', 'setting' => 'setting', 'registration' => 'reg', 'system_announcement_publication' => 'sa'));
+		$this->database = new Database(array('admin_category' => 'cat', 'language' => 'lang', 'setting' => 'setting', 'registration' => 'reg', 'system_announcement_publication' => 'sa'));
 		$this->database->set_prefix('admin_'); 
 	}
 	
@@ -158,6 +159,72 @@ class DatabaseAdminDataManager extends AdminDataManager
 	function retrieve_system_announcement_publication_target_users($system_announcement_publication)
 	{
 		return array();
+	}
+	
+	function get_next_category_id()
+	{
+		return $this->database->get_next_id('admin_category');
+	}
+	
+	function delete_category($category)
+	{
+		$condition = new EqualityCondition(AdminCategory :: PROPERTY_ID, $category->get_id());
+		$succes = $this->database->delete('admin_category', $condition);
+		
+		$query = 'UPDATE '.$this->database->escape_table_name('admin_category').' SET '.
+				 $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER).'='.
+				 $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER).'-1 WHERE '.
+				 $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER).'>? AND ' .
+				 $this->database->escape_column_name(AdminCategory :: PROPERTY_PARENT) . '=?';
+		$statement = $this->database->get_connection()->prepare($query); 
+		$statement->execute(array($category->get_display_order(), $category->get_parent()));
+		
+		return $succes;
+	}
+	
+	function update_category($category)
+	{ 
+		$condition = new EqualityCondition(AdminCategory :: PROPERTY_ID, $category->get_id());
+		return $this->database->update($category, $condition);
+	}
+	
+	function create_category($category)
+	{
+		return $this->database->create($category);
+	}
+	
+	function count_categories($conditions = null)
+	{
+		return $this->database->count_objects('admin_category', $conditions);
+	}
+	
+	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->database->retrieve_objects('admin_category', $condition, $offset, $count, $order_property, $order_direction);
+	}
+	
+	function select_next_display_order($parent_category_id)
+	{
+		$query = 'SELECT MAX(' . AdminCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
+		$this->database->escape_table_name('admin_category');
+	
+		$condition = new EqualityCondition(AdminCategory :: PROPERTY_PARENT, $parent_category_id);
+		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this->database, $params, $prefix_properties = false);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$sth = $this->database->get_connection()->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+	
+		return $record[0] + 1;
 	}
 }
 ?>
