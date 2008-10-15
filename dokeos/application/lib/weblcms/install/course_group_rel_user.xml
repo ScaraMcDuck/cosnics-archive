@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="group_rel_user">
+<object name="course_group_rel_user">
  <properties>
-  <property name="group_id" type="integer" unsigned="1" notnull="1"/>
+  <property name="course_group_id" type="integer" unsigned="1" notnull="1"/>
   <property name="user_id" type="integer" unsigned="1" notnull="1"/>
  </properties>
- <index name="group_id">
-  <indexproperty name="group_id"/>
+ <index name="course_group_id">
+  <indexproperty name="course_group_id"/>
  </index>
  <index name="user_id">
   <indexproperty name="user_id"/>

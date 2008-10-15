@@ -1,20 +1,20 @@
 <?php
 /**
- * $Id: grouptool.class.php 12541 2007-06-06 07:34:34Z bmol $
- * Group tool
+ * $Id: course_grouptool.class.php 12541 2007-06-06 07:34:34Z bmol $
+ * CourseGroup tool
  * @package application.weblcms.tool
- * @subpackage group
+ * @subpackage course_group
  */
 require_once Path :: get_library_path().'html/table/sortable_table.class.php';
 
-class GroupTable
+class CourseGroupTable
 {
 	/**
 	 * Default table name
 	 */
-	const DEFAULT_NAME = 'group';
+	const DEFAULT_NAME = 'course_group';
 	/**
-	 * Suffix for checkbox name when using actions on selected groups.
+	 * Suffix for checkbox name when using actions on selected course_groups.
 	 */
 	const CHECKBOX_NAME_SUFFIX = '_id';
 	/**
@@ -47,21 +47,21 @@ class GroupTable
 	private $form_actions;
 
 	/**
-	 * Constructor. Creates a group table.
-	 * @param GroupTableDataProvider $data_provider The data provider, which
-	 * supplies the groups to display.
+	 * Constructor. Creates a course_group table.
+	 * @param CourseGroupTableDataProvider $data_provider The data provider, which
+	 * supplies the course_groups to display.
 	 * @param string $table_name The name for the HTML table element.
-	 * @param GroupTableColumnModel $column_model The column model of the table.
+	 * @param CourseGroupTableColumnModel $column_model The column model of the table.
 	 * Omit to use the default model.
-	 * @param GroupTableCellRenderer $cell_renderer The cell renderer for the
+	 * @param CourseGroupTableCellRenderer $cell_renderer The cell renderer for the
 	 * table. Omit to use the default renderer.
 	 */
-	function GroupTable($data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
+	function CourseGroupTable($data_provider, $table_name = null, $column_model = null, $cell_renderer = null)
 	{
 		$this->set_data_provider($data_provider);
 		$this->set_name(isset($table_name) ? $table_name : self :: DEFAULT_NAME);
-		$this->set_column_model(isset ($column_model) ? $column_model : new DefaultGroupTableColumnModel($data_provider->get_parent()));
-		$this->set_cell_renderer(isset ($cell_renderer) ? $cell_renderer : new DefaultGroupTableCellRenderer($data_provider->get_parent()));
+		$this->set_column_model(isset ($column_model) ? $column_model : new DefaultCourseGroupTableColumnModel($data_provider->get_parent()));
+		$this->set_cell_renderer(isset ($cell_renderer) ? $cell_renderer : new DefaultCourseGroupTableCellRenderer($data_provider->get_parent()));
 		$this->set_default_row_count(10);
 		$this->set_additional_parameters($this->determine_additional_parameters());
 	}
@@ -90,7 +90,7 @@ class GroupTable
 	 */
 	function as_html()
 	{
-		$table = new SortableTable($this->get_name(), array ($this, 'get_group_count'), array ($this, 'get_groups'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction());
+		$table = new SortableTable($this->get_name(), array ($this, 'get_course_group_count'), array ($this, 'get_course_groups'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction());
 		$table->set_additional_parameters($this->get_additional_parameters());
 		if ($this->has_form_actions())
 		{
@@ -144,7 +144,7 @@ class GroupTable
 
 	/**
 	 * Gets the table's data provider.
-	 * @return GroupTableDataProvider The data provider.
+	 * @return CourseGroupTableDataProvider The data provider.
 	 */
 	function get_data_provider()
 	{
@@ -153,7 +153,7 @@ class GroupTable
 
 	/**
 	 * Sets the table's data provider.
-	 * @param GroupTableDataProvider $data_provider The data provider.
+	 * @param CourseGroupTableDataProvider $data_provider The data provider.
 	 */
 	function set_data_provider($data_provider)
 	{
@@ -162,7 +162,7 @@ class GroupTable
 
 	/**
 	 * Gets the table's column model.
-	 * @return GroupTableColumnModel The column model.
+	 * @return CourseGroupTableColumnModel The column model.
 	 */
 	function get_column_model()
 	{
@@ -171,7 +171,7 @@ class GroupTable
 
 	/**
 	 * Sets the table's column model.
-	 * @param GroupTableColumnModel $model The column model.
+	 * @param CourseGroupTableColumnModel $model The column model.
 	 */
 	function set_column_model($model)
 	{
@@ -180,7 +180,7 @@ class GroupTable
 
 	/**
 	 * Gets the table's cell renderer.
-	 * @return GroupTableCellRenderer The cell renderer.
+	 * @return CourseGroupTableCellRenderer The cell renderer.
 	 */
 	function get_cell_renderer()
 	{
@@ -189,7 +189,7 @@ class GroupTable
 
 	/**
 	 * Sets the table's cell renderer.
-	 * @param Group $renderer The cell renderer.
+	 * @param CourseGroup $renderer The cell renderer.
 	 */
 	function set_cell_renderer($renderer)
 	{
@@ -257,25 +257,25 @@ class GroupTable
 	 * You should not be concerned with this method. It is only public because
 	 * of technical limitations.
 	 */
-	function get_groups($offset, $count, $order_column, $order_direction)
+	function get_course_groups($offset, $count, $order_column, $order_direction)
 	{
-		$groups = $this->get_data_provider()->get_groups( null, $offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_group_property(), $order_direction);
-		if(is_null($groups))
+		$course_groups = $this->get_data_provider()->get_course_groups( null, $offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_course_group_property(), $order_direction);
+		if(is_null($course_groups))
 		{
 			return array();
 		}
 		$table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
-		while ($group = $groups->next_result())
+		while ($course_group = $course_groups->next_result())
 		{
 			$row = array ();
 			if ($this->has_form_actions())
 			{
-				$row[] = $group->get_id();
+				$row[] = $course_group->get_id();
 			}
 			for ($i = 0; $i < $column_count; $i ++)
 			{
-				$row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $group);
+				$row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $course_group);
 			}
 			$table_data[] = $row;
 		}
@@ -286,9 +286,9 @@ class GroupTable
 	 * You should not be concerned with this method. It is only public because
 	 * of technical limitations.
 	 */
-	function get_group_count()
+	function get_course_group_count()
 	{
-		return $this->get_data_provider()->get_group_count();
+		return $this->get_data_provider()->get_course_group_count();
 	}
 }
 ?>

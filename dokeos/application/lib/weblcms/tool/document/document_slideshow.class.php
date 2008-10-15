@@ -29,14 +29,14 @@ class DocumentSlideshow extends LearningObjectPublicationBrowser
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			$user_id = null;
-			$groups = null;
+			$course_groups = null;
 		}
 		else
 		{
 			$user_id = $this->get_user_id();
-			$groups = $this->get_groups();
+			$course_groups = $this->get_course_groups();
 		}
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $user_id, $groups, $this->get_condition());
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $user_id, $course_groups, $this->get_condition());
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{
@@ -62,7 +62,7 @@ class DocumentSlideshow extends LearningObjectPublicationBrowser
 			$category = $this->get_category();
 		}
 		$dm = WeblcmsDataManager :: get_instance();
-		return $dm->count_learning_object_publications($this->get_course_id(), $category, $this->get_user_id(), $this->get_groups(), $this->get_condition($category));
+		return $dm->count_learning_object_publications($this->get_course_id(), $category, $this->get_user_id(), $this->get_course_groups(), $this->get_condition($category));
 	}
 
 	function get_condition($category = null)

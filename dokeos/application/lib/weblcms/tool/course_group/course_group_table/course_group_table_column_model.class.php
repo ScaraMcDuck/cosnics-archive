@@ -1,11 +1,11 @@
 <?php
 /**
- * $Id: grouptool.class.php 12541 2007-06-06 07:34:34Z bmol $
- * Group tool
+ * $Id: course_grouptool.class.php 12541 2007-06-06 07:34:34Z bmol $
+ * CourseGroup tool
  * @package application.weblcms.tool
- * @subpackage group
+ * @subpackage course_group
  */
-class GroupTableColumnModel
+class CourseGroupTableColumnModel
 {
 	/**
 	 * The columns in the table.
@@ -31,7 +31,7 @@ class GroupTableColumnModel
 	 *                                        Either the PHP constant SORT_ASC
 	 *                                        or SORT_DESC.
 	 */
-	function GroupTableColumnModel($columns, $default_order_column = 0, $default_order_direction = SORT_ASC)
+	function CourseGroupTableColumnModel($columns, $default_order_column = 0, $default_order_direction = SORT_ASC)
 	{
 		$this->columns = $columns;
 		$this->order_column = $default_order_column;
@@ -50,7 +50,7 @@ class GroupTableColumnModel
 	/**
 	 * Gets the column at the given index in the model.
 	 * @param int $index The index.
-	 * @return GroupTableColumn The column.
+	 * @return CourseGroupTableColumn The column.
 	 */
 	function get_column($index)
 	{
@@ -59,7 +59,7 @@ class GroupTableColumnModel
 
 	/**
 	 * Adds the given column at the end of the table.
-	 * @param GroupTableColumn The column.
+	 * @param CourseGroupTableColumn The column.
 	 */
 	function add_column($column)
 	{
@@ -67,7 +67,7 @@ class GroupTableColumnModel
 	}
 
 	/**
-	 * Gets the index of the column to order groups by default.
+	 * Gets the index of the column to order course_groups by default.
 	 * @return int The column index.
 	 */
 	function get_default_order_column()
@@ -76,7 +76,7 @@ class GroupTableColumnModel
 	}
 
 	/**
-	 * Sets the index of the column to order groups by default.
+	 * Sets the index of the column to order course_groups by default.
 	 * @param int $column The index.
 	 */
 	function set_default_order_column($column_index)

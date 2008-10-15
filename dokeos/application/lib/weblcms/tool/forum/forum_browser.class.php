@@ -46,14 +46,14 @@ class ForumBrowser extends LearningObjectPublicationBrowser
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			$user_id = null;
-			$groups = null;
+			$course_groups = null;
 		}
 		else
 		{
 			$user_id = $this->get_user_id();
-			$groups = $this->get_groups();
+			$course_groups = $this->get_course_groups();
 		}
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $this->current_category, $user_id, $groups, $condition, false, array (Forum :: PROPERTY_DISPLAY_ORDER_INDEX));
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $this->current_category, $user_id, $course_groups, $condition, false, array (Forum :: PROPERTY_DISPLAY_ORDER_INDEX));
 		$visible_publications = array ();
 		$renderer = $this->get_publication_list_renderer();
 		$index = 0;

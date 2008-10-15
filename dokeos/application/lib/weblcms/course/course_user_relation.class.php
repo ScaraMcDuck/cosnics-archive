@@ -14,7 +14,7 @@ require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
  *	- user_id: the user's id;
  *	- status: the subscription status (teacher or student);
  *	- role: the user's role;
- *	- group_id: the group id;
+ *	- course_group_id: the course_group id;
  *  - tutor_id: the id of the tutor;
  *	- sort: the sort order;
  *	- category: the category in which the user has placed the course;
@@ -32,7 +32,7 @@ class CourseUserRelation {
 	const PROPERTY_USER = 'user_id';
 	const PROPERTY_STATUS = 'status';
 	const PROPERTY_ROLE = 'role';
-	const PROPERTY_GROUP = 'group_id';
+	const PROPERTY_COURSE_GROUP = 'course_group_id';
 	const PROPERTY_TUTOR = 'tutor_id';
 	const PROPERTY_SORT = 'sort';
 	const PROPERTY_CATEGORY = 'user_course_cat';
@@ -89,7 +89,7 @@ class CourseUserRelation {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_COURSE, self :: PROPERTY_USER, self :: PROPERTY_STATUS, self :: PROPERTY_ROLE, self :: PROPERTY_GROUP, self :: PROPERTY_TUTOR, self :: PROPERTY_SORT, self :: PROPERTY_CATEGORY	);
+		return array (self :: PROPERTY_COURSE, self :: PROPERTY_USER, self :: PROPERTY_STATUS, self :: PROPERTY_ROLE, self :: PROPERTY_COURSE_GROUP, self :: PROPERTY_TUTOR, self :: PROPERTY_SORT, self :: PROPERTY_CATEGORY	);
 	}
 
 	/**
@@ -159,21 +159,21 @@ class CourseUserRelation {
 	}
 
 	/**
-	 * Returns the group of this course user relation object
+	 * Returns the course_group of this course user relation object
 	 * @return int
 	 */
-    function get_group()
+    function get_course_group()
     {
-    	return $this->get_default_property(self :: PROPERTY_GROUP);
+    	return $this->get_default_property(self :: PROPERTY_COURSE_GROUP);
     }
 
 	/**
-	 * Sets the group of this course user relation object
-	 * @param int $group
+	 * Sets the course_group of this course user relation object
+	 * @param int $course_group
 	 */
-	function set_group($group)
+	function set_course_group($course_group)
 	{
-		$this->set_default_property(self :: PROPERTY_GROUP, $group);
+		$this->set_default_property(self :: PROPERTY_COURSE_GROUP, $course_group);
 	}
 
 	/**

@@ -1,13 +1,13 @@
 <?php
 /**
  * $Id$
- * Group tool
+ * CourseGroup tool
  * @package application.weblcms.tool
- * @subpackage group
+ * @subpackage course_group
  */
  require_once Path :: get_user_path(). 'lib/user_table/default_user_table_column_model.class.php';
  
-class GroupSubscribedUserBrowserTableColumnModel extends DefaultUserTableColumnModel
+class CourseGroupSubscribedUserBrowserTableColumnModel extends DefaultUserTableColumnModel
 {
    	/**
 	 * The tables modification column
@@ -16,7 +16,7 @@ class GroupSubscribedUserBrowserTableColumnModel extends DefaultUserTableColumnM
 	/**
 	 * Constructor
 	 */
-	function GroupSubscribedUserBrowserTableColumnModel()
+	function CourseGroupSubscribedUserBrowserTableColumnModel()
 	{
 		parent :: __construct();
 		$this->add_column(new ObjectTableColumn(User :: PROPERTY_USERNAME, true));

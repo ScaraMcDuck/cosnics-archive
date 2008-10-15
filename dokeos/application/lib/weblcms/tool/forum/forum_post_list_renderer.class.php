@@ -16,7 +16,7 @@ class ForumPostListRenderer extends ListLearningObjectPublicationListRenderer
 		{
 			$first = ($index == 0);
 			$last = ($index == count($forum_posts) - 1);
-			// ctor: $id, $learningObject, $course, $tool, $category, $targetUsers, $targetGroups, $fromDate
+			// ctor: $id, $learningObject, $course, $tool, $category, $targetUsers, $targetCourseGroups, $fromDate
 			//       $toDate, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, $emailSent
 			$id = $forum_post->get_id();
 			$publication = new LearningObjectPublication($id, $forum_post, $course);

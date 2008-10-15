@@ -83,7 +83,7 @@ abstract class LearningObjectPublicationListRenderer
 	}
 
 	/**
-	 * Renders the users and groups the given publication was published for.
+	 * Renders the users and course_groups the given publication was published for.
 	 * @param LearningObjectPublication $publication The publication.
 	 * @return string The HTML rendering.
 	 */
@@ -100,8 +100,8 @@ abstract class LearningObjectPublicationListRenderer
 		else
 		{
 			$users = $publication->get_target_users();
-			$groups = $publication->get_target_groups();
-			if(count($users) + count($groups) == 1)
+			$course_groups = $publication->get_target_course_groups();
+			if(count($users) + count($course_groups) == 1)
 			{
 				if(count($users) == 1)
 				{
@@ -111,8 +111,8 @@ abstract class LearningObjectPublicationListRenderer
 				else
 				{
 					$wdm = WeblcmsDatamanager::get_instance();
-					$group = $wdm->retrieve_group($groups[0]);
-					return $group->get_name();
+					$course_group = $wdm->retrieve_course_group($course_groups[0]);
+					return $course_group->get_name();
 				}
 			}
 			$target_list = array ();
@@ -122,12 +122,12 @@ abstract class LearningObjectPublicationListRenderer
 				$user = $this->browser->get_user_info($user_id);
 				$target_list[] = '<option>'.$user->get_firstname().' '.$user->get_lastname().'</option>';
 			}
-			foreach ($groups as $index => $group_id)
+			foreach ($course_groups as $index => $course_group_id)
 			{
 				$wdm = WeblcmsDatamanager::get_instance();
-				//Todo: make this more efficient. Get all groups using a single query
-				$group = $wdm->retrieve_group($group_id);
-				$target_list[] = '<option>'.$group->get_name().'</option>';
+				//Todo: make this more efficient. Get all course_groups using a single query
+				$course_group = $wdm->retrieve_course_group($course_group_id);
+				$target_list[] = '<option>'.$course_group->get_name().'</option>';
 			}
 			$target_list[] = '</select>';
 			return implode("\n", $target_list).$email_suffix;

@@ -12,7 +12,7 @@ require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../tool/tool.class.php';
 require_once dirname(__FILE__).'/../tool_list_renderer.class.php';
 require_once dirname(__FILE__).'/../course/course.class.php';
-require_once dirname(__FILE__).'/../group/group.class.php';
+require_once dirname(__FILE__).'/../course_group/course_group.class.php';
 require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
 require_once Path :: get_library_path().'condition/not_condition.class.php';
@@ -37,7 +37,7 @@ class Weblcms extends WebApplication
 	const APPLICATION_NAME = 'weblcms';
 
 	const PARAM_COURSE = 'course';
-	const PARAM_GROUP = 'group';
+	const PARAM_COURSE_GROUP = 'course_group';
 	const PARAM_USERS = 'users';
 	const PARAM_TOOL = 'tool';
 	const PARAM_COMPONENT_ACTION = 'action';
@@ -88,9 +88,9 @@ class Weblcms extends WebApplication
 	private $course;
 
 	/**
-	 * The group object of the group currently active in this application
+	 * The course_group object of the course_group currently active in this application
 	 */
-	private $group;
+	private $course_group;
 
 	/**
 	 * The user object of the currently active user in this application
@@ -111,7 +111,7 @@ class Weblcms extends WebApplication
 		$this->set_parameter(self :: PARAM_COMPONENT_ACTION, $_GET[self :: PARAM_COMPONENT_ACTION]);
 		$this->set_parameter(self :: PARAM_CATEGORY, $_GET[self :: PARAM_CATEGORY]);
 		$this->set_parameter(self :: PARAM_COURSE, $_GET[self :: PARAM_COURSE]);
-		$this->set_parameter(self :: PARAM_GROUP, $_GET[self :: PARAM_GROUP]);
+		$this->set_parameter(self :: PARAM_COURSE_GROUP, $_GET[self :: PARAM_COURSE_GROUP]);
 		$this->set_parameter(self :: PARAM_TOOL, $_GET[self :: PARAM_TOOL]);
 
 		$this->parse_input_from_table();
@@ -119,8 +119,8 @@ class Weblcms extends WebApplication
 		$this->user = $user;
 		$this->course = new Course();
 		$this->load_course();
-		$this->group = null;
-		$this->load_group();
+		$this->course_group = null;
+		$this->load_course_group();
 		$this->tools = array ();
 		$this->load_tools();
 	}
@@ -277,30 +277,30 @@ class Weblcms extends WebApplication
 		return $this->course->get_id();
 	}
 	/**
-	 * Returns the group that is being used.
-	 * @return string The group.
+	 * Returns the course_group that is being used.
+	 * @return string The course_group.
 	 */
-	function get_group()
+	function get_course_group()
 	{
-		return $this->group;
+		return $this->course_group;
 	}
 	/**
-	 * Sets the group
-	 * @param Group $group
+	 * Sets the course_group
+	 * @param CourseGroup $course_group
 	 */
-	function set_group($group)
+	function set_course_group($course_group)
 	{
-		$this->group = $group;
+		$this->course_group = $course_group;
 	}
 	/**
-	 * Gets a list of all groups of the current active course in which the
+	 * Gets a list of all course_groups of the current active course in which the
 	 * current user is subscribed.
 	 */
-	function get_groups()
+	function get_course_groups()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		$groups = $wdm->retrieve_groups_from_user($this->get_user(),$this->get_course())->as_array();
-		return $groups;
+		$course_groups = $wdm->retrieve_course_groups_from_user($this->get_user(),$this->get_course())->as_array();
+		return $course_groups;
 	}
 	/**
 	 * Gets the defined categories in the current tool.
@@ -539,14 +539,14 @@ class Weblcms extends WebApplication
 		}
 	}
 	/**
-	 * Loads the current group into the system.
+	 * Loads the current course_group into the system.
 	 */
-	private function load_group()
+	private function load_course_group()
 	{
-		if(!is_null($this->get_parameter(self :: PARAM_GROUP)) && strlen($this->get_parameter(self :: PARAM_GROUP)>0))
+		if(!is_null($this->get_parameter(self :: PARAM_COURSE_GROUP)) && strlen($this->get_parameter(self :: PARAM_COURSE_GROUP)>0))
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
-			$this->group = $wdm->retrieve_group($this->get_parameter(self :: PARAM_GROUP));
+			$this->course_group = $wdm->retrieve_course_group($this->get_parameter(self :: PARAM_COURSE_GROUP));
 		}
 	}
 
@@ -830,7 +830,7 @@ class Weblcms extends WebApplication
 	 * function and for each tool a query is executed. All information can be
 	 * retrieved using a single query. WeblcmsDataManager should implement this
 	 * functionality.
-	 * @todo This function currently doesn't take the group information into
+	 * @todo This function currently doesn't take the course_group information into
 	 * account. So it's possible this function returns true even if there's no
 	 * new publication for the current user
 	 * @param string $tool
@@ -860,9 +860,9 @@ class Weblcms extends WebApplication
 				$condition_publication_forever = new EqualityCondition('from_date',0);
 				$conditions[] = new OrCondition($condition_publication_forever,$condition_publication_period);
 			}
-			$groups = $wdm->retrieve_groups_from_user($this->get_user(),$this->get_course())->as_array();
+			$course_groups = $wdm->retrieve_course_groups_from_user($this->get_user(),$this->get_course())->as_array();
 			$condition = new AndCondition($conditions);
-			$new_items = $wdm->count_learning_object_publications($this->get_course_id(),null,$this->get_user_id(),$groups,$condition);
+			$new_items = $wdm->count_learning_object_publications($this->get_course_id(),null,$this->get_user_id(),$course_groups,$condition);
 			return $new_items > 0;
 		}
 		return false;

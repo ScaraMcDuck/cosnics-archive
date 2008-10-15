@@ -5,7 +5,7 @@
   <property name="user_id" type="integer" unsigned="1" default="0"/>
   <property name="status" type="integer" length="1" default="5" notnull="1"/>
   <property name="role" type="text" length="60"/>
-  <property name="group_id" type="integer" notnull="1" default="0"/>
+  <property name="course_group_id" type="integer" notnull="1" default="0"/>
   <property name="tutor_id" type="integer" notnull="1" default="0" unsigned="1"/>
   <property name="sort" type="integer"/>
   <property name="user_course_cat" default="0" type="integer"/>

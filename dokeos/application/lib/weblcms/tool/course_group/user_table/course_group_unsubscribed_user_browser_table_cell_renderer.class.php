@@ -1,23 +1,23 @@
 <?php
 /**
  * $Id$
- * Group tool
+ * CourseGroup tool
  * @package application.weblcms.tool
- * @subpackage group
+ * @subpackage course_group
  */
 require_once Path :: get_user_path(). 'lib/user_table/default_user_table_cell_renderer.class.php';
  
-class GroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
+class CourseGroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 {
 		private $browser;
-    function GroupUnsubscribedUserBrowserTableCellRenderer($browser) {
+    function CourseGroupUnsubscribedUserBrowserTableCellRenderer($browser) {
     	parent :: __construct();
 		$this->browser = $browser;
     }
 	// Inherited
 	function render_cell($column, $user)
 	{
-		if ($column === GroupUnsubscribedUserBrowserTableColumnModel :: get_modification_column())
+		if ($column === CourseGroupUnsubscribedUserBrowserTableColumnModel :: get_modification_column())
 		{
 			return $this->get_modification_links($user);
 		}
@@ -42,7 +42,7 @@ class GroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTableCell
 		$toolbar_data = array();
 		$parameters = array();
 				$parameters[Weblcms :: PARAM_USERS] = $user->get_id();
-				$parameters[GroupTool :: PARAM_GROUP_ACTION] = GroupTool::ACTION_SUBSCRIBE;
+				$parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool::ACTION_SUBSCRIBE;
 				$unsubscribe_url = $this->browser->get_url($parameters);
 				$toolbar_data[] = array(
 					'href' => $unsubscribe_url,

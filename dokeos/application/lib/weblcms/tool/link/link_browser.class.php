@@ -40,14 +40,14 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			$user_id = null;
-			$groups = null;
+			$course_groups = null;
 		}
 		else
 		{
 			$user_id = $this->get_user_id();
-			$groups = $this->get_groups();
+			$course_groups = $this->get_course_groups();
 		}
-		$publications = $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_publication_category_tree()->get_current_category_id(), $user_id, $groups,$tool_cond);
+		$publications = $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_publication_category_tree()->get_current_category_id(), $user_id, $course_groups,$tool_cond);
 		while ($publication = $publications->next_result())
 		{
 			// If the publication is hidden and the user is not allowed to DELETE or EDIT, don't show this publication
@@ -71,14 +71,14 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			$user_id = null;
-			$groups = null;
+			$course_groups = null;
 		}
 		else
 		{
 			$user_id = $this->get_user_id();
-			$groups = $this->get_groups();
+			$course_groups = $this->get_course_groups();
 		}
-		return $dm->count_learning_object_publications($this->get_course_id(), $category, $user_id, $groups, $tool_cond);
+		return $dm->count_learning_object_publications($this->get_course_id(), $category, $user_id, $course_groups, $tool_cond);
 	}
 }
 ?>

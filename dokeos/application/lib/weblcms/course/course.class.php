@@ -135,7 +135,7 @@ class Course {
 
 	/**
 	 * Returns the dbname of this course object
-	 * Deprecated but still used by the groups manager
+	 * Deprecated but still used by the course_groups manager
 	 * @return string the visual code
 	 */
     function get_db()
@@ -455,13 +455,13 @@ class Course {
 		return $wdm->retrieve_course_users($this)->as_array();
 	}
 	/**
-	 * Gets the groups defined in this course
-	 * @return array An array of Group objects
+	 * Gets the course_groups defined in this course
+	 * @return array An array of CourseGroup objects
 	 */
-	function get_groups()
+	function get_course_groups()
 	{
 		$wdm = WeblcmsDataManager::get_instance();
-		return $wdm->retrieve_groups($this->get_id())->as_array();
+		return $wdm->retrieve_course_groups($this->get_id())->as_array();
 	}
 }
 ?>

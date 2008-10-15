@@ -6,80 +6,106 @@ require_once dirname(__FILE__) . '/action_bar_search_form.class.php';
  */
 class ActionBarRenderer
 {
-	private $left_actions = array();
-	private $middle_actions = array();
-	private $search_form = null;
+	const ACTION_BAR_COMMON = 'common';
+	const ACTION_BAR_TOOL = 'tool';
+	const ACTION_BAR_SEARCH = 'search';
 	
-	function ActionBarRenderer($left_actions = array(), $middle_actions = array(), $url = null)
+	private $actions = array();
+	
+	function ActionBarRenderer($common_actions = array(), $tool_actions = array(), $search_url = null)
 	{
-		$this->left_actions = $left_actions;
-		$this->middle_actions = $middle_actions;
-		
-		if($url)
-			$this->search_form = new ActionBarSearchForm($url);
+		$this->actions[self :: ACTION_BAR_COMMON] = $common_actions;
+		$this->actions[self :: ACTION_BAR_TOOL] = $tool_actions;
+		$this->actions[self :: ACTION_BAR_SEARCH] = $search_url;
+	}
+	
+	function add_action($type = self :: ACTION_BAR_COMMON, $action)
+	{
+		$this->actions[$type][] = $action;
+	}
+	
+	function add_common_action($action)
+	{
+		$this->actions[self :: ACTION_BAR_COMMON][] = $action;
+	}
+	
+	function add_tool_action($action)
+	{
+		$this->actions[self :: ACTION_BAR_TOOL][] = $action;
+	}
+	
+	function get_tool_actions()
+	{
+		return $this->actions[self :: ACTION_BAR_TOOL];
+	}
+	
+	function get_common_actions()
+	{
+		return $this->actions[self :: ACTION_BAR_COMMON];
+	}
+	
+	function get_search_url()
+	{
+		return $this->actions[self :: ACTION_BAR_SEARCH];
+	}
+	
+	function set_tool_actions($actions)
+	{
+		$this->actions[self :: ACTION_BAR_TOOL] = $actions;
+	}
+	
+	function set_common_actions($actions)
+	{
+		$this->actions[self :: ACTION_BAR_COMMON] = $actions;
+	}
+	
+	function set_search_url($search_url)
+	{
+		$this->actions[self :: ACTION_BAR_SEARCH] = $search_url;
 	}
 	
 	function as_html()
 	{
 		$html = array();
 		
-		$html[] = '<div id="abtext" style="clear: both; margin-bottom: 10px; display: none;"><a href="#"><img src="'. Theme :: get_common_img_path() .'action_bar.png" style="vertical-align: middle;" />&nbsp;'. Translation :: get('ShowActionBar') .'</a></div>';
-		$html[] = '<div id="actionbar" class="actionbar">';
-		
-		//$html[] = '<div style="float: left; padding: 5px; margin: -5px 0px -5px -5px; background-color: #4271B5;"><img src="'. Theme :: get_common_img_path() .'actionbar_title.png"><br /><img src="'. Theme :: get_common_img_path() .'action_actionbar_add.png" id="abhide" /></div>';
-		$html[] = '<div id="abhidecontainer" style="float: left; padding: 5px; margin: -5px 0px -5px -5px; background-color: #4271B5;"><img src="'. Theme :: get_common_img_path() .'actionbar_title.png" id="abhide" /></div>';
-		
-		if(count($this->left_actions) > 0)
-		{
-			if(count($this->middle_actions) > 0)
-				$html[] = '  <div class="leftmenu" style="border-right: 1px solid grey;">';
-			else
-				$html[] = '  <div class="leftmenu">';
-				
-			$html[] =      $this->build_toolbar($this->left_actions);
-			$html[] = '  </div>';
-		}
-		
-		$html[] = '  <div class="middlemenu">';
-		$html[] =      $this->build_toolbar($this->middle_actions);
-		$html[] = '  </div>';
-		
-		if($this->search_form)
-		{
-			$html[] = '  <div class="rightmenu" style="border-left: 1px solid grey;">';
-			$html[] = $this->search_form->as_html();
-		}
-		else
-			$html[] = '  <div class="rightmenu">';
-		
-		$html[] = '  </div>';
+		$html[] = '<div id="action_bar_text" style="float:left; display: none; margin-bottom: 10px;"><a href="#"><img src="'. Theme :: get_common_img_path() .'action_bar.png" style="vertical-align: middle;" />&nbsp;'. Translation :: get('ShowActionBar') .'</a></div>';
 		$html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
-		//$html[] = '<div id="abhidecontainer" style="display: none; clear: both; margin: 0px 0px -6px 0px; text-align: center; background-image: url('. Theme :: get_common_img_path() .'background_ajax_add.png); background-repeat: no-repeat; background-position: top center; padding-top: 5px; padding-bottom: 5px;"><img src="'. Theme :: get_common_img_path() .'action_ajax_add.png" id="abhide" /></div>';
+		$html[] = '<div id="action_bar" class="action_bar">';
+		
+		$common_actions = $this->get_common_actions();
+		$tool_actions = $this->get_tool_actions();
+		$search_url = $this->get_search_url();
+		
+		if (count($common_actions) > 0)
+		{
+			$html[] = '<div class="common_menu">';
+			$html[] = $this->build_toolbar($common_actions);
+			$html[] = '</div>';
+		}
+		
+		if (count($tool_actions) > 0)
+		{
+			$html[] = '<div class="tool_menu">';
+			$html[] = $this->build_toolbar($tool_actions);
+			$html[] = '</div>';
+		}
+		
+		if (!is_null($search_url))
+		{
+			$search_form = new ActionBarSearchForm($search_url);
+			
+			$html[] = '<div class="search_menu">';
+			$html[] = $search_form->as_html();
+			$html[] = '</div>';
+		}
+		
+		$html[] = '<div class="clear"></div>';
+		$html[] = '<div id="action_bar_hide_container">';
+		$html[] = '<a id="action_bar_hide" href="#"><img src="'. Theme :: get_common_img_path() .'action_ajax_hide.png" /></a>';
+		$html[] = '</div>';
 		$html[] = '</div>';
 		
-		$html[] = '<script language="JavaScript">';
-		$html[] = '  $("#abhide").attr(\'src\', \''. Theme :: get_common_img_path() .'action_actionbar_hide.png\');';
-		
-		$html[] = '  $("#abtext").bind("click", showBlockScreen);';
-		$html[] = '  function showBlockScreen()';
-		$html[] = '  {';
-		$html[] = '     $("#abtext").slideToggle(300, function()';
-		$html[] = '     {';
-		$html[] = '     	$("div.actionbar").slideToggle(300);';
-		$html[] = '     });';
-		$html[] = '     return false;';
-		$html[] = '  }';
-		
-		$html[] = '  $("#abhide").bind("click", hideBlockScreen);';
-		$html[] = '  function hideBlockScreen()';
-		$html[] = '  {';
-		$html[] = '     $("div.actionbar").slideToggle(300, function()';
-		$html[] = '     {';
-		$html[] = '     	$("#abtext").slideToggle(300);';
-		$html[] = '     });';
-		$html[] = '     return false;';
-		$html[] = '  }';
-		$html[] = '</script>';
+		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/action_bar.js' .'"></script>';
 		
 		return implode("\n", $html);
 	}

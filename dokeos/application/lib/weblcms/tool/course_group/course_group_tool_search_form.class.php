@@ -1,15 +1,15 @@
 <?php
 /**
  * $Id$
- * Group tool
+ * CourseGroup tool
  * @package application.weblcms.tool
- * @subpackage group
+ * @subpackage course_group
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../weblcms_manager/weblcms.class.php';
 require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
 
-class GroupToolSearchForm extends FormValidator
+class CourseGroupToolSearchForm extends FormValidator
 {
 	/**#@+
 	 * Search parameter
@@ -35,7 +35,7 @@ class GroupToolSearchForm extends FormValidator
 	/**
 	 *
 	 */
-	function GroupToolSearchForm($manager, $url)
+	function CourseGroupToolSearchForm($manager, $url)
 	{
 		parent :: __construct(self :: FORM_NAME, 'post', $url);
 		$this->renderer = clone $this->defaultRenderer();
