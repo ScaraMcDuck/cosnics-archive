@@ -14,7 +14,7 @@ require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
  * names of these constants start with the string "PROPERTY_".
  *
  */
-class Group
+class WeblcmsGroup
 {
 	const PROPERTY_ID = 'id';
 	const PROPERTY_COURSE_CODE = 'course_code';
@@ -45,7 +45,7 @@ class Group
 	 * @param array $defaultProperties The default properties of the group
 	 * object. Associative array.
 	 */
-	function Group($id = null, $course_code , $defaultProperties = array ())
+	function WeblcmsGroup($id = null, $course_code , $defaultProperties = array ())
 	{
 		$this->id = $id;
 		$this->course_code = $course_code;

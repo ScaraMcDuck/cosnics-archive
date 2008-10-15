@@ -270,7 +270,7 @@ abstract class MigrationWizardPage extends HTML_QuickForm_Page
 					. $item->get_course() . ' User: ' .
 					  $item->get_user() . ' )';
 			
-			case ($item instanceof ClassgroupRelUser) : return 'SUCCES: ' . $type . ' added ( Class: ' . $item->get_classgroup_id() . ' UserID:' . $item->get_user_id() . $extra_message . ' )'; 
+			case ($item instanceof GroupRelUser) : return 'SUCCES: ' . $type . ' added ( Class: ' . $item->get_classgroup_id() . ' UserID:' . $item->get_user_id() . $extra_message . ' )'; 
 			
 			case ($item instanceof Dokeos185CourseRelUser) : return 'SUCCES: ' . $type . 
 							' added ( Course: ' . $item->get_course() . ' User:' . $item->get_user() . $extra_message . ' )';

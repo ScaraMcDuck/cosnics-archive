@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="group_rel_user">
+ <properties>
+  <property name="classgroup_id" type="integer" unsigned="1" notnull="1"/>
+  <property name="user_id" type="integer" length="3" unsigned="1" notnull="1"/>
+ </properties>
+ <index name="user_id" type="primary">
+  <indexproperty name="user_id"/>
+  <indexproperty name="classgroup_id"/>
+ </index>
+</object>

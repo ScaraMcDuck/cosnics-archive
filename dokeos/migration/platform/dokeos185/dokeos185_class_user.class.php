@@ -4,7 +4,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/import_class_user.class.php';
-require_once dirname(__FILE__).'/../../../class_group/lib/class_group_rel_user.class.php';
+require_once dirname(__FILE__).'/../../../group/lib/group_rel_user.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 class
@@ -148,7 +148,7 @@ class Dokeos185ClassUser extends ImportClassUser
 	function convert_to_lcms($parameters)
 	{
 		$mgdm = MigrationDataManager :: get_instance();
-		$lcms_class_user = new ClassgroupRelUser();
+		$lcms_class_user = new GroupRelUser();
 		
 		$class_id = $mgdm->get_id_reference($this->get_class_id(), 'classgroup_classgroup');
 		if($class_id)

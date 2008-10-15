@@ -5,7 +5,7 @@
  */
 
 require_once dirname(__FILE__).'/../../lib/import/import_class.class.php';
-require_once dirname(__FILE__).'/../../../class_group/lib/class_group.class.php';
+require_once dirname(__FILE__).'/../../../group/lib/group.class.php';
 
 /**
  * This class represents an old Dokeos 1.8.5 class
@@ -156,7 +156,7 @@ class Dokeos185Class extends ImportClass
 	{
 		$mgdm = MigrationDataManager :: get_instance();
 		//class parameters
-		$lcms_class = new Classgroup();
+		$lcms_class = new Group();
 		
 		$lcms_class->set_name($this->get_name());
 		
@@ -165,7 +165,7 @@ class Dokeos185Class extends ImportClass
 		else
 			$lcms_class->set_description($this->get_name());
 			
-		$lcms_class->set_sort($mgdm->get_next_position('class_group_class_group', 'sort'));
+		$lcms_class->set_sort($mgdm->get_next_position('group_group', 'sort'));
 		
 		//create course in database
 		$lcms_class->create();

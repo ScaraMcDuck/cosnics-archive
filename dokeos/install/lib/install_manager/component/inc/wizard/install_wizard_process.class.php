@@ -45,7 +45,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		flush();
 		
 		// 3. Installing the core-applications
-		$core_applications = array('admin', 'tracking', 'repository', 'user', 'class_group', 'rights', 'home', 'menu');
+		$core_applications = array('admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
 		
 		foreach ($core_applications as $core_application)
 		{

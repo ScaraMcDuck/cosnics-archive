@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../admin_data_manager.class.php';
 
 require_once Path :: get_repository_path(). 'lib/repository_manager/repository_manager.class.php';
 require_once Path :: get_user_path(). 'lib/user_manager/user_manager.class.php';
-require_once Path :: get_class_group_path(). 'lib/class_group_manager/class_group_manager.class.php';
+require_once Path :: get_group_path(). 'lib/group_manager/group_manager.class.php';
 require_once Path :: get_tracking_path(). 'lib/tracking_manager/tracking_manager.class.php';
 require_once Path :: get_rights_path(). 'lib/rights_manager/rights_manager.class.php';
 require_once Path :: get_home_path(). 'lib/home_manager/home_manager.class.php';
@@ -353,9 +353,9 @@ class AdminManager
 		$rights_manager = new RightsManager($user->get_id());
 		$info[] = $rights_manager->get_application_platform_admin_links();
 		
-		// 5. Classgroups
-		$class_group_manager = new ClassgroupManager($user->get_id());
-		$info[] = $class_group_manager->get_application_platform_admin_links();
+		// 5. Groups
+		$group_manager = new GroupManager($user->get_id());
+		$info[] = $group_manager->get_application_platform_admin_links();
 		
 		// 6. Tracking
 		$tracking_manager = new TrackingManager($user);

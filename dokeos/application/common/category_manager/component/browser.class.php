@@ -79,7 +79,8 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 			$tb_data[] = array(
 					'href' => $this->get_copy_general_categories_url(),
 					'label' => Translation :: get('CopyGeneralCategories'),
-					'img' => Theme :: get_common_img_path() . 'treemenu_types/exercise.png'
+					'img' => Theme :: get_common_img_path() . 'treemenu_types/exercise.png',
+					'confirm' => true
 			);
 		}
 		
