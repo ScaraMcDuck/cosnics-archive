@@ -18,12 +18,29 @@ class Question extends LearningObject
 	const TYPE_PERCENTAGE = 'percentage rating';
 	const TYPE_SCORE = 'point rating';
 	
+	const PROPERTY_QUESTION_TYPE = 'question_type';
+	
+	function get_question_type()
+	{
+		$this->get_additional_property(self :: PROPERTY_QUESTION_TYPE);
+	}
+	
+	function set_question_type($value) 
+	{
+		$this->set_additional_property(self :: PROPERTY_QUESTION_TYPE, $value);
+	}
+	
+	function get_additional_property_names() 
+	{
+		return array(self :: PROPERTY_QUESTION_TYPE);
+	}
+	
 	function get_allowed_types()
 	{
 		return array('answer');
 	}
 	
-	function get_question_types()
+	static function get_question_types()
 	{
 		return array(
 		TYPE_OPEN,
