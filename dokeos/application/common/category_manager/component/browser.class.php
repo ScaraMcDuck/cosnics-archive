@@ -28,7 +28,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 	
 	function get_user_html()
 	{		
-		$table = new CategoryBrowserTable($this, array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $this->get_category()), $this->get_condition());
+		$table = new CategoryBrowserTable($this, array('go' => $_GET['go'], 'application' => $_GET['application'], CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $this->get_category()), $this->get_condition());
 		
 		$html = array();
 		$html[] = '<div style="float: right; width: 70%;">';
@@ -73,6 +73,15 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 				'label' => Translation :: get('Add'),
 				'img' => Theme :: get_common_img_path() . 'action_add.png'
 		);
+		
+		if(get_class($this->get_parent()) != 'AdminCategoryManager')
+		{
+			$tb_data[] = array(
+					'href' => $this->get_copy_general_categories_url(),
+					'label' => Translation :: get('CopyGeneralCategories'),
+					'img' => Theme :: get_common_img_path() . 'treemenu_types/exercise.png'
+			);
+		}
 		
 		return $tb_data;
 	}
