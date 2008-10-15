@@ -302,10 +302,10 @@ abstract class WeblcmsDataManager
 
 	/**
 	 * Checks whether the course category exists.
-	 * @param string $category_code
+	 * @param string $category
 	 * @return boolean
 	 */
-	abstract function is_course_category($category_code);
+	abstract function is_course_category($category);
 
 	/**
 	 * Checks whether the course exists.
@@ -541,10 +541,10 @@ abstract class WeblcmsDataManager
 
 	/**
 	 * Retrieves a single course category from persistent storage.
-	 * @param string $category_code The alphanumerical identifier of the course category.
+	 * @param string $category The numerical identifier of the course category.
 	 * @return CourseCategory The course category.
 	 */
-	abstract function retrieve_course_category($category_code = null);
+	abstract function retrieve_course_category($category = null);
 
 	/**
 	 * Retrieves a single course user relation from persistent storage.

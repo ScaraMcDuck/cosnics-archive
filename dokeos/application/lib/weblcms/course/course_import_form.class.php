@@ -53,7 +53,7 @@ class CourseImportForm extends FormValidator {
     			$course->set_visual($csvcourse[Course :: PROPERTY_ID]);
     			$course->set_name($csvcourse[Course :: PROPERTY_NAME]);
     			$course->set_language('english');
-    			$course->set_category_code($csvcourse[Course :: PROPERTY_CATEGORY_CODE]);
+    			$course->set_category($csvcourse[Course :: PROPERTY_CATEGORY]);
     			$course->set_titular($teacher_info['lastname'] . ' ' . $teacher_info['firstname']);
     			
     			if ($course->create())
@@ -135,7 +135,7 @@ class CourseImportForm extends FormValidator {
 		}
 		
 		//4. check if category exists
-		if (!$wdm->is_course_category($csvcourse[Course :: PROPERTY_CATEGORY_CODE]))
+		if (!$wdm->is_course_category($csvcourse[Course :: PROPERTY_CATEGORY]))
 		{
 			$failures++;
 		}

@@ -20,7 +20,7 @@ class AdminCourseBrowserTableColumnModel extends DefaultCourseTableColumnModel
 	{
 		parent :: __construct();
 		$this->add_column(new ObjectTableColumn(Course :: PROPERTY_LANGUAGE, true));
-		$this->add_column(new ObjectTableColumn(Course :: PROPERTY_CATEGORY_CODE, true));
+		$this->add_column(new ObjectTableColumn(Course :: PROPERTY_CATEGORY, true));
 		$this->add_column(new ObjectTableColumn(Course :: PROPERTY_SUBSCRIBE_ALLOWED, true));
 		$this->add_column(new ObjectTableColumn(Course :: PROPERTY_UNSUBSCRIBE_ALLOWED, true));
 		$this->set_default_order_column(0);

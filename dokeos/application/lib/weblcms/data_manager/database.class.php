@@ -1143,11 +1143,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 	}
 
-	function is_course_category($category_code)
+	function is_course_category($category)
 	{
-		$query = 'SELECT COUNT('.$this->escape_column_name(CourseCategory :: PROPERTY_CODE).') FROM '.$this->escape_table_name('course_category').' WHERE '.$this->escape_column_name(CourseCategory :: PROPERTY_CODE).'=?';
+		$query = 'SELECT COUNT('.$this->escape_column_name(CourseCategory :: PROPERTY_CODE).') FROM '.$this->escape_table_name('course_category').' WHERE '.$this->escape_column_name(CourseCategory :: PROPERTY_ID).'=?';
 		$sth = $this->connection->prepare($query);
-		$res = $sth->execute($category_code);
+		$res = $sth->execute($category);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
 		if ($record[0] = 1)
@@ -1372,7 +1372,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$statement = $this->connection->prepare($query);
 			if ($statement->execute(array($coursecategory->get_id())))
 			{
-				$query = 'UPDATE '.$this->escape_table_name('course').' SET '.$this->escape_column_name(Course :: PROPERTY_CATEGORY_CODE).'="" WHERE '.$this->escape_column_name(Course :: PROPERTY_CATEGORY_CODE).'=?';
+				$query = 'UPDATE '.$this->escape_table_name('course').' SET '.$this->escape_column_name(Course :: PROPERTY_CATEGORY).'="" WHERE '.$this->escape_column_name(Course :: PROPERTY_CATEGORY).'=?';
 				$statement = $this->connection->prepare($query);
 				if ($statement->execute(array($coursecategory->get_code())))
 				{
@@ -1496,13 +1496,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return true;
 	}
 
-	function retrieve_course_category($category_code = null)
+	function retrieve_course_category($category = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course_category');
-		if (isset($category_code))
+		if (isset($category))
 		{
-			$query .= ' WHERE '.$this->escape_column_name(CourseCategory :: PROPERTY_CODE).'=?';
-			$res = $this->limitQuery($query, 1, null, array ($category_code));
+			$query .= ' WHERE '.$this->escape_column_name(CourseCategory :: PROPERTY_ID).'=?';
+			$res = $this->limitQuery($query, 1, null, array ($category));
 		}
 		else
 		{
@@ -1620,7 +1620,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
-		return new CourseCategory($record[CourseCategory :: PROPERTY_ID], $defaultProp);
+		return new CourseCategory($defaultProp);
 	}
 
 	function record_to_course_user_category($record)
@@ -2207,7 +2207,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->db->escape_table_name('course_category');
 	
 		$condition = new EqualityCondition(CourseCategory :: PROPERTY_PARENT, $parent_category_id);
-		print_r($condition);
+		//print_r($condition);
 		$params = array ();
 		if (isset ($condition))
 		{

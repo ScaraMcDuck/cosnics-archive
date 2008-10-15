@@ -109,7 +109,7 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 		$conditions = array();
 		if (isset($this->category))
 		{
-			$conditions[] = new EqualityCondition(Course :: PROPERTY_CATEGORY_CODE, $this->category);
+			$conditions[] = new EqualityCondition(Course :: PROPERTY_CATEGORY, $this->category);
 		}
 		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
 

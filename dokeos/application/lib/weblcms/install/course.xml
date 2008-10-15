@@ -7,7 +7,7 @@
   <property name="course_language" type="text" length="20"/>
   <property name="title" type="text" length="250"/>
   <property name="description" type="text"/>
-  <property name="category_code" type="text" length="40"/>
+  <property name="category" type="integer" notnull="1"/>
   <property name="visibility" type="integer" length="1" default="0"/>
   <property name="show_score" type="integer" notnull="1" default="1"/>
   <property name="titular" type="integer"/>

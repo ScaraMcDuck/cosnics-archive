@@ -152,15 +152,15 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 	
 	function edit_course_category()
 	{
-		$course_category_code = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
-		$course_category = $this->retrieve_course_category($course_category_code);
+		$course_category_id = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
+		$course_category = $this->retrieve_course_category($course_category_id);
 		
-		$form = new CourseCategoryForm(CourseCategoryForm :: TYPE_EDIT, $course_category, $this->get_url(array(Weblcms :: PARAM_COURSE_CATEGORY_ID => $course_category_code)));
+		$form = new CourseCategoryForm(CourseCategoryForm :: TYPE_EDIT, $course_category, $this->get_url(array(Weblcms :: PARAM_COURSE_CATEGORY_ID => $course_category_id)));
 		
 		if($form->validate())
 		{
 			$success = $form->update_course_category();
-			$this->redirect(null, Translation :: get($success ? 'CourseCategoryUpdated' : 'CourseCategoryNotUpdated'), ($success ? false : true), array(Weblcms :: PARAM_COURSE_CATEGORY_ID => $course_category_code));
+			$this->redirect(null, Translation :: get($success ? 'CourseCategoryUpdated' : 'CourseCategoryNotUpdated'), ($success ? false : true), array(Weblcms :: PARAM_COURSE_CATEGORY_ID => $course_category_id));
 		}
 		else
 		{

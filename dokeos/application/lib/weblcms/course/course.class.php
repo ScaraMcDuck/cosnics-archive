@@ -39,7 +39,7 @@ class Course {
 	const PROPERTY_LANGUAGE = 'course_language';
 	const PROPERTY_EXTLINK_URL = 'department_url';
 	const PROPERTY_EXTLINK_NAME = 'department_name';
-	const PROPERTY_CATEGORY_CODE = 'category_code';
+	const PROPERTY_CATEGORY = 'category';
 	const PROPERTY_VISIBILITY = 'visibility';
 	const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe';
 	const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe';
@@ -103,7 +103,7 @@ class Course {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY_CODE, self :: PROPERTY_DB, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED, self :: PROPERTY_THEME);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY, self :: PROPERTY_DB, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED, self :: PROPERTY_THEME);
 	}
 
 	/**
@@ -128,9 +128,9 @@ class Course {
 	 * Returns the category code of this course object
 	 * @return string the category code
 	 */
-    function get_category_code()
+    function get_category()
     {
-    	return $this->get_default_property(self :: PROPERTY_CATEGORY_CODE);
+    	return $this->get_default_property(self :: PROPERTY_CATEGORY);
     }
 
 	/**
@@ -274,9 +274,9 @@ class Course {
 	 * Sets the category code of this course object
 	 * @param String $visual The category code
 	 */
-	function set_category_code($category)
+	function set_category($category)
 	{
-		$this->set_default_property(self :: PROPERTY_CATEGORY_CODE, $category);
+		$this->set_default_property(self :: PROPERTY_CATEGORY, $category);
 	}
 
 	/**
