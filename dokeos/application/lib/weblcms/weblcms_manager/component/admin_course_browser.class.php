@@ -98,7 +98,7 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 		$condition = null;
 		if (isset($this->category))
 		{
-			$condition = new EqualityCondition(Course :: PROPERTY_CATEGORY_CODE, $this->category);
+			$condition = new EqualityCondition(Course :: PROPERTY_CATEGORY, $this->category);
 			
 			if (count($search_conditions))
 			{

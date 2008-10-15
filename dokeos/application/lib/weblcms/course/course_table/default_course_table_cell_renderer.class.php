@@ -41,8 +41,8 @@ class DefaultCourseTableCellRenderer implements ObjectTableCellRenderer
 					return $course->get_subscribe_allowed();
 				case Course :: PROPERTY_UNSUBSCRIBE_ALLOWED :
 					return $course->get_unsubscribe_allowed();
-				case Course :: PROPERTY_CATEGORY_CODE :
-					return $course->get_category_code();
+				case Course :: PROPERTY_CATEGORY :
+					return $course->get_category();
 			}
 		}
 		return '&nbsp;';

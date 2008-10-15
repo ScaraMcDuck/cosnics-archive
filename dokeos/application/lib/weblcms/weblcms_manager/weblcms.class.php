@@ -716,9 +716,9 @@ class Weblcms extends WebApplication
 	 * @param string $category_code The alphanumerical identifier of the course category.
 	 * @return CourseCategory The course category.
 	 */
-	function retrieve_course_category($course_category_code)
+	function retrieve_course_category($course_category)
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_course_category($course_category_code);
+		return WeblcmsDataManager :: get_instance()->retrieve_course_category($course_category);
 	}
 
 	/**

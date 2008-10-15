@@ -368,9 +368,9 @@ abstract class WeblcmsComponent
 	/**
 	 * @see Weblcms::retrieve_course_category()
 	 */	
-	function retrieve_course_category($course_category_code)
+	function retrieve_course_category($course_category)
 	{
-		return $this->get_parent()->retrieve_course_category($course_category_code);
+		return $this->get_parent()->retrieve_course_category($course_category);
 	}
 	
 	/**

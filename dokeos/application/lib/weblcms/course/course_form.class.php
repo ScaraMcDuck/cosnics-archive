@@ -9,7 +9,7 @@ require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 require_once Path :: get_user_path(). 'lib/user.class.php';
 require_once Path :: get_admin_path(). 'settings/settings_admin_connector.class.php';
 require_once dirname(__FILE__).'/course.class.php';
-require_once dirname(__FILE__).'/course_category.class.php';
+require_once dirname(__FILE__).'/../category_manager/course_category.class.php';
 
 
 class CourseForm extends FormValidator {
@@ -74,17 +74,16 @@ class CourseForm extends FormValidator {
 
 		$cat_options = array();
 		$parent = $this->parent;
-
-		$condition = new EqualityCondition(CourseCategory :: PROPERTY_AUTH_COURSE_CHILD, true);
+		
 		$wdm = WeblcmsDataManager :: get_instance();
-		$categories = $wdm->retrieve_course_categories($condition);
+		$categories = $wdm->retrieve_course_categories();
 
 		while ($category = $categories->next_result())
 		{
-			$cat_options[$category->get_code()] = $category->get_name();
+			$cat_options[$category->get_id()] = $category->get_name();
 		}
 
-		$this->addElement('select', Course :: PROPERTY_CATEGORY_CODE, Translation :: get('Category'), $cat_options);
+		$this->addElement('select', Course :: PROPERTY_CATEGORY, Translation :: get('Category'), $cat_options);
 
 		$this->addElement('text', Course :: PROPERTY_EXTLINK_NAME, Translation :: get('Department'));
 		$this->addElement('text', Course :: PROPERTY_EXTLINK_URL, Translation :: get('DepartmentUrl'));
@@ -148,7 +147,7 @@ class CourseForm extends FormValidator {
 
     	$course->set_visual($values[Course :: PROPERTY_VISUAL]);
     	$course->set_name($values[Course :: PROPERTY_NAME]);
-    	$course->set_category_code($values[Course :: PROPERTY_CATEGORY_CODE]);
+    	$course->set_category($values[Course :: PROPERTY_CATEGORY]);
     	
 		$course->set_titular($values[Course :: PROPERTY_TITULAR]);
 		$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
@@ -176,7 +175,7 @@ class CourseForm extends FormValidator {
     	$course->set_id($values[Course :: PROPERTY_ID]);
     	$course->set_visual($values[Course :: PROPERTY_VISUAL]);
     	$course->set_name($values[Course :: PROPERTY_NAME]);
-    	$course->set_category_code($values[Course :: PROPERTY_CATEGORY_CODE]);
+    	$course->set_category($values[Course :: PROPERTY_CATEGORY]);
 		$course->set_titular($values[Course :: PROPERTY_TITULAR]);
     	$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
     	$course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
@@ -234,7 +233,7 @@ class CourseForm extends FormValidator {
 		$defaults[Course :: PROPERTY_VISUAL] = $course->get_visual();
 		$defaults[Course :: PROPERTY_TITULAR] = $course->get_titular();
 		$defaults[Course :: PROPERTY_NAME] = $course->get_name();
-		$defaults[Course :: PROPERTY_CATEGORY_CODE] = $course->get_category_code();
+		$defaults[Course :: PROPERTY_CATEGORY] = $course->get_category();
 		$defaults[Course :: PROPERTY_EXTLINK_NAME] = $course->get_extlink_name();
 		$defaults[Course :: PROPERTY_EXTLINK_URL] = $course->get_extlink_url();
 		$defaults[Course :: PROPERTY_LANGUAGE] = $course->get_language();
