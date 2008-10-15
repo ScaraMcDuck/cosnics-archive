@@ -34,13 +34,16 @@ class Toolbar
 			$class_names = array ($class_names);
 		}
 		$class_names[] = 'toolbar';
+		
 		$html = array ();
-		$html[] = '<ul class="'.implode(' ', $class_names).'"'. (isset ($css) ? ' style="'.$css.'"' : '').'>';
+		$html[] = '<ul class="' . implode(' ', $class_names) . '"' . (isset($css) ? ' style="'.$css.'"' : '') . '>';
+		
 		foreach ($toolbar_data as $index => $elmt)
 		{
 			$button = $elmt->as_html();
 			
 			$classes = array();
+			
 			if ($index == 0)
 			{
 				$classes[] = 'first';
@@ -50,8 +53,10 @@ class Toolbar
 			{
 				$classes[] = 'last';
 			}
-			$html[] = '<li'.(count($classes) ? ' class="'.implode(' ', $classes).'"' : '').'>'.$button.'</li>';
+			
+			$html[] = '<li' . (count($classes) ? ' class="' . implode(' ', $classes) . '"' : '') . '>' . $button . '</li>';
 		}
+		
 		$html[] = '</ul>';
 		// Don't separate by linefeeds. It creates additional whitespace.
 		return implode($html);
