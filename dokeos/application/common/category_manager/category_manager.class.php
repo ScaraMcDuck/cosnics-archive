@@ -25,6 +25,7 @@ abstract class CategoryManager
 	const ACTION_UPDATE_CATEGORY = 'update_category';
 	const ACTION_DELETE_CATEGORY = 'delete_category';
 	const ACTION_MOVE_CATEGORY = 'move_category';
+	const ACTION_COPY_GENERAL_CATEGORIES = 'copy_general_categories';
 	
 	private $parent;
 	
@@ -42,6 +43,7 @@ abstract class CategoryManager
 	{
 		$this->parent = $parent;
 		$parent->set_parameter(self :: PARAM_ACTION, $this->get_action());
+		$this->parse_input_from_table();
 	}
 	
 	function run()
@@ -64,6 +66,9 @@ abstract class CategoryManager
 				break;
 			case self :: ACTION_MOVE_CATEGORY :
 				$component = CategoryManagerComponent :: factory('Mover', $this);
+				break;
+			case self :: ACTION_COPY_GENERAL_CATEGORIES :
+				$component = CategoryManagerComponent :: factory('GeneralCategoriesCopier', $this);
 				break;
 			default :
 				$component = CategoryManagerComponent :: factory('Browser', $this);
@@ -193,6 +198,35 @@ abstract class CategoryManager
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MOVE_CATEGORY,
 								    self :: PARAM_CATEGORY_ID => $category_id,
 								    self :: PARAM_DIRECTION => $direction));
+	}
+	
+	function get_copy_general_categories_url()
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COPY_GENERAL_CATEGORIES));
+	}
+	
+	private function parse_input_from_table()
+	{
+		if (isset ($_POST['action']))
+		{
+			$selected_ids = $_POST['reservations_table'.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+				
+			if (empty ($selected_ids))
+			{
+				$selected_ids = array ();
+			}
+			elseif (!is_array($selected_ids))
+			{
+				$selected_ids = array ($selected_ids);
+			}
+			switch ($_POST['action'])
+			{
+				case self :: PARAM_REMOVE_SELECTED_CATEGORIES :
+					$_GET[self :: PARAM_ACTION] = self :: ACTION_DELETE_CATEGORY;
+					$_GET[self :: PARAM_CATEGORY_ID] = $selected_ids;
+					break;
+			}
+		}
 	}
 	
 	abstract function count_categories($condition);
