@@ -7,7 +7,7 @@ require_once Path :: get_library_path(). 'database/result_set.class.php';
 /**
  * This class represents a resultset which represents a set of groups.
  */
-class DatabaseGroupResultSet extends ResultSet {
+class DatabaseGroup2ResultSet extends ResultSet {
 	/**
 	 * The datamanager used to retrieve objects from the repository
 	 */

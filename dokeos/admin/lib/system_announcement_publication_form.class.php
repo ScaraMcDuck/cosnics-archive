@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/system_announcement_publication.class.php';
 require_once Path :: get_library_path() . 'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_plugin_path() . 'html2text/class.html2text.inc';
 require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
-require_once Path :: get_class_group_path() . 'lib/class_group_data_manager.class.php';
+require_once Path :: get_group_path() . 'lib/group_data_manager.class.php';
 /**
  * This class represents a form to allow a user to publish a learning object.
  *
@@ -111,7 +111,7 @@ class SystemAnnouncementPublicationForm extends FormValidator
 				list($type,$id) = explode('-',$target);
 				if($type == self :: PARAM_TARGET_GROUP_PREFIX)
 				{
-					$class_groups[] = $id;
+					$groups[] = $id;
 				}
 				elseif($type == self :: PARAM_TARGET_USER_PREFIX)
 				{
@@ -128,7 +128,7 @@ class SystemAnnouncementPublicationForm extends FormValidator
 		$pub->set_hidden($hidden);
 		$pub->set_from_date($from);
 		$pub->set_to_date($to);
-		$pub->set_target_class_groups($class_groups);
+		$pub->set_target_groups($groups);
 		$pub->set_target_users($users);
 
 		if ($pub->create())
@@ -145,11 +145,11 @@ class SystemAnnouncementPublicationForm extends FormValidator
     {
     	$receiver_options = array();
     	
-    	$class_groups = ClassGroupDataManager :: get_instance()->retrieve_classgroups();
+    	$groups = GroupDataManager :: get_instance()->retrieve_classgroups();
     	
-    	while ($class_group = $class_groups->next_result())
+    	while ($group = $groups->next_result())
     	{
-    		$receiver_choices[self :: PARAM_TARGET_GROUP_PREFIX.'-'.$class_group->get_id()] = Translation :: get('Group').': '.$class_group->get_name();
+    		$receiver_choices[self :: PARAM_TARGET_GROUP_PREFIX.'-'.$group->get_id()] = Translation :: get('Group').': '.$group->get_name();
     	}
     	
     	$users = UserDataManager :: get_instance()->retrieve_users();
@@ -181,13 +181,13 @@ class SystemAnnouncementPublicationForm extends FormValidator
 		{
 			$defaults[self :: PARAM_TARGETS][self :: PARAM_TARGETS_TO][] = self :: PARAM_TARGET_USER_PREFIX . '-'.$user;
 		}
-		$class_groups = $system_announcement_publication->get_target_class_groups();
-		foreach($class_groups as $index => $class_group)
+		$groups = $system_announcement_publication->get_target_groups();
+		foreach($groups as $index => $group)
 		{
-			$defaults[self :: PARAM_TARGETS][self :: PARAM_TARGETS_TO][] = self :: PARAM_TARGET_GROUP_PREFIX . '-'.$class_group;
+			$defaults[self :: PARAM_TARGETS][self :: PARAM_TARGETS_TO][] = self :: PARAM_TARGET_GROUP_PREFIX . '-'.$group;
 		}
 		
-		if (count($users) > 0 || count($class_groups) > 0)
+		if (count($users) > 0 || count($groups) > 0)
 		{
 			$defaults[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] = '1';
 		}
@@ -217,7 +217,7 @@ class SystemAnnouncementPublicationForm extends FormValidator
 				list($type,$id) = explode('-',$target);
 				if($type == self :: PARAM_TARGET_GROUP_PREFIX)
 				{
-					$class_groups[] = $id;
+					$groups[] = $id;
 				}
 				elseif($type == self :: PARAM_TARGET_USER_PREFIX)
 				{
@@ -231,7 +231,7 @@ class SystemAnnouncementPublicationForm extends FormValidator
 		$pub->set_hidden($hidden);
 		$pub->set_from_date($from);
 		$pub->set_to_date($to);
-		$pub->set_target_class_groups($class_groups);
+		$pub->set_target_groups($groups);
 		$pub->set_target_users($users);
 
 		if ($pub->update())

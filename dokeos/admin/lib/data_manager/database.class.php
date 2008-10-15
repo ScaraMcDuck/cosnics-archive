@@ -151,7 +151,7 @@ class DatabaseAdminDataManager extends AdminDataManager
 		return $this->database->retrieve_objects(SystemAnnouncementPublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
-	function retrieve_system_announcement_publication_target_class_groups($system_announcement_publication)
+	function retrieve_system_announcement_publication_target_groups($system_announcement_publication)
 	{
 		return array();
 	}

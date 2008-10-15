@@ -23,7 +23,7 @@ class SystemAnnouncementPublication
 	private $id;
 	private $defaultProperties;
 	
-	private $target_class_groups;
+	private $target_groups;
 	private $target_users;
 	
 	function SystemAnnouncementPublication($id = 0, $defaultProperties = array ())
@@ -174,7 +174,7 @@ class SystemAnnouncementPublication
 		
 		$success = $adm->create_system_announcement_publication($this);
 		$users = $this->get_target_users();
-		$class_groups = $this->get_target_class_groups();
+		$groups = $this->get_target_groups();
 		// TODO: Write target users and class groups to DB.
 		
 		return $success;
@@ -234,15 +234,15 @@ class SystemAnnouncementPublication
 		return $this->target_users;
 	}
 	
-	function get_target_class_groups()
+	function get_target_groups()
 	{
-		if (!isset($this->target_class_groups))
+		if (!isset($this->target_groups))
 		{
 			$adm = AdminDataManager :: get_instance();
-			$this->target_class_groups = $adm->retrieve_system_announcement_publication_target_class_groups($this);
+			$this->target_groups = $adm->retrieve_system_announcement_publication_target_groups($this);
 		}
 		
-		return $this->target_class_groups;
+		return $this->target_groups;
 	}
 	
 	function set_target_users($target_users)
@@ -250,9 +250,9 @@ class SystemAnnouncementPublication
 		$this->target_users = $target_users;
 	}
 	
-	function set_target_class_groups($target_groups)
+	function set_target_groups($target_groups)
 	{
-		$this->target_class_groups = $target_groups;
+		$this->target_groups = $target_groups;
 	}
 }
 ?>

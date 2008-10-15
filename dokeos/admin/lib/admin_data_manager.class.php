@@ -115,7 +115,7 @@ abstract class AdminDataManager
 	 */	
     abstract function retrieve_system_announcement_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
     
-    abstract function retrieve_system_announcement_publication_target_class_groups($system_announcement_publication);
+    abstract function retrieve_system_announcement_publication_target_groups($system_announcement_publication);
     
     abstract function retrieve_system_announcement_publication_target_users($system_announcement_publication);
 

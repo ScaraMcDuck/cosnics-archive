@@ -92,7 +92,7 @@ class Path
 			case SYS_APP_ADMIN_PATH :
 				return self :: get(SYS_PATH) . 'admin/';
 			case SYS_APP_CLASS_GROUP_PATH :
-				return self :: get(SYS_PATH) . 'class_group/';
+				return self :: get(SYS_PATH) . 'group/';
 			case SYS_APP_RIGHTS_PATH :
 				return self :: get(SYS_PATH) . 'rights/';
 			case SYS_APP_INSTALL_PATH :
@@ -168,7 +168,7 @@ class Path
     	return self :: get(SYS_APP_MENU_PATH);
     }
     
-    public static function get_class_group_path()
+    public static function get_group_path()
     {
     	return self :: get(SYS_APP_CLASS_GROUP_PATH);
     }
