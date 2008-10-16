@@ -1,5 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/action_bar_search_form.class.php';
+require_once Path :: get_library_path().'html/toolbar/toolbar.class.php';
+require_once Path :: get_library_path().'html/toolbar/toolbar_item.class.php';
 /**
  * Class that renders an action bar divided in 3 parts, a left menu for actions, a middle menu for actions
  * and a right menu for a search bar.
@@ -11,6 +13,7 @@ class ActionBarRenderer
 	const ACTION_BAR_SEARCH = 'search';
 	
 	private $actions = array();
+	private $search_form;
 	
 	function ActionBarRenderer($common_actions = array(), $tool_actions = array(), $search_url = null)
 	{
@@ -62,6 +65,7 @@ class ActionBarRenderer
 	function set_search_url($search_url)
 	{
 		$this->actions[self :: ACTION_BAR_SEARCH] = $search_url;
+		$this->search_form = new ActionBarSearchForm($search_url);
 	}
 	
 	function as_html()
@@ -74,12 +78,13 @@ class ActionBarRenderer
 		
 		$common_actions = $this->get_common_actions();
 		$tool_actions = $this->get_tool_actions();
-		$search_url = $this->get_search_url();
 		
 		if (count($common_actions) > 0)
 		{
 			$html[] = '<div class="common_menu">';
-			$html[] = $this->build_toolbar($common_actions);
+			$toolbar = new Toolbar();
+			$toolbar->set_items($common_actions);
+			$html[] = $toolbar->as_html();
 			$html[] = '</div>';
 		}
 		
@@ -90,9 +95,9 @@ class ActionBarRenderer
 			$html[] = '</div>';
 		}
 		
-		if (!is_null($search_url))
+		if (!is_null($this->search_form))
 		{
-			$search_form = new ActionBarSearchForm($search_url);
+			$search_form = $this->search_form;
 			
 			$html[] = '<div class="search_menu">';
 			$html[] = $search_form->as_html();
@@ -118,27 +123,39 @@ class ActionBarRenderer
 		foreach ($toolbar_data as $index => $elmt)
 		{
 			if(($i % 2) == 0)
-				$html[] = '<div style="margin: auto; padding-left: 5px; float: left;">'; 
+			{
+				$html[] = '<div style="margin: auto; padding-left: 5px; float: left;">';
+			} 
 				 
 			$label = htmlentities($elmt['label']);
 			$button = '';
 			if (isset ($elmt['img']))
+			{
 				$button .= '<img src="'.htmlentities($elmt['img']).'" alt="'.$label.'" title="'.$label.'"'. 'class="labeled")/> <span>'.$label.'</span>';
+			}
 				
 			if (isset ($elmt['href']))
+			{
 				$button = '<a href="'.htmlentities($elmt['href']).'" title="'.$label.'"'. ($elmt['confirm'] ? ' onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"' : '').'>'.$button.'</a>';
+			}
 				
 			$html[] = $button;
 			if($i % 2 == 0)
+			{
 				$html[] = '<br />';
+			}
 			else
+			{
 				$html[] = '</div>';
+			}
 				
 			$i++;
 		}
 		
 		if(count($toolbar_data) % 2 != 0)
+		{
 			$html[] = '</div>';
+		}
 		
 		return implode($html);
 	}
@@ -146,7 +163,13 @@ class ActionBarRenderer
 	function get_query()
 	{
 		if($this->search_form)
+		{
 			return $this->search_form->get_query();
+		}
+		else
+		{
+			return null;
+		}
 	}
 }
 

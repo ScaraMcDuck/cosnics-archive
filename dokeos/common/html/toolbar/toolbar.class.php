@@ -4,7 +4,7 @@ require_once Path :: get_library_path().'html/toolbar/toolbar_item.class.php';
 class Toolbar
 {
 	private $items = array();
-	private $class_names = array ();
+	private $class_names = array();
 	private $css = null;
 
     function Toolbar($class_names = array(), $css = null)
@@ -38,10 +38,8 @@ class Toolbar
 		$html = array ();
 		$html[] = '<ul class="' . implode(' ', $class_names) . '"' . (isset($css) ? ' style="'.$css.'"' : '') . '>';
 		
-		foreach ($toolbar_data as $index => $elmt)
+		foreach ($toolbar_data as $index => $toolbar_item)
 		{
-			$button = $elmt->as_html();
-			
 			$classes = array();
 			
 			if ($index == 0)
@@ -54,11 +52,10 @@ class Toolbar
 				$classes[] = 'last';
 			}
 			
-			$html[] = '<li' . (count($classes) ? ' class="' . implode(' ', $classes) . '"' : '') . '>' . $button . '</li>';
+			$html[] = '<li' . (count($classes) ? ' class="' . implode(' ', $classes) . '"' : '') . '>' . $toolbar_item->as_html() . '</li>';
 		}
 		
 		$html[] = '</ul>';
-		// Don't separate by linefeeds. It creates additional whitespace.
 		return implode($html);
     }
 }
