@@ -7,7 +7,7 @@ require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.
 
 class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 {
-	private $bar;
+	private $action_bar;
 	
 	function run()
 	{
@@ -16,7 +16,9 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 			Display :: display_not_allowed();
 			return;
 		}
-		$this->bar = new ActionBarRenderer($this->get_left_actions(), array(), $this->get_url());
+		
+		$this->action_bar = $this->get_action_bar();
+		
 		$browser = new AnnouncementBrowser($this);
 		$trail = new BreadcrumbTrail();
 		
@@ -24,7 +26,7 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		
 		echo '<br /><a name="top"></a>';
 		//echo $this->perform_requested_actions();
-		echo $this->bar->as_html();
+		echo $this->action_bar->as_html();
 		echo '<div style="width:100%; float:right;">';
 		echo $browser->as_html();
 		echo '</div>';
@@ -32,28 +34,21 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		$this->display_footer();
 	}
 	
-	function get_left_actions()
+	function get_action_bar()
 	{
-		$actions = array();
+		$action_bar = new ActionBarRenderer();
 		
-		$actions[] = array(
-				'href' => $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)),
-				'label' => Translation :: get('Publish'),
-				'img' => Theme :: get_common_img_path().'action_publish.png'
-		);
+		$action_bar->set_search_url($this->get_url());
 		
-		$actions[] = array(
-				'href' => $this->get_url(),
-				'label' => Translation :: get('ShowAll'),
-				'img' => Theme :: get_common_img_path().'action_browser.png'
-		);
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_img_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
-		return $actions;
+		return $action_bar;
 	}
 	
 	function get_condition()
 	{
-		$query = $this->bar->get_query();
+		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
 			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
