@@ -12,6 +12,9 @@ class ActionBarRenderer
 	const ACTION_BAR_TOOL = 'tool';
 	const ACTION_BAR_SEARCH = 'search';
 	
+	const TYPE_HORIZONTAL = 'hoirzontal';
+	const TYPE_VERTICAL = 'vertical';
+	
 	private $actions = array();
 	private $search_form;
 	
@@ -70,6 +73,24 @@ class ActionBarRenderer
 	
 	function as_html()
 	{
+		$type = $this->type;
+		
+		switch($type)
+		{
+			case self :: TYPE_HORIZONTAL :
+				return $this->render_horizontal();
+				break;
+			case self :: TYPE_VERTICAL :
+				return $this->render_vertical();
+				break;
+			default :
+				return $this->render_horizontal();
+				break;
+		}
+	}
+	
+	function render_horizontal()
+	{
 		$html = array();
 		
 		$html[] = '<div id="action_bar_text" style="float:left; display: none; margin-bottom: 10px;"><a href="#"><img src="'. Theme :: get_common_img_path() .'action_bar.png" style="vertical-align: middle;" />&nbsp;'. Translation :: get('ShowActionBar') .'</a></div>';
@@ -84,6 +105,7 @@ class ActionBarRenderer
 			$html[] = '<div class="common_menu">';
 			$toolbar = new Toolbar();
 			$toolbar->set_items($common_actions);
+			$toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
 			$html[] = $toolbar->as_html();
 			$html[] = '</div>';
 		}
@@ -91,7 +113,10 @@ class ActionBarRenderer
 		if (count($tool_actions) > 0)
 		{
 			$html[] = '<div class="tool_menu">';
-			$html[] = $this->build_toolbar($tool_actions);
+			$toolbar = new Toolbar();
+			$toolbar->set_items($tool_actions);
+			$toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
+			$html[] = $toolbar->as_html();
 			$html[] = '</div>';
 		}
 		
@@ -110,17 +135,19 @@ class ActionBarRenderer
 		$html[] = '</div>';
 		$html[] = '</div>';
 		
-		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/action_bar.js' .'"></script>';
+		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/action_bar_horizontal.js' .'"></script>';
 		
 		return implode("\n", $html);
 	}
 	
-	function as_left_html()
+	function render_vertical()
 	{
 		$html = array();
 		
 		$html[] = '<div id="action_bar_left" class="action_bar_left">';
 //		$html[] = '<div id="action_bar_left_options"';
+
+		$html[] = '<h3>' . Translation :: get('ActionBar') . '</h3>';
 		
 		$common_actions = $this->get_common_actions();
 		$tool_actions = $this->get_tool_actions();
@@ -175,7 +202,7 @@ class ActionBarRenderer
 		$html[] = '</div>';
 		$html[] = '</div>';
 		
-		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/action_bar.js' .'"></script>';
+		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/action_bar_vertical.js' .'"></script>';
 		
 		return implode("\n", $html);
 	}
