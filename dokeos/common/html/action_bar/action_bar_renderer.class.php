@@ -115,6 +115,71 @@ class ActionBarRenderer
 		return implode("\n", $html);
 	}
 	
+	function as_left_html()
+	{
+		$html = array();
+		
+		$html[] = '<div id="action_bar_left" class="action_bar_left">';
+//		$html[] = '<div id="action_bar_left_options"';
+		
+		$common_actions = $this->get_common_actions();
+		$tool_actions = $this->get_tool_actions();
+		
+		$action_bar_has_search_form = !is_null($this->search_form);
+		$action_bar_has_common_actions = (count($common_actions) > 0);
+		$action_bar_has_tool_actions = (count($tool_actions) > 0);
+		$action_bar_has_common_and_tool_actions = (count($common_actions) > 0) && (count($tool_actions) > 0);
+		
+		if (!is_null($this->search_form))
+		{
+			$search_form = $this->search_form;
+			$html[] = $search_form->as_html();
+		}
+		
+		if ($action_bar_has_search_form && ($action_bar_has_common_actions || $action_bar_has_tool_actions))
+		{
+			$html[] = '<div class="divider"></div>';
+		}
+		
+		if ($action_bar_has_common_actions)
+		{
+			$html[] = '<div class="clear"></div>';
+			
+			$toolbar = new Toolbar();
+			$toolbar->set_items($common_actions);
+			$toolbar->set_type(Toolbar :: TYPE_VERTICAL);
+			$html[] = $toolbar->as_html();
+		}
+		
+		if ($action_bar_has_common_and_tool_actions)
+		{
+			$html[] = '<div class="divider"></div>';
+		}
+		
+		if ($action_bar_has_tool_actions)
+		{
+			$html[] = '<div class="clear"></div>';
+			
+			$toolbar = new Toolbar();
+			$toolbar->set_items($tool_actions);
+			$toolbar->set_type(Toolbar :: TYPE_VERTICAL);
+			$html[] = $toolbar->as_html();
+		}
+		
+		$html[] = '<div class="clear"></div>';
+//		$html[] = '</div>';
+		
+		$html[] = '<div id="action_bar_left_hide_container" class="hide">';
+		$html[] = '<a id="action_bar_left_hide" href="#"><img src="'. Theme :: get_common_img_path() .'action_action_bar_hide.png" /></a>';
+		$html[] = '<a id="action_bar_left_show" href="#"><img src="'. Theme :: get_common_img_path() .'action_action_bar_show.png" /></a>';
+		$html[] = '</div>';
+		$html[] = '</div>';
+		
+		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/action_bar.js' .'"></script>';
+		
+		return implode("\n", $html);
+	}
+	
 	private function build_toolbar($toolbar_data)
 	{
 		$html = array ();

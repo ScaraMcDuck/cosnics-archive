@@ -3,12 +3,16 @@ require_once Path :: get_library_path().'html/toolbar/toolbar_item.class.php';
 
 class Toolbar
 {
+	const TYPE_HORIZONTAL = 'horizontal';
+	const TYPE_VERTICAL = 'vertical';
+	
 	private $items = array();
 	private $class_names = array();
 	private $css = null;
 
-    function Toolbar($class_names = array(), $css = null)
+    function Toolbar($type = self :: TYPE_HORIZONTAL, $class_names = array(), $css = null)
     {
+    	$this->type = $type;
     	$this->class_names = $class_names;
     	$this->css = $css;
     }
@@ -23,9 +27,28 @@ class Toolbar
     	$this->items[] = $item;
     }
     
+    function add_items($items)
+    {
+    	foreach($items as $item)
+    	{
+    		$this->items[] = $item;
+    	}
+    }
+    
+    function set_type($type)
+    {
+    	$this->type = $type;
+    }
+    
+    function get_type()
+    {
+    	return $this->type;
+    }
+    
     function as_html()
     {
     	$toolbar_data = $this->items;
+    	$type = $this->get_type();
     	$class_names = $this->class_names;
     	$css = $this->css;
     	
@@ -33,7 +56,7 @@ class Toolbar
 		{
 			$class_names = array ($class_names);
 		}
-		$class_names[] = 'toolbar';
+		$class_names[] = 'toolbar_' . $type;
 		
 		$html = array ();
 		$html[] = '<ul class="' . implode(' ', $class_names) . '"' . (isset($css) ? ' style="'.$css.'"' : '') . '>';

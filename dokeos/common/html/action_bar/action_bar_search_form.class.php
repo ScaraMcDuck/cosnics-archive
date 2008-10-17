@@ -86,7 +86,7 @@ class ActionBarSearchForm extends FormValidator
 	function as_html()
 	{
 		$html = array ();
-		$html[] = '<div class="simple_search" style="float:right; text-align: right; margin-bottom: 1em;">';
+		$html[] = '<div class="simple_search">';
 		$html[] = $this->renderer->toHTML();
 		$html[] = '</div>';
 		return implode('', $html);
