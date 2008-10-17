@@ -7,7 +7,7 @@ require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.
 
 class CalendarToolViewerComponent extends CalendarToolComponent
 {
-	private $bar;
+	private $action_bar;
 	
 	function run()
 	{
@@ -16,8 +16,8 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 			Display :: display_not_allowed();
 			return;
 		}
-		$this->bar = new ActionBarRenderer($this->get_left_actions(), $this->get_right_actions(), 
-			($_GET['view'] == 'list')?$this->get_url(array('view' => $_GET['view'])):null);
+		
+		$this->action_bar = $this->get_action_bar();
 
 		$time = isset($_GET['time']) ? intval($_GET['time']) : time();
 		$this->set_parameter('time',$time);
@@ -26,66 +26,37 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 		$trail = new BreadcrumbTrail();
 		$this->display_header($trail);
 		echo '<br /><a name="top"></a>';
-		echo $this->bar->as_html() . '<br />';
+		echo $this->action_bar->as_html() . '<br />';
 		echo '<div style="width:100%; float:right;">';
 		echo $browser->as_html();
 		echo '</div>';
 		
 		$this->display_footer();
 	}
-	
-	function get_left_actions()
+			
+	function get_action_bar()
 	{
-		$actions = array();
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
-		$actions[] = array(
-				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)),
-				'label' => Translation :: get('Publish'),
-				'img' => Theme :: get_common_img_path().'action_publish.png'
-		);
+		$action_bar->set_search_url(($_GET['view'] == 'list') ? $this->get_url(array('view' => $_GET['view'])) : null);
+		
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_img_path().'action_publish.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		if($_GET['view'] == 'list')
 		{
-			$actions[] = array(
-					'href' => $this->get_url(array('view' => 'list')),
-					'label' => Translation :: get('Show All'),
-					'img' => Theme :: get_common_img_path().'action_browser.png'
-			);
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(array('view' => 'list')), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 		
-		return $actions;
-	}
-	
-	function get_right_actions()
-	{
-		$toolbar_data = array();
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView'), Theme :: get_img_path().'tool_calendar_down.png', $this->get_url(array('view'=>'list', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('MonthView'), Theme :: get_img_path().'tool_calendar_month.png', $this->get_url(array('view'=>'month', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('WeekView'), Theme :: get_img_path().'tool_calendar_week.png', $this->get_url(array('view'=>'week', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_img_path().'tool_calendar_day.png', $this->get_url(array('view'=>'day', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
-		$toolbar_data[] = array(
-			'href' => $this->get_url(array('view'=>'list', 'time' => $_GET['time'])),
-			'img' => Theme :: get_img_path().'tool_calendar_down.png',
-			'label' => Translation :: get('ListView'),
-		);
-		$toolbar_data[] = array(
-			'href' => $this->get_url(array('view'=>'month', 'time' => $_GET['time'])),
-			'img' => Theme :: get_img_path().'tool_calendar_month.png',
-			'label' => Translation :: get('MonthView'),
-		);
-		$toolbar_data[] = array(
-			'href' => $this->get_url(array('view'=>'week', 'time' => $_GET['time'])),
-			'img' => Theme :: get_img_path().'tool_calendar_week.png',
-			'label' => Translation :: get('WeekView'),
-		);
-		$toolbar_data[] = array(
-			'href' => $this->get_url(array('view'=>'day', 'time' => $_GET['time'])),
-			'img' => Theme :: get_img_path().'tool_calendar_day.png',
-			'label' => Translation :: get('DayView'),
-		);
-		
-		return $toolbar_data;
+		return $action_bar;
 	}
 	
 	function get_condition()
 	{
-		$query = $this->bar->get_query();
+		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
 			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);

@@ -12,6 +12,8 @@ require_once Path :: get_library_path().'/html/action_bar/action_bar_renderer.cl
  */
 class ExerciseToolViewerComponent extends ExerciseToolComponent 
 {
+	private $action_bar;
+	
 	function run()
 	{
 		if (!$this->is_allowed(VIEW_RIGHT))
@@ -22,8 +24,8 @@ class ExerciseToolViewerComponent extends ExerciseToolComponent
 		$trail = new BreadCrumbTrail();
 		$this->display_header($trail);
 		
-		$action_bar = new ActionBarRenderer($this->get_left_actions(), $this->get_right_actions(), $this->get_url());
-		echo $action_bar->as_html();
+		$this->action_bar = $this->get_action_bar();
+		echo $this->action_bar->as_html();
 		
 		echo '<div style="width:19%; float: left;">';
 		echo '<div style="border-bottom: 1px solid grey; padding: 5px; line-height: 25px;">';
@@ -36,6 +38,13 @@ class ExerciseToolViewerComponent extends ExerciseToolComponent
 		echo '</div>';
 		
 		$this->display_footer();
+	}
+	
+	function get_action_bar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		
+		return $action_bar;
 	}
 
 }
