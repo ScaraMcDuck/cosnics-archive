@@ -16,7 +16,7 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
 			Display :: display_not_allowed();
 			return;
 		}
-		$this->bar = new ActionBarRenderer($this->get_left_actions(), array(), $this->get_url());
+		$this->bar = new ActionBarRenderer(array(), $this->get_left_actions(), $this->get_url());
 		$browser = new DescriptionBrowser($this);
 		$trail = new BreadcrumbTrail();
 		

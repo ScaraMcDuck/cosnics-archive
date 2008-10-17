@@ -1539,32 +1539,50 @@ input.search_query
 /*****************************************************
  *  ICON BASED TOOLBAR STYLES                        *
  *****************************************************/
-ul.toolbar {
+ul.toolbar, ul.toolbar_horizontal, ul.toolbar_vertical {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	color: #999; /* For disabled items */
 	white-space: nowrap;
 }
-ul.toolbar li {
+
+ul.toolbar li, ul.toolbar_horizontal li
+{
 	display: inline;
 	margin: 0px 2px 0px 2px;
 	padding: 0;
 	white-space: nowrap;
 }
-ul.toolbar li img {
+
+ul.toolbar_vertical li
+{
+	display: block;
+	margin: 2px 0px 2px 0px;
+	padding: 0;
+	white-space: nowrap;
+}
+
+ul.toolbar li img, ul.toolbar_horizontal li img, ul.toolbar_vertical li img
+{
 	margin: 0;
 	padding: 0;
 	vertical-align: middle;
 }
-ul.toolbar li img.labeled {
+
+ul.toolbar li img.labeled, ul.toolbar_horizontal li img.labeled, ul.toolbar_vertical li img.labeled
+{
 	margin-right: 0.5ex;
 }
-ul.toolbar li span {
+
+ul.toolbar li span, ul.toolbar_horizontal li span, ul.toolbar_vertical li span
+{
 	margin: 0;
 	padding: 0 1ex 0 0;
 }
-ul.toolbar li.last span {
+
+ul.toolbar li.last span, ul.toolbar_horizontal li.last span, ul.toolbar_vertical li.last span
+{
 	padding-right: 0;
 }
 
@@ -1833,6 +1851,84 @@ div.action_bar #action_bar_hide_container
 	background-position: bottom center;
 	padding-top: 5px;
 	padding-bottom: 5px;
+}
+
+div.action_bar div.simple_search
+{
+	margin: 0px 0px 0px 0px;
+}
+
+div.action_bar_left
+{
+	background-color: #E5EDF9; 
+	border: 1px solid #4271B5;
+	border-left: 0px;
+	padding: 10px;
+	
+	position: fixed;
+	top: 50%;
+	left: 0px;
+	width: 210px;
+	
+	text-align: left;
+}
+
+div.action_bar_left div.divider
+{
+	background-color: #4271B5;
+	margin: 10px 0px 10px 0px;
+	line-height: 1px;
+	height: 1px;
+	font-size: 1px;
+}
+
+div.action_bar_left #action_bar_left_hide_container
+{
+	display: none;
+	text-align: center;
+	width: 18px;
+	height: 36px;
+	position: absolute;
+	top: 50%;
+	margin-top: -18px;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+div.action_bar_left #action_bar_left_hide_container.hide
+{
+	right: 0px;
+	margin-right: -1px;
+	background-image: url(../img/common/action_action_bar_hide_background.png);
+}
+
+div.action_bar_left #action_bar_left_hide_container.show
+{
+	right: -18px;
+	margin-left: 0px;
+	background-image: url(../img/common/action_action_bar_show_background.png);
+}
+
+#action_bar_left_show
+{
+	display: none;
+}
+
+#action_bar_left_hide img
+{
+	margin: 10px 4px 11px 6px;
+}
+
+#action_bar_left_show img
+{
+	margin: 10px 6px 11px 4px;
+}
+
+/*IE-fix to avoid adding unwanted margins to the form*/
+div.simple_search form
+{
+	margin: 0;
+	padding: 0;
 }
 
 div.configuration_form {
