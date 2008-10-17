@@ -26,7 +26,7 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		
 		echo '<br /><a name="top"></a>';
 		//echo $this->perform_requested_actions();
-		echo $this->action_bar->as_left_html();
+		echo $this->action_bar->as_html();
 		echo '<div id="action_bar_browser" style="margin-left: 0px; float: right;">';
 		echo $browser->as_html();
 		echo '</div>';
