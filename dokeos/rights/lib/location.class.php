@@ -10,8 +10,10 @@
 class Location
 {
 	const PROPERTY_ID = 'id';
-	const PROPERTY_NAME = 'name';
-	const PROPERTY_DESCRIPTION = 'description';
+	const PROPERTY_LOCATION = 'location';
+	const PROPERTY_LEFT = 'left';
+	const PROPERTY_RIGHT = 'right';
+	const PROPERTY_PARENT = 'parent';
 	
 	/**#@-*/
 
@@ -45,9 +47,8 @@ class Location
 	 * @param array $defaultProperties The default properties of the user
 	 *                                 object. Associative array.
 	 */
-	function Location($id = 0, $defaultProperties = array ())
+	function Location($defaultProperties = array ())
 	{
-		$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
 	}
 	
@@ -75,7 +76,7 @@ class Location
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_LOCATION, self :: PROPERTY_LEFT, self :: PROPERTY_RIGHT, self :: PROPERTY_PARENT);
 	}
 		
 	/**
@@ -102,32 +103,22 @@ class Location
 	
 	function get_id()
 	{
-		return $this->id;
-	}
-	
-	function get_name()
-	{
-		return $this->get_default_property(self :: PROPERTY_NAME);
-	}
-	
-	function get_description()
-	{
-		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
+		return $this->get_default_property(self :: PROPERTY_ID);
 	}
 		
 	function set_id($id)
 	{
-		$this->id = $id;
-	}	
-	
-	function set_name($name)
-	{
-		$this->set_default_property(self :: PROPERTY_NAME, $name);
+		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
 	
-	function set_description($description)
+	function get_location()
 	{
-		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
+		return $this->get_default_property(self :: PROPERTY_LOCATION);
+	}
+		
+	function set_location($location)
+	{
+		$this->set_default_property(self :: PROPERTY_LOCATION, $location);
 	}
 	
 	/**

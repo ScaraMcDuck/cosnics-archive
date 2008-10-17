@@ -92,11 +92,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		
 		while ($location = $locations->next_result())
 		{
-			$array = explode('|', $location->get_name());
-			array_shift($array);
-			
-			$string =  ucwords(implode(' - ', $array));
-			$html[] = '<option value="'.$location->get_id().'"'. ($location_id == $location->get_id() ? ' selected="selected"' : '').'>'.$string.'</option>';
+			$html[] = '<option value="'.$location->get_id().'"'. ($location_id == $location->get_id() ? ' selected="selected"' : '').'>'. $location->get_location() .'</option>';
 		}
 		
 		$html[] = '</select>';

@@ -133,7 +133,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 	 */
 	static function is_date_column($name)
 	{
-		return ($name == Object :: PROPERTY_CREATION_DATE || $name == Object :: PROPERTY_MODIFICATION_DATE);
+		return false;
 	}
 	
 	function update_rolerightlocation($rolerightlocation)
@@ -361,7 +361,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
-		return new Location($record[Location :: PROPERTY_ID], $defaultProp);
+		return new Location($defaultProp);
 	}
 	
 	function retrieve_location_id_from_location_string($location)
@@ -545,7 +545,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 			$params = $translator->get_parameters();
 		}
 		
-		$orderBy[] = Location :: PROPERTY_NAME;
+		$orderBy[] = Location :: PROPERTY_LOCATION;
 		$orderDir[] = SORT_ASC;
 		$order = array ();
 		
