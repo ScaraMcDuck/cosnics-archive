@@ -36,7 +36,7 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 	
 	function get_action_bar()
 	{
-		$action_bar = new ActionBarRenderer();
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
 		$action_bar->set_search_url($this->get_url());
 		

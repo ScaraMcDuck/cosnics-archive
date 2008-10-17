@@ -17,12 +17,21 @@ class ActionBarRenderer
 	
 	private $actions = array();
 	private $search_form;
+	private $type;
 	
-	function ActionBarRenderer($common_actions = array(), $tool_actions = array(), $search_url = null)
+	function ActionBarRenderer($type)
 	{
-		$this->actions[self :: ACTION_BAR_COMMON] = $common_actions;
-		$this->actions[self :: ACTION_BAR_TOOL] = $tool_actions;
-		$this->actions[self :: ACTION_BAR_SEARCH] = $search_url;
+		$this->type = $type;
+	}
+	
+	function set_type($type)
+	{
+		$this->type = $type;
+	}
+	
+	function get_type()
+	{
+		return $this->type;
 	}
 	
 	function add_action($type = self :: ACTION_BAR_COMMON, $action)
@@ -205,51 +214,6 @@ class ActionBarRenderer
 		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/action_bar_vertical.js' .'"></script>';
 		
 		return implode("\n", $html);
-	}
-	
-	private function build_toolbar($toolbar_data)
-	{
-		$html = array ();
-		$i = 0;
-
-		foreach ($toolbar_data as $index => $elmt)
-		{
-			if(($i % 2) == 0)
-			{
-				$html[] = '<div style="margin: auto; padding-left: 5px; float: left;">';
-			} 
-				 
-			$label = htmlentities($elmt['label']);
-			$button = '';
-			if (isset ($elmt['img']))
-			{
-				$button .= '<img src="'.htmlentities($elmt['img']).'" alt="'.$label.'" title="'.$label.'"'. 'class="labeled")/> <span>'.$label.'</span>';
-			}
-				
-			if (isset ($elmt['href']))
-			{
-				$button = '<a href="'.htmlentities($elmt['href']).'" title="'.$label.'"'. ($elmt['confirm'] ? ' onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"' : '').'>'.$button.'</a>';
-			}
-				
-			$html[] = $button;
-			if($i % 2 == 0)
-			{
-				$html[] = '<br />';
-			}
-			else
-			{
-				$html[] = '</div>';
-			}
-				
-			$i++;
-		}
-		
-		if(count($toolbar_data) % 2 != 0)
-		{
-			$html[] = '</div>';
-		}
-		
-		return implode($html);
 	}
 	
 	function get_query()
