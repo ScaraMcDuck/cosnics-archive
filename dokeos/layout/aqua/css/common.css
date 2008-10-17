@@ -1819,6 +1819,9 @@ div.action_bar
 	border: 1px solid #4271B5;
 	padding: 5px;
 	margin-bottom: 10px;
+	position: relative;
+	
+	min-height: 30px;
 }
 
 div.action_bar div.common_menu
@@ -1836,21 +1839,32 @@ div.action_bar div.tool_menu
 
 div.action_bar div.search_menu
 {
-	width: 210px;
 	float: right;
 }
 
 div.action_bar #action_bar_hide_container
 {
 	display: none;
-	clear: both;
-	margin: 0px -6px -6px -6px;
 	text-align: center;
+	clear: both;
+	
 	background-image: url(../img/common/background_ajax_hide.png);
 	background-repeat: no-repeat;
-	background-position: bottom center;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	background-position: center center;
+	
+	height: 18px;
+	width: 36px;
+	
+	position: absolute;
+	left: 50%;
+	bottom: 0px;
+	margin-left: -18px;
+	margin-bottom: -1px;
+}
+
+#action_bar_hide img
+{
+	margin: 4px 10px 6px 11px;
 }
 
 div.action_bar div.simple_search
