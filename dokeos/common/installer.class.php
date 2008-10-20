@@ -13,6 +13,7 @@ require_once Path :: get_admin_path() .'lib/admin_data_manager.class.php';
 require_once Path :: get_admin_path() .'lib/setting.class.php';
 require_once Path :: get_admin_path() .'lib/registration.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
+require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
  
 abstract class Installer
 {
@@ -85,6 +86,11 @@ abstract class Installer
 		{
 			return false;
 		}
+		
+//		if(!$this->create_root_rights_location())
+//		{
+//			return false;
+//		}		
 		
 		return $this->installation_successful();
     }
@@ -433,7 +439,6 @@ abstract class Installer
 	
 	function register_application()
 	{
-		
 		$application_class = str_replace('Installer', '', get_class($this));
 		$application = DokeosUtilities :: camelcase_to_underscores($application_class);
 		
@@ -459,6 +464,14 @@ abstract class Installer
 		{
 			return true;
 		}
+	}
+	
+	function create_root_rights_location()
+	{
+		$application_class = str_replace('Installer', '', get_class($this));
+		$application = DokeosUtilities :: camelcase_to_underscores($application_class);
+		
+		RightsUtilities :: create_application_root_location($application);
 	}
 	
 	function installation_failed($error_message)

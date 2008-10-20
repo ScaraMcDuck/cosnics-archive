@@ -102,7 +102,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		$this->process_result('Finished', true, $message);
 		flush();
 		
-		$page->controller->container(true);
+		//$page->controller->container(true);
 		
 		// Display the page footer
 		$this->parent->display_footer();

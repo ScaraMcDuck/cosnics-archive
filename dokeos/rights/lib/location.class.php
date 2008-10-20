@@ -11,16 +11,14 @@ class Location
 {
 	const PROPERTY_ID = 'id';
 	const PROPERTY_LOCATION = 'location';
-	const PROPERTY_LEFT = 'left';
-	const PROPERTY_RIGHT = 'right';
+	const PROPERTY_LEFT_VALUE = 'left_value';
+	const PROPERTY_RIGHT_VALUE = 'right_value';
 	const PROPERTY_PARENT = 'parent';
+	const PROPERTY_APPLICATION  = 'application';
+	const PROPERTY_TYPE  = 'type';
+	const PROPERTY_IDENTIFIER  = 'identifier';
 	
 	/**#@-*/
-
-	/**
-	 * Numeric identifier of the user object.
-	 */
-	private $id;
 
 	/**
 	 * Default properties of the user object, stored in an associative
@@ -76,7 +74,7 @@ class Location
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_LOCATION, self :: PROPERTY_LEFT, self :: PROPERTY_RIGHT, self :: PROPERTY_PARENT);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_LOCATION, self :: PROPERTY_LEFT, self :: PROPERTY_RIGHT, self :: PROPERTY_PARENT, self :: PROPERTY_APPLICATION, self :: PROPERTY_TYPE, self :: PROPERTY_IDENTIFIER);
 	}
 		
 	/**
@@ -119,6 +117,66 @@ class Location
 	function set_location($location)
 	{
 		$this->set_default_property(self :: PROPERTY_LOCATION, $location);
+	}
+	
+	function get_left_value()
+	{
+		return $this->get_default_property(self :: PROPERTY_LEFT_VALUE);
+	}
+		
+	function set_left_value($left_value)
+	{
+		$this->set_default_property(self :: PROPERTY_LEFT_VALUE, $left_value);
+	}
+	
+	function get_right_value()
+	{
+		return $this->get_default_property(self :: PROPERTY_RIGHT_VALUE);
+	}
+		
+	function set_right_value($right_value)
+	{
+		$this->set_default_property(self :: PROPERTY_RIGHT_VALUE, $right_value);
+	}
+	
+	function get_parent()
+	{
+		return $this->get_default_property(self :: PROPERTY_PARENT);
+	}
+		
+	function set_parent($parent)
+	{
+		$this->set_default_property(self :: PROPERTY_PARENT, $parent);
+	}
+	
+	function get_application()
+	{
+		return $this->get_default_property(self :: PROPERTY_APPLICATION);
+	}
+		
+	function set_application($application)
+	{
+		$this->set_default_property(self :: PROPERTY_APPLICATION, $application);
+	}
+	
+	function get_type()
+	{
+		return $this->get_default_property(self :: PROPERTY_TYPE);
+	}
+		
+	function set_type($type)
+	{
+		$this->set_default_property(self :: PROPERTY_TYPE, $type);
+	}
+	
+	function get_identifier()
+	{
+		return $this->get_default_property(self :: PROPERTY_IDENTIFIER);
+	}
+		
+	function set_identifier($identifier)
+	{
+		$this->set_default_property(self :: PROPERTY_IDENTIFIER, $identifier);
 	}
 	
 	/**
