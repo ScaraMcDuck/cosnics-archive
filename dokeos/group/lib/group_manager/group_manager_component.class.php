@@ -16,7 +16,7 @@ abstract class GroupManagerComponent {
 	/**
 	 * The user manager in which this component is used
 	 */
-	private $classgroup_manager;
+	private $group_manager;
 	/**
 	 * The id of this component
 	 */
@@ -27,8 +27,8 @@ abstract class GroupManagerComponent {
 	 * @param GroupsManager $groups_manager The user manager which
 	 * provides this component
 	 */
-    function GroupManagerComponent($classgroup_manager) {
-    	$this->classgroup_manager = $classgroup_manager;
+    function GroupManagerComponent($group_manager) {
+    	$this->group_manager = $group_manager;
 		$this->id =  ++self :: $component_count;
     }
     
@@ -80,29 +80,29 @@ abstract class GroupManagerComponent {
 		$this->get_parent()->display_warning_page($message);
 	}
 	
-	function retrieve_classgroups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_groups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->get_parent()->retrieve_classgroups($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_groups($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
-	function retrieve_classgroup_rel_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_group_rel_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->get_parent()->retrieve_classgroup_rel_users($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_group_rel_users($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
-	function retrieve_classgroup_rel_user($user_id, $group_id)
+	function retrieve_group_rel_user($user_id, $group_id)
 	{
-		return $this->get_parent()->retrieve_classgroup_rel_user($user_id, $group_id);
+		return $this->get_parent()->retrieve_group_rel_user($user_id, $group_id);
 	}
 	
-	function count_classgroups($conditions = null)
+	function count_groups($conditions = null)
 	{
-		return $this->get_parent()->count_classgroups($conditions);
+		return $this->get_parent()->count_groups($conditions);
 	}
 	
-	function count_classgroup_rel_users($conditions = null)
+	function count_group_rel_users($conditions = null)
 	{
-		return $this->get_parent()->count_classgroup_rel_users($conditions);
+		return $this->get_parent()->count_group_rel_users($conditions);
 	}
 	
 	/**
@@ -134,7 +134,7 @@ abstract class GroupManagerComponent {
 	 */
 	function get_parent()
 	{
-		return $this->classgroup_manager;
+		return $this->group_manager;
 	}
 	
 	/**
@@ -155,9 +155,9 @@ abstract class GroupManagerComponent {
 		return $this->get_parent()->get_user_id();
 	}
 	
-	function retrieve_classgroup($id)
+	function retrieve_group($id)
 	{
-		return $this->get_parent()->retrieve_classgroup($id);
+		return $this->get_parent()->retrieve_group($id);
 	}
 	
 	/**
@@ -221,44 +221,44 @@ abstract class GroupManagerComponent {
 		return $this->get_parent()->redirect($type, $message, $error_message, $extra_params);
 	}
 	
-	function get_classgroup_editing_url($classgroup)
+	function get_group_editing_url($group)
 	{
-		return $this->get_parent()->get_classgroup_editing_url($classgroup);
+		return $this->get_parent()->get_group_editing_url($group);
 	}
 	
-	function get_classgroup_emptying_url($classgroup)
+	function get_group_emptying_url($group)
 	{
-		return $this->get_parent()->get_classgroup_emptying_url($classgroup);
+		return $this->get_parent()->get_group_emptying_url($group);
 	}
 	
-	function get_classgroup_viewing_url($classgroup)
+	function get_group_viewing_url($group)
 	{
-		return $this->get_parent()->get_classgroup_viewing_url($classgroup);
+		return $this->get_parent()->get_group_viewing_url($group);
 	}
 	
-	function get_classgroup_roles_url($classgroup)
+	function get_group_roles_url($group)
 	{
-		return $this->get_parent()->get_classgroup_roles_url($classgroup);
+		return $this->get_parent()->get_group_roles_url($group);
 	}
 	
-	function get_classgroup_rel_user_unsubscribing_url($classgroupreluser)
+	function get_group_rel_user_unsubscribing_url($groupreluser)
 	{
-		return $this->get_parent()->get_classgroup_rel_user_unsubscribing_url($classgroupreluser);
+		return $this->get_parent()->get_group_rel_user_unsubscribing_url($groupreluser);
 	}
 	
-	function get_classgroup_rel_user_subscribing_url($classgroup, $user)
+	function get_group_rel_user_subscribing_url($group, $user)
 	{
-		return $this->get_parent()->get_classgroup_rel_user_subscribing_url($classgroup, $user);
+		return $this->get_parent()->get_group_rel_user_subscribing_url($group, $user);
 	}
 	
-	function get_classgroup_suscribe_user_browser_url($classgroup)
+	function get_group_suscribe_user_browser_url($group)
 	{
-		return $this->get_parent()->get_classgroup_suscribe_user_browser_url($classgroup);
+		return $this->get_parent()->get_group_suscribe_user_browser_url($group);
 	}
 	
-	function get_classgroup_delete_url($classgroup)
+	function get_group_delete_url($group)
 	{
-		return $this->get_parent()->get_classgroup_delete_url($classgroup);
+		return $this->get_parent()->get_group_delete_url($group);
 	}
 	
 	/**
@@ -281,7 +281,7 @@ abstract class GroupManagerComponent {
 	 * @param GroupsManager $groups_manager The user manager in
 	 * which the created component will be used
 	 */
-	static function factory($type, $classgroup_manager)
+	static function factory($type, $group_manager)
 	{
 		$filename = dirname(__FILE__).'/component/'.DokeosUtilities :: camelcase_to_underscores($type).'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
@@ -290,7 +290,7 @@ abstract class GroupManagerComponent {
 		}
 		$class = 'GroupManager'.$type.'Component';
 		require_once $filename;
-		return new $class($classgroup_manager);
+		return new $class($group_manager);
 	}
 }
 ?>

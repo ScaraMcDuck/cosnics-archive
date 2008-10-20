@@ -35,7 +35,7 @@ class DatabaseGroupRelUserResultSet extends ResultSet {
     {
 		if ($record = $this->handle->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			return $this->data_manager->record_to_classgroup_rel_user($record);
+			return $this->data_manager->record_to_group_rel_user($record);
 		}
     	return null;
     }

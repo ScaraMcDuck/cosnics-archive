@@ -13,25 +13,25 @@ class GroupRelUser
 {
 	const CLASS_NAME = __CLASS__;
 	
-	const PROPERTY_GROUP_ID = 'classgroup_id';
+	const PROPERTY_GROUP_ID = 'group_id';
 	const PROPERTY_USER_ID = 'user_id';
 
 	private $defaultProperties;
 
-	function GroupRelUser($classgroup_id = 0, $user_id = 0, $defaultProperties = array())
+	function GroupRelUser($group_id = 0, $user_id = 0, $defaultProperties = array())
 	{
-		$this->set_classgroup_id($classgroup_id);
+		$this->set_group_id($group_id);
 		$this->set_user_id($user_id);
 	}
 	
-	function get_classgroup_id()
+	function get_group_id()
 	{
 		return $this->get_default_property(self :: PROPERTY_GROUP_ID);
 	}
 	
-	function set_classgroup_id($classgroup_id)
+	function set_group_id($group_id)
 	{
-		$this->set_default_property(self :: PROPERTY_GROUP_ID, $classgroup_id);
+		$this->set_default_property(self :: PROPERTY_GROUP_ID, $group_id);
 	}
 	
 	function get_user_id()
@@ -93,13 +93,13 @@ class GroupRelUser
 	 */
 	function delete()
 	{
-		return GroupDataManager :: get_instance()->delete_classgroup_rel_user($this);
+		return GroupDataManager :: get_instance()->delete_group_rel_user($this);
 	}
 	
 	function create()
 	{
 		$gdm = GroupDataManager :: get_instance();
-		return $gdm->create_classgroup_rel_user($this);
+		return $gdm->create_group_rel_user($this);
 	}
 	
 	static function get_table_name()

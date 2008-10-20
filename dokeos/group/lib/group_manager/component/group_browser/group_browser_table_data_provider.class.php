@@ -33,7 +33,7 @@ class GroupBrowserTableDataProvider extends ObjectTableDataProvider
 		$order_property = $this->get_order_property($order_property);
 		$order_direction = $this->get_order_property($order_direction);
        
-      return $this->get_browser()->retrieve_classgroups($this->get_condition(), $offset, $count, $order_property, $order_direction);
+      return $this->get_browser()->retrieve_groups($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
   /**
    * Gets the number of learning objects in the table
@@ -41,7 +41,7 @@ class GroupBrowserTableDataProvider extends ObjectTableDataProvider
    */
     function get_object_count()
     {
-      return $this->get_browser()->count_classgroups($this->get_condition());
+      return $this->get_browser()->count_groups($this->get_condition());
     }
 }
 ?>

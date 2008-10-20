@@ -22,13 +22,13 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
  */
  class GroupManager {
  	
- 	const APPLICATION_NAME = 'classgroup';
+ 	const APPLICATION_NAME = 'group';
  	
  	const PARAM_ACTION = 'go';
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
-	const PARAM_GROUP_ID = 'classgroup_id';
-	const PARAM_GROUP_REL_USER_ID = 'classgroup_rel_user_id';
+	const PARAM_GROUP_ID = 'group_id';
+	const PARAM_GROUP_REL_USER_ID = 'group_rel_user_id';
 	const PARAM_USER_ID = 'user_id';
 	const PARAM_REMOVE_SELECTED = 'delete';
 	const PARAM_UNSUBSCRIBE_SELECTED = 'unsubscribe_selected';
@@ -189,14 +189,14 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		echo $this->get_user_search_form()->display();
 	}
 	
-	function count_classgroups($condition = null)
+	function count_groups($condition = null)
 	{
-		return GroupDataManager :: get_instance()->count_classgroups($condition);
+		return GroupDataManager :: get_instance()->count_groups($condition);
 	}
 	
-	function count_classgroup_rel_users($condition = null)
+	function count_group_rel_users($condition = null)
 	{
-		return GroupDataManager :: get_instance()->count_classgroup_rel_users($condition);
+		return GroupDataManager :: get_instance()->count_group_rel_users($condition);
 	}
 	
 	/**
@@ -343,19 +343,19 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		$this->parameters[$name] = $value;
 	}
 	
-	function retrieve_classgroups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_groups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return GroupDataManager :: get_instance()->retrieve_classgroups($condition, $offset, $count, $order_property, $order_direction);
+		return GroupDataManager :: get_instance()->retrieve_groups($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
-	function retrieve_classgroup_rel_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_group_rel_users($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return GroupDataManager :: get_instance()->retrieve_classgroup_rel_users($condition, $offset, $count, $order_property, $order_direction);
+		return GroupDataManager :: get_instance()->retrieve_group_rel_users($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
-	function retrieve_classgroup_rel_user($user_id, $group_id)
+	function retrieve_group_rel_user($user_id, $group_id)
 	{
-		return GroupDataManager :: get_instance()->retrieve_classgroup_rel_user($user_id, $group_id);
+		return GroupDataManager :: get_instance()->retrieve_group_rel_user($user_id, $group_id);
 	}
 	
 	/**
@@ -436,10 +436,10 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		return $this->user;
 	}
 	
-	function retrieve_classgroup($id)
+	function retrieve_group($id)
 	{
 		$gdm = GroupDataManager :: get_instance();
-		return $gdm->retrieve_classgroup($id);
+		return $gdm->retrieve_group($id);
 	}
 	
 	/**
@@ -479,39 +479,39 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		return $link;
 	}
 	
-	function get_classgroup_editing_url($classgroup)
+	function get_group_editing_url($group)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_GROUP, self :: PARAM_GROUP_ID => $classgroup->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_GROUP, self :: PARAM_GROUP_ID => $group->get_id()));
 	}
 	
-	function get_classgroup_emptying_url($classgroup)
+	function get_group_emptying_url($group)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_TRUNCATE_GROUP, self :: PARAM_GROUP_ID => $classgroup->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_TRUNCATE_GROUP, self :: PARAM_GROUP_ID => $group->get_id()));
 	}
 	
-	function get_classgroup_viewing_url($classgroup)
+	function get_group_viewing_url($group)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_GROUP, self :: PARAM_GROUP_ID => $classgroup->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_GROUP, self :: PARAM_GROUP_ID => $group->get_id()));
 	}
 	
-	function get_classgroup_rel_user_unsubscribing_url($classgroupreluser)
+	function get_group_rel_user_unsubscribing_url($groupreluser)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_USER_FROM_GROUP, self :: PARAM_GROUP_REL_USER_ID => $classgroupreluser->get_classgroup_id() . '|' . $classgroupreluser->get_user_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UNSUBSCRIBE_USER_FROM_GROUP, self :: PARAM_GROUP_REL_USER_ID => $groupreluser->get_group_id() . '|' . $groupreluser->get_user_id()));
 	}
 	
-	function get_classgroup_rel_user_subscribing_url($classgroup, $user)
+	function get_group_rel_user_subscribing_url($group, $user)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER_TO_GROUP, self :: PARAM_GROUP_ID => $classgroup->get_id(), self :: PARAM_USER_ID => $user->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER_TO_GROUP, self :: PARAM_GROUP_ID => $group->get_id(), self :: PARAM_USER_ID => $user->get_id()));
 	}
 	
-	function get_classgroup_suscribe_user_browser_url($classgroup)
+	function get_group_suscribe_user_browser_url($group)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER_BROWSER, self :: PARAM_GROUP_ID => $classgroup->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SUBSCRIBE_USER_BROWSER, self :: PARAM_GROUP_ID => $group->get_id()));
 	}
 	
-	function get_classgroup_delete_url($classgroup)
+	function get_group_delete_url($group)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_GROUP, self :: PARAM_GROUP_ID => $classgroup->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_GROUP, self :: PARAM_GROUP_ID => $group->get_id()));
 	}
 	
 	private function parse_input_from_table()

@@ -9,7 +9,7 @@ require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
 
 class GroupManagerViewerComponent extends GroupManagerComponent
 {
-	private $classgroup;
+	private $group;
 	
 	/**
 	 * Runs this component and displays its output.
@@ -21,8 +21,8 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 		$id = $_GET[GroupManager :: PARAM_GROUP_ID];
 		if ($id)
 		{
-			$this->classgroup = $this->retrieve_classgroup($id);
-			$classgroup = $this->classgroup;
+			$this->group = $this->retrieve_group($id);
+			$group = $this->group;
 			
 			if (!$this->get_user()->is_platform_admin()) 
 			{
@@ -32,15 +32,15 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 			$admin = new AdminManager();
 			$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 			$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
-			$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $id)), $classgroup->get_name()));
+			$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $id)), $group->get_name()));
 			
 			$this->display_header($trail, false);
 			
 			$this->display_user_search_form();
 			
-			echo '<div class="clear"></div><div class="learning_object" style="background-image: url('. Theme :: get_common_img_path() .'place_classgroup.png);">';
+			echo '<div class="clear"></div><div class="learning_object" style="background-image: url('. Theme :: get_common_img_path() .'place_group.png);">';
 			echo '<div class="title">'. Translation :: get('Description') .'</div>';
-			echo $classgroup->get_description();
+			echo $group->get_description();
 			echo '</div>';
 			
 			echo '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path() .'place_users.png);">';
@@ -87,31 +87,31 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 	
 	function build_toolbar()
 	{
-		$classgroup = $this->classgroup;
+		$group = $this->group;
 		$toolbar_data = array();
 
 		$toolbar_data[] = array(
-			'href' => $this->get_classgroup_editing_url($classgroup),
+			'href' => $this->get_group_editing_url($group),
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_img_path().'action_edit.png',
 			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
 		$toolbar_data[] = array(
-			'href' => $this->get_classgroup_suscribe_user_browser_url($classgroup),
+			'href' => $this->get_group_suscribe_user_browser_url($group),
 			'label' => Translation :: get('AddUsers'),
 			'img' => Theme :: get_common_img_path().'action_subscribe.png',
 			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
-		$condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $classgroup->get_id());
-		$users = $this->retrieve_classgroup_rel_users($condition);
+		$condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group->get_id());
+		$users = $this->retrieve_group_rel_users($condition);
 		$visible = ($users->size() > 0);
 		
 		if($visible)
 		{
 			$toolbar_data[] = array(
-				'href' => $this->get_classgroup_emptying_url($classgroup),
+				'href' => $this->get_group_emptying_url($group),
 				'label' => Translation :: get('Truncate'),
 				'img' => Theme :: get_common_img_path().'action_recycle_bin.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL

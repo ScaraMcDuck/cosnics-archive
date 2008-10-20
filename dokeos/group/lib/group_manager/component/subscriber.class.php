@@ -14,7 +14,7 @@ class GroupManagerSubscriberComponent extends GroupManagerComponent
 	function run()
 	{ 
 		$user = $this->get_user();
-		$classgroup_id = $_GET[GroupManager :: PARAM_GROUP_ID];
+		$group_id = $_GET[GroupManager :: PARAM_GROUP_ID];
 		if (!$user->is_platform_admin())
 		{
 			$trail = new BreadcrumbTrail();
@@ -42,12 +42,12 @@ class GroupManagerSubscriberComponent extends GroupManagerComponent
 			
 			foreach($users as $user)
 			{ 
-				$existing_groupreluser = $this->retrieve_classgroup_rel_user($user, $classgroup_id);
+				$existing_groupreluser = $this->retrieve_group_rel_user($user, $group_id);
 				
 				if (!isset($existing_groupreluser))
 				{ 
 					$groupreluser = new GroupRelUser();
-					$groupreluser->set_classgroup_id($classgroup_id);
+					$groupreluser->set_group_id($group_id);
 					$groupreluser->set_user_id($user);
 					
 					if (!$groupreluser->create())
@@ -56,7 +56,7 @@ class GroupManagerSubscriberComponent extends GroupManagerComponent
 					}
 					else
 					{
-						Events :: trigger_event('subscribe_user', 'group', array('target_group_id' => $groupreluser->get_classgroup_id(), 'target_user_id' => $groupreluser->get_user_id(), 'action_user_id' => $this->get_user()->get_id()));
+						Events :: trigger_event('subscribe_user', 'group', array('target_group_id' => $groupreluser->get_group_id(), 'target_user_id' => $groupreluser->get_user_id(), 'action_user_id' => $this->get_user()->get_id()));
 					}
 				}
 				else
@@ -88,7 +88,7 @@ class GroupManagerSubscriberComponent extends GroupManagerComponent
 				}
 			}
 		
-			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $classgroup_id));
+			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group_id));
 			exit;
 			break;
 		}

@@ -32,71 +32,71 @@ class DatabaseGroupDataManager extends GroupDataManager
 		$this->database->set_prefix('group_');
 	}
 	
-	function update_classgroup($classgroup)
+	function update_group($group)
 	{
-		$condition = new EqualityCondition(Group :: PROPERTY_ID, $classgroup->get_id());
-		return $this->database->update($classgroup, $condition);
+		$condition = new EqualityCondition(Group :: PROPERTY_ID, $group->get_id());
+		return $this->database->update($group, $condition);
 	}
 	
-	function get_next_classgroup_id()
+	function get_next_group_id()
 	{
 		$id = $this->database->get_next_id(Group :: get_table_name());
 		return $id;
 	}
 	
-	function delete_classgroup($classgroup)
+	function delete_group($group)
 	{
-		$condition = new EqualityCondition(Group :: PROPERTY_ID, $classgroup->get_id());
-		return $this->database->delete($classgroup->get_table_name(), $condition);
+		$condition = new EqualityCondition(Group :: PROPERTY_ID, $group->get_id());
+		return $this->database->delete($group->get_table_name(), $condition);
 	}
 	
-	function truncate_classgroup($classgroup)
+	function truncate_group($group)
 	{
-		$condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $classgroup->get_id());
+		$condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group->get_id());
 		return $this->database->delete(GroupRelUser :: get_table_name(), $condition);
 	}
 	
-	function delete_classgroup_rel_user($classgroupreluser)
+	function delete_group_rel_user($groupreluser)
 	{
 		$conditions = array();
-		$conditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $classgroupreluser->get_classgroup_id());
-		$conditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $classgroupreluser->get_user_id());
+		$conditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $groupreluser->get_group_id());
+		$conditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $groupreluser->get_user_id());
 		$condition = new AndCondition($conditions);
 		
-		return $this->database->delete($classgroupreluser->get_table_name(), $condition);
+		return $this->database->delete($groupreluser->get_table_name(), $condition);
 	}
 	
-	function create_classgroup($classgroup)
+	function create_group($group)
 	{
-		return $this->database->create($classgroup);
+		return $this->database->create($group);
 	}
 	
-	function create_classgroup_rel_user($classgroupreluser)
+	function create_group_rel_user($groupreluser)
 	{
-		return $this->database->create($classgroupreluser);
+		return $this->database->create($groupreluser);
 	}
 	
-	function count_classgroups($condition = null)
+	function count_groups($condition = null)
 	{
 		return $this->database->count_objects(Group :: get_table_name(), $condition);
 	}
 	
-	function count_classgroup_rel_users($condition = null)
+	function count_group_rel_users($condition = null)
 	{
 		return $this->database->count_objects(GroupRelUser :: get_table_name(), $condition);
 	}
 	
-	function retrieve_classgroups($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_groups($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		return $this->database->retrieve_objects(Group :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
-	function retrieve_classgroup_rel_users($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_group_rel_users($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		return $this->database->retrieve_objects(GroupRelUser :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
-	function retrieve_classgroup_rel_user($user_id, $group_id)
+	function retrieve_group_rel_user($user_id, $group_id)
 	{
 		$conditions = array();		
 		$conditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $user_id);
@@ -106,7 +106,7 @@ class DatabaseGroupDataManager extends GroupDataManager
 		return $this->database->retrieve_object(GroupRelUser :: get_table_name(), $condition);
 	}
 	
-	function retrieve_classgroup($id)
+	function retrieve_group($id)
 	{
 		$condition = new EqualityCondition(Group :: PROPERTY_ID, $id);
 		return $this->database->retrieve_object(Group :: get_table_name(), $condition);

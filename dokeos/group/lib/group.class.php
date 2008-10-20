@@ -161,25 +161,25 @@ class Group
 	 */
 	function delete()
 	{
-		return GroupDataManager :: get_instance()->delete_classgroup($this);
+		return GroupDataManager :: get_instance()->delete_group($this);
 	}
 	
 	function truncate()
 	{
-		return GroupDataManager :: get_instance()->truncate_classgroup($this);
+		return GroupDataManager :: get_instance()->truncate_group($this);
 	}
 	
 	function create()
 	{
 		$gdm = GroupDataManager :: get_instance();
-		$this->set_id($gdm->get_next_classgroup_id());
-		return $gdm->create_classgroup($this);
+		$this->set_id($gdm->get_next_group_id());
+		return $gdm->create_group($this);
 	}
 	
 	function update() 
 	{
 		$gdm = GroupDataManager :: get_instance();
-		$success = $gdm->update_classgroup($this);
+		$success = $gdm->update_group($this);
 		if (!$success)
 		{
 			return false;

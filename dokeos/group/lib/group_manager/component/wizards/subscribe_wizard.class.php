@@ -43,7 +43,7 @@ class SubscribeWizard extends HTML_QuickForm_Controller
 		switch($action)
 		{
 			case  ActionSelectionSubscribeWizardPage::ACTION_SUBSCRIBE:
-				$this->addPage(new GroupSelectionSubscribeWizardPage('group_selection',$this->parent, $this->parent->get_classgroup()));
+				$this->addPage(new GroupSelectionSubscribeWizardPage('group_selection',$this->parent, $this->parent->get_group()));
 				$this->addPage(new UserSelectionSubscribeWizardPage('user_selection',$this->parent));
 				$this->addPage(new ConfirmationSubscribeWizardPage('confirmation',$this->parent,Translation :: get('SubscribeConfirmationQuestion')));
 				break;

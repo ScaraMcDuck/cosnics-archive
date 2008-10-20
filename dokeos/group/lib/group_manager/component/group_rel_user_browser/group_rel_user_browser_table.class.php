@@ -38,19 +38,19 @@ class GroupRelUserBrowserTable extends ObjectTable
 	 */
 	function get_objects($offset, $count, $order_column, $order_direction)
 	{
-		$classgrouprelusers = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_object_property(), $order_direction);
+		$grouprelusers = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_object_property(), $order_direction);
 		$table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
-		while ($classgroupreluser = $classgrouprelusers->next_result())
+		while ($groupreluser = $grouprelusers->next_result())
 		{
 			$row = array ();
 			if ($this->has_form_actions())
 			{
-				$row[] = $classgroupreluser->get_classgroup_id() . '|' . $classgroupreluser->get_user_id();
+				$row[] = $groupreluser->get_group_id() . '|' . $groupreluser->get_user_id();
 			}
 			for ($i = 0; $i < $column_count; $i ++)
 			{
-				$row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $classgroupreluser);
+				$row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $groupreluser);
 			}
 			$table_data[] = $row;
 		}

@@ -41,20 +41,20 @@ class GroupManagerUnsubscriberComponent extends GroupManagerComponent
 			
 			foreach ($ids as $id)
 			{
-				$classgroupreluser_ids = explode('|', $id);
-				$classgroupreluser = $this->retrieve_classgroup_rel_user($classgroupreluser_ids[1], $classgroupreluser_ids[0]);
+				$groupreluser_ids = explode('|', $id);
+				$groupreluser = $this->retrieve_group_rel_user($groupreluser_ids[1], $groupreluser_ids[0]);
 
-				if(!isset($classgroupreluser)) continue;
+				if(!isset($groupreluser)) continue;
 				
-				if ($classgroupreluser_ids[0] == $classgroupreluser->get_classgroup_id())
+				if ($groupreluser_ids[0] == $groupreluser->get_group_id())
 				{
-					if (!$classgroupreluser->delete())
+					if (!$groupreluser->delete())
 					{
 						$failures++;
 					}
 					else
 					{
-						Events :: trigger_event('unsubscribe_user', 'group', array('target_group_id' => $classgroupreluser->get_classgroup_id(), 'target_user_id' => $classgroupreluser->get_user_id(), 'action_user_id' => $user->get_id()));
+						Events :: trigger_event('unsubscribe_user', 'group', array('target_group_id' => $groupreluser->get_group_id(), 'target_user_id' => $groupreluser->get_user_id(), 'action_user_id' => $user->get_id()));
 					}
 				}
 				else
@@ -86,7 +86,7 @@ class GroupManagerUnsubscriberComponent extends GroupManagerComponent
 				}
 			}
 			
-			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $classgroupreluser_ids[0]));
+			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $groupreluser_ids[0]));
 		}
 		else
 		{
