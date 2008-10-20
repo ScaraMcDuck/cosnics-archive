@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/group_data_manager.class.php';
 /**
  *	@author Hans de Bisschop
  *	@author Dieter De Neef
+ *  @author Sven Vanpoucke
  */
 
 class Group
@@ -18,6 +19,7 @@ class Group
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_DESCRIPTION = 'description';
 	const PROPERTY_SORT = 'sort';
+	const PROPERTY_PARENT = 'parent';
 	
 	/**
 	 * Default properties of the group object, stored in an associative
@@ -66,7 +68,7 @@ class Group
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_SORT);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_SORT, self :: PROPERTY_PARENT);
 	}
 		
 	/**
@@ -153,6 +155,16 @@ class Group
 	function set_sort($sort)
 	{
 		$this->set_default_property(self :: PROPERTY_SORT, $sort);
+	}
+	
+	function get_parent()
+	{
+		return $this->get_default_property(self :: PROPERTY_PARENT);
+	}
+	
+	function set_parent($parent)
+	{
+		$this->set_default_property(self :: PROPERTY_PARENT, $parent);
 	}
 	
 	/**

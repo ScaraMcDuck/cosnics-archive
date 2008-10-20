@@ -23,12 +23,13 @@ class GroupManagerCreatorComponent extends GroupManagerComponent
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($trail);
-			Display :: display_warning_message(Translation :: get('AlreadyRegistered'));
+			Display :: display_warning_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
 		}
 		$group = new Group();
-		$form = new GroupForm(GroupForm :: TYPE_CREATE, $group, $this->get_url(), $this->get_user());
+		$group->set_parent($_GET[GroupManager :: PARAM_GROUP_ID]);
+		$form = new GroupForm(GroupForm :: TYPE_CREATE, $group, $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $_GET[GroupManager :: PARAM_GROUP_ID])), $this->get_user());
 		
 		if($form->validate())
 		{

@@ -4,8 +4,8 @@
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="name" type="text" length="255"/>
   <property name="description" type="text" notnull="1"/>
-  <property name="parent_group" type="text" notnull="1"/>
-  <property name="sort" type="integer" notnull="1"/>
+  <property name="parent" type="integer" unsigned="1" notnull="1"/>
+  <property name="sort" type="integer" unsigned="1" notnull="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
