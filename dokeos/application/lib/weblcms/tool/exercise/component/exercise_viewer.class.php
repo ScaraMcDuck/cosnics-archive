@@ -25,7 +25,7 @@ class ExerciseToolViewerComponent extends ExerciseToolComponent
 		$trail = new BreadCrumbTrail();
 		$this->display_header($trail);
 		
-		$this->action_bar = $this->get_action_bar();
+		$this->action_bar = $this->get_toolbar();
 		echo $this->action_bar->as_html();
 		
 		echo '<div style="width:19%; float: left;">';
@@ -41,12 +41,12 @@ class ExerciseToolViewerComponent extends ExerciseToolComponent
 		$this->display_footer();
 	}
 	
-	function get_action_bar()
+	/*function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
 		return $action_bar;
-	}
+	}*/
 
 }
 
