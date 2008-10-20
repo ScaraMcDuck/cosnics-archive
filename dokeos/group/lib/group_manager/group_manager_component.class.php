@@ -226,6 +226,11 @@ abstract class GroupManagerComponent {
 		return $this->get_parent()->get_group_editing_url($group);
 	}
 	
+	function get_create_group_url($parent)
+	{
+		return $this->get_parent()->get_create_group_url($parent);
+	}
+	
 	function get_group_emptying_url($group)
 	{
 		return $this->get_parent()->get_group_emptying_url($group);

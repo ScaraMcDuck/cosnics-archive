@@ -484,6 +484,11 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_GROUP, self :: PARAM_GROUP_ID => $group->get_id()));
 	}
 	
+	function get_create_group_url($parent_id)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_GROUP, self :: PARAM_GROUP_ID => $parent_id));
+	}
+	
 	function get_group_emptying_url($group)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_TRUNCATE_GROUP, self :: PARAM_GROUP_ID => $group->get_id()));

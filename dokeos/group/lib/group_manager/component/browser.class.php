@@ -7,19 +7,18 @@ require_once dirname(__FILE__).'/../group_manager_component.class.php';
 require_once dirname(__FILE__).'/group_browser/group_browser_table.class.php';
 require_once dirname(__FILE__).'/../../group_menu.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
+require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
  */
 class GroupManagerBrowserComponent extends GroupManagerComponent
 {
-	private $firstletter;
-	
+	private $ab;
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$this->firstletter = $_GET[GroupManager :: PARAM_FIRSTLETTER];
 
 		$trail = new BreadcrumbTrail();
 		$admin = new AdminManager();
@@ -34,10 +33,13 @@ class GroupManagerBrowserComponent extends GroupManagerComponent
 			exit;
 		}
 		
+		$this->ab = $this->get_action_bar();
+		
 		$menu = $this->get_menu_html();
 		$output = $this->get_user_html();
 		
-		$this->display_header($trail, true);
+		$this->display_header($trail, false);
+		echo $this->ab->as_html() . '<br />';
 		echo $menu;
 		echo $output;
 		$this->display_footer();
@@ -57,32 +59,7 @@ class GroupManagerBrowserComponent extends GroupManagerComponent
 	
 	function get_menu_html()
 	{
-		$extra_items = array ();
-		if ($this->get_search_validate())
-		{
-			// $search_url = $this->get_url();
-			$search_url = '#';
-			$search = array ();
-			$search['title'] = Translation :: get('SearchResults');
-			$search['url'] = $search_url;
-			$search['class'] = 'search_results';
-			$extra_items[] = & $search;
-		}
-		else
-		{
-			$search_url = null;
-		}
-		
-		$temp_replacement = '__FIRSTLETTER__';
-		$url_format = $this->get_url(array (GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS, GroupManager :: PARAM_FIRSTLETTER => $temp_replacement));
-		$url_format = str_replace($temp_replacement, '%s', $url_format);
-		$group_menu = new GroupMenu($this->firstletter, $url_format, & $extra_items);
-		
-		if (isset ($search_url))
-		{
-			$group_menu->forceCurrentUrl($search_url, true);
-		}
-		
+		$group_menu = new GroupMenu($this->get_group());
 		$html = array();
 		$html[] = '<div style="float: left; width: 20%;">';
 		$html[] = $group_menu->render_as_tree();
@@ -90,31 +67,43 @@ class GroupManagerBrowserComponent extends GroupManagerComponent
 		
 		return implode($html, "\n");
 	}
+	
+	function get_group()
+	{
+		return (isset($_GET[GroupManager :: PARAM_GROUP_ID])?$_GET[GroupManager :: PARAM_GROUP_ID]:0);
+	}
 
 	function get_condition()
 	{
-		$search_conditions = $this->get_search_condition();
-		$condition = null;
-		if (isset($this->firstletter))
+		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_group());
+		
+		$query = $this->ab->get_query();
+		if(isset($query) && $query != '')
 		{
-			$conditions = array();
-			$conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, $this->firstletter. '*');
-			$conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, chr(ord($this->firstletter)+1). '*');
-			$conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, chr(ord($this->firstletter)+2). '*');
-			$condition = new OrCondition($conditions);
-			if (count($search_conditions))
-			{
-				$condition = new AndCondition($condition, $search_conditions);
-			}
+			$or_conditions = array();
+			$or_conditions[] = new LikeCondition(Group :: PROPERTY_NAME, $query);
+			$or_conditions[] = new LikeCondition(Group :: PROPERTY_DESCRIPTION, $query);
+			$or_condition = new OrCondition($or_conditions); 
+			
+			$and_conditions[] = array();
+			$and_conditions = $condition;
+			$and_conditions = $or_condition;
+			$condition = new AndCondition($and_conditions);
 		}
-		else
-		{
-			if (count($search_conditions))
-			{
-				$condition = $search_conditions;
-			}
-		}
+		
 		return $condition;
+	}
+	
+	function get_action_bar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		
+		$action_bar->set_search_url($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $this->get_group())));
+		
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_img_path().'action_add.png', $this->get_create_group_url($this->get_group()), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $this->get_group())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
+		return $action_bar;
 	}
 }
 ?>

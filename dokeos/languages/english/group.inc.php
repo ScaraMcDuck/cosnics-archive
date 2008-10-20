@@ -46,4 +46,6 @@ $lang['group']['Firstname'] = 'Firstname';
 $lang['group']['Username'] = 'Username';
 $lang['group']['Email'] = 'Email';
 $lang['group']['AddUsers'] = 'Add Users';
+$lang['group']['Add'] = 'Add';
+$lang['group']['ShowAll'] = 'Show All';
 ?>

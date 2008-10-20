@@ -31,14 +31,36 @@ class GroupMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function GroupMenu($current_category, $url_format = '?firstletter=%s' , $extra_items = array())
+	function GroupMenu($current_category, $url_format = '?go=browse&group_id=%s')
 	{
 		$this->urlFmt = $url_format;
-		$menu = $this->get_menu_items($extra_items);
+		$menu = $this->get_menu();
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
-		$this->forceCurrentUrl($this->get_category_url($current_category));
+		$this->forceCurrentUrl($this->get_url($current_category));
 	}
+	
+	
+	function get_menu()
+	{
+		$menu = array();
+		
+		$menu_item = array();
+		$menu_item['title'] = Translation :: get('Home');
+		$menu_item['url'] = $this->get_home_url();
+	
+		$sub_menu_items = $this->get_menu_items(0);
+		if(count($sub_menu_items) > 0)
+		{
+			$menu_item['sub'] = $sub_menu_items;
+		}
+	
+		$menu_item['class'] = 'home';
+		$menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
+		$menu[0] = $menu_item;
+		return $menu;
+	}
+	
 	/**
 	 * Returns the menu items.
 	 * @param array $extra_items An array of extra tree items, added to the
@@ -47,49 +69,47 @@ class GroupMenu extends HTML_Menu
 	 *               is the structure needed by PEAR::HTML_Menu, on which this
 	 *               class is based.
 	 */
-	private function get_menu_items($extra_items)
+	private function get_menu_items($parent_id = 0)
 	{
-		$menu = array();
-		if (count($extra_items))
+		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, $parent_id);
+		$objects = GroupDataManager :: get_instance()->retrieve_groups($condition, null, null, array(Group :: PROPERTY_SORT), array(SORT_ASC));
+		
+		while ($object = $objects->next_result())
 		{
-			$menu = array_merge($menu, $extra_items);
+			$menu_item = array();
+			$menu_item['title'] = $object->get_name();
+			$menu_item['url'] = $this->get_url($object->get_id());
+			
+			$sub_menu_items = $this->get_menu_items($object->get_id());
+			
+			if(count($sub_menu_items) > 0)
+			{
+				$menu_item['sub'] = $sub_menu_items;
+			}
+			
+			$menu_item['class'] = 'type_category';
+			$menu_item[OptionsMenuRenderer :: KEY_ID] = $object->get_id();
+			$menu[$object->get_id()] = $menu_item;
 		}
 		
-		$home = array ();
-		$home['title'] = Translation :: get('Home');
-		$home['url'] = $this->get_home_url();
-		$home['class'] = 'home';
-		$home_item[] = $home;
-		for ($i = 0; $i <= 7; $i++)
-		{
-			$menu_item['title'] = Translation :: get(chr(65 + (3*$i)).chr(67 + (3*$i)));
-			$menu_item['url'] = $this->get_category_url(chr(65 + (3*$i)));
-			$menu_item['class'] = 'type_category';
-			$home_item[] = $menu_item;
-		}
-		$menu_item = array ();
-		$menu_item['title'] = Translation :: get('YZ');
-		$menu_item['url'] = $this->get_category_url(chr(89));
-		$menu_item['class'] = 'type_category';
-		$home_item[] = $menu_item;
-		$menu = array_merge($home_item, $menu);
 		return $menu;
 	}
+	
 	/**
 	 * Gets the URL of a given category
 	 * @param int $category The id of the category
 	 * @return string The requested URL
 	 */
-	private function get_category_url ($category)
+	private function get_url ($group)
 	{
 		// TODO: Put another class in charge of the htmlentities() invocation
-		return htmlentities(sprintf($this->urlFmt, $category));
+		return htmlentities(sprintf($this->urlFmt, $group));
 	}
 	
 	private function get_home_url ($category)
 	{
 		// TODO: Put another class in charge of the htmlentities() invocation
-		return htmlentities(str_replace('&firstletter=%s', '', $this->urlFmt));
+		return htmlentities(str_replace('&group_id=%s', '', $this->urlFmt));
 	}
 	/**
 	 * Get the breadcrumbs which lead to the current category.

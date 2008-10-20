@@ -206,7 +206,7 @@ class ConditionTranslator
 		}
 		else
 		{
-			die('Cannot translate condition');
+			return $condition; //die('Cannot translate condition');
 		}
 	}
 	
