@@ -35,6 +35,6 @@ $lang['admin']['Test'] = 'Test';
 $lang['admin']['Version'] = 'Version';
 $lang['admin']['AllowPasswordRetrieval'] = 'Allow password retrieval';
 $lang['admin']['AllowRegistration'] = 'Allow registration';
-$lang['admin']['Group'] = 'Class group';
+$lang['admin']['Group'] = 'Group';
 $lang['admin']['PublishSystemAnnouncement'] = 'Publish system announcement';
 ?>

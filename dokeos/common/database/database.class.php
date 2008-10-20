@@ -157,10 +157,10 @@ class Database
 	 * @return new object from type Class
 	 */
 	function record_to_object($record, $class_name)
-	{
+	{ 
 	    if (!is_array($record) || !count($record))
-		{
-		    throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
+		{ 
+		    throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase') ); 
 		}
 		$default_properties = array ();
 		 
@@ -392,10 +392,11 @@ class Database
 		$res = $statement->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$res->free();
-		
+
 		$class_name = DokeosUtilities :: underscores_to_camelcase($table_name);
-		
-		return self :: record_to_object($record, $class_name);
+
+		if($record)
+			return self :: record_to_object($record, $class_name);
 	}
 	
 	function get_alias($table_name)

@@ -55,7 +55,7 @@ class GroupManagerSubscriberComponent extends GroupManagerComponent
 						$failures++;
 					}
 					else
-					{
+					{ 
 						Events :: trigger_event('subscribe_user', 'group', array('target_group_id' => $groupreluser->get_group_id(), 'target_user_id' => $groupreluser->get_user_id(), 'action_user_id' => $this->get_user()->get_id()));
 					}
 				}

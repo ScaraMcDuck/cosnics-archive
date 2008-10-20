@@ -126,6 +126,13 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 			);
 		}
 		
+		$toolbar_data[] = array(
+			'href' => $this->get_group_delete_url($group),
+			'label' => Translation :: get('Delete'),
+			'img' => Theme :: get_common_img_path().'action_delete.png',
+			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+		);
+		
 		return DokeosUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
 	}
 }
