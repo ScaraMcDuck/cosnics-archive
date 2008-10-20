@@ -49,7 +49,6 @@ class DatabaseAdminDataManager extends AdminDataManager
 	
 	function retrieve_setting_from_variable_name($variable, $application = 'admin')
 	{
-		$conditions = array();
 		$conditions[] = new EqualityCondition(Setting :: PROPERTY_APPLICATION, $application);
 		$conditions[] = new EqualityCondition(Setting :: PROPERTY_VARIABLE, $variable);
 		$condition = new AndCondition($conditions);

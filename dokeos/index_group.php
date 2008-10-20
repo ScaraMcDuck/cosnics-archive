@@ -1,5 +1,5 @@
 <?php
-$this_section='classgroup';
+$this_section='group';
 require_once dirname(__FILE__).'/common/global.inc.php';
 require_once Path :: get_group_path(). 'lib/group_manager/group_manager.class.php';
 require_once Path :: get_user_path(). 'lib/user_manager/user_manager.class.php';
