@@ -120,6 +120,11 @@ abstract class RightsManagerComponent {
 		return $this->get_parent()->retrieve_group_role($group_id, $location_id);
 	}
 	
+	function retrieve_location($location_id)
+	{
+		return $this->get_parent()->retrieve_location($location_id);
+	}	
+	
 	function count_users($conditions = null)
 	{
 		return $this->get_parent()->count_users($conditions);

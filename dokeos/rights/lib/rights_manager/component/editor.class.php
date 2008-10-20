@@ -64,6 +64,12 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		
 		echo $this->get_locations_list_html();
 		
+		$location = $this->retrieve_location($this->location_id);
+		
+		echo '<pre>';
+		print_r($location);
+		echo '</pre>';
+		
 		if (isset($this->location_id))
 		{
 			echo $this->get_rights_table_html();

@@ -1647,6 +1647,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function add_course_module($course_code,$module,$section = 'basic',$visible = true)
 	{
 		$props = array ();
+		$props[$this->escape_column_name('id')] = $this->get_next_course_module_id();
 		$props[$this->escape_column_name('course_code')] = $course_code;
 		$props[$this->escape_column_name('name')] = $module;
 		$props[$this->escape_column_name('section')] = $section;
@@ -2162,6 +2163,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function get_next_category_id()
 	{
 		return $this->db->get_next_id('course_category');
+	}
+	
+	function get_next_course_module_id()
+	{
+		return $this->db->get_next_id('course_module');
 	}
 	
 	function delete_category($category)
