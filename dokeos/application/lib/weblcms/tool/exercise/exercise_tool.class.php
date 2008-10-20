@@ -13,6 +13,7 @@ require_once dirname(__FILE__).'/exercise_tool_component.class.php';
 class ExerciseTool extends Tool
 {
 	const ACTION_VIEW_EXERCISES = 'view';
+	const ACTION_TAKE_EXERCISE = 'exec';
 	/*
 	 * Inherited.
 	 */
@@ -30,6 +31,9 @@ class ExerciseTool extends Tool
 				break;
 			case self :: ACTION_VIEW_EXERCISES:
 				$component = ExerciseToolComponent :: factory('Viewer', $this);
+				break;
+			case self :: ACTION_TAKE_EXERCISE:
+				$component = ExerciseToolComponent :: factory('Tester', $this);
 				break;
 			default:
 				$component = ExerciseToolComponent :: factory('Viewer', $this);
