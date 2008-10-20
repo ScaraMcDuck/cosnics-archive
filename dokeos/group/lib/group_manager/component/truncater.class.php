@@ -39,14 +39,14 @@ class GroupManagerTruncaterComponent extends GroupManagerComponent
 			
 			foreach ($ids as $id)
 			{
-				$classgroup = $this->retrieve_classgroup($id);
-				if (!$classgroup->truncate())
+				$group = $this->retrieve_group($id);
+				if (!$group->truncate())
 				{
 					$failures++;
 				}
 				else
 				{
-					Events :: trigger_event('empty', 'group', array('target_group_id' => $classgroup->get_id(), 'action_user_id' => $user->get_id()));
+					Events :: trigger_event('empty', 'group', array('target_group_id' => $group->get_id(), 'action_user_id' => $user->get_id()));
 				}
 			}
 			

@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-$langFile = 'classgroup';
+$langFile = 'group';
 require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once dirname(__FILE__).'/group_data_manager.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';

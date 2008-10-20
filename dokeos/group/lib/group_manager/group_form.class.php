@@ -12,14 +12,14 @@ class GroupForm extends FormValidator {
 	const RESULT_ERROR = 'GroupUpdateFailed';
 	
 	private $parent;
-	private $classgroup;
+	private $group;
 	private $unencryptedpass;
 	private $user;
 
-    function GroupForm($form_type, $classgroup, $action, $user) {
-    	parent :: __construct('classgroups_settings', 'post', $action);
+    function GroupForm($form_type, $group, $action, $user) {
+    	parent :: __construct('groups_settings', 'post', $action);
     	
-    	$this->classgroup = $classgroup;
+    	$this->group = $group;
     	$this->user = $user;
 		$this->form_type = $form_type;
 		if ($this->form_type == self :: TYPE_EDIT)
@@ -58,36 +58,36 @@ class GroupForm extends FormValidator {
     	$this->build_basic_form();
     }
     
-    function update_classgroup()
+    function update_group()
     {
-    	$classgroup = $this->classgroup;
+    	$group = $this->group;
     	$values = $this->exportValues();
     	
-    	$classgroup->set_name($values[Group :: PROPERTY_NAME]);
-    	$classgroup->set_description($values[Group :: PROPERTY_DESCRIPTION]);
+    	$group->set_name($values[Group :: PROPERTY_NAME]);
+    	$group->set_description($values[Group :: PROPERTY_DESCRIPTION]);
     	
-   		$value = $classgroup->update();
+   		$value = $group->update();
    		
    		if($value)
-   			Events :: trigger_event('update', 'group', array('target_group_id' => $classgroup->get_id(), 'action_user_id' => $this->user->get_id()));
+   			Events :: trigger_event('update', 'group', array('target_group_id' => $group->get_id(), 'action_user_id' => $this->user->get_id()));
    		
    		return $value;
     }
     
     
     
-    function create_classgroup()
+    function create_group()
     {
-    	$classgroup = $this->classgroup;
+    	$group = $this->group;
     	$values = $this->exportValues();
     	
-    	$classgroup->set_name($values[Group :: PROPERTY_NAME]);
-    	$classgroup->set_description($values[Group :: PROPERTY_DESCRIPTION]);
+    	$group->set_name($values[Group :: PROPERTY_NAME]);
+    	$group->set_description($values[Group :: PROPERTY_DESCRIPTION]);
     	
-   		$value = $classgroup->create();
+   		$value = $group->create();
    		
    		if($value)
-   			Events :: trigger_event('create', 'group', array('target_group_id' => $classgroup->get_id(), 'action_user_id' => $this->user->get_id()));
+   			Events :: trigger_event('create', 'group', array('target_group_id' => $group->get_id(), 'action_user_id' => $this->user->get_id()));
    			
    		
    		return $value;
@@ -99,16 +99,16 @@ class GroupForm extends FormValidator {
 	 */
 	function setDefaults($defaults = array ())
 	{
-		$classgroup = $this->classgroup;
-		$defaults[Group :: PROPERTY_ID] = $classgroup->get_id();
-		$defaults[Group :: PROPERTY_NAME] = $classgroup->get_name();
-		$defaults[Group :: PROPERTY_DESCRIPTION] = $classgroup->get_description();
+		$group = $this->group;
+		$defaults[Group :: PROPERTY_ID] = $group->get_id();
+		$defaults[Group :: PROPERTY_NAME] = $group->get_name();
+		$defaults[Group :: PROPERTY_DESCRIPTION] = $group->get_description();
 		parent :: setDefaults($defaults);
 	}
 	
-	function get_classgroup()
+	function get_group()
 	{
-		return $this->classgroup;
+		return $this->group;
 	}
 }
 ?>

@@ -23,14 +23,14 @@ class DefaultGroupRelUserTableCellRenderer implements ObjectTableCellRenderer
 	 * @param Learning Object $learning_object The learning object to render
 	 * @return string A HTML representation of the rendered table cell
 	 */
-	function render_cell($column, $classgroupreluser)
+	function render_cell($column, $groupreluser)
 	{
 		if ($property = $column->get_object_property())
 		{
 			switch ($property)
 			{
 				case 'User' :
-					return $classgroupreluser->get_user_id();
+					return $groupreluser->get_user_id();
 			}
 		}
 		return '&nbsp;';

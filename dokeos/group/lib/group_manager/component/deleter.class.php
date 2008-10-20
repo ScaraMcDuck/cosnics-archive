@@ -41,7 +41,7 @@ class GroupManagerDeleterComponent extends GroupManagerComponent
 			
 			foreach ($ids as $id)
 			{
-				$group = $this->retrieve_classgroup($id);
+				$group = $this->retrieve_group($id);
 				
 				if (!$group->delete())
 				{

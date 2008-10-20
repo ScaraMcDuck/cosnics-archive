@@ -21,8 +21,8 @@ class GroupManagerEditorComponent extends GroupManagerComponent
 		$id = $_GET[GroupManager :: PARAM_GROUP_ID];
 		if ($id)
 		{
-			$classgroup = $this->retrieve_classgroup($id);
-			$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $_GET[GroupManager :: PARAM_GROUP_ID])), $classgroup->get_name()));
+			$group = $this->retrieve_group($id);
+			$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $_GET[GroupManager :: PARAM_GROUP_ID])), $group->get_name()));
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('GroupUpdate')));
 		
 			if (!$this->get_user()->is_platform_admin())
@@ -33,13 +33,13 @@ class GroupManagerEditorComponent extends GroupManagerComponent
 				exit;
 			}
 			
-			$form = new GroupForm(GroupForm :: TYPE_EDIT, $classgroup, $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $id)), $this->get_user());
+			$form = new GroupForm(GroupForm :: TYPE_EDIT, $group, $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $id)), $this->get_user());
 
 			if($form->validate())
 			{
-				$success = $form->update_classgroup();
-				$classgroup = $form->get_classgroup();
-				$this->redirect('url', Translation :: get($success ? 'GroupUpdated' : 'GroupNotUpdated'), ($success ? false : true), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $classgroup->get_id()));
+				$success = $form->update_group();
+				$group = $form->get_group();
+				$this->redirect('url', Translation :: get($success ? 'GroupUpdated' : 'GroupNotUpdated'), ($success ? false : true), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group->get_id()));
 			}
 			else
 			{

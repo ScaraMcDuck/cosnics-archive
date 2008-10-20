@@ -10,7 +10,7 @@ require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.p
 
 class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 {
-	private $classgroup;
+	private $group;
 	
 	/**
 	 * Runs this component and displays its output.
@@ -22,12 +22,12 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
 		
-		$classgroup_id = $_GET[GroupManager :: PARAM_GROUP_ID];
+		$group_id = $_GET[GroupManager :: PARAM_GROUP_ID];
 		
-		if(isset($classgroup_id))
+		if(isset($group_id))
 		{
-			$this->classgroup = $this->retrieve_classgroup($classgroup_id);
-			$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $classgroup_id)), $this->classgroup->get_name()));
+			$this->group = $this->retrieve_group($group_id);
+			$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group_id)), $this->group->get_name()));
 		}
 		
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddUsers')));
@@ -53,7 +53,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 	
 	function get_user_subscribe_html()
 	{
-		$table = new SubscribeUserBrowserTable($this, array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_SUBSCRIBE_USER_BROWSER, GroupManager :: PARAM_GROUP_ID => $this->classgroup->get_id()), $this->get_subscribe_condition());
+		$table = new SubscribeUserBrowserTable($this, array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_SUBSCRIBE_USER_BROWSER, GroupManager :: PARAM_GROUP_ID => $this->group->get_id()), $this->get_subscribe_condition());
 
 		$html = array();
 		$html[] = $table->as_html();
@@ -65,7 +65,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 	{
 		$condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $_GET[GroupRelUser :: PROPERTY_GROUP_ID]);
 		
-		$users = $this->get_parent()->retrieve_classgroup_rel_users($condition);
+		$users = $this->get_parent()->retrieve_group_rel_users($condition);
 	
 		$conditions = array();
 		while ($user = $users->next_result())
@@ -85,9 +85,9 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 		return $condition;
 	}
 	
-	function get_classgroup()
+	function get_group()
 	{
-		return $this->classgroup;
+		return $this->group;
 	}
 }
 ?>

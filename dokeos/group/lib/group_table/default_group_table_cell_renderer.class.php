@@ -23,18 +23,18 @@ class DefaultGroupTableCellRenderer implements ObjectTableCellRenderer
 	 * @param Learning Object $learning_object The learning object to render
 	 * @return string A HTML representation of the rendered table cell
 	 */
-	function render_cell($column, $classgroup)
+	function render_cell($column, $group)
 	{
 		if ($property = $column->get_object_property())
 		{
 			switch ($property)
 			{
 				case Group :: PROPERTY_ID :
-					return $classgroup->get_id();
+					return $group->get_id();
 				case Group :: PROPERTY_NAME :
-					return $classgroup->get_name();
+					return $group->get_name();
 				case Group :: PROPERTY_DESCRIPTION :
-					return $classgroup->get_description();
+					return $group->get_description();
 			}
 		}
 		return '&nbsp;';

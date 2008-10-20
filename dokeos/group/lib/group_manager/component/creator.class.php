@@ -27,16 +27,16 @@ class GroupManagerCreatorComponent extends GroupManagerComponent
 			$this->display_footer();
 			exit;
 		}
-		$classgroup = new Group();
-		$form = new GroupForm(GroupForm :: TYPE_CREATE, $classgroup, $this->get_url(), $this->get_user());
+		$group = new Group();
+		$form = new GroupForm(GroupForm :: TYPE_CREATE, $group, $this->get_url(), $this->get_user());
 		
 		if($form->validate())
 		{
-			$success = $form->create_classgroup();
+			$success = $form->create_group();
 			if($success)
 			{
-				$classgroup = $form->get_classgroup();
-				$this->redirect('url', Translation :: get('GroupCreated'), (false), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $classgroup->get_id()));
+				$group = $form->get_group();
+				$this->redirect('url', Translation :: get('GroupCreated'), (false), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group->get_id()));
 			}
 			else
 			{

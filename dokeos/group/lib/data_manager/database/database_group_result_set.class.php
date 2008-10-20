@@ -35,7 +35,7 @@ class DatabaseGroupResultSet extends ResultSet {
     {
 		if ($record = $this->handle->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
-			return $this->data_manager->record_to_classgroup($record);
+			return $this->data_manager->record_to_group($record);
 		}
     	return null;
     }

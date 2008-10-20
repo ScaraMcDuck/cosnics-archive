@@ -68,10 +68,10 @@ class SubscribeUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 	 */
 	private function get_modification_links($user)
 	{
-		$classgroup = $this->browser->get_classgroup();
+		$group = $this->browser->get_group();
 		$toolbar_data = array();
 
-		$subscribe_url = $this->browser->get_classgroup_rel_user_subscribing_url($classgroup, $user);
+		$subscribe_url = $this->browser->get_group_rel_user_subscribing_url($group, $user);
 		$toolbar_data[] = array(
 			'href' => $subscribe_url,
 			'label' => Translation :: get('Subscribe'),

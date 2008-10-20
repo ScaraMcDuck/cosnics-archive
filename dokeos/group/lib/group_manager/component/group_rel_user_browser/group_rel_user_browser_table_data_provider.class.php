@@ -33,7 +33,7 @@ class GroupRelUserBrowserTableDataProvider extends ObjectTableDataProvider
 		$order_property = $this->get_order_property($order_property);
 		$order_direction = $this->get_order_property($order_direction);
        
-      return $this->get_browser()->retrieve_classgroup_rel_users($this->get_condition(), $offset, $count, $order_property, $order_direction);
+      return $this->get_browser()->retrieve_group_rel_users($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
   /**
    * Gets the number of learning objects in the table
@@ -41,7 +41,7 @@ class GroupRelUserBrowserTableDataProvider extends ObjectTableDataProvider
    */
     function get_object_count()
     {
-      return $this->get_browser()->count_classgroup_rel_users($this->get_condition());
+      return $this->get_browser()->count_group_rel_users($this->get_condition());
     }
 }
 ?>

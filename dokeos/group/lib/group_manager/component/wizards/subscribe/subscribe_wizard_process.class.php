@@ -39,12 +39,12 @@ class SubscribeWizardProcess extends HTML_QuickForm_Action
 				foreach($users as $user)
 				{
 					//$location_id = $values['User-'.$user];
-					$existing_groupreluser = $this->parent->retrieve_classgroup_rel_user($user, $group_id);
+					$existing_groupreluser = $this->parent->retrieve_group_rel_user($user, $group_id);
 					
 					if (!isset($existing_groupreluser))
 					{
 						$groupreluser = new GroupRelUser();
-						$groupreluser->set_classgroup_id($group_id);
+						$groupreluser->set_group_id($group_id);
 						$groupreluser->set_user_id($user);
 						
 						if (!$groupreluser->create())
@@ -53,7 +53,7 @@ class SubscribeWizardProcess extends HTML_QuickForm_Action
 						}
 						else
 						{
-							Events :: trigger_event('subscribe_user', 'group', array('target_group_id' => $groupreluser->get_classgroup_id(), 'target_user_id' => $groupreluser->get_user_id(), 'action_user_id' => $this->parent->get_user()->get_id()));
+							Events :: trigger_event('subscribe_user', 'group', array('target_group_id' => $groupreluser->get_group_id(), 'target_user_id' => $groupreluser->get_user_id(), 'action_user_id' => $this->parent->get_user()->get_id()));
 						}
 					}
 					else
