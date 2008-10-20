@@ -1,6 +1,6 @@
 <?php
 /**
- * @package application.lib.profiler.publisher.publication_candidate_table
+ * @package application.weblcms.tool.exercise.component.exercise_publication_table
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_data_provider.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';

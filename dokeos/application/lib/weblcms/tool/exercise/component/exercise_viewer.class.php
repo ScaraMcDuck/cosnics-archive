@@ -19,6 +19,7 @@ class ExerciseToolViewerComponent extends ExerciseToolComponent
 		if (!$this->is_allowed(VIEW_RIGHT))
 		{
 			Display :: display_not_allowed();
+			return;
 		}
 		
 		$trail = new BreadCrumbTrail();
