@@ -16,7 +16,7 @@ require_once dirname(__FILE__).'/../portfoliodatamanager.class.php';
 ================================================================================
  */
 
-class MyPortfolio extends WebApplication
+class Myportfolio extends WebApplication
 {
 	const PARAM_ACTION = 'portfolio_action';
 	const PARAM_ITEM = 'item';
@@ -39,7 +39,7 @@ class MyPortfolio extends WebApplication
 
 	public static $item;
 
-	function MyPortfolio($user)
+	function Myportfolio($user)
 	{
 		parent :: __construct();
 		if(isset($_POST[self :: PARAM_ACTION]))
@@ -360,6 +360,16 @@ class MyPortfolio extends WebApplication
 	{
 		
 	}
+	
+			
+	/**
+	 * Inherited
+	 */
+	function get_learning_object_publication_locations($learning_object)
+	{
+		return array();	
+	}
+	
 	function get_application_platform_admin_links()
 	{
 		$links = array();

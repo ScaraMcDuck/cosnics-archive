@@ -613,12 +613,33 @@ class Weblcms extends WebApplication
 		return WeblcmsDataManager :: get_instance()->update_learning_object_publication_id($publication_attr);
 	}
 
-	/*
+	/**
 	 * Inherited
 	 */
 	function count_publication_attributes($type = null, $condition = null)
 	{
 		return WeblcmsDataManager :: get_instance()->count_publication_attributes($this->get_user(), $type, $condition);
+	}
+	
+	/**
+	 * Inherited
+	 */
+	function get_learning_object_publication_locations($learning_object)
+	{
+		$allowed_types = array('announcement', 'description', 'calendar_event', 'description', 'document',
+							   'exercise', 'forum', 'learning_path', 'wiki', 'link');
+		
+		$type = $learning_object->get_type();
+		if(in_array($type, $allowed_types))
+		{
+			$courses = $this->retrieve_courses($this->get_user());
+			while($course = $courses->next_result())
+				$locations[] = 'Course: ' . $course->get_name() . ' - Tool: ' . $type;
+				
+			return $locations;
+		}
+		
+		return array();	
 	}
 
 	/**

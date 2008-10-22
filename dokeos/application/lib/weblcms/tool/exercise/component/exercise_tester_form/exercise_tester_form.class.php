@@ -15,6 +15,7 @@ class ExerciseTesterForm extends FormValidator
 	
 	function ExerciseTesterForm($exercise)
 	{
+		parent :: __construct('publish', 'post');
 		$this->initialize($exercise);
 	}
 	
