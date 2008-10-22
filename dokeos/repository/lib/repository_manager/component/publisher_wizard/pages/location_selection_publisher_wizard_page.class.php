@@ -72,10 +72,12 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 		$applications = Application::load_all_from_filesystem(true);
 		foreach($applications as $application_name)
 		{
-			$this->addElement('html', '<br /><br /><h3 style="padding-left: 15%;">' . Translation :: get(Application::application_to_class($application_name)) . '</h3>');
 			$application = Application::factory($application_name);
-			
 			$locations = $application->get_learning_object_publication_locations($this->learning_object);
+			if(count($locations) == 0) continue;
+			
+			$this->addElement('html', '<br /><br /><h3 style="padding-left: 15%;">' . Translation :: get(Application::application_to_class($application_name)) . '</h3>');
+			
 			foreach($locations as $location)
 			{
 				$cbname = $application_name . '_' . str_replace(' ', '_',$location);
@@ -83,8 +85,8 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 				$appDefaults[$cbname] = '1';
 			}
 		}
-		
-		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
+		$this->addElement('html', '<br /><br />');
+		//$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
 		$this->setDefaultAction('next');

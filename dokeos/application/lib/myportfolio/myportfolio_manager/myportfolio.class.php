@@ -361,6 +361,11 @@ class Myportfolio extends WebApplication
 		
 	}
 	
+	function publish_learning_object($learning_object, $location)
+	{
+		
+	}
+	
 			
 	/**
 	 * Inherited

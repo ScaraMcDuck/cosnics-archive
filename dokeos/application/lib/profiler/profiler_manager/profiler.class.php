@@ -574,7 +574,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	 */
 	function get_learning_object_publication_locations($learning_object)
 	{
-		$allowed_types = array('announcement', 'profile');
+		$allowed_types = array('profile');
 		
 		$type = $learning_object->get_type();
 		if(in_array($type, $allowed_types))
@@ -584,6 +584,16 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		}
 		
 		return array();	
+	}
+	
+	function publish_learning_object($learning_object, $location)
+	{
+		$publication = new ProfilePublication();
+		$publication->set_profile($learning_object->get_id());
+		$publication->set_publisher(Session :: get_user_id());
+		$publication->set_published(time());
+		$publication->create();
+		return Translation :: get('PublicationCreated');
 	}
 	
 	/**
