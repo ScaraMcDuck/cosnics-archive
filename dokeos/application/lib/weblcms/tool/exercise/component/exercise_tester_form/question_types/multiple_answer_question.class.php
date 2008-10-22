@@ -14,8 +14,10 @@ class MultipleAnswerQuestionDisplay extends QuestionDisplay
 		$formvalidator->addElement('html','Multiple answer question'.$question->get_description().' Points:'.$clo_question->get_weight().'<br/>');
 		foreach($answers as $answer)
 		{
-			$formvalidator->addElement('checkbox', $question->get_id(), $answer['answer']->get_description());
+			$formvalidator->addElement('checkbox', $question->get_id(), '', $answer['answer']->get_title());
 		}
+		
+		$formvalidator->addElement('html', '<br />');
 	}
 }
 ?>
