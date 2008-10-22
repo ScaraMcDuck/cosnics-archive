@@ -232,4 +232,9 @@ $lang['repository']['SurveySectionQuestion']='Question';
 $lang['repository']['BrowseComplex']='Browse Complex';
 $lang['repository']['SurveySectionQuestion']='Question';
 $lang['repository']['SurveySectionQuestion']='Question';
+$lang['repository']['LocationSelection']='Select locations';
+$lang['repository']['PublicationForm']='Publication Form';
+$lang['repository']['Step']='Step';
+$lang['repository']['of']='of';
+$lang['repository']['LocationSelectionInfo']='Please select the locations in which you want to publish the following learning object';
 ?>
