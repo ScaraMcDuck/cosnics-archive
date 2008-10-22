@@ -49,6 +49,7 @@ class RepositoryManager
 	const PARAM_MOVE_SELECTED = 'move_selected';
 	const PARAM_RESTORE_SELECTED = 'restore_selected';
 	const PARAM_DELETE_SELECTED = 'delete_selected';
+	const PARAM_PUBLISH_SELECTED = 'publish_selected';
 	const PARAM_COMPARE_OBJECT = 'object';
 	const PARAM_COMPARE_VERSION = 'compare';
 	const PARAM_PUBLICATION_APPLICATION = 'application';
@@ -275,6 +276,10 @@ class RepositoryManager
 				case self :: PARAM_ADD_OBJECTS :
 					$this->set_action(self :: ACTION_ADD_LEARNING_OBJECT);
 					$_GET[self :: PARAM_CLOI_REF] = $selected_ids;
+					break;
+				case self :: PARAM_PUBLISH_SELECTED :
+					$this->set_action(self :: ACTION_PUBLISH_LEARNING_OBJECT);
+					$_GET[self :: PARAM_LEARNING_OBJECT_ID] = $selected_ids;
 					break;
 			}
 		}

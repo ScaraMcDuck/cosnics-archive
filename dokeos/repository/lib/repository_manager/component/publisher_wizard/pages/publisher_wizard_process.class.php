@@ -36,7 +36,13 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 		
 		$previous_application = '';
 		$message = '';
-		$learning_object = $this->parent->retrieve_learning_object($_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID]);
+		
+		$ids = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
+		if(!is_array($ids))
+			$ids = array($ids);
+		
+		foreach($ids as $id)
+			$los[] = $this->parent->retrieve_learning_object($id);
 		
 		foreach($values as $location => $value)
 		{
@@ -55,7 +61,8 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 				unset($split[0]);
 				$location = implode('_', $split);
 				$application = Application::factory($application_name);
-				$message .= $application->publish_learning_object($learning_object, $location) . '<br />';
+				foreach($los as $lo)
+					$message .= $application->publish_learning_object($lo, $location) . '<br />';
 			}
 		}
 		
