@@ -22,12 +22,12 @@ class Question extends LearningObject
 	
 	function get_question_type()
 	{
-		$this->get_additional_property(self :: PROPERTY_QUESTION_TYPE);
+		return $this->get_additional_property(self :: PROPERTY_QUESTION_TYPE);
 	}
 	
-	function set_question_type($value) 
+	function set_question_type($question_type) 
 	{
-		$this->set_additional_property(self :: PROPERTY_QUESTION_TYPE, $value);
+		$this->set_additional_property(self :: PROPERTY_QUESTION_TYPE, $question_type);
 	}
 	
 	static function get_additional_property_names() 
