@@ -570,6 +570,11 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 	{
 		return array();	
 	}
+	
+	function publish_learning_object($learning_object, $location)
+	{
+		
+	}
 
 	/**
 	 * Gets the url for deleting a personal message publication

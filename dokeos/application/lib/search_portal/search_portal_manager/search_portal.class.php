@@ -276,6 +276,11 @@ END;
 	{
 		return array();	
 	}
+	
+	function publish_learning_object($learning_object, $location)
+	{
+		
+	}
 
 	function count_publication_attributes($type = null, $condition = null)
 	{

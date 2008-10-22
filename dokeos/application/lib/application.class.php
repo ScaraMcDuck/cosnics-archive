@@ -65,6 +65,8 @@ abstract class Application
 	
 	abstract function get_learning_object_publication_locations($learning_object);
 	
+	abstract function publish_learning_object($learning_object, $location);
+	
 	/**
 	 *
 	 */

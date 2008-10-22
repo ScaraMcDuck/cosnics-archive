@@ -634,12 +634,27 @@ class Weblcms extends WebApplication
 		{
 			$courses = $this->retrieve_courses($this->get_user());
 			while($course = $courses->next_result())
-				$locations[] = 'Course: ' . $course->get_name() . ' - Tool: ' . $type;
+				$locations[] = 'Course: ' . $course->get_id() . ' - Tool: ' . $type;
 				
 			return $locations;
 		}
 		
 		return array();	
+	}
+	
+	function publish_learning_object($learning_object, $location)
+	{
+		$location_split = split('_', $location);
+		$course = $location_split[1];
+		$tool = $location_split[4];
+		$dm = WeblcmsDataManager :: get_instance();
+		$do = $dm->get_next_learning_object_publication_display_order_index($course,$tool,0);
+		
+		$pub = new LearningObjectPublication(null, $learning_object, $course, $tool, 0, array(), array(), 0, 0, Session :: get_user_id(), time(), time(), 0, $do, false);
+		$pub->create();
+		
+		return Translation :: get('PublicationCreated') . ': <b>' . Translation :: get('Course') . '</b>: ' . $course .
+			   ' - <b>' . Translation :: get('Tool') . '</b>: ' . $tool;
 	}
 
 	/**

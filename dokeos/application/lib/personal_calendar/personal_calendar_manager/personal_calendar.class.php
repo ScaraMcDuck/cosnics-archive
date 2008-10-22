@@ -193,6 +193,11 @@ class PersonalCalendar extends WebApplication
 	function get_learning_object_publication_locations($learning_object)
 	{
 		return array();	
+	}
+	
+	function publish_learning_object($learning_object, $location)
+	{
+		
 	}	
 	
 	/**

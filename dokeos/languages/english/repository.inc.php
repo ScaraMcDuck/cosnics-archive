@@ -237,4 +237,7 @@ $lang['repository']['PublicationForm']='Publication Form';
 $lang['repository']['Step']='Step';
 $lang['repository']['of']='of';
 $lang['repository']['LocationSelectionInfo']='Please select the locations in which you want to publish the following learning object';
+$lang['repository']['PublicationCreated']='Publication created';
+$lang['repository']['Course']='Course';
+$lang['repository']['Tool']='Tool';
 ?>

@@ -39,9 +39,9 @@ class PublisherWizardDisplay extends HTML_QuickForm_Action_Display
 		HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>'.Translation :: get('ThisFieldIsRequired').'</small>');
 		$current_page->accept($renderer);
 		
-		$this->parent->display_header();
+		$this->parent->display_header(new BreadCrumbTrail(new BreadCrumb($this->parent->get_url(), Translation :: get('Publish'))));
 		
-		echo '<div style="background-color:#EFEFEF;padding: 10px; height: 35px;">';
+		/*echo '<div style="background-color:#EFEFEF;padding: 10px; height: 35px;">';
 		$all_pages = $current_page->controller->_pages;
 		$total_number_of_pages = count($all_pages);
 		$current_page_number = 0;
@@ -61,10 +61,10 @@ class PublisherWizardDisplay extends HTML_QuickForm_Action_Display
 			}
 		}
 		echo '</ol>';
-		echo '</div>';
+		echo '</div>';*/
 		
 		echo '<div style="margin: 10px;">';
-		echo '<h2>'.Translation :: get('Step').' '.$current_page_number.' '.Translation :: get('of').' '.$total_number_of_pages.' &ndash; '.$current_page->get_title().'</h2>';
+		/*echo '<h2>'.Translation :: get('Step').' '.$current_page_number.' '.Translation :: get('of').' '.$total_number_of_pages.' &ndash; '.$current_page->get_title().'</h2>';*/
 		echo '<div>';
 		echo $current_page->get_info();
 		echo '</div>';
