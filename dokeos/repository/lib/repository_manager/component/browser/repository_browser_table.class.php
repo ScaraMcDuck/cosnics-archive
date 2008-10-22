@@ -30,6 +30,7 @@ class RepositoryBrowserTable extends ObjectTable
 			$actions = array();
 			$actions[RepositoryManager :: PARAM_RECYCLE_SELECTED] = Translation :: get('RemoveSelected');
 			$actions[RepositoryManager :: PARAM_MOVE_SELECTED] = Translation :: get('MoveSelected');
+			$actions[RepositoryManager :: PARAM_PUBLISH_SELECTED] = Translation :: get('PublishSelected');
 		}
 		if(get_class($browser) == 'RepositoryManagerLearningObjectSelectorComponent')
 		{

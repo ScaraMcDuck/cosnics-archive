@@ -11,12 +11,42 @@ require_once dirname(__FILE__).'/publisher_wizard_page.class.php';
  */
 class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 {
-	private $learning_object;
+	private $learning_objects;
+	private $type;
 	
 	public function LocationSelectionPublisherWizardPage($name,$parent)
 	{
 		parent :: PublisherWizardPage($name, $parent);
-		$this->learning_object = $this->get_parent()->retrieve_learning_object($_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID]);
+		$ids = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
+		
+		if(empty($ids)) 
+		{
+			$_GET['message'] = Translation :: get('NoObjectSelected');
+			$this->get_parent()->display_header(new BreadCrumbTrail());
+			$this->get_parent()->display_footer();
+			exit();
+		}
+		
+		if(!is_array($ids))
+			$ids = array($ids);
+		
+		foreach($ids as $id)
+		{
+			$lo = $this->get_parent()->retrieve_learning_object($id);
+			$this->learning_objects[] = $lo;
+			if($this->type == null)
+				$this->type = $lo->get_type();
+			else
+			{
+				if($this->type != $lo->get_type())
+				{
+					$_GET['message'] = Translation :: get('ObjectsNotSameType');
+					$this->get_parent()->display_header(new BreadCrumbTrail());
+					$this->get_parent()->display_footer();
+					exit();
+				}
+			}
+		}
 	}
 	
 	function get_title()
@@ -26,7 +56,16 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 	
 	function get_info()
 	{
-		return Translation :: get('LocationSelectionInfo') . '<br /><br />' . $this->display_learning_object($this->learning_object);//' <b>' . $learning_object->get_type() . ' - ' . $learning_object->get_title() . '</b>';
+		return Translation :: get('LocationSelectionInfo') . '<br /><br />' . $this->display_learning_objects();//' <b>' . $learning_object->get_type() . ' - ' . $learning_object->get_title() . '</b>';
+	}
+	
+	function display_learning_objects()
+	{
+		$html = array();
+		foreach ($this->learning_objects as $lo)
+			$html[] = $this->display_learning_object($lo);
+		
+		return implode("\n", $html);
 	}
 	
 	function display_learning_object($learning_object)
@@ -64,31 +103,59 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 		}
 		return '';
 	}
-	
+
 	function buildForm()
 	{
 		$this->_formBuilt = true;
 
+		$html = '<script type="text/javascript">
+							/* <![CDATA[ */
+							function setCheckbox(app_name, value) {
+								var d = document[\'page_locations\'];
+								for (i = 0; i < d.elements.length; i++) {
+									if (d.elements[i].type == "checkbox") 
+									{
+									     if(app_name.length == null || d.elements[i].name.substr(0, app_name.length) == app_name)
+									     		d.elements[i].checked = value;
+									}
+								}
+							}
+							/* ]]> */
+							</script>';
+		$this->addElement('html', $html);
+
 		$applications = Application::load_all_from_filesystem(true);
+		$apps = array();
 		foreach($applications as $application_name)
 		{
 			$application = Application::factory($application_name);
-			$locations = $application->get_learning_object_publication_locations($this->learning_object);
+			$locations = $application->get_learning_object_publication_locations($this->learning_objects[0]);
 			if(count($locations) == 0) continue;
 			
-			$this->addElement('html', '<br /><br /><h3 style="padding-left: 15%;">' . Translation :: get(Application::application_to_class($application_name)) . '</h3>');
+			$apps[] =
 			
+			$this->addElement('html', '<br /><br /><h3 style="margin-left: 15%;">' . Translation :: get(Application::application_to_class($application_name)) . '</h3>');
+		
 			foreach($locations as $location)
 			{
 				$cbname = $application_name . '_' . str_replace(' ', '_',$location);
-				$this->addElement('checkbox', $cbname, '', $location);
+				$this->addElement('checkbox', $cbname, '', $location, 'style=\'margin-left: 20px;\'');
 				$appDefaults[$cbname] = '1';
 			}
+			
+			$this->addElement('html', '<br /><br /><a href="?" style="margin-left: 15%" onclick="setCheckbox(\'' . $application_name . '\', true); return false;">'.Translation :: get('SelectAll').'</a>');
+			$this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'' . $application_name . '\', false); return false;">'.Translation :: get('UnSelectAll').'</a>');
+			
 		}
+		
 		$this->addElement('html', '<br /><br />');
 		//$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
+	
+		$this->addElement('html', '<br /><br /><a href="?" style="margin-left: 15%"  onclick="setCheckbox(\'\', true); return false;">'.Translation :: get('SelectAll').'</a>');
+		$this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'\', false); return false;">'.Translation :: get('UnSelectAll').'</a>');
+		
 		$this->setDefaultAction('next');
 		$this->setDefaults($appDefaults);
 	}
