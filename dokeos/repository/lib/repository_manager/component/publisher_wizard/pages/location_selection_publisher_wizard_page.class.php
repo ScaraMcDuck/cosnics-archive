@@ -78,7 +78,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 			$locations = $application->get_learning_object_publication_locations($this->learning_object);
 			foreach($locations as $location)
 			{
-				$cbname = $application_name . '_' . $location;
+				$cbname = $application_name . '_' . str_replace(' ', '_',$location);
 				$this->addElement('checkbox', $cbname, '', $location);
 				$appDefaults[$cbname] = '1';
 			}
