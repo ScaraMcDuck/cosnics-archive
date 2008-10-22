@@ -5,6 +5,9 @@
 require_once dirname(__FILE__).'/../weblcms_manager/weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
 require_once Path :: get_library_path().'installer.class.php';
+
+require_once 'Tree/Tree.php';
+
 /**
  *	This installer can be used to create the storage structure for the
  * weblcms application.
@@ -23,6 +26,11 @@ class WeblcmsInstaller extends Installer
 	 */
 	function install_extra()
 	{
+		
+		if (!$this->create_initial_locations_tree())
+		{
+			return false;
+		}
 //		if (!$this->create_weblcms_root_location())
 //		{
 //			$this->add_message(self :: TYPE_ERROR, Translation :: get('RightsLocationNotAdded'));
@@ -122,23 +130,12 @@ class WeblcmsInstaller extends Installer
 		return true;
 	}
 	
-	function create_weblcms_rights_location()
+	function create_initial_locations_tree()
 	{
-		$location = new Location();
+		$application_class = str_replace('Installer', '', get_class($this));
+		$application = DokeosUtilities :: camelcase_to_underscores($application_class);
 		
-		$location->set_location(Weblcms :: APPLICATION_NAME);
-		$location->set_application(Weblcms :: APPLICATION_NAME);
-		$location->set_type('root');
-		$location->set_identifier('0');
-		$location->set_left_value('1');
-		$location->set_right_value('2');
-		$location->set_parent('0');
-		
-		if ($location->create())
-		{
-			return $location;
-		}
-		else
+		if (!RightsUtilities :: create_application_root_location($application))
 		{
 			return false;
 		}

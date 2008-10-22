@@ -119,6 +119,11 @@ class ActionBarRenderer
 			$html[] = '</div>';
 		}
 		
+		if (count($tool_actions) > 0 || !is_null($this->search_form))
+		{
+			$html[] = '<div class="divider"></div>';
+		}
+		
 		if (count($tool_actions) > 0)
 		{
 			$html[] = '<div class="tool_menu">';
@@ -127,6 +132,11 @@ class ActionBarRenderer
 			$toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
 			$html[] = $toolbar->as_html();
 			$html[] = '</div>';
+		}
+		
+		if (count($tool_actions) > 0)
+		{
+			$html[] = '<div class="divider"></div>';
 		}
 		
 		if (!is_null($this->search_form))
@@ -145,6 +155,8 @@ class ActionBarRenderer
 		$html[] = '</div>';
 		
 		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/action_bar_horizontal.js' .'"></script>';
+		
+		$html[] = '<div class="clear"></div>';
 		
 		return implode("\n", $html);
 	}
@@ -212,6 +224,8 @@ class ActionBarRenderer
 		$html[] = '</div>';
 		
 		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/action_bar_vertical.js' .'"></script>';
+		
+		$html[] = '<div class="clear"></div>';
 		
 		return implode("\n", $html);
 	}
