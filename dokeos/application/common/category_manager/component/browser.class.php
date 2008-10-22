@@ -5,6 +5,7 @@
 require_once dirname(__FILE__).'/../category_manager.class.php';
 require_once dirname(__FILE__).'/../category_menu.class.php';
 require_once dirname(__FILE__).'/../category_manager_component.class.php';
+require_once dirname(__FILE__).'/../platform_category.class.php';
 require_once dirname(__FILE__).'/category_browser/category_browser_table.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
@@ -18,7 +19,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 	 */
 	function run()
 	{		
-		$this->ab = new ActionBarRenderer($this->get_left_toolbar_data(), array(), $this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $this->get_category())));	
+		$this->ab = $this->get_action_bar(); //new ActionBarRenderer($this->get_left_toolbar_data(), array(), );	
 		$menu = new CategoryMenu($_GET[CategoryManager :: PARAM_CATEGORY_ID], $this->get_parent());
 		
 		echo $this->ab->as_html() . '<br />';
@@ -47,7 +48,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 		if(isset($search) && ($search != ''))
 		{
 			$conditions = array();
-			$conditions[] = new LikeCondition(PlaformCategory :: PROPERTY_NAME, $search);
+			$conditions[] = new LikeCondition(PlatformCategory :: PROPERTY_NAME, $search);
 			$orcondition = new OrCondition($conditions);
 			
 			$conditions = array();
@@ -64,26 +65,18 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 		return (isset($_GET[CategoryManager :: PARAM_CATEGORY_ID])?$_GET[CategoryManager :: PARAM_CATEGORY_ID]:0);
 	}
 	
-	function get_left_toolbar_data()
+	function get_action_bar()
 	{
-		$tb_data = array();
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
-		$tb_data[] = array(
-				'href' => $this->get_create_category_url($_GET[CategoryManager :: PARAM_CATEGORY_ID]),
-				'label' => Translation :: get('Add'),
-				'img' => Theme :: get_common_img_path() . 'action_add.png'
-		);
+		$action_bar->set_search_url($this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $this->get_category())));
 		
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_img_path().'action_add.png', $this->get_create_category_url($_GET[CategoryManager :: PARAM_CATEGORY_ID]), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		if(get_class($this->get_parent()) != 'AdminCategoryManager')
 		{
-			$tb_data[] = array(
-					'href' => $this->get_copy_general_categories_url(),
-					'label' => Translation :: get('CopyGeneralCategories'),
-					'img' => Theme :: get_common_img_path() . 'treemenu_types/exercise.png',
-					'confirm' => true
-			);
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('CopyGeneralCategories'), Theme :: get_common_img_path().'treemenu_types/exercise.png', $this->get_copy_general_categories_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 		
-		return $tb_data;
+		return $action_bar;
 	}
 }

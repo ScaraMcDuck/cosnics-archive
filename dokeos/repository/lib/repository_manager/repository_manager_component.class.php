@@ -483,5 +483,10 @@ abstract class RepositoryManagerComponent {
 	{
 		return $this->get_parent()->get_learning_object_exporting_url($learning_object);
 	}
+	
+	function get_publish_learning_object_url($learning_object)
+	{
+		return $this->get_parent()->get_publish_learning_object_url($learning_object);
+	}
 }
 ?>

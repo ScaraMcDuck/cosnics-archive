@@ -93,6 +93,7 @@ class RepositoryManager
 	const ACTION_ADD_LEARNING_OBJECT = 'addobject';
 	const ACTION_EXPORT_LEARNING_OBJECTS = 'export';
 	const ACTION_IMPORT_LEARNING_OBJECTS = 'import';
+	const ACTION_PUBLISH_LEARNING_OBJECT = 'publish';
 	
 	/**#@-*/
    /**#@+
@@ -220,6 +221,9 @@ class RepositoryManager
 			case self :: ACTION_IMPORT_LEARNING_OBJECTS :
 				$this->force_menu_url($this->import_url, true);
 				$component = RepositoryManagerComponent :: factory('Importer', $this);
+				break;
+			case self :: ACTION_PUBLISH_LEARNING_OBJECT :
+				$component = RepositoryManagerComponent :: factory('Publisher', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
@@ -1153,6 +1157,12 @@ class RepositoryManager
 	function get_learning_object_exporting_url($learning_object)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EXPORT_LEARNING_OBJECTS, 
+			self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
+	}
+	
+	function get_publish_learning_object_url($learning_object)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_PUBLISH_LEARNING_OBJECT, 
 			self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
 }
