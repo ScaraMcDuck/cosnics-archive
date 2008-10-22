@@ -574,6 +574,15 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	 */
 	function get_learning_object_publication_locations($learning_object)
 	{
+		$allowed_types = array('announcement', 'profile');
+		
+		$type = $learning_object->get_type();
+		if(in_array($type, $allowed_types))
+		{
+			$locations = array(__CLASS__);
+			return $locations;
+		}
+		
 		return array();	
 	}
 	

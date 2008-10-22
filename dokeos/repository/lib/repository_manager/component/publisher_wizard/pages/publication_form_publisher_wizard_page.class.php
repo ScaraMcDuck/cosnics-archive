@@ -11,9 +11,17 @@ require_once dirname(__FILE__).'/publisher_wizard_page.class.php';
  */
 class PublicationFormPublisherWizardPage extends PublisherWizardPage
 {
+	private $application;
+	
+	public function PublicationFormPublisherWizardPage($name,$parent, $application)
+	{
+		parent :: PublisherWizardPage($name, $parent);
+		$this->application = $application;
+	}
+	
 	function get_title()
 	{
-		return Translation :: get('PublicationForm');
+		return Application :: application_to_class($this->application) . ' ' . Translation :: get('PublicationForm');
 	}
 	
 	function get_info()
@@ -25,13 +33,9 @@ class PublicationFormPublisherWizardPage extends PublisherWizardPage
 	{
 		$this->_formBuilt = true;
 
-		$applications = Application::load_all_from_filesystem(false);
-		foreach($applications as $application)
-		{
-			$this->addElement('checkbox', $application, '', Translation :: get(Application::application_to_class($application)));
-			$appDefaults[$application] = '1';
-		}
+		$application = $this->application;
 		
+
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
