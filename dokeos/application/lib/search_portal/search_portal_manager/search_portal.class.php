@@ -268,6 +268,14 @@ END;
 	{
 		return null;
 	}
+		
+	/**
+	 * Inherited
+	 */
+	function get_learning_object_publication_locations($learning_object)
+	{
+		return array();	
+	}
 
 	function count_publication_attributes($type = null, $condition = null)
 	{

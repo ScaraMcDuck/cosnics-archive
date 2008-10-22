@@ -11,6 +11,14 @@ require_once dirname(__FILE__).'/publisher_wizard_page.class.php';
  */
 class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 {
+	private $learning_object;
+	
+	public function LocationSelectionPublisherWizardPage($name,$parent)
+	{
+		parent :: PublisherWizardPage($name, $parent);
+		$this->learning_object = $this->get_parent()->retrieve_learning_object($_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID]);
+	}
+	
 	function get_title()
 	{
 		return Translation :: get('LocationSelection');
@@ -18,8 +26,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 	
 	function get_info()
 	{
-		$learning_object = $this->get_parent()->retrieve_learning_object($_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID]);
-		return Translation :: get('LocationSelectionInfo') . '<br /><br />' . $this->display_learning_object($learning_object);//' <b>' . $learning_object->get_type() . ' - ' . $learning_object->get_title() . '</b>';
+		return Translation :: get('LocationSelectionInfo') . '<br /><br />' . $this->display_learning_object($this->learning_object);//' <b>' . $learning_object->get_type() . ' - ' . $learning_object->get_title() . '</b>';
 	}
 	
 	function display_learning_object($learning_object)
@@ -62,12 +69,19 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 	{
 		$this->_formBuilt = true;
 
-		$applications = Application::load_all_from_filesystem(false);
-		foreach($applications as $application)
+		$applications = Application::load_all_from_filesystem(true);
+		foreach($applications as $application_name)
 		{
-			$this->addElement('html', '<br /><br /><h3 style="padding-left: 15%;">' . Translation :: get(Application::application_to_class($application)) . '</h3>');
-			$this->addElement('checkbox', $application, '', Translation :: get(Application::application_to_class($application)));
-			$appDefaults[$application] = '1';
+			$this->addElement('html', '<br /><br /><h3 style="padding-left: 15%;">' . Translation :: get(Application::application_to_class($application_name)) . '</h3>');
+			$application = Application::factory($application_name);
+			
+			$locations = $application->get_learning_object_publication_locations($this->learning_object);
+			foreach($locations as $location)
+			{
+				$cbname = $application_name . '_' . $location;
+				$this->addElement('checkbox', $cbname, '', $location);
+				$appDefaults[$cbname] = '1';
+			}
 		}
 		
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));

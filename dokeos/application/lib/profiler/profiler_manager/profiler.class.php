@@ -568,7 +568,15 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		$pmdm = ProfilerDataManager :: get_instance();
 		return $pmdm->retrieve_profile_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
-
+		
+	/**
+	 * Inherited
+	 */
+	function get_learning_object_publication_locations($learning_object)
+	{
+		return array();	
+	}
+	
 	/**
 	 * Gets the url for deleting a profile publication
 	 * @param PersonalMessagePublication

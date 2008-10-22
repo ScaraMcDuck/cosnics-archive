@@ -562,6 +562,14 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 		$pmdm = PersonalMessengerDataManager :: get_instance();
 		return $pmdm->retrieve_personal_message_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
+		
+	/**
+	 * Inherited
+	 */
+	function get_learning_object_publication_locations($learning_object)
+	{
+		return array();	
+	}
 
 	/**
 	 * Gets the url for deleting a personal message publication

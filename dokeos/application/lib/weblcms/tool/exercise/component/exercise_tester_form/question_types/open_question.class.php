@@ -14,8 +14,10 @@ class OpenQuestionDisplay extends QuestionDisplay
 		$formvalidator->addElement('html','Open question'.$question->get_description().' Points:'.$clo_question->get_weight().'<br/>');
 		foreach($answers as $answer)
 		{
-			$formvalidator->addElement('text', $question->get_id(), '');
+			$formvalidator->addElement('html_editor', $question->get_id(), 'TEST');
 		}
+		
+		$formvalidator->addElement('html', '<br/>');
 	}
 }
 ?>

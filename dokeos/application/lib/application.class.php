@@ -62,6 +62,9 @@ abstract class Application
 	 * @param int $object_id The id of the learning object
 	 */
 	abstract function delete_learning_object_publications($object_id);
+	
+	abstract function get_learning_object_publication_locations($learning_object);
+	
 	/**
 	 *
 	 */
