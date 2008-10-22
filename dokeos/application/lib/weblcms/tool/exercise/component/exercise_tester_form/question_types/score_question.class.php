@@ -10,7 +10,9 @@ class ScoreQuestionDisplay extends QuestionDisplay
 		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question');
 		
 		$answers = $this->get_answers($question->get_id());
-		$formvalidator->addElement('html','Point rating'.$question->get_description().'<br/>');
+		//$formvalidator->addElement('html','Point rating');//.$question->get_description());
+		$formvalidator->addElement('html',$this->display_learning_object($question));
+
 		$minscore = $answers[0];
 		$maxscore = $answers[1];
 		
