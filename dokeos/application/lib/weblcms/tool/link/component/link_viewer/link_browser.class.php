@@ -5,11 +5,11 @@
  * @package application.weblcms.tool
  * @subpackage link
  */
-require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
-require_once dirname(__FILE__).'/../../learning_object_publication_browser.class.php';
-require_once dirname(__FILE__).'/../../browser/learningobjectpublicationcategorytree.class.php';
+require_once dirname(__FILE__).'/../../../../weblcms_data_manager.class.php';
+require_once dirname(__FILE__).'/../../../../learning_object_publication_browser.class.php';
+require_once dirname(__FILE__).'/../../../../browser/learningobjectpublicationcategorytree.class.php';
 require_once dirname(__FILE__).'/link_publication_list_renderer.class.php';
-require_once dirname(__FILE__).'/../../browser/list_renderer/learning_object_publication_details_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/learning_object_publication_details_renderer.class.php';
 
 class LinkBrowser extends LearningObjectPublicationBrowser
 {

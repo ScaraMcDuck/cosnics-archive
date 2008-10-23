@@ -39,6 +39,11 @@ abstract class ToolComponent
 		return $this->tool;
 	}
 	
+	function get_parent()
+	{
+		return $this->tool->get_parent();
+	}
+	
 	/** Delegation functions **/
 	
 	function display_header($breadcrumbtrail, $append = array())
