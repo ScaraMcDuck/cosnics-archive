@@ -11,10 +11,10 @@ require_once dirname(__FILE__).'/../../../../browser/learningobjectpublicationca
 require_once dirname(__FILE__).'/document_publication_list_renderer.class.php';
 require_once dirname(__FILE__).'/../../../../browser/list_renderer/learning_object_publication_details_renderer.class.php';
 
-class DocumentViewerBrowser extends LearningObjectPublicationBrowser
+class DocumentBrowser extends LearningObjectPublicationBrowser
 {
 
-	function DocumentViewerBrowser($parent, $types)
+	function DocumentBrowser($parent, $types)
 	{
 		parent :: __construct($parent, 'document');
 		$tree_id = 'pcattree';

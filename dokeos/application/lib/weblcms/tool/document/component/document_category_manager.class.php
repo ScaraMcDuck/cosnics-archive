@@ -2,10 +2,9 @@
 
 require_once dirname(__FILE__) . '/../document_tool.class.php';
 require_once dirname(__FILE__) . '/../document_tool_component.class.php';
-require_once dirname(__FILE__) . '/document_slideshow/document_slideshow_browser.class.php';
 require_once dirname(__FILE__).'/../../../learning_object_publication_category_manager.class.php';
 
-class DocumentToolSlideshowComponent extends DocumentToolComponent
+class DocumentToolCategoryManagerComponent extends DocumentToolComponent
 {
 	private $action_bar;
 	
@@ -17,11 +16,11 @@ class DocumentToolSlideshowComponent extends DocumentToolComponent
 			return;
 		}
 		
-		$browser = new DocumentSlideshowBrowser($this);
+		$catman = new LearningObjectPublicationCategoryManager($this, 'document');
 		$trail = new BreadcrumbTrail();
 		
 		$this->display_header($trail);
-		echo $browser->as_html();
+		echo $catman->as_html();
 		$this->display_footer();
 	}
 }

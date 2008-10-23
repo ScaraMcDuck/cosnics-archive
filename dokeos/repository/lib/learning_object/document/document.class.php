@@ -64,7 +64,8 @@ class Document extends LearningObject
 	}
 	function get_full_path()
 	{
-		return realpath(Configuration :: get_instance()->get_parameter('general', 'upload_path').'/'.$this->get_path());
+		//return realpath(Configuration :: get_instance()->get_parameter('general', 'upload_path').'/'.$this->get_path());
+		return Path :: get(SYS_REPO_PATH) . $this->get_path();
 	}
 	function get_icon_name()
 	{
@@ -93,7 +94,7 @@ class Document extends LearningObject
 		return in_array($extension,array('gif','png','jpg','jpeg','svg','bmp'));
 	}
 	function send_as_download()
-	{
+	{	
 		header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
 		header('Cache-Control: public');
 		header('Pragma: no-cache');
@@ -116,7 +117,7 @@ class Document extends LearningObject
 		}
 		header('Content-Description: '.$this->get_filename());
 		header('Content-transfer-encoding: binary');
-		$fp = fopen($this->get_full_path(), 'r');
+		$fp = fopen($this->get_full_path(), 'r'); 
 		fpassthru($fp);
 		return true;
 	}
