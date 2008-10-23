@@ -34,7 +34,7 @@ class TableLearningObjectPublicationListRenderer extends LearningObjectPublicati
 			}
 			if($browser->is_allowed(DELETE_RIGHT))
 			{
-				$actions[Tool::ACTION_DELETE_SELECTED] = Translation :: get('Delete');
+				$actions[Tool::ACTION_DELETE] = Translation :: get('Delete');
 			}
 			$this->table->set_form_actions($actions,'id',Tool::PARAM_ACTION);
 		}

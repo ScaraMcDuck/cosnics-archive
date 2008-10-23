@@ -5,9 +5,9 @@
  * @package application.weblcms.tool
  * @subpackage document
  */
-require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
-require_once dirname(__FILE__).'/../../learning_object_publication_browser.class.php';
-require_once dirname(__FILE__).'/../../browser/learningobjectpublicationcategorytree.class.php';
+require_once dirname(__FILE__).'/../../../../weblcms_data_manager.class.php';
+require_once dirname(__FILE__).'/../../../../learning_object_publication_browser.class.php';
+require_once dirname(__FILE__).'/../../../../browser/learningobjectpublicationcategorytree.class.php';
 require_once dirname(__FILE__).'/document_publication_slideshow_renderer.class.php';
 
 class DocumentSlideshowBrowser extends LearningObjectPublicationBrowser
