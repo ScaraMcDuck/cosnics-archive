@@ -10,6 +10,7 @@ require_once dirname(__FILE__) . '/../../learning_object.class.php';
 class Question extends LearningObject
 {
 	const TYPE_OPEN = 'open';
+	const TYPE_OPEN_WITH_DOCUMENT = 'open with document';
 	const TYPE_MATCHING = 'matching';
 	const TYPE_FILL_IN_BLANKS = 'fill in blanks';
 	const TYPE_MULTIPLE_CHOICE = 'multiple choice';
@@ -44,6 +45,7 @@ class Question extends LearningObject
 	{
 		return array(
 		self :: TYPE_OPEN,
+		self :: TYPE_OPEN_WITH_DOCUMENT,
 		self :: TYPE_MATCHING,
 		self :: TYPE_FILL_IN_BLANKS,
 		self :: TYPE_MULTIPLE_CHOICE,

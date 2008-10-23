@@ -6,13 +6,8 @@ class ScoreQuestionDisplay extends QuestionDisplay
 {
 	function add_to($formvalidator)
 	{
-		$clo_question = $this->get_clo_question();
-		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question');
-		
-		$answers = $this->get_answers($question->get_id());
-		//$formvalidator->addElement('html','Point rating');//.$question->get_description());
-		$formvalidator->addElement('html',$this->display_learning_object($question));
-
+		parent :: add_to($formvalidator);
+		$answers = $this->get_answers();
 		$minscore = $answers[0];
 		$maxscore = $answers[1];
 		
@@ -23,7 +18,8 @@ class ScoreQuestionDisplay extends QuestionDisplay
 		{
 			$scores[$i] = $i;
 		}
-		$formvalidator->addElement('select',$question->get_id(), 'Score:',$scores);
+		$formvalidator->addElement('select',$this->get_clo_question()->get_ref(), 'Score:',$scores);
+		$formvalidator->addElement('html', '<br />');
 	}
 }
 ?>
