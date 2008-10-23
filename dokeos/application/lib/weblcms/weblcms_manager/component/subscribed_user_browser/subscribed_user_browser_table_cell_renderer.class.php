@@ -84,7 +84,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 		else
 		{
 			$parameters = array();
-			$parameters[Weblcms::PARAM_USER_ACTION] = UserTool::USER_DETAILS;
+			$parameters[Weblcms::PARAM_USER_ACTION] = UserTool::ACTION_USER_DETAILS;
 			$parameters[Weblcms :: PARAM_USERS] = $user->get_id();
 			$unsubscribe_url = $this->browser->get_url($parameters);
 			$toolbar_data[] = array(
