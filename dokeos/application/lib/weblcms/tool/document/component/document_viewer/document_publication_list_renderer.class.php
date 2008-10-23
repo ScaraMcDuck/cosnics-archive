@@ -5,7 +5,7 @@
  * @package application.weblcms.tool
  * @subpackage document
  */
-require_once dirname(__FILE__).'/../../browser/list_renderer/table_learning_object_publication_list_renderer.class.php';
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/table_learning_object_publication_list_renderer.class.php';
 class DocumentPublicationListRenderer extends TableLearningObjectPublicationListRenderer
 {
     function DocumentPublicationListRenderer($browser)

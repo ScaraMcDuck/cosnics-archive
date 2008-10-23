@@ -10,9 +10,9 @@ require_once dirname(__FILE__).'/../../learning_object_publication_browser.class
 require_once dirname(__FILE__).'/../../browser/learningobjectpublicationcategorytree.class.php';
 require_once dirname(__FILE__).'/document_publication_slideshow_renderer.class.php';
 
-class DocumentSlideshow extends LearningObjectPublicationBrowser
+class DocumentSlideshowBrowser extends LearningObjectPublicationBrowser
 {
-	function DocumentSlideshow($parent, $types)
+	function DocumentSlideshowBrowser($parent, $types)
 	{
 		parent :: __construct($parent, 'document');
 		$tree_id = 'pcattree';
