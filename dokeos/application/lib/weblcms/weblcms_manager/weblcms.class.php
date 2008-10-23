@@ -54,7 +54,7 @@ class Weblcms extends WebApplication
 	const PARAM_SUBSCRIBE_SELECTED = 'subscribe_selected';
 	const PARAM_SUBSCRIBE_SELECTED_AS_STUDENT = 'subscribe_selected_as_student';
 	const PARAM_SUBSCRIBE_SELECTED_AS_ADMIN = 'subscribe_selected_as_admin';
-	const PARAM_USER_ACTION = 'user_action';
+	const PARAM_TOOL_ACTION = 'tool_action';
 	const PARAM_STATUS = 'user_status';
 
 	const ACTION_SUBSCRIBE = 'subscribe';
