@@ -38,7 +38,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 			// Exceptions that need post-processing go here ...
 			case User :: PROPERTY_STATUS :
 				$course_user_relation = $this->browser->get_parent()->retrieve_course_user_relation($this->browser->get_course_id(), $user->get_id());
-				if ($course_user_relation->get_status() == 1)
+				if ($course_user_relation && $course_user_relation->get_status() == 1)
 				{
 					return Translation :: get('CourseAdmin');
 				}
@@ -69,7 +69,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 	private function get_modification_links($user)
 	{
 		$toolbar_data = array();
-		if($this->browser->get_parameter(Weblcms::PARAM_USER_ACTION) == Weblcms :: ACTION_SUBSCRIBE)
+		if($_GET[Weblcms::PARAM_TOOL_ACTION] == Weblcms :: ACTION_SUBSCRIBE)
 		{
 			$parameters = array();
 			$parameters[Weblcms::PARAM_ACTION] = Weblcms::ACTION_SUBSCRIBE;
@@ -84,7 +84,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 		else
 		{
 			$parameters = array();
-			$parameters[Weblcms::PARAM_USER_ACTION] = UserTool::ACTION_USER_DETAILS;
+			$parameters[Weblcms::PARAM_TOOL_ACTION] = UserTool::ACTION_USER_DETAILS;
 			$parameters[Weblcms :: PARAM_USERS] = $user->get_id();
 			$unsubscribe_url = $this->browser->get_url($parameters);
 			$toolbar_data[] = array(

@@ -959,7 +959,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query = 'SELECT * FROM '. $this->escape_table_name('course_rel_user') .' WHERE '.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).'=? AND '.$this->escape_column_name(CourseUserRelation :: PROPERTY_USER).'=?';
 		$res = $this->limitQuery($query, 1, null, array ($course_code, $user_id));
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-		return $this->record_to_course_user_relation($record);
+		if($record)
+			return $this->record_to_course_user_relation($record);
 	}
 
 	function retrieve_course_user_relations($user_id, $course_user_category)
