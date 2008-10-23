@@ -270,7 +270,7 @@ abstract class LearningObjectPublicationListRenderer
 		$feedback_link = '<a href="'.$feedback_url.'"><img src="'.Theme :: get_common_img_path().'action_browser.png" alt=""/></a>';
 		return $feedback_link;
 	}
-
+	
 	/**
 	 * Renders the means to move the given publication to another category.
 	 * @param LearningObjectPublication $publication The publication.
@@ -343,7 +343,7 @@ abstract class LearningObjectPublicationListRenderer
 			$icons[] = $this->render_visibility_action($publication);
 			$icons[] = $this->render_up_action($publication,$first);
 			$icons[] = $this->render_down_action($publication,$last);
-			$icons[] = $this->render_feedback_action($publication);
+			//$icons[] = $this->render_feedback_action($publication);
 			$icons[] = $this->render_move_to_category_action($publication,$last);
 		}
 		$html[] = implode('&nbsp;', $icons);
