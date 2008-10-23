@@ -3,71 +3,43 @@
  * $Id$
  * Link tool
  * @package application.weblcms.tool
- * @subpackage link
+ * @subpackage announcement
  */
-//require_once dirname(__FILE__).'/../repository_tool.class.php';
 
+require_once dirname(__FILE__).'/link_tool_component.class.php';
+/**
+ * This tool allows a user to publish links in his or her course.
+ */
 class LinkTool extends Tool
 {
+	const ACTION_VIEW_ANNOUNCEMENTS = 'view';
+	const ACTION_MANAGE_CATEGORIES = 'managecategories';
+	
+	/**
+	 * Inherited.
+	 */
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
+		$action = $this->get_action();
+		$component = parent :: run();
 		
-		if (isset($_GET['linktoolmode']))
+		if($component) return;
+		
+		switch ($action)
 		{
-			$_SESSION['linktoolmode'] = $_GET['linktoolmode'];
-		}
-		if( isset($_GET['admin']) && $_GET['admin'] == 0)
-		{
-			$_SESSION['linktoolmode'] = 0;
-		}
-		$html[] =  '<ul style="list-style: none; padding: 0; margin: 0 0 1em 0">';
-		$i = 0;
-		
-		$toolbar_data = array();
-		
-		$options['browser'] = 'BrowserTitle';
-		$options['publish'] = 'Publish';
-		$options['category'] = 'ManageCategories';
-		foreach ($options as $key => $title)
-		{
-			$option = array();
-			$current = ($_SESSION['linktoolmode'] == $i);
-			
-			$option['img'] =  Theme :: get_common_img_path().'action_'.$key.'.png';
-			$option['label'] = Translation :: get($title);
-			$option['display'] = DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL;
-			if (!$current)
-			{
-				$option['href'] = $this->get_url(array('linktoolmode' => $i));
-			}
-			$toolbar_data[] = $option;
-			$i++;
-		}
-		
-		$html[] = DokeosUtilities :: build_toolbar($toolbar_data, array (), 'margin-top: 1em; margin-bottom: 1em;');
-		
-		$html[] = $this->perform_requested_actions();
-		switch ($_SESSION['linktoolmode'])
-		{
-			case 2:
-				require_once dirname(__FILE__).'/../../learning_object_publication_category_manager.class.php';
-				$catman = new LearningObjectPublicationCategoryManager($this, 'link');
-				$html[] = $catman->as_html();
+			case self :: ACTION_VIEW_ANNOUNCEMENTS :
+				$component = LinkToolComponent :: factory('Viewer', $this);
 				break;
-			case 1:
-				require_once dirname(__FILE__).'/../../learning_object_publisher.class.php';
-				$pub = new LearningObjectPublisher($this, 'link');
-				$html[] =  $pub->as_html();
+			case self :: ACTION_PUBLISH :
+				$component = LinkToolComponent :: factory('Publisher', $this);
 				break;
-			default:
-				require_once dirname(__FILE__).'/link_browser.class.php';
-				$browser = new LinkBrowser($this);
-				$html[] =  $browser->as_html();
+			case self :: ACTION_MANAGE_CATEGORIES :
+				$component = DocumentToolComponent :: factory('CategoryManager', $this);
+				break;
+			default :
+				$component = LinkToolComponent :: factory('Viewer', $this);
 		}
-		$this->display_header($trail);
-		echo implode("\n",$html);
-		$this->display_footer();
+		$component->run();
 	}
 }
 ?>
