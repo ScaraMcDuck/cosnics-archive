@@ -46,7 +46,7 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 			$user_id = $this->get_user_id();
 			$course_groups = $this->get_course_groups();
 		}
-		$pubs = $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $user_id, $course_groups, $this->get_condition());
+		$pubs = $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $user_id, $course_groups, $this->get_condition(), false, array (Document :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $this->get_parent()->get_condition());
 		$data = array ();
 		$renderer = $this->get_publication_list_renderer();
 		$index = 0;

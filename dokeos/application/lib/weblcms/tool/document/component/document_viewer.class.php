@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . '/../document_tool.class.php';
 require_once dirname(__FILE__) . '/../document_tool_component.class.php';
 require_once dirname(__FILE__) . '/document_viewer/document_browser.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
+require_once Path :: get_repository_path() . 'lib/learning_object/document/document.class.php';
 
 class DocumentToolViewerComponent extends DocumentToolComponent
 {

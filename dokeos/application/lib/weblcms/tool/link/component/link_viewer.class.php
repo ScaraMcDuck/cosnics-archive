@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . '/../link_tool.class.php';
 require_once dirname(__FILE__) . '/../link_tool_component.class.php';
 require_once dirname(__FILE__) . '/link_viewer/link_browser.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
+require_once Path :: get_repository_path() . 'lib/learning_object/link/link.class.php';
 
 class LinkToolViewerComponent extends LinkToolComponent
 {
