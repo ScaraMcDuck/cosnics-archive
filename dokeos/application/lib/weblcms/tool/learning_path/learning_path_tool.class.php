@@ -7,15 +7,36 @@
  */
 //require_once dirname(__FILE__).'/../repository_tool.class.php';
 require_once dirname(__FILE__).'/learning_path_browser.class.php';
+require_once dirname(__FILE__).'/learning_path_tool_component.class.php';
 /**
  * This tool allows a user to publish learning paths in his or her course.
  */
 class LearningPathTool extends Tool
 {
+	const ACTION_VIEW_LEARNING_PATHS = 'view';
 	// Inherited.
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
+		$action = $this->get_action();
+		$component = parent :: run();
+		
+		if ($component) return;
+		
+		switch($action)
+		{
+			case self :: ACTION_PUBLISH:
+				$component = LearningPathToolComponent :: factory('Publisher', $this);
+				break;
+			case self :: ACTION_VIEW_LEARNING_PATHS:
+				$component = LearningPathToolComponent :: factory('Viewer', $this);
+				break;
+			default:
+				$component = LearningPathToolComponent :: factory('Viewer', $this);
+				break;
+		}
+		
+		$component->run();
+		/*$trail = new BreadcrumbTrail();
 		
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
@@ -47,7 +68,7 @@ class LearningPathTool extends Tool
 			$browser = new LearningPathBrowser($this);
 			echo $browser->as_html();
 			$this->display_footer();
-		}
+		}*/
 	}
 }
 ?>
