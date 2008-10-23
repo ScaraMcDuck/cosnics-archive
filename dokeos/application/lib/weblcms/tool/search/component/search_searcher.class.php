@@ -5,8 +5,8 @@
  * @package application.weblcms.tool
  * @subpackage search
  */
-require_once dirname(__FILE__).'/../tool.class.php';
-require_once dirname(__FILE__).'/search_form.class.php';
+require_once dirname(__FILE__).'/../search_tool_component.class.php';
+require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once 'Pager/Pager.php';
 /**
  * Tool to search in the course.
@@ -14,25 +14,26 @@ require_once 'Pager/Pager.php';
  * @todo: Advanced search (only in recent publications, only certain types of
  * publications, only in a given tool,...)
  */
-class SearchTool extends Tool
+class SearchToolSearcherComponent extends SearchToolComponent
 {
 	/**
 	 * Number of results per page
 	 */
 	const RESULTS_PER_PAGE = 10;
+	private $action_bar;
 	// Inherited
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		
+		$this->action_bar = $this->get_action_bar();
 		$this->display_header($trail);
 		// Display the search form
-		$form = new SearchForm($this);
+		//$form = new SearchForm($this);
 		echo '<div style="text-align:center">';
-		$form->display();
+		echo $this->action_bar->as_html();
 		echo '</div>';
 		// If form validates, show results
-		if($form->validate())
+		if($search_condition = $this->get_condition())
 		{
 			$datamanager = WeblcmsDataManager :: get_instance();
 			$user_id = $this->get_user_id();
@@ -49,18 +50,18 @@ class SearchTool extends Tool
 			{
 				$repomanager = RepositoryDataManager :: get_instance();
 				$id_condition = new InCondition(DatabaseRepositoryDataManager :: ALIAS_LEARNING_OBJECT_TABLE.'.'.LearningObject::PROPERTY_ID,$ids);
-				$search_condition = $form->get_condition();
+				
 				$condition = new AndCondition($id_condition,$search_condition);
 				$total = $repomanager->count_learning_objects(null,$condition);
-				$pager = SearchTool::create_pager($total,SearchTool::RESULTS_PER_PAGE);
-				echo SearchTool::get_pager_links($pager);
+				$pager = self::create_pager($total,self::RESULTS_PER_PAGE);
+				echo self::get_pager_links($pager);
 				$from = 0;
 				$offset = $pager->getOffsetByPageId();
 				if(isset($offset[0]))
 				{
 					$from = $offset[0]-1;
 				}
-				$objects = $repomanager->retrieve_learning_objects(null,$condition,array(),array(),$from,SearchTool::RESULTS_PER_PAGE)->as_array();
+				$objects = $repomanager->retrieve_learning_objects(null,$condition,array(),array(),$from,self::RESULTS_PER_PAGE)->as_array();
 				if(count($objects) > 0)
 				{
 					foreach($objects as $index => $object)
@@ -95,6 +96,28 @@ class SearchTool extends Tool
 	private static function get_pager_links($pager)
 	{
 		return '<div style="text-align: center; margin: 1em 0;">'.$pager_links .= $pager->links.'</div>';
+	}
+	
+	function get_action_bar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		
+		$action_bar->set_search_url($this->get_url(array(Tool :: PARAM_ACTION => SearchTool :: ACTION_SEARCH)));
+		
+		return $action_bar;
+	}
+	
+	function get_condition()
+	{
+		$query = $this->action_bar->get_query();
+		if(isset($query) && $query != '')
+		{
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+			return new OrCondition($conditions);
+		}
+		
+		return null;
 	}
 }
 ?>
