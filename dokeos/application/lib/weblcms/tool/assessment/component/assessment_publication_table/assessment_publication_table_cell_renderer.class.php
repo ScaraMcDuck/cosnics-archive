@@ -1,15 +1,15 @@
 <?php
 /**
- * @package application.weblcms.tool.exercise.component.exercise_publication_table
+ * @package application.weblcms.tool.assessment.component.assessment_publication_table
  */
 require_once Path :: get_repository_path(). 'lib/learning_object_table/default_learning_object_table_cell_renderer.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once dirname(__FILE__).'/exercise_publication_table_column_model.class.php';
+require_once dirname(__FILE__).'/assessment_publication_table_column_model.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
  */
-class ExercisePublicationTableCellRenderer extends DefaultLearningObjectTableCellRenderer
+class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 {
 	private $table_actions;
 	private $browser;
@@ -20,7 +20,7 @@ class ExercisePublicationTableCellRenderer extends DefaultLearningObjectTableCel
 	 * @param string $edit_and_publish_url_format URL for editing and publishing
 	 * the selected learning object.
 	 */
-	function ExercisePublicationTableCellRenderer($browser)
+	function AssessmentPublicationTableCellRenderer($browser)
 	{
 		$this->table_actions = array();
 		$this->browser = $browser;
@@ -30,7 +30,7 @@ class ExercisePublicationTableCellRenderer extends DefaultLearningObjectTableCel
 	 */
 	function render_cell($column, $publication)
 	{
-		if ($column === ExercisePublicationTableColumnModel :: get_action_column())
+		if ($column === AssessmentPublicationTableColumnModel :: get_action_column())
 		{
 			return $this->get_actions($publication);
 		}
@@ -40,8 +40,8 @@ class ExercisePublicationTableCellRenderer extends DefaultLearningObjectTableCel
 	function get_actions($publication) 
 	{
 		$execute = array(
-		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => ExerciseTool :: ACTION_TAKE_EXERCISE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-		'label' => Translation :: get('Take exercise'),
+		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+		'label' => Translation :: get('Take assessment'),
 		'img' => Theme :: get_common_img_path().'action_right.png'
 		);
 		

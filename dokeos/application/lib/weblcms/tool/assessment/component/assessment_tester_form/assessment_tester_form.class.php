@@ -11,20 +11,20 @@ require_once dirname(__FILE__).'/question_types/percentage_question.class.php';
 require_once dirname(__FILE__).'/question_types/score_question.class.php';
 require_once dirname(__FILE__).'/question_types/yes_no_question.class.php';
 
-class ExerciseTesterForm extends FormValidator
+class AssessmentTesterForm extends FormValidator
 {
 	
-	function ExerciseTesterForm($exercise)
+	function AssessmentTesterForm($assessment)
 	{
 		parent :: __construct('assessment', 'post');
-		$this->initialize($exercise);
+		$this->initialize($assessment);
 	}
 	
-	function initialize($exercise) 
+	function initialize($assessment) 
 	{
-		$exercise_id = $exercise->get_id();
+		$assessment_id = $assessment->get_id();
 		$dm = RepositoryDataManager :: get_instance();
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $exercise_id);
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id);
 		$clo_questions = $dm->retrieve_complex_learning_object_items($condition);
 		
 		while($clo_question = $clo_questions->next_result())

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package application.weblcms.tool.exercise.component.exercise_publication_table
+ * @package application.weblcms.tool.assessment.component.assessment_publication_table
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
@@ -8,7 +8,7 @@ require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 /**
  * This class represents a column model for a publication candidate table
  */
-class ExercisePublicationTableColumnModel extends ObjectTableColumnModel {
+class AssessmentPublicationTableColumnModel extends ObjectTableColumnModel {
 	/**
 	 * The column with the action buttons.
 	 */
@@ -16,7 +16,7 @@ class ExercisePublicationTableColumnModel extends ObjectTableColumnModel {
 	/**
 	 * Constructor.
 	 */
-	function ExercisePublicationTableColumnModel()
+	function AssessmentPublicationTableColumnModel()
 	{
 		parent :: __construct(self :: get_columns(), 1, SORT_ASC);
 	}

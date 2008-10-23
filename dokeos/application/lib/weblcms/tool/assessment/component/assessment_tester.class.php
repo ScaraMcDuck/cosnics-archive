@@ -2,9 +2,9 @@
 /**
  * @package application.weblcms.tool.exercise.component
  */
-require_once dirname(__FILE__).'/exercise_tester_form/exercise_tester_form.class.php';
+require_once dirname(__FILE__).'/assessment_tester_form/assessment_tester_form.class.php';
 
-class ExerciseToolTesterComponent extends ExerciseToolComponent
+class AssessmentToolTesterComponent extends AssessmentToolComponent
 {
 	function run()
 	{
@@ -26,7 +26,7 @@ class ExerciseToolTesterComponent extends ExerciseToolComponent
 		
 		//echo "Take test: <br/>".$assessment->get_title()."<br/>";
 		//echo "It's not a bug, it's a feature!";
-		$tester_form = new ExerciseTesterForm($assessment);
+		$tester_form = new AssessmentTesterForm($assessment);
 		echo $tester_form->toHtml();
 		
 		$this->display_footer();
