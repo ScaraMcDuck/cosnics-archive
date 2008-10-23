@@ -238,6 +238,11 @@ abstract class Tool
 	{
 		return $this->parent->get_course_groups();
 	}
+	
+	function get_course_group()
+	{
+		return $this->parent->get_course_group();
+	}
 
 	/**
 	 * @see WebApplication :: get_parameters()

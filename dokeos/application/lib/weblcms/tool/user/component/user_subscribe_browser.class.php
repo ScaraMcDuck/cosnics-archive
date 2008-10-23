@@ -44,7 +44,7 @@ class UserToolSubscribeBrowserComponent extends UserToolComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
-		$action_bar->set_search_url($this->get_url());
+		$action_bar->set_search_url($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USERS)));
 		
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('UnsubscribeUsers'), Theme :: get_common_img_path().'action_unsubscribe.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_UNSUBSCRIBE_USERS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
