@@ -6,14 +6,14 @@
  * @subpackage exercise
  */
 //require_once dirname(__FILE__).'/../repository_tool.class.php';
-require_once dirname(__FILE__).'/exercise_tool_component.class.php';
+require_once dirname(__FILE__).'/assessment_tool_component.class.php';
 /**
  * This tool allows a user to publish exercises in his or her course.
  */
-class ExerciseTool extends Tool
+class AssessmentTool extends Tool
 {
-	const ACTION_VIEW_EXERCISES = 'view';
-	const ACTION_TAKE_EXERCISE = 'exec';
+	const ACTION_VIEW_ASSESSMENTS = 'view';
+	const ACTION_TAKE_ASSESSMENT = 'exec';
 	/*
 	 * Inherited.
 	 */
@@ -27,16 +27,16 @@ class ExerciseTool extends Tool
 		switch($action) 
 		{
 			case self :: ACTION_PUBLISH:
-				$component = ExerciseToolComponent :: factory('Publisher', $this);
+				$component = AssessmentToolComponent :: factory('Publisher', $this);
 				break;
-			case self :: ACTION_VIEW_EXERCISES:
-				$component = ExerciseToolComponent :: factory('Viewer', $this);
+			case self :: ACTION_VIEW_ASSESSMENTS:
+				$component = AssessmentToolComponent :: factory('Viewer', $this);
 				break;
-			case self :: ACTION_TAKE_EXERCISE:
-				$component = ExerciseToolComponent :: factory('Tester', $this);
+			case self :: ACTION_TAKE_ASSESSMENT:
+				$component = AssessmentToolComponent :: factory('Tester', $this);
 				break;
 			default:
-				$component = ExerciseToolComponent :: factory('Viewer', $this);
+				$component = AssessmentToolComponent :: factory('Viewer', $this);
 				break;
 		}
 		

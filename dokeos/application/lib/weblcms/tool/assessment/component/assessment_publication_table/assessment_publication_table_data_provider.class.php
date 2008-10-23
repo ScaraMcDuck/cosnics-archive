@@ -1,6 +1,6 @@
 <?php
 /**
- * @package application.weblcms.tool.exercise.component.exercise_publication_table
+ * @package application.weblcms.tool.assessment.component.assessment_publication_table
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_data_provider.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
@@ -11,7 +11,7 @@ require_once Path :: get_library_path().'condition/or_condition.class.php';
 /**
  * This class represents a data provider for a publication candidate table
  */
-class ExercisePublicationTableDataProvider extends ObjectTableDataProvider
+class AssessmentPublicationTableDataProvider extends ObjectTableDataProvider
 {
 	/**
 	 * The user id of the current active user.
@@ -34,7 +34,7 @@ class ExercisePublicationTableDataProvider extends ObjectTableDataProvider
 	 * selected.
 	 * @param string $query The search query.
 	 */
-    function ExercisePublicationTableDataProvider($parent, $owner, $types, $query = null)
+    function AssessmentPublicationTableDataProvider($parent, $owner, $types, $query = null)
     {
     	$this->types = $types;
     	$this->owner = $owner;

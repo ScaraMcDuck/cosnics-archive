@@ -1,19 +1,19 @@
 <?php
 /**
- * @package application.weblcms.tool.exercise.component.exercise_publication_table
+ * @package application.weblcms.tool.assessment.component.assessment_publication_table
  */
-require_once dirname(__FILE__).'/exercise_publication_table_data_provider.class.php';
-require_once dirname(__FILE__).'/exercise_publication_table_column_model.class.php';
-require_once dirname(__FILE__).'/exercise_publication_table_cell_renderer.class.php';
+require_once dirname(__FILE__).'/assessment_publication_table_data_provider.class.php';
+require_once dirname(__FILE__).'/assessment_publication_table_column_model.class.php';
+require_once dirname(__FILE__).'/assessment_publication_table_cell_renderer.class.php';
 //require_once dirname(__FILE__).'/../../../../learning_object_publication_table.class.php';
 require_once Path::get_library_path() . 'html/table/object_table/object_table.class.php';
 /**
  * This class represents a table with learning objects which are candidates for
  * publication.
  */
-class ExercisePublicationTable extends ObjectTable
+class AssessmentPublicationTable extends ObjectTable
 {
-	const DEFAULT_NAME = 'exercise_publication_table';
+	const DEFAULT_NAME = 'assessment_publication_table';
 	
 	/**
 	 * Constructor.
@@ -27,15 +27,13 @@ class ExercisePublicationTable extends ObjectTable
 	 * the selected learning object.
 	 * @see PublicationCandidateTableCellRenderer::PublicationCandidateTableCellRenderer()
 	 */
-	function ExercisePublicationTable($parent, $owner, $types, $query)
+	function AssessmentPublicationTable($parent, $owner, $types, $query)
 	{
-		$data_provider = new ExercisePublicationTableDataProvider($parent, $owner, $types, $query);
-		$column_model = new ExercisePublicationTableColumnModel();
-		$cell_renderer = new ExercisePublicationTableCellRenderer($parent);
-		parent :: __construct($data_provider, ExercisePublicationTable :: DEFAULT_NAME, $column_model, $cell_renderer);
+		$data_provider = new AssessmentPublicationTableDataProvider($parent, $owner, $types, $query);
+		$column_model = new AssessmentPublicationTableColumnModel();
+		$cell_renderer = new AssessmentPublicationTableCellRenderer($parent);
+		parent :: __construct($data_provider, AssessmentPublicationTable :: DEFAULT_NAME, $column_model, $cell_renderer);
 	}
-	
-	
 	
 	/**
 	 * You should not be concerned with this method. It is only public because

@@ -3,14 +3,14 @@
  * @package application.weblcms.tool.exercise.component
  */
 
-require_once dirname(__FILE__).'/exercise_publication_table/exercise_publication_table.class.php';
+require_once dirname(__FILE__).'/assessment_publication_table/assessment_publication_table.class.php';
 require_once Path :: get_library_path().'/html/action_bar/action_bar_renderer.class.php';
 
 /**
  * Represents the view component for the exercise tool.
  *
  */
-class ExerciseToolViewerComponent extends ExerciseToolComponent 
+class AssessmentToolViewerComponent extends AssessmentToolComponent 
 {
 	private $action_bar;
 	
@@ -34,20 +34,12 @@ class ExerciseToolViewerComponent extends ExerciseToolComponent
 		
 		echo '</div></div>';
 		echo '<div style="width:79%; padding-left: 1%; float:right; border-left: 1px solid grey;">';
-		$table = new ExercisePublicationTable($this, $this->get_user(), array('exercise'), null);
+		$table = new AssessmentPublicationTable($this, $this->get_user(), array('exercise'), null);
 		echo $table->as_html();
 		echo '</div>';
 		
 		$this->display_footer();
 	}
-	
-	/*function get_action_bar()
-	{
-		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		
-		return $action_bar;
-	}*/
-
 }
 
 ?>
