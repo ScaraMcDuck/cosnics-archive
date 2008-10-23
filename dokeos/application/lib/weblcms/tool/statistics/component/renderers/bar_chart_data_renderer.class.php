@@ -5,14 +5,16 @@
  * @package application.weblcms.tool
  * @subpackage statistics
  */
-require_once dirname(__FILE__).'/../data_renderer.class.php';
+require_once dirname(__FILE__).'/data_renderer.class.php';
 class BarChartDataRenderer extends DataRenderer
 {
 	function BarChartDataRenderer($parent,$data)
 	{
 		parent::DataRenderer($parent,$data);
 	}
-    function display() {
+	
+    function display() 
+    {
 		$max = 0;
 		$sum = 0;
 		foreach($this->data as $key => $value)
