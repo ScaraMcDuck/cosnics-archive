@@ -5,8 +5,8 @@
  * @package application.weblcms.tool
  * @subpackage chat
  */
-require_once dirname(__FILE__).'/../../weblcms_data_manager.class.php';
-require_once dirname(__FILE__).'/../../learning_object_publication_browser.class.php';
+require_once dirname(__FILE__).'/../../../../weblcms_data_manager.class.php';
+require_once dirname(__FILE__).'/../../../../learning_object_publication_browser.class.php';
 require_once dirname(__FILE__).'/chat_publication_list_renderer.class.php';
 /**
  * This class allows the end user to browse through published chatboxes.
@@ -40,7 +40,7 @@ class ChatBrowser extends LearningObjectPublicationBrowser
 			$user_id = $this->get_user_id();
 			$course_groups = $this->get_course_groups();
 		}
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups, $condition, false, array (Description :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC));
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups, $condition, false, array ('display_order'), array (SORT_DESC));
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{
