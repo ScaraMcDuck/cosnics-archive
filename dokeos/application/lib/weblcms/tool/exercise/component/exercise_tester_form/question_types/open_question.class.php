@@ -6,17 +6,15 @@ class OpenQuestionDisplay extends QuestionDisplay
 {
 	function add_to($formvalidator)
 	{
-		$clo_question = $this->get_clo_question();
-		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question');
+		parent :: add_to($formvalidator);
+		$answers = $this->get_answers();
 		
-		$answers = $this->get_answers($question->get_id());
-		
-		$formvalidator->addElement('html','Open question'.$question->get_description().' Points:'.$clo_question->get_weight().'<br/>');
-		foreach($answers as $answer)
-		{
-			$formvalidator->addElement('html_editor', $question->get_id(), 'TEST');
-		}
-		
+		//$formvalidator->addElement('html','<div class="learning_object">');
+		//foreach($answers as $answer)
+		//{
+			$formvalidator->addElement('html_editor', $this->get_clo_question()->get_ref(), '');
+		//}
+		//$formvalidator->addElement('html','</div>');
 		$formvalidator->addElement('html', '<br/>');
 	}
 }

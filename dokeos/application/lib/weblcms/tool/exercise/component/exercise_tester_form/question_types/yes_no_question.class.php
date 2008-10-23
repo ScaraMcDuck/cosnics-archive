@@ -6,16 +6,15 @@ class YesNoQuestionDisplay extends QuestionDisplay
 {
 	function add_to($formvalidator)
 	{
-		$clo_question = $this->get_clo_question();
-		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question');
-		
-		$answers = $this->get_answers($question->get_id());
+		parent :: add_to($formvalidator);
+		$answers = $this->get_answers();
 		
 		$formvalidator->addElement('html','Yes/no question'.$question->get_description().' Points:'.$clo_question->get_weight().'<br/>');
 		foreach($answers as $answer)
 		{
-			$formvalidator->addElement('radio', $question->get_id(), $answer['answer']->get_description());
+			$formvalidator->addElement('radio', $this->get_clo_question()->get_ref(), $answer['answer']->get_title());
 		}
+		$formvalidator->addElement('html', '<br />');
 	}
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-abstract class QuestionDisplay 
+class QuestionDisplay 
 {
 	private $clo_question;
 	
@@ -14,13 +14,20 @@ abstract class QuestionDisplay
 		return $this->clo_question;
 	}
 	
-	abstract function add_to($formvalidator);
+	function add_to($formvalidator) {
+		$clo_question = $this->get_clo_question();
+		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question');
+		$formvalidator->addElement('html',$this->display_learning_object($question));
+	}
 	
-	function get_answers($question_id)
+	function get_answers()
 	{
+		$clo_question = $this->get_clo_question();
+		$question_id = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question')->get_id();
+		
 		$dm = RepositoryDataManager :: get_instance();
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $question_id);
-		$clo_answers = $dm->retrieve_complex_learning_object_items($condition);
+		$clo_answers = $dm->retrieve_complex_learning_object_items($condition, array(ComplexLearningObjectItem :: PROPERTY_ID));
 		
 		while($clo_answer = $clo_answers->next_result())
 		{
@@ -41,14 +48,14 @@ abstract class QuestionDisplay
 		$html[] = '</div>';
 		$html[] = '<div class="description">';
 		$html[] = $learning_object->get_description();
-		$html[] = $this->render_attachments($learning_object);
+		//$html[] = $this->render_attachments($learning_object);
 		$html[] = '</div>';
 		$html[] = '</div>';
 		
 		return implode("\n", $html);
 	}
 	
-	function render_attachments($learning_object)
+	/*function render_attachments($learning_object)
 	{
 		if ($learning_object->supports_attachments())
 		{
@@ -67,6 +74,6 @@ abstract class QuestionDisplay
 			}
 		}
 		return '';
-	}
+	}*/
 }
 ?>
