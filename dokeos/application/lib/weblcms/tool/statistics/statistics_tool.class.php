@@ -1,31 +1,38 @@
 <?php
 /**
  * $Id$
- * Statistics tool
+ * Announcement tool
  * @package application.weblcms.tool
- * @subpackage statistics
+ * @subpackage course_settings
  */
-require_once dirname(__FILE__).'/../tool.class.php';
-require_once 'HTML/Table.php';
-require_once 'data_renderer/bar_chart_data_renderer.class.php';
 
+require_once dirname(__FILE__).'/statistics_tool_component.class.php';
+/**
+ * This tool allows a user to publish course_settingss in his or her course.
+ */
 class StatisticsTool extends Tool
 {
+	const ACTION_VIEW_STATISTICS = 'view';
+	
+	/**
+	 * Inherited.
+	 */
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
+		$action = $this->get_action();
+		$component = parent :: run();
 		
-		$this->display_header($trail);
-		$dm = WeblcmsDataManager :: get_instance();
-		$parent = $this->get_parent();
-		foreach ($parent->get_registered_tools() as $tool)
+		if($component) return;
+		
+		switch ($action)
 		{
-			$number_of_publications = $dm->count_learning_object_publications($this->get_course_id(),null,null,null,new EqualityCondition('tool',$tool->name));
-			$data[htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'))] = $number_of_publications;
+			case self :: ACTION_VIEW_STATISTICS :
+				$component = StatisticsToolComponent :: factory('Viewer', $this);
+				break;
+			default :
+				$component = StatisticsToolComponent :: factory('Viewer', $this);
 		}
-		$renderer = new BarChartDataRenderer($this,$data);
-		$renderer->display();
-		$this->display_footer();
+		$component->run();
 	}
 }
 ?>
