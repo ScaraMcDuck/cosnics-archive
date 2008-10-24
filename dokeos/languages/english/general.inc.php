@@ -823,4 +823,5 @@ $lang['general']['Forever'] = 'Forever';
 $lang['general']['LimitedPeriod'] = 'Limited period';
 $lang['general']['Hidden'] = 'Hidden';
 $lang['general']['PublicationPeriod'] = 'Publication period';
+$lang['general']['ActionBar'] = 'Action bar';
 ?>

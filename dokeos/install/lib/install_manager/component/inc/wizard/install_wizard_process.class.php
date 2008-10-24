@@ -212,19 +212,19 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 					unset($installer, $result);
 					flush();
 				}
-				else
-				{
-					// TODO: Does this work ?
-					$application_path = dirname(__FILE__).'/../../application/lib/' . $application . '/';
-					if (!FileSystem::remove($application_path))
-					{
-						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveFailed')));
-					}
-					else
-					{
-						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveSuccess')));
-					}
-				}
+//				else
+//				{
+//					// TODO: Does this work ?
+//					$application_path = dirname(__FILE__).'/../../application/lib/' . $application . '/';
+//					if (!FileSystem::remove($application_path))
+//					{
+//						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveFailed')));
+//					}
+//					else
+//					{
+//						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveSuccess')));
+//					}
+//				}
 			}
 			flush();
 		}

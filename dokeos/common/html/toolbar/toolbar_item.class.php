@@ -13,7 +13,7 @@ class ToolbarItem
 	private $href;
 	private $confirmation;
 	
-    function ToolbarItem($label = null, $image = null, $href = null, $display = self :: DISPLAY_ICON, $confirmation = false)
+    function ToolbarItem($label = null, $image = null, $href = null, $display = self :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
     {
     	$this->label = $label;
     	$this->display = $display;

@@ -20,14 +20,16 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 		$this->action_bar = $this->get_action_bar();
 
 		$time = isset($_GET['time']) ? intval($_GET['time']) : time();
+		$view = isset ($_GET['view']) ? $_GET['view'] : 'month';
 		$this->set_parameter('time',$time);
+		$this->set_parameter('view', $view);
 		$browser = new CalendarBrowser($this);
 		
 		$trail = new BreadcrumbTrail();
 		$this->display_header($trail);
 		echo '<br /><a name="top"></a>';
 		echo $this->action_bar->as_html() . '<br />';
-		echo '<div style="width:100%; float:right;">';
+		echo '<div id="action_bar_browser">';
 		echo $browser->as_html();
 		echo '</div>';
 		

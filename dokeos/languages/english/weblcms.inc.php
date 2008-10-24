@@ -3644,4 +3644,5 @@ $lang['weblcms']['LearningStyleSurveyCategoryList']='Survey Categories';
 $lang['weblcms']['LearningStyleSurveyOutline']='Survey Outline';
 $lang['weblcms']['Clear_list_of_announcements'] = 'Clear list of announcements';
 $lang['weblcms']['Go_To_Top'] = 'Go to top';
+$lang['weblcms']['ListView'] = 'List view';
 ?>
