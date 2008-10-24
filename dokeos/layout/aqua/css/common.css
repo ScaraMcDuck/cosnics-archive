@@ -1549,10 +1549,12 @@ ul.toolbar, ul.toolbar_horizontal, ul.toolbar_vertical {
 
 ul.toolbar li, ul.toolbar_horizontal li
 {
-	display: inline;
+	float: left;
+	display: block;
 	margin: 0px 2px 0px 2px;
 	padding: 0;
 	white-space: nowrap;
+	min-width: 90px;
 }
 
 ul.toolbar_vertical li
@@ -1817,30 +1819,42 @@ div.action_bar
 {
 	background-color: #E5EDF9; 
 	border: 1px solid #4271B5;
-	padding: 5px;
+	padding-bottom: 5px;
 	margin-bottom: 10px;
 	position: relative;
 	
-	min-height: 30px;
+	min-height: 40px;
+	overflow: hidden;
 }
 
 div.action_bar div.common_menu
 {
+	padding: 5px 5px 1000px 5px;
 	float: left;
 	width: 32%;
-	padding-right: 10px;
+	margin-bottom: -1000px;
+}
+
+div.action_bar div.common_menu
+{
+	padding: 5px 5px 1000px 5px;
+	float: left;
+	width: 32%;
+	margin-bottom: -1000px;
 }
 
 div.action_bar div.tool_menu
 {
+	padding: 5px 5px 1000px 5px;
 	float: left;
 	width: 32%;
-	padding-left: 5px;
-	padding-right: 5px;
+	margin-bottom: -1000px;
 }
 
 div.action_bar div.search_menu
 {
+	padding: 5px 5px 1000px 5px;
+	margin-bottom: -1000px;
 	float: right;
 }
 
@@ -1874,16 +1888,9 @@ div.action_bar div.simple_search
 	margin: 0px 0px 0px 0px;
 }
 
-div.action_bar div.divider
+div.action_bar div.split
 {
-	background-color: #4271B5;
-	margin: -5px 10px -5px 10px;
-	line-height: 1px;
-	height: 100%;
-	font-size: 1px;
-	width: 1px;
-	float: left;
-	min-height: 40px;
+	border-right: 1px solid #4271B5;
 }
 
 div.action_bar_left

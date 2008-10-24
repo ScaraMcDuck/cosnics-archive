@@ -18,6 +18,10 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 	 * The repository tool in which the wizard runs.
 	 */
 	private $parent;
+	
+	private $applications = array();
+	private $values;
+	
 	/**
 	 * Constructor
 	 * @param Tool $parent The repository tool in which the wizard
@@ -29,75 +33,46 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 	}
 	function perform($page, $actionName)
 	{
-		$values = $page->controller->exportValues();
+		$this->values = $page->controller->exportValues();
+		$this->applications['core']	= array('admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
+		$this->applications['extra']	= FileSystem :: get_directory_content(Path :: get_application_path() . 'lib/', FileSystem :: LIST_DIRECTORIES, false);
 		
 		// Display the page header
 		$this->parent->display_header();
 		
+		echo '<h3>' . Translation :: get('General') . '</h3>';
+		
 		// 1. Connection to mySQL and creating the database
-		$db_creation = $this->create_database($values);
+		$db_creation = $this->create_database();
 		$this->process_result('database', $db_creation['success'], $db_creation['message']);
 		flush();
 		
 		// 2. Write the config files
-		$config_file = $this->write_config_file($values);
+		$config_file = $this->write_config_file();
 		$this->process_result('config', $config_file['success'], $config_file['message']);
 		flush();
 		
-		// 3. Installing the core-applications
-		$core_applications = array('admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
+		// 3. Installing the applications
+		echo '<h3>' . Translation :: get('Applications') . '</h3>';
+		$this->install_applications();
 		
-		foreach ($core_applications as $core_application)
-		{
-			$installer = Installer :: factory($core_application, $values);
-			$result = $installer->install();
-			$this->process_result($core_application, $result, $installer->retrieve_message());
-			unset($installer);
-			flush();
-		}
+		// 4. Registering the trackers
+		echo '<h3>' . Translation :: get('Tracking') . '</h3>';
+		$this->register_trackers();
 		
-		// 4. Install additional applications
-		$path = Path :: get_application_path() . 'lib/';
-		$applications = FileSystem :: get_directory_content($path, FileSystem :: LIST_DIRECTORIES, false);
-		flush();
+		// 5. Processing roles, rights and locations
+		echo '<h3>' . Translation :: get('Rights') . '</h3>';
+		$this->process_roles_and_rights();
 		
-		foreach($applications as $application)
-		{
-			$toolPath = $path.'/'. $application .'/install';
-			if (is_dir($toolPath) && Application :: is_application_name($application))
-			{
-				$check_name = 'install_' . $application;
-				if (isset($values[$check_name]) && $values[$check_name] == '1')
-				{
-					$installer = Installer :: factory($application, $values);
-					$result = $installer->install();
-					$this->process_result($application, $result, $installer->retrieve_message());
-					unset($installer, $result);
-					flush();
-				}
-				else
-				{
-					// TODO: Does this work ?
-					$application_path = dirname(__FILE__).'/../../application/lib/' . $application . '/';
-					if (!FileSystem::remove($application_path))
-					{
-						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveFailed')));
-					}
-					else
-					{
-						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveSuccess')));
-					}
-				}
-			}
-			flush();
-		}
-		
-		// 5. Create additional folders
+		echo '<h3>' . Translation :: get('FileSystem') . '</h3>';
+		// 6. Create additional folders
 		$folder_creation = $this->create_folders();
 		$this->process_result('folder', $folder_creation['success'], $folder_creation['message']);
 		flush();
 		
-		// 6. If all goes well we now show the link to the portal
+		echo '<h3>' . Translation :: get('Finished') . '</h3>';
+		
+		// 7. If all goes well we now show the link to the portal
 		$message = '<a href="../index.php">' . Translation :: get('GoToYourNewlyCreatedPortal') . '</a>';
 		$this->process_result('Finished', true, $message);
 		flush();
@@ -108,8 +83,9 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		$this->parent->display_footer();
 	}
 	
-	function create_database($values)
+	function create_database()
 	{
+		$values = $this->values;
 		
 		$connection_string = $values['database_driver'] . '://'. $values['database_username'] .':'. $values['database_password'] .'@'. $values['database_host'];
 		$connection = MDB2 :: connect($connection_string);
@@ -157,8 +133,10 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		return array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('FoldersCreatedSuccess'));
 	}
 	
-	function write_config_file($values)
+	function write_config_file()
 	{
+		$values = $this->values;
+		
 		$content = file_get_contents('../common/configuration/configuration.dist.php');
 		
 		if ($content === false)
@@ -200,6 +178,133 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		else
 		{
 			return array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ConfigWriteFailed'));
+		}
+	}
+	
+	function install_applications()
+	{
+		$core_applications = $this->applications['core'];
+		$applications = $this->applications['extra'];
+		$values = $this->values;
+		
+		foreach ($core_applications as $core_application)
+		{
+			$installer = Installer :: factory($core_application, $values);
+			$result = $installer->install();
+			$this->process_result($core_application, $result, $installer->retrieve_message());
+			unset($installer);
+			flush();
+		}
+		
+		flush();
+		
+		foreach($applications as $application)
+		{
+			$toolPath = Path :: get_application_path() . 'lib/'. $application .'/install';
+			if (is_dir($toolPath) && Application :: is_application_name($application))
+			{
+				$check_name = 'install_' . $application;
+				if (isset($values[$check_name]) && $values[$check_name] == '1')
+				{
+					$installer = Installer :: factory($application, $values);
+					$result = $installer->install();
+					$this->process_result($application, $result, $installer->retrieve_message());
+					unset($installer, $result);
+					flush();
+				}
+				else
+				{
+					// TODO: Does this work ?
+					$application_path = dirname(__FILE__).'/../../application/lib/' . $application . '/';
+					if (!FileSystem::remove($application_path))
+					{
+						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveFailed')));
+					}
+					else
+					{
+						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveSuccess')));
+					}
+				}
+			}
+			flush();
+		}
+	}
+	
+	function register_trackers()
+	{
+		$core_applications = $this->applications['core'];
+		$applications = $this->applications['extra'];
+		$values = $this->values;
+		
+		// Roles'n'rights for core applications
+		foreach ($core_applications as $core_application)
+		{
+			$installer = Installer :: factory($core_application, $values);
+			$result = $installer->register_trackers();
+			
+			$this->process_result($core_application, $result, $installer->retrieve_message());
+			
+			unset($installer);
+			flush();
+		}
+		
+		// Roles'n'rights for selected applications
+		foreach($applications as $application)
+		{
+			$toolPath = Path :: get_application_path() . 'lib/' . $application .'/install';
+			if (is_dir($toolPath) && Application :: is_application_name($application))
+			{
+				$check_name = 'install_' . $application;
+				if (isset($values[$check_name]) && $values[$check_name] == '1')
+				{
+					$installer = Installer :: factory($application, $values);
+					$result = $installer->register_trackers();
+					$this->process_result($application, $result, $installer->retrieve_message());
+
+					unset($installer, $result);
+					flush();
+				}
+			}
+			flush();
+		}
+	}
+	
+	function process_roles_and_rights()
+	{
+		$core_applications = $this->applications['core'];
+		$applications = $this->applications['extra'];
+		$values = $this->values;
+		
+		// Roles'n'rights for core applications
+		foreach ($core_applications as $core_application)
+		{
+			$installer = Installer :: factory($core_application, $values);
+			$result = $installer->create_root_rights_location();
+			
+			$this->process_result($core_application, $result, $installer->retrieve_message());
+			
+			unset($installer);
+			flush();
+		}
+		
+		// Roles'n'rights for selected applications
+		foreach($applications as $application)
+		{
+			$toolPath = Path :: get_application_path() . 'lib/' . $application .'/install';
+			if (is_dir($toolPath) && Application :: is_application_name($application))
+			{
+				$check_name = 'install_' . $application;
+				if (isset($values[$check_name]) && $values[$check_name] == '1')
+				{
+					$installer = Installer :: factory($application, $values);
+					$result = $installer->create_root_rights_location();
+					$this->process_result($application, $result, $installer->retrieve_message());
+
+					unset($installer, $result);
+					flush();
+				}
+			}
+			flush();
 		}
 	}
 	

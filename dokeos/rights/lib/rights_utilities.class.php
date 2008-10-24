@@ -18,8 +18,53 @@ class RightsUtilities
     {
     }
     
-    function create_application_root_location($application)
+    function install_initial_application_locations()
     {
+		$core_applications = array('admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
+		
+		foreach ($core_applications as $core_application)
+		{
+			// Add code here
+		}
+		
+		$path = Path :: get_application_path() . 'lib/';
+		$applications = FileSystem :: get_directory_content($path, FileSystem :: LIST_DIRECTORIES, false);
+		
+		foreach($applications as $application)
+		{
+			$toolPath = $path.'/'. $application .'/install';
+			if (is_dir($toolPath) && Application :: is_application_name($application))
+			{
+				$check_name = 'install_' . $application;
+				if (isset($values[$check_name]) && $values[$check_name] == '1')
+				{
+					$installer = Installer :: factory($application, $values);
+					$result = $installer->install();
+					$installer->create_root_rights_location();
+					$this->process_result($application, $result, $installer->retrieve_message());
+					unset($installer, $result);
+					flush();
+				}
+				else
+				{
+					// TODO: Does this work ?
+					$application_path = dirname(__FILE__).'/../../application/lib/' . $application . '/';
+					if (!FileSystem::remove($application_path))
+					{
+						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => false, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveFailed')));
+					}
+					else
+					{
+						$this->process_result($application, array(Installer :: INSTALL_SUCCESS => true, Installer :: INSTALL_MESSAGE => Translation :: get('ApplicationRemoveSuccess')));
+					}
+				}
+			}
+			flush();
+		}
+    }
+    
+    function create_application_root_location($application)
+    {    	
 		$configuration = Configuration :: get_instance();
 		$dsn = $configuration->get_parameter('database', 'connection_string');
     	
@@ -41,12 +86,35 @@ class RightsUtilities
 		            'right'     =>  array('type' => 'text', 'name' => 'right_value'),
 		            'parent_id'  =>  array('type' => 'integer', 'name' => 'parent')
 		        ),
-		    ),
+		        'whereAddOn' => ' application = "' . $application . '"'
+		    )
 		);
 		
 		$tree = Tree :: factoryDynamic($config);
 		
-		$tree->add( array("name"=>"c0"));
+		$root_id = $tree->add( array(
+						'name'	=>	$application,
+						'application' => $application,
+						'type' => 'root',
+						'identifier' => '0'
+					));
+					
+		if (PEAR::isError($root_id))
+		{
+			return false;
+		}
+					
+//		$admin_id = $tree->add( array(
+//						'name'	=>	'admin',
+//						'application' => $application,
+//						'type' => 'root',
+//						'identifier' => '0'
+//					), $root_id);
+//					
+//		if (PEAR::isError($admin_id))
+//		{
+//			return false;
+//		}
 		
 		return true;
     }

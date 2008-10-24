@@ -82,17 +82,22 @@ abstract class Installer
 			}
 		}
 		
-		if(!$this->register_trackers())
-		{
-			return false;
-		}
-		
-//		if(!$this->create_root_rights_location())
-//		{
-//			return false;
-//		}		
-		
 		return $this->installation_successful();
+    }
+    
+    function get_application()
+    {
+		$application_class = $this->get_application_name();
+		$application = DokeosUtilities :: camelcase_to_underscores($application_class);
+		
+		return $application;
+    }
+    
+    function get_application_name()
+    {
+		$application_class = str_replace('Installer', '', get_class($this));
+		
+		return $application_class;
     }
     
     /**
@@ -325,8 +330,7 @@ abstract class Installer
 	 */
 	function register_trackers()
 	{
-		$application_class = str_replace('Installer', '', get_class($this));
-		$application = DokeosUtilities :: camelcase_to_underscores($application_class);
+		$application = $this->get_application();
 		
 		$base_path = (Application :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
 		
@@ -403,13 +407,12 @@ abstract class Installer
 			$this->add_message(self :: TYPE_WARNING, $warning_message);
 		}
 		
-		return true;
+		return $this->installation_successful();
 	}
 	
 	function configure_application()
 	{
-		$application_class = str_replace('Installer', '', get_class($this));
-		$application = DokeosUtilities :: camelcase_to_underscores($application_class);
+		$application = $this->get_application();
 		
 		$base_path = (Application :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
 		
@@ -439,8 +442,7 @@ abstract class Installer
 	
 	function register_application()
 	{
-		$application_class = str_replace('Installer', '', get_class($this));
-		$application = DokeosUtilities :: camelcase_to_underscores($application_class);
+		$application = $this->get_application();
 		
 		if (Application :: is_application($application))
 		{
@@ -468,10 +470,18 @@ abstract class Installer
 	
 	function create_root_rights_location()
 	{
-		$application_class = str_replace('Installer', '', get_class($this));
-		$application = DokeosUtilities :: camelcase_to_underscores($application_class);
+		$application = $this->get_application();
 		
-		RightsUtilities :: create_application_root_location($application);
+		if (!RightsUtilities :: create_application_root_location($application))
+		{
+			$this->installation_failed(Translation :: get($this->get_application_name()) . ': ' . Translation :: get('LocationsFailed'));
+			return false;
+		}
+		else
+		{
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get($this->get_application_name()) . ': ' .  Translation :: get('LocationsAdded'));
+			return $this->installation_successful();
+		}
 	}
 	
 	function installation_failed($error_message)
@@ -484,7 +494,7 @@ abstract class Installer
 	
 	function installation_successful()
 	{
-		$this->add_message(self :: TYPE_CONFIRM, Translation :: get('ApplicationInstallSuccess'));
+		$this->add_message(self :: TYPE_CONFIRM, Translation :: get('InstallSuccess'));
 		return true;
 	}
 	

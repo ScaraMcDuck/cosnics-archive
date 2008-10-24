@@ -27,10 +27,10 @@ class WeblcmsInstaller extends Installer
 	function install_extra()
 	{
 		
-		if (!$this->create_initial_locations_tree())
-		{
-			return false;
-		}
+//		if (!$this->create_initial_locations_tree())
+//		{
+//			return false;
+//		}
 //		if (!$this->create_weblcms_root_location())
 //		{
 //			$this->add_message(self :: TYPE_ERROR, Translation :: get('RightsLocationNotAdded'));
@@ -128,17 +128,6 @@ class WeblcmsInstaller extends Installer
 		}		
 		
 		return true;
-	}
-	
-	function create_initial_locations_tree()
-	{
-		$application_class = str_replace('Installer', '', get_class($this));
-		$application = DokeosUtilities :: camelcase_to_underscores($application_class);
-		
-		if (!RightsUtilities :: create_application_root_location($application))
-		{
-			return false;
-		}
 	}
 	
 	function get_path()
