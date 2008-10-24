@@ -7,7 +7,7 @@
  */
  
 $lang['install']['StorageUnitCreation'] = 'Creating storage unit';
-$lang['install']['ApplicationInstallSuccess'] = 'Application succesfully installed';
+$lang['install']['InstallSuccess'] = 'This part of the installation was succesfully completed';
 $lang['install']['DBCreated'] = 'Database created';
 $lang['install']['ConfigWriteSuccess'] = 'Configuration file succesfully written';
 $lang['install']['DefaultLanguagesAdded'] = 'Deafult languages added to the platform';
@@ -59,5 +59,13 @@ $lang['install']['No'] = 'No';
 $lang['install']['AllowSelfReg'] = 'Allow self registration';
 $lang['install']['MyDokeos'] = 'MyDokeos';
 $lang['install']['Dokeos'] = 'Dokeos';
-$lang['install'][''] = '';
+$lang['install']['General'] = 'General';
+$lang['install']['Applications'] = 'Applications';
+$lang['install']['LearningObjectRegistration'] = 'Registering learning object';
+$lang['install']['RegisteringApplication'] = 'Registering application';
+$lang['install']['UnlinkedTrackers'] = 'Unlinked trackers';
+$lang['install']['Check'] = 'Check';
+$lang['install']['TrackersRegisteredToEvent'] = 'Trackers registered to event';
+$lang['install']['LocationsAdded'] = 'Locations added';
+$lang['install']['FileSystem'] = 'File system';
 ?>

@@ -111,7 +111,15 @@ class ActionBarRenderer
 		
 		if (count($common_actions) > 0)
 		{
-			$html[] = '<div class="common_menu">';
+//			if (count($tool_actions) > 0 || !is_null($this->search_form))
+//			{
+				$html[] = '<div class="common_menu split">';
+//			}
+//			else
+//			{
+//				$html[] = '<div class="common_menu">';
+//			}
+			
 			$toolbar = new Toolbar();
 			$toolbar->set_items($common_actions);
 			$toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
@@ -119,24 +127,22 @@ class ActionBarRenderer
 			$html[] = '</div>';
 		}
 		
-		if (count($tool_actions) > 0 || !is_null($this->search_form))
-		{
-			$html[] = '<div class="divider"></div>';
-		}
-		
 		if (count($tool_actions) > 0)
 		{
-			$html[] = '<div class="tool_menu">';
+//			if (count($tool_actions) > 0)
+//			{
+				$html[] = '<div class="tool_menu split">';
+//			}
+//			else
+//			{
+//				$html[] = '<div class="tool_menu">';
+//			}
+			
 			$toolbar = new Toolbar();
 			$toolbar->set_items($tool_actions);
 			$toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
 			$html[] = $toolbar->as_html();
 			$html[] = '</div>';
-		}
-		
-		if (count($tool_actions) > 0)
-		{
-			$html[] = '<div class="divider"></div>';
 		}
 		
 		if (!is_null($this->search_form))
