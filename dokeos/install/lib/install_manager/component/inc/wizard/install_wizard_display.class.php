@@ -42,7 +42,9 @@ class InstallWizardDisplay extends HTML_QuickForm_Action_Display
 		$this->parent->display_header();
 		
 		echo '<div style="float: left; background-color:#EFEFEF;margin-right: 20px;padding: 15px;">';
-		echo '<img src="../layout/img/bluelogo.gif" alt="logo"/>';
+		echo '<div style="margin: 0px; text-align: center;">';
+		echo '<img src="../layout/aqua/img/common/dokeos.png" alt="logo"/>';
+		echo '</div>';
 		$all_pages = $current_page->controller->_pages;
 		$total_number_of_pages = count($all_pages);
 		$current_page_number = 0;

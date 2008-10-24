@@ -1824,37 +1824,40 @@ div.action_bar
 	position: relative;
 	
 	min-height: 40px;
+	/*
 	overflow: hidden;
+	*/
 }
 
 div.action_bar div.common_menu
 {
+	padding: 5px;
+	/*
 	padding: 5px 5px 1000px 5px;
+	margin-bottom: -1000px;
+	*/
 	float: left;
 	width: 32%;
-	margin-bottom: -1000px;
-}
-
-div.action_bar div.common_menu
-{
-	padding: 5px 5px 1000px 5px;
-	float: left;
-	width: 32%;
-	margin-bottom: -1000px;
 }
 
 div.action_bar div.tool_menu
 {
+	padding: 5px;
+	/*
 	padding: 5px 5px 1000px 5px;
+	margin-bottom: -1000px;
+	*/
 	float: left;
 	width: 32%;
-	margin-bottom: -1000px;
 }
 
 div.action_bar div.search_menu
 {
+	padding: 5px;
+	/*
 	padding: 5px 5px 1000px 5px;
 	margin-bottom: -1000px;
+	*/
 	float: right;
 }
 
@@ -1876,6 +1879,8 @@ div.action_bar #action_bar_hide_container
 	bottom: 0px;
 	margin-left: -18px;
 	margin-bottom: -1px;
+	
+	overflow: visible;
 }
 
 #action_bar_hide img

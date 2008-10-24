@@ -11,6 +11,7 @@ require_once dirname(__FILE__).'/../../renderer/personal_calendar_list_renderer.
 require_once dirname(__FILE__).'/../../renderer/personal_calendar_month_renderer.class.php';
 require_once dirname(__FILE__).'/../../renderer/personal_calendar_week_renderer.class.php';
 require_once dirname(__FILE__).'/../../renderer/personal_calendar_day_renderer.class.php';
+require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
 class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 {
@@ -23,29 +24,30 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyAgenda')));
 		
 		$this->display_header($trail);
+		echo '<br /><a name="top"></a>';
+		echo $this->get_action_bar_html() . '<br />';
+		echo '<div id="action_bar_browser">';
 		echo $this->get_calendar_html();
+		echo '</div>';
 		$this->display_footer();
 	}
 	
 	function get_calendar_html()
 	{
-		$out =  '<p><a href="'.$this->get_url(array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_CREATE_PUBLICATION), true).'"><img src="'.Theme :: get_common_img_path().'action_publish.png" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';
+		$html = array();
+		
 		$time = isset ($_GET['time']) ? intval($_GET['time']) : time();
 		$view = isset ($_GET['view']) ? $_GET['view'] : 'month';
 		$this->set_parameter('time', $time);
 		$this->set_parameter('view', $view);
-		$toolbar_data = array ();
-		$toolbar_data[] = array ('href' => $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'list')), 'img' => Theme :: get_img_path().'tool_calendar_down.png', 'label' => Translation :: get('ListView'), 'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-		$toolbar_data[] = array ('href' => $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'month')), 'img' => Theme :: get_img_path().'tool_calendar_month.png', 'label' => Translation :: get('MonthView'), 'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-		$toolbar_data[] = array ('href' => $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'week')), 'img' => Theme :: get_img_path().'tool_calendar_week.png', 'label' => Translation :: get('WeekView'), 'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-		$toolbar_data[] = array ('href' => $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'day')), 'img' => Theme :: get_img_path().'tool_calendar_day.png', 'label' => Translation :: get('DayView'), 'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-		$out .=  '<div style="margin-bottom: 1em;">'.DokeosUtilities :: build_toolbar($toolbar_data).'</div>';
+		
 		$minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time);
-		$out .=   '<div style="float: left; width: 20%;">';
-		$out .=   $minimonthcalendar->render();
-		$out .=   '</div>';
-		$out .=   '<div style="float: left; width: 80%;">';
+		$html[] = '<div style="float: left; width: 20%;">';
+		$html[] = $minimonthcalendar->render();
+		$html[] = '</div>';
+		$html[] = '<div style="float: left; width: 80%;">';
 		$show_calendar = true;
+		
 		if(isset($_GET['pid']))
 		{
 			$pid = $_GET['pid'];
@@ -53,7 +55,7 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 			if(isset($_GET['action']) && $_GET['action'] == 'delete')
 			{
 				$event->delete();
-				$out .= Display::display_normal_message(Translation :: get('LearningObjectPublicationDeleted'),true);
+				$html[] = Display::display_normal_message(Translation :: get('LearningObjectPublicationDeleted'),true);
 			}
 			else
 			{
@@ -75,9 +77,10 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 					'img' => Theme :: get_common_img_path().'action_delete.png',
 					'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 				);
-				$out .= DokeosUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
+				$html[] = DokeosUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
 			}
 		}
+		
 		if($show_calendar)
 		{
 			switch ($view)
@@ -95,11 +98,26 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 					$renderer = new PersonalCalendarMonthRenderer($this, $time);
 					break;
 			}
-			$out .=   $renderer->render();
+			$html[] = $renderer->render();
 		}
-		$out .=   '</div>';
 		
-		return $out;
+		$html[] = '</div>';
+		
+		return implode("\n", $html);
+	}
+	
+	function get_action_bar_html()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_img_path().'action_publish.png', $this->get_url(array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_CREATE_PUBLICATION), true)));
+		
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView'), Theme :: get_img_path().'tool_calendar_down.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'list'))));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('MonthView'), Theme :: get_img_path().'tool_calendar_month.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'month'))));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('WeekView'), Theme :: get_img_path().'tool_calendar_week.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'week'))));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_img_path().'tool_calendar_day.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'day'))));
+		
+		return $action_bar->as_html();
 	}
 }
 ?>

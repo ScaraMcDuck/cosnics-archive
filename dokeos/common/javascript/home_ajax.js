@@ -195,6 +195,9 @@
 	}
 
 	$(document).ready( function() {
+		
+		$("a.addEl").toggle();
+		
 		countColumns = $("div.column").length;
 
 		$("div.title a").toggle();

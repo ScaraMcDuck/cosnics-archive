@@ -39,4 +39,4 @@ class UserToolViewerComponent extends UserToolComponent
 	}
 
 }
-?
+?>

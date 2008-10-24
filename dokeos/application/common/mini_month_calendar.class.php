@@ -84,7 +84,7 @@ class MiniMonthCalendar extends MonthCalendar
 				$today = $this->get_display_time();
 				$date_diff = floor(($today - $day) / (60 * 60 * 24));
 				$cell = 7 + $date_diff;
-				$this->updateCellAttributes($cell / 7, $cell % 7, 'style="border: 2px solid black;"', true);
+				$this->updateCellAttributes(floor($cell / 7), $cell % 7, 'style="border: 2px solid black;"');
 				break;
 		}
 	}

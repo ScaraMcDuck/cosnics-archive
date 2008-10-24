@@ -2,7 +2,7 @@
 <application name="home">
 	<settings>
 		<category name="visual">
-			<setting name="allow_user_home" field="radio" default="0">
+			<setting name="allow_user_home" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
