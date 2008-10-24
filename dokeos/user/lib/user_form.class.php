@@ -71,6 +71,9 @@ class UserForm extends FormValidator {
 		$group[] =& $this->createElement('radio', 'pass', null,null,0);
 		$group[] =& $this->createElement('password', User :: PROPERTY_PASSWORD,null,null);
 		$this->addGroup($group, 'pw', Translation :: get('Password'), '');
+		
+		$this->addElement('datepicker', User :: PROPERTY_EXPIRATION_DATE, Translation :: get('ExpirationDate'), array ('form_name' => $this->getAttribute('name')), false);
+		
 		// Official Code
 		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'));
 		// Picture URI
@@ -167,6 +170,10 @@ class UserForm extends FormValidator {
 	    	$user->set_username($values[User :: PROPERTY_USERNAME]);
 	 	   	$user->set_password($password);
 	 	   	$this->unencryptedpass = $password;
+	 	   	
+	 	   	$expiration_date = DokeosUtilities :: time_from_datepicker_without_timepicker($values[User :: PROPERTY_EXPIRATION_DATE]);
+	 	   	$user->set_expiration_date($expiration_date);
+	 	   	
     		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
   		  	$user->set_phone($values[User :: PROPERTY_PHONE]);
   		  	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
@@ -224,6 +231,10 @@ class UserForm extends FormValidator {
 	    	$user->set_username($values[User :: PROPERTY_USERNAME]);
 	 	   	$user->set_password(md5($password));
 	 	   	$this->unencryptedpass = $password;
+	 	   	
+	 	   	$expiration_date = DokeosUtilities :: time_from_datepicker_without_timepicker($values[User :: PROPERTY_EXPIRATION_DATE]);
+	 	   	$user->set_expiration_date($expiration_date);
+	 	   	
     		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
   		  	$user->set_phone($values[User :: PROPERTY_PHONE]);
   		  	$user->set_status(intval($values[User :: PROPERTY_STATUS]));

@@ -13,9 +13,18 @@ class PlatformAuthentication extends Authentication
     function PlatformAuthentication()
     {
     }
-    public function check_login($user,$username,$password = null)
+    public function check_login($user, $username, $password = null)
     {
-		return ($user->get_username() == $username && $user->get_password() == md5($password));
+    	$user_expiration_date = $user->get_expiration_date();
+    	
+    	if ($user_expiration_date != '0' && $user_expiration_date < time())
+    	{
+    		return false;
+    	}
+    	else
+    	{
+    		return ($user->get_username() == $username && $user->get_password() == md5($password));
+    	}
     }
     public function is_password_changeable()
     {
