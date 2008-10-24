@@ -50,6 +50,7 @@ class User
 	const PROPERTY_DATABASE_QUOTA = 'database_quota';
 	const PROPERTY_VERSION_QUOTA = 'version_quota';
 	const PROPERTY_THEME = 'theme';
+	const PROPERTY_EXPIRATION_DATE = 'expiration_date';
 
 	const ACTION_CREATE_USER = 'create';
 
@@ -123,7 +124,7 @@ class User
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self ::PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_THEME);
+		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self ::PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_THEME, self :: PROPERTY_EXPIRATION_DATE);
 	}
 
 	/**
@@ -318,6 +319,15 @@ class User
 	function get_theme()
 	{
 		return $this->get_default_property(self :: PROPERTY_THEME);
+	}
+	
+	/**
+	 * Returns the expiration date for this user.
+	 * @return string the theme
+	 */
+	function get_expiration_date()
+	{
+		return $this->get_default_property(self :: PROPERTY_EXPIRATION_DATE);
 	}	
 
 	/**
@@ -552,6 +562,15 @@ class User
 	function set_theme($theme)
 	{
 		$this->set_default_property(self :: PROPERTY_THEME, $theme);
+	}
+	
+	/**
+	 * Sets the default theme for this user.
+	 * @param string $theme The theme.
+	 */
+	function set_expiration_date($expiration_date)
+	{
+		$this->set_default_property(self :: PROPERTY_EXPIRATION_DATE, $expiration_date);
 	}
 
 	/**

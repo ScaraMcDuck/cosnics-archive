@@ -1554,7 +1554,6 @@ ul.toolbar li, ul.toolbar_horizontal li
 	margin: 0px 2px 0px 2px;
 	padding: 0;
 	white-space: nowrap;
-	min-width: 90px;
 }
 
 ul.toolbar_vertical li
