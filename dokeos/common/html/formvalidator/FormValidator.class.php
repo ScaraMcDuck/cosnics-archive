@@ -227,11 +227,11 @@ EOT;
 	/**
 	 *
 	 */
-	function add_forever_or_timewindow()
+	function add_forever_or_timewindow($element_label = 'PublicationPeriod')
 	{
 		$choices[] = $this->createElement('radio','forever','',Translation :: get('Forever'),1,array ('onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')'));
 		$choices[] = $this->createElement('radio','forever','',Translation :: get('LimitedPeriod'),0,array ('onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
-		$this->addGroup($choices,null,Translation :: get('PublicationPeriod'),'<br />',false);
+		$this->addGroup($choices,null,Translation :: get($element_label),'<br />',false);
 		$this->addElement('html','<div style="margin-left:25px;display:block;" id="forever_timewindow">');
 		$this->add_timewindow('from_date','to_date','','');
 		$this->addElement('html','</div>');
@@ -249,6 +249,37 @@ EOT;
 					/* ]]> */
 					</script>\n");
 	}
+	
+	/**
+	 *
+	 */
+	function add_forever_or_expiration_date_window($element_name, $element_label = 'ExpirationDate')
+	{
+		$choices[] = $this->createElement('radio','forever','',Translation :: get('Forever'),1,array ('onclick' => 'javascript:timewindow_hide(\'forever_timewindow\')', 'id' => 'forever'));
+		$choices[] = $this->createElement('radio','forever','',Translation :: get('LimitedPeriod'),0,array ('onclick' => 'javascript:timewindow_show(\'forever_timewindow\')'));
+		$this->addGroup($choices,null,Translation :: get($element_label),'<br />',false);
+		$this->addElement('html','<div style="margin-left: 25px; display: block;" id="forever_timewindow">');
+		$this->addElement('datepicker', $element_name, '', array ('form_name' => $this->getAttribute('name')), false);
+		$this->addElement('html','</div>');
+		$this->addElement('html',"<script type=\"text/javascript\">
+					/* <![CDATA[ */
+					var expiration = document.getElementById('forever');
+					if (expiration.checked)
+					{
+						timewindow_hide('forever_timewindow');
+					}
+					function timewindow_show(item) {
+						el = document.getElementById(item);
+						el.style.display='';
+					}
+					function timewindow_hide(item) {
+						el = document.getElementById(item);
+						el.style.display='none';
+					}
+					/* ]]> */
+					</script>\n");
+	}
+	
 	/**
 	 * Add a button to the form to add resources.
 	 */

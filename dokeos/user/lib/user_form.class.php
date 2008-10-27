@@ -12,6 +12,7 @@ class UserForm extends FormValidator {
 	const TYPE_EDIT = 2;
 	const RESULT_SUCCESS = 'UserUpdated';
 	const RESULT_ERROR = 'UserUpdateFailed';
+	const PARAM_FOREVER = 'forever';
 
 	private $parent;
 	private $user;
@@ -72,7 +73,7 @@ class UserForm extends FormValidator {
 		$group[] =& $this->createElement('password', User :: PROPERTY_PASSWORD,null,null);
 		$this->addGroup($group, 'pw', Translation :: get('Password'), '');
 		
-		$this->addElement('datepicker', User :: PROPERTY_EXPIRATION_DATE, Translation :: get('ExpirationDate'), array ('form_name' => $this->getAttribute('name')), false);
+		$this->add_forever_or_expiration_date_window(User :: PROPERTY_EXPIRATION_DATE, 'ExpirationDate');
 		
 		// Official Code
 		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'));
@@ -162,48 +163,49 @@ class UserForm extends FormValidator {
 			$user->set_picture_file($_FILES[User :: PROPERTY_PICTURE_URI]);
     	}
 		$udm = UserDataManager :: get_instance();
-    	if ($udm->is_username_available($values[User :: PROPERTY_USERNAME], $values[User :: PROPERTY_USER_ID]))
-    	{
-    		$user->set_lastname($values[User :: PROPERTY_LASTNAME]);
-    		$user->set_firstname($values[User :: PROPERTY_FIRSTNAME]);
-    		$user->set_email($values[User :: PROPERTY_EMAIL]);
-	    	$user->set_username($values[User :: PROPERTY_USERNAME]);
-	 	   	$user->set_password($password);
-	 	   	$this->unencryptedpass = $password;
-	 	   	
-	 	   	$expiration_date = DokeosUtilities :: time_from_datepicker_without_timepicker($values[User :: PROPERTY_EXPIRATION_DATE]);
-	 	   	$user->set_expiration_date($expiration_date);
-	 	   	
-    		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
-  		  	$user->set_phone($values[User :: PROPERTY_PHONE]);
-  		  	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
- 		   	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
- 		   	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
- 		   	
-			$user_can_have_theme = PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME);
-			if ($user_can_have_theme)
-			{
-				$user->set_theme($values[User :: PROPERTY_THEME]);
-			}
- 		   	
-			$user->set_platformadmin(intval($values['admin'][User :: PROPERTY_PLATFORMADMIN]));
-    		$send_mail = intval($values['mail']['send_mail']);
-    		if ($send_mail)
-    		{
-    			$this->send_email($user);
-    		}
 
-    		$value = $user->update();
-    		
-    		if($value)
-    			Events :: trigger_event('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
-    		
-    		return $value;
-    	}
-    	else
-    	{
-    		return false;
-    	}
+		$user->set_lastname($values[User :: PROPERTY_LASTNAME]);
+		$user->set_firstname($values[User :: PROPERTY_FIRSTNAME]);
+		$user->set_email($values[User :: PROPERTY_EMAIL]);
+    	$user->set_username($values[User :: PROPERTY_USERNAME]);
+ 	   	$user->set_password($password);
+ 	   	$this->unencryptedpass = $password;
+ 	   	
+		if ($values[self :: PARAM_FOREVER] != 0)
+		{
+			$user->set_expiration_date(0);
+		}
+		else
+		{
+			$date = DokeosUtilities :: time_from_datepicker_without_timepicker($values[User :: PROPERTY_EXPIRATION_DATE]);
+			$user->set_expiration_date($date);
+		}
+ 	   	
+		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
+	  	$user->set_phone($values[User :: PROPERTY_PHONE]);
+	  	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
+	   	$user->set_version_quota(intval($values[User :: PROPERTY_VERSION_QUOTA]));
+	   	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
+	   	
+		$user_can_have_theme = PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME);
+		if ($user_can_have_theme)
+		{
+			$user->set_theme($values[User :: PROPERTY_THEME]);
+		}
+	   	
+		$user->set_platformadmin(intval($values['admin'][User :: PROPERTY_PLATFORMADMIN]));
+		$send_mail = intval($values['mail']['send_mail']);
+		if ($send_mail)
+		{
+			$this->send_email($user);
+		}
+
+		$value = $user->update();
+		
+		if($value)
+			Events :: trigger_event('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
+		
+		return $value;
     }
 
 
@@ -232,8 +234,15 @@ class UserForm extends FormValidator {
 	 	   	$user->set_password(md5($password));
 	 	   	$this->unencryptedpass = $password;
 	 	   	
-	 	   	$expiration_date = DokeosUtilities :: time_from_datepicker_without_timepicker($values[User :: PROPERTY_EXPIRATION_DATE]);
-	 	   	$user->set_expiration_date($expiration_date);
+			if ($values[self :: PARAM_FOREVER] != 0)
+			{
+				$user->set_expiration_date(0);
+			}
+			else
+			{
+				$date = DokeosUtilities :: time_from_datepicker_without_timepicker($values[User :: PROPERTY_EXPIRATION_DATE]);
+				$user->set_expiration_date($date);
+			}
 	 	   	
     		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
   		  	$user->set_phone($values[User :: PROPERTY_PHONE]);
@@ -282,6 +291,17 @@ class UserForm extends FormValidator {
 		$user = $this->user;
 		if ($this->form_type == self :: TYPE_EDIT)
 		{
+			$expiration_date = $user->get_expiration_date();
+			if ($expiration_date != 0)
+			{
+				$defaults[self :: PARAM_FOREVER] = 0;
+				$defaults[User :: PROPERTY_EXPIRATION_DATE] = $user->get_expiration_date();
+			}
+			else
+			{
+				$defaults[self :: PARAM_FOREVER] = 1;
+			}
+			
 			$defaults['pw']['pass'] = 2;
 			$defaults[User :: PROPERTY_DATABASE_QUOTA] = $user->get_database_quota();
 			$defaults[User :: PROPERTY_DISK_QUOTA] = $user->get_disk_quota();
@@ -289,6 +309,7 @@ class UserForm extends FormValidator {
 		}
 		else
 		{
+			$defaults[self :: PARAM_FOREVER] = 1;
 			$defaults['pw']['pass'] = $user->get_password();
 		}
 		$defaults['admin'][User :: PROPERTY_PLATFORMADMIN] = $user->get_platformadmin();
@@ -298,6 +319,7 @@ class UserForm extends FormValidator {
 		$defaults[User :: PROPERTY_FIRSTNAME] = $user->get_firstname();
 		$defaults[User :: PROPERTY_EMAIL] = $user->get_email();
 		$defaults[User :: PROPERTY_USERNAME] = $user->get_username();
+		$defaults[User :: PROPERTY_EXPIRATION_DATE] = $user->get_expiration_date();
 		$defaults[User :: PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
 		$defaults[User :: PROPERTY_PICTURE_URI] = $user->get_picture_uri();
 		$defaults[User :: PROPERTY_PHONE] = $user->get_phone();
