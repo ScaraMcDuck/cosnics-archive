@@ -9,7 +9,7 @@ class OpenQuestionWithDocumentDisplay extends QuestionDisplay
 		parent :: add_to($formvalidator);
 		$answers = $this->get_answers();
 		$documents = $this->get_user_documents();
-		$formvalidator->addElement('select', $this->get_clo_question()->get_id(), Translation :: get('Select a document:'), $documents);
+		$formvalidator->addElement('select', $this->get_clo_question()->get_id().'_0', Translation :: get('Select a document:'), $documents);
 		$formvalidator->addElement('html', '<br/>');
 	}
 	

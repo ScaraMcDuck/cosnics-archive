@@ -14,7 +14,7 @@ class MatchingQuestionDisplay extends QuestionDisplay
 		
 		foreach($answers as $answer)
 		{
-			$formvalidator->addElement('select', $this->get_clo_question()->get_ref(), $answer['answer']->get_description(), $this->get_values($matches));
+			$formvalidator->addElement('select', $this->get_clo_question()->get_ref().'_'.$answer['answer']->get_id(), $answer['answer']->get_description(), $this->get_values($matches));
 		}
 		$formvalidator->addElement('html', '</p><br/>'.Translation :: get('Matches').' :<p><br/>');
 		

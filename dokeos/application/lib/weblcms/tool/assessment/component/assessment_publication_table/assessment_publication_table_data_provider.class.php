@@ -56,7 +56,7 @@ class AssessmentPublicationTableDataProvider extends ObjectTableDataProvider
     function get_publications($from, $count, $column, $direction)
     {
     	$datamanager = WeblcmsDataManager :: get_instance();
-		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'exercise');
+		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'assessment');
 		$condition = $tool_condition;
 		$lo_condition = $this->get_condition();
 		if($this->parent->is_allowed(EDIT_RIGHT))

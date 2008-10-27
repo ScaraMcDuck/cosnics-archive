@@ -12,7 +12,7 @@ class OpenQuestionDisplay extends QuestionDisplay
 		//$formvalidator->addElement('html','<div class="learning_object">');
 		//foreach($answers as $answer)
 		//{
-			$formvalidator->addElement('html_editor', $this->get_clo_question()->get_ref(), '');
+			$formvalidator->addElement('html_editor', $this->get_clo_question()->get_ref().'_0', '');
 		//}
 		//$formvalidator->addElement('html','</div>');
 		$formvalidator->addElement('html', '<br/>');
