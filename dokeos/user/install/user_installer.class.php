@@ -59,6 +59,7 @@ class UserInstaller extends Installer
 		$user->set_disk_quota('209715200');
 		$user->set_database_quota('300');
 		$user->set_version_quota('20');
+		$user->set_expiration_date(0);
 		
 		if (!$user->create())
 		{
