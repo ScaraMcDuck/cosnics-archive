@@ -8,6 +8,8 @@ class UserAnswer
 	const PROPERTY_ANSWER_ID = 'answer_id';
 	const PROPERTY_EXTRA = 'extra';
 	
+	const TABLE_NAME = 'user_answer';
+	
 	private $id;
 	private $properties;
 	
@@ -108,6 +110,11 @@ class UserAnswer
 			return true;
 		}
 		return false;
+	}
+	
+	static function get_table_name()
+	{
+		return self :: TABLE_NAME;
 	}
 }
 ?>
