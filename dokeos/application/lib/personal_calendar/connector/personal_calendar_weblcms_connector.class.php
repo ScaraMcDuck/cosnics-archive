@@ -16,7 +16,7 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
 	 */
 	public function get_events($user, $from_date, $to_date)
 	{
-		$dm = WeblcmsDatamanager :: get_instance();
+		$dm = WeblcmsDataManager :: get_instance();
 		$course_groups = $dm->retrieve_course_groups_from_user($user)->as_array();
 		$conditions = array();
 		$conditions[] = new EqualityCondition('tool', 'calendar');

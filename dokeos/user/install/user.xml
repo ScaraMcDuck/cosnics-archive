@@ -19,7 +19,7 @@
   <property name="database_quota" type="integer" unsigned="1" notnull="1" default="300"/>
   <property name="version_quota" type="integer" unsigned="1" notnull="1" default="20"/>
   <property name="theme" type="text" length="50" />
-  <property name="expiration_date" type="integer" unsigned="1" />
+  <property name="expiration_date" type="integer" unsigned="1" notnull="1" default="0" />
  </properties>
  <index name="username" type="unique">
   <indexproperty name="username"/>

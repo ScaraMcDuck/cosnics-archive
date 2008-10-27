@@ -1859,6 +1859,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$query .= ' WHERE g.id = u.course_group_id AND u.user_id = ?';
 			$params[] = $user->get_id();
 		}
+		
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		return new DatabaseCourseGroupResultSet($this, $res);
