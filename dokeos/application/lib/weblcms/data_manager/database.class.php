@@ -47,7 +47,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->prefix = 'weblcms_';
 		$this->connection->query('SET NAMES utf8');
 		
-		$this->db = new Database(array('course_category' => 'cat'));
+		$this->db = new Database(array('course_category' => 'cat', 'user_answer' => 'ans', 'user_assessment' => 'ass'));
 		$this->db->set_prefix('weblcms_');
 	}
 	/**
@@ -2235,21 +2235,21 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $record[0] + 1;
 	}
 	
-	function retrieve_user_answers($user_assessment)
+	function retrieve_user_answers($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
-		
+		return $this->database->retrieve_objects(UserAnswer :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
 	function create_user_answer($user_answer) 
 	{
-		$props = array();
+		/*$props = array();
 		foreach ($user_answer->get_properties() as $key => $value)
 		{
 			$props[$this->escape_column_name($key)] = $value;
-		}
-		$props[UserAnswer :: PROPERTY_ID] = $user_answer->get_id();
-		
-		$this->connection->loadModule('Extended');
+		}*/
+		//$user_answer->set_id($this->get_next_user_answer_id());
+		return $this->database->create($user_answer);
+		/*$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('user_answer'), $props, MDB2_AUTOQUERY_INSERT))
 		{
 			return true;
@@ -2257,21 +2257,30 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		else
 		{
 			return false;
-		}
+		}*/
+	}
+	
+	function get_next_user_answer_id()
+	{
+		return $this->database->get_next_id(UserAnswer :: get_table_name());
 	}
 	
 	function delete_user_answer($user_answer) 
 	{
 		//delete user answer
-		$sql = 'DELETE FROM '.$this->escape_table_name('user_answer').' WHERE ';
+		$condition = new EqualityCondition(UserAnswer :: PROPERTY_ID, $user_answer->get_id());
+		return $this->database->delete(UserAnswer :: get_table_name(), $condition);
+		/*$sql = 'DELETE FROM '.$this->escape_table_name('user_answer').' WHERE ';
 		$sql .= $this->escape_column_name(UserAnswer :: PROPERTY_ID).'='.$user_answer->get_id();
 		$statement = $this->connection->prepare($sql);
-		$statement->execute();
+		$statement->execute();*/
 	}
 	
 	function update_user_answer($user_answer)
 	{
-		$where = $this->escape_column_name(UserAnswer :: PROPERTY_ID).'="'. $user_answer->get_id().'"';
+		$condition = new EqualityCondition(UserAnswer :: PROPERTY_ID, $user_answer->get_id());
+		return $this->database->update(UserAnswer :: get_table_name(), $condition);
+		/*$where = $this->escape_column_name(UserAnswer :: PROPERTY_ID).'="'. $user_answer->get_id().'"';
 		$props = array();
 		foreach ($user_answer->get_properties() as $key => $value)
 		{
@@ -2279,26 +2288,31 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->escape_table_name('user_answer'), $props, MDB2_AUTOQUERY_UPDATE, $where);
-		return true;
+		return true;*/
 	}
 	
-	function retrieve_user_assessments($assessment) 
+	function retrieve_user_assessments($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null) 
 	{
-		
+		return $this->database->retrieve_objects(UserAssessment :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+	}
+	
+	function get_next_user_assessment_id()
+	{
+		return $this->database->get_next_id(UserAssessment :: get_table_name());
 	}
 	
 	function create_user_assessment($user_assessment) 
 	{
 		$time_taken = time();
-		$props = array();
+		/*$props = array();
 		foreach ($user_assessment->get_properties() as $key => $value)
 		{
 			$props[$this->escape_column_name($key)] = $value;
-		}
-		$props[UserAssessment :: PROPERTY_ID] = $user_assessment->get_id();
-		$props[UserAssessment::PROPERTY_DATE_TIME_TAKEN] = self :: to_db_date($now);
-		
-		$this->connection->loadModule('Extended');
+		}*/
+		//$user_assessment->set_id($this->get_next_user_assessment_id());
+		$user_assessment->set_date_time_taken(self :: to_db_date($now));
+		return $this->database->create($user_assessment);
+		/*$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('user_assessment'), $props, MDB2_AUTOQUERY_INSERT))
 		{
 			return true;
@@ -2306,13 +2320,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		else
 		{
 			return false;
-		}
+		}*/
 	}
 	
 	function delete_user_assessment($user_assessment) 
 	{
+		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ID, $user_answer->get_id());
+		return $this->database->delete(UserAssessment :: get_table_name(), $condition);
 		//delete user answers from this assessment
-		$sql = 'DELETE FROM '.$this->escape_table_name('user_answer').' WHERE ';
+		/*$sql = 'DELETE FROM '.$this->escape_table_name('user_answer').' WHERE ';
 		$sql .= $this->escape_column_name(UserAnswer :: PROPERTY_USER_ASSESSMENT_ID).'='.$user_assessment->get_id();
 		$statement = $this->connection->prepare($sql);
 		$statement->execute();
@@ -2321,12 +2337,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$sql .= $this->escape_column_name(UserAssessment :: PROPERTY_ID).'=?';
 		$statement = $this->connection->prepare($sql);
 		$statement->execute($user_assessment->get_id());
-		return true;
+		return true;*/
 	}
 	
 	function update_user_assessment($user_assessment)
 	{
-		$where = $this->escape_column_name(UserAssessment :: PROPERTY_ID).'="'. $user_assessment->get_id().'"';
+		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ID, $user_answer->get_id());
+		return $this->database->update(UserAssessment :: get_table_name(), $condition);
+		/*$where = $this->escape_column_name(UserAssessment :: PROPERTY_ID).'="'. $user_assessment->get_id().'"';
 		$props = array();
 		foreach ($user_assessment->get_properties() as $key => $value)
 		{
@@ -2334,7 +2352,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->escape_table_name('user_assessment'), $props, MDB2_AUTOQUERY_UPDATE, $where);
-		return true;
+		return true;*/
 	}
 }
 ?>

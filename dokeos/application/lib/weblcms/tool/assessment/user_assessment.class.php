@@ -7,6 +7,8 @@ class UserAssessment
 	const PROPERTY_DATE_TIME_TAKEN = 'date_time_taken';
 	const PROPERTY_USER_ID = 'user_id';
 	
+	const TABLE_NAME = 'user_assessment';
+	
 	private $id;
 	private $properties;
 	
@@ -97,6 +99,11 @@ class UserAssessment
 			return true;
 		}
 		return false;
+	}
+	
+	static function get_table_name()
+	{
+		return self :: TABLE_NAME;
 	}
 }
 ?>
