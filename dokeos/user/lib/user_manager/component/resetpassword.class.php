@@ -27,7 +27,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('LostPassword')));
 
 		$user_id = $this->get_user_id();
-		if($this->get_platform_setting('allow_password_retrieval', 'admin') == 'false')
+		if($this->get_platform_setting('allow_password_retrieval', 'admin') == false)
 		{
 			Display :: display_not_allowed();
 		}

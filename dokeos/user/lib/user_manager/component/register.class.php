@@ -16,7 +16,7 @@ class UserManagerRegisterComponent extends UserManagerComponent
 	{
 		$trail = new BreadcrumbTrail();
 		
-		if ($this->get_platform_setting('allow_registration', 'admin') == 'false')
+		if ($this->get_platform_setting('allow_registration', 'admin') == false)
 		{
 			Display :: display_not_allowed();
 		}
