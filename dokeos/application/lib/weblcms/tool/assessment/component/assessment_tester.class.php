@@ -26,8 +26,15 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		
 		//echo "Take test: <br/>".$assessment->get_title()."<br/>";
 		//echo "It's not a bug, it's a feature!";
-		$tester_form = new AssessmentTesterForm($assessment);
-		echo $tester_form->toHtml();
+		$tester_form = new AssessmentTesterForm($assessment, $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $pid)));
+		
+		if ($tester_form->validate())
+		{
+			$values = $tester_form->exportValues();
+			print_r($values);
+		} else {
+			echo $tester_form->toHtml();
+		}
 		
 		$this->display_footer();
 	}

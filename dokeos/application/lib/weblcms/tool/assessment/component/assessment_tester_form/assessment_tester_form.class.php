@@ -14,9 +14,9 @@ require_once dirname(__FILE__).'/question_types/yes_no_question.class.php';
 class AssessmentTesterForm extends FormValidator
 {
 	
-	function AssessmentTesterForm($assessment)
+	function AssessmentTesterForm($assessment, $url)
 	{
-		parent :: __construct('assessment', 'post');
+		parent :: __construct('assessment', 'post', $url);
 		$this->initialize($assessment);
 	}
 	
