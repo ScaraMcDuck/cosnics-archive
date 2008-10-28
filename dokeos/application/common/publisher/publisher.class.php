@@ -45,10 +45,11 @@ class Publisher
 	{
 		$this->parent = $parent;
 		$this->default_learning_objects = array();
+		$this->parameters = array();
 		$this->types = (is_array($types) ? $types : array ($types));
 		$this->mail_option = $mail_option;
 		$this->set_publisher_actions(array ('creator','browser', 'finder'));
-		$parent->set_parameter(Publisher :: PARAM_ACTION, $this->get_action());
+		$this->get_parent()->set_parameter(Publisher :: PARAM_ACTION, $this->get_action());
 	}
 
 	/**
@@ -96,14 +97,24 @@ class Publisher
 		return $this->parent->get_url($parameters, $encode);
 	}
 
+	function get_parameter($name)
+	{
+		return $this->parameters[$name];
+	}
+	
 	function get_parameters()
 	{
-		return $this->parent->get_parameters();
+		return $this->parameters;
 	}
 
+	function set_parameters($parameters = array())
+	{
+		$this->parameters = $parameters;
+	}
+	
 	function set_parameter($name, $value)
 	{
-		$this->parent->set_parameter($name, $value);
+		$this->parameters[$name] = $value;
 	}
 	
 	/**
@@ -151,16 +162,6 @@ class Publisher
 	function with_mail_option()
 	{
 		return $this->mail_option;
-	}
-	
-	function get_extra_parameters()
-	{
-		return $this->parameters;
-	}
-	
-	function set_extra_parameters($parameters)
-	{
-		$this->parameters = $parameters;
 	}
 }
 ?>

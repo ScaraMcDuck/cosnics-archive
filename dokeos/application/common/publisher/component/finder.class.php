@@ -28,9 +28,8 @@ class PublisherFinderComponent extends PublisherBrowserComponent
 	function PublisherFinderComponent($parent)
 	{
 		parent :: __construct($parent);
-		$this->form = new FormValidator('search', 'get',$this->get_url($this->get_extra_parameters()),'',null,false);
+		$this->form = new FormValidator('search', 'get',$this->get_url($this->get_parameters()),'',null,false);
 		$this->form->addElement('hidden', Publisher :: PARAM_ACTION);
-		$this->form->addElement('hidden', Tool :: PARAM_ACTION);
 		$this->form->addElement('text', 'query', Translation :: get('Find'), 'size="40" class="search_query"');
 		$this->form->addElement('submit', 'submit', Translation :: get('Ok'));
 	}

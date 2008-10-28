@@ -145,7 +145,7 @@ class SystemAnnouncementPublicationForm extends FormValidator
     {
     	$receiver_options = array();
     	
-    	$groups = GroupDataManager :: get_instance()->retrieve_classgroups();
+    	$groups = GroupDataManager :: get_instance()->retrieve_groups();
     	
     	while ($group = $groups->next_result())
     	{

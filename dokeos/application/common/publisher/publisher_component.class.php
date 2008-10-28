@@ -65,15 +65,7 @@ abstract class PublisherComponent
 	 */
 	function get_url($parameters = array(), $encode = false)
 	{
-		return $this->parent->get_url($parameters, $encode);
-	}
-
-	/**
-	 * @see ObjectPublisher::get_parameters()
-	 */
-	function get_parameters()
-	{
-		return $this->parent->get_parameters();
+		return $this->get_parent()->get_url($parameters, $encode);
 	}
 
 	/**
@@ -81,8 +73,7 @@ abstract class PublisherComponent
 	 */
 	function get_parameter($name)
 	{
-		$parameters = $this->get_parameters();
-		return $parameters[$name];
+		$this->get_parent()->get_parameter($name);
 	}
 
 	/**
@@ -90,12 +81,12 @@ abstract class PublisherComponent
 	 */
 	function set_parameter($name, $value)
 	{
-		$this->parent->set_parameter($name, $value);
+		$this->get_parent()->set_parameter($name, $value);
 	}
 	
 	function set_default_learning_object($type, $learning_object)
 	{
-		$this->parent->set_default_learning_object($type, $learning_object);
+		$this->get_parent()->set_default_learning_object($type, $learning_object);
 	}
 
 	/**
@@ -103,22 +94,22 @@ abstract class PublisherComponent
 	 */
 	function get_default_learning_object($type)
 	{
-		return $this->parent->get_default_learning_object($type);
+		return $this->get_parent()->get_default_learning_object($type);
 	}
 	
 	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
 	{
-		return $this->parent->redirect($action, $message, $error_message, $extra_params);
+		return $this->get_parent()->redirect($action, $message, $error_message, $extra_params);
 	}
 	
-	function get_extra_parameters()
+	function get_parameters()
 	{
-		return $this->parent->get_extra_parameters();
+		return $this->get_parent()->get_parameters();
 	}
 	
-	function set_extra_parameters($parameters)
+	function set_parameters($parameters)
 	{
-		$this->parent->set_extra_parameters($parameters);
+		$this->get_parent()->set_parameters($parameters);
 	}
 }
 ?>

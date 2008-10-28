@@ -106,7 +106,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
     function count_profile_publications($condition = null)
     {
 		$query = 'SELECT COUNT('.$this->escape_column_name(ProfilePublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('publication');
-		$query .= 'JOIN '.$this->userDM->escape_table_name('user') . 'ON' . $this->escape_table_name('publication'). '.' . $this->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
+		$query .= 'JOIN '.$this->userDM->get_database()->escape_table_name('user') . 'ON' . $this->escape_table_name('publication'). '.' . $this->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->get_database()->escape_table_name('user') .'.'. $this->userDM->get_database()->escape_column_name('user_id');
 
 		$params = array ();
 		if (isset ($condition))
@@ -145,7 +145,7 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 	{
 
 		$query = 'SELECT * FROM '.$this->escape_table_name('publication');
-		$query .= 'JOIN '.$this->userDM->escape_table_name('user') . 'ON' . $this->escape_table_name('publication'). '.' . $this->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->escape_table_name('user') .'.'. $this->userDM->escape_column_name('user_id');
+		$query .= 'JOIN '.$this->userDM->get_database()->escape_table_name('user') . 'ON' . $this->escape_table_name('publication'). '.' . $this->escape_column_name(ProfilePublication :: PROPERTY_PUBLISHER) .'='. $this->userDM->get_database()->escape_table_name('user') .'.'. $this->userDM->get_database()->escape_column_name('user_id');
 
 		$params = array ();
 		if (isset ($condition))

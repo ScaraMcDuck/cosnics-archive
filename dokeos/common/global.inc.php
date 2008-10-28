@@ -27,12 +27,11 @@ if (file_exists($main_configuration_file_path))
 	$already_installed = true;
 }
 
-$error_message = <<<EOM
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+$error_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 	<head>
 		<title>Dokeos not installed!</title>
-		<link rel="stylesheet" href="layout/css/default.css" type="text/css"/>
+		<link rel="stylesheet" href="layout/aqua/css/common.css" type="text/css"/>
 	</head>
 	<body>
 		<div id="header1">Dokeos not installed!</div>
@@ -41,12 +40,12 @@ $error_message = <<<EOM
 				or <a href="documentation/installation_guide.html" target="_blank">read the installation guide</a><br /><br />
 		</div>
 		<div id="footer">
-			<div class="copyright">Platform <a href="http://www.dokeos.com"> Dokeos </a> &copy; 2007 </div>
+			<div class="copyright">Platform <a href="http://www.dokeos.com"> Dokeos </a> &copy; ' . date('Y') . '</div>
 			&nbsp;
 		</div>
 	</body>
 </html>
-EOM;
+';
 
 // 
 if (!$already_installed)

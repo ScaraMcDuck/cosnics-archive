@@ -18,7 +18,7 @@ class PersonalMessagePublisher extends Publisher
 	function PersonalMessagePublisher($parent, $types, $mail_option = false)
 	{
 		parent :: __construct($parent, $types, $mail_option = false);
-		$this->set_publisher_actions(array ('publicationcreator','browser', 'finder'));
+		$this->set_publisher_actions(array ('creator','browser', 'finder'));
 	}
 
 	/**
