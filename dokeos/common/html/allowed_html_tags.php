@@ -34,8 +34,8 @@ require_once ('../global.inc.php');
 
 Translation :: set_application('general');
 
-require_once (PATH :: get_path(SYS_LIB_PATH).'html/formvalidator/FormValidator.class.php');
-require_once (PATH :: get_path(SYS_LIB_PATH).'html/formvalidator/Rule/HTML.php');
+require_once (PATH :: get(SYS_LIB_PATH).'html/formvalidator/FormValidator.class.php');
+require_once (PATH :: get(SYS_LIB_PATH).'html/formvalidator/Rule/HTML.php');
 // TODO: Use AdminDataManager here ...
 //$language_code = Database :: get_language_isocode($language_interface);
 $language_code = 'en';
@@ -46,15 +46,15 @@ header('Content-Type: text/html; charset='.$charset);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $charset ?>" />
 <title>
-<?php echo get_lang('AllowedHTMLTags'); ?>
+<?php echo Translation :: get('AllowedHTMLTags'); ?>
 </title>
-<link rel="stylesheet" type="text/css" href="<?php echo Path :: get(WEB_CSS_PATH); ?>default.css"/>
+<link rel="stylesheet" type="text/css" href="<?php echo Theme :: get_common_css_path(); ?>"/>
 </head>
 <body>
 <div style="margin:10px;">
 <div style="text-align:right;"><a href="javascript:window.close();"><?php echo Translation :: get('Close'); ?></a></div>
 <h4>
-<?php echo get_lang('AllowedHTMLTags'); ?>
+<?php echo Translation :: get('AllowedHTMLTags'); ?>
 </h4>
 <?php
 
@@ -91,7 +91,7 @@ foreach ($table_header as $index => $header_item)
 $table->display();
 
 ?>
-<div style="text-align:right;"><a href="javascript:window.close();"><?php echo get_lang('Close'); ?></a></div>
+<div style="text-align:right;"><a href="javascript:window.close();"><?php echo Translation :: get('Close'); ?></a></div>
 </div>
 </body>
 </html>

@@ -171,5 +171,10 @@ class DatabaseUserDataManager extends UserDataManager
 		}
 		*/
 	}
+	
+	function get_database()
+	{
+		return $this->database;
+	}
 }
 ?>
