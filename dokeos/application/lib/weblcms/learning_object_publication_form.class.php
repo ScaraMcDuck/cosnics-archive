@@ -249,7 +249,10 @@ class LearningObjectPublicationForm extends FormValidator
 		$modifiedDate = time();
 		$publicationDate = time();
 		$pub = new LearningObjectPublication(null, $this->learning_object, $course, $tool, $category, $users, $course_groups, $from, $to, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, false);
-		$pub->create();
+		if (!$pub->create())
+		{
+			return false;
+		}
 		if($this->email_option && $values[self::PARAM_EMAIL])
 		{
 			$learning_object = $this->learning_object;
@@ -268,7 +271,10 @@ class LearningObjectPublicationForm extends FormValidator
 			{
 				$pub->set_email_sent(true);
 			}
-			$pub->update();
+			if ($pub->update())
+			{
+				return false;
+			}
 		}
 		return $pub;
     }

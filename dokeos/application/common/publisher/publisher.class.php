@@ -2,7 +2,8 @@
 /**
  * @package application.lib.encyclopedia
  */
-require_once dirname(__FILE__).'/../../../repository/lib/abstract_learning_object.class.php';
+require_once Path :: get_library_path() . 'redirect.class.php';
+require_once Path :: get_repository_path() . 'lib/abstract_learning_object.class.php';
 
 /**
 ==============================================================================
@@ -139,9 +140,15 @@ class Publisher
 		return new AbstractLearningObject($type, $this->get_user_id());
 	}
 	
-	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
+	function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
 	{
-		return $this->parent->redirect($action, $message, $error_message, $extra_params);
+		if (isset($message))
+		{
+			$parameters[$error_message ? Redirect :: PARAM_ERROR_MESSAGE :  Redirect :: PARAM_MESSAGE] = $message;
+		}
+		
+		$parameters = array_merge($this->get_parent()->get_parameters(), $parameters);
+		Redirect :: url($parameters, $filter, $encode_entities);
 	}
 	
 	function get_publisher_actions()

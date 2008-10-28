@@ -31,9 +31,19 @@ class LearningObjectPublisherPublicationCreatorComponent extends PublisherPublic
 			//$parameters['action'] = Tool::ACTION_SHOW_NORMAL_MESSAGE;
 			$parameters['message'] = Translation :: get('ObjectPublished');
 			$parameters['pcattree'] = $publication->get_category_id();
-			$url = $this->get_url($parameters);
+			
 			// Redirect to location where the publication was made
-			header('Location: '.$url);
+			
+			if (!$publication)
+			{
+				$message = Translation :: get('ObjectNotPublished');
+			}
+			else
+			{
+				$message = Translation :: get('ObjectPublished');
+			}
+			
+			$this->redirect($message, (!$publication ? true : false), $parameters, array(Tool :: PARAM_ACTION, Publisher :: PARAM_ACTION));
 			// In case headers were allready sent, we simply show the confirmation message here
 			$out .= Display::display_normal_message(Translation :: get('ObjectPublished'),true);
 		}
