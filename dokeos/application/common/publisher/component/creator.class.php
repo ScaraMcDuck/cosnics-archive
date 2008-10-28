@@ -115,7 +115,7 @@ abstract class PublisherCreatorComponent extends PublisherComponent
 			}
 			else
 			{
-				$this->redirect('publicationcreator', '', false, $redirect_params);
+				$this->redirect(null, false, $redirect_params);
 			}
 		}
 		else

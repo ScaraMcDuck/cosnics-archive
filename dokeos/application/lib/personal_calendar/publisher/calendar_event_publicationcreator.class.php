@@ -37,7 +37,7 @@ class CalendarEventPublisherPublicationcreatorComponent extends PublisherPublica
 				$message = 'ProfileNotPublished';
 			}
 			
-			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR));
 		}
 		else
 		{

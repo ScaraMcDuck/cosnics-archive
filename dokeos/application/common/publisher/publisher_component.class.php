@@ -97,9 +97,9 @@ abstract class PublisherComponent
 		return $this->get_parent()->get_default_learning_object($type);
 	}
 	
-	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
+	function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
 	{
-		return $this->get_parent()->redirect($action, $message, $error_message, $extra_params);
+		return $this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
 	}
 	
 	function get_parameters()
