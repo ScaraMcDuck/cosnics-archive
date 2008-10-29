@@ -45,28 +45,31 @@ class AdminBrowserComponent extends AdminManagerComponent
 		foreach ($this->get_application_platform_admin_links() as $application_links)
 		{
 			$search_form_index++;
-			$html[] = '<div class="admin_section">';
-			$html[] = '<div class="main"><img src="'. Theme :: get_img_path() . 'place_' . $application_links['application']['class'] .'.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'] .'</div>';
-			$html[] = '<div class="actions">';
+			
 			if (count($application_links['links']))
 			{
+				$html[] = '<div class="admin_section">';
+				$html[] = '<div class="main"><img src="'. Theme :: get_img_path() . 'place_' . $application_links['application']['class'] .'.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'] .'</div>';
+				$html[] = '<div class="actions">';
+					
 				foreach ($application_links['links'] as $link)
 				{
 					$html[] = '<div class="action"><a href="'.$link['url'] .'"><img src="'. Theme :: get_img_path() .'action_'. $link['action'] .'.png" alt="'. $link['name'] .'" title="'. $link['name'] .'"/><br />'.$link['name'].'</a></div>';
 				}
-			}
-			$html[] = '</div>';
-			if (isset($application_links['search']))
-			{
-				$search_form = new AdminSearchForm($this, $application_links['search'], $search_form_index);
-				$html[] = $search_form->display();
-			}
-			else
-			{
-				$html[] = '<div class="admin_search">';
+				
+				$html[] = '</div>';
+				if (isset($application_links['search']))
+				{
+					$search_form = new AdminSearchForm($this, $application_links['search'], $search_form_index);
+					$html[] = $search_form->display();
+				}
+				else
+				{
+					$html[] = '<div class="admin_search">';
+					$html[] = '</div>';
+				}
 				$html[] = '</div>';
 			}
-			$html[] = '</div>';
 		}
 
 		return implode("\n", $html);

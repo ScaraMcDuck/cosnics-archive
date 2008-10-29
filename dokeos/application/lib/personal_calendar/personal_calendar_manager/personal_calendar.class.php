@@ -206,7 +206,6 @@ class PersonalCalendar extends WebApplication
 	public function get_application_platform_admin_links()
 	{
 		$links = array ();
-		$links[] = array ('name' => Translation :: get('NoOptionsAvailable'), 'action' => 'empty', 'url' => $this->get_link());
 		return array ('application' => array ('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links);
 	}
 	/**

@@ -106,10 +106,9 @@ class PersonalMessagePublicationForm extends FormValidator
 
 		$failures = 0;
 
-		$recepients = array_merge($extra_rec, $values['recipients']);
-		print_r($recepients);
+		$recipients = array_merge($extra_rec, $values['recipients']);
 
-		foreach ($recepients as $recip)
+		foreach ($recipients as $recip)
 		{
 			if ($recip != $this->form_user->get_id())
 			{

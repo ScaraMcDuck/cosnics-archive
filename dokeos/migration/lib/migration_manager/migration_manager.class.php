@@ -254,7 +254,6 @@ class MigrationManager
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get('NoOptionsAvailable'), 'action' => 'empty', 'url' => $this->get_link());
 		return array('application' => array('name' => Translation :: get('Migration'), 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => null);
 	}
 	
