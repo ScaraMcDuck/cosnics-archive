@@ -17,7 +17,7 @@ class AnnouncementToolPublisherComponent extends AnnouncementToolComponent
 		$trail = new BreadcrumbTrail();
 		$pub = new LearningObjectPublisher($this, 'announcement', true);
 		
-		$html[] = '<p><a href="' . $this->get_url(array(), true) . '"><img src="'.Theme :: get_common_img_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
+		$html[] = '<p><a href="' . $this->get_url(array(Tool :: PARAM_ACTION => AnnouncementTool :: ACTION_VIEW_ANNOUNCEMENTS), true) . '"><img src="'.Theme :: get_common_img_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 		$html[] =  $pub->as_html();
 		
 		$this->display_header($trail);

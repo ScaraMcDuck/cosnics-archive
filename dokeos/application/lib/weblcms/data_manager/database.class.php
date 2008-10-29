@@ -59,9 +59,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		// Do something with the arguments
 		if($args[1] == 'query')
 		{
-			echo '<pre>';
-		 	echo($args[2]);
-		 	echo '</pre>';
+//			echo '<pre>';
+//		 	echo($args[2]);
+//		 	echo '</pre>';
 		}
 	}
 	/**
@@ -667,7 +667,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		while ($publication = $publications->next_result())
 		{
 			$site_name_setting = PlatformSetting :: get('site_name');
-			$subject = '['.$site_name_setting->get_value().'] '.$publication->get_learning_object()->get_title();
+			$subject = '['.$site_name_setting.'] '.$publication->get_learning_object()->get_title();
 			// TODO: SCARA - Add meaningfull publication removal message
 //			$body = 'message';
 //			$user = $this->userDM->retrieve_user($publication->get_publisher_id());

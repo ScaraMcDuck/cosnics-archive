@@ -22,7 +22,10 @@ class AnnouncementTool extends Tool
 		$action = $this->get_action();
 		$component = parent :: run();
 		
-		if($component) return;
+		if($component)
+		{
+			return;
+		}
 		
 		switch ($action)
 		{
@@ -32,6 +35,7 @@ class AnnouncementTool extends Tool
 			case self :: ACTION_PUBLISH :
 				$component = AnnouncementToolComponent :: factory('Publisher', $this);
 				break;
+				
 			default :
 				$component = AnnouncementToolComponent :: factory('Viewer', $this);
 		}

@@ -43,14 +43,14 @@ class Publisher
 	 * send the published learning object by email to the selecter target users.
 	 */
 	function Publisher($parent, $types, $mail_option = false)
-	{
+	{		
 		$this->parent = $parent;
 		$this->default_learning_objects = array();
 		$this->parameters = array();
 		$this->types = (is_array($types) ? $types : array ($types));
 		$this->mail_option = $mail_option;
 		$this->set_publisher_actions(array ('creator','browser', 'finder'));
-		$this->get_parent()->set_parameter(Publisher :: PARAM_ACTION, $this->get_action());
+		$this->set_parameter(Publisher :: PARAM_ACTION, $this->get_action());
 	}
 
 	/**
@@ -93,9 +93,11 @@ class Publisher
 		return ($_GET[Publisher :: PARAM_ACTION] ? $_GET[Publisher :: PARAM_ACTION] : 'creator');
 	}
 
-	function get_url($parameters = array(), $encode = false)
+	function get_url($parameters = array(), $encode_entities = false, $filter = array())
 	{
-		return $this->parent->get_url($parameters, $encode);
+		$parameters = array_merge($this->parent->get_parameters(), $parameters);
+		return Redirect :: get_url($parameters, $filter, $encode_entities);
+		//return $this->parent->get_url($parameters, $encode);
 	}
 
 	function get_parameter($name)

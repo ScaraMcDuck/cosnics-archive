@@ -20,24 +20,25 @@ class SystemAnnouncerPublicationCreatorComponent extends PublisherPublicationCre
 	function get_publication_form($learning_object_id, $new = false)
 	{
 		$out = ($new ? Display :: display_normal_message(htmlentities(Translation :: get('LearningObjectCreated')), true) : '');
-		$tool = $this->get_parent()->get_parent();
+		//$tool = $this->get_parent()->get_parent();
 		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
 		
-		$form = new SystemAnnouncementPublicationForm($learning_object, $this->get_user(),$this->get_url(array (SystemAnnouncer :: PARAM_ID => $learning_object->get_id())));
+		$form_action_parameters = array_merge($this->get_parameters(), array (SystemAnnouncer :: PARAM_ID => $learning_object->get_id()));
+		$form = new SystemAnnouncementPublicationForm($learning_object, $this->get_user(), $this->get_url($form_action_parameters));
 		if ($form->validate())
 		{
-			$failures = 0;
 			if ($form->create_learning_object_publication())
 			{
+				$success = true;
 				$message = 'SystemAnnouncementPublished';
 			}
 			else
 			{
-				$failures++;
+				$success = false;
 				$message = 'SystemAnnouncementNotPublished';
 			}
 			
-			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
+			$this->redirect(Translation :: get($message), (!$success ? true : false), array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS), array(Publisher :: PARAM_ACTION));
 		}
 		else
 		{

@@ -53,6 +53,8 @@ class LearningObjectPublicationForm extends FormValidator
 	private $course;
 
 	private $user;
+	
+	private $publisher;
 	/**
 	 * Creates a new learning object publication form.
 	 * @param LearningObject The learning object that will be published
@@ -60,15 +62,17 @@ class LearningObjectPublicationForm extends FormValidator
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function LearningObjectPublicationForm($learning_object, $tool, $email_option = false, $course, $publisher = true)
+    function LearningObjectPublicationForm($learning_object, $publisher, $email_option = false, $course, $in_publisher = true)
     {
-    	$url = $tool->get_url(array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $publisher?Tool :: ACTION_PUBLISH:null));
+    	$parameters = array_merge($publisher->get_parameters(), array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $in_publisher?Tool :: ACTION_PUBLISH:null));
+    	$url = $publisher->get_url($parameters);
 		parent :: __construct('publish', 'post', $url);
-		$this->tool = $tool;
+		$this->publisher = $publisher;
+		$this->tool = $publisher->get_parent()->get_parent();
 		$this->learning_object = $learning_object;
 		$this->email_option = $email_option;
 		$this->course = $course;
-		$this->user = $tool->get_user();
+		$this->user = $publisher->get_user();
 		$this->build_form();
 		$this->setDefaults();
     }
@@ -121,7 +125,7 @@ class LearningObjectPublicationForm extends FormValidator
 	 */
     function build_form()
     {
-		$categories = $this->tool->get_categories(true);
+		$categories = $this->publisher->get_categories(true);
 		if(count($categories) > 1)
 		{
 			// More than one category -> let user select one
@@ -241,11 +245,11 @@ class LearningObjectPublicationForm extends FormValidator
 				}
 			}
 		}
-		$course = $this->tool->get_course_id();
-		$tool = $this->tool->get_tool_id();
+		$course = $this->course->get_id();
+		$tool = $this->publisher->get_tool()->get_tool_id();
 		$dm = WeblcmsDataManager :: get_instance();
 		$displayOrder = $dm->get_next_learning_object_publication_display_order_index($course,$tool,$category);
-		$publisher = $this->tool->get_user_id();
+		$publisher = $this->user->get_id();
 		$modifiedDate = time();
 		$publicationDate = time();
 		$pub = new LearningObjectPublication(null, $this->learning_object, $course, $tool, $category, $users, $course_groups, $from, $to, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, false);

@@ -9,10 +9,6 @@ require_once Path :: get_application_library_path() . 'publisher/component/creat
  */
 class LearningObjectPublisherCreatorComponent extends PublisherCreatorComponent
 {
-	function LearningObjectPublisherCreatorComponent($parent)
-	{
-		parent :: __construct($parent);
-	}
 }
 
 ?>

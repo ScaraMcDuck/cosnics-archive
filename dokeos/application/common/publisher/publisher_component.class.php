@@ -28,8 +28,8 @@ abstract class PublisherComponent
 	 * Returns the creator of this object.
 	 * @return ObjectPublisher The creator.
 	 */
-	protected function get_parent()
-	{
+	function get_parent()
+	{		
 		return $this->parent;
 	}
 
