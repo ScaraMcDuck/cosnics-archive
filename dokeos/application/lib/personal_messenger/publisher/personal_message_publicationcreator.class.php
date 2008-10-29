@@ -26,7 +26,8 @@ class PersonalMessagePublisherPublicationCreatorComponent extends PublisherPubli
 		$edit = $_GET[Publisher :: PARAM_EDIT];
 		$user = $_GET[PersonalMessenger :: PARAM_USER_ID];
 		
-		$form = new PersonalMessagePublicationForm($learning_object, $this->get_user(),$this->get_url(array (PersonalMessagePublisher :: PARAM_ID => $learning_object->get_id())));
+		$form_action_parameters = array_merge($this->get_parameters(), array (PersonalMessagePublisher :: PARAM_ID => $learning_object->get_id()));
+		$form = new PersonalMessagePublicationForm($learning_object, $this->get_user(),$this->get_url($form_action_parameters));
 		if ($form->validate() || ($edit && $user))
 		{
 			$failures = 0;

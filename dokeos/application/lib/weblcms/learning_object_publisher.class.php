@@ -22,7 +22,7 @@ class LearningObjectPublisher extends Publisher
 	function LearningObjectPublisher($parent, $types, $mail_option = false)
 	{
 		parent :: __construct($parent, $types, $mail_option = false);
-		$this->get_parent()->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH);
+		$this->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH);
 		$this->set_publisher_actions(array ('creator','browser', 'finder'));
 	}
 
@@ -66,6 +66,28 @@ class LearningObjectPublisher extends Publisher
 		return $this->get_parent()->get_course_id();
 	}
 	
+	/**
+	 * @see Tool::get_course()
+	 */
+	function get_user()
+	{
+		return $this->get_parent()->get_user();
+	}
 	
+	/**
+	 * @see Tool::get_categories()
+	 */
+	function get_categories()
+	{
+		return $this->get_parent()->get_categories();
+	}
+	
+	/**
+	 * @see Tool::get_tool()
+	 */
+	function get_tool()
+	{
+		return $this->get_parent();
+	}
 }
 ?>
