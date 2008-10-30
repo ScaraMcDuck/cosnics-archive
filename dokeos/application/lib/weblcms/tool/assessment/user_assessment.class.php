@@ -9,73 +9,74 @@ class UserAssessment
 	
 	const TABLE_NAME = 'user_assessment';
 	
-	private $id;
-	private $properties;
+	//private $id;
+	private $default_properties;
 	
-	function UserAssessment($id, $properties)
+	function UserAssessment($id, $default_properties)
 	{
-		$this->id = $id;
-		$this->properties = $properties;
+		//$this->id = $id;
+		$this->set_id($id);
+		$this->default_properties = $default_properties;
 	}
 	
-	function set_property($name, $value)
+	function set_default_property($name, $value)
 	{
-		$this->properties[$name] = $value;
+		$this->default_properties[$name] = $value;
 	}
 	
-	function get_property($name) 
+	function get_default_property($name) 
 	{
-		return $this->properties[$name];
+		return $this->default_properties[$name];
 	}
 	
-	function get_properties()
+	function get_default_properties()
 	{
-		return $this->properties;
+		return $this->default_properties;
 	}
 	
-	function set_properties($properties)
+	function set_default_properties($default_properties)
 	{
-		$this->properties = $properties;
+		$this->default_properties = $default_properties;
 	}
 	
 	function get_id()
 	{
-		return $this->id;
+		return $this->get_default_property(self :: PROPERTY_ID);
 	}
 	
 	function set_id($value)
 	{
-		$this->id = $id;
+		$this->set_default_property(self :: PROPERTY_ID, $value);
 	}
 	
 	function get_assessment_id()
 	{
-		return $this->get_property(self :: PROPERTY_ASSESSMENT_ID);
+		return $this->get_default_property(self :: PROPERTY_ASSESSMENT_ID);
 	}
 	
 	function get_date_time_taken()
 	{
-		return $this->get_property(self :: PROPERTY_DATE_TIME_TAKEN);
+		return $this->get_default_property(self :: PROPERTY_DATE_TIME_TAKEN);
 	}
 	
 	function get_user_id()
 	{
-		return $this->get_property(self :: PROPERTY_USER_ID);
+		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 	
 	function set_assessment_id($value)
 	{
-		$this->set_property(self :: PROPERTY_ASSESSMENT_ID, $value);
+		$this->set_default_property(self :: PROPERTY_ASSESSMENT_ID, $value);
 	}
 	
 	function set_date_time_taken($value)
 	{
-		$this->set_property(self :: PROPERTY_DATE_TIME_TAKEN, $value);
+		$this->set_default_property(self :: PROPERTY_DATE_TIME_TAKEN, $value);
 	}
 	
 	function set_user_id($value)
 	{
-		$this->set_property(self :: PROPERTY_USER_ID, $value);
+		$this->set_default_property(self :: PROPERTY_USER_ID, $value);
 	}
 	
 	function create() 

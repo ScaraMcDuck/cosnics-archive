@@ -1,6 +1,6 @@
 <?php
 /**
- * @package application.weblcms.tool.exercise.component
+ * @package application.weblcms.tool.assessment.component
  */
 require_once dirname(__FILE__).'/assessment_tester_form/assessment_tester_form.class.php';
 
@@ -33,31 +33,37 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	
 	function check($tester_form, $assessment, $datamanager)
 	{
-	if ($tester_form->validate())
+		if ($tester_form->validate())
 		{
 			$values = $tester_form->exportValues();
 			$user_assessment = new UserAssessment();
 			$user_assessment->set_assessment_id($assessment->get_id());
 			$user_assessment->set_user_id(1);
-			$user_assessment->set_id($this->get_next_user_assessment_id());
-			
+			$id = $datamanager->get_next_user_assessment_id();
+			$user_assessment->set_id($id);
 			if($datamanager->create_user_assessment($user_assessment)) {
 				foreach($values as $key => $value)
 				{
-					$answer = new UserAnswer();
-					$answer->set_user_test_id($user_assessment->get_id());
-					//print_r ('\n'.$key.';'.$value);
-					$parts = split("_", $key);
-					$answer->set_question_id($parts[0]);
-					$answer->set_answer_id($parts[1]);
-					$answer->set_extra($value);
-					//$user_answers[] = $answer;
-					print_r ('\n'.$answer);
-					$datamanager->create_user_answer($user_answer);
+					add_user_answer($user_assessment, $key, $value);
 				}
 			}
+			echo 'Assessment successfully completed';
 		} else {
 			echo $tester_form->toHtml();
+		}
+	}
+	
+	function add_user_answer($user_assessment, $key, $value)
+	{
+		if ($key != 'submit') {
+			$answer = new UserAnswer();
+			$answer->set_id($datamanager->get_next_user_answer_id());
+			$answer->set_user_test_id($user_assessment->get_id());
+			$parts = split("_", $key);
+			$answer->set_question_id($parts[0]);
+			$answer->set_answer_id($parts[1]);
+			$answer->set_extra($value);
+			$datamanager->create_user_answer($answer);
 		}
 	}
 }

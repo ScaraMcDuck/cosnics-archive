@@ -1,13 +1,13 @@
 <?php
 /**
- * @package application.weblcms.tool.exercise.component
+ * @package application.weblcms.tool.assessment.component
  */
 
 require_once dirname(__FILE__).'/assessment_publication_table/assessment_publication_table.class.php';
 require_once Path :: get_library_path().'/html/action_bar/action_bar_renderer.class.php';
 
 /**
- * Represents the view component for the exercise tool.
+ * Represents the view component for the assessment tool.
  *
  */
 class AssessmentToolViewerComponent extends AssessmentToolComponent 
@@ -34,7 +34,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 		
 		echo '</div></div>';
 		echo '<div style="width:79%; padding-left: 1%; float:right; border-left: 1px solid grey;">';
-		$table = new AssessmentPublicationTable($this, $this->get_user(), array('assessment','exercise'), null);
+		$table = new AssessmentPublicationTable($this, $this->get_user(), array('assessment'), null); //,'exercise'), null);
 		echo $table->as_html();
 		echo '</div>';
 		

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package application.weblcms.tool.exercise
+ * @package application.weblcms.tool.assessment
  */
 
 /**
- * The base class for all exercise tool components.
+ * The base class for all assessment tool components.
  *
  */
 class AssessmentToolComponent extends ToolComponent 
@@ -13,12 +13,12 @@ class AssessmentToolComponent extends ToolComponent
 	 * Inherited
 	 *
 	 * @param unknown_type $component_name
-	 * @param unknown_type $exercise_tool
+	 * @param unknown_type $assessment_tool
 	 * @return unknown
 	 */
-	static function factory ($component_name, $exercise_tool) 
+	static function factory ($component_name, $assessment_tool) 
 	{
-		return parent :: factory('Assessment', $component_name, $exercise_tool);
+		return parent :: factory('Assessment', $component_name, $assessment_tool);
 	}
 	
 	function get_toolbar() 
