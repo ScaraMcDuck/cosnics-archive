@@ -10,83 +10,83 @@ class UserAnswer
 	
 	const TABLE_NAME = 'user_answer';
 	
-	private $id;
-	private $properties;
+	//private $id;
+	private $default_properties;
 	
-	function UserAnswer($id = null, $properties = array())
+	function UserAnswer($id = null, $default_properties = array())
 	{
-		$this->id = $id;
-		$this->properties = $properties;
+		$this->set_id($id);
+		$this->default_properties = $default_properties;
 	}
 	
-	function set_property($name, $value)
+	function set_default_property($name, $value)
 	{
-		$this->properties[$name] = $value;
+		$this->default_properties[$name] = $value;
 	}
 	
-	function get_property($name) 
+	function get_default_property($name) 
 	{
-		return $this->properties[$name];
+		return $this->default_properties[$name];
 	}
 	
-	function get_properties()
+	function get_default_properties()
 	{
-		return $this->properties;
+		return $this->default_properties;
 	}
 	
-	function set_properties($properties)
+	function set_default_properties($properties)
 	{
-		$this->properties = $properties;
+		$this->default_properties = $properties;
 	}
 	
 	function get_id()
 	{
-		return $this->id;
+		return $this->get_default_property(self :: PROPERTY_ID);
 	}
 	
 	function set_id($value)
 	{
-		$this->id = $id;
+		$this->set_default_property(self :: PROPERTY_ID, $value);
 	}
 	
 	function get_user_test_id()
 	{
-		return $this->get_property(self :: PROPERTY_USER_ASSESSMENT_ID);
+		return $this->get_default_property(self :: PROPERTY_USER_ASSESSMENT_ID);
 	}
 	
 	function get_question_id()
 	{
-		return $this->get_property(self :: PROPERTY_QUESTION_ID);
+		return $this->get_default_property(self :: PROPERTY_QUESTION_ID);
 	}
 	
 	function get_answer_id()
 	{
-		return $this->get_property(self :: PROPERTY_ANSWER_ID);
+		return $this->get_default_property(self :: PROPERTY_ANSWER_ID);
 	}
 	
 	function get_extra()
 	{
-		return $this->get_property(self :: PROPERTY_EXTRA);
+		return $this->get_default_property(self :: PROPERTY_EXTRA);
 	}
 	
 	function set_user_test_id($value)
 	{
-		$this->set_property(self :: PROPERTY_USER_ASSESSMENT_ID, $value);
+		$this->set_default_property(self :: PROPERTY_USER_ASSESSMENT_ID, $value);
 	}
 	
 	function set_question_id($value)
 	{
-		$this->set_property(self :: PROPERTY_QUESTION_ID, $value);
+		$this->set_default_property(self :: PROPERTY_QUESTION_ID, $value);
 	}
 	
 	function set_answer_id($value)
 	{
-		$this->set_property(self :: PROPERTY_ANSWER_ID, $value);
+		$this->set_default_property(self :: PROPERTY_ANSWER_ID, $value);
 	}
 	
 	function set_extra($value)
 	{
-		$this->set_property(self :: PROPERTY_EXTRA, $value);
+		$this->set_default_property(self :: PROPERTY_EXTRA, $value);
 	}
 	
 	function create() 

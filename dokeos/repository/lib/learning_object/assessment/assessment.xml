@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="complex_exercise">
+<object name="assessment">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="test" type="text" notnull="1"/>
+  <property name="type" type="text" notnull="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

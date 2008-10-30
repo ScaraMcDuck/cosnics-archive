@@ -3,12 +3,12 @@
  * $Id: announcementtool.class.php 9200 2006-09-04 13:40:47Z bmol $
  * Announcement tool
  * @package application.weblcms.tool
- * @subpackage exercise
+ * @subpackage assessment
  */
 //require_once dirname(__FILE__).'/../repository_tool.class.php';
 require_once dirname(__FILE__).'/assessment_tool_component.class.php';
 /**
- * This tool allows a user to publish exercises in his or her course.
+ * This tool allows a user to publish assessments in his or her course.
  */
 class AssessmentTool extends Tool
 {

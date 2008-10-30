@@ -1,13 +1,13 @@
 <?php
 /**
  * @package repository.learningobject
- * @subpackage exercise
+ * @subpackage assessment
  */
 require_once dirname(__FILE__) . '/../../complex_learning_object_item.class.php';
 /**
- * This class represents a complex exercise (used to create complex learning objects)
+ * This class represents a complex assessment (used to create complex learning objects)
  */
-class ComplexExercise extends ComplexLearningObjectItem
+class ComplexAssessment extends ComplexLearningObjectItem
 {
 
 	const PROPERTY_TEST = 'test';
@@ -29,7 +29,7 @@ class ComplexExercise extends ComplexLearningObjectItem
 	
 	function get_allowed_types()
 	{
-		return array( 'open_question');
+		return array( 'question');
 	}
 }
 ?>
