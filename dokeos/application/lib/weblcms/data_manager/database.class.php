@@ -2271,6 +2271,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->db->retrieve_objects(UserAssessment :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
+	function retrieve_user_assessment($uaid)
+	{
+		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ID, $uaid);
+		$assessment = $this->db->retrieve_object(UserAssessment :: get_table_name(), $condition);
+
+		return $assessment;
+	}
+	
 	function get_next_user_assessment_id()
 	{
 		return $this->db->get_next_id(UserAssessment :: get_table_name());

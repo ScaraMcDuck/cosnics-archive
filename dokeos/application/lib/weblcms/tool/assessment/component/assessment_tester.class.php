@@ -22,38 +22,40 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		$trail = new BreadcrumbTrail();
 		$assessment = $pub->get_learning_object();
 		
-		$this->display_header($trail);
-		
 		$tester_form = new AssessmentTesterForm($assessment, $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $pid)));
-		
-		$this->check($tester_form, $assessment, $datamanager);
-		
-		$this->display_footer();
-	}
-	
-	function check($tester_form, $assessment, $datamanager)
-	{
-		if ($tester_form->validate())
+		if (!$tester_form->validate()) 
 		{
-			$values = $tester_form->exportValues();
-			$user_assessment = new UserAssessment();
-			$user_assessment->set_assessment_id($assessment->get_id());
-			$user_assessment->set_user_id(1);
-			$id = $datamanager->get_next_user_assessment_id();
-			$user_assessment->set_id($id);
-			if($datamanager->create_user_assessment($user_assessment)) {
-				foreach($values as $key => $value)
-				{
-					add_user_answer($user_assessment, $key, $value);
-				}
-			}
-			echo 'Assessment successfully completed';
-		} else {
+			$this->display_header($trail);
 			echo $tester_form->toHtml();
+			$this->display_footer();
+		} 
+		else
+		{
+			$uaid = $this->build_answers($tester_form, $assessment, $datamanager);
+			$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid);
+			$this->redirect(null, null, false, $params);
 		}
 	}
 	
-	function add_user_answer($user_assessment, $key, $value)
+	function build_answers($tester_form, $assessment, $datamanager)
+	{
+		$values = $tester_form->exportValues();
+		$user_assessment = new UserAssessment();
+		$user_assessment->set_assessment_id($assessment->get_id());
+		$user_assessment->set_user_id(1);
+		$id = $datamanager->get_next_user_assessment_id();
+		$user_assessment->set_id($id);
+		
+		if($datamanager->create_user_assessment($user_assessment)) {
+			foreach($values as $key => $value)
+			{
+				$this->add_user_answer($datamanager, $user_assessment, $key, $value);
+			}
+		}
+		return $id;
+	}
+	
+	function add_user_answer($datamanager, $user_assessment, $key, $value)
 	{
 		if ($key != 'submit') {
 			$answer = new UserAnswer();

@@ -9,6 +9,7 @@
  */
 class AssessmentToolComponent extends ToolComponent 
 {
+	
 	/**
 	 * Inherited
 	 *

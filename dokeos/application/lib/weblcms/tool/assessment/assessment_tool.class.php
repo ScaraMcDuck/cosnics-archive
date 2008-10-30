@@ -14,6 +14,9 @@ class AssessmentTool extends Tool
 {
 	const ACTION_VIEW_ASSESSMENTS = 'view';
 	const ACTION_TAKE_ASSESSMENT = 'exec';
+	const ACTION_VIEW_RESULTS = 'view_result';
+	
+	const PARAM_USER_ASSESSMENT = 'uaid';
 	/*
 	 * Inherited.
 	 */
@@ -34,6 +37,9 @@ class AssessmentTool extends Tool
 				break;
 			case self :: ACTION_TAKE_ASSESSMENT:
 				$component = AssessmentToolComponent :: factory('Tester', $this);
+				break;
+			case self :: ACTION_VIEW_RESULTS:
+				$component = AssessmentToolComponent :: factory('ResultsViewer', $this);
 				break;
 			default:
 				$component = AssessmentToolComponent :: factory('Viewer', $this);
