@@ -7,16 +7,28 @@ class UserAnswer
 	const PROPERTY_QUESTION_ID = 'question_id';
 	const PROPERTY_ANSWER_ID = 'answer_id';
 	const PROPERTY_EXTRA = 'extra';
+	const PROPERTY_SCORE = 'score';
 	
 	const TABLE_NAME = 'user_answer';
 	
-	//private $id;
 	private $default_properties;
 	
 	function UserAnswer($id = null, $default_properties = array())
 	{
 		$this->set_id($id);
 		$this->default_properties = $default_properties;
+	}
+	
+	function get_default_property_names()
+	{
+		return array(
+		self :: PROPERTY_ID,
+		self :: PROPERTY_USER_ASSESSMENT_ID,
+		self :: PROPERTY_QUESTION_ID,
+		self :: PROPERTY_ANSWER_ID,
+		self :: PROPERTY_EXTRA,
+		self :: PROPERTY_SCORE
+		);
 	}
 	
 	function set_default_property($name, $value)
@@ -69,6 +81,11 @@ class UserAnswer
 		return $this->get_default_property(self :: PROPERTY_EXTRA);
 	}
 	
+	function get_score()
+	{
+		return $this->get_default_property(self :: PROPERTY_SCORE);
+	}
+	
 	function set_user_test_id($value)
 	{
 		$this->set_default_property(self :: PROPERTY_USER_ASSESSMENT_ID, $value);
@@ -87,6 +104,11 @@ class UserAnswer
 	function set_extra($value)
 	{
 		$this->set_default_property(self :: PROPERTY_EXTRA, $value);
+	}
+	
+	function set_score($value)
+	{
+		$this->set_default_property(self :: PROPERTY_SCORE, $value);
 	}
 	
 	function create() 

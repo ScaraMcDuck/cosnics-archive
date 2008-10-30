@@ -33,6 +33,10 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 		if ($column === AssessmentPublicationTableColumnModel :: get_action_column())
 		{
 			return $this->get_actions($publication);
+		} 
+		else if ($column->get_object_property() == Assessment :: PROPERTY_ASSESSMENT_TYPE)
+		{
+			return $publication->get_learning_object()->get_assessment_type();
 		}
 		return parent :: render_cell($column, $publication->get_learning_object());
 	}

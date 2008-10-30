@@ -18,6 +18,16 @@ class UserAssessment
 		$this->set_id($id);
 		$this->default_properties = $default_properties;
 	}
+		
+	function get_default_property_names()
+	{
+		return array(
+		self :: PROPERTY_ID,
+		self :: PROPERTY_ASSESSMENT_ID,
+		self :: PROPERTY_DATE_TIME_TAKEN,
+		self :: PROPERTY_USER_ID
+		);
+	}
 	
 	function set_default_property($name, $value)
 	{

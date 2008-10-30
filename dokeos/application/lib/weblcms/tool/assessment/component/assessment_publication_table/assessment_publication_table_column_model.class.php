@@ -5,6 +5,7 @@
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
+require_once Path :: get_repository_path(). 'lib/learning_object/assessment/assessment.class.php';
 /**
  * This class represents a column model for a publication candidate table
  */
@@ -30,6 +31,7 @@ class AssessmentPublicationTableColumnModel extends ObjectTableColumnModel {
 		$columns = array();
 		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
 		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);
+		$columns[] = new ObjectTableColumn(Assessment :: PROPERTY_ASSESSMENT_TYPE, true);
 		$columns[] = self :: get_action_column();
 		return $columns;
 	}

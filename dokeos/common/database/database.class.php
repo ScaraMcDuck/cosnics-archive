@@ -342,7 +342,6 @@ class Database
 	function retrieve_objects($table_name, $condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name($table_name). ' AS '. $this->get_alias($table_name);
-
 		$params = array ();
 		if (isset ($condition))
 		{
@@ -351,7 +350,7 @@ class Database
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-
+		
 		$order = array ();
 		
 		for ($i = 0; $i < count($orderBy); $i ++)
@@ -394,7 +393,6 @@ class Database
 		$res->free();
 
 		$class_name = DokeosUtilities :: underscores_to_camelcase($table_name);
-
 		if($record)
 			return self :: record_to_object($record, $class_name);
 	}
