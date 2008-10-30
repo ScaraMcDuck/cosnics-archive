@@ -37,7 +37,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	 */
 	private $prefix;
 	
-	private $database;
+	//private $database;
 
 	function initialize()
 	{
@@ -47,11 +47,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->prefix = 'weblcms_';
 		$this->connection->query('SET NAMES utf8');
 		
-		//$this->db = new Database(array('course_category' => 'cat', 'user_answer' => 'ans', 'user_assessment' => 'ass'));
-		//$this->db->set_prefix('weblcms_');
+		$this->db = new Database(array('course_category' => 'cat', 'user_answer' => 'ans', 'user_assessment' => 'ass'));
+		$this->db->set_prefix('weblcms_');
 		
-		$this->database = new Database(array('course_category' => 'cat', 'user_answer' => 'ans', 'user_assessment' => 'ass'));
-		$this->database->set_prefix('weblcms_');
+		//$this->database = new Database(array('course_category' => 'cat', 'user_answer' => 'ans', 'user_assessment' => 'ass'));
+		//$this->database->set_prefix('weblcms_');
 	}
 	/**
 	 * This function can be used to handle some debug info from MDB2
@@ -2240,59 +2240,59 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function retrieve_user_answers($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
-		return $this->database->retrieve_objects(UserAnswer :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->db->retrieve_objects(UserAnswer :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
 	function create_user_answer($user_answer) 
 	{
-		return $this->database->create($user_answer);
+		return $this->db->create($user_answer);
 	}
 	
 	function get_next_user_answer_id()
 	{
-		return $this->database->get_next_id(UserAnswer :: get_table_name());
+		return $this->db->get_next_id(UserAnswer :: get_table_name());
 	}
 	
 	function delete_user_answer($user_answer) 
 	{
 		//delete user answer
 		$condition = new EqualityCondition(UserAnswer :: PROPERTY_ID, $user_answer->get_id());
-		return $this->database->delete(UserAnswer :: get_table_name(), $condition);
+		return $this->db->delete(UserAnswer :: get_table_name(), $condition);
 	}
 	
 	function update_user_answer($user_answer)
 	{
 		$condition = new EqualityCondition(UserAnswer :: PROPERTY_ID, $user_answer->get_id());
-		return $this->database->update(UserAnswer :: get_table_name(), $condition);
+		return $this->db->update(UserAnswer :: get_table_name(), $condition);
 	}
 	
 	function retrieve_user_assessments($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null) 
 	{
-		return $this->database->retrieve_objects(UserAssessment :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->db->retrieve_objects(UserAssessment :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
 	function get_next_user_assessment_id()
 	{
-		return $this->database->get_next_id(UserAssessment :: get_table_name());
+		return $this->db->get_next_id(UserAssessment :: get_table_name());
 	}
 	
 	function create_user_assessment($user_assessment) 
 	{
 		$time_taken = time();
 		$user_assessment->set_date_time_taken(self :: to_db_date($time_taken));
-		return $this->database->create($user_assessment);
+		return $this->db->create($user_assessment);
 	}
 	
 	function delete_user_assessment($user_assessment) 
 	{
 		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ID, $user_answer->get_id());
-		return $this->database->delete(UserAssessment :: get_table_name(), $condition);
+		return $this->db->delete(UserAssessment :: get_table_name(), $condition);
 	}
 	
 	function update_user_assessment($user_assessment)
 	{
 		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ID, $user_answer->get_id());
-		return $this->database->update(UserAssessment :: get_table_name(), $condition);
+		return $this->db->update(UserAssessment :: get_table_name(), $condition);
 	}
 }
 ?>
