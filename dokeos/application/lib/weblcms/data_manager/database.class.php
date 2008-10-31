@@ -23,6 +23,7 @@ require_once Path :: get_library_path().'condition/condition_translator.class.ph
 require_once dirname(__FILE__) . '/../category_manager/course_category.class.php';
 require_once dirname(__FILE__).'/../tool/assessment/user_answer.class.php';
 require_once dirname(__FILE__).'/../tool/assessment/user_assessment.class.php';
+require_once dirname(__FILE__).'/../tool/assessment/user_question.class.php';
 
 class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 {
@@ -2301,6 +2302,36 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ID, $user_answer->get_id());
 		return $this->db->update(UserAssessment :: get_table_name(), $condition);
+	}
+	
+	function retrieve_user_question($uaid)
+	{
+		$condition = new EqualityCondition(UserQuestion :: PROPERTY_ID, $uaid);
+		$question = $this->db->retrieve_object(UserQuestion :: get_table_name(), $condition);
+
+		return $question;
+	}
+	
+	function get_next_user_question_id()
+	{
+		return $this->db->get_next_id(UserQuestion :: get_table_name());
+	}
+	
+	function create_user_question($user_question) 
+	{
+		return $this->db->create($user_question);
+	}
+	
+	function delete_user_question($user_question) 
+	{
+		$condition = new EqualityCondition(UserQuestion :: PROPERTY_ID, $user_answer->get_id());
+		return $this->db->delete(UserQuestion :: get_table_name(), $condition);
+	}
+	
+	function update_user_question($user_question)
+	{
+		$condition = new EqualityCondition(UserQuestion :: PROPERTY_ID, $user_answer->get_id());
+		return $this->db->update(UserQuestion :: get_table_name(), $condition);
 	}
 }
 ?>

@@ -6,9 +6,14 @@ class FillInBlanksScore extends Score
 	
 	function get_score()
 	{
-		if (parent :: get_answer()->get_description() == parent :: get_user_answer()->get_extra())
+		$descr = parent :: get_answer()->get_title();
+		$answer = parent :: get_user_answer()->get_extra();
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, parent:: get_answer()->get_id());
+		$clo_answers = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+		$clo_answer = $clo_answers->next_result();
+		if ($descr == $answer)
 		{
-			return parent :: get_answer()->get_score();
+			return $clo_answer->get_score();
 		} 
 		else
 		{
