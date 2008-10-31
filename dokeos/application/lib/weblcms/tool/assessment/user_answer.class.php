@@ -3,8 +3,7 @@
 class UserAnswer 
 {
 	const PROPERTY_ID = 'id';
-	const PROPERTY_USER_ASSESSMENT_ID = 'user_assessment_id';
-	const PROPERTY_QUESTION_ID = 'question_id';
+	const PROPERTY_USER_QUESTION_ID = 'user_question_id';
 	const PROPERTY_ANSWER_ID = 'answer_id';
 	const PROPERTY_EXTRA = 'extra';
 	const PROPERTY_SCORE = 'score';
@@ -23,8 +22,7 @@ class UserAnswer
 	{
 		return array(
 		self :: PROPERTY_ID,
-		self :: PROPERTY_USER_ASSESSMENT_ID,
-		self :: PROPERTY_QUESTION_ID,
+		self :: PROPERTY_USER_QUESTION_ID,
 		self :: PROPERTY_ANSWER_ID,
 		self :: PROPERTY_EXTRA,
 		self :: PROPERTY_SCORE
@@ -61,14 +59,9 @@ class UserAnswer
 		$this->set_default_property(self :: PROPERTY_ID, $value);
 	}
 	
-	function get_user_test_id()
+	function get_user_question_id()
 	{
-		return $this->get_default_property(self :: PROPERTY_USER_ASSESSMENT_ID);
-	}
-	
-	function get_question_id()
-	{
-		return $this->get_default_property(self :: PROPERTY_QUESTION_ID);
+		return $this->get_default_property(self :: PROPERTY_USER_QUESTION_ID);
 	}
 	
 	function get_answer_id()
@@ -86,14 +79,9 @@ class UserAnswer
 		return $this->get_default_property(self :: PROPERTY_SCORE);
 	}
 	
-	function set_user_test_id($value)
+	function set_user_question_id($value)
 	{
-		$this->set_default_property(self :: PROPERTY_USER_ASSESSMENT_ID, $value);
-	}
-	
-	function set_question_id($value)
-	{
-		$this->set_default_property(self :: PROPERTY_QUESTION_ID, $value);
+		$this->set_default_property(self :: PROPERTY_USER_QUESTION_ID, $value);
 	}
 	
 	function set_answer_id($value)

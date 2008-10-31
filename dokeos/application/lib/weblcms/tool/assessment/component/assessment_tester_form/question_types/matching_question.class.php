@@ -67,10 +67,11 @@ class MatchingQuestionDisplay extends QuestionDisplay
 		for ($pos = 0; $pos < $num; $pos++)
 		{
 			$largest = 0;
-			$largest_pos = 0;
+			$largest_pos = -1;
 			for ($counter = $pos; $counter < $num; $counter++)
 			{
 				$display = $matches[$counter]['display_order'];
+				//echo $display.'$$';
 				if ($display > $largest)
 				{
 					$largest = $display;
@@ -78,11 +79,15 @@ class MatchingQuestionDisplay extends QuestionDisplay
 				}
 			}
 			//switchen
-			$temp = $matches[$pos];
-			$matches[$pos] = $matches[$largest_pos];
-			$matches[$largest_pos] = $temp;
+			//echo $pos.'to'.$largest_pos;
+			if ($largest_pos != -1) 
+			{
+				$temp = $matches[$pos];
+				$matches[$pos] = $matches[$largest_pos];
+				$matches[$largest_pos] = $temp;
+			}
 		}
-		
+		//print_r($matches);
 		return $matches;
 	}
 }

@@ -3,11 +3,15 @@
  * @package application.weblcms.tool.assessment.component
  */
 require_once dirname(__FILE__).'/assessment_tester_form/assessment_tester_form.class.php';
+require_once dirname(__FILE__).'/assessment_tester_form/score.class.php';
 
 class AssessmentToolTesterComponent extends AssessmentToolComponent
 {
+	private $questions;
+	
 	function run()
 	{
+		$this->questions = null;
 		$datamanager = WeblcmsDataManager :: get_instance();
 		
 		$pid = $_GET[Tool :: PARAM_PUBLICATION_ID];
@@ -40,6 +44,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	function build_answers($tester_form, $assessment, $datamanager)
 	{
 		$values = $tester_form->exportValues();
+		//print_r($values);
 		$user_assessment = new UserAssessment();
 		$user_assessment->set_assessment_id($assessment->get_id());
 		$user_assessment->set_user_id(1);
@@ -58,15 +63,47 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	function add_user_answer($datamanager, $user_assessment, $key, $value)
 	{
 		if ($key != 'submit') {
+			$parts = split("_", $key);
+			
+			$user_question = $this->get_question($datamanager, $user_assessment, $parts[0]);
 			$answer = new UserAnswer();
 			$answer->set_id($datamanager->get_next_user_answer_id());
-			$answer->set_user_test_id($user_assessment->get_id());
-			$parts = split("_", $key);
-			$answer->set_question_id($parts[0]);
+			$answer->set_user_question_id($user_question->get_id());
 			$answer->set_answer_id($parts[1]);
 			$answer->set_extra($value);
+			$answer->set_score($this->get_score($user_question, $answer));
 			$datamanager->create_user_answer($answer);
 		}
+	}
+	
+	function get_question($datamanager, $user_assessment, $question_id)
+	{
+		if ($this->questions[$question_id] == null)
+		{
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $question_id);
+			$clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+			$clo_question = $clo_questions->next_result();
+			
+			$user_question = new UserQuestion();
+			$user_question->set_id($datamanager->get_next_user_question_id());
+			$user_question->set_user_test_id($user_assessment->get_id());
+			$user_question->set_question_id($question_id); 
+			$user_question->set_weight($clo_question->get_weight());
+			$user_question->create();
+			$this->questions[$question_id] = $user_question;
+		}
+		return $this->questions[$question_id];
+	}
+	
+	function get_score($user_question, $user_answer)
+	{
+		if ($user_answer->get_answer_id() != 0) 
+		{
+			$answer = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_answer->get_answer_id(), 'answer');
+		}	
+		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_question->get_question_id(), 'question');
+		
+		return (Score :: factory($answer, $user_answer, $user_question)->get_score());
 	}
 }
 ?>
