@@ -15,7 +15,7 @@ class AdminSystemAnnouncementBrowserComponent extends AdminManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();		
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SystemAnnouncements')));
 		
 		$user = $this->get_user();
