@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/../user_manager.class.php';
 require_once dirname(__FILE__).'/../user_manager_component.class.php';
 require_once dirname(__FILE__).'/../../user_export_form.class.php';
 require_once Path :: get_library_path().'export/export.class.php';
+require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class UserManagerExporterComponent extends UserManagerComponent
 {
@@ -15,6 +16,8 @@ class UserManagerExporterComponent extends UserManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
+		$admin = new AdminManager();
+		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserCreateExport')));
 
 		if (!$this->get_user()->is_platform_admin())

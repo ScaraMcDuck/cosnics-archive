@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/../user_manager.class.php';
 require_once dirname(__FILE__).'/../user_manager_component.class.php';
 require_once dirname(__FILE__).'/../../user_quota_form.class.php';
 require_once dirname(__FILE__).'/../../user_data_manager.class.php';
+require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class UserManagerQuotaComponent extends UserManagerComponent
 {
@@ -17,6 +18,9 @@ class UserManagerQuotaComponent extends UserManagerComponent
 		$user_id = $this->get_user_id();
 		
 		$trail = new BreadcrumbTrail();
+		$admin = new AdminManager();
+		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserQuota')));
 		
 		if (!$this->get_user()->is_platform_admin()) 
