@@ -37,6 +37,7 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	const ACTION_VIEW_ACCOUNT = 'account';
 	const ACTION_USER_QUOTA = 'quota';
 	const ACTION_RESET_PASSWORD = 'reset_password';
+	const ACTION_CHANGE_USER = 'change_user';
 
 
 	private $parameters;
@@ -169,6 +170,9 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 				break;
 			case self :: ACTION_RESET_PASSWORD :
 				$component = UserManagerComponent :: factory('ResetPassword', $this);
+				break;
+			case self :: ACTION_CHANGE_USER :
+				$component = UserManagerComponent :: factory('ChangeUser', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_USERS);
@@ -557,6 +561,12 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	function get_user_editing_url($user)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_USER, self :: PARAM_USER_USER_ID => $user->get_id()));
+	}
+	
+	function get_change_user_url($user)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CHANGE_USER, 
+															   self :: PARAM_USER_USER_ID => $user->get_id()));
 	}
 
 	/**

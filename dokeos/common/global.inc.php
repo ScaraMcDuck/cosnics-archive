@@ -252,6 +252,12 @@ if (isset($_GET['logout']))
 	exit();
 }
 
+if(isset($_GET['adminuser']))
+{
+	$_SESSION['_uid'] = $_SESSION['_as_admin'];
+	unset($_SESSION['as_admin']);
+}
+
 // ===== "who is logged in?" module section =====
 
 //include_once($includePath."/lib/online.inc.php");
