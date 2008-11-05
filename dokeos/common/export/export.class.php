@@ -40,7 +40,7 @@ abstract class Export
 	 * @return array Array containig all supported filetypes (keys and values
 	 * are the same)
 	 */
-	public static function get_supported_filetypes()
+	public static function get_supported_filetypes($exclude = array())
 	{
 		$directories = FileSystem::get_directory_content(dirname(__FILE__),FileSystem::LIST_DIRECTORIES,false);
 		foreach($directories as $index => $directory)
@@ -48,7 +48,8 @@ abstract class Export
 			$type = basename($directory);
 			if($type != '.svn')
 			{
-				$types[$type] = $type;
+				if(!in_array($type, $exclude))
+					$types[$type] = $type;
 			}
 		}
 		return $types;
