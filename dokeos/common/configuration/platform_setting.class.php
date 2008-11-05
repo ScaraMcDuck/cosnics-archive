@@ -56,8 +56,17 @@ class PlatformSetting
 	{
 		$instance = self :: get_instance();
 		
-		$value = $instance->params[$application][$variable];
-		return (isset($value) ? $value : null);
+		$params = $instance->params;
+		
+		if (isset($params[$application]))
+		{
+			$value = $instance->params[$application][$variable];
+			return (isset($value) ? $value : null);
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	function load_platform_settings()

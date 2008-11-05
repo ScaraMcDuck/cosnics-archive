@@ -117,7 +117,7 @@ class ConditionTranslator
 	function translate_in_condition($condition)
 	{
     	$prefix_properties = $this->prefix_properties;
-    	$query = $this->query;
+    	//$query = $this->query;
 		
 		if ($condition instanceof InCondition)
 		{
@@ -153,7 +153,7 @@ class ConditionTranslator
 	{
     	$prefix_properties = $this->prefix_properties;
     	$data_manager = $this->data_manager;
-    	$query = $this->query;
+    	//$query = $this->query;
 		
 		if ($condition instanceof EqualityCondition)
 		{

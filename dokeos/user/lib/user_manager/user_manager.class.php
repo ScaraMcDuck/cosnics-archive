@@ -72,7 +72,8 @@ require_once dirname(__FILE__).'/../user_block.class.php';
     	}
     	
 		$this->parameters = array ();
-		$this->set_action($_GET[self :: PARAM_ACTION]);
+		
+		$this->set_action(isset($_GET[self :: PARAM_ACTION]) ? $_GET[self :: PARAM_ACTION] : null);
 		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_USER));
     }
     

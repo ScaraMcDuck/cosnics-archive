@@ -26,7 +26,16 @@ class UserInstaller extends Installer
 	 * Runs the install-script.
 	 */
 	function install_extra()
-	{		
+	{
+		if (!$this->create_anonymous_user())
+		{
+			return false;
+		}
+		else
+		{
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('AnonymousAccountCreated'));
+		}
+			
 		if (!$this->create_admin_account())
 		{
 			return false;
@@ -70,6 +79,46 @@ class UserInstaller extends Installer
 			return true;
 		}
 		
+	}
+	
+	function create_anonymous_user()
+	{
+		$values = $this->get_form_values();
+		
+		$user = new User();
+		
+		$user->set_lastname(Translation :: get('Anonymous'));
+		$user->set_firstname(Translation :: get('Mr'));
+		$user->set_username('anonymous');
+		$user->set_password(md5($values['admin_password']));
+		$user->set_auth_source('platform');
+		$user->set_email($values['admin_email']);
+		$user->set_status('1');
+		$user->set_platformadmin('0');
+		$user->set_official_code('ANONYMOUS');
+		$user->set_phone($values['admin_phone']);
+		$user->set_language($values['install_language']);
+		$user->set_disk_quota('0');
+		$user->set_database_quota('0');
+		$user->set_version_quota('0');
+		$user->set_expiration_date(0);
+		
+		if (!$user->create())
+		{
+			return false;
+		}
+		else
+		{
+			$user->set_id('0');
+			if (!$user->update())
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
 	}
 	
 	function get_path()
