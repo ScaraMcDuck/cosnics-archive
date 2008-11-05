@@ -51,6 +51,8 @@ class User
 	const PROPERTY_VERSION_QUOTA = 'version_quota';
 	const PROPERTY_THEME = 'theme';
 	const PROPERTY_EXPIRATION_DATE = 'expiration_date';
+	const PROPERTY_REGISTRATION_DATE = 'registration_date';
+	const PROPERTY_ACTIVE = 'active';
 
 	const ACTION_CREATE_USER = 'create';
 
@@ -124,7 +126,17 @@ class User
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, self :: PROPERTY_OFFICIAL_CODE, self ::PROPERTY_PICTURE_URI, self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_THEME, self :: PROPERTY_EXPIRATION_DATE);
+		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, 
+					  self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, 
+					  self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, 
+					  self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, 
+					  self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, 
+					  self :: PROPERTY_OFFICIAL_CODE, self ::PROPERTY_PICTURE_URI, 
+					  self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, 
+					  self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, 
+					  self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_THEME, 
+					  self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_REGISTRATION_DATE,
+					  self :: PROPERTY_ACTIVE);
 	}
 
 	/**
@@ -328,6 +340,16 @@ class User
 	function get_expiration_date()
 	{
 		return $this->get_default_property(self :: PROPERTY_EXPIRATION_DATE);
+	}	
+	
+	function get_registration_date()
+	{
+		return $this->get_default_property(self :: PROPERTY_REGISTRATION_DATE);
+	}	
+	
+	function get_active()
+	{
+		return $this->get_default_property(self :: PROPERTY_ACTIVE);
 	}	
 
 	/**
@@ -571,6 +593,16 @@ class User
 	function set_expiration_date($expiration_date)
 	{
 		$this->set_default_property(self :: PROPERTY_EXPIRATION_DATE, $expiration_date);
+	}
+	
+	function set_registration_date($registration_date)
+	{
+		$this->set_default_property(self :: PROPERTY_REGISTRATION_DATE, $registration_date);
+	}
+	
+	function set_active($active)
+	{
+		$this->set_default_property(self :: PROPERTY_ACTIVE, $active);
 	}
 
 	/**

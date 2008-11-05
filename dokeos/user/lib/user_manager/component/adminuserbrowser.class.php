@@ -50,7 +50,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 		$this->display_header($trail, false);
 		
 		echo $this->ab->as_html() . '<br />';
-		echo $menu;
+		//echo $menu;
 		echo $output;
 		$this->display_footer();
 	}
@@ -60,7 +60,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 		$table = new AdminUserBrowserTable($this, null, $this->get_condition());
 		
 		$html = array();
-		$html[] = '<div style="float: right; width: 80%;">';
+		$html[] = '<div style="float: right; width: 100%;">';
 		$html[] = $table->as_html();
 		$html[] = '</div>';
 		

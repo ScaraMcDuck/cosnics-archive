@@ -22,7 +22,7 @@ class AdminUserBrowserTableColumnModel extends DefaultUserTableColumnModel
 		$this->add_column(new ObjectTableColumn(User :: PROPERTY_USERNAME, true));
 		$this->add_column(new ObjectTableColumn(User :: PROPERTY_EMAIL, true));
 		$this->add_column(new ObjectTableColumn(User :: PROPERTY_STATUS, true));
-		$this->add_column(new ObjectTableColumn(User :: PROPERTY_PLATFORMADMIN, true));
+		//$this->add_column(new ObjectTableColumn(User :: PROPERTY_PLATFORMADMIN, true));
 		$this->set_default_order_column(1);
 		$this->add_column(self :: get_modification_column());
 	}

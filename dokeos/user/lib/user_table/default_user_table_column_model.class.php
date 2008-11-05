@@ -22,7 +22,8 @@ class DefaultUserTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(User :: PROPERTY_PICTURE_URI, true);
+		//$columns[] = new ObjectTableColumn(User :: PROPERTY_PICTURE_URI, true);
+		$columns[] = new ObjectTableColumn(User :: PROPERTY_OFFICIAL_CODE, true);
 		$columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, true);
 		$columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, true);
 		return $columns;

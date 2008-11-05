@@ -35,8 +35,14 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 		// Add special features here
 		switch ($column->get_object_property())
 		{
+			case User :: PROPERTY_OFFICIAL_CODE :
+				return $user->get_official_code();
 			// Exceptions that need post-processing go here ...
 			case User :: PROPERTY_STATUS :
+				if($user->get_platformadmin() == '1')
+				{
+					return Translation :: get('PlatformAdmin');
+				}
 				if ($user->get_status() == '1')
 				{
 					return Translation :: get('CourseAdmin');
