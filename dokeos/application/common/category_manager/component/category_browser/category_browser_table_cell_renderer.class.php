@@ -54,6 +54,12 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 			$img = Theme :: get_common_img_path() . 'treemenu_types/category.png';
 			return '<img src="' . $img . '"alt="category" />';
 		}
+		
+		if($title == Translation :: get('Subcategories'))
+		{
+			$count = $this->browser->count_categories(new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $category->get_id()));
+			return $count;
+		}
 			
 		return '&nbsp;';
 		
