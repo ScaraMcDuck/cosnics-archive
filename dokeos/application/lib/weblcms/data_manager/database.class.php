@@ -48,7 +48,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->prefix = 'weblcms_';
 		$this->connection->query('SET NAMES utf8');
 		
-		$this->db = new Database(array('course_category' => 'cat', 'user_answer' => 'ans', 'user_assessment' => 'ass'));
+		$this->db = new Database(array('course_category' => 'cat', 'user_answer' => 'ans', 'user_assessment' => 'ass', 'user_question' => 'uq'));
 		$this->db->set_prefix('weblcms_');
 		
 		//$this->database = new Database(array('course_category' => 'cat', 'user_answer' => 'ans', 'user_assessment' => 'ass'));
@@ -2276,7 +2276,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ID, $uaid);
 		$assessment = $this->db->retrieve_object(UserAssessment :: get_table_name(), $condition);
-
 		return $assessment;
 	}
 	
@@ -2302,6 +2301,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ID, $user_answer->get_id());
 		return $this->db->update(UserAssessment :: get_table_name(), $condition);
+	}
+	
+	function retrieve_user_questions($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null) 
+	{
+		return $this->db->retrieve_objects(UserQuestion :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
 	function retrieve_user_question($uaid)

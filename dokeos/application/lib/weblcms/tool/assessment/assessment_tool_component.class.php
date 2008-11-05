@@ -27,15 +27,21 @@ class AssessmentToolComponent extends ToolComponent
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
 		$action_bar->set_search_url($this->get_url());
-		$action_bar->add_tool_action(
+		$action_bar->add_common_action(
 			new ToolbarItem(
 				Translation :: get('Publish'), Theme :: get_common_img_path().'action_publish.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 		
-		$action_bar->add_tool_action(
+		$action_bar->add_common_action(
 			new ToolbarItem(
 				Translation :: get('Browse'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_ASSESSMENTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+			)
+		);
+		
+		$action_bar->add_tool_action(
+			new ToolbarItem(
+				Translation :: get('View results'), Theme :: get_common_img_path().'action_view_results.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 		

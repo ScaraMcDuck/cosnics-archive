@@ -13,13 +13,14 @@ abstract class ResultsViewer
 	
 	function get_user_assessment()
 	{
-		return $user_assessment;
+		return $this->user_assessment;
 	}
 	
 	function get_assessment() 
 	{
 		$repdm = RepositoryDataManager :: get_instance();
-		$assessment = $repdm->retrieve_learning_object($user_assessment->get_assessment_id(), 'assessment');
+		$assessment = $repdm->retrieve_learning_object($this->user_assessment->get_assessment_id(), 'assessment');
+		return $assessment;
 	}
 		
 }

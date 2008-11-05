@@ -116,5 +116,10 @@ class UserAssessment
 	{
 		return self :: TABLE_NAME;
 	}
+	
+	function get_assessment()
+	{
+		return RepositoryDataManager :: get_instance()->retrieve_learning_object($this->get_assessment_id(), 'assessment');
+	}
 }
 ?>
