@@ -35,6 +35,7 @@ class GroupMenu extends HTML_Menu
 	{
 		$this->urlFmt = $url_format;
 		$menu = $this->get_menu();
+		//print_r($menu);
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
 		$this->forceCurrentUrl($this->get_url($current_category));
@@ -70,12 +71,12 @@ class GroupMenu extends HTML_Menu
 	 *               class is based.
 	 */
 	private function get_menu_items($parent_id = 0)
-	{
+	{ 
 		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, $parent_id);
 		$objects = GroupDataManager :: get_instance()->retrieve_groups($condition, null, null, array(Group :: PROPERTY_SORT), array(SORT_ASC));
 		
 		while ($object = $objects->next_result())
-		{
+		{ 
 			$menu_item = array();
 			$menu_item['title'] = $object->get_name();
 			$menu_item['url'] = $this->get_url($object->get_id());
@@ -133,7 +134,7 @@ class GroupMenu extends HTML_Menu
 	function render_as_tree()
 	{
 		$renderer = new TreeMenuRenderer();
-		$this->render($renderer, 'tree');
+		$this->render($renderer, 'sitemap');
 		return $renderer->toHTML();
 	}
 }
