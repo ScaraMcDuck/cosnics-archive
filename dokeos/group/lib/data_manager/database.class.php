@@ -47,7 +47,19 @@ class DatabaseGroupDataManager extends GroupDataManager
 	function delete_group($group)
 	{
 		$condition = new EqualityCondition(Group :: PROPERTY_ID, $group->get_id());
-		return $this->database->delete($group->get_table_name(), $condition);
+		$bool = $this->database->delete($group->get_table_name(), $condition);
+		
+		$condition_subgroups = new EqualityCondition(Group :: PROPERTY_PARENT, $group->get_id());
+		$groups = $this->retrieve_groups($condition_subgroups);
+		while($gr = $groups->next_result())
+		{
+			$bool = $bool & $this->delete_group($gr);
+		}
+		
+		$this->truncate_group($group);
+		
+		return $bool;
+		
 	}
 	
 	function truncate_group($group)

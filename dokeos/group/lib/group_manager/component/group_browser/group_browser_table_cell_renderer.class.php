@@ -15,6 +15,7 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 	 * The repository browser component
 	 */
 	private $browser;
+	
 	/**
 	 * Constructor
 	 * @param RepositoryManagerBrowserComponent $browser
@@ -52,6 +53,19 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 				}
 				return $description;
 		}
+		
+		switch($column->get_title())
+		{
+			case Translation :: get('Users') :
+				$condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID,$group->get_id());
+				$count = $this->browser->count_group_rel_users($condition);
+				return $count;
+			case Translation :: get('Subgroups') :
+				$condition = new EqualityCondition(Group :: PROPERTY_PARENT,$group->get_id()); 
+				$count = $this->browser->count_groups($condition);
+				return $count;	
+		}
+		
 		return parent :: render_cell($column, $group);
 	}
 	/**

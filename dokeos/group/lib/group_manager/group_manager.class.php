@@ -461,7 +461,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	{
 		$links = array();
 		$links[] = array('name' => Translation :: get('List'), 'action' => 'list', 'url' => $this->get_link(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)));
-		$links[] = array('name' => Translation :: get('Create'), 'action' => 'add', 'url' => $this->get_link(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_CREATE_GROUP)));
+		$links[] = array('name' => Translation :: get('Create'), 'action' => 'add', 'url' => $this->get_link(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_CREATE_GROUP, GroupManager :: PARAM_GROUP_ID => 0)));
 		return array('application' => array('name' => Translation :: get('Group'), 'class' => 'group'), 'links' => $links, 'search' => $this->get_link(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)));
 	}
 	
