@@ -120,7 +120,7 @@ class RepositoryManager
 	{
 		$this->user = $user;
 		$this->parameters = array ();
-		$this->set_action($_GET[self :: PARAM_ACTION]);
+		$this->set_action(isset($_GET[self :: PARAM_ACTION]) ? $_GET[self :: PARAM_ACTION] : null);
 		$this->parse_input_from_table();
 		$this->determine_search_settings();
 		$this->publication_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_MY_PUBLICATIONS), false, false, 'dddd');

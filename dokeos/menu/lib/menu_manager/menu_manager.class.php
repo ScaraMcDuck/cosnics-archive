@@ -49,7 +49,7 @@ require_once dirname(__FILE__).'/component/menu_item_browser/menu_item_browser_t
 	    	$this->user = $user;
     	}
 		$this->parameters = array ();
-		$this->set_action($_GET[self :: PARAM_ACTION]);
+		$this->set_action(isset($_GET[self :: PARAM_ACTION]) ? $_GET[self :: PARAM_ACTION] : null);
 		$this->parse_input_from_table();
     }
     

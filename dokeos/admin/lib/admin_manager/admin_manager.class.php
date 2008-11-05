@@ -55,7 +55,7 @@ class AdminManager
     function AdminManager($user = null) {
     	$this->user = $user;
 		$this->parameters = array ();
-		$this->set_action($_GET[self :: PARAM_ACTION]);
+		$this->set_action(isset($_GET[self :: PARAM_ACTION]) ? $_GET[self :: PARAM_ACTION] : null);
     }
 
 	/**
