@@ -62,6 +62,12 @@ class UserForm extends FormValidator {
 		// Username
 		$this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'));
 		$this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired'), 'required');
+		
+		$group = array();
+		$group[] =& $this->createElement('radio', User :: PROPERTY_ACTIVE,null,Translation :: get('Yes'),1);
+		$group[] =& $this->createElement('radio', User :: PROPERTY_ACTIVE,null,Translation :: get('No'),0);
+		$this->addGroup($group, 'active', Translation :: get('Active'), '&nbsp;');
+		
 		//pw
 		$group = array();
 		if ($this->form_type == self :: TYPE_EDIT)
@@ -120,6 +126,7 @@ class UserForm extends FormValidator {
 		$group[] =& $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN,null,Translation :: get('Yes'),1);
 		$group[] =& $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN,null,Translation :: get('No'),0);
 		$this->addGroup($group, 'admin', Translation :: get('PlatformAdmin'), '&nbsp;');
+		
 		//  Send email
 		$group = array();
 		$group[] =& $this->createElement('radio', 'send_mail',null,Translation :: get('Yes'),1);
@@ -192,7 +199,7 @@ class UserForm extends FormValidator {
 		{
 			$user->set_theme($values[User :: PROPERTY_THEME]);
 		}
-	   	
+	   	$user->set_active(intval($values['active'][User :: PROPERTY_ACTIVE]));
 		$user->set_platformadmin(intval($values['admin'][User :: PROPERTY_PLATFORMADMIN]));
 		$send_mail = intval($values['mail']['send_mail']);
 		if ($send_mail)
@@ -267,6 +274,9 @@ class UserForm extends FormValidator {
     		{
     			$this->send_email($user);
     		}
+    		
+    		$user->set_active(intval($values['active'][User :: PROPERTY_ACTIVE]));
+ 		   	$user->set_registration_date(time());
 
     		$value = $user->create();
     		
@@ -324,7 +334,7 @@ class UserForm extends FormValidator {
 		$defaults[User :: PROPERTY_PICTURE_URI] = $user->get_picture_uri();
 		$defaults[User :: PROPERTY_PHONE] = $user->get_phone();
 		$defaults[User :: PROPERTY_LANGUAGE] = $user->get_language();
-		
+		$defaults['active'][User :: PROPERTY_ACTIVE] = !is_null($user->get_active())?$user->get_active():1;
 		$user_can_have_theme = PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME);
 		if ($user_can_have_theme)
 		{

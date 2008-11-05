@@ -134,6 +134,8 @@ class RegisterForm extends FormValidator {
 			}
 			$user->set_status(intval($values[User :: PROPERTY_STATUS]));
  		   	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
+ 		   	$user->set_active(1);
+ 		   	$user->set_registration_date(time());
     		$send_mail = intval($values['mail']['send_mail']);
     		if ($send_mail)
     		{
