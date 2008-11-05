@@ -9,6 +9,8 @@
   <property name="application" type="text" length="250" notnull="1"/>
   <property name="type" type="text" length="250" notnull="1"/>
   <property name="identifier" type="text" length="250" notnull="1"/>
+  <property name="inherit" type="integer" length="1" notnull="1" unsigned="1" default="1"/>
+  <property name="locked" type="integer" length="1" notnull="1" unsigned="1" default="0"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

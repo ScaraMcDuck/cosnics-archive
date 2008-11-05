@@ -17,6 +17,8 @@ class Location
 	const PROPERTY_APPLICATION  = 'application';
 	const PROPERTY_TYPE  = 'type';
 	const PROPERTY_IDENTIFIER  = 'identifier';
+	const PROPERTY_INHERIT  = 'inherit';
+	const PROPERTY_LOCKED  = 'locked';
 	
 	/**#@-*/
 
@@ -74,7 +76,7 @@ class Location
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_LOCATION, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE, self :: PROPERTY_PARENT, self :: PROPERTY_APPLICATION, self :: PROPERTY_TYPE, self :: PROPERTY_IDENTIFIER);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_LOCATION, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE, self :: PROPERTY_PARENT, self :: PROPERTY_APPLICATION, self :: PROPERTY_TYPE, self :: PROPERTY_IDENTIFIER, self :: PROPERTY_INHERIT, self :: PROPERTY_LOCKED);
 	}
 		
 	/**
@@ -177,6 +179,36 @@ class Location
 	function set_identifier($identifier)
 	{
 		$this->set_default_property(self :: PROPERTY_IDENTIFIER, $identifier);
+	}
+	
+	function get_inherit()
+	{
+		return $this->get_default_property(self :: PROPERTY_INHERIT);
+	}
+		
+	function set_inherit($inherit)
+	{
+		$this->set_default_property(self :: PROPERTY_INHERIT, $inherit);
+	}
+	
+	function inherits()
+	{
+		return $this->get_inherit();
+	}
+	
+	function get_locked()
+	{
+		return $this->get_default_property(self :: PROPERTY_LOCKED);
+	}
+		
+	function set_locked($locked)
+	{
+		$this->set_default_property(self :: PROPERTY_LOCKED, $locked);
+	}
+	
+	function is_locked()
+	{
+		return $this->get_locked();
 	}
 	
 	/**
