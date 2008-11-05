@@ -23,6 +23,7 @@
 */
 // including the global init script
 require ('../../../global.inc.php');
+Translation :: set_application('home');
 // the variables for the days and the months
 // Defining the shorts for the days
 $DaysShort = array(Translation :: get("SundayShort"), Translation :: get("MondayShort"), Translation :: get("TuesdayShort"), Translation :: get("WednesdayShort"), Translation :: get("ThursdayShort"), Translation :: get("FridayShort"), Translation :: get("SaturdayShort"));
