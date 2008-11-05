@@ -43,7 +43,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 		{
 			foreach($categories as $category)
 			{
-				$trail->add(new Breadcrumb($category['url'], $category['title']));
+			//	$trail->add(new Breadcrumb($category['url'], $category['title']));
 			}
 		}
 		
