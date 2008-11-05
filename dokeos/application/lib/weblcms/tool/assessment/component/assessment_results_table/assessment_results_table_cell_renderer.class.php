@@ -5,11 +5,11 @@
 require_once Path :: get_repository_path(). 'lib/learning_object_table/default_learning_object_table_cell_renderer.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once dirname(__FILE__).'/assessment_publication_table_column_model.class.php';
+require_once dirname(__FILE__).'/assessment_results_table_column_model.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
  */
-class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableCellRenderer
+class AssessmentResultsTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 {
 	private $table_actions;
 	private $browser;
@@ -20,7 +20,7 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 	 * @param string $edit_and_publish_url_format URL for editing and publishing
 	 * the selected learning object.
 	 */
-	function AssessmentPublicationTableCellRenderer($browser)
+	function AssessmentResultsTableCellRenderer($browser)
 	{
 		$this->table_actions = array();
 		$this->browser = $browser;
@@ -28,30 +28,40 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 	/*
 	 * Inherited
 	 */
-	function render_cell($column, $publication)
+	function render_cell($column, $user_assessment)
 	{
-		if ($column === AssessmentPublicationTableColumnModel :: get_action_column())
+		
+		if ($column === AssessmentResultsTableColumnModel :: get_action_column())
 		{
-			return $this->get_actions($publication);
+			return $this->get_actions($user_assessment);
 		} 
-		else if ($column->get_object_property() == Assessment :: PROPERTY_ASSESSMENT_TYPE)
+		else
 		{
-			return $publication->get_learning_object()->get_assessment_type();
+			switch ($column->get_object_property())
+			{
+				case Assessment :: PROPERTY_TITLE:
+					return $user_assessment->get_assessment()->get_title();
+				case Assessment :: PROPERTY_ASSESSMENT_TYPE:
+					return $user_assessment->get_assessment()->get_assessment_type();
+				case UserAssessment :: PROPERTY_DATE_TIME_TAKEN:
+					return $user_assessment->get_date_time_taken();
+				default:
+					return '';
+			}
 		}
-		return parent :: render_cell($column, $publication->get_learning_object());
 	}
 	
-	function get_actions($publication) 
+	function get_actions($user_assessment) 
 	{
 		$execute = array(
-		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-		'label' => Translation :: get('Take assessment'),
-		'img' => Theme :: get_common_img_path().'action_right.png'
+		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
+		'label' => Translation :: get('View results'),
+		'img' => Theme :: get_common_img_path().'action_view_results.png'
 		);
 		
 		$actions[] = $execute;
 		
-		if ($this->browser->is_allowed(EDIT_RIGHT)) 
+		/*if ($this->browser->is_allowed(EDIT_RIGHT)) 
 		{
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
@@ -78,6 +88,7 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 			);	
 		}
 		
+		return DokeosUtilities :: build_toolbar($actions);*/
 		return DokeosUtilities :: build_toolbar($actions);
 		
 		//return array(Tool :: ACTION_DELETE => Translation :: get('Delete selected'), 

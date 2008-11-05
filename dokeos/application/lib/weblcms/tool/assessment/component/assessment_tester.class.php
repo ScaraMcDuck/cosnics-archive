@@ -83,7 +83,8 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $question_id);
 			$clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
 			$clo_question = $clo_questions->next_result();
-			
+			//print_r ($clo_question);
+			//echo $question_id.'<br/>';
 			$user_question = new UserQuestion();
 			$user_question->set_id($datamanager->get_next_user_question_id());
 			$user_question->set_user_test_id($user_assessment->get_id());

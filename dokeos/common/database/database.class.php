@@ -172,7 +172,6 @@ class Database
 		}
 		
 		$object->set_default_properties($default_properties);
-		 
 		return $object;
 	}
 	

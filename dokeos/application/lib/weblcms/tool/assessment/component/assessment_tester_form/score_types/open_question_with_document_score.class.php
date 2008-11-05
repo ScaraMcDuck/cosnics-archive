@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../score.class.php';
 
-class OpenQuenstionWithDocumentScore extends Score
+class OpenQuestionWithDocumentScore extends Score
 {
 	
 	function get_score()
