@@ -277,7 +277,7 @@ class UserForm extends FormValidator {
     	}
     	else
     	{
-    		return false;
+    		return -1; // Username not available
     	}
 
     }

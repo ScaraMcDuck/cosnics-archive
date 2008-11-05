@@ -152,7 +152,7 @@ class RegisterForm extends FormValidator {
     	}
     	else 
     	{
-    		return false;
+    		return -1;
     	}
     
     }
