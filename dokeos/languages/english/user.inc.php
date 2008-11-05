@@ -16,9 +16,9 @@ $lang['user']['Password'] = 'Password';
 $lang['user']['OfficialCode'] = 'Official code';
 $lang['user']['AddPicture'] = 'Add picture';
 $lang['user']['PhoneNumber'] = 'Phone number';
-$lang['user']['DiskQuota'] = 'Disk quota';
-$lang['user']['DatabaseQuota'] = 'Database quota';
-$lang['user']['VersionQuota'] = 'Version quota';
+$lang['user']['DiskQuota'] = 'Disk quota <b>(Max bytes)</b>';
+$lang['user']['DatabaseQuota'] = 'Database quota <b>(Max objects)</b>';
+$lang['user']['VersionQuota'] = 'Version quota <b>(Max versions of object)</b>';
 $lang['user']['AutoGeneratePassword'] = 'Automatically generated password';
 $lang['user']['SendMailToNewUser'] = 'Send mail to new user';
 

@@ -7,11 +7,13 @@ require_once dirname(__FILE__).'/../user_manager_component.class.php';
 require_once dirname(__FILE__).'/admin_user_browser/admin_user_browser_table.class.php';
 require_once dirname(__FILE__).'/../../user_menu.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
+require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
 class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 {
 	private $firstletter;
 	private $menu_breadcrumbs;
+	private $ab;
 	
 	/**
 	 * Runs this component and displays its output.
@@ -32,6 +34,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 			exit;
 		}
 		
+		$this->ab = $this->get_action_bar();
 		$menu = $this->get_menu_html();
 		$output = $this->get_user_html();
 		
@@ -44,7 +47,9 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 			}
 		}
 		
-		$this->display_header($trail, true);
+		$this->display_header($trail, false);
+		
+		echo $this->ab->as_html() . '<br />';
 		echo $menu;
 		echo $output;
 		$this->display_footer();
@@ -101,7 +106,16 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 
 	function get_condition()
 	{
-		$search_conditions = $this->get_search_condition();
+		$query = $this->ab->get_query();
+		
+		if(isset($query) && $query != '')
+		{
+			$or_conditions[] = new LikeCondition(User :: PROPERTY_FIRSTNAME, $query);
+			$or_conditions[] = new LikeCondition(User :: PROPERTY_LASTNAME, $query);
+			$or_conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, $query);
+			$search_conditions = new OrCondition($or_conditions);
+		}
+		
 		$condition = null;
 		if (isset($this->firstletter))
 		{
@@ -123,6 +137,18 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 			}
 		}
 		return $condition;
+	}
+	
+	function get_action_bar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		
+		$action_bar->set_search_url($this->get_url());
+		
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_img_path().'action_add.png', $this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
+		return $action_bar;
 	}
 }
 ?>

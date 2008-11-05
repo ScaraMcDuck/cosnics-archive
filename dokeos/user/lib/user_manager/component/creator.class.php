@@ -41,7 +41,15 @@ class UserManagerCreatorComponent extends UserManagerComponent
 		if($form->validate())
 		{
 			$success = $form->create_user();
-			$this->redirect('url', Translation :: get($success ? 'UserCreated' : 'UserNotCreated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER));
+			if($success != -1)
+				$this->redirect('url', Translation :: get($success ? 'UserCreated' : 'UserNotCreated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER));
+			else
+			{
+				$_GET['error_message'] = Translation :: get('UsernameNotAvailable');
+				$this->display_header($trail);
+				$form->display();
+				$this->display_footer();
+			}
 		}
 		else
 		{
