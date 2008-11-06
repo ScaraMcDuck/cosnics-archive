@@ -6,7 +6,7 @@
  */
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
-require_once dirname(__FILE__).'/course_category.class.php';
+require_once dirname(__FILE__).'/../category_manager/course_category.class.php';
 require_once Path :: get_library_path() . 'html/menu/tree_menu_renderer.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
@@ -94,7 +94,7 @@ class CourseCategoryMenu extends HTML_Menu
 			}
 			else
 			{
-				$menu_item['url'] = $this->get_category_url($category->get_code());
+				$menu_item['url'] = $this->get_category_url($category->get_id());
 			}
 			$sub_menu_items = $this->get_sub_menu_items($categories, $category->get_id());
 			if(count($sub_menu_items) > 0)

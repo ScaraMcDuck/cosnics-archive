@@ -60,7 +60,7 @@ class DefaultLearningObjectTableCellRenderer implements ObjectTableCellRenderer
 				case LearningObject :: PROPERTY_TYPE :
 					$type = $learning_object->get_type();
 					$icon = $learning_object->get_icon_name();
-					return '<img src="'.Theme :: get_common_img_path() . 'learning_object/' .$icon.'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($type).'TypeName')).'"/>';
+					return '<img src="' . Theme :: get_common_img_path() . 'learning_object/' .$icon.'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($type).'TypeName')).'"/>';
 				case LearningObject :: PROPERTY_TITLE :
 					return htmlspecialchars($learning_object->get_title());
 				case LearningObject :: PROPERTY_DESCRIPTION :
@@ -77,6 +77,8 @@ class DefaultLearningObjectTableCellRenderer implements ObjectTableCellRenderer
 				case LearningObject :: PROPERTY_MODIFICATION_DATE :
 					// TODO: i18n
 					return date('Y-m-d, H:i', $learning_object->get_creation_date());
+				case 'versions' :
+					return $learning_object->get_version_count();
 			}
 		}
 		return '&nbsp;';
