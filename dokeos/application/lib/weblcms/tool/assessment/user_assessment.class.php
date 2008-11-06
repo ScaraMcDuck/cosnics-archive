@@ -6,15 +6,14 @@ class UserAssessment
 	const PROPERTY_ASSESSMENT_ID = 'assessment_id';
 	const PROPERTY_DATE_TIME_TAKEN = 'date_time_taken';
 	const PROPERTY_USER_ID = 'user_id';
+	const PROPERTY_TOTAL_SCORE = 'total_score';
 	
 	const TABLE_NAME = 'user_assessment';
 	
-	//private $id;
 	private $default_properties;
 	
 	function UserAssessment($id, $default_properties)
 	{
-		//$this->id = $id;
 		$this->set_id($id);
 		$this->default_properties = $default_properties;
 	}
@@ -25,7 +24,8 @@ class UserAssessment
 		self :: PROPERTY_ID,
 		self :: PROPERTY_ASSESSMENT_ID,
 		self :: PROPERTY_DATE_TIME_TAKEN,
-		self :: PROPERTY_USER_ID
+		self :: PROPERTY_USER_ID,
+		self :: PROPERTY_TOTAL_SCORE
 		);
 	}
 	
@@ -59,6 +59,7 @@ class UserAssessment
 		$this->set_default_property(self :: PROPERTY_ID, $value);
 	}
 	
+	
 	function get_assessment_id()
 	{
 		return $this->get_default_property(self :: PROPERTY_ASSESSMENT_ID);
@@ -74,6 +75,11 @@ class UserAssessment
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 	
+	function get_total_score()
+	{
+		return $this->get_default_property(self :: PROPERTY_TOTAL_SCORE);
+	}
+	
 	function set_assessment_id($value)
 	{
 		$this->set_default_property(self :: PROPERTY_ASSESSMENT_ID, $value);
@@ -87,6 +93,11 @@ class UserAssessment
 	function set_user_id($value)
 	{
 		$this->set_default_property(self :: PROPERTY_USER_ID, $value);
+	}
+	
+	function set_total_score($value)
+	{
+		$this->set_default_property(self :: PROPERTY_TOTAL_SCORE, $value);
 	}
 	
 	function create() 

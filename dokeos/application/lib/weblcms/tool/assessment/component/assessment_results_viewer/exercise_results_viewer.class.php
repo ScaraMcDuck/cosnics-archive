@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/results_viewer.class.php';
+require_once dirname(__FILE__).'/question_result.class.php';
 
 class ExerciseResultsViewer extends ResultsViewer
 {
@@ -9,7 +10,6 @@ class ExerciseResultsViewer extends ResultsViewer
 		$assessment = parent :: get_assessment();
 		$assessment_id = $assessment->get_id();
 		$html[] = 'View exercise results: '.$assessment->get_title().'<br/><br/>Description:'.$assessment->get_description();
-		
 		$uaid = parent :: get_user_assessment()->get_id();
 		$dm = RepositoryDataManager :: get_instance();
 		$db = WeblcmsDataManager :: get_instance();
@@ -18,8 +18,13 @@ class ExerciseResultsViewer extends ResultsViewer
 		$user_questions = $db->retrieve_user_questions($condition);
 		while ($user_question = $user_questions->next_result())
 		{
-			$html[] = $this->add_user_question($user_question);
+			$max_total_score += $user_question->get_weight();
+			//$html[] = $this->add_user_question($user_question);
+			$question_result = QuestionResult :: create_question_result($user_question);
+			$html[] = $question_result->display_exercise();
 		}
+		$pct_score = round((parent :: get_user_assessment()->get_total_score() / $max_total_score) * 10000) / 100;
+		$html[] = "<br/><h3>Total score: ".parent :: get_user_assessment()->get_total_score()."/".$max_total_score.' ('.$pct_score.'%)</h3>';
 		return $html;
 	}
 	

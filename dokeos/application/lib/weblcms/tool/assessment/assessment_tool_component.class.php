@@ -39,9 +39,16 @@ class AssessmentToolComponent extends ToolComponent
 			)
 		);
 		
+		if ($this->is_allowed(EDIT_RIGHT))
+		{
+			$action_name = Translation :: get('View results summary');
+		}
+		else {
+			$action_name = Translation :: get('View results');
+		}
 		$action_bar->add_tool_action(
 			new ToolbarItem(
-				Translation :: get('View results'), Theme :: get_common_img_path().'action_view_results.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				$action_name, Theme :: get_common_img_path().'action_view_results.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 		

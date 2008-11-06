@@ -45,6 +45,8 @@ class AssessmentResultsTableCellRenderer extends DefaultLearningObjectTableCellR
 					return $user_assessment->get_assessment()->get_assessment_type();
 				case UserAssessment :: PROPERTY_DATE_TIME_TAKEN:
 					return $user_assessment->get_date_time_taken();
+				case Assessment :: PROPERTY_TIMES_TAKEN:
+					return $user_assessment->get_assessment()->get_times_taken();
 				default:
 					return '';
 			}

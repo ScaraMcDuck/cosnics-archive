@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="user_assessment">
+ <properties>
+  <property name="id" type="integer" unsigned="1" notnull="1"/>
+  <property name="assessment_id" type="integer" notnull="1" default="0"/>
+  <property name="user_id" type="integer" notnull="1" default="0"/>
+  <property name="total_score" type="integer" notnull="1" default="0"/>
+ </properties>
+ <index name="id" type="primary">
+ <indexproperty name="id"/>
+ </index> 
+</object>

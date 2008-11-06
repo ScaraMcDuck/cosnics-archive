@@ -2337,5 +2337,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$condition = new EqualityCondition(UserQuestion :: PROPERTY_ID, $user_answer->get_id());
 		return $this->db->update(UserQuestion :: get_table_name(), $condition);
 	}
+	
+	function get_num_user_assessments($assessment)
+	{
+		$query = 'SELECT COUNT('.$this->escape_column_name(UserAssessment :: PROPERTY_ID).') FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment->get_id();
+		//echo $query;
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute();
+		//print_r($res);
+		return $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+	}
 }
 ?>

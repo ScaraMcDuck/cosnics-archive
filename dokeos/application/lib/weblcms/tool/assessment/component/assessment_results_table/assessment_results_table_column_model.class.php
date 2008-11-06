@@ -31,7 +31,8 @@ class AssessmentResultsTableColumnModel extends ObjectTableColumnModel {
 		$columns = array();
 		$columns[] = new ObjectTableColumn(Assessment :: PROPERTY_TITLE, true);
 		$columns[] = new ObjectTableColumn(Assessment :: PROPERTY_ASSESSMENT_TYPE, true);
-		$columns[] = new ObjectTableColumn(UserAssessment :: PROPERTY_DATE_TIME_TAKEN, true);
+		$columns[] = new ObjectTableColumn(Assessment :: PROPERTY_TIMES_TAKEN, true);
+		//$columns[] = new ObjectTableColumn(UserAssessment :: PROPERTY_DATE_TIME_TAKEN, true);
 		$columns[] = self :: get_action_column();
 		return $columns;
 	}
