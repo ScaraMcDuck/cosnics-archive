@@ -43,6 +43,8 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	const ACTION_DELETE_GROUP = 'delete';
 	const ACTION_TRUNCATE_GROUP = 'truncate';
 	const ACTION_VIEW_GROUP = 'view';
+	const ACTION_EXPORT = 'export';
+	const ACTION_IMPORT = 'import';
 	const ACTION_SUBSCRIBE_USER_TO_GROUP = 'subscribe';
 	const ACTION_SUBSCRIBE_USER_BROWSER = 'subscribe_browser';
 	const ACTION_UNSUBSCRIBE_USER_FROM_GROUP = 'unsubscribe';
@@ -97,6 +99,12 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 				break;
 			case self :: ACTION_VIEW_GROUP :
 				$component = GroupManagerComponent :: factory('Viewer', $this);
+				break;
+			case self :: ACTION_EXPORT :
+				$component = GroupManagerComponent :: factory('Exporter', $this);
+				break;
+			case self :: ACTION_IMPORT :
+				$component = GroupManagerComponent :: factory('Importer', $this);
 				break;
 			case self :: ACTION_BROWSE_GROUPS :
 				$component = GroupManagerComponent :: factory('Browser', $this);
@@ -462,6 +470,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		$links = array();
 		$links[] = array('name' => Translation :: get('List'), 'action' => 'list', 'url' => $this->get_link(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)));
 		$links[] = array('name' => Translation :: get('Create'), 'action' => 'add', 'url' => $this->get_link(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_CREATE_GROUP, GroupManager :: PARAM_GROUP_ID => 0)));
+		$links[] = array('name' => Translation :: get('Export'), 'action' => 'export', 'url' => $this->get_link(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_EXPORT)));
 		return array('application' => array('name' => Translation :: get('Group'), 'class' => 'group'), 'links' => $links, 'search' => $this->get_link(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)));
 	}
 	
@@ -517,6 +526,16 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	function get_group_delete_url($group)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_GROUP, self :: PARAM_GROUP_ID => $group->get_id()));
+	}
+	
+	function get_import_url()
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_IMPORT));
+	}
+	
+	function get_export_url()
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EXPORT));
 	}
 	
 	private function parse_input_from_table()

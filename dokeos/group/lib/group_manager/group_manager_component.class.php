@@ -266,6 +266,16 @@ abstract class GroupManagerComponent {
 		return $this->get_parent()->get_group_delete_url($group);
 	}
 	
+	function get_import_url()
+	{
+		return $this->get_parent()->get_import_url();
+	}
+	
+	function get_export_url()
+	{
+		return $this->get_parent()->get_export_url();
+	}
+	
 	/**
 	 * @see GroupsManager::get_path()
 	 */
