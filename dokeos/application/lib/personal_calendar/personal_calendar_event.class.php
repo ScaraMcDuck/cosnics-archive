@@ -48,7 +48,7 @@ class PersonalCalendarEvent
 	function get_source()
 	{
 		return $this->source;
-	}	
+	}
 
 	function set_start_date($start_date)
 	{
@@ -78,6 +78,6 @@ class PersonalCalendarEvent
 	function set_source($source)
 	{
 		$this->source = $source;
-	}	
+	}
 }
 ?>

@@ -28,15 +28,35 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
 		{
 			$object = $publication->get_learning_object();
 			
-			$event = new PersonalCalendarEvent();
-			$event->set_start_date($object->get_start_date());
-			$event->set_end_date($object->get_end_date());
-			$event->set_url('run.php?application=weblcms&amp;go=courseviewer&amp;course='.$publication->get_course_id().'&amp;tool='.$publication->get_tool().'&amp;pid='.$publication->get_id());
-			$event->set_title($object->get_title());
-			$event->set_content($object->get_description());
-			$event->set_source('weblcms');
-			
-			$result[] = $event;
+			if ($object->repeats())
+			{
+				$repeats = $object->get_repeats($from_date, $to_date);
+				
+				foreach($repeats as $repeat)
+				{
+					$event = new PersonalCalendarEvent();
+					$event->set_start_date($repeat->get_start_date());
+					$event->set_end_date($repeat->get_end_date());
+					$event->set_url('run.php?application=weblcms&amp;go=courseviewer&amp;course='.$publication->get_course_id().'&amp;tool='.$publication->get_tool().'&amp;pid='.$publication->get_id());
+					$event->set_title($repeat->get_title());
+					$event->set_content($repeat->get_description());
+					$event->set_source('weblcms');
+					
+					$result[] = $event;
+				}
+			}
+			elseif($object->get_start_date() >= $from_date && $object->get_start_date() <= $to_date)
+			{
+				$event = new PersonalCalendarEvent();
+				$event->set_start_date($object->get_start_date());
+				$event->set_end_date($object->get_end_date());
+				$event->set_url('run.php?application=weblcms&amp;go=courseviewer&amp;course='.$publication->get_course_id().'&amp;tool='.$publication->get_tool().'&amp;pid='.$publication->get_id());
+				$event->set_title($object->get_title());
+				$event->set_content($object->get_description());
+				$event->set_source('weblcms');
+				
+				$result[] = $event;
+			}
 		}
 		return $result;
 	}
