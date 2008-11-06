@@ -8,6 +8,9 @@
   -->
   <property name="start_date" type="integer" unsigned="1" notnull="1"/>
   <property name="end_date" type="integer" unsigned="1" notnull="1"/>
+  <property name="repeat" type="integer" length="1" unsigned="1" notnull="1"/>
+  <property name="repeat_from" type="integer" unsigned="1" notnull="1"/>
+  <property name="repeat_to" type="integer" unsigned="1" notnull="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

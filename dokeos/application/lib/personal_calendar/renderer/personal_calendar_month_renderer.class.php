@@ -34,6 +34,7 @@ class PersonalCalendarMonthRenderer extends PersonalCalendarRenderer
 			
 			foreach ($events as $index => $event)
 			{
+				
 				$start_date = $event->get_start_date();
 				$end_date = $event->get_end_date();
 				

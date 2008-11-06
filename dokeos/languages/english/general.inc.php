@@ -826,4 +826,7 @@ $lang['general']['PublicationPeriod'] = 'Publication period';
 $lang['general']['ActionBar'] = 'Action bar';
 $lang['general']['Subcategories'] = 'Subcategories';
 $lang['general']['Categories'] = 'Categories';
+
+$lang['general']['Yes'] = 'Yes';
+$lang['general']['No'] = 'No';
 ?>

@@ -104,7 +104,24 @@ class PersonalCalendar extends WebApplication
 		{
 			$object = $publication->get_publication_object();
 			
-			if($object->get_start_date() >= $from_date && $object->get_start_date() <= $to_date)
+			if ($object->repeats())
+			{
+				$repeats = $object->get_repeats($from_date, $to_date);
+				
+				foreach($repeats as $repeat)
+				{
+					$event = new PersonalCalendarEvent();
+					$event->set_start_date($repeat->get_start_date());
+					$event->set_end_date($repeat->get_end_date());
+					$event->set_url($this->get_publication_viewing_url($publication));
+					$event->set_title($repeat->get_title());
+					$event->set_content($repeat->get_description());
+					$event->set_source(self :: APPLICATION_NAME);
+					
+					$events[] = $event;
+				}
+			}
+			elseif($object->get_start_date() >= $from_date && $object->get_start_date() <= $to_date)
 			{
 				$event = new PersonalCalendarEvent();
 				$event->set_start_date($object->get_start_date());
@@ -129,6 +146,11 @@ class PersonalCalendar extends WebApplication
 			$connector = new $class;
 			$events = array_merge($events,$connector->get_events($this->user, $from_date, $to_date));
 		}
+		
+//		echo '<pre>';
+//		print_r($events);
+//		echo '</pre>';
+		
 		return $events;
 	}
 	/**

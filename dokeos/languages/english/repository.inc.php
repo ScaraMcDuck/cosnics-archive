@@ -240,4 +240,15 @@ $lang['repository']['LocationSelectionInfo']='Please select the locations in whi
 $lang['repository']['PublicationCreated']='Publication created';
 $lang['repository']['Course']='Course';
 $lang['repository']['Tool']='Tool';
+
+$lang['repository']['Repeat'] = 'Repeat';
+$lang['repository']['Daily'] = 'Daily';
+$lang['repository']['Weekly'] = 'Weekly';
+$lang['repository']['Weekdays'] = 'On weekdays';
+$lang['repository']['BiWeekly'] = 'Bi-weekly';
+$lang['repository']['Monthly'] = 'Monthly';
+$lang['repository']['Yearly'] = 'Yearly';
+$lang['repository']['Repeats'] = 'Repeats';
+
+$lang['repository']['Versions'] = 'Versions';
 ?>
