@@ -255,6 +255,7 @@ if (isset($_GET['logout']))
 if(isset($_GET['adminuser']))
 {
 	$_SESSION['_uid'] = $_SESSION['_as_admin'];
+	$_SESSION['_as_admin'] = null;
 	unset($_SESSION['as_admin']);
 }
 
