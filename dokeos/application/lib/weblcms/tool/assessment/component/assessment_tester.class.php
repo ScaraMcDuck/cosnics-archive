@@ -35,8 +35,10 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		} 
 		else
 		{
-			$uaid = $this->build_answers($tester_form, $assessment, $datamanager);
-			$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid);
+			$user_assessment = $this->build_answers($tester_form, $assessment, $datamanager);
+			$user_assessment->set_total_score($this->calculate_score($user_assessment));
+			WeblcmsDataManager :: get_instance()->create_user_assessment($user_assessment);
+			$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id());
 			$this->redirect(null, null, false, $params);
 		}
 	}
@@ -47,32 +49,64 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		//print_r($values);
 		$user_assessment = new UserAssessment();
 		$user_assessment->set_assessment_id($assessment->get_id());
-		$user_assessment->set_user_id(1);
+		$user_assessment->set_user_id(parent :: get_user_id());
 		$id = $datamanager->get_next_user_assessment_id();
 		$user_assessment->set_id($id);
-		
-		if($datamanager->create_user_assessment($user_assessment)) {
-			foreach($values as $key => $value)
-			{
-				$this->add_user_answer($datamanager, $user_assessment, $key, $value);
-			}
+		foreach($values as $key => $value)
+		{
+			$this->add_user_answer($datamanager, $user_assessment, $key, $value);
 		}
-		return $id;
+		return $user_assessment;
 	}
 	
 	function add_user_answer($datamanager, $user_assessment, $key, $value)
 	{
 		if ($key != 'submit') {
 			$parts = split("_", $key);
-			
 			$user_question = $this->get_question($datamanager, $user_assessment, $parts[0]);
 			$answer = new UserAnswer();
 			$answer->set_id($datamanager->get_next_user_answer_id());
 			$answer->set_user_question_id($user_question->get_id());
 			$answer->set_answer_id($parts[1]);
-			$answer->set_extra($value);
+			$answer->set_extra($this->get_extra($user_question, $value));
 			$answer->set_score($this->get_score($user_question, $answer));
 			$datamanager->create_user_answer($answer);
+		}
+	}
+	
+	function get_extra($user_question, $extra_value)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		$question = $rdm->retrieve_learning_object($user_question->get_question_id(), 'question');
+		switch ($question->get_question_type())
+		{
+			case Question :: TYPE_DOCUMENT:
+				$documents = $rdm->retrieve_learning_objects('document');
+				while ($document = $documents->next_result())
+				{
+					$lo_documents[] = $document;
+				}
+				print_r($lo_documents[$extra_value]);
+				return $lo_documents[$extra_value]->get_id();
+			case Question :: TYPE_OPEN_WITH_DOCUMENT:
+				$documents = $rdm->retrieve_learning_objects('document');
+				while ($document = $documents->next_result())
+				{
+					$lo_documents[] = $document;
+				}
+				print_r($lo_documents[$extra_value]);
+				return $lo_documents[$extra_value]->get_id();
+			/*case Question :: TYPE_MULTIPLE_CHOICE:
+				$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $question->get_id());
+				$clo_answers = $rdm->retrieve_complex_learning_object_items($condition);
+				while ($clo_answer = $clo_answers->next_result())
+				{
+					$answers[] = $clo_answer;
+				}
+				$clo_answer = $answers[$extra_value];
+				return $rdm->retrieve_learning_object($clo_answer->get_ref())->get_id();*/
+			default: 
+				return $extra_value;
 		}
 	}
 	
@@ -83,8 +117,6 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $question_id);
 			$clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
 			$clo_question = $clo_questions->next_result();
-			//print_r ($clo_question);
-			//echo $question_id.'<br/>';
 			$user_question = new UserQuestion();
 			$user_question->set_id($datamanager->get_next_user_question_id());
 			$user_question->set_user_test_id($user_assessment->get_id());
@@ -105,6 +137,83 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_question->get_question_id(), 'question');
 		
 		return (Score :: factory($answer, $user_answer, $user_question)->get_score());
+	}
+	
+	function calculate_score($user_assessment)
+	{
+		$score = 0;
+		echo $user_assessment->get_id();
+		$db = WeblcmsDataManager :: get_instance();
+		$condition = new EqualityCondition(UserQuestion :: PROPERTY_USER_ASSESSMENT_ID, $user_assessment->get_id());
+		$user_questions = $db->retrieve_user_questions($condition);
+		while ($user_question = $user_questions->next_result())
+		{
+			print_r($user_question);
+			$score += $this->calculate_question_score($user_question);
+		}
+		return $score;
+	}
+	
+	function calculate_question_score($user_question)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		$maxscore = $this->get_all_score($user_question);
+		echo 'max'.$maxscore.'<br/>';
+		$condition = new EqualityCondition(UserAnswer :: PROPERTY_USER_QUESTION_ID, $user_question->get_id());
+		$user_answers = WeblcmsDataManager :: get_instance()->retrieve_user_answers($condition);
+		while ($user_answer = $user_answers->next_result())
+		{
+			echo 'uas'.$user_answer->get_score().'<br/>';
+			echo 'uasavg'.($user_answer->get_score() * $user_question->get_weight()) / $maxscore.'<br/>';
+			echo 'uasavg2'.($user_answer->get_score().$user_question->get_weight()).$maxscore.'<br/>';
+			$score += ($user_answer->get_score() * $user_question->get_weight()) / $maxscore;
+		}
+		echo 'tqs'.$score.'<br/>';
+		return $score;
+	}
+	
+	function get_all_score($user_question)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		$lo_question = $rdm->retrieve_learning_object($user_question->get_question_id());
+		switch ($lo_question->get_question_type()) {
+			case Question :: TYPE_PERCENTAGE:
+				return 100;
+			case Question :: TYPE_OPEN:
+				return $user_question->get_weight();
+			case Question :: TYPE_OPEN_WITH_DOCUMENT:
+				return $user_question->get_weight();
+			case Question :: TYPE_DOCUMENT:
+				return $user_question->get_weight();
+			default:
+				$score = 0;
+				$question = $rdm->retrieve_learning_object($user_question->get_question_id());
+				$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $question->get_id());
+				$clo_answers = $rdm->retrieve_complex_learning_object_items($condition);
+				while ($clo_answer = $clo_answers->next_result())
+				{
+					echo 'cloas'.$clo_answer->get_score().' ';
+					$score += $clo_answer->get_score();
+				}	
+				return $score;
+		}
+		/*if ($rdm->retrieve_learning_object($user_question->get_question_id())->get_question_type() == Question :: TYPE_PERCENTAGE)
+		{
+			return 100;
+		}
+		else 
+		{
+			$score = 0;
+			$question = $rdm->retrieve_learning_object($user_question->get_question_id());
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $question->get_id());
+			$clo_answers = $rdm->retrieve_complex_learning_object_items($condition);
+			while ($clo_answer = $clo_answers->next_result())
+			{
+				echo 'cloas'.$clo_answer->get_score().' ';
+				$score += $clo_answer->get_score();
+			}
+			return $score;
+		}*/
 	}
 }
 ?>

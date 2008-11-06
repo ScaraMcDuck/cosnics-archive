@@ -18,10 +18,13 @@ class MatchingScore extends Score
 		
 		$user_answer = $sorted_answers[$index];
 		$correct = $this->get_link(parent :: get_answer()->get_id());
-		//echo $user_answer['answer']->get_id(). '=='. $correct['answer']->get_id();
 		if ($user_answer['answer']->get_id() == $correct['answer']->get_id())
 		{
-			return $user_answer['score'];
+			$answer_id = parent :: get_user_answer()->get_answer_id();
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $answer_id);
+			$clos = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+			
+			return $clos->next_result()->get_score();
 		}
 		else
 		{

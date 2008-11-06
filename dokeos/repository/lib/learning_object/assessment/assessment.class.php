@@ -16,6 +16,8 @@ class Assessment extends LearningObject
 	const TYPE_SURVEY = 'survey';
 	const TYPE_ASSIGNMENT = 'assignment';
 	
+	const PROPERTY_TIMES_TAKEN = 'times_taken';
+	
 	static function get_additional_property_names()
 	{
 		return array(
@@ -36,6 +38,11 @@ class Assessment extends LearningObject
 	function get_allowed_types()
 	{
 		return array('question');
+	}
+	
+	function get_times_taken() 
+	{
+		return WeblcmsDataManager :: get_instance()->get_num_user_assessments($this);
 	}
 	
 	function get_types()
