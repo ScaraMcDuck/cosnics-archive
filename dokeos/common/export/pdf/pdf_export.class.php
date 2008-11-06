@@ -14,7 +14,7 @@ class PdfExport extends Export
 	{
 		$pdf =& new Cezpdf();
 		$pdf->selectFont(Path :: get_plugin_path() . 'ezpdf/fonts/Helvetica.afm');
-		$pdf->ezTable($data, null, 'Users', array('fontSize' => 10));
+		$pdf->ezTable($data, null, 'Users', array('fontSize' => 7));
 		$pdf->ezStream();
 	}
 }
