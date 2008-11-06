@@ -34,8 +34,7 @@ class GroupManagerExporterComponent extends GroupManagerComponent
 		{
 			$export = $form->exportValues();
 			$file_type = $export['file_type'];
-			$data = $this->build_group_tree(0);
-			//print_r($data);
+			$data['groups'] = $this->build_group_tree(0);
 			$this->export_groups($file_type,$data);
 		}
 		else
@@ -55,7 +54,7 @@ class GroupManagerExporterComponent extends GroupManagerComponent
      		$group_array[Group::PROPERTY_NAME] = $group->get_name();
      		$group_array[Group::PROPERTY_DESCRIPTION] = $group->get_description();
      		$group_array['children'] = $this->build_group_tree($group->get_id());
-     		$data['item'] = $group_array; 
+     		$data[] = $group_array; 
  	    } 
  	    
  	    return $data;

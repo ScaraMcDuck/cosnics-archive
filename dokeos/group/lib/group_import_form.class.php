@@ -18,6 +18,7 @@ class GroupImportForm extends FormValidator {
 	private $form_group;
 	private $groups;
 	private $udm;
+	private $doc;
 
 	/**
 	 * Creates a new GroupImportForm 
@@ -39,125 +40,73 @@ class GroupImportForm extends FormValidator {
     function build_importing_form()
     {
     	$this->addElement('file', 'file', Translation :: get('FileName'));
-    	$allowed_upload_types = array ('xml', 'csv');
-		$this->addRule('file', Translation :: get('OnlyXMLCSVAllowed'), 'filetype', $allowed_upload_types);
+    	$allowed_upload_types = array ('xml');
+		$this->addRule('file', Translation :: get('OnlyXMLAllowed'), 'filetype', $allowed_upload_types);
     	
 		$this->addElement('submit', 'group_import', Translation :: get('Ok'));
     }
     
     function import_groups()
     {
-    	$course = $this->course;
     	$values = $this->exportValues();
-    	
-    	$csvgroups = $this->parse_file($_FILES['file']['tmp_name'], $_FILES['file']['type']);
-    	
-    	$failures = 0;
-    	
-    	foreach ($csvgroups as $csvgroup)
-    	{
-    		if ($this->validate_data($csvgroup))
-    		{
-    			$group = new Group();
-    			
-    			/*$group->set_firstname($csvgroup[Group :: PROPERTY_FIRSTNAME]);
-    			$group->set_lastname($csvgroup[Group :: PROPERTY_LASTNAME]);
-    			$group->set_groupname($csvgroup[Group :: PROPERTY_USERNAME]);
-    			$group->set_password(md5($csvgroup[Group :: PROPERTY_PASSWORD]));
-    			$group->set_email($csvgroup[Group :: PROPERTY_EMAIL]);
-    			$group->set_language($csvgroup[Group :: PROPERTY_LANGUAGE]);
-    			$group->set_status($csvgroup[Group :: PROPERTY_STATUS]);*/
-    			//$group->set_admin(0);
-    			//$group->set_
-    			
-    			if (!$group->create())
-    			{
-    				$failures++;
-    				$this->failedcsv[] = implode($csvgroup, ';');
-    			}
-    			else
-    			{
-    				//Events :: trigger_event('import', 'group', array('target_group_id' => $group->get_id(), 'action_group_id' => $this->form_group->get_id()));
-    			}
-    		}
-    		else
-    		{
-    			$failures++;
-    			$this->failedcsv[] = implode($csvgroup, ';');
-    		}
-    	}
-    	
-    	if ($failures > 0)
-    	{
-    		return false;
-    	}
-    	else
-    	{
-    		return true;
-    	}
-    }
-    
-    function get_failed_csv()
-    {
-    	return implode($this->failedcsv, '<br />');
-    }
-    
-    function validate_data($csvgroup)
-    {
+    	$this->parse_file($_FILES['file']['tmp_name'], $_FILES['file']['type']);
     	return true;
     }
     
-    function parse_file($file_name, $file_type)
+    function parse_file($file)
     {
-		$this->groups = array (); 
-		if ($file_type == 'text/csv' || $file_type == 'application/vnd.ms-excel')
+    	$this->doc = new DOMDocument();
+    	$this->doc->load($file);
+    	$group_root = $this->doc->getElementsByTagname('groups')->item(0);
+    	
+    	$group_nodes = $group_root->childNodes;
+	    foreach($group_nodes as $node)
 		{ 
-			$this->groups = Import :: csv_to_array($file_name);
+	    	if($node->nodeName == "#text") continue;
+	    	
+	    	$groups[] = $this->parse_group($node);
 		}
-		elseif($file_type == 'text/xml')
-		{
-			$parser = xml_parser_create();
-			xml_set_element_handler($parser, array (get_class(), 'element_start'), array (get_class(), 'element_end'));
-			xml_set_character_data_handler($parser, array (get_class(), 'character_data'));
-			xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, false);
-			xml_parse($parser, file_get_contents($file_name));
-			xml_parser_free($parser);
-		}
-		return $this->groups;
+		
+    	//print_r($groups); echo "<br/><br/>";
+    	$this->create_groups($groups, 0);
     }
     
-	function element_start($parser, $data)
-	{
-		switch ($data)
+    function parse_group($group)
+    {
+    	$group_array = array();
+    	
+    	if($group->hasChildNodes())
 		{
-			case 'Contact' :
-				$this->group = array ();
-				break;
-			default :
-				$this->current_tag = $data;
+			$group_array['name'] = $group->getElementsByTagName('name')->item(0)->nodeValue;
+			$group_array['description'] = $group->getElementsByTagName('description')->item(0)->nodeValue;
+			$children = $group->getElementsByTagName('children')->item(0);
+			
+			$group_nodes = $children->childNodes;
+	   	 	foreach($group_nodes as $node)
+			{ 
+				if($node->nodeName == "#text") continue;
+				
+		    	$group_array['children'][] = $this->parse_group($node);
+			}
+				
 		}
-	}
-	/**
-	 * XML-parser: handle end of element
-	 */
-	function element_end($parser, $data)
-	{
-		switch ($data)
-		{
-			case 'Contact' :
-				$this->groups[] = $this->group;
-				break;
-			default :
-				$this->group[$data] = $this->current_value;
-				break;
-		}
-	}
-	/**
-	 * XML-parser: handle character data
-	 */
-	function character_data($parser, $data)
-	{
-		$this->current_value = $data;
-	}
+		
+		return $group_array; 
+    }
+    
+    function create_groups($groups, $parent_group)
+    {	
+    	foreach($groups as $gr)
+    	{
+    		$group = new Group();
+    		$group->set_name($gr['name']);
+    		$group->set_description($gr['description']);
+    		$group->set_parent($parent_group);
+    		$group->create();
+
+    		$this->create_groups($gr['children'], $group->get_id());
+    	}
+    }
+ 
 }
 ?>
