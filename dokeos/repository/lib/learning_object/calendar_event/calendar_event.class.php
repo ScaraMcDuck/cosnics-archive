@@ -164,8 +164,19 @@ class CalendarEvent extends LearningObject
 		return $string;
 	}
 	
-	function get_repeats($from_date, $to_date)
+	function get_repeats($from_date = 0, $to_date = 0)
 	{
+		if ($from_date == 0)
+		{
+			$from_date = mktime(0, 0, 0, date('n'), 1, date('Y'));
+		}
+		
+		if ($to_date == 0)
+		{
+			$to_date = strtotime('+ 1 year', $from_date);
+		}
+		
+		
 		$repeats = array();
 		$repeat = $this->get_repeat();
 		
@@ -174,7 +185,7 @@ class CalendarEvent extends LearningObject
 		
 		//echo 'Original start date : ' . date('r', $repeat_start_date) . '<br />';
 		
-		while ($repeat_start_date <= $from_date)
+		while ($repeat_start_date <= $from_date && ($repeat_end_date <= $from_date))
 		{
 			$repeat_start_date = $this->get_next_repeat_date($repeat_start_date);
 			$repeat_end_date = $this->get_next_repeat_date($repeat_end_date);
