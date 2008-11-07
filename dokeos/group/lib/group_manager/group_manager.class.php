@@ -41,6 +41,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	const ACTION_BROWSE_GROUPS = 'browse';
 	const ACTION_EDIT_GROUP = 'edit';
 	const ACTION_DELETE_GROUP = 'delete';
+	const ACTION_MOVE_GROUP = 'move';
 	const ACTION_TRUNCATE_GROUP = 'truncate';
 	const ACTION_VIEW_GROUP = 'view';
 	const ACTION_EXPORT = 'export';
@@ -93,6 +94,9 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 				break;
 			case self :: ACTION_DELETE_GROUP :
 				$component = GroupManagerComponent :: factory('Deleter', $this);
+				break;
+			case self :: ACTION_MOVE_GROUP :
+				$component = GroupManagerComponent :: factory('Mover', $this);
 				break;
 			case self :: ACTION_TRUNCATE_GROUP :
 				$component = GroupManagerComponent :: factory('Truncater', $this);
@@ -537,6 +541,12 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	function get_export_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EXPORT));
+	}
+	
+	function get_move_group_url($group)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MOVE_GROUP, 
+			self :: PARAM_GROUP_ID => $group->get_id()));
 	}
 	
 	private function parse_input_from_table()

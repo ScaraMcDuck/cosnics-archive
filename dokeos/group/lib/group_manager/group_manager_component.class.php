@@ -271,6 +271,11 @@ abstract class GroupManagerComponent {
 		return $this->get_parent()->get_import_url();
 	}
 	
+	function get_move_group_url($group)
+	{
+		return $this->get_parent()->get_move_group_url($group);
+	}
+	
 	function get_export_url()
 	{
 		return $this->get_parent()->get_export_url();

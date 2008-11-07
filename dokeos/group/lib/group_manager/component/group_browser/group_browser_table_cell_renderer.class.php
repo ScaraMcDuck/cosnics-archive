@@ -116,6 +116,12 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 			'img' => Theme :: get_common_img_path().'action_delete.png'
 		);
 		
+		$toolbar_data[] = array(
+			'href' => $this->browser->get_move_group_url($group),
+			'label' => Translation :: get('Move'),
+			'img' => Theme :: get_common_img_path().'action_move.png'
+		);
+		
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
