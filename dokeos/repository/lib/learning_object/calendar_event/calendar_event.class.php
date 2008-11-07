@@ -22,7 +22,7 @@ class CalendarEvent extends LearningObject
 	 * Wheter the event is to be repeated and
 	 * if so, when it should be repeated
 	 */
-	const PROPERTY_REPEAT = 'repeat';
+	const PROPERTY_REPEAT_TYPE = 'repeat_type';
 	/**
 	 * The start date of the repetition
 	 */	
@@ -79,17 +79,17 @@ class CalendarEvent extends LearningObject
 	 * Gets the repeat-type of this calendar event
 	 * @return int The repeat-type
 	 */
-	function get_repeat()
+	function get_repeat_type()
 	{
-		return $this->get_additional_property(self :: PROPERTY_REPEAT);
+		return $this->get_additional_property(self :: PROPERTY_REPEAT_TYPE);
 	}
 	/**
 	 * Sets the repeat-type of this calendar event
 	 * @param int The repeat-type
 	 */
-	function set_repeat($repeat)
+	function set_repeat_type($repeat_type)
 	{
-		return $this->set_additional_property(self :: PROPERTY_REPEAT, $repeat);
+		return $this->set_additional_property(self :: PROPERTY_REPEAT_TYPE, $repeat_type);
 	}
 	/**
 	 * Gets the start date of this calendar event repetition
@@ -129,7 +129,7 @@ class CalendarEvent extends LearningObject
 	 */
 	function repeats()
 	{
-		$repeat = $this->get_repeat();
+		$repeat = $this->get_repeat_type();
 		return ($repeat != '0');
 	}
 	/**
@@ -147,7 +147,7 @@ class CalendarEvent extends LearningObject
 	 */
 	function get_repeat_as_string()
 	{
-		$repeat = $this->get_repeat();
+		$repeat = $this->get_repeat_type();
 		
 		switch ($repeat)
 		{
@@ -186,9 +186,7 @@ class CalendarEvent extends LearningObject
 			$to_date = strtotime('+ 1 year', $from_date);
 		}
 		
-		
 		$repeats = array();
-		$repeat = $this->get_repeat();
 		
 		$repeat_start_date = $this->get_start_date();
 		$repeat_end_date = $this->get_end_date();
@@ -227,7 +225,7 @@ class CalendarEvent extends LearningObject
 	
 	function get_next_repeat_date($date)
 	{
-		$repeat = $this->get_repeat();
+		$repeat = $this->get_repeat_type();
 		
 		switch ($repeat)
 		{
@@ -292,7 +290,7 @@ class CalendarEvent extends LearningObject
 	
 	static function get_additional_property_names()
 	{
-		return array (self :: PROPERTY_START_DATE, self :: PROPERTY_END_DATE, self :: PROPERTY_REPEAT, self :: PROPERTY_REPEAT_FROM, self :: PROPERTY_REPEAT_TO);
+		return array (self :: PROPERTY_START_DATE, self :: PROPERTY_END_DATE, self :: PROPERTY_REPEAT_TYPE, self :: PROPERTY_REPEAT_FROM, self :: PROPERTY_REPEAT_TO);
 	}
 }
 ?>
