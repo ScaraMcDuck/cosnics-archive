@@ -24,9 +24,29 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 		
 		foreach ($publications as $index => $publication)
 		{
-			$first = $index == 0;
-			$last = $index == count($publications) - 1;
-			$rendered_publications[$publication->get_learning_object()->get_start_date()][] = $this->render_publication($publication, $first, $last);
+			$object = $publication->get_learning_object();
+			
+			if ($object->repeats())
+			{
+				$repeats = $object->get_repeats();
+				
+				foreach($repeats as $repeat)
+				{
+					$the_publication = clone $publication;
+					$the_publication->set_learning_object($repeat);
+					
+					$rendered_publications[$publication->get_learning_object()->get_start_date()][] = $this->render_publication($the_publication, false, false);
+				}
+			}
+			else
+			{
+				$rendered_publications[$publication->get_learning_object()->get_start_date()][] = $this->render_publication($publication, false, false);
+			}
+			
+			
+//			$first = $index == 0;
+//			$last = $index == count($publications) - 1;
+//			$rendered_publications[$publication->get_learning_object()->get_start_date()][] = $this->render_publication($publication, $first, $last);
 		}
 		ksort($rendered_publications);
 		$current_month = 0;

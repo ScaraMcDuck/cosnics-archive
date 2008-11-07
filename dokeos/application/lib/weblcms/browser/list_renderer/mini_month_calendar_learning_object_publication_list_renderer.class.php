@@ -33,19 +33,31 @@ class MiniMonthCalendarLearningObjectPublicationListRenderer extends LearningObj
 		$calendar_table = new MiniMonthCalendar($this->display_time);
 		$start_time = $calendar_table->get_start_time();
 		$end_time = $calendar_table->get_end_time();
+		
+		$publications = $this->browser->get_calendar_events($start_time, $end_time);
+		
 		$table_date = $start_time;
 		while($table_date <= $end_time)
 		{
 			$next_table_date = strtotime('+24 Hours',$table_date);
-			$publications = $this->browser->get_calendar_events($table_date,$next_table_date);
-			foreach($publications as $index => $publication)
+			
+			foreach ($publications as $index => $publication)
 			{
 				if (!$calendar_table->contains_events_for_time($table_date))
 				{
-					$cell_contents = $this->render_publication($publication,$table_date);
-					$calendar_table->add_event($table_date,$cell_contents );
+					$object = $publication->get_learning_object();
+					
+					$start_date = $object->get_start_date();
+					$end_date = $object->get_end_date();
+					
+					if ($table_date < $start_date && $start_date < $next_table_date || $table_date <= $end_date && $end_date <= $next_table_date || $start_date <= $table_date && $next_table_date <= $end_date)
+					{
+						$cell_contents = $this->render_publication($publication,$table_date);
+						$calendar_table->add_event($table_date,$cell_contents );
+					}
 				}
 			}
+			
 			$table_date = $next_table_date;
 		}
 		$url_format = $this->get_url(array('time' => '-TIME-', 'view' => $_GET['view']));

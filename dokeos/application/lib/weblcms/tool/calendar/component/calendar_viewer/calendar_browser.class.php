@@ -111,18 +111,29 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 	 * @param int $to_time
 	 * @return array A set of publications of calendar_events
 	 */
-	function get_calendar_events($from_time,$to_time)
+	function get_calendar_events($from_time, $to_time)
 	{
 		$publications = $this->get_publications();
 		
 		$events = array();
 		foreach($publications as $index => $publication)
 		{
-			$event = $publication->get_learning_object();
-			$start_date = $event->get_start_date();
-			$end_date = $event->get_end_date();
-			if($from_time <= $start_date && $start_date <= $to_time || $from_time <= $end_date && $end_date <= $to_time || $start_date <= $from_time && $to_time <= $end_date)
+			$object = $publication->get_learning_object();
+			
+			if ($object->repeats())
 			{
+				$repeats = $object->get_repeats($from_time, $to_time);
+				
+				foreach($repeats as $repeat)
+				{
+					$the_publication = clone $publication;
+					$the_publication->set_learning_object($repeat);
+					
+					$events[] = $the_publication;
+				}
+			}
+			elseif($from_time <= $object->get_start_date() && $object->get_start_date() <= $to_time || $from_time <= $object->get_end_date() && $object->get_end_date() <= $to_time || $object->get_start_date() <= $from_time && $to_time <= $object->get_end_date())
+			{				
 				$events[] = $publication;
 			}
 		}
