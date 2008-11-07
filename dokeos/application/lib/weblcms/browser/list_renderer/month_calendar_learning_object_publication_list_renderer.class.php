@@ -89,7 +89,7 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 //		echo date('r', $from_date);
 		$to_date = strtotime('-1 Second', strtotime('Next Month', $this->get_display_time()));
 		
-		$html[] = '<div class="event" style="border-right: 4px solid '.$color_cache[$event->get_id()][($start_date < $from_date || $start_date > $to_date ? 'fade' : 'full')].';">';
+		$html[] = '<div class="event'. ($start_date < $from_date || $start_date > $to_date ? ' event_fade' : '') .'" style="border-right: 4px solid '.$color_cache[$event->get_id()][($start_date < $from_date || $start_date > $to_date ? 'fade' : 'full')].';">';
 		if($start_date > $table_date && $start_date <= strtotime('+1 Day',$table_date))
 		{
 			$html[] = date('H:i',$start_date);
