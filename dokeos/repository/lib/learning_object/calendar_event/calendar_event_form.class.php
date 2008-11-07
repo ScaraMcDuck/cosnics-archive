@@ -14,12 +14,12 @@ class CalendarEventForm extends LearningObjectForm
 {
 	const TOTAL_PROPERTIES = 4;
 	const PARAM_REPEAT = 'repeated';
+	const PARAM_FROM = 'from';
 	// Inherited
     protected function build_creation_form()
     {
     	parent :: build_creation_form();
     	$this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, Translation :: get('StartTimeWindow'), Translation :: get('EndTimeWindow'));
-    	
     	
 		$choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '',Translation :: get('No'),0,array ('onclick' => 'javascript:timewindow_hide(\'repeat_timewindow\')', 'id' => self :: PARAM_REPEAT));
 		$choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '',Translation :: get('Yes'),1,array ('onclick' => 'javascript:timewindow_show(\'repeat_timewindow\')'));
@@ -30,7 +30,16 @@ class CalendarEventForm extends LearningObjectForm
 		
 		$this->addElement('select', CalendarEvent :: PROPERTY_REPEAT, null, $options);
 		
-		$this->add_timewindow(CalendarEvent :: PROPERTY_REPEAT_FROM, CalendarEvent :: PROPERTY_REPEAT_TO, Translation :: get('From'), Translation :: get('Until'));
+		$this->addElement('radio', self :: PARAM_FROM, '',Translation :: get('From'),0,array ('onclick' => 'javascript:timewindow_hide(\'from_timewindow\')', 'id' => self :: PARAM_FROM));
+		$this->addElement('radio', self :: PARAM_FROM, '',Translation :: get('FromUntil'),1,array ('onclick' => 'javascript:timewindow_show(\'from_timewindow\')'));
+		
+		$this->addElement('html','<div style="padding-left: 25px; display: block;">');
+		$this->add_datepicker(CalendarEvent :: PROPERTY_REPEAT_FROM);
+		$this->addElement('html','<div id="from_timewindow">');
+		$this->add_datepicker(CalendarEvent :: PROPERTY_REPEAT_TO);
+		$this->addElement('html','</div>');
+		$this->addElement('html','</div>');
+		
 		$this->addElement('html','</div>');
 		$this->addElement('html',"<script type=\"text/javascript\">
 					/* <![CDATA[ */
@@ -38,6 +47,12 @@ class CalendarEventForm extends LearningObjectForm
 					if (expiration.checked)
 					{
 						timewindow_hide('repeat_timewindow');
+
+						var from = document.getElementById('". self :: PARAM_FROM ."');
+						if (from.checked)
+						{
+							timewindow_hide('from_timewindow');
+						}
 					}
 					function timewindow_show(item) {
 						el = document.getElementById(item);
@@ -61,17 +76,20 @@ class CalendarEventForm extends LearningObjectForm
 		$this->addGroup($choices,null,Translation :: get('Repeat'),'<br />',false);
 		$this->addElement('html','<div style="padding-left: 25px; display: block;" id="repeat_timewindow">');
 		
-		$options = array();
-		$options['1'] = Translation :: get('Daily');
-		$options['2'] = Translation :: get('Weekly');
-		$options['3'] = Translation :: get('Weekdays');
-		$options['4'] = Translation :: get('BiWeekly');
-		$options['5'] = Translation :: get('Monthly');
-		$options['6'] = Translation :: get('Yearly');
+		$options = CalendarEvent :: get_repeat_options();
 		
 		$this->addElement('select', CalendarEvent :: PROPERTY_REPEAT, null, $options);
 		
-		$this->add_timewindow(CalendarEvent :: PROPERTY_REPEAT_FROM, CalendarEvent :: PROPERTY_REPEAT_TO, Translation :: get('From'), Translation :: get('Until'));
+		$this->addElement('radio', self :: PARAM_FROM, '',Translation :: get('From'),0,array ('onclick' => 'javascript:timewindow_hide(\'from_timewindow\')', 'id' => self :: PARAM_FROM));
+		$this->addElement('radio', self :: PARAM_FROM, '',Translation :: get('FromUntil'),1,array ('onclick' => 'javascript:timewindow_show(\'from_timewindow\')'));
+		
+		$this->addElement('html','<div style="padding-left: 25px; display: block;">');
+		$this->add_datepicker(CalendarEvent :: PROPERTY_REPEAT_FROM);
+		$this->addElement('html','<div id="from_timewindow">');
+		$this->add_datepicker(CalendarEvent :: PROPERTY_REPEAT_TO);
+		$this->addElement('html','</div>');
+		$this->addElement('html','</div>');
+		
 		$this->addElement('html','</div>');
 		$this->addElement('html',"<script type=\"text/javascript\">
 					/* <![CDATA[ */
@@ -80,6 +98,13 @@ class CalendarEventForm extends LearningObjectForm
 					{
 						timewindow_hide('repeat_timewindow');
 					}
+
+					var from = document.getElementById('". self :: PARAM_FROM ."');
+					if (from.checked)
+					{
+						timewindow_hide('from_timewindow');
+					}
+
 					function timewindow_show(item) {
 						el = document.getElementById(item);
 						el.style.display='';
@@ -111,18 +136,31 @@ class CalendarEventForm extends LearningObjectForm
 				{
 					$defaults[self :: PARAM_REPEAT] = 1;
 					$defaults[CalendarEvent :: PROPERTY_REPEAT] = $lo->get_repeat();
+					
+					$repeats_indefinately = $lo->repeats_indefinately();
 					$defaults[CalendarEvent :: PROPERTY_REPEAT_FROM] = $lo->get_repeat_from();
-					$defaults[CalendarEvent :: PROPERTY_REPEAT_TO] = $lo->get_repeat_to();					
+					
+					if ($repeats_indefinately)
+					{
+						$defaults[self :: PARAM_FROM] = 0;
+					}
+					else
+					{
+						$defaults[self :: PARAM_FROM] = 1;
+						$defaults[CalendarEvent :: PROPERTY_REPEAT_TO] = $lo->get_repeat_to();
+					}
 				}
 			}
 			else
 			{
 				$defaults[self :: PARAM_REPEAT] = 0;
+				$defaults[self :: PARAM_FROM] = 0;
 			}
 		}
 		else
 		{
 			$defaults[self :: PARAM_REPEAT] = 0;
+			$defaults[self :: PARAM_FROM] = 0;
 		}
 		
 		parent :: setDefaults($defaults);
@@ -130,8 +168,6 @@ class CalendarEventForm extends LearningObjectForm
 
 	function set_csv_values($valuearray)
 	{	
-		
-
 		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
 		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
 		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
@@ -157,10 +193,19 @@ class CalendarEventForm extends LearningObjectForm
 		else
 		{
 			$object->set_repeat($values[CalendarEvent :: PROPERTY_REPEAT]);
+			
 			$from_date = DokeosUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_REPEAT_FROM]);
-			$to_date = DokeosUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_REPEAT_TO]);
 			$object->set_repeat_from($from_date);
-			$object->set_repeat_to($to_date);
+			
+			if ($values[self :: PARAM_FROM] != 0)
+			{
+				$to_date = DokeosUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_REPEAT_TO]);
+				$object->set_repeat_to($to_date);
+			}
+			else
+			{
+				$object->set_repeat_to(0);
+			}
 		}
 			
 		$this->set_learning_object($object);
@@ -183,10 +228,19 @@ class CalendarEventForm extends LearningObjectForm
 		else
 		{
 			$object->set_repeat($values[CalendarEvent :: PROPERTY_REPEAT]);
+			
 			$from_date = DokeosUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_REPEAT_FROM]);
-			$to_date = DokeosUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_REPEAT_TO]);
 			$object->set_repeat_from($from_date);
-			$object->set_repeat_to($to_date);
+			
+			if ($values[self :: PARAM_FROM] != 0)
+			{
+				$to_date = DokeosUtilities :: time_from_datepicker($values[CalendarEvent :: PROPERTY_REPEAT_TO]);
+				$object->set_repeat_to($to_date);
+			}
+			else
+			{
+				$object->set_repeat_to(0);
+			}
 		}
 		
 		return parent :: update_learning_object();

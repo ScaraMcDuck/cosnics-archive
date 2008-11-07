@@ -18,14 +18,14 @@ class PersonalCalendarMonthRenderer extends PersonalCalendarRenderer
 	public function render()
 	{
 		$calendar = new MonthCalendar($this->get_time());
-		$from_date = strtotime(date('Y-m-1', $this->get_time()));
-		$to_date = strtotime('-1 Second', strtotime('Next Month', $from_date));
-		$events = $this->get_events($from_date, $to_date);
 
 		$html = array ();	
 		
 		$start_time = $calendar->get_start_time();
 		$end_time = $calendar->get_end_time();
+		
+		$events = $this->get_events($start_time, $end_time);
+		
 		$table_date = $start_time;
 		
 		while($table_date <= $end_time)
@@ -64,7 +64,10 @@ class PersonalCalendarMonthRenderer extends PersonalCalendarRenderer
 		$start_date = $event->get_start_date();
 		$end_date = $event->get_end_date();
 		
-		$html[] = '<div class="event" style="border-left: 5px solid '.$this->get_color(Translation :: get(Application :: application_to_class($event->get_source()))).';">';
+		$from_date = strtotime(date('Y-m-1', $this->get_time()));
+		$to_date = strtotime('-1 Second', strtotime('Next Month', $from_date));
+		
+		$html[] = '<div class="event'. (($start_date < $from_date || $start_date > $to_date) ? ' event_fade' : '') .'" style="border-left: 5px solid '.$this->get_color(Translation :: get(Application :: application_to_class($event->get_source())), (($start_date < $from_date || $start_date > $to_date) ? true : false)).';">';
 		
 		if($start_date > $table_date && $start_date <= strtotime('+1 Day',$table_date))
 		{

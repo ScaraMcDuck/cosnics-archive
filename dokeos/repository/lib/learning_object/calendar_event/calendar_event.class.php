@@ -133,6 +133,16 @@ class CalendarEvent extends LearningObject
 		return ($repeat != '0');
 	}
 	/**
+	 * Returns whether or not the calendar event repeats itself indefinately
+	 * @return boolean
+	 */
+	function repeats_indefinately()
+	{
+		$repeat_to = $this->get_repeat_to();
+		return ($repeat_to == '0');
+	}
+	
+	/**
 	 * Return the repeat-type as a string 
 	 */
 	function get_repeat_as_string()
@@ -198,7 +208,7 @@ class CalendarEvent extends LearningObject
 		
 		//echo 'Calendar End : ' . date('r', $to_date) . '<br /><br />';
 		
-		while ($repeat_start_date <= $to_date && $repeat_start_date <= $repeat_until)
+		while ($repeat_start_date <= $to_date && ($repeat_start_date <= $repeat_until || $this->repeats_indefinately()))
 		{
 			//echo 'Repeat : ' . date('r', $repeat_start_date) . '<br />';
 			$the_clone = clone $this;

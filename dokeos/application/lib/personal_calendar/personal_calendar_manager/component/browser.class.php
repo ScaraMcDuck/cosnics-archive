@@ -116,6 +116,7 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('MonthView'), Theme :: get_img_path().'tool_calendar_month.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'month'))));
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('WeekView'), Theme :: get_img_path().'tool_calendar_week.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'week'))));
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_img_path().'tool_calendar_day.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'day'))));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_img_path().'tool_calendar_today.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => (isset ($_GET['view']) ? $_GET['view'] : 'month'), 'time' => time()))));
 		
 		return $action_bar->as_html();
 	}

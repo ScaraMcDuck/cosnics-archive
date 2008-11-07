@@ -75,7 +75,7 @@ abstract class PersonalCalendarRenderer
 	 * this function with the same key returns the same color.
 	 * @return string A color string which can be used as a value in CSS rules.
 	 */
-	public function get_color($key = null)
+	public function get_color($key = null, $fade = false)
 	{
 		if(is_null($key))
 		{
@@ -89,9 +89,23 @@ abstract class PersonalCalendarRenderer
 			$rgb['r'] = substr($color_number,0,3)%255;
 			$rgb['g'] = substr($color_number,2,3)%255;
 			$rgb['b'] = substr($color_number,4,3)%255;
-			$this->legend[$key] = 'rgb('.$rgb['r'].','.$rgb['g'].','.$rgb['b'].')';
+			
+			$rgb['fr'] = round(($rgb['r'] + 234) / 2);
+			$rgb['fg'] = round(($rgb['g'] + 234) / 2);
+			$rgb['fb'] = round(($rgb['b'] + 234) / 2);
+			
+			$this->legend[$key]['full'] = 'rgb('.$rgb['r'].','.$rgb['g'].','.$rgb['b'].')';
+			$this->legend[$key]['fade'] = 'rgb('.$rgb['fr'].','.$rgb['fg'].','.$rgb['fb'].')';
 		}
-		return $this->legend[$key];
+		
+		if ($fade)
+		{
+			return $this->legend[$key]['fade'];
+		}
+		else
+		{
+			return $this->legend[$key]['full'];
+		}
 	}
 	/**
 	 * Builds a color-based legend for the personal calendar to help users to
@@ -102,9 +116,9 @@ abstract class PersonalCalendarRenderer
 	public function build_legend()
 	{
 		$result = '<div style="margin-top: 10px;">';
-		foreach($this->legend as $key => $color)
+		foreach($this->legend as $key => $colors)
 		{
-			$result .= '<span style="display:block; float: left; margin-right: 2px; width: 10px; height: 10px; border: 1px solid black; background-color: '.$color.'">&nbsp;</span><span style="float:left; margin-right: 15px;">'.$key.'</span>';
+			$result .= '<span style="display:block; float: left; margin-right: 2px; width: 10px; height: 10px; border: 1px solid black; background-color: '.$colors['full'].'">&nbsp;</span><span style="float:left; margin-right: 15px;">'.$key.'</span>';
 		}
 		$result .= '</div>';
 		return $result;

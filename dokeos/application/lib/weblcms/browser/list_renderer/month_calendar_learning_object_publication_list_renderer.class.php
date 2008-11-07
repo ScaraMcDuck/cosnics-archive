@@ -23,6 +23,11 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 	{
 		$this->display_time = $time;
 	}
+	
+	function get_display_time()
+	{
+		return $this->display_time;
+	}
 	/**
 	 * Returns the HTML output of this renderer.
 	 * @return string The HTML output
@@ -66,7 +71,7 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 	 * @param int $table_date The current date displayed in the table.
 	 */
 	function render_publication($publication,$table_date)
-	{
+	{		
 		static $color_cache;
 		$event = $publication->get_learning_object();
 		$event_url = $this->get_url(array('pid'=>$publication->get_id()), true);
@@ -75,10 +80,16 @@ class MonthCalendarLearningObjectPublicationListRenderer extends LearningObjectP
 		if(!isset($color_cache[$event->get_id()]))
 		{
 			$rgb = $this->object2color($event);
-			$color_cache[$event->get_id()] = 'rgb('.$rgb['r'].','.$rgb['g'].','.$rgb['b'].')';
+			$color_cache[$event->get_id()]['full'] = 'rgb('.$rgb['r'].','.$rgb['g'].','.$rgb['b'].')';
+			$color_cache[$event->get_id()]['fade'] = 'rgb('.$rgb['fr'].','.$rgb['fg'].','.$rgb['fb'].')';
 		}
 		$html[] = '';
-		$html[] = '<div class="event" style="border-right: 4px solid '.$color_cache[$event->get_id()].';">';
+		
+		$from_date = strtotime(date('Y-m-1', $this->get_display_time()));
+//		echo date('r', $from_date);
+		$to_date = strtotime('-1 Second', strtotime('Next Month', $this->get_display_time()));
+		
+		$html[] = '<div class="event" style="border-right: 4px solid '.$color_cache[$event->get_id()][($start_date < $from_date || $start_date > $to_date ? 'fade' : 'full')].';">';
 		if($start_date > $table_date && $start_date <= strtotime('+1 Day',$table_date))
 		{
 			$html[] = date('H:i',$start_date);

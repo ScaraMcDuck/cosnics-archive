@@ -251,4 +251,5 @@ $lang['repository']['Yearly'] = 'Yearly';
 $lang['repository']['Repeats'] = 'Repeats';
 
 $lang['repository']['Versions'] = 'Versions';
+$lang['repository']['FromUntil'] = 'From / until';
 ?>
