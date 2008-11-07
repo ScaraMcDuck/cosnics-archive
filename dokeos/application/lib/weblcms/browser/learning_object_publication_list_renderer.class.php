@@ -439,6 +439,11 @@ abstract class LearningObjectPublicationListRenderer
 		$rgb['r'] = substr($color_number,0,3)%255;
 		$rgb['g'] = substr($color_number,2,3)%255;
 		$rgb['b'] = substr($color_number,4,3)%255;
+		
+		$rgb['fr'] = round(($rgb['r'] + 234) / 2);
+		$rgb['fg'] = round(($rgb['g'] + 234) / 2);
+		$rgb['fb'] = round(($rgb['b'] + 234) / 2);
+		
 		return $rgb;
 	}
 }

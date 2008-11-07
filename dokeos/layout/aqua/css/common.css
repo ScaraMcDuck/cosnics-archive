@@ -1450,6 +1450,17 @@ div.event:hover
  	background-color: #DDFFDD;
 }
 
+div.event_fade
+{
+	background-color: #f1f1f1;
+	color: #757575;
+}
+
+div.event_fade a
+{
+	color: #7b7b7b;
+}
+
 table.calendar td.highlight
 {
 	border: 2px solid #FA8500;
@@ -1552,7 +1563,7 @@ ul.toolbar li, ul.toolbar_horizontal li
 	float: left;
 	display: block;
 	margin: 0px 2px 0px 2px;
-	padding: 0;
+	padding: 0px 0px 2px 0px;
 	white-space: nowrap;
 }
 

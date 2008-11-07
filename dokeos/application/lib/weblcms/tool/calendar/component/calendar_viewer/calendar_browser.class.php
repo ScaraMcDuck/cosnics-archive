@@ -69,6 +69,7 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 				default:
 				{
 					$renderer = new MonthCalendarLearningObjectPublicationListRenderer($this);
+					$renderer->set_display_time($time);
 					break;
 				}
 			}

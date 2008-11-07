@@ -52,6 +52,7 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('MonthView'), Theme :: get_img_path().'tool_calendar_month.png', $this->get_url(array('view'=>'month', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('WeekView'), Theme :: get_img_path().'tool_calendar_week.png', $this->get_url(array('view'=>'week', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_img_path().'tool_calendar_day.png', $this->get_url(array('view'=>'day', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_img_path().'tool_calendar_today.png', $this->get_url(array('view' => (isset ($_GET['view']) ? $_GET['view'] : 'month'), 'time' => time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		return $action_bar;
 	}
