@@ -2341,11 +2341,30 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function get_num_user_assessments($assessment)
 	{
 		$query = 'SELECT COUNT('.$this->escape_column_name(UserAssessment :: PROPERTY_ID).') FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment->get_id();
-		//echo $query;
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute();
-		//print_r($res);
 		return $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+	}
+	
+	function get_average_score($assessment)
+	{
+		$query = 'SELECT ROUND(AVG('.$this->escape_column_name(UserAssessment :: PROPERTY_TOTAL_SCORE).'), 2) FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment->get_id();
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute();
+		$row = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $row[0];
+	}
+	
+	function get_maximum_score($assessment) 
+	{
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id());
+		$clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+		
+		while ($clo_question = $clo_questions->next_result())
+		{
+			$maxscore += $clo_question->get_weight();
+		}
+		return $maxscore;
 	}
 }
 ?>

@@ -6,21 +6,18 @@ class OpenQuestionWithDocumentResult extends QuestionResult
 {
 	function display_exercise()
 	{
-		$html[] = $this->display_question();
+		$html[] = $this->display_question_header();
 		
 		$user_question = $this->get_user_question();
 		$user_answers = $this->get_user_answers();
 		$user_answer = $user_answers[0];
 		$user_score = $user_answer->get_score();
 		
-		$html[] = '<div class="learning_object" style="">';
-		$html[] = '<div class="title">';
-		$html[] = 'Your answer: (Score: '.$user_score.'/'.$user_question->get_weight().')';
-		$html[] = '</div>';
-		$html[] = '<div class="description">';
-		$html[] = $user_answer->get_extra();
-		$html[] = '</div>';
-		$html[] = '</div>';
+		$score_line = Translation :: get('Score').': '.$user_score.'/'.$user_question->get_weight();
+		$html[] = $this->display_score($score_line);
+		
+		$answer_lines[] = $user_answer->get_extra();
+		$html[] = $this->display_answers($answer_lines);
 		
 		return implode('<br/>', $html);
 	}

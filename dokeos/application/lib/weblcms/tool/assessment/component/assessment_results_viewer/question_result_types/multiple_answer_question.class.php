@@ -6,7 +6,7 @@ class MultipleAnswerQuestionResult extends QuestionResult
 {
 	function display_exercise()
 	{
-		$html[] = $this->display_question();
+		$html[] = $this->display_question_header();
 		
 		$user_question = $this->get_user_question();
 		$user_answers = $this->get_user_answers();
@@ -23,17 +23,15 @@ class MultipleAnswerQuestionResult extends QuestionResult
 		
 		$user_question_score = $user_score / $user_score_div * $user_question->get_weight();
 		
-		$html[] = '<div class="learning_object" style="">';
-		$html[] = '<div class="title">';
-		$html[] = 'Your answer(s): (Score: '.$user_question_score.'/'.$user_question->get_weight().')';
-		$html[] = '</div>';
-		$html[] = '<div class="description">';
+		$score_line = Translation :: get('Score').': '.$user_question_score.'/'.$user_question->get_weight();
+		$html[] = $this->display_score($score_line);
+		
 		foreach ($user_answers as $user_answer)
 		{
-			$html[] = $user_answer->get_extra().' Score: '.$user_answer->get_score();
+			$answer = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_answer->get_answer_id());
+			$answer_lines[] = $answer->get_title().' ('.Translation :: get('Score').': '.$user_answer->get_score().')';
 		}
-		$html[] = '</div>';
-		$html[] = '</div>';
+		$html[] = $this->display_answers($answer_lines);
 		
 		return implode('<br/>', $html);
 	}

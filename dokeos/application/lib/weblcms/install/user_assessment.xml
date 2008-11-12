@@ -5,6 +5,7 @@
   <property name="assessment_id" type="integer" notnull="1" default="0"/>
   <property name="user_id" type="integer" notnull="1" default="0"/>
   <property name="total_score" type="integer" notnull="1" default="0"/>
+  <property name="date_time_taken" type="datetime" notnull="1" default=""/>
  </properties>
  <index name="id" type="primary">
  <indexproperty name="id"/>

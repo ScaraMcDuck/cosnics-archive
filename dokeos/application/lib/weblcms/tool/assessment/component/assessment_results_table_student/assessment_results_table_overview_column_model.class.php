@@ -9,7 +9,7 @@ require_once Path :: get_repository_path(). 'lib/learning_object/assessment/asse
 /**
  * This class represents a column model for a publication candidate table
  */
-class AssessmentResultsTableColumnModel extends ObjectTableColumnModel {
+class AssessmentResultsTableOverviewStudentColumnModel extends ObjectTableColumnModel {
 	/**
 	 * The column with the action buttons.
 	 */
@@ -17,7 +17,7 @@ class AssessmentResultsTableColumnModel extends ObjectTableColumnModel {
 	/**
 	 * Constructor.
 	 */
-	function AssessmentResultsTableColumnModel()
+	function AssessmentResultsTableOverviewStudentColumnModel()
 	{
 		parent :: __construct(self :: get_columns(), 1, SORT_ASC);
 	}

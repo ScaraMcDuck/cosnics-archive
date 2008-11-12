@@ -6,16 +6,14 @@ class PercentageQuestionResult extends QuestionResult
 {
 	function display_exercise()
 	{
-		$html[] = $this->display_question();
+		$html[] = $this->display_question_header();
 		
 		$user_answers = parent :: get_user_answers();
 		
-		$html[] = '<div class="learning_object" style="">';
-		$html[] = '<div class="title">';
-		$html[] = 'Your answer: '.$user_answers[0]->get_extra().'/100';
-		$html[] = '</div>';
+		$score_line = Translation :: get('Your rating').': '.$user_answers[0]->get_extra().'/100';
+		$html[] = $this->display_score($score_line);
 		
-		$html[] = '</div>';
+		$html[] = $this->display_answers();
 		
 		return implode('<br/>', $html);
 	}

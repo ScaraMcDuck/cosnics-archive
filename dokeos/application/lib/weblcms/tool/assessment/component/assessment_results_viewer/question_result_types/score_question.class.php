@@ -6,7 +6,7 @@ class ScoreQuestionResult extends QuestionResult
 {
 	function display_exercise()
 	{
-		$html[] = $this->display_question();
+		$html[] = $this->display_question_header();
 		
 		$user_answers = parent :: get_user_answers();
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $user_answers[0]->get_answer_id());
@@ -14,12 +14,10 @@ class ScoreQuestionResult extends QuestionResult
 		$low = $clo_answers[0];
 		$high = $clo_answers[1];
 		
-		$html[] = '<div class="learning_object" style="">';
-		$html[] = '<div class="title">';
-		$html[] = 'Your answer: '.$user_answers[0]->get_extra().' (from '.$low->get_score().' to '.$high->get_score().')';
-		$html[] = '</div>';
+		$score_line = Translation :: get('Your rating').': '.$user_answers[0]->get_extra().' ('.Translation :: get('from').' '.$low->get_score().' '.Translation :: get('to').' '.$high->get_score().')';
+		$html[] = $this->display_score($score_line);
 		
-		$html[] = '</div>';
+		$html[] = $this->display_answers();
 		
 		return implode('<br/>', $html);
 	}

@@ -17,6 +17,8 @@ class Assessment extends LearningObject
 	const TYPE_ASSIGNMENT = 'assignment';
 	
 	const PROPERTY_TIMES_TAKEN = 'times_taken';
+	const PROPERTY_AVERAGE_SCORE = 'average_score';
+	const PROPERTY_MAXIMUM_SCORE = 'maximum_score';
 	
 	static function get_additional_property_names()
 	{
@@ -43,6 +45,16 @@ class Assessment extends LearningObject
 	function get_times_taken() 
 	{
 		return WeblcmsDataManager :: get_instance()->get_num_user_assessments($this);
+	}
+	
+	function get_average_score()
+	{
+		return WeblcmsDataManager :: get_instance()->get_average_score($this);
+	}
+	
+	function get_maximum_score()
+	{
+		return WeblcmsDataManager :: get_instance()->get_maximum_score($this);
 	}
 	
 	function get_types()

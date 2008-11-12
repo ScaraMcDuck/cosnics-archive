@@ -72,7 +72,7 @@ abstract class QuestionResult
 		return $this->clo_answers;
 	}
 	
-	function display_question()
+	/*function display_question()
 	{
 		$learning_object = $this->question;
 		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
@@ -85,6 +85,55 @@ abstract class QuestionResult
 		$html[] = '</div>';
 		
 		return implode("\n", $html);
+	}*/
+	
+	function display_question_header()
+	{
+		$learning_object = $this->question;
+		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
+		$html[] = '<div class="title">';
+		$html[] = Translation :: get('Question').' '.$learning_object->get_description();
+		$html[] = '</div>';
+		
+		return implode("\n", $html);
+	}
+	
+	function display_score($score_line)
+	{
+		$html[] = '<div class="description">';
+		$html[] = $score_line.'<br/><br/>';
+		
+		return implode("\n", $html);
+	}
+	
+	function display_answers($answer_lines = null, $numbered = true)
+	{
+		if ($answer_lines == null)
+			return '</div></div>';
+			
+		if (sizeof($answer_lines) == 1)
+		{
+			return Translation :: get('Answers').': <br/><br/>'.$answer_lines[0].'</div></div>';
+		}
+		else 
+		{
+			if ($numbered) 
+				$list_items = '<ol>';
+			else 
+				$list_items = '<ul>';
+				
+			for ($i = 0; $i < sizeof($answer_lines); $i++)
+			{
+				$list_items .= '<li>'.$answer_lines[$i].'</li>';
+			}
+			
+			if ($numbered) 
+				$list_items .= '</ol>';
+			else 
+				$list_items .= '</ul>';
+			
+			return Translation :: get('Answers').': <br/>'.$list_items.'</div></div>';
+		}
 	}
 	
 	static function create_question_result($user_question)
