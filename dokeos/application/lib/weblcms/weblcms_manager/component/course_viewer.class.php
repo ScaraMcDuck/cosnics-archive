@@ -38,6 +38,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 		}
 		
 		$this->load_course_theme();
+		$this->load_course_language();
 
 		/**
 		 * Here we set the rights depending on the user status in the course.
@@ -151,6 +152,12 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 		{
 			Theme :: set_theme($course->get_theme());
 		}
+	}
+	
+	function load_course_language()
+	{
+		$course = $this->get_course();
+		Translation :: set_language($course->get_language());
 	}
 }
 ?>
