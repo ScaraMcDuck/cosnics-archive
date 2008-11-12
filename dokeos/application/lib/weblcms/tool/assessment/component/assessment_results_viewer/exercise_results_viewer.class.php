@@ -19,7 +19,6 @@ class ExerciseResultsViewer extends ResultsViewer
 		while ($user_question = $user_questions->next_result())
 		{
 			$max_total_score += $user_question->get_weight();
-			//$html[] = $this->add_user_question($user_question);
 			$question_result = QuestionResult :: create_question_result($user_question);
 			$html[] = $question_result->display_exercise();
 		}
