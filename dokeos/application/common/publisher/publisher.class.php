@@ -36,6 +36,8 @@ class Publisher
 	
 	private $parameters;
 	
+	private $mail_option;
+	
 	/**
 	 * Constructor.
 	 * @param array $types The learning object types that may be published.
@@ -43,7 +45,7 @@ class Publisher
 	 * send the published learning object by email to the selecter target users.
 	 */
 	function Publisher($parent, $types, $mail_option = false)
-	{		
+	{
 		$this->parent = $parent;
 		$this->default_learning_objects = array();
 		$this->parameters = array();
