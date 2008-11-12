@@ -5,7 +5,7 @@ class SurveyResultsViewer extends ResultsViewer
 {
 	function to_html()
 	{
-		return 'Survey results viewer';
+		return Translation :: get('Survey results viewer');
 	}
 }
 ?>

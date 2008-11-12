@@ -5,7 +5,7 @@ class AssignmentResultsViewer extends ResultsViewer
 {
 	function to_html()
 	{
-		return 'Assignment results viewer';
+		return Translation :: get('Assignment results viewer');
 	}
 }
 ?>

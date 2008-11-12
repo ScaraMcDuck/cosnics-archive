@@ -11,7 +11,7 @@ require_once Path :: get_library_path().'condition/or_condition.class.php';
 /**
  * This class represents a data provider for a results candidate table
  */
-class AssessmentResultsTableDataProvider extends ObjectTableDataProvider
+class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataProvider
 {
 	/**
 	 * The user id of the current active user.
@@ -36,7 +36,7 @@ class AssessmentResultsTableDataProvider extends ObjectTableDataProvider
 	 * selected.
 	 * @param string $query The search query.
 	 */
-    function AssessmentResultsTableDataProvider($parent, $owner, $pid = null, $types = array(), $query = null)
+    function AssessmentResultsTableOverviewAdminDataProvider($parent, $owner, $pid = null, $types = array(), $query = null)
     {
     	$this->types = $types;
     	$this->owner = $owner;
@@ -61,20 +61,15 @@ class AssessmentResultsTableDataProvider extends ObjectTableDataProvider
     	{
     		$publications = $this->get_publication($this->pid);
     	}
-    	return $this->get_user_assessments($publications);
+    	return $this->get_assessments($publications);
     }
     
-    function get_user_assessments($publications) 
+    function get_assessments($publications) 
     {
     	foreach ($publications as $publication)
     	{
     		$assessment = $publication->get_learning_object();
-    		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ASSESSMENT_ID, $assessment->get_id());
-    		$user_assessments = WeblcmsDataManager :: get_instance()->retrieve_user_assessments($condition);
-    		while ($user_assessment = $user_assessments->next_result())
-    		{
-    			$all_assessments[] = $user_assessment;
-    		}
+    		$all_assessments[] = $assessment;
     	}
     	return $all_assessments;
     }

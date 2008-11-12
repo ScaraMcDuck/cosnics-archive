@@ -13,10 +13,12 @@ require_once dirname(__FILE__).'/assessment_tool_component.class.php';
 class AssessmentTool extends Tool
 {
 	const ACTION_VIEW_ASSESSMENTS = 'view';
+	const ACTION_VIEW_USER_ASSESSMENTS = 'viewu';
 	const ACTION_TAKE_ASSESSMENT = 'exec';
 	const ACTION_VIEW_RESULTS = 'result';
 	
 	const PARAM_USER_ASSESSMENT = 'uaid';
+	const PARAM_ASSESSMENT = 'aid';
 	/*
 	 * Inherited.
 	 */

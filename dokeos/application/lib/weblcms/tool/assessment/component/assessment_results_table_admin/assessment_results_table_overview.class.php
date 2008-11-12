@@ -2,18 +2,18 @@
 /**
  * @package application.weblcms.tool.assessment.component.assessment_results_table
  */
-require_once dirname(__FILE__).'/assessment_results_table_data_provider.class.php';
-require_once dirname(__FILE__).'/assessment_results_table_column_model.class.php';
-require_once dirname(__FILE__).'/assessment_results_table_cell_renderer.class.php';
+require_once dirname(__FILE__).'/assessment_results_table_overview_data_provider.class.php';
+require_once dirname(__FILE__).'/assessment_results_table_overview_column_model.class.php';
+require_once dirname(__FILE__).'/assessment_results_table_overview_cell_renderer.class.php';
 //require_once dirname(__FILE__).'/../../../../learning_object_results_table.class.php';
 require_once Path::get_library_path() . 'html/table/object_table/object_table.class.php';
 /**
  * This class represents a table with learning objects which are candidates for
  * results.
  */
-class AssessmentResultsTable extends ObjectTable
+class AssessmentResultsTableOverviewAdmin extends ObjectTable
 {
-	const DEFAULT_NAME = 'assessment_results_table';
+	const DEFAULT_NAME = 'assessment_results_table_overview';
 	
 	/**
 	 * Constructor.
@@ -27,12 +27,12 @@ class AssessmentResultsTable extends ObjectTable
 	 * the selected learning object.
 	 * @see ResultsCandidateTableCellRenderer::ResultsCandidateTableCellRenderer()
 	 */
-	function AssessmentResultsTable($parent, $owner, $pid = null)
+	function AssessmentResultsTableOverviewAdmin($parent, $owner, $pid = null)
 	{
-		$data_provider = new AssessmentResultsTableDataProvider($parent, $owner, $pid);
-		$column_model = new AssessmentResultsTableColumnModel();
-		$cell_renderer = new AssessmentResultsTableCellRenderer($parent);
-		parent :: __construct($data_provider, AssessmentResultsTable :: DEFAULT_NAME, $column_model, $cell_renderer);
+		$data_provider = new AssessmentResultsTableOverviewAdminDataProvider($parent, $owner, $pid);
+		$column_model = new AssessmentResultsTableOverviewAdminColumnModel();
+		$cell_renderer = new AssessmentResultsTableOverviewAdminCellRenderer($parent);
+		parent :: __construct($data_provider, AssessmentResultsTableOverviewAdmin :: DEFAULT_NAME, $column_model, $cell_renderer);
 	}
 	
 	/**

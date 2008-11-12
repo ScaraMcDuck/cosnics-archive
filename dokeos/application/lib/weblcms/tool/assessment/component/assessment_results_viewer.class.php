@@ -2,7 +2,9 @@
 require_once dirname(__FILE__).'/assessment_results_viewer/exercise_results_viewer.class.php';
 require_once dirname(__FILE__).'/assessment_results_viewer/survey_results_viewer.class.php';
 require_once dirname(__FILE__).'/assessment_results_viewer/assignment_results_viewer.class.php';
-require_once dirname(__FILE__).'/assessment_results_table/assessment_results_table.class.php';
+require_once dirname(__FILE__).'/assessment_results_table_admin/assessment_results_table_overview.class.php';
+require_once dirname(__FILE__).'/assessment_results_table_admin/assessment_results_table_detail.class.php';
+require_once dirname(__FILE__).'/assessment_results_table_student/assessment_results_table_overview.class.php';
 
 class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 {
@@ -14,9 +16,14 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		{
 			$this->view_single_result();
 		}
-		else if (isset($_GET[Tool :: PARAM_PUBLICATION_ID]))
+		//TODO: publication & assessment redirects to pretty much the same stuff, remove one of them
+		/*else if (isset($_GET[Tool :: PARAM_PUBLICATION_ID]))
 		{
 			$this->view_publication_results();
+		}*/
+		else if (isset($_GET[AssessmentTool :: PARAM_ASSESSMENT]))
+		{
+			$this->view_assessment_results();
 		}
 		else 
 		{
@@ -33,17 +40,25 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			return;
 		}
 		
-		echo 'View all course publications results:';
-		$table = new AssessmentResultsTable($this, $this->get_user());
+		if ($this->is_allowed(EDIT_RIGHT)) 
+		{
+			echo Translation :: get('View all course publications results').':';
+			$table = new AssessmentResultsTableOverviewAdmin($this, $this->get_user());
+		}
+		else 
+		{
+			echo Translation :: get('My results').':';
+			$table = new AssessmentResultsTableOverviewStudent($this, $this->get_user());
+		}
 		echo $table->as_html();
 		
 		$this->display_footer();
 	}
 	
-	function view_publication_results()
+	/*function view_publication_results()
 	{
 		$visible = $this->display_header();
-		if (!$visible)
+		if (!$visible || !$this->is_allowed(EDIT_RIGHT))
 		{
 			return;
 		}
@@ -51,11 +66,30 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		$pid = $_GET[Tool :: PARAM_PUBLICATION_ID];
 		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
 		
-		echo 'View publication results: '.$publication->get_learning_object()->get_title();
-		$table = new AssessmentResultsTable($this, $this->get_user(), $_GET[Tool :: PARAM_PUBLICATION_ID]);
+		echo Translation :: get('View publication results').': '.$publication->get_learning_object()->get_title();
+		$table = new AssessmentResultsTableDetail($this, $this->get_user(), $_GET[Tool :: PARAM_PUBLICATION_ID]);
 		echo $table->as_html();
 		
 		$this->display_footer();
+	}*/
+	
+	function view_assessment_results()
+	{
+		$visible = $this->display_header();
+		if (!$visible || !$this->is_allowed(EDIT_RIGHT))
+		{
+			return;
+		}
+		
+		$aid = $_GET[AssessmentTool :: PARAM_ASSESSMENT];
+		$assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($aid);
+		
+		echo Translation :: get('View assessment results').': '.$assessment->get_title();
+		$table = new AssessmentResultsTableDetail($this, $this->get_user(), $_GET[AssessmentTool :: PARAM_ASSESSMENT]);
+		echo $table->as_html();
+		
+		$this->display_footer();
+		
 	}
 	
 	function view_single_result() 

@@ -6,7 +6,7 @@ class FillInBlanksQuestionResult extends QuestionResult
 {
 	function display_exercise()
 	{
-		$html[] = $this->display_question();
+		$html[] = $this->display_question_header();
 
 		$user_answers = parent :: get_user_answers();
 		$rdm = RepositoryDataManager :: get_instance();
@@ -22,17 +22,18 @@ class FillInBlanksQuestionResult extends QuestionResult
 			$total_score += $user_answer->get_score();
 		}
 		
-		$html[] = '<div class="learning_object" style="">';
-		$html[] = '<div class="title">';
-		$html[] = 'Your answer(s): (Score: '.$total_score.'/'.$total_div.')';
-		$html[] = '</div>';
-		$html[] = '<div class="description">';
+		$score_line = Translation :: get('Score').': '.$total_score.'/'.$total_div;
+		$html[] = $this->display_score($score_line);
+		
 		foreach ($user_answers as $user_answer)
 		{
-			$html[] = $user_answer->get_extra().' Score: '.$user_answer->get_score();
+			$line = $user_answer->get_extra().' ('.Translation :: get('Score').': '.$user_answer->get_score().')';
+			if ($user_answer->get_score() == 0)
+				$line .= ' '.Translation :: get('Correct answer').': '.$rdm->retrieve_learning_object($user_answer->get_answer_id())->get_title();
+				
+			$answer_lines[] = $line;
 		}
-		$html[] = '</div>';
-		$html[] = '</div>';
+		$html[] = $this->display_answers($answer_lines);
 		
 		return implode('<br/>', $html);
 	}
