@@ -77,7 +77,7 @@ abstract class QuestionResult
 		$learning_object = $this->question;
 		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
 		$html[] = '<div class="title">';
-		$html[] = $learning_object->get_title();
+		$html[] = 'Question: '.$learning_object->get_title();
 		$html[] = '</div>';
 		$html[] = '<div class="description">';
 		$html[] = $learning_object->get_description();
@@ -94,23 +94,23 @@ abstract class QuestionResult
 		{
 			case Question :: TYPE_DOCUMENT:
 				return new DocumentQuestionResult($user_question, $question);
-			case Question::TYPE_FILL_IN_BLANKS:
+			case Question :: TYPE_FILL_IN_BLANKS:
 				return new FillInBlanksQuestionResult($user_question, $question);
-			case Question::TYPE_MATCHING:
+			case Question :: TYPE_MATCHING:
 				return new MatchingQuestionResult($user_question, $question);
-			case Question::TYPE_MULTIPLE_ANSWER:
+			case Question :: TYPE_MULTIPLE_ANSWER:
 				return new MultipleAnswerQuestionResult($user_question, $question);
-			case Question::TYPE_MULTIPLE_CHOICE:
+			case Question :: TYPE_MULTIPLE_CHOICE:
 				return new MultipleChoiceQuestionResult($user_question, $question);
-			case Question::TYPE_OPEN:
+			case Question :: TYPE_OPEN:
 				return new OpenQuestionResult($user_question, $question);
-			case Question::TYPE_OPEN_WITH_DOCUMENT:
+			case Question :: TYPE_OPEN_WITH_DOCUMENT:
 				return new OpenQuestionWithDocumentResult($user_question, $question);
-			case Question::TYPE_PERCENTAGE:
+			case Question :: TYPE_PERCENTAGE:
 				return new PercentageQuestionResult($user_question, $question);
-			case Question::TYPE_SCORE:
+			case Question :: TYPE_SCORE:
 				return new ScoreQuestionResult($user_question, $question);
-			case Question::TYPE_YES_NO:
+			case Question :: TYPE_YES_NO:
 				return new YesNoQuestionResult($user_question, $question);
 			default:
 				return null;
