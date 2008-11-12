@@ -16,9 +16,10 @@ class PlatformAuthentication extends Authentication
     public function check_login($user, $username, $password = null)
     {
     	$user_expiration_date = $user->get_expiration_date();
+    	$user_activation_date = $user->get_activation_date();
     	
-    	if ($user_expiration_date != '0' && $user_expiration_date < time())
-    	{
+    	if (($user_expiration_date != '0' && $user_expiration_date < time()) || ($user_activation_date != '0' && $user_activation_date > time()))
+    	{ 
     		return false;
     	}
     	else

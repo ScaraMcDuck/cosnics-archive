@@ -37,7 +37,7 @@ class UserLogin extends UserBlock
 			if ($loginFailed)
 			{
 				$html[] = $this->handle_login_failed();
-			}
+			} 
 //			if ($this->get_platform_setting('allow_lostpassword') == 'true' OR $this->get_platform_setting('allow_registration') == 'true')
 //			{
 //				$html[] = '<div class="menusection"><span class="menusectioncaption">'.Translation :: get('MenuUser').'</span><ul class="menulist">';

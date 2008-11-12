@@ -50,6 +50,7 @@ class User
 	const PROPERTY_DATABASE_QUOTA = 'database_quota';
 	const PROPERTY_VERSION_QUOTA = 'version_quota';
 	const PROPERTY_THEME = 'theme';
+	const PROPERTY_ACTIVATION_DATE = 'activation_date';
 	const PROPERTY_EXPIRATION_DATE = 'expiration_date';
 	const PROPERTY_REGISTRATION_DATE = 'registration_date';
 	const PROPERTY_ACTIVE = 'active';
@@ -135,8 +136,8 @@ class User
 					  self :: PROPERTY_CREATOR_ID, self :: PROPERTY_LANGUAGE, 
 					  self :: PROPERTY_DISK_QUOTA, self :: PROPERTY_DATABASE_QUOTA, 
 					  self :: PROPERTY_VERSION_QUOTA, self :: PROPERTY_THEME, 
-					  self :: PROPERTY_EXPIRATION_DATE, self :: PROPERTY_REGISTRATION_DATE,
-					  self :: PROPERTY_ACTIVE);
+					  self :: PROPERTY_ACTIVATION_DATE, self :: PROPERTY_EXPIRATION_DATE, 
+					  self :: PROPERTY_REGISTRATION_DATE, self :: PROPERTY_ACTIVE);
 	}
 
 	/**
@@ -332,6 +333,11 @@ class User
 	{
 		return $this->get_default_property(self :: PROPERTY_THEME);
 	}
+	
+	function get_activation_date()
+	{
+		return $this->get_default_property(self :: PROPERTY_ACTIVATION_DATE);
+	}	
 	
 	/**
 	 * Returns the expiration date for this user.
@@ -584,6 +590,11 @@ class User
 	function set_theme($theme)
 	{
 		$this->set_default_property(self :: PROPERTY_THEME, $theme);
+	}
+	
+	function set_activation_date($activation_date)
+	{
+		$this->set_default_property(self :: PROPERTY_ACTIVATION_DATE, $activation_date);
 	}
 	
 	/**

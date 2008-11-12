@@ -79,7 +79,8 @@ class UserForm extends FormValidator {
 		$group[] =& $this->createElement('password', User :: PROPERTY_PASSWORD,null,null);
 		$this->addGroup($group, 'pw', Translation :: get('Password'), '');
 		
-		$this->add_forever_or_expiration_date_window(User :: PROPERTY_EXPIRATION_DATE, 'ExpirationDate');
+		//$this->add_forever_or_expiration_date_window(User :: PROPERTY_EXPIRATION_DATE, 'ExpirationDate');
+		$this->add_forever_or_timewindow(User :: PROPERTY_EXPIRATION_DATE, 'ExpirationDate');
 		
 		// Official Code
 		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'));
@@ -181,13 +182,16 @@ class UserForm extends FormValidator {
 		if ($values[self :: PARAM_FOREVER] != 0)
 		{
 			$user->set_expiration_date(0);
+			$user->set_activation_date(0);
 		}
 		else
 		{
-			$date = DokeosUtilities :: time_from_datepicker_without_timepicker($values[User :: PROPERTY_EXPIRATION_DATE]);
-			$user->set_expiration_date($date);
+			$act_date = DokeosUtilities :: time_from_datepicker($values['from_date']);
+			$exp_date = DokeosUtilities :: time_from_datepicker($values['to_date']);
+			$user->set_activation_date($act_date);
+			$user->set_expiration_date($exp_date);
 		}
- 	   	
+		
 		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
 	  	$user->set_phone($values[User :: PROPERTY_PHONE]);
 	  	$user->set_status(intval($values[User :: PROPERTY_STATUS]));
@@ -244,11 +248,14 @@ class UserForm extends FormValidator {
 			if ($values[self :: PARAM_FOREVER] != 0)
 			{
 				$user->set_expiration_date(0);
+				$user->set_activation_date(0);
 			}
 			else
 			{
-				$date = DokeosUtilities :: time_from_datepicker_without_timepicker($values[User :: PROPERTY_EXPIRATION_DATE]);
-				$user->set_expiration_date($date);
+				$act_date = DokeosUtilities :: time_from_datepicker($values['from_date']);
+				$exp_date = DokeosUtilities :: time_from_datepicker($values['to_date']);
+				$user->set_activation_date($act_date);
+				$user->set_expiration_date($exp_date);
 			}
 	 	   	
     		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
@@ -305,7 +312,8 @@ class UserForm extends FormValidator {
 			if ($expiration_date != 0)
 			{
 				$defaults[self :: PARAM_FOREVER] = 0;
-				$defaults[User :: PROPERTY_EXPIRATION_DATE] = $user->get_expiration_date();
+				$defaults['from_date'] = $user->get_activation_date();
+				$defaults['to_date'] = $user->get_expiration_date();
 			}
 			else
 			{
@@ -334,6 +342,7 @@ class UserForm extends FormValidator {
 		$defaults[User :: PROPERTY_PICTURE_URI] = $user->get_picture_uri();
 		$defaults[User :: PROPERTY_PHONE] = $user->get_phone();
 		$defaults[User :: PROPERTY_LANGUAGE] = $user->get_language();
+		
 		$defaults['active'][User :: PROPERTY_ACTIVE] = !is_null($user->get_active())?$user->get_active():1;
 		$user_can_have_theme = PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME);
 		if ($user_can_have_theme)
