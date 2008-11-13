@@ -32,6 +32,6 @@ class RepositoryCategory extends PlatformCategory
 	
 	static function get_table_name()
 	{
-		return DokeosUtilities :: camelcase_to_underscores('Category');
+		return DokeosUtilities :: camelcase_to_underscores('RepositoryCategory');
 	}
 }
