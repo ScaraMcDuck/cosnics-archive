@@ -21,12 +21,24 @@ class RepositoryCategoryManager extends CategoryManager
 	function count_categories($condition)
 	{
 		$wdm = RepositoryDataManager :: get_instance();
+		
+		if($condition)
+			$conditions[] = $condition;
+		$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $this->get_user_id());
+		$condition = new AndCondition($conditions);
+		
 		return $wdm->count_categories($condition);
 	}
 	
 	function retrieve_categories($condition, $offset, $count, $order_property, $order_direction)
 	{
 		$wdm = RepositoryDataManager :: get_instance();
+		
+		if($condition)
+			$conditions[] = $condition;
+		$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $this->get_user_id());
+		$condition = new AndCondition($conditions);
+		
 		return $wdm->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
 	}
 }
