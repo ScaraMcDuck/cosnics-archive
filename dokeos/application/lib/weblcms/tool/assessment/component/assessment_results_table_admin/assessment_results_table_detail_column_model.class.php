@@ -32,7 +32,6 @@ class AssessmentResultsTableDetailColumnModel extends ObjectTableColumnModel {
 		$columns[] = new ObjectTableColumn(UserAssessment :: PROPERTY_USER_ID, true);
 		$columns[] = new ObjectTableColumn(UserAssessment :: PROPERTY_DATE_TIME_TAKEN, true);
 		$columns[] = new ObjectTableColumn(UserAssessment :: PROPERTY_TOTAL_SCORE, true);
-		//$columns[] = new ObjectTableColumn(UserAssessment :: PROPERTY_DATE_TIME_TAKEN, true);
 		$columns[] = self :: get_action_column();
 		return $columns;
 	}

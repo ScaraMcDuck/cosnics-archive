@@ -2343,7 +2343,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query = 'SELECT COUNT('.$this->escape_column_name(UserAssessment :: PROPERTY_ID).') FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment->get_id();
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute();
-		return $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$row = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $row[0];
 	}
 	
 	function get_average_score($assessment)
