@@ -41,10 +41,10 @@ class WeblcmsInstaller extends Installer
 //			$this->add_message(self :: TYPE_NORMAL, Translation :: get('RightsLocationAdded'));
 //		}
 //		
-//		if (!$this->create_default_categories_in_weblcms($root_location))
-//		{
-//			return false;
-//		}
+		if (!$this->create_default_categories_in_weblcms(0))
+		{
+			return false;
+		}
 //		else
 //		{
 //			$this->add_message(self :: TYPE_NORMAL, Translation :: get('DefaultWeblcmsCategoriesCreated'));
@@ -65,19 +65,19 @@ class WeblcmsInstaller extends Installer
 			return false;
 		}
 		
-		$location = new Location();
-		$location->set_location($cat->get_name());
-		$location->set_application(Weblcms :: APPLICATION_NAME);
-		$location->set_type('category');
-		$location->set_identifier($cat->get_id());
-		$location->set_left_value('1');
-		$location->set_right_value('2');
-		$location->set_parent($root_location->get_id());
-		
-		if (!$location->create())
-		{
-			return false;
-		}
+//		$location = new Location();
+//		$location->set_location($cat->get_name());
+//		$location->set_application(Weblcms :: APPLICATION_NAME);
+//		$location->set_type('category');
+//		$location->set_identifier($cat->get_id());
+//		$location->set_left_value('1');
+//		$location->set_right_value('2');
+//		$location->set_parent($root_location->get_id());
+//		
+//		if (!$location->create())
+//		{
+//			return false;
+//		}
 	
 		//creating PC Skills
 		$cat = new CourseCategory();
@@ -89,19 +89,19 @@ class WeblcmsInstaller extends Installer
 			return false;
 		}
 		
-		$location = new Location();
-		$location->set_location($cat->get_name());
-		$location->set_application(Weblcms :: APPLICATION_NAME);
-		$location->set_type('category');
-		$location->set_identifier($cat->get_id());
-		$location->set_left_value('1');
-		$location->set_right_value('2');
-		$location->set_parent($root_location->get_id());
-		
-		if (!$location->create())
-		{
-			return false;
-		}
+//		$location = new Location();
+//		$location->set_location($cat->get_name());
+//		$location->set_application(Weblcms :: APPLICATION_NAME);
+//		$location->set_type('category');
+//		$location->set_identifier($cat->get_id());
+//		$location->set_left_value('1');
+//		$location->set_right_value('2');
+//		$location->set_parent($root_location->get_id());
+//		
+//		if (!$location->create())
+//		{
+//			return false;
+//		}
 	
 		//creating Projects
 		$cat = new CourseCategory();
@@ -113,19 +113,19 @@ class WeblcmsInstaller extends Installer
 			return false;
 		}
 		
-		$location = new Location();
-		$location->set_location($cat->get_name());
-		$location->set_application(Weblcms :: APPLICATION_NAME);
-		$location->set_type('category');
-		$location->set_identifier($cat->get_id());
-		$location->set_left_value('1');
-		$location->set_right_value('2');
-		$location->set_parent($root_location->get_id());
-		
-		if (!$location->create())
-		{
-			return false;
-		}		
+//		$location = new Location();
+//		$location->set_location($cat->get_name());
+//		$location->set_application(Weblcms :: APPLICATION_NAME);
+//		$location->set_type('category');
+//		$location->set_identifier($cat->get_id());
+//		$location->set_left_value('1');
+//		$location->set_right_value('2');
+//		$location->set_parent($root_location->get_id());
+//		
+//		if (!$location->create())
+//		{
+//			return false;
+//		}		
 		
 		return true;
 	}
