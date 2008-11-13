@@ -73,7 +73,8 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
     		$user_assessments = WeblcmsDataManager :: get_instance()->retrieve_user_assessments($condition);
     		while ($user_assessment = $user_assessments->next_result())
     		{
-    			$all_assessments[] = $user_assessment;
+    			if ($user_assessment->get_user_id() == $user_id = $this->parent->get_user_id())
+    				$all_assessments[] = $user_assessment;
     		}
     	}
     	return $all_assessments;

@@ -31,7 +31,7 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 	function render_cell($column, $user_assessment)
 	{
 		
-		if ($column === AssessmentResultsTableOverviewColumnModel :: get_action_column())
+		if ($column === AssessmentResultsTableOverviewStudentColumnModel :: get_action_column())
 		{
 			return $this->get_actions($user_assessment);
 		} 

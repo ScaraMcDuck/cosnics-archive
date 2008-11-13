@@ -4,7 +4,7 @@
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="assessment_id" type="integer" notnull="1" default="0"/>
   <property name="user_id" type="integer" notnull="1" default="0"/>
-  <property name="total_score" type="integer" notnull="1" default="0"/>
+  <property name="total_score" type="float" notnull="1" default="0"/>
   <property name="date_time_taken" type="timestamp" notnull="1" default=""/>
  </properties>
  <index name="id" type="primary">

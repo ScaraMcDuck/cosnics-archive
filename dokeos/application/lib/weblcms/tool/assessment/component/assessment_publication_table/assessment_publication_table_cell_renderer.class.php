@@ -78,25 +78,31 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 		} 
 		else
 		{
-			//TODO: if else ding
-			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-			'label' => Translation :: get('Take assessment'),
-			'img' => Theme :: get_common_img_path().'action_right.png'
-			);
-			
-			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $publication->get_learning_object()->get_id())), 
-			'label' => Translation :: get('View results'), 
-			'img' => Theme :: get_common_img_path().'action_view_results.png'
-			);
+			//TODO: if else ding!!
+			$conditionuser = new EqualityCondition(UserAssessment :: PROPERTY_USER_ID, $this->browser->get_user_id());
+			$conditionass = new EqualityCondition(UserAssessment :: PROPERTY_ASSESSMENT_ID, $publication->get_learning_object()->get_id());
+			$user_assessments = WeblcmsDataManager :: get_instance()->retrieve_user_assessments(new AndCondition(array($conditionuser, $conditionass)));
+			//print_r(new AndCondition(array($conditionuser, $conditionass)));
+			$user_assessment = $user_assessments->next_result();
+			if ($user_assessment == null) 
+			{
+				$actions[] = array(
+				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+				'label' => Translation :: get('Take assessment'),
+				'img' => Theme :: get_common_img_path().'action_right.png'
+				);
+			}
+			else 
+			{
+				$actions[] = array(
+				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), 
+				'label' => Translation :: get('View results'), 
+				'img' => Theme :: get_common_img_path().'action_view_results.png'
+				);
+			}
 		}
 		
 		return DokeosUtilities :: build_toolbar($actions);
-		
-		//return array(Tool :: ACTION_DELETE => Translation :: get('Delete selected'), 
-		//				 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
-		//				 Tool :: ACTION_SHOW => Translation :: get('Show'));
 	}
 	
 	/**
