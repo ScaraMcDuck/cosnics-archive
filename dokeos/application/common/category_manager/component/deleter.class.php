@@ -49,9 +49,12 @@ class CategoryManagerDeleterComponent extends CategoryManagerComponent
 				$message = $bool ? 'CategoriesDeleted' : 'CategoriesNotDeleted';
 			
 			
-			$this->redirect('url', Translation :: get($message), ($bool ? false : true), 
-				array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES,
-					  CategoryManager :: PARAM_CATEGORY_ID => $parent));
+			if(get_class($this->get_parent()) == 'RepositoryCategoryManager')
+				$this->repository_redirect(RepositoryManager :: ACTION_MANAGE_CATEGORIES, Translation :: get($success ? 'CategoryCreated' : 'CategoryNotCreated'), 0, ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $parent));
+			else
+				$this->redirect('url', Translation :: get($message), ($bool ? false : true), 
+					array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES,
+					  	  CategoryManager :: PARAM_CATEGORY_ID => $parent));
 		}
 		else
 		{

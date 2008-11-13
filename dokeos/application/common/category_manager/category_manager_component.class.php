@@ -92,6 +92,11 @@ abstract class CategoryManagerComponent
 		return $this->parent->redirect($action, $message, $error_message, $extra_params);
 	}
 	
+	function repository_redirect($action = null, $message = null, $cat_id = 0, $error_message = false, $extra_params = array())
+	{
+		return $this->parent->repository_redirect($action, $message, $cat_id, $error_message, $extra_params);
+	}
+	
 	function get_extra_parameters()
 	{
 		return $this->parent->get_extra_parameters();

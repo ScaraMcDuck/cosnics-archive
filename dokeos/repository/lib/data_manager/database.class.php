@@ -62,7 +62,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->prefix = 'repository_';
 		$this->connection->query('SET NAMES utf8');
 		
-		$this->database = new Database(array('category' => 'cat'));
+		$this->database = new Database(array('repository_category' => 'cat'));
 		$this->database->set_prefix('repository_'); 
 	}
 
@@ -1381,13 +1381,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	
 	function get_next_category_id()
 	{
-		return $this->database->get_next_id('category');
+		return $this->database->get_next_id('repository_category');
 	}
 	
 	function delete_category($category)
 	{
 		$condition = new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $category->get_id());
-		$succes = $this->database->delete('category', $condition);
+		$succes = $this->database->delete('repository_category', $condition);
 		
 		$query = 'UPDATE '.$this->database->escape_table_name('category').' SET '.
 				 $this->database->escape_column_name(RepositoryCategory :: PROPERTY_DISPLAY_ORDER).'='.
@@ -1413,18 +1413,18 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	
 	function count_categories($conditions = null)
 	{
-		return $this->database->count_objects('category', $conditions);
+		return $this->database->count_objects('repository_category', $conditions);
 	}
 	
 	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->database->retrieve_objects('category', $condition, $offset, $count, $order_property, $order_direction);
+		return $this->database->retrieve_objects('repository_category', $condition, $offset, $count, $order_property, $order_direction);
 	}
 	
 	function select_next_category_display_order($parent_category_id)
 	{
 		$query = 'SELECT MAX(' . RepositoryCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
-		$this->database->escape_table_name('category');
+		$this->database->escape_table_name('repository_category');
 	
 		$condition = new EqualityCondition(RepositoryCategory :: PROPERTY_PARENT, $parent_category_id);
 		

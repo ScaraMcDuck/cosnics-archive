@@ -498,6 +498,8 @@ class RepositoryManager
 			}
 		}
 		$url = $this->get_url($params);
+
+
 		header('Location: '.$url);
 	}
 	/**
