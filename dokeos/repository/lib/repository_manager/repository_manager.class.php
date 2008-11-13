@@ -337,10 +337,10 @@ class RepositoryManager
 		
 		if($display_menu)
 		{
-			echo '<div style="float: left; width: 20%;">';
+			echo '<div style="float: left; width: 20%; overflow: auto;">';
 			$this->display_learning_object_categories();
 			echo '</div>';
-			echo '<div style="float: right; width: 80%;">';
+			echo '<div style="float: right; width: 75%;">';
 		}
 		else
 		{
@@ -595,7 +595,7 @@ class RepositoryManager
 	 */
 	function get_root_category_id()
 	{
-		if (isset ($this->category_menu))
+		/*if (isset ($this->category_menu))
 		{
 			return $this->category_menu->_menu[0][OptionsMenuRenderer :: KEY_ID];
 		}
@@ -604,7 +604,7 @@ class RepositoryManager
 			$dm = RepositoryDataManager :: get_instance();
 			$cat = $dm->retrieve_root_category($this->get_user_id());
 			return $cat->get_id();
-		}
+		}*/ return 0;
 	}
 	/**
 	 * Retrieves a learning object.

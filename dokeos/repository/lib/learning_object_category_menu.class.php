@@ -9,6 +9,7 @@ require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path() . 'html/menu/tree_menu_renderer.class.php';
 require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class.php';
+require_once dirname(__FILE__) . '/category_manager/repository_category.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his
  * categories of learning objects.
@@ -28,6 +29,8 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	 * The array renderer used to determine the breadcrumbs.
 	 */
 	private $array_renderer;
+	
+	private $data_manager;
 	/**
 	 * Creates a new category navigation menu.
 	 * @param int $owner The ID of the owner of the categories to provide in
@@ -43,6 +46,7 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	{
 		$this->owner = $owner;
 		$this->urlFmt = $url_format;
+		$this->data_manager = RepositoryDataManager :: get_instance();
 		$menu = $this->get_menu_items($extra_items);
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
@@ -58,19 +62,24 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	 */
 	private function get_menu_items($extra_items)
 	{
-		$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->owner);
-		$datamanager = RepositoryDataManager :: get_instance();
-		$objects = $datamanager->retrieve_learning_objects('category', $condition, array(LearningObject :: PROPERTY_TITLE), array(SORT_ASC));
-		$categories = array ();
-		while ($category = $objects->next_result())
+		$menu = array();
+		$menu_item = array();
+		$menu_item['title'] = Translation :: get('MyRepository');
+		$menu_item['url'] = $this->get_category_url(0);
+		$sub_menu_items = $this->get_sub_menu_items(0);
+		if(count($sub_menu_items) > 0)
 		{
-			$categories[$category->get_parent_id()][] = $category;
+			$menu_item['sub'] = $sub_menu_items;
 		}
-		$menu = $this->get_sub_menu_items($categories, 0);
+		$menu_item['class'] = 'type_category';
+		$menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
+		$menu[0] = $menu_item;
 		if (count($extra_items))
-		{
-			$menu = array_merge($menu, $extra_items);
-		}
+        {
+        	$menu = array_merge($menu, $extra_items);
+        }
+		
+
 		return $menu;
 	}
 	/**
@@ -81,24 +90,29 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	 *               is the structure needed by PEAR::HTML_Menu, on which this
 	 *               class is based.
 	 */
-	private function get_sub_menu_items($categories, $parent)
+	private function get_sub_menu_items($parent)
 	{
-		$sub_tree = array ();
-		foreach ($categories[$parent] as $index => $category)
+		$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $this->owner);
+		$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_PARENT, $parent);
+		$condition = new AndCondition($conditions);
+		
+		$objects = $this->data_manager->retrieve_categories($condition);
+		$categories = array ();
+		while ($category = $objects->next_result())
 		{
 			$menu_item = array();
-			$menu_item['title'] = $category->get_title();
+			$menu_item['title'] = $category->get_name();
 			$menu_item['url'] = $this->get_category_url($category->get_id());
-			$sub_menu_items = $this->get_sub_menu_items($categories, $category->get_id());
+			$sub_menu_items = $this->get_sub_menu_items($category->get_id());
 			if(count($sub_menu_items) > 0)
 			{
 				$menu_item['sub'] = $sub_menu_items;
 			}
 			$menu_item['class'] = 'type_category';
 			$menu_item[OptionsMenuRenderer :: KEY_ID] = $category->get_id();
-			$sub_tree[$category->get_id()] = $menu_item;
+			$categories[$category->get_id()] = $menu_item;
 		}
-		return $sub_tree;
+		return $categories;
 	}
 	/**
 	 * Gets the URL of a given category

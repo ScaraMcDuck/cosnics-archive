@@ -12,8 +12,12 @@ require_once dirname(__FILE__) . '/../repository_data_manager.class.php';
 
 class RepositoryCategory extends PlatformCategory
 {
+	const PROPERTY_USER_ID = 'user_id';
+	
 	function create()
 	{
+		$user_id = Session :: get_user_id();
+		$this->set_user_id($user_id);
 		$rdm = RepositoryDataManager :: get_instance();
 		$this->set_id($rdm->get_next_category_id());
 		$this->set_display_order($rdm->select_next_category_display_order($this->get_parent()));
@@ -34,4 +38,19 @@ class RepositoryCategory extends PlatformCategory
 	{
 		return DokeosUtilities :: camelcase_to_underscores('RepositoryCategory');
 	}
+	
+	static function get_default_property_names()
+	{
+		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_PARENT, self :: PROPERTY_DISPLAY_ORDER);
+	}
+	
+	function get_user_id()
+	{
+		return $this->get_default_property(self :: PROPERTY_USER_ID);
+	}
+	
+	function set_user_id($user_id)
+	{
+		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
+	}	
 }
