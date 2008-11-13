@@ -816,6 +816,15 @@ abstract class RepositoryDataManager
 	 */
 	abstract function create_storage_unit($name,$properties,$indexes);
 
+	abstract function get_next_category_id();
+	abstract function select_next_category_display_order($parent_category_id);
+	abstract function delete_category($category);
+	abstract function update_category($category);
+	abstract function create_category($category);
+	abstract function count_categories($conditions = null);
+	abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	
+
 	/**
 	 * Gets the number of categories the user has defined in his repository
 	 * @param int $user_id
