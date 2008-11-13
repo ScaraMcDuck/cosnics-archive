@@ -11,6 +11,7 @@
 require_once dirname(__FILE__).'/../repository_manager.class.php';
 require_once dirname(__FILE__).'/../repository_manager_component.class.php';
 require_once dirname(__FILE__).'/browser/repository_browser_table.class.php';
+require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 /**
  * Default repository manager component which allows the user to browse through
  * the different categories and learning objects in the repository.
@@ -25,8 +26,11 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Repository')));
 		
+		$this->action_bar = $this->get_action_bar();
+		
 		$output = $this->get_learning_objects_html();
 		$this->display_header($trail, true);
+		echo $this->action_bar->as_html();
 		echo $output;
 		$this->display_footer();
 	}
@@ -46,5 +50,20 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 		$table = new RepositoryBrowserTable($this, $parameters, $condition);
 		return $table->as_html();
 	}
+	
+	function get_action_bar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		
+		//$action_bar->set_search_url($this->get_url());
+		
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
+		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_img_path().'action_edit.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_img_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
+		return $action_bar;
+	}
+	
 }
 ?>

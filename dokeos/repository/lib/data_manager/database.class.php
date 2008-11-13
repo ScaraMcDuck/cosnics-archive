@@ -11,6 +11,7 @@ require_once dirname(__FILE__).'/../learning_object.class.php';
 require_once dirname(__FILE__).'/../complex_learning_object_item.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once Path :: get_admin_path().'lib/admin_data_manager.class.php';
+require_once Path :: get_library_path().'database/database.class.php';
 
 require_once 'MDB2.php';
 
@@ -44,6 +45,8 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * The table name prefix, if any.
 	 */
 	private $prefix;
+	
+	private $database;
 
 	// Inherited.
 	function initialize()
@@ -58,6 +61,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		$this->prefix = 'repository_';
 		$this->connection->query('SET NAMES utf8');
+		
+		$this->database = new Database(array('category' => 'cat'));
+		$this->database->set_prefix('repository_'); 
 	}
 
 	/**
@@ -1366,6 +1372,72 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		
 		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+	
+		return $record[0] + 1;
+	}
+	
+	function get_next_category_id()
+	{
+		return $this->database->get_next_id('category');
+	}
+	
+	function delete_category($category)
+	{
+		$condition = new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $category->get_id());
+		$succes = $this->database->delete('category', $condition);
+		
+		$query = 'UPDATE '.$this->database->escape_table_name('category').' SET '.
+				 $this->database->escape_column_name(RepositoryCategory :: PROPERTY_DISPLAY_ORDER).'='.
+				 $this->database->escape_column_name(RepositoryCategory :: PROPERTY_DISPLAY_ORDER).'-1 WHERE '.
+				 $this->database->escape_column_name(RepositoryCategory :: PROPERTY_DISPLAY_ORDER).'>? AND ' .
+				 $this->database->escape_column_name(RepositoryCategory :: PROPERTY_PARENT) . '=?';
+		$statement = $this->database->get_connection()->prepare($query); 
+		$statement->execute(array($category->get_display_order(), $category->get_parent()));
+		
+		return $succes;
+	}
+	
+	function update_category($category)
+	{ 
+		$condition = new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $category->get_id());
+		return $this->database->update($category, $condition);
+	}
+	
+	function create_category($category)
+	{
+		return $this->database->create($category);
+	}
+	
+	function count_categories($conditions = null)
+	{
+		return $this->database->count_objects('category', $conditions);
+	}
+	
+	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->database->retrieve_objects('category', $condition, $offset, $count, $order_property, $order_direction);
+	}
+	
+	function select_next_category_display_order($parent_category_id)
+	{
+		$query = 'SELECT MAX(' . RepositoryCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
+		$this->database->escape_table_name('category');
+	
+		$condition = new EqualityCondition(RepositoryCategory :: PROPERTY_PARENT, $parent_category_id);
+		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this->database, $params, $prefix_properties = false);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$sth = $this->database->get_connection()->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();

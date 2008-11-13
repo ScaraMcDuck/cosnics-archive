@@ -95,6 +95,7 @@ class RepositoryManager
 	const ACTION_EXPORT_LEARNING_OBJECTS = 'export';
 	const ACTION_IMPORT_LEARNING_OBJECTS = 'import';
 	const ACTION_PUBLISH_LEARNING_OBJECT = 'publish';
+	const ACTION_MANAGE_CATEGORIES = 'manage_categories';
 	
 	/**#@-*/
    /**#@+
@@ -138,7 +139,7 @@ class RepositoryManager
 		 * Only setting breadcrumbs here. Some stuff still calls
 		 * forceCurrentUrl(), but that should not affect the breadcrumbs.
 		 */
-		$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
+		//$this->breadcrumbs = $this->get_category_menu()->get_breadcrumbs();
 		$action = $this->get_action();
 		$component = null;
 		switch ($action)
@@ -225,6 +226,9 @@ class RepositoryManager
 				break;
 			case self :: ACTION_PUBLISH_LEARNING_OBJECT :
 				$component = RepositoryManagerComponent :: factory('Publisher', $this);
+				break;
+			case self :: ACTION_MANAGE_CATEGORIES : 
+				$component = RepositoryManagerComponent :: factory('CategoryManager', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
@@ -314,14 +318,14 @@ class RepositoryManager
 			$breadcrumbtrail = new BreadcrumbTrail();
 		}
 
-		$categories = $this->breadcrumbs;
+		/*$categories = $this->breadcrumbs;
 		if (count($categories) > 0 && $this->get_action() == self :: ACTION_BROWSE_LEARNING_OBJECTS)
 		{
 			foreach($categories as $category)
 			{
 				$breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
 			}
-		}
+		}*/
 		
 		$title = $breadcrumbtrail->get_last()->get_name();
 		$title_short = $title;
