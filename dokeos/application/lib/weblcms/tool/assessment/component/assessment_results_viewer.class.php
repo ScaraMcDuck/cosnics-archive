@@ -16,11 +16,6 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		{
 			$this->view_single_result();
 		}
-		//TODO: publication & assessment redirects to pretty much the same stuff, remove one of them
-		/*else if (isset($_GET[Tool :: PARAM_PUBLICATION_ID]))
-		{
-			$this->view_publication_results();
-		}*/
 		else if (isset($_GET[AssessmentTool :: PARAM_ASSESSMENT]))
 		{
 			$this->view_assessment_results();
@@ -55,24 +50,6 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		$this->display_footer();
 	}
 	
-	/*function view_publication_results()
-	{
-		$visible = $this->display_header();
-		if (!$visible || !$this->is_allowed(EDIT_RIGHT))
-		{
-			return;
-		}
-		
-		$pid = $_GET[Tool :: PARAM_PUBLICATION_ID];
-		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
-		
-		echo Translation :: get('View publication results').': '.$publication->get_learning_object()->get_title();
-		$table = new AssessmentResultsTableDetail($this, $this->get_user(), $_GET[Tool :: PARAM_PUBLICATION_ID]);
-		echo $table->as_html();
-		
-		$this->display_footer();
-	}*/
-	
 	function view_assessment_results()
 	{
 		$visible = $this->display_header();
@@ -84,12 +61,28 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		$aid = $_GET[AssessmentTool :: PARAM_ASSESSMENT];
 		$assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($aid);
 		
-		echo Translation :: get('View assessment results').': '.$assessment->get_title();
+		echo '<div class="learning_object">';
+		echo '<div class="title">';
+		echo Translation :: get('Assessment results');
+		echo '</div>';
+		//TODO: wrong translation on assessment? 'Assessment process: 3'
+		echo Translation :: get('Assessment').': '.$assessment->get_title();
+		echo '<br/>'.Translation :: get('Type').': '.$assessment->get_assessment_type();
+		echo '<br/>'.Translation :: get('Description').': '.$assessment->get_description();
+		echo '<div class="title">';
+		echo Translation :: get('Statistics');
+		echo '</div>';
+
+		$avg = $assessment->get_average_score();
+		$tot = $assessment->get_maximum_score();
+		$pct = round($avg / $tot * 100, 2);
+		echo Translation :: get('Average score').': '.$avg.'/'.$tot.' ('.$pct.'%)';
+		echo '<br/>'.Translation :: get('Times taken').': '.$assessment->get_times_taken();
+		echo '</div>';
 		$table = new AssessmentResultsTableDetail($this, $this->get_user(), $_GET[AssessmentTool :: PARAM_ASSESSMENT]);
 		echo $table->as_html();
 		
 		$this->display_footer();
-		
 	}
 	
 	function view_single_result() 
@@ -137,6 +130,9 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		
 		$trail = new BreadcrumbTrail();
 		parent :: display_header($trail);
+		
+		$this->action_bar = $this->get_toolbar();
+		echo $this->action_bar->as_html();
 		
 		return true;
 	}

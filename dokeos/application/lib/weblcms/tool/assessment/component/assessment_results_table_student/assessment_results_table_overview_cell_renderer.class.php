@@ -45,8 +45,18 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 					return $user_assessment->get_assessment()->get_assessment_type();
 				case UserAssessment :: PROPERTY_DATE_TIME_TAKEN:
 					return $user_assessment->get_date_time_taken();
-				case Assessment :: PROPERTY_TIMES_TAKEN:
-					return $user_assessment->get_assessment()->get_times_taken();
+				case UserAssessment :: PROPERTY_TOTAL_SCORE:
+					$assessment = $user_assessment->get_assessment();
+					$avg = $user_assessment->get_total_score();
+					$max = $assessment->get_maximum_score();
+					$pct = round(($avg / $max) * 100, 2);
+					return $avg.'/'.$max.' ('.$pct.'%)';
+				case Assessment :: PROPERTY_AVERAGE_SCORE:
+					$assessment = $user_assessment->get_assessment();
+					$avg = $assessment->get_average_score();
+					$max = $assessment->get_maximum_score();
+					$pct = round(($avg / $max) * 100, 2);
+					return $avg.'/'.$max.' ('.$pct.'%)';
 				default:
 					return '';
 			}

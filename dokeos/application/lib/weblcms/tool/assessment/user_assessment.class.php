@@ -77,7 +77,7 @@ class UserAssessment
 	
 	function get_total_score()
 	{
-		return $this->get_default_property(self :: PROPERTY_TOTAL_SCORE);
+		return round($this->get_default_property(self :: PROPERTY_TOTAL_SCORE), 2);
 	}
 	
 	function set_assessment_id($value)
