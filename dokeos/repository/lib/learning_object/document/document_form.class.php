@@ -5,6 +5,7 @@
  * @subpackage document
  */
 require_once dirname(__FILE__).'/../../learning_object_form.class.php';
+require_once dirname(__FILE__).'/../../category_manager/repository_category.class.php';
 require_once dirname(__FILE__).'/document.class.php';
 require_once Path :: get_library_path().'html/formvalidator/Rule/DiskQuota.php';
 require_once Path :: get_library_path().'filecompression/filecompression.class.php';
@@ -90,7 +91,7 @@ class DocumentForm extends LearningObjectForm
 				if(is_dir($entry))
 				{
 					//Create a category in the repository
-					$object = new Category();
+					/*$object = new Category();
 					$this->set_learning_object($object);
 					$object = parent::create_learning_object();
 					$object->set_title(basename($url));
@@ -98,8 +99,17 @@ class DocumentForm extends LearningObjectForm
 					{
 						$object->set_parent_id($created_directories[dirname($url)]);
 					}
-					$object->update();
-					$created_directories[$url] = $object->get_id();
+					$object->update();*/
+					
+					$category = new RepositoryCategory();
+					$category->set_name(basename($url));
+					if(isset($created_directories[dirname($url)]))
+					{
+						$category->set_parent($created_directories[dirname($url)]);
+					}
+					$category->set_user_id($owner);
+					$category->create();
+					$created_directories[$url] = $category->get_id();
 				}
 				elseif(is_file($entry))
 				{

@@ -25,7 +25,9 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 	private $height;
 
 	private $exclude;
-
+	
+	private $defaults;
+	
 	function HTML_QuickForm_element_finder($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default_values = array ())
 	{
 		parent :: __construct($elementName, $elementLabel);
@@ -37,7 +39,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$this->height = self :: DEFAULT_HEIGHT;
 		$this->search_url = $search_url;
 		$this->build_elements();
-		$this->setValue($default_values);
+		$this->setValue($default_values, 0);
 	}
 
 	function isCollapsed ()
@@ -102,7 +104,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		return $this->getValue();
 	}
 
-	function setValue($value)
+	function setValue($value, $element_id = 0)
 	{
 		if (empty($value))
 		{
@@ -119,7 +121,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 			}
 			$serialized = implode("\t", $parts);
 		}
-		$this->_elements[0]->setValue($serialized);
+		$this->_elements[$element_id]->setValue($serialized);
 	}
 
 	private static function remove_tabs($string, $key)
@@ -167,7 +169,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 				$html[] = 'ElementFinder.locale["'.addslashes($name).'"] = "'.addslashes($value).'";';
 			}
 			$html[] = '</script>';
-		}
+		} 
 		$html[] = $this->_elements[0]->toHTML();
 		$id = 'tbl_'.$this->getName();
 		$html[] = '<table border="0" width="100%" cellpadding="0" cellspacing="0" id="'.$id.'" style="height:'.$this->getHeight().'px; '. ($this->isCollapsed() ? ' display: none;' : '').'">';
@@ -193,7 +195,19 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 
 		$html[] = '<td width="50%" valign="top">';
 		// TODO: Make height: 100% work
-		$html[] = '<div id="elf_'.$this->getName().'_inactive" class="inactive_elements" style="width: 100%; height: '.($this->getHeight()-20).'px; overflow: auto; border: 1px solid black; padding: 1px;"></div>';
+		$html[] = '<div id="elf_'.$this->getName().'_inactive" class="inactive_elements" style="width: 100%; height: '.($this->getHeight()-20).'px; overflow: auto; border: 1px solid black; padding: 1px;">';
+		
+		/*foreach($this->defaults as $my_id => $default)
+		{
+			//$string = implode("\t", array($default['class'], $default['title'], $default['description']));
+			$aID = 'elf_'.$this->getName().'_inactive' . '_' . $my_id;
+			$string = '<li class="'. $default['class'] . '">';
+			$string .= '<a id="' . $aID . '" href="javascript:ElementFinder.toggleLinkSelectionState(document.getElementById(\'' . $aID . '\'), document.getElementById(\'elf_'.$this->getName().'_inactive\'));" element="' . $my_id . '">' . $default['title'] . '</a><br />';
+			$string .= '</li>';
+			$html[] = $string;
+		}*/
+		
+		$html[] = '</div>';
 
 		$html[] = '</td>';
 
@@ -216,6 +230,11 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		}
 		$html[] = '</script>';
 		return implode("\n", $html);
+	}
+	
+	function setDefaults($defaults)
+	{
+		$this->defaults = $defaults;
 	}
 
 	function accept($renderer, $required = false, $error = null)
