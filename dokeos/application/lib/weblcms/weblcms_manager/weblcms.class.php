@@ -19,6 +19,7 @@ require_once Path :: get_library_path().'condition/not_condition.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once dirname(__FILE__).'/component/admin_course_browser/admin_course_browser_table.class.php';
 require_once dirname(__FILE__).'/component/subscribed_user_browser/subscribed_user_browser_table.class.php';
+require_once dirname(__FILE__).'/component/subscribe_group_browser/subscribe_group_browser_table.class.php';
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 require_once dirname(__FILE__).'/../weblcms_block.class.php';
 
@@ -54,10 +55,12 @@ class Weblcms extends WebApplication
 	const PARAM_SUBSCRIBE_SELECTED = 'subscribe_selected';
 	const PARAM_SUBSCRIBE_SELECTED_AS_STUDENT = 'subscribe_selected_as_student';
 	const PARAM_SUBSCRIBE_SELECTED_AS_ADMIN = 'subscribe_selected_as_admin';
+	const PARAM_SUBSCRIBE_SELECTED_GROUP = 'subscribe_selected_group_admin';
 	const PARAM_TOOL_ACTION = 'tool_action';
 	const PARAM_STATUS = 'user_status';
 
 	const ACTION_SUBSCRIBE = 'subscribe';
+	const ACTION_SUBSCRIBE_GROUPS = 'subscribe_groups';
 	const ACTION_UNSUBSCRIBE = 'unsubscribe';
 	const ACTION_VIEW_WEBLCMS_HOME = 'home';
 	const ACTION_VIEW_COURSE = 'courseviewer';
@@ -152,6 +155,9 @@ class Weblcms extends WebApplication
 				break;
 			case self :: ACTION_MANAGER_UNSUBSCRIBE :
 				$component = WeblcmsComponent :: factory('Unsubscribe', $this);
+				break;
+			case self :: ACTION_SUBSCRIBE_GROUPS :
+				$component = WeblcmsComponent :: factory('GroupSubscribe', $this);
 				break;
 			case self :: ACTION_MANAGER_SORT :
 				$component = WeblcmsComponent :: factory('Sorter', $this);
@@ -1158,6 +1164,16 @@ class Weblcms extends WebApplication
 			{
 				$selected_user_ids = array ($selected_user_ids);
 			}
+			
+			$selected_group_ids = $_POST[SubscribeGroupBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			if (empty ($selected_group_ids))
+			{
+				$selected_group_ids = array ();
+			}
+			elseif (!is_array($selected_group_ids))
+			{
+				$selected_group_ids = array ($selected_group_ids);
+			}
 
 			switch ($_POST['action'])
 			{
@@ -1180,6 +1196,11 @@ class Weblcms extends WebApplication
 				case self :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN :
 					$this->set_action(self :: ACTION_MANAGER_SUBSCRIBE);
 					$_GET[self :: PARAM_USERS] = $selected_user_ids;
+					$_GET[self :: PARAM_STATUS] = 1;
+					break;
+				case self :: PARAM_SUBSCRIBE_SELECTED_GROUP :
+					$this->set_action(self :: ACTION_SUBSCRIBE_GROUPS);
+					$_GET['group_id'] = $selected_group_ids;
 					$_GET[self :: PARAM_STATUS] = 1;
 					break;
 			}

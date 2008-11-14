@@ -32,7 +32,7 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
 	
 	function get_user_unsubscribe_html()
 	{
-		$table = new SubscribedUserBrowserTable($this, array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id()), $this->get_unsubscribe_condition());
+		$table = new SubscribedUserBrowserTable($this, array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id(), UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USERS, 'application' => 'weblcms'), $this->get_unsubscribe_condition());
 
 		$html = array();
 		$html[] = $table->as_html();
@@ -47,6 +47,7 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
 		$action_bar->set_search_url($this->get_url());
 		
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeUsers'), Theme :: get_common_img_path().'action_subscribe.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_USERS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeGroups'), Theme :: get_common_img_path().'action_subscribe.png', $this->get_url(array(UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_GROUPS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		return $action_bar;
 	}

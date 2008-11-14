@@ -13,6 +13,7 @@ require_once dirname(__FILE__).'/user_tool_component.class.php';
 class UserTool extends Tool
 {
 	const ACTION_SUBSCRIBE_USERS = 'subscribe';
+	const ACTION_SUBSCRIBE_GROUPS = 'subscribe_groups';
 	const ACTION_UNSUBSCRIBE_USERS = 'unsubscribe';
 	const ACTION_USER_DETAILS = 'user_details';
 	
@@ -36,6 +37,9 @@ class UserTool extends Tool
 				break;
 			case self :: ACTION_USER_DETAILS :
 				$component = UserToolComponent :: factory('Details', $this);
+				break;
+			case self :: ACTION_SUBSCRIBE_GROUPS :
+				$component = UserToolComponent :: factory('GroupSubscribeBrowser', $this);
 				break;
 			default :
 				$component = UserToolComponent :: factory('UnsubscribeBrowser', $this);
