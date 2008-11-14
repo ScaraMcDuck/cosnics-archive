@@ -3,8 +3,9 @@
 require_once dirname(__FILE__) . '/../user_tool.class.php';
 require_once dirname(__FILE__) . '/../user_tool_component.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
+require_once dirname(__FILE__) . '/../../../../../common/user_details.class.php';
 
-class UserToolViewerComponent extends UserToolComponent
+class UserToolDetailsComponent extends UserToolComponent
 {
 	
 	function run()
