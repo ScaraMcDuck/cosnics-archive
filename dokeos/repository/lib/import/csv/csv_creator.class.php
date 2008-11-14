@@ -47,7 +47,7 @@ class CsvCreator
 				//retrieve the root category (this is for now , can be modded later on so users can include
 				// the category where they want everything to be added
 				$user = Session :: get_user_id();
-				$categorystring= $dataManager->retrieve_root_category($user);
+				//$categorystring= $dataManager->retrieve_root_category($user);
 				$category= $this->parent_split($categorystring);
 				//create the abstract learning object			
 				$object = new AbstractLearningObject($type, $user, $category);

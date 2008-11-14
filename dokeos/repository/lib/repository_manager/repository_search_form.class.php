@@ -193,10 +193,7 @@ class RepositorySearchForm extends FormValidator
 		if (!count($conditions))
 		{
 			$cid = $this->get_category_id();
-			if ($this->manager->valid_category_id($cid))
-			{
-				$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $cid);
-			}
+			$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $cid);
 		}
 		$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->manager->get_user_id());
 		return (count($conditions) > 1 ? new AndCondition($conditions) : $conditions[0]);
