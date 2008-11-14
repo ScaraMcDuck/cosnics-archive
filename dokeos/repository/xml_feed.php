@@ -3,6 +3,7 @@
  * @package repository
  */
 require_once dirname(__FILE__).'/../common/global.inc.php';
+require_once dirname(__FILE__).'/lib/category_manager/repository_category.class.php';
 require_once dirname(__FILE__).'/lib/repository_data_manager.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__).'/lib/learning_object.class.php';
@@ -26,9 +27,6 @@ if (Authentication :: is_valid())
 	$owner_condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
 	$conditions[] = $owner_condition;
 
-	$category_type_condition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'category');
-	$conditions[] = new NotCondition($category_type_condition);
-
 	if (is_array($_GET['exclude']))
 	{
 		$c = array ();
@@ -46,12 +44,9 @@ if (Authentication :: is_valid())
 
 	while ($lo = $objects->next_result())
 	{
-		$cat = $dm->retrieve_learning_object($lo->get_parent_id());
-		while ($cat->get_type() != 'category')
-		{
-			$cat = $dm->retrieve_learning_object($cat->get_parent_id());
-		}
-		$cid = $cat->get_id();
+		/*$cat = $dm->retrieve_categories(new EqualityCondition('id', $lo->get_parent_id()))->next_result();
+		$cid = $cat->get_id();*/
+		$cid = $lo->get_parent_id();
 		if (is_array($objects_by_cat[$cid]))
 		{
 			array_push($objects_by_cat[$cid], $lo);
@@ -63,10 +58,10 @@ if (Authentication :: is_valid())
 	}
 
 	$categories = array ();
-	$cats = $dm->retrieve_learning_objects('category', $owner_condition);
+	$cats = $dm->retrieve_categories(new EqualityCondition('user_id', Session :: get_user_id()));
 	while ($cat = $cats->next_result())
 	{
-		$parent = $cat->get_parent_id();
+		$parent = $cat->get_parent();
 		if (is_array($categories[$parent]))
 		{
 			array_push($categories[$parent], $cat);
@@ -117,7 +112,12 @@ function dump_tree($tree, $objects)
 			continue;
 		}
 		$id = $node['obj']->get_id();
-		echo '<node id="', $id, '" class="type_category unlinked" title="', htmlentities($node['obj']->get_title()), '">', "\n";
+		if(get_class($node['obj']) == 'RepositoryCategory')
+			$title = $node['obj']->get_name();
+		else
+			$title = $node['obj']->get_title();
+			
+		echo '<node id="', $id, '" class="type_category unlinked" title="', htmlentities($title), '">', "\n";
 		dump_tree($node['sub'], $objects);
 		foreach ($objects[$id] as $lo)
 		{

@@ -237,6 +237,7 @@ EOT;
 				$this->addGroup($versions, null, null, "\n");
 				$i++;
 			}
+			
 			$this->addElement('submit', 'submit', Translation :: get('CompareVersions'));
 			$this->addElement('html', '</div>');
 		}
@@ -266,18 +267,27 @@ EOT;
 	protected function add_footer()
 	{
 		$object = $this->learning_object;
-		
+		//$elem = $this->addElement('advmultiselect', 'ihsTest', 'Hierarchical select:', array("test"), array('style' => 'width: 20em;'), '<br />'); 
+
 		if ($this->supports_attachments())
 		{
+			
 			if ($this->form_type != self :: TYPE_REPLY)
 			{
 				$attached_objects = $object->get_attached_learning_objects();
-				$attachments = DokeosUtilities :: learning_objects_for_element_finder($attached_objects);
+				//$attachments = DokeosUtilities :: learning_objects_for_element_finder($attached_objects);
 			}
 			else
 			{
 				$attachments = array();
 			}
+			
+			$los = RepositoryDataManager :: get_instance()->retrieve_learning_objects(null, new EqualityCondition('owner', $this->owner_id));
+			while($lo = $los->next_result())
+			{
+				$defaults[$lo->get_id()] = array('title' => $lo->get_title(), 'description', $lo->get_description(), 'class' => $lo->get_type());
+			}
+			
 			$url = $this->get_path(WEB_PATH).'repository/xml_feed.php';
 			$locale = array ();
 			$locale['Display'] = Translation :: get('AddAttachments');
@@ -286,6 +296,8 @@ EOT;
 			$locale['Error'] = Translation :: get('Error');
 			$hidden = true;
 			$elem = $this->addElement('element_finder', 'attachments', Translation :: get('Attachments'), $url, $locale, $attachments);
+			$elem->setDefaults($defaults);
+			
 			if ($id = $object->get_id())
 			{
 				$elem->excludeElements(array($object->get_id()));
