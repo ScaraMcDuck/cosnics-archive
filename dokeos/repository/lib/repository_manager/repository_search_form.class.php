@@ -274,7 +274,8 @@ class RepositorySearchForm extends FormValidator
 	 */
 	private function get_category_id ()
 	{
-		return $this->manager->get_parameter(RepositoryManager :: PARAM_CATEGORY_ID);
+		$cat = $this->manager->get_parameter(RepositoryManager :: PARAM_CATEGORY_ID);
+		return ($cat && $cat != 0)?$cat:0;
 	}
 	/**
 	 * Gets the learning object types to search for.

@@ -614,6 +614,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		// Update publication properties
 		$where = $this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'='.$publication->get_id();
 		$props = array();
+		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_LEARNING_OBJECT_ID)] = $publication->get_learning_object()->get_id();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_COURSE_ID)] = $publication->get_course_id();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_TOOL)] = $publication->get_tool();
 		$props[$this->escape_column_name(LearningObjectPublication :: PROPERTY_PARENT_ID)] = $publication->get_parent_id();
