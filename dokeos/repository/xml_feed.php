@@ -58,6 +58,11 @@ if (Authentication :: is_valid())
 	}
 
 	$categories = array ();
+	$root = new RepositoryCategory();
+	$root->set_id(0);
+	$root->set_name('Root');
+	$root->set_parent(-1);
+	$categories[-1] = array($root);
 	
 	$cats = $dm->retrieve_categories(new EqualityCondition('user_id', Session :: get_user_id()));
 	while ($cat = $cats->next_result())
@@ -73,7 +78,7 @@ if (Authentication :: is_valid())
 		}
 	}
 
-	$tree = get_tree(0, $categories);
+	$tree = get_tree(-1, $categories);
 }
 else
 {
