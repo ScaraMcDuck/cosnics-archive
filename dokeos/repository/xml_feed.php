@@ -43,7 +43,7 @@ if (Authentication :: is_valid())
 	$objects = $dm->retrieve_learning_objects(null, $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC));
 
 	while ($lo = $objects->next_result())
-	{
+	{		
 		/*$cat = $dm->retrieve_categories(new EqualityCondition('id', $lo->get_parent_id()))->next_result();
 		$cid = $cat->get_id();*/
 		$cid = $lo->get_parent_id();
@@ -58,6 +58,7 @@ if (Authentication :: is_valid())
 	}
 
 	$categories = array ();
+	
 	$cats = $dm->retrieve_categories(new EqualityCondition('user_id', Session :: get_user_id()));
 	while ($cat = $cats->next_result())
 	{
