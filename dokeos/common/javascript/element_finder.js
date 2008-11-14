@@ -355,8 +355,10 @@ ElementFinder.find = function(query, searchURL, origin, destination) {
 		ElementFinder.timeouts[destID] = null;
 	}
 	if (query.length == 0) {
-		ElementFinder.emptyNode(destination);
-		return;
+		// Display everything if no search query was entered
+		query = '*';
+		//ElementFinder.emptyNode(destination);
+		//return;
 	}
 	ElementFinder.lastSearches[destID] = query;
 	ElementFinder.timeouts[destID] = setTimeout(function () {

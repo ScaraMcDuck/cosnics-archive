@@ -228,6 +228,10 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 			}
 			$html[] = 'ElementFinder.excludedElements[\'elf_'.$this->getName().'_active\'] = new Array('.implode(',', $ids).')';
 		}
+		
+		$active_id = 'elf_'.$this->getName().'_active';
+		$inactive_id = 'elf_'.$this->getName().'_inactive';
+		$html[] = 'ElementFinder.find(\'*\', \''.$this->search_url.'\', document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));';
 		$html[] = '</script>';
 		return implode("\n", $html);
 	}
