@@ -921,7 +921,7 @@ class RepositoryManager
 	 * @param int $id The category id to check
 	 * @return boolean True if the given category is valid
 	 */
-	function valid_category_id($id)
+	/*function valid_category_id($id)
 	{
 		if (isset ($id) && intval($id) > 0)
 		{
@@ -932,7 +932,7 @@ class RepositoryManager
 			return false;
 		}
 		return false;
-	}
+	}*/
 
 	/**
 	 * @todo Move this to LearningObjectCategoryMenu or something.
@@ -1174,6 +1174,18 @@ class RepositoryManager
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_PUBLISH_LEARNING_OBJECT, 
 			self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
+	}
+	
+	function count_categories($conditions = null)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->count_categories($conditions);
+	}
+	
+	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
 	}
 }
 ?>

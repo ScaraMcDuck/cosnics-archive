@@ -81,7 +81,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 					'img' => Theme :: get_common_img_path().'action_recycle_bin_na.png'
 				);
 			}
-			if($this->browser->get_number_of_categories() > 1)
+			if($this->browser->count_categories() > 1)
 			{
 				$toolbar_data[] = array(
 					'href' => $this->browser->get_learning_object_moving_url($learning_object),

@@ -488,5 +488,15 @@ abstract class RepositoryManagerComponent {
 	{
 		return $this->get_parent()->get_publish_learning_object_url($learning_object);
 	}
+	
+	function count_categories($conditions = null)
+	{
+		return $this->get_parent()->count_categories($conditions);
+	}
+	
+	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->get_parent()->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
+	}
 }
 ?>

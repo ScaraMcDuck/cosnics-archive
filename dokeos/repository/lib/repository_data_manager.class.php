@@ -96,7 +96,7 @@ abstract class RepositoryDataManager
 //		return $master_types;
 
 		// TODO: Temporary fix untill active learning objects are registered in the DB 
-		return array('announcement', 'answer', 'assessment', 'calendar_event', 'category', 'description', 'document', 'feedback', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'learning_path_item', 'learning_style_survey', 'learning_style_survey_answer', 'learning_style_survey_category', 'learning_style_survey_profile', 'learning_style_survey_question', 'learning_style_survey_result', 'learning_style_survey_section', 'learning_style_survey_user_answer', 'link', 'personal_message', 'portfolio_item', 'profile', 'question', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki', 'system_announcement');
+		return array('announcement', 'answer', 'assessment', 'calendar_event', 'description', 'document', 'feedback', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'learning_path_item', 'learning_style_survey', 'learning_style_survey_answer', 'learning_style_survey_category', 'learning_style_survey_profile', 'learning_style_survey_question', 'learning_style_survey_result', 'learning_style_survey_section', 'learning_style_survey_user_answer', 'link', 'personal_message', 'portfolio_item', 'profile', 'question', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki', 'system_announcement');
 	}
 
 	/**
@@ -125,14 +125,14 @@ abstract class RepositoryDataManager
 	 * @param int $owner The user ID of the owner.
 	 * @return Category The root category of this user's repository.
 	 */
-	function retrieve_root_category($owner)
-	{
-		$condition1 = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $owner);
-		$condition2 = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, 0);
-		$condition = new AndCondition($condition1, $condition2);
-		$objects = $this->retrieve_learning_objects('category', $condition, null, null, 0, 1, -1);
-		return $objects->next_result();
-	}
+//	function retrieve_root_category($owner)
+//	{
+//		$condition1 = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $owner);
+//		$condition2 = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, 0);
+//		$condition = new AndCondition($condition1, $condition2);
+//		$objects = $this->retrieve_learning_objects('category', $condition, null, null, 0, 1, -1);
+//		return $objects->next_result();
+//	}
 
 	/**
 	 * Creates a root category for the given user
@@ -140,15 +140,15 @@ abstract class RepositoryDataManager
 	 * created.
 	 * @return Categroy The newly created root category of the user's repository
 	 */
-	function create_root_category($user_id)
-	{
-		$object = new Category();
-		$object->set_owner_id($user_id);
-		$object->set_title(Translation :: get('MyRepository'));
-		$object->set_description('...');
-		$object->create();
-		return $object;
-	}
+//	function create_root_category($user_id)
+//	{
+//		$object = new Category();
+//		$object->set_owner_id($user_id);
+//		$object->set_title(Translation :: get('MyRepository'));
+//		$object->set_description('...');
+//		$object->create();
+//		return $object;
+//	}
 
 	/**
 	 * Determines whether the learning object with the given ID has been
@@ -763,7 +763,7 @@ abstract class RepositoryDataManager
 	private function load_types()
 	{
 		//TODO: Store "activated" LO-types in DB and retrieve them here.
-		$learning_object_types = array('announcement', 'assessment', 'calendar_event', 'category', 'description', 'document', 'feedback', 'fill_in_blanks_question', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'learning_path_item', 'learning_style_survey', 'learning_style_survey_answer', 'learning_style_survey_category', 'learning_style_survey_profile', 'learning_style_survey_question', 'learning_style_survey_result', 'learning_style_survey_section', 'learning_style_survey_user_answer', 'link', 'matching_question', 'multiple_choice_question', 'open_question', 'personal_message', 'portfolio_item', 'profile', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki', 'system_announcement');
+		$learning_object_types = array('announcement', 'assessment', 'calendar_event', 'description', 'document', 'feedback', 'fill_in_blanks_question', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'learning_path_item', 'learning_style_survey', 'learning_style_survey_answer', 'learning_style_survey_category', 'learning_style_survey_profile', 'learning_style_survey_question', 'learning_style_survey_result', 'learning_style_survey_section', 'learning_style_survey_user_answer', 'link', 'matching_question', 'multiple_choice_question', 'open_question', 'personal_message', 'portfolio_item', 'profile', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki', 'system_announcement');
 		
 		$path = Path :: get_repository_path() . 'lib/learning_object/';
 		

@@ -41,7 +41,7 @@ else
 	for ($i = 0; $i < 5; $i ++)
 	{
 		$user = Session :: get_user_id();
-		$parent= $dataManager->retrieve_root_category($user);
+		//$parent= $dataManager->retrieve_root_category($user);
 		//echo $parent;
 		$test= parent_split($parent);
 		//echo $test;
