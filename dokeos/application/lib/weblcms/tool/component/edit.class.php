@@ -12,14 +12,33 @@ class ToolEditComponent extends ToolComponent
 			$datamanager = WeblcmsDataManager :: get_instance();
 			$publication = $datamanager->retrieve_learning_object_publication($pid);
 
-			$form = new LearningObjectPublicationForm($publication->get_learning_object(),$this, false, $this->get_course(), false);
-			$form->set_publication($publication);
-			
-			if( $form->validate())
+			$learning_object = $publication->get_learning_object(); //RepositoryDataManager :: get_instance()->retrieve_learning_object($publication->get_learning_object()->get_id());
+			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $pid)));
+
+			if( $form->validate() || $_GET['validated'])
 			{
-				$form->update_learning_object_publication();
-				$message = htmlentities(Translation :: get('LearningObjectPublicationUpdated'));
-				$this->redirect(null, $message, '', array());
+				$form->update_learning_object();
+				if($form->is_version())
+				{	
+					$publication->set_learning_object($learning_object->get_latest_version());
+					$publication->update();
+				}
+				
+				$publication_form = new LearningObjectPublicationForm($publication->get_learning_object(),$this, false, $this->get_course(), false, array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $pid, 'validated' => 1));
+				$publication_form->set_publication($publication);
+				
+				if( $publication_form->validate())
+				{
+					$publication_form->update_learning_object_publication();
+					$message = htmlentities(Translation :: get('LearningObjectUpdated'));
+					$this->redirect(null, $message, '', array());
+				}
+				else
+				{
+					$this->display_header(new BreadCrumbTrail());
+					$publication_form->display();
+					$this->display_footer();
+				}
 			}
 			else
 			{
@@ -27,6 +46,8 @@ class ToolEditComponent extends ToolComponent
 				$form->display();
 				$this->display_footer();
 			}
+
+			/**/
 		}
 	}
 

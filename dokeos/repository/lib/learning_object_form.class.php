@@ -434,6 +434,12 @@ EOT;
 		}
 		return $result;
 	}
+	
+	function is_version()
+	{
+		$values = $this->exportValues();
+		return (isset($values['version']) && $values['version'] == 1);
+	}
 
 	/**
 	 * Checks whether the learning object that is being created or edited may
