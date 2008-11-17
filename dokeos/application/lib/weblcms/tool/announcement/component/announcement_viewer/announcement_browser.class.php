@@ -59,7 +59,11 @@ class AnnouncementBrowser extends LearningObjectPublicationBrowser
 				$user_id = $this->get_user_id();
 				$course_groups = $this->get_course_groups();
 			}
-			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups, $condition, false, array (Announcement :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $this->get_parent()->get_condition());
+			$conditions[] = new EqualityCondition('type','announcement');
+			if($this->get_parent()->get_condition())
+				$conditions[] = $this->get_parent()->get_condition();
+			$cond = new AndCondition($conditions);
+			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups, $condition, false, array (Announcement :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $cond);
 			$visible_publications = array ();
 			while ($publication = $publications->next_result())
 			{
