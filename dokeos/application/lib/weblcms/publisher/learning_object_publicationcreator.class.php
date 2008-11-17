@@ -44,7 +44,10 @@ class LearningObjectPublisherPublicationCreatorComponent extends PublisherPublic
 
 			
 			if($publication->get_tool() == 'introduction')
+			{
 				$redirect_parms = array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE);
+				$parameters['go'] = Weblcms :: ACTION_VIEW_COURSE;
+			}
 			else
 				$redirect_parms = array(Tool :: PARAM_ACTION, Publisher :: PARAM_ACTION);
 		

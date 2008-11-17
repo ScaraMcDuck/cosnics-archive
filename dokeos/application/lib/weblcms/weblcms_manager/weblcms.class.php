@@ -74,6 +74,8 @@ class Weblcms extends WebApplication
 	const ACTION_ADMIN_COURSE_BROWSER = 'adminbrowser';
 	const ACTION_DELETE_COURSE = 'coursedeleter';
 	const ACTION_PUBLISH_INTRODUCTION = 'introductionpublisher';
+	const ACTION_DELETE_INTRODUCTION = 'delete_introduction';
+	const ACTION_EDIT_INTRODUCTION = 'edit_introduction';
 	
 	const ACTION_RENDER_BLOCK = 'block';
 
@@ -174,6 +176,12 @@ class Weblcms extends WebApplication
 				break;
 			case self :: ACTION_PUBLISH_INTRODUCTION:
 				$component = WeblcmsComponent :: factory('IntroductionPublisher', $this);
+				break;
+			case self :: ACTION_DELETE_INTRODUCTION:
+				$component = WeblcmsComponent :: factory('IntroductionDeleter', $this);
+				break;
+			case self :: ACTION_EDIT_INTRODUCTION:
+				$component = WeblcmsComponent :: factory('IntroductionEditor', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
