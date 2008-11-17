@@ -8,13 +8,9 @@ class OpenQuestionDisplay extends QuestionDisplay
 	{
 		parent :: add_to($formvalidator);
 		$answers = $this->get_answers();
-		
-		//$formvalidator->addElement('html','<div class="learning_object">');
-		//foreach($answers as $answer)
-		//{
-			$formvalidator->addElement('html_editor', $this->get_clo_question()->get_ref().'_0', '');
-		//}
-		//$formvalidator->addElement('html','</div>');
+		$name = $this->get_clo_question()->get_ref().'_0';
+		$formvalidator->addElement('html_editor', $name, '');
+		$formvalidator->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
 		$formvalidator->addElement('html', '<br/>');
 	}
 }

@@ -1,12 +1,14 @@
 <?php
 
-abstract class ResultsViewer
+abstract class ResultsViewer extends FormValidator
 {
 	private $user_assessment;
+	private $edit_rights;
 	
-	function ResultsViewer($user_assessment)
+	function ResultsViewer($user_assessment, $edit_rights)
 	{
 		$this->user_assessment = $user_assessment;
+		$this->edit_rights = $edit_rights;
 	}
 	
 	abstract function to_html();
@@ -14,6 +16,11 @@ abstract class ResultsViewer
 	function get_user_assessment()
 	{
 		return $this->user_assessment;
+	}
+	
+	function get_edit_rights()
+	{
+		return $this->edit_rights;
 	}
 	
 	function get_assessment() 

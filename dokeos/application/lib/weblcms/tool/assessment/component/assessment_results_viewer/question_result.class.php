@@ -15,15 +15,20 @@ abstract class QuestionResult
 {
 	private $user_question;
 	private $question;
+	private $formvalidator;
 	
 	private $clo_question;
 	private $user_answers;
 	private $clo_answers;
 	
-	function QuestionResult($user_question, $question) 
+	private $edit_rights;
+	
+	function QuestionResult($formvalidator, $user_question, $question, $edit_rights = 0) 
 	{
 		$this->question = $question;
 		$this->user_question = $user_question;
+		$this->formvalidator = $formvalidator;
+		$this->edit_rights = $edit_rights;
 		$this->init();
 	}
 	
@@ -54,7 +59,12 @@ abstract class QuestionResult
 	
 	function get_question()
 	{
-		return question;
+		return $this->question;
+	}
+	
+	function get_edit_rights()
+	{
+		return $this->edit_rights;
 	}
 	
 	function get_clo_question()
@@ -72,20 +82,21 @@ abstract class QuestionResult
 		return $this->clo_answers;
 	}
 	
-	/*function display_question()
+	function add_feedback_controls()
 	{
-		$learning_object = $this->question;
-		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
-		$html[] = '<div class="title">';
-		$html[] = 'Question: '.$learning_object->get_title();
-		$html[] = '</div>';
-		$html[] = '<div class="description">';
-		$html[] = $learning_object->get_description();
-		$html[] = '</div>';
-		$html[] = '</div>';
-		
-		return implode("\n", $html);
-	}*/
+		$this->formvalidator->addElement('html', '<br/>Add feedback:<br/>');
+		$this->formvalidator->addElement('html_editor', 'new'.$this->user_question->get_id());
+		$this->formvalidator->addElement('select', 'ex'.$this->user_question->get_id(), Translation :: get('Select a feedback object:'), array());
+	}
+	
+	function add_score_controls($max_score)
+	{
+		for ($i = 0; $i <= $max_score; $i++)
+		{
+			$values[] = $i;
+		}
+		$this->formvalidator->addElement('select', 'score'.$this->user_question->get_id(), Translation :: get('Change score:'), $values);
+	}
 	
 	function display_question_header()
 	{
@@ -95,7 +106,7 @@ abstract class QuestionResult
 		$html[] = Translation :: get('Question').' '.$learning_object->get_description();
 		$html[] = '</div>';
 		
-		return implode("\n", $html);
+		$this->formvalidator->addElement('html', implode("\n", $html));
 	}
 	
 	function display_score($score_line)
@@ -103,64 +114,73 @@ abstract class QuestionResult
 		$html[] = '<div class="description">';
 		$html[] = $score_line.'<br/><br/>';
 		
-		return implode("\n", $html);
+		$this->formvalidator->addElement('html', implode("\n", $html));
 	}
 	
 	function display_answers($answer_lines = null, $numbered = true)
 	{
-		if ($answer_lines == null)
-			return '</div></div>';
-			
-		if (sizeof($answer_lines) == 1)
+		if ($answer_lines == null) 
 		{
-			return Translation :: get('Answers').': <br/><br/>'.$answer_lines[0].'</div></div>';
+			return;
 		}
-		else 
-		{
-			if ($numbered) 
-				$list_items = '<ol>';
-			else 
-				$list_items = '<ul>';
-				
-			for ($i = 0; $i < sizeof($answer_lines); $i++)
+		else
+		{	
+			if (sizeof($answer_lines) == 1)
 			{
-				$list_items .= '<li>'.$answer_lines[$i].'</li>';
+				$this->formvalidator->addElement('html', Translation :: get('Answers').': <br/><br/>'.$answer_lines[0]);
 			}
-			
-			if ($numbered) 
-				$list_items .= '</ol>';
 			else 
-				$list_items .= '</ul>';
-			
-			return Translation :: get('Answers').': <br/>'.$list_items.'</div></div>';
+			{
+				if ($numbered) 
+					$list_items = '<ol>';
+				else 
+					$list_items = '<ul>';
+					
+				for ($i = 0; $i < sizeof($answer_lines); $i++)
+				{
+					$list_items .= '<li>'.$answer_lines[$i].'</li>';
+				}
+				
+				if ($numbered) 
+					$list_items .= '</ol>';
+				else 
+					$list_items .= '</ul>';
+				
+				$this->formvalidator->addElement('html', Translation :: get('Answers').': <br/>'.$list_items);
+			}
 		}
 	}
 	
-	static function create_question_result($user_question)
+	function display_footer()
+	{
+		$this->formvalidator->addElement('html', '<br/></div></div>');
+	}
+	
+	static function create_question_result($formvalidator, $user_question, $edit_rights)
 	{
 		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_question->get_question_id());
 		switch ($question->get_question_type())
 		{
 			case Question :: TYPE_DOCUMENT:
-				return new DocumentQuestionResult($user_question, $question);
+				return new DocumentQuestionResult($formvalidator, $user_question, $question, $edit_rights);
 			case Question :: TYPE_FILL_IN_BLANKS:
-				return new FillInBlanksQuestionResult($user_question, $question);
+				return new FillInBlanksQuestionResult($formvalidator, $user_question, $question, $edit_rights);
 			case Question :: TYPE_MATCHING:
-				return new MatchingQuestionResult($user_question, $question);
+				return new MatchingQuestionResult($formvalidator, $user_question, $question, $edit_rights);
 			case Question :: TYPE_MULTIPLE_ANSWER:
-				return new MultipleAnswerQuestionResult($user_question, $question);
+				return new MultipleAnswerQuestionResult($formvalidator, $user_question, $question, $edit_rights);
 			case Question :: TYPE_MULTIPLE_CHOICE:
-				return new MultipleChoiceQuestionResult($user_question, $question);
+				return new MultipleChoiceQuestionResult($formvalidator, $user_question, $question, $edit_rights);
 			case Question :: TYPE_OPEN:
-				return new OpenQuestionResult($user_question, $question);
+				return new OpenQuestionResult($formvalidator, $user_question, $question, $edit_rights);
 			case Question :: TYPE_OPEN_WITH_DOCUMENT:
-				return new OpenQuestionWithDocumentResult($user_question, $question);
+				return new OpenQuestionWithDocumentResult($formvalidator, $user_question, $question, $edit_rights);
 			case Question :: TYPE_PERCENTAGE:
-				return new PercentageQuestionResult($user_question, $question);
+				return new PercentageQuestionResult($formvalidator, $user_question, $question, $edit_rights);
 			case Question :: TYPE_SCORE:
-				return new ScoreQuestionResult($user_question, $question);
+				return new ScoreQuestionResult($formvalidator, $user_question, $question, $edit_rights);
 			case Question :: TYPE_YES_NO:
-				return new YesNoQuestionResult($user_question, $question);
+				return new YesNoQuestionResult($formvalidator, $user_question, $question, $edit_rights);
 			default:
 				return null;
 		}

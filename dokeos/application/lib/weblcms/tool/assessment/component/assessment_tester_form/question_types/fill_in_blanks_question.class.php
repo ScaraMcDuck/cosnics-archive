@@ -12,7 +12,9 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
 		$i = 1;
 		foreach($answers as $answer)
 		{
-			$formvalidator->addElement('text', $this->get_clo_question()->get_ref().'_'.$answer['answer']->get_id(), '('.$i.')');
+			$name = $this->get_clo_question()->get_ref().'_'.$answer['answer']->get_id();
+			$formvalidator->addElement('text', $name, '('.$i.')');
+			$formvalidator->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
 			$i++;
 		}
 		$formvalidator->addElement('html', '<br />');

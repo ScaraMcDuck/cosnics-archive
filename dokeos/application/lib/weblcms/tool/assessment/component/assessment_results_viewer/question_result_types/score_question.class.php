@@ -6,7 +6,7 @@ class ScoreQuestionResult extends QuestionResult
 {
 	function display_exercise()
 	{
-		$html[] = $this->display_question_header();
+		$this->display_question_header();
 		
 		$user_answers = parent :: get_user_answers();
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $user_answers[0]->get_answer_id());
@@ -15,11 +15,13 @@ class ScoreQuestionResult extends QuestionResult
 		$high = $clo_answers[1];
 		
 		$score_line = Translation :: get('Your rating').': '.$user_answers[0]->get_extra().' ('.Translation :: get('from').' '.$low->get_score().' '.Translation :: get('to').' '.$high->get_score().')';
-		$html[] = $this->display_score($score_line);
+		$this->display_score($score_line);
 		
-		$html[] = $this->display_answers();
+		$this->display_answers();
+		$this->add_feedback_controls();
+		$this->display_footer();
 		
-		return implode('<br/>', $html);
+		//return implode('<br/>', $html);
 	}
 	
 	function display_survey()
@@ -29,8 +31,8 @@ class ScoreQuestionResult extends QuestionResult
 	
 	function display_assignment()
 	{
-		$html[] = $this->display_question();
-		return implode('<br/>', $html);
+		$this->display_question();
+		//return implode('<br/>', $html);
 	}
 }
 ?>

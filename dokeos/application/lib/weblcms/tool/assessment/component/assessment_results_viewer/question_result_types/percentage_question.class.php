@@ -6,16 +6,18 @@ class PercentageQuestionResult extends QuestionResult
 {
 	function display_exercise()
 	{
-		$html[] = $this->display_question_header();
+		$this->display_question_header();
 		
 		$user_answers = parent :: get_user_answers();
 		
 		$score_line = Translation :: get('Your rating').': '.$user_answers[0]->get_extra().'/100';
-		$html[] = $this->display_score($score_line);
+		$this->display_score($score_line);
 		
-		$html[] = $this->display_answers();
+		$this->display_answers();
+		$this->add_feedback_controls();
+		$this->display_footer();
 		
-		return implode('<br/>', $html);
+		//return implode('<br/>', $html);
 	}
 	
 	function display_survey()
@@ -25,8 +27,8 @@ class PercentageQuestionResult extends QuestionResult
 	
 	function display_assignment()
 	{
-		$html[] = $this->display_question();
-		return implode('<br/>', $html);
+		$this->display_question();
+		//return implode('<br/>', $html);
 	}
 }
 ?>
