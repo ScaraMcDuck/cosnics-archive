@@ -254,6 +254,10 @@ class LearningObjectPublicationForm extends FormValidator
 		}
 		$course = $this->course->get_id();
 		$tool = $this->publisher->get_tool()->get_tool_id();
+		
+		if($tool == null)
+			$tool = 'introduction'; 
+			
 		$dm = WeblcmsDataManager :: get_instance();
 		$displayOrder = $dm->get_next_learning_object_publication_display_order_index($course,$tool,$category);
 		$publisher = $this->user->get_id();

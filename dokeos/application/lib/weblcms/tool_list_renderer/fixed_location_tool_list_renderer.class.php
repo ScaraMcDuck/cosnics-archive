@@ -33,6 +33,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 	{
 		$parent = $this->get_parent();
 		$tools = array ();
+		echo '<h4>'.Translation :: get('Tools').'</h4>';
 		foreach ($parent->get_registered_tools() as $tool)
 		{
 			$tools[$tool->section][] = $tool;

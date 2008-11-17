@@ -73,6 +73,7 @@ class Weblcms extends WebApplication
 	const ACTION_COURSE_CATEGORY_MANAGER = 'catmanager';
 	const ACTION_ADMIN_COURSE_BROWSER = 'adminbrowser';
 	const ACTION_DELETE_COURSE = 'coursedeleter';
+	const ACTION_PUBLISH_INTRODUCTION = 'introductionpublisher';
 	
 	const ACTION_RENDER_BLOCK = 'block';
 
@@ -170,6 +171,9 @@ class Weblcms extends WebApplication
 				break;
 			case self :: ACTION_DELETE_COURSE :
 				$component = WeblcmsComponent :: factory('CourseDeleter', $this);
+				break;
+			case self :: ACTION_PUBLISH_INTRODUCTION:
+				$component = WeblcmsComponent :: factory('IntroductionPublisher', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);

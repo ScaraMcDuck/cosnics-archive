@@ -105,6 +105,9 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				
 				$wdm = WeblcmsDataManager :: get_instance();
 				$this->display_header($trail);
+				
+				echo $this->display_introduction_text();
+				echo '<div class="clear"></div>';
 				//TODO: Depending on settings, display menu and/or shortcut icons
 				//Display shortcut icons
 				//$renderer = ToolListRenderer::factory('Menu',$this);
@@ -159,5 +162,38 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 		$course = $this->get_course();
 		Translation :: set_language($course->get_language());
 	}
+	
+	function display_introduction_text()
+	{
+		$html = array();
+		
+	
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','introduction'));
+		$introduction_text = $publications->next_result();
+		
+		if($introduction_text)
+		{
+			$html[] = '<div class="learning_object">';
+			$html[] = '<div class="description">';
+			$html[] = $introduction_text->get_learning_object()->get_description();
+			$html[] = '</div>';
+			$html[] = '</div>';
+			$html[] = '<br />';
+		}
+		else
+		{
+			$tb_data[] = array(
+				'href' => $this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_PUBLISH_INTRODUCTION)),
+				'label' => Translation :: get('PublishIntroductionText'),
+				'img' => Theme :: get_common_img_path() . 'action_publish.png',
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+			);
+				
+			$html[] = DokeosUtilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
+		}
+		
+		return implode("\n",$html);
+	}
+	
 }
 ?>

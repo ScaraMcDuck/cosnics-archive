@@ -41,17 +41,25 @@ class LearningObjectPublisherPublicationCreatorComponent extends PublisherPublic
 			{
 				$message = Translation :: get('ObjectPublished');
 			}
+
 			
-			$this->redirect($message, (!$publication ? true : false), $parameters, array(Tool :: PARAM_ACTION, Publisher :: PARAM_ACTION));
-			// In case headers were allready sent, we simply show the confirmation message here
+			if($publication->get_tool() == 'introduction')
+				$redirect_parms = array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE);
+			else
+				$redirect_parms = array(Tool :: PARAM_ACTION, Publisher :: PARAM_ACTION);
+		
+			$this->redirect($message, (!$publication ? true : false), $parameters, $redirect_parms);
+			
+			// n case headers were allready sent, we simply show the confirmation message here
 			$out .= Display::display_normal_message(Translation :: get('ObjectPublished'),true);
 		}
 		else
 		{
 			$out .= LearningObjectDisplay :: factory($object)->get_full_html();
 			$out .= $form->toHtml();
+			return $out;
 		}
-		return $out;
+		
 	}
 	
 }
