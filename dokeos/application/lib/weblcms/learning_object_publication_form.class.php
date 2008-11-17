@@ -168,6 +168,7 @@ class LearningObjectPublicationForm extends FormValidator
 		{
 			$this->addElement('checkbox', self::PARAM_EMAIL, Translation :: get('SendByEMail'));
 		}
+		$this->addElement('checkbox', LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, Translation :: get('ShowOnHomepage'));
 		$this->addElement('submit', 'submit', Translation :: get('Ok'));
     }
     /**
@@ -208,6 +209,7 @@ class LearningObjectPublicationForm extends FormValidator
 				}
 			}
 		}
+		
 		$pub = $this->publication;
 		$pub->set_from_date($from);
 		$pub->set_to_date($to);
@@ -216,6 +218,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$pub->set_modified_date($modifiedDate);
 		$pub->set_target_users($users);
 		$pub->set_target_course_groups($course_groups);
+		$pub->set_show_on_homepage($values[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE]);
 		$pub->update();
 		return $pub;
     }
@@ -267,7 +270,8 @@ class LearningObjectPublicationForm extends FormValidator
 		$publisher = $this->user->get_id();
 		$modifiedDate = time();
 		$publicationDate = time();
-		$pub = new LearningObjectPublication(null, $this->learning_object, $course, $tool, $category, $users, $course_groups, $from, $to, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, false);
+		$show_on_homepage = $values[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE];
+		$pub = new LearningObjectPublication(null, $this->learning_object, $course, $tool, $category, $users, $course_groups, $from, $to, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, false, $show_on_homepage);
 		if (!$pub->create())
 		{
 			return false;
