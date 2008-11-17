@@ -92,7 +92,7 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 				$dm = WeblcmsDatamanager::get_instance();
 				$dm->delete_course($this->parent->get_course_id());
 				// TODO: Is this the correct redirect ? And why not use that available function ?
-				header('Location: '.$this->parent->get_path(WEB_PATH).'/run.php?go=weblcms');
+				header('Location: '.$this->parent->get_path(WEB_PATH).'run.php?application=weblcms');
 				exit;
 				break;
 		}
