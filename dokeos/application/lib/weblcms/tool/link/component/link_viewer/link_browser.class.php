@@ -47,7 +47,13 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 			$user_id = $this->get_user_id();
 			$course_groups = $this->get_course_groups();
 		}
-		$publications = $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_publication_category_tree()->get_current_category_id(), $user_id, $course_groups,$tool_cond, false, array (Link :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $this->get_parent()->get_condition());
+		
+		$conditions[] = new EqualityCondition('type','link');
+		if($this->get_parent()->get_condition())
+			$conditions[] = $this->get_parent()->get_condition();
+		$cond = new AndCondition($conditions);
+		
+		$publications = $dm->retrieve_learning_object_publications($this->get_course_id(), $this->get_publication_category_tree()->get_current_category_id(), $user_id, $course_groups,$tool_cond, false, array (Link :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $cond);
 		while ($publication = $publications->next_result())
 		{
 			// If the publication is hidden and the user is not allowed to DELETE or EDIT, don't show this publication
@@ -78,6 +84,7 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 			$user_id = $this->get_user_id();
 			$course_groups = $this->get_course_groups();
 		}
+		
 		return $dm->count_learning_object_publications($this->get_course_id(), $category, $user_id, $course_groups, $tool_cond);
 	}
 }

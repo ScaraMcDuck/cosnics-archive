@@ -64,7 +64,11 @@ class LearningObjectPublicationForm extends FormValidator
 	 */
     function LearningObjectPublicationForm($learning_object, $publisher, $email_option = false, $course, $in_publisher = true, $extra_parameters = array())
     {
-    	$parameters = array_merge($publisher->get_parameters(), array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $in_publisher?Tool :: ACTION_PUBLISH:null));
+    	if(get_class($learning_object) == 'Introduction')
+    		$parameters = array_merge($publisher->get_parameters(), array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $in_publisher?Tool :: ACTION_PUBLISH_INTRODUCTION:null));
+    	else
+    		$parameters = array_merge($publisher->get_parameters(), array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $in_publisher?Tool :: ACTION_PUBLISH:null));
+    		
     	$parameters = array_merge($parameters, $extra_parameters);
     	
     	$url = $publisher->get_url($parameters);

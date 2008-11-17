@@ -30,8 +30,8 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		
 		echo '<br /><a name="top"></a>';
 		//echo $this->perform_requested_actions();
-		echo $this->action_bar->as_html();
 		echo $this->display_introduction_text();
+		echo $this->action_bar->as_html();
 		echo '<div id="action_bar_browser">';
 		echo $browser->as_html();
 		echo '</div>';

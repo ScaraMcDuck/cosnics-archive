@@ -8,6 +8,7 @@ require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.
 class CalendarToolViewerComponent extends CalendarToolComponent
 {
 	private $action_bar;
+	private $introduction_text;
 	
 	function run()
 	{
@@ -17,6 +18,8 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 			return;
 		}
 		
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','calendar'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
+		$this->introduction_text = $publications->next_result();
 		$this->action_bar = $this->get_action_bar();
 
 		$time = isset($_GET['time']) ? intval($_GET['time']) : time();
@@ -28,6 +31,7 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 		$trail = new BreadcrumbTrail();
 		$this->display_header($trail);
 		echo '<br /><a name="top"></a>';
+		echo $this->display_introduction_text();
 		echo $this->action_bar->as_html() . '<br />';
 		echo '<div id="action_bar_browser">';
 		echo $browser->as_html();
@@ -46,6 +50,11 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 		if($_GET['view'] == 'list')
 		{
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(array('view' => 'list')), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		}
+		
+		if(!$this->introduction_text)
+		{
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_img_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 		
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView'), Theme :: get_img_path().'tool_calendar_down.png', $this->get_url(array('view'=>'list', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -68,6 +77,41 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 		}
 		
 		return null;
+	}
+	
+	function display_introduction_text()
+	{
+		$html = array();
+		
+		$introduction_text = $this->introduction_text;
+		
+		if($introduction_text)
+		{
+			
+			$tb_data[] = array(
+				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_img_path() . 'action_edit.png',
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
+			);
+			
+			$tb_data[] = array(
+				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
+				'label' => Translation :: get('Delete'),
+				'img' => Theme :: get_common_img_path() . 'action_delete.png',
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
+			);
+			
+			$html[] = '<div class="learning_object">';
+			$html[] = '<div class="description">';
+			$html[] = $introduction_text->get_learning_object()->get_description();
+			$html[] = '</div>';
+			$html[] = DokeosUtilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
+			$html[] = '</div>';
+			$html[] = '<br />';
+		}
+		
+		return implode("\n",$html);
 	}
 }
 ?>
