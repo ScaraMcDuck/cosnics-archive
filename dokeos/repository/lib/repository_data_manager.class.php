@@ -96,7 +96,7 @@ abstract class RepositoryDataManager
 //		return $master_types;
 
 		// TODO: Temporary fix untill active learning objects are registered in the DB 
-		return array('announcement', 'answer', 'assessment', 'calendar_event', 'description', 'document', 'feedback', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'learning_path_item', 'learning_style_survey', 'learning_style_survey_answer', 'learning_style_survey_category', 'learning_style_survey_profile', 'learning_style_survey_question', 'learning_style_survey_result', 'learning_style_survey_section', 'learning_style_survey_user_answer', 'link', 'personal_message', 'portfolio_item', 'profile', 'question', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki', 'system_announcement');
+		return array('announcement', 'answer', 'assessment', 'calendar_event', 'introduction', 'description', 'document', 'feedback', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'learning_path_item', 'learning_style_survey', 'learning_style_survey_answer', 'learning_style_survey_category', 'learning_style_survey_profile', 'learning_style_survey_question', 'learning_style_survey_result', 'learning_style_survey_section', 'learning_style_survey_user_answer', 'link', 'personal_message', 'portfolio_item', 'profile', 'question', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki', 'system_announcement');
 	}
 
 	/**
@@ -763,7 +763,7 @@ abstract class RepositoryDataManager
 	private function load_types()
 	{
 		//TODO: Store "activated" LO-types in DB and retrieve them here.
-		$learning_object_types = array('announcement', 'assessment', 'calendar_event', 'description', 'document', 'feedback', 'fill_in_blanks_question', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'learning_path_item', 'learning_style_survey', 'learning_style_survey_answer', 'learning_style_survey_category', 'learning_style_survey_profile', 'learning_style_survey_question', 'learning_style_survey_result', 'learning_style_survey_section', 'learning_style_survey_user_answer', 'link', 'matching_question', 'multiple_choice_question', 'open_question', 'personal_message', 'portfolio_item', 'profile', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki', 'system_announcement');
+		$learning_object_types = array('announcement', 'assessment', 'calendar_event', 'introduction', 'description', 'document', 'feedback', 'fill_in_blanks_question', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'learning_path_item', 'learning_style_survey', 'learning_style_survey_answer', 'learning_style_survey_category', 'learning_style_survey_profile', 'learning_style_survey_question', 'learning_style_survey_result', 'learning_style_survey_section', 'learning_style_survey_user_answer', 'link', 'matching_question', 'multiple_choice_question', 'open_question', 'personal_message', 'portfolio_item', 'profile', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki', 'system_announcement');
 		
 		$path = Path :: get_repository_path() . 'lib/learning_object/';
 		
