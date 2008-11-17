@@ -75,6 +75,7 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 							$publication->get_to_date(),
 							$publication->get_publisher_id(),
 							time(),
+							time(),
 							$publication->is_hidden(),
 							$dm->get_next_learning_object_publication_display_order_index($course_code,$publication->get_tool(),0),
 							false
@@ -91,7 +92,7 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 				$dm = WeblcmsDatamanager::get_instance();
 				$dm->delete_course($this->parent->get_course_id());
 				// TODO: Is this the correct redirect ? And why not use that available function ?
-				header('Location: '.$this->parent->get_path(WEB_PATH).'/run.php');
+				header('Location: '.$this->parent->get_path(WEB_PATH).'/run.php?go=weblcms');
 				exit;
 				break;
 		}
