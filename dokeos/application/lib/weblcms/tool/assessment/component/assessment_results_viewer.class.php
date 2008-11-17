@@ -98,23 +98,24 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		$repdm = RepositoryDataManager :: get_instance();
 		$assessment = $repdm->retrieve_learning_object($user_assessment->get_assessment_id(), 'assessment');
 
+		$edit_rights = $this->is_allowed(EDIT_RIGHT);
 		switch ($assessment->get_assessment_type()) 
 		{
 			case Assessment::TYPE_ASSIGNMENT:
-				$subcomponent = new AssignmentResultsViewer($user_assessment);
+				$subcomponent = new AssignmentResultsViewer($user_assessment, $edit_rights);
 				break;
 			case Assessment::TYPE_EXERCISE:
-				$subcomponent = new ExerciseResultsViewer($user_assessment);
+				$subcomponent = new ExerciseResultsViewer($user_assessment, $edit_rights);
 				break;
 			case Assessment::TYPE_SURVEY:
-				$subcomponent = new SurveyResultsViewer($user_assessment);
+				$subcomponent = new SurveyResultsViewer($user_assessment, $edit_rights);
 				break;
 			default:
-				$subcomponent = new ExerciseResultsViewer($user_assessment);
+				$subcomponent = new ExerciseResultsViewer($user_assessment, $edit_rights);
 				break;
 		}
 		echo '<br/>';
-		echo implode('<br/>', $subcomponent->to_html());
+		$subcomponent->to_html();
 		
 		$this->display_footer();
 	}

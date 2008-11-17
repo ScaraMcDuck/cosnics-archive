@@ -6,7 +6,7 @@ class FillInBlanksQuestionResult extends QuestionResult
 {
 	function display_exercise()
 	{
-		$html[] = $this->display_question_header();
+		echo $this->display_question_header();
 
 		$user_answers = parent :: get_user_answers();
 		$rdm = RepositoryDataManager :: get_instance();
@@ -23,7 +23,7 @@ class FillInBlanksQuestionResult extends QuestionResult
 		}
 		
 		$score_line = Translation :: get('Score').': '.$total_score.'/'.$total_div;
-		$html[] = $this->display_score($score_line);
+		$this->display_score($score_line);
 		
 		foreach ($user_answers as $user_answer)
 		{
@@ -33,9 +33,11 @@ class FillInBlanksQuestionResult extends QuestionResult
 				
 			$answer_lines[] = $line;
 		}
-		$html[] = $this->display_answers($answer_lines);
+		$this->display_answers($answer_lines);
+		$this->add_feedback_controls();
+		$this->display_footer();
 		
-		return implode('<br/>', $html);
+		//return implode('<br/>', $html);
 	}
 	
 	function display_survey()
@@ -45,8 +47,8 @@ class FillInBlanksQuestionResult extends QuestionResult
 	
 	function display_assignment()
 	{
-		$html[] = $this->display_question();
-		return implode('<br/>', $html);
+		$this->display_question();
+		//return implode('<br/>', $html);
 	}
 }
 ?>

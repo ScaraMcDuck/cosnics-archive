@@ -6,7 +6,7 @@ class MultipleAnswerQuestionResult extends QuestionResult
 {
 	function display_exercise()
 	{
-		$html[] = $this->display_question_header();
+		$this->display_question_header();
 		
 		$user_question = $this->get_user_question();
 		$user_answers = $this->get_user_answers();
@@ -31,9 +31,11 @@ class MultipleAnswerQuestionResult extends QuestionResult
 			$answer = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_answer->get_answer_id());
 			$answer_lines[] = $answer->get_title().' ('.Translation :: get('Score').': '.$user_answer->get_score().')';
 		}
-		$html[] = $this->display_answers($answer_lines);
+		$this->display_answers($answer_lines);
+		$this->add_feedback_controls();
+		$this->display_footer();
 		
-		return implode('<br/>', $html);
+		//return implode('<br/>', $html);
 	}
 	
 	function display_survey()
@@ -43,8 +45,8 @@ class MultipleAnswerQuestionResult extends QuestionResult
 	
 	function display_assignment()
 	{
-		$html[] = $this->display_question();
-		return implode('<br/>', $html);
+		$this->display_question();
+		//return implode('<br/>', $html);
 	}
 }
 ?>

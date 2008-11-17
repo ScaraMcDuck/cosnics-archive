@@ -9,7 +9,9 @@ class OpenQuestionWithDocumentDisplay extends QuestionDisplay
 		parent :: add_to($formvalidator);
 		$answers = $this->get_answers();
 		$documents = $this->get_user_documents();
-		$formvalidator->addElement('select', $this->get_clo_question()->get_ref().'_0', Translation :: get('Select a document:'), $documents);
+		$name = $this->get_clo_question()->get_ref().'_0';
+		$formvalidator->addElement('select', $name, Translation :: get('Select a document:'), $documents);
+		$formvalidator->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
 		$formvalidator->addElement('html', '<br/>');
 	}
 	

@@ -5,6 +5,7 @@
   <property name="question_id" type="integer" notnull="1" default="0"/>
   <property name="user_assessment_id" type="integer" notnull="1" default="0"/>
   <property name="weight" type="integer" notnull="1" default="0"/>
+  <property name="feedback" type="text" length="255" notnull="0" default=""/>
  </properties>
  <index name="id" type="primary">
  <indexproperty name="id"/>

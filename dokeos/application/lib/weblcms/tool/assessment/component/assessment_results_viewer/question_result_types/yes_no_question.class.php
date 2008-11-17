@@ -6,8 +6,10 @@ class YesNoQuestionResult extends QuestionResult
 {
 	function display_exercise()
 	{
-		$html[] = $this->display_question();
-		return implode('<br/>', $html);
+		$this->display_question();
+		$this->add_feedback_controls();
+		$this->display_footer();
+		//return implode('<br/>', $html);
 	}
 	
 	function display_survey()
@@ -17,8 +19,8 @@ class YesNoQuestionResult extends QuestionResult
 	
 	function display_assignment()
 	{
-		$html[] = $this->display_question();
-		return implode('<br/>', $html);
+		$this->display_question();
+		//return implode('<br/>', $html);
 	}
 }
 ?>

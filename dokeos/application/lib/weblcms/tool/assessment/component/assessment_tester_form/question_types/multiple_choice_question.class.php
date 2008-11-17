@@ -13,10 +13,10 @@ class MultipleChoiceQuestionDisplay extends QuestionDisplay
 		{
 			$elements[] = $formvalidator->createElement('radio', null, null, $answer['answer']->get_title().'<br/>', $i);
 			$i++;
-			//echo $i.'<br/>';
-			//$formvalidator->addElement();
 		}
-		$formvalidator->addGroup($elements, $this->get_clo_question()->get_ref().'_0', '<br/>');
+		$name = $this->get_clo_question()->get_ref().'_0';
+		$formvalidator->addGroup($elements, $name, '<br/>');
+		$formvalidator->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
 		$formvalidator->addElement('html', '<br />');
 	}
 }

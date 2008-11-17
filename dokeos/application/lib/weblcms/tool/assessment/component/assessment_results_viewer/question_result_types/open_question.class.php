@@ -6,7 +6,7 @@ class OpenQuestionResult extends QuestionResult
 {
 	function display_exercise()
 	{
-		$html[] = $this->display_question_header();
+		$this->display_question_header();
 		
 		$user_question = $this->get_user_question();
 		$user_answers = $this->get_user_answers();
@@ -14,12 +14,18 @@ class OpenQuestionResult extends QuestionResult
 		$user_score = $user_answer->get_score();
 		
 		$score_line = Translation :: get('Score').': '.$user_score.'/'.$user_question->get_weight();
-		$html[] = $this->display_score($score_line);
+		$this->display_score($score_line);
+		if ($this->get_edit_rights() == 1)
+			$this->add_score_controls($this->get_clo_question()->get_weight());
 		
 		$answer_lines[] = $user_answer->get_extra();
-		$html[] = $this->display_answers($answer_lines);
+		$this->display_answers($answer_lines);
+		if ($this->get_edit_rights() == 1)
+			$this->add_feedback_controls();
+			
+		$this->display_footer();
 		
-		return implode('<br/>', $html);
+		//return implode('<br/>', $html);
 	}
 	
 	function display_survey()
@@ -29,8 +35,8 @@ class OpenQuestionResult extends QuestionResult
 	
 	function display_assignment()
 	{
-		$html[] = $this->display_question();
-		return implode('<br/>', $html);
+		$this->display_question();
+		//return implode('<br/>', $html);
 	}
 }
 ?>

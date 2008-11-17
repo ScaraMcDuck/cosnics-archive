@@ -10,7 +10,9 @@ class MultipleAnswerQuestionDisplay extends QuestionDisplay
 		$answers = $this->get_answers();
 		foreach($answers as $answer)
 		{
-			$formvalidator->addElement('checkbox', $this->get_clo_question()->get_ref().'_'.$answer['answer']->get_id(), '', $answer['answer']->get_title());
+			$name = $this->get_clo_question()->get_ref().'_'.$answer['answer']->get_id();
+			$formvalidator->addElement('checkbox', $name, '', $answer['answer']->get_title());
+			//$formvalidator->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
 		}
 		$formvalidator->addElement('html', '<br />');
 	}
