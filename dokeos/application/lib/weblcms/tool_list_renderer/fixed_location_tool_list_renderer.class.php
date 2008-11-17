@@ -45,6 +45,9 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			echo '<h4>'.Translation :: get('CourseAdministration').'</h4>';
 			$this->show_tools('course_admin',$tools);
 		}
+		
+		echo '<h4>'.Translation :: get('Links').'</h4>';
+		$this->show_links();
 	}
 	/**
 	 * Show the tools of a given section
@@ -94,6 +97,61 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				
 				// Show tool-icon + name
 				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
+				$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
+				$html[] = '&nbsp;';
+				$html[] = $title;
+				$html[] = '</a>';
+				
+				$table->setCellContents($row,$col,implode("\n",$html));
+				$table->updateColAttributes($col,'style="width: '.floor(100/FixedLocationToolListRenderer::NUMBER_OF_COLUMNS).'%;"');
+				$count++;
+			}
+		}
+		$table->display();
+	}
+	
+	private function show_links()
+	{
+		$parent = $this->get_parent();
+		
+		$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, 1);
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($parent->get_course_id(), null, null, null, $condition);
+		
+		$table = new HTML_Table('style="width: 100%;"');
+		$table->setColCount(FixedLocationToolListRenderer::NUMBER_OF_COLUMNS);
+		$count = 0;
+		while($publication = $publications->next_result())
+		{
+			if($publication->is_visible_for_target_users())
+			{
+				$lcms_action = 'make_publication_invisible';
+				$visible_image = 'action_visible.png';
+				$tool_image = 'tool_' . $publication->get_tool(). '.png';
+				$link_class='';
+			}
+			else
+			{
+				$lcms_action = 'make_publication_visible';
+				$visible_image = 'action_invisible.png';
+				$tool_image = 'tool_' . $publication->get_tool() .'_na.png';
+				$link_class=' class="invisible"';
+			}
+			$title = htmlspecialchars($publication->get_learning_object()->get_title());
+			$row = $count/FixedLocationToolListRenderer::NUMBER_OF_COLUMNS;
+			$col = $count%FixedLocationToolListRenderer::NUMBER_OF_COLUMNS;
+			$html = array();
+			if($this->is_course_admin || $publication->is_visible_for_target_users())
+			{
+				// Show visibility-icon
+				if ($this->is_course_admin )
+				{
+					$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_COMPONENT_ACTION=>$lcms_action,'pid' => $publication->get_id())).'"><img src="'.Theme :: get_common_img_path().$visible_image.'" style="vertical-align: middle;" alt=""/></a>';
+					$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_COMPONENT_ACTION=>'delete_publication','pid' => $publication->get_id())).'"><img src="'.Theme :: get_common_img_path().'action_delete.png" style="vertical-align: middle;" alt=""/></a>';
+					$html[] = '&nbsp;&nbsp;&nbsp;';
+				}
+				
+				// Show tool-icon + name
+				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $publication->get_tool(), 'pid' => $publication->get_id()), true).'" '.$link_class.'>';
 				$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
 				$html[] = '&nbsp;';
 				$html[] = $title;

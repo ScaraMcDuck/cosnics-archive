@@ -30,6 +30,7 @@ class LearningObjectPublication
 	const PROPERTY_MODIFIED_DATE = 'modified';
 	const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
 	const PROPERTY_EMAIL_SENT = 'email_sent';
+	const PROPERTY_SHOW_ON_HOMEPAGE = 'show_on_homepage';
 	/**#@-*/
    /**#@+
     * Property of this publication. See {@link LearningObjectPublication} for
@@ -51,6 +52,7 @@ class LearningObjectPublication
 	private $modifiedDate;
 	private $displayOrder;
 	private $emailSent;
+	private $show_on_homepage;
 	/**#@-*/
 	/**
 	 * Constructor
@@ -79,7 +81,7 @@ class LearningObjectPublication
 	 */
 	function LearningObjectPublication($id, $learningObject, $course, $tool, $category, $targetUsers, 
 									 $targetCourseGroups, $fromDate, $toDate, $publisher, $publicationDate, 
-									 $modifiedDate, $hidden, $displayOrder, $emailSent)
+									 $modifiedDate, $hidden, $displayOrder, $emailSent, $show_on_homepage)
 	{
 		$this->id = $id;
 		$this->learningObject = $learningObject;
@@ -97,6 +99,7 @@ class LearningObjectPublication
 		$this->hidden = $hidden;
 		$this->displayOrder = $displayOrder;
 		$this->emailSent = $emailSent;
+		$this->show_on_homepage = $show_on_homepage;
 	}
    /**
     * Gets the publication id.
@@ -346,6 +349,17 @@ class LearningObjectPublication
 	{
 		$this->set_hidden(!$this->is_hidden());
 	}
+	
+	function get_show_on_homepage()
+	{
+		return $this->show_on_homepage;
+	}
+	
+	function set_show_on_homepage($show_on_homepage)
+	{
+		$this->show_on_homepage = $show_on_homepage;
+	}
+	
 	/**
 	 * Creates this publication in persistent storage
 	 * @see WeblcmsDataManager::create_learning_object_publication()

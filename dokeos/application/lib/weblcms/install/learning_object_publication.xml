@@ -21,6 +21,7 @@
   <property name="modified" type="integer" unsigned="1" notnull="1"/>
   <property name="display_order" type="integer" unsigned="1" notnull="1"/>
   <property name="email_sent" type="integer" length="1" unsigned="1" notnull="1"/>
+  <property name="show_on_homepage" type="integer" length="1" unsigned="1" notnull="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
