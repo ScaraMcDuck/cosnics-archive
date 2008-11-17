@@ -8,6 +8,7 @@ require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.
 class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 {
 	private $action_bar;
+	private $introduction_text;
 	
 	function run()
 	{
@@ -16,6 +17,9 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 			Display :: display_not_allowed();
 			return;
 		}
+		
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','announcement'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
+		$this->introduction_text = $publications->next_result();
 		
 		$this->action_bar = $this->get_action_bar();
 		
@@ -27,6 +31,7 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		echo '<br /><a name="top"></a>';
 		//echo $this->perform_requested_actions();
 		echo $this->action_bar->as_html();
+		echo $this->display_introduction_text();
 		echo '<div id="action_bar_browser">';
 		echo $browser->as_html();
 		echo '</div>';
@@ -42,6 +47,11 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_img_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
+		if(!$this->introduction_text)
+		{
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_img_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		}
 		
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_img_path().'action_edit.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_img_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -60,6 +70,41 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		}
 		
 		return null;
+	}
+	
+	function display_introduction_text()
+	{
+		$html = array();
+		
+		$introduction_text = $this->introduction_text;
+		
+		if($introduction_text)
+		{
+			
+			$tb_data[] = array(
+				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_img_path() . 'action_edit.png',
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
+			);
+			
+			$tb_data[] = array(
+				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
+				'label' => Translation :: get('Delete'),
+				'img' => Theme :: get_common_img_path() . 'action_delete.png',
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
+			);
+			
+			$html[] = '<div class="learning_object">';
+			$html[] = '<div class="description">';
+			$html[] = $introduction_text->get_learning_object()->get_description();
+			$html[] = '</div>';
+			$html[] = DokeosUtilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
+			$html[] = '</div>';
+			$html[] = '<br />';
+		}
+		
+		return implode("\n",$html);
 	}
 }
 ?>
