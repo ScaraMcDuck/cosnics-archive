@@ -77,7 +77,9 @@ class LearningObjectPublication
 	 * @param int $displayOrder The display order of this publication in its
 	 * location (course - tool - category)
 	 */
-	function LearningObjectPublication($id, $learningObject, $course, $tool, $category, $targetUsers, $targetCourseGroups, $fromDate, $toDate, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, $emailSent)
+	function LearningObjectPublication($id, $learningObject, $course, $tool, $category, $targetUsers, 
+									 $targetCourseGroups, $fromDate, $toDate, $publisher, $publicationDate, 
+									 $modifiedDate, $hidden, $displayOrder, $emailSent)
 	{
 		$this->id = $id;
 		$this->learningObject = $learningObject;
