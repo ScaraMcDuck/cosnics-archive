@@ -167,16 +167,31 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 	{
 		$html = array();
 		
-	
 		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','introduction'));
 		$introduction_text = $publications->next_result();
 		
 		if($introduction_text)
 		{
+			
+			$tb_data[] = array(
+				'href' => $this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_EDIT_INTRODUCTION)),
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_img_path() . 'action_edit.png',
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
+			);
+			
+			$tb_data[] = array(
+				'href' => $this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_DELETE_INTRODUCTION)),
+				'label' => Translation :: get('Delete'),
+				'img' => Theme :: get_common_img_path() . 'action_delete.png',
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
+			);
+			
 			$html[] = '<div class="learning_object">';
 			$html[] = '<div class="description">';
 			$html[] = $introduction_text->get_learning_object()->get_description();
 			$html[] = '</div>';
+			$html[] = DokeosUtilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
 			$html[] = '</div>';
 			$html[] = '<br />';
 		}
