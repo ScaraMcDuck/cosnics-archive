@@ -32,6 +32,7 @@ abstract class Tool
 	const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
 	const ACTION_SHOW = 'show';
 	const ACTION_HIDE = 'hide';
+	const ACTION_PUBLISH_INTRODUCTION = 'publish_introduction';
 	
 	/**
 	 * The action of the tool
@@ -83,6 +84,9 @@ abstract class Tool
 		{
 			case self :: ACTION_EDIT :
 				$component = ToolComponent :: factory('', 'Edit', $this);
+				break;
+			case self :: ACTION_PUBLISH_INTRODUCTION : 
+				$component = ToolComponent :: factory('', 'IntroductionPublisher', $this);
 				break;
 			case self :: ACTION_MOVE_UP:
 				$_GET[self :: PARAM_MOVE] = 1;

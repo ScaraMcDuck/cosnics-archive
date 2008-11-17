@@ -38,7 +38,7 @@ class LearningObjectPublisher extends Publisher
 		{
 			$out .= '<li><a';
 			if ($this->get_action() == $action) $out .= ' class="current"';
-			$out .= ' href="'.$this->get_url(array (Publisher :: PARAM_ACTION => $action, Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH), true).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
+			$out .= ' href="'.$this->get_url(array (Publisher :: PARAM_ACTION => $action, Tool :: PARAM_ACTION => $this->get_parameter(Tool :: PARAM_ACTION)), true).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 		$action = $this->get_action();
