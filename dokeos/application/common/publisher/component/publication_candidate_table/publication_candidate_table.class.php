@@ -26,12 +26,24 @@ class PublicationCandidateTable extends ObjectTable
 	 * the selected learning object.
 	 * @see PublicationCandidateTableCellRenderer::PublicationCandidateTableCellRenderer()
 	 */
-	function PublicationCandidateTable($owner, $types, $query, $table_actions)
+	function PublicationCandidateTable($parent, $owner, $types, $query, $table_actions)
 	{
 		$data_provider = new PublicationCandidateTableDataProvider($owner, $types, $query);
 		$column_model = new PublicationCandidateTableColumnModel();
 		$cell_renderer = new PublicationCandidateTableCellRenderer($table_actions);
 		parent :: __construct($data_provider, PublicationCandidateTable :: DEFAULT_NAME, $column_model, $cell_renderer);
+		
+		
+		$actions = array();
+		$actions[Publisher :: PARAM_PUBLISH_SELECTED] = Translation :: get('PublishSelected');
+		$this->set_form_actions($actions);
+		
+		$parameters = array();
+		$parameters['blabla'] = 'haha';
+		
+		$redirect_params = array_merge($parent->get_parent()->get_parent()->get_parameters(), $parent->get_parameters(), array(Publisher :: PARAM_ACTION => 'multipublisher'));
+		
+		$this->set_additional_parameters($redirect_params);
 	}
 }
 ?>

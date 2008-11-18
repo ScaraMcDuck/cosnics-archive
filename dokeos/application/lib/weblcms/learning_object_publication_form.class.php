@@ -17,6 +17,9 @@ class LearningObjectPublicationForm extends FormValidator
    /**#@+
     * Constant defining a form parameter
  	*/
+	const TYPE_SINGLE = 1;
+	const TYPE_MULTI = 2;
+ 	
 	// XXX: Some of these constants heavily depend on FormValidator.
 	const PARAM_CATEGORY_ID = 'category';
 	const PARAM_TARGETS = 'target_users_and_course_groups';
@@ -55,6 +58,8 @@ class LearningObjectPublicationForm extends FormValidator
 	private $user;
 	
 	private $publisher;
+	
+	private $form_type;
 	/**
 	 * Creates a new learning object publication form.
 	 * @param LearningObject The learning object that will be published
@@ -62,12 +67,25 @@ class LearningObjectPublicationForm extends FormValidator
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function LearningObjectPublicationForm($learning_object, $publisher, $email_option = false, $course, $in_publisher = true, $extra_parameters = array())
+    function LearningObjectPublicationForm($form_type, $learning_object, $publisher, $email_option = false, $course, $in_publisher = true, $extra_parameters = array())
     {
-    	if(get_class($learning_object) == 'Introduction')
-    		$parameters = array_merge($publisher->get_parameters(), array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $in_publisher?Tool :: ACTION_PUBLISH_INTRODUCTION:null));
-    	else
-    		$parameters = array_merge($publisher->get_parameters(), array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $in_publisher?Tool :: ACTION_PUBLISH:null));
+    	$this->form_type = $form_type;
+		switch($this->form_type)
+		{
+			case self :: TYPE_SINGLE:
+		    	if(get_class($learning_object) == 'Introduction')
+		    	{
+		    		$parameters = array_merge($publisher->get_parameters(), array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $in_publisher?Tool :: ACTION_PUBLISH_INTRODUCTION:null));
+		    	}
+		    	else
+		    	{
+		    		$parameters = array_merge($publisher->get_parameters(), array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $in_publisher?Tool :: ACTION_PUBLISH:null));
+		    	}
+				break;
+			case self :: TYPE_MULTI:
+				$parameters = array_merge($publisher->get_parameters(), array (Tool :: PARAM_ACTION => $in_publisher?Tool :: ACTION_PUBLISH:null));
+				break;
+		}
     		
     	$parameters = array_merge($parameters, $extra_parameters);
     	
@@ -75,16 +93,30 @@ class LearningObjectPublicationForm extends FormValidator
 		parent :: __construct('publish', 'post', $url);
 		
 		$this->publisher = $publisher;
+		
 		if($in_publisher)
+		{
 			$this->tool = $publisher->get_parent()->get_parent();
+		}
 		else
+		{
 			$this->tool = $publisher->get_parent();
-			
+		}
+		
 		$this->learning_object = $learning_object;
 		$this->email_option = $email_option;
 		$this->course = $course;
 		$this->user = $publisher->get_user();
-		$this->build_form();
+		
+		switch($this->form_type)
+		{
+			case self :: TYPE_SINGLE:
+				$this->build_single_form();
+				break;
+			case self :: TYPE_MULTI:
+				$this->build_multi_form();
+				break;
+		}
 		$this->setDefaults();
     }
     /**
@@ -131,6 +163,18 @@ class LearningObjectPublicationForm extends FormValidator
 		$defaults[self :: PARAM_FOREVER] = 1;
 		parent :: setDefaults($defaults);
     }
+    
+    function build_single_form()
+    {
+    	$this->build_form();
+    }
+    
+    function build_multi_form()
+    {
+    	$this->build_form();
+    	//$this->addElement('hidden', 'ids', serialize($this->learning_object));
+    }
+    
 	/**
 	 * Builds the form by adding the necessary form elements.
 	 */
@@ -264,7 +308,9 @@ class LearningObjectPublicationForm extends FormValidator
 		$tool = $this->publisher->get_tool()->get_tool_id();
 		
 		if($tool == null)
-			$tool = 'introduction'; 
+		{
+			$tool = 'introduction';
+		} 
 			
 		$dm = WeblcmsDataManager :: get_instance();
 		$displayOrder = $dm->get_next_learning_object_publication_display_order_index($course,$tool,$category);
@@ -273,7 +319,6 @@ class LearningObjectPublicationForm extends FormValidator
 		$publicationDate = time();
 		$show_on_homepage = ($values[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
 		$pub = new LearningObjectPublication(null, $this->learning_object, $course, $tool, $category, $users, $course_groups, $from, $to, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, false, $show_on_homepage);
-		$pub->set_show_on_homepage($show_on_homepage);
 		if (!$pub->create())
 		{
 			return false;
@@ -296,12 +341,19 @@ class LearningObjectPublicationForm extends FormValidator
 			{
 				$pub->set_email_sent(true);
 			}
+			
 			if ($pub->update())
 			{
 				return false;
 			}
 		}
 		return $pub;
+    }
+    
+    function create_learning_object_publications()
+    {
+    	$values = $this->exportValues();
+		return true;
     }
 }
 ?>
