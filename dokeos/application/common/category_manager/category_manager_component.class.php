@@ -127,6 +127,11 @@ abstract class CategoryManagerComponent
 		return $this->parent->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
+	function get_next_category_display_order($parent_id)
+	{
+		return $this->parent->get_next_category_display_order($parent_id);
+	}
+	
 	function get_browse_categories_url($category_id = 0)
 	{
 		return $this->get_parent()->get_browse_categories_url($category_id);

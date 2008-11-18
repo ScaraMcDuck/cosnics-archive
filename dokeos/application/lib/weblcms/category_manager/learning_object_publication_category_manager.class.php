@@ -54,5 +54,14 @@ class LearningObjectPublicationCategoryManager extends CategoryManager
 		
 		return $wdm->retrieve_learning_object_publication_categories($condition, $offset, $count, $order_property, $order_direction);
 	}
+	
+	function get_next_category_display_order($parent_id)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		$category = $this->get_category();
+		$category->set_parent($parent_id);
+		
+		return $wdm->select_next_learning_object_publication_category_display_order($category);
+	}
 }
 ?>

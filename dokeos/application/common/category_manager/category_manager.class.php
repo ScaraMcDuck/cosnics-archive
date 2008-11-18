@@ -268,5 +268,6 @@ abstract class CategoryManager
 	
 	abstract function count_categories($condition);
 	abstract function retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
+	abstract function get_next_category_display_order($parent_id);
 }
 ?>

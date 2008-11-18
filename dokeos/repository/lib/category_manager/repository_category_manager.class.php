@@ -41,5 +41,11 @@ class RepositoryCategoryManager extends CategoryManager
 		
 		return $wdm->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
 	}
+	
+	function get_next_category_display_order($parent_id)
+	{
+		$wdm = RepositoryDataManager :: get_instance();
+		return $wdm->select_next_category_display_order($parent_id);
+	}
 }
 ?>
