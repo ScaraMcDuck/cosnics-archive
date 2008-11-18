@@ -9,6 +9,7 @@ require_once dirname(__FILE__).'/../../../../weblcms_data_manager.class.php';
 require_once dirname(__FILE__).'/../../../../learning_object_publication_browser.class.php';
 require_once dirname(__FILE__).'/../../../../browser/learningobjectpublicationcategorytree.class.php';
 require_once dirname(__FILE__).'/document_publication_slideshow_renderer.class.php';
+require_once Path :: get_repository_path() . 'lib/learning_object/document/document.class.php';
 
 class DocumentSlideshowBrowser extends LearningObjectPublicationBrowser
 {
@@ -16,11 +17,11 @@ class DocumentSlideshowBrowser extends LearningObjectPublicationBrowser
 	{
 		parent :: __construct($parent, 'document');
 		$tree_id = 'pcattree';
-		$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
-		$parent->set_parameter($tree_id, $_GET[$tree_id]);
+		//$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
+		//$parent->set_parameter($tree_id, $_GET[$tree_id]);
 		$renderer = new DocumentPublicationSlideshowRenderer($this);
 		$this->set_publication_list_renderer($renderer);
-		$this->set_publication_category_tree($tree);
+		//$this->set_publication_category_tree($tree);
 	}
 
 	function get_publications($from, $count, $column, $direction)
@@ -36,7 +37,9 @@ class DocumentSlideshowBrowser extends LearningObjectPublicationBrowser
 			$user_id = $this->get_user_id();
 			$course_groups = $this->get_course_groups();
 		}
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $user_id, $course_groups, $this->get_condition());
+		
+		$cond = new EqualityCondition('type','document');
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $user_id, $course_groups, $this->get_condition(), false, array (Document :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $cond);
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{
@@ -69,7 +72,7 @@ class DocumentSlideshowBrowser extends LearningObjectPublicationBrowser
 	{
 		if(is_null($category))
 		{
-			$category = $this->get_publication_category_tree()->get_current_category_id();
+			//$category = $this->get_publication_category_tree()->get_current_category_id();
 		}
 		$tool_cond= new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'document');
 		$category_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID,$category );
