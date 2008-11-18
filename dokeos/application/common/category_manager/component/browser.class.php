@@ -23,7 +23,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 		$menu = new CategoryMenu($_GET[CategoryManager :: PARAM_CATEGORY_ID], $this->get_parent());
 		
 		echo $this->ab->as_html() . '<br />';
-		echo '<div style="float: left; padding-right: 20px; width: 20%; overflow: auto; height: 100%;">' . $menu->render_as_tree() . '</div>';
+		echo '<div style="float: left; padding-right: 20px; width: 18%; overflow: auto; height: 100%;">' . $menu->render_as_tree() . '</div>';
 		echo $this->get_user_html();
 	}
 	
@@ -32,7 +32,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 		$table = new CategoryBrowserTable($this, array('go' => $_GET['go'], 'application' => $_GET['application'], CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $this->get_category()), $this->get_condition());
 		
 		$html = array();
-		$html[] = '<div style="float: right; width: 75%;">';
+		$html[] = '<div style="float: right; width: 80%;">';
 		$html[] = $table->as_html();
 		$html[] = '</div>';
 		

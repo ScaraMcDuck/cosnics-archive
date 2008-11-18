@@ -99,7 +99,7 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 			$category = $this->get_category();
 		}
 		$dm = WeblcmsDataManager :: get_instance();
-		return $dm->count_learning_object_publications($this->get_course_id(), $category, $this->get_user_id(), $this->get_course_groups(), $this->get_condition($category));
+		return $dm->count_learning_object_publications($this->get_course_id(), $category, $this->get_user_id(), $this->get_course_groups(), $this->get_condition($category), false, null, new EqualityCondition('type', 'document'));
 	}
 
 	function get_condition($category = null)

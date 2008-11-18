@@ -310,7 +310,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return new DatabaseLearningObjectPublicationResultSet($this, $res);
 	}
 
-	function count_learning_object_publications($course = null, $categories = null, $users = null, $course_groups = null, $condition = null, $allowDuplicates = false, $learning_object = null)
+	function count_learning_object_publications($course = null, $categories = null, $users = null, $course_groups = null, $condition = null, $allowDuplicates = false, $learning_object = null, $search_condition = null)
 	{
 		if(is_array($course_groups))
 		{
@@ -337,6 +337,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
+		
+		if($search_condition)
+			$query .= ' AND learning_object IN (SELECT id FROM repository_learning_object WHERE ' . $search_condition . ')';
 		
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);

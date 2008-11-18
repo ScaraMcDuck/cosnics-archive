@@ -327,39 +327,39 @@ class Weblcms extends WebApplication
 	 * returned
 	 * @return array The categories
 	 */
-	function get_categories($list = false)
-	{
-		return ($list ? $this->get_category_list() : $this->get_category_tree());
-	}
-	/**
-	 * Gets the defined categories in the current tool structured as a tree.
-	 * @return array
-	 */
-	private function get_category_tree()
-	{
-		/*
-		 * Add the root category.
-		 */
-		$course = $this->get_course_id();
-		$tool = $this->get_parameter(self :: PARAM_TOOL);
-	//	$cats = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($course, $tool);
-		$root = array ();
-		//$root['obj'] = new LearningObjectPublicationCategory(0, Translation :: get('RootCategory'), $course->get_code, $tool, 0);
-		//$root['sub'] = $cats;
-		$tree = array ();
-		//$tree[] = $root;
-		return $tree;
-	}
-	/**
-	 * Gets a list of the defined categories in the current tool.
-	 */
-	private function get_category_list()
-	{
-		$categories = array ();
-		$tree = $this->get_category_tree();
-		self :: translate_category_tree($tree, $categories);
-		return $categories;
-	}
+//	function get_categories($list = false)
+//	{
+//		return ($list ? $this->get_category_list() : $this->get_category_tree());
+//	}
+//	/**
+//	 * Gets the defined categories in the current tool structured as a tree.
+//	 * @return array
+//	 */
+//	private function get_category_tree()
+//	{
+//		/*
+//		 * Add the root category.
+//		 */
+//		$course = $this->get_course_id();
+//		$tool = $this->get_parameter(self :: PARAM_TOOL);
+//	//	$cats = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($course, $tool);
+//		$root = array ();
+//		//$root['obj'] = new LearningObjectPublicationCategory(0, Translation :: get('RootCategory'), $course->get_code, $tool, 0);
+//		//$root['sub'] = $cats;
+//		$tree = array ();
+//		//$tree[] = $root;
+//		return $tree;
+//	}
+//	/**
+//	 * Gets a list of the defined categories in the current tool.
+//	 */
+//	private function get_category_list()
+//	{
+//		$categories = array ();
+//		$tree = $this->get_category_tree();
+//		self :: translate_category_tree($tree, $categories);
+//		return $categories;
+//	}
 	/**
 	 * Makes a category tree ready for displaying by adding a prefix to the
 	 * category title based on the level of that category in the tree structure.

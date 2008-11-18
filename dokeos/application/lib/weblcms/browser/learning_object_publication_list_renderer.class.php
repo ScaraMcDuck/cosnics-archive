@@ -278,7 +278,7 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_move_to_category_action($publication)
 	{
-		$categories = $this->browser->get_categories(true);
+		//$categories = $this->browser->get_categories(true);
 		if(count($categories) > 1)
 		{
 			$url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
