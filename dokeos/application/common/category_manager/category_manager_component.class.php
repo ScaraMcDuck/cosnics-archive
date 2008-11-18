@@ -40,6 +40,16 @@ abstract class CategoryManagerComponent
 	{
 		return $this->parent->get_user();
 	}
+	
+	function display_header($breadcrumbtrail)
+	{
+		return $this->parent->display_header($breadcrumbtrail);
+	}
+	
+	function display_footer()
+	{
+		return $this->parent->display_footer();
+	}
 
 	/**
 	 * @see ObjectPublisher::get_url()

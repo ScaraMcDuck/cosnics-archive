@@ -16,16 +16,10 @@ class ToolCategoryManagerComponent extends ToolComponent
 			return;
 		}
 		
-		$trail = new BreadcrumbTrail();
-	//	$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
-		
 		$category_manager = new LearningObjectPublicationCategoryManager($this);
 		$category_manager->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_MANAGE_CATEGORIES);
-		ob_start();
-		$this->display_header($trail);
 		$category_manager->run();
-		$this->display_footer();
-		ob_end_flush();
+
 	}
 }
 ?>

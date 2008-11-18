@@ -32,7 +32,9 @@ class CategoryManagerCreatorComponent extends CategoryManagerComponent
 		}
 		else
 		{
+			$this->display_header(new BreadcrumbTrail());
 			$form->display();
+			$this->display_footer();
 		}
 	}
 }
