@@ -21,10 +21,11 @@ class ToolCategoryManagerComponent extends ToolComponent
 		
 		$category_manager = new LearningObjectPublicationCategoryManager($this);
 		$category_manager->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_MANAGE_CATEGORIES);
-		
+		ob_start();
 		$this->display_header($trail);
 		$category_manager->run();
 		$this->display_footer();
+		ob_end_flush();
 	}
 }
 ?>
