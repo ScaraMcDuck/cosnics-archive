@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/../../category_manager.class.php';
  */
 class CategoryBrowserTable extends ObjectTable
 {
-	const DEFAULT_NAME = 'reservations_table';
+	const DEFAULT_NAME = 'category_table';
 	
 	/**
 	 * Constructor
@@ -30,6 +30,7 @@ class CategoryBrowserTable extends ObjectTable
 		{
 			$actions = array();
 			$actions[CategoryManager :: PARAM_REMOVE_SELECTED_CATEGORIES] = Translation :: get('RemoveSelected');
+			$actions[CategoryManager :: PARAM_MOVE_SELECTED_CATEGORIES] = Translation :: get('MoveSelected');
 			$this->set_form_actions($actions);
 		}
 		

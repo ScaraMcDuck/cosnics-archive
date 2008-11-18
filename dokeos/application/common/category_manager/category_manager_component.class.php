@@ -157,6 +157,11 @@ abstract class CategoryManagerComponent
 		return $this->get_parent()->get_copy_general_categories_url();
 	}
 	
+	function get_change_category_parent_url($category_id)
+	{
+		return $this->get_parent()->get_change_category_parent_url($category_id);
+	}
+	
 	function get_category()
 	{
 		return $this->get_parent()->get_category();

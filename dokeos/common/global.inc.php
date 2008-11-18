@@ -314,4 +314,14 @@ else
 {
 	$language_interface = PlatformSetting :: get('platform_language');
 }
+
+/**
+ * Dump functionality with decent output
+ */
+function dump($variable)
+{
+	echo "<pre>";
+	print_r($variable);
+	echo "</pre>";
+}
 ?>

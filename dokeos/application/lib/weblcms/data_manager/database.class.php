@@ -2301,13 +2301,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->db->retrieve_objects('learning_object_publication_category', $condition, $offset, $count, $order_property, $order_direction);
 	}
 	
-	function select_next_learning_object_publication_category_display_order($parent_category_id)
+	function select_next_learning_object_publication_category_display_order($learning_object_publication_category)
 	{
 		$query = 'SELECT MAX(' . CourseCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
 		$this->db->escape_table_name('learning_object_publication_category');
 	
-		$condition = new EqualityCondition(CourseCategory :: PROPERTY_PARENT, $parent_category_id);
-		//print_r($condition);
+		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_PARENT, $learning_object_publication_category->get_parent());
+		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $learning_object_publication_category->get_course());
+		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, $learning_object_publication_category->get_tool());
+		$condition = new AndCondition($conditions);
+		
 		$params = array ();
 		if (isset ($condition))
 		{

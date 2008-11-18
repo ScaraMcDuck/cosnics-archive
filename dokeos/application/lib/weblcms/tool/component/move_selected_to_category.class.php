@@ -64,8 +64,8 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 			{
 				$cat = $pub->get_category_id();
 				if($cat != 0)
-					$this->tree[0] = Translation :: get('Root', $cat);
-				$this->build_category_tree(0);
+					$this->tree[0] = Translation :: get('Root');
+				$this->build_category_tree(0, $cat);
 				$form = new FormValidator('select_category', 'post', $this->get_url(array(Tool :: PARAM_ACTION => $_GET[Tool :: PARAM_ACTION], 'pid' => $_GET['pid'])));
 				$form->addElement('select','category',Translation :: get('Category'),$this->tree);
 				$form->addElement('submit', 'submit', Translation :: get('Ok'));
@@ -81,14 +81,16 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 	{
 		$dm = WeblcmsDataManager :: get_instance();
 		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_PARENT, $parent_id);
-		$conditions[] = new NotCondition(new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_PARENT, $exclude));
+		$conditions[] = new EqualityCondition('course', $this->get_course_id());
+		$conditions[] = new EqualityCondition('tool', $this->get_tool_id());
 		$condition = new AndCondition($conditions);
 		$categories = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($condition);
 		
 		$tree = array();
 		while($cat = $categories->next_result())
 		{
-			$this->tree[$cat->get_id()] = str_repeat('--', $this->level) . ' ' . $cat->get_name();
+			if($cat->get_id() != $exclude)
+				$this->tree[$cat->get_id()] = str_repeat('--', $this->level) . ' ' . $cat->get_name();
 			$this->level++;
 			$this->build_category_tree($cat->get_id(),$exclude);
 			$this->level--;
