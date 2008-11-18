@@ -9,7 +9,7 @@
 require_once dirname(__FILE__).'/forum_browser.class.php';
 require_once dirname(__FILE__).'/forum_topic_browser.class.php';
 require_once dirname(__FILE__).'/forum_post_browser.class.php';
-require_once dirname(__FILE__).'/../../learning_object_publication_category_manager.class.php';
+require_once dirname(__FILE__).'/../../category_manager/learning_object_publication_category_manager.class.php';
 
 /**
  * This tool allows a user to publish forums in his or her course.
