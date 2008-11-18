@@ -18,14 +18,8 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 	 */
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
-		
 		$category_manager = new WeblcmsCategoryManager($this);
-		
-		$this->display_header($trail);
 		$category_manager->run();
-		$this->display_footer();
 	}
 }
 ?>

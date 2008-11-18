@@ -22,9 +22,11 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 		$this->ab = $this->get_action_bar(); //new ActionBarRenderer($this->get_left_toolbar_data(), array(), );	
 		$menu = new CategoryMenu($_GET[CategoryManager :: PARAM_CATEGORY_ID], $this->get_parent());
 		
+		echo $this->display_header(new BreadcrumbTrail());
 		echo $this->ab->as_html() . '<br />';
 		echo '<div style="float: left; padding-right: 20px; width: 18%; overflow: auto; height: 100%;">' . $menu->render_as_tree() . '</div>';
 		echo $this->get_user_html();
+		echo $this->display_footer();
 	}
 	
 	function get_user_html()

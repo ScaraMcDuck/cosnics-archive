@@ -84,6 +84,16 @@ abstract class CategoryManager
 	{
 		return $this->parent;
 	}
+	
+	function display_header($breadcrumbtrail)
+	{
+		return $this->parent->display_header($breadcrumbtrail, false, false);
+	}
+	
+	function display_footer()
+	{
+		return $this->parent->display_footer();
+	}
 
 	/**
 	 * @see Tool::get_user_id()
