@@ -50,11 +50,11 @@ abstract class WebApplication extends Application {
 			}
 		}
 
-		$url = $_SERVER['PHP_SELF'].'?'.http_build_query(($filter ? $url_parameters : $parameters));
+		$url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'].'?'.http_build_query(($filter ? $url_parameters : $parameters));
 		if ($encode)
 		{
 			$url = htmlentities($url);
-		}
+		} 
 		return $url;
 	}
 
@@ -83,9 +83,10 @@ abstract class WebApplication extends Application {
 		{
 			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
 		}
-
+		
 		$url = $this->get_url($params);
-		header('Location: '.$url);
+		header('Location: '.$url); 
+		
 	}
 
 	/**
