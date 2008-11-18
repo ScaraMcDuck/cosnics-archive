@@ -394,60 +394,60 @@ abstract class WeblcmsDataManager
 	 * @return int The requested display order index.
 	 */
 	abstract function get_next_learning_object_publication_display_order_index($course,$tool,$category);
-
-	/**
-	 * Returns the available learning object publication categories for the
-	 * given course and tools.
-	 * @param string $course The course ID.
-	 * @param mixed $tools The tool names. May be a string if only one.
-	 * @param integer $root_category_id If $tools is only one tool, then only
-	 * return the categories under this given category_id (Default: 0 = root
-	 * category of the tools)
-	 * @return array The publication categories.
-	 */
-	abstract function retrieve_learning_object_publication_categories($course, $tools, $root_category_id = 0);
-
-	/**
-	 * Retrieves a single learning object publication category by ID and
-	 * returns it.
-	 * @param int $id The category ID.
-	 * @return LearningObjectPublicationCategory The category, or null if it
-	 *                                           could not be found.
-	 */
-	abstract function retrieve_learning_object_publication_category($id);
-
-	/**
-	 * Returns the next available learning object publication category ID.
-	 * @return int The ID.
-	 */
-	abstract function get_next_learning_object_publication_category_id();
-
-	/**
-	 * Creates a new learning object publication category in persistent
-	 * storage.
-	 * @param LearningObjectPublicationCategory $category The category to make
-	 *                                                    persistent.
-	 * @return boolean True if creation succceeded, false otherwise.
-	 */
-	abstract function create_learning_object_publication_category($category);
-
-	/**
-	 * Updates a learning object publication category in persistent storage,
-	 * making any changes permanent.
-	 * @param LearningObjectPublicationCategory $category The category to
-	 *                                                    update.
-	 * @return boolean True if the update succceeded, false otherwise.
-	 */
-	abstract function update_learning_object_publication_category($category);
-
-	/**
-	 * Removes a learning object publication category from persistent storage,
-	 * making it disappear forever. Also removes all child categories.
-	 * @param LearningObjectPublicationCategory $category The category to
-	 *                                                    delete.
-	 * @return boolean True if deletion succceeded, false otherwise.
-	 */
-	abstract function delete_learning_object_publication_category($category);
+//
+//	/**
+//	 * Returns the available learning object publication categories for the
+//	 * given course and tools.
+//	 * @param string $course The course ID.
+//	 * @param mixed $tools The tool names. May be a string if only one.
+//	 * @param integer $root_category_id If $tools is only one tool, then only
+//	 * return the categories under this given category_id (Default: 0 = root
+//	 * category of the tools)
+//	 * @return array The publication categories.
+//	 */
+//	abstract function retrieve_learning_object_publication_categories($course, $tools, $root_category_id = 0);
+//
+//	/**
+//	 * Retrieves a single learning object publication category by ID and
+//	 * returns it.
+//	 * @param int $id The category ID.
+//	 * @return LearningObjectPublicationCategory The category, or null if it
+//	 *                                           could not be found.
+//	 */
+//	abstract function retrieve_learning_object_publication_category($id);
+//
+//	/**
+//	 * Returns the next available learning object publication category ID.
+//	 * @return int The ID.
+//	 */
+//	abstract function get_next_learning_object_publication_category_id();
+//
+//	/**
+//	 * Creates a new learning object publication category in persistent
+//	 * storage.
+//	 * @param LearningObjectPublicationCategory $category The category to make
+//	 *                                                    persistent.
+//	 * @return boolean True if creation succceeded, false otherwise.
+//	 */
+//	abstract function create_learning_object_publication_category($category);
+//
+//	/**
+//	 * Updates a learning object publication category in persistent storage,
+//	 * making any changes permanent.
+//	 * @param LearningObjectPublicationCategory $category The category to
+//	 *                                                    update.
+//	 * @return boolean True if the update succceeded, false otherwise.
+//	 */
+//	abstract function update_learning_object_publication_category($category);
+//
+//	/**
+//	 * Removes a learning object publication category from persistent storage,
+//	 * making it disappear forever. Also removes all child categories.
+//	 * @param LearningObjectPublicationCategory $category The category to
+//	 *                                                    delete.
+//	 * @return boolean True if deletion succceeded, false otherwise.
+//	 */
+//	abstract function delete_learning_object_publication_category($category);
 
 	/**
 	 * Gets the course modules in a given course
@@ -713,5 +713,12 @@ abstract class WeblcmsDataManager
 	abstract function count_categories($conditions = null);
 	abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
+	abstract function get_next_learning_object_publication_category_id();
+	abstract function select_next_learning_object_publication_category_display_order($parent_learning_object_publication_category_id);
+	abstract function delete_learning_object_publication_category($learning_object_publication_category);
+	abstract function update_learning_object_publication_category($learning_object_publication_category);
+	abstract function create_learning_object_publication_category($learning_object_publication_category);
+	abstract function count_learning_object_publication_categories($conditions = null);
+	abstract function retrieve_learning_object_publication_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 }
 ?>

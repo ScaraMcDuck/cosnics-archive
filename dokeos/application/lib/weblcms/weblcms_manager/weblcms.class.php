@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/weblcms_component.class.php';
 require_once dirname(__FILE__).'/weblcms_search_form.class.php';
 require_once dirname(__FILE__).'/../../web_application.class.php';
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
-require_once dirname(__FILE__).'/../learning_object_publication_category.class.php';
+require_once dirname(__FILE__).'/../category_manager/learning_object_publication_category.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../tool/tool.class.php';
 require_once dirname(__FILE__).'/../tool_list_renderer.class.php';
@@ -342,12 +342,12 @@ class Weblcms extends WebApplication
 		 */
 		$course = $this->get_course_id();
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
-		$cats = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($course, $tool);
+	//	$cats = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($course, $tool);
 		$root = array ();
-		$root['obj'] = new LearningObjectPublicationCategory(0, Translation :: get('RootCategory'), $course->get_code, $tool, 0);
-		$root['sub'] = $cats;
+		//$root['obj'] = new LearningObjectPublicationCategory(0, Translation :: get('RootCategory'), $course->get_code, $tool, 0);
+		//$root['sub'] = $cats;
 		$tree = array ();
-		$tree[] = $root;
+		//$tree[] = $root;
 		return $tree;
 	}
 	/**

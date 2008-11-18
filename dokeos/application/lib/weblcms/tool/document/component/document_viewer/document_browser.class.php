@@ -93,7 +93,7 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 	}
 
 	function get_publication_count($category = null)
-	{
+	{ 
 		if(is_null($category))
 		{
 			$category = $this->get_category();
@@ -103,7 +103,7 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 	}
 
 	function get_condition($category = null)
-	{
+	{ 
 		if(is_null($category))
 		{
 			$category = $this->get_publication_category_tree()->get_current_category_id();

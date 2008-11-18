@@ -15,7 +15,6 @@ class DocumentTool extends Tool
 	const ACTION_VIEW_DOCUMENTS = 'view';
 	const ACTION_DOWNLOAD = 'download';
 	const ACTION_ZIP_AND_DOWNLOAD = 'zipanddownload';
-	const ACTION_MANAGE_CATEGORIES = 'managecategories';
 	const ACTION_SLIDESHOW = 'slideshow';
 	
 	/**
@@ -41,9 +40,6 @@ class DocumentTool extends Tool
 				break;
 			case self :: ACTION_ZIP_AND_DOWNLOAD :
 				$component = DocumentToolComponent :: factory('ZipAndDownload', $this);
-				break;
-			case self :: ACTION_MANAGE_CATEGORIES :
-				$component = DocumentToolComponent :: factory('CategoryManager', $this);
 				break;
 			case self :: ACTION_SLIDESHOW :
 				$component = DocumentToolComponent :: factory('Slideshow', $this);

@@ -12,7 +12,7 @@ require_once dirname(__FILE__).'/database/database_course_user_relation_result_s
 require_once dirname(__FILE__).'/database/database_learning_object_publication_result_set.class.php';
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
 require_once dirname(__FILE__).'/../learning_object_publication.class.php';
-require_once dirname(__FILE__).'/../learning_object_publication_category.class.php';
+require_once dirname(__FILE__).'/../category_manager/learning_object_publication_category.class.php';
 require_once dirname(__FILE__).'/../learning_object_publication_feedback.class.php';
 require_once dirname(__FILE__).'/../course/course.class.php';
 require_once dirname(__FILE__).'/../course/course_category.class.php';
@@ -48,7 +48,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->prefix = 'weblcms_';
 		$this->connection->query('SET NAMES utf8');
 		
-		$this->db = new Database(array('course_category' => 'cat', 'user_answer' => 'ans', 'user_assessment' => 'ass', 'user_question' => 'uq'));
+		$this->db = new Database(array('course_category' => 'cat', 'learning_object_publication_category' => 'pub_cat', 'user_answer' => 'ans', 'user_assessment' => 'ass', 'user_question' => 'uq'));
 		$this->db->set_prefix('weblcms_');
 		
 		//$this->database = new Database(array('course_category' => 'cat', 'user_answer' => 'ans', 'user_assessment' => 'ass'));
@@ -685,99 +685,99 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return true;
 	}
 
-	function retrieve_learning_object_publication_categories($course, $tools,$root_category_id = 0)
-	{
-		if (!is_array($tools))
-		{
-			$tools = array($tools);
-		}
-		if(count($tools) > 1)
-		{
-			$root_category_id = 0;
-		}
-		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_COURSE_ID).'=? AND '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TOOL).' IN ('.str_repeat('?,',count($tools)-1).'?)';
-		$sth = $this->connection->prepare($query);
-		$params = $tools;
-		array_unshift ($params, $course);
-		$res = $sth->execute($params);
-		$cats = array ();
-		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$parent = $record[LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID];
-			$cat = $this->record_to_publication_category($record);
-			$siblings = $cats[$parent];
-			$siblings[] = $cat;
-		}
-		return $this->get_publication_category_tree($root_category_id, $cats);
-	}
-
-	function retrieve_learning_object_publication_category($id)
-	{
-		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'=?';
-		$this->connection->setLimit(0,1);
-		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($id);
-		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-		return $this->record_to_publication_category($record);
-	}
-
-	function get_next_learning_object_publication_category_id()
-	{
-		return $this->connection->nextID($this->get_table_name('learning_object_publication_category'));
-	}
-
-	function create_learning_object_publication_category($category)
-	{
-		$props = array();
-		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID)] = $category->get_id();
-		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TITLE)] = $category->get_title();
-		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID)] = $category->get_parent_category_id();
-		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_COURSE_ID)] = $category->get_course();
-		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TOOL)] = $category->get_tool();
-		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_category'), $props, MDB2_AUTOQUERY_INSERT);
-		return true;
-	}
-
-	function update_learning_object_publication_category($category)
-	{
-		$where = $this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'='.$category->get_id();
-		$props = array();
-		$props[LearningObjectPublicationCategory :: PROPERTY_TITLE] = $category->get_title();
-		$props[LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID] = $category->get_parent_category_id();
-		/*
-		 * XXX: Will course and tool ever change?
-		 */
-		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_COURSE_ID)] = $category->get_course();
-		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TOOL)] = $category->get_tool();
-		$this->connection->loadModule('Extended');
-		$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_category'), $props, MDB2_AUTOQUERY_UPDATE, $where);
-		return true;
-	}
-
-	function delete_learning_object_publication_category($category)
-	{
-		// Delete subcategories in the category we delete
-		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID).'=?';
-		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($category->get_id());
-		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
-		{
-			$this->delete_learning_object_publication_category($this->record_to_publication_category($record));
-		}
-		// Delete publications in the category we delete
-		$publications = $this->retrieve_learning_object_publications($category->get_course(),$category->get_id())->as_array();
-		foreach($publications as $index => $publication)
-		{
-			$publication->delete();
-		}
-		// Finally, delete the category itself
-		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'=?';
-		$this->connection->setLimit(0,1);
-		$statement = $this->connection->prepare($query);
-		$statement->execute($category->get_id());
-		return true;
-	}
+//	function retrieve_learning_object_publication_categories($course, $tools,$root_category_id = 0)
+//	{
+//		if (!is_array($tools))
+//		{
+//			$tools = array($tools);
+//		}
+//		if(count($tools) > 1)
+//		{
+//			$root_category_id = 0;
+//		}
+//		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_COURSE_ID).'=? AND '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TOOL).' IN ('.str_repeat('?,',count($tools)-1).'?)';
+//		$sth = $this->connection->prepare($query);
+//		$params = $tools;
+//		array_unshift ($params, $course);
+//		$res = $sth->execute($params);
+//		$cats = array ();
+//		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+//		{
+//			$parent = $record[LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID];
+//			$cat = $this->record_to_publication_category($record);
+//			$siblings = $cats[$parent];
+//			$siblings[] = $cat;
+//		}
+//		return $this->get_publication_category_tree($root_category_id, $cats);
+//	}
+//
+//	function retrieve_learning_object_publication_category($id)
+//	{
+//		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'=?';
+//		$this->connection->setLimit(0,1);
+//		$statement = $this->connection->prepare($query);
+//		$res = $statement->execute($id);
+//		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+//		return $this->record_to_publication_category($record);
+//	}
+//
+//	function get_next_learning_object_publication_category_id()
+//	{
+//		return $this->connection->nextID($this->get_table_name('learning_object_publication_category'));
+//	}
+//
+//	function create_learning_object_publication_category($category)
+//	{
+//		$props = array();
+//		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID)] = $category->get_id();
+//		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TITLE)] = $category->get_title();
+//		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID)] = $category->get_parent_category_id();
+//		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_COURSE_ID)] = $category->get_course();
+//		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TOOL)] = $category->get_tool();
+//		$this->connection->loadModule('Extended');
+//		$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_category'), $props, MDB2_AUTOQUERY_INSERT);
+//		return true;
+//	}
+//
+//	function update_learning_object_publication_category($category)
+//	{
+//		$where = $this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'='.$category->get_id();
+//		$props = array();
+//		$props[LearningObjectPublicationCategory :: PROPERTY_TITLE] = $category->get_title();
+//		$props[LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID] = $category->get_parent_category_id();
+//		/*
+//		 * XXX: Will course and tool ever change?
+//		 */
+//		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_COURSE_ID)] = $category->get_course();
+//		$props[$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_TOOL)] = $category->get_tool();
+//		$this->connection->loadModule('Extended');
+//		$this->connection->extended->autoExecute($this->get_table_name('learning_object_publication_category'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+//		return true;
+//	}
+//
+//	function delete_learning_object_publication_category($category)
+//	{
+//		// Delete subcategories in the category we delete
+//		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID).'=?';
+//		$statement = $this->connection->prepare($query);
+//		$res = $statement->execute($category->get_id());
+//		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+//		{
+//			$this->delete_learning_object_publication_category($this->record_to_publication_category($record));
+//		}
+//		// Delete publications in the category we delete
+//		$publications = $this->retrieve_learning_object_publications($category->get_course(),$category->get_id())->as_array();
+//		foreach($publications as $index => $publication)
+//		{
+//			$publication->delete();
+//		}
+//		// Finally, delete the category itself
+//		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'=?';
+//		$this->connection->setLimit(0,1);
+//		$statement = $this->connection->prepare($query);
+//		$statement->execute($category->get_id());
+//		return true;
+//	}
 
 	function move_learning_object_publication($publication, $places)
 	{
@@ -2222,6 +2222,72 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$query = 'SELECT MAX(' . CourseCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
 		$this->db->escape_table_name('course_category');
+	
+		$condition = new EqualityCondition(CourseCategory :: PROPERTY_PARENT, $parent_category_id);
+		//print_r($condition);
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this->db, $params, $prefix_properties = false);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$sth = $this->db->get_connection()->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+	
+		return $record[0] + 1;
+	}
+	
+	function get_next_learning_object_publication_category_id()
+	{
+		return $this->db->get_next_id('learning_object_publication_category');
+	}
+	
+	function delete_learning_object_publication_category($learning_object_publication_category)
+	{
+		$condition = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_ID, $learning_object_publication_category->get_id());
+		$succes = $this->db->delete('learning_object_publication_category', $condition);
+		
+		$query = 'UPDATE '.$this->db->escape_table_name('learning_object_publication_category').' SET '.
+				 $this->db->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_DISPLAY_ORDER).'='.
+				 $this->db->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_DISPLAY_ORDER).'-1 WHERE '.
+				 $this->db->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_DISPLAY_ORDER).'>? AND ' .
+				 $this->db->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_PARENT) . '=?';
+		$statement = $this->db->get_connection()->prepare($query); 
+		$statement->execute(array($learning_object_publication_category->get_display_order(), $learning_object_publication_category->get_parent()));
+		
+		return $succes;
+	}
+	
+	function update_learning_object_publication_category($learning_object_publication_category)
+	{ 
+		$condition = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_ID, $learning_object_publication_category->get_id());
+		return $this->db->update($learning_object_publication_category, $condition);
+	}
+	
+	function create_learning_object_publication_category($learning_object_publication_category)
+	{
+		return $this->db->create($learning_object_publication_category);
+	}
+	
+	function count_learning_object_publication_categories($conditions = null)
+	{
+		return $this->db->count_objects('learning_object_publication_category', $conditions);
+	}
+	
+	function retrieve_learning_object_publication_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->db->retrieve_objects('learning_object_publication_category', $condition, $offset, $count, $order_property, $order_direction);
+	}
+	
+	function select_next_learning_object_publication_category_display_order($parent_category_id)
+	{
+		$query = 'SELECT MAX(' . CourseCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
+		$this->db->escape_table_name('learning_object_publication_category');
 	
 		$condition = new EqualityCondition(CourseCategory :: PROPERTY_PARENT, $parent_category_id);
 		//print_r($condition);
