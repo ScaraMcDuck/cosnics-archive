@@ -39,6 +39,7 @@ class AssessmentToolComponent extends ToolComponent
 			)
 		);
 		
+		
 		if ($this->is_allowed(EDIT_RIGHT))
 		{
 			$action_name = Translation :: get('View results summary');

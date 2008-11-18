@@ -272,8 +272,8 @@ class LearningObjectPublicationForm extends FormValidator
 		$modifiedDate = time();
 		$publicationDate = time();
 		$show_on_homepage = ($values[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
-		$pub->set_show_on_homepage($show_on_homepage);
 		$pub = new LearningObjectPublication(null, $this->learning_object, $course, $tool, $category, $users, $course_groups, $from, $to, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, false, $show_on_homepage);
+		$pub->set_show_on_homepage($show_on_homepage);
 		if (!$pub->create())
 		{
 			return false;
