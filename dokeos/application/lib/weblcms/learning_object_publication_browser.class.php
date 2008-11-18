@@ -61,11 +61,11 @@ abstract class LearningObjectPublicationBrowser
 	 */
 	function as_html()
 	{
-		if (!isset($this->categoryTree) || count($categories[0]['sub'])== 0)
+		if (!isset($this->categoryTree))
 		{
 			return $this->listRenderer->as_html();
 		}
-		return '<div style="float: left; width: 20%">'
+		return '<div style="float: left; width: 18%; overflow: auto;">'
 			. $this->categoryTree->as_html()
 			. '</div>'
 			. '<div style="float: right; width: 80%">'

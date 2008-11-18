@@ -2263,7 +2263,21 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$statement = $this->db->get_connection()->prepare($query); 
 		$statement->execute(array($learning_object_publication_category->get_display_order(), $learning_object_publication_category->get_parent()));
 		
+		$this->delete_learning_object_publication_children($learning_object_publication_category->get_id());
+		
 		return $succes;
+	}
+	
+	function delete_learning_object_publication_children($parent_id)
+	{
+		$condition = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_PARENT, $parent_id);
+		$categories = $this->retrieve_learning_object_publication_categories($condition);
+		
+		while($category = $categories->next_result())
+		{
+			$category->delete();
+			$this->delete_learning_object_publication_children($category->get_id());
+		}
 	}
 	
 	function update_learning_object_publication_category($learning_object_publication_category)

@@ -19,6 +19,8 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 	 * An id for this tree
 	 */
 	private $tree_id;
+	
+	private $data_manager;
 	/**
 	 * Create a new category tree
 	 * @param PublicationBrowser $browser The browser to associate this category
@@ -29,6 +31,9 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 	{
 		$this->browser = $browser;
 		$this->tree_id = $tree_id;
+		$this->data_manager = WeblcmsDataManager :: get_instance();
+		$menu = $this->get_menu_items();
+		parent :: __construct($menu);
 		$this->forceCurrentUrl($this->get_category_url($this->get_current_category_id()));
 	}
 	/**
@@ -49,42 +54,55 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 	{
 		return intval($_GET[$this->tree_id]);
 	}
-	/**
-	 * Creates a tree of categories from a given list of categories.
-	 * @param array $categories The list of categories on which the tree will be
-	 * based
-	 */
-	private function get_as_tree($categories)
+	
+	private function get_menu_items($extra_items)
 	{
-		return $this->convert_tree($categories);
-	}
-	/**
-	 * Recursive function to turn a list of categories into a tree structure.
-	 * @param array $tree The list of categories
-	 * @return array A tree structured representation of the given list of
-	 * categories
-	 */
-	private function convert_tree($tree)
-	{
-		$new_tree = array ();
-		$i = 0;
-		foreach ($tree as $oldNode)
+		$menu = array();
+		$menu_item = array();
+		$menu_item['title'] = Translation :: get('Root');
+		$menu_item['url'] = $this->get_category_url(0);
+		$sub_menu_items = $this->get_sub_menu_items(0);
+		if(count($sub_menu_items) > 0)
 		{
-			$node = array ();
-			$obj = $oldNode['obj'];
-			$node['url'] = $this->get_category_url($obj->get_id());
-			$node['sub'] = $this->convert_tree($oldNode['sub']);
-			$node['count'] = 0;
-			$node['count'] = $this->browser->get_publication_count($obj->get_id());
-			foreach($node['sub'] as $index => $subnode)
-			{
-				$node['count'] += $subnode['count'];
-			}
-			$node['title'] = $obj->get_title().' ('.$node['count'].')';
-			$new_tree[$i ++] = $node;
+			$menu_item['sub'] = $sub_menu_items;
 		}
-		return $new_tree;
+		$menu_item['class'] = 'type_category';
+		$menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
+		$menu[0] = $menu_item;
+		if (count($extra_items))
+        {
+        	$menu = array_merge($menu, $extra_items);
+        }
+		
+		return $menu;
 	}
+	
+	private function get_sub_menu_items($parent)
+	{
+		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_PARENT, $parent);
+		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $this->browser->get_parent()->get_course_id());
+		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, $this->browser->get_parent()->get_tool_id());
+		$condition = new AndCondition($conditions);
+		
+		$objects = $this->data_manager->retrieve_learning_object_publication_categories($condition);
+		$categories = array ();
+		while ($category = $objects->next_result())
+		{
+			$menu_item = array();
+			$menu_item['title'] = $category->get_name();
+			$menu_item['url'] = $this->get_category_url($category->get_id());
+			$sub_menu_items = $this->get_sub_menu_items($category->get_id());
+			if(count($sub_menu_items) > 0)
+			{
+				$menu_item['sub'] = $sub_menu_items;
+			}
+			$menu_item['class'] = 'type_category';
+			$menu_item[OptionsMenuRenderer :: KEY_ID] = $category->get_id();
+			$categories[$category->get_id()] = $menu_item;
+		}
+		return $categories;
+	}
+	
 	/**
 	 * Gets the URL of a category
 	 * @param int $category_id The id of the category of which the URL is
