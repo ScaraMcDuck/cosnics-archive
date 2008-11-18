@@ -18,6 +18,8 @@ class Publisher
 	const PARAM_ACTION = 'publish_action';
 	const PARAM_EDIT = 'edit';
 	const PARAM_ID = 'object';
+	
+	const PARAM_PUBLISH_SELECTED = 'publish_selected';
 
 	/**
 	 * The types of learning object that this publisher is aware of and may

@@ -32,16 +32,25 @@ class LearningObjectPublisher extends Publisher
 	 */
 	function as_html()
 	{
+		$action = $this->get_action();
+		
 		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
 		$publisher_actions = $this->get_publisher_actions();
-		foreach ($publisher_actions as $action)
+		foreach ($publisher_actions as $publisher_action)
 		{
 			$out .= '<li><a';
-			if ($this->get_action() == $action) $out .= ' class="current"';
-			$out .= ' href="'.$this->get_url(array (Publisher :: PARAM_ACTION => $action, Tool :: PARAM_ACTION => $this->get_parameter(Tool :: PARAM_ACTION)), true).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
+			if ($publisher_action == $action)
+			{
+				$out .= ' class="current"';
+			}
+			elseif(($action == 'publicationcreator' || $action == 'multipublisher') && $publisher_action == 'creator')
+			{
+				$out .= ' class="current"';
+			}
+			$out .= ' href="'.$this->get_url(array (Publisher :: PARAM_ACTION => $publisher_action, Tool :: PARAM_ACTION => $this->get_parameter(Tool :: PARAM_ACTION)), true).'">'.htmlentities(Translation :: get(ucfirst($publisher_action).'Title')).'</a></li>';
 		}
+		
 		$out .= '</ul><div class="tabbed-pane-content">';
-		$action = $this->get_action();
 		
 		require_once dirname(__FILE__).'/publisher/learning_object_'.$action.'.class.php';
 		$class = 'LearningObjectPublisher'.ucfirst($action).'Component';

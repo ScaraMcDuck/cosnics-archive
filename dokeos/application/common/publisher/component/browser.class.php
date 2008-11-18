@@ -29,7 +29,7 @@ class PublisherBrowserComponent extends PublisherComponent
 			$actions[$key]['href'] = str_replace('__ID__', '%d', $action['href']);
 		}
 		
-		$table = new PublicationCandidateTable($this->get_user(), $this->get_types(), $this->get_query(), $actions);
+		$table = new PublicationCandidateTable($this, $this->get_user(), $this->get_types(), $this->get_query(), $actions);
 		return $table->as_html();
 	}
 

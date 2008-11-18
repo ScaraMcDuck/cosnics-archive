@@ -23,7 +23,7 @@ class LearningObjectPublisherPublicationCreatorComponent extends PublisherPublic
 		$out = ($new ? Display :: display_normal_message(htmlentities(Translation :: get('ObjectCreated')), true) : '');
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
 		
-		$form = new LearningObjectPublicationForm($object, $this->get_parent(), $this->get_parent()->with_mail_option(), $this->get_parent()->get_course());
+		$form = new LearningObjectPublicationForm(LearningObjectPublicationForm :: TYPE_SINGLE, $object, $this->get_parent(), $this->get_parent()->with_mail_option(), $this->get_parent()->get_course());
 		if ($form->validate())
 		{ 
 			$publication = $form->create_learning_object_publication();
