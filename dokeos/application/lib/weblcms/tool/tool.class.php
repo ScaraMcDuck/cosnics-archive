@@ -162,18 +162,18 @@ abstract class Tool
 		if(!is_null($this->parent->get_course_group()))
 		{
 			$course_group = $this->parent->get_course_group();
-			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array(Weblcms::PARAM_COURSE_GROUP=>null)),Translation :: get('CourseGroups')));
-			$breadcrumbtrail->add(new Breadcrumb($this->get_url(), $course_group->get_name()));
+			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array('tool_action' => null, Weblcms::PARAM_COURSE_GROUP=>null)),Translation :: get('CourseGroups')));
+			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), $course_group->get_name()));
 		}
 		// TODO: do this by overriding display_header in the course_group tool
 		elseif($this->get_tool_id() == 'course_group')
 		{
-			$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(Tool :: type_to_class($this->get_tool_id()).'Title')));
+			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->get_tool_id()).'Title')));
 		}
 		// TODO: make this the default
 		if($this->get_tool_id() != 'course_group')
 		{
-			$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(Tool :: type_to_class($this->get_tool_id()).'Title')));
+			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->get_tool_id()).'Title')));
 		}
 		if (count($append))
 		{
@@ -378,10 +378,10 @@ abstract class Tool
 	{
 	}
 	
-	function get_categories($list = false)
-	{
-		return $this->get_parent()->get_categories($list);
-	}
+//	function get_categories($list = false)
+//	{
+//		return $this->get_parent()->get_categories($list);
+//	}
 
 	/**
 	 * @see Application :: get_category()

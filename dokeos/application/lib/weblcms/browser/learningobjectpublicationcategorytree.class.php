@@ -29,7 +29,6 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 	{
 		$this->browser = $browser;
 		$this->tree_id = $tree_id;
-		parent :: __construct($this->get_as_tree($browser->get_categories()));
 		$this->forceCurrentUrl($this->get_category_url($this->get_current_category_id()));
 	}
 	/**

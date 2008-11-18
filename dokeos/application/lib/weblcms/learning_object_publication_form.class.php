@@ -136,7 +136,7 @@ class LearningObjectPublicationForm extends FormValidator
 	 */
     function build_form()
     {
-		$categories = $this->publisher->get_categories(true);
+		//$categories = $this->publisher->get_categories(true);
 		if(count($categories) > 1)
 		{
 			// More than one category -> let user select one
