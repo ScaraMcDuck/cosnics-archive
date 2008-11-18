@@ -22,6 +22,13 @@ class LearningObjectPublicationCategoryManager extends CategoryManager
 		return $category;
 	}
 	
+	function allowed_to_delete_category($category_id)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		$count = $wdm->count_learning_object_publications($this->get_parent()->get_course_id(), array($category_id), null, null, new EqualityCondition('tool', $this->get_parent()->get_tool_id()));
+		return ($count == 0);
+	}
+	
 	function count_categories($condition)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();

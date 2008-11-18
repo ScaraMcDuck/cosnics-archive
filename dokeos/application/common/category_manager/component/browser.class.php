@@ -29,7 +29,8 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 	
 	function get_user_html()
 	{		
-		$table = new CategoryBrowserTable($this, array('go' => $_GET['go'], 'application' => $_GET['application'], CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $this->get_category()), $this->get_condition());
+		$parameters = array_merge($this->get_parameters(), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $this->get_category()));
+		$table = new CategoryBrowserTable($this, $parameters, $this->get_condition());
 		
 		$html = array();
 		$html[] = '<div style="float: right; width: 80%;">';

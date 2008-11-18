@@ -174,6 +174,11 @@ abstract class CategoryManager
 		return new CategoryForm();
 	}
 	
+	function allowed_to_delete_category($category_id)
+	{
+		return true;
+	}
+	
 	function get_browse_categories_url($category_id = 0)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_CATEGORIES,

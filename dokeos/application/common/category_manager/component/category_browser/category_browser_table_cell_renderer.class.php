@@ -79,13 +79,15 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 				'label' => Translation :: get('Edit'),
 				'img' => Theme :: get_common_img_path() . 'action_edit.png'
 		);
-		
-		$toolbar_data[] = array(
-				'href' => $this->browser->get_delete_category_url($category->get_id()),
-				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_img_path() . 'action_delete.png',
-				'confirm' => true
-		);
+		if($this->browser->allowed_to_delete_category($category->get_id()))
+		{
+			$toolbar_data[] = array(
+					'href' => $this->browser->get_delete_category_url($category->get_id()),
+					'label' => Translation :: get('Delete'),
+					'img' => Theme :: get_common_img_path() . 'action_delete.png',
+					'confirm' => true
+			);
+		}
 		
 		if($category->get_display_order() > 1)
 		{
