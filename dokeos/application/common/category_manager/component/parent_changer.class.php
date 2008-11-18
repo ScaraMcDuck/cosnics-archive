@@ -41,13 +41,16 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 
 			if($form->validate())
 			{
-				$parent = $form->exportValue('category');
+				$new_parent = $form->exportValue('category');
 				foreach($ids as $id)
 				{ 
 					$category = $this->retrieve_categories(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $id))->next_result();
-					$category->set_parent($parent);
+					$category->set_parent($new_parent);
+					$category->set_display_order($this->get_next_category_display_order($new_parent));
 					$success &= $category->update();
 				}
+				
+				$this->clean_display_order_old_parent($parent);
 				
 				if(get_class($this->get_parent()) == 'RepositoryCategoryManager')
 					$this->repository_redirect(RepositoryManager :: ACTION_MANAGE_CATEGORIES, Translation :: get($success ? 'CategoryCreated' : 'CategoryNotCreated'), 0, ($success ? false : true), array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES, CategoryManager :: PARAM_CATEGORY_ID => $parent));
@@ -103,6 +106,21 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 			$this->level++;
 			$this->build_category_tree($cat->get_id(),$selected_categories, $current_parent);
 			$this->level--;
+		}
+	}
+	
+	function clean_display_order_old_parent($parent)
+	{
+		$condition = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_PARENT, $parent);
+		$categories = $this->retrieve_categories($condition);
+		
+		$i = 1;
+		
+		while($cat = $categories->next_result())
+		{
+			$cat->set_display_order($i);
+			$cat->update();
+			$i++;
 		}
 	}
 	

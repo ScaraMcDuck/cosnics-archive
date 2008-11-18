@@ -2324,7 +2324,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
-	
+
 		return $record[0] + 1;
 	}
 	

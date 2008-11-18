@@ -668,7 +668,7 @@ class Weblcms extends WebApplication
 		$dm = WeblcmsDataManager :: get_instance();
 		$do = $dm->get_next_learning_object_publication_display_order_index($course,$tool,0);
 		
-		$pub = new LearningObjectPublication(null, $learning_object, $course, $tool, 0, array(), array(), 0, 0, Session :: get_user_id(), time(), time(), 0, $do, false);
+		$pub = new LearningObjectPublication(null, $learning_object, $course, $tool, 0, array(), array(), 0, 0, Session :: get_user_id(), time(), time(), 0, $do, false, 0);
 		$pub->create();
 		
 		return Translation :: get('PublicationCreated') . ': <b>' . Translation :: get('Course') . '</b>: ' . $course .

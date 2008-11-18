@@ -29,5 +29,11 @@ class AdminCategoryManager extends CategoryManager
 		$wdm = AdminDataManager :: get_instance();
 		return $wdm->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
 	}
+	
+	function get_next_category_display_order($parent_id)
+	{
+		$wdm = AdminDataManager :: get_instance();
+		return $wdm->select_next_display_order($parent_id);
+	}
 }
 ?>
