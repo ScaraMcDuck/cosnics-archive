@@ -157,6 +157,11 @@ abstract class CategoryManagerComponent
 		return $this->get_parent()->get_category_form();
 	}
 	
+	function allowed_to_delete_category($category_id)
+	{
+		return $this->get_parent()->allowed_to_delete_category($category_id);
+	}
+	
 	static function factory($type, $parent)
 	{
 		$filename = dirname(__FILE__).'/component/'.DokeosUtilities :: camelcase_to_underscores($type).'.class.php';
