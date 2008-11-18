@@ -278,8 +278,10 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_move_to_category_action($publication)
 	{
-		//$categories = $this->browser->get_categories(true);
-		if(count($categories) > 1)
+		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $this->browser->get_parent()->get_course_id());
+		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, $this->browser->get_parent()->get_tool_id());
+		$count = WeblcmsDataManager :: get_instance()->count_learning_object_publication_categories(new AndCondition($conditions));
+		if($count > 1)
 		{
 			$url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
 			$link = '<a href="'.$url.'"><img src="'.Theme :: get_common_img_path().'action_move.png"  alt=""/></a>';
