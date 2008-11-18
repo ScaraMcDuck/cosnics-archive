@@ -19,7 +19,7 @@ class LearningObjectPublicationCategory extends PlatformCategory
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		$this->set_id($wdm->get_next_learning_object_publication_category_id());
-		$this->set_display_order($wdm->select_next_learning_object_publication_category_display_order($this->get_parent()));
+		$this->set_display_order($wdm->select_next_learning_object_publication_category_display_order($this));
 		return $wdm->create_learning_object_publication_category($this);
 	}
 	

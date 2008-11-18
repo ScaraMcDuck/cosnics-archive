@@ -19,12 +19,14 @@ abstract class CategoryManager
 	const PARAM_CATEGORY_ID = 'category_id';
 	const PARAM_DIRECTION = 'direction';
 	const PARAM_REMOVE_SELECTED_CATEGORIES = 'remove_selected_categories';
+	const PARAM_MOVE_SELECTED_CATEGORIES = 'move_selected_categories';
 	
 	const ACTION_BROWSE_CATEGORIES = 'browse_categories';
 	const ACTION_CREATE_CATEGORY = 'create_category';
 	const ACTION_UPDATE_CATEGORY = 'update_category';
 	const ACTION_DELETE_CATEGORY = 'delete_category';
 	const ACTION_MOVE_CATEGORY = 'move_category';
+	const ACTION_CHANGE_CATEGORY_PARENT = 'change_category_parent';
 	const ACTION_COPY_GENERAL_CATEGORIES = 'copy_general_categories';
 	
 	private $parent;
@@ -66,6 +68,9 @@ abstract class CategoryManager
 				break;
 			case self :: ACTION_MOVE_CATEGORY :
 				$component = CategoryManagerComponent :: factory('Mover', $this);
+				break;
+			case self :: ACTION_CHANGE_CATEGORY_PARENT :
+				$component = CategoryManagerComponent :: factory('ParentChanger', $this);
 				break;
 			case self :: ACTION_COPY_GENERAL_CATEGORIES :
 				$component = CategoryManagerComponent :: factory('GeneralCategoriesCopier', $this);
@@ -220,6 +225,12 @@ abstract class CategoryManager
 								    self :: PARAM_DIRECTION => $direction));
 	}
 	
+	function get_change_category_parent_url($category_id)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CHANGE_CATEGORY_PARENT,
+								    self :: PARAM_CATEGORY_ID => $category_id));
+	}
+	
 	function get_copy_general_categories_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_COPY_GENERAL_CATEGORIES));
@@ -229,7 +240,7 @@ abstract class CategoryManager
 	{
 		if (isset ($_POST['action']))
 		{
-			$selected_ids = $_POST['reservations_table'.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			$selected_ids = $_POST['category_table'.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 				
 			if (empty ($selected_ids))
 			{
@@ -242,7 +253,13 @@ abstract class CategoryManager
 			switch ($_POST['action'])
 			{
 				case self :: PARAM_REMOVE_SELECTED_CATEGORIES :
+					$this->set_parameter(self :: PARAM_ACTION, self :: ACTION_DELETE_CATEGORY);
 					$_GET[self :: PARAM_ACTION] = self :: ACTION_DELETE_CATEGORY;
+					$_GET[self :: PARAM_CATEGORY_ID] = $selected_ids;
+					break;
+				case self :: PARAM_MOVE_SELECTED_CATEGORIES :
+					$this->set_parameter(self :: PARAM_ACTION, self :: ACTION_CHANGE_CATEGORY_PARENT);
+					$_GET[self :: PARAM_ACTION] = self :: ACTION_CHANGE_CATEGORY_PARENT;
 					$_GET[self :: PARAM_CATEGORY_ID] = $selected_ids;
 					break;
 			}

@@ -88,6 +88,13 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 					'confirm' => true
 			);
 		}
+		else
+		{
+			$toolbar_data[] = array(
+					'label' => Translation :: get('Delete'),
+					'img' => Theme :: get_common_img_path() . 'action_delete_na.png',
+			);
+		}
 		
 		if($category->get_display_order() > 1)
 		{
@@ -120,6 +127,12 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 					'img' => Theme :: get_common_img_path() . 'action_down_na.png',
 			);
 		}
+		
+		$toolbar_data[] = array(
+				'href' => $this->browser->get_change_category_parent_url($category->get_id()),
+				'label' => Translation :: get('Move'),
+				'img' => Theme :: get_common_img_path() . 'action_move.png'
+		);
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
