@@ -56,9 +56,10 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		echo '<h4>'.Translation :: get('Links').'</h4>';
 		$this->show_links();
 		
-		echo '<h4>'.Translation :: get('Disabled').'</h4>';
+		
 		if($this->group_inactive)
 		{
+			echo '<h4>'.Translation :: get('DisabledTools').'</h4>';
 			$this->show_tools('disabled',$tools);
 		}
 		
