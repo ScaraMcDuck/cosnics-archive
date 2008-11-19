@@ -6,10 +6,10 @@ class MatchingQuestionDisplay extends QuestionDisplay
 {
 	function add_to($formvalidator)
 	{
-		parent :: add_to($formvalidator);
+		$formvalidator->addElement('html', parent :: display_header());
 		$answers = $this->get_answers();
 		
-		$formvalidator->addElement('html', '<p>'.Translation :: get('Answers').' :');
+		$formvalidator->addElement('html', '<p><b>'.Translation :: get('Answers').' :</b>');
 		$matches = $this->get_links($answers);
 		
 		foreach($answers as $answer)
@@ -18,7 +18,7 @@ class MatchingQuestionDisplay extends QuestionDisplay
 			$formvalidator->addElement('select', $name, $answer['answer']->get_description(), $this->get_values($matches));
 			//$formvalidator->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
 		}
-		$formvalidator->addElement('html', '</p><br/>'.Translation :: get('Matches').' :<p><br/>');
+		$formvalidator->addElement('html', '</p><b>'.Translation :: get('Matches').' :</b><p>');
 		
 		$i = 1;
 		foreach($this->sort($matches) as $answer)
@@ -26,7 +26,8 @@ class MatchingQuestionDisplay extends QuestionDisplay
 			$formvalidator->addElement('html', '('.$i.') :'.$answer['answer']->get_title().'<br/>');
 			$i++;
 		}
-		$formvalidator->addElement('html', '</p><br />');
+		$formvalidator->addElement('html', '</p>');
+		$formvalidator->addElement('html', $this->display_footer());
 	}
 	
 	function get_links($answers)

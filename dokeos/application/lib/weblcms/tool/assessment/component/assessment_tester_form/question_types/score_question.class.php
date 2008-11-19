@@ -6,7 +6,7 @@ class ScoreQuestionDisplay extends QuestionDisplay
 {
 	function add_to($formvalidator)
 	{
-		parent :: add_to($formvalidator);
+		$formvalidator->addElement('html', parent :: display_header());
 		$answers = $this->get_answers();
 		$minscore = $answers[0];
 		$maxscore = $answers[1];
@@ -20,6 +20,7 @@ class ScoreQuestionDisplay extends QuestionDisplay
 		}
 		$formvalidator->addElement('select',$this->get_clo_question()->get_ref().'_0', 'Score:',$scores);
 		$formvalidator->addElement('html', '<br />');
+		$formvalidator->addElement('html', $this->display_footer());
 	}
 }
 ?>
