@@ -67,4 +67,17 @@ $lang['install']['Rights'] = 'Rights';
 $lang['install']['FileSystem'] = 'Filesystem';
 $lang['install']['Finished'] = 'Finished';
 $lang['install']['SystemAnnouncements'] = 'System announcements';
+$lang['install']['InstallSuccess'] = 'Installation succesfull';
+$lang['install']['StorageUnitCreation'] = 'Storage unit creation';
+$lang['install']['DefaultLanguagesAdded'] = 'Default languages added';
+$lang['install']['DefaultSettingsAdded'] = 'Default settings added';
+$lang['install']['LearningObjectRegistration'] = 'Learning object registration';
+$lang['install']['AnonymousAccountCreated'] = 'Anonymous account created';
+$lang['install']['AdminAccountCreated'] = 'Administrator account created';
+$lang['install']['HomeCreated'] = 'Homepage created';
+$lang['install']['RegisteringApplication'] = 'Register application';
+$lang['install']['UnlinkedTrackers'] = 'Unlinked trackers';
+$lang['install']['Check'] = 'Check';
+$lang['install']['TrackersRegisteredToEvent'] = 'Trackers registered to event';
+$lang['install']['LocationsAdded'] = 'Locations added';
 ?>

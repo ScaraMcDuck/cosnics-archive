@@ -35,6 +35,6 @@ $lang['admin']['Create'] = 'Create';
 $lang['admin']['Build'] = 'Build';
 $lang['admin']['Manage'] = 'Manage';
 $lang['admin']['UserImport'] = 'Import users';
-$lang['admin']['CourseCategoriesManagement'] = 'Categories';
+$lang['admin']['CourseCategoryManagement'] = 'Categories';
 $lang['admin']['Sort'] = 'Sort';
 ?>
