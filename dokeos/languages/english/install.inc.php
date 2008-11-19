@@ -66,4 +66,5 @@ $lang['install']['Tracking'] = 'Reporting';
 $lang['install']['Rights'] = 'Rights';
 $lang['install']['FileSystem'] = 'Filesystem';
 $lang['install']['Finished'] = 'Finished';
+$lang['install']['SystemAnnouncements'] = 'System announcements';
 ?>
