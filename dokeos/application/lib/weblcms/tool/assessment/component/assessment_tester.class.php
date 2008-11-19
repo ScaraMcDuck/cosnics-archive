@@ -30,6 +30,9 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		if (!$tester_form->validate()) 
 		{
 			$this->display_header($trail);
+			$this->action_bar = $this->get_toolbar();
+			echo $this->action_bar->as_html();
+			
 			echo $tester_form->toHtml();
 			$this->display_footer();
 		} 
@@ -200,7 +203,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 				$clo_answers = $rdm->retrieve_complex_learning_object_items($condition);
 				while ($clo_answer = $clo_answers->next_result())
 				{
-					echo 'cloas'.$clo_answer->get_score().' ';
+					//echo 'cloas'.$clo_answer->get_score().' ';
 					$score += $clo_answer->get_score();
 				}	
 				return $score;
