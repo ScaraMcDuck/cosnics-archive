@@ -60,7 +60,7 @@ if (Authentication :: is_valid())
 	$categories = array ();
 	$root = new RepositoryCategory();
 	$root->set_id(0);
-	$root->set_name('Root');
+	$root->set_name(Translation :: get('MyRepository'));
 	$root->set_parent(-1);
 	$categories[-1] = array($root);
 	

@@ -19,6 +19,9 @@ class SystemAnnouncementPublicationForm extends FormValidator
     * Constant defining a form parameter
  	*/
  	
+	const TYPE_SINGLE = 1;
+	const TYPE_MULTI = 2;
+ 	
 	const PARAM_FOREVER = 'forever';
 	const PARAM_FROM_DATE = 'from_date';
 	const PARAM_TO_DATE = 'to_date';
@@ -39,6 +42,8 @@ class SystemAnnouncementPublicationForm extends FormValidator
 	 */
 	private $form_user;
 	
+	private $form_type;
+	
 	private $system_announcement_publication;
 
 	/**
@@ -48,12 +53,23 @@ class SystemAnnouncementPublicationForm extends FormValidator
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function SystemAnnouncementPublicationForm($learning_object, $form_user, $action)
+    function SystemAnnouncementPublicationForm($form_type, $learning_object, $form_user, $action)
     {
 		parent :: __construct('publish', 'post', $action);
+		$this->form_type = $form_type;
 		$this->learning_object = $learning_object;
 		$this->form_user = $form_user;
-		$this->build_form();
+		
+		switch($this->form_type)
+		{
+			case self :: TYPE_SINGLE:
+				$this->build_single_form();
+				break;
+			case self :: TYPE_MULTI:
+				$this->build_multi_form();
+				break;
+		}
+		$this->add_footer();
 		$this->setDefaults();
     }
 
@@ -70,6 +86,23 @@ class SystemAnnouncementPublicationForm extends FormValidator
 		$defaults[self :: PARAM_FOREVER] = 1;
 		parent :: setDefaults($defaults);
     }
+    
+    function build_single_form()
+    {
+    	$this->build_form();
+    }
+    
+    function build_multi_form()
+    {
+    	$this->build_form();    	
+    	$this->addElement('hidden', 'ids', serialize($this->learning_object));
+    }
+    
+    function add_footer()
+    {
+    	$this->addElement('submit', 'submit', Translation :: get('Ok'));
+    }
+    
 	/**
 	 * Builds the form by adding the necessary form elements.
 	 */
@@ -81,8 +114,6 @@ class SystemAnnouncementPublicationForm extends FormValidator
 
 		$this->add_forever_or_timewindow();
 		$this->addElement('checkbox', SystemAnnouncementPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
-		//$this->addElement('checkbox', SystemAnnouncementPublication :: PROPERTY_EMAIL_SENT, Translation :: get('SendByEMail'));
-		$this->addElement('submit', 'submit', Translation :: get('Ok'));
     }
 
 	/**
@@ -242,6 +273,60 @@ class SystemAnnouncementPublicationForm extends FormValidator
 		{
 			return false;
 		}
+    }
+    
+    function create_learning_object_publications()
+    {
+		$values = $this->exportValues();
+
+    	$ids = unserialize($values['ids']);
+    	
+    	foreach($ids as $id)
+    	{
+			if ($values[self :: PARAM_FOREVER] != 0)
+			{
+				$from = $to = 0;
+			}
+			else
+			{
+				$from = DokeosUtilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
+				$to = DokeosUtilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
+			}
+			$hidden = ($values[SystemAnnouncementPublication :: PROPERTY_HIDDEN] ? 1 : 0);
+			
+			if($values[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] == 1)
+			{
+				foreach($values[self::PARAM_TARGETS][self :: PARAM_TARGETS_TO] as $index => $target)
+				{
+					list($type,$id) = explode('-',$target);
+					if($type == self :: PARAM_TARGET_GROUP_PREFIX)
+					{
+						$groups[] = $id;
+					}
+					elseif($type == self :: PARAM_TARGET_USER_PREFIX)
+					{
+						$users[] = $id;
+					}
+				}
+			}
+	
+			$pub = new SystemAnnouncementPublication();
+			$pub->set_learning_object_id($id);
+			$pub->set_publisher($this->form_user->get_id());
+			$pub->set_published(time());
+			$pub->set_modified(time());
+			$pub->set_hidden($hidden);
+			$pub->set_from_date($from);
+			$pub->set_to_date($to);
+			$pub->set_target_groups($groups);
+			$pub->set_target_users($users);
+	
+			if (!$pub->create())
+			{
+				return false;
+			}
+    	}
+    	return true;
     }
 }
 ?>
