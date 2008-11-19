@@ -131,17 +131,33 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				echo '</div>';
 				echo '<div class="clear"></div>';
 				
-				
-				echo $this->display_introduction_text();
-				echo '<div class="clear"></div>';
-				
 				//Display menu
-				echo '<div style="margin:0px; width:20%; float:left;">';
+				$side = 1;
+				if($side == 1)
+				{
+					$float1 = 'float: left;';
+					$float2 = 'float: right;';
+					$margin = 'margin-left: -14px;';
+					$border = 'border: 1px solid black; border-left: 0px;';
+				}
+				else
+				{
+					$float1 = 'float: right;';
+					$float2 = 'float: left;';
+					$margin = 'margin-right: -14px;';
+					$border = 'border: 1px solid black; border-right: 0px;';
+				}
+				echo '<div id="menu" style="' . $margin . ' width:16%; ' . $float1 . ' background-color: #E5EDF9; ' . $border . '">';
+				echo '<script language="JavaScript>$(#menu).bind()</script>';
 				$renderer = ToolListRenderer::factory('Menu',$this);
 				$renderer->display();
 				echo '</div>';
 				
-				echo '<div style="width: 75%; float:right;">';
+				echo '<div style="width: 82%; ' . $float2 . '">';
+				
+				echo $this->display_introduction_text();
+				echo '<div class="clear"></div>';
+				
 				$renderer = ToolListRenderer::factory('FixedLocation',$this);
 				$renderer->display();
 				echo '</div>';
