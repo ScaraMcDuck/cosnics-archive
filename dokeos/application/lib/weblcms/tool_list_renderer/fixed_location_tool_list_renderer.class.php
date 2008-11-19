@@ -11,13 +11,8 @@ require_once('HTML/Table.php');
  */
 class FixedLocationToolListRenderer extends ToolListRenderer
 {
-	/**
-	 * Number of columns.
-	 */
-	const NUMBER_OF_COLUMNS = 3;
-	/**
-	 *
-	 */
+	private $number_of_columns = 2;
+	private $group_inactive;
 	private $is_course_admin;
 	/**
 	 * Constructor
@@ -26,8 +21,12 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 	function FixedLocationToolListRenderer($parent)
 	{
 		parent::ToolListRenderer($parent);
+		$course = $parent->get_course();
+		$this->number_of_columns = ($course->get_layout() % 2 == 0)?3:2;
+		$this->group_inactive = ($course->get_layout() > 2);
 		$this->is_course_admin = $this->get_parent()->get_course()->is_course_admin($this->get_parent()->get_user());
 	}
+	
 	// Inherited
 	function display()
 	{
@@ -36,18 +35,38 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		echo '<h4>'.Translation :: get('Tools').'</h4>';
 		foreach ($parent->get_registered_tools() as $tool)
 		{
-			$tools[$tool->section][] = $tool;
+			if($this->group_inactive)
+			{
+				if($tool->visible)
+				{
+					$tools[$tool->section][] = $tool;
+				}
+				else
+				{
+					$tools['disabled'][] = $tool;
+				}
+			}
+			else
+			{
+				$tools[$tool->section][] = $tool;
+			}
 		}
 		$this->show_tools('basic',$tools);
 
+		echo '<h4>'.Translation :: get('Links').'</h4>';
+		$this->show_links();
+		
+		echo '<h4>'.Translation :: get('Disabled').'</h4>';
+		if($this->group_inactive)
+		{
+			$this->show_tools('disabled',$tools);
+		}
+		
 		if ($this->is_course_admin)
 		{
 			echo '<h4>'.Translation :: get('CourseAdministration').'</h4>';
 			$this->show_tools('course_admin',$tools);
 		}
-		
-		echo '<h4>'.Translation :: get('Links').'</h4>';
-		$this->show_links();
 	}
 	/**
 	 * Show the tools of a given section
@@ -59,7 +78,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		$tools = $tools[$section];
 		$parent = $this->get_parent();
 		$table = new HTML_Table('style="width: 100%;"');
-		$table->setColCount(FixedLocationToolListRenderer::NUMBER_OF_COLUMNS);
+		$table->setColCount($this->number_of_columns);
 		$count = 0;
 		foreach ($tools as $index => $tool)
 		{
@@ -83,8 +102,8 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				$link_class=' class="invisible"';
 			}
 			$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'));
-			$row = $count/FixedLocationToolListRenderer::NUMBER_OF_COLUMNS;
-			$col = $count%FixedLocationToolListRenderer::NUMBER_OF_COLUMNS;
+			$row = $count/$this->number_of_columns;
+			$col = $count%$this->number_of_columns;
 			$html = array();
 			if($this->is_course_admin || $tool->visible)
 			{
@@ -103,7 +122,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				$html[] = '</a>';
 				
 				$table->setCellContents($row,$col,implode("\n",$html));
-				$table->updateColAttributes($col,'style="width: '.floor(100/FixedLocationToolListRenderer::NUMBER_OF_COLUMNS).'%;"');
+				$table->updateColAttributes($col,'style="width: '.floor(100/$this->number_of_columns).'%;"');
 				$count++;
 			}
 		}
@@ -118,7 +137,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($parent->get_course_id(), null, null, null, $condition);
 		
 		$table = new HTML_Table('style="width: 100%;"');
-		$table->setColCount(FixedLocationToolListRenderer::NUMBER_OF_COLUMNS);
+		$table->setColCount($this->number_of_columns);
 		$count = 0;
 		while($publication = $publications->next_result())
 		{
@@ -137,8 +156,8 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				$link_class=' class="invisible"';
 			}
 			$title = htmlspecialchars($publication->get_learning_object()->get_title());
-			$row = $count/FixedLocationToolListRenderer::NUMBER_OF_COLUMNS;
-			$col = $count%FixedLocationToolListRenderer::NUMBER_OF_COLUMNS;
+			$row = $count/$this->number_of_columns;
+			$col = $count%$this->number_of_columns;
 			$html = array();
 			if($this->is_course_admin || $publication->is_visible_for_target_users())
 			{
@@ -158,7 +177,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				$html[] = '</a>';
 				
 				$table->setCellContents($row,$col,implode("\n",$html));
-				$table->updateColAttributes($col,'style="width: '.floor(100/FixedLocationToolListRenderer::NUMBER_OF_COLUMNS).'%;"');
+				$table->updateColAttributes($col,'style="width: '.floor(100/$this->number_of_columns).'%;"');
 				$count++;
 			}
 		}

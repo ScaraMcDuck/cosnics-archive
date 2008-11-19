@@ -23,6 +23,7 @@
   <property name="subscribe" type="integer" length="1" default="1"/>
   <property name="unsubscribe" type="integer" length="1" default="1"/>
   <property name="theme" type="text" length="50"/>
+  <property name="layout" type="integer" length="1" default="1"/>
  </properties>
  <index name="code" type="primary">
   <indexproperty name="code"/>

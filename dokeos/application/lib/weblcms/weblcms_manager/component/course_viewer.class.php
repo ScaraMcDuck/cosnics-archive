@@ -131,8 +131,10 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				//Display menu
 				//$renderer = ToolListRenderer::factory('Menu',$this);
 				//$renderer->display();
+				echo '<div style="width: 100%;">';
 				$renderer = ToolListRenderer::factory('FixedLocation',$this);
 				$renderer->display();
+				echo '</div>';
 				$this->display_footer();
 				$wdm->log_course_module_access($this->get_course_id(),$this->get_user_id(),null);
 			}

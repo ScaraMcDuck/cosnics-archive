@@ -101,6 +101,8 @@ class CourseForm extends FormValidator {
 			$theme_options = array_merge($theme_options, Theme :: get_themes());
 			$this->addElement('select', Course :: PROPERTY_THEME, Translation :: get('Theme'), $theme_options);
 		}
+		
+		$this->addElement('select', Course :: PROPERTY_LAYOUT, Translation :: get('Layout'), Course :: get_layouts());
 
 		$course_access = array();
 		$course_access[] =& $this->createElement('radio', null, null, Translation :: get('CourseAccessOpenWorld'), COURSE_VISIBILITY_OPEN_WORLD);
@@ -160,6 +162,7 @@ class CourseForm extends FormValidator {
 			$course->set_theme($values[Course :: PROPERTY_THEME]);
 		}
 		
+		$course->set_layout($values[Course :: PROPERTY_LAYOUT]);
     	$course->set_visibility($values[Course :: PROPERTY_VISIBILITY]);
     	$course->set_subscribe_allowed($values[Course :: PROPERTY_SUBSCRIBE_ALLOWED]);
     	$course->set_unsubscribe_allowed($values[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED]);
@@ -190,7 +193,8 @@ class CourseForm extends FormValidator {
     	$course->set_visibility($values[Course :: PROPERTY_VISIBILITY]);
     	$course->set_subscribe_allowed($values[Course :: PROPERTY_SUBSCRIBE_ALLOWED]);
     	$course->set_unsubscribe_allowed($values[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED]);
-
+		$course->set_layout($values[Course :: PROPERTY_LAYOUT]);
+		
     	if ($course->create())
     	{
     		// TODO: Temporary function pending revamped roles&rights system
