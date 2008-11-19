@@ -28,46 +28,18 @@ class AssessmentTesterForm extends FormValidator
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id);
 		$clo_questions = $dm->retrieve_complex_learning_object_items($condition);
 		
+		$this->addElement('html', '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path(). 'learning_object/' .$assessment->get_icon_name().'.png);">');
+		$this->addElement('html', '<div class="title" style="font-size: 14px">');
+		$this->addElement('html', Translation :: get('Take assessment').': '.$assessment->get_title());
+		$this->addElement('html', '</div>');
+		$this->addElement('html', '<div class="description">');
+		$this->addElement('html', $assessment->get_description());
+		$this->addElement('html', '</div>');
+		$this->addElement('html', '</div>');
+		
 		while($clo_question = $clo_questions->next_result())
 		{
-			$question = $dm->retrieve_learning_object($clo_question->get_ref(), 'question');
-			$type = $question->get_question_type();
-			
-			switch($type)
-			{
-			case Question :: TYPE_OPEN:
-				$question_display = new OpenQuestionDisplay($clo_question);
-				break;
-			case Question :: TYPE_OPEN_WITH_DOCUMENT:
-				$question_display = new OpenQuestionWithDocumentDisplay($clo_question);
-				break;
-			case Question :: TYPE_DOCUMENT:
-				$question_display = new DocumentQuestionDisplay($clo_question);
-				break;
-			case Question :: TYPE_FILL_IN_BLANKS:
-				$question_display = new FillInBlanksQuestionDisplay($clo_question);
-				break;
-			case Question :: TYPE_MATCHING:
-				$question_display = new MatchingQuestionDisplay($clo_question);
-				break;
-			case Question :: TYPE_MULTIPLE_ANSWER:
-				$question_display = new MultipleAnswerQuestionDisplay($clo_question);
-				break;
-			case Question :: TYPE_MULTIPLE_CHOICE:
-				$question_display = new MultipleChoiceQuestionDisplay($clo_question);
-				break;
-			case Question :: TYPE_PERCENTAGE:
-				$question_display = new PercentageQuestionDisplay($clo_question);
-				break;
-			case Question :: TYPE_SCORE:
-				$question_display = new ScoreQuestionDisplay($clo_question);
-				break;
-			case Question :: TYPE_YES_NO:
-				$question_display = new YesNoQuestionDisplay($clo_question);
-				break;
-			default:
-				$question_display = null;
-			}
+			$question_display = QuestionDisplay :: factory($clo_question);
 			if (isset($question_display))
 				$question_display->add_to($this);
 				

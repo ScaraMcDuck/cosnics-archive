@@ -89,74 +89,16 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 	{
 		$datamanager = WeblcmsDataManager :: get_instance();
 		$uaid = $_GET[AssessmentTool :: PARAM_USER_ASSESSMENT];
+		
 		$url = $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid, AssessmentTool :: PARAM_ADD_FEEDBACK => '1'));
 		$user_assessment = $datamanager->retrieve_user_assessment($uaid);
-		$repdm = RepositoryDataManager :: get_instance();
-		$assessment = $repdm->retrieve_learning_object($user_assessment->get_assessment_id(), 'assessment');
-
 		$edit_rights = $this->is_allowed(EDIT_RIGHT);
-		switch ($assessment->get_assessment_type()) 
-		{
-			case Assessment::TYPE_ASSIGNMENT:
-				$subcomponent = new AssignmentResultsViewer($user_assessment, $edit_rights, $url);
-				break;
-			case Assessment::TYPE_EXERCISE:
-				$subcomponent = new ExerciseResultsViewer($user_assessment, $edit_rights, $url);
-				break;
-			case Assessment::TYPE_SURVEY:
-				$subcomponent = new SurveyResultsViewer($user_assessment, $edit_rights, $url);
-				break;
-			default:
-				$subcomponent = new ExerciseResultsViewer($user_assessment, $edit_rights, $url);
-				break;
-		}
+		$subcomponent = ResultsViewer :: factory($user_assessment, $edit_rights, $url);
 		$subcomponent->build();
 		
 		if ($subcomponent->validate() && $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 		{
-			echo 'wewts!';
-			$results = $subcomponent->exportValues();
-			print_r($results);
-			foreach ($results as $key => $value)
-			{
-				if (substr($key, 0, 5) == 'score')
-				{
-					$user_question_id = substr($key, 5);
-					//echo $user_question_id.' '.$value.'<br/>';
-					$condition = new EqualityCondition(UserAnswer :: PROPERTY_USER_QUESTION_ID, $user_question_id);
-					$user_answers = $datamanager->retrieve_user_answers($condition);
-					$user_answer = $user_answers->next_result();
-					$user_answer->set_score($value);
-					$datamanager->update_user_answer($user_answer);
-				}
-				else if (substr($key, 0, 2) == 'ex')
-				{
-					$user_question_id = substr($key, 2);
-					$user_question = $datamanager->retrieve_user_question($user_question_id);
-					if ($value != 0) {
-						$feedback_los = RepositoryDataManager :: get_instance()->retrieve_learning_objects('feedback');
-						while ($feedback_lo = $feedback_los->next_result())
-						{
-							$feedback_objs[] = $feedback_lo;
-						}
-						$user_question->set_feedback($feedback_objs[$value-1]->get_id());
-						//print_r($user_question);
-						$datamanager->update_user_question($user_question);
-					}
-					else
-					{
-						$user_question->set_feedback('');
-						//print_r($user_question);
-						$datamanager->update_user_question($user_question);
-					}
-				}
-			}
-			//update user assessment total score
-			$user_assessment->set_total_score(AssessmentToolTesterComponent :: calculate_score($user_assessment));
-			WeblcmsDataManager :: get_instance()->update_user_assessment($user_assessment);
-			//redirect
-			$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id());
-			$this->redirect(null, null, false, $params);
+			$this->handle_validated_form($subcomponent, $datamanager);
 		}
 		else 
 		{
@@ -171,6 +113,48 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			
 			$this->display_footer();
 		}
+	}
+	
+	function handle_validated_form($subcomponent, $datamanager)
+	{
+		$results = $subcomponent->exportValues();
+
+		foreach ($results as $key => $value)
+		{
+			if (substr($key, 0, 5) == 'score')
+			{
+				$user_question_id = substr($key, 5);
+				//echo $user_question_id.' '.$value.'<br/>';
+				$condition = new EqualityCondition(UserAnswer :: PROPERTY_USER_QUESTION_ID, $user_question_id);
+				$user_answers = $datamanager->retrieve_user_answers($condition);
+				$user_answer = $user_answers->next_result();
+				$user_answer->set_score($value);
+				$datamanager->update_user_answer($user_answer);
+			}
+			else if (substr($key, 0, 2) == 'ex')
+			{
+				$user_question_id = substr($key, 2);
+				$user_question = $datamanager->retrieve_user_question($user_question_id);
+				if ($value != 0) {
+					$feedback_los = RepositoryDataManager :: get_instance()->retrieve_learning_objects('feedback');
+					while ($feedback_lo = $feedback_los->next_result())
+					{
+						$feedback_objs[] = $feedback_lo;
+					}
+					$user_question->set_feedback($feedback_objs[$value-1]->get_id());
+					$datamanager->update_user_question($user_question);
+				}
+				else
+				{
+					$user_question->set_feedback('');
+					$datamanager->update_user_question($user_question);
+				}
+			}
+		}
+		$user_assessment->set_total_score(AssessmentToolTesterComponent :: calculate_score($user_assessment));
+		$datamanager->update_user_assessment($user_assessment);
+		$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id());
+		$this->redirect(null, null, false, $params);
 	}
 	
 	function display_header()

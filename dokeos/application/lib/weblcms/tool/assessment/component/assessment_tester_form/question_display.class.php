@@ -39,15 +39,7 @@ class QuestionDisplay
 		
 		return $answers;
 	}
-	
-	function display_learning_object($learning_object)
-	{
-		
-		
-		
-		//return implode("\n", $html);
-	}
-	
+
 	function display_header()
 	{
 		$clo_question = $this->get_clo_question();
@@ -72,26 +64,47 @@ class QuestionDisplay
 		
 		return implode("\n", $html);
 	}
-	
-	/*function render_attachments($learning_object)
-	{
-		if ($learning_object->supports_attachments())
+
+	static function factory($clo_question) {
+		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question');
+		$type = $question->get_question_type();
+			
+		switch($type)
 		{
-			$attachments = $learning_object->get_attached_learning_objects();
-			if(count($attachments)>0)
-			{
-				$html[] = '<ul class="attachments_list">';
-				DokeosUtilities :: order_learning_objects_by_title($attachments);
-				foreach ($attachments as $attachment)
-				{
-					$disp = LearningObjectDisplay :: factory($attachment);
-					$html[] = '<li><img src="'.Theme :: get_common_img_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
-				}
-				$html[] = '</ul>';
-				return implode("\n",$html);
-			}
+		case Question :: TYPE_OPEN:
+			$question_display = new OpenQuestionDisplay($clo_question);
+			break;
+		case Question :: TYPE_OPEN_WITH_DOCUMENT:
+			$question_display = new OpenQuestionWithDocumentDisplay($clo_question);
+			break;
+		case Question :: TYPE_DOCUMENT:
+			$question_display = new DocumentQuestionDisplay($clo_question);
+			break;
+		case Question :: TYPE_FILL_IN_BLANKS:
+			$question_display = new FillInBlanksQuestionDisplay($clo_question);
+			break;
+		case Question :: TYPE_MATCHING:
+			$question_display = new MatchingQuestionDisplay($clo_question);
+			break;
+		case Question :: TYPE_MULTIPLE_ANSWER:
+			$question_display = new MultipleAnswerQuestionDisplay($clo_question);
+			break;
+		case Question :: TYPE_MULTIPLE_CHOICE:
+			$question_display = new MultipleChoiceQuestionDisplay($clo_question);
+			break;
+		case Question :: TYPE_PERCENTAGE:
+			$question_display = new PercentageQuestionDisplay($clo_question);
+			break;
+		case Question :: TYPE_SCORE:
+			$question_display = new ScoreQuestionDisplay($clo_question);
+			break;
+		case Question :: TYPE_YES_NO:
+			$question_display = new YesNoQuestionDisplay($clo_question);
+			break;
+		default:
+			$question_display = null;
 		}
-		return '';
-	}*/
+		return $question_display;
+	}
 }
 ?>
