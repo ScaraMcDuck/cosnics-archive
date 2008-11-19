@@ -23,6 +23,7 @@ class LearningObjectPublisherFinderComponent extends PublisherFinderComponent
 		$form->addElement('hidden', Weblcms :: PARAM_ACTION);
 		$form->addElement('hidden', Weblcms :: PARAM_COURSE);
 		$form->addElement('hidden', Weblcms :: PARAM_TOOL);
+		$form->addElement('hidden', Weblcms :: PARAM_TOOL_ACTION);
 	}
 }
 ?>
