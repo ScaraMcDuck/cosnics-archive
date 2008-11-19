@@ -55,10 +55,6 @@ class MenuToolListRenderer extends ToolListRenderer
 	private function show_tools($tools)
 	{
 		$parent = $this->get_parent();
-		if( $this->type == MENU_TYPE_LIST_NAVIGATION)
-		{
-			$html[] = '<ul>';
-		}
 		
 		foreach ($tools as $index => $tool)
 		{
@@ -73,7 +69,7 @@ class MenuToolListRenderer extends ToolListRenderer
 				$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'));
 				if( $this->type == MENU_TYPE_LIST_NAVIGATION)
 				{
-					$html[] = '<li class="tool_list_menu">';
+					$html[] = '<div class="tool_list_menu">';
 				}
 				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>Weblcms :: ACTION_VIEW_COURSE,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
 				$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/> ';
@@ -82,14 +78,9 @@ class MenuToolListRenderer extends ToolListRenderer
 				{
 					$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
 					$html[] = $title;
-					$html[] = '</a>';
-					$html[] = '</li>';
+					$html[] = '</a></div>';
 				}
 			}
-		}
-		if( $this->type == MENU_TYPE_LIST_NAVIGATION)
-		{
-			$html[] = '</ul>';
 		}
 		echo implode("\n",$html);
 	}
