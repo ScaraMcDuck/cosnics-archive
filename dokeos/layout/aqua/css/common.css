@@ -2064,3 +2064,8 @@ div.block div.description_contains
 	margin-bottom: 0.3em;
 	clear: both;
 }
+
+div.padding_10
+{
+	padding: 10px;
+}

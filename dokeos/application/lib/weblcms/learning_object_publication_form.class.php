@@ -120,6 +120,7 @@ class LearningObjectPublicationForm extends FormValidator
 				$this->build_multi_form();
 				break;
 		}
+		$this->add_footer();
 		$this->setDefaults();
     }
     /**
@@ -174,8 +175,8 @@ class LearningObjectPublicationForm extends FormValidator
     
     function build_multi_form()
     {
-    	$this->build_form();
-    	//$this->addElement('hidden', 'ids', serialize($this->learning_object));
+    	$this->build_form();    	
+    	$this->addElement('hidden', 'ids', serialize($this->learning_object));
     }
     
     private $categories;
@@ -238,7 +239,11 @@ class LearningObjectPublicationForm extends FormValidator
 			$this->addElement('checkbox', self::PARAM_EMAIL, Translation :: get('SendByEMail'));
 		}
 		$this->addElement('checkbox', LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, Translation :: get('ShowOnHomepage'));
-		$this->addElement('submit', 'submit', Translation :: get('Ok'));
+    }
+    
+    function add_footer()
+    {
+    	$this->addElement('submit', 'submit', Translation :: get('Ok'));
     }
     /**
      * Updates a learning object publication using the values from the form.
@@ -367,7 +372,7 @@ class LearningObjectPublicationForm extends FormValidator
 				$pub->set_email_sent(true);
 			}
 			
-			if ($pub->update())
+			if (!$pub->update())
 			{
 				return false;
 			}
@@ -378,6 +383,84 @@ class LearningObjectPublicationForm extends FormValidator
     function create_learning_object_publications()
     {
     	$values = $this->exportValues();
+    	
+    	$ids = unserialize($values['ids']);
+    	
+    	foreach($ids as $id)
+    	{
+    		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($id);
+    		
+			if ($values[self :: PARAM_FOREVER] != 0)
+			{
+				$from = $to = 0;
+			}
+			else
+			{
+				$from = DokeosUtilities :: time_from_datepicker($values[self :: PARAM_FROM_DATE]);
+				$to = DokeosUtilities :: time_from_datepicker($values[self :: PARAM_TO_DATE]);
+			}
+			$hidden = ($values[self :: PARAM_HIDDEN] ? 1 : 0);
+			$category = $values[self :: PARAM_CATEGORY_ID];
+			$users = array ();
+			$course_groups = array ();
+			if($values[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] == 1)
+			{
+				foreach($values[self::PARAM_TARGETS][self :: PARAM_TARGETS_TO] as $index => $target)
+				{
+					list($type,$id) = explode('-',$target);
+					if($type == self :: PARAM_TARGET_COURSE_GROUP_PREFIX)
+					{
+						$course_groups[] = $id;
+					}
+					elseif($type == self :: PARAM_TARGET_USER_PREFIX)
+					{
+						$users[] = $id;
+					}
+				}
+			}
+			$course = $this->course->get_id();
+			$tool = $this->publisher->get_tool()->get_tool_id();
+			
+			if($tool == null)
+			{
+				$tool = 'introduction';
+			} 
+				
+			$dm = WeblcmsDataManager :: get_instance();
+			$displayOrder = $dm->get_next_learning_object_publication_display_order_index($course,$tool,$category);
+			$publisher = $this->user->get_id();
+			$modifiedDate = time();
+			$publicationDate = time();
+			$show_on_homepage = ($values[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
+			$pub = new LearningObjectPublication(null, $learning_object, $course, $tool, $category, $users, $course_groups, $from, $to, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, false, $show_on_homepage);
+			if (!$pub->create())
+			{
+				return false;
+			}
+			if($this->email_option && $values[self::PARAM_EMAIL])
+			{
+				$display = LearningObjectDisplay::factory($learning_object);
+				
+				$adm = AdminDataManager :: get_instance();
+				$site_name_setting = PlatformSetting :: get('site_name');
+				
+				$subject = '['.$site_name_setting->get_value().'] '.$learning_object->get_title();
+				$body = new html2text($display->get_full_html());
+				// TODO: send email to correct users/course_groups. For testing, the email is sent now to the publisher.
+				$user = $this->user;
+				$mail = Mail :: factory($learning_object->get_title(), $body->get_text(), $user->get_email());
+				
+				if($mail->send())
+				{
+					$pub->set_email_sent(true);
+				}
+				
+				if (!$pub->update())
+				{
+					return false;
+				}
+			}
+    	}
 		return true;
     }
 }

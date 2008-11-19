@@ -6,7 +6,6 @@ require_once dirname(__FILE__).'/../publisher_component.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repository_data_manager.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/learning_object_display.class.php';
 require_once dirname(__FILE__).'/../../../../common/dokeos_utilities.class.php';
-require_once dirname(__FILE__).'/publication_candidate_table/publication_candidate_table.class.php';
 
 /**
  * This class represents a encyclopedia publisher component which can be used
@@ -19,14 +18,9 @@ abstract class PublisherMultipublisherComponent extends PublisherComponent
 	 */
 	function as_html()
 	{
-		$ids = $_POST[PublicationCandidateTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-		
-		if (count($ids) > 0)
-		{
-			return $this->get_publications_form($ids);
-		}
+		return $this->get_publications_form();
 	}
 	
-	abstract function get_publications_form($ids);
+	abstract function get_publications_form();
 }
 ?>
