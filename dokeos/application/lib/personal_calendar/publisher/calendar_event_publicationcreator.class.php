@@ -24,7 +24,7 @@ class CalendarEventPublisherPublicationcreatorComponent extends PublisherPublica
 		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
 		
 		$form_action_parameters = array_merge($this->get_parameters(), array (CalendarEventPublisher :: PARAM_ID => $learning_object->get_id()));
-		$form = new CalendarEventPublicationForm($learning_object, $this->get_user(),$this->get_url($form_action_parameters));
+		$form = new CalendarEventPublicationForm(CalendarEventPublicationForm :: TYPE_SINGLE, $learning_object, $this->get_user(),$this->get_url($form_action_parameters));
 		if ($form->validate())
 		{
 			$failures = 0;

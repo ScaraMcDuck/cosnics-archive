@@ -16,6 +16,9 @@ class CalendarEventPublicationForm extends FormValidator
    /**#@+
     * Constant defining a form parameter
  	*/
+ 	
+	const TYPE_SINGLE = 1;
+	const TYPE_MULTI = 2;
 
 	/**#@-*/
 	/**
@@ -35,12 +38,23 @@ class CalendarEventPublicationForm extends FormValidator
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function CalendarEventPublicationForm($learning_object, $form_user, $action)
+    function CalendarEventPublicationForm($form_type, $learning_object, $form_user, $action)
     {
 		parent :: __construct('publish', 'post', $action);
+		$this->form_type = $form_type;
 		$this->learning_object = $learning_object;
 		$this->form_user = $form_user;
-		$this->build_form();
+		
+		switch($this->form_type)
+		{
+			case self :: TYPE_SINGLE:
+				$this->build_single_form();
+				break;
+			case self :: TYPE_MULTI:
+				$this->build_multi_form();
+				break;
+		}
+		$this->add_footer();
 		$this->setDefaults();
     }
 
@@ -55,13 +69,28 @@ class CalendarEventPublicationForm extends FormValidator
     	$defaults = array();
 		parent :: setDefaults($defaults);
     }
+    
+    function build_single_form()
+    {
+    	$this->build_form();
+    }
+    
+    function build_multi_form()
+    {
+    	$this->build_form();    	
+    	$this->addElement('hidden', 'ids', serialize($this->learning_object));
+    }
+    
 	/**
 	 * Builds the form by adding the necessary form elements.
 	 */
     function build_form()
     {
-
-		$this->addElement('submit', 'submit', Translation :: get('Ok'));
+    }
+    
+    function add_footer()
+    {
+    	$this->addElement('submit', 'submit', Translation :: get('Ok'));
     }
 
 	/**
@@ -85,6 +114,27 @@ class CalendarEventPublicationForm extends FormValidator
 		{
 			return false;
 		}
+    }
+    
+    function create_learning_object_publications()
+    {
+		$values = $this->exportValues();
+
+    	$ids = unserialize($values['ids']);
+    	
+    	foreach($ids as $id)
+    	{
+			$pub = new CalendarEventPublication();
+			$pub->set_calendar_event($id);
+			$pub->set_publisher($this->form_user->get_id());
+			$pub->set_published(time());
+	
+			if (!$pub->create())
+			{
+				return false;
+			}
+    	}
+    	return true;
     }
 }
 ?>
