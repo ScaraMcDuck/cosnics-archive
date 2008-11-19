@@ -30,6 +30,8 @@ class CalendarEventPublicationForm extends FormValidator
 	 * publication)
 	 */
 	private $form_user;
+	
+	private $form_type;
 
 	/**
 	 * Creates a new learning object publication form.

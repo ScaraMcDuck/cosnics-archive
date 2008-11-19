@@ -34,7 +34,7 @@ class CalendarEventPublisher extends Publisher
 		foreach ($publisher_actions as $publisher_action)
 		{
 			$out .= '<li><a';
-			if ($this->get_action() == $publisher_action)
+			if ($action == $publisher_action)
 			{
 				$out .= ' class="current"';
 			}			
