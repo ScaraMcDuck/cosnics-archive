@@ -69,21 +69,24 @@ class LearningObjectPublicationForm extends FormValidator
 	 */
     function LearningObjectPublicationForm($form_type, $learning_object, $publisher, $email_option = false, $course, $in_publisher = true, $extra_parameters = array())
     {
+    	if($publisher)
+    		$pub_param = $publisher->get_parameters();
+    		
     	$this->form_type = $form_type;
 		switch($this->form_type)
 		{
 			case self :: TYPE_SINGLE:
 		    	if(get_class($learning_object) == 'Introduction')
 		    	{
-		    		$parameters = array_merge($publisher->get_parameters(), array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $in_publisher?Tool :: ACTION_PUBLISH_INTRODUCTION:null));
+		    		$parameters = array_merge($pub_param, array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $in_publisher?Tool :: ACTION_PUBLISH_INTRODUCTION:null));
 		    	}
 		    	else
 		    	{
-		    		$parameters = array_merge($publisher->get_parameters(), array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $in_publisher?Tool :: ACTION_PUBLISH:null));
+		    		$parameters = array_merge($pub_param, array (LearningObjectPublisher :: PARAM_ID => $learning_object->get_id(), Tool :: PARAM_ACTION => $in_publisher?Tool :: ACTION_PUBLISH:null));
 		    	}
 				break;
 			case self :: TYPE_MULTI:
-				$parameters = array_merge($publisher->get_parameters(), array (Tool :: PARAM_ACTION => $in_publisher?Tool :: ACTION_PUBLISH:null));
+				$parameters = array_merge($pub_param, array (Tool :: PARAM_ACTION => $in_publisher?Tool :: ACTION_PUBLISH:null));
 				break;
 		}
     		
