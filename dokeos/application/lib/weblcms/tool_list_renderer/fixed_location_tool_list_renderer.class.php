@@ -116,8 +116,8 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			$html = array();
 			if($this->is_course_admin || $tool->visible)
 			{
-				$html[] = '<div id="tool_' . $tool->name . '" class="tool" style="display:inline">';
-				$html[] = '<div id="drag_' . $tool->name . '" style="display:inline; width: 20px; background-color: blue; cursor: pointer;">&nbsp;&nbsp;&nbsp;</div>';
+				//$html[] = '<div id="tool_' . $tool->name . '" class="tool" style="display:inline">';
+				//$html[] = '<div id="drag_' . $tool->name . '" style="display:inline; width: 20px; background-color: blue; cursor: pointer;">&nbsp;&nbsp;&nbsp;</div>';
 				
 				// Show visibility-icon
 				if ($this->is_course_admin && $section!= 'course_admin')
@@ -133,8 +133,8 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				$html[] = '&nbsp;';
 				$html[] = $title;
 				$html[] = '</a>';
-				$html[] = '</div>';
-				$html[] = '<script language="JavaScript">$("#tool_' . $tool->name . '").draggable({ handle: "div", revert: true, helper: "clone"});</script>';
+				//$html[] = '</div>';
+				//$html[] = '<script language="JavaScript">$("#tool_' . $tool->name . '").draggable({ handle: "div", revert: true, helper: "original"});</script>';
 				
 				$table->setCellContents($row,$col,implode("\n",$html));
 				$table->updateColAttributes($col,'style="width: '.floor(100/$this->number_of_columns).'%;"');
@@ -142,14 +142,12 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			}
 		}
 		$table->display();
-		echo $html[] = '<script language="JavaScript">$("#block_' . $section . '").droppable({ accept: ".tool", drop: function(ev, ui) { 
-       	ui.style.position="relative";
-       	ui.style.left="0";
-       	ui.style.top="0";
-       	$(this).append(ui); 
-    	} });</script>';
+		/*echo $html[] = '<script language="JavaScript">$("#block_' . $section . '").droppable({ accept: ".tool", drop: function(ev, ui) { 
+       	$(this).append($(ui.draggable));
+       	$(ui.draggable).parent.remove($(ui.draggable));
+    	} });</script>';*/
 	}
-	
+	//
 	private function show_links()
 	{
 		$parent = $this->get_parent();

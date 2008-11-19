@@ -121,17 +121,27 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				$wdm = WeblcmsDataManager :: get_instance();
 				$this->display_header($trail);
 				
-				echo $this->display_introduction_text();
-				echo '<div class="clear"></div>';
+				
 				//TODO: Depending on settings, display menu and/or shortcut icons
 				//Display shortcut icons
-				//$renderer = ToolListRenderer::factory('Menu',$this);
-				//$renderer->set_type(MenuToolListRenderer::MENU_TYPE_TOP_NAVIGATION);
-				//$renderer->display();
+				$renderer = ToolListRenderer::factory('Menu',$this);
+				$renderer->set_type(MenuToolListRenderer::MENU_TYPE_TOP_NAVIGATION);
+				echo '<div style="width: 100%; text-align: right;">';
+				$renderer->display();
+				echo '</div>';
+				echo '<div class="clear"></div>';
+				
+				
+				echo $this->display_introduction_text();
+				echo '<div class="clear"></div>';
+				
 				//Display menu
-				//$renderer = ToolListRenderer::factory('Menu',$this);
-				//$renderer->display();
-				echo '<div style="width: 100%;">';
+				echo '<div style="margin:0px; width:20%; float:left;">';
+				$renderer = ToolListRenderer::factory('Menu',$this);
+				$renderer->display();
+				echo '</div>';
+				
+				echo '<div style="width: 75%; float:right;">';
 				$renderer = ToolListRenderer::factory('FixedLocation',$this);
 				$renderer->display();
 				echo '</div>';

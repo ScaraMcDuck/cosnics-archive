@@ -62,7 +62,7 @@ class MenuToolListRenderer extends ToolListRenderer
 		
 		foreach ($tools as $index => $tool)
 		{
-			if(($tool->visible && $tool->section != 'course_admin') || $this->is_course_admin)
+			if((($tool->visible && $tool->section != 'course_admin') || $this->is_course_admin) && $tool->visible)
 			{
 				$new = '';
 				if($parent->tool_has_new_publications($tool->name))
@@ -75,7 +75,7 @@ class MenuToolListRenderer extends ToolListRenderer
 				{
 					$html[] = '<li>';
 				}
-				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
+				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>Weblcms :: ACTION_VIEW_COURSE,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
 				$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/> ';
 				$html[] = '</a>';
 				if( $this->type == MENU_TYPE_LIST_NAVIGATION)
