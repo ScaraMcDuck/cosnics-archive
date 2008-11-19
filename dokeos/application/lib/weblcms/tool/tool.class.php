@@ -183,6 +183,12 @@ abstract class Tool
 			}
 		}
 		$this->parent->display_header($breadcrumbtrail);
+		echo '<div class="clear"></div>';
+		$renderer = ToolListRenderer::factory('Menu',$this->parent);
+		$renderer->set_type(MenuToolListRenderer::MENU_TYPE_TOP_NAVIGATION);
+		echo '<div style="width: 100%; text-align: right;">';
+		$renderer->display();
+		echo '</div>';
 	}
 	/**
 	 * @see Application :: display_footer()
