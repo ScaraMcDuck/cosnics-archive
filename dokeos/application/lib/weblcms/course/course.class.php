@@ -44,6 +44,7 @@ class Course {
 	const PROPERTY_SUBSCRIBE_ALLOWED = 'subscribe';
 	const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe';
 	const PROPERTY_THEME = 'theme';
+	const PROPERTY_LAYOUT = 'layout';
 
 	// Remnants from the old Dokeos system
 	const PROPERTY_LAST_VISIT = 'last_visit';
@@ -52,9 +53,22 @@ class Course {
 	const PROPERTY_EXPIRATION_DATE = 'expiration_date';
 
 
+	const LAYOUT_2_COLUMNS = 1;
+	const LAYOUT_3_COLUMNS = 2;
+	const LAYOUT_2_COLUMNS_GROUP_INACTIVE = 3;
+	const LAYOUT_3_COLUMNS_GROUP_INACTIVE = 4;
+
 	private $id;
 	private $defaultProperties;
 
+
+	static function get_layouts()
+	{
+		return array(self :: LAYOUT_2_COLUMNS => translation :: get('TwoColumns'),
+					 self :: LAYOUT_3_COLUMNS => translation :: get('ThreeColumns'),
+					 self :: LAYOUT_2_COLUMNS_GROUP_INACTIVE => translation :: get('TwoColumnsGroupInactive'),
+					 self :: LAYOUT_3_COLUMNS_GROUP_INACTIVE => translation :: get('ThreeColumnsGroupInactive'));
+	}
 
 	/**
 	 * Creates a new course object.
@@ -103,7 +117,7 @@ class Course {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY, self :: PROPERTY_DB, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED, self :: PROPERTY_THEME);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_LAYOUT, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY, self :: PROPERTY_DB, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED, self :: PROPERTY_THEME);
 	}
 
 	/**
@@ -368,6 +382,16 @@ class Course {
 	function set_unsubscribe_allowed($subscribe)
 	{
 		$this->set_default_property(self :: PROPERTY_UNSUBSCRIBE_ALLOWED, $subscribe);
+	}
+	
+	function set_layout($layout)
+	{
+		$this->set_default_property(self :: PROPERTY_LAYOUT, $layout);
+	}
+	
+	function get_layout()
+	{
+		return $this->get_default_property(self :: PROPERTY_LAYOUT);
 	}
 	
 	/**
