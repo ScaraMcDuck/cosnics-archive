@@ -17,9 +17,7 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 	function DocumentBrowser($parent, $types)
 	{
 		parent :: __construct($parent, 'document');
-		$tree_id = 'pcattree';
-		$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
-		$parent->set_parameter($tree_id, $_GET[$tree_id]);
+		
 		if(isset($_GET['pid']))
 		{
 			$this->set_publication_id($_GET['pid']);
@@ -28,9 +26,13 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 		else
 		{
 			$renderer = new DocumentPublicationListRenderer($this);
+			$tree_id = 'pcattree';
+			$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
+			$parent->set_parameter($tree_id, $_GET[$tree_id]);
+			$this->set_publication_category_tree($tree);
 		}
 		$this->set_publication_list_renderer($renderer);
-		$this->set_publication_category_tree($tree);
+		
 	}
 
 	function get_publications($from, $count, $column, $direction)

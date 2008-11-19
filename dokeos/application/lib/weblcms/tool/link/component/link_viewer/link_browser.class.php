@@ -16,9 +16,6 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 	function LinkBrowser($parent, $types)
 	{
 		parent :: __construct($parent, 'link');
-		// TODO: Assign a dynamic tree name.
-		$tree_id = 'pcattree';
-		$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
 		
 		if(isset($_GET['pid']))
 		{
@@ -27,10 +24,13 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 		}
 		else
 		{
+			$tree_id = 'pcattree';
+			$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
 			$renderer = new LinkPublicationListRenderer($this);
+			$this->set_publication_category_tree($tree);
 		}
 		$this->set_publication_list_renderer($renderer);
-		$this->set_publication_category_tree($tree);
+		
 	}
 
 	function get_publications($from, $count, $column, $direction)
