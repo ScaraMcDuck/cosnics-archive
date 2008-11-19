@@ -129,7 +129,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				echo '<div style="width: 100%; text-align: right;">';
 				$renderer->display();
 				echo '</div>';
-				echo '<div class="clear"></div>';
+				echo '<div class="clear"></div><br />';
 				
 				//Display menu
 				$side = 1;
@@ -138,22 +138,25 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 					$float1 = 'float: left;';
 					$float2 = 'float: right;';
 					$margin = 'margin-left: -14px;';
-					$border = 'border: 1px solid black; border-left: 0px;';
+					$border = 'border: 1px solid lightgrey; border-left: 0px;';
+					$id = 'menu_left';
 				}
 				else
 				{
 					$float1 = 'float: right;';
 					$float2 = 'float: left;';
 					$margin = 'margin-right: -14px;';
-					$border = 'border: 1px solid black; border-right: 0px;';
+					$border = 'border: 1px solid lightgrey; border-right: 0px;';
+					$id = 'menu_right';
 				}
-				echo '<div id="menu" style="' . $margin . ' width:16%; ' . $float1 . ' background-color: #E5EDF9; ' . $border . '">';
-				echo '<script language="JavaScript>$(#menu).bind()</script>';
+
+				echo '<div id="' . $id . '" style="line-height: 20px; padding: 5px; padding-left: 20px;' . $margin . ' width:16%; ' . $float1 . ' background-color: #E5EDF9; ' . $border . '">';
 				$renderer = ToolListRenderer::factory('Menu',$this);
 				$renderer->display();
 				echo '</div>';
+			    echo '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/menu_bar.js' .'"></script>';
 				
-				echo '<div style="width: 82%; ' . $float2 . '">';
+				echo '<div id="mainbox" style="min-width: 80%; ' . $float2 . '">';
 				
 				echo $this->display_introduction_text();
 				echo '<div class="clear"></div>';
