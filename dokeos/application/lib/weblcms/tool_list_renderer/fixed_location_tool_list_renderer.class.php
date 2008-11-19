@@ -32,7 +32,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 	{
 		$parent = $this->get_parent();
 		$tools = array ();
-		echo '<h4>'.Translation :: get('Tools').'</h4>';
+		//echo '<h4>'.Translation :: get('Tools').'</h4>';
 		foreach ($parent->get_registered_tools() as $tool)
 		{
 			if($this->group_inactive)
@@ -51,23 +51,31 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				$tools[$tool->section][] = $tool;
 			}
 		}
-		$this->show_tools('basic',$tools);
-
-		echo '<h4>'.Translation :: get('Links').'</h4>';
-		$this->show_links();
 		
+		echo $this->display_block_header(Translation :: get('Tools'));
+		$this->show_tools('basic',$tools);
+		echo $this->display_block_footer();
+
+		//echo '<h4>'.Translation :: get('Links').'</h4>';
+		$this->show_links();
 		
 		if($this->group_inactive)
 		{
-			echo '<h4>'.Translation :: get('DisabledTools').'</h4>';
+			//echo '<h4>'.Translation :: get('DisabledTools').'</h4>';
+			echo $this->display_block_header(Translation :: get('DisabledTools'));
 			$this->show_tools('disabled',$tools);
+			echo $this->display_block_footer();
 		}
 		
 		if ($this->is_course_admin)
 		{
-			echo '<h4>'.Translation :: get('CourseAdministration').'</h4>';
+			//echo '<h4>'.Translation :: get('CourseAdministration').'</h4>';
+			echo $this->display_block_header(Translation :: get('CourseAdministration'));
 			$this->show_tools('course_admin',$tools);
+			echo $this->display_block_footer();
 		}
+		
+		echo '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' .'"></script>';
 	}
 	/**
 	 * Show the tools of a given section
@@ -137,6 +145,9 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, 1);
 		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($parent->get_course_id(), null, null, null, $condition);
 		
+		if($publications->size() > 0)
+			echo $this->display_block_header(Translation :: get('Links'));
+		
 		$table = new HTML_Table('style="width: 100%;"');
 		$table->setColCount($this->number_of_columns);
 		$count = 0;
@@ -183,6 +194,32 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			}
 		}
 		$table->display();
+		
+		if($publications->size() > 0)
+			echo $this->display_block_footer();
+	}
+	
+	function display_block_header($block_name)
+	{
+		$html = array();
+		
+		$html[] = '<div class="block" id="block_'. $block_name .'" style="background-image: url('.Theme :: get_img_path().'block_weblcms.png);">';
+		$html[] = '<div class="title">'. $block_name;
+		$html[] = '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible" style="display: none;") src="'.Theme :: get_common_img_path().'action_invisible.png" /></a></div>';
+		$html[] = '<div class="description">';
+		
+		return implode ("\n", $html);
+	}
+	
+	function display_block_footer()
+	{
+		$html = array();
+		
+		$html[] = '<div style="clear: both;"></div>';
+		$html[] = '</div>';
+		$html[] = '</div>';
+		
+		return implode ("\n", $html);
 	}
 }
 ?>
