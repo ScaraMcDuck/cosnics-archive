@@ -34,10 +34,11 @@ class FillInBlanksQuestionResult extends QuestionResult
 			$answer_lines[] = $line;
 		}
 		$this->display_answers($answer_lines);
-		$this->add_feedback_controls();
-		$this->display_footer();
+		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
+			$this->add_feedback_controls();
 		
-		//return implode('<br/>', $html);
+		$this->display_feedback();
+		$this->display_footer();
 	}
 	
 	function display_survey()

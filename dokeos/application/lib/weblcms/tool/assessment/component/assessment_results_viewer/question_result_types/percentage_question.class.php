@@ -14,10 +14,11 @@ class PercentageQuestionResult extends QuestionResult
 		$this->display_score($score_line);
 		
 		$this->display_answers();
-		$this->add_feedback_controls();
+		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
+			$this->add_feedback_controls();
+			
+		$this->display_feedback();
 		$this->display_footer();
-		
-		//return implode('<br/>', $html);
 	}
 	
 	function display_survey()

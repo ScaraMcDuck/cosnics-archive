@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../question_display.class.php';
 
-class OpenQuestionWithDocumentDisplay extends QuestionDisplay
+class DocumentQuestionDisplay extends QuestionDisplay
 {
 	function add_to($formvalidator) 
 	{

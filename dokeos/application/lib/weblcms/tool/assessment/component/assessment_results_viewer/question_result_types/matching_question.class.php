@@ -39,10 +39,11 @@ class MatchingQuestionResult extends QuestionResult
 			$answer_lines[] = $line;
 		}
 		$this->display_answers($answer_lines);
-		$this->add_feedback_controls();
+		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
+			$this->add_feedback_controls();
+			
+		$this->display_feedback();
 		$this->display_footer();
-		
-		//return implode('<br/>', $html);
 	}
 	
 	function display_survey()

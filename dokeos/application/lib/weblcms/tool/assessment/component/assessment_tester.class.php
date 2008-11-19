@@ -148,7 +148,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		return (Score :: factory($answer, $user_answer, $user_question)->get_score());
 	}
 	
-	function calculate_score($user_assessment)
+	static function calculate_score($user_assessment)
 	{
 		$score = 0;
 		$db = WeblcmsDataManager :: get_instance();
@@ -157,15 +157,15 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		while ($user_question = $user_questions->next_result())
 		{
 			print_r($user_question);
-			$score += $this->calculate_question_score($user_question);
+			$score += self :: calculate_question_score($user_question);
 		}
 		return $score;
 	}
 	
-	function calculate_question_score($user_question)
+	static function calculate_question_score($user_question)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		$maxscore = $this->get_all_score($user_question);
+		$maxscore = self :: get_all_score($user_question);
 		//echo 'max'.$maxscore.'<br/>';
 		$condition = new EqualityCondition(UserAnswer :: PROPERTY_USER_QUESTION_ID, $user_question->get_id());
 		$user_answers = WeblcmsDataManager :: get_instance()->retrieve_user_answers($condition);
@@ -180,7 +180,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		return $score;
 	}
 	
-	function get_all_score($user_question)
+	static function get_all_score($user_question)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		$lo_question = $rdm->retrieve_learning_object($user_question->get_question_id());
