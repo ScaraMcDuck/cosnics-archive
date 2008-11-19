@@ -23,19 +23,20 @@ class AnnouncementBrowser extends LearningObjectPublicationBrowser
 	function AnnouncementBrowser($parent)
 	{
 		parent :: __construct($parent, 'announcement');
-		/*if(isset($_GET['pid']) && $parent->get_action() == 'view')
+		if(isset($_GET['pid']) && $parent->get_action() == 'view')
 		{
 			$this->set_publication_id($_GET['pid']);
+			$parent->set_parameter(Tool :: PARAM_ACTION, AnnouncementTool :: ACTION_VIEW_ANNOUNCEMENTS);
 			$renderer = new LearningObjectPublicationDetailsRenderer($this);
 		}
 		else
-		{ */
+		{ 
 			$renderer = new ListLearningObjectPublicationListRenderer($this);
 			$actions = array(Tool :: ACTION_DELETE => Translation :: get('Delete selected'), 
 						 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
 						 Tool :: ACTION_SHOW => Translation :: get('Show'));
 			$renderer->set_actions($actions);
-		//}
+		}
 		
 		$this->set_publication_list_renderer($renderer);
 	}

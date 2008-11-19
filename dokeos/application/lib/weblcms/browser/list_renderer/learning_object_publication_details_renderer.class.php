@@ -21,7 +21,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$dm = WeblcmsDataManager :: get_instance();
 		$publication = $dm->retrieve_learning_object_publication($publication_id);
 		$form = LearningObjectForm::factory(LearningObjectForm :: TYPE_CREATE,new AbstractLearningObject('feedback',Session :: get_user_id()),'new_feedback','post',$this->browser->get_url(array('pid'=>$this->browser->get_publication_id())));
-		//$this->browser->get_parent()->set_parameter('pid',$publication_id);
+		$this->browser->get_parent()->set_parameter('pid',$publication_id);
 		//$pub = new LearningObjectPublisher($this->browser->get_parent(), 'feedback', true);
 				
 		if($form->validate())
@@ -30,15 +30,16 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 			$feedback = $form->create_learning_object();
 			//creation publication feedback object
 			$publication_feedback= new LearningObjectPublicationFeedback(null, $feedback, $this->browser->get_course_id(), $publication->get_tool().'_feedback', $this->browser->get_publication_id(),$this->browser->get_user_id(), time(), 0, 0);
+			$publication_feedback->set_show_on_homepage(0);
 			$publication_feedback->create();
 			$html[] = Display::display_normal_message(Translation :: get('FeedbackAdded'),true);
 		}
 		
-		$html[] = Translation :: get('LearningObjectPublicationDetails');
+		$html[] = '<h3>' . Translation :: get('LearningObjectPublicationDetails') . '</h3>';
 		$html[] = $this->render_publication($publication);
-		$html[] = $this->render_publication_feedback($publication);
-		$html[] = '<div class="title">'.Translation :: get('LearningObjectPublicationAddFeedback').'</div>';
+		$html[] = '<h3>' . '<div class="title">'.Translation :: get('LearningObjectPublicationAddFeedback').'</div></h3>';
 		$html[] = $form->toHtml();
+		$html[] = $this->render_publication_feedback($publication);
 		//$html[] = $pub->as_html();
 		return implode("\n", $html);
 	}
@@ -91,7 +92,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		
 		if(count($publication_feedback_array) > 0)
 		{
-			$html[] = Translation :: get('LearningObjectPublicationListFeedback');
+			$html[] = '<h3>' . Translation :: get('LearningObjectPublicationListFeedback') . '</h3>';
 			$renderer = new ListPublicationFeedbackListRenderer($this->browser,$publication_feedback_array);
 			$html[] = $renderer->as_html();
 		}
