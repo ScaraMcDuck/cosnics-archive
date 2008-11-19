@@ -69,11 +69,11 @@ class MenuToolListRenderer extends ToolListRenderer
 				{
 					$new = '_new';
 				}
-				$tool_image = 'tool_' . $tool->name . $new . '.png';
+				$tool_image = 'tool_mini_' . $tool->name . $new . '.png';
 				$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'));
 				if( $this->type == MENU_TYPE_LIST_NAVIGATION)
 				{
-					$html[] = '<li>';
+					$html[] = '<li class="tool_list_menu">';
 				}
 				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>Weblcms :: ACTION_VIEW_COURSE,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
 				$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/> ';
