@@ -5,13 +5,14 @@ abstract class ResultsViewer extends FormValidator
 	private $user_assessment;
 	private $edit_rights;
 	
-	function ResultsViewer($user_assessment, $edit_rights)
+	function ResultsViewer($user_assessment, $edit_rights, $url)
 	{
+		parent :: __construct('assessment', 'post', $url);
 		$this->user_assessment = $user_assessment;
 		$this->edit_rights = $edit_rights;
 	}
 	
-	abstract function to_html();
+	abstract function build();
 	
 	function get_user_assessment()
 	{

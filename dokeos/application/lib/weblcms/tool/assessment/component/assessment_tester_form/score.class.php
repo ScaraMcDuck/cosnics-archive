@@ -9,6 +9,7 @@ require_once dirname(__FILE__).'/score_types/percentage_score.class.php';
 require_once dirname(__FILE__).'/score_types/score_score.class.php';
 require_once dirname(__FILE__).'/score_types/yes_no_score.class.php';
 require_once dirname(__FILE__).'/score_types/matching_score.class.php';
+require_once dirname(__FILE__).'/score_types/document_score.class.php';
 
 abstract class Score
 {
@@ -51,6 +52,9 @@ abstract class Score
 				break;
 			case Question :: TYPE_OPEN_WITH_DOCUMENT:
 				$score_type = new OpenQuestionWithDocumentScore($answer, $user_answer, $question);
+				break;
+			case Question :: TYPE_DOCUMENT:
+				$score_type = new DocumentScore($answer, $user_answer, $question);
 				break;
 			case Question :: TYPE_FILL_IN_BLANKS:
 				$score_type = new FillInBlanksScore($answer, $user_answer, $question);

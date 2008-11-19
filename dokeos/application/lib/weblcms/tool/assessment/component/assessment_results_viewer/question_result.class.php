@@ -84,9 +84,16 @@ abstract class QuestionResult
 	
 	function add_feedback_controls()
 	{
-		$this->formvalidator->addElement('html', '<br/>Add feedback:<br/>');
-		$this->formvalidator->addElement('html_editor', 'new'.$this->user_question->get_id());
-		$this->formvalidator->addElement('select', 'ex'.$this->user_question->get_id(), Translation :: get('Select a feedback object:'), array());
+		$this->formvalidator->addElement('html', '<br/>'.Translation :: get("Add feedback").':<br/>');
+		//$this->formvalidator->addElement('html_editor', 'new'.$this->user_question->get_id());
+		
+		$lo_feedback_rs = RepositoryDataManager :: get_instance()->retrieve_learning_objects('feedback');
+		$feedback_objects[] = Translation :: get('No feedback');
+		while ($lo_feedback = $lo_feedback_rs->next_result())
+		{
+			$feedback_objects[] = $lo_feedback->get_id();
+		}
+		$this->formvalidator->addElement('select', 'ex'.$this->user_question->get_id(), Translation :: get('Select a feedback object:'), $feedback_objects);
 	}
 	
 	function add_score_controls($max_score)
@@ -113,8 +120,45 @@ abstract class QuestionResult
 	{
 		$html[] = '<div class="description">';
 		$html[] = $score_line.'<br/><br/>';
-		
+		$html[] = '</div>';
 		$this->formvalidator->addElement('html', implode("\n", $html));
+	}
+	
+	function display_feedback()
+	{
+		$this->formvalidator->addElement('html', '<br/><br/><div class="title">Feedback:</div>');
+		$feedback_id = $this->user_question->get_feedback();
+		//echo $feedback_id;
+		if ($feedback_id != null)
+		{
+			$feedback_lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($feedback_id, 'feedback');
+			$this->formvalidator->addElement('html', '<div class="description">'.$feedback_lo->get_description().$this->render_attachments($feedback_lo).'</div>');
+		}
+		else
+			$this->formvalidator->addElement('html', '<div class="description">No feedback yet</div>');
+	}
+	
+	function render_attachments($object)
+	{
+		if ($object->supports_attachments())
+		{
+			$attachments = $object->get_attached_learning_objects();
+			if(count($attachments)>0)
+			{
+				//$html[] = '<b>Attachments:</b><br/><br/>';
+				$html[] = '<ul class="attachments_list">';
+				DokeosUtilities :: order_learning_objects_by_title($attachments);
+				foreach ($attachments as $attachment)
+				{
+					$disp = LearningObjectDisplay :: factory($attachment);
+					//$html[] = '<li><img src="'.Theme :: get_common_img_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+					$html[] = '<li><img src="'.Theme :: get_common_img_path().'/action_attachment.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+				}
+				$html[] = '</ul>';
+				return implode("\n",$html);
+			}
+		}
+		return '';
 	}
 	
 	function display_answers($answer_lines = null, $numbered = true)
@@ -127,7 +171,7 @@ abstract class QuestionResult
 		{	
 			if (sizeof($answer_lines) == 1)
 			{
-				$this->formvalidator->addElement('html', Translation :: get('Answers').': <br/><br/>'.$answer_lines[0]);
+				$this->formvalidator->addElement('html', '<div class="title">'.Translation :: get('Answers').': </div>'.$answer_lines[0]);
 			}
 			else 
 			{
@@ -146,14 +190,14 @@ abstract class QuestionResult
 				else 
 					$list_items .= '</ul>';
 				
-				$this->formvalidator->addElement('html', Translation :: get('Answers').': <br/>'.$list_items);
+				$this->formvalidator->addElement('html', '<div class="title">'.Translation :: get('Answers').': </div><div class="description">'.$list_items.'</div>');
 			}
 		}
 	}
 	
 	function display_footer()
 	{
-		$this->formvalidator->addElement('html', '<br/></div></div>');
+		$this->formvalidator->addElement('html', '</div>');
 	}
 	
 	static function create_question_result($formvalidator, $user_question, $edit_rights)

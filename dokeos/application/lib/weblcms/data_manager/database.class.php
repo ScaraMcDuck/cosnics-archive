@@ -2353,7 +2353,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function update_user_answer($user_answer)
 	{
 		$condition = new EqualityCondition(UserAnswer :: PROPERTY_ID, $user_answer->get_id());
-		return $this->db->update(UserAnswer :: get_table_name(), $condition);
+		return $this->db->update($user_answer, $condition);
+		
 	}
 	
 	function retrieve_user_assessments($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null) 
@@ -2388,8 +2389,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function update_user_assessment($user_assessment)
 	{
-		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ID, $user_answer->get_id());
-		return $this->db->update(UserAssessment :: get_table_name(), $condition);
+		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ID, $user_assessment->get_id());
+		return $this->db->update($user_assessment, $condition);
 	}
 	
 	function retrieve_user_questions($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null) 
@@ -2423,8 +2424,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function update_user_question($user_question)
 	{
-		$condition = new EqualityCondition(UserQuestion :: PROPERTY_ID, $user_answer->get_id());
-		return $this->db->update(UserQuestion :: get_table_name(), $condition);
+		$condition = new EqualityCondition(UserQuestion :: PROPERTY_ID, $user_question->get_id());
+		return $this->db->update($user_question, $condition);
 	}
 	
 	function get_num_user_assessments($assessment)

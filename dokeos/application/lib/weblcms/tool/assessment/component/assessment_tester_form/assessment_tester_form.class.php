@@ -10,6 +10,7 @@ require_once dirname(__FILE__).'/question_types/matching_question.class.php';
 require_once dirname(__FILE__).'/question_types/percentage_question.class.php';
 require_once dirname(__FILE__).'/question_types/score_question.class.php';
 require_once dirname(__FILE__).'/question_types/yes_no_question.class.php';
+require_once dirname(__FILE__).'/question_types/document_question.class.php';
 
 class AssessmentTesterForm extends FormValidator
 {
@@ -39,6 +40,9 @@ class AssessmentTesterForm extends FormValidator
 				break;
 			case Question :: TYPE_OPEN_WITH_DOCUMENT:
 				$question_display = new OpenQuestionWithDocumentDisplay($clo_question);
+				break;
+			case Question :: TYPE_DOCUMENT:
+				$question_display = new DocumentQuestionDisplay($clo_question);
 				break;
 			case Question :: TYPE_FILL_IN_BLANKS:
 				$question_display = new FillInBlanksQuestionDisplay($clo_question);

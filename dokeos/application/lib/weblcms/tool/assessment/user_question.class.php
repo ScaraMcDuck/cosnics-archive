@@ -6,6 +6,7 @@ class UserQuestion
 	const PROPERTY_USER_ASSESSMENT_ID = 'user_assessment_id';
 	const PROPERTY_QUESTION_ID = 'question_id';
 	const PROPERTY_WEIGHT = 'weight';
+	const PROPERTY_FEEDBACK = 'feedback';
 	
 	const TABLE_NAME = 'user_question';
 	
@@ -23,7 +24,8 @@ class UserQuestion
 		self :: PROPERTY_ID,
 		self :: PROPERTY_USER_ASSESSMENT_ID,
 		self :: PROPERTY_QUESTION_ID,
-		self :: PROPERTY_WEIGHT
+		self :: PROPERTY_WEIGHT,
+		self :: PROPERTY_FEEDBACK
 		);
 	}
 	
@@ -72,6 +74,11 @@ class UserQuestion
 		return $this->get_default_property(self :: PROPERTY_WEIGHT);
 	}
 	
+	function get_feedback()
+	{
+		return $this->get_default_property(self :: PROPERTY_FEEDBACK);
+	}
+	
 	function set_user_test_id($value)
 	{
 		$this->set_default_property(self :: PROPERTY_USER_ASSESSMENT_ID, $value);
@@ -85,6 +92,11 @@ class UserQuestion
 	function set_weight($value)
 	{
 		$this->set_default_property(self :: PROPERTY_WEIGHT, $value);
+	}
+	
+	function set_feedback($value)
+	{
+		$this->set_default_property(self :: PROPERTY_FEEDBACK, $value);
 	}
 	
 	function create() 
