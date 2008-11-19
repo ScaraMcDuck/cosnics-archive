@@ -29,7 +29,8 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
 		
 		echo '<br /><a name="top"></a>';
 		//echo $this->perform_requested_actions();
-		echo $this->display_introduction_text();
+		if(!isset($_GET['pid']))
+			echo $this->display_introduction_text();
 		echo $this->action_bar->as_html() . '<br />';
 		echo '<div style="width:100%; float:right;">';
 		echo $browser->as_html();
@@ -42,9 +43,12 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
-		$action_bar->set_search_url($this->get_url());
+		if(!isset($_GET['pid']))
+		{
+			$action_bar->set_search_url($this->get_url());
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_img_path().'action_publish.png', $this->get_url(array(DescriptionTool :: PARAM_ACTION => DescriptionTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		}
 		
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_img_path().'action_publish.png', $this->get_url(array(DescriptionTool :: PARAM_ACTION => DescriptionTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		if(!$this->introduction_text)

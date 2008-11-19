@@ -149,14 +149,21 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 	}
 	public function as_html()
 	{
-		$minimonthcalendar = new MiniMonthCalendarLearningObjectPublicationListRenderer($this);
-		$minimonthcalendar->set_display_time($this->time);
-		$html[] = '<div style="float: left; width: 20%;">';
-		$html[] =  $minimonthcalendar->as_html();
-		$html[] =  '</div>';
-		$html[] =  '<div style="float: left; width: 80%;">';
-		$html[] = parent::as_html();
-		$html[] = '</div>';
+		if(!isset($_GET['pid']))
+		{
+			$minimonthcalendar = new MiniMonthCalendarLearningObjectPublicationListRenderer($this);
+			$minimonthcalendar->set_display_time($this->time);
+			$html[] = '<div style="float: left; width: 20%;">';
+			$html[] =  $minimonthcalendar->as_html();
+			$html[] =  '</div>';
+			$html[] =  '<div style="float: left; width: 80%;">';
+			$html[] = parent::as_html();
+			$html[] = '</div>';
+		}
+		else
+		{
+			$html[] = parent::as_html();
+		}
 		return implode("\n",$html);
 	}
 }
