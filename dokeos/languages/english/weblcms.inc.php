@@ -234,4 +234,10 @@ $lang['weblcms']['WikiToolTitle'] = 'Wiki';
 $lang['weblcms']['StatisticsToolTitle'] = 'Statistics';
 $lang['weblcms']['AssessmentToolTitle'] = 'Assessments';
 $lang['weblcms']['PublishIntroductionText'] = 'Publish introduction text';
+$lang['weblcms']['Introduction'] = 'Course introduction';
+$lang['weblcms']['Layout'] = 'Layout';
+$lang['weblcms']['TwoColumns'] = 'Two columns';
+$lang['weblcms']['ThreeColumns'] = 'Three columns';
+$lang['weblcms']['TwoColumnsGroupInactive'] = 'Two columns, group inactive';
+$lang['weblcms']['ThreeColumnsGroupInactive'] = 'Three columns, group inactive';
 ?>
