@@ -204,11 +204,15 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
 			);
 			
-			$html[] = '<div class="learning_object">';
+			$html = array();
+		
+			$html[] = '<div class="block" id="block_introduction" style="background-image: url('.Theme :: get_img_path().'block_weblcms.png);">';
+			$html[] = '<div class="title">'. Translation :: get('Introduction');
+			$html[] = '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible" style="display: none;") src="'.Theme :: get_common_img_path().'action_invisible.png" /></a></div>';
 			$html[] = '<div class="description">';
 			$html[] = $introduction_text->get_learning_object()->get_description();
+			$html[] = '<div style="clear: both;"></div>';
 			$html[] = '</div>';
-			$html[] = DokeosUtilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
 			$html[] = '</div>';
 			$html[] = '<br />';
 		}
