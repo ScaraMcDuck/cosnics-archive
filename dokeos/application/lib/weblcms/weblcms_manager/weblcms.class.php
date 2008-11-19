@@ -427,7 +427,7 @@ class Weblcms extends WebApplication
 		
 		if (isset ($this->tool_class))
 		{
-			echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
+			/*echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
 			echo '<form method="get" action="'.$this->get_url().'" style="display: inline;">';
 			echo '<input type="hidden" name="'.self :: PARAM_ACTION.'" value="courseviewer" />';
 			echo '<input type="hidden" name="'.self :: PARAM_COURSE.'" value="'. $this->get_course_id() .'" />';
@@ -449,7 +449,7 @@ class Weblcms extends WebApplication
 					echo '<option value="'.$tool.'"'. ($class == $this->tool_class ? ' selected="selected"' : '').'>'.htmlentities($properties['title']).'</option>';
 				}
 			}
-			echo '</select></form></div>';
+			echo '</select></form></div>';*/
 			Display :: display_tool_title(htmlentities(Translation :: get($this->tool_class.'Title')));
 		}
 		else
