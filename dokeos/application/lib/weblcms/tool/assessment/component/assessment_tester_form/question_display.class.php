@@ -17,7 +17,7 @@ class QuestionDisplay
 	function add_to($formvalidator) {
 		$clo_question = $this->get_clo_question();
 		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question');
-		$formvalidator->addElement('html',$this->display_learning_object($question));
+		$formvalidator->addElement('html', $this->display_header($question));
 	}
 	
 	function get_answers()
@@ -42,14 +42,32 @@ class QuestionDisplay
 	
 	function display_learning_object($learning_object)
 	{
+		
+		
+		
+		//return implode("\n", $html);
+	}
+	
+	function display_header()
+	{
+		$clo_question = $this->get_clo_question();
+		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question');
+		
 		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
 		$html[] = '<div class="title">';
 		$html[] = $learning_object->get_title();
 		$html[] = '</div>';
 		$html[] = '<div class="description">';
 		$html[] = $learning_object->get_description();
-		//$html[] = $this->render_attachments($learning_object);
-		$html[] = '</div>';
+		
+		
+		//echo $html;
+		return implode("\n", $html);
+	}
+	
+	function display_footer()
+	{
+		$html[] = '<br/></div>';
 		$html[] = '</div>';
 		
 		return implode("\n", $html);

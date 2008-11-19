@@ -145,13 +145,11 @@ abstract class QuestionResult
 			$attachments = $object->get_attached_learning_objects();
 			if(count($attachments)>0)
 			{
-				//$html[] = '<b>Attachments:</b><br/><br/>';
 				$html[] = '<ul class="attachments_list">';
 				DokeosUtilities :: order_learning_objects_by_title($attachments);
 				foreach ($attachments as $attachment)
 				{
 					$disp = LearningObjectDisplay :: factory($attachment);
-					//$html[] = '<li><img src="'.Theme :: get_common_img_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 					$html[] = '<li><img src="'.Theme :: get_common_img_path().'/action_attachment.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				$html[] = '</ul>';

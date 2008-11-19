@@ -33,7 +33,18 @@ class DocumentQuestionResult extends QuestionResult
 	
 	function display_survey()
 	{
+		$this->display_question_header();
 		
+		$user_question = $this->get_user_question();
+		$user_answers = $this->get_user_answers();
+		$user_answer = $user_answers[0];
+
+		$lo_document = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_answer->get_extra(), 'document');
+		$html_document = '<img src="'.Theme :: get_common_img_path().'learning_object/document.png" alt="">';
+		$html_document .= ' <a href="'.htmlentities($lo_document->get_url()).'">'.$lo_document->get_filename()."</a> (size: ".$lo_document->get_filesize().") <br/>";
+		$answer_lines[] = $html_document;
+		$this->display_answers($answer_lines);
+		$this->display_footer();
 	}
 	
 	function display_assignment()

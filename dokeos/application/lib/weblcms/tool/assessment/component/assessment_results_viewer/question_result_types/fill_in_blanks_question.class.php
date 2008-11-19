@@ -6,7 +6,7 @@ class FillInBlanksQuestionResult extends QuestionResult
 {
 	function display_exercise()
 	{
-		echo $this->display_question_header();
+		$this->display_question_header();
 
 		$user_answers = parent :: get_user_answers();
 		$rdm = RepositoryDataManager :: get_instance();
@@ -43,7 +43,17 @@ class FillInBlanksQuestionResult extends QuestionResult
 	
 	function display_survey()
 	{
-		
+		$this->display_question_header();
+
+		$user_answers = parent :: get_user_answers();
+		$rdm = RepositoryDataManager :: get_instance();
+
+		foreach ($user_answers as $user_answer)
+		{
+			$answer_lines[] = $user_answer->get_extra();
+		}
+		$this->display_answers($answer_lines);
+		$this->display_footer();
 	}
 	
 	function display_assignment()

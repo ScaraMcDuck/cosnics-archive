@@ -48,7 +48,44 @@ class MatchingQuestionResult extends QuestionResult
 	
 	function display_survey()
 	{
+		$this->display_question_header();
 		
+		$rdm = RepositoryDataManager :: get_instance();
+		$user_answers = parent :: get_user_answers();
+		
+		$clo_answers = parent :: get_clo_answers();
+		foreach ($clo_answers as $clo_answer)
+		{
+			$total_div += $clo_answer->get_score();
+		}
+		
+		foreach ($user_answers as $user_answer)
+		{
+			$answer = $rdm->retrieve_learning_object($user_answer->get_answer_id());
+			$link = $rdm->retrieve_learning_object($user_answer->get_extra());
+			$answers[] = array('answer' => $answer, 'link' => $link, 'score' => $user_answer->get_score());
+			$total_score += $user_answer->get_score();
+		}
+		
+		$score_line = Translation :: get('Score').': '.$total_score.'/'.$total_div;
+		$this->display_score($score_line);
+		
+		foreach ($answers as $answer)
+		{
+			$line = $answer['answer']->get_title().' '.Translation :: get('linked to').' '.$answer['link']->get_title().' ('.Translation :: get('Score').': '.$answer['score'].')';
+			if ($answer['score'] == 0)
+			{
+				$link = $this->get_link($answer['answer']->get_id());
+				$line .= ' '.Translation :: get('Correct answer').': '.$link['answer']->get_title();
+			}
+			$answer_lines[] = $line;
+		}
+		$this->display_answers($answer_lines);
+		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
+			$this->add_feedback_controls();
+			
+		$this->display_feedback();
+		$this->display_footer();
 	}
 	
 	function display_assignment()
