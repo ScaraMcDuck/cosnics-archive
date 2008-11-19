@@ -55,6 +55,13 @@ class MenuToolListRenderer extends ToolListRenderer
 	private function show_tools($tools)
 	{
 		$parent = $this->get_parent();
+		if( $this->type == MENU_TYPE_LIST_NAVIGATION)
+		{
+			$html[] = '<div id="tool_bar_left" class="tool_bar_left">';
+			$html[] = '<div class="tool_menu">';
+			
+			$html[] = '<ul>';
+		}
 		
 		foreach ($tools as $index => $tool)
 		{
@@ -69,7 +76,7 @@ class MenuToolListRenderer extends ToolListRenderer
 				$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'));
 				if( $this->type == MENU_TYPE_LIST_NAVIGATION)
 				{
-					$html[] = '<div class="tool_list_menu">';
+					$html[] = '<li class="tool_list_menu">';
 				}
 				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>Weblcms :: ACTION_VIEW_COURSE,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
 				$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/> ';
@@ -78,9 +85,24 @@ class MenuToolListRenderer extends ToolListRenderer
 				{
 					$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
 					$html[] = $title;
-					$html[] = '</a></div>';
+					$html[] = '</a>';
+					$html[] = '</li>';
 				}
 			}
+		}
+		if( $this->type == MENU_TYPE_LIST_NAVIGATION)
+		{
+			$html[] = '</ul>';
+			$html[] = '</div>';
+			$html[] = '<div class="clear"></div>';
+		
+			$html[] = '<div id="tool_bar_left_hide_container" class="hide">';
+			$html[] = '<a id="tool_bar_left_hide" href="#"><img src="'. Theme :: get_common_img_path() .'action_action_bar_hide.png" /></a>';
+			$html[] = '<a id="tool_bar_left_show" href="#"><img src="'. Theme :: get_common_img_path() .'action_action_bar_show.png" /></a>';
+			$html[] = '</div>';
+			$html[] = '</div>';
+			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' .'"></script>';
+			$html[] = '<div class="clear"></div>';
 		}
 		echo implode("\n",$html);
 	}

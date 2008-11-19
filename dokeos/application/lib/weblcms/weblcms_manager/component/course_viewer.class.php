@@ -150,14 +150,12 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 					$id = 'menu_right';
 				}
 
-				echo '<div id="' . $id . '" style="line-height: 20px; padding: 5px; padding-left: 20px;' . $margin . ' width:16%; ' . $float1 . ' background-color: #E5EDF9; ' . $border . '">';
+				//echo '<div id="' . $id . '" style="line-height: 20px; padding: 5px; padding-left: 20px;' . $margin . ' width:16%; ' . $float1 . ' background-color: #E5EDF9; ' . $border . '">';
 				$renderer = ToolListRenderer::factory('Menu',$this);
 				$renderer->display();
-				echo '</div>';
-			    echo '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/menu_bar.js' .'"></script>';
 				
-				echo '<div id="mainbox" style="min-width: 80%; ' . $float2 . '">';
-				
+				//echo '<div id="mainbox" style="min-width: 80%; ' . $float2 . '">';
+				echo '<div id="tool_browser">';
 				echo $this->display_introduction_text();
 				echo '<div class="clear"></div>';
 				
