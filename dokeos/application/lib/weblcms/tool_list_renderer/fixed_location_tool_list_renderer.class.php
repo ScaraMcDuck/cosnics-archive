@@ -52,7 +52,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			}
 		}
 		
-		echo $this->display_block_header(Translation :: get('Tools'));
+		echo $this->display_block_header('basic', Translation :: get('Tools'));
 		$this->show_tools('basic',$tools);
 		echo $this->display_block_footer();
 
@@ -62,7 +62,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		if($this->group_inactive)
 		{
 			//echo '<h4>'.Translation :: get('DisabledTools').'</h4>';
-			echo $this->display_block_header(Translation :: get('DisabledTools'));
+			echo $this->display_block_header('disabled',Translation :: get('DisabledTools'));
 			$this->show_tools('disabled',$tools);
 			echo $this->display_block_footer();
 		}
@@ -70,7 +70,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		if ($this->is_course_admin)
 		{
 			//echo '<h4>'.Translation :: get('CourseAdministration').'</h4>';
-			echo $this->display_block_header(Translation :: get('CourseAdministration'));
+			echo $this->display_block_header('course_admin',Translation :: get('CourseAdministration'));
 			$this->show_tools('course_admin',$tools);
 			echo $this->display_block_footer();
 		}
@@ -116,6 +116,9 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			$html = array();
 			if($this->is_course_admin || $tool->visible)
 			{
+				$html[] = '<div id="tool_' . $tool->name . '" class="tool" style="display:inline">';
+				$html[] = '<div id="drag_' . $tool->name . '" style="display:inline; width: 20px; background-color: blue; cursor: pointer;">&nbsp;&nbsp;&nbsp;</div>';
+				
 				// Show visibility-icon
 				if ($this->is_course_admin && $section!= 'course_admin')
 				{
@@ -124,11 +127,14 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				}
 				
 				// Show tool-icon + name
+				
 				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
 				$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
 				$html[] = '&nbsp;';
 				$html[] = $title;
 				$html[] = '</a>';
+				$html[] = '</div>';
+				$html[] = '<script language="JavaScript">$("#tool_' . $tool->name . '").draggable({ handle: "div", revert: true, helper: "clone"});</script>';
 				
 				$table->setCellContents($row,$col,implode("\n",$html));
 				$table->updateColAttributes($col,'style="width: '.floor(100/$this->number_of_columns).'%;"');
@@ -136,6 +142,12 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			}
 		}
 		$table->display();
+		echo $html[] = '<script language="JavaScript">$("#block_' . $section . '").droppable({ accept: ".tool", drop: function(ev, ui) { 
+       	ui.style.position="relative";
+       	ui.style.left="0";
+       	ui.style.top="0";
+       	$(this).append(ui); 
+    	} });</script>';
 	}
 	
 	private function show_links()
@@ -146,7 +158,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($parent->get_course_id(), null, null, null, $condition);
 		
 		if($publications->size() > 0)
-			echo $this->display_block_header(Translation :: get('Links'));
+			echo $this->display_block_header('links', Translation :: get('Links'));
 		
 		$table = new HTML_Table('style="width: 100%;"');
 		$table->setColCount($this->number_of_columns);
@@ -182,6 +194,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				}
 				
 				// Show tool-icon + name
+				
 				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $publication->get_tool(), 'pid' => $publication->get_id()), true).'" '.$link_class.'>';
 				$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
 				$html[] = '&nbsp;';
@@ -199,11 +212,11 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			echo $this->display_block_footer();
 	}
 	
-	function display_block_header($block_name)
+	function display_block_header($section, $block_name)
 	{
 		$html = array();
 		
-		$html[] = '<div class="block" id="block_'. $block_name .'" style="background-image: url('.Theme :: get_img_path().'block_weblcms.png);">';
+		$html[] = '<div class="block" id="block_'. $section .'" style="background-image: url('.Theme :: get_img_path().'block_weblcms.png);">';
 		$html[] = '<div class="title">'. $block_name;
 		$html[] = '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible" style="display: none;") src="'.Theme :: get_common_img_path().'action_invisible.png" /></a></div>';
 		$html[] = '<div class="description">';
