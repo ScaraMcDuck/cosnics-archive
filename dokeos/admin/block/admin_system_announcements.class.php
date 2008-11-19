@@ -32,7 +32,9 @@ class AdminSystemAnnouncements extends AdminBlock
 		$announcements = $this->get_parent()->retrieve_system_announcement_publications();
 		
 		if($announcements->size() == 0)
+		{
 			$html[] = '<li style="margin-bottom: 2px;">' . Translation :: get('NoNewSystemAnnouncements') .'</a></li>';
+		}
 		
 		while($announcement = $announcements->next_result())
 		{

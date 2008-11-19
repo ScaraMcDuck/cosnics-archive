@@ -2069,3 +2069,8 @@ div.padding_10
 {
 	padding: 10px;
 }
+
+li.tool_list_menu
+{
+	padding-bottom: 2px;
+}
