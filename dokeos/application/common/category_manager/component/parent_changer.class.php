@@ -89,11 +89,11 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 	
 	function build_category_tree($parent_id, $selected_categories, $current_parent)
 	{
-		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_PARENT, $parent_id);
-		$conditions[] = new NotCondition(new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_ID, $current_parent));
+		$conditions[] = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent_id);
+		$conditions[] = new NotCondition(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $current_parent));
 		
 		foreach($selected_categories as $selected_category)
-			$conditions[] = new NotCondition(new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_ID, $selected_category));
+			$conditions[] = new NotCondition(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $selected_category));
 			
 		$condition = new AndCondition($conditions);
 
@@ -111,7 +111,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 	
 	function clean_display_order_old_parent($parent)
 	{
-		$condition = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_PARENT, $parent);
+		$condition = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent);
 		$categories = $this->retrieve_categories($condition);
 		
 		$i = 1;

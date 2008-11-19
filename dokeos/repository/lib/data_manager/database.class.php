@@ -1418,6 +1418,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	
 	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
+		$order_property[] = 'parent';
+		$order_property[] = 'display_order';
+		$order_direction[] = SORT_ASC;
+		$order_direction[] = SORT_ASC;
 		return $this->database->retrieve_objects('repository_category', $condition, $offset, $count, $order_property, $order_direction);
 	}
 	
