@@ -2069,21 +2069,3 @@ div.padding_10
 {
 	padding: 10px;
 }
-
-li.tool_list_menu
-{
-	padding-bottom: 2px;
-}
-
-div.tool_menu ul
-{
-	padding: 0px;
-	margin: 0px;
-}
-
-div.tool_menu ul li.tool_list_menu
-{
-	padding: 0px 0px 2px 0px;
-	margin: 0px;
-	list-style: none;
-}

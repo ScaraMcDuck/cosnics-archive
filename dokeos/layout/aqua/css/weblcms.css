@@ -93,3 +93,16 @@ div.tool_bar_left #tool_bar_left_hide_container.show
 {
 	margin-left: 230px;
 }
+
+div.tool_menu ul
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+div.tool_menu ul li.tool_list_menu
+{
+	padding: 0px 0px 2px 0px;
+	margin: 0px;
+	list-style: none;
+}
