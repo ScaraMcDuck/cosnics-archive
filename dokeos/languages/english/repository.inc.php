@@ -194,4 +194,5 @@ $lang['repository']['SelectAll'] = 'select all';
 $lang['repository']['UnSelectAll'] = 'unselect all';
 $lang['repository']['Previous'] = 'Previous';
 $lang['repository']['Next'] = 'Next';
+$lang['repository']['ManageCategories'] = 'Manage categories';
 ?>

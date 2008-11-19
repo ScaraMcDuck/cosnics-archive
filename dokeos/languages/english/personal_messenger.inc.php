@@ -36,4 +36,10 @@ $lang['personal_messenger']['MarkSelectedRead'] = 'Mark selected as Read';
 $lang['personal_messenger']['MarkSelectedUnread'] = 'Mark selected as Unread';
 $lang['personal_messenger']['NoNewMessages'] = 'No new messages';
 $lang['personal_messenger']['NoMessages'] = 'No messages';
+$lang['personal_messenger']['Sender'] = 'Sender';
+$lang['personal_messenger']['Published'] = 'Published';
+$lang['personal_messenger']['Recipient'] = 'Recipient';
+$lang['personal_messenger']['CategoryTypeName'] = 'Category';
+$lang['personal_messenger']['AddAttachments'] = 'Add attachments';
+$lang['personal_messenger']['CreatorTitle'] = 'Create';
 ?>

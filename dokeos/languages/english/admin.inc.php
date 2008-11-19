@@ -29,4 +29,12 @@ $lang['admin']['NoPublicationSelected'] = 'Nothing selected';
 $lang['admin']['EditSystemAnnouncementPublication'] = 'Edit';
 $lang['admin']['Hide'] = 'Hide';
 $lang['admin']['ManageCategories'] = 'Manage categories';
+$lang['admin']['List'] = 'List';
+$lang['admin']['Archive'] = 'Archive';
+$lang['admin']['Create'] = 'Create';
+$lang['admin']['Build'] = 'Build';
+$lang['admin']['Manage'] = 'Manage';
+$lang['admin']['UserImport'] = 'Import users';
+$lang['admin']['CreateCategories'] = 'Categories';
+$lang['admin']['Sort'] = 'Sort';
 ?>

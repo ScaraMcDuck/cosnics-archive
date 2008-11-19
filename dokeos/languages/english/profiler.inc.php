@@ -18,4 +18,8 @@ $lang['profiler']['InvalidDataRetrievedFromDatabase'] = 'Invalid data retrieved 
 $lang['profiler']['Home'] = 'Home';
 $lang['profiler']['YZ'] = ' ';
 $lang['profiler']['PublicationCreated'] = 'Publication created';
+$lang['profiler']['UserName'] = 'Username';
+$lang['profiler']['LastName'] = 'Lastname';
+$lang['profiler']['FirstName'] = 'Firstname';
+$lang['profiler']['Profile'] = 'Profile';
 ?>

@@ -19,4 +19,9 @@ $lang['personal_calendar']['ListView'] = 'List view';
 $lang['personal_calendar']['MonthView'] = 'Month view';
 $lang['personal_calendar']['WeekView'] = 'Week view';
 $lang['personal_calendar']['DayView'] = 'Day view';
+$lang['personal_calendar']['CreatorTitle'] = 'Create';
+$lang['personal_calendar']['CategoryTypeName'] = 'Category';
+$lang['personal_calendar']['Repeat'] = 'Repeat';
+$lang['personal_calendar']['Attachments'] = 'Attachments';
+$lang['personal_calendar']['AddAttachments'] = 'Add attachments';
 ?>
