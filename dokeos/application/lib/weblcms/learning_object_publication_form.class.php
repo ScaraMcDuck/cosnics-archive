@@ -175,16 +175,38 @@ class LearningObjectPublicationForm extends FormValidator
     	//$this->addElement('hidden', 'ids', serialize($this->learning_object));
     }
     
+    private $categories;
+    private $level = 1;
+    
+    function get_categories($parent_id)
+    {
+    	$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $_GET['course']);
+		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, $_GET['tool']);
+		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_PARENT, $parent_id);
+		$condition = new AndCondition($conditions);
+		
+		$cats = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($condition);
+		while($cat = $cats->next_result())
+		{
+			$this->categories[$cat->get_id()] = str_repeat('--', $this->level) . ' ' . $cat->get_name();
+			$this->level++;
+			$this->get_categories($cat->get_id());
+			$this->level--;
+		}
+    }
 	/**
 	 * Builds the form by adding the necessary form elements.
 	 */
     function build_form()
     {
+		$this->categories[0] = Translation :: get('Root');
+		$this->get_categories(0);
+		
 		//$categories = $this->publisher->get_categories(true);
-		if(count($categories) > 1)
+		if(count($this->categories) > 1)
 		{
 			// More than one category -> let user select one
-			$this->addElement('select', self :: PARAM_CATEGORY_ID, Translation :: get('Category'), $categories);
+			$this->addElement('select', self :: PARAM_CATEGORY_ID, Translation :: get('Category'), $this->categories);
 		}
 		else
 		{

@@ -13,7 +13,6 @@ require_once dirname(__FILE__).'/link_tool_component.class.php';
 class LinkTool extends Tool
 {
 	const ACTION_VIEW_ANNOUNCEMENTS = 'view';
-	const ACTION_MANAGE_CATEGORIES = 'managecategories';
 	
 	/**
 	 * Inherited.
@@ -32,9 +31,6 @@ class LinkTool extends Tool
 				break;
 			case self :: ACTION_PUBLISH :
 				$component = LinkToolComponent :: factory('Publisher', $this);
-				break;
-			case self :: ACTION_MANAGE_CATEGORIES :
-				$component = DocumentToolComponent :: factory('CategoryManager', $this);
 				break;
 			default :
 				$component = LinkToolComponent :: factory('Viewer', $this);
