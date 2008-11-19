@@ -23,12 +23,22 @@ class DescriptionBrowser extends LearningObjectPublicationBrowser
 	function DescriptionBrowser($parent, $types)
 	{
 		parent :: __construct($parent, 'description');
-		$renderer = new ListLearningObjectPublicationListRenderer($this);
+		if(isset($_GET['pid']) && $parent->get_action() == 'view')
+		{
+			$this->set_publication_id($_GET['pid']);
+			$parent->set_parameter(Tool :: PARAM_ACTION, DescriptionTool :: ACTION_VIEW_DESCRIPTIONS);
+			$renderer = new LearningObjectPublicationDetailsRenderer($this);
+		}
+		else
+		{
+			$renderer = new ListLearningObjectPublicationListRenderer($this);
+			$actions = array(Tool :: ACTION_DELETE => Translation :: get('Delete selected'), 
+							 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
+							 Tool :: ACTION_SHOW => Translation :: get('Show'));
+			$renderer->set_actions($actions);
+		}
+		
 		$this->set_publication_list_renderer($renderer);
-		$actions = array(Tool :: ACTION_DELETE => Translation :: get('Delete selected'), 
-						 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
-						 Tool :: ACTION_SHOW => Translation :: get('Show'));
-		$renderer->set_actions($actions);
 	}
 	/*
 	 * Inherited.
@@ -48,7 +58,7 @@ class DescriptionBrowser extends LearningObjectPublicationBrowser
 			$user_id = $this->get_user_id();
 			$course_groups = $this->get_course_groups();
 		}
-		$conditions[] = new EqualityCondition('type','announcement');
+		$conditions[] = new EqualityCondition('type','description');
 		if($this->get_parent()->get_condition())
 			$conditions[] = $this->get_parent()->get_condition();
 		$cond = new AndCondition($conditions);	
