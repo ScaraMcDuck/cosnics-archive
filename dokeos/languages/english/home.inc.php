@@ -73,4 +73,5 @@ $lang['home']['Search'] = 'Search';
 $lang['home']['Extra'] = 'Extra';
 $lang['home']['PersonalCalendar'] = 'Personal calendar';
 $lang['home']['SystemAnnouncements'] = 'System announcements';
+$lang['home']['NoNewSystemAnnouncements'] = ' ';
 ?>

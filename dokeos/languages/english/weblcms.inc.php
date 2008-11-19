@@ -233,4 +233,5 @@ $lang['weblcms']['LinkToolTitle'] = 'Links';
 $lang['weblcms']['WikiToolTitle'] = 'Wiki';
 $lang['weblcms']['StatisticsToolTitle'] = 'Statistics';
 $lang['weblcms']['AssessmentToolTitle'] = 'Assessments';
+$lang['weblcms']['PublishIntroductionText'] = 'Publish introduction text';
 ?>
