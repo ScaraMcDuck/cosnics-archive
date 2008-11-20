@@ -28,15 +28,6 @@ class SurveyResultsViewer extends ResultsViewer
 			$question_result = QuestionResult :: create_question_result($this, $user_question, $this->get_edit_rights());
 			$question_result->display_survey();
 		}
-		/*if ($_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
-		{
-			$this->addElement('submit', 'submit', Translation :: get('Save feedback'));
-		}*/
-		//$this->addElement('html', $this->toHtml());
-		//$max_total_score = $assessment->get_maximum_score();
-		//$pct_score = round((parent :: get_user_assessment()->get_total_score() / $max_total_score) * 10000) / 100;
-		//$this->addElement('html', '<br/><h3>'.Translation :: get('Total score').': '.parent :: get_user_assessment()->get_total_score()."/".$max_total_score.' ('.$pct_score.'%)</h3>');
-		
 	}
 }
 ?>

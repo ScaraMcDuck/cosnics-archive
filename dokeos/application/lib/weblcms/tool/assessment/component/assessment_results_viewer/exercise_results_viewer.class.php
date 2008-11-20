@@ -34,7 +34,7 @@ class ExerciseResultsViewer extends ResultsViewer
 		{
 			$this->addElement('submit', 'submit', Translation :: get('Save feedback'));
 		}
-		//$this->addElement('html', $this->toHtml());
+
 		$max_total_score = $assessment->get_maximum_score();
 		$pct_score = round((parent :: get_user_assessment()->get_total_score() / $max_total_score) * 10000) / 100;
 		$this->addElement('html', '<br/><h3>'.Translation :: get('Total score').': '.parent :: get_user_assessment()->get_total_score()."/".$max_total_score.' ('.$pct_score.'%)</h3>');

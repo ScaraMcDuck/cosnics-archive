@@ -21,16 +21,19 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 	private $tree_id;
 	
 	private $data_manager;
+	
+	private $url_params;
 	/**
 	 * Create a new category tree
 	 * @param PublicationBrowser $browser The browser to associate this category
 	 * tree with.
 	 * @param string $tree_id An id for the tree
 	 */
-	function LearningObjectPublicationCategoryTree($browser, $tree_id)
+	function LearningObjectPublicationCategoryTree($browser, $tree_id, $url_params = array())
 	{
 		$this->browser = $browser;
 		$this->tree_id = $tree_id;
+		$this->url_params = $url_params;
 		$this->data_manager = WeblcmsDataManager :: get_instance();
 		$menu = $this->get_menu_items();
 		parent :: __construct($menu);
@@ -111,7 +114,8 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 	 */
 	private function get_category_url ($category_id)
 	{
-		return $this->browser->get_url(array($this->tree_id => $category_id));
+		$this->url_params[$this->tree_id] = $category_id;
+		return $this->browser->get_url($this->url_params);
 	}
 }
 ?>

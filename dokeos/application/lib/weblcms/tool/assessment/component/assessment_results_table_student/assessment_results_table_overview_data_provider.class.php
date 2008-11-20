@@ -137,6 +137,10 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
     	$owner = $this->owner;
     	
     	$conds = array();
+    	$parent = $this->parent;
+    	$category = $parent->get_parameter(Weblcms :: PARAM_CATEGORY);
+    	$conds[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category);
+    	
     	$type_cond = array();
     	$types = array('assessment');
     	foreach ($types as $type)

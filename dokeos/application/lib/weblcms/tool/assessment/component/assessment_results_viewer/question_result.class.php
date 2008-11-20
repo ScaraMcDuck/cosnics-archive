@@ -126,7 +126,7 @@ abstract class QuestionResult
 	
 	function display_feedback()
 	{
-		$this->formvalidator->addElement('html', '<br/><br/><div class="title">Feedback:</div>');
+		$this->formvalidator->addElement('html', '<br/><div class="title">Feedback:</div>');
 		$feedback_id = $this->user_question->get_feedback();
 		//echo $feedback_id;
 		if ($feedback_id != null)
@@ -169,7 +169,7 @@ abstract class QuestionResult
 		{	
 			if (sizeof($answer_lines) == 1)
 			{
-				$this->formvalidator->addElement('html', '<div class="title">'.Translation :: get('Answers').': </div>'.$answer_lines[0]);
+				$this->formvalidator->addElement('html', '<div class="title">'.Translation :: get('Answers').': </div><div class="description">'.$answer_lines[0].'</div>');
 			}
 			else 
 			{

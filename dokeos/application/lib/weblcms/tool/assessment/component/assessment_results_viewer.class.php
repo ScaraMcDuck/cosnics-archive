@@ -34,7 +34,17 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		{
 			return;
 		}
-		
+		//general
+		{
+			$tree_id = Weblcms :: PARAM_CATEGORY;
+			$params = array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS);
+			$tree = new LearningObjectPublicationCategoryTree($this, $tree_id, $params);
+			$this->set_parameter($tree_id, $_GET[$tree_id]);
+			echo '<div style="width:18%; float: left; overflow: auto;">';
+			echo $tree->as_html();
+			echo '</div>';
+			echo '<div style="width:80%; padding-left: 1%; float:right; ">';
+		}
 		if ($this->is_allowed(EDIT_RIGHT)) 
 		{
 			echo Translation :: get('View all course publications results').':';
@@ -46,7 +56,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			$table = new AssessmentResultsTableOverviewStudent($this, $this->get_user());
 		}
 		echo $table->as_html();
-		
+		echo '</div>';
 		$this->display_footer();
 	}
 	
@@ -98,7 +108,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		
 		if ($subcomponent->validate() && $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 		{
-			$this->handle_validated_form($subcomponent, $datamanager);
+			$this->handle_validated_form($subcomponent, $datamanager, $user_assessment);
 		}
 		else 
 		{
@@ -115,7 +125,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		}
 	}
 	
-	function handle_validated_form($subcomponent, $datamanager)
+	function handle_validated_form($subcomponent, $datamanager, $user_assessment)
 	{
 		$results = $subcomponent->exportValues();
 
