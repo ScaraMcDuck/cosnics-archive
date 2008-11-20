@@ -53,6 +53,8 @@ class RepositoryInstaller extends Installer
 		
 		foreach($folders as $folder)
 		{
+			if($folder == '.svn') continue;
+			
 			$this->add_message(self :: TYPE_NORMAL, Translation :: get('LearningObjectRegistration') . ': <em>'.Translation :: get(LearningObject :: type_to_class($folder) . 'TypeName') . '</em>');
 			
 			$learning_object_registration = new Registration();
