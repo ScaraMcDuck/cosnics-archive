@@ -47,7 +47,7 @@ class WeblcmsCourseCreatorComponent extends WeblcmsComponent
 		if($form->validate())
 		{
 			$success = $form->create_course();
-			$this->redirect(Weblcms :: ACTION_VIEW_WEBLCMS_HOME, Translation :: get($success ? 'CourseCreated' : 'CourseNotCreated'), ($success ? false : true));
+			$this->redirect(null, Translation :: get($success ? 'CourseCreated' : 'CourseNotCreated'), ($success ? false : true), array('go' => Weblcms :: ACTION_VIEW_COURSE, 'course' => $course->get_id()));
 		}
 		else
 		{

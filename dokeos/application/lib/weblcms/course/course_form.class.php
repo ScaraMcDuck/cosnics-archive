@@ -43,6 +43,23 @@ class CourseForm extends FormValidator {
 		$this->setDefaults();
     }
 
+	private $categories;
+	private $level = 1;
+	
+	function get_categories($parent_id)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		$categories = $wdm->retrieve_course_categories(new EqualityCondition(CourseCategory :: PROPERTY_PARENT, $parent_id));
+
+		while ($category = $categories->next_result())
+		{
+			$this->categories[$category->get_id()] = str_repeat('--', $this->level) . ' ' . $category->get_name();
+			$this->level++;
+			$this->get_categories($category->get_id());
+			$this->level--;
+		}
+	}
+
     function build_basic_form()
     {
 		$this->addElement('text', Course :: PROPERTY_VISUAL, Translation :: get('VisualCode'));
@@ -55,18 +72,31 @@ class CourseForm extends FormValidator {
 		else
 		{
 			$user_options = array();
+			
 			$udm = UserDataManager :: get_instance();
-			//$wdm = WeblcmsDataManager :: get_instance();
-			//$users = $wdm->retrieve_course_users($this->course);
-			$users = $udm->retrieve_users(new EqualityCondition(User :: PROPERTY_STATUS, 1));
-
-			while ($userobject = $users->next_result())
+			
+			if($this->form_type == self :: TYPE_CREATE)
 			{
-				//if($user->get_status() == 1)
-				//{
-					//$userobject = $udm->retrieve_user($user->get_user());
+				$users = $udm->retrieve_users(new EqualityCondition(User :: PROPERTY_STATUS, 1));
+	
+				while ($userobject = $users->next_result())
+				{
 					$user_options[$userobject->get_id()] = $userobject->get_lastname() . '&nbsp;' . $userobject->get_firstname();
-				//}
+				}
+			}
+			else
+			{
+				$wdm = WeblcmsDataManager :: get_instance();
+				$users = $wdm->retrieve_course_users($this->course);
+	
+				while ($user = $users->next_result())
+				{
+					if($user->get_status() == 1)
+					{
+						$userobject = $udm->retrieve_user($user->get_user());
+						$user_options[$userobject->get_id()] = $userobject->get_lastname() . '&nbsp;' . $userobject->get_firstname();
+					}
+				}
 			}
 
 			$this->addElement('select', Course :: PROPERTY_TITULAR, Translation :: get('Teacher'), $user_options);
@@ -79,22 +109,20 @@ class CourseForm extends FormValidator {
 		$cat_options = array();
 		$parent = $this->parent;
 		
-		$wdm = WeblcmsDataManager :: get_instance();
-		$categories = $wdm->retrieve_course_categories();
+		//$this->categories[0] = Translation :: get('Root');
+		$this->get_categories(0);
 
-		while ($category = $categories->next_result())
-		{
-			$cat_options[$category->get_id()] = $category->get_name();
-		}
-
-		$this->addElement('select', Course :: PROPERTY_CATEGORY, Translation :: get('Category'), $cat_options);
+		$this->addElement('select', Course :: PROPERTY_CATEGORY, Translation :: get('Category'), $this->categories);
 
 		$this->addElement('text', Course :: PROPERTY_EXTLINK_NAME, Translation :: get('Department'));
 		$this->addElement('text', Course :: PROPERTY_EXTLINK_URL, Translation :: get('DepartmentUrl'));
 		
-		$adm = AdminDataManager :: get_instance();
-		$lang_options = $adm->get_languages();
-		$this->addElement('select', Course :: PROPERTY_LANGUAGE, Translation :: get('Language'), $lang_options);
+		if (PlatformSetting :: get('allow_course_language_selection', Weblcms :: APPLICATION_NAME))
+		{
+			$adm = AdminDataManager :: get_instance();
+			$lang_options = $adm->get_languages();
+			$this->addElement('select', Course :: PROPERTY_LANGUAGE, Translation :: get('Language'), $lang_options);
+		}
 		
 		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
 		
@@ -106,10 +134,26 @@ class CourseForm extends FormValidator {
 			$this->addElement('select', Course :: PROPERTY_THEME, Translation :: get('Theme'), $theme_options);
 		}
 		
-		$this->addElement('select', Course :: PROPERTY_LAYOUT, Translation :: get('Layout'), Course :: get_layouts());
-		$this->addElement('select', Course :: PROPERTY_TOOL_SHORTCUT, Translation :: get('ToolShortcut'), Course :: get_tool_shortcut_options());
-		$this->addElement('select', Course :: PROPERTY_MENU, Translation :: get('Menu'), Course :: get_menu_options());
-		$this->addElement('select', Course :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), Course :: get_breadcrumb_options());
+		
+		if (PlatformSetting :: get('allow_course_layout_selection', Weblcms :: APPLICATION_NAME))
+		{
+			$this->addElement('select', Course :: PROPERTY_LAYOUT, Translation :: get('Layout'), Course :: get_layouts());
+		}
+		
+		if (PlatformSetting :: get('allow_course_tool_short_cut_selection', Weblcms :: APPLICATION_NAME))
+		{
+			$this->addElement('select', Course :: PROPERTY_TOOL_SHORTCUT, Translation :: get('ToolShortcut'), Course :: get_tool_shortcut_options());
+		}
+		
+		if (PlatformSetting :: get('allow_course_menu_selection', Weblcms :: APPLICATION_NAME))
+		{
+			$this->addElement('select', Course :: PROPERTY_MENU, Translation :: get('Menu'), Course :: get_menu_options());
+		}
+		
+		if (PlatformSetting :: get('allow_course_breadcrumbs', Weblcms :: APPLICATION_NAME))
+		{
+			$this->addElement('select', Course :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), Course :: get_breadcrumb_options());
+		}
 
 		$course_access = array();
 		$course_access[] =& $this->createElement('radio', null, null, Translation :: get('CourseAccessOpenWorld'), COURSE_VISIBILITY_OPEN_WORLD);
