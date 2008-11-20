@@ -135,8 +135,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				//Display shortcut icons
 				if($this->get_course()->get_tool_shortcut() == Course :: TOOL_SHORTCUT_ON)
 				{
-					$renderer = ToolListRenderer::factory('Menu',$this);
-					$renderer->set_type(MenuToolListRenderer::MENU_TYPE_TOP_NAVIGATION);
+					$renderer = ToolListRenderer::factory('Shortcut',$this);
 					echo '<div style="width: 100%; text-align: right;">';
 					$renderer->display();
 					echo '</div>';
@@ -144,30 +143,17 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				}
 				
 				//Display menu
-				$side = 1;
-				if($side == 1)
+				$menu_style = $this->get_course()->get_menu();
+				if($menu_style != Course :: MENU_OFF)
 				{
-					$float1 = 'float: left;';
-					$float2 = 'float: right;';
-					$margin = 'margin-left: -14px;';
-					$border = 'border: 1px solid lightgrey; border-left: 0px;';
-					$id = 'menu_left';
+					$renderer = ToolListRenderer::factory('Menu',$this);
+					$renderer->display();					
+					echo '<div id="tool_browser_'. $renderer->get_menu_style() .'">';
 				}
 				else
 				{
-					$float1 = 'float: right;';
-					$float2 = 'float: left;';
-					$margin = 'margin-right: -14px;';
-					$border = 'border: 1px solid lightgrey; border-right: 0px;';
-					$id = 'menu_right';
+					echo '<div id="tool_browser">';
 				}
-
-				//echo '<div id="' . $id . '" style="line-height: 20px; padding: 5px; padding-left: 20px;' . $margin . ' width:16%; ' . $float1 . ' background-color: #E5EDF9; ' . $border . '">';
-				$renderer = ToolListRenderer::factory('Menu',$this);
-				$renderer->display();
-				
-				//echo '<div id="mainbox" style="min-width: 80%; ' . $float2 . '">';
-				echo '<div id="tool_browser">';
 				echo $this->display_introduction_text();
 				echo '<div class="clear"></div>';
 				

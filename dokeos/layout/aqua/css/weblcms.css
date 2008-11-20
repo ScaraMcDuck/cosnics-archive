@@ -24,21 +24,19 @@
 	padding: 5px;
 }
 
-div.tool_bar_left
+div.tool_bar
 {
 	background-color: #E5EDF9; 
 	border: 1px solid #4271B5;
-	border-left: 0px;
 	padding: 10px;
 	
 	position: fixed;
-	left: 0px;
-	width: 210px;
+	width: 160px;
 	
 	text-align: left;
 }
 
-div.tool_bar_left div.divider
+div.tool_bar div.divider
 {
 	background-color: #4271B5;
 	margin: 10px 0px 10px 0px;
@@ -47,7 +45,7 @@ div.tool_bar_left div.divider
 	font-size: 1px;
 }
 
-div.tool_bar_left #tool_bar_left_hide_container
+div.tool_bar #tool_bar_hide_container
 {
 	display: none;
 	text-align: center;
@@ -60,38 +58,71 @@ div.tool_bar_left #tool_bar_left_hide_container
 	background-position: center center;
 }
 
-div.tool_bar_left #tool_bar_left_hide_container.hide
+div.tool_bar_left #tool_bar_hide_container.hide
 {
 	right: 0px;
 	margin-right: -1px;
-	background-image: url(../img/common/action_action_bar_hide_background.png);
+	background-image: url(../img/common/action_action_bar_left_hide_background.png);
 }
 
-div.tool_bar_left #tool_bar_left_hide_container.show
+div.tool_bar_left #tool_bar_hide_container.show
 {
 	right: -18px;
 	margin-left: 0px;
-	background-image: url(../img/common/action_action_bar_show_background.png);
+	background-image: url(../img/common/action_action_bar_left_show_background.png);
 }
 
-#tool_bar_left_show
+#tool_bar_show
 {
 	display: none;
 }
 
-#tool_bar_left_hide img
+#tool_bar_hide img
 {
-	margin: 10px 4px 11px 6px;
+	margin: 10px 5px 11px 5px;
 }
 
-#tool_bar_left_show img
+#tool_bar_show img
 {
 	margin: 10px 6px 11px 4px;
 }
 
-#tool_browser
+div.tool_bar_left
 {
-	margin-left: 230px;
+	border-left: 0px;
+	left: 0px;
+}
+
+div.tool_bar_right
+{
+	width: 142px;
+	padding-left: 28px;
+	border-right: 0px;
+	right: 0px;
+}
+
+div.tool_bar_right #tool_bar_hide_container.hide
+{
+	left: 0px;
+	margin-left: -1px;
+	background-image: url(../img/common/action_action_bar_right_hide_background.png);
+}
+
+div.tool_bar_right #tool_bar_hide_container.show
+{
+	left: -18px;
+	margin-right: 0px;
+	background-image: url(../img/common/action_action_bar_right_show_background.png);
+}
+
+#tool_browser_left
+{
+	margin-left: 180px;
+}
+
+#tool_browser_right
+{
+	margin-right: 180px;
 }
 
 div.tool_menu ul
