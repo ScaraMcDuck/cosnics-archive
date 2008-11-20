@@ -52,7 +52,7 @@ class MenuToolListRenderer extends ToolListRenderer
 		
 		$menu_style = $this->get_menu_style();
 		
-		$html[] = '<div id="tool_bar" class="tool_bar tool_bar_'. $menu_style .'">';
+		$html[] = '<div id="tool_bar" class="tool_bar tool_bar_'. ($this->display_menu_icons() && !$this->display_menu_text() ? 'icon_' : '') . $menu_style .'">';
 		
 		if ($this->get_menu_style() == 'right')
 		{
@@ -77,7 +77,7 @@ class MenuToolListRenderer extends ToolListRenderer
 				$tool_image = 'tool_mini_' . $tool->name . $new . '.png';
 				$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'));
 				$html[] = '<li class="tool_list_menu">';
-				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>Weblcms :: ACTION_VIEW_COURSE,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
+				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
 								
 				if ($this->display_menu_icons())
 				{
