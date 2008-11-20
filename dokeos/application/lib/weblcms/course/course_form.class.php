@@ -56,16 +56,17 @@ class CourseForm extends FormValidator {
 		{
 			$user_options = array();
 			$udm = UserDataManager :: get_instance();
-			$wdm = WeblcmsDataManager :: get_instance();
-			$users = $wdm->retrieve_course_users($this->course);
+			//$wdm = WeblcmsDataManager :: get_instance();
+			//$users = $wdm->retrieve_course_users($this->course);
+			$users = $udm->retrieve_users(new EqualityCondition(User :: PROPERTY_STATUS, 1));
 
-			while ($user = $users->next_result())
+			while ($userobject = $users->next_result())
 			{
-				if($user->get_status() == 1)
-				{
-					$userobject = $udm->retrieve_user($user->get_user());
+				//if($user->get_status() == 1)
+				//{
+					//$userobject = $udm->retrieve_user($user->get_user());
 					$user_options[$userobject->get_id()] = $userobject->get_lastname() . '&nbsp;' . $userobject->get_firstname();
-				}
+				//}
 			}
 
 			$this->addElement('select', Course :: PROPERTY_TITULAR, Translation :: get('Teacher'), $user_options);

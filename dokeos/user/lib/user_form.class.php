@@ -342,6 +342,7 @@ class UserForm extends FormValidator {
 		$defaults[User :: PROPERTY_PICTURE_URI] = $user->get_picture_uri();
 		$defaults[User :: PROPERTY_PHONE] = $user->get_phone();
 		$defaults[User :: PROPERTY_LANGUAGE] = $user->get_language();
+		$defaults[User :: PROPERTY_STATUS] = $user->get_status();
 		
 		$defaults['active'][User :: PROPERTY_ACTIVE] = !is_null($user->get_active())?$user->get_active():1;
 		$user_can_have_theme = PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME);
