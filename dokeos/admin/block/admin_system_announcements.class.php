@@ -16,20 +16,27 @@ class AdminSystemAnnouncements extends AdminBlock
 	{
 		$html = array();
 		
-		$html[] = $this->display_header();
-		$html[] = $this->get_system_announcements();
-		$html[] = $this->display_footer();
+		$announcements = $this->get_parent()->retrieve_system_announcement_publications();
 		
-		return implode("\n", $html);
+		if($announcements->size() > 0)
+		{
+			$html[] = $this->display_header();
+			$html[] = $this->get_system_announcements($announcements);
+			$html[] = $this->display_footer();
+			
+			return implode("\n", $html);
+		}
+		else
+		{
+			return '';
+		}
 	}
 	
-	function get_system_announcements()
+	function get_system_announcements($announcements)
 	{
 		$html = array();
 		
 		$html[] = '<ul style="list-style: none; margin: 0px; padding: 0px;">';
-		
-		$announcements = $this->get_parent()->retrieve_system_announcement_publications();
 		
 		if($announcements->size() == 0)
 		{
