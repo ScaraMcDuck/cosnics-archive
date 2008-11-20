@@ -84,6 +84,10 @@ class Weblcms extends WebApplication
 	 */
 	private $tools;
 	/**
+	 * The sections that this application offers.
+	 */
+	private $sections;
+	/**
 	 * The class of the tool currently active in this application
 	 */
 	private $tool_class;
@@ -127,6 +131,8 @@ class Weblcms extends WebApplication
 		$this->load_course();
 		$this->course_group = null;
 		$this->load_course_group();
+		$this->sections = array ();
+		$this->load_sections();
 		$this->tools = array ();
 		$this->load_tools();
 	}
@@ -525,6 +531,15 @@ class Weblcms extends WebApplication
 		return $this->tools;
 	}
 	
+	/**
+	 * Returns the names of the sections known to this application.
+	 * @return array The tools.
+	 */
+	function get_registered_sections()
+	{
+		return $this->sections;
+	}
+	
 	function get_tool_properties($tool)
 	{
 		return $this->tools[$tool];
@@ -539,10 +554,23 @@ class Weblcms extends WebApplication
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
 			$this->tools = $wdm->get_course_modules($this->get_course_id());
+			
 			foreach($this->tools as $index => $tool)
 			{
 				require_once dirname(__FILE__).'/../tool/'.$tool->name.'/'.$tool->name.'_tool.class.php';
 			}
+		}
+	}
+	
+	/**
+	 * Loads the sections installed on the system.
+	 */
+	function load_sections()
+	{
+		if(!is_null($this->get_course_id()))
+		{
+			$wdm = WeblcmsDataManager :: get_instance();
+			$this->sections = $wdm->get_course_sections($this->get_course_id());
 		}
 	}
 

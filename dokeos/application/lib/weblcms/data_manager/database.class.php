@@ -15,6 +15,7 @@ require_once dirname(__FILE__).'/../learning_object_publication.class.php';
 require_once dirname(__FILE__).'/../category_manager/learning_object_publication_category.class.php';
 require_once dirname(__FILE__).'/../learning_object_publication_feedback.class.php';
 require_once dirname(__FILE__).'/../course/course.class.php';
+require_once dirname(__FILE__).'/../course/course_section.class.php';
 require_once dirname(__FILE__).'/../course/course_category.class.php';
 require_once dirname(__FILE__).'/../course/course_user_category.class.php';
 require_once dirname(__FILE__).'/../course/course_user_relation.class.php';
@@ -848,6 +849,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	}
 	function get_course_modules($course_code, $auto_added = false)
 	{
+		$sections = $this->get_course_sections($course_code);
+		
 		$query = 'SELECT * FROM '.$this->escape_table_name('course_module').' WHERE course_code = ?';
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($course_code);
@@ -877,7 +880,17 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 							{
 								$section = 'basic';
 							}
-							$this->add_course_module($course_code, $file, $section, $visible);
+							
+							switch($section)
+							{
+								case 'basic':
+									$section_id = $sections[CourseSection :: TYPE_TOOL][0]->id;
+									break;
+								case 'course_admin':
+									$section_id = $sections[CourseSection :: TYPE_ADMIN][0]->id;
+									break;
+							}
+							$this->add_course_module($course_code, $file, $section_id, $visible);
 						}
 					}
 				}
@@ -891,6 +904,35 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		    $modules[$module->name] = $module;
 		}
 		return $modules;
+	}
+	
+	function get_course_sections($course_code, $auto_added = false)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('course_section').' WHERE course_code = ? ORDER BY display_order';
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($course_code);
+		// If no modules are defined for this course -> insert them in database
+		// @todo This is not the right place to do this, should happen upon course creation
+		if($res->numRows() == 0 && !$auto_added)
+		{
+			$sections = array();
+			$sections[] = array('name' => Translation :: get('Tools'), 'type' => 1, 'order' => 1);
+			$sections[] = array('name' => Translation :: get('Links'), 'type' => 2, 'order' => 2);
+			$sections[] = array('name' => Translation :: get('CourseAdministration'), 'type' => 3, 'order' => 3);
+			
+			foreach($sections as $section)
+			{
+				$this->add_course_section($course_code, $section, true);
+			}
+			return $this->get_course_sections($course_code, true);
+		}
+		$sections = array();
+		$section = null;
+		while ($section = $res->fetchRow(MDB2_FETCHMODE_OBJECT))
+		{
+		    $sections[$section->type][] = $section;
+		}
+		return $sections;
 	}
 
 	function retrieve_course($course_code)
@@ -1657,7 +1699,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$res = $statement->execute(array($visible,$course_code,$module));
 	}
 
-	function add_course_module($course_code,$module,$section = 'basic',$visible = true)
+	function add_course_module($course_code,$module,$section,$visible = true)
 	{
 		$props = array ();
 		$props[$this->escape_column_name('id')] = $this->get_next_course_module_id();
@@ -1665,8 +1707,22 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$props[$this->escape_column_name('name')] = $module;
 		$props[$this->escape_column_name('section')] = $section;
 		$props[$this->escape_column_name('visible')] = $visible;
+		
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('course_module'), $props, MDB2_AUTOQUERY_INSERT);
+	}
+	
+	function add_course_section($course_code, $section,$visible = true)
+	{
+		$props = array ();
+		$props[$this->escape_column_name('id')] = $this->get_next_course_section_id();
+		$props[$this->escape_column_name('course_code')] = $course_code;
+		$props[$this->escape_column_name('name')] = $section['name'];
+		$props[$this->escape_column_name('type')] = $section['type'];
+		$props[$this->escape_column_name('display_order')] = $section['order'];
+		$props[$this->escape_column_name('visible')] = $visible;
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('course_section'), $props, MDB2_AUTOQUERY_INSERT);
 	}
 
 	/**
@@ -2182,6 +2238,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function get_next_course_module_id()
 	{
 		return $this->db->get_next_id('course_module');
+	}
+	
+	function get_next_course_section_id()
+	{
+		return $this->db->get_next_id('course_section');
 	}
 	
 	function delete_category($category)
