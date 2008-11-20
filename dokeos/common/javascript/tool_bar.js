@@ -20,7 +20,7 @@ $(document).ready(function()
 					$("#tool_bar_left_show").toggle();
 				}
 		);
-		$("#tool_browser").animate({marginLeft: "0px"}, 300);
+		$("#tool_browser").animate({marginLeft: "10px"}, 300);
 		
 		return false;
 	}

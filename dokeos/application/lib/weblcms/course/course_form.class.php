@@ -103,6 +103,9 @@ class CourseForm extends FormValidator {
 		}
 		
 		$this->addElement('select', Course :: PROPERTY_LAYOUT, Translation :: get('Layout'), Course :: get_layouts());
+		$this->addElement('select', Course :: PROPERTY_TOOL_SHORTCUT, Translation :: get('ToolShortcut'), Course :: get_tool_shortcut_options());
+		$this->addElement('select', Course :: PROPERTY_MENU, Translation :: get('Menu'), Course :: get_menu_options());
+		$this->addElement('select', Course :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), Course :: get_breadcrumb_options());
 
 		$course_access = array();
 		$course_access[] =& $this->createElement('radio', null, null, Translation :: get('CourseAccessOpenWorld'), COURSE_VISIBILITY_OPEN_WORLD);
@@ -163,6 +166,10 @@ class CourseForm extends FormValidator {
 		}
 		
 		$course->set_layout($values[Course :: PROPERTY_LAYOUT]);
+		$course->set_tool_shortcut($values[Course :: PROPERTY_TOOL_SHORTCUT]);
+		$course->set_menu($values[Course :: PROPERTY_MENU]);
+		$course->set_breadcrumb($values[Course :: PROPERTY_BREADCRUMB]);
+
     	$course->set_visibility($values[Course :: PROPERTY_VISIBILITY]);
     	$course->set_subscribe_allowed($values[Course :: PROPERTY_SUBSCRIBE_ALLOWED]);
     	$course->set_unsubscribe_allowed($values[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED]);
@@ -194,6 +201,9 @@ class CourseForm extends FormValidator {
     	$course->set_subscribe_allowed($values[Course :: PROPERTY_SUBSCRIBE_ALLOWED]);
     	$course->set_unsubscribe_allowed($values[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED]);
 		$course->set_layout($values[Course :: PROPERTY_LAYOUT]);
+		$course->set_tool_shortcut($values[Course :: PROPERTY_TOOL_SHORTCUT]);
+		$course->set_menu($values[Course :: PROPERTY_MENU]);
+		$course->set_breadcrumb($values[Course :: PROPERTY_BREADCRUMB]);
 		
     	if ($course->create())
     	{
@@ -244,6 +254,10 @@ class CourseForm extends FormValidator {
 		$defaults[Course :: PROPERTY_VISIBILITY] = $course->get_visibility();
 		$defaults[Course :: PROPERTY_SUBSCRIBE_ALLOWED] = $course->get_subscribe_allowed();
 		$defaults[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED] = $course->get_unsubscribe_allowed();
+		$defaults[Course :: PROPERTY_LAYOUT] = $course->get_layout();
+		$defaults[Course :: PROPERTY_TOOL_SHORTCUT] = $course->get_tool_shortcut();
+		$defaults[Course :: PROPERTY_MENU] = $course->get_menu();
+		$defaults[Course :: PROPERTY_BREADCRUMB] = $course->get_breadcrumb();
 		
 		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
 		
