@@ -805,7 +805,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	function move_allowed($target)
 	{
-		if ($target == $this->get_id())
+		/*if ($target == $this->get_id())
 		{
 			return false;
 		}
@@ -814,7 +814,8 @@ class LearningObject implements AccessibleLearningObject
 		{
 			return false;
 		}
-		return !$target_object->has_ancestor($this->get_id());
+		return !$target_object->has_ancestor($this->get_id());*/
+		return true;
 	}
 
 	// XXX: Keep this around? Override? Make useful?

@@ -8,6 +8,36 @@
 					<option name="false" value="0" />
 				</options>
 			</setting>
+			<setting name="allow_course_language_selection" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="allow_course_layout_selection" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="allow_course_tool_short_cut_selection" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="allow_course_menu_selection" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="allow_course_breadcrumbs" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
 		</category>
 	</settings>
 </application>
