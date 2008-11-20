@@ -157,7 +157,19 @@ abstract class Tool
 	 */
 	function display_header($breadcrumbtrail, $append = array())
 	{
-		$breadcrumbtrail->add(new Breadcrumb($this->get_url(null, false, true, array('tool')), $_GET[Weblcms :: PARAM_COURSE]));
+		switch($this->parent->get_course()->get_breadcrumb())
+		{
+			case Course :: BREADCRUMB_TITLE : $title = $this->parent->get_course()->get_name(); break;
+			case Course :: BREADCRUMB_CODE : $title = $this->parent->get_course()->get_id(); break;
+			case Course :: BREADCRUMB_COURSE_HOME : $title = Translation :: get('CourseHome'); break;
+			default: $title = $this->parent->get_course()->get_id(); break;
+		}
+		
+		$breadcrumbtrail->add(new Breadcrumb($this->get_url(null, false, true, array('tool')), $title));
+		
+		// TODO: do this by overriding display_header in the course_group tool
+		
+		
 		
 		if(!is_null($this->parent->get_course_group()))
 		{
@@ -165,15 +177,14 @@ abstract class Tool
 			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array('tool_action' => null, Weblcms::PARAM_COURSE_GROUP=>null)),Translation :: get('CourseGroups')));
 			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), $course_group->get_name()));
 		}
-		// TODO: do this by overriding display_header in the course_group tool
 		elseif($this->get_tool_id() == 'course_group')
 		{
-			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->get_tool_id()).'Title')));
+			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
 		}
 		// TODO: make this the default
 		if($this->get_tool_id() != 'course_group')
 		{
-			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->get_tool_id()).'Title')));
+			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
 		}
 		if (count($append))
 		{

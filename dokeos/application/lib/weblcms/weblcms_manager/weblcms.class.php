@@ -456,7 +456,8 @@ class Weblcms extends WebApplication
 		{
 			if ($course && is_object($this->course) && $action == self :: ACTION_VIEW_COURSE)
 			{
-				echo '<h3 style="float: left;">'.htmlentities($this->course->get_name()).'</h3>';
+				//echo '<h3 style="float: left;">'.htmlentities($this->course->get_name()).'</h3>';
+				echo '<h3 style="float: left;">'.htmlentities($title).'</h3>';
 				// TODO: Add department name and url here somewhere ?
 			}
 			else
