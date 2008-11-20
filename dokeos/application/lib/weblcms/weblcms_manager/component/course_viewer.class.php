@@ -124,12 +124,15 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				
 				//TODO: Depending on settings, display menu and/or shortcut icons
 				//Display shortcut icons
-				$renderer = ToolListRenderer::factory('Menu',$this);
-				$renderer->set_type(MenuToolListRenderer::MENU_TYPE_TOP_NAVIGATION);
-				echo '<div style="width: 100%; text-align: right;">';
-				$renderer->display();
-				echo '</div>';
-				echo '<div class="clear"></div><br />';
+				if($this->get_course()->get_tool_shortcut() == Course :: TOOL_SHORTCUT_ON)
+				{
+					$renderer = ToolListRenderer::factory('Menu',$this);
+					$renderer->set_type(MenuToolListRenderer::MENU_TYPE_TOP_NAVIGATION);
+					echo '<div style="width: 100%; text-align: right;">';
+					$renderer->display();
+					echo '</div>';
+					echo '<div class="clear"></div><br />';
+				}
 				
 				//Display menu
 				$side = 1;

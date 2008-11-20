@@ -45,6 +45,9 @@ class Course {
 	const PROPERTY_UNSUBSCRIBE_ALLOWED = 'unsubscribe';
 	const PROPERTY_THEME = 'theme';
 	const PROPERTY_LAYOUT = 'layout';
+	const PROPERTY_TOOL_SHORTCUT = 'tool_shortcut';
+	const PROPERTY_MENU = 'menu';
+	const PROPERTY_BREADCRUMB = 'breadcrumb';
 
 	// Remnants from the old Dokeos system
 	const PROPERTY_LAST_VISIT = 'last_visit';
@@ -57,6 +60,21 @@ class Course {
 	const LAYOUT_3_COLUMNS = 2;
 	const LAYOUT_2_COLUMNS_GROUP_INACTIVE = 3;
 	const LAYOUT_3_COLUMNS_GROUP_INACTIVE = 4;
+	
+	const TOOL_SHORTCUT_OFF = 1;
+	const TOOL_SHORTCUT_ON = 2;
+	
+	const MENU_OFF = 1;
+	const MENU_LEFT_ICON = 2;
+	const MENU_LEFT_ICON_TEXT = 3;
+	const MENU_LEFT_TEXT = 4;
+	const MENU_RIGHT_ICON = 5;
+	const MENU_RIGHT_ICON_TEXT = 6;
+	const MENU_RIGHT_TEXT = 7;
+	
+	const BREADCRUMB_TITLE = 1;
+	const BREADCRUMB_CODE = 2;
+	const BREADCRUMB_COURSE_HOME = 3;
 
 	private $id;
 	private $defaultProperties;
@@ -64,10 +82,34 @@ class Course {
 
 	static function get_layouts()
 	{
-		return array(self :: LAYOUT_2_COLUMNS => translation :: get('TwoColumns'),
-					 self :: LAYOUT_3_COLUMNS => translation :: get('ThreeColumns'),
-					 self :: LAYOUT_2_COLUMNS_GROUP_INACTIVE => translation :: get('TwoColumnsGroupInactive'),
-					 self :: LAYOUT_3_COLUMNS_GROUP_INACTIVE => translation :: get('ThreeColumnsGroupInactive'));
+		return array(self :: LAYOUT_2_COLUMNS => Translation :: get('TwoColumns'),
+					 self :: LAYOUT_3_COLUMNS => Translation :: get('ThreeColumns'),
+					 self :: LAYOUT_2_COLUMNS_GROUP_INACTIVE => Translation :: get('TwoColumnsGroupInactive'),
+					 self :: LAYOUT_3_COLUMNS_GROUP_INACTIVE => Translation :: get('ThreeColumnsGroupInactive'));
+	}
+	
+	static function get_tool_shortcut_options()
+	{
+		return array(self ::TOOL_SHORTCUT_OFF => Translation :: get('Off'),
+					 self ::TOOL_SHORTCUT_ON => Translation :: get('On'));
+	}
+	
+	static function get_menu_options()
+	{
+		return array(self ::MENU_OFF => Translation :: get('Off'),
+					 self ::MENU_LEFT_ICON => Translation :: get('LeftIcon'),
+					 self ::MENU_LEFT_ICON_TEXT => Translation :: get('LeftIconText'),
+					 self ::MENU_LEFT_TEXT => Translation :: get('LeftText'),
+					 self ::MENU_RIGHT_ICON => Translation :: get('RightIcon'),
+					 self ::MENU_RIGHT_ICON_TEXT => Translation :: get('RightIconText'),
+					 self ::MENU_RIGHT_TEXT => Translation :: get('RightText'));
+	}
+	
+	static function get_breadcrumb_options()
+	{
+		return array(self ::BREADCRUMB_TITLE => Translation :: get('Title'),
+					 self ::BREADCRUMB_CODE => Translation :: get('Code'),
+					 self ::BREADCRUMB_COURSE_HOME => Translation :: get('CourseHome'));
 	}
 
 	/**
@@ -117,7 +159,13 @@ class Course {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_LAYOUT, self :: PROPERTY_VISUAL, self :: PROPERTY_CATEGORY, self :: PROPERTY_DB, self :: PROPERTY_NAME, self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, self :: PROPERTY_UNSUBSCRIBE_ALLOWED, self :: PROPERTY_THEME);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_LAYOUT, self :: PROPERTY_VISUAL, 
+				      self :: PROPERTY_CATEGORY, self :: PROPERTY_DB, self :: PROPERTY_NAME, 
+				      self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, 
+				      self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, 
+				      self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, 
+				      self :: PROPERTY_UNSUBSCRIBE_ALLOWED, self :: PROPERTY_THEME,
+				      self :: PROPERTY_TOOL_SHORTCUT, self :: PROPERTY_MENU, self :: PROPERTY_BREADCRUMB);
 	}
 
 	/**
@@ -392,6 +440,36 @@ class Course {
 	function get_layout()
 	{
 		return $this->get_default_property(self :: PROPERTY_LAYOUT);
+	}
+	
+	function set_menu($menu)
+	{
+		$this->set_default_property(self :: PROPERTY_MENU, $menu);
+	}
+	
+	function get_menu()
+	{
+		return $this->get_default_property(self :: PROPERTY_MENU);
+	}
+	
+	function set_tool_shortcut($tool_shortcut)
+	{
+		$this->set_default_property(self :: PROPERTY_TOOL_SHORTCUT, $tool_shortcut);
+	}
+	
+	function get_tool_shortcut()
+	{
+		return $this->get_default_property(self :: PROPERTY_TOOL_SHORTCUT);
+	}
+	
+	function set_breadcrumb($breadcrumb)
+	{
+		$this->set_default_property(self :: PROPERTY_BREADCRUMB, $breadcrumb);
+	}
+	
+	function get_breadcrumb()
+	{
+		return $this->get_default_property(self :: PROPERTY_BREADCRUMB);
 	}
 	
 	/**

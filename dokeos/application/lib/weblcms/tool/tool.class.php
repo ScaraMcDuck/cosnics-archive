@@ -184,17 +184,28 @@ abstract class Tool
 		}
 		$this->parent->display_header($breadcrumbtrail);
 		echo '<div class="clear"></div>';
+		
+		if($this->parent->get_course()->get_tool_shortcut() == Course :: TOOL_SHORTCUT_ON)
+		{
+			$renderer = ToolListRenderer::factory('Menu',$this->parent);
+			$renderer->set_type(MenuToolListRenderer::MENU_TYPE_TOP_NAVIGATION);
+			echo '<div style="width: 100%; text-align: right;">';
+			$renderer->display();
+			echo '</div>';
+		}
+		
+		
 		$renderer = ToolListRenderer::factory('Menu',$this->parent);
-		$renderer->set_type(MenuToolListRenderer::MENU_TYPE_TOP_NAVIGATION);
-		echo '<div style="width: 100%; text-align: right;">';
 		$renderer->display();
-		echo '</div>';
+		
+		echo '<div id="tool_browser">';
 	}
 	/**
 	 * @see Application :: display_footer()
 	 */
 	function display_footer()
 	{
+		echo '</div>';
 		$this->parent->display_footer();
 	}
 
