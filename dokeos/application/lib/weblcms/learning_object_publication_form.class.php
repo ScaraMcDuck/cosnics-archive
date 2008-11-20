@@ -360,8 +360,8 @@ class LearningObjectPublicationForm extends FormValidator
 			
 			$adm = AdminDataManager :: get_instance();
 			$site_name_setting = PlatformSetting :: get('site_name');
-			
-			$subject = '['.$site_name_setting->get_value().'] '.$learning_object->get_title();
+
+			$subject = '['.$site_name_setting.'] '.$learning_object->get_title();
 			$body = new html2text($display->get_full_html());
 			// TODO: send email to correct users/course_groups. For testing, the email is sent now to the publisher.
 			$user = $this->user;
