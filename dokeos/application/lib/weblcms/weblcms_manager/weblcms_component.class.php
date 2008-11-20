@@ -230,6 +230,14 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
+	 * @see Weblcms::get_registered_sections()
+	 */	
+	function get_registered_sections()
+	{
+		return $this->get_parent()->get_registered_sections();
+	}
+	
+	/**
 	 * @see Weblcms::get_registered_tools()
 	 */	
 	function get_tool_properties($module)

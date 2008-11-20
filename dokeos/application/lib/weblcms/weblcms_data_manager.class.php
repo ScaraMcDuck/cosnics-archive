@@ -455,6 +455,8 @@ abstract class WeblcmsDataManager
 	 * @return array The list of available course modules
 	 */
 	abstract function get_course_modules($course_code);
+	
+	abstract function get_course_sections($course_code);
 
 	/**
 	 * Retrieves a single course from persistent storage.
@@ -622,7 +624,8 @@ abstract class WeblcmsDataManager
 	 * @param string $section
 	 * @param boolean $visible
 	 */
-	abstract function add_course_module($course_code,$module,$section = 'basic',$visible = true);
+	abstract function add_course_module($course_code,$module,$section,$visible = true);
+	abstract function add_course_section($course_code, $section,$visible = true);
 	 /**
 	  * Adds a record to the access log of a course module
 	  * @param string $course_code
