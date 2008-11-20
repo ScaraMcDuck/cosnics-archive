@@ -24,7 +24,7 @@ class MultipleAnswerQuestionResult extends QuestionResult
 		$user_question_score = $user_score / $user_score_div * $user_question->get_weight();
 		
 		$score_line = Translation :: get('Score').': '.$user_question_score.'/'.$user_question->get_weight();
-		$html[] = $this->display_score($score_line);
+		$this->display_score($score_line);
 		
 		foreach ($user_answers as $user_answer)
 		{
@@ -41,7 +41,19 @@ class MultipleAnswerQuestionResult extends QuestionResult
 	
 	function display_survey()
 	{
+		$this->display_question_header();
 		
+		$user_question = $this->get_user_question();
+		$user_answers = $this->get_user_answers();
+		$clo_answers = $this->get_clo_answers();
+
+		foreach ($user_answers as $user_answer)
+		{
+			$answer = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_answer->get_answer_id());
+			$answer_lines[] = $answer->get_title();
+		}
+		$this->display_answers($answer_lines);
+		$this->display_footer();
 	}
 	
 	function display_assignment()

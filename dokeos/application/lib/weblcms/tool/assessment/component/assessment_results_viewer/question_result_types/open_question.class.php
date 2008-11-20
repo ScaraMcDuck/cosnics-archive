@@ -29,7 +29,15 @@ class OpenQuestionResult extends QuestionResult
 	
 	function display_survey()
 	{
+		$this->display_question_header();
 		
+		$user_question = $this->get_user_question();
+		$user_answers = $this->get_user_answers();
+		$user_answer = $user_answers[0];
+		$answer_lines[] = $user_answer->get_extra();
+		$this->display_answers($answer_lines);
+
+		$this->display_footer();
 	}
 	
 	function display_assignment()

@@ -26,7 +26,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','assessment'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
 		$this->introduction_text = $publications->next_result();
 		
-		$tree_id = 'pcattree';
+		$tree_id = Weblcms :: PARAM_CATEGORY;
 		$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
 		$this->set_parameter($tree_id, $_GET[$tree_id]);
 		

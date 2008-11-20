@@ -35,13 +35,23 @@ class MultipleChoiceQuestionResult extends QuestionResult
 	
 	function display_survey()
 	{
+		$this->display_question_header();
 		
+		$user_question = $this->get_user_question();
+		$user_answers = $this->get_user_answers();
+		$user_answer = $user_answers[0];
+		
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $user_answer->get_extra());
+		$answer = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_answer->get_extra());
+
+		$answer_lines[] = $answer->get_title();
+		$this->display_answers($answer_lines);
+		$this->display_footer();
 	}
 	
 	function display_assignment()
 	{
 		$this->display_question();
-		//return implode('<br/>', $html);
 	}
 }
 ?>

@@ -101,9 +101,14 @@ class AssessmentPublicationTableDataProvider extends ObjectTableDataProvider
     function get_condition()
     {
     	$owner = $this->owner;
-    	
     	$conds = array();
-    	//$conds[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $owner->get_id());
+    	$parent = $this->parent;
+    	if ($parent->get_parameter(Weblcms :: PARAM_CATEGORY))
+    		$category = $parent->get_parameter(Weblcms :: PARAM_CATEGORY);
+    	else
+    		$category = 0;
+    	$conds[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category);
+    	
     	$type_cond = array();
     	$types = $this->types;
     	foreach ($types as $type)

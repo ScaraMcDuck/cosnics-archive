@@ -6,7 +6,7 @@ class YesNoScore extends Score
 	
 	function get_score()
 	{
-		$qid = parent :: get_question()->get_id();
+		/*$qid = parent :: get_question()->get_id();
 		$dm = RepositoryDataManager :: get_instance();
 		$question = $dm->retrieve_learning_object($qid, 'question');
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $question->get_id());
@@ -20,7 +20,15 @@ class YesNoScore extends Score
 			$clo_answers->next_result();
 			$counter++;
 		}
-		return $clo_answers->next_result()->get_score();
+		return $clo_answers->next_result()->get_score();*/
+		
+		$dm = RepositoryDataManager :: get_instance();
+		$answer_id = parent :: get_user_answer()->get_extra();
+		//print_r(parent :: get_user_answer());
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $answer_id);
+		//print_r($condition);
+		
+		return $dm->retrieve_complex_learning_object_items($condition)->next_result()->get_score();
 	}
 }
 ?>
