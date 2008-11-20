@@ -54,7 +54,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 		if (count($not_writable) > 0)
 		{
 			$info[] = '<div style="margin:20px;padding:10px;width: 50%;color:#FF6600;border:2px solid #FF6600;">';
-			$info[] = 'Some files or folders don\'t have writing permission. To be able to install Dokeos you should first change their permissions (using CHMOD). Please read the <a href="../../installation_guide.html" target="blank">installation guide</a>.';
+			$info[] = 'Some files or folders don\'t have writing permission. To be able to install Dokeos you should first change their permissions (using CHMOD). Please read the <a href="../../documentation/installation_guide.html" target="blank">installation guide</a>.';
 			$info[] = '<ul>';
 			foreach ($not_writable as $index => $folder)
 			{
@@ -85,7 +85,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 		$info[] = "<li>MySQL + login/password allowing to access and create at least one database</li>";
 		$info[] = "<li>Write access to web directory where Dokeos files have been put</li>";
 		$info[] = "</ul>";
-		$info[] = Translation :: get('MoreDetails').", <a href=\"../../installation_guide.html\" target=\"blank\">read the installation guide</a>.";
+		$info[] = Translation :: get('MoreDetails').", <a href=\"../../documentation/installation_guide.html\" target=\"blank\">read the installation guide</a>.";
 		return implode("\n",$info);
 	}
 	function buildForm()
