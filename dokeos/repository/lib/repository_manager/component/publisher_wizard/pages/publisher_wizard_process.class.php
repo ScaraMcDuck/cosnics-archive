@@ -76,7 +76,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 	function display_block_header($application)
 	{
 		$html = array();
-		$html[] = '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(layout/aqua/img/admin/place_'. $application .'.png);">';
+		$html[] = '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(layout/aqua/img/admin/place_'. DokeosUtilities :: camelcase_to_underscores($application) .'.png);">';
 		$html[] = '<div class="title">'. Translation :: get(Application::application_to_class($application)) .'</div>';
 		$html[] = '<div class="description">';
 		return implode("\n", $html);

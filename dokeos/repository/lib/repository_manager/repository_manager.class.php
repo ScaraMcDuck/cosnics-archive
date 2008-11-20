@@ -337,10 +337,10 @@ class RepositoryManager
 		
 		if($display_menu)
 		{
-			echo '<div style="float: left; width: 20%; overflow: auto;">';
+			echo '<div style="float: left; width: 12%; overflow: auto;">';
 			$this->display_learning_object_categories();
 			echo '</div>';
-			echo '<div style="float: right; width: 75%;">';
+			echo '<div style="float: right; width: 85%;">';
 		}
 		else
 		{

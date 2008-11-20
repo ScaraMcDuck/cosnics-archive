@@ -214,7 +214,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			return array();
 		}
 		$id = $learning_object->get_id();
-		$query = 'SELECT '.implode(',', array_map(array($this, 'escape_column_name'), $learning_object->get_additional_property_names())).' FROM '.$this->escape_table_name($type).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+		$array = array_map(array($this, 'escape_column_name'), $learning_object->get_additional_property_names());
+		if(count($array) == 0)
+			$array = array("*");
+		$query = 'SELECT '.implode(',', $array).' FROM '.$this->escape_table_name($type).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
+		
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);

@@ -214,12 +214,18 @@ class PersonalCalendar extends WebApplication
 	 */
 	function get_learning_object_publication_locations($learning_object)
 	{
-		return array();	
+		return array(Translation :: get('PersonalCalendar'));	
 	}
 	
 	function publish_learning_object($learning_object, $location)
 	{
+		require_once dirname(__FILE__) . '/../calendar_event_publication.class.php';
+		$pub = new CalendarEventPublication();
+		$pub->set_calendar_event($learning_object->get_id());
+		$pub->set_publisher($learning_object->get_owner_id());
+		$pub->create();
 		
+		return Translation :: get('PublicationCreated');
 	}	
 	
 	/**
