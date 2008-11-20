@@ -16,7 +16,7 @@ class RepositoryFeeder extends RepositoryBlock
 	function as_html()
 	{
 		$configuration = $this->get_configuration();
-		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($configuration['object']);
+		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($configuration['use_object']);
 		$display = LearningObjectDisplay :: factory($learning_object);
 		
 		$html = array();

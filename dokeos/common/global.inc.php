@@ -320,8 +320,8 @@ else
  */
 function dump($variable)
 {
-	echo "<pre>";
+	echo '<pre>';
 	print_r($variable);
-	echo "</pre>";
+	echo '</pre>';
 }
 ?>
