@@ -78,7 +78,8 @@ class MaintenanceWizardProcess extends HTML_QuickForm_Action
 							time(),
 							$publication->is_hidden(),
 							$dm->get_next_learning_object_publication_display_order_index($course_code,$publication->get_tool(),0),
-							false
+							false,
+							$publication->get_show_on_homepage()
 						);
 						$pub->create();
 					}
