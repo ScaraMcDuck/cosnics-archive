@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/../weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcms_component.class.php';
 require_once dirname(__FILE__).'/../../course/course_user_relation_form.class.php';
 require_once dirname(__FILE__).'/../../course/course_user_category_form.class.php';
+require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
@@ -240,8 +241,8 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	
 	function display_courses()
 	{
-		
-		echo $this->get_sort_modification_links();
+		echo $this->get_actionbar()->as_html();
+		echo '<div class="clear"></div><br />';
 		
 		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
 		
@@ -261,6 +262,13 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			$cat_key++;
 		}
 		
+	}
+	
+	function get_actionbar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateCourseUserCategory'), Theme :: get_common_img_path().'action_create.png', $this->get_course_user_category_add_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		return $action_bar;
 	}
 	
 	function display_course_digest($courses, $course_category = null, $cat_key = null, $cat_count = null)
@@ -394,20 +402,6 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			'label' => Translation :: get('Delete'),
 			'confirm' => true,
 			'img' => Theme :: get_common_img_path().'action_delete.png'
-		);
-		
-		return DokeosUtilities :: build_toolbar($toolbar_data);
-	}
-	
-	function get_sort_modification_links()
-	{
-		$toolbar_data = array();
-			
-		$toolbar_data[] = array(
-			'href' => $this->get_course_user_category_add_url(),
-			'label' => Translation :: get('CreateCourseUserCategory'),
-			'img' => Theme :: get_common_img_path().'action_create.png',
-			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);

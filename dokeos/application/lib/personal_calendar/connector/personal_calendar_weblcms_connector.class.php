@@ -22,7 +22,7 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
 		$conditions[] = new EqualityCondition('tool', 'calendar');
 		$conditions[] = new EqualityCondition('hidden',0);
 		$condition = new AndCondition($conditions);
-		$publications = $dm->retrieve_learning_object_publications(null, null, $user->get_id(), $course_groups, $condition);
+		$publications = $dm->retrieve_learning_object_publications(null, null, $user->get_id(), $course_groups, $condition, false, array (), array (), 0, -1, null, new EqualityCondition('type', 'calendar_event'));
 		$result = array ();
 		while ($publication = $publications->next_result())
 		{
