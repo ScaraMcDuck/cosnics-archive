@@ -148,7 +148,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				{
 					$renderer = ToolListRenderer::factory('Menu',$this);
 					$renderer->display();					
-					echo '<div id="tool_browser_'. $renderer->get_menu_style() .'">';
+					echo '<div id="tool_browser_'. ($renderer->display_menu_icons() && !$renderer->display_menu_text() ? 'icon_' : '') . $renderer->get_menu_style() .'">';
 				}
 				else
 				{

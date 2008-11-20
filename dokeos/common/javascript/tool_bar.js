@@ -7,37 +7,34 @@ $(document).ready(function()
 	$("#tool_bar_hide").bind("click", hideBlockScreen);
 	$("#tool_bar_show").bind("click", showBlockScreen);
 	
+	function toggleButtons()
+	{
+		$("#tool_bar_hide").toggle();
+		$("#tool_bar_show").toggle();
+	}
+	
 	function hideBlockScreen()
 	{
 		$("#tool_bar_hide_container").attr('class', 'show');
 		
-		if (tool == 'tool_bar tool_bar_left')
+		switch(tool)
 		{
-			$("div.tool_bar_left").animate(
-				{
-					left: "-181px"
-				}
-				, 300, function()
-					{
-						$("#tool_bar_hide").toggle();
-						$("#tool_bar_show").toggle();
-					}
-			);
-			$("#tool_browser_left").animate({marginLeft: "0px"}, 300);
-		}
-		else
-		{
-			$("div.tool_bar_right").animate(
-				{
-					right: "-181px"
-				}
-				, 300, function()
-					{
-						$("#tool_bar_hide").toggle();
-						$("#tool_bar_show").toggle();
-					}
-			);
-			$("#tool_browser_right").animate({marginRight: "0px"}, 300);
+			case 'tool_bar tool_bar_left':
+				$("div.tool_bar_left").animate({left: "-181px"}, 300, toggleButtons);
+				$("#tool_browser_left").animate({marginLeft: "0px"}, 300);
+				break;
+			case 'tool_bar tool_bar_icon_left':
+				$("div.tool_bar_icon_left").animate({left: "-55px"}, 300, toggleButtons);
+				$("#tool_browser_icon_left").animate({marginLeft: "0px"}, 300);
+				break;
+			case 'tool_bar tool_bar_right':
+				$("div.tool_bar_right").animate({right: "-181px"}, 300, toggleButtons);
+				$("#tool_browser_right").animate({marginRight: "0px"}, 300);
+				break;
+			case 'tool_bar tool_bar_icon_right':
+				$("div.tool_bar_icon_right").animate({right: "-55px"}, 300, toggleButtons);
+				$("#tool_browser_icon_right").animate({marginRight: "0px"}, 300);
+				break;
 		}
 		
 		return false;
@@ -47,35 +44,24 @@ $(document).ready(function()
 	{
 		$("#tool_bar_hide_container").attr('class', 'hide');
 		
-		if (tool == 'tool_bar tool_bar_left')
+		switch(tool)
 		{
-			$("div.tool_bar_left").animate(
-				{
-					left: "0px"
-				}
-				, 300, function()
-					{
-						$("#tool_bar_hide").toggle();
-						$("#tool_bar_show").toggle();
-					}
-			);
-			
-			$("#tool_browser_left").animate({marginLeft: "180px"}, 300);
-		}
-		else
-		{
-			$("div.tool_bar_right").animate(
-				{
-					right: "0px"
-				}
-				, 300, function()
-					{
-						$("#tool_bar_hide").toggle();
-						$("#tool_bar_show").toggle();
-					}
-			);
-			
-			$("#tool_browser_right").animate({marginRight: "180px"}, 300);
+			case 'tool_bar tool_bar_left':
+				$("div.tool_bar_left").animate({left: "0px"}, 300, toggleButtons);
+				$("#tool_browser_left").animate({marginLeft: "180px"}, 300);
+				break;
+			case 'tool_bar tool_bar_icon_left':
+				$("div.tool_bar_icon_left").animate({left: "0px"}, 300, toggleButtons);
+				$("#tool_browser_icon_left").animate({marginLeft: "54px"}, 300);
+				break;
+			case 'tool_bar tool_bar_right':
+				$("div.tool_bar_right").animate({right: "0px"}, 300, toggleButtons);			
+				$("#tool_browser_right").animate({marginRight: "180px"}, 300);
+				break;
+			case 'tool_bar tool_bar_icon_right':
+				$("div.tool_bar_icon_right").animate({right: "0px"}, 300, toggleButtons);
+				$("#tool_browser_icon_right").animate({marginRight: "54px"}, 300);
+				break;
 		}
 		
 		return false;
