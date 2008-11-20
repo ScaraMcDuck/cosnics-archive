@@ -116,7 +116,16 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			else
 			{
 				$trail = new BreadcrumbTrail();
-				$trail->add(new Breadcrumb($this->get_url(), $this->get_course_id()));
+				
+				switch($this->get_course()->get_breadcrumb())
+				{
+					case Course :: BREADCRUMB_TITLE : $title = $this->get_course()->get_name(); break;
+					case Course :: BREADCRUMB_CODE : $title = $this->get_course()->get_id(); break;
+					case Course :: BREADCRUMB_COURSE_HOME : $title = Translation :: get('CourseHome'); break;
+					default: $title = $this->get_course()->get_id(); break;
+				}
+				
+				$trail->add(new Breadcrumb($this->get_url(), $title));
 				
 				$wdm = WeblcmsDataManager :: get_instance();
 				$this->display_header($trail);
