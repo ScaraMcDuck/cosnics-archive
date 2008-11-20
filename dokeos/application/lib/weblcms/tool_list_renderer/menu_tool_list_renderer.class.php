@@ -13,25 +13,18 @@ class MenuToolListRenderer extends ToolListRenderer
 	/**
 	 *
 	 */
-	const MENU_TYPE_TOP_NAVIGATION = 1;
-	const MENU_TYPE_LIST_NAVIGATION = 2;
-	/**
-	 *
-	 */
 	private $is_course_admin;
-	/**
-	 *
-	 */
-	private $type;
+	
+	private $menu_properties;
 	/**
 	 * Constructor
 	 * @param  WebLcms $parent The parent application
 	 */
-	function MenuToolListRenderer($parent, $type = MENU_TYPE_LIST_NAVIGATION)
+	function MenuToolListRenderer($parent)
 	{
 		parent::ToolListRenderer($parent);
 		$this->is_course_admin = $this->get_parent()->get_course()->is_course_admin($this->get_parent()->get_user());
-		$this->type = $type;
+		$this->menu_properties = $this->retrieve_menu_properties();
 	}
 	/**
 	 * Sets the type of this navigation menu renderer
@@ -55,13 +48,22 @@ class MenuToolListRenderer extends ToolListRenderer
 	private function show_tools($tools)
 	{
 		$parent = $this->get_parent();
-		if( $this->type == MENU_TYPE_LIST_NAVIGATION)
+		$course = $parent->get_course();
+		
+		$menu_style = $this->get_menu_style();
+		
+		$html[] = '<div id="tool_bar" class="tool_bar tool_bar_'. $menu_style .'">';
+		
+		if ($this->get_menu_style() == 'right')
 		{
-			$html[] = '<div id="tool_bar_left" class="tool_bar_left">';
-			$html[] = '<div class="tool_menu">';
-			
-			$html[] = '<ul>';
+			$html[] = '<div id="tool_bar_hide_container" class="hide">';
+			$html[] = '<a id="tool_bar_hide" href="#"><img src="'. Theme :: get_common_img_path() .'action_action_bar_'. $menu_style .'_hide.png" /></a>';
+			$html[] = '<a id="tool_bar_show" href="#"><img src="'. Theme :: get_common_img_path() .'action_action_bar_'. $menu_style .'_show.png" /></a>';
+			$html[] = '</div>';
 		}
+		
+		$html[] = '<div class="tool_menu">';
+		$html[] = '<ul>';
 		
 		foreach ($tools as $index => $tool)
 		{
@@ -74,37 +76,114 @@ class MenuToolListRenderer extends ToolListRenderer
 				}
 				$tool_image = 'tool_mini_' . $tool->name . $new . '.png';
 				$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'));
-				if( $this->type == MENU_TYPE_LIST_NAVIGATION)
+				$html[] = '<li class="tool_list_menu">';
+				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>Weblcms :: ACTION_VIEW_COURSE,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
+								
+				if ($this->display_menu_icons())
 				{
-					$html[] = '<li class="tool_list_menu">';
+					$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/> ';
 				}
-				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>Weblcms :: ACTION_VIEW_COURSE,WebLcms :: PARAM_TOOL => $tool->name, 'go' => $_GET['go']), true).'" title="'.$title.'">';
-				$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/> ';
-				$html[] = '</a>';
-				if( $this->type == MENU_TYPE_LIST_NAVIGATION)
+				
+				if ($this->display_menu_text())
 				{
-					$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name, 'go' => $_GET['go']), true).'" title="'.$title.'">';
 					$html[] = $title;
-					$html[] = '</a>';
-					$html[] = '</li>';
 				}
+				
+				$html[] = '</a>';
+				$html[] = '</li>';
 			}
 		}
-		if( $this->type == MENU_TYPE_LIST_NAVIGATION)
+
+		$html[] = '</ul>';
+		$html[] = '</div>';
+		$html[] = '<div class="clear"></div>';
+	
+		if ($this->get_menu_style() == 'left')
 		{
-			$html[] = '</ul>';
+			$html[] = '<div id="tool_bar_hide_container" class="hide">';
+			$html[] = '<a id="tool_bar_hide" href="#"><img src="'. Theme :: get_common_img_path() .'action_action_bar_'. $menu_style .'_hide.png" /></a>';
+			$html[] = '<a id="tool_bar_show" href="#"><img src="'. Theme :: get_common_img_path() .'action_action_bar_'. $menu_style .'_show.png" /></a>';
 			$html[] = '</div>';
-			$html[] = '<div class="clear"></div>';
-		
-			$html[] = '<div id="tool_bar_left_hide_container" class="hide">';
-			$html[] = '<a id="tool_bar_left_hide" href="#"><img src="'. Theme :: get_common_img_path() .'action_action_bar_hide.png" /></a>';
-			$html[] = '<a id="tool_bar_left_show" href="#"><img src="'. Theme :: get_common_img_path() .'action_action_bar_show.png" /></a>';
-			$html[] = '</div>';
-			$html[] = '</div>';
-			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' .'"></script>';
-			$html[] = '<div class="clear"></div>';
 		}
+		
+		$html[] = '</div>';
+		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/tool_bar.js' .'"></script>';
+		$html[] = '<div class="clear"></div>';
+		
 		echo implode("\n",$html);
+	}
+	
+	function retrieve_menu_properties()
+	{
+		$menu_style = $this->get_parent()->get_course()->get_menu();
+		
+		$properties = array();
+		
+		switch($menu_style)
+		{
+			case Course :: MENU_LEFT_ICON :
+				$properties['style'] = 'left';
+				$properties['icons'] = true;
+				$properties['text'] = false;
+				break;
+			case Course :: MENU_LEFT_ICON_TEXT :
+				$properties['style'] = 'left';
+				$properties['icons'] = true;
+				$properties['text'] = true;
+				break;
+			case Course :: MENU_LEFT_TEXT :
+				$properties['style'] = 'left';
+				$properties['icons'] = false;
+				$properties['text'] = true;
+				break;
+				
+			case Course :: MENU_RIGHT_ICON :
+				$properties['style'] = 'right';
+				$properties['icons'] = true;
+				$properties['text'] = false;
+				break;
+			case Course :: MENU_RIGHT_ICON_TEXT :
+				$properties['style'] = 'right';
+				$properties['icons'] = true;
+				$properties['text'] = true;
+				break;
+			case Course :: MENU_RIGHT_TEXT :
+				$properties['style'] = 'right';
+				$properties['icons'] = false;
+				$properties['text'] = true;
+				break;
+				
+			default :
+				$properties['style'] = 'left';
+				$properties['icons'] = true;
+				$properties['text'] = true;
+				break;
+		}
+		
+		return $properties;
+	}
+	
+	function get_menu_properties()
+	{
+		return $this->menu_properties;
+	}	
+	
+	function get_menu_style()
+	{
+		$properties = $this->get_menu_properties();
+		return $properties['style'];
+	}
+	
+	function display_menu_icons()
+	{
+		$properties = $this->get_menu_properties();
+		return $properties['icons'];
+	}
+	
+	function display_menu_text()
+	{
+		$properties = $this->get_menu_properties();
+		return $properties['text'];
 	}
 }
 ?>

@@ -122,7 +122,9 @@ abstract class Tool
 				break;
 		}
 		if($component)
+		{
 			$component->run();
+		}
 		
 		return $component;
 	}
@@ -196,18 +198,24 @@ abstract class Tool
 		
 		if($this->parent->get_course()->get_tool_shortcut() == Course :: TOOL_SHORTCUT_ON)
 		{
-			$renderer = ToolListRenderer::factory('Menu',$this->parent);
-			$renderer->set_type(MenuToolListRenderer::MENU_TYPE_TOP_NAVIGATION);
+			$renderer = ToolListRenderer::factory('Shortcut', $this->parent);
 			echo '<div style="width: 100%; text-align: right;">';
 			$renderer->display();
 			echo '</div>';
 		}
 		
 		
-		$renderer = ToolListRenderer::factory('Menu',$this->parent);
-		$renderer->display();
-		
-		echo '<div id="tool_browser">';
+		$menu_style = $this->parent->get_course()->get_menu();
+		if($menu_style != Course :: MENU_OFF)
+		{
+			$renderer = ToolListRenderer::factory('Menu', $this->parent);
+			$renderer->display();					
+			echo '<div id="tool_browser_'. $renderer->get_menu_style() .'">';
+		}
+		else
+		{
+			echo '<div id="tool_browser">';
+		}
 	}
 	/**
 	 * @see Application :: display_footer()
