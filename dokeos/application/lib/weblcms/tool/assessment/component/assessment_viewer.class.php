@@ -88,7 +88,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 	function get_toolbar()
 	{
 		$bar = parent :: get_toolbar();
-		$bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_img_path().'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_img_path().'action_category.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		if(!$this->introduction_text)
 		{
