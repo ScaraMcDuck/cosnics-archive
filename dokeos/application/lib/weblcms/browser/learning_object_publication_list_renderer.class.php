@@ -230,6 +230,7 @@ abstract class LearningObjectPublicationListRenderer
 		else
 		{
 			$visibility_img = 'action_period.png';
+			$visibility_url = 'javascript:void(0)';
 		}
 		$visibility_link = '<a href="'.$visibility_url.'"><img src="'.Theme :: get_common_img_path().$visibility_img.'"  alt=""/></a>';
 		return $visibility_link;

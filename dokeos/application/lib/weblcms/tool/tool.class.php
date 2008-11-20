@@ -169,8 +169,6 @@ abstract class Tool
 		
 		// TODO: do this by overriding display_header in the course_group tool
 		
-		
-		
 		if(!is_null($this->parent->get_course_group()))
 		{
 			$course_group = $this->parent->get_course_group();

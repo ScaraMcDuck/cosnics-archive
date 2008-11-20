@@ -78,12 +78,12 @@ class MenuToolListRenderer extends ToolListRenderer
 				{
 					$html[] = '<li class="tool_list_menu">';
 				}
-				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>Weblcms :: ACTION_VIEW_COURSE,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
+				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>Weblcms :: ACTION_VIEW_COURSE,WebLcms :: PARAM_TOOL => $tool->name, 'go' => $_GET['go']), true).'" title="'.$title.'">';
 				$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/> ';
 				$html[] = '</a>';
 				if( $this->type == MENU_TYPE_LIST_NAVIGATION)
 				{
-					$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
+					$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name, 'go' => $_GET['go']), true).'" title="'.$title.'">';
 					$html[] = $title;
 					$html[] = '</a>';
 					$html[] = '</li>';
