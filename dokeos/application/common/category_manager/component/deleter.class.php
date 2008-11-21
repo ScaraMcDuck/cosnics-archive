@@ -18,7 +18,7 @@ class CategoryManagerDeleterComponent extends CategoryManagerComponent
 		
 		if (!$this->get_user())
 		{
-			$this->display_header(null);
+			$this->display_header($this->get_breadcrumb_trail());
 			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -60,7 +60,7 @@ class CategoryManagerDeleterComponent extends CategoryManagerComponent
 		}
 		else
 		{
-			$this->display_header();
+			$this->display_header($this->get_breadcrumb_trail());
 			$this->display_error_message(Translation :: get("NoObjectSelected"));
 			$this->display_footer();
 		}

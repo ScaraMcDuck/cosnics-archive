@@ -5,6 +5,8 @@
 require_once dirname(__FILE__).'/../profiler.class.php';
 require_once dirname(__FILE__).'/../profiler_component.class.php';
 require_once dirname(__FILE__).'/profile_publication_browser/profile_publication_browser_table.class.php';
+require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
+require_once dirname(__FILE__).'/../../profiler_menu.class.php';
 
 class ProfilerBrowserComponent extends ProfilerComponent
 {	
@@ -22,9 +24,40 @@ class ProfilerBrowserComponent extends ProfilerComponent
 		
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyProfiler')));
 		
-		$this->display_header($trail, true);
+		$this->action_bar = $this->get_action_bar();
+		
+		$this->display_header($trail, false);
+		echo $this->action_bar->as_html();
+		echo '<div class="clear"></div>';
+		echo '<div style="width: 12%; overflow: auto; float: left;">';
+		echo $this->get_menu();
+		echo '</div><div style="width: 85%; float: right;">';
 		echo $output;
+		echo '</div>';
 		$this->display_footer();
+	}
+	
+	function get_action_bar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		
+		$action_bar->set_search_url($this->get_url(array('category' => $this->get_category())));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_img_path().'action_publish.png', $this->get_profile_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_img_path().'action_category.png', $this->get_profiler_category_manager_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
+		return $action_bar;
+	}
+	
+	function get_menu()
+	{
+		$menu = new ProfilerMenu($this->get_category());
+		return $menu->render_as_tree();
+	}
+	
+	function get_category()
+	{
+		return $_GET['category']?$_GET['category']:0;
 	}
 	
 	private function get_publications_html()
@@ -41,7 +74,7 @@ class ProfilerBrowserComponent extends ProfilerComponent
 	
 	function get_condition()
 	{
-		$search_conditions = $this->get_search_condition();
+		/*$search_conditions = $this->get_search_condition();
 		//$search_conditions = null;
 		$condition = null;
 		if (isset($this->firstletter))
@@ -64,7 +97,9 @@ class ProfilerBrowserComponent extends ProfilerComponent
 			}
 		}
 		
-		return $condition;
+		return $condition;*/
+		
+		return new EqualityCondition(ProfilePublication :: PROPERTY_CATEGORY, $this->get_category());
 	}
 }
 ?>

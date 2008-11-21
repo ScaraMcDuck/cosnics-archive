@@ -83,11 +83,41 @@ class ProfilePublicationForm extends FormValidator
     	$this->addElement('hidden', 'ids', serialize($this->learning_object));
     }
     
+    private $categories;
+    private $level = 1;
+    
+    function get_categories($parent_id)
+    {
+		$condition = new EqualityCondition(ProfilerCategory :: PROPERTY_PARENT, $parent_id);
+		
+		$cats = ProfilerDataManager :: get_instance()->retrieve_categories($condition);
+		while($cat = $cats->next_result())
+		{
+			$this->categories[$cat->get_id()] = str_repeat('--', $this->level) . ' ' . $cat->get_name();
+			$this->level++;
+			$this->get_categories($cat->get_id());
+			$this->level--;
+		}
+    }
+    
 	/**
 	 * Builds the form by adding the necessary form elements.
 	 */
     function build_form()
     {
+    	$this->categories[0] = Translation :: get('Root');
+		$this->get_categories(0);
+		
+		if(count($this->categories) > 1)
+		{
+			// More than one category -> let user select one
+			$this->addElement('select', ProfilePublication :: PROPERTY_CATEGORY, Translation :: get('Category'), $this->categories);
+		}
+		else
+		{
+			// Only root category -> store object in root category
+			$this->addElement('hidden',ProfilePublication :: PROPERTY_CATEGORY_ID,0);
+		}
     }
     
     function add_footer()
@@ -107,6 +137,7 @@ class ProfilePublicationForm extends FormValidator
 		$pub->set_profile($this->learning_object->get_id());
 		$pub->set_publisher($this->form_user->get_id());
 		$pub->set_published(time());
+		$pub->set_category($values[ProfilePublication :: PROPERTY_CATEGORY]);
 
 		if ($pub->create())
 		{
@@ -130,6 +161,7 @@ class ProfilePublicationForm extends FormValidator
 			$pub->set_profile($id);
 			$pub->set_publisher($this->form_user->get_id());
 			$pub->set_published(time());
+			$pub->set_category($values[ProfilePublication :: PROPERTY_CATEGORY]);
 	
 			if (!$pub->create())
 			{

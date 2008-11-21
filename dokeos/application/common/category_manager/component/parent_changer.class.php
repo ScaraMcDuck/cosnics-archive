@@ -19,7 +19,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 		
 		if (!$user)
 		{
-			$this->display_header(null);
+			$this->display_header($this->get_breadcrumb_trail());
 			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -59,14 +59,14 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 			}
 			else
 			{
-				$this->display_header(new BreadcrumbTrail());
+				$this->display_header($this->get_breadcrumb_trail());
 				$form->display();
 				$this->display_footer();
 			}
 		}
 		else
 		{
-			$this->display_header(null);
+			$this->display_header($this->get_breadcrumb_trail());
 			Display :: display_error_message(Translation :: get("NoObjectSelected"));
 			$this->display_footer();
 		}

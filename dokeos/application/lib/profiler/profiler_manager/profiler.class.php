@@ -37,6 +37,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	const ACTION_VIEW_PUBLICATION = 'view';
 	const ACTION_CREATE_PUBLICATION = 'create';
 	const ACTION_BROWSE_PROFILES = 'browse';
+	const ACTION_MANAGE_CATEGORIES = 'manage_categories';
 
 	private $parameters;
 	private $search_parameters;
@@ -87,6 +88,9 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 				break;
 			case self :: ACTION_CREATE_PUBLICATION :
 				$component = ProfilerComponent :: factory('Publisher', $this);
+				break;
+			case self :: ACTION_MANAGE_CATEGORIES :
+				$component = ProfilerComponent :: factory('CategoryManager', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_PROFILES);
@@ -151,8 +155,8 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		}
 		Display :: display_header($breadcrumbtrail);
 
-		echo $this->get_menu_html();
-		echo '<div style="float: right; width: 80%;">';
+		//echo $this->get_menu_html();
+		echo '<div style="float: right; width: 100%;">';
 		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
 		if ($display_search)
 		{
@@ -170,9 +174,9 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		}
 	}
 
-	/**
+	/*
 	 * Displays the menu html
-	 */
+	 *
 	function get_menu_html()
 	{
 		$extra_items = array ();
@@ -222,7 +226,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		$html[] = '</div>';
 
 		return implode($html, "\n");
-	}
+	}*/
 
 	/**
 	 * Displays the search form
@@ -643,6 +647,11 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	function get_profile_home_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES));
+	}
+	
+	function get_profiler_category_manager_url()
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES));
 	}
 
 	/**

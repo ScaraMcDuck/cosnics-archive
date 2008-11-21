@@ -182,6 +182,11 @@ abstract class CategoryManagerComponent
 		return $this->get_parent()->allowed_to_delete_category($category_id);
 	}
 	
+	function get_breadcrumb_trail()
+	{
+		return $this->get_parent()->get_breadcrumb_trail();
+	}
+	
 	static function factory($type, $parent)
 	{
 		$filename = dirname(__FILE__).'/component/'.DokeosUtilities :: camelcase_to_underscores($type).'.class.php';

@@ -225,6 +225,11 @@ abstract class ProfilerComponent {
 		return $this->get_parent()->get_publication_reply_url($profile);
 	}
 	
+	function get_profiler_category_manager_url()
+	{
+		return $this->get_parent()->get_profiler_category_manager_url();
+	}
+	
 	/**
 	 * Create a new profile component
 	 * @param string $type The type of the component to create.

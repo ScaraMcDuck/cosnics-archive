@@ -6,12 +6,14 @@ require_once dirname(__FILE__).'/../profiler_data_manager.class.php';
 require_once dirname(__FILE__).'/../profile_publication.class.php';
 require_once dirname(__FILE__).'/database/database_profile_publication_result_set.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
+require_once dirname(__FILE__).'/../../../../repository/lib/data_manager/database.class.php';
 require_once 'MDB2.php';
 
 class DatabaseProfilerDataManager extends ProfilerDataManager {
 
 	private $prefix;
 	private $userDM;
+	private $db;
 
 	const ALIAS_LEARNING_OBJECT_PUBLICATION_TABLE = 'pmb';
 	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
@@ -29,6 +31,9 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		}
 		$this->prefix = 'profiler_';
 		$this->connection->query('SET NAMES utf8');
+		
+		$this->db = new Database(array('profiler_category' => 'cat'));
+		$this->db->set_prefix('profiler_');
 	}
 	
 	function debug()
@@ -452,6 +457,72 @@ class DatabaseProfilerDataManager extends ProfilerDataManager {
 		{
 			return false;
 		}
+	}
+	
+	function get_next_category_id()
+	{
+		return $this->db->get_next_id('profiler_category');
+	}
+	
+	function delete_category($category)
+	{
+		$condition = new EqualityCondition(ProfilerCategory :: PROPERTY_ID, $category->get_id());
+		$succes = $this->db->delete('profiler_category', $condition);
+		
+		$query = 'UPDATE '.$this->db->escape_table_name('profiler_category').' SET '.
+				 $this->db->escape_column_name(ProfilerCategory :: PROPERTY_DISPLAY_ORDER).'='.
+				 $this->db->escape_column_name(ProfilerCategory :: PROPERTY_DISPLAY_ORDER).'-1 WHERE '.
+				 $this->db->escape_column_name(ProfilerCategory :: PROPERTY_DISPLAY_ORDER).'>? AND ' .
+				 $this->db->escape_column_name(ProfilerCategory :: PROPERTY_PARENT) . '=?';
+		$statement = $this->db->get_connection()->prepare($query); 
+		$statement->execute(array($category->get_display_order(), $category->get_parent()));
+		
+		return $succes;
+	}
+	
+	function update_category($category)
+	{ 
+		$condition = new EqualityCondition(ProfilerCategory :: PROPERTY_ID, $category->get_id());
+		return $this->db->update($category, $condition);
+	}
+	
+	function create_category($category)
+	{
+		return $this->db->create($category);
+	}
+	
+	function count_categories($conditions = null)
+	{
+		return $this->db->count_objects('profiler_category', $conditions);
+	}
+	
+	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->db->retrieve_objects('profiler_category', $condition, $offset, $count, $order_property, $order_direction);
+	}
+	
+	function select_next_category_display_order($parent_category_id)
+	{
+		$query = 'SELECT MAX(' . ProfilerCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
+		$this->db->escape_table_name('profiler_category');
+	
+		$condition = new EqualityCondition(ProfilerCategory :: PROPERTY_PARENT, $parent_category_id);
+		//print_r($condition);
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this->db, $params, $prefix_properties = false);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$sth = $this->db->get_connection()->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+	
+		return $record[0] + 1;
 	}
 }
 ?>

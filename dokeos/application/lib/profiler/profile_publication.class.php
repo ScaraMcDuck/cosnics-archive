@@ -22,6 +22,7 @@ class ProfilePublication
 	const PROPERTY_PROFILE = 'profile';
 	const PROPERTY_PUBLISHER = 'publisher';
 	const PROPERTY_PUBLISHED = 'published';	
+	const PROPERTY_CATEGORY = 'category';
 	
 	private $id;
 	private $defaultProperties;
@@ -63,7 +64,7 @@ class ProfilePublication
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_PROFILE, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_CATEGORY,  self :: PROPERTY_PROFILE, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED);
 	}
 	
 	/**
@@ -123,6 +124,11 @@ class ProfilePublication
 	{
 		return $this->get_default_property(self :: PROPERTY_PUBLISHED);
 	} 
+	
+	function get_category()
+	{
+		return $this->get_default_property(self :: PROPERTY_CATEGORY);
+	}
 	  
 	/**
 	 * Sets the id of this ProfilePublication.
@@ -158,6 +164,11 @@ class ProfilePublication
 	function set_published($published)
 	{
 		$this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
+	}
+	
+	function set_category($category)
+	{
+		$this->set_default_property(self :: PROPERTY_CATEGORY, $category);
 	}
 	
 	function get_publication_object()
