@@ -10,30 +10,33 @@ require_once dirname(__FILE__).'/../../profiler_menu.class.php';
 
 class ProfilerBrowserComponent extends ProfilerComponent
 {	
-	private $firstletter;
+	private $action_bar;
 	
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$trail = new BreadcrumbTrail();		
-		$this->firstletter = $_GET[Profiler :: PARAM_FIRSTLETTER];
-		
-		$output = $this->get_publications_html();
-		
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyProfiler')));
 		
 		$this->action_bar = $this->get_action_bar();
 		
+		$output = $this->get_publications_html();
+		
+		$trail = new BreadcrumbTrail();		
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyProfiler')));
+		
+		
 		$this->display_header($trail, false);
+		
 		echo $this->action_bar->as_html();
 		echo '<div class="clear"></div>';
+		
 		echo '<div style="width: 12%; overflow: auto; float: left;">';
 		echo $this->get_menu();
 		echo '</div><div style="width: 85%; float: right;">';
 		echo $output;
 		echo '</div>';
+		
 		$this->display_footer();
 	}
 	
@@ -43,7 +46,7 @@ class ProfilerBrowserComponent extends ProfilerComponent
 		
 		$action_bar->set_search_url($this->get_url(array('category' => $this->get_category())));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_img_path().'action_publish.png', $this->get_profile_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(array('category' => $this->get_category())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_img_path().'action_category.png', $this->get_profiler_category_manager_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		return $action_bar;
@@ -98,8 +101,24 @@ class ProfilerBrowserComponent extends ProfilerComponent
 		}
 		
 		return $condition;*/
+		$condition = new EqualityCondition(ProfilePublication :: PROPERTY_CATEGORY, $this->get_category());
+		$search = $this->action_bar->get_query();
 		
-		return new EqualityCondition(ProfilePublication :: PROPERTY_CATEGORY, $this->get_category());
+		if(isset($search) && $search != '')
+		{
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*' . $search  . '*');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*' . $search  . '*');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*' . $search  . '*');
+			$or_condition = new OrCondition($conditions);
+			
+			$conditions = array();
+			$conditions[] = $condition;
+			$conditions[] = $or_condition;
+			
+			$condition = new AndCondition($conditions);
+		}
+		
+		return $condition;
 	}
 }
 ?>
