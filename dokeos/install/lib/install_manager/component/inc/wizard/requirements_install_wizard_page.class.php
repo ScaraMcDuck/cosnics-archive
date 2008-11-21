@@ -32,7 +32,7 @@ class RequirementsInstallWizardPage extends InstallWizardPage
 	}
 	function get_not_writable_folders()
 	{
-		$writable_folders = array ('../files','../home');
+		$writable_folders = array ('../files','../home','../common/configuration');
 		$not_writable = array ();
 		foreach ($writable_folders as $index => $folder)
 		{
