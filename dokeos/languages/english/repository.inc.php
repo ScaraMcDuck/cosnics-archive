@@ -231,6 +231,6 @@ $lang['repository']['RssFeedTypeName'] = 'RSS Feed';
 $lang['repository']['SystemAnnouncementTypeName'] = 'System announcement';
 $lang['repository']['UserinfoContentTypeName'] = ' ';
 $lang['repository']['UserinfoDefTypeName'] = ' ';
-$lang['repository']['WikiTypeName'] = 'Wiki
-';
+$lang['repository']['WikiTypeName'] = 'Wiki';
+$lang['repository']['GeneralProperties'] = 'General properties';
 ?>

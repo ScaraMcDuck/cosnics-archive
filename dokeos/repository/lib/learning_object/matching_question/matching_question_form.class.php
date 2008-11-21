@@ -10,12 +10,16 @@ class MatchingQuestionForm extends LearningObjectForm
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
+		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
 		$this->build_options_and_matches();
+		$this->addElement('category');
 	}
 	protected function build_editing_form()
 	{
 		parent :: build_editing_form();
+		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
 		$this->build_options_and_matches();
+		$this->addElement('category');
 	}
 	/**
 	 * Adds the options and matches to the form

@@ -19,6 +19,7 @@ class CalendarEventForm extends LearningObjectForm
     protected function build_creation_form()
     {
     	parent :: build_creation_form();
+		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
     	$this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, Translation :: get('StartTimeWindow'), Translation :: get('EndTimeWindow'));
     	
 		$choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '',Translation :: get('No'),0,array ('onclick' => 'javascript:timewindow_hide(\'repeat_timewindow\')', 'id' => self :: PARAM_REPEAT));
@@ -64,11 +65,13 @@ class CalendarEventForm extends LearningObjectForm
 					}
 					/* ]]> */
 					</script>\n");
+		$this->addElement('category');
     }
     // Inherited
     protected function build_editing_form()
     {
 		parent :: build_editing_form();
+		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
     	$this->add_timewindow(CalendarEvent :: PROPERTY_START_DATE, CalendarEvent :: PROPERTY_END_DATE, Translation :: get('StartTimeWindow'), Translation :: get('EndTimeWindow'));
     	
 		$choices[] = $this->createElement('radio', self :: PARAM_REPEAT, '',Translation :: get('No'),0,array ('onclick' => 'javascript:timewindow_hide(\'repeat_timewindow\')', 'id' => self :: PARAM_REPEAT));
@@ -115,6 +118,7 @@ class CalendarEventForm extends LearningObjectForm
 					}
 					/* ]]> */
 					</script>\n");
+		$this->addElement('category');
 	}
 	// Inherited
 	function setDefaults($defaults = array ())
