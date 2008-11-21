@@ -595,6 +595,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		$publication->set_profile($learning_object->get_id());
 		$publication->set_publisher(Session :: get_user_id());
 		$publication->set_published(time());
+		$publication->set_category(0);
 		$publication->create();
 		return Translation :: get('PublicationCreated');
 	}

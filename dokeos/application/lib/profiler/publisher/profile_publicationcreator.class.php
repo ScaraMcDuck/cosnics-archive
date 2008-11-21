@@ -38,7 +38,7 @@ class ProfilePublisherPublicationCreatorComponent extends PublisherPublicationCr
 				$message = 'ProfileNotPublished';
 			}
 			
-			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES));
 		}
 		else
 		{

@@ -214,7 +214,16 @@ class PersonalCalendar extends WebApplication
 	 */
 	function get_learning_object_publication_locations($learning_object)
 	{
-		return array(Translation :: get('PersonalCalendar'));	
+		$allowed_types = array('calendar_event');
+		
+		$type = $learning_object->get_type();
+		if(in_array($type, $allowed_types))
+		{
+			$locations = array(__CLASS__);
+			return $locations;
+		}
+		
+		return array();	
 	}
 	
 	function publish_learning_object($learning_object, $location)
