@@ -113,17 +113,18 @@ abstract class UserDataManager
 	 */
 	public function login($username, $password = null)
 	{
-			// If username is available, try to login
-	if (!$this->is_username_available($username))
+		// If username is available, try to login
+		if (!$this->is_username_available($username))
 		{
 			$user = $this->retrieve_user_by_username($username);
 			$authentication_method = $user->get_auth_source();
 			$authentication = Authentication::factory($authentication_method);
-			if ($authentication->check_login($user, $username, $password))
+			$message = $authentication->check_login($user, $username, $password);
+			if ($message == 'true')
 			{
 				return $user;
 			}
-			return null;
+			return $message;
 		}
 		// If username is not available, check if an authentication method is able to register
 		// the user in the platform

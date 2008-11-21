@@ -205,7 +205,6 @@ class CourseForm extends FormValidator {
 		$course->set_titular($values[Course :: PROPERTY_TITULAR]);
 		$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
     	$course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
-    	$course->set_language($values[Course :: PROPERTY_LANGUAGE]);
 		
 		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
 		if ($course_can_have_theme)
@@ -213,10 +212,20 @@ class CourseForm extends FormValidator {
 			$course->set_theme($values[Course :: PROPERTY_THEME]);
 		}
 		
-		$course->set_layout($values[Course :: PROPERTY_LAYOUT]);
-		$course->set_tool_shortcut($values[Course :: PROPERTY_TOOL_SHORTCUT]);
-		$course->set_menu($values[Course :: PROPERTY_MENU]);
-		$course->set_breadcrumb($values[Course :: PROPERTY_BREADCRUMB]);
+		$language = $values[Course :: PROPERTY_LANGUAGE];
+    	$course->set_language($language ? $language : PlatformSetting :: get('platform_language'));
+		
+		$layout = $values[Course :: PROPERTY_LAYOUT];
+		$course->set_layout($layout? $layout : Course :: LAYOUT_2_COLUMNS);
+		
+		$tool_shortcut = $values[Course :: PROPERTY_TOOL_SHORTCUT];
+		$course->set_tool_shortcut($tool_shortcut?$tool_shortcut : Course :: TOOL_SHORTCUT_OFF);
+		
+		$menu = $values[Course :: PROPERTY_MENU];
+		$course->set_menu($menu ? $menu : Course :: MENU_OFF);
+		
+		$breadcrumb = $values[Course :: PROPERTY_BREADCRUMB];
+		$course->set_breadcrumb($breadcrumb ? $breadcrumb : Course :: BREADCRUMB_TITLE);
 
     	$course->set_visibility($values[Course :: PROPERTY_VISIBILITY]);
     	$course->set_subscribe_allowed($values[Course :: PROPERTY_SUBSCRIBE_ALLOWED]);
@@ -237,7 +246,6 @@ class CourseForm extends FormValidator {
 		$course->set_titular($values[Course :: PROPERTY_TITULAR]);
     	$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
     	$course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
-    	$course->set_language($values[Course :: PROPERTY_LANGUAGE]);
     	
 		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
 		if ($course_can_have_theme)
@@ -248,10 +256,21 @@ class CourseForm extends FormValidator {
     	$course->set_visibility($values[Course :: PROPERTY_VISIBILITY]);
     	$course->set_subscribe_allowed($values[Course :: PROPERTY_SUBSCRIBE_ALLOWED]);
     	$course->set_unsubscribe_allowed($values[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED]);
-		$course->set_layout($values[Course :: PROPERTY_LAYOUT]);
-		$course->set_tool_shortcut($values[Course :: PROPERTY_TOOL_SHORTCUT]);
-		$course->set_menu($values[Course :: PROPERTY_MENU]);
-		$course->set_breadcrumb($values[Course :: PROPERTY_BREADCRUMB]);
+		
+		$language = $values[Course :: PROPERTY_LANGUAGE];
+    	$course->set_language($language ? $language : PlatformSetting :: get('platform_language'));
+		
+		$layout = $values[Course :: PROPERTY_LAYOUT];
+		$course->set_layout($layout? $layout : Course :: LAYOUT_2_COLUMNS);
+		
+		$tool_shortcut = $values[Course :: PROPERTY_TOOL_SHORTCUT];
+		$course->set_tool_shortcut($tool_shortcut?$tool_shortcut : Course :: TOOL_SHORTCUT_OFF);
+		
+		$menu = $values[Course :: PROPERTY_MENU];
+		$course->set_menu($menu ? $menu : Course :: MENU_OFF);
+		
+		$breadcrumb = $values[Course :: PROPERTY_BREADCRUMB];
+		$course->set_breadcrumb($breadcrumb ? $breadcrumb : Course :: BREADCRUMB_TITLE);
 		
     	if ($course->create())
     	{

@@ -18,13 +18,16 @@ class PlatformAuthentication extends Authentication
     	$user_expiration_date = $user->get_expiration_date();
     	$user_activation_date = $user->get_activation_date();
     	
-    	if (($user_expiration_date != '0' && $user_expiration_date < time()) || ($user_activation_date != '0' && $user_activation_date > time()))
+    	if (($user_expiration_date != '0' && $user_expiration_date < time()) || ($user_activation_date != '0' && $user_activation_date > time()) || !$user->get_active())
     	{ 
-    		return false;
+    		return Translation :: get("AccountNotActive");
     	}
     	else
     	{
-    		return ($user->get_username() == $username && $user->get_password() == md5($password));
+    		if($user->get_username() == $username && $user->get_password() == md5($password))
+    			return 'true';
+    		
+    		return Translation :: get("UsernameOrPasswordIncorrect");
     	}
     }
     public function is_password_changeable()

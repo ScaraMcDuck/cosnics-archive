@@ -212,7 +212,7 @@ if(isset($_POST['login']))
 {
 	$udm = UserDataManager::get_instance();
 	$user = $udm->login($_POST['login'],$_POST['password']);
-	if(!is_null($user))
+	if(get_class($user) == 'User')
 	{
 		Session :: register('_uid', $user->get_id());
 		Events :: trigger_event('login', 'user', array('server' => $_SERVER, 'user' => $user));
@@ -229,7 +229,7 @@ if(isset($_POST['login']))
 	else
 	{
 		Session :: unregister('_uid');
-		header('Location: index.php?loginFailed=1');
+		header('Location: index.php?loginFailed=1&message=' . $user);
 		exit;
 	}
 }
