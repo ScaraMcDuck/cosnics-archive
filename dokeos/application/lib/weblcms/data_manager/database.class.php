@@ -919,6 +919,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$sections[] = array('name' => Translation :: get('Tools'), 'type' => 1, 'order' => 1);
 			$sections[] = array('name' => Translation :: get('Links'), 'type' => 2, 'order' => 2);
 			$sections[] = array('name' => Translation :: get('CourseAdministration'), 'type' => 3, 'order' => 3);
+			//$sections[] = array('name' => Translation :: get('Disabled'), 'type' => 4, 'order' => 4);
 			
 			foreach($sections as $section)
 			{

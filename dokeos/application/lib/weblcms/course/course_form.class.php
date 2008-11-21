@@ -61,7 +61,7 @@ class CourseForm extends FormValidator {
 	}
 
     function build_basic_form()
-    {
+    {	
 		$this->addElement('text', Course :: PROPERTY_VISUAL, Translation :: get('VisualCode'));
 		$this->addRule(Course :: PROPERTY_VISUAL, Translation :: get('ThisFieldIsRequired'), 'required');
 
@@ -106,6 +106,11 @@ class CourseForm extends FormValidator {
 		$this->addElement('text', Course :: PROPERTY_NAME, Translation :: get('Title'));
 		$this->addRule(Course :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
+		$this->addElement('html', '<div style="clear: both;"></div>');
+		$this->addElement('html', '</div>');
+		$this->addElement('html', '<div class="configuration_form">');
+		$this->addElement('html', '<span class="category">'. Translation :: get('Optional') .'</span>');
+
 		$cat_options = array();
 		$parent = $this->parent;
 		
@@ -123,6 +128,30 @@ class CourseForm extends FormValidator {
 			$lang_options = $adm->get_languages();
 			$this->addElement('select', Course :: PROPERTY_LANGUAGE, Translation :: get('Language'), $lang_options);
 		}
+
+		$course_access = array();
+		$course_access[] =& $this->createElement('radio', null, null, Translation :: get('CourseAccessOpenWorld'), COURSE_VISIBILITY_OPEN_WORLD);
+		$course_access[] =& $this->createElement('radio', null, null, Translation :: get('CourseAccessOpenRegistered'), COURSE_VISIBILITY_OPEN_PLATFORM);
+		$course_access[] =& $this->createElement('radio', null, null, Translation :: get('CourseAccessPrivate'), COURSE_VISIBILITY_REGISTERED);
+		$course_access[] =& $this->createElement('radio', null, null, Translation :: get('CourseAccessClosed'), COURSE_VISIBILITY_CLOSED);
+		$course_access[] =& $this->createElement('radio', null, null, Translation :: get('CourseAccessModified'), COURSE_VISIBILITY_MODIFIED);
+		$this->addGroup($course_access, Course :: PROPERTY_VISIBILITY, Translation :: get('CourseAccess'), '<br />');
+
+		$subscribe_allowed = array();
+		$subscribe_allowed[] =& $this->createElement('radio', null, null, Translation :: get('SubscribeAllowed'), 1);
+		$subscribe_allowed[] =& $this->createElement('radio', null, null, Translation :: get('SubscribeNotAllowed'), 0);
+		$this->addGroup($subscribe_allowed, Course :: PROPERTY_SUBSCRIBE_ALLOWED, Translation :: get('Subscribe'), '<br />');
+
+		$unsubscribe_allowed = array();
+		$unsubscribe_allowed[] =& $this->createElement('radio', null, null, Translation :: get('UnsubscribeAllowed'), 1);
+		$unsubscribe_allowed[] =& $this->createElement('radio', null, null, Translation :: get('UnsubscribeNotAllowed'), 0);
+		$this->addGroup($unsubscribe_allowed, Course :: PROPERTY_UNSUBSCRIBE_ALLOWED, Translation :: get('Unsubscribe'), '<br />');
+
+		$this->addElement('html', '<div style="clear: both;"></div>');
+		$this->addElement('html', '</div>');
+		
+		$this->addElement('html', '<div class="configuration_form">');
+		$this->addElement('html', '<span class="category">'. Translation :: get('Layout') .'</span>');
 		
 		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
 		
@@ -154,24 +183,9 @@ class CourseForm extends FormValidator {
 		{
 			$this->addElement('select', Course :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), Course :: get_breadcrumb_options());
 		}
-
-		$course_access = array();
-		$course_access[] =& $this->createElement('radio', null, null, Translation :: get('CourseAccessOpenWorld'), COURSE_VISIBILITY_OPEN_WORLD);
-		$course_access[] =& $this->createElement('radio', null, null, Translation :: get('CourseAccessOpenRegistered'), COURSE_VISIBILITY_OPEN_PLATFORM);
-		$course_access[] =& $this->createElement('radio', null, null, Translation :: get('CourseAccessPrivate'), COURSE_VISIBILITY_REGISTERED);
-		$course_access[] =& $this->createElement('radio', null, null, Translation :: get('CourseAccessClosed'), COURSE_VISIBILITY_CLOSED);
-		$course_access[] =& $this->createElement('radio', null, null, Translation :: get('CourseAccessModified'), COURSE_VISIBILITY_MODIFIED);
-		$this->addGroup($course_access, Course :: PROPERTY_VISIBILITY, Translation :: get('CourseAccess'), '<br />');
-
-		$subscribe_allowed = array();
-		$subscribe_allowed[] =& $this->createElement('radio', null, null, Translation :: get('SubscribeAllowed'), 1);
-		$subscribe_allowed[] =& $this->createElement('radio', null, null, Translation :: get('SubscribeNotAllowed'), 0);
-		$this->addGroup($subscribe_allowed, Course :: PROPERTY_SUBSCRIBE_ALLOWED, Translation :: get('Subscribe'), '<br />');
-
-		$unsubscribe_allowed = array();
-		$unsubscribe_allowed[] =& $this->createElement('radio', null, null, Translation :: get('UnsubscribeAllowed'), 1);
-		$unsubscribe_allowed[] =& $this->createElement('radio', null, null, Translation :: get('UnsubscribeNotAllowed'), 0);
-		$this->addGroup($unsubscribe_allowed, Course :: PROPERTY_UNSUBSCRIBE_ALLOWED, Translation :: get('Unsubscribe'), '<br />');
+		
+		$this->addElement('html', '<div style="clear: both;"></div>');
+		$this->addElement('html', '</div>');
 
 		$this->addElement('submit', 'course_settings', Translation :: get('Ok'));
     }
@@ -180,7 +194,10 @@ class CourseForm extends FormValidator {
     {
     	$course = $this->course;
     	$parent = $this->parent;
-
+    	
+		$this->addElement('html', '<div class="configuration_form">');
+		$this->addElement('html', '<span class="category">'. Translation :: get('Required') .'</span>');
+		
     	$this->build_basic_form();
 
     	$this->addElement('hidden', Course :: PROPERTY_ID);
@@ -188,6 +205,9 @@ class CourseForm extends FormValidator {
 
     function build_creation_form()
     {
+    	$this->addElement('html', '<div class="configuration_form">');
+		$this->addElement('html', '<span class="category">'. Translation :: get('Required') .'</span>');
+    	
     	$this->addElement('text', Course :: PROPERTY_ID, Translation :: get('CourseCode'));
     	$this->addRule(Course :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
     	$this->build_basic_form();

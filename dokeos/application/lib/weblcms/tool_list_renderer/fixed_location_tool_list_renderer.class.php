@@ -55,6 +55,13 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			}
 		}
 		
+		/*$section = new CourseSection();
+		$section->set_id(CourseSection :: TYPE_DISABLED);
+		$section->set_name(Translation :: get('Disabled'));
+		
+		$section_types[CourseSection :: TYPE_DISABLED] = $section;*/
+		//dump($section_types);
+	
 		foreach($section_types as $section_type => $sections)
 		{
 			if ($section_type == CourseSection :: TYPE_LINK)
