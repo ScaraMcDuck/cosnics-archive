@@ -5,6 +5,7 @@
 require_once dirname(__FILE__).'/../weblcms_manager/weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
 require_once Path :: get_library_path().'installer.class.php';
+require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
 
 require_once 'Tree/Tree.php';
 
@@ -26,35 +27,21 @@ class WeblcmsInstaller extends Installer
 	 */
 	function install_extra()
 	{
-		
-//		if (!$this->create_initial_locations_tree())
-//		{
-//			return false;
-//		}
-//		if (!$this->create_weblcms_root_location())
-//		{
-//			$this->add_message(self :: TYPE_ERROR, Translation :: get('RightsLocationNotAdded'));
-//			return false;
-//		}
-//		else
-//		{
-//			$this->add_message(self :: TYPE_NORMAL, Translation :: get('RightsLocationAdded'));
-//		}
-//		
-		if (!$this->create_default_categories_in_weblcms(0))
+		if (!$this->create_default_categories_in_weblcms())
 		{
 			return false;
 		}
-//		else
-//		{
-//			$this->add_message(self :: TYPE_NORMAL, Translation :: get('DefaultWeblcmsCategoriesCreated'));
-//		}
 		
 		return true;
 	}
 	
-	function create_default_categories_in_weblcms($root_location)
+	function create_default_categories_in_weblcms()
 	{
+		$application = $this->get_application();
+		$tree = RightsUtilities :: get_tree($application);
+		$root = $tree->getFirstRoot();
+		$root = $root['id'];
+		
 		//Creating Language Skills
 		$cat = new CourseCategory();
 		$cat->set_name('Language skills');
@@ -65,19 +52,12 @@ class WeblcmsInstaller extends Installer
 			return false;
 		}
 		
-//		$location = new Location();
-//		$location->set_location($cat->get_name());
-//		$location->set_application(Weblcms :: APPLICATION_NAME);
-//		$location->set_type('category');
-//		$location->set_identifier($cat->get_id());
-//		$location->set_left_value('1');
-//		$location->set_right_value('2');
-//		$location->set_parent($root_location->get_id());
-//		
-//		if (!$location->create())
-//		{
-//			return false;
-//		}
+		$element = $tree->add( array(
+						'name'	=>	$cat->get_name(),
+						'application' => $application,
+						'type' => 'category',
+						'identifier' => $cat->get_id(),
+					), $root);
 	
 		//creating PC Skills
 		$cat = new CourseCategory();
@@ -89,19 +69,12 @@ class WeblcmsInstaller extends Installer
 			return false;
 		}
 		
-//		$location = new Location();
-//		$location->set_location($cat->get_name());
-//		$location->set_application(Weblcms :: APPLICATION_NAME);
-//		$location->set_type('category');
-//		$location->set_identifier($cat->get_id());
-//		$location->set_left_value('1');
-//		$location->set_right_value('2');
-//		$location->set_parent($root_location->get_id());
-//		
-//		if (!$location->create())
-//		{
-//			return false;
-//		}
+		$element = $tree->add( array(
+						'name'	=>	$cat->get_name(),
+						'application' => $application,
+						'type' => 'category',
+						'identifier' => $cat->get_id(),
+					), $root, $element);
 	
 		//creating Projects
 		$cat = new CourseCategory();
@@ -113,19 +86,12 @@ class WeblcmsInstaller extends Installer
 			return false;
 		}
 		
-//		$location = new Location();
-//		$location->set_location($cat->get_name());
-//		$location->set_application(Weblcms :: APPLICATION_NAME);
-//		$location->set_type('category');
-//		$location->set_identifier($cat->get_id());
-//		$location->set_left_value('1');
-//		$location->set_right_value('2');
-//		$location->set_parent($root_location->get_id());
-//		
-//		if (!$location->create())
-//		{
-//			return false;
-//		}		
+		$element = $tree->add( array(
+						'name'	=>	$cat->get_name(),
+						'application' => $application,
+						'type' => 'category',
+						'identifier' => $cat->get_id(),
+					), $root, $element);
 		
 		return true;
 	}

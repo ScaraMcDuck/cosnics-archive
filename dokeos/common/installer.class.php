@@ -74,13 +74,13 @@ abstract class Installer
 			return false;
 		}
 		
-		if (method_exists($this, 'install_extra'))
-		{
-			if (!$this->install_extra())
-			{
-				return false;
-			}
-		}
+//		if (method_exists($this, 'install_extra'))
+//		{
+//			if (!$this->install_extra())
+//			{
+//				return false;
+//			}
+//		}
 		
 		return $this->installation_successful();
     }
@@ -480,8 +480,16 @@ abstract class Installer
 		else
 		{
 			$this->add_message(self :: TYPE_NORMAL, Translation :: get($this->get_application_name()) . ': ' .  Translation :: get('LocationsAdded'));
-			return $this->installation_successful();
 		}
+		
+		if (method_exists($this, 'install_extra'))
+		{
+			if (!$this->install_extra())
+			{
+				return false;
+			}
+		}
+		return $this->installation_successful();
 	}
 	
 	function installation_failed($error_message)

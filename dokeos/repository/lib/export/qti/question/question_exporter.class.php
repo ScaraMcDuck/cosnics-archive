@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/question_types/percentage_exporter.class.php';
 require_once dirname(__FILE__).'/question_types/score_exporter.class.php';
 require_once dirname(__FILE__).'/../qti_export.class.php';
 
-class QuestionQtiExport
+abstract class QuestionQtiExport
 {
 	private $question;
 	
