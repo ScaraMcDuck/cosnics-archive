@@ -23,13 +23,17 @@ class AssessmentForm extends LearningObjectForm
 	protected function build_creation_form()
     {
     	parent :: build_creation_form();
+    	$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
     	$this->add_select(Assessment :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('Assessment type'), Assessment :: get_types());
+    	$this->addElement('category');
     }
     // Inherited
     protected function build_editing_form()
     {
 		parent :: build_editing_form();
+		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
     	$this->add_select(Assessment :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('Assessment type'), Assessment :: get_types());
+    	$this->addElement('category');
 	}
 
 	// Inherited

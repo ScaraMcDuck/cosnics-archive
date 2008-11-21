@@ -17,13 +17,17 @@ class ForumPostForm extends LearningObjectForm
     function build_creation_form()
     {
     	parent :: build_creation_form();
+    	$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
     	$this->build_form();
+    	$this->addElement('category');
     }
 	
     function build_editing_form()
     {
 		parent :: build_editing_form();
+		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
     	$this->build_form();
+    	$this->addElement('category');
 	}
 
 	/**

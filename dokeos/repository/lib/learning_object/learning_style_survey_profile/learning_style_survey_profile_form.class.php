@@ -25,6 +25,7 @@ class LearningStyleSurveyProfileForm extends LearningObjectForm
 	function build_creation_form()
 	{
 		parent :: build_creation_form();
+		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
 		if ($this->get_learning_object())
 		{
 			// For Edit & Publish - sort of hacked in
@@ -63,12 +64,15 @@ class LearningStyleSurveyProfileForm extends LearningObjectForm
 				$_POST[self :: PARAM_COMPLETE] = 1;
 			}
 		}
+		$this->addElement('category');
 	}
 	
 	function build_editing_form()
 	{
 		parent :: build_editing_form();
+		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
 		$this->create_prefilled_form();
+		$this->addElement('category');
 	}
 	
 	private function create_prefilled_form()

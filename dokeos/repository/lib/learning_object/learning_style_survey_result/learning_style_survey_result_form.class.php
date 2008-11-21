@@ -40,6 +40,7 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 	
 	function build_creation_form()
 	{
+		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
 		$this->answer_elements = array();
 		$this->defaults = array();
 		$profile = $this->get_survey_profile();
@@ -118,6 +119,7 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 		// as QF thinks the form wasn't filled out properly. Luckily, we can
 		// just handle this "error" silently.
 		$this->set_error_reporting(false);
+		$this->addElement('category');
 	}
 	
 	function build_editing_form()

@@ -12,13 +12,17 @@ class QuestionForm extends LearningObjectForm
     protected function build_creation_form()
     {
     	parent :: build_creation_form();
+    	$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
     	$this->add_select(Question :: PROPERTY_QUESTION_TYPE, Translation :: get('Question type'), Question :: get_question_types());
+    	$this->addElement('category');
     }
     // Inherited
     protected function build_editing_form()
 	{
     	parent :: build_editing_form();
+    	$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
     	$this->add_select(Question :: PROPERTY_QUESTION_TYPE, Translation :: get('Question type'), Question :: get_question_types());
+    	$this->addElement('category');
     }
 	// Inherited
 	function setDefaults($defaults = array ())

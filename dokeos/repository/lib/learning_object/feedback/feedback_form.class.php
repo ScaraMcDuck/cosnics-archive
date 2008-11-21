@@ -13,12 +13,16 @@ class FeedbackForm extends LearningObjectForm
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
+		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
 		$this->addElement('select',Feedback :: PROPERTY_ICON,Translation :: get('icon'),Feedback::get_possible_icons());
+		$this->addElement('category');
 	}
 	protected function build_editing_form()
 	{
 		parent :: build_editing_form();
+		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
 		$this->addElement('select',Feedback :: PROPERTY_ICON,Translation :: get('icon'),Feedback::get_possible_icons());
+		$this->addElement('category');
 	}
 	function setDefaults($defaults = array ())
 	{

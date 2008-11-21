@@ -115,6 +115,16 @@ abstract class LearningObjectForm extends FormValidator
 		}
 		return $this->learning_object;
 	}
+	
+	protected function get_learning_object_type()
+	{
+		return $this->learning_object->get_type();
+	}
+	
+	protected function get_learning_object_class()
+	{
+		return DokeosUtilities :: underscores_to_camelcase($this->get_learning_object_type());
+	}
 
 	/**
 	 * Sets the learning object associated with this form.
@@ -146,7 +156,9 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	protected function build_creation_form()
 	{
+		$this->addElement('category', true, Translation :: get('GeneralProperties'));
 		$this->build_basic_form();
+		$this->addElement('category');
 	}
 
 	/**
@@ -157,6 +169,8 @@ abstract class LearningObjectForm extends FormValidator
 		$object = $this->learning_object;
 		$owner = UserDataManager :: get_instance()->retrieve_user($this->get_owner_id());
 		$quotamanager = new QuotaManager($owner);
+		
+		$this->addElement('category', true, Translation :: get('GeneralProperties'));
 		$this->build_basic_form();
 		if($object->is_versionable())
 		{
@@ -174,6 +188,7 @@ abstract class LearningObjectForm extends FormValidator
 			}
 		}
 		$this->addElement('hidden', LearningObject :: PROPERTY_ID);
+		$this->addElement('category');
 	}
 
 	/**
@@ -295,7 +310,11 @@ EOT;
 			$locale['NoResults'] = Translation :: get('NoResults');
 			$locale['Error'] = Translation :: get('Error');
 			$hidden = true;
-			$elem = $this->addElement('element_finder', 'attachments', Translation :: get('Attachments'), $url, $locale, $attachments);
+			
+			$this->addElement('category', true, Translation :: get('Attachments'));
+			$elem = $this->addElement('element_finder', 'attachments', null, $url, $locale, $attachments);
+			$this->addElement('category');
+			
 			$elem->setDefaults($defaults);
 			
 			if ($id = $object->get_id())
