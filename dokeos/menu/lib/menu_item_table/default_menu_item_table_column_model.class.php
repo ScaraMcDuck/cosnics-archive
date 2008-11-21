@@ -22,7 +22,7 @@ class DefaultMenuItemTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(MenuItem :: PROPERTY_TITLE, true, false);
+		$columns[] = new ObjectTableColumn(Translation :: get(ucfirst(MenuItem :: PROPERTY_TITLE)), false, false);
 		return $columns;
 	}
 }

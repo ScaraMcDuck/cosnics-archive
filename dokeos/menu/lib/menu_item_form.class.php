@@ -36,17 +36,57 @@ class MenuItemForm extends FormValidator {
     
     function build_basic_form()
     {
+		$this->addElement('html', '<div class="configuration_form">');
+		$this->addElement('html', '<span class="category">'. Translation :: get('Main') .'</span>');
 		$this->addElement('text', MenuItem :: PROPERTY_TITLE, Translation :: get('MenuItemTitle'));
 		$this->addRule(MenuItem :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 		
-		$this->addElement('select', MenuItem :: PROPERTY_APPLICATION, Translation :: get('MenuItemApplication'), $this->get_applications());
 		$this->addElement('select', MenuItem :: PROPERTY_CATEGORY, Translation :: get('MenuItemParent'), $this->get_categories());
+		$this->addRule(MenuItem :: PROPERTY_CATEGORY, Translation :: get('ThisFieldIsRequired'), 'required');
 		
-		$this->addElement('text', MenuItem :: PROPERTY_SECTION, Translation :: get('MenuItemSection'));
-		$this->addRule(MenuItem :: PROPERTY_SECTION, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('html', '<div style="clear: both;"></div>');
+		$this->addElement('html', '</div>');
 		
+		$this->addElement('html', '<div class="configuration_form">');
+		$this->addElement('html', '<span class="category">'. Translation :: get('Link') .'</span>');
+		
+		$choices[] = $this->createElement('radio','app','',Translation :: get('Application'),0,array ('onclick' => 'javascript:application_clicked()'));
+		$choices[] = $this->createElement('radio','app','',Translation :: get('ExternalLink'),1,array ('onclick' => 'javascript:external_link_clicked()'));
+		$this->addGroup($choices,null,Translation :: get('applink'),'<br />',false);
+		
+		$this->addElement('html','<div style="margin-left:25px;display:block;" id="application">');
+		$this->addElement('select', MenuItem :: PROPERTY_APPLICATION, Translation :: get('MenuItemApplication'), $this->get_applications());
 		$this->addElement('text', MenuItem :: PROPERTY_EXTRA, Translation :: get('MenuItemExtra'));
-				
+		$this->addElement('html','</div>');
+		
+		$this->addElement('html','<div style="margin-left:25px;display:block;" id="external_link">');
+		$this->addElement('text', MenuItem :: PROPERTY_URL, Translation :: get('Url'));
+		$this->addElement('html','</div>');
+		
+		$hidden = 'external_link';
+		
+		if($this->form_type == self :: TYPE_EDIT && $this->menuitem && $this->menuitem->get_application() == '')
+		{
+			$hidden = 'application';
+		}
+		
+		$this->addElement('html',"<script type=\"text/javascript\">
+					/* <![CDATA[ */
+					document.getElementById('" . $hidden . "').style.display='none';
+					function application_clicked() {
+						document.getElementById('application').style.display='';
+						document.getElementById('external_link').style.display='none';
+					}
+					function external_link_clicked() {
+						document.getElementById('external_link').style.display='';
+						document.getElementById('application').style.display='none';
+					}
+					/* ]]> */
+					</script>\n");
+		
+		$this->addElement('html', '<div style="clear: both;"></div>');
+		$this->addElement('html', '</div>');
+		
 		$this->addElement('submit', 'menu_item', Translation :: get('Ok'));
     }
     
@@ -67,8 +107,23 @@ class MenuItemForm extends FormValidator {
     	$values = $this->exportValues();
     	
     	$menuitem->set_title($values[MenuItem :: PROPERTY_TITLE]);
-    	$menuitem->set_application($values[MenuItem :: PROPERTY_APPLICATION]);
-    	$menuitem->set_section($values[MenuItem :: PROPERTY_SECTION]);
+    	
+    	if($values['app'] == 0)
+    	{
+    		$menuitem->set_application($values[MenuItem :: PROPERTY_APPLICATION]);
+    		$menuitem->set_section($values[MenuItem :: PROPERTY_APPLICATION]);
+    		$menuitem->set_url('');
+    	}
+    	else
+    	{
+    		$url = $values[MenuItem :: PROPERTY_URL];
+    		if(substr($url, 0, 7) != 'http://') $url = 'http://' . $url;
+    		
+    		$menuitem->set_url($url);
+    		$menuitem->set_application('');
+    		$menuitem->set_section('');
+    	}
+    	
     	$menuitem->set_category($values[MenuItem :: PROPERTY_CATEGORY]);
     	$menuitem->set_extra($values[MenuItem :: PROPERTY_EXTRA]);
     	
@@ -81,8 +136,23 @@ class MenuItemForm extends FormValidator {
     	$values = $this->exportValues();
     	
     	$menuitem->set_title($values[MenuItem :: PROPERTY_TITLE]);
-    	$menuitem->set_application($values[MenuItem :: PROPERTY_APPLICATION]);
-    	$menuitem->set_section($values[MenuItem :: PROPERTY_SECTION]);
+    	
+    	if($values['app'] == 0)
+    	{
+    		$menuitem->set_application($values[MenuItem :: PROPERTY_APPLICATION]);
+    		$menuitem->set_section($values[MenuItem :: PROPERTY_APPLICATION]);
+    		$menuitem->set_url('');
+    	}
+    	else
+    	{
+    		$url = $values[MenuItem :: PROPERTY_URL];
+    		if(substr($url, 0, 7) != 'http://') $url = 'http://' . $url;
+    		
+    		$menuitem->set_url($url);
+    		$menuitem->set_application('');
+    		$menuitem->set_section('');
+    	}
+    	
     	$menuitem->set_category($values[MenuItem :: PROPERTY_CATEGORY]);
     	$menuitem->set_extra($values[MenuItem :: PROPERTY_EXTRA]);
     	
@@ -99,7 +169,7 @@ class MenuItemForm extends FormValidator {
 		
 		while ($item = $items->next_result())
 		{
-			$item_options[$item->get_id()] = $item->get_title();
+			$item_options[$item->get_id()] = '-- ' . $item->get_title();
 		}
 		return $item_options;
 	}
@@ -108,7 +178,7 @@ class MenuItemForm extends FormValidator {
 	{
 		$items = Application :: load_all(false);
 		$applications = array();
-		$applications[''] = Translation :: get('Root');
+		$applications['root'] = Translation :: get('Root');
 		
 		foreach($items as $item)
 		{
@@ -128,8 +198,9 @@ class MenuItemForm extends FormValidator {
 		$menuitem = $this->menuitem;
 		$defaults[MenuItem :: PROPERTY_TITLE] = $menuitem->get_title();
 		$defaults[MenuItem :: PROPERTY_CATEGORY] = $menuitem->get_category();
+		$defaults['app'] = ($menuitem->get_application() != '')?0:1;
 		$defaults[MenuItem :: PROPERTY_APPLICATION] = $menuitem->get_application();
-		$defaults[MenuItem :: PROPERTY_SECTION] = $menuitem->get_section();
+		$defaults[MenuItem :: PROPERTY_URL] = $menuitem->get_url();
 		$defaults[MenuItem :: PROPERTY_EXTRA] = $menuitem->get_extra();
 		parent :: setDefaults($defaults);
 	}

@@ -10,6 +10,7 @@ class MenuItem {
 	const PROPERTY_APPLICATION = 'application';
 	const PROPERTY_SECTION = 'section';
 	const PROPERTY_EXTRA = 'extra';
+	const PROPERTY_URL = 'url';
 	
 	private $id;
 	private $defaultProperties;
@@ -41,7 +42,9 @@ class MenuItem {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_CATEGORY, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_APPLICATION, self :: PROPERTY_SECTION, self :: PROPERTY_EXTRA);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_CATEGORY, self :: PROPERTY_TITLE, 
+					  self :: PROPERTY_SORT, self :: PROPERTY_APPLICATION, self :: PROPERTY_SECTION, 
+					  self :: PROPERTY_EXTRA, self :: PROPERTY_URL);
 	}
 	
 	static function is_default_property_name($name)
@@ -57,6 +60,16 @@ class MenuItem {
     function set_id($id)
 	{
 		$this->id = $id;
+	}
+	
+	function get_url()
+    {
+    	return $this->get_default_property(self :: PROPERTY_URL);
+    }
+    
+    function set_url($url)
+	{
+		$this->set_default_property(self :: PROPERTY_URL, $url);
 	}
 	
     function get_sort()

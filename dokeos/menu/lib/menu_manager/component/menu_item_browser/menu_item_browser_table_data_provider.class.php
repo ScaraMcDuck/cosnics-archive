@@ -35,8 +35,8 @@ class MenuItemBrowserTableDataProvider extends ObjectTableDataProvider
 		$order_direction = $this->get_order_property($order_direction);
     	
       	// We always use title as second sorting parameter
-		$order_property[] = MenuItem :: PROPERTY_SORT;
-		$order_direction[] = SORT_ASC;
+		$order_property = array(MenuItem :: PROPERTY_SORT);
+		$order_direction = array(SORT_ASC);
       
       return $this->get_browser()->retrieve_menu_items($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }

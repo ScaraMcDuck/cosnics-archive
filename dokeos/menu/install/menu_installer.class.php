@@ -47,11 +47,13 @@ class MenuInstaller extends Installer
 		$menu_item->set_title('WebLcms');
 		$menu_item->set_application('weblcms');
 		$menu_item->set_section('weblcms');
+		$menu_item->set_category(0);
 		$menu_item->create();
 		
 		$personal_item = new MenuItem();
 		$personal_item->set_title('Personal');
 		$personal_item->set_section('personal');
+		$personal_item->set_category(0);
 		$personal_item->create();
 		
 		$menu_item = new MenuItem();
@@ -79,12 +81,14 @@ class MenuInstaller extends Installer
 		$menu_item->set_title('Profiler');
 		$menu_item->set_application('profiler');
 		$menu_item->set_section('profiler');
+		$menu_item->set_category(0);
 		$menu_item->create();
 		
 		$menu_item = new MenuItem();
 		$menu_item->set_title('Search Portal');
 		$menu_item->set_application('search_portal');
 		$menu_item->set_section('search_portal');
+		$menu_item->set_category(0);
 		$menu_item->create();		
 		
 		return true;

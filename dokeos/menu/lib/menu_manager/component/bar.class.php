@@ -23,11 +23,17 @@ class MenuManagerBarComponent extends MenuManagerComponent
 			
 			if (isset($application))
 			{
-				$url = 'run.php?application='.$root_item->get_application().$root_item->get_extra();
+				if($application == 'root')
+					$url = 'index.php';
+				else
+					$url = 'run.php?application='.$root_item->get_application().$root_item->get_extra();
+					
+				$options = '';
 			}
 			else
 			{
-				$url = 'index.php';
+				$url = $root_item->get_url();
+				$options = 'target="about:blank"';
 			}
 			
 			$subitem_condition = new EqualityCondition(MenuItem :: PROPERTY_CATEGORY, $root_item->get_id());
@@ -48,13 +54,19 @@ class MenuManagerBarComponent extends MenuManagerComponent
 						
 						if (isset($application))
 						{
-							$url = 'run.php?application='.$subitem->get_application().$subitem->get_extra();
+							if($application == 'root')
+								$url = 'index.php';
+							else
+								$url = 'run.php?application='.$subitem->get_application().$subitem->get_extra();
+							
+							$options = '';
 						}
 						else
 						{
-							$url = 'index.php';
+							$url = $subitem->get_url();
+							$options = 'target="about:blank"';
 						}
-						$html_sub[] = '<li><a href="'. $url .'">'. $subitem->get_title() .'</a></li>';
+						$html_sub[] = '<li><a href="'. $url .'" ' . $options . '>'. $subitem->get_title() .'</a></li>';
 						
 						if ($this_section == $subitem->get_section())
 						{
@@ -66,7 +78,7 @@ class MenuManagerBarComponent extends MenuManagerComponent
 				}
 				
 				$html[] = '<ul>';
-				$html[] = '<li><a href="#" '. ($is_current ? 'class="current"' : '') .'>'. $root_item->get_title() .'<!--[if IE 7]><!--></a><!--<![endif]-->';
+				$html[] = '<li><a href="javascript:void(0)" '. ($is_current ? 'class="current"' : '') .'  ' . $options . '>'. $root_item->get_title() .'<!--[if IE 7]><!--></a><!--<![endif]-->';
 				$html[] = '<!--[if lte IE 6]><table><tr><td><![endif]-->';
 				
 				$html[] = implode("\n", $html_sub);
@@ -78,7 +90,7 @@ class MenuManagerBarComponent extends MenuManagerComponent
 			else
 			{
 				$html[] = '<ul>';
-				$html[] = '<li><a href="'.$url.'" '. ($this_section == $root_item->get_section() ? 'class="current"' : '') .'>'. $root_item->get_title() .'</a></li>';
+				$html[] = '<li><a href="'.$url.'" '. ($this_section == $root_item->get_section() ? 'class="current"' : '') .' ' . $options . '>'. $root_item->get_title() .'</a></li>';
 				$html[] = '</ul>';
 			}
 		}

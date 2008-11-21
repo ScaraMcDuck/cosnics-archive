@@ -7,6 +7,7 @@ require_once dirname(__FILE__).'/../menu_manager.class.php';
 require_once dirname(__FILE__).'/../menu_manager_component.class.php';
 require_once dirname(__FILE__).'/../../menu_item_form.class.php';
 require_once dirname(__FILE__).'/../../menu_item_menu.class.php';
+require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 
 /**
  * Weblcms component allows the user to manage course categories
@@ -58,8 +59,12 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 		}
 	}
 	
+	private $action_bar;
+	
 	function show_menu_item_list()
 	{
+		$this->action_bar = $this->get_action_bar();
+		
 		$parameters = $this->get_parameters(true);
 		
 		$table = new MenuItemBrowserTable($this, $parameters, $this->get_condition());
@@ -69,6 +74,9 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SortMenuManagerCategories')));
 		
 		$this->display_header($trail, false);
+		
+		echo $this->action_bar->as_html();
+		
 		echo '<div style="float: left; width: 15%;">';
 		echo $this->get_menu()->render_as_tree();
 		echo '</div>';
@@ -76,6 +84,18 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 		echo $table->as_html();
 		echo '</div>';
 		$this->display_footer();
+	}
+	
+	function get_action_bar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		$category = (isset($this->category) ? $this->category : 0);
+		$action_bar->set_search_url($this->get_url(array('category' => $category)));
+		
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_img_path().'action_create.png', $this->get_menu_item_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(array('category' => $category)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+
+		return $action_bar;
 	}
 	
 	function move_menu_item()
@@ -235,35 +255,35 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 	{
 		$condition = null;
 		$category = (isset($this->category) ? $this->category : 0);
+		$condition = new EqualityCondition(MenuItem :: PROPERTY_CATEGORY, $category);
 		
-		return new EqualityCondition(MenuItem :: PROPERTY_CATEGORY, $category);
+		$search = $this->action_bar->get_query();
+		if(isset($search) && $search != '')
+		{
+			$conditions[] = $condition;
+			$conditions[] = new LikeCondition(MenuItem :: PROPERTY_TITLE, $search);
+			$condition = new AndCondition($conditions);
+		}
+		
+		return $condition;
 	}
 	
 	function get_menu()
 	{
 		if (!isset ($this->menu))
-		{
-			$extra_items_before = array ();
-			
-			$home = array ();
-			$home_item = array();
-			$home['title'] = Translation :: get('Home');
-			$home['url'] = $this->get_url(array(MenuManager :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU));
-			$home['class'] = 'home';
-			$extra_items_before[] = $home;
-			
-			$extra_items_after = array ();
+		{	
+			/*$extra_items_after = array ();
 			
 			$create = array ();
 			$create['title'] = Translation :: get('Add');
 			$create['url'] = $this->get_menu_item_creation_url();
 			$create['class'] = 'create';
-			$extra_items_after[] = & $create;
+			$extra_items_after[] = & $create;*/
 			
 			$temp_replacement = '__CATEGORY__';
 			$url_format = $this->get_url(array(MenuManager :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU, MenuManager :: PARAM_CATEGORY => $temp_replacement));
 			$url_format = str_replace($temp_replacement, '%s', $url_format);
-			$this->menu = new MenuItemMenu($this->category, $url_format, $extra_items_before, $extra_items_after);
+			$this->menu = new MenuItemMenu($this->category, $url_format, null, null);
 			
 			$component_action = $_GET[MenuManager :: PARAM_COMPONENT_ACTION];
 			
