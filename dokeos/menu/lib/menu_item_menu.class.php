@@ -60,41 +60,39 @@ class MenuItemMenu extends HTML_Menu
 		{
 			$categories[$category->get_category()][] = $category;
 		}
-		$menu = & $this->get_sub_menu_items($categories, 0);
+		
+		$home['title'] = Translation :: get('Home');
+		$home['url'] = $this->get_category_url(0);
+		$home['class'] = 'home';
+		$home['sub'] = $this->get_sub_menu_items($categories, 0);
+		$home[OptionsMenuRenderer :: KEY_ID] = 0;
+		$menu[0] = $home;
+		
 		if (count($extra_items_after))
 		{
 			$menu = array_merge($menu, $extra_items_after);
 		}
-		
-		if (count($extra_items_before))
-		{
-			$menu = array_merge($extra_items_before, $menu);
-		}
-		
+
 		return $menu;
 	}
 	
 	private function get_sub_menu_items($categories, $parent)
 	{
-		$sub_tree = array ();
 		foreach ($categories[$parent] as $index => $category)
 		{
-			$menu_item = array();
-			$menu_item['title'] = $category->get_title();
-			//$menu_item['url'] = $this->get_category_url($category->get_id());
-			$sub_menu_items = $this->get_sub_menu_items($categories, $category->get_id());
-			if(count($sub_menu_items) > 0)
-			{
+			if(count($categories[$category->get_id()]) > 0)
+			{ 
+				$menu_item = array();
+				$menu_item['title'] = $category->get_title();
+				$menu_item['url'] = null;
 				$menu_item['url'] = $this->get_category_url($category->get_id());
+				$sub_menu_items = $this->get_sub_menu_items($categories, $category->get_id());
 				$menu_item['sub'] = $sub_menu_items;
 				$menu_item['class'] = 'type_category';
+				$menu_item[OptionsMenuRenderer :: KEY_ID] = $category->get_id();
+				$sub_tree[] = $menu_item;
+				
 			}
-			else
-			{
-				$menu_item['class'] = 'type_single';
-			}
-			$menu_item[OptionsMenuRenderer :: KEY_ID] = $category->get_id();
-			$sub_tree[$category->get_id()] = $menu_item;
 		}
 		return $sub_tree;
 	}
@@ -132,7 +130,7 @@ class MenuItemMenu extends HTML_Menu
 	function render_as_tree()
 	{
 		$renderer = new TreeMenuRenderer();
-		$this->render($renderer, 'tree');
+		$this->render($renderer, 'sitemap');
 		return $renderer->toHTML();
 	}
 	

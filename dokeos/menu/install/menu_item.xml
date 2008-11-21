@@ -8,6 +8,7 @@
   <property name="application" type="text" length="255" unsigned="1" notnull="0"/>
   <property name="section" type="text" length="255" unsigned="1" notnull="0"/>
   <property name="extra" type="text" length="255" unsigned="1" notnull="0"/>
+  <property name="url" type="text" length="255" unsigned="1" notnull="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

@@ -33,6 +33,16 @@ class DefaultMenuItemTableCellRenderer implements ObjectTableCellRenderer
 					return $menu_item->get_title();
 			}
 		}
+		
+		if($title = $column->get_title())
+		{
+			switch ($title)
+			{
+				case Translation :: get(ucfirst(MenuItem :: PROPERTY_TITLE)) :
+					return $menu_item->get_title();
+			}
+		}
+		
 		return '&nbsp;';
 	}
 }
