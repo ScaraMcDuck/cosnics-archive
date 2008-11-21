@@ -5,6 +5,7 @@
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
 require_once Path :: get_library_path() . 'html/menu/tree_menu_renderer.class.php';
+require_once dirname(__FILE__) . '/category_manager/profiler_category.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through
  * categories of profiles.
@@ -33,10 +34,10 @@ class ProfilerMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function ProfilerMenu($current_category, $url_format = '?firstletter=%s' , $extra_items = array())
+	function ProfilerMenu($current_category, $url_format = '?application=profiler&go=browse&category=%s')
 	{
 		$this->urlFmt = $url_format;
-		$menu = $this->get_menu_items($extra_items);
+		$menu = $this->get_menu();
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
 		$this->forceCurrentUrl($this->get_category_url($current_category));
@@ -49,35 +50,38 @@ class ProfilerMenu extends HTML_Menu
 	 *               is the structure needed by PEAR::HTML_Menu, on which this
 	 *               class is based.
 	 */
-	private function get_menu_items($extra_items)
+	private function get_menu()
 	{
 		$menu = array();
-		if (count($extra_items))
-		{
-			$menu = array_merge($menu, $extra_items);
-		}
 		
 		$home = array ();
 		$home['title'] = Translation :: get('Home');
-		$home['url'] = $this->get_home_url();
+		$home['url'] = $this->get_category_url(0);
 		$home['class'] = 'home';
-		$home_item[] = $home;
-		for ($i = 0; $i <= 7; $i++)
-		{
-			$menu_item['title'] = Translation :: get(chr(65 + (3*$i)).chr(67 + (3*$i)));
-			$menu_item['url'] = $this->get_category_url(chr(65 + (3*$i)));
-			$menu_item['class'] = 'type_category';
-			$home_item[] = $menu_item;
-		}
-		$menu_item = array ();
-		$menu_item['title'] = Translation :: get('YZ');
-		$menu_item['url'] = $this->get_category_url(chr(89));
-		$menu_item['class'] = 'type_category';
-		$home_item[] = $menu_item;
+		$home['sub'] = $this->get_menu_items(0);
+		$menu[] = $home;
 		
-		$menu = array_merge($home_item, $menu);
 		return $menu;
 	}
+	
+	private function get_menu_items($parent_id)
+	{
+		$pdm = ProfilerDataManager :: get_instance();
+		$condition = new EqualityCondition(ProfilerCategory :: PROPERTY_PARENT, $parent_id);
+		$categories = $pdm->retrieve_categories($condition);
+		
+		while($category = $categories->next_result())
+		{
+			$item['title'] = $category->get_name();
+			$item['url'] = $this->get_category_url($category->get_id());
+			$item['class'] = 'type_category';
+			$item['sub'] = $this->get_menu_items($category->get_id());
+			$tree[] = $item;
+		}
+		
+		return $tree;
+	}
+	
 	/**
 	 * Gets the URL of a given category
 	 * @param int $category The id of the category
@@ -88,17 +92,7 @@ class ProfilerMenu extends HTML_Menu
 		// TODO: Put another class in charge of the htmlentities() invocation
 		return htmlentities(sprintf($this->urlFmt, $category));
 	}
-	
-	/**
-	 * Gets the Home URL
-	 * @param int $category The id of the category
-	 * @return string The requested URL
-	 */
-	private function get_home_url ($category)
-	{
-		// TODO: Put another class in charge of the htmlentities() invocation
-		return htmlentities(str_replace('&firstletter=%s', '', $this->urlFmt));
-	}
+
 	/**
 	 * Get the breadcrumbs which lead to the current category.
 	 * @return array The breadcrumbs.
@@ -121,7 +115,7 @@ class ProfilerMenu extends HTML_Menu
 	function render_as_tree()
 	{
 		$renderer = new TreeMenuRenderer();
-		$this->render($renderer, 'tree');
+		$this->render($renderer, 'sitemap');
 		return $renderer->toHTML();
 	}
 }

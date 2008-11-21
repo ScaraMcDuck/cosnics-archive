@@ -77,10 +77,10 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 		
 		echo $this->action_bar->as_html();
 		
-		echo '<div style="float: left; width: 15%;">';
+		echo '<div style="float: left; width: 12%; overflow:auto;">';
 		echo $this->get_menu()->render_as_tree();
 		echo '</div>';
-		echo '<div style="float: right; width: 83%;">';
+		echo '<div style="float: right; width: 85%;">';
 		echo $table->as_html();
 		echo '</div>';
 		$this->display_footer();
@@ -158,10 +158,10 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddMenuManagerCategory')));
 		
 			$this->display_header($trail, false);
-			echo '<div style="float: left; width: 15%;">';
+			echo '<div style="float: left; width: 12%; overflow:auto;">';
 			echo $this->get_menu()->render_as_tree();
 			echo '</div>';
-			echo '<div style="float: right; width: 83%;">';
+			echo '<div style="float: right; width: 85%;">';
 			$form->display();
 			echo '</div>';
 			$this->display_footer();
@@ -186,10 +186,10 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateMenuManagerCategory')));
 			
 			$this->display_header($trail, false);
-			echo '<div style="float: left; width: 15%;">';
+			echo '<div style="float: left; width: 12%; overflow:auto;">';
 			echo $this->get_menu()->render_as_tree();
 			echo '</div>';
-			echo '<div style="float: right; width: 83%;">';
+			echo '<div style="float: right; width: 85%;">';
 			$form->display();
 			echo '</div>';
 			$this->display_footer();

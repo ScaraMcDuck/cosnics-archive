@@ -198,7 +198,10 @@ class MenuItemForm extends FormValidator {
 		$menuitem = $this->menuitem;
 		$defaults[MenuItem :: PROPERTY_TITLE] = $menuitem->get_title();
 		$defaults[MenuItem :: PROPERTY_CATEGORY] = $menuitem->get_category();
-		$defaults['app'] = ($menuitem->get_application() != '')?0:1;
+		if($this->form_type == self :: TYPE_EDIT)
+			$defaults['app'] = ($menuitem->get_application() != '')?0:1;
+		else
+			$defaults['app'] = 0;
 		$defaults[MenuItem :: PROPERTY_APPLICATION] = $menuitem->get_application();
 		$defaults[MenuItem :: PROPERTY_URL] = $menuitem->get_url();
 		$defaults[MenuItem :: PROPERTY_EXTRA] = $menuitem->get_extra();
