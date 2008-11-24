@@ -45,9 +45,16 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 					return $assessment->get_assessment_type();
 				case Assessment :: PROPERTY_AVERAGE_SCORE:
 					$avg = $assessment->get_average_score();
-					$max = $assessment->get_maximum_score();
-					$pct = round(($avg / $max) * 100, 2);
-					return $avg.'/'.$max.' ('.$pct.'%)';
+					if (!$avg)
+					{
+						return 'No results';
+					}
+					else
+					{
+						$max = $assessment->get_maximum_score();
+						$pct = round(($avg / $max) * 100, 2);
+						return $avg.'/'.$max.' ('.$pct.'%)';
+					}
 				case Assessment :: PROPERTY_TIMES_TAKEN:
 					return $assessment->get_times_taken();
 				default:

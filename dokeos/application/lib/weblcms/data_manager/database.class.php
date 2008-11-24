@@ -2501,6 +2501,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute();
 		$row = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$avg = $row[0];
+		/*if (!$avg)
+			return 0;
+			
+		return $avg;*/
 		return $row[0];
 	}
 	
