@@ -2562,7 +2562,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 				 $this->db->escape_column_name(CourseSection :: PROPERTY_COURSE_CODE) . '=?';
 		$statement = $this->db->get_connection()->prepare($query); 
 		$statement->execute(array($course_section->get_display_order(), $course_section->get_course_code()));
-		
+		return true;
 	}
 	
 	function update_course_section($course_section)

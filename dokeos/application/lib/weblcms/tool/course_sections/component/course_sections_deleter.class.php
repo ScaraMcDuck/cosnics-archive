@@ -47,18 +47,18 @@ class CourseSectionsToolDeleterComponent extends CourseSectionsToolComponent
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedCourseSectionDeleted';
+					$message = 'SelectedCourseSectionNotDeleted';
 				}
 				else
 				{
-					$message = 'SelectedCourseSectionDeleted';
+					$message = 'SelectedCourseSectionsNotDeleted';
 				}
 			}
 			else
 			{
 				if (count($ids) == 1)
 				{
-					$message = 'SelectedCourseSectionsDeleted';
+					$message = 'SelectedCourseSectionDeleted';
 				}
 				else
 				{

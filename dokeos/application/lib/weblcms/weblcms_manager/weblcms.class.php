@@ -521,6 +521,17 @@ class Weblcms extends WebApplication
 	{
 		Display :: display_footer();
 	}
+	
+	/**
+	 * Displays an error page.
+	 * @param string $message The message.
+	 */
+	function display_error_page($message)
+	{
+		$this->display_header();
+		$this->display_error_message($message);
+		$this->display_footer();
+	}
 
 	/**
 	 * Returns the names of the tools known to this application.
