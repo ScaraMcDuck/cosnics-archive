@@ -24,4 +24,8 @@ $lang['personal_calendar']['CategoryTypeName'] = 'Category';
 $lang['personal_calendar']['Repeat'] = 'Repeat';
 $lang['personal_calendar']['Attachments'] = 'Attachments';
 $lang['personal_calendar']['AddAttachments'] = 'Add attachments';
+$lang['personal_calendar']['SelectedLearningObjects'] = 'Selected learning objects';
+$lang['personal_calendar']['ObjectNotPublished'] = 'Learning object not published';
+$lang['personal_calendar']['ObjectPublished'] = 'Learning object published';
+$lang['personal_calendar']['Today'] = 'today';
 ?>

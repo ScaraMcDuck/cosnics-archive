@@ -22,4 +22,7 @@ $lang['profiler']['UserName'] = 'Username';
 $lang['profiler']['LastName'] = 'Lastname';
 $lang['profiler']['FirstName'] = 'Firstname';
 $lang['profiler']['Profile'] = 'Profile';
+$lang['profiler']['SelectedLearningObjects'] = 'Selected learning objects';
+$lang['profiler']['ObjectNotPublished'] = 'Learning object not published';
+$lang['profiler']['ObjectPublished'] = 'Learning object published';
 ?>

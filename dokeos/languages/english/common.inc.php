@@ -81,4 +81,6 @@ $lang['common']['ActionBar'] = 'Action bar';
 $lang['common']['LocationsFailed'] = 'Locations failed';
 $lang['common']['LocationsAdded'] = 'Locations are added';
 $lang['common']['InstallSuccess'] = 'Install was successful';
+$lang['common']['LoggedInAsUser'] = 'Logged in as user';
+$lang['common']['Back'] = 'Back';
 ?>

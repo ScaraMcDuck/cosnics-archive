@@ -37,4 +37,8 @@ $lang['admin']['Manage'] = 'Manage';
 $lang['admin']['UserImport'] = 'Import users';
 $lang['admin']['CourseCategoryManagement'] = 'Categories';
 $lang['admin']['Sort'] = 'Sort';
+$lang['admin']['SelectedLearningObjects'] = 'Selected learning objects';
+$lang['admin']['ObjectNotPublished'] = 'Learning object not published';
+$lang['admin']['ObjectPublished'] = 'Learning object published';
+$lang['admin']['NoNewSystemAnnouncements'] = 'No new system announcements';
 ?>

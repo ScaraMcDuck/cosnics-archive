@@ -80,5 +80,5 @@ $lang['install']['UnlinkedTrackers'] = 'Unlinked trackers';
 $lang['install']['Check'] = 'Check';
 $lang['install']['TrackersRegisteredToEvent'] = 'Trackers registered to event';
 $lang['install']['LocationsAdded'] = 'Locations added';
-$lang['install']['Mr'] = 'Mr';
+$lang['install']['MenuCreated'] = 'Menu created';
 ?>
