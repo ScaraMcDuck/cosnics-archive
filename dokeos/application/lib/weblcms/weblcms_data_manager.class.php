@@ -625,7 +625,7 @@ abstract class WeblcmsDataManager
 	 * @param boolean $visible
 	 */
 	abstract function add_course_module($course_code,$module,$section,$visible = true);
-	abstract function add_course_section($course_code, $section,$visible = true);
+	//abstract function add_course_section($course_code, $section,$visible = true);
 	 /**
 	  * Adds a record to the access log of a course module
 	  * @param string $course_code
@@ -723,5 +723,14 @@ abstract class WeblcmsDataManager
 	abstract function create_learning_object_publication_category($learning_object_publication_category);
 	abstract function count_learning_object_publication_categories($conditions = null);
 	abstract function retrieve_learning_object_publication_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	
+	abstract function get_next_course_section_id();
+	abstract function select_next_course_section_display_order($course_section);
+	abstract function delete_course_section($course_section);
+	abstract function update_course_section($course_section);
+	abstract function create_course_section($course_section);
+	abstract function count_course_sections($conditions = null);
+	abstract function retrieve_course_sections($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	
 }
 ?>

@@ -15,6 +15,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 	private $number_of_columns = 2;
 	private $group_inactive;
 	private $is_course_admin;
+	private $course;
 	/**
 	 * Constructor
 	 * @param  WebLcms $parent The parent application
@@ -23,6 +24,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 	{
 		parent::ToolListRenderer($parent);
 		$course = $parent->get_course();
+		$this->course = $course;
 		$this->number_of_columns = ($course->get_layout() % 2 == 0)?3:2;
 		$this->group_inactive = ($course->get_layout() > 2);
 		$this->is_course_admin = $this->get_parent()->get_course()->is_course_admin($this->get_parent()->get_user());
@@ -40,27 +42,27 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		{
 			if($this->group_inactive)
 			{
-				if($tool->visible)
+				if($this->course->get_layout() > 2)
 				{
-					$tools[$tool->section][] = $tool;
+					if($tool->visible)
+					{
+						$tools[$tool->section][] = $tool;
+					}
+					else
+					{
+						$tools[CourseSection :: TYPE_DISABLED][] = $tool;
+					}
 				}
 				else
-				{
-					$tools[CourseSection :: TYPE_DISABLED][] = $tool;
-				}
+					$tools[$tool->section][] = $tool;
 			}
 			else
 			{
 				$tools[$tool->section][] = $tool;
 			}
 		}
-		
-		/*$section = new CourseSection();
-		$section->set_id(CourseSection :: TYPE_DISABLED);
-		$section->set_name(Translation :: get('Disabled'));
-		
-		$section_types[CourseSection :: TYPE_DISABLED] = $section;*/
-		//dump($section_types);
+	
+		//dump($tools);
 	
 		foreach($section_types as $section_type => $sections)
 		{
@@ -70,10 +72,14 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			}
 			else
 			{
+				if($section_type == CourseSection :: TYPE_DISABLED && $this->course->get_layout() < 3) 
+					continue;
+					
 				foreach($sections as $section)
-				{
+				{ 
+					$id = ($section_type == CourseSection :: TYPE_DISABLED && $this->course->get_layout() > 2)?0:$section->id;
 					echo $this->display_block_header($section->id, $section->name);
-					$this->show_section_tools($section, $tools[$section->id]);
+					$this->show_section_tools($section, $tools[$id]);
 					echo $this->display_block_footer();
 				}
 			}
@@ -150,7 +156,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 	}
 	
 	function display_block_header($section, $block_name)
-	{
+	{ 
 		$html = array();
 		
 		$html[] = '<div class="block" id="block_'. $section .'" style="background-image: url('.Theme :: get_img_path().'block_weblcms.png);">';
