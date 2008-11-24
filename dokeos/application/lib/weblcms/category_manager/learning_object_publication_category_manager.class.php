@@ -19,14 +19,37 @@ class LearningObjectPublicationCategoryManager extends CategoryManager
 		$category = new LearningObjectPublicationCategory();
 		$category->set_tool($this->get_parent()->get_tool_id());
 		$category->set_course($this->get_parent()->get_course_id());
+		$category->set_allow_change(1);
 		return $category;
 	}
 	
 	function allowed_to_delete_category($category_id)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
+		
+		$category = $wdm->retrieve_learning_object_publication_categories(new EqualityCondition('id', $category_id))->next_result();
+		if($category)
+		{
+			if($category->get_tool() == 'document' && !$category->get_allow_change()) 
+				return false;
+		}
+		
 		$count = $wdm->count_learning_object_publications($this->get_parent()->get_course_id(), array($category_id), null, null, new EqualityCondition('tool', $this->get_parent()->get_tool_id()));
 		return ($count == 0);
+	}
+	
+	function allowed_to_edit_category($category_id)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		
+		$category = $wdm->retrieve_learning_object_publication_categories(new EqualityCondition('id', $category_id))->next_result();
+		if($category)
+		{
+			if($category->get_tool() == 'document' && !$category->get_allow_change()) 
+				return false;
+		}
+		
+		return true;
 	}
 	
 	function count_categories($condition)

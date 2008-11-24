@@ -7,6 +7,7 @@
   <property name="tool" type="text" length="255" notnull="1"/>
   <property name="parent" type="integer" unsigned="1" notnull="1"/>
   <property name="display_order" type="integer" unsigned="1" notnull="1"/>
+  <property name="allow_change" type="integer" unsigned="1" notnull="1" default="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

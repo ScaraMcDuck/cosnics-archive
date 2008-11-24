@@ -498,6 +498,11 @@ class Course {
 	function create()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
+		
+		require_once(dirname(__FILE__) . '/../category_manager/learning_object_publication_category.class.php');
+		$dropbox = new LearningObjectPublicationCategory();
+		$dropbox->create_dropbox($this->get_id());
+		
 		return $wdm->create_course($this);
 	}
 	
