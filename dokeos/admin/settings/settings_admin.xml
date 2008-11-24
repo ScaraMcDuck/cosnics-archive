@@ -46,6 +46,12 @@
 					<option name="false" value="0" />
 				</options>
 			</setting>
+			<setting name="description_required" field="radio" default="true">
+				<options type="static">
+					<option name="true" value="true" />
+					<option name="false" value="false" />
+				</options>
+			</setting>
 		</category>
 	</settings>
 </application>
