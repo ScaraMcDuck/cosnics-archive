@@ -67,6 +67,7 @@ class PublicationCandidateTableDataProvider extends ObjectTableDataProvider
     	
     	$conds = array();
     	$conds[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $owner->get_id());
+    	$conds[] = new EqualityCondition(LearningObject :: PROPERTY_STATE, 0);
     	$type_cond = array();
     	$types = $this->types;
     	foreach ($types as $type)
