@@ -2531,7 +2531,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query = 'SELECT MAX(' . CourseSection :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
 		$this->db->escape_table_name(CourseSection :: get_table_name());
 	
-		$condition[] = new EqualityCondition(CourseSection :: PROPERTY_COURSE, $course_section->get_course());
+		$condition = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, $course_section->get_course_code());
 		
 		$params = array ();
 		if (isset ($condition))

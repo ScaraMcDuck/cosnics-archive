@@ -1,3 +1,56 @@
 <?php
+/**
+ */
+require_once dirname(__FILE__).'/../course_sections_tool.class.php';
+require_once dirname(__FILE__).'/../course_sections_tool_component.class.php';
 
+class CourseSectionsToolMoverComponent extends CourseSectionsToolComponent
+{
+	/**
+	 * Runs this component and displays its output.
+	 */
+	function run()
+	{
+		$user = $this->get_user();
+
+		if (!$user->is_platform_admin())
+		{
+			$trail = new BreadcrumbTrail();
+			$this->display_header($trail);
+			Display :: display_error_message(Translation :: get('NotAllowed'));
+			$this->display_footer();
+			exit;
+		}		
+		
+		$id = $_GET[CourseSectionsTool :: PARAM_COURSE_SECTION_ID];
+		$direction = $_GET[CourseSectionsTool :: PARAM_DIRECTION];
+		$failures = 0;
+		
+		if (!empty ($id))
+		{
+			
+			$course_section = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $id))->next_result();
+
+			$display_order = $course_section->get_display_order();
+			$new_place = $display_order + $direction;
+			$course_section->set_display_order($new_place);
+			
+			$conditions[] = new EqualityCondition(CourseSection :: PROPERTY_DISPLAY_ORDER, $new_place);
+			$conditions[] = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, $this->get_course_id());
+			$condition = new AndCondition($conditions);
+			$new_course_section = WeblcmsDataManager :: get_instance()->retrieve_course_sections($condition)->next_result();
+			$new_course_section->set_display_order($display_order);
+			
+			$success = $course_section->update() & $new_course_section->update();
+			
+			$message = $success?'CourseSectionMoved':'CourseSectionNotMoved';
+			
+			$this->redirect('url', Translation :: get($message), (!$success), array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
+		}
+		else
+		{
+			$this->display_error_page(htmlentities(Translation :: get('NoCourseSectionsSelected')));
+		}
+	}
+}
 ?>

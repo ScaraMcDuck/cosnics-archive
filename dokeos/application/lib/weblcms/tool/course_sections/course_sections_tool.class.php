@@ -38,6 +38,21 @@ class CourseSectionsTool extends Tool
 			case self :: ACTION_VIEW_COURSE_SECTIONS :
 				$component = CourseSectionsToolComponent :: factory('Viewer', $this);
 				break;
+			case self :: ACTION_CREATE_COURSE_SECTION :
+				$component = CourseSectionsToolComponent :: factory('Creator', $this);
+				break;
+			case self :: ACTION_REMOVE_COURSE_SECTION :
+				$component = CourseSectionsToolComponent :: factory('Deleter', $this);
+				break;
+			case self :: ACTION_UPDATE_COURSE_SECTION :
+				$component = CourseSectionsToolComponent :: factory('Updater', $this);
+				break;
+			case self :: ACTION_MOVE_COURSE_SECTION :
+				$component = CourseSectionsToolComponent :: factory('Mover', $this);
+				break;
+			case self :: ACTION_CHANGE_COURSE_SECTION_VISIBILITY :
+				$component = CourseSectionsToolComponent :: factory('VisibilityChanger', $this);
+				break;
 			default :
 				$component = CourseSectionsToolComponent :: factory('Viewer', $this);
 		}

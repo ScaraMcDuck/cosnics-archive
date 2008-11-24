@@ -123,8 +123,20 @@ class CourseSection
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		$this->set_id($wdm->get_next_course_section_id());
-		$this->set_display_order($wdm->get_next_course_section_display_order($this));
-		$wdm->create_course_section($this);
+		$this->set_display_order($wdm->select_next_course_section_display_order($this));
+		return $wdm->create_course_section($this);
+	}
+	
+	function update()
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->update_course_section($this);
+	}
+	
+	function delete()
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		return $wdm->delete_course_section($this);
 	}
 	
 	static function get_table_name()
