@@ -49,7 +49,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->prefix = 'weblcms_';
 		$this->connection->query('SET NAMES utf8');
 		
-		$this->db = new Database(array('course_category' => 'cat', 'learning_object_publication_category' => 'pub_cat', 'user_answer' => 'ans', 'user_assessment' => 'ass', 'user_question' => 'uq'));
+		$this->db = new Database(array('course_section' => 'cs', 'course_category' => 'cat', 'learning_object_publication_category' => 'pub_cat', 'user_answer' => 'ans', 'user_assessment' => 'ass', 'user_question' => 'uq'));
 		$this->db->set_prefix('weblcms_');
 		
 		//$this->database = new Database(array('course_category' => 'cat', 'user_answer' => 'ans', 'user_assessment' => 'ass'));
@@ -2548,7 +2548,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function delete_course_section($course_section)
 	{
 		$condition = new EqualityCondition(CourseSection :: PROPERTY_ID, $course_section->get_id());
-		return $this->db->delete(CourseSection :: get_table_name(), $condition);
+		$success = $this->db->delete(CourseSection :: get_table_name(), $condition);
+		
+		$query = 'UPDATE '.$this->db->escape_table_name(CourseSection :: get_table_name()).' SET '.
+				 $this->db->escape_column_name(CourseSection :: PROPERTY_DISPLAY_ORDER).'='.
+				 $this->db->escape_column_name(CourseSection :: PROPERTY_DISPLAY_ORDER).'-1 WHERE '.
+				 $this->db->escape_column_name(CourseSection :: PROPERTY_DISPLAY_ORDER).'>? AND ' .
+				 $this->db->escape_column_name(CourseSection :: PROPERTY_COURSE_CODE) . '=?';
+		$statement = $this->db->get_connection()->prepare($query); 
+		$statement->execute(array($course_section->get_display_order(), $course_section->get_course_code()));
+		
 	}
 	
 	function update_course_section($course_section)
@@ -2569,6 +2578,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function retrieve_course_sections($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
+		$order_property = array(CourseSection :: PROPERTY_DISPLAY_ORDER);
+		$order_direction = array(SORT_ASC);
 		return $this->db->retrieve_objects(CourseSection :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction);
 	}
 	
