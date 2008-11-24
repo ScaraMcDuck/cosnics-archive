@@ -84,9 +84,17 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		echo '</div>';
 
 		$avg = $assessment->get_average_score();
-		$tot = $assessment->get_maximum_score();
-		$pct = round($avg / $tot * 100, 2);
-		echo Translation :: get('Average score').': '.$avg.'/'.$tot.' ('.$pct.'%)';
+		if (!$avg)
+		{
+			$avg_line = 'No results';
+		}
+		else
+		{
+			$tot = $assessment->get_maximum_score();
+			$pct = round($avg / $tot * 100, 2);
+			$avg_line = $avg.'/'.$tot.' ('.$pct.'%)';
+		}
+		echo Translation :: get('Average score').': '.$avg_line;
 		echo '<br/>'.Translation :: get('Times taken').': '.$assessment->get_times_taken();
 		echo '</div>';
 		$table = new AssessmentResultsTableDetail($this, $this->get_user(), $_GET[AssessmentTool :: PARAM_ASSESSMENT]);

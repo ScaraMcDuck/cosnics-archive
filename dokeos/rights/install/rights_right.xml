@@ -3,7 +3,7 @@
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="name" type="text" length="255" unsigned="1" notnull="1"/>
-  <property name="description" type="text" unsigned="1" notnull="1"/>
+  <property name="description" type="text" unsigned="1" notnull="1" default=""/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
