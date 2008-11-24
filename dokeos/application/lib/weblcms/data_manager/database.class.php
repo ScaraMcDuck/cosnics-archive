@@ -918,7 +918,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$sections = array();
 			$sections[] = array('name' => Translation :: get('Tools'), 'type' => 1, 'order' => 1);
 			$sections[] = array('name' => Translation :: get('Links'), 'type' => 2, 'order' => 2);
-			$sections[] = array('name' => Translation :: get('CourseAdministration'), 'type' => 3, 'order' => 3);
+			$sections[] = array('name' => Translation :: get('Disabled'), 'type' => 0, 'order' => 3);
+			$sections[] = array('name' => Translation :: get('CourseAdministration'), 'type' => 3, 'order' => 4);
 			//$sections[] = array('name' => Translation :: get('Disabled'), 'type' => 4, 'order' => 4);
 			
 			foreach($sections as $section)
@@ -2241,11 +2242,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->db->get_next_id('course_module');
 	}
 	
-	function get_next_course_section_id()
-	{
-		return $this->db->get_next_id('course_section');
-	}
-	
 	function delete_category($category)
 	{
 		$condition = new EqualityCondition(CourseCategory :: PROPERTY_ID, $category->get_id());
@@ -2519,5 +2515,62 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
 		return $maxscore;
 	}
+	
+	function get_next_course_section_id()
+	{
+		return $this->db->get_next_id(CourseSection :: get_table_name());
+	}
+	
+	function select_next_course_section_display_order($course_section)
+	{
+		$query = 'SELECT MAX(' . CourseSection :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
+		$this->db->escape_table_name(CourseSection :: get_table_name());
+	
+		$condition[] = new EqualityCondition(CourseSection :: PROPERTY_COURSE, $course_section->get_course());
+		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this->db, $params, $prefix_properties = false);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$sth = $this->db->get_connection()->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+
+		return $record[0] + 1;
+	}
+	
+	function delete_course_section($course_section)
+	{
+		$condition = new EqualityCondition(CourseSection :: PROPERTY_ID, $course_section->get_id());
+		return $this->db->delete(CourseSection :: get_table_name(), $condition);
+	}
+	
+	function update_course_section($course_section)
+	{
+		$condition = new EqualityCondition(CourseSection :: PROPERTY_ID, $course_section->get_id());
+		return $this->db->update($course_section, $condition);
+	}
+	
+	function create_course_section($course_section)
+	{
+		return $this->db->create($course_section);
+	}
+	
+	function count_course_sections($conditions = null)
+	{
+		return $this->db->count_objects(CourseSection :: get_table_name(), $conditions);
+	}
+	
+	function retrieve_course_sections($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->db->retrieve_objects(CourseSection :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction);
+	}
+	
 }
 ?>
