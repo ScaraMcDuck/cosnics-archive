@@ -206,6 +206,14 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
+	 * @see Weblcms::display_error_page()
+	 */
+	function display_error_page($message)
+	{
+		$this->get_parent()->display_error_page($message);
+	}
+	
+	/**
 	 * @see Weblcms::display_warning_message()
 	 */	
 	function display_warning_message($message)
