@@ -18,7 +18,7 @@ class MatchingQuestionDisplay extends QuestionDisplay
 			$formvalidator->addElement('select', $name, $answer['answer']->get_description(), $this->get_values($matches));
 			//$formvalidator->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
 		}
-		$formvalidator->addElement('html', '</p><b>'.Translation :: get('Matches').' :</b><p>');
+		$formvalidator->addElement('html', '</p><br/><b>'.Translation :: get('Matches').' :</b><p>');
 		
 		$i = 1;
 		foreach($this->sort($matches) as $answer)
