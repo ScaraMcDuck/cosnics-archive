@@ -110,6 +110,7 @@ class MenuManagerBarComponent extends MenuManagerComponent
 			$html[] = '<!--[if lte IE 6]><table><tr><td><![endif]-->';
 			$html[] = '<ul>';
 			$html[] = '<li><a href="index_repository_manager.php">Repository</a></li>';
+			$html[] = '<li><a href="index_user.php?go=account">' . Translation :: get('MyAccount') . '</a></li>';
 			if ($user->is_platform_admin())
 			{
 				$html[] = '<li><a href="index_admin.php">Admin</a></li>';

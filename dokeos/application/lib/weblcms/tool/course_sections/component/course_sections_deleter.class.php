@@ -11,16 +11,15 @@ class CourseSectionsToolDeleterComponent extends CourseSectionsToolComponent
 	 */
 	function run()
 	{
-		$user = $this->get_user();
-
-		if (!$user->is_platform_admin())
+		$user = $this->get_user();	
+		
+		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user()))
 		{
-			$trail = new BreadcrumbTrail();
-			$this->display_header($trail);
-			Display :: display_error_message(Translation :: get('NotAllowed'));
+			$this->display_header(new BreadcrumbTrail());
+			Display :: display_error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
-		}		
+		}
 		
 		$ids = $_GET[CourseSectionsTool :: PARAM_COURSE_SECTION_ID];
 		$failures = 0;
