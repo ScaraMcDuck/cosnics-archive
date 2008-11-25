@@ -1393,13 +1393,23 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$condition = new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $category->get_id());
 		$succes = $this->database->delete('repository_category', $condition);
 		
-		$query = 'UPDATE '.$this->database->escape_table_name('category').' SET '.
+		$query = 'UPDATE '.$this->database->escape_table_name('repository_category').' SET '.
 				 $this->database->escape_column_name(RepositoryCategory :: PROPERTY_DISPLAY_ORDER).'='.
 				 $this->database->escape_column_name(RepositoryCategory :: PROPERTY_DISPLAY_ORDER).'-1 WHERE '.
 				 $this->database->escape_column_name(RepositoryCategory :: PROPERTY_DISPLAY_ORDER).'>? AND ' .
 				 $this->database->escape_column_name(RepositoryCategory :: PROPERTY_PARENT) . '=?';
 		$statement = $this->database->get_connection()->prepare($query); 
 		$statement->execute(array($category->get_display_order(), $category->get_parent()));
+		
+		$query = 'UPDATE ' . $this->database->escape_table_name('learning_object').' SET ' .
+		 		 $this->database->escape_column_name('state').'=1 WHERE '.
+		 		 $this->database->escape_column_name('parent').'=?';
+		$statement = $this->database->get_connection()->prepare($query); 
+		$statement->execute(array($category->get_id())); 		
+		
+		$categories = $this->retrieve_categories(new EqualityCondition('parent', $category->get_id()));
+		while($category = $categories->next_result())
+			$this->delete_category($category);
 		
 		return $succes;
 	}
