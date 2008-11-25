@@ -50,7 +50,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 		// TODO: Some sensible defaults based on the type, especially for count fields
 		// TODO: Extract methods
 		parent::build_creation_form();
-		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
+		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
 		$step = 0;
 		$this->type_element = $this->add_select(
 			LearningStyleSurvey :: PROPERTY_SURVEY_TYPE,
@@ -193,7 +193,7 @@ class LearningStyleSurveyForm extends LearningObjectForm
 	{
 		// TODO: avoid code duplication
 		parent :: build_editing_form();
-		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
+		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
 		$this->defaults = array();
 		$survey = $this->get_learning_object();
 		$survey_type = $survey->get_survey_type();

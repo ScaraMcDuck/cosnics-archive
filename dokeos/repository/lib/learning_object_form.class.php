@@ -156,7 +156,7 @@ abstract class LearningObjectForm extends FormValidator
 	 */
 	protected function build_creation_form()
 	{
-		$this->addElement('category', true, Translation :: get('GeneralProperties'));
+		$this->addElement('category', Translation :: get('GeneralProperties'));
 		$this->build_basic_form();
 		$this->addElement('category');
 	}
@@ -170,7 +170,7 @@ abstract class LearningObjectForm extends FormValidator
 		$owner = UserDataManager :: get_instance()->retrieve_user($this->get_owner_id());
 		$quotamanager = new QuotaManager($owner);
 		
-		$this->addElement('category', true, Translation :: get('GeneralProperties'));
+		$this->addElement('category', Translation :: get('GeneralProperties'));
 		$this->build_basic_form();
 		if($object->is_versionable())
 		{
@@ -313,7 +313,7 @@ EOT;
 			$locale['Error'] = Translation :: get('Error');
 			$hidden = true;
 			
-			$this->addElement('category', true, Translation :: get('Attachments'));
+			$this->addElement('category', Translation :: get('Attachments'));
 			$elem = $this->addElement('element_finder', 'attachments', null, $url, $locale, $attachments);
 			$this->addElement('category');
 			
