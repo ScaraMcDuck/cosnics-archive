@@ -239,16 +239,16 @@ class CourseForm extends FormValidator {
     	$course->set_language($language ? $language : PlatformSetting :: get('platform_language'));
 		
 		$layout = $values[Course :: PROPERTY_LAYOUT];
-		$course->set_layout($layout? $layout : Course :: LAYOUT_2_COLUMNS);
+		$course->set_layout($layout? $layout : PlatformSetting :: get('default_course_layout', Weblcms :: APPLICATION_NAME));
 		
 		$tool_shortcut = $values[Course :: PROPERTY_TOOL_SHORTCUT];
-		$course->set_tool_shortcut($tool_shortcut?$tool_shortcut : Course :: TOOL_SHORTCUT_OFF);
+		$course->set_tool_shortcut($tool_shortcut?$tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', Weblcms :: APPLICATION_NAME));
 		
 		$menu = $values[Course :: PROPERTY_MENU];
-		$course->set_menu($menu ? $menu : Course :: MENU_OFF);
+		$course->set_menu($menu ? $menu : PlatformSetting :: get('default_course_menu_selection', Weblcms :: APPLICATION_NAME));
 		
 		$breadcrumb = $values[Course :: PROPERTY_BREADCRUMB];
-		$course->set_breadcrumb($breadcrumb ? $breadcrumb : Course :: BREADCRUMB_TITLE);
+		$course->set_breadcrumb($breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', Weblcms :: APPLICATION_NAME));
 
     	$course->set_visibility($values[Course :: PROPERTY_VISIBILITY]);
     	$course->set_subscribe_allowed($values[Course :: PROPERTY_SUBSCRIBE_ALLOWED]);
@@ -284,16 +284,16 @@ class CourseForm extends FormValidator {
     	$course->set_language($language ? $language : PlatformSetting :: get('platform_language'));
 		
 		$layout = $values[Course :: PROPERTY_LAYOUT];
-		$course->set_layout($layout? $layout : Course :: LAYOUT_2_COLUMNS);
+		$course->set_layout($layout? $layout : PlatformSetting :: get('default_course_layout', Weblcms :: APPLICATION_NAME));
 		
 		$tool_shortcut = $values[Course :: PROPERTY_TOOL_SHORTCUT];
-		$course->set_tool_shortcut($tool_shortcut?$tool_shortcut : Course :: TOOL_SHORTCUT_OFF);
+		$course->set_tool_shortcut($tool_shortcut?$tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', Weblcms :: APPLICATION_NAME));
 		
 		$menu = $values[Course :: PROPERTY_MENU];
-		$course->set_menu($menu ? $menu : Course :: MENU_OFF);
+		$course->set_menu($menu ? $menu : PlatformSetting :: get('default_course_menu_selection', Weblcms :: APPLICATION_NAME));
 		
 		$breadcrumb = $values[Course :: PROPERTY_BREADCRUMB];
-		$course->set_breadcrumb($breadcrumb ? $breadcrumb : Course :: BREADCRUMB_TITLE);
+		$course->set_breadcrumb($breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', Weblcms :: APPLICATION_NAME));
 		
     	if ($course->create())
     	{
@@ -344,10 +344,18 @@ class CourseForm extends FormValidator {
 		$defaults[Course :: PROPERTY_VISIBILITY] = $course->get_visibility();
 		$defaults[Course :: PROPERTY_SUBSCRIBE_ALLOWED] = $course->get_subscribe_allowed();
 		$defaults[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED] = $course->get_unsubscribe_allowed();
-		$defaults[Course :: PROPERTY_LAYOUT] = $course->get_layout();
-		$defaults[Course :: PROPERTY_TOOL_SHORTCUT] = $course->get_tool_shortcut();
-		$defaults[Course :: PROPERTY_MENU] = $course->get_menu();
-		$defaults[Course :: PROPERTY_BREADCRUMB] = $course->get_breadcrumb();
+		
+		$layout = $course->get_layout();
+		$defaults[Course :: PROPERTY_LAYOUT] = $layout? $layout : PlatformSetting :: get('default_course_layout', Weblcms :: APPLICATION_NAME);
+		
+		$tool_shortcut = $course->get_tool_shortcut();
+		$defaults[Course :: PROPERTY_TOOL_SHORTCUT] = $tool_shortcut?$tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', Weblcms :: APPLICATION_NAME);
+		
+		$menu = $course->get_menu();
+		$defaults[Course :: PROPERTY_MENU] = $menu ? $menu : PlatformSetting :: get('default_course_menu_selection', Weblcms :: APPLICATION_NAME);
+		
+		$breadcrumb = $course->get_breadcrumb();
+		$defaults[Course :: PROPERTY_BREADCRUMB] = $breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', Weblcms :: APPLICATION_NAME);
 		
 		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
 		
