@@ -130,6 +130,15 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				$wdm = WeblcmsDataManager :: get_instance();
 				$this->display_header($trail);
 				
+				$tb_data = array();
+				$tb_data[] = array(
+					'href' => $this->get_course()->get_extlink_url(),
+					'label' => $this->get_course()->get_extlink_name(),
+					'icon' => Theme :: get_common_img_path().'action_home.png',
+					'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+				);
+				//dump($tb_data);
+				echo DokeosUtilities :: build_toolbar($tb_data);
 				
 				//TODO: Depending on settings, display menu and/or shortcut icons
 				//Display shortcut icons

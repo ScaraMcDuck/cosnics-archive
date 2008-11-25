@@ -46,7 +46,16 @@ class ToolToggleVisibilityComponent extends ToolComponent
 				$message = htmlentities(Translation :: get('LearningObjectPublicationVisibilityChanged'));
 			}
 			
-			$this->redirect(null, $message, false, array());
+			$params = array();
+			if($_GET['details'] == 1)
+			{
+				$params['pid'] = $pid;
+				$params['tool_action'] = 'view'; 
+			}
+			
+			$this->redirect(null, $message, '', $params);
+			
+			$this->redirect(null, $message, false, $params);
 		}
 	}
 }

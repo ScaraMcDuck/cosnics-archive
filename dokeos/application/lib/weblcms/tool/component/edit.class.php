@@ -31,7 +31,15 @@ class ToolEditComponent extends ToolComponent
 				{
 					$publication_form->update_learning_object_publication();
 					$message = htmlentities(Translation :: get('LearningObjectUpdated'));
-					$this->redirect(null, $message, '', array());
+					
+					$params = array();
+					if($_GET['details'] == 1)
+					{
+						$params['pid'] = $pid;
+						$params['tool_action'] = 'view'; 
+					}
+					
+					$this->redirect(null, $message, '', $params);
 				}
 				else
 				{
