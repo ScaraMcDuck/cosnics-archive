@@ -1,5 +1,6 @@
 <?php
 require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/course/course.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_library_path() . 'filesystem/path.class.php';
 require_once Path :: get_library_path() . 'filesystem/filesystem.class.php';
@@ -12,5 +13,24 @@ require_once Path :: get_library_path() . 'filesystem/filesystem.class.php';
 
 class SettingsWeblcmsConnector
 {
+	function get_course_layouts()
+	{
+		return Course :: get_layouts();
+	}
+	
+	function get_tool_shortcut_options()
+	{
+		return Course :: get_tool_shortcut_options();
+	}
+	
+	function get_course_menu_options()
+	{
+		return Course :: get_menu_options();
+	}
+	
+	function get_breadcrumb_options()
+	{
+		return Course :: get_breadcrumb_options();
+	}
 }
 ?>

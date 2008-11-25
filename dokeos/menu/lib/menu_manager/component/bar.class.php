@@ -106,7 +106,7 @@ class MenuManagerBarComponent extends MenuManagerComponent
 		if (isset($user))
 		{
 			$html[] = '<ul class="admin">';
-			$html[] = '<li class="admin"><a href="#" '. (($this_section == 'repository_manager' || $this_section == 'rights' || $this_section == 'user' || $this_section == 'platform_admin') ? 'class="current"' : '') .'>'. Translation :: get('Dokeos') .'<!--[if IE 7]><!--></a><!--<![endif]-->';
+			$html[] = '<li class="admin"><a href="#" '. (($this_section == 'repository_manager' || $this_section == 'rights' || $this_section == 'user' || $this_section == 'platform_admin') ? 'class="current"' : '') .'>'. Translation :: get('Platform') .'<!--[if IE 7]><!--></a><!--<![endif]-->';
 			$html[] = '<!--[if lte IE 6]><table><tr><td><![endif]-->';
 			$html[] = '<ul>';
 			$html[] = '<li><a href="index_repository_manager.php">Repository</a></li>';

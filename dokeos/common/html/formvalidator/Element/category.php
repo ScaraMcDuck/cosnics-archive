@@ -21,11 +21,11 @@ class HTML_QuickForm_category extends HTML_QuickForm_html
     * @access public
     * @return void
     */
-    function HTML_QuickForm_category($start = false, $title = '')
+    function HTML_QuickForm_category($title = null)
     {
     	$html = array();
     	
-    	if ($start)
+    	if ($title != null)
     	{
 			$html[] = '<div class="configuration_form">';
 			$html[] = '<span class="category">' . $title .'</span>';
