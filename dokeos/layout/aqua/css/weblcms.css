@@ -171,3 +171,62 @@ div.tool_menu ul li.tool_list_menu
 	margin: 0px;
 	list-style: none;
 }
+
+div.feedback_block
+{
+	background-color: #f8f8f8;
+	text-align: justify;
+	margin: 0px 0px 10px 0px;
+	padding: 15px;
+	clear: both;
+}
+
+div.feedback_block form
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+div.feedback_block div.configuration_form {
+	clear: both;
+	margin: 0px;
+	padding: 0px;
+	border: 0px solid #f8f8f8;
+}
+
+div.feedback_block div.configuration_form span.category
+{
+	position: relative;
+	top: -20px;
+	background-color: #F6F6F6;
+	font-weight: bold;
+	padding: 0px 5px 0px 5px;
+	font-size: 0px;
+}
+
+div.feedback
+{
+	background-color: white;
+	margin: -1px 0 0 0;
+	padding: 10px 10px 10px 44px;
+	background-position: 10px 10px;
+	background-repeat: no-repeat;
+	border: 1px solid #CCCCCC;
+	border-top: 1px dotted #CCCCCC;
+	border-bottom: 1px dotted #CCCCCC;
+}
+
+div.feedback div.title
+{
+	font-weight: bold;
+	border-bottom: 1px solid #CCCCCC;
+	width: 60%;
+	margin-bottom: 1em;
+}
+
+div.feedback span.publication_info
+{
+	font-weight: normal;
+	font-style: italic;
+	text-align: right;
+}
