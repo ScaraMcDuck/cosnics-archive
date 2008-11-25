@@ -247,6 +247,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			$html[] = $introduction_text->get_learning_object()->get_description();
 			$html[] = '<div style="clear: both;"></div>';
 			$html[] = '</div>';
+			$html[] = DokeosUtilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
 			$html[] = '</div>';
 			$html[] = '<br />';
 		}
