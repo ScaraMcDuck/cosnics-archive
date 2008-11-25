@@ -20,7 +20,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$publication_id = $this->browser->get_publication_id();
 		$dm = WeblcmsDataManager :: get_instance();
 		$publication = $dm->retrieve_learning_object_publication($publication_id);
-		$form = LearningObjectForm::factory(LearningObjectForm :: TYPE_CREATE,new AbstractLearningObject('feedback',Session :: get_user_id()),'new_feedback','post',$this->browser->get_url(array('pid'=>$this->browser->get_publication_id())));
+		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE,new AbstractLearningObject('feedback',Session :: get_user_id()),'new_feedback','post',$this->browser->get_url(array('pid'=>$this->browser->get_publication_id())));
 		$this->browser->get_parent()->set_parameter('pid',$publication_id);
 		//$pub = new LearningObjectPublisher($this->browser->get_parent(), 'feedback', true);
 				
@@ -38,7 +38,9 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$html[] = '<h3>' . Translation :: get('LearningObjectPublicationDetails') . '</h3>';
 		$html[] = $this->render_publication($publication);
 		$html[] = '<h3>' . '<div class="title">'.Translation :: get('LearningObjectPublicationAddFeedback').'</div></h3>';
+		$html[] = '<div class="feedback_block">';
 		$html[] = $form->toHtml();
+		$html[] = '</div>';
 		$html[] = $this->render_publication_feedback($publication);
 		//$html[] = $pub->as_html();
 		return implode("\n", $html);

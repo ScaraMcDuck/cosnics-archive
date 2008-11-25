@@ -273,7 +273,7 @@ EOT;
 			$select = $this->add_select(LearningObject :: PROPERTY_PARENT_ID, Translation :: get('CategoryTypeName'), $this->get_categories());
 			$select->setSelected($this->learning_object->get_parent_id());
 		}
-		$value = PlatformSetting :: get('description_required');
+		$value = PlatformSetting :: get('description_required', 'repository');
 		$required = ($value == 'true')?true:false;
 		$this->add_html_editor(LearningObject :: PROPERTY_DESCRIPTION, Translation :: get('Description'), $required);
 	}

@@ -53,5 +53,52 @@ class ListPublicationFeedbackListRenderer extends ListLearningObjectPublicationL
 	{
 		return '';
 	}
+	
+	function render_publication($publication, $first = false, $last = false)
+	{
+		// TODO: split into separate overrideable methods
+		$html = array ();
+		$last_visit_date = $this->browser->get_last_visit_date();
+		$icon_suffix = '';
+		if($publication->is_hidden())
+		{
+			$icon_suffix = '_na';
+		}
+		elseif( $publication->get_publication_date() >= $last_visit_date)
+		{
+			$icon_suffix = '_new';
+		}
+		
+		$html[] = '<div class="feedback" style="background-image: url('. Theme :: get_common_img_path(). 'learning_object/' .$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
+		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
+		$html[] = $this->render_title($publication);
+		$html[] = '<span class="publication_info'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
+		$html[] = $this->render_publication_information($publication);
+		$html[] = '</span>';
+		$html[] = '</div>';
+		$html[] = '<div class="description'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
+		$html[] = $this->render_description($publication);
+		$html[] = $this->render_attachments($publication);
+		$html[] = '</div>';
+		$html[] = '</div>';
+		return implode("\n", $html);
+	}
+	
+	/**
+	 * Renders general publication information about the given publication.
+	 * @param LearningObjectPublication $publication The publication.
+	 * @return string The HTML rendering.
+	 */
+	function render_publication_information($publication)
+	{
+		$publisher = $this->browser->get_user_info($publication->get_publisher_id());
+		$html = array ();
+		$html[] = '(';
+		$html[] = $this->render_publisher($publication);
+		$html[] = ' - ';
+		$html[] = $this->render_publication_date($publication);
+		$html[] = ')';
+		return implode("\n", $html);
+	}
 }
 ?>
