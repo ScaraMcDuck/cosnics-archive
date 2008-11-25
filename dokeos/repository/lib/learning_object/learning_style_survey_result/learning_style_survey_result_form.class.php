@@ -40,7 +40,7 @@ class LearningStyleSurveyResultForm extends LearningObjectForm
 	
 	function build_creation_form()
 	{
-		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
+		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
 		$this->answer_elements = array();
 		$this->defaults = array();
 		$profile = $this->get_survey_profile();

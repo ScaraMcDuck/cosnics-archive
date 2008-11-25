@@ -570,5 +570,23 @@ class Course {
 		$wdm = WeblcmsDataManager::get_instance();
 		return $wdm->retrieve_course_groups($this->get_id())->as_array();
 	}
+	
+	function is_layout_configurable()
+	{
+		$theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
+		$layout = PlatformSetting :: get('allow_course_layout_selection', Weblcms :: APPLICATION_NAME);
+		$shortcut = PlatformSetting :: get('allow_course_tool_short_cut_selection', Weblcms :: APPLICATION_NAME);
+		$menu = PlatformSetting :: get('allow_course_menu_selection', Weblcms :: APPLICATION_NAME);
+		$breadcrumbs = PlatformSetting :: get('allow_course_breadcrumbs', Weblcms :: APPLICATION_NAME);
+		
+		if (!$theme && !$layout && !$shortcut && !$menu && !$breadcrumbs)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 }
 ?>

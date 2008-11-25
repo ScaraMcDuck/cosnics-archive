@@ -21,7 +21,7 @@ class DocumentForm extends LearningObjectForm
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
-		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
+		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
 		$this->addElement('upload_or_create', 'upload_or_create', Translation :: get('FileName'));
 		$this->addElement('checkbox','uncompress',Translation :: get('Uncompress'));
 		$this->addFormRule(array ($this, 'check_document_form'));
@@ -30,7 +30,7 @@ class DocumentForm extends LearningObjectForm
 	protected function build_editing_form()
 	{
 		parent :: build_editing_form();
-		$this->addElement('category', true, Translation :: get(get_class($this) .'Properties'));
+		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
 		$object = $this->get_learning_object();
 		if (DokeosUtilities :: is_html_document($object->get_path()))
 		{

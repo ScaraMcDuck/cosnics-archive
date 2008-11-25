@@ -38,7 +38,7 @@ class WeblcmsExtra extends WeblcmsBlock
 		$html = array();
 		if($courses->size() > 0)
 		{
-			$html[] = '<ul>';
+			$html[] = '<ul style="padding: 0px; margin: 0px 0px 0px 15px;">';
 			while ($course = $courses->next_result())
 			{
 				$weblcms = $this->get_parent();
