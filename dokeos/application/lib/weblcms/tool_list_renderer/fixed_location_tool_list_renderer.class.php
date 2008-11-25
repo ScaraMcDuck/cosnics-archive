@@ -104,7 +104,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 					
 				if((count($tools[$id]) > 0 && $section->visible) || $this->is_course_admin)
 				{
-					echo $this->display_block_header($section->get_id(), $section->get_name());
+					echo $this->display_block_header($section, $section->get_name());
 					$this->show_section_tools($section, $tools[$id]);
 					echo $this->display_block_footer();
 				}
@@ -185,7 +185,12 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 	{ 
 		$html = array();
 		
-		$html[] = '<div class="block" id="block_'. $section .'" style="background-image: url('.Theme :: get_img_path().'block_weblcms.png);">';
+		$icon = 'block_weblcms.png';
+		
+		if($section->get_type() == CourseSection :: TYPE_ADMIN)
+			$icon = 'block_admin.png';
+		
+		$html[] = '<div class="block" id="block_'. $section->get_id() .'" style="background-image: url('.Theme :: get_img_path('home'). $icon . ');">';
 		$html[] = '<div class="title">'. $block_name;
 		$html[] = '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible" style="display: none;") src="'.Theme :: get_common_img_path().'action_invisible.png" /></a></div>';
 		$html[] = '<div class="description">';
