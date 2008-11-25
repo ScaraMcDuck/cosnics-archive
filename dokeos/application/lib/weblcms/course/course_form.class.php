@@ -150,42 +150,45 @@ class CourseForm extends FormValidator {
 		$this->addElement('html', '<div style="clear: both;"></div>');
 		$this->addElement('html', '</div>');
 		
-		$this->addElement('html', '<div class="configuration_form">');
-		$this->addElement('html', '<span class="category">'. Translation :: get('Layout') .'</span>');
-		
-		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
-		
-		if ($course_can_have_theme)
+		if ($this->course->is_layout_configurable())
 		{
-			$theme_options = array();
-			$theme_options[''] = '-- ' . Translation :: get('PlatformDefault') . ' --';
-			$theme_options = array_merge($theme_options, Theme :: get_themes());
-			$this->addElement('select', Course :: PROPERTY_THEME, Translation :: get('Theme'), $theme_options);
+			$this->addElement('html', '<div class="configuration_form">');
+			$this->addElement('html', '<span class="category">'. Translation :: get('Layout') .'</span>');
+			
+			$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
+			
+			if ($course_can_have_theme)
+			{
+				$theme_options = array();
+				$theme_options[''] = '-- ' . Translation :: get('PlatformDefault') . ' --';
+				$theme_options = array_merge($theme_options, Theme :: get_themes());
+				$this->addElement('select', Course :: PROPERTY_THEME, Translation :: get('Theme'), $theme_options);
+			}
+			
+			
+			if (PlatformSetting :: get('allow_course_layout_selection', Weblcms :: APPLICATION_NAME))
+			{
+				$this->addElement('select', Course :: PROPERTY_LAYOUT, Translation :: get('Layout'), Course :: get_layouts());
+			}
+			
+			if (PlatformSetting :: get('allow_course_tool_short_cut_selection', Weblcms :: APPLICATION_NAME))
+			{
+				$this->addElement('select', Course :: PROPERTY_TOOL_SHORTCUT, Translation :: get('ToolShortcut'), Course :: get_tool_shortcut_options());
+			}
+			
+			if (PlatformSetting :: get('allow_course_menu_selection', Weblcms :: APPLICATION_NAME))
+			{
+				$this->addElement('select', Course :: PROPERTY_MENU, Translation :: get('Menu'), Course :: get_menu_options());
+			}
+			
+			if (PlatformSetting :: get('allow_course_breadcrumbs', Weblcms :: APPLICATION_NAME))
+			{
+				$this->addElement('select', Course :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), Course :: get_breadcrumb_options());
+			}
+			
+			$this->addElement('html', '<div style="clear: both;"></div>');
+			$this->addElement('html', '</div>');
 		}
-		
-		
-		if (PlatformSetting :: get('allow_course_layout_selection', Weblcms :: APPLICATION_NAME))
-		{
-			$this->addElement('select', Course :: PROPERTY_LAYOUT, Translation :: get('Layout'), Course :: get_layouts());
-		}
-		
-		if (PlatformSetting :: get('allow_course_tool_short_cut_selection', Weblcms :: APPLICATION_NAME))
-		{
-			$this->addElement('select', Course :: PROPERTY_TOOL_SHORTCUT, Translation :: get('ToolShortcut'), Course :: get_tool_shortcut_options());
-		}
-		
-		if (PlatformSetting :: get('allow_course_menu_selection', Weblcms :: APPLICATION_NAME))
-		{
-			$this->addElement('select', Course :: PROPERTY_MENU, Translation :: get('Menu'), Course :: get_menu_options());
-		}
-		
-		if (PlatformSetting :: get('allow_course_breadcrumbs', Weblcms :: APPLICATION_NAME))
-		{
-			$this->addElement('select', Course :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), Course :: get_breadcrumb_options());
-		}
-		
-		$this->addElement('html', '<div style="clear: both;"></div>');
-		$this->addElement('html', '</div>');
 
 		$this->addElement('submit', 'course_settings', Translation :: get('Ok'));
     }

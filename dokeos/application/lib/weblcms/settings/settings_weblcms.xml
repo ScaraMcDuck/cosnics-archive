@@ -38,6 +38,18 @@
 					<option name="false" value="0" />
 				</options>
 			</setting>
+			<setting name="default_course_layout" field="select" default="1">
+				<options type="dynamic" source="get_course_layouts" />
+			</setting>
+			<setting name="default_course_tool_short_cut_selection" field="select" default="1">
+				<options type="dynamic" source="get_tool_shortcut_options" />
+			</setting>
+			<setting name="default_course_menu_selection" field="select" default="1">
+				<options type="dynamic" source="get_course_menu_options" />
+			</setting>
+			<setting name="default_course_breadcrumbs" field="select" default="1">
+				<options type="dynamic" source="get_breadcrumb_options" />
+			</setting>
 		</category>
 	</settings>
 </application>
