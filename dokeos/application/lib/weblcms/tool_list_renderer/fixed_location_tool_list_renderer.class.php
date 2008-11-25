@@ -36,8 +36,6 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		$parent = $this->get_parent();
 		$tools = array ();
 		
-		$section_types = $parent->get_registered_sections();
-		
 		foreach ($parent->get_registered_tools() as $tool)
 		{
 			if($this->group_inactive)
@@ -61,10 +59,11 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				$tools[$tool->section][] = $tool;
 			}
 		}
+		
+		//$section_types = $parent->get_registered_sections();
+		//dump($section_types);
 	
-		//dump($tools);
-	
-		foreach($section_types as $section_type => $sections)
+		/*foreach($section_types as $section_type => $sections)
 		{
 			if ($section_type == CourseSection :: TYPE_LINK)
 			{
@@ -85,6 +84,29 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 						$this->show_section_tools($section, $tools[$id]);
 						echo $this->display_block_footer();
 					}
+				}
+			}
+		}*/
+		
+		$sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('course_code', $this->course->get_id()));
+		while($section = $sections->next_result())
+		{
+			if ($section->get_type() == CourseSection :: TYPE_LINK)
+			{
+				$this->show_links();
+			}
+			else
+			{
+				if($section->get_type() == CourseSection :: TYPE_DISABLED && $this->course->get_layout() < 3) 
+					continue;
+				
+				$id = ($section->get_type() == CourseSection :: TYPE_DISABLED && $this->course->get_layout() > 2)?0:$section->get_id();
+					
+				if((count($tools[$id]) > 0 && $section->visible) || $this->is_course_admin)
+				{
+					echo $this->display_block_header($section->get_id(), $section->get_name());
+					$this->show_section_tools($section, $tools[$id]);
+					echo $this->display_block_footer();
 				}
 			}
 		}
@@ -190,7 +212,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		$count = 0;
 		foreach ($tools as $index => $tool)
 		{
-			if($tool->visible || $section->name == 'course_admin')
+			if($tool->visible || $section->get_name() == 'course_admin')
 			{
 				$lcms_action = 'make_invisible';
 				$visible_image = 'action_visible.png';
@@ -219,7 +241,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				//$html[] = '<div id="drag_' . $tool->name . '" style="display:inline; width: 20px; background-color: blue; cursor: pointer;">&nbsp;&nbsp;&nbsp;</div>';
 				
 				// Show visibility-icon
-				if ($this->is_course_admin && $section->name != 'course_admin')
+				if ($this->is_course_admin && $section->get_name() != 'course_admin')
 				{
 					$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_COMPONENT_ACTION=>$lcms_action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img src="'.Theme :: get_common_img_path().$visible_image.'" style="vertical-align: middle;" alt=""/></a>';
 					$html[] = '&nbsp;&nbsp;&nbsp;';

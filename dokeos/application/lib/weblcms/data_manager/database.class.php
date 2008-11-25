@@ -2565,6 +2565,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return true;
 	}
 	
+	function change_module_course_section($module_id, $course_section_id)
+	{
+		$query = 'UPDATE '.$this->db->escape_table_name('course_module').' SET '.
+				 $this->db->escape_column_name('section').'=? WHERE '.
+				 $this->db->escape_column_name('id') . '=?';
+		//echo $query;
+		$statement = $this->db->get_connection()->prepare($query); 
+		return $statement->execute(array($course_section_id, $module_id));
+	}
+	
 	function update_course_section($course_section)
 	{
 		$condition = new EqualityCondition(CourseSection :: PROPERTY_ID, $course_section->get_id());

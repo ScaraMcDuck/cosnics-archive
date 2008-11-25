@@ -18,6 +18,7 @@ class CourseSectionsTool extends Tool
 	const ACTION_UPDATE_COURSE_SECTION = 'update';
 	const ACTION_MOVE_COURSE_SECTION = 'move';
 	const ACTION_CHANGE_COURSE_SECTION_VISIBILITY = 'change_visibility';
+	const ACTION_SELECT_TOOLS_COURSE_SECTION = 'tool_selector';
 	
 	const PARAM_COURSE_SECTION_ID = 'course_section_id';
 	const PARAM_DIRECTION = 'direction';
@@ -52,6 +53,9 @@ class CourseSectionsTool extends Tool
 				break;
 			case self :: ACTION_CHANGE_COURSE_SECTION_VISIBILITY :
 				$component = CourseSectionsToolComponent :: factory('VisibilityChanger', $this);
+				break;
+			case self :: ACTION_SELECT_TOOLS_COURSE_SECTION :
+				$component = CourseSectionsToolComponent :: factory('ToolSelector', $this);
 				break;
 			default :
 				$component = CourseSectionsToolComponent :: factory('Viewer', $this);

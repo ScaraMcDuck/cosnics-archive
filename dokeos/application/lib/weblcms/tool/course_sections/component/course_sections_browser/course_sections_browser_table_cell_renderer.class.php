@@ -69,6 +69,13 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
 					'confirm' => true,
 					'img' => Theme :: get_common_img_path().'action_delete.png'
 				);
+				
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_SELECT_TOOLS_COURSE_SECTION, 
+													   CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())),
+				'label' => Translation :: get('SelectTools'),
+				'img' => Theme :: get_common_img_path().'action_move.png'
+			);
 		}
 		else
 		{
@@ -82,6 +89,11 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
 
 					'img' => Theme :: get_common_img_path().'action_delete_na.png'
 				);
+				
+			$toolbar_data[] = array(
+				'label' => Translation :: get('SelectToolsNA'),
+				'img' => Theme :: get_common_img_path().'action_move_na.png'
+			);
 		}
 		
 		$order = $course_section->get_display_order();
