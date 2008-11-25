@@ -68,7 +68,9 @@ class HTML_QuickForm_receivers extends HTML_QuickForm_group
 		$this->_elements[0]->setChecked(true);
 		$this->_elements[] = new HTML_QuickForm_Radio('receivers', '', Translation :: get('SelectGroupsUsers'), '1', array ('onclick' => 'javascript:receivers_show(\'receivers_to\')'));
 		$this->_elements[] = new HTML_QuickForm_advmultiselect('to', '', $this->receivers);
-		$this->_elements[2]->setSelected($this->receivers_selected);
+		if($this->receivers_selected)
+			$this->_elements[2]->setSelected($this->receivers_selected);
+	
 	}
 	/**
 	 * HTML representation

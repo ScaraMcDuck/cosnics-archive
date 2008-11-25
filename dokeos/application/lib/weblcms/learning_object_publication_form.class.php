@@ -229,7 +229,7 @@ class LearningObjectPublicationForm extends FormValidator
 		foreach($course_groups as $index => $course_group)
 		{
 			$receiver_choices[self :: PARAM_TARGET_COURSE_GROUP_PREFIX.'-'.$course_group->get_id()] = Translation :: get('CourseGroup').': '.$course_group->get_name();
-		}
+		} 
 		$attributes = array(self :: PARAM_RECEIVERS => $receiver_choices);
 		$this->addElement('receivers', self :: PARAM_TARGETS, Translation :: get('PublishFor'),$attributes);
 		$this->add_forever_or_timewindow();
