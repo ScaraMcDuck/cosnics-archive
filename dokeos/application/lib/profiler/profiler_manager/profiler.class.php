@@ -34,6 +34,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	const PARAM_PROFILE_ID = 'profile';
 
 	const ACTION_DELETE_PUBLICATION = 'delete';
+	const ACTION_EDIT_PUBLICATION = 'edit';
 	const ACTION_VIEW_PUBLICATION = 'view';
 	const ACTION_CREATE_PUBLICATION = 'create';
 	const ACTION_BROWSE_PROFILES = 'browse';
@@ -85,6 +86,9 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 				break;
 			case self :: ACTION_DELETE_PUBLICATION :
 				$component = ProfilerComponent :: factory('Deleter', $this);
+				break;
+			case self :: ACTION_EDIT_PUBLICATION :
+				$component = ProfilerComponent :: factory('Editor', $this);
 				break;
 			case self :: ACTION_CREATE_PUBLICATION :
 				$component = ProfilerComponent :: factory('Publisher', $this);
@@ -608,6 +612,16 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	function get_publication_deleting_url($profile)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_PROFILE_ID => $profile->get_id()));
+	}
+	
+	/**
+	 * Gets the url for editing a profile publication
+	 * @param PersonalMessagePublication
+	 * @return string The url
+	 */
+	function get_publication_editing_url($profile)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION, self :: PARAM_PROFILE_ID => $profile->get_id()));
 	}
 
 	/**

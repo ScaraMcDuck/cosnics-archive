@@ -61,6 +61,13 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
 		
 		if ($this->browser->get_user()->is_platform_admin() || $profile->get_publisher() == $this->browser->get_user()->get_id())
 		{
+			$edit_url = $this->browser->get_publication_editing_url($profile);
+			$toolbar_data[] = array(
+				'href' => $edit_url,
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_img_path().'action_edit.png'
+			);
+			
 			$delete_url = $this->browser->get_publication_deleting_url($profile);
 			$toolbar_data[] = array(
 				'href' => $delete_url,

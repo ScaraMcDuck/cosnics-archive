@@ -116,7 +116,7 @@ class ProfilePublicationForm extends FormValidator
 		else
 		{
 			// Only root category -> store object in root category
-			$this->addElement('hidden',ProfilePublication :: PROPERTY_CATEGORY_ID,0);
+			$this->addElement('hidden',ProfilePublication :: PROPERTY_CATEGORY,0);
 		}
     }
     
@@ -169,6 +169,35 @@ class ProfilePublicationForm extends FormValidator
 			}
     	}
     	return true;
+    }
+    
+    function set_profile_publication($profile_publication)
+    {
+    	$this->profile_publication = $profile_publication;
+		$this->addElement('hidden','prid');
+		$this->addElement('hidden','action');
+		$defaults['action'] = 'edit';
+		$defaults['prid'] = $profile_publication->get_id();
+		$defaults[ProfilePublication :: PROPERTY_CATEGORY] = $profile_publication->get_category();
+		
+		parent::setDefaults($defaults);
+    }
+    
+    function update_learning_object_publication()
+    {
+		$values = $this->exportValues();
+
+		$pub = $this->profile_publication;
+		$pub->set_category($values[ProfilePublication :: PROPERTY_CATEGORY]);
+
+		if ($pub->update())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
     }
 }
 ?>

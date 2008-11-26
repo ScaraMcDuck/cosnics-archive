@@ -199,6 +199,14 @@ abstract class PersonalCalendarComponent {
 	}
 	
 	/**
+	 * @see CalendarManager :: get_publication_editing_url() 
+	 */
+	function get_publication_editing_url($publication)
+	{
+		return $this->get_parent()->get_publication_editing_url($publication);
+	}
+	
+	/**
 	 * @see CalendarManager :: get_publication_viewing_url()
 	 */
 	function get_publication_viewing_url($calendar)
