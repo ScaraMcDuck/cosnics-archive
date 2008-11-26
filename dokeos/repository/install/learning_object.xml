@@ -7,7 +7,7 @@
   <property name="comment" type="text" length="60"/>
   <property name="type" type="text" length="100" notnull="1"/>
   <property name="title" type="text" notnull="1"/>
-  <property name="description" type="text" notnull="1"/>
+  <property name="description" type="text" notnull="0"/>
   <property name="parent" type="integer" unsigned="1" notnull="1" default="0"/>
   <property name="display_order" type="integer" unsigned="1"  notnull="1" default="0"/>
   <property name="created" type="timestamp"/>
