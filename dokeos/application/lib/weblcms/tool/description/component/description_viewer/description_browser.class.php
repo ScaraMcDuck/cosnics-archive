@@ -32,7 +32,7 @@ class DescriptionBrowser extends LearningObjectPublicationBrowser
 		else
 		{
 			$renderer = new ListLearningObjectPublicationListRenderer($this);
-			$actions = array(Tool :: ACTION_DELETE => Translation :: get('Delete selected'), 
+			$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), 
 							 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
 							 Tool :: ACTION_SHOW => Translation :: get('Show'));
 			$renderer->set_actions($actions);
