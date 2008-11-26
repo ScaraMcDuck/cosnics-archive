@@ -99,26 +99,32 @@ class MenuManagerBarComponent extends MenuManagerComponent
 		if (isset($user))
 		{
 			$html[] = '<ul class="admin">';
-			$html[] = '<li class="admin"><a href="index.php?logout=true">Logout</a></li>';
+			$html[] = '<li class="admin"><a href="index.php?logout=true">' . Translation :: get('Logout') . '</a></li>';
 			$html[] = '</ul>';
-		}
-		
-		if (isset($user))
-		{
-			$html[] = '<ul class="admin">';
-			$html[] = '<li class="admin"><a href="#" '. (($this_section == 'repository_manager' || $this_section == 'rights' || $this_section == 'user' || $this_section == 'platform_admin') ? 'class="current"' : '') .'>'. Translation :: get('Platform') .'<!--[if IE 7]><!--></a><!--<![endif]-->';
-			$html[] = '<!--[if lte IE 6]><table><tr><td><![endif]-->';
-			$html[] = '<ul>';
-			$html[] = '<li><a href="index_repository_manager.php">Repository</a></li>';
-			$html[] = '<li><a href="index_user.php?go=account">' . Translation :: get('MyAccount') . '</a></li>';
+			
 			if ($user->is_platform_admin())
 			{
-				$html[] = '<li><a href="index_admin.php">Admin</a></li>';
+				$html[] = '<ul class="admin">';
+				$html[] = '<li class="admin"><a href="index_admin.php">' . Translation :: get('Administration') . '</a></li>';
+				$html[] = '</ul>';
 			}
+			
+			$html[] = '<ul class="admin">';
+			$html[] = '<li class="admin"><a href="index_repository_manager.php">' . Translation :: get('Repository') . '</a></li>';
 			$html[] = '</ul>';
-			$html[] = '<!--[if lte IE 6]></td></tr></table></a><![endif]-->';
-			$html[] = '</li>';
+	
+			$html[] = '<ul class="admin">';
+			//$html[] = '<li class="admin"><a href="#" '. (($this_section == 'repository_manager' || $this_section == 'rights' || $this_section == 'user' || $this_section == 'platform_admin') ? 'class="current"' : '') .'>'. Translation :: get('Platform') .'<!--[if IE 7]><!--></a><!--<![endif]-->';
+			//$html[] = '<!--[if lte IE 6]><table><tr><td><![endif]-->';
+			$html[] = '<li class="admin"><a href="index_user.php?go=account">' . Translation :: get('MyAccount') . '</a></li>';
 			$html[] = '</ul>';
+			
+			//$html[] = '<li><a href="index_user.php?go=account">' . Translation :: get('MyAccount') . '</a></li>';
+			
+			//$html[] = '</ul>';
+			//$html[] = '<!--[if lte IE 6]></td></tr></table></a><![endif]-->';
+			//$html[] = '</li>';
+			//$html[] = '</ul>';
 		}
 		
 //		$html[] = '<ul class="admin">';
