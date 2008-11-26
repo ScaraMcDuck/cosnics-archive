@@ -34,7 +34,6 @@ class AssessmentForm extends LearningObjectForm
     {
     	parent :: build_creation_form();
     	$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-    	$this->addRule('description', Translation :: get('ThisFieldIsRequired'), 'required');
     	$this->add_select(Assessment :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('Assessment type'), Assessment :: get_types());
     	$this->addElement('category');
     }
@@ -44,7 +43,6 @@ class AssessmentForm extends LearningObjectForm
 		parent :: build_editing_form();
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
     	$this->add_select(Assessment :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('Assessment type'), Assessment :: get_types());
-    	$this->addRule('description', Translation :: get('ThisFieldIsRequired'), 'required');
     	$this->addElement('category');
 	}
 
