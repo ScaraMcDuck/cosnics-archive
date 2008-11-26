@@ -1,6 +1,6 @@
 <?php
-$lang['profiler']['LearningObjectCreated'] = 'Learning object created';
-$lang['profiler']['Publish'] = 'Publish survey';
+$lang['profiler']['LearningObjectCreated'] = 'Object created';
+$lang['profiler']['Publish'] = 'Publish';
 $lang['profiler']['SearchResults'] = 'Search results';
 $lang['profiler']['List'] = 'List';
 $lang['profiler']['Find'] = 'Find';
@@ -23,6 +23,8 @@ $lang['profiler']['LastName'] = 'Lastname';
 $lang['profiler']['FirstName'] = 'Firstname';
 $lang['profiler']['Profile'] = 'Profile';
 $lang['profiler']['SelectedLearningObjects'] = 'Selected learning objects';
-$lang['profiler']['ObjectNotPublished'] = 'Learning object not published';
-$lang['profiler']['ObjectPublished'] = 'Learning object published';
+$lang['profiler']['ObjectNotPublished'] = 'Object not published';
+$lang['profiler']['ObjectPublished'] = 'Object published';
+$lang['profiler']['ShowAll'] = 'Show All';
+$lang['profiler']['ManageCategories'] = 'Manage categories';
 ?>
