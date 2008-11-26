@@ -25,7 +25,7 @@ class CourseSectionsBrowserTable extends ObjectTable
 		
 		$actions = array();
 		$actions[CourseSectionsTool :: PARAM_REMOVE_SELECTED] = Translation :: get('RemoveSelected');
-		$this->set_form_actions($actions);
+		//$this->set_form_actions($actions);
 		
 		$this->set_default_row_count(20);
 	}

@@ -229,8 +229,8 @@ $lang['repository']['ProfileTypeName'] = 'Profile';
 $lang['repository']['QuestionTypeName'] = 'Question';
 $lang['repository']['RssFeedTypeName'] = 'RSS Feed';
 $lang['repository']['SystemAnnouncementTypeName'] = 'System announcement';
-$lang['repository']['UserinfoContentTypeName'] = ' ';
-$lang['repository']['UserinfoDefTypeName'] = ' ';
+$lang['repository']['UserinfoContentTypeName'] = 'Userinfo content';
+$lang['repository']['UserinfoDefTypeName'] = 'Userinfo defintion';
 $lang['repository']['WikiTypeName'] = 'Wiki
 ';
 $lang['repository']['No'] = 'No';

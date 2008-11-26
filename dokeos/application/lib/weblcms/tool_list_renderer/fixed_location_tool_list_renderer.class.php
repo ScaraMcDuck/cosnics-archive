@@ -88,12 +88,14 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			}
 		}*/
 		
+		echo '<div id="coursecode" style="display: none;">' . $this->course->get_id() . '</div>';
+		
 		$sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('course_code', $this->course->get_id()));
 		while($section = $sections->next_result())
 		{
 			if ($section->get_type() == CourseSection :: TYPE_LINK)
 			{
-				$this->show_links();
+				$this->show_links($section);
 			}
 			else
 			{
@@ -106,17 +108,18 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				{
 					echo $this->display_block_header($section, $section->get_name());
 					$this->show_section_tools($section, $tools[$id]);
-					echo $this->display_block_footer();
+					echo $this->display_block_footer($section);
 				}
 			}
 		}
 		
 		echo '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' .'"></script>';
+		echo '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/course_home.js' .'"></script>';
 	}
 	/**
 	 * Show the links to publications in this course
 	 */
-	private function show_links()
+	private function show_links($section)
 	{
 		$parent = $this->get_parent();
 		
@@ -125,7 +128,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		
 		if($publications->size() > 0)
 		{
-			echo $this->display_block_header('links', Translation :: get('Links'));
+			echo $this->display_block_header($section, Translation :: get('Links'));
 		}
 		
 		$table = new HTML_Table('style="width: 100%;"');
@@ -177,7 +180,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		
 		if($publications->size() > 0)
 		{
-			echo $this->display_block_footer();
+			echo $this->display_block_footer($section);
 		}
 	}
 	
@@ -190,7 +193,13 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		if($section->get_type() == CourseSection :: TYPE_ADMIN)
 			$icon = 'block_admin.png';
 		
+		if($section->get_type() == CourseSection :: TYPE_TOOL)
+		{
+			$html[] = '<div class="toolblock" id="block_'. $section->get_id() . '" style="width:100%; height: 100%;">';
+		}
+		
 		$html[] = '<div class="block" id="block_'. $section->get_id() .'" style="background-image: url('.Theme :: get_img_path('home'). $icon . ');">';
+		
 		$html[] = '<div class="title">'. $block_name;
 		$html[] = '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible" style="display: none;") src="'.Theme :: get_common_img_path().'action_invisible.png" /></a></div>';
 		$html[] = '<div class="description">';
@@ -198,7 +207,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		return implode ("\n", $html);
 	}
 	
-	function display_block_footer()
+	function display_block_footer($section)
 	{
 		$html = array();
 		
@@ -206,11 +215,16 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		$html[] = '</div>';
 		$html[] = '</div>';
 		
+		if($section->get_type() == CourseSection :: TYPE_TOOL)
+		{
+			$html[] = '</div>';
+		}
+		
 		return implode ("\n", $html);
 	}
 	
 	private function show_section_tools($section, $tools)
-	{
+	{ 
 		$parent = $this->get_parent();
 		$table = new HTML_Table('style="width: 100%;"');
 		$table->setColCount($this->number_of_columns);
@@ -242,8 +256,11 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			$html = array();
 			if($this->is_course_admin || $tool->visible)
 			{
-				//$html[] = '<div id="tool_' . $tool->name . '" class="tool" style="display:inline">';
-				//$html[] = '<div id="drag_' . $tool->name . '" style="display:inline; width: 20px; background-color: blue; cursor: pointer;">&nbsp;&nbsp;&nbsp;</div>';
+				if($section->get_type() == CourseSection :: TYPE_TOOL)
+				{
+					$html[] = '<div id="tool_' . $tool->id . '" class="tool" style="display:inline">';
+					$html[] = '<div id="drag_' . $tool->id . '" class="tooldrag" style="display:inline; width: 20px; background-color: blue; cursor: pointer; display:none">&nbsp;&nbsp;&nbsp;</div>';
+				}
 				
 				// Show visibility-icon
 				if ($this->is_course_admin && $section->get_name() != 'course_admin')
@@ -259,8 +276,11 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				$html[] = '&nbsp;';
 				$html[] = $title;
 				$html[] = '</a>';
-				//$html[] = '</div>';
-				//$html[] = '<script language="JavaScript">$("#tool_' . $tool->name . '").draggable({ handle: "div", revert: true, helper: "original"});</script>';
+				if($section->get_type() == CourseSection :: TYPE_TOOL)
+				{
+					$html[] = '</div>';
+					$html[] = '<script language="JavaScript">$("#tool_' . $tool->id . '").draggable({ handle: "div", helper: "clone"});</script>';
+				}
 				
 				$table->setCellContents($row,$col,implode("\n",$html));
 				$table->updateColAttributes($col,'style="width: '.floor(100/$this->number_of_columns).'%;"');
@@ -268,10 +288,6 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			}
 		}
 		$table->display();
-		/*echo $html[] = '<script language="JavaScript">$("#block_' . $section . '").droppable({ accept: ".tool", drop: function(ev, ui) { 
-       	$(this).append($(ui.draggable));
-       	$(ui.draggable).parent.remove($(ui.draggable));
-    	} });</script>';*/
 	}
 }
 ?>
