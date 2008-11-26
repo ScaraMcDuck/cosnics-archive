@@ -82,7 +82,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('CopyGeneralCategories'), Theme :: get_common_img_path().'treemenu_types/exercise.png', $this->get_copy_general_categories_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 		
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Show All'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $_GET[CategoryManager :: PARAM_CATEGORY_ID])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $_GET[CategoryManager :: PARAM_CATEGORY_ID])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		return $action_bar;
 	}
