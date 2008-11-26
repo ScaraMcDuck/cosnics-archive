@@ -313,5 +313,5 @@ $lang['weblcms']['CourseSectionMoved'] = 'Course section moved';
 $lang['weblcms']['SelectTools'] = 'Select Tools';
 $lang['weblcms']['ChangeVisible'] = 'Change visibility';
 $lang['weblcms']['SelectedCourseSectionDeleted'] = 'Selected course section deleted';
-$lang['weblcms']['CourseSectionsToolTitle'] = 'Change visibility';
+$lang['weblcms']['CourseSectionsToolTitle'] = 'Course sections';
 ?>
