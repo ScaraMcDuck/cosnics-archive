@@ -50,7 +50,7 @@ class MenuInstaller extends Installer
 		if(isset($values['install_weblcms']))
 		{
 			$menu_item = new MenuItem();
-			$menu_item->set_title('WebLcms');
+			$menu_item->set_title('Courses');
 			$menu_item->set_application('weblcms');
 			$menu_item->set_section('weblcms');
 			$menu_item->set_category(0);
