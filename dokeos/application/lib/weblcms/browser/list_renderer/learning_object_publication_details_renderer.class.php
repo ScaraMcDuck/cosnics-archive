@@ -33,6 +33,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 			$publication_feedback= new LearningObjectPublicationFeedback(null, $feedback, $this->browser->get_course_id(), $publication->get_tool().'_feedback', $this->browser->get_publication_id(),$this->browser->get_user_id(), time(), 0, 0);
 			$publication_feedback->set_show_on_homepage(0);
 			$publication_feedback->create();
+			$form->setDefaults(array('title' => '', 'description' => ''));
 			$html[] = Display::display_normal_message(Translation :: get('FeedbackAdded'),true);
 		}
 		
@@ -95,9 +96,13 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		
 		if(count($publication_feedback_array) > 0)
 		{
+			$html[] = '<a href="javascript:void(0)" id="showfeedback" style="display:none">' . Translation :: get('ShowHideFeedback') . '</a>';
+			$html[] = '<div id="feedbacklist">';
 			$html[] = '<h3>' . Translation :: get('LearningObjectPublicationListFeedback') . '</h3>';
 			$renderer = new ListPublicationFeedbackListRenderer($this->browser,$publication_feedback_array);
 			$html[] = $renderer->as_html();
+			$html[] = '</div>';
+			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/feedback_list.js' .'"></script>';
 		}
 		return implode("\n", $html);
 	}
