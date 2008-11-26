@@ -33,7 +33,6 @@ class CourseGroupToolCreatorComponent extends CourseGroupToolComponent
 			$this->display_footer();
 		}
 		
-		$this->display_footer();
 	}
 
 }

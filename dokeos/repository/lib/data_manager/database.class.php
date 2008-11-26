@@ -184,7 +184,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		 */
 		if (!isset($type))
 		{
-			$order[] = '('.$this->escape_column_name(LearningObject :: PROPERTY_TYPE, true).' = "category") DESC';
+			//$order[] = '('.$this->escape_column_name(LearningObject :: PROPERTY_TYPE, true).' = "category") DESC';
 		}
 		for ($i = 0; $i < count($orderBy); $i ++)
 		{
@@ -198,7 +198,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$maxObjects = null;
 		}
-
+		//echo $query;
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
