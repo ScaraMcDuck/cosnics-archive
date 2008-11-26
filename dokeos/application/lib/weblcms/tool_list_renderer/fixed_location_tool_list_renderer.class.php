@@ -259,7 +259,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				if($section->get_type() == CourseSection :: TYPE_TOOL)
 				{
 					$html[] = '<div id="tool_' . $tool->id . '" class="tool" style="display:inline">';
-					$html[] = '<div id="drag_' . $tool->id . '" class="tooldrag" style="display:inline; width: 20px; background-color: blue; cursor: pointer; display:none">&nbsp;&nbsp;&nbsp;</div>';
+					$html[] = '<div id="drag_' . $tool->id . '" class="tooldrag" style="width: 20px; cursor: pointer; display:none;"><img src="'. Theme :: get_common_img_path() .'action_drag.png" alt="'. Translation :: get('DragAndDrop') .'" title="'. Translation :: get('DragAndDrop') .'" /></div>';
 				}
 				
 				// Show visibility-icon

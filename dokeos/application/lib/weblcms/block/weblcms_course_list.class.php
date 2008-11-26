@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../course/course_user_category.class.php';
  * This class represents a calendar publisher component which can be used
  * to browse through the possible learning objects to publish.
  */
-class WeblcmsExtra extends WeblcmsBlock
+class WeblcmsCourseList extends WeblcmsBlock
 {
 	function run()
 	{
