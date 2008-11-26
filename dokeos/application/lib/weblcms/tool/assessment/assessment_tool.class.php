@@ -16,6 +16,7 @@ class AssessmentTool extends Tool
 	const ACTION_VIEW_USER_ASSESSMENTS = 'view_user';
 	const ACTION_TAKE_ASSESSMENT = 'take';
 	const ACTION_VIEW_RESULTS = 'result';
+	const ACTION_EXPORT_QTI = 'exportqti';
 	
 	const PARAM_USER_ASSESSMENT = 'uaid';
 	const PARAM_ASSESSMENT = 'aid';
@@ -43,6 +44,10 @@ class AssessmentTool extends Tool
 				break;
 			case self :: ACTION_VIEW_RESULTS:
 				$component = AssessmentToolComponent :: factory('ResultsViewer', $this);
+				break;
+			case self :: ACTION_EXPORT_QTI:
+				$component = AssessmentToolComponent :: factory('QtiExport', $this);
+				$component->set_redirect_params(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_ASSESSMENTS));
 				break;
 			default:
 				$component = AssessmentToolComponent :: factory('Viewer', $this);
