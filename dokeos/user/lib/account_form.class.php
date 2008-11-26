@@ -45,45 +45,61 @@ class AccountForm extends FormValidator {
     	// Name
 		$this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get('LastName'));
 		$this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get('FirstName'));
-		if (PlatformSetting :: get('profile_name') !== 'true')
+		
+		if (PlatformSetting :: get('allow_change_firstname', UserManager :: APPLICATION_NAME) == 0)
 		{
-			$this->freeze(array(User :: PROPERTY_LASTNAME,User :: PROPERTY_FIRSTNAME));
+			$this->freeze(array(User :: PROPERTY_FIRSTNAME));
 		}
+		if (PlatformSetting :: get('allow_change_lastname', UserManager :: APPLICATION_NAME) == 0)
+		{
+			$this->freeze(array(User :: PROPERTY_LASTNAME));
+		}
+		
 		$this->applyFilter(array(User :: PROPERTY_LASTNAME, User :: PROPERTY_FIRSTNAME), 'stripslashes');
 		$this->applyFilter(array(User :: PROPERTY_LASTNAME, User :: PROPERTY_FIRSTNAME), 'trim');
 		$this->addRule(User :: PROPERTY_LASTNAME , Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		// Official Code
 		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'));
-		if (PlatformSetting :: get('profile_official_code') !== 'true')
+		
+		if (PlatformSetting :: get('allow_change_official_code', UserManager :: APPLICATION_NAME) == 0)
 		{
 			$this->freeze(User :: PROPERTY_OFFICIAL_CODE);
 		}
+		
 		$this->applyFilter(User :: PROPERTY_OFFICIAL_CODE, 'stripslashes');
 		$this->applyFilter(User :: PROPERTY_OFFICIAL_CODE, 'trim');
-		if (PlatformSetting :: get('registration_official_code') == 'true')
+		
+		if (PlatformSetting :: get('allow_change_official_code', UserManager :: APPLICATION_NAME) == 0)
 		{
 			$this->addRule(User :: PROPERTY_OFFICIAL_CODE, Translation :: get('ThisFieldIsRequired'), 'required');
 		}
+		
 		// Email
 		$this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get('Email'));
-		if (PlatformSetting :: get('profile_email') !== 'true')
+		
+		if (PlatformSetting :: get('allow_change_email', UserManager :: APPLICATION_NAME) == 0)
 		{
 			$this->freeze(User :: PROPERTY_EMAIL);
 		}
+		
 		$this->applyFilter(User :: PROPERTY_EMAIL, 'stripslashes');
 		$this->applyFilter(User :: PROPERTY_EMAIL, 'trim');
-		if (PlatformSetting :: get('registration_email') == 'true')
+		
+		if (PlatformSetting :: get('allow_change_email', UserManager :: APPLICATION_NAME) == 0)
 		{
 			$this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
     	}
+    	
 		$this->addRule(User :: PROPERTY_EMAIL, Translation :: get('EmailWrong'), 'email');
 		// Username
 		$this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'));
-		if (PlatformSetting :: get('profile_login') !== 'true')
+		
+		if (PlatformSetting :: get('allow_change_username', UserManager :: APPLICATION_NAME) == 0)
 		{
 			$this->freeze(User :: PROPERTY_USERNAME);
 		}
+		
 		$this->applyFilter(User :: PROPERTY_USERNAME, 'stripslashes');
 		$this->applyFilter(User :: PROPERTY_USERNAME, 'trim');
 		$this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -92,15 +108,16 @@ class AccountForm extends FormValidator {
 		//$this->addRule(User :: PROPERTY_USERNAME, Translation :: get('UserTaken'), 'username_available', $user_data['username']);
 
 		// Password
-		if (PlatformSetting :: get('profile_password') == 'true')
+		if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) == 1)
 		{
 			$this->addElement('static', null, null, '<em>'.Translation :: get('Enter2passToChange').'</em>');
 			$this->addElement('password', User :: PROPERTY_PASSWORD, Translation :: get('Pass'),         array('size' => 40));
 			$this->addElement('password', 'password2', Translation :: get('Confirmation'), array('size' => 40));
 			$this->addRule(array(User :: PROPERTY_PASSWORD, 'password2'), Translation :: get('PassTwo'), 'compare');
 		}
+		
 		// Picture
-		if (PlatformSetting :: get('profile_picture') == 'true')
+		if (PlatformSetting :: get('allow_change_user_picture', UserManager :: APPLICATION_NAME) == 1)
 		{
 			$this->addElement('file', User::PROPERTY_PICTURE_URI, ($this->user->has_picture() ? Translation :: get('UpdateImage') : Translation :: get('AddImage')));
 			if($this->form_type == self :: TYPE_EDIT && $this->user->has_picture() )
@@ -109,6 +126,7 @@ class AccountForm extends FormValidator {
 			}
 			$this->addRule( User::PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'mimetype', array('image/gif', 'image/jpeg', 'image/png','image/x-png'));
 		}
+		
 		// Language
 		$adm = AdminDataManager :: get_instance();
 		$languages = $adm->retrieve_languages();
@@ -119,10 +137,23 @@ class AccountForm extends FormValidator {
 			$lang_options[$language->get_folder()] = $language->get_english_name();	
 		}
 		$this->addElement('select', User :: PROPERTY_LANGUAGE, Translation :: get('Language'), $lang_options);
-		if (PlatformSetting :: get('profile_language') !== 'true')
+		
+		if (PlatformSetting :: get('allow_user_language_selection', UserManager :: APPLICATION_NAME) == 0)
 		{
 			$this->freeze(User :: PROPERTY_LANGUAGE);
 		}
+		
+		// Themes
+		$theme_options = array();
+		$theme_options[''] = '-- ' . Translation :: get('PlatformDefault') . ' --';
+		$theme_options = array_merge($theme_options, Theme :: get_themes());
+		$this->addElement('select', User :: PROPERTY_THEME, Translation :: get('Theme'), $theme_options);
+		
+		if (PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME) == 0)
+		{
+			$this->freeze(User :: PROPERTY_THEME);
+		}
+		
 		// Submit button
 		$this->addElement('submit', 'user_settings', 'OK');
     }
@@ -144,28 +175,31 @@ class AccountForm extends FormValidator {
     {
     	$user = $this->user;
     	$values = $this->exportValues();
-		if (PlatformSetting :: get('profile_name') === 'true')
+		if (PlatformSetting :: get('allow_change_firstname', UserManager :: APPLICATION_NAME))
 		{
 			$user->set_firstname($values[User::PROPERTY_FIRSTNAME]);
+		}
+		if (PlatformSetting :: get('allow_change_lastname', UserManager :: APPLICATION_NAME))
+		{
 			$user->set_lastname($values[User::PROPERTY_LASTNAME]);
 		}
-		if (PlatformSetting :: get('profile_official_code') === 'true')
+		if (PlatformSetting :: get('allow_change_official_code', UserManager :: APPLICATION_NAME))
 		{
 			$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
 		}
-		if (PlatformSetting :: get('profile_email') === 'true')
+		if (PlatformSetting :: get('allow_change_email', UserManager :: APPLICATION_NAME))
 		{
 			$user->set_email($values[User :: PROPERTY_EMAIL]);
 		}
-		if (PlatformSetting :: get('profile_login') === 'true')
+		if (PlatformSetting :: get('allow_change_username', UserManager :: APPLICATION_NAME))
 		{
 			$user->set_username($values[User :: PROPERTY_USERNAME]);
 		}
-		if (PlatformSetting :: get('profile_password') === 'true' && strlen($values[User :: PROPERTY_PASSWORD]))
+		if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) && strlen($values[User :: PROPERTY_PASSWORD]))
 		{
 			$user->set_password(md5($values[User::PROPERTY_PASSWORD]));
 		}
-		if(PlatformSetting :: get('profile_picture') === 'true')
+		if(PlatformSetting :: get('allow_change_user_picture', UserManager :: APPLICATION_NAME))
 		{
 			if(isset($_FILES['picture_uri']) && strlen($_FILES['picture_uri']['name']) > 0)
 			{
@@ -176,9 +210,14 @@ class AccountForm extends FormValidator {
 				$user->delete_picture();
 			}
 		}
-		if (PlatformSetting :: get('profile_language') === 'true')
+		if (PlatformSetting :: get('allow_user_language_selection', UserManager :: APPLICATION_NAME))
 		{
 	   		$user->set_language($values[User :: PROPERTY_LANGUAGE]);
+		}
+		
+		if (PlatformSetting :: get('allow_user_theme_selection', UserManager :: APPLICATION_NAME))
+		{
+	   		$user->set_theme($values[User :: PROPERTY_THEME]);
 		}
    		$value = $user->update();
    		
@@ -202,6 +241,7 @@ class AccountForm extends FormValidator {
 		$defaults[User :: PROPERTY_USERNAME] = $user->get_username();
 		$defaults[User :: PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
 		$defaults[User :: PROPERTY_LANGUAGE] = $user->get_language();
+		$defaults[User :: PROPERTY_THEME] = $user->get_theme()?$user->get_theme():'';
 		parent :: setDefaults($defaults);
 	}
 }

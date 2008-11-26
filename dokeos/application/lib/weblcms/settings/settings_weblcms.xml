@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application name="weblcms">
 	<settings>
-		<category name="visual">
-			<setting name="allow_course_theme_selection" field="radio" default="0">
+	    <category name="general">
+	    	<setting name="allow_course_theme_selection" field="radio" default="0">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
@@ -44,6 +44,8 @@
 					<option name="false" value="0" />
 				</options>
 			</setting>
+	    </category>
+		<category name="visual">
 			<setting name="default_course_layout" field="select" default="1">
 				<options type="dynamic" source="get_course_layouts" />
 			</setting>
