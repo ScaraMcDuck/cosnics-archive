@@ -79,12 +79,12 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_QTI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 			'label' => Translation :: get('Export'), 
-			'img' => Theme :: get_common_img_path().'action_visible.png'
+			'img' => Theme :: get_common_img_path().'action_export.png'
 			);
 		} 
 		else
 		{
-			//TODO: if else ding!!
+
 			$conditionuser = new EqualityCondition(UserAssessment :: PROPERTY_USER_ID, $this->browser->get_user_id());
 			$conditionass = new EqualityCondition(UserAssessment :: PROPERTY_ASSESSMENT_ID, $publication->get_learning_object()->get_id());
 			$user_assessments = WeblcmsDataManager :: get_instance()->retrieve_user_assessments(new AndCondition(array($conditionuser, $conditionass)));

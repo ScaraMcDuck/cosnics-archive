@@ -24,7 +24,9 @@ class AssessmentForm extends LearningObjectForm
 	function setDefaults($defaults = array ())
 	{
 		$object = $this->get_learning_object();
-		$defaults[Assessment :: PROPERTY_ASSESSMENT_TYPE] = $object->get_assessment_type();
+		if ($object != null)
+			$defaults[Assessment :: PROPERTY_ASSESSMENT_TYPE] = $object->get_assessment_type();
+			
 		parent :: setDefaults($defaults);
 	}
 	
@@ -32,6 +34,7 @@ class AssessmentForm extends LearningObjectForm
     {
     	parent :: build_creation_form();
     	$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
+    	$this->addRule('description', Translation :: get('ThisFieldIsRequired'), 'required');
     	$this->add_select(Assessment :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('Assessment type'), Assessment :: get_types());
     	$this->addElement('category');
     }
@@ -41,6 +44,7 @@ class AssessmentForm extends LearningObjectForm
 		parent :: build_editing_form();
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
     	$this->add_select(Assessment :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('Assessment type'), Assessment :: get_types());
+    	$this->addRule('description', Translation :: get('ThisFieldIsRequired'), 'required');
     	$this->addElement('category');
 	}
 

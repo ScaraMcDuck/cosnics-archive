@@ -10,7 +10,11 @@ class DocumentQuestionDisplay extends QuestionDisplay
 		$answers = $this->get_answers();
 		$documents = $this->get_user_documents();
 		$name = $this->get_clo_question()->get_ref().'_0';
-		$formvalidator->addElement('select', $name, Translation :: get('Select a document:'), $documents);
+		$elements[] = $formvalidator->createElement('html', 'Select a document or upload a file:<br/>');
+		$elements[] = $formvalidator->createElement('select', null, Translation :: get('Select a document:'), $documents);
+		$elements[] = $formvalidator->createElement('html', '<br/><br/>');
+		$elements[] = $formvalidator->createElement('file', null, Translation :: get('Upload a file'));
+		$formvalidator->addGroup($elements, $name, '<br/>');
 		$formvalidator->addElement('html', '<br/>');
 		$formvalidator->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
 		$formvalidator->addElement('html', $this->display_footer());
