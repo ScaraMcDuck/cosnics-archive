@@ -2,6 +2,7 @@
 
 require_once dirname(__FILE__) . '/../document_tool.class.php';
 require_once dirname(__FILE__) . '/../document_tool_component.class.php';
+require_once Path :: get_library_path() . 'filecompression/filecompression.class.php';
 
 class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 {
@@ -41,10 +42,13 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 			$user_id = $this->get_user_id();
 			$course_groups = $this->get_course_groups();
 		}
-		$target_path = current($category_folder_mapping);
+		$target_path = current($category_folder_mapping); 
 		foreach($category_folder_mapping as $category_id => $dir)
 		{
-			$publications = $dm->retrieve_learning_object_publications($this->get_course_id(), $category_id, $user_id, $course_groups);
+			$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'document');
+			$cond = new EqualityCondition('type','document');
+			
+			$publications = $dm->retrieve_learning_object_publications($this->get_course_id(), $category_id, $user_id, $course_groups, $condition, false, array (), array (), 0, -1, null, $cond);
 			while($publication = $publications->next_result())
 			{
 				$document = $publication->get_learning_object();
@@ -56,7 +60,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 		$compression = FileCompression::factory();
 		$archive_file = $compression->create_archive($target_path);
 		Filesystem::remove($target_path);
-		$archive_url = $this->get_parent()->get_path(WEB_CODE_PATH).'../'.str_replace(DIRECTORY_SEPARATOR,'/',str_replace(realpath($this->get_parent()->get_path(SYS_PATH)),'',$archive_file));
+		$archive_url = Path :: get(WEB_PATH).str_replace(DIRECTORY_SEPARATOR,'/',str_replace(realpath($this->get_parent()->get_path(SYS_PATH)),'',$archive_file));
 		return $archive_url;
 	}
 	/**
@@ -66,26 +70,32 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 	 * @param $path
 	 * @return array An array mapping the category id to the folder.
 	 */
-	private function create_folder_structure($categories,&$category_folder_mapping = array(), $path = null)
+	private function create_folder_structure($parent_cat,&$category_folder_mapping = array(), $path = null)
 	{
 		if(is_null($path))
 		{
-			$path = realpath($this->get_parent()->get_path(WEB_TEMP_PATH));
+			$path = realpath(Path :: get(SYS_TEMP_PATH)); //dump($path);
 			$path = Filesystem::create_unique_name($path.'/weblcms_document_download_'.$this->get_parent()->get_course_id());
-			$category_folder_mapping[$categories] = $path;
+			$category_folder_mapping[$parent_cat] = $path;
 			Filesystem::create_dir($path);
 			$parent = $this->get_parent();
 			$course = $parent->get_course_id();
 			$tool = $parent->get_parameter(Weblcms :: PARAM_TOOL);
-			$categories = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($course, $tool,$categories);
-		}
-		foreach($categories as $index => $category_info)
-		{
-			$category = $category_info['obj'];
-			$category_path = Filesystem::create_unique_name($path.'/'.$category->get_title());
-			$category_folder_mapping[$category->get_id()] = $category_path;
-			Filesystem::create_dir($category_path);
-			$this->create_folder_structure($category_info['sub'],$category_folder_mapping,$category_path);
+			
+			$conditions[] = new EqualityCondition('course',$course);
+			$conditions[] = new EqualityCondition('tool',$tool);
+			$conditions[] = new EqualityCondition('parent',$parent_cat);
+			$condition = new AndCondition($conditions); //dump($condition);
+			
+			$categories = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($condition);
+		
+			while($category = $categories->next_result())
+			{
+				$category_path = Filesystem::create_unique_name($path.'/'.$category->get_name());
+				$category_folder_mapping[$category->get_id()] = $category_path;
+				Filesystem::create_dir($category_path);
+				$this->create_folder_structure($category->get_id(),$category_folder_mapping,$category_path);
+			}
 		}
 		return $category_folder_mapping;
 	}
