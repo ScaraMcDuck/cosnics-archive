@@ -42,9 +42,9 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		//dump($this->browser->get_parent()->get_course());
 		if($this->browser->get_parent()->get_course()->get_allow_feedback())
 		{
-			$html[] = '<a href="javascript:void(0)" id="showfeedbackform" style="display:none">' . Translation :: get('ShowHideFeedbackForm') . '</a>';
+			$html[] = '<a href="#" id="showfeedbackform" style="display:none">' . Translation :: get('AddFeedback') . '</a>';
 			$html[] = '<div id="feedbackform">';
-			$html[] = '<h3>' . '<div class="title">'.Translation :: get('LearningObjectPublicationAddFeedback').'</div></h3>';
+			$html[] = '<h3>' . '<div class="title">'.Translation :: get('LearningObjectPublicationAddFeedback') . ' <a href="#" id="hidefeedbackform" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('Hide') . ')</a></div></h3>';
 			$html[] = '<div class="feedback_block">';
 			$html[] = $form->toHtml();
 			$html[] = '</div></div><br />';
@@ -103,9 +103,9 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		
 		if(count($publication_feedback_array) > 0)
 		{
-			$html[] = '<a href="javascript:void(0)" id="showfeedback" style="display:none">' . Translation :: get('ShowHideFeedback') . '</a>';
+			$html[] = '<a href="#" id="showfeedback" style="display:none">' . Translation :: get('ShowFeedback') . '</a>';
 			$html[] = '<div id="feedbacklist">';
-			$html[] = '<h3>' . Translation :: get('LearningObjectPublicationListFeedback') . '</h3>';
+			$html[] = '<h3>' . Translation :: get('LearningObjectPublicationListFeedback') .  ' <a href="#" id="hidefeedback" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('Hide') . ')</a></h3>';
 			$renderer = new ListPublicationFeedbackListRenderer($this->browser,$publication_feedback_array);
 			$html[] = $renderer->as_html();
 			$html[] = '</div>';
