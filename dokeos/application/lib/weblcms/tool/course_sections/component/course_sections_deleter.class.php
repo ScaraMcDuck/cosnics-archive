@@ -40,6 +40,22 @@ class CourseSectionsToolDeleterComponent extends CourseSectionsToolComponent
 				{
 					$failures++;
 				}
+				
+				$wdm = WeblcmsDataManager :: get_instance();
+				$tools = $wdm->get_course_modules($_GET['course']);
+				
+				$conditions[] = new EqualityCondition(CourseSection :: PROPERTY_NAME, Translation :: get('Tools'));
+    			$conditions[] = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, $_GET['course']);
+    	
+    			$main_section = $wdm->retrieve_course_sections(new AndCondition($conditions))->next_result();
+				
+				foreach($tools as $tool)
+				{
+					if($tool->section == $id)
+					{
+						$wdm->change_module_course_section($tool->id, $main_section->get_id());
+					}	
+				}
 			}
 			
 			if ($failures)
