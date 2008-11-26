@@ -58,7 +58,7 @@ $lang['install']['Yes'] = 'Yes';
 $lang['install']['No'] = 'No';
 $lang['install']['EncryptUserPass'] = 'Encrypt user passwords';
 $lang['install']['AllowSelfReg'] = 'Allow self registration';
-$lang['install']['MyDokeos'] = 'My dokeos';
+$lang['install']['MyDokeos'] = 'My Dokeos';
 $lang['install']['Dokeos'] = 'Dokeos';
 $lang['install']['General'] = 'general';
 $lang['install']['Applications'] = 'Applications';
@@ -81,4 +81,5 @@ $lang['install']['Check'] = 'Check';
 $lang['install']['TrackersRegisteredToEvent'] = 'Trackers registered to event';
 $lang['install']['LocationsAdded'] = 'Locations added';
 $lang['install']['MenuCreated'] = 'Menu created';
+$lang['install']['Mr'] = 'Mr';
 ?>

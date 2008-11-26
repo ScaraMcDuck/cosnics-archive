@@ -1,6 +1,6 @@
 <?php
 $lang['personal_messenger']['ObjectCreated'] = 'Object created';
-$lang['personal_messenger']['LearningObjectCreated'] = 'Learning object created';
+$lang['personal_messenger']['LearningObjectCreated'] = 'Object created';
 $lang['personal_messenger']['SelectRecipients'] = 'Select recipients';
 $lang['personal_messenger']['Searching'] = 'Searching';
 $lang['personal_messenger']['NoResults'] = 'No results found';
@@ -42,4 +42,5 @@ $lang['personal_messenger']['Recipient'] = 'Recipient';
 $lang['personal_messenger']['CategoryTypeName'] = 'Category';
 $lang['personal_messenger']['AddAttachments'] = 'Add attachments';
 $lang['personal_messenger']['CreatorTitle'] = 'Create';
+$lang['personal_messenger']['Personal_message'] = 'Personal Message';
 ?>
