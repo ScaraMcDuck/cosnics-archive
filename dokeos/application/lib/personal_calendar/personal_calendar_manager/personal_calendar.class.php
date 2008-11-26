@@ -26,6 +26,7 @@ class PersonalCalendar extends WebApplication
 	const ACTION_VIEW_PUBLICATION = 'view';
 	const ACTION_CREATE_PUBLICATION = 'publish';
 	const ACTION_DELETE_PUBLICATION = 'delete';
+	const ACTION_EDIT_PUBLICATION = 'edit';
 	
 	const ACTION_RENDER_BLOCK = 'block';
 
@@ -71,6 +72,9 @@ class PersonalCalendar extends WebApplication
 				break;
 			case self :: ACTION_DELETE_PUBLICATION :
 				$component = PersonalCalendarComponent :: factory('Deleter', $this);
+				break;
+			case self :: ACTION_EDIT_PUBLICATION :
+				$component = PersonalCalendarComponent :: factory('Editor', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CALENDAR);
@@ -491,6 +495,11 @@ class PersonalCalendar extends WebApplication
 	function get_publication_deleting_url($publication)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_CALENDAR_EVENT_ID => $publication->get_id()));
+	}
+	
+	function get_publication_editing_url($publication)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_PUBLICATION, self :: PARAM_CALENDAR_EVENT_ID => $publication->get_id()));
 	}
 	
 	function get_publication_viewing_url($publication)

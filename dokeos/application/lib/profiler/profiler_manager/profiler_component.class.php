@@ -202,6 +202,14 @@ abstract class ProfilerComponent {
 	}
 	
 	/**
+	 * @see ProfileManager :: get_publication_editing_url() 
+	 */
+	function get_publication_editing_url($profile)
+	{
+		return $this->get_parent()->get_publication_editing_url($profile);
+	}
+	
+	/**
 	 * @see ProfileManager :: get_publication_viewing_url()
 	 */
 	function get_publication_viewing_url($profile)
