@@ -230,3 +230,8 @@ div.feedback span.publication_info
 	font-style: italic;
 	text-align: right;
 }
+
+div.feedback div.publication_actions
+{
+	text-align: right;
+}

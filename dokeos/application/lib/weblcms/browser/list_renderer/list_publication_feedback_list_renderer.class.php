@@ -82,7 +82,7 @@ class ListPublicationFeedbackListRenderer extends ListLearningObjectPublicationL
 		$html[] = $this->render_description($publication);
 		$html[] = $this->render_attachments($publication);
 		$html[] = '</div>';
-		$html[] = '<div class="feedbackactions">';
+		$html[] = '<div class="publication_actions">';
 		$html[] = $this->render_delete_action($publication);
 		$html[] = '</div>';
 		$html[] = '</div>';
