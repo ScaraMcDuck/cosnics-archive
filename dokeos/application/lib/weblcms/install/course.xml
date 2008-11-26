@@ -27,6 +27,7 @@
   <property name="tool_shortcut" type="integer" length="1" default="1"/>
   <property name="menu" type="integer" length="1" default="1"/>
   <property name="breadcrumb" type="integer" length="1" default="1"/>
+  <property name="allow_feedback" type="integer" length="1" default="1"/>
  </properties>
  <index name="code" type="primary">
   <indexproperty name="code"/>

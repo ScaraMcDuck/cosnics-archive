@@ -147,6 +147,15 @@ class CourseForm extends FormValidator {
 		$unsubscribe_allowed[] =& $this->createElement('radio', null, null, Translation :: get('UnsubscribeNotAllowed'), 0);
 		$this->addGroup($unsubscribe_allowed, Course :: PROPERTY_UNSUBSCRIBE_ALLOWED, Translation :: get('Unsubscribe'), '<br />');
 
+		if (PlatformSetting :: get('allow_feedback_selection', Weblcms :: APPLICATION_NAME))
+		{
+			$feedback_allowed = array();
+			$feedback_allowed[] =& $this->createElement('radio', null, null, Translation :: get('Yes'), 1);
+			$feedback_allowed[] =& $this->createElement('radio', null, null, Translation :: get('No'), 0);
+			$this->addGroup($feedback_allowed, Course :: PROPERTY_ALLOW_FEEDBACK, Translation :: get('AllowFeedback'), '<br />');
+			
+		}
+		
 		$this->addElement('html', '<div style="clear: both;"></div>');
 		$this->addElement('html', '</div>');
 		
@@ -250,6 +259,9 @@ class CourseForm extends FormValidator {
 		$breadcrumb = $values[Course :: PROPERTY_BREADCRUMB];
 		$course->set_breadcrumb($breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', Weblcms :: APPLICATION_NAME));
 
+		$allow_feedback = $values[Course :: PROPERTY_ALLOW_FEEDBACK];
+		$course->set_allow_feedback($allow_feedback ? $allow_feedback : PlatformSetting :: get('feedback', Weblcms :: APPLICATION_NAME));
+
     	$course->set_visibility($values[Course :: PROPERTY_VISIBILITY]);
     	$course->set_subscribe_allowed($values[Course :: PROPERTY_SUBSCRIBE_ALLOWED]);
     	$course->set_unsubscribe_allowed($values[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED]);
@@ -295,6 +307,9 @@ class CourseForm extends FormValidator {
 		$breadcrumb = $values[Course :: PROPERTY_BREADCRUMB];
 		$course->set_breadcrumb($breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', Weblcms :: APPLICATION_NAME));
 		
+		$allow_feedback = $values[Course :: PROPERTY_ALLOW_FEEDBACK];
+		$course->set_allow_feedback($allow_feedback ? $allow_feedback : PlatformSetting :: get('feedback', Weblcms :: APPLICATION_NAME));
+
     	if ($course->create())
     	{
     		// TODO: Temporary function pending revamped roles&rights system
@@ -356,6 +371,9 @@ class CourseForm extends FormValidator {
 		
 		$breadcrumb = $course->get_breadcrumb();
 		$defaults[Course :: PROPERTY_BREADCRUMB] = $breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', Weblcms :: APPLICATION_NAME);
+		
+		$feedback = $course->get_allow_feedback();
+		$defaults[Course :: PROPERTY_ALLOW_FEEDBACK] = $feedback ? $feedback : PlatformSetting :: get('feedback', Weblcms :: APPLICATION_NAME);
 		
 		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
 		

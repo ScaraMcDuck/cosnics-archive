@@ -48,6 +48,7 @@ class Course {
 	const PROPERTY_TOOL_SHORTCUT = 'tool_shortcut';
 	const PROPERTY_MENU = 'menu';
 	const PROPERTY_BREADCRUMB = 'breadcrumb';
+	const PROPERTY_ALLOW_FEEDBACK = 'allow_feedback';
 
 	// Remnants from the old Dokeos system
 	const PROPERTY_LAST_VISIT = 'last_visit';
@@ -165,7 +166,8 @@ class Course {
 				      self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, 
 				      self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, 
 				      self :: PROPERTY_UNSUBSCRIBE_ALLOWED, self :: PROPERTY_THEME,
-				      self :: PROPERTY_TOOL_SHORTCUT, self :: PROPERTY_MENU, self :: PROPERTY_BREADCRUMB);
+				      self :: PROPERTY_TOOL_SHORTCUT, self :: PROPERTY_MENU, self :: PROPERTY_BREADCRUMB,
+				      self :: PROPERTY_ALLOW_FEEDBACK);
 	}
 
 	/**
@@ -470,6 +472,16 @@ class Course {
 	function get_breadcrumb()
 	{
 		return $this->get_default_property(self :: PROPERTY_BREADCRUMB);
+	}
+	
+	function set_allow_feedback($allow_feedback)
+	{
+		$this->set_default_property(self :: PROPERTY_ALLOW_FEEDBACK, $allow_feedback);
+	}
+	
+	function get_allow_feedback()
+	{
+		return $this->get_default_property(self :: PROPERTY_ALLOW_FEEDBACK);
 	}
 	
 	/**
