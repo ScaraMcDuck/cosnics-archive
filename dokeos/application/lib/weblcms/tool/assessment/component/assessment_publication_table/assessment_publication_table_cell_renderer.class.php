@@ -75,6 +75,12 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 			'label' => Translation :: get('Visible'), 
 			'img' => Theme :: get_common_img_path().'action_visible.png'
 			);	
+			
+			$actions[] = array(
+			'href' => $this->browser->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_QTI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
+			'label' => Translation :: get('Export'), 
+			'img' => Theme :: get_common_img_path().'action_visible.png'
+			);
 		} 
 		else
 		{

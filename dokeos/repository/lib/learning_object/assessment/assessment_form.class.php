@@ -16,8 +16,16 @@ class AssessmentForm extends LearningObjectForm
 		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
 		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
 		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
+		$defaults[Assessment :: PROPERTY_ASSESSMENT_TYPE] = $valuearray[3];
 
 		parent :: set_values($defaults);			
+	}
+	
+	function setDefaults($defaults = array ())
+	{
+		$object = $this->get_learning_object();
+		$defaults[Assessment :: PROPERTY_ASSESSMENT_TYPE] = $object->get_assessment_type();
+		parent :: setDefaults($defaults);
 	}
 	
 	protected function build_creation_form()
@@ -53,9 +61,17 @@ class AssessmentForm extends LearningObjectForm
 		$object = $this->get_learning_object();
 		$values = $this->exportValues();
 		$ass_types = $object->get_types();
-		$object->set_assessment_type($ass_types[$values[Assessment :: PROPERTY_ASSESSMENT_TYPE]]);
+		$value = $values[Assessment :: PROPERTY_ASSESSMENT_TYPE];
+		if (is_numeric($value))
+		{
+			$object->set_assessment_type($ass_types[$value]);
+		}
+		else
+		{
+			$object->set_assessment_type($value);
+		}
 		$this->set_learning_object($object);
-		return parent :: create_learning_object();
+		return parent :: update_learning_object();
 	}
 }
 ?>

@@ -1,8 +1,8 @@
 <?php
 
 require_once dirname(__FILE__).'/../learning_object_export.class.php';
-require_once dirname(__FILE__).'/assessment/assessment_export.class.php';
-require_once dirname(__FILE__).'/question/question_export.class.php';
+require_once dirname(__FILE__).'/assessment/assessment_exporter.class.php';
+require_once dirname(__FILE__).'/question/question_exporter.class.php';
 
 /**
  * Exports learning object to the dokeos learning object format (xml)
@@ -19,22 +19,26 @@ class QtiExport extends LearningObjectExport
 	
 	public function export_learning_object()
 	{
-		$learning_object = parent :: get_learning_object();
+		$exporter = self :: factory_qti($this->get_learning_object());
+		return $exporter->export_learning_object();
+	}
+	
+	static function factory_qti($learning_object)
+	{
 		switch ($learning_object->get_type())
 		{
 			case 'assessment':
 				$exporter = new AssessmentQtiExport($learning_object);
 				break;
 			case 'question':
-				$exporter = QuestionQtiExport :: factory($learning_object);
+				$exporter = QuestionQtiExport :: factory_question($learning_object);
 				break;
 			default:
 				$exporter = null;
 				break;
 		}
-		return $exporter->export_learning_object();
+		return $exporter;
 	}
-	
 
 }
 ?>

@@ -10,7 +10,7 @@ class MultipleAnswerScore extends Score
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, parent :: get_answer()->get_id());
 		$clo_answers = $dm->retrieve_complex_learning_object_items($condition);
 		$clo_answer = $clo_answers->next_result();
-		print_r($clo_answer);
+		//print_r($clo_answer);
 		return $clo_answer->get_score();
 	}
 }
