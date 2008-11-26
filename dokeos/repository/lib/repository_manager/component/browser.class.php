@@ -29,7 +29,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 		$this->action_bar = $this->get_action_bar();
 		
 		$output = $this->get_learning_objects_html();
-		$this->display_header($trail, true);
+		$this->display_header($trail, false);
 		echo $this->action_bar->as_html();
 		echo $output;
 		$this->display_footer();
@@ -40,7 +40,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 	 */
 	private function get_learning_objects_html()
 	{
-		$condition = $this->get_search_condition();
+		$condition = $this->get_condition();
 		$parameters = $this->get_parameters(true);
 		$types = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
 		if (is_array($types) && count($types))
@@ -55,7 +55,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
-		//$action_bar->set_search_url($this->get_url());
+		$action_bar->set_search_url($this->get_url(array('category' => $_GET['category'])));
 		
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
@@ -63,6 +63,17 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_img_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		return $action_bar;
+	}
+	
+	private function get_condition()
+	{
+		$query = $this->action_bar->get_query();
+		if(isset($query) && $query != '')
+		{
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+			return new OrCondition($conditions);
+		}
 	}
 	
 }
