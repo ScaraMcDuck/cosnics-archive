@@ -35,15 +35,17 @@ class ListPublicationFeedbackListRenderer extends ListLearningObjectPublicationL
 		return '';
 	}
 
-	function render_edit_action($publication)
+	/*function render_edit_action($publication)
 	{
-		return '';
-	}
+		$edit_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'details' => '1'), true);
+		$edit_link = '<a href="'.$edit_url.'"><img src="'.Theme :: get_common_img_path().'action_edit.png"  alt=""/></a>';
+		return $edit_link;
+	}*/
 
-	function render_delete_action($publication)
+	/*function render_delete_action($publication)
 	{
 		return '';
-	}
+	}*/
 	
 	function render_feedback_action($publication){
 		return '';	
@@ -79,6 +81,9 @@ class ListPublicationFeedbackListRenderer extends ListLearningObjectPublicationL
 		$html[] = '<div class="description'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_description($publication);
 		$html[] = $this->render_attachments($publication);
+		$html[] = '</div>';
+		$html[] = '<div class="feedbackactions">';
+		$html[] = $this->render_delete_action($publication);
 		$html[] = '</div>';
 		$html[] = '</div>';
 		return implode("\n", $html);
