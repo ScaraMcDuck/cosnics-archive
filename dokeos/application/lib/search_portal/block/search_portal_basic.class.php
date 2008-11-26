@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../search_portal_block.class.php';
  * This class represents a calendar publisher component which can be used
  * to browse through the possible learning objects to publish.
  */
-class SearchPortalExtra extends SearchPortalBlock
+class SearchPortalBasic extends SearchPortalBlock
 {
 	function run()
 	{
