@@ -60,7 +60,7 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 				case CalendarBrowser::CALENDAR_LIST_VIEW:
 				{
 					$renderer = new CalendarListRenderer($this);
-					$actions = array(Tool :: ACTION_DELETE => Translation :: get('Delete selected'), 
+					$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), 
 						 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
 						 Tool :: ACTION_SHOW => Translation :: get('Show'));
 					$renderer->set_actions($actions);

@@ -103,7 +103,7 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 		return DokeosUtilities :: build_toolbar($actions);*/
 		return DokeosUtilities :: build_toolbar($actions);
 		
-		//return array(Tool :: ACTION_DELETE => Translation :: get('Delete selected'), 
+		//return array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), 
 		//				 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
 		//				 Tool :: ACTION_SHOW => Translation :: get('Show'));
 	}
