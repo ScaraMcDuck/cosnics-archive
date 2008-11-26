@@ -14,7 +14,6 @@ class QuestionForm extends LearningObjectForm
     	parent :: build_creation_form();
     	$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
     	$this->add_select(Question :: PROPERTY_QUESTION_TYPE, Translation :: get('Question type'), Question :: get_question_types());
-    	$this->addRule('description', Translation :: get('ThisFieldIsRequired'), 'required');
     	$this->addElement('category');
     }
     // Inherited
@@ -22,7 +21,6 @@ class QuestionForm extends LearningObjectForm
 	{
     	parent :: build_editing_form();
     	$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-    	$this->addRule('description', Translation :: get('ThisFieldIsRequired'), 'required');
     	$this->add_select(Question :: PROPERTY_QUESTION_TYPE, Translation :: get('Question type'), Question :: get_question_types());
     	$this->addElement('category');
     }
