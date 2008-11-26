@@ -17,6 +17,9 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 	 */
 	protected $browser;
 	private $count;
+	
+	private $count_all;
+	
 	/**
 	 * Constructor
 	 * @param RepositoryManagerBrowserComponent $browser
@@ -26,6 +29,7 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 		//parent :: __construct();
 		$this->browser = $browser;
 		$this->count = $browser->count_categories($browser->get_condition());
+		$this->count_all = $browser->count_categories();
 	}
 	// Inherited
 	function render_cell($column, $category)
@@ -139,11 +143,21 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 			);
 		}
 		
-		$toolbar_data[] = array(
-				'href' => $this->browser->get_change_category_parent_url($category->get_id()),
-				'label' => Translation :: get('Move'),
-				'img' => Theme :: get_common_img_path() . 'action_move.png'
-		);
+		if($this->count_all > 1)
+		{
+			$toolbar_data[] = array(
+					'href' => $this->browser->get_change_category_parent_url($category->get_id()),
+					'label' => Translation :: get('Move'),
+					'img' => Theme :: get_common_img_path() . 'action_move.png'
+			);
+		}
+		else
+		{
+			$toolbar_data[] = array(
+					'label' => Translation :: get('MoveNA'),
+					'img' => Theme :: get_common_img_path() . 'action_move_na.png'
+			);
+		}
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}

@@ -38,7 +38,7 @@ class PclzipFilecompression extends Filecompression
 		
 		if (!isset($archive_file))
 		{
-			$archive_file = Filesystem :: create_unique_name($this->get_path(SYS_TEMP_PATH), uniqid() . '.dlof');
+			$archive_file = Filesystem :: create_unique_name($this->get_path(SYS_TEMP_PATH), uniqid() . '.zip');
 		}
 		
 		$archive_file = $this->get_path(SYS_TEMP_PATH) . uniqid() . '_' . $archive_file;
