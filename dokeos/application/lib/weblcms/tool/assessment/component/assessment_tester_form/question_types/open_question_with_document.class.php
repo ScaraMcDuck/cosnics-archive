@@ -10,8 +10,12 @@ class OpenQuestionWithDocumentDisplay extends QuestionDisplay
 		$answers = $this->get_answers();
 		$documents = $this->get_user_documents();
 		$name = $this->get_clo_question()->get_ref().'_0';
-		$formvalidator->addElement('select', $name, Translation :: get('Select a document:'), $documents);
-		$formvalidator->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
+		$elements[] = $formvalidator->createElement('html', 'Select a document or upload a file:<br/>');
+		$elements[] = $formvalidator->createElement('select', null, Translation :: get('Select a document:'), $documents);
+		$elements[] = $formvalidator->createElement('html', '<div style="display:block;" id="editor_html_content">');
+		$elements[] = $formvalidator->createElement('file', null, Translation :: get('Upload a file'));
+		$elements[] = $formvalidator->createElement('html', '</div>');
+		$formvalidator->addGroup($elements, $name, '<br/>');
 		$formvalidator->addElement('html', '<br/>');
 		$formvalidator->addElement('html', $this->display_footer());
 	}
@@ -22,7 +26,7 @@ class OpenQuestionWithDocumentDisplay extends QuestionDisplay
 		$documents = $dm->retrieve_learning_objects('document');
 		while ($document = $documents->next_result())
 		{
-			$user_documents[] = $document;
+			$user_documents[$document->get_id()] = $document;
 		}
 		return $user_documents;
 	}

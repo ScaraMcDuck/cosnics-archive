@@ -32,7 +32,6 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			$this->display_header($trail);
 			$this->action_bar = $this->get_toolbar();
 			echo $this->action_bar->as_html();
-			
 			echo $tester_form->toHtml();
 			$this->display_footer();
 		} 
@@ -49,23 +48,68 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	function build_answers($tester_form, $assessment, $datamanager)
 	{
 		$values = $tester_form->exportValues();
-		print_r($values);
+		//print_r($values);
+		//print_r($_FILES);
 		$user_assessment = new UserAssessment();
 		$user_assessment->set_assessment_id($assessment->get_id());
 		$user_assessment->set_user_id(parent :: get_user_id());
 		$id = $datamanager->get_next_user_assessment_id();
 		$user_assessment->set_id($id);
-		foreach($values as $key => $value)
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id());
+		$clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+		while ($clo_question = $clo_questions->next_result())
 		{
-			$this->add_user_answer($datamanager, $user_assessment, $key, $value);
+			$this->check_create_answer($datamanager, $user_assessment, $values, $clo_question);
 		}
 		return $user_assessment;
+	}
+	
+	function check_create_answer($datamanager, $user_assessment, $values, $clo_question) 
+	{
+		//TODO: move this loop out of this class
+		foreach($_FILES as $key => $file)
+		{
+			$parts = split("_", $key);
+			//create document and afterwards user answer
+			if ($parts[0] == $clo_question->get_ref()) 
+			{
+				if ($file['name'] != null)
+				{
+					//create doc and user answer and exit method
+					echo '<br/> creating document ';
+				 	print_r($file);
+				 	$owner = $this->get_user_id();
+				 	$filename = Filesystem::create_unique_name(Path :: get(SYS_REPO_PATH).$owner, $file['name']);
+					$path = $owner.'/'.$filename;
+					$full_path = Path :: get(SYS_REPO_PATH).$path;
+					move_uploaded_file($file['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
+				 	chmod($full_path, 0777);
+					$object = new Document();
+					$object->set_path($path);
+					$object->set_filename($filename);
+					$object->set_filesize(Filesystem::get_disk_space($full_path));
+					$object->set_default_property('owner', $owner);
+					$object->set_title($filename);
+					$object->create();
+					$this->add_user_answer($datamanager, $user_assessment, $key, $object->get_id());
+				 	return;
+				}
+			}
+		}
+		foreach($values as $key => $value)
+		{
+			$parts = split("_", $key);
+			//create user answer
+			if ($parts[0] == $clo_question->get_ref()) 
+			{
+				$this->add_user_answer($datamanager, $user_assessment, $key, $value);
+			}
+		}	
 	}
 	
 	function add_user_answer($datamanager, $user_assessment, $key, $value)
 	{
 		if ($key != 'submit') {
-			print_r($_FILES[$key]);
 			$parts = split("_", $key);
 			if (is_numeric($parts[0])) {
 				$user_question = $this->get_question($datamanager, $user_assessment, $parts[0]);
@@ -86,20 +130,6 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		$question = $rdm->retrieve_learning_object($user_question->get_question_id(), 'question');
 		switch ($question->get_question_type())
 		{
-			case Question :: TYPE_DOCUMENT:
-				$documents = $rdm->retrieve_learning_objects('document');
-				while ($document = $documents->next_result())
-				{
-					$lo_documents[] = $document;
-				}
-				return $lo_documents[$extra_value]->get_id();
-			case Question :: TYPE_OPEN_WITH_DOCUMENT:
-				$documents = $rdm->retrieve_learning_objects('document');
-				while ($document = $documents->next_result())
-				{
-					$lo_documents[] = $document;
-				}
-				return $lo_documents[$extra_value]->get_id();
 			case Question :: TYPE_MULTIPLE_CHOICE:
 				$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $question->get_id());
 				$clo_answers = $rdm->retrieve_complex_learning_object_items($condition);
@@ -110,17 +140,6 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 				$clo_answer = $answers[$extra_value];
 				$lo_answer = $rdm->retrieve_learning_object($clo_answer->get_ref());
 				return $rdm->retrieve_learning_object($clo_answer->get_ref())->get_id();
-			case Question :: TYPE_MATCHING:
-				$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $user_question->get_question_id());
-				$clo_answers = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
-				while ($clo_answer = $clo_answers->next_result())
-				{
-					$answers[] = $this->get_link($clo_answer->get_ref());
-				}
-				$sorted_answers = $this->sort($answers);
-				$index = $extra_value;
-				$user_answer = $sorted_answers[$index];
-				return $user_answer['answer']->get_id();
 			default: 
 				return $extra_value;
 		}
@@ -163,7 +182,6 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		$user_questions = $db->retrieve_user_questions($condition);
 		while ($user_question = $user_questions->next_result())
 		{
-			//print_r($user_question);
 			$score += self :: calculate_question_score($user_question);
 		}
 		return $score;
@@ -178,12 +196,8 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		$user_answers = WeblcmsDataManager :: get_instance()->retrieve_user_answers($condition);
 		while ($user_answer = $user_answers->next_result())
 		{
-			//echo 'uas'.$user_answer->get_score().'<br/>';
-			//echo 'uasavg'.($user_answer->get_score() * $user_question->get_weight()) / $maxscore.'<br/>';
-			//echo 'uasavg2'.($user_answer->get_score().$user_question->get_weight()).$maxscore.'<br/>';
 			$score += ($user_answer->get_score() * $user_question->get_weight()) / $maxscore;
 		}
-		//echo 'tqs'.$score.'<br/>';
 		return $score;
 	}
 	
@@ -207,51 +221,10 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 				$clo_answers = $rdm->retrieve_complex_learning_object_items($condition);
 				while ($clo_answer = $clo_answers->next_result())
 				{
-					//echo 'cloas'.$clo_answer->get_score().' ';
 					$score += $clo_answer->get_score();
 				}	
 				return $score;
 		}
-	}
-	
-	//TODO: MOVE out of this class..
-	function sort($matches)
-	{
-		$num = count($matches);
-		
-		for ($pos = 0; $pos < $num; $pos++)
-		{
-			$largest = 0;
-			$largest_pos = -1;
-			for ($counter = $pos; $counter < $num; $counter++)
-			{
-				$display = $matches[$counter]['display_order'];
-				if ($display > $largest)
-				{
-					$largest = $display;
-					$largest_pos = $counter;
-				}
-			}
-			//switchen
-			if ($largest_pos != -1) 
-			{
-				$temp = $matches[$pos];
-				$matches[$pos] = $matches[$largest_pos];
-				$matches[$largest_pos] = $temp;
-			}
-		}
-		
-		return $matches;
-	}
-	
-	function get_link($answer_id)
-	{
-		$dm = RepositoryDataManager :: get_instance();
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $answer_id);
-		$clo_answers = $dm->retrieve_complex_learning_object_items($condition);
-		
-		$clo_answer = $clo_answers->next_result();
-		return array('answer' => $dm->retrieve_learning_object($clo_answer->get_ref(), 'answer'), 'score' => $clo_answer->get_score(), 'display_order' => $clo_answer->get_display_order());
 	}
 }
 ?>
