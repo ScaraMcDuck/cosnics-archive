@@ -14,6 +14,8 @@ class AdminSystemAnnouncements extends AdminBlock
 	
 	function as_html()
 	{
+		$configuration = $this->get_configuration();
+		$show_when_empty = $configuration['show_when_empty'];
 		$html = array();
 		
 		$announcements = $this->get_parent()->retrieve_system_announcement_publications();
@@ -23,13 +25,23 @@ class AdminSystemAnnouncements extends AdminBlock
 			$html[] = $this->display_header();
 			$html[] = $this->get_system_announcements($announcements);
 			$html[] = $this->display_footer();
-			
-			return implode("\n", $html);
 		}
 		else
 		{
-			return '';
+			if($show_when_empty)
+			{
+				$html[] = $this->display_header();
+			}
+			
+			$html[] = Translation :: get('NoSystemAnnouncementsCurrently');
+			
+			if($show_when_empty)
+			{			
+				$html[] = $this->display_footer();
+			}
 		}
+		
+		return implode("\n", $html);
 	}
 	
 	function get_system_announcements($announcements)
