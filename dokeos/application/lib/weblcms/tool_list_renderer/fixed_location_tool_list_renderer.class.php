@@ -259,7 +259,8 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				if($section->get_type() == CourseSection :: TYPE_TOOL)
 				{
 					$html[] = '<div id="tool_' . $tool->id . '" class="tool" style="display:inline">';
-					$html[] = '<div id="drag_' . $tool->id . '" class="tooldrag" style="width: 20px; cursor: pointer; display:none;"><img src="'. Theme :: get_common_img_path() .'action_drag.png" alt="'. Translation :: get('DragAndDrop') .'" title="'. Translation :: get('DragAndDrop') .'" /></div>';
+					//$html[] = '<div id="drag_' . $tool->id . '" class="tooldrag" style="width: 20px; cursor: pointer; display:none;"><img src="'. Theme :: get_common_img_path() .'action_drag.png" alt="'. Translation :: get('DragAndDrop') .'" title="'. Translation :: get('DragAndDrop') .'" /></div>';
+					$id = 'id="drag_' . $tool->id .'"';
 				}
 				
 				// Show visibility-icon
@@ -271,9 +272,9 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				
 				// Show tool-icon + name
 				
-				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
-				$html[] = '<img src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
+				$html[] = '<img ' . $id . ' src="'.Theme :: get_img_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
 				$html[] = '&nbsp;';
+				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
 				$html[] = $title;
 				$html[] = '</a>';
 				if($section->get_type() == CourseSection :: TYPE_TOOL)
