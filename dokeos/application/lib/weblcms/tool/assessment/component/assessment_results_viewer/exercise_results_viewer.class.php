@@ -23,11 +23,21 @@ class ExerciseResultsViewer extends ResultsViewer
 		$dm = RepositoryDataManager :: get_instance();
 		$db = WeblcmsDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(UserQuestion :: PROPERTY_USER_ASSESSMENT_ID, $uaid);
-		$user_questions = $db->retrieve_user_questions($condition);
-		while ($user_question = $user_questions->next_result())
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, parent :: get_user_assessment()->get_assessment_id());
+		//$condition = new EqualityCondition(UserQuestion :: PROPERTY_USER_ASSESSMENT_ID, $uaid);
+		//$user_questions = $db->retrieve_user_questions($condition);
+		$clo_questions = $dm->retrieve_complex_learning_object_items($condition);
+		//while ($user_question = $user_questions->next_result())
+		while($clo_question = $clo_questions->next_result())
 		{
-			$question_result = QuestionResult :: create_question_result($this, $user_question, $this->get_edit_rights());
+			$question = $dm->retrieve_learning_object($clo_question->get_ref(), 'question');
+			$conditionQ = new EqualityCondition(UserQuestion :: PROPERTY_QUESTION_ID, $clo_question->get_ref());
+			$conditionA = new EqualityCondition(UserQuestion :: PROPERTY_USER_ASSESSMENT_ID, $uaid);
+			$condition = new AndCondition($conditionQ, $conditionA);
+			$user_question = $db->retrieve_user_questions($condition)->next_result();
+			echo $clo_question->get_ref().' '.$uaid;
+			print_r($user_question);
+			$question_result = QuestionResult :: create_question_result($this, $question, $user_question, $this->get_edit_rights());
 			$question_result->display_exercise();
 		}
 		if ($_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')

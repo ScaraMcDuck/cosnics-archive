@@ -35,14 +35,17 @@ abstract class QuestionResult
 	function init()
 	{
 		$dm = RepositoryDataManager :: get_instance();
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->user_question->get_question_id());
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->question->get_id());
 		$this->clo_question = $dm->retrieve_complex_learning_object_items($condition)->next_result();
-		$condition = new EqualityCondition(UserAnswer :: PROPERTY_USER_QUESTION_ID, $this->user_question->get_id());
-		$answers = WeblcmsDataManager :: get_instance()->retrieve_user_answers($condition);
-		
-		while ($user_answer = $answers->next_result())
+		if ($this->user_question != null)
 		{
-			$this->user_answers[] = $user_answer;
+			$condition = new EqualityCondition(UserAnswer :: PROPERTY_USER_QUESTION_ID, $this->user_question->get_id());
+			$answers = WeblcmsDataManager :: get_instance()->retrieve_user_answers($condition);
+			
+			while ($user_answer = $answers->next_result())
+			{
+				$this->user_answers[] = $user_answer;
+			}
 		}
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->question->get_id());
 		$clo_answers = $dm->retrieve_complex_learning_object_items($condition);
@@ -127,15 +130,21 @@ abstract class QuestionResult
 	function display_feedback()
 	{
 		$this->formvalidator->addElement('html', '<br/><div class="title">Feedback:</div>');
-		$feedback_id = $this->user_question->get_feedback();
-		//echo $feedback_id;
-		if ($feedback_id != null)
+		if ($this->user_question != null)
 		{
-			$feedback_lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($feedback_id, 'feedback');
-			$this->formvalidator->addElement('html', '<div class="description">'.$feedback_lo->get_description().$this->render_attachments($feedback_lo).'</div>');
+			$feedback_id = $this->user_question->get_feedback();
+			if ($feedback_id != null)
+			{
+				$feedback_lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($feedback_id, 'feedback');
+				$this->formvalidator->addElement('html', '<div class="description">'.$feedback_lo->get_description().$this->render_attachments($feedback_lo).'</div>');
+			}
+			else
+				$this->formvalidator->addElement('html', '<div class="description">No feedback yet</div>');
 		}
 		else
-			$this->formvalidator->addElement('html', '<div class="description">No feedback yet</div>');
+		{
+			$this->formvalidator->addElement('html', '<div class="description">Question not answered, no feedback possible</div>');
+		}
 	}
 	
 	function render_attachments($object)
@@ -198,9 +207,9 @@ abstract class QuestionResult
 		$this->formvalidator->addElement('html', '</div>');
 	}
 	
-	static function create_question_result($formvalidator, $user_question, $edit_rights)
+	static function create_question_result($formvalidator, $question, $user_question, $edit_rights)
 	{
-		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_question->get_question_id());
+
 		switch ($question->get_question_type())
 		{
 			case Question :: TYPE_DOCUMENT:
