@@ -8,6 +8,7 @@ class MultipleAnswerQuestionResult extends QuestionResult
 	{
 		$this->display_question_header();
 		
+		$clo_question = $this->get_clo_question();
 		$user_question = $this->get_user_question();
 		$user_answers = $this->get_user_answers();
 		$clo_answers = $this->get_clo_answers();
@@ -21,9 +22,9 @@ class MultipleAnswerQuestionResult extends QuestionResult
 			$user_score_div += $clo_answer->get_score();
 		}
 		
-		$user_question_score = $user_score / $user_score_div * $user_question->get_weight();
+		$user_question_score = $user_score / $user_score_div * $clo_question->get_weight();
 		
-		$score_line = Translation :: get('Score').': '.$user_question_score.'/'.$user_question->get_weight();
+		$score_line = Translation :: get('Score').': '.$user_question_score.'/'.$clo_question->get_weight();
 		$this->display_score($score_line);
 		
 		foreach ($user_answers as $user_answer)

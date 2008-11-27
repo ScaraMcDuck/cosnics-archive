@@ -49,6 +49,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	function build_answers($tester_form, $assessment, $datamanager)
 	{
 		$values = $tester_form->exportValues();
+		print_r($values);
 		$user_assessment = new UserAssessment();
 		$user_assessment->set_assessment_id($assessment->get_id());
 		$user_assessment->set_user_id(parent :: get_user_id());
@@ -64,19 +65,22 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	function add_user_answer($datamanager, $user_assessment, $key, $value)
 	{
 		if ($key != 'submit') {
+			print_r($_FILES[$key]);
 			$parts = split("_", $key);
-			$user_question = $this->get_question($datamanager, $user_assessment, $parts[0]);
-			$answer = new UserAnswer();
-			$answer->set_id($datamanager->get_next_user_answer_id());
-			$answer->set_user_question_id($user_question->get_id());
-			$answer->set_answer_id($parts[1]);
-			$answer->set_extra($this->get_extra($user_question, $value));
-			$answer->set_score($this->get_score($user_question, $answer));
-			$datamanager->create_user_answer($answer);
+			if (is_numeric($parts[0])) {
+				$user_question = $this->get_question($datamanager, $user_assessment, $parts[0]);
+				$answer = new UserAnswer();
+				$answer->set_id($datamanager->get_next_user_answer_id());
+				$answer->set_user_question_id($user_question->get_id());
+				$answer->set_answer_id($parts[1]);
+				$answer->set_extra($this->get_extra($user_question, $value, $_FILES[$key]));
+				$answer->set_score($this->get_score($user_question, $answer));
+				$datamanager->create_user_answer($answer);
+			}
 		}
 	}
 	
-	function get_extra($user_question, $extra_value)
+	function get_extra($user_question, $extra_value, $file = null)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		$question = $rdm->retrieve_learning_object($user_question->get_question_id(), 'question');
@@ -159,7 +163,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		$user_questions = $db->retrieve_user_questions($condition);
 		while ($user_question = $user_questions->next_result())
 		{
-			print_r($user_question);
+			//print_r($user_question);
 			$score += self :: calculate_question_score($user_question);
 		}
 		return $score;
