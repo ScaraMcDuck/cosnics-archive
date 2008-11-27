@@ -87,7 +87,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare('SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_TYPE).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?');
 		$res = $statement->execute($id);
-		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED); 
 		return $record[0];
 	}
 
@@ -97,22 +97,21 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (is_null($type))
 		{
 			$type = $this->determine_learning_object_type($id);
-		}
+		} 
 		if ($this->is_extended_type($type))
 		{
 			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'='.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
-			
 		}
 		else
 		{
 			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
-		}
+		} 
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$res->free();
-		return self :: record_to_learning_object($record, true);
+		return self :: record_to_learning_object($record, isset($type));
 	}
 
 	// Inherited.
@@ -198,7 +197,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$maxObjects = null;
 		}
-		//echo $query;
+		//echo $query; dump($params);
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
@@ -802,7 +801,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$defaultProp[LearningObject :: PROPERTY_MODIFICATION_DATE] = self :: from_db_date($defaultProp[LearningObject :: PROPERTY_MODIFICATION_DATE]);
 		
 		$learning_object = LearningObject :: factory($record[LearningObject :: PROPERTY_TYPE], $record[LearningObject :: PROPERTY_ID], $defaultProp);
-		
+	
 		if ($additional_properties_known)
 		{
 			$properties = $learning_object->get_additional_property_names();

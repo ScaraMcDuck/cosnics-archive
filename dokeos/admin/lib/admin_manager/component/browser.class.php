@@ -54,7 +54,11 @@ class AdminBrowserComponent extends AdminManagerComponent
 					
 				foreach ($application_links['links'] as $link)
 				{
-					$html[] = '<div class="action"><a href="'.$link['url'] .'"><img src="'. Theme :: get_img_path() .'action_'. $link['action'] .'.png" alt="'. $link['name'] .'" title="'. $link['name'] .'"/><br />'.$link['name'].'</a></div>';
+					if($link['confirm'])
+					{
+						$onclick = 'onclick = "return confirm(\'' . $link['confirm'] . '\')"';
+					}
+					$html[] = '<div class="action"><a href="'.$link['url'] .'" ' . $onclick . '><img src="'. Theme :: get_img_path() .'action_'. $link['action'] .'.png" alt="'. $link['name'] .'" title="'. $link['name'] .'"/><br />'.$link['name'].'</a></div>';
 				}
 				
 				$html[] = '</div>';

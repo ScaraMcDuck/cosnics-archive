@@ -370,7 +370,7 @@ EOT;
 		$object->set_owner_id($this->get_owner_id());
 		$object->set_title($values[LearningObject :: PROPERTY_TITLE]);
 		$desc = $values[LearningObject :: PROPERTY_DESCRIPTION]?$values[LearningObject :: PROPERTY_DESCRIPTION]:'';
-		$object->set_description($desc);
+		$object->set_description($desc?$desc:'');
 		if ($this->allows_category_selection())
 		{
 			$object->set_parent_id($values[LearningObject :: PROPERTY_PARENT_ID]);
@@ -408,7 +408,7 @@ EOT;
 
 		$object->set_title($values[LearningObject :: PROPERTY_TITLE]);
 		$desc = $values[LearningObject :: PROPERTY_DESCRIPTION]?$values[LearningObject :: PROPERTY_DESCRIPTION]:'';
-		$object->set_description($desc);
+		$object->set_description($desc?$desc:'');
 		if ($this->allows_category_selection())
 		{
 			$parent = $values[LearningObject :: PROPERTY_PARENT_ID];
