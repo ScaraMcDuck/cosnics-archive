@@ -21,10 +21,15 @@ class SurveyResultsViewer extends ResultsViewer
 		$dm = RepositoryDataManager :: get_instance();
 		$db = WeblcmsDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(UserQuestion :: PROPERTY_USER_ASSESSMENT_ID, $uaid);
-		$user_questions = $db->retrieve_user_questions($condition);
-		while ($user_question = $user_questions->next_result())
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, parent :: get_user_assessment()->get_assessment_id());
+		$clo_questions = $dm->retrieve_complex_learning_object_items($condition);
+		while($clo_question = $clo_questions->next_result())
 		{
+			$question = $dm->retrieve_learning_object($clo_question->get_ref(), 'question');
+			$conditionQ = new EqualityCondition(UserQuestion :: PROPERTY_QUESTION_ID, $clo_question->get_ref());
+			$conditionA = new EqualityCondition(UserQuestion :: PROPERTY_USER_ASSESSMENT_ID, $uaid);
+			$condition = new AndCondition($conditionQ, $conditionA);
+			$user_question = $db->retrieve_user_questions($condition)->next_result();
 			$question_result = QuestionResult :: create_question_result($this, $user_question, $this->get_edit_rights());
 			$question_result->display_survey();
 		}

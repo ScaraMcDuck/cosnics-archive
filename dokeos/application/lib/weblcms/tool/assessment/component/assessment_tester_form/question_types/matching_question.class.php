@@ -16,7 +16,6 @@ class MatchingQuestionDisplay extends QuestionDisplay
 		{
 			$name = $this->get_clo_question()->get_ref().'_'.$answer['answer']->get_id();
 			$formvalidator->addElement('select', $name, $answer['answer']->get_description(), $this->get_values($matches));
-			//$formvalidator->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
 		}
 		$formvalidator->addElement('html', '</p><br/><b>'.Translation :: get('Matches').' :</b><p>');
 		
@@ -35,8 +34,23 @@ class MatchingQuestionDisplay extends QuestionDisplay
 		foreach ($answers as $answer) 
 		{
 			$answer_id = $answer['answer']->get_id();
-			$links[] = $this->get_link($answer_id);
+			$link = $this->get_link($answer_id);
+			$links = $this->check_links($links, $link);
 		}
+		return $links;
+	}
+	
+	function check_links($links, $link) 
+	{
+		$exists = false;
+		foreach ($links as $existing_link)
+		{
+			if ($link['answer']->get_id() == $existing_link['answer']->get_id())
+				$exists = true;
+		}
+		if (!$exists)
+			$links[] = $link;
+			
 		return $links;
 	}
 	
@@ -48,7 +62,7 @@ class MatchingQuestionDisplay extends QuestionDisplay
 		{
 			$match = $matches[$i];
 			$match_i = $match['answer'];
-			$values[$i] = $i+1;
+			$values[$match_i->get_id()] = $i+1;
 		}
 		return $values;
 	}

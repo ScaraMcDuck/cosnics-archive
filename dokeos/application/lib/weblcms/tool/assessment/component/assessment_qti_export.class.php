@@ -14,7 +14,6 @@ class AssessmentToolQtiExportComponent extends AssessmentToolComponent
 	function run()
 	{
 		$pid = $_GET[AssessmentTool :: PARAM_PUBLICATION_ID];
-		//echo $pid;
 		
 		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
 		$assessment = $publication->get_learning_object();
