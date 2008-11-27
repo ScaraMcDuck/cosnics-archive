@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="group">
+	<settings>
+		<category name="general">
+	    	<setting name="use_session_mode" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+		</category>
+	</settings>
+</application>

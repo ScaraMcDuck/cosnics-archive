@@ -1,7 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application name="weblcms">
 	<settings>
-	    <category name="general">
+		<category name="general">
+	    	<setting name="create_example_material" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="allow_user_headings" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="allow_student_view" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+		</category>
+		<category name="tools">
+			<setting name="enable_introduction" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+	    	<setting name="default_forum_view" field="radio" default="flat">
+				<options type="static">
+					<option name="flat" value="flat" />
+					<option name="threaded" value="threaded" />
+					<option name="nested" value="nested" />
+				</options>
+			</setting>
+			<setting name="announcement_active" field="checkbox">
+				<options type="static"><option name="announcement_active" value="1" /></options>
+			</setting>
+			<setting name="assessments_active" field="checkbox">
+				<options type="static"><option name="assessments_active" value="1" /></options>
+			</setting>
+			<setting name="calendar_active" field="checkbox">
+				<options type="static"><option name="calendar_active" value="1" /></options>
+			</setting>
+			<setting name="chat_active" field="checkbox">
+				<options type="static"><option name="chat_active" value="1" /></options>
+			</setting>
+			<setting name="groups_active" field="checkbox">
+				<options type="static"><option name="groups_active" value="1" /></options>
+			</setting>
+			<setting name="description_active" field="checkbox">
+				<options type="static"><option name="description_active" value="1" /></options>
+			</setting>
+			<setting name="documents_active" field="checkbox">
+				<options type="static"><option name="documents_active" value="1" /></options>
+			</setting>
+			<setting name="forum_active" field="checkbox">
+				<options type="static"><option name="forum_active" value="1" /></options>
+			</setting>
+			<setting name="learning_path_active" field="checkbox">
+				<options type="static"><option name="learning_path_active" value="1" /></options>
+			</setting>
+			<setting name="links_path_active" field="checkbox">
+				<options type="static"><option name="links_path_active" value="1" /></options>
+			</setting>
+			<setting name="search_active" field="checkbox">
+				<options type="static"><option name="search_active" value="1" /></options>
+			</setting>
+			<setting name="users_active" field="checkbox">
+				<options type="static"><option name="users_active" value="1" /></options>
+			</setting>
+			<setting name="wiki_active" field="checkbox">
+				<options type="static"><option name="wiki_active" value="1" /></options>
+			</setting>
+			<setting name="allow_dropbox_overwrite" field="radio" default="flat">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="display_small_month_calendar" field="radio" default="flat">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="display_upcomming_events" field="radio" default="flat">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="amount_of_upcomming_events" field="text" default="10" />
+		</category>
+	    <category name="course_specific_rights">
 	    	<setting name="allow_course_theme_selection" field="radio" default="0">
 				<options type="static">
 					<option name="true" value="1" />
@@ -59,6 +152,54 @@
 				<options type="dynamic" source="get_breadcrumb_options" />
 			</setting>
 			<setting name="feedback" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="display_course_code_in_title" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="display_teacher_in_title" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="show_course_languages" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="show_number_of_courses" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="show_empty_course_categories" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="show_back_link" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="display_categories_on_homepage" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="display_closed_courses" field="radio" default="0">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
