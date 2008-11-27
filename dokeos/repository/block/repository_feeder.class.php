@@ -21,7 +21,7 @@ class RepositoryFeeder extends RepositoryBlock
 		$html = array();
 		$html[] = $this->display_header();	
 		
-		if (!isset($object_id))
+		if (!isset($object_id) || $object_id == 0)
 		{
 			$html[] = Translation :: get('ConfigureBlockFirst');
 		}

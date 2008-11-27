@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <block name="admin_system_announcements">
 	<settings>
-		<category name="object">
+		<category name="display">
 			<setting name="show_when_empty" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />

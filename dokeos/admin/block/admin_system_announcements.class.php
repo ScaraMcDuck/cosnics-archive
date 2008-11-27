@@ -31,12 +31,7 @@ class AdminSystemAnnouncements extends AdminBlock
 			if($show_when_empty)
 			{
 				$html[] = $this->display_header();
-			}
-			
-			$html[] = Translation :: get('NoSystemAnnouncementsCurrently');
-			
-			if($show_when_empty)
-			{			
+				$html[] = Translation :: get('NoSystemAnnouncementsCurrently');
 				$html[] = $this->display_footer();
 			}
 		}
