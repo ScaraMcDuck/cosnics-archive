@@ -19,6 +19,7 @@ class PersonalMessagePublisher extends Publisher
 	{
 		parent :: __construct($parent, $types, $mail_option = false);
 		$this->set_publisher_actions(array ('creator','browser', 'finder'));
+		$this->parse_input_from_table();
 	}
 
 	/**

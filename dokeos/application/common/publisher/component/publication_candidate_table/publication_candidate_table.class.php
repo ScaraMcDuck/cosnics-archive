@@ -37,10 +37,6 @@ class PublicationCandidateTable extends ObjectTable
 		$actions = array();
 		$actions[Publisher :: PARAM_PUBLISH_SELECTED] = Translation :: get('PublishSelected');
 		$this->set_form_actions($actions);
-		
-		$redirect_params = array_merge($parent->get_parent()->get_parent()->get_parameters(), $parent->get_parameters(), array(Publisher :: PARAM_ACTION => 'multipublisher'));
-		
-		$this->set_additional_parameters($redirect_params);
 	}
 }
 ?>

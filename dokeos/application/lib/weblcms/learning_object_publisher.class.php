@@ -24,6 +24,7 @@ class LearningObjectPublisher extends Publisher
 		parent :: __construct($parent, $types, $mail_option);
 		$this->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH);
 		$this->set_publisher_actions(array ('creator','browser', 'finder'));
+		$this->parse_input_from_table();
 	}
 
 	/**
