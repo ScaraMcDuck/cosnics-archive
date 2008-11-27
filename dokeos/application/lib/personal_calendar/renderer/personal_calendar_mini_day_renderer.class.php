@@ -11,24 +11,33 @@ require_once (Path :: get_application_library_path().'mini_day_calendar.class.ph
  */
 class PersonalCalendarMiniDayRenderer extends PersonalCalendarRenderer
 {
+	private $hour_step;
+	private $start_hour;
+	private $end_hour;
+	
+	public function PersonalCalendarMiniDayRenderer($personal_calendar, $display_time, $hour_step = '1', $start_hour = '0', $end_hour = '24')
+	{
+		$this->hour_step = $hour_step;
+		$this->start_hour = $start_hour;
+		$this->end_hour = $end_hour;
+		parent :: __construct($personal_calendar, $display_time);
+	}
+	
 	/**
 	 * @see PersonalCalendarRenderer::render()
 	 */
 	public function render()
 	{
-		$calendar = new MiniDayCalendar($this->get_time());
-		$from_date = strtotime(date('Y-m-d 00:00:00', $this->get_time()));
-		$to_date = strtotime(date('Y-m-d 23:59:59', $this->get_time()));
+		$calendar = new MiniDayCalendar($this->get_time(), $this->hour_step, $this->start_hour, $this->end_hour);
+		$from_date = $calendar->get_start_time();
+		$to_date = $calendar->get_end_time();
 		$events = $this->get_events($from_date, $to_date);
+		
 		$html = array ();
 		
 		$start_time = $calendar->get_start_time();
 		$end_time = $calendar->get_end_time();
 		$table_date = $start_time;
-		
-		//$start_time = $calendar->get_start_time();
-		//$end_time = $calendar->get_end_time();
-		//$table_date = $start_time;
 		
 		while($table_date <= $end_time)
 		{
@@ -51,7 +60,7 @@ class PersonalCalendarMiniDayRenderer extends PersonalCalendarRenderer
 		$parameters['time'] = '-TIME-';
 		$calendar->add_calendar_navigation($this->get_parent()->get_url($parameters));
 		$html = $calendar->toHtml();
-		$html .= $this->build_legend();
+		//$html .= $this->build_legend();
 		return $html;
 	}
 	
@@ -62,9 +71,39 @@ class PersonalCalendarMiniDayRenderer extends PersonalCalendarRenderer
 	 */
 	private function render_event($event, $table_start_date, $calendar_hour_step)
 	{
-		//$html[] = '<a href="'.$event->get_url().'"><img border="0" alt="'.$event->get_title().'" src="'.Theme :: get_common_img_path().'action_posticon.png"/></a>';
-		$html[] = '<img border="0" alt="'.$event->get_title().'" src="'.Theme :: get_common_img_path().'action_posticon.png"/>';
-		return implode("\n",$html);
+		$table_end_date = strtotime('+'.$calendar_hour_step.' Hours',$table_start_date);
+		$start_date = $event->get_start_date();
+		$end_date = $event->get_end_date();
+		
+		$html[] = '<div class="event" style="border-left: 5px solid '.$this->get_color(Translation :: get(Application :: application_to_class($event->get_source()))).';">';
+		
+		if($start_date >= $table_start_date && $start_date < $table_end_date)
+		{
+			$html[] = date('H:i',$start_date);
+		}
+		else
+		{
+			$html[] = '&darr;';
+		}
+		
+		$html[] = '<a href="'.$event->get_url().'">';
+		$html[] = htmlspecialchars($event->get_title());
+		$html[] = '</a>';
+		
+		if ($start_date != $end_date && $end_date > strtotime('+'. $calendar_hour_step .' hours', $start_date))
+		{
+			if($end_date > $table_start_date && $end_date <= $table_end_date)
+			{
+				$html[] = date('H:i',$end_date);
+			}
+			else
+			{
+				$html[] = '&darr;';
+			}
+		}
+		
+		$html[] = '</div>';
+		return implode("\n", $html);
 	}
 }
 ?>

@@ -55,6 +55,7 @@ class FormValidator extends HTML_QuickForm
 		$dir = dirname(__FILE__).'/';
 		$this->registerElementType('html_editor', $dir.'Element/html_editor.php', 'HTML_QuickForm_html_editor');
 		$this->registerElementType('datepicker', $dir.'Element/datepicker.php', 'HTML_QuickForm_datepicker');
+		$this->registerElementType('timepicker', $dir.'Element/timepicker.php', 'HTML_QuickForm_timepicker');
 		$this->registerElementType('receivers', $dir.'Element/receivers.php', 'HTML_QuickForm_receivers');
 		$this->registerElementType('select_language', $dir.'Element/select_language.php', 'HTML_QuickForm_Select_Language');
 		$this->registerElementType('upload_or_create', $dir.'Element/upload_or_create.php', 'HTML_QuickForm_upload_or_create');

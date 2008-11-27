@@ -23,12 +23,18 @@ class PersonalCalendarDay extends PersonalCalendarBlock
 	 */
 	function as_html()
 	{
+		$configuration = $this->get_configuration();
+		
+		$hour_step = $configuration['hour_step'];
+		$time_start = $configuration['time_start'];
+		$time_end = $configuration['time_end'];
+		
 		$html = array();
 		
 		$html[] = $this->display_header();
 		
 		$time = isset ($_GET['time']) ? intval($_GET['time']) : time();
-		$minidaycalendar = new PersonalCalendarMiniDayRenderer($this->get_parent(), $time, 'link');
+		$minidaycalendar = new PersonalCalendarMiniDayRenderer($this->get_parent(), $time, $hour_step, $time_start, $time_end);
 		$html[] =   $minidaycalendar->render();
 		
 		$html[] = $this->display_footer();

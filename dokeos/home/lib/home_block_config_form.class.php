@@ -27,7 +27,7 @@ class HomeBlockConfigForm extends FormValidator {
     }
     
     function build_form()
-    {
+    {    	
 		$homeblock = $this->homeblock;
 		$base_path = $this->base_path;
 		
