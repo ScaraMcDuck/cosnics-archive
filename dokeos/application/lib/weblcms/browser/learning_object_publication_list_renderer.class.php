@@ -282,6 +282,7 @@ abstract class LearningObjectPublicationListRenderer
 		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $this->browser->get_parent()->get_course_id());
 		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, $this->browser->get_parent()->get_tool_id());
 		$count = WeblcmsDataManager :: get_instance()->count_learning_object_publication_categories(new AndCondition($conditions));
+		$count++;
 		if($count > 1)
 		{
 			$url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
@@ -307,14 +308,21 @@ abstract class LearningObjectPublicationListRenderer
 			$attachments = $object->get_attached_learning_objects();
 			if(count($attachments)>0)
 			{
-				$html[] = '<ul class="attachments_list">';
+				$html[] = '<h4>Attachments</h4>';
 				DokeosUtilities :: order_learning_objects_by_title($attachments);
 				foreach ($attachments as $attachment)
 				{
 					$disp = LearningObjectDisplay :: factory($attachment);
-					$html[] = '<li><img src="'.Theme :: get_common_img_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+					$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_img_path().'learning_object/'.$attachment->get_icon_name().$icon_suffix.'.png);">';
+					$html[] = '<div class="title">';
+					$html[] = $attachment->get_title();
+					$html[] = '</div>';
+					$html[] = '<div class="description">';
+					$html[] = $attachment->get_description();
+					$html[] = '</div>';
+					//$html[] = '<li><img src="'.Theme :: get_common_img_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
-				$html[] = '</ul>';
+				//$html[] = '</ul>';
 				return implode("\n",$html);
 			}
 		}

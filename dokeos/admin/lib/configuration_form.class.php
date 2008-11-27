@@ -83,7 +83,10 @@ class ConfigurationForm extends FormValidator
 							$group = array();
 							foreach ($options as $option_value => $option_name)
 							{
-								$group[] =& $this->createElement($setting['field'], $name, null,Translation :: get(DokeosUtilities :: underscores_to_camelcase($option_name)),$option_value);
+								if($setting['field'] == 'checkbox')
+									$group[] =& $this->createElement($setting['field'], $name, null,null,$option_value);
+								else
+									$group[] =& $this->createElement($setting['field'], $name, null,Translation :: get(DokeosUtilities :: underscores_to_camelcase($option_name)),$option_value);
 							}
 							$this->addGroup($group, $name, Translation :: get(DokeosUtilities :: underscores_to_camelcase($name)), '<br/>', false);
 						}

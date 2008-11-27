@@ -13,10 +13,43 @@
 			<setting name="administrator_email" field="text" default="dokeos.admin@mydokeos.com" />
 			<setting name="administrator_telephone" field="text" default="000/1234567" />
 		</category>
+		<category name="whoisonline">
+			<setting name="whoisonlineworld" field="checkbox">
+				<options type="static">
+					<option name="world" value="1" />
+				</options>
+			</setting>
+			<setting name="whoisonlineregistered" field="checkbox">
+				<options type="static"><option name="registered" value="1" /></options>
+			</setting>
+			<setting name="whoisonlineapplication" field="checkbox">
+				<options type="static"><option name="application" value="1" /></options>
+			</setting>
+			<setting name="timelimit" field="text" default="30" />
+		</category>
 		<category name="platform">
 			<setting name="site_name" field="text" default="LCMS" />
 			<setting name="institution" field="text" default="Dokeos" />
 			<setting name="institution_url" field="text" default="http://www.dokeos.com" />
+			<setting name="no_reply_email" field="text" default="" />
+			<setting name="page_after_login" field="radio" default="0">
+				<options type="static">
+					<option name="homepage" value="home" />
+					<option name="courses" value="weblcms" />
+				</options>
+			</setting>
+			<setting name="public_pages_compliance_to_wai" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="hide_dcda_markup" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
 		</category>
 		<category name="visual">
 			<setting name="platform_language" field="select" default="english">
@@ -34,18 +67,25 @@
 				</options>
 			</setting>
 			<setting name="version" field="text" default="2.0" locked="true"/>
-			<setting name="allow_password_retrieval" field="radio" default="0">
+		</category>
+		<category name="security">
+			<setting name="type_of_filtering" field="radio" default="blacklist">
 				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
+					<option name="blacklist" value="blacklist" />
+					<option name="whitelist" value="whitelist" />
 				</options>
 			</setting>
-			<setting name="allow_registration" field="radio" default="0">
+			<setting name="blacklist" field="text" default="" />
+			<setting name="whitelist" field="text" default="" />
+			<setting name="filter_behavior" field="radio" default="remove">
 				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
+					<option name="remove" value="remove" />
+					<option name="rename" value="rename" />
 				</options>
 			</setting>
+			<setting name="replacement_extension" field="text" default="" />
+			<setting name="permissions_new_directories" field="text" default="0770" />
+			<setting name="permissions_new_files" field="text" default="0660" />
 		</category>
 	</settings>
 </application>

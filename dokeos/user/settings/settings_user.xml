@@ -32,6 +32,12 @@
 					<option name="false" value="0" />
 				</options>
 			</setting>
+			<setting name="allow_change_phone" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
 			<setting name="allow_change_official_code" field="radio" default="0">
 				<options type="static">
 					<option name="true" value="1" />
@@ -39,6 +45,57 @@
 				</options>
 			</setting>
 			<setting name="allow_change_password" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="allow_personal_agenda" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+		</category>
+		<category name="registration">
+			<setting name="require_official_code" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="require_email" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="require_language" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="allow_password_retrieval" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="allow_registration" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="allow_teacher_registration" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
+			<setting name="days_valid" field="text" default="3660" />
+			<setting name="show_email_addresses" field="radio" default="0">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />

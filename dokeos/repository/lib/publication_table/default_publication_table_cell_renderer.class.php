@@ -37,7 +37,26 @@ class DefaultPublicationTableCellRenderer implements ObjectTableCellRenderer
 				case LearningObjectPublicationAttributes :: PROPERTY_LOCATION :
 					return $learning_object_publication->get_location();
 				case LearningObject :: PROPERTY_TITLE :
-					return $learning_object_publication->get_publication_object()->get_title();
+					
+					$application = $learning_object_publication->get_application();
+					$url = 'run.php?application=' . $application;
+					
+					if($application == 'weblcms')
+					{
+						$location = $learning_object_publication->get_location();
+						$codes = explode("&gt;",$location); 
+						$course = trim($codes[0]);
+						$tool = trim($codes[1]);
+						$url .= '&go=courseviewer&course=' . $course . '&tool=' . $tool . '&tool_action=view';
+					}
+					else
+					{
+						$url .= '&go=view';
+					}
+					
+					$url = '<a href="' . $url . '&pid=' . $learning_object_publication->get_publication_object_id() . '">';
+				
+					return $url . $learning_object_publication->get_publication_object()->get_title() . '</a>';
 				case LearningObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE :
 					return date('Y-m-d, H:i', $learning_object_publication->get_publication_date());
 			}
