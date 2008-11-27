@@ -18,9 +18,16 @@ class BlockRepositoryConnector
 		$rdm = RepositoryDataManager :: get_instance();
 		$objects = $rdm->retrieve_learning_objects('rss_feed'); 
 		
-		while ($object = $objects->next_result())
+		if($objects->size() == 0)
 		{
-			$options[$object->get_id()] = $object->get_title();
+			$options[0] = Translation :: get('CreateRssFeedFirst');
+		}
+		else
+		{
+			while ($object = $objects->next_result())
+			{
+				$options[$object->get_id()] = $object->get_title();
+			}
 		}
 		
 		return $options;

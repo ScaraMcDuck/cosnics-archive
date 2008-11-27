@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/home_data_manager.class.php';
+require_once 'XML/Unserializer.php';
 
 class HomeBlock {
 
@@ -162,12 +163,75 @@ class HomeBlock {
 		$wdm = HomeDataManager :: get_instance();
 		$id = $wdm->get_next_home_block_id();
 		$this->set_id($id);
+		
 		$success_block = $wdm->create_home_block($this);
 		if (!$success_block)
 		{
 			return false;
 		}
+		
+		$success_settings = $this->create_initial_settings();		
+		if (!$success_settings)
+		{
+			return false;
+		}
 
+		return true;
+	}
+	
+	function create_initial_settings()
+	{
+		$application = $this->get_application();
+		
+		$base_path = (Application :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
+		$file = $base_path . $application . '/block/' . $application . '_'. $this->get_component() .'.xml';
+		
+		$result = array();
+		
+		echo $file;
+		
+		if (file_exists($file))
+		{
+			echo 'haha';
+			$unserializer = &new XML_Unserializer();
+			$unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
+			$unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
+			$unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
+			$unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
+			$unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('category', 'setting'));
+			
+			// userialize the document
+			$status = $unserializer->unserialize($file, true);    
+			
+			if (PEAR::isError($status))
+			{
+				echo 'Error: ' . $status->getMessage();
+			}
+			else
+			{
+				$data = $unserializer->getUnserializedData();
+				
+				dump($data);
+				
+				$setting_categories = $data['settings']['category'];
+				foreach ($setting_categories as $setting_category)
+				{
+					foreach($setting_category['setting'] as $setting)
+					{
+						$block_config = new HomeBlockConfig();
+						$block_config->set_block_id($this->get_id());
+						$block_config->set_variable($setting['name']);
+						$block_config->set_value($setting['default']);
+						
+						if (!$block_config->create())
+						{
+							return false;
+						}
+					}
+				}
+			}
+		}
+		exit;
 		return true;
 	}
 	
@@ -200,10 +264,19 @@ class HomeBlock {
 	
 	function is_configurable()
 	{
-		$hdm = HomeDataManager :: get_instance();
-		$condition = new EqualityCondition(HomeBlockConfig :: PROPERTY_BLOCK_ID, $this->get_id());
-		$count = $hdm->count_home_block_config($condition);
-		return ($count > 0);
+		$application = $this->get_application();
+		
+		$base_path = (Application :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
+		$file = $base_path . $application . '/block/' . $application . '_'. $this->get_component() .'.xml';
+		
+		if (file_exists($file))
+		{	
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
 ?>
