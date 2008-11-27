@@ -4,6 +4,7 @@
  */
 require_once Path :: get_library_path() . 'redirect.class.php';
 require_once Path :: get_repository_path() . 'lib/abstract_learning_object.class.php';
+require_once dirname(__FILE__).'/component/publication_candidate_table/publication_candidate_table.class.php';
 
 /**
 ==============================================================================
@@ -54,7 +55,7 @@ class Publisher
 		$this->types = (is_array($types) ? $types : array ($types));
 		$this->mail_option = $mail_option;
 		$this->set_publisher_actions(array ('creator','browser', 'finder'));
-		$this->set_parameter(Publisher :: PARAM_ACTION, $this->get_action());
+		$this->set_parameter(Publisher :: PARAM_ACTION, ($_GET[Publisher :: PARAM_ACTION] ? $_GET[Publisher :: PARAM_ACTION] : 'creator'));
 	}
 
 	/**
@@ -94,7 +95,12 @@ class Publisher
 	 */
 	function get_action()
 	{
-		return ($_GET[Publisher :: PARAM_ACTION] ? $_GET[Publisher :: PARAM_ACTION] : 'creator');
+		return $this->get_parameter(Publisher :: PARAM_ACTION);
+	}
+	
+	function set_action($action)
+	{
+		$this->set_parameter(Publisher :: PARAM_ACTION, $action);
 	}
 
 	function get_url($parameters = array(), $encode_entities = false, $filter = array())
@@ -175,6 +181,21 @@ class Publisher
 	function with_mail_option()
 	{
 		return $this->mail_option;
+	}
+	
+	function parse_input_from_table()
+	{
+		if (isset ($_POST['action']))
+		{
+			$selected_publication_ids = $_POST[PublicationCandidateTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			
+			switch ($_POST['action'])
+			{
+				case self :: PARAM_PUBLISH_SELECTED :
+					$this->set_action('multipublisher');
+					break;
+			}
+		}
 	}
 }
 ?>
