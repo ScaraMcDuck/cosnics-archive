@@ -14,21 +14,22 @@ class MiniDayCalendar extends DayCalendar
 	
 	private $end_hour;
 	
-	function MiniDayCalendar($display_time, $hour_step = 1)
+	function MiniDayCalendar($display_time, $hour_step = '1', $start_hour = '0', $end_hour = '24')
 	{
+		$this->start_hour = $start_hour;
+		$this->end_hour = $end_hour;
 		parent :: DayCalendar($display_time, $hour_step);
-		
 		$this->updateAttributes('class="calendar mini"');
 	}
 	
 	function get_start_hour()
 	{
-		return date('G', strtotime('-4 Hours', $this->get_display_time()));
+		return $this->start_hour;
 	}
 	
 	function get_end_hour()
 	{
-		return date('G', strtotime('+4 Hours', $this->get_display_time()));
+		return $this->end_hour;
 	}
 	
 	/**
@@ -45,7 +46,7 @@ class MiniDayCalendar extends DayCalendar
 	 */
 	public function get_end_time()
 	{
-		return strtotime(date('Y-m-d '. $this->get_end_hour() .':00:00', $this->get_display_time()));
+		return strtotime(date('Y-m-d '. ($this->get_end_hour() - 1) .':59:59', $this->get_display_time()));
 	}
 	
 	protected function build_table()
@@ -83,9 +84,35 @@ class MiniDayCalendar extends DayCalendar
 	 */
 	public function toHtml()
 	{
+		$this->add_events();
 		$html = parent :: toHtml();
 		$html = str_replace('class="calendar_navigation"', 'class="calendar_navigation mini"', $html);
 		return $html;
+	}
+	
+	/**
+	 * Adds the events to the calendar
+	 */
+	function add_events()
+	{
+		$events = $this->get_events_to_show();
+		foreach ($events as $time => $items)
+		{
+			if ($time >= $this->get_end_time())
+			{
+				continue;
+			}
+			
+			$row = (date('H', $time) / $this->hour_step) - ($this->get_start_hour() / $this->hour_step);
+			//echo $row;
+			foreach ($items as $index => $item)
+			{
+				$cell_content = $this->getCellContents($row, 0);
+				$cell_content .= $item;
+				$this->setCellContents($row, 0, $cell_content);
+			}
+		}
+
 	}
 }
 ?>

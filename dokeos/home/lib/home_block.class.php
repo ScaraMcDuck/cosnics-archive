@@ -188,11 +188,8 @@ class HomeBlock {
 		
 		$result = array();
 		
-		echo $file;
-		
 		if (file_exists($file))
 		{
-			echo 'haha';
 			$unserializer = &new XML_Unserializer();
 			$unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
 			$unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);

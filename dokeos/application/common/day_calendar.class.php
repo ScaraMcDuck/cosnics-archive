@@ -40,6 +40,16 @@ class DayCalendar extends CalendarTable
 	{
 		return $this->hour_step;
 	}
+	
+	/**
+	 * Sets the number of hours for one table cell.
+	 * @return int
+	 */
+	public function set_hour_step($hour_step)
+	{
+		$this->hour_step = $hour_step;
+	}
+	
 	/**
 	 * Gets the first date which will be displayed by this calendar.
 	 * @return int
@@ -95,6 +105,7 @@ class DayCalendar extends CalendarTable
 				continue;
 			}
 			$row = date('H', $time) / $this->hour_step;
+			echo $row;
 			foreach ($items as $index => $item)
 			{
 				$cell_content = $this->getCellContents($row, 0);
