@@ -47,7 +47,7 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 	 */
 	private function display_learning_objects()
 	{
-		//$condition = $this->get_search_condition();
+		$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->get_user_id());
 		$parameters = $this->get_parameters(true);
 		$table = new RecycleBinBrowserTable($this, $parameters, $condition);
 		echo $table->as_html();

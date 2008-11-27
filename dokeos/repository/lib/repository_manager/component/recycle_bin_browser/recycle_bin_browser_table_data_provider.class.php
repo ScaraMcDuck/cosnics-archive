@@ -43,12 +43,14 @@ class RecycleBinBrowserTableDataProvider extends RepositoryBrowserTableDataProvi
 		$order_property[] = LearningObject :: PROPERTY_TITLE;
 		$order_direction[] = SORT_ASC;
 		
-    	return $this->get_browser()->retrieve_learning_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count, LearningObject :: STATE_RECYCLED, true);
+    	$objects = $this->get_browser()->retrieve_learning_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count, LearningObject :: STATE_RECYCLED, false);
+    
+    	return $objects;
     }
 	// Inherited
     function get_object_count()
     {
-    	return $this->get_browser()->count_learning_objects(null, $this->get_condition(), LearningObject :: STATE_RECYCLED, true);
+    	return $this->get_browser()->count_learning_objects(null, $this->get_condition(), LearningObject :: STATE_RECYCLED, false);
     }
 }
 ?>

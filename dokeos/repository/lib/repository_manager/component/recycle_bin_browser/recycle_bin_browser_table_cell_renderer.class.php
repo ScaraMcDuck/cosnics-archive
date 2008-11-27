@@ -52,7 +52,7 @@ class RecycleBinBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 				$pid = $learning_object->get_parent_id();
 				if (!isset($this->parent_title_cache[$pid]))
 				{
-					$this->parent_title_cache[$pid] = '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.htmlentities(Translation :: get('BrowseThisCategory')).'">'.htmlentities($this->browser->retrieve_learning_object($pid)->get_title()).'</a>';
+					$this->parent_title_cache[$pid] = '<a href="'.htmlentities($this->browser->get_url(array('category' => $pid, 'go' => 'browse'))).'" title="'.htmlentities(Translation :: get('BrowseThisCategory')).'">Category</a>';
 				}
 				return $this->parent_title_cache[$pid];
 		}
