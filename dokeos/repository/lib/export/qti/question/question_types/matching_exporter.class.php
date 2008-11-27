@@ -61,16 +61,36 @@ class MatchingQuestionQtiExport extends QuestionQtiExport
 			$interaction_xml[] = '<simpleAssociableChoice identifier="'.$answer['answer']->get_id().'" matchMax="1">'.htmlspecialchars($answer['answer']->get_title()).'</simpleAssociableChoice>';
 		}
 		$interaction_xml[] = '</simpleMatchSet>';
-				$interaction_xml[] = '<simpleMatchSet>';
-		foreach ($answers as $answer)
+		$interaction_xml[] = '<simpleMatchSet>';
+		$matches = $this->create_match_list($answers);
+		foreach ($matches as $match)
 		{
-			$interaction_xml[] = '<simpleAssociableChoice identifier="'.$answer['match']->get_id().'" matchMax="'.sizeof($answers).'">'.htmlspecialchars($answer['match']->get_title()).'</simpleAssociableChoice>';
+			$interaction_xml[] = '<simpleAssociableChoice identifier="'.$match->get_id().'" matchMax="'.sizeof($answers).'">'.htmlspecialchars($match->get_title()).'</simpleAssociableChoice>';
 		}
 		$interaction_xml[] = '</simpleMatchSet>';
 		$interaction_xml[] = '</matchInteraction>';
 		$interaction_xml[] = '</itemBody>';
 		
 		return implode('', $interaction_xml);
+	}
+	
+	function create_match_list($answers)
+	{
+		foreach ($answers as $answer)
+		{
+			$exists = false;
+			$match = $answer['match'];
+			foreach ($matches as $ex_match)
+			{
+				if ($ex_match->get_id() == $match->get_id())
+					$exists = true;
+			}
+			if (!$exists) 
+			{
+				$matches[] = $match;
+			}
+		}
+		return $matches;
 	}
 }
 ?>
