@@ -163,8 +163,9 @@
 			$.post("./home/ajax/block_sort.php", {
 				column :columnId,
 				order :order
-			}// ,
-					// function(data){alert("Data Loaded: " + data);}
+				},
+					function(data){
+						}
 					);
 		});
 	};
@@ -228,6 +229,8 @@
 			preserveCursor :true,
 			stop :resizableStop
 		});
+		
+		//$.modal('');
 
 	});
 

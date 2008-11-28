@@ -78,7 +78,7 @@ class MenuManagerBarComponent extends MenuManagerComponent
 				}
 				
 				$html[] = '<ul>';
-				$html[] = '<li><a href="javascript:void(0)" '. ($is_current ? 'class="current"' : '') .'  ' . $options . '>'. $root_item->get_title() .'<!--[if IE 7]><!--></a><!--<![endif]-->';
+				$html[] = '<li><a href="#" '. ($is_current ? 'class="current"' : '') .'  ' . $options . '>'. $root_item->get_title() .'<!--[if IE 7]><!--></a><!--<![endif]-->';
 				$html[] = '<!--[if lte IE 6]><table><tr><td><![endif]-->';
 				
 				$html[] = implode("\n", $html_sub);
