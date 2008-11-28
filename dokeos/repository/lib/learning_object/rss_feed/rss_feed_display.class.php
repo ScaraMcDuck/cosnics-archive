@@ -59,6 +59,7 @@ class RssFeedDisplay extends LearningObjectDisplay
 		$rss = new LastRss($url);
 		// TODO: Make items limit configurable. 
 		$rss->set_items_limit(5);
+		$rss->set_cache_dir(Path :: get(SYS_TEMP_PATH));
 				
 		if ($rs = $rss->get_feed_content())
 		{

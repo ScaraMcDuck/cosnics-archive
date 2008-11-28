@@ -43,6 +43,7 @@ class Header
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.min.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.tablednd.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.ui.packed.js');
+		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.simplemodal.packed.js');
 		$this->add_link_header($this->get_path(WEB_PATH). 'index.php','top');
 		//$this->add_link_header($this->get_path(WEB_PATH). 'index_user.php?go=account','account',htmlentities(Translation :: get('ModifyProfile')));
 		$this->add_link_header('http://www.dokeos.com/documentation.php','help');

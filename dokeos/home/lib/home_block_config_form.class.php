@@ -39,7 +39,7 @@ class HomeBlockConfigForm extends FormValidator {
 		
 		if (count($homeblock_config['settings']) > 0)
 		{
-			require_once $base_path . $application . '/block/connectors/' . $application . '_'. $component .'_connector.class.php';
+			require_once $base_path . $application . '/block/connectors/block_' . $application . '_connector.class.php';
 			
 			foreach($homeblock_config['settings'] as $category_name => $settings)
 			{
