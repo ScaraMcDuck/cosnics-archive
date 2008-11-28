@@ -83,4 +83,6 @@ $lang['common']['LocationsAdded'] = 'Locations are added';
 $lang['common']['InstallSuccess'] = 'Install was successful';
 $lang['common']['LoggedInAsUser'] = 'Logged in as user';
 $lang['common']['Back'] = 'Back';
+$lang['common']['AccountNotActive'] = 'Account not active';
+$lang['common']['UsernameOrPasswordIncorrect'] = 'Username or password are incorrect';
 ?>
