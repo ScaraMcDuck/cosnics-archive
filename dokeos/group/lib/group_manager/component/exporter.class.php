@@ -51,8 +51,8 @@ class GroupManagerExporterComponent extends GroupManagerComponent
 		$result = $this->retrieve_groups($condition);
 		while($group = $result->next_result())
      	{
-     		$group_array[Group::PROPERTY_NAME] = $group->get_name();
-     		$group_array[Group::PROPERTY_DESCRIPTION] = $group->get_description();
+     		$group_array[Group::PROPERTY_NAME] = htmlspecialchars($group->get_name());
+     		$group_array[Group::PROPERTY_DESCRIPTION] = htmlspecialchars($group->get_description());
      		$group_array['children'] = $this->build_group_tree($group->get_id());
      		$data[] = $group_array; 
  	    } 

@@ -26,9 +26,9 @@ class DefaultPublicationTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
 		$columns[] = new ObjectTableColumn(LearningObjectPublicationAttributes :: PROPERTY_APPLICATION, true);
 		$columns[] = new ObjectTableColumn(LearningObjectPublicationAttributes :: PROPERTY_LOCATION, true);
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
 		$columns[] = new ObjectTableColumn(LearningObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE, true);
 		return $columns;
 	}

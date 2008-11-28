@@ -119,8 +119,8 @@ class CourseForm extends FormValidator {
 
 		$this->addElement('select', Course :: PROPERTY_CATEGORY, Translation :: get('Category'), $this->categories);
 
-		$this->addElement('text', Course :: PROPERTY_EXTLINK_NAME, Translation :: get('Department'));
-		$this->addElement('text', Course :: PROPERTY_EXTLINK_URL, Translation :: get('DepartmentUrl'));
+		/*$this->addElement('text', Course :: PROPERTY_EXTLINK_NAME, Translation :: get('Department'));
+		$this->addElement('text', Course :: PROPERTY_EXTLINK_URL, Translation :: get('DepartmentUrl'));*/
 		
 		if (PlatformSetting :: get('allow_course_language_selection', Weblcms :: APPLICATION_NAME))
 		{

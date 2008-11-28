@@ -30,7 +30,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
 		
 		$type_options = array ();
-		$type_options[''] = '&nbsp;';
+		$type_options[''] = '-- ' . Translation :: get('SelectObject') . ' --';
 		$extra_params = array();
 		
 		if(isset($clo_id) && isset($root_id))
