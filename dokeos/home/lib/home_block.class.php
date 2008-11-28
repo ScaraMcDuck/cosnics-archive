@@ -208,8 +208,6 @@ class HomeBlock {
 			{
 				$data = $unserializer->getUnserializedData();
 				
-				dump($data);
-				
 				$setting_categories = $data['settings']['category'];
 				foreach ($setting_categories as $setting_category)
 				{
@@ -228,7 +226,6 @@ class HomeBlock {
 				}
 			}
 		}
-		exit;
 		return true;
 	}
 	
