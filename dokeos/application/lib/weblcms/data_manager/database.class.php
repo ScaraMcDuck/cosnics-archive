@@ -974,6 +974,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			//$query .= ' AND '.$this->escape_table_name('course_rel_user').'.'.$this->escape_column_name('user_course_cat').'=?';
 			$query .= ' ORDER BY '. $this->escape_table_name('course_rel_user') .'.'.$this->escape_column_name(CourseUserRelation :: PROPERTY_SORT);
 			$params[] = $user;
+
 		}
 		elseif(!isset($user))
 		{

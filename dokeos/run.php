@@ -30,7 +30,7 @@ if (!Authentication :: is_valid())
 }
 // Load the current user
 $usermgr = new UserManager(Session :: get_user_id());
-$user = $usermgr->retrieve_user(Session :: get_user_id());
+$user = $usermgr->retrieve_user(Session :: get_user_id()); 
 // Load & run the application
 $app = Application :: factory($application_key, $user);
 $app->set_parameter('application',$application_key);

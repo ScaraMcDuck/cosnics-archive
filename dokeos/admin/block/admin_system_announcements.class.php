@@ -61,10 +61,10 @@ class AdminSystemAnnouncements extends AdminBlock
 		return implode("\n", $html);
 	}
 	
-	function is_editable()
+	/*function is_editable()
 	{
 		return false;
-	}
+	}*/
 	
 	function is_hidable()
 	{
