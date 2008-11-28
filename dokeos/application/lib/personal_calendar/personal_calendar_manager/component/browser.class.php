@@ -42,10 +42,10 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 		$this->set_parameter('view', $view);
 		
 		$minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time);
-		$html[] = '<div style="float: left; width: 20%;">';
+		$html[] = '<div class="mini_calendar">';
 		$html[] = $minimonthcalendar->render();
 		$html[] = '</div>';
-		$html[] = '<div style="float: left; width: 80%;">';
+		$html[] = '<div class="normal_calendar">';
 		$show_calendar = true;
 		
 		if(isset($_GET['pid']))
@@ -112,7 +112,7 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 	
 		if (PlatformSetting :: get('allow_personal_agenda', 'user'))
 		{
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_img_path().'action_publish.png', $this->get_url(array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_CREATE_PUBLICATION), true)));
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_CREATE_PUBLICATION), true)));
 		}
 
 		

@@ -88,11 +88,18 @@ class MiniMonthCalendar extends MonthCalendar
 				break;
 		}
 	}
+	
 	public function toHtml()
 	{
 		$html = parent :: toHtml();
 		$html = str_replace('class="calendar_navigation"', 'class="calendar_navigation mini"', $html);
 		return $html;
+	}
+	
+	public function render()
+	{
+		$this->add_events();
+		return $this->toHtml();
 	}
 }
 ?>

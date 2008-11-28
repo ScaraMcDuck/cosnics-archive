@@ -6,13 +6,5 @@
 			<setting name="time_start" field="text" default="9" />
 			<setting name="time_end" field="text" default="17" />
 		</category>
-		<category name="display">
-			<setting name="show_empty" field="radio" default="1">
-				<options type="static">
-					<option name="true" value="1" />
-					<option name="false" value="0" />
-				</options>
-			</setting>
-		</category>
 	</settings>
 </block>
