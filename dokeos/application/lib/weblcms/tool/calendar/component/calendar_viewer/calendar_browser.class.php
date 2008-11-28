@@ -153,10 +153,10 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 		{
 			$minimonthcalendar = new MiniMonthCalendarLearningObjectPublicationListRenderer($this);
 			$minimonthcalendar->set_display_time($this->time);
-			$html[] = '<div style="float: left; width: 20%;">';
+			$html[] = '<div class="mini_calendar">';
 			$html[] =  $minimonthcalendar->as_html();
 			$html[] =  '</div>';
-			$html[] =  '<div style="float: left; width: 80%;">';
+			$html[] =  '<div class="normal_calendar">';
 			$html[] = parent::as_html();
 			$html[] = '</div>';
 		}

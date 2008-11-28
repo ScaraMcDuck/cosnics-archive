@@ -56,7 +56,7 @@ class PersonalCalendarViewerComponent extends PersonalCalendarComponent
 		$this->set_parameter(PersonalCalendar :: PARAM_ACTION, PersonalCalendar :: ACTION_BROWSE_CALENDAR);
 		
 		$minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time);
-		$html[] =   '<div style="float: left; width: 20%;">';
+		$html[] = '<div style="float: left; width: 19%; padding-right: 1%;">';
 		$html[] =   $minimonthcalendar->render();
 		$html[] =   '</div>';
 		$html[] =   '<div style="float: left; width: 80%;">';

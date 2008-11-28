@@ -62,6 +62,7 @@ class MiniDayCalendar extends DayCalendar
 			$table_end_date = strtotime('+'.$this->get_hour_step().' hours', $table_start_date);
 			$cell_contents = $hour.'u - '. ($hour + $this->get_hour_step()).'u <br />';
 			$this->setCellContents($row_id, 0, $cell_contents);
+			
 			// Highlight current hour
 			if (date('Y-m-d') == date('Y-m-d', $this->get_display_time()))
 			{
@@ -84,7 +85,6 @@ class MiniDayCalendar extends DayCalendar
 	 */
 	public function toHtml()
 	{
-		$this->add_events();
 		$html = parent :: toHtml();
 		$html = str_replace('class="calendar_navigation"', 'class="calendar_navigation mini"', $html);
 		return $html;
@@ -93,7 +93,7 @@ class MiniDayCalendar extends DayCalendar
 	/**
 	 * Adds the events to the calendar
 	 */
-	function add_events()
+	private function add_events()
 	{
 		$events = $this->get_events_to_show();
 		foreach ($events as $time => $items)
@@ -103,8 +103,7 @@ class MiniDayCalendar extends DayCalendar
 				continue;
 			}
 			
-			$row = (date('H', $time) / $this->hour_step) - ($this->get_start_hour() / $this->hour_step);
-			//echo $row;
+			$row = (date('H', $time) / $this->get_hour_step()) - ($this->get_start_hour() / $this->get_hour_step());
 			foreach ($items as $index => $item)
 			{
 				$cell_content = $this->getCellContents($row, 0);
@@ -113,6 +112,12 @@ class MiniDayCalendar extends DayCalendar
 			}
 		}
 
+	}
+	
+	public function render()
+	{
+		$this->add_events();
+		return $this->toHtml();
 	}
 }
 ?>

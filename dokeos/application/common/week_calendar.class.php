@@ -163,9 +163,14 @@ class WeekCalendar extends CalendarTable
 	 */
 	public function toHtml()
 	{
-		$this->add_events();
 		$html = parent::toHtml();
 		return $this->navigation_html.$html;
+	}
+	
+	public function render()
+	{
+		$this->add_events();
+		return $this->toHtml();
 	}
 }
 ?>

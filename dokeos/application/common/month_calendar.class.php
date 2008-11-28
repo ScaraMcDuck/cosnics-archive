@@ -107,7 +107,7 @@ class MonthCalendar extends CalendarTable
 	/**
 	 * Adds the events to the calendar
 	 */
-	private function add_events()
+	function add_events()
 	{
 		$events = $this->get_events_to_show();
 		foreach ($events as $time => $items)
@@ -161,9 +161,14 @@ class MonthCalendar extends CalendarTable
 	 */
 	public function toHtml()
 	{
-		$this->add_events();
 		$html = parent :: toHtml();
 		return $this->navigation_html.$html;
+	}
+	
+	public function render()
+	{
+		$this->add_events();
+		return $this->toHtml();
 	}
 }
 ?>

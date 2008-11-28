@@ -68,10 +68,10 @@ $lang['home']['HomeCreated'] = 'Home created';
 $lang['home']['Site'] = 'Site';
 $lang['home']['News'] = 'News';
 $lang['home']['Various'] = 'Various';
-$lang['home']['Weblcms'] = 'Weblcms';
+$lang['home']['Weblcms'] = 'Courses';
 $lang['home']['Search'] = 'Search';
 $lang['home']['Extra'] = 'Extra';
-$lang['home']['PersonalCalendar'] = 'Personal calendar';
+$lang['home']['PersonalCalendar'] = 'Calendar';
 $lang['home']['SystemAnnouncements'] = 'System announcements';
 $lang['home']['NoNewSystemAnnouncements'] = 'No new system announcements';
 ?>

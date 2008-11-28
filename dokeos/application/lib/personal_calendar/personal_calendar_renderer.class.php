@@ -115,7 +115,7 @@ abstract class PersonalCalendarRenderer
 	 */
 	public function build_legend()
 	{
-		$result = '<div style="margin-top: 10px;">';
+		$result = '<div style="margin-top: 10px; clear: both;">';
 		foreach($this->legend as $key => $colors)
 		{
 			$result .= '<span style="display:block; float: left; margin-right: 2px; width: 10px; height: 10px; border: 1px solid black; background-color: '.$colors['full'].'">&nbsp;</span><span style="float:left; margin-right: 15px;">'.$key.'</span>';

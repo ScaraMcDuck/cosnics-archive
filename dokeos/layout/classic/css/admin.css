@@ -109,10 +109,3 @@ div.configure div.application_current img
 {
 	width: 60%;
 }
-
-div.configuration_form {
-	clear: both;
-	margin: 15px 2px 2px 2px;
-	padding: 5px;
-	border: 1px solid #ebebeb;
-}

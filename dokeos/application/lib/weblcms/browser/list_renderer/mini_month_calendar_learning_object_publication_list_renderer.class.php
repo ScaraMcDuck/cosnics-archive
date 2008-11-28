@@ -75,7 +75,7 @@ class MiniMonthCalendarLearningObjectPublicationListRenderer extends LearningObj
 				break;
 		}
 		$calendar_table->add_navigation_links($url_format);
-		$html[] = $calendar_table->toHtml();
+		$html[] = $calendar_table->render();
 		return implode("\n",$html);
 	}
 	/**

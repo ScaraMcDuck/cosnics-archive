@@ -62,8 +62,8 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
 				break;
 		}
 		$calendar->add_navigation_links($this->get_parent()->get_url($parameters));
-		$html = $calendar->toHtml();
-		return $html;
+		$html[] = $calendar->render();
+		return implode("\n", $html);
 	}
 	/**
 	 * Gets a html representation of a published calendar event

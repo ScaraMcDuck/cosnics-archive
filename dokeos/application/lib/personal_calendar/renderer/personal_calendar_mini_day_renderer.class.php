@@ -59,9 +59,9 @@ class PersonalCalendarMiniDayRenderer extends PersonalCalendarRenderer
 		
 		$parameters['time'] = '-TIME-';
 		$calendar->add_calendar_navigation($this->get_parent()->get_url($parameters));
-		$html = $calendar->toHtml();
-		//$html .= $this->build_legend();
-		return $html;
+		$html[] = $calendar->render();
+		$html[] = $this->build_legend();
+		return implode("\n", $html);
 	}
 	
 	/**

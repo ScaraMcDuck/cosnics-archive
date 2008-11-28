@@ -105,7 +105,6 @@ class DayCalendar extends CalendarTable
 				continue;
 			}
 			$row = date('H', $time) / $this->hour_step;
-			echo $row;
 			foreach ($items as $index => $item)
 			{
 				$cell_content = $this->getCellContents($row, 0);
@@ -152,9 +151,14 @@ class DayCalendar extends CalendarTable
 	 */
 	public function toHtml()
 	{
-		$this->add_events();
 		$html = parent :: toHtml();
 		return $this->navigation_html.$html;
+	}
+	
+	public function render()
+	{
+		$this->add_events();
+		return $this->toHtml();
 	}
 }
 ?>
