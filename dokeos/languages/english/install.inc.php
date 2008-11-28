@@ -67,6 +67,7 @@ $lang['install']['Rights'] = 'Rights';
 $lang['install']['FileSystem'] = 'Filesystem';
 $lang['install']['Finished'] = 'Finished';
 $lang['install']['SystemAnnouncements'] = 'System announcements';
+$lang['install']['PortalHome'] = 'Portal home';
 $lang['install']['InstallSuccess'] = 'Installation succesfull';
 $lang['install']['StorageUnitCreation'] = 'Storage unit creation';
 $lang['install']['DefaultLanguagesAdded'] = 'Default languages added';
