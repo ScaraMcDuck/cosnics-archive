@@ -690,7 +690,9 @@ class Weblcms extends WebApplication
 		$type = $learning_object->get_type();
 		if(in_array($type, $allowed_types))
 		{
-			$courses = $this->retrieve_courses($this->get_user());
+			$user = Session :: get_user_id();
+			
+			$courses = $this->retrieve_courses($user); 
 			while($course = $courses->next_result())
 				$locations[] = 'Course: ' . $course->get_id() . ' - Tool: ' . $type;
 				
