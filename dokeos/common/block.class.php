@@ -96,6 +96,11 @@ class Block {
 			$html[] = '<a href="'. $this->get_block_editing_link($this->get_block_info()) .'" class="editEl"><img src="'.Theme :: get_common_image_path().'action_edit.png" /></a>';
 		}
 		
+		if ($this->block_info->is_configurable())
+		{
+			$html[] = '<a href="'. $this->get_block_configuring_link($this->get_block_info()) .'" class="configEl"><img src="'.Theme :: get_common_image_path().'action_config.png" /></a>';
+		}
+		
 		if ($this->is_deletable())
 		{
 			$html[] = '<a href="'. $this->get_block_deleting_link($this->get_block_info()) .'" class="deleteEl"><img src="'.Theme :: get_common_image_path().'action_delete.png" /></a>';
@@ -119,6 +124,11 @@ class Block {
 	function get_block_editing_link($home_block)
 	{
 		return $this->get_link(array (HomeManager :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME, HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK, HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
+	}
+	
+	function get_block_configuring_link($home_block)
+	{
+		return $this->get_link(array (HomeManager :: PARAM_ACTION => HomeManager :: ACTION_CONFIGURE_HOME, HomeManager :: PARAM_HOME_TYPE => HomeManager :: TYPE_BLOCK, HomeManager :: PARAM_HOME_ID => $home_block->get_id()));
 	}
 	
 	public function get_link($parameters = array (), $encode = false)
