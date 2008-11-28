@@ -163,7 +163,12 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				{
 					echo '<div id="tool_browser">';
 				}
-				echo $this->display_introduction_text();
+				
+				if(PlatformSetting :: get('enable_introduction', 'weblcms'))
+				{
+					echo $this->display_introduction_text();
+				}
+				
 				echo '<div class="clear"></div>';
 				
 				$renderer = ToolListRenderer::factory('FixedLocation',$this);

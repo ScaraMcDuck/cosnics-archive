@@ -32,7 +32,12 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 		$this->display_header($trail);
 		echo '<br /><a name="top"></a>';
 		if(!isset($_GET['pid']))
-			echo $this->display_introduction_text();
+		{
+			if(PlatformSetting :: get('enable_introduction', 'weblcms'))
+			{
+				echo $this->display_introduction_text();
+			}
+		}
 		echo $this->action_bar->as_html() . '<br />';
 		echo '<div id="action_bar_browser">';
 		echo $browser->as_html();

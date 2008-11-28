@@ -28,7 +28,10 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
 		
 		echo '<br /><a name="top"></a>';
 		//echo $this->perform_requested_actions();
-		echo $this->display_introduction_text();
+		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
+		{
+			echo $this->display_introduction_text();
+		}
 		echo $this->action_bar->as_html();
 		echo $this->get_user_unsubscribe_html();
 		

@@ -128,6 +128,10 @@ class Translation
 		}
 		else
 		{
+			if(PlatformSetting :: get('hide_dcda_markup'))
+			{
+				return $variable;
+			}
 			return '[='. self :: application_to_class($application) . '=' . $variable .'=]';
 		}
 	}
