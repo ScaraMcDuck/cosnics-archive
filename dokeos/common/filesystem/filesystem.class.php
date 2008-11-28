@@ -29,6 +29,7 @@ class Filesystem
 	 * Constant representing "Directories"
 	 */
 	const LIST_DIRECTORIES = 3;
+	
 	/**
 	 * Creates a directory.
 	 * This function creates all missing directories in a given path.
@@ -36,8 +37,15 @@ class Filesystem
 	 * @param string $mode
 	 * @return boolean True if successfull, false if not.
 	 */
-	public static function create_dir($path,$mode = 0777)
+	public static function create_dir($path,$mode)
 	{
+		if(is_null($mode))
+		{
+			$mode = 0777;
+			$ad = PlatformSetting :: get('permissions_new_directories');
+			if($ad && $ad != '')
+				$mode = $ad;
+		}
 		// If the given path is a file, return false
 		if(is_file($path))
 		{
