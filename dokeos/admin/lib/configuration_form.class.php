@@ -62,7 +62,7 @@ class ConfigurationForm extends FormValidator
 					}
 					elseif ($setting['field'] == 'text')
 					{
-						$this->add_textfield($name, Translation :: get(DokeosUtilities :: underscores_to_camelcase($name)), true);
+						$this->add_textfield($name, Translation :: get(DokeosUtilities :: underscores_to_camelcase($name)), ($setting['required'] == 'true'));
 					}
 					else
 					{

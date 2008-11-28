@@ -38,19 +38,23 @@ class UserLogin extends UserBlock
 			{
 				$html[] = $this->handle_login_failed();
 			} 
-//			if ($this->get_platform_setting('allow_lostpassword') == 'true' OR $this->get_platform_setting('allow_registration') == 'true')
-//			{
-//				$html[] = '<div class="menusection"><span class="menusectioncaption">'.Translation :: get('MenuUser').'</span><ul class="menulist">';
-//				if (get_setting('allow_registration') == 'true')
-//				{
-//					$html[] = '<li><a href="index_user.php?go=register">'.Translation :: get('Reg').'</a></li>';
-//				}
-//				if (get_setting('allow_lostpassword') == 'true')
-//				{
-//					//display_lost_password_info();
-//				}
-//				$html[] = '</ul></div>';
-//			}
+			if (PlatformSetting :: get('allow_registration', 'user') || PlatformSetting :: get('allow_password_retrieval', 'user'))
+			{
+				$html[] = '<br />';
+				//$html[] = '<div class="menusection"><span class="menusectioncaption">'.Translation :: get('MenuUser').'</span><ul class="menulist">';
+				if (PlatformSetting :: get('allow_registration', 'user'))
+				{
+					$links[] = '<a href="index_user.php?go=register">'.Translation :: get('Reg').'</a>';
+				}
+				if (PlatformSetting :: get('allow_password_retrieval', 'user'))
+				{
+					//display_lost_password_info();
+					$links[] = '<a href="index_user.php?go=reset_password">'.Translation :: get('ResetPassword').'</a>';
+				}
+				
+				$html[] = implode(' - ', $links);
+				//$html[] = '</ul></div>';
+			}
 		}
 		else
 		{
@@ -75,7 +79,7 @@ class UserLogin extends UserBlock
 	function handle_login_failed()
 	{
 		$message = Translation :: get("InvalidId");
-		if (PlatformSetting :: get('allow_registration', 'admin') == 'true')
+		if (PlatformSetting :: get('allow_registration', 'user') == 'true')
 			$message = Translation :: get("InvalidForSelfRegistration");
 		return "<div id=\"login_fail\">".$message."</div>";
 	}

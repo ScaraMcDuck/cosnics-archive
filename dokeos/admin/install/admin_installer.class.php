@@ -99,8 +99,8 @@ class AdminInstaller extends Installer
 		$settings[] = array('admin', 'administrator_email', $values['admin_email']);
 		$settings[] = array('admin', 'administrator_telephone', $values['admin_phone']);
 		
-		$settings[] = array('admin', 'allow_password_retrieval', $values['encrypt_password']);
-		$settings[] = array('admin', 'allow_registration', $values['self_reg']);
+		$settings[] = array('user', 'allow_password_retrieval', $values['encrypt_password']);
+		$settings[] = array('user', 'allow_registration', $values['self_reg']);
 		
 		foreach ($settings as $setting)
 		{

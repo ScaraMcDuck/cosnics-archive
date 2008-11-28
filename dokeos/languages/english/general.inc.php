@@ -831,4 +831,5 @@ $lang['general']['Yes'] = 'Yes';
 $lang['general']['No'] = 'No';
 $lang['general']['Close'] = 'Close';
 $lang['general']['AllowedHTMLTags'] = 'Allowed HTML Tags';
+$lang['general']['ResetPassword'] = 'Reset password';
 ?>

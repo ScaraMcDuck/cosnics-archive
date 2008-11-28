@@ -44,7 +44,10 @@ class RegisterForm extends FormValidator {
 		$this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		// Email
 		$this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get('Email'));
-		$this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
+		if (PlatformSetting :: get('require_email', 'user'))
+		{
+			$this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
+		}
 		$this->addRule(User :: PROPERTY_EMAIL, Translation :: get('WrongEmail'), 'email');
 		// Username
 		$this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'));
@@ -57,8 +60,15 @@ class RegisterForm extends FormValidator {
 		$this->addGroup($group, 'pw', Translation :: get('Password'), '');
 		// Official Code
 		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'));
+		if (PlatformSetting :: get('require_official_code', 'user'))
+		{
+			$this->addRule(User :: PROPERTY_OFFICIAL_CODE, Translation :: get('ThisFieldIsRequired'), 'required');
+		}
 		// Picture URI
-		$this->addElement('file', User :: PROPERTY_PICTURE_URI, Translation :: get('AddPicture'));
+		if (PlatformSetting :: get('allow_change_user_picture', 'user'))
+		{
+			$this->addElement('file', User :: PROPERTY_PICTURE_URI, Translation :: get('AddPicture'));
+		}
 		$allowed_picture_types = array ('jpg', 'jpeg', 'png', 'gif');
 		$this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'filetype', $allowed_picture_types);
 		// Phone Number
@@ -73,8 +83,12 @@ class RegisterForm extends FormValidator {
 			$lang_options[$language->get_folder()] = $language->get_english_name();	
 		}
 		$this->addElement('select', User :: PROPERTY_LANGUAGE, Translation :: get('Language'), $lang_options);
+		if (PlatformSetting :: get('require_language', 'user'))
+		{
+			$this->addRule(User :: PROPERTY_LANGUAGE, Translation :: get('ThisFieldIsRequired'), 'required');
+		}
 		// Status
-		if (PlatformSetting :: get('allow_registration_as_teacher') == 'true')
+		if (PlatformSetting :: get('allow_teacher_registration', 'user'))
 		{
 			$status = array();  
 			$status[STUDENT] = Translation :: get('Student');  
