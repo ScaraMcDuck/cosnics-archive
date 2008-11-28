@@ -56,7 +56,7 @@ class PublicationBrowserTableCellRenderer extends DefaultPublicationTableCellRen
 				'href' => $update_url,
 				'label' => Translation :: get('Update'),
 				'confirm' => true,
-				'img' => Theme :: get_common_img_path().'action_revert.png'
+				'img' => Theme :: get_common_image_path().'action_revert.png'
 			);
 			return DokeosUtilities :: build_toolbar($toolbar_data);
 		}

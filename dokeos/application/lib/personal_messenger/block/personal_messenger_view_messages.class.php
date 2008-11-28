@@ -93,7 +93,7 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
 	function show_publication(&$publication,&$personal_messenger,&$html,$new)
 	{
 		$separator = ' - ';
-		$html[] = $new? '<img width="15" height="15" src="'.Theme :: get_common_img_path().'learning_object/personal_message_new.png" />' : '<img width="15" height="15" src="'.Theme :: get_common_img_path().'learning_object/personal_message_na.png" />';
+		$html[] = $new? '<img width="15" height="15" src="'.Theme :: get_common_image_path().'learning_object/personal_message_new.png" />' : '<img width="15" height="15" src="'.Theme :: get_common_image_path().'learning_object/personal_message_na.png" />';
 		
 		$html[] = '<a href="'. $personal_messenger->get_publication_viewing_link($publication) .'">';
 		$html[] = $this->str_trim($publication->get_publication_sender()->get_fullname()) . $separator;

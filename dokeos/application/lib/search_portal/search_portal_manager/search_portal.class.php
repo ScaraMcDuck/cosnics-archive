@@ -172,7 +172,7 @@ END;
 		 * This pretty much makes every GIF file accessible, which is evil.
 		 * Type GIFs should be in a separate directory.
 		 */
-		echo '<li class="portal_search_result" style="background-image: url(', Theme :: get_common_img_path().'learning_object/'.$object->get_type().'.png);">';
+		echo '<li class="portal_search_result" style="background-image: url(', Theme :: get_common_image_path().'learning_object/'.$object->get_type().'.png);">';
 		//echo '<div class="portal_search_result_title"><a href="'.htmlentities($object->get_view_url()).'">'.htmlspecialchars($object->get_title()).'</a></div>';
 		echo '<div class="portal_search_result_title">'.htmlspecialchars($object->get_title()).'</div>';
 		/*

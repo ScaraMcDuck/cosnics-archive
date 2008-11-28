@@ -483,7 +483,7 @@ class User
 		}
 		else
 		{
-			return Theme :: get_common_img_path().'unknown.jpg';
+			return Theme :: get_common_image_path().'unknown.jpg';
 		}
 	}
 	

@@ -68,7 +68,7 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 		$execute = array(
 		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
 		'label' => Translation :: get('View results'),
-		'img' => Theme :: get_common_img_path().'action_view_results.png'
+		'img' => Theme :: get_common_image_path().'action_view_results.png'
 		);
 		
 		$actions[] = $execute;
@@ -78,25 +78,25 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 			'label' => Translation :: get('View results'), 
-			'img' => Theme :: get_common_img_path().'action_view_results.png'
+			'img' => Theme :: get_common_image_path().'action_view_results.png'
 			);
 			
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 			'label' => Translation :: get('Delete'), 
-			'img' => Theme :: get_common_img_path().'action_delete.png'
+			'img' => Theme :: get_common_image_path().'action_delete.png'
 			);
 			
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 			'label' => Translation :: get('Edit'), 
-			'img' => Theme :: get_common_img_path().'action_edit.png'
+			'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
 			
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 			'label' => Translation :: get('Visible'), 
-			'img' => Theme :: get_common_img_path().'action_visible.png'
+			'img' => Theme :: get_common_image_path().'action_visible.png'
 			);	
 		}
 		

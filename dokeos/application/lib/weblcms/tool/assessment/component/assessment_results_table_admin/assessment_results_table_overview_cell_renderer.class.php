@@ -68,7 +68,7 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 		$execute = array(
 		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $assessment->get_id())),
 		'label' => Translation :: get('View results'),
-		'img' => Theme :: get_common_img_path().'action_view_results.png'
+		'img' => Theme :: get_common_image_path().'action_view_results.png'
 		);
 		
 		$actions[] = $execute;

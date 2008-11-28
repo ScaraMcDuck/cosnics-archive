@@ -127,7 +127,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			'href' => $edit_url,
 			'label' => Translation :: get('Edit'),
 			'confirm' => false,
-			'img' => Theme :: get_common_img_path().'action_edit.png'
+			'img' => Theme :: get_common_image_path().'action_edit.png'
 		);
 		
 		$edit_url = $this->get_home_row_deleting_url($home_row);
@@ -135,14 +135,14 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			'href' => $edit_url,
 			'label' => Translation :: get('Delete'),
 			'confirm' => true,
-			'img' => Theme :: get_common_img_path().'action_delete.png'
+			'img' => Theme :: get_common_image_path().'action_delete.png'
 		);
 		
 		if ($index == 'first' || $index == 'single')
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('MoveUp'),
-				'img' => Theme :: get_common_img_path().'action_up_na.png'
+				'img' => Theme :: get_common_image_path().'action_up_na.png'
 			);
 		}
 		else
@@ -151,7 +151,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			$toolbar_data[] = array(
 				'href' => $move_url,
 				'label' => Translation :: get('MoveUp'),
-				'img' => Theme :: get_common_img_path().'action_up.png'
+				'img' => Theme :: get_common_image_path().'action_up.png'
 			);
 		}
 		
@@ -159,7 +159,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('MoveDown'),
-				'img' => Theme :: get_common_img_path().'action_down_na.png'
+				'img' => Theme :: get_common_image_path().'action_down_na.png'
 			);
 		}
 		else
@@ -168,7 +168,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			$toolbar_data[] = array(
 				'href' => $move_url,
 				'label' => Translation :: get('MoveDown'),
-				'img' => Theme :: get_common_img_path().'action_down.png'
+				'img' => Theme :: get_common_image_path().'action_down.png'
 			);
 		}
 	
@@ -184,7 +184,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			'href' => $edit_url,
 			'label' => Translation :: get('Edit'),
 			'confirm' => false,
-			'img' => Theme :: get_common_img_path().'action_edit.png'
+			'img' => Theme :: get_common_image_path().'action_edit.png'
 		);
 		
 		$edit_url = $this->get_home_column_deleting_url($home_column);
@@ -192,14 +192,14 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			'href' => $edit_url,
 			'label' => Translation :: get('Delete'),
 			'confirm' => true,
-			'img' => Theme :: get_common_img_path().'action_delete.png'
+			'img' => Theme :: get_common_image_path().'action_delete.png'
 		);
 		
 		if ($index == 'first' || $index == 'single')
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('MoveLeft'),
-				'img' => Theme :: get_common_img_path().'action_left_na.png'
+				'img' => Theme :: get_common_image_path().'action_left_na.png'
 			);
 		}
 		else
@@ -208,7 +208,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			$toolbar_data[] = array(
 				'href' => $move_url,
 				'label' => Translation :: get('MoveLeft'),
-				'img' => Theme :: get_common_img_path().'action_left.png'
+				'img' => Theme :: get_common_image_path().'action_left.png'
 			);
 		}
 		
@@ -216,7 +216,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('MoveRight'),
-				'img' => Theme :: get_common_img_path().'action_right_na.png'
+				'img' => Theme :: get_common_image_path().'action_right_na.png'
 			);
 		}
 		else
@@ -225,7 +225,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			$toolbar_data[] = array(
 				'href' => $move_url,
 				'label' => Translation :: get('MoveRight'),
-				'img' => Theme :: get_common_img_path().'action_right.png'
+				'img' => Theme :: get_common_image_path().'action_right.png'
 			);
 		}
 	
@@ -240,14 +240,14 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 		$toolbar_data[] = array(
 			'href' => $edit_url,
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'action_edit.png'
+			'img' => Theme :: get_common_image_path().'action_edit.png'
 		);
 		
 		$configure_url = $this->get_home_block_configuring_url($home_block);
 		$toolbar_data[] = array(
 			'href' => $configure_url,
 			'label' => Translation :: get('Configure'),
-			'img' => Theme :: get_common_img_path().'action_config.png'
+			'img' => Theme :: get_common_image_path().'action_config.png'
 		);
 		
 		$edit_url = $this->get_home_block_deleting_url($home_block);
@@ -255,14 +255,14 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			'href' => $edit_url,
 			'label' => Translation :: get('Delete'),
 			'confirm' => true,
-			'img' => Theme :: get_common_img_path().'action_delete.png'
+			'img' => Theme :: get_common_image_path().'action_delete.png'
 		);
 		
 		if ($index == 'first' || $index == 'single')
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('MoveUp'),
-				'img' => Theme :: get_common_img_path().'action_up_na.png'
+				'img' => Theme :: get_common_image_path().'action_up_na.png'
 			);
 		}
 		else
@@ -271,7 +271,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			$toolbar_data[] = array(
 				'href' => $move_url,
 				'label' => Translation :: get('MoveUp'),
-				'img' => Theme :: get_common_img_path().'action_up.png'
+				'img' => Theme :: get_common_image_path().'action_up.png'
 			);
 		}
 		
@@ -279,7 +279,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('MoveDown'),
-				'img' => Theme :: get_common_img_path().'action_down_na.png'
+				'img' => Theme :: get_common_image_path().'action_down_na.png'
 			);
 		}
 		else
@@ -288,7 +288,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			$toolbar_data[] = array(
 				'href' => $move_url,
 				'label' => Translation :: get('MoveDown'),
-				'img' => Theme :: get_common_img_path().'action_down.png'
+				'img' => Theme :: get_common_image_path().'action_down.png'
 			);
 		}
 	
@@ -302,21 +302,21 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 		$toolbar_data[] = array(
 			'href' => $this->get_home_row_creation_url(),
 			'label' => Translation :: get('AddRow'),
-			'img' => Theme :: get_common_img_path().'action_add.png',
+			'img' => Theme :: get_common_image_path().'action_add.png',
 			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
 		$toolbar_data[] = array(
 			'href' => $this->get_home_column_creation_url(),
 			'label' => Translation :: get('AddColumn'),
-			'img' => Theme :: get_common_img_path().'action_add.png',
+			'img' => Theme :: get_common_image_path().'action_add.png',
 			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		
 		$toolbar_data[] = array(
 			'href' => $this->get_home_block_creation_url(),
 			'label' => Translation :: get('AddBlock'),
-			'img' => Theme :: get_common_img_path().'action_add.png',
+			'img' => Theme :: get_common_image_path().'action_add.png',
 			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		

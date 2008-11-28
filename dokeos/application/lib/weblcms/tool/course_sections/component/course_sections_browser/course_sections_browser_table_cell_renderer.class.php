@@ -59,7 +59,7 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
 					'href' => $this->browser->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_UPDATE_COURSE_SECTION, 
 												   CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())),
 					'label' => Translation :: get('Edit'),
-					'img' => Theme :: get_common_img_path().'action_edit.png'
+					'img' => Theme :: get_common_image_path().'action_edit.png'
 				);
 			
 			$toolbar_data[] = array(
@@ -67,32 +67,32 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
 												   CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())),
 					'label' => Translation :: get('Delete'),
 					'confirm' => true,
-					'img' => Theme :: get_common_img_path().'action_delete.png'
+					'img' => Theme :: get_common_image_path().'action_delete.png'
 				);
 				
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_SELECT_TOOLS_COURSE_SECTION, 
 													   CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())),
 				'label' => Translation :: get('SelectTools'),
-				'img' => Theme :: get_common_img_path().'action_move.png'
+				'img' => Theme :: get_common_image_path().'action_move.png'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 					'label' => Translation :: get('EditNA'),
-					'img' => Theme :: get_common_img_path().'action_edit_na.png'
+					'img' => Theme :: get_common_image_path().'action_edit_na.png'
 				);
 			
 			$toolbar_data[] = array(
 					'label' => Translation :: get('DeleteNA'),
 
-					'img' => Theme :: get_common_img_path().'action_delete_na.png'
+					'img' => Theme :: get_common_image_path().'action_delete_na.png'
 				);
 				
 			$toolbar_data[] = array(
 				'label' => Translation :: get('SelectToolsNA'),
-				'img' => Theme :: get_common_img_path().'action_move_na.png'
+				'img' => Theme :: get_common_image_path().'action_move_na.png'
 			);
 		}
 		
@@ -102,7 +102,7 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
 		{
 			$toolbar_data[] = array(
 					'label' => Translation :: get('MoveUpNA'),
-					'img' => Theme :: get_common_img_path().'action_up_na.png'
+					'img' => Theme :: get_common_image_path().'action_up_na.png'
 				);
 		}
 		else
@@ -112,7 +112,7 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
 												   CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id(),
 												   CourseSectionsTool :: PARAM_DIRECTION => -1)),
 					'label' => Translation :: get('MoveUp'),
-					'img' => Theme :: get_common_img_path().'action_up.png'
+					'img' => Theme :: get_common_image_path().'action_up.png'
 				);
 		}
 		
@@ -120,7 +120,7 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
 		{
 			$toolbar_data[] = array(
 					'label' => Translation :: get('MoveDownNA'),
-					'img' => Theme :: get_common_img_path().'action_down_na.png'
+					'img' => Theme :: get_common_image_path().'action_down_na.png'
 				);
 		}
 		else
@@ -130,7 +130,7 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
 												   CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id(),
 												   CourseSectionsTool :: PARAM_DIRECTION => 1)),
 					'label' => Translation :: get('MoveDown'),
-					'img' => Theme :: get_common_img_path().'action_down.png'
+					'img' => Theme :: get_common_image_path().'action_down.png'
 				);
 		}
 		
@@ -140,7 +140,7 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
 				'href' => $this->browser->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_CHANGE_COURSE_SECTION_VISIBILITY, 
 													   CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())),
 				'label' => Translation :: get('ChangeVisible'),
-				'img' => Theme :: get_common_img_path().'action_visible.png'
+				'img' => Theme :: get_common_image_path().'action_visible.png'
 			);
 		}
 		else
@@ -149,7 +149,7 @@ class CourseSectionsBrowserTableCellRenderer extends DefaultCourseSectionsTableC
 				'href' => $this->browser->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_CHANGE_COURSE_SECTION_VISIBILITY, 
 													   CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $course_section->get_id())),
 				'label' => Translation :: get('ChangeVisible'),
-				'img' => Theme :: get_common_img_path().'action_invisible.png'
+				'img' => Theme :: get_common_image_path().'action_invisible.png'
 			);
 		}
 		

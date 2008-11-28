@@ -73,7 +73,7 @@ class Block {
 	{
 		$html = array();
 		
-		$html[] = '<div class="block" id="block_'. $this->get_block_info()->get_id() .'" style="background-image: url('.Theme :: get_img_path().'block_'.$this->get_block_info()->get_application().'.png);">';
+		$html[] = '<div class="block" id="block_'. $this->get_block_info()->get_id() .'" style="background-image: url('.Theme :: get_image_path().'block_'.$this->get_block_info()->get_application().'.png);">';
 		$html[] = $this->display_title();
 		$html[] = '<div class="description"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none"') .'>';
 		
@@ -88,17 +88,17 @@ class Block {
 		
 		if ($this->is_hidable())
 		{
-			$html[] = '<a href="'. $this->get_block_visibility_link($this->get_block_info()) .'" class="closeEl"><img class="visible"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none;"') .' src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible"'. ($this->get_block_info()->is_visible() ? ' style="display: none;"' : '') .' src="'.Theme :: get_common_img_path().'action_invisible.png" /></a>';
+			$html[] = '<a href="'. $this->get_block_visibility_link($this->get_block_info()) .'" class="closeEl"><img class="visible"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none;"') .' src="'.Theme :: get_common_image_path().'action_visible.png" /><img class="invisible"'. ($this->get_block_info()->is_visible() ? ' style="display: none;"' : '') .' src="'.Theme :: get_common_image_path().'action_invisible.png" /></a>';
 		}
 		
 		if ($this->is_editable())
 		{
-			$html[] = '<a href="'. $this->get_block_editing_link($this->get_block_info()) .'" class="editEl"><img src="'.Theme :: get_common_img_path().'action_edit.png" /></a>';
+			$html[] = '<a href="'. $this->get_block_editing_link($this->get_block_info()) .'" class="editEl"><img src="'.Theme :: get_common_image_path().'action_edit.png" /></a>';
 		}
 		
 		if ($this->is_deletable())
 		{
-			$html[] = '<a href="'. $this->get_block_deleting_link($this->get_block_info()) .'" class="deleteEl"><img src="'.Theme :: get_common_img_path().'action_delete.png" /></a>';
+			$html[] = '<a href="'. $this->get_block_deleting_link($this->get_block_info()) .'" class="deleteEl"><img src="'.Theme :: get_common_image_path().'action_delete.png" /></a>';
 		}
 		
 		$html[] = '</div>';

@@ -47,7 +47,7 @@ class CourseGroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTab
 				$toolbar_data[] = array(
 					'href' => $unsubscribe_url,
 					'label' => Translation :: get('Subscribe'),
-					'img' => Theme :: get_common_img_path().'action_subscribe.png'
+					'img' => Theme :: get_common_image_path().'action_subscribe.png'
 				);
 			$parameters = array();
 			/*$parameters[Weblcms::PARAM_TOOL_ACTION] = UserTool::USER_DETAILS;
@@ -56,7 +56,7 @@ class CourseGroupUnsubscribedUserBrowserTableCellRenderer extends DefaultUserTab
 			$toolbar_data[] = array(
 				'href' => $unsubscribe_url,
 				'label' => Translation :: get('Details'),
-				'img' => Theme :: get_common_img_path().'action_details.png'
+				'img' => Theme :: get_common_image_path().'action_details.png'
 			);*/
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}

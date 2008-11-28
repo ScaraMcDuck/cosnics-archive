@@ -20,7 +20,7 @@ class DocumentQuestionResult extends QuestionResult
 			$this->add_score_controls($this->get_clo_question()->get_weight());
 		
 		$lo_document = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_answer->get_extra(), 'document');
-		$html_document = '<img src="'.Theme :: get_common_img_path().'learning_object/document.png" alt="">';
+		$html_document = '<img src="'.Theme :: get_common_image_path().'learning_object/document.png" alt="">';
 		$html_document .= ' <a href="'.htmlentities($lo_document->get_url()).'">'.$lo_document->get_filename()."</a> (size: ".$lo_document->get_filesize().") <br/>";
 		$answer_lines[] = $html_document;
 		$this->display_answers($answer_lines);
@@ -40,7 +40,7 @@ class DocumentQuestionResult extends QuestionResult
 		$user_answer = $user_answers[0];
 
 		$lo_document = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_answer->get_extra(), 'document');
-		$html_document = '<img src="'.Theme :: get_common_img_path().'learning_object/document.png" alt="">';
+		$html_document = '<img src="'.Theme :: get_common_image_path().'learning_object/document.png" alt="">';
 		$html_document .= ' <a href="'.htmlentities($lo_document->get_url()).'">'.$lo_document->get_filename()."</a> (size: ".$lo_document->get_filesize().") <br/>";
 		$answer_lines[] = $html_document;
 		$this->display_answers($answer_lines);

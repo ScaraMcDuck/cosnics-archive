@@ -253,7 +253,7 @@ class Myportfolio extends WebApplication
 		echo '</div>';
 		echo '<div style="float: right; width: 10%;">';
 		//$this->owner->photo or so
-		echo '<img align=right src="'.Theme :: get_common_img_path().'unknown.jpg"</img><br />';
+		echo '<img align=right src="'.Theme :: get_common_image_path().'unknown.jpg"</img><br />';
 		echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
 		Display :: display_footer();

@@ -36,7 +36,7 @@ class LearningObjectDifferenceDisplay {
 		$diff = $this->get_difference();
 
 		$html = array();
-		$html[] = '<div class="difference" style="background-image: url('.Theme :: get_common_img_path() . 'learning_object/' . $diff->get_object()->get_icon_name().'.png);">';
+		$html[] = '<div class="difference" style="background-image: url('.Theme :: get_common_image_path() . 'learning_object/' . $diff->get_object()->get_icon_name().'.png);">';
 		$html[] = '<div class="titleleft">';
 		$html[] = $diff->get_object()->get_title();
 		$html[] = date(" (d M Y, H:i:s O)",$diff->get_object()->get_creation_date());
@@ -103,7 +103,7 @@ class LearningObjectDifferenceDisplay {
 	function get_legend()
 	{
 		$html = array();
-		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path().'place_legend.png);">';
+		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_legend.png);">';
 		$html[] = '<div class="title">'. Translation :: get('Legend') .'</div>';
 		$html[] = '<span class="compare_delete">'. Translation :: get('CompareExample') .'</span>: '. Translation :: get('CompareDeleteInfo') .'<br />';
 		$html[] = '<span class="compare_add">'. Translation :: get('CompareExample') .'</span>: '. Translation :: get('CompareAddInfo') .'<br />';

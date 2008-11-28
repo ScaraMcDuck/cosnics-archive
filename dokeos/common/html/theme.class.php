@@ -1,4 +1,6 @@
 <?php
+require_once Path :: get_library_path().'html/toolbar/toolbar_item.class.php';
+
 // Theme-paths
 define('WEB_IMG_PATH', 'WEB_IMG_PATH');
 define('SYS_IMG_PATH', 'SYS_IMG_PATH');
@@ -85,7 +87,7 @@ class Theme
 	/**
 	 * Get the path to the application's image folder
 	 */
-    function get_img_path($application = null)
+    function get_image_path($application = null)
     {
     	$instance = self :: get_instance();
     	$application = (is_null($application) ? $instance->get_application() : $application);
@@ -95,7 +97,7 @@ class Theme
 	/**
 	 * Get the path to the general image folder
 	 */
-    function get_common_img_path()
+    function get_common_image_path()
     {
     	$instance = self :: get_instance();
 		return $instance->get_path(WEB_IMG_PATH) . 'common/';
@@ -126,6 +128,40 @@ class Theme
 		}
 		
 		return $options;
+	}
+	
+	function get_common_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
+	{
+		$image = self :: get_image_path() . $image . '.' . $extension;
+		
+		$icon = new ToolbarItem($label, $image, $href, $display, $confirmation);
+		return $icon->as_html();
+	}
+	
+	function get_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
+	{
+		$image = self :: get_image_path() . $image . '.' . $extension;
+		
+		$icon = new ToolbarItem($label, $image, $href, $display, $confirmation);
+		return $icon->as_html();
+	}
+	
+	function get_learning_object_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
+	{
+		$image = 'learning_object/' . $image;
+		return self :: get_common_image($image, $extension, $label, $href, $display, $confirmation);
+	}
+	
+	function get_treemenu_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
+	{
+		$image = 'treemenu/' . $image;
+		return self :: get_common_image($image, $extension, $label, $href, $display, $confirmation);
+	}
+	
+	function get_treemenu_type_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
+	{
+		$image = 'treemenu_types/' . $image;
+		return self :: get_common_image($image, $extension, $label, $href, $display, $confirmation);
 	}
 }
 ?>

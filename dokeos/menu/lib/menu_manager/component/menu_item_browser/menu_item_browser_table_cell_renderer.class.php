@@ -71,14 +71,14 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 		$toolbar_data[] = array(
 			'href' => $edit_url,
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'action_edit.png'
+			'img' => Theme :: get_common_image_path().'action_edit.png'
 		);
 		
 		if ($index == 'first' || $index == 'single')
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('MoveUp'),
-				'img' => Theme :: get_common_img_path().'action_up_na.png'
+				'img' => Theme :: get_common_image_path().'action_up_na.png'
 			);
 		}
 		else
@@ -87,7 +87,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 			$toolbar_data[] = array(
 				'href' => $move_url,
 				'label' => Translation :: get('MoveUp'),
-				'img' => Theme :: get_common_img_path().'action_up.png'
+				'img' => Theme :: get_common_image_path().'action_up.png'
 			);
 		}
 		
@@ -95,7 +95,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('MoveDown'),
-				'img' => Theme :: get_common_img_path().'action_down_na.png'
+				'img' => Theme :: get_common_image_path().'action_down_na.png'
 			);
 		}
 		else
@@ -104,7 +104,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 			$toolbar_data[] = array(
 				'href' => $move_url,
 				'label' => Translation :: get('MoveDown'),
-				'img' => Theme :: get_common_img_path().'action_down.png'
+				'img' => Theme :: get_common_image_path().'action_down.png'
 			);
 		}
 
@@ -113,7 +113,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 			'href' => $delete_url,
 			'label' => Translation :: get('Delete'),
 			'confirm' => true,
-			'img' => Theme :: get_common_img_path().'action_delete.png'
+			'img' => Theme :: get_common_image_path().'action_delete.png'
 		);
 	
 		return DokeosUtilities :: build_toolbar($toolbar_data);

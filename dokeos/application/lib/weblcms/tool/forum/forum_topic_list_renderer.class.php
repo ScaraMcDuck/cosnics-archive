@@ -29,7 +29,7 @@ class ForumTopicListRenderer extends TableLearningObjectPublicationListRenderer
     function render_delete_action($topic)
 	{
 		$delete_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, 'topic' => $topic->get_id()), true);
-		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().'action_delete.png"  alt=""/></a>';
+		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_image_path().'action_delete.png"  alt=""/></a>';
 		return $delete_link;
 	}
     function render_lock_action($topic)
@@ -45,7 +45,7 @@ class ForumTopicListRenderer extends TableLearningObjectPublicationListRenderer
 			$img = 'action_unlock.png';
 		}
 		$url = $this->get_url(array (Tool :: PARAM_ACTION => $action, 'topic_id' => $topic->get_id()), true);
-		$link = '<a href="'.$url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_img_path().$img.'"  alt=""/></a>';
+		$link = '<a href="'.$url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_image_path().$img.'"  alt=""/></a>';
 		return $link;
 	}
 	// Inherited

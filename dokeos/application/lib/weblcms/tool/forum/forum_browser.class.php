@@ -78,7 +78,7 @@ class ForumBrowser extends LearningObjectPublicationBrowser
 			{
 				$new = '_new';
 			}
-			$forum_table_row[] = '<img src="'.Theme :: get_common_img_path().'learning_object/forum'.$new.'.png">';
+			$forum_table_row[] = '<img src="'.Theme :: get_common_image_path().'learning_object/forum'.$new.'.png">';
 			$forum_url = $this->get_url(array('forum'=>$publication->get_id()));
 			$forum_table_row[] = '<a href="'.$forum_url.'">'.$forum->get_title().'</a><br /><small>'.$forum->get_description().'</small>';
 			$forum_table_row[] = ''.$forum->get_topic_count();

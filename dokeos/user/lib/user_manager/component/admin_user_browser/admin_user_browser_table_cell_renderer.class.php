@@ -76,13 +76,13 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_user_editing_url($user),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'action_edit.png'
+			'img' => Theme :: get_common_image_path().'action_edit.png'
 		);
 
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_user_quota_url($user),
 			'label' => Translation :: get('VersionQuota'),
-			'img' => Theme :: get_common_img_path().'action_statistics.png'
+			'img' => Theme :: get_common_image_path().'action_statistics.png'
 		);
 
 		if($user->get_id() != Session :: get_user_id())
@@ -90,13 +90,13 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_user_delete_url($user),
 				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_img_path().'action_delete.png'
+				'img' => Theme :: get_common_image_path().'action_delete.png'
 			);
 			
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_change_user_url($user),
 				'label' => Translation :: get('LoginAsUser'),
-				'img' => Theme :: get_common_img_path().'action_login.png'
+				'img' => Theme :: get_common_image_path().'action_login.png'
 			);
 		}
 

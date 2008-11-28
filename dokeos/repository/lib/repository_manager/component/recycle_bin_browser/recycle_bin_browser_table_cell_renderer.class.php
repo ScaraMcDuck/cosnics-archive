@@ -69,12 +69,12 @@ class RecycleBinBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 		$toolbar_data = array();
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_restoring_url($learning_object),
-			'img' => Theme :: get_common_img_path().'action_restore.png',
+			'img' => Theme :: get_common_image_path().'action_restore.png',
 			'label' => Translation :: get('Restore')
 		);
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_learning_object_deletion_url($learning_object),
-			'img' => Theme :: get_common_img_path().'action_delete.png',
+			'img' => Theme :: get_common_image_path().'action_delete.png',
 			'label' => Translation :: get('Delete'),
 			'confirm' => true
 		);

@@ -88,7 +88,7 @@ class MiniMonthCalendarLearningObjectPublicationListRenderer extends LearningObj
 		$event = $publication->get_learning_object();
 		$start_date = $event->get_start_date();
 		$end_date = $event->get_end_date();
-		$html[] = '<br /><img src="'.Theme :: get_common_img_path().'action_posticon.png"/>';
+		$html[] = '<br /><img src="'.Theme :: get_common_image_path().'action_posticon.png"/>';
 		return implode("\n",$html);
 	}
 }

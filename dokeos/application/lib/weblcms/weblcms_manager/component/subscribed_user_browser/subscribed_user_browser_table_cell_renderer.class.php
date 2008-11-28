@@ -78,7 +78,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 			$toolbar_data[] = array(
 				'href' => $subscribe_url,
 				'label' => Translation :: get('Subscribe'),
-				'img' => Theme :: get_common_img_path().'action_subscribe.png'
+				'img' => Theme :: get_common_image_path().'action_subscribe.png'
 			);
 		}
 		else
@@ -90,7 +90,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 			$toolbar_data[] = array(
 				'href' => $unsubscribe_url,
 				'label' => Translation :: get('Details'),
-				'img' => Theme :: get_common_img_path().'action_details.png'
+				'img' => Theme :: get_common_image_path().'action_details.png'
 			);
 			
 			if($user->get_id() != $this->browser->get_user()->get_id())
@@ -102,7 +102,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 				$toolbar_data[] = array(
 					'href' => $unsubscribe_url,
 					'label' => Translation :: get('Unsubscribe'),
-					'img' => Theme :: get_common_img_path().'action_unsubscribe.png'
+					'img' => Theme :: get_common_image_path().'action_unsubscribe.png'
 				);
 			}
 		}

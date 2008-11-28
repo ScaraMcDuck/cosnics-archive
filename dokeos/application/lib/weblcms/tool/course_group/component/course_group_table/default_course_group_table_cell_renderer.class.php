@@ -82,13 +82,13 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
 		$parameters[Weblcms :: PARAM_COURSE_GROUP] = $course_group->get_id();
 		$details_url = $this->course_group_tool->get_url($parameters);
 		// Default functionity achieved by clicking the course_group name, why add it as an icon ?
-		//$toolbar_data[] = array ('href' => $details_url, 'label' => Translation :: get('Details'), 'img' => Theme :: get_common_img_path().'description.png');
+		//$toolbar_data[] = array ('href' => $details_url, 'label' => Translation :: get('Details'), 'img' => Theme :: get_common_image_path().'description.png');
 		if($this->course_group_tool->is_allowed(EDIT_RIGHT))
 		{
 			$parameters = array ();
 			$parameters[Weblcms :: PARAM_COURSE_GROUP] = $course_group->get_id();
 			$delete_url = $this->course_group_tool->get_url($parameters);
-			$toolbar_data[] = array ('href' => $details_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_img_path().'action_delete.png');
+			$toolbar_data[] = array ('href' => $details_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path().'action_delete.png');
 		}
 		if($course_group->is_self_registration_allowed() && !$course_group->is_member($this->course_group_tool->get_user()))
 		{
@@ -96,7 +96,7 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
 			$parameters[Weblcms :: PARAM_COURSE_GROUP] = $course_group->get_id();
 			$parameters[CourseGroupTool::PARAM_COURSE_GROUP_ACTION] = CourseGroupTool::ACTION_USER_SELF_SUBSCRIBE;
 			$subscribe_url = $this->course_group_tool->get_url($parameters);
-			$toolbar_data[] = array ('href' => $subscribe_url, 'label' => Translation :: get('Subscribe'), 'img' => Theme :: get_common_img_path().'action_subscribe.png');
+			$toolbar_data[] = array ('href' => $subscribe_url, 'label' => Translation :: get('Subscribe'), 'img' => Theme :: get_common_image_path().'action_subscribe.png');
 		}
 		if($course_group->is_self_unregistration_allowed() && $course_group->is_member($this->course_group_tool->get_user()))
 		{
@@ -104,7 +104,7 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
 			$parameters[Weblcms :: PARAM_COURSE_GROUP] = $course_group->get_id();
 			$parameters[CourseGroupTool::PARAM_COURSE_GROUP_ACTION] = CourseGroupTool::ACTION_USER_SELF_UNSUBSCRIBE;
 			$unsubscribe_url = $this->course_group_tool->get_url($parameters);
-			$toolbar_data[] = array ('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_img_path().'action_unsubscribe.png');
+			$toolbar_data[] = array ('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_image_path().'action_unsubscribe.png');
 		}
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}

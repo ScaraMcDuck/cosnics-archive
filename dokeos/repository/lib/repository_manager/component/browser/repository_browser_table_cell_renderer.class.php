@@ -62,7 +62,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_learning_object_editing_url($learning_object),
 				'label' => Translation :: get('Edit'),
-				'img' => Theme :: get_common_img_path().'action_edit.png'
+				'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
 			$html = array ();
 			if ($url = $this->browser->get_learning_object_recycling_url($learning_object))
@@ -70,7 +70,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 				$toolbar_data[] = array(
 					'href' => $url,
 					'label' => Translation :: get('Remove'),
-					'img' => Theme :: get_common_img_path().'action_recycle_bin.png',
+					'img' => Theme :: get_common_image_path().'action_recycle_bin.png',
 					'confirm' => true
 				);
 			}
@@ -78,7 +78,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 			{
 				$toolbar_data[] = array(
 					'label' => Translation :: get('Remove'),
-					'img' => Theme :: get_common_img_path().'action_recycle_bin_na.png'
+					'img' => Theme :: get_common_image_path().'action_recycle_bin_na.png'
 				);
 			}
 			if($this->browser->count_categories() > 1)
@@ -86,23 +86,23 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 				$toolbar_data[] = array(
 					'href' => $this->browser->get_learning_object_moving_url($learning_object),
 					'label' => Translation :: get('Move'),
-					'img' => Theme :: get_common_img_path().'action_move.png'
+					'img' => Theme :: get_common_image_path().'action_move.png'
 				);
 			}
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_learning_object_metadata_editing_url($learning_object),
 				'label' => Translation :: get('Metadata'),
-				'img' => Theme :: get_common_img_path().'action_metadata.png'
+				'img' => Theme :: get_common_image_path().'action_metadata.png'
 			);
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_learning_object_rights_editing_url($learning_object),
 				'label' => Translation :: get('Rights'),
-				'img' => Theme :: get_common_img_path().'action_rights.png'
+				'img' => Theme :: get_common_image_path().'action_rights.png'
 			);
 			
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_learning_object_exporting_url($learning_object),
-				'img' => Theme :: get_common_img_path().'action_save.png',
+				'img' => Theme :: get_common_image_path().'action_save.png',
 				'label' => Translation :: get('Export'),
 			);
 			
@@ -110,14 +110,14 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 			{
 				$toolbar_data[] = array(
 					'href' => $this->browser->get_browse_complex_learning_object_url($learning_object),
-					'img' => Theme :: get_common_img_path().'action_browser.png',
+					'img' => Theme :: get_common_image_path().'action_browser.png',
 					'label' => Translation :: get('BrowseComplex'),
 				);
 			}
 			
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_publish_learning_object_url($learning_object),
-				'img' => Theme :: get_common_img_path().'action_publish.png',
+				'img' => Theme :: get_common_image_path().'action_publish.png',
 				'label' => Translation :: get('Publish'),
 			);
 			
@@ -132,7 +132,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 					$this->browser->get_cloi_id(), 
 					$this->browser->get_root_id()),
 				'label' => Translation :: get('Add'),
-				'img' => Theme :: get_common_img_path().'action_add.png'
+				'img' => Theme :: get_common_image_path().'action_add.png'
 			);
 			
 			return DokeosUtilities :: build_toolbar($toolbar_data);

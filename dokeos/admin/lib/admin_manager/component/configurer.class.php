@@ -113,7 +113,7 @@ $(\'div.application_current\').mouseout(function(){
 				$html[] = '<div class="application">';
 			}
 			$html[] = '<a href="'. $this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
-			$html[] = '<img src="'. Theme :: get_img_path() . 'place_' . $application_links['application']['class'] .'.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'];
+			$html[] = '<img src="'. Theme :: get_image_path() . 'place_' . $application_links['application']['class'] .'.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'];
 			$html[] = '</a>';
 			$html[] = '</div>';
 		}

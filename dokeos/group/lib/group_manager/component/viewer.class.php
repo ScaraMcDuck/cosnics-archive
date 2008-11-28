@@ -40,12 +40,12 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 			$this->ab = $this->get_action_bar();
 			echo $this->ab->as_html() . '<br />';
 			
-			echo '<div class="clear"></div><div class="learning_object" style="background-image: url('. Theme :: get_common_img_path() .'place_group.png);">';
+			echo '<div class="clear"></div><div class="learning_object" style="background-image: url('. Theme :: get_common_image_path() .'place_group.png);">';
 			echo '<div class="title">'. Translation :: get('Description') .'</div>';
 			echo $group->get_description();
 			echo '</div>';
 			
-			echo '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path() .'place_users.png);">';
+			echo '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path() .'place_users.png);">';
 			echo '<div class="title">'. Translation :: get('Users') .'</div>';
 			$table = new GroupRelUserBrowserTable($this, array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $id), $this->get_condition());
 			echo $table->as_html();
@@ -99,11 +99,11 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 		
 		$action_bar->set_search_url($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $group->get_id())));
 		
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_img_path().'action_browser.png', $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $group->get_id())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_img_path().'action_edit.png', $this->get_group_editing_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_img_path().'action_delete.png', $this->get_group_delete_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $group->get_id())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_group_editing_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_group_delete_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
-		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_img_path().'action_subscribe.png', $this->get_group_suscribe_user_browser_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path().'action_subscribe.png', $this->get_group_suscribe_user_browser_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		
 		$condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group->get_id());
@@ -115,19 +115,19 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_group_emptying_url($group),
 				'label' => Translation :: get('Truncate'),
-				'img' => Theme :: get_common_img_path().'action_recycle_bin.png',
+				'img' => Theme :: get_common_image_path().'action_recycle_bin.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);
-			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Truncate'), Theme :: get_common_img_path().'action_recycle_bin.png', $this->get_group_emptying_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Truncate'), Theme :: get_common_image_path().'action_recycle_bin.png', $this->get_group_emptying_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('TruncateNA'),
-				'img' => Theme :: get_common_img_path().'action_recycle_bin_na.png',
+				'img' => Theme :: get_common_image_path().'action_recycle_bin_na.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);
-			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('TruncateNA'), Theme :: get_common_img_path().'action_recycle_bin_na.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('TruncateNA'), Theme :: get_common_image_path().'action_recycle_bin_na.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 		
 		

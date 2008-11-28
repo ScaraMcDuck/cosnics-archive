@@ -55,7 +55,7 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 		$title = $column->get_title();
 		if($title == '')
 		{
-			$img = Theme :: get_common_img_path() . 'treemenu_types/category.png';
+			$img = Theme :: get_common_image_path() . 'treemenu_types/category.png';
 			return '<img src="' . $img . '"alt="category" />';
 		}
 		
@@ -83,14 +83,14 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 			$toolbar_data[] = array(
 					'href' => $this->browser->get_update_category_url($category->get_id()),
 					'label' => Translation :: get('Edit'),
-					'img' => Theme :: get_common_img_path() . 'action_edit.png'
+					'img' => Theme :: get_common_image_path() . 'action_edit.png'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 					'label' => Translation :: get('Edit'),
-					'img' => Theme :: get_common_img_path() . 'action_edit_na.png',
+					'img' => Theme :: get_common_image_path() . 'action_edit_na.png',
 			);
 		}
 		
@@ -99,7 +99,7 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 			$toolbar_data[] = array(
 					'href' => $this->browser->get_delete_category_url($category->get_id()),
 					'label' => Translation :: get('Delete'),
-					'img' => Theme :: get_common_img_path() . 'action_delete.png',
+					'img' => Theme :: get_common_image_path() . 'action_delete.png',
 					'confirm' => true
 			);
 		}
@@ -107,7 +107,7 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 		{
 			$toolbar_data[] = array(
 					'label' => Translation :: get('Delete'),
-					'img' => Theme :: get_common_img_path() . 'action_delete_na.png',
+					'img' => Theme :: get_common_image_path() . 'action_delete_na.png',
 			);
 		}
 		
@@ -116,14 +116,14 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 			$toolbar_data[] = array(
 					'href' => $this->browser->get_move_category_url($category->get_id(), -1),
 					'label' => Translation :: get('MoveUp'),
-					'img' => Theme :: get_common_img_path() . 'action_up.png',
+					'img' => Theme :: get_common_image_path() . 'action_up.png',
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 					'label' => Translation :: get('MoveUpNA'),
-					'img' => Theme :: get_common_img_path() . 'action_up_na.png',
+					'img' => Theme :: get_common_image_path() . 'action_up_na.png',
 			);
 		}
 		
@@ -132,14 +132,14 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 			$toolbar_data[] = array(
 					'href' => $this->browser->get_move_category_url($category->get_id(), 1),
 					'label' => Translation :: get('MoveDown'),
-					'img' => Theme :: get_common_img_path() . 'action_down.png',
+					'img' => Theme :: get_common_image_path() . 'action_down.png',
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 					'label' => Translation :: get('MoveDownNA'),
-					'img' => Theme :: get_common_img_path() . 'action_down_na.png',
+					'img' => Theme :: get_common_image_path() . 'action_down_na.png',
 			);
 		}
 		
@@ -148,14 +148,14 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 			$toolbar_data[] = array(
 					'href' => $this->browser->get_change_category_parent_url($category->get_id()),
 					'label' => Translation :: get('Move'),
-					'img' => Theme :: get_common_img_path() . 'action_move.png'
+					'img' => Theme :: get_common_image_path() . 'action_move.png'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 					'label' => Translation :: get('MoveNA'),
-					'img' => Theme :: get_common_img_path() . 'action_move_na.png'
+					'img' => Theme :: get_common_image_path() . 'action_move_na.png'
 			);
 		}
 		

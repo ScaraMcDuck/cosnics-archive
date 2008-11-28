@@ -37,7 +37,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 		$html = array();
 		$date_format = Translation :: get('dateTimeFormatLong');
 		
-		$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_img_path() . $event->get_source().'.png);">';
+		$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path() . $event->get_source().'.png);">';
 		$html[] = '<div class="title">'. htmlentities($event->get_title()) .'</div>';
 		
 		if ($event->get_end_date() != '')

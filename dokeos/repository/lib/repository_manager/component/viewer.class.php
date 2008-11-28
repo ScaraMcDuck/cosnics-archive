@@ -137,7 +137,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				{
 					$recycle_bin_button = array(
 						'href' => $recycle_url,
-						'img' => Theme :: get_common_img_path().'action_recycle_bin.png',
+						'img' => Theme :: get_common_image_path().'action_recycle_bin.png',
 						'label' => Translation :: get('Remove'),
 						'confirm' => true,
 						'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
@@ -150,7 +150,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$recycle_bin_button = array(
 							'href' => $delete_url,
-							'img' => Theme :: get_common_img_path().'action_delete.png',
+							'img' => Theme :: get_common_image_path().'action_delete.png',
 							'label' => Translation :: get('Delete'),
 							'confirm' => true,
 							'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
@@ -160,7 +160,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					else
 					{
 						$recycle_bin_button = array(
-							'img' => Theme :: get_common_img_path().'action_recycle_bin_na.png',
+							'img' => Theme :: get_common_image_path().'action_recycle_bin_na.png',
 							'label' => Translation :: get('Remove'),
 							'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -176,7 +176,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$force_delete_button = array(
 							'href' => $delete_link_url,
-							'img' => Theme :: get_common_img_path().'action_unlink.png',
+							'img' => Theme :: get_common_image_path().'action_unlink.png',
 							'label' => Translation :: get('Unlink'),
 							'confirm' => true,
 							'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
@@ -188,7 +188,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$toolbar_data[] = array(
 							'href' => $edit_url,
-							'img' => Theme :: get_common_img_path().'action_edit.png',
+							'img' => Theme :: get_common_image_path().'action_edit.png',
 							'label' => Translation :: get('Edit'),
 							'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -196,7 +196,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					else
 					{
 						$toolbar_data[] = array(
-							'img' => Theme :: get_common_img_path().'action_edit_na.png',
+							'img' => Theme :: get_common_image_path().'action_edit_na.png',
 							'label' => Translation :: get('Edit'),
 							'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -214,7 +214,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					{
 						$toolbar_data[] = array(
 							'href' =>  $this->get_learning_object_moving_url($object),
-							'img' => Theme :: get_common_img_path().'action_move.png',
+							'img' => Theme :: get_common_image_path().'action_move.png',
 							'label' => Translation :: get('Move'),
 							'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -222,20 +222,20 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_metadata_editing_url($object),
 						'label' => Translation :: get('Metadata'),
-						'img' => Theme :: get_common_img_path().'action_metadata.png',
+						'img' => Theme :: get_common_image_path().'action_metadata.png',
 						'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_rights_editing_url($object),
 						'label' => Translation :: get('Rights'),
-						'img' => Theme :: get_common_img_path().'action_rights.png',
+						'img' => Theme :: get_common_image_path().'action_rights.png',
 						'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 					if($object->is_complex_learning_object())
 					{
 						$toolbar_data[] = array(
 							'href' => $this->get_browse_complex_learning_object_url($object),
-							'img' => Theme :: get_common_img_path().'action_browser.png',
+							'img' => Theme :: get_common_image_path().'action_browser.png',
 							'label' => Translation :: get('BrowseComplex'),
 							'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 						);
@@ -246,7 +246,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					$toolbar_data[] = array(
 						'href' => $this->get_learning_object_restoring_url($object),
 						'label' => Translation :: get('Restore'),
-						'img' => Theme :: get_common_img_path().'action_restore.png',
+						'img' => Theme :: get_common_image_path().'action_restore.png',
 						'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 					);
 					$toolbar_data[] = $recycle_bin_button;

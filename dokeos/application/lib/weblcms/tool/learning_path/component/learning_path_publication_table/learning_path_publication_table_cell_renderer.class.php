@@ -42,7 +42,7 @@ class LearningPathPublicationTableCellRenderer extends DefaultLearningObjectTabl
 		/*$execute = array(
 		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_TAKE_EXERCISE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
 		'label' => Translation :: get('Take exercise'),
-		'img' => Theme :: get_common_img_path().'action_right.png'
+		'img' => Theme :: get_common_image_path().'action_right.png'
 		);*/
 		
 		//$actions[] = $execute;
@@ -52,19 +52,19 @@ class LearningPathPublicationTableCellRenderer extends DefaultLearningObjectTabl
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 			'label' => Translation :: get('Delete'), 
-			'img' => Theme :: get_common_img_path().'action_delete.png'
+			'img' => Theme :: get_common_image_path().'action_delete.png'
 			);
 			
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 			'label' => Translation :: get('Edit'), 
-			'img' => Theme :: get_common_img_path().'action_edit.png'
+			'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
 			
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 			'label' => Translation :: get('Visible'), 
-			'img' => Theme :: get_common_img_path().'action_visible.png'
+			'img' => Theme :: get_common_image_path().'action_visible.png'
 			);
 			
 		}

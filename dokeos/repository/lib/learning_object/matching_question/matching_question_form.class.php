@@ -192,7 +192,7 @@ class MatchingQuestionForm extends LearningObjectForm
 				$group[] = $this->createElement('select','matches_to['.$option_number.']','',$matches);
 				if($number_of_options - count($_SESSION['mq_skip_options']) > 2)
 				{
-					$group[] = $this->createElement('image','remove_option['.$option_number.']',Theme :: get_common_img_path().'action_list_remove.png');
+					$group[] = $this->createElement('image','remove_option['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
 				}
 				$this->addGroup($group,'options_group_'.$option_number,$label++,'',false);
 				$this->addGroupRule('options_group_'.$option_number,
@@ -217,7 +217,7 @@ class MatchingQuestionForm extends LearningObjectForm
 			}
 		}
 		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
-		$this->addElement('image','add_option[]',Theme :: get_common_img_path().'action_list_add.png');
+		$this->addElement('image','add_option[]',Theme :: get_common_image_path().'action_list_add.png');
 	}
 	/**
 	 * Adds the form-fields to the form to provide the possible matches for this
@@ -235,7 +235,7 @@ class MatchingQuestionForm extends LearningObjectForm
 				$group[] = $this->createElement('text','match['.$match_number.']', '', true,'size="40"');
 				if($number_of_matches - count($_SESSION['mq_skip_matches']) > 2)
 				{
-					$group[] = $this->createElement('image','remove_match['.$match_number.']',Theme :: get_common_img_path().'action_list_remove.png');
+					$group[] = $this->createElement('image','remove_match['.$match_number.']',Theme :: get_common_image_path().'action_list_remove.png');
 				}
 				$this->addGroup($group,'matches_group_'.$match_number,$label++,'',false);
 				$this->addGroupRule('matches_group_'.$match_number,
@@ -251,7 +251,7 @@ class MatchingQuestionForm extends LearningObjectForm
 			}
 		}
 		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
-		$this->addElement('image','add_match[]',Theme :: get_common_img_path().'action_list_add.png');
+		$this->addElement('image','add_match[]',Theme :: get_common_image_path().'action_list_add.png');
 	}
 }
 ?>

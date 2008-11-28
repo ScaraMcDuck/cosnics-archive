@@ -267,7 +267,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	function get_actionbar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateCourseUserCategory'), Theme :: get_common_img_path().'action_create.png', $this->get_course_user_category_add_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('CreateCourseUserCategory'), Theme :: get_common_image_path().'action_create.png', $this->get_course_user_category_add_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		return $action_bar;
 	}
 	
@@ -315,14 +315,14 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_move_url($course, 'up'),
 				'label' => Translation :: get('Up'),
-				'img' => Theme :: get_common_img_path().'action_up.png'
+				'img' => Theme :: get_common_image_path().'action_up.png'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('Up'),
-				'img' => Theme :: get_common_img_path().'action_up_na.png'
+				'img' => Theme :: get_common_image_path().'action_up_na.png'
 			);
 		}
 		
@@ -331,25 +331,25 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_move_url($course, 'down'),
 				'label' => Translation :: get('Down'),
-				'img' => Theme :: get_common_img_path().'action_down.png'
+				'img' => Theme :: get_common_image_path().'action_down.png'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('Up'),
-				'img' => Theme :: get_common_img_path().'action_down_na.png'
+				'img' => Theme :: get_common_image_path().'action_down_na.png'
 			);
 		}
 		
 		$toolbar_data[] = array(
 			'href' => $this->get_course_user_edit_url($course),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'action_edit.png'
+			'img' => Theme :: get_common_image_path().'action_edit.png'
 		);
 		
 		$toolbar_data[] = array(
-			'img' => Theme :: get_common_img_path().'spacer.png'
+			'img' => Theme :: get_common_image_path().'spacer.png'
 		);
 
 		return DokeosUtilities :: build_toolbar($toolbar_data);
@@ -364,14 +364,14 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_category_move_url($courseusercategory, 'up'),
 				'label' => Translation :: get('Up'),
-				'img' => Theme :: get_common_img_path().'action_up.png'
+				'img' => Theme :: get_common_image_path().'action_up.png'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('Up'),
-				'img' => Theme :: get_common_img_path().'action_up_na.png'
+				'img' => Theme :: get_common_image_path().'action_up_na.png'
 			);
 		}
 		
@@ -380,28 +380,28 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			$toolbar_data[] = array(
 				'href' => $this->get_course_user_category_move_url($courseusercategory, 'down'),
 				'label' => Translation :: get('Down'),
-				'img' => Theme :: get_common_img_path().'action_down.png'
+				'img' => Theme :: get_common_image_path().'action_down.png'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('Up'),
-				'img' => Theme :: get_common_img_path().'action_down_na.png'
+				'img' => Theme :: get_common_image_path().'action_down_na.png'
 			);
 		}
 		
 		$toolbar_data[] = array(
 			'href' => $this->get_course_user_category_edit_url($courseusercategory),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'action_edit.png'
+			'img' => Theme :: get_common_image_path().'action_edit.png'
 		);
 			
 		$toolbar_data[] = array(
 			'href' => $this->get_course_user_category_delete_url($courseusercategory),
 			'label' => Translation :: get('Delete'),
 			'confirm' => true,
-			'img' => Theme :: get_common_img_path().'action_delete.png'
+			'img' => Theme :: get_common_image_path().'action_delete.png'
 		);
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);

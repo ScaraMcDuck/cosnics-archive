@@ -24,13 +24,13 @@ class PortfolioViewer extends PesonalMessagePublisherComponent
 			$toolbar_data = array();
 			$toolbar_data[] = array(
 				'href' => $this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator', LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id())),
-				'img' => Theme :: get_common_img_path().'action_publish.png',
+				'img' => Theme :: get_common_image_path().'action_publish.png',
 				'label' => Translation :: get('Publish'),
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);
 //			$toolbar_data[] = array(
 //				'href' => $this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator', LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id(), LearningObjectPublisher :: PARAM_EDIT => 1)),
-//				'img' => Theme :: get_common_img_path().'action_editpublish.png',
+//				'img' => Theme :: get_common_image_path().'action_editpublish.png',
 //				'label' => Translation :: get('EditAndPublish'),
 //				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 //			);

@@ -204,7 +204,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			
 			$action_bar->add_tool_action(
 				new ToolbarItem(
-					Translation :: get('Add feedback and scores'), Theme :: get_common_img_path().'action_edit.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid, AssessmentTool :: PARAM_ADD_FEEDBACK => $feedback)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+					Translation :: get('Add feedback and scores'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid, AssessmentTool :: PARAM_ADD_FEEDBACK => $feedback)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 				)
 			);
 		}

@@ -25,7 +25,7 @@ class BarChartDataRenderer extends DataRenderer
 		foreach($this->data as $key => $value)
 		{
 			$width = round(400*$value/$max);
-			$bar = '<img src="'.Theme :: get_common_img_path().'bar_1u.png" width="'.$width.'" height="10" alt="'.$key.'"/>';
+			$bar = '<img src="'.Theme :: get_common_image_path().'bar_1u.png" width="'.$width.'" height="10" alt="'.$key.'"/>';
 			$percent = number_format(100*$value/$sum,2).'%';
 			$table_data[]  = array($key,$bar,$value,$percent);
 		}

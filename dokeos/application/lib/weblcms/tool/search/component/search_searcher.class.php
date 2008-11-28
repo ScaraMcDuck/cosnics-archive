@@ -66,7 +66,7 @@ class SearchToolSearcherComponent extends SearchToolComponent
 				{
 					foreach($objects as $index => $object)
 					{
-						echo '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path().'learning_object/'.$object->get_icon_name().'.png);">';
+						echo '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'learning_object/'.$object->get_icon_name().'.png);">';
 						echo '<div class="title"">'.$object->get_title().'</div>';
 						echo '<div class="description">'.$object->get_description().'</div>';
 						echo '</div>';

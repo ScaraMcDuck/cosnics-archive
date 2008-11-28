@@ -49,8 +49,8 @@ if ($user_home_allowed && Authentication :: is_valid())
 			$component_title = $application_value . ' > ' . $component_value;
 			$component_id = $application_key . '.' . $component_key;
 			
-			echo '<div class="component" id="'. $component_id .'" style="float: left; background: url('. Theme :: get_img_path() .'background_ajax_component.png) #e7e7e7 repeat-x; margin-right: 5px; margin-bottom: 5px; height: 75px; width: 75px; overflow: hidden; text-align: center; font-size: 75%; font-weight: bolder; border: 1px solid white;">';
-			echo '<img style="margin: 5px;" src="'. Theme :: get_img_path('admin') . 'place_' . $application_key .'.png" alt="'. $component_title .'" title="'. $component_title .'"/>';
+			echo '<div class="component" id="'. $component_id .'" style="float: left; background: url('. Theme :: get_image_path() .'background_ajax_component.png) #e7e7e7 repeat-x; margin-right: 5px; margin-bottom: 5px; height: 75px; width: 75px; overflow: hidden; text-align: center; font-size: 75%; font-weight: bolder; border: 1px solid white;">';
+			echo '<img style="margin: 5px;" src="'. Theme :: get_image_path('admin') . 'place_' . $application_key .'.png" alt="'. $component_title .'" title="'. $component_title .'"/>';
 			echo '<br />';
 			echo $component_value;
 			echo '</div>';
@@ -64,8 +64,8 @@ if ($user_home_allowed && Authentication :: is_valid())
 	echo '<div class="clear">&nbsp;</div>';
 	echo '</div>';
 	
-	echo '<div style="position: relative; bottom: -15px; padding: 5px 0px 5px 0px; margin: 0px -15px 0px -15px; text-align: center; background: url('. Theme :: get_common_img_path() .'background_ajax_hide.png)#F6F6F6 no-repeat top center;">';
-	echo '<a class="closeScreen" href="#"><img src="'. Theme :: get_common_img_path() .'action_ajax_hide.png" alt="'. Translation :: get('close') .'" title="'. Translation :: get('close') .'" /></a>';
+	echo '<div style="position: relative; bottom: -15px; padding: 5px 0px 5px 0px; margin: 0px -15px 0px -15px; text-align: center; background: url('. Theme :: get_common_image_path() .'background_ajax_hide.png)#F6F6F6 no-repeat top center;">';
+	echo '<a class="closeScreen" href="#"><img src="'. Theme :: get_common_image_path() .'action_ajax_hide.png" alt="'. Translation :: get('close') .'" title="'. Translation :: get('close') .'" /></a>';
 	echo '</div>';
 	echo '</div>';
 }

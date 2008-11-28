@@ -60,7 +60,7 @@ class DefaultLearningObjectTableCellRenderer implements ObjectTableCellRenderer
 				case LearningObject :: PROPERTY_TYPE :
 					$type = $learning_object->get_type();
 					$icon = $learning_object->get_icon_name();
-					return '<img src="' . Theme :: get_common_img_path() . 'learning_object/' .$icon.'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($type).'TypeName')).'"/>';
+					return '<img src="' . Theme :: get_common_image_path() . 'learning_object/' .$icon.'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($type).'TypeName')).'"/>';
 				case LearningObject :: PROPERTY_TITLE :
 					return htmlspecialchars($learning_object->get_title());
 				case LearningObject :: PROPERTY_DESCRIPTION :

@@ -35,7 +35,7 @@ class RepositoryFeeder extends RepositoryBlock
 			$html[] = '<ul style="padding: 0px; margin: 0px 0px 0px 15px;">';
 			foreach ($feed['items'] as $item)
 			{
-	//			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path() . 'learning_object/rss_feed_item.png);">';
+	//			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path() . 'learning_object/rss_feed_item.png);">';
 				$html[] = '<li><a href="'.htmlentities($item['link']).'">'. $item['title'] .'</a></li>';
 	//			$html[] = html_entity_decode($item['description']);
 	//			$html[] = '<div class="link_url" style="margin-top: 1em;"><a href="'.htmlentities($item['link']).'">'.htmlentities($item['link']).'</a></div>';

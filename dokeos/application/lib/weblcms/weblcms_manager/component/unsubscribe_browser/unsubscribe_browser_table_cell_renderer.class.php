@@ -57,7 +57,7 @@ class UnsubscribeBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 				'href' => $course_unsubscription_url,
 				'label' => Translation :: get('Unsubscribe'),
 				'confirm' => true,
-				'img' => Theme :: get_common_img_path().'action_delete.png'
+				'img' => Theme :: get_common_image_path().'action_delete.png'
 			);
 			
 			return DokeosUtilities :: build_toolbar($toolbar_data);

@@ -49,7 +49,7 @@ class CourseGroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTable
 				$toolbar_data[] = array(
 					'href' => $unsubscribe_url,
 					'label' => Translation :: get('Unsubscribe'),
-					'img' => Theme :: get_common_img_path().'action_unsubscribe.png'
+					'img' => Theme :: get_common_image_path().'action_unsubscribe.png'
 				);
 			}
 			$parameters = array();
@@ -59,7 +59,7 @@ class CourseGroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTable
 			$toolbar_data[] = array(
 				'href' => $unsubscribe_url,
 				'label' => Translation :: get('Details'),
-				'img' => Theme :: get_common_img_path().'action_details.png'
+				'img' => Theme :: get_common_image_path().'action_details.png'
 			);*/
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}

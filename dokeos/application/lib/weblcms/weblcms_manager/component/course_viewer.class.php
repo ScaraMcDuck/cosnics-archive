@@ -134,7 +134,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 				$tb_data[] = array(
 					'href' => $this->get_course()->get_extlink_url(),
 					'label' => $this->get_course()->get_extlink_name(),
-					'icon' => Theme :: get_common_img_path().'action_home.png',
+					'icon' => Theme :: get_common_image_path().'action_home.png',
 					'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 				);
 				//dump($tb_data);
@@ -227,22 +227,22 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			$tb_data[] = array(
 				'href' => $this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_EDIT_INTRODUCTION)),
 				'label' => Translation :: get('Edit'),
-				'img' => Theme :: get_common_img_path() . 'action_edit.png',
+				'img' => Theme :: get_common_image_path() . 'action_edit.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
 			);
 			
 			$tb_data[] = array(
 				'href' => $this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_DELETE_INTRODUCTION)),
 				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_img_path() . 'action_delete.png',
+				'img' => Theme :: get_common_image_path() . 'action_delete.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
 			);
 			
 			$html = array();
 		
-			$html[] = '<div class="block" id="block_introduction" style="background-image: url('.Theme :: get_img_path('home').'block_home.png);">';
+			$html[] = '<div class="block" id="block_introduction" style="background-image: url('.Theme :: get_image_path('home').'block_home.png);">';
 			$html[] = '<div class="title">'. Translation :: get('Introduction');
-			$html[] = '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible" style="display: none;") src="'.Theme :: get_common_img_path().'action_invisible.png" /></a></div>';
+			$html[] = '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_image_path().'action_visible.png" /><img class="invisible" style="display: none;") src="'.Theme :: get_common_image_path().'action_invisible.png" /></a></div>';
 			$html[] = '<div class="description">';
 			$html[] = $introduction_text->get_learning_object()->get_description();
 			$html[] = '<div style="clear: both;"></div>';
@@ -256,7 +256,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			$tb_data[] = array(
 				'href' => $this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_PUBLISH_INTRODUCTION)),
 				'label' => Translation :: get('PublishIntroductionText'),
-				'img' => Theme :: get_common_img_path() . 'action_publish.png',
+				'img' => Theme :: get_common_image_path() . 'action_publish.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);
 				
