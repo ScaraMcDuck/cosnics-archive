@@ -14,12 +14,12 @@ class XmlExport extends Export
 	private $level = 0;
 	public function write_to_file($data)
 	{
-		$file = Filesystem::create_unique_name($this->get_path(SYS_ARCHIVE_PATH),$this->get_filename());
+		$file = $this->get_path(SYS_TEMP_PATH) . Filesystem::create_unique_name($this->get_path(SYS_TEMP_PATH),$this->get_filename());
 		$this->handle = fopen($file, 'a+');
 		fwrite($this->handle, '<?xml version="1.0" encoding="ISO-8859-1"?>'."\n");
 		$this->write_array($data);
-		fclose($this->handle);
-		Filesystem :: file_send_for_download($file, true, $file);
+		fclose($this->handle); 
+		Filesystem :: file_send_for_download($file, true, $file); echo $file;
 		exit;
 	}
 	
