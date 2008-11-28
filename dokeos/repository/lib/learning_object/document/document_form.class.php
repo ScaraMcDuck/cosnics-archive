@@ -77,7 +77,13 @@ class DocumentForm extends LearningObjectForm
 			$full_path = $this->get_upload_path().$path;
 			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
 		}
-		chmod($full_path, 0777);
+		
+		$setting = 0777;
+		$ad = PlatformSetting :: get('permissions_new_files');
+		if($ad && $ad != '')
+			$setting = $ad;
+		
+		chmod($full_path, $setting);
 		$object = new Document();
 		$object->set_path($path);
 		$object->set_filename($filename);
@@ -224,6 +230,17 @@ class DocumentForm extends LearningObjectForm
 				{
 					$errors['uncompress'] = Translation :: get('UncompressNotAvailableForThisFile');
 				}
+				/*$type = strrchr($_FILES['file']['name'], '.')
+				if(!$fields['uncompress'] && !$this->allow_file_type($type))
+				{
+					if(PlatformSetting :: get('filter_behavior') == 'remove')
+						$errors['upload_or_create'] = Translation :: get('FileTypeNotAllowed');
+					else
+					{
+						$name = $_FILES['file']['name'];
+						$_FILES['file']['name'] = substr($name, 0, strpos($name, $type)) . PlatformSetting :: get('replacement_extension')
+					}
+				}*/
 				//TODO: Add a check to see if the uncompressed file doesn't take to much disk space
 			}
 			else
@@ -258,6 +275,29 @@ class DocumentForm extends LearningObjectForm
 	private static function get_upload_path()
 	{
 		return Path :: get(SYS_REPO_PATH);
+	}
+	
+	private function allow_file_type($type)
+	{
+		$filtering_type = PlatformSetting :: get('type_of_filtering');
+		if($filtering_type == 'blacklist')
+		{
+			$blacklist = PlatformSetting :: get('blacklist');
+			$items = explode(',', $blacklist);
+			if(in_array($type, $items))
+			{
+				return false;
+			}
+		}
+		else
+		{
+			$whitelist = PlatformSetting :: get('whitelist');
+			$items = explode(',', $whitelist);
+			if(in_array($type, $items))
+			{
+				return true;
+			}
+		}
 	}
 }
 ?>
