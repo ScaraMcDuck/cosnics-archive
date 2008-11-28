@@ -319,7 +319,7 @@ abstract class LearningObjectPublicationListRenderer
 					$html[] = '</div>';
 					$html[] = '<div class="description">';
 					$html[] = $attachment->get_description();
-					$html[] = '</div>';
+					$html[] = '</div></div>';
 					//$html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				//$html[] = '</ul>';

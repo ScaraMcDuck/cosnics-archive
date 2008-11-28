@@ -3,6 +3,7 @@
 require_once dirname(__FILE__) . '/../weblcms.class.php';
 require_once dirname(__FILE__) . '/../weblcms_component.class.php';
 require_once dirname(__FILE__) . '/../../learning_object_publication_form.class.php';
+require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
 
 class WeblcmsIntroductionEditorComponent extends WeblcmsComponent
 {
