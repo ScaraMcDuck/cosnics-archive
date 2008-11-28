@@ -2041,14 +2041,19 @@ div.block div.title a.closeEl
 	right: 0px;
 }
 
-div.block div.title a.editEl
+div.block div.title a.configEl
 {
 	right: 22px;
 }
 
-div.block div.title a.deleteEl
+div.block div.title a.editEl
 {
 	right: 44px;
+}
+
+div.block div.title a.deleteEl
+{
+	right: 66px;
 }
 
 div.block div.description

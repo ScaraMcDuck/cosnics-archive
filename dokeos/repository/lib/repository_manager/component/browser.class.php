@@ -55,7 +55,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
-		$action_bar->set_search_url($this->get_url(array('category' => $_GET['category'])));
+		$action_bar->set_search_url($this->get_url(array('category' => $_GET[RepositoryManager :: PARAM_CATEGORY_ID])));
 		
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
@@ -67,8 +67,8 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 	
 	private function get_condition()
 	{
-		$conditions[] = new EqualityCondition('parent', $_GET['category']?$_GET['category']:0);
-		$conditions[] = new EqualityCondition('owner', $this->get_user_id());
+		$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_PARENT_ID, $_GET[RepositoryManager :: PARAM_CATEGORY_ID]?$_GET[RepositoryManager :: PARAM_CATEGORY_ID]:0);
+		$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->get_user_id());
 		
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')

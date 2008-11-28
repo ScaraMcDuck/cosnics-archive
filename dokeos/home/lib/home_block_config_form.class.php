@@ -15,13 +15,14 @@ class HomeBlockConfigForm extends FormValidator {
 	
 	private $homeblock;
 	private $homeblock_config;
+	private $base_path;
 
     function HomeBlockConfigForm($homeblock, $action) {
     	parent :: __construct('home_block', 'post', $action);
     	
     	$this->homeblock = $homeblock;
-    	$this->homeblock_config = $this->parse_block_settings();
     	$this->base_path = (Application :: is_application($this->homeblock->get_application()) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
+    	$this->homeblock_config = $this->parse_block_settings();
 		$this->build_form();
 		$this->setDefaults();
     }
