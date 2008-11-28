@@ -93,6 +93,17 @@ class HomeInstaller extends Installer
 			return false;
 		}
 		
+		$block_portal_home = new HomeBlock();
+		$block_portal_home->set_column($column_news->get_id());
+		$block_portal_home->set_title(Translation :: get('PortalHome'));
+		$block_portal_home->set_application('admin');
+		$block_portal_home->set_component('portal_home');
+		$block_portal_home->set_user('0');
+		if (!$block_portal_home->create())
+		{
+			return false;
+		}
+		
 		return true;
 	}
 	

@@ -37,14 +37,17 @@ class Filesystem
 	 * @param string $mode
 	 * @return boolean True if successfull, false if not.
 	 */
-	public static function create_dir($path,$mode)
+	public static function create_dir($path,$mode = null)
 	{
-		if(is_null($mode))
+		if(!$mode)
 		{
 			$mode = 0777;
-			$ad = PlatformSetting :: get('permissions_new_directories');
-			if($ad && $ad != '')
-				$mode = $ad;
+			if(class_exists('PlatformSetting'))
+			{
+				$ad = PlatformSetting :: get('permissions_new_directories');
+				if($ad && $ad != '')
+					$mode = $ad;
+			}
 		}
 		// If the given path is a file, return false
 		if(is_file($path))

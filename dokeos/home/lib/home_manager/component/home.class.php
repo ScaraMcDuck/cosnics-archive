@@ -49,7 +49,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		}
 		
 		while ($row = $rows->next_result())
-		{
+		{ 
 			$rows_position = $rows->position();
 			$html[] = '<div class="row" id="row_'. $row->get_id() .'" style="'.($rows_position != 'last' ? 'margin-bottom: 1%;' : '') .'">';
 			
@@ -93,7 +93,8 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 							$app = new $application_class($this->get_user());
 							$html[] = $app->render_block($block);
 						}
-						elseif($application == 'user' && $block->get_component() == 'login')
+						elseif(($application == 'user' && $block->get_component() == 'login') ||
+							   ($application == 'admin' && $block->get_component() == 'portal_home'))
 						{
 							$app = new $application_class($this->get_user());
 							$html[] = $app->render_block($block);

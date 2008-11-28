@@ -128,7 +128,7 @@ class Translation
 		}
 		else
 		{
-			if(PlatformSetting :: get('hide_dcda_markup'))
+			if(class_exists('PlatformSetting') && PlatformSetting :: get('hide_dcda_markup'))
 			{
 				return $variable;
 			}
