@@ -74,6 +74,7 @@ $lang['home']['Extra'] = 'Extra';
 $lang['home']['PersonalCalendar'] = 'Personal calendar';
 $lang['home']['SystemAnnouncements'] = 'System announcements';
 $lang['home']['NoNewSystemAnnouncements'] = 'No new system announcements';
+$lang['home']['BlockAdded'] = 'Block was added succesfully';
 $lang['home']['NoConfigurableSettings'] = 'No settings';
 $lang['home']['Display'] = 'Display';
 $lang['home']['ShowWhenEmpty'] = 'Show when empty';

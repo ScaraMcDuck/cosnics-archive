@@ -12,6 +12,24 @@
 	var sortableStop = function(e, ui) {
 		$("div.title a").fadeOut(150);
 	};
+	
+	function translation(string, application) {
+//		var data = $.post("./common/javascript/ajax/translation.php", {
+//			application: application,
+//			string :string
+//		} ,
+//		function(data){alert("Data Loaded: " + data);}
+//		);
+		
+		var translated_string = $.ajax({
+			type: "POST",
+			url: "./common/javascript/ajax/translation.php",
+			data: { string: string, application: application },
+			async: false
+		}).responseText;
+		
+		return translated_string;
+	};
 
 	var sortableChange = function(e, ui) {
 		if (ui.sender) {
@@ -165,6 +183,7 @@
 				order :order
 				},
 					function(data){
+						//$.modal('<div class="normal-message">' + translation('BlockAdded', 'home') + '</div>');
 						}
 					);
 		});
@@ -229,8 +248,6 @@
 			preserveCursor :true,
 			stop :resizableStop
 		});
-		
-		//$.modal('');
 
 	});
 
