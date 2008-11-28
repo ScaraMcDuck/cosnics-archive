@@ -111,7 +111,7 @@ abstract class QuestionResult
 	function display_question_header()
 	{
 		$learning_object = $this->question;
-		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
+		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
 		$html[] = '<div class="title">';
 		$html[] = Translation :: get('Question').' '.$learning_object->get_description();
 		$html[] = '</div>';
@@ -159,7 +159,7 @@ abstract class QuestionResult
 				foreach ($attachments as $attachment)
 				{
 					$disp = LearningObjectDisplay :: factory($attachment);
-					$html[] = '<li><img src="'.Theme :: get_common_img_path().'/action_attachment.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+					$html[] = '<li><img src="'.Theme :: get_common_image_path().'/action_attachment.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				$html[] = '</ul>';
 				return implode("\n",$html);

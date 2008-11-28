@@ -152,7 +152,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 				$group[] = $this->createElement('text','weight['.$option_number.']','','size="2"  class="input_numeric"');
 				if($number_of_options - count($_SESSION['mc_skip_options']) > 2)
 				{
-					$group[] = $this->createElement('image','remove['.$option_number.']',Theme :: get_common_img_path().'action_list_remove.png');
+					$group[] = $this->createElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
 				}
 				$label = $show_label ? Translation :: get('Answers') : '';
 				$show_label = false;
@@ -180,7 +180,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 		}
 		$this->addFormRule(array('MultipleChoiceQuestionForm','validate_selected_answers'));
 		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
-		$this->addElement('image','add[]',Theme :: get_common_img_path().'action_list_add.png');
+		$this->addElement('image','add[]',Theme :: get_common_image_path().'action_list_add.png');
 	}
 	function validate_selected_answers($fields)
 	{

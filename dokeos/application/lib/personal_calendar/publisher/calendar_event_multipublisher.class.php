@@ -34,7 +34,7 @@ class CalendarEventPublisherMultipublisherComponent extends PublisherMultipublis
 			
 			while($learning_object = $learning_objects->next_result())
 			{
-				$html[] = '<li><img src="'.Theme :: get_common_img_path().'treemenu_types/'.$learning_object->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($learning_object->get_type()).'TypeName')).'"/> '.$learning_object->get_title().'</li>';
+				$html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$learning_object->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($learning_object->get_type()).'TypeName')).'"/> '.$learning_object->get_title().'</li>';
 			}
 			
 			$html[] = '</ul>';

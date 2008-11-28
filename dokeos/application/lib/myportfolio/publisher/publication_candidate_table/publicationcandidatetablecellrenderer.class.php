@@ -54,7 +54,7 @@ class PublicationCandidateTableCellRenderer extends DefaultLearningObjectTableCe
 		$toolbar_data = array();
 		$toolbar_data[] = array(
 			'href' => $publish_url,
-			'img' => Theme :: get_common_img_path().'action_publish.png',
+			'img' => Theme :: get_common_image_path().'action_publish.png',
 			'label' => Translation :: get('Publish')
 		);
 		return DokeosUtilities :: build_toolbar($toolbar_data);

@@ -25,7 +25,7 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
 		$trail = new BreadcrumbTrail();
 		$pub = new LearningObjectPublisher($this, 'assessment', true);
 		
-		$html[] = '<a href="' . $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_ASSESSMENTS), true) . '"><img src="'.Theme :: get_common_img_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a>';
+		$html[] = '<a href="' . $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_ASSESSMENTS), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a>';
 		$html[] =  $pub->as_html();
 		
 		$this->display_header($trail);

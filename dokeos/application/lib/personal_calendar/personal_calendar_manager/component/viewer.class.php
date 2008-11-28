@@ -67,19 +67,19 @@ class PersonalCalendarViewerComponent extends PersonalCalendarComponent
 		$toolbar_data[] = array(
 			'href' => $this->get_url(),
 			'label' => Translation :: get('Back'),
-			'img' => Theme :: get_common_img_path().'action_prev.png',
+			'img' => Theme :: get_common_image_path().'action_prev.png',
 			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
 		$toolbar_data[] = array(
 			'href' => $this->get_publication_editing_url($event),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'action_edit.png',
+			'img' => Theme :: get_common_image_path().'action_edit.png',
 			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);		
 		$toolbar_data[] = array(
 			'href' => $this->get_publication_deleting_url($event),
 			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_img_path().'action_delete.png',
+			'img' => Theme :: get_common_image_path().'action_delete.png',
 			'confirm' => true,
 			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 		);
@@ -96,14 +96,14 @@ class PersonalCalendarViewerComponent extends PersonalCalendarComponent
 		
 		if (PlatformSetting :: get('allow_personal_agenda', 'user'))
 		{
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_img_path().'action_publish.png', $this->get_url(array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_CREATE_PUBLICATION), true)));
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_CREATE_PUBLICATION), true)));
 		}
 		
-		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView'), Theme :: get_img_path().'tool_calendar_down.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'list'))));
-		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('MonthView'), Theme :: get_img_path().'tool_calendar_month.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'month'))));
-		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('WeekView'), Theme :: get_img_path().'tool_calendar_week.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'week'))));
-		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_img_path().'tool_calendar_day.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'day'))));
-		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_img_path().'tool_calendar_today.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => (isset ($_GET['view']) ? $_GET['view'] : 'month'), 'time' => time()))));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView'), Theme :: get_image_path().'tool_calendar_down.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'list'))));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('MonthView'), Theme :: get_image_path().'tool_calendar_month.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'month'))));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('WeekView'), Theme :: get_image_path().'tool_calendar_week.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'week'))));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_image_path().'tool_calendar_day.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => 'day'))));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path().'tool_calendar_today.png', $this->get_url(array (PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR, 'view' => (isset ($_GET['view']) ? $_GET['view'] : 'month'), 'time' => time()))));
 		
 		return $action_bar->as_html();
 	}

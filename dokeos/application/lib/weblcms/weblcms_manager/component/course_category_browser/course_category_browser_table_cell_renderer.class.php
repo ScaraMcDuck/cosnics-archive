@@ -52,14 +52,14 @@ class CourseCategoryBrowserTableCellRenderer extends DefaultCourseCategoryTableC
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_course_category_edit_url($coursecategory),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'action_edit.png'
+			'img' => Theme :: get_common_image_path().'action_edit.png'
 		);
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_course_category_delete_url($coursecategory),
 			'label' => Translation :: get('Delete'),
 			'confirm' => true,
-			'img' => Theme :: get_common_img_path().'action_delete.png'
+			'img' => Theme :: get_common_image_path().'action_delete.png'
 		);
 
 		return DokeosUtilities :: build_toolbar($toolbar_data);		

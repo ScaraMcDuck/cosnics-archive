@@ -45,7 +45,7 @@ class QuestionDisplay
 		$clo_question = $this->get_clo_question();
 		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question');
 		
-		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
+		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
 		$html[] = '<div class="title">';
 		$html[] = $learning_object->get_title();
 		$html[] = '</div>';

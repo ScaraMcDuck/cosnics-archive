@@ -32,7 +32,7 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 			$toolbar_data = array();
 			$toolbar_data[] = array(
 				'href' => $this->get_url(array(RepositoryManager :: PARAM_EMPTY_RECYCLE_BIN => 1)),
-				'img' => Theme :: get_common_img_path().'treemenu/trash.png',
+				'img' => Theme :: get_common_image_path().'treemenu/trash.png',
 				'label' => Translation :: get('EmptyRecycleBin'),
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL,
 				'confirm' => true

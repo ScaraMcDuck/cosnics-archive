@@ -21,7 +21,7 @@ class ProfileDisplay extends LearningObjectDisplay
 
 		if ($object->get_address() != '')
 		{
-			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path().'place_address.png);">';
+			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_address.png);">';
 			$html[] = '<div class="title">'. Translation :: get('Address') .'</div>';
 			$html[] = $object->get_address();
 			$html[] = '</div>';
@@ -29,7 +29,7 @@ class ProfileDisplay extends LearningObjectDisplay
 
 		if ($object->get_mail() != '' || $object->get_phone() != '' || $object->get_fax() != '' || $object->get_skype() != '' || $object->get_msn() != '' || $object->get_aim() != '' || $object->get_yim() != '' || $object->get_icq() != '')
 		{
-			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path().'place_contact.png);">';
+			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_contact.png);">';
 			$html[] = '<div class="title">'. Translation :: get('Contact') .'</div>';
 			if ($object->get_mail() != '') $html[] = Translation :: get('Mail') . ': <a href="mailto:' . $object->get_mail() . '">' . $object->get_mail() . '</a><br/>';
 			if ($object->get_phone() != '') $html[] = Translation :: get('TelShort') . ': ' . $object->get_phone() . '<br/>';
@@ -44,7 +44,7 @@ class ProfileDisplay extends LearningObjectDisplay
 
 		if ($object->get_competences() != '')
 		{
-			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path().'place_competences.png);">';
+			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_competences.png);">';
 			$html[] = '<div class="title">'. Translation :: get('Competences') .'</div>';
 			$html[] = $object->get_competences();
 			$html[] = '</div>';
@@ -52,7 +52,7 @@ class ProfileDisplay extends LearningObjectDisplay
 
 		if ($object->get_diplomas() != '')
 		{
-			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path().'place_diplomas.png);">';
+			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_diplomas.png);">';
 			$html[] = '<div class="title">'. Translation :: get('Diplomas') .'</div>';
 			$html[] = $object->get_diplomas();
 			$html[] = '</div>';
@@ -60,7 +60,7 @@ class ProfileDisplay extends LearningObjectDisplay
 
 		if ($object->get_teaching() != '')
 		{
-			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path().'place_teaching.png);">';
+			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_teaching.png);">';
 			$html[] = '<div class="title">'. Translation :: get('Teaching') .'</div>';
 			$html[] = $object->get_teaching();
 			$html[] = '</div>';
@@ -68,7 +68,7 @@ class ProfileDisplay extends LearningObjectDisplay
 
 		if ($object->get_open() != '')
 		{
-			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path().'place_open_area.png);">';
+			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_open_area.png);">';
 			$html[] = '<div class="title">'. Translation :: get('Open') .'</div>';
 			$html[] = $object->get_open();
 			$html[] = '</div>';

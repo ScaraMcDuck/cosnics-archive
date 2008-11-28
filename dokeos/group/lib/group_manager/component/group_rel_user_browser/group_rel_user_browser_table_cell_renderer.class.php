@@ -58,7 +58,7 @@ class GroupRelUserBrowserTableCellRenderer extends DefaultGroupRelUserTableCellR
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_group_rel_user_unsubscribing_url($groupreluser),
 			'label' => Translation :: get('Unsubscribe'),
-			'img' => Theme :: get_common_img_path().'action_delete.png'
+			'img' => Theme :: get_common_image_path().'action_delete.png'
 		);
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);

@@ -102,7 +102,7 @@ class ActionBarRenderer
 	{
 		$html = array();
 		
-		$html[] = '<div id="action_bar_text" style="float:left; display: none; margin-bottom: 10px;"><a href="#"><img src="'. Theme :: get_common_img_path() .'action_bar.png" style="vertical-align: middle;" />&nbsp;'. Translation :: get('ShowActionBar') .'</a></div>';
+		$html[] = '<div id="action_bar_text" style="float:left; display: none; margin-bottom: 10px;"><a href="#"><img src="'. Theme :: get_common_image_path() .'action_bar.png" style="vertical-align: middle;" />&nbsp;'. Translation :: get('ShowActionBar') .'</a></div>';
 		$html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
 		$html[] = '<div id="action_bar" class="action_bar">';
 		
@@ -156,7 +156,7 @@ class ActionBarRenderer
 		
 		$html[] = '<div class="clear"></div>';
 		$html[] = '<div id="action_bar_hide_container">';
-		$html[] = '<a id="action_bar_hide" href="#"><img src="'. Theme :: get_common_img_path() .'action_ajax_hide.png" /></a>';
+		$html[] = '<a id="action_bar_hide" href="#"><img src="'. Theme :: get_common_image_path() .'action_ajax_hide.png" /></a>';
 		$html[] = '</div>';
 		$html[] = '</div>';
 		
@@ -224,8 +224,8 @@ class ActionBarRenderer
 //		$html[] = '</div>';
 		
 		$html[] = '<div id="action_bar_left_hide_container" class="hide">';
-		$html[] = '<a id="action_bar_left_hide" href="#"><img src="'. Theme :: get_common_img_path() .'action_action_bar_hide.png" /></a>';
-		$html[] = '<a id="action_bar_left_show" href="#"><img src="'. Theme :: get_common_img_path() .'action_action_bar_show.png" /></a>';
+		$html[] = '<a id="action_bar_left_hide" href="#"><img src="'. Theme :: get_common_image_path() .'action_action_bar_hide.png" /></a>';
+		$html[] = '<a id="action_bar_left_show" href="#"><img src="'. Theme :: get_common_image_path() .'action_action_bar_show.png" /></a>';
 		$html[] = '</div>';
 		$html[] = '</div>';
 		

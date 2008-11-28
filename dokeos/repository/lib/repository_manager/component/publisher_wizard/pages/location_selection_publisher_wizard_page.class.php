@@ -70,7 +70,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 	
 	function display_learning_object($learning_object)
 	{
-		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_img_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
+		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
 		$html[] = '<div class="title">';
 		$html[] = $learning_object->get_title();
 		$html[] = '</div>';
@@ -95,7 +95,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 				foreach ($attachments as $attachment)
 				{
 					$disp = LearningObjectDisplay :: factory($attachment);
-					$html[] = '<li><img src="'.Theme :: get_common_img_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
+					$html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				$html[] = '</ul>';
 				return implode("\n",$html);
@@ -136,9 +136,9 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 			
 			//$this->addElement('html', '<br /><br /><h3 style="margin-left: 15%;">' . Translation :: get(Application::application_to_class($application_name)) . '</h3>');
 			
-			$this->addElement('html', '<div class="block" id="block_introduction" style="background-image: url('.Theme :: get_img_path('home').'block_' . $application_name . '.png);">');
+			$this->addElement('html', '<div class="block" id="block_introduction" style="background-image: url('.Theme :: get_image_path('home').'block_' . $application_name . '.png);">');
 			$this->addElement('html', '<div class="title">'. Translation :: get(Application::application_to_class($application_name)));
-			$this->addElement('html', '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_img_path().'action_visible.png" /><img class="invisible" style="display: none;") src="'.Theme :: get_common_img_path().'action_invisible.png" /></a></div>');
+			$this->addElement('html', '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_image_path().'action_visible.png" /><img class="invisible" style="display: none;") src="'.Theme :: get_common_image_path().'action_invisible.png" /></a></div>');
 			$this->addElement('html', '<div class="description">');
 		
 			$application_name = DokeosUtilities :: underscores_to_camelcase($application_name);

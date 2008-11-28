@@ -16,7 +16,7 @@ class HomeManagerUserComponent extends HomeManagerComponent
 	{
 		$html = array();
 		
-		$html[] = '<div class="block" id="block_user" style="background-image: url('.Theme :: get_common_img_path().'block_user.png);">';
+		$html[] = '<div class="block" id="block_user" style="background-image: url('.Theme :: get_common_image_path().'block_user.png);">';
 		$html[] = '<div class="title">'. Translation :: get('User') .'<a href="#" class="closeEl">[-]</a></div>';
 		$html[] = '<div class="description">';
 		$html[] = $this->display_anonymous_right_menu();

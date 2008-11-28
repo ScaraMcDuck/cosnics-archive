@@ -32,7 +32,7 @@ class DocumentPublicationListRenderer extends TableLearningObjectPublicationList
     	$html[] = '<a href="'.htmlentities($publication->get_learning_object()->get_url()).'" style="float:left;margin-right: 20px;">'.parent::render_title($publication).'</a>';
     	$download_parameters[Tool :: PARAM_ACTION] = DocumentTool :: ACTION_DOWNLOAD;
     	$download_parameters[Tool :: PARAM_PUBLICATION_ID] =  $publication->get_id();
-    	$html[] = '<a href="'.$this->get_url($download_parameters).'"><img src="'.Theme :: get_common_img_path().'action_save.png" alt="" style="float: right;"/></a>';
+    	$html[] = '<a href="'.$this->get_url($download_parameters).'"><img src="'.Theme :: get_common_image_path().'action_save.png" alt="" style="float: right;"/></a>';
     	return implode("\n",$html);
     }
 }

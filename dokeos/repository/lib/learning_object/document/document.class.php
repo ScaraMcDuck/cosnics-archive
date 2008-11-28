@@ -72,7 +72,7 @@ class Document extends LearningObject
 		$filename = $this->get_filename();
 		$parts = explode('.', $filename);
 		$icon_name = $parts[count($parts) - 1];
-		if (!file_exists(Theme :: get_img_path() . $icon_name . '.png'))
+		if (!file_exists(Theme :: get_image_path() . $icon_name . '.png'))
 		{
 			return 'document';
 		}

@@ -45,7 +45,7 @@ class TrackersSelectionArchiveWizardPage extends ArchiveWizardPage
 		{
 			if($event->get_block() != $previousblock)
 			{
-				$message = '<div style="float:left;"><img src="' . Theme :: get_img_path() . 'place_' . $event->get_block() . '.png" alt="' . $event->get_block() . '"></div>';
+				$message = '<div style="float:left;"><img src="' . Theme :: get_image_path() . 'place_' . $event->get_block() . '.png" alt="' . $event->get_block() . '"></div>';
 				$previousblock = $event->get_block();
 			}
 			else

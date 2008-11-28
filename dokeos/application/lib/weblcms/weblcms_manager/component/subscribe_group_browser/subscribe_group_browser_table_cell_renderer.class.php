@@ -84,7 +84,7 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_url($parameters),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'action_subscribe.png'
+			'img' => Theme :: get_common_image_path().'action_subscribe.png'
 		);
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);

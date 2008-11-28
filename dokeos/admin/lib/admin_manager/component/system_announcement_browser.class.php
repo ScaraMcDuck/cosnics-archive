@@ -81,7 +81,7 @@ class AdminSystemAnnouncementBrowserComponent extends AdminManagerComponent
 	function get_toolbar()
 	{
 		$toolbar = new Toolbar();
-		$toolbar->add_item(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_img_path().'action_publish.png', $this->get_system_announcement_publication_creating_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$toolbar->add_item(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_system_announcement_publication_creating_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		return $toolbar->as_html();
 	}

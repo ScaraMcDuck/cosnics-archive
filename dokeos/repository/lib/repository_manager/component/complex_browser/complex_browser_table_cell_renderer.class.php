@@ -51,7 +51,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 			case LearningObject :: PROPERTY_TYPE :
 				$type = $learning_object->get_type();
 				$icon = $learning_object->get_icon_name();
-				$url = '<img src="'.Theme :: get_common_img_path() . 'learning_object/' .$icon.'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($type).'TypeName')).'"/>';
+				$url = '<img src="'.Theme :: get_common_image_path() . 'learning_object/' .$icon.'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($type).'TypeName')).'"/>';
 				return $url;//'<a href="'.htmlentities($this->browser->get_type_filter_url($learning_object->get_type())).'">'.$url.'</a>';
 			case LearningObject :: PROPERTY_TITLE :
 				$title = htmlspecialchars($learning_object->get_title());
@@ -101,21 +101,21 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_complex_learning_object_item_edit_url($cloi, $this->browser->get_root()),
 				'label' => Translation :: get('Edit'),
-				'img' => Theme :: get_common_img_path().'action_edit.png'
+				'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('EditNA'),
-				'img' => Theme :: get_common_img_path().'action_edit_na.png'
+				'img' => Theme :: get_common_image_path().'action_edit_na.png'
 			);
 		}
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_complex_learning_object_item_delete_url($cloi, $this->browser->get_root()),
 			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_img_path().'action_delete.png',
+			'img' => Theme :: get_common_image_path().'action_delete.png',
 			'confirm' => true
 		);
 		
@@ -126,14 +126,14 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_UP),
 				'label' => Translation :: get('MoveUp'),
-				'img' => Theme :: get_common_img_path().'action_up.png',
+				'img' => Theme :: get_common_image_path().'action_up.png',
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('MoveUpNA'),
-				'img' => Theme :: get_common_img_path().'action_up_na.png',
+				'img' => Theme :: get_common_image_path().'action_up_na.png',
 			);
 
 		}
@@ -143,14 +143,14 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_DOWN),
 				'label' => Translation :: get('MoveDown'),
-				'img' => Theme :: get_common_img_path().'action_down.png',
+				'img' => Theme :: get_common_image_path().'action_down.png',
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('MoveDownNA'),
-				'img' => Theme :: get_common_img_path().'action_down_na.png',
+				'img' => Theme :: get_common_image_path().'action_down_na.png',
 			);	
 		}	
 		

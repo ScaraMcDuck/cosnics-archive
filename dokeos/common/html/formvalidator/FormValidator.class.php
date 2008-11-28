@@ -287,7 +287,7 @@ EOT;
 	 */
 	function add_resource_button()
 	{
-		$group[] = $this->createElement('static','add_resource_img',null,'<img src="'. Theme :: get_common_img_path() . 'action_attachment.png" alt="'.Translation :: get('Attachment').'"/>');
+		$group[] = $this->createElement('static','add_resource_img',null,'<img src="'. Theme :: get_common_image_path() . 'action_attachment.png" alt="'.Translation :: get('Attachment').'"/>');
 		$group[] = $this->createElement('submit','add_resource',Translation :: get('Attachment'),'class="link_alike"');
 		$this->addGroup($group);
 	}
@@ -302,7 +302,7 @@ EOT;
 	function add_progress_bar($delay = 2)
 	{
 		$this->with_progress_bar = true;
-		$this->updateAttributes("onsubmit=\"myUpload.start('dynamic_div','".Theme :: get_common_img_path()."action_progress_bar.gif','".Translation :: get('PleaseStandBy')."','".$this->getAttribute('id')."')\"");
+		$this->updateAttributes("onsubmit=\"myUpload.start('dynamic_div','".Theme :: get_common_image_path()."action_progress_bar.gif','".Translation :: get('PleaseStandBy')."','".$this->getAttribute('id')."')\"");
 		$this->addElement('html','<script language="javascript" src="'.Path :: get(WEB_LIB_PATH).'javascript/upload.js" type="text/javascript"></script>');
 		$this->addElement('html','<script type="text/javascript">var myUpload = new upload('.(abs(intval($delay))*1000).');</script>');
     }

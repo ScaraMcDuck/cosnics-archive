@@ -123,7 +123,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			'href' => $link,
 			'label' => Translation :: get('AddLearningObject') ,
 			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL,
-			'img' => Theme :: get_common_img_path().'action_add.png'
+			'img' => Theme :: get_common_image_path().'action_add.png'
 		);
 		
 		if($_GET['publish'])
@@ -134,7 +134,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 				'href' => $link,
 				'label' => Translation :: get('PublishLearningObject') ,
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL,
-				'img' => Theme :: get_common_img_path().'action_publish.png'
+				'img' => Theme :: get_common_image_path().'action_publish.png'
 			);
 		}
 		

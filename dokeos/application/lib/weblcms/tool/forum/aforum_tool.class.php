@@ -34,7 +34,7 @@ class ForumTool extends Tool
 		}
 		if ($_SESSION['forumadmin'] && $this->is_allowed(ADD_RIGHT))
 		{
-			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), true) . '"><img src="'.Theme :: get_common_img_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
+			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			require_once dirname(__FILE__).'/../../learning_object_publisher.class.php';
 			$pub = new LearningObjectPublisher($this, 'forum');
 			$html[] =  $pub->as_html();
@@ -70,8 +70,8 @@ class ForumTool extends Tool
 				if($this->is_allowed(ADD_RIGHT))
 				{
 					$toolbar_data = array();
-					$toolbar_data[] = array ('href' => $this->get_url(array('admin' => 1)), 'label' => Translation :: get('Publish'), 'img' => Theme :: get_common_img_path().'action_publish.png', 'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-					$toolbar_data[] = array ('href' => $this->get_url(array('category_manager_action' => 1)), 'label' => Translation :: get('ManageCategories'), 'img' => Theme :: get_common_img_path().'action_category.png', 'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+					$toolbar_data[] = array ('href' => $this->get_url(array('admin' => 1)), 'label' => Translation :: get('Publish'), 'img' => Theme :: get_common_image_path().'action_publish.png', 'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
+					$toolbar_data[] = array ('href' => $this->get_url(array('category_manager_action' => 1)), 'label' => Translation :: get('ManageCategories'), 'img' => Theme :: get_common_image_path().'action_category.png', 'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
 					
 					echo DokeosUtilities :: build_toolbar($toolbar_data, array (), 'margin-top: 1em; margin-bottom: 1em;');
 				}

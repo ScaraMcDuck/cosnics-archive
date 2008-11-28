@@ -81,13 +81,13 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_group_editing_url($group),
 			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_img_path().'action_edit.png'
+			'img' => Theme :: get_common_image_path().'action_edit.png'
 		);
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_group_suscribe_user_browser_url($group),
 			'label' => Translation :: get('AddUsers'),
-			'img' => Theme :: get_common_img_path().'action_subscribe.png',
+			'img' => Theme :: get_common_image_path().'action_subscribe.png',
 		);
 		
 		$condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group->get_id());
@@ -99,27 +99,27 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_group_emptying_url($group),
 				'label' => Translation :: get('Truncate'),
-				'img' => Theme :: get_common_img_path().'action_recycle_bin.png',
+				'img' => Theme :: get_common_image_path().'action_recycle_bin.png',
 			);
 		}
 		else
 		{
 			$toolbar_data[] = array(
 				'label' => Translation :: get('TruncateNA'),
-				'img' => Theme :: get_common_img_path().'action_recycle_bin_na.png',
+				'img' => Theme :: get_common_image_path().'action_recycle_bin_na.png',
 			);
 		}
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_group_delete_url($group),
 			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_img_path().'action_delete.png'
+			'img' => Theme :: get_common_image_path().'action_delete.png'
 		);
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_move_group_url($group),
 			'label' => Translation :: get('Move'),
-			'img' => Theme :: get_common_img_path().'action_move.png'
+			'img' => Theme :: get_common_image_path().'action_move.png'
 		);
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);

@@ -146,7 +146,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			{
 				$html[] = '<div style="float: left; width: 24%; text-align: center;">';
 				$value = $this->is_allowed($id, $role->get_id(), $location_id);
-				$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'role_id' => $role->get_id(), 'right_id' => $id, 'location_id' => $location_id)) .'">' . ($value == 1 ? '<img src="'. Theme :: get_common_img_path() .'action_setting_true.png" />' : '<img src="'. Theme :: get_common_img_path() .'action_setting_false.png" />') . '</a>';
+				$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'role_id' => $role->get_id(), 'right_id' => $id, 'location_id' => $location_id)) .'">' . ($value == 1 ? '<img src="'. Theme :: get_common_image_path() .'action_setting_true.png" />' : '<img src="'. Theme :: get_common_image_path() .'action_setting_false.png" />') . '</a>';
 				$html[] = '</div>';
 			}
 			

@@ -49,7 +49,7 @@ class AdminBrowserComponent extends AdminManagerComponent
 			if (count($application_links['links']))
 			{
 				$html[] = '<div class="admin_section">';
-				$html[] = '<div class="main"><img src="'. Theme :: get_img_path() . 'place_' . $application_links['application']['class'] .'.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'] .'</div>';
+				$html[] = '<div class="main"><img src="'. Theme :: get_image_path() . 'place_' . $application_links['application']['class'] .'.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'] .'</div>';
 				$html[] = '<div class="actions">';
 					
 				foreach ($application_links['links'] as $link)
@@ -58,7 +58,7 @@ class AdminBrowserComponent extends AdminManagerComponent
 					{
 						$onclick = 'onclick = "return confirm(\'' . $link['confirm'] . '\')"';
 					}
-					$html[] = '<div class="action"><a href="'.$link['url'] .'" ' . $onclick . '><img src="'. Theme :: get_img_path() .'action_'. $link['action'] .'.png" alt="'. $link['name'] .'" title="'. $link['name'] .'"/><br />'.$link['name'].'</a></div>';
+					$html[] = '<div class="action"><a href="'.$link['url'] .'" ' . $onclick . '><img src="'. Theme :: get_image_path() .'action_'. $link['action'] .'.png" alt="'. $link['name'] .'" title="'. $link['name'] .'"/><br />'.$link['name'].'</a></div>';
 				}
 				
 				$html[] = '</div>';

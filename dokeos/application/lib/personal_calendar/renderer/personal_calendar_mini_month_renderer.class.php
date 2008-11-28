@@ -72,7 +72,7 @@ class PersonalCalendarMiniMonthRenderer extends PersonalCalendarRenderer
 	 */
 	private function render_event($event)
 	{
-		$html[] = '<br /><img src="'.Theme :: get_common_img_path().'action_posticon.png"/>';
+		$html[] = '<br /><img src="'.Theme :: get_common_image_path().'action_posticon.png"/>';
 		return implode("\n",$html);
 	}
 }

@@ -17,7 +17,7 @@ class LinkDifferenceDisplay extends LearningObjectDifferenceDisplay
 		
 		$html = array();
 		
-		$html[] = '<div class="difference" style="background-image: url('.Theme :: get_common_img_path().$diff->get_object()->get_icon_name().'.png);">';			
+		$html[] = '<div class="difference" style="background-image: url('.Theme :: get_common_image_path().$diff->get_object()->get_icon_name().'.png);">';			
 		$html[] = '<div class="title">';
 		$html[] = $diff->get_object()->get_title();
 		$html[] = date(" (d M Y, H:i:s O)",$diff->get_object()->get_creation_date());
@@ -30,7 +30,7 @@ class LinkDifferenceDisplay extends LearningObjectDifferenceDisplay
 		}
 		$html[] = '</div>';
 		
-		$html[] = '<div class="difference" style="background-image: url('.Theme :: get_common_img_path().$diff->get_version()->get_icon_name().'.png);">';			
+		$html[] = '<div class="difference" style="background-image: url('.Theme :: get_common_image_path().$diff->get_version()->get_icon_name().'.png);">';			
 		$html[] = '<div class="title">';
 		$html[] = $diff->get_version()->get_title();
 		$html[] = date(" (d M Y, H:i:s O)",$diff->get_version()->get_creation_date());

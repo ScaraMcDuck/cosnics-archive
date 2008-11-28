@@ -42,11 +42,11 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 			case PersonalMessagePublication :: PROPERTY_STATUS:
 				if ($personal_message->get_status() == 1)
 				{
-					return '<img src="'.Theme :: get_common_img_path().'learning_object/personal_message_new.png" />';
+					return '<img src="'.Theme :: get_common_image_path().'learning_object/personal_message_new.png" />';
 				}
 				else
 				{
-					return '<img src="'.Theme :: get_common_img_path().'learning_object/personal_message.png" />';
+					return '<img src="'.Theme :: get_common_image_path().'learning_object/personal_message.png" />';
 				}
 				break;
 			case PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE:
@@ -76,7 +76,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 			'href' => $delete_url,
 			'label' => Translation :: get('Delete'),
 			'confirm' => true,
-			'img' => Theme :: get_common_img_path().'action_delete.png'
+			'img' => Theme :: get_common_image_path().'action_delete.png'
 		);
 		
 		if ($this->browser->get_folder() == PersonalMessenger :: ACTION_FOLDER_INBOX)
@@ -85,7 +85,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 			$toolbar_data[] = array(
 				'href' => $reply_url,
 				'label' => Translation :: get('Reply'),
-				'img' => Theme :: get_common_img_path().'action_reply.png'
+				'img' => Theme :: get_common_image_path().'action_reply.png'
 			);
 		}
 	

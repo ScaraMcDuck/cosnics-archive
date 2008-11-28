@@ -62,14 +62,14 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 			$tb_data[] = array(
 				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
 				'label' => Translation :: get('Edit'),
-				'img' => Theme :: get_common_img_path() . 'action_edit.png',
+				'img' => Theme :: get_common_image_path() . 'action_edit.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
 			);
 			
 			$tb_data[] = array(
 				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
 				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_img_path() . 'action_delete.png',
+				'img' => Theme :: get_common_image_path() . 'action_delete.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
 			);
 			
@@ -88,11 +88,11 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 	function get_toolbar()
 	{
 		$bar = parent :: get_toolbar();
-		$bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_img_path().'action_category.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_category.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		if(!$this->introduction_text)
 		{
-			$bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_img_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+			$bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 		
 		return $bar;

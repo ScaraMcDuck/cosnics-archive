@@ -57,7 +57,7 @@ class CourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 				'href' => $course_subscription_url,
 				'label' => Translation :: get('Subscribe'),
 				'confirm' => true,
-				'img' => Theme :: get_common_img_path().'action_subscribe.png'
+				'img' => Theme :: get_common_image_path().'action_subscribe.png'
 			);
 			
 			return DokeosUtilities :: build_toolbar($toolbar_data);

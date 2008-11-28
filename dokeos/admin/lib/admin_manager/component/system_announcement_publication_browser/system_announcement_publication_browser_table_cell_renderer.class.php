@@ -65,7 +65,7 @@ class SystemAnnouncementPublicationBrowserTableCellRenderer extends DefaultSyste
 			$toolbar_data[] = array(
 				'href' => $edit_url,
 				'label' => Translation :: get('Edit'),
-				'img' => Theme :: get_common_img_path().'action_edit.png'
+				'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
 			
 			$delete_url = $this->browser->get_system_announcement_publication_deleting_url($system_announcement_publication);
@@ -73,7 +73,7 @@ class SystemAnnouncementPublicationBrowserTableCellRenderer extends DefaultSyste
 				'href' => $delete_url,
 				'label' => Translation :: get('Delete'),
 				'confirm' => true,
-				'img' => Theme :: get_common_img_path().'action_delete.png'
+				'img' => Theme :: get_common_image_path().'action_delete.png'
 			);
 			
 			$visibility_url = $this->browser->get_system_announcement_publication_visibility_url($system_announcement_publication);
@@ -93,7 +93,7 @@ class SystemAnnouncementPublicationBrowserTableCellRenderer extends DefaultSyste
 			$toolbar_data[] = array(
 				'href' => $visibility_url,
 				'label' => Translation :: get('Hide'),
-				'img' => Theme :: get_common_img_path().$visibility_img
+				'img' => Theme :: get_common_image_path().$visibility_img
 			);
 			
 		}

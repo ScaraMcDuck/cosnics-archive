@@ -55,7 +55,7 @@ class AdminSystemAnnouncementViewerComponent extends AdminManagerComponent
 			$toolbar_data[] = array(
 				'href' => $edit_url,
 				'label' => Translation :: get('Edit'),
-				'img' => Theme :: get_common_img_path().'action_edit.png',
+				'img' => Theme :: get_common_image_path().'action_edit.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);
 			
@@ -64,7 +64,7 @@ class AdminSystemAnnouncementViewerComponent extends AdminManagerComponent
 				'href' => $delete_url,
 				'label' => Translation :: get('Delete'),
 				'confirm' => true,
-				'img' => Theme :: get_common_img_path().'action_delete.png',
+				'img' => Theme :: get_common_image_path().'action_delete.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);
 		}

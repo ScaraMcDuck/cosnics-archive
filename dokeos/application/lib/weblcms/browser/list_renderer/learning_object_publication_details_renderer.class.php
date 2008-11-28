@@ -73,7 +73,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		{
 			$icon_suffix = '_new';
 		}
-		$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_img_path().'learning_object/'.$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
+		$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'learning_object/'.$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
 		$html[] = '</div>';
@@ -154,7 +154,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 			$visibility_img = 'action_period.png';
 			$visibility_url = 'javascript:void(0)';
 		}
-		$visibility_link = '<a href="'.$visibility_url.'"><img src="'.Theme :: get_common_img_path().$visibility_img.'"  alt=""/></a>';
+		$visibility_link = '<a href="'.$visibility_url.'"><img src="'.Theme :: get_common_image_path().$visibility_img.'"  alt=""/></a>';
 		return $visibility_link;
 	}
 
@@ -166,7 +166,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 	function render_edit_action($publication)
 	{
 		$edit_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'details' => '1'), true);
-		$edit_link = '<a href="'.$edit_url.'"><img src="'.Theme :: get_common_img_path().'action_edit.png"  alt=""/></a>';
+		$edit_link = '<a href="'.$edit_url.'"><img src="'.Theme :: get_common_image_path().'action_edit.png"  alt=""/></a>';
 		return $edit_link;
 	}
 }

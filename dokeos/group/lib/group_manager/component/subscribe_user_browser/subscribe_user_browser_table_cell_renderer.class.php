@@ -75,7 +75,7 @@ class SubscribeUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 		$toolbar_data[] = array(
 			'href' => $subscribe_url,
 			'label' => Translation :: get('Subscribe'),
-			'img' => Theme :: get_common_img_path().'action_subscribe.png'
+			'img' => Theme :: get_common_image_path().'action_subscribe.png'
 		);
 
 		return DokeosUtilities :: build_toolbar($toolbar_data);

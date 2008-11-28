@@ -17,7 +17,7 @@ class RssFeedDisplay extends LearningObjectDisplay
 		$object = $this->get_learning_object();
 		$html = array();
 		
-		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path() . 'learning_object/' .$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.png);">';
+		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path() . 'learning_object/' .$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.png);">';
 		$html[] = '<div class="title">'. Translation :: get('Description') .'</div>';
 		$html[] = $this->get_description();
 		$html[] = '<div class="link_url" style="margin-top: 1em;"><a href="'.htmlentities($object->get_url()).'">'.htmlentities($object->get_url()).'</a></div>';
@@ -27,7 +27,7 @@ class RssFeedDisplay extends LearningObjectDisplay
 		
 		foreach ($feed['items'] as $item)
 		{
-			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_img_path() . 'learning_object/rss_feed_item.png);">';
+			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path() . 'learning_object/rss_feed_item.png);">';
 			$html[] = '<div class="title">'. $item['title'] .'</div>';
 			$html[] = html_entity_decode($item['description']);
 			$html[] = '<div class="link_url" style="margin-top: 1em;"><a href="'.htmlentities($item['link']).'">'.htmlentities($item['link']).'</a></div>';
