@@ -32,7 +32,7 @@
 			<setting name="institution" field="text" default="Dokeos" />
 			<setting name="institution_url" field="text" default="http://www.dokeos.com" />
 			<setting name="no_reply_email" field="text" default="" />
-			<setting name="page_after_login" field="radio" default="0">
+			<setting name="page_after_login" field="radio" default="home">
 				<options type="static">
 					<option name="homepage" value="home" />
 					<option name="courses" value="weblcms" />

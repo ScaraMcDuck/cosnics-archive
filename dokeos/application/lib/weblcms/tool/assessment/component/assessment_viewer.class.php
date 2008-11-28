@@ -34,7 +34,12 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 		$this->display_header($trail);
 		
 		$this->action_bar = $this->get_toolbar();
-		echo $this->display_introduction_text();
+		
+		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
+		{
+			echo $this->display_introduction_text();
+		}
+		
 		echo $this->action_bar->as_html();
 		
 		echo '<div style="width:18%; float: left; overflow: auto;">';

@@ -128,13 +128,13 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 				$weblcms->load_tools();
 				$tools = $weblcms->get_registered_tools();
 				$html[] = '<li><a href="'. $this->get_course_viewing_url($course) .'">'.$course->get_name().'</a>';				
-				$html[] = '<br />'. $course->get_id();
+				/*$html[] = '<br />'. $course->get_id();
 				
 				$course_titular = $course->get_titular_string();
 				if (!is_null($course_titular))
 				{
 					$html[] = ' - ' . $course_titular;
-				}
+				}*/
 				
 				foreach($tools as $index => $tool)
 				{					  
@@ -147,6 +147,27 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 						$html[] = '<a href="'.$url.'"><img src="'. Theme :: get_image_path(). 'tool_' . $tool->name.'_new.png" alt="'.Translation :: get('New').'"/></a>';
 					}
 				}
+				
+				if(PlatformSetting :: get('display_course_code_in_title', 'weblcms'))
+				{
+					$text[] = $course->get_visual();
+				}
+				
+				if(PlatformSetting :: get('display_teacher_in_title', 'weblcms'))
+				{
+					$text[] = UserDataManager :: get_instance()->retrieve_user($course->get_titular())->get_fullname();
+				}
+				
+				if(PlatformSetting :: get('show_course_languages', 'weblcms'))
+				{
+					$text[] = ucfirst($course->get_language());
+				}
+				
+				if(count($text) > 0)
+				{
+					$html[] = '<br />' . implode(' - ', $text);
+				}
+				
 				$html[] = '</li>';
 				$weblcms->set_course(null);
 			}

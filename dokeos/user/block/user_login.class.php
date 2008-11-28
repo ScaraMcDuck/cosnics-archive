@@ -67,6 +67,11 @@ class UserLogin extends UserBlock
 			$html[] = $user->get_email() . '<br />';
 			$html[] = '<br />';
 			$html[] = '<a href="index.php?logout=true">Logout</a>';
+			
+			if(PlatformSetting :: get('page_after_login') == 'weblcms')
+			{
+				header('Location: run.php?application=weblcms');
+			}
 		}
 	
 //		$html[] = '<div class="note">';

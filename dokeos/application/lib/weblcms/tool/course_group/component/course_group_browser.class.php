@@ -31,7 +31,12 @@ class CourseGroupToolBrowserComponent extends CourseGroupToolComponent
 		$this->display_header($trail);
 		
 		echo '<br /><a name="top"></a>';
-		echo $this->display_introduction_text();
+		
+		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
+		{
+			echo $this->display_introduction_text();
+		}
+		
 		echo $this->action_bar->as_html();
 		echo $course_group_table->as_html();
 		$this->display_footer();

@@ -142,13 +142,25 @@ class RegisterForm extends FormValidator {
 	 	   	$this->unencryptedpass = $password;
     		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
   		  	$user->set_phone($values[User :: PROPERTY_PHONE]);
-  		  	if (PlatformSetting :: get('allow_registration_as_teacher') == 'false')
+  		  	if (!PlatformSetting :: get('allow_registration_as_teacher'))
 			{
 				$values[User :: PROPERTY_STATUS] = STUDENT;
 			}
 			$user->set_status(intval($values[User :: PROPERTY_STATUS]));
  		   	$user->set_language($values[User :: PROPERTY_LANGUAGE]);
- 		   	$user->set_active(1);
+ 		   	
+ 		   	$code = PlatformSetting :: get('days_valid');
+ 		   	
+ 		   	if ($code == 0)
+			{
+				$user->set_active(1);
+			}
+ 		   	else
+ 		   	{
+ 		   		$user->set_activation_date(time());
+ 		   		$user->set_expiration_date(strtotime('+' . $code . ' days', time()));
+ 		   	}
+ 		   	
  		   	$user->set_registration_date(time());
     		$send_mail = intval($values['mail']['send_mail']);
     		if ($send_mail)
