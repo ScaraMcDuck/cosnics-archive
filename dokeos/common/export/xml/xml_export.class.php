@@ -19,7 +19,7 @@ class XmlExport extends Export
 		fwrite($this->handle, '<?xml version="1.0" encoding="ISO-8859-1"?>'."\n");
 		$this->write_array($data);
 		fclose($this->handle); 
-		Filesystem :: file_send_for_download($file, true, $file); echo $file;
+		Filesystem :: file_send_for_download($file, true, $file);
 		exit;
 	}
 	

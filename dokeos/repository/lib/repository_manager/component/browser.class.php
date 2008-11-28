@@ -67,16 +67,20 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 	
 	private function get_condition()
 	{
-		$condition = new EqualityCondition('parent', $_GET['category']?$_GET['category']:0);
+		$conditions[] = new EqualityCondition('parent', $_GET['category']?$_GET['category']:0);
+		$conditions[] = new EqualityCondition('owner', $this->get_user_id());
+		
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
-			$conditions = array();
-			$conditions[] = new OrCondition($conditions);
-			$conditions[] = $condition;
+			$or_conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
+			$or_conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+
+			$conditions[] = new OrCondition($or_conditions);
+			
 		}
+		
+		$condition = new AndCondition($conditions);
 		
 		return $condition;
 	}

@@ -117,6 +117,7 @@ class MenuItemForm extends FormValidator {
     	else
     	{
     		$url = $values[MenuItem :: PROPERTY_URL];
+    		if(is_null($url) || $url == '') $url = 'http://www.dokeos.com';
     		if(substr($url, 0, 7) != 'http://') $url = 'http://' . $url;
     		
     		$menuitem->set_url($url);
@@ -146,6 +147,7 @@ class MenuItemForm extends FormValidator {
     	else
     	{
     		$url = $values[MenuItem :: PROPERTY_URL];
+    		if(is_null($url) || $url == '') $url = 'http://www.dokeos.com';
     		if(substr($url, 0, 7) != 'http://') $url = 'http://' . $url;
     		
     		$menuitem->set_url($url);
