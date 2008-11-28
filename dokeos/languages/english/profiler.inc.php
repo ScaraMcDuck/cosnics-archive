@@ -27,4 +27,10 @@ $lang['profiler']['ObjectNotPublished'] = 'Object not published';
 $lang['profiler']['ObjectPublished'] = 'Object published';
 $lang['profiler']['ShowAll'] = 'Show All';
 $lang['profiler']['ManageCategories'] = 'Manage categories';
+$lang['profiler']['EditProfilePublication'] = 'Edit profile publication';
+$lang['profiler']['NoCalendarEventPublicationSelected'] = 'No calendar event publication selected';
+$lang['profiler']['Profiler'] = 'Profiler';
+$lang['profiler']['Edit'] = 'Edit';
+$lang['profiler']['Root'] = 'Root';
+$lang['profiler']['Category'] = 'Category';
 ?>

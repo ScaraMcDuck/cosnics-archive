@@ -27,4 +27,17 @@ $lang['menu']['NoMenuManagerCategorySelected'] = 'No menu manager category selec
 $lang['menu']['Home'] = 'Home';
 $lang['menu']['Add'] = 'Add';
 $lang['menu']['MenuCreated'] = 'Menu created';
+$lang['menu']['Main'] = 'Main';
+$lang['menu']['Link'] = 'Links';
+$lang['menu']['Application'] = 'Application';
+$lang['menu']['ExternalLink'] = 'External link';
+$lang['menu']['applink'] = 'Application link';
+$lang['menu']['Url'] = 'Url';
+$lang['menu']['ShowAll'] = 'Show All Agenda Items';
+$lang['menu']['Logout'] = 'Logout';
+$lang['menu']['Administration'] = 'Administration';
+$lang['menu']['Repository'] = 'Repository';
+$lang['menu']['Platform'] = 'Platform';
+$lang['menu']['MyAccount'] = 'My account';
+$lang['menu']['Manage'] = 'Manage';
 ?>

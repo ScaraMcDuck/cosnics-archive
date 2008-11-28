@@ -67,7 +67,6 @@ $lang['install']['Rights'] = 'Rights';
 $lang['install']['FileSystem'] = 'Filesystem';
 $lang['install']['Finished'] = 'Finished';
 $lang['install']['SystemAnnouncements'] = 'System announcements';
-$lang['install']['PortalHome'] = 'Portal home';
 $lang['install']['InstallSuccess'] = 'Installation succesfull';
 $lang['install']['StorageUnitCreation'] = 'Storage unit creation';
 $lang['install']['DefaultLanguagesAdded'] = 'Default languages added';
@@ -83,4 +82,9 @@ $lang['install']['TrackersRegisteredToEvent'] = 'Trackers registered to event';
 $lang['install']['LocationsAdded'] = 'Locations added';
 $lang['install']['MenuCreated'] = 'Menu created';
 $lang['install']['Mr'] = 'Mr';
+$lang['install']['PortalHome'] = 'Portal home';
+$lang['install']['News'] = 'News';
+$lang['install']['Various'] = 'Various';
+$lang['install']['UseObject'] = 'Use object';
+$lang['install']['Object'] = 'Object';
 ?>

@@ -28,4 +28,8 @@ $lang['personal_calendar']['SelectedLearningObjects'] = 'Selected learning objec
 $lang['personal_calendar']['ObjectNotPublished'] = 'Learning object not published';
 $lang['personal_calendar']['ObjectPublished'] = 'Learning object published';
 $lang['personal_calendar']['Today'] = 'today';
+$lang['personal_calendar']['EditCalendarEventPublication'] = 'Edit calendar event publication';
+$lang['personal_calendar']['NoCalendarEventPublicationSelected'] = 'No calendar event publication selected';
+$lang['personal_calendar']['Edit'] = 'Edit';
+$lang['personal_calendar']['PublicationCreated'] = 'Publication created';
 ?>

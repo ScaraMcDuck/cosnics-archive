@@ -234,4 +234,8 @@ $lang['repository']['BiWeekly'] = 'Biweekly';
 $lang['repository']['Monthly'] = 'Monthly';
 $lang['repository']['Yearly'] = 'Yearly';
 $lang['repository']['Repeats'] = 'Repeats';
+$lang['repository']['GeneralProperties'] = 'General properties';
+$lang['repository']['ConfigureBlockFirst'] = 'Configure block first';
+$lang['repository']['CreateRssFeedFirst'] = 'Create RSS feed first';
+$lang['repository']['SelectObject'] = 'Select object';
 ?>
