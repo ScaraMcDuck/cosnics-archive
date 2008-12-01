@@ -16,7 +16,7 @@ class MultipleAnswerQuestionQtiExport extends QuestionQtiExport
 			$answers[] = array('answer' => $answer, 'score' => $clo_answer->get_score());
 		}
 		
-		$item_xml[] = '<assessmentItem identifier="'.$question->get_id().'" title="'.$question->get_title().'" adaptive="false" timeDependent="false">';
+		$item_xml[] = '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1    http://www.imsglobal.org/xsd/imsqti_v2p1.xsd" identifier="q'.$question->get_id().'" title="'.$question->get_title().'" adaptive="false" timeDependent="false">';
 		$item_xml[] = '<responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier">';
 		$item_xml[] = $this->get_response_xml($answers);
 		$item_xml[] = '</responseDeclaration>';

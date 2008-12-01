@@ -16,7 +16,7 @@ class Question extends LearningObject
 	const TYPE_FILL_IN_BLANKS = 'fill in blanks';
 	const TYPE_MULTIPLE_CHOICE = 'multiple choice';
 	const TYPE_MULTIPLE_ANSWER = 'multiple answer';
-	const TYPE_YES_NO = 'yes/no';
+	//const TYPE_YES_NO = 'yes/no';
 	const TYPE_PERCENTAGE = 'percentage rating';
 	const TYPE_SCORE = 'point rating';
 	
@@ -52,7 +52,7 @@ class Question extends LearningObject
 		self :: TYPE_FILL_IN_BLANKS,
 		self :: TYPE_MULTIPLE_CHOICE,
 		self :: TYPE_MULTIPLE_ANSWER,
-		self :: TYPE_YES_NO,
+		//self :: TYPE_YES_NO,
 		self :: TYPE_PERCENTAGE,
 		self :: TYPE_SCORE
 		);

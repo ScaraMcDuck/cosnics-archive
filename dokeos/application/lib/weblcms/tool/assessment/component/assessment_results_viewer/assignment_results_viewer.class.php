@@ -30,7 +30,7 @@ class AssignmentResultsViewer extends ResultsViewer
 			$conditionA = new EqualityCondition(UserQuestion :: PROPERTY_USER_ASSESSMENT_ID, $uaid);
 			$condition = new AndCondition($conditionQ, $conditionA);
 			$user_question = $db->retrieve_user_questions($condition)->next_result();
-			$question_result = QuestionResult :: create_question_result($this, $user_question, $this->get_edit_rights());
+			$question_result = QuestionResult :: create_question_result($this, $question, $user_question, $this->get_edit_rights());
 			$question_result->display_exercise();
 		}
 		if ($_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
