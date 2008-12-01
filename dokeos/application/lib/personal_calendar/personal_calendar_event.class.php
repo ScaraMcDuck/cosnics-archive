@@ -15,9 +15,20 @@ class PersonalCalendarEvent
 	private $title;
 	private $content;
 	private $source;
+	private $id;
 	
 	function PersonalCalendarEvent()
 	{
+	}
+	
+	function set_id($id)
+	{
+		$this->id = $id;
+	}
+	
+	function get_id()
+	{
+		return $this->id;
 	}
 	
 	function get_start_date()
