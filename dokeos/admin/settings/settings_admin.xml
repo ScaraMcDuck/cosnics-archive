@@ -58,7 +58,9 @@
 			<setting name="theme" field="select" default="aqua">
 				<options type="dynamic" source="get_themes" />
 			</setting>
-			<setting name="portal_home" field="html_editor" default="Welcome to dokeos 2.0!" />
+			<setting name="portal_home" field="select" default="0">
+				<options type="dynamic" source="get_portal_homes" />
+			</setting>
 		</category>
 		<category name="various">
 			<setting name="server_type" field="radio" default="production">
