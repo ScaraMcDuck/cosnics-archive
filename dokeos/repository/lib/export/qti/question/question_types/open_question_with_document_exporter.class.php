@@ -9,7 +9,7 @@ class OpenQuestionWithDocumentQuestionQtiExport extends QuestionQtiExport
 		$rdm = RepositoryDataManager :: get_instance();
 		$question = $this->get_learning_object();
 		
-		$item_xml[] = '<assessmentItem identifier="'.$question->get_id().'" title="'.$question->get_title().'" adaptive="false" timeDependent="false">';
+		$item_xml[] = '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1    http://www.imsglobal.org/xsd/imsqti_v2p1.xsd" identifier="q'.$question->get_id().'" title="'.$question->get_title().'" adaptive="false" timeDependent="false">';
 		$item_xml[] = '<responseDeclaration identifier="RESPONSE" cardinality="single" baseType="file" />';
 
 		$item_xml[] = '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer" />';
