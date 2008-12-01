@@ -9,6 +9,7 @@ require_once dirname(__FILE__).'/learning_object.class.php';
 require_once dirname(__FILE__).'/complex_learning_object_item.class.php';
 require_once dirname(__FILE__).'/data_manager/database/database_learning_object_result_set.class.php';
 require_once dirname(__FILE__).'/../../application/lib/application.class.php';
+require_once Path :: get_home_path() . 'lib/home_data_manager.class.php';
 require_once Path :: get_admin_path().'lib/admin_manager/admin_manager.class.php';
 
 /**
@@ -255,7 +256,19 @@ abstract class RepositoryDataManager
 	 * @return boolean True if the given learning object can be deleted
 	 */
 	function learning_object_deletion_allowed($object, $type = null, $user)
-	{
+	{	
+		$homeportal = PlatformSetting :: get('portal_home');
+		if($object->get_id() == $homeportal)
+			return false;	
+		
+		$conditions[] = new EqualityCondition('variable', 'use_object');
+		$conditions[] = new EqualityCondition('value', $object->get_id());
+		$condition = new AndCondition($conditions);
+	
+		$blockinfos = HomeDataManager :: get_instance()->retrieve_home_block_config($condition);
+		if($blockinfos->size() > 0)
+			return false;
+		
 		if (isset($type))
 		{
 			if ($this->is_attached($object, 'version'))
