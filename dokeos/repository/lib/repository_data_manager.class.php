@@ -9,6 +9,7 @@ require_once dirname(__FILE__).'/learning_object.class.php';
 require_once dirname(__FILE__).'/complex_learning_object_item.class.php';
 require_once dirname(__FILE__).'/data_manager/database/database_learning_object_result_set.class.php';
 require_once dirname(__FILE__).'/../../application/lib/application.class.php';
+require_once Path :: get_admin_path().'lib/admin_manager/admin_manager.class.php';
 
 /**
  *	This is a skeleton for a data manager for the learning object repository.
@@ -193,6 +194,13 @@ abstract class RepositoryDataManager
 				return true;
 			}
 		}
+		
+		$admin = new AdminManager();
+		if ($admin->any_learning_object_is_published($ids))
+		{
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -215,6 +223,14 @@ abstract class RepositoryDataManager
 				$info = array_merge($info, $attributes);
 			}
 		}
+		
+		$admin = new AdminManager($user);
+		$attributes = $admin->get_learning_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction);
+		if(!is_null($attributes) && count($attributes) > 0)
+		{
+			$info = array_merge($info, $attributes);
+		}
+		
 		return $info;
 	}
 
@@ -516,6 +532,10 @@ abstract class RepositoryDataManager
 			$application = Application::factory($application_name,$user);
 			$info += $application->count_publication_attributes($type, $condition);
 		}
+		
+		$admin = new AdminManager($user);
+		$info += $admin->count_publication_attributes($type, $condition);
+		
 		return $info;
 	}
 
@@ -669,6 +689,9 @@ abstract class RepositoryDataManager
 			$application = Application::factory($application_name);
 			$application->delete_learning_object_publications($object->get_id());
 		}
+		
+		$admin = AdminDataManager :: get_instance()->delete_learning_object_publications($object->get_id());
+		
 		return true;
 	}
 

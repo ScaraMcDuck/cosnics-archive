@@ -225,5 +225,98 @@ class DatabaseAdminDataManager extends AdminDataManager
 	
 		return $record[0] + 1;
 	}
+	
+	public function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		if (isset($type))
+		{
+			if ($type == 'user')
+			{
+				$query = 'SELECT * FROM '.$this->database->get_table_name('system_announcement_publication').' WHERE '.$this->database->escape_column_name('publisher').'=?';
+
+				$order = array ();
+				for ($i = 0; $i < count($order_property); $i ++)
+				{
+					if ($order_property[$i] == 'application')
+					{
+					}
+					elseif($order_property[$i] == 'location')
+					{
+					}
+					elseif($order_property[$i] == 'title')
+					{
+					}
+					else
+					{
+					}
+				}
+				if (count($order))
+				{
+					$query .= ' ORDER BY '.implode(', ', $order);
+				}
+
+				$statement = $this->database->get_connection()->prepare($query);
+				$res = $statement->execute(Session :: get_user_id());
+			}
+		}
+		else
+		{
+			$query = 'SELECT * FROM '.$this->database->get_table_name('system_announcement_publication').' WHERE '.$this->database->escape_column_name('learning_object').'=?';
+			$statement = $this->database->get_connection()->prepare($query);
+			$res = $statement->execute($object_id);
+		}
+		$publication_attr = array();
+		while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$info = new LearningObjectPublicationAttributes();
+			$info->set_id($record['id']);
+			$info->set_publisher_user_id($record['publisher']);
+			$info->set_publication_date($record['published']);
+			$info->set_application('admin');
+			//TODO: i8n location string
+			$info->set_location('');
+			//TODO: set correct URL
+			$info->set_url('index_admin.php?go=sysviewer&announcement='. $record['id']);
+			$info->set_publication_object_id($record['learning_object']);
+			$publication_attr[] = $info;
+		}
+		return $publication_attr;
+	}
+	
+	public function get_learning_object_publication_attribute($publication_id)
+	{
+		$condition = new EqualityCondition('id',$publication_id);
+		$record = $this->database->next_result();
+
+		$info = new LearningObjectPublicationAttributes();
+		$info->set_id($record->get_id());
+		$info->set_publisher_user_id($record->get_publisher());
+		$info->set_publication_date($record->get_publication_date());
+		$info->set_application('admin');
+		//TODO: i8n location string
+		$info->set_location('');
+		//TODO: set correct URL
+		$info->set_url('index_admin.php?go=sysviewer&announcement='. $record->get_id());
+		$info->set_publication_object_id($record->get_learning_object());
+		return $info;
+	}
+	
+	public function any_learning_object_is_published($object_ids)
+	{
+		$condition = new InCondition(SystemAnnouncementPublication :: PROPERTY_LEARNING_OBJECT_ID,$object_ids);
+		return $this->database->count_objects('system_announcement_publication',$condition)>=1;
+	}
+	
+	public function count_publication_attributes($type = null, $condition = null)
+	{
+		$condition = new EqualityCondition('publisher', Session :: get_user_id());
+		return $this->database->count_objects('system_announcement_publication', $condition);
+	}
+	
+	public function delete_learning_object_publications($object_id)
+	{
+		$condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_LEARNING_OBJECT_ID,$object_id);
+		$this->database->delete('system_announcement_publication',$condition);
+	}
 }
 ?>

@@ -87,7 +87,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare('SELECT '.$this->escape_column_name(LearningObject :: PROPERTY_TYPE).' FROM '.$this->escape_table_name('learning_object').' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?');
 		$res = $statement->execute($id);
-		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED); 
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
 

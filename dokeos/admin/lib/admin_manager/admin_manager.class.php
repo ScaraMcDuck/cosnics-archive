@@ -477,5 +477,39 @@ class AdminManager
 		$admin_block = AdminBlock :: factory($this, $block);
 		return $admin_block->run();
 	}
+	
+	/*
+	 * Inherited
+	 */
+	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return AdminDataManager :: get_instance()->get_learning_object_publication_attributes($object_id, $type, $offset, $count, $order_property, $order_direction);
+	}
+
+	/*
+	 * Inherited
+	 */
+	function get_learning_object_publication_attribute($publication_id)
+	{
+		return AdminDataManager :: get_instance()->get_learning_object_publication_attribute($publication_id);
+	}
+	
+	public function any_learning_object_is_published($object_ids)
+	{
+		$adm = AdminDataManager::get_instance();
+		return $adm->any_learning_object_is_published($object_ids);
+	}
+	
+	public function count_publication_attributes($type = null, $condition = null)
+	{
+		$adm = AdminDataManager::get_instance();
+		return $adm->count_publication_attributes($type, $condition );
+	}
+	
+	public function delete_learning_object_publications($object_id)
+	{
+		$adm = AdminDataManager::get_instance();
+		return $adm->delete_learning_object_publications($object_id);
+	}
 }
 ?>
