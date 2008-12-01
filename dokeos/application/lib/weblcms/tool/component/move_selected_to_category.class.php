@@ -35,7 +35,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 				{
 					$message = Translation :: get('LearningObjectPublicationsMoved');
 				}
-				$this->redirect(null, $message, false, array());
+				$this->redirect(null, $message, false, array('pid' => null));
 			}
 			else
 			{
@@ -66,7 +66,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 				if($cat != 0)
 					$this->tree[0] = Translation :: get('Root');
 				$this->build_category_tree(0, $cat);
-				$form = new FormValidator('select_category', 'post', $this->get_url(array(Tool :: PARAM_ACTION => $_GET[Tool :: PARAM_ACTION], 'pid' => $_GET['pid'])));
+				$form = new FormValidator('select_category', 'post', $this->get_url(array(Tool :: PARAM_ACTION => 'move_selected_to_category', 'pid' => $_GET['pid'])));
 				$form->addElement('select','category',Translation :: get('Category'),$this->tree);
 				$form->addElement('submit', 'submit', Translation :: get('Ok'));
 				return $form;

@@ -61,6 +61,36 @@ abstract class Tool
 		$this->properties = $parent->get_tool_properties($this->get_tool_id());
 		$this->load_rights();
 		$this->set_action(isset($_POST[self :: PARAM_ACTION]) ? $_POST[self :: PARAM_ACTION] : $_GET[self :: PARAM_ACTION]);
+		$this->parse_input_from_table();
+	}
+	
+	private function parse_input_from_table()
+	{
+		if (isset ($_POST['tool_action']))
+		{
+			$ids = $_POST['id'];
+			if (empty ($ids))
+			{
+				$ids = array ();
+			}
+			elseif (!is_array($ids))
+			{
+				$ids = array ($ids);
+			}
+
+			switch ($_POST['tool_action'])
+			{
+				case self :: ACTION_MOVE_SELECTED_TO_CATEGORY :
+					$this->set_action(self :: ACTION_MOVE_SELECTED_TO_CATEGORY);
+					$_GET[self :: PARAM_PUBLICATION_ID] = $ids;
+					break;
+
+				case self :: ACTION_DELETE :
+					$this->set_action(self :: ACTION_DELETE);
+					$_GET[self :: PARAM_PUBLICATION_ID] = $ids;
+					break;
+			}
+		}
 	}
 	
 	function set_action($action)
