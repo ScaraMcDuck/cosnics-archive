@@ -178,7 +178,7 @@
 				},
 					function(data)
 					{
-						//$.modal('<div class="normal-message">' + translation('BlockAdded', 'home') + '</div>');
+						
 					}
 					);
 		});
@@ -208,6 +208,16 @@
 		$("a.addEl").unbind();
 		$("a.addEl").bind('click', showBlockScreen);
 	}
+	
+	function testModal()
+	{
+		var a = '<a id="closeModal" href="javascript:void(0)">Sluiten</a>';
+		$.modal('<div class="normal-message" style="width: 450px">' + translation('BlockAdded', 'home') + '</div>' + a);
+		$("#closeModal").bind('click', function(e, ui) 
+		{
+			$.modal.close();
+		});
+	}
 
 	$(document).ready( function() {
 		
@@ -217,6 +227,8 @@
 
 		$("div.title a").toggle();
 		bindIcons();
+		
+		//testModal();
 
 		$("div.column").sortable( {
 			handle :'div.title',
