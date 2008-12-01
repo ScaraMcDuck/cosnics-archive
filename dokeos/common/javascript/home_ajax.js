@@ -14,12 +14,6 @@
 	};
 	
 	function translation(string, application) {
-//		var data = $.post("./common/javascript/ajax/translation.php", {
-//			application: application,
-//			string :string
-//		} ,
-//		function(data){alert("Data Loaded: " + data);}
-//		);
 		
 		var translated_string = $.ajax({
 			type: "POST",
