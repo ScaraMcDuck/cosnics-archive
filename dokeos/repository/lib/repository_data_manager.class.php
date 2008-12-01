@@ -189,7 +189,7 @@ abstract class RepositoryDataManager
 			
 			$application = Application::factory($application_name);
 			if ($application->any_learning_object_is_published($ids))
-			{
+			{ 
 				return true;
 			}
 		}
@@ -250,13 +250,13 @@ abstract class RepositoryDataManager
 			$forbidden[] = $object->get_id();
 		}
 		else
-		{
+		{ 
 			if ($this->is_attached($object))
-			{
+			{ 
 				return false;
 			}
 			$children = array();
-			$children = $this->get_children_ids($object);
+			//$children = $this->get_children_ids($object);
 			$versions = array();
 			$versions = $this->get_version_ids($object);
 			$forbidden = array_merge($children, $versions);
