@@ -64,6 +64,10 @@ class ConfigurationForm extends FormValidator
 					{
 						$this->add_textfield($name, Translation :: get(DokeosUtilities :: underscores_to_camelcase($name)), ($setting['required'] == 'true'));
 					}
+					elseif($setting['field'] == 'html_editor')
+					{
+						$this->add_html_editor($name, Translation :: get(DokeosUtilities :: underscores_to_camelcase($name)), ($setting['required'] == 'true'));
+					}
 					else
 					{
 						$options_type = $setting['options']['type'];

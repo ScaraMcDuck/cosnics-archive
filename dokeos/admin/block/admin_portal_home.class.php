@@ -23,18 +23,7 @@ class AdminPortalHome extends AdminBlock
 				   <p>Proin risus neque, tincidunt eu, semper aliquet, tristique id, tortor. Aliquam accumsan tristique libero. Nullam quis magna. Etiam id turpis. Ut id dui. Vivamus lorem nisi, vulputate sed, suscipit et, semper in, velit. Quisque eu metus vel magna pulvinar fringilla. Fusce commodo ultricies nisl. Nam tellus tortor, congue eget, porttitor ac, auctor ac, orci. Nullam tempor condimentum neque. Vivamus pretium, est ut posuere iaculis, ipsum lacus bibendum risus, a auctor urna metus in dolor.</p>';
 		*/
 		
-		$configuration = $this->get_configuration();
-		$object_id = $configuration['use_object'];
-		
-		if (!isset($object_id) || $object_id == 0)
-		{
-			$html[] = Translation :: get('ConfigureBlockFirst');
-		}
-		else
-		{
-			$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($configuration['use_object']);
-			$html[] = $learning_object->get_description();
-		}
+		$html[] = PlatformSetting :: get('portal_home');
 		
 		$html[] = $this->display_footer();
 		return implode("\n", $html);
