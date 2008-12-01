@@ -28,6 +28,10 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 			$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
 			$renderer = new LinkPublicationListRenderer($this);
 			$this->set_publication_category_tree($tree);
+			$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), 
+						 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
+						 Tool :: ACTION_SHOW => Translation :: get('Show'));
+			$renderer->set_actions($actions);
 		}
 		$this->set_publication_list_renderer($renderer);
 		
