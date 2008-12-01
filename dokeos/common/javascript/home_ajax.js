@@ -176,9 +176,10 @@
 				column :columnId,
 				order :order
 				},
-					function(data){
+					function(data)
+					{
 						//$.modal('<div class="normal-message">' + translation('BlockAdded', 'home') + '</div>');
-						}
+					}
 					);
 		});
 	};
