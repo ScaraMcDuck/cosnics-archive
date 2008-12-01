@@ -134,7 +134,6 @@ class PersonalCalendar extends WebApplication
 				$event->set_title($object->get_title());
 				$event->set_content($object->get_description());
 				$event->set_source(self :: APPLICATION_NAME);
-				
 				$events[] = $event;
 			}
 		}
@@ -504,7 +503,10 @@ class PersonalCalendar extends WebApplication
 	
 	function get_publication_viewing_url($publication)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_CALENDAR_EVENT_ID => $publication->get_id()));
+		return $this->get_link(array (
+				self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, 
+				self :: PARAM_CALENDAR_EVENT_ID => $publication->get_id(),
+				'application' => 'personal_calendar'));
 	}
 }
 ?>
