@@ -25,10 +25,12 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 		}
 		else
 		{
-			$renderer = new DocumentPublicationListRenderer($this);
 			$tree_id = 'pcattree';
+			$value = $_GET[$tree_id]?$_GET[$tree_id]:0;
+			$parent->set_parameter($tree_id, $value);
+			
 			$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
-			$parent->set_parameter($tree_id, $_GET[$tree_id]);
+			$renderer = new DocumentPublicationListRenderer($this);
 			$this->set_publication_category_tree($tree);
 		}
 		$this->set_publication_list_renderer($renderer);
