@@ -79,9 +79,9 @@ class DocumentForm extends LearningObjectForm
 		}
 		
 		$setting = 0777;
-		$ad = PlatformSetting :: get('permissions_new_files');
+		/*$ad = PlatformSetting :: get('permissions_new_files');
 		if($ad && $ad != '')
-			$setting = $ad;
+			$setting = $ad;*/
 		
 		chmod($full_path, $setting);
 		$object = new Document();

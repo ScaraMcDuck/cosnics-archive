@@ -41,7 +41,7 @@ class Filesystem
 	{
 		if(!$mode)
 		{
-			$mode = '0777';
+			$mode = 0777;
 			/*if(class_exists('PlatformSetting'))
 			{
 				$ad = PlatformSetting :: get('permissions_new_directories');

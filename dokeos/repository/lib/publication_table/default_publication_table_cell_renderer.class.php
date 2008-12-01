@@ -39,7 +39,7 @@ class DefaultPublicationTableCellRenderer implements ObjectTableCellRenderer
 				case LearningObject :: PROPERTY_TITLE :
 					
 					$application = $learning_object_publication->get_application();
-					$url = 'run.php?application=' . $application;
+					$url = 'run.php?application=' . DokeosUtilities :: camelcase_to_underscores($application);
 					
 					if($application == 'weblcms')
 					{
@@ -51,10 +51,10 @@ class DefaultPublicationTableCellRenderer implements ObjectTableCellRenderer
 					}
 					else
 					{
-						$url .= '&go=view';
+						//$url .= '&go=view';
 					}
 					
-					$url = '<a href="' . $url . '&pid=' . $learning_object_publication->get_publication_object_id() . '">';
+					$url = '<a href="' . $url . '">';
 				
 					return $url . $learning_object_publication->get_publication_object()->get_title() . '</a>';
 				case LearningObjectPublicationAttributes :: PROPERTY_PUBLICATION_DATE :
