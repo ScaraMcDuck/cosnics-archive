@@ -17,7 +17,7 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyCourse')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyCourses')));
 		
 		$this->display_header($trail);
 		$course_categories = $this->retrieve_course_user_categories(null, null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
