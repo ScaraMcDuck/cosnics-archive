@@ -148,6 +148,8 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 					}
 				}
 				
+				$text = array();
+				
 				if(PlatformSetting :: get('display_course_code_in_title', 'weblcms'))
 				{
 					$text[] = $course->get_visual();
