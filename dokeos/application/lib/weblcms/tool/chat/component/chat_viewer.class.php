@@ -2,12 +2,10 @@
 
 require_once dirname(__FILE__) . '/../chat_tool.class.php';
 require_once dirname(__FILE__) . '/../chat_tool_component.class.php';
-require_once dirname(__FILE__) . '/chat_viewer/chat_browser.class.php';
-require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
+require_once Path :: get_plugin_path() . '/phpfreechat/src/phpfreechat.class.php';
 
 class ChatToolViewerComponent extends ChatToolComponent
 {
-	private $action_bar;
 	
 	function run()
 	{
@@ -17,45 +15,32 @@ class ChatToolViewerComponent extends ChatToolComponent
 			return;
 		}
 		
-		$this->action_bar = $this->get_action_bar();
+		$params = array();
+
+		$params["data_public_url"] = Path :: get(WEB_PATH)  . 'plugin/phpfreechat/data/public';
+		$params["data_public_path"] = Path :: get(SYS_PATH)  . 'plugin/phpfreechat/data/public';
+		$params["server_script_url"] = $_SERVER['REQUEST_URI'];
+		$params["serverid"] = md5(__FILE__); // used to identify the chat
+		$params["isadmin"] = true; // set wether the person is admin or not
+		$params["title"] = "Dokeos 2.0 Chat"; // title of the chat
+		$params["nick"] = ""; // ask for nick at the user
+		$params["frozen_nick"] = true; //forbid the user to change his/her nickname later
+		$params["channels"] = array("Dokeos 2.0");
+		$params["max_channels"] = 1;
+		$params["theme"] = "blune";
+		$params["display_pfc_logo"] = false;
+		$params["display_ping"] = false;
+		$params["displaytabclosebutton"] = false;
+		$params["btn_sh_whosonline"] = false;
+		$params["btn_sh_smileys"] = false;
+		//$params["debug"] = true;
 		
-		$browser = new ChatBrowser($this);
-		$trail = new BreadcrumbTrail();
+		$chat = new phpFreeChat($params);
 		
-		$this->display_header($trail);
-		
-		echo '<br /><a name="top"></a>';
-		//echo $this->perform_requested_actions();
-		
-		echo $this->action_bar->as_html();
-		echo $browser->as_html();
-		
+		$this->display_header(new BreadCrumbTrail());
+		$chat->printChat();
 		$this->display_footer();
 	}
 	
-	function get_action_bar()
-	{
-		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		
-		$action_bar->set_search_url($this->get_url());
-		
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(ChatTool :: PARAM_ACTION => ChatTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		
-		return $action_bar;
-	}
-	
-	function get_condition()
-	{
-		$query = $this->action_bar->get_query();
-		if(isset($query) && $query != '')
-		{
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
-			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
-			return new OrCondition($conditions);
-		}
-		
-		return null;
-	}
 }
 ?>

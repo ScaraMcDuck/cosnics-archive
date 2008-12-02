@@ -71,13 +71,15 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 				foreach ($attachments as $attachment)
 				{
 					$disp = LearningObjectDisplay :: factory($attachment);
-					$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'learning_object/'.$attachment->get_icon_name().'.png);">';
+					$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'action_attachment.png);">';
 					$html[] = '<div class="title">';
 					$html[] = $attachment->get_title();
 					$html[] = '</div>';
 					$html[] = '<div class="description">';
 					$html[] = $attachment->get_description();
-					$html[] = '</div></div>';
+					$html[] = '</div>';
+					//$html[] =  $disp->get_full_html();
+					$html[] = '</div>';
 				}
 				//$html[] = '</ul>';
 				return implode("\n",$html);
