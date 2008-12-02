@@ -43,7 +43,8 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 			
 			
 			$this->display_header($trail);
-			echo $this->get_publication_modification_links();
+			echo '<br />' . $this->get_publication_modification_links();
+			echo '<div class="clear"></div><br />';
 			echo $this->get_publication_as_html();
 			
 			$this->display_footer();
