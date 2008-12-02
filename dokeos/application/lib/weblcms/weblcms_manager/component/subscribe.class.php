@@ -21,14 +21,14 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 		$this->category = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
 		$course_code = $_GET[Weblcms :: PARAM_COURSE];
 		$users = $_GET[Weblcms :: PARAM_USERS];
-		if(!is_array($users))
+		if(isset($users) && !is_array($users))
 		{
 			$users = array($users);
-		}
+		} 
 		if (isset($course_code))
 		{
 			$course = $this->retrieve_course($course_code);
-			if (isset($users) && $this->get_course()->is_course_admin($this->get_user()))
+			if (isset($users) && count($users) > 0 && $this->get_course()->is_course_admin($this->get_user()))
 			{
 				$failures = 0;
 

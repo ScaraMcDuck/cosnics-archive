@@ -381,11 +381,11 @@ abstract class Tool
 		$this->rights[EDIT_RIGHT] = false;
 		$this->rights[ADD_RIGHT] = false;
 		$this->rights[DELETE_RIGHT] = false;
-		if($relation->get_status() == 5 && $this->properties->visible == 1)
+		if($relation && $relation->get_status() == 5 && $this->properties->visible == 1)
 		{
 			$this->rights[VIEW_RIGHT] = true;
 		}
-		if($relation->get_status() == 1 || $user->is_platform_admin())
+		if(($relation && $relation->get_status() == 1) || $user->is_platform_admin())
 		{
 			$this->rights[VIEW_RIGHT] = true;
 			$this->rights[EDIT_RIGHT] = true;
