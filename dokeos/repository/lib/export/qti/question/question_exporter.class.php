@@ -56,6 +56,24 @@ abstract class QuestionQtiExport extends QtiExport
 		}
 		return $export_type;
 	}
+	
+	function create_qti_file($xml)
+	{
+		$doc = new DOMDocument();
+		$doc->loadXML($xml);
+		
+		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/';
+  		
+  		if(!is_dir($temp_dir))
+  		{
+  			mkdir($temp_dir, '0777', true);
+  		}
+  	
+  		$xml_path = $temp_dir . 'question_qti_'.$this->get_learning_object()->get_id().'.xml';
+		$doc->save($xml_path);
+			
+		return $xml_path;
+	}
 
 }
 ?>

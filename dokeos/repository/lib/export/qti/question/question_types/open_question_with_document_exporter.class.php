@@ -16,7 +16,7 @@ class OpenQuestionWithDocumentQuestionQtiExport extends QuestionQtiExport
 		$item_xml[] = $this->get_interaction_xml();
 		//$item_xml[] = '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response" />';
 		$item_xml[] = '</assessmentItem>';
-		return implode('', $item_xml);
+		return parent :: create_qti_file(implode('', $item_xml));
 	}
 	
 	function get_interaction_xml()

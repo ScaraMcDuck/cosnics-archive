@@ -25,7 +25,7 @@ class MultipleAnswerQuestionQtiExport extends QuestionQtiExport
 		$item_xml[] = $this->get_interaction_xml($answers);
 		$item_xml[] = '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response" />';
 		$item_xml[] = '</assessmentItem>';
-		return implode('', $item_xml);
+		return parent :: create_qti_file(implode('', $item_xml));
 	}
 	
 	function get_response_xml($answers)
@@ -34,13 +34,13 @@ class MultipleAnswerQuestionQtiExport extends QuestionQtiExport
 		foreach ($answers as $answer)
 		{
 			if ($answer['score'] > 0)
-				$response_xml[] = '<value>'.$answer['answer']->get_id().'</value>';
+				$response_xml[] = '<value>c'.$answer['answer']->get_id().'</value>';
 		}
 		$response_xml[] = '</correctResponse>';
 		$response_xml[] = '<mapping>';
 		foreach ($answers as $answer)
 		{
-			$response_xml[] = '<mapEntry mapKey="'.$answer['answer']->get_id().'" mappedValue="'.$answer['score'].'" />';
+			$response_xml[] = '<mapEntry mapKey="c'.$answer['answer']->get_id().'" mappedValue="'.$answer['score'].'" />';
 		}
 		$response_xml[] = '</mapping>';
 		
@@ -54,7 +54,7 @@ class MultipleAnswerQuestionQtiExport extends QuestionQtiExport
 		$interaction_xml[] = '<prompt>'.htmlspecialchars($this->get_learning_object()->get_description()).'</prompt>';
 		foreach ($answers as $answer)
 		{
-			$interaction_xml[] = '<simpleChoice identifier="'.$answer['answer']->get_id().'" fixed="false">'.htmlspecialchars($answer['answer']->get_title()).'</simpleChoice>';
+			$interaction_xml[] = '<simpleChoice identifier="c'.$answer['answer']->get_id().'" fixed="false">'.htmlspecialchars($answer['answer']->get_title()).'</simpleChoice>';
 		}
 		$interaction_xml[] = '</choiceInteraction>';
 		$interaction_xml[] = '</itemBody>';
