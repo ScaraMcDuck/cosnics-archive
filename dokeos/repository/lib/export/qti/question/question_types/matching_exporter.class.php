@@ -28,7 +28,7 @@ class MatchingQuestionQtiExport extends QuestionQtiExport
 		$item_xml[] = $this->get_interaction_xml($answers);
 		$item_xml[] = '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response" />';
 		$item_xml[] = '</assessmentItem>';
-		return implode('', $item_xml);
+		return parent :: create_qti_file(implode('', $item_xml));
 	}
 	
 	function get_response_xml($answers)
@@ -37,13 +37,13 @@ class MatchingQuestionQtiExport extends QuestionQtiExport
 		foreach ($answers as $answer)
 		{
 			if ($answer['score'] > 0)
-				$response_xml[] = '<value>'.$answer['answer']->get_id().' '.$answer['match']->get_id().'</value>';
+				$response_xml[] = '<value>c'.$answer['answer']->get_id().' c'.$answer['match']->get_id().'</value>';
 		}
 		$response_xml[] = '</correctResponse>';
 		$response_xml[] = '<mapping defaultValue="0">';
 		foreach ($answers as $answer)
 		{
-			$response_xml[] = '<mapEntry mapKey="'.$answer['answer']->get_id().' '.$answer['match']->get_id().'" mappedValue="'.$answer['score'].'" />';
+			$response_xml[] = '<mapEntry mapKey=c"'.$answer['answer']->get_id().' c'.$answer['match']->get_id().'" mappedValue="'.$answer['score'].'" />';
 		}
 		$response_xml[] = '</mapping>';
 		
@@ -58,14 +58,14 @@ class MatchingQuestionQtiExport extends QuestionQtiExport
 		$interaction_xml[] = '<simpleMatchSet>';
 		foreach ($answers as $answer)
 		{
-			$interaction_xml[] = '<simpleAssociableChoice identifier="'.$answer['answer']->get_id().'" matchMax="1">'.htmlspecialchars($answer['answer']->get_title()).'</simpleAssociableChoice>';
+			$interaction_xml[] = '<simpleAssociableChoice identifier="c'.$answer['answer']->get_id().'" matchMax="1">'.htmlspecialchars($answer['answer']->get_title()).'</simpleAssociableChoice>';
 		}
 		$interaction_xml[] = '</simpleMatchSet>';
 		$interaction_xml[] = '<simpleMatchSet>';
 		$matches = $this->create_match_list($answers);
 		foreach ($matches as $match)
 		{
-			$interaction_xml[] = '<simpleAssociableChoice identifier="'.$match->get_id().'" matchMax="'.sizeof($answers).'">'.htmlspecialchars($match->get_title()).'</simpleAssociableChoice>';
+			$interaction_xml[] = '<simpleAssociableChoice identifier="c'.$match->get_id().'" matchMax="'.sizeof($answers).'">'.htmlspecialchars($match->get_title()).'</simpleAssociableChoice>';
 		}
 		$interaction_xml[] = '</simpleMatchSet>';
 		$interaction_xml[] = '</matchInteraction>';

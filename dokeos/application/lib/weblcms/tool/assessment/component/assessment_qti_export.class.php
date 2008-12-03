@@ -19,6 +19,7 @@ class AssessmentToolQtiExportComponent extends AssessmentToolComponent
 		$assessment = $publication->get_learning_object();
 		$exporter = LearningObjectExport :: factory('qti', $assessment);
 		$path = $exporter->export_learning_object();
+		echo $path;
 		
 		header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
 		header('Cache-Control: public');
