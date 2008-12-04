@@ -19,11 +19,13 @@ class Assessment extends LearningObject
 	const PROPERTY_TIMES_TAKEN = 'times_taken';
 	const PROPERTY_AVERAGE_SCORE = 'average_score';
 	const PROPERTY_MAXIMUM_SCORE = 'maximum_score';
+	const PROPERTY_MAXIMUM_TIMES_TAKEN = 'max_times_taken';
 	
 	static function get_additional_property_names()
 	{
 		return array(
-		self :: PROPERTY_ASSESSMENT_TYPE
+		self :: PROPERTY_ASSESSMENT_TYPE,
+		self :: PROPERTY_MAXIMUM_TIMES_TAKEN
 		);
 	}
 	
@@ -35,6 +37,16 @@ class Assessment extends LearningObject
 	function set_assessment_type($type)
 	{
 		$this->set_additional_property(self :: PROPERTY_ASSESSMENT_TYPE, $type);
+	}
+	
+	function get_maximum_times_taken()
+	{
+		return $this->get_additional_property(self :: PROPERTY_MAXIMUM_TIMES_TAKEN);
+	}
+	
+	function set_maximum_times_taken($value)
+	{
+		$this->set_additional_property(self :: PROPERTY_MAXIMUM_TIMES_TAKEN, $value);
 	}
 	
 	function get_allowed_types()

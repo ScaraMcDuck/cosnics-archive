@@ -65,13 +65,20 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 	
 	function get_actions($assessment) 
 	{
-		$execute = array(
-		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $assessment->get_id())),
-		'label' => Translation :: get('View results'),
-		'img' => Theme :: get_common_image_path().'action_view_results.png'
+		$actions[] = array(
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $assessment->get_id())),
+			'label' => Translation :: get('View results'),
+			'img' => Theme :: get_common_image_path().'action_view_results.png'
 		);
 		
-		$actions[] = $execute;
+		if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
+		{
+			$actions[] = array(
+				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_ASSESSMENT => $assessment->get_id())),
+				'label' => Translation :: get('Download documents'),
+				'img' => Theme :: get_common_image_path().'action_save.png'
+			);
+		}
 		
 		return DokeosUtilities :: build_toolbar($actions);
 	}

@@ -57,13 +57,28 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 	
 	function get_actions($user_assessment) 
 	{
-		$execute = array(
-		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
-		'label' => Translation :: get('View results'),
-		'img' => Theme :: get_common_image_path().'action_view_results.png'
+		$actions[] = array(
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
+			'label' => Translation :: get('View results'),
+			'img' => Theme :: get_common_image_path().'action_view_results.png'
 		);
 		
-		$actions[] = $execute;
+		$actions[] = array(
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
+			'label' => Translation :: get('Export results'),
+			'img' => Theme :: get_common_image_path().'action_export.png'
+		);
+		
+		$assessment = $user_assessment->get_assessment();
+		if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
+		{
+			$actions[] = array(
+				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
+				'label' => Translation :: get('Download documents'),
+				'img' => Theme :: get_common_image_path().'action_save.png'
+			);
+		}
+
 		return DokeosUtilities :: build_toolbar($actions);
 	}
 	

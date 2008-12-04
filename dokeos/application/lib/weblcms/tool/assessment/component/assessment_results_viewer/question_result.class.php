@@ -136,7 +136,7 @@ abstract class QuestionResult
 			if ($feedback_id != null)
 			{
 				$feedback_lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($feedback_id, 'feedback');
-				$this->formvalidator->addElement('html', '<div class="description">'.$feedback_lo->get_description().$this->render_attachments($feedback_lo).'</div>');
+				$this->formvalidator->addElement('html', '<div class="description">'.$feedback_lo->get_title().'<br/><br/>'.$feedback_lo->get_description().$this->render_attachments($feedback_lo).'</div>');
 			}
 			else
 				$this->formvalidator->addElement('html', '<div class="description">No feedback yet</div>');

@@ -208,6 +208,17 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 				)
 			);
 		}
+		
+		if (isset($_GET[AssessmentTool :: PARAM_ASSESSMENT]) && $this->is_allowed(EDIT_RIGHT))
+		{
+			$aid = $_GET[AssessmentTool :: PARAM_ASSESSMENT];
+			$action_bar->add_tool_action(new ToolbarItem(
+				Translation :: get('Download documents'),
+				Theme :: get_common_image_path().'action_save.png',
+				$this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_ASSESSMENT => $aid)),
+				ToolbarItem :: DISPLAY_ICON_AND_LABEL
+			));
+		}
 		return $action_bar;
 	}
 }

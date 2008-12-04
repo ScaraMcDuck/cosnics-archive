@@ -2595,5 +2595,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $this->db->retrieve_objects(CourseSection :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction);
 	}
 	
+	function times_taken($user_id, $assessment_id)
+	{
+		$query = 'SELECT COUNT('.$this->escape_column_name(UserAssessment :: PROPERTY_ID).') 
+		FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' 
+		WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment_id.' 
+		AND '.$this->escape_column_name(UserAssessment :: PROPERTY_USER_ID).'='.$user_id;
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute();
+		$row = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $row[0];
+	}
 }
 ?>
