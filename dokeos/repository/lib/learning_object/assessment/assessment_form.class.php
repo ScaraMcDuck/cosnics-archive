@@ -35,6 +35,7 @@ class AssessmentForm extends LearningObjectForm
     	parent :: build_creation_form();
     	$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
     	$this->add_select(Assessment :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('Assessment type'), Assessment :: get_types());
+    	$this->add_textfield(Assessment :: PROPERTY_MAXIMUM_TIMES_TAKEN, Translation :: get('Maximum per student')); //.' (0 = '.Translation :: get('infinite').')';
     	$this->addElement('category');
     }
     // Inherited
@@ -43,6 +44,7 @@ class AssessmentForm extends LearningObjectForm
 		parent :: build_editing_form();
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
     	$this->add_select(Assessment :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('Assessment type'), Assessment :: get_types());
+    	$this->add_textfield(Assessment :: PROPERTY_MAXIMUM_TIMES_TAKEN, Translation :: get('Maximum per student')); //.' (0 = '.Translation :: get('infinite').')';
     	$this->addElement('category');
 	}
 
@@ -51,7 +53,7 @@ class AssessmentForm extends LearningObjectForm
 	{
 		$object = new Assessment();
 		$values = $this->exportValues();
-		
+		$object->set_maximum_times_taken($values[Assessment :: PROPERTY_MAXIMUM_TIMES_TAKEN]);
 		$ass_types = $object->get_types();
 		$object->set_assessment_type($ass_types[$values[Assessment :: PROPERTY_ASSESSMENT_TYPE]]);
 		$this->set_learning_object($object);
@@ -62,6 +64,8 @@ class AssessmentForm extends LearningObjectForm
 	{
 		$object = $this->get_learning_object();
 		$values = $this->exportValues();
+		$object->set_maximum_times_taken($values[Assessment :: PROPERTY_MAXIMUM_TIMES_TAKEN]);
+		
 		$ass_types = $object->get_types();
 		$value = $values[Assessment :: PROPERTY_ASSESSMENT_TYPE];
 		if (is_numeric($value))

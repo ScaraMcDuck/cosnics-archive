@@ -17,14 +17,14 @@ class MatchingQuestionDisplay extends QuestionDisplay
 			$name = $this->get_clo_question()->get_ref().'_'.$answer['answer']->get_id();
 			$formvalidator->addElement('select', $name, $answer['answer']->get_description(), $this->get_values($matches));
 		}
-		$formvalidator->addElement('html', '</p><br/><b>'.Translation :: get('Matches').' :</b><p>');
+		//$formvalidator->addElement('html', '</p><br/><b>'.Translation :: get('Matches').' :</b><p>');
 		
-		$i = 1;
+		/*$i = 1;
 		foreach($this->sort($matches) as $answer)
 		{
 			$formvalidator->addElement('html', '('.$i.') :'.$answer['answer']->get_title().'<br/>');
 			$i++;
-		}
+		}*/
 		$formvalidator->addElement('html', '</p>');
 		$formvalidator->addElement('html', $this->display_footer());
 	}
@@ -62,7 +62,7 @@ class MatchingQuestionDisplay extends QuestionDisplay
 		{
 			$match = $matches[$i];
 			$match_i = $match['answer'];
-			$values[$match_i->get_id()] = $i+1;
+			$values[$match_i->get_id()] = $match_i->get_title();
 		}
 		return $values;
 	}
