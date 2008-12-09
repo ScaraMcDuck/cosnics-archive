@@ -35,7 +35,7 @@ class LearningObjectTable extends ObjectTable
 		
 		
 		$actions = array();
-		$actions[Publisher :: PARAM_PUBLISH_SELECTED] = Translation :: get('PublishSelected');
+		$actions[RepoViewer :: PARAM_PUBLISH_SELECTED] = Translation :: get('PublishSelected');
 		$this->set_form_actions($actions);
 	}
 }

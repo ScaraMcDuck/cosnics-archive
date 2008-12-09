@@ -13,7 +13,7 @@ require_once Path :: get_repository_path(). 'lib/abstract_learning_object.class.
 ==============================================================================
  */
 
-class LearningObjectRepoViewer extends Publisher
+class LearningObjectRepoViewer extends RepoViewer
 {
 	/**
 	 * The default learning objects, which are used for form defaults.
@@ -48,7 +48,7 @@ class LearningObjectRepoViewer extends Publisher
 			{
 				$out .= ' class="current"';
 			}
-			$out .= ' href="'.$this->get_url(array (Publisher :: PARAM_ACTION => $repo_viewer_action, Tool :: PARAM_ACTION => $this->get_parameter(Tool :: PARAM_ACTION)), true).'">'.htmlentities(Translation :: get(ucfirst($repo_viewer_action).'Title')).'</a></li>';
+			$out .= ' href="'.$this->get_url(array (RepoViewer :: PARAM_ACTION => $repo_viewer_action, Tool :: PARAM_ACTION => $this->get_parameter(Tool :: PARAM_ACTION)), true).'">'.htmlentities(Translation :: get(ucfirst($repo_viewer_action).'Title')).'</a></li>';
 		}
 		
 		$out .= '</ul><div class="tabbed-pane-content">';

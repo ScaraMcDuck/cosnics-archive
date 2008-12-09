@@ -73,7 +73,7 @@ class Weblcms extends WebApplication
 	const ACTION_COURSE_CATEGORY_MANAGER = 'catmanager';
 	const ACTION_ADMIN_COURSE_BROWSER = 'adminbrowser';
 	const ACTION_DELETE_COURSE = 'coursedeleter';
-	const ACTION_PUBLISH_INTRODUCTION = 'introductionrepo_viewer';
+	const ACTION_PUBLISH_INTRODUCTION = 'introduction_publisher';
 	const ACTION_DELETE_INTRODUCTION = 'delete_introduction';
 	const ACTION_EDIT_INTRODUCTION = 'edit_introduction';
 	
