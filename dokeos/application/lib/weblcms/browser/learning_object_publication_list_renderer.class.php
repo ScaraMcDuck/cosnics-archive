@@ -62,11 +62,11 @@ abstract class LearningObjectPublicationListRenderer
 	}
 
 	/**
-	 * Renders information about the publisher of the given publication.
+	 * Renders information about the repo_viewer of the given publication.
 	 * @param LearningObjectPublication $publication The publication.
 	 * @return string The HTML rendering.
 	 */
-	function render_publisher($publication)
+	function render_repo_viewer($publication)
 	{
 		$user = $this->browser->get_user_info($publication->get_publisher_id());
 		return $user->get_firstname().' '.$user->get_lastname();
@@ -155,10 +155,10 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_publication_information($publication)
 	{
-		$publisher = $this->browser->get_user_info($publication->get_publisher_id());
+		$repo_viewer = $this->browser->get_user_info($publication->get_publisher_id());
 		$html = array ();
 		$html[] = htmlentities(Translation :: get('PublishedOn')).' '.$this->render_publication_date($publication);
-		$html[] = htmlentities(Translation :: get('By')).' '.$this->render_publisher($publication);
+		$html[] = htmlentities(Translation :: get('By')).' '.$this->render_repo_viewer($publication);
 		$html[] = htmlentities(Translation :: get('For')).' '.$this->render_publication_targets($publication);
 		if (!$publication->is_forever())
 		{

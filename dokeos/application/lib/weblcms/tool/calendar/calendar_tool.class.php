@@ -7,7 +7,7 @@
  */
 require_once Path :: get_repository_path(). 'lib/learning_object/calendar_event/calendar_event.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once dirname(__FILE__).'/../../learning_object_publisher.class.php';
+require_once dirname(__FILE__).'/../../learning_object_repo_viewer.class.php';
 require_once dirname(__FILE__).'/calendar_tool_component.class.php';
 /**
  * This tool allows a user to publish events in his or her course.

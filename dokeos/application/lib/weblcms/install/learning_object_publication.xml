@@ -16,7 +16,7 @@
   <property name="from_date" type="integer" unsigned="1" notnull="1"/>
   <property name="to_date" type="integer" unsigned="1" notnull="1"/>
   <property name="hidden" type="integer" length="1" unsigned="1" notnull="1"/>
-  <property name="publisher" type="integer" unsigned="1" notnull="1"/>
+  <property name="repo_viewer" type="integer" unsigned="1" notnull="1"/>
   <property name="published" type="integer" unsigned="1" notnull="1"/>
   <property name="modified" type="integer" unsigned="1" notnull="1"/>
   <property name="display_order" type="integer" unsigned="1" notnull="1"/>
@@ -45,7 +45,7 @@
  <index name="tool">
   <indexproperty name="tool"/>
  </index>
- <index name="publisher">
-  <indexproperty name="publisher"/>
+ <index name="repo_viewer">
+  <indexproperty name="repo_viewer"/>
  </index>
 </object>

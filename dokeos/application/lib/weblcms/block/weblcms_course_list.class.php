@@ -1,11 +1,11 @@
 <?php
 /**
- * @package application.lib.calendar.publisher
+ * @package application.lib.calendar.repo_viewer
  */
 require_once dirname(__FILE__).'/../weblcms_block.class.php';
 require_once dirname(__FILE__).'/../course/course_user_category.class.php';
 /**
- * This class represents a calendar publisher component which can be used
+ * This class represents a calendar repo_viewer component which can be used
  * to browse through the possible learning objects to publish.
  */
 class WeblcmsCourseList extends WeblcmsBlock

@@ -84,7 +84,7 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 			$row[] = sprintf($wrapper,$renderer->render_title($publication));
 			$row[] = sprintf($wrapper,$renderer->render_description($publication));
 			$row[] = sprintf($wrapper,$renderer->render_publication_date($publication));
-			$row[] = sprintf($wrapper,$renderer->render_publisher($publication));
+			$row[] = sprintf($wrapper,$renderer->render_repo_viewer($publication));
 			$row[] = sprintf($wrapper,$renderer->render_publication_targets($publication));
 			if($this->is_allowed(EDIT_RIGHT) || $this->is_allowed(DELETE_RIGHT))
 			{

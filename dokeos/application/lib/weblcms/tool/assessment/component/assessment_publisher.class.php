@@ -2,11 +2,11 @@
 /**
  * @package application.weblcms.tool.assessment.component
  */
-require_once dirname(__FILE__).'/../../../learning_object_publisher.class.php';
+require_once dirname(__FILE__).'/../../../learning_object_repo_viewer.class.php';
 require_once Path::get_library_path().'/html/action_bar/action_bar_renderer.class.php';
 
 /**
- * Represents the publisher component for the assessment tool.
+ * Represents the repo_viewer component for the assessment tool.
  */
 class AssessmentToolPublisherComponent extends AssessmentToolComponent 
 {

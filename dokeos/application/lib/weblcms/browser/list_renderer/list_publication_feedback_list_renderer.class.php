@@ -96,10 +96,10 @@ class ListPublicationFeedbackListRenderer extends ListLearningObjectPublicationL
 	 */
 	function render_publication_information($publication)
 	{
-		$publisher = $this->browser->get_user_info($publication->get_publisher_id());
+		$repo_viewer = $this->browser->get_user_info($publication->get_publisher_id());
 		$html = array ();
 		$html[] = '(';
-		$html[] = $this->render_publisher($publication);
+		$html[] = $this->render_repo_viewer($publication);
 		$html[] = ' - ';
 		$html[] = $this->render_publication_date($publication);
 		$html[] = ')';
