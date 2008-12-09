@@ -25,7 +25,7 @@ class LearningObjectPublication
 	const PROPERTY_FROM_DATE = 'from_date';
 	const PROPERTY_TO_DATE = 'to_date';
 	const PROPERTY_HIDDEN = 'hidden';
-	const PROPERTY_PUBLISHER_ID = 'repo_viewer';
+	const PROPERTY_PUBLISHER_ID = 'publisher';
 	const PROPERTY_PUBLICATION_DATE = 'published';
 	const PROPERTY_MODIFIED_DATE = 'modified';
 	const PROPERTY_DISPLAY_ORDER_INDEX = 'display_order';
@@ -47,7 +47,7 @@ class LearningObjectPublication
 	private $fromDate;
 	private $toDate;
 	private $hidden;
-	private $repo_viewer;
+	private $publisher;
 	private $publicationDate;
 	private $modifiedDate;
 	private $displayOrder;
@@ -72,7 +72,7 @@ class LearningObjectPublication
 	 * available. If value is 0, publication is available forever.
 	 * @param int $toDate The date on which this publication should become
 	 * unavailable. If value is 0, publication is available forever.
-	 * @param int $repo_viewer The user id of the person who created this
+	 * @param int $publisher The user id of the person who created this
 	 * publication.
 	 * @param int $publicationDate The date on which this publication was made.
 	 * @param boolean $hidden If true, this publication is invisible
@@ -80,7 +80,7 @@ class LearningObjectPublication
 	 * location (course - tool - category)
 	 */
 	function LearningObjectPublication($id, $learningObject, $course, $tool, $category, $targetUsers, 
-									 $targetCourseGroups, $fromDate, $toDate, $repo_viewer, $publicationDate, 
+									 $targetCourseGroups, $fromDate, $toDate, $publisher, $publicationDate, 
 									 $modifiedDate, $hidden, $displayOrder, $emailSent, $show_on_homepage)
 	{
 		$this->id = $id;
@@ -93,7 +93,7 @@ class LearningObjectPublication
 		$this->targetCourseGroups = $targetCourseGroups;
 		$this->fromDate = $fromDate;
 		$this->toDate = $toDate;
-		$this->repo_viewer = $repo_viewer;
+		$this->publisher = $publisher;
 		$this->publicationDate = $publicationDate;
 		$this->modifiedDate = $modifiedDate; 
 		$this->hidden = $hidden;
@@ -194,7 +194,7 @@ class LearningObjectPublication
 	 */
 	function get_publisher_id()
 	{
-		return $this->repo_viewer;
+		return $this->publisher;
 	}
 	/**
 	 * Gets the date on which this publication was made
@@ -313,9 +313,9 @@ class LearningObjectPublication
 		$this->toDate = $toDate;
 	}
 
-	function set_repo_viewer_id($repo_viewer)
+	function set_publisher_id($publisher)
 	{
-		$this->repo_viewer = $repo_viewer;
+		$this->publisher = $publisher;
 	}
 
 	function set_publication_date($publicationDate)
