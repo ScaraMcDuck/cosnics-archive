@@ -15,7 +15,7 @@ require_once Path :: get_library_path().'condition/equality_condition.class.php'
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
 require_once dirname(__FILE__).'/component/pm_publication_browser/pm_publication_browser_table.class.php';
-require_once dirname(__FILE__).'/../personal_message_publisher.class.php';
+//require_once dirname(__FILE__).'/../personal_message_publisher.class.php';
 require_once dirname(__FILE__).'/../personal_messenger_menu.class.php';
 require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 

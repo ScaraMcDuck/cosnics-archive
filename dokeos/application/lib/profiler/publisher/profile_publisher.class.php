@@ -2,24 +2,35 @@
 /**
  * @package application.lib.profiler.publisher
  */
-require_once Path :: get_application_library_path() . 'publisher/component/multipublisher.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once dirname(__FILE__).'/../profile_publication_form.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-
-require_once Path :: get_application_library_path() . 'publisher/component/publication_candidate_table/publication_candidate_table.class.php';
 
 /**
  * This class represents a profile publisher component which can be used
  * to preview a learning object in the learning object publisher.
  */
-class ProfilePublisherMultipublisherComponent extends PublisherMultipublisherComponent
+class ProfilePublisher
 {
-	function get_publications_form()
+	private $parent;
+	
+	function ProfilePublisher($parent)
 	{
-		$ids = $_POST[PublicationCandidateTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+		$this->parent = $parent;
+	}
+	
+	function get_publications_form($ids)
+	{
+		//$ids = $_POST[PublicationCandidateTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 		
 		$html = array();
+		
+		if(is_null($ids)) return '';
+		
+		if(!is_array($ids))
+		{
+			$ids = array($ids);
+		}
 		
 		if (count($ids) > 0)
 		{
@@ -42,7 +53,10 @@ class ProfilePublisherMultipublisherComponent extends PublisherMultipublisherCom
 			$html[] = '</div>';
 		}
 		
-		$form = new ProfilePublicationForm(ProfilePublicationForm :: TYPE_MULTI, $ids, $this->get_user(),$this->get_url($this->get_parameters()));
+		$parameters = $this->parent->get_parameters();
+		$parameters['object'] = $ids;
+		
+		$form = new ProfilePublicationForm(ProfilePublicationForm :: TYPE_MULTI, $ids, $this->parent->get_user(),$this->parent->get_url($parameters));
 		if ($form->validate())
 		{
 			$publication = $form->create_learning_object_publications();
@@ -56,7 +70,7 @@ class ProfilePublisherMultipublisherComponent extends PublisherMultipublisherCom
 				$message = Translation :: get('ObjectPublished');
 			}
 			
-			$this->redirect($message, (!$publication ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES));
+			$this->parent->redirect($message, (!$publication ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES));
 		}
 		else
 		{

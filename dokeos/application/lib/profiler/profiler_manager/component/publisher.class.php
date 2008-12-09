@@ -4,7 +4,8 @@
  */
 require_once dirname(__FILE__).'/../profiler.class.php';
 require_once dirname(__FILE__).'/../profiler_component.class.php';
-require_once dirname(__FILE__).'/../../profile_publisher.class.php';
+require_once dirname(__FILE__).'/../../publisher/profile_publisher.class.php';
+require_once dirname(__FILE__).'/../../profile_repo_viewer.class.php';
 
 class ProfilerPublisherComponent extends ProfilerComponent
 {	
@@ -16,20 +17,25 @@ class ProfilerPublisherComponent extends ProfilerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishProfile')));
 		
-		$publisher = $this->get_publisher_html();
+		$object = $_GET['object'];
+		$pub = new ProfileRepoViewer($this, 'profile', true);
+		
+		if(!isset($object))
+		{	
+			$html[] = '<p><a href="' . $this->get_url(array(), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
+			$html[] =  $pub->as_html();
+		}
+		else
+		{
+			//$html[] = 'LearningObject: ';
+			$publisher = new ProfilePublisher($pub);
+			$html[] = $publisher->get_publications_form($object);
+		}
 		
 		$this->display_header($trail);
-		echo $publisher;
+		echo implode("\n", $html);
 		echo '<div style="clear: both;"></div>';
 		$this->display_footer();
-	}
-	
-	private function get_publisher_html()
-	{		
-		$pub = new ProfilePublisher($this, 'profile', true);
-		$html[] =  $pub->as_html();
-		
-		return implode($html, "\n");
 	}
 }
 ?>

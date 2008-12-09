@@ -2,7 +2,7 @@
 /**
  * @package application.lib.profiler
  */
-require_once Path :: get_application_library_path(). 'publisher/publisher.class.php';
+require_once Path :: get_application_library_path(). 'repo_viewer/repo_viewer.class.php';
 require_once Path :: get_repository_path(). 'lib/abstract_learning_object.class.php';
 
 /**
@@ -13,17 +13,17 @@ require_once Path :: get_repository_path(). 'lib/abstract_learning_object.class.
 ==============================================================================
  */
 
-class ProfilePublisher extends Publisher
+class ProfileRepoViewer extends RepoViewer
 {
-	function ProfilePublisher($parent, $types, $mail_option = false)
+	function ProfileRepoViewer($parent, $types, $mail_option = false)
 	{
 		parent :: __construct($parent, $types, $mail_option = false);
-		$this->set_publisher_actions(array ('creator','browser', 'finder'));
+		$this->set_repo_viewer_actions(array ('creator','browser', 'finder'));
 		$this->parse_input_from_table();
 	}
 
 	/**
-	 * Returns the publisher's output in HTML format.
+	 * Returns the repo_viewer's output in HTML format.
 	 * @return string The output.
 	 */
 	function as_html()
@@ -31,24 +31,24 @@ class ProfilePublisher extends Publisher
 		$action = $this->get_action();
 		
 		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-		$publisher_actions = $this->get_publisher_actions();
-		foreach ($publisher_actions as $publisher_action)
+		$repo_viewer_actions = $this->get_repo_viewer_actions();
+		foreach ($repo_viewer_actions as $repo_viewer_action)
 		{
 			$out .= '<li><a';
-			if ($action == $publisher_action)
+			if ($action == $repo_viewer_action)
 			{
 				$out .= ' class="current"';
 			}
-			elseif(($action == 'publicationcreator' || $action == 'multipublisher') && $publisher_action == 'creator')
+			elseif(($action == 'publicationcreator' || $action == 'multirepo_viewer') && $repo_viewer_action == 'creator')
 			{
 				$out .= ' class="current"';
 			}
-			$out .= ' href="'.$this->get_url(array (Publisher :: PARAM_ACTION => $publisher_action), true).'">'.htmlentities(Translation :: get(ucfirst($publisher_action).'Title')).'</a></li>';
+			$out .= ' href="'.$this->get_url(array (RepoViewer :: PARAM_ACTION => $repo_viewer_action), true).'">'.htmlentities(Translation :: get(ucfirst($repo_viewer_action).'Title')).'</a></li>';
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 		
-		require_once dirname(__FILE__).'/publisher/profile_'.$action.'.class.php';
-		$class = 'ProfilePublisher'.ucfirst($action).'Component';
+		require_once dirname(__FILE__).'/repo_viewer/profile_'.$action.'.class.php';
+		$class = 'ProfileRepoViewer'.ucfirst($action).'Component';
 		$component = new $class ($this);
 		$out .= $component->as_html().'</div></div>';
 		return $out;
