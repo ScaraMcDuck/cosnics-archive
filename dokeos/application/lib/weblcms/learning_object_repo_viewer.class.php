@@ -2,7 +2,7 @@
 /**
  * @package application.lib.profiler
  */
-require_once Path :: get_application_library_path(). 'publisher/publisher.class.php';
+require_once Path :: get_application_library_path(). 'repo_viewer/repo_viewer.class.php';
 require_once Path :: get_repository_path(). 'lib/abstract_learning_object.class.php';
 
 /**
@@ -13,22 +13,22 @@ require_once Path :: get_repository_path(). 'lib/abstract_learning_object.class.
 ==============================================================================
  */
 
-class LearningObjectPublisher extends Publisher
+class LearningObjectRepoViewer extends Publisher
 {
 	/**
 	 * The default learning objects, which are used for form defaults.
 	 */
 	
-	function LearningObjectPublisher($parent, $types, $mail_option = false)
+	function LearningObjectRepoViewer($parent, $types, $mail_option = false)
 	{
 		parent :: __construct($parent, $types, $mail_option);
 		$this->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH);
-		$this->set_publisher_actions(array ('creator','browser', 'finder'));
+		$this->set_repo_viewer_actions(array ('creator','browser', 'finder'));
 		$this->parse_input_from_table();
 	}
 
 	/**
-	 * Returns the publisher's output in HTML format.
+	 * Returns the repo_viewer's output in HTML format.
 	 * @return string The output.
 	 */
 	function as_html()
@@ -36,25 +36,25 @@ class LearningObjectPublisher extends Publisher
 		$action = $this->get_action();
 		
 		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-		$publisher_actions = $this->get_publisher_actions();
-		foreach ($publisher_actions as $publisher_action)
+		$repo_viewer_actions = $this->get_repo_viewer_actions();
+		foreach ($repo_viewer_actions as $repo_viewer_action)
 		{
 			$out .= '<li><a';
-			if ($publisher_action == $action)
+			if ($repo_viewer_action == $action)
 			{
 				$out .= ' class="current"';
 			}
-			elseif(($action == 'publicationcreator' || $action == 'multipublisher') && $publisher_action == 'creator')
+			elseif(($action == 'publicationcreator' || $action == 'multirepo_viewer') && $repo_viewer_action == 'creator')
 			{
 				$out .= ' class="current"';
 			}
-			$out .= ' href="'.$this->get_url(array (Publisher :: PARAM_ACTION => $publisher_action, Tool :: PARAM_ACTION => $this->get_parameter(Tool :: PARAM_ACTION)), true).'">'.htmlentities(Translation :: get(ucfirst($publisher_action).'Title')).'</a></li>';
+			$out .= ' href="'.$this->get_url(array (Publisher :: PARAM_ACTION => $repo_viewer_action, Tool :: PARAM_ACTION => $this->get_parameter(Tool :: PARAM_ACTION)), true).'">'.htmlentities(Translation :: get(ucfirst($repo_viewer_action).'Title')).'</a></li>';
 		}
 		
 		$out .= '</ul><div class="tabbed-pane-content">';
 		
-		require_once dirname(__FILE__).'/publisher/learning_object_'.$action.'.class.php';
-		$class = 'LearningObjectPublisher'.ucfirst($action).'Component';
+		require_once dirname(__FILE__).'/repo_viewer/learning_object_'.$action.'.class.php';
+		$class = 'LearningObjectRepoViewer'.ucfirst($action).'Component';
 		$component = new $class ($this);
 		$out .= $component->as_html().'</div></div>';
 		return $out;
