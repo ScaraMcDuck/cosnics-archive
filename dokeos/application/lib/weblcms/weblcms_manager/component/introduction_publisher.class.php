@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../weblcms.class.php';
 require_once dirname(__FILE__) . '/../weblcms_component.class.php';
-require_once dirname(__FILE__).'/../../learning_object_publisher.class.php';
+require_once dirname(__FILE__).'/../../learning_object_repo_viewer.class.php';
 
 class WeblcmsIntroductionPublisherComponent extends WeblcmsComponent
 {

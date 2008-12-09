@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../tool.class.php';
 require_once dirname(__FILE__) . '/../tool_component.class.php';
-require_once dirname(__FILE__).'/../../learning_object_publisher.class.php';
+require_once dirname(__FILE__).'/../../learning_object_repo_viewer.class.php';
 
 class ToolIntroductionPublisherComponent extends ToolComponent
 {

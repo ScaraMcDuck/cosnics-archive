@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../../../learning_object_publisher.class.php';
+require_once dirname(__FILE__).'/../../../learning_object_repo_viewer.class.php';
 require_once Path::get_library_path().'/html/action_bar/action_bar_renderer.class.php';
 
 class LearningPathToolPublisherComponent extends LearningPathToolComponent

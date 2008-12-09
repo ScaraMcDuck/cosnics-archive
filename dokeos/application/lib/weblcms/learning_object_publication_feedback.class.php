@@ -30,7 +30,7 @@ class LearningObjectPublicationFeedback extends LearningObjectPublication
 	 * available. If value is 0, publication is available forever.
 	 * @param int $toDate The date on which this publication should become
 	 * unavailable. If value is 0, publication is available forever.
-	 * @param int $publisher The user id of the person who created this
+	 * @param int $repo_viewer The user id of the person who created this
 	 * publication.
 	 * @param int $publicationDate The date on which this publication was made.
 	 * @param int $modifiedDate The date on which this publication was updated.
@@ -38,10 +38,10 @@ class LearningObjectPublicationFeedback extends LearningObjectPublication
 	 * @param int $displayOrder The display order of this publication in its
 	 * location (course - tool - category)
 	 */
-	function LearningObjectPublicationFeedback($id, $learningObject, $course, $tool, $parent_id,$publisher, $publicationDate, $modifiedDate, $hidden, $emailSent)
+	function LearningObjectPublicationFeedback($id, $learningObject, $course, $tool, $parent_id,$repo_viewer, $publicationDate, $modifiedDate, $hidden, $emailSent)
 	{
 		
-		parent :: LearningObjectPublication($id, $learningObject, $course, $tool, 0, array(), array(), 0, 0, $publisher, $publicationDate, $modifiedDate, $hidden, 0, $emailSent);
+		parent :: LearningObjectPublication($id, $learningObject, $course, $tool, 0, array(), array(), 0, 0, $repo_viewer, $publicationDate, $modifiedDate, $hidden, 0, $emailSent);
 		$this->set_parent_id($parent_id);
 		$this->set_modified_date(time());
 		$this->set_email_sent();

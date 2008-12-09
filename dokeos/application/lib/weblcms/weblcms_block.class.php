@@ -19,7 +19,7 @@ class WeblcmsBlock extends Block
 	/**
 	 * Constructor.
 	 * @param array $types The learning object types that may be published.
-	 * @param  boolean $email_option If true the publisher has the option to
+	 * @param  boolean $email_option If true the repo_viewer has the option to
 	 * send the published learning object by email to the selecter target users.
 	 */
 	function WeblcmsBlock($parent, $block_info)

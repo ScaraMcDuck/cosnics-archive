@@ -17,7 +17,7 @@ class ForumPostListRenderer extends ListLearningObjectPublicationListRenderer
 			$first = ($index == 0);
 			$last = ($index == count($forum_posts) - 1);
 			// ctor: $id, $learningObject, $course, $tool, $category, $targetUsers, $targetCourseGroups, $fromDate
-			//       $toDate, $publisher, $publicationDate, $modifiedDate, $hidden, $displayOrder, $emailSent
+			//       $toDate, $repo_viewer, $publicationDate, $modifiedDate, $hidden, $displayOrder, $emailSent
 			$id = $forum_post->get_id();
 			$publication = new LearningObjectPublication($id, $forum_post, $course);
 			$publication->set_publication_date($forum_post->get_creation_date());
@@ -59,15 +59,15 @@ class ForumPostListRenderer extends ListLearningObjectPublicationListRenderer
 	{
 		$html = array ();
 		$html[] = htmlentities(Translation :: get('PublishedOn')).' '.$this->render_publication_date($publication);
-		$html[] = htmlentities(Translation :: get('By')).' '.$this->render_publisher($publication);
+		$html[] = htmlentities(Translation :: get('By')).' '.$this->render_repo_viewer($publication);
 		return implode("\n", $html);
 	}
 	/**
-	 * Renders information about the publisher of the given publication.
+	 * Renders information about the repo_viewer of the given publication.
 	 * @param LearningObjectPublication $publication The publication.
 	 * @return string The HTML rendering.
 	 */
-	function render_publisher($forum_post)
+	function render_repo_viewer($forum_post)
 	{
 		$user = $this->browser->get_user_info($forum_post->get_learning_object()->get_owner_id());
 		return $user->get_firstname().' '.$user->get_lastname();

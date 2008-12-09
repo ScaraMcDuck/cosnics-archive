@@ -1,15 +1,15 @@
 <?php
 /**
- * @package application.lib.profiler.publisher
+ * @package application.lib.profiler.repo_viewer
  */
-require_once Path :: get_application_library_path() . 'publisher/component/browser.class.php';
+require_once Path :: get_application_library_path() . 'repo_viewer/component/browser.class.php';
 /**
- * This class represents a profile publisher component which can be used
+ * This class represents a profile repo_viewer component which can be used
  * to browse through the possible learning objects to publish.
  */
-class LearningObjectPublisherBrowserComponent extends PublisherBrowserComponent
+class LearningObjectRepoViewerBrowserComponent extends RepoViewerBrowserComponent
 {
-	function LearningObjectPublisherBrowserComponent($parent)
+	function LearningObjectRepoViewerBrowserComponent($parent)
 	{
 		parent :: __construct($parent);
 		$this->set_browser_actions($this->get_default_browser_actions());
