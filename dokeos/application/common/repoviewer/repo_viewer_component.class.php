@@ -4,29 +4,29 @@
  */
 /**
 ==============================================================================
- *	This class represents a component of a EncyclopediaPublisher. Its output
+ *	This class represents a component of a EncyclopediaRepoViewer. Its output
  *	is included in the publisher's output.
 ==============================================================================
  */
-abstract class PublisherComponent
+abstract class RepoViewerComponent
 {
 	/**
-	 * The ObjectPublisher instance that created this object.
+	 * The ObjectRepoViewer instance that created this object.
 	 */
 	private $parent;
 
 	/**
 	 * Constructor.
-	 * @param ObjectPublisher $parent The creator of this object.
+	 * @param ObjectRepoViewer $parent The creator of this object.
 	 */
-	function PublisherComponent($parent)
+	function RepoViewerComponent($parent)
 	{
 		$this->parent = $parent;
 	}
 
 	/**
 	 * Returns the creator of this object.
-	 * @return ObjectPublisher The creator.
+	 * @return ObjectRepoViewer The creator.
 	 */
 	function get_parent()
 	{		
@@ -34,7 +34,7 @@ abstract class PublisherComponent
 	}
 
 	/**
-	 * @see ObjectPublisher::get_user_id()
+	 * @see ObjectRepoViewer::get_user_id()
 	 */
 	protected function get_user_id()
 	{
@@ -47,7 +47,7 @@ abstract class PublisherComponent
 	}
 
 	/**
-	 * @see ObjectPublisher::get_types()
+	 * @see ObjectRepoViewer::get_types()
 	 */
 	protected function get_types()
 	{
@@ -61,7 +61,7 @@ abstract class PublisherComponent
 	abstract function as_html();
 
 	/**
-	 * @see ObjectPublisher::get_url()
+	 * @see ObjectRepoViewer::get_url()
 	 */
 	function get_url($parameters = array(), $encode = false)
 	{
@@ -69,7 +69,7 @@ abstract class PublisherComponent
 	}
 
 	/**
-	 * @see ObjectPublisher::get_parameter()
+	 * @see ObjectRepoViewer::get_parameter()
 	 */
 	function get_parameter($name)
 	{
@@ -77,7 +77,7 @@ abstract class PublisherComponent
 	}
 
 	/**
-	 * @see ObjectPublisher::set_parameter()
+	 * @see ObjectRepoViewer::set_parameter()
 	 */
 	function set_parameter($name, $value)
 	{
@@ -90,7 +90,7 @@ abstract class PublisherComponent
 	}
 
 	/**
-	 * @see ObjectPublisher::get_default_object()
+	 * @see ObjectRepoViewer::get_default_object()
 	 */
 	function get_default_learning_object($type)
 	{

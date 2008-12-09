@@ -5,11 +5,11 @@
 require_once Path :: get_repository_path(). 'lib/learning_object_table/default_learning_object_table_cell_renderer.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once dirname(__FILE__).'/publication_candidate_table_column_model.class.php';
+require_once dirname(__FILE__).'/learning_object_table_column_model.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
  */
-class PublicationCandidateTableCellRenderer extends DefaultLearningObjectTableCellRenderer
+class LearningObjectTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 {
 	private $table_actions;
 	/**
@@ -19,7 +19,7 @@ class PublicationCandidateTableCellRenderer extends DefaultLearningObjectTableCe
 	 * @param string $edit_and_publish_url_format URL for editing and publishing
 	 * the selected learning object.
 	 */
-	function PublicationCandidateTableCellRenderer($table_actions)
+	function LearningObjectTableCellRenderer($table_actions)
 	{
 		$this->table_actions = $table_actions;
 	}
@@ -28,7 +28,7 @@ class PublicationCandidateTableCellRenderer extends DefaultLearningObjectTableCe
 	 */
 	function render_cell($column, $learning_object)
 	{
-		if ($column === PublicationCandidateTableColumnModel :: get_action_column())
+		if ($column === LearningObjectTableColumnModel :: get_action_column())
 		{
 			return $this->get_publish_links($learning_object);
 		}

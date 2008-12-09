@@ -4,27 +4,27 @@
  */
 require_once Path :: get_library_path() . 'redirect.class.php';
 require_once Path :: get_repository_path() . 'lib/abstract_learning_object.class.php';
-require_once dirname(__FILE__).'/component/publication_candidate_table/publication_candidate_table.class.php';
+require_once dirname(__FILE__).'/component/learning_object_table/learning_object_table.class.php';
 
 /**
 ==============================================================================
- *	This class provides the means to publish a learning object.
+ *	This class provides the means to repoviewer a learning object.
  *
  *	@author Tim De Pauw
 ==============================================================================
  */
 
-class Publisher
+class RepoViewer
 {
-	const PARAM_ACTION = 'publish_action';
+	const PARAM_ACTION = 'repoviewer_action';
 	const PARAM_EDIT = 'edit';
 	const PARAM_ID = 'object';
 	
-	const PARAM_PUBLISH_SELECTED = 'publish_selected';
+	const PARAM_PUBLISH_SELECTED = 'repoviewer_selected';
 
 	/**
-	 * The types of learning object that this publisher is aware of and may
-	 * publish.
+	 * The types of learning object that this repo_viewer is aware of and may
+	 * repoviewer.
 	 */
 	private $types;
 
@@ -35,7 +35,7 @@ class Publisher
 	
 	private $parent;
 	
-	private $publisher_actions;
+	private $repo_viewer_actions;
 	
 	private $parameters;
 	
@@ -43,23 +43,23 @@ class Publisher
 	
 	/**
 	 * Constructor.
-	 * @param array $types The learning object types that may be published.
-	 * @param  boolean $email_option If true the publisher has the option to
-	 * send the published learning object by email to the selecter target users.
+	 * @param array $types The learning object types that may be repoviewered.
+	 * @param  boolean $email_option If true the repo_viewer has the option to
+	 * send the repoviewered learning object by email to the selecter target users.
 	 */
-	function Publisher($parent, $types, $mail_option = false)
+	function RepoViewer($parent, $types, $mail_option = false)
 	{
 		$this->parent = $parent;
 		$this->default_learning_objects = array();
 		$this->parameters = array();
 		$this->types = (is_array($types) ? $types : array ($types));
 		$this->mail_option = $mail_option;
-		$this->set_publisher_actions(array ('creator','browser', 'finder'));
-		$this->set_parameter(Publisher :: PARAM_ACTION, ($_GET[Publisher :: PARAM_ACTION] ? $_GET[Publisher :: PARAM_ACTION] : 'creator'));
+		$this->set_repo_viewer_actions(array ('creator','browser', 'finder'));
+		$this->set_parameter(RepoViewer :: PARAM_ACTION, ($_GET[RepoViewer :: PARAM_ACTION] ? $_GET[RepoViewer :: PARAM_ACTION] : 'creator'));
 	}
 
 	/**
-	 * Returns the tool which created this publisher.
+	 * Returns the tool which created this repo_viewer.
 	 * @return Tool The tool.
 	 */
 	function get_parent()
@@ -81,7 +81,7 @@ class Publisher
 	}
 
 	/**
-	 * Returns the types of learning object that this object may publish.
+	 * Returns the types of learning object that this object may repoviewer.
 	 * @return array The types.
 	 */
 	function get_types()
@@ -95,12 +95,12 @@ class Publisher
 	 */
 	function get_action()
 	{
-		return $this->get_parameter(Publisher :: PARAM_ACTION);
+		return $this->get_parameter(RepoViewer :: PARAM_ACTION);
 	}
 	
 	function set_action($action)
 	{
-		$this->set_parameter(Publisher :: PARAM_ACTION, $action);
+		$this->set_parameter(RepoViewer :: PARAM_ACTION, $action);
 	}
 
 	function get_url($parameters = array(), $encode_entities = false, $filter = array())
@@ -132,7 +132,7 @@ class Publisher
 	
 	/**
 	 * Sets a default learning object. When the creator component of this
-	 * publisher is displayed, the properties of the given learning object will
+	 * repo_viewer is displayed, the properties of the given learning object will
 	 * be used as the default form values.
 	 * @param string $type The learning object type.
 	 * @param LearningObject $learning_object The learning object to use as the
@@ -163,21 +163,16 @@ class Publisher
 		Redirect :: url($parameters, $filter, $encode_entities);
 	}
 	
-	function get_publisher_actions()
+	function get_repo_viewer_actions()
 	{
-		return $this->publisher_actions;
+		return $this->repo_viewer_actions;
 	}
 	
-	function set_publisher_actions($publisher_actions)
+	function set_repo_viewer_actions($repo_viewer_actions)
 	{
-		$this->publisher_actions = $publisher_actions;
+		$this->repo_viewer_actions = $repo_viewer_actions;
 	}
-	
-	/**
-	 * Determines if this learning object publisher supports the option to send
-	 * published learning objects by email.
-	 * @return boolean
-	 */
+
 	function with_mail_option()
 	{
 		return $this->mail_option;
@@ -187,12 +182,13 @@ class Publisher
 	{
 		if (isset ($_POST['action']))
 		{
-			$selected_publication_ids = $_POST[PublicationCandidateTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			$selected_publication_ids = $_POST[LearningObjectTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			
 			switch ($_POST['action'])
 			{
 				case self :: PARAM_PUBLISH_SELECTED :
-					$this->set_action('multipublisher');
+					$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $selected_publication_ids));
+					$this->redirect(null, false, $redirect_params);
 					break;
 			}
 		}

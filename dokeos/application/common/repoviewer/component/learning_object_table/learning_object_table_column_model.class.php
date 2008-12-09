@@ -8,7 +8,7 @@ require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 /**
  * This class represents a column model for a publication candidate table
  */
-class PublicationCandidateTableColumnModel extends ObjectTableColumnModel {
+class LearningObjectTableColumnModel extends ObjectTableColumnModel {
 	/**
 	 * The column with the action buttons.
 	 */
@@ -16,7 +16,7 @@ class PublicationCandidateTableColumnModel extends ObjectTableColumnModel {
 	/**
 	 * Constructor.
 	 */
-	function PublicationCandidateTableColumnModel()
+	function LearningObjectTableColumnModel()
 	{
 		parent :: __construct(self :: get_columns(), 1, SORT_ASC);
 	}
