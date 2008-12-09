@@ -11,7 +11,7 @@ require_once Path :: get_library_path().'condition/or_condition.class.php';
 /**
  * This class represents a data provider for a publication candidate table
  */
-class PublicationCandidateTableDataProvider extends ObjectTableDataProvider
+class LearningObjectTableDataProvider extends ObjectTableDataProvider
 {
 	/**
 	 * The user id of the current active user.
@@ -32,7 +32,7 @@ class PublicationCandidateTableDataProvider extends ObjectTableDataProvider
 	 * selected.
 	 * @param string $query The search query.
 	 */
-    function PublicationCandidateTableDataProvider($owner, $types, $query = null)
+    function LearningObjectTableDataProvider($owner, $types, $query = null)
     {
     	$this->types = $types;
     	$this->owner = $owner;

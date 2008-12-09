@@ -1,19 +1,19 @@
 <?php
 /**
- * @package application.lib.encyclopedia.publisher
+ * @package application.lib.encyclopedia.repo_viewer
  */
-require_once dirname(__FILE__).'/../publisher.class.php';
-require_once dirname(__FILE__).'/../publisher_component.class.php';
-require_once dirname(__FILE__).'/publication_candidate_table/publication_candidate_table.class.php';
+require_once dirname(__FILE__).'/../repo_viewer.class.php';
+require_once dirname(__FILE__).'/../repo_viewer_component.class.php';
+require_once dirname(__FILE__).'/learning_object_table/learning_object_table.class.php';
 /**
- * This class represents a encyclopedia publisher component which can be used
+ * This class represents a encyclopedia repo_viewer component which can be used
  * to browse through the possible learning objects to publish.
  */
-class PublisherBrowserComponent extends PublisherComponent
+class RepoViewerBrowserComponent extends RepoViewerComponent
 {
 	private $browser_actions;
 	
-	function PublisherBrowserComponent($parent)
+	function RepoViewerBrowserComponent($parent)
 	{
 		parent :: __construct($parent);
 		$this->set_browser_actions($this->get_default_browser_actions());
@@ -29,7 +29,7 @@ class PublisherBrowserComponent extends PublisherComponent
 			$actions[$key]['href'] = str_replace('__ID__', '%d', $action['href']);
 		}
 		
-		$table = new PublicationCandidateTable($this, $this->get_user(), $this->get_types(), $this->get_query(), $actions);
+		$table = new LearningObjectTable($this, $this->get_user(), $this->get_types(), $this->get_query(), $actions);
 		return $table->as_html();
 	}
 
@@ -57,13 +57,13 @@ class PublisherBrowserComponent extends PublisherComponent
 		$browser_actions = array();
 		
 		$browser_actions[] = array(
-			'href' => $this->get_url(array_merge($this->get_parameters(), array (Publisher :: PARAM_ACTION => 'publicationcreator', Publisher :: PARAM_ID => '__ID__')),false),
+			'href' => $this->get_url(array_merge($this->get_parameters(), array (RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_ID => '__ID__')),false),
 			'img' => Theme :: get_common_image_path().'action_publish.png',
 			'label' => Translation :: get('Publish')
 		);
 		
 		$browser_actions[] = array(
-			'href' => $this->get_url(array_merge($this->get_parameters(), array (Publisher :: PARAM_ACTION => 'creator', Publisher :: PARAM_ID => '__ID__', Publisher :: PARAM_EDIT => 1))),
+			'href' => $this->get_url(array_merge($this->get_parameters(), array (RepoViewer :: PARAM_ACTION => 'creator', RepoViewer :: PARAM_ID => '__ID__', RepoViewer :: PARAM_EDIT => 1))),
 			'img' => Theme :: get_common_image_path().'action_editpublish.png',
 			'label' => Translation :: get('EditAndPublish')
 		);

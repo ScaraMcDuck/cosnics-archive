@@ -1,29 +1,29 @@
 <?php
 /**
- * @package application.lib.encyclopedia.publisher
+ * @package application.lib.encyclopedia.repo_viewer
  */
-require_once dirname(__FILE__).'/../publisher.class.php';
-require_once dirname(__FILE__).'/../publisher_component.class.php';
+require_once dirname(__FILE__).'/../repo_viewer.class.php';
+require_once dirname(__FILE__).'/../repo_viewer_component.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/repository_data_manager.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/learning_object_display.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/learning_object_form.class.php';
 require_once dirname(__FILE__).'/../../../../common/dokeos_utilities.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
- * This class represents a encyclopedia publisher component which can be used
+ * This class represents a encyclopedia repo_viewer component which can be used
  * to create a new learning object before publishing it.
  */
-abstract class PublisherCreatorComponent extends PublisherComponent
+abstract class RepoViewerCreatorComponent extends RepoViewerComponent
 {
 	/*
 	 * Inherited
 	 */
 	function as_html($params = array())
 	{
-		$oid = $_GET[Publisher :: PARAM_ID];
+		$oid = $_GET[RepoViewer :: PARAM_ID];
 		if ($oid)
 		{
-			if ($_GET[Publisher :: PARAM_EDIT])
+			if ($_GET[RepoViewer :: PARAM_EDIT])
 			{
 				return $this->get_editing_form($oid, $params);
 			}
@@ -62,10 +62,10 @@ abstract class PublisherCreatorComponent extends PublisherComponent
 		}
 		$form = new FormValidator('selecttype', 'post', $this->get_url());
 		$form->addElement('hidden', 'tool');
-		$form->addElement('hidden', Publisher :: PARAM_ACTION);
+		$form->addElement('hidden', RepoViewer :: PARAM_ACTION);
 		$form->addElement('select', 'type', '', $types);
 		$form->addElement('submit', 'submit', Translation :: get('Ok'));
-		$form->setDefaults(array (Publisher :: PARAM_ACTION => $_GET[Publisher :: PARAM_ACTION]));
+		$form->setDefaults(array (RepoViewer :: PARAM_ACTION => $_GET[RepoViewer :: PARAM_ACTION]));
 		
 		if ($form->validate())
 		{
@@ -95,7 +95,7 @@ abstract class PublisherCreatorComponent extends PublisherComponent
 	private function get_editing_form($learning_object_id, $params = array())
 	{
 		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
-		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array_merge($this->get_parameters(), array_merge($params,array (Publisher :: PARAM_ID => $learning_object_id, Publisher :: PARAM_EDIT => 1)))));
+		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array_merge($this->get_parameters(), array_merge($params,array (RepoViewer :: PARAM_ID => $learning_object_id, RepoViewer :: PARAM_EDIT => 1)))));
 		return $this->handle_form($form, 1);
 	}
 	
@@ -106,7 +106,8 @@ abstract class PublisherCreatorComponent extends PublisherComponent
 		if ($form->validate())
 		{
 			$learning_object = $form->create_learning_object();
-			$redirect_params = array_merge($this->get_parameters(), array(Publisher :: PARAM_ID => $learning_object->get_id(), Publisher :: PARAM_ACTION => 'publicationcreator', Publisher :: PARAM_EDIT => $edit));
+			//$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_EDIT => $edit));
+			$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_EDIT => $edit));
 			
 			if($learning_object->is_complex_learning_object())
 			{

@@ -8,10 +8,10 @@ require_once Path :: get_library_path().'condition/or_condition.class.php';
 require_once Path :: get_library_path().'condition/pattern_match_condition.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 /**
- * This class represents a encyclopedia publisher component which can be used
+ * This class represents a encyclopedia repo_viewer component which can be used
  * to search for a certain learning object.
  */
-class PublisherFinderComponent extends PublisherBrowserComponent
+class RepoViewerFinderComponent extends RepoViewerBrowserComponent
 {
 	/**
 	 * The search form
@@ -23,13 +23,13 @@ class PublisherFinderComponent extends PublisherBrowserComponent
 	private $renderer;
 	/**
 	 * Constructor.
-	 * @param ObjectPublisher $parent The creator of this object.
+	 * @param ObjectRepoViewer $parent The creator of this object.
 	 */
-	function PublisherFinderComponent($parent)
+	function RepoViewerFinderComponent($parent)
 	{
 		parent :: __construct($parent);
 		$this->form = new FormValidator('search', 'get',$this->get_url($this->get_parameters()),'',null,false);
-		$this->form->addElement('hidden', Publisher :: PARAM_ACTION);
+		$this->form->addElement('hidden', RepoViewer :: PARAM_ACTION);
 		$this->form->addElement('text', 'query', Translation :: get('Find'), 'size="40" class="search_query"');
 		$this->form->addElement('submit', 'submit', Translation :: get('Ok'));
 	}

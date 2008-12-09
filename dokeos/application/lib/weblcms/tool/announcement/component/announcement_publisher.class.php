@@ -13,15 +13,25 @@ class AnnouncementToolPublisherComponent extends AnnouncementToolComponent
 			Display :: display_not_allowed();
 			return;
 		}
-		
 		$trail = new BreadcrumbTrail();
-		$pub = new LearningObjectPublisher($this, 'announcement', true);
 		
-		$html[] = '<p><a href="' . $this->get_url(array(Tool :: PARAM_ACTION => AnnouncementTool :: ACTION_VIEW_ANNOUNCEMENTS), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
-		$html[] =  $pub->as_html();
+		$object = $_GET['object'];
+		
+		if(!isset($object))
+		{
+			$pub = new LearningObjectPublisher($this, 'announcement', true);
+			
+			$html[] = '<p><a href="' . $this->get_url(array(Tool :: PARAM_ACTION => AnnouncementTool :: ACTION_VIEW_ANNOUNCEMENTS), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
+			$html[] =  $pub->as_html();
+		}
+		else
+		{
+			$html[] = 'LearningObject: ';
+		}
 		
 		$this->display_header($trail);
 		echo implode("\n",$html);
+		dump($object);
 		$this->display_footer();
 	}
 }
