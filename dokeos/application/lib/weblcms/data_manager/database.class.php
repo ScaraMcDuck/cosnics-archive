@@ -2404,7 +2404,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function delete_user_answer($user_answer) 
 	{
-		//delete user answer
 		$condition = new EqualityCondition(UserAnswer :: PROPERTY_ID, $user_answer->get_id());
 		return $this->db->delete(UserAnswer :: get_table_name(), $condition);
 	}
@@ -2413,7 +2412,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		$condition = new EqualityCondition(UserAnswer :: PROPERTY_ID, $user_answer->get_id());
 		return $this->db->update($user_answer, $condition);
-		
 	}
 	
 	function retrieve_user_assessments($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null) 
@@ -2516,6 +2514,34 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$maxscore += $clo_question->get_weight();
 		}
 		return $maxscore;
+	}
+	
+	function retrieve_survey_invitations($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	{
+		return $this->db->retrieve_objects(SurveyInvitation :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+	}
+	
+	function create_survey_invitation($survey_invitation) 
+	{
+		return $this->db->create($survey_invitation);
+	}
+	
+	function get_next_survey_invitation_id()
+	{
+		return $this->db->get_next_id(SurveyInvitation :: get_table_name());
+	}
+	
+	function delete_survey_invitation($survey_invitation) 
+	{
+		$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $survey_invitation->get_id());
+		return $this->db->delete(SurveyInvitation :: get_table_name(), $condition);
+	}
+	
+	function update_survey_invitation($survey_invitation)
+	{
+		$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_ID, $survey_invitation->get_id());
+		return $this->db->update($survey_invitation, $condition);
+		
 	}
 	
 	function get_next_course_section_id()

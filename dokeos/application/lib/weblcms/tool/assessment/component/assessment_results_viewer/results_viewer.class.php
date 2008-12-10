@@ -27,14 +27,14 @@ abstract class ResultsViewer extends FormValidator
 	function get_assessment() 
 	{
 		$repdm = RepositoryDataManager :: get_instance();
-		$assessment = $repdm->retrieve_learning_object($this->user_assessment->get_assessment_id(), 'assessment');
+		$assessment = $repdm->retrieve_learning_object($this->user_assessment->get_assessment_id());
 		return $assessment;
 	}
 	
 	static function factory($user_assessment, $edit_rights, $url)
 	{
 		$repdm = RepositoryDataManager :: get_instance();
-		$assessment = $repdm->retrieve_learning_object($user_assessment->get_assessment_id(), 'assessment');
+		$assessment = $repdm->retrieve_learning_object($user_assessment->get_assessment_id());
 		
 		switch ($assessment->get_assessment_type()) 
 		{
@@ -44,7 +44,7 @@ abstract class ResultsViewer extends FormValidator
 			case Assessment::TYPE_EXERCISE:
 				$subcomponent = new ExerciseResultsViewer($user_assessment, $edit_rights, $url);
 				break;
-			case Assessment::TYPE_SURVEY:
+			case Survey::TYPE_SURVEY:
 				$subcomponent = new SurveyResultsViewer($user_assessment, $edit_rights, $url);
 				break;
 			default:

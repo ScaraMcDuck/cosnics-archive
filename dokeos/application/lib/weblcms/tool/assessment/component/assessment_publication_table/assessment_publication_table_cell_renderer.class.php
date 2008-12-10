@@ -43,26 +43,34 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 	
 	function get_actions($publication) 
 	{
+		$assessment = $publication->get_learning_object();
+		$times_taken = WeblcmsDataManager :: get_instance()->times_taken($this->browser->get_user_id(), $assessment->get_id());
 		
+		if ($assessment->get_maximum_times_taken == 0 || $times_taken < $assessment->get_maximum_times_taken())
+		{
+			$actions[] = array(
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+			'label' => Translation :: get('Take assessment'),
+			'img' => Theme :: get_common_image_path().'action_right.png'
+			);
+		}
+			
 		if ($this->browser->is_allowed(EDIT_RIGHT)) 
 		{
-			$assessment = $publication->get_learning_object();
-			$times_taken = WeblcmsDataManager :: get_instance()->times_taken($this->browser->get_user_id(), $assessment->get_id());
-			
-			if ($assessment->get_maximum_times_taken == 0 || $times_taken < $assessment->get_maximum_times_taken())
-			{
-				$actions[] = array(
-				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-				'label' => Translation :: get('Take assessment'),
-				'img' => Theme :: get_common_image_path().'action_right.png'
-				);
-			}
-		
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_learning_object()->get_id())), 
 			'label' => Translation :: get('View results'), 
 			'img' => Theme :: get_common_image_path().'action_view_results.png'
 			);
+			
+			if ($assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
+			{
+				$actions[] = array(
+				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
+				'label' => Translation :: get('Publish'), 
+				'img' => Theme :: get_common_image_path().'action_publish.png'
+				);
+			}
 			
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
@@ -94,17 +102,8 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 			$conditionuser = new EqualityCondition(UserAssessment :: PROPERTY_USER_ID, $this->browser->get_user_id());
 			$conditionass = new EqualityCondition(UserAssessment :: PROPERTY_ASSESSMENT_ID, $publication->get_learning_object()->get_id());
 			$user_assessments = WeblcmsDataManager :: get_instance()->retrieve_user_assessments(new AndCondition(array($conditionuser, $conditionass)));
-			//print_r(new AndCondition(array($conditionuser, $conditionass)));
 			$user_assessment = $user_assessments->next_result();
-			if ($user_assessment == null) 
-			{
-				$actions[] = array(
-				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-				'label' => Translation :: get('Take assessment'),
-				'img' => Theme :: get_common_image_path().'action_right.png'
-				);
-			}
-			else 
+			if ($user_assessment != null) 
 			{
 				$actions[] = array(
 				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), 

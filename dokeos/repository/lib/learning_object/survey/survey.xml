@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="survey">
+ <properties>
+  <property name="id" type="integer" unsigned="1" notnull="1"/>
+  <property name="assessment_type" type="text" notnull="1"/>
+  <property name="max_times_taken" type="integer" unsigned="1" notnull="1" />
+  <property name="finish_text" type="text" notnull="0" />
+  <property name="anonymous" type="bool" notnull="1" default="false" />
+ </properties>
+ <index name="id" type="primary">
+  <indexproperty name="id"/>
+ </index>
+</object>

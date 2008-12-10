@@ -41,7 +41,10 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 			{
 				case UserAssessment :: PROPERTY_USER_ID:
 					$user_id = $user_assessment->get_user_id();
-					return UserDataManager :: get_instance()->retrieve_user($user_id)->get_fullname();
+					if ($user_id > 0)
+						return UserDataManager :: get_instance()->retrieve_user($user_id)->get_fullname();
+					else
+						return 'Anonymous';
 				case UserAssessment :: PROPERTY_TOTAL_SCORE:
 					$total = $user_assessment->get_total_score();
 					$max = $user_assessment->get_assessment()->get_maximum_score();
