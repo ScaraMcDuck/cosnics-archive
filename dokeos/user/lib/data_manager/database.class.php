@@ -7,6 +7,7 @@ require_once dirname(__FILE__).'/database/databaseuserresultset.class.php';
 require_once dirname(__FILE__).'/../user_data_manager.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../user_quota.class.php';
+require_once dirname(__FILE__).'/../user_role.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/learning_object.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once Path :: get_library_path() . 'database/database.class.php';
@@ -31,7 +32,7 @@ class DatabaseUserDataManager extends UserDataManager
 	 */
 	function initialize()
 	{
-		$this->database = new Database(array('user' => 'u','user_quota' => 'uq'));
+		$this->database = new Database(array('user' => 'u','user_quota' => 'uq', 'user_role' => 'ur'));
 		$this->database->set_prefix('user_');
 	}
 	
@@ -175,6 +176,11 @@ class DatabaseUserDataManager extends UserDataManager
 	function get_database()
 	{
 		return $this->database;
+	}
+	
+	function retrieve_user_roles($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	{
+		return $this->database->retrieve_objects(UserRole :: get_table_name(), $condition);
 	}
 }
 ?>

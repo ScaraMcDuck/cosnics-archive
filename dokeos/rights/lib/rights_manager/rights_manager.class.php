@@ -24,6 +24,7 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	const PARAM_REMOVE_SELECTED = 'delete';
 	const PARAM_FIRSTLETTER = 'firstletter';
 	const PARAM_COMPONENT_ACTION = 'action';
+	const PARAM_APPLICATION = 'application';
 	
 	const ACTION_EDIT_RIGHTS = 'edit';
 	

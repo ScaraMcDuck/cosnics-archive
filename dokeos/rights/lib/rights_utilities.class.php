@@ -14,6 +14,8 @@ require_once 'XML/Unserializer.php';
 
 class RightsUtilities
 {
+	
+	const haha = 'help';
 
     function RightsUtilities()
     {
@@ -173,6 +175,95 @@ class RightsUtilities
 		);
 		
 		return Tree :: factoryDynamic($config);
+	}
+	
+	function is_allowed($right, $location, $type, $application = 'admin')
+	{
+		$rdm = RightsDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
+		
+		$user = $udm->retrieve_user(Session :: get_user_id());
+		
+//		if (is_object($user) && $user->is_platform_admin())
+//		{
+//			return true; 
+//		}
+		
+		$locations = self :: get_tree($application);
+		
+		$conditions = array();
+		$conditions[] = new EqualityCondition('identifier', $location);
+		$conditions[] = new EqualityCondition('type', $type);
+		
+		$condition = new AndCondition($conditions);
+		
+		$location_set = $rdm->retrieve_locations($condition, 0, 1);
+		
+		if ($location_set->size() > 0)
+		{
+			$location = $location_set->next_result();
+			$parents = $locations->getParents($location->get_id());
+			
+			$parents = array_reverse($parents);
+		}
+		else
+		{
+			return false;
+		}
+		
+		if (isset($user))
+		{
+			$roles = array();
+			
+			$user_groups = $user->get_groups();
+			while ($group = $user_groups->next_result())
+			{
+				//$group_roles[] = $group->get_role();
+				$group_roles = $group->get_roles();
+				
+				while ($group_role = $group_roles->next_result())
+				{
+					$roles[] = $group_role->get_role_id();
+				}
+			}
+			
+			// TODO: Do we want to seperate checks for group roles and user roles ? Not doing so may let user roles override group roles
+			
+			$user_roles = $user->get_roles();
+			
+			while ($user_role = $user_roles->next_result())
+			{
+				$role = $user_role->get_role_id();
+				if (!in_array($role, $roles))
+				{
+					$roles[] = $role;
+				}
+			}
+		}
+		else
+		{
+			// TODO: Use anonymous user for this, he may or may not have some rights too
+			return false;
+		}
+		
+		foreach($parents as $parent)
+		{
+			foreach($roles as $role)
+			{
+				$has_right = $rdm->retrieve_role_right_location($right, $role, $parent['id'])->get_value();
+				
+				if ($has_right)
+				{
+					return true;
+				}
+				elseif(!$parent['inherit'])
+				{
+					return false;
+				}
+			}
+		}
+		
+		return false;
 	}
 }
 ?>

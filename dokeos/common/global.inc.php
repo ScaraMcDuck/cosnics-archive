@@ -134,14 +134,12 @@ require_once 'MDB2.php';
 Session :: start($already_installed);
 
 // Test database connection
-
 $connection = Connection :: get_instance()->get_connection();
 
 if (MDB2 :: isError($connection))
 {
 	die($error_message);
 }
-
 unset($error_message);
 
 /*

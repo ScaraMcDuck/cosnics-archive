@@ -2,8 +2,9 @@
 /**
  * @package users.lib
  */
-require_once Path :: get_library_path().'filesystem/filesystem.class.php';
-require_once Path :: get_library_path().'image_manipulation/image_manipulation.class.php';
+require_once Path :: get_library_path() . 'filesystem/filesystem.class.php';
+require_once Path :: get_library_path() . 'image_manipulation/image_manipulation.class.php';
+require_once Path :: get_group_path() . 'lib/group_data_manager.class.php';
 /**
  *	This class represents a user.
  *
@@ -667,6 +668,31 @@ class User
 	static function get_table_name()
 	{
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+	
+	function get_groups()
+	{
+		$gdm = GroupDataManager :: get_instance();
+		
+		$groups = $gdm->retrieve_user_groups($this->get_id());
+		
+		$group_ids = array();
+		while($group = $groups->next_result())
+		{
+			$group_ids[] = $group->get_group_id();
+		}
+		
+		$condition = new InCondition(Group :: PROPERTY_ID, $group_ids);
+		
+		return $gdm->retrieve_groups($condition);
+	}
+	
+	function get_roles()
+	{
+		$udm = UserDataManager :: get_instance();
+		$condition = new EqualityCondition(UserRole :: PROPERTY_USER_ID, $this->get_id());
+		
+		return $udm->retrieve_user_roles($condition);
 	}
 }
 ?>

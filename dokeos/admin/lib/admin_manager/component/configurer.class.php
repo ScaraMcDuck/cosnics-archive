@@ -101,6 +101,8 @@ $(\'div.application_current\').mouseout(function(){
 })</script>';
 		
 		$html[] = '<div class="configure">';
+		
+		$applications = Application :: load_all();
 			
 		foreach ($this->get_application_platform_admin_links() as $application_links)
 		{
