@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/database/database_group_rel_user_result_set.cla
 require_once dirname(__FILE__).'/../group_data_manager.class.php';
 require_once dirname(__FILE__).'/../group.class.php';
 require_once dirname(__FILE__).'/../group_rel_user.class.php';
+require_once dirname(__FILE__).'/../group_role.class.php';
 require_once Path :: get_library_path() . 'database/database.class.php';
 require_once 'MDB2.php';
 
@@ -28,7 +29,7 @@ class DatabaseGroupDataManager extends GroupDataManager
 	
 	function initialize()
 	{
-		$this->database = new Database(array('group' => 'cg', 'group_rel_user' => 'cgru'));
+		$this->database = new Database(array('group' => 'cg', 'group_rel_user' => 'cgru', 'group_role' => 'gr'));
 		$this->database->set_prefix('group_');
 	}
 	
@@ -118,6 +119,12 @@ class DatabaseGroupDataManager extends GroupDataManager
 		return $this->database->retrieve_object(GroupRelUser :: get_table_name(), $condition);
 	}
 	
+	function retrieve_user_groups($user_id)
+	{
+		$condition = new EqualityCondition(GroupRelUser :: PROPERTY_USER_ID, $user_id);
+		return $this->database->retrieve_objects(GroupRelUser :: get_table_name(), $condition);
+	}
+	
 	function retrieve_group($id)
 	{
 		$condition = new EqualityCondition(Group :: PROPERTY_ID, $id);
@@ -127,6 +134,11 @@ class DatabaseGroupDataManager extends GroupDataManager
 	function create_storage_unit($name, $properties, $indexes)
 	{
 		return $this->database->create_storage_unit($name, $properties, $indexes);
+	}
+	
+	function retrieve_group_roles($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	{		
+		return $this->database->retrieve_objects(GroupRole :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 }
 ?>

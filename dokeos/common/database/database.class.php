@@ -367,6 +367,7 @@ class Database
 		
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
+		
 		$res = $statement->execute($params);
 		return new ObjectResultSet($this, $res, $table_name);
 	}

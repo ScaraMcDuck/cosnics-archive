@@ -8,6 +8,7 @@
 require_once dirname(__FILE__).'/../admin_manager.class.php';
 require_once dirname(__FILE__).'/../admin_manager_component.class.php';
 require_once dirname(__FILE__).'/../admin_search_form.class.php';
+require_once dirname(__FILE__).'/../../admin_rights.class.php';
 /**
  * Admin component
  */
@@ -20,8 +21,8 @@ class AdminBrowserComponent extends AdminManagerComponent
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PlatformAdmin')));
-
-		if (!$this->get_user()->is_platform_admin())
+				
+		if (!AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'root', 'root'))
 		{
 			$this->display_header($trail);
 			Display :: display_error_message(Translation :: get('NotAllowed'));

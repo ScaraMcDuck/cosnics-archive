@@ -36,9 +36,9 @@ class Difference_Engine {
         array_walk($to_lines, array($this, '_trimNewlines'));
 
         if (extension_loaded('xdiff')) {
-            $engine = &new Difference_Engine_Engine_xdiff();
+            $engine = new Difference_Engine_Engine_xdiff();
         } else {
-            $engine = &new Difference_Engine_Engine_native();
+            $engine = new Difference_Engine_Engine_native();
         }
 
         $this->_edits = $engine->diff($from_lines, $to_lines);
@@ -156,7 +156,7 @@ class Difference_Engine {
      * @param string $line  The line to trim.
      * @param integer $key  The index of the line in the array. Not used.
      */
-    function _trimNewlines(&$line, $key)
+    function _trimNewlines($line, $key)
     {
 		$line = str_replace(array("\n", "\r", "\r\n"), '', $line);
 		$line = trim($line);
@@ -280,15 +280,15 @@ class Difference_Engine_Engine_xdiff {
         foreach ($diff as $line) {
             switch ($line[0]) {
             case ' ':
-                $edits[] = &new Difference_Engine_Op_copy(array(substr($line, 1)));
+                $edits[] = new Difference_Engine_Op_copy(array(substr($line, 1)));
                 break;
 
             case '+':
-                $edits[] = &new Difference_Engine_Op_add(array(substr($line, 1)));
+                $edits[] = new Difference_Engine_Op_add(array(substr($line, 1)));
                 break;
 
             case '-':
-                $edits[] = &new Difference_Engine_Op_delete(array(substr($line, 1)));
+                $edits[] = new Difference_Engine_Op_delete(array(substr($line, 1)));
                 break;
             }
         }
@@ -396,7 +396,7 @@ class Difference_Engine_Engine_native {
                 ++$yi;
             }
             if ($copy) {
-                $edits[] = &new Difference_Engine_Op_copy($copy);
+                $edits[] = new Difference_Engine_Op_copy($copy);
             }
 
             // Find deletes.
@@ -416,11 +416,11 @@ class Difference_Engine_Engine_native {
             }
 
             if ($delete && $add) {
-                $edits[] = &new Difference_Engine_Op_change($delete, $add);
+                $edits[] = new Difference_Engine_Op_change($delete, $add);
             } elseif ($delete) {
-                $edits[] = &new Difference_Engine_Op_delete($delete);
+                $edits[] = new Difference_Engine_Op_delete($delete);
             } elseif ($add) {
-                $edits[] = &new Difference_Engine_Op_add($add);
+                $edits[] = new Difference_Engine_Op_add($add);
             }
         }
 
@@ -799,7 +799,7 @@ class Difference_Engine_Op_copy extends Difference_Engine_Op {
 
     function &reverse()
     {
-        return $reverse = &new Difference_Engine_Op_copy($this->final, $this->orig);
+        return $reverse = new Difference_Engine_Op_copy($this->final, $this->orig);
     }
     
     function parse($type, $is_sub = false)
@@ -832,7 +832,7 @@ class Difference_Engine_Op_delete extends Difference_Engine_Op {
 
     function &reverse()
     {
-        return $reverse = &new Difference_Engine_Op_add($this->orig);
+        return $reverse = new Difference_Engine_Op_add($this->orig);
     }
     
     function parse($type, $is_sub = false)
@@ -857,7 +857,7 @@ class Difference_Engine_Op_add extends Difference_Engine_Op {
 
     function &reverse()
     {
-        return $reverse = &new Difference_Engine_Op_delete($this->final);
+        return $reverse = new Difference_Engine_Op_delete($this->final);
     }
     
     function parse($type, $is_sub = false)
@@ -882,7 +882,7 @@ class Difference_Engine_Op_change extends Difference_Engine_Op {
 
     function &reverse()
     {
-        return $reverse = &new Difference_Engine_Op_change($this->final, $this->orig);
+        return $reverse = new Difference_Engine_Op_change($this->final, $this->orig);
     }
     
     function parse($type, $is_sub = false)

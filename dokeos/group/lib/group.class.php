@@ -204,5 +204,13 @@ class Group
 	{
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
+	
+	function get_roles()
+	{
+		$gdm = GroupDataManager :: get_instance();
+		$condition = new EqualityCondition(GroupRole :: PROPERTY_GROUP_ID, $this->get_id());
+		
+		return $gdm->retrieve_group_roles($condition);
+	}
 }
 ?>
