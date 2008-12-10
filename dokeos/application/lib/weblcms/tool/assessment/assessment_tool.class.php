@@ -25,6 +25,7 @@ class AssessmentTool extends Tool
 	const PARAM_ASSESSMENT = 'aid';
 	const PARAM_ADD_FEEDBACK = 'feedback';
 	const PARAM_ANONYMOUS = 'anonymous';
+	const PARAM_INVITATION_ID = 'invitation_id';
 	/*
 	 * Inherited.
 	 */

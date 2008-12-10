@@ -4,6 +4,7 @@
  */
 require_once dirname(__FILE__).'/assessment_tester_form/assessment_tester_form.class.php';
 require_once dirname(__FILE__).'/assessment_tester_form/score.class.php';
+require_once Path::get_repository_path().'lib/learning_object/survey/survey.class.php';
 
 class AssessmentToolTesterComponent extends AssessmentToolComponent
 {
@@ -23,7 +24,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		{
 			$visible = true;
 		}
-		if ($assessment->get_assessment_type() == Survey::TYPE_SURVEY)
+		if ($assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
 		{
 			if ($assessment->get_anonymous() == true)
 			{
