@@ -7,6 +7,7 @@ class SurveyInvitation
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_SURVEY_ID = 'survey_id';
 	const PROPERTY_INVITATION_CODE = 'invitation_code';
+	const PROPERTY_EMAIL = 'email';
 	const PROPERTY_VALID = 'valid';
 	
 	const TABLE_NAME = 'survey_invitation';
@@ -26,6 +27,7 @@ class SurveyInvitation
 		self :: PROPERTY_USER_ID,
 		self :: PROPERTY_SURVEY_ID,
 		self :: PROPERTY_INVITATION_CODE,
+		self :: PROPERTY_EMAIL,
 		self :: PROPERTY_VALID
 		);
 	}
@@ -98,6 +100,16 @@ class SurveyInvitation
 	function set_valid($value)
 	{
 		$this->set_default_property(self :: PROPERTY_VALID, $value);
+	}
+	
+	function get_email()
+	{
+		return $this->get_default_property(self :: PROPERTY_EMAIL);
+	}
+	
+	function set_email($value)
+	{
+		$this->set_default_property(self :: PROPERTY_EMAIL, $value);
 	}
 	
 	function create() 
