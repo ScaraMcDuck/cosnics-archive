@@ -98,7 +98,7 @@ abstract class RepositoryDataManager
 //		return $master_types;
 
 		// TODO: Temporary fix untill active learning objects are registered in the DB 
-		return array('announcement', 'answer', 'assessment', 'calendar_event', 'introduction', 'description', 'document', 'feedback', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'learning_path_item', 'link', 'personal_message', 'portfolio_item', 'portal_home', 'profile', 'question', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki', 'system_announcement');
+		return array('announcement', 'answer', 'assessment', 'calendar_event', 'introduction', 'description', 'document', 'feedback', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'learning_path_item', 'link', 'personal_message', 'portfolio_item', 'portal_home', 'profile', 'question', 'rss_feed', 'survey', 'userinfo_content', 'userinfo_def', 'wiki', 'system_announcement');
 	}
 
 	/**

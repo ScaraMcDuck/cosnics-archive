@@ -2,7 +2,8 @@
 /**
  * @package application.weblcms.tool.assessment.component
  */
-require_once dirname(__FILE__).'/../../../learning_object_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/../../../learning_object_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/../../../publisher/learning_object_publisher.class.php';
 require_once Path::get_library_path().'/html/action_bar/action_bar_renderer.class.php';
 
 /**
@@ -30,7 +31,7 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
 		
 		$object = $_GET['object'];
 		
-		$pub = new LearningObjectRepoViewer($this, 'assessment', true);
+		$pub = new LearningObjectRepoViewer($this, array('assessment', 'survey'), true);
 		
 		if(!isset($object))
 		{	

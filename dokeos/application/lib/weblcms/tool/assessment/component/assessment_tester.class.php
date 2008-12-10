@@ -16,15 +16,28 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		
 		$pid = $_GET[Tool :: PARAM_PUBLICATION_ID];
 		$pub = $datamanager->retrieve_learning_object_publication($pid);
-		$visible = !$pub->is_hidden() && $pub->is_visible_for_target_users();
-		
-		if (!$this->is_allowed(VIEW_RIGHT) || !$visible)
+		$assessment = $pub->get_learning_object();
+		//work out visibility
+		$visible = false;
+		if ($pub->is_visible_for_target_users() && $this->is_allowed(VIEW_RIGHT))
+		{
+			$visible = true;
+		}
+		if ($assessment->get_assessment_type() == Survey::TYPE_SURVEY)
+		{
+			if ($assessment->get_anonymous() == true)
+			{
+				$visible = true;
+			}
+		}
+
+		if (!$visible)
 		{
 			Display :: display_not_allowed();
 			return;
 		}
+		
 		$trail = new BreadcrumbTrail();
-		$assessment = $pub->get_learning_object();
 		
 		$tester_form = new AssessmentTesterForm($assessment, $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $pid)));
 		if (!$tester_form->validate()) 
@@ -52,7 +65,9 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		//print_r($_FILES);
 		$user_assessment = new UserAssessment();
 		$user_assessment->set_assessment_id($assessment->get_id());
-		$user_assessment->set_user_id(parent :: get_user_id());
+		
+		
+		$user_assessment->set_user_id($this->get_user_id($assessment, $values));
 		$id = $datamanager->get_next_user_assessment_id();
 		$user_assessment->set_id($id);
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id());
@@ -62,6 +77,16 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			$this->check_create_answer($datamanager, $user_assessment, $values, $clo_question);
 		}
 		return $user_assessment;
+	}
+	
+	function get_user_id($assessment, $values)
+	{
+		if ($assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
+		{
+			if ($assessment->get_anonymous() == true)
+				return 0;
+		}
+		return parent :: get_user_id();
 	}
 	
 	function check_create_answer($datamanager, $user_assessment, $values, $clo_question) 

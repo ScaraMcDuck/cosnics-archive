@@ -142,7 +142,7 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
     	$conds[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category);
     	
     	$type_cond = array();
-    	$types = array('assessment');
+    	$types = array('assessment', 'survey');
     	foreach ($types as $type)
     	{
     		$type_cond[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);

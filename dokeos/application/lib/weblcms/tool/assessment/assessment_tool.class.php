@@ -19,10 +19,12 @@ class AssessmentTool extends Tool
 	const ACTION_EXPORT_QTI = 'exportqti';
 	const ACTION_SAVE_DOCUMENTS = 'save_documents';
 	const ACTION_EXPORT_RESULTS = 'export_results';
+	const ACTION_PUBLISH_SURVEY = 'publish_survey';
 	
 	const PARAM_USER_ASSESSMENT = 'uaid';
 	const PARAM_ASSESSMENT = 'aid';
 	const PARAM_ADD_FEEDBACK = 'feedback';
+	const PARAM_ANONYMOUS = 'anonymous';
 	/*
 	 * Inherited.
 	 */
@@ -56,6 +58,9 @@ class AssessmentTool extends Tool
 				break;
 			case self :: ACTION_EXPORT_RESULTS:
 				$component = AssessmentToolComponent :: factory('ResultsExport', $this);
+				break;
+			case self :: ACTION_PUBLISH_SURVEY:
+				$component = AssessmentToolComponent :: factory('SurveyPublisher', $this);
 				break;
 			default:
 				$component = AssessmentToolComponent :: factory('Viewer', $this);
