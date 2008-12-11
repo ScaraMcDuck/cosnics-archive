@@ -20,12 +20,14 @@ class AssessmentTool extends Tool
 	const ACTION_SAVE_DOCUMENTS = 'save_documents';
 	const ACTION_EXPORT_RESULTS = 'export_results';
 	const ACTION_PUBLISH_SURVEY = 'publish_survey';
+	const ACTION_VIEW = 'view';
 	
 	const PARAM_USER_ASSESSMENT = 'uaid';
 	const PARAM_ASSESSMENT = 'aid';
 	const PARAM_ADD_FEEDBACK = 'feedback';
 	const PARAM_ANONYMOUS = 'anonymous';
 	const PARAM_INVITATION_ID = 'invitation_id';
+	const PARAM_PUBLICATION_ACTION = 'publication_action';
 	/*
 	 * Inherited.
 	 */
