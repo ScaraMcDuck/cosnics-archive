@@ -49,7 +49,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->prefix = 'weblcms_';
 		$this->connection->query('SET NAMES utf8');
 		
-		$this->db = new Database(array('course_section' => 'cs', 'course_category' => 'cat', 'learning_object_publication_category' => 'pub_cat', 'user_answer' => 'ans', 'user_assessment' => 'ass', 'user_question' => 'uq'));
+		$this->db = new Database(array('course_section' => 'cs', 'course_category' => 'cat', 'learning_object_publication_category' => 'pub_cat', 'user_answer' => 'ans', 'user_assessment' => 'ass', 'user_question' => 'uq', 'survey_invitation' => 'si'));
 		$this->db->set_prefix('weblcms_');
 		
 		//$this->database = new Database(array('course_category' => 'cat', 'user_answer' => 'ans', 'user_assessment' => 'ass'));
