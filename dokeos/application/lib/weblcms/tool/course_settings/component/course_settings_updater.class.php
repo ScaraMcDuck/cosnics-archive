@@ -17,7 +17,7 @@ class CourseSettingsToolUpdaterComponent extends CourseSettingsToolComponent
 		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user()))
 		{
 			$this->display_header($trail);
-			Display :: display_error_message(Translation :: get("NotAllowed"));
+			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}

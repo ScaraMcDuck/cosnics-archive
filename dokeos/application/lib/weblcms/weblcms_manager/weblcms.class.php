@@ -429,7 +429,7 @@ class Weblcms extends WebApplication
 		{
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
-		Display :: display_header($breadcrumbtrail);
+		Display :: header($breadcrumbtrail);
 		
 		if (isset ($this->tool_class))
 		{
@@ -456,7 +456,7 @@ class Weblcms extends WebApplication
 				}
 			}
 			echo '</select></form></div>';*/
-			Display :: display_tool_title(htmlentities(Translation :: get($this->tool_class.'Title')));
+			Display :: tool_title(htmlentities(Translation :: get($this->tool_class.'Title')));
 		}
 		else
 		{
@@ -495,7 +495,7 @@ class Weblcms extends WebApplication
 	 */
 	function display_message($message)
 	{
-		Display :: display_normal_message($message);
+		Display :: normal_message($message);
 	}
 	/**
 	 * Displays an error message.
@@ -503,7 +503,7 @@ class Weblcms extends WebApplication
 	 */
 	function display_error_message($message)
 	{
-		Display :: display_error_message($message);
+		Display :: error_message($message);
 	}
 	/**
 	 * Displays a warning message.
@@ -511,7 +511,7 @@ class Weblcms extends WebApplication
 	 */
 	function display_warning_message($message)
 	{
-		Display :: display_warning_message($message);
+		Display :: warning_message($message);
 	}
 
 	/**
@@ -519,7 +519,7 @@ class Weblcms extends WebApplication
 	 */
 	function display_footer()
 	{
-		Display :: display_footer();
+		Display :: footer();
 	}
 	
 	/**

@@ -34,7 +34,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 
 		if (!$visible)
 		{
-			Display :: display_not_allowed();
+			Display :: not_allowed();
 			return;
 		}
 		

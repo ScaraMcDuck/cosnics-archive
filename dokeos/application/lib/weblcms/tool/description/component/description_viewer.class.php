@@ -14,7 +14,7 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
-			Display :: display_not_allowed();
+			Display :: not_allowed();
 			return;
 		}
 		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','description'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));

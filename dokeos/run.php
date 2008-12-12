@@ -16,7 +16,7 @@ require_once Path :: get_user_path(). 'lib/user_manager/user_manager.class.php';
 // If application path doesn't exist, block the user
 if(!file_exists($application_path))
 {
-	Display :: display_not_allowed();
+	Display :: not_allowed();
 }
 
 require_once $application_path;
@@ -26,7 +26,7 @@ Theme :: set_application($this_section);
 
 if (!Authentication :: is_valid())
 {
-	Display :: display_not_allowed();
+	Display :: not_allowed();
 }
 // Load the current user
 $usermgr = new UserManager(Session :: get_user_id());

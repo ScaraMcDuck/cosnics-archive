@@ -5,7 +5,5 @@ $application	= $_POST['application'];
 $string			= $_POST['string'];
 
 Translation :: set_application($application);
-Theme :: set_application($application);
-
-echo Translation :: get($string);
+echo Translation :: get($strings[0]);
 ?>

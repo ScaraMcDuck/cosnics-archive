@@ -29,12 +29,12 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 		$user_id = $this->get_user_id();
 		if($this->get_platform_setting('allow_password_retrieval', 'admin') == false)
 		{
-			Display :: display_not_allowed();
+			Display :: not_allowed();
 		}
 		if (isset ($user_id))
 		{
 			$this->display_header($trail);
-			Display :: display_warning_message(Translation :: get('AlreadyRegistered'));
+			Display :: warning_message(Translation :: get('AlreadyRegistered'));
 			$this->display_footer();
 			exit;
 		}
@@ -49,11 +49,11 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 			{
 				$this->create_new_password($user);
 				Events :: trigger_event('reset_password', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $user->get_id()));
-				Display::display_normal_message('lang_your_password_has_been_emailed_to_you');
+				Display :: normal_message('lang_your_password_has_been_emailed_to_you');
 			}
 			else
 			{
-				Display::display_error_message(Translation :: get('InvalidRequest'));
+				Display :: error_message(Translation :: get('InvalidRequest'));
 			}
 		}
 		else
@@ -70,7 +70,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 			$users = $udm->retrieve_users_by_email($values[User :: PROPERTY_EMAIL]);
 			if(count($users) == 0)
 			{
-				Display::display_error_message('NoUserWithThisEmail');
+				Display :: error_message('NoUserWithThisEmail');
 			}
 			else
 			{
@@ -80,12 +80,12 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 					$auth = Authentication::factory($auth_source);
 					if(!$auth->is_password_changeable())
 					{
-						Display::display_error_message('ResetPasswordNotPossibleForThisUser');
+						Display :: error_message('ResetPasswordNotPossibleForThisUser');
 					}
 					else
 					{
 						$this->send_reset_link($user);
-						Display::display_normal_message('ResetLinkHasBeenSend');
+						Display :: normal_message('ResetLinkHasBeenSend');
 					}
 				}
 			}

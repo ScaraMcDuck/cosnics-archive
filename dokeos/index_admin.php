@@ -9,7 +9,7 @@ Theme :: set_application($this_section);
 
 if (!Authentication :: is_valid())
 {
-	Display :: display_not_allowed();
+	Display :: not_allowed();
 }
 
 $usermgr = new UserManager(Session :: get_user_id());
@@ -17,7 +17,7 @@ $user = $usermgr->retrieve_user(Session :: get_user_id());
 
 if (!$user->is_platform_admin())
 {
-	Display :: display_not_allowed();
+	Display :: not_allowed();
 }
 
 $app = new AdminManager($user);

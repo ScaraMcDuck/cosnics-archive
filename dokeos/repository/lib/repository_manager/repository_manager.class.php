@@ -334,7 +334,7 @@ class RepositoryManager
 		{
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
-		Display :: display_header($breadcrumbtrail);
+		Display :: header($breadcrumbtrail);
 		
 		if($display_menu)
 		{
@@ -372,7 +372,7 @@ class RepositoryManager
 	{
 		echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
-		Display :: display_footer();
+		Display :: footer();
 	}
 	/**
 	 * Displays a normal message.
@@ -380,7 +380,7 @@ class RepositoryManager
 	 */
 	function display_message($message)
 	{
-		Display :: display_normal_message($message);
+		Display :: normal_message($message);
 	}
 	/**
 	 * Displays an error message.
@@ -388,7 +388,7 @@ class RepositoryManager
 	 */
 	function display_error_message($message)
 	{
-		Display :: display_error_message($message);
+		Display :: error_message($message);
 	}
 	/**
 	 * Displays a warning message.
@@ -396,7 +396,7 @@ class RepositoryManager
 	 */
 	function display_warning_message($message)
 	{
-		Display :: display_warning_message($message);
+		Display :: warning_message($message);
 	}
 	/**
 	 * Displays an error page.
@@ -426,7 +426,7 @@ class RepositoryManager
 	 */
 	function display_popup_form($form_html)
 	{
-		Display :: display_normal_message($form_html);
+		Display :: normal_message($form_html);
 	}
 	/**
 	 * Gets the parameter list
@@ -860,11 +860,11 @@ class RepositoryManager
 		return Path :: get($path_type);
 	}
 	/**
-	 * Wrapper for Display :: display_not_allowed().
+	 * Wrapper for Display :: not_allowed().
 	 */
 	function not_allowed()
 	{
-		Display :: display_not_allowed();
+		Display :: not_allowed();
 	}
 
 	/**

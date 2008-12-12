@@ -334,42 +334,52 @@ class DokeosUtilities
 
 		return implode($html);
 	}
-
-	function build_block_hider($type, $id = null, $message = null, $extra = null)
+	
+	function add_block_hider()
 	{
 		$html = array();
+		
+		$html[]   = '<script language="JavaScript" type="">';
+		$html[]  .= 'function showElement(item)';
+		$html[]  .= '{';
+		$html[]  .= '	if (document.getElementById(item).style.display == \'block\')';
+		$html[]  .= '  {';
+		$html[]  .= '		document.getElementById(item).style.display = \'none\';';
+		$html[]  .= '		document.getElementById(\'plus-\'+item).style.display = \'inline\';';
+		$html[]  .= '		document.getElementById(\'minus-\'+item).style.display = \'none\';';
+		$html[]  .= '  }';
+		$html[]  .= '	else';
+		$html[]  .= '  {';
+		$html[]  .= '		document.getElementById(item).style.display = \'block\';';
+		$html[]  .= '		document.getElementById(\'plus-\'+item).style.display = \'none\';';
+		$html[]  .= '		document.getElementById(\'minus-\'+item).style.display = \'inline\';';
+		$html[]  .= '		document.getElementById(item).value = \'Version comments here ...\';';
+		$html[]  .= '	}';
+		$html[]  .= '}';
+		$html[]  .= '</script>';
+		
+		return implode("\n", $html);
+	}
 
-		if ($type == 'script')
+	function build_block_hider($id = null, $message = null)
+	{		
+		$html = array();
+
+		if(isset($id))
 		{
-			$html[]   = '<script language="JavaScript" type="">';
-			$html[]  .= 'function showElement(item)';
-			$html[]  .= '{';
-			$html[]  .= '	if (document.getElementById(item).style.display == \'block\')';
-			$html[]  .= '  {';
-			$html[]  .= '		document.getElementById(item).style.display = \'none\';';
-			$html[]  .= '		document.getElementById(\'plus-\'+item).style.display = \'inline\';';
-			$html[]  .= '		document.getElementById(\'minus-\'+item).style.display = \'none\';';
-			$html[]  .= '  }';
-			$html[]  .= '	else';
-			$html[]  .= '  {';
-			$html[]  .= '		document.getElementById(item).style.display = \'block\';';
-			$html[]  .= '		document.getElementById(\'plus-\'+item).style.display = \'none\';';
-			$html[]  .= '		document.getElementById(\'minus-\'+item).style.display = \'inline\';';
-			$html[]  .= '		document.getElementById(item).value = \'Version comments here ...\';';
-			$html[]  .= '	}';
-			$html[]  .= '}';
-			$html[]  .= '</script>';
-		}
-		elseif($type == 'begin')
-		{
+			if (!isset($message))
+			{
+				$message = self :: underscores_to_camelcase($id);
+			}
+			
 			$show_message = 'Show' . $message;
 			$hide_message = 'Hide' . $message;
 
-			$html[]    = '<div id="plus-'.$id.'"><a href="javascript:showElement(\''. $id .'\')">'. Translation :: get('Show' . $message) .'</a></div>';
-			$html[]    = '<div id="minus-'.$id.'" style="display: none;"><a href="javascript:showElement(\''. $id .'\')">'. Translation :: get('Hide' . $message) .'</a></div>';
-			$html[]   .= '<div id="'. $id .'" style="display: none; clear: both;">';
+			$html[] = '<div id="plus-'.$id.'"><a href="javascript:showElement(\''. $id .'\')">'. Translation :: get('Show' . $message) .'</a></div>';
+			$html[] = '<div id="minus-'.$id.'" style="display: none;"><a href="javascript:showElement(\''. $id .'\')">'. Translation :: get('Hide' . $message) .'</a></div>';
+			$html[] = '<div id="'. $id .'" style="display: none; clear: both;">';
 		}
-		elseif($type == 'end')
+		else
 		{
 			$html[]   = '</div>';
 		}

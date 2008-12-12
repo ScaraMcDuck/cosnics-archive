@@ -8,7 +8,7 @@ Theme :: set_application($this_section);
 
 if (!Session :: get_user_id() && !($_GET['go'] == 'register' || $_GET['go'] == 'reset_password'))
 {
-	Display :: display_not_allowed();
+	Display :: not_allowed();
 }
 if(!Session :: get_user_id())
 {
@@ -25,7 +25,7 @@ try
 catch(Exception $exception)
 {
 	$umgr->display_header();
-	Display::display_error_message($exception->getMessage());
+	Display :: error_message($exception->getMessage());
 	$umgr->display_footer();
 }
 ?>

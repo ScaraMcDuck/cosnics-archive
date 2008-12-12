@@ -14,7 +14,7 @@ class CourseGroupToolSubscribeBrowserComponent extends CourseGroupToolComponent
 	{ 
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
-			Display :: display_not_allowed();
+			Display :: not_allowed();
 			return;
 		} 
 		
@@ -31,7 +31,7 @@ class CourseGroupToolSubscribeBrowserComponent extends CourseGroupToolComponent
 			$user = $udm->retrieve_user($_GET[Weblcms :: PARAM_USERS]);
 			$course_group = $this->get_parent()->get_course_group();
 			$course_group->subscribe_users($user);
-			$html[] = Display::display_normal_message(Translation :: get('UserSubscribed'),true);
+			$html[] = Display :: normal_message(Translation :: get('UserSubscribed'),true);
 		}
 		$table = new CourseGroupUnsubscribedUserBrowserTable($this->get_parent(), array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id(), Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_SUBSCRIBE),$this->get_condition());
 		$html[] = $this->action_bar->as_html();

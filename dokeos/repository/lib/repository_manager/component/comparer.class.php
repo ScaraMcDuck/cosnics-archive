@@ -40,10 +40,10 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 			
 			$display = LearningObjectDifferenceDisplay :: factory($diff);
 			
-			echo DokeosUtilities :: build_block_hider('script');
-			echo DokeosUtilities :: build_block_hider('begin', 'cole', 'CompareLegend');
+			echo DokeosUtilities :: add_block_hider();
+			echo DokeosUtilities :: build_block_hider('compare_legend');
 			echo $display->get_legend();
-			echo DokeosUtilities :: build_block_hider('end', 'cole');
+			echo DokeosUtilities :: build_block_hider();
 			echo $display->get_diff_as_html();
 			
 			$this->display_footer();
@@ -53,7 +53,5 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 			$this->display_warning_page(htmlentities(Translation :: get('NoObjectSelected')));
 		}
 	}
-	
-
 }
 ?>

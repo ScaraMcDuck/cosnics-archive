@@ -13,7 +13,7 @@ Theme :: set_application($this_section);
 
 if (!Authentication :: is_valid())
 {
-	Display :: display_not_allowed();
+	Display :: not_allowed();
 }
 
 $usermgr = new UserManager(Session :: get_user_id());
@@ -27,7 +27,7 @@ try
 catch(Exception $exception)
 {
 	$trackmgr->display_header();
-	Display::display_error_message($exception->getMessage());
+	Display :: error_message($exception->getMessage());
 	$trackmgr->display_footer();
 }
 ?>

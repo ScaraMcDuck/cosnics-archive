@@ -143,7 +143,7 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 		{
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
-		Display :: display_header($trail);
+		Display :: header($trail);
 		
 		if (!is_null($breadcrumbtrail))
 		{
@@ -167,7 +167,7 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	function display_footer()
 	{
 		echo '<div class="clear">&nbsp;</div>';
-		Display :: display_footer();
+		Display :: footer();
 	}
 	
 	/**
@@ -176,7 +176,7 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	 */
 	function display_message($message)
 	{
-		Display :: display_normal_message($message);
+		Display :: normal_message($message);
 	}
 	/**
 	 * Displays an error message.
@@ -184,7 +184,7 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	 */
 	function display_error_message($message)
 	{
-		Display :: display_error_message($message);
+		Display :: error_message($message);
 	}
 	/**
 	 * Displays a warning message.
@@ -192,7 +192,7 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	 */
 	function display_warning_message($message)
 	{
-		Display :: display_warning_message($message);
+		Display :: warning_message($message);
 	}
 	/**
 	 * Displays an error page.
@@ -222,7 +222,7 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	 */
 	function display_popup_form($form_html)
 	{
-		Display :: display_normal_message($form_html);
+		Display :: normal_message($form_html);
 	}
 
 	/**
@@ -391,11 +391,11 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 		return Path :: get($path_type);
 	}
 	/**
-	 * Wrapper for Display :: display_not_allowed().
+	 * Wrapper for Display :: not_allowed().
 	 */
 	function not_allowed()
 	{
-		Display :: display_not_allowed();
+		Display :: not_allowed();
 	}
 	
 	public function get_application_platform_admin_links()

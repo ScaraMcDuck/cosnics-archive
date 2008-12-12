@@ -11,7 +11,7 @@ class DocumentToolPublisherComponent extends DocumentToolComponent
 	{
 		if(!$this->is_allowed(ADD_RIGHT))
 		{
-			Display :: display_not_allowed();
+			Display :: not_allowed();
 			return;
 		}
 		

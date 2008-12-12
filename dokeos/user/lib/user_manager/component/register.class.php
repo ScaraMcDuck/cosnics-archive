@@ -18,7 +18,7 @@ class UserManagerRegisterComponent extends UserManagerComponent
 		
 		if ($this->get_platform_setting('allow_registration', 'admin') == false)
 		{
-			Display :: display_not_allowed();
+			Display :: not_allowed();
 		}
 		
 		$user_id = $this->get_user_id();
@@ -28,7 +28,7 @@ class UserManagerRegisterComponent extends UserManagerComponent
 		if (isset($user_id)) 
 		{
 			$this->display_header($trail);
-			Display :: display_warning_message(Translation :: get('AlreadyRegistered'));
+			Display :: warning_message(Translation :: get('AlreadyRegistered'));
 			$this->display_footer();
 			exit;
 		}

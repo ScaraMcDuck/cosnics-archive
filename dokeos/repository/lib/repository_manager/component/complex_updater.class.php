@@ -26,7 +26,7 @@ class RepositoryManagerComplexUpdaterComponent extends RepositoryManagerComponen
 		if(!isset($cloi_id) || !isset($root_id))
 		{
 			$this->display_header($trail);	
-			Display :: display_warning_message('Reference is not set');			
+			Display :: warning_message('Reference is not set');			
 			$this->display_footer();
 			exit();
 		}

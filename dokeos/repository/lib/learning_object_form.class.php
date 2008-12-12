@@ -483,7 +483,7 @@ EOT;
 		$quotamanager = new QuotaManager($owner);
 		if ($this->form_type == self :: TYPE_CREATE && $quotamanager->get_available_database_space() <= 0)
 		{
-			Display :: display_warning_message(htmlentities(Translation :: get('MaxNumberOfLearningObjectsReached')));
+			Display :: warning_message(htmlentities(Translation :: get('MaxNumberOfLearningObjectsReached')));
 		}
 		else
 		{

@@ -50,12 +50,12 @@ class SubscribeWizardDisplay extends HTML_QuickForm_Action_Display
 		$this->parent->display_header($trail);
 		if(isset($_SESSION['subscribe_message']))
 		{
-			Display::display_normal_message($_SESSION['subscribe_message']);
+			Display :: normal_message($_SESSION['subscribe_message']);
 			unset($_SESSION['subscribe_message']);
 		}
 		if(isset($_SESSION['subscribe_error_message']))
 		{
-			Display::display_error_message($_SESSION['subscribe_error_message']);
+			Display :: error_message($_SESSION['subscribe_error_message']);
 			unset($_SESSION['subscribe_error_message']);
 		}
 		parent::_renderForm($current_page);

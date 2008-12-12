@@ -132,7 +132,7 @@ class Theme
 	
 	function get_common_image($image, $extension = 'png', $label = null, $href = null, $display = ToolbarItem :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
 	{
-		$image = self :: get_image_path() . $image . '.' . $extension;
+		$image = self :: get_common_image_path() . $image . '.' . $extension;
 		
 		$icon = new ToolbarItem($label, $image, $href, $display, $confirmation);
 		return $icon->as_html();

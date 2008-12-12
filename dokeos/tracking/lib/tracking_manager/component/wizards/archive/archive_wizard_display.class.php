@@ -75,12 +75,12 @@ class ArchiveWizardDisplay extends HTML_QuickForm_Action_Display
 		
 		if(isset($_SESSION['install_message']))
 		{
-			Display::display_normal_message($_SESSION['install_message']);
+			Display :: normal_message($_SESSION['install_message']);
 			unset($_SESSION['install_message']);
 		}
 		if(isset($_SESSION['install_error_message']))
 		{
-			Display :: display_error_message($_SESSION['install_error_message']);
+			Display :: error_message($_SESSION['install_error_message']);
 			unset($_SESSION['install_error_message']);
 		}
 		

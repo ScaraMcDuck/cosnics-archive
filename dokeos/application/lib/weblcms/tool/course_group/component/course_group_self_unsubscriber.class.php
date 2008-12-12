@@ -11,7 +11,7 @@ class CourseGroupToolSelfUnsubscriberComponent extends CourseGroupToolComponent
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
-			Display :: display_not_allowed();
+			Display :: not_allowed();
 			return;
 		}
 		
@@ -20,7 +20,7 @@ class CourseGroupToolSelfUnsubscriberComponent extends CourseGroupToolComponent
 		
 		$course_group = $this->get_course_group();
 		$course_group->unsubscribe_users($this->get_user());
-		Display::display_normal_message(Translation :: get('UserUnSubscribed'));
+		Display :: normal_message(Translation :: get('UserUnSubscribed'));
 	
 		$this->display_footer();
 	}

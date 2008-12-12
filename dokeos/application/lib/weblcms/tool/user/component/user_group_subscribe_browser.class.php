@@ -14,7 +14,7 @@ class UserToolGroupSubscribeBrowserComponent extends UserToolComponent
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
-			Display :: display_not_allowed();
+			Display :: not_allowed();
 			return;
 		}
 		

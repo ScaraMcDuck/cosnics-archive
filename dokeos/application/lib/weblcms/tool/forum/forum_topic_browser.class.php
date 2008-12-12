@@ -79,7 +79,7 @@ class ForumTopicBrowser extends LearningObjectPublicationBrowser
 				$topic->set_parent_id($forum->get_id());
 				$topic->update();
 				$course = $this->get_course_id();
-				$html .= Display::display_normal_message(Translation :: get('TopicAdded'),true);
+				$html .= Display :: normal_message(Translation :: get('TopicAdded'),true);
 				$display_topics = true;
 			}
 		}

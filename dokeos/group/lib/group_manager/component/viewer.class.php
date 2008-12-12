@@ -28,7 +28,7 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 			
 			if (!$this->get_user()->is_platform_admin()) 
 			{
-				Display :: display_not_allowed();
+				Display :: not_allowed();
 			}
 			
 			$admin = new AdminManager();

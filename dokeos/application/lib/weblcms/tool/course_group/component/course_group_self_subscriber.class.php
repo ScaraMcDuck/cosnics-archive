@@ -11,7 +11,7 @@ class CourseGroupToolSelfSubscriberComponent extends CourseGroupToolComponent
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
-			Display :: display_not_allowed();
+			Display :: not_allowed();
 			return;
 		}
 		
@@ -20,7 +20,7 @@ class CourseGroupToolSelfSubscriberComponent extends CourseGroupToolComponent
 		
 		$course_group = $this->get_course_group();
 		$course_group->subscribe_users($this->get_user());
-		$message = Display::display_normal_message(Translation :: get('UserSubscribed'),true);
+		$message = Display :: normal_message(Translation :: get('UserSubscribed'),true);
 	
 		$this->display_footer();
 	}

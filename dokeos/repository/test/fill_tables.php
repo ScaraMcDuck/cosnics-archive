@@ -5,7 +5,7 @@ require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 
 Translation :: set_application('repository');
 
-Display :: display_header();
+Display :: header();
 set_time_limit(0);
 
 $form = new FormValidator('create_random');
@@ -13,7 +13,7 @@ $form->addElement('submit', 'go', 'go');
 
 if (!$form->isSubmitted())
 {
-	Display :: display_warning_message('By running this script, all existing users and learning objects will be deleted and replaced by randomly created users and learning objects. Only use this for testing purpuses.');
+	Display :: warning_message('By running this script, all existing users and learning objects will be deleted and replaced by randomly created users and learning objects. Only use this for testing purpuses.');
 	echo 'If you\'re sure to continue, click the button below';
 	$form->display();
 }
@@ -277,7 +277,7 @@ else
 		progress();
 	}
 }
-Display :: display_footer();
+Display :: footer();
 
 function random_url()
 {

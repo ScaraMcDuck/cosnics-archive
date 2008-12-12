@@ -28,7 +28,7 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 		if(!isset($ref))
 		{
 			$this->display_header($trail);	
-			Display :: display_warning_message('Reference is not set');			
+			Display :: warning_message('Reference is not set');			
 			$this->display_footer();
 		}
 		
