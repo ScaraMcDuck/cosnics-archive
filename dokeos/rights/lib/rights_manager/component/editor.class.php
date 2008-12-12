@@ -10,20 +10,15 @@ require_once dirname(__FILE__).'/../../rights_utilities.class.php';
 class RightsManagerEditorComponent extends RightsManagerComponent
 {
 	private $application;
-	private $location_id;
+	private $location;
 	
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$application = $this->application = Request :: get('application');
-		if (!isset($application))
-		{
-			$application = $this->application = 'admin';
-		}
-		
-		$this->location_id = $_GET['location_id'];
+		$this->application = Request :: get('application');		
+		$this->location = Request :: get('location');
 		$component_action = $_GET[RightsManager :: PARAM_COMPONENT_ACTION];
 		
 		switch($component_action)
@@ -63,87 +58,91 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 	function show_rights_list()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Rights')));
+		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
+		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRights')));
 		
-		$breadcrumbs = array();
-		$breadcrumbs[] = array ('url' => $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), 'name' => Translation :: get('Rights'));
-		$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('EditRights'));
-		$this->display_header($trail);
-		echo $this->get_applications();
-		
-		echo '<div class="clear">&nbsp;</div>';
-		
-		echo $this->get_locations_list_html();
-		
-		if (isset($this->location_id))
+		if (!isset($this->application) && !isset($this->location))
 		{
-			$location = $this->retrieve_location($this->location_id);
-			echo $this->get_rights_table_html();
+			$this->display_header($trail);
+			$this->display_warning_message(Translation :: get('SelectApplication'));
 		}
 		else
 		{
-			echo Translation :: get('SelectLocationFull');
+			if (!isset($this->application))
+			{
+				$this->application = 'admin';
+			}
+			
+			$rights_tree = RightsUtilities :: get_tree($this->application);
+			
+			if (!isset($this->location))
+			{
+				$root = $rights_tree->getRoot();
+				$this->location = $root['id'];
+			}
+			
+			$parents = $rights_tree->getParents($this->location);
+			
+			foreach($parents as $parent)
+			{
+				$trail->add(new Breadcrumb($this->get_url(array('location' => $parent['id'])), $parent['name']));
+			}
+			
+			$this->display_header($trail);
+			echo $this->get_rights_table_html();
+			echo $this->get_relations();
 		}
 		
 		$this->display_footer();
 	}
 	
-	function get_locations_list_html()
-	{
-		$location_id = $this->location_id;
-		
-		$html = array();
-		
-		$html[] = '<div>';
-//		$html[] = '<form method="get" action="'.$this->get_url().'" style="display: inline;">';
-//		$html[] = '<input type="hidden" name="'.RightsManager :: PARAM_ACTION.'" value="'. RightsManager :: ACTION_EDIT_RIGHTS .'" />';
-//		$html[] = Translation :: get('Location') . ':&nbsp;<select name="location_id" onchange="submit();">';
-//		
-//		$locations = $this->retrieve_locations();
-//		$html[] = '<option value=""'. ($location_id == null ? ' selected="selected"' : '').' disabled>'.Translation :: get('SelectLocation').'</option>';
-//		
-//		while ($location = $locations->next_result())
-//		{
-//			$html[] = '<option value="'.$location->get_id().'"'. ($location_id == $location->get_id() ? ' selected="selected"' : '').'>'. $location->get_location() .'</option>';
-//		}
-//		
-//		$html[] = '</select>';
-//		$html[] = '</form>';
-
-		$tree = RightsUtilities :: get_tree('admin');
-		$root = $tree->getRoot();
-		
-		$html[] = '<ul id ="tree" class="treeview-gray">';
-		$html[] = '</ul>';
-		
-		$html[] = '</div>';
-		
-		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/rightstree.js' .'"></script>';
-		
-		return implode("\n", $html);
-	}
-	
 	function get_rights_table_html()
 	{
-		$location_id = $this->location_id;
+		$application = $this->application;
+		$location = $this->retrieve_location($this->location);
 		
-		$html = array();
+		$base_path = (Application :: is_application($application) ? (Path :: get_application_path() . 'lib/' . $application . '/') : (Path :: get(SYS_PATH). $application . '/lib/'));
+		$class = $application . '_rights.class.php';
+		$file = $base_path . $class;
 		
-		$rights = $this->retrieve_rights();
+		require_once($file);
+		
+		// TODO: When PHP 5.3 gets released, replace this by $class :: get_available_rights()
+	    $reflect = new ReflectionClass(Application :: application_to_class($application) . 'Rights');
+	    $rights = $reflect->getConstants();
+	    // TODO: When PHP 5.3 gets released, replace this by $class :: get_available_rights()
+	    
 		$rights_array = array();
 		
 		$html = array();
 		
-		$html[] = '<div>';
+		$html[] = DokeosUtilities :: add_block_hider();
+		$html[] = DokeosUtilities :: build_block_hider('rights_legend');
+		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_legend.png);">';
+		$html[] = '<div class="title">'. Translation :: get('Legend') .'</div>';
+		$html[] = '<ul class="rights_legend">';
+		$html[] = '<li>'. Theme :: get_common_image('action_setting_true', 'png', Translation :: get('True')) .'</li>';
+		$html[] = '<li>'. Theme :: get_common_image('action_setting_false', 'png', Translation :: get('False')) .'</li>';
+		$html[] = '<li>'. Theme :: get_common_image('action_setting_true_locked', 'png', Translation :: get('LockedTrue')) .'</li>';
+		$html[] = '<li>'. Theme :: get_common_image('action_setting_false_locked', 'png', Translation :: get('LockedFalse')) .'</li>';
+		$html[] = '<li>'. Theme :: get_common_image('action_setting_true_inherit', 'png', Translation :: get('InheritedTrue')) .'</li>';
+		$html[] = '<li>'. Theme :: get_common_image('action_setting_false_inherit', 'png', Translation :: get('InheritedFalse')) .'</li>';
+		$html[] = '</ul>';
+		$html[] = '</div>';
+		$html[] = DokeosUtilities :: build_block_hider();
+		
+		$html[] = '<div style="margin-bottom: 10px;">';
 		$html[] = '<div style="padding: 5px; border-bottom: 1px solid #DDDDDD;">';
 		$html[] = '<div style="float: left; width: 50%;"></div>';
 		$html[] = '<div style="float: right; width: 40%;">';
 		
-		while ($right = $rights->next_result())
+		foreach($rights as $right_name => $right_id)
 		{
-			$html[] = '<div style="float: left; width: 24%; text-align: center;">'. Translation :: get($right->get_name()) .'</div>';
-			$rights_array[$right->get_id()] = $right->get_name();
+			$real_right_name = DokeosUtilities :: underscores_to_camelcase(strtolower($right_name));			
+			$html[] = '<div style="float: left; width: 24%; text-align: center;">'. Translation :: get($real_right_name) .'</div>';
+			$rights_array[$right_id] = $right_name;
 		}
+		
 		$html[] = '</div>';
 		$html[] = '<div style="clear: both;"></div>';
 		$html[] = '</div>';
@@ -160,8 +159,8 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			foreach ($rights_array as $id => $name)
 			{
 				$html[] = '<div style="float: left; width: 24%; text-align: center;">';
-				$value = $this->is_allowed($id, $role->get_id(), $location_id);
-				$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'role_id' => $role->get_id(), 'right_id' => $id, 'location_id' => $location_id)) .'">' . ($value == 1 ? '<img src="'. Theme :: get_common_image_path() .'action_setting_true.png" />' : '<img src="'. Theme :: get_common_image_path() .'action_setting_false.png" />') . '</a>';
+				$value = $this->is_allowed($id, $role->get_id(), $location->get_id());
+				$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . ($value == 1 ? '<img src="'. Theme :: get_common_image_path() .'action_setting_true.png" />' : '<img src="'. Theme :: get_common_image_path() .'action_setting_false.png" />') . '</a>';
 				$html[] = '</div>';
 			}
 			
@@ -182,52 +181,11 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		
 		$html = array();
 		
-		$html[] = '
-<script type="text/javascript">jQuery(document).ready(function($){
-
-$(\'div.application, div.application_current\').css(\'fontSize\', \'37%\');
-$(\'div.application, div.application_current\').css(\'width\', \'40px\');
-$(\'div.application, div.application_current\').css(\'height\', \'32px\');
-$(\'div.application, div.application_current\').css(\'margin-top\', \'19px\');
-$(\'div.application, div.application_current\').css(\'margin-bottom\', \'19px\');
-
-$(\'div.application, div.application_current\').mouseover(function(){
-	$(this).css(\'fontSize\', \'75%\');
-	$(this).css(\'width\', \'80px\');
-	$(this).css(\'height\', \'68px\');
-	$(this).css(\'margin-top\', \'0px\');
-	$(this).css(\'margin-bottom\', \'0px\');
-	$(this).css(\'background-color\', \'#EBEBEB\');
-	$(this).css(\'border\', \'1px solid #c0c0c0\');
-})
-
-$(\'div.application\').mouseout(function(){
-	$(this).css(\'fontSize\', \'37%\');
-	$(this).css(\'width\', \'40px\');
-	$(this).css(\'height\', \'32px\');
-	$(this).css(\'margin-top\', \'19px\');
-	$(this).css(\'margin-bottom\', \'19px\');
-	$(this).css(\'background-color\', \'#FFFFFF\');
-	$(this).css(\'border\', \'1px solid #EBEBEB\');
-})
-
-$(\'div.application_current\').mouseout(function(){
-	$(this).css(\'fontSize\', \'37%\');
-	$(this).css(\'width\', \'40px\');
-	$(this).css(\'height\', \'32px\');
-	$(this).css(\'margin-top\', \'19px\');
-	$(this).css(\'margin-bottom\', \'19px\');
-	$(this).css(\'background-color\', \'#EBEBEB\');
-	$(this).css(\'border\', \'1px solid #c0c0c0\');
-})
-
-})</script>';
-		
+		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/application.js' .'"></script>';
 		$html[] = '<div class="configure">';
 			
 		$the_applications = Application :: load_all();
 		$the_applications = array_merge(array('admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu'), $the_applications);
-		
 					
 		foreach ($the_applications as $the_application)
 		{
@@ -252,5 +210,24 @@ $(\'div.application_current\').mouseout(function(){
 		$html[] = '<div style="clear: both;"></div>';
 
 		return implode("\n", $html);
+	}
+	
+	function get_relations()
+	{
+		$html = array();
+		
+		$html[] = DokeosUtilities :: add_block_hider();
+		$html[] = DokeosUtilities :: build_block_hider('location_relations');
+		$html[] = '<div style="width: 100%; height: 400px; border: 1px solid #E0E0E0; background-color: #EEEEEE;"></div>';
+		$html[] = DokeosUtilities :: build_block_hider();
+		
+		return implode("\n", $html);
+	}
+	
+	function display_header($trail)
+	{
+		$this->get_parent()->display_header($trail);
+		echo $this->get_applications();
+		echo '<div class="clear">&nbsp;</div>';
 	}
 }

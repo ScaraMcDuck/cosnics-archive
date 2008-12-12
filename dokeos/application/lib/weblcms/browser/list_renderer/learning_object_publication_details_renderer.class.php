@@ -34,7 +34,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 			$publication_feedback->set_show_on_homepage(0);
 			$publication_feedback->create();
 			//$this->browser->get_parent()->redirect(null, '', false, array());
-			$html[] = Display::display_normal_message(Translation :: get('FeedbackAdded'),true);
+			$html[] = Display :: normal_message(Translation :: get('FeedbackAdded'),true);
 		}
 		
 		$html[] = '<h3>' . Translation :: get('LearningObjectPublicationDetails') . '</h3>';

@@ -19,7 +19,7 @@ class CategoryManagerDeleterComponent extends CategoryManagerComponent
 		if (!$this->get_user())
 		{
 			$this->display_header($this->get_breadcrumb_trail());
-			Display :: display_error_message(Translation :: get("NotAllowed"));
+			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}

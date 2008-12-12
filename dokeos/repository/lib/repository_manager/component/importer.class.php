@@ -53,7 +53,7 @@ class RepositoryManagerImporterComponent extends RepositoryManagerComponent
 			if ($learning_object === false)
 			{
 				$this->display_header($trail);	
-				Display :: display_warning_message(Translation :: get('LearningObjectNotImported'));			
+				Display :: warning_message(Translation :: get('LearningObjectNotImported'));			
 				$this->display_footer();
 			}
 			else

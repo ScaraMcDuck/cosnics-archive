@@ -55,7 +55,7 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 			if(isset($_GET['action']) && $_GET['action'] == 'delete')
 			{
 				$event->delete();
-				$html[] = Display::display_normal_message(Translation :: get('LearningObjectPublicationDeleted'),true);
+				$html[] = Display :: normal_message(Translation :: get('LearningObjectPublicationDeleted'),true);
 			}
 			else
 			{

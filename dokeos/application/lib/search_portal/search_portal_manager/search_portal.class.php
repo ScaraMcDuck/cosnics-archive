@@ -52,8 +52,8 @@ class SearchPortal extends WebApplication
 	{
 		$trail = new BreadcrumbTrail();
 		$supports_remote = WebServiceSearchSource :: is_supported();
-		Display :: display_header($trail);
-		Display :: display_tool_title(Translation :: get('SearchPortal'));
+		Display :: header($trail);
+		Display :: tool_title(Translation :: get('SearchPortal'));
 		
 		$form = new FormValidator('search_simple', 'get', $this->get_url(), '', null, false);
 		$form->addElement('text', self :: PARAM_QUERY, '', 'size="40" class="search_query" id="inputString" onkeyup="lookup(this.value);"');
@@ -94,7 +94,7 @@ END;
 				self :: search($query, $url);
 			}
 		}
-		Display :: display_footer();
+		Display :: footer();
 	}
 	
     /**

@@ -261,7 +261,7 @@ abstract class Tool
 	 */
 	function disallow()
 	{
-		Display :: display_not_allowed();
+		Display :: not_allowed();
 	}
 
 	/**

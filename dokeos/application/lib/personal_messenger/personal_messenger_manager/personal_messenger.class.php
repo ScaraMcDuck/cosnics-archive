@@ -169,7 +169,7 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 		{
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
-		Display :: display_header($breadcrumbtrail);
+		Display :: header($breadcrumbtrail);
 
 		echo $this->get_menu_html();
 		echo '<div style="float: right; width: 80%;">';
@@ -234,7 +234,7 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 		echo '<div class="clear">&nbsp;</div>';
 		echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
-		Display :: display_footer();
+		Display :: footer();
 	}
 
 	/**
@@ -243,7 +243,7 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 	 */
 	function display_message($message)
 	{
-		Display :: display_normal_message($message);
+		Display :: normal_message($message);
 	}
 	/**
 	 * Displays an error message.
@@ -251,7 +251,7 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 	 */
 	function display_error_message($message)
 	{
-		Display :: display_error_message($message);
+		Display :: error_message($message);
 	}
 	/**
 	 * Displays a warning message.
@@ -259,7 +259,7 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 	 */
 	function display_warning_message($message)
 	{
-		Display :: display_warning_message($message);
+		Display :: warning_message($message);
 	}
 	/**
 	 * Displays an error page.
@@ -289,7 +289,7 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 	 */
 	function display_popup_form($form_html)
 	{
-		Display :: display_normal_message($form_html);
+		Display :: normal_message($form_html);
 	}
 
 	/**
@@ -394,11 +394,11 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 		return Path :: get($path_type);
 	}
 	/**
-	 * Wrapper for Display :: display_not_allowed();.
+	 * Wrapper for Display :: not_allowed();.
 	 */
 	function not_allowed()
 	{
-		Display :: display_not_allowed();
+		Display :: not_allowed();
 	}
 
 	/**
@@ -600,21 +600,21 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 		return $this->get_link(array (self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(), self :: PARAM_FOLDER => $this->get_folder()));
 	}
 
-	/**
-	 * Gets the url for replying to a personal message publication
-	 * @param PersonalMessagePublication
-	 * @return string The url
-	 */
-	function get_publication_reply_url($personal_message)
-	{
-		return $this->get_url(
-			array (PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_CREATE_PUBLICATION, 
-				   PersonalMessagePublisher :: PARAM_ACTION => 'publicationcreator', 
-				   PersonalMessagePublisher :: PARAM_ID => $personal_message->get_personal_message(), 
-				   self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(), 
-				   PersonalMessagePublisher :: PARAM_EDIT => 1,
-				   self :: PARAM_USER_ID => $personal_message->get_sender()));
-	}
+//	/**
+//	 * Gets the url for replying to a personal message publication
+//	 * @param PersonalMessagePublication
+//	 * @return string The url
+//	 */
+//	function get_publication_reply_url($personal_message)
+//	{
+//		return $this->get_url(
+//			array (PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_CREATE_PUBLICATION, 
+//				   PersonalMessagePublisher :: PARAM_ACTION => 'publicationcreator', 
+//				   PersonalMessagePublisher :: PARAM_ID => $personal_message->get_personal_message(), 
+//				   self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(), 
+//				   PersonalMessagePublisher :: PARAM_EDIT => 1,
+//				   self :: PARAM_USER_ID => $personal_message->get_sender()));
+//	}
 
 	/**
 	 * Gets the url for creating a personal message publication

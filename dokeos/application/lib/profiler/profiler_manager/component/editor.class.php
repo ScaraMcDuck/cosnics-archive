@@ -26,7 +26,7 @@ class ProfilerEditorComponent extends ProfilerComponent
 		
 		if (!$user->is_platform_admin())
 		{
-			Display :: display_not_allowed();
+			Display :: not_allowed();
 			exit;
 		}
 		

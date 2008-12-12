@@ -32,7 +32,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 		if(!$this->is_course())
 		{
 			$this->display_header();
-			Display :: display_error_message(Translation :: get("NotACourse"));
+			Display :: error_message(Translation :: get("NotACourse"));
 			$this->display_footer();
 			exit;
 		}
@@ -55,7 +55,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 		//if(!$this->is_allowed(VIEW_RIGHT) && !$this->get_user()->is_platform_admin())
 		{
 			$this->display_header();
-			Display :: display_not_allowed();
+			Display :: not_allowed();
 			$this->display_footer();
 			exit;
 		}
@@ -180,7 +180,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 		}
 		else
 		{
-			Display :: display_header(Translation :: get('MyCourses'), 'Mycourses');
+			Display :: header(Translation :: get('MyCourses'), 'Mycourses');
 			$this->display_footer();
 		}
 	}

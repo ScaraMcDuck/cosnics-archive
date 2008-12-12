@@ -73,6 +73,14 @@ abstract class RightsManagerComponent {
 	}
 	
 	/**
+	 * @see RightsManager::display_warning_message()
+	 */
+	function display_warning_message($message)
+	{
+		$this->get_parent()->display_warning_message($message);
+	}
+	
+	/**
 	 * @see RightsManager::display_warning_page()
 	 */
 	function display_warning_page($message)

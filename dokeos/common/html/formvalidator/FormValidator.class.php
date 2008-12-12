@@ -490,7 +490,7 @@ EOT;
 		}
 		elseif($error)
 		{
-			$return_value .= Display::display_error_message(Translation :: get('FormHasErrorsPleaseComplete'),true);
+			$return_value .= Display :: error_message(Translation :: get('FormHasErrorsPleaseComplete'),true);
 		}
 		$return_value .= parent::toHtml();
 		// Add the div which will hold the progress bar

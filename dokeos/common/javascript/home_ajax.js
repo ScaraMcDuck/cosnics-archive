@@ -13,10 +13,9 @@
 		$("div.title a").fadeOut(150);
 	};
 	
-	function translation(string, application) {
-		
+	function translation(string, application) {		
 		var translated_string = $.ajax({
-			type: "POST",
+			type: "GET",
 			url: "./common/javascript/ajax/translation.php",
 			data: { string: string, application: application },
 			async: false
@@ -178,7 +177,7 @@
 				},
 					function(data)
 					{
-						
+						$.modal(translation('BlockAdded', 'home'));
 					}
 					);
 		});

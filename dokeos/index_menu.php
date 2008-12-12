@@ -27,7 +27,7 @@ try
 catch(Exception $exception)
 {
 	$app->display_header();
-	Display::display_error_message($exception->getMessage());
+	Display :: error_message($exception->getMessage());
 	$app->display_footer();
 }
 ?>

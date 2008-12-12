@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once dirname(__FILE__).'/../lib/repository_data_manager.class.php';
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 Translation :: set_application('repository');
-Display :: display_header();
+Display :: header();
 set_time_limit(0);
 // create new form 
 $form = new FormValidator('testbestand');
@@ -18,7 +18,7 @@ $form->addElement('submit', 'doen', 'doen');
 
 if (!$form->isSubmitted())
 {
-	Display :: display_normal_message('Hiermee vullen we de databank als test...');
+	Display :: normal_message('Hiermee vullen we de databank als test...');
 
 	$form->display();
 }
@@ -225,7 +225,7 @@ else
 		progress();
 	}*/
 }
-Display :: display_footer();
+Display :: footer();
 
 function random_url()
 {

@@ -25,7 +25,7 @@ class CategoryManagerMoverComponent extends CategoryManagerComponent
 
 		if (!isset($user) || !isset($category_id)) 
 		{
-			Display :: display_not_allowed($trail);
+			Display :: not_allowed($trail);
 			exit;
 		}
 

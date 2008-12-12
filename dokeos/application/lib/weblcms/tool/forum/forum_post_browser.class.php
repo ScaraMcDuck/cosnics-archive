@@ -96,13 +96,13 @@ class ForumPostBrowser extends LearningObjectPublicationBrowser
 			if ($mail->send() === FALSE) {
 				if ($error_notify) {
 					$msg = Translation :: get('ForumNotifyError') . $email;
-					$html .= Display::display_warning_message($msg, true);
+					$html .= Display :: warning_message($msg, true);
 				}
 			}
 			else {
 				if ($success_notify) {
 					$msg = Translation :: get('ForumNotifySuccess') . $email;
-					$html .= Display::display_normal_message($msg, true);
+					$html .= Display :: normal_message($msg, true);
 				}
 			}
 		}
@@ -143,7 +143,7 @@ class ForumPostBrowser extends LearningObjectPublicationBrowser
 				// The PROPERTY_PARENT_POST url parameter is not defined!
 				$post->set_parent_post_id($_GET[ForumPost :: PROPERTY_PARENT_POST]);
 				$post->update();
-				$html .= Display::display_normal_message(Translation :: get('PostAdded'),true);
+				$html .= Display :: normal_message(Translation :: get('PostAdded'),true);
 				$show_posts = true;
 
 				// Check whether the user must be added to the notification

@@ -12,7 +12,7 @@ class AssessmentToolResultsExportComponent extends AssessmentToolComponent
 	{
 		if (!$this->is_allowed(VIEW_RIGHT) || !$this->is_allowed(EDIT_RIGHT))
 		{
-			Display :: display_not_allowed();
+			Display :: not_allowed();
 			return;
 		}
 		$trail = new BreadcrumbTrail();

@@ -30,7 +30,7 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 			if ($this->get_user_id() != $publication->get_user())
 			{
 				$this->display_header($trail);
-				Display :: display_error_message(Translation :: get("NotAllowed"));
+				Display :: error_message(Translation :: get("NotAllowed"));
 				$this->display_footer();
 				exit;
 			}
@@ -85,20 +85,20 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 			$attachments = $message->get_attached_learning_objects();
 			if (count($attachments))
 			{
-				$html[] = DokeosUtilities :: build_block_hider('script');
 				$html[] = '<div class="attachments" style="margin-top: 1em;">';
 				$html[] = '<div class="attachments_title">'.htmlentities(Translation :: get('Attachments')).'</div>';
 				$html[] = '<ul class="attachments_list">';
+				$html[] = DokeosUtilities :: add_block_hider();
 				DokeosUtilities :: order_learning_objects_by_title($attachments);
 				foreach ($attachments as $attachment)
 				{
 					$html[] = '<li class="personal_message_attachment"><div style="float: left;"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/></div><div style="float: left;">&nbsp;'.$attachment->get_title().'&nbsp;</div>';
-					$html[] = DokeosUtilities :: build_block_hider('begin', $attachment->get_id(), 'Attachment');
+					$html[] = DokeosUtilities :: build_block_hider($attachment->get_id(), 'Attachment');
 					
 					$display = LearningObjectDisplay :: factory($attachment);
 					$html[] = $display->get_full_html();
 										
-					$html[] = DokeosUtilities :: build_block_hider('end', $attachment->get_id());
+					$html[] = DokeosUtilities :: build_block_hider();
 					//$html[] = '<div style="clear: both;">&nbsp;</div>';
 					$html[] = '</li>';
 				}
@@ -118,15 +118,15 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 		
 		$toolbar_data = array();
 		
-		if ($publication->get_recipient() == $this->get_user_id())
-		{
-			$toolbar_data[] = array(
-				'href' => $this->get_publication_reply_url($publication),
-				'label' => Translation :: get('Reply'),
-				'img' => Theme :: get_common_image_path().'action_reply.png',
-				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-			);
-		}
+//		if ($publication->get_recipient() == $this->get_user_id())
+//		{
+//			$toolbar_data[] = array(
+//				'href' => $this->get_publication_reply_url($publication),
+//				'label' => Translation :: get('Reply'),
+//				'img' => Theme :: get_common_image_path().'action_reply.png',
+//				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
+//			);
+//		}
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}

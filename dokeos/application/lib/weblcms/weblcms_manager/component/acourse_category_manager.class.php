@@ -28,7 +28,7 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 			$trail = new BreadcrumbTrail();
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseCategoryManager')));
 			$this->display_header($trail);
-			Display :: display_error_message(Translation :: get('NotAllowed'));
+			Display :: error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
 		}

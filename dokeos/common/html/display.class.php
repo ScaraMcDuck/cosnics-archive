@@ -38,7 +38,7 @@
 *
 *	All functions static functions inside a class called Display,
 *	so you use them like this: e.g.
-*	Display::display_normal_message($message)
+*	Display :: normal_message($message)
 *
 *	@package dokeos.library
 ==============================================================================
@@ -76,7 +76,7 @@ class Display
 	* @param boolean $return
 	* @return mixed
 	*/
-	public static function display_normal_message($message, $return = false)
+	public static function normal_message($message, $return = false)
 	{
 		$out = '';
 		if (!headers_sent())
@@ -106,7 +106,7 @@ class Display
 	* @param boolean $return
 	* @return mixed
 	*/
-	public static function display_error_message($message, $return = false)
+	public static function error_message($message, $return = false)
 	{
 		$out = '';
 		if (!headers_sent())
@@ -137,7 +137,7 @@ class Display
 	* @param boolean $return
 	* @return mixed
 	*/
-	public static function display_warning_message($message, $return = false)
+	public static function warning_message($message, $return = false)
 	{
 		$out = '';
 		if (!headers_sent())
@@ -210,7 +210,7 @@ class Display
 	 * page title)
 	 * @param string $help
 	 */
-	public static function display_header($breadcrumbtrail, $help = NULL)
+	public static function header($breadcrumbtrail, $help = NULL)
 	{
 		global $language_interface, $adm, $httpHeadXtra, $htmlHeadXtra, $text_dir, $plugins, $interbreadcrumb, $charset, $noPHP_SELF;
 		include (Path :: get(SYS_LIB_PATH).'html/header.inc.php');
@@ -218,28 +218,28 @@ class Display
 	/**
 	 * Display the page footer
 	 */
-	public static function display_footer()
+	public static function footer()
 	{
 		global $adm; //necessary to have the value accessible in the footer
 		$footer = new Footer($adm);
 		$footer->display();
 	}
 	
-	public static function display_not_allowed($trail = null)
+	public static function not_allowed($trail = null)
 	{
 		if (is_null($trail))
 		{
 			$trail = new BreadcrumbTrail();
 		}
-		self :: display_header($trail);
+		self :: header($trail);
 		$home_url = Path :: get(WEB_PATH);
-		self :: display_error_message("<p>Either you are not allowed here or your session has expired.<br><br>You may try <a href=\"$home_url\" target=\"_top\">reconnecting on the home page</a>.</p>");
+		self :: error_message("<p>Either you are not allowed here or your session has expired.<br><br>You may try <a href=\"$home_url\" target=\"_top\">reconnecting on the home page</a>.</p>");
 		$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-		self :: display_footer();
+		self :: footer();
 		exit;
 	}
 	
-	public static function display_tool_title($titleElement)
+	public static function tool_title($titleElement)
 	{
 		if (is_string($titleElement))
 		{

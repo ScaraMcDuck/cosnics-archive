@@ -25,7 +25,7 @@ class UserManagerCreatorComponent extends UserManagerComponent
 		if (isset($user_id) && !$this->get_user()->is_platform_admin()) 
 		{
 			$this->display_header($trail);
-			Display :: display_warning_message(Translation :: get('AlreadyRegistered'));
+			Display :: warning_message(Translation :: get('AlreadyRegistered'));
 			$this->display_footer();
 			exit;
 		}

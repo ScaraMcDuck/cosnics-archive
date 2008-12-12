@@ -123,7 +123,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			$quotamanager = new QuotaManager($this->get_user());
 			if ( $quotamanager->get_available_database_space() <= 0)
 			{
-				Display :: display_warning_message(htmlentities(Translation :: get('MaxNumberOfLearningObjectsReached')));
+				Display :: warning_message(htmlentities(Translation :: get('MaxNumberOfLearningObjectsReached')));
 			}
 			else
 			{

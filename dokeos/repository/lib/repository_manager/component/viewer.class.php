@@ -97,8 +97,8 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				{
 					$this->display_header($trail);
 					echo $display->get_full_html();
-					echo DokeosUtilities :: build_block_hider('script');
-					echo DokeosUtilities :: build_block_hider('begin', 'lox', 'LearningObjectExtras');
+					echo DokeosUtilities :: add_block_hider();
+					echo DokeosUtilities :: build_block_hider('learning_object_extras');
 					$form->display();
 				}
 				echo $display->get_version_quota_as_html($version_data);
@@ -107,8 +107,8 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			{
 				$this->display_header($trail);
 				echo $display->get_full_html();
-				echo DokeosUtilities :: build_block_hider('script');
-				echo DokeosUtilities :: build_block_hider('begin', 'lox', 'LearningObjectExtras');
+				echo DokeosUtilities :: add_block_hider();
+				echo DokeosUtilities :: build_block_hider('learning_object_extras');
 			}
 			else
 			{
@@ -124,7 +124,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 
 			if (count($versions) >= 2 || count($publication_attr) > 0)
 			{
-				echo DokeosUtilities :: build_block_hider('end', 'lox');
+				echo DokeosUtilities :: build_block_hider();
 			}
 
 			$edit_url = $this->get_learning_object_editing_url($object);

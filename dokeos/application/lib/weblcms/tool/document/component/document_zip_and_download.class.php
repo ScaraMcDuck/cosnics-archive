@@ -12,13 +12,13 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
-			Display :: display_not_allowed();
+			Display :: not_allowed();
 			return;
 		}
 		$trail = new BreadcrumbTrail();
 		$this->display_header($trail);
 		$archive_url = $this->create_document_archive();
-		echo Display::display_normal_message('<a href="'.$archive_url.'">'.Translation :: get('Download').'</a>',true);
+		echo Display :: normal_message('<a href="'.$archive_url.'">'.Translation :: get('Download').'</a>',true);
 		$this->display_footer();
 	}
 	

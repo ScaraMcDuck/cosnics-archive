@@ -11,7 +11,7 @@ class DocumentToolDownloaderComponent extends DocumentToolComponent
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
-			Display :: display_not_allowed();
+			Display :: not_allowed();
 			return;
 		}
 		$dm = WeblcmsDataManager :: get_instance();

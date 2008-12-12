@@ -37,12 +37,12 @@ class BuildWizardDisplay extends HTML_QuickForm_Action_Display
 		$this->parent->display_header($breadcrumbs);
 		if(isset($_SESSION['build_message']))
 		{
-			Display::display_normal_message($_SESSION['build_message']);
+			Display :: normal_message($_SESSION['build_message']);
 			unset($_SESSION['build_message']);
 		}
 		if(isset($_SESSION['build_error_message']))
 		{
-			Display::display_error_message($_SESSION['build_error_message']);
+			Display :: error_message($_SESSION['build_error_message']);
 			unset($_SESSION['build_error_message']);
 		}
 		parent::_renderForm($current_page);

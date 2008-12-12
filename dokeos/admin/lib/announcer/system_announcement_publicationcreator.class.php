@@ -19,7 +19,7 @@ class SystemAnnouncerPublicationCreatorComponent extends PublisherPublicationCre
 	 */
 	function get_publication_form($learning_object_id, $new = false)
 	{
-		$out = ($new ? Display :: display_normal_message(htmlentities(Translation :: get('LearningObjectCreated')), true) : '');
+		$out = ($new ? Display :: normal_message(htmlentities(Translation :: get('LearningObjectCreated')), true) : '');
 		//$tool = $this->get_parent()->get_parent();
 		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
 		

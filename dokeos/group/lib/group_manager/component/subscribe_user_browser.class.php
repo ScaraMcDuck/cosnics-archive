@@ -37,7 +37,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($trail);
-			Display :: display_error_message(Translation :: get('NotAllowed'));
+			Display :: error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
 		}

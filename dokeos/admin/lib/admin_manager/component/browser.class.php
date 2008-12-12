@@ -25,7 +25,7 @@ class AdminBrowserComponent extends AdminManagerComponent
 		if (!AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'root', 'root'))
 		{
 			$this->display_header($trail);
-			Display :: display_error_message(Translation :: get('NotAllowed'));
+			$this->display_error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
 		}

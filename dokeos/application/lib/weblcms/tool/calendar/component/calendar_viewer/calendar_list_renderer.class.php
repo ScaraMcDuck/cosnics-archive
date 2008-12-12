@@ -16,7 +16,7 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 		$publications = $this->get_publications();
 		if(count($publications) == 0)
 		{
-			$html[] = Display::display_normal_message(Translation :: get('NoPublicationsAvailable'),true);
+			$html[] = Display :: normal_message(Translation :: get('NoPublicationsAvailable'),true);
 		}
 		
 		if($this->get_actions())

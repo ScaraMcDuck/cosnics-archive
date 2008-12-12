@@ -117,7 +117,7 @@ class PortfolioPublicationCreator extends PortfolioPublisherComponent
 	 */
 	private function get_publication_form($objectID, $new = false)
 	{
-		$out = ($new ? Display :: display_normal_message(htmlentities(Translation :: get('ObjectCreated')), true) : '');
+		$out = ($new ? Display :: normal_message(htmlentities(Translation :: get('ObjectCreated')), true) : '');
 		$tool = $this->get_parent()->get_parent();
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($objectID);
 
