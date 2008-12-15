@@ -24,7 +24,7 @@ class SurveyPublicationViewer extends SurveyPublisherComponent
 		
 		$this->parent->display_header($trail);
 		echo $toolbar->as_html();
-		echo '<br/><br/>Users invited to take this survey: <br/>';
+		echo '<br/><br/>'.Translation :: get('UsersInvitedToTakeSurvey').': <br/>';
 		echo $table->as_html();
 		$this->parent->display_footer();
 	}

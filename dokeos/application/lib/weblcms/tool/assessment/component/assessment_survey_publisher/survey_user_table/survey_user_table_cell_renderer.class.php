@@ -43,7 +43,7 @@ class SurveyUserTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 					if ($user != null)
 						return $user->get_fullname();
 					else
-						return 'Anonymous';
+						return Translation :: get('Anonymous');
 						
 				case SurveyInvitation :: PROPERTY_EMAIL:
 					return $survey_invitation->get_email();

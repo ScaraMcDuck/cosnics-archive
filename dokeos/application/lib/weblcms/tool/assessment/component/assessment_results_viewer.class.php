@@ -177,12 +177,14 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 	
 	function display_header()
 	{
-		if (!$this->is_allowed(VIEW_RIGHT))
+		if (!isset($_GET[AssessmentTool :: PARAM_INVITATION_ID]))
 		{
-			Display :: not_allowed();
-			return false;
+			if (!$this->is_allowed(VIEW_RIGHT))
+			{
+				Display :: not_allowed();
+				return false;
+			}
 		}
-		
 		$trail = new BreadcrumbTrail();
 		parent :: display_header($trail);
 		

@@ -48,9 +48,10 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 
 		$user = $this->get_user();
 		$course = $this->get_course();
-		$relation = $this->retrieve_course_user_relation($course->get_id(),$user->get_id());
+		if ($user != null && $course != null)
+			$relation = $this->retrieve_course_user_relation($course->get_id(),$user->get_id());
 		
-		if(!$user->is_platform_admin() && (!$relation || ($relation->get_status() != 5 && $relation->get_status() != 1)))
+		/*if(!$user->is_platform_admin() && (!$relation || ($relation->get_status() != 5 && $relation->get_status() != 1)))
 		//TODO: Roles & Rights
 		//if(!$this->is_allowed(VIEW_RIGHT) && !$this->get_user()->is_platform_admin())
 		{
@@ -58,7 +59,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			Display :: not_allowed();
 			$this->display_footer();
 			exit;
-		}
+		}*/
 
 		$course = $this->get_parameter(Weblcms :: PARAM_COURSE);
 		$tool = $this->get_parameter(Weblcms :: PARAM_TOOL);

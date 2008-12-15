@@ -12,6 +12,7 @@ $application_path = dirname(__FILE__).'/application/lib/'.$application_key.'/'.$
 
 require_once dirname(__FILE__).'/common/global.inc.php';
 require_once Path :: get_user_path(). 'lib/user_manager/user_manager.class.php';
+require_once Path ::get_application_path().'lib/weblcms/tool/assessment/assessment_tool.class.php';
 
 // If application path doesn't exist, block the user
 if(!file_exists($application_path))
@@ -24,7 +25,7 @@ require_once $application_path;
 Translation :: set_application($this_section);
 Theme :: set_application($this_section);
 
-if (!Authentication :: is_valid())
+if (!Authentication :: is_valid() && !isset($_GET[AssessmentTool :: PARAM_INVITATION_ID]))
 {
 	Display :: not_allowed();
 }

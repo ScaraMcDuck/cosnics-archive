@@ -3,6 +3,7 @@
  * @package application.weblcms.tool.assessment
  */
 require_once Path :: get_library_path().'html/action_bar/action_bar_renderer.class.php';
+require_once Path :: get_application_path().'lib/weblcms/tool/tool_component.class.php';
 /**
  * The base class for all assessment tool components.
  *
