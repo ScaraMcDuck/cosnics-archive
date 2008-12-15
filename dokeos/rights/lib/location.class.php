@@ -211,6 +211,22 @@ class Location
 		return $this->get_locked();
 	}
 	
+	function lock()
+	{
+		$this->set_locked(true);
+	}
+	
+	function unlock()
+	{
+		$this->set_locked(false);
+	}
+	
+	function is_root()
+	{
+		$parent = $this->get_parent();
+		return ($parent == 0);
+	}
+	
 	/**
 	 * Instructs the Datamanager to delete this user.
 	 * @return boolean True if success, false otherwise.

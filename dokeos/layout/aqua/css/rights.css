@@ -147,3 +147,27 @@ ul.rights_legend li span
 {
 	margin: 0px 0px 0px 4px;
 }
+
+ul.rights_children, ul.rights_parents, ul.rights_siblings
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.rights_children li, ul.rights_parents li, ul.rights_siblings li
+{
+	margin: 0;
+	padding: 0;
+}
+
+ul.rights_children img, ul.rights_parents img, ul.rights_siblings img
+{
+	vertical-align: middle;
+	padding: 1px;
+}
+
+ul.rights_children li span, ul.rights_parents li span, ul.rights_siblings li span
+{
+	margin: 0px 0px 0px 4px;
+}

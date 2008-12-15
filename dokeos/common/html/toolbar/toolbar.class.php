@@ -59,6 +59,7 @@ class Toolbar
 		$class_names[] = 'toolbar_' . $type;
 		
 		$html = array ();
+		$html[] = '<div class="toolbar">';
 		$html[] = '<ul class="' . implode(' ', $class_names) . '"' . (isset($css) ? ' style="'.$css.'"' : '') . '>';
 		
 		foreach ($toolbar_data as $index => $toolbar_item)
@@ -79,6 +80,8 @@ class Toolbar
 		}
 		
 		$html[] = '</ul>';
+		$html[] = '</div>';
+		$html[] = '<div class="clear">&nbsp;</div>';
 		return implode($html);
     }
 }

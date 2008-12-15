@@ -2125,14 +2125,15 @@ div.padding_10
 }
 .expandImage
 {
-	margin-right: 4px;
+	margin-right: 0px;
+	vertical-align: middle;
 }
 
 .textHolder
 {
 	height: 16px;
 	line-height: 16px;
-	padding-left: 6px;
+	padding-left: 3px;
 }
 span.dropOver
 {
@@ -2140,10 +2141,45 @@ span.dropOver
 	color: #fff;
 	height: 16px;
 	line-height: 16px;
-	padding-left: 6px;
+	padding-left: 4px;
 }
 .treeItem
 {
 	list-style: none;
+	vertical-align: middle;
+}
+
+.folderImage
+{
+	vertical-align: middle;
+}
+
+.togglePlus
+{
+	background: url(../img/common/treemenu/bullet_toggle_plus.png) no-repeat;
+	height: 16px;
+	width: 13px;
+	margin-right: 0px;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.toggleMinus
+{
+	background: url(../img/common/treemenu/bullet_toggle_minus.png) no-repeat;
+	height: 16px;
+	width: 13px;
+	margin-right: 0px;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.toggleSpacer
+{
+	height: 16px;
+	width: 13px;
+	margin-right: 0px;
+	vertical-align: middle;
+	display: inline-block;
 }
  
