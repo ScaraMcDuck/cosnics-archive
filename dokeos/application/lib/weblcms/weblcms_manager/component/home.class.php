@@ -26,6 +26,7 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		
 		$condition = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
 		$courses = $this->retrieve_courses($this->get_user_id(), $condition);
+
 		echo $this->display_course_digest($courses);
 
 		while ($course_category = $course_categories->next_result())

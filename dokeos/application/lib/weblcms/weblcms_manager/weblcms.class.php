@@ -254,6 +254,9 @@ class Weblcms extends WebApplication
 	 */
 	function get_user_id()
 	{
+		if ($this->user == null)
+			return 0;
+			
 		return $this->user->get_id();
 	}
 
@@ -298,6 +301,9 @@ class Weblcms extends WebApplication
 	 */
 	function get_course_id()
 	{
+		if ($this->course == null)
+			return 0;
+			
 		return $this->course->get_id();
 	}
 	/**

@@ -70,7 +70,6 @@ class SurveyPublisher extends SurveyPublisherComponent
 		
 	function create_invitation($user, $mail, $survey, $resend)
 	{
-		//echo $user.$mail.$survey.$resend;
 		//check for existing invitations for this user/mail
 		if ($user == 0)
 			$conditionu = new EqualityCondition(SurveyInvitation::PROPERTY_EMAIL, $mail);
@@ -78,7 +77,6 @@ class SurveyPublisher extends SurveyPublisherComponent
 			$conditionu = new EqualityCondition(SurveyInvitation::PROPERTY_USER_ID, $user);
 		$conditions = new EqualityCondition(SurveyInvitation::PROPERTY_SURVEY_ID, $survey->get_id());
 		$condition = new AndCondition(array($conditionu, $conditions));
-		//print_r($condition);
 		$invitations = WeblcmsDataManager :: get_instance()->retrieve_survey_invitations($condition);
 		$invitation = $invitations->next_result();
 		//check if an existing invitation must be returned or a new one
@@ -94,8 +92,6 @@ class SurveyPublisher extends SurveyPublisherComponent
 			if ($invitation != null)
 			{
 				$this->survey_invitation = $invitation;
-				//$this->survey_invitation->set_valid(true);
-				//return WeblcmsDataManager :: get_instance()->update_survey_invitation($this->survey_invitation);
 				return true;
 			}
 			else
@@ -134,7 +130,7 @@ class SurveyPublisher extends SurveyPublisherComponent
 			$email = $user->get_email();
 		}
 		
-		//echo $email.$title.$fullbody.'<br/>';
+		echo $email.$title.$fullbody.'<br/>';
 		$mail = Mail :: factory($title, $fullbody, $email, $webmaster_email);
 		// Check whether it was sent successfully
 		if ($mail->send() === FALSE) {
