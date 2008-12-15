@@ -73,7 +73,7 @@
 					{
 						id = $(this).parents(".myTree").attr("id");
 
-						$.post("application/common/category_manager/ajax/" + id + ".php", 
+						$.post("common/html/menu/ajax/" + id + ".php", 
 					    {
 							target : this.id,
 							source : dropped.childNodes[2].id
@@ -123,6 +123,56 @@
 					}*/
 				}
 			);
+			
+			$('#deletediv').toggle();
+			
+			$('#deleter').Droppable(
+				{
+					accept			: 'treeItem',
+					hoverclass		: 'dropOver',
+					activeclass		: 'fakeClass',
+					tollerance		: 'pointer',
+					ondrop			: function(dropped)
+					{
+						id = $(this).parents(".myTree").attr("id");
+						
+						$.post("common/html/menu/ajax/" + id + "_remover.php", 
+					    {
+							item : dropped.childNodes[2].id
+						},  function(data) 
+							{
+	    						if(data == "true")
+	    						{
+	    							oldParent = dropped.parentNode;
+									oldBranches = $('li', oldParent);
+									if (oldBranches.size() == 0) {
+										$('img.expandImage', oldParent.parentNode).attr('src', 'layout/aqua/img/common/treemenu/spacer.gif');
+										$(oldParent).remove();
+									}
+									
+									$(dropped).remove();
+	    						}
+	    						else
+	    							//alert(data);
+	    							alert(translation('CouldNotRemoveItem', 'admin'));
+	    					}
+	    				);
+						
+					}
+				}
+			);
 		}
 	);
+	
+	function translation(string, application) {
+		
+		var translated_string = $.ajax({
+			type: "POST",
+			url: "./common/javascript/ajax/translation.php",
+			data: { string: string, application: application },
+			async: false
+		}).responseText;
+		
+		return translated_string;
+	};
 })(jQuery);
