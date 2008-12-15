@@ -19,13 +19,15 @@ class DragAndDropTreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 	private static $initialized;
 	
 	private $id;
+	private $current_id;
 	/**
 	 * Constructor.
 	 */
-	function DragAndDropTreeMenuRenderer($id)
+	function DragAndDropTreeMenuRenderer($id, $current_id)
 	{
 		$this->id = $id;
-		$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<span id={id} class="textHolder"><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a></span>', HTML_MENU_ENTRY_ACTIVE => '<!--A--><span id={id} class="textHolder"><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a></span>', HTML_MENU_ENTRY_ACTIVEPATH => '<!--P--><span id={id} class="textHolder"><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a></span>');
+		$this->current_id = $current_id;
+		$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<span id={id} class="textHolder"><a href="{url}" style="{style}" onclick="{onclick}" id="{id}" class="{class}">{title}</a></span>', HTML_MENU_ENTRY_ACTIVE => '<!--A--><span id={id} class="textHolder"><a href="{url}" style="{style}" onclick="{onclick}" id="{id}" class="{class}">{title}</a></span>', HTML_MENU_ENTRY_ACTIVEPATH => '<!--P--><span id={id} class="textHolder"><a href="{url}" style="{style}" onclick="{onclick}" id="{id}" class="{class}">{title}</a></span>');
 		$this->setEntryTemplate($entryTemplates);
 		$this->setItemTemplate('<li class="treeItem"><img src="' . Theme :: get_common_image_path() . 'treemenu/tree-folder-open.png" class="folderImage" />', '</li>'."\n");
 	}
@@ -72,6 +74,12 @@ class DragAndDropTreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 				$node[$key] = '';
 			}
 		}
+		
+		if($node['id'] == $this->current_id)
+		{
+			$node['style'] = 'text-decoration: underline;';
+		}
+		
 		parent :: renderEntry($node, $level, $type);
 	}
 	/**
@@ -81,6 +89,7 @@ class DragAndDropTreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 	function toHtml()
 	{
 		$html[] = parent :: toHtml();
+		
 		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH).'javascript/new_treemenu.js');
 		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH).'jquery/interface/interface.js');
 		return implode("\n", $html);
