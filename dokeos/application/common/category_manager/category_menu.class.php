@@ -125,7 +125,7 @@ class CategoryMenu extends HTML_Menu
 	 */
 	function render_as_tree()
 	{
-		$renderer = new DragAndDropTreeMenuRenderer('category_changer');
+		$renderer = new DragAndDropTreeMenuRenderer('category_changer', $this->current_item);
 		$this->render($renderer, 'sitemap'); 
 		return $renderer->toHTML();
 	}
