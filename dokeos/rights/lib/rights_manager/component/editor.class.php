@@ -17,14 +17,24 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 	 */
 	function run()
 	{
-		$this->application = Request :: get('application');		
-		$this->location = Request :: get('location');
+		$this->application = Request :: get('application');
+		$location = Request :: get('location');
+		if (isset($location))
+		{		
+			$this->location = $this->retrieve_location($location);
+		}
 		$component_action = $_GET[RightsManager :: PARAM_COMPONENT_ACTION];
 		
 		switch($component_action)
 		{
 			case 'edit':
 				$this->edit_right();
+				break;
+			case 'lock':
+				$this->lock_location();
+				break;
+			case 'inherit':
+				$this->inherit_location();
 				break;
 			default :
 				$this->show_rights_list();
@@ -33,13 +43,13 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 	
 	function edit_right()
 	{
-		$role_id = $_GET['role_id'];
-		$right_id = $_GET['right_id'];
-		$location_id =  $this->location_id;
+		$role = $_GET['role_id'];
+		$right = $_GET['right_id'];
+		$location =  $this->location;
 		
-		if (isset($role_id) && isset($right_id) && isset($location_id))
+		if (isset($role) && isset($right) && isset($location))
 		{
-			$rolerightlocation = $this->retrieve_role_right_location($right_id, $role_id, $location_id);
+			$rolerightlocation = $this->retrieve_role_right_location($right, $role, $location->get_id());
 			$value = $rolerightlocation->get_value();
 			if ($value == 0)
 			{
@@ -51,8 +61,55 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			}
 			$success = $rolerightlocation->update();
 			
-			$this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, 'location_id' =>$location_id));
+			$this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS,'application' => $this->application, 'location' => $location->get_id()));
 		}
+	}
+	
+	function lock_location()
+	{
+		$location = $this->location;
+		
+		if ($location->is_locked())
+		{
+			$location->unlock();
+		}
+		else
+		{
+			$location->lock();
+		}
+		
+		$success = $location->update();
+		
+		if ($location->is_locked())
+		{
+			$true_message = 'LocationUnlocked';
+			$false_message = 'LocactionNotUnlocked';
+		}
+		else
+		{
+			$true_message = 'LocationLocked';
+			$false_message = 'LocactionNotLocked';
+		}
+		
+		$this->redirect('url', Translation :: get($success == true ? $true_message : $false_message), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, 'application' => $this->application, 'location' => $location->get_id()));		
+	}
+	
+	function inherit_location()
+	{
+		$location = $this->location;
+		
+		if ($location->inherits())
+		{
+			$location->set_inherit(false);
+		}
+		else
+		{
+			$location->set_inherit(true);
+		}
+		
+		$success = $location->update();
+		
+		$this->redirect('url', Translation :: get($success == true ? 'LocationUpdated' : 'LocationNotUpdated'), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, 'application' => $this->application, 'location' => $location->get_id()));		
 	}
 	
 	function show_rights_list()
@@ -65,6 +122,8 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		{
 			$this->display_header($trail);
 			$this->display_warning_message(Translation :: get('SelectApplication'));
+			$this->display_footer();
+			exit;
 		}
 		else
 		{
@@ -77,29 +136,54 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			
 			if (!isset($this->location))
 			{
-				$root = $rights_tree->getRoot();
-				$this->location = $root['id'];
+				$root_conditions = array();
+				$root_conditions = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
+				$root_conditions = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
+				
+				$root_condition = new AndCondition($root_conditions);
+				
+				$root = $this->retrieve_locations($root_condition, null, 1);
+				if ($root->size() > 0)
+				{
+					$this->location = $this->retrieve_location($root->next_result()->get_id());
+				}
+				else
+				{
+					$this->display_header($trail);
+					$this->display_warning_message(Translation :: get('NoSuchLocationAndOrApplication'));
+					$this->display_footer();
+					exit;
+				}
 			}
 			
-			$parents = $rights_tree->getParents($this->location);
+			$parent_conditions = array();
+			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN_OR_EQUAL, $this->location->get_left_value());
+			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $this->location->get_right_value());
+			$parent_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
 			
-			foreach($parents as $parent)
+			$parent_condition = new AndCondition($parent_conditions);
+			$order = array(Location :: PROPERTY_LEFT_VALUE);
+			$order_direction = array(SORT_ASC);
+			
+			$parents = $this->retrieve_locations($parent_condition, null, null, $order, $order_direction);
+			
+			while($parent = $parents->next_result())
 			{
-				$trail->add(new Breadcrumb($this->get_url(array('location' => $parent['id'])), $parent['name']));
+				$trail->add(new Breadcrumb($this->get_url(array('location' => $parent->get_id())), $parent->get_location()));
 			}
 			
 			$this->display_header($trail);
+			echo $this->get_modification_links();
 			echo $this->get_rights_table_html();
 			echo $this->get_relations();
+			$this->display_footer();
 		}
-		
-		$this->display_footer();
 	}
 	
 	function get_rights_table_html()
 	{
 		$application = $this->application;
-		$location = $this->retrieve_location($this->location);
+		$location = $this->location;
 		
 		$base_path = (Application :: is_application($application) ? (Path :: get_application_path() . 'lib/' . $application . '/') : (Path :: get(SYS_PATH). $application . '/lib/'));
 		$class = $application . '_rights.class.php';
@@ -116,22 +200,22 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		
 		$html = array();
 		
-		$html[] = DokeosUtilities :: add_block_hider();
-		$html[] = DokeosUtilities :: build_block_hider('rights_legend');
-		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_legend.png);">';
-		$html[] = '<div class="title">'. Translation :: get('Legend') .'</div>';
-		$html[] = '<ul class="rights_legend">';
-		$html[] = '<li>'. Theme :: get_common_image('action_setting_true', 'png', Translation :: get('True')) .'</li>';
-		$html[] = '<li>'. Theme :: get_common_image('action_setting_false', 'png', Translation :: get('False')) .'</li>';
-		$html[] = '<li>'. Theme :: get_common_image('action_setting_true_locked', 'png', Translation :: get('LockedTrue')) .'</li>';
-		$html[] = '<li>'. Theme :: get_common_image('action_setting_false_locked', 'png', Translation :: get('LockedFalse')) .'</li>';
-		$html[] = '<li>'. Theme :: get_common_image('action_setting_true_inherit', 'png', Translation :: get('InheritedTrue')) .'</li>';
-		$html[] = '<li>'. Theme :: get_common_image('action_setting_false_inherit', 'png', Translation :: get('InheritedFalse')) .'</li>';
-		$html[] = '</ul>';
-		$html[] = '</div>';
-		$html[] = DokeosUtilities :: build_block_hider();
+//		$html[] = DokeosUtilities :: add_block_hider();
+//		$html[] = DokeosUtilities :: build_block_hider('rights_legend');
+//		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_legend.png);">';
+//		$html[] = '<div class="title">'. Translation :: get('Legend') .'</div>';
+//		$html[] = '<ul class="rights_legend">';
+//		$html[] = '<li>'. Theme :: get_common_image('action_setting_true', 'png', Translation :: get('True')) .'</li>';
+//		$html[] = '<li>'. Theme :: get_common_image('action_setting_false', 'png', Translation :: get('False')) .'</li>';
+//		$html[] = '<li>'. Theme :: get_common_image('action_setting_true_locked', 'png', Translation :: get('LockedTrue')) .'</li>';
+//		$html[] = '<li>'. Theme :: get_common_image('action_setting_false_locked', 'png', Translation :: get('LockedFalse')) .'</li>';
+//		$html[] = '<li>'. Theme :: get_common_image('action_setting_true_inherit', 'png', Translation :: get('InheritedTrue')) .'</li>';
+//		$html[] = '<li>'. Theme :: get_common_image('action_setting_false_inherit', 'png', Translation :: get('InheritedFalse')) .'</li>';
+//		$html[] = '</ul>';
+//		$html[] = '</div>';
+//		$html[] = DokeosUtilities :: build_block_hider();
 		
-		$html[] = '<div style="margin-bottom: 10px;">';
+		$html[] = '<div class="togglePlus"></div><div style="margin-bottom: 10px;">';
 		$html[] = '<div style="padding: 5px; border-bottom: 1px solid #DDDDDD;">';
 		$html[] = '<div style="float: left; width: 50%;"></div>';
 		$html[] = '<div style="float: right; width: 40%;">';
@@ -148,7 +232,8 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		$html[] = '</div>';
 		$html[] = '<div style="clear: both;"></div>';
 		
-		$roles = $this->retrieve_roles();
+		$roles = $this->retrieve_roles();		
+		$locked_parent = RightsUtilities :: get_locked_parent($location);
 		
 		while ($role = $roles->next_result())
 		{
@@ -158,9 +243,41 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			
 			foreach ($rights_array as $id => $name)
 			{
-				$html[] = '<div style="float: left; width: 24%; text-align: center;">';
-				$value = $this->is_allowed($id, $role->get_id(), $location->get_id());
-				$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . ($value == 1 ? '<img src="'. Theme :: get_common_image_path() .'action_setting_true.png" />' : '<img src="'. Theme :: get_common_image_path() .'action_setting_false.png" />') . '</a>';
+				$html[] = '<div id="r_'. $role->get_id() .'_'. $id .'" style="float: left; width: 24%; text-align: center;">';
+				if (isset($locked_parent))
+				{
+					$value = $this->is_allowed($id, $role->get_id(), $locked_parent->get_id());
+					$html[] = '<a href="'. $this->get_url(array('application' => $this->application, 'location' => $locked_parent->get_id())) .'">' . ($value == 1 ? '<img src="'. Theme :: get_common_image_path() .'action_setting_true_locked.png" title="'. Translation :: get('LockedTrue') .'" />' : '<img src="'. Theme :: get_common_image_path() .'action_setting_false_locked.png" title="'. Translation :: get('LockedFalse') .'" />') . '</a>';
+				}
+				else
+				{
+					$value = $this->is_allowed($id, $role->get_id(), $location->get_id());
+					
+					if (!$value)
+					{
+						if ($location->inherits())
+						{
+							$inherited_value = RightsUtilities :: is_allowed_for_role($role->get_id(), $id, $location, $this->application);
+							
+							if ($inherited_value)
+							{
+								$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<img src="'. Theme :: get_common_image_path() .'action_setting_true_inherit.png" title="'. Translation :: get('True') .'" /></a>';
+							}
+							else
+							{
+								$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<img src="'. Theme :: get_common_image_path() .'action_setting_false.png" title="'. Translation :: get('False') .'" /></a>';
+							}
+						}
+						else
+						{
+							$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<img src="'. Theme :: get_common_image_path() .'action_setting_false.png" title="'. Translation :: get('False') .'" /></a>';
+						}
+					}
+					else
+					{
+						$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<img src="'. Theme :: get_common_image_path() .'action_setting_true.png" title="'. Translation :: get('True') .'" /></a>';
+					}
+				}
 				$html[] = '</div>';
 			}
 			
@@ -216,10 +333,65 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 	{
 		$html = array();
 		
-		$html[] = DokeosUtilities :: add_block_hider();
-		$html[] = DokeosUtilities :: build_block_hider('location_relations');
-		$html[] = '<div style="width: 100%; height: 400px; border: 1px solid #E0E0E0; background-color: #EEEEEE;"></div>';
-		$html[] = DokeosUtilities :: build_block_hider();
+		//$html[] = DokeosUtilities :: add_block_hider();
+		//$html[] = DokeosUtilities :: build_block_hider('location_relations');
+		
+		$parents = RightsUtilities :: get_parents($this->location, false);
+		
+		if ($parents->size() > 0)
+		{
+			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_parents.png);">';
+			$html[] = '<div class="title">'. Translation :: get('Parents') .'</div>';
+			
+			$parents_html = array();
+			while($parent = $parents->next_result())
+			{
+				$parents_html[] = '<a href="'. $this->get_url(array('application' => $this->application, 'location' => $parent->get_id())) .'">'. $parent->get_location() .'</a>';
+			}
+			$html[] = implode(', ', $parents_html);
+			
+			$html[] = '</div>';
+		}
+		
+		$siblings = RightsUtilities :: get_siblings($this->location, false);
+		
+		if ($siblings->size() > 0)
+		{
+			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_siblings.png);">';
+			$html[] = '<div class="title">'. Translation :: get('Siblings') .'</div>';
+			$html[] = '<ul class="rights_siblings">';
+			
+			$siblings_html = array();
+			while($sibling = $siblings->next_result())
+			{
+				$siblings_html[] = '<a href="'. $this->get_url(array('application' => $this->application, 'location' => $sibling->get_id())) .'">'. $sibling->get_location() .'</a>';
+			}
+			$html[] = implode(', ', $siblings_html);
+			
+			$html[] = '</ul>';
+			$html[] = '</div>';
+		}
+				
+		$children = RightsUtilities :: get_children($this->location);
+		
+		if ($children->size() > 0)
+		{
+			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_children.png);">';
+			$html[] = '<div class="title">'. Translation :: get('Children') .'</div>';
+			$html[] = '<ul class="rights_children">';
+			
+			$children_html = array();
+			while($child = $children->next_result())
+			{
+				$children_html[] = '<a href="'. $this->get_url(array('application' => $this->application, 'location' => $child->get_id())) .'">'. $child->get_location() .'</a>';
+			}
+			$html[] = implode(', ', $children_html);
+			
+			$html[] = '</ul>';
+			$html[] = '</div>';
+		}
+		
+		//$html[] = DokeosUtilities :: build_block_hider();
 		
 		return implode("\n", $html);
 	}
@@ -229,5 +401,39 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		$this->get_parent()->display_header($trail);
 		echo $this->get_applications();
 		echo '<div class="clear">&nbsp;</div>';
+	}
+	
+	function get_modification_links()
+	{
+		$location = $this->location;
+		$locked_parent = RightsUtilities :: get_locked_parent($location);
+		
+		$toolbar = new Toolbar();
+		
+		if(!isset($locked_parent))
+		{
+			if ($location->is_locked())
+			{
+				$toolbar->add_item(new ToolbarItem('UnlockChildren', Theme :: get_common_image_path() . 'action_unlock.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'lock', 'application' => $this->application, 'location' => $location->get_id()))));
+			}
+			else
+			{
+				$toolbar->add_item(new ToolbarItem('LockChildren', Theme :: get_common_image_path() . 'action_lock.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'lock', 'application' => $this->application, 'location' => $location->get_id()))));
+			}
+			
+			if (!$location->is_root())
+			{
+				if ($location->inherits())
+				{
+					$toolbar->add_item(new ToolbarItem('LocationInherits', Theme :: get_common_image_path() . 'action_setting_false_inherit.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'inherit', 'application' => $this->application, 'location' => $location->get_id()))));
+				}
+				else
+				{
+					$toolbar->add_item(new ToolbarItem('LocationInherits', Theme :: get_common_image_path() . 'action_setting_true_inherit.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'inherit', 'application' => $this->application, 'location' => $location->get_id()))));
+				}
+			}
+		}
+		
+		return $toolbar->as_html();
 	}
 }

@@ -10,26 +10,26 @@
 					subbranch = $('ul', $(this));
 					if (subbranch.size() > 0) {
 						if (subbranch.eq(0).css('display') == 'none') {
-							$(this).prepend('<img src="layout/aqua/img/common/treemenu/bullet_toggle_plus.png" width="16" height="16" class="expandImage" />');
+							$(this).prepend('<div class="togglePlus expandImage">&nbsp;</div>');
 						} else {
-							$(this).prepend('<img src="layout/aqua/img/common/treemenu/bullet_toggle_minus.png" width="16" height="16" class="expandImage" />');
+							$(this).prepend('<div class="toggleMinus expandImage">&nbsp;</div>');
 						}
 					} else {
-						$(this).prepend('<img src="layout/aqua/img/common/treemenu/spacer.gif" width="16" height="16" class="expandImage" />');
+						$(this).prepend('<div class="toggleSpacer expandImage">&nbsp;</div>');
 					}
 				}
 			);
-			$('img.expandImage', tree.get(0)).click(
+			$('div.expandImage', tree.get(0)).click(
 				function()
 				{
-					if (this.src.indexOf('spacer') == -1) {
+					if ($(this).attr("class").indexOf('spacer') == -1) {
 						subbranch = $('ul', this.parentNode).eq(0);
 						if (subbranch.css('display') == 'none') {
 							subbranch.show();
-							this.src = 'layout/aqua/img/common/treemenu/bullet_toggle_minus.png';
+							$(this).attr('class', 'toggleMinus expandImage');
 						} else {
 							subbranch.hide();
-							this.src = 'layout/aqua/img/common/treemenu/bullet_toggle_plus.png';
+							$(this).attr('class', 'togglePlus expandImage');
 						}
 					}
 				}
@@ -53,7 +53,7 @@
 										function()
 										{
 											$(targetBranch).show();
-											$('img.expandImage', targetBranch.parentNode).eq(0).attr('src', 'layout/aqua/img/common/treemenu/bullet_toggle_minus.png');
+											$('div.expandImage', targetBranch.parentNode).eq(0).attr('class',  'toggleMinus expandImage');
 											$.recallDroppables();
 										},
 										500
@@ -73,10 +73,10 @@
 					{
 						id = $(this).parents(".myTree").attr("id");
 
-						$.post("common/html/menu/ajax/" + id + ".php", 
+						$.post("application/common/category_manager/ajax/" + id + ".php", 
 					    {
 							target : this.id,
-							source : dropped.childNodes[2].id
+							source : $('span', dropped).attr("id")
 						},  function(data) 
 							{
 	    						//alert(data);
@@ -98,12 +98,16 @@
 						subbranch.eq(0).append(dropped);
 						oldBranches = $('li', oldParent);
 						if (oldBranches.size() == 0) {
-							$('img.expandImage', oldParent.parentNode).attr('src', 'layout/aqua/img/common/treemenu/spacer.gif');
+							$('div.expandImage', oldParent.parentNode).attr('class', 'toggleSpacer expandImage');
+							$('div.expandImage', oldParent.parentNode).html('&nbsp;');
 							$(oldParent).remove();
 						}
-						expander = $('img.expandImage', this.parentNode);
-						if (expander.get(0).src.indexOf('spacer') > -1)
-							expander.get(0).src = 'layout/aqua/img/common/treemenu/bullet_toggle_minus.png';
+						expander = $('div.expandImage:first', this.parentNode);
+						if (expander.attr("class").indexOf('toggleSpacer') > -1)
+						{
+							expander.attr('class', 'toggleMinus expandImage');
+							expander.html('&nbsp;');
+						}
 					}
 				}
 			);

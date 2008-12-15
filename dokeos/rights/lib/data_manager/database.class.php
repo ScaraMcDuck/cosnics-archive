@@ -567,5 +567,18 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$res = $statement->execute($params);
 		return new DatabaseLocationResultSet($this, $res);
 	}
+	
+	function update_location($location)
+	{
+		$where = $this->escape_column_name(Location :: PROPERTY_ID).'='.$location->get_id();
+		$props = array();
+		foreach ($location->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('location'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		return true;
+	}
 }
 ?>
