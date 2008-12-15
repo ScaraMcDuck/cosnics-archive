@@ -2113,3 +2113,37 @@ div.padding_10
 	right: -12px;
 	cursor: pointer;
 }
+
+/**********************************
+ * Drag And Drop TreeMenu
+ **********************************/
+ .myTree,
+.myTree ul
+{
+	list-style: none;
+	padding-left: 22px;
+}
+.expandImage
+{
+	margin-right: 4px;
+}
+
+.textHolder
+{
+	height: 16px;
+	line-height: 16px;
+	padding-left: 6px;
+}
+span.dropOver
+{
+	background-color: #00c;
+	color: #fff;
+	height: 16px;
+	line-height: 16px;
+	padding-left: 6px;
+}
+.treeItem
+{
+	list-style: none;
+}
+ 
