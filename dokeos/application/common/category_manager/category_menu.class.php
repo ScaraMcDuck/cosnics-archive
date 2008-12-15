@@ -5,7 +5,7 @@
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
-require_once Path :: get_library_path() . 'html/menu/tree_menu_renderer.class.php';
+require_once Path :: get_library_path() . 'html/menu/new_tree_menu_renderer.class.php';
 require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his
@@ -125,7 +125,7 @@ class CategoryMenu extends HTML_Menu
 	 */
 	function render_as_tree()
 	{
-		$renderer = new TreeMenuRenderer();
+		$renderer = new NewTreeMenuRenderer('category_changer');
 		$this->render($renderer, 'sitemap'); 
 		return $renderer->toHTML();
 	}

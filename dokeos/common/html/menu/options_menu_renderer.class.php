@@ -10,7 +10,7 @@ require_once 'HTML/Menu/ArrayRenderer.php';
  */
 class OptionsMenuRenderer extends HTML_Menu_ArrayRenderer
 {
-	const KEY_ID = 'node_id';
+	const KEY_ID = 'id';
 
 	/**
 	 * Create a new OptionsMenuRenderer
