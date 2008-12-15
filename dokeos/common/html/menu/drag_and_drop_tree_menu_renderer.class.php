@@ -11,7 +11,7 @@ require_once Path :: get_library_path().'resource_manager.class.php';
  * @author Bart Mollet
  * @author Tim De Pauw
  */
-class NewTreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
+class DragAndDropTreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 {
 	/**
 	 * Boolean to check if this tree menu is allready initialized
@@ -22,7 +22,7 @@ class NewTreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 	/**
 	 * Constructor.
 	 */
-	function NewTreeMenuRenderer($id)
+	function DragAndDropTreeMenuRenderer($id)
 	{
 		$this->id = $id;
 		$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<span id={id} class="textHolder"><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a></span>', HTML_MENU_ENTRY_ACTIVE => '<!--A--><span id={id} class="textHolder"><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a></span>', HTML_MENU_ENTRY_ACTIVEPATH => '<!--P--><span id={id} class="textHolder"><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a></span>');
@@ -47,8 +47,8 @@ class NewTreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 			}
 			
 			$id .= '_' . $this->id;
-				
-			$this->setLevelTemplate('<ul id="' . $id . '" class="myTree">'."\n", '</ul>'."\n");
+			$gc = '<li id="deletediv" style="display:none;"><img src="' .Theme :: get_common_image_path() . 'action_recycle_bin.png" /> <span id="deleter" style="font-weight: bold; color: #4171B5;">' . Translation :: get('Delete') . '</span></li>';
+			$this->setLevelTemplate('<ul id="' . $id . '" class="myTree">'."\n", $gc . '</ul><br />' . "\n");
 		}
 		
 		if (!$root)

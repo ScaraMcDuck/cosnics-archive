@@ -6,6 +6,8 @@ require_once Path :: get_admin_path() . 'lib/admin_data_manager.class.php';
 $source = $_POST['source'];
 $target = $_POST['target'];
 
+if(!isset($source) || !isset($target)) exit;
+
 //echo $_POST['target'] . ' ' . $_POST['source'];
 
 $adm = AdminDataManager :: get_instance();
