@@ -200,6 +200,13 @@ class RightsUtilities
 		if ($location_set->size() > 0)
 		{
 			$location = $location_set->next_result();
+			$locked_parent = self :: get_locked_parent($location);
+			
+			if (isset($locked_parent))
+			{
+				$location = $locked_parent;
+			}
+			
 			$parents = self :: get_parents($location);
 		}
 		else
@@ -342,6 +349,7 @@ class RightsUtilities
 	
 	function get_locked_parent($location)
 	{
+		$rdm = RightsDataManager :: get_instance();
 		
 		$locked_parent_conditions = array();
 		$locked_parent_conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $location->get_left_value());
@@ -353,7 +361,7 @@ class RightsUtilities
 		$order = array(Location :: PROPERTY_LEFT_VALUE);
 		$order_direction = array(SORT_ASC);
 		
-		$locked_parents = $this->retrieve_locations($locked_parent_condition, null, 1, $order, $order_direction);
+		$locked_parents = $rdm->retrieve_locations($locked_parent_condition, null, 1, $order, $order_direction);
 		
 		if ($locked_parents->size() > 0)
 		{
