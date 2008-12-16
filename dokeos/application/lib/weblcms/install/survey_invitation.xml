@@ -6,7 +6,7 @@
   <property name="survey_id" type="integer" notnull="1" />
   <property name="invitation_code" type="text" notnull="1" />
   <property name="email" type="text" notnull="0" />
-  <property name="valid" type="bool" notnull="1" />
+  <property name="valid" type="integer" notnull="1" />
  </properties>
  <index name="id" type="primary">
  <indexproperty name="id"/>
