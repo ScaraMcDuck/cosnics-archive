@@ -9,6 +9,7 @@ require_once dirname(__FILE__).'/../admin_manager.class.php';
 require_once dirname(__FILE__).'/../admin_manager_component.class.php';
 require_once dirname(__FILE__).'/../admin_search_form.class.php';
 require_once dirname(__FILE__).'/../../configuration_form.class.php';
+require_once dirname(__FILE__).'/../../admin_rights.class.php';
 /**
  * Admin component
  */
@@ -31,9 +32,11 @@ class AdminConfigurerComponent extends AdminManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get(Application :: application_to_class($application)) . '&nbsp;' . Translation :: get('Settings')));
 
-		if (!$this->get_user()->is_platform_admin())
+		if (!AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'settings', 'admin_manager_component'))
 		{
-			Display :: not_allowed();
+			$this->display_header($trail);
+			$this->display_error_message(Translation :: get('NotAllowed'));
+			$this->display_footer();
 			exit;
 		}
 		
