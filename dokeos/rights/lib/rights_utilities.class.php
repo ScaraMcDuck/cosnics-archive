@@ -13,14 +13,7 @@ require_once 'XML/Unserializer.php';
  */
 
 class RightsUtilities
-{
-	
-	const haha = 'help';
-
-    function RightsUtilities()
-    {
-    }
-    
+{    
     function install_initial_application_locations()
     {
 		$core_applications = array('admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
@@ -200,14 +193,14 @@ class RightsUtilities
 		if ($location_set->size() > 0)
 		{
 			$location = $location_set->next_result();
-			$locked_parent = self :: get_locked_parent($location);
+			$locked_parent = $location->get_locked_parent();
 			
 			if (isset($locked_parent))
 			{
 				$location = $locked_parent;
 			}
 			
-			$parents = self :: get_parents($location);
+			$parents = $location->get_parents();
 		}
 		else
 		{
@@ -273,7 +266,7 @@ class RightsUtilities
 	{
 		$rdm = RightsDataManager :: get_instance();
 			
-		$parents = self :: get_parents($location);
+		$parents = $location->get_parents();
 		
 		while($parent = $parents->next_result())
 		{
@@ -292,84 +285,23 @@ class RightsUtilities
 		return false;
 	}
 	
-	function get_parents($location, $include_self = true)
+	function move_multiple($locations, $new_parent_id, $new_previous_id = 0)
 	{
 		$rdm = RightsDataManager :: get_instance();
 		
-		$parent_conditions = array();
-		if ($include_self)
+		if (!is_array($locations))
 		{
-			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN_OR_EQUAL, $location->get_left_value());
-			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $location->get_right_value());
-		}
-		else
-		{
-			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $location->get_left_value());
-			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $location->get_right_value());
-		}
-		$parent_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
-		
-		$parent_condition = new AndCondition($parent_conditions);
-		$order = array(Location :: PROPERTY_LEFT_VALUE);
-		$order_direction = array(SORT_DESC);
-			
-		return $rdm->retrieve_locations($parent_condition, null, null, $order, $order_direction);
-	}
-	
-	function get_children($location)
-	{
-		$rdm = RightsDataManager :: get_instance();
-		
-		$children_conditions = array();
-		$children_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, $location->get_id());
-		$children_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
-		
-		$children_condition = new AndCondition($children_conditions);
-			
-		return $rdm->retrieve_locations($children_condition);
-	}
-	
-	function get_siblings($location, $include_self = true)
-	{
-		$rdm = RightsDataManager :: get_instance();
-		
-		$siblings_conditions = array();
-		$siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, $location->get_parent());
-		$siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
-		
-		if (!$include_self)
-		{
-			$siblings_conditions[] = new NotCondition(new EqualityCondition(Location :: PROPERTY_ID, $location->get_id()));
+			$locations = array($locations);
 		}
 		
-		$siblings_condition = new AndCondition($siblings_conditions);
-			
-		return $rdm->retrieve_locations($siblings_condition);
-	}
-	
-	function get_locked_parent($location)
-	{
-		$rdm = RightsDataManager :: get_instance();
+		$failures = 0;
 		
-		$locked_parent_conditions = array();
-		$locked_parent_conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $location->get_left_value());
-		$locked_parent_conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $location->get_right_value());
-		$locked_parent_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
-		$locked_parent_conditions[] = new EqualityCondition(Location :: PROPERTY_LOCKED, true);
-		
-		$locked_parent_condition = new AndCondition($locked_parent_conditions);
-		$order = array(Location :: PROPERTY_LEFT_VALUE);
-		$order_direction = array(SORT_ASC);
-		
-		$locked_parents = $rdm->retrieve_locations($locked_parent_condition, null, 1, $order, $order_direction);
-		
-		if ($locked_parents->size() > 0)
+		foreach ($locations as $location)
 		{
-			return $locked_parents->next_result();
-		}
-		else
-		{
-			return null;
+			if (!$rdm->move_location_nodes($location, $new_parent_id, $new_previous_id))
+			{
+				$failures++;
+			}
 		}
 	}
 }

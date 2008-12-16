@@ -219,7 +219,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		$html[] = '<div style="clear: both;"></div>';
 		
 		$roles = $this->retrieve_roles();		
-		$locked_parent = RightsUtilities :: get_locked_parent($location);
+		$locked_parent = $location->get_locked_parent();
 		
 		while ($role = $roles->next_result())
 		{
@@ -322,7 +322,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		//$html[] = DokeosUtilities :: add_block_hider();
 		//$html[] = DokeosUtilities :: build_block_hider('location_relations');
 		
-		$parents = RightsUtilities :: get_parents($this->location, false);
+		$parents = $this->location->get_parents(false);
 		
 		if ($parents->size() > 0)
 		{
@@ -339,7 +339,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			$html[] = '</div>';
 		}
 		
-		$siblings = RightsUtilities :: get_siblings($this->location, false);
+		$siblings = $this->location->get_siblings(false);
 		
 		if ($siblings->size() > 0)
 		{
@@ -358,7 +358,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			$html[] = '</div>';
 		}
 				
-		$children = RightsUtilities :: get_children($this->location);
+		$children = $this->location->get_children();
 		
 		if ($children->size() > 0)
 		{
@@ -392,7 +392,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 	function get_modification_links()
 	{
 		$location = $this->location;
-		$locked_parent = RightsUtilities :: get_locked_parent($location);
+		$locked_parent = $location->get_locked_parent();
 		
 		$toolbar = new Toolbar();
 		
