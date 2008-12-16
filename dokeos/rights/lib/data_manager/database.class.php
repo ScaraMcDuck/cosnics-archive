@@ -539,7 +539,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator = new ConditionTranslator($this, $params, true);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
@@ -568,6 +568,26 @@ class DatabaseRightsDataManager extends RightsDataManager
 		return new DatabaseLocationResultSet($this, $res);
 	}
 	
+	function count_locations($condition = null)
+	{
+		$query = 'SELECT COUNT(*) FROM '.$this->escape_table_name('location');
+		
+		$params = array();
+		
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $record[0];
+	}
+	
 	function update_location($location)
 	{
 		$where = $this->escape_column_name(Location :: PROPERTY_ID).'='.$location->get_id();
@@ -579,6 +599,262 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('location'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;
+	}
+	
+	function add_nested_values($location, $previous_visited, $number_of_elements = 1)
+	{
+		// Update all necessary left-values
+		$conditions = array();
+		$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
+		$conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
+		$condition = new AndCondition($conditions);
+		
+		$query = 'UPDATE '. $this->escape_table_name('location') .' SET '. $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ?';
+
+		$params = array ();
+		$params[] = $number_of_elements * 2;
+		
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$statement = $this->connection->prepare($query);
+		// TODO: Some error-handling please !
+		$res = $statement->execute($params);
+		
+		// Update all necessary right-values
+		$conditions = array();
+		$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
+		$conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
+		$condition = new AndCondition($conditions);
+		
+		$query = 'UPDATE '. $this->escape_table_name('location') .' SET '. $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ?';
+
+		$params = array ();
+		$params[] = $number_of_elements * 2;
+		
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$statement = $this->connection->prepare($query);
+		// TODO: Some error-handling please !
+		$res = $statement->execute($params);
+		
+		// TODO: For now we just return true ...
+        return true;
+	}
+	
+	function delete_location_nodes($location)
+	{
+		$conditions = array();
+		$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
+		$conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $location->get_left_value());
+		$conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN_OR_EQUAL, $location->get_right_value());
+		$condition = new AndCondition($conditions);
+		
+		$query = 'DELETE FROM '. $this->escape_table_name('location');
+
+		$params = array ();
+		
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$statement = $this->connection->prepare($query);
+		// TODO: Some error-handling please !
+		$statement->execute($params);
+		
+		// TODO: For now we just return true ...
+        return true;
+	}
+	
+	function delete_nested_values($location)
+	{
+        $delta = $location->get_right_value() - $location->get_left_value() + 1;
+        
+		// Update all necessary nested-values
+		$conditions = array();
+		$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
+		$conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $location->get_left_value());
+		$condition = new AndCondition($conditions);
+		
+		$query  = 'UPDATE '. $this->escape_table_name('location');
+		$query .= ' SET '. $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' - ?,';
+		$query .= $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ?';
+
+		$params = array ();
+		$params[] = $delta;
+		$params[] = $delta;
+		
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$statement = $this->connection->prepare($query);
+		// TODO: Some error-handling please !
+		$statement->execute($params);
+		
+		// Update some more nested-values
+		$conditions = array();
+		$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
+		$conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $location->get_left_value());
+		$conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $location->get_right_value());
+		$condition = new AndCondition($conditions);
+		
+		$query  = 'UPDATE '. $this->escape_table_name('location');
+		$query .= ' SET '. $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' - ?';
+
+		$params = array ();
+		$params[] = $delta;
+		
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$statement = $this->connection->prepare($query);
+		// TODO: Some error-handling please !
+		$statement->execute($params);
+		
+        return true;
+	}
+	
+	function move_location($location, $new_parent_id, $new_previous_id = 0)
+	{
+        // Check some things first to avoid trouble
+        if ($new_previous_id)
+        {
+            // Don't let people move an element behind itself
+            // No need to spawn an error, since we're just not doing anything
+            if ($new_previous_id == $location->get_id())
+            {
+                return true;
+            }
+            
+            $new_previous = $this->retrieve_location($new_previous_id);
+            // TODO: What if location $new_previous_id doesn't exist ? Return error.
+            $new_parent_id = $new_previous->get_parent();
+        }
+        else
+        {
+        	// No parent ID was set ... problem !
+            if ($new_parent_id == 0)
+            {
+                return false;
+            }
+            // Move the location underneath one of it's children ?
+            // I think not ... Return error
+            if ($location->is_child_of($new_parent_id()))
+            {
+            	return false;
+            }
+            // Move an element underneath itself ?
+            // No can do ... just ignore and return true
+            if ($new_parent_id == $location->get_id())
+            {
+                return true;
+            }
+            // Try to retrieve the data of the parent element
+            $new_parent = $this->retrieve_location($new_parent_id);
+            // TODO: What if this is an invalid location ? Return error. 
+        }
+
+        $number_of_elements = ($location->get_right_value() - $location->get_left_value() + 1) / 2;
+        $previous_visited = $new_previous_id ? $new_previous->get_right_value() : $new_previous->get_left_value();
+        
+        // Update the nested values so we can actually add the element
+        // Return false if this failed
+        if (!$this->add_nested_values($location, $previous_visited, $number_of_elements()))
+        {
+        	return false;
+        }
+        
+        // Now we can update the actual parent_id
+        // Return false if this failed
+        $location->set_parent_id($new_parent_id);
+        if (!$location->update())
+        {
+        	return false;
+        }
+
+        // Update the left/right values of those elements that are being moved
+
+        // First get the offset we need to add to the left/right values
+        // if $newPrevId is given we need to get the right value,
+        // otherwise the left since the left/right has changed
+        // because we already updated it up there. We need to get them again.
+        // We have to do that anyway, to have the proper new left/right values
+        if ($new_previous_id)
+        {
+        	$temp = $this->retrieve_location($new_previous_id);
+        	// TODO: What if $temp doesn't exist ? Return error.
+        	$calculate_width = $temp->get_right_value();
+        }
+        else
+        {
+        	$temp = $this->retrieve_location($new_parent_id);
+        	// TODO: What if $temp doesn't exist ? Return error.
+        	$calculate_width = $temp->get_left_value();
+        }
+
+        // Get the element that is being moved again, since the left and
+        // right might have changed by the add-call
+        
+        $location = $this->retrieve_location($location->get_id());
+        // TODO: What if $location doesn't exist ? Return error.
+        
+        // Calculate the offset of the element to to the spot where it should go
+        // correct the offset by one, since it needs to go inbetween!
+        $offset = $calculate_width - $location->get_left_value() + 1;
+        
+        // Do the actual update
+		$conditions = array();
+		$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
+		$conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, ($location->get_left_value() - 1));
+		$conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, ($location->get_right_value() + 1));
+		$condition = new AndCondition($conditions);
+		
+		$query  = 'UPDATE '. $this->escape_table_name('location');
+		$query .= ' SET '. $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_LEFT_VALUE) . ' + ?,';
+		$query .= $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Location :: PROPERTY_RIGHT_VALUE) . ' + ?';
+
+		$params = array ();
+		$params[] = $offset;
+		$params[] = $offset;
+		
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$statement = $this->connection->prepare($query);
+		// TODO: Some error-handling please !
+		$statement->execute($params);
+
+        return true;
 	}
 }
 ?>

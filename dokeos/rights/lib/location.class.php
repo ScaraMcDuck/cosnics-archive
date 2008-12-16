@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/rights_utilities.class.php';
 /**
  * @package users
  */
@@ -241,6 +242,204 @@ class Location
 		$rdm = RightsDataManager :: get_instance();
 		$this->set_id($rdm->get_next_location_id());
 		return $rdm->create_location($this);
+	}
+	
+	function is_child_of($parent_id)
+	{
+		$rdm = RightsDataManager :: get_instance();
+		
+		$parent = $rdm->retrieve_location($parent_id);
+		// TODO: What if $parent is invalid ? Return error
+
+        // Check if the left and right value of the child are within the
+        // left and right value of the parent, if so it is a child
+        if ($parent->get_left_value() < $this->get_left_value() && $parent->get_right_value() > $this->get_right_value())
+        {
+            return true;
+        }
+
+        return false;
+	}
+	
+	/**
+	 * Get the locations on the same level with the same parent
+	 */
+	function get_siblings($include_self = true)
+	{
+		$rdm = RightsDataManager :: get_instance();
+		
+		$siblings_conditions = array();
+		$siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_parent());
+		$siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->get_application());
+		
+		if (!$include_self)
+		{
+			$siblings_conditions[] = new NotCondition(new EqualityCondition(Location :: PROPERTY_ID, $this->get_id()));
+		}
+		
+		$siblings_condition = new AndCondition($siblings_conditions);
+			
+		return $rdm->retrieve_locations($siblings_condition);
+	}
+	
+	/**
+	 * Get the location's first level children
+	 */
+	function get_children()
+	{
+		$rdm = RightsDataManager :: get_instance();
+		
+		$children_conditions = array();
+		$children_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_id());
+		$children_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->get_application());
+		
+		$children_condition = new AndCondition($children_conditions);
+			
+		return $rdm->retrieve_locations($children_condition);
+	}
+	
+	/**
+	 * Get all of the location's parents 
+	 */
+	function get_parents($include_self = true)
+	{
+		$rdm = RightsDataManager :: get_instance();
+		
+		$parent_conditions = array();
+		if ($include_self)
+		{
+			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN_OR_EQUAL, $this->get_left_value());
+			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $this->get_right_value());
+		}
+		else
+		{
+			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $this->get_left_value());
+			$parent_conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $this->get_right_value());
+		}
+		$parent_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->get_application());
+		
+		$parent_condition = new AndCondition($parent_conditions);
+		$order = array(Location :: PROPERTY_LEFT_VALUE);
+		$order_direction = array(SORT_DESC);
+			
+		return $rdm->retrieve_locations($parent_condition, null, null, $order, $order_direction);
+	}
+	
+	function get_parent_location($include_self = true)
+	{
+		$rdm = RightsDataManager :: get_instance();
+			
+		return $rdm->retrieve_location($this->get_parent());
+	}
+	
+	function get_locked_parent()
+	{
+		$rdm = RightsDataManager :: get_instance();
+		
+		$locked_parent_conditions = array();
+		$locked_parent_conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $this->get_left_value());
+		$locked_parent_conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $this->get_right_value());
+		$locked_parent_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->get_application());
+		$locked_parent_conditions[] = new EqualityCondition(Location :: PROPERTY_LOCKED, true);
+		
+		$locked_parent_condition = new AndCondition($locked_parent_conditions);
+		$order = array(Location :: PROPERTY_LEFT_VALUE);
+		$order_direction = array(SORT_ASC);
+		
+		$locked_parents = $rdm->retrieve_locations($locked_parent_condition, null, 1, $order, $order_direction);
+		
+		if ($locked_parents->size() > 0)
+		{
+			return $locked_parents->next_result();
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	function move($new_parent_id, $new_previous_id = 0)
+	{
+		$rdm = RightsDataManager :: get_instance();
+		
+		if (!$rdm->move_location_nodes($this, $new_parent_id, $new_previous_id))
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	function remove()
+	{
+		$rdm = RightsDataManager :: get_instance();
+		
+		// Delete the actual location
+		if (!$rdm->delete_location_nodes($this))
+		{
+			return false;
+		}
+		
+		// Update left and right values
+		if (!$rdm->delete_nested_values($this))
+		{
+        	// TODO: Some kind of general error handling framework would be nice: PEAR-ERROR maybe ?
+        	return false;
+		}
+		
+        return true;
+	}
+	
+	function add($previous_id = 0)
+	{
+		$rdm = RightsDataManager :: get_instance();
+		$parent_id = $this->get_parent();
+		
+        $previous_visited = 0;
+
+        if ($parent_id || $previous_id)
+        {
+            if ($previous_id)
+            {
+            	$node = $rdm->retrieve_location($previous_id);
+            	$parent_id = $node->get_parent();
+            	
+            	// TODO: If $node is invalid, what then ?
+            }
+            else
+            {
+            	$node = $rdm->retrieve_location($parent_id);
+            }
+            
+            // Set the new location's parent id
+            $this->set_parent($parent_id);
+
+			// TODO: If $node is invalid, what then ?
+
+            // get the "visited"-value where to add the new element behind
+            // if $previous_id is given, we need to use the right-value
+            // if only the $parent_id is given we need to use the left-value
+            $previous_visited = $previous_id ? $node->get_right_value() : $node->get_left_value();
+            
+            // Correct the left and right values wherever necessary.
+            if (!$rdm->add_nested_values($this, $previous_visited, 1))
+            {
+            	// TODO: Some kind of general error handling framework would be nice: PEAR-ERROR maybe ?
+            	return false;
+            }
+        }
+        
+        // Left and right values have been shifted so now we
+        // want to really add the location itself, but first
+        // we have to set it's left and right value.
+        $this->set_left_value($previous_visited + 1);
+        $this->set_right_value($previous_visited + 2);
+        if (!$location->create())
+        {
+        	return false;
+        }
+        
+        return true;
 	}
 }
 ?>
