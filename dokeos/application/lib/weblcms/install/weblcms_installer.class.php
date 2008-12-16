@@ -38,9 +38,6 @@ class WeblcmsInstaller extends Installer
 	function create_default_categories_in_weblcms()
 	{
 		$application = $this->get_application();
-		$tree = RightsUtilities :: get_tree($application);
-		$root = $tree->getFirstRoot();
-		$root = $root['id'];
 		
 		//Creating Language Skills
 		$cat = new CourseCategory();
@@ -51,13 +48,6 @@ class WeblcmsInstaller extends Installer
 		{
 			return false;
 		}
-		
-		$element = $tree->add( array(
-						'name'	=>	$cat->get_name(),
-						'application' => $application,
-						'type' => 'category',
-						'identifier' => $cat->get_id(),
-					), $root);
 	
 		//creating PC Skills
 		$cat = new CourseCategory();
@@ -68,13 +58,6 @@ class WeblcmsInstaller extends Installer
 		{
 			return false;
 		}
-		
-		$element = $tree->add( array(
-						'name'	=>	$cat->get_name(),
-						'application' => $application,
-						'type' => 'category',
-						'identifier' => $cat->get_id(),
-					), $root, $element);
 	
 		//creating Projects
 		$cat = new CourseCategory();
@@ -85,13 +68,6 @@ class WeblcmsInstaller extends Installer
 		{
 			return false;
 		}
-		
-		$element = $tree->add( array(
-						'name'	=>	$cat->get_name(),
-						'application' => $application,
-						'type' => 'category',
-						'identifier' => $cat->get_id(),
-					), $root, $element);
 		
 		return true;
 	}

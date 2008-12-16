@@ -36,7 +36,7 @@ class SettingsInstallWizardPage extends InstallWizardPage
 		$this->addElement('text', 'admin_phone', Translation :: get("AdminPhone"), array ('size' => '40'));
 		$this->addElement('text', 'admin_username', Translation :: get("AdminLogin"), array ('size' => '40'));
 		$this->addRule('admin_username', Translation :: get('ThisFieldIsRequired'), 'required');
-		$this->addElement('password', 'admin_password', Translation :: get("AdminPass"), array ('size' => '40'));
+		$this->addElement('text', 'admin_password', Translation :: get("AdminPass"), array ('size' => '40'));
 		$this->addRule('admin_password', Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->addElement('text', 'platform_name', Translation :: get("CampusName"), array ('size' => '40'));
 		$this->addRule('platform_name', Translation :: get('ThisFieldIsRequired'), 'required');

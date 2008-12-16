@@ -764,7 +764,7 @@ class DatabaseRightsDataManager extends RightsDataManager
             }
             // Move the location underneath one of it's children ?
             // I think not ... Return error
-            if ($location->is_child_of($new_parent_id()))
+            if ($location->is_child_of($new_parent_id))
             {
             	return false;
             }
@@ -780,18 +780,18 @@ class DatabaseRightsDataManager extends RightsDataManager
         }
 
         $number_of_elements = ($location->get_right_value() - $location->get_left_value() + 1) / 2;
-        $previous_visited = $new_previous_id ? $new_previous->get_right_value() : $new_previous->get_left_value();
+        $previous_visited = $new_previous_id ? $new_previous->get_right_value() : $new_parent->get_left_value();
         
         // Update the nested values so we can actually add the element
         // Return false if this failed
-        if (!$this->add_nested_values($location, $previous_visited, $number_of_elements()))
+        if (!$this->add_nested_values($location, $previous_visited, $number_of_elements))
         {
         	return false;
         }
         
         // Now we can update the actual parent_id
         // Return false if this failed
-        $location->set_parent_id($new_parent_id);
+        $location->set_parent($new_parent_id);
         if (!$location->update())
         {
         	return false;
@@ -831,7 +831,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$conditions = array();
 		$conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $location->get_application());
 		$conditions[] = new InequalityCondition(Location :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, ($location->get_left_value() - 1));
-		$conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, ($location->get_right_value() + 1));
+		$conditions[] = new InequalityCondition(Location :: PROPERTY_RIGHT_VALUE, InequalityCondition :: LESS_THAN, ($location->get_right_value() + 1));
 		$condition = new AndCondition($conditions);
 		
 		$query  = 'UPDATE '. $this->escape_table_name('location');
@@ -853,6 +853,12 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$statement = $this->connection->prepare($query);
 		// TODO: Some error-handling please !
 		$statement->execute($params);
+		
+		// Remove the subtree where the location was before
+		if (!$this->delete_nested_values($location))
+		{
+			return false;
+		}
 
         return true;
 	}

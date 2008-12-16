@@ -515,7 +515,26 @@ class Course {
 		$dropbox = new LearningObjectPublicationCategory();
 		$dropbox->create_dropbox($this->get_id());
 		
-		return $wdm->create_course($this);
+		if (!$wdm->create_course($this))
+		{
+			return false;
+		}
+		
+		$location = new Location();
+		$location->set_location($this->get_name());
+		$location->set_application(Weblcms :: APPLICATION_NAME);
+		$location->set_type(DokeosUtilities :: camelcase_to_underscores(get_class($this)));
+		$location->set_identifier($this->get_id());
+		
+		$parent = WeblcmsRights :: get_location_id_by_identifier('course_category', $this->get_category());
+		
+		$location->set_parent($parent);
+		if (!$location->create())
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	function create_all()
