@@ -22,6 +22,7 @@ require_once dirname(__FILE__).'/component/subscribed_user_browser/subscribed_us
 require_once dirname(__FILE__).'/component/subscribe_group_browser/subscribe_group_browser_table.class.php';
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 require_once dirname(__FILE__).'/../weblcms_block.class.php';
+require_once dirname(__FILE__).'/../weblcms_rights.class.php';
 
 /**
 ==============================================================================

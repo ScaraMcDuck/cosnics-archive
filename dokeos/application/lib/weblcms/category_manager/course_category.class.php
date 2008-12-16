@@ -17,7 +17,24 @@ class CourseCategory extends PlatformCategory
 		$wdm = WeblcmsDataManager :: get_instance();
 		$this->set_id($wdm->get_next_category_id());
 		$this->set_display_order($wdm->select_next_display_order($this->get_parent()));
-		return $wdm->create_category($this);
+		
+		if(!$wdm->create_category($this))
+		{
+			return false;
+		}
+		
+		$location = new Location();
+		$location->set_location($this->get_name());
+		$location->set_application(Weblcms :: APPLICATION_NAME);
+		$location->set_type(DokeosUtilities :: camelcase_to_underscores(get_class($this)));
+		$location->set_identifier($this->get_id());
+		$location->set_parent(WeblcmsRights :: get_root_id());
+		if (!$location->create())
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	function update()

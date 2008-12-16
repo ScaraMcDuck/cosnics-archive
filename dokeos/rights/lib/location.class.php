@@ -237,13 +237,6 @@ class Location
 		return RightsDataManager :: get_instance()->delete_location($this);
 	}
 	
-	function create()
-	{
-		$rdm = RightsDataManager :: get_instance();
-		$this->set_id($rdm->get_next_location_id());
-		return $rdm->create_location($this);
-	}
-	
 	function is_child_of($parent_id)
 	{
 		$rdm = RightsDataManager :: get_instance();
@@ -362,7 +355,7 @@ class Location
 	{
 		$rdm = RightsDataManager :: get_instance();
 		
-		if (!$rdm->move_location_nodes($this, $new_parent_id, $new_previous_id))
+		if (!$rdm->move_location($this, $new_parent_id, $new_previous_id))
 		{
 			return false;
 		}
@@ -390,7 +383,7 @@ class Location
         return true;
 	}
 	
-	function add($previous_id = 0)
+	function create($previous_id = 0)
 	{
 		$rdm = RightsDataManager :: get_instance();
 		$parent_id = $this->get_parent();
@@ -434,7 +427,8 @@ class Location
         // we have to set it's left and right value.
         $this->set_left_value($previous_visited + 1);
         $this->set_right_value($previous_visited + 2);
-        if (!$location->create())
+        $this->set_id($rdm->get_next_location_id());
+        if (!$rdm->create_location($this))
         {
         	return false;
         }

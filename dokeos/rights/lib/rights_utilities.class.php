@@ -62,23 +62,20 @@ class RightsUtilities
     function create_application_root_location($application)
     {    	
     	$xml = self :: parse_locations_file($application);
-    	$tree = self :: get_tree($application);
-		
-		$root_id = $tree->add( array(
-						'name'	=>	$xml['name'],
-						'application' => $application,
-						'type' => $xml['type'],
-						'identifier' => $xml['identifier']
-					));
+    	
+    	$root = new Location();
+    	$root->set_location($xml['name']);
+    	$root->set_application($application);
+    	$root->set_type($xml['type']);
+    	$root->set_identifier($xml['identifier']);
+    	if (!$root->create())
+    	{
+    		return false;
+    	}
 
 		if (isset($xml['children']) && isset($xml['children']['location']) && count($xml['children']['location']) > 0)
 		{
-			self :: parse_tree($application, $xml, $root_id);
-		}
-					
-		if (PEAR::isError($root_id))
-		{
-			return false;
+			self :: parse_tree($application, $xml, $root->get_id());
 		}
 		
 		return true;
@@ -118,56 +115,29 @@ class RightsUtilities
 	
 	function parse_tree($application, $xml, $parent)
 	{
-		$tree = self :: get_tree($application);
 		$previous = null;
 		
 		$children = $xml['children'];
 		foreach ($children['location'] as $child)
 		{
-			$element = $tree->add( array(
-							'name'	=>	$child['name'],
-							'application' => $application,
-							'type' => $child['type'],
-							'identifier' => $child['identifier'],
-						), $parent, ($previous != null ? $previous : 0));
+	    	$location = new Location();
+	    	$location->set_location($child['name']);
+	    	$location->set_application($application);
+	    	$location->set_type($child['type']);
+	    	$location->set_identifier($child['identifier']);
+	    	$location->set_parent($parent);
+	    	if (!$location->create($previous != null ? $previous : 0))
+	    	{
+	    		return false;
+	    	}
 						
-			$previous = $element;
+			$previous = $location->get_id();
 			
 			if (isset($child['children']) && isset($child['children']['location']) && count($child['children']['location']) > 0)
 			{
-				self :: parse_tree($application, $child, $element);
+				self :: parse_tree($application, $child, $location->get_id());
 			}
 		}
-	}
-	
-	function get_tree($application)
-	{
-		$configuration = Configuration :: get_instance();
-		$dsn = $configuration->get_parameter('database', 'connection_string');
-    	
-		$config = array(
-		    'type' => 'Nested',
-		    'storage' => array(
-		        'name' => 'MDB2',
-		        'dsn' => $dsn
-		        ,
-		        // 'connection' =>
-		    ),
-		    'options' => array(
-		        'table' => 'rights_location',
-		        'order' =>  'id',
-		        'fields' => array(
-		            'id' => array('type' => 'integer', 'name' => 'id'),
-		            'name' => array('type' => 'text', 'name' => 'location'),
-		            'left'      =>  array('type' => 'text', 'name' => 'left_value'),
-		            'right'     =>  array('type' => 'text', 'name' => 'right_value'),
-		            'parent_id'  =>  array('type' => 'integer', 'name' => 'parent')
-		        ),
-		        'whereAddOn' => ' application = "' . $application . '"'
-		    )
-		);
-		
-		return Tree :: factoryDynamic($config);
 	}
 	
 	function is_allowed($right, $location, $type, $application = 'admin')
@@ -303,6 +273,58 @@ class RightsUtilities
 				$failures++;
 			}
 		}
+	}
+	
+	function get_root($application)
+	{
+		$rdm = RightsDataManager :: get_instance();
+		
+		$root_conditions = array();
+		$root_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
+		$root_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $application);
+		
+		$root_condition = new AndCondition($root_conditions);
+			
+		$roots = $rdm->retrieve_locations($root_condition, null, 1);
+		
+		if ($roots->size() > 0)
+		{
+			return $roots->next_result();
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	function get_root_id($application)
+	{
+		$root = self :: get_root($application);
+		return $root->get_id();
+	}
+	
+	function get_location_by_identifier($application, $type, $identifier)
+	{
+		$rdm = RightsDataManager :: get_instance();
+		
+		$conditions = array();
+		$conditions[] = new EqualityCondition('identifier', $identifier);
+		$conditions[] = new EqualityCondition('type', $type);
+		
+		$condition = new AndCondition($conditions);
+		
+		$locations = $rdm->retrieve_locations($condition, 0, 1);
+		return $locations->next_result();
+	}
+	
+	function get_location_id_by_identifier($application, $type, $identifier)
+	{
+		$location = self :: get_location_by_identifier($application, $type, $identifier);
+		if (isset($location))
+		{
+			return $location->get_id();
+		}
+		return null;
 	}
 }
 ?>
