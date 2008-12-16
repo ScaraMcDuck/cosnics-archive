@@ -854,7 +854,7 @@ abstract class RepositoryDataManager
 	abstract function create_storage_unit($name,$properties,$indexes);
 
 	abstract function get_next_category_id();
-	abstract function select_next_category_display_order($parent_category_id);
+	abstract function select_next_category_display_order($parent_category_id, $user_id);
 	abstract function delete_category($category);
 	abstract function update_category($category);
 	abstract function create_category($category);

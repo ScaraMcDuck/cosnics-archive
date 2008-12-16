@@ -1438,12 +1438,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		return $this->database->retrieve_objects('repository_category', $condition, $offset, $count, $order_property, $order_direction);
 	}
 	
-	function select_next_category_display_order($parent_category_id)
+	function select_next_category_display_order($parent_category_id, $user_id)
 	{
 		$query = 'SELECT MAX(' . RepositoryCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
 		$this->database->escape_table_name('repository_category');
 	
-		$condition = new EqualityCondition(RepositoryCategory :: PROPERTY_PARENT, $parent_category_id);
+		$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_PARENT, $parent_category_id);
+		$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $user_id);
+		$condition = new AndCondition($conditions);
 		
 		$params = array ();
 		if (isset ($condition))
