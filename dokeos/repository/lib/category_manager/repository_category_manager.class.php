@@ -45,7 +45,7 @@ class RepositoryCategoryManager extends CategoryManager
 	function get_next_category_display_order($parent_id)
 	{
 		$wdm = RepositoryDataManager :: get_instance();
-		return $wdm->select_next_category_display_order($parent_id);
+		return $wdm->select_next_category_display_order($parent_id, Session :: get_user_id());
 	}
 }
 ?>

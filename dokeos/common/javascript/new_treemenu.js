@@ -72,8 +72,8 @@
 					ondrop			: function(dropped)
 					{
 						id = $(this).parents(".myTree").attr("id");
-
-						$.post("application/common/category_manager/ajax/" + id + ".php", 
+						
+						$.post("common/html/menu/ajax/" + id + ".php", 
 					    {
 							target : this.id,
 							source : $('span', dropped).attr("id")
