@@ -27,6 +27,7 @@ class AssessmentToolComponent extends ToolComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
+		//public functions
 		$action_bar->set_search_url($this->get_url());
 		$action_bar->add_common_action(
 			new ToolbarItem(
@@ -40,7 +41,7 @@ class AssessmentToolComponent extends ToolComponent
 			)
 		);
 		
-		
+		//results
 		if ($this->is_allowed(EDIT_RIGHT))
 		{
 			$action_name = Translation :: get('View results summary');
@@ -53,6 +54,16 @@ class AssessmentToolComponent extends ToolComponent
 				$action_name, Theme :: get_common_image_path().'action_view_results.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
+		
+		//admin only functions
+		if ($this->is_allowed(EDIT_RIGHT))
+		{
+			$action_bar->add_tool_action(
+				new ToolbarItem(
+					Translation :: get('ImportQti'), Theme :: get_common_image_path().'action_import.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_IMPORT_QTI)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				)
+			);
+		}
 		
 		return $action_bar;
 	}

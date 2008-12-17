@@ -42,7 +42,6 @@ class AssessmentQtiExport extends QtiExport
 	{
 		$doc = new DOMDocument();
 		$doc->loadXML($assessment_xml);
-		//echo $doc->saveXML();
 		
 		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/';
   		
@@ -51,10 +50,11 @@ class AssessmentQtiExport extends QtiExport
   			mkdir($temp_dir, '0777', true);
   		}
   	
-  		$xml_path = $temp_dir . 'qti_'.$this->get_learning_object()->get_id().'.xml';
+  		$xml_path = $temp_dir . 'qti_assessment.xml';
 		$doc->save($xml_path);
 		
 		$zip = Filecompression :: factory();
+		$zip->set_filename('qti_assessment', 'zip');
 		$zippath = $zip->create_archive($temp_dir);
 		FileSystem::remove($temp_dir);
 			

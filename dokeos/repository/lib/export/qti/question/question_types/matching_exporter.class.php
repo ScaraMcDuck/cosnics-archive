@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../question_exporter.class.php';
+require_once dirname(__FILE__).'/../question_qti_export.class.php';
 
 class MatchingQuestionQtiExport extends QuestionQtiExport
 {
@@ -28,6 +28,7 @@ class MatchingQuestionQtiExport extends QuestionQtiExport
 		$item_xml[] = $this->get_interaction_xml($answers);
 		$item_xml[] = '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response" />';
 		$item_xml[] = '</assessmentItem>';
+		//echo implode('', $item_xml);
 		return parent :: create_qti_file(implode('', $item_xml));
 	}
 	
@@ -43,7 +44,7 @@ class MatchingQuestionQtiExport extends QuestionQtiExport
 		$response_xml[] = '<mapping defaultValue="0">';
 		foreach ($answers as $answer)
 		{
-			$response_xml[] = '<mapEntry mapKey=c"'.$answer['answer']->get_id().' c'.$answer['match']->get_id().'" mappedValue="'.$answer['score'].'" />';
+			$response_xml[] = '<mapEntry mapKey="c'.$answer['answer']->get_id().' c'.$answer['match']->get_id().'" mappedValue="'.$answer['score'].'" />';
 		}
 		$response_xml[] = '</mapping>';
 		

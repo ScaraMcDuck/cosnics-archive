@@ -18,6 +18,7 @@ class AssessmentTool extends Tool
 	const ACTION_TAKE_ASSESSMENT = 'take';
 	const ACTION_VIEW_RESULTS = 'result';
 	const ACTION_EXPORT_QTI = 'exportqti';
+	const ACTION_IMPORT_QTI = 'importqti';
 	const ACTION_SAVE_DOCUMENTS = 'save_documents';
 	const ACTION_EXPORT_RESULTS = 'export_results';
 	const ACTION_PUBLISH_SURVEY = 'publish_survey';
@@ -55,7 +56,10 @@ class AssessmentTool extends Tool
 				break;
 			case self :: ACTION_EXPORT_QTI:
 				$component = AssessmentToolComponent :: factory('QtiExport', $this);
-				$component->set_redirect_params(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_ASSESSMENTS));
+				//$component->set_redirect_params(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_ASSESSMENTS));
+				break;
+			case self :: ACTION_IMPORT_QTI:
+				$component = AssessmentToolComponent :: factory('QtiImport', $this);
 				break;
 			case self :: ACTION_SAVE_DOCUMENTS:
 				$component = AssessmentToolComponent :: factory('DocumentSaver', $this);

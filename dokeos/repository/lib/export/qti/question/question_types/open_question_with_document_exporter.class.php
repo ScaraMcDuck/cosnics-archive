@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../question_exporter.class.php';
+require_once dirname(__FILE__).'/../question_qti_export.class.php';
 
 class OpenQuestionWithDocumentQuestionQtiExport extends QuestionQtiExport
 {

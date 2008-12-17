@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../question_exporter.class.php';
+require_once dirname(__FILE__).'/../question_qti_export.class.php';
 
 class OpenQuestionQtiExport extends QuestionQtiExport
 {
@@ -16,6 +16,7 @@ class OpenQuestionQtiExport extends QuestionQtiExport
 		$item_xml[] = $this->get_interaction_xml();
 		//$item_xml[] = '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response" />';
 		$item_xml[] = '</assessmentItem>';
+		//echo implode('', $item_xml);
 		return parent :: create_qti_file(implode('', $item_xml));
 	}
 	

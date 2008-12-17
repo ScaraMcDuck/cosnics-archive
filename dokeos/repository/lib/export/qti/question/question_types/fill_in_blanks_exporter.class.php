@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../question_exporter.class.php';
+require_once dirname(__FILE__).'/../question_qti_export.class.php';
 
 class FillInBlanksQuestionQtiExport extends QuestionQtiExport
 {
@@ -23,6 +23,7 @@ class FillInBlanksQuestionQtiExport extends QuestionQtiExport
 		$item_xml[] = $this->get_interaction_xml($answers);
 		$item_xml[] = '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct" />';
 		$item_xml[] = '</assessmentItem>';
+		//echo implode('', $item_xml);
 		return parent :: create_qti_file(implode('', $item_xml));
 	}
 	
@@ -40,7 +41,7 @@ class FillInBlanksQuestionQtiExport extends QuestionQtiExport
 	{
 		foreach($answers as $answer)
 		{
-			$response_xml[] = '<responseDeclaration identifier=c"'.$answer['answer']->get_id().'" cardinality="single" baseType="string">';
+			$response_xml[] = '<responseDeclaration identifier="c'.$answer['answer']->get_id().'" cardinality="single" baseType="string">';
 			$response_xml[] = '<correctResponse>';
 			$response_xml[] = '<value>'.htmlspecialchars($answer['answer']->get_title()).'</value>';
 			$response_xml[] = '</correctResponse>';
@@ -55,7 +56,7 @@ class FillInBlanksQuestionQtiExport extends QuestionQtiExport
 		$interaction_xml[] = '<prompt>'.htmlspecialchars($this->get_learning_object()->get_description()).'</prompt>';
 		foreach ($answers as $answer)
 		{
-			$interaction_xml[] = '<textEntryInteraction responseIdentifier=c"'.$answer['answer']->get_id().'" expectedLength="20" />';
+			$interaction_xml[] = '<textEntryInteraction responseIdentifier="c'.$answer['answer']->get_id().'" expectedLength="20" />';
 		}
 
 		$interaction_xml[] = '</itemBody>';
