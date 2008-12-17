@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2006 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith, Frank M. Kromann                       |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -43,7 +43,7 @@
 // | Author: Frank M. Kromann <frank@kromann.info>                        |
 // +----------------------------------------------------------------------+
 //
-// $Id: mssql.php,v 1.155 2007/03/02 19:42:30 quipo Exp $
+// $Id: mssql.php,v 1.174 2008/03/08 14:18:39 quipo Exp $
 //
 // {{{ Class MDB2_Driver_mssql
 /**
@@ -56,9 +56,11 @@
 class MDB2_Driver_mssql extends MDB2_Driver_Common
 {
     // {{{ properties
+
     var $string_quoting = array('start' => "'", 'end' => "'", 'escape' => "'", 'escape_pattern' => false);
 
     var $identifier_quoting = array('start' => '[', 'end' => ']', 'escape' => ']');
+
     // }}}
     // {{{ constructor
 
@@ -84,14 +86,19 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
         $this->supported['LOBs'] = true;
         $this->supported['replace'] = 'emulated';
         $this->supported['sub_selects'] = true;
+        $this->supported['triggers'] = true;
         $this->supported['auto_increment'] = true;
         $this->supported['primary_key'] = true;
         $this->supported['result_introspection'] = true;
         $this->supported['prepared_statements'] = 'emulated';
         $this->supported['pattern_escaping'] = true;
+        $this->supported['new_link'] = true;
 
+        $this->options['DBA_username'] = false;
+        $this->options['DBA_password'] = false;
         $this->options['database_device'] = false;
         $this->options['database_size'] = false;
+        $this->options['max_identifiers_length'] = 128; // MS Access: 64
     }
 
     // }}}
@@ -104,11 +111,15 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
      * @return array
      * @access public
      */
-    function errorInfo($error = null)
+    function errorInfo($error = null, $connection = null)
     {
+        if (is_null($connection)) {
+            $connection = $this->connection;
+        }
+
         $native_code = null;
-        if ($this->connection) {
-            $result = @mssql_query('select @@ERROR as ErrorCode', $this->connection);
+        if ($connection) {
+            $result = @mssql_query('select @@ERROR as ErrorCode', $connection);
             if ($result) {
                 $native_code = @mssql_result($result, 0, 0);
                 @mssql_free_result($result);
@@ -133,8 +144,10 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
                     336   => MDB2_ERROR_SYNTAX,
                     515   => MDB2_ERROR_CONSTRAINT_NOT_NULL,
                     547   => MDB2_ERROR_CONSTRAINT,
+                    911   => MDB2_ERROR_NOT_FOUND,
                     1018  => MDB2_ERROR_SYNTAX,
                     1035  => MDB2_ERROR_SYNTAX,
+                    1801  => MDB2_ERROR_ALREADY_EXISTS,
                     1913  => MDB2_ERROR_ALREADY_EXISTS,
                     2209  => MDB2_ERROR_SYNTAX,
                     2223  => MDB2_ERROR_SYNTAX,
@@ -293,45 +306,48 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
     }
 
     // }}}
-    // {{{ connect()
+    // {{{ _doConnect()
 
     /**
-     * Connect to the database
+     * do the grunt work of the connect
      *
-     * @return true on success, MDB2 Error Object on failure
+     * @return connection on success or MDB2 Error Object on failure
+     * @access protected
      */
-    function connect()
+    function _doConnect($username, $password, $persistent = false)
     {
-        if (is_resource($this->connection)) {
-            if (count(array_diff($this->connected_dsn, $this->dsn)) == 0
-                && $this->opened_persistent == $this->options['persistent']
-            ) {
-                return MDB2_OK;
-            }
-            $this->disconnect(false);
-        }
-
-        if (!PEAR::loadExtension($this->phptype)) {
+        if (!PEAR::loadExtension($this->phptype) && !PEAR::loadExtension('sybase_ct')) {
             return $this->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
                 'extension '.$this->phptype.' is not compiled into PHP', __FUNCTION__);
         }
 
         $params = array(
             $this->dsn['hostspec'] ? $this->dsn['hostspec'] : 'localhost',
-            $this->dsn['username'] ? $this->dsn['username'] : null,
-            $this->dsn['password'] ? $this->dsn['password'] : null,
+            $username ? $username : null,
+            $password ? $password : null,
         );
         if ($this->dsn['port']) {
             $params[0].= ((substr(PHP_OS, 0, 3) == 'WIN') ? ',' : ':').$this->dsn['port'];
         }
+        if (!$persistent) {
+            if (isset($this->dsn['new_link'])
+                && ($this->dsn['new_link'] == 'true' || $this->dsn['new_link'] === true)
+            ) {
+                $params[] = true;
+            } else {
+                $params[] = false;
+            }
+        }
 
-        $connect_function = $this->options['persistent'] ? 'mssql_pconnect' : 'mssql_connect';
+        $connect_function = $persistent ? 'mssql_pconnect' : 'mssql_connect';
 
         $connection = @call_user_func_array($connect_function, $params);
         if ($connection <= 0) {
             return $this->raiseError(MDB2_ERROR_CONNECT_FAILED, null, null,
                 'unable to establish a connection', __FUNCTION__, __FUNCTION__);
         }
+
+        @mssql_query('SET ANSI_NULL_DFLT_ON ON', $connection);
 
         if (!empty($this->dsn['charset'])) {
             $result = $this->setCharset($this->dsn['charset'], $connection);
@@ -347,6 +363,38 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
        if (empty($this->dsn['disable_iso_date'])) {
            @mssql_query('SET DATEFORMAT ymd', $connection);
        }
+
+       return $connection;
+    }
+
+    // }}}
+    // {{{ connect()
+
+    /**
+     * Connect to the database
+     *
+     * @return true on success, MDB2 Error Object on failure
+     */
+    function connect()
+    {
+        if (is_resource($this->connection)) {
+            //if (count(array_diff($this->connected_dsn, $this->dsn)) == 0
+            if (MDB2::areEquals($this->connected_dsn, $this->dsn)
+                && $this->opened_persistent == $this->options['persistent']
+            ) {
+                return MDB2_OK;
+            }
+            $this->disconnect(false);
+        }
+
+        $connection = $this->_doConnect(
+            $this->dsn['username'],
+            $this->dsn['password'],
+            $this->options['persistent']
+        );
+        if (PEAR::isError($connection)) {
+            return $connection;
+        }
 
         $this->connection = $connection;
         $this->connected_dsn = $this->dsn;
@@ -366,6 +414,41 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
         }
 
         return MDB2_OK;
+    }
+
+    // }}}
+    // {{{ databaseExists()
+
+    /**
+     * check if given database name is exists?
+     *
+     * @param string $name    name of the database that should be checked
+     *
+     * @return mixed true/false on success, a MDB2 error on failure
+     * @access public
+     */
+    function databaseExists($name)
+    {
+        $connection = $this->_doConnect($this->dsn['username'],
+                                        $this->dsn['password'],
+                                        $this->options['persistent']);
+        if (PEAR::isError($connection)) {
+            return $connection;
+        }
+
+        $result = @mssql_select_db($name, $connection);
+        $errorInfo = $this->errorInfo(null, $connection);
+        @mssql_close($connection);
+        if (!$result) {
+            if ($errorInfo[0] != MDB2_ERROR_NOT_FOUND) {
+            exit;
+                $result = $this->raiseError($errorInfo[0], null, null, $errorInfo[2], __FUNCTION__);
+                return $result;
+            }
+            $result = false;
+        }
+
+        return $result;
     }
 
     // }}}
@@ -401,6 +484,42 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
             }
         }
         return parent::disconnect($force);
+    }
+
+    // }}}
+    // {{{ standaloneQuery()
+
+   /**
+     * execute a query as DBA
+     *
+     * @param string $query the SQL query
+     * @param mixed   $types  array that contains the types of the columns in
+     *                        the result set
+     * @param boolean $is_manip  if the query is a manipulation query
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
+     * @access public
+     */
+    function &standaloneQuery($query, $types = null, $is_manip = false)
+    {
+        $user = $this->options['DBA_username']? $this->options['DBA_username'] : $this->dsn['username'];
+        $pass = $this->options['DBA_password']? $this->options['DBA_password'] : $this->dsn['password'];
+        $connection = $this->_doConnect($user, $pass, $this->options['persistent']);
+        if (PEAR::isError($connection)) {
+            return $connection;
+        }
+
+        $offset = $this->offset;
+        $limit = $this->limit;
+        $this->offset = $this->limit = 0;
+        $query = $this->_modifyQuery($query, $is_manip, $limit, $offset);
+        
+        $result =& $this->_doQuery($query, $is_manip, $connection, $this->database_name);
+        if (!PEAR::isError($result)) {
+            $result = $this->_affectedRows($connection, $result);
+        }
+
+        @mssql_close($connection);
+        return $result;
     }
 
     // }}}
@@ -508,6 +627,7 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
         }
         return $query;
     }
+
     // }}}
     // {{{ getServerVersion()
 
@@ -532,7 +652,7 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
         // cache server_info
         $this->connected_server_info = $server_info;
         if (!$native && !PEAR::isError($server_info)) {
-            if (preg_match('/([0-9]+)\.([0-9]+)\.([0-9]+)/', $server_info, $tmp)) {
+            if (preg_match('/(\d+)\.(\d+)\.(\d+)/', $server_info, $tmp)) {
                 $server_info = array(
                     'major' => $tmp[1],
                     'minor' => $tmp[2],
@@ -555,6 +675,7 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
 
     // }}}
     // {{{ _checkSequence
+
     /**
      * Checks if there's a sequence that exists.
      *
@@ -594,18 +715,20 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
     {
         $sequence_name = $this->quoteIdentifier($this->getSequenceName($seq_name), true);
         $seqcol_name = $this->quoteIdentifier($this->options['seqcol_name'], true);
+        $this->pushErrorHandling(PEAR_ERROR_RETURN);
         $this->expectError(MDB2_ERROR_NOSUCHTABLE);
         
         $seq_val = $this->_checkSequence($sequence_name);
 
         if ($seq_val) {
             $query = "SET IDENTITY_INSERT $sequence_name OFF ".
-                     "INSERT INTO $sequence_name ($seqcol_name) DEFAULT VALUES";
+                     "INSERT INTO $sequence_name DEFAULT VALUES";
         } else {
             $query = "INSERT INTO $sequence_name ($seqcol_name) VALUES (0)";
         }
         $result =& $this->_doQuery($query, true);
         $this->popExpect();
+        $this->popErrorHandling();
         if (PEAR::isError($result)) {
             if ($ondemand && !$this->_checkSequence($sequence_name)) {
                 $this->loadModule('Manager', null, true);
@@ -614,6 +737,21 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
                     return $this->raiseError($result, null, null,
                         'on demand sequence '.$seq_name.' could not be created', __FUNCTION__);
                 } else {
+                    /**
+                     * Little off-by-one problem with the sequence emulation
+                     * here being fixed, that instead of re-calling nextID
+                     * and forcing an increment by one, we simply check if it
+                     * exists, then we get the last inserted id if it does.
+                     *
+                     * In theory, $seq_name should be created otherwise there would
+                     * have been an error thrown somewhere up there.. 
+                     *
+                     * @todo confirm
+                     */
+                    if ($this->_checkSequence($seq_name)) {
+                        return $this->lastInsertID($seq_name);
+                    }
+
                     return $this->nextID($seq_name, false);
                 }
             }
@@ -629,14 +767,17 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
         }
         return $value;
     }
+
     // }}}
     // {{{ lastInsertID()
+
     /**
      * Returns the autoincrement ID if supported or $id or fetches the current
      * ID in a sequence called: $table.(empty($field) ? '' : '_'.$field)
      *
      * @param string $table name of the table into which a new row was inserted
      * @param string $field name of the field into which a new row was inserted
+     *
      * @return mixed MDB2 Error Object or id
      * @access public
      */
@@ -646,15 +787,20 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
         if (is_array($server_info) && !is_null($server_info['major'])
            && $server_info['major'] >= 8
         ) {
-            $query = "SELECT SCOPE_IDENTITY()";
+            $query = "SELECT IDENT_CURRENT('$table')";
         } else {
             $query = "SELECT @@IDENTITY";
+            if (!is_null($table)) {
+                $query .= ' FROM '.$this->quoteIdentifier($table, true);
+            }
         }
 
         return $this->queryOne($query, 'integer');
     }
+
     // }}}
 }
+
 // }}}
 // {{{ Class MDB2_Result_mssql
 
@@ -741,11 +887,19 @@ class MDB2_Result_mssql extends MDB2_Result_Common
             return $null;
         }
         $mode = $this->db->options['portability'] & MDB2_PORTABILITY_EMPTY_TO_NULL;
+        $rtrim = false;
+        if ($this->db->options['portability'] & MDB2_PORTABILITY_RTRIM) {
+            if (empty($this->types)) {
+                $mode += MDB2_PORTABILITY_RTRIM;
+            } else {
+                $rtrim = true;
+            }
+        }
         if ($mode) {
             $this->db->_fixResultArrayValues($row, $mode);
         }
         if (!empty($this->types)) {
-            $row = $this->db->datatype->convertResultRow($this->types, $row, false);
+            $row = $this->db->datatype->convertResultRow($this->types, $row, $rtrim);
         }
         if (!empty($this->values)) {
             $this->_assignBindColumns($row);
@@ -858,7 +1012,12 @@ class MDB2_Result_mssql extends MDB2_Result_Common
         $this->result = false;
         return MDB2_OK;
     }
+
+    // }}}
 }
+
+// }}}
+// {{{ class MDB2_BufferedResult_mssql
 
 /**
  * MDB2 MSSQL Server buffered result driver
@@ -869,7 +1028,6 @@ class MDB2_Result_mssql extends MDB2_Result_Common
  */
 class MDB2_BufferedResult_mssql extends MDB2_Result_mssql
 {
-    // }}}
     // {{{ seek()
 
     /**
@@ -895,6 +1053,7 @@ class MDB2_BufferedResult_mssql extends MDB2_Result_mssql
         return MDB2_OK;
     }
 
+    // }}}
     // {{{ valid()
 
     /**
@@ -935,7 +1094,7 @@ class MDB2_BufferedResult_mssql extends MDB2_Result_mssql
                 'Could not get row count', __FUNCTION__);
         }
         if ($this->limit) {
-            $rows -= $this->limit;
+            $rows -= $this->limit -1 + $this->offset;
             if ($rows < 0) {
                 $rows = 0;
             }
@@ -943,6 +1102,7 @@ class MDB2_BufferedResult_mssql extends MDB2_Result_mssql
         return $rows;
     }
 }
+
 // }}}
 // {{{ MDB2_Statement_mssql
 
@@ -957,6 +1117,6 @@ class MDB2_Statement_mssql extends MDB2_Statement_Common
 {
 
 }
-// }}}
 
+// }}}
 ?>

@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2006 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith                                         |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -42,7 +42,7 @@
 // | Author: Frank M. Kromann <frank@kromann.info>                        |
 // +----------------------------------------------------------------------+
 //
-// $Id: mssql.php,v 1.14 2007/01/12 11:29:12 quipo Exp $
+// $Id: mssql.php,v 1.16 2008/02/17 18:54:08 quipo Exp $
 //
 
 require_once 'MDB2/Driver/Function/Common.php';
@@ -57,7 +57,6 @@ require_once 'MDB2/Driver/Function/Common.php';
  */
 class MDB2_Driver_Function_mssql extends MDB2_Driver_Function_Common
 {
-     // }}}
     // {{{ executeStoredProc()
 
     /**
@@ -109,6 +108,22 @@ class MDB2_Driver_Function_mssql extends MDB2_Driver_Function_Common
     }
 
     // }}}
+    // {{{ unixtimestamp()
+
+    /**
+     * return string to call a function to get the unix timestamp from a iso timestamp
+     *
+     * @param string $expression
+     *
+     * @return string to call a variable with the timestamp
+     * @access public
+     */
+    function unixtimestamp($expression)
+    {
+        return 'DATEDIFF(second, \'19700101\', '. $expression.') + DATEDIFF(second, GETDATE(), GETUTCDATE())';
+    }
+
+    // }}}
     // {{{ substring()
 
     /**
@@ -141,6 +156,21 @@ class MDB2_Driver_Function_mssql extends MDB2_Driver_Function_Common
     {
         $args = func_get_args();
         return "(".implode(' + ', $args).")";
+    }
+
+    // }}}
+    // {{{ length()
+
+    /**
+     * return string to call a function to get the length of a string expression
+     *
+     * @param string $expression
+     * @return return string to get the string expression length
+     * @access public
+     */
+    function length($expression)
+    {
+        return "LEN($expression)";
     }
 
     // }}}

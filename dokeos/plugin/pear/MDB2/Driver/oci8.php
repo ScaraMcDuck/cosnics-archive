@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2007 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith                                         |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 
-// $Id: oci8.php,v 1.192 2007/03/04 22:27:11 quipo Exp $
+// $Id: oci8.php,v 1.213 2008/03/08 14:18:39 quipo Exp $
 
 /**
  * MDB2 OCI8 driver
@@ -85,6 +85,7 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
         $this->supported['LOBs'] = true;
         $this->supported['replace'] = 'emulated';
         $this->supported['sub_selects'] = true;
+        $this->supported['triggers'] = true;
         $this->supported['auto_increment'] = false; // implementation is broken
         $this->supported['primary_key'] = true;
         $this->supported['result_introspection'] = true;
@@ -99,7 +100,9 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
         $this->options['emulate_database'] = true;
         $this->options['default_tablespace'] = false;
         $this->options['default_text_field_length'] = 2000;
+        $this->options['lob_allow_url_include'] = false;
         $this->options['result_prefetching'] = false;
+        $this->options['max_identifiers_length'] = 30;
     }
 
     // }}}
@@ -141,6 +144,7 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
                     1401 => MDB2_ERROR_INVALID,
                     1407 => MDB2_ERROR_CONSTRAINT_NOT_NULL,
                     1418 => MDB2_ERROR_NOT_FOUND,
+                    1435 => MDB2_ERROR_NOT_FOUND,
                     1476 => MDB2_ERROR_DIVZERO,
                     1722 => MDB2_ERROR_INVALID_NUMBER,
                     2289 => MDB2_ERROR_NOSUCHTABLE,
@@ -342,6 +346,9 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
             // we have hostspec but not a service name, now we assume that
             // hostspec is a tnsname defined in tnsnames.ora
             $sid = $this->dsn['hostspec'];
+            if (isset($this->dsn['port']) && $this->dsn['port']) {
+                $sid = $sid.':'.$this->dsn['port'];
+            }
         } else {
             // oci://username:password@
             // if everything fails, we have to rely on environment variables
@@ -369,7 +376,8 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
             }
 
             $charset = empty($this->dsn['charset']) ? null : $this->dsn['charset'];
-            $connection = @$connect_function($username, $password, $sid, $charset);
+            $session_mode = empty($this->dsn['session_mode']) ? null : $this->dsn['session_mode'];
+            $connection = @$connect_function($username, $password, $sid, $charset, $session_mode);
             $error = @OCIError();
             if (isset($error['code']) && $error['code'] == 12541) {
                 // Couldn't find TNS listener.  Try direct connection.
@@ -422,12 +430,9 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
      */
     function connect()
     {
-        if ($this->database_name && $this->options['emulate_database']) {
-             $this->dsn['username'] = $this->options['database_name_prefix'].$this->database_name;
-        }
         if (is_resource($this->connection)) {
-            if (count(array_diff($this->connected_dsn, $this->dsn)) == 0
-                && $this->connected_database_name == $this->database_name
+            //if (count(array_diff($this->connected_dsn, $this->dsn)) == 0
+            if (MDB2::areEquals($this->connected_dsn, $this->dsn)
                 && $this->opened_persistent == $this->options['persistent']
             ) {
                 return MDB2_OK;
@@ -435,19 +440,34 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
             $this->disconnect(false);
         }
 
-        $connection = $this->_doConnect(
-            $this->dsn['username'],
-            $this->dsn['password'],
-            $this->options['persistent']
-        );
+        if ($this->database_name && $this->options['emulate_database']) {
+             $this->dsn['username'] = $this->options['database_name_prefix'].$this->database_name;
+        }
+
+        $connection = $this->_doConnect($this->dsn['username'],
+                                        $this->dsn['password'],
+                                        $this->options['persistent']);
         if (PEAR::isError($connection)) {
             return $connection;
         }
         $this->connection = $connection;
         $this->connected_dsn = $this->dsn;
-        $this->connected_database_name = $this->database_name;
+        $this->connected_database_name = '';
         $this->opened_persistent = $this->options['persistent'];
         $this->dbsyntax = $this->dsn['dbsyntax'] ? $this->dsn['dbsyntax'] : $this->phptype;
+
+        if ($this->database_name) {
+            if ($this->database_name != $this->connected_database_name) {
+                $query = 'ALTER SESSION SET CURRENT_SCHEMA = "' .strtoupper($this->database_name) .'"';
+                $result =& $this->_doQuery($query);
+                if (PEAR::isError($result)) {
+                    $err = $this->raiseError($result, null, null,
+                        'Could not select the database: '.$this->database_name, __FUNCTION__);
+                    return $err;
+                }
+                $this->connected_database_name = $this->database_name;
+            }
+        }
 
         $this->as_keyword = ' ';
         $server_info = $this->getServerVersion();
@@ -457,6 +477,37 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
             }
         }
         return MDB2_OK;
+    }
+
+    // }}}
+    // {{{ databaseExists()
+
+    /**
+     * check if given database name is exists?
+     *
+     * @param string $name    name of the database that should be checked
+     *
+     * @return mixed true/false on success, a MDB2 error on failure
+     * @access public
+     */
+    function databaseExists($name)
+    {
+        $connection = $this->_doConnect($this->dsn['username'],
+                                        $this->dsn['password'],
+                                        $this->options['persistent']);
+        if (PEAR::isError($connection)) {
+            return $connection;
+        }
+
+        $query = 'ALTER SESSION SET CURRENT_SCHEMA = "' .strtoupper($name) .'"';
+        $result =& $this->_doQuery($query, true, $connection, false);
+        if (PEAR::isError($result)) {
+            if (!MDB2::isError($result, MDB2_ERROR_NOT_FOUND)) {
+                return $result;
+            }
+            return false;
+        }
+        return true;
     }
 
     // }}}
@@ -500,62 +551,23 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
     }
 
     // }}}
-    // {{{ standaloneExec()
-
-   /**
-     * execute a query as database administrator
-     *
-     * @param string $query the SQL query
-     * @return mixed MDB2_OK on success, a MDB2 error on failure
-     * @access public
-     */
-    function &standaloneExec($query)
-    {
-        $connection = $this->_doConnect(
-            $this->options['DBA_username'],
-            $this->options['DBA_password'],
-            $this->options['persistent']
-        );
-        if (PEAR::isError($connection)) {
-            return $connection;
-        }
-
-        $offset = $this->offset;
-        $limit = $this->limit;
-        $this->offset = $this->limit = 0;
-        $query = $this->_modifyQuery($query, false, $limit, $offset);
-
-        $result =& $this->_doQuery($query, false, $connection, false);
-        if (PEAR::isError($result)) {
-            @OCILogOff($connection);
-            return $result;
-        }
-
-        $ret = $this->_affectedRows($connection, $result);
-        @OCILogOff($connection);
-        return $ret;
-    }
-
-    // }}}
     // {{{ standaloneQuery()
 
-   /**
+    /**
      * execute a query as DBA
      *
-     * @param string $query the SQL query
-     * @param mixed   $types  array that contains the types of the columns in
-     *                        the result set
-     * @param boolean $is_manip  if the query is a manipulation query
+     * @param string $query     the SQL query
+     * @param mixed  $types     array containing the types of the columns in
+     *                          the result set
+     * @param boolean $is_manip if the query is a manipulation query
      * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
     function &standaloneQuery($query, $types = null, $is_manip = false)
     {
-        $connection = $this->_doConnect(
-            $this->options['DBA_username'],
-            $this->options['DBA_password'],
-            $this->options['persistent']
-        );
+        $user = $this->options['DBA_username']? $this->options['DBA_username'] : $this->dsn['username'];
+        $pass = $this->options['DBA_password']? $this->options['DBA_password'] : $this->dsn['password'];
+        $connection = $this->_doConnect($user, $pass, $this->options['persistent']);
         if (PEAR::isError($connection)) {
             return $connection;
         }
@@ -566,17 +578,16 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
         $query = $this->_modifyQuery($query, $is_manip, $limit, $offset);
 
         $result =& $this->_doQuery($query, $is_manip, $connection, false);
-        @OCILogOff($connection);
-        if (PEAR::isError($result)) {
-            return $result;
+        if (!PEAR::isError($result)) {
+            if ($is_manip) {
+                $result = $this->_affectedRows($connection, $result);
+            } else {
+                $result =& $this->_wrapResult($result, $types, true, false, $limit, $offset);
+            }
         }
 
-        if ($is_manip) {
-            $affected_rows =  $this->_affectedRows($connection, $result);
-            return $affected_rows;
-        }
-        $return =& $this->_wrapResult($result, $types, true, false, $limit, $offset);
-        return $return;
+        @OCILogOff($connection);
+        return $result;
     }
 
     // }}}
@@ -648,6 +659,7 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
             }
         }
 
+        $query = str_replace("\r\n", "\n", $query); //for fixing end-of-line character in the PL/SQL in windows
         $result = @OCIParse($connection, $query);
         if (!$result) {
             $err = $this->raiseError(null, null, null,
@@ -744,8 +756,9 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
      * prepare() requires a generic query as string like
      * 'INSERT INTO numbers VALUES(?,?)' or
      * 'INSERT INTO numbers VALUES(:foo,:bar)'.
-     * The ? and :[a-zA-Z] and  are placeholders which can be set using
-     * bindParam() and the query can be send off using the execute() method.
+     * The ? and :name and are placeholders which can be set using
+     * bindParam() and the query can be sent off using the execute() method.
+     * The allowed format for :name can be set with the 'bindname_format' option.
      *
      * @param string $query the query to prepare
      * @param mixed   $types  array that contains the types of the placeholders
@@ -824,10 +837,11 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
                     }
                 }
                 if ($placeholder_type == ':') {
-                    $parameter = preg_replace('/^.{'.($position+1).'}([a-z0-9_]+).*$/si', '\\1', $query);
+                    $regexp = '/^.{'.($position+1).'}('.$this->options['bindname_format'].').*$/s';
+                    $parameter = preg_replace($regexp, '\\1', $query);
                     if ($parameter === '') {
                         $err =& $this->raiseError(MDB2_ERROR_SYNTAX, null, null,
-                            'named parameter with an empty name', __FUNCTION__);
+                            'named parameter name must match "bindname_format" option', __FUNCTION__);
                         return $err;
                     }
                     // use parameter name in type array
@@ -849,6 +863,9 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
                         $lobs[$parameter] = $parameter;
                     }
                     $value = $this->quote(true, $types[$parameter]);
+                    if (PEAR::isError($value)) {
+                        return $value;
+                    }
                     $query = substr_replace($query, $value, $p_position, $length);
                     $position = $p_position + strlen($value) - 1;
                 } elseif ($placeholder_type == '?') {
@@ -881,7 +898,7 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
         }
 
         $class_name = 'MDB2_Statement_'.$this->phptype;
-        $obj =& new $class_name($this, $statement, $positions, $query, $types, $result_types, $is_manip, $limit, $offset);
+        $obj = new $class_name($this, $statement, $positions, $query, $types, $result_types, $is_manip, $limit, $offset);
         $this->debug($query, __FUNCTION__, array('is_manip' => $is_manip, 'when' => 'post', 'result' => $obj));
         return $obj;
     }
@@ -903,9 +920,11 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
     {
         $sequence_name = $this->quoteIdentifier($this->getSequenceName($seq_name), true);
         $query = "SELECT $sequence_name.nextval FROM DUAL";
+        $this->pushErrorHandling(PEAR_ERROR_RETURN);
         $this->expectError(MDB2_ERROR_NOSUCHTABLE);
         $result = $this->queryOne($query, 'integer');
         $this->popExpect();
+        $this->popErrorHandling();
         if (PEAR::isError($result)) {
             if ($ondemand && $result->getCode() == MDB2_ERROR_NOSUCHTABLE) {
                 $this->loadModule('Manager', null, true);
@@ -951,7 +970,7 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
     function currId($seq_name)
     {
         $sequence_name = $this->getSequenceName($seq_name);
-        $query = 'SELECT (last_number-1) FROM user_sequences';
+        $query = 'SELECT (last_number-1) FROM all_sequences';
         $query.= ' WHERE sequence_name='.$this->quote($sequence_name, 'text');
         $query.= ' OR sequence_name='.$this->quote(strtoupper($sequence_name), 'text');
         return $this->queryOne($query, 'integer');
@@ -1347,6 +1366,40 @@ class MDB2_BufferedResult_oci8 extends MDB2_Result_oci8
  */
 class MDB2_Statement_oci8 extends MDB2_Statement_Common
 {
+    // {{{ Variables (Properties)
+
+    var $type_maxlengths = array();
+
+    // }}}
+    // {{{ bindParam()
+
+    /**
+     * Bind a variable to a parameter of a prepared query.
+     *
+     * @param   int     $parameter  the order number of the parameter in the query
+     *                               statement. The order number of the first parameter is 1.
+     * @param   mixed   &$value     variable that is meant to be bound to specified
+     *                               parameter. The type of the value depends on the $type argument.
+     * @param   string  $type       specifies the type of the field
+     * @param   int     $maxlength  specifies the maximum length of the field; if set to -1, the
+     *                               current length of $value is used
+     *
+     * @return  mixed   MDB2_OK on success, a MDB2 error on failure
+     *
+     * @access  public
+     */
+    function bindParam($parameter, &$value, $type = null, $maxlength = -1)
+    {
+        if (!is_numeric($parameter)) {
+            $parameter = preg_replace('/^:(.*)$/', '\\1', $parameter);
+        }
+        if (MDB2_OK === ($ret = parent::bindParam($parameter, $value, $type))) {
+            $this->type_maxlengths[$parameter] = $maxlength;
+        }
+
+        return $ret;
+    }
+
     // }}}
     // {{{ _execute()
 
@@ -1384,28 +1437,36 @@ class MDB2_Statement_oci8 extends MDB2_Statement_Common
                 return $this->db->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
                     'Unable to bind to missing placeholder: '.$parameter, __FUNCTION__);
             }
-            $value = $this->values[$parameter];
             $type = array_key_exists($parameter, $this->types) ? $this->types[$parameter] : null;
             if ($type == 'clob' || $type == 'blob') {
                 $lobs[$i]['file'] = false;
-                if (is_resource($value)) {
-                    $fp = $value;
-                    $value = '';
+                if (is_resource($this->values[$parameter])) {
+                    $fp = $this->values[$parameter];
+                    $this->values[$parameter] = '';
                     while (!feof($fp)) {
-                        $value.= fread($fp, 8192);
+                        $this->values[$parameter] .= fread($fp, 8192);
                     }
-                } elseif (preg_match('/^(\w+:\/\/)(.*)$/', $value, $match)) {
+                } elseif (is_a($this->values[$parameter], 'OCI-Lob')) {
+                    //do nothing
+                } elseif ($this->db->getOption('lob_allow_url_include')
+                          && preg_match('/^(\w+:\/\/)(.*)$/', $this->values[$parameter], $match)
+                ) {
                     $lobs[$i]['file'] = true;
                     if ($match[1] == 'file://') {
-                        $value = $match[2];
+                        $this->values[$parameter] = $match[2];
                     }
                 }
-                $lobs[$i]['value'] = $value;
-                $lobs[$i]['descriptor'] = @OCINewDescriptor($connection, OCI_D_LOB);
-                if (!is_object($lobs[$i]['descriptor'])) {
-                    $result = $this->db->raiseError(null, null, null,
-                        'Unable to create descriptor for LOB in parameter: '.$parameter, __FUNCTION__);
-                    break;
+                $lobs[$i]['value'] = $this->values[$parameter];
+                $lobs[$i]['descriptor'] =& $this->values[$parameter];
+                // Test to see if descriptor has already been created for this
+                // variable (i.e. if it has been bound more than once):
+                if (!is_a($this->values[$parameter], 'OCI-Lob')) {
+                    $this->values[$parameter] = @OCINewDescriptor($connection, OCI_D_LOB);
+                    if ($this->values[$parameter] === false) {
+                        $result = $this->db->raiseError(null, null, null,
+                            'Unable to create descriptor for LOB in parameter: '.$parameter, __FUNCTION__);
+                        break;
+                    }
                 }
                 $lob_type = ($type == 'blob' ? OCI_B_BLOB : OCI_B_CLOB);
                 if (!@OCIBindByName($this->statement, ':'.$parameter, $lobs[$i]['descriptor'], -1, $lob_type)) {
@@ -1413,14 +1474,64 @@ class MDB2_Statement_oci8 extends MDB2_Statement_Common
                         'could not bind LOB parameter', __FUNCTION__);
                     break;
                 }
+            } else if ($type == OCI_B_BFILE) {
+                // Test to see if descriptor has already been created for this
+                // variable (i.e. if it has been bound more than once):
+                if (!is_a($this->values[$parameter], "OCI-Lob")) {
+                    $this->values[$parameter] = @OCINewDescriptor($connection, OCI_D_FILE);
+                    if ($this->values[$parameter] === false) {
+                        $result = $this->db->raiseError(null, null, null,
+                            'Unable to create descriptor for BFILE in parameter: '.$parameter, __FUNCTION__);
+                        break;
+                    }
+                }
+                if (!@OCIBindByName($this->statement, ':'.$parameter, $this->values[$parameter], -1, $type)) {
+                    $result = $this->db->raiseError($this->statement, null, null,
+                        'Could not bind BFILE parameter', __FUNCTION__);
+                    break;
+                }
+            } else if ($type == OCI_B_ROWID) {
+                // Test to see if descriptor has already been created for this
+                // variable (i.e. if it has been bound more than once):
+                if (!is_a($this->values[$parameter], "OCI-Lob")) {
+                    $this->values[$parameter] = @OCINewDescriptor($connection, OCI_D_ROWID);
+                    if ($this->values[$parameter] === false) {
+                        $result = $this->db->raiseError(null, null, null,
+                            'Unable to create descriptor for ROWID in parameter: '.$parameter, __FUNCTION__);
+                        break;
+                    }
+                }
+                if (!@OCIBindByName($this->statement, ':'.$parameter, $this->values[$parameter], -1, $type)) {
+                    $result = $this->db->raiseError($this->statement, null, null,
+                        'Could not bind ROWID parameter', __FUNCTION__);
+                    break;
+                }
+            } else if ($type == OCI_B_CURSOR) {
+                // Test to see if cursor has already been allocated for this
+                // variable (i.e. if it has been bound more than once):
+                if (!is_resource($this->values[$parameter]) || !get_resource_type($this->values[$parameter]) == "oci8 statement") {
+                    $this->values[$parameter] = @OCINewCursor($connection);
+                    if ($this->values[$parameter] === false) {
+                        $result = $this->db->raiseError(null, null, null,
+                        'Unable to allocate cursor for parameter: '.$parameter, __FUNCTION__);
+                    break;
+                    }
+                }
+                if (!@OCIBindByName($this->statement, ':'.$parameter, $this->values[$parameter], -1, $type)) {
+                    $result = $this->db->raiseError($this->statement, null, null,
+                        'Could not bind CURSOR parameter', __FUNCTION__);
+                    break;
+                }
             } else {
-                $quoted_values[$i] = $this->db->quote($value, $type, false);
+                $maxlength = array_key_exists($parameter, $this->type_maxlengths) ? $this->type_maxlengths[$parameter] : -1;
+                $this->values[$parameter] = $this->db->quote($this->values[$parameter], $type, false);
+                $quoted_values[$i] =& $this->values[$parameter];
                 if (PEAR::isError($quoted_values[$i])) {
                     return $quoted_values[$i];
                 }
-                if (!@OCIBindByName($this->statement, ':'.$parameter, $quoted_values[$i])) {
+                if (!@OCIBindByName($this->statement, ':'.$parameter, $quoted_values[$i], $maxlength)) {
                     $result = $this->db->raiseError($this->statement, null, null,
-                        'could not bind non LOB parameter', __FUNCTION__);
+                        'could not bind non-abstract parameter', __FUNCTION__);
                     break;
                 }
             }
@@ -1439,6 +1550,11 @@ class MDB2_Statement_oci8 extends MDB2_Statement_Common
             if (!empty($lobs)) {
                 foreach ($lob_keys as $i) {
                     if (!is_null($lobs[$i]['value']) && $lobs[$i]['value'] !== '') {
+                        if (is_object($lobs[$i]['value'])) {
+                            // Probably a NULL LOB
+                            // @see http://bugs.php.net/bug.php?id=27485
+                            continue;
+                        }
                         if ($lobs[$i]['file']) {
                             $result = $lobs[$i]['descriptor']->savefile($lobs[$i]['value']);
                         } else {
@@ -1463,11 +1579,6 @@ class MDB2_Statement_oci8 extends MDB2_Statement_Common
                     }
                 }
             }
-        }
-
-        $lob_keys = array_keys($lobs);
-        foreach ($lob_keys as $i) {
-            $lobs[$i]['descriptor']->free();
         }
 
         if (PEAR::isError($result)) {

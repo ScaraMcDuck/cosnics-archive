@@ -432,7 +432,8 @@ class HTML_Table_Storage extends HTML_Common {
             return;
         }
         if (!isset($this->_structure[$row][$col])) {
-            return null;
+            return PEAR::raiseError('Invalid table cell reference[' .
+                $row . '][' . $col . '] in HTML_Table::getCellContents');
         }
         return $this->_structure[$row][$col]['contents'];
     }

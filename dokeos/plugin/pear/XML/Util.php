@@ -43,7 +43,7 @@
  * @author    Stephan Schmidt <schst@php.net>
  * @copyright 2003-2008 Stephan Schmidt <schst@php.net>
  * @license   http://opensource.org/licenses/bsd-license New BSD License
- * @version   CVS: $Id: Util.php,v 1.37 2008/05/22 07:47:11 ashnazg Exp $
+ * @version   CVS: $Id: Util.php,v 1.38 2008/11/13 00:03:38 ashnazg Exp $
  * @link      http://pear.php.net/package/XML_Util
  */
 
@@ -119,7 +119,7 @@ define('XML_UTIL_COLLAPSE_XHTML_ONLY', 2);
  * @author    Stephan Schmidt <schst@php.net>
  * @copyright 2003-2008 Stephan Schmidt <schst@php.net>
  * @license   http://opensource.org/licenses/bsd-license New BSD License
- * @version   Release: 1.2.0
+ * @version   Release: 1.2.1
  * @link      http://pear.php.net/package/XML_Util
  */
 class XML_Util
@@ -338,7 +338,7 @@ class XML_Util
         if (empty($internalDtd)) {
             return sprintf('<!DOCTYPE %s%s>', $root, $ref);
         } else {
-            return sprintf('<!DOCTYPE %s%s [\n%s\n]>', $root, $ref, $internalDtd);
+            return sprintf("<!DOCTYPE %s%s [\n%s\n]>", $root, $ref, $internalDtd);
         }
     }
 

@@ -42,7 +42,7 @@
 // | Author: Lorenzo Alberton <l.alberton@quipo.it>                       |
 // +----------------------------------------------------------------------+
 //
-// $Id: ibase.php,v 1.5 2006/03/01 12:15:33 lsmith Exp $
+// $Id: ibase.php,v 1.6 2008/02/12 21:24:02 quipo Exp $
 
 require_once 'MDB2/Driver/Function/Common.php';
 
@@ -66,6 +66,41 @@ class MDB2_Driver_Function_ibase extends MDB2_Driver_Function_Common
     function functionTable()
     {
         return ' FROM RDB$DATABASE';
+    }
+
+    // }}}
+    // {{{ length()
+
+    /**
+     * return string to call a function to get a replacement inside an SQL statement.
+     *
+     * @return string to call a function to get a replace
+     * @access public
+     */
+    function length($expression)
+    {
+        return "STRLEN($expression)";
+    }
+
+    // }}}
+    // {{{ replace()
+
+    /**
+     * return string to call a function to get a replacement inside an SQL statement.
+     *
+     * @return string to call a function to get a replace
+     * @access public
+     */
+    function replace($str, $from_str, $to_str)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        $error =& $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
+            'method not implemented', __FUNCTION__);
+        return $error;
     }
 
     // }}}
