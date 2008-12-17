@@ -19,7 +19,7 @@ class AssessmentToolQtiExportComponent extends AssessmentToolComponent
 		$assessment = $publication->get_learning_object();
 		$exporter = LearningObjectExport :: factory('qti', $assessment);
 		$path = $exporter->export_learning_object();
-		echo $path;
+		//echo $path;
 		
 		header('Expires: Wed, 01 Jan 1990 00:00:00 GMT');
 		header('Cache-Control: public');
@@ -45,10 +45,11 @@ class AssessmentToolQtiExportComponent extends AssessmentToolComponent
 		
 		header('Content-Description: '.basename($path));
 		header('Content-transfer-encoding: binary');
-		$fp = fopen($path, 'r');
+		/*$fp = fopen($path, 'r');
 		fpassthru($fp);
-		fclose($fp);
-		Filesystem :: remove($path);
+		fclose($fp);*/
+		readfile($path);
+		//Filesystem :: remove($path);
 		//$this->redirect(null, null, false, $this->redirect_params);
 	}
 }
