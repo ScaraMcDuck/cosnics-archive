@@ -132,8 +132,6 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 				$this->application = 'admin';
 			}
 			
-			$rights_tree = RightsUtilities :: get_tree($this->application);
-			
 			if (!isset($this->location))
 			{
 				$root_conditions = array();
@@ -247,27 +245,28 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 							
 							if ($inherited_value)
 							{
-								$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<img src="'. Theme :: get_common_image_path() .'action_setting_true_inherit.png" title="'. Translation :: get('True') .'" /></a>';
+								$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<img src="'. Theme :: get_common_image_path() .'action_setting_true_inherit.png" title="'. Translation :: get('True') .'" /></a>';
 							}
 							else
 							{
-								$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<img src="'. Theme :: get_common_image_path() .'action_setting_false_inherit.png" title="'. Translation :: get('False') .'" /></a>';
+								$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<img src="'. Theme :: get_common_image_path() .'action_setting_false_inherit.png" title="'. Translation :: get('False') .'" /></a>';
 							}
 						}
 						else
 						{
-							$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<img src="'. Theme :: get_common_image_path() .'action_setting_false.png" title="'. Translation :: get('False') .'" /></a>';
+							$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<img src="'. Theme :: get_common_image_path() .'action_setting_false.png" title="'. Translation :: get('False') .'" /></a>';
 						}
 					}
 					else
 					{
-						$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<img src="'. Theme :: get_common_image_path() .'action_setting_true.png" title="'. Translation :: get('True') .'" /></a>';
+						$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<img src="'. Theme :: get_common_image_path() .'action_setting_true.png" title="'. Translation :: get('True') .'" /></a>';
 					}
 				}
 				$html[] = '</div>';
 			}
 			
 			$html[] = '</div>';
+			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/rights_ajax.js' .'"></script>';
 			$html[] = '<div style="clear: both;"></div>';
 			$html[] = '</div>';
 			$html[] = '<div style="clear: both;"></div>';
