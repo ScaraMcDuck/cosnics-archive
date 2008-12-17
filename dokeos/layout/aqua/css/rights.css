@@ -171,3 +171,27 @@ ul.rights_children li span, ul.rights_parents li span, ul.rights_siblings li spa
 {
 	margin: 0px 0px 0px 4px;
 }
+
+.rightTrue
+{
+	background: url(../img/common/action_setting_true.png) no-repeat;
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+}
+
+.rightFalse
+{
+	background: url(../img/common/action_setting_false.png) no-repeat;
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+}
+
+.rightLoading
+{
+	background: url(../img/common/action_loading.gif) no-repeat;
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+}

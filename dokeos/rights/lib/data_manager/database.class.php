@@ -328,7 +328,7 @@ class DatabaseRightsDataManager extends RightsDataManager
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
-		return new RoleRightLocation($record[RoleRightLocation :: PROPERTY_RIGHT_ID], $record[RoleRightLocation :: PROPERTY_ROLE_ID], $record[RoleRightLocation :: PROPERTY_LOCATION_ID], $defaultProp);
+		return new RoleRightLocation($defaultProp);
 	}
 	
 	/**
@@ -426,8 +426,14 @@ class DatabaseRightsDataManager extends RightsDataManager
 		}
 		else
 		{
-			$rolerightlocation = new RoleRightLocation($right_id, $role_id, $location_id);
-			$rolerightlocation->set_value('0');
+			$defaultProperties = array();
+			
+			$defaultProperties[RoleRightLocation :: PROPERTY_ROLE_ID] = $role_id;
+			$defaultProperties[RoleRightLocation :: PROPERTY_RIGHT_ID] = $right_id;
+			$defaultProperties[RoleRightLocation :: PROPERTY_LOCATION_ID] = $location_id;
+			$defaultProperties[RoleRightLocation :: PROPERTY_VALUE] = 0;
+			
+			$rolerightlocation = new RoleRightLocation($defaultProperties);
 			$rolerightlocation->create();
 			return $rolerightlocation;
 		}
