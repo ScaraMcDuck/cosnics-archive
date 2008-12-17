@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2007 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith                                         |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -43,16 +43,17 @@
 // |          Lorenzo Alberton <l.alberton@quipo.it>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php,v 1.60 2007/03/29 18:18:06 quipo Exp $
+// $Id: pgsql.php,v 1.70 2008/03/13 20:38:09 quipo Exp $
 
 require_once 'MDB2/Driver/Reverse/Common.php';
 
 /**
  * MDB2 PostGreSQL driver for the schema reverse engineering module
  *
- * @package MDB2
+ * @package  MDB2
  * @category Database
- * @author  Paul Cooper <pgc@ucecom.com>
+ * @author   Paul Cooper <pgc@ucecom.com>
+ * @author   Lorenzo Alberton <l.alberton@quipo.it>
  */
 class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
 {
@@ -61,12 +62,12 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
     /**
      * Get the structure of a field into an array
      *
-     * @param string    $table       name of table that should be used in method
-     * @param string    $field_name  name of field that should be used in method
+     * @param string $table_name name of table that should be used in method
+     * @param string $field_name name of field that should be used in method
      * @return mixed data array on success, a MDB2 error on failure
      * @access public
      */
-    function getTableFieldDefinition($table, $field_name)
+    function getTableFieldDefinition($table_name, $field_name)
     {
         $db =& $this->getDBInstance();
         if (PEAR::isError($db)) {
@@ -77,6 +78,8 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
         if (PEAR::isError($result)) {
             return $result;
         }
+
+        list($schema, $table) = $this->splitTableSchema($table_name);
 
         $query = "SELECT a.attname AS name,
                          t.typname AS type,
@@ -130,7 +133,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
 
         $column = array_change_key_case($column, CASE_LOWER);
         $mapped_datatype = $db->datatype->mapNativeDatatype($column);
-        if (PEAR::IsError($mapped_datatype)) {
+        if (PEAR::isError($mapped_datatype)) {
             return $mapped_datatype;
         }
         list($types, $length, $unsigned, $fixed) = $mapped_datatype;
@@ -142,9 +145,13 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
         if ($column['atthasdef'] === 't'
             && !preg_match("/nextval\('([^']+)'/", $column['default'])
         ) {
+            $pattern = '/(\'.*\')::[\w ]+$/i';
             $default = $column['default'];#substr($column['adsrc'], 1, -1);
             if (is_null($default) && $notnull) {
                 $default = '';
+            } elseif (!empty($default) && preg_match($pattern, $default)) {
+                //remove data type cast
+                $default = preg_replace ($pattern, '\\1', $default);
             }
         }
         $autoincrement = false;
@@ -180,20 +187,23 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
 
     // }}}
     // {{{ getTableIndexDefinition()
+
     /**
      * Get the structure of an index into an array
      *
-     * @param string    $table      name of table that should be used in method
-     * @param string    $index_name name of index that should be used in method
+     * @param string $table_name name of table that should be used in method
+     * @param string $index_name name of index that should be used in method
      * @return mixed data array on success, a MDB2 error on failure
      * @access public
      */
-    function getTableIndexDefinition($table, $index_name)
+    function getTableIndexDefinition($table_name, $index_name)
     {
         $db =& $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
+        
+        list($schema, $table) = $this->splitTableSchema($table_name);
 
         $query = 'SELECT relname, indkey FROM pg_index, pg_class';
         $query.= ' WHERE pg_class.oid = pg_index.indexrelid';
@@ -217,7 +227,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
         $row = array_change_key_case($row, CASE_LOWER);
 
         $db->loadModule('Manager', null, true);
-        $columns = $db->manager->listTableFields($table);
+        $columns = $db->manager->listTableFields($table_name);
 
         $definition = array();
 
@@ -235,30 +245,67 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
 
     // }}}
     // {{{ getTableConstraintDefinition()
+
     /**
      * Get the structure of a constraint into an array
      *
-     * @param string    $table      name of table that should be used in method
-     * @param string    $constraint_name name of constraint that should be used in method
+     * @param string $table_name      name of table that should be used in method
+     * @param string $constraint_name name of constraint that should be used in method
      * @return mixed data array on success, a MDB2 error on failure
      * @access public
      */
-    function getTableConstraintDefinition($table, $constraint_name)
+    function getTableConstraintDefinition($table_name, $constraint_name)
     {
         $db =& $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
         
-        $query = 'SELECT relname, indisunique, indisprimary, indkey FROM pg_index, pg_class';
-        $query.= ' WHERE pg_class.oid = pg_index.indexrelid';
-        $query.= " AND (indisunique = 't' OR indisprimary = 't')";
-        $query.= ' AND pg_class.relname = %s';
+        list($schema, $table) = $this->splitTableSchema($table_name);
+
+        $query = "SELECT c.oid,
+                         c.conname AS constraint_name,
+                         CASE WHEN c.contype = 'c' THEN 1 ELSE 0 END AS \"check\",
+                         CASE WHEN c.contype = 'f' THEN 1 ELSE 0 END AS \"foreign\",
+                         CASE WHEN c.contype = 'p' THEN 1 ELSE 0 END AS \"primary\",
+                         CASE WHEN c.contype = 'u' THEN 1 ELSE 0 END AS \"unique\",
+                         CASE WHEN c.condeferrable = 'f' THEN 0 ELSE 1 END AS deferrable,
+                         CASE WHEN c.condeferred = 'f' THEN 0 ELSE 1 END AS initiallydeferred,
+                         --array_to_string(c.conkey, ' ') AS constraint_key,
+                         t.relname AS table_name,
+                         t2.relname AS references_table,
+                         CASE confupdtype
+                           WHEN 'a' THEN 'NO ACTION'
+                           WHEN 'r' THEN 'RESTRICT'
+                           WHEN 'c' THEN 'CASCADE'
+                           WHEN 'n' THEN 'SET NULL'
+                           WHEN 'd' THEN 'SET DEFAULT'
+                         END AS onupdate,
+                         CASE confdeltype
+                           WHEN 'a' THEN 'NO ACTION'
+                           WHEN 'r' THEN 'RESTRICT'
+                           WHEN 'c' THEN 'CASCADE'
+                           WHEN 'n' THEN 'SET NULL'
+                           WHEN 'd' THEN 'SET DEFAULT'
+                         END AS ondelete,
+                         CASE confmatchtype
+                           WHEN 'u' THEN 'UNSPECIFIED'
+                           WHEN 'f' THEN 'FULL'
+                           WHEN 'p' THEN 'PARTIAL'
+                         END AS match,
+                         --array_to_string(c.confkey, ' ') AS fk_constraint_key,
+                         consrc
+                    FROM pg_constraint c
+               LEFT JOIN pg_class t  ON c.conrelid  = t.oid
+               LEFT JOIN pg_class t2 ON c.confrelid = t2.oid
+                   WHERE c.conname = %s
+                    AND t.relname = " . $db->quote($table, 'text');
         $constraint_name_mdb2 = $db->getIndexName($constraint_name);
         $row = $db->queryRow(sprintf($query, $db->quote($constraint_name_mdb2, 'text')), null, MDB2_FETCHMODE_ASSOC);
         if (PEAR::isError($row) || empty($row)) {
             // fallback to the given $index_name, without transformation
-            $row = $db->queryRow(sprintf($query, $db->quote($constraint_name, 'text')), null, MDB2_FETCHMODE_ASSOC);
+            $constraint_name_mdb2 = $constraint_name;
+            $row = $db->queryRow(sprintf($query, $db->quote($constraint_name_mdb2, 'text')), null, MDB2_FETCHMODE_ASSOC);
         }
         if (PEAR::isError($row)) {
             return $row;
@@ -271,24 +318,65 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
 
         $row = array_change_key_case($row, CASE_LOWER);
 
-        $db->loadModule('Manager', null, true);
-        $columns = $db->manager->listTableFields($table);
+        $definition = array(
+            'primary' => (boolean)$row['primary'],
+            'unique'  => (boolean)$row['unique'],
+            'foreign' => (boolean)$row['foreign'],
+            'check'   => (boolean)$row['check'],
+            'fields'  => array(),
+            'references' => array(
+                'table'  => $row['references_table'],
+                'fields' => array(),
+            ),
+            'deferrable' => (boolean)$row['deferrable'],
+            'initiallydeferred' => (boolean)$row['initiallydeferred'],
+            'onupdate' => $row['onupdate'],
+            'ondelete' => $row['ondelete'],
+            'match'    => $row['match'],
+        );
 
-        $definition = array();
-        if ($row['indisprimary'] == 't') {
-            $definition['primary'] = true;
-        } elseif ($row['indisunique'] == 't') {
-            $definition['unique'] = true;
+        $query = 'SELECT a.attname
+                    FROM pg_constraint c
+               LEFT JOIN pg_class t  ON c.conrelid  = t.oid
+               LEFT JOIN pg_attribute a ON a.attrelid = t.oid AND a.attnum = ANY(c.conkey)
+                   WHERE c.conname = %s
+                     AND t.relname = ' . $db->quote($table, 'text');
+        $constraint_name_mdb2 = $db->getIndexName($constraint_name);
+        $fields = $db->queryCol(sprintf($query, $db->quote($constraint_name_mdb2, 'text')), null);
+        if (PEAR::isError($fields)) {
+            return $fields;
         }
-
-        $index_column_numbers = explode(' ', $row['indkey']);
-
         $colpos = 1;
-        foreach ($index_column_numbers as $number) {
-            $definition['fields'][$columns[($number - 1)]] = array(
+        foreach ($fields as $field) {
+            $definition['fields'][$field] = array(
                 'position' => $colpos++,
                 'sorting' => 'ascending',
             );
+        }
+        
+        if ($definition['foreign']) {
+            $query = 'SELECT a.attname
+                        FROM pg_constraint c
+                   LEFT JOIN pg_class t  ON c.confrelid  = t.oid
+                   LEFT JOIN pg_attribute a ON a.attrelid = t.oid AND a.attnum = ANY(c.confkey)
+                       WHERE c.conname = %s
+                         AND t.relname = ' . $db->quote($definition['references']['table'], 'text');
+            $constraint_name_mdb2 = $db->getIndexName($constraint_name);
+            $foreign_fields = $db->queryCol(sprintf($query, $db->quote($constraint_name_mdb2, 'text')), null);
+            if (PEAR::isError($foreign_fields)) {
+                return $foreign_fields;
+            }
+            $colpos = 1;
+            foreach ($foreign_fields as $foreign_field) {
+                $definition['references']['fields'][$foreign_field] = array(
+                    'position' => $colpos++,
+                );
+            }
+        }
+        
+        if ($definition['check']) {
+            $check_def = $db->queryOne("SELECT pg_get_constraintdef(" . $row['oid'] . ", 't')");
+            // ...
         }
         return $definition;
     }
@@ -304,7 +392,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
      * WARNING: this function is experimental and may change the returned value
      * at any time until labelled as non-experimental
      *
-     * @param string    $trigger    name of trigger that should be used in method
+     * @param string $trigger name of trigger that should be used in method
      * @return mixed data array on success, a MDB2 error on failure
      * @access public
      *
@@ -336,7 +424,10 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
                             WHEN 24 THEN 'UPDATE, DELETE'
                             WHEN 12 THEN 'INSERT, DELETE'
                          END AS trigger_event,
-                         trg.tgenabled AS trigger_enabled,
+                         CASE trg.tgenabled
+                            WHEN 'O' THEN 't'
+                            ELSE trg.tgenabled
+                         END AS trigger_enabled,
                          obj_description(trg.oid, 'pg_trigger') AS trigger_comment
                     FROM pg_trigger trg,
                          pg_class tbl,

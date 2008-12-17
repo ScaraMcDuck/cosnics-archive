@@ -1,25 +1,30 @@
 <?php
-//
-// +----------------------------------------------------------------------+
-// | PHP Version 5                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2004 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available through the world-wide-web at the following url:           |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Authors: Tomas V.V.Cox <cox@idecnet.com>                             |
-// |          Stig Bakken <ssb@php.net>                                   |
-// +----------------------------------------------------------------------+
-//
-// $Id$
+/**
+ * PEAR_Dependency
+ *
+ * PHP versions 4 and 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * THIS FILE IS DEPRECATED IN FAVOR OF DEPENDENCY2.PHP, AND IS NOT USED IN THE INSTALLER
+ * 
+ * @category   pear
+ * @package    PEAR
+ * @author     Tomas V.V.Cox <cox@idecnet.com>
+ * @author     Stig Bakken <ssb@php.net>
+ * @copyright  1997-2008 The PHP Group
+ * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/PEAR
+ * @since      File available since Release 1.4.0a1
+ */
 
 require_once "PEAR.php";
+require_once "OS/Guess.php";
 
 define('PEAR_DEPENDENCY_MISSING',        -1);
 define('PEAR_DEPENDENCY_CONFLICT',       -2);
@@ -82,12 +87,13 @@ class PEAR_Dependency
         $rel = isset($opts['rel']) ? $opts['rel'] : 'has';
         $req = isset($opts['version']) ? $opts['version'] : null;
         $name = isset($opts['name']) ? $opts['name'] : null;
+        $channel = isset($opts['channel']) ? $opts['channel'] : 'pear.php.net';
         $opt = (isset($opts['optional']) && $opts['optional'] == 'yes') ?
             $opts['optional'] : null;
         $errmsg = '';
         switch ($opts['type']) {
             case 'pkg':
-                return $this->checkPackage($errmsg, $name, $req, $rel, $opt);
+                return $this->checkPackage($errmsg, $name, $req, $rel, $opt, $channel);
                 break;
             case 'ext':
                 return $this->checkExtension($errmsg, $name, $req, $rel, $opt);
@@ -123,29 +129,30 @@ class PEAR_Dependency
      * @param string $req       The package version required
      * @param string $relation  How to compare versions with each other
      * @param bool   $opt       Whether the relationship is optional
+     * @param string $channel   Channel name
      *
      * @return mixed bool false if no error or the error string
      */
     function checkPackage(&$errmsg, $name, $req = null, $relation = 'has',
-                          $opt = false)
+                          $opt = false, $channel = 'pear.php.net')
     {
         if (is_string($req) && substr($req, 0, 2) == 'v.') {
             $req = substr($req, 2);
         }
         switch ($relation) {
             case 'has':
-                if (!$this->registry->packageExists($name)) {
+                if (!$this->registry->packageExists($name, $channel)) {
                     if ($opt) {
-                        $errmsg = "package `$name' is recommended to utilize some features.";
+                        $errmsg = "package `$channel/$name' is recommended to utilize some features.";
                         return PEAR_DEPENDENCY_MISSING_OPTIONAL;
                     }
-                    $errmsg = "requires package `$name'";
+                    $errmsg = "requires package `$channel/$name'";
                     return PEAR_DEPENDENCY_MISSING;
                 }
                 return false;
             case 'not':
-                if ($this->registry->packageExists($name)) {
-                    $errmsg = "conflicts with package `$name'";
+                if ($this->registry->packageExists($name, $channel)) {
+                    $errmsg = "conflicts with package `$channel/$name'";
                     return PEAR_DEPENDENCY_CONFLICT;
                 }
                 return false;
@@ -155,26 +162,26 @@ class PEAR_Dependency
             case 'ne':
             case 'ge':
             case 'gt':
-                $version = $this->registry->packageInfo($name, 'version');
-                if (!$this->registry->packageExists($name)
+                $version = $this->registry->packageInfo($name, 'version', $channel);
+                if (!$this->registry->packageExists($name, $channel)
                     || !version_compare("$version", "$req", $relation))
                 {
                     $code = $this->codeFromRelation($relation, $version, $req, $opt);
                     if ($opt) {
-                        $errmsg = "package `$name' version " . $this->signOperator($relation) .
+                        $errmsg = "package `$channel/$name' version " . $this->signOperator($relation) .
                             " $req is recommended to utilize some features.";
                         if ($version) {
                             $errmsg .= "  Installed version is $version";
                         }
                         return $code;
                     }
-                    $errmsg = "requires package `$name' " .
+                    $errmsg = "requires package `$channel/$name' " .
                         $this->signOperator($relation) . " $req";
                     return $code;
                 }
                 return false;
         }
-        $errmsg = "relation '$relation' with requirement '$req' is not supported (name=$name)";
+        $errmsg = "relation '$relation' with requirement '$req' is not supported (name=$channel/$name)";
         return PEAR_DEPENDENCY_BAD_DEPENDENCY;
     }
 
@@ -187,30 +194,36 @@ class PEAR_Dependency
      * @param string $error     The resultant error string
      * @param string $warning   The resultant warning string
      * @param string $name      Name of the package to test
+     * @param string $channel   Channel name of the package
      *
      * @return bool true if there were errors
      */
-    function checkPackageUninstall(&$error, &$warning, $package)
+    function checkPackageUninstall(&$error, &$warning, $package, $channel = 'pear.php.net')
     {
+        $channel = strtolower($channel);
         $error = null;
-        $packages = $this->registry->listPackages();
-        foreach ($packages as $pkg) {
-            if ($pkg == $package) {
-                continue;
-            }
-            $deps = $this->registry->packageInfo($pkg, 'release_deps');
-            if (empty($deps)) {
-                continue;
-            }
-            foreach ($deps as $dep) {
-                if ($dep['type'] == 'pkg' && strcasecmp($dep['name'], $package) == 0) {
-                    if ($dep['rel'] == 'ne') {
-                        continue;
-                    }
-                    if (isset($dep['optional']) && $dep['optional'] == 'yes') {
-                        $warning .= "\nWarning: Package '$pkg' optionally depends on '$package'";
-                    } else {
-                        $error .= "Package '$pkg' depends on '$package'\n";
+        $channels = $this->registry->listAllPackages();
+        foreach ($channels as $channelname => $packages) {
+            foreach ($packages as $pkg) {
+                if ($pkg == $package && $channel == $channelname) {
+                    continue;
+                }
+                $deps = $this->registry->packageInfo($pkg, 'release_deps', $channel);
+                if (empty($deps)) {
+                    continue;
+                }
+                foreach ($deps as $dep) {
+                    $depchannel = isset($dep['channel']) ? $dep['channel'] : 'pear.php.net';
+                    if ($dep['type'] == 'pkg' && (strcasecmp($dep['name'], $package) == 0) &&
+                          ($depchannel == $channel)) {
+                        if ($dep['rel'] == 'ne') {
+                            continue;
+                        }
+                        if (isset($dep['optional']) && $dep['optional'] == 'yes') {
+                            $warning .= "\nWarning: Package '$depchannel/$pkg' optionally depends on '$channel:/package'";
+                        } else {
+                            $error .= "Package '$depchannel/$pkg' depends on '$channel/$package'\n";
+                        }
                     }
                 }
             }
@@ -293,7 +306,6 @@ class PEAR_Dependency
         // comma separated values or something similar to PEAR_OS
         static $myos;
         if (empty($myos)) {
-            include_once "OS/Guess.php";
             $myos = new OS_Guess();
         }
         // only 'has' relation is currently supported
@@ -356,7 +368,7 @@ class PEAR_Dependency
         $path_elements = explode(PATH_SEPARATOR, getenv('PATH'));
         foreach ($path_elements as $dir) {
             $file = $dir . DIRECTORY_SEPARATOR . $program . $exe_suffix;
-            if (@file_exists($file) && @is_executable($file)) {
+            if (file_exists($file) && is_executable($file)) {
                 return false;
             }
         }

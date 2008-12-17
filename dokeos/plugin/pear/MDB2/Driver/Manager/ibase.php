@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2007 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith, Lorenzo Alberton                       |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -42,7 +42,7 @@
 // | Author: Lorenzo Alberton <l.alberton@quipo.it>                       |
 // +----------------------------------------------------------------------+
 //
-// $Id: ibase.php,v 1.102 2007/03/12 14:31:11 quipo Exp $
+// $Id: ibase.php,v 1.115 2008/02/22 19:50:01 quipo Exp $
 
 require_once 'MDB2/Driver/Manager/Common.php';
 
@@ -60,11 +60,13 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
     /**
      * create a new database
      *
-     * @param string $name  name of the database that should be created
-     * @return mixed        MDB2_OK on success, a MDB2 error on failure
+     * @param string $name    name of the database that should be created
+     * @param array  $options array with charset info
+     *
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
-    function createDatabase($name)
+    function createDatabase($name, $options = array())
     {
         $db =& $this->getDBInstance();
         if (PEAR::isError($db)) {
@@ -83,7 +85,8 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
      * drop an existing database
      *
      * @param string $name  name of the database that should be dropped
-     * @return mixed        MDB2_OK on success, a MDB2 error on failure
+     *
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
     function dropDatabase($name)
@@ -125,7 +128,8 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
      * @param string $name  name of the PK field
      * @param string $table name of the table
      * @param string $start start value for the sequence
-     * @return mixed        MDB2_OK on success, a MDB2 error on failure
+     *
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access private
      */
     function _makeAutoincrement($name, $table, $start = null)
@@ -135,6 +139,7 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
             return $db;
         }
 
+        $mix_name = $table . '_' . $name;
         if (is_null($start)) {
             $db->beginTransaction();
             $query = 'SELECT MAX(' . $db->quoteIdentifier($name, true) . ') FROM ' . $db->quoteIdentifier($table, true);
@@ -143,18 +148,18 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
                 return $start;
             }
             ++$start;
-            $result = $db->manager->createSequence($table, $start);
+            $result = $db->manager->createSequence($mix_name, $start);
             $db->commit();
         } else {
-            $result = $db->manager->createSequence($table, $start);
+            $result = $db->manager->createSequence($mix_name, $start);
         }
         if (PEAR::isError($result)) {
             return $db->raiseError(null, null, null,
                 'sequence for autoincrement PK could not be created', __FUNCTION__);
         }
 
-        $sequence_name = $db->getSequenceName($table);
-        $trigger_name  = $db->quoteIdentifier($table . '_AUTOINCREMENT_PK', true);
+        $sequence_name = $db->getSequenceName($mix_name);
+        $trigger_name  = $db->quoteIdentifier($mix_name . '_AI_PK', true);
         $table = $db->quoteIdentifier($table, true);
         $name  = $db->quoteIdentifier($name, true);
         $trigger_sql = 'CREATE TRIGGER ' . $trigger_name . ' FOR ' . $table . '
@@ -165,8 +170,11 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
                             NEW.' . $name . ' = GEN_ID('.$sequence_name.', 1);
                         END';
         $result = $db->exec($trigger_sql);
+        if (PEAR::isError($result)) {
+            return $result;
+        }
         $this->_silentCommit();
-        return $result;
+        return MDB2_OK;
     }
 
     // }}}
@@ -176,7 +184,8 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
      * drop an existing autoincrement sequence + trigger
      *
      * @param string $table name of the table
-     * @return mixed        MDB2_OK on success, a MDB2 error on failure
+     *
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access private
      */
     function _dropAutoincrement($table)
@@ -192,8 +201,13 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
         }
         //remove autoincrement trigger associated with the table
         $table = $db->quote(strtoupper($table), 'text');
-        $trigger_name = $db->quote(strtoupper($table) . '_AUTOINCREMENT_PK', 'text');
-        $result = $db->exec("DELETE FROM RDB\$TRIGGERS WHERE UPPER(RDB\$RELATION_NAME)=$table AND UPPER(RDB\$TRIGGER_NAME)=$trigger_name");
+        $trigger_name = $db->quote(strtoupper($table) . '_AI_PK', 'text');
+        $trigger_name_old = $db->quote(strtoupper($table) . '_AUTOINCREMENT_PK', 'text');
+        $query = "DELETE FROM RDB\$TRIGGERS
+                   WHERE UPPER(RDB\$RELATION_NAME)=$table
+                     AND (UPPER(RDB\$TRIGGER_NAME)=$trigger_name
+                      OR UPPER(RDB\$TRIGGER_NAME)=$trigger_name_old)";
+        $result = $db->exec($query);
         if (PEAR::isError($result)) {
             return $db->raiseError(null, null, null,
                 'trigger for autoincrement PK could not be dropped', __FUNCTION__);
@@ -207,15 +221,14 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
     /**
      * create a new table
      *
-     * @param string $name     Name of the database that should be created
-     * @param array $fields Associative array that contains the definition of each field of the new table
+     * @param string $name    Name of the database that should be created
+     * @param array  $fields  Associative array that contains the definition of each field of the new table
      *                        The indexes of the array entries are the names of the fields of the table an
      *                        the array entry values are associative arrays like those that are meant to be
-     *                         passed with the field definitions to get[Type]Declaration() functions.
+     *                        passed with the field definitions to get[Type]Declaration() functions.
      *
      *                        Example
      *                        array(
-     *
      *                            'id' => array(
      *                                'type' => 'integer',
      *                                'unsigned' => 1,
@@ -230,12 +243,13 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
      *                                'type' => 'text',
      *                                'length' => 12,
      *                            )
+     *                       );
+     * @param array  $options An associative array of table options:
+     *                        array(
+     *                            'comment' => 'Foo',
+     *                            'temporary' => true|false,
      *                        );
-     * @param array $options  An associative array of table options:
-     *                          array(
-     *                              'comment' => 'Foo',
-     *                              'temporary' => true|false,
-     *                          );
+     *
      * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
@@ -282,6 +296,7 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
                 return $this->_makeAutoincrement($field_name, $name, 1);
             }
         }
+        return MDB2_OK;
     }
 
     // }}}
@@ -291,6 +306,7 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
      * Check if planned changes are supported
      *
      * @param string $name name of the database that should be dropped
+     *
      * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
@@ -343,12 +359,37 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
     }
 
     // }}}
+    // {{{ _getAdvancedFKOptions()
+
+    /**
+     * Return the FOREIGN KEY query section dealing with non-standard options
+     * as MATCH, INITIALLY DEFERRED, ON UPDATE, ...
+     *
+     * @param array $definition
+     *
+     * @return string
+     * @access protected
+     */
+    function _getAdvancedFKOptions($definition)
+    {
+        $query = '';
+        if (!empty($definition['onupdate'])) {
+            $query .= ' ON UPDATE '.$definition['onupdate'];
+        }
+        if (!empty($definition['ondelete'])) {
+            $query .= ' ON DELETE '.$definition['ondelete'];
+        }
+        return $query;
+    }
+
+    // }}}
     // {{{ dropTable()
 
     /**
      * drop an existing table
      *
      * @param string $name name of the table that should be dropped
+     *
      * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
@@ -364,58 +405,81 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
     }
 
     // }}}
+    // {{{ vacuum()
+
+    /**
+     * Optimize (vacuum) all the tables in the db (or only the specified table)
+     * and optionally run ANALYZE.
+     *
+     * @param string $table table name (all the tables if empty)
+     * @param array  $options an array with driver-specific options:
+     *               - timeout [int] (in seconds) [mssql-only]
+     *               - analyze [boolean] [pgsql and mysql]
+     *               - full [boolean] [pgsql-only]
+     *               - freeze [boolean] [pgsql-only]
+     *
+     * @return mixed MDB2_OK success, a MDB2 error on failure
+     * @access public
+     */
+    function vacuum($table = null, $options = array())
+    {
+        // not needed in Interbase/Firebird
+        return MDB2_OK;
+    }
+
+    // }}}
     // {{{ alterTable()
 
     /**
      * alter an existing table
      *
-     * @param string $name         name of the table that is intended to be changed.
-     * @param array $changes     associative array that contains the details of each type
-     *                             of change that is intended to be performed. The types of
-     *                             changes that are currently supported are defined as follows:
+     * @param string  $name    name of the table that is intended to be changed.
+     * @param array   $changes associative array that contains the details of each type
+     *                         of change that is intended to be performed. The types of
+     *                         changes that are currently supported are defined as follows:
      *
-     *                             name
+     *                         name
      *
-     *                                New name for the table.
+     *                             New name for the table.
      *
-     *                            add
+     *                         add
      *
-     *                                Associative array with the names of fields to be added as
-     *                                 indexes of the array. The value of each entry of the array
-     *                                 should be set to another associative array with the properties
-     *                                 of the fields to be added. The properties of the fields should
-     *                                 be the same as defined by the MDB2 parser.
+     *                             Associative array with the names of fields to be added as
+     *                             indexes of the array. The value of each entry of the array
+     *                             should be set to another associative array with the properties
+     *                             of the fields to be added. The properties of the fields should
+     *                             be the same as defined by the MDB2 parser.
      *
      *
-     *                            remove
+     *                         remove
      *
-     *                                Associative array with the names of fields to be removed as indexes
-     *                                 of the array. Currently the values assigned to each entry are ignored.
-     *                                 An empty array should be used for future compatibility.
+     *                             Associative array with the names of fields to be removed as indexes
+     *                             of the array. Currently the values assigned to each entry are ignored.
+     *                             An empty array should be used for future compatibility.
      *
-     *                            rename
+     *                         rename
      *
-     *                                Associative array with the names of fields to be renamed as indexes
-     *                                 of the array. The value of each entry of the array should be set to
-     *                                 another associative array with the entry named name with the new
-     *                                 field name and the entry named Declaration that is expected to contain
-     *                                 the portion of the field declaration already in DBMS specific SQL code
-     *                                 as it is used in the CREATE TABLE statement.
+     *                             Associative array with the names of fields to be renamed as indexes
+     *                             of the array. The value of each entry of the array should be set to
+     *                             another associative array with the entry named name with the new
+     *                             field name and the entry named Declaration that is expected to contain
+     *                             the portion of the field declaration already in DBMS specific SQL code
+     *                             as it is used in the CREATE TABLE statement.
      *
-     *                            change
+     *                         change
      *
-     *                                Associative array with the names of the fields to be changed as indexes
-     *                                 of the array. Keep in mind that if it is intended to change either the
-     *                                 name of a field and any other properties, the change array entries
-     *                                 should have the new names of the fields as array indexes.
+     *                             Associative array with the names of the fields to be changed as indexes
+     *                             of the array. Keep in mind that if it is intended to change either the
+     *                             name of a field and any other properties, the change array entries
+     *                             should have the new names of the fields as array indexes.
      *
-     *                                The value of each entry of the array should be set to another associative
-     *                                 array with the properties of the fields to that are meant to be changed as
-     *                                 array entries. These entries should be assigned to the new values of the
-     *                                 respective properties. The properties of the fields should be the same
-     *                                 as defined by the MDB2 parser.
+     *                             The value of each entry of the array should be set to another associative
+     *                             array with the properties of the fields to that are meant to be changed as
+     *                             array entries. These entries should be assigned to the new values of the
+     *                             respective properties. The properties of the fields should be the same
+     *                             as defined by the MDB2 parser.
      *
-     *                            Example
+     *                             Example
      *                                array(
      *                                    'name' => 'userlist',
      *                                    'add' => array(
@@ -449,12 +513,12 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
      *                                    )
      *                                )
      *
-     * @param boolean $check     indicates whether the function should just check if the DBMS driver
-     *                             can perform the requested table alterations if the value is true or
-     *                             actually perform them otherwise.
-     * @access public
+     * @param boolean $check   indicates whether the function should just check if the DBMS driver
+     *                         can perform the requested table alterations if the value is true or
+     *                         actually perform them otherwise.
      *
-      * @return mixed MDB2_OK on success, a MDB2 error on failure
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
+     * @access public
      */
     function alterTable($name, $changes, $check)
     {
@@ -554,7 +618,11 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
         if (PEAR::isError($db)) {
             return $db;
         }
-        $query = 'SELECT RDB$RELATION_NAME FROM RDB$RELATIONS WHERE RDB$SYSTEM_FLAG=0 AND RDB$VIEW_BLR IS NULL';
+        $query = 'SELECT RDB$RELATION_NAME
+                    FROM RDB$RELATIONS
+                   WHERE (RDB$SYSTEM_FLAG=0 OR RDB$SYSTEM_FLAG IS NULL)
+                     AND RDB$VIEW_BLR IS NULL
+                ORDER BY RDB$RELATION_NAME';
         $result = $db->queryCol($query);
         if (PEAR::isError($result)) {
             return $result;
@@ -572,6 +640,7 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
      * list all fields in a table in the current database
      *
      * @param string $table name of table that should be used in method
+     *
      * @return mixed array of field names on success, a MDB2 error on failure
      * @access public
      */
@@ -582,7 +651,10 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
             return $db;
         }
         $table = $db->quote(strtoupper($table), 'text');
-        $query = "SELECT RDB\$FIELD_NAME FROM RDB\$RELATION_FIELDS WHERE UPPER(RDB\$RELATION_NAME)=$table";
+        $query = "SELECT RDB\$FIELD_NAME
+                    FROM RDB\$RELATION_FIELDS
+                   WHERE UPPER(RDB\$RELATION_NAME)=$table
+                     AND (RDB\$SYSTEM_FLAG=0 OR RDB\$SYSTEM_FLAG IS NULL)";
         $result = $db->queryCol($query);
         if (PEAR::isError($result)) {
             return $result;
@@ -644,6 +716,7 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
      * list the views in the database that reference a given table
      *
      * @param string table for which all referenced views should be found
+     *
      * @return mixed array of view names on success, a MDB2 error on failure
      * @access public
      */
@@ -683,7 +756,7 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
             return $db;
         }
 
-        $query = 'SELECT RDB$FUNCTION_NAME FROM RDB$FUNCTIONS WHERE RDB$SYSTEM_FLAG IS NULL
+        $query = 'SELECT RDB$FUNCTION_NAME FROM RDB$FUNCTIONS WHERE (RDB$SYSTEM_FLAG IS NULL OR RDB$SYSTEM_FLAG = 0)
                   UNION
                   SELECT RDB$PROCEDURE_NAME FROM RDB$PROCEDURES';
         $result = $db->queryCol($query);
@@ -703,6 +776,7 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
      * list all triggers in the database that reference a given table
      *
      * @param string table for which all referenced triggers should be found
+     *
      * @return mixed array of trigger names on success, a MDB2 error on failure
      * @access public
      */
@@ -715,8 +789,8 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
 
         $query = 'SELECT RDB$TRIGGER_NAME
                     FROM RDB$TRIGGERS
-                   WHERE RDB$SYSTEM_FLAG IS NULL
-                      OR RDB$SYSTEM_FLAG = 0';
+                   WHERE (RDB$SYSTEM_FLAG IS NULL
+                      OR RDB$SYSTEM_FLAG = 0)';
         if (!is_null($table)) {
             $table = $db->quote(strtoupper($table), 'text');
             $query .= " AND UPPER(RDB\$RELATION_NAME)=$table";
@@ -737,32 +811,33 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
     /**
      * Get the stucture of a field into an array
      *
-     * @param string    $table         name of the table on which the index is to be created
-     * @param string    $name         name of the index to be created
-     * @param array     $definition        associative array that defines properties of the index to be created.
-     *                                 Currently, only one property named FIELDS is supported. This property
-     *                                 is also an associative with the names of the index fields as array
-     *                                 indexes. Each entry of this array is set to another type of associative
-     *                                 array that specifies properties of the index that are specific to
-     *                                 each field.
+     * @param string $table      name of the table on which the index is to be created
+     * @param string $name       name of the index to be created
+     * @param array  $definition associative array that defines properties of the index to be created.
+     *                           Currently, only one property named FIELDS is supported. This property
+     *                           is also an associative with the names of the index fields as array
+     *                           indexes. Each entry of this array is set to another type of associative
+     *                           array that specifies properties of the index that are specific to
+     *                           each field.
      *
-     *                                Currently, only the sorting property is supported. It should be used
-     *                                 to define the sorting direction of the index. It may be set to either
-     *                                 ascending or descending.
+     *                           Currently, only the sorting property is supported. It should be used
+     *                           to define the sorting direction of the index. It may be set to either
+     *                           ascending or descending.
      *
-     *                                Not all DBMS support index sorting direction configuration. The DBMS
-     *                                 drivers of those that do not support it ignore this property. Use the
-     *                                 function support() to determine whether the DBMS driver can manage indexes.
+     *                           Not all DBMS support index sorting direction configuration. The DBMS
+     *                           drivers of those that do not support it ignore this property. Use the
+     *                           function support() to determine whether the DBMS driver can manage indexes.
 
-     *                                 Example
-     *                                    array(
-     *                                        'fields' => array(
-     *                                            'user_name' => array(
-     *                                                'sorting' => 'ascending'
-     *                                            ),
-     *                                            'last_login' => array()
-     *                                        )
-     *                                    )
+     *                           Example
+     *                           array(
+     *                               'fields' => array(
+     *                                   'user_name' => array(
+     *                                       'sorting' => 'ascending'
+     *                                    ),
+     *                                    'last_login' => array()
+     *                                )
+     *                            )
+     *
      * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
@@ -807,6 +882,7 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
      * list all indexes in a table
      *
      * @param string $table name of table that should be used in method
+     *
      * @return mixed array of index names on success, a MDB2 error on failure
      * @access public
      */
@@ -820,6 +896,7 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
         $query = "SELECT RDB\$INDEX_NAME
                     FROM RDB\$INDICES
                    WHERE UPPER(RDB\$RELATION_NAME)=$table
+                     AND (RDB\$SYSTEM_FLAG=0 OR RDB\$SYSTEM_FLAG IS NULL)
                      AND RDB\$UNIQUE_FLAG IS NULL
                      AND RDB\$FOREIGN_KEY IS NULL";
         $indexes = $db->queryCol($query, 'text');
@@ -847,22 +924,23 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
     /**
      * create a constraint on a table
      *
-     * @param string    $table      name of the table on which the constraint is to be created
-     * @param string    $name       name of the constraint to be created
-     * @param array     $definition associative array that defines properties of the constraint to be created.
-     *                              Currently, only one property named FIELDS is supported. This property
-     *                              is also an associative with the names of the constraint fields as array
-     *                              constraints. Each entry of this array is set to another type of associative
-     *                              array that specifies properties of the constraint that are specific to
-     *                              each field.
+     * @param string $table      name of the table on which the constraint is to be created
+     * @param string $name       name of the constraint to be created
+     * @param array  $definition associative array that defines properties of the constraint to be created.
+     *                           Currently, only one property named FIELDS is supported. This property
+     *                           is also an associative with the names of the constraint fields as array
+     *                           constraints. Each entry of this array is set to another type of associative
+     *                           array that specifies properties of the constraint that are specific to
+     *                           each field.
      *
-     *                              Example
-     *                                  array(
-     *                                      'fields' => array(
-     *                                          'user_name' => array(),
-     *                                          'last_login' => array(),
-     *                                      )
-     *                                  )
+     *                           Example
+     *                               array(
+     *                                   'fields' => array(
+     *                                       'user_name' => array(),
+     *                                       'last_login' => array(),
+     *                                   )
+     *                               )
+     *
      * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
@@ -886,6 +964,8 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
             $query.= ' CONSTRAINT '. $name;
             if (!empty($definition['unique'])) {
                $query.= ' UNIQUE';
+            } elseif (!empty($definition['foreign'])) {
+                $query.= ' FOREIGN KEY';
             }
         }
         $fields = array();
@@ -893,6 +973,15 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
             $fields[] = $db->quoteIdentifier($field, true);
         }
         $query .= ' ('. implode(', ', $fields) . ')';
+        if (!empty($definition['foreign'])) {
+            $query.= ' REFERENCES ' . $db->quoteIdentifier($definition['references']['table'], true);
+            $referenced_fields = array();
+            foreach (array_keys($definition['references']['fields']) as $field) {
+                $referenced_fields[] = $db->quoteIdentifier($field, true);
+            }
+            $query .= ' ('. implode(', ', $referenced_fields) . ')';
+            $query .= $this->_getAdvancedFKOptions($definition);
+        }
         $result = $db->exec($query);
         $this->_silentCommit();
         return $result;
@@ -905,6 +994,7 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
      * list all constraints in a table
      *
      * @param string $table name of table that should be used in method
+     *
      * @return mixed array of constraint names on success, a MDB2 error on failure
      * @access public
      */
@@ -949,6 +1039,7 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
      *
      * @param string $seq_name name of the sequence to be created
      * @param string $start start value of the sequence; default is 1
+     *
      * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
@@ -979,6 +1070,7 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
      * drop existing sequence
      *
      * @param string $seq_name name of the sequence to be dropped
+     *
      * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
@@ -1011,7 +1103,7 @@ class MDB2_Driver_Manager_ibase extends MDB2_Driver_Manager_Common
             return $db;
         }
 
-        $query = 'SELECT RDB$GENERATOR_NAME FROM RDB$GENERATORS WHERE RDB$SYSTEM_FLAG IS NULL';
+        $query = 'SELECT RDB$GENERATOR_NAME FROM RDB$GENERATORS WHERE (RDB$SYSTEM_FLAG IS NULL OR RDB$SYSTEM_FLAG = 0)';
         $table_names = $db->queryCol($query);
         if (PEAR::isError($table_names)) {
             return $table_names;

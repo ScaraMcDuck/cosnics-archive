@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2006 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith                                         |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 
-// $Id: oci8.php,v 1.87 2007/04/05 07:07:04 quipo Exp $
+// $Id: oci8.php,v 1.107 2008/03/12 15:16:42 afz Exp $
 
 require_once 'MDB2/Driver/Manager/Common.php';
 
@@ -60,21 +60,17 @@ class MDB2_Driver_Manager_oci8 extends MDB2_Driver_Manager_Common
     /**
      * create a new database
      *
-     * @param object $db database object that is extended by this class
-     * @param string $name name of the database that should be created
+     * @param string $name    name of the database that should be created
+     * @param array  $options array with charset, collation info
+     *
      * @return mixed MDB2_OK on success, a MDB2 error on failure
      * @access public
      */
-    function createDatabase($name)
+    function createDatabase($name, $options = array())
     {
         $db =& $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
-        }
-
-        if (!$db->options['emulate_database']) {
-            return $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
-                'database creation is only supported if the "emulate_database" option is enabled', __FUNCTION__);
         }
 
         $username = $db->options['database_name_prefix'].$name;
@@ -102,6 +98,65 @@ class MDB2_Driver_Manager_oci8 extends MDB2_Driver_Manager_Common
     }
 
     // }}}
+    // {{{ alterDatabase()
+
+    /**
+     * alter an existing database
+     *
+     * IMPORTANT: the safe way to change the db charset is to do a full import/export!
+     * If - and only if - the new character set is a strict superset of the current
+     * character set, it is possible to use the ALTER DATABASE CHARACTER SET to
+     * expedite the change in the database character set.
+     *
+     * @param string $name    name of the database that is intended to be changed
+     * @param array  $options array with name, charset info
+     *
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
+     * @access public
+     */
+    function alterDatabase($name, $options = array())
+    {
+        //disabled
+        //return parent::alterDatabase($name, $options);
+
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        if (!empty($options['name'])) {
+            $query = 'ALTER DATABASE ' . $db->quoteIdentifier($name, true)
+                    .' RENAME GLOBAL_NAME TO ' . $db->quoteIdentifier($options['name'], true);
+            $result = $db->standaloneQuery($query);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+        }
+
+        if (!empty($options['charset'])) {
+            $queries = array();
+            $queries[] = 'SHUTDOWN IMMEDIATE'; //or NORMAL
+            $queries[] = 'STARTUP MOUNT';
+            $queries[] = 'ALTER SYSTEM ENABLE RESTRICTED SESSION';
+            $queries[] = 'ALTER SYSTEM SET JOB_QUEUE_PROCESSES=0';
+            $queries[] = 'ALTER DATABASE OPEN';
+            $queries[] = 'ALTER DATABASE CHARACTER SET ' . $options['charset'];
+            $queries[] = 'ALTER DATABASE NATIONAL CHARACTER SET ' . $options['charset'];
+            $queries[] = 'SHUTDOWN IMMEDIATE'; //or NORMAL
+            $queries[] = 'STARTUP';
+
+            foreach ($queries as $query) {
+                $result = $db->standaloneQuery($query);
+                if (PEAR::isError($result)) {
+                    return $result;
+                }
+            }
+        }
+
+        return MDB2_OK;
+    }
+
+    // }}}
     // {{{ dropDatabase()
 
     /**
@@ -117,11 +172,6 @@ class MDB2_Driver_Manager_oci8 extends MDB2_Driver_Manager_Common
         $db =& $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
-        }
-
-        if (!$db->options['emulate_database']) {
-            return $db->raiseError(MDB2_ERROR_UNSUPPORTED, null, null,
-                'database dropping is only supported if the "emulate_database" option is enabled', __FUNCTION__);
         }
 
         $username = $db->options['database_name_prefix'].$name;
@@ -148,18 +198,22 @@ class MDB2_Driver_Manager_oci8 extends MDB2_Driver_Manager_Common
             return $db;
         }
 
-        $table = strtoupper($table);
-        $index_name  = $table . '_AI_PK';
+        $table_uppercase = strtoupper($table);
+        $index_name  = $table_uppercase . '_AI_PK';
         $definition = array(
             'primary' => true,
             'fields' => array($name => true),
         );
+        $idxname_format = $db->getOption('idxname_format');
+        $db->setOption('idxname_format', '%s');
         $result = $this->createConstraint($table, $index_name, $definition);
+        $db->setOption('idxname_format', $idxname_format);
         if (PEAR::isError($result)) {
             return $db->raiseError($result, null, null,
                 'primary key for autoincrement PK could not be created', __FUNCTION__);
         }
 
+        $seq_name = $table.'_'.$name;
         if (is_null($start)) {
             $db->beginTransaction();
             $query = 'SELECT MAX(' . $db->quoteIdentifier($name, true) . ') FROM ' . $db->quoteIdentifier($table, true);
@@ -168,17 +222,18 @@ class MDB2_Driver_Manager_oci8 extends MDB2_Driver_Manager_Common
                 return $start;
             }
             ++$start;
-            $result = $this->createSequence($table, $start);
+            $result = $this->createSequence($seq_name, $start);
             $db->commit();
         } else {
-            $result = $this->createSequence($table, $start);
+            $result = $this->createSequence($seq_name, $start);
         }
         if (PEAR::isError($result)) {
             return $db->raiseError($result, null, null,
                 'sequence for autoincrement PK could not be created', __FUNCTION__);
         }
-        $sequence_name = $db->getSequenceName($table);
-        $trigger_name  = $db->quoteIdentifier($table . '_AI_PK', true);
+        $seq_name        = $db->getSequenceName($seq_name);
+        $trigger_name    = $db->quoteIdentifier($table_uppercase . '_AI_PK', true);
+        $seq_name_quoted = $db->quoteIdentifier($seq_name, true);
         $table = $db->quoteIdentifier($table, true);
         $name  = $db->quoteIdentifier($name, true);
         $trigger_sql = '
@@ -190,21 +245,25 @@ DECLARE
    last_Sequence NUMBER;
    last_InsertID NUMBER;
 BEGIN
-   SELECT '.$sequence_name.'.NEXTVAL INTO :NEW.'.$name.' FROM DUAL;
+   SELECT '.$seq_name_quoted.'.NEXTVAL INTO :NEW.'.$name.' FROM DUAL;
    IF (:NEW.'.$name.' IS NULL OR :NEW.'.$name.' = 0) THEN
-      SELECT '.$sequence_name.'.NEXTVAL INTO :NEW.'.$name.' FROM DUAL;
+      SELECT '.$seq_name_quoted.'.NEXTVAL INTO :NEW.'.$name.' FROM DUAL;
    ELSE
       SELECT NVL(Last_Number, 0) INTO last_Sequence
         FROM User_Sequences
-       WHERE UPPER(Sequence_Name) = UPPER(\''.$sequence_name.'\');
+       WHERE UPPER(Sequence_Name) = UPPER(\''.$seq_name.'\');
       SELECT :NEW.'.$name.' INTO last_InsertID FROM DUAL;
       WHILE (last_InsertID > last_Sequence) LOOP
-         SELECT '.$sequence_name.'.NEXTVAL INTO last_Sequence FROM DUAL;
+         SELECT '.$seq_name_quoted.'.NEXTVAL INTO last_Sequence FROM DUAL;
       END LOOP;
    END IF;
 END;
 ';
-        return $db->exec($trigger_sql);
+        $result = $db->exec($trigger_sql);
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -250,9 +309,13 @@ END;
             }
 
             $index_name = $table . '_AI_PK';
-            $result = $this->dropConstraint($table, $index_name);
-            if (PEAR::isError($result)) {
-                return $db->raiseError($result, null, null,
+            $idxname_format = $db->getOption('idxname_format');
+            $db->setOption('idxname_format', '%s');
+            $result1 = $this->dropConstraint($table, $index_name);
+            $db->setOption('idxname_format', $idxname_format);
+            $result2 = $this->dropConstraint($table, $index_name);
+            if (PEAR::isError($result1) && PEAR::isError($result2)) {
+                return $db->raiseError($result1, null, null,
                     'primary key for autoincrement PK could not be dropped', __FUNCTION__);
             }
         }
@@ -273,6 +336,36 @@ END;
     function _getTemporaryTableQuery()
     {
         return 'GLOBAL TEMPORARY';
+    }
+
+    // }}}
+    // {{{ _getAdvancedFKOptions()
+
+    /**
+     * Return the FOREIGN KEY query section dealing with non-standard options
+     * as MATCH, INITIALLY DEFERRED, ON UPDATE, ...
+     *
+     * @param array $definition
+     * @return string
+     * @access protected
+     */
+    function _getAdvancedFKOptions($definition)
+    {
+        $query = '';
+        if (!empty($definition['ondelete']) && (strtoupper($definition['ondelete']) != 'NO ACTION')) {
+            $query .= ' ON DELETE '.$definition['ondelete'];
+        }
+        if (!empty($definition['deferrable'])) {
+            $query .= ' DEFERRABLE';
+        } else {
+            $query .= ' NOT DEFERRABLE';
+        }
+        if (!empty($definition['initiallydeferred'])) {
+            $query .= ' INITIALLY DEFERRED';
+        } else {
+            $query .= ' INITIALLY IMMEDIATE';
+        }
+        return $query;
     }
 
     // }}}
@@ -355,6 +448,51 @@ END;
         }
         $db->completeNestedTransaction();
         return $result;
+    }
+
+    // }}}
+    // {{{ truncateTable()
+
+    /**
+     * Truncate an existing table (if the TRUNCATE TABLE syntax is not supported,
+     * it falls back to a DELETE FROM TABLE query)
+     *
+     * @param string $name name of the table that should be truncated
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
+     * @access public
+     */
+    function truncateTable($name)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        $name = $db->quoteIdentifier($name, true);
+        return $db->exec("TRUNCATE TABLE $name");
+    }
+
+    // }}}
+    // {{{ vacuum()
+
+    /**
+     * Optimize (vacuum) all the tables in the db (or only the specified table)
+     * and optionally run ANALYZE.
+     *
+     * @param string $table table name (all the tables if empty)
+     * @param array  $options an array with driver-specific options:
+     *               - timeout [int] (in seconds) [mssql-only]
+     *               - analyze [boolean] [pgsql and mysql]
+     *               - full [boolean] [pgsql-only]
+     *               - freeze [boolean] [pgsql-only]
+     *
+     * @return mixed MDB2_OK success, a MDB2 error on failure
+     * @access public
+     */
+    function vacuum($table = null, $options = array())
+    {
+        // not needed in Oracle
+        return MDB2_OK;
     }
 
     // }}}
@@ -533,6 +671,47 @@ END;
     }
 
     // }}}
+    // {{{ _fetchCol()
+
+    /**
+     * Utility method to fetch and format a column from a resultset
+     *
+     * @param resource $result
+     * @param boolean $fixname (used when listing indices or constraints)
+     * @return mixed array of names on success, a MDB2 error on failure
+     * @access private
+     */
+    function _fetchCol($result, $fixname = false)
+    {
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        $col = $result->fetchCol();
+        if (PEAR::isError($col)) {
+            return $col;
+        }
+        $result->free();
+        
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+        
+        if ($fixname) {
+            foreach ($col as $k => $v) {
+                $col[$k] = $this->_fixIndexName($v);
+            }
+        }
+        
+        if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE
+            && $db->options['field_case'] == CASE_LOWER
+        ) {
+            $col = array_map(($db->options['field_case'] == CASE_LOWER ? 'strtolower' : 'strtoupper'), $col);
+        }
+        return $col;
+    }
+
+    // }}}
     // {{{ listDatabases()
 
     /**
@@ -561,21 +740,8 @@ END;
         } else {
             $query = 'SELECT username FROM sys.dba_users';
         }
-        $result2 = $db->standaloneQuery($query, array('text'), false);
-        if (PEAR::isError($result2)) {
-            return $result2;
-        }
-        $result = $result2->fetchCol();
-        if (PEAR::isError($result)) {
-            return $result;
-        }
-        if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE
-            && $db->options['field_case'] == CASE_LOWER
-        ) {
-            $result = array_map(($db->options['field_case'] == CASE_LOWER ? 'strtolower' : 'strtoupper'), $result);
-        }
-        $result2->free();
-        return $result;
+        $result = $db->standaloneQuery($query, array('text'), false);
+        return $this->_fetchCol($result);
     }
 
     // }}}
@@ -611,27 +777,30 @@ END;
     /**
      * list all views in the current database
      *
+     * @param string owner, the current is default
      * @return mixed array of view names on success, a MDB2 error on failure
      * @access public
      */
-    function listViews()
+    function listViews($owner = null)
     {
         $db =& $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
+        
+        if (empty($owner)) {
+            $owner = $db->dsn['username'];
+        }
 
-        $query = 'SELECT view_name FROM sys.user_views';
-        $result = $db->queryCol($query);
-        if (PEAR::isError($result)) {
-            return $result;
+        $query = 'SELECT view_name
+                    FROM sys.all_views
+                   WHERE owner=? OR owner=?';
+        $stmt = $db->prepare($query);
+        if (PEAR::isError($stmt)) {
+            return $stmt;
         }
-        if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE
-            && $db->options['field_case'] == CASE_LOWER
-        ) {
-            $result = array_map(($db->options['field_case'] == CASE_LOWER ? 'strtolower' : 'strtoupper'), $result);
-        }
-        return $result;
+        $result = $stmt->execute(array($owner, strtoupper($owner)));
+        return $this->_fetchCol($result);
     }
 
     // }}}
@@ -640,56 +809,103 @@ END;
     /**
      * list all functions in the current database
      *
+     * @param string owner, the current is default
      * @return mixed array of function names on success, a MDB2 error on failure
      * @access public
      */
-    function listFunctions()
+    function listFunctions($owner = null)
     {
         $db =& $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
 
-        $query = "SELECT name FROM sys.user_source WHERE line = 1 AND type = 'FUNCTION'";
-        $result = $db->queryCol($query);
-        if (PEAR::isError($result)) {
-            return $result;
+        if (empty($owner)) {
+            $owner = $db->dsn['username'];
         }
-        if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE
-            && $db->options['field_case'] == CASE_LOWER
-        ) {
-            $result = array_map(($db->options['field_case'] == CASE_LOWER ? 'strtolower' : 'strtoupper'), $result);
+
+        $query = "SELECT name
+                    FROM sys.all_source
+                   WHERE line = 1
+                     AND type = 'FUNCTION'
+                     AND (owner=? OR owner=?)";
+        $stmt = $db->prepare($query);
+        if (PEAR::isError($stmt)) {
+            return $stmt;
         }
-        return $result;
+        $result = $stmt->execute(array($owner, strtoupper($owner)));
+        return $this->_fetchCol($result);
+    }
+
+    // }}}
+    // {{{ listTableTriggers()
+
+    /**
+     * list all triggers in the database that reference a given table
+     *
+     * @param string table for which all referenced triggers should be found
+     * @return mixed array of trigger names on success, a MDB2 error on failure
+     * @access public
+     */
+    function listTableTriggers($table = null)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        if (empty($owner)) {
+            $owner = $db->dsn['username'];
+        }
+
+        $query = "SELECT trigger_name
+                    FROM sys.all_triggers
+                   WHERE (table_name=? OR table_name=?)
+                     AND (owner=? OR owner=?)";
+        $stmt = $db->prepare($query);
+        if (PEAR::isError($stmt)) {
+            return $stmt;
+        }
+        $args = array(
+            $table,
+            strtoupper($table),
+            $owner,
+            strtoupper($owner),
+        );
+        $result = $stmt->execute($args);
+        return $this->_fetchCol($result);
     }
 
     // }}}
     // {{{ listTables()
 
     /**
-     * list all tables in the current database
+     * list all tables in the database
      *
+     * @param string owner, the current is default
      * @return mixed array of table names on success, a MDB2 error on failure
      * @access public
      */
-    function listTables()
+    function listTables($owner = null)
     {
         $db =& $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
+        
+        if (empty($owner)) {
+            $owner = $db->dsn['username'];
+        }
 
-        $query = 'SELECT table_name FROM sys.user_tables';
-        $result = $db->queryCol($query);
-        if (PEAR::isError($result)) {
-            return $result;
+        $query = 'SELECT table_name
+                    FROM sys.all_tables
+                   WHERE owner=? OR owner=?';
+        $stmt = $db->prepare($query);
+        if (PEAR::isError($stmt)) {
+            return $stmt;
         }
-        if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE
-            && $db->options['field_case'] == CASE_LOWER
-        ) {
-            $result = array_map(($db->options['field_case'] == CASE_LOWER ? 'strtolower' : 'strtoupper'), $result);
-        }
-        return $result;
+        $result = $stmt->execute(array($owner, strtoupper($owner)));
+        return $this->_fetchCol($result);
     }
 
     // }}}
@@ -708,20 +924,29 @@ END;
         if (PEAR::isError($db)) {
             return $db;
         }
+        
+        list($owner, $table) = $this->splitTableSchema($table);
+        if (empty($owner)) {
+            $owner = $db->dsn['username'];
+        }
 
-        $table = $db->quote($table, 'text');
-        $query = 'SELECT column_name FROM user_tab_columns';
-        $query.= ' WHERE table_name='.$table.' OR table_name='.strtoupper($table).' ORDER BY column_id';
-        $result = $db->queryCol($query);
-        if (PEAR::isError($result)) {
-            return $result;
+        $query = 'SELECT column_name
+                    FROM all_tab_columns
+                   WHERE (table_name=? OR table_name=?)
+                     AND (owner=? OR owner=?)
+                ORDER BY column_id';
+        $stmt = $db->prepare($query);
+        if (PEAR::isError($stmt)) {
+            return $stmt;
         }
-        if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE
-            && $db->options['field_case'] == CASE_LOWER
-        ) {
-            $result = array_map(($db->options['field_case'] == CASE_LOWER ? 'strtolower' : 'strtoupper'), $result);
-        }
-        return $result;
+        $args = array(
+            $table,
+            strtoupper($table),
+            $owner,
+            strtoupper($owner),
+        );
+        $result = $stmt->execute($args);
+        return $this->_fetchCol($result);
     }
 
     // }}}
@@ -740,30 +965,237 @@ END;
         if (PEAR::isError($db)) {
             return $db;
         }
+        
+        list($owner, $table) = $this->splitTableSchema($table);
+        if (empty($owner)) {
+            $owner = $db->dsn['username'];
+        }
+        
+        $query = 'SELECT i.index_name name
+                    FROM all_indexes i
+               LEFT JOIN all_constraints c
+                      ON c.index_name = i.index_name
+                     AND c.owner = i.owner
+                     AND c.table_name = i.table_name
+                   WHERE (i.table_name=? OR i.table_name=?)
+                     AND (i.owner=? OR i.owner=?)
+                     AND c.index_name IS NULL
+                     AND i.generated=' .$db->quote('N', 'text');
+        $stmt = $db->prepare($query);
+        if (PEAR::isError($stmt)) {
+            return $stmt;
+        }
+        $args = array(
+            $table,
+            strtoupper($table),
+            $owner,
+            strtoupper($owner),
+        );
+        $result = $stmt->execute($args);
+        return $this->_fetchCol($result, true);
+    }
 
-        $table = $db->quote($table, 'text');
-        $query = 'SELECT index_name name FROM user_indexes';
-        $query.= ' WHERE (table_name='.$table.' OR table_name='.strtoupper($table);
-        $query.= ') AND generated=' .$db->quote('N', 'text');
-        $indexes = $db->queryCol($query, 'text');
-        if (PEAR::isError($indexes)) {
-            return $indexes;
+    // }}}
+    // {{{ createConstraint()
+
+    /**
+     * create a constraint on a table
+     *
+     * @param string    $table        name of the table on which the constraint is to be created
+     * @param string    $name         name of the constraint to be created
+     * @param array     $definition   associative array that defines properties of the constraint to be created.
+     *                                Currently, only one property named FIELDS is supported. This property
+     *                                is also an associative with the names of the constraint fields as array
+     *                                constraints. Each entry of this array is set to another type of associative
+     *                                array that specifies properties of the constraint that are specific to
+     *                                each field.
+     *
+     *                                Example
+     *                                   array(
+     *                                       'fields' => array(
+     *                                           'user_name' => array(),
+     *                                           'last_login' => array()
+     *                                       )
+     *                                   )
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
+     * @access public
+     */
+    function createConstraint($table, $name, $definition)
+    {
+        $result = parent::createConstraint($table, $name, $definition);
+        if (PEAR::isError($result)) {
+            return $result;
+        }
+        if (!empty($definition['foreign'])) {
+            return $this->_createFKTriggers($table, array($name => $definition));
+        }
+        return MDB2_OK;
+    }
+
+    // }}}
+    // {{{ dropConstraint()
+
+    /**
+     * drop existing constraint
+     *
+     * @param string    $table        name of table that should be used in method
+     * @param string    $name         name of the constraint to be dropped
+     * @param string    $primary      hint if the constraint is primary
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
+     * @access public
+     */
+    function dropConstraint($table, $name, $primary = false)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
         }
 
-        $result = array();
-        foreach ($indexes as $index) {
-            $index = $this->_fixIndexName($index);
-            if (!empty($index)) {
-                $result[$index] = true;
+        //is it a FK constraint? If so, also delete the associated triggers
+        $db->loadModule('Reverse', null, true);
+        $definition = $db->reverse->getTableConstraintDefinition($table, $name);
+        if (!PEAR::isError($definition) && !empty($definition['foreign'])) {
+            //first drop the FK enforcing triggers
+            $result = $this->_dropFKTriggers($table, $name, $definition['references']['table']);
+            if (PEAR::isError($result)) {
+                return $result;
             }
         }
 
-        if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE
-            && $db->options['field_case'] == CASE_LOWER
-        ) {
-            $result = array_change_key_case($result, $db->options['field_case']);
+        return parent::dropConstraint($table, $name, $primary);
+    }
+
+    // }}}
+    // {{{ _createFKTriggers()
+
+    /**
+     * Create triggers to enforce the FOREIGN KEY constraint on the table
+     *
+     * NB: since there's no RAISE_APPLICATION_ERROR facility in mysql,
+     * we call a non-existent procedure to raise the FK violation message.
+     * @see http://forums.mysql.com/read.php?99,55108,71877#msg-71877
+     *
+     * @param string $table        table name
+     * @param array  $foreign_keys FOREIGN KEY definitions
+     *
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
+     * @access private
+     */
+    function _createFKTriggers($table, $foreign_keys)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
         }
-        return array_keys($result);
+        // create triggers to enforce FOREIGN KEY constraints
+        if ($db->supports('triggers') && !empty($foreign_keys)) {
+            $table = $db->quoteIdentifier($table, true);
+            foreach ($foreign_keys as $fkname => $fkdef) {
+                if (empty($fkdef) || empty($fkdef['onupdate'])) {
+                    continue;
+                }
+                $fkdef['onupdate'] = strtoupper($fkdef['onupdate']);
+                if ('RESTRICT' == $fkdef['onupdate'] || 'NO ACTION' == $fkdef['onupdate']) {
+                    // already handled by default
+                    continue;
+                }
+
+                $trigger_name = substr(strtolower($fkname.'_pk_upd_trg'), 0, $db->options['max_identifiers_length']);
+                $table_fields = array_keys($fkdef['fields']);
+                $referenced_fields = array_keys($fkdef['references']['fields']);
+
+                //create the ON UPDATE trigger on the primary table
+                $restrict_action = ' IF (SELECT ';
+                $aliased_fields = array();
+                foreach ($table_fields as $field) {
+                    $aliased_fields[] = $table .'.'.$field .' AS '.$field;
+                }
+                $restrict_action .= implode(',', $aliased_fields)
+                       .' FROM '.$table
+                       .' WHERE ';
+                $conditions  = array();
+                $new_values  = array();
+                $null_values = array();
+                for ($i=0; $i<count($table_fields); $i++) {
+                    $conditions[]  = $table_fields[$i] .' = :OLD.'.$referenced_fields[$i];
+                    $new_values[]  = $table_fields[$i] .' = :NEW.'.$referenced_fields[$i];
+                    $null_values[] = $table_fields[$i] .' = NULL';
+                }
+
+                $cascade_action = 'UPDATE '.$table.' SET '.implode(', ', $new_values) .' WHERE '.implode(' AND ', $conditions). ';';
+                $setnull_action = 'UPDATE '.$table.' SET '.implode(', ', $null_values).' WHERE '.implode(' AND ', $conditions). ';';
+
+                if ('SET DEFAULT' == $fkdef['onupdate'] || 'SET DEFAULT' == $fkdef['ondelete']) {
+                    $db->loadModule('Reverse', null, true);
+                    $default_values = array();
+                    foreach ($table_fields as $table_field) {
+                        $field_definition = $db->reverse->getTableFieldDefinition($table, $field);
+                        if (PEAR::isError($field_definition)) {
+                            return $field_definition;
+                        }
+                        $default_values[] = $table_field .' = '. $field_definition[0]['default'];
+                    }
+                    $setdefault_action = 'UPDATE '.$table.' SET '.implode(', ', $default_values).' WHERE '.implode(' AND ', $conditions). ';';
+                }
+
+                $query = 'CREATE TRIGGER %s'
+                        .' %s ON '.$fkdef['references']['table']
+                        .' FOR EACH ROW '
+                        .' BEGIN ';
+
+                if ('CASCADE' == $fkdef['onupdate']) {
+                    $sql_update = sprintf($query, $trigger_name, 'BEFORE UPDATE',  'update') . $cascade_action;
+                } elseif ('SET NULL' == $fkdef['onupdate']) {
+                    $sql_update = sprintf($query, $trigger_name, 'BEFORE UPDATE', 'update') . $setnull_action;
+                } elseif ('SET DEFAULT' == $fkdef['onupdate']) {
+                    $sql_update = sprintf($query, $trigger_name, 'BEFORE UPDATE', 'update') . $setdefault_action;
+                }
+                $sql_update .= ' END;';
+                $result = $db->exec($sql_update);
+                if (PEAR::isError($result)) {
+                    return $result;
+                }
+            }
+        }
+        return MDB2_OK;
+    }
+
+    // }}}
+    // {{{ _dropFKTriggers()
+
+    /**
+     * Drop the triggers created to enforce the FOREIGN KEY constraint on the table
+     *
+     * @param string $table            table name
+     * @param string $fkname           FOREIGN KEY constraint name
+     * @param string $referenced_table referenced table name
+     *
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
+     * @access private
+     */
+    function _dropFKTriggers($table, $fkname, $referenced_table)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        $triggers  = $this->listTableTriggers($table);
+        $triggers2 = $this->listTableTriggers($referenced_table);
+        if (!PEAR::isError($triggers2) && !PEAR::isError($triggers)) {
+            $triggers = array_merge($triggers, $triggers2);
+            $trigger_name = substr(strtolower($fkname.'_pk_upd_trg'), 0, $db->options['max_identifiers_length']);
+            $pattern = '/^'.$trigger_name.'$/i';
+            foreach ($triggers as $trigger) {
+                if (preg_match($pattern, $trigger)) {
+                    $result = $db->exec('DROP TRIGGER '.$trigger);
+                    if (PEAR::isError($result)) {
+                        return $result;
+                    }
+                }
+            }
+        }
+        return MDB2_OK;
     }
 
     // }}}
@@ -783,28 +1215,27 @@ END;
             return $db;
         }
 
-        $table = $db->quote($table, 'text');
-        $query = 'SELECT constraint_name name FROM user_constraints';
-        $query.= ' WHERE table_name='.$table.' OR table_name='.strtoupper($table);
-        $constraints = $db->queryCol($query);
-        if (PEAR::isError($constraints)) {
-            return $constraints;
+        list($owner, $table) = $this->splitTableSchema($table);
+        if (empty($owner)) {
+            $owner = $db->dsn['username'];
         }
 
-        $result = array();
-        foreach ($constraints as $constraint) {
-            $constraint = $this->_fixIndexName($constraint);
-            if (!empty($constraint)) {
-                $result[$constraint] = true;
-            }
+        $query = 'SELECT constraint_name
+                    FROM all_constraints
+                   WHERE (table_name=? OR table_name=?)
+                     AND (owner=? OR owner=?)';
+        $stmt = $db->prepare($query);
+        if (PEAR::isError($stmt)) {
+            return $stmt;
         }
-
-        if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE
-            && $db->options['field_case'] == CASE_LOWER
-        ) {
-            $result = array_change_key_case($result, $db->options['field_case']);
-        }
-        return array_keys($result);
+        $args = array(
+            $table,
+            strtoupper($table),
+            $owner,
+            strtoupper($owner),
+        );
+        $result = $stmt->execute($args);
+        return $this->_fetchCol($result, true);
     }
 
     // }}}
@@ -860,29 +1291,48 @@ END;
     /**
      * list all sequences in the current database
      *
+     * @param string owner, the current is default
      * @return mixed array of sequence names on success, a MDB2 error on failure
      * @access public
      */
-    function listSequences()
+    function listSequences($owner = null)
     {
         $db =& $this->getDBInstance();
         if (PEAR::isError($db)) {
             return $db;
         }
 
-        $query = "SELECT sequence_name FROM sys.user_sequences";
-        $table_names = $db->queryCol($query);
-        if (PEAR::isError($table_names)) {
-            return $table_names;
+        if (empty($owner)) {
+            $owner = $db->dsn['username'];
         }
-        $result = array();
-        foreach ($table_names as $table_name) {
-            $result[] = $this->_fixSequenceName($table_name);
+
+        $query = 'SELECT sequence_name
+                    FROM sys.all_sequences
+                   WHERE (sequence_owner=? OR sequence_owner=?)';
+        $stmt = $db->prepare($query);
+        if (PEAR::isError($stmt)) {
+            return $stmt;
         }
-        if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
-            $result = array_map(($db->options['field_case'] == CASE_LOWER ? 'strtolower' : 'strtoupper'), $result);
+        $result = $stmt->execute(array($owner, strtoupper($owner)));
+        if (PEAR::isError($result)) {
+            return $result;
         }
-        return $result;
+        $col = $result->fetchCol();
+        if (PEAR::isError($col)) {
+            return $col;
+        }
+        $result->free();
+        
+        foreach ($col as $k => $v) {
+            $col[$k] = $this->_fixSequenceName($v);
+        }
+
+        if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE
+            && $db->options['field_case'] == CASE_LOWER
+        ) {
+            $col = array_map(($db->options['field_case'] == CASE_LOWER ? 'strtolower' : 'strtoupper'), $col);
+        }
+        return $col;
     }
 }
 ?>

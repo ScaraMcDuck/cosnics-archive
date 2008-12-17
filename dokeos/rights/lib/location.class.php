@@ -275,6 +275,20 @@ class Location
 		return $rdm->retrieve_locations($siblings_condition);
 	}
 	
+	function has_siblings()
+	{
+		$rdm = RightsDataManager :: get_instance();
+		
+		$siblings_conditions = array();
+		$siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_parent());
+		$siblings_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->get_application());
+		$siblings_conditions[] = new NotCondition(new EqualityCondition(Location :: PROPERTY_ID, $this->get_id()));
+		
+		$siblings_condition = new AndCondition($siblings_conditions);
+			
+		return ($rdm->count_locations($siblings_condition) > 0);
+	}
+	
 	/**
 	 * Get the location's first level children
 	 */
@@ -289,6 +303,19 @@ class Location
 		$children_condition = new AndCondition($children_conditions);
 			
 		return $rdm->retrieve_locations($children_condition);
+	}
+	
+	function has_children()
+	{
+		$rdm = RightsDataManager :: get_instance();
+		
+		$children_conditions = array();
+		$children_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_id());
+		$children_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->get_application());
+		
+		$children_condition = new AndCondition($children_conditions);
+			
+		return ($rdm->retrieve_locations($children_condition) > 0);
 	}
 	
 	/**

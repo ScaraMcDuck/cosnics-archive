@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP versions 4 and 5                                                 |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1998-2006 Manuel Lemos, Tomas V.V.Cox,                 |
+// | Copyright (c) 1998-2008 Manuel Lemos, Tomas V.V.Cox,                 |
 // | Stig. S. Bakken, Lukas Smith, Lorenzo Alberton                       |
 // | All rights reserved.                                                 |
 // +----------------------------------------------------------------------+
@@ -43,7 +43,7 @@
 // | Author: Lorenzo Alberton <l.alberton@quipo.it>                       |
 // +----------------------------------------------------------------------+
 //
-// $Id: ibase.php,v 1.205 2007/05/03 11:56:58 quipo Exp $
+// $Id: ibase.php,v 1.219 2008/03/08 14:18:38 quipo Exp $
 
 /**
  * MDB2 FireBird/InterBase driver
@@ -55,6 +55,7 @@
 class MDB2_Driver_ibase extends MDB2_Driver_Common
 {
     // {{{ properties
+
     var $string_quoting = array('start' => "'", 'end' => "'", 'escape' => "'", 'escape_pattern' => '\\');
 
     var $identifier_quoting = array('start' => '', 'end' => '', 'escape' => false);
@@ -64,6 +65,7 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
     var $query_parameters = array();
 
     var $query_parameter_values = array();
+
     // }}}
     // {{{ constructor
 
@@ -89,6 +91,7 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
         $this->supported['LOBs'] = true;
         $this->supported['replace'] = false;
         $this->supported['sub_selects'] = true;
+        $this->supported['triggers'] = true;
         $this->supported['auto_increment'] = true;
         $this->supported['primary_key'] = true;
         $this->supported['result_introspection'] = true;
@@ -102,6 +105,7 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
         $this->options['database_path'] = '';
         $this->options['database_extension'] = '.gdb';
         $this->options['server_version'] = '';
+        $this->options['max_identifiers_length'] = 31;
     }
 
     // }}}
@@ -468,17 +472,21 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
      * @return mixed connection resource on success, MDB2 Error Object on failure
      * @access protected
      */
-    function _doConnect($database_name, $persistent = false)
+    function _doConnect($username, $password, $database_name, $persistent = false)
     {
-        $user    = $this->dsn['username'];
-        $pw      = $this->dsn['password'];
+        if (!PEAR::loadExtension('interbase')) {
+            return $this->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
+                'extension '.$this->phptype.' is not compiled into PHP', __FUNCTION__);
+        }
+
+        $database_file = $this->_getDatabaseFile($database_name);
         $dbhost  = $this->dsn['hostspec'] ?
-            ($this->dsn['hostspec'].':'.$database_name) : $database_name;
+            ($this->dsn['hostspec'].':'.$database_file) : $database_file;
 
         $params = array();
         $params[] = $dbhost;
-        $params[] = !empty($user) ? $user : null;
-        $params[] = !empty($pw) ? $pw : null;
+        $params[] = !empty($username) ? $username : null;
+        $params[] = !empty($password) ? $password : null;
         $params[] = isset($this->dsn['charset']) ? $this->dsn['charset'] : null;
         $params[] = isset($this->dsn['buffers']) ? $this->dsn['buffers'] : null;
         $params[] = isset($this->dsn['dialect']) ? $this->dsn['dialect'] : null;
@@ -518,7 +526,8 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
     {
         $database_file = $this->_getDatabaseFile($this->database_name);
         if (is_resource($this->connection)) {
-            if (count(array_diff($this->connected_dsn, $this->dsn)) == 0
+            //if (count(array_diff($this->connected_dsn, $this->dsn)) == 0
+            if (MDB2::areEquals($this->connected_dsn, $this->dsn)
                 && $this->connected_database_name == $database_file
                 && $this->opened_persistent == $this->options['persistent']
             ) {
@@ -527,13 +536,11 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
             $this->disconnect(false);
         }
 
-        if (!PEAR::loadExtension('interbase')) {
-            return $this->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
-                'extension '.$this->phptype.' is not compiled into PHP', __FUNCTION__);
-        }
-
         if (!empty($this->database_name)) {
-            $connection = $this->_doConnect($database_file, $this->options['persistent']);
+            $connection = $this->_doConnect($this->dsn['username'],
+                                            $this->dsn['password'],
+                                            $this->database_name,
+                                            $this->options['persistent']);
             if (PEAR::isError($connection)) {
                 return $connection;
             }
@@ -548,33 +555,21 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
     }
 
     // }}}
-    // {{{ setCharset()
+    // {{{ databaseExists()
 
     /**
-     * Set the charset on the current connection
+     * check if given database name is exists?
      *
-     * @param string    charset
-     * @param resource  connection handle
+     * @param string $name    name of the database that should be checked
      *
-     * @return true on success, MDB2 Error Object on failure
+     * @return mixed true/false on success, a MDB2 error on failure
+     * @access public
      */
-    function setCharset($charset, $connection = null)
+    function databaseExists($name)
     {
-        if (is_null($connection)) {
-            $connection = $this->getConnection();
-            if (PEAR::isError($connection)) {
-                return $connection;
-            }
-        }
-
-        $query = 'SET NAMES '.$this->quote($charset, 'text');
-        $result = @ibase_query($connection, $query);
-        if (!$result) {
-            return $this->raiseError(null, null, null,
-                'Unable to set client charset: '.$charset, __FUNCTION__);
-        }
-
-        return MDB2_OK;
+        $database_file = $this->_getDatabaseFile($name);
+        $result = file_exists($database_file);
+        return $result;
     }
 
     // }}}
@@ -610,6 +605,42 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
             }
         }
         return parent::disconnect($force);
+    }
+
+    // }}}
+    // {{{ standaloneQuery()
+
+   /**
+     * execute a query as DBA
+     *
+     * @param string $query the SQL query
+     * @param mixed   $types  array that contains the types of the columns in
+     *                        the result set
+     * @param boolean $is_manip  if the query is a manipulation query
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
+     * @access public
+     */
+    function &standaloneQuery($query, $types = null, $is_manip = false)
+    {
+        $user = $this->options['DBA_username']? $this->options['DBA_username'] : $this->dsn['username'];
+        $pass = $this->options['DBA_password']? $this->options['DBA_password'] : $this->dsn['password'];
+        $connection = $this->_doConnect($user, $pass, $this->database_name, $this->options['persistent']);
+        if (PEAR::isError($connection)) {
+            return $connection;
+        }
+
+        $offset = $this->offset;
+        $limit = $this->limit;
+        $this->offset = $this->limit = 0;
+        $query = $this->_modifyQuery($query, $is_manip, $limit, $offset);
+        
+        $result =& $this->_doQuery($query, $is_manip, $connection);
+        if (!PEAR::isError($result)) {
+            $result = $this->_affectedRows($connection, $result);
+        }
+
+        @mysql_close($connection);
+        return $result;
     }
 
     // }}}
@@ -720,8 +751,10 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
             $server_info = $this->connected_server_info;
         } elseif ($this->options['server_version']) {
             $server_info = $this->options['server_version'];
-        } elseif ($this->options['DBA_username']) {
-            $ibserv = @ibase_service_attach($this->dsn['hostspec'], $this->options['DBA_username'], $this->options['DBA_password']);
+        } else {
+            $username = $this->options['DBA_username'] ? $this->options['DBA_username'] : $this->dsn['username'];
+            $password = $this->options['DBA_password'] ? $this->options['DBA_password'] : $this->dsn['password'];
+            $ibserv = @ibase_service_attach($this->dsn['hostspec'], $username, $password);
             $server_info = @ibase_server_info($ibserv, IBASE_SVC_SERVER_VERSION);
             @ibase_service_detach($ibserv);
         }
@@ -733,7 +766,8 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
         $this->connected_server_info = $server_info;
         if (!$native) {
             //WI-V1.5.3.4854 Firebird 1.5
-            if (!preg_match('/-V([\d\.]*)/', $server_info, $matches)) {
+            //WI-T2.1.0.16780 Firebird 2.1 Beta 2
+            if (!preg_match('/-[VT]([\d\.]*)/', $server_info, $matches)) {
                 return $this->raiseError(MDB2_ERROR_INVALID, null, null,
                     'Could not parse version information:'.$server_info, __FUNCTION__);
             }
@@ -758,8 +792,9 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
      * prepare() requires a generic query as string like
      * 'INSERT INTO numbers VALUES(?,?)' or
      * 'INSERT INTO numbers VALUES(:foo,:bar)'.
-     * The ? and :[a-zA-Z] and  are placeholders which can be set using
-     * bindParam() and the query can be send off using the execute() method.
+     * The ? and :name and are placeholders which can be set using
+     * bindParam() and the query can be sent off using the execute() method.
+     * The allowed format for :name can be set with the 'bindname_format' option.
      *
      * @param string $query the query to prepare
      * @param mixed   $types  array that contains the types of the placeholders
@@ -825,10 +860,11 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
                     $question = $colon = $placeholder_type;
                 }
                 if ($placeholder_type == ':') {
-                    $parameter = preg_replace('/^.{'.($position+1).'}([a-z0-9_]+).*$/si', '\\1', $query);
+                    $regexp = '/^.{'.($position+1).'}('.$this->options['bindname_format'].').*$/s';
+                    $parameter = preg_replace($regexp, '\\1', $query);
                     if ($parameter === '') {
                         $err =& $this->raiseError(MDB2_ERROR_SYNTAX, null, null,
-                            'named parameter with an empty name', __FUNCTION__);
+                            'named parameter name must match "bindname_format" option', __FUNCTION__);
                         return $err;
                     }
                     $positions[] = $parameter;
@@ -853,7 +889,7 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
         }
 
         $class_name = 'MDB2_Statement_'.$this->phptype;
-        $obj =& new $class_name($this, $statement, $positions, $query, $types, $result_types, $is_manip, $limit, $offset);
+        $obj = new $class_name($this, $statement, $positions, $query, $types, $result_types, $is_manip, $limit, $offset);
         $this->debug($query, __FUNCTION__, array('is_manip' => $is_manip, 'when' => 'post', 'result' => $obj));
         return $obj;
     }
@@ -890,9 +926,11 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
     {
         $sequence_name = $this->getSequenceName($seq_name);
         $query = 'SELECT GEN_ID('.$sequence_name.', 1) as the_value FROM RDB$DATABASE';
+        $this->pushErrorHandling(PEAR_ERROR_RETURN);
         $this->expectError('*');
         $result = $this->queryOne($query, 'integer');
         $this->popExpect();
+        $this->popErrorHandling();
         if (PEAR::isError($result)) {
             if ($ondemand) {
                 $this->loadModule('Manager', null, true);
@@ -1428,7 +1466,11 @@ class MDB2_Statement_ibase extends MDB2_Statement_Common
             }
             $value = $this->values[$parameter];
             $type = !empty($this->types[$parameter]) ? $this->types[$parameter] : null;
-            $parameters[] = $this->db->quote($value, $type, false);
+            $quoted = $this->db->quote($value, $type, false);
+            if (PEAR::isError($quoted)) {
+                return $quoted;
+            }
+            $parameters[] = $quoted;
         }
 
         $result = @call_user_func_array('ibase_execute', $parameters);
