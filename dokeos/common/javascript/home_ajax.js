@@ -15,7 +15,7 @@
 	
 	function translation(string, application) {		
 		var translated_string = $.ajax({
-			type: "GET",
+			type: "POST",
 			url: "./common/javascript/ajax/translation.php",
 			data: { string: string, application: application },
 			async: false

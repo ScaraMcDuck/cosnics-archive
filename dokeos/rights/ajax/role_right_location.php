@@ -4,55 +4,47 @@ $this_section = 'rights';
 require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
+require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
 
 Translation :: set_application($this_section);
 Theme :: set_application($this_section);
 
-$tree = RightsUtilities :: get_tree('admin');
-
-$root = $_REQUEST['root'];
-
-if ($root == 'source' || $root == '')
+if (!Authentication :: is_valid())
 {
-	$root = $tree->getRoot();
+	return 0;
+}
+
+$user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
+// TODO: User real roles'n'rights here
+if (!$user->is_platform_admin())
+{
+	return 0;
+}
+
+$rights = $_POST['rights'];
+$rights = explode('_', $rights);
+
+$right = $rights['1'];
+$role = $rights['2'];
+$location = $rights['3'];
+
+if (isset($role) && isset($right) && isset($location))
+{
+	$rdm = RightsDataManager :: get_instance();
 	
-	echo '[' . "\n";
-	echo '	{' . "\n";
-	echo '		"text": "'. $root['name'] .'"';
-	if ($tree->hasChildren($root['id']))
+	$result = $rdm->retrieve_role_right_location($right, $role, $location);
+	
+	if (!$result->invert())
 	{
-		echo ', ' . "\n";
-		echo '		"id": "'. $root['id'] .'",' . "\n";
-		echo '		"hasChildren": true' . "\n";
+		echo 0;
 	}
-	echo '	}' . "\n";
-	echo ']' . "\n";
+	else
+	{
+		echo 1;
+	}
 }
 else
 {
-	$elements = $tree->getChildren($root);
-	
-	echo '[' . "\n";
-	
-	$strings = array();
-	
-	foreach ($elements as $element)
-	{
-		$string = '	{' . "\n";
-		$string .= '		"text": "<a href=\"blala\">'. $element['name'] .'</a>"';
-		if ($tree->hasChildren($element['id']))
-		{
-			$string .= ', ' . "\n";
-			$string .= '		"id": "'. $element['id'] .'",' . "\n";
-			$string .= '		"hasChildren": true' . "\n";
-		}
-		$string .= '	}' . "\n";
-		
-		$strings[] = $string;
-	}
-	
-	echo implode(', ', $strings);
-	
-	echo ']' . "\n";
+	echo 0;
 }
 ?>

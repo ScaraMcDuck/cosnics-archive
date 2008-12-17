@@ -172,9 +172,9 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			
 			$this->display_header($trail);
 			echo $this->get_modification_links();
-			echo $this->get_rights_legend();
 			echo $this->get_rights_table_html();
 			echo $this->get_relations();
+			echo $this->get_rights_legend();
 			$this->display_footer();
 		}
 	}
@@ -227,7 +227,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			
 			foreach ($rights_array as $id => $name)
 			{
-				$html[] = '<div id="r_'. $role->get_id() .'_'. $id .'" style="float: left; width: 24%; text-align: center;">';
+				$html[] = '<div id="r_'. $id .'_'. $role->get_id() .'_'. $location->get_id() .'" style="float: left; width: 24%; text-align: center;">';
 				if (isset($locked_parent))
 				{
 					$value = $this->is_allowed($id, $role->get_id(), $locked_parent->get_id());
@@ -254,12 +254,12 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 						}
 						else
 						{
-							$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<img src="'. Theme :: get_common_image_path() .'action_setting_false.png" title="'. Translation :: get('False') .'" /></a>';
+							$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
 						}
 					}
 					else
 					{
-						$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<img src="'. Theme :: get_common_image_path() .'action_setting_true.png" title="'. Translation :: get('True') .'" /></a>';
+						$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightTrue"></div></a>';
 					}
 				}
 				$html[] = '</div>';

@@ -13,10 +13,6 @@ class RoleRightLocation
 	const PROPERTY_LOCATION_ID = 'location_id';
 	const PROPERTY_ROLE_ID = 'role_id';
 	const PROPERTY_VALUE = 'value';
-
-	private $right_id;
-	private $role_id;
-	private $location_id;
 	
 	private $defaultProperties;
 
@@ -32,11 +28,8 @@ class RoleRightLocation
 		return true;
 	}
 	
-	function RoleRightLocation($right_id = 0, $role_id = 0, $location_id = 0, $defaultProperties = array ())
+	function RoleRightLocation($defaultProperties = array ())
 	{
-		$this->right_id = $right_id;
-		$this->role_id = $role_id;
-		$this->location_id = $location_id;
 		$this->defaultProperties = $defaultProperties;
 	}
 	
@@ -91,32 +84,32 @@ class RoleRightLocation
 	
 	function get_right_id()
 	{
-		return $this->right_id;
+		return $this->get_default_property(self :: PROPERTY_RIGHT_ID);
 	}
 	
 	function set_right_id($right_id)
 	{
-		$this->right_id = $right_id;
+		$this->set_default_property(self :: PROPERTY_RIGHT_ID, $right_id);
 	}
 	
 	function get_role_id()
 	{
-		return $this->role_id;
+		return $this->get_default_property(self :: PROPERTY_ROLE_ID);
 	}
 	
 	function set_role_id($role_id)
 	{
-		$this->role_id = $role_id;
+		$this->set_default_property(self :: PROPERTY_ROLE_ID, $role_id);
 	}	
 	
 	function get_location_id()
 	{
-		return $this->location_id;
+		return $this->get_default_property(self :: PROPERTY_LOCATION_ID);
 	}
 	
 	function set_location_id($location_id)
 	{
-		$this->location_id = $location_id;
+		$this->set_default_property(self :: PROPERTY_LOCATION_ID, $location_id);
 	}
 	
 	function get_value()
@@ -142,6 +135,13 @@ class RoleRightLocation
 	{
 		$rdm = RightsDataManager :: get_instance();
 		return $rdm->create_rolerightlocation($this);
+	}
+	
+	function invert()
+	{
+		$value = $this->get_value();
+		$this->set_value(!$value);
+		return $this->update();
 	}
 }
 ?>
