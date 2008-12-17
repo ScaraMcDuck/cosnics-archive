@@ -45,7 +45,7 @@
  <index name="tool">
   <indexproperty name="tool"/>
  </index>
- <index name="repo_viewer">
-  <indexproperty name="repo_viewer"/>
+ <index name="publisher">
+  <indexproperty name="publisher"/>
  </index>
 </object>
