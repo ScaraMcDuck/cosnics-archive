@@ -61,7 +61,7 @@ abstract class QuestionQtiExport extends QtiExport
 	{
 		$doc = new DOMDocument();
 		$doc->loadXML($xml);
-		
+		//echo htmlspecialchars($xml).'<br/><br/>';
 		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/';
   		
   		if(!is_dir($temp_dir))

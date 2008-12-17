@@ -15,10 +15,9 @@ class DocumentQuestionDisplay extends QuestionDisplay
 		$elements[] = $formvalidator->createElement('html', '<div style="display:block;" id="editor_html_content">');
 		$elements[] = $formvalidator->createElement('file', null, Translation :: get('Upload a file'));
 		$elements[] = $formvalidator->createElement('html', '</div>');
+		
 		$formvalidator->addGroup($elements, $name, '<br/>');
-		//$formvalidator->addElement('upload_or_select', $name, Translation :: get('Upload or select a document'));
 		$formvalidator->addElement('html', '<br/>');
-		//$formvalidator->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
 		$formvalidator->addElement('html', $this->display_footer());
 	}
 	

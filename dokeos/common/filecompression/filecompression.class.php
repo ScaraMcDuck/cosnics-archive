@@ -74,9 +74,9 @@ abstract class Filecompression
 		return Path :: get($path_type);
 	}
 	
-	function set_filename($filename)
+	function set_filename($filename, $file_extension = 'dlof')
 	{
-		$this->filename = Filesystem :: create_safe_name($filename) . '.dlof';
+		$this->filename = Filesystem :: create_safe_name($filename) . '.'.$file_extension;
 	}
 	
 	function get_filename()

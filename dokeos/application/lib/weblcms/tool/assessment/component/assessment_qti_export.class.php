@@ -4,13 +4,6 @@ require_once Path::get_repository_path().'/lib/export/learning_object_export.cla
 class AssessmentToolQtiExportComponent extends AssessmentToolComponent
 {
 	
-	private $redirect_params;
-	
-	function set_redirect_params($redirect_params)
-	{
-		$this->redirect_params = $redirect_params;
-	}
-	
 	function run()
 	{
 		$pid = $_GET[AssessmentTool :: PARAM_PUBLICATION_ID];
@@ -26,7 +19,7 @@ class AssessmentToolQtiExportComponent extends AssessmentToolComponent
 		header('Pragma: no-cache');
 		header('Content-type: application/octet-stream');
 		header('Content-length: '.filesize($path));
-			
+		
 		if (preg_match("/MSIE 5.5/", $_SERVER['HTTP_USER_AGENT']))
 		{
 			header('Content-Disposition: filename= '.basename($path));
@@ -45,12 +38,11 @@ class AssessmentToolQtiExportComponent extends AssessmentToolComponent
 		
 		header('Content-Description: '.basename($path));
 		header('Content-transfer-encoding: binary');
-		/*$fp = fopen($path, 'r');
+		$fp = fopen($path, 'r');
 		fpassthru($fp);
-		fclose($fp);*/
-		readfile($path);
-		//Filesystem :: remove($path);
-		//$this->redirect(null, null, false, $this->redirect_params);
+		fclose($fp);
+		//readfile($path);
+		Filesystem :: remove($path);
 	}
 }
 ?>
