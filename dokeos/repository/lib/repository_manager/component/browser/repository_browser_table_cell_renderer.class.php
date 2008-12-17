@@ -102,7 +102,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 			
 			$toolbar_data[] = array(
 				'href' => $this->browser->get_learning_object_exporting_url($learning_object),
-				'img' => Theme :: get_common_image_path().'action_save.png',
+				'img' => Theme :: get_common_image_path().'action_export.png',
 				'label' => Translation :: get('Export'),
 			);
 			
