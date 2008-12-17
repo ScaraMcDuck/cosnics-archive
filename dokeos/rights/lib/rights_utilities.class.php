@@ -68,6 +68,8 @@ class RightsUtilities
     	$root->set_application($application);
     	$root->set_type($xml['type']);
     	$root->set_identifier($xml['identifier']);
+    	$root->set_inherit(0);
+    	$root->set_locked(0);
     	if (!$root->create())
     	{
     		return false;
@@ -147,10 +149,10 @@ class RightsUtilities
 		
 		$user = $udm->retrieve_user(Session :: get_user_id());
 		
-//		if (is_object($user) && $user->is_platform_admin())
-//		{
-//			return true; 
-//		}
+		if (is_object($user) && $user->is_platform_admin())
+		{
+			return true; 
+		}
 		
 		$conditions = array();
 		$conditions[] = new EqualityCondition('identifier', $location);
