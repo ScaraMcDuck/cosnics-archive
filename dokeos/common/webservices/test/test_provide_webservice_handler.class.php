@@ -1,6 +1,8 @@
 <?php
 require_once(dirname(__FILE__) . '/../../global.inc.php');
 require_once dirname(__FILE__) . '/../webservice.class.php';
+require_once dirname(__FILE__) . '/provider/input_user.class.php';
+require_once dirname(__FILE__) . '/provider/output_user.class.php';
 
 $handler = new TestProvideWebserviceHandler();
 $handler->run();
@@ -20,8 +22,8 @@ class TestProvideWebserviceHandler
 		$functions = array();
 		
 		$functions['get_user'] = array(
-			$input_object = new InputUser(),
-			$output_object = new OutputUser()
+			'input' => new InputUser(),
+			'output' => new OutputUser()
 		);
 		
 		$this->webservice->provide_webservice($functions);
@@ -29,16 +31,10 @@ class TestProvideWebserviceHandler
 	
 	function get_user($input_user)
 	{
+		$user = new OutputUser();
+		$user->set_name('Developer');
+		$user->set_email('developer@dokeos.com');
 		
-	}
-	
-	function get_input_object($function_name)
-	{
-		
-	}
-	
-	function get_output_object($function_name)
-	{
-		
+		return $user;
 	}
 }
