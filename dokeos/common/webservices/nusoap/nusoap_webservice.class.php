@@ -10,8 +10,32 @@ class NusoapWebservice
 		$this->webservice_handler = $webservice_handler;
 	}
 	
-	function provide_webservice()
+	function provide_webservice($functions)
 	{
+		$server = new soap_server();
+		
+		foreach($functions as $name => $function)
+		{
+			$server->wsdl->addComplexType(
+			    'User',
+			    'complexType',
+			    'struct',
+			    'all',
+			    '',
+			    array(
+			        'datasource' => array('name' => 'datasource', 'type' => 'xsd:string'),
+			        'familyname' => array('name' => 'familyname', 'type' => 'xsd:string'),
+			        'givenname' => array('name' => 'givenname', 'type' => 'xsd:string'),
+			        'username' => array('name' => 'username', 'type' => 'xsd:string'),
+			        'emailaddress' => array('name' => 'emailaddress', 'type' => 'xsd:string'),
+			        'courseid' => array('name' => 'courseid', 'type' => 'xsd:string'),
+			        'coursetitle' => array('name' => 'coursetitle', 'type' => 'xsd:string'),
+			        'status' => array('name' => 'status', 'type' => 'xsd:string'),
+			        'startdate' => array('name' => 'startdate', 'type' => 'xsd:string'),
+			        'stopdate' => array('name' => 'stopdate', 'type' => 'xsd:string')
+			    )
+			);
+		}
 		
 	}
 	
