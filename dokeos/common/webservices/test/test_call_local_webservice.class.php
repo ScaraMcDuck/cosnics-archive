@@ -2,7 +2,22 @@
 require_once(dirname(__FILE__) . '/../../global.inc.php');
 require_once dirname(__FILE__) . '/../webservice.class.php';
 
+$res = '';
+
 $handler = new TestCallLocalWebservice();
+$file = fopen(dirname(__FILE__) . 'test.txt', 'w');
+for($i=0;$i<10;$i++)
+{
+	$start = microtime(true);
+	$handler->run();
+	$stop = microtime(true);
+	
+	$time = $stop - $start;
+	
+	fwrite($file, date('[H:m]') . 'Called webservice (' . $time .' s) :' . "\n" . var_export($res, true) . "\n");
+}
+fclose($file);
+
 $handler->run();
 
 class TestCallLocalWebservice
@@ -29,7 +44,8 @@ class TestCallLocalWebservice
 	
 	function handle_webservice($result)
 	{
-		dump($result);
+		global $res;
+		$res = $result;
 	}
 }
 

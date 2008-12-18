@@ -4,6 +4,7 @@ class OutputUser
 {
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_EMAIL = 'email';
+	const PROPERTY_GENDER = 'gender';
 	
 	private $defaultProperties;
 
@@ -29,7 +30,7 @@ class OutputUser
 	
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_NAME, self :: PROPERTY_EMAIL);
+		return array (self :: PROPERTY_NAME, self :: PROPERTY_EMAIL, self :: PROPERTY_GENDER);
 	}
 
 	function set_default_property($name, $value)
@@ -55,6 +56,16 @@ class OutputUser
 	function set_email($email)
 	{
 		$this->set_default_property(self :: PROPERTY_EMAIL, $email);
+	}	
+	
+	function get_gender()
+	{
+		return $this->get_default_property(self :: PROPERTY_GENDER);
+	}
+	
+	function set_gender($gender)
+	{
+		$this->set_default_property(self :: PROPERTY_GENDER, $gender);
 	}	
 	
 	function to_array()
