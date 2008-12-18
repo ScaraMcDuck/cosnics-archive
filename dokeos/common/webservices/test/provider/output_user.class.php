@@ -56,5 +56,10 @@ class OutputUser
 	{
 		$this->set_default_property(self :: PROPERTY_EMAIL, $email);
 	}	
+	
+	function to_array()
+	{
+		return $this->defaultProperties;
+	}
 }
 ?>

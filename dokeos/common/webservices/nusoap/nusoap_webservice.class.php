@@ -42,24 +42,12 @@ class NusoapWebservice
 			    $properties
 			);
 			
-			$server->register('NusoapWebservice.' . $name, $input, array('return' => 'tns:' . get_class($out)),
-			       'http://www.dokeos.com', 'http://www.dokeos.com#' . $name, 'rpc', 'encoded', '');
+			$server->register(get_class($this->webservice_handler) . '.' . $name, $input, array('return' => 'tns:' . get_class($out)),
+			       'http://www.dokeos.com', 'http://www.dokeos.com#' . $name, 'rpc', 'encoded', '', '', 'NusoapWebservice.handle_webservice');
 			
 			if (!isset($HTTP_RAW_POST_DATA)) $HTTP_RAW_POST_DATA = implode("\r\n", file('php://input'));
 			$server->service($HTTP_RAW_POST_DATA);
-			
 		}
-	}
-	
-	function handle_webservice($input_array)
-	{
-		//dump($input_array);
-	}
-	
-	function get_user($input_array)
-	{
-		return array('name' => 'Sven', 'email' => 'a');
-		//dump($input_array);
 	}
 	
 	function call_webservice($wsdl, $functions)
@@ -74,11 +62,11 @@ class NusoapWebservice
 			$result = $client->call($function_name, $function_parameters);
 			$this->webservice_handler->{$handler_function}($result);
 			
-			$this->debug($result, $client);
+			$this->debug($client);
 		}
 	}
 	
-	function debug($result, $client)
+	function debug($client)
 	{	
 		echo '<h2>Request</h2><pre>' . htmlspecialchars($client->request, ENT_QUOTES) . '</pre>';
 		echo '<h2>Response</h2><pre>' . htmlspecialchars($client->response, ENT_QUOTES) . '</pre>';

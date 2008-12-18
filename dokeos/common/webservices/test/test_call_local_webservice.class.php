@@ -19,7 +19,7 @@ class TestCallLocalWebservice
 		$wsdl = 'http://localhost/lcms/common/webservices/test/test_provide_webservice_handler.class.php?wsdl';
 		$functions = array();
 		$functions[] = array(
-			'name' => 'NusoapWebservice.get_user',
+			'name' => 'TestProvideWebserviceHandler.get_user',
 			'parameters' => array('id' => 1),
 			'handler' => 'handle_webservice'
 		);
