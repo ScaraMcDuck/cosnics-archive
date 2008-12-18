@@ -1,24 +1,20 @@
 <?php
 require_once(dirname(__FILE__) . '/../../global.inc.php');
 require_once dirname(__FILE__) . '/../webservice.class.php';
-
-$res = '';
+ini_set("memory_limit"		,"3500M"	);	// Geen php-beperkingen voor geheugengebruik
+ini_set("max_execution_time"	,"72000");	// Twee uur moet voldoende zijn...
 
 $handler = new TestCallLocalWebservice();
+
+$start_total = microtime(true);
 $file = fopen(dirname(__FILE__) . 'test.txt', 'w');
-for($i=0;$i<10;$i++)
-{
-	$start = microtime(true);
-	$handler->run();
-	$stop = microtime(true);
-	
-	$time = $stop - $start;
-	
-	fwrite($file, date('[H:m]') . 'Called webservice (' . $time .' s) :' . "\n" . var_export($res, true) . "\n");
-}
-fclose($file);
 
 $handler->run();
+
+$stop_total = microtime(true);
+$time = $stop_total - $start_total;
+fwrite($file, 'Total: ' . $time . ' s');
+fclose($file);
 
 class TestCallLocalWebservice
 {
@@ -33,19 +29,23 @@ class TestCallLocalWebservice
 	{	
 		$wsdl = 'http://localhost/lcms/common/webservices/test/test_provide_webservice_handler.class.php?wsdl';
 		$functions = array();
-		$functions[] = array(
-			'name' => 'TestProvideWebserviceHandler.get_user',
-			'parameters' => array('id' => 1),
-			'handler' => 'handle_webservice'
-		);
+		
+		for($i=0;$i<10;$i++)
+		{
+			$functions[] = array(
+				'name' => 'TestProvideWebserviceHandler.get_user',
+				'parameters' => array('id' => 1),
+				'handler' => 'handle_webservice'
+			);
+		}
 		
 		$this->webservice->call_webservice($wsdl, $functions);
 	}
 	
 	function handle_webservice($result)
 	{
-		global $res;
-		$res = $result;
+		global $file;
+		fwrite($file, date('[H:i]') . 'Called webservice :' . "\n" . var_export($result, true) . "\n");
 	}
 }
 
