@@ -5,9 +5,9 @@ class NusoapWebservice
 {
 	private $webservice_handler;
 	
-	function NusoapWebservice($webservice)
+	function NusoapWebservice($webservice_handler)
 	{
-		$this->webservice = $webservice;
+		$this->webservice_handler = $webservice_handler;
 	}
 	
 	function provide_webservice()
@@ -25,7 +25,10 @@ class NusoapWebservice
 			$function_parameters = $function['parameters'];
 			$handler_function = $function['handler'];
 			$result = $client->call($function_name, $function_parameters);
-			call_user_func(array($this->webservice_handler), $handler_function, $result);
+			$this->webservice_handler->{$handler_function}($result);
+			//call_user_func(array($this->webservice_handler, $handler_function), $result);
+			
+			//$this->debug($result, $client);
 		}
 	}
 	
