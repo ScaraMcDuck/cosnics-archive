@@ -13,7 +13,7 @@ class ScoreQuestionQtiImport extends QuestionQtiImport
 		$descr = $data['itemBody']['sliderInteraction']['prompt'];
 		$low = $data['itemBody']['sliderInteraction']['lowerBound'];
 		$high = $data['itemBody']['sliderInteraction']['upperBound'];
-		echo 'Score question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
+		//echo 'Score question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
 		$question = parent :: create_question($title, $descr, $question_type);
 		
 		$low_answer = $this->create_answer($low);

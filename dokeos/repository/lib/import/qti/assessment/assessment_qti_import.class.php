@@ -9,41 +9,48 @@ class AssessmentQtiImport extends QtiImport
 	function import_learning_object()
 	{
 		$data = $this->get_file_content_array();
-		//echo '<br/>';
-		//print_r($data);
-		//echo '<br/>';
-		
+
 		$assessment = new Assessment();
 		$title = $data['title'];
 		$assessment->set_title($title);
 		$assessment->set_owner_id($this->get_user()->get_id());
 		$assessment->set_assessment_type(Assessment :: TYPE_EXERCISE);
 		$assessment->create();
-		echo $title;
+		//echo $title;
 		$testparts = $data['testPart'];
 		
 		if ($testparts[0] != null)
 		{
-			//multiple test parts, probably never going to happen
+			foreach ($testparts as $testpart)
+			{
+				$this->import_testpart($testpart, $assessment);
+			}
 		}
 		else
 		{
-			//one test part
 			$this->import_testpart($testparts, $assessment);
 		}
+		return $assessment;
 	}
 	
 	function import_testpart($part, $assessment)
 	{
 		$assessment_sections = $part['assessmentSection'];
-		
+		$max_times_taken = $part['itemSessionControl']['maxAttempts'];
+		if ($max_times_taken != null)
+		{
+			$assessment->set_max_times_taken($max_times_taken);
+			$assessment->update();
+		}
 		if ($assessment_sections[0] != null)
 		{
-			//multiple assessment sections, probably never going to happen
+			foreach ($assessment_sections as $section)
+			{
+				$this->import_assessment_section($section, $assessment);
+			}
 		}
 		else
 		{
-			//one assessment section
 			$this->import_assessment_section($assessment_sections, $assessment);
 		}
 	}
@@ -51,14 +58,13 @@ class AssessmentQtiImport extends QtiImport
 	function import_assessment_section($assessment_section, $assessment)
 	{
 		$descr = $assessment_section['title'];
-		echo $descr;
+		//echo $descr;
 		$assessment->set_description($descr);
 
 		$assessment->update();
 		$assessment_item_refs = $assessment_section['assessmentItemRef'];
 		if ($assessment_item_refs[0] != null)
 		{
-			//multiple assessment itemrefs
 			foreach ($assessment_item_refs as $item_ref)
 			{
 				$this->import_assessment_item_ref($item_ref, $assessment);
@@ -66,7 +72,6 @@ class AssessmentQtiImport extends QtiImport
 		}
 		else
 		{
-			//one assessment itemref
 			$this->import_assessment_item_ref($assessment_item_refs, $assessment);
 		}
 	}
@@ -80,7 +85,7 @@ class AssessmentQtiImport extends QtiImport
 		{
 			$dir .= $dirparts[$i].'/';
 		}
-		echo '<br/>import question from '.$dir.$item_ref_file.'<br/>';
+		//echo '<br/>import question from '.$dir.$item_ref_file.'<br/>';
 		$question_qti_import = QtiImport :: factory_qti($item_ref_file, $this->get_user(), $this->get_category(), $dir);
 		$qid = $question_qti_import->import_learning_object();
 		

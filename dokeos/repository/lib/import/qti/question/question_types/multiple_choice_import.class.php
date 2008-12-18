@@ -11,7 +11,7 @@ class MultipleChoiceQuestionQtiImport extends QuestionQtiImport
 		$question_type = Question :: TYPE_MULTIPLE_CHOICE;
 		$title = $data['title'];
 		$descr = $data['itemBody']['choiceInteraction']['prompt'];
-		echo 'Multiple choice question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
+		//echo 'Multiple choice question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
 		$question = parent :: create_question($title, $descr, $question_type);
 		
 		$this->create_answers($data, $question);
@@ -31,7 +31,7 @@ class MultipleChoiceQuestionQtiImport extends QuestionQtiImport
 		$correct = $data['responseDeclaration']['correctResponse']['value'];
 		$answers[$correct]['score'] = 1;
 		
-		print_r($answers);
+		//print_r($answers);
 		
 		foreach ($answers as $answer)
 		{

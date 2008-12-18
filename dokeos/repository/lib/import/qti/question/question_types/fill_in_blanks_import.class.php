@@ -20,7 +20,7 @@ class FillInBlanksQuestionQtiImport extends QuestionQtiImport
 		{
 			$descr .= $data['itemBody']['blockquote']['_content'];
 		}
-		echo 'Fill in blanks question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
+		//echo 'Fill in blanks question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
 		$question = parent :: create_question($title, $descr, $question_type);
 		
 		$this->create_answers($data, $question);

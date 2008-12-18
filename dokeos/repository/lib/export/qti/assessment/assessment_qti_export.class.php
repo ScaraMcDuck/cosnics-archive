@@ -4,11 +4,9 @@ require_once Path :: get_library_path() . 'filecompression/filecompression.class
 
 class AssessmentQtiExport extends QtiExport
 {
-	//private $assessment;
 	
 	function AssessmentQtiExport($assessment)
 	{
-		//$this->assessment = $assessment;
 		parent :: __construct($assessment);
 	}
 	
@@ -17,7 +15,6 @@ class AssessmentQtiExport extends QtiExport
 		$rdm = RepositoryDataManager :: get_instance();
 		$assessment = $this->get_learning_object();
 		$assessment_xml[] = $this->get_assessment_xml_header($assessment);
-		//print_r($assessment_xml);
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id());
 		$clo_questions = $rdm->retrieve_complex_learning_object_items($condition);
 		while ($clo_question = $clo_questions->next_result())
@@ -33,10 +30,7 @@ class AssessmentQtiExport extends QtiExport
 			$assessment_xml[] = '</assessmentItemRef>';
 		}
 		$assessment_xml[] = $this->get_assessment_xml_footer();
-		//print_r(implode('', $assessment_xml));
-		
 		$path = $this->createdoc(implode('', $assessment_xml));
-		
 		return $path;
 	}
 	
@@ -69,8 +63,8 @@ class AssessmentQtiExport extends QtiExport
 		$header[] = '<assessmentTest xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1
 			http://www.imsglobal.org/xsd/imsqti_v2p1.xsd" identifier="a'.$assessment->get_id().'" title="'.$assessment->get_title().'">';
  		$header[] = '<testPart identifier="P1" navigationMode="linear" submissionMode="individual">';
+ 		$header[] = '<itemSessionControl maxAttempts="'.$assessment->get_maximum_times_taken().'" />';
  		$header[] = '<assessmentSection identifier="set" title="'.htmlspecialchars($assessment->get_description()).'" visible="true">';
- 		//print_r ($header);
   		return implode('', $header);
 	}
 	
@@ -79,7 +73,6 @@ class AssessmentQtiExport extends QtiExport
 		$footer[] = '</assessmentSection>';
   		$footer[] = '</testPart>';
   		$footer[] = '</assessmentTest>';
-  		//print_r($footer);
   		return implode('', $footer);
 	}
 	

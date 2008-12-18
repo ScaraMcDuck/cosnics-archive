@@ -11,7 +11,7 @@ class PercentageQuestionQtiImport extends QuestionQtiImport
 		$question_type = Question :: TYPE_PERCENTAGE;
 		$title = $data['title'];
 		$descr = $data['itemBody']['sliderInteraction']['prompt'];
-		echo 'Percentage question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
+		//echo 'Percentage question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
 		$question = parent :: create_question($title, $descr, $question_type);
 		return $question->get_id();
 	}
