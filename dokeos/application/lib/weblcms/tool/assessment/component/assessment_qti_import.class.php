@@ -15,7 +15,9 @@ class AssessmentToolQtiImportComponent extends AssessmentToolComponent {
 		if ($form->validate())
 		{
 			//import
-			$this->import_qti($form);
+			$aid = $this->import_qti($form);
+			echo $aid;
+			$this->redirect(null, null, false, array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH, 'object' => $aid));
 		}
 		else
 		{
@@ -54,6 +56,7 @@ class AssessmentToolQtiImportComponent extends AssessmentToolComponent {
     	
     	$importer = LearningObjectImport ::factory('qti', $file, $user, $category);
     	$result = $importer->import_learning_object();
+    	return $result->get_id();
     }
     
     function import_groups()

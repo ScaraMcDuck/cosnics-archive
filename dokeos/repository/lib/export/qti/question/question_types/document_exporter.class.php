@@ -14,7 +14,6 @@ class DocumentQuestionQtiExport extends QuestionQtiExport
 
 		$item_xml[] = '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer" />';
 		$item_xml[] = $this->get_interaction_xml();
-		//$item_xml[] = '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response" />';
 		$item_xml[] = '</assessmentItem>';
 		return parent :: create_qti_file(implode('', $item_xml));
 	}

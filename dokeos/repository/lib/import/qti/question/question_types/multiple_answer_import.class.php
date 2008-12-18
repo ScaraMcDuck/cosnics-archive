@@ -11,7 +11,7 @@ class MultipleAnswerQuestionQtiImport extends QuestionQtiImport
 		$question_type = Question :: TYPE_MULTIPLE_ANSWER;
 		$title = $data['title'];
 		$descr = $data['itemBody']['choiceInteraction']['prompt'];
-		echo 'Multiple answer question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
+		//echo 'Multiple answer question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
 		$question = parent :: create_question($title, $descr, $question_type);
 		
 		$this->create_answers($data, $question);
@@ -34,7 +34,7 @@ class MultipleAnswerQuestionQtiImport extends QuestionQtiImport
 			$answers[$answer_score['mapKey']]['score'] = $answer_score['mappedValue'];
 		}
 		
-		print_r($answers);
+		//print_r($answers);
 		
 		foreach ($answers as $answer)
 		{

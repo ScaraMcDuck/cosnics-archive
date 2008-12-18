@@ -11,7 +11,7 @@ class MatchingQuestionQtiImport extends QuestionQtiImport
 		$question_type = Question :: TYPE_MATCHING;
 		$title = $data['title'];
 		$descr = $data['itemBody']['matchInteraction']['prompt'];
-		echo 'Matching question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
+		//echo 'Matching question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
 		$question = parent :: create_question($title, $descr, $question_type);
 		
 		$this->create_answers($data, $question);
@@ -49,17 +49,17 @@ class MatchingQuestionQtiImport extends QuestionQtiImport
 				$question_answers[$answer['identifier']] = $answer['_content'];
 			}
 		}
-		print_r($question_answers);
+		//print_r($question_answers);
 		
 		//create answers and complex answers
 		foreach ($matches as $id => $match)
 		{
 			$answer_title = $question_answers[$id];
-			echo $answer_title.'<br/>';
+			//echo $answer_title.'<br/>';
 			$answer = $this->create_answer($answer_title);
 			$this->create_complex_answer($question, $answer, $match['score']);
 			$answer_match_title = $question_answers[$match['match']];
-			echo $answer_match_title.'<br/>';
+			//echo $answer_match_title.'<br/>';
 			$answer_match = $this->create_answer($answer_match_title);
 			$this->create_complex_answer($answer, $answer_match, 1, rand(0, count($question_answers)));
 		}

@@ -11,7 +11,7 @@ class OpenQuestionQtiImport extends QuestionQtiImport
 		$question_type = Question :: TYPE_OPEN;
 		$title = $data['title'];
 		$descr = $data['itemBody']['extendedTextInteraction']['prompt'];
-		echo 'Open question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
+		//echo 'Open question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
 		$question = parent :: create_question($title, $descr, $question_type);
 		return $question->get_id();
 	}

@@ -26,13 +26,14 @@ class QtiImport extends LearningObjectImport
 					$importer = self :: factory_qti($f, $this->get_user(), $this->get_category(), $dir);
 					if ($importer != null)
 					{
-						$importer->import_learning_object();
+						$returnvalue = $importer->import_learning_object();
 					}
 				}
 			}
 		}
-		echo 'remove '.$dir;
+		//echo 'remove '.$dir;
 		Filesystem :: remove($dir);
+		return $returnvalue;
 	}
 	
 	function factory_qti($lo_file, $user, $category, $dir)
@@ -74,7 +75,6 @@ class QtiImport extends LearningObjectImport
 				$data = $unserializer->getUnserializedData();
 			}
 		}
-		//print_r($data);
 		return $data;
 	}
 }
