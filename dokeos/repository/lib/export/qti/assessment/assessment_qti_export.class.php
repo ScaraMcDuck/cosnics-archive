@@ -28,7 +28,9 @@ class AssessmentQtiExport extends QtiExport
 			$filename = $question_exporter->export_learning_object();
 			$question_files[] = $filename;
 			$shortfilename = split('/', $filename);
-			$assessment_xml[] = '<assessmentItemRef identifier="'.$question->get_id().'" href="'.$shortfilename[count($shortfilename)-1].'" />';
+			$assessment_xml[] = '<assessmentItemRef identifier="'.$question->get_id().'" href="'.$shortfilename[count($shortfilename)-1].'">';
+			$assessment_xml[] = '<weight identifier="WEIGHT" value="'.$clo_question->get_weight().'" />';
+			$assessment_xml[] = '</assessmentItemRef>';
 		}
 		$assessment_xml[] = $this->get_assessment_xml_footer();
 		//print_r(implode('', $assessment_xml));
@@ -56,7 +58,7 @@ class AssessmentQtiExport extends QtiExport
 		$zip = Filecompression :: factory();
 		$zip->set_filename('qti_assessment', 'zip');
 		$zippath = $zip->create_archive($temp_dir);
-		FileSystem::remove($temp_dir);
+		FileSystem :: remove($temp_dir);
 			
 		return $zippath;
 	}

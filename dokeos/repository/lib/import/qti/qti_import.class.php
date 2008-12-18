@@ -31,6 +31,8 @@ class QtiImport extends LearningObjectImport
 				}
 			}
 		}
+		echo 'remove '.$dir;
+		Filesystem :: remove($dir);
 	}
 	
 	function factory_qti($lo_file, $user, $category, $dir)
@@ -49,7 +51,7 @@ class QtiImport extends LearningObjectImport
 	
 	function get_file_content_array()
 	{
-		$file = parent ::get_learning_object_file();
+		$file = parent :: get_learning_object_file();
 		$result = array();
 		
 		if (file_exists($file))
@@ -72,7 +74,7 @@ class QtiImport extends LearningObjectImport
 				$data = $unserializer->getUnserializedData();
 			}
 		}
-		
+		//print_r($data);
 		return $data;
 	}
 }

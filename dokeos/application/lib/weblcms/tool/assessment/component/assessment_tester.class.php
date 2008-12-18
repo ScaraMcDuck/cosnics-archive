@@ -107,6 +107,8 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	
 	function get_user_id($assessment, $values)
 	{
+		
+		echo 'assessment:'.var_dump($assessment).'<br/>';
 		if ($assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
 		{
 			if ($assessment->get_anonymous() == true)
@@ -126,10 +128,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			{
 				if ($file['name'] != null)
 				{
-					//create doc and user answer and exit method
-					//echo '<br/> creating document ';
-				 	//print_r($file);
-				 	$owner = $this->get_user_id();
+				 	$owner = parent :: get_user_id();
 				 	$filename = Filesystem::create_unique_name(Path :: get(SYS_REPO_PATH).$owner, $file['name']);
 					$path = $owner.'/'.$filename;
 					$full_path = Path :: get(SYS_REPO_PATH).$path;
@@ -233,6 +232,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		$user_questions = $db->retrieve_user_questions($condition);
 		while ($user_question = $user_questions->next_result())
 		{
+			//echo self :: calculate_question_score($user_question);
 			$score += self :: calculate_question_score($user_question);
 		}
 		return $score;
@@ -259,6 +259,17 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		switch ($lo_question->get_question_type()) {
 			case Question :: TYPE_PERCENTAGE:
 				return 100;
+			case Question :: TYPE_SCORE:
+				$question = $rdm->retrieve_learning_object($user_question->get_question_id());
+				$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $question->get_id());
+				$clo_answers = $rdm->retrieve_complex_learning_object_items($condition);
+				$high = -10000;
+				while ($clo_answer = $clo_answers->next_result())
+				{
+					if ($clo_answer->get_score() > $high)
+						$high = $clo_answer->get_score();
+				}
+				return $high;
 			case Question :: TYPE_OPEN:
 				return $user_question->get_weight();
 			case Question :: TYPE_OPEN_WITH_DOCUMENT:

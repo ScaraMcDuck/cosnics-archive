@@ -22,6 +22,8 @@ class FillInBlanksQuestionResult extends QuestionResult
 			$total_score += $user_answer->get_score();
 		}
 		
+		$total_score = $total_score / $total_div * $this->get_clo_question()->get_weight();
+		$total_div = $this->get_clo_question()->get_weight();
 		$score_line = Translation :: get('Score').': '.$total_score.'/'.$total_div;
 		$this->display_score($score_line);
 		
