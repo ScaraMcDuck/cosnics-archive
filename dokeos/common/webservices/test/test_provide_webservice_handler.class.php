@@ -35,6 +35,6 @@ class TestProvideWebserviceHandler
 		$user->set_name('Developer');
 		$user->set_email('developer@dokeos.com');
 		
-		return $user;
+		return $user->to_array();
 	}
 }
