@@ -50,6 +50,13 @@ class NusoapWebservice
 		}
 	}
 	
+	function provide_webservice_with_wsdl($wsdl)
+	{
+		$server = new soap_server($wsdl);
+		if (!isset($HTTP_RAW_POST_DATA)) $HTTP_RAW_POST_DATA = implode("\r\n", file('php://input'));
+			$server->service($HTTP_RAW_POST_DATA);
+	}
+	
 	function call_webservice($wsdl, $functions)
 	{
 		$client = new nusoap_client($wsdl, 'wsdl');
