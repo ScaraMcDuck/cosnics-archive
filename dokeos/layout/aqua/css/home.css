@@ -108,33 +108,42 @@ div.block div.extra div.forum
 	float: right;
 }
 
-#modalOverlay 
+
+
+
+
+#homeOverlay
 {
-	background-color:#000; 
-	cursor:wait;
+	background-color: #E5EDF9;
+	cursor: wait;
 }
 
-#modalContainer 
+#homeContainer
 {
-	height:400px; 
-	width:600px; 
-	left:50%; 
-	top:50%;
-	margin-top:-200px; 
-	margin-left:-300px; 
-	background-color:#fff; 
-	border:3px solid #ccc;
+	position: fixed;
+	width: 175px;
+	height: 175px;
+	background-color: #FFFFFF;
+	border: 2px solid #E5EDF9;
+	-moz-border-radius: 10px;
 }
 
-#modalContainer a.modalCloseImg 
+#homeContainer a.modalCloseImg
 {
-	background:url(../img/common/x.png) no-repeat; 
-	width:25px; 
-	height:29px; 
-	display:inline; 
-	z-index:3200; 
-	position:absolute; 
-	top:-15px; 
-	right:-18px; 
-	cursor:pointer;
+	background: url(../img/home/background_modal_close.png) no-repeat;
+	width: 34px;
+	height: 34px;
+	display: inline;
+	z-index: 3200;
+	position: absolute;
+	top: -12px;
+	right: -12px;
+	cursor: pointer;
+}
+
+.loadingBox
+{
+	margin: 30px 0px 30px 0px;
+	text-align: center;
+	clear: both;
 }

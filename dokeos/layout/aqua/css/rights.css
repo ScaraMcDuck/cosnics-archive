@@ -187,11 +187,3 @@ ul.rights_children li span, ul.rights_parents li span, ul.rights_siblings li spa
 	height: 16px;
 	display: inline-block;
 }
-
-.rightLoading
-{
-	background: url(../img/common/action_loading.gif) no-repeat;
-	width: 16px;
-	height: 16px;
-	display: inline-block;
-}

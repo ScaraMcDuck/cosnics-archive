@@ -78,4 +78,5 @@ $lang['home']['BlockAdded'] = 'Block was added succesfully';
 $lang['home']['NoConfigurableSettings'] = 'No settings';
 $lang['home']['Display'] = 'Display';
 $lang['home']['ShowWhenEmpty'] = 'Show when empty';
+$lang['home']['YourBlockIsBeingAdded'] = 'Your block is being added ...';
 ?>

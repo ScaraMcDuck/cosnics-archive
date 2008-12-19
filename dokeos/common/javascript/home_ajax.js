@@ -159,6 +159,21 @@
 		var column = $(".column:first-child");
 		var columnId = column.attr("id");
 		var order = column.sortable("serialize");
+		
+		var loadingHTML  = '<div class="loadingBox">';
+			loadingHTML += '<div class="loadingHuge" style="margin-bottom: 15px;">';
+			loadingHTML += '</div>';
+			loadingHTML += '<div>';
+			loadingHTML += '<h3>' + translation('YourBlockIsBeingAdded', 'home') + '</h3>';
+			loadingHTML += '</div>';
+			loadingHTML += '</div>';
+		
+		var loading = $.modal(loadingHTML, {
+			overlayId: 'homeOverlay',
+		  	containerId: 'homeContainer',
+		  	opacity: 75,
+		  	close: false
+			});
 
 		$.post("./home/ajax/block_add.php", {
 			component :$(this).attr("id"),
@@ -177,7 +192,15 @@
 				},
 					function(data)
 					{
-						$.modal(translation('BlockAdded', 'home'));
+						var successMessage  = '<div class="statusConfirmation" style="margin-bottom: 15px;">';
+							successMessage += '</div>';
+							successMessage += '<div>';
+							successMessage += '<h3>' + translation('BlockAdded', 'home') + '</h3>';
+							successMessage += '</div>';
+						
+						$(".loadingBox", loading.dialog.container).html(successMessage);
+						loading.dialog.container.append($(loading.opts.closeHTML).addClass(loading.opts.closeClass));
+						loading.bindEvents();
 					}
 					);
 		});

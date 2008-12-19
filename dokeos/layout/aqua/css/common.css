@@ -204,7 +204,7 @@ img
 	padding-left: 50px;
 }
 .normal-message {
-	background-image: url('../img/common/status_confirmation.png');
+	background-image: url('../img/common/status_confirmation_medium.png');
 	background-color: #E5EDF9;
 	border-color: #4171B5;
 }
@@ -2082,7 +2082,7 @@ div.padding_10
  
 #modalOverlay
 {
-	background-color: #F6F6F6;
+	background-color: #000000;
 	cursor: wait;
 }
 
@@ -2093,8 +2093,6 @@ div.padding_10
 	height: 300px;
 	left: 50%;
 	top: 50%;
-	margin-left: -300px;
-	margin-top: -150px;
 	background-color: #ffffff;
 	border: 2px solid #cccccc;
 	padding: 15px;
@@ -2113,6 +2111,11 @@ div.padding_10
 	right: -12px;
 	cursor: pointer;
 }
+
+#overlay
+	{
+	background-color: red;
+	}
 
 /**********************************
  * Drag And Drop TreeMenu
@@ -2180,5 +2183,69 @@ span.dropOver
 	width: 13px;
 	margin-right: 0px;
 	vertical-align: middle;
+	display: inline-block;
+}
+
+/**********************************
+ * AJAX loading... icons
+ **********************************/
+
+.loadingMini
+{
+	background-image: url(../img/common/action_loading_mini.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+}
+
+.loading_Small
+{
+	background-image: url(../img/common/action_loading_small.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+	width: 22px;
+	height: 22px;
+	display: inline-block;
+}
+
+.loadingMedium
+{
+	background-image: url(../img/common/action_loading_medium.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+}
+
+.loadingLarge
+{
+	background-image: url(../img/common/action_loading_large.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+	width: 48px;
+	height: 48px;
+	display: inline-block;
+}
+
+.loadingHuge
+{
+	background-image: url(../img/common/action_loading_huge.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+	width: 64px;
+	height: 64px;
+	display: inline-block;
+}
+
+.statusConfirmation
+{
+	background-image: url(../img/common/status_confirmation_huge.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	width: 64px;
+	height: 64px;
 	display: inline-block;
 }
