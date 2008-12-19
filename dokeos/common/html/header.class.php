@@ -43,7 +43,7 @@ class Header
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.min.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.tablednd.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.ui.packed.js');
-		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.simplemodal.packed.js');
+		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.simplemodal.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.treeview.pack.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.treeview.async.js');
 		$this->add_link_header($this->get_path(WEB_PATH). 'index.php','top');

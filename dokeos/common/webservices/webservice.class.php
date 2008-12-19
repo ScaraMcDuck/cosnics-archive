@@ -2,17 +2,17 @@
 
 abstract class Webservice
 {
-	public static function factory($webservice_handler)
+	public static function factory($webservice_handler, $protocol = 'Soap', $implementation = 'Nusoap')
 	{
-		//$type = Configuration :: get_instance()->get_parameter('general', 'webservice');
-		$type = 'Nusoap';
-		require_once dirname(__FILE__) . '/' . strtolower($type) . '/' . strtolower($type) . 
-					 '_webservice.class.php';
-		$class = $type.'Webservice';
+		$file_protocol = DokeosUtilities :: camelcase_to_underscores($protocol);
+		$file_implementation = DokeosUtilities :: camelcase_to_underscores($implementation); 
+		
+		require_once dirname(__FILE__) . '/' . $file_protocol . '/' . $file_implementation . '/' . $file_protocol . '_' . $file_implementation . '_webservice.class.php';
+		$class = $protocol . $implementation . 'Webservice';
 		return new $class($webservice_handler);
 	}
 	
-	abstract function provide_webservice();
+	abstract function provide_webservice($functions);
 	
 	/**
 	 * Call a webservice

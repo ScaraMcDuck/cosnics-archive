@@ -1,11 +1,12 @@
 <?php
+require_once Path :: get_library_path() . 'webservices/webservice.class.php';
 require_once Path :: get_plugin_path() . 'nusoap/nusoap.php';
 
-class NusoapWebservice
+class SoapNusoapWebservice
 {
 	private $webservice_handler;
 	
-	function NusoapWebservice($webservice_handler)
+	function SoapNusoapWebservice($webservice_handler)
 	{
 		$this->webservice_handler = $webservice_handler;
 	}
@@ -80,5 +81,4 @@ class NusoapWebservice
 		echo '<h2>Debug</h2><pre>' . htmlspecialchars($client->getDebug(), ENT_QUOTES) . '</pre>';
 	}
 }
-
 ?>

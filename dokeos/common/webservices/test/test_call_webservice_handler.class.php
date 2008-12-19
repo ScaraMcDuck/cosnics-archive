@@ -1,8 +1,10 @@
 <?php
 require_once(dirname(__FILE__) . '/../../global.inc.php');
 require_once dirname(__FILE__) . '/../webservice.class.php';
-ini_set("memory_limit"		,"3500M"	);	// Geen php-beperkingen voor geheugengebruik
-ini_set("max_execution_time"	,"72000");	// Twee uur moet voldoende zijn...
+// No PHP-memory limits
+ini_set("memory_limit", "3500M"	);
+// Two hours should be enough
+ini_set("max_execution_time", "7200");
 
 $handler = new TestCallWebserviceHandler2();
 

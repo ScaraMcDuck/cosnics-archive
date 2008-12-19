@@ -17,7 +17,7 @@
 		var image = $("div", this);
 		var originalClass = image.attr("class");
 		
-		image.attr("class", "rightLoading");
+		image.attr("class", "loadingMini");
 		
 		$.post("./rights/ajax/role_right_location.php", {
 			rights :$(this).parent().attr('id')
