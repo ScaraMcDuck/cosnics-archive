@@ -7,7 +7,11 @@
 	    
 	    $(".error-message").animate({opacity: 1.0}, 45000,function(){
 	    	$(".error-message").fadeOut(500);
-	        }); 
+	        });
+	    
+	    $(".warning-message").animate({opacity: 1.0}, 60000,function(){
+	    	$(".warning-message").fadeOut(500);
+	        });
 	}
 	
 	function addClosers() {
@@ -33,7 +37,7 @@
 
 	$(document).ready( function() {
 		addClosers();
-		//hideMessages();
+		hideMessages();
 	});
 
 })(jQuery);
