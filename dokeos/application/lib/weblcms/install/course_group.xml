@@ -2,7 +2,7 @@
 <object name="course_group">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="course_code" type="text" length="40" notnull="1" default=""/>
+  <property name="course_code" type="integer" notnull="1"/>
   <property name="name" type="text" length="100" notnull="1" default=""/>
   <property name="description" type="text"/>
   <property name="max_number_of_members" type="integer" unsigned="1" default="0"/>

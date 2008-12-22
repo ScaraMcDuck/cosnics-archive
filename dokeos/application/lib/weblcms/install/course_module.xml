@@ -2,7 +2,7 @@
 <object name="course_module">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="course_code" type="text" length="50" notnull="1"/>
+  <property name="course_code" type="integer" notnull="1"/>
   <property name="name" type="text" length="40" notnull="1"/>
   <property name="visible" type="integer" unsigned="1" notnull="1"/>
   <property name="section" type="integer" notnull="1"/>

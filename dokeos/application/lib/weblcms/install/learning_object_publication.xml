@@ -3,7 +3,7 @@
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="learning_object" type="integer"  unsigned="1" notnull="1"/>
-  <property name="course" type="text" length="255" notnull="1"/>
+  <property name="course" type="integer" notnull="1"/>
   <property name="tool" type="text" length="255" notnull="1"/>
   <property name="parent_id" type="integer" unsigned="1" notnull="1"/>
   <property name="category" type="integer" unsigned="1" notnull="1"/>

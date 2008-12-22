@@ -204,6 +204,8 @@ abstract class WeblcmsDataManager
 	 * @return int The ID.
 	 */
 	abstract function get_next_learning_object_publication_id();
+	
+	abstract function get_next_course_id();
 
 	/**
 	 * Creates a course object in persistent storage.

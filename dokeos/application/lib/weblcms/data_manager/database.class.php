@@ -548,6 +548,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	{
 		return $this->connection->nextID($this->get_table_name('learning_object_publication'));
 	}
+	
+	function get_next_course_id()
+	{
+		return $this->connection->nextID($this->get_table_name('course'));
+	}
 
 	function create_learning_object_publication($publication)
 	{

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="course">
  <properties>
-  <property name="code" type="text" length="40" notnull="1"/>
-  <property name="directory" type="text" length="40"/>
-  <property name="db_name" type="text" length="40"/>
+  <property name="id" type="integer" notnull="1"/>
   <property name="course_language" type="text" length="20"/>
   <property name="title" type="text" length="250"/>
   <property name="description" type="text"/>
@@ -29,7 +27,7 @@
   <property name="breadcrumb" type="integer" length="1" default="1"/>
   <property name="allow_feedback" type="integer" length="1" default="1"/>
  </properties>
- <index name="code" type="primary">
-  <indexproperty name="code"/>
+ <index name="id" type="primary">
+  <indexproperty name="id"/>
  </index>
 </object>
