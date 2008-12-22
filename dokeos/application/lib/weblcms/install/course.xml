@@ -30,4 +30,7 @@
  <index name="id" type="primary">
   <indexproperty name="id"/>
  </index>
+ <index name="visual_code" type="unique">
+  <indexproperty name="visual_code"/>
+ </index>
 </object>
