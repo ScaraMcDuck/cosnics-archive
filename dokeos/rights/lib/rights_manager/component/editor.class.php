@@ -266,12 +266,12 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			}
 			
 			$html[] = '</div>';
-			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/rights_ajax.js' .'"></script>';
 			$html[] = '<div style="clear: both;"></div>';
 			$html[] = '</div>';
 			$html[] = '<div style="clear: both;"></div>';
 		}
 		
+		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/rights_ajax.js' .'"></script>';
 		$html[] = '</div>';
 		
 		return implode("\n", $html);

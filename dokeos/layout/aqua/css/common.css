@@ -2249,3 +2249,30 @@ span.dropOver
 	height: 64px;
 	display: inline-block;
 }
+
+#closeNormalMessage, #closeErrorMessage, #closeWarningMessage
+{
+	width: 34px;
+	height: 34px;
+	display: none;
+	z-index: 3200;
+	position: absolute;
+	top: -12px;
+	right: -12px;
+	cursor: pointer;
+}
+
+#closeNormalMessage
+{
+	background: url(../img/common/action_close_normal_message.png) no-repeat;
+}
+
+#closeErrorMessage
+{
+	background: url(../img/common/action_close_error_message.png) no-repeat;
+}
+
+#closeWarningMessage
+{
+	background: url(../img/common/action_close_warning_message.png) no-repeat;
+}
