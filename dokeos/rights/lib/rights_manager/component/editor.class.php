@@ -135,8 +135,8 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			if (!isset($this->location))
 			{
 				$root_conditions = array();
-				$root_conditions = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
-				$root_conditions = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
+				$root_conditions[] = new EqualityCondition(Location :: PROPERTY_APPLICATION, $this->application);
+				$root_conditions[] = new EqualityCondition(Location :: PROPERTY_PARENT, 0);
 				
 				$root_condition = new AndCondition($root_conditions);
 				

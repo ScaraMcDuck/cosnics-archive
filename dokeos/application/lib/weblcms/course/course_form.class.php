@@ -220,8 +220,8 @@ class CourseForm extends FormValidator {
     	$this->addElement('html', '<div class="configuration_form">');
 		$this->addElement('html', '<span class="category">'. Translation :: get('Required') .'</span>');
     	
-    	$this->addElement('text', Course :: PROPERTY_ID, Translation :: get('CourseCode'));
-    	$this->addRule(Course :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
+    	//$this->addElement('text', Course :: PROPERTY_ID, Translation :: get('CourseCode'));
+    	//$this->addRule(Course :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
     	$this->build_basic_form();
     }
 

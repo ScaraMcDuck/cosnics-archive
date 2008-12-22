@@ -30,11 +30,9 @@ require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
 
 class Course {
 
-	const PROPERTY_ID = 'code';
+	const PROPERTY_ID = 'id';
 	const PROPERTY_VISUAL = 'visual_code';
-	const PROPERTY_DB = 'db_name';
 	const PROPERTY_NAME = 'title';
-	const PROPERTY_PATH = 'directory';
 	const PROPERTY_TITULAR = 'titular';
 	const PROPERTY_LANGUAGE = 'course_language';
 	const PROPERTY_EXTLINK_URL = 'department_url';
@@ -161,8 +159,8 @@ class Course {
 	static function get_default_property_names()
 	{
 		return array (self :: PROPERTY_ID, self :: PROPERTY_LAYOUT, self :: PROPERTY_VISUAL, 
-				      self :: PROPERTY_CATEGORY, self :: PROPERTY_DB, self :: PROPERTY_NAME, 
-				      self :: PROPERTY_PATH, self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, 
+				      self :: PROPERTY_CATEGORY, self :: PROPERTY_NAME, 
+				      self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, 
 				      self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, 
 				      self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, 
 				      self :: PROPERTY_UNSUBSCRIBE_ALLOWED, self :: PROPERTY_THEME,
@@ -197,16 +195,6 @@ class Course {
     	return $this->get_default_property(self :: PROPERTY_CATEGORY);
     }
 
-	/**
-	 * Returns the dbname of this course object
-	 * Deprecated but still used by the course_groups manager
-	 * @return string the visual code
-	 */
-    function get_db()
-    {
-    	return $this->get_default_property(self :: PROPERTY_DB);
-    }
-
     /**
      * Returns the name (Title) of this course object
      * @return string The Name
@@ -214,15 +202,6 @@ class Course {
     function get_name()
     {
     	return $this->get_default_property(self :: PROPERTY_NAME);
-    }
-
-    /**
-     * Returns the path (Directory) of this course object
-     * @return string The Path
-     */
-    function get_path()
-    {
-    	return $this->get_default_property(self :: PROPERTY_PATH);
     }
 
     /**
@@ -344,30 +323,12 @@ class Course {
 	}
 
 	/**
-	 * Sets the db name of this course object
-	 * @param String $db The db name
-	 */
-	function set_db($db)
-	{
-		$this->set_default_property(self :: PROPERTY_DB, $db);
-	}
-
-	/**
 	 * Sets the course name of this course object
 	 * @param String $name The name of this course object
 	 */
 	function set_name($name)
 	{
 		$this->set_default_property(self :: PROPERTY_NAME, $name);
-	}
-
-	/**
-	 * Sets the course path (directory) of this course object
-	 * @param String $path The path of this course object
-	 */
-	function set_path($path)
-	{
-		$this->set_default_property(self :: PROPERTY_PATH, $path);
 	}
 
 	/**
@@ -511,14 +472,17 @@ class Course {
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		
-		require_once(dirname(__FILE__) . '/../category_manager/learning_object_publication_category.class.php');
-		$dropbox = new LearningObjectPublicationCategory();
-		$dropbox->create_dropbox($this->get_id());
+		$id = $wdm->get_next_course_id();
+		$this->set_id($id);
 		
 		if (!$wdm->create_course($this))
 		{
 			return false;
 		}
+		
+		require_once(dirname(__FILE__) . '/../category_manager/learning_object_publication_category.class.php');
+		$dropbox = new LearningObjectPublicationCategory();
+		$dropbox->create_dropbox($this->get_id());
 		
 		$location = new Location();
 		$location->set_location($this->get_name());
