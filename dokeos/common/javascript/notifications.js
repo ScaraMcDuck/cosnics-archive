@@ -1,17 +1,9 @@
 ( function($) {
 	
 	function hideMessages() {
-	    $(".normal-message").animate({opacity: 1.0}, 15000,function(){
-	    	$(".normal-message").fadeOut(500);
-	        });
-	    
-	    $(".error-message").animate({opacity: 1.0}, 45000,function(){
-	    	$(".error-message").fadeOut(500);
-	        });
-	    
-	    $(".warning-message").animate({opacity: 1.0}, 60000,function(){
-	    	$(".warning-message").fadeOut(500);
-	        });
+		setTimeout("$('.normal-message').fadeOut(500);", 3000);
+		setTimeout("$('.error-message').fadeOut(500);", 9000);
+		setTimeout("$('.warning-message').fadeOut(500);", 12000);
 	}
 	
 	function addClosers() {
