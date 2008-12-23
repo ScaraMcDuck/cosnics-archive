@@ -82,13 +82,13 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		
 		if ($location->is_locked())
 		{
-			$true_message = 'LocationUnlocked';
-			$false_message = 'LocactionNotUnlocked';
+			$true_message = 'LocationLocked';
+			$false_message = 'LocactionNotLocked';
 		}
 		else
 		{
-			$true_message = 'LocationLocked';
-			$false_message = 'LocactionNotLocked';
+			$true_message = 'LocationUnlocked';
+			$false_message = 'LocactionNotUnlocked';
 		}
 		
 		$this->redirect('url', Translation :: get($success == true ? $true_message : $false_message), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, 'application' => $this->application, 'location' => $location->get_id()));		
