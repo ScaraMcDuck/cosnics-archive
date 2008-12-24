@@ -97,18 +97,18 @@ class Translation
 		
 		if (!isset($strings[$language]))
 		{
-			$instance->add_language_file_to_array($language, 'general');
+			$instance->add_language_file_to_array($language, 'common');
 		}
-		elseif(!isset($strings[$language]['general']))
+		elseif(!isset($strings[$language]['common']))
 		{
-			$instance->add_language_file_to_array($language, 'general');
+			$instance->add_language_file_to_array($language, 'common');
 		}
 		
 		$application = $instance->get_application();
 		
 		if (!isset($application))
 		{
-			$application = 'general';
+			$application = 'common';
 		}
 				
 		if (!isset($strings[$language][$application]))
@@ -122,9 +122,9 @@ class Translation
 		{
 			return $strings[$language][$application][$variable];
 		}
-		elseif (isset($strings[$language]['general'][$variable]))
+		elseif (isset($strings[$language]['common'][$variable]))
 		{
-			return $strings[$language]['general'][$variable];
+			return $strings[$language]['common'][$variable];
 		}
 		else
 		{

@@ -172,6 +172,11 @@ class Location
 		$this->set_default_property(self :: PROPERTY_TYPE, $type);
 	}
 	
+	function set_type_from_object($object)
+	{
+		$this->set_default_property(self :: PROPERTY_TYPE, DokeosUtilities :: camelcase_to_underscores(get_class($object)));
+	}
+	
 	function get_identifier()
 	{
 		return $this->get_default_property(self :: PROPERTY_IDENTIFIER);

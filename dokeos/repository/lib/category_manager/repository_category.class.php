@@ -21,7 +21,34 @@ class RepositoryCategory extends PlatformCategory
 		$rdm = RepositoryDataManager :: get_instance();
 		$this->set_id($rdm->get_next_category_id());
 		$this->set_display_order($rdm->select_next_category_display_order($this->get_parent(), $user_id));
-		return $rdm->create_category($this);
+		if (!$rdm->create_category($this))
+		{
+			return false;
+		}
+		
+		$location = new Location();
+		$location->set_location($this->get_name());
+		$location->set_application(RepositoryManager :: APPLICATION_NAME);
+		$location->set_type_from_object($this);
+		$location->set_identifier($this->get_id());
+		
+		$parent = $this->get_parent();
+		if ($parent == 0)
+		{
+			$parent = RepositoryRights :: get_root_id();
+		}
+		else
+		{
+			$parent = RepositoryRights :: get_location_id_by_identifier('repository_category', $this->get_parent());
+		}
+		
+		$location->set_parent($parent);
+		if (!$location->create())
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	function update()

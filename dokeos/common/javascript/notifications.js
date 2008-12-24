@@ -1,9 +1,9 @@
 ( function($) {
 	
 	function hideMessages() {
-		setTimeout("$('.normal-message').fadeOut(500);", 3000);
-		setTimeout("$('.error-message').fadeOut(500);", 9000);
-		setTimeout("$('.warning-message').fadeOut(500);", 12000);
+		setTimeout("$('.normal-message').fadeOut(500);", 5000);
+		setTimeout("$('.error-message').fadeOut(500);", 1000);
+		setTimeout("$('.warning-message').fadeOut(500);", 15000);
 	}
 	
 	function addClosers() {

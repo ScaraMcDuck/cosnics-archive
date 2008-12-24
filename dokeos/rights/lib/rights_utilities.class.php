@@ -328,5 +328,27 @@ class RightsUtilities
 		}
 		return null;
 	}
+	
+	function get_rights_legend()
+	{
+		$html = array();
+		
+		$html[] = DokeosUtilities :: add_block_hider();
+		$html[] = DokeosUtilities :: build_block_hider('rights_legend');
+		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_legend.png);">';
+		$html[] = '<div class="title">'. Translation :: get('Legend') .'</div>';
+		$html[] = '<ul class="rights_legend">';
+		$html[] = '<li>'. Theme :: get_common_image('action_setting_true', 'png', Translation :: get('True')) .'</li>';
+		$html[] = '<li>'. Theme :: get_common_image('action_setting_false', 'png', Translation :: get('False')) .'</li>';
+		$html[] = '<li>'. Theme :: get_common_image('action_setting_true_locked', 'png', Translation :: get('LockedTrue')) .'</li>';
+		$html[] = '<li>'. Theme :: get_common_image('action_setting_false_locked', 'png', Translation :: get('LockedFalse')) .'</li>';
+		$html[] = '<li>'. Theme :: get_common_image('action_setting_true_inherit', 'png', Translation :: get('InheritedTrue')) .'</li>';
+		$html[] = '<li>'. Theme :: get_common_image('action_setting_false_inherit', 'png', Translation :: get('InheritedFalse')) .'</li>';
+		$html[] = '</ul>';
+		$html[] = '</div>';
+		$html[] = DokeosUtilities :: build_block_hider();
+		
+		return implode("\n", $html);
+	}
 }
 ?>
