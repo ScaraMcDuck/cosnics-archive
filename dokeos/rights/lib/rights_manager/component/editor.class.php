@@ -173,8 +173,9 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			$this->display_header($trail);
 			echo $this->get_modification_links();
 			echo $this->get_rights_table_html();
+			echo $this->get_location_information();
 			echo $this->get_relations();
-			echo $this->get_rights_legend();
+			echo RightsUtilities :: get_rights_legend();
 			$this->display_footer();
 		}
 	}
@@ -314,6 +315,24 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		return implode("\n", $html);
 	}
 	
+	function get_location_information()
+	{
+		$location = $this->location;
+		
+		$html = array();
+		
+		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_location.png);">';
+		$html[] = '<div class="title">'. Translation :: get('Location') .'</div>';
+		
+		$html[] = Translation :: get('Application'). ': ' . Translation :: get(Application :: application_to_class($location->get_application())) . '<br />';
+		$html[] = Translation :: get('Type'). ': ' . Translation :: get(DokeosUtilities :: underscores_to_camelcase($location->get_type())) . '<br />'; 
+		$html[] = Translation :: get('Name'). ': ' . $location->get_location() . '<br />';
+		$html[] = '</div>';
+		
+		return implode("\n", $html);
+		
+	}
+	
 	function get_relations()
 	{
 		$html = array();
@@ -420,27 +439,5 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		}
 		
 		return $toolbar->as_html();
-	}
-	
-	function get_rights_legend()
-	{
-		$html = array();
-		
-		$html[] = DokeosUtilities :: add_block_hider();
-		$html[] = DokeosUtilities :: build_block_hider('rights_legend');
-		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'place_legend.png);">';
-		$html[] = '<div class="title">'. Translation :: get('Legend') .'</div>';
-		$html[] = '<ul class="rights_legend">';
-		$html[] = '<li>'. Theme :: get_common_image('action_setting_true', 'png', Translation :: get('True')) .'</li>';
-		$html[] = '<li>'. Theme :: get_common_image('action_setting_false', 'png', Translation :: get('False')) .'</li>';
-		$html[] = '<li>'. Theme :: get_common_image('action_setting_true_locked', 'png', Translation :: get('LockedTrue')) .'</li>';
-		$html[] = '<li>'. Theme :: get_common_image('action_setting_false_locked', 'png', Translation :: get('LockedFalse')) .'</li>';
-		$html[] = '<li>'. Theme :: get_common_image('action_setting_true_inherit', 'png', Translation :: get('InheritedTrue')) .'</li>';
-		$html[] = '<li>'. Theme :: get_common_image('action_setting_false_inherit', 'png', Translation :: get('InheritedFalse')) .'</li>';
-		$html[] = '</ul>';
-		$html[] = '</div>';
-		$html[] = DokeosUtilities :: build_block_hider();
-		
-		return implode("\n", $html);
 	}
 }

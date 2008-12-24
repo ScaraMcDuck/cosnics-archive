@@ -621,16 +621,43 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	function create()
 	{
-		$this->assign_display_order_index();
+		$dm = RepositoryDataManager :: get_instance();
 		$now = time();
+		
+		$this->assign_display_order_index();
 		$this->set_creation_date($now);
 		$this->set_modification_date($now);
-		$dm = RepositoryDataManager :: get_instance();
-		$id = $dm->get_next_learning_object_id();
-		$this->set_id($id);
-		$object_number = $dm->get_next_learning_object_number();
-		$this->set_object_number($object_number);
-		return $dm->create_learning_object($this, 'new');
+		$this->set_id($dm->get_next_learning_object_id());
+		$this->set_object_number($dm->get_next_learning_object_number());
+		
+		if (!$dm->create_learning_object($this, 'new'))
+		{
+			return false;
+		}
+		
+		$location = new Location();
+		$location->set_location($this->get_title());
+		$location->set_application(RepositoryManager :: APPLICATION_NAME);
+		$location->set_type('learning_object');
+		$location->set_identifier($this->get_id());
+		
+		$parent = $this->get_parent_id();
+		if ($parent == 0)
+		{
+			$parent = RepositoryRights :: get_root_id();
+		}
+		else
+		{
+			$parent = RepositoryRights :: get_location_id_by_identifier('repository_category', $this->get_parent_id());
+		}
+		
+		$location->set_parent($parent);
+		if (!$location->create())
+		{
+			return false;
+		}
+		
+		return true;
 	}
 	
 	function create_all()
