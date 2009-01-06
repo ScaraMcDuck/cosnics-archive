@@ -21,11 +21,11 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$publication_id = $this->browser->get_publication_id();
 		$dm = WeblcmsDataManager :: get_instance();
 		$publication = $dm->retrieve_learning_object_publication($publication_id);
-		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE,new AbstractLearningObject('feedback',Session :: get_user_id()),'new_feedback','post',$this->browser->get_url(array('pid'=>$this->browser->get_publication_id())));
+		//$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE,new AbstractLearningObject('feedback',Session :: get_user_id()),'new_feedback','post',$this->browser->get_url(array('pid'=>$this->browser->get_publication_id())));
 		$this->browser->get_parent()->set_parameter('pid',$publication_id);
 		//$pub = new LearningObjectPublisher($this->browser->get_parent(), 'feedback', true);
 				
-		if($form->validate())
+		/*if($form->validate())
 		{
 			//creation feedback object
 			$feedback = $form->create_learning_object();
@@ -35,19 +35,19 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 			$publication_feedback->create();
 			//$this->browser->get_parent()->redirect(null, '', false, array());
 			$html[] = Display :: normal_message(Translation :: get('FeedbackAdded'),true);
-		}
+		}*/
 		
 		$html[] = '<h3>' . Translation :: get('LearningObjectPublicationDetails') . '</h3>';
 		$html[] = $this->render_publication($publication);
 		//dump($this->browser->get_parent()->get_course());
 		if($this->browser->get_parent()->get_course()->get_allow_feedback())
 		{
-			$html[] = '<a href="#" id="showfeedbackform" style="display:none">' . Translation :: get('AddFeedback') . '</a>';
-			$html[] = '<div id="feedbackform">';
+			$html[] = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK)) . '">' . Translation :: get('AddFeedback') . '</a><br />';
+			/*$html[] = '<div id="feedbackform">';
 			$html[] = '<h3>' . '<div class="title">'.Translation :: get('LearningObjectPublicationAddFeedback') . ' <a href="#" id="hidefeedbackform" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('Hide') . ')</a></div></h3>';
 			$html[] = '<div class="feedback_block">';
 			$html[] = $form->toHtml();
-			$html[] = '</div></div><br />';
+			$html[] = '</div></div><br />';*/
 			$html[] = $this->render_publication_feedback($publication);
 			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/feedback_list.js' .'"></script>';
 		}
