@@ -2276,3 +2276,35 @@ span.dropOver
 {
 	background: url(../img/common/action_close_warning_message.png) no-repeat;
 }
+
+.rightTrue
+{
+	background: url(../img/common/action_setting_true.png) no-repeat;
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+}
+
+.rightFalse
+{
+	background: url(../img/common/action_setting_false.png) no-repeat;
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+}
+
+.rightInheritTrue
+{
+	background: url(../img/common/action_setting_true_inherit.png) no-repeat;
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+}
+
+.rightInheritFalse
+{
+	background: url(../img/common/action_setting_false_inherit.png) no-repeat;
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+}

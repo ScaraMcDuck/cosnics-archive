@@ -16,22 +16,23 @@
 		
 		var image = $("div", this);
 		var originalClass = image.attr("class");
+		var id = $(this).parent().attr('id');
 		
 		image.attr("class", "loadingMini");
 		
 		$.post("./rights/ajax/role_right_location.php", {
-			rights :$(this).parent().attr('id')
+			rights : id
 			}, function(result){
 					if (result)
-					{						
-						if (originalClass == "rightTrue")
-						{
-							image.attr("class", "rightFalse")
-						}
-						else
-						{
-							image.attr("class", "rightTrue")
-						}
+					{
+						var newClass = $.ajax({
+							type: "POST",
+							url: "./rights/ajax/role_right_location_class.php",
+							data: { rights : id },
+							async: false
+						}).responseText;
+						
+						image.attr("class", newClass);
 					}
 					else
 					{
