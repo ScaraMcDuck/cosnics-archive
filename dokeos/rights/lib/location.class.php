@@ -202,6 +202,18 @@ class Location
 		return $this->get_inherit();
 	}
 	
+	function switch_inherit()
+	{
+		if ($this->inherits())
+		{
+			$this->set_inherit(false);
+		}
+		else
+		{
+			$this->set_inherit(true);
+		}
+	}
+	
 	function get_locked()
 	{
 		return $this->get_default_property(self :: PROPERTY_LOCKED);
@@ -225,6 +237,18 @@ class Location
 	function unlock()
 	{
 		$this->set_locked(false);
+	}
+	
+	function switch_lock()
+	{
+		if ($this->is_locked())
+		{
+			$this->unlock();
+		}
+		else
+		{
+			$this->lock();
+		}
 	}
 	
 	function is_root()

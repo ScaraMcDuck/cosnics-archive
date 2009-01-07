@@ -25,11 +25,28 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('EditRights')));
 		
-		$this->display_header($trail);
-		echo $this->get_modification_links();
-		echo $this->get_rights_table_html();
-		echo RightsUtilities :: get_rights_legend();
-		$this->display_footer();
+		$component_action = $_GET[RightsManager :: PARAM_COMPONENT_ACTION];
+		
+		switch($component_action)
+		{
+			case 'edit':
+				$this->edit_right();
+				break;
+			case 'lock':
+				$this->lock_location();
+				break;
+			case 'inherit':
+				$this->inherit_location();
+				break;
+			default :
+				$this->show_rights_list();
+		}
+		
+//		$this->display_header($trail);
+//		echo $this->get_modification_links();
+//		echo $this->get_rights_table_html();
+//		echo RightsUtilities :: get_rights_legend();
+//		$this->display_footer();
 	}
 	
 	function get_rights_table_html()
@@ -137,27 +154,78 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 		{
 			if ($location->is_locked())
 			{
-				$toolbar->add_item(new ToolbarItem(Translation :: get('UnlockChildren'), Theme :: get_common_image_path() . 'action_unlock.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'lock', 'application' => $this->application, 'location' => $location->get_id()))));
+				$toolbar->add_item(new ToolbarItem(Translation :: get('UnlockChildren'), Theme :: get_common_image_path() . 'action_unlock.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'lock', 'application' => $this->application, 'object' => $location->get_identifier()))));
 			}
 			else
 			{
-				$toolbar->add_item(new ToolbarItem(Translation :: get('LockChildren'), Theme :: get_common_image_path() . 'action_lock.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'lock', 'application' => $this->application, 'location' => $location->get_id()))));
+				$toolbar->add_item(new ToolbarItem(Translation :: get('LockChildren'), Theme :: get_common_image_path() . 'action_lock.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'lock', 'application' => $this->application, 'object' => $location->get_identifier()))));
 			}
 			
 			if (!$location->is_root())
 			{
 				if ($location->inherits())
 				{
-					$toolbar->add_item(new ToolbarItem(Translation :: get('LocationNoInherit'), Theme :: get_common_image_path() . 'action_setting_false_inherit.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'inherit', 'application' => $this->application, 'location' => $location->get_id()))));
+					$toolbar->add_item(new ToolbarItem(Translation :: get('LocationNoInherit'), Theme :: get_common_image_path() . 'action_setting_false_inherit.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'inherit', 'application' => $this->application, 'object' => $location->get_identifier()))));
 				}
 				else
 				{
-					$toolbar->add_item(new ToolbarItem(Translation :: get('LocationInherit'), Theme :: get_common_image_path() . 'action_setting_true_inherit.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'inherit', 'application' => $this->application, 'location' => $location->get_id()))));
+					$toolbar->add_item(new ToolbarItem(Translation :: get('LocationInherit'), Theme :: get_common_image_path() . 'action_setting_true_inherit.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'inherit', 'application' => $this->application, 'object' => $location->get_identifier()))));
 				}
 			}
 		}
 		
 		return $toolbar->as_html();
+	}
+	
+	function edit_right()
+	{
+		$role = $_GET['role_id'];
+		$right = $_GET['right_id'];
+		$location =  $this->location;
+		
+		$success = RightsUtilities :: invert_role_right_location($right, $role, $location);
+		
+		$this->redirect(RepositoryManager :: ACTION_EDIT_LEARNING_OBJECT_RIGHTS, Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), 0, !$success, array('object' => $location->get_identifier()));
+	}
+	
+	function lock_location()
+	{
+		$location = $this->location;
+		$success = RightsUtilities :: switch_location_lock($location);
+		
+		if ($location->is_locked())
+		{
+			$true_message = 'LocationLocked';
+			$false_message = 'LocactionNotLocked';
+		}
+		else
+		{
+			$true_message = 'LocationUnlocked';
+			$false_message = 'LocactionNotUnlocked';
+		}
+		
+		$this->redirect(RepositoryManager :: ACTION_EDIT_LEARNING_OBJECT_RIGHTS, Translation :: get($success == true ? $true_message : $false_message), 0, !$success, array('object' => $location->get_identifier()));		
+	}
+	
+	function inherit_location()
+	{
+		$location = $this->location;
+		
+		$success = RightsUtilities :: switch_location_inherit($location);
+		$this->redirect(RepositoryManager :: ACTION_EDIT_LEARNING_OBJECT_RIGHTS, Translation :: get($success == true ? 'LocationUpdated' : 'LocationNotUpdated'), 0, !$success, array('object' => $location->get_identifier()));		
+	}
+	
+	function show_rights_list()
+	{
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
+		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRights')));
+			
+			$this->display_header($trail);
+			echo $this->get_modification_links();
+			echo $this->get_rights_table_html();
+			echo RightsUtilities :: get_rights_legend();
+			$this->display_footer();
 	}
 }
 ?>

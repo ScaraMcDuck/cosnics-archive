@@ -47,38 +47,15 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		$right = $_GET['right_id'];
 		$location =  $this->location;
 		
-		if (isset($role) && isset($right) && isset($location))
-		{
-			$rolerightlocation = $this->retrieve_role_right_location($right, $role, $location->get_id());
-			$value = $rolerightlocation->get_value();
-			if ($value == 0)
-			{
-				$rolerightlocation->set_value('1');
-			}
-			else
-			{
-				$rolerightlocation->set_value('0');
-			}
-			$success = $rolerightlocation->update();
-			
-			$this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS,'application' => $this->application, 'location' => $location->get_id()));
-		}
+		$success = RightsUtilities :: invert_role_right_location($right, $role, $location);
+		
+		$this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS,'application' => $this->application, 'location' => $location->get_id()));
 	}
 	
 	function lock_location()
 	{
 		$location = $this->location;
-		
-		if ($location->is_locked())
-		{
-			$location->unlock();
-		}
-		else
-		{
-			$location->lock();
-		}
-		
-		$success = $location->update();
+		$success = RightsUtilities :: switch_location_lock($location);
 		
 		if ($location->is_locked())
 		{
@@ -96,19 +73,8 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 	
 	function inherit_location()
 	{
-		$location = $this->location;
-		
-		if ($location->inherits())
-		{
-			$location->set_inherit(false);
-		}
-		else
-		{
-			$location->set_inherit(true);
-		}
-		
-		$success = $location->update();
-		
+		$location = $this->location;		
+		$success = RightsUtilities :: switch_location_inherit($location);
 		$this->redirect('url', Translation :: get($success == true ? 'LocationUpdated' : 'LocationNotUpdated'), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, 'application' => $this->application, 'location' => $location->get_id()));		
 	}
 	
