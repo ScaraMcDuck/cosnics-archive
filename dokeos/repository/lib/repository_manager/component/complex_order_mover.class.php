@@ -37,13 +37,13 @@ class RepositoryManagerComplexOrderMoverComponent extends RepositoryManagerCompo
 			
 			if(!$cloi->update() || !$new_cloi->update())
 			{
-				$sucess = false;
+				$succes = false;
 			}
 
 			$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, 
-				$sucess?Translation :: get('ComplexLearningObjectItemsMoved'):Translation :: get('ComplexLearningObjectItemsNotMoved'), 0, false, 
+				$succes?Translation :: get('ComplexLearningObjectItemsMoved'):Translation :: get('ComplexLearningObjectItemsNotMoved'), 0, false, 
 				array(RepositoryManager :: PARAM_CLOI_ID => $parent,  
-				      RepositoryManager :: PARAM_CLOI_ROOT_ID => $root, 'publish' => $_GET['publish']));
+				      RepositoryManager :: PARAM_CLOI_ROOT_ID => $root, 'publish' => $_GET['publish'], 'clo_action' => 'organise'));
 		}
 		else
 		{
