@@ -23,6 +23,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	private $cloi_id;
 	private $root_id;
 	private $action;
+	private $in_creation = false;
 	
 	/**
 	 * Runs this component and displays its output.
@@ -116,6 +117,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 
 		if ($type || isset($_GET['type']))
 		{
+			$this->in_creation = true;
 			$object = new AbstractLearningObject($type, $this->get_user_id(), null);
 			$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array_merge($this->get_parameters(), array('type' => $type))), null);
 			if ($lo_form->validate() || isset($_GET['object']))
@@ -152,6 +154,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 						$renderer->setElementTemplate('{label} {element} ');
 						$type_form->accept($renderer);
 						$html[] = $renderer->toHTML();
+						$this->in_creation = false;
 					}
 					else
 					{
@@ -187,17 +190,20 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	
 	private function get_select_existing_html()
 	{
-		$html[] = '<br /><h3>' . Translation :: get('SelectExisting') . '</h3>';
-		
-		$clo = $this->retrieve_learning_object($this->cloi_id);
-		$types = $clo->get_allowed_types();
-		
-		$parameters = array_merge(array('types' => $types), $this->get_parameters());
+		if(!$this->in_creation)
+		{
+			$html[] = '<br /><h3>' . Translation :: get('SelectExisting') . '</h3>';
 			
-		$table = new RepositoryBrowserTable($this, $parameters, $this->get_selector_condition($types));
-		$html[] = $table->as_html();
-		
-		return implode("\n", $html);
+			$clo = $this->retrieve_learning_object($this->cloi_id);
+			$types = $clo->get_allowed_types();
+			
+			$parameters = array_merge(array('types' => $types), $this->get_parameters());
+				
+			$table = new RepositoryBrowserTable($this, $parameters, $this->get_selector_condition($types));
+			$html[] = $table->as_html();
+			
+			return implode("\n", $html);
+		}
 	}
 	
 	public function get_parameters()
