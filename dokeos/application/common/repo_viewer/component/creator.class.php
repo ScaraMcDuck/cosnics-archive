@@ -60,7 +60,7 @@ abstract class RepoViewerCreatorComponent extends RepoViewerComponent
 		{
 			$types[$t] = Translation :: get(LearningObject :: type_to_class($t).'TypeName');
 		}
-		$form = new FormValidator('selecttype', 'post', $this->get_url());
+		$form = new FormValidator('selecttype', 'post', $this->get_url($this->get_parameters()));
 		$form->addElement('hidden', 'tool');
 		$form->addElement('hidden', RepoViewer :: PARAM_ACTION);
 		$form->addElement('select', 'type', '', $types);
