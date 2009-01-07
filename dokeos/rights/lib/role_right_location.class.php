@@ -141,7 +141,6 @@ class RoleRightLocation
 	{
 		$value = $this->get_value();
 		$this->set_value(!$value);
-		return $this->update();
 	}
 }
 ?>

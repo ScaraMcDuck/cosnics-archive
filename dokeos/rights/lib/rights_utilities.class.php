@@ -316,6 +316,7 @@ class RightsUtilities
 		$condition = new AndCondition($conditions);
 		
 		$locations = $rdm->retrieve_locations($condition, 0, 1);
+		
 		return $locations->next_result();
 	}
 	
@@ -349,6 +350,32 @@ class RightsUtilities
 		$html[] = DokeosUtilities :: build_block_hider();
 		
 		return implode("\n", $html);
+	}
+	
+	function invert_role_right_location($right, $role, $location)
+	{
+		if (isset($role) && isset($right) && isset($location))
+		{
+			$rolerightlocation = $this->retrieve_role_right_location($right, $role, $location->get_id());
+			$rolerightlocation->invert();
+			return $rolerightlocation->update();
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	function switch_location_lock($location)
+	{
+		$location->switch_lock();
+		return $location->update();
+	}
+	
+	function switch_location_inherit($location)
+	{
+		$location->switch_inherit();
+		return $location->update();
 	}
 }
 ?>
