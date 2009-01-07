@@ -124,7 +124,7 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 			return DokeosUtilities :: build_toolbar($toolbar_data);
 		}
 		
-		if(get_class($this->browser) == 'RepositoryManagerLearningObjectSelectorComponent')
+		if(get_class($this->browser) == 'RepositoryManagerComplexBrowserComponent')
 		{
 			$toolbar_data = array();
 			$toolbar_data[] = array(

@@ -41,12 +41,12 @@ class RepositoryManagerComplexUpdaterComponent extends RepositoryManagerComponen
 		{ 
 			$cloi_form->update_complex_learning_object_item();
 			$cloi = $cloi_form->get_complex_learning_object_item();
-			$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectUpdated'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $cloi->get_parent(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));
+			$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectUpdated'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $cloi->get_parent(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish'], 'clo_action' => 'organise'));
 		}
 		else
 		{
-			$this->display_header($trail);
-			echo '<p>' . Translation :: get('FillIn') . '</p>';
+			$this->display_header($trail, false, false);
+			//echo '<p>' . Translation :: get('FillIn') . '</p>';
 			$cloi_form->display();
 			$this->display_footer();
 		}
