@@ -73,18 +73,35 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			$this->display_footer();
 		} 
 		else
-		{
-			$user_assessment = $this->build_answers($tester_form, $assessment, $datamanager);
-			$user_assessment->set_total_score($this->calculate_score($user_assessment));
-			WeblcmsDataManager :: get_instance()->create_user_assessment($user_assessment);
-			$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id());
-			if ($invitation != null)
+		{			
+			$values = $tester_form->exportValues();
+			dump($values);
+						
+			if (isset($values['submit']))
 			{
-				$invitation->set_valid(false);
-				$datamanager->update_survey_invitation($invitation);
-				$params[AssessmentTool::PARAM_INVITATION_ID] = $invitation->get_invitation_code();
-			}	
-			$this->redirect(null, null, false, $params);
+				$user_assessment = $this->build_answers($tester_form, $assessment, $datamanager);
+				$user_assessment->set_total_score($this->calculate_score($user_assessment));
+				WeblcmsDataManager :: get_instance()->create_user_assessment($user_assessment);
+				$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id());
+				if ($invitation != null)
+				{
+					$invitation->set_valid(false);
+					$datamanager->update_survey_invitation($invitation);
+					$params[AssessmentTool::PARAM_INVITATION_ID] = $invitation->get_invitation_code();
+				}	
+				$this->redirect(null, null, false, $params);
+			}
+			else
+			{
+				$_SESSION['formvalues'] = $values;
+				$_SESSION['redirect_params'] = array(
+					AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, 
+					AssessmentTool :: PARAM_PUBLICATION_ID => $pid,
+					AssessmentTool :: PARAM_INVITATION_ID => $iid
+				);
+				
+				$this->redirect(null, null, false, array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_REPOVIEWER, AssessmentTool :: PARAM_REPO_TYPES => array('document')));
+			}
 		}
 	}
 	
@@ -108,7 +125,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	function get_user_id($assessment, $values)
 	{
 		
-		echo 'assessment:'.var_dump($assessment).'<br/>';
+		//echo 'assessment:'.var_dump($assessment).'<br/>';
 		if ($assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
 		{
 			if ($assessment->get_anonymous() == true)
@@ -170,12 +187,14 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 				$answer->set_extra($this->get_extra($user_question, $value, $_FILES[$key]));
 				$answer->set_score($this->get_score($user_question, $answer));
 				$datamanager->create_user_answer($answer);
+				dump($answer);
 			}
 		}
 	}
 	
-	function get_extra($user_question, $extra_value, $file = null)
+	function get_extra($user_question, $extra_value = "", $file = null)
 	{
+		dump($extra_value);
 		$rdm = RepositoryDataManager :: get_instance();
 		$question = $rdm->retrieve_learning_object($user_question->get_question_id(), 'question');
 		switch ($question->get_question_type())
@@ -191,7 +210,10 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 				$lo_answer = $rdm->retrieve_learning_object($clo_answer->get_ref());
 				return $rdm->retrieve_learning_object($clo_answer->get_ref())->get_id();
 			default: 
-				return $extra_value;
+				if ($extra_value != null)
+					return $extra_value;
+				else
+					return " ";
 		}
 	}
 	

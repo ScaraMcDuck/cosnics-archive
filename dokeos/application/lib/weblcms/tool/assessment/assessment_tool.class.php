@@ -23,6 +23,7 @@ class AssessmentTool extends Tool
 	const ACTION_EXPORT_RESULTS = 'export_results';
 	const ACTION_PUBLISH_SURVEY = 'publish_survey';
 	const ACTION_VIEW = 'view';
+	const ACTION_REPOVIEWER = 'repoview';
 	
 	const PARAM_USER_ASSESSMENT = 'uaid';
 	const PARAM_ASSESSMENT = 'aid';
@@ -30,6 +31,7 @@ class AssessmentTool extends Tool
 	const PARAM_ANONYMOUS = 'anonymous';
 	const PARAM_INVITATION_ID = 'invitation_id';
 	const PARAM_PUBLICATION_ACTION = 'publication_action';
+	const PARAM_REPO_TYPES = 'types';
 	/*
 	 * Inherited.
 	 */
@@ -69,6 +71,9 @@ class AssessmentTool extends Tool
 				break;
 			case self :: ACTION_PUBLISH_SURVEY:
 				$component = AssessmentToolComponent :: factory('SurveyPublisher', $this);
+				break;
+			case self :: ACTION_REPOVIEWER:
+				$component = AssessmentToolComponent :: factory('Repoviewer', $this);
 				break;
 			default:
 				$component = AssessmentToolComponent :: factory('Viewer', $this);

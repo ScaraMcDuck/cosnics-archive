@@ -57,11 +57,16 @@ class SurveyForm extends LearningObjectForm
 	{
 		$object = new Survey();
 		$values = $this->exportValues();
+		print_r($values);
 		$object->set_maximum_times_taken($values[Survey :: PROPERTY_MAXIMUM_TIMES_TAKEN]);
 		$ass_types = $object->get_types();
 		$object->set_assessment_type($ass_types[$values[Survey :: PROPERTY_ASSESSMENT_TYPE]]);
 		$object->set_finish_text($values[Survey :: PROPERTY_FINISH_TEXT]);
-		$object->set_anonymous($values[Survey :: PROPERTY_ANONYMOUS]);
+		
+		if (isset($values[Survey :: PROPERTY_ANONYMOUS]))
+			$object->set_anonymous($values[Survey :: PROPERTY_ANONYMOUS]);
+		else
+			$object->set_anonymous(0);
 		$this->set_learning_object($object);
 		return parent :: create_learning_object();
 	}
@@ -82,6 +87,12 @@ class SurveyForm extends LearningObjectForm
 		{
 			$object->set_assessment_type($value);
 		}
+		$this->set_learning_object($object);
+		
+		if (isset($values[Survey :: PROPERTY_ANONYMOUS]))
+			$object->set_anonymous($values[Survey :: PROPERTY_ANONYMOUS]);
+		else
+			$object->set_anonymous(0);
 		$this->set_learning_object($object);
 		return parent :: update_learning_object();
 	}
