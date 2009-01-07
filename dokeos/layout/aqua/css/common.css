@@ -1830,7 +1830,7 @@ div.action_bar
 {
 	background-color: #E5EDF9; 
 	border: 1px solid #4271B5;
-	padding-bottom: 5px;
+	p/adding-bottom: 5px;
 	margin-bottom: 10px;
 	position: relative;
 	
@@ -1849,6 +1849,7 @@ div.action_bar div.common_menu
 	*/
 	float: left;
 	width: 32%;
+	height: 40px;
 }
 
 div.action_bar div.tool_menu
@@ -1860,6 +1861,7 @@ div.action_bar div.tool_menu
 	*/
 	float: left;
 	width: 32%;
+	height: 40px;
 }
 
 div.action_bar div.search_menu
