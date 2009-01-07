@@ -39,7 +39,7 @@ class AssessmentQtiImport extends QtiImport
 		$max_times_taken = $part['itemSessionControl']['maxAttempts'];
 		if ($max_times_taken != null)
 		{
-			$assessment->set_max_times_taken($max_times_taken);
+			$assessment->set_maximum_times_taken($max_times_taken);
 			$assessment->update();
 		}
 		if ($assessment_sections[0] != null)

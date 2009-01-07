@@ -3,7 +3,7 @@
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="name" type="text" length="255"/>
-  <property name="description" type="text" notnull="1"/>
+  <property name="description" type="text"/>
   <property name="parent" type="integer" unsigned="1" notnull="1"/>
   <property name="sort" type="integer" unsigned="1" notnull="1"/>
  </properties>

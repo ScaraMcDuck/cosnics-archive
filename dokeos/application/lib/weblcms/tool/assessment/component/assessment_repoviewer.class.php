@@ -9,7 +9,7 @@ require_once Path::get_library_path().'/html/action_bar/action_bar_renderer.clas
 /**
  * Represents the repo_viewer component for the assessment tool.
  */
-class AssessmentToolPublisherComponent extends AssessmentToolComponent 
+class AssessmentToolRepoviewerComponent extends AssessmentToolComponent 
 {
 	/**
 	 * Shows the html for this component.
@@ -17,7 +17,7 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
 	 */
 	function run() 
 	{
-		if (!$this->is_allowed(ADD_RIGHT))
+		if (!$this->is_allowed(VIEW_RIGHT))
 		{
 			Display :: not_allowed();
 			return;
@@ -27,7 +27,10 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
 		
 		$object = $_GET['object'];
 		
-		$pub = new LearningObjectRepoViewer($this, array('assessment', 'survey'), true);
+		$types = $_GET[AssessmentTool :: PARAM_REPO_TYPES];
+		$pub = new LearningObjectRepoViewer($this, $types, true);
+		$pub->set_parameter(AssessmentTool :: PARAM_ACTION, AssessmentTool :: ACTION_REPOVIEWER);
+		$pub->set_parameter(AssessmentTool :: PARAM_REPO_TYPES, $types);
 		
 		if(!isset($object))
 		{	
@@ -36,8 +39,10 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
 		}
 		else
 		{
-			$publisher = new LearningObjectPublisher($pub);
-			$html[] = $publisher->get_publications_form($object);
+			//redirect
+			$redirect_params = $_SESSION['redirect_params'];
+			$redirect_params['object'] = $object;
+			$this->redirect(null, null, false, $redirect_params);
 		}
 		
 		$this->display_header($trail);

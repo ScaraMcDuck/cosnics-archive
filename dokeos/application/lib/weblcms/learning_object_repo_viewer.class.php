@@ -48,7 +48,11 @@ class LearningObjectRepoViewer extends RepoViewer
 			{
 				$out .= ' class="current"';
 			}
-			$out .= ' href="'.$this->get_url(array (RepoViewer :: PARAM_ACTION => $repo_viewer_action, Tool :: PARAM_ACTION => $this->get_parameter(Tool :: PARAM_ACTION)), true).'">'.htmlentities(Translation :: get(ucfirst($repo_viewer_action).'Title')).'</a></li>';
+			$params = $this->get_parameters();
+			$params[RepoViewer :: PARAM_ACTION] = $repo_viewer_action;
+			$params[Tool :: PARAM_ACTION] = $this->get_parameter(Tool :: PARAM_ACTION);
+			//$out .= ' href="'.$this->get_url(array (RepoViewer :: PARAM_ACTION => $repo_viewer_action, Tool :: PARAM_ACTION => $this->get_parameter(Tool :: PARAM_ACTION)), true).'">'.htmlentities(Translation :: get(ucfirst($repo_viewer_action).'Title')).'</a></li>';
+			$out .= ' href="'.$this->get_url($params, true).'">'.htmlentities(Translation :: get(ucfirst($repo_viewer_action).'Title')).'</a></li>';
 		}
 		
 		$out .= '</ul><div class="tabbed-pane-content">';

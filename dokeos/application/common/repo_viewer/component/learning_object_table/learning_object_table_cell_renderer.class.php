@@ -47,7 +47,7 @@ class LearningObjectTableCellRenderer extends DefaultLearningObjectTableCellRend
 		
 		foreach($table_actions as $table_action)
 		{
-			$table_action['href'] = sprintf($table_action['href'], $learning_object->get_id());
+			$table_action['href'] = str_replace('%d', $learning_object->get_id(), $table_action['href']);
 			$toolbar_data[] = $table_action;
 		}
 		
