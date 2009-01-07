@@ -41,8 +41,13 @@ class ComplexLearningObjectMenu extends HTML_Menu
 	 */
 	function ComplexLearningObjectMenu($root, $current_item, $url_format = '?go=browsecomplex&cloi_id=%s&cloi_root_id=%s')
 	{
-		if(isset($_GET['publish']))
-			$url_format .= '&publish=' . $_GET['publish'];
+		$extra = array('publish', 'clo_action');
+		
+		foreach($extra as $item)
+		{
+			if(isset($_GET[$item]))
+				$url_format .= '&' . $item . '=' . $_GET[$item];
+		}
 			
 		$this->current_item = $current_item;
 		$this->root = $root;
