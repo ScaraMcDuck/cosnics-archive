@@ -14,6 +14,7 @@ require_once dirname(__FILE__).'/complex_browser/complex_browser_table.class.php
 require_once dirname(__FILE__).'/../../abstract_learning_object.class.php';
 require_once dirname(__FILE__).'/../../learning_object_form.class.php';
 require_once dirname(__FILE__).'/../../complex_learning_object_item_form.class.php';
+require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 /**
  * Default repository manager component which allows the user to browse through
  * the different categories and learning objects in the repository.
@@ -24,6 +25,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	private $root_id;
 	private $action;
 	private $in_creation = false;
+	private $action_bar;
 	
 	/**
 	 * Runs this component and displays its output.
@@ -67,6 +69,9 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 
 		$this->display_header($trail, false, false);
 		
+		if($this->action_bar)
+			echo '<br />' . $this->action_bar->as_html();
+			
 		echo '<br /><div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
 		echo '<li><a ' . ($action == 'build'?'class=current':'') . ' href="'.$this->get_url(array (RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'clo_action' => 'build')) . '">' . Translation :: get('Build') . '</a></li>';
 		echo '<li><a ' . ($action == 'organise'?'class=current':'') . ' href="'.$this->get_url(array (RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'clo_action' => 'organise')) . '">' . Translation :: get('Organise') . '</a></li>';
@@ -86,11 +91,13 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		if($this->action == 'organise')
 		{
 			$table = new ComplexBrowserTable($this, $this->get_parameters(), $this->get_condition());
+			$this->action_bar = $this->get_action_bar();
 			return $table->as_html();
 		}
 		else
 		{
 			$html[] = $this->get_create_html();
+			$this->action_bar = $this->get_action_bar();
 			$html[] = $this->get_select_existing_html();
 			return implode("\n", $html);
 		}
@@ -224,8 +231,20 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	private function get_selector_condition($types)
 	{
 		$conditions = array();
-
 		$conditions1 = array();
+		$conditions2 = array();
+		
+		if($this->action_bar)
+		{
+			$query = $this->action_bar->get_query();
+			if($query)
+			{
+				$conditions2[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
+				$conditions2[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+				$conditions[] = new OrCondition($conditions2);
+			}
+		}
+		
 		foreach($types as $type)
 		{
 			$conditions1[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
@@ -264,36 +283,25 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		return null;
 	}
 	
-	/*private function get_extra()
+	function get_action_bar()
 	{
-		$toolbar_data = array();
+		if($this->in_creation || (!isset($_GET['publish']) && $this->action == 'organise')) return null;
 		
-		$link = $this->get_link(array(RepositoryManager :: PARAM_ACTION => 
-			RepositoryManager :: ACTION_CREATE_LEARNING_OBJECTS, 
-			RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->root_id, 
-			RepositoryManager :: PARAM_CLOI_ID => $this->cloi_id, 'publish' => $_GET['publish']));
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
-		$toolbar_data[] = array(
-			'href' => $link,
-			'label' => Translation :: get('AddLearningObject') ,
-			'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL,
-			'img' => Theme :: get_common_image_path().'action_add.png'
-		);
+		if(!$this->in_creation)
+		{
+			$action_bar->set_search_url($this->get_url($this->get_parameters()));
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url($this->get_parameters())));
+		}
 		
 		if($_GET['publish'])
 		{
-			$link = $_SESSION['redirect_url'];
-			
-			$toolbar_data[] = array(
-				'href' => $link,
-				'label' => Translation :: get('PublishLearningObject') ,
-				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL,
-				'img' => Theme :: get_common_image_path().'action_publish.png'
-			);
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $_SESSION['redirect_url']));
 		}
-		
-		return DokeosUtilities :: build_toolbar($toolbar_data);
-	}*/
+
+		return $action_bar;
+	}
 	
 	function get_root()
 	{
