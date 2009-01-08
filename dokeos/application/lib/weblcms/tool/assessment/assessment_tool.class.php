@@ -32,6 +32,7 @@ class AssessmentTool extends Tool
 	const PARAM_INVITATION_ID = 'invitation_id';
 	const PARAM_PUBLICATION_ACTION = 'publication_action';
 	const PARAM_REPO_TYPES = 'types';
+	const PARAM_ASSESSMENT_PAGE = 'assessment_page';
 	/*
 	 * Inherited.
 	 */

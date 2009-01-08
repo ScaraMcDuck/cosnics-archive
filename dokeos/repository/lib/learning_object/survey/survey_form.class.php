@@ -24,8 +24,13 @@ class SurveyForm extends LearningObjectForm
 	function setDefaults($defaults = array ())
 	{
 		$object = $this->get_learning_object();
-		if ($object != null)
+		if ($object != null) 
+		{
 			$defaults[Survey :: PROPERTY_ASSESSMENT_TYPE] = $object->get_assessment_type();
+			$defaults[Survey :: PROPERTY_MAXIMUM_TIMES_TAKEN] = $object->get_maximum_times_taken();
+			$defaults[Survey :: PROPERTY_ANONYMOUS] = $object->get_anonymous();
+			$defaults[Survey :: PROPERTY_QUESTIONS_PER_PAGE] = $object->get_questions_per_page();
+		}
 			
 		parent :: setDefaults($defaults);
 	}
@@ -34,9 +39,10 @@ class SurveyForm extends LearningObjectForm
     {
     	parent :: build_creation_form();
     	$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-    	$this->add_select(Survey :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('Assessment type'), Survey :: get_types());
-    	$this->add_textfield(Survey :: PROPERTY_MAXIMUM_TIMES_TAKEN, Translation :: get('Maximum per student')); //.' (0 = '.Translation :: get('infinite').')';
-    	$this->addElement('html_editor', Survey :: PROPERTY_FINISH_TEXT, Translation :: get('Finishing text'));
+    	$this->add_select(Survey :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('AssessmentType'), Survey :: get_types());
+    	$this->add_textfield(Survey :: PROPERTY_MAXIMUM_TIMES_TAKEN, Translation :: get('MaximumPerStudent')); //.' (0 = '.Translation :: get('infinite').')';
+    	$this->add_textfield(Survey :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('QuestionsPerPage'));
+    	$this->addElement('html_editor', Survey :: PROPERTY_FINISH_TEXT, Translation :: get('FinishingText'));
     	$this->addElement('checkbox', Survey :: PROPERTY_ANONYMOUS, Translation :: get('Anonymous'));
     	$this->addElement('category');
     }
@@ -45,9 +51,10 @@ class SurveyForm extends LearningObjectForm
     {
 		parent :: build_editing_form();
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-    	$this->add_select(Assessment :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('Assessment type'), Assessment :: get_types());
-    	$this->add_textfield(Assessment :: PROPERTY_MAXIMUM_TIMES_TAKEN, Translation :: get('Maximum per student')); //.' (0 = '.Translation :: get('infinite').')';
-    	$this->addElement('html_editor', Survey :: PROPERTY_FINISH_TEXT, Translation :: get('Finishing text'));
+    	$this->add_select(Survey :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('AssessmentType'), Survey :: get_types());
+    	$this->add_textfield(Survey :: PROPERTY_MAXIMUM_TIMES_TAKEN, Translation :: get('MaximumPerStudent')); //.' (0 = '.Translation :: get('infinite').')';
+    	$this->add_textfield(Survey :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('QuestionsPerPage'));
+    	$this->addElement('html_editor', Survey :: PROPERTY_FINISH_TEXT, Translation :: get('FinishingText'));
     	$this->addElement('checkbox', Survey :: PROPERTY_ANONYMOUS, Translation :: get('Anonymous'));
     	$this->addElement('category');
 	}
@@ -57,8 +64,17 @@ class SurveyForm extends LearningObjectForm
 	{
 		$object = new Survey();
 		$values = $this->exportValues();
-		print_r($values);
-		$object->set_maximum_times_taken($values[Survey :: PROPERTY_MAXIMUM_TIMES_TAKEN]);
+		
+		if (isset($values[Survey :: PROPERTY_MAXIMUM_TIMES_TAKEN]))
+			$object->set_maximum_times_taken($values[Survey :: PROPERTY_MAXIMUM_TIMES_TAKEN]);
+		else
+			$object->set_maximum_times_taken(0);
+
+		if (isset($values[Survey :: PROPERTY_QUESTIONS_PER_PAGE]))
+			$object->set_questions_per_page($values[Survey :: PROPERTY_QUESTIONS_PER_PAGE]);
+		else
+			$object->set_questions_per_page(0);
+			
 		$ass_types = $object->get_types();
 		$object->set_assessment_type($ass_types[$values[Survey :: PROPERTY_ASSESSMENT_TYPE]]);
 		$object->set_finish_text($values[Survey :: PROPERTY_FINISH_TEXT]);
@@ -67,6 +83,7 @@ class SurveyForm extends LearningObjectForm
 			$object->set_anonymous($values[Survey :: PROPERTY_ANONYMOUS]);
 		else
 			$object->set_anonymous(0);
+			
 		$this->set_learning_object($object);
 		return parent :: create_learning_object();
 	}
@@ -75,7 +92,16 @@ class SurveyForm extends LearningObjectForm
 	{
 		$object = $this->get_learning_object();
 		$values = $this->exportValues();
-		$object->set_maximum_times_taken($values[Assessment :: PROPERTY_MAXIMUM_TIMES_TAKEN]);
+		
+		if (isset($values[Survey :: PROPERTY_MAXIMUM_TIMES_TAKEN]))
+			$object->set_maximum_times_taken($values[Survey :: PROPERTY_MAXIMUM_TIMES_TAKEN]);
+		else
+			$object->set_maximum_times_taken(0);
+
+		if (isset($values[Survey :: PROPERTY_QUESTIONS_PER_PAGE]))
+			$object->set_questions_per_page($values[Survey :: PROPERTY_QUESTIONS_PER_PAGE]);
+		else
+			$object->set_questions_per_page(0);
 		
 		$ass_types = $object->get_types();
 		$value = $values[Assessment :: PROPERTY_ASSESSMENT_TYPE];
@@ -93,6 +119,7 @@ class SurveyForm extends LearningObjectForm
 			$object->set_anonymous($values[Survey :: PROPERTY_ANONYMOUS]);
 		else
 			$object->set_anonymous(0);
+			
 		$this->set_learning_object($object);
 		return parent :: update_learning_object();
 	}

@@ -15,32 +15,19 @@ require_once dirname(__FILE__).'/question_types/document_question.class.php';
 class AssessmentTesterForm extends FormValidator
 {
 	
-	function AssessmentTesterForm($assessment, $url)
+	function AssessmentTesterForm($assessment, $url, $page)
 	{
 		parent :: __construct('assessment', 'post', $url);
-		$this->initialize($assessment);
+		$this->initialize($assessment, $page);
 	}
 	
-	function initialize($assessment) 
+	function initialize($assessment, $page) 
 	{
 		$assessment_id = $assessment->get_id();
 		$dm = RepositoryDataManager :: get_instance();
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id);
 		$clo_questions = $dm->retrieve_complex_learning_object_items($condition);
 		
-		/*if ($assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
-		{
-			if ($assessment->get_anonymous() == true)
-			{
-				$select = $this->createElement('select', Survey :: PROPERTY_ANONYMOUS, Translation :: get('Take anonymously'), array('no', 'yes'));
-				$anonymous = $_GET[Survey :: PROPERTY_ANONYMOUS];
-				if (isset($anonymous))
-				{
-					$select->setSelected('yes');
-				}
-				$this->addElement($select);
-			}
-		}*/
 		$this->addElement('html', '<br/><div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$assessment->get_icon_name().'.png);">');
 		$this->addElement('html', '<div class="title" style="font-size: 14px">');
 		$this->addElement('html', Translation :: get('Take assessment').': '.$assessment->get_title());
@@ -50,13 +37,20 @@ class AssessmentTesterForm extends FormValidator
 		$this->addElement('html', '</div>');
 		$this->addElement('html', '</div>');
 		
+		$start_question = ($page - 1) * $assessment->get_questions_per_page() + 1;
+		$stop_question = $start_question + $assessment->get_questions_per_page();
+		$count = 1;
 		while($clo_question = $clo_questions->next_result())
 		{
-			$question_display = QuestionDisplay :: factory($clo_question);
-			if (isset($question_display))
-				$question_display->add_to($this);
-				
-			$this->addElement('html', '<br />');
+			if ($count >= $start_question && $count < $stop_question)
+			{
+				$question_display = QuestionDisplay :: factory($clo_question);
+				if (isset($question_display))
+					$question_display->add_to($this);
+					
+				$this->addElement('html', '<br />');
+			}
+			$count++;
 		}
 		$this->addElement('submit', 'submit', Translation :: get('Submit'));
 	}

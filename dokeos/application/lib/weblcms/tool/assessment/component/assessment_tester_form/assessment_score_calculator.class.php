@@ -4,10 +4,10 @@ class AssessmentScoreCalculator
 {
 	private $parent;
 	
-	function build_answers($tester_form, $assessment, $datamanager, $parent)
+	function build_answers($values, $assessment, $datamanager, $parent)
 	{
 		$this->parent = $parent;
-		$values = $tester_form->exportValues();
+		//$values = $tester_form->exportValues();
 		$user_assessment = new UserAssessment();
 		$user_assessment->set_assessment_id($assessment->get_id());	
 		$user_assessment->set_user_id($this->get_user_id($assessment, $values));
