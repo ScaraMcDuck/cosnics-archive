@@ -29,8 +29,11 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 			$actions[$key]['href'] = str_replace('__ID__', '%d', $action['href']);
 		}
 		
+		if($this->get_maximum_select() > RepoViewer :: SELECT_SINGLE)
+			$info = '<b>' . sprintf(Translation :: get('SelectMaximumLO'), $this->get_maximum_select()) . '</b><br />';
+		
 		$table = new LearningObjectTable($this, $this->get_user(), $this->get_types(), $this->get_query(), $actions);
-		return $table->as_html();
+		return $info . $table->as_html();
 	}
 
 	/**

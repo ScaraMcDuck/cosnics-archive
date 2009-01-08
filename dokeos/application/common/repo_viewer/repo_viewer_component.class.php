@@ -32,6 +32,11 @@ abstract class RepoViewerComponent
 	{		
 		return $this->parent;
 	}
+	
+	function get_maximum_select()
+	{
+		return $this->get_parent()->get_maximum_select();
+	}
 
 	/**
 	 * @see ObjectRepoViewer::get_user_id()
