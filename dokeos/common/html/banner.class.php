@@ -86,10 +86,13 @@ class Banner
 		*/
 		
 		$breadcrumbtrail = $this->breadcrumbtrail;
-		// TODO: Add this CSS to the css-files
-		$output[] = '<div id="breadcrumbtrail">';
-		$output[] = $breadcrumbtrail->render();
-		$output[] = '</div>';
+		if (!is_null($breadcrumbtrail))
+		{
+			// TODO: Add this CSS to the css-files
+			$output[] = '<div id="breadcrumbtrail">';
+			$output[] = $breadcrumbtrail->render();
+			$output[] = '</div>';
+		}
 		
 		// TODO: Check whether we still need anything from the old breadcrumb-generating code
 		

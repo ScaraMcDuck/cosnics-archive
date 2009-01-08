@@ -37,6 +37,11 @@ abstract class HomeManagerComponent {
 		$this->get_parent()->display_header($breadcrumbtrail, $display_search);
 	}
 	
+	function display_portal_header()
+	{
+		$this->get_parent()->display_portal_header();
+	}
+	
 	function display_footer()
 	{
 		$this->get_parent()->display_footer();
@@ -112,6 +117,11 @@ abstract class HomeManagerComponent {
 		return $this->get_parent()->get_user_id();
 	}
 	
+	function retrieve_home_tabs($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->get_parent()->retrieve_home_tabs($condition, $offset, $count, $order_property, $order_direction);
+	}
+	
 	function retrieve_home_rows($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return $this->get_parent()->retrieve_home_rows($condition, $offset, $count, $order_property, $order_direction);
@@ -140,6 +150,11 @@ abstract class HomeManagerComponent {
 	function retrieve_home_row($id)
 	{
 		return $this->get_parent()->retrieve_home_row($id);
+	}
+	
+	function retrieve_home_tab($id)
+	{
+		return $this->get_parent()->retrieve_home_tab($id);
 	}
 	
 	function retrieve_home_block_config($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
@@ -287,6 +302,11 @@ abstract class HomeManagerComponent {
 	function retrieve_home_row_at_sort($sort, $direction)
 	{
 		return $this->get_parent()->retrieve_home_row_at_sort($sort, $direction);
+	}
+	
+	function retrieve_home_tab_at_sort($sort, $direction)
+	{
+		return $this->get_parent()->retrieve_home_tab_at_sort($sort, $direction);
 	}
 	
 	function get_platform_setting($variable, $application = UserManager :: APPLICATION_NAME)

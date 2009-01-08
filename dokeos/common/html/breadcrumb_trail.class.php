@@ -54,6 +54,11 @@ class BreadcrumbTrail
     	return implode("\n".'&nbsp;&gt;&nbsp;', $html);
     }
     
+    function size()
+    {
+    	return count($this->breadcrumbtrail);
+    }
+    
     function display()
     {
     	$html = $this->render();

@@ -41,8 +41,18 @@ class HomeInstaller extends Installer
 	
 	function create_basic_home()
 	{
+		// First test-tab
+		$tab = new HomeTab();
+		$tab->set_title(Translation :: get('Default'));
+		$tab->set_user('0');
+		if (!$tab->create())
+		{
+			return false;
+		}
+		
 		$row = new HomeRow();
 		$row->set_title(Translation :: get('Site'));
+		$row->set_tab($tab->get_id());
 		$row->set_user('0');
 		if (!$row->create())
 		{
@@ -100,6 +110,46 @@ class HomeInstaller extends Installer
 		$block_portal_home->set_component('portal_home');
 		$block_portal_home->set_user('0');
 		if (!$block_portal_home->create())
+		{
+			return false;
+		}
+		
+		// Second test-tab
+		$tab = new HomeTab();
+		$tab->set_title(Translation :: get('Personal'));
+		$tab->set_user('0');
+		if (!$tab->create())
+		{
+			return false;
+		}
+		
+		$row = new HomeRow();
+		$row->set_title(Translation :: get('Personal'));
+		$row->set_tab($tab->get_id());
+		$row->set_user('0');
+		if (!$row->create())
+		{
+			return false;
+		}
+		
+		$column_news = new HomeColumn();
+		$column_news->set_row($row->get_id());
+		$column_news->set_title(Translation :: get('Personal'));
+		$column_news->set_sort('1');
+		$column_news->set_width('66');
+		$column_news->set_user('0');
+		if (!$column_news->create())
+		{
+			return false;
+		}
+		
+		$block_test = new HomeBlock();
+		$block_test->set_column($column_news->get_id());
+		$block_test->set_title(Translation :: get('PersonalCalendar'));
+		$block_test->set_application('personal_calendar');
+		$block_test->set_component('month');
+		$block_test->set_user('0');
+		if (!$block_test->create())
 		{
 			return false;
 		}

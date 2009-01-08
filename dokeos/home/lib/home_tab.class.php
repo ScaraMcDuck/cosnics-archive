@@ -1,18 +1,17 @@
 <?php
 require_once dirname(__FILE__).'/home_data_manager.class.php';
 
-class HomeRow {
+class HomeTab {
 
 	const PROPERTY_ID = 'id';
 	const PROPERTY_TITLE = 'title';
 	const PROPERTY_SORT = 'sort';
-	const PROPERTY_TAB = 'tab';
 	const PROPERTY_USER = 'user';
 	
 	private $id;
 	private $defaultProperties;
 
-    function HomeRow($id = null, $defaultProperties = array ())
+    function HomeTab($id = null, $defaultProperties = array ())
     {
     	$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
@@ -39,7 +38,7 @@ class HomeRow {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_TAB, self :: PROPERTY_USER);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_SORT, self :: PROPERTY_USER);
 	}
 	
 	static function is_default_property_name($name)
@@ -77,16 +76,6 @@ class HomeRow {
 		$this->set_default_property(self :: PROPERTY_TITLE, $title);
 	}
 	
-    function get_tab()
-    {
-    	return $this->get_default_property(self :: PROPERTY_TAB);
-    }
-	
-	function set_tab($tab)
-	{
-		$this->set_default_property(self :: PROPERTY_TAB, $tab);
-	}
-	
     function get_user()
     {
     	return $this->get_default_property(self :: PROPERTY_USER);
@@ -112,9 +101,9 @@ class HomeRow {
 	function create()
 	{
 		$wdm = HomeDataManager :: get_instance();
-		$id = $wdm->get_next_home_row_id();
+		$id = $wdm->get_next_home_tab_id();
 		$this->set_id($id);
-		$success = $wdm->create_home_row($this);
+		$success = $wdm->create_home_tab($this);
 		if (!$success)
 		{
 			return false;
