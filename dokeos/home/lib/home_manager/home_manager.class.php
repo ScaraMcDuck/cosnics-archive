@@ -137,12 +137,16 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 			$trail = $breadcrumbtrail;
 		}
 		
-		$title = $trail->get_last()->get_name();
-		$title_short = $title;
-		if (strlen($title_short) > 53)
+		if ($breadcrumbtrail->size() > 0)
 		{
-			$title_short = substr($title_short, 0, 50).'&hellip;';
+			$title = $trail->get_last()->get_name();
+			$title_short = $title;
+			if (strlen($title_short) > 53)
+			{
+				$title_short = substr($title_short, 0, 50).'&hellip;';
+			}
 		}
+		
 		Display :: header($trail);
 		
 		if (!is_null($breadcrumbtrail))
@@ -162,6 +166,11 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 		{
 			$this->display_error_message($msg);
 		}
+	}
+	
+	function display_portal_header()
+	{
+		Display :: header();
 	}
 	
 	function display_footer()
@@ -279,6 +288,11 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 		return HomeDataManager :: get_instance()->retrieve_home_rows($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
+	function retrieve_home_tabs($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return HomeDataManager :: get_instance()->retrieve_home_tabs($condition, $offset, $count, $order_property, $order_direction);
+	}
+	
 	function retrieve_home_columns($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return HomeDataManager :: get_instance()->retrieve_home_columns($condition, $offset, $count, $order_property, $order_direction);
@@ -302,6 +316,11 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	function retrieve_home_row($id)
 	{
 		return HomeDataManager :: get_instance()->retrieve_home_row($id);
+	}
+	
+	function retrieve_home_tab($id)
+	{
+		return HomeDataManager :: get_instance()->retrieve_home_tab($id);
 	}
 	
 	function truncate_home($user_id)
@@ -501,6 +520,12 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	{
 		$hdm = HomeDataManager :: get_instance();
 		return $hdm->retrieve_home_row_at_sort($sort, $direction);
+	}
+	
+	function retrieve_home_tab_at_sort($sort, $direction)
+	{
+		$hdm = HomeDataManager :: get_instance();
+		return $hdm->retrieve_home_tab_at_sort($sort, $direction);
 	}
 	
 	function get_platform_setting($variable, $application = self :: APPLICATION_NAME)

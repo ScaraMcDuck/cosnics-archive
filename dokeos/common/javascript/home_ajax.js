@@ -13,6 +13,17 @@
 		$("div.title a").fadeOut(150);
 	};
 	
+	var showTab = function(e, ui) {
+		var tabId = $(this).attr('id');
+		var tab = tabId.split("_");
+		
+		$("div.tab:not(#tab_"+ tab[2] +")").css('display', 'none');
+		$("div #tab_" + tab[2]).css('display', 'block');
+		
+		$("#tab_menu li").attr('class', 'normal');
+		$("#tab_select_"+ tab[2]).attr('class', 'current');
+	};
+	
 	function translation(string, application) {		
 		var translated_string = $.ajax({
 			type: "POST",
@@ -128,8 +139,8 @@
 	};
 
 	var removeBlockScreen = function(e, ui) {
-		$("#main #addBlock").slideToggle(300, function() {
-			$("#main #addBlock").remove();
+		$("#addBlock").slideToggle(300, function() {
+			$("#addBlock").remove();
 		});
 
 		$("a.addEl").show();
@@ -138,9 +149,9 @@
 	var showBlockScreen = function(e, ui) {
 		e.preventDefault();
 		$.post("./home/ajax/block_list.php", function(data) {
-			$("#main").prepend(data)
+			$("#tab_menu").after(data)
 			{
-				$("#main #addBlock").slideToggle(300);
+				$("#addBlock").slideToggle(300);
 			}
 
 			$("a.addEl").hide();
@@ -229,6 +240,9 @@
 
 		$("a.addEl").unbind();
 		$("a.addEl").bind('click', showBlockScreen);
+		
+		$("#tab_menu li").unbind();
+		$("#tab_menu li").bind('click', showTab);
 	}
 	
 	function testModal()

@@ -3,11 +3,13 @@
  * @package users
  * @subpackage datamanager
  */
+require_once dirname(__FILE__).'/database/database_home_tab_result_set.class.php';
 require_once dirname(__FILE__).'/database/database_home_row_result_set.class.php';
 require_once dirname(__FILE__).'/database/database_home_column_result_set.class.php';
 require_once dirname(__FILE__).'/database/database_home_block_result_set.class.php';
 require_once dirname(__FILE__).'/database/database_home_block_config_result_set.class.php';
 require_once dirname(__FILE__).'/../home_data_manager.class.php';
+require_once dirname(__FILE__).'/../home_tab.class.php';
 require_once dirname(__FILE__).'/../home_row.class.php';
 require_once dirname(__FILE__).'/../home_column.class.php';
 require_once dirname(__FILE__).'/../home_block.class.php';
@@ -27,6 +29,7 @@ require_once 'MDB2.php';
 
 class DatabaseHomeDataManager extends HomeDataManager
 {
+	const ALIAS_TAB_TABLE = 't';
 	const ALIAS_ROW_TABLE = 'r';
 	const ALIAS_COLUMN_TABLE = 'c';
 	const ALIAS_BLOCK_TABLE = 'b';
@@ -122,6 +125,12 @@ class DatabaseHomeDataManager extends HomeDataManager
 	function get_next_home_row_id()
 	{
 		$id = $this->connection->nextID($this->get_table_name('row'));
+		return $id;
+	}
+	
+	function get_next_home_tab_id()
+	{
+		$id = $this->connection->nextID($this->get_table_name('tab'));
 		return $id;
 	}
 	
@@ -314,6 +323,58 @@ class DatabaseHomeDataManager extends HomeDataManager
 		return self :: record_to_home_row($record);
 	}
 	
+	function retrieve_home_tabs($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('tab'). ' AS '. self :: ALIAS_TAB_TABLE;
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		/*
+		 * Always respect display order as a last resort.
+		 */
+		$orderBy[] = HomeTab :: PROPERTY_SORT;
+		$orderDir[] = SORT_ASC;
+		$order = array ();
+		
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects < 0)
+		{
+			$maxObjects = null;
+		}
+		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		return new DatabaseHomeTabResultSet($this, $res);
+	}
+	
+    function retrieve_home_tab($id)
+	{
+		
+		$query = 'SELECT * FROM '.$this->escape_table_name('tab');
+		$query .= ' WHERE '.$this->escape_column_name(HomeTab :: PROPERTY_ID).'=?';
+		
+		$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($id);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$res->free();
+		return self :: record_to_home_tab($record);
+	}
+	
 	function retrieve_home_columns($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('column'). ' AS '. self :: ALIAS_COLUMN_TABLE;
@@ -416,6 +477,20 @@ class DatabaseHomeDataManager extends HomeDataManager
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$res->free();
 		return self :: record_to_home_block($record);
+	}
+	
+	function record_to_home_tab($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (HomeTab :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new HomeTab($record[HomeTab :: PROPERTY_ID], $defaultProp);
 	}
 	
 	function record_to_home_row($record)
@@ -553,12 +628,38 @@ class DatabaseHomeDataManager extends HomeDataManager
 		}
 		$props[$this->escape_column_name(HomeRow :: PROPERTY_ID)] = $home_row->get_id();
 		
-		$sort = $this->retrieve_max_sort_value('row', HomeRow :: PROPERTY_SORT, null);
+		$condition = new EqualityCondition(HomeRow :: PROPERTY_TAB, $home_row->get_tab());
+		$sort = $this->retrieve_max_sort_value('row', HomeRow :: PROPERTY_SORT, $condition);
 		
 		$props[$this->escape_column_name(HomeRow :: PROPERTY_SORT)] = $sort+1;
 		
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name('row'), $props, MDB2_AUTOQUERY_INSERT))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	function create_home_tab($home_tab)
+	{
+		$props = array();
+		foreach ($home_tab->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$props[$this->escape_column_name(HomeTab :: PROPERTY_ID)] = $home_tab->get_id();
+		
+		$condition = new EqualityCondition(HomeTab :: PROPERTY_USER, $home_tab->get_user());
+		$sort = $this->retrieve_max_sort_value('tab', HomeTab :: PROPERTY_SORT, $condition);
+		
+		$props[$this->escape_column_name(HomeTab :: PROPERTY_SORT)] = $sort+1;
+		
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('tab'), $props, MDB2_AUTOQUERY_INSERT))
 		{
 			return true;
 		}
@@ -735,6 +836,22 @@ class DatabaseHomeDataManager extends HomeDataManager
 		$res = $this->limitQuery($query, 1, null, array ($sort));
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		return $this->record_to_home_row($record);
+	}
+	
+	function retrieve_home_tab_at_sort($sort, $direction)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('tab') .' WHERE ';
+		if ($direction == 'up')
+		{
+			$query .= $this->escape_column_name(HomeTab :: PROPERTY_SORT).'<? ORDER BY '.$this->escape_column_name(HomeTab :: PROPERTY_SORT) . 'DESC';
+		}
+		elseif ($direction == 'down')
+		{
+			$query .= $this->escape_column_name(HomeTab :: PROPERTY_SORT).'>? ORDER BY '.$this->escape_column_name(HomeTab :: PROPERTY_SORT) . 'ASC';
+		}
+		$res = $this->limitQuery($query, 1, null, array ($sort));
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		return $this->record_to_home_tab($record);
 	}
 	
 	private function limitQuery($query,$limit,$offset,$params,$is_manip = false)
