@@ -49,7 +49,18 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			return;
 		}
 		
-		$this->handle_form($url, $showlcms);
+		if (isset($_GET['start']))
+		{
+			$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = null;
+			$_SESSION['formvalues'] = null;
+		}
+		
+		if (isset($_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE]))
+			$page = $_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE];
+		else
+			$page = 1;
+			
+		$this->handle_form($url, $showlcms, $page);
 	}
 	
 	function is_visible()
@@ -73,9 +84,31 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		return $visible;
 	}
 	
-	function handle_form($url, $showlcms) 
+	function handle_form($url, $showlcms, $page) 
 	{
-		$tester_form = new AssessmentTesterForm($this->assessment, $url);
+		//$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = null;
+		//$_SESSION['formvalues'] = null;
+		$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = $page;
+		$qpp = $this->assessment->get_questions_per_page();
+		$tester_form = new AssessmentTesterForm($this->assessment, $url, $page);
+		
+		if ($qpp > 0)
+		{
+			$questions = 0;
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->assessment->get_id());
+			$clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+			while ($clo_question = $clo_questions->next_result())
+				$questions++;
+			// subtract 1, last page may be less questions than questions per page
+			if (($page - 1) * $qpp >= $questions)
+			{
+				//test done, redirect to scores
+				$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = null;
+				$_SESSOIN['formvalues'] = null;
+				$this->redirect_to_score_calculator($_SESSION['formvalues']);
+			}
+		}
+		
 		if (!$tester_form->validate()) 
 		{
 			$trail = new BreadcrumbTrail();
@@ -86,21 +119,54 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 				echo $this->action_bar->as_html();
 			}
 
+			if ($qpp > 0)
+			{
+				echo '<h3>This is page: '.$page.'/'.$questions/$qpp.'</h3>';
+			}
 			$this->set_formvalues($tester_form);
 			echo $tester_form->toHtml();
 			
 			$this->display_footer();
 		} 
 		else
-		{			
-			$values = $tester_form->exportValues();
+		{	
+			if ($tester_form != null)
+				$values = $tester_form->exportValues();
 						
 			if (isset($values['submit']))
 			{
-				$this->redirect_to_score_calculator($tester_form);
+				if ($qpp == 0) 
+				{
+					$this->redirect_to_score_calculator($values);
+				}
+				else
+				{
+					$old_values = $_SESSION['formvalues'];
+					foreach ($old_values as $key => $value)
+					{
+						$new_values[$key] = $value;
+					}
+					foreach ($values as $key => $value)
+					{
+						$new_values[$key] = $value;
+					}
+					$_SESSION['formvalues'] = $new_values;
+					$_POST = null;
+					$this->handle_form($url, $showlcms, $page + 1);
+				}
 			}
 			else
 			{
+				$old_values = $_SESSION['formvalues'];
+				foreach ($old_values as $key => $value)
+				{
+					$new_values[$key] = $value;
+				}
+				foreach ($values as $key => $value)
+				{
+					$new_values[$key] = $value;
+				}
+				$_SESSION['formvalues'] = $new_values;
 				$this->redirect_to_repoviewer();
 			}
 		}
@@ -109,7 +175,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	function redirect_to_score_calculator()
 	{
 		$score_calculator = new AssessmentScoreCalculator();
-		$user_assessment = $score_calculator->build_answers($tester_form, $this->assessment, $this->datamanager, $this);
+		$user_assessment = $score_calculator->build_answers($_SESSION['formvalues'], $this->assessment, $this->datamanager, $this);
 		
 		WeblcmsDataManager :: get_instance()->create_user_assessment($user_assessment);
 		$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id());
@@ -124,7 +190,6 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	
 	function redirect_to_repoviewer()
 	{
-		$_SESSION['formvalues'] = $values;
 		$_SESSION['redirect_params'] = array(
 			AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, 
 			AssessmentTool :: PARAM_PUBLICATION_ID => $this->pid,
@@ -138,22 +203,25 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		$formvalues = $_SESSION['formvalues'];
 		if ($formvalues != null)
 		{
-			$_SESSION['formvalues'] = null;
 			foreach ($formvalues as $id => $value)
 			{
 				$parts = split('_', $id);
 				if ($parts[0] == 'repoviewer')
 				{
 					$control_id = $parts[1].'_'.$parts[2];
-					$objects = $_GET['object'];
-					if (is_array($objects))
-						$object = $objects[0];
-					else
-						$object = $objects;
-						
-					$formvalues[$control_id] = $objects;
-					$doc = RepositoryDataManager :: get_instance()->retrieve_learning_object($objects);
-					$formvalues[$control_id.'_name'] = $doc->get_title();
+					
+					if (isset($_GET['object']))
+					{
+						$objects = $_GET['object'];
+						if (is_array($objects))
+							$object = $objects[0];
+						else
+							$object = $objects;
+							
+						$formvalues[$control_id] = $objects;
+						$doc = RepositoryDataManager :: get_instance()->retrieve_learning_object($objects);
+						$formvalues[$control_id.'_name'] = $doc->get_title();
+					}
 				}
 			}		
 			$tester_form->setDefaults($formvalues);

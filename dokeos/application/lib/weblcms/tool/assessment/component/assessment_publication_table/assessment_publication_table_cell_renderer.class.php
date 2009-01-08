@@ -50,7 +50,7 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 		if ($assessment->get_maximum_times_taken == 0 || $times_taken < $assessment->get_maximum_times_taken())
 		{
 			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'start' => '1')),
 			'label' => Translation :: get('Take assessment'),
 			'img' => Theme :: get_common_image_path().'action_right.png'
 			);
