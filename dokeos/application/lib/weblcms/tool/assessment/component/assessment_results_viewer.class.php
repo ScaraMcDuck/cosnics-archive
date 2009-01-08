@@ -116,7 +116,20 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		
 		if ($subcomponent->validate() && $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 		{
-			$this->handle_validated_form($subcomponent, $datamanager, $user_assessment);
+			$values = $subcomponent->exportValues();
+			if (isset($values['submit']))
+				$this->handle_validated_form($subcomponent, $datamanager, $user_assessment);
+			else
+			{
+				$_SESSION['formvalues'] = $values;	
+				$_SESSION['redirect_params'] = array(
+					AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, 
+					AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid,
+					AssessmentTool :: PARAM_ADD_FEEDBACK => 1
+				);
+				
+				$this->redirect(null, null, false, array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_REPOVIEWER, AssessmentTool :: PARAM_REPO_TYPES => array('feedback')));
+			}
 		}
 		else 
 		{
@@ -124,6 +137,32 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			if (!$visible)
 			{
 				return;
+			}
+			
+			$formvalues = $_SESSION['formvalues'];
+			if ($formvalues != null)
+			{
+				$_SESSION['formvalues'] = null;
+				foreach ($formvalues as $id => $value)
+				{
+					$parts = split('_', $id);
+					if ($parts[0] == 'feedback')
+					{
+						print_r($parts);
+						$control_id = $parts[1];
+						$objects = $_GET['object'];
+						if (is_array($objects))
+							$object = $objects[0];
+						else
+							$object = $objects;
+							
+						$formvalues['ex_'.$control_id] = $objects;
+						$doc = RepositoryDataManager :: get_instance()->retrieve_learning_object($objects);
+						$formvalues['ex'.$control_id.'_name'] = $doc->get_title();
+					}
+				}
+				
+				$subcomponent->setDefaults($formvalues);
 			}
 			
 			echo '<br/>';
@@ -151,22 +190,24 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 				 	$user_answer->set_extra(' ');
 				$datamanager->update_user_answer($user_answer);
 			}
-			else if (substr($key, 0, 2) == 'ex')
+			else if (substr($key, 0, 3) == 'ex_')
 			{
-				$user_question_id = substr($key, 2);
+				$user_question_id = substr($key, 3);
 				$user_question = $datamanager->retrieve_user_question($user_question_id);
 				if ($value != 0) {
-					$feedback_los = RepositoryDataManager :: get_instance()->retrieve_learning_objects('feedback');
+					/*$feedback_los = RepositoryDataManager :: get_instance()->retrieve_learning_objects('feedback');
 					while ($feedback_lo = $feedback_los->next_result())
 					{
 						$feedback_objs[] = $feedback_lo;
-					}
-					$user_question->set_feedback($feedback_objs[$value-1]->get_id());
+					}*/
+					$user_question->set_feedback($value);
 					$datamanager->update_user_question($user_question);
 				}
 				else
 				{
 					$user_question->set_feedback('');
+					print_r($user_question);
+					echo '<br/>';
 					$datamanager->update_user_question($user_question);
 				}
 			}

@@ -91,13 +91,16 @@ abstract class QuestionResult
 		{
 			$this->formvalidator->addElement('html', '<br/>'.Translation :: get("Add feedback").':<br/>');
 			
-			$lo_feedback_rs = RepositoryDataManager :: get_instance()->retrieve_learning_objects('feedback');
+			/*$lo_feedback_rs = RepositoryDataManager :: get_instance()->retrieve_learning_objects('feedback');
 			$feedback_objects[] = Translation :: get('No feedback');
 			while ($lo_feedback = $lo_feedback_rs->next_result())
 			{
 				$feedback_objects[] = $lo_feedback->get_id();
-			}
-			$this->formvalidator->addElement('select', 'ex'.$this->user_question->get_id(), Translation :: get('Select a feedback object:'), $feedback_objects);
+			}*/
+			//$this->formvalidator->addElement('select', 'ex'.$this->user_question->get_id(), Translation :: get('Select a feedback object:'), $feedback_objects);
+			$this->formvalidator->addElement('hidden', 'ex_'.$this->user_question->get_id(), '');
+			$this->formvalidator->addElement('text', 'ex'.$this->user_question->get_id().'_name', Translation :: get('SelectedFeedback'));
+			$this->formvalidator->addElement('submit', 'feedback_'.$this->user_question->get_id(), 'Select feedback');
 		}
 	}
 	

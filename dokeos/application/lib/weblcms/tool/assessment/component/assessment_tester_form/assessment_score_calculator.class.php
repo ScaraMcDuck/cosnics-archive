@@ -159,14 +159,14 @@ class AssessmentScoreCalculator
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		$maxscore = self :: get_all_score($user_question);
-		echo 'max'.$maxscore.'<br/>';
+		//echo 'max'.$maxscore.'<br/>';
 		$condition = new EqualityCondition(UserAnswer :: PROPERTY_USER_QUESTION_ID, $user_question->get_id());
 		$user_answers = WeblcmsDataManager :: get_instance()->retrieve_user_answers($condition);
 		while ($user_answer = $user_answers->next_result())
 		{
 			$score += ($user_answer->get_score() * $user_question->get_weight()) / $maxscore;
 		}
-		echo $score.'<br/>';
+		//echo $score.'<br/>';
 		return $score;
 	}
 	
