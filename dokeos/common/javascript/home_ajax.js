@@ -166,8 +166,7 @@
 	};
 
 	var addBlock = function(e, ui) {
-
-		var column = $(".column:first-child");
+		var column = $(".tab:visible .column:first-child");
 		var columnId = column.attr("id");
 		var order = column.sortable("serialize");
 		
@@ -254,6 +253,13 @@
 			$.modal.close();
 		});
 	}
+
+	// Extension to jQuery selectors which only returns visible elements
+	$.extend($.expr[':'],{
+	    visible: function(a) {
+	        return $(a).css('display') !== 'none';
+	    }
+	});
 
 	$(document).ready( function() {
 		
