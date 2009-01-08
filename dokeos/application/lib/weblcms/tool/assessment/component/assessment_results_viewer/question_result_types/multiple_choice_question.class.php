@@ -16,7 +16,6 @@ class MultipleChoiceQuestionResult extends QuestionResult
 		{
 			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $user_answer->get_extra());
 			$answer = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_answer->get_extra());
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $user_answer->get_answer_id());
 			$clo_answer = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition)->next_result();
 			$user_score_div = $clo_answer->get_score();
 			$answer_lines[] = $answer->get_title().' ('.Translation :: get('Score').': '.$user_answer->get_score().')';

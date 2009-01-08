@@ -87,16 +87,18 @@ abstract class QuestionResult
 	
 	function add_feedback_controls()
 	{
-		$this->formvalidator->addElement('html', '<br/>'.Translation :: get("Add feedback").':<br/>');
-		//$this->formvalidator->addElement('html_editor', 'new'.$this->user_question->get_id());
-		
-		$lo_feedback_rs = RepositoryDataManager :: get_instance()->retrieve_learning_objects('feedback');
-		$feedback_objects[] = Translation :: get('No feedback');
-		while ($lo_feedback = $lo_feedback_rs->next_result())
+		if ($this->user_question != null)
 		{
-			$feedback_objects[] = $lo_feedback->get_id();
+			$this->formvalidator->addElement('html', '<br/>'.Translation :: get("Add feedback").':<br/>');
+			
+			$lo_feedback_rs = RepositoryDataManager :: get_instance()->retrieve_learning_objects('feedback');
+			$feedback_objects[] = Translation :: get('No feedback');
+			while ($lo_feedback = $lo_feedback_rs->next_result())
+			{
+				$feedback_objects[] = $lo_feedback->get_id();
+			}
+			$this->formvalidator->addElement('select', 'ex'.$this->user_question->get_id(), Translation :: get('Select a feedback object:'), $feedback_objects);
 		}
-		$this->formvalidator->addElement('select', 'ex'.$this->user_question->get_id(), Translation :: get('Select a feedback object:'), $feedback_objects);
 	}
 	
 	function add_score_controls($max_score)
@@ -105,7 +107,8 @@ abstract class QuestionResult
 		{
 			$values[] = $i;
 		}
-		$this->formvalidator->addElement('select', 'score'.$this->user_question->get_id(), Translation :: get('Change score:'), $values);
+		if ($this->user_question != null)
+			$this->formvalidator->addElement('select', 'score'.$this->user_question->get_id(), Translation :: get('Change score:'), $values);
 	}
 	
 	function display_question_header()

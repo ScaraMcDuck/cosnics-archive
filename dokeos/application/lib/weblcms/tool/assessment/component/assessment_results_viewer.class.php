@@ -147,6 +147,8 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 				$user_answers = $datamanager->retrieve_user_answers($condition);
 				$user_answer = $user_answers->next_result();
 				$user_answer->set_score($value);
+				if ($user_answer->get_extra() == null)
+				 	$user_answer->set_extra(' ');
 				$datamanager->update_user_answer($user_answer);
 			}
 			else if (substr($key, 0, 2) == 'ex')

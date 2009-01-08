@@ -16,9 +16,10 @@ class DocumentQuestionDisplay extends QuestionDisplay
 		//$elements[] = $formvalidator->createElement('file', null, Translation :: get('Upload a file'));
 		//$elements[] = $formvalidator->createElement('html', '</div>');
 		
-		//$formvalidator->addGroup($elements, $name, '<br/>');
+		$formvalidator->addElement('hidden', $name, '');
+		$formvalidator->addElement('text', $name.'_name', Translation :: get('Selected document'));
 		
-		$formvalidator->addElement('submit', 'repoviewer', Translation :: get('RepoViewer'));
+		$formvalidator->addElement('submit', 'repoviewer_'.$name, Translation :: get('RepoViewer'));
 		$formvalidator->addElement('html', '<br/>');
 		$formvalidator->addElement('html', $this->display_footer());
 	}
