@@ -33,9 +33,12 @@ class LearningObjectTable extends ObjectTable
 		$cell_renderer = new LearningObjectTableCellRenderer($table_actions);
 		parent :: __construct($data_provider, LearningObjectTable :: DEFAULT_NAME, $column_model, $cell_renderer);
 		
+		if($parent->get_maximum_select() != RepoViewer :: SELECT_SINGLE)
+		{
+			$actions = array();
+			$actions[RepoViewer :: PARAM_PUBLISH_SELECTED] = Translation :: get('PublishSelected');
+		}
 		
-		$actions = array();
-		$actions[RepoViewer :: PARAM_PUBLISH_SELECTED] = Translation :: get('PublishSelected');
 		$this->set_form_actions($actions);
 	}
 }

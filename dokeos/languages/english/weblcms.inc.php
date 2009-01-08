@@ -334,4 +334,6 @@ $lang['weblcms']['ShowFeedback'] = 'Show feedback ';
 $lang['weblcms']['Dropbox'] = 'Dropbox';
 $lang['weblcms']['AllowFeedback'] = 'Allow feedback';
 $lang['weblcms']['NoNewAnnouncements'] = 'No new announcements';
+$lang['weblcms']['MaximumSelectableLOReached'] = 'You have selected %s learning objects while the maximum is %s';
+$lang['weblcms']['SelectMaximumLO'] = 'You can select a maximum of %s learning objects'; 
 ?>

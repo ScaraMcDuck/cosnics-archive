@@ -41,14 +41,25 @@ class RepoViewer
 	
 	private $mail_option;
 	
+	private $maximum_select;
+	
+	/**
+	 * You have two choices for the select multiple
+	 * 0 / SELECT MULTIPLE - you can select as many lo as you want
+	 * A number > 0 - Max defined selected learning objects
+	 */
+	const SELECT_MULTIPLE = 0;
+	const SELECT_SINGLE = 1;
+	
 	/**
 	 * Constructor.
 	 * @param array $types The learning object types that may be repoviewered.
 	 * @param  boolean $email_option If true the repo_viewer has the option to
 	 * send the repoviewered learning object by email to the selecter target users.
 	 */
-	function RepoViewer($parent, $types, $mail_option = false)
+	function RepoViewer($parent, $types, $mail_option = false, $maximum_select = self :: SELECT_MULTIPLE)
 	{
+		$this->maximum_select = $maximum_select;
 		$this->parent = $parent;
 		$this->default_learning_objects = array();
 		$this->parameters = array();
@@ -56,6 +67,16 @@ class RepoViewer
 		$this->mail_option = $mail_option;
 		$this->set_repo_viewer_actions(array ('creator','browser', 'finder'));
 		$this->set_parameter(RepoViewer :: PARAM_ACTION, ($_GET[RepoViewer :: PARAM_ACTION] ? $_GET[RepoViewer :: PARAM_ACTION] : 'creator'));
+	}
+	
+	function set_maximum_select($maximum_select)
+	{
+		$this->maximum_select = $maximum_select;
+	}
+	
+	function get_maximum_select()
+	{
+		return $this->maximum_select;
 	}
 
 	/**
@@ -184,9 +205,22 @@ class RepoViewer
 		{
 			$selected_publication_ids = $_POST[LearningObjectTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			
+			if(!is_array($selected_publication_ids)) $selected_publication_ids = array($selected_publication_ids);
+			
 			switch ($_POST['action'])
 			{
 				case self :: PARAM_PUBLISH_SELECTED :
+					if($this->get_maximum_select() > 0)
+					{
+						if(count($selected_publication_ids) > $this->get_maximum_select())
+						{
+							$_GET['message'] = sprintf(Translation :: get('MaximumSelectableLOReached'), count($selected_publication_ids), $this->get_maximum_select());
+							$_POST['action'] = null;
+							$_GET['action'] = null;
+							return;
+						}
+					}
+					
 					$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $selected_publication_ids));
 					$this->redirect(null, false, $redirect_params);
 					break;
