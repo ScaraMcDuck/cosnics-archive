@@ -202,3 +202,10 @@ div.block div.extra div.forum
 	background-color: white;
 	border: 1px solid white;
 }
+
+#tab_actions
+{
+	position: absolute;
+	bottom: 1px;
+	right: 1%;
+}

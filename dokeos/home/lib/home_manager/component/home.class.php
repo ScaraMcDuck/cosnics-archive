@@ -63,14 +63,17 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 				
 				if (($tab_id == $current_tab) || ($tabs->position() == 'single') || (!isset($current_tab) && $tabs->position() == 'first'))
 				{
-					$html[] = '<li class="current" id="tab_select_'. $tab->get_id() .'"><b>'. $tab->get_title() .'</b></li>';
+					$class = 'current';
 				}
 				else
 				{
-					$html[] = '<li class="normal" id="tab_select_'. $tab->get_id() .'"><b>'. $tab->get_title() .'</b></li>';
+					$class = 'normal';
 				}
+				
+				$html[] = '<li class="'. $class .'" id="tab_select_'. $tab->get_id() .'"><strong>'. $tab->get_title() .'</strong></li>';
 			}
 			$html[] = '</ul>';
+			$html[] = '<div id="tab_actions"><a href="" class="addTab"><img src="'. Theme :: get_common_image_path() .'action_add.png" style="vertical-align: middle;" />&nbsp;'. Translation :: get('AddTab') .'</a></div>';
 			$html[] = '</div>';
 			$html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
 		}
