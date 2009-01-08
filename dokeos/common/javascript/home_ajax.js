@@ -226,6 +226,11 @@
 	var showAllComponents = function(e, ui) {
 		$("#components").children().show();
 	};
+	
+	var addTab = function(e, ui) {
+		e.preventDefault();
+		$("#tab_menu ul").append("<li class=\"normal\"><strong>New Tab</strong></li>");
+	};
 
 	function bindIcons() {
 		$("a.closeEl").unbind();
@@ -242,6 +247,9 @@
 		
 		$("#tab_menu li").unbind();
 		$("#tab_menu li").bind('click', showTab);
+		
+		$("a.addTab").unbind();
+		$("a.addTab").bind('click', addTab);
 	}
 	
 	function testModal()
