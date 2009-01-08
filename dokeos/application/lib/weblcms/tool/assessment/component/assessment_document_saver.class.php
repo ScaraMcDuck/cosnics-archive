@@ -58,8 +58,11 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 			$user_question = WeblcmsDataManager :: get_instance()->retrieve_user_questions($condition)->next_result();
 			$condition = new EqualityCondition(UserAnswer :: PROPERTY_USER_QUESTION_ID, $user_question->get_id());
 			$user_answer = WeblcmsDataManager :: get_instance()->retrieve_user_answers($condition)->next_result();
-			$document = $rdm->retrieve_learning_object($user_answer->get_extra(), 'document');
-			$filenames[] = Path :: get(SYS_REPO_PATH).$document->get_path();
+			if ($user_answer->get_extra() != 0)
+			{
+				$document = $rdm->retrieve_learning_object($user_answer->get_extra(), 'document');
+				$filenames[] = Path :: get(SYS_REPO_PATH).$document->get_path();
+			}
 		}
 		
 		return $filenames;

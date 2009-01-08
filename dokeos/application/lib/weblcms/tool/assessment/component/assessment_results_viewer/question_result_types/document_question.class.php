@@ -11,7 +11,7 @@ class DocumentQuestionResult extends QuestionResult
 		$user_question = $this->get_user_question();
 		$user_answers = $this->get_user_answers();
 		$user_answer = $user_answers[0];
-		if ($user_answer != null)
+		if ($user_answer != null && $user_answer->get_extra() != 0)
 		{
 			$user_score = $user_answer->get_score();
 			$lo_document = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_answer->get_extra(), 'document');

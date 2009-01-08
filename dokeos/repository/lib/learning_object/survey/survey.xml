@@ -4,6 +4,7 @@
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="assessment_type" type="text" notnull="1"/>
   <property name="max_times_taken" type="integer" unsigned="1" notnull="1" />
+  <property name="questions_per_page" type="integer" unsigned="1" notnull="1" default="0" />
   <property name="finish_text" type="text" notnull="0" />
   <property name="anonymous" type="integer" notnull="1" default="0" />
  </properties>

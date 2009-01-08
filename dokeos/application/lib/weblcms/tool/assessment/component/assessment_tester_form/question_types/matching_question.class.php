@@ -15,7 +15,9 @@ class MatchingQuestionDisplay extends QuestionDisplay
 		foreach($answers as $answer)
 		{
 			$name = $this->get_clo_question()->get_ref().'_'.$answer['answer']->get_id();
-			$formvalidator->addElement('select', $name, $answer['answer']->get_description(), $this->get_values($matches));
+			$items = $this->get_values($matches);
+			$this->shuffle_with_keys($items);
+			$formvalidator->addElement('select', $name, $answer['answer']->get_title(), $items);
 		}
 		
 		$formvalidator->addElement('html', '</p>');
@@ -70,35 +72,22 @@ class MatchingQuestionDisplay extends QuestionDisplay
 		return array('answer' => $dm->retrieve_learning_object($clo_answer->get_ref(), 'answer'), 'score' => $clo_answer->get_score(), 'display_order' => $clo_answer->get_display_order());
 	}
 	
-	function sort($matches)
-	{
-		$num = count($matches);
-		
-		for ($pos = 0; $pos < $num; $pos++)
-		{
-			$largest = 0;
-			$largest_pos = -1;
-			for ($counter = $pos; $counter < $num; $counter++)
-			{
-				$display = $matches[$counter]['display_order'];
-				//echo $display.'$$';
-				if ($display > $largest)
-				{
-					$largest = $display;
-					$largest_pos = $counter;
-				}
-			}
-			//switchen
-			//echo $pos.'to'.$largest_pos;
-			if ($largest_pos != -1) 
-			{
-				$temp = $matches[$pos];
-				$matches[$pos] = $matches[$largest_pos];
-				$matches[$largest_pos] = $temp;
-			}
-		}
-		//print_r($matches);
-		return $matches;
-	}
+	function shuffle_with_keys(&$array) {
+	    /* Auxiliary array to hold the new order */
+	    $aux = array();
+	    /* We work with an array of the keys */
+	    $keys = array_keys($array);
+	    /* We shuffle the keys */
+	    shuffle($keys);
+	    /* We iterate thru' the new order of the keys */
+	    foreach($keys as $key) {
+	      /* We insert the key, value pair in its new order */
+	      $aux[$key] = $array[$key];
+	      /* We remove the element from the old array to save memory */
+	      unset($array[$key]);
+	    }
+	    /* The auxiliary array with the new order overwrites the old variable */
+	    $array = $aux;
+  	}
 }
 ?>

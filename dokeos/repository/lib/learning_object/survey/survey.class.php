@@ -20,12 +20,14 @@ class Survey extends LearningObject
 	const PROPERTY_MAXIMUM_TIMES_TAKEN = 'max_times_taken';
 	const PROPERTY_FINISH_TEXT = 'finish_text';
 	const PROPERTY_ANONYMOUS = 'anonymous';
+	const PROPERTY_QUESTIONS_PER_PAGE = 'questions_per_page';
 	
 	static function get_additional_property_names()
 	{
 		return array(
 			self :: PROPERTY_ASSESSMENT_TYPE,
 			self :: PROPERTY_MAXIMUM_TIMES_TAKEN,
+			self :: PROPERTY_QUESTIONS_PER_PAGE,
 			self :: PROPERTY_FINISH_TEXT,
 			self :: PROPERTY_ANONYMOUS
 		);
@@ -94,6 +96,16 @@ class Survey extends LearningObject
 	function get_maximum_score()
 	{
 		return WeblcmsDataManager :: get_instance()->get_maximum_score($this);
+	}
+	
+	function get_questions_per_page()
+	{
+		return $this->get_additional_property(self :: PROPERTY_QUESTIONS_PER_PAGE);
+	}
+	
+	function set_questions_per_page($value)
+	{
+		$this->set_additional_property(self :: PROPERTY_QUESTIONS_PER_PAGE, $value);
 	}
 	
 	function get_types()

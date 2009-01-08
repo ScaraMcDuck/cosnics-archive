@@ -9,11 +9,12 @@ class MatchingScore extends Score
 		$correct = $this->get_link(parent :: get_answer()->get_id());
 		if (parent :: get_user_answer()->get_extra() == $correct['answer']->get_id())
 		{
-			$answer_id = parent :: get_user_answer()->get_answer_id();
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $answer_id);
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->get_user_answer()->get_answer_id());
 			$clos = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
 			
-			return $clos->next_result()->get_score();
+			$score = $clos->next_result()->get_score();
+			echo $score;
+			return $score;
 		}
 		else
 		{
