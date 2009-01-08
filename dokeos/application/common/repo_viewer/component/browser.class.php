@@ -5,6 +5,7 @@
 require_once dirname(__FILE__).'/../repo_viewer.class.php';
 require_once dirname(__FILE__).'/../repo_viewer_component.class.php';
 require_once dirname(__FILE__).'/learning_object_table/learning_object_table.class.php';
+require_once Path :: get_repository_path() . 'lib/learning_object_category_menu.class.php';
 /**
  * This class represents a encyclopedia repo_viewer component which can be used
  * to browse through the possible learning objects to publish.
@@ -30,10 +31,16 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 		}
 		
 		if($this->get_maximum_select() > RepoViewer :: SELECT_SINGLE)
-			$info = '<b>' . sprintf(Translation :: get('SelectMaximumLO'), $this->get_maximum_select()) . '</b><br />';
+			$html[] = '<b>' . sprintf(Translation :: get('SelectMaximumLO'), $this->get_maximum_select()) . '</b><br />';
 		
+		$menu = $this->get_menu();
+		
+		$html[] = '<br /><div style="width: 15%; overflow: auto; float:left">';
+		$html[] = $menu->render_as_tree();
 		$table = new LearningObjectTable($this, $this->get_user(), $this->get_types(), $this->get_query(), $actions);
-		return $info . $table->as_html();
+		$html[] = '</div><div style="width: 83%; float: right;">' . $table->as_html() . '</div>';
+		
+		return implode("\n", $html);
 	}
 
 	/**
@@ -53,6 +60,13 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 	function set_browser_actions($browser_actions)
 	{
 		$this->browser_actions = $browser_actions;
+	}
+	
+	function get_menu()
+	{
+		$url = $_SERVER['REQUEST_URI'] . '&category=%s';
+		$menu = new LearningObjectCategoryMenu($this->get_user_id(), $_GET['category']?$_GET['category']:0,$url);
+		return $menu;
 	}
 	
 	function get_default_browser_actions()

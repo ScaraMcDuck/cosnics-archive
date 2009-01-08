@@ -142,7 +142,7 @@
 						
 						$.post("common/html/menu/ajax/" + id + "_remover.php", 
 					    {
-							item : dropped.childNodes[2].id
+							item : $('span', dropped).attr("id")
 						},  function(data) 
 							{
 	    						if(data == "true")
@@ -157,8 +157,11 @@
 									$(dropped).remove();
 	    						}
 	    						else
+	    						{
+	    							//alert();
 	    							//alert(data);
 	    							alert(translation('CouldNotRemoveItem', 'admin'));
+	    						}
 	    					}
 	    				);
 						
