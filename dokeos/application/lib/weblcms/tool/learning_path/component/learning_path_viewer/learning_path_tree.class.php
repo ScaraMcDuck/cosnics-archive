@@ -13,24 +13,18 @@ require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class
  * categories of learning objects.
  * @author Sven Vanpoucke
  */
-class ComplexLearningObjectMenu extends HTML_Menu
+class LearningPathTree extends HTML_Menu
 {
 	
-	private $current_item;
-	private $root;
+	private $current_step;
+	private $lp_id;
+	
 	/**
 	 * The string passed to sprintf() to format category URLs
 	 */
 	private $urlFmt;
-	/**
-	 * The array renderer used to determine the breadcrumbs.
-	 */
-	private $array_renderer;
-	
-	/**
-	 * Boolean to determine wheter the nodes of the tree which are not complex are shown in the tree or not
-	 */
-	private $view_entire_structure;
+
+	private $objects;
 	
 	private $dm;
 	/**
@@ -44,46 +38,36 @@ class ComplexLearningObjectMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function ComplexLearningObjectMenu($root, $current_item, $url_format = '?go=browsecomplex&cloi_id=%s&cloi_root_id=%s', $view_entire_structure = false)
+	function LearningPathTree($lp_id, $current_step, $url_format)
 	{
-		$this->view_entire_structure = $view_entire_structure;
-		$extra = array('publish', 'clo_action');
-		
-		foreach($extra as $item)
-		{
-			if(isset($_GET[$item]))
-				$url_format .= '&' . $item . '=' . $_GET[$item];
-		}
-			
-		$this->current_item = $current_item;
-		$this->root = $root;
+		$this->current_step = $current_step;
+		$this->lp_id = $lp_id;
 		$this->urlFmt = $url_format;
 		$this->dm = RepositoryDataManager :: get_instance();
-		$menu = $this->get_menu($root);
+		$menu = $this->get_menu($lp_id);
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
-		$this->forceCurrentUrl($this->get_cloi_url($current_item));
+		$this->forceCurrentUrl($this->get_url($current_step));
 	}
 	
-	function get_menu($root)
+	function get_menu($lp_id)
 	{
 		$menu = array();
 		$datamanager = $this->dm;
-		$lo = $datamanager->retrieve_learning_object($root);
+		$lo = $datamanager->retrieve_learning_object($lp_id);
 		$menu_item = array();
 		$menu_item['title'] = $lo->get_title();
-		$menu_item['url'] = $this->get_cloi_url($root);
+		//$menu_item['url'] = $this->get_url($lp_id);
 	
-		$sub_menu_items = $this->get_menu_items($root);
+		$sub_menu_items = $this->get_menu_items($lp_id);
 		if(count($sub_menu_items) > 0)
 		{
 			$menu_item['sub'] = $sub_menu_items;
 		}
-	
 		$menu_item['class'] = 'type_' . $lo->get_type();
 		//$menu_item['class'] = 'type_category';
-		$menu_item[OptionsMenuRenderer :: KEY_ID] = $root;
-		$menu[$root] = $menu_item;
+		$menu_item[OptionsMenuRenderer :: KEY_ID] = -1;
+		$menu[$lp_id] = $menu_item;
 		return $menu;
 	}
 	
@@ -95,57 +79,57 @@ class ComplexLearningObjectMenu extends HTML_Menu
 	 *               is the structure needed by PEAR::HTML_Menu, on which this
 	 *               class is based.
 	 */
-	private function get_menu_items($cloi)
+	 
+	private $step = 1;
+	 
+	private function get_menu_items($parent)
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi);
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent);
 		$datamanager = $this->dm;
 		$objects = $datamanager->retrieve_complex_learning_object_items($condition);
 		
 		while ($object = $objects->next_result())
 		{
-			if($object->is_complex() || $this->view_entire_structure)
-			{
-				$lo = $datamanager->retrieve_learning_object($object->get_ref());
-				$menu_item = array();
-				$menu_item['title'] = $lo->get_title();
-				$menu_item['url'] = $this->get_cloi_url($object->get_ref());
+			$lo = $datamanager->retrieve_learning_object($object->get_ref());
+				
+			$menu_item = array();
+			$menu_item['title'] = $lo->get_title();
+			$menu_item['class'] = 'type_' . $lo->get_type();
+			$menu_item[OptionsMenuRenderer :: KEY_ID] = -1;
 			
+			$sub_menu_items = array();
+			
+			if($lo->get_type() == 'learning_path_chapter')
 				$sub_menu_items = $this->get_menu_items($object->get_ref());
-				if(count($sub_menu_items) > 0)
-				{
-					$menu_item['sub'] = $sub_menu_items;
-				}
 			
-				$menu_item['class'] = 'type_' . $lo->get_type();
-				//$menu_item['class'] = 'type_category';
-				$menu_item[OptionsMenuRenderer :: KEY_ID] = $object->get_ref();
-				$menu[$object->get_ref()] = $menu_item;
+			if(count($sub_menu_items) > 0)
+			{
+				$menu_item['sub'] = $sub_menu_items;
 			}
+			else
+			{
+				$menu_item['url'] = $this->get_url($this->step);
+				$menu_item[OptionsMenuRenderer :: KEY_ID] = $this->step;
+				$this->objects[$this->step] = $lo;
+				$this->step++;
+			}
+
+			$menu[$object->get_ref()] = $menu_item;
 		}
 		
 		return $menu;
 	}
-
-	private function get_cloi_url($cloi_id)
+	
+	function get_object($step)
 	{
-		return htmlentities(sprintf($this->urlFmt, $cloi_id, $this->root));
+		return $this->objects[$step];
+	}
+
+	private function get_url($current_step)
+	{
+		return htmlentities(sprintf($this->urlFmt, $current_step));
 	}
 	
-	/**
-	 * Get the breadcrumbs which lead to the current category.
-	 * @return array The breadcrumbs.
-	 */
-	function get_breadcrumbs()
-	{
-		$this->render($this->array_renderer, 'urhere');
-		$breadcrumbs = $this->array_renderer->toArray();
-		foreach ($breadcrumbs as $crumb)
-		{
-			$crumb['name'] = $crumb['title'];
-			unset($crumb['title']);
-		}
-		return $breadcrumbs;
-	}
 	/**
 	 * Renders the menu as a tree
 	 * @return string The HTML formatted tree

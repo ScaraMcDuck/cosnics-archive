@@ -22,6 +22,7 @@ class TreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 	 */
 	function TreeMenuRenderer()
 	{
+		//$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVE => '<!--A--><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVEPATH => '<!--P--><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a>');
 		$entryTemplates = array (HTML_MENU_ENTRY_INACTIVE => '<a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVE => '<!--A--><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a>', HTML_MENU_ENTRY_ACTIVEPATH => '<!--P--><a href="{url}" onclick="{onclick}" id="{id}" class="{class}">{title}</a>');
 		$this->setEntryTemplate($entryTemplates);
 		$this->setItemTemplate('<li>', '</li>'."\n");

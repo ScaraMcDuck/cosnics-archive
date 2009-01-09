@@ -336,4 +336,5 @@ $lang['weblcms']['AllowFeedback'] = 'Allow feedback';
 $lang['weblcms']['NoNewAnnouncements'] = 'No new announcements';
 $lang['weblcms']['MaximumSelectableLOReached'] = 'You have selected %s learning objects while the maximum is %s';
 $lang['weblcms']['SelectMaximumLO'] = 'You can select a maximum of %s learning objects'; 
+$lang['weblcms']['LPDownloadDocument'] = 'You have to download file <b>%s</b> with a filesize of %d bytes to continue your learning path';
 ?>
