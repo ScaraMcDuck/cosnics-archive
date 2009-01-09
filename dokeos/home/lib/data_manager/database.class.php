@@ -751,15 +751,15 @@ class DatabaseHomeDataManager extends HomeDataManager
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		
-//		$old_category = $this->retrieve_encyclopedia_category($encyclopedia_category->get_id());
-//		
-//		if ($old_category->get_parent() !== $encyclopedia_category->get_parent())
-//		{
-//			$condition = new EqualityCondition(EncyclopediaCategory :: PROPERTY_PARENT, $encyclopedia_category->get_parent());
-//			$sort = $this->retrieve_max_sort_value('encyclopedia_category', EncyclopediaCategory :: PROPERTY_SORT, $condition);
-//			
-//			$props[$this->escape_column_name(EncyclopediaCategory :: PROPERTY_SORT)] = $sort+1;
-//		}
+		$old_tab = $this->retrieve_home_row($home_row->get_id());
+		
+		if ($old_tab->get_tab() !== $home_row->get_tab())
+		{
+			$condition = new EqualityCondition(HomeRow :: PROPERTY_TAB, $home_row->get_tab());
+			$sort = $this->retrieve_max_sort_value('row', HomeRow :: PROPERTY_SORT, $condition);
+			
+			$props[$this->escape_column_name(HomeRow :: PROPERTY_SORT)] = $sort+1;
+		}
 		
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('row'), $props, MDB2_AUTOQUERY_UPDATE, $where);
@@ -787,6 +787,20 @@ class DatabaseHomeDataManager extends HomeDataManager
 		
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('column'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		return true;
+	}
+	
+	function update_home_tab($home_tab)
+	{
+		$where = $this->escape_column_name(HomeTab :: PROPERTY_ID).'='.$home_tab->get_id();
+		$props = array();
+		foreach ($home_tab->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('tab'), $props, MDB2_AUTOQUERY_UPDATE, $where);
 		return true;
 	}
 	

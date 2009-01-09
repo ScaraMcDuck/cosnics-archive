@@ -52,6 +52,16 @@
 				// function(data){alert("Data Loaded: " + data);}
 				);
 	};
+	
+	function tabsSortableUpdate (e, ui) {
+		var order = $(this).sortable("serialize");
+		
+		$.post("./home/ajax/tab_sort.php", {
+			order :order
+		} ,
+				 function(data){alert("Data Loaded: " + data);}
+				);
+	};
 
 	function resizableStop (e, ui) {
 		var columnId = $(this).attr("id");
@@ -318,9 +328,9 @@
 			placeholder :'tabSortHelper',
 			revert :true,
 			scroll :true,
-			start :sortableStart
+			start :sortableStart,
 			//change :sortableChange,
-			//update :sortableUpdate
+			update :tabsSortableUpdate
 		});
 	}
 	
