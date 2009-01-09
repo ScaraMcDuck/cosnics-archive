@@ -28,6 +28,7 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	const PARAM_HOME_ID = 'id';
 	const PARAM_HOME_TYPE = 'type';
 	const PARAM_DIRECTION = 'direction';
+	const PARAM_TAB_ID = 'tab';
 	
 	const ACTION_VIEW_HOME = 'home';
 	const ACTION_BUILD_HOME = 'build';
@@ -474,6 +475,11 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	function get_home_column_editing_url($home_column)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_HOME, self :: PARAM_HOME_TYPE => self :: TYPE_COLUMN, self :: PARAM_HOME_ID => $home_column->get_id()));
+	}
+	
+	function get_home_tab_viewing_url($home_tab)
+	{
+		return $this->get_url(array (self :: PARAM_TAB_ID => $home_tab->get_id()));
 	}
 	
 	function get_home_row_deleting_url($home_row)

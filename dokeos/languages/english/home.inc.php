@@ -83,4 +83,9 @@ $lang['home']['NewTab'] = 'New tab';
 $lang['home']['YourTabIsBeingAdded'] = 'Your tab is being added ...';
 $lang['home']['TabAdded'] = 'Tab was added succesfully';
 $lang['home']['NewBlock'] = 'New block';
+$lang['home']['NewColumn'] = 'New column';
+$lang['home']['DummyBlock'] = 'Dummy Block';
+$lang['home']['PlaceholderBlockText'] = 'This block is just a placeholder and can safely be removed.';
+$lang['home']['YourColumnIsBeingAdded'] = 'Your column is being added ...';
+$lang['home']['ColumnAdded'] = 'Column was added succesfully';
 ?>

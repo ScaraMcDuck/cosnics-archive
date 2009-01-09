@@ -179,6 +179,11 @@ div.block div.extra div.forum
 	padding: 0px 9px 0px 9px;
 }
 
+#tab_menu a
+{
+	color: #444444;
+}
+
 #tab_menu li.normal
 {
 	border: 1px solid #aeaeae;

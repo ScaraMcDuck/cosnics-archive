@@ -46,6 +46,7 @@ class Header
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.simplemodal.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.treeview.pack.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.treeview.async.js');
+		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.timeout.interval.idle.js');
 		$this->add_javascript_file_header($this->get_path(WEB_LIB_PATH).'javascript/notifications.js');
 		$this->add_link_header($this->get_path(WEB_PATH). 'index.php','top');
 		//$this->add_link_header($this->get_path(WEB_PATH). 'index_user.php?go=account','account',htmlentities(Translation :: get('ModifyProfile')));
