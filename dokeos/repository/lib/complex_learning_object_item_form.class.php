@@ -179,7 +179,7 @@ abstract class ComplexLearningObjectItemForm extends FormValidator
 		
 		$class =  'Complex'.DokeosUtilities :: underscores_to_camelcase($type).'Form';
 		$file = dirname(__FILE__).'/learning_object/'.$type.'/complex_'.$type.'_form.class.php';
-		
+
 		require_once $file; 
 		return new $class ($form_type, $complex_learning_object_item,
 						   $form_name, $method, $action);

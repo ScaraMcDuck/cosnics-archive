@@ -6,14 +6,16 @@
  * @subpackage learning_path
  */
 //require_once dirname(__FILE__).'/../repository_tool.class.php';
-require_once dirname(__FILE__).'/learning_path_browser.class.php';
+//require_once dirname(__FILE__).'/learning_path_browser.class.php';
 require_once dirname(__FILE__).'/learning_path_tool_component.class.php';
 /**
  * This tool allows a user to publish learning paths in his or her course.
  */
 class LearningPathTool extends Tool
 {
-	const ACTION_VIEW_LEARNING_PATHS = 'view';
+	const ACTION_VIEW_LEARNING_PATH = 'view';
+	const ACTION_BROWSE_LEARNING_PATHS = 'browse';
+	
 	// Inherited.
 	function run()
 	{
@@ -27,11 +29,14 @@ class LearningPathTool extends Tool
 			case self :: ACTION_PUBLISH:
 				$component = LearningPathToolComponent :: factory('Publisher', $this);
 				break;
-			case self :: ACTION_VIEW_LEARNING_PATHS:
+			case self :: ACTION_VIEW_LEARNING_PATH:
 				$component = LearningPathToolComponent :: factory('Viewer', $this);
 				break;
+			case self :: ACTION_BROWSE_LEARNING_PATHS:
+				$component = LearningPathToolComponent :: factory('Browser', $this);
+				break;
 			default:
-				$component = LearningPathToolComponent :: factory('Viewer', $this);
+				$component = LearningPathToolComponent :: factory('Browser', $this);
 				break;
 		}
 		
