@@ -79,5 +79,8 @@ $lang['home']['NoConfigurableSettings'] = 'No settings';
 $lang['home']['Display'] = 'Display';
 $lang['home']['ShowWhenEmpty'] = 'Show when empty';
 $lang['home']['YourBlockIsBeingAdded'] = 'Your block is being added ...';
-$lang['home']['AddTab'] = 'Add tab';
+$lang['home']['NewTab'] = 'New tab';
+$lang['home']['YourTabIsBeingAdded'] = 'Your tab is being added ...';
+$lang['home']['TabAdded'] = 'Tab was added succesfully';
+$lang['home']['NewBlock'] = 'New block';
 ?>

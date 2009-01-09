@@ -1599,16 +1599,6 @@ ul.toolbar li.last span, ul.toolbar_horizontal li.last span, ul.toolbar_vertical
 	padding-right: 0;
 }
 
-/*****************************************************
- *  STYLES NEEDED FOR JQUERY FUNCTIONALITY           *
- *****************************************************/
-.sortHelper
-{
-	border: 1px dashed #c0c0c0;
-	background-color: #F2F2F2;
-	-moz-border-radius: 10px;
-}
-
 /*************************************************************/
 /*   Design:   Multiflex-3 Update-7 / Drop-Down Menu         */
 /*-----------------------------------------------------------*/

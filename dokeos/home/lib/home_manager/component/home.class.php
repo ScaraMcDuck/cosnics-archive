@@ -54,9 +54,9 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 			$tabs = $this->retrieve_home_tabs($tabs_condition);
 		}
 		
-		if ($tabs->size() > 1)
-		{			
-			$html[] = '<div id="tab_menu"><ul>';
+		//if ($tabs->size() > 1)
+		//{			
+			$html[] = '<div id="tab_menu"><ul id="tab_elements">';
 			while ($tab = $tabs->next_result())
 			{
 				$tab_id = $tab->get_id();
@@ -73,16 +73,24 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 				$html[] = '<li class="'. $class .'" id="tab_select_'. $tab->get_id() .'"><strong>'. $tab->get_title() .'</strong></li>';
 			}
 			$html[] = '</ul>';
-			$html[] = '<div id="tab_actions"><a href="" class="addTab"><img src="'. Theme :: get_common_image_path() .'action_add.png" style="vertical-align: middle;" />&nbsp;'. Translation :: get('AddTab') .'</a></div>';
-			$html[] = '</div>';
+			
+			if ($user_home_allowed && Authentication :: is_valid())
+			{
+				$html[] = '<div id="tab_actions">';
+				$html[] = '<a href="#" class="addTab"><img src="'. Theme :: get_image_path() .'action_add_tab.png" />&nbsp;'. Translation :: get('NewTab') .'</a>';
+				$html[] = '<a class="addEl" style="display: none;" href="#"><img src="'. Theme :: get_image_path() .'action_add_block.png" />&nbsp;'. Translation :: get('NewBlock') .'</a>';
+				$html[] = '</div>';
+				$html[] = '</div>';
+			}
+			
 			$html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
-		}
+		//}
 		
 		$tabs = $this->retrieve_home_tabs($tabs_condition);
 		
 		while ($tab = $tabs->next_result())
 		{
-			$html[] = '<div class="tab" id="tab_'. $tab->get_id() .'" style="display: '. (($tabs->position() == 'first' || $tabs->position() == 'single' || $current_tab == $tab->get_id()) ? 'block' : 'none' ) . ';">';
+			$html[] = '<div class="tab" id="tab_'. $tab->get_id() .'" style="display: '. (((!isset($current_tab) && ($tabs->position() == 'first' || $tabs->position() == 'single')) || $current_tab == $tab->get_id()) ? 'block' : 'none' ) . ';">';
 			
 			$rows_conditions = array();
 			$rows_conditions[] = new EqualityCondition(HomeRow :: PROPERTY_TAB, $tab->get_id());
@@ -169,7 +177,6 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		
 		if ($user_home_allowed && Authentication :: is_valid())
 		{
-			$html[] = '<a class="addEl" style="display: none;" href="#">[ Add Content ]</a>';
 			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' .'"></script>';
 		}
 		
