@@ -87,7 +87,7 @@ TreeMenu.walkTree = function(tree, level, collapseLevel, activeNodes)
 			}
 			else if (collapseLevel >= 0 && level >= collapseLevel)
 			{
-				TreeMenu.collapseNode(child);
+				//TreeMenu.collapseNode(child);
 			}
 		}
 	}

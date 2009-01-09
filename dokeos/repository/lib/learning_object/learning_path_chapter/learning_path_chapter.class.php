@@ -18,7 +18,8 @@ class LearningPathChapter extends LearningObject
 	
 	function get_allowed_types()
 	{
-		return array('document', 'link');
+		return array('learning_path_chapter', 'announcement', 'calendar_event', 'description',
+				     'document', 'link');
 	}
 	
 }
