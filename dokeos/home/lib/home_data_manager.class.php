@@ -97,6 +97,8 @@ abstract class HomeDataManager
 	
 	abstract function update_home_row($home_row);
 	
+	abstract function update_home_tab($home_tab);
+	
 	abstract function create_home_row($home_row);
 	
 	abstract function create_home_column($home_column);

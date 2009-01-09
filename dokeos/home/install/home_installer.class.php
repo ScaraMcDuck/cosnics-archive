@@ -145,9 +145,9 @@ class HomeInstaller extends Installer
 		
 		$block_test = new HomeBlock();
 		$block_test->set_column($column_news->get_id());
-		$block_test->set_title(Translation :: get('PersonalCalendar'));
-		$block_test->set_application('personal_calendar');
-		$block_test->set_component('month');
+		$block_test->set_title(Translation :: get('Dummy'));
+		$block_test->set_application('repository');
+		$block_test->set_component('dummy');
 		$block_test->set_user('0');
 		if (!$block_test->create())
 		{

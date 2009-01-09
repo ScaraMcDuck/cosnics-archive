@@ -89,7 +89,7 @@ class HomeTab {
 	function update()
 	{
 		$wdm = HomeDataManager :: get_instance();
-		$success = $wdm->update_home_row($this);
+		$success = $wdm->update_home_tab($this);
 		if (!$success)
 		{
 			return false;
@@ -115,7 +115,7 @@ class HomeTab {
 	function delete()
 	{
 		$hdm = HomeDataManager :: get_instance();
-		$success = $hdm->delete_home_row($this);
+		$success = $hdm->delete_home_tab($this);
 		if (!$success)
 		{
 			return false;
