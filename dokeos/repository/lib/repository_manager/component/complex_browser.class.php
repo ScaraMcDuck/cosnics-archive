@@ -23,6 +23,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 {
 	private $cloi_id;
 	private $root_id;
+
 	private $action;
 	private $in_creation = false;
 	private $action_bar;
@@ -150,7 +151,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 				
 				if($cloi_form)
 				{
-					if ($cloi_form->validate())
+					if ($cloi_form->validate() || !$cloi->is_extended())
 					{ 
 						$cloi_form->create_complex_learning_object_item();
 						/*$cloi = $cloi_form->get_complex_learning_object_item();
@@ -168,6 +169,15 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 						//$html[] = '<p>' . Translation :: get('FillIn') . '</p>';
 						$html[] = $cloi_form->toHTML();
 					}
+				}
+				else
+				{
+					$cloi->create();
+					$renderer = clone $type_form->defaultRenderer();
+					$renderer->setElementTemplate('{label} {element} ');
+					$type_form->accept($renderer);
+					$html[] = $renderer->toHTML();
+					$this->in_creation = false;
 				}
 				
 			}

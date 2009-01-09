@@ -34,6 +34,17 @@ class LearningPathPublicationTableCellRenderer extends DefaultLearningObjectTabl
 		{
 			return $this->get_actions($publication);
 		}
+		$learning_object = $publication->get_learning_object();
+		
+		if ($property = $column->get_object_property())
+		{
+			switch ($property)
+			{
+				case LearningObject :: PROPERTY_TITLE :
+					return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>';
+			}
+		}
+		
 		return parent :: render_cell($column, $publication->get_learning_object());
 	}
 	

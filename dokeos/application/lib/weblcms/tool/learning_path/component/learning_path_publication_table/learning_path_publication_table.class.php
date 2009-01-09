@@ -13,7 +13,7 @@ require_once Path::get_library_path() . 'html/table/object_table/object_table.cl
  */
 class LearningPathPublicationTable extends ObjectTable
 {
-	const DEFAULT_NAME = 'exercise_publication_table';
+	const DEFAULT_NAME = 'publication_table';
 	
 	/**
 	 * Constructor.
@@ -33,6 +33,10 @@ class LearningPathPublicationTable extends ObjectTable
 		$column_model = new LearningPathPublicationTableColumnModel();
 		$cell_renderer = new LearningPathPublicationTableCellRenderer($parent);
 		parent :: __construct($data_provider, LearningPathPublicationTable :: DEFAULT_NAME, $column_model, $cell_renderer);
+		
+		$actions = array();
+		$actions[Tool :: ACTION_DELETE] = Translation :: get('RemoveSelected');
+		$this->set_form_actions($actions);
 	}
 	
 	

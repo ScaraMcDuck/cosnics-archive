@@ -15,5 +15,11 @@ class LearningPathChapter extends LearningObject
 	{
 		return false;
 	}
+	
+	function get_allowed_types()
+	{
+		return array('document', 'link');
+	}
+	
 }
 ?>

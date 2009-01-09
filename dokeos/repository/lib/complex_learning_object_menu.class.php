@@ -27,6 +27,11 @@ class ComplexLearningObjectMenu extends HTML_Menu
 	 */
 	private $array_renderer;
 	
+	/**
+	 * Boolean to determine wheter the nodes of the tree which are not complex are shown in the tree or not
+	 */
+	private $view_entire_structure;
+	
 	private $dm;
 	/**
 	 * Creates a new category navigation menu.
@@ -39,8 +44,9 @@ class ComplexLearningObjectMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function ComplexLearningObjectMenu($root, $current_item, $url_format = '?go=browsecomplex&cloi_id=%s&cloi_root_id=%s')
+	function ComplexLearningObjectMenu($root, $current_item, $url_format = '?go=browsecomplex&cloi_id=%s&cloi_root_id=%s', $view_entire_structure = false)
 	{
+		$this->view_entire_structure = $view_entire_structure;
 		$extra = array('publish', 'clo_action');
 		
 		foreach($extra as $item)
@@ -74,7 +80,8 @@ class ComplexLearningObjectMenu extends HTML_Menu
 			$menu_item['sub'] = $sub_menu_items;
 		}
 	
-		$menu_item['class'] = 'type_' . $lo->get_type();
+		//$menu_item['class'] = 'type_' . $lo->get_type();
+		$menu_item['class'] = 'type_category';
 		$menu_item[OptionsMenuRenderer :: KEY_ID] = $root;
 		$menu[$root] = $menu_item;
 		return $menu;
@@ -96,7 +103,7 @@ class ComplexLearningObjectMenu extends HTML_Menu
 		
 		while ($object = $objects->next_result())
 		{
-			if($object->is_extended())
+			if($object->is_complex() || $this->view_entire_structure)
 			{
 				$lo = $datamanager->retrieve_learning_object($object->get_ref());
 				$menu_item = array();
@@ -109,7 +116,8 @@ class ComplexLearningObjectMenu extends HTML_Menu
 					$menu_item['sub'] = $sub_menu_items;
 				}
 			
-				$menu_item['class'] = 'type_' . $lo->get_type();
+				//$menu_item['class'] = 'type_' . $lo->get_type();
+				$menu_item['class'] = 'type_category';
 				$menu_item[OptionsMenuRenderer :: KEY_ID] = $object->get_ref();
 				$menu[$object->get_ref()] = $menu_item;
 			}

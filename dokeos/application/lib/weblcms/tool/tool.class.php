@@ -67,19 +67,24 @@ abstract class Tool
 	
 	private function parse_input_from_table()
 	{
-		if (isset ($_POST['tool_action']))
-		{
+		if (isset ($_POST['action']) || isset($_POST['tool_action']))
+		{ 
 			$ids = $_POST['id'];
+			
 			if (empty ($ids))
 			{
-				$ids = array ();
+				$ids = $_POST['publication_table_id'];
+				if(empty($ids))
+					$ids = array ();
 			}
 			elseif (!is_array($ids))
 			{
 				$ids = array ($ids);
 			}
 
-			switch ($_POST['tool_action'])
+			$action = ($_POST['tool_action'])?$_POST['tool_action']:$_POST['action'];
+			
+			switch ($action)
 			{
 				case self :: ACTION_MOVE_SELECTED_TO_CATEGORY :
 					$this->set_action(self :: ACTION_MOVE_SELECTED_TO_CATEGORY);
