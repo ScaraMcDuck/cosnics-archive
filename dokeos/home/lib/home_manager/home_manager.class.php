@@ -6,6 +6,8 @@ require_once dirname(__FILE__).'/home_manager_component.class.php';
 require_once dirname(__FILE__).'/../home_data_manager.class.php';
 require_once dirname(__FILE__).'/../home_column.class.php';
 require_once dirname(__FILE__).'/../home_block.class.php';
+require_once dirname(__FILE__).'/../home_tab.class.php';
+require_once dirname(__FILE__).'/../home_row.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/or_condition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/and_condition.class.php';

@@ -2,18 +2,16 @@
 
 	var columns = $(".column");
 
-	var countColumns = 0;
-
-	var sortableStart = function(e, ui) {
+	function sortableStart (e, ui) {
 		ui.helper.css("width", ui.item.width());
 		ui.helper.css("border", "4px solid #c0c0c0");
 	};
 	
-	var sortableStop = function(e, ui) {
+	function sortableStop(e, ui) {
 		$("div.title a").fadeOut(150);
 	};
 	
-	var showTab = function(e, ui) {
+	function showTab(e, ui) {
 		var tabId = $(this).attr('id');
 		var tab = tabId.split("_");
 		
@@ -35,7 +33,7 @@
 		return translated_string;
 	};
 
-	var sortableChange = function(e, ui) {
+	function sortableChange (e, ui) {
 		if (ui.sender) {
 			var w = ui.element.width();
 			ui.placeholder.width(w);
@@ -43,7 +41,7 @@
 		}
 	};
 
-	var sortableUpdate = function(e, ui) {
+	function sortableUpdate (e, ui) {
 		var column = $(this).attr("id");
 		var order = $(this).sortable("serialize");
 
@@ -55,9 +53,10 @@
 				);
 	};
 
-	var resizableStop = function(e, ui) {
+	function resizableStop (e, ui) {
 		var columnId = $(this).attr("id");
 		var rowId = $(this).parent().attr("id");
+		var countColumns = $("div.column" ,$(this).parent()).length;
 
 		var widthBox = $(this).width();
 		var widthRow = $(this).parent().width();
@@ -75,6 +74,8 @@
 		});
 
 		widthCurrentTotal = widthCurrentTotal + countColumns - 1;
+		
+		alert(widthCurrentTotal);
 
 		if (widthCurrentTotal > 100) {
 			var widthSurplus = widthCurrentTotal - 100;
@@ -93,7 +94,7 @@
 				);
 	};
 
-	var collapseItem = function(e) {
+	function collapseItem (e) {
 		e.preventDefault();
 		$(this).parent().next(".description").slideToggle(300);
 
@@ -107,15 +108,15 @@
 				);
 	};
 
-	var hoverInItem = function() {
+	function hoverInItem () {
 		$(this).children("a").fadeIn(150);
 	};
 
-	var hoverOutItem = function() {
+	function hoverOutItem () {
 		$(this).children("a").fadeOut(150);
 	};
 
-	var deleteItem = function(e) {
+	function deleteItem (e) {
 		e.preventDefault();
 		var confirmation = confirm('Are you sure ?');
 		if (confirmation) {
@@ -138,7 +139,7 @@
 		}
 	};
 
-	var removeBlockScreen = function(e, ui) {
+	function removeBlockScreen (e, ui) {
 		$("#addBlock").slideToggle(300, function() {
 			$("#addBlock").remove();
 		});
@@ -146,7 +147,7 @@
 		$("a.addEl").show();
 	};
 
-	var showBlockScreen = function(e, ui) {
+	function showBlockScreen (e, ui) {
 		e.preventDefault();
 		$.post("./home/ajax/block_list.php", function(data) {
 			$("#tab_menu").after(data)
@@ -165,7 +166,7 @@
 
 	};
 
-	var addBlock = function(e, ui) {
+	function addBlock (e, ui) {
 		var column = $(".tab:visible .column:first-child");
 		var columnId = column.attr("id");
 		var order = column.sortable("serialize");
@@ -216,23 +217,60 @@
 		});
 	};
 	
-	var filterComponents = function(e, ui) {
+	function filterComponents (e, ui) {
 		var applicationId = $(this).attr("id");
 
 		$("#components #components_" + applicationId).show();
 		$("#components").children(":not(#components_" + applicationId + ")").hide();
 	};
 	
-	var showAllComponents = function(e, ui) {
+	function showAllComponents (e, ui) {
 		$("#components").children().show();
 	};
 	
-	var addTab = function(e, ui) {
+	function addTab (e, ui) {
 		e.preventDefault();
-		$("#tab_menu ul").append("<li class=\"normal\"><strong>New Tab</strong></li>");
+		
+		var loadingHTML  = '<div class="loadingBox">';
+			loadingHTML += '<div class="loadingHuge" style="margin-bottom: 15px;">';
+			loadingHTML += '</div>';
+			loadingHTML += '<div>';
+			loadingHTML += '<h3>' + translation('YourTabIsBeingAdded', 'home') + '</h3>';
+			loadingHTML += '</div>';
+			loadingHTML += '</div>';
+	
+		var loading = $.modal(loadingHTML, {
+			overlayId: 'homeOverlay',
+		  	containerId: 'homeContainer',
+		  	opacity: 75,
+		  	close: false
+			});
+		
+		$.post("./home/ajax/tab_add.php", {}, function(data) {
+			$("#main .tab:last").after(data);
+			var tabId = $("#main .tab:last").attr("id");
+			var id = tabId.split("_");
+			var tabSelectId = 'tab_select_' + id[1];
+			$("#tab_menu ul").append("<li class=\"normal\" id=\""+ tabSelectId +"\"><strong>"+ translation('NewTab', 'home') +"</strong></li>");
+			bindIcons();
+			tabsSortable();
+			columnsSortable();
+			columnsResizable();
+			
+			var successMessage  = '<div class="statusConfirmation" style="margin-bottom: 15px;">';
+			successMessage += '</div>';
+			successMessage += '<div>';
+			successMessage += '<h3>' + translation('TabAdded', 'home') + '</h3>';
+			successMessage += '</div>';
+		
+			$(".loadingBox", loading.dialog.container).html(successMessage);
+			loading.dialog.container.append($(loading.opts.closeHTML).addClass(loading.opts.closeClass));
+			loading.bindEvents();
+		});
 	};
 
 	function bindIcons() {
+		$("div.title a").hide();
 		$("a.closeEl").unbind();
 		$("a.closeEl").bind('click', collapseItem);
 		$("a.deleteEl").unbind();
@@ -252,13 +290,50 @@
 		$("a.addTab").bind('click', addTab);
 	}
 	
-	function testModal()
-	{
-		var a = '<a id="closeModal" href="javascript:void(0)">Sluiten</a>';
-		$.modal('<div class="normal-message" style="width: 450px">' + translation('BlockAdded', 'home') + '</div>' + a);
-		$("#closeModal").bind('click', function(e, ui) 
-		{
-			$.modal.close();
+	function columnsSortable() {
+		$("div.column").sortable("destroy");
+		$("div.column").sortable( {
+			handle :'div.title',
+			cancel :'a',
+			opacity :0.8,
+			cursor :'move',
+			helper :'clone',
+			placeholder :'blockSortHelper',
+			revert :true,
+			scroll :true,
+			connectWith :columns,
+			start :sortableStart,
+			stop :sortableStop,
+			change :sortableChange,
+			update :sortableUpdate
+		});
+	}
+	
+	function tabsSortable() {
+		$("#tab_menu #tab_elements").sortable("destroy");
+		$("#tab_menu #tab_elements").sortable( {
+			opacity :0.8,
+			cursor :'move',
+			helper :'clone',
+			placeholder :'tabSortHelper',
+			revert :true,
+			scroll :true,
+			start :sortableStart
+			//change :sortableChange,
+			//update :sortableUpdate
+		});
+	}
+	
+	function columnsResizable() {
+		$("div.column").resizable("destroy");
+		$("div.column").resizable( {
+			handles :"e",
+			transparent :true,
+			autoHide :true,
+			ghost :true,
+			preventDefault :true,
+			preserveCursor :true,
+			stop :resizableStop
 		});
 	}
 
@@ -272,39 +347,27 @@
 	$(document).ready( function() {
 		
 		$("a.addEl").toggle();
-		
-		countColumns = $("div.column").length;
 
-		$("div.title a").toggle();
 		bindIcons();
 		
-		//testModal();
-
-		$("div.column").sortable( {
-			handle :'div.title',
-			cancel :'a',
-			opacity :0.8,
-			cursor :'move',
-			helper :'clone',
-			placeholder :'sortHelper',
-			revert :true,
-			scroll :true,
-			connectWith :columns,
-			start :sortableStart,
-			stop :sortableStop,
-			change :sortableChange,
-			update :sortableUpdate
-		});
-
-		$("div.column").resizable( {
-			handles :"e",
-			transparent :true,
-			autoHide :true,
-			ghost :true,
-			preventDefault :true,
-			preserveCursor :true,
-			stop :resizableStop
-		});
+//		$(".moveEl").draggable({helper: function(e, ui) {
+//			var clone = $(this).parent().clone();
+//			clone.css('opacity', '0.5');
+//			return clone;
+//		}});
+//		$("#tab_menu ul li").droppable({
+//			activeClass: 'droppable-active',
+//			hoverClass: 'droppable-hover',
+//			drop: function(ev, ui) {
+//				alert('Woohoo !');
+//				//$(this).append("<br>Dropped!");
+//			}
+//		});
+		
+		tabsSortable();
+		
+		columnsSortable();
+		columnsResizable();
 
 	});
 
