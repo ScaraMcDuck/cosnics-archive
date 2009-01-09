@@ -279,6 +279,11 @@ abstract class HomeManagerComponent {
 		return $this->get_parent()->get_home_row_moving_url($home_row, $index);
 	}
 	
+	function get_home_tab_viewing_url($home_tab)
+	{
+		return $this->get_parent()->get_home_tab_viewing_url($home_tab);
+	}
+	
 	function get_home_block_moving_url($home_block, $index)
 	{
 		return $this->get_parent()->get_home_block_moving_url($home_block, $index);

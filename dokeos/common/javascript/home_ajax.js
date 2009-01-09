@@ -12,6 +12,7 @@
 	};
 	
 	function showTab(e, ui) {
+		e.preventDefault();
 		var tabId = $(this).attr('id');
 		var tab = tabId.split("_");
 		
@@ -58,8 +59,8 @@
 		
 		$.post("./home/ajax/tab_sort.php", {
 			order :order
-		} ,
-				 function(data){alert("Data Loaded: " + data);}
+		} //,
+				 //function(data){alert("Data Loaded: " + data);}
 				);
 	};
 
@@ -84,8 +85,6 @@
 		});
 
 		widthCurrentTotal = widthCurrentTotal + countColumns - 1;
-		
-		alert(widthCurrentTotal);
 
 		if (widthCurrentTotal > 100) {
 			var widthSurplus = widthCurrentTotal - 100;
@@ -278,6 +277,61 @@
 			loading.bindEvents();
 		});
 	};
+	
+	function addColumn (e, ui) {
+		e.preventDefault();
+		var row = $(".tab:visible .row:first");
+		var rowId = row.attr('id');
+		
+		var loadingHTML  = '<div class="loadingBox">';
+			loadingHTML += '<div class="loadingHuge" style="margin-bottom: 15px;">';
+			loadingHTML += '</div>';
+			loadingHTML += '<div>';
+			loadingHTML += '<h3>' + translation('YourColumnIsBeingAdded', 'home') + '</h3>';
+			loadingHTML += '</div>';
+			loadingHTML += '</div>';
+
+		var loading = $.modal(loadingHTML, {
+			overlayId: 'homeOverlay',
+		  	containerId: 'homeContainer',
+		  	opacity: 75,
+		  	close: false
+			});
+		
+		$.post("./home/ajax/column_add.php", {row: rowId}, function(data) {
+			var columnHtml = data.html;
+			var newWidths = data.width;
+			
+			
+			
+			var lastColumn = $("div.column:last", row);
+			lastColumn.css('margin-right', '1%');
+			
+			$("div.column", row).each(function (i) {
+				var newWidth = newWidths[this.id] + '%'; 
+				this.style.width = newWidth;
+			});
+			
+			$("div.column:last", row).after(columnHtml);
+			
+			bindIcons();
+			columnsSortable();
+			columnsResizable();
+			
+			var successMessage  = '<div class="statusConfirmation" style="margin-bottom: 15px;">';
+			successMessage += '</div>';
+			successMessage += '<div>';
+			successMessage += '<h3>' + data.message + '</h3>';
+			successMessage += '</div>';
+		
+			$(".loadingBox", loading.dialog.container).html(successMessage);
+			loading.dialog.container.append($(loading.opts.closeHTML).addClass(loading.opts.closeClass));
+			loading.bindEvents();
+			$.timeout(function() { 
+				loading.close();
+				}, 5000);
+		}, "json");
+	};
 
 	function bindIcons() {
 		$("div.title a").hide();
@@ -298,6 +352,9 @@
 		
 		$("a.addTab").unbind();
 		$("a.addTab").bind('click', addTab);
+		
+		$("a.addColumn").unbind();
+		$("a.addColumn").bind('click', addColumn);
 	}
 	
 	function columnsSortable() {

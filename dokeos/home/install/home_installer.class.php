@@ -136,7 +136,7 @@ class HomeInstaller extends Installer
 		$column_news->set_row($row->get_id());
 		$column_news->set_title(Translation :: get('Personal'));
 		$column_news->set_sort('1');
-		$column_news->set_width('66');
+		$column_news->set_width('100');
 		$column_news->set_user('0');
 		if (!$column_news->create())
 		{
