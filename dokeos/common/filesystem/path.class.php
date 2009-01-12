@@ -23,6 +23,7 @@ define('SYS_APP_PATH', 'SYS_APP_PATH');
 define('SYS_APP_LIB_PATH', 'SYS_APP_LIB_PATH');
 define('SYS_APP_ADMIN_PATH', 'SYS_APP_ADMIN_PATH');
 define('SYS_APP_CLASS_GROUP_PATH', 'SYS_APP_CLASS_GROUP_PATH');
+define('SYS_APP_HELP_PATH', 'SYS_APP_HELP_PATH');
 define('SYS_APP_RIGHTS_PATH', 'SYS_APP_RIGHTS_PATH');
 define('SYS_APP_INSTALL_PATH', 'SYS_APP_INSTALL_PATH');
 define('SYS_APP_MIGRATION_PATH', 'SYS_APP_MIGRATION_PATH');
@@ -93,6 +94,8 @@ class Path
 				return self :: get(SYS_PATH) . 'admin/';
 			case SYS_APP_CLASS_GROUP_PATH :
 				return self :: get(SYS_PATH) . 'group/';
+			case SYS_APP_HELP_PATH :
+				return self :: get(SYS_PATH) . 'help/';
 			case SYS_APP_RIGHTS_PATH :
 				return self :: get(SYS_PATH) . 'rights/';
 			case SYS_APP_INSTALL_PATH :
@@ -171,6 +174,11 @@ class Path
     public static function get_group_path()
     {
     	return self :: get(SYS_APP_CLASS_GROUP_PATH);
+    }
+    
+    public static function get_help_path()
+    {
+    	return self :: get(SYS_APP_HELP_PATH);
     }
     
     public static function get_rights_path()

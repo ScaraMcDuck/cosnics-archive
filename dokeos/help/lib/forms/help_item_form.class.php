@@ -1,0 +1,57 @@
+<?php
+require_once dirname(__FILE__).'/../../../common/global.inc.php';
+require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../help_item.class.php';
+require_once dirname(__FILE__).'/../help_data_manager.class.php';
+
+class HelpItemForm extends FormValidator 
+{
+	private $help_item;
+
+    function HelpItemForm($help_item, $action) 
+    {
+    	parent :: __construct('help_item', 'post', $action);
+    	
+    	$this->help_item = $help_item;
+		$this->build_basic_form();
+		
+		$this->setDefaults();
+    }
+    
+    function build_basic_form()
+    {
+		$this->addElement('text', HelpItem :: PROPERTY_URL, Translation :: get('Url'), array('size' => '100'));
+		$this->addRule(HelpItem :: PROPERTY_URL, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('submit', 'help_item_settings', 'OK');
+		$this->addElement('hidden', HelpItem :: PROPERTY_NAME);
+    }
+    
+    function update_help_item()
+    {
+    	$help_item = $this->help_item;
+    	$values = $this->exportValues();
+    	
+    	$help_item->set_name($values[HelpItem :: PROPERTY_NAME]);
+    	$help_item->set_url($values[HelpItem :: PROPERTY_URL]);
+    	
+   		return $help_item->update();
+    }
+    
+	/**
+	 * Sets default values. 
+	 * @param array $defaults Default values for this form's parameters.
+	 */
+	function setDefaults($defaults = array ())
+	{
+		$help_item = $this->help_item;
+		$defaults[HelpItem :: PROPERTY_NAME] = $help_item->get_name();
+		$defaults[HelpItem :: PROPERTY_URL] = $help_item->get_url();
+		parent :: setDefaults($defaults);
+	}
+	
+	function get_help_item()
+	{
+		return $this->help_item;
+	}
+}
+?>
