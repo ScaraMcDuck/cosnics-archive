@@ -65,6 +65,13 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 				'img' => Theme :: get_common_image_path().'action_prev.png'
 			);
 		}
+		else
+		{
+			$actions[] = array( 
+				'label' => Translation :: get('PreviousNA'), 
+				'img' => Theme :: get_common_image_path().'action_prev_na.png'
+			);
+		}
 		
 		if($current_step < $total_steps)
 		{	
@@ -72,6 +79,13 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 				'href' => $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => $_GET['pid'], 'step' => $current_step + 1)), 
 				'label' => Translation :: get('Next'), 
 				'img' => Theme :: get_common_image_path().'action_next.png'
+			);
+		}
+		else
+		{
+			$actions[] = array( 
+				'label' => Translation :: get('NextNA'), 
+				'img' => Theme :: get_common_image_path().'action_next_na.png'
 			);
 		}
 		
