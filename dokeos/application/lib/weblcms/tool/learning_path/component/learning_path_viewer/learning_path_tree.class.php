@@ -140,4 +140,9 @@ class LearningPathTree extends HTML_Menu
 		$this->render($renderer, 'sitemap'); 
 		return $renderer->toHTML();
 	}
+	
+	function count_steps()
+	{
+		return count($this->objects);
+	}
 }
