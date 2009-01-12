@@ -93,7 +93,8 @@ class LearningObjectPublicationFeedback extends LearningObjectPublication
 	}
 	function create() 
 	{
-		$this->update_parent_modified_date();	
+		if($_GET['pid'])
+			$this->update_parent_modified_date();	
 		return parent::create();
 	}
 	

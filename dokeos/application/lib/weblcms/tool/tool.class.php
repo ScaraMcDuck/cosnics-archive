@@ -151,6 +151,12 @@ abstract class Tool
 			case self :: ACTION_DELETE :
 				$component = ToolComponent :: factory('', 'Delete', $this);
 				break;
+			case self :: ACTION_DELETE_CLOI :
+				$component = ToolComponent :: factory('', 'ComplexDeleter', $this);
+				break;
+			case self :: ACTION_EDIT_CLOI :
+				$component = ToolComponent :: factory('', 'ComplexEdit', $this);
+				break;
 			case self :: ACTION_TOGGLE_VISIBILITY :
 				$component = ToolComponent :: factory('', 'ToggleVisibility', $this);
 				break;
