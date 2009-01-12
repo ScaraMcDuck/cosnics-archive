@@ -8,7 +8,7 @@ class DocumentDisplay extends LearningPathLearningObjectDisplay
 	{
 		$name = $document->get_filename();
 		
-		$html[] = '<h3>' . $document->get_title() . '</h3>' . $document->get_description() . '<br />';
+		//$html[] = '<h3>' . $document->get_title() . '</h3>' . $document->get_description() . '<br />';
 		
 		if(substr($name, -5) == '.html' || substr($name, -3) == '.htm')
 		{

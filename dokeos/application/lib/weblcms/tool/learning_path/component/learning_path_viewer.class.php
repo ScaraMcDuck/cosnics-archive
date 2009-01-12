@@ -36,8 +36,13 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		
 		$this->display_header($trail);
 		echo '<br />';
-		echo '<div style="width: 18%; overflow: auto; float: left;">' . $menu->render_as_tree() . '<br /></div>';
+		echo '<div style="width: 18%; overflow: auto; float: left;">';
+		echo $menu->render_as_tree(). '<br /><br />';
+		echo $this->get_progress_bar();
+		echo $this->get_navigation_menu($menu->count_steps(), $step) . '<br /><br />';
+		echo '</div>';
 		echo '<div style="width: 80%; border-left: 1px solid black; float: right; padding-left: 10px; min-height: 500px;">' . $display . '</div>';
+		echo '<div class="clear">&nbsp;</div>';
 		$this->display_footer();
 	}
 	
@@ -48,6 +53,40 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 			$pid . '&step=%s');
 		
 		return $menu;
+	}
+	
+	private function get_navigation_menu($total_steps, $current_step)
+	{
+		if($current_step > 1)
+		{
+			$actions[] = array(
+				'href' => $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => $_GET['pid'], 'step' => $current_step - 1)), 
+				'label' => Translation :: get('Previous'), 
+				'img' => Theme :: get_common_image_path().'action_prev.png'
+			);
+		}
+		
+		if($current_step < $total_steps)
+		{	
+			$actions[] = array(
+				'href' => $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => $_GET['pid'], 'step' => $current_step + 1)), 
+				'label' => Translation :: get('Next'), 
+				'img' => Theme :: get_common_image_path().'action_next.png'
+			);
+		}
+		
+		return DokeosUtilities :: build_toolbar($actions);
+	}
+	
+	private function get_progress_bar()
+	{
+		$html[] = '<div style="text-align: center; border: 1px solid black; height: 14px; width:100px;">';
+		$html[] = '<div style="background-color: lightblue; height: 14px; width:10px; text-align: center;">';
+		$html[] = '</div>';
+		$html[] = '<div>10%</div>';
+		$html[] = '</div><br />';
+		
+		return implode("\n", $html);
 	}
 
 }
