@@ -375,6 +375,15 @@ class DatabaseHomeDataManager extends HomeDataManager
 		return self :: record_to_home_tab($record);
 	}
 	
+	function retrieve_home_tab_blocks($home_tab)
+	{
+		$query = 'SELECT * FROM '. $this->escape_table_name('block'). ' AS '. self :: ALIAS_BLOCK_TABLE . ' WHERE ' . $this->escape_column_name(HomeBlock :: PROPERTY_COLUMN) . ' IN (SELECT '. $this->escape_column_name(HomeColumn :: PROPERTY_ID) .' FROM '. $this->escape_table_name('column') .' AS '. self :: ALIAS_COLUMN_TABLE .' WHERE '. $this->escape_column_name(HomeColumn :: PROPERTY_ROW) .' IN (SELECT '. $this->escape_column_name(HomeRow :: PROPERTY_ID) .' FROM '. $this->escape_table_name('row') .' AS '. self :: ALIAS_ROW_TABLE .' WHERE '. $this->escape_column_name(HomeRow :: PROPERTY_TAB) .' = ?))';
+		
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($home_tab->get_id());
+		return new DatabaseHomeBlockResultSet($this, $res);
+	}
+	
 	function retrieve_home_columns($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('column'). ' AS '. self :: ALIAS_COLUMN_TABLE;
@@ -889,6 +898,28 @@ class DatabaseHomeDataManager extends HomeDataManager
 		$query = 'DELETE FROM '.$this->escape_table_name('row').' WHERE '.$this->escape_column_name(HomeRow :: PROPERTY_ID).'=?';
 		$statement = $this->connection->prepare($query);
 		if ($statement->execute($home_row->get_id()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	function delete_home_tab($home_tab)
+	{
+		$condition = new EqualityCondition(HomeRow :: PROPERTY_TAB, $home_tab->get_id());
+		$rows = $this->retrieve_home_rows($condition);
+		
+		while($row = $rows->next_result())
+		{
+			$this->delete_home_row($row);
+		}
+		
+		$query = 'DELETE FROM '.$this->escape_table_name('tab').' WHERE '.$this->escape_column_name(HomeTab :: PROPERTY_ID).'=?';
+		$statement = $this->connection->prepare($query);
+		if ($statement->execute($home_tab->get_id()))
 		{
 			return true;
 		}

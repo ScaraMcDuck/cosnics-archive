@@ -55,7 +55,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 		}
 		
 		//if ($tabs->size() > 1)
-		//{			
+		//{
 			$html[] = '<div id="tab_menu"><ul id="tab_elements">';
 			while ($tab = $tabs->next_result())
 			{
@@ -70,7 +70,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 					$class = 'normal';
 				}
 				
-				$html[] = '<li class="'. $class .'" id="tab_select_'. $tab->get_id() .'"><a href="'. $this->get_home_tab_viewing_url($tab) .'">'. $tab->get_title() .'</a></li>';
+				$html[] = '<li class="'. $class .'" id="tab_select_'. $tab->get_id() .'"><a class="tabTitle" href="'. $this->get_home_tab_viewing_url($tab) .'">'. $tab->get_title() .'</a><a class="deleteTab"><img src="'. Theme :: get_image_path() .'action_delete_tab.png"></a></li>';
 			}
 			$html[] = '</ul>';
 			

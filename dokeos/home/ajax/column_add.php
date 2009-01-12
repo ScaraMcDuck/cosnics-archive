@@ -51,7 +51,8 @@ if ($user_home_allowed && Authentication :: is_valid())
 		$new_column->set_user($user_id);
 		if (!$new_column->create())
 		{
-			exit;
+			$json_result['success'] = '0';
+			$json_result['message'] = Translation :: get('ColumnNotAdded');
 		}
 		
 		$block = new HomeBlock();
@@ -63,7 +64,8 @@ if ($user_home_allowed && Authentication :: is_valid())
 		$block->set_user($user_id);
 		if (!$block->create())
 		{
-			exit;
+			$json_result['success'] = '0';
+			$json_result['message'] = Translation :: get('ColumnBlockNotAdded');
 		}
 		
 		$usermgr = new UserManager($user_id);
@@ -95,15 +97,15 @@ if ($user_home_allowed && Authentication :: is_valid())
 		$json_result['html'] = implode("\n", $html);
 		
 		// Update the older columns width and add them to the JSON object
-		$counter = 19 + $columns->size();
-		if ($width_total < (100 - $columns->size() + 1))
+		$counter = 20;
+		if ($width_total < 100)
 		{
 			$counter = $counter - (100  - $width_total);
 		}
 		
 		while ($column = $columns->next_result())
 		{
-			if ($counter > 0 && $column->get_width() > 10)
+			if ($counter > 0)
 			{
 				if ($columns->size() > 1)
 				{
@@ -141,6 +143,11 @@ if ($user_home_allowed && Authentication :: is_valid())
 		$json_result['success'] = '1';
 		$json_result['message'] = Translation :: get('ColumnAdded');
 	}
+}
+else
+{
+	$json_result['success'] = '0';
+	$json_result['message'] = Translation :: get('NotAuthorized');
 }
 echo json_encode($json_result);
 ?>

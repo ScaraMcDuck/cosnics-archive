@@ -81,6 +81,12 @@ abstract class HomeDataManager
 	
 	abstract function retrieve_home_blocks($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
+	abstract function retrieve_home_tab($id);
+	
+	abstract function retrieve_home_tab_blocks($home_tab);
+	
+	abstract function retrieve_home_tabs($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	
 	abstract function truncate_home($user_id);
 	
 	abstract function retrieve_home_row_at_sort($sort, $direction);
@@ -108,6 +114,8 @@ abstract class HomeDataManager
 	abstract function create_home_block_config($home_block_config);
 	
 	abstract function delete_home_row($home_row);
+	
+	abstract function delete_home_tab($home_tab);
 	
 	abstract function delete_home_column($home_column);
 	

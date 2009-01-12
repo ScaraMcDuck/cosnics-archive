@@ -123,5 +123,22 @@ class HomeTab {
 
 		return true;
 	}
+	
+	function can_be_deleted()
+	{
+		$hdm = HomeDataManager :: get_instance();
+		$blocks = $hdm->retrieve_home_tab_blocks($this);
+		
+		while ($block = $blocks->next_result())
+		{
+			$application = $block->get_application();
+			if ($application == 'admin' || $application == 'user')
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
 }
 ?>
