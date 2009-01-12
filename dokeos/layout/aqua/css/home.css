@@ -45,6 +45,7 @@ div.block div.title
 	color: #000066;
 	clear: both;
 	position: relative;
+	cursor: move;
 }
 
 div.block div.title a
@@ -55,6 +56,7 @@ div.block div.title a
 	font-size: 11px;
 	text-decoration: none;
 	color: #000066;
+	cursor: pointer;
 }
 
 div.block div.title a.closeEl
@@ -124,7 +126,7 @@ div.block div.extra div.forum
 	-moz-border-radius: 10px;
 }
 
-#homeContainer a.modalCloseImg
+a.modalCloseImg
 {
 	background: url(../img/home/background_modal_close.png) no-repeat;
 	width: 34px;
@@ -217,6 +219,44 @@ div.block div.extra div.forum
 	vertical-align: middle;
 }
 
+a.deleteTab
+{
+	width: 10px;
+	height: 10px;
+	padding: 0px;
+	margin: 0px 0px 0px 9px;
+	display: none;
+	cursor: pointer;
+	border-left: 1px solid #444444;
+}
+
+a.deleteTab img
+{
+	margin: 0px -5px 0px 4px;
+	vertical-align: middle;
+}
+
+#homeEditContainer
+{
+	background-color: #FFFFFF;
+	border: 2px solid #E5EDF9;
+	-moz-border-radius: 10px;
+}
+
+#editTab
+{
+	text-align: center;
+	padding: 10px;
+	margin: 0px;
+}
+
+#editTab input.button
+{
+	padding: 0px;
+	margin: 0px;
+	font-size: 10px;
+}
+
 /*****************************************************
  *  STYLES NEEDED FOR JQUERY FUNCTIONALITY           *
  *****************************************************/
@@ -225,7 +265,6 @@ div.block div.extra div.forum
 	border: 1px dashed #c0c0c0;
 	background-color: #F2F2F2;
 	-moz-border-radius: 10px;
-	border-bottom: 1px solid #4171B5;
 }
 
 .tabSortHelper

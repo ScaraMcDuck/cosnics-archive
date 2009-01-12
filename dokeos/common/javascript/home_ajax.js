@@ -21,6 +21,13 @@
 		
 		$("#tab_menu li").attr('class', 'normal');
 		$("#tab_select_"+ tab[2]).attr('class', 'current');
+		
+		$("li.current a.deleteTab").css('display', 'inline');
+		$("li.normal a.deleteTab").css('display', 'none');
+		
+		$("#tab_menu li").unbind();
+		$("#tab_menu li:not(.current)").bind('click', showTab);
+		$("#tab_menu li.current").bind('click', editTab);
 	};
 	
 	function translation(string, application) {		
@@ -180,15 +187,9 @@
 		var columnId = column.attr("id");
 		var order = column.sortable("serialize");
 		
-		var loadingHTML  = '<div class="loadingBox">';
-			loadingHTML += '<div class="loadingHuge" style="margin-bottom: 15px;">';
-			loadingHTML += '</div>';
-			loadingHTML += '<div>';
-			loadingHTML += '<h3>' + translation('YourBlockIsBeingAdded', 'home') + '</h3>';
-			loadingHTML += '</div>';
-			loadingHTML += '</div>';
-		
-		var loading = $.modal(loadingHTML, {
+		var loadingMessage = 'YourBlockIsBeingAdded';
+
+		var loading = $.modal(getLoadingBox(loadingMessage), {
 			overlayId: 'homeOverlay',
 		  	containerId: 'homeContainer',
 		  	opacity: 75,
@@ -212,17 +213,9 @@
 				},
 					function(data)
 					{
-						var successMessage  = '<div class="statusConfirmation" style="margin-bottom: 15px;">';
-							successMessage += '</div>';
-							successMessage += '<div>';
-							successMessage += '<h3>' + translation('BlockAdded', 'home') + '</h3>';
-							successMessage += '</div>';
-						
-						$(".loadingBox", loading.dialog.container).html(successMessage);
-						loading.dialog.container.append($(loading.opts.closeHTML).addClass(loading.opts.closeClass));
-						loading.bindEvents();
-					}
-					);
+						$(".loadingBox", loading.dialog.container).html(getMessageBox(data.success, data.message));
+						handleLoadingBox(loading);
+					}, "json");
 		});
 	};
 	
@@ -239,16 +232,10 @@
 	
 	function addTab (e, ui) {
 		e.preventDefault();
-		
-		var loadingHTML  = '<div class="loadingBox">';
-			loadingHTML += '<div class="loadingHuge" style="margin-bottom: 15px;">';
-			loadingHTML += '</div>';
-			loadingHTML += '<div>';
-			loadingHTML += '<h3>' + translation('YourTabIsBeingAdded', 'home') + '</h3>';
-			loadingHTML += '</div>';
-			loadingHTML += '</div>';
-	
-		var loading = $.modal(loadingHTML, {
+			
+		var loadingMessage = 'YourTabIsBeingAdded';
+
+		var loading = $.modal(getLoadingBox(loadingMessage), {
 			overlayId: 'homeOverlay',
 		  	containerId: 'homeContainer',
 		  	opacity: 75,
@@ -256,26 +243,19 @@
 			});
 		
 		$.post("./home/ajax/tab_add.php", {}, function(data) {
-			$("#main .tab:last").after(data);
+			$("#main .tab:last").after(data.html);
 			var tabId = $("#main .tab:last").attr("id");
 			var id = tabId.split("_");
 			var tabSelectId = 'tab_select_' + id[1];
-			$("#tab_menu ul").append("<li class=\"normal\" id=\""+ tabSelectId +"\"><strong>"+ translation('NewTab', 'home') +"</strong></li>");
+			$("#tab_menu ul").append("<li class=\"normal\" id=\""+ tabSelectId +"\">"+ translation('NewTab', 'home') +"<a class=\"deleteTab\">X</a></li>");
 			bindIcons();
 			tabsSortable();
 			columnsSortable();
 			columnsResizable();
 			
-			var successMessage  = '<div class="statusConfirmation" style="margin-bottom: 15px;">';
-			successMessage += '</div>';
-			successMessage += '<div>';
-			successMessage += '<h3>' + translation('TabAdded', 'home') + '</h3>';
-			successMessage += '</div>';
-		
-			$(".loadingBox", loading.dialog.container).html(successMessage);
-			loading.dialog.container.append($(loading.opts.closeHTML).addClass(loading.opts.closeClass));
-			loading.bindEvents();
-		});
+			$(".loadingBox", loading.dialog.container).html(getMessageBox(data.success, data.message));
+			handleLoadingBox(loading);
+		}, "json");
 	};
 	
 	function addColumn (e, ui) {
@@ -283,15 +263,9 @@
 		var row = $(".tab:visible .row:first");
 		var rowId = row.attr('id');
 		
-		var loadingHTML  = '<div class="loadingBox">';
-			loadingHTML += '<div class="loadingHuge" style="margin-bottom: 15px;">';
-			loadingHTML += '</div>';
-			loadingHTML += '<div>';
-			loadingHTML += '<h3>' + translation('YourColumnIsBeingAdded', 'home') + '</h3>';
-			loadingHTML += '</div>';
-			loadingHTML += '</div>';
+		var loadingMessage = 'YourColumnIsBeingAdded';
 
-		var loading = $.modal(loadingHTML, {
+		var loading = $.modal(getLoadingBox(loadingMessage), {
 			overlayId: 'homeOverlay',
 		  	containerId: 'homeContainer',
 		  	opacity: 75,
@@ -301,8 +275,6 @@
 		$.post("./home/ajax/column_add.php", {row: rowId}, function(data) {
 			var columnHtml = data.html;
 			var newWidths = data.width;
-			
-			
 			
 			var lastColumn = $("div.column:last", row);
 			lastColumn.css('margin-right', '1%');
@@ -318,20 +290,132 @@
 			columnsSortable();
 			columnsResizable();
 			
-			var successMessage  = '<div class="statusConfirmation" style="margin-bottom: 15px;">';
-			successMessage += '</div>';
-			successMessage += '<div>';
-			successMessage += '<h3>' + data.message + '</h3>';
-			successMessage += '</div>';
-		
-			$(".loadingBox", loading.dialog.container).html(successMessage);
-			loading.dialog.container.append($(loading.opts.closeHTML).addClass(loading.opts.closeClass));
-			loading.bindEvents();
-			$.timeout(function() { 
-				loading.close();
-				}, 5000);
+			$(".loadingBox", loading.dialog.container).html(getMessageBox(data.success, data.message));
+			handleLoadingBox(loading);
 		}, "json");
 	};
+	
+	function getMessageBox(isError, message)
+	{
+		var messageClass;
+		
+		if (isError == 0)
+		{
+			messageClass = 'statusError';
+		}
+		else
+		{
+			messageClass = 'statusConfirmation';
+		}
+		
+		var successMessage  = '<div class="'+ messageClass +'" style="margin-bottom: 15px;">';
+			successMessage += '</div>';
+			successMessage += '<div>';
+			successMessage += '<h3>' + message + '</h3>';
+			successMessage += '</div>';
+			
+		return successMessage;
+	}
+	
+	function getLoadingBox(message)
+	{
+		var loadingHTML  = '<div class="loadingBox">';
+			loadingHTML += '<div class="loadingHuge" style="margin-bottom: 15px;">';
+			loadingHTML += '</div>';
+			loadingHTML += '<div>';
+			loadingHTML += '<h3>' + translation(message, 'home') + '</h3>';
+			loadingHTML += '</div>';
+			loadingHTML += '</div>';
+			
+		return loadingHTML;
+	}
+	
+	function handleLoadingBox(loading)
+	{
+		loading.dialog.container.append($(loading.opts.closeHTML).addClass(loading.opts.closeClass));
+		loading.bindEvents();
+		$.timeout(function() { 
+			loading.close();
+			}, 3000);
+	}
+	
+	function deleteTab(e, ui)
+	{
+		e.preventDefault();
+		var tab = $(this).parent().attr('id');
+		tab = tab.split("_");
+		
+		var tabId = tab[2];
+		
+		var loadingMessage = 'YourTabIsBeingDeleted';
+	
+		var loading = $.modal(getLoadingBox(loadingMessage), {
+			overlayId: 'homeOverlay',
+		  	containerId: 'homeContainer',
+		  	opacity: 75,
+		  	close: false
+			});
+		
+		$.post("./home/ajax/tab_delete.php", {tab: tabId}, function(data) {
+			if (data.success == '1')
+			{
+				$('#tab_' + tabId).remove();
+				$('#tab_select_' + tabId).remove();
+				
+				// Show the first existing tab			
+				$("#tab_menu ul li:first").attr('class', 'current');
+				var newTabId = $("#tab_menu ul li:first").attr('id');
+				newTabId = newTabId.split("_");
+				newTabId = newTabId[2];
+				$("#tab_" + newTabId).css('display', 'block');
+			}
+			
+			$(".loadingBox", loading.dialog.container).html(getMessageBox(data.success, data.message));
+			handleLoadingBox(loading);
+		}, "json");
+	}
+	
+	function saveTabTitle(e)
+	{
+		e.preventDefault();
+		// Save the new title
+		//alert($('#tabTitle').attr('value'));
+		
+		var tab = e.data.tab.parent().attr('id');
+		tab = tab.split("_");
+		
+		var tabId = tab[2];
+		var newTitle = $('#tabTitle').attr('value');
+		
+		$.post("./home/ajax/tab_edit.php", {tab: tabId, title: newTitle}, function(data) {
+			if (data.success == '1')
+			{
+				e.data.tab.html(newTitle);
+				e.data.loading.close();
+			}
+		}, "json");
+	}
+	
+	function editTab(e, ui)
+	{
+		e.preventDefault();
+		
+		var editTabHTML  = '<div id="editTab"><h3>Edit tab name</h3>';
+			editTabHTML += '<input id="tabTitle" type="text" value="' + $('.tabTitle', this).html() + '"/><br >';
+			editTabHTML += '<input id="tabSave" type="submit" class="button" value="' + translation('Save') + '"/>';
+			editTabHTML += '</div>';
+		
+		var loading = $.modal(editTabHTML, {
+			overlayId: 'homeOverlay',
+		  	containerId: 'homeEditContainer',
+		  	opacity: 75,
+			});
+		
+		$('#homeEditContainer').css('margin-left', '-' + ($('#homeEditContainer').width() / 2) + 'px');
+		$('#homeEditContainer').css('margin-top', '-' + ($('#homeEditContainer').height() / 2) + 'px');
+		
+		$('#tabSave').bind('click', {loading: loading, tab: $('.tabTitle', this)}, saveTabTitle);
+	}
 
 	function bindIcons() {
 		$("div.title a").hide();
@@ -348,13 +432,17 @@
 		$("a.addEl").bind('click', showBlockScreen);
 		
 		$("#tab_menu li").unbind();
-		$("#tab_menu li").bind('click', showTab);
+		$("#tab_menu li:not(.current)").bind('click', showTab);
+		$("#tab_menu li.current").bind('click', editTab);
 		
 		$("a.addTab").unbind();
 		$("a.addTab").bind('click', addTab);
 		
 		$("a.addColumn").unbind();
 		$("a.addColumn").bind('click', addColumn);
+		
+		$("a.deleteTab").unbind();
+		$("a.deleteTab").bind('click', deleteTab);
 	}
 	
 	function columnsSortable() {
@@ -379,6 +467,7 @@
 	function tabsSortable() {
 		$("#tab_menu #tab_elements").sortable("destroy");
 		$("#tab_menu #tab_elements").sortable( {
+			cancel :'a.deleteTab',
 			opacity :0.8,
 			cursor :'move',
 			helper :'clone',
@@ -412,24 +501,10 @@
 	});
 
 	$(document).ready( function() {
-		
 		$("a.addEl").toggle();
+		$("li.current a.deleteTab").css('display', 'inline');
 
 		bindIcons();
-		
-//		$(".moveEl").draggable({helper: function(e, ui) {
-//			var clone = $(this).parent().clone();
-//			clone.css('opacity', '0.5');
-//			return clone;
-//		}});
-//		$("#tab_menu ul li").droppable({
-//			activeClass: 'droppable-active',
-//			hoverClass: 'droppable-hover',
-//			drop: function(ev, ui) {
-//				alert('Woohoo !');
-//				//$(this).append("<br>Dropped!");
-//			}
-//		});
 		
 		tabsSortable();
 		

@@ -16,12 +16,16 @@ $user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: AP
 
 if ($user_home_allowed && Authentication :: is_valid())
 {
-	$user_id		= Session :: get_user_id();
+	$user_id = Session :: get_user_id();
 	
 	$tab = new HomeTab();
 	$tab->set_title(Translation :: get('NewTab'));
 	$tab->set_user($user_id);
-	$tab->create();
+	if (!$tab->create())
+	{
+		$json_result['success'] = '0';
+		$json_result['message'] = Translation :: get('TabNotAdded');
+	}
 	
 	$row = new HomeRow();
 	$row->set_title(Translation :: get('NewRow'));
@@ -29,7 +33,8 @@ if ($user_home_allowed && Authentication :: is_valid())
 	$row->set_user($user_id);
 	if (!$row->create())
 	{
-		exit;
+		$json_result['success'] = '0';
+		$json_result['message'] = Translation :: get('TabRowNotAdded');
 	}
 	
 	$column = new HomeColumn();
@@ -40,7 +45,8 @@ if ($user_home_allowed && Authentication :: is_valid())
 	$column->set_user($user_id);
 	if (!$column->create())
 	{
-		exit;
+		$json_result['success'] = '0';
+		$json_result['message'] = Translation :: get('TabColumnNotAdded');
 	}
 	
 	$block = new HomeBlock();
@@ -52,7 +58,8 @@ if ($user_home_allowed && Authentication :: is_valid())
 	$block->set_user($user_id);
 	if (!$block->create())
 	{
-		exit;
+		$json_result['success'] = '0';
+		$json_result['message'] = Translation :: get('TabBlockNotAdded');
 	}
 	
 	$usermgr = new UserManager($user_id);
@@ -83,6 +90,15 @@ if ($user_home_allowed && Authentication :: is_valid())
 	$html[] = '</div>';
 	$html[] = '</div>';
 	
-	echo implode("\n", $html);
+	$json_result['html'] = implode("\n", $html);
+	$json_result['success'] = '1';
+	$json_result['message'] = Translation :: get('TabAdded');
 }
+else
+{
+	$json_result['success'] = '0';
+	$json_result['message'] = Translation :: get('NotAuthorized');
+}
+
+echo json_encode($json_result);
 ?>

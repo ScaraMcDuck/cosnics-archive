@@ -2242,6 +2242,16 @@ span.dropOver
 	display: inline-block;
 }
 
+.statusError
+{
+	background-image: url(../img/common/status_error_huge.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	width: 64px;
+	height: 64px;
+	display: inline-block;
+}
+
 #closeNormalMessage, #closeErrorMessage, #closeWarningMessage
 {
 	width: 34px;
