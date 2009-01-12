@@ -13,6 +13,7 @@ require_once Path :: get_group_path(). 'lib/group_manager/group_manager.class.ph
 require_once Path :: get_tracking_path(). 'lib/tracking_manager/tracking_manager.class.php';
 require_once Path :: get_rights_path(). 'lib/rights_manager/rights_manager.class.php';
 require_once Path :: get_home_path(). 'lib/home_manager/home_manager.class.php';
+require_once Path :: get_help_path(). 'lib/help_manager/help_manager.class.php';
 require_once Path :: get_menu_path(). 'lib/menu_manager/menu_manager.class.php';
 require_once Path :: get_migration_path(). 'lib/migration_manager/migration_manager.class.php';
 require_once dirname(__FILE__).'/../admin_block.class.php';
@@ -372,6 +373,9 @@ class AdminManager
 		// 9. Migration
 		$migration_manager = new MigrationManager($user->get_id());
 		$info[] = $migration_manager->get_application_platform_admin_links();	
+		
+		$help_manager = new HelpManager($user->get_id());
+		$info[] = $help_manager->get_application_platform_admin_links();	
 
 		// 10.The links for the plugin applications running on top of the essential Dokeos components
 		$path = Path :: get_application_path() . 'lib';
