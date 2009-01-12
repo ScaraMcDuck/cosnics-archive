@@ -12,7 +12,9 @@ require_once dirname(__FILE__).'/wiki_tool_component.class.php';
  */
 class WikiTool extends Tool
 {
-	const ACTION_VIEW_ANNOUNCEMENTS = 'view';
+	const ACTION_BROWSE_WIKIS = 'browse';
+	const ACTION_VIEW_WIKI = 'view';
+	const ACTION_VIEW_WIKI_PAGE = 'view_item';
 	
 	/**
 	 * Inherited.
@@ -29,11 +31,17 @@ class WikiTool extends Tool
 		
 		switch ($action)
 		{
-			case self :: ACTION_VIEW_ANNOUNCEMENTS :
+			case self :: ACTION_BROWSE_WIKIS :
+				$component = WikiToolComponent :: factory('Browser', $this);
+				break;
+			case self :: ACTION_VIEW_WIKI :
 				$component = WikiToolComponent :: factory('Viewer', $this);
 				break;
+			case self :: ACTION_VIEW_WIKI_PAGE :
+				$component = WikiToolComponent :: factory('ItemViewer', $this);
+				break;
 			default :
-				$component = WikiToolComponent :: factory('Viewer', $this);
+				$component = WikiToolComponent :: factory('Browser', $this);
 		}
 		$component->run();
 	}
