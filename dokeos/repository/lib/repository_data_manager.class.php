@@ -98,7 +98,7 @@ abstract class RepositoryDataManager
 //		return $master_types;
 
 		// TODO: Temporary fix untill active learning objects are registered in the DB 
-		return array('announcement', 'answer', 'assessment', 'calendar_event', 'introduction', 'description', 'document', 'feedback', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'link', 'personal_message', 'portfolio_item', 'portal_home', 'profile', 'question', 'rss_feed', 'survey', 'userinfo_content', 'userinfo_def', 'wiki', 'system_announcement');
+		return array('announcement', 'answer', 'assessment', 'blog', 'calendar_event', 'introduction', 'description', 'document', 'feedback', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'link', 'personal_message', 'portfolio_item', 'portal_home', 'profile', 'question', 'rss_feed', 'survey', 'userinfo_content', 'userinfo_def', 'wiki', 'system_announcement');
 	}
 
 	/**
@@ -800,7 +800,7 @@ abstract class RepositoryDataManager
 	private function load_types()
 	{
 		//TODO: Store "activated" LO-types in DB and retrieve them here.
-		$learning_object_types = array('announcement', 'assessment', 'calendar_event', 'introduction', 'description', 'document', 'feedback', 'fill_in_blanks_question', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'link', 'matching_question', 'multiple_choice_question', 'open_question', 'personal_message', 'portfolio_item', 'portal_home', 'profile', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki', 'system_announcement');
+		$learning_object_types = array('announcement', 'assessment', 'blog', 'calendar_event', 'introduction', 'description', 'document', 'feedback', 'fill_in_blanks_question', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'link', 'matching_question', 'multiple_choice_question', 'open_question', 'personal_message', 'portfolio_item', 'portal_home', 'profile', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki', 'system_announcement');
 		
 		$path = Path :: get_repository_path() . 'lib/learning_object/';
 		
