@@ -401,7 +401,7 @@
 		e.preventDefault();
 		
 		var editTabHTML  = '<div id="editTab"><h3>Edit tab name</h3>';
-			editTabHTML += '<input id="tabTitle" type="text" value="' + $('.tabTitle', this).html() + '"/><br >';
+			editTabHTML += '<input id="tabTitle" type="text" value="' + $('.tabTitle', this).html() + '"/>&nbsp;';
 			editTabHTML += '<input id="tabSave" type="submit" class="button" value="' + translation('Save') + '"/>';
 			editTabHTML += '</div>';
 		
@@ -411,9 +411,14 @@
 		  	opacity: 75,
 			});
 		
-		$('#homeEditContainer').css('margin-left', '-' + ($('#homeEditContainer').width() / 2) + 'px');
-		$('#homeEditContainer').css('margin-top', '-' + ($('#homeEditContainer').height() / 2) + 'px');
-		
+		$("#tabTitle").bind('keypress', {loading: loading, tab: $('.tabTitle', this)}, function (e) {
+			 var code = (e.keyCode ? e.keyCode : e.which);
+			 // If ENTER is pressed we save the new tab title
+			 if(code == 13) {
+				 saveTabTitle(e);
+			 }
+			});
+		$('#tabSave').bind('click', {loading: loading, tab: $('.tabTitle', this)}, saveTabTitle);
 		$('#tabSave').bind('click', {loading: loading, tab: $('.tabTitle', this)}, saveTabTitle);
 	}
 
