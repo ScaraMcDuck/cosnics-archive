@@ -50,33 +50,13 @@ div.block div.title
 
 div.block div.title a
 {
-	position: absolute;
-	top: 0px;
+	float: right;
 	font-weight: normal;
 	font-size: 11px;
 	text-decoration: none;
 	color: #000066;
 	cursor: pointer;
-}
-
-div.block div.title a.closeEl
-{
-	right: 0px;
-}
-
-div.block div.title a.configEl
-{
-	right: 22px;
-}
-
-div.block div.title a.editEl
-{
-	right: 44px;
-}
-
-div.block div.title a.deleteEl
-{
-	right: 66px;
+	margin-left: 4px;
 }
 
 div.block div.description
@@ -223,7 +203,7 @@ a.deleteTab
 {
 	width: 10px;
 	height: 10px;
-	padding: 0px;
+	padding: 0px 0px 0px 4px;
 	margin: 0px 0px 0px 9px;
 	display: none;
 	cursor: pointer;
@@ -232,7 +212,7 @@ a.deleteTab
 
 a.deleteTab img
 {
-	margin: 0px -5px 0px 4px;
+	margin: 0px -5px 0px 0px;
 	vertical-align: middle;
 }
 
