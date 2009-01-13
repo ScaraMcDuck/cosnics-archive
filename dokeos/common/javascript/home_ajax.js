@@ -408,7 +408,7 @@
 		var loading = $.modal(editTabHTML, {
 			overlayId: 'homeOverlay',
 		  	containerId: 'homeEditContainer',
-		  	opacity: 75,
+		  	opacity: 75
 			});
 		
 		$("#tabTitle").bind('keypress', {loading: loading, tab: $('.tabTitle', this)}, function (e) {
@@ -417,9 +417,16 @@
 			 if(code == 13) {
 				 saveTabTitle(e);
 			 }
+			 else if (code == 27)
+			 {
+				 loading.close();
+			 }
 			});
+		
 		$('#tabSave').bind('click', {loading: loading, tab: $('.tabTitle', this)}, saveTabTitle);
-		$('#tabSave').bind('click', {loading: loading, tab: $('.tabTitle', this)}, saveTabTitle);
+		
+		$('#tabSave').unbind();
+		$('#tabTitle').unbind();
 	}
 
 	function bindIcons() {
@@ -448,6 +455,78 @@
 		
 		$("a.deleteTab").unbind();
 		$("a.deleteTab").bind('click', deleteTab);
+	}
+	
+	function getDraggableParent(e, ui) {
+		return $(this).parent().parent().html();
+	}
+	
+	function beginDraggable() {
+		$("div.title").unbind();
+	}
+	
+	function endDraggable() {
+		bindIcons();
+	}
+	
+	function blocksDraggable() {
+		$("a.dragEl").draggable( {
+			//helper: getDraggableParent,
+			revert :true,
+			scroll :true,
+			cursor :'move',
+			start :beginDraggable,
+			stop :endDraggable,
+			//helper : getDraggableParent,
+			placeholder :'blockSortHelper'
+		});
+	}
+	
+	function processDroppedBlock(e, ui) {
+		// Retrieving some variables
+		var newTab = $(this).attr('id');
+		var	newTabSplit = newTab.split("_");
+		var newTabId = newTabSplit[2];
+		
+		var block = ui.draggable.attr('id');
+		var blockSplit = block.split("_");
+		var blockId = blockSplit[2];
+		
+		var newColumn = $("#tab_" + newTabId + " .row:first .column:first").attr('id');
+		var newColumnSplit = newColumn.split("_");
+		var newColumnId = newColumnSplit[1];
+		
+		var theBlock = ui.draggable.parent().parent();
+		
+		// Show the processing modal
+		var loadingMessage = 'YourBlockIsBeingMoved';
+		
+		var loading = $.modal(getLoadingBox(loadingMessage), {
+			overlayId: 'homeOverlay',
+		  	containerId: 'homeContainer',
+		  	opacity: 75,
+		  	close: false
+			});
+		
+		// Do the actual move + postback		
+		$.post("./home/ajax/block_move.php", {block: blockId, column: newColumnId}, function(data) {
+			if (data.success == '1')
+			{
+				$("#" + newColumn + " .block:last").after(theBlock);
+			}
+			
+			// Now we can get rid of the modal as well
+			$(".loadingBox", loading.dialog.container).html(getMessageBox(data.success, data.message));
+			handleLoadingBox(loading);
+		}, "json");
+	}
+	
+	function tabsDroppable() {
+		$("#tab_elements li").droppable();
+		$("#tab_elements li").droppable({
+			accept: "a.dragEl",
+			drop: processDroppedBlock
+		});
 	}
 	
 	function columnsSortable() {
@@ -480,7 +559,6 @@
 			revert :true,
 			scroll :true,
 			start :sortableStart,
-			//change :sortableChange,
 			update :tabsSortableUpdate
 		});
 	}
@@ -512,6 +590,9 @@
 		bindIcons();
 		
 		tabsSortable();
+		
+		blocksDraggable();
+		tabsDroppable();
 		
 		columnsSortable();
 		columnsResizable();
