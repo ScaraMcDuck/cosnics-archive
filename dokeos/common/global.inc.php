@@ -124,6 +124,7 @@ require_once Path :: get_library_path().'html/theme.class.php';
 require_once Path :: get_library_path().'html/breadcrumb_trail.class.php';
 require_once Path :: get_library_path().'html/breadcrumb.class.php';
 require_once Path :: get_library_path().'html/display.class.php';
+require_once Path :: get_help_path(). 'lib/help_manager/help_manager.class.php';
 
 require_once(Path :: get_admin_path().'lib/admin_data_manager.class.php');
 require_once(Path :: get_tracking_path().'lib/events.class.php');

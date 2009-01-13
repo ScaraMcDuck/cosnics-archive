@@ -2081,8 +2081,8 @@ div.padding_10
 /* Container */
 #modalContainer
 {
-	width: 600px;
-	height: 300px;
+	width: 800px;
+	height: 600px;
 	left: 50%;
 	top: 50%;
 	background-color: #ffffff;
@@ -2309,4 +2309,76 @@ span.dropOver
 	width: 16px;
 	height: 16px;
 	display: inline-block;
+}
+
+/**********************************
+ * Dialog css					  *
+ **********************************/
+
+.helpdialog .ui-dialog,
+.helpdialog.ui-dialog {
+	background-color: white;
+}
+
+.helpdialog .ui-dialog .ui-dialog-titlebar,
+.helpdialog.ui-dialog .ui-dialog-titlebar {
+	background: #cccccc url(../img/common/bg.png) repeat-x scroll 0 50%;
+	height: 28px;
+	_height: 29px;
+	-moz-border-radius: 10px;
+}
+
+.helpdialog .ui-draggable .ui-dialog-titlebar,
+.helpdialog.ui-draggable .ui-dialog-titlebar {
+	cursor: move;
+}
+
+.helpdialog .ui-draggable-disabled .ui-dialog-titlebar,
+.helpdialog.ui-draggable-disabled .ui-dialog-titlebar {
+	cursor: default;
+}
+
+.helpdialog .ui-dialog .ui-dialog-titlebar-close,
+.helpdialog.ui-dialog .ui-dialog-titlebar-close {
+	width: 16px;
+	height: 16px;
+	background: url(../img/common/action_close.png) no-repeat;
+	position:absolute;
+	top: 8px;
+	right: 10px;
+	cursor: default;
+}
+
+.helpdialog .ui-dialog .ui-dialog-titlebar-close span,
+.helpdialog.ui-dialog .ui-dialog-titlebar-close span {
+	display: none;
+}
+
+.helpdialog .ui-dialog .ui-dialog-title,
+.helpdialog.ui-dialog .ui-dialog-title {
+	margin-left: 5px;
+	font-weight: bold;
+	position: relative;
+	color: #222222;
+	top: 8px;
+	left: 10px;
+}
+
+.helpdialog .ui-dialog .ui-dialog-content,
+.helpdialog.ui-dialog .ui-dialog-content {
+	margin: 1.2em;
+}
+
+.helpdialog .ui-dialog .ui-dialog-buttonpane,
+.helpdialog.ui-dialog .ui-dialog-buttonpane {
+	position: absolute;
+	bottom: 8px;
+	right: 12px;
+	width: 100%;
+	text-align: right;
+}
+
+.helpdialog .ui-dialog .ui-dialog-buttonpane button,
+.helpdialog.ui-dialog .ui-dialog-buttonpane button {
+	margin: 6px;
 }

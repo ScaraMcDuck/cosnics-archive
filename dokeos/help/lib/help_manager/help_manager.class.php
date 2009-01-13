@@ -346,5 +346,12 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	{
 		return HelpDataManager :: get_instance()->retrieve_help_item($name);
 	}
+	
+	public static function get_help_url($name)
+	{
+		$help_item = HelpDataManager :: get_instance()->retrieve_help_item($name);
+		
+		return '<a class="help" href="' . $help_item->get_url() . '" target="about:blank">' . Translation :: get('Help') . '</a>';
+	}
 }
 ?>
