@@ -59,4 +59,5 @@ $banner->display();
 
 echo '<div id="main"> <!-- start of #main wrapper for #content and #menu divs -->';
 echo '<!--   Begin Of script Output   -->';
+echo '<div id="helpbox" class="helpdialog"></div>';
 ?>
