@@ -47,7 +47,7 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 		$assessment = $publication->get_learning_object();
 		$times_taken = WeblcmsDataManager :: get_instance()->times_taken($this->browser->get_user_id(), $assessment->get_id());
 		
-		if ($assessment->get_maximum_times_taken == 0 || $times_taken < $assessment->get_maximum_times_taken())
+		if ($assessment->get_maximum_attempts == 0 || $times_taken < $assessment->get_maximum_times_taken())
 		{
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'start' => '1')),

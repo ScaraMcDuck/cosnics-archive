@@ -18,14 +18,14 @@ class Assessment extends LearningObject
 	const PROPERTY_TIMES_TAKEN = 'times_taken';
 	const PROPERTY_AVERAGE_SCORE = 'average_score';
 	const PROPERTY_MAXIMUM_SCORE = 'maximum_score';
-	const PROPERTY_MAXIMUM_TIMES_TAKEN = 'max_times_taken';
+	const PROPERTY_MAXIMUM_ATTEMPTS = 'max_attempts';
 	const PROPERTY_QUESTIONS_PER_PAGE = 'questions_per_page';
 	
 	static function get_additional_property_names()
 	{
 		return array(
 		self :: PROPERTY_ASSESSMENT_TYPE,
-		self :: PROPERTY_MAXIMUM_TIMES_TAKEN,
+		self :: PROPERTY_MAXIMUM_ATTEMPTS,
 		self :: PROPERTY_QUESTIONS_PER_PAGE
 		);
 	}
@@ -40,14 +40,14 @@ class Assessment extends LearningObject
 		$this->set_additional_property(self :: PROPERTY_ASSESSMENT_TYPE, $type);
 	}
 	
-	function get_maximum_times_taken()
+	function get_maximum_attempts()
 	{
-		return $this->get_additional_property(self :: PROPERTY_MAXIMUM_TIMES_TAKEN);
+		return $this->get_additional_property(self :: PROPERTY_MAXIMUM_ATTEMPTS);
 	}
 	
-	function set_maximum_times_taken($value)
+	function set_maximum_attempts($value)
 	{
-		$this->set_additional_property(self :: PROPERTY_MAXIMUM_TIMES_TAKEN, $value);
+		$this->set_additional_property(self :: PROPERTY_MAXIMUM_ATTEMPTS, $value);
 	}
 	
 	function get_questions_per_page()

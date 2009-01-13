@@ -63,7 +63,7 @@ class AssessmentQtiExport extends QtiExport
 		$header[] = '<assessmentTest xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1
 			http://www.imsglobal.org/xsd/imsqti_v2p1.xsd" identifier="a'.$assessment->get_id().'" title="'.$assessment->get_title().'">';
  		$header[] = '<testPart identifier="P1" navigationMode="linear" submissionMode="individual">';
- 		$header[] = '<itemSessionControl maxAttempts="'.$assessment->get_maximum_times_taken().'" />';
+ 		$header[] = '<itemSessionControl maxAttempts="'.$assessment->get_maximum_attempts().'" />';
  		$header[] = '<assessmentSection identifier="set" title="'.htmlspecialchars($assessment->get_description()).'" visible="true">';
   		return implode('', $header);
 	}

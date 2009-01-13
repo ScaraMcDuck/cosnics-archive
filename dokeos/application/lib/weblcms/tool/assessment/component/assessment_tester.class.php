@@ -104,7 +104,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			{
 				//test done, redirect to scores
 				$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = null;
-				$_SESSOIN['formvalues'] = null;
+				$_SESSION['formvalues'] = null;
 				$this->redirect_to_score_calculator($_SESSION['formvalues']);
 			}
 		}
@@ -112,6 +112,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		if (!$tester_form->validate()) 
 		{
 			$trail = new BreadcrumbTrail();
+			$trail->add(new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, AssessmentTool :: PARAM_PUBLICATION_ID => $pid, AssessmentTool :: PARAM_INVITATION_ID => $iid)), Translation :: get('TakeAssessment')));
 			$this->display_header($trail);
 			if ($showlcms)
 			{
@@ -172,10 +173,13 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		}
 	}
 	
-	function redirect_to_score_calculator()
+	function redirect_to_score_calculator($values = null)
 	{
+		if ($values == null)
+			$values = $_SESSION['formvalues'];
+			
 		$score_calculator = new AssessmentScoreCalculator();
-		$user_assessment = $score_calculator->build_answers($_SESSION['formvalues'], $this->assessment, $this->datamanager, $this);
+		$user_assessment = $score_calculator->build_answers($values, $this->assessment, $this->datamanager, $this);
 		
 		WeblcmsDataManager :: get_instance()->create_user_assessment($user_assessment);
 		$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id());

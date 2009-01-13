@@ -240,12 +240,13 @@ abstract class Tool
 		
 		if (count($breadcrumbs))
 		{
-			foreach ($breadcrumbs as $breadcrumb)
+			foreach ($breadcrumbs as $i => $breadcrumb)
 			{
-				$trail->add($breadcrumb);
+				if ($i != 0)
+					$trail->add($breadcrumb);
 			}
 		}
-		$this->parent->display_header($breadcrumbtrail);
+		$this->parent->display_header($trail);
 		echo '<div class="clear"></div>';
 		
 		if($this->parent->get_course()->get_tool_shortcut() == Course :: TOOL_SHORTCUT_ON)
