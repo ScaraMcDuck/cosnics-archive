@@ -36,7 +36,7 @@ class HelpManagerBrowserComponent extends HelpManagerComponent
 		$output = $this->get_user_html();
 		
 		$this->display_header($trail, false);
-		echo HelpManager :: get_help_url('test');
+		echo HelpManager :: get_help_url('general');
 		echo '<br />' . $this->ab->as_html() . '<br />';
 		echo $output;
 		$this->display_footer();
