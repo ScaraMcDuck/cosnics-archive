@@ -2299,12 +2299,14 @@ span.dropOver
 .helpdialog .ui-dialog,
 .helpdialog.ui-dialog {
 	background-color: white;
+	border: 1px solid grey;
 }
 
 .helpdialog .ui-dialog .ui-dialog-titlebar,
 .helpdialog.ui-dialog .ui-dialog-titlebar {
 	background: #cccccc url(../img/common/bg.png) repeat-x scroll 0 50%;
 	height: 28px;
+	m/argin-top: 10px;
 	_height: 29px;
 	-moz-border-radius: 10px;
 }
