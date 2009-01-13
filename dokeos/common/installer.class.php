@@ -521,5 +521,30 @@ abstract class Installer
 	}
 	
 	abstract function get_path();
+	
+	function extract_xml_file($file)
+	{
+		if (file_exists($file))
+		{			
+			$unserializer = &new XML_Unserializer();
+			$unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
+			$unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
+			$unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
+			$unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
+			$unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('location'));
+			
+			// userialize the document
+			$status = $unserializer->unserialize($file, true);    
+			if (PEAR::isError($status))
+			{
+				return false;
+			}
+			else
+			{
+				$data = $unserializer->getUnserializedData();
+				return $data;
+			}
+		}
+	}
 }
 ?>

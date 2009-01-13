@@ -31,6 +31,8 @@ class DefaultHelpItemTableCellRenderer implements ObjectTableCellRenderer
 			{
 				case HelpItem :: PROPERTY_NAME :
 					return $help_item->get_name();
+				case HelpItem :: PROPERTY_LANGUAGE :
+					return $help_item->get_language();
 				case HelpItem :: PROPERTY_URL :
 					return $help_item->get_url();
 			}

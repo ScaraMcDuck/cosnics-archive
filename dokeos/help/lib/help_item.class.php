@@ -7,6 +7,7 @@ class HelpItem
 	const CLASS_NAME = __CLASS__;
 	
 	const PROPERTY_NAME = 'name';
+	const PROPERTY_LANGUAGE = 'language';
 	const PROPERTY_URL = 'url';
 	
 	/**
@@ -22,7 +23,7 @@ class HelpItem
 	 * @param array $defaultProperties The default properties of the group
 	 *                                 object. Associative array.
 	 */
-	function Group($id = 0, $defaultProperties = array ())
+	function HelpItem($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -56,7 +57,7 @@ class HelpItem
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_NAME, self :: PROPERTY_URL);
+		return array (self :: PROPERTY_NAME, self :: PROPERTY_URL, self :: PROPERTY_LANGUAGE);
 	}
 		
 	/**
@@ -99,6 +100,11 @@ class HelpItem
 		return $this->get_default_property(self :: PROPERTY_URL);
 	}
 	
+	function get_language()
+	{
+		return $this->get_default_property(self :: PROPERTY_LANGUAGE);
+	}
+	
 	/**
 	 * Sets the name of this group.
 	 * @param String $name the name.
@@ -115,6 +121,11 @@ class HelpItem
 	function set_url($url)
 	{
 		$this->set_default_property(self :: PROPERTY_URL, $url);
+	}
+	
+	function set_language($language)
+	{
+		$this->set_default_property(self :: PROPERTY_LANGUAGE, $language);
 	}
 	
 	function create()

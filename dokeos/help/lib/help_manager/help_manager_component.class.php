@@ -205,9 +205,9 @@ abstract class HelpManagerComponent {
 		return $this->get_parent()->retrieve_help_items($condition, $offset , $count, $order_property, $order_direction);
 	}
 	
-	public function retrieve_help_item($name)
+	public function retrieve_help_item($name, $language)
 	{
-		return $this->get_parent()->retrieve_help_item($name);
+		return $this->get_parent()->retrieve_help_item($name, $language);
 	}
 }
 ?>

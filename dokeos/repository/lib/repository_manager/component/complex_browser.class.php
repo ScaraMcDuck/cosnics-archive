@@ -74,8 +74,8 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			echo '<br />' . $this->action_bar->as_html();
 			
 		echo '<br /><div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-		echo '<li><a ' . ($action == 'build'?'class=current':'') . ' href="'.$this->get_url(array (RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'clo_action' => 'build')) . '">' . Translation :: get('Build') . '</a></li>';
-		echo '<li><a ' . ($action == 'organise'?'class=current':'') . ' href="'.$this->get_url(array (RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'clo_action' => 'organise')) . '">' . Translation :: get('Organise') . '</a></li>';
+		echo '<li><a ' . ($action == 'build'?'class=current':'') . ' href="'.$this->get_url(array (RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'clo_action' => 'build', 'publish' => $_GET['publish'])) . '">' . Translation :: get('Build') . '</a></li>';
+		echo '<li><a ' . ($action == 'organise'?'class=current':'') . ' href="'.$this->get_url(array (RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'clo_action' => 'organise', 'publish' => $_GET['publish'])) . '">' . Translation :: get('Organise') . '</a></li>';
 		echo '</ul><div class="tabbed-pane-content">';
 		echo '<br /><div style="width: 18%; float: left; overflow:auto;">' . $menu->render_as_tree() . '</div>';
 		echo '<div style="width: 80%; float: right;">' . $output . '</div>';
