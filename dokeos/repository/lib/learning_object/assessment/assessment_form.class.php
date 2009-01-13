@@ -26,7 +26,7 @@ class AssessmentForm extends LearningObjectForm
 		$object = $this->get_learning_object();
 		if ($object != null) {
 			$defaults[Assessment :: PROPERTY_ASSESSMENT_TYPE] = $object->get_assessment_type();
-			$defaults[Assessment :: PROPERTY_MAXIMUM_TIMES_TAKEN] = $object->get_maximum_times_taken();
+			$defaults[Assessment :: PROPERTY_MAXIMUM_ATTEMPTS] = $object->get_maximum_attempts();
 			$defaults[Assessment :: PROPERTY_QUESTIONS_PER_PAGE] = $object->get_questions_per_page();
 		}
 			
@@ -38,7 +38,7 @@ class AssessmentForm extends LearningObjectForm
     	parent :: build_creation_form();
     	$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
     	$this->add_select(Assessment :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('AssessmentType'), Assessment :: get_types());
-    	$this->add_textfield(Assessment :: PROPERTY_MAXIMUM_TIMES_TAKEN, Translation :: get('MaximumPerStudent')); 
+    	$this->add_textfield(Assessment :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts')); 
     	$this->add_textfield(Assessment :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('QuestionsPerPage'));
     	$this->addElement('category');
     }
@@ -48,7 +48,7 @@ class AssessmentForm extends LearningObjectForm
 		parent :: build_editing_form();
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
     	$this->add_select(Assessment :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('AssessmentType'), Assessment :: get_types());
-    	$this->add_textfield(Assessment :: PROPERTY_MAXIMUM_TIMES_TAKEN, Translation :: get('MaximumPerStudent'));
+    	$this->add_textfield(Assessment :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts'));
     	$this->add_textfield(Assessment :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('QuestionsPerPage')); 
     	$this->addElement('category');
 	}
@@ -58,10 +58,10 @@ class AssessmentForm extends LearningObjectForm
 	{
 		$object = new Assessment();
 		$values = $this->exportValues();
-		if (isset($values[Assessment :: PROPERTY_MAXIMUM_TIMES_TAKEN]))
-			$object->set_maximum_times_taken($values[Assessment :: PROPERTY_MAXIMUM_TIMES_TAKEN]);
+		if (isset($values[Assessment :: PROPERTY_MAXIMUM_ATTEMPTS]))
+			$object->set_maximum_attempts($values[Assessment :: PROPERTY_MAXIMUM_ATTEMPTS]);
 		else
-			$object->set_maximum_times_taken(0);
+			$object->set_maximum_attempts(0);
 
 		if (isset($values[Assessment :: PROPERTY_QUESTIONS_PER_PAGE]))
 			$object->set_questions_per_page($values[Assessment :: PROPERTY_QUESTIONS_PER_PAGE]);
@@ -78,10 +78,10 @@ class AssessmentForm extends LearningObjectForm
 	{
 		$object = $this->get_learning_object();
 		$values = $this->exportValues();
-		if (isset($values[Assessment :: PROPERTY_MAXIMUM_TIMES_TAKEN]))
-			$object->set_maximum_times_taken($values[Assessment :: PROPERTY_MAXIMUM_TIMES_TAKEN]);
+		if (isset($values[Assessment :: PROPERTY_MAXIMUM_ATTEMPTS]))
+			$object->set_maximum_attempts($values[Assessment :: PROPERTY_MAXIMUM_ATTEMPTS]);
 		else
-			$object->set_maximum_times_taken(0);
+			$object->set_maximum_attempts(0);
 
 		if (isset($values[Assessment :: PROPERTY_QUESTIONS_PER_PAGE]))
 			$object->set_questions_per_page($values[Assessment :: PROPERTY_QUESTIONS_PER_PAGE]);

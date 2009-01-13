@@ -42,7 +42,19 @@ class AssessmentTesterForm extends FormValidator
 		$count = 1;
 		while($clo_question = $clo_questions->next_result())
 		{
-			if ($count >= $start_question && $count < $stop_question)
+			if ($start_question != $stop_question)
+			{
+				if ($count >= $start_question && $count < $stop_question)
+				{
+					$question_display = QuestionDisplay :: factory($clo_question);
+					if (isset($question_display))
+						$question_display->add_to($this);
+						
+					$this->addElement('html', '<br />');
+				}
+				$count++;
+			}
+			else
 			{
 				$question_display = QuestionDisplay :: factory($clo_question);
 				if (isset($question_display))
@@ -50,7 +62,6 @@ class AssessmentTesterForm extends FormValidator
 					
 				$this->addElement('html', '<br />');
 			}
-			$count++;
 		}
 		$this->addElement('submit', 'submit', Translation :: get('Submit'));
 	}

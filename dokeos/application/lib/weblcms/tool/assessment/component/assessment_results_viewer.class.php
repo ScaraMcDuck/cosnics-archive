@@ -5,6 +5,7 @@ require_once dirname(__FILE__).'/assessment_results_viewer/assignment_results_vi
 require_once dirname(__FILE__).'/assessment_results_table_admin/assessment_results_table_overview.class.php';
 require_once dirname(__FILE__).'/assessment_results_table_admin/assessment_results_table_detail.class.php';
 require_once dirname(__FILE__).'/assessment_results_table_student/assessment_results_table_overview.class.php';
+require_once dirname(__FILE__).'/../../../browser/learningobjectpublicationcategorytree.class.php';
 require_once dirname(__FILE__).'/assessment_tester.class.php';
 
 class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
@@ -29,7 +30,9 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 	
 	function view_all_results()
 	{
-		$visible = $this->display_header();
+		$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), Translation :: get('ViewResults')); 
+			
+		$visible = $this->display_header($crumbs);
 		if (!$visible)
 		{
 			return;
@@ -62,13 +65,16 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 	
 	function view_assessment_results()
 	{
-		$visible = $this->display_header();
+		$aid = $_GET[AssessmentTool :: PARAM_ASSESSMENT];
+		$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), Translation :: get('ViewResults')); 
+		$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $aid)), Translation :: get('AssessmentResults'));	
+		
+		$visible = $this->display_header($crumbs);
 		if (!$visible || !$this->is_allowed(EDIT_RIGHT))
 		{
 			return;
 		}
 		
-		$aid = $_GET[AssessmentTool :: PARAM_ASSESSMENT];
 		$assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($aid);
 		
 		echo '<div class="learning_object">';
@@ -133,7 +139,10 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		}
 		else 
 		{
-			$visible = $this->display_header();
+			$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), Translation :: get('ViewResults')); 
+			$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid)), Translation :: get('ViewSingleResult')); 
+			
+			$visible = $this->display_header($crumbs);
 			if (!$visible)
 			{
 				return;
@@ -218,7 +227,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		$this->redirect(null, null, false, $params);
 	}
 	
-	function display_header()
+	function display_header($breadcrumbs = array())
 	{
 		if (!isset($_GET[AssessmentTool :: PARAM_INVITATION_ID]))
 		{
@@ -229,6 +238,10 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			}
 		}
 		$trail = new BreadcrumbTrail();
+		foreach ($breadcrumbs as $breadcrumb)
+		{
+			$trail->add($breadcrumb);
+		}
 		parent :: display_header($trail);
 		
 		$this->action_bar = $this->get_toolbar();
