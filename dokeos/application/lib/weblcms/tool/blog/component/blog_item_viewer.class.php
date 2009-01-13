@@ -12,6 +12,7 @@ class BlogToolItemViewerComponent extends BlogToolComponent
 			return;
 		}
 		$trail = new BreadcrumbTrail();
+		$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => BlogTool :: ACTION_VIEW_BLOG, Tool :: PARAM_PUBLICATION_ID => Request :: Get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('ViewBlog')));
 		
 		$cloi_id = Request :: get(Tool :: PARAM_COMPLEX_ID);
 		if(!$cloi_id)
@@ -20,6 +21,8 @@ class BlogToolItemViewerComponent extends BlogToolComponent
 			$this->display_error_message(Translation :: get('NoObjectSelected'));
 			$this->display_footer();
 		}
+		
+		$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_COMPLEX_ID => $cloi_id, Tool :: PARAM_PUBLICATION_ID => Request :: Get('pid'))), Translation :: get('ViewBlogItem')));
 		
 		$dm = RepositoryDataManager :: get_instance();
 		$cloi = $dm->retrieve_complex_learning_object_item($cloi_id);
@@ -53,24 +56,6 @@ class BlogToolItemViewerComponent extends BlogToolComponent
 			$html[] = '</div>';
 		}
 		return implode("\n", $html);
-	}
-
-	function retrieve_feedback($cloi_id)
-	{
-		$wdm = WeblcmsDataManager :: get_instance();
-		$cond = new EqualityCondition('type','feedback');
-		
-		$conditions[] = new EqualityCondition('tool', $this->get_tool_id() . '_feedback');
-		$conditions[] = new EqualityCondition('parent_id', $cloi_id);
-		$condition = new AndCondition($conditions);
-		
-		$publications = $wdm->retrieve_learning_object_publications($this->get_course_id(), null, null, null, $condition, false, array (LearningObjectPublication :: PROPERTY_PUBLICATION_DATE), array (SORT_DESC), 0, -1, null, $cond);
-		while($pub = $publications->next_result())
-		{
-			$pubs[] = $pub;
-		}
-		
-		return $pubs;
 	}
 
 }

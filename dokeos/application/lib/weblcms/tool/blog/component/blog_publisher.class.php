@@ -14,6 +14,7 @@ class BlogToolPublisherComponent extends BlogToolComponent
 		}
 
 		$trail = new BreadcrumbTrail();
+		$trail->add(new BreadCrumb($this->get_url(), Translation :: get('Publisher')));
 		
 		$object = $_GET['object'];
 		$pub = new LearningObjectRepoViewer($this, 'blog', true);

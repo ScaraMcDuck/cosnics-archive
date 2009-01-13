@@ -21,6 +21,7 @@ class BlogToolBrowserComponent extends BlogToolComponent
 		$this->action_bar = $this->get_toolbar();
 
 		$trail = new BreadcrumbTrail();
+		
 		$this->display_header($trail);
 		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
 		{
