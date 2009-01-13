@@ -15,7 +15,7 @@ class ToolComplexEditComponent extends ToolComponent
 			$cloi = $datamanager->retrieve_complex_learning_object_item($cid);
 			$learning_object = $datamanager->retrieve_learning_object($cloi->get_ref());
 			
-			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cid, Tool :: PARAM_PUBLICATION_ID => $_GET['pid'])));
+			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cid, Tool :: PARAM_PUBLICATION_ID => $_GET['pid'], 'details' => $_GET['details'])));
 
 			if( $form->validate() || $_GET['validated'])
 			{

@@ -14,5 +14,15 @@ class BlogToolComponent extends ToolComponent
 		return $this->get_tool()->display_learning_object($object, $cloi_id);
 	}
 	
+	function retrieve_feedback($cloi_id)
+	{
+		return $this->get_tool()->retrieve_feedback($cloi_id);
+	}
+	
+	function count_feedback($cloi_id)
+	{
+		return $this->get_tool()->retrieve_feedback($cloi_id);
+	}
+	
 }
 ?>

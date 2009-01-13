@@ -230,6 +230,7 @@ $lang['weblcms']['DescriptionToolTitle'] = 'Description';
 $lang['weblcms']['ForumToolTitle'] = 'Forum';
 $lang['weblcms']['LinkToolTitle'] = 'Links';
 $lang['weblcms']['WikiToolTitle'] = 'Wiki';
+$lang['weblcms']['BlogToolTitle'] = 'Blog';
 $lang['weblcms']['StatisticsToolTitle'] = 'Statistics';
 $lang['weblcms']['AssessmentToolTitle'] = 'Assessments';
 $lang['weblcms']['PublishIntroductionText'] = 'Publish introduction text';

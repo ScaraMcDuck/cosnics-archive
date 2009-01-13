@@ -20,6 +20,8 @@ class BlogToolViewerComponent extends BlogToolComponent
 			$this->display_footer();
 		}
 		
+		$trail->add(new BreadCrumb($this->get_url(array('pid' => $pid)), Translation :: get('ViewBlog')));
+		
 		$dm = WeblcmsDataManager :: get_instance();
 		$publication = $dm->retrieve_learning_object_publication($pid);
 		$root_object = $publication->get_learning_object();	

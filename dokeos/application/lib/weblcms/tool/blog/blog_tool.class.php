@@ -59,6 +59,15 @@ class BlogTool extends Tool
 		$html[] = $object->get_description();
 		$html[] = $this->display_attachments($object);
 		$html[] = '</div>';
+		$html[] = '<div style="float: left;">';
+		
+		if($this->get_action() != self :: ACTION_VIEW_BLOG_ITEM)
+		{
+			$url = $this->get_url(array(Tool :: PARAM_ACTION => self :: ACTION_VIEW_BLOG_ITEM, Tool :: PARAM_COMPLEX_ID => $cloi_id, 'pid' => $_GET['pid']));
+			$html[] = '<a href="' . $url . '">'  . $this->count_feedback($cloi_id) . ' ' . Translation :: get('comments') . '</a>';
+		}
+		
+		$html[] = '</div>';
 		$html[] = '<div class="publication_info">';
 		$html[] = Translation :: get('PublishedBy') . ' ' . $user->get_fullname() . ' ' . Translation :: get('On') . ' ' . DokeosUtilities :: to_db_date($object->get_creation_date());
 		$html[] = '</div>';
@@ -101,8 +110,10 @@ class BlogTool extends Tool
 	{
 		if ($this->is_allowed(DELETE_RIGHT))
 		{
+			$array = array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE_CLOI, Tool :: PARAM_COMPLEX_ID => $cloi_id, 'pid' => $_GET['pid']);
+			
 			$actions[] = array(
-				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE_CLOI, Tool :: PARAM_COMPLEX_ID => $cloi_id, 'pid' => $_GET['pid'])), 
+				'href' => $this->get_url($array), 
 				'label' => Translation :: get('Delete'), 
 				'img' => Theme :: get_common_image_path().'action_delete.png'
 			);	
@@ -110,20 +121,60 @@ class BlogTool extends Tool
 		
 		if ($this->is_allowed(EDIT_RIGHT))
 		{
+			$array = array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cloi_id, 'pid' => $_GET['pid']);
+			
+			if($this->get_action() == self :: ACTION_VIEW_BLOG_ITEM)
+				$array['details'] = 1;
+			
 			$actions[] = array(
-				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cloi_id, 'pid' => $_GET['pid'])), 
+				'href' => $this->get_url($array), 
 				'label' => Translation :: get('Edit'), 
 				'img' => Theme :: get_common_image_path().'action_edit.png'
 			);	
 		}
 		
-		$actions[] = array(
-				'href' => $this->get_url(array(Tool :: PARAM_ACTION => BlogTool :: ACTION_VIEW_BLOG_ITEM, Tool :: PARAM_COMPLEX_ID => $cloi_id)), 
-				'label' => Translation :: get('Feedback'), 
-				'img' => Theme :: get_common_image_path().'action_browser.png'
-			);	
+		if($this->get_action() != self :: ACTION_VIEW_BLOG_ITEM)
+		{
+			$actions[] = array(
+					'href' => $this->get_url(array(Tool :: PARAM_ACTION => BlogTool :: ACTION_VIEW_BLOG_ITEM, Tool :: PARAM_COMPLEX_ID => $cloi_id, 'pid' => $_GET['pid'])), 
+					'label' => Translation :: get('Feedback'), 
+					'img' => Theme :: get_common_image_path().'action_browser.png'
+				);
+		}	
 		
 		return DokeosUtilities :: build_toolbar($actions);
+	}
+	
+	function retrieve_feedback($cloi_id)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		$cond = new EqualityCondition('type','feedback');
+		
+		$conditions[] = new EqualityCondition('tool', $this->get_tool_id() . '_feedback');
+		$conditions[] = new EqualityCondition('parent_id', $cloi_id);
+		$condition = new AndCondition($conditions);
+		
+		$publications = $wdm->retrieve_learning_object_publications($this->get_course_id(), null, null, null, $condition, false, array (LearningObjectPublication :: PROPERTY_PUBLICATION_DATE), array (SORT_DESC), 0, -1, null, $cond);
+		while($pub = $publications->next_result())
+		{
+			$pubs[] = $pub;
+		}
+		
+		return $pubs;
+	}
+	
+	function count_feedback($cloi_id)
+	{
+		$wdm = WeblcmsDataManager :: get_instance();
+		$cond = new EqualityCondition('type','feedback');
+		
+		$conditions[] = new EqualityCondition('tool', $this->get_tool_id() . '_feedback');
+		$conditions[] = new EqualityCondition('parent_id', $cloi_id);
+		$condition = new AndCondition($conditions);
+		
+		$count = $wdm->count_learning_object_publications($this->get_course_id(), null, null, null, $condition, false, null, $cond);
+		
+		return $count;
 	}
 }
 ?>
