@@ -8,6 +8,7 @@
 	    loadingHTML += '</iframe>';
 	    
 	    var box = $("#helpbox");
+	    box.empty();
 	    box.append(loadingHTML);
 	   
 	    /*$.modal(loadingHTML, {

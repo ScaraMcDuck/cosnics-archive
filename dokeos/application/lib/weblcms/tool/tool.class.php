@@ -205,8 +205,9 @@ abstract class Tool
 	/**
 	 * @see Application :: display_header()
 	 */
-	function display_header($breadcrumbtrail, $append = array())
+	function display_header($breadcrumbtrail)
 	{
+		$trail = new BreadcrumbTrail();
 		switch($this->parent->get_course()->get_breadcrumb())
 		{
 			case Course :: BREADCRUMB_TITLE : $title = $this->parent->get_course()->get_name(); break;
@@ -215,30 +216,33 @@ abstract class Tool
 			default: $title = $this->parent->get_course()->get_id(); break;
 		}
 		
-		$breadcrumbtrail->add(new Breadcrumb($this->get_url(null, false, true, array('tool')), $title));
+		$trail->add(new Breadcrumb($this->get_url(null, false, true, array('tool')), $title));
 		
 		// TODO: do this by overriding display_header in the course_group tool
 		
 		if(!is_null($this->parent->get_course_group()))
 		{
 			$course_group = $this->parent->get_course_group();
-			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array('tool_action' => null, Weblcms::PARAM_COURSE_GROUP=>null)),Translation :: get('CourseGroups')));
-			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), $course_group->get_name()));
+			$trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, Weblcms::PARAM_COURSE_GROUP=>null)),Translation :: get('CourseGroups')));
+			$trail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), $course_group->get_name()));
 		}
 		elseif($this->get_tool_id() == 'course_group')
 		{
-			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
+			$trail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
 		}
 		// TODO: make this the default
 		if($this->get_tool_id() != 'course_group')
 		{
-			$breadcrumbtrail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
+			$trail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
 		}
-		if (count($append))
+		
+		$breadcrumbs = $breadcrumbtrail->get_breadcrumbs();
+		
+		if (count($breadcrumbs))
 		{
-			foreach ($append as $extra)
+			foreach ($breadcrumbs as $breadcrumb)
 			{
-				$breadcrumbtrail->add($extra);
+				$trail->add($breadcrumb);
 			}
 		}
 		$this->parent->display_header($breadcrumbtrail);

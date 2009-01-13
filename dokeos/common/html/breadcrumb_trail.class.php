@@ -84,5 +84,10 @@ class BreadcrumbTrail
 	{
 		return Path :: get($path_type);
 	}
+	
+	function get_breadcrumbs()
+	{
+		return $this->breadcrumbtrail;
+	}
 }
 ?>
