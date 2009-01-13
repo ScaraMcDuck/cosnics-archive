@@ -36,7 +36,6 @@ class HelpManagerBrowserComponent extends HelpManagerComponent
 		$output = $this->get_user_html();
 		
 		$this->display_header($trail, false);
-		echo HelpManager :: get_help_url('general');
 		echo '<br />' . $this->ab->as_html() . '<br />';
 		echo $output;
 		$this->display_footer();
@@ -76,6 +75,8 @@ class HelpManagerBrowserComponent extends HelpManagerComponent
 		
 		$action_bar->set_search_url($this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $this->get_help_item())));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $this->get_help_item())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
+		$action_bar->add_common_action(HelpManager :: get_tool_bar_help_item('general'));
 		
 		return $action_bar;
 	}
