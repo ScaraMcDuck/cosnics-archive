@@ -353,5 +353,12 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		
 		return '<a class="help" href="' . $help_item->get_url() . '" target="about:blank">' . Translation :: get('Help') . '</a>';
 	}
+	
+	public static function get_tool_bar_help_item($name)
+	{
+		$help_item = HelpDataManager :: get_instance()->retrieve_help_item($name);
+		
+		return new ToolbarItem(Translation :: get('Help'), Theme :: get_common_image_path().'action_help.png', $help_item->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'help', 'about:blank');
+	}
 }
 ?>

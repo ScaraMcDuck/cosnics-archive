@@ -12,14 +12,18 @@ class ToolbarItem
 	private $image;
 	private $href;
 	private $confirmation;
+	private $class;
 	
-    function ToolbarItem($label = null, $image = null, $href = null, $display = self :: DISPLAY_ICON_AND_LABEL, $confirmation = false)
+    function ToolbarItem($label = null, $image = null, $href = null, 
+    					 $display = self :: DISPLAY_ICON_AND_LABEL, $confirmation = false,
+    					 $class = null, $target = null)
     {
     	$this->label = $label;
     	$this->display = $display;
     	$this->image = $image;
     	$this->href = $href;
     	$this->confirmation = $confirmation;
+    	$this->class = $class;
     }
     
     function get_label()
@@ -74,7 +78,13 @@ class ToolbarItem
 		
 		if ($this->get_href())
 		{
-			$button = '<a href="'.htmlentities($this->href).'" title="'.$label.'"'. ($this->needs_confirmation() ? ' onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"' : '').'>'.$button.'</a>';
+			if($this->class)
+				$class = ' class="' . $this->class . '"';
+			
+			if($this->target)
+				$target = ' target="' . $this->target . '"';
+				
+			$button = '<a' . $class . $target . ' href="'.htmlentities($this->href).'" title="'.$label.'"'. ($this->needs_confirmation() ? ' onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"' : '').'>'.$button.'</a>';
 		}
 		
 		return $button;
