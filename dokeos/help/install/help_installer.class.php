@@ -36,38 +36,38 @@ class HelpInstaller extends Installer
     
     function install_help_items()
    	{
-   		$file = dirname(__FILE__) . '/../help_items.xml';
+   		$path = dirname(__FILE__) . '/../help_items/';
    		
-   		if (file_exists($file))
-		{			
-			$unserializer = &new XML_Unserializer();
-			$unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
-			$unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
-			$unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
-			$unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
-			$unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('location'));
-			
-			// userialize the document
-			$status = $unserializer->unserialize($file, true);    
-			if (PEAR::isError($status))
+   		$files = FileSystem :: get_directory_content($path, FileSystem :: LIST_FILES);
+   		foreach($files as $file)
+   		{
+   			if ((substr($file, -3) == 'xml'))
 			{
-				return false;
-			}
-			else
-			{
-				$data = $unserializer->getUnserializedData();
-				$help_items = $data['help_item'];
-				foreach($help_items as $help_item)
-				{
-					$item = new HelpItem();
-					$item->set_name($help_item['name']);
-					$item->set_url($help_item['url']);
-					$item->create();
-				}
+				$data = $this->extract_xml_file($file);
 				
-				return true;
+				if($data)
+				{
+					$filename = basename($file);
+					$language = substr($filename, 0, strlen($filename) - 4);
+				
+					$items = $data['help_item'];
+					foreach($items as $item)
+					{
+						$help_item = new HelpItem();
+						$help_item->set_name($item['name']);
+						$help_item->set_language($language);
+						$help_item->set_url($item['url']);
+						$help_item->create();
+					}
+				}
+				else
+				{
+					return false;
+				}
 			}
-		}
+   		}
+   		
+   		return true;
 		
    	}
 	

@@ -46,7 +46,7 @@ class HelpItemBrowserTableCellRenderer extends DefaultHelpItemTableCellRenderer
 		$toolbar_data = array();
 
 		$toolbar_data[] = array(
-			'href' => $this->browser->get_url(array(HelpManager :: PARAM_ACTION => HelpManager :: ACTION_UPDATE_HELP_ITEM, HelpManager :: PARAM_HELP_ITEM => $help_item->get_name())),
+			'href' => $this->browser->get_url(array(HelpManager :: PARAM_ACTION => HelpManager :: ACTION_UPDATE_HELP_ITEM, HelpManager :: PARAM_HELP_ITEM => $help_item->get_name(), 'language' => $help_item->get_language())),
 			'label' => Translation :: get('AddUsers'),
 			'img' => Theme :: get_common_image_path().'action_edit.png',
 		);

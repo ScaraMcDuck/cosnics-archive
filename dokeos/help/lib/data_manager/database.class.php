@@ -28,7 +28,10 @@ class DatabaseHelpDataManager extends HelpDataManager
 	
 	function update_help_item($help_item)
 	{
-		$condition = new EqualityCondition(HelpItem :: PROPERTY_NAME, $help_item->get_name());
+		$conditions[] = new EqualityCondition(HelpItem :: PROPERTY_NAME, $help_item->get_name());
+		$conditions[] = new EqualityCondition(HelpItem :: PROPERTY_LANGUAGE, $help_item->get_language());
+		$condition = new AndCondition($conditions);
+		
 		return $this->database->update($help_item, $condition);
 	}
 	
@@ -47,9 +50,12 @@ class DatabaseHelpDataManager extends HelpDataManager
 		return $this->database->retrieve_objects(HelpItem :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
-	function retrieve_help_item($name)
+	function retrieve_help_item($name, $language)
 	{
-		$condition = new EqualityCondition(HelpItem :: PROPERTY_NAME, $name);
+		$conditions[] = new EqualityCondition(HelpItem :: PROPERTY_NAME, $name);
+		$conditions[] = new EqualityCondition(HelpItem :: PROPERTY_LANGUAGE, $language);
+		$condition = new AndCondition($conditions);
+		
 		return $this->database->retrieve_object(HelpItem :: get_table_name(), $condition);
 	}
 	

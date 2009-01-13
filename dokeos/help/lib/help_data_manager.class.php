@@ -43,7 +43,7 @@ abstract class HelpDataManager
 	
 	abstract function count_help_items($conditions = null);
 	
-	abstract function retrieve_help_item($id);
+	abstract function retrieve_help_item($name, $language);
 	
 	abstract function retrieve_help_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
