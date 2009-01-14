@@ -69,7 +69,7 @@ class BlogTool extends Tool
 		
 		$html[] = '</div>';
 		$html[] = '<div class="publication_info">';
-		$html[] = Translation :: get('PublishedBy') . ' ' . $user->get_fullname() . ' ' . Translation :: get('On') . ' ' . DokeosUtilities :: to_db_date($object->get_creation_date());
+		$html[] = Translation :: get('CreatedBy') . ' ' . $user->get_fullname() . ' ' . Translation :: get('On') . ' ' . DokeosUtilities :: to_db_date($object->get_creation_date());
 		$html[] = '</div>';
 		$html[] = '<div style="float: right;" class="publication_actions">';
 		$html[] = $this->display_object_actions($object, $cloi_id);
