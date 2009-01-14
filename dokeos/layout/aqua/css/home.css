@@ -227,6 +227,14 @@ a.deleteTab img
 	vertical-align: middle;
 }
 
+#deleteColumn
+{
+	width: 16px;
+	height: 16px;
+	background: url(../img/common/action_delete.png) no-repeat;
+	padding-left: 20px;
+}
+
 #homeEditContainer
 {
 	background-color: #FFFFFF;

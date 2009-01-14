@@ -170,6 +170,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 					{
 						$html[] = '<div class="empty_column">';
 						$html[] = Translation :: get('EmptyColumnText');
+						$html[] = '<div id="deleteColumn"><a href="#">' . Translation :: get('Delete') . '</a></div>';
 						$html[] = '</div>';
 					}
 							

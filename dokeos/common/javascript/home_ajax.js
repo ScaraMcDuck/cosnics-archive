@@ -3,6 +3,38 @@
 	/*global addBlock, bindIcons, columnsResizable, columnsSortable, confirm, document, editTab, filterComponents, getLoadingBox, getMessageBox, handleLoadingBox, jQuery, showAllComponents, tabsSortable */
 	
 	var columns = $(".column");
+	
+	function translation(string, application) {		
+		var translated_string = $.ajax({
+			type: "POST",
+			url: "./common/javascript/ajax/translation.php",
+			data: { string: string, application: application },
+			async: false
+		}).responseText;
+		
+		return translated_string;
+	}
+	
+	function checkForEmptyColumns() {
+		var emptyBlock  = '<div class="empty_column">';
+		emptyBlock += translation('EmptyColumnText', 'home');
+		emptyBlock += '<div id="deleteColumn"><a href="#">' + translation('Delete', 'home') + '</a></div>';
+		emptyBlock += '</div>';
+		
+		$("div.tab div.column").each(function (i) {
+			var numberOfBlocks = $(".block", this).length;
+			var emptyBlockExists = $(".empty_column", this).length;
+			
+			if (numberOfBlocks === 0 && emptyBlockExists === 0)
+			{
+				$(this).append(emptyBlock);
+			}
+			else if (numberOfBlocks > 0 && emptyBlockExists >= 1)
+			{
+				$(".empty_column", this).remove();
+			}
+		});
+	}
 
 	function sortableStart(e, ui) {
 		ui.helper.css("width", ui.item.width());
@@ -10,7 +42,9 @@
 	}
 	
 	function sortableStop(e, ui) {
+		// Fade the action links / images
 		$("div.title a").fadeOut(150);
+		checkForEmptyColumns();
 	}
 	
 	function showTab(e, ui) {
@@ -30,17 +64,6 @@
 		$("#tab_menu li").unbind();
 		$("#tab_menu li:not(.current)").bind('click', showTab);
 		$("#tab_menu li.current").bind('click', editTab);
-	}
-	
-	function translation(string, application) {		
-		var translated_string = $.ajax({
-			type: "POST",
-			url: "./common/javascript/ajax/translation.php",
-			data: { string: string, application: application },
-			async: false
-		}).responseText;
-		
-		return translated_string;
 	}
 
 	function sortableChange(e, ui) {
@@ -155,6 +178,8 @@
 					// function(data){alert("Data Loaded: " + data);}
 					);
 		}
+		
+		checkForEmptyColumns();
 	}
 
 	function removeBlockScreen(e, ui) {
@@ -514,7 +539,18 @@
 		$.post("./home/ajax/block_move.php", {block: blockId, column: newColumnId}, function (data) {
 			if (data.success === '1')
 			{
-				$("#" + newColumn + " .block:last").after(theBlock);
+				//Does the column have blocks
+				var blockCount = $("#" + newColumn + " .block").length;
+				if (blockCount > 0)
+				{
+					$("#" + newColumn + " .block:last").after(theBlock);
+				}
+				else
+				{
+					$("#" + newColumn ).append(theBlock);
+				}
+				
+				checkForEmptyColumns();
 			}
 			
 			// Now we can get rid of the modal as well
