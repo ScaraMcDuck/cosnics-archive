@@ -70,7 +70,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 					$class = 'normal';
 				}
 				
-				$html[] = '<li class="'. $class .'" id="tab_select_'. $tab->get_id() .'"><a class="tabTitle" href="'. $this->get_home_tab_viewing_url($tab) .'">'. $tab->get_title() .'</a><a class="deleteTab"><img src="'. Theme :: get_image_path() .'action_delete_tab.png"></a></li>';
+				$html[] = '<li class="'. $class .'" id="tab_select_'. $tab->get_id() .'"><a class="tabTitle" href="'. $this->get_home_tab_viewing_url($tab) .'">'. $tab->get_title() .'</a><a class="deleteTab"><img src="'. Theme :: get_image_path() .'action_delete_tab.png" /></a></li>';
 			}
 			$html[] = '</ul>';
 			
@@ -127,41 +127,50 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 					
 					$path = Path :: get_application_path() . 'lib';
 					
-					while ($block = $blocks->next_result())
-					{					
-						$application = $block->get_application();
-						$application_class = Application :: application_to_class($application);
-						
-						if(!Application :: is_application($application))
-						{
-							$sys_app_path = Path :: get(SYS_PATH) . $application . '/lib/' . $application . '_manager' . '/' . $application . '_manager.class.php';
-							require_once $sys_app_path;
+					if ($blocks->size() > 0)
+					{
+						while ($block = $blocks->next_result())
+						{					
+							$application = $block->get_application();
+							$application_class = Application :: application_to_class($application);
 							
-							$application_class .= 'Manager';
-							
-							if (!is_null($this->get_user()))
+							if(!Application :: is_application($application))
 							{
-								$app = new $application_class($this->get_user());
-								$html[] = $app->render_block($block);
+								$sys_app_path = Path :: get(SYS_PATH) . $application . '/lib/' . $application . '_manager' . '/' . $application . '_manager.class.php';
+								require_once $sys_app_path;
+								
+								$application_class .= 'Manager';
+								
+								if (!is_null($this->get_user()))
+								{
+									$app = new $application_class($this->get_user());
+									$html[] = $app->render_block($block);
+								}
+								elseif(($application == 'user' && $block->get_component() == 'login') ||
+									   ($application == 'admin' && $block->get_component() == 'portal_home'))
+								{
+									$app = new $application_class($this->get_user());
+									$html[] = $app->render_block($block);
+								}
 							}
-							elseif(($application == 'user' && $block->get_component() == 'login') ||
-								   ($application == 'admin' && $block->get_component() == 'portal_home'))
+							else
 							{
-								$app = new $application_class($this->get_user());
-								$html[] = $app->render_block($block);
+								$toolPath = $path . '/' . $application . '/' . $application . '_manager';
+								require_once $toolPath . '/' . $application . '.class.php';
+								
+								if (!is_null($this->get_user()))
+								{
+									$app = Application :: factory($application, $this->get_user());
+									$html[] = $app->render_block($block);
+								}
 							}
 						}
-						else
-						{
-							$toolPath = $path . '/' . $application . '/' . $application . '_manager';
-							require_once $toolPath . '/' . $application . '.class.php';
-							
-							if (!is_null($this->get_user()))
-							{
-								$app = Application :: factory($application, $this->get_user());
-								$html[] = $app->render_block($block);
-							}
-						}
+					}
+					else
+					{
+						$html[] = '<div class="empty_column">';
+						$html[] = Translation :: get('EmptyColumnText');
+						$html[] = '</div>';
 					}
 							
 					$html[] = '</div>';

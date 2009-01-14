@@ -90,7 +90,14 @@ if ($user_home_allowed && Authentication :: is_valid())
 	$html[] = '</div>';
 	$html[] = '</div>';
 	
+	$title = array();
+	$title[] = '<li class="normal" id="tab_select_'. $tab->get_id() .'">';
+	$title[] = '<a class="tabTitle" href="#">'. $tab->get_title() .'</a>';
+	$title[] = '<a class="deleteTab"><img src="'. Theme :: get_image_path() .'action_delete_tab.png" /></a>';
+	$title[] = '</li>';
+	
 	$json_result['html'] = implode("\n", $html);
+	$json_result['title'] = implode("\n", $title);
 	$json_result['success'] = '1';
 	$json_result['message'] = Translation :: get('TabAdded');
 }

@@ -86,27 +86,32 @@ class Block {
 		
 		$html[] = '<div class="title"><div style="float: left;">'. $this->get_block_info()->get_title() . '</div>';
 		
-		if ($this->is_deletable())
-		{
-			$html[] = '<a href="'. $this->get_block_deleting_link($this->get_block_info()) .'" class="deleteEl"><img src="'.Theme :: get_common_image_path().'action_delete.png" /></a>';
-		}
+		$user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: APPLICATION_NAME);
 		
-		if ($this->block_info->is_configurable())
+		if (($user_home_allowed && Authentication :: is_valid()) || ( !is_null($this->get_user()) && $this->get_user()->is_platform_admin()))
 		{
-			$html[] = '<a href="'. $this->get_block_configuring_link($this->get_block_info()) .'" class="configEl"><img src="'.Theme :: get_common_image_path().'action_config.png" /></a>';
+			if ($this->is_deletable())
+			{
+				$html[] = '<a href="'. $this->get_block_deleting_link($this->get_block_info()) .'" class="deleteEl"><img src="'.Theme :: get_common_image_path().'action_delete.png" /></a>';
+			}
+			
+			if ($this->block_info->is_configurable())
+			{
+				$html[] = '<a href="'. $this->get_block_configuring_link($this->get_block_info()) .'" class="configEl"><img src="'.Theme :: get_common_image_path().'action_config.png" /></a>';
+			}
+			
+			if ($this->is_editable())
+			{
+				$html[] = '<a href="'. $this->get_block_editing_link($this->get_block_info()) .'" class="editEl"><img src="'.Theme :: get_common_image_path().'action_edit.png" /></a>';
+			}
+			
+			if ($this->is_hidable())
+			{
+				$html[] = '<a href="'. $this->get_block_visibility_link($this->get_block_info()) .'" class="closeEl"><img class="visible"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none;"') .' src="'.Theme :: get_common_image_path().'action_visible.png" /><img class="invisible"'. ($this->get_block_info()->is_visible() ? ' style="display: none;"' : '') .' src="'.Theme :: get_common_image_path().'action_invisible.png" /></a>';
+			}
+			
+			$html[] = '<a href="#" id="drag_block_'. $this->get_block_info()->get_id() .'" class="dragEl"><img src="'.Theme :: get_common_image_path().'action_drag.png" /></a>';
 		}
-		
-		if ($this->is_editable())
-		{
-			$html[] = '<a href="'. $this->get_block_editing_link($this->get_block_info()) .'" class="editEl"><img src="'.Theme :: get_common_image_path().'action_edit.png" /></a>';
-		}
-		
-		if ($this->is_hidable())
-		{
-			$html[] = '<a href="'. $this->get_block_visibility_link($this->get_block_info()) .'" class="closeEl"><img class="visible"'. ($this->get_block_info()->is_visible() ? '' : ' style="display: none;"') .' src="'.Theme :: get_common_image_path().'action_visible.png" /><img class="invisible"'. ($this->get_block_info()->is_visible() ? ' style="display: none;"' : '') .' src="'.Theme :: get_common_image_path().'action_invisible.png" /></a>';
-		}
-		
-		$html[] = '<a href="#" id="drag_block_'. $this->get_block_info()->get_id() .'" class="dragEl"><img src="'.Theme :: get_common_image_path().'action_drag.png" /></a>';
 		
 		$html[] = '<div style="clear: both;"></div>';
 		
