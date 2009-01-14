@@ -2,15 +2,16 @@
 /**
  * @package application.weblcms.tool.assessment.component
  */
-require_once dirname(__FILE__).'/assessment_tester_form/assessment_tester_form.class.php';
-require_once dirname(__FILE__).'/assessment_tester_form/score.class.php';
+
+
 require_once Path :: get_repository_path().'lib/learning_object/survey/survey.class.php';
 require_once dirname(__FILE__).'/assessment_tester_form/assessment_score_calculator.class.php';
+require_once dirname(__FILE__).'/assessment_tester_form/assessment_tester_display.class.php';
 require_once dirname(__FILE__).'/../survey_invitation.class.php';
 
 class AssessmentToolTesterComponent extends AssessmentToolComponent
 {
-	private $questions;
+	//private $questions;
 	private $datamanager;
 	
 	private $pub;
@@ -21,7 +22,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	
 	function run()
 	{
-		$this->questions = null;
+		//$this->questions = null;
 		$this->datamanager = WeblcmsDataManager :: get_instance();
 		$showlcms = true;
 		if (isset($_GET[Tool :: PARAM_PUBLICATION_ID]))
@@ -60,7 +61,27 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		else
 			$page = 1;
 			
-		$this->handle_form($url, $showlcms, $page);
+		$form_display = new AssessmentTesterDisplay($this, $this->assessment);
+		$show = $form_display->build_form($url, $page);
+		if ($show)
+			$this->show_form($form_display);
+
+	}
+	
+	function show_form($form_display)
+	{
+		$trail = new BreadcrumbTrail();
+		$trail->add(new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, AssessmentTool :: PARAM_PUBLICATION_ID => $pid, AssessmentTool :: PARAM_INVITATION_ID => $iid)), Translation :: get('TakeAssessment')));
+		$this->display_header($trail);
+			
+		if ($showlcms)
+		{
+			$this->action_bar = $this->get_toolbar();
+			echo $this->action_bar->as_html();
+		}
+		echo $form_display->as_html();
+	
+		$this->display_footer();
 	}
 	
 	function is_visible()
@@ -82,95 +103,6 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			}
 		}
 		return $visible;
-	}
-	
-	function handle_form($url, $showlcms, $page) 
-	{
-		//$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = null;
-		//$_SESSION['formvalues'] = null;
-		$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = $page;
-		$qpp = $this->assessment->get_questions_per_page();
-		$tester_form = new AssessmentTesterForm($this->assessment, $url, $page);
-		
-		if ($qpp > 0)
-		{
-			$questions = 0;
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->assessment->get_id());
-			$clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
-			while ($clo_question = $clo_questions->next_result())
-				$questions++;
-			// subtract 1, last page may be less questions than questions per page
-			if (($page - 1) * $qpp >= $questions)
-			{
-				//test done, redirect to scores
-				$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = null;
-				$_SESSION['formvalues'] = null;
-				$this->redirect_to_score_calculator($_SESSION['formvalues']);
-			}
-		}
-		
-		if (!$tester_form->validate()) 
-		{
-			$trail = new BreadcrumbTrail();
-			$trail->add(new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, AssessmentTool :: PARAM_PUBLICATION_ID => $pid, AssessmentTool :: PARAM_INVITATION_ID => $iid)), Translation :: get('TakeAssessment')));
-			$this->display_header($trail);
-			if ($showlcms)
-			{
-				$this->action_bar = $this->get_toolbar();
-				echo $this->action_bar->as_html();
-			}
-
-			if ($qpp > 0)
-			{
-				echo '<h3>This is page: '.$page.'/'.$questions/$qpp.'</h3>';
-			}
-			$this->set_formvalues($tester_form);
-			echo $tester_form->toHtml();
-			
-			$this->display_footer();
-		} 
-		else
-		{	
-			if ($tester_form != null)
-				$values = $tester_form->exportValues();
-						
-			if (isset($values['submit']))
-			{
-				if ($qpp == 0) 
-				{
-					$this->redirect_to_score_calculator($values);
-				}
-				else
-				{
-					$old_values = $_SESSION['formvalues'];
-					foreach ($old_values as $key => $value)
-					{
-						$new_values[$key] = $value;
-					}
-					foreach ($values as $key => $value)
-					{
-						$new_values[$key] = $value;
-					}
-					$_SESSION['formvalues'] = $new_values;
-					$_POST = null;
-					$this->handle_form($url, $showlcms, $page + 1);
-				}
-			}
-			else
-			{
-				$old_values = $_SESSION['formvalues'];
-				foreach ($old_values as $key => $value)
-				{
-					$new_values[$key] = $value;
-				}
-				foreach ($values as $key => $value)
-				{
-					$new_values[$key] = $value;
-				}
-				$_SESSION['formvalues'] = $new_values;
-				$this->redirect_to_repoviewer();
-			}
-		}
 	}
 	
 	function redirect_to_score_calculator($values = null)
@@ -200,36 +132,6 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			AssessmentTool :: PARAM_INVITATION_ID => $this->iid
 		);		
 		$this->redirect(null, null, false, array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_REPOVIEWER, AssessmentTool :: PARAM_REPO_TYPES => array('document')));
-	}
-	
-	function set_formvalues($tester_form)
-	{
-		$formvalues = $_SESSION['formvalues'];
-		if ($formvalues != null)
-		{
-			foreach ($formvalues as $id => $value)
-			{
-				$parts = split('_', $id);
-				if ($parts[0] == 'repoviewer')
-				{
-					$control_id = $parts[1].'_'.$parts[2];
-					
-					if (isset($_GET['object']))
-					{
-						$objects = $_GET['object'];
-						if (is_array($objects))
-							$object = $objects[0];
-						else
-							$object = $objects;
-							
-						$formvalues[$control_id] = $objects;
-						$doc = RepositoryDataManager :: get_instance()->retrieve_learning_object($objects);
-						$formvalues[$control_id.'_name'] = $doc->get_title();
-					}
-				}
-			}		
-			$tester_form->setDefaults($formvalues);
-		}
 	}
 	
 	static function calculate_score($user_assessment)

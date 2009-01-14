@@ -1,4 +1,8 @@
 <?php
+require_once dirname(__FILE__).'/exercise_results_viewer.class.php';
+require_once dirname(__FILE__).'/survey_results_viewer.class.php';
+require_once dirname(__FILE__).'/assignment_results_viewer.class.php';
+
 
 abstract class ResultsViewer extends FormValidator
 {

@@ -28,11 +28,11 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		$publication = $dm->retrieve_learning_object_publication($pid);
 		$root_object = $publication->get_learning_object();	
 		
-		$step = $_GET['step']?$_GET['step']:1;
+		$step = $_GET[LearningPathTool :: PARAM_LP_STEP]?$_GET[LearningPathTool :: PARAM_LP_STEP]:1;
 		$menu = $this->get_menu($root_object->get_id(), $step, $pid);
 		
 		$object = $menu->get_object($step);
-		$display = LearningPathLearningObjectDisplay :: factory($object->get_type())->display_learning_object($object);
+		$display = LearningPathLearningObjectDisplay :: factory($this, $object->get_type())->display_learning_object($object);
 		
 		$this->display_header($trail);
 		echo '<br />';
@@ -50,7 +50,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 	{
 		$menu = new LearningPathTree($root_object_id, $selected_object_id, 
 			$url_format = '?go=courseviewer&course=' . $_GET['course'] . '&application=weblcms&tool=learning_path&tool_action=view&pid=' . 
-			$pid . '&step=%s');
+			$pid . '&'.LearningPathTool :: PARAM_LP_STEP.'=%s');
 		
 		return $menu;
 	}

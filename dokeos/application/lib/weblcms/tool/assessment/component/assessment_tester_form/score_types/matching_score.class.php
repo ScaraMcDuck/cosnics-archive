@@ -13,7 +13,6 @@ class MatchingScore extends Score
 			$clos = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
 			
 			$score = $clos->next_result()->get_score();
-			echo $score;
 			return $score;
 		}
 		else

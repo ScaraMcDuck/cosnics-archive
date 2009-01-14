@@ -17,6 +17,7 @@ class LearningPathTool extends Tool
 	const ACTION_BROWSE_LEARNING_PATHS = 'browse';
 	
 	const PARAM_LEARNING_PATH = 'lp';
+	const PARAM_LP_STEP = 'step';
 	
 	// Inherited.
 	function run()

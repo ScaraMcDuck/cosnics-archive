@@ -24,6 +24,7 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
 		}
 
 		$trail = new BreadcrumbTrail();
+		$trail->add(new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH)), Translation :: get('PublishAssessment')));
 		
 		$object = $_GET['object'];
 		
