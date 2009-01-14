@@ -23,11 +23,14 @@ class AssessmentToolRepoviewerComponent extends AssessmentToolComponent
 			return;
 		}
 
+		$redirect_params = $_SESSION['redirect_params'];
+		$types = $_GET[AssessmentTool :: PARAM_REPO_TYPES];
 		$trail = new BreadcrumbTrail();
+		$trail->add(new BreadCrumb($this->get_url($redirect_params), Translation :: get('PreviousPage')));
+		$trail->add(new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_REPOVIEWER, AssessmentTool :: PARAM_REPO_TYPES => $types)), Translation :: get('Repoviewer')));
 		
 		$object = $_GET['object'];
 		
-		$types = $_GET[AssessmentTool :: PARAM_REPO_TYPES];
 		$pub = new LearningObjectRepoViewer($this, $types, true);
 		$pub->set_parameter(AssessmentTool :: PARAM_ACTION, AssessmentTool :: ACTION_REPOVIEWER);
 		$pub->set_parameter(AssessmentTool :: PARAM_REPO_TYPES, $types);

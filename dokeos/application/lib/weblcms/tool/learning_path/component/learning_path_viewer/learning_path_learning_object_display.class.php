@@ -4,7 +4,9 @@ require_once Path :: get_repository_path() . 'lib/learning_object_display.class.
 
 class LearningPathLearningObjectDisplay
 {
-	public static function factory($type)
+	private $parent;
+	
+	public static function factory($parent, $type)
 	{
 		$class = LearningObject :: type_to_class($type).'Display';
 		$file = dirname(__FILE__).'/learning_object_display/'.$type.'.class.php';
@@ -12,14 +14,20 @@ class LearningPathLearningObjectDisplay
 		if(file_exists($file))
 		{
 			require_once $file;
-			return new $class();
+			return new $class($parent);
 		}
 		else
-			return new self();
+			return new self($parent);
 	}
 	
-	function LearningPathLearningObjectDisplay()
+	function LearningPathLearningObjectDisplay($parent)
 	{
+		$this->parent = $parent;
+	}
+	
+	function get_parent()
+	{
+		return $this->parent;
 	}
 	
 	function display_learning_object($object)

@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/score.class.php';
 
 class AssessmentScoreCalculator 
 {
