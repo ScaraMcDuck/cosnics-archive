@@ -88,4 +88,10 @@ $lang['home']['DummyBlock'] = 'Dummy Block';
 $lang['home']['PlaceholderBlockText'] = 'This block is just a placeholder and can safely be removed.';
 $lang['home']['YourColumnIsBeingAdded'] = 'Your column is being added ...';
 $lang['home']['ColumnAdded'] = 'Column was added succesfully';
+$lang['home']['EmptyColumnText'] = 'This column is currently empty. You can do the following things with it:
+<ol>
+<li>Drag a block from a neighbouring into it.</li>
+<li>Delete it by clicking the icon below</li>
+<li>Add a new block to it by means of the "New Block" option at the top right of the screen</li>
+</ol>';
 ?>
