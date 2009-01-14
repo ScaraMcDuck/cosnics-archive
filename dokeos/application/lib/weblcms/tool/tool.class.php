@@ -26,6 +26,7 @@ abstract class Tool
 	const ACTION_PUBLISH = 'publish';
 	const ACTION_EDIT = 'edit';
 	const ACTION_EDIT_CLOI = 'edit_cloi';
+	const ACTION_CREATE_CLOI = 'create_cloi';
 	const ACTION_MOVE_UP = 'move_up';
 	const ACTION_MOVE_DOWN = 'move_down';
 	const ACTION_MOVE_TO_CATEGORY = 'move_to_category';
@@ -156,6 +157,9 @@ abstract class Tool
 				break;
 			case self :: ACTION_EDIT_CLOI :
 				$component = ToolComponent :: factory('', 'ComplexEdit', $this);
+				break;
+			case self :: ACTION_CREATE_CLOI :
+				$component = ToolComponent :: factory('', 'ComplexCreator', $this);
 				break;
 			case self :: ACTION_TOGGLE_VISIBILITY :
 				$component = ToolComponent :: factory('', 'ToggleVisibility', $this);

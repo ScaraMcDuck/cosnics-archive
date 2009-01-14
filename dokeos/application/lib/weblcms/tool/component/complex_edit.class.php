@@ -22,8 +22,8 @@ class ToolComplexEditComponent extends ToolComponent
 				$form->update_learning_object();
 				if($form->is_version())
 				{	
-					$publication->set_learning_object($learning_object->get_latest_version());
-					$publication->update();
+					$cloi->set_ref($learning_object->get_latest_version());
+					$cloi->update();
 				}
 				
 				$message = htmlentities(Translation :: get('LearningObjectUpdated'));

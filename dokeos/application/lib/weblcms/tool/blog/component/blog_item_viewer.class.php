@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/../../../learning_object_repo_viewer.class.php'
 require_once dirname(__FILE__).'/../../../browser/list_renderer/list_publication_feedback_list_renderer.class.php';
 
 class BlogToolItemViewerComponent extends BlogToolComponent
-{
+{	
 	function run() 
 	{
 		if (!$this->is_allowed(VIEW_RIGHT))
@@ -33,7 +33,7 @@ class BlogToolItemViewerComponent extends BlogToolComponent
 
 		if($this->get_course()->get_allow_feedback())
 		{
-			echo '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK, Tool :: PARAM_COMPLEX_ID => $cloi_id)) . '">' . Translation :: get('AddFeedback') . '</a><br />';
+			echo '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK, Tool :: PARAM_COMPLEX_ID => $cloi_id, 'pid' => Request :: Get('pid'))) . '">' . Translation :: get('AddFeedback') . '</a><br />';
 			echo $this->display_feedback($cloi_id);
 			echo '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/feedback_list.js' .'"></script>';
 		}
