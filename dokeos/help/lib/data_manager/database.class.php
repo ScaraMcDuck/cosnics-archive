@@ -28,10 +28,7 @@ class DatabaseHelpDataManager extends HelpDataManager
 	
 	function update_help_item($help_item)
 	{
-		$conditions[] = new EqualityCondition(HelpItem :: PROPERTY_NAME, $help_item->get_name());
-		$conditions[] = new EqualityCondition(HelpItem :: PROPERTY_LANGUAGE, $help_item->get_language());
-		$condition = new AndCondition($conditions);
-		
+		$condition = new EqualityCondition(HelpItem :: PROPERTY_ID, $help_item->get_id());		
 		return $this->database->update($help_item, $condition);
 	}
 	
