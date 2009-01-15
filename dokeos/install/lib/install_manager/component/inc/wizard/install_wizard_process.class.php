@@ -22,6 +22,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 	private $applications = array();
 	private $values;
 	
+	private $counter = 0;
+	
 	/**
 	 * Constructor
 	 * @param Tool $parent The repository tool in which the wizard
@@ -52,23 +54,33 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		$this->process_result('config', $config_file['success'], $config_file['message']);
 		flush();
 		
+		$this->counter++;
+		
 		// 3. Installing the applications
 		echo '<h3>' . Translation :: get('Applications') . '</h3>';
 		$this->install_applications();
+		
+		$this->counter++;
 		
 		// 4. Registering the trackers
 		echo '<h3>' . Translation :: get('Tracking') . '</h3>';
 		$this->register_trackers();
 		
+		$this->counter++;
+		
 		// 5. Processing roles, rights and locations
 		echo '<h3>' . Translation :: get('Rights') . '</h3>';
 		$this->process_roles_and_rights();
+		
+		$this->counter++;
 		
 		echo '<h3>' . Translation :: get('FileSystem') . '</h3>';
 		// 6. Create additional folders
 		$folder_creation = $this->create_folders();
 		$this->process_result('folder', $folder_creation['success'], $folder_creation['message']);
 		flush();
+		
+		$this->counter++;
 		
 		echo '<h3>' . Translation :: get('Finished') . '</h3>';
 		
@@ -310,10 +322,13 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 	
 	function display_install_block_header($application)
 	{
+		$counter = $this->counter;
+		
 		$html = array();
-		$html[] = '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../layout/aqua/img/admin/place_'. $application .'.png);">';
+		$html[] = '<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(../layout/aqua/img/admin/place_'. $application .'.png);'. ($counter % 2 == 0 ? 'background-color: #fafafa;' : '') .'">';
 		$html[] = '<div class="title">'. Translation :: get(Application::application_to_class($application)) .'</div>';
 		$html[] = '<div class="description">';
+		
 		return implode("\n", $html);
 	}
 	

@@ -18,7 +18,7 @@ $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id(
 // TODO: User real roles'n'rights here
 if (!$user->is_platform_admin())
 {
-	return 0;
+	echo 0;
 }
 
 $rights = $_POST['rights'];
@@ -33,8 +33,9 @@ if (isset($role) && isset($right) && isset($location))
 	$rdm = RightsDataManager :: get_instance();
 	
 	$result = $rdm->retrieve_role_right_location($right, $role, $location);
+	$result->invert();
 	
-	if (!$result->invert())
+	if (!$result->update())
 	{
 		echo 0;
 	}
