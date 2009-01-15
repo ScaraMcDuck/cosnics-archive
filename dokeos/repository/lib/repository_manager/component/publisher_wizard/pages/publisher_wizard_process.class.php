@@ -50,6 +50,8 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 			{
 				$split = split('_', $location);
 				$application_name = $split[0];
+				$location_id = $split[1];
+				
 				if($application_name != $previous_application)
 				{
 					if($previous_application != '')
@@ -62,7 +64,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 				$location = implode('_', $split);
 				$application = Application::factory($application_name);
 				foreach($los as $lo)
-					$message .= $application->publish_learning_object($lo, $location) . '<br />';
+					$message .= $application->publish_learning_object($lo, $location_id) . '<br />';
 			}
 		}
 		
