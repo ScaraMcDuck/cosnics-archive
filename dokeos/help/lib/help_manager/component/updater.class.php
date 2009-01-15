@@ -19,11 +19,9 @@ class HelpManagerUpdaterComponent extends HelpManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(HelpManager :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS)), Translation :: get('HelpItemList')));
 		
 		$id = Request :: Get(HelpManager :: PARAM_HELP_ITEM);
-		$language = Request :: Get('language');
-		if ($id && $language)
+		if ($id)
 		{
-			
-			$help_item = $this->retrieve_help_item($id, $language);
+			$help_item = $this->retrieve_help_item($id);
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HelpItemUpdate')));
 		
 			if (!$this->get_user()->is_platform_admin())
@@ -34,7 +32,7 @@ class HelpManagerUpdaterComponent extends HelpManagerComponent
 				exit;
 			}
 			
-			$form = new HelpItemForm($help_item, $this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $id, 'language' => $language)));
+			$form = new HelpItemForm($help_item, $this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $id)));
 
 			if($form->validate())
 			{

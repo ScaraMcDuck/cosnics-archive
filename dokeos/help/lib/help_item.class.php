@@ -6,6 +6,7 @@ class HelpItem
 {
 	const CLASS_NAME = __CLASS__;
 	
+	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_LANGUAGE = 'language';
 	const PROPERTY_URL = 'url';
@@ -57,7 +58,7 @@ class HelpItem
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_NAME, self :: PROPERTY_URL, self :: PROPERTY_LANGUAGE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_URL, self :: PROPERTY_LANGUAGE);
 	}
 		
 	/**
@@ -131,6 +132,8 @@ class HelpItem
 	function create()
 	{
 		$hdm = HelpDataManager :: get_instance();
+		$id = $hdm->get_next_help_item_id();
+		$this->set_id($id);
 		return $hdm->create_help_item($this);
 	}
 	
@@ -144,5 +147,15 @@ class HelpItem
 	{
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
+	
+	function get_id()
+	{
+		return $this->get_default_property(self :: PROPERTY_ID);
+	}
+	
+	function set_id($id)
+	{
+		$this->set_default_property(self :: PROPERTY_ID, $id);
+	}	
 }
 ?>

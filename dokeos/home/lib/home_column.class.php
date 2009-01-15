@@ -110,8 +110,8 @@ class HomeColumn {
 	
 	function update()
 	{
-		$wdm = HomeDataManager :: get_instance();
-		$success = $wdm->update_home_column($this);
+		$hdm = HomeDataManager :: get_instance();
+		$success = $hdm->update_home_column($this);
 		if (!$success)
 		{
 			return false;
@@ -122,10 +122,10 @@ class HomeColumn {
 	
 	function create()
 	{
-		$wdm = HomeDataManager :: get_instance();
-		$id = $wdm->get_next_home_column_id();
+		$hdm = HomeDataManager :: get_instance();
+		$id = $hdm->get_next_home_column_id();
 		$this->set_id($id);
-		$success = $wdm->create_home_column($this);
+		$success = $hdm->create_home_column($this);
 		if (!$success)
 		{
 			return false;
@@ -136,14 +136,25 @@ class HomeColumn {
 	
 	function delete()
 	{
-		$wdm = HomeDataManager :: get_instance();
-		$success = $wdm->delete_home_column($this);
+		$hdm = HomeDataManager :: get_instance();
+		$success = $hdm->delete_home_column($this);
 		if (!$success)
 		{
 			return false;
 		}
 
 		return true;
+	}
+	
+	function is_empty()
+	{
+		$hdm = HomeDataManager :: get_instance();
+		
+		$condition = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $this->get_id());
+		
+		$blocks_count = $hdm->count_home_blocks($condition);
+		
+		return ($blocks_count == 0);
 	}
 }
 ?>

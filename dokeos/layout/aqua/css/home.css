@@ -92,9 +92,7 @@ div.block div.extra div.forum
 
 div.empty_column
 {
-	background-color: #faf1e3;
-	text-align: justify;
-	
+	background-color: #faf1e3;	
 	margin: 0px 0px 1em 0px;
 	padding: 15px 15px 15px 15px;
 	clear: both;
@@ -227,12 +225,15 @@ a.deleteTab img
 	vertical-align: middle;
 }
 
-#deleteColumn
+div.deleteColumn
 {
-	width: 16px;
-	height: 16px;
-	background: url(../img/common/action_delete.png) no-repeat;
-	padding-left: 20px;
+	width: 32px;
+	height: 32px;
+	background: url(../img/home/block_delete_column.png) no-repeat;
+	cursor: pointer;
+	clear: both;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #homeEditContainer
