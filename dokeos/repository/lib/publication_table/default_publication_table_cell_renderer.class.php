@@ -35,6 +35,20 @@ class DefaultPublicationTableCellRenderer implements ObjectTableCellRenderer
 				case LearningObjectPublicationAttributes :: PROPERTY_APPLICATION :
 					return $learning_object_publication->get_application();
 				case LearningObjectPublicationAttributes :: PROPERTY_LOCATION :
+					$application = $learning_object_publication->get_application();
+					
+					if($application == 'weblcms')
+					{
+						$location = $learning_object_publication->get_location();
+						$codes = explode("&gt;",$location); 
+						$course_id = trim($codes[0]);
+						$tool = trim($codes[1]);
+						
+						$wdm = WeblcmsDataManager :: get_instance();
+						$course = $wdm->retrieve_course($course_id);
+						return $course->get_name() . ' > ' . $tool;
+					}
+					
 					return $learning_object_publication->get_location();
 				case LearningObject :: PROPERTY_TITLE :
 					
@@ -47,6 +61,10 @@ class DefaultPublicationTableCellRenderer implements ObjectTableCellRenderer
 						$codes = explode("&gt;",$location); 
 						$course = trim($codes[0]);
 						$tool = trim($codes[1]);
+						
+						if(stripos($tool, '_feedback'))
+							$tool = substr($tool, 0, stripos($tool, '_feedback'));
+							
 						$url .= '&go=courseviewer&course=' . $course . '&tool=' . $tool . '&tool_action=view';
 					}
 					else

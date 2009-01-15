@@ -201,7 +201,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		{
 			$info = new LearningObjectPublicationAttributes();
 			$info->set_id($record[LearningObjectPublication :: PROPERTY_ID]);
-			$info->set_repo_viewer_user_id($record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID]);
+			$info->set_publisher_user_id($record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID]);
 			$info->set_publication_date($record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE]);
 			$info->set_application('weblcms');
 			//TODO: i8n location string
@@ -228,7 +228,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 		$publication_attr = new LearningObjectPublicationAttributes();
 		$publication_attr->set_id($record[LearningObjectPublication :: PROPERTY_ID]);
-		$publication_attr->set_repo_viewer_user_id($record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID]);
+		$publication_attr->set_publisher_user_id($record[LearningObjectPublication :: PROPERTY_PUBLISHER_ID]);
 		$publication_attr->set_publication_date($record[LearningObjectPublication :: PROPERTY_PUBLICATION_DATE]);
 		$publication_attr->set_application('weblcms');
 		//TODO: i8n location string
