@@ -114,46 +114,6 @@ class HomeInstaller extends Installer
 			return false;
 		}
 		
-		// Second test-tab
-		$tab = new HomeTab();
-		$tab->set_title(Translation :: get('Personal'));
-		$tab->set_user('0');
-		if (!$tab->create())
-		{
-			return false;
-		}
-		
-		$row = new HomeRow();
-		$row->set_title(Translation :: get('Personal'));
-		$row->set_tab($tab->get_id());
-		$row->set_user('0');
-		if (!$row->create())
-		{
-			return false;
-		}
-		
-		$column_news = new HomeColumn();
-		$column_news->set_row($row->get_id());
-		$column_news->set_title(Translation :: get('Personal'));
-		$column_news->set_sort('1');
-		$column_news->set_width('100');
-		$column_news->set_user('0');
-		if (!$column_news->create())
-		{
-			return false;
-		}
-		
-		$block_test = new HomeBlock();
-		$block_test->set_column($column_news->get_id());
-		$block_test->set_title(Translation :: get('Dummy'));
-		$block_test->set_application('repository');
-		$block_test->set_component('dummy');
-		$block_test->set_user('0');
-		if (!$block_test->create())
-		{
-			return false;
-		}
-		
 		return true;
 	}
 	

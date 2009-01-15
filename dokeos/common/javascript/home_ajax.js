@@ -232,6 +232,7 @@
 			order = column.sortable("serialize");
 
 			bindIcons();
+			blocksDraggable();
 
 			$.post("./home/ajax/block_sort.php", {
 				column : columnId,
@@ -275,6 +276,7 @@
 			tabsSortable();
 			columnsSortable();
 			columnsResizable();
+			tabsDroppable();
 			
 			$(".loadingBox", loading.dialog.container).html(getMessageBox(data.success, data.message));
 			handleLoadingBox(loading);
@@ -549,6 +551,7 @@
 	}
 	
 	function blocksDraggable() {
+		$("a.dragEl").draggable("destroy");
 		$("a.dragEl").draggable({
 			//helper: getDraggableParent,
 			revert : true,
@@ -612,8 +615,8 @@
 	}
 	
 	function tabsDroppable() {
-		$("#tab_elements li").droppable();
-		$("#tab_elements li").droppable({
+		$("#tab_elements li").droppable("destroy");
+		$("#tab_elements li.normal").droppable({
 			accept : "a.dragEl",
 			drop : processDroppedBlock
 		});
