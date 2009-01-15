@@ -18,7 +18,7 @@
 	function checkForEmptyColumns() {
 		var emptyBlock  = '<div class="empty_column">';
 		emptyBlock += translation('EmptyColumnText', 'home');
-		emptyBlock += '<div id="deleteColumn"><a href="#">' + translation('Delete', 'home') + '</a></div>';
+		emptyBlock += '<div class="deleteColumn"></div>';
 		emptyBlock += '</div>';
 		
 		$("div.tab div.column").each(function (i) {
@@ -34,6 +34,8 @@
 				$(".empty_column", this).remove();
 			}
 		});
+		
+		bindIcons();
 	}
 
 	function sortableStart(e, ui) {
@@ -455,6 +457,53 @@
 		
 		$('#tabSave').bind('click', {loading: loading, tab: $('.tabTitle', this)}, saveTabTitle);
 	}
+	
+	function deleteColumn(e, ui) {
+		var column = $(this).parent().parent();
+		var columnId = column.attr("id").split("_");
+		columnId = columnId[1];
+		
+		var loadingMessage = 'YourColumnIsBeingDeleted';
+		
+		var loading = $.modal(getLoadingBox(loadingMessage), {
+			overlayId: 'homeOverlay',
+			containerId: 'homeContainer',
+			opacity: 75,
+			close: false
+		});
+		
+		$.post("./home/ajax/column_delete.php", {column: columnId}, function (data) {
+			if (data.success === '1')
+			{
+				// Get the deleted column's width
+				var columnWidth = column.css('width');
+				columnWidth = parseInt(columnWidth.replace('%', ''), 10);
+				column.remove();
+				
+				// Get the last column's width 
+				var otherColumn = $(".tab:visible .column:last");
+				var otherColumnWidth = otherColumn.css('width');
+				otherColumnWidth = parseInt(otherColumnWidth.replace('%', ''), 10);
+				
+				// Calculate the new width
+				var newColumnWidth =  columnWidth + otherColumnWidth + 1;
+				
+				// Set the new width + postback
+				otherColumn.css('margin-right', '0px');
+				otherColumn.css('width', newColumnWidth + '%');
+				
+				$.post("./home/ajax/column_width.php", {
+					column : otherColumn.attr('id'),
+					width : newColumnWidth
+				}// ,
+						// function(data){alert("Data Loaded: " + data);}
+						);
+			}
+			
+			$(".loadingBox", loading.dialog.container).html(getMessageBox(data.success, data.message));
+			handleLoadingBox(loading);
+		}, "json");
+	}
 
 	function bindIcons() {
 		$("div.title a").hide();
@@ -481,7 +530,10 @@
 		$("a.addColumn").bind('click', addColumn);
 		
 		$("a.deleteTab").unbind();
-		$("a.deleteTab").bind('click', deleteTab);	
+		$("a.deleteTab").bind('click', deleteTab);
+		
+		$(".deleteColumn").unbind();
+		$(".deleteColumn").bind('click', deleteColumn);	
 	}
 	
 	function getDraggableParent(e, ui) {
@@ -547,7 +599,7 @@
 				}
 				else
 				{
-					$("#" + newColumn ).append(theBlock);
+					$("#" + newColumn).append(theBlock);
 				}
 				
 				checkForEmptyColumns();

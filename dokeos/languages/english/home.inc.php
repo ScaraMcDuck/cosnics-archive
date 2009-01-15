@@ -84,14 +84,14 @@ $lang['home']['YourTabIsBeingAdded'] = 'Your tab is being added ...';
 $lang['home']['TabAdded'] = 'Tab was added succesfully';
 $lang['home']['NewBlock'] = 'New block';
 $lang['home']['NewColumn'] = 'New column';
-$lang['home']['DummyBlock'] = 'Dummy Block';
+$lang['home']['DummyBlock'] = 'Dummy';
 $lang['home']['PlaceholderBlockText'] = 'This block is just a placeholder and can safely be removed.';
 $lang['home']['YourColumnIsBeingAdded'] = 'Your column is being added ...';
 $lang['home']['ColumnAdded'] = 'Column was added succesfully';
 $lang['home']['EmptyColumnText'] = 'This column is currently empty. You can do the following things with it:
 <ol>
-<li>Drag a block from another column into it.</li>
-<li>Delete it by clicking the icon below</li>
-<li>Add a new block to it by means of the <strong>New Block</strong> option at the top right of the screen</li>
+<li><em>Drag</em> a block from another column into it.</li>
+<li><em>Delete</em> it by clicking the icon below</li>
+<li>Add a new block to it by means of the <em>New Block</em> option at the top right of the screen</li>
 </ol>';
 ?>

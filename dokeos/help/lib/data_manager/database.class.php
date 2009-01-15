@@ -50,10 +50,18 @@ class DatabaseHelpDataManager extends HelpDataManager
 		return $this->database->retrieve_objects(HelpItem :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
-	function retrieve_help_item($name, $language)
+	function retrieve_help_item($id)
 	{
+		$condition = new EqualityCondition(HelpItem :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(HelpItem :: get_table_name(), $condition);
+	}
+	
+	function retrieve_help_item_by_name_and_language($name, $language)
+	{
+		$conditions = array();
 		$conditions[] = new EqualityCondition(HelpItem :: PROPERTY_NAME, $name);
 		$conditions[] = new EqualityCondition(HelpItem :: PROPERTY_LANGUAGE, $language);
+		
 		$condition = new AndCondition($conditions);
 		
 		return $this->database->retrieve_object(HelpItem :: get_table_name(), $condition);
@@ -62,6 +70,11 @@ class DatabaseHelpDataManager extends HelpDataManager
 	function create_storage_unit($name, $properties, $indexes)
 	{
 		return $this->database->create_storage_unit($name, $properties, $indexes);
+	}
+	
+	function get_next_help_item_id()
+	{
+		return $this->database->get_next_id(HelpItem :: get_table_name());
 	}
 }
 ?>
