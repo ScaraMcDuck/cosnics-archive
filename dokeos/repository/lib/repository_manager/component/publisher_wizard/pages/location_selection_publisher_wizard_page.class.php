@@ -143,9 +143,9 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 		
 			$application_name = DokeosUtilities :: underscores_to_camelcase($application_name);
 		
-			foreach($locations as $location)
+			foreach($locations as $id => $location )
 			{
-				$cbname = $application_name . '_' . str_replace(' ', '_',$location);
+				$cbname = $application_name . '_' . $id;
 				$this->addElement('checkbox', $cbname, '', $location, 'style=\'margin-left: -20%;\'');
 				$appDefaults[$cbname] = '1';
 			}

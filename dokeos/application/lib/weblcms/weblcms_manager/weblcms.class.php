@@ -691,7 +691,7 @@ class Weblcms extends WebApplication
 	 */
 	function get_learning_object_publication_locations($learning_object)
 	{
-		$allowed_types = array('announcement', 'description', 'calendar_event', 'description', 'document',
+		$allowed_types = array('announcement', 'blog', 'description', 'calendar_event', 'description', 'document',
 							   'assessment', 'forum', 'learning_path', 'wiki', 'link');
 		
 		$type = $learning_object->get_type();
@@ -701,7 +701,7 @@ class Weblcms extends WebApplication
 			
 			$courses = $this->retrieve_courses($user); 
 			while($course = $courses->next_result())
-				$locations[] = 'Course: ' . $course->get_id() . ' - Tool: ' . $type;
+				$locations[$course->get_id() . '-' . $type] = 'Course: ' . $course->get_name() . ' - Tool: ' . $type;
 				
 			return $locations;
 		}
@@ -711,9 +711,9 @@ class Weblcms extends WebApplication
 	
 	function publish_learning_object($learning_object, $location)
 	{
-		$location_split = split('_', $location);
-		$course = $location_split[1];
-		$tool = $location_split[4];
+		$location_split = split('-', $location);
+		$course = $location_split[0];
+		$tool = $location_split[1]; echo $location;
 		$dm = WeblcmsDataManager :: get_instance();
 		$do = $dm->get_next_learning_object_publication_display_order_index($course,$tool,0);
 		
