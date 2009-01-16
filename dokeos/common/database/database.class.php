@@ -289,7 +289,7 @@ class Database
 	 */
 	function delete($table_name, $condition)
 	{
-		$query = 'DELETE FROM '.$this->escape_table_name($table_name).' WHERE '.$condition;
+		$query = 'DELETE FROM ' . $this->escape_table_name($table_name) . ' WHERE ' . $condition;
 		$sth = $this->connection->prepare($query);
 		
 		if($res = $sth->execute())

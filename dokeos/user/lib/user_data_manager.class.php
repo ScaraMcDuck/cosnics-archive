@@ -224,5 +224,7 @@ abstract class UserDataManager
 	abstract function is_username_available($username, $user_id = null);
 	
 	abstract function retrieve_user_roles($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	
+	abstract function delete_user_roles($condition);
 }
 ?>

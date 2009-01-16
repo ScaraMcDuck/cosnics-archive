@@ -140,5 +140,10 @@ class DatabaseGroupDataManager extends GroupDataManager
 	{		
 		return $this->database->retrieve_objects(GroupRole :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
+	
+	function delete_group_roles($condition)
+	{
+		return $this->database->delete(GroupRole :: get_table_name(), $condition);
+	}
 }
 ?>

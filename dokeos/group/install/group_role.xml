@@ -2,9 +2,10 @@
 <object name="group_role">
  <properties>
   <property name="group_id" type="integer" unsigned="1" notnull="1"/>
-  <property name="role_id" type="integer" length="3" unsigned="1" notnull="1"/>
+  <property name="role_id" type="integer" unsigned="1" notnull="1"/>
  </properties>
  <index name="group_id" type="primary">
   <indexproperty name="group_id"/>
+  <indexproperty name="role_id"/>
  </index>
 </object>

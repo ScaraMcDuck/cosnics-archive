@@ -103,6 +103,11 @@ abstract class RightsManagerComponent {
 		return $this->get_parent()->retrieve_roles($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
+	function retrieve_role($id)
+	{
+		return $this->get_parent()->retrieve_role($id);
+	}
+	
 	function retrieve_rights($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return $this->get_parent()->retrieve_rights($condition, $offset, $count, $order_property, $order_direction);
@@ -138,9 +143,19 @@ abstract class RightsManagerComponent {
 		return $this->get_parent()->count_users($conditions);
 	}
 	
+	function delete_role($role)
+	{
+		return $this->get_parent()->delete_role($role);
+	}
+	
 	function count_groups($conditions = null)
 	{
 		return $this->get_parent()->count_groups($conditions);
+	}
+	
+	function count_roles($conditions = null)
+	{
+		return $this->get_parent()->count_roles($conditions);
 	}
 	
 	/**
@@ -343,6 +358,16 @@ abstract class RightsManagerComponent {
 		$class = 'RightsManager'.$type.'Component';
 		require_once $filename;
 		return new $class($user_manager);
+	}
+	
+	function get_role_editing_url($role)
+	{
+		return $this->get_parent()->get_role_editing_url($role);
+	}
+	
+	function get_role_deleting_url($role)
+	{
+		return $this->get_parent()->get_role_deleting_url($role);
 	}
 }
 ?>
