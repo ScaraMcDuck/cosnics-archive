@@ -2,7 +2,7 @@
 <object name="group_rel_user">
  <properties>
   <property name="group_id" type="integer" unsigned="1" notnull="1"/>
-  <property name="user_id" type="integer" length="3" unsigned="1" notnull="1"/>
+  <property name="user_id" type="integer" unsigned="1" notnull="1"/>
  </properties>
  <index name="user_id" type="primary">
   <indexproperty name="user_id"/>

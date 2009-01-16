@@ -22,13 +22,12 @@
 ==============================================================================
 */
 require_once ('HTML/QuickForm/textarea.php');
-require_once (Path :: get_plugin_path().'fckeditor/fckeditor.php');
 require_once (Path :: get_library_path().'resource_manager.class.php');
 require_once (Path :: get_admin_path().'lib/admin_data_manager.class.php');
 /**
 * A html editor field to use with QuickForm
 */
-class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
+abstract class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 {
 	/**
 	 * Full page
@@ -43,20 +42,21 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 	function HTML_QuickForm_html_editor($elementName = null, $elementLabel = null, $attributes = null)
 	{
 		HTML_QuickForm_element :: HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+		
 		$this->_persistantFreeze = true;
-		$this->_type = 'html_editor';
 		$this->fullPage = false;
+		$this->set_type();
 	}
+	
+	abstract function set_type();
+	
 	/**
-	 * Check if the browser supports FCKeditor
+	 * Check if the browser supports th editor
 	 *
 	 * @access public
 	 * @return boolean
 	 */
-	function browserSupported()
-	{
-		return FCKeditor :: IsCompatible();
-	}
+	abstract function browserSupported();
 	/**
 	 * Return the HTML editor in HTML
 	 * @return string
@@ -87,9 +87,15 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 		}
 		else
 		{
-			return $this->build_FCKeditor();
+			return $this->build_editor();
 		}
 	}
+	
+	function render_textarea()
+	{
+		return parent :: toHTML();
+	}
+	
 	/**
 	 * Returns the frozen content in HTML
 	 *@return string
@@ -102,45 +108,8 @@ class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 			. ' value="' . htmlspecialchars($val) . '"/>';
 	}
 	/**
-	 * Build this element using FCKeditor
+	 * Build this element using the editor
 	 */
-	function build_FCKeditor()
-	{
-		global $language_interface;
-		if(! FCKeditor :: IsCompatible())
-		{
-			return parent::toHTML();
-		}
-	
-		$adm = AdminDataManager :: get_instance();
-		$editor_lang = $adm->retrieve_language_from_english_name($language_interface)->get_isocode();
-		$language_file = Path :: get_plugin_path().'fckeditor/editor/lang/'.$editor_lang.'.js';
-		if (empty ($editor_lang) || !file_exists($language_file))
-		{
-			//if there was no valid iso-code, use the english one
-			$editor_lang = 'en';
-		}
-		$name = $this->getAttribute('name');
-		$result []= ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH).'fckeditor/fckeditor.js');
-		$result []= '<script type="text/javascript">';
-		$result []= "\n/* <![CDATA[ */\n";
-		$result []= 'var oFCKeditor = new FCKeditor( \''.$name.'\' ) ;';
-		$result []= 'oFCKeditor.BasePath = "'.Path :: get(WEB_PATH).'plugin/fckeditor/";';
-		$result []= 'oFCKeditor.Width = 650;';
-		$result []= 'oFCKeditor.Height = '. ($this->fullPage ? '500' : '150').';';
-		$result []= 'oFCKeditor.Config[ "FullPage" ] = '. ($this->fullPage ? 'true' : 'false').';';
-		$result []= 'oFCKeditor.Config[ "DefaultLanguage" ] = "'.$editor_lang.'" ;';
-		$result []= 'oFCKeditor.Value = "'.str_replace('"', '\"', str_replace(array ("\r\n", "\n", "\r", "/"), array (' ', ' ', ' ', '\/'), $this->getValue())).'" ;';
-		$result []= 'oFCKeditor.ToolbarSet = \''. ($this->fullPage ? 'FullHTML' : 'Basic' ).'\';';
-		$result []= 'oFCKeditor.Config[ "SkinPath" ] = oFCKeditor.BasePath + "editor/skins/'. Theme :: get_theme() .'/";';
-		//$result []= 'alert(oFCKeditor.BasePath + \'editor/skins/'. Theme :: get_theme() .'/\');';
-		$result []= 'oFCKeditor.Create();';
-		$result []= "\n/* ]]> */\n";
-		$result []= '</script>';
-		$result []= '<noscript>'.parent :: toHTML().'</noscript>';
-		$result []= '<br/><small><a href="#" onclick="MyWindow=window.open('."'".Path :: get(WEB_LIB_PATH)."html/allowed_html_tags.php?fullpage=". ($this->fullPage ? '1' : '0')."','MyWindow','toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=500,height=600,left=200,top=20'".'); return false;">'.Translation :: get('AllowedHTMLTags').'</a></small>';
-		@mkdir(Path :: get(SYS_PATH).'files/fckeditor/'. Session :: get_user_id().'/');
-		return implode("\n",$result);
-	}
+	abstract function build_editor();
 }
 ?>

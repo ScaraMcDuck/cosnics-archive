@@ -12,6 +12,8 @@ require_once dirname(__FILE__).'/../right.class.php';
 require_once dirname(__FILE__).'/../location.class.php';
 require_once dirname(__FILE__).'/../role_right_location.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
+require_once Path :: get_user_path().'lib/user_role.class.php';
+require_once Path :: get_group_path().'lib/group_role.class.php';
 require_once 'MDB2.php';
 
 /**
@@ -152,6 +154,25 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$query = 'DELETE FROM '.$this->escape_table_name('role_right_location').' WHERE '.$this->escape_column_name(RoleRightLocation :: PROPERTY_RIGHT_ID).'=? AND '.$this->escape_column_name(RoleRightLocation :: PROPERTY_ROLE_ID).'=? AND '.$this->escape_column_name(RoleRightLocation :: PROPERTY_LOCATION_ID).'=?';
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute(array($rolerightlocation->get_right_id(), $rolerightlocation->get_role_id(), $rolerightlocation->get_location_id()));
+		
+		return true;
+	}
+	
+	function delete_role_right_locations($condition)
+	{
+		$query = 'DELETE FROM '. $this->escape_table_name('role_right_location');
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
 		
 		return true;
 	}
@@ -594,6 +615,26 @@ class DatabaseRightsDataManager extends RightsDataManager
 		return $record[0];
 	}
 	
+	function count_roles($condition = null)
+	{
+		$query = 'SELECT COUNT(*) FROM '.$this->escape_table_name('role');
+		
+		$params = array();
+		
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $record[0];
+	}
+	
 	function update_location($location)
 	{
 		$where = $this->escape_column_name(Location :: PROPERTY_ID).'='.$location->get_id();
@@ -867,6 +908,47 @@ class DatabaseRightsDataManager extends RightsDataManager
 		}
 
         return true;
+	}
+	
+	function update_role($role)
+	{
+		$where = $this->escape_column_name(Role :: PROPERTY_ID).'='.$role->get_id();
+		$props = array();
+		foreach ($role->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('role'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		return true;
+	}
+	
+	function delete_role($role)
+	{		
+		// Delete all role_right_locations for that specific role
+		$condition = new EqualityCondition(RoleRightLocation :: PROPERTY_ROLE_ID, $role->get_id());
+		$this->delete_role_right_locations($condition);
+		
+		// Delete all links between this role and users
+		// Code comes here ...
+		$udm = UserDataManager :: get_instance();
+		
+		$condition = new EqualityCondition(UserRole :: PROPERTY_ROLE_ID, $role->get_id());
+		$udm->delete_user_roles($condition);
+				
+		// Delete all links between this role and groups
+		// Code comes here ...
+		$gdm = GroupDataManager :: get_instance();
+		
+		$condition = new EqualityCondition(GroupRole :: PROPERTY_ROLE_ID, $role->get_id());
+		$gdm->delete_group_roles($condition);
+		
+		// Delete the actual role
+		$query = 'DELETE FROM '.$this->escape_table_name('role').' WHERE '.$this->escape_column_name(Role :: PROPERTY_ID).'=?';
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute(array($role->get_id()));
+		
+		return true;
 	}
 }
 ?>

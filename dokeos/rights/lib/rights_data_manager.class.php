@@ -84,5 +84,9 @@ abstract class RightsDataManager
 	abstract function delete_nested_values($location);
 	
 	abstract function move_location($location, $new_parent_id, $new_previous_id = 0);
+	
+	abstract function update_role($role);
+	
+	abstract function delete_role($role);
 }
 ?>

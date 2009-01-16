@@ -26,7 +26,13 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	const PARAM_COMPONENT_ACTION = 'action';
 	const PARAM_APPLICATION = 'application';
 	
+	const PARAM_ROLE_ID = 'role';
+	
 	const ACTION_EDIT_RIGHTS = 'edit';
+	const ACTION_BROWSE_ROLES = 'browse_roles';
+	const ACTION_EDIT_ROLES = 'edit_role';
+	const ACTION_DELETE_ROLES = 'delete_role';
+	const ACTION_CREATE_ROLE = 'create_role';
 	
 	private $parameters;
 	private $search_parameters;
@@ -40,7 +46,6 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	private $create_url;
 	private $recycle_bin_url;
 	private $breadcrumbs;
-	
 	
     function RightsManager($user = null) {
     	$this->user = $user;
@@ -65,6 +70,18 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 		{
 			case self :: ACTION_EDIT_RIGHTS :
 				$component = RightsManagerComponent :: factory('Editor', $this);
+				break;
+			case self :: ACTION_BROWSE_ROLES :
+				$component = RightsManagerComponent :: factory('RoleBrowser', $this);
+				break;
+			case self :: ACTION_EDIT_ROLES :
+				$component = RightsManagerComponent :: factory('RoleEditor', $this);
+				break;
+			case self :: ACTION_CREATE_ROLE :
+				$component = RightsManagerComponent :: factory('RoleCreator', $this);
+				break;
+			case self :: ACTION_DELETE_ROLES :
+				$component = RightsManagerComponent :: factory('RoleDeleter', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_EDIT_RIGHTS);
@@ -225,6 +242,16 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 		return RightsDataManager :: get_instance()->retrieve_roles($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
+	function count_roles($condition = null)
+	{
+		return RightsDataManager :: get_instance()->count_roles($condition);
+	}
+	
+	function delete_role($role)
+	{
+		return RightsDataManager :: get_instance()->delete_role($role);
+	}
+	
 	function retrieve_rights($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return RightsDataManager :: get_instance()->retrieve_rights($condition, $offset, $count, $order_property, $order_direction);
@@ -346,6 +373,7 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
+		$links[] = array('name' => Translation :: get('Roles'), 'action' => 'list', 'url' => $this->get_link(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES)));
 		$links[] = array('name' => Translation :: get('Edit'), 'action' => 'manage', 'url' => $this->get_link(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)));
 		return array('application' => array('name' => Translation :: get('Rights'), 'class' => 'rights'), 'links' => $links, 'search' => null);
 	}
@@ -381,6 +409,16 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	function retrieve_role_right_location($right_id, $role_id, $location_id)
 	{
 		return RightsDataManager :: get_instance()->retrieve_role_right_location($right_id, $role_id, $location_id);
+	}
+	
+	function get_role_deleting_url($role)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_ROLES, self :: PARAM_ROLE_ID => $role->get_id()));
+	}
+	
+	function get_role_editing_url($role)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_ROLES, self :: PARAM_ROLE_ID => $role->get_id()));
 	}
 }
 ?>

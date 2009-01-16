@@ -53,6 +53,8 @@ class FormValidator extends HTML_QuickForm
 		$this->HTML_QuickForm($form_name, $method,$action, $target, $attributes, $trackSubmit);
 		// Load some custom elements and rules
 		$dir = dirname(__FILE__).'/';
+		$this->registerElementType('fckeditor_html_editor', $dir.'Element/html_editor/fckeditor_html_editor.php', 'HTML_QuickForm_fckeditor_html_editor');
+		$this->registerElementType('tinymce_html_editor', $dir.'Element/html_editor/tinymce_html_editor.php', 'HTML_QuickForm_tinymce_html_editor');
 		$this->registerElementType('html_editor', $dir.'Element/html_editor.php', 'HTML_QuickForm_html_editor');
 		$this->registerElementType('datepicker', $dir.'Element/datepicker.php', 'HTML_QuickForm_datepicker');
 		$this->registerElementType('timepicker', $dir.'Element/timepicker.php', 'HTML_QuickForm_timepicker');
@@ -171,7 +173,8 @@ EOT;
 	 */
 	function add_html_editor($name, $label, $required = true, $full_page = false)
 	{
-		$element = $this->addElement('html_editor',$name,$label,'rows="15" cols="80"');
+		$type = 'fckeditor';
+		$element = $this->addElement($type . '_html_editor',$name,$label,'rows="15" cols="80"');
 		$this->applyFilter($name,'trim');
 		$html_type = $_SESSION['status'] == COURSEMANAGER ? TEACHER_HTML : STUDENT_HTML;
 		if($full_page)
