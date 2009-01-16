@@ -1,5 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../../../learning_object_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/blog_viewer/blog_browser.class.php';
+require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 
 class BlogToolViewerComponent extends BlogToolComponent
 {
@@ -13,96 +15,109 @@ class BlogToolViewerComponent extends BlogToolComponent
 			return;
 		}
 		$trail = new BreadcrumbTrail();
+		$trail->add(new BreadCrumb($this->get_url(array('category' => $category)), Translation :: get('ViewBlogs')));
 		
 		$pid = Request :: get('pid');
-		if(!$pid)
-		{
-			$this->display_header($trail);
-			$this->display_error_message(Translation :: get('NoObjectSelected'));
-			$this->display_footer();
-		}
-		
-		$trail->add(new BreadCrumb($this->get_url(array('pid' => $pid)), Translation :: get('ViewBlog')));
-		
-		$dm = WeblcmsDataManager :: get_instance();
-		$publication = $dm->retrieve_learning_object_publication($pid);
-		$root_object = $publication->get_learning_object();
-			
-		$this->action_bar = $this->get_toolbar($root_object->get_id());
 
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','blog'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
+		$this->introduction_text = $publications->next_result();
+		
+		$this->action_bar = $this->get_action_bar();
+		
+		$browser = new BlogBrowser($this);
+		$trail = new BreadcrumbTrail();
+		
 		$this->display_header($trail);
 		
-		echo '<br />' . $this->action_bar->as_html();
-
-		echo '<h3>' . $root_object->get_title() . '</h3>';
-		echo $root_object->get_description();
-		echo '<br /><br />';
+		echo '<br /><a name="top"></a>';
+		//echo $this->perform_requested_actions();
+		if(!isset($pid))
+		{
+			if(PlatformSetting :: get('enable_introduction', 'weblcms'))
+			{
+				echo $this->display_introduction_text();
+			}
+		}
+		echo $this->action_bar->as_html();
+		echo '<div id="action_bar_browser">';
+		echo $browser->as_html();
+		echo '</div>';
 		
-		echo $this->display_children($root_object);
-
 		$this->display_footer();
 	}
 	
-	function display_children($root_object)
-	{
-		$rdm = RepositoryDataManager :: get_instance();
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $root_object->get_id());
-		$children = $rdm->retrieve_complex_learning_object_items($condition, array(ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER), array(SORT_DESC));
-		
-		$query = $this->action_bar->get_query();
-		$is_search = ($query && $query != ''); 
-		
-		while($child = $children->next_result())
-		{
-			$object_id = $child->get_ref();
-			$object = $rdm->retrieve_learning_object($object_id);
-			
-			if($is_search)
-			{
-				$description = $object->get_description();
-				$title = $object->get_title();
-				
-				if(stripos($description, $query) !== false || stripos($title, $query) !== false)
-				{
-					$title = str_ireplace($query, '<span style="color:red; font-weight: bold;">' . $query . '</span>', $title);
-					$description = str_ireplace($query, '<span style="color:red; font-weight: bold;">' . $query . '</span>', $description);
-					
-					$object->set_title($title);
-					$object->set_description($description);
-					$html[] = $this->display_learning_object($object, $child->get_id());
-				}
-			}
-			else
-			{
-				$html[] = $this->display_learning_object($object, $child->get_id());
-			}
-		}
-		
-		return implode("\n", $html);
-	}
-	
-	function get_toolbar($parent_id) 
+	function get_action_bar($pid)
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
-		$action_bar->set_search_url($this->get_url(array(Tool :: PARAM_ACTION => BlogTool :: ACTION_VIEW_BLOG, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))));
-		
-		if($this->is_allowed(ADD_RIGHT))
+		if(!$pid)
 		{
-			$action_bar->add_common_action(
-				new ToolbarItem(
-					Translation :: get('CreatePost'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(BlogTool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, 'parent' => $parent_id, 'type' => 'blog_item')), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-				)
-			);
-			
-			$action_bar->add_common_action(
-				new ToolbarItem(
-					Translation :: get('Showall'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(BlogTool :: PARAM_ACTION => BlogTool :: ACTION_VIEW_BLOG, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-				)
-			);
+			$action_bar->set_search_url($this->get_url());
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 		
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
+		if(!$this->introduction_text)
+		{
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		}
+		
+		if(!$pid)
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
+		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		
 		return $action_bar;
+	}
+	
+	function get_condition()
+	{
+		$query = $this->action_bar->get_query();
+		if(isset($query) && $query != '')
+		{
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+			return new OrCondition($conditions);
+		}
+		
+		return null;
+	}
+	
+	function display_introduction_text()
+	{
+		$html = array();
+		
+		$introduction_text = $this->introduction_text;
+		
+		if($introduction_text)
+		{
+			
+			$tb_data[] = array(
+				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_image_path() . 'action_edit.png',
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
+			);
+			
+			$tb_data[] = array(
+				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
+				'label' => Translation :: get('Delete'),
+				'img' => Theme :: get_common_image_path() . 'action_delete.png',
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
+			);
+			
+			$html[] = '<div class="learning_object">';
+			$html[] = '<div class="description">';
+			$html[] = $introduction_text->get_learning_object()->get_description();
+			$html[] = '</div>';
+			$html[] = DokeosUtilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
+			$html[] = '</div>';
+			$html[] = '<br />';
+		}
+		
+		return implode("\n",$html);
 	}
 
 }

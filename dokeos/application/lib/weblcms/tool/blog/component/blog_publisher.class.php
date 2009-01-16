@@ -17,11 +17,11 @@ class BlogToolPublisherComponent extends BlogToolComponent
 		$trail->add(new BreadCrumb($this->get_url(), Translation :: get('Publisher')));
 		
 		$object = $_GET['object'];
-		$pub = new LearningObjectRepoViewer($this, 'blog', true);
+		$pub = new LearningObjectRepoViewer($this, 'blog_item', true);
 		
 		if(!isset($object))
 		{	
-			$html[] = '<p><a href="' . $this->get_url(array(BlogTool :: PARAM_ACTION => BlogTool :: ACTION_BROWSE_BLOGS), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
+			$html[] = '<p><a href="' . $this->get_url(array(BlogTool :: PARAM_ACTION => BlogTool :: ACTION_VIEW_BLOGS), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
 		}
 		else

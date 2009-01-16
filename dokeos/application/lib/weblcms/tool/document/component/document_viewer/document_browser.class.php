@@ -30,8 +30,9 @@ class DocumentBrowser extends LearningObjectPublicationBrowser
 			$parent->set_parameter($tree_id, $value);
 			
 			$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
-			$renderer = new DocumentPublicationListRenderer($this);
 			$this->set_publication_category_tree($tree);
+			$renderer = new DocumentPublicationListRenderer($this);
+
 		}
 		$this->set_publication_list_renderer($renderer);
 		
