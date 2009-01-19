@@ -78,6 +78,11 @@ class LearningPathPublicationTableCellRenderer extends DefaultLearningObjectTabl
 			'img' => Theme :: get_common_image_path().'action_visible.png'
 			);
 			
+			$actions[] = array(
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_EXPORT_SCORM, LearningPathTool :: PARAM_LEARNING_PATH_ID => $publication->get_learning_object()->get_id())),
+			'label' => Translation :: get('ExportSCORM'),
+			'img' => Theme :: get_common_image_path().'action_export.png'
+			);
 		}
 		
 		return DokeosUtilities :: build_toolbar($actions);

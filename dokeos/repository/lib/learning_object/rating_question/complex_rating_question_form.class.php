@@ -1,25 +1,25 @@
 <?php
 /**
  * @package repository.learningobject
- * @subpackage complex_assessment
+ * @subpackage exercise
  */
 require_once dirname(__FILE__) . '/../../complex_learning_object_item_form.class.php';
-require_once dirname(__FILE__) . '/complex_matching_question.class.php';
+require_once dirname(__FILE__) . '/complex_rating_question.class.php';
 /**
- * This class represents a form to create or update complex assessments
+ * This class represents a complex question
  */
-class ComplexMatchingQuestionForm extends ComplexLearningObjectItemForm
+class ComplexRatingQuestionForm extends ComplexLearningObjectItemForm
 {
    	protected function build_creation_form()
     {
     	parent :: build_creation_form();
-    	$this->addElement('text', ComplexMatchingQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'));
+    	$this->addElement('text', ComplexRatingQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'));
     }
     // Inherited
     protected function build_editing_form()
     {
 		parent :: build_editing_form();
-    	$this->addElement('text', ComplexMatchingQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'));
+    	$this->addElement('text', ComplexRatingQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'));
 	}
 	// Inherited
 	function setDefaults($defaults = array ())
@@ -28,7 +28,7 @@ class ComplexMatchingQuestionForm extends ComplexLearningObjectItemForm
 	
 		if (isset ($cloi))
 		{
-			$defaults[ComplexMatchingQuestion :: PROPERTY_WEIGHT] = $cloi->get_weight();
+			$defaults[ComplexRatingQuestion :: PROPERTY_WEIGHT] = $cloi->get_weight();
 		}
 		parent :: setDefaults($defaults);
 	}
@@ -38,7 +38,7 @@ class ComplexMatchingQuestionForm extends ComplexLearningObjectItemForm
 	{ 
 		$cloi = $this->get_complex_learning_object_item();
 		$values = $this->exportValues();
-		$cloi->set_weight($values[ComplexMatchingQuestion :: PROPERTY_WEIGHT]); 
+		$cloi->set_weight($values[ComplexRatingQuestion :: PROPERTY_WEIGHT]); 
 		return parent :: create_complex_learning_object_item();
 	}
 	// Inherited
@@ -46,7 +46,7 @@ class ComplexMatchingQuestionForm extends ComplexLearningObjectItemForm
 	{
 		$cloi = $this->get_complex_learning_object_item();
 		$values = $this->exportValues();
-		$cloi->set_weight($values[ComplexMatchingQuestion :: PROPERTY_WEIGHT]);
+		$cloi->set_weight($values[ComplexRatingQuestion :: PROPERTY_WEIGHT]);
 		return parent :: update_complex_learning_object_item();
 	}
 }
