@@ -9,5 +9,25 @@
  */
 class OpenQuestionDisplay extends LearningObjectDisplay
 {
+	function get_full_html()
+	{
+		return parent :: get_full_html();
+	}
+	function get_description()
+	{
+		$description = parent::get_description();
+		$object = $this->get_learning_object();
+		$type_id = $object->get_question_type();
+		
+		switch($type_id)
+		{
+			case 1: $type = Translation :: get('OpenQuestion'); break;
+			case 2: $type = Translation :: get('OpenQuestionWithDocument'); break;
+			case 3: $type = Translation :: get('DocumentQuestion'); break;
+			default: $type = Translation :: get('OpenQuestion'); break;
+		}
+		
+		return '<b>' . Translation :: get('Type') . ':</b> ' . $type . $description;
+	}
 }
 ?>
