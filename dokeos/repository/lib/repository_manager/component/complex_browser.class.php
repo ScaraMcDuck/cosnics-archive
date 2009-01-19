@@ -58,6 +58,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			exit;
 		}
 		$root = $this->retrieve_learning_object($root_id);
+		$object = $this->retrieve_learning_object($cloi_id);
 		
 		if(!isset($publish))
 		{
@@ -65,7 +66,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
 		}
 		
-		$output = $this->get_content_html();
+		$output = $this->get_content_html($object);
 		$menu = $this->get_menu();
 
 		$this->display_header($trail, false, false);
@@ -77,8 +78,8 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		echo '<li><a ' . ($action == 'build'?'class=current':'') . ' href="'.$this->get_url(array (RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'clo_action' => 'build', 'publish' => $_GET['publish'])) . '">' . Translation :: get('Build') . '</a></li>';
 		echo '<li><a ' . ($action == 'organise'?'class=current':'') . ' href="'.$this->get_url(array (RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'clo_action' => 'organise', 'publish' => $_GET['publish'])) . '">' . Translation :: get('Organise') . '</a></li>';
 		echo '</ul><div class="tabbed-pane-content">';
-		echo '<br /><div style="width: 18%; float: left; overflow:auto;">' . $menu->render_as_tree() . '</div>';
-		echo '<div style="width: 80%; float: right;">' . $output . '</div>';
+		echo '<br /><div style="width: 17%; float: left; overflow:auto;">' . $menu->render_as_tree() . '</div>';
+		echo '<div style="width: 80%; float: right; border-left: 1px solid #4271B5; padding: 10px; padding-left: 20px;">' . $output . '</div>';
 		echo '<div class="clear">&nbsp;</div></div></div>';
 
 		$this->display_footer();
@@ -87,13 +88,26 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	 * Gets the  table which shows the learning objects in the currently active
 	 * category
 	 */
-	private function get_content_html()
-	{
+	private function get_content_html($object)
+	{	
+		$html[] = '<h3>' . Translation :: get('SelectedLearningObject') . '</h3><br />';
+		$html[] = LearningObjectDisplay :: factory($object)->get_full_html();
+		
+		if(!$object->is_complex_learning_object()) 
+		{
+			$this->action_bar = $this->get_action_bar();
+			return implode("\n", $html);
+		}
+		
+		//$html[] = '<br /><div style="border-bottom: 1px solid #4271B5; width:100%;"></div><br />';
+		
 		if($this->action == 'organise')
 		{
+			$html[] = '<br /><h3>' . Translation :: get('OrganiseChildren') . '</h3>';
 			$table = new ComplexBrowserTable($this, $this->get_parameters(), $this->get_condition());
 			$this->action_bar = $this->get_action_bar();
-			return $table->as_html();
+			$html[] = $table->as_html();
+			return implode("\n", $html);
 		}
 		else
 		{
@@ -106,7 +120,8 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	
 	private function get_create_html()
 	{
-		$html[] = '<h3>' . Translation :: get('CreateNew') . '</h3>';
+		$html[] = '<h3>' . Translation :: get('AddToSelectedLearningObject') . '</h3><br />';
+		$html[] = '<h4>' . Translation :: get('CreateNew') . '</h4>';
 		
 		$clo = $this->retrieve_learning_object($this->cloi_id);
 		$types = $clo->get_allowed_types();
@@ -209,7 +224,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	{
 		if(!$this->in_creation)
 		{
-			$html[] = '<br /><h3>' . Translation :: get('SelectExisting') . '</h3>';
+			$html[] = '<br /><h4>' . Translation :: get('SelectExisting') . '</h4>';
 			
 			$clo = $this->retrieve_learning_object($this->cloi_id);
 			$types = $clo->get_allowed_types();
@@ -297,7 +312,8 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	
 	function get_action_bar()
 	{
-		if($this->in_creation || (!isset($_GET['publish']) && $this->action == 'organise')) return null;
+		$pub = Request :: get('publish');
+		if(($pub != 1 && $this->action == 'organise') || $this->in_creation) return null;
 		
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
@@ -307,7 +323,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url($this->get_parameters())));
 		}
 		
-		if($_GET['publish'])
+		if($pub && $pub != '')
 		{
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $_SESSION['redirect_url']));
 		}
