@@ -259,11 +259,13 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		{
 			$conditions1[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
 		}
-		$conditions[] = new OrCondition($conditions1);
+		if($conditions1)
+			$conditions[] = new OrCondition($conditions1);
+		else
+			$conditions[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'none');
 		
 		$conditions = array_merge($conditions, $this->retrieve_used_items($this->root_id));
 		$conditions[] = new NotCondition(new EqualityCondition(LearningObject :: PROPERTY_ID, $this->root_id));
-		
 		return new AndCondition($conditions);
 	}
 	
@@ -288,7 +290,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	{
 		if(isset($this->cloi_id) && isset($this->root_id))
 		{
-			return new ComplexLearningObjectMenu($this->root_id, $this->cloi_id);
+			return new ComplexLearningObjectMenu($this->root_id, $this->cloi_id, '?go=browsecomplex&cloi_id=%s&cloi_root_id=%s', true);
 		}
 		return null;
 	}
