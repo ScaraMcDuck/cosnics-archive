@@ -67,7 +67,7 @@ class OpenQuestionForm extends LearningObjectForm
 		$object->set_question_type($values[OpenQuestion :: PROPERTY_QUESTION_TYPE]);
 		
 		$this->set_learning_object($object);
-		return parent :: create_learning_object();
+		return parent :: update_learning_object();
 	}
 }
 ?>
