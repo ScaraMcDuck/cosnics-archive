@@ -10,9 +10,41 @@ require_once dirname(__FILE__) . '/../../learning_object.class.php';
  */
 class OpenQuestion extends LearningObject
 {
-	function get_allowed_types()
+	const PROPERTY_QUESTION_TYPE = 'question_type';
+	
+	const TYPE_OPEN = 1;
+	const TYPE_OPEN_WITH_DOCUMENT = 2;
+	const TYPE_DOCUMENT = 3;
+	
+	static function get_additional_property_names()
 	{
-		return array();
+		return array(
+		self :: PROPERTY_TYPE,
+		);
+	}
+	
+	function get_question_type()
+	{
+		return $this->get_additional_property(self :: PROPERTY_QUESTION_TYPE);
+	}
+	
+	function set_question_type($question_type)
+	{
+		$this->set_additional_property(self :: PROPERTY_QUESTION_TYPE, $question_type);
+	}
+	
+	function get_table()
+	{
+		return 'open_question';
+	}
+
+	function get_types()
+	{
+		return array(
+			self :: TYPE_OPEN => Translation :: get('Open'),
+			self :: TYPE_OPEN_WITH_DOCUMENT => Translation :: get('OpenWithDocument'),
+			self :: TYPE_DOCUMENT => Translation :: get('Document')
+		);
 	}
 }
 ?>
