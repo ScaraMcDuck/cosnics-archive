@@ -29,7 +29,7 @@ class ComplexAssessment extends ComplexLearningObjectItem
 	
 	function get_allowed_types()
 	{
-		return array( 'question');
+		return array( 'question', 'open_question', 'hotspot_question', 'fill_in_blanks_question', 'multiple_choice_question', 'matching_question');
 	}
 }
 ?>
