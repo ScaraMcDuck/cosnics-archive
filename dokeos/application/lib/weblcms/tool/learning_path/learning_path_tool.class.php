@@ -15,9 +15,11 @@ class LearningPathTool extends Tool
 {
 	const ACTION_VIEW_LEARNING_PATH = 'view';
 	const ACTION_BROWSE_LEARNING_PATHS = 'browse';
+	const ACTION_EXPORT_SCORM = 'exp_scorm';
 	
 	const PARAM_LEARNING_PATH = 'lp';
 	const PARAM_LP_STEP = 'step';
+	const PARAM_LEARNING_PATH_ID = 'lpid';
 	
 	// Inherited.
 	function run()
@@ -37,6 +39,9 @@ class LearningPathTool extends Tool
 				break;
 			case self :: ACTION_BROWSE_LEARNING_PATHS:
 				$component = LearningPathToolComponent :: factory('Browser', $this);
+				break;
+			case self :: ACTION_EXPORT_SCORM:
+				$component = LearningPathToolComponent :: factory('ScormExporter', $this);
 				break;
 			default:
 				$component = LearningPathToolComponent :: factory('Browser', $this);
