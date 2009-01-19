@@ -19,7 +19,7 @@ class OpenQuestion extends LearningObject
 	static function get_additional_property_names()
 	{
 		return array(
-		self :: PROPERTY_TYPE,
+		self :: PROPERTY_QUESTION_TYPE,
 		);
 	}
 	
@@ -41,9 +41,9 @@ class OpenQuestion extends LearningObject
 	function get_types()
 	{
 		return array(
-			self :: TYPE_OPEN => Translation :: get('Open'),
-			self :: TYPE_OPEN_WITH_DOCUMENT => Translation :: get('OpenWithDocument'),
-			self :: TYPE_DOCUMENT => Translation :: get('Document')
+			self :: TYPE_OPEN => Translation :: get('OpenQuestion'),
+			self :: TYPE_OPEN_WITH_DOCUMENT => Translation :: get('OpenQuestionWithDocument'),
+			self :: TYPE_DOCUMENT => Translation :: get('DocumentQuestion')
 		);
 	}
 }
