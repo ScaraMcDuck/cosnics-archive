@@ -86,5 +86,11 @@ abstract class GroupDataManager
 	abstract function retrieve_group_roles($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null);
 	
 	abstract function delete_group_roles($condition);
+	
+	abstract function add_role_link($group, $role_id);
+	
+	abstract function delete_role_link($group, $role_id);
+	
+	abstract function update_role_links($group, $roles);
 }
 ?>

@@ -187,5 +187,63 @@ class DatabaseUserDataManager extends UserDataManager
 	{
 		return $this->database->retrieve_objects(UserRole :: get_table_name(), $condition);
 	}
+	
+	function add_role_link($user, $role_id)
+	{
+		$props = array();
+		$props[UserRole :: PROPERTY_USER_ID] = $user->get_id();
+		$props[UserRole :: PROPERTY_ROLE_ID] = $role_id;
+		$this->database->get_connection()->loadModule('Extended');
+		return $this->database->get_connection()->extended->autoExecute($this->database->get_table_name(UserRole :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT);
+	}
+	
+	function delete_role_link($user, $role_id)
+	{
+		$conditions = array();
+		$conditions = new EqualityCondition(UserRole :: PROPERTY_USER_ID, $user->get_id());
+		$conditions = new EqualityCondition(UserRole :: PROPERTY_ROLE_ID, $role_id);		
+		$condition = new AndCondition($conditions);
+		
+		return $this->database->delete(UserRole :: get_table_name(), $condition);
+	}
+	
+	function update_role_links($user, $roles)
+	{
+		// Delete the no longer existing links
+		$conditions = array();
+		$conditions = new NotCondition(new InCondition(UserRole :: PROPERTY_ROLE_ID, $roles));
+		$conditions = new EqualityCondition(UserRole :: PROPERTY_USER_ID, $user->get_id());
+		$condition = new AndCondition($conditions);
+		
+		$success = $this->database->delete(UserRole :: get_table_name(), $condition);
+		if (!$success)
+		{
+			return false;
+		}
+		
+		// Get the group's roles
+		$condition = new EqualityCondition(UserRole :: PROPERTY_USER_ID, $user->get_id());
+		$user_roles = $this->retrieve_user_roles($condition);
+		$existing_roles = array();
+		
+		while($user_role = $user_roles->next_result())
+		{
+			$existing_roles[] = $user_role->get_role_id();
+		}
+		
+		// Add the new links
+		foreach ($roles as $role)
+		{
+			if (!in_array($role, $existing_roles))
+			{
+				if (!$this->add_role_link($user, $role))
+				{
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
 }
 ?>

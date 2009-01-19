@@ -212,5 +212,23 @@ class Group
 		
 		return $gdm->retrieve_group_roles($condition);
 	}
+	
+	function add_role_link($role_id)
+	{
+		$gdm = GroupDataManager :: get_instance();
+		return $gdm->add_role_link($this, $role_id);
+	}
+	
+	function delete_role_link($role_id)
+	{
+		$gdm = GroupDataManager :: get_instance();
+		return $gdm->delete_role_link($this, $role_id);
+	}
+	
+	function update_role_links($roles)
+	{
+		$gdm = GroupDataManager :: get_instance();
+		return $gdm->update_role_links($this, $roles);
+	}
 }
 ?>

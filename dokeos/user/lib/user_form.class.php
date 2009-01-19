@@ -133,6 +133,38 @@ class UserForm extends FormValidator {
 		$group[] =& $this->createElement('radio', 'send_mail',null,Translation :: get('Yes'),1);
 		$group[] =& $this->createElement('radio', 'send_mail',null,Translation :: get('No'),0);
 		$this->addGroup($group, 'mail', Translation :: get('SendMailToNewUser'), '&nbsp;');
+		
+		// Roles element finder
+		$user = $this->user;
+		
+		if ($this->form_type == self :: TYPE_EDIT)
+		{
+			$linked_roles = $user->get_roles();
+			$user_roles = RightsUtilities :: roles_for_element_finder($linked_roles);
+		}
+		else
+		{
+			$user_roles = array();
+		}
+		
+		$roles = RightsDataManager :: get_instance()->retrieve_roles();
+		while($role = $roles->next_result())
+		{
+			$defaults[$role->get_id()] = array('title' => $role->get_name(), 'description', $role->get_description(), 'class' => 'role');
+		}
+		
+		$url = Path :: get(WEB_PATH).'rights/xml_role_feed.php';
+		$locale = array ();
+		$locale['Display'] = Translation :: get('AddRoles');
+		$locale['Searching'] = Translation :: get('Searching');
+		$locale['NoResults'] = Translation :: get('NoResults');
+		$locale['Error'] = Translation :: get('Error');
+		$hidden = true;
+		
+		$elem = $this->addElement('element_finder', 'roles', null, $url, $locale, $user_roles);
+		$elem->setDefaults($defaults);
+		$elem->setDefaultCollapsed(count($user_roles) == 0);
+		
 		// Submit button
 		$this->addElement('submit', 'user_settings', 'OK');
     }
@@ -213,8 +245,15 @@ class UserForm extends FormValidator {
 
 		$value = $user->update();
 		
+		if (!$user->update_role_links($values['roles']))
+		{
+			return false;
+		}
+		
 		if($value)
+		{
 			Events :: trigger_event('update', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
+		}
 		
 		return $value;
     }
@@ -287,8 +326,15 @@ class UserForm extends FormValidator {
 
     		$value = $user->create();
     		
+			foreach ($values['roles'] as $role_id)
+			{
+				$user->add_role_link($role_id);
+			}
+    		
     		if($value)
+    		{
     			Events :: trigger_event('create', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
+    		}
     		
     		return $value;
     	}

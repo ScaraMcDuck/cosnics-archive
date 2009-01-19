@@ -38,8 +38,40 @@ class GroupForm extends FormValidator {
     {
 		$this->addElement('text', Group :: PROPERTY_NAME, Translation :: get('Name'));
 		$this->addRule(Group :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
-		$this->addElement('html_editor', Group :: PROPERTY_DESCRIPTION, Translation :: get('Description'));
+		$this->add_html_editor(Group :: PROPERTY_DESCRIPTION, Translation :: get('Description'), true);
 		$this->addRule(Group :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
+		
+		// Roles element finder
+		$group = $this->group;
+		
+		if ($this->form_type == self :: TYPE_EDIT)
+		{
+			$linked_roles = $group->get_roles();
+			$group_roles = RightsUtilities :: roles_for_element_finder($linked_roles);
+		}
+		else
+		{
+			$group_roles = array();
+		}
+		
+		$roles = RightsDataManager :: get_instance()->retrieve_roles();
+		while($role = $roles->next_result())
+		{
+			$defaults[$role->get_id()] = array('title' => $role->get_name(), 'description', $role->get_description(), 'class' => 'role');
+		}
+		
+		$url = Path :: get(WEB_PATH).'rights/xml_role_feed.php';
+		$locale = array ();
+		$locale['Display'] = Translation :: get('AddRoles');
+		$locale['Searching'] = Translation :: get('Searching');
+		$locale['NoResults'] = Translation :: get('NoResults');
+		$locale['Error'] = Translation :: get('Error');
+		$hidden = true;
+		
+		$elem = $this->addElement('element_finder', 'roles', null, $url, $locale, $group_roles);
+		$elem->setDefaults($defaults);
+		$elem->setDefaultCollapsed(count($group_roles) == 0);
+		
 		$this->addElement('submit', 'group_settings', 'OK');
     }
     
@@ -68,8 +100,15 @@ class GroupForm extends FormValidator {
     	
    		$value = $group->update();
    		
+		if (!$group->update_role_links($values['roles']))
+		{
+			return false;
+		}
+   		
    		if($value)
+   		{
    			Events :: trigger_event('update', 'group', array('target_group_id' => $group->get_id(), 'action_user_id' => $this->user->get_id()));
+   		}
    		
    		return $value;
     }
@@ -86,9 +125,15 @@ class GroupForm extends FormValidator {
     	
    		$value = $group->create();
    		
+		foreach ($values['roles'] as $role_id)
+		{
+			$group->add_role_link($role_id);
+		}
+   		
    		if($value)
+   		{
    			Events :: trigger_event('create', 'group', array('target_group_id' => $group->get_id(), 'action_user_id' => $this->user->get_id()));
-   			
+   		}
    		
    		return $value;
     }

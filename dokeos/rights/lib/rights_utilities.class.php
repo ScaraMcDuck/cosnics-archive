@@ -191,7 +191,7 @@ class RightsUtilities
 				
 				while ($group_role = $group_roles->next_result())
 				{
-					$roles[] = $group_role->get_role_id();
+					$roles[] = $group_role->get_id();
 				}
 			}
 			
@@ -201,7 +201,7 @@ class RightsUtilities
 			
 			while ($user_role = $user_roles->next_result())
 			{
-				$role = $user_role->get_role_id();
+				$role = $user_role->get_id();
 				if (!in_array($role, $roles))
 				{
 					$roles[] = $role;
@@ -376,6 +376,36 @@ class RightsUtilities
 	{
 		$location->switch_inherit();
 		return $location->update();
+	}
+	
+	static function roles_for_element_finder($linked_roles)
+	{
+		$rdm = RightsDataManager :: get_instance();
+		$roles = array();
+		
+		while ($linked_role = $linked_roles->next_result())
+		{
+			$roles[] = $rdm->retrieve_role($linked_role->get_role_id()); 
+		}
+		
+		$return = array();
+		
+		foreach($roles as $role)
+		{
+			$id = $role->get_id();
+			$return[$id] = self :: role_for_element_finder($role);
+		}
+		
+		return $return;
+	}
+	
+	static function role_for_element_finder($role)
+	{
+		$return = array ();
+		$return['class'] = 'type type_role';
+		$return['title'] = $role->get_name();
+		$return['description'] = strip_tags($role->get_description());
+		return $return;
 	}
 }
 ?>

@@ -45,6 +45,23 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 			echo $group->get_description();
 			echo '</div>';
 			
+			$rdm = RightsDataManager :: get_instance();
+			$group_roles = $group->get_roles();
+			
+			if($group_roles->size() > 0)
+			{
+				echo '<div class="clear"></div><div class="learning_object" style="background-image: url('. Theme :: get_common_image_path() .'place_rights.png);">';
+				echo '<div class="title">'. Translation :: get('Roles') .'</div>';
+				echo '<ul>';
+				while ($group_role = $group_roles->next_result())
+				{
+					$role = $rdm->retrieve_role($group_role->get_role_id());
+					echo '<li>' . $role->get_name() . '</li>';
+				}
+				echo '</ul>';
+				echo '</div>';
+			}
+			
 			echo '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path() .'place_users.png);">';
 			echo '<div class="title">'. Translation :: get('Users') .'</div>';
 			$table = new GroupRelUserBrowserTable($this, array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $id), $this->get_condition());
