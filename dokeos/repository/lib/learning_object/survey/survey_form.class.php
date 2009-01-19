@@ -42,7 +42,7 @@ class SurveyForm extends LearningObjectForm
     	$this->add_select(Survey :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('AssessmentType'), Survey :: get_types());
     	$this->add_textfield(Survey :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts')); //.' (0 = '.Translation :: get('infinite').')';
     	$this->add_textfield(Survey :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('QuestionsPerPage'));
-    	$this->addElement('html_editor', Survey :: PROPERTY_FINISH_TEXT, Translation :: get('FinishingText'));
+    	$this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('FinishingText'), false);
     	$this->addElement('checkbox', Survey :: PROPERTY_ANONYMOUS, Translation :: get('Anonymous'));
     	$this->addElement('category');
     }
@@ -54,7 +54,7 @@ class SurveyForm extends LearningObjectForm
     	$this->add_select(Survey :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('AssessmentType'), Survey :: get_types());
     	$this->add_textfield(Survey :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts')); //.' (0 = '.Translation :: get('infinite').')';
     	$this->add_textfield(Survey :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('QuestionsPerPage'));
-    	$this->addElement('html_editor', Survey :: PROPERTY_FINISH_TEXT, Translation :: get('FinishingText'));
+    	$this->add_html_editor(Survey :: PROPERTY_FINISH_TEXT, Translation :: get('FinishingText'), false);
     	$this->addElement('checkbox', Survey :: PROPERTY_ANONYMOUS, Translation :: get('Anonymous'));
     	$this->addElement('category');
 	}

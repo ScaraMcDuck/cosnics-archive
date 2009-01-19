@@ -137,13 +137,71 @@ class DatabaseGroupDataManager extends GroupDataManager
 	}
 	
 	function retrieve_group_roles($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
-	{		
+	{
 		return $this->database->retrieve_objects(GroupRole :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
 	function delete_group_roles($condition)
 	{
 		return $this->database->delete(GroupRole :: get_table_name(), $condition);
+	}
+	
+	function add_role_link($group, $role_id)
+	{
+		$props = array();
+		$props[GroupRole :: PROPERTY_GROUP_ID] = $group->get_id();
+		$props[GroupRole :: PROPERTY_ROLE_ID] = $role_id;
+		$this->database->get_connection()->loadModule('Extended');
+		return $this->database->get_connection()->extended->autoExecute($this->database->get_table_name(GroupRole :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT);
+	}
+	
+	function delete_role_link($group, $role_id)
+	{
+		$conditions = array();
+		$conditions = new EqualityCondition(GroupRole :: PROPERTY_GROUP_ID, $group->get_id());
+		$conditions = new EqualityCondition(GroupRole :: PROPERTY_ROLE_ID, $role_id);		
+		$condition = new AndCondition($conditions);
+		
+		return $this->database->delete(GroupRole :: get_table_name(), $condition);
+	}
+	
+	function update_role_links($group, $roles)
+	{
+		// Delete the no longer existing links
+		$conditions = array();
+		$conditions = new NotCondition(new InCondition(GroupRole :: PROPERTY_ROLE_ID, $roles));
+		$conditions = new EqualityCondition(GroupRole :: PROPERTY_GROUP_ID, $group->get_id());
+		$condition = new AndCondition($conditions);
+		
+		$success = $this->database->delete(GroupRole :: get_table_name(), $condition);
+		if (!$success)
+		{
+			return false;
+		}
+		
+		// Get the group's roles
+		$condition = new EqualityCondition(GroupRole :: PROPERTY_GROUP_ID, $group->get_id());
+		$group_roles = $this->retrieve_group_roles($condition);
+		$existing_roles = array();
+		
+		while($group_role = $group_roles->next_result())
+		{
+			$existing_roles[] = $group_role->get_role_id();
+		}
+		
+		// Add the new links
+		foreach ($roles as $role)
+		{
+			if (!in_array($role, $existing_roles))
+			{
+				if (!$this->add_role_link($group, $role))
+				{
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 }
 ?>

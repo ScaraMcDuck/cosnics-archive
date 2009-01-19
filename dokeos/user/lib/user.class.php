@@ -694,5 +694,23 @@ class User
 		
 		return $udm->retrieve_user_roles($condition);
 	}
+	
+	function add_role_link($role_id)
+	{
+		$udm = UserDataManager :: get_instance();
+		return $udm->add_role_link($this, $role_id);
+	}
+	
+	function delete_role_link($role_id)
+	{
+		$udm = UserDataManager :: get_instance();
+		return $udm->delete_role_link($this, $role_id);
+	}
+	
+	function update_role_links($roles)
+	{
+		$udm = UserDataManager :: get_instance();
+		return $udm->update_role_links($this, $roles);
+	}
 }
 ?>

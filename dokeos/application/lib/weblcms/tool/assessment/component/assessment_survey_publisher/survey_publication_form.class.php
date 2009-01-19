@@ -21,8 +21,7 @@ class SurveyPublicationForm extends FormValidator
 		$this->addElement('textarea', 'additional_users', Translation :: get('AdditionalUsers'), array ('cols' => 50, 'rows' => 2));
 		$this->addElement('text', 'email_header', Translation :: get('EmailTitle'), array('size' => 80));
 		$this->addRule('email_header', Translation :: get('ThisFieldIsRequired'), 'required');
-		$this->addElement('html_editor', 'email_content', Translation :: get('EmailContent'));
-		$this->addRule('email_content', Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->add_html_editor('email_content', Translation :: get('EmailContent'), true);
 		$this->addElement('html', Translation :: get('PublishSurveySendMailInfo'));		
 		$this->addElement('checkbox', 'resend', Translation :: get('ResendEmail'));
 		$this->addElement('html', Translation :: get('PublishSurveyResendMailInfo'));
