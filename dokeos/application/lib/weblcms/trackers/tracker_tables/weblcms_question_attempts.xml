@@ -4,15 +4,15 @@
   <property name="id" type="integer" unsigned="1" notnull="1" />
   <property name="assessment_attempt_id" type="integer" unsigned="1" notnull="1" />
   <property name="question_id" type="integer" unsigned="1" notnull="1" />
-  <property name="answer" type="text" notnull="1" default=""/>
-  <property name="comments" type="text" notnull="1" default=""/>
+  <property name="answer" type="text" notnull="1"/>
+  <property name="comments" type="text" notnull="1"/>
   <property name="score" type="integer" unsigned="1" notnull="1" />
   <property name="date" type="timestamp" notnull="1" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
  </index>
- <index name="assessment_id">
-  <indexproperty name="assessment_id"/>
+ <index name="assessment_attempt_id">
+  <indexproperty name="assessment_attempt_id"/>
  </index>
 </object>
