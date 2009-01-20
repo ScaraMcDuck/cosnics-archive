@@ -4,8 +4,8 @@
   <property name="id" type="integer" unsigned="1" notnull="1" />
   <property name="assessment_attempt_id" type="integer" unsigned="1" notnull="1" />
   <property name="question_id" type="integer" unsigned="1" notnull="1" />
-  <property name="answer" type="text" notnull="1"/>
-  <property name="comments" type="text" notnull="1"/>
+  <property name="answer" type="text"/>
+  <property name="comments" type="text"/>
   <property name="score" type="integer" unsigned="1" notnull="1" />
   <property name="date" type="timestamp" notnull="1" />
  </properties>
