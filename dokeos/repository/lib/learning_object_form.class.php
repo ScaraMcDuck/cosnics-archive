@@ -326,7 +326,16 @@ EOT;
 			$elem->setDefaultCollapsed(count($attachments) == 0);
 		}
 		
-		$this->addElement('submit', 'submit', Translation :: get('Ok'));
+		$buttons = array();
+		
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'test', null, '&nbsp;', false);
+		
+		//$this->addElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		//$this->addElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		//$this->addElement('submit', 'submit', Translation :: get('Ok'));
 	}
 
 	/**
@@ -366,6 +375,7 @@ EOT;
 	function create_learning_object()
 	{
 		$values = $this->exportValues();
+		
 		$object = $this->learning_object;
 		$object->set_owner_id($this->get_owner_id());
 		$object->set_title($values[LearningObject :: PROPERTY_TITLE]);
