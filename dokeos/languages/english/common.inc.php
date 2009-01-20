@@ -921,4 +921,6 @@ $lang['common']['AllowedHTMLTags'] = 'Allowed HTML Tags';
 $lang['common']['ResetPassword'] = 'Reset password';
 $lang['common']['Administrator'] = 'Administrator';
 $lang['common']['RolesAndRights'] = 'Roles & Rights';
+$lang['common']['Reset'] = 'Reset';
+$lang['common']['Select'] = 'Select';
 ?>
