@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../user_manager.class.php';
 require_once dirname(__FILE__).'/../user_manager_component.class.php';
-require_once dirname(__FILE__).'/../../user_import_form.class.php';
+require_once dirname(__FILE__).'/../../forms/user_import_form.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class UserManagerImporterComponent extends UserManagerComponent

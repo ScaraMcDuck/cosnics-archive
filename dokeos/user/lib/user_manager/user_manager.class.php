@@ -3,7 +3,7 @@
  * @package users.lib.usermanager
  */
 require_once dirname(__FILE__).'/user_manager_component.class.php';
-require_once dirname(__FILE__).'/../user_search_form.class.php';
+require_once dirname(__FILE__).'/../forms/user_search_form.class.php';
 require_once dirname(__FILE__).'/../user_data_manager.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
