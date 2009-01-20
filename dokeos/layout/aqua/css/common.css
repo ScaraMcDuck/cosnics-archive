@@ -473,8 +473,8 @@ button a.positive:hover, button.positive:hover{
     color: #529214;
 }
 button.positive:active, button a.positive:active{
-    background-color: #529214;
-    border: 1px solid #529214;
+    background-color: #5ca54d;
+    border: 1px solid #5ca54d;
     color: #ffffff;
 }
 
@@ -492,8 +492,8 @@ button a.negative:hover, button.negative:hover{
     color: #d12f19;
 }
 button.negative:active, button a.negative:active{
-    background-color: #d12f19;
-    border: 1px solid #d12f19;
+    background-color: #bf382b;
+    border: 1px solid #bf382b;
     color: #ffffff;
 }
 
@@ -518,6 +518,11 @@ button.normal:active, button a.normal:active{
 button.empty, button a.empty
 {
 	background-image: url(../img/common/buttons/button_empty.png);
+}
+
+button.select, button a.select
+{
+	background-image: url(../img/common/buttons/button_select.png);
 }
 
 /*****************************************************

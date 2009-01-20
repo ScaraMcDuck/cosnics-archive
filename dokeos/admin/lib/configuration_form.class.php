@@ -105,7 +105,10 @@ class ConfigurationForm extends FormValidator
 				$this->addElement('html', '</div>');
 			}
 			
-			$this->addElement('submit', 'submit', Translation :: get('Ok'));
+			$buttons = array();
+			$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+			$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+			$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		}
 		else
 		{
