@@ -21,5 +21,5 @@ $lang['user']['DatabaseQuota'] = 'Database quota <b>(Max objects)</b>';
 $lang['user']['VersionQuota'] = 'Version quota <b>(Max versions of object)</b>';
 $lang['user']['AutoGeneratePassword'] = 'Automatically generated password';
 $lang['user']['SendMailToNewUser'] = 'Send mail to new user';
-
+$lang['user']['ModifyRolesForUser'] = 'Modify roles for user: <b>%s</b>';
 ?>

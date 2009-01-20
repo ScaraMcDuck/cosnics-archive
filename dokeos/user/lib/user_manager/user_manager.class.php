@@ -38,7 +38,7 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	const ACTION_USER_QUOTA = 'quota';
 	const ACTION_RESET_PASSWORD = 'reset_password';
 	const ACTION_CHANGE_USER = 'change_user';
-
+	const ACTION_MANAGE_ROLES = 'manage_user_roles';
 
 	private $parameters;
 	private $search_parameters;
@@ -173,6 +173,9 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 				break;
 			case self :: ACTION_CHANGE_USER :
 				$component = UserManagerComponent :: factory('ChangeUser', $this);
+				break;
+			case self :: ACTION_MANAGE_ROLES :
+				$component = UserManagerComponent :: factory('UserRoleManager', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_USERS);
@@ -584,6 +587,11 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	function get_user_delete_url($user)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_USER, self :: PARAM_USER_USER_ID => $user->get_id()));
+	}
+	
+	function get_manage_roles_url($user)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_USER_USER_ID => $user->get_id()));
 	}
 	
 	function get_platform_setting($variable, $application = self :: APPLICATION_NAME)
