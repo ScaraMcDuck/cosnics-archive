@@ -23,12 +23,14 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		}
 		if($this->get_actions())
 			$html[] = '<form name="publication_list" action="' . $this->get_url() . '" method="GET" >';
-			
+		$i = 0;
+		
 		foreach ($publications as $index => $publication)
 		{
 			$first = ($index == 0);
 			$last = ($index == count($publications) - 1);
-			$html[] = $this->render_publication($publication, $first, $last);
+			$html[] = $this->render_publication($publication, $first, $last, $i);
+			$i++;
 		}
 		
 		if($this->get_actions() && count($publications) > 0)
@@ -76,7 +78,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 	 *                      it is a part of.
 	 * @return string The rendered HTML.
 	 */
-	function render_publication($publication, $first = false, $last = false)
+	function render_publication($publication, $first = false, $last = false, $position)
 	{
 		// TODO: split into separate overrideable methods
 		$html = array ();
@@ -91,7 +93,16 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 			$icon_suffix = '_new';
 		}
 		
-		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
+		$left = $position % 2;
+		switch($left)
+		{
+			case 0: $level = 'level_1'; break;
+			case 1: $level = 'level_2'; break;
+			//case 2: $level = 'level_3'; break;
+			//case 3: $level = 'level_4'; break;
+		}
+		
+		$html[] = '<div class="announcements ' . $level . '" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
 		$html[] = '</div>';
@@ -108,6 +119,24 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 			$html[] = '<input type="checkbox" name="pid[]" value="' . $publication->get_id() . '"/>';
 		$html[] = '</div>';
 		$html[] = '</div><br />';
+		
+		/*$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
+		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
+		$html[] = $this->render_title($publication);
+		$html[] = '</div>';
+		$html[] = '<div class="description'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
+		$html[] = $this->render_description($publication);
+		$html[] = $this->render_attachments($publication);
+		$html[] = '</div>';
+		$html[] = '<div class="publication_info'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
+		$html[] = $this->render_publication_information($publication);
+		$html[] = '</div>';
+		$html[] = '<div class="publication_actions">';
+		$html[] = $this->render_publication_actions($publication,$first,$last);
+		if($this->get_actions())
+			$html[] = '<input type="checkbox" name="pid[]" value="' . $publication->get_id() . '"/>';
+		$html[] = '</div>';
+		$html[] = '</div><br />';*/
 		return implode("\n", $html);
 	}
 }

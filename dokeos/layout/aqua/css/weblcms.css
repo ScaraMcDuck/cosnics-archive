@@ -248,3 +248,52 @@ div.normal_calendar
 	float: left;
 	width: 80%;
 }
+
+div.level_1
+{
+	background-color: #F6F6F6;
+	color: #000000;
+}
+
+div.level_2
+{
+	background-color: #EDEAF6;
+	color: #000000;
+}
+
+div.level_3
+{
+	background-color: #C48B33;
+	color: #FFFFFF;
+}
+
+div.announcements div.title
+{
+	border-bottom:	1px dotted #CCCCCC;
+	font-weight: bold;
+	width: 60%;
+	padding-bottom: 0.4em;
+	color: #000066;
+	font-size: 120%;
+}
+
+div.announcements div.publication_info
+{
+	text-align: right;
+	font-style: italic;
+	margin: 1em 0;
+}
+
+div.announcements div.publication_actions
+{
+	text-align: right;
+}
+
+div.announcements
+{
+	-moz-border-radius-bottomright:	15px;
+	-moz-border-radius-topleft:	15px;
+	padding: 10px 10px 10px 44px;
+	background-position: 10px 10px;
+	background-repeat: no-repeat;
+}
