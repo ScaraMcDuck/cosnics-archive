@@ -16,14 +16,14 @@ class QuestionDisplay
 	
 	function add_to($formvalidator) {
 		$clo_question = $this->get_clo_question();
-		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question');
+		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
 		$formvalidator->addElement('html', $this->display_header($question));
 	}
 
 	function display_header()
 	{
 		$clo_question = $this->get_clo_question();
-		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question');
+		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
 		
 		$html[] = '<div class="learning_object">';
 		$html[] = '<div class="title">';
@@ -44,7 +44,7 @@ class QuestionDisplay
 	}
 
 	static function factory($clo_question) {
-		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question');
+		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
 		$type = $question->get_type();
 			
 		switch($type)

@@ -7,12 +7,11 @@ class ScoreQuestionDisplay extends QuestionDisplay
 	function add_to($formvalidator)
 	{
 		$formvalidator->addElement('html', parent :: display_header());
-		$answers = $this->get_answers();
-		$minscore = $answers[0];
-		$maxscore = $answers[1];
-		
-		$min = $minscore['score'];
-		$max = $maxscore['score'];
+		$clo_question = $this->get_clo_question();
+		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
+		//$answers = $this->get_answers();
+		$min = $question->get_low();
+		$max = $question->get_high();
 	
 		for ($i = $min; $i <= $max; $i++)
 		{

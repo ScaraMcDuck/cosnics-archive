@@ -93,7 +93,7 @@ class AssessmentScoreCalculator
 	function get_extra($user_question, $extra_value = "", $file = null)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
-		$question = $rdm->retrieve_learning_object($user_question->get_question_id(), 'question');
+		$question = $rdm->retrieve_learning_object($user_question->get_question_id());
 		switch ($question->get_question_type())
 		{
 			case Question :: TYPE_MULTIPLE_CHOICE:
