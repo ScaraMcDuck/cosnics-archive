@@ -3,8 +3,8 @@
  * @package groups.lib.groupmanager
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/group.class.php';
-require_once dirname(__FILE__).'/group_data_manager.class.php';
+require_once dirname(__FILE__).'/../group.class.php';
+require_once dirname(__FILE__).'/../group_data_manager.class.php';
 
 class GroupExportForm extends FormValidator {
 

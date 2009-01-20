@@ -3,8 +3,8 @@
  * @package user.groupsmanager
  */
 require_once dirname(__FILE__).'/group_manager_component.class.php';
-require_once dirname(__FILE__).'/group_search_form.class.php';
-require_once dirname(__FILE__).'/group_user_search_form.class.php';
+require_once dirname(__FILE__).'/../forms/group_search_form.class.php';
+require_once dirname(__FILE__).'/../forms/group_user_search_form.class.php';
 require_once dirname(__FILE__).'/../group_data_manager.class.php';
 require_once dirname(__FILE__).'/../group.class.php';
 require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
