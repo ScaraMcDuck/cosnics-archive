@@ -84,6 +84,12 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 			'label' => Translation :: get('VersionQuota'),
 			'img' => Theme :: get_common_image_path().'action_statistics.png'
 		);
+		
+		$toolbar_data[] = array(
+				'href' => $this->browser->get_manage_roles_url($user),
+				'label' => Translation :: get('ManageRoles'),
+				'img' => Theme :: get_common_image_path().'action_rights.png'
+			);
 
 		if($user->get_id() != Session :: get_user_id())
 		{
@@ -99,12 +105,6 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
 				'img' => Theme :: get_common_image_path().'action_login.png'
 			);
 		}
-		
-		$toolbar_data[] = array(
-				'href' => $this->browser->get_manage_roles_url($user),
-				'label' => Translation :: get('ManageRoles'),
-				'img' => Theme :: get_common_image_path().'action_rights.png'
-			);
 
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}

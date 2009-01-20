@@ -8,6 +8,7 @@ require_once dirname(__FILE__).'/personal_message_publication.class.php';
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_plugin_path().'html2text/class.html2text.inc';
+require_once Path :: get_group_path(). 'lib/group_data_manager.class.php';
 /**
  * This class represents a form to allow a user to publish a learning object.
  *
@@ -95,6 +96,9 @@ class PersonalMessagePublicationForm extends FormValidator
 		$this->addElement('submit', 'submit', Translation :: get('Ok'));
     }
 
+	private $failures = 0;
+	private $sent_users = array();
+	
 	/**
 	 * Creates a learning object publication using the values from the form.
 	 * @return LearningObjectPublication The new publication
@@ -103,52 +107,40 @@ class PersonalMessagePublicationForm extends FormValidator
     {
 		$values = $this->exportValues();
 		$pmdm = PersonalMessengerDataManager :: get_instance();
-
-		$failures = 0;
-
+		//dump($values);
 		$recipients = array_merge($extra_rec, $values['recipients']);
+		
+		foreach ($recipients as $recipient)
+		{ 
+			$split = explode("|", $recipient);
+			$type = $split[0];
+			$recip = $split[1];
 
-		foreach ($recipients as $recip)
-		{
-			if ($recip != $this->form_user->get_id())
+			if($type == 'user')
 			{
-				$sender_pub = new PersonalMessagePublication();
-				$sender_pub->set_personal_message($this->learning_object->get_id());
-				$sender_pub->set_recipient($recip);
-				$sender_pub->set_published(time());
-				$sender_pub->set_user($this->form_user->get_id());
-				$sender_pub->set_sender($this->form_user->get_id());
-				$sender_pub->set_status('0');
-
-				if ($sender_pub->create())
-				{
-					$recipient_pub = new PersonalMessagePublication();
-					$recipient_pub->set_personal_message($this->learning_object->get_id());
-					$recipient_pub->set_recipient($recip);
-					$recipient_pub->set_published(time());
-					$recipient_pub->set_user($recip);
-					$recipient_pub->set_sender($this->form_user->get_id());
-					$recipient_pub->set_status('1');
-					if ($recipient_pub->create())
-					{
-					}
-					else
-					{
-						$failures++;
-					}
-				}
-				else
-				{
-					$failures++;
-				}
+				$users[] = $recip;
 			}
 			else
 			{
-				$failures++;
+				$grus = GroupDataManager :: get_instance()->retrieve_group_rel_users(new EqualityCondition('group_id', $recip));
+				while($gru = $grus->next_result())
+					$users[] = $gru->get_user_id();
+			}
+			
+			foreach($users as $user)
+			{ 
+				if ($user != $this->form_user->get_id() && !in_array($user, $this->sent_users))
+				{
+					$this->send_to_recipient($user);
+				}
+				else
+				{
+					$this->failures++;
+				}
 			}
 		}
 
-		if ($failures > 0)
+		if ($this->failures > 0)
 		{
 			return false;
 		}
@@ -156,6 +148,41 @@ class PersonalMessagePublicationForm extends FormValidator
 		{
 			return true;
 		}
+    }
+    
+    private function send_to_recipient($recip)
+    {
+    	$sender_pub = new PersonalMessagePublication();
+		$sender_pub->set_personal_message($this->learning_object->get_id());
+		$sender_pub->set_recipient($recip);
+		$sender_pub->set_published(time());
+		$sender_pub->set_user($this->form_user->get_id());
+		$sender_pub->set_sender($this->form_user->get_id());
+		$sender_pub->set_status('0');
+
+		if ($sender_pub->create())
+		{
+			$recipient_pub = new PersonalMessagePublication();
+			$recipient_pub->set_personal_message($this->learning_object->get_id());
+			$recipient_pub->set_recipient($recip);
+			$recipient_pub->set_published(time());
+			$recipient_pub->set_user($recip);
+			$recipient_pub->set_sender($this->form_user->get_id());
+			$recipient_pub->set_status('1');
+			if ($recipient_pub->create())
+			{
+				$this->sent_users[] = $recip;
+			}
+			else
+			{
+				$this->failures++;
+			}
+		}
+		else
+		{
+			$this->failures++;
+		}
+		
     }
 }
 ?>
