@@ -1849,7 +1849,8 @@ div.action_bar
 	p/adding-bottom: 5px;
 	margin-bottom: 10px;
 	position: relative;
-	
+	-moz-border-radius: 15px;
+	padding: 5px;
 	min-height: 40px;
 	/*
 	overflow: hidden;
