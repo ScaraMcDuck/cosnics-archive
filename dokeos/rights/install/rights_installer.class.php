@@ -50,34 +50,6 @@ class RightsInstaller extends Installer
 			return false;
 		}
 		
-		$right = new Right();
-		$right->set_name('view');
-		if (!$right->create())
-		{
-			return false;
-		}
-		
-		$right = new Right();
-		$right->set_name('edit');
-		if (!$right->create())
-		{
-			return false;
-		}
-		
-		$right = new Right();
-		$right->set_name('add');
-		if (!$right->create())
-		{
-			return false;
-		}
-		
-		$right = new Right();
-		$right->set_name('delete');
-		if (!$right->create())
-		{
-			return false;
-		}
-		
 		return true;
 	}
 	
