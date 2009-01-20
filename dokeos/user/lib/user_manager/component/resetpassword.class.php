@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__).'/../user_manager.class.php';
 require_once dirname(__FILE__).'/../user_manager_component.class.php';
-require_once dirname(__FILE__).'/../../register_form.class.php';
+require_once dirname(__FILE__).'/../../forms/register_form.class.php';
 require_once dirname(__FILE__).'/../../user_data_manager.class.php';
 require_once Path :: get_library_path().'authentication/authentication.class.php';
 require_once Path :: get_library_path().'mail/mail.class.php';
