@@ -7,15 +7,16 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
 	function add_to($formvalidator)
 	{
 		$formvalidator->addElement('html', parent :: display_header());
-		$answers = $this->get_answers();
+		$clo_question = $this->get_clo_question();
+		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
+		$answers = $question->get_answers();
 		
-		$i = 1;
-		foreach($answers as $answer)
+		foreach($answers as $i => $answer)
 		{
-			$name = $this->get_clo_question()->get_ref().'_'.$answer['answer']->get_id();
+			$name = $clo_question->get_ref().'_'.$i;
 			$formvalidator->addElement('text', $name, '('.$i.')');
 			//$formvalidator->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
-			$i++;
+			//$i++;
 		}
 		$formvalidator->addElement('html', '<br />');
 		$formvalidator->addElement('html', $this->display_footer());

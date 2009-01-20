@@ -9,6 +9,7 @@ class MultipleChoiceQuestion extends LearningObject
 {
 	const PROPERTY_ANSWER_TYPE = 'answer_type';
 	const PROPERTY_OPTIONS = 'options';
+	
 	public function add_option($option)
 	{
 		$options = $this->get_options();

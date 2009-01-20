@@ -19,26 +19,6 @@ class QuestionDisplay
 		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question');
 		$formvalidator->addElement('html', $this->display_header($question));
 	}
-	
-	function get_answers()
-	{
-		$clo_question = $this->get_clo_question();
-		$question_id = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question')->get_id();
-		
-		$dm = RepositoryDataManager :: get_instance();
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $question_id);
-		$clo_answers = $dm->retrieve_complex_learning_object_items($condition, array(ComplexLearningObjectItem :: PROPERTY_ID));
-		
-		while($clo_answer = $clo_answers->next_result())
-		{
-			$answers[] = array(
-				'answer' => $dm->retrieve_learning_object($clo_answer->get_ref(), 'answer'),
-			    'score' => $clo_answer->get_score()
-			);
-		}
-		
-		return $answers;
-	}
 
 	function display_header()
 	{
@@ -52,8 +32,6 @@ class QuestionDisplay
 		$html[] = '<div class="description">';
 		$html[] = $learning_object->get_description();
 		
-		
-		//echo $html;
 		return implode("\n", $html);
 	}
 	
@@ -67,11 +45,29 @@ class QuestionDisplay
 
 	static function factory($clo_question) {
 		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref(), 'question');
-		$type = $question->get_question_type();
+		$type = $question->get_type();
 			
 		switch($type)
 		{
-		case Question :: TYPE_OPEN:
+		case 'open_question':
+			$question_display = new OpenQuestionDisplay($clo_question);
+			break;
+		case 'fill_in_blanks_question':
+			$question_display = new FillInBlanksQuestionDisplay($clo_question);
+			break;
+		case 'matching_question':
+			$question_display = new MatchingQuestionDisplay($clo_question);
+			break;
+		case 'multiple_choice_question':
+			$question_display = new MultipleChoiceQuestionDisplay($clo_question);
+			break;
+		case 'rating_question':
+			$question_display = new ScoreQuestionDisplay($clo_question);
+			break;
+		case 'hotspot_question':
+			$question_display = new HotSpotQuestionDisplay($clo_question);
+			break;
+		/*case Question :: TYPE_OPEN:
 			$question_display = new OpenQuestionDisplay($clo_question);
 			break;
 		case Question :: TYPE_OPEN_WITH_DOCUMENT:
@@ -100,7 +96,7 @@ class QuestionDisplay
 			break;
 		case Question :: TYPE_YES_NO:
 			$question_display = new YesNoQuestionDisplay($clo_question);
-			break;
+			break;*/
 		default:
 			$question_display = null;
 		}
