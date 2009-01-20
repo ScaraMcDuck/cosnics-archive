@@ -43,7 +43,7 @@ abstract class Score
 	
 	static function factory($answer, $user_answer, $user_question)
 	{
-		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_question->get_question_id(), 'question');
+		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_question->get_question_id());
 	
 		switch($question->get_question_type())
 		{
