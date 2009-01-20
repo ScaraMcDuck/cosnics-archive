@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../group_manager.class.php';
 require_once dirname(__FILE__).'/../group_manager_component.class.php';
-require_once dirname(__FILE__).'/../../group_export_form.class.php';
+require_once dirname(__FILE__).'/../../forms/group_export_form.class.php';
 require_once Path :: get_library_path().'export/export.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 

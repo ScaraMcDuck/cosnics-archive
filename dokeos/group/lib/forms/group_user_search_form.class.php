@@ -1,12 +1,12 @@
 <?php
 /**
- * @package users.groupsmanager
+ * @package users.usermanager
  */
-require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/group_manager.class.php';
+require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
+require_once dirname(__FILE__).'/../group_manager/group_manager.class.php';
 require_once dirname(__FILE__).'/../group_data_manager.class.php';
 
-class GroupSearchForm extends FormValidator
+class GroupUserSearchForm extends FormValidator
 {
 	/**#@+
 	 * Search parameter
@@ -55,7 +55,7 @@ class GroupSearchForm extends FormValidator
 	 * @param string $url The location to which the search request should be
 	 * posted.
 	 */
-	function GroupSearchForm($manager, $url)
+	function UserSearchForm($manager, $url)
 	{
 		parent :: __construct(self :: FORM_NAME, 'post', $url);
 		$this->renderer = clone $this->defaultRenderer();
@@ -135,7 +135,9 @@ class GroupSearchForm extends FormValidator
 		if (isset($query) && $query != '')
 		{
 			$conditions = array ();
-			$conditions[] = new PatternMatchCondition(Group :: PROPERTY_NAME, '*'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'*');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'*');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_LASTNAME, '*'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'*');
+			$conditions[] = new PatternMatchCondition(User :: PROPERTY_FIRSTNAME, '*'.$values[self :: PARAM_SIMPLE_SEARCH_QUERY].'*');
 		
 			return new OrCondition($conditions);
 		}
