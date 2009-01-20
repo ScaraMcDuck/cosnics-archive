@@ -57,8 +57,10 @@ class Events
 			$parameters['event'] = $event_name;
 			
 			$object = new $classname;
-			$object->track($parameters);
+			$return[] = $object->track($parameters);
 		}
+		
+		return $return;
 	}
 }
 ?>

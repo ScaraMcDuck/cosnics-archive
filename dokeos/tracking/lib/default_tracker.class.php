@@ -31,7 +31,7 @@ abstract class DefaultTracker extends MainTracker
     function get_property_names()
     {
     	return array_merge(parent :: get_property_names(), array(self :: PROPERTY_USER_ID, 
-    				 self :: PROPERTY_REFERENCE_ID, self :: PROPERTY_ACTION));
+    				 self :: PROPERTY_REFERENCE_ID, self :: PROPERTY_ACTION, self :: PROPERTY_DATE));
     }
     
     /**
