@@ -86,7 +86,7 @@ class GroupForm extends FormValidator {
     }
     
     function build_creation_form()
-    {		
+    {
     	$this->build_basic_form();
     }
     
@@ -112,8 +112,6 @@ class GroupForm extends FormValidator {
    		
    		return $value;
     }
-    
-    
     
     function create_group()
     {

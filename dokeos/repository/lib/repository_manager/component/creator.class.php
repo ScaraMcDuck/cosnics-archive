@@ -68,7 +68,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		
 		asort($type_options);
 		$type_form->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, Translation :: get('CreateANew'), $type_options, array('class' => 'learning-object-creation-type'));
-		$type_form->addElement('submit', 'submit', Translation :: get('Ok'));
+		$type_form->addElement('style_submit_button', 'submit', Translation :: get('Select'), array('class' => 'normal'));
 
 		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE) : $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE]);
 
@@ -128,7 +128,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			else
 			{
 				$renderer = clone $type_form->defaultRenderer();
-				$renderer->setElementTemplate('{label} {element} ');
+				$renderer->setElementTemplate('{label}&nbsp;{element}&nbsp;');
 				$type_form->accept($renderer);
 				echo $renderer->toHTML();
 			}
