@@ -312,5 +312,10 @@ abstract class GroupManagerComponent {
 		require_once $filename;
 		return new $class($group_manager);
 	}
+	
+	function get_manage_roles_url($group)
+	{
+		return $this->get_parent()->get_manage_roles_url($group);
+	}
 }
 ?>
