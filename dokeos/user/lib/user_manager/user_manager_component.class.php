@@ -257,6 +257,11 @@ abstract class UserManagerComponent {
 		return $this->get_parent()->get_change_user_url($user);
 	}
 	
+	function get_manage_roles_url($user)
+	{
+		return $this->get_parent()->get_manage_roles_url($user);
+	}
+	
 	/**
 	 * @see UserManager::get_web_code_path()
 	 */
