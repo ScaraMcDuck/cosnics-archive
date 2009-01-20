@@ -57,4 +57,13 @@
 	<event name="delete_course_user_category">
 		<tracker name="weblcms_course_changes" />
 	</event>
+	<event name="attempt_assessment">
+		<tracker name="weblcms_assessment_attempts" />
+	</event>
+	<event name="attempt_assessment">
+		<tracker name="weblcms_assessment_attempts" />
+	</event>
+	<event name="attempt_question">
+		<tracker name="weblcms_assessment_attempts" />
+	</event>
 </application>
