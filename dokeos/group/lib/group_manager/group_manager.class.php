@@ -49,6 +49,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	const ACTION_SUBSCRIBE_USER_TO_GROUP = 'subscribe';
 	const ACTION_SUBSCRIBE_USER_BROWSER = 'subscribe_browser';
 	const ACTION_UNSUBSCRIBE_USER_FROM_GROUP = 'unsubscribe';
+	const ACTION_MANAGE_ROLES = 'manage_group_roles';
 	
 	private $parameters;
 	private $search_parameters;
@@ -121,6 +122,9 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 				break;
 			case self :: ACTION_SUBSCRIBE_USER_BROWSER :
 				$component = GroupManagerComponent :: factory('SubscribeUserBrowser', $this);
+				break;
+			case self :: ACTION_MANAGE_ROLES :
+				$component = GroupManagerComponent :: factory('GroupRoleManager', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_GROUPS);
@@ -585,6 +589,11 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 			}
 			
 		}
+	}
+	
+	function get_manage_roles_url($group)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_GROUP_ID => $group->get_id()));
 	}
 }
 ?>

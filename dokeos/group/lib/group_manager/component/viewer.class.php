@@ -121,6 +121,7 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_group_delete_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('AddUsers'), Theme :: get_common_image_path().'action_subscribe.png', $this->get_group_suscribe_user_browser_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ManageRoles'), Theme :: get_common_image_path().'action_rights.png', $this->get_manage_roles_url($group), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		
 		$condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group->get_id());
