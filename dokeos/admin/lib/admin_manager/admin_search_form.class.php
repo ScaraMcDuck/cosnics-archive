@@ -117,7 +117,7 @@ class AdminSearchForm extends FormValidator
 	{
 		$this->renderer->setElementTemplate('{element}');
 		$this->frozen_elements[] = $this->addElement('text', self :: PARAM_SIMPLE_SEARCH_QUERY, Translation :: get('Find'), 'size="20" class="search_query"');
-		$this->addElement('submit', 'search', Translation :: get('Ok'));
+		$this->addElement('submit', 'search', Translation :: get('Ok'), array('class' => 'admin_submit'));
 	}
 	/**
 	 * Display the form

@@ -13,6 +13,15 @@ div.admin_section {
 	font-size: 75%;
 }
 
+.admin_submit
+{
+	border: 1px solid grey; 
+	height: 19px; 
+	//padding-bottom: 3px;
+	margin-top: -4px;
+	vertical-align: middle;
+}
+
 div.admin_section div.main
 {
 	float: left;
@@ -20,8 +29,8 @@ div.admin_section div.main
 	text-align: center;
 	padding: 5px;
 	border-right: 1px solid #c0c0c0;
-	height: 100%;
-	background: #ebebeb;
+	height: 80px;
+	background: #EBEBEB;
 }
 
 div.admin_section div.actions
@@ -40,7 +49,7 @@ div.admin_section div.actions div.action
 	margin: 0;
 	border-right: 1px solid #ebebeb;
 	width: 70px;
-	height: 60px;
+	height: 80px;
 }
 
 div.admin_section div.actions div.action img
