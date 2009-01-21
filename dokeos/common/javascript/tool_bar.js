@@ -21,7 +21,7 @@ $(document).ready(function()
 		{
 			case 'tool_bar tool_bar_left':
 				$("div.tool_bar_left").animate({left: "-181px"}, 300, toggleButtons);
-				$("#tool_browser_left").animate({marginLeft: "0px"}, 300);
+				$("#tool_browser_left").animate({marginLeft: "10px"}, 300);
 				break;
 			case 'tool_bar tool_bar_icon_left':
 				$("div.tool_bar_icon_left").animate({left: "-55px"}, 300, toggleButtons);
@@ -29,7 +29,7 @@ $(document).ready(function()
 				break;
 			case 'tool_bar tool_bar_right':
 				$("div.tool_bar_right").animate({right: "-181px"}, 300, toggleButtons);
-				$("#tool_browser_right").animate({marginRight: "0px"}, 300);
+				$("#tool_browser_right").animate({marginRight: "10px"}, 300);
 				break;
 			case 'tool_bar tool_bar_icon_right':
 				$("div.tool_bar_icon_right").animate({right: "-55px"}, 300, toggleButtons);
