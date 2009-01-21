@@ -135,6 +135,7 @@ EOT;
 	 */
 	function add_textfield( $name, $label,$required = true, $attributes = array())
 	{
+		$attributes['size'] = 50;
 		$element = $this->addElement('text',$name,$label,$attributes);
 		$this->applyFilter($name,'trim');
 		if($required)

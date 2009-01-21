@@ -40,7 +40,12 @@ class CourseUserCategoryForm extends FormValidator {
 		$this->addElement('text', CourseUserCategory :: PROPERTY_TITLE, Translation :: get('Title'), array("maxlength" => 50));
 		$this->addRule(CourseUserCategory :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 		
-		$this->addElement('submit', 'course_user_category', Translation :: get('Ok'));
+		//$this->addElement('submit', 'course_user_category', Translation :: get('Ok'));
+		
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
     function build_editing_form()

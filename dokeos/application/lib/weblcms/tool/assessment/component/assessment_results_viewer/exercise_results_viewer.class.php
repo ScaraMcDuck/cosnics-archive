@@ -38,7 +38,11 @@ class ExerciseResultsViewer extends ResultsViewer
 		}
 		if ($_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 		{
-			$this->addElement('submit', 'submit', Translation :: get('Save feedback'));
+			//$this->addElement('submit', 'submit', Translation :: get('Save feedback'));
+			$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+			$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+			$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		}
 		$max_total_score = $assessment->get_maximum_score();
 		$pct_score = round((parent :: get_user_assessment()->get_total_score() / $max_total_score) * 10000) / 100;

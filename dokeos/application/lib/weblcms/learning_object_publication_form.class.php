@@ -243,7 +243,11 @@ class LearningObjectPublicationForm extends FormValidator
     
     function add_footer()
     {
-    	$this->addElement('submit', 'submit', Translation :: get('Ok'));
+    	$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+    	//$this->addElement('submit', 'submit', Translation :: get('Ok'));
     }
     /**
      * Updates a learning object publication using the values from the form.

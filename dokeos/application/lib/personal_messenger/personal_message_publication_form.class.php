@@ -93,7 +93,11 @@ class PersonalMessagePublicationForm extends FormValidator
 		$elem->excludeElements(array($this->form_user->get_id()));
 		$elem->setDefaultCollapsed(false);
 
-		$this->addElement('submit', 'submit', Translation :: get('Ok'));
+		//$this->addElement('submit', 'submit', Translation :: get('Ok'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Send'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
 	private $failures = 0;

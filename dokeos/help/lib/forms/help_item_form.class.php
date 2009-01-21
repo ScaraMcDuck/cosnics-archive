@@ -22,7 +22,13 @@ class HelpItemForm extends FormValidator
     {
 		$this->addElement('text', HelpItem :: PROPERTY_URL, Translation :: get('Url'), array('size' => '100'));
 		$this->addRule(HelpItem :: PROPERTY_URL, Translation :: get('ThisFieldIsRequired'), 'required');
-		$this->addElement('submit', 'help_item_settings', 'OK');
+		//$this->addElement('submit', 'help_item_settings', 'OK');
+		
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		
 		$this->addElement('hidden', HelpItem :: PROPERTY_NAME);
     }
     

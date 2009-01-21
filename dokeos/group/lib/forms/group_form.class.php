@@ -72,7 +72,12 @@ class GroupForm extends FormValidator {
 		$elem->setDefaults($defaults);
 		$elem->setDefaultCollapsed(count($group_roles) == 0);
 		
-		$this->addElement('submit', 'group_settings', 'OK');
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		
+		//$this->addElement('submit', 'group_settings', 'OK');
     }
     
     function build_editing_form()

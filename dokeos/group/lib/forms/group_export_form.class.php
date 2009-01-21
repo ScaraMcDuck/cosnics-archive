@@ -34,7 +34,13 @@ class GroupExportForm extends FormValidator {
     function build_exporting_form()
     {
     	$this->addElement('select', 'file_type', Translation :: get('OutputFileType'),Export::get_supported_filetypes(array('ical', 'csv', 'pdf')));
-		$this->addElement('submit', 'group_export', Translation :: get('Ok'));
+		//$this->addElement('submit', 'group_export', Translation :: get('Ok'));
+		
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Ok'), array('class' => 'positive'));
+		//$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		
 		$this->setDefaults(array('file_type'=>'xml'));
 
     }
