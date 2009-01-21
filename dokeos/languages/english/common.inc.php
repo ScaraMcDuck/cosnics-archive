@@ -923,4 +923,5 @@ $lang['common']['Administrator'] = 'Administrator';
 $lang['common']['RolesAndRights'] = 'Roles & Rights';
 $lang['common']['Reset'] = 'Reset';
 $lang['common']['Select'] = 'Select';
+$lang['common']['Login'] = 'Login';
 ?>

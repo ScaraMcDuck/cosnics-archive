@@ -1,6 +1,6 @@
 <?php
 $lang['repository']['ViewParent'] = 'Up';
-$lang['repository']['Attachments'] = 'Attachements';
+$lang['repository']['Attachments'] = 'Attachments';
 $lang['repository']['Delete'] = 'Delete';
 $lang['repository']['ConfirmYourChoice'] = 'Confirm your choice';
 $lang['repository']['Revert'] = 'Revert';

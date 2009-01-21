@@ -165,17 +165,6 @@ img
 	padding: 0;
 }
 
-#formLogin label
-{
-	font-size: 12px;
-	margin: 4px 6px;
-}
-#formLogin input
-{
-	font-size: 13px;
-	margin: 4px 6px;
-}
-
 /* Style for the failed login message */
 #login_fail
 {
@@ -344,6 +333,7 @@ div.row
 {
 	clear: both;
 	padding-top: 5px;
+	margin-bottom: 5px;
 }
 div.row div.form_header
 {
@@ -357,12 +347,40 @@ div.row div.label
 	float: left;
 	width: 18%;
 	text-align: right;
+	overflow: hidden;
+	font-weight: bold;
+	color: #565656;
 }
+
+div.row div.label img
+{
+	vertical-align: middle;
+}
+
 div.row div.formw
 {
 	width: 80%;
 	float: right;
 	text-align: left;
+}
+
+div.row div.formw input[type=text]
+{
+	/*
+	background-image: url(../img/common/buttons/button_link.png);
+	background-repeat: no-repeat;
+	background-position: 2px center;
+	padding-left: 20px;
+	*/
+	
+    background-color: #f5f5f5;
+    border: 1px solid #dedede;
+}
+
+div.row div.formw input[type=text]:hover, div.row div.formw input[type=text]:focus
+{
+	background-color: #f7fbfd;
+	border-color: #4171B5;
 }
 
 div.row div.forme
@@ -406,7 +424,14 @@ select, textarea
 	border: 1px solid #000;
 }
 
-input.checkbox 
+input[type=text]
+{
+	margin: 0px;
+	padding: 2px;
+	border: 1px solid #4171B5;
+}
+
+input.checkbox , input[type=checkbox]
 {
 	border-width: 0;
 }
@@ -523,6 +548,11 @@ button.empty, button a.empty
 button.select, button a.select
 {
 	background-image: url(../img/common/buttons/button_select.png);
+}
+
+button.login, button a.login
+{
+	background-image: url(../img/common/buttons/button_login.png);
 }
 
 /*****************************************************
@@ -2102,6 +2132,7 @@ div.configuration_form span.category
 	top: -20px;
 	background-color: #FFFFFF;
 	font-weight: bold;
+	color: #4271B5;
 	padding: 0px 5px 0px 5px;
 }
 

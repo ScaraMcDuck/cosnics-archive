@@ -50,6 +50,12 @@ class FormValidator extends HTML_QuickForm
 	 */
 	function FormValidator($form_name, $method = 'post', $action = '', $target = '', $attributes = null, $trackSubmit = true)
 	{
+		if (is_null($attributes))
+		{
+			$attributes = array();
+		}
+		$attributes['onreset'] = 'resetEditor()';
+		
 		$this->HTML_QuickForm($form_name, $method,$action, $target, $attributes, $trackSubmit);
 		// Load some custom elements and rules
 		$dir = dirname(__FILE__).'/';
@@ -76,6 +82,8 @@ class FormValidator extends HTML_QuickForm
 		$this->registerRule('filetype',null,'HTML_QuickForm_Rule_Filetype',$dir.'Rule/Filetype.php');
 		$this->registerRule('disk_quota',null,'HTML_QuickForm_Rule_DiskQuota',$dir.'Rule/DiskQuota.php');
 		$this->registerRule('max_value',null,'HTML_QuickForm_Rule_MaxValue',$dir.'Rule/MaxValue.php');
+		
+		$this->addElement('html', '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) .'javascript/reset_fckeditor.js"></script>');
 
 		// Modify the default templates
 		$renderer = $this->defaultRenderer();
@@ -90,26 +98,30 @@ class FormValidator extends HTML_QuickForm
 
 EOT;
 		$renderer->setFormTemplate($form_template);
-		$element_template = <<<EOT
-	<div class="row">
-		<div class="label">
-			<!-- BEGIN required --><span class="form_required">*</span> <!-- END required -->{label}
-		</div>
-		<div class="formw">
-			<!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}
-		</div>
-	</div>
-
-EOT;
+		
+		$element_template = array();
+		$element_template[] = '<div class="row">';
+		$element_template[] = '<div class="label">';
+		$element_template[] = '<!-- BEGIN required --><span class="form_required"><img src="'. Theme :: get_common_image_path() .'/action_required.png" alt="*" title ="*"/></span> <!-- END required -->{label}';
+		$element_template[] = '</div>';
+		$element_template[] = '<div class="formw">';
+		$element_template[] = '<!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}';
+		$element_template[] = '</div>';
+		$element_template[] = '<div class="clear">&nbsp;</div>';
+		$element_template[] = '</div>';
+		$element_template = implode("\n", $element_template);
+		
 		$renderer->setElementTemplate($element_template);
-		$header_template = <<<EOT
-	<div class="row">
-		<div class="form_header">{header}</div>
-	</div>
-
-EOT;
+		
+		$header_template = array();
+		$header_template[] = '<div class="row">';
+		$header_template[] = '<div class="form_header">{header}</div>';
+		$header_template[] = '</div>';
+		$header_template = implode("\n", $header_template);
+		
 		$renderer->setHeaderTemplate($header_template);
-		HTML_QuickForm :: setRequiredNote('<span class="form_required">*</span> <small>'.Translation :: get('ThisFieldIsRequired').'</small>');
+		
+		HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="'. Theme :: get_common_image_path() .'/action_required.png" alt="*" title ="*"/>&nbsp;<small>'.Translation :: get('ThisFieldIsRequired').'</small></span>');
 		$required_note_template = <<<EOT
 	<div class="row">
 		<div class="label"></div>
