@@ -50,7 +50,11 @@ class RoleForm extends FormValidator {
 		$this->add_html_editor(Role :: PROPERTY_DESCRIPTION, Translation :: get('Description'), true);
 		
 		// Submit button
-		$this->addElement('submit', 'user_settings', 'OK');
+		//$this->addElement('submit', 'user_settings', 'OK');
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     /**

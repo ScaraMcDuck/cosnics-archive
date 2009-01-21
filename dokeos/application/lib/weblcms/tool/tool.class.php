@@ -492,7 +492,11 @@ abstract class Tool
 		$form = new FormValidator($action,'get',$this->get_url());
 		$categories = $this->get_categories(true);
 		$form->addElement('select', LearningObjectPublication :: PROPERTY_CATEGORY_ID, Translation :: get('Category'), $categories);
-		$form->addElement('submit', 'submit', Translation :: get('Ok'));
+		//$form->addElement('submit', 'submit', Translation :: get('Ok'));
+		$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		$parameters = $this->get_parameters();
 		$parameters['pcattree'] = $_GET['pcattree'];
 		$parameters[self :: PARAM_ACTION] = $action;

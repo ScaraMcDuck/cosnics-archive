@@ -58,7 +58,10 @@ class LearningObjectImportForm extends FormValidator
 	{
 		$category_select = $this->add_select(RepositoryManager :: PARAM_CATEGORY_ID, Translation :: get('CategoryTypeName'), $this->get_categories());
 		$this->addElement('file', self :: IMPORT_FILE_NAME, Translation :: get('FileName'));
-		$this->addElement('submit', 'learning_object_import', Translation :: get('Ok'));
+		//$this->addElement('submit', 'learning_object_import', Translation :: get('Ok'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Ok'), array('class' => 'positive'));
+		//$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 	}
 
 	/**

@@ -57,7 +57,13 @@ class SearchPortal extends WebApplication
 		
 		$form = new FormValidator('search_simple', 'get', $this->get_url(), '', null, false);
 		$form->addElement('text', self :: PARAM_QUERY, '', 'size="40" class="search_query" id="inputString" onkeyup="lookup(this.value);"');
-		$form->addElement('submit', 'submit', Translation :: get('Search'));
+		//$form->addElement('submit', 'submit', Translation :: get('Search'));
+		
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'positive'));
+		//$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		
 		$form->addElement('hidden','application');
 		if ($supports_remote)
 		{

@@ -30,7 +30,7 @@
 		<category name="platform">
 			<setting name="site_name" field="text" default="LCMS" />
 			<setting name="institution" field="text" default="Dokeos" />
-			<setting name="institution_url" field="text" default="http://www.dokeos.com" />
+			<setting name="institution_url" field="text" default="http://www.dokeosplanet.org" />
 			<setting name="no_reply_email" field="text" default="" />
 			<setting name="page_after_login" field="radio" default="home">
 				<options type="static">

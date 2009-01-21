@@ -63,7 +63,11 @@ class AssessmentTesterForm extends FormValidator
 				$this->addElement('html', '<br />');
 			}
 		}
-		$this->addElement('submit', 'submit', Translation :: get('Submit'));
+		//$this->addElement('submit', 'submit', Translation :: get('Submit'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 	}
 }
 ?>

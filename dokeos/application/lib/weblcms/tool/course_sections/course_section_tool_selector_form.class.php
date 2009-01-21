@@ -20,7 +20,11 @@ class CourseSectionToolSelectorForm extends FormValidator
 		$sel =& $this->addElement('advmultiselect', 'tools', Translation :: get('SelectTools'), 
 								  $this->get_tools(), array('style' => 'width:200px;'));
 
-		$this->addElement('submit', 'course_sections', 'OK');
+		//$this->addElement('submit', 'course_sections', 'OK');
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
     function get_tools()

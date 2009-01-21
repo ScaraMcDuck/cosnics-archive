@@ -100,7 +100,11 @@ abstract class QuestionResult
 			//$this->formvalidator->addElement('select', 'ex'.$this->user_question->get_id(), Translation :: get('Select a feedback object:'), $feedback_objects);
 			$this->formvalidator->addElement('hidden', 'ex_'.$this->user_question->get_id(), '');
 			$this->formvalidator->addElement('text', 'ex'.$this->user_question->get_id().'_name', Translation :: get('SelectedFeedback'));
-			$this->formvalidator->addElement('submit', 'feedback_'.$this->user_question->get_id(), 'Select feedback');
+			//$this->formvalidator->addElement('submit', 'feedback_'.$this->user_question->get_id(), 'Select feedback');
+			$buttons[] = $this->formvalidator->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+			$buttons[] = $this->formvalidator->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+			$this->formvalidator->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		}
 	}
 	

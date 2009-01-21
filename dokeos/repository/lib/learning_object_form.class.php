@@ -253,7 +253,10 @@ EOT;
 				$i++;
 			}
 			
-			$this->addElement('submit', 'submit', Translation :: get('CompareVersions'));
+			//$this->addElement('submit', 'submit', Translation :: get('CompareVersions'));
+			$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('CompareVersions'), array('class' => 'positive'));
+			$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+			
 			$this->addElement('html', '</div>');
 		}
 	}
