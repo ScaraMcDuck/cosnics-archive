@@ -200,8 +200,10 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		
 		$html[] = '<div class="block" id="block_'. $section->get_id() .'" style="background-image: url('.Theme :: get_image_path('home'). $icon . ');">';
 		
-		$html[] = '<div class="title">'. $block_name;
-		$html[] = '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_image_path().'action_visible.png" /><img class="invisible" style="display: none;") src="'.Theme :: get_common_image_path().'action_invisible.png" /></a></div>';
+		$html[] = '<div class="title"><div style="float: left;">'. $block_name . '</div>';
+		$html[] = '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_image_path().'action_visible.png" /><img class="invisible" style="display: none;") src="'.Theme :: get_common_image_path().'action_invisible.png" /></a>';
+		$html[] = '<div style="clear: both;"></div>';
+		$html[] = '</div>';
 		$html[] = '<div class="description">';
 		
 		return implode ("\n", $html);

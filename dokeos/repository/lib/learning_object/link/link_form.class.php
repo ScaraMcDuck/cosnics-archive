@@ -13,14 +13,14 @@ class LinkForm extends LearningObjectForm
 	{
 		parent :: build_creation_form();
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-		$this->add_textfield(Link :: PROPERTY_URL, Translation :: get('URL'), true,'size="40" style="width: 100%;"');
+		$this->add_textfield(Link :: PROPERTY_URL, Translation :: get('URL'), true,'size="70"');
 		$this->addElement('category');
 	}
 	protected function build_editing_form()
 	{
 		parent :: build_editing_form();
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-		$this->add_textfield(Link :: PROPERTY_URL, Translation :: get('URL'), true,'size="40" style="width: 100%;"');
+		$this->add_textfield(Link :: PROPERTY_URL, Translation :: get('URL'), true,'size="70"');
 		$this->addElement('category');
 	}
 

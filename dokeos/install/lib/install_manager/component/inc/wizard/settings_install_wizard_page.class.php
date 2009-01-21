@@ -44,9 +44,6 @@ class SettingsInstallWizardPage extends InstallWizardPage
 		$this->addRule('organization_name', Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->addElement('text', 'organization_url', Translation :: get("InstituteURL"), array ('size' => '40'));
 		$this->addRule('organization_url', Translation :: get('ThisFieldIsRequired'), 'required');
-		$encrypt[] = $this->createElement('radio', 'encrypt_password', null, Translation :: get('Yes'), 1);
-		$encrypt[] = $this->createElement('radio', 'encrypt_password', null, Translation :: get('No'), 0);
-		$this->addGroup($encrypt, 'encrypt_password', Translation :: get("EncryptUserPass"), '&nbsp;', false);
 		$self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('Yes'), 1);
 		$self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('No'), 0);
 		$this->addGroup($self_reg, 'self_reg', Translation :: get("AllowSelfReg"), '&nbsp;', false);
