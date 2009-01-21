@@ -28,12 +28,12 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 	/*
 	 * Inherited
 	 */
-	function render_cell($column, $assessment)
+	function render_cell($column, $publication)
 	{
-		
+		$assessment = $publication->get_learning_object();
 		if ($column === AssessmentResultsTableOverviewAdminColumnModel :: get_action_column())
 		{
-			return $this->get_actions($assessment);
+			return $this->get_actions($publication);
 		} 
 		else
 		{
@@ -63,10 +63,11 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 		}
 	}
 	
-	function get_actions($assessment) 
+	function get_actions($publication) 
 	{
+		$assessment = $publication->get_learning_object();
 		$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $assessment->get_id())),
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
 			'label' => Translation :: get('View results'),
 			'img' => Theme :: get_common_image_path().'action_view_results.png'
 		);
@@ -74,7 +75,7 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 		if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
 		{
 			$actions[] = array(
-				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_ASSESSMENT => $assessment->get_id())),
+				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
 				'label' => Translation :: get('Download documents'),
 				'img' => Theme :: get_common_image_path().'action_save.png'
 			);

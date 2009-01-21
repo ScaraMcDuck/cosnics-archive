@@ -63,9 +63,9 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 	
 	function view_assessment_results()
 	{
-		$aid = $_GET[AssessmentTool :: PARAM_ASSESSMENT];
+		$pid = $_GET[AssessmentTool :: PARAM_ASSESSMENT];
 		$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), Translation :: get('ViewResults')); 
-		$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $aid)), Translation :: get('AssessmentResults'));	
+		$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $pid)), Translation :: get('AssessmentResults'));	
 		
 		$visible = $this->display_header($crumbs);
 		if (!$visible || !$this->is_allowed(EDIT_RIGHT))
@@ -73,7 +73,8 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			return;
 		}
 		
-		$assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($aid);
+		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
+		$assessment = $publication->get_learning_object();
 		
 		echo '<div class="learning_object">';
 		echo '<div class="title">';
@@ -113,7 +114,11 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		$uaid = $_GET[AssessmentTool :: PARAM_USER_ASSESSMENT];
 		
 		$url = $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid, AssessmentTool :: PARAM_ADD_FEEDBACK => '1'));
-		$user_assessment = $datamanager->retrieve_user_assessment($uaid);
+		$track = new WeblcmsAssessmentAttemptsTracker();
+		$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ID, $uaid);
+		//$user_assessment = $datamanager->retrieve_user_assessment($uaid);
+		$user_assessments = $track->retrieve_tracker_items($condition);
+		$user_assessment = $user_assessments[0];
 		$edit_rights = $this->is_allowed(EDIT_RIGHT);
 		$subcomponent = ResultsViewer :: factory($user_assessment, $edit_rights, $url);
 		$subcomponent->build();
@@ -155,7 +160,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 					$parts = split('_', $id);
 					if ($parts[0] == 'feedback')
 					{
-						print_r($parts);
+						//print_r($parts);
 						$control_id = $parts[1];
 						$objects = $_GET['object'];
 						if (is_array($objects))

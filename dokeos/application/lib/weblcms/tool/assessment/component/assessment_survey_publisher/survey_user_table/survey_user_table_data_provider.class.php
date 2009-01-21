@@ -20,7 +20,7 @@ class SurveyUserTableDataProvider extends ObjectTableDataProvider
 	/**
 	 * The possible types of learning objects which can be selected.
 	 */
-	private $survey;
+	private $pid;
 	
 	private $parent;
 	/**
@@ -30,10 +30,10 @@ class SurveyUserTableDataProvider extends ObjectTableDataProvider
 	 * selected.
 	 * @param string $query The search query.
 	 */
-    function SurveyUserTableDataProvider($parent, $owner, $survey)
+    function SurveyUserTableDataProvider($parent, $owner, $pid)
     {
     	$this->owner = $owner;
-    	$this->survey = $survey;
+    	$this->pid = $pid;
     	$this->parent = $parent;
     }
 	/*
@@ -43,8 +43,8 @@ class SurveyUserTableDataProvider extends ObjectTableDataProvider
     {
     	$order_property = $this->get_order_property($order_property);
     	$order_direction = $this->get_order_direction($order_direction);
-    	$survey_id = $this->survey->get_id();
-    	$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_SURVEY_ID, $survey_id);
+    	//$survey_id = $this->survey->get_id();
+    	$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_SURVEY_ID, $this->pid);
     	$results = WeblcmsDataManager :: get_instance()->retrieve_survey_invitations($condition, $offset, $count, $order_property, $order_direction);
     	while ($object = $results->next_result())
     	{

@@ -37,7 +37,8 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
     	$this->set_user_id($user);
     	$this->set_course_id($course);
     	$this->set_assessment_id($assessment);
-    	$this->set_date(time());
+    	
+    	$this->set_date(DatabaseRepositoryDataManager :: to_db_date(time()));
     	$this->set_total_score($total_score);
     	
     	$this->create();
@@ -57,9 +58,9 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
     /**
      * Inherited
      */
-    function get_property_names()
+    function get_default_property_names()
     {
-    	return array_merge(parent :: get_property_names(), array(self :: PROPERTY_USER_ID, self :: PROPERTY_COURSE_ID,
+    	return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_USER_ID, self :: PROPERTY_COURSE_ID,
     		self :: PROPERTY_ASSESSMENT_ID, self :: PROPERTY_DATE, self :: PROPERTY_TOTAL_SCORE));
     }
 
@@ -111,6 +112,11 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
     function set_total_score($total_score)
     {
     	$this->set_property(self :: PROPERTY_TOTAL_SCORE, $total_score);
+    }
+    
+    function empty_tracker($event)
+    {
+    	
     }
 }
 ?>

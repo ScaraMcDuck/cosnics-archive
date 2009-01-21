@@ -8,6 +8,7 @@ require_once Path :: get_repository_path().'lib/learning_object/survey/survey.cl
 require_once dirname(__FILE__).'/assessment_tester_form/assessment_score_calculator.class.php';
 require_once dirname(__FILE__).'/assessment_tester_form/assessment_tester_display.class.php';
 require_once dirname(__FILE__).'/../survey_invitation.class.php';
+require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_assessment_attempts_tracker.class.php';
 
 class AssessmentToolTesterComponent extends AssessmentToolComponent
 {
@@ -19,12 +20,13 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	private $assessment;
 	private $iid;
 	private $pid;
+	private $showlcms;
 	
 	function run()
 	{
 		//$this->questions = null;
 		$this->datamanager = WeblcmsDataManager :: get_instance();
-		$showlcms = true;
+		$this->showlcms = true;
 		if (isset($_GET[Tool :: PARAM_PUBLICATION_ID]))
 		{
 			$this->pid = $_GET[Tool :: PARAM_PUBLICATION_ID];
@@ -36,7 +38,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		if (isset($_GET[AssessmentTool :: PARAM_INVITATION_ID]))
 		{
 			$this->iid = $_GET[AssessmentTool :: PARAM_INVITATION_ID];
-			$showlcms = false;
+			$this->showlcms = false;
 			$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_INVITATION_CODE, $this->iid);
 			$this->invitation = $this->datamanager->retrieve_survey_invitations($condition)->next_result();
 			$this->assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->invitation->get_survey_id());
@@ -54,6 +56,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		{
 			$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = null;
 			$_SESSION['formvalues'] = null;
+			$this->create_tracker();
 		}
 		
 		if (isset($_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE]))
@@ -68,13 +71,36 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 
 	}
 	
+	function create_tracker()
+	{
+		$args = array(
+		'assessment_id' => $this->pid, 
+		'user_id' => $this->get_user_id(), 
+		'course_id' => $this->get_course_id(),
+		'total_score' => 0
+		);
+		$tracker = new WeblcmsAssessmentAttemptsTracker();
+		$tracker_id = $tracker->track($args);
+		$_SESSION['assessment_tracker'] = $tracker_id;
+	}
+	
+	function get_user_id()
+	{
+		if ($this->assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
+		{
+			if ($this->assessment->get_anonymous() == true)
+				return 0;
+		}
+		return parent :: get_user_id();
+	}
+	
 	function show_form($form_display)
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, AssessmentTool :: PARAM_PUBLICATION_ID => $pid, AssessmentTool :: PARAM_INVITATION_ID => $iid)), Translation :: get('TakeAssessment')));
 		$this->display_header($trail);
 			
-		if ($showlcms)
+		if ($this->showlcms)
 		{
 			$this->action_bar = $this->get_toolbar();
 			echo $this->action_bar->as_html();
@@ -111,10 +137,11 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			$values = $_SESSION['formvalues'];
 			
 		$score_calculator = new AssessmentScoreCalculator();
-		$user_assessment = $score_calculator->build_answers($values, $this->assessment, $this->datamanager, $this);
-		
-		WeblcmsDataManager :: get_instance()->create_user_assessment($user_assessment);
-		$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id());
+		$score_calculator->build_answers($values, $this->assessment, $this->datamanager, $this);
+		$uaid = $tracker_id = $_SESSION['assessment_tracker'];
+		$_SESSION['assessment_tracker'] = null;
+		//WeblcmsDataManager :: get_instance()->create_user_assessment($user_assessment);
+		$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid);
 		if ($this->invitation != null)
 		{
 			$this->invitation->set_valid(false);

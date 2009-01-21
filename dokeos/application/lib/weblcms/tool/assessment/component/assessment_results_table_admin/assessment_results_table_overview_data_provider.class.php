@@ -61,10 +61,11 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
     	{
     		$publications = $this->get_publication($this->pid);
     	}
-    	return $this->get_assessments($publications);
+    	//return $this->get_assessments($publications);
+    	return $publications;
     }
     
-    function get_assessments($publications) 
+    /*function get_assessments($publications) 
     {
     	foreach ($publications as $publication)
     	{
@@ -72,7 +73,7 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
     		$all_assessments[] = $assessment;
     	}
     	return $all_assessments;
-    }
+    }*/
     
     function get_publication($pid) 
     {

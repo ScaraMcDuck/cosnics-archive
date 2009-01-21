@@ -25,11 +25,11 @@ class OpenQuestionDisplay extends QuestionDisplay
 				break;
 			case OpenQuestion :: TYPE_OPEN:
 				$name = $clo_question->get_ref().'_0';
-				$formvalidator->addElement('html_editor', $name, '');
+				$formvalidator->add_html_editor($name, '');
 				break;
 			case OpenQuestion :: TYPE_OPEN_WITH_DOCUMENT:
 				$name = $clo_question->get_ref().'_1';
-				$formvalidator->addElement('html_editor', $name, '');
+				$formvalidator->add_html_editor($name, '');
 				$name = $this->get_clo_question()->get_ref().'_0';
 				$formvalidator->addElement('hidden', $name, '');
 				$formvalidator->addElement('text', $name.'_name', Translation :: get('Selected document'));

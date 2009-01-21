@@ -1,27 +1,29 @@
 <?php
-require_once dirname(__FILE__).'/score_types/document_score.class.php';
+//require_once dirname(__FILE__).'/score_types/document_score.class.php';
 require_once dirname(__FILE__).'/score_types/fill_in_blanks_score.class.php';
-require_once dirname(__FILE__).'/score_types/multiple_answer_score.class.php';
+//require_once dirname(__FILE__).'/score_types/multiple_answer_score.class.php';
 require_once dirname(__FILE__).'/score_types/multiple_choice_score.class.php';
 require_once dirname(__FILE__).'/score_types/open_question_score.class.php';
-require_once dirname(__FILE__).'/score_types/open_question_with_document_score.class.php';
-require_once dirname(__FILE__).'/score_types/percentage_score.class.php';
+//require_once dirname(__FILE__).'/score_types/open_question_with_document_score.class.php';
+//require_once dirname(__FILE__).'/score_types/percentage_score.class.php';
 require_once dirname(__FILE__).'/score_types/score_score.class.php';
-require_once dirname(__FILE__).'/score_types/yes_no_score.class.php';
+//require_once dirname(__FILE__).'/score_types/yes_no_score.class.php';
 require_once dirname(__FILE__).'/score_types/matching_score.class.php';
-require_once dirname(__FILE__).'/score_types/document_score.class.php';
+//require_once dirname(__FILE__).'/score_types/document_score.class.php';
 
 abstract class Score
 {
 	private $answer;
-	private $user_answer;
+	//private $user_answer;
 	private $question;
+	private $answer_num;
 	
-	function Score($answer, $user_answer, $question)
+	function Score($answer, $question, $answer_num)
 	{
 		$this->answer = $answer;
-		$this->user_answer = $user_answer;
+		//$this->user_answer = $user_answer;
 		$this->question = $question;
+		$this->answer_num = $answer_num;
 	}
 	
 	abstract function get_score();
@@ -31,9 +33,14 @@ abstract class Score
 		return $this->answer;
 	}
 	
-	function get_user_answer()
+	/*function get_user_answer()
 	{
 		return $this->user_answer;
+	}*/
+	
+	function get_answer_num()
+	{
+		return $this->answer_num;
 	}
 	
 	function get_question()
@@ -41,13 +48,31 @@ abstract class Score
 		return $this->question;
 	}
 	
-	static function factory($answer, $user_answer, $user_question)
+	static function factory($answer, $question, $answer_num)
 	{
-		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_question->get_question_id());
+		//$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_question->get_question_id());
 	
-		switch($question->get_question_type())
+		switch($question->get_type())
 		{
-			case Question :: TYPE_OPEN:
+			case 'open_question':
+				$score_type = new OpenQuestionScore($answer, $question, $answer_num);
+				break;
+			case 'fill_in_blanks_question':
+				$score_type = new FillInBlanksScore($answer, $question, $answer_num);
+				break;
+			case 'matching_question':
+				$score_type = new MatchingScore($answer, $question, $answer_num);
+				break;
+			case 'multiple_choice_question':
+				$score_type = new MultipleChoiceScore($answer, $question, $answer_num);
+				break;
+			case 'rating_question':
+				$score_type = new ScoreScore($answer, $question, $answer_num);
+				break;
+			case 'hotspot_question':
+				$score_type = new HotspotScore($answer, $question, $answer_num);
+				break;
+			/*case Question :: TYPE_OPEN:
 				$score_type = new OpenQuestionScore($answer, $user_answer, $question);
 				break;
 			case Question :: TYPE_OPEN_WITH_DOCUMENT:
@@ -76,7 +101,7 @@ abstract class Score
 				break;
 			case Question :: TYPE_YES_NO:
 				$score_type = new YesNoScore($answer, $user_answer, $question);
-				break;
+				break;*/
 			default:
 				$score_type = null;
 		}
