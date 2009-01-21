@@ -247,6 +247,11 @@ abstract class LearningObjectPublicationListRenderer
 		$edit_link = '<a href="'.$edit_url.'"><img src="'.Theme :: get_common_image_path().'action_edit.png"  alt=""/></a>';
 		return $edit_link;
 	}
+	
+	function render_top_action($publication)
+	{
+		return '<a href="#top"><img src="'.Theme :: get_common_image_path().'action_ajax_add.png"  alt=""/></a>';
+	}
 
 	/**
 	 * Renders the means to delete the given publication.
@@ -344,6 +349,9 @@ abstract class LearningObjectPublicationListRenderer
 		$icons = array();
 		
 		$html[] = '<span style="white-space: nowrap;">';
+		
+		$icons[] = $this->render_top_action($publication);
+		
 		if ($this->is_allowed(DELETE_RIGHT))
 		{
 			$icons[] = $this->render_delete_action($publication);
@@ -372,6 +380,7 @@ abstract class LearningObjectPublicationListRenderer
 		$object = $publication->get_learning_object();
 		return '<img src="'.Theme :: get_common_image_path() . 'learning_object/' .$object->get_icon_name().'.png" alt=""/>';
 	}
+	
 	/**
 	 * Formats the given date in a human-readable format.
 	 * @param int $date A UNIX timestamp.

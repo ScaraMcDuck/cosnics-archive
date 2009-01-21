@@ -16,7 +16,7 @@ class LinkPublicationListRenderer extends ListLearningObjectPublicationListRende
 	function render_title($publication)
 	{
 		$url = $publication->get_learning_object()->get_url();
-		return '<a href="'.htmlentities($url).'">'.parent :: render_title($publication).'</a>';
+		return '<a target="about:blank" href="'.htmlentities($url).'">'.parent :: render_title($publication).'</a>';
 	}
 }
 ?>

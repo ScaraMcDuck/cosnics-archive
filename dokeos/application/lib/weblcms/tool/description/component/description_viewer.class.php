@@ -44,6 +44,11 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
 		$this->display_footer();
 	}
 	
+	function add_actionbar_item($item)
+	{
+		$this->action_bar->add_tool_action($item);
+	}
+	
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);

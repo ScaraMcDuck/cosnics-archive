@@ -13,13 +13,13 @@ class ComplexMultipleChoiceQuestionForm extends ComplexLearningObjectItemForm
   	protected function build_creation_form()
     {
     	parent :: build_creation_form();
-    	$this->addElement('text', ComplexMultipleChoiceQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'));
+    	$this->addElement('text', ComplexMultipleChoiceQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'), array("size" => "50"));
     }
     // Inherited
     protected function build_editing_form()
     {
 		parent :: build_editing_form();
-    	$this->addElement('text', ComplexMultipleChoiceQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'));
+    	$this->addElement('text', ComplexMultipleChoiceQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'), array("size" => "50"));
 	}
 	// Inherited
 	function setDefaults($defaults = array ())

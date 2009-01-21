@@ -37,20 +37,20 @@ class RegisterForm extends FormValidator {
     function build_basic_form()
     {
     	// Lastname
-		$this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get('LastName'));
+		$this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get('LastName'), array("size" => "50"));
 		$this->addRule(User :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		// Firstname
-		$this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get('FirstName'));
+		$this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get('FirstName'), array("size" => "50"));
 		$this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		// Email
-		$this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get('Email'));
+		$this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get('Email'), array("size" => "50"));
 		if (PlatformSetting :: get('require_email', 'user'))
 		{
 			$this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
 		}
 		$this->addRule(User :: PROPERTY_EMAIL, Translation :: get('WrongEmail'), 'email');
 		// Username
-		$this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'));
+		$this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'), array("size" => "50"));
 		$this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		//pw
 		$group = array();
@@ -59,7 +59,7 @@ class RegisterForm extends FormValidator {
 		$group[] =& $this->createElement('password', User :: PROPERTY_PASSWORD,null,null);
 		$this->addGroup($group, 'pw', Translation :: get('Password'), '');
 		// Official Code
-		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'));
+		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'), array("size" => "50"));
 		if (PlatformSetting :: get('require_official_code', 'user'))
 		{
 			$this->addRule(User :: PROPERTY_OFFICIAL_CODE, Translation :: get('ThisFieldIsRequired'), 'required');
@@ -72,7 +72,7 @@ class RegisterForm extends FormValidator {
 		$allowed_picture_types = array ('jpg', 'jpeg', 'png', 'gif');
 		$this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'filetype', $allowed_picture_types);
 		// Phone Number
-		$this->addElement('text', User :: PROPERTY_PHONE, Translation :: get('PhoneNumber'));
+		$this->addElement('text', User :: PROPERTY_PHONE, Translation :: get('PhoneNumber'), array("size" => "50"));
 		// Language
 		$adm = AdminDataManager :: get_instance();
 		$languages = $adm->retrieve_languages();

@@ -37,13 +37,13 @@ class HomeColumnForm extends FormValidator {
     
     function build_basic_form()
     {
-		$this->addElement('text', HomeColumn :: PROPERTY_TITLE, Translation :: get('HomeColumnTitle'));
+		$this->addElement('text', HomeColumn :: PROPERTY_TITLE, Translation :: get('HomeColumnTitle'), array("size" => "50"));
 		$this->addRule(HomeColumn :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$this->addElement('select', HomeColumn :: PROPERTY_ROW, Translation :: get('HomeColumnRow'), $this->get_rows());
 		$this->addRule(HomeColumn :: PROPERTY_ROW, Translation :: get('ThisFieldIsRequired'), 'required');
 		
-		$this->addElement('text', HomeColumn :: PROPERTY_WIDTH, Translation :: get('HomeColumnWidth'));
+		$this->addElement('text', HomeColumn :: PROPERTY_WIDTH, Translation :: get('HomeColumnWidth'), array("size" => "50"));
 		$this->addRule(HomeColumn :: PROPERTY_WIDTH, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$this->addElement('hidden', HomeColumn :: PROPERTY_USER);

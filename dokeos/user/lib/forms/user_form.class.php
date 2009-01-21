@@ -50,17 +50,17 @@ class UserForm extends FormValidator {
     function build_basic_form()
     {
     	// Lastname
-		$this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get('LastName'));
+		$this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get('LastName'), array("size" => "50"));
 		$this->addRule(User :: PROPERTY_LASTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		// Firstname
-		$this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get('FirstName'));
+		$this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get('FirstName'), array("size" => "50"));
 		$this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		// Email
-		$this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get('Email'));
+		$this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get('Email'), array("size" => "50"));
 		$this->addRule(User :: PROPERTY_EMAIL, Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->addRule(User :: PROPERTY_EMAIL, Translation :: get('WrongEmail'), 'email');
 		// Username
-		$this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'));
+		$this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'), array("size" => "50"));
 		$this->addRule(User :: PROPERTY_USERNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$group = array();
@@ -83,13 +83,13 @@ class UserForm extends FormValidator {
 		$this->add_forever_or_timewindow(User :: PROPERTY_EXPIRATION_DATE, 'ExpirationDate');
 		
 		// Official Code
-		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'));
+		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'), array("size" => "50"));
 		// Picture URI
 		$this->addElement('file', User :: PROPERTY_PICTURE_URI, Translation :: get('AddPicture'));
 		$allowed_picture_types = array ('jpg', 'jpeg', 'png', 'gif');
 		$this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'filetype', $allowed_picture_types);
 		// Phone Number
-		$this->addElement('text', User :: PROPERTY_PHONE, Translation :: get('PhoneNumber'));
+		$this->addElement('text', User :: PROPERTY_PHONE, Translation :: get('PhoneNumber'), array("size" => "50"));
 		// Language
 		$adm = AdminDataManager :: get_instance();
 		$lang_options = $adm->get_languages();
@@ -104,13 +104,13 @@ class UserForm extends FormValidator {
 			$this->addElement('select', User :: PROPERTY_THEME, Translation :: get('Theme'), $theme_options);
 		}
 		// Disk Quota
-		$this->addElement('text', User :: PROPERTY_DISK_QUOTA, Translation :: get('DiskQuota'));
+		$this->addElement('text', User :: PROPERTY_DISK_QUOTA, Translation :: get('DiskQuota'), array("size" => "50"));
 		$this->addRule(User :: PROPERTY_DISK_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
 		// Database Quota
-		$this->addElement('text', User :: PROPERTY_DATABASE_QUOTA, Translation :: get('DatabaseQuota'));
+		$this->addElement('text', User :: PROPERTY_DATABASE_QUOTA, Translation :: get('DatabaseQuota'), array("size" => "50"));
 		$this->addRule(User :: PROPERTY_DATABASE_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
 		// Version quota
-		$this->addElement('text', User :: PROPERTY_VERSION_QUOTA, Translation :: get('VersionQuota'));
+		$this->addElement('text', User :: PROPERTY_VERSION_QUOTA, Translation :: get('VersionQuota'), array("size" => "50"));
 		$this->addRule(User :: PROPERTY_VERSION_QUOTA, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
 
 		// Status

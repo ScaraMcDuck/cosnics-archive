@@ -38,7 +38,7 @@ class MenuItemForm extends FormValidator {
     {
 		$this->addElement('html', '<div class="configuration_form">');
 		$this->addElement('html', '<span class="category">'. Translation :: get('Main') .'</span>');
-		$this->addElement('text', MenuItem :: PROPERTY_TITLE, Translation :: get('MenuItemTitle'));
+		$this->addElement('text', MenuItem :: PROPERTY_TITLE, Translation :: get('MenuItemTitle'), array("size" => "50"));
 		$this->addRule(MenuItem :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$this->addElement('select', MenuItem :: PROPERTY_CATEGORY, Translation :: get('MenuItemParent'), $this->get_categories());
@@ -56,11 +56,11 @@ class MenuItemForm extends FormValidator {
 		
 		$this->addElement('html','<div style="margin-left:25px;display:block;" id="application">');
 		$this->addElement('select', MenuItem :: PROPERTY_APPLICATION, Translation :: get('MenuItemApplication'), $this->get_applications());
-		$this->addElement('text', MenuItem :: PROPERTY_EXTRA, Translation :: get('MenuItemExtra'));
+		$this->addElement('text', MenuItem :: PROPERTY_EXTRA, Translation :: get('MenuItemExtra'), array("size" => "50"));
 		$this->addElement('html','</div>');
 		
 		$this->addElement('html','<div style="margin-left:25px;display:block;" id="external_link">');
-		$this->addElement('text', MenuItem :: PROPERTY_URL, Translation :: get('Url'));
+		$this->addElement('text', MenuItem :: PROPERTY_URL, Translation :: get('Url'), array("size" => "50"));
 		$this->addElement('html','</div>');
 		
 		$hidden = 'external_link';

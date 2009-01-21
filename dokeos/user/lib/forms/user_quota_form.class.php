@@ -40,7 +40,7 @@ class UserQuotaForm extends FormValidator {
     {
     	foreach($this->learning_object_types as $type)
     	{
-    		$this->addElement('text', $type, Translation :: get($type));
+    		$this->addElement('text', $type, Translation :: get($type), array("size" => "50"));
     		$this->addRule($type, Translation :: get('FieldMustBeNumeric'), 'numeric', null, 'server');
     	}
     	

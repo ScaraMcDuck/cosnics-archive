@@ -215,9 +215,9 @@ abstract class Tool
 		switch($this->parent->get_course()->get_breadcrumb())
 		{
 			case Course :: BREADCRUMB_TITLE : $title = $this->parent->get_course()->get_name(); break;
-			case Course :: BREADCRUMB_CODE : $title = $this->parent->get_course()->get_id(); break;
+			case Course :: BREADCRUMB_CODE : $title = $this->parent->get_course()->get_visual(); break;
 			case Course :: BREADCRUMB_COURSE_HOME : $title = Translation :: get('CourseHome'); break;
-			default: $title = $this->parent->get_course()->get_id(); break;
+			default: $title = $this->parent->get_course()->get_visual(); break;
 		}
 		
 		$trail->add(new Breadcrumb($this->get_url(null, false, true, array('tool')), $title));
@@ -259,6 +259,7 @@ abstract class Tool
 			echo '<div style="width: 100%; text-align: right;">';
 			$renderer->display();
 			echo '</div>';
+			echo '<div class="clear"></div><br />';
 		}
 		
 		

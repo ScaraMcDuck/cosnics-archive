@@ -37,7 +37,7 @@ class CourseUserCategoryForm extends FormValidator {
     
     function build_basic_form()
     {
-		$this->addElement('text', CourseUserCategory :: PROPERTY_TITLE, Translation :: get('Title'), array("maxlength" => 50));
+		$this->addElement('text', CourseUserCategory :: PROPERTY_TITLE, Translation :: get('Title'), array("maxlength" => 50, "size" => 50));
 		$this->addRule(CourseUserCategory :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		//$this->addElement('submit', 'course_user_category', Translation :: get('Ok'));

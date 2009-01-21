@@ -45,6 +45,11 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 		
 		$this->display_footer();
 	}
+	
+	function add_actionbar_item($item)
+	{
+		$this->action_bar->add_tool_action($item);
+	}
 			
 	function get_action_bar()
 	{

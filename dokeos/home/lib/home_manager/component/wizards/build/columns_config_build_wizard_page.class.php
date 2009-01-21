@@ -32,15 +32,15 @@ class ColumnsConfigBuildWizardPage extends BuildWizardPage
 		{
 			$column_amount = $values['row'.$i]['columnsamount'];
 			
-			$this->addElement('text', 'row'. $i .'width', Translation :: get('WidthLeft'), array('disabled' => 1, 'id' => 'row'. $i .'width'));
+			$this->addElement('text', 'row'. $i .'width', Translation :: get('WidthLeft'), array('disabled' => 1, 'id' => 'row'. $i .'width', "size" => "50"));
 			
 			for ($j=1; $j <= $column_amount; $j++)
 			{
 				// TODO: Also pass on site width to javascript once this can be changed.
 				$this->addElement('static','','','<b>'. Translation :: get('Row') . '&nbsp;' . $i .'&nbsp;-&nbsp;'. Translation :: get('Column') . '&nbsp;' . $j .'</b>');
-				$this->addElement('text', 'row'. $i .'[column'. $j .'][title]', Translation :: get('Title'));
-				$this->addElement('text', 'row'. $i .'[column'. $j .'][width]', Translation :: get('Width'), 'onchange="recalculate('. $i .','. $column_amount .')"');
-				$this->addElement('text', 'row'. $i .'[column'. $j .'][blocksamount]', Translation :: get('BlockAmount'));
+				$this->addElement('text', 'row'. $i .'[column'. $j .'][title]', Translation :: get('Title'), array("size" => "50"));
+				$this->addElement('text', 'row'. $i .'[column'. $j .'][width]', Translation :: get('Width'), 'size="50" onchange="recalculate('. $i .','. $column_amount .')"');
+				$this->addElement('text', 'row'. $i .'[column'. $j .'][blocksamount]', Translation :: get('BlockAmount'), array("size" => "50"));
 				$this->addRule('row'. $i .'[column'. $j .'][width]', Translation :: get('FieldMustBeNumeric'), 'numeric');
 				$this->addRule('row'. $i .'[column'. $j .'][blocksamount]', Translation :: get('FieldMustBeNumeric'), 'numeric');
 				$this->addRule('row'. $i .'[column'. $j .'][title]', Translation :: get('ThisFieldIsRequired'), 'required');

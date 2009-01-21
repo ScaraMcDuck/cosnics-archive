@@ -36,7 +36,7 @@ class GroupForm extends FormValidator {
     
     function build_basic_form()
     {
-		$this->addElement('text', Group :: PROPERTY_NAME, Translation :: get('Name'));
+		$this->addElement('text', Group :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
 		$this->addRule(Group :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->add_html_editor(Group :: PROPERTY_DESCRIPTION, Translation :: get('Description'), true);
 		$this->addRule(Group :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');

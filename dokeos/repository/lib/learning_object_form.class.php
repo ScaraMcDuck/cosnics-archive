@@ -179,7 +179,7 @@ abstract class LearningObjectForm extends FormValidator
 				$this->add_element_hider('script_block');
 				$this->addElement('checkbox','version', Translation :: get('CreateAsNewVersion'), null, 'onclick="javascript:showElement(\''. LearningObject :: PROPERTY_COMMENT .'\')"');
 				$this->add_element_hider('begin', LearningObject :: PROPERTY_COMMENT);
-				$this->addElement('text', LearningObject :: PROPERTY_COMMENT, Translation :: get('VersionComment'));
+				$this->addElement('text', LearningObject :: PROPERTY_COMMENT, Translation :: get('VersionComment'), array("size" => "50"));
 				$this->add_element_hider('end', LearningObject :: PROPERTY_COMMENT);
 			}
 			else
@@ -270,7 +270,7 @@ EOT;
 	private function build_basic_form()
 	{
 		//$this->add_textfield(LearningObject :: PROPERTY_TITLE, Translation :: get('Title'), true, 'size="100" style="width: 100%"');
-		$this->add_textfield(LearningObject :: PROPERTY_TITLE, Translation :: get(get_class($this) . 'Title'));
+		$this->add_textfield(LearningObject :: PROPERTY_TITLE, Translation :: get(get_class($this) . 'Title'), true, array('size' => "100"));
 		if ($this->allows_category_selection())
 		{
 			$select = $this->add_select(LearningObject :: PROPERTY_PARENT_ID, Translation :: get('CategoryTypeName'), $this->get_categories());
