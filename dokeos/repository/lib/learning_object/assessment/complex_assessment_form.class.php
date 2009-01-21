@@ -16,13 +16,13 @@ class ComplexAssessmentForm extends ComplexLearningObjectItemForm
     protected function build_creation_form()
     {
     	parent :: build_creation_form();
-    	$this->addElement('text', ComplexAssessment :: PROPERTY_TEST, Translation :: get('Test'));
+    	$this->addElement('text', ComplexAssessment :: PROPERTY_TEST, Translation :: get('Test'), array("size" => "50"));
     }
     // Inherited
     protected function build_editing_form()
     {
 		parent :: build_editing_form();
-    	$this->addElement('text', ComplexAssessment :: PROPERTY_TEST, Translation :: get('Test'));
+    	$this->addElement('text', ComplexAssessment :: PROPERTY_TEST, Translation :: get('Test'), array("size" => "50"));
 	}
 	// Inherited
 	function setDefaults($defaults = array ())

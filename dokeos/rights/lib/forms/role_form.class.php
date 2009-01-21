@@ -44,7 +44,7 @@ class RoleForm extends FormValidator {
     function build_basic_form()
     {
     	// Lastname
-		$this->addElement('text', Role :: PROPERTY_NAME, Translation :: get('Name'));
+		$this->addElement('text', Role :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
 		$this->addRule(Role :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$this->add_html_editor(Role :: PROPERTY_DESCRIPTION, Translation :: get('Description'), true);

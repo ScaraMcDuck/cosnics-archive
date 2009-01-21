@@ -62,12 +62,12 @@ class CourseForm extends FormValidator {
 
     function build_basic_form()
     {	
-		$this->addElement('text', Course :: PROPERTY_VISUAL, Translation :: get('VisualCode'));
+		$this->addElement('text', Course :: PROPERTY_VISUAL, Translation :: get('VisualCode'), array("size" => "50"));
 		$this->addRule(Course :: PROPERTY_VISUAL, Translation :: get('ThisFieldIsRequired'), 'required');
 
 		if (!$this->user->is_platform_admin())
 		{
-			$this->addElement('text', Course :: PROPERTY_TITULAR, Translation :: get('Teacher'));
+			$this->addElement('text', Course :: PROPERTY_TITULAR, Translation :: get('Teacher'), array("size" => "50"));
 		}
 		else
 		{
@@ -103,7 +103,7 @@ class CourseForm extends FormValidator {
 		}
 		$this->addRule(Course :: PROPERTY_TITULAR, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('text', Course :: PROPERTY_NAME, Translation :: get('Title'));
+		$this->addElement('text', Course :: PROPERTY_NAME, Translation :: get('Title'), array("size" => "50"));
 		$this->addRule(Course :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
 		$this->addElement('html', '<div style="clear: both;"></div>');

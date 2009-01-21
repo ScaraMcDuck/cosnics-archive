@@ -264,7 +264,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				}
 				
 				// Show visibility-icon
-				if ($this->is_course_admin && $section->get_name() != 'course_admin')
+				if ($this->is_course_admin && $section->get_type() != CourseSection :: TYPE_ADMIN)
 				{
 					$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_COMPONENT_ACTION=>$lcms_action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img src="'.Theme :: get_common_image_path().$visible_image.'" style="vertical-align: middle;" alt=""/></a>';
 					$html[] = '&nbsp;&nbsp;&nbsp;';

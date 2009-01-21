@@ -14,13 +14,13 @@ class ComplexAnswerForm extends ComplexLearningObjectItemForm
     protected function build_creation_form()
     {
     	parent :: build_creation_form();
-    	$this->addElement('text', ComplexAnswer :: PROPERTY_SCORE, Translation :: get('Score'));
+    	$this->addElement('text', ComplexAnswer :: PROPERTY_SCORE, Translation :: get('Score'), array("size" => "50"));
     }
     // Inherited
     protected function build_editing_form()
     {
 		parent :: build_editing_form();
-    	$this->addElement('text', ComplexAnswer :: PROPERTY_SCORE, Translation :: get('Score'));
+    	$this->addElement('text', ComplexAnswer :: PROPERTY_SCORE, Translation :: get('Score'), array("size" => "50"));
    	}
 	// Inherited
 	function setDefaults($defaults = array ())

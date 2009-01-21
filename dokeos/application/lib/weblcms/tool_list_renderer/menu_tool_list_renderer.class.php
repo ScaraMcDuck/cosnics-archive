@@ -67,34 +67,38 @@ class MenuToolListRenderer extends ToolListRenderer
 		
 		foreach ($tools as $index => $tool)
 		{
-			if((($tool->visible && $tool->section != 'course_admin') || $this->is_course_admin) && $tool->visible)
+			$section = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id',$tool->section))->next_result();
+
+			if($section->get_type() == CourseSection :: TYPE_ADMIN)
 			{
-				$new = '';
-				if($parent->tool_has_new_publications($tool->name))
-				{
-					$new = '_new';
-				}
-				$tool_image = 'tool_mini_' . $tool->name . $new . '.png';
-				$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'));
-				$html[] = '<li class="tool_list_menu">';
-				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
-								
-				if ($this->display_menu_icons())
-				{
-					$html[] = '<img src="'.Theme :: get_image_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/> ';
-				}
-				
-				if ($this->display_menu_text())
-				{
-					$html[] = $title;
-				}
-				
-				$html[] = '</a>';
-				$html[] = '</li>';
+				$admin_tools[] = $tool;
+				continue;
+			}
+			
+			if($tool->visible || $this->is_course_admin)
+			{
+				$html[] = $this->display_tool($tool);
 			}
 		}
-
+		
+		if(count($admin_tools) && $this->is_course_admin)
+		{ 
+			$html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px;"></div>';
+			foreach($admin_tools as $tool)
+			{
+				$html[] = $this->display_tool($tool);
+			}
+		}
+		
+		$html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px;"></div>';
 		$html[] = '</ul>';
+		
+		$form = new FormValidator('search_simple', 'post', $parent->get_url(array('tool' => 'search')), '', null, false);
+		$form->addElement('text', 'query', '', 'size="18" class="search_query" style="margin-left: -30px; background-color: white; border: 1px solid grey; height: 18px; "');
+		$form->addElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'positive'));
+		$html[] = $form->toHtml();
+
+		
 		$html[] = '</div>';
 		$html[] = '<div class="clear"></div>';
 	
@@ -111,6 +115,37 @@ class MenuToolListRenderer extends ToolListRenderer
 		$html[] = '<div class="clear"></div>';
 		
 		echo implode("\n",$html);
+	}
+	
+	function display_tool($tool)
+	{
+		$parent = $this->get_parent();
+		$course = $parent->get_course();
+		
+		$new = '';
+		if($parent->tool_has_new_publications($tool->name))
+		{
+			$new = '_new';
+		}
+		$tool_image = 'tool_mini_' . $tool->name . $new . '.png';
+		$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'));
+		$html[] = '<li class="tool_list_menu">';
+		$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
+						
+		if ($this->display_menu_icons())
+		{
+			$html[] = '<img src="'.Theme :: get_image_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/> ';
+		}
+		
+		if ($this->display_menu_text())
+		{
+			$html[] = $title;
+		}
+		
+		$html[] = '</a>';
+		$html[] = '</li>';
+		
+		return implode("\n", $html);
 	}
 	
 	function retrieve_menu_properties()

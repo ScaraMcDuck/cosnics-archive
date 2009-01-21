@@ -33,7 +33,7 @@ class CourseSectionForm extends FormValidator {
     
     function build_basic_form()
     { 
-		$this->addElement('text', CourseSection :: PROPERTY_NAME, Translation :: get('Name'));
+		$this->addElement('text', CourseSection :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
 		$this->addRule(CourseSection :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->addElement('checkbox', CourseSection :: PROPERTY_VISIBLE, Translation :: get('Visible'));
 		//$this->addElement('submit', 'course_section_sections', 'OK');

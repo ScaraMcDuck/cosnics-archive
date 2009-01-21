@@ -43,8 +43,8 @@ class AccountForm extends FormValidator {
     	// Show user picture
     	$this->addElement('html','<img src="'.$this->user->get_full_picture_url().'" alt="'.$this->user->get_fullname().'" style="position:absolute; right: 10px; z-index:1; border:1px solid black; max-width: 150px;"/>');
     	// Name
-		$this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get('LastName'));
-		$this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get('FirstName'));
+		$this->addElement('text', User :: PROPERTY_LASTNAME, Translation :: get('LastName'), array("size" => "50"));
+		$this->addElement('text', User :: PROPERTY_FIRSTNAME, Translation :: get('FirstName'), array("size" => "50"));
 		
 		if (PlatformSetting :: get('allow_change_firstname', UserManager :: APPLICATION_NAME) == 0)
 		{
@@ -60,7 +60,7 @@ class AccountForm extends FormValidator {
 		$this->addRule(User :: PROPERTY_LASTNAME , Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->addRule(User :: PROPERTY_FIRSTNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		// Official Code
-		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'));
+		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'), array("size" => "50"));
 		
 		if (PlatformSetting :: get('allow_change_official_code', UserManager :: APPLICATION_NAME) == 0)
 		{
@@ -76,7 +76,7 @@ class AccountForm extends FormValidator {
 		}
 		
 		// Email
-		$this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get('Email'));
+		$this->addElement('text', User :: PROPERTY_EMAIL, Translation :: get('Email'), array("size" => "50"));
 		
 		if (PlatformSetting :: get('allow_change_email', UserManager :: APPLICATION_NAME) == 0)
 		{
@@ -93,7 +93,7 @@ class AccountForm extends FormValidator {
     	
 		$this->addRule(User :: PROPERTY_EMAIL, Translation :: get('EmailWrong'), 'email');
 		// Username
-		$this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'));
+		$this->addElement('text', User :: PROPERTY_USERNAME, Translation :: get('Username'), array("size" => "50"));
 		
 		if (PlatformSetting :: get('allow_change_username', UserManager :: APPLICATION_NAME) == 0)
 		{

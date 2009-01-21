@@ -110,6 +110,10 @@ class SearchToolSearcherComponent extends SearchToolComponent
 	function get_condition()
 	{
 		$query = $this->action_bar->get_query();
+		
+		if(!$query)
+			$query = Request :: post('query');
+		
 		if(isset($query) && $query != '')
 		{
 			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);

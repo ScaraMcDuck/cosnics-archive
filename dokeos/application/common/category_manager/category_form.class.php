@@ -46,7 +46,7 @@ class CategoryForm extends FormValidator {
 		$this->addElement('html', '<span class="category">' . Translation :: get('Required') . '</span>');
     	
 		// Name
-		$this->addElement('text', PlatformCategory :: PROPERTY_NAME, Translation :: get('Name'));
+		$this->addElement('text', PlatformCategory :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
 		$this->addRule(PlatformCategory :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$this->addElement('html', '<div style="clear: both;"></div>');

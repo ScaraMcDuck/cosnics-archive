@@ -36,7 +36,7 @@ class HomeRowForm extends FormValidator {
     
     function build_basic_form()
     {
-		$this->addElement('text', HomeRow :: PROPERTY_TITLE, Translation :: get('HomeRowTitle'));
+		$this->addElement('text', HomeRow :: PROPERTY_TITLE, Translation :: get('HomeRowTitle'), array("size" => "50"));
 		$this->addRule(HomeRow :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$this->addElement('hidden', HomeRow :: PROPERTY_USER);

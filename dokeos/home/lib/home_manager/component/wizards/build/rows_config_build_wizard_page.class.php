@@ -30,8 +30,8 @@ class RowsConfigBuildWizardPage extends BuildWizardPage
 		for ($i=1; $i <= $row_amount; $i++)
 		{
 			$this->addElement('static','','','<b>'. Translation :: get('Row') . '&nbsp;' . $i .'</b>');
-			$this->addElement('text', 'row'. $i .'[title]', Translation :: get('Title'));
-			$this->addElement('text', 'row'. $i .'[columnsamount]', Translation :: get('Columns'));
+			$this->addElement('text', 'row'. $i .'[title]', Translation :: get('Title'), array("size" => "50"));
+			$this->addElement('text', 'row'. $i .'[columnsamount]', Translation :: get('Columns'), array("size" => "50"));
 			$this->addRule('row'. $i .'[columnsamount]', Translation :: get('FieldMustBeNumeric'), 'numeric');
 			$this->addRule('row'. $i .'[title]', Translation :: get('ThisFieldIsRequired'), 'required');
 			$this->addRule('row'. $i .'[columnsamount]', Translation :: get('ThisFieldIsRequired'), 'required');

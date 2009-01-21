@@ -36,7 +36,7 @@ class HomeBlockForm extends FormValidator {
     
     function build_basic_form()
     {
-		$this->addElement('text', HomeBlock :: PROPERTY_TITLE, Translation :: get('HomeBlockTitle'));
+		$this->addElement('text', HomeBlock :: PROPERTY_TITLE, Translation :: get('HomeBlockTitle'), array("size" => "50"));
 		$this->addRule(HomeBlock :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$this->addElement('select', HomeBlock :: PROPERTY_COLUMN, Translation :: get('HomeBlockColumn'), $this->get_columns());

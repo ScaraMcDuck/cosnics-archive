@@ -37,7 +37,7 @@ class CourseGroupForm extends FormValidator {
 
     function build_basic_form()
     {
-		$this->addElement('text', CourseGroup :: PROPERTY_NAME, Translation :: get('Title'));
+		$this->addElement('text', CourseGroup :: PROPERTY_NAME, Translation :: get('Title'), array("size" => "50"));
 		$this->addRule(CourseGroup :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->add_html_editor(CourseGroup :: PROPERTY_DESCRIPTION, Translation :: get('Description'));
 		$this->addElement('text', CourseGroup::PROPERTY_MAX_NUMBER_OF_MEMBERS,Translation :: get('MaxNumberOfMembers'),'size="4"');

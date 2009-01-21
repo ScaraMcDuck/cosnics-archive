@@ -41,7 +41,7 @@ class BlocksConfigBuildWizardPage extends BuildWizardPage
 				for ($k=1; $k <= $block_amount; $k++)
 				{
 					$this->addElement('static','','','<b>'. Translation :: get('Row') . '&nbsp;' . $i .'&nbsp;-&nbsp;'. Translation :: get('Column') . '&nbsp;' . $j .'&nbsp;-&nbsp;'. Translation :: get('Block') . '&nbsp;' . $k .'</b>');
-					$this->addElement('text', 'row'. $i .'[column'. $j .'][block'. $k .'][title]', Translation :: get('Title'));
+					$this->addElement('text', 'row'. $i .'[column'. $j .'][block'. $k .'][title]', Translation :: get('Title'), array("size" => "50"));
 					$this->addRule('row'. $i .'[column'. $j .'][block'. $k .'][title]', Translation :: get('ThisFieldIsRequired'), 'required');
 					$this->addElement('select', 'row'. $i .'[column'. $j .'][block'. $k .'][component]', Translation :: get('Component'), $this->components);
 					

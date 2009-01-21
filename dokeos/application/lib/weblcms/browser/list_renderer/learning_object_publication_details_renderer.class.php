@@ -12,6 +12,16 @@ require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php
  */
 class LearningObjectPublicationDetailsRenderer extends LearningObjectPublicationListRenderer
 {
+	function LearningObjectPublicationDetailsRenderer($browser, $parameters = array (), $actions)
+	{
+		parent :: LearningObjectPublicationListRenderer($browser, $parameters = array (), $actions);
+		if($browser->get_parent()->get_course()->get_allow_feedback())
+		{
+			$item = new ToolbarItem(Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL);
+			$browser->get_parent()->add_actionbar_item($item);
+		}
+	}
+	
 	/**
 	 * Returns the HTML output of this renderer.
 	 * @return string The HTML output
@@ -42,7 +52,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		//dump($this->browser->get_parent()->get_course());
 		if($this->browser->get_parent()->get_course()->get_allow_feedback())
 		{
-			$html[] = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK)) . '">' . Translation :: get('AddFeedback') . '</a><br />';
+			//$html[] = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK)) . '">' . Translation :: get('AddFeedback') . '</a><br />';
 			/*$html[] = '<div id="feedbackform">';
 			$html[] = '<h3>' . '<div class="title">'.Translation :: get('LearningObjectPublicationAddFeedback') . ' <a href="#" id="hidefeedbackform" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('Hide') . ')</a></div></h3>';
 			$html[] = '<div class="feedback_block">';
@@ -73,7 +83,24 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		{
 			$icon_suffix = '_new';
 		}
-		$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'learning_object/'.$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
+		
+		/*$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'learning_object/'.$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
+		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
+		$html[] = $this->render_title($publication);
+		$html[] = '</div>';
+		$html[] = '<div class="description'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
+		$html[] = $this->render_description($publication);
+		$html[] = $this->render_attachments($publication);
+		$html[] = '</div>';
+		$html[] = '<div class="publication_info'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
+		$html[] = $this->render_publication_information($publication);
+		$html[] = '</div>';
+		$html[] = '<div class="publication_actions">';
+		$html[] = $this->render_publication_actions($publication,$first,$last);
+		$html[] = '</div>';
+		$html[] = '</div>';*/
+		
+		$html[] = '<div class="announcements level_1" style="background-image: url(' . Theme :: get_common_image_path().'learning_object/'.$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
 		$html[] = '</div>';
@@ -88,6 +115,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$html[] = $this->render_publication_actions($publication,$first,$last);
 		$html[] = '</div>';
 		$html[] = '</div>';
+		
 		return implode("\n", $html);
 	}
 
