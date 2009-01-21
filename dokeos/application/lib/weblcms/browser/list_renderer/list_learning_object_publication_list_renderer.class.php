@@ -24,7 +24,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		if($this->get_actions())
 			$html[] = '<form name="publication_list" action="' . $this->get_url() . '" method="GET" >';
 		$i = 0;
-		echo '<a name="top"></a>';
+		
 		foreach ($publications as $index => $publication)
 		{
 			$first = ($index == 0);
