@@ -20,7 +20,7 @@ class SurveyPublisher extends SurveyPublisherComponent
 		$wdm = WeblcmsDataManager :: get_instance();
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		$pid = $_GET[Tool::PARAM_PUBLICATION_ID];
+		$pid = $_GET[Tool :: PARAM_PUBLICATION_ID];
 		$publication = $wdm->retrieve_learning_object_publication($pid);
 		$survey = $publication->get_learning_object();
 		
@@ -29,7 +29,7 @@ class SurveyPublisher extends SurveyPublisherComponent
 		if ($form->validate())
 		{
 			$values = $form->exportValues();
-			$this->parse_values($values, $survey);
+			$this->parse_values($values, $survey, $pid);
 			$this->parent->redirect(null, null, false, array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ACTION => AssessmentTool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => $_GET[Tool :: PARAM_PUBLICATION_ID]));
 		}
 		else
@@ -41,7 +41,7 @@ class SurveyPublisher extends SurveyPublisherComponent
 		}
 	}
 	
-	function parse_values($values, $survey)
+	function parse_values($values, $survey, $pid)
 	{
 		$users = $values['course_users'];
 		foreach ($users as $key => $user)
@@ -62,21 +62,21 @@ class SurveyPublisher extends SurveyPublisherComponent
 		
 		foreach ($mail_users as $mail => $user)
 		{
-			if ($this->create_invitation($user, $mail, $survey, $resend))
+			if ($this->create_invitation($user, $mail, $survey, $resend, $pid))
 			{
 				$this->send_mail($this->survey_invitation, $email_title, $email_body);
 			}
 		}
 	}
 		
-	function create_invitation($user, $mail, $survey, $resend)
+	function create_invitation($user, $mail, $survey, $resend, $pid)
 	{
 		//check for existing invitations for this user/mail
 		if ($user == 0)
-			$conditionu = new EqualityCondition(SurveyInvitation::PROPERTY_EMAIL, $mail);
+			$conditionu = new EqualityCondition(SurveyInvitation :: PROPERTY_EMAIL, $mail);
 		else
-			$conditionu = new EqualityCondition(SurveyInvitation::PROPERTY_USER_ID, $user);
-		$conditions = new EqualityCondition(SurveyInvitation::PROPERTY_SURVEY_ID, $survey->get_id());
+			$conditionu = new EqualityCondition(SurveyInvitation :: PROPERTY_USER_ID, $user);
+		$conditions = new EqualityCondition(SurveyInvitation :: PROPERTY_SURVEY_ID, $pid);
 		$condition = new AndCondition(array($conditionu, $conditions));
 		$invitations = WeblcmsDataManager :: get_instance()->retrieve_survey_invitations($condition);
 		$invitation = $invitations->next_result();
@@ -86,7 +86,7 @@ class SurveyPublisher extends SurveyPublisherComponent
 			if ($invitation != null)
 				return false;
 			else
-				return $this->create_new_invitation($user, $mail, $survey);
+				return $this->create_new_invitation($user, $mail, $survey, $pid);
 		}
 		else
 		{
@@ -96,11 +96,11 @@ class SurveyPublisher extends SurveyPublisherComponent
 				return true;
 			}
 			else
-				return $this->create_new_invitation($user, $mail, $survey);
+				return $this->create_new_invitation($user, $mail, $survey, $pid);
 		}
 	}
 	
-	function create_new_invitation($user, $mail, $survey)
+	function create_new_invitation($user, $mail, $survey, $pid)
 	{
 		$survey_invitation = new SurveyInvitation();
 		$survey_invitation->set_id(WeblcmsDataManager :: get_instance()->get_next_survey_invitation_id());
@@ -110,7 +110,7 @@ class SurveyPublisher extends SurveyPublisherComponent
 		
 		$survey_invitation->set_user_id($user);
 		$survey_invitation->set_invitation_code(md5(microtime()));
-		$survey_invitation->set_survey_id($survey->get_id());
+		$survey_invitation->set_survey_id($pid);
 		
 		$this->survey_invitation = $survey_invitation;
 		return WeblcmsDataManager :: get_instance()->create_survey_invitation($this->survey_invitation);
@@ -118,8 +118,8 @@ class SurveyPublisher extends SurveyPublisherComponent
 	
 	function send_mail($survey_invitation, $title, $body)
 	{
-		$url = $this->parent->get_url(array(Tool::PARAM_ACTION => AssessmentTool::ACTION_TAKE_ASSESSMENT, AssessmentTool::PARAM_INVITATION_ID => $survey_invitation->get_invitation_code()));
-		$text = '<br/><br/><a href='.$url.'>'.Translation::get('ClickToTakeSurvey').'</a>';
+		$url = $this->parent->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, AssessmentTool :: PARAM_INVITATION_ID => $survey_invitation->get_invitation_code()));
+		$text = '<br/><br/><a href='.$url.'>'.Translation :: get('ClickToTakeSurvey').'</a>';
 		$text .= '<br/><br/>'.Translation :: get('OrCopyAndPasteThisText').':';
 		$text .= '<br/><a href='.$url.'>'.$url.'</a>';
 		$fullbody = $body.$text;

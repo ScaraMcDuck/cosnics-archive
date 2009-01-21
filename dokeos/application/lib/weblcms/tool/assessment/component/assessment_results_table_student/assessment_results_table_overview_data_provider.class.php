@@ -68,12 +68,16 @@ class AssessmentResultsTableOverviewStudentDataProvider extends ObjectTableDataP
     {
     	foreach ($publications as $publication)
     	{
-    		$assessment = $publication->get_learning_object();
-    		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ASSESSMENT_ID, $assessment->get_id());
-    		$user_assessments = WeblcmsDataManager :: get_instance()->retrieve_user_assessments($condition);
-    		while ($user_assessment = $user_assessments->next_result())
+    		//$assessment = $publication->get_learning_object();
+    		$track = new WeblcmsAssessmentAttemptsTracker();
+    		//$condition = new EqualityCondition(UserAssessment :: PROPERTY_ASSESSMENT_ID, $assessment->get_id());
+    		$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
+    		//$user_assessments = WeblcmsDataManager :: get_instance()->retrieve_user_assessments($condition);
+    		$user_assessments = $track->retrieve_tracker_items($condition);
+    		$user_id = $this->parent->get_user_id();
+    		foreach ($user_assessments as $user_assessment)
     		{
-    			if ($user_assessment->get_user_id() == $user_id = $this->parent->get_user_id())
+    			if ($user_assessment->get_user_id() == $user_id)
     				$all_assessments[] = $user_assessment;
     		}
     	}

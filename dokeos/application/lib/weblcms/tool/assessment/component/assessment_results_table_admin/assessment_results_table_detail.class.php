@@ -27,9 +27,9 @@ class AssessmentResultsTableDetail extends ObjectTable
 	 * the selected learning object.
 	 * @see ResultsCandidateTableCellRenderer::ResultsCandidateTableCellRenderer()
 	 */
-	function AssessmentResultsTableDetail($parent, $owner, $aid = null)
+	function AssessmentResultsTableDetail($parent, $owner, $pid = null)
 	{
-		$data_provider = new AssessmentResultsTableDetailDataProvider($parent, $owner, $aid);
+		$data_provider = new AssessmentResultsTableDetailDataProvider($parent, $owner, $pid);
 		$column_model = new AssessmentResultsTableDetailColumnModel();
 		$cell_renderer = new AssessmentResultsTableDetailCellRenderer($parent);
 		parent :: __construct($data_provider, AssessmentResultsTableDetail :: DEFAULT_NAME, $column_model, $cell_renderer);

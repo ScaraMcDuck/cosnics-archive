@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) .'/fill_in_blanks_answer.class.php';
 /**
  * @package repository.learningobject
  * @subpackage exercise

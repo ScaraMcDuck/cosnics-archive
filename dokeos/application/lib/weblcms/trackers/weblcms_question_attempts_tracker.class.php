@@ -7,7 +7,7 @@ class WeblcmsQuestionAttemptsTracker extends MainTracker
 	const PROPERTY_ASSESSMENT_ATTEMPT_ID = 'assessment_attempt_id';
 	const PROPERTY_QUESTION_ID = 'question_id';
 	const PROPERTY_ANSWER = 'answer';
-	const PROPERTY_COMMENTS = 'comments';
+	const PROPERTY_FEEDBACK = 'comments';
 	const PROPERTY_SCORE = 'score';
 	const PROPERTY_DATE = 'date';
 	
@@ -28,15 +28,15 @@ class WeblcmsQuestionAttemptsTracker extends MainTracker
     	$assessment_attempt_id = $parameters['assessment_attempt_id'];
     	$question_id = $parameters['question_id'];
     	$answer = $parameters['answer'];
-    	$comments = $parameters['comments'];
+    	$feedback = $parameters['feedback'];
     	$score = $parameters['score'];
     	
     	$this->set_assessment_attempt_id($assessment_attempt_id);
     	$this->set_question_id($question_id);
-    	$this->set_answer_id($answer);
-    	$this->set_comments($comments);
+    	$this->set_answer($answer);
+    	$this->set_feedback($feedback);
     	$this->set_score($score);
-    	$this->set_date(time());
+    	$this->set_date(DatabaseRepositoryDataManager :: to_db_date(time()));
     	
     	$this->create();
     }
@@ -53,10 +53,10 @@ class WeblcmsQuestionAttemptsTracker extends MainTracker
     /**
      * Inherited
      */
-    function get_property_names()
+    function get_default_property_names()
     {
-    	return array_merge(parent :: get_property_names(), array(self :: PROPERTY_ASSESSMENT_ATTEMPT_ID, self :: PROPERTY_QUESTION_ID,
-    		self :: PROPERTY_ANSWER, self :: PROPERTY_COMMENTS, self :: PROPERTY_SCORE, self :: PROPERTY_DATE));
+    	return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_ASSESSMENT_ATTEMPT_ID, self :: PROPERTY_QUESTION_ID,
+    		self :: PROPERTY_ANSWER, self :: PROPERTY_FEEDBACK, self :: PROPERTY_SCORE, self :: PROPERTY_DATE));
     }
 
     function get_assessment_attempt_id()
@@ -109,14 +109,19 @@ class WeblcmsQuestionAttemptsTracker extends MainTracker
     	$this->set_property(self :: PROPERTY_SCORE, $score);
     }
     
-    function get_comments()
+    function get_feedback()
     {
-    	return $this->get_property(self :: PROPERTY_COMMENTS);
+    	return $this->get_property(self :: PROPERTY_FEEDBACK);
     }
  
-    function set_comments($comments)
+    function set_feedback($feedback)
     {
-    	$this->set_property(self :: PROPERTY_COMMENTS, $comments);
+    	$this->set_property(self :: PROPERTY_FEEDBACK, $feedback);
+    }
+    
+    function empty_tracker($event)
+    {
+    	
     }
 }
 ?>

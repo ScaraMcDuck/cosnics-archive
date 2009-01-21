@@ -40,19 +40,29 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 			switch ($column->get_object_property())
 			{
 				case Assessment :: PROPERTY_TITLE:
-					return $user_assessment->get_assessment()->get_title();
+					$pid = $user_assessment->get_assessment_id();
+					$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
+					$assessment = $pub->get_learning_object();
+					return $assessment->get_title();
 				case Assessment :: PROPERTY_ASSESSMENT_TYPE:
-					return $user_assessment->get_assessment()->get_assessment_type();
-				case UserAssessment :: PROPERTY_DATE_TIME_TAKEN:
+					$pid = $user_assessment->get_assessment_id();
+					$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
+					$assessment = $pub->get_learning_object();
+					return $assessment->get_assessment_type();
+				case WeblcmsAssessmentAttemptsTracker :: PROPERTY_DATE:
 					return $user_assessment->get_date_time_taken();
-				case UserAssessment :: PROPERTY_TOTAL_SCORE:
-					$assessment = $user_assessment->get_assessment();
+				case WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE:
+					$pid = $user_assessment->get_assessment_id();
+					$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
+					$assessment = $pub->get_learning_object();
 					$avg = $user_assessment->get_total_score();
 					$max = $assessment->get_maximum_score();
 					$pct = round(($avg / $max) * 100, 2);
 					return $avg.'/'.$max.' ('.$pct.'%)';
 				case Assessment :: PROPERTY_AVERAGE_SCORE:
-					$assessment = $user_assessment->get_assessment();
+					$pid = $user_assessment->get_assessment_id();
+					$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
+					$assessment = $pub->get_learning_object();
 					$avg = $assessment->get_average_score();
 					$max = $assessment->get_maximum_score();
 					$pct = round(($avg / $max) * 100, 2);
@@ -72,35 +82,7 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 		);
 		
 		$actions[] = $execute;
-		
-		/*if ($this->browser->is_allowed(EDIT_RIGHT)) 
-		{
-			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
-			'label' => Translation :: get('View results'), 
-			'img' => Theme :: get_common_image_path().'action_view_results.png'
-			);
-			
-			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
-			'label' => Translation :: get('Delete'), 
-			'img' => Theme :: get_common_image_path().'action_delete.png'
-			);
-			
-			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
-			'label' => Translation :: get('Edit'), 
-			'img' => Theme :: get_common_image_path().'action_edit.png'
-			);
-			
-			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
-			'label' => Translation :: get('Visible'), 
-			'img' => Theme :: get_common_image_path().'action_visible.png'
-			);	
-		}
-		
-		return DokeosUtilities :: build_toolbar($actions);*/
+
 		return DokeosUtilities :: build_toolbar($actions);
 		
 		//return array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), 

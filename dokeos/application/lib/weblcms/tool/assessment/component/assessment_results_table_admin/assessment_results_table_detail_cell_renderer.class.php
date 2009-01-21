@@ -39,19 +39,21 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 		{
 			switch ($column->get_object_property())
 			{
-				case UserAssessment :: PROPERTY_USER_ID:
+				case WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID:
 					$user_id = $user_assessment->get_user_id();
 					if ($user_id > 0)
 						return UserDataManager :: get_instance()->retrieve_user($user_id)->get_fullname();
 					else
 						return 'Anonymous';
-				case UserAssessment :: PROPERTY_TOTAL_SCORE:
+				case WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE:
 					$total = $user_assessment->get_total_score();
-					$max = $user_assessment->get_assessment()->get_maximum_score();
+					$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
+					$assessment = $pub->get_learning_object();
+					$max = $assessment->get_maximum_score();
 					$pct = round(($total / $max) * 100, 2);
 					return $total.'/'.$max.' ('.$pct.'%)';
-				case UserAssessment :: PROPERTY_DATE_TIME_TAKEN:
-					return $user_assessment->get_date_time_taken();
+				case WeblcmsAssessmentAttemptsTracker :: PROPERTY_DATE:
+					return $user_assessment->get_date();
 				default:
 					return '';
 			}
@@ -72,7 +74,8 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 			'img' => Theme :: get_common_image_path().'action_export.png'
 		);
 		
-		$assessment = $user_assessment->get_assessment();
+		$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
+		$assessment = $pub->get_learning_object();
 		if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
 		{
 			$actions[] = array(

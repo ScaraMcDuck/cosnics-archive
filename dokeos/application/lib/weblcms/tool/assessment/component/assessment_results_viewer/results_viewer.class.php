@@ -37,8 +37,10 @@ abstract class ResultsViewer extends FormValidator
 	
 	static function factory($user_assessment, $edit_rights, $url)
 	{
-		$repdm = RepositoryDataManager :: get_instance();
-		$assessment = $repdm->retrieve_learning_object($user_assessment->get_assessment_id());
+		//$repdm = RepositoryDataManager :: get_instance();
+		$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
+		$assessment = $pub->get_learning_object();
+		//$assessment = $repdm->retrieve_learning_object($user_assessment->get_assessment_id());
 		
 		switch ($assessment->get_assessment_type()) 
 		{

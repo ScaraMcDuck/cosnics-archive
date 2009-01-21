@@ -29,9 +29,9 @@ class AssessmentResultsTableDetailColumnModel extends ObjectTableColumnModel {
 	private static function get_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(UserAssessment :: PROPERTY_USER_ID, true);
-		$columns[] = new ObjectTableColumn(UserAssessment :: PROPERTY_DATE_TIME_TAKEN, true);
-		$columns[] = new ObjectTableColumn(UserAssessment :: PROPERTY_TOTAL_SCORE, true);
+		$columns[] = new ObjectTableColumn(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, true);
+		$columns[] = new ObjectTableColumn(WeblcmsAssessmentAttemptsTracker :: PROPERTY_DATE, true);
+		$columns[] = new ObjectTableColumn(WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE, true);
 		$columns[] = self :: get_action_column();
 		return $columns;
 	}

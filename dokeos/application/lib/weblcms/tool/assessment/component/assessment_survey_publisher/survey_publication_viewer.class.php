@@ -18,10 +18,10 @@ class SurveyPublicationViewer extends SurveyPublisherComponent
 		$rdm = RepositoryDataManager :: get_instance();
 		
 		$pid = $_GET[Tool::PARAM_PUBLICATION_ID];
-		$publication = $wdm->retrieve_learning_object_publication($pid);
-		$survey = $publication->get_learning_object();
+		//$publication = $wdm->retrieve_learning_object_publication($pid);
+		//$survey = $publication->get_learning_object();
 		
-		$table = new SurveyUserTable($this, $this->get_user, $survey);
+		$table = new SurveyUserTable($this, $this->get_user, $pid);
 		
 		$this->parent->display_header($trail);
 		echo $toolbar->as_html();
