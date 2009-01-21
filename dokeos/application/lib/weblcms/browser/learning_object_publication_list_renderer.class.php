@@ -48,7 +48,8 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_title($publication)
 	{
-		return htmlspecialchars($publication->get_learning_object()->get_title());
+		$icon = $this->render_top_action($publication);
+		return htmlspecialchars($publication->get_learning_object()->get_title()) . ' ' . $icon;
 	}
 
 	/**
@@ -349,8 +350,6 @@ abstract class LearningObjectPublicationListRenderer
 		$icons = array();
 		
 		$html[] = '<span style="white-space: nowrap;">';
-		
-		$icons[] = $this->render_top_action($publication);
 		
 		if ($this->is_allowed(DELETE_RIGHT))
 		{
