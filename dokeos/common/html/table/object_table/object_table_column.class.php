@@ -43,7 +43,7 @@ class ObjectTableColumn
 		if ($contains_object_property)
 		{
 			$this->object_property = $property_name_or_column_title;
-			$this->title = Translation :: get(ucfirst($this->object_property));
+			$this->title = Translation :: get(DokeosUtilities :: underscores_to_camelcase($this->object_property));
 			$this->sortable = true;
 		}
 		else

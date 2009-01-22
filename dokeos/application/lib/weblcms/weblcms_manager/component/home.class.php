@@ -51,7 +51,7 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		if ($this->get_user()->is_platform_admin())
 		{
 			$html[] = '<div class="menusection">';
-			$html[] = '<span class="menusectioncaption">'.Translation :: get('MenuAdmin').'</span>';
+			$html[] = '<span class="menusectioncaption">'.Translation :: get('CourseManagement').'</span>';
 			$html[] = '<ul class="menulist">';
 			$html[] = $this->display_platform_admin_course_list_links();
 			$html[] = '</ul>';
@@ -72,7 +72,7 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		}
 
 		$html[] = '<div class="menusection">';
-		$html[] = '<span class="menusectioncaption">'.Translation :: get('CourseManagement').'</span>';
+		$html[] = '<span class="menusectioncaption">'.Translation :: get('UserCourseManagement').'</span>';
 		$html[] = '<ul class="menulist">';
 
 		$html[] = $this->display_edit_course_list_links();
@@ -103,11 +103,11 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 	{
 		$html = array();
 		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.Translation :: get('CourseCreate').'</a></li>';
-		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSES)) .'">'.Translation :: get('CourseCreateCsv').'</a></li>';
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)) .'">'.Translation :: get('CourseList').'</a></li>';
 		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_COURSE_CATEGORY_MANAGER)) .'">'.Translation :: get('CourseCategoryManagement').'</a></li>';
+		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSES)) .'">'.Translation :: get('CourseCreateCsv').'</a></li>';
 		//$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.Translation :: get('AddUserToCourse').'</a></li>';
 		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSE_USERS)) .'">'.Translation :: get('AddUserToCourseCsv').'</a></li>';
-		$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)) .'">'.Translation :: get('CourseList').'</a></li>';
 
 		return implode($html, "\n");
 	}

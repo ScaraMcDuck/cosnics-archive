@@ -41,31 +41,33 @@ class CourseImportForm extends FormValidator {
     function import_courses()
     {
     	$values = $this->exportValues();
-    	
+
     	$csvcourses = Import :: csv_to_array($_FILES['file']['tmp_name']);
     	$failures = 0;
     	
     	foreach ($csvcourses as $csvcourse)
-    	{
+    	{ 
     		if ($this->validate_data($csvcourse))
-    		{
+    		{ 
     			$teacher_info = $this->get_teacher_info($csvcourse[Course :: PROPERTY_TITULAR]);
+    			$cat = WeblcmsDataManager :: get_instance()->retrieve_course_categories(new EqualityCondition('name', $csvcourse[Course :: PROPERTY_CATEGORY]))->next_result();
+    			$catid = $cat?$cat->get_id():0;
     			
     			$course = new Course();
     			
-    			$course->set_id($csvcourse[Course :: PROPERTY_ID]);
-    			$course->set_visual($csvcourse[Course :: PROPERTY_ID]);
+    			//$course->set_id($csvcourse[Course :: PROPERTY_ID]);
+    			$course->set_visual($csvcourse['code']);
     			$course->set_name($csvcourse[Course :: PROPERTY_NAME]);
     			$course->set_language('english');
-    			$course->set_category($csvcourse[Course :: PROPERTY_CATEGORY]);
-    			$course->set_titular($teacher_info['lastname'] . ' ' . $teacher_info['firstname']);
-    			
+    			$course->set_category($catid);
+    			$course->set_titular($teacher_info->get_id());
+ 			
     			if ($course->create())
-    			{
+    			{ 
     				// TODO: Temporary function pending revamped roles&rights system
     				//add_course_role_right_location_values($course->get_id());
     				$wdm = WeblcmsDataManager :: get_instance();
-    				if ($wdm->subscribe_user_to_course($course, '1', '1', $teacher_info['user_id']))
+    				if ($wdm->subscribe_user_to_course($course, '1', '1', $teacher_info->get_id()))
     				{
     					
     				}
@@ -105,7 +107,7 @@ class CourseImportForm extends FormValidator {
     	$udm = UserDataManager :: get_instance();
     	if (!$udm->is_username_available($user_name))
     	{
-    		return $udm->get_user_info($user_name);
+    		return $udm->retrieve_user_info($user_name);
     	}
     	else
     	{
@@ -124,26 +126,26 @@ class CourseImportForm extends FormValidator {
     	$wdm = WeblcmsDataManager :: get_instance();
     	
 		//1. check if mandatory fields are set
-		
+
 		//2. check if code isn't in use
-		if ($wdm->is_course($csvcourse[Course :: PROPERTY_ID]))
+		/*if ($wdm->is_course($csvcourse[Course :: PROPERTY_ID]))
 		{
 			$failures++;
-		}
-		
+		}*/
+
 		//3. check if teacher exists
 		$teacher_info = $this->get_teacher_info($csvcourse[Course :: PROPERTY_TITULAR]);
 		if (!isset($teacher_info))
 		{
 			$failures++;
 		}
-		
+
 		//4. check if category exists
-		if (!$wdm->is_course_category($csvcourse[Course :: PROPERTY_CATEGORY]))
+		if (!$this->is_course_category($csvcourse[Course :: PROPERTY_CATEGORY]))
 		{
 			$failures++;
 		}
-		
+	
 		if ($failures > 0)
 		{
 			return false;
@@ -152,6 +154,14 @@ class CourseImportForm extends FormValidator {
 		{
     		return true;
 		}
+    }
+    
+    private function is_course_category($category_name)
+    {
+    	$cat = WeblcmsDataManager :: get_instance()->retrieve_course_categories(new EqualityCondition('name', $category_name))->next_result();
+    	if($cat) return true;
+    	
+    	return false;
     }
 }
 ?>

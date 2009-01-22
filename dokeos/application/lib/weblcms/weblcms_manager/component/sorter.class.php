@@ -13,6 +13,7 @@ require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.
 class WeblcmsSorterComponent extends WeblcmsComponent
 {
 	private $category;
+	private $action_bar;
 	
 	/**
 	 * Runs this component and displays its output.
@@ -294,7 +295,8 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			$key = 0;
 			while ($course = $courses->next_result())
 			{				
-				$html[] = '<div class="user_course"><a href="'. $this->get_course_viewing_url($course) .'">'.$course->get_name().'</a><br />'. $course->get_id() .' - '. $course->get_titular() .'</div>';
+				$titular = UserDataManager :: get_instance()->retrieve_user($course->get_titular());
+				$html[] = '<div class="user_course"><a href="'. $this->get_course_viewing_url($course) .'">'.$course->get_name().'</a><br />'. $course->get_visual() .' - '. $titular->get_fullname() .'</div>';
 				$html[] = '<div class="user_course_options">';
 				$html[] = $this->get_course_modification_links($course, $key, $courses->size());
 				$html[] = '</div>';

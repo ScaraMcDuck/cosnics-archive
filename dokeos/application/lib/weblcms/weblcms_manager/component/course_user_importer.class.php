@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcms_component.class.php';
-require_once dirname(__FILE__).'/../../course/course_user_import_form.class.php';
+require_once dirname(__FILE__).'/../../course/course_user_import_form.class.php'; 
 
 /**
  * Weblcms component allows the use to import course user relations
@@ -43,7 +43,7 @@ class WeblcmsCourseUserImporterComponent extends WeblcmsComponent
 			$form->display();
 			$this->display_extra_information();
 			$this->display_footer();
-		}
+		} 
 	}
 	
 	function display_extra_information()
