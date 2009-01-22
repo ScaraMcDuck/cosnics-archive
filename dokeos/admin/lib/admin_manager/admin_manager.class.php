@@ -44,6 +44,7 @@ class AdminManager
 	const ACTION_VIEW_SYSTEM_ANNOUNCEMENT = 'sysviewer';
 	const ACTION_HIDE_SYSTEM_ANNOUNCEMENT = 'sysvisibility';
 	const ACTION_MANAGE_CATEGORIES = 'manage_categories';
+	const ACTION_WHOIS_ONLINE = 'whois_online';
 
 	private $parameters;
 
@@ -91,6 +92,9 @@ class AdminManager
 				break;
 			case self :: ACTION_MANAGE_CATEGORIES :
 				$component = AdminManagerComponent :: factory('CategoryManager', $this);
+				break;
+			case self :: ACTION_WHOIS_ONLINE :
+				$component = AdminManagerComponent :: factory('WhoisOnline', $this);
 				break;
 			default :
 				$component = AdminManagerComponent :: factory('Browser', $this);

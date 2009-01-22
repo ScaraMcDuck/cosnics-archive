@@ -14,21 +14,16 @@
 			<setting name="administrator_telephone" field="text" default="000/1234567" />
 		</category>
 		<category name="whoisonline">
-			<setting name="whoisonlineworld" field="checkbox">
+			<setting name="whoisonlineaccess" field="radio" default="2">
 				<options type="static">
 					<option name="world" value="1" />
+					<option name="registered" value="2" />
 				</options>
-			</setting>
-			<setting name="whoisonlineregistered" field="checkbox">
-				<options type="static"><option name="registered" value="1" /></options>
-			</setting>
-			<setting name="whoisonlineapplication" field="checkbox">
-				<options type="static"><option name="application" value="1" /></options>
 			</setting>
 			<setting name="timelimit" field="text" default="30" />
 		</category>
 		<category name="platform">
-			<setting name="site_name" field="text" default="LCMS" />
+			<setting name="site_name" field="text" default="Dokeos" />
 			<setting name="institution" field="text" default="Dokeos" />
 			<setting name="institution_url" field="text" default="http://www.dokeosplanet.org" />
 			<setting name="no_reply_email" field="text" default="" />

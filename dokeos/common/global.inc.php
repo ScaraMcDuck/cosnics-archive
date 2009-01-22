@@ -258,6 +258,10 @@ if(isset($_GET['adminuser']))
 	unset($_SESSION['as_admin']);
 }
 
+$user = Session :: get_user_id();
+if($user)
+	Events :: trigger_event('online', 'admin', array('user' => $user));
+
 // ===== "who is logged in?" module section =====
 
 //include_once($includePath."/lib/online.inc.php");
