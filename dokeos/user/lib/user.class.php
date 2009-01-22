@@ -712,5 +712,21 @@ class User
 		$udm = UserDataManager :: get_instance();
 		return $udm->update_role_links($this, $roles);
 	}
+	
+	function get_status_name()
+	{
+		if($this->get_platformadmin() == '1')
+		{
+			return Translation :: get('PlatformAdmin');
+		}
+		if ($this->get_status() == '1')
+		{
+			return Translation :: get('CourseAdmin');
+		}
+		else
+		{
+			return Translation :: get('Student');
+		}
+	}
 }
 ?>

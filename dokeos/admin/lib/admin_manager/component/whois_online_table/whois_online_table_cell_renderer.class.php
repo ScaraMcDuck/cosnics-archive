@@ -58,7 +58,8 @@ class WhoisOnlineTableCellRenderer extends DefaultUserTableCellRenderer
 			case User :: PROPERTY_PICTURE_URI :
 				if($user->get_picture_uri())
 				{
-					return '<img style="max-width: 100px; max-height: 100px;" src="' . $user->get_full_picture_url() . '" alt="' .Translation :: get('UserPic') . '" />';
+					return '<a href="' . $this->browser->get_url(array('uid' => $user->get_id())) . '">' .
+					'<img style="max-width: 100px; max-height: 100px;" src="' . $user->get_full_picture_url() . '" alt="' .Translation :: get('UserPic') . '" /></a>';
 				}
 				return '';
 		}
