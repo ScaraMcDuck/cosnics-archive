@@ -1706,6 +1706,13 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute(array($visible,$course_code,$module));
 	}
+	
+	function set_module_id_visible($module_id,$visible)
+	{
+		$query = 'UPDATE '.$this->escape_table_name('course_module').' SET visible = ? WHERE id = ?';
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute(array($visible,$module_id));
+	}
 
 	function add_course_module($course_code,$module,$section,$visible = true)
 	{

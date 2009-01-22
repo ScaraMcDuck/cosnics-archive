@@ -251,7 +251,7 @@ abstract class Tool
 			}
 		}
 		$this->parent->display_header($trail);
-		echo '<div class="clear"></div>';
+		//echo '<div class="clear"></div>';
 		
 		if($this->parent->get_course()->get_tool_shortcut() == Course :: TOOL_SHORTCUT_ON)
 		{

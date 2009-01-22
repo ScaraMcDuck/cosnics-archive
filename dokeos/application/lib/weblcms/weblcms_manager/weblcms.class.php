@@ -482,7 +482,7 @@ class Weblcms extends WebApplication
 				}
 			}
 
-			echo '<div class="clear">&nbsp;</div>';
+			//echo '<div class="clear">&nbsp;</div>';
 		}
 
 		if ($msg = $_GET[self :: PARAM_MESSAGE])
