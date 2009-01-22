@@ -34,10 +34,11 @@ abstract class MainTracker
 	 * Write the values of the properties from the tracker to the database
 	 * @return true if creation is succesful
 	 */
-	function create()
+	function create($exclude_id = false)
 	{
 		$trkdmg = TrackingDataManager :: get_instance();
-		$this->set_id($trkdmg->get_next_id($this->table));
+		if(!$exclude_id)
+			$this->set_id($trkdmg->get_next_id($this->table));
 		return $trkdmg->create_tracker_item($this->table, $this);
 	}
 	
