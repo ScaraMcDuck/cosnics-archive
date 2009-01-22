@@ -21,7 +21,17 @@ class AdminWhoisOnlineComponent extends AdminManagerComponent
 		
 		if($world == "1" || $this->get_user_id())
 		{
-			$output = $this->get_table_html();
+			$user_id = Request :: get('uid');
+			if(isset($user_id))
+			{
+				$output = $this->get_user_html($user_id);
+				$trail->add(new Breadcrumb($this->get_url(array('uid' => $user_id)), Translation :: get('UserDetail')));
+			}
+			else
+			{
+				$output = $this->get_table_html();
+			}
+				
 			$this->display_header($trail, true);
 			echo $output;
 			$this->display_footer();
@@ -44,7 +54,7 @@ class AdminWhoisOnlineComponent extends AdminManagerComponent
 		$html = array();
 		$html[] = $table->as_html();
 		
-		return implode($html, "\n");
+		return implode("\n", $html);
 	}
 	
 	function get_condition()
@@ -56,6 +66,29 @@ class AdminWhoisOnlineComponent extends AdminManagerComponent
 
 		if($users)
 			return new InCondition(User :: PROPERTY_USER_ID, $users);
+	}
+	
+	private function get_user_html($user_id)
+	{
+		$user = UserDataManager :: get_instance()->retrieve_user($user_id);
+		
+		$html[] = '<br /><div style="float: left; width: 150px;">';
+		$html[] = Translation :: get('Username') . ':<br />';
+		$html[] = Translation :: get('Fullname') . ':<br />';
+		$html[] = Translation :: get('OfficialCode') . ':<br />';
+		$html[] = Translation :: get('Email') . ':<br />';
+		$html[] = Translation :: get('Status') . ':<br />';
+		$html[] = '</div><div style="float: left; width: 250px;">';
+		$html[] = $user->get_username() . '<br />';
+		$html[] = $user->get_fullname() . '<br />';
+		$html[] = $user->get_official_code() . '<br />';
+		$html[] = $user->get_email() . '<br />';
+		$html[] = $user->get_status_name() . '<br />';
+		$html[] = '</div><div style="float: right; max-width: 400px;">';
+		$html[] = '<img src="' . $user->get_full_picture_url() . '" />';
+		$html[] = '</div>';
+		
+		return implode("\n", $html);
 	}
 
 }
