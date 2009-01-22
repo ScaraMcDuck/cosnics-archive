@@ -333,6 +333,7 @@ $lang['weblcms']['Name'] = 'Name';
 $lang['weblcms']['AddFeedback'] = 'Add feedback';
 $lang['weblcms']['ShowFeedback'] = 'Show feedback ';
 $lang['weblcms']['Dropbox'] = 'Dropbox';
+$lang['weblcms']['UserCourseManagement'] = 'User Course Management';
 $lang['weblcms']['AllowFeedback'] = 'Allow feedback';
 $lang['weblcms']['NoNewAnnouncements'] = 'No new announcements';
 $lang['weblcms']['MaximumSelectableLOReached'] = 'You have selected %s learning objects while the maximum is %s';

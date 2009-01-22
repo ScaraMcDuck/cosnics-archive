@@ -128,6 +128,12 @@ class DatabaseUserDataManager extends UserDataManager
 		}
 		return !($this->database->count_objects(User :: get_table_name(), $condition) == 1);
 	}
+	
+	function retrieve_user_info($username)
+	{
+		$condition = new EqualityCondition(User :: PROPERTY_USERNAME,$username);
+		return $this->retrieve_users($condition)->next_result();
+	}
 
 	function count_users($condition = null)
 	{

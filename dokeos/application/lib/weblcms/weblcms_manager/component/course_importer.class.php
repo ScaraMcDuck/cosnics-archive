@@ -52,7 +52,7 @@ class WeblcmsCourseImporterComponent extends WeblcmsComponent
 		$html[] = '<p>'. Translation :: get('CSVMustLookLike') .' ('. Translation :: get('MandatoryFields') .')</p>';
 		$html[] = '<blockquote>';
 		$html[] = '<pre>';
-		$html[] = '<b>Code</b>;<b>Title</b>;<b>CourseCategory</b>;<b>Teacher</b>';
+		$html[] = '<b>code</b>;<b>title</b>;<b>category</b>;<b>titular</b>';
 		$html[] = 'BIO0015;Biology;BIO;username';
 		$html[] = '</pre>';
 		$html[] = '</blockquote>';

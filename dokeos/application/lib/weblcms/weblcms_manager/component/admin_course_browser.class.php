@@ -12,6 +12,7 @@ require_once dirname(__FILE__).'/admin_course_browser/admin_course_browser_table
 class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 {
 	private $category;
+	private $action_bar;
 	
 	/**
 	 * Runs this component and displays its output.
@@ -34,13 +35,25 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 			exit;
 		}
 		
+		$this->action_bar = $this->get_action_bar();
 		$menu = $this->get_menu_html();
 		$output = $this->get_course_html();
 		
-		$this->display_header($trail, true);
+		$this->display_header($trail, false);
+		echo '<br />' . $this->action_bar->as_html() . '<br />';
 		echo $menu;
 		echo $output;
 		$this->display_footer();
+	}
+	
+	function get_action_bar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		
+		$action_bar->set_search_url($this->get_url(array('category' => Request :: get('category'))));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+
+		return $action_bar;
 	}
 	
 	function get_course_html()
@@ -93,7 +106,17 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 	
 	function get_condition()
 	{
-		$search_conditions = $this->get_search_condition();
+		$query = $this->action_bar->get_query();
+		
+		if (isset($query) && $query != '')
+		{
+			$conditions = array ();
+			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_ID, '*'.$query.'*');
+			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_NAME, '*'.$query.'*');
+			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_LANGUAGE, '*'.$query.'*');
+		
+			$search_conditions = new OrCondition($conditions);
+		}
 		
 		$condition = null;
 		if (isset($this->category))

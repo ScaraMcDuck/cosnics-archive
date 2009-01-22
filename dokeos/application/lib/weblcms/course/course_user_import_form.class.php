@@ -50,11 +50,11 @@ class CourseUserImportForm extends FormValidator {
     		{
     			$user_info = $this->get_user_info($csvcourse['username']);
     			
-    			$course = new Course();
-    			$course->set_id($csvcourse[CourseUserRelation :: PROPERTY_COURSE]);
+    			$code = $csvcourse[CourseUserRelation :: PROPERTY_COURSE];
+    			$course = WeblcmsDataManager :: get_instance()->retrieve_courses(null, new EqualityCondition('visual_code', $code))->next_result();
     			
     			$wdm = WeblcmsDataManager :: get_instance();
-    			if (!$wdm->subscribe_user_to_course($course, $csvcourse[CourseUserRelation :: PROPERTY_STATUS], ($csvcourse[CourseUserRelation :: PROPERTY_STATUS] == 1 ? 1 : 5), $user_info['user_id']))
+    			if (!$wdm->subscribe_user_to_course($course, $csvcourse[CourseUserRelation :: PROPERTY_STATUS], ($csvcourse[CourseUserRelation :: PROPERTY_STATUS] == 1 ? 1 : 5), $user_info->get_id()))
     			{
     				$failures++;
     				$this->failedcsv[] = implode($csvcourse, ';');
@@ -80,9 +80,10 @@ class CourseUserImportForm extends FormValidator {
     // TODO: Temporary solution pending implementation of user object
     function get_user_info($user_name)
     {
-    	if (!UserManager :: is_username_available($user_name))
+    	$udm = UserManagerDataManager->get_instance();
+    	if (! $udm->is_username_available($user_name))
     	{
-    		return UserManager :: get_user_info($user_name);
+    		return $udm->retrieve_user_info($user_name);
     	}
     	else
     	{
@@ -109,7 +110,7 @@ class CourseUserImportForm extends FormValidator {
 		}
 		
 		//2. check if course code exists
-		if (!$wdm->is_course($csvcourse[CourseUserRelation :: PROPERTY_COURSE]))
+		if (!$this->is_course($csvcourse[CourseUserRelation :: PROPERTY_COURSE]))
 		{
 			$failures++;
 		}
@@ -128,6 +129,14 @@ class CourseUserImportForm extends FormValidator {
 		{
     		return true;
 		}
+    }
+    
+    function is_course($course_code)
+    {
+    	$course = WeblcmsDataManager :: get_instance()->retrieve_courses(null, new EqualityCondition('visual_code', $course_code))->next_result();
+    	if($course) return true;
+    	
+    	return false;
     }
 }
 ?>

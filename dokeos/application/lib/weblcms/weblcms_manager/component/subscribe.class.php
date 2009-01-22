@@ -6,12 +6,14 @@ require_once dirname(__FILE__).'/../weblcms.class.php';
 require_once dirname(__FILE__).'/../weblcms_component.class.php';
 require_once dirname(__FILE__).'/../../course/course_category_menu.class.php';
 require_once dirname(__FILE__).'/course_browser/course_browser_table.class.php';
+require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
 class WeblcmsSubscribeComponent extends WeblcmsComponent
 {
 	private $category;
+	private $action_bar;
 
 	/**
 	 * Runs this component and displays its output.
@@ -92,13 +94,26 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 		$trail->add(new Breadcrumb($this->get_url(null, false, true, array(Weblcms :: PARAM_ACTION)), Translation :: get('MyCourses')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseSubscribe')));
 
+		$this->action_bar = $this->get_action_bar();
+
 		$menu = $this->get_menu_html();
 		$output = $this->get_course_html();
 
-		$this->display_header($trail, true);
+		$this->display_header($trail, false);
+		echo '<br />' . $this->action_bar->as_html() . '<br />';
 		echo $menu;
 		echo $output;
 		$this->display_footer();
+	}
+	
+	function get_action_bar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		
+		$action_bar->set_search_url($this->get_url(array('category' => Request :: get('category'))));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+
+		return $action_bar;
 	}
 
 	function get_course_html()
@@ -151,7 +166,17 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 
 	function get_condition()
 	{
-		$search_conditions = $this->get_search_condition();
+		$query = $this->action_bar->get_query();
+		
+		if (isset($query) && $query != '')
+		{
+			$conditions = array ();
+			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_ID, '*'.$query.'*');
+			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_NAME, '*'.$query.'*');
+			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_LANGUAGE, '*'.$query.'*');
+		
+			$search_conditions = new OrCondition($conditions);
+		}
 
 		$condition = null;
 		if (isset($this->category))

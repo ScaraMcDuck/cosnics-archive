@@ -492,12 +492,16 @@ class Course {
 		
 		$parent = WeblcmsRights :: get_location_id_by_identifier('course_category', $this->get_category());
 		
-		$location->set_parent($parent);
+		if($parent)
+			$location->set_parent($parent);
+		else
+			$location->set_parent(0);
+			
 		if (!$location->create())
 		{
 			return false;
 		}
-		
+	
 		return true;
 	}
 	
