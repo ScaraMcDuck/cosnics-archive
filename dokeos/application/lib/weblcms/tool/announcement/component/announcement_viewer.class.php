@@ -28,7 +28,6 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		
 		$this->display_header($trail);
 		
-		echo '<br /><a name="top"></a>';
 		//echo $this->perform_requested_actions();
 		if(!isset($_GET['pid']))
 		{
