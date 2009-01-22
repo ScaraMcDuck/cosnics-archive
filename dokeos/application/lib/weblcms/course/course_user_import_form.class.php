@@ -50,7 +50,7 @@ class CourseUserImportForm extends FormValidator {
     		{
     			$user_info = $this->get_user_info($csvcourse['username']);
     			
-    			$code = $csvcourse[CourseUserRelation :: PROPERTY_COURSE];
+    			$code = $csvcourse['course'];
     			$course = WeblcmsDataManager :: get_instance()->retrieve_courses(null, new EqualityCondition('visual_code', $code))->next_result();
     			
     			$wdm = WeblcmsDataManager :: get_instance();
@@ -80,7 +80,7 @@ class CourseUserImportForm extends FormValidator {
     // TODO: Temporary solution pending implementation of user object
     function get_user_info($user_name)
     {
-    	$udm = UserManagerDataManager->get_instance();
+    	$udm = UserDataManager :: get_instance();
     	if (! $udm->is_username_available($user_name))
     	{
     		return $udm->retrieve_user_info($user_name);
@@ -110,7 +110,7 @@ class CourseUserImportForm extends FormValidator {
 		}
 		
 		//2. check if course code exists
-		if (!$this->is_course($csvcourse[CourseUserRelation :: PROPERTY_COURSE]))
+		if (!$this->is_course($csvcourse['course']))
 		{
 			$failures++;
 		}
@@ -130,6 +130,7 @@ class CourseUserImportForm extends FormValidator {
     		return true;
 		}
     }
+    
     
     function is_course($course_code)
     {
