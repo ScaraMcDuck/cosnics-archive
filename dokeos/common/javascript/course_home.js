@@ -50,26 +50,39 @@
 		// Determine tool text class
 		var tool_text = $("#tool_text", parent);
 		
+		// List old variables
+		var old_img = imgtag.attr('src');
+		var old_class = tool_text.attr('class');
+		var old_tool_img = tool_img.attr('src');
+		
+		// Changes icons and classes
+		imgtag.attr('src', new_img);
+   		if(new_visible == 0)
+   		{
+   			tool_text.addClass('invisible');
+   			var new_src = src.replace('.png', '_na.png');
+   		}
+   		else
+   		{
+   			tool_text.removeClass('invisible');
+   			var new_src = src.replace('_na.png', '.png');
+   		}
+   		
+   		tool_img.attr('src', new_src);
+		
 		$.post("./application/lib/weblcms/ajax/change_course_module_visibility.php", 
 	    {
 	    	tool:  tool,
 	    	visible: new_visible
 	    },	function(data)
 	    	{
-	    		//alert(data);
-	    		imgtag.attr('src', new_img);
-	    		if(new_visible == 0)
+	    		if(data.length > 0)
 	    		{
-	    			tool_text.addClass('invisible');
-	    			var new_src = src.replace('.png', '_na.png');
+	    			// On error : set the old icons and classes again
+	    			imgtag.attr('src', old_img);
+	    			tool_text.attr('class', old_class);
+	    			tool_img.attr('src', old_tool_img);
 	    		}
-	    		else
-	    		{
-	    			tool_text.removeClass('invisible');
-	    			var new_src = src.replace('_na.png', '.png');
-	    		}
-	    		
-	    		tool_img.attr('src', new_src);
 	    	}
 	    );
 		
