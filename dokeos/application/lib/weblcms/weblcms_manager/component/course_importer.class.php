@@ -25,6 +25,7 @@ class WeblcmsCourseImporterComponent extends WeblcmsComponent
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($trail);
+			echo '<div class="clear"></div><br />';
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -40,6 +41,7 @@ class WeblcmsCourseImporterComponent extends WeblcmsComponent
 		else
 		{
 			$this->display_header($trail);
+			echo '<div class="clear"></div><br />';
 			$form->display();
 			$this->display_extra_information();
 			$this->display_footer();

@@ -28,9 +28,11 @@
 		var visible_img = 'layout/aqua/img/common/action_visible.png';
 		var invisible_img = 'layout/aqua/img/common/action_invisible.png';
 	
-		var tool = $(this).parent().parent().attr('id');
+		var parent = $(this).parent().parent();
+		var tool = parent.attr('id');
 		tool = tool.substring(5, tool.length);
-		
+
+		// Determine visibility icon		
 		var img = $(this).attr("src");
 		var imgtag = $(this);
 		var pos = img.indexOf('invisible'); 
@@ -41,6 +43,13 @@
 		
 		var new_img = new_visible?visible_img:invisible_img;
 		
+		// Determine tool icon
+		var tool_img = $(".tool_image", parent);
+		var src = tool_img.attr('src');
+		
+		// Determine tool text class
+		var tool_text = $("#tool_text", parent);
+		
 		$.post("./application/lib/weblcms/ajax/change_course_module_visibility.php", 
 	    {
 	    	tool:  tool,
@@ -49,6 +58,18 @@
 	    	{
 	    		//alert(data);
 	    		imgtag.attr('src', new_img);
+	    		if(new_visible == 0)
+	    		{
+	    			tool_text.addClass('invisible');
+	    			var new_src = src.replace('.png', '_na.png');
+	    		}
+	    		else
+	    		{
+	    			tool_text.removeClass('invisible');
+	    			var new_src = src.replace('_na.png', '.png');
+	    		}
+	    		
+	    		tool_img.attr('src', new_src);
 	    	}
 	    );
 		
@@ -63,7 +84,7 @@
 			drop: handle_drop
 		});
 		
-		$(".visible").bind('click', handle_visible_clicked);
+		$(".tool_visible").bind('click', handle_visible_clicked);
 		
 		$(".tooldrag").css('display', 'inline');
 	});

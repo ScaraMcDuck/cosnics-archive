@@ -99,6 +99,7 @@ class WeblcmsUnsubscribeComponent extends WeblcmsComponent
 		$output = $this->get_course_html();
 
 		$this->display_header($trail);
+		echo '<div class="clear"></div><br />';
 		echo $menu;
 		echo $output;
 		$this->display_footer();

@@ -259,8 +259,9 @@ abstract class Tool
 			echo '<div style="width: 100%; text-align: right;">';
 			$renderer->display();
 			echo '</div>';
-			echo '<div class="clear"></div><br />';
 		}
+		
+		echo '<div class="clear"></div><br />';
 		
 		if ($msg = $_GET[Weblcms :: PARAM_MESSAGE])
 		{
