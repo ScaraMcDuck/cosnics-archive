@@ -45,7 +45,9 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			$extra_params = array(RepositoryManager :: PARAM_CLOI_ID => $clo_id, 
 								  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']);
 			if(isset($_GET['publish']))
+			{
 				$extra = '&publish=' . $_GET['publish'];
+			}
 				
 			$extra = '<a href="' . $this->get_add_existing_learning_object_url($root_id, $clo_id) . $extra . '">' . Translation :: get('AddExistingLearningObject') . '</a><br /><br />';
 			
@@ -87,8 +89,10 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 					$params = array_merge(array(RepositoryManager :: PARAM_CLOI_REF => $object->get_id()), $extra_params);
 					$this->redirect(RepositoryManager :: ACTION_CREATE_COMPLEX_LEARNING_OBJECTS, null, 0, false, $params);
 				}
-				else 
+				else
+				{
 					$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), $object->get_parent_id());
+				}
 			}
 			else
 			{
@@ -98,7 +102,9 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 					$this->display_header($trail);
 				}
 				else
+				{
 					$this->display_header($trail, false, false);
+				}
 					
 				$lo_form->display();
 				$this->display_footer();
@@ -109,18 +115,27 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			if(!isset($_GET['publish']))
 			{
 				if($extra)
+				{
 					$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddLearningObject')));
+				}
 				else
+				{
 					$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
+				}
 			}
 				
 			if(isset($_GET['publish']))
+			{
 				$this->display_header($trail, false, false);
+			}
 			else
+			{
 				$this->display_header($trail);
+			}
 					
-			echo $extra;
+			//echo $extra;
 			$quotamanager = new QuotaManager($this->get_user());
+			
 			if ( $quotamanager->get_available_database_space() <= 0)
 			{
 				Display :: warning_message(htmlentities(Translation :: get('MaxNumberOfLearningObjectsReached')));
@@ -131,6 +146,17 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 				$renderer->setElementTemplate('{label}&nbsp;{element}&nbsp;');
 				$type_form->accept($renderer);
 				echo $renderer->toHTML();
+				
+				echo '<br />';
+				
+				foreach ($this->get_learning_object_types(true) as $type)
+				{
+					echo '<a href="'. $this->get_url(array_merge($extra_params, array())) .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/' . $type . '.png);">';
+					echo Translation :: get(LearningObject :: type_to_class($type).'TypeName');
+					echo '</div></a>';
+				}
+				
+				echo '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/repository.js' .'"></script>';
 			}
 			$this->display_footer();
 		}

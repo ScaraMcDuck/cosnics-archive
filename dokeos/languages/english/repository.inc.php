@@ -273,4 +273,14 @@ $lang['repository']['CreateNew'] = 'Create new';
 $lang['repository']['SelectExisting'] = 'Select existing';
 $lang['repository']['ShowAll'] = 'Show All Agenda Items';
 $lang['repository']['PlaceholderBlockText'] = ' ';
+$lang['repository']['BlogItemTypeName'] = 'Blog item';
+$lang['repository']['FillInBlanksQuestionTypeName'] = 'Fill-in-the-blanks question';
+$lang['repository']['HotspotQuestionTypeName'] = 'Hotspot question';
+$lang['repository']['MatchingQuestionTypeName'] = 'Matching question';
+$lang['repository']['MultipleChoiceQuestionTypeName'] = 'Multiple choice question';
+$lang['repository']['OpenQuestionTypeName'] = 'Open question';
+$lang['repository']['PortalHomeTypeName'] = 'Portal home';
+$lang['repository']['RatingQuestionTypeName'] = 'Rating question';
+$lang['repository']['SurveyTypeName'] = 'Survey';
+$lang['repository']['WikiPageTypeName'] = 'Wiki page';
 ?>

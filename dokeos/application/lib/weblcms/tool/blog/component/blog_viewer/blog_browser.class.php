@@ -8,7 +8,7 @@
 require_once dirname(__FILE__).'/../../../../weblcms_data_manager.class.php';
 require_once dirname(__FILE__).'/../../../../learning_object_publication_browser.class.php';
 require_once dirname(__FILE__).'/../../../../browser/list_renderer/learning_object_publication_details_renderer.class.php';
-require_once Path :: get_repository_path() . 'lib/learning_object/blog/blog.class.php';
+//require_once Path :: get_repository_path() . 'lib/learning_object/blog/blog.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object/description/description.class.php';
 /**
  * Browser to allow the user to view the published blogs
@@ -76,7 +76,7 @@ class BlogBrowser extends LearningObjectPublicationBrowser
 			if($this->get_parent()->get_condition())
 				$conditions[] = $this->get_parent()->get_condition();
 			$cond = new AndCondition($conditions); 
-			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $category, $user_id, $course_groups, $condition, false, array (Blog :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $cond);
+			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $category, $user_id, $course_groups, $condition, false, null, null, 0, -1, null, $cond);
 			$visible_publications = array ();
 			while ($publication = $publications->next_result())
 			{

@@ -29,7 +29,7 @@
 
 	$(document).ready( function() {
 		addClosers();
-		hideMessages();
+		//hideMessages();
 	});
 
 })(jQuery);

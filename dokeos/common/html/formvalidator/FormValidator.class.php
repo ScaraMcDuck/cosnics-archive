@@ -102,7 +102,7 @@ EOT;
 		$element_template = array();
 		$element_template[] = '<div class="row">';
 		$element_template[] = '<div class="label">';
-		$element_template[] = '<!-- BEGIN required --><span class="form_required"><img src="'. Theme :: get_common_image_path() .'/action_required.png" alt="*" title ="*"/></span> <!-- END required -->{label}';
+		$element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="'. Theme :: get_common_image_path() .'/action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
 		$element_template[] = '</div>';
 		$element_template[] = '<div class="formw">';
 		$element_template[] = '<!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}';
@@ -147,7 +147,10 @@ EOT;
 	 */
 	function add_textfield( $name, $label,$required = true, $attributes = array())
 	{
-		$attributes['size'] = 50;
+		if (!array_key_exists('size', $attributes))
+		{
+			$attributes['size'] = 50;
+		}
 		$element = $this->addElement('text',$name,$label,$attributes);
 		$this->applyFilter($name,'trim');
 		if($required)
