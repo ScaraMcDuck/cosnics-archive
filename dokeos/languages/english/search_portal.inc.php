@@ -9,4 +9,5 @@ $lang['search_portal']['Notice'] = 'Notice';
 $lang['search_portal']['NoResultsFound'] = 'No results found';
 $lang['search_portal']['Error'] = 'Error';
 $lang['search_portal']['NoOptionsAvailable'] = 'No options available';
+$lang['search_portal']['Reset'] = 'Reset';
 ?>

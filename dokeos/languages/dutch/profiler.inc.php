@@ -1,8 +1,39 @@
 <?php
-/*
- * Created on 27-feb-08
- *
- * To change the template for this generated file go to
- * Window - Preferences - PHPeclipse - PHP - Code Templates
- */
+$lang['profiler']['LearningObjectCreated'] = 'Leerobject aangemaakt';
+$lang['profiler']['Publish'] = 'Enquete publiceren';
+$lang['profiler']['SearchResults'] = 'Zoekresultaten';
+$lang['profiler']['List'] = 'Lijst';
+$lang['profiler']['Find'] = 'Zoek';
+$lang['profiler']['Ok'] = 'Ok';
+$lang['profiler']['RemoveSelected'] = ' ';
+$lang['profiler']['dateFormatShort'] = '%a %d %b %y';
+$lang['profiler']['timeNoSecFormat'] = '%H:%M';
+$lang['profiler']['Delete'] = 'Verwijderen';
+$lang['profiler']['ViewProfile'] = 'Bekijk profiel';
+$lang['profiler']['NoProfileSelected'] = 'Geen profiel geselecteerd';
+$lang['profiler']['MyProfiler'] = ' ';
+$lang['profiler']['NoPublicationSelected'] = 'Geen publicatie geselecteerd';
+$lang['profiler']['PublishProfile'] = 'Publiceer profiel';
+$lang['profiler']['InvalidDataRetrievedFromDatabase'] = 'Ongeldige data';
+$lang['profiler']['Home'] = 'Start';
+$lang['profiler']['YZ'] = 'YZ';
+$lang['profiler']['PublicationCreated'] = 'Publicatie aangemaakt';
+$lang['profiler']['UserName'] = 'Gebruikersnaam ('log-in')';
+$lang['profiler']['LastName'] = 'Familienaam';
+$lang['profiler']['FirstName'] = 'Voornaam';
+$lang['profiler']['Profile'] = 'Profiel';
+$lang['profiler']['SelectedLearningObjects'] = 'Geselecteerde leerobjecten';
+$lang['profiler']['ObjectNotPublished'] = 'Leerobject niet gepubliceerd';
+$lang['profiler']['ObjectPublished'] = 'Leerobject gepubliceerd';
+$lang['profiler']['ShowAll'] = 'Alles tonen';
+$lang['profiler']['ManageCategories'] = ' ';
+$lang['profiler']['EditProfilePublication'] = ' ';
+$lang['profiler']['NoCalendarEventPublicationSelected'] = ' ';
+$lang['profiler']['Profiler'] = ' ';
+$lang['profiler']['Edit'] = ' ';
+$lang['profiler']['Root'] = 'Hoofdmap';
+$lang['profiler']['Category'] = 'Categorie';
+$lang['profiler']['BrowserTitle'] = ' ';
+$lang['profiler']['Save'] = 'Opslaan';
+$lang['profiler']['Reset'] = ' ';
 ?>

@@ -43,4 +43,6 @@ $lang['personal_messenger']['CategoryTypeName'] = 'Category';
 $lang['personal_messenger']['AddAttachments'] = 'Add attachments';
 $lang['personal_messenger']['CreatorTitle'] = 'Create';
 $lang['personal_messenger']['Personal_message'] = 'Personal Message';
+$lang['personal_messenger']['BrowserTitle'] = 'Browser';
+$lang['personal_messenger']['Reset'] = 'Reset';
 ?>

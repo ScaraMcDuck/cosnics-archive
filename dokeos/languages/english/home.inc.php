@@ -74,24 +74,36 @@ $lang['home']['Extra'] = 'Extra';
 $lang['home']['PersonalCalendar'] = 'Personal calendar';
 $lang['home']['SystemAnnouncements'] = 'System announcements';
 $lang['home']['NoNewSystemAnnouncements'] = 'No new system announcements';
-$lang['home']['BlockAdded'] = 'Block was added succesfully';
 $lang['home']['NoConfigurableSettings'] = 'No settings';
 $lang['home']['Display'] = 'Display';
 $lang['home']['ShowWhenEmpty'] = 'Show when empty';
-$lang['home']['YourBlockIsBeingAdded'] = 'Your block is being added ...';
+$lang['home']['NoSystemAnnouncementsCurrently'] = 'There are no system annoucements for the moment. ';
+$lang['home']['PortalHome'] = 'Portal Home';
+$lang['home']['Save'] = 'Save';
+$lang['home']['Reset'] = 'Reset';
 $lang['home']['NewTab'] = 'New tab';
-$lang['home']['YourTabIsBeingAdded'] = 'Your tab is being added ...';
-$lang['home']['TabAdded'] = 'Tab was added succesfully';
-$lang['home']['NewBlock'] = 'New block';
 $lang['home']['NewColumn'] = 'New column';
-$lang['home']['DummyBlock'] = 'Dummy';
-$lang['home']['PlaceholderBlockText'] = 'This block is just a placeholder and can safely be removed.';
-$lang['home']['YourColumnIsBeingAdded'] = 'Your column is being added ...';
-$lang['home']['ColumnAdded'] = 'Column was added succesfully';
-$lang['home']['EmptyColumnText'] = 'This column is currently empty. You can do the following things with it:
-<ol>
-<li><em>Drag</em> a block from another column into it.</li>
-<li><em>Delete</em> it by clicking the icon below</li>
-<li>Add a new block to it by means of the <em>New Block</em> option at the top right of the screen</li>
-</ol>';
+$lang['home']['NewBlock'] = 'New block';
+$lang['home']['EmptyColumnText'] = 'Empty column text';
+$lang['home']['TabUpdated'] = 'Tab updated';
+$lang['home']['TabNotUpdated'] = 'Tab not updated';
+$lang['home']['NotAuthorized'] = 'You are not authorized to perform this action';
+$lang['home']['BlockAdded'] = 'Block added';
+$lang['home']['TabNotAdded'] = 'Tab not added';
+$lang['home']['NewRow'] = 'New row';
+$lang['home']['TabRowNotAdded'] = 'Tab row not added';
+$lang['home']['TabColumnNotAdded'] = 'Tab column not added';
+$lang['home']['DummyBlock'] = 'Dummy block';
+$lang['home']['TabBlockNotAdded'] = 'Tab block not added';
+$lang['home']['TabAdded'] = 'Tab added';
+$lang['home']['ColumnNotAdded'] = 'Column not added';
+$lang['home']['ColumnBlockNotAdded'] = 'Column block not added';
+$lang['home']['ColumnAdded'] = 'Column added';
+$lang['home']['BlockMovedToTab'] = 'The block is moved to the tab';
+$lang['home']['BlockNotMovedToTab'] = 'The block is not moved to the tab';
+$lang['home']['ColumnDeleted'] = 'Column deleted';
+$lang['home']['ColumnNotDeleted'] = 'Column not deleted';
+$lang['home']['TabDeleted'] = 'Tab deleted';
+$lang['home']['TabNotDeleted'] = 'Tab not deleted';
+$lang['home']['Default'] = 'Default';
 ?>
