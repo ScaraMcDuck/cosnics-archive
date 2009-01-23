@@ -18,4 +18,6 @@ $lang['myportfolio']['NoPortfolioSelected'] = 'No portfolio selected';
 $lang['myportfolio']['MyPortfolio'] = 'My portfolio';
 $lang['myportfolio']['NoPublicationSelected'] = 'No publication selected';
 $lang['myportfolio']['PublishPortfolio'] = 'Publish portfolio';
+$lang['myportfolio']['Save'] = 'Save';
+$lang['myportfolio']['Reset'] = 'Reset';
 ?>

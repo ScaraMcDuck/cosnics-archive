@@ -33,4 +33,7 @@ $lang['profiler']['Profiler'] = 'Profiler';
 $lang['profiler']['Edit'] = 'Edit';
 $lang['profiler']['Root'] = 'Root';
 $lang['profiler']['Category'] = 'Category';
+$lang['profiler']['BrowserTitle'] = 'Browser';
+$lang['profiler']['Save'] = 'Save';
+$lang['profiler']['Reset'] = 'Reset';
 ?>

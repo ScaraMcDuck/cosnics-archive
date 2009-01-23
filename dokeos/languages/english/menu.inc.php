@@ -40,4 +40,6 @@ $lang['menu']['Repository'] = 'Repository';
 $lang['menu']['Platform'] = 'Platform';
 $lang['menu']['MyAccount'] = 'My account';
 $lang['menu']['Manage'] = 'Manage';
+$lang['menu']['Save'] = 'Save';
+$lang['menu']['Reset'] = 'Reset';
 ?>

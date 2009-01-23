@@ -1,8 +1,38 @@
 <?php
-/*
- * Created on 27-feb-08
- *
- * To change the template for this generated file go to
- * Window - Preferences - PHPeclipse - PHP - Code Templates
- */
+$lang['personal_calendar']['Ok'] = 'Oké';
+$lang['personal_calendar']['LearningObjectCreated'] = 'Leerobject aangemaakt';
+$lang['personal_calendar']['MyAgenda'] = 'Mijn Agenda';
+$lang['personal_calendar']['dateTimeFormatLong'] = '%A %d %B %Y om %H:%M';
+$lang['personal_calendar']['From'] = 'Van';
+$lang['personal_calendar']['Until'] = 'tot';
+$lang['personal_calendar']['NoOptionsAvailable'] = 'Geen opties beschikbaar';
+$lang['personal_calendar']['ViewPersonalCalendarEvent'] = 'Bekijk persoonlijk kalender item';
+$lang['personal_calendar']['NoProfileSelected'] = 'Geen profiel geselecteerd';
+$lang['personal_calendar']['Publish'] = 'Enquete publiceren';
+$lang['personal_calendar']['Back'] = 'Vorige';
+$lang['personal_calendar']['Delete'] = 'Verwijderen';
+$lang['personal_calendar']['LearningObjectPublicationDeleted'] = 'Publicatie gewist';
+$lang['personal_calendar']['NoPublicationSelected'] = 'Geen publicatie geselecteerd';
+$lang['personal_calendar']['PublishCalendarEvent'] = 'Publiceer kalender item';
+$lang['personal_calendar']['InvalidDataRetrievedFromDatabase'] = 'Ongeldige data';
+$lang['personal_calendar']['ListView'] = ' ';
+$lang['personal_calendar']['MonthView'] = 'Maandoverzicht';
+$lang['personal_calendar']['WeekView'] = 'Weekoverzicht';
+$lang['personal_calendar']['DayView'] = 'Dagoverzicht';
+$lang['personal_calendar']['CreatorTitle'] = ' ';
+$lang['personal_calendar']['CategoryTypeName'] = ' ';
+$lang['personal_calendar']['Repeat'] = ' ';
+$lang['personal_calendar']['Attachments'] = ' ';
+$lang['personal_calendar']['AddAttachments'] = ' ';
+$lang['personal_calendar']['SelectedLearningObjects'] = ' ';
+$lang['personal_calendar']['ObjectNotPublished'] = ' ';
+$lang['personal_calendar']['ObjectPublished'] = ' ';
+$lang['personal_calendar']['Today'] = 'vandaag';
+$lang['personal_calendar']['EditCalendarEventPublication'] = ' ';
+$lang['personal_calendar']['NoCalendarEventPublicationSelected'] = ' ';
+$lang['personal_calendar']['Edit'] = ' ';
+$lang['personal_calendar']['PublicationCreated'] = ' ';
+$lang['personal_calendar']['BrowserTitle'] = ' ';
+$lang['personal_calendar']['Save'] = 'Opslaan';
+$lang['personal_calendar']['Reset'] = ' ';
 ?>

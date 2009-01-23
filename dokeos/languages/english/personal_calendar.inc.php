@@ -32,4 +32,7 @@ $lang['personal_calendar']['EditCalendarEventPublication'] = 'Edit calendar even
 $lang['personal_calendar']['NoCalendarEventPublicationSelected'] = 'No calendar event publication selected';
 $lang['personal_calendar']['Edit'] = 'Edit';
 $lang['personal_calendar']['PublicationCreated'] = 'Publication created';
+$lang['personal_calendar']['BrowserTitle'] = 'Browser';
+$lang['personal_calendar']['Save'] = 'Save';
+$lang['personal_calendar']['Reset'] = 'Reset';
 ?>
