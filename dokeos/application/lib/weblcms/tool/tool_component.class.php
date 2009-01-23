@@ -214,4 +214,9 @@ abstract class ToolComponent
 		return new $class($tool);
 	}
 	
+	function display_introduction_text($introduction_text)
+	{
+		return $this->tool->display_introduction_text($introduction_text);
+	}
+	
 }

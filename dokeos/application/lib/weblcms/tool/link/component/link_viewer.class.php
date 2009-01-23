@@ -34,7 +34,7 @@ class LinkToolViewerComponent extends LinkToolComponent
 		{
 			if(PlatformSetting :: get('enable_introduction', 'weblcms'))
 			{
-				echo $this->display_introduction_text();
+				echo $this->display_introduction_text($this->introduction_text);
 			}
 		}
 		echo $this->action_bar->as_html();
@@ -87,7 +87,7 @@ class LinkToolViewerComponent extends LinkToolComponent
 		return null;
 	}
 	
-	function display_introduction_text()
+/*	function display_introduction_text()
 	{
 		$html = array();
 		
@@ -120,6 +120,6 @@ class LinkToolViewerComponent extends LinkToolComponent
 		}
 		
 		return implode("\n",$html);
-	}
+	}*/
 }
 ?>

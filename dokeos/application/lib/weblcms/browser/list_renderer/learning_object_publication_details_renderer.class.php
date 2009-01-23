@@ -131,7 +131,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		
 		if(count($publication_feedback_array) > 0)
 		{
-			$html[] = '<a href="#" id="showfeedback" style="display:none; float:left;">' . Translation :: get('ShowFeedback') . '</a>';
+			$html[] = '<br /><a href="#" id="showfeedback" style="display:none; float:left;">' . Translation :: get('ShowFeedback') . '</a>';
 			$html[] = '<div id="feedbacklist">';
 			$html[] = '<h3>' . Translation :: get('LearningObjectPublicationListFeedback') .  ' <a href="#" id="hidefeedback" style="display:none; font-size: 80%; font-weight: normal;">(' . Translation :: get('Hide') . ')</a></h3>';
 			$renderer = new ListPublicationFeedbackListRenderer($this->browser,$publication_feedback_array);

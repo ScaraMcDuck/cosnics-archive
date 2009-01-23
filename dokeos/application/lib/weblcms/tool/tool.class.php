@@ -262,6 +262,15 @@ abstract class Tool
 			echo '<div class="clear"></div><br />';
 		}
 		
+		if ($msg = $_GET[Weblcms :: PARAM_MESSAGE])
+		{
+			$this->parent->display_message($msg);
+		}
+		if($msg = $_GET[Weblcms :: PARAM_ERROR_MESSAGE])
+		{
+			$this->parent->display_error_message($msg);
+		}
+		
 		
 		$menu_style = $this->parent->get_course()->get_menu();
 		if($menu_style != Course :: MENU_OFF)
@@ -506,6 +515,39 @@ abstract class Tool
 			$form->addElement('hidden',$key,$value);
 		}
 		return $form;
+	}
+	
+	function display_introduction_text($introduction_text)
+	{
+		$html = array();
+		
+		if($introduction_text)
+		{
+			
+			$tb_data[] = array(
+				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_image_path() . 'action_edit.png',
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
+			);
+			
+			$tb_data[] = array(
+				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
+				'label' => Translation :: get('Delete'),
+				'img' => Theme :: get_common_image_path() . 'action_delete.png',
+				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
+			);
+			
+			$html[] = '<div class="announcements level_1">';
+			$html[] = '<div class="description">';
+			$html[] = $introduction_text->get_learning_object()->get_description();
+			$html[] = '</div>';
+			$html[] = DokeosUtilities :: build_toolbar($tb_data) . '<div class="clear"></div>';
+			$html[] = '</div>';
+			$html[] = '<br />';
+		}
+		
+		return implode("\n",$html);
 	}
 
 }

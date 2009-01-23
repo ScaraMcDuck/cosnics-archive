@@ -35,7 +35,7 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 		{
 			if(PlatformSetting :: get('enable_introduction', 'weblcms'))
 			{
-				echo $this->display_introduction_text();
+				echo $this->display_introduction_text($this->introduction_text);
 			}
 		}
 		echo $this->action_bar->as_html();
@@ -86,7 +86,7 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 		return null;
 	}
 	
-	function display_introduction_text()
+	/*function display_introduction_text()
 	{
 		$html = array();
 		
@@ -119,6 +119,6 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 		}
 		
 		return implode("\n",$html);
-	}
+	}*/
 }
 ?>

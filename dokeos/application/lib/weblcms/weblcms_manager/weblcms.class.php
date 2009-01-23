@@ -463,7 +463,9 @@ class Weblcms extends WebApplication
 				}
 			}
 			echo '</select></form></div>';*/
+			echo '<div style="float: left;">';
 			Display :: tool_title(htmlentities(Translation :: get($this->tool_class.'Title')));
+			echo '</div>';
 		}
 		else
 		{
@@ -484,14 +486,17 @@ class Weblcms extends WebApplication
 
 			//echo '<div class="clear">&nbsp;</div>';
 		}
-
-		if ($msg = $_GET[self :: PARAM_MESSAGE])
+		
+		if (!isset ($this->tool_class))
 		{
-			$this->display_message($msg);
-		}
-		if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
-		{
-			$this->display_error_message($msg);
+			if ($msg = $_GET[self :: PARAM_MESSAGE])
+			{
+				$this->display_message($msg);
+			}
+			if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
+			{
+				$this->display_error_message($msg);
+			}
 		}
 		//echo 'Last visit: '.date('r',$this->get_last_visit_date());
 	}

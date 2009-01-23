@@ -102,10 +102,15 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 			//case 3: $level = 'level_4'; break;
 		}
 		
+		$feedback_url = $this->get_url(array (Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'), true);
+		
 		$html[] = '<div class="announcements ' . $level . '" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
-		$html[] = $this->render_title($publication);
+		$html[] = '<a href="' . $feedback_url . '">' . $this->render_title($publication) . '</a>';
 		$html[] = '</div>';
+		$html[] = '<div class="topactions'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
+		$html[] = $this->render_top_action($publication);
+		$html[] = '</div><div class="clear">&nbsp;</div>';
 		$html[] = '<div class="description'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_description($publication);
 		$html[] = $this->render_attachments($publication);
