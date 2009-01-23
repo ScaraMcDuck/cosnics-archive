@@ -81,24 +81,18 @@ abstract class RepositoryDataManager
 	 */
 	function get_registered_types($only_master_types = false)
 	{
-//		$types = array_keys($this->typeProperties);
-//		if(!$only_master_types)
-//		{
-//			return $types;
-//		}
-//		$master_types = array();
-//		foreach($types as $index => $type)
-//		{
-//			$class_type = LearningObject::type_to_class($type);
-//			if(call_user_func(array($class_type,'is_master_type')))
-//			{
-//				$master_types[] = $type;
-//			}
-//		}
-//		return $master_types;
-
-		// TODO: Temporary fix untill active learning objects are registered in the DB 
-		return array('announcement', 'answer', 'assessment', 'blog', 'calendar_event', 'introduction', 'description', 'document', 'feedback', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'link', 'personal_message', 'portfolio_item', 'portal_home', 'profile', 'question', 'hotspot_question', 'open_question', 'fill_in_blanks_question', 'multiple_choice_question', 'matching_question', 'rss_feed', 'survey', 'userinfo_content', 'userinfo_def', 'wiki', 'wiki_page', 'system_announcement');
+		$adm = AdminDataManager :: get_instance();
+		$condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_LEARNING_OBJECT);
+		
+		$learning_objects = $adm->retrieve_registrations($condition);
+		$active_learning_objects = array();
+		
+		while ($learning_object = $learning_objects->next_result())
+		{
+			$active_learning_objects[] = $learning_object->get_name();
+		}
+		
+		return $active_learning_objects;
 	}
 
 	/**
@@ -799,12 +793,9 @@ abstract class RepositoryDataManager
 	 */
 	private function load_types()
 	{
-		//TODO: Store "activated" LO-types in DB and retrieve them here.
-		$learning_object_types = array('hotspot_question', 'announcement', 'assessment', 'blog', 'calendar_event', 'introduction', 'description', 'document', 'feedback', 'fill_in_blanks_question', 'forum', 'forum_post', 'forum_topic', 'learning_path', 'learning_path_chapter', 'link', 'matching_question', 'multiple_choice_question', 'open_question', 'personal_message', 'portfolio_item', 'portal_home', 'profile', 'rss_feed', 'userinfo_content', 'userinfo_def', 'wiki', 'wiki_page', 'system_announcement');
-		
 		$path = Path :: get_repository_path() . 'lib/learning_object/';
 		
-		foreach($learning_object_types as $learning_object_type)
+		foreach($this->get_registered_types(true) as $learning_object_type)
 		{
 			$learning_object_path = $path . $learning_object_type . '/' . $learning_object_type . '.class.php';
 			require_once $learning_object_path;

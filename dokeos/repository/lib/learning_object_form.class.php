@@ -270,7 +270,7 @@ EOT;
 	private function build_basic_form()
 	{
 		//$this->add_textfield(LearningObject :: PROPERTY_TITLE, Translation :: get('Title'), true, 'size="100" style="width: 100%"');
-		$this->add_textfield(LearningObject :: PROPERTY_TITLE, Translation :: get(get_class($this) . 'Title'), true, array('size' => "100"));
+		$this->add_textfield(LearningObject :: PROPERTY_TITLE, Translation :: get('Title'), true, array('size' => '100'));
 		if ($this->allows_category_selection())
 		{
 			$select = $this->add_select(LearningObject :: PROPERTY_PARENT_ID, Translation :: get('CategoryTypeName'), $this->get_categories());

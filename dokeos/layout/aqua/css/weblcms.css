@@ -331,3 +331,18 @@ div.announcements
 	background-position: 10px 10px;
 	background-repeat: no-repeat;
 }
+
+.toolSortHelper
+{
+	border: 1px dashed #c0c0c0;
+	background-color: #F2F2F2;
+}
+
+.tool
+{
+	display: inline;
+	float: left;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 5px;
+}

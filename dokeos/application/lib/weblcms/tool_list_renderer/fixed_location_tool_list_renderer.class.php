@@ -201,7 +201,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		$html[] = '<div class="block" id="block_'. $section->get_id() .'" style="background-image: url('.Theme :: get_image_path('home'). $icon . ');">';
 		
 		$html[] = '<div class="title"><div style="float: left;">'. $block_name . '</div>';
-		$html[] = '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_image_path().'action_visible.png" /><img class="invisible" style="display: none;") src="'.Theme :: get_common_image_path().'action_invisible.png" /></a>';
+		$html[] = '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_image_path().'action_visible.png" /><img class="invisible" style="display: none;" src="'.Theme :: get_common_image_path().'action_invisible.png" /></a>';
 		$html[] = '<div style="clear: both;"></div>';
 		$html[] = '</div>';
 		$html[] = '<div class="description">';
@@ -228,9 +228,15 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 	private function show_section_tools($section, $tools)
 	{ 
 		$parent = $this->get_parent();
-		$table = new HTML_Table('style="width: 100%;"');
-		$table->setColCount($this->number_of_columns);
+		
+		$column_width = 99.9 / $this->number_of_columns;
+		
+		//$table = new HTML_Table('style="width: 100%;"');
+		//$table->setColCount($this->number_of_columns);
 		$count = 0;
+		
+		$html = array();
+		
 		foreach ($tools as $index => $tool)
 		{
 			if($tool->visible || $section->get_name() == 'course_admin')
@@ -255,14 +261,18 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'));
 			$row = $count/$this->number_of_columns;
 			$col = $count%$this->number_of_columns;
-			$html = array();
+			//$html = array();
 			if($this->is_course_admin || $tool->visible)
-			{
+			{				
 				if($section->get_type() == CourseSection :: TYPE_TOOL)
 				{
-					$html[] = '<div id="tool_' . $tool->id . '" class="tool" style="display:inline">';
+					$html[] = '<div id="tool_' . $tool->id . '" class="tool" style="width: ' . $column_width . '%;">';
 					//$html[] = '<div id="drag_' . $tool->id . '" class="tooldrag" style="width: 20px; cursor: pointer; display:none;"><img src="'. Theme :: get_common_image_path() .'action_drag.png" alt="'. Translation :: get('DragAndDrop') .'" title="'. Translation :: get('DragAndDrop') .'" /></div>';
 					$id = 'id="drag_' . $tool->id .'"';
+				}
+				else
+				{
+					$html[] = '<div class="tool" style="width: ' . $column_width . '%;">';
 				}
 				
 				// Show visibility-icon
@@ -279,18 +289,19 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				$html[] = '<a id="tool_text" href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
 				$html[] = $title;
 				$html[] = '</a>';
-				if($section->get_type() == CourseSection :: TYPE_TOOL)
-				{
-					$html[] = '</div>';
-					$html[] = '<script language="JavaScript">$("#tool_' . $tool->id . '").draggable({ handle: "div", helper: "clone"});</script>';
-				}
 				
-				$table->setCellContents($row,$col,implode("\n",$html));
-				$table->updateColAttributes($col,'style="width: '.floor(100/$this->number_of_columns).'%;"');
+				$html[] = '<div class="clear"></div>';
+				
+				$html[] = '</div>';
+				
+				//$table->setCellContents($row,$col,implode("\n",$html));
+				//$table->updateColAttributes($col,'style="width: '.floor(100/$this->number_of_columns).'%;"');
 				$count++;
 			}
 		}
-		$table->display();
+		//$table->display();
+		
+		echo implode("\n", $html);
 	}
 }
 ?>

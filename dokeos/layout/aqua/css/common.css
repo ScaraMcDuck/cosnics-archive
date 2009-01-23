@@ -352,11 +352,6 @@ div.row div.label
 	color: #565656;
 }
 
-div.row div.label img
-{
-	vertical-align: middle;
-}
-
 div.row div.formw
 {
 	width: 80%;
@@ -364,7 +359,7 @@ div.row div.formw
 	text-align: left;
 }
 
-div.row div.formw input[type=text]
+div.formw input[type=text], div.row div.formw input[type=password], div.row div.formw select
 {
 	/*
 	background-image: url(../img/common/buttons/button_link.png);
@@ -377,7 +372,9 @@ div.row div.formw input[type=text]
     border: 1px solid #dedede;
 }
 
-div.row div.formw input[type=text]:hover, div.row div.formw input[type=text]:focus
+div.formw input[type=text]:hover, div.row div.formw input[type=text]:focus,
+div.row div.formw input[type=password]:hover, div.row div.formw input[type=password]:focus,
+div.row div.formw select:hover, div.row div.formw select:focus
 {
 	background-color: #f7fbfd;
 	border-color: #4171B5;
@@ -424,10 +421,10 @@ select, textarea
 	border: 1px solid #000;
 }
 
-input[type=text]
+input[type=text], input[type=password]
 {
 	margin: 0px;
-	padding: 2px;
+	padding: 2px 4px 2px 4px;
 	border: 1px solid #4171B5;
 }
 
