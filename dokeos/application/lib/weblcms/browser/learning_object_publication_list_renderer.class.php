@@ -48,8 +48,7 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_title($publication)
 	{
-		$icon = $this->render_top_action($publication);
-		return htmlspecialchars($publication->get_learning_object()->get_title()) . ' ' . $icon;
+		return htmlspecialchars($publication->get_learning_object()->get_title());
 	}
 
 	/**

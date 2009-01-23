@@ -35,7 +35,7 @@ class BlogToolViewerComponent extends BlogToolComponent
 		{
 			if(PlatformSetting :: get('enable_introduction', 'weblcms'))
 			{
-				echo $this->display_introduction_text();
+				echo $this->display_introduction_text($this->introduction_text);
 			}
 		}
 		echo $this->action_bar->as_html();
@@ -90,7 +90,7 @@ class BlogToolViewerComponent extends BlogToolComponent
 		return null;
 	}
 	
-	function display_introduction_text()
+	/*function display_introduction_text()
 	{
 		$html = array();
 		
@@ -123,7 +123,7 @@ class BlogToolViewerComponent extends BlogToolComponent
 		}
 		
 		return implode("\n",$html);
-	}
+	}*/
 
 }
 ?>

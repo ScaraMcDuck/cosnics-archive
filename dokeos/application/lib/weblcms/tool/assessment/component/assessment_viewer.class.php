@@ -37,7 +37,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 		
 		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
 		{
-			echo $this->display_introduction_text();
+			echo $this->display_introduction_text($this->introduction_text);
 		}
 		
 		echo $this->action_bar->as_html();
@@ -55,7 +55,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 		$this->display_footer();
 	}
 	
-	function display_introduction_text()
+	/*function display_introduction_text()
 	{
 		$html = array();
 		
@@ -88,7 +88,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 		}
 		
 		return implode("\n",$html);
-	}
+	}*/
 	
 	function get_toolbar()
 	{

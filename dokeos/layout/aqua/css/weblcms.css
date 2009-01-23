@@ -218,6 +218,8 @@ div.feedback
 	border: 1px solid #CCCCCC;
 	border-top: 1px dotted #CCCCCC;
 	border-bottom: 1px dotted #CCCCCC;
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-bottomright: 10px;
 }
 
 div.feedback div.title
@@ -226,6 +228,17 @@ div.feedback div.title
 	border-bottom: 1px solid #CCCCCC;
 	width: 60%;
 	margin-bottom: 1em;
+	float: left;
+}
+
+div.feedback div.topactions
+{
+	text-align: right;
+}
+
+div.feedback div.description
+{
+	clear: both;
 }
 
 div.feedback span.publication_info
@@ -280,6 +293,22 @@ div.announcements div.title
 	padding-bottom: 0.4em;
 	color: #000066;
 	font-size: 120%;
+	float: left;
+}
+
+div.announcements a
+{
+	color: #000066;
+}
+
+div.announcements div.topactions
+{
+	text-align: right;
+}
+
+div.announcements div.description
+{
+	clear: both;
 }
 
 div.announcements div.publication_info

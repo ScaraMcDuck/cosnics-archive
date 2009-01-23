@@ -78,6 +78,9 @@ class ListPublicationFeedbackListRenderer extends ListLearningObjectPublicationL
 		$html[] = $this->render_publication_information($publication);
 		$html[] = '</span>';
 		$html[] = '</div>';
+		$html[] = '<div class="topactions'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
+		$html[] = $this->render_top_action($publication);
+		$html[] = '</div>';
 		$html[] = '<div class="description'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_description($publication);
 		$html[] = $this->render_attachments($publication);

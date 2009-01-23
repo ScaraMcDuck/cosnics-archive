@@ -33,7 +33,7 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
 		{
 			if(PlatformSetting :: get('enable_introduction', 'weblcms'))
 			{
-				echo $this->display_introduction_text();
+				echo $this->display_introduction_text($this->introduction_text);
 			}
 		}
 		echo $this->action_bar->as_html() . '<br />';
@@ -82,7 +82,7 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
 		return null;
 	}
 	
-	function display_introduction_text()
+	/*function display_introduction_text()
 	{
 		$html = array();
 		
@@ -115,6 +115,6 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
 		}
 		
 		return implode("\n",$html);
-	}
+	}*/
 }
 ?>
