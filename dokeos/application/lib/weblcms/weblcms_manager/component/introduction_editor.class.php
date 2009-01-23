@@ -28,6 +28,7 @@ class WeblcmsIntroductionEditorComponent extends WeblcmsComponent
 		else
 		{
 			$this->display_header();
+			echo '<div class="clear"></div><br />';
 			$form->display();
 			$this->display_footer();
 			exit();

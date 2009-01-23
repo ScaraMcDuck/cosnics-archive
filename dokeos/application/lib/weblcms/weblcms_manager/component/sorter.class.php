@@ -238,6 +238,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		$trail->add(new Breadcrumb($this->get_url(null, false, true, array(Weblcms :: PARAM_ACTION)), Translation :: get('MyCourses')));
 		$trail->add(new Breadcrumb($this->get_url(), $title));
 		$this->display_header($trail);
+		echo '<div class="clear"></div><br />';
 	}
 	
 	function display_courses()

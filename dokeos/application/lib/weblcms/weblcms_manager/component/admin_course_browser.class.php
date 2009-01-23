@@ -30,6 +30,7 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($trail);
+			echo '<div class="clear"></div><br />';
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -40,6 +41,7 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 		$output = $this->get_course_html();
 		
 		$this->display_header($trail, false);
+		echo '<div class="clear"></div>';
 		echo '<br />' . $this->action_bar->as_html() . '<br />';
 		echo $menu;
 		echo $output;

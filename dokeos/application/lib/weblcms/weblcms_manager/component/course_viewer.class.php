@@ -149,8 +149,9 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 					echo '<div style="width: 100%; text-align: right;">';
 					$renderer->display();
 					echo '</div>';
-					echo '<div class="clear"></div><br />';
 				}
+				
+				echo '<div class="clear"></div><br />';
 				
 				//Display menu
 				$menu_style = $this->get_course()->get_menu();

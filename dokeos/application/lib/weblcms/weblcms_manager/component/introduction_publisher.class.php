@@ -25,7 +25,7 @@ class WeblcmsIntroductionPublisherComponent extends WeblcmsComponent
 		
 		if(!isset($object))
 		{	
-			$html[] = '<p><a href="' . $this->get_url(array('go' => 'course_viewer'), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
+			$html[] = '<div class="clear">&nbsp;</div><p><a href="' . $this->get_url(array('go' => 'course_viewer'), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
 		}
 		else
@@ -45,6 +45,7 @@ class WeblcmsIntroductionPublisherComponent extends WeblcmsComponent
 		}
 		
 		$this->display_header($trail);
+		echo '<div class="clear"></div><br />';
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

@@ -268,15 +268,15 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				// Show visibility-icon
 				if ($this->is_course_admin && $section->get_type() != CourseSection :: TYPE_ADMIN)
 				{
-					$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_COMPONENT_ACTION=>$lcms_action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img class="visible" src="'.Theme :: get_common_image_path().$visible_image.'" style="vertical-align: middle;" alt=""/></a>';
+					$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_COMPONENT_ACTION=>$lcms_action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img class="tool_visible" src="'.Theme :: get_common_image_path().$visible_image.'" style="vertical-align: middle;" alt=""/></a>';
 					$html[] = '&nbsp;&nbsp;&nbsp;';
 				}
 				
 				// Show tool-icon + name
 				
-				$html[] = '<img ' . $id . ' src="'.Theme :: get_image_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
+				$html[] = '<img class="tool_image"' . $id . ' src="'.Theme :: get_image_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
 				$html[] = '&nbsp;';
-				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
+				$html[] = '<a id="tool_text" href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
 				$html[] = $title;
 				$html[] = '</a>';
 				if($section->get_type() == CourseSection :: TYPE_TOOL)
