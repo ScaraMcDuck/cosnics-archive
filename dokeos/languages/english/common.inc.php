@@ -87,11 +87,4 @@ $lang['common']['AccountNotActive'] = 'Account not active';
 $lang['common']['UsernameOrPasswordIncorrect'] = 'Username or password are incorrect';
 $lang['common']['Delete'] = 'Delete';
 $lang['common']['WhoisOnline'] = 'Users online';
-$lang['common']['ResetPassword'] = 'Reset password';
-$lang['common']['Administrator'] = 'Administrator';
-$lang['common']['RolesAndRights'] = 'Roles & Rights';
-$lang['common']['Reset'] = 'Reset';
-$lang['common']['Select'] = 'Select';
-$lang['common']['Login'] = 'Login';
-$lang['common']['Username'] = 'Username';
 ?>
