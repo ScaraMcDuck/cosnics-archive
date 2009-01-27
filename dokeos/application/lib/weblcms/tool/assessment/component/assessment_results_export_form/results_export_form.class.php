@@ -1,5 +1,6 @@
 <?php
 require_once Path :: get_library_path().'/export/export.class.php';
+require_once dirname(__FILE__).'/../../../../trackers/weblcms_assessment_attempts_tracker.class.php';
 
 class AssessmentResultsExportForm extends FormValidator 
 {
@@ -17,21 +18,27 @@ class AssessmentResultsExportForm extends FormValidator
 		if (isset($_GET[AssessmentTool :: PARAM_USER_ASSESSMENT]))
 		{
 			$uaid = $_GET[AssessmentTool :: PARAM_USER_ASSESSMENT];
-			$user_assessment = $wdm->retrieve_user_assessment($uaid);
-			$assessment = $rdm->retrieve_learning_object($user_assessment->get_assessment_id(), 'assessment');
+			//$user_assessment = $wdm->retrieve_user_assessment($uaid);
+			$track = new WeblcmsAssessmentAttemptsTracker();
+			$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ID, $uaid);
+			$uass = $track->retrieve_tracker_items($condition);
+			$user_assessment = $uass[0];
+			$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
+			$assessment = $publication->get_learning_object();
 			$user = UserDataManager::get_instance()->retrieve_user($user_assessment->get_user_id());
 		
 			$this->addElement('html', 'Export results:');
 			$this->addElement('html', '<br/><br/>Assessment: '.$assessment->get_title());
 			$this->addElement('html', '<br/><br/>From user: '.$user->get_fullname());
 		} 
-		else if (isset($_GET[AssessmentTool :: PARAM_ASSESSMENT]))
+		else if (isset($_GET[AssessmentTool :: PARAM_PUBLICATION_ID]))
 		{
-			$aid = $_GET[AssessmentTool :: PARAM_ASSESSMENT];
-			$assessment = $rdm->retrieve_learning_object($aid, 'assessment');
+			$aid = $_GET[AssessmentTool :: PARAM_PUBLICATION_ID];
+			//$assessment = $rdm->retrieve_learning_object($pid, 'assessment');
+			$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
 		
 			$this->addElement('html', 'Export results:');
-			$this->addElement('html', '<br/><br/>Assessment: '.$assessment->get_title());
+			$this->addElement('html', '<br/><br/>Assessment: '.$publication->get_learning_object()->get_title());
 		}
 		
 		$options = Export::get_supported_filetypes(array('ical'));

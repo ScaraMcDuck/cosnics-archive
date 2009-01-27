@@ -22,7 +22,7 @@ abstract class ResultsExport
 	{
 		if ($type == 'assessment')
 		{
-			$data = $this->export_assessment_id($id);
+			$data = $this->export_publication_id($id);
 		}
 		else
 		{
@@ -31,7 +31,7 @@ abstract class ResultsExport
 		return $data;
 	}
 	
-	abstract function export_assessment_id($id);
+	abstract function export_publication_id($id);
 	
 	abstract function export_user_assessment_id($id);
 	
