@@ -14,7 +14,7 @@ class AssessmentScoreCalculator
 		$condition = new EqualityCondition(MainTracker :: PROPERTY_ID, $tracker_id);
 		$assessment_trackers = $tracker->retrieve_tracker_items($condition);
 		$assessment_tracker = $assessment_trackers[0];
-		dump($assessment_tracker);
+		//dump($assessment_tracker);
 		//$values = $tester_form->exportValues();
 		//$user_assessment = new UserAssessment();
 		//$user_assessment->set_assessment_id($assessment->get_id());	
@@ -90,15 +90,14 @@ class AssessmentScoreCalculator
 			if (is_numeric($parts[0])) {
 				$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($parts[0]);
 				$extra = $this->get_extra($question, $value, $_FILES[$key]);
-				//dump ($extra);
 				$score = $this->get_score($question, $extra, $parts[1]);
-				//dump($score);
 				$params = array(
-				'assessment_attempt_id' => $assessment_tracker->get_id(),
-				'question_id' => $parts[0],
-				'answer' => $extra,
-				'score' => $score,
-				'feedback' => 0
+					'assessment_attempt_id' => $assessment_tracker->get_id(),
+					'question_id' => $parts[0],
+					'answer' => $extra,
+					'answer_idx' => $parts[1],
+					'score' => $score,
+					'feedback' => 0
 				);
 				$question_tracker = new WeblcmsQuestionAttemptsTracker();
 				$question_track_id = $question_tracker->track($params);
@@ -184,13 +183,11 @@ class AssessmentScoreCalculator
 		{
 			$score += self :: calculate_question_score($user_question);
 		}*/
-		dump ($assessment_tracker);
 		$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($assessment_tracker->get_assessment_id());
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $pub->get_learning_object()->get_id());
 		$questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
 		while ($question = $questions->next_result())
 		{
-			echo 'HIER';
 			$score += self :: calculate_question_score($assessment_tracker, $question);
 		}
 		return $score;
@@ -214,11 +211,6 @@ class AssessmentScoreCalculator
 		{
 			$score += ($q_tracker->get_score() * $question->get_weight()) / $maxscore;
 		}
-		/*while ($user_answer = $user_answers->next_result())
-		{
-			$score += ($user_answer->get_score() * $user_question->get_weight()) / $maxscore;
-		}*/
-		echo $score.'<br/>';
 		return $score;
 	}
 	

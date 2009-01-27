@@ -10,7 +10,7 @@ class AssignmentResultsViewer extends ResultsViewer
 		
 		$this->addElement('html', '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$assessment->get_icon_name().'.png);">');
 		$this->addElement('html', '<div class="title" style="font-size: 14px">');
-		$this->addElement('html', Translation :: get('View assignment results').': '.$assessment->get_title());
+		$this->addElement('html', Translation :: get('ViewAssignmentResults').': '.$assessment->get_title());
 		$this->addElement('html', '</div>');
 		$this->addElement('html', '<div class="description">');
 		$this->addElement('html', $assessment->get_description());
@@ -35,7 +35,6 @@ class AssignmentResultsViewer extends ResultsViewer
 		}
 		if ($_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 		{
-			//$this->addElement('submit', 'submit', Translation :: get('Save feedback'));
 			$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
 			$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
@@ -44,7 +43,7 @@ class AssignmentResultsViewer extends ResultsViewer
 		//$this->addElement('html', $this->toHtml());
 		$max_total_score = $assessment->get_maximum_score();
 		$pct_score = round((parent :: get_user_assessment()->get_total_score() / $max_total_score) * 10000) / 100;
-		$this->addElement('html', '<br/><h3>'.Translation :: get('Total score').': '.parent :: get_user_assessment()->get_total_score()."/".$max_total_score.' ('.$pct_score.'%)</h3>');
+		$this->addElement('html', '<br/><h3>'.Translation :: get('TotalScore').': '.parent :: get_user_assessment()->get_total_score()."/".$max_total_score.' ('.$pct_score.'%)</h3>');
 		
 	}
 }

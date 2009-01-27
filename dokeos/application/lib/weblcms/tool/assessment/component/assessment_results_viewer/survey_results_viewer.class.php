@@ -10,7 +10,7 @@ class SurveyResultsViewer extends ResultsViewer
 		
 		$this->addElement('html', '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$assessment->get_icon_name().'.png);">');
 		$this->addElement('html', '<div class="title" style="font-size: 14px">');
-		$this->addElement('html', Translation :: get('View survey results').': '.$assessment->get_title());
+		$this->addElement('html', Translation :: get('ViewSurveyResults').': '.$assessment->get_title());
 		$this->addElement('html', '</div>');
 		$this->addElement('html', '<div class="description">');
 		$this->addElement('html', $assessment->get_finish_text());

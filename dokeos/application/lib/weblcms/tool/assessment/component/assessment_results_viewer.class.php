@@ -48,12 +48,12 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		}
 		if ($this->is_allowed(EDIT_RIGHT)) 
 		{
-			echo Translation :: get('View all course publications results').':';
+			echo Translation :: get('ViewAllResults').':';
 			$table = new AssessmentResultsTableOverviewAdmin($this, $this->get_user());
 		}
 		else 
 		{
-			echo Translation :: get('My results').':';
+			echo Translation :: get('MyResults').':';
 			$table = new AssessmentResultsTableOverviewStudent($this, $this->get_user());
 		}
 		echo $table->as_html();
@@ -78,7 +78,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		
 		echo '<div class="learning_object">';
 		echo '<div class="title">';
-		echo Translation :: get('Assessment results');
+		echo Translation :: get('AssessmentResults');
 		echo '</div>';
 		//TODO: wrong translation on assessment? 'Assessment process: 3'
 		echo Translation :: get('Assessment').': '.$assessment->get_title();
@@ -99,8 +99,8 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			$pct = round($avg / $tot * 100, 2);
 			$avg_line = $avg.'/'.$tot.' ('.$pct.'%)';
 		}
-		echo Translation :: get('Average score').': '.$avg_line;
-		echo '<br/>'.Translation :: get('Times taken').': '.$assessment->get_times_taken();
+		echo Translation :: get('AverageScore').': '.$avg_line;
+		echo '<br/>'.Translation :: get('TimesTaken').': '.$assessment->get_times_taken();
 		echo '</div>';
 		$table = new AssessmentResultsTableDetail($this, $this->get_user(), $_GET[AssessmentTool :: PARAM_ASSESSMENT]);
 		echo $table->as_html();
@@ -192,40 +192,57 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		{
 			if (substr($key, 0, 5) == 'score')
 			{
-				$user_question_id = substr($key, 5);
+				$question_id = substr($key, 5);
 				//echo $user_question_id.' '.$value.'<br/>';
-				$condition = new EqualityCondition(UserAnswer :: PROPERTY_USER_QUESTION_ID, $user_question_id);
-				$user_answers = $datamanager->retrieve_user_answers($condition);
-				$user_answer = $user_answers->next_result();
-				$user_answer->set_score($value);
-				if ($user_answer->get_extra() == null)
-				 	$user_answer->set_extra(' ');
-				$datamanager->update_user_answer($user_answer);
+				//$condition = new EqualityCondition(UserAnswer :: PROPERTY_USER_QUESTION_ID, $user_question_id);
+				//$user_answers = $datamanager->retrieve_user_answers($condition);
+				//$user_answer = $user_answers->next_result();
+				$track = new WeblcmsQuestionAttemptsTracker();
+				$condition_ass = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
+				$condition_q = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question_id);
+				$condition = new AndCondition(array($condition_ass, $condition_q));
+				$user_answers = $track->retrieve_tracker_items($condition);
+				foreach ($user_answers as $user_answer)
+				{
+					//dump($user_answer);
+					$user_answer->set_score($value);
+					if ($user_answer->get_answer() == null)
+					 	$user_answer->set_answer(' ');
+					 	
+					 $user_answer->update();
+					//$datamanager->update_user_answer($user_answer);
+				}
 			}
 			else if (substr($key, 0, 3) == 'ex_')
 			{
-				$user_question_id = substr($key, 3);
-				$user_question = $datamanager->retrieve_user_question($user_question_id);
-				if ($value != 0) {
-					/*$feedback_los = RepositoryDataManager :: get_instance()->retrieve_learning_objects('feedback');
-					while ($feedback_lo = $feedback_los->next_result())
-					{
-						$feedback_objs[] = $feedback_lo;
-					}*/
-					$user_question->set_feedback($value);
-					$datamanager->update_user_question($user_question);
-				}
-				else
+				//$user_question_id = substr($key, 3);
+				//$user_question = $datamanager->retrieve_user_question($user_question_id);
+				$question_id = substr($key, 3);
+				$track = new WeblcmsQuestionAttemptsTracker();
+				$condition_ass = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
+				$condition_q = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question_id);
+				$condition = new AndCondition(array($condition_ass, $condition_q));
+				$user_answers = $track->retrieve_tracker_items($condition);
+				foreach ($user_answers as $user_answer)
 				{
-					$user_question->set_feedback('');
-					print_r($user_question);
-					echo '<br/>';
-					$datamanager->update_user_question($user_question);
+					if ($value != '') {
+						$user_answer->set_feedback($value);
+					}
+					else
+					{
+						$user_answer->set_feedback(0);
+					}
+					if ($user_answer->get_answer() == null)
+					 	$user_answer->set_answer(' ');
+					 	
+					 //dump($user_answer);
+					$user_answer->update(); 	
 				}
 			}
 		}
 		$user_assessment->set_total_score(AssessmentToolTesterComponent :: calculate_score($user_assessment));
-		$datamanager->update_user_assessment($user_assessment);
+		//$datamanager->update_user_assessment($user_assessment);
+		$user_assessment->update();
 		$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id());
 		$this->redirect(null, null, false, $params);
 	}
@@ -265,7 +282,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			
 			$action_bar->add_tool_action(
 				new ToolbarItem(
-					Translation :: get('Add feedback and scores'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid, AssessmentTool :: PARAM_ADD_FEEDBACK => $feedback)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+					Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid, AssessmentTool :: PARAM_ADD_FEEDBACK => $feedback)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 				)
 			);
 		}
@@ -274,7 +291,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		{
 			$aid = $_GET[AssessmentTool :: PARAM_ASSESSMENT];
 			$action_bar->add_tool_action(new ToolbarItem(
-				Translation :: get('Download documents'),
+				Translation :: get('DownloadDocuments'),
 				Theme :: get_common_image_path().'action_save.png',
 				$this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_ASSESSMENT => $aid)),
 				ToolbarItem :: DISPLAY_ICON_AND_LABEL

@@ -30,7 +30,7 @@ class AssessmentTesterForm extends FormValidator
 		
 		$this->addElement('html', '<br/><div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$assessment->get_icon_name().'.png);">');
 		$this->addElement('html', '<div class="title" style="font-size: 14px">');
-		$this->addElement('html', Translation :: get('Take assessment').': '.$assessment->get_title());
+		$this->addElement('html', Translation :: get('TakeAssessment').': '.$assessment->get_title());
 		$this->addElement('html', '</div>');
 		$this->addElement('html', '<div class="description">');
 		$this->addElement('html', $assessment->get_description());

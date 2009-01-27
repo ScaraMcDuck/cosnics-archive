@@ -9,20 +9,26 @@ class MatchingQuestionResult extends QuestionResult
 		$this->display_question_header();
 		
 		$rdm = RepositoryDataManager :: get_instance();
-		$user_answers = parent :: get_user_answers();
+		$results = parent :: get_results();
 		
-		$clo_answers = parent :: get_clo_answers();
-		foreach ($clo_answers as $clo_answer)
+		//$clo_answers = parent :: get_clo_answers();
+		$answers = parent :: get_question()->get_options();
+		$matches = parent :: get_question()->get_matches();
+		foreach ($answers as $answer)
 		{
-			$total_div += $clo_answer->get_score();
+			$total_div += $answer->get_weight();
 		}
 		
-		foreach ($user_answers as $user_answer)
+		foreach ($results as $result)
 		{
-			$answer = $rdm->retrieve_learning_object($user_answer->get_answer_id());
-			$link = $rdm->retrieve_learning_object($user_answer->get_extra());
-			$answers[] = array('answer' => $answer, 'link' => $link, 'score' => $user_answer->get_score());
-			$total_score += $user_answer->get_score();
+			/*$answer = $rdm->retrieve_learning_object($result->get_answer_id());
+			$link = $rdm->retrieve_learning_object($result->get_extra());
+			$answers[] = array('answer' => $answer, 'link' => $link, 'score' => $result->get_score());*/
+			$answer = $matches[$result->get_answer()];
+			$ans_match = $answers[$result->get_answer_index()];
+			$correct = $matches[$ans_match->get_match()];
+			$answers_arr[] = array('answer' => $answer, 'match' => $ans_match->get_value(), 'correct' => $correct, 'score' => $result->get_score());
+			$total_score += $result->get_score();
 		}
 		
 		$total_score = $total_score / $total_div * $this->get_clo_question()->get_weight();
@@ -30,13 +36,13 @@ class MatchingQuestionResult extends QuestionResult
 		$score_line = Translation :: get('Score').': '.$total_score.'/'.$total_div;
 		$this->display_score($score_line);
 		
-		foreach ($answers as $answer)
+		foreach ($answers_arr as $answer)
 		{
-			$line = $answer['answer']->get_title().' '.Translation :: get('linked to').' '.$answer['link']->get_title().' ('.Translation :: get('Score').': '.$answer['score'].')';
+			$line = $answer['match'].' '.Translation :: get('LinkedTo').' '.$answer['answer'].' ('.Translation :: get('Score').': '.$answer['score'].')';
 			if ($answer['score'] == 0)
 			{
-				$link = $this->get_link($answer['answer']->get_id());
-				$line .= ' '.Translation :: get('Correct answer').': '.$link['answer']->get_title();
+				//$link = $this->get_link($answer['answer']->get_id());
+				$line .= ' '.Translation :: get('CorrectAnswer').': '.$answer['correct'];
 			}
 			$answer_lines[] = $line;
 		}
@@ -63,7 +69,7 @@ class MatchingQuestionResult extends QuestionResult
 		
 		foreach ($answers as $answer)
 		{
-			$line = $answer['answer']->get_title().' '.Translation :: get('linked to').' '.$answer['link']->get_title();
+			$line = $answer['answer']->get_title().' '.Translation :: get('LinkedTo').' '.$answer['link']->get_title();
 			$answer_lines[] = $line;
 		}
 		$this->display_answers($answer_lines);
