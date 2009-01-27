@@ -44,10 +44,10 @@ class AssessmentToolComponent extends ToolComponent
 		//results
 		if ($this->is_allowed(EDIT_RIGHT))
 		{
-			$action_name = Translation :: get('View results summary');
+			$action_name = Translation :: get('ViewResultsSummary');
 		}
 		else {
-			$action_name = Translation :: get('View results');
+			$action_name = Translation :: get('ViewResults');
 		}
 		$action_bar->add_tool_action(
 			new ToolbarItem(

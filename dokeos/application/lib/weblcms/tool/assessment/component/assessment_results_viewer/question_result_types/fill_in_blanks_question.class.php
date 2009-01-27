@@ -8,18 +8,21 @@ class FillInBlanksQuestionResult extends QuestionResult
 	{
 		$this->display_question_header();
 
-		$user_answers = parent :: get_user_answers();
+		$results = parent :: get_results();
 		$rdm = RepositoryDataManager :: get_instance();
 
-		$clo_answers = parent :: get_clo_answers();
-		foreach ($clo_answers as $clo_answer)
+		//$clo_answers = parent :: get_clo_answers();
+		$question = parent :: get_question();
+		$answers = $question->get_answers();
+		
+		foreach ($answers as $answer)
 		{
-			$total_div += $clo_answer->get_score();
+			$total_div += $answer->get_weight();
 		}
 		
-		foreach ($user_answers as $user_answer) 
+		foreach ($results as $result) 
 		{
-			$total_score += $user_answer->get_score();
+			$total_score += $result->get_score();
 		}
 		
 		$total_score = $total_score / $total_div * $this->get_clo_question()->get_weight();
@@ -27,11 +30,11 @@ class FillInBlanksQuestionResult extends QuestionResult
 		$score_line = Translation :: get('Score').': '.$total_score.'/'.$total_div;
 		$this->display_score($score_line);
 		
-		foreach ($user_answers as $user_answer)
+		foreach ($results as $result)
 		{
-			$line = $user_answer->get_extra().' ('.Translation :: get('Score').': '.$user_answer->get_score().')';
-			if ($user_answer->get_score() == 0)
-				$line .= ' '.Translation :: get('Correct answer').': '.$rdm->retrieve_learning_object($user_answer->get_answer_id())->get_title();
+			$line = $result->get_answer().' ('.Translation :: get('Score').': '.$result->get_score().')';
+			if ($result->get_score() == 0)
+				$line .= ' '.Translation :: get('CorrectAnswer').': '.$answers[$result->get_answer_index()]->get_value();
 				
 			$answer_lines[] = $line;
 		}
@@ -47,12 +50,12 @@ class FillInBlanksQuestionResult extends QuestionResult
 	{
 		$this->display_question_header();
 
-		$user_answers = parent :: get_user_answers();
+		$results = parent :: get_results();
 		$rdm = RepositoryDataManager :: get_instance();
 
-		foreach ($user_answers as $user_answer)
+		foreach ($results as $result)
 		{
-			$answer_lines[] = $user_answer->get_extra();
+			$answer_lines[] = $result->get_extra();
 		}
 		$this->display_answers($answer_lines);
 		$this->display_footer();

@@ -64,13 +64,13 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 	{
 		$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
-			'label' => Translation :: get('View results'),
+			'label' => Translation :: get('ViewResults'),
 			'img' => Theme :: get_common_image_path().'action_view_results.png'
 		);
 		
 		$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
-			'label' => Translation :: get('Export results'),
+			'label' => Translation :: get('ExportResults'),
 			'img' => Theme :: get_common_image_path().'action_export.png'
 		);
 		
@@ -80,7 +80,7 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 		{
 			$actions[] = array(
 				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
-				'label' => Translation :: get('Download documents'),
+				'label' => Translation :: get('DownloadDocuments'),
 				'img' => Theme :: get_common_image_path().'action_save.png'
 			);
 		}

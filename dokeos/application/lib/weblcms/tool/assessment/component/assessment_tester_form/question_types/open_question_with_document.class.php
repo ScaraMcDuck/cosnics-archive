@@ -10,10 +10,10 @@ class OpenQuestionWithDocumentDisplay extends QuestionDisplay
 		$answers = $this->get_answers();
 		$documents = $this->get_user_documents();
 		$name = $this->get_clo_question()->get_ref().'_0';
-		$elements[] = $formvalidator->createElement('html', 'Select a document or upload a file:<br/>');
-		$elements[] = $formvalidator->createElement('select', null, Translation :: get('Select a document:'), $documents);
+		$elements[] = $formvalidator->createElement('html', Translation :: get('SelectDocumentOrUpload').':<br/>');
+		$elements[] = $formvalidator->createElement('select', null, Translation :: get('SelectDocument:'), $documents);
 		$elements[] = $formvalidator->createElement('html', '<div style="display:block;" id="editor_html_content">');
-		$elements[] = $formvalidator->createElement('file', null, Translation :: get('Upload a file'));
+		$elements[] = $formvalidator->createElement('file', null, Translation :: get('Upload'));
 		$elements[] = $formvalidator->createElement('html', '</div>');
 		$formvalidator->addGroup($elements, $name, '<br/>');
 		$formvalidator->addElement('html', '<br/>');

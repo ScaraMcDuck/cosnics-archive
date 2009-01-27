@@ -10,7 +10,7 @@ class PercentageQuestionResult extends QuestionResult
 		
 		$user_answers = parent :: get_user_answers();
 		
-		$score_line = Translation :: get('Your rating').': '.$user_answers[0]->get_extra().'/100';
+		$score_line = Translation :: get('YourRating').': '.$user_answers[0]->get_extra().'/100';
 		$this->display_score($score_line);
 		
 		$this->display_answers();
@@ -27,7 +27,7 @@ class PercentageQuestionResult extends QuestionResult
 		
 		$user_answers = parent :: get_user_answers();
 		
-		$score_line = Translation :: get('Your rating').': '.$user_answers[0]->get_extra().'/100';
+		$score_line = Translation :: get('YourRating').': '.$user_answers[0]->get_extra().'/100';
 		$this->display_score($score_line);
 		
 		$this->display_answers();

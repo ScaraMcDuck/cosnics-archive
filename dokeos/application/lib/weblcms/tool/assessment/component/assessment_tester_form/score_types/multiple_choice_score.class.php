@@ -23,6 +23,7 @@ class MultipleChoiceScore extends Score
 		}
 		else
 		{
+
 			$answers = $question->get_options();
 			$answer = $answers[$this->get_answer_num()-1];
 			return $answer->get_weight();

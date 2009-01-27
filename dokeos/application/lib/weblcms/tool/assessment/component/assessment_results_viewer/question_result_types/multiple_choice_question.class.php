@@ -8,24 +8,44 @@ class MultipleChoiceQuestionResult extends QuestionResult
 	{
 		$this->display_question_header();
 		
-		$user_question = $this->get_user_question();
-		$user_answers = $this->get_user_answers();
-		$user_answer = $user_answers[0];
+		$question = $this->get_question();
+		$results = $this->get_results();
 		
-		if ($user_answer != null)
+		if ($question->get_answer_type() == 'radio')
 		{
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $user_answer->get_extra());
-			$answer = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_answer->get_extra());
-			$clo_answer = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition)->next_result();
-			$user_score_div = $clo_answer->get_score();
-			$answer_lines[] = $answer->get_title().' ('.Translation :: get('Score').': '.$user_answer->get_score().')';
-		
-			$user_score = $user_answer->get_score();
+			$result = $results[0];
+			if ($result != null)
+			{
+				$answers = $question->get_options();
+				$answer = $answers[$result->get_answer()];
+				$answer_lines[] = $answer->get_value().' ('.Translation :: get('Score').': '.$result->get_score().')';
+				$user_score = $result->get_score();
+			}
+			else
+			{
+				$answer_lines[] = Translation :: get('NoAnswer');
+				$user_score = 0;
+			}
 		}
 		else
 		{
-			$answer_lines[] = Translation :: get('NoAnswer');
-			$user_score = 0;
+			$answers = $question->get_options();
+			foreach($results as $result)
+			{
+				$answer = $answers[$result->get_answer()];
+				$answer_lines[] = $answer->get_value().' ('.Translation :: get('Score').': '.$result->get_score().')';
+				$user_score += $result->get_score();
+			}
+			if(count($results) == 0)
+			{
+				$answer_lines[] = Translation :: get('NoAnswer');
+				$user_score = 0;
+			}
+		}
+		
+		foreach ($answers as $answer)
+		{
+			$user_score_div += $answer->get_weight();
 		}
 		
 		$clo_question = $this->get_clo_question();

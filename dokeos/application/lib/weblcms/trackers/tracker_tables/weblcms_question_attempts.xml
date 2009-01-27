@@ -5,7 +5,8 @@
   <property name="assessment_attempt_id" type="integer" unsigned="1" notnull="1" />
   <property name="question_id" type="integer" unsigned="1" notnull="1" />
   <property name="answer" type="text"/>
-  <property name="feedback" type="integer" unsigned="1"/>
+  <property name="answer_idx" type="integer" unsigned="1" default="0"/>
+  <property name="feedback" type="integer" unsigned="1" default="0"/>
   <property name="score" type="integer" unsigned="1" notnull="1" />
   <property name="date" type="timestamp" notnull="1" />
  </properties>

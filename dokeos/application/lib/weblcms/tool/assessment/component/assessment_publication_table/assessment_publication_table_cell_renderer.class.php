@@ -51,7 +51,7 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 		{
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'start' => '1')),
-			'label' => Translation :: get('Take assessment'),
+			'label' => Translation :: get('TakeAssessment'),
 			'img' => Theme :: get_common_image_path().'action_right.png'
 			);
 		}
@@ -60,7 +60,7 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 		{
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_learning_object()->get_id())), 
-			'label' => Translation :: get('View results'), 
+			'label' => Translation :: get('ViewResults'), 
 			'img' => Theme :: get_common_image_path().'action_view_results.png'
 			);
 			
@@ -108,7 +108,7 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 			{
 				$actions[] = array(
 				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())), 
-				'label' => Translation :: get('View results'), 
+				'label' => Translation :: get('ViewResults'), 
 				'img' => Theme :: get_common_image_path().'action_view_results.png'
 				);
 			}
