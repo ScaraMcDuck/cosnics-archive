@@ -18,25 +18,31 @@ class ResultsCsvExport extends ResultsExport
  	const PROPERTY_FEEDBACK_TITLE = 'feedback_title';
  	const PROPERTY_FEEDBACK_DESCRIPTION = 'feedback_description';
  	
- 	function export_assessment_id($id)
+ 	function export_publication_id($id)
 	{
-		$assessment = $this->rdm->retrieve_learning_object($id, 'assessment');
-		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ASSESSMENT_ID, $id);
-		$user_assessments = $this->wdm->retrieve_user_assessments($condition);
+		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($id);
+		$assessment = $publication->get_learning_object();
+		$track = new WeblcmsAssessmentAttemptsTracker();
+		$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
+		$user_assessments = $track->retrieve_tracker_items($condition);
 		$this->export_header($assessment);
 		while ($user_assessment = $user_assessments->next_result())
 		{
-			$this->export_user_assessment($user_assessment);
+			$this->export_user_assessment($user_assessment, $assessment->get_id());
 		}
 		return $this->data;
 	}
 	
 	function export_user_assessment_id($id)
 	{
-		$user_assessment = $this->wdm->retrieve_user_assessment($id);
-		$assessment = $user_assessment->get_assessment();
+		$track = new WeblcmsAssessmentAttemptsTracker();
+		$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ID, $id);
+		$user_assessments = $track->retrieve_tracker_items($condition);
+		$user_assessment = $user_assessments[0];
+		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
+		$assessment = $publication->get_learning_object();
 		$this->export_header($assessment);
-		$this->export_user_assessment($user_assessment);
+		$this->export_user_assessment($user_assessment, $assessment->get_id());
 		return $this->data;
 	}
 	
@@ -53,10 +59,10 @@ class ResultsCsvExport extends ResultsExport
 	 		self :: PROPERTY_QUESTION_TITLE,
 	 		self :: PROPERTY_QUESTION_DESCRIPTION,
 	 		self :: PROPERTY_WEIGHT,
-	 		self :: PROPERTY_ANSWER,
-	 		self :: PROPERTY_SCORE,
 	 		self :: PROPERTY_FEEDBACK_TITLE,
-	 		self :: PROPERTY_FEEDBACK_DESCRIPTION
+	 		self :: PROPERTY_FEEDBACK_DESCRIPTION,
+	 		self :: PROPERTY_ANSWER,
+	 		self :: PROPERTY_SCORE
 		);
 		$this->data[] = $this->currentrow;
 		$this->currentrow = array();
@@ -76,17 +82,17 @@ class ResultsCsvExport extends ResultsExport
 		$this->currentrow[self :: PROPERTY_ASSESSMENT_TYPE] = ' ';
 	}
 	
-	function export_user_assessment($user_assessment)
+	function export_user_assessment($user_assessment, $assessment_id)
 	{
 		$this->export_user($user_assessment->get_user_id());
 		$this->currentrow[self :: PROPERTY_RESULT] = $user_assessment->get_total_score();
-		$this->currentrow[self :: PROPERTY_DATE_TIME_TAKEN] = $user_assessment->get_date_time_taken();
+		$this->currentrow[self :: PROPERTY_DATE_TIME_TAKEN] = $user_assessment->get_date();
 		
-		$condition = new EqualityCondition(UserQuestion :: PROPERTY_USER_ASSESSMENT_ID, $user_assessment->get_id());
-		$user_questions = $this->wdm->retrieve_user_questions($condition);
-		while ($user_question = $user_questions->next_result())
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id);
+		$clo_questions = $this->rdm->retrieve_complex_learning_object_items($condition);
+		while ($clo_question = $clo_questions->next_result())
 		{
-			$this->export_question($user_question);
+			$this->export_question($clo_question, $user_assessment);
 			$this->empty_assessment_columns();
 		}
 	}
@@ -97,25 +103,32 @@ class ResultsCsvExport extends ResultsExport
 		$this->currentrow[self :: PROPERTY_USERNAME] = $user->get_fullname();
 	}
 	
-	function export_question($user_question)
+	function export_question($clo_question, $user_assessment)
 	{
-		$question = $this->rdm->retrieve_learning_object($user_question->get_question_id(), 'question');
+		$question = $this->rdm->retrieve_learning_object($clo_question->get_ref());
 		$this->currentrow[self :: PROPERTY_QUESTION_TITLE] = $question->get_title();
 		$this->currentrow[self :: PROPERTY_QUESTION_DESCRIPTION] = strip_tags($question->get_description());
-		$this->currentrow[self :: PROPERTY_WEIGHT] = strip_tags($user_question->get_weight());
+		$this->currentrow[self :: PROPERTY_WEIGHT] = $clo_question->get_weight();
 		 
-		$condition = new EqualityCondition(UserAnswer :: PROPERTY_USER_QUESTION_ID, $user_question->get_id());
-		$user_answers = $this->wdm->retrieve_user_answers($condition);
-		while ($user_answer = $user_answers->next_result())
+		$track = new WeblcmsQuestionAttemptsTracker();
+		$condition_q = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_id());
+		$condition_a = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
+		$condition = new AndCondition(array($condition_q, $condition_a));
+		$user_answers = $track->retrieve_tracker_items($condition);
+		if ($user_answer[0] != null)
 		{
-			$this->export_answer($user_answer);
+			if ($user_answer[0]->get_feedback() != null && $user_answer[0]->get_feedback() > 0)
+				$this->export_feedback($user_answer[0]->get_feedback());
 		}
-		if ($user_question->get_feedback() != null && $user_question->get_feedback() > 0)
-			$this->export_feedback($user_question->get_feedback());
 		else
 		{
 			$this->currentrow[self :: PROPERTY_FEEDBACK_TITLE] = ' ';
 			$this->currentrow[self :: PROPERTY_FEEDBACK_DESCRIPTION] = ' ';
+		}
+			
+		foreach($user_answers as $user_answer)
+		{
+			$this->export_answer($user_answer);
 		}
 	}
 	
@@ -128,7 +141,7 @@ class ResultsCsvExport extends ResultsExport
 	
 	function export_answer($user_answer)
 	{
-		$this->currentrow[self :: PROPERTY_ANSWER] = $user_answer->get_extra();
+		$this->currentrow[self :: PROPERTY_ANSWER] = $user_answer->get_answer();
 		$this->currentrow[self :: PROPERTY_SCORE] = $user_answer->get_score();
 		$this->data[] = $this->currentrow;
 	}

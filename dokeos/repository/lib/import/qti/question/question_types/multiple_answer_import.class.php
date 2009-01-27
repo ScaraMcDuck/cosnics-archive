@@ -8,13 +8,18 @@ class MultipleAnswerQuestionQtiImport extends QuestionQtiImport
 	{
 		$data = $this->get_file_content_array();
 		
-		$question_type = Question :: TYPE_MULTIPLE_ANSWER;
+		//$question_type = Question :: TYPE_MULTIPLE_ANSWER;
+		$question = new MultipleChoiceQuestion();
+		$question->set_answer_type('checkbox');
 		$title = $data['title'];
 		$descr = $data['itemBody']['choiceInteraction']['prompt'];
+		$question->set_title($title);
+		$question->set_description($descr);
 		//echo 'Multiple answer question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
-		$question = parent :: create_question($title, $descr, $question_type);
+		//$question = parent :: create_question($title, $descr, $question_type);
 		
 		$this->create_answers($data, $question);
+		parent :: create_question($question);
 		return $question->get_id();
 	}
 	
@@ -38,8 +43,10 @@ class MultipleAnswerQuestionQtiImport extends QuestionQtiImport
 		
 		foreach ($answers as $answer)
 		{
-			$answer_lo = $this->create_answer($answer['title']);
-			$clo_answer = $this->create_complex_answer($question_lo, $answer_lo, $answer['score']);
+			$opt = new MultipleChoiceQuestionOption($answer['title'], ($answer['score'] > 0), $answer['score']);
+			$question_lo->add_option($opt);
+			//$answer_lo = $this->create_answer($answer['title']);
+			//$clo_answer = $this->create_complex_answer($question_lo, $answer_lo, $answer['score']);
 		}
 	}
 

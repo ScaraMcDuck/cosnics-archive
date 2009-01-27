@@ -59,10 +59,7 @@ class QuestionQtiImport extends QtiImport
 				else
 					return new MultipleAnswerQuestionQtiImport($lo_file, $user, $category);
 			case 'sliderInteraction':
-				if ($ubound == 100)
-					return new PercentageQuestionQtiImport($lo_file, $user, $category);
-				else
-					return new ScoreQuestionQtiImport($lo_file, $user, $category);
+				return new ScoreQuestionQtiImport($lo_file, $user, $category);
 			case 'textEntryInteraction':
 				return new FillInBlanksQuestionQtiImport($lo_file, $user, $category);
 			case 'matchInteraction': 
@@ -72,9 +69,9 @@ class QuestionQtiImport extends QtiImport
 		}
 	}
 	
-	function create_question($title, $description, $question_type)
+	function create_question($question)
 	{
-		$question = new Question();
+		/*$question = new Question();
 		$question->set_title($title);
 		$question->set_description($description);
 		$question->set_question_type($question_type);
@@ -82,10 +79,12 @@ class QuestionQtiImport extends QtiImport
 	
 		$question->create();
 		
-		return $question;
+		return $question;*/
+		$question->set_owner_id($this->get_user()->get_id());
+		return $question->create();
 	}
 	
-	function create_answer($title, $description = '')
+	/*function create_answer($title, $description = '')
 	{
 		$answer = new Answer();
 		$answer->set_title($title);
@@ -95,9 +94,9 @@ class QuestionQtiImport extends QtiImport
 		$answer->create();
 		
 		return $answer;
-	}
+	}*/
 	
-	function create_complex_answer($question, $answer, $score, $display_order = '1')
+	/*function create_complex_answer($question, $answer, $score, $display_order = '1')
 	{
 		$clo_answer = new ComplexAnswer();
 		$clo_answer->set_ref($answer->get_id());
@@ -109,6 +108,6 @@ class QuestionQtiImport extends QtiImport
 		$clo_answer->create();
 		
 		return $clo_answer;
-	}
+	}*/
 }
 ?>

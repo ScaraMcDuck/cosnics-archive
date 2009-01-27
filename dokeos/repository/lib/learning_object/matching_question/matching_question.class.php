@@ -12,7 +12,7 @@ class MatchingQuestion extends LearningObject
 	public function add_option($option)
 	{
 		$options = $this->get_options();
-		$options[] = $options;
+		$options[] = $option;
 		return $this->set_additional_property(self :: PROPERTY_OPTIONS, serialize($options));
 	}
 	public function set_options($options)
@@ -34,7 +34,7 @@ class MatchingQuestion extends LearningObject
 	public function add_match($match)
 	{
 		$matches = $this->get_matches();
-		$matches[] = $matches;
+		$matches[] = $match;
 		return $this->set_additional_property(self :: PROPERTY_MATCHES, serialize($matches));
 	}
 	public function set_matches($matches)

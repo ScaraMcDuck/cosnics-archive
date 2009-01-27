@@ -8,7 +8,7 @@ class FillInBlanksQuestionQtiImport extends QuestionQtiImport
 	{
 		$data = $this->get_file_content_array();
 		
-		$question_type = Question :: TYPE_FILL_IN_BLANKS;
+		//$question_type = Question :: TYPE_FILL_IN_BLANKS;
 		$title = $data['title'];
 		
 		//description may not be in prompt, but in a <p> tag, maybe even with an embedded blockquote
@@ -21,9 +21,13 @@ class FillInBlanksQuestionQtiImport extends QuestionQtiImport
 			$descr .= $data['itemBody']['blockquote']['_content'];
 		}
 		//echo 'Fill in blanks question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
-		$question = parent :: create_question($title, $descr, $question_type);
+		//$question = parent :: create_question($title, $descr, $question_type);
+		$question = new FillInBlanksQuestion();
+		$question->set_title($title);
+		$question->set_description($description);
 		
 		$this->create_answers($data, $question);
+		parent :: create_question($question);
 		return $question->get_id();
 	}
 	
@@ -34,8 +38,14 @@ class FillInBlanksQuestionQtiImport extends QuestionQtiImport
 		foreach ($answers as $answer)
 		{
 			//$answer_list[$answer['identifier']] = $answer['correctResponse']['value'];
-			$answer_lo = $this->create_answer($answer['correctResponse']['value']);
-			$this->create_complex_answer($question, $answer_lo, 1);
+			$value = $answer['correctResponse']['value'];
+			$weight = $answer['correctResponse']['mapping']['mapEntry']['mappedValue'];
+			if ($weight = '')
+				$weight = 1;
+			//$answer_lo = $this->create_answer($answer['correctResponse']['value']);
+			//$this->create_complex_answer($question, $answer_lo, 1);
+			$fib_ans = new FillInBlanksQuestionAnswer($value, $weight);
+			$question->add_answer($fib_ans);
 		}
 	}
 }

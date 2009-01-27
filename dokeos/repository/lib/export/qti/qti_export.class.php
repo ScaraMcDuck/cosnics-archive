@@ -33,11 +33,8 @@ class QtiExport extends LearningObjectExport
 			case 'survey':
 				$exporter = new AssessmentQtiExport($learning_object);
 				break;
-			case 'question':
-				$exporter = QuestionQtiExport :: factory_question($learning_object);
-				break;
 			default:
-				$exporter = null;
+				$exporter = QuestionQtiExport :: factory_question($learning_object);
 				break;
 		}
 		return $exporter;

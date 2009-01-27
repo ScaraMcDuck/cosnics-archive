@@ -17,25 +17,37 @@ class ResultsPdfExport extends ResultsExport
  	const PROPERTY_FEEDBACK_TITLE = 'Feedback title';
  	const PROPERTY_FEEDBACK_DESCRIPTION = 'Feedback description';
  	
- 	function export_assessment_id($id)
+ 	function export_publication_id($id)
 	{
-		$assessment = $this->rdm->retrieve_learning_object($id, 'assessment');
-		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ASSESSMENT_ID, $id);
-		$user_assessments = $this->wdm->retrieve_user_assessments($condition);
+		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($id);
+		$assessment = $publication->get_learning_object();
+		$track = new WeblcmsAssessmentAttemptsTracker();
+		$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $id);
+		$user_assessments = $track->retrieve_tracker_items($condition);
+		//$assessment = $this->rdm->retrieve_learning_object($id, 'assessment');
+		//$condition = new EqualityCondition(UserAssessment :: PROPERTY_ASSESSMENT_ID, $id);
+		//$user_assessments = $this->wdm->retrieve_user_assessments($condition);
 		$this->export_header($assessment);
-		while ($user_assessment = $user_assessments->next_result())
+		//while ($user_assessment = $user_assessments->next_result())
+		foreach ($user_assessments as $user_assessment)
 		{
-			$this->export_user_assessment($user_assessment);
+			$this->export_user_assessment($user_assessment, $assessment->get_id());
 		}
 		return $this->data;
 	}
 	
 	function export_user_assessment_id($id)
 	{
-		$user_assessment = $this->wdm->retrieve_user_assessment($id);
-		$assessment = $user_assessment->get_assessment();
+		$track = new WeblcmsAssessmentAttemptsTracker();
+		$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ID, $id);
+		$user_assessments = $track->retrieve_tracker_items($condition);
+		$user_assessment = $user_assessments[0];
+		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
+		$assessment = $publication->get_learning_object();
+		//$user_assessment = $this->wdm->retrieve_user_assessment($id);
+		//$assessment = $user_assessment->get_assessment();
 		$this->export_header($assessment);
-		$this->export_user_assessment($user_assessment);
+		$this->export_user_assessment($user_assessment, $assessment->get_id());
 		return $this->data;
 	}
 	
@@ -53,18 +65,21 @@ class ResultsPdfExport extends ResultsExport
 		return $data;
 	}
 	
-	function export_user_assessment($user_assessment)
+	function export_user_assessment($user_assessment, $assessment_id)
 	{
 		$data = $this->export_user($user_assessment->get_user_id());
 		$data[self :: PROPERTY_RESULT] = $user_assessment->get_total_score();
-		$data[self :: PROPERTY_DATE_TIME_TAKEN] = $user_assessment->get_date_time_taken();
+		$data[self :: PROPERTY_DATE_TIME_TAKEN] = $user_assessment->get_date();
 		$this->data[] = array('key' => 'Result', 'data' => array($data));
 		
-		$condition = new EqualityCondition(UserQuestion :: PROPERTY_USER_ASSESSMENT_ID, $user_assessment->get_id());
-		$user_questions = $this->wdm->retrieve_user_questions($condition);
-		while ($user_question = $user_questions->next_result())
+		//$condition = new EqualityCondition(UserQuestion :: PROPERTY_USER_ASSESSMENT_ID, $user_assessment->get_id());
+		//$user_questions = $this->wdm->retrieve_user_questions($condition);
+		//while ($user_question = $user_questions->next_result())
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id);
+		$clo_questions = $this->rdm->retrieve_complex_learning_object_items($condition);
+		while ($clo_question = $clo_questions->next_result())
 		{
-			$this->export_question($user_question);
+			$this->export_question($clo_question, $user_assessment);
 		}
 	}
 	
@@ -75,17 +90,23 @@ class ResultsPdfExport extends ResultsExport
 		return $data;
 	}
 	
-	function export_question($user_question)
+	function export_question($clo_question, $user_assessment)
 	{
-		$question = $this->rdm->retrieve_learning_object($user_question->get_question_id(), 'question');
+		$question = $this->rdm->retrieve_learning_object($clo_question->get_ref());
 		$data[self :: PROPERTY_QUESTION_TITLE] = $question->get_title();
 		$data[self :: PROPERTY_QUESTION_DESCRIPTION] = strip_tags($question->get_description());
-		$data[self :: PROPERTY_WEIGHT] = strip_tags($user_question->get_weight());
+		$data[self :: PROPERTY_WEIGHT] = strip_tags($clo_question->get_weight());
 		$this->data[] = array('key' => 'Question', 'data' => array($data));
 		 
-		$condition = new EqualityCondition(UserAnswer :: PROPERTY_USER_QUESTION_ID, $user_question->get_id());
-		$user_answers = $this->wdm->retrieve_user_answers($condition);
-		while ($user_answer = $user_answers->next_result())
+		//$condition = new EqualityCondition(UserAnswer :: PROPERTY_USER_QUESTION_ID, $user_question->get_id());
+		//$user_answers = $this->wdm->retrieve_user_answers($condition);
+		//while ($user_answer = $user_answers->next_result())
+		$track = new WeblcmsQuestionAttemptsTracker();
+		$condition_q = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_id());
+		$condition_a = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
+		$condition = new AndCondition(array($condition_q, $condition_a));
+		$user_answers = $track->retrieve_tracker_items($condition);
+		foreach ($user_answers as $user_answer)
 		{
 			$question_data[] = $this->export_answer($user_answer);
 		}
@@ -102,7 +123,7 @@ class ResultsPdfExport extends ResultsExport
 	
 	function export_answer($user_answer)
 	{
-		$data[self :: PROPERTY_ANSWER] = $user_answer->get_extra();
+		$data[self :: PROPERTY_ANSWER] = $user_answer->get_answer();
 		$data[self :: PROPERTY_SCORE] = $user_answer->get_score();
 		return $data;
 	}

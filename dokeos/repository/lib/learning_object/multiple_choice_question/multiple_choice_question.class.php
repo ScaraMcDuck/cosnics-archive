@@ -13,7 +13,7 @@ class MultipleChoiceQuestion extends LearningObject
 	public function add_option($option)
 	{
 		$options = $this->get_options();
-		$options[] = $options;
+		$options[] = $option;
 		return $this->set_additional_property(self :: PROPERTY_OPTIONS, serialize($options));
 	}
 	public function set_options($options)
