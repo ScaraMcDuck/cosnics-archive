@@ -1,6 +1,6 @@
 <?php
 $lang['user']['OutputFileType'] = 'Bestandsformaat van de output';
-$lang['user']['Ok'] = 'Oké';
+$lang['user']['Ok'] = 'Okï¿½';
 $lang['user']['FileName'] = 'Bestandsnaam';
 $lang['user']['OnlyXMLCSVAllowed'] = 'Enkel XML/CSV bestandtypes toegestaan';
 $lang['user']['Home'] = 'Start';
@@ -39,14 +39,14 @@ $lang['user']['ThisFieldIsRequired'] = 'verplicht in te vullen veld';
 $lang['user']['WrongEmail'] = 'Dit is een verkeerde emailadres';
 $lang['user']['LoginRequest'] = 'Log-inverzoek';
 $lang['user']['YourAccountParam'] = 'Uw account';
-$lang['user']['UserName'] = 'Gebruikersnaam ('log-in')';
+$lang['user']['UserName'] = 'Gebruikersnaam (\'log-in\')';
 $lang['user']['Pass'] = 'Wachtwoord';
 $lang['user']['LastName'] = 'Familienaam';
 $lang['user']['FirstName'] = 'Voornaam';
 $lang['user']['KeepPassword'] = 'Behou het huidige wachtwoord';
 $lang['user']['AutoGeneratePassword'] = 'Automatisch een nieuw wachtwoord genereren';
 $lang['user']['Password'] = 'wachtwoord';
-$lang['user']['OfficialCode'] = 'Officiële code';
+$lang['user']['OfficialCode'] = 'Officiï¿½le code';
 $lang['user']['AddPicture'] = 'Voeg foto toe';
 $lang['user']['OnlyImagesAllowed'] = 'Enkel afbeeldingen van het type PNG, JPG of GIF zijn toegestaan.';
 $lang['user']['PhoneNumber'] = 'Telefoonnummer';
