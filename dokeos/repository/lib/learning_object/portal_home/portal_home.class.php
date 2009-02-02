@@ -10,10 +10,6 @@ require_once dirname(__FILE__) . '/../../learning_object.class.php';
  */
 class PortalHome extends LearningObject
 {
-	//Inherited
-	function supports_attachments()
-	{
-		return true;
-	}
+
 }
 ?>

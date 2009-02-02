@@ -6,6 +6,8 @@
  * @subpackage document
  */
 require_once(Path :: get_library_path().'image_manipulation/image_manipulation.class.php');
+require_once dirname(__FILE__).'/../../../../browser/list_renderer/list_learning_object_publication_list_renderer.class.php';
+
 class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublicationListRenderer
 {
 	function as_html()

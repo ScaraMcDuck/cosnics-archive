@@ -19,7 +19,7 @@ class AdminWhoisOnlineComponent extends AdminManagerComponent
 		
 		$world = PlatformSetting :: get('whoisonlineaccess');
 		
-		if($world == "1" || $this->get_user_id())
+		if($world == "1" || $this->get_user_id() && $world == "2")
 		{
 			$user_id = Request :: get('uid');
 			if(isset($user_id))

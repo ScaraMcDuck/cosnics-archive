@@ -16,6 +16,7 @@
 		<category name="whoisonline">
 			<setting name="whoisonlineaccess" field="radio" default="2">
 				<options type="static">
+					<option name="disabled" value="0" />
 					<option name="world" value="1" />
 					<option name="registered" value="2" />
 				</options>
