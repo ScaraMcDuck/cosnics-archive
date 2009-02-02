@@ -35,5 +35,10 @@ class DocumentPublicationListRenderer extends TableLearningObjectPublicationList
     	$html[] = '<a href="'.$this->get_url($download_parameters).'"><img src="'.Theme :: get_common_image_path().'action_save.png" alt="" style="float: right;"/></a>';
     	return implode("\n",$html);
     }
+    
+    function render_description($publication)
+    {
+    	return strip_tags($publication->get_learning_object()->get_description());
+    }
 }
 ?>

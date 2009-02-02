@@ -29,7 +29,7 @@ class BlogToolViewerComponent extends BlogToolComponent
 		
 		$this->display_header($trail);
 		
-		echo '<br /><a name="top"></a>';
+		//echo '<br /><a name="top"></a>';
 		//echo $this->perform_requested_actions();
 		if(!isset($pid))
 		{

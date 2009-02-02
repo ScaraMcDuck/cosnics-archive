@@ -51,9 +51,16 @@ class Banner
 		$output[] = '-';
 		$output[] = '<a href="'.$this->get_setting('institution_url', 'admin').'" target="_top">'.$this->get_setting('institution', 'admin').'</a>';
 		$output[] = '</div>';
-		$output[] = '<div style="float:right;">';
-		$output[] = '<a href="' . $this->get_path(WEB_PATH). 'index_admin.php?go=whois_online">' . Translation :: get('WhoisOnline') . '</a>';
-		$output[] = '</div>';
+		
+		$world = PlatformSetting :: get('whoisonlineaccess');
+		
+		if($world == "1" || $_SESSION['_uid'] && $world == "2")
+		{
+		
+			$output[] = '<div style="float:right;">';
+			$output[] = '<a href="' . $this->get_path(WEB_PATH). 'index_admin.php?go=whois_online">' . Translation :: get('WhoisOnline') . '</a>';
+			$output[] = '</div>';
+		}
 
 		//not to let the header disappear if there's nothing on the left
 		$output[] = '<div class="clear">&nbsp;</div>';

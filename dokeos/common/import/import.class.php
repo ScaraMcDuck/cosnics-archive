@@ -35,7 +35,7 @@ class Import
 			$row = array ();
 			foreach ($row_tmp as $index => $value)
 			{
-				$row[$keys[$index]] = $value;
+				$row[$keys[$index]] = trim($value);
 			}
 			$result[] = $row;
 		}

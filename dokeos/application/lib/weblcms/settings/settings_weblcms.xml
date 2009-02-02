@@ -35,6 +35,12 @@
 					<option name="nested" value="nested" />
 				</options>
 			</setting>
+			<setting name="allow_change_forum_view" field="radio" default="1">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
 			<setting name="announcement_active" field="checkbox">
 				<options type="static"><option name="announcement_active" value="1" /></options>
 			</setting>

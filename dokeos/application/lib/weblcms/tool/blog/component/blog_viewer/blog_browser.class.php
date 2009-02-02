@@ -41,7 +41,8 @@ class BlogBrowser extends LearningObjectPublicationBrowser
 			$renderer = new ListLearningObjectPublicationListRenderer($this);
 			$actions = array(Tool :: ACTION_DELETE => Translation :: get('DeleteSelected'), 
 						 Tool :: ACTION_HIDE => Translation :: get('Hide'), 
-						 Tool :: ACTION_SHOW => Translation :: get('Show'));
+						 Tool :: ACTION_SHOW => Translation :: get('Show'),
+						 Tool :: ACTION_MOVE_SELECTED_TO_CATEGORY => Translation :: get('MoveSelected'));
 			$renderer->set_actions($actions);
 			
 			
@@ -76,7 +77,7 @@ class BlogBrowser extends LearningObjectPublicationBrowser
 			if($this->get_parent()->get_condition())
 				$conditions[] = $this->get_parent()->get_condition();
 			$cond = new AndCondition($conditions); 
-			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $category, $user_id, $course_groups, $condition, false, null, null, 0, -1, null, $cond);
+			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $category, $user_id, $course_groups, $condition, false, array (LearningObject :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $cond);
 			$visible_publications = array ();
 			while ($publication = $publications->next_result())
 			{
