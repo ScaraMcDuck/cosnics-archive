@@ -21,7 +21,7 @@ class RepositoryManagerAddLearningObjectsComponent extends RepositoryManagerComp
 		 
 		$failures = 0;
 
-		echo($root . ' ' . $parent);
+		//echo($root . ' ' . $parent);
 		if (!empty ($ids) && isset($root) && isset($parent))
 		{
 			if (!is_array($ids))

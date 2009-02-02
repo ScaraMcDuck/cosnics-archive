@@ -176,11 +176,12 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 						$root_id = $root_id?$root_id:$cloi->get_id();
 						if($cloi->is_complex()) $id = $cloi->get_ref(); else $id = $cloi->get_parent();
 						$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));*/
-						$renderer = clone $type_form->defaultRenderer();
+						/*$renderer = clone $type_form->defaultRenderer();
 						$renderer->setElementTemplate('{label} {element} ');
 						$type_form->accept($renderer);
-						$html[] = $renderer->toHTML();
+						$html[] = $renderer->toHTML();*/
 						$this->in_creation = false;
+						$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('LearningObjectAdded'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => $_GET['publish'], 'clo_action' => 'build'));
 					}
 					else
 					{
@@ -191,11 +192,12 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 				else
 				{
 					$cloi->create();
-					$renderer = clone $type_form->defaultRenderer();
+					$this->in_creation = false;
+					/*$renderer = clone $type_form->defaultRenderer();
 					$renderer->setElementTemplate('{label} {element} ');
 					$type_form->accept($renderer);
-					$html[] = $renderer->toHTML();
-					$this->in_creation = false;
+					$html[] = $renderer->toHTML();*/
+					$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('LearningObjectAdded'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => $_GET['publish'], 'clo_action' => 'build'));
 				}
 				
 			}
