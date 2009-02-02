@@ -22,9 +22,6 @@ require_once dirname(__FILE__).'/../course/course_user_relation.class.php';
 require_once dirname(__FILE__).'/../../../../repository/lib/data_manager/database.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once dirname(__FILE__) . '/../category_manager/course_category.class.php';
-require_once dirname(__FILE__).'/../tool/assessment/user_answer.class.php';
-require_once dirname(__FILE__).'/../tool/assessment/user_assessment.class.php';
-require_once dirname(__FILE__).'/../tool/assessment/user_question.class.php';
 
 class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 {
@@ -2399,133 +2396,35 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $record[0] + 1;
 	}
 	
-	function retrieve_user_answers($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
-	{
-		return $this->db->retrieve_objects(UserAnswer :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
-	}
-	
-	function create_user_answer($user_answer) 
-	{
-		return $this->db->create($user_answer);
-	}
-	
-	function get_next_user_answer_id()
-	{
-		return $this->db->get_next_id(UserAnswer :: get_table_name());
-	}
-	
-	function delete_user_answer($user_answer) 
-	{
-		$condition = new EqualityCondition(UserAnswer :: PROPERTY_ID, $user_answer->get_id());
-		return $this->db->delete(UserAnswer :: get_table_name(), $condition);
-	}
-	
-	function update_user_answer($user_answer)
-	{
-		$condition = new EqualityCondition(UserAnswer :: PROPERTY_ID, $user_answer->get_id());
-		return $this->db->update($user_answer, $condition);
-	}
-	
-	function retrieve_user_assessments($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null) 
-	{
-		return $this->db->retrieve_objects(UserAssessment :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
-	}
-	
-	function retrieve_user_assessment($uaid)
-	{
-		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ID, $uaid);
-		$assessment = $this->db->retrieve_object(UserAssessment :: get_table_name(), $condition);
-		return $assessment;
-	}
-	
-	function get_next_user_assessment_id()
-	{
-		return $this->db->get_next_id(UserAssessment :: get_table_name());
-	}
-	
-	function create_user_assessment($user_assessment) 
-	{
-		$time_taken = time();
-		$user_assessment->set_date_time_taken(self :: to_db_date($time_taken));
-		return $this->db->create($user_assessment);
-	}
-	
-	function delete_user_assessment($user_assessment) 
-	{
-		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ID, $user_answer->get_id());
-		return $this->db->delete(UserAssessment :: get_table_name(), $condition);
-	}
-	
-	function update_user_assessment($user_assessment)
-	{
-		$condition = new EqualityCondition(UserAssessment :: PROPERTY_ID, $user_assessment->get_id());
-		return $this->db->update($user_assessment, $condition);
-	}
-	
-	function retrieve_user_questions($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null) 
-	{
-		return $this->db->retrieve_objects(UserQuestion :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
-	}
-	
-	function retrieve_user_question($uaid)
-	{
-		$condition = new EqualityCondition(UserQuestion :: PROPERTY_ID, $uaid);
-		$question = $this->db->retrieve_object(UserQuestion :: get_table_name(), $condition);
-
-		return $question;
-	}
-	
-	function get_next_user_question_id()
-	{
-		return $this->db->get_next_id(UserQuestion :: get_table_name());
-	}
-	
-	function create_user_question($user_question) 
-	{
-		return $this->db->create($user_question);
-	}
-	
-	function delete_user_question($user_question) 
-	{
-		$condition = new EqualityCondition(UserQuestion :: PROPERTY_ID, $user_answer->get_id());
-		return $this->db->delete(UserQuestion :: get_table_name(), $condition);
-	}
-	
-	function update_user_question($user_question)
-	{
-		$condition = new EqualityCondition(UserQuestion :: PROPERTY_ID, $user_question->get_id());
-		return $this->db->update($user_question, $condition);
-	}
-	
 	function get_num_user_assessments($assessment)
 	{
-		$query = 'SELECT COUNT('.$this->escape_column_name(UserAssessment :: PROPERTY_ID).') FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment->get_id();
+		/*$query = 'SELECT COUNT('.$this->escape_column_name(UserAssessment :: PROPERTY_ID).') FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment->get_id();
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute();
 		$row = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-		return $row[0];
+		return $row[0];*/
 	}
 	
 	function get_average_score($assessment)
 	{
-		$query = 'SELECT ROUND(AVG('.$this->escape_column_name(UserAssessment :: PROPERTY_TOTAL_SCORE).'), 2) FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment->get_id();
+		/*$query = 'SELECT ROUND(AVG('.$this->escape_column_name(UserAssessment :: PROPERTY_TOTAL_SCORE).'), 2) FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment->get_id();
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute();
 		$row = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$avg = $row[0];
-		return $row[0];
+		return $row[0];*/
 	}
 	
 	function get_maximum_score($assessment) 
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id());
+		/*$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id());
 		$clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
 		
 		while ($clo_question = $clo_questions->next_result())
 		{
 			$maxscore += $clo_question->get_weight();
 		}
-		return $maxscore;
+		return $maxscore;*/
 	}
 	
 	function retrieve_survey_invitations($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
@@ -2635,14 +2534,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function times_taken($user_id, $assessment_id)
 	{
-		$query = 'SELECT COUNT('.$this->escape_column_name(UserAssessment :: PROPERTY_ID).') 
+		/*$query = 'SELECT COUNT('.$this->escape_column_name(UserAssessment :: PROPERTY_ID).') 
 		FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' 
 		WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment_id.' 
 		AND '.$this->escape_column_name(UserAssessment :: PROPERTY_USER_ID).'='.$user_id;
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute();
 		$row = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-		return $row[0];
+		return $row[0];*/
+		return 0;
 	}
 }
 ?>

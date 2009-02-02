@@ -21,9 +21,6 @@ class MatchingQuestionResult extends QuestionResult
 		
 		foreach ($results as $result)
 		{
-			/*$answer = $rdm->retrieve_learning_object($result->get_answer_id());
-			$link = $rdm->retrieve_learning_object($result->get_extra());
-			$answers[] = array('answer' => $answer, 'link' => $link, 'score' => $result->get_score());*/
 			$answer = $matches[$result->get_answer()];
 			$ans_match = $answers[$result->get_answer_index()];
 			$correct = $matches[$ans_match->get_match()];

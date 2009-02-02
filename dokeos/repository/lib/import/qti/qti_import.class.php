@@ -31,7 +31,6 @@ class QtiImport extends LearningObjectImport
 				}
 			}
 		}
-		//echo 'remove '.$dir;
 		Filesystem :: remove($dir);
 		return $returnvalue;
 	}

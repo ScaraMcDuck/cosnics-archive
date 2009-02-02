@@ -10,10 +10,6 @@ require_once dirname(__FILE__).'/question_types/open_question_with_document_impo
 require_once dirname(__FILE__).'/question_types/percentage_import.class.php';
 require_once dirname(__FILE__).'/question_types/score_import.class.php';
 
-require_once Path :: get_repository_path().'lib/learning_object/question/question.class.php';
-require_once Path :: get_repository_path().'lib/learning_object/answer/answer.class.php';
-require_once Path :: get_repository_path().'lib/learning_object/answer/complex_answer.class.php';
-
 class QuestionQtiImport extends QtiImport
 {
 	

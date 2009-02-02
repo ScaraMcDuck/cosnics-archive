@@ -29,7 +29,7 @@ class ComplexSurvey extends ComplexLearningObjectItem
 	
 	function get_allowed_types()
 	{
-		return array('question');
+		return array();
 	}
 }
 ?>

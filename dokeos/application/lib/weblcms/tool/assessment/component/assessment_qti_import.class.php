@@ -16,7 +16,7 @@ class AssessmentToolQtiImportComponent extends AssessmentToolComponent {
 		{
 			//import
 			$aid = $this->import_qti($form);
-			echo $aid;
+			//echo $aid;
 			$this->redirect(null, null, false, array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH, 'object' => $aid));
 		}
 		else

@@ -62,7 +62,7 @@ class Assessment extends LearningObject
 	
 	function get_allowed_types()
 	{
-		return array( 'question', 'rating_question', 'open_question', 'hotspot_question', 'fill_in_blanks_question', 'multiple_choice_question', 'matching_question');
+		return array('rating_question', 'open_question', 'hotspot_question', 'fill_in_blanks_question', 'multiple_choice_question', 'matching_question');
 	}
 	
 	function get_table()

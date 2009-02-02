@@ -27,7 +27,7 @@ class MultipleChoiceQuestionQtiImport extends QuestionQtiImport
 	{
 		$answer_items = $data['itemBody']['choiceInteraction']['simpleChoice'];
 
-		echo 'answer items';
+		//echo 'answer items';
 		foreach ($answer_items as $answer)
 		{
 			$answers[$answer['identifier']]['title'] = $answer['_content'];
@@ -39,7 +39,7 @@ class MultipleChoiceQuestionQtiImport extends QuestionQtiImport
 		
 		//print_r($answers);
 		
-		echo 'options';
+		//echo 'options';
 		foreach ($answers as $answer)
 		{
 			$opt = new MultipleChoiceQuestionOption($answer['title'], ($answer['score'] > 0), $answer['score']);
