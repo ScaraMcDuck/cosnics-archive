@@ -1,7 +1,6 @@
 <?php
 require_once Path :: get_plugin_path().'pear/XML/Unserializer.php';
 require_once Path :: get_repository_path().'lib/learning_object/assessment/assessment.class.php';
-require_once Path :: get_repository_path().'lib/learning_object/question/complex_question.class.php';
 
 class AssessmentQtiImport extends QtiImport
 {
@@ -16,7 +15,6 @@ class AssessmentQtiImport extends QtiImport
 		$assessment->set_owner_id($this->get_user()->get_id());
 		$assessment->set_assessment_type(Assessment :: TYPE_EXERCISE);
 		$assessment->create();
-		//echo $title;
 		$testparts = $data['testPart'];
 		
 		if ($testparts[0] != null)
@@ -58,7 +56,6 @@ class AssessmentQtiImport extends QtiImport
 	function import_assessment_section($assessment_section, $assessment)
 	{
 		$descr = $assessment_section['title'];
-		//echo $descr;
 		$assessment->set_description($descr);
 
 		$assessment->update();
@@ -85,7 +82,6 @@ class AssessmentQtiImport extends QtiImport
 		{
 			$dir .= $dirparts[$i].'/';
 		}
-		//echo '<br/>import question from '.$dir.$item_ref_file.'<br/>';
 		$question_qti_import = QtiImport :: factory_qti($item_ref_file, $this->get_user(), $this->get_category(), $dir);
 		$qid = $question_qti_import->import_learning_object();
 		
