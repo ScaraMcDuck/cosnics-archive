@@ -2,12 +2,12 @@
 /**
  * @package application.lib.profiler.publisher
  */
-require_once Path :: get_application_library_path() . 'publisher/component/browser.class.php';
+require_once Path :: get_application_library_path() . 'repo_viewer/component/browser.class.php';
 /**
  * This class represents a profile publisher component which can be used
  * to browse through the possible learning objects to publish.
  */
-class SystemAnnouncerBrowserComponent extends PublisherBrowserComponent
+class SystemAnnouncerBrowserComponent extends RepoViewerBrowserComponent
 {
 	function SystemAnnouncerBrowserComponent($parent)
 	{
