@@ -42,11 +42,19 @@ class UserImportForm extends FormValidator {
     	$allowed_upload_types = array ('xml', 'csv');
 		$this->addRule('file', Translation :: get('OnlyXMLCSVAllowed'), 'filetype', $allowed_upload_types);
     	
+    	$group = array();
+		$group[] =& $this->createElement('radio', 'send_mail',null,Translation :: get('Yes'),1);
+		$group[] =& $this->createElement('radio', 'send_mail',null,Translation :: get('No'),0);
+		$this->addGroup($group, 'mail', Translation :: get('SendMailToNewUser'), '&nbsp;');
+    	
 		//$this->addElement('submit', 'user_import', Translation :: get('Ok'));
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Ok'), array('class' => 'positive'));
 		//$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		
+		$defaults['mail']['send_mail'] = 1;
+		$this->setDefaults($defaults);
     }
     
     function import_users()
@@ -57,7 +65,7 @@ class UserImportForm extends FormValidator {
     	$csvusers = $this->parse_file($_FILES['file']['tmp_name'], $_FILES['file']['type']);
     	
     	$failures = 0;
-    	
+    	//dump($csvusers);
     	foreach ($csvusers as $csvuser)
     	{
     		if ($this->validate_data($csvuser))
@@ -71,7 +79,23 @@ class UserImportForm extends FormValidator {
     			$user->set_email($csvuser[User :: PROPERTY_EMAIL]);
     			$user->set_language($csvuser[User :: PROPERTY_LANGUAGE]);
     			$user->set_status($csvuser[User :: PROPERTY_STATUS]);
-    			//$user->set_admin(0);
+    			$user->set_active($csvuser[User :: PROPERTY_ACTIVE]);
+    			$user->set_official_code($csvuser[User :: PROPERTY_OFFICIAL_CODE]);
+    			$user->set_phone($csvuser[User :: PROPERTY_PHONE]);
+    			
+    			$act_date = $csvuser[User :: PROPERTY_ACTIVATION_DATE];
+    			if($act_date != 0)
+    				$act_date = DokeosUtilities :: time_from_datepicker($act_date);
+    				
+    			$user->set_activation_date($act_date);
+    			
+    			$exp_date = $csvuser[User :: PROPERTY_EXPIRATION_DATE];
+    			if($exp_date != 0)
+    				$exp_date = DokeosUtilities :: time_from_datepicker($exp_date);
+    				
+    			$user->set_expiration_date($exp_date);
+    			
+    			$user->set_platformadmin(0);
     			
     			if (!$user->create())
     			{
@@ -80,6 +104,12 @@ class UserImportForm extends FormValidator {
     			}
     			else
     			{
+    				$send_mail = intval($values['mail']['send_mail']);
+		    		if ($send_mail)
+		    		{
+		    			$this->send_email($user);
+		    		}
+		    		
     				Events :: trigger_event('import', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->form_user->get_id()));
     			}
     		}
@@ -122,6 +152,13 @@ class UserImportForm extends FormValidator {
 		{
 			$failures++;
 		}
+		$email = $csvuser[User :: PROPERTY_EMAIL];
+		
+		if(!$email || $email == '')
+		{
+			$failures++;
+		}
+		
 		if ($failures > 0)
 		{
 			return false;
@@ -133,9 +170,9 @@ class UserImportForm extends FormValidator {
     }
     
     function parse_file($file_name, $file_type)
-    {
+    { 
 		$this->users = array (); 
-		if ($file_type == 'text/csv' || $file_type == 'application/vnd.ms-excel')
+		if ($file_type == 'text/csv' || $file_type == 'application/vnd.ms-excel' || $file_type == 'application/octet-stream')
 		{ 
 			$this->users = Import :: csv_to_array($file_name);
 		}
@@ -191,6 +228,21 @@ class UserImportForm extends FormValidator {
 	function character_data($parser, $data)
 	{
 		$this->current_value = $data;
+	}
+	
+	function send_email($user)
+	{
+		global $rootWeb;
+		$firstname = $user->get_firstname();
+		$lastname = $user->get_lastname();
+		$username = $user->get_username();
+		$password = $this->unencryptedpass;
+		
+		$subject = '['.PlatformSetting :: get('site_name').'] '.Translation :: get('YourReg').' '.PlatformSetting :: get('site_name');
+		$body = Translation :: get('Dear')." ".stripslashes("$firstname $lastname").",\n\n".Translation :: get('YouAreReg')." ". PlatformSetting :: get('site_name') ." ".Translation :: get('Settings')." ". $username ."\n". Translation :: get('Password')." : ".stripslashes($password)."\n\n" .Translation :: get('Address') ." ". PlatformSetting :: get('site_name') ." ". Translation :: get('Is') ." : ". $rootWeb ."\n\n". Translation :: get('Problem'). "\n\n". Translation :: get('Formula').",\n\n".PlatformSetting :: get('administrator_firstname')." ".PlatformSetting :: get('administrator_surname')."\n". Translation :: get('Manager'). " ".PlatformSetting :: get('site_name')."\nT. ".PlatformSetting :: get('administrator_telephone')."\n" .Translation :: get('Email') ." : ".PlatformSetting :: get('administrator_email');		
+		
+		$mail = Mail :: factory($subject, $body, $user->get_email(), PlatformSetting :: get('administrator_email'));
+		$mail->send();
 	}
 }
 ?>
