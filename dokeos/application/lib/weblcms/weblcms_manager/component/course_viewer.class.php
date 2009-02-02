@@ -249,7 +249,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 		
 			$html[] = '<div class="block" id="block_introduction" style="background-image: url('.Theme :: get_image_path('home').'block_home.png);">';
 			$html[] = '<div class="title">'. Translation :: get('Introduction');
-			$html[] = '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_image_path().'action_visible.png" /><img class="invisible" style="display: none;") src="'.Theme :: get_common_image_path().'action_invisible.png" /></a></div>';
+			$html[] = '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_image_path().'action_visible.png"/><img class="invisible" style="display: none;") src="'.Theme :: get_common_image_path().'action_invisible.png" /></a></div>';
 			$html[] = '<div class="description">';
 			$html[] = $introduction_text->get_learning_object()->get_description();
 			$html[] = '<div style="clear: both;"></div>';
