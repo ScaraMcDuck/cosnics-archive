@@ -2,13 +2,12 @@
 /**
  * @package application.lib.profiler.publisher
  */
-require_once Path :: get_application_library_path() . 'publisher/component/publicationcreator.class.php';
 require_once dirname(__FILE__).'/../system_announcement_publication_form.class.php';
 /**
  * This class represents a profile publisher component which can be used
  * to create a new learning object before publishing it.
  */
-class SystemAnnouncerPublicationCreatorComponent extends PublisherPublicationCreatorComponent
+class SystemAnnouncerPublicationCreator
 {
 	/**
 	 * Gets the form to publish the learning object.

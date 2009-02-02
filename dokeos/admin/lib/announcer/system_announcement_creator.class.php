@@ -2,12 +2,12 @@
 /**
  * @package application.lib.profiler.publisher
  */
-require_once Path :: get_application_library_path() . 'publisher/component/creator.class.php';
+require_once Path :: get_application_library_path() . 'repo_viewer/component/creator.class.php';
 /**
  * This class represents a profile publisher component which can be used
  * to create a new learning object before publishing it.
  */
-class SystemAnnouncerCreatorComponent extends PublisherCreatorComponent
+class SystemAnnouncerCreatorComponent extends RepoViewerCreatorComponent
 {
 }
 ?>

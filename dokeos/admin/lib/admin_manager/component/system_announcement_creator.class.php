@@ -4,7 +4,8 @@
  */
 require_once dirname(__FILE__).'/../admin_manager.class.php';
 require_once dirname(__FILE__).'/../admin_manager_component.class.php';
-require_once dirname(__FILE__).'/../../system_announcer.class.php';
+require_once dirname(__FILE__).'/../../system_announcement_repo_viewer.class.php';
+require_once dirname(__FILE__).'/../../announcer/system_announcement_multipublisher.class.php';
 
 class AdminSystemAnnouncementCreatorComponent extends AdminManagerComponent
 {	
@@ -28,8 +29,20 @@ class AdminSystemAnnouncementCreatorComponent extends AdminManagerComponent
 	
 	private function get_publisher_html()
 	{		
-		$pub = new SystemAnnouncer($this, 'system_announcement', true);
-		$html[] =  $pub->as_html();
+		$object = $_GET['object'];
+		$pub = new SystemAnnouncementRepoViewer($this, 'system_announcement', true);
+		
+		if(!isset($object))
+		{	
+			$html[] = '<p><a href="' . $this->get_url() . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
+			$html[] =  $pub->as_html();
+		}
+		else
+		{
+			//$html[] = 'LearningObject: ';
+			$publisher = new SystemAnnouncerMultipublisher($pub);
+			$html[] = $publisher->get_publications_form($object);
+		}
 		
 		return implode($html, "\n");
 	}

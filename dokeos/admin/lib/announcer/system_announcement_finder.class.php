@@ -2,7 +2,7 @@
 /**
  * @package application.lib.profiler.publisher
  */
-require_once Path :: get_application_library_path() . 'publisher/component/finder.class.php';
+require_once Path :: get_application_library_path() . 'repo_viewer/component/finder.class.php';
 require_once dirname(__FILE__).'/system_announcement_browser.class.php';
 require_once Path :: get_library_path().'condition/and_condition.class.php';
 require_once Path :: get_library_path().'condition/or_condition.class.php';
@@ -13,7 +13,7 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
  * to search for a certain learning object.
  */
  
-class SystemAnnouncerFinderComponent extends PublisherFinderComponent
+class SystemAnnouncerFinderComponent extends RepoViewerFinderComponent
 {
 	function SystemAnnouncerFinderComponent($parent)
 	{
