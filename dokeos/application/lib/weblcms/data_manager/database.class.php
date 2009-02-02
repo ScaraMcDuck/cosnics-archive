@@ -2417,14 +2417,14 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	
 	function get_maximum_score($assessment) 
 	{
-		/*$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id());
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id());
 		$clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
 		
 		while ($clo_question = $clo_questions->next_result())
 		{
 			$maxscore += $clo_question->get_weight();
 		}
-		return $maxscore;*/
+		return $maxscore;
 	}
 	
 	function retrieve_survey_invitations($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)

@@ -22,10 +22,10 @@ class ExerciseResultsViewer extends ResultsViewer
 		$uaid = parent :: get_user_assessment()->get_id();
 		$dm = RepositoryDataManager :: get_instance();
 		$db = WeblcmsDataManager :: get_instance();
-
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, parent :: get_user_assessment()->get_assessment_id());
+		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication(parent :: get_user_assessment()->get_assessment_id());
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $publication->get_learning_object()->get_id());
 		$clo_questions = $dm->retrieve_complex_learning_object_items($condition);
-
+		//dump($condition);
 		while($clo_question = $clo_questions->next_result())
 		{
 			$question = $dm->retrieve_learning_object($clo_question->get_ref());
