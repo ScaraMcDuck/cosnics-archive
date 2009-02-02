@@ -85,7 +85,7 @@ class AssessmentTesterDisplay
 					}
 					$_SESSION['formvalues'] = $new_values;
 					$_POST = null;
-					$this->handle_form($url, $page + 1);
+					$this->build_form($url, $page + 1);
 				}
 			}
 			else

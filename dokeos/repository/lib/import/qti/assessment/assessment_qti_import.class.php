@@ -86,13 +86,20 @@ class AssessmentQtiImport extends QtiImport
 		$qid = $question_qti_import->import_learning_object();
 		
 		if ($qid != null)
-			$this->create_complex_question($assessment, $qid, $weight);
+		{
+			$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($qid);
+			$this->create_complex_question($assessment, $question, $weight);
+		}
 	}
 	
-	function create_complex_question($assessment, $question_id, $weight)
+	function create_complex_question($assessment, $question, $weight)
 	{
-		$question_clo = new ComplexQuestion();
-		$question_clo->set_ref($question_id);
+		$type = $question->get_type();
+		$complextype = 'complex_'.$type;
+		require_once Path::get_repository_path().'lib/learning_object/'.$type.'/'.$complextype.'.class.php';
+		$complextypecc = DokeosUtilities :: underscores_to_camelcase($complextype);
+		$question_clo = new $complextypecc;
+		$question_clo->set_ref($question->get_id());
 		$question_clo->set_parent($assessment->get_id());
 		$question_clo->set_weight($weight);
 		$question_clo->set_user_id($this->get_user()->get_id());
