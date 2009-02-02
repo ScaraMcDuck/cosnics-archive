@@ -24,7 +24,7 @@ class AssessmentTesterDisplay
 		}
 			
 		$html[] = $this->form->toHtml();
-		
+		echo 'echoooo';
 		return implode('', $html);
 	}
 	
@@ -35,7 +35,9 @@ class AssessmentTesterDisplay
 		$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = $page;
 		$qpp = $this->assessment->get_questions_per_page();
 		$tester_form = new AssessmentTesterForm($this->assessment, $url, $page);
-		
+		//dump($tester_form);
+		//echo 'hier'.$page;
+		//echo $qpp;
 		if ($qpp > 0)
 		{
 			$questions = 0;
@@ -48,8 +50,9 @@ class AssessmentTesterDisplay
 			{
 				//test done, redirect to scores
 				$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = null;
+				$answers = $_SESSION['formvalues'];
 				$_SESSION['formvalues'] = null;
-				$this->parent->redirect_to_score_calculator($_SESSION['formvalues']);
+				$this->parent->redirect_to_score_calculator($answers);
 			}
 		}
 		
@@ -58,7 +61,7 @@ class AssessmentTesterDisplay
 			$this->set_formvalues($tester_form);
 			$this->form = $tester_form;
 			$this->qpp = $qpp;
-			$this->questions = $questoins;
+			$this->questions = $questions;
 			return 'form';
 		} 
 		else
@@ -86,6 +89,7 @@ class AssessmentTesterDisplay
 					$_SESSION['formvalues'] = $new_values;
 					$_POST = null;
 					$this->build_form($url, $page + 1);
+					return 'form';
 				}
 			}
 			else
