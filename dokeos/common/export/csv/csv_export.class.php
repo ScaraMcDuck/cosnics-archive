@@ -15,10 +15,10 @@ class CsvExport extends Export
 		$file = $this->get_path(SYS_ARCHIVE_PATH) . $filename;
 		$handle = fopen($file, 'a+'); 
 		$key_array = array_keys($data[0]);
-		fwrite($handle, '"'.implode('";"', $key_array).'"'."\n");
+		fwrite($handle,implode(';', $key_array)."\n");
 		foreach ($data as $index => $row)
 		{
-			fwrite($handle, '"'.implode('";"', $row).'"'."\n");
+			fwrite($handle, implode(';', $row). "\n");
 		}
 		fclose($handle);
 		Filesystem :: file_send_for_download($file, true, $filename);
