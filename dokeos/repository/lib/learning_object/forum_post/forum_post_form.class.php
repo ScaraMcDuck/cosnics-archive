@@ -18,7 +18,7 @@ class ForumPostForm extends LearningObjectForm
     {
     	parent :: build_creation_form();
     	$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-    	$this->build_form();
+    	/*$this->build_form();*/
     	$this->addElement('category');
     }
 	
@@ -26,7 +26,7 @@ class ForumPostForm extends LearningObjectForm
     {
 		parent :: build_editing_form();
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-    	$this->build_form();
+    	/*$this->build_form();*/
     	$this->addElement('category');
 	}
 
