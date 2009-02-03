@@ -193,10 +193,6 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			if (substr($key, 0, 5) == 'score')
 			{
 				$question_id = substr($key, 5);
-				//echo $user_question_id.' '.$value.'<br/>';
-				//$condition = new EqualityCondition(UserAnswer :: PROPERTY_USER_QUESTION_ID, $user_question_id);
-				//$user_answers = $datamanager->retrieve_user_answers($condition);
-				//$user_answer = $user_answers->next_result();
 				$track = new WeblcmsQuestionAttemptsTracker();
 				$condition_ass = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
 				$condition_q = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question_id);
@@ -204,19 +200,15 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 				$user_answers = $track->retrieve_tracker_items($condition);
 				foreach ($user_answers as $user_answer)
 				{
-					//dump($user_answer);
 					$user_answer->set_score($value);
 					if ($user_answer->get_answer() == null)
 					 	$user_answer->set_answer(' ');
 					 	
 					 $user_answer->update();
-					//$datamanager->update_user_answer($user_answer);
 				}
 			}
 			else if (substr($key, 0, 3) == 'ex_')
 			{
-				//$user_question_id = substr($key, 3);
-				//$user_question = $datamanager->retrieve_user_question($user_question_id);
 				$question_id = substr($key, 3);
 				$track = new WeblcmsQuestionAttemptsTracker();
 				$condition_ass = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
@@ -235,13 +227,11 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 					if ($user_answer->get_answer() == null)
 					 	$user_answer->set_answer(' ');
 					 	
-					 //dump($user_answer);
 					$user_answer->update(); 	
 				}
 			}
 		}
 		$user_assessment->set_total_score(AssessmentToolTesterComponent :: calculate_score($user_assessment));
-		//$datamanager->update_user_assessment($user_assessment);
 		$user_assessment->update();
 		$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id());
 		$this->redirect(null, null, false, $params);

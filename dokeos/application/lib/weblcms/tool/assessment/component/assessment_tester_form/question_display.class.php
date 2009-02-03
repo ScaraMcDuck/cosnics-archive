@@ -67,36 +67,6 @@ class QuestionDisplay
 		case 'hotspot_question':
 			$question_display = new HotSpotQuestionDisplay($clo_question);
 			break;
-		/*case Question :: TYPE_OPEN:
-			$question_display = new OpenQuestionDisplay($clo_question);
-			break;
-		case Question :: TYPE_OPEN_WITH_DOCUMENT:
-			$question_display = new OpenQuestionWithDocumentDisplay($clo_question);
-			break;
-		case Question :: TYPE_DOCUMENT:
-			$question_display = new DocumentQuestionDisplay($clo_question);
-			break;
-		case Question :: TYPE_FILL_IN_BLANKS:
-			$question_display = new FillInBlanksQuestionDisplay($clo_question);
-			break;
-		case Question :: TYPE_MATCHING:
-			$question_display = new MatchingQuestionDisplay($clo_question);
-			break;
-		case Question :: TYPE_MULTIPLE_ANSWER:
-			$question_display = new MultipleAnswerQuestionDisplay($clo_question);
-			break;
-		case Question :: TYPE_MULTIPLE_CHOICE:
-			$question_display = new MultipleChoiceQuestionDisplay($clo_question);
-			break;
-		case Question :: TYPE_PERCENTAGE:
-			$question_display = new PercentageQuestionDisplay($clo_question);
-			break;
-		case Question :: TYPE_SCORE:
-			$question_display = new ScoreQuestionDisplay($clo_question);
-			break;
-		case Question :: TYPE_YES_NO:
-			$question_display = new YesNoQuestionDisplay($clo_question);
-			break;*/
 		default:
 			$question_display = null;
 		}

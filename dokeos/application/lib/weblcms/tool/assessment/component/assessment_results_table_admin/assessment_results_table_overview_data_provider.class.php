@@ -65,16 +65,6 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
     	return $publications;
     }
     
-    /*function get_assessments($publications) 
-    {
-    	foreach ($publications as $publication)
-    	{
-    		$assessment = $publication->get_learning_object();
-    		$all_assessments[] = $assessment;
-    	}
-    	return $all_assessments;
-    }*/
-    
     function get_publication($pid) 
     {
     	$datamanager = WeblcmsDataManager :: get_instance();

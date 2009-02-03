@@ -16,7 +16,6 @@ class AssessmentToolQtiImportComponent extends AssessmentToolComponent {
 		{
 			//import
 			$aid = $this->import_qti($form);
-			//echo $aid;
 			$this->redirect(null, null, false, array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH, 'object' => $aid));
 		}
 		else
@@ -43,9 +42,7 @@ class AssessmentToolQtiImportComponent extends AssessmentToolComponent {
     	$allowed_upload_types = array ('zip');
 		$form->addRule('file', Translation :: get('OnlyZipAllowed'), 'filetype', $allowed_upload_types);
     	
-		//$form->addElement('submit', 'submit', Translation :: get('Import'));
 		$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-		//$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		return $form;

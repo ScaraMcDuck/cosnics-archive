@@ -51,7 +51,6 @@ class OpenQuestionWithDocumentResult extends QuestionResult
 	function display_assignment()
 	{
 		$this->display_question();
-		//return implode('<br/>', $html);
 	}
 }
 ?>

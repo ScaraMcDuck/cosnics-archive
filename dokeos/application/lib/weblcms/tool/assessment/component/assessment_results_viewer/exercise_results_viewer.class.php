@@ -25,14 +25,9 @@ class ExerciseResultsViewer extends ResultsViewer
 		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication(parent :: get_user_assessment()->get_assessment_id());
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $publication->get_learning_object()->get_id());
 		$clo_questions = $dm->retrieve_complex_learning_object_items($condition);
-		//dump($condition);
 		while($clo_question = $clo_questions->next_result())
 		{
 			$question = $dm->retrieve_learning_object($clo_question->get_ref());
-			/*$conditionQ = new EqualityCondition(UserQuestion :: PROPERTY_QUESTION_ID, $clo_question->get_ref());
-			$conditionA = new EqualityCondition(UserQuestion :: PROPERTY_USER_ASSESSMENT_ID, $uaid);
-			$condition = new AndCondition($conditionQ, $conditionA);
-			$user_question = $db->retrieve_user_questions($condition)->next_result();*/
 			$track = new WeblcmsQuestionAttemptsTracker();
 			$condition_ass = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $this->get_user_assessment()->get_id());
 			$condition_question = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_id());

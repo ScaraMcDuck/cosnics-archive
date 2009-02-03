@@ -11,7 +11,6 @@ class FillInBlanksQuestionResult extends QuestionResult
 		$results = parent :: get_results();
 		$rdm = RepositoryDataManager :: get_instance();
 
-		//$clo_answers = parent :: get_clo_answers();
 		$question = parent :: get_question();
 		$answers = $question->get_answers();
 		
@@ -64,7 +63,6 @@ class FillInBlanksQuestionResult extends QuestionResult
 	function display_assignment()
 	{
 		$this->display_question();
-		//return implode('<br/>', $html);
 	}
 }
 ?>

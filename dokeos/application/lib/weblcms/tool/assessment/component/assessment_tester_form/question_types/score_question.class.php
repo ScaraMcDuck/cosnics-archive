@@ -9,7 +9,6 @@ class ScoreQuestionDisplay extends QuestionDisplay
 		$formvalidator->addElement('html', parent :: display_header());
 		$clo_question = $this->get_clo_question();
 		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
-		//$answers = $this->get_answers();
 		$min = $question->get_low();
 		$max = $question->get_high();
 	

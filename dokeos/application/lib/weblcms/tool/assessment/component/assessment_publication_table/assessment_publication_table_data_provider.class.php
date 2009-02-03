@@ -50,7 +50,6 @@ class AssessmentPublicationTableDataProvider extends ObjectTableDataProvider
     	$order_direction = $this->get_order_direction($order_direction);
     	$dm = RepositoryDataManager :: get_instance();
     	return $this->get_publications($offset, $count, $order_property, $order_direction);
-    	//return $dm->retrieve_learning_objects(null, $this->get_condition(), $order_property, $order_direction, $offset, $count);
     }
     
     function get_publications($from, $count, $column, $direction)
@@ -70,7 +69,6 @@ class AssessmentPublicationTableDataProvider extends ObjectTableDataProvider
 			$course_groups = $this->parent->get_course_groups();
 		}
 		$course = $this->parent->get_course_id();
-		//echo $course.";".$owner.";".$course_groups.";".$condition.";".$columns.";".$direction;
     	$publications = $datamanager->retrieve_learning_object_publications($course, null, $owner, $course_groups, $condition, false, array(), array(), 0, -1, null, $lo_condition);
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
@@ -90,8 +88,6 @@ class AssessmentPublicationTableDataProvider extends ObjectTableDataProvider
 	 */
     function get_object_count()
     {
-    	//$dm = RepositoryDataManager :: get_instance();
-    	//return $dm->count_learning_objects(null, $this->get_condition());
     	return count($this->get_publications());
     }
 	/**
