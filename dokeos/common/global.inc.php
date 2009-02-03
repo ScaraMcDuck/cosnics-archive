@@ -215,6 +215,9 @@ if(isset($_POST['login']))
 	{
 		Session :: register('_uid', $user->get_id());
 		Events :: trigger_event('login', 'user', array('server' => $_SERVER, 'user' => $user));
+		$login_page = PlatformSetting :: get('page_after_login');
+		if($login_page == 'weblcms')
+			header('Location: run.php?application=weblcms');
 		// TODO: Tracking framework
 		//loginCheck($_SESSION['_uid']);
 		//event_login();
