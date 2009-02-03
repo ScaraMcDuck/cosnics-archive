@@ -14,15 +14,22 @@ class HotspotQuestionForm extends LearningObjectForm
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
+		$this->check_upload();
 		if (!isset($_SESSION['fileupload']))
+		{
 			$this->addElement('file', 'file', Translation :: get('UploadImage'));
+			$this->addElement('submit', 'fileupload', Translation :: get('Submit'));
+		}
 		else
+		{
 			$this->addElement('text', 'filename', Translation :: get('Filename'), array('DISABLED'));
-		$this->addElement('submit', 'fileupload', Translation :: get('Submit'));
+			$this->addElement('html', '<img src="'.$_SESSION['fileupload'].'" alt="" />');
+		}
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
 		$this->add_options();
 		$this->addElement('category');
 	}
+	
 	protected function build_editing_form()
 	{
 		parent :: build_editing_form();
@@ -30,6 +37,7 @@ class HotspotQuestionForm extends LearningObjectForm
 		$this->add_options();
 		$this->addElement('category');
 	}
+	
 	function setDefaults($defaults = array ())
 	{
 		if(!$this->isSubmitted())
@@ -46,21 +54,25 @@ class HotspotQuestionForm extends LearningObjectForm
 			}
 		}
 		$defaults['filename'] = $_SESSION['fileupload'];	
-		dump($defaults);	
+		//dump($defaults);	
 		parent :: setDefaults($defaults);
 	}
+	
 	function create_learning_object()
 	{
 		$object = new FillInBlanksQuestion();
 		$this->set_learning_object($object);
 		$this->add_options_to_object();
+		unset($_SESSION['fileupload']);
 		return parent :: create_learning_object();
 	}
+	
 	function update_learning_object()
 	{
 		$this->add_options_to_object();
 		return parent :: update_learning_object();
 	}
+	
 	private function add_options_to_object()
 	{
 		$object = $this->get_learning_object();
@@ -82,6 +94,25 @@ class HotspotQuestionForm extends LearningObjectForm
 		}
 		return parent::validate();
 	}
+	
+	function check_upload()
+	{
+		if ($_FILES['file'] != null && $_SESSION['fileupload'] == null)
+		{
+			$owner = $this->get_owner_id();
+			dump($owner);
+			$filename = Filesystem::create_unique_name(Path :: get(SYS_REPO_PATH).$owner, $_FILES['file']['name']);
+			$path = $owner.'/'.$filename;
+			$full_path = Path :: get(SYS_REPO_PATH).$path;
+			dump($path);
+			dump($full_path);
+			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
+			$_SESSION['fileupload'] = $full_path;
+			dump($_SESSION['fileupload']);
+			$_FILES['file'] == null;
+		}
+	}
+	
 	/**
 	 * Adds the form-fields to the form to provide the possible options for this
 	 * multiple choice question

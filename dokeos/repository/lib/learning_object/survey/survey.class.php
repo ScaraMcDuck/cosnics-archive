@@ -19,6 +19,7 @@ class Survey extends LearningObject
 	const PROPERTY_MAXIMUM_SCORE = 'maximum_score';
 	const PROPERTY_MAXIMUM_ATTEMPTS = 'max_attempts';
 	const PROPERTY_FINISH_TEXT = 'finish_text';
+	const PROPERTY_INTRODUCTION_TEXT = 'intro_text';
 	const PROPERTY_ANONYMOUS = 'anonymous';
 	const PROPERTY_QUESTIONS_PER_PAGE = 'questions_per_page';
 	
@@ -28,9 +29,20 @@ class Survey extends LearningObject
 			self :: PROPERTY_ASSESSMENT_TYPE,
 			self :: PROPERTY_MAXIMUM_ATTEMPTS,
 			self :: PROPERTY_QUESTIONS_PER_PAGE,
+			self :: PROPERTY_INTRODUCTION_TEXT,
 			self :: PROPERTY_FINISH_TEXT,
 			self :: PROPERTY_ANONYMOUS
 		);
+	}
+	
+	function get_introduction_text()
+	{
+		return $this->get_additional_property(self :: PROPERTY_INTRODUCTION_TEXT);
+	}
+	
+	function set_introduction_text($text)
+	{
+		$this->set_additional_property(self :: PROPERTY_INTRODUCTION_TEXT, $text);
 	}
 	
 	function get_assessment_type()
