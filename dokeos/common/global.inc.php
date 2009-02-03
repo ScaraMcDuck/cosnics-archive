@@ -247,12 +247,13 @@ if (isset($_GET['logout']))
 	$udm = UserDataManager::get_instance();
 	$user = $udm->retrieve_user(Session :: get_user_id());
 	
-	Events :: trigger_event('logout', 'user', array('server' => $_SERVER, 'user' => $user));
 	$udm = UserDataManager::get_instance();
 	$udm->logout();
+	Events :: trigger_event('logout', 'user', array('server' => $_SERVER, 'user' => $user));
 	header("Location: index.php");
 	exit();
 }
+//unset($_SESSION['_uid']);
 
 if(isset($_GET['adminuser']))
 {
@@ -311,14 +312,16 @@ if($user)
 //	$platformLanguage = $user_selected_language;
 //}
 
+$language_interface = PlatformSetting :: get('platform_language');
+
 if (isset($_SESSION['_uid']))
 {
 	require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
-	$language_interface = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id())->get_language();
-}
-else
-{
-	$language_interface = PlatformSetting :: get('platform_language');
+	$user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
+	if($user)
+	{
+		$language_interface = $user->get_language();
+	}
 }
 
 /**

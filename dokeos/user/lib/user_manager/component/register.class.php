@@ -39,13 +39,13 @@ class UserManagerRegisterComponent extends UserManagerComponent
 		
 		$form = new RegisterForm($user, $this->get_url());
 		
-
-		
 		if($form->validate())
 		{
 			$success = $form->create_user();
-			if($success != -1)
+			if($success == 1)
+			{
 				$this->redirect('link', Translation :: get($success ? 'UserRegistered' : 'UserNotRegistered'), ($success ? false : true));
+			}
 			else
 			{
 				$_GET['error_message'] = Translation :: get('UsernameNotAvailable');

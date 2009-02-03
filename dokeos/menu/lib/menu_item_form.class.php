@@ -116,7 +116,7 @@ class MenuItemForm extends FormValidator {
     	{
     		$menuitem->set_application($values[MenuItem :: PROPERTY_APPLICATION]);
     		$menuitem->set_section($values[MenuItem :: PROPERTY_APPLICATION]);
-    		$menuitem->set_url('');
+    		$menuitem->set_url(' ');
     	}
     	else
     	{
