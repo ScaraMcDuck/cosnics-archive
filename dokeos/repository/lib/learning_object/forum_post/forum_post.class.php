@@ -27,5 +27,10 @@ class ForumPost extends LearningObject
 	{
 		return false;
 	}
+	
+	function get_allowed_types()
+	{
+		return array('forum_post');
+	}
 }
 ?>

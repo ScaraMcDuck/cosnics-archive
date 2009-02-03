@@ -10,6 +10,7 @@ require_once Path :: get_library_path().'condition/equality_condition.class.php'
 require_once dirname(__FILE__).'/learning_object_difference.class.php';
 require_once dirname(__FILE__).'/learning_object_display.class.php';
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
+require_once Path :: get_rights_path().'lib/location.class.php';
 /**
  *	This class represents a learning object in the repository. Every object
  *	that can be associated with a module is in fact a learning object.
@@ -642,14 +643,14 @@ class LearningObject implements AccessibleLearningObject
 		$location->set_identifier($this->get_id());
 		
 		$parent = $this->get_parent_id();
-		if ($parent == 0)
+		/*if ($parent == 0)
 		{
 			$parent = RepositoryRights :: get_root_id();
 		}
 		else
 		{
 			$parent = RepositoryRights :: get_location_id_by_identifier('repository_category', $this->get_parent_id());
-		}
+		}*/
 		
 		$location->set_parent($parent);
 		if (!$location->create())
