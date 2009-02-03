@@ -39,7 +39,7 @@ class AssessmentForm extends LearningObjectForm
     	$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
     	$this->add_select(Assessment :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('AssessmentType'), Assessment :: get_types());
     	$this->add_textfield(Assessment :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts')); 
-    	$this->add_textfield(Assessment :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('QuestionsPerPage'));
+    	$this->add_textfield(Assessment :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('QuestionsPerPage'), false);
     	$this->addElement('category');
     }
     // Inherited
@@ -49,7 +49,7 @@ class AssessmentForm extends LearningObjectForm
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
     	$this->add_select(Assessment :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('AssessmentType'), Assessment :: get_types());
     	$this->add_textfield(Assessment :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts'));
-    	$this->add_textfield(Assessment :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('QuestionsPerPage')); 
+    	$this->add_textfield(Assessment :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('QuestionsPerPage'), false); 
     	$this->addElement('category');
 	}
 

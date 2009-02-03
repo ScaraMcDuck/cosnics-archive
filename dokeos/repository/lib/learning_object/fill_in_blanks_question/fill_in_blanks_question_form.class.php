@@ -114,14 +114,14 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 			{
 				$group = array();
 				$group[] = $this->createElement('text','option['.$option_number.']', '','size="40"');
-				$group[] = $this->createElement('text','weight['.$option_number.']','','size="2"  class="input_numeric"');
+				$group[] = $this->createElement('text','weight['.$option_number.']',Translation::get('Weight'),'size="2"  class="input_numeric"');
 				if($number_of_options - count($_SESSION['mc_skip_options']) > 2)
 				{
 					$group[] = $this->createElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
 				}
-				$label = $show_label ? Translation :: get('Answers') : '';
+				$label = $show_label ? Translation :: get('AnswersAndWeights') : '';
 				$show_label = false;
-				$this->addGroup($group,'options_group_'.$option_number,$label,'',false);
+				$this->addGroup($group,'options_group_'.$option_number,$label,' ',false);
 				$this->addGroupRule('options_group_'.$option_number,
 					array(
 						'option['.$option_number.']' =>

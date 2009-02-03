@@ -111,7 +111,7 @@ class AssessmentScoreCalculator
 	function get_score($question, $answer, $answer_num)
 	{
 		$score = (Score :: factory($answer, $question, $answer_num)->get_score());
-		echo $score.';';
+		//echo $score.';';
 		return $score;
 	}
 	
@@ -125,8 +125,8 @@ class AssessmentScoreCalculator
 		{
 			$q_score = self :: calculate_question_score($assessment_tracker, $question);
 			$score += $q_score;
-			dump($q_score);
-			dump($score);
+			//dump($q_score);
+			//dump($score);
 		}
 		return $score;
 	}
@@ -142,8 +142,8 @@ class AssessmentScoreCalculator
 		$score = 0;
 		foreach ($question_trackers as $q_tracker)
 		{
-			dump($question);
-			dump($q_tracker->get_score() .'*'. $question->get_weight() .'/'. $maxscore);
+			//dump($question);
+			//dump($q_tracker->get_score() .'*'. $question->get_weight() .'/'. $maxscore);
 			$score += ($q_tracker->get_score() * $question->get_weight()) / $maxscore;
 		}
 		return $score;
