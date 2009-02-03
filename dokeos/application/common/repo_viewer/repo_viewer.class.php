@@ -220,8 +220,8 @@ class RepoViewer
 							return;
 						}
 					}
-					
 					$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $selected_publication_ids));
+					
 					$this->redirect(null, false, $redirect_params);
 					break;
 			}
