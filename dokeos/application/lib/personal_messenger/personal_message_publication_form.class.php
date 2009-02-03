@@ -131,16 +131,20 @@ class PersonalMessagePublicationForm extends FormValidator
 					$users[] = $gru->get_user_id();
 			}
 			
-			foreach($users as $user)
-			{ 
-				if ($user != $this->form_user->get_id() && !in_array($user, $this->sent_users))
+		}
+		
+		foreach($users as $user)
+		{ 
+			if ($user != $this->form_user->get_id())
+			{
+				if(!in_array($user, $this->sent_users))
 				{
 					$this->send_to_recipient($user);
 				}
-				else
-				{
-					$this->failures++;
-				}
+			}
+			else
+			{
+				$this->failures++;
 			}
 		}
 
