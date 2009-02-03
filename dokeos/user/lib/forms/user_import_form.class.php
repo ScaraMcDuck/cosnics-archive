@@ -75,13 +75,20 @@ class UserImportForm extends FormValidator {
     			$user->set_firstname($csvuser[User :: PROPERTY_FIRSTNAME]);
     			$user->set_lastname($csvuser[User :: PROPERTY_LASTNAME]);
     			$user->set_username($csvuser[User :: PROPERTY_USERNAME]);
-    			$user->set_password(md5($csvuser[User :: PROPERTY_PASSWORD]));
+    			
+    			$pass = $csvuser[User :: PROPERTY_PASSWORD];
+    			if(!$pass || $pass == "")
+    				$pass = uniqid();
+    			$pass = md5($pass); 
+    			
+    			$user->set_password($pass);
     			$user->set_email($csvuser[User :: PROPERTY_EMAIL]);
     			$user->set_language($csvuser[User :: PROPERTY_LANGUAGE]);
     			$user->set_status($csvuser[User :: PROPERTY_STATUS]);
     			$user->set_active($csvuser[User :: PROPERTY_ACTIVE]);
     			$user->set_official_code($csvuser[User :: PROPERTY_OFFICIAL_CODE]);
     			$user->set_phone($csvuser[User :: PROPERTY_PHONE]);
+    			$user->set_auth_source($csvuser[User :: PROPERTY_AUTH_SOURCE]);
     			
     			$act_date = $csvuser[User :: PROPERTY_ACTIVATION_DATE];
     			if($act_date != 0)

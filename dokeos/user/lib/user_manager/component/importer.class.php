@@ -49,8 +49,8 @@ class UserManagerImporterComponent extends UserManagerComponent
 		$html[] = '<p>'. Translation :: get('CSVMustLookLike') .' ('. Translation :: get('MandatoryFields') .')</p>';
 		$html[] = '<blockquote>';
 		$html[] = '<pre>';
-		$html[] = '<b>lastname</b>;<b>firstname</b>;<b>username</b>;<b>password</b>;<b>email</b>;<b>language</b>;<b>status</b>;<b>active</b>;<b>official_code</b>;<b>phone</b>;<b>activation_date</b>;<b>expiration_date</b>';
-		$html[] = '<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>';
+		$html[] = '<b>lastname</b>;<b>firstname</b>;<b>username</b>;<b>password</b>;<b>email</b>;<b>language</b>;<b>status</b>;<b>active</b>;<b>official_code</b>;<b>phone</b>;<b>activation_date</b>;<b>expiration_date</b>;<b>auth_source</b>';
+		$html[] = '<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>';
 		$html[] = '</pre>';
 		$html[] = '</blockquote>';
 		
@@ -68,13 +68,17 @@ class UserManagerImporterComponent extends UserManagerComponent
 		$html[] = '        <b>&lt;password&gt;xxx&lt;/password&gt;</b>';
 		$html[] = '        <b>&lt;email&gt;xxx&lt;/email&gt;</b>';
 		$html[] = '        <b>&lt;language&gt;xxx&lt;/language&gt;</b>';
-		$html[] = '        <b>&lt;official_code&gt;xxx&lt;/official_code&gt;</b>';
-		$html[] = '        <b>&lt;phone&gt;xxx&lt;/phone&gt;</b>';
 		$html[] = '';
 		$html[] = '        <b>&lt;status&gt;xxx&lt;/status&gt;</b>';
 		$html[] = '        <b>&lt;active&gt;xxx&lt;/active&gt;</b>';
+		$html[] = '';
+		$html[] = '        <b>&lt;official_code&gt;xxx&lt;/official_code&gt;</b>';
+		$html[] = '        <b>&lt;phone&gt;xxx&lt;/phone&gt;</b>';
+		$html[] = '';
 		$html[] = '        <b>&lt;activation_date&gt;YYYY-MM-DD HH:MM:SS&lt;/activation_date&gt;</b>';
 		$html[] = '        <b>&lt;expiration_date&gt;YYYY-MM-DD HH:MM:SS&lt;/expiration_date&gt;</b>';
+		$html[] = '';
+		$html[] = '        <b>&lt;auth_source&gt;xxx&lt;/auth_source&gt;</b>';
 		$html[] = '';
 		$html[] = '    &lt;/Contact&gt;';
 		$html[] = '&lt;/Contacts&gt;';
