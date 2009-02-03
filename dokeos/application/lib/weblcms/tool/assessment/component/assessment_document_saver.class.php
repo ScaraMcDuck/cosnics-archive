@@ -10,17 +10,24 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 		if (isset($_GET[AssessmentTool :: PARAM_ASSESSMENT]))
 		{
 			$id = $_GET[AssessmentTool :: PARAM_ASSESSMENT];
+			$type = AssessmentTool :: PARAM_ASSESSMENT;
 			$filenames = $this->save_assessment_docs($id);
 		}
 		else if (isset($_GET[AssessmentTool :: PARAM_USER_ASSESSMENT]))
 		{
 			$id = $_GET[AssessmentTool :: PARAM_USER_ASSESSMENT];
+			$type = AssessmentTool :: PARAM_USER_ASSESSMENT;
 			$track = new WeblcmsAssessmentAttemptsTracker();
 			$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ID, $id);
 			$user_assessments = $track->retrieve_tracker_items($condition);
 			$filenames = $this->save_user_assessment_docs($user_assessments[0]);
 		}
-		$this->send_files($filenames, $id);
+		if (count($filenames) > 0)
+			$this->send_files($filenames, $id);
+		else
+		{
+			$this->redirect_to_previous($type, $id);
+		}
 	}
 	
 	function save_assessment_docs($assessment_id)
@@ -79,6 +86,17 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 		}
 		
 		return $filenames;
+	}
+	
+	function redirect_to_previous($type, $id)
+	{
+		//$redirect_params = $_SESSION['redirect_params'];
+		//$_SESSION['redirect_params'] = null;
+		$params = array(
+			Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS,
+			$type => $id
+		);
+		$this->redirect(null, Translation :: get('NoDocumentsForAssessment'), false, $params);
 	}
 	
 	function send_files($filenames, $assessment_id)

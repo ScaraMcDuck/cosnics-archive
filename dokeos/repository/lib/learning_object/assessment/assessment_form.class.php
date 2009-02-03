@@ -58,14 +58,12 @@ class AssessmentForm extends LearningObjectForm
 	{
 		$object = new Assessment();
 		$values = $this->exportValues();
-		if (isset($values[Assessment :: PROPERTY_MAXIMUM_ATTEMPTS]))
-			$object->set_maximum_attempts($values[Assessment :: PROPERTY_MAXIMUM_ATTEMPTS]);
-		else
+		$object->set_maximum_attempts($values[Survey :: PROPERTY_MAXIMUM_ATTEMPTS]);
+		if ($object->get_maximum_attempts() == null)
 			$object->set_maximum_attempts(0);
 
-		if (isset($values[Assessment :: PROPERTY_QUESTIONS_PER_PAGE]))
-			$object->set_questions_per_page($values[Assessment :: PROPERTY_QUESTIONS_PER_PAGE]);
-		else
+		$object->set_questions_per_page($values[Survey :: PROPERTY_QUESTIONS_PER_PAGE]);
+		if ($object->get_questions_per_page() == null)
 			$object->set_questions_per_page(0);
 			
 		$ass_types = $object->get_types();
@@ -78,14 +76,12 @@ class AssessmentForm extends LearningObjectForm
 	{
 		$object = $this->get_learning_object();
 		$values = $this->exportValues();
-		if (isset($values[Assessment :: PROPERTY_MAXIMUM_ATTEMPTS]))
-			$object->set_maximum_attempts($values[Assessment :: PROPERTY_MAXIMUM_ATTEMPTS]);
-		else
+		$object->set_maximum_attempts($values[Survey :: PROPERTY_MAXIMUM_ATTEMPTS]);
+		if ($object->get_maximum_attempts() == null)
 			$object->set_maximum_attempts(0);
 
-		if (isset($values[Assessment :: PROPERTY_QUESTIONS_PER_PAGE]))
-			$object->set_questions_per_page($values[Assessment :: PROPERTY_QUESTIONS_PER_PAGE]);
-		else
+		$object->set_questions_per_page($values[Survey :: PROPERTY_QUESTIONS_PER_PAGE]);
+		if ($object->get_questions_per_page() == null)
 			$object->set_questions_per_page(0);
 		
 		$ass_types = $object->get_types();
