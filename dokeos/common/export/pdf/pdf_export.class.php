@@ -18,7 +18,7 @@ class PdfExport extends Export
 		{
 			$title = $datapair['key'];
 			$table_data = $datapair['data'];
-			$pdf->ezTable($table_data, null, $title, array('fontSize' => 7));
+			$pdf->ezTable($table_data, null, $title, array('fontSize' => 5));
 		}
 		$pdf->ezStream();
 	}
