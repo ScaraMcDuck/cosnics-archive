@@ -430,26 +430,23 @@ require_once dirname(__FILE__).'/component/menu_item_browser/menu_item_browser_t
 	{
 		if (isset ($_POST['action']))
 		{
-			if(isset($_POST['table']) && $_POST['table'] == 'menu_item')
+			$selected_ids = $_POST[MenuItemBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			if (empty ($selected_ids))
 			{
-				$selected_ids = $_POST[MenuItemBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
-				if (empty ($selected_ids))
-				{
-					$selected_ids = array ();
-				}
-				elseif (!is_array($selected_ids))
-				{
-					$selected_ids = array ($selected_ids);
-				}
-				
-				switch ($_POST['action'])
-				{
-					case self :: PARAM_DELETE_SELECTED :
-						$this->set_action(self :: ACTION_SORT_MENU);
-						$_GET[self :: PARAM_COMPONENT_ACTION] = self :: ACTION_COMPONENT_DELETE_CATEGORY;
-						$_GET[self :: PARAM_CATEGORY] = $selected_ids;
-						break;
-				}
+				$selected_ids = array ();
+			}
+			elseif (!is_array($selected_ids))
+			{
+				$selected_ids = array ($selected_ids);
+			}
+			
+			switch ($_POST['action'])
+			{
+				case self :: PARAM_DELETE_SELECTED :
+					$this->set_action(self :: ACTION_SORT_MENU);
+					$_GET[self :: PARAM_COMPONENT_ACTION] = self :: ACTION_COMPONENT_DELETE_CATEGORY;
+					$_GET[self :: PARAM_CATEGORY] = $selected_ids;
+					break;
 			}
 		}
 	}
