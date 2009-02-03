@@ -31,8 +31,8 @@ class AssessmentToolRepoviewerComponent extends AssessmentToolComponent
 		
 		$object = $_GET['object'];
 		
-		$pub = new LearningObjectRepoViewer($this, $types, true);
-		$pub->set_parameter(AssessmentTool :: PARAM_ACTION, AssessmentTool :: ACTION_REPOVIEWER);
+		$pub = new LearningObjectRepoViewer($this, $types, true, RepoViewer :: SELECT_MULTIPLE, AssessmentTool :: ACTION_REPOVIEWER);
+		//$pub->set_parameter(AssessmentTool :: PARAM_ACTION, AssessmentTool :: ACTION_REPOVIEWER);
 		$pub->set_parameter(AssessmentTool :: PARAM_REPO_TYPES, $types);
 		
 		if(!isset($object))

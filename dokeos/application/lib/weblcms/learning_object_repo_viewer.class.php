@@ -19,10 +19,10 @@ class LearningObjectRepoViewer extends RepoViewer
 	 * The default learning objects, which are used for form defaults.
 	 */
 	
-	function LearningObjectRepoViewer($parent, $types, $mail_option = false, $maximum_select = RepoViewer :: SELECT_MULTIPLE)
+	function LearningObjectRepoViewer($parent, $types, $mail_option = false, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $action = TOOL :: ACTION_PUBLISH)
 	{
 		parent :: __construct($parent, $types, $mail_option, $maximum_select);
-		$this->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH);
+		$this->set_parameter(Tool :: PARAM_ACTION, $action);
 		$this->set_repo_viewer_actions(array ('creator','browser', 'finder'));
 		$this->parse_input_from_table();
 	}
