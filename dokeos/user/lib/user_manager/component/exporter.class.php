@@ -78,6 +78,8 @@ class UserManagerExporterComponent extends UserManagerComponent
     {  
     	$filename = 'export_users_'.date('Y-m-d_H-i-s');
     	$export = Export::factory($file_type,$filename); 
+    	if($file_type == 'pdf')
+    		$data = array(array('key' => 'users', 'data' => $data));
     	$export->write_to_file($data);  
     	return;
     }
