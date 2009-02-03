@@ -147,7 +147,7 @@ class RegisterForm extends FormValidator {
 	 	   	$this->unencryptedpass = $password;
     		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
   		  	$user->set_phone($values[User :: PROPERTY_PHONE]);
-  		  	if (!PlatformSetting :: get('allow_registration_as_teacher'))
+  		  	if (!PlatformSetting :: get('allow_teacher_registration', 'user'))
 			{
 				$values[User :: PROPERTY_STATUS] = STUDENT;
 			}
