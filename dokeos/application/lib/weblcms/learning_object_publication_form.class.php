@@ -298,6 +298,7 @@ class LearningObjectPublicationForm extends FormValidator
 		$pub->set_target_course_groups($course_groups);
 		$show_on_homepage = ($values[LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE] ? 1 : 0);
 		$pub->set_show_on_homepage($show_on_homepage);
+		$pub->set_category_id($category);
 		$pub->update();
 		return $pub;
     }
