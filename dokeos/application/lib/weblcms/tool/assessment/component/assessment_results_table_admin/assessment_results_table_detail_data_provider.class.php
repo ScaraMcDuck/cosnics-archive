@@ -51,19 +51,15 @@ class AssessmentResultsTableDetailDataProvider extends ObjectTableDataProvider
     {
     	$order_property = $this->get_order_property($order_property);
     	$order_direction = $this->get_order_direction($order_direction);
-    	//$assessment = $dm->retrieve_learning_object($this->aid);
     	$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($this->pid);
     	return $this->get_user_assessments($pub);
     }
     
     function get_user_assessments($pub) 
     {
-    	//$condition = new EqualityCondition(UserAssessment :: PROPERTY_ASSESSMENT_ID, $assessment->get_id());
-    	//$user_assessments = WeblcmsDataManager :: get_instance()->retrieve_user_assessments($condition);
     	$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $pub->get_id());
     	$track = new WeblcmsAssessmentAttemptsTracker();
     	$user_assessments = $track->retrieve_tracker_items($condition);
-    	//while ($user_assessment = $user_assessments->next_result())
     	foreach($user_assessments as $user_assessment)
     	{
     		$all_assessments[] = $user_assessment;
@@ -76,7 +72,6 @@ class AssessmentResultsTableDetailDataProvider extends ObjectTableDataProvider
 	 */
     function get_object_count()
     {
-    	//$assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->pid);
     	$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($this->pid);
     	return count($this->get_user_assessments($pub));
     }

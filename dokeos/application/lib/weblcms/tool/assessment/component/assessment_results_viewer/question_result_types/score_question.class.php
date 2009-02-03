@@ -9,13 +9,9 @@ class ScoreQuestionResult extends QuestionResult
 		$this->display_question_header();
 		
 		$results = parent :: get_results();
-		//$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $user_answers[0]->get_answer_id());
 		$low = parent :: get_question()->get_low();
 		$high = parent :: get_question()->get_high();
-		//$clo_answers = parent :: get_clo_answers();
-		//$low = $clo_answers[0];
-		//$high = $clo_answers[1];
-		
+
 		$score_line = Translation :: get('YourRating').': '.$results[0]->get_answer().' ('.Translation :: get('from').' '.$low.' '.Translation :: get('to').' '.$high.')';
 		$this->display_score($score_line);
 		
@@ -47,7 +43,6 @@ class ScoreQuestionResult extends QuestionResult
 	function display_assignment()
 	{
 		$this->display_question();
-		//return implode('<br/>', $html);
 	}
 }
 ?>

@@ -18,7 +18,6 @@ class AssessmentResultsExportForm extends FormValidator
 		if (isset($_GET[AssessmentTool :: PARAM_USER_ASSESSMENT]))
 		{
 			$uaid = $_GET[AssessmentTool :: PARAM_USER_ASSESSMENT];
-			//$user_assessment = $wdm->retrieve_user_assessment($uaid);
 			$track = new WeblcmsAssessmentAttemptsTracker();
 			$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ID, $uaid);
 			$uass = $track->retrieve_tracker_items($condition);
@@ -34,7 +33,6 @@ class AssessmentResultsExportForm extends FormValidator
 		else if (isset($_GET[AssessmentTool :: PARAM_PUBLICATION_ID]))
 		{
 			$aid = $_GET[AssessmentTool :: PARAM_PUBLICATION_ID];
-			//$assessment = $rdm->retrieve_learning_object($pid, 'assessment');
 			$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
 		
 			$this->addElement('html', 'Export results:');
@@ -43,9 +41,7 @@ class AssessmentResultsExportForm extends FormValidator
 		
 		$options = Export::get_supported_filetypes(array('ical'));
 		$this->addElement('select', 'filetype', 'Export to filetype:', $options);
-		//$this->addElement('submit', 'submit', 'Export results');
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Ok'), array('class' => 'positive'));
-		//$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 	}

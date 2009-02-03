@@ -24,20 +24,14 @@ class AssessmentTesterDisplay
 		}
 			
 		$html[] = $this->form->toHtml();
-		echo 'echoooo';
 		return implode('', $html);
 	}
 	
 	function build_form($url, $page) 
 	{
-		//$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = null;
-		//$_SESSION['formvalues'] = null;
 		$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = $page;
 		$qpp = $this->assessment->get_questions_per_page();
 		$tester_form = new AssessmentTesterForm($this->assessment, $url, $page);
-		//dump($tester_form);
-		//echo 'hier'.$page;
-		//echo $qpp;
 		if ($qpp > 0)
 		{
 			$questions = 0;

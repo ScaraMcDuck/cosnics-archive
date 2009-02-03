@@ -11,7 +11,6 @@ class MatchingQuestionResult extends QuestionResult
 		$rdm = RepositoryDataManager :: get_instance();
 		$results = parent :: get_results();
 		
-		//$clo_answers = parent :: get_clo_answers();
 		$answers = parent :: get_question()->get_options();
 		$matches = parent :: get_question()->get_matches();
 		foreach ($answers as $answer)
@@ -38,7 +37,6 @@ class MatchingQuestionResult extends QuestionResult
 			$line = $answer['match'].' '.Translation :: get('LinkedTo').' '.$answer['answer'].' ('.Translation :: get('Score').': '.$answer['score'].')';
 			if ($answer['score'] == 0)
 			{
-				//$link = $this->get_link($answer['answer']->get_id());
 				$line .= ' '.Translation :: get('CorrectAnswer').': '.$answer['correct'];
 			}
 			$answer_lines[] = $line;
@@ -76,7 +74,6 @@ class MatchingQuestionResult extends QuestionResult
 	function display_assignment()
 	{
 		$this->display_question();
-		//return implode('<br/>', $html);
 	}
 
 	function get_link($answer_id)

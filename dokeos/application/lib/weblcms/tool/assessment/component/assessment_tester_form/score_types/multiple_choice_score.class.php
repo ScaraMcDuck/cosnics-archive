@@ -6,11 +6,6 @@ class MultipleChoiceScore extends Score
 	
 	function get_score()
 	{
-		//$dm = RepositoryDataManager :: get_instance();
-		//$answer_id = parent :: get_user_answer()->get_extra();
-		//print_r(parent :: get_user_answer());
-		//$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $answer_id);
-		//print_r($condition);
 		$question = $this->get_question();
 		if ($question->get_answer_type() == 'radio')
 		{
@@ -28,7 +23,6 @@ class MultipleChoiceScore extends Score
 			$answer = $answers[$this->get_answer_num()-1];
 			return $answer->get_weight();
 		}
-		//return $dm->retrieve_complex_learning_object_items($condition)->next_result()->get_score();
 	}
 }
 ?>

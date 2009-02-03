@@ -8,7 +8,6 @@ class OpenQuestionResult extends QuestionResult
 	{
 		$this->display_question_header();
 		
-		//$user_question = $this->get_user_question();
 		$results = $this->get_results();
 		$question = $this->get_question();
 		$type = $question->get_question_type();

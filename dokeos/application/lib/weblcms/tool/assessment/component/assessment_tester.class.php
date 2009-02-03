@@ -12,7 +12,6 @@ require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_assess
 
 class AssessmentToolTesterComponent extends AssessmentToolComponent
 {
-	//private $questions;
 	private $datamanager;
 	
 	private $pub;
@@ -24,7 +23,6 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	
 	function run()
 	{
-		//$this->questions = null;
 		$this->datamanager = WeblcmsDataManager :: get_instance();
 		$this->showlcms = true;
 		if (isset($_GET[Tool :: PARAM_PUBLICATION_ID]))

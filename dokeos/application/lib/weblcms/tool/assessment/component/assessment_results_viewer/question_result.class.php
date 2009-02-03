@@ -37,28 +37,7 @@ abstract class QuestionResult
 		$dm = RepositoryDataManager :: get_instance();
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->question->get_id());
 		$this->clo_question = $dm->retrieve_complex_learning_object_items($condition)->next_result();
-		/*if ($this->user_question != null)
-		{
-			$condition = new EqualityCondition(UserAnswer :: PROPERTY_USER_QUESTION_ID, $this->user_question->get_id());
-			$answers = WeblcmsDataManager :: get_instance()->retrieve_user_answers($condition);
-			
-			while ($user_answer = $answers->next_result())
-			{
-				$this->user_answers[] = $user_answer;
-			}
-		}*/
-		//$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->question->get_id());
-		/*$clo_answers = $dm->retrieve_complex_learning_object_items($condition);
-		while ($clo_answer = $clo_answers->next_result())
-		{
-			$this->clo_answers[] = $clo_answer;
-		}*/
 	}
-	
-	/*function get_user_question()
-	{
-		return $this->user_question;
-	}*/
 	
 	function get_question()
 	{
@@ -74,16 +53,6 @@ abstract class QuestionResult
 	{
 		return $this->clo_question;
 	}
-	
-	/*function get_user_answers()
-	{
-		return $this->user_answers;
-	}*/
-	
-	/*function get_clo_answers()
-	{
-		return $this->clo_answers;
-	}*/
 	
 	function get_results()
 	{
@@ -142,7 +111,6 @@ abstract class QuestionResult
 		$this->formvalidator->addElement('html', '<br/><div class="title">Feedback:</div>');
 		if ($this->results != null)
 		{
-			//$feedback_id = $this->user_question->get_feedback();
 			$result = $this->results[0];
 			$feedback_id = $result->get_feedback();
 			if ($feedback_id != null && $feedback_id != 0)
@@ -182,7 +150,6 @@ abstract class QuestionResult
 	
 	function display_answers($answer_lines = null, $numbered = true)
 	{
-		//dump($answer_lines);
 		if ($answer_lines == null) 
 		{
 			return;
@@ -225,26 +192,6 @@ abstract class QuestionResult
 
 		switch ($question->get_type())
 		{
-			/*case Question :: TYPE_DOCUMENT:
-				return new DocumentQuestionResult($formvalidator, $user_question, $question, $edit_rights);
-			case Question :: TYPE_FILL_IN_BLANKS:
-				return new FillInBlanksQuestionResult($formvalidator, $user_question, $question, $edit_rights);
-			case Question :: TYPE_MATCHING:
-				return new MatchingQuestionResult($formvalidator, $user_question, $question, $edit_rights);
-			case Question :: TYPE_MULTIPLE_ANSWER:
-				return new MultipleAnswerQuestionResult($formvalidator, $user_question, $question, $edit_rights);
-			case Question :: TYPE_MULTIPLE_CHOICE:
-				return new MultipleChoiceQuestionResult($formvalidator, $user_question, $question, $edit_rights);
-			case Question :: TYPE_OPEN:
-				return new OpenQuestionResult($formvalidator, $user_question, $question, $edit_rights);
-			case Question :: TYPE_OPEN_WITH_DOCUMENT:
-				return new OpenQuestionWithDocumentResult($formvalidator, $user_question, $question, $edit_rights);
-			case Question :: TYPE_PERCENTAGE:
-				return new PercentageQuestionResult($formvalidator, $user_question, $question, $edit_rights);
-			case Question :: TYPE_SCORE:
-				return new ScoreQuestionResult($formvalidator, $user_question, $question, $edit_rights);
-			case Question :: TYPE_YES_NO:
-				return new YesNoQuestionResult($formvalidator, $user_question, $question, $edit_rights);*/
 			case 'open_question':
 				return new OpenQuestionResult($formvalidator, $q_results, $question, $edit_rights);
 			case 'multiple_choice_question':
