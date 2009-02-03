@@ -662,6 +662,7 @@ class User
 	{
 		$udm = UserDataManager :: get_instance();
 		$this->set_id($udm->get_next_user_id());
+		$this->set_registration_date(time());
 		return $udm->create_user($this);
 	}
 	
