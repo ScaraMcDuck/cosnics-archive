@@ -13,7 +13,7 @@ class MultipleAnswerQuestionDisplay extends QuestionDisplay
 			$name = $this->get_clo_question()->get_ref().'_'.$answer['answer']->get_id();
 			$formvalidator->addElement('checkbox', $name, '', $answer['answer']->get_title());
 		}
-		$formvalidator->addElement('html', '<br />');
+		//$formvalidator->addElement('html', '<br />');
 		$formvalidator->addElement('html', $this->display_footer());
 	}
 }

@@ -15,7 +15,7 @@ class DocumentQuestionDisplay extends QuestionDisplay
 		$buttons[] = $formvalidator->createElement('style_submit_button', 'repoviewer_', Translation :: get('Save'), array('class' => 'positive'));
 		$formvalidator->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		
-		$formvalidator->addElement('html', '<br/>');
+		//$formvalidator->addElement('html', '<br/>');
 		$formvalidator->addElement('html', $this->display_footer());
 	}
 }

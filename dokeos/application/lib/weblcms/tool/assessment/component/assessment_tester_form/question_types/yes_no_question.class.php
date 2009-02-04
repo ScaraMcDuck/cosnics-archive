@@ -16,7 +16,7 @@ class YesNoQuestionDisplay extends QuestionDisplay
 		}
 		$name = $this->get_clo_question()->get_ref().'_0';
 		$formvalidator->addGroup($elements, $name, '<br/>');
-		$formvalidator->addElement('html', '<br />');
+		//$formvalidator->addElement('html', '<br />');
 		$formvalidator->addElement('html', $this->display_footer());
 	}
 }

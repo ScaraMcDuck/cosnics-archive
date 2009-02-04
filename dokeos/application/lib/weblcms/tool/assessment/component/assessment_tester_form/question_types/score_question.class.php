@@ -16,8 +16,8 @@ class ScoreQuestionDisplay extends QuestionDisplay
 		{
 			$scores[$i] = $i;
 		}
-		$formvalidator->addElement('select',$this->get_clo_question()->get_ref().'_0', 'Score:',$scores);
-		$formvalidator->addElement('html', '<br />');
+		$formvalidator->addElement('select',$this->get_clo_question()->get_ref().'_0', null,$scores);
+		//$formvalidator->addElement('html', '<br />');
 		$formvalidator->addElement('html', $this->display_footer());
 	}
 }

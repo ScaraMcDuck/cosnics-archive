@@ -12,7 +12,7 @@ class MatchingQuestionDisplay extends QuestionDisplay
 		$answers = $question->get_options();
 		$dbmatches = $question->get_matches();
 		
-		$formvalidator->addElement('html', '<p><b>'.Translation :: get('Answers').' :</b>');
+		//$formvalidator->addElement('html', '<p><b>'.Translation :: get('Answers').' :</b>');
 		foreach ($dbmatches as $match)
 		{
 			$matches[] = $match;
@@ -25,7 +25,7 @@ class MatchingQuestionDisplay extends QuestionDisplay
 			$formvalidator->addElement('select', $name, $answer->get_value(), $matches);
 		}
 		
-		$formvalidator->addElement('html', '</p>');
+		//$formvalidator->addElement('html', '</p>');
 		$formvalidator->addElement('html', $this->display_footer());
 	}
 	

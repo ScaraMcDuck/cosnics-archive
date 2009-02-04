@@ -16,7 +16,7 @@ class OpenQuestionWithDocumentDisplay extends QuestionDisplay
 		$elements[] = $formvalidator->createElement('file', null, Translation :: get('Upload'));
 		$elements[] = $formvalidator->createElement('html', '</div>');
 		$formvalidator->addGroup($elements, $name, '<br/>');
-		$formvalidator->addElement('html', '<br/>');
+		//$formvalidator->addElement('html', '<br/>');
 		$formvalidator->addElement('html', $this->display_footer());
 	}
 	
