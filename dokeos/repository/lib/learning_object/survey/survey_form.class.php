@@ -16,7 +16,6 @@ class SurveyForm extends LearningObjectForm
 		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
 		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
 		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
-		$defaults[Survey :: PROPERTY_ASSESSMENT_TYPE] = $valuearray[3];
 
 		parent :: set_values($defaults);			
 	}
@@ -26,7 +25,6 @@ class SurveyForm extends LearningObjectForm
 		$object = $this->get_learning_object();
 		if ($object != null) 
 		{
-			$defaults[Survey :: PROPERTY_ASSESSMENT_TYPE] = $object->get_assessment_type();
 			$defaults[Survey :: PROPERTY_MAXIMUM_ATTEMPTS] = $object->get_maximum_attempts();
 			$defaults[Survey :: PROPERTY_ANONYMOUS] = $object->get_anonymous();
 			$defaults[Survey :: PROPERTY_QUESTIONS_PER_PAGE] = $object->get_questions_per_page();
@@ -39,7 +37,6 @@ class SurveyForm extends LearningObjectForm
     {
     	parent :: build_creation_form();
     	$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-    	$this->add_select(Survey :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('AssessmentType'), Survey :: get_types());
     	$this->add_textfield(Survey :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts')); //.' (0 = '.Translation :: get('infinite').')';
     	$this->add_textfield(Survey :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('QuestionsPerPage'), false);
     	$this->add_html_editor(Survey :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('IntroText'), false);
@@ -52,7 +49,6 @@ class SurveyForm extends LearningObjectForm
     {
 		parent :: build_editing_form();
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-    	$this->add_select(Survey :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('AssessmentType'), Survey :: get_types());
     	$this->add_textfield(Survey :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts')); //.' (0 = '.Translation :: get('infinite').')';
     	$this->add_textfield(Survey :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('QuestionsPerPage'));
     	$this->add_html_editor(Survey :: PROPERTY_INTRODUCTION_TEXT, Translation :: get('IntroText'), false);
@@ -75,8 +71,6 @@ class SurveyForm extends LearningObjectForm
 		if ($object->get_questions_per_page() == null)
 			$object->set_questions_per_page(0);
 			
-		$ass_types = $object->get_types();
-		$object->set_assessment_type($ass_types[$values[Survey :: PROPERTY_ASSESSMENT_TYPE]]);
 		$object->set_finish_text($values[Survey :: PROPERTY_FINISH_TEXT]);
 		$object->set_introduction_text($values[Survey :: PROPERTY_INTRODUCTION_TEXT]);
 		
@@ -104,17 +98,7 @@ class SurveyForm extends LearningObjectForm
 			
 		$object->set_finish_text($values[Survey :: PROPERTY_FINISH_TEXT]);
 		$object->set_introduction_text($values[Survey :: PROPERTY_INTRODUCTION_TEXT]);
-		
-		$ass_types = $object->get_types();
-		$value = $values[Assessment :: PROPERTY_ASSESSMENT_TYPE];
-		if (is_numeric($value))
-		{
-			$object->set_assessment_type($ass_types[$value]);
-		}
-		else
-		{
-			$object->set_assessment_type($value);
-		}
+
 		$this->set_learning_object($object);
 		
 		if (isset($values[Survey :: PROPERTY_ANONYMOUS]))
