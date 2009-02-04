@@ -30,6 +30,13 @@ class Survey extends LearningObject
 		);
 	}
 	
+	const TYPE_SURVEY = 'survey';
+	
+	function get_assessment_type()
+	{
+		return self :: TYPE_SURVEY;
+	}
+	
 	function get_introduction_text()
 	{
 		return $this->get_additional_property(self :: PROPERTY_INTRODUCTION_TEXT);
