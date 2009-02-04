@@ -10,10 +10,6 @@ require_once dirname(__FILE__) . '/../../learning_object.class.php';
  */
 class Survey extends LearningObject
 {
-	const PROPERTY_ASSESSMENT_TYPE = 'assessment_type';
-	
-	const TYPE_SURVEY = 'survey';
-	
 	const PROPERTY_TIMES_TAKEN = 'times_taken';
 	const PROPERTY_AVERAGE_SCORE = 'average_score';
 	const PROPERTY_MAXIMUM_SCORE = 'maximum_score';
@@ -26,7 +22,6 @@ class Survey extends LearningObject
 	static function get_additional_property_names()
 	{
 		return array(
-			self :: PROPERTY_ASSESSMENT_TYPE,
 			self :: PROPERTY_MAXIMUM_ATTEMPTS,
 			self :: PROPERTY_QUESTIONS_PER_PAGE,
 			self :: PROPERTY_INTRODUCTION_TEXT,
@@ -43,16 +38,6 @@ class Survey extends LearningObject
 	function set_introduction_text($text)
 	{
 		$this->set_additional_property(self :: PROPERTY_INTRODUCTION_TEXT, $text);
-	}
-	
-	function get_assessment_type()
-	{
-		return $this->get_additional_property(self :: PROPERTY_ASSESSMENT_TYPE);
-	}
-	
-	function set_assessment_type($type)
-	{
-		$this->set_additional_property(self :: PROPERTY_ASSESSMENT_TYPE, $type);
 	}
 	
 	function get_maximum_attempts()
@@ -118,13 +103,6 @@ class Survey extends LearningObject
 	function set_questions_per_page($value)
 	{
 		$this->set_additional_property(self :: PROPERTY_QUESTIONS_PER_PAGE, $value);
-	}
-	
-	function get_types()
-	{
-		return array(
-			self :: TYPE_SURVEY
-		);
 	}
 }
 ?>
