@@ -59,7 +59,7 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 		if ($this->browser->is_allowed(EDIT_RIGHT)) 
 		{
 			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_learning_object()->get_id())), 
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())), 
 			'label' => Translation :: get('ViewResults'), 
 			'img' => Theme :: get_common_image_path().'action_view_results.png'
 			);
@@ -68,8 +68,8 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 			{
 				$actions[] = array(
 				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
-				'label' => Translation :: get('Publish'), 
-				'img' => Theme :: get_common_image_path().'action_publish.png'
+				'label' => Translation :: get('PublishSurvey'), 
+				'img' => Theme :: get_common_image_path().'action_publish_alternate.png'
 				);
 			}
 			
