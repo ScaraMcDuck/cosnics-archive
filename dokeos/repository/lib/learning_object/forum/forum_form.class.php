@@ -20,6 +20,7 @@ class ForumForm extends LearningObjectForm
 	{
 		$object = $this->get_learning_object();
 		$object->set_locked($this->exportValue(Forum :: PROPERTY_LOCKED));
+		//$this->set_learning_object($object);
 		return parent :: update_learning_object();
 	}
 	

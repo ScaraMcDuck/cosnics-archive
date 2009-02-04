@@ -10,8 +10,19 @@ class ForumTopicForm extends LearningObjectForm
 	function create_learning_object()
 	{
 		$object = new ForumTopic();
+		
 		$object->set_locked($this->exportValue(ForumTopic :: PROPERTY_LOCKED));
 		$this->set_learning_object($object);
+		
+/*		$values-> $this->exportValues();
+		$object->set_locked($values[ForumTopic :: PROPERTY_LOCKED]);
+		$this->set_learning_object($object);
+		if ($values['locked']){
+			$object->set_locked("1");
+		}
+		else{
+			$object->set_locked("0");
+		}*/
 		return parent :: create_learning_object();
 	}
 	
@@ -19,7 +30,7 @@ class ForumTopicForm extends LearningObjectForm
 	{
 		$object = $this->get_learning_object();
 		$object->set_locked($this->exportValue(ForumTopic :: PROPERTY_LOCKED));
-		$this->set_learning_object($object);
+		
 		return parent :: update_learning_object();
 	}
 	
@@ -48,13 +59,13 @@ class ForumTopicForm extends LearningObjectForm
 		parent :: set_values($defaults);			
 	}
 	
-	function setDefaults($defaults = array())
+	/*function setDefaults($defaults = array())
 	{
 		$object = $this->get_learning_object();
 		if($object != null){
 			$defaults[ForumTopic :: PROPERTY_LOCKED] = $object->get_locked();
 		}
 		parent :: setDefaults($defaults);
-	}
+	}*/
 }
 ?>

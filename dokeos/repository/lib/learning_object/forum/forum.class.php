@@ -13,12 +13,12 @@ class Forum extends LearningObject
 	
 	function get_locked()
 	{
-		return $this->get_additional_properties(self :: PROPERTY_LOCKED);
+		return $this->get_additional_property(self :: PROPERTY_LOCKED);
 	}
 	 
 	function set_locked($locked)
 	{
-		return $this->set_additional_properties(self :: PROPERTY_LOCKED, $locked);
+		return $this->set_additional_property(self :: PROPERTY_LOCKED, $locked);
 	}
 	
 	static function get_additional_property_names()
@@ -28,7 +28,7 @@ class Forum extends LearningObject
 	
 	function get_allowed_types()
 	{
-		return array('forum_topic');
+		return array('forum','forum_topic');
 	}
 }
 ?>
