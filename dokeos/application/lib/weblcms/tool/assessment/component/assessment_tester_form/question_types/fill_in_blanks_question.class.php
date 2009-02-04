@@ -16,7 +16,7 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
 			$name = $clo_question->get_ref().'_'.$i;
 			$formvalidator->addElement('text', $name, '('.$i.')');
 		}
-		$formvalidator->addElement('html', '<br />');
+		//$formvalidator->addElement('html', '<br />');
 		$formvalidator->addElement('html', $this->display_footer());
 	}
 }

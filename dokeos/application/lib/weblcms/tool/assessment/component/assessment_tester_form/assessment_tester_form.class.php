@@ -19,6 +19,29 @@ class AssessmentTesterForm extends FormValidator
 	{
 		parent :: __construct('assessment', 'post', $url);
 		$this->initialize($assessment, $page);
+		
+	}
+	
+	function toHtml()
+	{
+		$renderer = $this->defaultRenderer();
+		
+		$element_template = array();
+		$element_template[] = '<div class="row">';
+		
+		$element_template[] = '<div class="questionform" style="float: left; text-align: left;">';
+		$element_template[] = '<!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}';
+		$element_template[] = '</div>';
+		$element_template[] = '<div style="padding-left: 15px; overflow: hidden; font-weight: bold; color: #565656;">';
+		$element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="'. Theme :: get_common_image_path() .'/action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
+		$element_template[] = '</div>';
+		$element_template[] = '<div class="clear">&nbsp;</div>';
+		$element_template[] = '</div>';
+		$element_template = implode("\n", $element_template);
+		
+		$renderer->setElementTemplate($element_template);
+	
+		return parent :: toHtml();
 	}
 	
 	function initialize($assessment, $page) 
@@ -28,14 +51,16 @@ class AssessmentTesterForm extends FormValidator
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id);
 		$clo_questions = $dm->retrieve_complex_learning_object_items($condition);
 		
-		$this->addElement('html', '<br/><div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$assessment->get_icon_name().'.png);">');
-		$this->addElement('html', '<div class="title" style="font-size: 14px">');
-		$this->addElement('html', Translation :: get('TakeAssessment').': '.$assessment->get_title());
-		$this->addElement('html', '</div>');
-		$this->addElement('html', '<div class="description">');
+		//$this->addElement('html', '<br/><div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$assessment->get_icon_name().'.png);">');
+		//$this->addElement('html', '<div class="title" style="font-size: 14px">');
+		$this->addElement('html', '<h3>');
+		$this->addElement('html', $assessment->get_title());
+		//$this->addElement('html', '</div>');
+		$this->addElement('html', '</h3>');
+		/*$this->addElement('html', '<div class="description">');*/
 		$this->addElement('html', $assessment->get_description());
-		$this->addElement('html', '</div>');
-		$this->addElement('html', '</div>');
+		/*$this->addElement('html', '</div>');
+		$this->addElement('html', '</div>');*/
 		
 		$start_question = ($page - 1) * $assessment->get_questions_per_page() + 1;
 		$stop_question = $start_question + $assessment->get_questions_per_page();
@@ -46,22 +71,23 @@ class AssessmentTesterForm extends FormValidator
 			{
 				if ($count >= $start_question && $count < $stop_question)
 				{
-					$question_display = QuestionDisplay :: factory($clo_question);
+					$question_display = QuestionDisplay :: factory($clo_question, $start_question + $count);
 					if (isset($question_display))
 						$question_display->add_to($this);
 						
 					$this->addElement('html', '<br />');
 				}
-				$count++;
 			}
 			else
 			{
-				$question_display = QuestionDisplay :: factory($clo_question);
+				$question_display = QuestionDisplay :: factory($clo_question, $count);
 				if (isset($question_display))
 					$question_display->add_to($this);
 					
 				$this->addElement('html', '<br />');
 			}
+			
+			$count++;
 		}
 		//$this->addElement('submit', 'submit', Translation :: get('Submit'));
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('SubmitAnswers'), array('class' => 'positive'));

@@ -42,10 +42,12 @@ class RatingQuestionForm extends LearningObjectForm
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
-		$this->addElement('html', Translation :: get('ChoosePercentageOrRating'));
-		$elem[] = $this->createElement('radio', null, null, Translation :: get('Percentage').'<br/>', 1, array ('onclick' => 'javascript:hide_controls(\'buttons\')'));
-		$elem[] = $this->createElement('radio', null, null, Translation :: get('Rating').'<br/>', 0, array ('onclick' => 'javascript:show_controls(\'buttons\')'));
-		$this->addGroup($elem, 'type', '<br/>');
+		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
+		
+		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Percentage'), 1, array ('onclick' => 'javascript:hide_controls(\'buttons\')'));
+		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Rating'), 0, array ('onclick' => 'javascript:show_controls(\'buttons\')'));
+		$this->addGroup($elem,'type',Translation :: get('type'),'<br />',false);
+		
 		$this->addElement('html', '<div style="margin-left:25px;display:block;" id="buttons">');
 		$this->add_textfield(RatingQuestion :: PROPERTY_LOW, Translation :: get ('LowValue'), false);
 		$this->add_textfield(RatingQuestion :: PROPERTY_HIGH, Translation :: get('HighValue'), false);
@@ -63,14 +65,15 @@ class RatingQuestionForm extends LearningObjectForm
 			}
 			/* ]]> */
 				</script>\n");
+		$this->addElement('category');
 	}
 	protected function build_editing_form()
 	{
 		parent :: build_editing_form();
-		$this->addElement('html', Translation :: get('ChoosePercentageOrRating'));
-		$elem[] = $this->createElement('radio', null, null, Translation :: get('Percentage').'<br/>', 1, array ('onclick' => 'javascript:hide_controls(\'buttons\')'));
-		$elem[] = $this->createElement('radio', null, null, Translation :: get('Rating').'<br/>', 0, array ('onclick' => 'javascript:show_controls(\'buttons\')'));
-		$this->addGroup($elem, 'type', '<br/>');
+		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
+		$elem[] = $this->createElement('radio', null, null, Translation :: get('Percentage'), 1, array ('onclick' => 'javascript:hide_controls(\'buttons\')'));
+		$elem[] = $this->createElement('radio', null, null, Translation :: get('Rating'), 0, array ('onclick' => 'javascript:show_controls(\'buttons\')'));
+		$this->addGroup($elem, 'type', 'test');
 		$this->addElement('html', '<div style="margin-left:25px;display:block;" id="buttons">');
 		$this->add_textfield(RatingQuestion :: PROPERTY_LOW, Translation :: get ('LowValue'), false);
 		$this->add_textfield(RatingQuestion :: PROPERTY_HIGH, Translation :: get('HighValue'), false);
@@ -88,6 +91,7 @@ class RatingQuestionForm extends LearningObjectForm
 			}
 			/* ]]> */
 				</script>\n");
+		$this->addElement('category');
 	}
 	
 	function create_learning_object()

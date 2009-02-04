@@ -37,7 +37,7 @@ class OpenQuestionDisplay extends QuestionDisplay
 				break;
 		}
 		
-		$formvalidator->addElement('html', '<br/>');
+		//$formvalidator->addElement('html', '<br/>');
 		$formvalidator->addElement('html', $this->display_footer());
 	}
 }

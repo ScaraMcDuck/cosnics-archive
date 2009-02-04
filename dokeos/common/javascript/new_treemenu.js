@@ -3,6 +3,7 @@
 	$(document).ready(
 		function()
 		{
+			alert(test);
 			var tree = $('.myTree');
 			$('li', tree.get(0)).each(
 				function()

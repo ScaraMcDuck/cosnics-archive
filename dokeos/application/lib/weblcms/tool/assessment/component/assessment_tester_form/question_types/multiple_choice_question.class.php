@@ -17,11 +17,11 @@ class MultipleChoiceQuestionDisplay extends QuestionDisplay
 			$i = 0;
 			foreach($answers as $answer)
 			{
-				$elements[] = $formvalidator->createElement('radio', null, null, $answer->get_value().'<br/>', $i);
+				$elements[] = $formvalidator->createElement('radio', null, null, $answer->get_value(), $i);
 				$i++;
 			}
 			$name = $this->get_clo_question()->get_ref().'_0';
-			$formvalidator->addGroup($elements, $name, '<br/>');
+			$formvalidator->addGroup($elements, $name, null, '<br/>');
 		}
 		else if ($type == 'checkbox')
 		{
@@ -31,7 +31,7 @@ class MultipleChoiceQuestionDisplay extends QuestionDisplay
 				$formvalidator->addElement('checkbox', $name, '', $answer->get_value());
 			}
 		}
-		$formvalidator->addElement('html', '<br />');
+		//$formvalidator->addElement('html', '<br />');
 		$formvalidator->addElement('html', $this->display_footer());
 	}
 }
