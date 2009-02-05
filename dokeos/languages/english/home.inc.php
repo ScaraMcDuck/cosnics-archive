@@ -106,4 +106,8 @@ $lang['home']['ColumnNotDeleted'] = 'Column not deleted';
 $lang['home']['TabDeleted'] = 'Tab deleted';
 $lang['home']['TabNotDeleted'] = 'Tab not deleted';
 $lang['home']['Default'] = 'Default';
+$lang['home']['MyAccount'] = 'My account';
+$lang['home']['Repository'] = 'Repository';
+$lang['home']['Administration'] = 'Administration';
+$lang['home']['Logout'] = 'Logout';
 ?>
