@@ -33,6 +33,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 				{
 					$defaults['option'][$index] = $option->get_value();
 					$defaults['weight'][$index] = $option->get_weight();
+					$defaults['comment'][$index] = $option->get_comment();
 					if($object->get_answer_type() == 'checkbox')
 					{
 						$defaults['correct'][$index] = $option->is_correct();
@@ -67,6 +68,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 		foreach($values['option'] as $option_id => $value)
 		{
 			$weight = $values['weight'][$option_id];
+			$comment = $values['comment'][$option_id];
 			if($_SESSION['mc_answer_type'] == 'radio')
 			{
 				$correct = $values['correct'] == $option_id;
@@ -75,7 +77,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 			{
 				$correct = $values['correct'][$option_id];
 			}
-			$options[] = new MultipleChoiceQuestionOption($value,$correct,$weight);
+			$options[] = new MultipleChoiceQuestionOption($value,$correct,$weight,$comment);
 		}
 		$object->set_answer_type($_SESSION['mc_answer_type']);
 		$object->set_options($options);
@@ -150,6 +152,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 				}
 				$group[] = $this->createElement('text','option['.$option_number.']', '','size="40"');
 				$group[] = $this->createElement('text','weight['.$option_number.']','','size="2"  class="input_numeric"');
+				$group[] = $this->createElement('text','comment['.$option_number.']', '','size="40"');
 				if($number_of_options - count($_SESSION['mc_skip_options']) > 2)
 				{
 					$group[] = $this->createElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');

@@ -34,6 +34,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 				{
 					$defaults['option'][$index] = $option->get_value();
 					$defaults['weight'][$index] = $option->get_weight();
+					$defaults['comment'][$index] = $option->get_comment();
 				}
 			}
 		}
@@ -59,7 +60,8 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 		foreach($values['option'] as $option_id => $value)
 		{
 			$weight = $values['weight'][$option_id];
-			$options[] = new FillInBlanksQuestionAnswer($value, $weight);
+			$comment = $values['comment'][$option_id];
+			$options[] = new FillInBlanksQuestionAnswer($value, $weight, $comment);
 		}
 		$object->set_answers($options);
 	}
@@ -114,7 +116,8 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 			{
 				$group = array();
 				$group[] = $this->createElement('text','option['.$option_number.']', '','size="40"');
-				$group[] = $this->createElement('text','weight['.$option_number.']',Translation::get('Weight'),'size="2"  class="input_numeric"');
+				$group[] = $this->createElement('text','weight['.$option_number.']', '','size="2"  class="input_numeric"');
+				$group[] = $this->createElement('text','comment['.$option_number.']', '','size="40"');
 				if($number_of_options - count($_SESSION['mc_skip_options']) > 2)
 				{
 					$group[] = $this->createElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
