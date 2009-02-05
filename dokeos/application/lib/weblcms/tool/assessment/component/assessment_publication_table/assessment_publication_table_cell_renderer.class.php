@@ -68,7 +68,7 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 			{
 				$actions[] = array(
 				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
-				'label' => Translation :: get('PublishSurvey'), 
+				'label' => Translation :: get('InviteUsers'), 
 				'img' => Theme :: get_common_image_path().'action_publish_alternate.png'
 				);
 			}
