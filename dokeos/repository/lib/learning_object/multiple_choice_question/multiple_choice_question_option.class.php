@@ -19,6 +19,8 @@ class MultipleChoiceQuestionOption {
 	 * The weight of this answer in the question
 	 */
 	private $weight;
+	
+	private $comment;
 	/**
 	 * Creates a new option for a multiple choice question
 	 * @param string $value The value of the option
@@ -26,10 +28,16 @@ class MultipleChoiceQuestionOption {
 	 * answer to the question
 	 * @param int $weight The weight of this answer in the question
 	 */
-    function MultipleChoiceQuestionOption($value,$correct,$weight) {
+    function MultipleChoiceQuestionOption($value,$correct,$weight,$comment) {
     	$this->value = $value;
     	$this->correct = $correct;
     	$this->weight = $weight;
+    	$this->comment = $comment;
+    }
+    
+    function get_comment()
+    {
+    	return $this->comment;
     }
     /**
      * Gets the value of this option
