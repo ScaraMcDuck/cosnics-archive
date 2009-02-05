@@ -76,14 +76,16 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
 		$assessment = $publication->get_learning_object();
 		
-		echo '<div class="learning_object">';
+		echo '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/assessment.png);">';
 		echo '<div class="title">';
-		echo Translation :: get('AssessmentResults');
+		//echo Translation :: get('AssessmentResults');
+		echo $assessment->get_title();
 		echo '</div>';
 		//TODO: wrong translation on assessment? 'Assessment process: 3'
-		echo Translation :: get('Assessment').': '.$assessment->get_title();
-		echo '<br/>'.Translation :: get('Type').': '.$assessment->get_assessment_type();
-		echo '<br/>'.Translation :: get('Description').': '.$assessment->get_description();
+		//echo Translation :: get('Assessment').': '.$assessment->get_title();
+		//echo '<br/>'.Translation :: get('Type').': '.$assessment->get_assessment_type();
+		//echo '<br/>'.Translation :: get('Description').': '.$assessment->get_description();
+		echo $assessment->get_description();
 		echo '<div class="title">';
 		echo Translation :: get('Statistics');
 		echo '</div>';

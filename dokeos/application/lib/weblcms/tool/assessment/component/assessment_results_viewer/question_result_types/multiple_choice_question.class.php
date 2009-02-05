@@ -29,7 +29,7 @@ class MultipleChoiceQuestionResult extends QuestionResult
 					$answer_line = '<span style="color: red">' . $answer_line . '</span>';
 				}
 				
-				$answer_line = $result->get_answer() + 1 . '. ' . $answer_line;
+				//$answer_line = $result->get_answer() + 1 . '. ' . $answer_line;
 				
 				$answer_line .= ' ('.Translation :: get('Score').': '.$result->get_score().')';
 				
@@ -59,7 +59,7 @@ class MultipleChoiceQuestionResult extends QuestionResult
 					$answer_line = '<span style="color: red">' . $answer_line . '</span>';
 				}
 				
-				$answer_line = $result->get_answer() + 1 . '. ' . $answer_line;
+				//$answer_line = $result->get_answer() + 1 . '. ' . $answer_line;
 				$answer_line .= ' ('.Translation :: get('Score').': '.$result->get_score().')';
 				
 				$answer_lines[] = $answer_line;
@@ -76,14 +76,14 @@ class MultipleChoiceQuestionResult extends QuestionResult
 		$correct_lines = array();
 		foreach($answers as $key => $answer)
 		{
-			$correct_line = $key + 1 . '. ';
+			//$correct_line = $key + 1 . '. ';
 			if($answer->is_correct())
 			{
-				$correct_line .= '<b>' . $answer->get_value() . '</b>';
+				$correct_line = '<b>' . $answer->get_value() . '</b>';
 			}
 			else
 			{
-				$correct_line .= $answer->get_value();
+				$correct_line = $answer->get_value();
 			}
 			
 			$correct_lines[] = $correct_line;
@@ -96,7 +96,7 @@ class MultipleChoiceQuestionResult extends QuestionResult
 		$score_line = Translation :: get('Score').': '.$user_question_score.'/'.$clo_question->get_weight();
 		//$this->display_score($score_line);
 		
-		$this->display_answers($answer_lines, $correct_lines, false, false);
+		$this->display_answers($answer_lines, $correct_lines);
 		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 			$this->add_feedback_controls();
 			
