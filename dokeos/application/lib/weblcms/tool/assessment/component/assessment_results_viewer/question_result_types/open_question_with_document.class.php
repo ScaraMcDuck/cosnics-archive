@@ -14,7 +14,7 @@ class OpenQuestionWithDocumentResult extends QuestionResult
 		$user_score = $user_answer->get_score();
 		
 		$score_line = Translation :: get('Score').': '.$user_score.'/'.$user_question->get_weight();
-		$this->display_score($score_line);
+		//$this->display_score($score_line);
 		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 			$this->add_score_controls($this->get_clo_question()->get_weight());
 		
@@ -27,6 +27,7 @@ class OpenQuestionWithDocumentResult extends QuestionResult
 			$this->add_feedback_controls();
 			
 		$this->display_feedback();
+		$this->display_score($score_line);
 		$this->display_footer();
 	}
 	
@@ -44,7 +45,7 @@ class OpenQuestionWithDocumentResult extends QuestionResult
 		$html_document .= ' <a href="'.htmlentities($lo_document->get_url()).'">'.$lo_document->get_filename()."</a> (size: ".$lo_document->get_filesize().") <br/>";
 		$answer_lines[] = $html_document;
 		$this->display_answers($answer_lines);
-
+		//$this->display_score($user_score);
 		$this->display_footer();
 	}
 	

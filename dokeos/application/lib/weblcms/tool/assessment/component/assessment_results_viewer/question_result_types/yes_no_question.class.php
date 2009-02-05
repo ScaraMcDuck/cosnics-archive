@@ -22,7 +22,6 @@ class YesNoQuestionResult extends QuestionResult
 		$user_question_score = $user_score / $user_score_div * $user_question->get_weight();
 		
 		$score_line = Translation :: get('Score').': '.$user_question_score.'/'.$user_question->get_weight();
-		$this->display_score($score_line);
 		
 		$answer_lines[] = $answer->get_title().' ('.Translation :: get('Score').': '.$user_answer->get_score().')';
 		$this->display_answers($answer_lines);
@@ -30,6 +29,7 @@ class YesNoQuestionResult extends QuestionResult
 			$this->add_feedback_controls();
 			
 		$this->display_feedback();
+		$this->display_score($score_line);
 		$this->display_footer();
 	}
 	

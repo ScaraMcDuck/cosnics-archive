@@ -23,12 +23,15 @@ abstract class QuestionResult
 	
 	private $edit_rights;
 	
-	function QuestionResult($formvalidator, $q_results, $question, $edit_rights = 0) 
+	private $question_nr;
+	
+	function QuestionResult($formvalidator, $q_results, $question, $edit_rights = 0, $question_nr) 
 	{
 		$this->results = $q_results;
 		$this->question = $question;
 		$this->formvalidator = $formvalidator;
 		$this->edit_rights = $edit_rights;
+		$this->question_nr = $question_nr;
 		$this->init();
 	}
 	
@@ -90,25 +93,40 @@ abstract class QuestionResult
 	function display_question_header()
 	{
 		$learning_object = $this->question;
-		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
-		$html[] = '<div class="title">';
-		$html[] = Translation :: get('Question').' '.$learning_object->get_description();
+		//$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
+		//$html[] = '<div class="title">';
+		$html[] = '<div class="question">';
+		$html[] = '<div class="title" style="padding: 5px 5px 5px 35px; border:1px solid grey; background: #e6e6e6 url('. Theme :: get_common_image_path(). 'learning_object/' .$learning_object->get_icon_name().'.png) no-repeat; background-position: 5px 2px; height: 16px;">';
+		$html[] = Translation :: get('Question').' '. $this->question_nr . ': ' .$learning_object->get_title();
 		$html[] = '</div>';
+		$html[] = '<div class="description" style="padding-left: 35px;">';
+		$description = $learning_object->get_description();
+		
+		if($description != '<p>&#160;</p>')
+			$html[] = '<div style="font-style: italic; ">' . $description . '</div>';
+		else
+			$html[] = '<br />';
+		
+		$html[] = '<table border="0" style="width: 100%">';
+		$html[] = '<tr>';
+		$html[] = '<td style="width: 33%">' . Translation :: get('YourAnswer') . '</td>';
+		$html[] = '<td style="width: 33%">' . Translation :: get('CorrectAnswer') . '</td>';
+		$html[] = '<td style="width: 33%">' . Translation :: get('Feedback') . '</td>';
+		$html[] = '</tr><tr>';
 		
 		$this->formvalidator->addElement('html', implode("\n", $html));
 	}
 	
 	function display_score($score_line)
 	{
-		$html[] = '<div class="description">';
-		$html[] = $score_line.'<br/><br/>';
-		$html[] = '</div>';
+		//$html[] = '<div class="description">';
+		$html[] = '</tr></table><br /><b>' . $score_line. '</b><br/>';
+		//$html[] = '</div>';
 		$this->formvalidator->addElement('html', implode("\n", $html));
 	}
 	
 	function display_feedback()
 	{
-		$this->formvalidator->addElement('html', '<br/><div class="title">Feedback:</div>');
 		if ($this->results != null)
 		{
 			$result = $this->results[0];
@@ -116,14 +134,14 @@ abstract class QuestionResult
 			if ($feedback_id != null && $feedback_id != 0)
 			{
 				$feedback_lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($feedback_id, 'feedback');
-				$this->formvalidator->addElement('html', '<div class="description">'.$feedback_lo->get_title().'<br/><br/>'.$feedback_lo->get_description().$this->render_attachments($feedback_lo).'</div>');
+				$this->formvalidator->addElement('html', '<td>'.$feedback_lo->get_title().'<br/><br/>'.$feedback_lo->get_description().$this->render_attachments($feedback_lo).'</td>');
 			}
 			else
-				$this->formvalidator->addElement('html', '<div class="description">No feedback yet</div>');
+				$this->formvalidator->addElement('html', '<td>' . Translation :: get('NoFeedback') . '</td>');
 		}
 		else
 		{
-			$this->formvalidator->addElement('html', '<div class="description">Question not answered, no feedback possible</div>');
+			$this->formvalidator->addElement('html', '<td>' . Translation :: get('QuestionNotAnswered') . '</td>');
 		}
 	}
 	
@@ -148,60 +166,92 @@ abstract class QuestionResult
 		return '';
 	}
 	
-	function display_answers($answer_lines = null, $numbered = true)
-	{
+	function display_answers($answer_lines = null, $correct_answer_lines, $numbered = true, $use_list = true)
+	{ 
 		if ($answer_lines == null) 
 		{
-			return;
+			$this->formvalidator->addElement('html', '<td><br />'. Translation :: get('NoAnswer') . '<br /><br /></td><td>&nbsp;</td>');
 		}
 		else
 		{	
-			if (sizeof($answer_lines) == 1)
+			if (sizeof($answer_lines) == 1 && sizeof($correct_answer_lines) == 1)
 			{
-				$this->formvalidator->addElement('html', '<div class="title">'.Translation :: get('Answers').': </div><div class="description">'.$answer_lines[0].'</div>');
+				if($answer_lines[0] == '<p>&#160;</p>')
+					$answer_lines[0] = Translation :: get('NoAnswer');
+					
+				$this->formvalidator->addElement('html', '<td><br />' . $answer_lines[0] . '<br /><br /></td>');
+				$this->formvalidator->addElement('html', '<td>' . $correct_answer_lines[0] . '</td>');
 			}
 			else 
 			{
-				if ($numbered) 
-					$list_items = '<ol>';
-				else 
-					$list_items = '<ul>';
+				if($use_list)
+				{
+					if ($numbered) 
+					{
+						$list_items = '<ol>';
+						$list_correct_items = '<ol >';
+					}
+					else
+					{ 
+						$list_items = '<ul>';
+						$list_correct_items = '<ul>';
+					}
+				}
+				else
+				{
+					$list_items = '<ul style="list-style-type: none; padding: 0px;">';
+					$list_correct_items = '<ul style="list-style-type: none; padding: 0px;">';
+				}
 					
 				for ($i = 0; $i < sizeof($answer_lines); $i++)
 				{
 					$list_items .= '<li>'.$answer_lines[$i].'</li>';
 				}
 				
-				if ($numbered) 
-					$list_items .= '</ol>';
-				else 
-					$list_items .= '</ul>';
 				
-				$this->formvalidator->addElement('html', '<div class="title">'.Translation :: get('Answers').': </div><div class="description">'.$list_items.'</div>');
+				for ($i = 0; $i < sizeof($correct_answer_lines); $i++)
+				{
+					$list_correct_items .= '<li>'.$correct_answer_lines[$i].'</li>';
+				}
+				
+				if ($numbered || !$use_list) 
+				{
+					$list_items .= '</ol>';
+					$list_correct_items .= '</ol>';
+				}
+				else
+				{ 
+					$list_items .= '</ul>';
+					$list_correct_items .= '</ul>';
+				}
+				
+				$this->formvalidator->addElement('html', '<td>'.$list_items.'</td>');
+				$this->formvalidator->addElement('html', '<td>'. $list_correct_items . '</td>');
 			}
 		}
+
 	}
 	
 	function display_footer()
 	{
-		$this->formvalidator->addElement('html', '</div>');
+		$this->formvalidator->addElement('html', '<br /></div></div>');
 	}
 	
-	static function create_question_result($formvalidator, $question, $q_results, $edit_rights)
+	static function create_question_result($formvalidator, $question, $q_results, $edit_rights, $question_nr)
 	{
 
 		switch ($question->get_type())
 		{
 			case 'open_question':
-				return new OpenQuestionResult($formvalidator, $q_results, $question, $edit_rights);
+				return new OpenQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr);
 			case 'multiple_choice_question':
-				return new MultipleChoiceQuestionResult($formvalidator, $q_results, $question, $edit_rights);
+				return new MultipleChoiceQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr);
 			case 'matching_question':
-				return new MatchingQuestionResult($formvalidator, $q_results, $question, $edit_rights);
+				return new MatchingQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr);
 			case 'fill_in_blanks_question':
-				return new FillInBlanksQuestionResult($formvalidator, $q_results, $question, $edit_rights);
+				return new FillInBlanksQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr);
 			case 'rating_question':
-				return new ScoreQuestionResult($formvalidator, $q_results, $question, $edit_rights);
+				return new ScoreQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr);
 			case 'hotspot_question':
 				return null;
 			default:
