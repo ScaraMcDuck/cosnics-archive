@@ -1,5 +1,5 @@
 <?php
-$lang['myportfolio']['Publish'] = 'Publish survey';
+$lang['myportfolio']['Publish'] = 'Publish';
 $lang['myportfolio']['EditAndPublish'] = 'Edit and publish';
 $lang['myportfolio']['Find'] = 'Find';
 $lang['myportfolio']['Ok'] = 'OK';
