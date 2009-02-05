@@ -48,7 +48,7 @@ abstract class ResultsViewer extends FormValidator
 		switch ($assessment->get_assessment_type()) 
 		{
 			case Assessment :: TYPE_ASSIGNMENT:
-				$subcomponent = new ExerciseResultsViewer($user_assessment, $edit_rights, $url);
+				$subcomponent = new AssignmentResultsViewer($user_assessment, $edit_rights, $url);
 				break;
 			case Assessment :: TYPE_EXERCISE:
 				$subcomponent = new ExerciseResultsViewer($user_assessment, $edit_rights, $url);
