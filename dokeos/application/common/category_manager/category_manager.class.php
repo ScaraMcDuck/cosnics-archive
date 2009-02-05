@@ -28,6 +28,8 @@ abstract class CategoryManager
 	const ACTION_MOVE_CATEGORY = 'move_category';
 	const ACTION_CHANGE_CATEGORY_PARENT = 'change_category_parent';
 	const ACTION_COPY_GENERAL_CATEGORIES = 'copy_general_categories';
+	const ACTION_AJAX_MOVE_CATEGORIES = 'ajax_move_categories';
+	const ACTION_AJAX_DELETE_CATEGORIES = 'ajax_delete_categories';
 	
 	private $parent;
 	
@@ -74,6 +76,12 @@ abstract class CategoryManager
 				break;
 			case self :: ACTION_COPY_GENERAL_CATEGORIES :
 				$component = CategoryManagerComponent :: factory('GeneralCategoriesCopier', $this);
+				break;
+			case self :: ACTION_AJAX_MOVE_CATEGORIES :
+				$component = CategoryManagerComponent :: factory('AjaxCategoryMover', $this);
+				break;
+			case self :: ACTION_AJAX_DELETE_CATEGORIES :
+				$component = CategoryManagerComponent :: factory('AjaxCategoryDeleter', $this);
 				break;
 			default :
 				$component = CategoryManagerComponent :: factory('Browser', $this);

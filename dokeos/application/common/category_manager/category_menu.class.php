@@ -130,7 +130,8 @@ class CategoryMenu extends HTML_Menu
 		
 		$html[] = '<script type="text/javascript">';
 		$html[] = '';
-		$html[] = 'var test="' . $this->category_manager->get_url() . '";';
+		$html[] = 'var mover_url="' . $this->category_manager->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_AJAX_MOVE_CATEGORIES)) . '";';
+		$html[] = 'var deleter_url="' . $this->category_manager->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_AJAX_DELETE_CATEGORIES)) . '";';
 		$html[] = '';
 		$html[] = '</script>';
 		

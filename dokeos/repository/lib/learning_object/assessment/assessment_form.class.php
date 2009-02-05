@@ -84,16 +84,9 @@ class AssessmentForm extends LearningObjectForm
 		if ($object->get_questions_per_page() == null)
 			$object->set_questions_per_page(0);
 		
-		$ass_types = $object->get_types();
-		$value = $values[Assessment :: PROPERTY_ASSESSMENT_TYPE];
-		if (is_numeric($value))
-		{
-			$object->set_assessment_type($ass_types[$value]);
-		}
-		else
-		{
-			$object->set_assessment_type($value);
-		}
+		$ass_types = $object->get_types(); 
+		$object->set_assessment_type($ass_types[$values[Assessment :: PROPERTY_ASSESSMENT_TYPE]]);
+		
 		$this->set_learning_object($object);
 		return parent :: update_learning_object();
 	}

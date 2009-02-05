@@ -18,7 +18,9 @@ class ToolEditComponent extends ToolComponent
 
 			if( $form->validate() || $_GET['validated'])
 			{
-				$form->update_learning_object();
+				if(!$_GET['validated'])
+					$form->update_learning_object();
+					
 				if($form->is_version())
 				{	
 					$publication->set_learning_object($learning_object->get_latest_version());

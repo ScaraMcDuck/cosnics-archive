@@ -64,15 +64,6 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 			'img' => Theme :: get_common_image_path().'action_view_results.png'
 			);
 			
-			if ($assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
-			{
-				$actions[] = array(
-				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
-				'label' => Translation :: get('InviteUsers'), 
-				'img' => Theme :: get_common_image_path().'action_publish_alternate.png'
-				);
-			}
-			
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 			'label' => Translation :: get('Delete'), 
@@ -96,6 +87,15 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 			'label' => Translation :: get('Export'), 
 			'img' => Theme :: get_common_image_path().'action_export.png'
 			);
+			
+			if ($assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
+			{
+				$actions[] = array(
+				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
+				'label' => Translation :: get('InviteUsers'), 
+				'img' => Theme :: get_common_image_path().'action_invite_users.png'
+				);
+			}
 		} 
 		else
 		{
