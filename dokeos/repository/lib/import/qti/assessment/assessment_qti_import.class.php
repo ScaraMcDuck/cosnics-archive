@@ -13,8 +13,11 @@ class AssessmentQtiImport extends QtiImport
 		$title = $data['title'];
 		$assessment->set_title($title);
 		$assessment->set_owner_id($this->get_user()->get_id());
+		$assessment->set_parent_id(0);
 		$assessment->set_assessment_type(Assessment :: TYPE_EXERCISE);
+		//dump($assessment);
 		$assessment->create();
+
 		$testparts = $data['testPart'];
 		
 		if ($testparts[0] != null)
@@ -37,7 +40,7 @@ class AssessmentQtiImport extends QtiImport
 		$max_times_taken = $part['itemSessionControl']['maxAttempts'];
 		if ($max_times_taken != null)
 		{
-			$assessment->set_maximum_times_taken($max_times_taken);
+			$assessment->set_maximum_attempts($max_times_taken);
 			$assessment->update();
 		}
 		if ($assessment_sections[0] != null)
@@ -55,6 +58,7 @@ class AssessmentQtiImport extends QtiImport
 	
 	function import_assessment_section($assessment_section, $assessment)
 	{
+		echo 'hier3';
 		$descr = $assessment_section['title'];
 		$assessment->set_description($descr);
 
@@ -75,6 +79,7 @@ class AssessmentQtiImport extends QtiImport
 	
 	function import_assessment_item_ref($item_ref, $assessment)
 	{
+		echo 'hier2';
 		$item_ref_file = $item_ref['href'];
 		$weight = $item_ref['weight']['value'];
 		$dirparts = split('/', $this->get_learning_object_file());
@@ -94,16 +99,17 @@ class AssessmentQtiImport extends QtiImport
 	
 	function create_complex_question($assessment, $question, $weight)
 	{
+		echo 'hier';
 		$type = $question->get_type();
 		$complextype = 'complex_'.$type;
-		require_once Path::get_repository_path().'lib/learning_object/'.$type.'/'.$complextype.'.class.php';
+		require_once Path :: get_repository_path().'lib/learning_object/'.$type.'/'.$complextype.'.class.php';
 		$complextypecc = DokeosUtilities :: underscores_to_camelcase($complextype);
 		$question_clo = new $complextypecc;
 		$question_clo->set_ref($question->get_id());
 		$question_clo->set_parent($assessment->get_id());
 		$question_clo->set_weight($weight);
 		$question_clo->set_user_id($this->get_user()->get_id());
-		
+
 		return $question_clo->create();
 	}
 }

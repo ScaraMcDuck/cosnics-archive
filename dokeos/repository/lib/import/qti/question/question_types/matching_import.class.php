@@ -8,15 +8,11 @@ class MatchingQuestionQtiImport extends QuestionQtiImport
 	{
 		$data = $this->get_file_content_array();
 		
-		//$question_type = Question :: TYPE_MATCHING;
 		$question = new MatchingQuestion();
 		$title = $data['title'];
 		$descr = $data['itemBody']['matchInteraction']['prompt'];
 		$question->set_title($title);
-		$question->set_description($description);
-		//echo 'Matching question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
-		//$question = parent :: create_question($title, $descr, $question_type);
-		
+		$question->set_description($description);		
 		$this->create_answers($data, $question);
 		parent :: create_question($question);
 		return $question->get_id();

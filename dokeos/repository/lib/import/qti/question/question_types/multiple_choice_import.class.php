@@ -8,15 +8,12 @@ class MultipleChoiceQuestionQtiImport extends QuestionQtiImport
 	{
 		$data = $this->get_file_content_array();
 		
-		//$question_type = Question :: TYPE_MULTIPLE_CHOICE;
 		$question = new MultipleChoiceQuestion();
 		$question->set_answer_type('radio');
 		$title = $data['title'];
 		$descr = $data['itemBody']['choiceInteraction']['prompt'];
 		$question->set_title($title);
 		$question->set_description($description);
-		//echo 'Multiple choice question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
-		//$question = parent :: create_question($title, $descr, $question_type);
 		
 		$this->create_answers($data, $question);
 		parent :: create_question($question);

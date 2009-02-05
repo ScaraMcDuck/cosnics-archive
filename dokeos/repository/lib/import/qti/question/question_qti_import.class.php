@@ -67,43 +67,10 @@ class QuestionQtiImport extends QtiImport
 	
 	function create_question($question)
 	{
-		/*$question = new Question();
-		$question->set_title($title);
-		$question->set_description($description);
-		$question->set_question_type($question_type);
 		$question->set_owner_id($this->get_user()->get_id());
-	
-		$question->create();
-		
-		return $question;*/
-		$question->set_owner_id($this->get_user()->get_id());
+		$question->set_parent_id(0);
 		return $question->create();
 	}
-	
-	/*function create_answer($title, $description = '')
-	{
-		$answer = new Answer();
-		$answer->set_title($title);
-		$answer->set_description($description);
-		$answer->set_owner_id($this->get_user()->get_id());
-		
-		$answer->create();
-		
-		return $answer;
-	}*/
-	
-	/*function create_complex_answer($question, $answer, $score, $display_order = '1')
-	{
-		$clo_answer = new ComplexAnswer();
-		$clo_answer->set_ref($answer->get_id());
-		$clo_answer->set_parent($question->get_id());
-		$clo_answer->set_score($score);
-		$clo_answer->set_additional_property(ComplexAnswer :: PROPERTY_DISPLAY_ORDER, $display_order);
-		$clo_answer->set_user_id($this->get_user()->get_id());
-		
-		$clo_answer->create();
-		
-		return $clo_answer;
-	}*/
+
 }
 ?>

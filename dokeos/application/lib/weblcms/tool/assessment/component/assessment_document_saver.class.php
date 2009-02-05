@@ -22,6 +22,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 			$user_assessments = $track->retrieve_tracker_items($condition);
 			$filenames = $this->save_user_assessment_docs($user_assessments[0]);
 		}
+		//dump($filenames);
 		if (count($filenames) > 0)
 			$this->send_files($filenames, $id);
 		else
@@ -57,7 +58,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 		
 		while ($clo_question = $clo_questions->next_result())
 		{
-			$question = $rdm->retrieve_learning_object($clo_question->get_ref());
+			$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
 			if ($question->get_type() == 'open_question')
 			{
 				if ($question->get_question_type() == OpenQuestion :: TYPE_DOCUMENT || $question->get_question_type() == OpenQuestion :: TYPE_OPEN_WITH_DOCUMENT)
@@ -68,11 +69,11 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 		foreach ($questions as $question)
 		{
 			$track = new WeblcmsQuestionAttemptsTracker();
-			$conditiona = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_USER_ASSESSMENT_ID, $user_assessment->get_id());
+			$conditiona = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
 			$conditionq = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_id());
 			$condition = new AndCondition(array($conditiona, $conditionq));
 			$user_questions = $track->retrieve_tracker_items($condition);
-			
+			//dump($user_questions);
 			if ($question->get_question_type() == OpenQuestion :: TYPE_DOCUMENT)
 			{
 				$user_question = $user_questions[0];
@@ -81,7 +82,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 			{
 				$user_question = $user_questions[1];
 			}
-			$document = $rdm->retrieve_learning_object($user_answer->get_answer(), 'document');
+			$document = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_question->get_answer(), 'document');
 			$filenames[] = Path :: get(SYS_REPO_PATH).$document->get_path();
 		}
 		
