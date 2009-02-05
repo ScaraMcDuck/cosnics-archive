@@ -7,8 +7,6 @@ class FillInBlanksQuestionQtiImport extends QuestionQtiImport
 	function import_learning_object()
 	{
 		$data = $this->get_file_content_array();
-		
-		//$question_type = Question :: TYPE_FILL_IN_BLANKS;
 		$title = $data['title'];
 		
 		//description may not be in prompt, but in a <p> tag, maybe even with an embedded blockquote
@@ -20,8 +18,6 @@ class FillInBlanksQuestionQtiImport extends QuestionQtiImport
 		{
 			$descr .= $data['itemBody']['blockquote']['_content'];
 		}
-		//echo 'Fill in blanks question<br/>'.$question_type.'<br/>Title: '.$title.'<br/>Description: '.$descr;
-		//$question = parent :: create_question($title, $descr, $question_type);
 		$question = new FillInBlanksQuestion();
 		$question->set_title($title);
 		$question->set_description($description);
