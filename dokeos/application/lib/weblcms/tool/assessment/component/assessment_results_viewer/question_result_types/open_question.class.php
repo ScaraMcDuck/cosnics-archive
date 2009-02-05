@@ -19,7 +19,7 @@ class OpenQuestionResult extends QuestionResult
 				$user_score = $result->get_score();
 		
 				$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
-				$this->display_score($score_line);
+				//$this->display_score($score_line);
 				if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 					$this->add_score_controls($this->get_clo_question()->get_weight());
 		
@@ -43,7 +43,7 @@ class OpenQuestionResult extends QuestionResult
 				$user_score = $result->get_score();
 		
 				$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
-				$this->display_score($score_line);
+				//$this->display_score($score_line);
 				if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 					$this->add_score_controls($this->get_clo_question()->get_weight());
 		
@@ -69,6 +69,7 @@ class OpenQuestionResult extends QuestionResult
 			$this->add_feedback_controls();
 			
 		$this->display_feedback();
+		$this->display_score($score_line);
 		$this->display_footer();
 	}
 	

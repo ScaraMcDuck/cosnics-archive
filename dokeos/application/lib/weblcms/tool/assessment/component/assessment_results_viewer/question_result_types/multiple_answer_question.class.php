@@ -25,7 +25,7 @@ class MultipleAnswerQuestionResult extends QuestionResult
 		$user_question_score = $user_score / $user_score_div * $clo_question->get_weight();
 		
 		$score_line = Translation :: get('Score').': '.$user_question_score.'/'.$clo_question->get_weight();
-		$this->display_score($score_line);
+		//$this->display_score($score_line);
 		
 		foreach ($user_answers as $user_answer)
 		{
@@ -37,6 +37,7 @@ class MultipleAnswerQuestionResult extends QuestionResult
 			$this->add_feedback_controls();
 			
 		$this->display_feedback();
+		$this->display_score($score_line);
 		$this->display_footer();
 	}
 	

@@ -10,14 +10,15 @@ class PercentageQuestionResult extends QuestionResult
 		
 		$user_answers = parent :: get_user_answers();
 		
-		$score_line = Translation :: get('YourRating').': '.$user_answers[0]->get_extra().'/100';
-		$this->display_score($score_line);
+		$score_line[] = Translation :: get('YourRating').': '.$user_answers[0]->get_extra().'/100';
+		//$this->display_score($score_line);
 		
-		$this->display_answers();
+		$this->display_answers($score_line);
 		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 			$this->add_feedback_controls();
 			
 		$this->display_feedback();
+		$this->display_score();
 		$this->display_footer();
 	}
 	
@@ -28,9 +29,9 @@ class PercentageQuestionResult extends QuestionResult
 		$user_answers = parent :: get_user_answers();
 		
 		$score_line = Translation :: get('YourRating').': '.$user_answers[0]->get_extra().'/100';
-		$this->display_score($score_line);
+		$this->display_score();
 		
-		$this->display_answers();
+		$this->display_answers($score_line);
 		$this->display_footer();
 	}
 	

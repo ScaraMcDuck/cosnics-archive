@@ -30,22 +30,34 @@ class MatchingQuestionResult extends QuestionResult
 		$total_score = $total_score / $total_div * $this->get_clo_question()->get_weight();
 		$total_div = $this->get_clo_question()->get_weight();
 		$score_line = Translation :: get('Score').': '.$total_score.'/'.$total_div;
-		$this->display_score($score_line);
+		//$this->display_score($score_line);
 		
 		foreach ($answers_arr as $answer)
 		{
-			$line = $answer['match'].' '.Translation :: get('LinkedTo').' '.$answer['answer'].' ('.Translation :: get('Score').': '.$answer['score'].')';
-			if ($answer['score'] == 0)
+			$answer_line = $answer['match'].' <b>'.Translation :: get('matches').'</b> ';
+		
+			if ($answer['answer'] != $answer['correct'])
 			{
-				$line .= ' '.Translation :: get('CorrectAnswer').': '.$answer['correct'];
+				$answer_line .= '<span style="color: red;">' . $answer['answer'] . '</span>';
 			}
-			$answer_lines[] = $line;
+			else
+			{
+				$answer_line .= '<span style="color: green;">' . $answer['answer'] . '</span>';
+			}
+			
+			$answer_line .= ' ('.Translation :: get('Score').': '.$answer['score'].')';
+			
+			$correct_answer_line = $answer['match'].' <b>'.Translation :: get('matches').'</b> '.$answer['correct'];
+			
+			$answer_lines[] = $answer_line;
+			$correct_answer_lines[] = $correct_answer_line;
 		}
-		$this->display_answers($answer_lines);
+		$this->display_answers($answer_lines, $correct_answer_lines);
 		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 			$this->add_feedback_controls();
 			
 		$this->display_feedback();
+		$this->display_score($score_line);
 		$this->display_footer();
 	}
 	
@@ -64,8 +76,8 @@ class MatchingQuestionResult extends QuestionResult
 		
 		foreach ($answers as $answer)
 		{
-			$line = $answer['answer']->get_title().' '.Translation :: get('LinkedTo').' '.$answer['link']->get_title();
-			$answer_lines[] = $line;
+			$answer_line = $answer['answer']->get_title().' '.Translation :: get('LinkedTo').' '.$answer['link']->get_title();
+			$answer_lines[] = $answer_line;
 		}
 		$this->display_answers($answer_lines);
 		$this->display_footer();

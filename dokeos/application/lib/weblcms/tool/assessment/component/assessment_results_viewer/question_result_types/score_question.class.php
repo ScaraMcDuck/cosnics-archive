@@ -12,14 +12,14 @@ class ScoreQuestionResult extends QuestionResult
 		$low = parent :: get_question()->get_low();
 		$high = parent :: get_question()->get_high();
 
-		$score_line = Translation :: get('YourRating').': '.$results[0]->get_answer().' ('.Translation :: get('from').' '.$low.' '.Translation :: get('to').' '.$high.')';
-		$this->display_score($score_line);
+		$score_line[] = Translation :: get('YourRating').': '.$results[0]->get_answer().' ('.Translation :: get('from').' '.$low.' '.Translation :: get('to').' '.$high.')';
 		
-		$this->display_answers();
+		$this->display_answers($score_line);
 		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 			$this->add_feedback_controls();
 			
 		$this->display_feedback();
+		$this->display_score();
 		$this->display_footer();
 	}
 	
@@ -34,9 +34,9 @@ class ScoreQuestionResult extends QuestionResult
 		$high = $clo_answers[1];
 		
 		$score_line = Translation :: get('YourRating').': '.$user_answers[0]->get_extra().' ('.Translation :: get('from').' '.$low->get_score().' '.Translation :: get('to').' '.$high->get_score().')';
-		$this->display_score($score_line);
+		$this->display_score();
 		
-		$this->display_answers();
+		$this->display_answers($score_line);
 		$this->display_footer();
 	}
 	
