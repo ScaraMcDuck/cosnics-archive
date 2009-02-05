@@ -6,7 +6,7 @@ class OpenQuestionScore extends Score
 	
 	function get_score()
 	{
-		return 0;
+		return null;
 	}
 }
 ?>

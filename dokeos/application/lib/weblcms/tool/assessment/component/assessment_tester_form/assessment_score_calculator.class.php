@@ -20,7 +20,10 @@ class AssessmentScoreCalculator
 		{
 			$this->check_create_answer($datamanager, $assessment_tracker, $values, $clo_question);
 		}
-		$assessment_tracker->set_total_score($this->calculate_score($assessment_tracker));
+		if ($assessment->get_assessment_type() != Assessment :: TYPE_ASSIGNMENT)
+			$assessment_tracker->set_total_score($this->calculate_score($assessment_tracker));
+		else
+			$assessment_tracker->set_total_score(null);
 		$assessment_tracker->update();
 	}
 	

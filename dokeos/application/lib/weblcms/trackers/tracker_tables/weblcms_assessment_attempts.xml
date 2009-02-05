@@ -6,7 +6,7 @@
   <property name="course_id" type="integer" unsigned="1" notnull="1" />
   <property name="assessment_id" type="integer" unsigned="1" notnull="1" />
   <property name="date" type="timestamp" notnull="1" />
-  <property name="total_score" type="integer" notnull="1" />
+  <property name="total_score" type="integer" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
