@@ -1,12 +1,16 @@
 <?php
 require_once dirname(__FILE__).'/../../web_application.class.php';
+require_once dirname(__FILE__).'/lassi_component.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 
 class Lassi extends WebApplication
 {
 	const APPLICATION_NAME = 'lassi';
+	
 	const PARAM_ACTION = 'go';
+	
+	const ACTION_BROWSE_LASSI = 'browse';
 	
 	private $user;
 	private $parameters;
@@ -20,7 +24,15 @@ class Lassi extends WebApplication
 	
 	public function run()
 	{
-		echo 'Lassi !';
+		$action = $this->get_action();
+		$component = null;
+		switch ($action)
+		{
+			default :
+				$this->set_action(self :: ACTION_BROWSE_LASSI);
+				$component = LassiComponent :: factory('Browser', $this);
+		}
+		$component->run();
 	}
 	
 	/**
