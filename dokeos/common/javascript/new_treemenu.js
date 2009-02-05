@@ -3,7 +3,6 @@
 	$(document).ready(
 		function()
 		{
-			alert(test);
 			var tree = $('.myTree');
 			$('li', tree.get(0)).each(
 				function()
@@ -74,7 +73,8 @@
 					{
 						id = $(this).parents(".myTree").attr("id");
 						
-						$.post("common/html/menu/ajax/" + id + ".php", 
+						//$.post("common/html/menu/ajax/" + id + ".php", 
+						$.post(mover_url,
 					    {
 							target : this.id,
 							source : $('span', dropped).attr("id")
@@ -141,7 +141,8 @@
 					{
 						id = $(this).parents(".myTree").attr("id");
 						
-						$.post("common/html/menu/ajax/" + id + "_remover.php", 
+						//$.post("common/html/menu/ajax/" + id + "_remover.php",
+						$.post(deleter_url,
 					    {
 							item : $('span', dropped).attr("id")
 						},  function(data) 
