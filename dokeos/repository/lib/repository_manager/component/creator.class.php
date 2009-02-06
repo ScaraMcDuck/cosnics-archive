@@ -62,7 +62,9 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		{
 			foreach ($this->get_learning_object_types(true) as $type)
 			{
-				$type_options[$type] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
+				$setting = PlatformSetting :: get('allow_' . $type . '_creation', 'repository');
+				if($setting)
+					$type_options[$type] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
 			}
 		}
 		
@@ -151,9 +153,13 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 				
 				foreach ($this->get_learning_object_types(true) as $type)
 				{
-					echo '<a href="'. $this->get_url(array_merge($extra_params, array())) .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/' . $type . '.png);">';
-					echo Translation :: get(LearningObject :: type_to_class($type).'TypeName');
-					echo '</div></a>';
+					$setting = PlatformSetting :: get('allow_' . $type . '_creation', 'repository');
+					if($setting)
+					{
+						echo '<a href="'. $this->get_url(array_merge($extra_params, array())) .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/' . $type . '.png);">';
+						echo Translation :: get(LearningObject :: type_to_class($type).'TypeName');
+						echo '</div></a>';
+					}
 				}
 				
 				echo '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/repository.js' .'"></script>';
