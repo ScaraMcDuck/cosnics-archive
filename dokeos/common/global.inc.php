@@ -205,7 +205,7 @@ else
 
 // TODO: Are these includes still necessary ?
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
- 
+//dump($_SESSION); dump($_SERVER);
 // Login
 if(isset($_POST['login']))
 {
@@ -215,6 +215,16 @@ if(isset($_POST['login']))
 	{
 		Session :: register('_uid', $user->get_id());
 		Events :: trigger_event('login', 'user', array('server' => $_SERVER, 'user' => $user));
+		
+		$request_uri = Session :: retrieve('request_uri');
+		
+		if($request_uri)
+		{
+			$request_uris = explode("/", $request_uri);
+			$request_uri = array_pop($request_uris);
+			header('Location: ' . $request_uri);
+		}
+		
 		$login_page = PlatformSetting :: get('page_after_login');
 		if($login_page == 'weblcms')
 			header('Location: run.php?application=weblcms');
@@ -234,6 +244,10 @@ if(isset($_POST['login']))
 		header('Location: index.php?loginFailed=1&message=' . $user);
 		exit;
 	}
+}
+else
+{
+	Session :: unregister('request_uri');
 }
 // Log out
 if (isset($_GET['logout']))
