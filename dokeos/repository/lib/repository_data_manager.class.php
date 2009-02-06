@@ -11,6 +11,8 @@ require_once dirname(__FILE__).'/data_manager/database/database_learning_object_
 require_once dirname(__FILE__).'/../../application/lib/application.class.php';
 require_once Path :: get_home_path() . 'lib/home_data_manager.class.php';
 require_once Path :: get_admin_path().'lib/admin_manager/admin_manager.class.php';
+require_once dirname(__FILE__).'/user_view.class.php';
+require_once dirname(__FILE__).'/user_view_rel_learning_object.class.php';
 
 /**
  *	This is a skeleton for a data manager for the learning object repository.
@@ -852,7 +854,17 @@ abstract class RepositoryDataManager
 	abstract function count_categories($conditions = null);
 	abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
-
+	abstract function get_next_user_view_id();
+	abstract function delete_user_view($user_view);
+	abstract function update_user_view($user_view);
+	abstract function create_user_view($user_view);
+	abstract function count_user_views($conditions = null);
+	abstract function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	
+	abstract function update_user_view_rel_learning_object($user_view_rel_learning_object);
+	abstract function create_user_view_rel_learning_object($user_view_rel_learning_object);
+	abstract function retrieve_user_view_rel_learning_objects($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	
 	/**
 	 * Gets the number of categories the user has defined in his repository
 	 * @param int $user_id

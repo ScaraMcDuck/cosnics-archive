@@ -62,7 +62,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->prefix = 'repository_';
 		$this->connection->query('SET NAMES utf8');
 		
-		$this->database = new Database(array('repository_category' => 'cat'));
+		$this->database = new Database(array('repository_category' => 'cat', 'user_view' => 'uv', 'user_view_rel_learning_object' => 'uvrlo'));
 		$this->database->set_prefix('repository_'); 
 	}
 
@@ -1462,6 +1462,73 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res->free();
 	
 		return $record[0] + 1;
+	}
+
+	function get_next_user_view_id()
+	{
+		return $this->database->get_next_id('user_view');
+	}
+	
+	function delete_user_view($user_view)
+	{
+		$condition = new EqualityCondition(UserView :: PROPERTY_ID, $user_view->get_id());
+		$success = $this->database->delete('user_view', $condition);
+		
+		$condition = new EqualityCondition(UserViewRelLearningObject :: PROPERTY_VIEW_ID, $user_view->get_id());
+		$success &= $this->database->delete('user_view_rel_learning_object', $condition);
+		
+		return $success;
+	}
+	
+	function update_user_view($user_view)
+	{
+		$condition = new EqualityCondition(UserView :: PROPERTY_ID, $user_view->get_id());
+		return $this->database->update($user_view, $condition);
+	}
+	
+	function create_user_view($user_view)
+	{
+		return $this->database->create($user_view);
+	}
+	
+	function count_user_views($conditions = null)
+	{
+		return $this->database->count_objects('user_view', $conditions);
+	}
+	
+	function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->database->retrieve_objects('user_view', $condition, $offset, $count, $order_property, $order_direction);
+	}
+	
+	function update_user_view_rel_learning_object($user_view_rel_learning_object)
+	{
+		$conditions[] = new EqualityCondition(UserViewRelLearningObject :: PROPERTY_VIEW_ID, $user_view_rel_learning_object->get_view_id());
+		$conditions[] = new EqualityCondition(UserViewRelLearningObject :: PROPERTY_LEARNING_OBJECT_TYPE, $user_view_rel_learning_object->get_learning_object_type());
+		
+		$condition = new AndCondition($conditions);
+		
+		return $this->database->update($user_view_rel_learning_object, $condition);
+	}
+	
+	function create_user_view_rel_learning_object($user_view_rel_learning_object)
+	{
+		return $this->database->create($user_view_rel_learning_object);
+	}
+	
+	function retrieve_user_view_rel_learning_objects($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->database->retrieve_objects('user_view_rel_learning_object', $condition, $offset, $count, $order_property, $order_direction);
+	}
+	
+	function reset_user_view($user_view)
+	{
+		$query = 'UPDATE '.$this->database->escape_table_name('user_view_rel_learning_object').' SET '.
+				 $this->database->escape_column_name(UserViewRelLearningObject :: PROPERTY_VISIBILITY).'=1 WHERE '.
+				 $this->database->escape_column_name(UserViewRelLearningObject :: PROPERTY_VIEW_ID).'=?;';
+				 
+		$statement = $this->database->get_connection()->prepare($query); 
+		return $statement->execute(array($user_view->get_id()));
 	}
 
 }

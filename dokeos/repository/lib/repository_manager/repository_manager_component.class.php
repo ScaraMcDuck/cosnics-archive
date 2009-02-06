@@ -498,5 +498,35 @@ abstract class RepositoryManagerComponent {
 	{
 		return $this->get_parent()->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
 	}
+	
+	function get_browse_user_views_url()
+	{
+		return $this->get_parent()->get_browse_user_views_url();
+	}
+	
+	function get_create_user_view_url()
+	{
+		return $this->get_parent()->create_user_view_url();
+	}
+	
+	function get_update_user_view_url($user_view_id)
+	{
+		return $this->get_parent()->update_user_view_url($user_view_id);
+	}
+	
+	function get_delete_user_view_url($user_view_id)
+	{
+		return $this->get_parent()->delete_user_view_url($user_view_id);
+	}
+	
+	function count_user_views($conditions = null)
+	{
+		return $this->get_parent()->count_user_views($conditions);
+	}
+	
+	function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->get_parent()->retrieve_user_views($condition, $offset, $count, $order_property, $order_direction);
+	}
 }
 ?>
