@@ -9,5 +9,103 @@
 				</options>
 			</setting>
 		</category>
+		<category name="allowed_learning_objects">
+			<setting name="allow_announcement_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_announcement_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_assessment_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_assessment_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_blog_item_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_blog_item_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_calendar_event_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_calendar_event_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_description_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_description_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_document_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_document_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_feedback_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_feedback_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_fill_in_blanks_question_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_fill_in_blanks_question_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_forum_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_forum_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_forum_topic_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_forum_topic_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_forum_post_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_forum_post_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_hotspot_question_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_hotspot_question_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_introduction_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_introduction_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_learning_path_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_learning_path_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_learning_path_chapter_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_learning_path_chapter_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_learning_path_item_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_learning_path_item_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_link_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_link_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_matching_question_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_matching_question_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_multiple_choice_question_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_multiple_choice_question_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_open_question_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_open_question_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_personal_message_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_personal_message_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_portal_home_creation" field="checkbox" default="0">
+				<options type="static"><option name="allow_portal_home_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_portfolio_item_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_portfolio_item_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_profile_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_profile_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_rating_question_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_rating_question_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_rss_feed_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_rss_feed_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_survey_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_survey_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_system_announcement_creation" field="checkbox" default="0">
+				<options type="static"><option name="allow_system_announcement_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_user_info_content_creation" field="checkbox" default="0">
+				<options type="static"><option name="allow_user_info_content_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_user_info_definition_creation" field="checkbox" default="0">
+				<options type="static"><option name="allow_user_info_definition_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_wiki_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_wiki_creation" value="1" /></options>
+			</setting>
+			<setting name="allow_wiki_page_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_wiki_page_creation" value="1" /></options>
+			</setting>
+		</category>
 	</settings>
 </application>
