@@ -233,10 +233,31 @@ class Display
 		}
 		self :: header($trail);
 		$home_url = Path :: get(WEB_PATH);
-		self :: error_message("<p>Either you are not allowed here or your session has expired.<br><br>You may try <a href=\"$home_url\" target=\"_top\">reconnecting on the home page</a>.</p>");
+		
+		$html[] = '<p>Either you are not allowed here or your session has expired.</p>'; //<br><br>You may try <a href=\"$home_url\" target=\"_top\">reconnecting on the home page</a>.</p>';
+		$html[] = self :: display_login_form();
+		
+		self :: error_message(implode("\n", $html));
 		$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
 		self :: footer();
 		exit;
+	}
+	
+	static function display_login_form()
+	{
+		$form = new FormValidator('formLogin', 'post', Path :: get(WEB_PATH) . 'index.php');
+		$renderer =& $form->defaultRenderer();
+		//$renderer->setElementTemplate('<div>{label}&nbsp;<!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required --></div><div>{element}</div>');
+		$renderer->setElementTemplate('<div class="row">{element}</div>');
+		//$renderer->setElementTemplate('<div>{element}</div>','submitAuth');
+		$form->setRequiredNote(null);
+		$form->addElement('text','login',Translation :: get('UserName'), array('size' => 20, 'onclick' => 'this.value=\'\';'));
+		$form->addRule('login', Translation :: get('ThisFieldIsRequired'), 'required');
+		$form->addElement('password','password',Translation :: get('Pass'), array('size' => 20, 'onclick' => 'this.value=\'\';'));
+		$form->addRule('password', Translation :: get('ThisFieldIsRequired'), 'required');
+		$form->addElement('style_submit_button', 'submitAuth', Translation :: get('Login'), array('class' => 'positive login'));
+		$form->setDefaults(array('login' => Translation :: get('Username'), 'password' => '*******'));
+		return $form->toHtml();
 	}
 	
 	public static function tool_title($titleElement)
