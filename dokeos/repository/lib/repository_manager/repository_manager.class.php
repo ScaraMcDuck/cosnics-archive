@@ -99,6 +99,13 @@ class RepositoryManager
 	const ACTION_PUBLISH_LEARNING_OBJECT = 'publish';
 	const ACTION_MANAGE_CATEGORIES = 'manage_categories';
 	
+	const ACTION_BROWSE_USER_VIEWS = 'browse_views';
+	const ACTION_CREATE_USER_VIEW = 'create_view';
+	const ACTION_DELETE_USER_VIEW = 'delete_view';
+	const ACTION_UPDATE_USER_VIEW = 'update_view';
+	
+	const PARAM_USER_VIEW = 'user_view';
+	
 	/**#@-*/
    /**#@+
     * Property of this repository manager.
@@ -231,6 +238,18 @@ class RepositoryManager
 				break;
 			case self :: ACTION_MANAGE_CATEGORIES : 
 				$component = RepositoryManagerComponent :: factory('CategoryManager', $this);
+				break;
+			case self :: ACTION_BROWSE_USER_VIEWS : 
+				$component = RepositoryManagerComponent :: factory('UserViewBrowser', $this);
+				break;
+			case self :: ACTION_CREATE_USER_VIEW : 
+				$component = RepositoryManagerComponent :: factory('UserViewCreator', $this);
+				break;
+			case self :: ACTION_UPDATE_USER_VIEW : 
+				$component = RepositoryManagerComponent :: factory('UserViewUpdater', $this);
+				break;
+			case self :: ACTION_DELETE_USER_VIEW : 
+				$component = RepositoryManagerComponent :: factory('UserViewDeleter', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
@@ -1190,6 +1209,18 @@ class RepositoryManager
 		return $rdm->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
+	function count_user_views($conditions = null)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->count_user_views($conditions);
+	}
+	
+	function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->retrieve_user_views($condition, $offset, $count, $order_property, $order_direction);
+	}
+	
     /**
 	 * Renders the users block and returns it. 
 	 */
@@ -1197,6 +1228,28 @@ class RepositoryManager
 	{
 		$repository_block = RepositoryBlock :: factory($this, $block);
 		return $repository_block->run();
+	}
+	
+	function get_browse_user_views_url()
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_USER_VIEWS));
+	}
+	
+	function create_user_view_url()
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_USER_VIEW));
+	}
+	
+	function update_user_view_url($user_view_id)
+	{
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_USER_VIEW,
+			self :: PARAM_USER_VIEW => $user_view_id));
+	}
+	
+	function delete_user_view_url($user_view_id)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_USER_VIEW,
+			self :: PARAM_USER_VIEW => $user_view_id));
 	}
 }
 ?>
