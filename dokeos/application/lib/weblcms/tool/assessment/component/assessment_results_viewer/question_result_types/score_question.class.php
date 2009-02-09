@@ -14,10 +14,21 @@ class ScoreQuestionResult extends QuestionResult
 
 		$score_line[] = Translation :: get('YourRating').': '.$results[0]->get_answer().' ('.Translation :: get('from').' '.$low.' '.Translation :: get('to').' '.$high.')';
 		
-		$this->display_answers($score_line);
+		/*$this->display_answers($score_line);
 			
 		$this->display_feedback();
 		$this->display_score();
+		
+		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
+			$this->add_feedback_controls();
+		
+		$this->display_footer();*/
+		
+		$this->display_answers($score_line);
+		$this->display_question_feedback();
+		
+		$this->display_score();
+		$this->display_feedback();
 		
 		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 			$this->add_feedback_controls();
@@ -52,12 +63,23 @@ class ScoreQuestionResult extends QuestionResult
 
 		$score_line[] = Translation :: get('YourRating').': '.$results[0]->get_answer().' ('.Translation :: get('from').' '.$low.' '.Translation :: get('to').' '.$high.')';
 		
-		$this->display_answers($score_line);
+		/*$this->display_answers($score_line);
 		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 			$this->add_feedback_controls();
 			
 		$this->display_feedback();
 		$this->display_score();
+		$this->display_footer();*/
+		
+		$this->display_answers($score_line);
+		$this->display_question_feedback();
+		
+		$this->display_score();
+		$this->display_feedback();
+		
+		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
+			$this->add_feedback_controls();
+		
 		$this->display_footer();
 	}
 }

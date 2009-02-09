@@ -53,9 +53,10 @@ class MatchingQuestionResult extends QuestionResult
 			$correct_answer_lines[] = $correct_answer_line;
 		}
 		$this->display_answers($answer_lines, $correct_answer_lines);
-
-		$this->display_feedback();
+		$this->display_question_feedback();
+		
 		$this->display_score($score_line);
+		$this->display_feedback();
 		
 		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 			$this->add_feedback_controls();
@@ -133,12 +134,16 @@ class MatchingQuestionResult extends QuestionResult
 			$answer_lines[] = $answer_line;
 			$correct_answer_lines[] = $correct_answer_line;
 		}
+		
 		$this->display_answers($answer_lines, $correct_answer_lines);
+		$this->display_question_feedback();
+		
+		$this->display_score($score_line);
+		$this->display_feedback();
+		
 		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 			$this->add_feedback_controls();
-			
-		$this->display_feedback();
-		$this->display_score($score_line);
+		
 		$this->display_footer();
 	}
 }

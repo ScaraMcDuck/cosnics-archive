@@ -415,4 +415,6 @@ $lang['weblcms']['TakeAssessment'] = 'Take assessment';
 $lang['weblcms']['NoDocumentsForAssessment'] = 'No documents available for this assessment';
 $lang['weblcms']['FileMTimeWarning'] = ' ';
 $lang['weblcms']['MoveSelected'] = 'Move selected';
+$lang['weblcms']['TeacherFeedback'] = 'Teacher feedback';
+$lang['weblcms']['Comments'] = 'Comments';
 ?>

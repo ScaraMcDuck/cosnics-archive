@@ -22,10 +22,21 @@ class OpenQuestionWithDocumentResult extends QuestionResult
 		$html_document = '<img src="'.Theme :: get_common_image_path().'learning_object/document.png" alt="">';
 		$html_document .= ' <a href="'.htmlentities($lo_document->get_url()).'">'.$lo_document->get_filename()."</a> (size: ".$lo_document->get_filesize().") <br/>";
 		$answer_lines[] = $html_document;
-		$this->display_answers($answer_lines);
+		/*$this->display_answers($answer_lines);
 			
 		$this->display_feedback();
 		$this->display_score($score_line);
+		
+		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
+			$this->add_feedback_controls();
+		
+		$this->display_footer();*/
+		
+		$this->display_answers($answer_lines);
+		$this->display_question_feedback();
+		
+		$this->display_score($score_line);
+		$this->display_feedback();
 		
 		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 			$this->add_feedback_controls();
