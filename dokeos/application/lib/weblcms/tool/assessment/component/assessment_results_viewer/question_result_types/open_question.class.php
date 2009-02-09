@@ -60,7 +60,7 @@ class OpenQuestionResult extends QuestionResult
 				break;
 		}
 		
-		$this->display_answers($answer_lines, false);
+		$this->display_answers($answer_lines);
 			
 		$this->display_feedback();
 		$this->display_score($score_line);
@@ -103,8 +103,6 @@ class OpenQuestionResult extends QuestionResult
 		
 				$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
 				//$this->display_score($score_line);
-				if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
-					$this->add_score_controls($this->get_clo_question()->get_weight());
 		
 				$answer_lines[] = $result->get_answer();
 				break;
@@ -127,8 +125,8 @@ class OpenQuestionResult extends QuestionResult
 		
 				$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
 				//$this->display_score($score_line);
-				if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
-					$this->add_score_controls($this->get_clo_question()->get_weight());
+			/*	if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
+					$this->add_score_controls($this->get_clo_question()->get_weight());*/
 		
 				$answer_lines[] = $result->get_answer();
 				$result = $results[1];
@@ -147,13 +145,18 @@ class OpenQuestionResult extends QuestionResult
 				break;
 		}
 		
-		$this->display_answers($answer_lines, false);
-		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
-			$this->add_feedback_controls();
-			
+		$this->display_answers($answer_lines);
+		
 		$this->display_feedback();
 		if ($user_score != null)
 			$this->display_score($score_line);
+		
+		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
+			$this->add_feedback_controls();
+		
+		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
+			$this->add_score_controls($this->get_clo_question()->get_weight());
+		
 		$this->display_footer();
 	}
 }
