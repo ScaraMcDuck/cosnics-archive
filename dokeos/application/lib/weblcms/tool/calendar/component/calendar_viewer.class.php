@@ -66,7 +66,7 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array('view' => 'list')), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 		
-		if(!$this->introduction_text)
+		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
 		{
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}

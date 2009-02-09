@@ -281,4 +281,9 @@ $lang['repository']['MaxSize'] = 'Maximum upload size';
 $lang['repository']['reply_on_post'] = ' ';
 $lang['repository']['IntroText'] = ' ';
 $lang['repository']['LearningObjectAdded'] = 'Object added';
+$lang['repository']['All'] = 'All';
+$lang['repository']['Single'] = 'Single';
+$lang['repository']['SelectView'] = 'Select filter';
+$lang['repository']['UserViews'] = 'Filters';
+
 ?>
