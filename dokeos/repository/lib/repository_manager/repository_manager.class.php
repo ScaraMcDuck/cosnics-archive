@@ -65,7 +65,8 @@ class RepositoryManager
 	const PARAM_MOVE_DIRECTION = 'move_direction';
 	const PARAM_DIRECTION_UP = 'up';
 	const PARAM_DIRECTION_DOWN = 'down';
-	const PARAM_ADD_OBJECTS = 'add_objects'; 
+	const PARAM_ADD_OBJECTS = 'add_objects';
+	const PARAM_DELETE_SELECTED_USER_VIEW = 'delete_user_view'; 
 
 	/**#@-*/
    /**#@+
@@ -305,6 +306,10 @@ class RepositoryManager
 				case self :: PARAM_PUBLISH_SELECTED :
 					$this->set_action(self :: ACTION_PUBLISH_LEARNING_OBJECT);
 					$_GET[self :: PARAM_LEARNING_OBJECT_ID] = $selected_ids;
+					break;
+				case self :: PARAM_DELETE_SELECTED_USER_VIEW:
+					$this->set_action(self :: ACTION_DELETE_USER_VIEW);
+					$_GET[self :: PARAM_USER_VIEW] = $selected_ids;
 					break;
 			}
 		}
@@ -1045,11 +1050,18 @@ class RepositoryManager
 			{
 				$trash['class'] = 'trash';
 			}
+			
+			$uv = array ();
+			$uv['title'] = Translation :: get('UserViews');
+			$uv['url'] = $this->get_browse_user_views_url();
+			$uv['class'] = 'userview';
+			
 			$extra_items[] = $pub;
 			$extra_items[] = $trash;
 			$extra_items[] = $create;
 			$extra_items[] = $import;
 			$extra_items[] = $quota;
+			$extra_items[] = $uv;
 			if ($force_search || $this->get_search_form()->validate())
 			{
 				// $search_url = $this->get_url();

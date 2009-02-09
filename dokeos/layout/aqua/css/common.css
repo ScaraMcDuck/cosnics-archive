@@ -1356,6 +1356,14 @@ ul.tree-menu li div a.quota
 }
 
 /*
+ * Tweak: User View icon.
+ */
+ul.tree-menu li div a.userview
+{
+	background-image: url(../img/common/treemenu/userview.png);
+}
+
+/*
  * Tweak: Publication icon.
  */
 ul.tree-menu li div a.publication

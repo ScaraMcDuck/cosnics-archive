@@ -15,7 +15,7 @@ class UserViewBrowserTableColumnModel extends ObjectTableColumnModel
 	function UserViewBrowserTableColumnModel()
 	{
 		parent :: __construct(self :: get_default_columns(), 1);
-		//$this->set_default_order_column(0);
+		$this->set_default_order_column(1);
 	}
 	/**
 	 * Gets the default columns for this model

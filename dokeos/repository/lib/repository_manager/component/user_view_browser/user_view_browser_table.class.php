@@ -26,7 +26,10 @@ class UserViewBrowserTable extends ObjectTable
 		$data_provider = new UserViewBrowserTableDataProvider($browser, $condition);
 		parent :: __construct($data_provider, UserViewBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters);
-		//$this->set_form_actions($actions);
+		//TODO: figure out why these actions don't work
+		/*$actions = array();
+		$actions[RepositoryManager :: PARAM_DELETE_SELECTED_USER_VIEW] = Translation :: get('DeleteSelected');
+		$this->set_form_actions($actions);*/
 		$this->set_default_row_count(20);
 	}
 }

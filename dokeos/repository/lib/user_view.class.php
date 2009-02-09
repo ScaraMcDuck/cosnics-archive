@@ -157,8 +157,9 @@ class UserView
 		return RepositoryDataManager :: get_instance()->delete_user_view($this);
 	}
 	
-	function create()
+	function create($values)
 	{
+		//dump($values);
 		$gdm = RepositoryDataManager :: get_instance();
 		$this->set_id($gdm->get_next_user_view_id());
 		$success = $gdm->create_user_view($this);
@@ -169,7 +170,12 @@ class UserView
 			$uvrlo = new UserViewRelLearningObject();
 			$uvrlo->set_view_id($this->get_id());
 			$uvrlo->set_learning_object_type($registration);
-			$uvrlo->set_visibility(1);
+			
+			if(in_array($registration, $values))
+				$uvrlo->set_visibility(0);
+			else
+				$uvrlo->set_visibility(1);
+				
 			$uvrlo->create();
 		}
 		
