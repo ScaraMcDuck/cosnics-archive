@@ -23,17 +23,20 @@ class AssessmentToolComponent extends ToolComponent
 		return parent :: factory('Assessment', $component_name, $assessment_tool);
 	}
 	
-	function get_toolbar() 
+	function get_toolbar($search = false) 
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
 		//public functions
-		$action_bar->set_search_url($this->get_url());
-		$action_bar->add_common_action(
-			new ToolbarItem(
-				Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			)
-		);
+		if ($search)
+		{
+			$action_bar->set_search_url($this->get_url());
+			$action_bar->add_common_action(
+				new ToolbarItem(
+					Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				)
+			);
+		}
 		
 		$action_bar->add_common_action(
 			new ToolbarItem(

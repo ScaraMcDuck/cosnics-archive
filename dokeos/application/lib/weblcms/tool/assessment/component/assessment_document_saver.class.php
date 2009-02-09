@@ -112,7 +112,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 		}
 		
 		$zip = Filecompression :: factory();
-		$zip->set_filename('assessment_documents', '.zip');
+		$zip->set_filename('assessment_documents', 'zip');
 		$path = $zip->create_archive($temp_dir);
 		
 

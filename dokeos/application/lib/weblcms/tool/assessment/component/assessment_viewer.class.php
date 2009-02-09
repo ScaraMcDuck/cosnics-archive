@@ -33,7 +33,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 		$trail = new BreadCrumbTrail();
 		$this->display_header($trail);
 		
-		$this->action_bar = $this->get_toolbar();
+		$this->action_bar = $this->get_toolbar(true);
 		
 		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
 		{
