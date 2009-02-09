@@ -36,7 +36,12 @@ class RepositoryFilterForm extends FormValidator
 		$this->renderer->setElementTemplate('{element}');
 		
 		$dm = RepositoryDataManager :: get_instance();
-		$this->registrations = $dm->get_registered_types();
+		$regs = $dm->get_registered_types();
+		
+		for($i = 0; $i<count($regs); $i++)
+		{
+			$registrations[$regs[$i]] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($regs[$i] . 'TypeName'));
+		}
 		
 		$condition = new EqualityCondition(UserView :: PROPERTY_USER_ID, $this->manager->get_user_id());
 		$userviews = $dm->retrieve_user_views($condition);
@@ -47,7 +52,7 @@ class RepositoryFilterForm extends FormValidator
 		
 		$group[] =& $this->createElement('radio', 'type', null, Translation :: get('All'),0);
 		$group[] =& $this->createElement('radio', 'type', null, Translation :: get('Single'),1);
-		$group[] =& $this->createElement('select', 'single_type', null, $this->registrations);
+		$group[] =& $this->createElement('select', 'single_type', null, $registrations);
 		
 		if(count($views) > 0)
 		{
@@ -77,7 +82,7 @@ class RepositoryFilterForm extends FormValidator
 					break;
 				case 1: 
 					$type = $filter_type['single_type'];
-					$condition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $this->registrations[$type]);
+					$condition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
 					break;
 				case 2:
 					$view = $filter_type['view'];

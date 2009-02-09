@@ -165,6 +165,7 @@ class LearningObjectPublicationForm extends FormValidator
     	$defaults = array();
     	$defaults[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] = 0;
 		$defaults[self :: PARAM_FOREVER] = 1;
+		$defaults[self :: PARAM_CATEGORY_ID] = Request :: get('pcattree');
 		parent :: setDefaults($defaults);
     }
     
