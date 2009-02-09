@@ -491,10 +491,12 @@ class Weblcms extends WebApplication
 		{
 			if ($msg = $_GET[self :: PARAM_MESSAGE])
 			{
+				echo '<br />';
 				$this->display_message($msg);
 			}
 			if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
 			{
+				echo '<br />';
 				$this->display_error_message($msg);
 			}
 		}

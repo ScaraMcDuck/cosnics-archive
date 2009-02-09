@@ -22,6 +22,7 @@ abstract class Tool
 	const PARAM_COMPLEX_ID = 'cid';
 	const PARAM_MOVE = 'move';
 	const PARAM_VISIBILITY = 'visible';
+	const PARAM_OBJECT_ID = 'object';
 
 	const ACTION_PUBLISH = 'publish';
 	const ACTION_EDIT = 'edit';
@@ -39,6 +40,7 @@ abstract class Tool
 	const ACTION_PUBLISH_INTRODUCTION = 'publish_introduction';
 	const ACTION_PUBLISH_FEEDBACK = 'publish_feedback';
 	const ACTION_MANAGE_CATEGORIES = 'managecategories';
+	const ACTION_VIEW_ATTACHMENT = 'view_attachment';
 	
 	/**
 	 * The action of the tool
@@ -171,6 +173,9 @@ abstract class Tool
 			case self :: ACTION_HIDE :
 				$_GET[PARAM_VISIBILITY] = 1;
 				$component = ToolComponent :: factory('', 'ToggleVisibility', $this);
+				break;
+			case self :: ACTION_VIEW_ATTACHMENT:
+				$component = ToolComponent :: factory('', 'AttachmentViewer', $this);
 				break;
 		}
 		if($component)
