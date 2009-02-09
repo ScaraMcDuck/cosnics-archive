@@ -65,13 +65,17 @@ class AssessmentTesterForm extends FormValidator
 		$start_question = ($page - 1) * $assessment->get_questions_per_page() + 1;
 		$stop_question = $start_question + $assessment->get_questions_per_page();
 		$count = 1;
+		
 		while($clo_question = $clo_questions->next_result())
 		{
 			if ($start_question != $stop_question)
 			{
 				if ($count >= $start_question && $count < $stop_question)
 				{
-					$question_display = QuestionDisplay :: factory($clo_question, $start_question + $count);
+					//dump('c'.$count);
+					//dump('s'.$start_question);
+					//$count2 = $count + (($page - 1) * $assessment->get_questions_per_page());
+					$question_display = QuestionDisplay :: factory($clo_question, $count);
 					if (isset($question_display))
 						$question_display->add_to($this);
 						

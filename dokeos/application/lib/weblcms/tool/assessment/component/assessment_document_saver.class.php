@@ -22,7 +22,6 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 			$user_assessments = $track->retrieve_tracker_items($condition);
 			$filenames = $this->save_user_assessment_docs($user_assessments[0]);
 		}
-		//dump($filenames);
 		if (count($filenames) > 0)
 			$this->send_files($filenames, $id);
 		else
@@ -35,7 +34,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 	{
 		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($assessment_id);
 		$track = new WeblcmsAssessmentAttemptsTracker();
-		$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $publication->get_learning_object()->get_id());
+		$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
 		$user_assessments = $track->retrieve_tracker_items($condition);
 
 		foreach ($user_assessments as $user_assessment)
@@ -91,8 +90,6 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 	
 	function redirect_to_previous($type, $id)
 	{
-		//$redirect_params = $_SESSION['redirect_params'];
-		//$_SESSION['redirect_params'] = null;
 		$params = array(
 			Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS,
 			$type => $id
@@ -115,7 +112,9 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 		}
 		
 		$zip = Filecompression :: factory();
+		$zip->set_filename('assessment_documents', '.zip');
 		$path = $zip->create_archive($temp_dir);
+		
 
 		FileSystem::remove($temp_dir);
 		
