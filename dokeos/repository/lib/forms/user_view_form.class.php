@@ -43,12 +43,21 @@ class UserViewForm extends FormValidator {
 	    		if(!$type->get_visibility())
 	    			$defaults[] = $type->get_learning_object_type();
 	    	}
-	    	
-	    	$this->addElement('advmultiselect', 'types', Translation :: get('SelectHiddenTypes'), 
+		}
+		else
+		{
+			$dm = RepositoryDataManager :: get_instance();
+			$registrations = $dm->get_registered_types();
+			foreach($registrations as $registration)
+			{
+				$learning_object_types[$registration] = $registration;
+			}
+		}
+		
+		$this->addElement('advmultiselect', 'types', Translation :: get('SelectHiddenTypes'), 
 									  $learning_object_types, array('style' => 'width:300px; height: 300px'));
 			
-			$this->setDefaults(array('types' => $defaults));
-		}
+		$this->setDefaults(array('types' => $defaults));
 		
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -108,7 +117,7 @@ class UserViewForm extends FormValidator {
     	$user_view->set_name($values[UserView :: PROPERTY_NAME]);
     	$user_view->set_description($values[UserView :: PROPERTY_DESCRIPTION]);
     	
-   		$value = $user_view->create();
+    	$value = $user_view->create($values['types']);
    		
    		return $value;
     }
