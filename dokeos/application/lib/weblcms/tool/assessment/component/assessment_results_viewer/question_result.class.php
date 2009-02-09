@@ -66,14 +66,14 @@ abstract class QuestionResult
 	{
 		if ($this->results != null)
 		{
-			$this->formvalidator->addElement('html', '<br/>'.Translation :: get("AddFeedback").':<br/>');
+			$this->formvalidator->addElement('html', '<h4>'.Translation :: get("AddFeedback").'</h4>');
 			
 			$result = $this->results[0];
 			$this->formvalidator->addElement('hidden', 'ex_'.$this->get_question()->get_id(), '');
-			$this->formvalidator->addElement('text', 'ex'.$this->get_question()->get_id().'_name', Translation :: get('SelectedFeedback'), array('DISABLED=DISABLED'));
+			$buttons[] = $this->formvalidator->createElement('text', 'ex'.$this->get_question()->get_id().'_name', null, array('DISABLED=DISABLED', 'style="height: 19px;"'));
 			$buttons[] = $this->formvalidator->createElement('style_submit_button', 'feedback_'.$this->get_question()->get_id(), Translation :: get('Select'), array('class' => 'positive'));
 
-			$this->formvalidator->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+			$this->formvalidator->addGroup($buttons, 'buttons', '<div style="padding-top: 4px;">' . Translation :: get('SelectedFeedback') . '</div>', '&nbsp;', false);
 		}
 	}
 	
@@ -99,7 +99,7 @@ abstract class QuestionResult
 		$html[] = '<div class="title" style="padding: 5px 5px 5px 35px; border:1px solid grey; background: #e6e6e6 url('. Theme :: get_common_image_path(). 'learning_object/' .$learning_object->get_icon_name().'.png) no-repeat; background-position: 5px 2px; height: 16px;">';
 		$html[] = Translation :: get('Question').' '. $this->question_nr . ': ' .$learning_object->get_title();
 		$html[] = '</div>';
-		$html[] = '<div class="description" style="padding-left: 35px;">';
+		$html[] = '<div class="description" style="padding-left: 35px; padding-right: 35px;">';
 		$description = $learning_object->get_description();
 		
 		/*if($description != '<p>&#160;</p>')
@@ -116,7 +116,7 @@ abstract class QuestionResult
 		$html[] = '<tr>';
 		$html[] = '<td style="width: 33%">' . Translation :: get('YourAnswer') . '</td>';
 		$html[] = '<td style="width: 33%">' . Translation :: get('CorrectAnswer') . '</td>';
-		$html[] = '<td style="width: 33%">' . Translation :: get('Feedback') . '</td>';
+		$html[] = '<td style="width: 33%">' . Translation :: get('Comments') . '</td>';
 		$html[] = '</tr><tr>';
 		
 		$this->formvalidator->addElement('html', implode("\n", $html));
@@ -125,13 +125,16 @@ abstract class QuestionResult
 	function display_score($score_line)
 	{
 		//$html[] = '<div class="description">';
-		$html[] = '</tr></table><br /><b>' . $score_line. '</b><br/>';
+		$html[] = '</tr></table>';
+		if($score_line != '')
+			$html[] = '<br /><b>' . $score_line. '</b><br/>';
 		//$html[] = '</div>';
 		$this->formvalidator->addElement('html', implode("\n", $html));
 	}
 	
 	function display_feedback()
 	{
+		$html[] = '<div style="border-top: 1px solid lightgrey; margin-top: 12px;"><h4>' . Translation :: get('TeacherFeedback') . '</h4>';
 		if ($this->results != null)
 		{
 			$result = $this->results[0];
@@ -139,15 +142,50 @@ abstract class QuestionResult
 			if ($feedback_id != null && $feedback_id != 0)
 			{
 				$feedback_lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($feedback_id, 'feedback');
-				$this->formvalidator->addElement('html', '<td>'.$feedback_lo->get_title().'<br/><br/>'.$feedback_lo->get_description().$this->render_attachments($feedback_lo).'</td>');
+				$html[] =  $feedback_lo->get_title().'<br/><br/>'.$feedback_lo->get_description().$this->render_attachments($feedback_lo);
 			}
 			else
-				$this->formvalidator->addElement('html', '<td>' . Translation :: get('NoFeedback') . '</td>');
+				$html[] = Translation :: get('NoFeedback');
 		}
 		else
 		{
-			$this->formvalidator->addElement('html', '<td>' . Translation :: get('QuestionNotAnswered') . '</td>');
+			$html[] = Translation :: get('QuestionNotAnswered');
 		}
+		
+		$html[] = '</div><br />';
+		
+		$this->formvalidator->addElement('html', implode("\n", $html));
+	}
+	
+	function display_question_feedback()
+	{
+		$html[] = '<td>';
+		
+		$question = $this->question;
+		
+		if(method_exists($question, 'get_options'))
+		{
+			$options = $question->get_options();
+			
+			foreach($options as $option)
+			{
+				$html[] = $option->get_comment() . '<br />';
+			}
+		}
+		
+		if(method_exists($question, 'get_answers'))
+		{
+			$answers = $question->get_answers();
+			
+			foreach($answers as $answer)
+			{
+				$html[] = $answer->get_comment() . '<br />';
+			}
+		}
+		
+		$html[] = '</td>';
+		
+		$this->formvalidator->addElement('html', implode("\n", $html));
 	}
 	
 	function render_attachments($object)

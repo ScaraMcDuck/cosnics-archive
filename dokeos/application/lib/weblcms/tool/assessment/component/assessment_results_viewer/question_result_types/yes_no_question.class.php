@@ -24,10 +24,21 @@ class YesNoQuestionResult extends QuestionResult
 		$score_line = Translation :: get('Score').': '.$user_question_score.'/'.$user_question->get_weight();
 		
 		$answer_lines[] = $answer->get_title().' ('.Translation :: get('Score').': '.$user_answer->get_score().')';
-		$this->display_answers($answer_lines);
+		/*$this->display_answers($answer_lines);
 			
 		$this->display_feedback();
 		$this->display_score($score_line);
+		
+		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
+			$this->add_feedback_controls();
+		
+		$this->display_footer();*/
+		
+		$this->display_answers($answer_lines);
+		$this->display_question_feedback();
+		
+		$this->display_score($score_line);
+		$this->display_feedback();
 		
 		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 			$this->add_feedback_controls();

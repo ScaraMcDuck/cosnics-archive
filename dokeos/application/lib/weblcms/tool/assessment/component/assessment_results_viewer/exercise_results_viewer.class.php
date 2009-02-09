@@ -12,7 +12,7 @@ class ExerciseResultsViewer extends ResultsViewer
 
 //		$this->addElement('html', '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$assessment->get_icon_name().'.png);">');
 //		$this->addElement('html', '<div class="title" style="font-size: 14px">');
-		$this->addElement('html', '<h3>' . Translation :: get('ViewExerciseResu lts').': '.$assessment->get_title() . '</h3>');
+		$this->addElement('html', '<h3>' . Translation :: get('ViewExerciseResults').': '.$assessment->get_title() . '</h3>');
 //		$this->addElement('html', '</div>');
 //		$this->addElement('html', '<div class="description">');
 		$this->addElement('html', $assessment->get_description());
