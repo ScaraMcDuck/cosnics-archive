@@ -63,7 +63,8 @@ class AssessmentResultsTableOverviewStudentCellRenderer extends DefaultLearningO
 					$pid = $user_assessment->get_assessment_id();
 					$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
 					$assessment = $pub->get_learning_object();
-					$avg = $assessment->get_average_score();
+					$track = new WeblcmsAssessmentAttemptsTracker();
+					$avg = $track->get_average_score($pub);
 					$max = $assessment->get_maximum_score();
 					$pct = round(($avg / $max) * 100, 2);
 					return $avg.'/'.$max.' ('.$pct.'%)';
