@@ -105,8 +105,8 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 		$object = $this->get_learning_object();
 		if(!$this->isSubmitted() && !is_null($object))
 		{
-			$_SESSION['mc_number_of_options'] = $object->get_number_of_options();
-			$_SESSION['mc_answer_type'] = $object->get_answer_type();
+			$_SESSION['mc_number_of_options'] = $object->get_number_of_answers();
+			//$_SESSION['mc_answer_type'] = $object->get_answer_type();
 		}
 		$number_of_options = intval($_SESSION['mc_number_of_options']);
 		$show_label = true;
