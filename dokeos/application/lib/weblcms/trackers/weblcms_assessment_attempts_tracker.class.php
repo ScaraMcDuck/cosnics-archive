@@ -118,5 +118,40 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
     {
     	
     }
+    
+	function get_times_taken($publication)
+	{
+		$condition = new EqualityCondition(self :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
+		//$track = new WeblcmsAssessmentAttemptsTracker();
+		$trackers = $this->retrieve_tracker_items($condition);
+		return count($trackers);
+		/*$query = 'SELECT COUNT('.$this->escape_column_name(UserAssessment :: PROPERTY_ID).') FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment->get_id();
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute();
+		$row = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $row[0];*/
+	}
+	
+	function get_average_score($publication)
+	{
+		$condition = new EqualityCondition(self :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
+		//$track = new WeblcmsAssessmentAttemptsTracker();
+		$trackers = $this->retrieve_tracker_items($condition);
+		$num = count($trackers);
+		
+		foreach ($trackers as $tracker)
+		{
+			$total_score += $tracker->get_total_score();
+		}
+		
+		$total_score = round($total_score / $num, 2);
+		return $total_score;
+		/*$query = 'SELECT ROUND(AVG('.$this->escape_column_name(UserAssessment :: PROPERTY_TOTAL_SCORE).'), 2) FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment->get_id();
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute();
+		$row = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$avg = $row[0];
+		return $row[0];*/
+	}
 }
 ?>

@@ -44,8 +44,9 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 				case Assessment :: PROPERTY_ASSESSMENT_TYPE:
 					return $assessment->get_assessment_type();
 				case Assessment :: PROPERTY_AVERAGE_SCORE:
-					$avg = $assessment->get_average_score();
-					if (!$avg)
+					$track = new WeblcmsAssessmentAttemptsTracker();
+					$avg = $track->get_average_score($publication);
+					if (!isset($avg))
 					{
 						return 'No results';
 					}
@@ -56,7 +57,8 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 						return $avg.'/'.$max.' ('.$pct.'%)';
 					}
 				case Assessment :: PROPERTY_TIMES_TAKEN:
-					return $assessment->get_times_taken();
+					$track = new WeblcmsAssessmentAttemptsTracker();
+					return $track->get_times_taken($publication);
 				default:
 					return '';
 			}

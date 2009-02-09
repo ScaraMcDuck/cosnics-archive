@@ -89,9 +89,9 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		echo '<div class="title">';
 		echo Translation :: get('Statistics');
 		echo '</div>';
-
-		$avg = $assessment->get_average_score();
-		if (!$avg)
+		$track = new WeblcmsAssessmentAttemptsTracker();
+		$avg = $track->get_average_score($publication);
+		if (!isset($avg))
 		{
 			$avg_line = 'No results';
 		}
@@ -102,7 +102,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			$avg_line = $avg.'/'.$tot.' ('.$pct.'%)';
 		}
 		echo Translation :: get('AverageScore').': '.$avg_line;
-		echo '<br/>'.Translation :: get('TimesTaken').': '.$assessment->get_times_taken();
+		echo '<br/>'.Translation :: get('TimesTaken').': '.$track->get_times_taken($publication);
 		echo '</div>';
 		$table = new AssessmentResultsTableDetail($this, $this->get_user(), $_GET[AssessmentTool :: PARAM_ASSESSMENT]);
 		echo $table->as_html();

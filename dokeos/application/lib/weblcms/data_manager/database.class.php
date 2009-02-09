@@ -2396,25 +2396,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $record[0] + 1;
 	}
 	
-	function get_num_user_assessments($assessment)
-	{
-		/*$query = 'SELECT COUNT('.$this->escape_column_name(UserAssessment :: PROPERTY_ID).') FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment->get_id();
-		$sth = $this->connection->prepare($query);
-		$res = $sth->execute();
-		$row = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-		return $row[0];*/
-	}
-	
-	function get_average_score($assessment)
-	{
-		/*$query = 'SELECT ROUND(AVG('.$this->escape_column_name(UserAssessment :: PROPERTY_TOTAL_SCORE).'), 2) FROM '.$this->escape_table_name(UserAssessment :: get_table_name()).' WHERE '.$this->escape_column_name(UserAssessment :: PROPERTY_ASSESSMENT_ID).'='.$assessment->get_id();
-		$sth = $this->connection->prepare($query);
-		$res = $sth->execute();
-		$row = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-		$avg = $row[0];
-		return $row[0];*/
-	}
-	
 	function get_maximum_score($assessment) 
 	{
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id());
