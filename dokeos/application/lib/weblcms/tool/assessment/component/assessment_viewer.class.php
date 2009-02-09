@@ -90,9 +90,9 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 		return implode("\n",$html);
 	}*/
 	
-	function get_toolbar()
+	function get_toolbar($search)
 	{
-		$bar = parent :: get_toolbar();
+		$bar = parent :: get_toolbar($search);
 		$bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_category.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))

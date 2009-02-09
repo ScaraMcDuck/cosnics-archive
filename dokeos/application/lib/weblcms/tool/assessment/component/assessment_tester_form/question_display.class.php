@@ -31,8 +31,8 @@ class QuestionDisplay
 		$html[] = '</div>';
 		$html[] = '<div class="description" style="padding-left: 35px;">';
 		$description = $learning_object->get_description();
-		
-		if($description != '<p>&#160;</p>')
+
+		if($description != '<p>&#160;</p>' && count($description) > 0 )
 			$html[] = '<div style="font-style: italic; ">' . $description . '</div>';
 		else
 			$html[] = '<br />';

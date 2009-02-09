@@ -102,7 +102,12 @@ abstract class QuestionResult
 		$html[] = '<div class="description" style="padding-left: 35px;">';
 		$description = $learning_object->get_description();
 		
-		if($description != '<p>&#160;</p>')
+		/*if($description != '<p>&#160;</p>')
+			$html[] = '<div style="font-style: italic; ">' . $description . '</div>';
+		else
+			$html[] = '<br />';*/
+		
+		if($description != '<p>&#160;</p>' && count($description) > 0 )
 			$html[] = '<div style="font-style: italic; ">' . $description . '</div>';
 		else
 			$html[] = '<br />';
@@ -166,7 +171,7 @@ abstract class QuestionResult
 		return '';
 	}
 	
-	function display_answers($answer_lines = null, $correct_answer_lines, $numbered = true, $use_list = true)
+	function display_answers($answer_lines = null, $correct_answer_lines = null, $numbered = true, $use_list = true)
 	{ 
 		if ($answer_lines == null) 
 		{
