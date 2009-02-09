@@ -77,7 +77,7 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 			$actions[] = array(
 				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_SAVE_DOCUMENTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
 				'label' => Translation :: get('DownloadDocuments'),
-				'img' => Theme :: get_common_image_path().'action_save.png'
+				'img' => Theme :: get_common_image_path().'action_download.png'
 			);
 		}
 		
