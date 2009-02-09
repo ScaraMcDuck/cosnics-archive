@@ -305,7 +305,7 @@ abstract class LearningObjectPublicationListRenderer
 	 * @param LearningObjectPublication $publication The publication.
 	 * @return string The rendered HTML.
 	 */
-	function render_attachments($publication)
+	/*function render_attachments($publication)
 	{
 		$object = $publication->get_learning_object();
 		if ($object->supports_attachments())
@@ -328,6 +328,28 @@ abstract class LearningObjectPublicationListRenderer
 					//$html[] = '<li><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$disp->get_short_html().'</li>';
 				}
 				//$html[] = '</ul>';
+				return implode("\n",$html);
+			}
+		}
+		return '';
+	}*/
+	
+	function render_attachments($publication)
+	{
+		$object = $publication->get_learning_object();
+		if ($object->supports_attachments())
+		{
+			$attachments = $object->get_attached_learning_objects();
+			if(count($attachments)>0)
+			{
+				$html[] = '<h4>Attachments</h4>';
+				DokeosUtilities :: order_learning_objects_by_title($attachments);
+				$html[] = '<ul>';
+				foreach ($attachments as $attachment)
+				{
+					$html[] = '<li><a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_ATTACHMENT, Tool :: PARAM_OBJECT_ID => $attachment->get_id())) . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
+				}
+				$html[] = '</ul>';
 				return implode("\n",$html);
 			}
 		}

@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/../repo_viewer.class.php';
 require_once dirname(__FILE__).'/../repo_viewer_component.class.php';
 require_once dirname(__FILE__).'/learning_object_table/learning_object_table.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object_category_menu.class.php';
+//require_once Path :: get_repository_path() . 'lib/forms/repository_filter_form.class.php';
 /**
  * This class represents a encyclopedia repo_viewer component which can be used
  * to browse through the possible learning objects to publish.
