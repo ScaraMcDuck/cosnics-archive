@@ -70,7 +70,7 @@ abstract class QuestionResult
 			
 			$result = $this->results[0];
 			$this->formvalidator->addElement('hidden', 'ex_'.$this->get_question()->get_id(), '');
-			$this->formvalidator->addElement('text', 'ex'.$this->get_question()->get_id().'_name', Translation :: get('SelectedFeedback'));
+			$this->formvalidator->addElement('text', 'ex'.$this->get_question()->get_id().'_name', Translation :: get('SelectedFeedback'), array('DISABLED=DISABLED'));
 			$buttons[] = $this->formvalidator->createElement('style_submit_button', 'feedback_'.$this->get_question()->get_id(), Translation :: get('Select'), array('class' => 'positive'));
 
 			$this->formvalidator->addGroup($buttons, 'buttons', null, '&nbsp;', false);
