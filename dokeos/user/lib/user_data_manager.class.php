@@ -133,7 +133,7 @@ abstract class UserDataManager
 			$authentication_dir = dir(Path :: get_library_path().'authentication/');
 			while (false !== ($authentication_method = $authentication_dir->read()))
 			{
-				if(strpos($authentication_method,'.') === false && is_dir($authentication_dir->path.'/'.$authentication_method))
+				if(strpos($authentication_method,'.') === false && is_dir($authentication_dir->path.'/'.$authentication_method) && PlatformSetting :: get('enable_' . $authentication_method))
 				{
 					$authentication_class_file = $authentication_dir->path.'/'.$authentication_method.'/'.$authentication_method.'_authentication.class.php';
 					$authentication_class = ucfirst($authentication_method).'Authentication';
@@ -150,7 +150,7 @@ abstract class UserDataManager
 				}
 			}
 			$authentication_dir->close();
-			return null;
+			return Translation :: get('UsernameNotAvailable');
 		}
 	}
 	/**

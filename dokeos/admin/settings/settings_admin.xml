@@ -86,5 +86,18 @@
 			<setting name="permissions_new_directories" field="text" default="0770" />
 			<setting name="permissions_new_files" field="text" default="0660" />
 		</category>
+		<category name="authentication">
+			<setting name="enable_platform" field="checkbox">
+				<options type="static"><option name="enable_platform" value="1" /></options>
+			</setting>
+			<setting name="enable_ldap" field="checkbox">
+				<options type="static"><option name="enable_ldap" value="1" /></options>
+			</setting>
+			<setting name="ldap_host" field="text" default="" />
+			<setting name="ldap_port" field="text" default="" />
+			<setting name="ldap_password" field="text" default="" />
+			<setting name="ldap_remote_dn" field="text" default="" />
+			<setting name="ldap_search_dn" field="text" default="" />
+		</category>
 	</settings>
 </application>
