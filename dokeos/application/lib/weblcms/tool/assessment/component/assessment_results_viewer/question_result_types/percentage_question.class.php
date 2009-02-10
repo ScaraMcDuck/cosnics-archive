@@ -24,7 +24,7 @@ class PercentageQuestionResult extends QuestionResult
 		$this->display_footer();*/
 		
 		$this->display_answers($score_line);
-		$this->display_question_feedback();
+		//$this->display_question_feedback();
 		
 		$this->display_score();
 		$this->display_feedback();

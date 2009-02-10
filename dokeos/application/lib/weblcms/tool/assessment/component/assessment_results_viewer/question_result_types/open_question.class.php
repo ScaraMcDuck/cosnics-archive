@@ -6,7 +6,7 @@ class OpenQuestionResult extends QuestionResult
 {
 	function display_exercise()
 	{
-		$this->display_question_header();
+		$this->display_question_header(false);
 		
 		$results = $this->get_results();
 		$question = $this->get_question();
@@ -74,7 +74,7 @@ class OpenQuestionResult extends QuestionResult
 		$this->display_footer();*/
 		
 		$this->display_answers($answer_lines);
-		$this->display_question_feedback();
+		//$this->display_question_feedback();
 		
 		$this->display_score($score_line);
 		$this->display_feedback();
@@ -103,7 +103,7 @@ class OpenQuestionResult extends QuestionResult
 	
 	function display_assignment()
 	{
-		$this->display_question_header();
+		$this->display_question_header(false);
 		
 		$results = $this->get_results();
 		$question = $this->get_question();
@@ -174,7 +174,7 @@ class OpenQuestionResult extends QuestionResult
 		$this->display_footer();*/
 		
 		$this->display_answers($answer_lines);
-		$this->display_question_feedback();
+		//$this->display_question_feedback();
 		
 		if ($user_score != null)
 			$this->display_score($score_line);

@@ -37,22 +37,22 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 		} 
 		else
 		{
-			switch ($column->get_object_property())
+			switch ($column->get_title())
 			{
-				case WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID:
+				case Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID):
 					$user_id = $user_assessment->get_user_id();
 					if ($user_id > 0)
 						return UserDataManager :: get_instance()->retrieve_user($user_id)->get_fullname();
 					else
 						return 'Anonymous';
-				case WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE:
+				case Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_TOTAL_SCORE):
 					$total = $user_assessment->get_total_score();
 					$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
 					$assessment = $pub->get_learning_object();
 					$max = $assessment->get_maximum_score();
 					$pct = round(($total / $max) * 100, 2);
 					return $total.'/'.$max.' ('.$pct.'%)';
-				case WeblcmsAssessmentAttemptsTracker :: PROPERTY_DATE:
+				case Translation :: get(WeblcmsAssessmentAttemptsTracker :: PROPERTY_DATE):
 					return $user_assessment->get_date();
 				default:
 					return '';

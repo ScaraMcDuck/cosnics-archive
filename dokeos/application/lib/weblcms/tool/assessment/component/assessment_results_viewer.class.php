@@ -48,12 +48,12 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		}
 		if ($this->is_allowed(EDIT_RIGHT)) 
 		{
-			echo Translation :: get('ViewAllResults').':';
+			//echo Translation :: get('ViewAllResults').':';
 			$table = new AssessmentResultsTableOverviewAdmin($this, $this->get_user());
 		}
 		else 
 		{
-			echo Translation :: get('MyResults').':';
+			//echo Translation :: get('MyResults').':';
 			$table = new AssessmentResultsTableOverviewStudent($this, $this->get_user());
 		}
 		echo $table->as_html();
@@ -122,7 +122,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		$user_assessments = $track->retrieve_tracker_items($condition);
 		$user_assessment = $user_assessments[0];
 		$edit_rights = $this->is_allowed(EDIT_RIGHT);
-		$subcomponent = ResultsViewer :: factory($user_assessment, $edit_rights, $url);
+		$subcomponent = ResultsViewer :: factory($user_assessment, $edit_rights, $url, $this);
 		$subcomponent->build();
 		
 		if ($subcomponent->validate() && $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')

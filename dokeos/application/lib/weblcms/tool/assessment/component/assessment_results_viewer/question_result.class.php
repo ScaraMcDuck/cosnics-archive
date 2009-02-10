@@ -64,7 +64,10 @@ abstract class QuestionResult
 	
 	function add_feedback_controls()
 	{
-		if ($this->results != null)
+		$result = $this->results[0];
+		$feedback_id = $result->get_feedback();
+			
+		if ($this->results != null && !$feedback_id)
 		{
 			$this->formvalidator->addElement('html', '<h4>'.Translation :: get("AddFeedback").'</h4>');
 			
@@ -90,7 +93,7 @@ abstract class QuestionResult
 		}
 	}
 	
-	function display_question_header()
+	function display_question_header($show_correct_answer = true)
 	{
 		$learning_object = $this->question;
 		//$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
@@ -114,9 +117,18 @@ abstract class QuestionResult
 		
 		$html[] = '<table border="0" style="width: 100%">';
 		$html[] = '<tr>';
-		$html[] = '<td style="width: 33%">' . Translation :: get('YourAnswer') . '</td>';
-		$html[] = '<td style="width: 33%">' . Translation :: get('CorrectAnswer') . '</td>';
-		$html[] = '<td style="width: 33%">' . Translation :: get('Comments') . '</td>';
+		
+		if($show_correct_answer)
+		{
+			$html[] = '<td style="width: 50%">' . Translation :: get('YourAnswer') . '</td>';
+			$html[] = '<td style="width: 50%">' . Translation :: get('CorrectAnswer') . '</td>';
+		}
+		else
+		{
+			$html[] = '<td style="width: 100%">' . Translation :: get('YourAnswer') . '</td>';
+		}
+		
+
 		$html[] = '</tr><tr>';
 		
 		$this->formvalidator->addElement('html', implode("\n", $html));
@@ -134,7 +146,7 @@ abstract class QuestionResult
 	
 	function display_feedback()
 	{
-		$html[] = '<div style="border-top: 1px solid lightgrey; margin-top: 12px;"><h4>' . Translation :: get('TeacherFeedback') . '</h4>';
+		$html[] = '<div style="border-top: 1px solid lightgrey; margin-top: 12px;"><h4>' . Translation :: get('Feedback') . '</h4>';
 		if ($this->results != null)
 		{
 			$result = $this->results[0];
@@ -142,7 +154,23 @@ abstract class QuestionResult
 			if ($feedback_id != null && $feedback_id != 0)
 			{
 				$feedback_lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($feedback_id, 'feedback');
-				$html[] =  $feedback_lo->get_title().'<br/><br/>'.$feedback_lo->get_description().$this->render_attachments($feedback_lo);
+				//$html[] =  $feedback_lo->get_title().'<br/><br/>'.$feedback_lo->get_description().$this->render_attachments($feedback_lo);
+				
+				$html[] = '<div class="feedback" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$feedback_lo->get_icon_name().$icon_suffix.'.png);">';
+				$html[] = '<div class="title">';
+				$html[] = $feedback_lo->get_title();
+				$html[] = '<span class="publication_info">';
+				$html[] = '</span>';
+				$html[] = '</div>';
+				$html[] = '<div class="description">';
+				$html[] = $feedback_lo->get_description();
+				$html[] = $this->render_attachments($feedback_lo);
+				$html[] = '</div>';
+				$html[] = '<div class="publication_actions">';
+				//$html[] = 
+				$html[] = '</div>';
+				$html[] = '</div>';
+				
 			}
 			else
 				$html[] = Translation :: get('NoFeedback');
@@ -157,38 +185,27 @@ abstract class QuestionResult
 		$this->formvalidator->addElement('html', implode("\n", $html));
 	}
 	
-	function display_question_feedback()
+	function render_attachments($object)
 	{
-		$html[] = '<td>';
-		
-		$question = $this->question;
-		
-		if(method_exists($question, 'get_options'))
+		if ($object->supports_attachments())
 		{
-			$options = $question->get_options();
-			
-			foreach($options as $option)
+			$attachments = $object->get_attached_learning_objects();
+			if(count($attachments)>0)
 			{
-				$html[] = $option->get_comment() . '<br />';
+				$html[] = '<h4>Attachments</h4>';
+				DokeosUtilities :: order_learning_objects_by_title($attachments);
+				$html[] = '<ul>';
+				foreach ($attachments as $attachment)
+				{
+					$html[] = '<li><a href="' . $this->formvalidator->get_component()->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_ATTACHMENT, Tool :: PARAM_OBJECT_ID => $attachment->get_id())) . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
+				}
+				$html[] = '</ul>';
+				return implode("\n",$html);
 			}
 		}
-		
-		if(method_exists($question, 'get_answers'))
-		{
-			$answers = $question->get_answers();
-			
-			foreach($answers as $answer)
-			{
-				$html[] = $answer->get_comment() . '<br />';
-			}
-		}
-		
-		$html[] = '</td>';
-		
-		$this->formvalidator->addElement('html', implode("\n", $html));
 	}
 	
-	function render_attachments($object)
+	/*function render_attachments($object)
 	{
 		if ($object->supports_attachments())
 		{
@@ -207,7 +224,7 @@ abstract class QuestionResult
 			}
 		}
 		return '';
-	}
+	}*/
 	
 	function display_answers($answer_lines = null, $correct_answer_lines = null, $numbered = true, $use_list = true)
 	{ 

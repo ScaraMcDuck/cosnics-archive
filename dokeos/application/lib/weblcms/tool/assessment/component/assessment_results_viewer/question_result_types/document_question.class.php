@@ -29,7 +29,7 @@ class DocumentQuestionResult extends QuestionResult
 		//$this->display_score($score_line);
 		
 		$this->display_answers($answer_lines);
-		$this->display_question_feedback();
+		//$this->display_question_feedback();
 		
 		$this->display_score($score_line);
 		$this->display_feedback();

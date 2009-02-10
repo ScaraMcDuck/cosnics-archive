@@ -23,7 +23,7 @@ class MatchingQuestionResult extends QuestionResult
 			$answer = $matches[$result->get_answer()];
 			$ans_match = $answers[$result->get_answer_index()];
 			$correct = $matches[$ans_match->get_match()];
-			$answers_arr[] = array('answer' => $answer, 'match' => $ans_match->get_value(), 'correct' => $correct, 'score' => $result->get_score());
+			$answers_arr[] = array('answer' => $answer, 'match' => $ans_match->get_value(), 'correct' => $correct, 'score' => $result->get_score(), 'comment' => $ans_match->get_comment());
 			$total_score += $result->get_score();
 		}
 		
@@ -46,14 +46,14 @@ class MatchingQuestionResult extends QuestionResult
 			}
 			
 			$answer_line .= ' ('.Translation :: get('Score').': '.$answer['score'].')';
-			
-			$correct_answer_line = $answer['match'].' <b>'.Translation :: get('matches').'</b> '.$answer['correct'];
+		
+			$correct_answer_line = $answer['match'].' <b>'.Translation :: get('matches').'</b> '.$answer['correct'] . ' <span style="color: navy; font-style: italic;">(' . $answer['comment'] . ')</span>';
 			
 			$answer_lines[] = $answer_line;
 			$correct_answer_lines[] = $correct_answer_line;
 		}
 		$this->display_answers($answer_lines, $correct_answer_lines);
-		$this->display_question_feedback();
+		//$this->display_question_feedback();
 		
 		$this->display_score($score_line);
 		$this->display_feedback();
@@ -105,7 +105,7 @@ class MatchingQuestionResult extends QuestionResult
 			$answer = $matches[$result->get_answer()];
 			$ans_match = $answers[$result->get_answer_index()];
 			$correct = $matches[$ans_match->get_match()];
-			$answers_arr[] = array('answer' => $answer, 'match' => $ans_match->get_value(), 'correct' => $correct, 'score' => $result->get_score());
+			$answers_arr[] = array('answer' => $answer, 'match' => $ans_match->get_value(), 'correct' => $correct, 'score' => $result->get_score(), 'comment' => $ans_match->get_comment());
 			$total_score += $result->get_score();
 		}
 		
@@ -129,14 +129,14 @@ class MatchingQuestionResult extends QuestionResult
 			
 			$answer_line .= ' ('.Translation :: get('Score').': '.$answer['score'].')';
 			
-			$correct_answer_line = $answer['match'].' <b>'.Translation :: get('matches').'</b> '.$answer['correct'];
+			$correct_answer_line = $answer['match'].' <b>'.Translation :: get('matches').'</b> '.$answer['correct'] . ' <span style="color: navy; font-style: italic;">(' . $answer['comment'] . ')</span>';
 			
 			$answer_lines[] = $answer_line;
 			$correct_answer_lines[] = $correct_answer_line;
 		}
 		
 		$this->display_answers($answer_lines, $correct_answer_lines);
-		$this->display_question_feedback();
+		//$this->display_question_feedback();
 		
 		$this->display_score($score_line);
 		$this->display_feedback();
