@@ -41,13 +41,13 @@ class FillInBlanksQuestionResult extends QuestionResult
 				$answer_line = '<span style="color:red;">' . $answer_line . '</span>';
 			
 			$answer_line .= ' ('.Translation :: get('Score').': '.$result->get_score().')';
-			$correct_answer_line = $answers[$result->get_answer_index()]->get_value();
+			$correct_answer_line = $answers[$result->get_answer_index()]->get_value() . ' <span style="color: navy; font-style: italic;">(' . $answers[$result->get_answer_index()]->get_comment() . ')</span>';
 				
 			$answer_lines[] = $answer_line;
 			$correct_answer_lines[] = $correct_answer_line;
 		}
 		$this->display_answers($answer_lines, $correct_answer_lines);
-		$this->display_question_feedback();
+		//$this->display_question_feedback();
 		
 		$this->display_score($score_line);
 		$this->display_feedback();
@@ -110,14 +110,14 @@ class FillInBlanksQuestionResult extends QuestionResult
 				$answer_line = '<span style="color:red;">' . $answer_line . '</span>';
 			
 			$answer_line .= ' ('.Translation :: get('Score').': '.$result->get_score().')';
-			$correct_answer_line = $answers[$result->get_answer_index()]->get_value();
+			$correct_answer_line = $answers[$result->get_answer_index()]->get_value() . ' (' . $answers[$result->get_answer_index()]->get_comment() . ')';
 				
 			$answer_lines[] = $answer_line;
 			$correct_answer_lines[] = $correct_answer_line;
 		}
 		
 		$this->display_answers($answer_lines, $correct_answer_lines);
-		$this->display_question_feedback();
+		//$this->display_question_feedback();
 		
 		$this->display_score($score_line);
 		$this->display_feedback();

@@ -8,12 +8,19 @@ abstract class ResultsViewer extends FormValidator
 {
 	private $user_assessment;
 	private $edit_rights;
+	private $component;
 	
-	function ResultsViewer($user_assessment, $edit_rights, $url)
+	function ResultsViewer($user_assessment, $edit_rights, $url, $component)
 	{
 		parent :: __construct('assessment', 'post', $url);
 		$this->user_assessment = $user_assessment;
 		$this->edit_rights = $edit_rights;
+		$this->component = $component;
+	}
+	
+	function get_component()
+	{
+		return $this->component;
 	}
 	
 	abstract function build();
@@ -40,7 +47,7 @@ abstract class ResultsViewer extends FormValidator
 		return $pub;
 	}
 	
-	static function factory($user_assessment, $edit_rights, $url)
+	static function factory($user_assessment, $edit_rights, $url,$component)
 	{
 		$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
 		$assessment = $pub->get_learning_object();
@@ -48,19 +55,19 @@ abstract class ResultsViewer extends FormValidator
 		switch ($assessment->get_assessment_type()) 
 		{
 			case Assessment :: TYPE_ASSIGNMENT:
-				$subcomponent = new AssignmentResultsViewer($user_assessment, $edit_rights, $url);
+				$subcomponent = new AssignmentResultsViewer($user_assessment, $edit_rights, $url,$component);
 				break;
 			case Assessment :: TYPE_EXERCISE:
-				$subcomponent = new ExerciseResultsViewer($user_assessment, $edit_rights, $url);
+				$subcomponent = new ExerciseResultsViewer($user_assessment, $edit_rights, $url,$component);
 				break;
 			case Survey :: TYPE_SURVEY:
 				if ($edit_rights)
-					$subcomponent = new ExerciseResultsViewer($user_assessment, $edit_rights, $url);
+					$subcomponent = new ExerciseResultsViewer($user_assessment, $edit_rights, $url,$component);
 				else
-					$subcomponent = new SurveyResultsViewer($user_assessment, $edit_rights, $url);
+					$subcomponent = new SurveyResultsViewer($user_assessment, $edit_rights, $url,$component);
 				break;
 			default:
-				$subcomponent = new ExerciseResultsViewer($user_assessment, $edit_rights, $url);
+				$subcomponent = new ExerciseResultsViewer($user_assessment, $edit_rights, $url,$component);
 				break;
 		}
 		return $subcomponent;

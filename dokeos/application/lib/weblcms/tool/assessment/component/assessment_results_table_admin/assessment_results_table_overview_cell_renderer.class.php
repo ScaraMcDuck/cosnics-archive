@@ -37,13 +37,13 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 		} 
 		else
 		{
-			switch ($column->get_object_property())
+			switch ($column->get_title())
 			{
-				case Assessment :: PROPERTY_TITLE:
+				case Translation :: get(Assessment :: PROPERTY_TITLE):
 					return $assessment->get_title();
-				case Assessment :: PROPERTY_ASSESSMENT_TYPE:
+				case Translation :: get(Assessment :: PROPERTY_ASSESSMENT_TYPE):
 					return $assessment->get_assessment_type();
-				case Assessment :: PROPERTY_AVERAGE_SCORE:
+				case Translation :: get(Assessment :: PROPERTY_AVERAGE_SCORE):
 					$track = new WeblcmsAssessmentAttemptsTracker();
 					$avg = $track->get_average_score($publication);
 					if (!isset($avg))
@@ -56,7 +56,7 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 						$pct = round(($avg / $max) * 100, 2);
 						return $avg.'/'.$max.' ('.$pct.'%)';
 					}
-				case Assessment :: PROPERTY_TIMES_TAKEN:
+				case Translation :: get(Assessment :: PROPERTY_TIMES_TAKEN):
 					$track = new WeblcmsAssessmentAttemptsTracker();
 					return $track->get_times_taken($publication);
 				default:

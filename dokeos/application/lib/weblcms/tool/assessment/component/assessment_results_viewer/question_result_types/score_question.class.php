@@ -6,7 +6,7 @@ class ScoreQuestionResult extends QuestionResult
 {
 	function display_exercise()
 	{
-		$this->display_question_header();
+		$this->display_question_header(false);
 		
 		$results = parent :: get_results();
 		$low = parent :: get_question()->get_low();
@@ -25,7 +25,7 @@ class ScoreQuestionResult extends QuestionResult
 		$this->display_footer();*/
 		
 		$this->display_answers($score_line);
-		$this->display_question_feedback();
+	//	$this->display_question_feedback();
 		
 		$this->display_score();
 		$this->display_feedback();
@@ -38,7 +38,7 @@ class ScoreQuestionResult extends QuestionResult
 	
 	function display_survey()
 	{
-		$this->display_question_header();
+		$this->display_question_header(false);
 		
 		$user_answers = parent :: get_user_answers();
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $user_answers[0]->get_answer_id());
@@ -72,7 +72,7 @@ class ScoreQuestionResult extends QuestionResult
 		$this->display_footer();*/
 		
 		$this->display_answers($score_line);
-		$this->display_question_feedback();
+		//$this->display_question_feedback();
 		
 		$this->display_score();
 		$this->display_feedback();

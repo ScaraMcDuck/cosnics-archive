@@ -86,6 +86,8 @@ class MultipleChoiceQuestionResult extends QuestionResult
 				$correct_line = $answer->get_value();
 			}
 			
+			$correct_line .= ' <span style="color: navy; font-style: italic;">(' . $answer->get_comment() . ')</span>';
+			
 			$correct_lines[] = $correct_line;
 			$user_score_div += $answer->get_weight();
 		}
@@ -107,7 +109,7 @@ class MultipleChoiceQuestionResult extends QuestionResult
 		$this->display_footer();*/
 		
 		$this->display_answers($answer_lines, $correct_lines);
-		$this->display_question_feedback();
+		//$this->display_question_feedback();
 		
 		$this->display_score($score_line);
 		$this->display_feedback();
@@ -216,6 +218,8 @@ class MultipleChoiceQuestionResult extends QuestionResult
 				$correct_line = $answer->get_value();
 			}
 			
+			$correct_line .= ' <span style="color: navy; font-style: italic;">(' . $answer->get_comment() . ')</span>';
+			
 			$correct_lines[] = $correct_line;
 			$user_score_div += $answer->get_weight();
 		}
@@ -235,7 +239,7 @@ class MultipleChoiceQuestionResult extends QuestionResult
 		$this->display_footer();*/
 		
 		$this->display_answers($answer_lines, $correct_lines);
-		$this->display_question_feedback();
+		//$this->display_question_feedback();
 		
 		$this->display_score($score_line);
 		$this->display_feedback();

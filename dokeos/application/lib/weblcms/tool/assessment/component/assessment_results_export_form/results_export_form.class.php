@@ -26,17 +26,25 @@ class AssessmentResultsExportForm extends FormValidator
 			$assessment = $publication->get_learning_object();
 			$user = UserDataManager::get_instance()->retrieve_user($user_assessment->get_user_id());
 		
-			$this->addElement('html', '<h3>Assessment: '.$assessment->get_title().'</h3><br/>');
-			$this->addElement('html', '<h3>Export results:</h3>');
-			$this->addElement('html', '<br/><br/>From user: '.$user->get_fullname());
+			//$this->addElement('html', '<h3>Assessment: '.$assessment->get_title().'</h3><br/>');
+			$this->addElement('html', '<h3>Export results for user ' . $user->get_fullname() . '</h3><br />');
+			
+			$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/assessment.png);">';
+			$html[] = '<div class="title">';
+			$html[] = $assessment->get_title();
+			$html[] = '</div>';
+			$html[] = $assessment->get_description();
+			$html[] = '</div><br />';
+			
+			$this->addElement('html', implode("\n", $html));
 		} 
 		else if (isset($_GET[AssessmentTool :: PARAM_PUBLICATION_ID]))
 		{
 			$aid = $_GET[AssessmentTool :: PARAM_PUBLICATION_ID];
-			$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid);
+			$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($aid);
 		
 			$this->addElement('html', '<h3>Assessment: '.$publication->get_learning_object()->get_title().'</h3><br/>');
-			$this->addElement('html', '<h3>Export results:</h3>');
+			$this->addElement('html', '<h3>Export results for user ' . $user->get_fullname() . '</h3><br />');
 		}
 		
 		$options = Export::get_supported_filetypes(array('ical'));
