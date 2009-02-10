@@ -14,7 +14,7 @@
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="allow_student_view" field="radio" default="0">
+			<setting name="allow_student_view" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
@@ -22,7 +22,7 @@
 			</setting>
 		</category>
 		<category name="tools">
-			<setting name="enable_introduction" field="radio" default="0">
+			<setting name="enable_introduction" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
@@ -80,19 +80,19 @@
 			<setting name="wiki_active" field="checkbox">
 				<options type="static"><option name="wiki_active" value="1" /></options>
 			</setting>
-			<setting name="allow_dropbox_overwrite" field="radio" default="flat">
+			<setting name="allow_dropbox_overwrite" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="display_small_month_calendar" field="radio" default="flat">
+			<setting name="display_small_month_calendar" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="display_upcomming_events" field="radio" default="flat">
+			<setting name="display_upcomming_events" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
@@ -107,37 +107,37 @@
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="allow_course_language_selection" field="radio" default="0">
+			<setting name="allow_course_language_selection" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="allow_course_layout_selection" field="radio" default="0">
+			<setting name="allow_course_layout_selection" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="allow_course_tool_short_cut_selection" field="radio" default="0">
+			<setting name="allow_course_tool_short_cut_selection" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="allow_course_menu_selection" field="radio" default="0">
+			<setting name="allow_course_menu_selection" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="allow_course_breadcrumbs" field="radio" default="0">
+			<setting name="allow_course_breadcrumbs" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="allow_feedback_selection" field="radio" default="0">
+			<setting name="allow_feedback_selection" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
@@ -157,55 +157,55 @@
 			<setting name="default_course_breadcrumbs" field="select" default="1">
 				<options type="dynamic" source="get_breadcrumb_options" />
 			</setting>
-			<setting name="feedback" field="radio" default="0">
+			<setting name="feedback" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="display_course_code_in_title" field="radio" default="0">
+			<setting name="display_course_code_in_title" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="display_teacher_in_title" field="radio" default="0">
+			<setting name="display_teacher_in_title" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="show_course_languages" field="radio" default="0">
+			<setting name="show_course_languages" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="show_number_of_courses" field="radio" default="0">
+			<setting name="show_number_of_courses" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="show_empty_course_categories" field="radio" default="0">
+			<setting name="show_empty_course_categories" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="show_back_link" field="radio" default="0">
+			<setting name="show_back_link" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="display_categories_on_homepage" field="radio" default="0">
+			<setting name="display_categories_on_homepage" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="display_closed_courses" field="radio" default="0">
+			<setting name="display_closed_courses" field="radio" default="1">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
