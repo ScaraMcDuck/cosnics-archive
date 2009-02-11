@@ -166,9 +166,10 @@ abstract class QuestionResult
 				$html[] = $feedback_lo->get_description();
 				$html[] = $this->render_attachments($feedback_lo);
 				$html[] = '</div>';
-				$html[] = '<div class="publication_actions">';
-				//$html[] = 
+				$html[] = '<div style="float: right;">';
+				$html[] = $this->render_feedback_actions();
 				$html[] = '</div>';
+				$html[] = '<div class="clear">&nbsp;</div>';
 				$html[] = '</div>';
 				
 			}
@@ -183,6 +184,28 @@ abstract class QuestionResult
 		$html[] = '</div><br />';
 		
 		$this->formvalidator->addElement('html', implode("\n", $html));
+	}
+	
+	function render_feedback_actions()
+	{
+		$quest = $this->question;
+	
+		if($this->formvalidator->get_component()->is_allowed(DELETE_RIGHT))
+		{ 
+			$actions[] = array(
+				'href' => $this->formvalidator->get_component()->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EDIT_QUESTION_FEEDBACK, AssessmentTool :: PARAM_QUESTION_ATTEMPT => $quest->get_id(), AssessmentTool :: PARAM_USER_ASSESSMENT => Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT))), 
+				'label' => Translation :: get('Edit'), 
+				'img' => Theme :: get_common_image_path().'action_edit.png'
+			);
+			
+			$actions[] = array(
+				'href' => $this->formvalidator->get_component()->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_QUESTION_FEEDBACK, AssessmentTool :: PARAM_QUESTION_ATTEMPT => $quest->get_id(), AssessmentTool :: PARAM_USER_ASSESSMENT => Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT))), 
+				'label' => Translation :: get('Delete'), 
+				'img' => Theme :: get_common_image_path().'action_delete.png'
+			);
+			
+			return DokeosUtilities :: build_toolbar($actions);
+		}
 	}
 	
 	function render_attachments($object)
