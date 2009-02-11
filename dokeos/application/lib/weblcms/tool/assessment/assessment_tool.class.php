@@ -24,8 +24,11 @@ class AssessmentTool extends Tool
 	const ACTION_PUBLISH_SURVEY = 'publish_survey';
 	const ACTION_VIEW = 'view';
 	const ACTION_REPOVIEWER = 'repoview';
+	const ACTION_DELETE_QUESTION_FEEDBACK = 'delete_qfeedback';
+	const ACTION_EDIT_QUESTION_FEEDBACK = 'edit_qfeedback';
 	
 	const PARAM_USER_ASSESSMENT = 'uaid';
+	const PARAM_QUESTION_ATTEMPT = 'qaid';
 	const PARAM_ASSESSMENT = 'aid';
 	const PARAM_ADD_FEEDBACK = 'feedback';
 	const PARAM_ANONYMOUS = 'anonymous';
@@ -75,6 +78,12 @@ class AssessmentTool extends Tool
 				break;
 			case self :: ACTION_REPOVIEWER:
 				$component = AssessmentToolComponent :: factory('Repoviewer', $this);
+				break;
+			case self :: ACTION_DELETE_QUESTION_FEEDBACK:
+				$component = AssessmentToolComponent :: factory('QuestionFeedbackDeleter', $this);
+				break;
+			case self :: ACTION_EDIT_QUESTION_FEEDBACK:
+				$component = AssessmentToolComponent :: factory('QuestionFeedbackEditor', $this);
 				break;
 			default:
 				$component = AssessmentToolComponent :: factory('Viewer', $this);
