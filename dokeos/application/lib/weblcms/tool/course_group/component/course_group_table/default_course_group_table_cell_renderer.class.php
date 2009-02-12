@@ -50,7 +50,7 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
 				case CourseGroup :: PROPERTY_NAME :
 					if($this->course_group_tool->is_allowed(EDIT_RIGHT) || $course_group->is_member($this->course_group_tool->get_user()) )
 					{
-						$url = $this->course_group_tool->get_url(array (Weblcms :: PARAM_COURSE_GROUP => $course_group->get_id()));
+						$url = $this->course_group_tool->get_url(array (CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE, Weblcms :: PARAM_COURSE_GROUP => $course_group->get_id()));
 						return '<a href="'.$url.'">'.$course_group->get_name().'</a>';
 					}
 					else
@@ -112,7 +112,7 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
 		{
 			$parameters = array ();
 			$parameters[Weblcms :: PARAM_COURSE_GROUP] = $course_group->get_id();
-			$parameters[CourseGroupTool::PARAM_COURSE_GROUP_ACTION] = CourseGroupTool::ACTION_SUBSCRIBE;
+			$parameters[CourseGroupTool::PARAM_COURSE_GROUP_ACTION] = CourseGroupTool::ACTION_MANAGE_SUBSCRIPTIONS;
 			$subscribe_url = $this->course_group_tool->get_url($parameters);
 			$toolbar_data[] = array ('href' => $subscribe_url, 'label' => Translation :: get('SubscribeUsers'), 'img' => Theme :: get_common_image_path().'action_subscribe.png');
 		}
@@ -125,14 +125,14 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
 			$unsubscribe_url = $this->course_group_tool->get_url($parameters);
 			$toolbar_data[] = array ('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_image_path().'action_unsubscribe.png');
 		}
-		else
+		/*else
 		{
 			$parameters = array ();
 			$parameters[Weblcms :: PARAM_COURSE_GROUP] = $course_group->get_id();
 			$parameters[CourseGroupTool::PARAM_COURSE_GROUP_ACTION] = CourseGroupTool::ACTION_UNSUBSCRIBE;
 			$unsubscribe_url = $this->course_group_tool->get_url($parameters);
 			$toolbar_data[] = array ('href' => $unsubscribe_url, 'label' => Translation :: get('UnsubscribeUsers'), 'img' => Theme :: get_common_image_path().'action_unsubscribe.png');
-		}
+		}*/
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}

@@ -2064,11 +2064,16 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if(!is_array($course_groups))
 		{
 			$course_groups = array($course_groups);
-		}
+		} 
 		foreach($users as $index => $user)
 		{
 			$props = array();
-			$props[User :: PROPERTY_USER_ID] = $user->get_id();
+			
+			if(get_class($user) == 'User')
+				$props[User :: PROPERTY_USER_ID] = $user->get_id();
+			else
+				$props[User :: PROPERTY_USER_ID] = $user;
+				
 			foreach($course_groups as $index => $course_group)
 			{
 				$props['course_group_id'] = $course_group->get_id();
@@ -2094,7 +2099,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			{
 				$sql = 'DELETE FROM '.$this->escape_table_name('course_group_rel_user').' WHERE course_group_id = ? AND user_id = ?';
 				$statement = $this->connection->prepare($sql);
-				$statement->execute(array($course_group->get_id(),$user->get_id()));
+				
+				if(get_class($user) == 'User')
+					$statement->execute(array($course_group->get_id(),$user->get_id()));
+				else
+					$statement->execute(array($course_group->get_id(),$user));
+			
 			}
 		}
 	}
