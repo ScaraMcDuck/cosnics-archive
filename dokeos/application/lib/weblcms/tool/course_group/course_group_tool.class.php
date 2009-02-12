@@ -12,14 +12,18 @@ require_once dirname(__FILE__).'/course_group_tool_component.class.php';
  */
 class CourseGroupTool extends Tool
 {
-	const PARAM_COURSE_GROUP_ACTION = 'course_group_action';
+	const PARAM_COURSE_GROUP_ACTION = 'tool_action';
 	
 	const ACTION_SUBSCRIBE = 'course_group_subscribe';
 	const ACTION_UNSUBSCRIBE = 'course_group_unsubscribe';
 	const ACTION_ADD_COURSE_GROUP = 'add_course_group';
+	const ACTION_EDIT_COURSE_GROUP = 'edit_course_group';
+	const ACTION_DELETE_COURSE_GROUP = 'delete_course_group';
 	const ACTION_USER_SELF_SUBSCRIBE = 'user_subscribe';
 	const ACTION_USER_SELF_UNSUBSCRIBE = 'user_unsubscribe';
 	const ACTION_VIEW_GROUPS = 'view';
+	
+	const PARAM_COURSE_GROUP = 'course_group';
 	
 	/**
 	 * Inherited.
@@ -44,6 +48,12 @@ class CourseGroupTool extends Tool
 				break;
 			case self :: ACTION_ADD_COURSE_GROUP :
 				$component = CourseGroupToolComponent :: factory('Creator', $this);
+				break;
+			case self :: ACTION_EDIT_COURSE_GROUP :
+				$component = CourseGroupToolComponent :: factory('Editor', $this);
+				break;
+			case self :: ACTION_DELETE_COURSE_GROUP :
+				$component = CourseGroupToolComponent :: factory('Deleter', $this);
 				break;
 			case self :: ACTION_USER_SELF_SUBSCRIBE :
 				$component = CourseGroupToolComponent :: factory('SelfSubscriber', $this);

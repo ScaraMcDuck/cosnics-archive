@@ -58,7 +58,7 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
 						return $course_group->get_name();
 					}
 				case CourseGroup :: PROPERTY_DESCRIPTION :
-					return $course_group->get_description();
+					return strip_tags($course_group->get_description());
 				case CourseGroup :: PROPERTY_MAX_NUMBER_OF_MEMBERS :
 					return $course_group->get_max_number_of_members();
 				case CourseGroup :: PROPERTY_SELF_REG :
@@ -86,11 +86,21 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
 		if($this->course_group_tool->is_allowed(EDIT_RIGHT))
 		{
 			$parameters = array ();
+			$parameters[CourseGroupTool :: PARAM_COURSE_GROUP] = $course_group->get_id();
+			$parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_EDIT_COURSE_GROUP;
+			$edit_url = $this->course_group_tool->get_url($parameters);
+			$toolbar_data[] = array ('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path().'action_edit.png');
+			
+			$parameters = array ();
 			$parameters[Weblcms :: PARAM_COURSE_GROUP] = $course_group->get_id();
+			$parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool :: ACTION_DELETE_COURSE_GROUP;
 			$delete_url = $this->course_group_tool->get_url($parameters);
-			$toolbar_data[] = array ('href' => $details_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path().'action_delete.png');
+			$toolbar_data[] = array ('href' => $delete_url, 'label' => Translation :: get('Delete'), 'img' => Theme :: get_common_image_path().'action_delete.png');
 		}
-		if($course_group->is_self_registration_allowed() && !$course_group->is_member($this->course_group_tool->get_user()))
+		
+		$user = $this->course_group_tool->get_user();
+		
+		if(!$user->is_platform_admin() && $course_group->is_self_registration_allowed() && !$course_group->is_member($this->course_group_tool->get_user()))
 		{
 			$parameters = array ();
 			$parameters[Weblcms :: PARAM_COURSE_GROUP] = $course_group->get_id();
@@ -98,7 +108,16 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
 			$subscribe_url = $this->course_group_tool->get_url($parameters);
 			$toolbar_data[] = array ('href' => $subscribe_url, 'label' => Translation :: get('Subscribe'), 'img' => Theme :: get_common_image_path().'action_subscribe.png');
 		}
-		if($course_group->is_self_unregistration_allowed() && $course_group->is_member($this->course_group_tool->get_user()))
+		else
+		{
+			$parameters = array ();
+			$parameters[Weblcms :: PARAM_COURSE_GROUP] = $course_group->get_id();
+			$parameters[CourseGroupTool::PARAM_COURSE_GROUP_ACTION] = CourseGroupTool::ACTION_SUBSCRIBE;
+			$subscribe_url = $this->course_group_tool->get_url($parameters);
+			$toolbar_data[] = array ('href' => $subscribe_url, 'label' => Translation :: get('SubscribeUsers'), 'img' => Theme :: get_common_image_path().'action_subscribe.png');
+		}
+		
+		if(!$user->is_platform_admin() && $course_group->is_self_unregistration_allowed() && $course_group->is_member($this->course_group_tool->get_user()))
 		{
 			$parameters = array ();
 			$parameters[Weblcms :: PARAM_COURSE_GROUP] = $course_group->get_id();
@@ -106,6 +125,15 @@ class DefaultCourseGroupTableCellRenderer implements CourseGroupTableCellRendere
 			$unsubscribe_url = $this->course_group_tool->get_url($parameters);
 			$toolbar_data[] = array ('href' => $unsubscribe_url, 'label' => Translation :: get('Unsubscribe'), 'img' => Theme :: get_common_image_path().'action_unsubscribe.png');
 		}
+		else
+		{
+			$parameters = array ();
+			$parameters[Weblcms :: PARAM_COURSE_GROUP] = $course_group->get_id();
+			$parameters[CourseGroupTool::PARAM_COURSE_GROUP_ACTION] = CourseGroupTool::ACTION_UNSUBSCRIBE;
+			$unsubscribe_url = $this->course_group_tool->get_url($parameters);
+			$toolbar_data[] = array ('href' => $unsubscribe_url, 'label' => Translation :: get('UnsubscribeUsers'), 'img' => Theme :: get_common_image_path().'action_unsubscribe.png');
+		}
+		
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
