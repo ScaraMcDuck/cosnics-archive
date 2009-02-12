@@ -62,10 +62,13 @@ class RepositoryFilterForm extends FormValidator
 		
 		$this->addGroup($group, 'filter_type', Translation :: get('Password'), '&nbsp;&nbsp;&nbsp;');
 		
+		/*$this->addElement('html', '<br /><div style="padding-top: 5px;">');
+		$this->addElement('checkbox', 'published', null, Translation :: get('ShowPublished'));*/
 		$this->addElement('html', '&nbsp;&nbsp;&nbsp;');
 		$this->addElement('submit', 'search', Translation :: get('Ok'));
+		//$this->addElement('html', '</div>');
 		
-		$this->setDefaults(array('filter_type' => array('type' => 0)));
+		$this->setDefaults(array('filter_type' => array('type' => 0), 'published' => 1));
 	}
 	
 	function get_filter_conditions()

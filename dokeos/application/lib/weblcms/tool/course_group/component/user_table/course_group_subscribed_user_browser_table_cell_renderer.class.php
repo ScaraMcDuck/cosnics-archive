@@ -40,7 +40,7 @@ class CourseGroupSubscribedUserBrowserTableCellRenderer extends DefaultUserTable
 	private function get_modification_links($user)
 	{
 		$toolbar_data = array();
-			if($user->get_id() != $this->browser->get_user()->get_id())
+			//if($user->get_id() != $this->browser->get_user()->get_id())
 			{
 				$parameters = array();
 				$parameters[CourseGroupTool :: PARAM_COURSE_GROUP_ACTION] = CourseGroupTool::ACTION_UNSUBSCRIBE;

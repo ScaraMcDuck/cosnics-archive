@@ -15,14 +15,9 @@ class CourseGroupToolSelfUnsubscriberComponent extends CourseGroupToolComponent
 			return;
 		}
 		
-		$trail = new BreadcrumbTrail();
-		$this->display_header($trail);
-		
 		$course_group = $this->get_course_group();
 		$course_group->unsubscribe_users($this->get_user());
-		Display :: normal_message(Translation :: get('UserUnSubscribed'));
-	
-		$this->display_footer();
+		$this->redirect(null, Translation :: get('UserUnsubscribed'), '', array());
 	}
 
 }

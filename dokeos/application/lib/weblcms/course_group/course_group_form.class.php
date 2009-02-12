@@ -108,7 +108,7 @@ class CourseGroupForm extends FormValidator {
 	{
 		$course_group = $this->course_group;
 		$defaults[CourseGroup :: PROPERTY_NAME] = $course_group->get_name();
-		$$defaults[CourseGroup :: PROPERTY_DESCRIPTION] = $course_group->get_description();
+		$defaults[CourseGroup :: PROPERTY_DESCRIPTION] = $course_group->get_description();
 		$defaults[CourseGroup :: PROPERTY_MAX_NUMBER_OF_MEMBERS] = $course_group->get_max_number_of_members();
 		$defaults[CourseGroup :: PROPERTY_SELF_REG]= $course_group->is_self_registration_allowed();;
 		$defaults[CourseGroup :: PROPERTY_SELF_UNREG]= $course_group->is_self_unregistration_allowed();;
