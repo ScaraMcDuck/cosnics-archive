@@ -22,6 +22,7 @@ class CourseGroupTool extends Tool
 	const ACTION_USER_SELF_SUBSCRIBE = 'user_subscribe';
 	const ACTION_USER_SELF_UNSUBSCRIBE = 'user_unsubscribe';
 	const ACTION_VIEW_GROUPS = 'view';
+	const ACTION_MANAGE_SUBSCRIPTIONS = 'manage_subscriptions';
 	
 	const PARAM_COURSE_GROUP = 'course_group';
 	
@@ -60,6 +61,9 @@ class CourseGroupTool extends Tool
 				break;
 			case self :: ACTION_USER_SELF_UNSUBSCRIBE :
 				$component = CourseGroupToolComponent :: factory('SelfUnsubscriber', $this);
+				break;
+			case self :: ACTION_MANAGE_SUBSCRIPTIONS :
+				$component = CourseGroupToolComponent :: factory('ManageSubscriptions', $this);
 				break;
 			default :
 				$component = CourseGroupToolComponent :: factory('Browser', $this);

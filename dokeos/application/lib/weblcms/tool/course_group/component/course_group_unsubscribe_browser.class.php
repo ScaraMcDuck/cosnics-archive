@@ -19,8 +19,8 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
 		} 
 		$this->action_bar = $this->get_action_bar();
 		$course_group = $this->get_course_group();
-		$html[] = Translation :: get('Members').': '.$course_group->count_members().' / '.$course_group->get_max_number_of_members();
 		$html[] = '<div style="clear: both;">&nbsp;</div>';
+		
 		if(isset($_GET[Weblcms::PARAM_USERS]))
 		{
 			$udm = UserDataManager :: get_instance();
@@ -28,9 +28,24 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
 			$course_group->unsubscribe_users($user);
 			$html[] = Display :: normal_message(Translation :: get('UserUnsubscribed'),true);
 		}
+		
 		$table = new CourseGroupSubscribedUserBrowserTable($this->get_parent(), array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $this->get_course()->get_id(), Weblcms :: PARAM_TOOL => $this->get_tool_id(), Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_SUBSCRIBE),$this->get_condition());
 		$html[] = $this->action_bar->as_html();
+		
+		$html[] = '<div class="clear"></div><div class="learning_object" style="background-image: url('. Theme :: get_common_image_path() .'place_group.png);">';
+		$html[] = '<div class="title">'. $course_group->get_name() .'</div>';
+		$html[] = $course_group->get_description();
+		$html[] = '<b>' . Translation :: get('NumberOfMembers'). ':</b> ' . $course_group->count_members();
+		$html[] = '<br /><b>' . Translation :: get('MaximumMembers'). ':</b> ' . $course_group->get_max_number_of_members();
+		$html[] = '<br /><b>' . Translation :: get('SelfRegistrationAllowed'). ':</b> ' . ($course_group->is_self_registration_allowed()?Translation :: get('True') : Translation :: get('False'));
+		$html[] = '<br /><b>' . Translation :: get('SelfUnRegistrationAllowed'). ':</b> ' . ($course_group->is_self_unregistration_allowed()?Translation :: get('True') : Translation :: get('False'));
+		$html[] = '</div>';
+		
+		$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path() .'place_users.png);">';
+		$html[] = '<div class="title">'. Translation :: get('Users') .'</div>';
 		$html[] = $table->as_html();
+		$html[] = '</div>';
+		
 		$this->display_header(new BreadCrumbTrail());
 		echo implode($html, "\n");
 		$this->display_footer();
@@ -42,7 +57,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
 		
 		//$action_bar->set_search_url($this->get_url());
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeUsers'), Theme :: get_common_image_path().'action_subscribe.png', $this->get_url(array (CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_SUBSCRIBE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		//$action_bar->add_common_action(new ToolbarItem(Translation :: get('SubscribeUsers'), Theme :: get_common_image_path().'action_subscribe.png', $this->get_url(array (CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_SUBSCRIBE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
