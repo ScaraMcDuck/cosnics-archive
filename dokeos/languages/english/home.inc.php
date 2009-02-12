@@ -110,4 +110,5 @@ $lang['home']['MyAccount'] = 'My account';
 $lang['home']['Repository'] = 'Repository';
 $lang['home']['Administration'] = 'Administration';
 $lang['home']['Logout'] = 'Logout';
+$lang['home']['ConfigureBlockFirst'] = 'Configure this block first';
 ?>
