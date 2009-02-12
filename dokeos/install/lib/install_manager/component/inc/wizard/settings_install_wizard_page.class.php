@@ -72,7 +72,7 @@ class SettingsInstallWizardPage extends InstallWizardPage
 		$defaults['admin_password'] = substr(md5(time()), 0, 8);
 		$defaults['platform_name'] = Translation :: get('MyDokeos');
 		$defaults['organization_name'] = Translation :: get('Dokeos');
-		$defaults['organization_url'] = 'http://www.dokeos.com';
+		$defaults['organization_url'] = 'http://www.dokeosplanet.org';
 		$defaults['self_reg'] = 0;
 		$defaults['encrypt_password'] = 1;
 		$this->setDefaults($defaults);
