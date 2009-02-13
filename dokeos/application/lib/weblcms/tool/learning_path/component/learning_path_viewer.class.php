@@ -7,6 +7,8 @@ require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_learning_o
 
 class LearningPathToolViewerComponent extends LearningPathToolComponent
 {
+	private $pid;
+	
 	function run() 
 	{
 		if (!$this->is_allowed(VIEW_RIGHT))
@@ -17,6 +19,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		$trail = new BreadcrumbTrail();
 		
 		$pid = $_GET['pid'];
+		$this->pid = $pid;
 		if(!$pid)
 		{
 			$this->display_header($trail);
@@ -90,6 +93,11 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		}
 		
 		return DokeosUtilities :: build_toolbar($actions);
+	}
+	
+	function get_publication_id()
+	{
+		return $pid;
 	}
 	
 	private function get_progress_bar()
