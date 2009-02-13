@@ -30,6 +30,7 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 			$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = null;
 			$_SESSION['formvalues'] = null;
 			$_SESSION['started'] = true;
+			$this->create_tracker($assessment);
 		}
 		
 		if (isset($_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE]))
@@ -50,23 +51,41 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 		}
 	}
 	
+	function create_tracker($assessment)
+	{
+		$args = array(
+		'assessment_id' => $assessment->get_id(), 
+		'user_id' => $this->get_parent()->get_user_id(), 
+		'learning_path_id' => $this->get_parent()->get_publication_id(),
+		'total_score' => 0
+		);
+		$tracker = new WeblcmsLearningPathAssessmentAttemptsTracker();
+		//dump($args);
+		$tracker_id = $tracker->track($args);
+		//dump($tracker_id);
+		$_SESSION['assessment_tracker'] = $tracker_id;
+	}
+	
 	function redirect_to_score_calculator($values = null)
 	{
+		dump($_SESSION);
+		
 		if ($values == null)
 			$values = $_SESSION['formvalues'];
 			
 		$score_calculator = new AssessmentScoreCalculator();
-		$user_assessment = $score_calculator->build_answers($values, $this->assessment, $this->datamanager, $this->get_parent());
-		
-		WeblcmsDataManager :: get_instance()->create_user_assessment($user_assessment);
-		$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id());
+		$score_calculator->build_answers($values, $this->assessment, $this->datamanager, $this);
+		$uaid = $tracker_id = $_SESSION['assessment_tracker'];
+		$_SESSION['assessment_tracker'] = null;
+		//WeblcmsDataManager :: get_instance()->create_user_assessment($user_assessment);
+		$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid);
 		if ($this->invitation != null)
 		{
 			$this->invitation->set_valid(false);
 			$this->datamanager->update_survey_invitation($this->invitation);
 			$params[AssessmentTool::PARAM_INVITATION_ID] = $this->invitation->get_invitation_code();
-		}	
-		$results_form = ResultsViewer :: factory($user_assessment, false, null);
+		}		
+		$results_form = ResultsViewer :: factory($user_assessment, false, null, 'WeblcmsLearningPathAssessmentAttemptsTracker');
 		$results_form->build();
 		return $results_form->toHtml();
 	}

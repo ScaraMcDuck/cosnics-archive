@@ -60,6 +60,8 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 		foreach($values['option'] as $option_id => $value)
 		{
 			$weight = $values['weight'][$option_id];
+			if (!isset($weight))
+				$weight = 1;
 			$comment = $values['comment'][$option_id];
 			$options[] = new FillInBlanksQuestionAnswer($value, $weight, $comment);
 		}
@@ -135,9 +137,9 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 							),
 						'weight['.$option_number.']' =>
 							array(
-								array(
-									Translation :: get('ThisFieldIsRequired'), 'required'
-								),
+								//array(
+								//	Translation :: get('ThisFieldIsRequired'), 'required'
+								//),
 								array(
 									Translation :: get('ValueShouldBeNumeric'),'numeric'
 								)

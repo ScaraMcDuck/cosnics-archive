@@ -1,16 +1,20 @@
 <?php
 require_once dirname(__FILE__).'/score.class.php';
 require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_question_attempts_tracker.class.php';
+require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_assessment_attempts_tracker.class.php';
 
 class AssessmentScoreCalculator 
 {
 	private $parent;
 	
-	function build_answers($values, $assessment, $datamanager, $parent)
+	function build_answers($values, $assessment, $datamanager, $parent, $tracker_type)
 	{
 		$this->parent = $parent;
 		$tracker_id = $_SESSION['assessment_tracker'];
-		$tracker = new WeblcmsAssessmentAttemptsTracker();
+		if (isset($tracker_type))
+			$tracker = new $tracker_type();
+		else
+			$tracker = new WeblcmsAssessmentAttemptsTracker();
 		$condition = new EqualityCondition(MainTracker :: PROPERTY_ID, $tracker_id);
 		$assessment_trackers = $tracker->retrieve_tracker_items($condition);
 		$assessment_tracker = $assessment_trackers[0];

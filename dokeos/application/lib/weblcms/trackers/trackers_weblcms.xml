@@ -63,4 +63,10 @@
 	<event name="attempt_question">
 		<tracker name="weblcms_assessment_attempts" />
 	</event>
+	<event name="attempt_learning_path_assessment">
+		<tracker name="weblcms_learning_path_assessment_attempts" />
+	</event>
+		<event name="attempt_learning_path_question">
+		<tracker name="weblcms_learning_path_assessment_attempts" />
+	</event>
 </application>

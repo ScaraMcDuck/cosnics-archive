@@ -39,6 +39,16 @@ class HotspotQuestion extends LearningObject
 		return count($this->get_answers());
 	}
 	
+	public function get_image()
+	{
+		return $this->get_additional_property(self :: PROPERTY_IMAGE);
+	}
+	
+	public function set_image($image)
+	{
+		$this->set_additional_property(self :: PROPERTY_IMAGE, $image);
+	}
+	
 	static function get_additional_property_names()
 	{
 		return array (
