@@ -140,6 +140,8 @@ class Path
 				return self :: get(WEB_FILE_PATH) . 'repository/';
 			case SYS_REPO_PATH :
 				return self :: get(SYS_FILE_PATH) . 'repository/';
+			case REL_REPO_PATH :
+				return self :: get(REL_FILE_PATH) . 'repository/';
 				
 			default :
 				return;

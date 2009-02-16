@@ -241,6 +241,8 @@ function FileUpload( $resourceType, $currentFolder, $sCommand )
 				}
 			}
 
+				
+			
 			if ( file_exists( $sFilePath ) )
 			{
 				//previous checks failed, try once again
@@ -254,6 +256,26 @@ function FileUpload( $resourceType, $currentFolder, $sCommand )
 					@unlink( $sFilePath ) ;
 					$sErrorNumber = '202' ;
 				}
+				else
+				{	
+					require_once(dirname(__FILE__).'/../../../../../../../common/global.inc.php');
+					require_once Path :: get_repository_path() . 'lib/learning_object/document/document.class.php';
+					
+					$user = Session :: get_user_id();
+					$document = new Document();
+					
+					$filename = basename($sFilePath);
+					$path = str_replace(Path :: get(SYS_REPO_PATH), '', $sFilePath);
+					//$test = fopen(dirname(__FILE__) . '/test.txt', 'w+'); fwrite($test, $sFilePath); fwrite($test, $path); fclose($test);
+					$document->set_filename($filename);
+					$document->set_path($path);
+					$document->set_filesize(filesize($sFilePath));
+					$document->set_title($filename);
+					$document->set_description($filename);
+					$document->set_parent_id(0);
+					$document->set_owner_id($user);
+					$document->create();
+				}
 			}
 		}
 		else
@@ -261,7 +283,6 @@ function FileUpload( $resourceType, $currentFolder, $sCommand )
 	}
 	else
 		$sErrorNumber = '202' ;
-
 
 	$sFileUrl = CombinePaths( GetResourceTypePath( $resourceType, $sCommand ) , $currentFolder ) ;
 	$sFileUrl = CombinePaths( $sFileUrl, $sFileName ) ;
