@@ -58,7 +58,7 @@ class CalendarEventPublisher
 		$parameters['object'] = $ids;
 		
 		$form = new CalendarEventPublicationForm(CalendarEventPublicationForm :: TYPE_MULTI, $ids, $this->parent->get_user(),$this->parent->get_url($parameters));
-		if ($form->validate())
+		//if ($form->validate())
 		{
 			$publication = $form->create_learning_object_publications();
 			
@@ -73,10 +73,10 @@ class CalendarEventPublisher
 			
 			$this->parent->redirect($message, (!$publication ? true : false), array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR));
 		}
-		else
+		/*else
 		{
 			$html[] = $form->toHtml();
-		}
+		}*/
 		
 		return implode("\n", $html);
 	}
