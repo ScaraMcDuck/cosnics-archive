@@ -61,5 +61,22 @@ class HTML_QuickForm_fckeditor_html_editor extends HTML_QuickForm_html_editor
 		@mkdir(Path :: get(SYS_PATH).'files/fckeditor/'. Session :: get_user_id().'/');
 		return implode("\n",$result);
 	}
+	
+	function exportValue()
+	{
+		$value = parent::getValue();
+		/*$test = fopen(dirname(__FILE__) . '/test.txt', 'w+');
+		fwrite($test, $value);
+		
+		$path = Path :: get(REL_REPO_PATH) . Session :: get_user_id() . '/';
+		fwrite($test, $path);
+		
+		fclose($test);*/
+		
+		
+		
+		$values[$this->getName()] = $value;
+		return $values;
+	}
 }
 ?>
