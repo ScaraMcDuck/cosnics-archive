@@ -139,8 +139,13 @@ class HotspotQuestionForm extends LearningObjectForm
 		{
 			$owner = $this->get_owner_id();
 			$filename = Filesystem :: create_unique_name(Path :: get(SYS_REPO_PATH).$owner, $_FILES['file']['name']);
-			$path = $owner.'/'.$filename;
-			$full_path = Path :: get(SYS_REPO_PATH).$path;
+
+			$repo_path = Path :: get(SYS_REPO_PATH) . $owner . '/';
+			$full_path = $repo_path . $filename;
+			
+			if(!is_dir($repo_path))
+				Filesystem :: create_dir($repo_path);
+				
 			$web_path = Path :: get(WEB_REPO_PATH).$path;
 			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
 			chmod($full_path, 0777);
