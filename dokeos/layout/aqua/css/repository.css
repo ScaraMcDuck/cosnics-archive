@@ -18,3 +18,9 @@ div.create_block
 	color: #565656;
 	font-size: 11px;
 }
+
+#learning_object_selection
+{
+	clear: both;
+	margin-top: 10px;
+}
