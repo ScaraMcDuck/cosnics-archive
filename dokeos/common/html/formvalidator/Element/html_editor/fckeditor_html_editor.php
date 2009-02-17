@@ -62,7 +62,7 @@ class HTML_QuickForm_fckeditor_html_editor extends HTML_QuickForm_html_editor
 		return implode("\n",$result);
 	}
 	
-	function exportValue()
+	/*function exportValue()
 	{
 		$value = parent::getValue();
 		/*$test = fopen(dirname(__FILE__) . '/test.txt', 'w+');
@@ -71,12 +71,12 @@ class HTML_QuickForm_fckeditor_html_editor extends HTML_QuickForm_html_editor
 		$path = Path :: get(REL_REPO_PATH) . Session :: get_user_id() . '/';
 		fwrite($test, $path);
 		
-		fclose($test);*/
+		fclose($test);
 		
 		
 		
 		$values[$this->getName()] = $value;
 		return $values;
-	}
+	}*/
 }
 ?>
