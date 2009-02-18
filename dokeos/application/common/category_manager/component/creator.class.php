@@ -20,7 +20,7 @@ class CategoryManagerCreatorComponent extends CategoryManagerComponent
 		$category = $this->get_category();
 		$category->set_parent(isset($category_id)?$category_id:0);
 		
-		$form = new CategoryForm(CategoryForm :: TYPE_CREATE, $this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $category_id)), $category, $user);
+		$form = new CategoryForm(CategoryForm :: TYPE_CREATE, $this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $category_id)), $category, $user, $this);
 
 		if($form->validate())
 		{
@@ -34,6 +34,7 @@ class CategoryManagerCreatorComponent extends CategoryManagerComponent
 		else
 		{
 			$this->display_header($this->get_breadcrumb_trail());
+			echo '<br />';
 			$form->display();
 			$this->display_footer();
 		}
