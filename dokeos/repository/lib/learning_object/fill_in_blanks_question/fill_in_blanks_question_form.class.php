@@ -33,7 +33,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 				foreach($options as $index => $option)
 				{
 					$defaults['option'][$index] = $option->get_value();
-					$defaults['weight'][$index] = $option->get_weight();
+					$defaults['option_weight'][$index] = $option->get_weight();
 					$defaults['comment'][$index] = $option->get_comment();
 				}
 			}
@@ -59,7 +59,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 		$options = array();
 		foreach($values['option'] as $option_id => $value)
 		{
-			$weight = $values['weight'][$option_id];
+			$weight = $values['option_weight'][$option_id];
 			if (!isset($weight))
 				$weight = 1;
 			$comment = $values['comment'][$option_id];
@@ -118,7 +118,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 			{
 				$group = array();
 				$group[] = $this->createElement('text','option['.$option_number.']', '','size="40"');
-				$group[] = $this->createElement('text','weight['.$option_number.']', '','size="2"  class="input_numeric"');
+				$group[] = $this->createElement('text','option_weight['.$option_number.']', '','size="2"  class="input_numeric"');
 				$group[] = $this->createElement('text','comment['.$option_number.']', '','size="40"');
 				if($number_of_options - count($_SESSION['mc_skip_options']) > 2)
 				{
@@ -135,7 +135,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 									Translation :: get('ThisFieldIsRequired'),'required'
 								)
 							),
-						'weight['.$option_number.']' =>
+						'option_weight['.$option_number.']' =>
 							array(
 								//array(
 								//	Translation :: get('ThisFieldIsRequired'), 'required'

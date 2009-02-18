@@ -44,7 +44,7 @@ class MatchingQuestionForm extends LearningObjectForm
 				foreach($options as $index => $option)
 				{
 					$defaults['option'][$index] = $option->get_value();
-					$defaults['weight'][$index] = $option->get_weight();
+					$defaults['option_weight'][$index] = $option->get_weight();
 					$defaults['matches_to'][$index] = $option->get_match();
 					$defaults['comment'][$index] = $option->get_comment();
 				}
@@ -92,7 +92,7 @@ class MatchingQuestionForm extends LearningObjectForm
 		foreach($values['option'] as $option_id => $value)
 		{
 			//Create the option with it corresponding match
-			$options[] = new MatchingQuestionOption($value,$matches_indexes[$values['matches_to'][$option_id]],$values['weight'][$option_id],$values['comment'][$option_id]);
+			$options[] = new MatchingQuestionOption($value,$matches_indexes[$values['matches_to'][$option_id]],$values['option_weight'][$option_id],$values['comment'][$option_id]);
 		}
 		foreach($values['match'] as $match_id => $match)
 		{
@@ -189,7 +189,7 @@ class MatchingQuestionForm extends LearningObjectForm
 			{
 				$group = array();
 				$group[] = $this->createElement('text','option['.$option_number.']', '', true,'size="40"');
-				$group[] = $this->createElement('text','weight['.$option_number.']','','size="2" class="input_numeric"');
+				$group[] = $this->createElement('text','option_weight['.$option_number.']','','size="2" class="input_numeric"');
 				$group[] = $this->createElement('select','matches_to['.$option_number.']','',$matches);
 				$group[] = $this->createElement('text','comment['.$option_number.']', '', true,'size="40"');
 				if($number_of_options - count($_SESSION['mq_skip_options']) > 2)
@@ -205,7 +205,7 @@ class MatchingQuestionForm extends LearningObjectForm
 									Translation :: get('ThisFieldIsRequired'),'required'
 								)
 							),
-						'weight['.$option_number.']' =>
+						'option_weight['.$option_number.']' =>
 							array(
 								array(
 									Translation :: get('ThisFieldIsRequired'), 'required'
