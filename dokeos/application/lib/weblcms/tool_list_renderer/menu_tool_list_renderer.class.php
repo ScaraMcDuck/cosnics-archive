@@ -67,6 +67,13 @@ class MenuToolListRenderer extends ToolListRenderer
 		
 		foreach ($tools as $index => $tool)
 		{
+			$sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $tool->section));
+			$section = $sections->next_result();
+			
+			//dump($tool->name);
+			if(!PlatformSetting :: get($tool->name . '_active', 'weblcms') && $section->get_type() != CourseSection :: TYPE_ADMIN)
+				continue;
+				
 			$section = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id',$tool->section))->next_result();
 
 			if($section->get_type() == CourseSection :: TYPE_ADMIN)

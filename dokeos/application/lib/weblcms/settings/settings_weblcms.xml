@@ -41,43 +41,46 @@
 					<option name="false" value="0" />
 				</options>
 			</setting>
-			<setting name="announcement_active" field="checkbox">
+			<setting name="announcement_active" field="checkbox" default="1">
 				<options type="static"><option name="announcement_active" value="1" /></options>
 			</setting>
-			<setting name="assessments_active" field="checkbox">
-				<options type="static"><option name="assessments_active" value="1" /></options>
+			<setting name="assessment_active" field="checkbox" default="1">
+				<options type="static"><option name="assessment_active" value="1" /></options>
 			</setting>
-			<setting name="calendar_active" field="checkbox">
+			<setting name="blog_active" field="checkbox" default="1">
+				<options type="static"><option name="blog_active" value="1" /></options>
+			</setting>
+			<setting name="calendar_active" field="checkbox" default="1">
 				<options type="static"><option name="calendar_active" value="1" /></options>
 			</setting>
-			<setting name="chat_active" field="checkbox">
+			<setting name="chat_active" field="checkbox" default="1">
 				<options type="static"><option name="chat_active" value="1" /></options>
 			</setting>
-			<setting name="groups_active" field="checkbox">
-				<options type="static"><option name="groups_active" value="1" /></options>
+			<setting name="course_group_active" field="checkbox" default="1">
+				<options type="static"><option name="course_group_active" value="1" /></options>
 			</setting>
-			<setting name="description_active" field="checkbox">
+			<setting name="description_active" field="checkbox" default="1">
 				<options type="static"><option name="description_active" value="1" /></options>
 			</setting>
-			<setting name="documents_active" field="checkbox">
-				<options type="static"><option name="documents_active" value="1" /></options>
+			<setting name="document_active" field="checkbox" default="1">
+				<options type="static"><option name="document_active" value="1" /></options>
 			</setting>
-			<setting name="forum_active" field="checkbox">
+			<setting name="forum_active" field="checkbox" default="1">
 				<options type="static"><option name="forum_active" value="1" /></options>
 			</setting>
-			<setting name="learning_path_active" field="checkbox">
+			<setting name="learning_path_active" field="checkbox" default="1">
 				<options type="static"><option name="learning_path_active" value="1" /></options>
 			</setting>
-			<setting name="links_path_active" field="checkbox">
-				<options type="static"><option name="links_path_active" value="1" /></options>
+			<setting name="link_active" field="checkbox" default="1">
+				<options type="static"><option name="link_active" value="1" /></options>
 			</setting>
-			<setting name="search_active" field="checkbox">
+			<setting name="search_active" field="checkbox" default="1">
 				<options type="static"><option name="search_active" value="1" /></options>
 			</setting>
-			<setting name="users_active" field="checkbox">
-				<options type="static"><option name="users_active" value="1" /></options>
+			<setting name="user_active" field="checkbox" default="1">
+				<options type="static"><option name="user_active" value="1" /></options>
 			</setting>
-			<setting name="wiki_active" field="checkbox">
+			<setting name="wiki_active" field="checkbox" default="1">
 				<options type="static"><option name="wiki_active" value="1" /></options>
 			</setting>
 			<setting name="allow_dropbox_overwrite" field="radio" default="1">
