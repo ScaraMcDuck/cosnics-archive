@@ -752,6 +752,15 @@ abstract class RepositoryDataManager
 	 * @return array The attached learning objects.
 	 */
 	abstract function retrieve_attached_learning_objects ($object);
+	
+	/**
+	 * Returns the learning objects that are included into the learning object
+	 * with the given ID.
+	 * @param LearningObject $object The learning object for which to retrieve
+	 *                               includes.
+	 * @return array The included learning objects.
+	 */
+	abstract function retrieve_included_learning_objects ($object);
 
 	abstract function retrieve_learning_object_versions ($object);
 
@@ -774,6 +783,24 @@ abstract class RepositoryDataManager
 	 *                 exist.
 	 */
 	abstract function detach_learning_object ($object, $attachment_id);
+	
+	/**
+	 * Adds a learning object to another's include list.
+	 * @param LearningObject $object The learning object to include into the other
+	 *                               learning object.
+	 * @param int $attachment_id The ID of the object to include.
+	 */
+	abstract function include_learning_object ($object, $include_id);
+
+	/**
+	 * Removes a learning object from another's include list.
+	 * @param LearningObject $object The learning object to exclude from the other
+	 *                               learning object.
+	 * @param int $attachment_id The ID of the object to exclude.
+	 * @return boolean True if the include was removed, false if it did not
+	 *                 exist.
+	 */
+	abstract function exclude_learning_object ($object, $include_id);
 
 	/**
 	 * Sets the requested learning objects' state to one of the STATE_*

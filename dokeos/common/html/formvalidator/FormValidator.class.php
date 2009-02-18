@@ -39,6 +39,11 @@ class FormValidator extends HTML_QuickForm
 	private $no_errors;
 	
 	/**
+	 * The HTML-editors in this form
+	 */
+	private $html_editors;
+	
+	/**
 	 * Constructor
 	 * @param string $form_name Name of the form
 	 * @param string $method Method ('post' (default) or 'get')
@@ -218,7 +223,15 @@ EOT;
 		}
 		//Add rule to check not-allowed HTML
 		$this->addRule($name,Translation :: get('SomeHTMLNotAllowed'),'html',$html_type);
+		
+		// Register the html editor for possible post processing afterwards
+		$this->html_editors[] = $name;
 		return $element;
+	}
+	
+	function get_html_editors()
+	{
+		return $this->html_editors;
 	}
 
 	/**
