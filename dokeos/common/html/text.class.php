@@ -139,5 +139,19 @@ class Text
 		}
 		return $password;
 	}
+	
+	public static function parse_query_string($query = '')
+	{
+		$queries = array();
+		$variables = explode('&', $query);
+		
+		foreach ($variables as $variable)
+		{
+			list($key, $value) = explode('=', $variable, 2);
+			$queries[$key] = $value;
+		}
+		
+		return $queries;
+	}
 }
 ?>

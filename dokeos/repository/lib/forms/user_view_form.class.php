@@ -39,7 +39,7 @@ class UserViewForm extends FormValidator {
 			$uvrlo = RepositoryDataManager :: get_instance()->retrieve_user_view_rel_learning_objects(new EqualityCondition(UserViewRelLearningObject :: PROPERTY_VIEW_ID, $this->get_user_view()->get_id()));
 	    	while($type = $uvrlo->next_result())
 	    	{
-	    		$learning_object_types[$type->get_learning_object_type()] = $type->get_learning_object_type();
+	    		$learning_object_types[$type->get_learning_object_type()] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($type->get_learning_object_type()));
 	    		if(!$type->get_visibility())
 	    			$defaults[] = $type->get_learning_object_type();
 	    	}
@@ -50,7 +50,7 @@ class UserViewForm extends FormValidator {
 			$registrations = $dm->get_registered_types();
 			foreach($registrations as $registration)
 			{
-				$learning_object_types[$registration] = $registration;
+				$learning_object_types[$registration] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($registration));
 			}
 		}
 		
