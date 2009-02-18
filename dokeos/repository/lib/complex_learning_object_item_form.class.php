@@ -143,6 +143,12 @@ abstract class ComplexLearningObjectItemForm extends FormValidator
 		$cloi = $this->complex_learning_object_item;
 		return $cloi->create();
 	}
+	
+	function create_cloi_from_values($values)
+	{
+		$cloi = $this->complex_learning_object_item;
+		return $cloi->create();
+	}
 
 	/**
 	 * Updates a complex learning object item with the submitted form values. Traditionally,
@@ -189,9 +195,27 @@ abstract class ComplexLearningObjectItemForm extends FormValidator
 						   $form_name, $method, $action);
 	}
 	
+	static function factory_with_type($form_type, $type, $complex_learning_object_item,
+									  $form_name, $method = 'post', $action = null)
+	{
+		if(!$complex_learning_object_item->is_extended()) return null;
+		
+		$class =  'Complex'.DokeosUtilities :: underscores_to_camelcase($type).'Form';
+		$file = dirname(__FILE__).'/learning_object/'.$type.'/complex_'.$type.'_form.class.php';
+
+		require_once $file; 
+		return new $class ($form_type, $complex_learning_object_item,
+						   $form_name, $method, $action);
+	}
+	
 	function get_path($path_type)
 	{
 		return Path :: get($path_type);
+	}
+	
+	function get_elements()
+	{
+		return array();
 	}
 }
 ?>
