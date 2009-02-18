@@ -10,7 +10,7 @@ class ToolComplexDeleterComponent extends ToolComponent
 				$cloi_ids = $_GET[Tool :: PARAM_COMPLEX_ID]; 
 			else
 				$cloi_ids = $_POST[Tool :: PARAM_COMPLEX_ID]; 
-			
+				
 			if (!is_array($cloi_ids))
 			{
 				$cloi_ids = array ($cloi_ids);

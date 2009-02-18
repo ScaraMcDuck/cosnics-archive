@@ -22,7 +22,7 @@ class ToolComplexEditComponent extends ToolComponent
 				$form->update_learning_object();
 				if($form->is_version())
 				{	
-					$cloi->set_ref($learning_object->get_latest_version());
+					$cloi->set_ref($learning_object->get_latest_version()->get_id());
 					$cloi->update();
 				}
 				
