@@ -145,20 +145,50 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		{
 			$this->in_creation = true;
 			$object = new AbstractLearningObject($type, $this->get_user_id(), null);
-			$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array_merge($this->get_parameters(), array('type' => $type))), null);
+			
+			$cloi = ComplexLearningObjectItem :: factory($type);
+	
+			$cloi->set_user_id($this->get_user_id());
+			$cloi->set_parent($this->cloi_id);
+			$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($this->cloi_id));
+			$cloi_form = ComplexLearningObjectItemForm :: factory_with_type(ComplexLearningObjectItemForm :: TYPE_CREATE, $type, $cloi, 'create_complex', 'post', $this->get_url(array_merge($this->get_parameters(), array('type' => $type, 'object' => $objectid))));
+			$defaults = $cloi_form->get_default_values();
+			
+			if($cloi_form)
+			{
+				$elements = $cloi_form->get_elements();
+			}
+			
+			$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array_merge($this->get_parameters(), array('type' => $type))), null, $elements);
+			$lo_form->setDefaults($defaults);
+			
 			if ($lo_form->validate() || isset($_GET['object']))
 			{
-				if(isset($_GET['object']))
+				/*if(isset($_GET['object']))
 				{
 					$objectid = $_GET['object']; 
 				}
 				else
-				{
+				{*/
 					$object = $lo_form->create_learning_object();
 					$objectid = $object->get_id();
+				//}
+				
+				if($cloi_form)
+				{
+					$cloi_form->get_complex_learning_object_item()->set_ref($objectid);
+					$cloi_form->create_cloi_from_values($lo_form->exportValues());
+				}
+				else
+				{
+					$cloi->set_ref($objectid);
+					$cloi->create();
 				}
 				
-				$cloi = ComplexLearningObjectItem :: factory($type);
+				$this->in_creation = false;
+				$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('LearningObjectAdded'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => $_GET['publish'], 'clo_action' => 'build'));
+				
+				/*$cloi = ComplexLearningObjectItem :: factory($type);
 	
 				$cloi->set_ref($objectid);
 				$cloi->set_user_id($this->get_user_id());
@@ -179,7 +209,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 						/*$renderer = clone $type_form->defaultRenderer();
 						$renderer->setElementTemplate('{label} {element} ');
 						$type_form->accept($renderer);
-						$html[] = $renderer->toHTML();*/
+						$html[] = $renderer->toHTML();
 						$this->in_creation = false;
 						$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('LearningObjectAdded'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => $_GET['publish'], 'clo_action' => 'build'));
 					}
@@ -196,9 +226,9 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 					/*$renderer = clone $type_form->defaultRenderer();
 					$renderer->setElementTemplate('{label} {element} ');
 					$type_form->accept($renderer);
-					$html[] = $renderer->toHTML();*/
+					$html[] = $renderer->toHTML();
 					$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get('LearningObjectAdded'), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => $_GET['publish'], 'clo_action' => 'build'));
-				}
+				}*/
 				
 			}
 			else

@@ -57,13 +57,15 @@ abstract class LearningObjectForm extends FormValidator
 	 * @param string $action The URL to which the form should be submitted.
 	 */
 	protected function __construct($form_type, $learning_object, $form_name, $method = 'post', 
-						$action = null, $extra = null)
+						$action = null, $extra = null, $additional_elements)
 	{
 		parent :: __construct($form_name, $method, $action);
 		$this->form_type = $form_type;
 		$this->learning_object = $learning_object;
 		$this->owner_id = $learning_object->get_owner_id();
 		$this->extra = $extra;
+		$this->additional_elements = $additional_elements;
+		
 		if ($this->form_type == self :: TYPE_EDIT || $this->form_type == self :: TYPE_REPLY)
 		{
 			$this->build_editing_form();
@@ -330,6 +332,16 @@ EOT;
 			$elem->setDefaultCollapsed(count($attachments) == 0);
 		}
 		
+		if(count($this->additional_elements) > 0)
+		{
+			$this->addElement('category', Translation :: get('AdditionalProperties'));
+			foreach($this->additional_elements as $element)
+			{
+				$this->addElement($element);
+			}
+			$this->addElement('category');
+		}
+		
 		$buttons = array();
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -519,12 +531,12 @@ EOT;
 	 * @param string $method The method to use ('post' or 'get').
 	 * @param string $action The URL to which the form should be submitted.
 	 */
-	static function factory($form_type, $learning_object, $form_name, $method = 'post', $action = null, $extra = null, $allow_create_complex = false)
+	static function factory($form_type, $learning_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements)
 	{
 		$type = $learning_object->get_type();
 		$class = LearningObject :: type_to_class($type).'Form';
 		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_form.class.php';
-		return new $class ($form_type, $learning_object, $form_name, $method, $action, $extra, $allow_create_complex);
+		return new $class ($form_type, $learning_object, $form_name, $method, $action, $extra, $additional_elements);
 	}
 	/**
 	 * Validates this form
