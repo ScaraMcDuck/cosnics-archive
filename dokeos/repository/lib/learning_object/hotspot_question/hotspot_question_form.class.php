@@ -72,7 +72,7 @@ class HotspotQuestionForm extends LearningObjectForm
 					$defaults['type'][] = $answer->get_hotspot_type();
 					$defaults['comment'][] = $answer->get_comment();
 					$defaults['coordinates'][] = $answer->get_hotspot_coordinates();
-					$defaults['weight'][] = $answer->get_weight();
+					$defaults['option_weight'][] = $answer->get_weight();
 				}
 				/*$options = $object->get_answers();
 				foreach($options as $index => $option)
@@ -114,7 +114,7 @@ class HotspotQuestionForm extends LearningObjectForm
 		$comments = $values['comment'];
 		$types = $values['type'];
 		$coordinates = $values['coordinates'];
-		$weights = $values['weight'];
+		$weights = $values['option_weight'];
 		
 		for ($i = 0; $i < $_SESSION['mc_number_of_options']; $i++)
 		{
@@ -162,12 +162,12 @@ class HotspotQuestionForm extends LearningObjectForm
 		{
 			$answers = $_POST['answer'];
 			$types = $_POST['type'];
-			$weights = $_POST['weight'];
+			$weights = $_POST['option_weight'];
 			$coords = $_POST['coordinates'];
 			
 			$_SESSION['answers'] = $answers;
 			$_SESSION['types'] = $types;
-			$_SESSION['weights'] = $weights;
+			$_SESSION['option_weight'] = $weights;
 			$_SESSION['coordinates'] = $coords;
 		}
 		else
@@ -296,7 +296,7 @@ class HotspotQuestionForm extends LearningObjectForm
 				$group = array();
 				$group[] = $this->createElement('text','answer['.$option_number.']', 'Answer:','size="40"');
 				$group[] = $this->createElement('text','comment['.$option_number.']', '','size="40"');
-				$group[] = $this->createElement('text','weight['.$option_number.']','','size="2"  class="input_numeric"');
+				$group[] = $this->createElement('text','option_weight['.$option_number.']','','size="2"  class="input_numeric"');
 				$group[] = $this->createElement('hidden','coordinates['.$option_number.']', '');
 				$group[] = $this->createElement('hidden','type['.$option_number.']', '');
 				if($number_of_options - count($_SESSION['mc_skip_options']) > 1 && $option_number == $number_of_options - 1)
@@ -314,7 +314,7 @@ class HotspotQuestionForm extends LearningObjectForm
 									Translation :: get('ThisFieldIsRequired'),'required'
 								)
 							),
-						'weight['.$option_number.']' =>
+						'option_weight['.$option_number.']' =>
 							array(
 								array(
 									Translation :: get('ThisFieldIsRequired'), 'required'
