@@ -11,7 +11,7 @@ class ToolComplexCreatorComponent extends ToolComponent
 	{
 		if($this->is_allowed(ADD_RIGHT))
 		{
-			$pid = Request :: get('parent');
+			$pid = Request :: get('pid');
 			if(!$pid)
 			{
 				$this->display_header(new BreadCrumbTrail());
@@ -23,14 +23,14 @@ class ToolComplexCreatorComponent extends ToolComponent
 			
 			$pub = new LearningObjectRepoViewer($this, $type, true);
 			$pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_CREATE_CLOI);
-			$pub->set_parameter('parent', $pid);
+			$pub->set_parameter('pid', $pid);
 			$pub->set_parameter('type', $type);
 			
 			$object_id = Request :: get('object');
 			
 			if(!isset($object_id))
 			{	
-				$html[] = '<p><a href="' . $this->get_url(array('type' => $type, 'parent' => $pid)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
+				$html[] = '<p><a href="' . $this->get_url(array('type' => $type, 'pid' => $pid)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 				$html[] =  $pub->as_html();
 				$this->display_header(new BreadCrumbTrail());
 				echo implode("\n",$html);
@@ -45,7 +45,7 @@ class ToolComplexCreatorComponent extends ToolComponent
 				$cloi->set_parent($pid);
 				$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($pid));
 			
-				$cloi_form = ComplexLearningObjectItemForm :: factory(ComplexLearningObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, 'parent' => $pid, 'object' => $object_id)));		
+				$cloi_form = ComplexLearningObjectItemForm :: factory(ComplexLearningObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, 'object' => $object_id)));		
 				
 				if($cloi_form)
 				{

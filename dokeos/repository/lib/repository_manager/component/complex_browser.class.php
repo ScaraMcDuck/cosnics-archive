@@ -152,11 +152,11 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			$cloi->set_parent($this->cloi_id);
 			$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($this->cloi_id));
 			$cloi_form = ComplexLearningObjectItemForm :: factory_with_type(ComplexLearningObjectItemForm :: TYPE_CREATE, $type, $cloi, 'create_complex', 'post', $this->get_url(array_merge($this->get_parameters(), array('type' => $type, 'object' => $objectid))));
-			$defaults = $cloi_form->get_default_values();
 			
 			if($cloi_form)
 			{
 				$elements = $cloi_form->get_elements();
+				$defaults = $cloi_form->get_default_values();
 			}
 			
 			$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array_merge($this->get_parameters(), array('type' => $type))), null, $elements);

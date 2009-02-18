@@ -1300,7 +1300,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				 $this->escape_column_name(ComplexLearningObjectItem :: PROPERTY_ID).') FROM '.
 				 $this->escape_table_name('complex_learning_object_item').' AS '.
 				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
-				 
+				
 		$params = array ();
 		if (isset ($condition))
 		{
