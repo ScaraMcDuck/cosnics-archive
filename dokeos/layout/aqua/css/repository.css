@@ -24,3 +24,8 @@ div.create_block
 	clear: both;
 	margin-top: 10px;
 }
+
+#repository_tree_container
+{
+	overflow: auto;
+}

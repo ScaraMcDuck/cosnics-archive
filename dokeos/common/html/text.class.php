@@ -153,5 +153,64 @@ class Text
 		
 		return $queries;
 	}
+	
+	// TODO: There have to be a better alternatives for this ...
+	public static function strip_text($text)
+	{
+		$i = -1;
+		$n = '';
+		$ok = 1;
+		
+		while(isset($text{++$i}))
+		{
+			if($ok && $text{$i} != '<')
+			{
+				continue;
+			}
+			elseif($text{$i} == '>')
+			{
+				$ok = 1;
+				$n .= '>';
+				continue;
+			}
+			elseif($text{$i} == '<')
+			{
+				$ok = 0;
+			}
+			
+			if(!$ok)
+			{
+				$n .= $text{$i};
+			}
+		}
+		
+		return $n;
+	}
+	
+	// TODO: There have to be a better alternatives for this ...
+	public static function fetch_tag_into_array($source, $tag = "<img>")
+	{
+		$data = self :: strip_text($source);
+		$data = ">" . $data;
+		$striped_data = strip_tags($data, $tag);
+		
+		$my_array = explode("><", $striped_data);
+
+		foreach ($my_array as $main_key => $main_value)
+		{
+			$my_space_array[$main_key] = explode(" ", $main_value);
+			foreach ($my_space_array[$main_key] as $sub_key => $sub_value)
+			{
+				$my_pre_fetched_tag_array = explode("=", $sub_value);
+				// check for null attributes ...
+				if (($my_pre_fetched_tag_array[1] != '""') && ($my_pre_fetched_tag_array[1] != NULL))
+				{
+	                      $my_tag_array[$main_key][$my_pre_fetched_tag_array[0]] = substr($my_pre_fetched_tag_array[1], 1, -1);
+				}
+			}
+		}
+		
+		return $my_tag_array;
+	}  
 }
 ?>

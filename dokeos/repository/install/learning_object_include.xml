@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="learning_object_include">
+ <properties>
+  <property name="learning_object" type="integer" unsigned="1" notnull="1"/>
+  <property name="include" type="integer" unsigned="1" notnull="1"/>
+ </properties>
+ <index name="learning_object">
+  <indexproperty name="learning_object"/>
+ </index>
+</object>

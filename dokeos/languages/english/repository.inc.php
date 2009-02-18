@@ -373,4 +373,5 @@ $lang['repository']['DrawAHotspot'] = 'Draw a hotspot';
 $lang['repository']['Polygon'] = 'Polygon';
 $lang['repository']['Elipse'] = 'Elipse';
 $lang['repository']['Square'] = 'Square';
+$lang['repository']['UserViews'] = 'User views';
 ?>

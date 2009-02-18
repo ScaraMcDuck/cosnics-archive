@@ -123,6 +123,11 @@ class LearningObject implements AccessibleLearningObject
 	 * Learning objects attached to this learning object.
 	 */
 	private $attachments;
+	
+	/**
+	 * Learning objects included into this learning object.
+	 */
+	private $includes;
 
 	/**
 	 * The state that this learning object had when it was retrieved. Used to
@@ -292,6 +297,20 @@ class LearningObject implements AccessibleLearningObject
 			$this->attachments = $dm->retrieve_attached_learning_objects($this);
 		}
 		return $this->attachments;
+	}
+	
+	/**
+	 * Returns the learning objects included into this learning object.
+	 * @return array The learning objects.
+	 */
+	function get_included_learning_objects ()
+	{
+		if (!is_array($this->includes))
+		{
+			$dm = RepositoryDataManager :: get_instance();
+			$this->includes = $dm->retrieve_included_learning_objects($this);
+		}
+		return $this->includes;
 	}
 
 	function get_learning_object_versions()
@@ -506,6 +525,16 @@ class LearningObject implements AccessibleLearningObject
 		$dm = RepositoryDataManager :: get_instance();
 		return $dm->attach_learning_object($this, $id);
 	}
+	
+	/**
+	 * Includes the learning object with the given ID in this learning object.
+	 * @param int $id The ID of the learning object to include.
+	 */
+	function include_learning_object($id)
+	{
+		$dm = RepositoryDataManager :: get_instance();
+		return $dm->include_learning_object($this, $id);
+	}
 
 	/**
 	 * Removes the learning object with the given ID from this learning
@@ -519,6 +548,20 @@ class LearningObject implements AccessibleLearningObject
 	{
 		$dm = RepositoryDataManager :: get_instance();
 		return $dm->detach_learning_object($this, $id);
+	}
+	
+	/**
+	 * Removes the learning object with the given ID from this learning
+	 * object's include list.
+	 * @param int $id The ID of the learning object to remove from the
+	 *                include list.
+	 * @return boolean True if the include was removed, false if it did not
+	 *                 exist.
+	 */
+	function exclude_learning_object($id)
+	{
+		$dm = RepositoryDataManager :: get_instance();
+		return $dm->exclude_learning_object($this, $id);
 	}
 
 	/**
@@ -860,6 +903,16 @@ class LearningObject implements AccessibleLearningObject
 	function supports_attachments()
 	{
 		return false;
+	}
+	
+	/**
+	 * Determines whether this learning object supports includes, i.e.
+	 * whether other learning objects may be included into it.
+	 * @return boolean True if includes are supported, false otherwise.
+	 */
+	function supports_includes()
+	{
+		return true;
 	}
 	
 	/**

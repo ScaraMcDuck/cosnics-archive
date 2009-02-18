@@ -618,6 +618,22 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res->free();
 		return $attachments;
 	}
+	
+	// Inherited.
+	function retrieve_included_learning_objects ($object)
+	{
+		$id = $object->get_id();
+		$query = 'SELECT '.$this->escape_column_name('include').' FROM '.$this->escape_table_name('learning_object_include').' WHERE '.$this->escape_column_name('learning_object').'=?';
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($id);
+		$includes = array();
+		while ($record = $res->fetchRow(MDB2_FETCHMODE_ORDERED))
+		{
+			$includes[] = $this->retrieve_learning_object($record[0]);
+		}
+		$res->free();
+		return $includes;
+	}
 
 	function retrieve_learning_object_versions ($object)
 	{
@@ -663,6 +679,25 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_attachment').' WHERE '.$this->escape_column_name('learning_object').'=? AND '.$this->escape_column_name('attachment').'=?';
 		$statement = $this->connection->prepare($query);
 		$affectedRows = $statement->execute(array ($object->get_id(), $attachment_id));
+		return ($affectedRows > 0);
+	}
+	
+	// Inherited.
+	function include_learning_object ($object, $include_id)
+	{
+		$props = array();
+		$props['learning_object'] = $object->get_id();
+		$props['include'] = $include_id;
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('learning_object_include'), $props, MDB2_AUTOQUERY_INSERT);
+	}
+
+	// Inherited.
+	function exclude_learning_object ($object, $include_id)
+	{
+		$query = 'DELETE FROM '.$this->escape_table_name('learning_object_include').' WHERE '.$this->escape_column_name('learning_object').'=? AND '.$this->escape_column_name('include').'=?';
+		$statement = $this->connection->prepare($query);
+		$affectedRows = $statement->execute(array ($object->get_id(), $include_id));
 		return ($affectedRows > 0);
 	}
 

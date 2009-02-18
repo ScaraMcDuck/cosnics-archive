@@ -397,7 +397,50 @@ EOT;
 		{
 			$object->set_parent_id($values[LearningObject :: PROPERTY_PARENT_ID]);
 		}
+		
 		$object->create();
+		
+		// Process includes
+		if ($object->supports_includes())
+		{
+			/*
+			 * TODO: Make this faster by providing a function that matches the
+			 *      existing IDs against the ones that need to be added, and
+			 *      attaches and detaches accordingly.
+			 */
+			foreach ($object->get_included_learning_objects() as $o)
+			{
+				$object->exclude_learning_object($o->get_id());
+			}
+			
+			$base_path = Path :: get(REL_REPO_PATH);
+			$html_editors = $this->get_html_editors();
+			
+			foreach($html_editors as $html_editor)
+			{
+				if (isset($values[$html_editor]))
+				{
+					$tags = Text :: fetch_tag_into_array($values[$html_editor], '<img>');
+					
+					foreach($tags as $tag)
+					{
+						$search_path = str_replace($base_path, '', $tag['src']);
+						
+						$rdm = RepositoryDataManager :: get_instance();
+						$condition = new Equalitycondition('path', $search_path);
+						
+						$search_objects = $rdm->retrieve_learning_objects('document', $condition);
+						
+						while($search_object = $search_objects->next_result())
+						{
+							$object->include_learning_object($search_object->get_id());
+						}
+					}
+				}
+			}
+		}
+		
+		// Process attachments
 		if ($object->supports_attachments())
 		{
 			foreach ($values['attachments'] as $aid)
@@ -431,6 +474,7 @@ EOT;
 		$object->set_title($values[LearningObject :: PROPERTY_TITLE]);
 		$desc = $values[LearningObject :: PROPERTY_DESCRIPTION]?$values[LearningObject :: PROPERTY_DESCRIPTION]:'';
 		$object->set_description($desc?$desc:'');
+		
 		if ($this->allows_category_selection())
 		{
 			$parent = $values[LearningObject :: PROPERTY_PARENT_ID];
@@ -461,10 +505,52 @@ EOT;
 		{
 			$result = $object->update();
 		}
+		
+		// Process includes
+		if ($object->supports_includes())
+		{
+			/*
+			 * TODO: Make this faster by providing a function that matches the
+			 *      existing IDs against the ones that need to be added, and
+			 *      attaches and detaches accordingly.
+			 */
+			foreach ($object->get_included_learning_objects() as $o)
+			{
+				$object->exclude_learning_object($o->get_id());
+			}
+			
+			$base_path = Path :: get(REL_REPO_PATH);
+			$html_editors = $this->get_html_editors();
+			
+			foreach($html_editors as $html_editor)
+			{
+				if (isset($values[$html_editor]))
+				{
+					$tags = Text :: fetch_tag_into_array($values[$html_editor], '<img>');
+					
+					foreach($tags as $tag)
+					{
+						$search_path = str_replace($base_path, '', $tag['src']);
+						
+						$rdm = RepositoryDataManager :: get_instance();
+						$condition = new Equalitycondition('path', $search_path);
+						
+						$search_objects = $rdm->retrieve_learning_objects('document', $condition);
+						
+						while($search_object = $search_objects->next_result())
+						{
+							$object->include_learning_object($search_object->get_id());
+						}
+					}
+				}
+			}
+		}
+		
+		// Process attachments
 		if ($object->supports_attachments())
 		{
 			/*
-			 * XXX: Make this faster by providing a function that matches the
+			 * TODO: Make this faster by providing a function that matches the
 			 *      existing IDs against the ones that need to be added, and
 			 *      attaches and detaches accordingly.
 			 */
