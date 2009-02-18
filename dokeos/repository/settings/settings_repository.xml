@@ -73,6 +73,9 @@
 			<setting name="allow_multiple_choice_question_creation" field="checkbox" default="1">
 				<options type="static"><option name="allow_multiple_choice_question_creation" value="1" /></options>
 			</setting>
+			<setting name="allow_note_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_note_creation" value="1" /></options>
+			</setting>
 			<setting name="allow_open_question_creation" field="checkbox" default="1">
 				<options type="static"><option name="allow_open_question_creation" value="1" /></options>
 			</setting>
