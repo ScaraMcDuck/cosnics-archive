@@ -49,6 +49,12 @@ class ShortcutToolListRenderer extends ToolListRenderer
 		
 		foreach ($tools as $index => $tool)
 		{
+			$sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $tool->section));
+			$section = $sections->next_result();
+			
+			if(!PlatformSetting :: get($tool->name . '_active', 'weblcms') && $section->get_type() != CourseSection :: TYPE_ADMIN)
+				continue;
+				
 			if((($tool->visible && $tool->section != 'course_admin') || $this->is_course_admin) && $tool->visible)
 			{
 				$new = '';

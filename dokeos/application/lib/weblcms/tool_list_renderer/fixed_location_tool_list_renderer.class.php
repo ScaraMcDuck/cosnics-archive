@@ -37,7 +37,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		$tools = array ();
 		
 		foreach ($parent->get_registered_tools() as $tool)
-		{
+		{		
 			if($this->group_inactive)
 			{
 				if($this->course->get_layout() > 2)
@@ -239,6 +239,9 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		
 		foreach ($tools as $index => $tool)
 		{
+			if(!PlatformSetting :: get($tool->name . '_active', 'weblcms') && $section->get_type() != CourseSection :: TYPE_ADMIN)
+				continue;
+				
 			if($tool->visible || $section->get_name() == 'course_admin')
 			{
 				$lcms_action = 'make_invisible';
