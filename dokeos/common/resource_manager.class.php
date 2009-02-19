@@ -18,14 +18,20 @@ class ResourceManager
 	
 	function resource_loaded($path)
 	{
-		return array_key_exists($path, $this->resources);
+		return in_array($path, $this->resources);
 	}
 	
 	function get_resource_html($path)
 	{
-		return ($this->resource_loaded($path)
-			? ''
-			: $this->_get_resource_html($path));
+		if ($this->resource_loaded($path))
+		{
+			return '';
+		}
+		else
+		{
+			$this->resources[] = $path;
+			return $this->_get_resource_html($path);
+		}
 	}
 	
 	private function _get_resource_html($path)
@@ -45,11 +51,11 @@ class ResourceManager
 	
 	static function get_instance()
 	{
-		if (!self::$instance)
+		if (!isset(self :: $instance))
 		{
-			self::$instance = new self();
+			self :: $instance = new ResourceManager();
 		}
-		return self::$instance;
+		return self :: $instance;
 	}
 }
 
