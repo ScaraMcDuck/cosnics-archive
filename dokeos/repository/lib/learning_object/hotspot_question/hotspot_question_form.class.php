@@ -293,17 +293,33 @@ class HotspotQuestionForm extends LearningObjectForm
 			if(!in_array($option_number,$_SESSION['mc_skip_options']))
 			{
 				$counter ++;
-				$group = array();
+				/*$group = array();
 				$group[] = $this->createElement('text','answer['.$option_number.']', 'Answer:','size="40"');
 				$group[] = $this->createElement('text','comment['.$option_number.']', '','size="40"');
 				$group[] = $this->createElement('text','option_weight['.$option_number.']','','size="2"  class="input_numeric"');
 				$group[] = $this->createElement('hidden','coordinates['.$option_number.']', '');
-				$group[] = $this->createElement('hidden','type['.$option_number.']', '');
+				$group[] = $this->createElement('hidden','type['.$option_number.']', '');*/
+				
+				$this->addElement('category', Translation :: get('Answer') . ' ' . ($counter));
+
+				$this->add_html_editor('answer['.$option_number.']', Translation :: get('Answer'), true);
+				//$this->addElement('text','answer['.$option_number.']', Translation :: get('Answer'),'size="40"');
+				$this->add_html_editor('comment['.$option_number.']', Translation :: get('Comment'), false);
+				$this->addElement('text','option_weight['.$option_number.']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
+				$this->addRule('option_weight['.$option_number.']', Translation :: get('ThisFieldIsRequired'), 'required');
+				$this->addRule('option_weight['.$option_number.']', Translation :: get('ValueShouldBeNumeric'), 'numeric');
+				$this->addElement('hidden','coordinates['.$option_number.']', '');
+				$this->addElement('hidden','type['.$option_number.']', '');
+
 				if($number_of_options - count($_SESSION['mc_skip_options']) > 1 && $option_number == $number_of_options - 1)
 				{
-					$group[] = $this->createElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
+					//$group[] = $this->createElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
+					$this->addElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
 				}
-				$label = $show_label ? Translation :: get('Answers') : '';
+				
+				$this->addElement('category');
+				
+				/*$label = $show_label ? Translation :: get('Answers') : '';
 				$show_label = false;
 				$this->addGroup($group,'options_group_'.$option_number,$label,'',false);
 				$this->addGroupRule('options_group_'.$option_number,
@@ -324,7 +340,7 @@ class HotspotQuestionForm extends LearningObjectForm
 								)
 							)
 					)
-				);
+				);*/
 			}
 		}
 		$_SESSION['mc_num_options'] = $counter;

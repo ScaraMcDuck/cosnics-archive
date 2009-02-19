@@ -27,11 +27,11 @@ class MatchingQuestionForm extends LearningObjectForm
 	private function build_options_and_matches()
 	{
 		$this->update_number_of_options_and_matches();
-		$this->addElement('html','<div class="row"><div class="label">'.Translation :: get('Answers').'</div><div class="formw"><table style="width: 100%"><tr><td style="text-align:left; width: 50%; vertical-align: top;">');
+		//$this->addElement('html','<div class="row"><div class="label">'.Translation :: get('Answers').'</div><div class="formw"><table style="width: 100%"><tr><td style="text-align:left; width: 50%; vertical-align: top;">');
 		$this->add_options();
-		$this->addElement('html','</td><td style="text-align:left; width: 50%; vertical-align: top;">');
+		//$this->addElement('html','</td><td style="text-align:left; width: 50%; vertical-align: top;">');
 		$this->add_matches();
-		$this->addElement('html','</td></tr></table></div></div>');
+		//$this->addElement('html','</td></tr></table></div></div>');
 	}
 	function setDefaults($defaults = array ())
 	{
@@ -183,11 +183,14 @@ class MatchingQuestionForm extends LearningObjectForm
 				$matches[$match_number] = $match_label++;
 			}
 		}
+		
+		$count = 1;
+		
 		for($option_number = 0; $option_number <$number_of_options ; $option_number++)
 		{
 			if(!in_array($option_number,$_SESSION['mq_skip_options']))
 			{
-				$group = array();
+				/*$group = array();
 				$group[] = $this->createElement('text','option['.$option_number.']', '', true,'size="40"');
 				$group[] = $this->createElement('text','option_weight['.$option_number.']','','size="2" class="input_numeric"');
 				$group[] = $this->createElement('select','matches_to['.$option_number.']','',$matches);
@@ -195,8 +198,25 @@ class MatchingQuestionForm extends LearningObjectForm
 				if($number_of_options - count($_SESSION['mq_skip_options']) > 2)
 				{
 					$group[] = $this->createElement('image','remove_option['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
+				}*/
+				
+				$this->addElement('category', Translation :: get('Answer') . ' ' . ($count));
+
+				$this->add_html_editor('option['.$option_number.']', Translation :: get('Answer'), true);
+				$this->add_html_editor('comment['.$option_number.']', Translation :: get('Comment'), false);
+				$this->addElement('select','matches_to['.$option_number.']','',$matches);
+				$this->addElement('text','option_weight['.$option_number.']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
+				$this->addRule('option_weight['.$option_number.']', Translation :: get('ThisFieldIsRequired'), 'required');
+				$this->addRule('option_weight['.$option_number.']', Translation :: get('ValueShouldBeNumeric'), 'numeric');
+				
+				if($number_of_options - count($_SESSION['mc_skip_options']) > 2)
+				{
+					$this->addElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
 				}
-				$this->addGroup($group,'options_group_'.$option_number,$label++,'',false);
+				$this->addElement('category');
+				$count++;
+				
+				/*$this->addGroup($group,'options_group_'.$option_number,$label++,'',false);
 				$this->addGroupRule('options_group_'.$option_number,
 					array(
 						'option['.$option_number.']' =>
@@ -215,7 +235,7 @@ class MatchingQuestionForm extends LearningObjectForm
 								)
 							)
 					)
-				);
+				);*/
 			}
 		}
 		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
@@ -228,12 +248,15 @@ class MatchingQuestionForm extends LearningObjectForm
 	private function add_matches()
 	{
 		$number_of_matches = intval($_SESSION['mq_number_of_matches']);
-		$label = 'A';
+		$label = 'A'; $this->addElement('category', Translation :: get('Matches'));
 		for($match_number = 0; $match_number <$number_of_matches ; $match_number++)
 		{
 			if(!in_array($match_number,$_SESSION['mq_skip_matches']))
 			{
-				$group = array();
+				
+				$this->add_html_editor('match['.$match_number.']', Translation :: get('Match') . ' ' . $label++, true);
+				
+				/*$group = array();
 				$group[] = $this->createElement('text','match['.$match_number.']', '', true,'size="40"');
 				if($number_of_matches - count($_SESSION['mq_skip_matches']) > 2)
 				{
@@ -249,9 +272,12 @@ class MatchingQuestionForm extends LearningObjectForm
 								)
 							),
 					)
-				);
+				);*/
 			}
 		}
+		
+		$this->addElement('category');
+		
 		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
 		$this->addElement('image','add_match[]',Theme :: get_common_image_path().'action_list_add.png');
 	}
