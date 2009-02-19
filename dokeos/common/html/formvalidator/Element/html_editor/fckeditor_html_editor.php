@@ -57,7 +57,7 @@ class HTML_QuickForm_fckeditor_html_editor extends HTML_QuickForm_html_editor
 		$result []= "\n/* ]]> */\n";
 		$result []= '</script>';
 		$result []= '<noscript>'. $this->render_textarea().'</noscript>';
-		$result []= '<br/><small><a href="#" onclick="MyWindow=window.open('."'".Path :: get(WEB_LIB_PATH)."html/allowed_html_tags.php?fullpage=". ($this->fullPage ? '1' : '0')."','MyWindow','toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=500,height=600,left=200,top=20'".'); return false;">'.Translation :: get('AllowedHTMLTags').'</a></small>';
+		$result []= '<br/><small><a href="#" onclick="MyWindow=window.open('."'".Path :: get(WEB_LIB_PATH)."html/allowed_html_tags.php?fullpage=". ($this->fullPage ? '1' : '0')."','MyWindow','toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=500,height=600,left=200,top=20'".'); return false;">'.Translation :: get('AllowedHTMLTags').'</a></small><br />';
 		@mkdir(Path :: get(SYS_PATH).'files/fckeditor/'. Session :: get_user_id().'/');
 		return implode("\n",$result);
 	}

@@ -199,6 +199,7 @@ EOT;
 	{
 		$type = 'fckeditor';
 		$element = $this->addElement($type . '_html_editor',$name,$label,'rows="15" cols="80"');
+		
 		$this->applyFilter($name,'trim');
 		$html_type = $_SESSION['status'] == COURSEMANAGER ? TEACHER_HTML : STUDENT_HTML;
 		if($full_page)
@@ -225,6 +226,14 @@ EOT;
 		$this->addRule($name,Translation :: get('SomeHTMLNotAllowed'),'html',$html_type);
 		
 		// Register the html editor for possible post processing afterwards
+		$this->html_editors[] = $name;
+		return $element;
+	}
+	
+	function create_html_editor($name, $label)
+	{
+		$type = 'fckeditor';
+		$element = $this->createElement($type . '_html_editor',$name,$label,'rows="15" cols="80"');
 		$this->html_editors[] = $name;
 		return $element;
 	}

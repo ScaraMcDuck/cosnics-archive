@@ -37,6 +37,15 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 					$defaults['comment'][$index] = $option->get_comment();
 				}
 			}
+			else
+			{
+				$number_of_options = intval($_SESSION['mc_number_of_options']);
+		
+				for($option_number = 0; $option_number <$number_of_options ; $option_number++)
+				{
+					$defaults['option_weight'][$option_number] = 0;
+				}
+			}
 		}
 		parent :: setDefaults($defaults);
 	}
@@ -111,45 +120,32 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 			//$_SESSION['mc_answer_type'] = $object->get_answer_type();
 		}
 		$number_of_options = intval($_SESSION['mc_number_of_options']);
-		$show_label = true;
+		$show_label = true; $count = 1;
 		for($option_number = 0; $option_number <$number_of_options ; $option_number++)
 		{
 			if(!in_array($option_number,$_SESSION['mc_skip_options']))
 			{
 				$group = array();
-				$group[] = $this->createElement('text','option['.$option_number.']', '','size="40"');
-				$group[] = $this->createElement('text','option_weight['.$option_number.']', '','size="2"  class="input_numeric"');
-				$group[] = $this->createElement('text','comment['.$option_number.']', '','size="40"');
+				
+				$this->addElement('category', Translation :: get('Answer') . ' ' . ($count));
+
+				$this->add_html_editor('option['.$option_number.']', Translation :: get('Answer'), true);
+				$this->add_html_editor('comment['.$option_number.']', Translation :: get('Comment'), false);
+				$this->addElement('text','option_weight['.$option_number.']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
+				$this->addRule('option_weight['.$option_number.']', Translation :: get('ThisFieldIsRequired'), 'required');
+				$this->addRule('option_weight['.$option_number.']', Translation :: get('ValueShouldBeNumeric'), 'numeric');
+				
 				if($number_of_options - count($_SESSION['mc_skip_options']) > 2)
 				{
-					$group[] = $this->createElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
+					$this->addElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
 				}
-				$label = $show_label ? Translation :: get('AnswersAndWeights') : '';
-				$show_label = false;
-				$this->addGroup($group,'options_group_'.$option_number,$label,' ',false);
-				$this->addGroupRule('options_group_'.$option_number,
-					array(
-						'option['.$option_number.']' =>
-							array(
-								array(
-									Translation :: get('ThisFieldIsRequired'),'required'
-								)
-							),
-						'option_weight['.$option_number.']' =>
-							array(
-								//array(
-								//	Translation :: get('ThisFieldIsRequired'), 'required'
-								//),
-								array(
-									Translation :: get('ValueShouldBeNumeric'),'numeric'
-								)
-							)
-					)
-				);
+				$this->addElement('category');
+				$count++;
 			}
 		}
 		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
 		$this->addElement('image','add[]',Theme :: get_common_image_path().'action_list_add.png');
+		$this->setDefaults();
 	}
 }
 ?>

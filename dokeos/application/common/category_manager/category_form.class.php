@@ -111,7 +111,10 @@ class CategoryForm extends FormValidator {
 			{
 				$group = array();
 				$group[] = $this->add_name_field($option_number);
-				$group[] = $this->createElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
+				if($number_of_options - count($_SESSION['mc_skip_options']) > 1)
+				{
+					$group[] = $this->createElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
+				}
 				$this->addGroup($group,PlatformCategory :: PROPERTY_NAME . $option_number,Translation :: get('CategoryName'),'',false);
 			}
 		}
