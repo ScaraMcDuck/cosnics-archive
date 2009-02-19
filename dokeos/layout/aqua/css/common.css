@@ -650,6 +650,8 @@ div.learning_object
 	padding: 10px 10px 10px 44px;
 	background-position: 10px 10px;
 	background-repeat: no-repeat;
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-bottomright: 10px;
 }
 div.learning_object div.title
 {
@@ -2132,6 +2134,7 @@ div.configuration_form {
 	margin: 20px 2px 2px 2px;
 	padding: 10px;
 	border: 1px solid #ebebeb;
+	-moz-border-radius: 10px;
 }
 
 div.configuration_form span.category
