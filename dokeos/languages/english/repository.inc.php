@@ -221,8 +221,10 @@ $lang['repository']['RssFeedTypeName'] = 'RSS Feed';
 $lang['repository']['SystemAnnouncementTypeName'] = 'System announcement';
 $lang['repository']['UserinfoContentTypeName'] = 'User info content';
 $lang['repository']['UserinfoDefTypeName'] = 'User info definitions';
-$lang['repository']['WikiTypeName'] = 'Wiki
-';
+$lang['repository']['WikiTypeName'] = 'Wiki';
+$lang['repository']['NoteTypeName'] = 'Note';
+$lang['repository']['GlossaryTypeName'] = 'Glossary';
+$lang['repository']['GlossaryItemTypeName'] = 'Glossary item';
 $lang['repository']['No'] = 'No';
 $lang['repository']['Yes'] = 'Yes';
 $lang['repository']['Repeat'] = 'Repeat';

@@ -153,13 +153,13 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 				
 				foreach ($this->get_learning_object_types(true) as $type)
 				{
-//					$setting = PlatformSetting :: get('allow_' . $type . '_creation', 'repository');
-//					if($setting)
-//					{
+					$setting = PlatformSetting :: get('allow_' . $type . '_creation', 'repository');
+					if($setting)
+					{
 						echo '<a href="'. $this->get_url(array_merge($extra_params, array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type))) .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/' . $type . '.png);">';
 						echo Translation :: get(LearningObject :: type_to_class($type).'TypeName');
 						echo '</div></a>';
-//					}
+					}
 				}
 				
 				echo '</div>';
