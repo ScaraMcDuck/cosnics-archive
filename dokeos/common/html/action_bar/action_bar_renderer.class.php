@@ -15,13 +15,25 @@ class ActionBarRenderer
 	const TYPE_HORIZONTAL = 'hoirzontal';
 	const TYPE_VERTICAL = 'vertical';
 	
+	private $name;
 	private $actions = array();
 	private $search_form;
 	private $type;
 	
-	function ActionBarRenderer($type)
+	function ActionBarRenderer($type, $name = 'component')
 	{
 		$this->type = $type;
+		$this->name = $name;
+	}
+	
+	function set_name($name)
+	{
+		$this->name = $name;
+	}
+	
+	function get_name()
+	{
+		return $this->name;
 	}
 	
 	function set_type($type)
@@ -102,9 +114,9 @@ class ActionBarRenderer
 	{
 		$html = array();
 		
-		$html[] = '<div id="action_bar_text" style="float:left; display: none; margin-bottom: 10px;"><a href="#"><img src="'. Theme :: get_common_image_path() .'action_bar.png" style="vertical-align: middle;" />&nbsp;'. Translation :: get('ShowActionBar') .'</a></div>';
+		$html[] = '<div id="'. $this->get_name() .'_action_bar_text" class="action_bar_text" style="float:left; display: none; margin-bottom: 10px;"><a href="#"><img src="'. Theme :: get_common_image_path() .'action_bar.png" style="vertical-align: middle;" />&nbsp;'. Translation :: get('ShowActionBar') .'</a></div>';
 		$html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
-		$html[] = '<div id="action_bar" class="action_bar">';
+		$html[] = '<div id="'. $this->get_name() .'_action_bar" class="action_bar">';
 		
 		$common_actions = $this->get_common_actions();
 		$tool_actions = $this->get_tool_actions();
@@ -155,12 +167,12 @@ class ActionBarRenderer
 		}
 		
 		$html[] = '<div class="clear"></div>';
-		$html[] = '<div id="action_bar_hide_container">';
-		$html[] = '<a id="action_bar_hide" href="#"><img src="'. Theme :: get_common_image_path() .'action_ajax_hide.png" /></a>';
+		$html[] = '<div id="'. $this->get_name() .'_action_bar_hide_container" class="action_bar_hide_container">';
+		$html[] = '<a id="'. $this->get_name() .'_action_bar_hide" class="action_bar_hide" href="#"><img src="'. Theme :: get_common_image_path() .'action_ajax_hide.png" /></a>';
 		$html[] = '</div>';
 		$html[] = '</div>';
 		
-		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/action_bar_horizontal.js' .'"></script>';
+		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/action_bar_horizontal.js');
 		
 		$html[] = '<div class="clear"></div>';
 		
@@ -171,7 +183,7 @@ class ActionBarRenderer
 	{
 		$html = array();
 		
-		$html[] = '<div id="action_bar_left" class="action_bar_left">';
+		$html[] = '<div id="'. $this->get_name() .'_action_bar_left" class="action_bar_left">';
 //		$html[] = '<div id="action_bar_left_options"';
 
 		$html[] = '<h3>' . Translation :: get('ActionBar') . '</h3>';
@@ -223,13 +235,13 @@ class ActionBarRenderer
 		$html[] = '<div class="clear"></div>';
 //		$html[] = '</div>';
 		
-		$html[] = '<div id="action_bar_left_hide_container" class="hide">';
-		$html[] = '<a id="action_bar_left_hide" href="#"><img src="'. Theme :: get_common_image_path() .'action_action_bar_hide.png" /></a>';
-		$html[] = '<a id="action_bar_left_show" href="#"><img src="'. Theme :: get_common_image_path() .'action_action_bar_show.png" /></a>';
+		$html[] = '<div id="'. $this->get_name() .'_action_bar_left_hide_container" class="action_bar_left_hide_container hide">';
+		$html[] = '<a id="'. $this->get_name() .'_action_bar_left_hide" class="action_bar_left_hide" href="#"><img src="'. Theme :: get_common_image_path() .'action_action_bar_hide.png" /></a>';
+		$html[] = '<a id="'. $this->get_name() .'_action_bar_left_show" class="action_bar_left_show" href="#"><img src="'. Theme :: get_common_image_path() .'action_action_bar_show.png" /></a>';
 		$html[] = '</div>';
 		$html[] = '</div>';
 		
-		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/action_bar_vertical.js' .'"></script>';
+		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/action_bar_vertical.js');
 		
 		$html[] = '<div class="clear"></div>';
 		

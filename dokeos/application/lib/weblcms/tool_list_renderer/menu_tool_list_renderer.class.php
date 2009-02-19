@@ -101,8 +101,8 @@ class MenuToolListRenderer extends ToolListRenderer
 		$html[] = '</ul>';
 		
 		$form = new FormValidator('search_simple', 'post', $parent->get_url(array('tool' => 'search')), '', null, false);
-		$form->addElement('text', 'query', '', 'size="18" class="search_query" style="margin-left: -30px; background-color: white; border: 1px solid grey; height: 18px; "');
-		$form->addElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'positive'));
+		$form->addElement('text', 'query', '', 'size="18" class="search_query_no_icon" style="margin-left: -30px; background-color: white; border: 1px solid grey; height: 18px; "');
+		$form->addElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'normal search'));
 		$html[] = $form->toHtml();
 
 		

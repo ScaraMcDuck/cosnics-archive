@@ -552,6 +552,11 @@ button.login, button a.login
 	background-image: url(../img/common/buttons/button_login.png);
 }
 
+button.search, button a.search
+{
+	background-image: url(../img/common/buttons/button_search.png);
+}
+
 /*****************************************************
  *  DATA TABLE STYLES                                *
  *****************************************************/
@@ -1177,7 +1182,6 @@ div.survey-categories-header, div.survey-outline-header, div.survey-result-heade
 	margin: 0;
 	padding: 1em;
 	min-height: 15em;
-	-moz-border-radius: 10px;
 }
 
 /*****************************************************
@@ -1665,6 +1669,11 @@ input.search_query
 	padding: 0 0 0 21px;
 }
 
+input.search_query_no_icon
+{
+	padding: 0px 0px 0px 0px;
+}
+
 /* Repository Quota */
 .usage_bar {
 	width: 401px;
@@ -2019,7 +2028,7 @@ div.action_bar div.search_menu
 	float: right;
 }
 
-div.action_bar #action_bar_hide_container
+div.action_bar .action_bar_hide_container
 {
 	display: none;
 	text-align: center;
@@ -2041,7 +2050,7 @@ div.action_bar #action_bar_hide_container
 	overflow: visible;
 }
 
-#action_bar_hide img
+.action_bar_hide img
 {
 	margin: 4px 10px 6px 11px;
 }
@@ -2080,7 +2089,7 @@ div.action_bar_left div.divider
 	font-size: 1px;
 }
 
-div.action_bar_left #action_bar_left_hide_container
+div.action_bar_left .action_bar_left_hide_container
 {
 	display: none;
 	text-align: center;
@@ -2093,31 +2102,31 @@ div.action_bar_left #action_bar_left_hide_container
 	background-position: center center;
 }
 
-div.action_bar_left #action_bar_left_hide_container.hide
+div.action_bar_left .action_bar_left_hide_container, div.action_bar_left .hide
 {
 	right: 0px;
 	margin-right: -1px;
 	background-image: url(../img/common/action_action_bar_hide_background.png);
 }
 
-div.action_bar_left #action_bar_left_hide_container.show
+div.action_bar_left .action_bar_left_hide_container, div.action_bar_left .show
 {
 	right: -18px;
 	margin-left: 0px;
 	background-image: url(../img/common/action_action_bar_show_background.png);
 }
 
-#action_bar_left_show
+.action_bar_left_show
 {
 	display: none;
 }
 
-#action_bar_left_hide img
+.action_bar_left_hide img
 {
 	margin: 10px 4px 11px 6px;
 }
 
-#action_bar_left_show img
+.action_bar_left_show img
 {
 	margin: 10px 6px 11px 4px;
 }
