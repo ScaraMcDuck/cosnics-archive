@@ -211,4 +211,11 @@ $lang['admin']['Roles'] = 'Roles';
 $lang['admin']['Export'] = 'Export';
 $lang['admin']['Import'] = 'Import';
 $lang['admin']['BrowserTitle'] = 'Browser';
+$lang['admin']['Add'] = 'Add';
+$lang['admin']['ShowAll'] = 'Show all';
+$lang['admin']['Categories'] = 'Categories';
+$lang['admin']['Name'] = 'Name';
+$lang['admin']['Subcategories'] = 'Subcategories';
+$lang['admin']['Required'] = 'Required';
+$lang['admin']['CategoryName'] = 'Category name';
 ?>
