@@ -29,8 +29,8 @@ class GlossaryViewerTableColumnModel extends ObjectTableColumnModel {
 	private static function get_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(Translation :: get(GlossaryItem :: PROPERTY_TITLE), false);
-		$columns[] = new ObjectTableColumn(Translation :: get(GlossaryItem :: PROPERTY_DESCRIPTION), false);
+		$columns[] = new ObjectTableColumn(Translation :: get(ucfirst(GlossaryItem :: PROPERTY_TITLE)), false);
+		$columns[] = new ObjectTableColumn(Translation :: get(ucfirst(GlossaryItem :: PROPERTY_DESCRIPTION)), false);
 		$columns[] = self :: get_action_column();
 		return $columns;
 	}
