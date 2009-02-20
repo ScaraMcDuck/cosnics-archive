@@ -212,5 +212,25 @@ class Text
 		
 		return $my_tag_array;
 	}  
+	
+	public static function highlight($haystack, $needle, $highlight_color) 
+	{
+	    if (strlen($highlight_color) < 1 || strlen($haystack) < 1 || strlen($needle) < 1) 
+	    {
+	        return $haystack;
+	    }
+	    
+	    preg_match_all("/$needle+/i", $haystack, $matches);
+	    
+	    if (is_array($matches[0]) && count($matches[0]) >= 1) 
+	    {
+	        foreach ($matches[0] as $match) 
+	        {
+	            $haystack = str_replace($match, '<span style="background-color:'.$highlight_color.';">'.$match.'</span>', $haystack);
+	        }
+	    }
+	    return $haystack;
+	}
+	
 }
 ?>
