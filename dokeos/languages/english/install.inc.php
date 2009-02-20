@@ -104,4 +104,6 @@ $lang['install']['SearchPortal'] = 'Search portal';
 $lang['install']['Weblcms'] = 'Courses';
 $lang['install']['Default'] = 'Default';
 $lang['install']['ConfigureBlockFirst'] = 'Configure this block first';
+$lang['install']['HelpItemsInstalled'] = 'Help items installed';
+$lang['install']['Folder'] = 'Folder';
 ?>
