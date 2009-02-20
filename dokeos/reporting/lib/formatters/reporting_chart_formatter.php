@@ -1,5 +1,8 @@
 <?php
-
+/*
+ * 
+ * @author: Michael Kyndt
+ */
 class ReportingChartFormatter extends ReportingFormatter {
 	private $instance;
 	private $reporting_block;

@@ -1,12 +1,16 @@
 <?php
-
+/*
+ * 
+ * @author: Michael Kyndt
+ */
   require_once Path :: get_plugin_path().'/pChart/pChart/pChart.class';
   require_once Path :: get_plugin_path().'/pChart/pChart/pData.class';
   
   class PchartReportingChartFormatter extends ReportingChartFormatter
  {
  	private $instance;
-	private $reporting_block;
+	protected $reporting_block;
+	protected $font;
 
 	public function to_html()
 	{
@@ -16,6 +20,7 @@
 	public function PchartReportingChartFormatter(&$reporting_block)
 	{
 		$this->reporting_block = $reporting_block;
+		$this->font = Path :: get_plugin_path() . '/pChart/Fonts/tahoma.ttf';
 	} //ReportingChartFormatter
 
 	public function get_pchart_instance()
@@ -29,5 +34,17 @@
 		}
 		return $this->instance;
 	} //get_instance
+	
+	protected function render_chart($chart,$chartname='chart')
+	{
+		$random = rand();
+		// Render the pie chart to a temporary file
+		$path = Path :: get(SYS_FILE_PATH) . 'temp/'.$this->reporting_block->get_name().'_'.$chartname . $random . '.png';
+		$chart->Render($path);
+
+		// Return the html code to the file
+		$path = Path :: get(WEB_FILE_PATH) . 'temp/'.$this->reporting_block->get_name().'_'.$chartname . $random . '.png';
+		return '<img src="' . $path . '" border="0" />';
+	}
  }
 ?>

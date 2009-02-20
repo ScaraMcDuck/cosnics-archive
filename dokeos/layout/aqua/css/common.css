@@ -2586,3 +2586,31 @@ span.dropOver
 .helpdialog.ui-dialog .ui-dialog-buttonpane button {
 	margin: 6px;
 }
+
+/*********************************************
+ * Reporting block style					 *
+ **********************************************/
+ 
+.reporting_block
+{
+	margin: 4px;
+	padding: 4px;
+}
+.reporting_header
+{
+	margin: 2px;
+	padding: 2px;
+	text-align: right;
+}
+.reporting_content
+{
+	margin-left:auto;
+	margin-right:auto;
+	overflow:auto;
+}
+.reporting_footer
+{
+	margin: 2px;
+	padding: 2px;
+	text-align: right;
+}

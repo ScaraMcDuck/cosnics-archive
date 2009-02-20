@@ -3,14 +3,13 @@
  * 
  * @author: Michael Kyndt
  */
-class BarPchartReportingChartFormatter extends PchartReportingChartFormatter {
+class FilledCubicPchartReportingChartFormatter extends PchartReportingChartFormatter {
 
-	public function BarPchartReportingChartFormatter(&$reporting_block) {
+	public function FilledCubicPchartReportingChartFormatter(&$reporting_block) {
 		parent :: __construct($reporting_block);
 	}
 
 	public function to_html() {
-		//return "succes! Here's your pretty bar.";
 		$all_data = $this->reporting_block->get_data();
 		$data = $all_data[0];
 		$datadescription = $all_data[1];
@@ -22,15 +21,15 @@ class BarPchartReportingChartFormatter extends PchartReportingChartFormatter {
 		$Test->drawFilledRoundedRectangle(7, 7, 693, 223, 5, 240, 240, 240);
 		$Test->drawRoundedRectangle(5, 5, 695, 225, 5, 230, 230, 230);
 		$Test->drawGraphArea(255, 255, 255, TRUE);
-		$Test->drawScale($data, $datadescription, SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2, TRUE);
+		$Test->drawScale($data, $datadescription, SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2);
 		$Test->drawGrid(4, TRUE, 230, 230, 230, 50);
 
 		// Draw the 0 line  
 		$Test->setFontProperties($this->font, 6);
 		$Test->drawTreshold(0, 143, 55, 72, TRUE, TRUE);
 
-		// Draw the bar graph  
-		$Test->drawBarGraph($data, $datadescription, TRUE);
+		// Draw the cubic curve graph  
+		$Test->drawFilledCubicCurve($data, $datadescription, .1, 50);
 
 		// Finish the graph  
 		$Test->setFontProperties($this->font, 8);
@@ -38,7 +37,7 @@ class BarPchartReportingChartFormatter extends PchartReportingChartFormatter {
 		$Test->setFontProperties($this->font, 10);
 		$Test->drawTitle(50, 22, $this->reporting_block->get_name(), 50, 50, 50, 585);
 		
-		return parent :: render_chart($Test,'barchart');
+		return parent :: render_chart($Test,'filledcubicchart');
 	} //to_html
 }
 ?>
