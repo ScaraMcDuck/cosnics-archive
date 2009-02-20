@@ -218,7 +218,7 @@ class MatchingQuestionForm extends LearningObjectForm
 				
 				if($number_of_options - count($_SESSION['mc_skip_options']) > 2)
 				{
-					$this->addElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
+					$this->addElement('image','remove_option['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
 				}
 				$this->addElement('category');
 				$count++;
