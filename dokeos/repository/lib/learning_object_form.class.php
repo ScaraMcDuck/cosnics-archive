@@ -18,6 +18,7 @@ require_once dirname(__FILE__).'/learning_object.class.php';
 require_once dirname(__FILE__).'/abstract_learning_object.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class.php';
+require_once dirname(__FILE__).'/learning_object_include_parser.class.php';
 /**
  * A form to create and edit a LearningObject.
  */
@@ -100,7 +101,7 @@ abstract class LearningObjectForm extends FormValidator
 	 * Returns the learning object associated with this form.
 	 * @return LearningObject The learning object, or null if none.
 	 */
-	protected function get_learning_object()
+	 function get_learning_object()
 	{
 		/*
 		 * For creation forms, $this->learning_object is the default learning
@@ -137,7 +138,7 @@ abstract class LearningObjectForm extends FormValidator
 		$this->learning_object = $learning_object;
 	}
 	
-	protected function get_form_type() {
+	function get_form_type() {
 		return $this->form_type;
 	}
 
@@ -418,44 +419,8 @@ EOT;
 		$object->create();
 		
 		// Process includes
-		if ($object->supports_includes())
-		{
-			/*
-			 * TODO: Make this faster by providing a function that matches the
-			 *      existing IDs against the ones that need to be added, and
-			 *      attaches and detaches accordingly.
-			 */
-			foreach ($object->get_included_learning_objects() as $o)
-			{
-				$object->exclude_learning_object($o->get_id());
-			}
-			
-			$base_path = Path :: get(REL_REPO_PATH);
-			$html_editors = $this->get_html_editors();
-			
-			foreach($html_editors as $html_editor)
-			{
-				if (isset($values[$html_editor]))
-				{
-					$tags = Text :: fetch_tag_into_array($values[$html_editor], '<img>');
-					
-					foreach($tags as $tag)
-					{
-						$search_path = str_replace($base_path, '', $tag['src']);
-						
-						$rdm = RepositoryDataManager :: get_instance();
-						$condition = new Equalitycondition('path', $search_path);
-						
-						$search_objects = $rdm->retrieve_learning_objects('document', $condition);
-						
-						while($search_object = $search_objects->next_result())
-						{
-							$object->include_learning_object($search_object->get_id());
-						}
-					}
-				}
-			}
-		}
+		$include_parser = new LearningObjectIncludeParser($this);
+		$include_parser->parse_editors();
 		
 		// Process attachments
 		if ($object->supports_attachments())
@@ -524,44 +489,8 @@ EOT;
 		}
 		
 		// Process includes
-		if ($object->supports_includes())
-		{
-			/*
-			 * TODO: Make this faster by providing a function that matches the
-			 *      existing IDs against the ones that need to be added, and
-			 *      attaches and detaches accordingly.
-			 */
-			foreach ($object->get_included_learning_objects() as $o)
-			{
-				$object->exclude_learning_object($o->get_id());
-			}
-			
-			$base_path = Path :: get(REL_REPO_PATH);
-			$html_editors = $this->get_html_editors();
-			
-			foreach($html_editors as $html_editor)
-			{
-				if (isset($values[$html_editor]))
-				{
-					$tags = Text :: fetch_tag_into_array($values[$html_editor], '<img>');
-					
-					foreach($tags as $tag)
-					{
-						$search_path = str_replace($base_path, '', $tag['src']);
-						
-						$rdm = RepositoryDataManager :: get_instance();
-						$condition = new Equalitycondition('path', $search_path);
-						
-						$search_objects = $rdm->retrieve_learning_objects('document', $condition);
-						
-						while($search_object = $search_objects->next_result())
-						{
-							$object->include_learning_object($search_object->get_id());
-						}
-					}
-				}
-			}
-		}
+		$include_parser = new LearningObjectIncludeParser($this);
+		$include_parser->parse_editors();
 		
 		// Process attachments
 		if ($object->supports_attachments())
