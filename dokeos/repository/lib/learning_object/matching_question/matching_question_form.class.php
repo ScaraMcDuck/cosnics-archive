@@ -211,7 +211,7 @@ class MatchingQuestionForm extends LearningObjectForm
 
 				$this->add_html_editor('option['.$option_number.']', Translation :: get('Answer'), true);
 				$this->add_html_editor('comment['.$option_number.']', Translation :: get('Comment'), false);
-				$this->addElement('select','matches_to['.$option_number.']','',$matches);
+				$this->addElement('select','matches_to['.$option_number.']',Translation :: get('Matches'),$matches);
 				$this->addElement('text','option_weight['.$option_number.']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
 				$this->addRule('option_weight['.$option_number.']', Translation :: get('ThisFieldIsRequired'), 'required');
 				$this->addRule('option_weight['.$option_number.']', Translation :: get('ValueShouldBeNumeric'), 'numeric');

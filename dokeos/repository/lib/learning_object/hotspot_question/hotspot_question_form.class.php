@@ -17,6 +17,13 @@ class HotspotQuestionForm extends LearningObjectForm
 		//dump($_POST);
 		parent :: build_creation_form();
 		$this->check_upload();
+		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
+		
+		if(!$this->isSubmitted())
+		{
+			unset($_SESSION['web_path']);
+		}
+		
 		if (!isset($_SESSION['web_path']))
 		{
 			$this->addElement('file', 'file', Translation :: get('UploadImage'));
@@ -31,7 +38,7 @@ class HotspotQuestionForm extends LearningObjectForm
 			$this->addElement($this->get_scripts_element());
 		}
 		$this->set_session_answers(false);
-		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
+		
 		$this->addElement('category');
 	}
 	

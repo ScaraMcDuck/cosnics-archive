@@ -248,6 +248,11 @@ abstract class LearningObjectPublicationListRenderer
 		return $edit_link;
 	}
 	
+	function render_email_action($publication)
+	{
+		return '<img src="'.Theme :: get_common_image_path().'action_mail.png"  alt=""/>';
+	}
+	
 	function render_top_action($publication)
 	{
 		return '<a href="#top"><img src="'.Theme :: get_common_image_path().'action_ajax_add.png"  alt=""/></a>';
@@ -385,6 +390,11 @@ abstract class LearningObjectPublicationListRenderer
 			$icons[] = $this->render_feedback_action($publication);
 			$icons[] = $this->render_move_to_category_action($publication,$last);
 		}
+		
+		if($publication->is_email_sent())
+			$icons[] = $this->render_email_action($publication);
+			
+		dump($icons);
 		$html[] = implode('&nbsp;', $icons);
 		$html[] = '</span>';
 		return implode($html);
