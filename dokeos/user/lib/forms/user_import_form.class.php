@@ -48,7 +48,7 @@ class UserImportForm extends FormValidator {
 		$this->addGroup($group, 'mail', Translation :: get('SendMailToNewUser'), '&nbsp;');
     	
 		//$this->addElement('submit', 'user_import', Translation :: get('Ok'));
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Ok'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive import'));
 		//$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);

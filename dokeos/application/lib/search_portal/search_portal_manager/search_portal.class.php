@@ -56,10 +56,10 @@ class SearchPortal extends WebApplication
 		Display :: tool_title(Translation :: get('SearchPortal'));
 		
 		$form = new FormValidator('search_simple', 'get', $this->get_url(), '', null, false);
-		$form->addElement('text', self :: PARAM_QUERY, '', 'size="40" class="search_query" id="inputString" onkeyup="lookup(this.value);"');
+		$form->addElement('text', self :: PARAM_QUERY, '', 'size="40" class="search_query_no_icon" id="inputString" onkeyup="lookup(this.value);"');
 		//$form->addElement('submit', 'submit', Translation :: get('Search'));
 		
-		$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'positive'));
+		$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'normal search'));
 		//$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$form->addGroup($buttons, 'buttons', null, '&nbsp;', false);

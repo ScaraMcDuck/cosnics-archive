@@ -2,7 +2,10 @@
 
 	/*global addBlock, bindIcons, columnsResizable, columnsSortable, confirm, document, editTab, filterComponents, getLoadingBox, getMessageBox, handleLoadingBox, jQuery, showAllComponents, tabsSortable */
 	
-	var columns = $(".column");
+	function getCurrentColumns()
+	{
+		return $(".column");
+	}
 	
 	function translation(string, application) {		
 		var translated_string = $.ajax({
@@ -633,7 +636,7 @@
 			placeholder : 'blockSortHelper',
 			revert : true,
 			scroll : true,
-			connectWith : columns,
+			connectWith : getCurrentColumns,
 			start : sortableStart,
 			stop : sortableStop,
 			change : sortableChange,

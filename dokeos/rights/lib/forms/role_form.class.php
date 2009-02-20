@@ -48,13 +48,6 @@ class RoleForm extends FormValidator {
 		$this->addRule(Role :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		
 		$this->add_html_editor(Role :: PROPERTY_DESCRIPTION, Translation :: get('Description'), true);
-		
-		// Submit button
-		//$this->addElement('submit', 'user_settings', 'OK');
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-
-		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     /**
@@ -68,6 +61,10 @@ class RoleForm extends FormValidator {
     	$this->build_basic_form();
 
     	$this->addElement('hidden', Role :: PROPERTY_ID);
+    	
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     /**
@@ -76,6 +73,10 @@ class RoleForm extends FormValidator {
     function build_creation_form()
     {
     	$this->build_basic_form();
+    	
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     /**

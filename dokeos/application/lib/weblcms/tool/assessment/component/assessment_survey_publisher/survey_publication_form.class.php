@@ -28,7 +28,7 @@ class SurveyPublicationForm extends FormValidator
 		$this->addElement('checkbox', 'resend', Translation :: get('ResendEmail'));
 		$this->addElement('html', '<br />' . Translation :: get('PublishSurveyResendMailInfo') . '<br /><br />');
 		//$this->addElement('submit', 'submit', Translation :: get('SendMail'));
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive publish'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);

@@ -135,7 +135,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		asort($type_options);
 		$type_form->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, Translation :: get('CreateANew'), $type_options, array('class' => 'learning-object-creation-type', 'style' => 'width: 300px;'));
 		//$type_form->addElement('submit', 'submit', Translation :: get('Ok'));
-		$buttons[] = $type_form->createElement('style_submit_button', 'submit', Translation :: get('Ok'), array('class' => 'positive'));
+		$buttons[] = $type_form->createElement('style_submit_button', 'submit', Translation :: get('Select'), array('class' => 'normal select'));
 		//$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 		$type_form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
