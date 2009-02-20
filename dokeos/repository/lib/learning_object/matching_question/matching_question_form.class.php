@@ -54,7 +54,14 @@ class MatchingQuestionForm extends LearningObjectForm
 					$defaults['match'][$index] = $match;
 				}
 			}
+			$number_of_options = intval($_SESSION['mc_number_of_options']);
+		
+			for($option_number = 0; $option_number <$number_of_options ; $option_number++)
+			{
+				$defaults['option_weight'][$option_number] = 0;
+			}
 		}
+
 		parent :: setDefaults($defaults);
 	}
 	function setCsvValues($valuearray)
