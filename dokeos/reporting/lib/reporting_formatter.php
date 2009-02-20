@@ -1,11 +1,14 @@
 <?php
 /*
  * Format the reporting block into its given display mode
+ * 
+ * @author: Michael Kyndt
  */
 
  abstract class ReportingFormatter
  {	
  	private static $instance;
+ 	private $reporting_block;
  	
  	abstract function to_html();
  	
@@ -23,6 +26,7 @@
 			self :: $instance = new $class ($reporting_block);
 		}
 		return self :: $instance;
- 	}
+ 	}//get_instance
+ 	
  }//ReportingFormatter
 ?>
