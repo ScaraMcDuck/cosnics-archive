@@ -46,8 +46,6 @@ class SearchToolSearcherComponent extends SearchToolComponent
 				$tools[$publication->get_tool()][] = $publication;
 			}
 			
-			$search_query = strtolower($query);
-			
 			$results = 0;
 			foreach($tools as $tool => $publications)
 			{
@@ -58,10 +56,10 @@ class SearchToolSearcherComponent extends SearchToolComponent
 				foreach($publications as $publication)
 				{
 					$lo = $publication->get_learning_object();
-					$lo_title = strtolower($lo->get_title());
-					$lo_description = strtolower($lo->get_description());
+					$lo_title = $lo->get_title();
+					$lo_description = $lo->get_description();
 					
-					if(strpos($lo_title, $search_query) !== false || strpos($lo_description, $search_query) !== false)
+					if(stripos($lo_title, $query) !== false || stripos($lo_description, $query) !== false)
 						$objects[] = $publication;
 					
 				}
@@ -76,8 +74,8 @@ class SearchToolSearcherComponent extends SearchToolComponent
 						$object = $pub->get_learning_object();
 						$url = $this->get_url(array(Weblcms :: PARAM_TOOL => $tool, 'pid' => $pub->get_id(), Tool :: PARAM_ACTION => 'view'));
 						$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'learning_object/'.$object->get_icon_name().'.png);">';
-						$html[] = '<div class="title"><a href="' . $url . '">'.str_replace($search_query, '<span style="background-color: yellow;">' . $search_query .'</span>', $object->get_title()) . '</a></div>';
-						$html[] = '<div class="description">'.str_replace($search_query, '<span style="background-color: yellow;">' . $search_query .'</span>', $object->get_description()).'</div>';
+						$html[] = '<div class="title"><a href="' . $url . '">' . Text :: highlight($object->get_title(), $query, 'yellow') . '</a></div>';
+						$html[] = '<div class="description">'. Text :: highlight($object->get_description(), $query, 'yellow') .'</div>';
 						$html[] = '</div>';
 					}
 				}
