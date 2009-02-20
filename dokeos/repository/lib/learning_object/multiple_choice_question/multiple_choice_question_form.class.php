@@ -141,16 +141,33 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 		{
 			if(!in_array($option_number,$_SESSION['mc_skip_options']))
 			{
-				$group = array();
+				$this->addElement('category', Translation :: get('Answer') . ' ' . ($count));
+				
 				if($_SESSION['mc_answer_type'] == 'checkbox')
 				{
-					$group[] = $this->createElement('checkbox','correct['.$option_number.']');
+					//$group[] = $this->createElement('checkbox','correct['.$option_number.']');
+					$this->addElement('checkbox','correct['.$option_number.']', Translation :: get('Correct'));
 				}
 				else
 				{
-					$group[] = $this->createElement('radio','correct','','',$option_number);
+					//$group[] = $this->createElement('radio','correct','','',$option_number);
+					$this->addElement('radio','correct',Translation :: get('Correct'),'',$option_number);
 				}
-				$group[] = $this->createElement('text','option['.$option_number.']', '','size="40"');
+
+				$this->add_html_editor('option['.$option_number.']', Translation :: get('Answer'), true);
+				$this->add_html_editor('comment['.$option_number.']', Translation :: get('Comment'), false);
+				$this->addElement('text','option_weight['.$option_number.']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
+				$this->addRule('option_weight['.$option_number.']', Translation :: get('ThisFieldIsRequired'), 'required');
+				$this->addRule('option_weight['.$option_number.']', Translation :: get('ValueShouldBeNumeric'), 'numeric');
+				
+				if($number_of_options - count($_SESSION['mc_skip_options']) > 2)
+				{
+					$this->addElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
+				}
+				$this->addElement('category');
+				$count++;
+				
+				/*$group[] = $this->createElement('text','option['.$option_number.']', '','size="40"');
 				$group[] = $this->createElement('text','option_weight['.$option_number.']','','size="2"  class="input_numeric"');
 				$group[] = $this->createElement('text','comment['.$option_number.']', '','size="40"');
 				if($number_of_options - count($_SESSION['mc_skip_options']) > 2)
@@ -178,7 +195,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 								)
 							)
 					)
-				);
+				);*/
 			}
 		}
 		$this->addFormRule(array('MultipleChoiceQuestionForm','validate_selected_answers'));
