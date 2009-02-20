@@ -1214,8 +1214,8 @@ div.survey-categories-header, div.survey-outline-header, div.survey-result-heade
 	color: #4171b5;
 	text-decoration: none;
 	border: 1px solid #4271b5;
-	-moz-border-radius-topleft: 10px;
-	-moz-border-radius-topright: 10px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
 }
 .tabbed-pane-tabs li a:hover, .tabbed-pane-tabs li a.current
 {
@@ -1237,6 +1237,8 @@ div.survey-categories-header, div.survey-outline-header, div.survey-result-heade
 	margin: 0;
 	padding: 1em;
 	min-height: 15em;
+	-moz-border-radius-topright: 10px;
+	-moz-border-radius-bottomleft: 10px;
 }
 
 /*****************************************************
@@ -2198,7 +2200,8 @@ div.configuration_form {
 	margin: 20px 2px 2px 2px;
 	padding: 10px;
 	border: 1px solid #ebebeb;
-	-moz-border-radius: 10px;
+	-moz-border-radius-topright: 10px;
+	-moz-border-radius-bottomleft: 10px;
 }
 
 div.configuration_form span.category
