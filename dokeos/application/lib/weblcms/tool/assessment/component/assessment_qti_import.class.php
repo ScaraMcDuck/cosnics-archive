@@ -42,7 +42,7 @@ class AssessmentToolQtiImportComponent extends AssessmentToolComponent {
     	$allowed_upload_types = array ('zip');
 		$form->addRule('file', Translation :: get('OnlyZipAllowed'), 'filetype', $allowed_upload_types);
     	
-		$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Import'), array('class' => 'positive import'));
 
 		$form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		return $form;

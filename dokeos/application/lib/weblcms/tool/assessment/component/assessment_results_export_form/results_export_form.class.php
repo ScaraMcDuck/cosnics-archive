@@ -49,7 +49,7 @@ class AssessmentResultsExportForm extends FormValidator
 		
 		$options = Export::get_supported_filetypes(array('ical'));
 		$this->addElement('select', 'filetype', 'Export to filetype:', $options);
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Ok'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Export'), array('class' => 'positive export'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 	}

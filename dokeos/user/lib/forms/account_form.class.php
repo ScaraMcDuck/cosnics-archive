@@ -153,13 +153,6 @@ class AccountForm extends FormValidator {
 		{
 			$this->freeze(User :: PROPERTY_THEME);
 		}
-		
-		// Submit button
-		//$this->addElement('submit', 'user_settings', 'OK');
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-
-		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     /**
@@ -170,6 +163,11 @@ class AccountForm extends FormValidator {
     	$this->build_basic_form();
 
     	$this->addElement('hidden', User :: PROPERTY_USER_ID);
+    	
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
     /**

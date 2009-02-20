@@ -256,7 +256,7 @@ EOT;
 			}
 			
 			//$this->addElement('submit', 'submit', Translation :: get('CompareVersions'));
-			$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('CompareVersions'), array('class' => 'positive'));
+			$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('CompareVersions'), array('class' => 'normal compare'));
 			$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 			
 			$this->addElement('html', '</div>');
@@ -343,11 +343,28 @@ EOT;
 		}
 		
 		$buttons = array();
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+		
+		switch($this->form_type)
+		{
+			case self :: TYPE_COMPARE :
+				$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Compare'), array('class' => 'normal compare'));
+				break;
+			case self :: TYPE_CREATE :
+				$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+				break;
+			case self :: TYPE_EDIT :
+				$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+				break;
+			case self :: TYPE_REPLY :
+				$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Reply'), array('class' => 'positive send'));
+				break;
+			default :
+				$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+				break;
+		}
+		
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-
-		//$this->addElement('submit', 'submit', Translation :: get('Ok'));
 	}
 
 	/**

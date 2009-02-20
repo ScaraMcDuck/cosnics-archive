@@ -88,21 +88,27 @@ class MenuItemForm extends FormValidator {
 		$this->addElement('html', '</div>');
 		
 		//$this->addElement('submit', 'menu_item', Translation :: get('Ok'));
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-
-		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
     function build_editing_form()
     {
 	   	$this->build_basic_form();
     	$this->addElement('hidden', MenuItem :: PROPERTY_ID );
+    	
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
     function build_creation_form()
     {
     	$this->build_basic_form();
+    	
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
     function update_menu_item()

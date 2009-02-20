@@ -66,18 +66,18 @@ class CourseCategoryForm extends FormValidator {
 		$cat_allowed[] =& $this->createElement('radio', null, null, Translation :: get('Yes'), 1);
 		$cat_allowed[] =& $this->createElement('radio', null, null, Translation :: get('No'), 0);
 		$this->addGroup($cat_allowed, CourseCategory :: PROPERTY_AUTH_CAT_CHILD, Translation :: get('CourseCategoryCatAllowed'), '<br />');
-				
-		//$this->addElement('submit', 'course_settings', Translation :: get('Ok'));
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-
-		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
     function build_editing_form()
     {
 	   	$this->build_basic_form();
     	$this->addElement('hidden', CourseCategory :: PROPERTY_ID );
+    	
+		//$this->addElement('submit', 'course_settings', Translation :: get('Ok'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
     function build_creation_form()
@@ -85,6 +85,12 @@ class CourseCategoryForm extends FormValidator {
 		$this->addElement('text', CourseCategory :: PROPERTY_CODE, Translation :: get('CourseCategoryCode'));
 		$this->addRule(CourseCategory :: PROPERTY_CODE, Translation :: get('ThisFieldIsRequired'), 'required');
     	$this->build_basic_form();
+    	
+		//$this->addElement('submit', 'course_settings', Translation :: get('Ok'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
     function update_course_category()

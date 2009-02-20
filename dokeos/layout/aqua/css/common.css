@@ -557,6 +557,61 @@ button.search, button a.search
 	background-image: url(../img/common/buttons/button_search.png);
 }
 
+button.save, button a.save
+{
+	background-image: url(../img/common/buttons/button_save.png);
+}
+
+button.update, button a.update
+{
+	background-image: url(../img/common/buttons/button_update.png);
+}
+
+button.publish, button a.publish
+{
+	background-image: url(../img/common/buttons/button_publish.png);
+}
+
+button.send, button a.send
+{
+	background-image: url(../img/common/buttons/button_send.png);
+}
+
+button.import, button a.import
+{
+	background-image: url(../img/common/buttons/button_import.png);
+}
+
+button.export, button a.export
+{
+	background-image: url(../img/common/buttons/button_export.png);
+}
+
+button.subscribe, button a.subscribe
+{
+	background-image: url(../img/common/buttons/button_subscribe.png);
+}
+
+button.unsubscribe, button a.unsubscribe
+{
+	background-image: url(../img/common/buttons/button_unsubscribe.png);
+}
+
+button.move, button a.move
+{
+	background-image: url(../img/common/buttons/button_move.png);
+}
+
+button.compare, button a.compare
+{
+	background-image: url(../img/common/buttons/button_compare.png);
+}
+
+button.register, button a.register
+{
+	background-image: url(../img/common/buttons/button_register.png);
+}
+
 /*****************************************************
  *  DATA TABLE STYLES                                *
  *****************************************************/

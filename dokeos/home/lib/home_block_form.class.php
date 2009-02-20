@@ -53,10 +53,6 @@ class HomeBlockForm extends FormValidator {
 		$this->addElement('hidden', HomeBlock :: PROPERTY_USER);
 				
 		//$this->addElement('submit', 'home_block', Translation :: get('Ok'));
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-
-		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
     function build_editing_form()
@@ -65,11 +61,21 @@ class HomeBlockForm extends FormValidator {
 	   	$block = $this->getElement(HomeBlock :: PROPERTY_COMPONENT);
 	   	//$block->freeze();
     	$this->addElement('hidden', HomeBlock :: PROPERTY_ID );
+    	
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
     function build_creation_form()
     {
     	$this->build_basic_form();
+    	
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
     function update_object()

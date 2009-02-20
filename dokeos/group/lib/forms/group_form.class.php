@@ -72,11 +72,6 @@ class GroupForm extends FormValidator {
 		$elem->setDefaults($defaults);
 		$elem->setDefaultCollapsed(count($group_roles) == 0);
 		
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-
-		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-		
 		//$this->addElement('submit', 'group_settings', 'OK');
     }
     
@@ -88,11 +83,21 @@ class GroupForm extends FormValidator {
     	$this->build_basic_form();
     	
     	$this->addElement('hidden', Group :: PROPERTY_ID);
+    	
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
     function build_creation_form()
     {
     	$this->build_basic_form();
+    	
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
     function update_group()

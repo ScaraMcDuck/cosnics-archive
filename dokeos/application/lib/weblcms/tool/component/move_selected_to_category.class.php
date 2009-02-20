@@ -69,7 +69,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 				$form = new FormValidator('select_category', 'post', $this->get_url(array(Tool :: PARAM_ACTION => 'move_selected_to_category', 'pid' => $_GET['pid'])));
 				$form->addElement('select','category',Translation :: get('Category'),$this->tree);
 				//$form->addElement('submit', 'submit', Translation :: get('Ok'));
-				$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
+				$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive move'));
 				$buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 				$form->addGroup($buttons, 'buttons', null, '&nbsp;', false);

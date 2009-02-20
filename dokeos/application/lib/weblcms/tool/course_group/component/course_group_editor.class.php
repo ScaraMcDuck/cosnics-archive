@@ -21,7 +21,7 @@ class CourseGroupToolEditorComponent extends CourseGroupToolComponent
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_group = $wdm->retrieve_course_group($course_group_id);
 		
-		$form = new CourseGroupForm(CourseGroupForm :: TYPE_CREATE, $course_group, $this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_EDIT_COURSE_GROUP, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group_id)));
+		$form = new CourseGroupForm(CourseGroupForm :: TYPE_EDIT, $course_group, $this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_EDIT_COURSE_GROUP, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group_id)));
 		if ($form->validate())
 		{
 			$form->update_course_group();

@@ -54,7 +54,6 @@ abstract class ComplexLearningObjectItemForm extends FormValidator
 		}
 	
 		$this->add_progress_bar(2);
-		$this->add_footer();
 
 		$this->setDefaults();
 	}
@@ -80,6 +79,11 @@ abstract class ComplexLearningObjectItemForm extends FormValidator
 	protected function build_creation_form()
 	{
 		$this->build_basic_form();
+		
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 	}
 
 	/**
@@ -89,6 +93,11 @@ abstract class ComplexLearningObjectItemForm extends FormValidator
 	{
 		$this->build_basic_form();
 		$this->addElement('hidden', ComplexLearningObjectItem :: PROPERTY_ID);
+		
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
+		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
+
+		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 	}
 
 	/**
@@ -100,18 +109,6 @@ abstract class ComplexLearningObjectItemForm extends FormValidator
 	private function build_basic_form()
 	{
 		
-	}
-
-	/**
-	 * Adds a footer to the form, including a submit button.
-	 */
-	protected function add_footer()
-	{
-		//$this->addElement('submit', 'submit', Translation :: get('Ok'));
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
-		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-
-		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 	}
 
 	/**
