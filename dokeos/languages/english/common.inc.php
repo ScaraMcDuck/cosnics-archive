@@ -87,4 +87,7 @@ $lang['common']['AccountNotActive'] = 'Account not active';
 $lang['common']['UsernameOrPasswordIncorrect'] = 'Username or password are incorrect';
 $lang['common']['Delete'] = 'Delete';
 $lang['common']['WhoisOnline'] = 'Users online';
+$lang['common']['SaturdayShort'] = 'Sat';
+$lang['common']['SaturdayLong'] = 'Saturday';
+$lang['common']['FinderTitle'] = 'Find';
 ?>
