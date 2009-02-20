@@ -45,4 +45,16 @@ $lang['personal_messenger']['CreatorTitle'] = 'Create';
 $lang['personal_messenger']['Personal_message'] = 'Personal Message';
 $lang['personal_messenger']['BrowserTitle'] = 'Browser';
 $lang['personal_messenger']['Reset'] = 'Reset';
+$lang['personal_messenger']['MyAccount'] = 'My account';
+$lang['personal_messenger']['Repository'] = 'Repository';
+$lang['personal_messenger']['Administration'] = 'Administration';
+$lang['personal_messenger']['Logout'] = 'Logout';
+$lang['personal_messenger']['Status'] = 'Status';
+$lang['personal_messenger']['PersonalMessage'] = 'Personal message';
+$lang['personal_messenger']['GeneralProperties'] = 'General properties';
+$lang['personal_messenger']['PersonalMessageFormTitle'] = 'Title';
+$lang['personal_messenger']['PersonalMessageFormDescription'] = 'Description';
+$lang['personal_messenger']['MyRepository'] = 'My Repository';
+$lang['personal_messenger']['Save'] = 'Save';
+$lang['personal_messenger']['FinderTitle'] = 'Find';
 ?>
