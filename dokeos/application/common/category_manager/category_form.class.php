@@ -113,13 +113,14 @@ class CategoryForm extends FormValidator {
 				$group[] = $this->add_name_field($option_number);
 				if($number_of_options - count($_SESSION['mc_skip_options']) > 1)
 				{
-					$group[] = $this->createElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
+					$group[] = $this->createElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png', array('style="border: 0px;"'));
 				}
 				$this->addGroup($group,PlatformCategory :: PROPERTY_NAME . $option_number,Translation :: get('CategoryName'),'',false);
+				$this->addRule(PlatformCategory :: PROPERTY_NAME . $option_number, Translation :: get('ThisFieldIsRequired'), 'required');
 			}
 		}
 		
-		$this->addElement('image','add[]',Theme :: get_common_image_path().'action_list_add.png');
+		$this->addElement('image','add[]',Theme :: get_common_image_path().'action_list_add.png', array('style="border: 0px;"'));
 		
     }
     
