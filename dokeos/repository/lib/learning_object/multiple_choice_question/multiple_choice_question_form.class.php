@@ -44,6 +44,15 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 					}
 				}
 			}
+			else
+			{
+				$number_of_options = intval($_SESSION['mc_number_of_options']);
+			
+				for($option_number = 0; $option_number <$number_of_options ; $option_number++)
+				{
+					$defaults['option_weight'][$option_number] = 0;
+				}
+			}
 		}
 		//print_r($defaults);
 		parent :: setDefaults($defaults);
@@ -136,7 +145,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 		$number_of_options = intval($_SESSION['mc_number_of_options']);
 		//Todo: Style this element
 		$this->addElement('submit','change_answer_type','radio <-> checkbox');
-		$show_label = true;
+		$show_label = true; $count = 1;
 		for($option_number = 0; $option_number <$number_of_options ; $option_number++)
 		{
 			if(!in_array($option_number,$_SESSION['mc_skip_options']))
@@ -198,7 +207,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 				);*/
 			}
 		}
-		$this->addFormRule(array('MultipleChoiceQuestionForm','validate_selected_answers'));
+		//$this->addFormRule(array('MultipleChoiceQuestionForm','validate_selected_answers'));
 		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
 		$this->addElement('image','add[]',Theme :: get_common_image_path().'action_list_add.png');
 	}

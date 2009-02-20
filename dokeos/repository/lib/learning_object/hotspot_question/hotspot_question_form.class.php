@@ -82,6 +82,16 @@ class HotspotQuestionForm extends LearningObjectForm
 				}*/
 			}
 		}
+		else
+		{
+			$number_of_options = intval($_SESSION['mc_number_of_options']);
+		
+			for($option_number = 0; $option_number <$number_of_options ; $option_number++)
+			{
+				$defaults['option_weight'][$option_number] = 0;
+			}
+		}
+		
 		$defaults['filename'] = $_SESSION['web_path'];	
 		parent :: setDefaults($defaults);
 	}
@@ -343,6 +353,9 @@ class HotspotQuestionForm extends LearningObjectForm
 				);*/
 			}
 		}
+		
+		$this->setDefaults();
+		
 		$_SESSION['mc_num_options'] = $counter;
 		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
 		$this->addElement('image','add[]',Theme :: get_common_image_path().'action_list_add.png');
