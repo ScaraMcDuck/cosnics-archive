@@ -33,54 +33,63 @@ class SearchToolSearcherComponent extends SearchToolComponent
 		echo $this->action_bar->as_html();
 		echo '</div>';
 		// If form validates, show results
-		if($search_condition = $this->get_condition())
+		if($query = $this->get_query())
 		{
 			$datamanager = WeblcmsDataManager :: get_instance();
 			$user_id = $this->get_user_id();
 			$course_groups = $this->get_course_groups();
 			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups);
-			$ids = array();
-			$id = $publications->next_learning_object_id();
-			while($id != null)
+			$tools = array();
+		
+			while($publication = $publications->next_result())
 			{
-				$ids[] = $id;
-				$id = $publications->next_learning_object_id();
+				$tools[$publication->get_tool()][] = $publication;
 			}
-			if(count($ids) > 0)
+			
+			$search_query = strtolower($query);
+			
+			$results = 0;
+			foreach($tools as $tool => $publications)
 			{
-				$repomanager = RepositoryDataManager :: get_instance();
-				$id_condition = new InCondition(DatabaseRepositoryDataManager :: ALIAS_LEARNING_OBJECT_TABLE.'.'.LearningObject::PROPERTY_ID,$ids);
+				if(strpos($tool, 'feedback') !== false) continue;
 				
-				$condition = new AndCondition($id_condition,$search_condition);
-				$total = $repomanager->count_learning_objects(null,$condition);
-				$pager = self::create_pager($total,self::RESULTS_PER_PAGE);
-				echo self::get_pager_links($pager);
-				$from = 0;
-				$offset = $pager->getOffsetByPageId();
-				if(isset($offset[0]))
+				$objects = array();
+				
+				foreach($publications as $publication)
 				{
-					$from = $offset[0]-1;
+					$lo = $publication->get_learning_object();
+					$lo_title = strtolower($lo->get_title());
+					$lo_description = strtolower($lo->get_description());
+					
+					if(strpos($lo_title, $search_query) !== false || strpos($lo_description, $search_query) !== false)
+						$objects[] = $publication;
+					
 				}
-				$objects = $repomanager->retrieve_learning_objects(null,$condition,array(),array(),$from,self::RESULTS_PER_PAGE)->as_array();
-				if(count($objects) > 0)
+				$count = count($objects);
+				if($count > 0)
 				{
-					foreach($objects as $index => $object)
+					$html[] = '<h4>' . Translation :: get(ucfirst($tool) . 'ToolTitle') . ' (' . $count . ' ' . Translation :: get('result(s)') . ') </h4>';
+					$results += $count;
+					
+					foreach($objects as $index => $pub)
 					{
-						echo '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'learning_object/'.$object->get_icon_name().'.png);">';
-						echo '<div class="title"">'.$object->get_title().'</div>';
-						echo '<div class="description">'.$object->get_description().'</div>';
-						echo '</div>';
+						$object = $pub->get_learning_object();
+						$url = $this->get_url(array(Weblcms :: PARAM_TOOL => $tool, 'pid' => $pub->get_id(), Tool :: PARAM_ACTION => 'view'));
+						$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path().'learning_object/'.$object->get_icon_name().'.png);">';
+						$html[] = '<div class="title"><a href="' . $url . '">'.str_replace($search_query, '<span style="background-color: yellow;">' . $search_query .'</span>', $object->get_title()) . '</a></div>';
+						$html[] = '<div class="description">'.str_replace($search_query, '<span style="background-color: yellow;">' . $search_query .'</span>', $object->get_description()).'</div>';
+						$html[] = '</div>';
 					}
 				}
-				else
-				{
-					echo Translation :: get('NoSearchResults');
-				}
 			}
-			else
+			
+			if($results == 0)
 			{
-				echo Translation :: get('NoSearchResults');
+				$html[] = Translation :: get('NoSearchResults');
 			}
+			
+			echo $results . ' ' . Translation :: get('ResultsFoundFor') . ' <span style="background-color: yellow;">' . $query . '</span>';
+			echo implode("\n", $html);
 		}
 		$this->display_footer();
 		
@@ -109,8 +118,7 @@ class SearchToolSearcherComponent extends SearchToolComponent
 	
 	function get_condition()
 	{
-		$query = $this->action_bar->get_query();
-		
+		$query = $this->get_query();
 		if(!$query)
 			$query = Request :: post('query');
 		
@@ -122,6 +130,11 @@ class SearchToolSearcherComponent extends SearchToolComponent
 		}
 		
 		return null;
+	}
+	
+	function get_query()
+	{
+		return $this->action_bar->get_query();
 	}
 }
 ?>
