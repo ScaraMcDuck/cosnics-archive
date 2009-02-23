@@ -103,7 +103,7 @@ FCKConfig.ToolbarSets["Default"] = [
 	['OrderedList','UnorderedList','-','Outdent','Indent','Blockquote'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
 	['Link','Unlink','Anchor'],
-	['Image','Flash','Table','Rule','Smiley','SpecialChar','PageBreak'],
+	['Image','Flash','YouTube','Table','Rule','Smiley','SpecialChar','PageBreak'],
 	'/',
 	['Style','FontFormat','FontName','FontSize'],
 	['TextColor','BGColor'],
@@ -117,7 +117,7 @@ FCKConfig.ToolbarSets["FullHTML"] = [
 ] ;
 
 FCKConfig.ToolbarSets["Basic"] = [
-	['Bold','Italic','Underline','-','OrderedList','UnorderedList','-','Link','Unlink','-','TextColor','BGColor','-','Rule','-','Image','Flash']
+	['Bold','Italic','Underline','-','OrderedList','UnorderedList','-','Link','Unlink','-','TextColor','BGColor','-','Rule','-','Image','Flash','YouTube']
 ] ;
 
 FCKConfig.EnterMode = 'p' ;			// p | div | br
@@ -310,3 +310,4 @@ FCKConfig.SmileyColumns = 8 ;
 FCKConfig.SmileyWindowWidth		= 320 ;
 FCKConfig.SmileyWindowHeight	= 240 ;
 
+FCKConfig.Plugins.Add( 'youtube', 'en,ja' ) ;

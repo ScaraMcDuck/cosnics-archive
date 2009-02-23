@@ -2,7 +2,7 @@
 require_once dirname(__FILE__).'/repository_data_manager.class.php';
 require_once dirname(__FILE__).'/learning_object_form.class.php';
 
-class LearningObjectIncludeParser
+abstract class LearningObjectIncludeParser
 {
 	/**
 	 * The form
@@ -14,25 +14,38 @@ class LearningObjectIncludeParser
 		$this->form = $form;
 	}
 	
-	private function get_form()
+	function get_form()
 	{
 		return $this->form;
 	}
 	
-	private function set_form($form)
+	function set_form($form)
 	{
 		$this->form = $form;
 	}
 	
-	public function parse_editors()
+	abstract function parse_editor();
+	
+	static function factory($type, $form)
 	{
-		$form = $this->get_form();
-		$form_type = $form->get_form_type();
-		$values = $form->exportValues();
+		$class = 'Include' . DokeosUtilities :: underscores_to_camelcase($type).'Parser';
+		require_once dirname(__FILE__).'/includes/include_'.$type.'_parser.class.php';
+		return new $class ($form);
+	}
+	
+	static function get_include_types()
+	{
+		return array('image', 'flash');
+	}
+	
+	function parse_includes($form)
+	{
 		$learning_object = $form->get_learning_object();
 		
 		if ($learning_object->supports_includes())
 		{
+			$form_type = $form->get_form_type();
+			
 			if ($form_type == LearningObjectForm :: TYPE_EDIT)
 			{
 				/*
@@ -46,32 +59,18 @@ class LearningObjectIncludeParser
 				}
 			}
 			
-			$base_path = Path :: get(REL_REPO_PATH);
-			$html_editors = $form->get_html_editors();
-			
-			foreach($html_editors as $html_editor)
+			$include_types = self :: get_include_types();
+			foreach($include_types as $include_type)
 			{
-				if (isset($values[$html_editor]))
-				{
-					$tags = Text :: fetch_tag_into_array($values[$html_editor], '<img>');
-					
-					foreach($tags as $tag)
-					{
-						$search_path = str_replace($base_path, '', $tag['src']);
-						
-						$rdm = RepositoryDataManager :: get_instance();
-						$condition = new Equalitycondition('path', $search_path);
-						
-						$search_objects = $rdm->retrieve_learning_objects('document', $condition);
-						
-						while($search_object = $search_objects->next_result())
-						{
-							$learning_object->include_learning_object($search_object->get_id());
-						}
-					}
-				}
+				$parser = self :: factory($include_type, $form);
+				$parser->parse_editor();
 			}
 		}
+	}
+	
+	function get_base_path()
+	{
+		return Path :: get(REL_REPO_PATH);
 	}
 }
 ?>

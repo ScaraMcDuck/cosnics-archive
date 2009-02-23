@@ -418,9 +418,8 @@ EOT;
 		
 		$object->create();
 		
-		// Process includes
-		$include_parser = new LearningObjectIncludeParser($this);
-		$include_parser->parse_editors();
+		// Process includes		
+		LearningObjectIncludeParser :: parse_includes($this);
 		
 		// Process attachments
 		if ($object->supports_attachments())
@@ -488,9 +487,10 @@ EOT;
 			$result = $object->update();
 		}
 		
-		// Process includes
-		$include_parser = new LearningObjectIncludeParser($this);
-		$include_parser->parse_editors();
+		// Process includes		
+		LearningObjectIncludeParser :: parse_includes($this);
+		
+		//$include_parser->parse_editors();
 		
 		// Process attachments
 		if ($object->supports_attachments())
