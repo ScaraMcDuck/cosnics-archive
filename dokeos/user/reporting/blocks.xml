@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="user">
+	<block name="ActiveInactive" 
+		   application="user" 
+		   function="getActiveInactive" 
+		   displaymode="Chart:Pie" />
+	<block name="ActiveInactivePerYearAndMonth" 
+		   application="user" 
+		   function="getActiveInactivePerYearAndMonth" 
+		   displaymode="Table" />
+</application>

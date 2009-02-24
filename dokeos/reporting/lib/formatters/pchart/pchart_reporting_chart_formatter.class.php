@@ -28,7 +28,7 @@
 		if (!isset (self :: $instance)) {
 			$pos = strpos($this->reporting_block->get_displaymode(),':');
 			$charttype = substr($this->reporting_block->get_displaymode(),$pos+1);
-			require_once dirname(__FILE__) . '/'.strtolower($charttype) .'_pchart_reporting_chart_formatter.php';
+			require_once dirname(__FILE__) . '/'.strtolower($charttype) .'_pchart_reporting_chart_formatter.class.php';
 			$class = $charttype.'PchartReportingChartFormatter';
 			$this->instance = new $class($this->reporting_block);// (self :: $charttype);
 		}
