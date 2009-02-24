@@ -3,6 +3,6 @@ FCKCommands.RegisterCommand( 'YouTube', new FCKDialogCommand( FCKLang['DlgYouTub
 
 // Create the "YouTube" toolbar button.
 var oFindItem		= new FCKToolbarButton( 'YouTube', FCKLang['YouTubeTip'] ) ;
-oFindItem.IconPath	= FCKConfig.PluginsPath + 'youtube/youtube.gif' ;
+oFindItem.IconPath	= FCKConfig.SkinPath + 'youtube.gif' ;
 
 FCKToolbarItems.RegisterItem( 'YouTube', oFindItem ) ;			// 'YouTube' is the name used in the Toolbar config.

@@ -190,7 +190,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				$edit_url = $this->get_learning_object_editing_url($object);
 				if (isset($edit_url))
 				{
-					$action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
+					$action_bar->add_common_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $edit_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 				}
 				else
 				{

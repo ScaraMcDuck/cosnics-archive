@@ -9,6 +9,7 @@
  * @author Dieter De Neef
  */
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
+require_once Path :: get_library_path() . 'html/bbcode_parser.class.php';
 require_once dirname(__FILE__).'/repository_data_manager.class.php';
 require_once dirname(__FILE__).'/quota_manager.class.php';
 /**
@@ -110,8 +111,10 @@ abstract class LearningObjectDisplay
 	 */
 	function get_description()
 	{
-		$object = $this->get_learning_object();
-		return '<div class="description">'.$object->get_description().'</div>';
+		$description = $this->get_learning_object()->get_description();
+		$parsed_description = BbcodeParser :: get_instance()->parse($description);
+		
+		return '<div class="description">' . $parsed_description . '</div>';
 	}
 	/**
 	 * Returns a HTML view of the learning objects attached to the learning
