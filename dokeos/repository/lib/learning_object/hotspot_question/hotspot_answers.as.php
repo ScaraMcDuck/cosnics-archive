@@ -1,57 +1,39 @@
 <?php
 include_once dirname(__FILE__).'/../../../../common/global.inc.php';
 
+require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_question_attempts_tracker.class.php';
+
 // set vars
 $userId        = 0;//$_user['user_id'];
 $questionId    = $_GET['modifyAnswers'];
 $exe_id    = $_GET['exe_id'];
-$from_db = isset($_GET['from_db']) ? $_GET['from_db'] : 0;
-$objQuestion = RepositoryDataManager :: get_instance()->retrieve_learning_object($questionId);//Question :: read($questionId);
-$TBL_ANSWERS   = Database::get_course_table(TABLE_QUIZ_ANSWER);
-$documentPath  = api_get_path(SYS_COURSE_PATH).$_course['path'].'/document';
+$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($questionId);//Question :: read($questionId);
+$documentPath  = //api_get_path(SYS_COURSE_PATH).$_course['path'].'/document';
 
-$picturePath   = $documentPath.'/images';
-$pictureName   = $objQuestion->selectPicture();
-$pictureSize   = getimagesize($picturePath.'/'.$objQuestion->selectPicture());
+$picture = $question->get_image();
+$parts = split('/', $picture);
+$pictureName = $parts[1];
+$picturePath = $picture;
+$fullPath = Path :: get(SYS_REPO_PATH).$picture;
+$pictureSize   = getimagesize($fullPath);
 $pictureWidth  = $pictureSize[0];
 $pictureHeight = $pictureSize[1];
 
-$courseLang = $_course['language'];
-$courseCode = $_course['sysCode'];
-$coursePath = $_course['path'];
-
-// Query db for answers
-$sql = "SELECT id, answer, hotspot_coordinates, hotspot_type FROM $TBL_ANSWERS WHERE question_id = '$questionId' ORDER BY id";
-$result = api_sql_query($sql,__FILE__,__LINE__);
+$courseLang = Translation :: get_language();//$_course['language'];
+$courseCode = '';//$_course['sysCode'];
+$coursePath = ''; //$_course['path'];
 
 // Init
-$output = "hotspot_lang=$courseLang&hotspot_image=$pictureName&hotspot_image_width=$pictureWidth&hotspot_image_height=$pictureHeight&courseCode=$coursePath";
-$i = 0;
+$output = "hotspot_lang=$courseLang&hotspot_image=$picture&hotspot_image_width=$pictureWidth&hotspot_image_height=$pictureHeight&courseCode=$coursePath";
 
-while ($hotspot = mysql_fetch_array($result))
+$answers = $question->get_answers();
+
+for ($i = 0; $i < count($answers); $i++)
 {
-	$output .= "&hotspot_".$hotspot['id']."=true";
-	// Square or rectancle
-	if ($hotspot['hotspot_type'] == 'square' )
-	{
-		$output .= "&hotspot_".$hotspot['id']."_type=square";
-	}
-
-	// Circle or ovale
-	if ($hotspot['hotspot_type'] == 'circle')
-	{
-		$output .= "&hotspot_".$hotspot['id']."_type=circle";
-	}
-
-	// Polygon
-	if ($hotspot['hotspot_type'] == 'poly')
-	{
-		$output .= "&hotspot_".$hotspot['id']."_type=poly";
-	}
-
-	$output .= "&hotspot_".$hotspot['id']."_coord=".$hotspot['hotspot_coordinates']."";
-
-	$i++;
+   	$output .= "&hotspot_".($i+1)."=true";
+	$output .= "&hotspot_".($i+1)."_answer=".str_replace('&','{amp}',$answers[$i]->get_answer());	
+	$output .= '&hotspot_'.($i+1).'_type='.$answers[$i]->get_hotspot_type();
+	$output .= "&hotspot_".($i+1)."_coord=".$answers[$i]->get_hotspot_coordinates();
 }
 
 // Generate empty
@@ -63,31 +45,19 @@ for ($i; $i <= 12; $i++)
 
 // set vars
 $questionId    = $_GET['modifyAnswers'];
-$course_code = $_course['id'];
+$course_code = ''; //$_course['id'];
 
-// Get clicks
-if(isset($_SESSION['exerciseResultCoordinates']) && $from_db==0)
+$track = new WeblcmsQuestionAttemptsTracker();
+$conditiona = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $exe_id);
+$conditionq = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $questionId);
+$condition = new AndCondition(array($conditionq, $conditiona));
+$items = $track->retrieve_tracker_items($condition);
+
+foreach ($items as $item)
 {
-	foreach ($_SESSION['exerciseResultCoordinates'][$questionId] as $coordinate)
-	{
-		$output2 .= $coordinate."|";
-	}
-}
-else
-{
-	// get it from db
-	$tbl_track_e_hotspot = Database::get_statistic_table(TABLE_STATISTIC_TRACK_E_HOTSPOT);
-	$sql = 'SELECT hotspot_coordinate 
-			FROM '.$tbl_track_e_hotspot.'
-			WHERE hotspot_question_id = '.intval($questionId).'
-			AND hotspot_course_code = "'.Database::escape_string($course_code).'"
-			AND hotspot_exe_id='.intval($exe_id);
-	
-	$rs = @api_sql_query($sql); // don't output error because we are in Flash execution.
-	while($row = Database :: fetch_array($rs))
-	{
-		$output2 .= $row['hotspot_coordinate']."|";
-	}
+	$answer = $item->get_answer();
+	$parts = split('-', $answer);
+	$output2 .= $parts[0]."|";
 }
 
 $output .= "&p_hotspot_answers=".substr($output2,0,-1)."&done=done";

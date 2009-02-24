@@ -33,7 +33,7 @@ class ExerciseResultsViewer extends ResultsViewer
 			$condition_question = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_id());
 			$condition = new AndCondition(array($condition_ass, $condition_question));
 			$q_results = $track->retrieve_tracker_items($condition);
-			$question_result = QuestionResult :: create_question_result($this, $question, $q_results, $this->get_edit_rights(), $count);
+			$question_result = QuestionResult :: create_question_result($this, $question, $q_results, $this->get_edit_rights(), $count, parent :: get_user_assessment()->get_id());
 			$count++;
 			$question_result->display_exercise();
 		}
