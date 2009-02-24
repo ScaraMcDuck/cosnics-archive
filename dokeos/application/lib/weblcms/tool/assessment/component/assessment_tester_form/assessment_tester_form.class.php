@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/question_types/fill_in_blanks_question.class.ph
 require_once dirname(__FILE__).'/question_types/matching_question.class.php';
 require_once dirname(__FILE__).'/question_types/percentage_question.class.php';
 require_once dirname(__FILE__).'/question_types/score_question.class.php';
-require_once dirname(__FILE__).'/question_types/yes_no_question.class.php';
+require_once dirname(__FILE__).'/question_types/hotspot_question.class.php';
 require_once dirname(__FILE__).'/question_types/document_question.class.php';
 
 class AssessmentTesterForm extends FormValidator
@@ -96,7 +96,6 @@ class AssessmentTesterForm extends FormValidator
 		//$this->addElement('submit', 'submit', Translation :: get('Submit'));
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('SubmitAnswers'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
-
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 	}
 }
