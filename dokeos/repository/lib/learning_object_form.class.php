@@ -333,14 +333,26 @@ EOT;
 			$elem->setDefaultCollapsed(count($attachments) == 0);
 		}
 		
+		
+		
 		if(count($this->additional_elements) > 0)
 		{
-			$this->addElement('category', Translation :: get('AdditionalProperties'));
+			$count = 0;
 			foreach($this->additional_elements as $element)
 			{
-				$this->addElement($element);
+				if($element->getType() != 'hidden')
+					$count++;
 			}
-			$this->addElement('category');
+
+			if($count > 0)
+			{
+				$this->addElement('category', Translation :: get('AdditionalProperties'));
+				foreach($this->additional_elements as $element)
+				{
+					$this->addElement($element);
+				}
+				$this->addElement('category');
+			}
 		}
 		
 		$buttons = array();

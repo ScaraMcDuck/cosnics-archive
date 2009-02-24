@@ -2,12 +2,12 @@
 /**
  * $Id$
  * Repository tool
- * @package application.weblcms.tool.announcement
+ * @package application.weblcms.tool.forum
  */
 require_once dirname(__FILE__) . '/../tool_component.class.php';
 /**
 ==============================================================================
- *	This is the base class component for all announcement tool components.
+ *	This is the base class component for all forum tool components.
  *
  *	@author Sven Vanpoucke
 ==============================================================================
@@ -15,8 +15,8 @@ require_once dirname(__FILE__) . '/../tool_component.class.php';
 
 class ForumToolComponent extends ToolComponent
 {
-	static function factory($component_name, $announcement_tool)
+	static function factory($component_name, $forum_tool)
 	{
-		return parent :: factory('Forum', $component_name, $announcement_tool);
+		return parent :: factory('Forum', $component_name, $forum_tool);
 	}
 }

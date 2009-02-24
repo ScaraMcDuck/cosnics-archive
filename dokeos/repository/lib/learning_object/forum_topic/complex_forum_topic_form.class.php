@@ -13,28 +13,48 @@ class ComplexForumTopicForm extends ComplexLearningObjectItemForm
     protected function build_creation_form()
     {
     	parent :: build_creation_form();
-    	$this->addElement('radio', ComplexForumTopic :: PROPERTY_TYPE, Translation :: get('None'),'',0);
-    	$this->addElement('radio', ComplexForumTopic :: PROPERTY_TYPE, Translation :: get('Sticky'),'',1);
-    	$this->addElement('radio', ComplexForumTopic :: PROPERTY_TYPE, Translation :: get('Important'),'',2);
+    	$elements = $this->get_elements();
+    	foreach($elements as $element)
+    	{
+    		$this->addElement($element);
+    	}
     }
     // Inherited
     protected function build_editing_form()
     {
 		parent :: build_editing_form();
-    	$this->addElement('radio', ComplexForumTopic :: PROPERTY_TYPE, Translation :: get('None'),'',0);
-    	$this->addElement('radio', ComplexForumTopic :: PROPERTY_TYPE, Translation :: get('Sticky'),'',1);
-    	$this->addElement('radio', ComplexForumTopic :: PROPERTY_TYPE, Translation :: get('Important'),'',2);
+    	$elements = $this->get_elements();
+    	foreach($elements as $element)
+    	{
+    		$this->addElement($element);
+    	}
 	}
+	
+	public function get_elements()
+	{
+		$elements[] = $this->createElement('radio', ComplexForumTopic :: PROPERTY_TYPE, Translation :: get('None'),'',0);
+    	$elements[] = $this->createElement('radio', ComplexForumTopic :: PROPERTY_TYPE, Translation :: get('Sticky'),'',1);
+    	$elements[] = $this->createElement('radio', ComplexForumTopic :: PROPERTY_TYPE, Translation :: get('Important'),'',2);
+		return $elements;
+	}
+	
 	// Inherited
 	function setDefaults($defaults = array ())
 	{
-		$cloi = $this->get_complex_learning_object_item();
+		$defaults = $this->get_default_values($defaults);
+		parent :: setDefaults($defaults);
+	}
 	
+	function get_default_values($defaults = array ())
+	{
+		$cloi = $this->get_complex_learning_object_item();
+		
 		if (isset ($cloi))
 		{
-			$defaults[ComplexForumTopic :: PROPERTY_TYPE] = $cloi->get_type();
+			$defaults[ComplexForumTopic :: PROPERTY_TYPE] = $cloi->get_type()?$cloi->get_type():0;
 		}
-		parent :: setDefaults($defaults);
+		
+		return $defaults;
 	}
 
 	function set_csv_values($valuearray)
@@ -51,6 +71,14 @@ class ComplexForumTopicForm extends ComplexLearningObjectItemForm
 		$cloi->set_type($values[ComplexForumTopic :: PROPERTY_TYPE]); 
 		return parent :: create_complex_learning_object_item();
 	}
+	
+	function create_cloi_from_values($values)
+	{
+		$cloi = $this->get_complex_learning_object_item();
+		$cloi->set_type($values[ComplexForumTopic :: PROPERTY_TYPE]); 
+		return parent :: create_complex_learning_object_item();
+	}
+	
 	// Inherited
 	function update_complex_learning_object_item()
 	{

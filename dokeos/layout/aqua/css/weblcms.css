@@ -367,3 +367,61 @@ div.row div.questionform select:hover, div.row div.questionform select:focus
 	background-color: #f7fbfd;
 	border-color: #4171B5;
 }
+
+/*****************************************************
+ *  FORUM PHPBB STYLE                                *
+ *****************************************************/
+ 
+table.forum
+{
+	background-color: #A9B8C2;
+ 	width: 100%;
+ 	font-family:"Lucida Grande",Verdana,Helvetica,Arial,sans-serif;
+ 	font-size: 90%;
+}
+
+table.forum .row1
+{
+	background-color: #ECECEC;
+	padding: 4px;
+}
+
+table.forum .row2
+{
+	background-color: #DCE1E5;
+	padding: 4px;
+}
+ 
+table.forum td.category
+{
+ 	background-color: #C7D0D7;
+ 	background-image: url('../img/weblcms/forum/backgrounds/cellpic1.gif');
+ 	height: 28px;
+ 	border: 0 none;
+	margin: 0;
+	padding: 0;
+	text-indent: 4px;
+}
+
+table.forum td.category_right
+{
+ 	background-image: url('../img/weblcms/forum/backgrounds/cellpic2.jpg');
+ 	height: 28px;
+}
+ 
+table.forum th
+{
+ 	background-color: #006699;
+ 	background-image:url(./images/cellpic3.gif);
+ 	color: #FFA34F;
+	font-weight: bold;
+	padding: 7px 5px;
+	white-space: nowrap;
+	font-size: 1.1em;
+}
+
+table.forum td.spacer
+{
+	background-color: #D1D7DC;
+	height: 5px;
+}
