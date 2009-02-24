@@ -25,19 +25,18 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 		$lo = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition('id', $cid))->next_result()->get_ref();
 		$this->retrieve_children($lo);
 		
-		//$this->action_bar = $this->get_action_bar();
+		$this->action_bar = $this->get_action_bar();
 		$table = $this->get_posts_table();
 		$trail = new BreadcrumbTrail();
 		//$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $pid)), $this->forum->get_title()));
 		
 		$this->display_header($trail);
 		echo '<a name="top"></a>';
-		echo $this->get_topic_actions($lo);
-		echo '<div class="clear">&nbsp;</div><br />';
-		//echo $this->action_bar->as_html();
+
+		echo $this->action_bar->as_html() . '<br />';
 		echo $table->toHtml();
 		echo '<br />';
-		echo $this->get_topic_actions($lo);
+
 		$this->display_footer();
 	}
 	
@@ -160,25 +159,13 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 		
 	}
 	
-	function get_topic_actions($topic)
+	function get_action_bar()
 	{
-		if($this->is_allowed(ADD_RIGHT))
-		{
-			/*$actions[] = array(
-				'href' => $this->get_url(),
-				'label' => Translation :: get('NewTopic'),
-				'img' => Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'
-			);*/
-			
-			$actions[] = array(
-				'href' => $this->get_url(),
-				'label' => Translation :: get('Reply'),
-				'img' => Theme :: get_image_path() . 'forum/buttons/button_topic_reply.gif'
-			);
-		}
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ReplyOnTopic'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_reply.gif'*/ Theme :: get_common_image_path().'action_reply.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
-		return DokeosUtilities :: build_toolbar($actions);
-		
+		return $action_bar;
 	}
 	
 }

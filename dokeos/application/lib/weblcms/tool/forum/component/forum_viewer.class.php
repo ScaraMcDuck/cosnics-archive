@@ -24,7 +24,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 		$this->forum = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($this->pid)->get_learning_object();
 		$this->retrieve_children($this->forum);
 		
-		//$this->action_bar = $this->get_action_bar();
+		$this->action_bar = $this->get_action_bar();
 		$topics_table = $this->get_topics_table_html();
 		$forum_table =  $this->get_forums_table_html();
 		
@@ -32,15 +32,12 @@ class ForumToolViewerComponent extends ForumToolComponent
 		$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $pid)), $this->forum->get_title()));
 		
 		$this->display_header($trail);
-		//echo $this->action_bar->as_html();
-		
-		echo $this->get_forum_actions($this->forum);
-		echo '<div class="clear">&nbsp;</div><br />';
-		echo $topics_table->toHtml();
+		echo $this->action_bar->as_html();
+
 		echo '<br />';
-		echo $this->get_forum_actions($this->forum);
-		
-		echo '<div class="clear">&nbsp;</div><br /><br />';
+		echo $topics_table->toHtml();
+		echo '<br /><br />';
+
 		echo $forum_table->toHtml();
 		$this->display_footer();
 	}
@@ -178,19 +175,13 @@ class ForumToolViewerComponent extends ForumToolComponent
 		} 
 	}
 	
-	function get_forum_actions($forum)
+	function get_action_bar()
 	{
-		if($this->is_allowed(ADD_RIGHT))
-		{
-			$actions[] = array(
-				'href' => $this->get_url(),
-				'label' => Translation :: get('NewTopic'),
-				'img' => Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'
-			);
-		}
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('NewTopic'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'*/ Theme :: get_common_image_path().'action_add.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
-		return DokeosUtilities :: build_toolbar($actions);
-		
+		return $action_bar;
 	}
 	
 }
