@@ -64,13 +64,15 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			
 		$form_display = new AssessmentTesterDisplay($this, $this->assessment);
 		$show = $form_display->build_form($url, $page);
-		if($result == 'form')
+		//dump($form_display);
+		if($show == 'form')
 		{
-			return $form_display->as_html();
+			//return $form_display->as_html();
+			$this->show_form($form_display);
 		}
 		else
 		{
-			return $result;
+			return $show;
 		}
 	}
 	
@@ -109,7 +111,6 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			echo $this->action_bar->as_html();
 		}
 		echo $form_display->as_html();
-	
 		$this->display_footer();
 	}
 	

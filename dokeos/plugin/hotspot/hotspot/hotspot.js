@@ -35,7 +35,7 @@ function getForm()
 	if (form == null)
 		form = document.update;
 	if (form == null)
-		form = document.vervangmij;
+		form = document.assessment;
 
 	return form;
 }
@@ -43,33 +43,33 @@ function getForm()
 function saveHotspot(question_id, hotspot_id, answer, hotspot_x, hotspot_y)
 {
 	form = getForm();
-	newHotspot = document.createElement("input");
-	newHotspot.type = "hidden";
-	newHotspot.name = "hotspot["+question_id+"]["+hotspot_id+"]";
-	newHotspot.value = hotspot_x + ";" + hotspot_y;	
-	form.appendChild(newHotspot);
+	control = question_id+"_"+(hotspot_id-1);
 	
-	newHotspot = document.createElement("input");
-	newHotspot.type = "hidden";
-	newHotspot.name = "choice["+question_id+"]["+hotspot_id+"]";
-	newHotspot.value = answer;	
-	form.appendChild(newHotspot);
+	coord = document.getElementById(question_id+"_"+(hotspot_id-1));
+	if (coord == null)
+		coord = document.assessment[control];
+	coord.value = hotspot_x + ";" + hotspot_y + "-" + answer;	
+
+	/*answerc = document.getElementById(question_id+"_"+(hotspot_id-1)+"_answer");
+	if (answerc == null)
+		answerc = document.assessment[control+"_answer"];
+	answerc.value = answer;*/
 }
 
 function saveDelineationUserAnswer(question_id, hotspot_id, answer, coordinates)
 {
 	form = getForm();
-	newHotspot = document.createElement("input");
-	newHotspot.type = "hidden";
-	newHotspot.name = "hotspot["+question_id+"]["+hotspot_id+"]";
-	newHotspot.value = coordinates;	
-	form.appendChild(newHotspot);
-	
-	newHotspot = document.createElement("input");
-	newHotspot.type = "hidden";
-	newHotspot.name = "choice["+question_id+"]["+hotspot_id+"]";
-	newHotspot.value = answer;	
-	form.appendChild(newHotspot);
+	control = question_id+"_"+(hotspot_id-1);
+
+	coord = document.getElementById(question_id+"_"+(hotspot_id-1));
+	if (coord == null)
+		coord = document.assessment[control];
+	coord.value = coordinates+"-"+answer;	
+
+	/*answerc = document.getElementById(question_id+"_"+(hotspot_id-1)+"_answer");
+	if (answerc == null)
+		answerc = document.assessment[control+"_answer"];
+	answerc.value = answer;*/
 }
 
 function saveShapeHotspot(question_id, hotspot_id, type, x, y, w, h)

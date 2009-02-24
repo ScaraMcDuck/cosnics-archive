@@ -5,6 +5,7 @@
  * @subpackage exercise
  */
 require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__).'/hotspot_question_answer.class.php';
 /**
  * This class represents a hotspot question
  */

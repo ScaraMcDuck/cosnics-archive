@@ -31,13 +31,12 @@ class HotspotQuestionForm extends LearningObjectForm
 		}
 		else
 		{
-			$var = ($_SESSION['web_path']);
 			$this->add_options();
 			$modifyAnswers = true;
 			$this->addElement('text', 'filename', Translation :: get('Filename'), array('DISABLED'));
 			$this->addElement($this->get_scripts_element());
 		}
-		$this->set_session_answers(false);
+		$this->set_session_answers();
 		
 		$this->addElement('category');
 	}
@@ -48,19 +47,16 @@ class HotspotQuestionForm extends LearningObjectForm
 		$this->check_upload();
 		if (!isset($_SESSION['web_path']))
 		{
-			//$this->addElement('file', 'file', Translation :: get('UploadImage'));
-			//$this->addElement('submit', 'fileupload', Translation :: get('Submit'));
 			$_SESSION['web_path'] = Path :: get(WEB_REPO_PATH).$this->get_learning_object()->get_image();
 			$_SESSION['full_path'] = Path :: get(SYS_REPO_PATH).$this->get_learning_object()->get_image();
 			$_SESSION['hotspot_path'] = $this->get_learning_object()->get_image();
 		}
-			$var = ($_SESSION['web_path']);
-			$this->add_options();
-			$modifyAnswers = true;
-			$this->addElement('text', 'filename', Translation :: get('Filename'), array('DISABLED'));
-			$this->addElement($this->get_scripts_element());
+		$this->add_options();
+		$modifyAnswers = true;
+		$this->addElement('text', 'filename', Translation :: get('Filename'), array('DISABLED'));
+		$this->addElement($this->get_scripts_element());
 		
-		$this->set_session_answers(false);
+		$this->set_session_answers();
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
 		$this->addElement('category');
 	}
@@ -81,6 +77,7 @@ class HotspotQuestionForm extends LearningObjectForm
 					$defaults['coordinates'][] = $answer->get_hotspot_coordinates();
 					$defaults['option_weight'][] = $answer->get_weight();
 				}
+				$this->set_session_answers($defaults);
 				/*$options = $object->get_answers();
 				foreach($options as $index => $option)
 				{
@@ -126,6 +123,7 @@ class HotspotQuestionForm extends LearningObjectForm
 	private function add_options_to_object()
 	{
 		$object = $this->get_learning_object();
+		$object->set_answers('');
 		$values = $this->exportValues();
 		$answers = $values['answer'];
 		$comments = $values['comment'];
@@ -173,15 +171,15 @@ class HotspotQuestionForm extends LearningObjectForm
 		}
 	}
 	
-	function set_session_answers($use_db_answers)
+	function set_session_answers($defaults = array())
 	{
-		if (!$use_db_answers)
+		if (count($defaults) == 0) 
 		{
 			$answers = $_POST['answer'];
 			$types = $_POST['type'];
 			$weights = $_POST['option_weight'];
 			$coords = $_POST['coordinates'];
-			
+				
 			$_SESSION['answers'] = $answers;
 			$_SESSION['types'] = $types;
 			$_SESSION['option_weight'] = $weights;
@@ -189,7 +187,10 @@ class HotspotQuestionForm extends LearningObjectForm
 		}
 		else
 		{
-			
+			$_SESSION['answers'] = $defaults['answer'];
+			$_SESSION['types'] = $defaults['type'];
+			$_SESSION['weights'] = $defaults['weight'];
+			$_SESSION['coordinates'] = $defaults['coordinates'];
 		}
 	}
 	
@@ -230,32 +231,31 @@ class HotspotQuestionForm extends LearningObjectForm
 		$hotspot_path = Path :: get(WEB_PLUGIN_PATH).'/hotspot/hotspot/hotspot_admin.swf';
 		//dump($hotspot_path);
 		return $this->createElement('html','
-				<script type="text/javascript" src="'.Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/JavaScriptFlashGateway.js" ></script>
-				<script type="text/javascript" src="'.Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/hotspot.js" ></script>
-				<script type="text/javascript" src="'.Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/jsmethods.js" ></script>
-				<script type="text/vbscript" src="'.Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/vbmethods.vbscript" ></script>
-				<script type="text/javascript" >		
-					var requiredMajorVersion = 7;
-					var requiredMinorVersion = 0;
-					var requiredRevision = 0;
-					//var hasRequestedVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
-					var hasRequestedVersion = true;
-					// Check to see if the version meets the requirements for playback
-					if (hasRequestedVersion) {  // if weve detected an acceptable version
-					    var oeTags = \'<object type="application/x-shockwave-flash" data="'.$hotspot_path.'?modifyAnswers=' . $id.'" width="720" height="650">\'
-									+ \'<param name="movie" value="'.$hotspot_path.'?modifyAnswers=' . $id.'" />\'
-									//+ \'<param name="test" value="OOoowww fo shooww" />\'
-									+ \'</object>\';
-					    document.write(oeTags);   // embed the Flash Content SWF when all tests are passed
-					} else {  // flash is too old or we can\'t detect the plugin
-						var alternateContent = "Error<br \/>"
-							+ \'This content requires the Macromedia Flash Player.<br \/>\'
-							+ \'<a href="http://www.macromedia.com/go/getflash/">Get Flash<\/a>\';
-						document.write(alternateContent);  // insert non-flash content
-					}
-				</script>
-			'
-			);
+			<script type="text/javascript" src="'.Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/JavaScriptFlashGateway.js" ></script>
+			<script type="text/javascript" src="'.Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/hotspot.js" ></script>
+			<script type="text/javascript" src="'.Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/jsmethods.js" ></script>
+			<script type="text/vbscript" src="'.Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/vbmethods.vbscript" ></script>
+			<script type="text/javascript" >		
+				var requiredMajorVersion = 7;
+				var requiredMinorVersion = 0;
+				var requiredRevision = 0;
+				//var hasRequestedVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
+				var hasRequestedVersion = true;
+				// Check to see if the version meets the requirements for playback
+				if (hasRequestedVersion) {  // if weve detected an acceptable version
+				    var oeTags = \'<object type="application/x-shockwave-flash" data="'.$hotspot_path.'?modifyAnswers=' . $id.'" width="720" height="650">\'
+								+ \'<param name="movie" value="'.$hotspot_path.'?modifyAnswers=' . $id.'" />\'
+								//+ \'<param name="test" value="OOoowww fo shooww" />\'
+								+ \'</object>\';
+				    document.write(oeTags);   // embed the Flash Content SWF when all tests are passed
+				} else {  // flash is too old or we can\'t detect the plugin
+					var alternateContent = "Error<br \/>"
+						+ \'This content requires the Macromedia Flash Player.<br \/>\'
+						+ \'<a href="http://www.macromedia.com/go/getflash/">Get Flash<\/a>\';
+					document.write(alternateContent);  // insert non-flash content
+				}
+			</script>'
+		);
 	}
 	
 	/**
