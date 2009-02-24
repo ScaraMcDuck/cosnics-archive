@@ -12,7 +12,10 @@ require_once dirname(__FILE__).'/forum_tool_component.class.php';
  */
 class ForumTool extends Tool
 {
-	const ACTION_VIEW_ANNOUNCEMENTS = 'view';
+	const ACTION_BROWSE_FORUMS = 'browse';
+	const ACTION_VIEW_FORUM = 'view';
+	const ACTION_VIEW_TOPIC = 'view_topic';
+	const ACTION_PUBLISH_FORUM = 'publish';
 	
 	/**
 	 * Inherited.
@@ -29,11 +32,20 @@ class ForumTool extends Tool
 		
 		switch ($action)
 		{
-			case self :: ACTION_VIEW_ANNOUNCEMENTS :
+			case self :: ACTION_BROWSE_FORUMS :
+				$component = ForumToolComponent :: factory('Browser', $this);
+				break;
+			case self :: ACTION_PUBLISH_FORUM :
+				$component = ForumToolComponent :: factory('Publisher', $this);
+				break;
+			case self :: ACTION_VIEW_FORUM :
 				$component = ForumToolComponent :: factory('Viewer', $this);
 				break;
+			case self :: ACTION_VIEW_TOPIC :
+				$component = ForumToolComponent :: factory('TopicViewer', $this);
+				break;
 			default :
-				$component = ForumToolComponent :: factory('Viewer', $this);
+				$component = ForumToolComponent :: factory('Browser', $this);
 		}
 		$component->run();
 	}

@@ -503,4 +503,8 @@ $lang['weblcms']['LinkFormTitle'] = 'Title';
 $lang['weblcms']['LinkFormDescription'] = 'Description';
 $lang['weblcms']['OfficialCode'] = 'Official code';
 $lang['weblcms']['Status'] = 'Status';
+$lang['weblcms']['Views'] = 'Views';
+$lang['weblcms']['Subject'] = 'Subject';
+$lang['weblcms']['Message'] = 'Message';
+$lang['weblcms']['Top'] = 'Top';
 ?>

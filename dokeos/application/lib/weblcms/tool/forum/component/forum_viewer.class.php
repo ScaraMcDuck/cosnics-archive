@@ -7,7 +7,10 @@ require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.
 class ForumToolViewerComponent extends ForumToolComponent
 {
 	private $action_bar;
-	private $introduction_text;
+	private $forum;
+	private $forums;
+	private $topics;
+	private $pid;
 	
 	function run()
 	{
@@ -16,10 +19,169 @@ class ForumToolViewerComponent extends ForumToolComponent
 			Display :: not_allowed();
 			return;
 		}
-	
-		$this->display_header(new BreadcrumbTrail());
 		
+		$this->pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+		$this->forum = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($this->pid)->get_learning_object();
+		$this->retrieve_children($this->forum);
+		
+		//$this->action_bar = $this->get_action_bar();
+		$topics_table = $this->get_topics_table_html();
+		$forum_table =  $this->get_forums_table_html();
+		
+		$trail = new BreadcrumbTrail();
+		$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $pid)), $this->forum->get_title()));
+		
+		$this->display_header($trail);
+		//echo $this->action_bar->as_html();
+		
+		echo $this->get_forum_actions($this->forum);
+		echo '<div class="clear">&nbsp;</div><br />';
+		echo $topics_table->toHtml();
+		echo '<br />';
+		echo $this->get_forum_actions($this->forum);
+		
+		echo '<div class="clear">&nbsp;</div><br /><br />';
+		echo $forum_table->toHtml();
 		$this->display_footer();
 	}
+	
+	function retrieve_children($current_forum)
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		
+		$children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $current_forum->get_id()));
+		while($child = $children->next_result())
+		{
+			$lo = $rdm->retrieve_learning_object($child->get_ref());
+			$child->set_ref($lo);
+			if($lo->get_type() == 'forum_topic')
+			{	
+				$this->topics[] = $child;
+			}
+			else
+			{
+				$this->forums[] = $child;
+			}
+		}
+	}
+	
+	function get_topics_table_html()
+	{
+		$table = new HTML_Table(array('class' => 'forum', 'cellspacing' => 1));
+		
+		$this->create_topics_table_header($table);
+		$row = 2;
+		$this->create_topics_table_content($table, $row);
+		$this->create_topics_table_footer($table, $row);
+		
+		return $table;
+	}
+	
+	function create_topics_table_header($table)
+	{
+		$table->setCellContents(0, 0, '');
+		$table->setCellAttributes(0, 0, array('colspan' => 6, 'class' => 'category'));
+		
+		$table->setHeaderContents(1, 0, Translation :: get('Topics'));
+		$table->setCellAttributes(1, 0, array('colspan' => 2));
+		$table->setHeaderContents(1, 2, Translation :: get('Author'));
+		$table->setCellAttributes(1, 2, array('width' => 130));
+		$table->setHeaderContents(1, 3, Translation :: get('Replies'));
+		$table->setCellAttributes(1, 3, array('width' => 50));
+		$table->setHeaderContents(1, 4, Translation :: get('Views'));
+		$table->setCellAttributes(1, 4, array('width' => 50));
+		$table->setHeaderContents(1, 5, Translation :: get('LastPost'));
+		$table->setCellAttributes(1, 5, array('width' => 140));
+	}
+	
+	function create_topics_table_footer($table, $row)
+	{
+		$table->setCellContents($row, 0, '');
+		$table->setCellAttributes($row, 0, array('colspan' => 6, 'class' => 'category'));
+	}
+	
+	function create_topics_table_content($table, &$row)
+	{
+		foreach($this->topics as $topic)
+		{
+			$title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_TOPIC, Tool :: PARAM_PUBLICATION_ID => $this->pid, Tool :: PARAM_COMPLEX_ID => $topic->get_id())) . '">' . $topic->get_ref()->get_title() . '</a>';
+				
+			$table->setCellContents($row, 0, '<img height="18" width="19" title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/topic_read.gif" />');
+			$table->setCellAttributes($row, 0, array('width' => 25, 'class' => 'row1', 'style' => 'height: 30px;'));
+			$table->setCellContents($row, 1, $title);
+			$table->setCellAttributes($row, 1, array('class' => 'row1'));
+			$table->setCellContents($row, 2, '');
+			$table->setCellAttributes($row, 2, array('align' => 'center', 'class' => 'row2'));
+			$table->setCellContents($row, 3, '');
+			$table->setCellAttributes($row, 3, array('align' => 'center', 'class' => 'row1'));
+			$table->setCellContents($row, 4, '');
+			$table->setCellAttributes($row, 4, array('align' => 'center', 'class' => 'row2'));
+			$table->setCellContents($row, 5, '');
+			$table->setCellAttributes($row, 5, array('align' => 'center', 'class' => 'row1'));
+			$row++;
+		} 
+	}
+	
+	function get_forums_table_html()
+	{
+		$table = new HTML_Table(array('class' => 'forum', 'cellspacing' => 1));
+		
+		$this->create_forums_table_header($table);
+		$row = 2;
+		$this->create_forums_table_content($table, $row);
+		
+		return $table;
+	}
+	
+	function create_forums_table_header($table)
+	{
+		$table->setCellContents(0, 0, '');
+		$table->setCellAttributes(0, 0, array('colspan' => 5, 'class' => 'category'));
+		
+		$table->setHeaderContents(1, 0, Translation :: get('Forum'));
+		$table->setCellAttributes(1, 0, array('colspan' => 2));
+		$table->setHeaderContents(1, 2, Translation :: get('Topics'));
+		$table->setCellAttributes(1, 2, array('width' => 50));
+		$table->setHeaderContents(1, 3, Translation :: get('Posts'));
+		$table->setCellAttributes(1, 3, array('width' => 50));
+		$table->setHeaderContents(1, 4, Translation :: get('LastPost'));
+		$table->setCellAttributes(1, 4, array('width' => 140));
+	}
+	
+	function create_forums_table_content($table, $row)
+	{
+		foreach($this->forums as $forum)
+		{
+			$title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $this->forum->get_id(), Tool :: PARAM_COMPLEX_ID => $forum->get_id())) . '">' . $forum->get_ref()->get_title() . '</a><br />' . strip_tags($forum->get_ref()->get_description());
+			
+			$table->setCellContents($row, 0, '<img height="25" width="46" title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.gif" />');
+			$table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px;'));
+			$table->setCellContents($row, 1, $title);
+			$table->setCellAttributes($row, 1, array('class' => 'row1'));
+			$table->setCellContents($row, 2, '');
+			$table->setCellAttributes($row, 2, array('class' => 'row2'));
+			$table->setCellContents($row, 3, '');
+			$table->setCellAttributes($row, 3, array('class' => 'row2'));
+			$table->setCellContents($row, 4, '');
+			$table->setCellAttributes($row, 4, array('class' => 'row2'));
+			$row++;
+		} 
+	}
+	
+	function get_forum_actions($forum)
+	{
+		if($this->is_allowed(ADD_RIGHT))
+		{
+			$actions[] = array(
+				'href' => $this->get_url(),
+				'label' => Translation :: get('NewTopic'),
+				'img' => Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'
+			);
+		}
+		
+		return DokeosUtilities :: build_toolbar($actions);
+		
+	}
+	
 }
 ?>
