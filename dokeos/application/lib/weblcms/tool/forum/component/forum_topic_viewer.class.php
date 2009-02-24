@@ -90,7 +90,7 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 		foreach($this->posts as $post)
 		{
 			$user = $udm->retrieve_user($post->get_user_id()); 
-			$table->setCellContents($row, 0, '<b>' . $user->get_fullname() . '</b>');
+			$table->setCellContents($row, 0, '<a name="post_' . $post->get_id() . '"></a><b>' . $user->get_fullname() . '</b>');
 			$table->setCellAttributes($row, 0, array('class' => 'row1', 'width' => 150, 'valign' => 'middle', 'align' => 'center'));
 			$table->setCellContents($row, 1, '<b>' . Translation :: get('Subject') . ':</b> ' . $post->get_ref()->get_title());
 			$table->setCellAttributes($row, 1, array('class' => 'row1', 'height' => 25, 'style' => 'padding-left: 10px;'));

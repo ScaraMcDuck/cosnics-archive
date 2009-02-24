@@ -16,6 +16,7 @@ class ComplexLearningObjectItem
 	const PROPERTY_PARENT = 'parent';
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_DISPLAY_ORDER = 'display_order';
+	const PROPERTY_ADD_DATE = 'add_date';
 
 	private $defaultProperties;
 	private $additionalProperties;
@@ -100,7 +101,7 @@ class ComplexLearningObjectItem
 	static function get_default_property_names()
 	{
 		return array (self :: PROPERTY_ID, self :: PROPERTY_REF, self :: PROPERTY_PARENT, 
-		self :: PROPERTY_USER_ID, self :: PROPERTY_DISPLAY_ORDER);
+		self :: PROPERTY_USER_ID, self :: PROPERTY_DISPLAY_ORDER, self :: PROPERTY_ADD_DATE);
 	}
 	
 	/**
@@ -131,6 +132,16 @@ class ComplexLearningObjectItem
     function set_id($id)
 	{
 		$this->set_default_property(self :: PROPERTY_ID, $id);
+	}
+	
+    function get_add_date()
+    {
+    	return $this->get_default_property(self :: PROPERTY_ADD_DATE);
+    }
+    
+    function set_add_date($add_date)
+	{
+		$this->set_default_property(self :: PROPERTY_ADD_DATE, $add_date);
 	}
 	
     function get_ref()
@@ -184,6 +195,7 @@ class ComplexLearningObjectItem
 		$rdm = RepositoryDataManager :: get_instance();
 		$id = $rdm->get_next_complex_learning_object_item_id();
 		$this->set_id($id);
+		$this->set_add_date(DokeosUtilities :: to_db_date(time()));
 		return $rdm->create_complex_learning_object_item($this);
 	}
 	

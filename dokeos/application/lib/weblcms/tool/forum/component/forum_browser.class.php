@@ -103,6 +103,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
 		while($publication = $publications->next_result())
 		{
 			$forum = $publication->get_learning_object();
+			
 			$title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '">' . $forum->get_title() . '</a><br />' . strip_tags($forum->get_description());
 			
 			$table->setCellContents($row, 0, '<img height="25" width="46" title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.gif" />');
