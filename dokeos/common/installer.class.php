@@ -14,6 +14,7 @@ require_once Path :: get_admin_path() .'lib/setting.class.php';
 require_once Path :: get_admin_path() .'lib/registration.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
+require_once Path :: get_reporting_path() . 'lib/reporting_blocks.class.php';
  
 abstract class Installer
 {
@@ -324,6 +325,40 @@ abstract class Installer
 			return false;
 		}
 	}
+	
+	/**
+	 * Function used to register a block.
+	 */
+	function register_block($array)
+	{
+		return ReportingBlocks :: create_block($array['name'],$array['application'],$array['function'],$array['displaymode']);
+	}
+	
+	function register_reporting()
+	{
+		$application = $this->get_application();
+		
+		$base_path = (Application :: is_application($application) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
+		
+		$file = $base_path .$application. '/reporting/blocks.xml';
+		
+		//$this->add_message(self :: TYPE_NORMAL, $file);
+		
+		if(file_exists($file))
+		{
+			$xml = $this->extract_xml_file($file);
+			
+			foreach($xml["block"] as $key => $value)
+			{
+				if ($this->register_block($value)) //$value = array
+				{
+					$this->add_message(self :: TYPE_NORMAL, 'Registered block: <em>'.$value["name"].'</em>');
+				}
+			}
+		}
+		
+		return $this->installation_successful();
+	}//register_reporting
 	
 	/**
 	 * Registers the trackers, events and creates the storage units for the trackers

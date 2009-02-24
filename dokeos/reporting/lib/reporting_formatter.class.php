@@ -21,7 +21,7 @@
 			{
 				$type = 'Chart';
 			}
-			require_once dirname(__FILE__).'/formatters/reporting_'.strtolower($type).'_formatter.php';
+			require_once dirname(__FILE__).'/formatters/reporting_'.strtolower($type).'_formatter.class.php';
 			$class = 'Reporting' . $type .'Formatter';
 			self :: $instance = new $class ($reporting_block);
 		}

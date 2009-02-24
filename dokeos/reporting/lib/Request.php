@@ -4,9 +4,8 @@
  * @author: Michael Kyndt
  */
  require_once('../../common/global.inc.php');
- require_once("reporting.php");
- require_once("reporting_block.php");
- require_once("reporting_block_layout.php");
+ require_once("reporting.class.php");
+ require_once("reporting_blocks.class.php");
  
  Display :: header(new BreadCrumbTrail());
  
@@ -55,13 +54,19 @@ $height = $_POST["height"];
  * This class sends a request to the reporting class to get the html representing the block & displays it
  */
  if (isset($_POST['submit'])) {
- $Reporting_Block = new ReportingBlock(
+ /*$Reporting_Block = new ReportingBlock(
  			$_POST["blockname"],
 			$_POST["appname"],
 			$_POST["appurl"],
 			$_POST["appfunction"],
 			$_POST["charttype"],
-			new ReportingBlockLayout($_POST["width"],$_POST["height"]));
+			new ReportingBlockLayout($_POST["width"],$_POST["height"]));*/
+	$Reporting_Block = ReportingBlocks :: create_block(
+	 		$_POST["blockname"],
+			$_POST["appname"],
+			$_POST["appfunction"],
+			$_POST["charttype"]
+	);
  
   echo Reporting :: generate_block($Reporting_Block);
  }

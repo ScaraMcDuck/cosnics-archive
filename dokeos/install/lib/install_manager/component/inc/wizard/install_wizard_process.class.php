@@ -36,7 +36,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 	function perform($page, $actionName)
 	{
 		$this->values = $page->controller->exportValues();
-		$this->applications['core']	= array('admin', 'help', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
+		$this->applications['core']	= array('admin', 'help','reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
 		$this->applications['extra']	= FileSystem :: get_directory_content(Path :: get_application_path() . 'lib/', FileSystem :: LIST_DIRECTORIES, false);
 		
 		// Display the page header
@@ -82,9 +82,15 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		
 		$this->counter++;
 		
+		// 7. Register the reporting
+		echo '<h3>' . Translation :: get('Reporting') . '</h3>';
+		$this->register_reporting();
+		
+		$this->counter++;
+		
 		echo '<h3>' . Translation :: get('Finished') . '</h3>';
 		
-		// 7. If all goes well we now show the link to the portal
+		// 8. If all goes well we now show the link to the portal
 		$message = '<a href="../index.php">' . Translation :: get('GoToYourNewlyCreatedPortal') . '</a>';
 		$this->process_result('Finished', true, $message);
 		flush();
@@ -241,6 +247,43 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 			flush();
 		}
 	}
+	
+	function register_reporting()
+	{
+		$core_applications = $this->applications['core'];
+		$applications = $this->applications['extra'];
+		$values = $this->values;
+		
+		foreach($core_applications as $core_application)
+		{
+			$installer = Installer :: factory($core_application,$values);
+			$result = $installer->register_reporting();
+			
+			$this->process_result($core_application,$result,$installer->retrieve_message());
+			
+			unset($installer);
+			flush();
+		}
+		
+		foreach($applications as $application)
+		{
+			$toolPath = Path :: get_application_path() . 'lib/' . $application . '/install';
+			if(is_dir($toolPath) && Application :: is_application_name($application))
+			{
+				$check_name = 'install_'.$application;
+				if (isset($values[$check_name]) && $values[$check_name]=='1')
+				{
+					$installer = Installer :: factory($application,$values);
+					$result = $installer->register_reporting();
+					$this->process_result($application,$result,$installer->retrieve_message());
+					
+					unset($installer,$result);
+					flush();
+				}
+			}
+			flush();
+		}
+	}//register_reporting
 	
 	function register_trackers()
 	{
