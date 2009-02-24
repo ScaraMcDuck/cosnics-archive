@@ -7,6 +7,7 @@ require_once dirname(__FILE__).'/score_types/open_question_score.class.php';
 //require_once dirname(__FILE__).'/score_types/open_question_with_document_score.class.php';
 //require_once dirname(__FILE__).'/score_types/percentage_score.class.php';
 require_once dirname(__FILE__).'/score_types/score_score.class.php';
+require_once dirname(__FILE__).'/score_types/hotspot_score.class.php';
 //require_once dirname(__FILE__).'/score_types/yes_no_score.class.php';
 require_once dirname(__FILE__).'/score_types/matching_score.class.php';
 //require_once dirname(__FILE__).'/score_types/document_score.class.php';
