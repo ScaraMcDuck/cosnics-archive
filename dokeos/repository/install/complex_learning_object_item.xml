@@ -6,6 +6,7 @@
   <property name="parent" type="integer" unsigned="1" notnull="1" default="0"/>
   <property name="user_id" type="integer" unsigned="1" notnull="1" default="0"/>
   <property name="display_order" type="integer" unsigned="1" notnull="1" default="0"/>
+  <property name="add_date" type="timestamp"/>
  </properties>
  <index name="id" type="primary">
    <indexproperty name="id" />
