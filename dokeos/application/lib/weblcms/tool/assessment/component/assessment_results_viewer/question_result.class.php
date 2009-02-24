@@ -24,14 +24,16 @@ abstract class QuestionResult
 	private $edit_rights;
 	
 	private $question_nr;
+	private $uaid;
 	
-	function QuestionResult($formvalidator, $q_results, $question, $edit_rights = 0, $question_nr) 
+	function QuestionResult($formvalidator, $q_results, $question, $edit_rights = 0, $question_nr, $uaid) 
 	{
 		$this->results = $q_results;
 		$this->question = $question;
 		$this->formvalidator = $formvalidator;
 		$this->edit_rights = $edit_rights;
 		$this->question_nr = $question_nr;
+		$this->uaid = $uaid;
 		$this->init();
 	}
 	
@@ -60,6 +62,11 @@ abstract class QuestionResult
 	function get_results()
 	{
 		return $this->results;
+	}
+	
+	function get_user_assessment_id()
+	{
+		return $this->uaid;
 	}
 	
 	function add_feedback_controls()
@@ -320,23 +327,23 @@ abstract class QuestionResult
 		$this->formvalidator->addElement('html', '<br /></div></div>');
 	}
 	
-	static function create_question_result($formvalidator, $question, $q_results, $edit_rights, $question_nr)
+	static function create_question_result($formvalidator, $question, $q_results, $edit_rights, $question_nr, $pid)
 	{
 
 		switch ($question->get_type())
 		{
 			case 'open_question':
-				return new OpenQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr);
+				return new OpenQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr, $pid);
 			case 'multiple_choice_question':
-				return new MultipleChoiceQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr);
+				return new MultipleChoiceQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr, $pid);
 			case 'matching_question':
-				return new MatchingQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr);
+				return new MatchingQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr, $pid);
 			case 'fill_in_blanks_question':
-				return new FillInBlanksQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr);
+				return new FillInBlanksQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr, $pid);
 			case 'rating_question':
-				return new ScoreQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr);
+				return new ScoreQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr, $pid);
 			case 'hotspot_question':
-				return new HotspotQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr);
+				return new HotspotQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr, $pid);
 			default:
 				return null;
 		}

@@ -33,7 +33,7 @@ function getForm()
 {
 	form = document.create;
 	if (form == null)
-		form = document.update;
+		form = document.edit;
 	if (form == null)
 		form = document.assessment;
 
@@ -49,11 +49,6 @@ function saveHotspot(question_id, hotspot_id, answer, hotspot_x, hotspot_y)
 	if (coord == null)
 		coord = document.assessment[control];
 	coord.value = hotspot_x + ";" + hotspot_y + "-" + answer;	
-
-	/*answerc = document.getElementById(question_id+"_"+(hotspot_id-1)+"_answer");
-	if (answerc == null)
-		answerc = document.assessment[control+"_answer"];
-	answerc.value = answer;*/
 }
 
 function saveDelineationUserAnswer(question_id, hotspot_id, answer, coordinates)
@@ -65,11 +60,6 @@ function saveDelineationUserAnswer(question_id, hotspot_id, answer, coordinates)
 	if (coord == null)
 		coord = document.assessment[control];
 	coord.value = coordinates+"-"+answer;	
-
-	/*answerc = document.getElementById(question_id+"_"+(hotspot_id-1)+"_answer");
-	if (answerc == null)
-		answerc = document.assessment[control+"_answer"];
-	answerc.value = answer;*/
 }
 
 function saveShapeHotspot(question_id, hotspot_id, type, x, y, w, h)
