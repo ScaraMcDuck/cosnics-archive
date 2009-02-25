@@ -44,7 +44,7 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		$children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $lo));
+		$children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $lo), array('add_date'), array(SORT_ASC) );
 		while($child = $children->next_result())
 		{
 			$lo = $rdm->retrieve_learning_object($child->get_ref());
@@ -100,7 +100,7 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 			
 			$row++;
 			
-			$info = '<img src="' . $user->get_full_picture_url() . '" />';
+			$info = '<img src="' . $user->get_full_picture_url() . '" /><br /><br />' . $post->get_add_date();
 			
 			$table->setCellContents($row, 0, $info);
 			$table->setCellAttributes($row, 0, array('class' => $class, 'align' => 'center', 'height' => 150));
@@ -131,14 +131,17 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 	{
 		$post = $cloi->get_ref();
 		
+		$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+		$cid = Request :: get(Tool :: PARAM_COMPLEX_ID);
+		
 		$actions[] = array(
-			'href' => $this->get_url(),
+			'href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, Tool :: PARAM_ACTION => ForumTool :: ACTION_QUOTE_FORUM_POST, 'quote' => $cloi->get_ref()->get_id())),
 			'label' => Translation :: get('Quote'),
 			'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_quote.gif'
 		);
-		
+
 		$actions[] = array(
-			'href' => $this->get_url(),
+			'href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, Tool :: PARAM_ACTION => ForumTool :: ACTION_CREATE_FORUM_POST, 'reply' => $cloi->get_ref()->get_id())),
 			'label' => Translation :: get('Reply'),
 			'img' => Theme :: get_image_path() . 'forum/buttons/button_pm_reply.gif'
 		);
@@ -146,7 +149,7 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 		if($this->is_allowed(EDIT_RIGHT))
 		{	
 			$actions[] = array(
-				'href' => $this->get_url(),
+				'href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, Tool :: PARAM_ACTION => ForumTool :: ACTION_EDIT_FORUM_POST, 'post' => $cloi->get_id())),
 				'label' => Translation :: get('Edit'),
 				'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_edit.gif'
 			);
@@ -155,7 +158,7 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 		if($this->is_allowed(DELETE_RIGHT))
 		{
 			$actions[] = array(
-				'href' => $this->get_url(),
+				'href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, Tool :: PARAM_ACTION => ForumTool :: ACTION_DELETE_FORUM_POST, 'post' => $cloi->get_id())),
 				'label' => Translation :: get('Delete'),
 				'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_delete.gif'
 			);
@@ -169,7 +172,10 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ReplyOnTopic'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_reply.gif'*/ Theme :: get_common_image_path().'action_reply.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+		$cid = Request :: get(Tool :: PARAM_COMPLEX_ID);
+		
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ReplyOnTopic'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_reply.gif'*/ Theme :: get_common_image_path().'action_reply.png', $this->get_url(array('pid' => $pid, 'cid' => $cid, Tool :: PARAM_ACTION => ForumTool :: ACTION_CREATE_FORUM_POST)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		return $action_bar;
 	}
