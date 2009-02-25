@@ -86,31 +86,35 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 	{
 		$udm = UserDataManager :: get_instance();
 		
+		$post_counter = 0;
+		
 		foreach($this->posts as $post)
 		{
+			$class = ($post_counter % 2 == 0 ? 'row1' : 'row2');			
+			
 			$user = $udm->retrieve_user($post->get_user_id()); 
 			$table->setCellContents($row, 0, '<a name="post_' . $post->get_id() . '"></a><b>' . $user->get_fullname() . '</b>');
-			$table->setCellAttributes($row, 0, array('class' => 'row1', 'width' => 150, 'valign' => 'middle', 'align' => 'center'));
+			$table->setCellAttributes($row, 0, array('class' => $class, 'width' => 150, 'valign' => 'middle', 'align' => 'center'));
 			$table->setCellContents($row, 1, '<b>' . Translation :: get('Subject') . ':</b> ' . $post->get_ref()->get_title());
-			$table->setCellAttributes($row, 1, array('class' => 'row1', 'height' => 25, 'style' => 'padding-left: 10px;'));
+			$table->setCellAttributes($row, 1, array('class' => $class, 'height' => 25, 'style' => 'padding-left: 10px;'));
 			
 			$row++;
 			
 			$info = '<img src="' . $user->get_full_picture_url() . '" />';
 			
 			$table->setCellContents($row, 0, $info);
-			$table->setCellAttributes($row, 0, array('class' => 'row1', 'align' => 'center', 'height' => 150));
+			$table->setCellAttributes($row, 0, array('class' => $class, 'align' => 'center', 'height' => 150));
 			$table->setCellContents($row, 1, $post->get_ref()->get_description());
-			$table->setCellAttributes($row, 1, array('class' => 'row1', 'valign' => 'top', 'style' => 'padding: 10px; padding-top: 0px;'));
+			$table->setCellAttributes($row, 1, array('class' => $class, 'valign' => 'top', 'style' => 'padding: 10px; padding-top: 0px;'));
 			
 			$row++;
 			
 			$actions = $this->get_post_actions($post); 
 			
 			$table->setCellContents($row, 0, '<a href="#top"><small>' . Translation :: get('Top') . '</small></a>');
-			$table->setCellAttributes($row, 0, array('class' => 'row1'));
+			$table->setCellAttributes($row, 0, array('class' => $class));
 			$table->setCellContents($row, 1, $actions);
-			$table->setCellAttributes($row, 1, array('class' => 'row1', 'align' => 'right', 'style' => 'padding-right: 5px;'));
+			$table->setCellAttributes($row, 1, array('class' => $class, 'align' => 'right', 'style' => 'padding-right: 5px;'));
 			
 			$row++;
 			
@@ -118,6 +122,8 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 			$table->setCellAttributes($row, 0, array('colspan' => '2', 'class' => 'spacer'));
 			
 			$row++;
+			
+			$post_counter++;
 		}
 	}
 	
