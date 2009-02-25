@@ -67,6 +67,7 @@ class AssessmentToolComponent extends ToolComponent
 				)
 			);
 		}
+		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('assessment tool'));
 		
 		return $action_bar;
 	}

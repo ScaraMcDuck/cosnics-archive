@@ -75,6 +75,8 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Slideshow'), Theme :: get_common_image_path().'action_slideshow.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_SLIDESHOW)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 		
+		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('document tool'));
+		
 		return $action_bar;
 	}
 	

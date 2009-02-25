@@ -79,6 +79,7 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_image_path().'tool_calendar_day.png', $this->get_url(array('view'=>'day', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path().'tool_calendar_today.png', $this->get_url(array('view' => (isset ($_GET['view']) ? $_GET['view'] : 'month'), 'time' => time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
+		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('calendar tool'));
 		
 		return $action_bar;
 	}
