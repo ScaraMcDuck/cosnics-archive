@@ -364,6 +364,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	
 	public static function get_tool_bar_help_item($name)
 	{
+		echo 'hier';
 		$user_id = Session :: get_user_id();
 		$user = UserDataManager :: get_instance()->retrieve_user($user_id);
 		
@@ -371,9 +372,10 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 			$language = PlatformSetting :: get('platform_language');
 		else
 			$language = $user->get_language();
+		echo $name . ' ' . $language;
 		
 		$help_item = HelpDataManager :: get_instance()->retrieve_help_item_by_name_and_language($name, $language);
-		
+		dump($help_item);
 		return new ToolbarItem(Translation :: get('Help'), Theme :: get_common_image_path().'action_help.png', $help_item->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'help', 'about:blank');
 	}
 }

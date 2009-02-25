@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <help>
-	<help_item name="general" url="http://www.dokeosplanet.org/node/27" />
-	<help_item name="developer" url="http://www.dokeosplanet.org/developer-manual" />
+	<help_item name="announcement tool" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="assessment tool" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="blog tool" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="calendar tool" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="course sections" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="course groups" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="description tool" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="document tool" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="link tool" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="chat tool" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="forum tool" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="learning path tool" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="user tool" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="wiki tool" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
 </help>

@@ -180,7 +180,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('NewTopic'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'*/ Theme :: get_common_image_path().'action_add.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		
+		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('forum tool'));
 		return $action_bar;
 	}
 	
