@@ -1,5 +1,10 @@
 <?php
-
+/*This is used for passing along a "succeed" boolean, 
+ * after an update/delete/create webservice is called.
+ * This is necessary because the existing framework only passes
+ * objects with properties back and forth, so using 'new Boolean()' and returning
+ * true, or something like that, doesn't work.
+ */
 class ActionSuccess
 {
 	const PROPERTY_SUCCESS = 'success';
