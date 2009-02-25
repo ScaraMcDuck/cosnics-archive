@@ -30,7 +30,7 @@ class TestCallLocalWebservice
 	
 	function run()
 	{	
-		/*$wsdl = 'http://localhost/user/webservices/test/webservice_get_user.class.php?wsdl';
+		/*$wsdl = 'http://localhost/user/webservices/webservice_get_user.class.php?wsdl';
 		$functions = array();
 		
 		{
@@ -42,19 +42,19 @@ class TestCallLocalWebservice
 		}*/
 		
 		/*$user = new User();
-		$user->set_id(4);
-		echo '<pre>'.var_export($user->to_array(),true).'</pre>';
-		$wsdl = 'http://localhost/user/webservices/test/webservice_delete_user.class.php?wsdl';
+		$user->set_id(19);
+		echo '<pre>'.var_export($user->get_default_properties(),true).'</pre>';
+		$wsdl = 'http://localhost/user/webservices/webservice_delete_user.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServiceDeleteUser.delete_user',
-				'parameters' => $user->to_array(),//array('id' => 3),
+				'parameters' => $user->get_default_properties(),
 		  		'handler' => 'handle_webservice'			
 			);*/
-		
+
 		/*$user = new User();
 		$user->set_default_properties(array (
-		  'user_id' => '5',
+		  'user_id' => '4',
 		  'lastname' => 'Joske',
 		  'firstname' => 'Den Os',
 		  'username' => 'admin',
@@ -77,18 +77,18 @@ class TestCallLocalWebservice
 		  'registration_date' => '1234774883',
 		  'active' => '1',
 		));
-		echo '<pre>'.var_export($user->to_array(),true).'</pre>';
-		$wsdl = 'http://localhost/user/webservices/test/webservice_create_user.class.php?wsdl';
+		echo '<pre>'.var_export($user->get_default_properties(),true).'</pre>';
+		$wsdl = 'http://localhost/user/webservices/webservice_create_user.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServiceCreateUser.create_user',
-				'parameters' => $user->to_array(),//array('id' => 3),
+				'parameters' => $user->get_default_properties(),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
 		/*$user = new User();
 		$user->set_default_properties(array (
-		  'user_id' => '5',
+		  'user_id' => '20',
 		  'lastname' => 'Bond',
 		  'firstname' => 'James',
 		  'username' => 'admin',
@@ -111,12 +111,12 @@ class TestCallLocalWebservice
 		  'registration_date' => '1234774883',
 		  'active' => '1',
 		));
-		//echo '<pre>'.var_export($user->to_array(),true).'</pre>';
+		//echo '<pre>'.var_export($user->get_default_properties(),true).'</pre>';
 		$wsdl = 'http://localhost/user/webservices/webservice_update_user.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServiceUpdateUser.update_user',
-				'parameters' => $user->to_array(),//array('id' => 3),
+				'parameters' => $user->get_default_properties(),
 		  		'handler' => 'handle_webservice'			
 			);*/
 	

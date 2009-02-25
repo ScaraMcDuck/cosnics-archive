@@ -53,14 +53,13 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		/*$group = new InputGroup();
-		$group->set_id(5);
-		echo '<pre>'.var_export($group->to_array(),true).'</pre>';
-		$wsdl = 'http://localhost/group/webservices/webservice_delete_group.class.php?wsdl';
+		  /*$group = new InputGroup();
+		  $group->set_id(5);
+		  $wsdl = 'http://localhost/group/webservices/webservice_delete_group.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServiceDeleteGroup.delete_group',
-				'parameters' => $group->to_array(),//array('id' => 3),
+				'parameters' => $group->get_default_properties(),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -70,7 +69,7 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		/*$group = new Group();
+		  /*$group = new Group();
 		  $group->set_default_properties(array (
 			    'id' => '5',
 			    'name' => 'de coole groep',
@@ -82,7 +81,7 @@ class TestCallLocalWebservice
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServiceCreateGroup.create_group',
-				'parameters' => $group->to_array(),//array('id' => 3),
+				'parameters' => $group->get_default_properties(),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -92,20 +91,19 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		/*$group = new Group();
+		  /*$group = new Group();
 		  $group->set_default_properties(array (
-				'id' => '5',
+				'id' => '2',
 				'name' => 'de coolste groep',
 				'description' => 'test',
 				'sort' => '1',
 				'parent' => '1',
 		    ));
-		
 		  $wsdl = 'http://localhost/group/webservices/webservice_update_group.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServiceUpdateGroup.update_group',
-				'parameters' => $group->to_array(),//array('id' => 3),
+				'parameters' => $group->get_default_properties(),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -115,14 +113,14 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		/*$group_rel_user = new GroupRelUser();
+		  /*$group_rel_user = new GroupRelUser();
 		  $group_rel_user->set_user_id(2);
 		  $group_rel_user->set_group_id(1);
 		  $wsdl = 'http://localhost/group/webservices/webservice_subscribe_user_to_group.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServiceSubscribeUserGroup.subscribe_user',
-				'parameters' => $group_rel_user->to_array(),
+				'parameters' => $group_rel_user->get_default_properties(),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -132,7 +130,7 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		/*$group_rel_user = new GroupRelUser();
+		  /*$group_rel_user = new GroupRelUser();
 		  $group_rel_user->set_user_id(2);
 		  $group_rel_user->set_group_id(1);
           $wsdl = 'http://localhost/group/webservices/webservice_unsubscribe_user_from_group.class.php?wsdl';

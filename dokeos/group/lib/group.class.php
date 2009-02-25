@@ -230,10 +230,5 @@ class Group
 		$gdm = GroupDataManager :: get_instance();
 		return $gdm->update_role_links($this, $roles);
 	}
-	
-	function to_array()
-	{
-		return $this->defaultProperties;
-	}
 }
 ?>
