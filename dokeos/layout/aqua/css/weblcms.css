@@ -432,7 +432,7 @@ table.forum td.spacer
  
 table.forum
 {
-	background-color: #a9b3c3;
+	background-color: #c6d8ec;
  	width: 100%;
  	font-family:"Lucida Grande",Verdana,Helvetica,Arial,sans-serif;
  	font-size: 90%;
@@ -440,13 +440,13 @@ table.forum
 
 table.forum .row1
 {
-	background-color: #ECECEC;
+	background-color: #f4f8fb;
 	padding: 4px;
 }
 
 table.forum .row2
 {
-	background-color: #e8eef6;
+	background-color: #e8eff7;
 	padding: 4px;
 }
  
@@ -469,9 +469,9 @@ table.forum td.category_right
  
 table.forum th
 {
- 	background-color: #4271B5;
- 	background-image:url('../img/weblcms/forum/backgrounds/cellpic3.png');
- 	color: #E8EEF6;
+ 	background-color: #6694cc;
+ 	//background-image:url('../img/weblcms/forum/backgrounds/cellpic3.png');
+ 	color: #2b3f57;
 	font-weight: bold;
 	padding: 7px 5px;
 	white-space: nowrap;
