@@ -70,7 +70,7 @@ class SoapNusoapWebservice
 			$result = $client->call($function_name, $function_parameters);
 			$this->webservice_handler->{$handler_function}($result);
 			
-			//$this->debug($client);
+			$this->debug($client);
 		}
 	}
 	
