@@ -3,7 +3,7 @@
 require_once dirname(__FILE__).'/group_data_manager.class.php';
 
 /**
- * @package users
+ * @package group
  */
 /**
  *	@author Hans de Bisschop
@@ -229,6 +229,11 @@ class Group
 	{
 		$gdm = GroupDataManager :: get_instance();
 		return $gdm->update_role_links($this, $roles);
+	}
+	
+	function to_array()
+	{
+		return $this->defaultProperties;
 	}
 }
 ?>
