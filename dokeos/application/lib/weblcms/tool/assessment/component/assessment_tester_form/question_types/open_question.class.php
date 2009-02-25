@@ -26,7 +26,7 @@ class OpenQuestionDisplay extends QuestionDisplay
 				$formvalidator->add_html_editor($name, '');
 				break;
 			case OpenQuestion :: TYPE_OPEN_WITH_DOCUMENT:
-				$name = $clo_question->get_ref().'_1';
+				$name = $clo_question->get_id().'_1';
 				$formvalidator->add_html_editor($name, '');
 				$name = $this->get_clo_question()->get_id().'_0';
 				$formvalidator->addElement('hidden', $name, '');

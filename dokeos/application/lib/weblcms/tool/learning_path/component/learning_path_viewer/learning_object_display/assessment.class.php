@@ -74,7 +74,7 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 			$values = $_SESSION['formvalues'];
 			
 		$score_calculator = new AssessmentScoreCalculator();
-		$score_calculator->build_answers($values, $this->assessment, $this->datamanager, $this);
+		$score_calculator->build_answers($values, $this->assessment, $this->datamanager, $this, 'learning_path');
 		$uaid = $tracker_id = $_SESSION['assessment_tracker'];
 		$_SESSION['assessment_tracker'] = null;
 		//WeblcmsDataManager :: get_instance()->create_user_assessment($user_assessment);

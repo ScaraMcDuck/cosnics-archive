@@ -7,8 +7,9 @@ class AssessmentScoreCalculator
 {
 	private $parent;
 	
-	function build_answers($values, $assessment, $datamanager, $parent, $tracker_type)
+	function build_answers($values, $assessment, $datamanager, $parent, $tracker_type = 'assessment')
 	{
+		//dump($values);
 		$this->parent = $parent;
 		$tracker_id = $_SESSION['assessment_tracker'];
 		if ($tracker_type == 'learning_path')
@@ -71,7 +72,7 @@ class AssessmentScoreCalculator
 					$object->set_default_property('owner', $owner);
 					$object->set_title($filename);
 					$object->create();
-					$this->add_user_answer($datamanager, $assessment_tracker, $key, $object->get_id(), $tracker_type);
+					$this->add_user_answer($datamanager, $assessment_tracker, $key, $object->get_id(), $tracker_type, $clo_question);
 				 	return;
 				}
 			}
@@ -98,7 +99,7 @@ class AssessmentScoreCalculator
 				$score = $this->get_score($question, $extra, $parts[1]);
 				$params = array(
 					'assessment_attempt_id' => $assessment_tracker->get_id(),
-					'question_id' => $clo_question->get_ref(),
+					'question_id' => $clo_question->get_id(),
 					'answer' => $extra,
 					'answer_idx' => $parts[1],
 					'score' => $score,
@@ -134,6 +135,7 @@ class AssessmentScoreCalculator
 	function get_score($question, $answer, $answer_num)
 	{
 		$score = (Score :: factory($answer, $question, $answer_num)->get_score());
+		//dump($question);
 		//echo $score.';';
 		return $score;
 	}
