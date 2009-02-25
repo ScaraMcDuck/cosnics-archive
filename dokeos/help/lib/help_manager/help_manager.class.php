@@ -373,7 +373,6 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 			$language = $user->get_language();
 		
 		$help_item = HelpDataManager :: get_instance()->retrieve_help_item_by_name_and_language($name, $language);
-		dump($help_item);
 		return new ToolbarItem(Translation :: get('Help'), Theme :: get_common_image_path().'action_help.png', $help_item->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL, false, 'help', 'about:blank');
 	}
 }
