@@ -729,5 +729,10 @@ class User
 			return Translation :: get('Student');
 		}
 	}
+	
+	function to_array()
+	{
+		return $this->defaultProperties;
+	}
 }
 ?>
