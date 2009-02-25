@@ -10,10 +10,9 @@ require_once dirname(__FILE__).'/question_result_types/hotspot_question.class.ph
 abstract class QuestionResult
 {
 	private $results;
-	private $question;
+	private $clo_question;
 	private $formvalidator;
 	
-	private $clo_question;
 	private $user_answers;
 	private $clo_answers;
 	
@@ -22,10 +21,10 @@ abstract class QuestionResult
 	private $question_nr;
 	private $uaid;
 	
-	function QuestionResult($formvalidator, $q_results, $question, $edit_rights = 0, $question_nr, $uaid) 
+	function QuestionResult($formvalidator, $q_results, $clo_question, $edit_rights = 0, $question_nr, $uaid) 
 	{
 		$this->results = $q_results;
-		$this->question = $question;
+		$this->clo_question = $clo_question;
 		$this->formvalidator = $formvalidator;
 		$this->edit_rights = $edit_rights;
 		$this->question_nr = $question_nr;
@@ -35,24 +34,21 @@ abstract class QuestionResult
 	
 	function init()
 	{
-		$dm = RepositoryDataManager :: get_instance();
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->question->get_id());
-		$this->clo_question = $dm->retrieve_complex_learning_object_items($condition)->next_result();
 	}
 	
 	function get_question()
 	{
-		return $this->question;
-	}
-	
-	function get_edit_rights()
-	{
-		return $this->edit_rights;
+		return RepositoryDataManager :: get_instance()->retrieve_learning_object($this->clo_question->get_ref());
 	}
 	
 	function get_clo_question()
 	{
 		return $this->clo_question;
+	}
+	
+	function get_edit_rights()
+	{
+		return $this->edit_rights;
 	}
 	
 	function get_results()
@@ -98,7 +94,7 @@ abstract class QuestionResult
 	
 	function display_question_header($show_correct_answer = true)
 	{
-		$learning_object = $this->question;
+		$learning_object = $this->get_question();
 		//$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$learning_object->get_icon_name().'.png);">';
 		//$html[] = '<div class="title">';
 		$html[] = '<div class="question">';
@@ -323,23 +319,23 @@ abstract class QuestionResult
 		$this->formvalidator->addElement('html', '<br /></div></div>');
 	}
 	
-	static function create_question_result($formvalidator, $question, $q_results, $edit_rights, $question_nr, $pid)
+	static function create_question_result($formvalidator, $clo_question, $q_results, $edit_rights, $question_nr, $pid)
 	{
-
+		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
 		switch ($question->get_type())
 		{
 			case 'open_question':
-				return new OpenQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr, $pid);
+				return new OpenQuestionResult($formvalidator, $q_results, $clo_question, $edit_rights, $question_nr, $pid);
 			case 'multiple_choice_question':
-				return new MultipleChoiceQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr, $pid);
+				return new MultipleChoiceQuestionResult($formvalidator, $q_results, $clo_question, $edit_rights, $question_nr, $pid);
 			case 'matching_question':
-				return new MatchingQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr, $pid);
+				return new MatchingQuestionResult($formvalidator, $q_results, $clo_question, $edit_rights, $question_nr, $pid);
 			case 'fill_in_blanks_question':
-				return new FillInBlanksQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr, $pid);
+				return new FillInBlanksQuestionResult($formvalidator, $q_results, $clo_question, $edit_rights, $question_nr, $pid);
 			case 'rating_question':
-				return new ScoreQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr, $pid);
+				return new ScoreQuestionResult($formvalidator, $q_results, $clo_question, $edit_rights, $question_nr, $pid);
 			case 'hotspot_question':
-				return new HotspotQuestionResult($formvalidator, $q_results, $question, $edit_rights, $question_nr, $pid);
+				return new HotspotQuestionResult($formvalidator, $q_results, $clo_question, $edit_rights, $question_nr, $pid);
 			default:
 				return null;
 		}

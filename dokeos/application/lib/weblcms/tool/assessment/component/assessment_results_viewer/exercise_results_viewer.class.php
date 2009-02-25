@@ -30,10 +30,10 @@ class ExerciseResultsViewer extends ResultsViewer
 			$question = $dm->retrieve_learning_object($clo_question->get_ref());
 			$track = new WeblcmsQuestionAttemptsTracker();
 			$condition_ass = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $this->get_user_assessment()->get_id());
-			$condition_question = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_id());
+			$condition_question = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $clo_question->get_id());
 			$condition = new AndCondition(array($condition_ass, $condition_question));
 			$q_results = $track->retrieve_tracker_items($condition);
-			$question_result = QuestionResult :: create_question_result($this, $question, $q_results, $this->get_edit_rights(), $count, parent :: get_user_assessment()->get_id());
+			$question_result = QuestionResult :: create_question_result($this, $clo_question, $q_results, $this->get_edit_rights(), $count, parent :: get_user_assessment()->get_id());
 			$count++;
 			$question_result->display_exercise();
 		}

@@ -5,9 +5,11 @@ require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_questi
 
 // set vars
 $userId        = 0;//$_user['user_id'];
-$questionId    = $_GET['modifyAnswers'];
+$clo_questionId    = $_GET['modifyAnswers'];
 $exe_id    = $_GET['exe_id'];
-$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($questionId);//Question :: read($questionId);
+
+$clo_question = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($clo_questionId);
+$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());//Question :: read($questionId);
 $documentPath  = //api_get_path(SYS_COURSE_PATH).$_course['path'].'/document';
 
 $picture = $question->get_image();
@@ -49,7 +51,7 @@ $course_code = ''; //$_course['id'];
 
 $track = new WeblcmsQuestionAttemptsTracker();
 $conditiona = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $exe_id);
-$conditionq = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $questionId);
+$conditionq = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $clo_question->get_id());
 $condition = new AndCondition(array($conditionq, $conditiona));
 $items = $track->retrieve_tracker_items($condition);
 
