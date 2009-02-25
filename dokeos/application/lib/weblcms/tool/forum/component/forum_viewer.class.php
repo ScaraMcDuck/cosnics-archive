@@ -46,7 +46,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		$children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $current_forum->get_id()));
+		$children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $current_forum->get_id()), array('add_date'), array(SORT_ASC) );
 		while($child = $children->next_result())
 		{
 			$lo = $rdm->retrieve_learning_object($child->get_ref());
@@ -76,7 +76,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 	
 	function create_topics_table_header($table)
 	{
-		$table->setCellContents(0, 0, '');
+		$table->setCellContents(0, 0, '<b>' . Translation :: get('Topics') . '</b>');
 		$table->setCellAttributes(0, 0, array('colspan' => 6, 'class' => 'category'));
 		
 		$table->setHeaderContents(1, 0, Translation :: get('Topics'));
@@ -142,7 +142,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 	
 	function create_forums_table_header($table)
 	{
-		$table->setCellContents(0, 0, '');
+		$table->setCellContents(0, 0, '<b>' . Translation :: get('Subforums') . '</b>');
 		$table->setCellAttributes(0, 0, array('colspan' => 5, 'class' => 'category'));
 		
 		$table->setHeaderContents(1, 0, Translation :: get('Forum'));

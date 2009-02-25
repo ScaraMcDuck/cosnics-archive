@@ -17,6 +17,11 @@ class ForumTool extends Tool
 	const ACTION_VIEW_TOPIC = 'view_topic';
 	const ACTION_PUBLISH_FORUM = 'publish';
 	
+	const ACTION_CREATE_FORUM_POST = 'add_post';
+	const ACTION_EDIT_FORUM_POST = 'edit_post';
+	const ACTION_DELETE_FORUM_POST = 'delete_post';
+	const ACTION_QUOTE_FORUM_POST = 'quote_post';
+	
 	/**
 	 * Inherited.
 	 */
@@ -43,6 +48,18 @@ class ForumTool extends Tool
 				break;
 			case self :: ACTION_VIEW_TOPIC :
 				$component = ForumToolComponent :: factory('TopicViewer', $this);
+				break;
+			case self :: ACTION_CREATE_FORUM_POST :
+				$component = ForumToolComponent :: factory('PostCreator', $this);
+				break;
+			case self :: ACTION_EDIT_FORUM_POST :
+				$component = ForumToolComponent :: factory('PostDeleter', $this);
+				break;
+			case self :: ACTION_DELETE_FORUM_POST :
+				$component = ForumToolComponent :: factory('PostDeleter', $this);
+				break;
+			case self :: ACTION_QUOTE_FORUM_POST :
+				$component = ForumToolComponent :: factory('PostQuoter', $this);
 				break;
 			default :
 				$component = ForumToolComponent :: factory('Browser', $this);

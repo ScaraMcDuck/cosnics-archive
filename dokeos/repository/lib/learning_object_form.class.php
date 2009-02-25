@@ -403,6 +403,12 @@ EOT;
 		}
 		parent :: setDefaults($defaults);
 	}
+	
+	function setParentDefaults($defaults)
+	{
+		parent :: setDefaults($defaults);
+	}
+	
 	function set_values($defaults)
 	{
 		parent :: setDefaults($defaults);
