@@ -1,61 +1,7 @@
-[15:26]Called webservice :
+[11:25]Called webservice :
 array (
   'name' => 'Developer',
   'email' => 'developer@dokeos.com',
   'gender' => 'M',
 )
-[15:26]Called webservice :
-array (
-  'name' => 'Developer',
-  'email' => 'developer@dokeos.com',
-  'gender' => 'M',
-)
-[15:26]Called webservice :
-array (
-  'name' => 'Developer',
-  'email' => 'developer@dokeos.com',
-  'gender' => 'M',
-)
-[15:26]Called webservice :
-array (
-  'name' => 'Developer',
-  'email' => 'developer@dokeos.com',
-  'gender' => 'M',
-)
-[15:26]Called webservice :
-array (
-  'name' => 'Developer',
-  'email' => 'developer@dokeos.com',
-  'gender' => 'M',
-)
-[15:26]Called webservice :
-array (
-  'name' => 'Developer',
-  'email' => 'developer@dokeos.com',
-  'gender' => 'M',
-)
-[15:26]Called webservice :
-array (
-  'name' => 'Developer',
-  'email' => 'developer@dokeos.com',
-  'gender' => 'M',
-)
-[15:26]Called webservice :
-array (
-  'name' => 'Developer',
-  'email' => 'developer@dokeos.com',
-  'gender' => 'M',
-)
-[15:26]Called webservice :
-array (
-  'name' => 'Developer',
-  'email' => 'developer@dokeos.com',
-  'gender' => 'M',
-)
-[15:26]Called webservice :
-array (
-  'name' => 'Developer',
-  'email' => 'developer@dokeos.com',
-  'gender' => 'M',
-)
-Total: 10.636001110077 s
+Total: 1.3315858840942 s

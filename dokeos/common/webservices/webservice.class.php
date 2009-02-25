@@ -21,6 +21,8 @@ abstract class Webservice
 	 * ex :: array(0 => (array('name' => functionname, 'parameters' => array of parameters, 'handler' => handler function)))
 	 */
 	abstract function call_webservice($wsdl, $functions);
+	
+	
 }	
 	
 ?>
