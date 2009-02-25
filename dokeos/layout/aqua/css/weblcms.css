@@ -425,3 +425,61 @@ table.forum td.spacer
 	background-color: #D1D7DC;
 	height: 5px;
 }
+
+/*****************************************************
+ *  FORUM DOKEOS STYLE                                *
+ *****************************************************/
+ 
+table.forum
+{
+	background-color: #a9b3c3;
+ 	width: 100%;
+ 	font-family:"Lucida Grande",Verdana,Helvetica,Arial,sans-serif;
+ 	font-size: 90%;
+}
+
+table.forum .row1
+{
+	background-color: #ECECEC;
+	padding: 4px;
+}
+
+table.forum .row2
+{
+	background-color: #e8eef6;
+	padding: 4px;
+}
+ 
+table.forum td.category
+{
+ 	background-color: #C7D0D7;
+ 	background-image: url('../img/weblcms/forum/backgrounds/cellpic1.png');
+ 	height: 28px;
+ 	border: 0 none;
+	margin: 0;
+	padding: 0;
+	text-indent: 4px;
+}
+
+table.forum td.category_right
+{
+ 	background-image: url('../img/weblcms/forum/backgrounds/cellpic2.png');
+ 	height: 28px;
+}
+ 
+table.forum th
+{
+ 	background-color: #4271B5;
+ 	background-image:url('../img/weblcms/forum/backgrounds/cellpic3.png');
+ 	color: #E8EEF6;
+	font-weight: bold;
+	padding: 7px 5px;
+	white-space: nowrap;
+	font-size: 1.1em;
+}
+
+table.forum td.spacer
+{
+	background-color: #D1D7DC;
+	height: 5px;
+}

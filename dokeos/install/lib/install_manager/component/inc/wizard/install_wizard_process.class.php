@@ -42,7 +42,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		// Display the page header
 		$this->parent->display_header();
 		
-		echo '<h3>' . Translation :: get('General') . '</h3>';
+		echo '<h3>' . Translation :: get('PreProduction') . '</h3>';
 		
 		// 1. Connection to mySQL and creating the database
 		$db_creation = $this->create_database();
@@ -62,15 +62,15 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		
 		$this->counter++;
 		
-		// 4. Registering the trackers
-		echo '<h3>' . Translation :: get('Tracking') . '</h3>';
-		$this->register_trackers();
+//		// 4. Registering the trackers
+//		echo '<h3>' . Translation :: get('Tracking') . '</h3>';
+//		$this->register_trackers();
+//		
+//		$this->counter++;
 		
-		$this->counter++;
-		
-		// 5. Processing roles, rights and locations
-		echo '<h3>' . Translation :: get('Rights') . '</h3>';
-		$this->process_roles_and_rights();
+		// 5. Post-Processing all applications
+		echo '<h3>' . Translation :: get('PostProcessing') . '</h3>';
+		$this->post_process();
 		
 		$this->counter++;
 		
@@ -81,12 +81,12 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		flush();
 		
 		$this->counter++;
-		
-		// 7. Register the reporting
-		echo '<h3>' . Translation :: get('Reporting') . '</h3>';
-		$this->register_reporting();
-		
-		$this->counter++;
+//		
+//		// 7. Register the reporting
+//		echo '<h3>' . Translation :: get('Reporting') . '</h3>';
+//		$this->register_reporting();
+//		
+//		$this->counter++;
 		
 		echo '<h3>' . Translation :: get('Finished') . '</h3>';
 		
@@ -324,17 +324,25 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		}
 	}
 	
-	function process_roles_and_rights()
+	function post_process()
 	{
+		// Post processing includes a.o.:
+		// 1. Roles and rights
+		// 2. Tracking
+		// 3. Reporting
+		// 4. "Various"
+		// Check the installer class for a comprehensive list.
+		// Class located at: ./common/installer.class.php
+		
 		$core_applications = $this->applications['core'];
 		$applications = $this->applications['extra'];
 		$values = $this->values;
 		
-		// Roles'n'rights for core applications
+		// Post-processing for core applications
 		foreach ($core_applications as $core_application)
 		{
 			$installer = Installer :: factory($core_application, $values);
-			$result = $installer->create_root_rights_location();
+			$result = $installer->post_process();
 			
 			$this->process_result($core_application, $result, $installer->retrieve_message());
 			
@@ -342,7 +350,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 			flush();
 		}
 		
-		// Roles'n'rights for selected applications
+		// Post-processing for selected applications
 		foreach($applications as $application)
 		{
 			$toolPath = Path :: get_application_path() . 'lib/' . $application .'/install';
@@ -352,7 +360,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 				if (isset($values[$check_name]) && $values[$check_name] == '1')
 				{
 					$installer = Installer :: factory($application, $values);
-					$result = $installer->create_root_rights_location();
+					$result = $installer->post_process();
 					$this->process_result($application, $result, $installer->retrieve_message());
 
 					unset($installer, $result);

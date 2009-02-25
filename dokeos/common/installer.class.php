@@ -226,6 +226,25 @@ abstract class Installer
 		}
 	}
 	
+	/**
+	 * Parses an XML file and sends the request to the tracking database manager
+	 * @param String $path
+	 */
+	function create_tracking_storage_unit($path)
+	{
+		$tdm = TrackingDataManager :: get_instance();
+		$storage_unit_info = self :: parse_xml_file($path);
+		$this->add_message(self :: TYPE_NORMAL, Translation :: get('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
+		if (!$tdm->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
+		{
+			return $this->installation_failed(Translation :: get('TrackingStorageUnitCreationFailed') . ': <em>'.$storage_unit_info['name'] . '</em>');
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
 	// TODO: It's probably a good idea to write some kind of XML-parsing class that automatically converts the entire thing to a uniform array or object.
 	
 	function parse_application_events($file)
@@ -352,12 +371,16 @@ abstract class Installer
 			{
 				if ($this->register_block($value)) //$value = array
 				{
-					$this->add_message(self :: TYPE_NORMAL, 'Registered block: <em>'.$value["name"].'</em>');
+					$this->add_message(self :: TYPE_NORMAL, 'Registered block: <em>'.$value['name'].'</em>');
+				}
+				else
+				{
+					$this->installation_failed(Translation :: get('ReportingBlockRegistrationFailed') . ': <em>' . $value['name'] . '</em>');
 				}
 			}
 		}
 		
-		return $this->installation_successful();
+		return true;
 	}//register_reporting
 	
 	/**
@@ -375,13 +398,11 @@ abstract class Installer
 		{
 			$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
 			
-			$this->set_data_manager(TrackingDataManager :: get_instance());
-			
 			foreach($files as $file)
 			{
 				if ((substr($file, -3) == 'xml'))
 				{
-					$this->create_storage_unit($file);
+					$this->create_tracking_storage_unit($file);
 				}
 			}
 		}
@@ -421,7 +442,7 @@ abstract class Installer
 						$success = $this->register_tracker_to_event($registered_trackers[$tracker_properties['name']], $the_event);
 						if ($success)
 						{
-							$this->add_message(self :: TYPE_NORMAL, Translation :: get('TrackersRegisteredToEvent') . ': ' . $event_properties['name'] . ' + ' . $tracker_properties['name']);
+							$this->add_message(self :: TYPE_NORMAL, Translation :: get('TrackersRegisteredToEvent') . ': <em>' . $event_properties['name'] . ' + ' . $tracker_properties['name'] . '</em>');
 						}				
 						else
 						{
@@ -442,7 +463,7 @@ abstract class Installer
 			$this->add_message(self :: TYPE_WARNING, $warning_message);
 		}
 		
-		return $this->installation_successful();
+		return true;
 	}
 	
 	function configure_application()
@@ -503,26 +524,62 @@ abstract class Installer
 		}
 	}
 	
-	function create_root_rights_location()
+	function post_process()
 	{
 		$application = $this->get_application();
 		
+		// Parse the Locations XML of the application 
+		$this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">'. Translation :: get('Rights') .'</span>');
 		if (!RightsUtilities :: create_application_root_location($application))
 		{
-			$this->installation_failed(Translation :: get($this->get_application_name()) . ': ' . Translation :: get('LocationsFailed'));
-			return false;
+			return $this->installation_failed(Translation :: get('LocationsFailed'));
 		}
 		else
 		{
-			$this->add_message(self :: TYPE_NORMAL, Translation :: get($this->get_application_name()) . ': ' .  Translation :: get('LocationsAdded'));
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('LocationsAdded'));
 		}
+		$this->add_message(self :: TYPE_NORMAL, '');
 		
+		// Handle any and every other thing that needs to happen after
+		// the entire kernel was installed
+		
+		// VARIOUS #1: Tracking
+		$this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">'. Translation :: get('Tracking') .'</span>');
+		if (!$this->register_trackers())
+		{
+			return $this->installation_failed(Translation :: get('TrackingFailed'));
+		}
+		else
+		{
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('TrackingAdded'));
+		}
+		$this->add_message(self :: TYPE_NORMAL, '');
+		
+		// VARIOUS #2: Reporting
+		$this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">'. Translation :: get('Reporting') .'</span>');
+		if (!$this->register_reporting())
+		{
+			return $this->installation_failed(Translation :: get('ReportingFailed'));
+		}
+		else
+		{
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('ReportingAdded'));
+		}
+		$this->add_message(self :: TYPE_NORMAL, '');
+		
+		// VARIOUS #3: The rest
 		if (method_exists($this, 'install_extra'))
 		{
+			$this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">'. Translation :: get('Various') .'</span>');
 			if (!$this->install_extra())
 			{
-				return false;
+				return $this->installation_failed(Translation :: get('VariousFailed'));
 			}
+			else
+			{
+				$this->add_message(self :: TYPE_NORMAL, Translation :: get('VariousFinished'));
+			}
+			$this->add_message(self :: TYPE_NORMAL, '');
 		}
 		return $this->installation_successful();
 	}

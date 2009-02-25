@@ -3,6 +3,7 @@
 require_once dirname(__FILE__) . '/../forum_tool.class.php';
 require_once dirname(__FILE__) . '/../forum_tool_component.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
+require_once Path :: get_repository_path() . '/lib/learning_object/forum/forum.class.php';
 require_once 'HTML/Table.php';
 
 class ForumToolBrowserComponent extends ForumToolComponent
@@ -106,7 +107,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
 			
 			$title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '">' . $forum->get_title() . '</a><br />' . strip_tags($forum->get_description());
 			
-			$table->setCellContents($row, 0, '<img height="25" width="46" title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.gif" />');
+			$table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.png" />');
 			$table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px;'));
 			$table->setCellContents($row, 1, $title);
 			$table->setCellAttributes($row, 1, array('width' => '100%', 'class' => 'row1'));

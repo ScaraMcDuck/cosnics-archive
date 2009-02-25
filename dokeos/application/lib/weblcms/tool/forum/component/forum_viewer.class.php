@@ -110,8 +110,8 @@ class ForumToolViewerComponent extends ForumToolComponent
 			$last_post = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id()), array(ComplexLearningObjectItem :: PROPERTY_ADD_DATE), array(SORT_DESC), 0, 1 )->next_result();
 			$link = $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_TOPIC, Tool :: PARAM_PUBLICATION_ID => $this->pid, Tool :: PARAM_COMPLEX_ID => $topic->get_id())) . '#post_' . $last_post->get_id();
 			
-			$table->setCellContents($row, 0, '<img height="18" width="19" title="' . Translation :: get('NoNewPosts') . 
-											 '" src="' . Theme :: get_image_path() . 'forum/topic_read.gif" />');
+			$table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . 
+											 '" src="' . Theme :: get_image_path() . 'forum/topic_read.png" />');
 			$table->setCellAttributes($row, 0, array('width' => 25, 'class' => 'row1', 'style' => 'height: 30px;'));
 			$table->setCellContents($row, 1, $title);
 			$table->setCellAttributes($row, 1, array('class' => 'row1'));
@@ -122,8 +122,8 @@ class ForumToolViewerComponent extends ForumToolComponent
 			$table->setCellContents($row, 4, '');
 			$table->setCellAttributes($row, 4, array('align' => 'center', 'class' => 'row2'));
 			$table->setCellContents($row, 5, $last_post->get_add_date() . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname() . 
-											 ' <a href="' . $link . '"><img height="9" width="18" title="' . Translation :: get('ViewLastPost') . 
-											 '" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.gif" /></a>');
+											 ' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') . 
+											 '" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.png" /></a>');
 			$table->setCellAttributes($row, 5, array('align' => 'center', 'class' => 'row1'));
 			$row++;
 		} 
@@ -161,7 +161,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 		{
 			$title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $this->forum->get_id(), Tool :: PARAM_COMPLEX_ID => $forum->get_id())) . '">' . $forum->get_ref()->get_title() . '</a><br />' . strip_tags($forum->get_ref()->get_description());
 			
-			$table->setCellContents($row, 0, '<img height="25" width="46" title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.gif" />');
+			$table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.png" />');
 			$table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px;'));
 			$table->setCellContents($row, 1, $title);
 			$table->setCellAttributes($row, 1, array('class' => 'row1'));
