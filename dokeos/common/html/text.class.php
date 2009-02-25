@@ -232,5 +232,19 @@ class Text
 	    return $haystack;
 	}
 	
+	/*	Convert strings from one character set to another
+	 * 	Can avoid weird characters in output for non default alphanumeric symbols
+	 * 
+	 * 	Example
+	 *  $string = htmlentities($string, ENT_COMPAT, 'cp1252');
+	 *	$string = iconv('windows-1252', 'ISO-8859-1//TRANSLIT', $string);
+	 */
+	public function convert_character_set($string, $from, $to)
+	{
+		$string = htmlentities($string, ENT_COMPAT, $from);
+		$string = iconv($from, $to . '//TRANSLIT', $string);
+		
+		return $string;
+	}
 }
 ?>
