@@ -30,14 +30,13 @@ class WebServiceGetGroup
 		
 		$this->webservice->provide_webservice($functions);
 
-		//$this->webservice->provide_webservice_with_wsdl(dirname(__FILE__) . "/wsdl.xml");
 	}
 	
 	function get_group($input_group)
 	{
 		$gdm = DatabaseGroupDataManager :: get_instance();
 		$group = $gdm->retrieve_group($input_group[id]);
-		return $group->to_array();
+		return $group->get_default_properties();
 	}
 	
 }

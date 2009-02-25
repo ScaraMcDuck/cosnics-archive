@@ -106,10 +106,5 @@ class GroupRelUser
 	{
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-
-	function to_array()
-	{
-		return $this->defaultProperties;
-	}
 }
 ?>
