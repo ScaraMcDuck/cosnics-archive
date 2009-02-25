@@ -11,19 +11,26 @@ class AssessmentScoreCalculator
 	{
 		$this->parent = $parent;
 		$tracker_id = $_SESSION['assessment_tracker'];
-		if (isset($tracker_type))
-			$tracker = new $tracker_type();
+		if ($tracker_type == 'learning_path')
+		{
+			$tracker = new WeblcmsLearningPathAssessmentAttemptsTracker();
+		}
 		else
+		{
 			$tracker = new WeblcmsAssessmentAttemptsTracker();
+		}
+			
 		$condition = new EqualityCondition(MainTracker :: PROPERTY_ID, $tracker_id);
 		$assessment_trackers = $tracker->retrieve_tracker_items($condition);
 		$assessment_tracker = $assessment_trackers[0];
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id());
 		$clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+		
 		while ($clo_question = $clo_questions->next_result())
 		{
-			$this->check_create_answer($datamanager, $assessment_tracker, $values, $clo_question);
+			$this->check_create_answer($datamanager, $assessment_tracker, $values, $clo_question, $tracker_type);
 		}
+		
 		if ($assessment->get_assessment_type() != Assessment :: TYPE_ASSIGNMENT)
 			$assessment_tracker->set_total_score($this->calculate_score($assessment_tracker));
 		else
@@ -41,13 +48,13 @@ class AssessmentScoreCalculator
 		return $this->parent->get_user_id();
 	}
 	
-	function check_create_answer($datamanager, $assessment_tracker, $values, $clo_question) 
+	function check_create_answer($datamanager, $assessment_tracker, $values, $clo_question, $tracker_type) 
 	{
 		foreach($_FILES as $key => $file)
 		{
 			$parts = split("_", $key);
 			//create document and afterwards user answer
-			if ($parts[0] == $clo_question->get_ref()) 
+			if ($parts[0] == $clo_question->get_id()) 
 			{
 				if ($file['name'] != null)
 				{
@@ -64,7 +71,7 @@ class AssessmentScoreCalculator
 					$object->set_default_property('owner', $owner);
 					$object->set_title($filename);
 					$object->create();
-					$this->add_user_answer($datamanager, $assessment_tracker, $key, $object->get_id());
+					$this->add_user_answer($datamanager, $assessment_tracker, $key, $object->get_id(), $tracker_type);
 				 	return;
 				}
 			}
@@ -73,30 +80,39 @@ class AssessmentScoreCalculator
 		{
 			$parts = split("_", $key);
 			//create user answer
-			if ($parts[0] == $clo_question->get_ref()) 
+			if ($parts[0] == $clo_question->get_id()) 
 			{
-				$this->add_user_answer($datamanager, $assessment_tracker, $key, $value);
+				$this->add_user_answer($datamanager, $assessment_tracker, $key, $value, $tracker_type, $clo_question);
 			}
 		}	
 	}
 	
-	function add_user_answer($datamanager, $assessment_tracker, $key, $value)
+	function add_user_answer($datamanager, $assessment_tracker, $key, $value, $tracker_type, $clo_question)
 	{
 		if ($key != 'submit') {
 			$parts = split("_", $key);
 			if (is_numeric($parts[0])) {
-				$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($parts[0]);
+				
+				$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
 				$extra = $this->get_extra($question, $value, $_FILES[$key]);
 				$score = $this->get_score($question, $extra, $parts[1]);
 				$params = array(
 					'assessment_attempt_id' => $assessment_tracker->get_id(),
-					'question_id' => $parts[0],
+					'question_id' => $clo_question->get_ref(),
 					'answer' => $extra,
 					'answer_idx' => $parts[1],
 					'score' => $score,
 					'feedback' => 0
 				);
-				$question_tracker = new WeblcmsQuestionAttemptsTracker();
+				if ($tracker_type == 'learning_path')
+				{
+					$question_tracker = new WeblcmsLearningPathQuestionAttemptsTracker();
+				}
+				else
+				{
+					$question_tracker = new WeblcmsQuestionAttemptsTracker();
+				}
+				//$question_tracker = new WeblcmsQuestionAttemptsTracker();
 				$question_track_id = $question_tracker->track($params);
 			}
 		}

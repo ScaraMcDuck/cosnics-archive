@@ -20,14 +20,14 @@ class MultipleChoiceQuestionDisplay extends QuestionDisplay
 				$elements[] = $formvalidator->createElement('radio', null, null, $answer->get_value(), $i);
 				$i++;
 			}
-			$name = $this->get_clo_question()->get_ref().'_0';
+			$name = $this->get_clo_question()->get_id().'_0';
 			$formvalidator->addGroup($elements, $name, null, '<br/>');
 		}
 		else if ($type == 'checkbox')
 		{
 			foreach($answers as $i => $answer)
 			{
-				$name = $this->get_clo_question()->get_ref().'_'.($i + 1);
+				$name = $this->get_clo_question()->get_id().'_'.($i + 1);
 				$formvalidator->addElement('checkbox', $name, '', $answer->get_value());
 			}
 		}

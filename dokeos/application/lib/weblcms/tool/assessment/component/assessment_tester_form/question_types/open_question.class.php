@@ -14,7 +14,7 @@ class OpenQuestionDisplay extends QuestionDisplay
 		switch ($type)
 		{
 			case OpenQuestion :: TYPE_DOCUMENT:
-				$name = $this->get_clo_question()->get_ref().'_0';
+				$name = $this->get_clo_question()->get_id().'_0';
 				$formvalidator->addElement('hidden', $name, '');
 				$formvalidator->addElement('text', $name.'_name', Translation :: get('SelectedDocument'));
 				$buttons[] = $formvalidator->createElement('style_submit_button', 'repoviewer_'.$name, Translation :: get('Select'), array('class' => 'positive'));
@@ -22,13 +22,13 @@ class OpenQuestionDisplay extends QuestionDisplay
 				$formvalidator->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 				break;
 			case OpenQuestion :: TYPE_OPEN:
-				$name = $clo_question->get_ref().'_0';
+				$name = $clo_question->get_id().'_0';
 				$formvalidator->add_html_editor($name, '');
 				break;
 			case OpenQuestion :: TYPE_OPEN_WITH_DOCUMENT:
 				$name = $clo_question->get_ref().'_1';
 				$formvalidator->add_html_editor($name, '');
-				$name = $this->get_clo_question()->get_ref().'_0';
+				$name = $this->get_clo_question()->get_id().'_0';
 				$formvalidator->addElement('hidden', $name, '');
 				$formvalidator->addElement('text', $name.'_name', Translation :: get('SelectedDocument'));
 				$buttons[] = $formvalidator->createElement('style_submit_button', 'repoviewer_'.$name, Translation :: get('Select'), array('class' => 'positive'));

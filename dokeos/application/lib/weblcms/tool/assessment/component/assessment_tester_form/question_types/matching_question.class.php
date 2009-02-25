@@ -20,7 +20,7 @@ class MatchingQuestionDisplay extends QuestionDisplay
 		
 		foreach($answers as $i => $answer)
 		{
-			$name = $this->get_clo_question()->get_ref().'_'.$i;
+			$name = $this->get_clo_question()->get_id().'_'.$i;
 			$this->shuffle_with_keys($matches);
 			$formvalidator->addElement('select', $name, $answer->get_value(), $matches);
 		}

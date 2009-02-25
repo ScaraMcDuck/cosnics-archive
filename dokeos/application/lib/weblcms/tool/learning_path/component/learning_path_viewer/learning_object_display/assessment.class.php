@@ -68,7 +68,7 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 	
 	function redirect_to_score_calculator($values = null)
 	{
-		dump($_SESSION);
+		//dump($_SESSION);
 		
 		if ($values == null)
 			$values = $_SESSION['formvalues'];

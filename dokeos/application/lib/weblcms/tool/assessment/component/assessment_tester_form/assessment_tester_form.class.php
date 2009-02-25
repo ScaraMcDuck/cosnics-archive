@@ -2,15 +2,11 @@
 
 require_once Path::get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/question_types/open_question.class.php';
-require_once dirname(__FILE__).'/question_types/open_question_with_document.class.php';
-require_once dirname(__FILE__).'/question_types/multiple_answer_question.class.php';
 require_once dirname(__FILE__).'/question_types/multiple_choice_question.class.php';
 require_once dirname(__FILE__).'/question_types/fill_in_blanks_question.class.php';
 require_once dirname(__FILE__).'/question_types/matching_question.class.php';
-require_once dirname(__FILE__).'/question_types/percentage_question.class.php';
 require_once dirname(__FILE__).'/question_types/score_question.class.php';
 require_once dirname(__FILE__).'/question_types/hotspot_question.class.php';
-require_once dirname(__FILE__).'/question_types/document_question.class.php';
 
 class AssessmentTesterForm extends FormValidator
 {

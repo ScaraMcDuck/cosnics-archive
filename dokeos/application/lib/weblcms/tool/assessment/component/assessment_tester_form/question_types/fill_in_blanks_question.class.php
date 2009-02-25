@@ -13,7 +13,7 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
 		
 		foreach($answers as $i => $answer)
 		{
-			$name = $clo_question->get_ref().'_'.$i;
+			$name = $clo_question->get_id().'_'.$i;
 			$formvalidator->addElement('text', $name, '('.$i.')');
 		}
 		//$formvalidator->addElement('html', '<br />');

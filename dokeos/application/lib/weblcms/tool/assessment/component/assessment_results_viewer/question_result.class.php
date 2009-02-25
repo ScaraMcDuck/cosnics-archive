@@ -1,13 +1,9 @@
 <?php
 
-require_once dirname(__FILE__).'/question_result_types/document_question.class.php';
 require_once dirname(__FILE__).'/question_result_types/fill_in_blanks_question.class.php';
 require_once dirname(__FILE__).'/question_result_types/matching_question.class.php';
-require_once dirname(__FILE__).'/question_result_types/multiple_answer_question.class.php';
 require_once dirname(__FILE__).'/question_result_types/multiple_choice_question.class.php';
-require_once dirname(__FILE__).'/question_result_types/open_question_with_document.class.php';
 require_once dirname(__FILE__).'/question_result_types/open_question.class.php';
-require_once dirname(__FILE__).'/question_result_types/percentage_question.class.php';
 require_once dirname(__FILE__).'/question_result_types/score_question.class.php';
 require_once dirname(__FILE__).'/question_result_types/hotspot_question.class.php';
 

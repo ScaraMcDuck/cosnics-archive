@@ -2,9 +2,10 @@
 	include_once dirname(__FILE__).'/../../../../common/global.inc.php';
 	
 	// set vars
-	$questionId = $_GET['modifyAnswers'];
+	$clo_questionId = $_GET['modifyAnswers'];
+	$clo_question = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($clo_questionId);
 	//$objQuestion = Question::read($questionId);
-	$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($questionId);
+	$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
 	//$TBL_ANSWERS   = Database::get_course_table(TABLE_QUIZ_ANSWER);
 	//$documentPath  = api_get_path(SYS_COURSE_PATH).$_course['path'].'/document';
 	//$picturePath   = $documentPath.'/images';
