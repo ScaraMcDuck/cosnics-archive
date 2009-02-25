@@ -679,6 +679,14 @@ form br
 	height: 1%;
 	margin-left: 0;
 }
+
+span.subtitle
+{
+	font-size: 90%;
+	font-weight: bold;
+	color: #787878;
+}
+
 /* End hide from IE5/mac */
 
 /*****************************************************
