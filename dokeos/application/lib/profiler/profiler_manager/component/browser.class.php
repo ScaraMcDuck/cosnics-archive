@@ -48,6 +48,7 @@ class ProfilerBrowserComponent extends ProfilerComponent
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_profile_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array('category' => $this->get_category())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_category.png', $this->get_profiler_category_manager_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('profiler'));
 		
 		return $action_bar;
 	}

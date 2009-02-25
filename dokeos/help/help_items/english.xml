@@ -14,4 +14,14 @@
 	<help_item name="learning path tool" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
 	<help_item name="user tool" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
 	<help_item name="wiki tool" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="personal calendar" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="personal messenger" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="profiler" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="repository" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="users" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="groups" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="courses" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="menu manager" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="rights" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
+	<help_item name="help manager" url="http://www.dokeosplanet.org/dokeos_2.0.0" />
 </help>
