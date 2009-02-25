@@ -32,7 +32,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 		
 		$trail = new BreadCrumbTrail();
 		$this->display_header($trail);
-		
+				
 		$this->action_bar = $this->get_toolbar(true);
 		
 		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
@@ -99,7 +99,6 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 		{
 			$bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
-		
 		return $bar;
 	}
 }
