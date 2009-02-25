@@ -149,7 +149,7 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 		}
 		
 		
-		
+		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('groups'));
 		return $action_bar;
 	}
 
