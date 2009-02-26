@@ -35,9 +35,8 @@ class WebServiceDeleteGroup
 	function delete_group($input_group)
 	{
 		$g = new Group(0,$input_group);
-		$gdm = DatabaseGroupDataManager :: get_instance();
 		$success = new ActionSuccess();
-		$success->set_success($gdm->delete_group($g));
-		return $success->get_default_properties();	
+		$success->set_success($g->delete());
+		return $success->get_default_properties();
 	}
 }

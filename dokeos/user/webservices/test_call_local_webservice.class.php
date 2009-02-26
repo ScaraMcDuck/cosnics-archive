@@ -42,7 +42,7 @@ class TestCallLocalWebservice
 		}*/
 		
 		/*$user = new User();
-		$user->set_id(19);
+		$user->set_id(23);
 		echo '<pre>'.var_export($user->get_default_properties(),true).'</pre>';
 		$wsdl = 'http://localhost/user/webservices/webservice_delete_user.class.php?wsdl';
 		  $functions = array();
@@ -86,9 +86,9 @@ class TestCallLocalWebservice
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
-		/*$user = new User();
+		$user = new User();
 		$user->set_default_properties(array (
-		  'user_id' => '20',
+		  'user_id' => '24',
 		  'lastname' => 'Bond',
 		  'firstname' => 'James',
 		  'username' => 'admin',
@@ -118,7 +118,7 @@ class TestCallLocalWebservice
 				'name' => 'WebServiceUpdateUser.update_user',
 				'parameters' => $user->get_default_properties(),
 		  		'handler' => 'handle_webservice'			
-			);*/
+			);
 	
 		$this->webservice->call_webservice($wsdl, $functions);
 	}

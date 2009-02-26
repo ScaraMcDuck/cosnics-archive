@@ -34,11 +34,9 @@ class WebServiceCreateUser
 	
 	function create_user($input_user)
 	{
-		$udm = DatabaseUserDataManager :: get_instance();
 		$u = new User(0,$input_user);
-		$u->set_id($udm->get_next_user_id());
 		$success = new ActionSuccess();
-		$success->set_success($udm->create_user($u));
-		return $success->get_default_properties();	
+		$success->set_success($u->create());
+		return $success->get_default_properties();
 	}
 }

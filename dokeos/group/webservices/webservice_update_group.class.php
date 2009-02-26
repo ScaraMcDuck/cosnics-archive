@@ -36,9 +36,8 @@ class WebServiceUpdateGroup
 	function update_group($input_group)
 	{
 		$g = new Group(0,$input_group);
-		$gdm = DatabaseGroupDataManager :: get_instance();
 		$success = new ActionSuccess();
-		$success->set_success($gdm->update_group($g));
-		return $success->get_default_properties();	
+		$success->set_success($g->update());
+		return $success->get_default_properties();
 	}
 }
