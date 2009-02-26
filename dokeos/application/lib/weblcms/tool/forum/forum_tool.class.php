@@ -25,6 +25,11 @@ class ForumTool extends Tool
 	const ACTION_CREATE_TOPIC = 'create_topic';
 	const ACTION_DELETE_TOPIC = 'delete_topic';
 	
+	const ACTION_CREATE_SUBFORUM = 'create_subforum';
+	const ACTION_EDIT_SUBFORUM = 'edit_subforum';
+	const ACTION_DELETE_SUBFORUM = 'delete_subforum';
+	const ACTION_MOVE_SUBFORUM = 'move_subforum';
+	
 	/**
 	 * Inherited.
 	 */
@@ -70,7 +75,10 @@ class ForumTool extends Tool
 			case self :: ACTION_DELETE_TOPIC :
 				$component = ForumToolComponent :: factory('TopicDeleter', $this);
 				break;
-			/*case self :: ACTION_CREATE_SUBFORUM :
+			case self :: ACTION_MOVE_SUBFORUM :
+				$component = ForumToolComponent :: factory('SubforumMover', $this);
+				break;
+			case self :: ACTION_CREATE_SUBFORUM :
 				$component = ForumToolComponent :: factory('SubforumCreator', $this);
 				break;
 			case self :: ACTION_EDIT_SUBFORUM :
@@ -79,11 +87,14 @@ class ForumTool extends Tool
 			case self :: ACTION_DELETE_SUBFORUM :
 				$component = ForumToolComponent :: factory('SubforumDeleter', $this);
 				break;
-			case self :: ACTION_EDIT_FORUM :
-				$component = ForumToolComponent :: factory('ForumEditor', $this);
+			/*case self :: ACTION_CREATE_SUBFORUM :
+				$component = ForumToolComponent :: factory('SubforumCreator', $this);
 				break;
-			case self :: ACTION_DELETE_FORUM :
-				$component = ForumToolComponent :: factory('TopicDeleter', $this);
+			case self :: ACTION_EDIT_SUBFORUM :
+				$component = ForumToolComponent :: factory('SubforumEditor', $this);
+				break;
+			case self :: ACTION_DELETE_SUBFORUM :
+				$component = ForumToolComponent :: factory('SubforumDeleter', $this);
 				break;*/
 			default :
 				$component = ForumToolComponent :: factory('Browser', $this);
