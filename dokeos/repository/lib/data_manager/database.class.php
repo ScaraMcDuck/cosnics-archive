@@ -380,6 +380,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res = $statement->execute($user_id);
 		return new DatabaseLearningObjectResultSet($this, $res, isset($type));
 	}
+	
+	function delete_learning_object_by_id($object_id)
+	{
+		$object = $this->retrieve_learning_object($object_id);
+		return $this->delete_learning_object($object);
+	}
 
 	// Inherited.
 	function delete_learning_object($object)
@@ -1162,7 +1168,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		return true;
 	}
-
+	
 	/**
 	 * Deletes a complex learning object in the database
 	 * @param ComplexLearningObject $clo - The complex learning object
@@ -1170,10 +1176,10 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	function delete_complex_learning_object_item($clo_item)
 	{
-
-		$query = 'DELETE FROM '.$this->escape_table_name('complex_learning_object_item');
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_ID, $clo_item->get_id());
-
+		
+		$query = 'DELETE FROM '.$this->escape_table_name('complex_learning_object_item');
+		
 		$params = array ();
 		if (isset ($condition))
 		{
@@ -1207,15 +1213,15 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$statement = $this->connection->prepare($query);
 			$res = $statement->execute($params);
 		}
-
-		/*$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $clo_item->get_id());
-		$items = $this->retrieve_complex_learning_object_items($condition);
-
-		foreach($items as $item)
-		{
-			$this->delete_complex_learning_object_item($item);
-		}*/
-
+		
+		$query = 'UPDATE '.$this->escape_table_name('complex_learning_object_item').' SET '.
+			 $this->escape_column_name('display_order').'='.
+			 $this->escape_column_name('display_order').'-1 WHERE '.
+			 $this->escape_column_name('display_order').'>? AND ' .
+			 $this->escape_column_name('parent') . '=?';
+		$statement = $this->connection->prepare($query); 
+		$statement->execute(array($clo_item->get_display_order(), $clo_item->get_parent()));
+		
 		return true;
 
 	}

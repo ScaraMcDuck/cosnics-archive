@@ -8,6 +8,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 {
 	private $action_bar;
 	private $forum;
+	private $current_forum;
 	private $forums;
 	private $topics;
 	private $pid;
@@ -22,6 +23,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 		
 		$this->pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
 		$this->forum = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($this->pid)->get_learning_object();
+		$this->current_forum = $this->forum;
 		$this->retrieve_children($this->forum);
 		
 		$this->action_bar = $this->get_action_bar();
@@ -188,7 +190,8 @@ class ForumToolViewerComponent extends ForumToolComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('NewTopic'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'*/ Theme :: get_common_image_path().'action_add.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('NewTopic'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'*/ Theme :: get_common_image_path().'action_add.png', 
+				$this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_CREATE_TOPIC)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('forum tool'));
 		return $action_bar;
 	}

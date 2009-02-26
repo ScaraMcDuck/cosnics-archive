@@ -38,6 +38,12 @@ class LearningObjectRepoViewer extends RepoViewer
 	{
 		return $this->creation_defaults;
 	}
+	
+	function redirect_complex($type)
+	{
+		if($type == 'forum_topic')
+			return false;
+	}
 
 	/**
 	 * Returns the repo_viewer's output in HTML format.

@@ -204,7 +204,7 @@ class ComplexLearningObjectItem
 		$rdm = RepositoryDataManager :: get_instance();
 		$succes = $rdm->delete_complex_learning_object_item($this);
 		
-		if($succes)
+		/*if($succes)
 		{
 			$conditions[] = new InEqualityCondition(self :: PROPERTY_DISPLAY_ORDER, InEqualityCondition :: GREATER_THAN, $this->get_display_order());
 			$conditions[] = new EqualityCondition(self :: PROPERTY_PARENT, $this->get_parent());
@@ -216,7 +216,7 @@ class ComplexLearningObjectItem
 				$item->set_display_order($item->get_display_order() - 1);
 				$item->update();
 			}
-		}
+		}*/
 		
 		return $succes;
 	}
