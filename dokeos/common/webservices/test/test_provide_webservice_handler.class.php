@@ -31,8 +31,9 @@ class TestProvideWebserviceHandler
 		$this->webservice->provide_webservice_with_wsdl(dirname(__FILE__) . "/wsdl.xml");
 	}
 	
-	function get_user($input_user)
+	function get_user($input_user, $hash)
 	{
+		//$webservice->validate($hash);
 		$user = new OutputUser();
 		$user->set_name('Developer');
 		$user->set_email('developer@dokeos.com');

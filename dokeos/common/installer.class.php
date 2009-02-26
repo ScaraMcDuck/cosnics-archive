@@ -14,6 +14,9 @@ require_once Path :: get_admin_path() .'lib/setting.class.php';
 require_once Path :: get_admin_path() .'lib/registration.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
+require_once Path :: get_webservice_path() . 'lib/webservice_category.class.php';
+require_once Path :: get_webservice_path() . 'lib/webservice_registration.class.php';
+require_once Path :: get_webservice_path() . 'lib/webservice_data_manager.class.php';
 require_once Path :: get_reporting_path() . 'lib/reporting_blocks.class.php';
  
 abstract class Installer
@@ -466,6 +469,8 @@ abstract class Installer
 		return true;
 	}
 	
+	
+	
 	function configure_application()
 	{
 		$application = $this->get_application();
@@ -524,6 +529,122 @@ abstract class Installer
 		}
 	}
 	
+	/**
+	 * Registers the webservices
+	 */
+	function register_webservices()
+	{			
+		$application = $this->get_application();
+		
+		$base_path = (Application :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
+		
+		$path = $base_path . '/' . $application . '/webservices/';
+		
+		$webservice_file = $path . 'webservice_'. $application .'.xml';
+		
+		if (file_exists($webservice_file)) 
+		{
+			$xml = $this->extract_xml_file($webservice_file);	//contains a list of webservices for this application
+			$this->parse_webservices($xml,0);
+		}
+		else
+		{
+			//$this->add_message(self :: TYPE_NORMAL, Translation :: get('NoWebservices') . '</em>');
+			return true;	
+		}		
+		return true;
+			
+	}
+	
+	function parse_webservices($root,$parent)
+	{
+		$categories = $root['category']; //contain categories
+		$webservices = $root['webservice']; //contains webservices		
+		
+		if($categories['name'] != '') //category has a name
+		{					
+			//register webservice_category
+			$webserviceCategory = new WebserviceCategory();
+			$webserviceCategory->set_name($categories['name']);
+			$webserviceCategory->set_parent($parent);			
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceCategoryCreation') . ' : <em>'.$categories['name']. '</em>');					
+			if (!$webserviceCategory->create())
+			{
+				$this->installation_failed(Translation :: get('WebserviceCategoryCreationFailed') . ' : <em>'.$categories['name'] . '</em>');
+				return false;
+			}
+			$catparent = $webserviceCategory->get_id();									
+			$this->parse_webservices($categories, $catparent);
+		
+		}
+		else //category doesn't have a name,loop
+		{
+			if(is_array($categories))
+			{
+				foreach($categories as $element)
+				{							
+					//register webservice_category
+					$webserviceCategory = new WebserviceCategory();
+					$webserviceCategory->set_name($element['name']);
+					$webserviceCategory->set_parent($parent);
+					$this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceCategoryCreation') . ' : <em>'.$element['name']. '</em>');							
+					if (!$webserviceCategory->create())
+					{	
+						$this->installation_failed(Translation :: get('WebserviceCategoryCreationFailed') . ' : <em>'.$element['name'] . '</em>');
+						return false;
+					}
+					$catparent = $webserviceCategory->get_id();
+					$this->parse_webservices($element, $catparent);
+				}
+			}
+				
+		}
+		
+		if($webservices['name'] != '') //webservice has a name
+		{
+			//register webservice 
+			$webservice = new WebserviceRegistration();		
+			$webservice->set_name($webservices['name']);
+			$webservice->set_description('omschrijving');
+			$webservice->set_active(1);					
+			$webservice->set_parent($parent);
+			$webservice->set_application('test');
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceRegistration') . ' : <em>'.$webservices['name']. '</em>');					
+			if (!$webservice->create())
+			{
+				$this->installation_failed(Translation :: get('WebserviceRegistrationFailed') . ' : <em>'.$webservices['name'] . '</em>');
+				return false;
+			}										
+			$this->parse_webservices($webservices, $parent);
+			
+		}
+		else //webservice doesn't have a name, loop
+		{
+			if(is_array($webservices))
+			{
+				foreach($webservices as $element)
+				{							
+					//register webservice
+					$webservice = new WebserviceRegistration();		
+					$webservice->set_name($element['name']);
+					$webservice->set_description('omschrijving');
+					$webservice->set_active(1);					
+					$webservice->set_parent($parent);
+					$webservice->set_application('test');
+					$this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceRegistration') . ' : <em>'.$element['name']. '</em>');
+					if (!$webservice->create())
+					{
+						$this->installation_failed(Translation :: get('WebserviceRegistrationFailed') . ' : <em>'.$element['name'] . '</em>');
+						return false;
+					}							
+					$this->parse_webservices($element, $parent);
+				}
+			}
+				
+		}
+		
+	}
+	
 	function post_process()
 	{
 		$application = $this->get_application();
@@ -567,7 +688,19 @@ abstract class Installer
 		}
 		$this->add_message(self :: TYPE_NORMAL, '');
 		
-		// VARIOUS #3: The rest
+		// VARIOUS #3: Webservices
+		$this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">'. Translation :: get('Webservice') .'</span>');
+		if (!$this->register_webservices())
+		{
+			return $this->installation_failed(Translation :: get('WebserviceFailed'));
+		}
+		else
+		{
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceSucces'));
+		}
+		$this->add_message(self :: TYPE_NORMAL, '');
+		
+		// VARIOUS #4: The rest
 		if (method_exists($this, 'install_extra'))
 		{
 			$this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">'. Translation :: get('Various') .'</span>');
