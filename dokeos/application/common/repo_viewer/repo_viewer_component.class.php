@@ -116,5 +116,10 @@ abstract class RepoViewerComponent
 	{
 		$this->get_parent()->set_parameters($parameters);
 	}
+	
+	function get_creation_defaults()
+	{
+		return $this->get_parent()->get_creation_defaults();
+	}
 }
 ?>

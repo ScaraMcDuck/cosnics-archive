@@ -12,7 +12,6 @@ class ForumToolPostCreatorComponent extends ForumToolComponent
 		{
 			$pid = Request :: get('pid');
 			$cid = Request :: get('cid');
-			
 			$reply = Request :: get('reply');
 			
 			if(!$pid || !$cid)
@@ -22,12 +21,29 @@ class ForumToolPostCreatorComponent extends ForumToolComponent
 				$this->display_footer();
 			}
 			
+			$rdm = RepositoryDataManager :: get_instance();
+			
+			if($reply)
+			{
+				$reply_item = $rdm->retrieve_complex_learning_object_item($reply);
+				$reply_lo = $rdm->retrieve_learning_object($reply_item->get_ref(), 'forum_post');
+			}
+			
 			$pub = new LearningObjectRepoViewer($this, 'forum_post', true);
 			$pub->set_parameter(Tool :: PARAM_ACTION, ForumTool :: ACTION_CREATE_FORUM_POST);
 			$pub->set_parameter('pid', $pid);
 			$pub->set_parameter('cid', $cid);
 			$pub->set_parameter('type', $type);
 			$pub->set_parameter('reply', $reply);
+			if($reply_lo)
+			{
+				if(substr($reply_lo->get_title(), 0, 3) == 'RE:')
+					$reply = $reply_lo->get_title();
+				else
+					$reply = 'RE: ' . $reply_lo->get_title();
+					
+				$pub->set_creation_defaults(array('title' => $reply));
+			}
 			
 			$object_id = Request :: get('object');
 			
@@ -43,12 +59,12 @@ class ForumToolPostCreatorComponent extends ForumToolComponent
 			{	
 				$cloi = ComplexLearningObjectItem :: factory('forum_post');
 				
-				$item = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($cid);
+				$item = $rdm->retrieve_complex_learning_object_item($cid);
 				
 				$cloi->set_ref($object_id);
 				$cloi->set_user_id($this->get_user_id());
 				$cloi->set_parent($item->get_ref());
-				$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($pid));
+				$cloi->set_display_order($rdm->select_next_display_order($pid));
 				
 				if($reply)
 					$cloi->set_reply_on_post($reply);

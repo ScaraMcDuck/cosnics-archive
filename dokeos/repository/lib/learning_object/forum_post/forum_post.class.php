@@ -23,10 +23,10 @@ class ForumPost extends LearningObject
 		return false;
 	}
 	
-	function is_versionable()
+	/*function is_versionable()
 	{
 		return false;
-	}
+	}*/
 	
 	/*function get_allowed_types()
 	{

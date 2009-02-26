@@ -86,6 +86,11 @@ abstract class RepoViewerCreatorComponent extends RepoViewerComponent
 	{
 		$default_lo = $this->get_default_learning_object($type);
 		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $default_lo, 'create', 'post', $this->get_url(array_merge(array ('type' => $type), $this->get_parameters())));
+		
+		$def = $this->get_creation_defaults();
+		if($def)
+			$form->setParentDefaults($def);
+			
 		return $this->handle_form($form, 0);
 	}
 	

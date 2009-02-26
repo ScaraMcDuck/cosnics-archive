@@ -151,6 +151,11 @@ class RepoViewer
 		$this->parameters[$name] = $value;
 	}
 	
+	function get_creation_defaults()
+	{
+		return array();
+	}
+	
 	/**
 	 * Sets a default learning object. When the creator component of this
 	 * repo_viewer is displayed, the properties of the given learning object will

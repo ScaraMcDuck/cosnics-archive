@@ -108,7 +108,6 @@ class ForumToolViewerComponent extends ForumToolComponent
 			
 			$count = $rdm->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id()));
 			$last_post = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id()), array(ComplexLearningObjectItem :: PROPERTY_ADD_DATE), array(SORT_DESC), 0, 1 )->next_result();
-			$link = $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_TOPIC, Tool :: PARAM_PUBLICATION_ID => $this->pid, Tool :: PARAM_COMPLEX_ID => $topic->get_id())) . '#post_' . $last_post->get_id();
 			
 			$table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . 
 											 '" src="' . Theme :: get_image_path() . 'forum/topic_read.png" />');
@@ -117,13 +116,23 @@ class ForumToolViewerComponent extends ForumToolComponent
 			$table->setCellAttributes($row, 1, array('class' => 'row1'));
 			$table->setCellContents($row, 2, $udm->retrieve_user($topic->get_user_id())->get_fullname());
 			$table->setCellAttributes($row, 2, array('align' => 'center', 'class' => 'row2'));
-			$table->setCellContents($row, 3, $count - 1);
+			$table->setCellContents($row, 3, ($count > 1)?$count - 1: $count);
 			$table->setCellAttributes($row, 3, array('align' => 'center', 'class' => 'row1'));
 			$table->setCellContents($row, 4, '');
 			$table->setCellAttributes($row, 4, array('align' => 'center', 'class' => 'row2'));
-			$table->setCellContents($row, 5, $last_post->get_add_date() . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname() . 
-											 ' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') . 
-											 '" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.png" /></a>');
+			
+			if($last_post)
+			{
+				$link = $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_TOPIC, Tool :: PARAM_PUBLICATION_ID => $this->pid, Tool :: PARAM_COMPLEX_ID => $topic->get_id())) . '#post_' . $last_post->get_id();
+				$table->setCellContents($row, 5, $last_post->get_add_date() . '<br />' . $udm->retrieve_user($last_post->get_user_id())->get_fullname() . 
+												 ' <a href="' . $link . '"><img title="' . Translation :: get('ViewLastPost') . 
+												 '" src="' . Theme :: get_image_path() . 'forum/icon_topic_latest.png" /></a>');
+			}
+			else
+			{
+				$table->setCellContents($row, 5, '-');
+			}
+			
 			$table->setCellAttributes($row, 5, array('align' => 'center', 'class' => 'row1'));
 			$row++;
 		} 
