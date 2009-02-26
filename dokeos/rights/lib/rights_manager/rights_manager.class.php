@@ -1,14 +1,12 @@
 <?php
-/**
- * @package user.usermanager
- */
+
 require_once dirname(__FILE__).'/rights_manager_component.class.php';
 require_once dirname(__FILE__).'/../rights_data_manager.class.php';
-require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/or_condition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/and_condition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/equality_condition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/pattern_match_condition.class.php';
+require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 
 /**
  * A user manager provides some functionalities to the admin to manage
@@ -47,7 +45,8 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	private $recycle_bin_url;
 	private $breadcrumbs;
 	
-    function RightsManager($user = null) {
+    function RightsManager($user = null) 
+    {
     	$this->user = $user;
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
