@@ -50,7 +50,7 @@ class ForumToolPostQuoterComponent extends ForumToolComponent
 				$cloi->set_ref($object->get_id());
 				$cloi->set_user_id($this->get_user_id());
 				$cloi->set_parent($item->get_ref());
-				$cloi->set_display_order($rdm->select_next_display_order($pid));
+				$cloi->set_display_order($rdm->select_next_display_order($item->get_ref()));
 				
 				if($quote)
 					$cloi->set_reply_on_post($quote);

@@ -156,6 +156,11 @@ class RepoViewer
 		return array();
 	}
 	
+	function redirect_complex($type)
+	{
+		return true;
+	}
+	
 	/**
 	 * Sets a default learning object. When the creator component of this
 	 * repo_viewer is displayed, the properties of the given learning object will

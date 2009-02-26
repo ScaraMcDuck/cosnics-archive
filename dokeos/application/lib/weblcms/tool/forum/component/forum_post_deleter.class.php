@@ -17,22 +17,38 @@ class ForumToolPostDeleterComponent extends ForumToolComponent
 			}
 			
 			$datamanager = RepositoryDataManager :: get_instance();
+			$params = array(Tool :: PARAM_ACTION => 'view_topic', 'pid' => $pid, 'cid' => $cid);
 			
 			foreach($posts as $index => $post)
 			{
 				$cloi = $datamanager->retrieve_complex_learning_object_item($post);
 				$cloi->delete();
+				
+				$siblings = $datamanager->count_complex_learning_object_items(new EqualityCondition('parent', $cloi->get_parent()));
+				if($siblings == 0)
+				{
+					$wrappers = $datamanager->retrieve_complex_learning_object_items(new EqualityCondition('ref', $cloi->get_parent()));
+					while($wrapper = $wrappers->next_result())
+					{
+						$wrapper->delete();
+					}
+					
+					$datamanager->delete_learning_object_by_id($cloi->get_parent());
+					
+					$params[Tool :: PARAM_ACTION] = 'view';
+					$params['cid'] = null;
+				}
 			}
-			if(count($cloi_ids) > 1)
+			if(count($posts) > 1)
 			{
-				$message = htmlentities(Translation :: get('ForumPostDeleted'));
+				$message = htmlentities(Translation :: get('ForumPostsDeleted'));
 			}
 			else
 			{
-				$message = htmlentities(Translation :: get('ForumPostNotDeleted'));
+				$message = htmlentities(Translation :: get('ForumPostDeleted'));
 			}
 			
-			$this->redirect(null, $message, false, array(Tool :: PARAM_ACTION => 'view_topic', 'pid' => $pid, 'cid' => $cid));
+			$this->redirect(null, $message, false, $params);
 		}
 	}
 

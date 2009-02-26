@@ -114,7 +114,7 @@ abstract class RepoViewerCreatorComponent extends RepoViewerComponent
 			//$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_EDIT => $edit));
 			$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_EDIT => $edit));
 			
-			if($learning_object->is_complex_learning_object())
+			if($learning_object->is_complex_learning_object() && $this->redirect_complex($learning_object->get_type()))
 			{
 				$_SESSION['redirect_url'] = $this->get_url($redirect_params);
 				header('Location: index_repository_manager.php?go=createcomplex&publish=1&cloi_ref=' . $learning_object->get_id());

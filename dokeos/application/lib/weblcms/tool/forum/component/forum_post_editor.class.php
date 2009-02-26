@@ -38,6 +38,13 @@ class ForumToolPostEditorComponent extends ForumToolComponent
 					$cloi->update();
 				}
 				
+				if($cloi->get_display_order() == 1)
+				{
+					$parent = $datamanager->retrieve_learning_object($cloi->get_parent());
+					$parent->set_title($learning_object->get_title());
+					$parent->update();
+				}
+				
 				$message = htmlentities(Translation :: get('ForumPostUpdated'));
 				
 				$params = array();

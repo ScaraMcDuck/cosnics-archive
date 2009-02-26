@@ -22,6 +22,9 @@ class ForumTool extends Tool
 	const ACTION_DELETE_FORUM_POST = 'delete_post';
 	const ACTION_QUOTE_FORUM_POST = 'quote_post';
 	
+	const ACTION_CREATE_TOPIC = 'create';
+	const ACTION_DELETE_TOPIC = 'delete';
+	
 	/**
 	 * Inherited.
 	 */
@@ -61,6 +64,27 @@ class ForumTool extends Tool
 			case self :: ACTION_QUOTE_FORUM_POST :
 				$component = ForumToolComponent :: factory('PostQuoter', $this);
 				break;
+			case self :: ACTION_CREATE_TOPIC :
+				$component = ForumToolComponent :: factory('TopicCreator', $this);
+				break;
+			case self :: ACTION_DELETE_TOPIC :
+				$component = ForumToolComponent :: factory('TopicDeleter', $this);
+				break;
+			/*case self :: ACTION_CREATE_SUBFORUM :
+				$component = ForumToolComponent :: factory('SubforumCreator', $this);
+				break;
+			case self :: ACTION_EDIT_SUBFORUM :
+				$component = ForumToolComponent :: factory('SubforumEditor', $this);
+				break;
+			case self :: ACTION_DELETE_SUBFORUM :
+				$component = ForumToolComponent :: factory('SubforumDeleter', $this);
+				break;
+			case self :: ACTION_EDIT_FORUM :
+				$component = ForumToolComponent :: factory('ForumEditor', $this);
+				break;
+			case self :: ACTION_DELETE_FORUM :
+				$component = ForumToolComponent :: factory('TopicDeleter', $this);
+				break;*/
 			default :
 				$component = ForumToolComponent :: factory('Browser', $this);
 		}
