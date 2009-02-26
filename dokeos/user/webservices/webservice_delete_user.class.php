@@ -35,9 +35,8 @@ class WebServiceDeleteUser
 	function delete_user($input_user)
 	{
 		$u = new User(0,$input_user);
-		$udm = DatabaseUserDataManager :: get_instance();
 		$success = new ActionSuccess();
-		$success->set_success($udm->delete_user($u));
-		return $success->get_default_properties();	
+		$success->set_success($u->delete());
+		return $success->get_default_properties();
 	}
 }

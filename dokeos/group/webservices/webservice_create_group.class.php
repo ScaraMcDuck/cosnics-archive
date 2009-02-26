@@ -34,11 +34,9 @@ class WebServiceCreateGroup
 	
 	function create_group($input_group)
 	{
-		$gdm = DatabaseGroupDataManager :: get_instance();
 		$g = new Group(0,$input_group);
-		$g->set_id($gdm->get_next_group_id());
 		$success = new ActionSuccess();
-		$success->set_success($gdm->create_group($g));
-		return $success->get_default_properties();	
+		$success->set_success($g->create());
+		return $success->get_default_properties();
 	}
 }

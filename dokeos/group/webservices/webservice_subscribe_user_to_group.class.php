@@ -35,9 +35,8 @@ class WebServiceSubscribeUserGroup
 	function subscribe_user($input_group_rel_user)
 	{
 		$gru = new GroupRelUser($input_group_rel_user[group_id],$input_group_rel_user[user_id]);
-		$gdm = DatabaseGroupDataManager :: get_instance();
 		$success = new ActionSuccess();
-		$success->set_success($gdm->create_group_rel_user($gru));
-		return $success->get_default_properties();	
+		$success->set_success($gru->create());
+		return $success->get_default_properties();
 	}
 }
