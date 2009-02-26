@@ -111,4 +111,15 @@ $lang['home']['Repository'] = 'Repository';
 $lang['home']['Administration'] = 'Administration';
 $lang['home']['Logout'] = 'Logout';
 $lang['home']['ConfigureBlockFirst'] = 'Configure this block first';
+$lang['home']['PlaceholderBlockText'] = 'Placeholder block text';
+$lang['home']['Update'] = 'Update';
+$lang['home']['Admin'] = 'Administration';
+$lang['home']['PersonalMessenger'] = 'Personal Messenger';
+$lang['home']['SearchPortal'] = 'Search Portal';
+$lang['home']['True'] = 'True';
+$lang['home']['False'] = 'False';
+$lang['home']['Login'] = 'Login';
+$lang['home']['YourTabIsBeingDeleted'] = 'Your tab is being deleted';
+$lang['home']['YourTabIsDeleted'] = 'Your tab is deleted';
+$lang['home']['YourColumnIsBeingAdded'] = 'Your column is being added';
 ?>

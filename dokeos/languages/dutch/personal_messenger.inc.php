@@ -45,4 +45,16 @@ $lang['personal_messenger']['CreatorTitle'] = 'Aanmaken';
 $lang['personal_messenger']['Personal_message'] = 'Persoonlijk bericht';
 $lang['personal_messenger']['BrowserTitle'] = 'Verkenner';
 $lang['personal_messenger']['Reset'] = 'Herstart';
+$lang['personal_messenger']['MyAccount'] = ' ';
+$lang['personal_messenger']['Repository'] = ' ';
+$lang['personal_messenger']['Administration'] = ' ';
+$lang['personal_messenger']['Logout'] = ' ';
+$lang['personal_messenger']['Status'] = ' ';
+$lang['personal_messenger']['PersonalMessage'] = ' ';
+$lang['personal_messenger']['GeneralProperties'] = ' ';
+$lang['personal_messenger']['PersonalMessageFormTitle'] = ' ';
+$lang['personal_messenger']['PersonalMessageFormDescription'] = ' ';
+$lang['personal_messenger']['MyRepository'] = ' ';
+$lang['personal_messenger']['Save'] = ' ';
+$lang['personal_messenger']['FinderTitle'] = ' ';
 ?>
