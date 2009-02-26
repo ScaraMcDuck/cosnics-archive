@@ -32,6 +32,7 @@ abstract class Tool
 	const ACTION_MOVE_DOWN = 'move_down';
 	const ACTION_MOVE_TO_CATEGORY = 'move_to_category';
 	const ACTION_MOVE_SELECTED_TO_CATEGORY = 'move_selected_to_category';
+	const ACTION_MOVE = 'move';
 	const ACTION_DELETE = 'delete';
 	const ACTION_DELETE_CLOI = 'delete_cloi';
 	const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
@@ -143,6 +144,9 @@ abstract class Tool
 				break;
 			case self :: ACTION_MOVE_DOWN:
 				$_GET[self :: PARAM_MOVE] = -1;
+				$component = ToolComponent :: factory('', 'Move', $this);
+				break;
+			case self :: ACTION_MOVE:
 				$component = ToolComponent :: factory('', 'Move', $this);
 				break;
 			case self :: ACTION_MOVE_TO_CATEGORY:

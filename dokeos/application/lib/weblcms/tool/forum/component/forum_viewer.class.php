@@ -172,7 +172,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 	function create_forums_table_header($table)
 	{
 		$table->setCellContents(0, 0, '<b>' . Translation :: get('Subforums') . '</b>');
-		$table->setCellAttributes(0, 0, array('colspan' => 5, 'class' => 'category'));
+		$table->setCellAttributes(0, 0, array('colspan' => 6, 'class' => 'category'));
 		
 		$table->setHeaderContents(1, 0, Translation :: get('Forum'));
 		$table->setCellAttributes(1, 0, array('colspan' => 2));
@@ -182,6 +182,8 @@ class ForumToolViewerComponent extends ForumToolComponent
 		$table->setCellAttributes(1, 3, array('width' => 50));
 		$table->setHeaderContents(1, 4, Translation :: get('LastPost'));
 		$table->setCellAttributes(1, 4, array('width' => 140));
+		$table->setHeaderContents(1, 5, '');
+		$table->setCellAttributes(1, 5, array('width' => 125));
 	}
 	
 	function create_forums_table_content($table, $row)
@@ -200,6 +202,8 @@ class ForumToolViewerComponent extends ForumToolComponent
 			$table->setCellAttributes($row, 3, array('class' => 'row2'));
 			$table->setCellContents($row, 4, '');
 			$table->setCellAttributes($row, 4, array('class' => 'row2'));
+			$table->setCellContents($row, 5, $this->get_forum_actions($forum, true, true));
+			$table->setCellAttributes($row, 5, array('class' => 'row2'));
 			$row++;
 		} 
 	}
@@ -210,8 +214,69 @@ class ForumToolViewerComponent extends ForumToolComponent
 
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('NewTopic'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'*/ Theme :: get_common_image_path().'action_add.png', 
 				$this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_CREATE_TOPIC)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('NewSubForum'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'*/ Theme :: get_common_image_path().'action_add.png', 
+				$this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_CREATE_SUBFORUM)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('forum tool'));
 		return $action_bar;
+	}
+	
+	function get_forum_actions($forum, $first, $last)
+	{
+		if($this->is_allowed(DELETE_RIGHT))
+		{
+			$delete = array(
+				'href' => $this->get_url(array('subforum' => $forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_DELETE_SUBFORUM)),
+				'label' => Translation :: get('Delete'),
+				'img' => Theme :: get_common_image_path() . 'action_delete.png'
+			);
+		}
+			
+		if($this->is_allowed(EDIT_RIGHT))
+		{
+			
+			if($first)
+			{
+				$actions[] = array(
+					'label' => Translation :: get('MoveUpNA'),
+					'img' => Theme :: get_common_image_path() . 'action_up_na.png'
+				);
+			}
+			else
+			{
+				$actions[] = array(
+					'href' => $this->get_url(array('subforum' => $forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_MOVE_SUBFORUM, Tool :: PARAM_MOVE => -1)),
+					'label' => Translation :: get('MoveUp'),
+					'img' => Theme :: get_common_image_path() . 'action_up.png'
+				);
+			}
+			
+			if($last)
+			{
+				$actions[] = array(
+					'label' => Translation :: get('MoveDownNA'),
+					'img' => Theme :: get_common_image_path() . 'action_down_na.png'
+				);
+			}
+			else
+			{
+				$actions[] = array(
+					'href' => $this->get_url(array('subforum' => $forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_MOVE_SUBFORUM, Tool :: PARAM_MOVE => 1)),
+					'label' => Translation :: get('MoveDown'),
+					'img' => Theme :: get_common_image_path() . 'action_down.png'
+				);
+			}
+			
+			$actions[] = array(
+				'href' => $this->get_url(array('subforum' => $forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_EDIT_SUBFORUM)),
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_image_path() . 'action_edit.png'
+			);
+			
+			$actions[] = $delete;
+			
+		}
+		
+		return '<div style="float: right;">' . DokeosUtilities :: build_toolbar($actions) . '</div>';
 	}
 	
 }
