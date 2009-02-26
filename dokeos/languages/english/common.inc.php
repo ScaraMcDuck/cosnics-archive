@@ -90,4 +90,9 @@ $lang['common']['WhoisOnline'] = 'Users online';
 $lang['common']['SaturdayShort'] = 'Sat';
 $lang['common']['SaturdayLong'] = 'Saturday';
 $lang['common']['FinderTitle'] = 'Find';
+$lang['common']['YourBlockIsBeingAdded'] = 'Your block is being added';
+$lang['common']['YourTabIsBeingAdded'] = 'Your tab is being added';
+$lang['common']['Square'] = 'Square';
+$lang['common']['Select'] = 'Select';
+$lang['common']['Elipse'] = 'Elipse';
 ?>

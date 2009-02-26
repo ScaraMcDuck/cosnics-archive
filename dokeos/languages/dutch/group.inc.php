@@ -1,8 +1,55 @@
 <?php
-/*
- * Created on 27-feb-08
- *
- * To change the template for this generated file go to
- * Window - Preferences - PHPeclipse - PHP - Code Templates
- */
+$lang['group']['Find'] = 'Zoek';
+$lang['group']['Ok'] = 'Oké';
+$lang['group']['Name'] = 'Naam';
+$lang['group']['ThisFieldIsRequired'] = 'verplicht in te vullen veld';
+$lang['group']['Description'] = 'Beschrijving';
+$lang['group']['List'] = 'Lijst';
+$lang['group']['Create'] = 'Aanmaken';
+$lang['group']['ClassGroup'] = 'Klasgroep';
+$lang['group']['Unsubscribe'] = 'Uitschrijven';
+$lang['group']['UnsubscribeSelected'] = 'Geselecteerde uitschrijven';
+$lang['group']['Administration'] = 'Administratie';
+$lang['group']['ClassGroupList'] = 'Lijst van klasgroep';
+$lang['group']['Users'] = 'Gebruikers';
+$lang['group']['NoObjectSelected'] = 'Geen object geselecteerd';
+$lang['group']['Edit'] = 'Wijzigen';
+$lang['group']['AddUsers'] = 'Voeg gebruikers toe';
+$lang['group']['Truncate'] = 'Afknotten';
+$lang['group']['TruncateNA'] = 'Afknotten niet beschikbaar';
+$lang['group']['NotAllowed'] = 'Niet toegestaan';
+$lang['group']['SearchResults'] = 'Zoekresultaten';
+$lang['group']['ClassGroupCreate'] = 'Aanmaken van klasgroep';
+$lang['group']['AlreadyRegistered'] = 'Reeds geregistreerd';
+$lang['group']['ClassGroupCreated'] = 'Klasgroep aangemaakt';
+$lang['group']['ClassGroupNotCreated'] = 'Klasgroep niet aangemaakt';
+$lang['group']['DeleteGroup'] = 'Verwijder groep';
+$lang['group']['NoClassGroupsSelected'] = 'Geen klasgroepen geselecteerd';
+$lang['group']['UnsubscribeFromGroup'] = 'Uitschrijven uit groep';
+$lang['group']['NoClassGroupRelUserSelected'] = 'Geen klasgroep van gebruiker geselecteerd';
+$lang['group']['SubscribeToClassGroup'] = 'Inschrijven in klasgroep';
+$lang['group']['CourseAdmin'] = 'Cursusbeheerder';
+$lang['group']['Student'] = 'Student';
+$lang['group']['PlatformAdmin'] = 'Platformbeheerder';
+$lang['group']['Subscribe'] = 'Inschrijven';
+$lang['group']['EmptyGroup'] = 'gebruikers verwijderen';
+$lang['group']['NoClassGroupSelected'] = 'Geen klasgroep geselecteerd';
+$lang['group']['RemoveSelected'] = 'Verwijder geselecteerde';
+$lang['group']['TruncateSelected'] = 'Geselecteerde legen';
+$lang['group']['Delete'] = 'Verwijderen';
+$lang['group']['ClassGroupUpdate'] = 'Klasgroep vernieuwen';
+$lang['group']['SubscribeUsersToGroup'] = 'Inschrijven van gebruikers in de groep';
+$lang['group']['SubscribeUsers'] = 'Gebruikers inschrijven';
+$lang['group']['Next'] = 'Volgende';
+$lang['group']['Group'] = 'Groep';
+$lang['group']['Previous'] = 'Vorige';
+$lang['group']['SelectUsers'] = 'Gebruikers selecteren';
+$lang['group']['Searching'] = 'Zoeken';
+$lang['group']['NoResults'] = 'Geen resultaten gevonden';
+$lang['group']['Error'] = 'Fout';
+$lang['group']['SelectPublications'] = 'Selecteren van publicaties';
+$lang['group']['Confirm'] = 'Bevestig';
+$lang['group']['SubscribeConfirmationQuestion'] = 'Bent U zeker dat u zicht wilt ingeschreven worden?';
+$lang['group']['Home'] = 'Start';
+$lang['group']['YZ'] = 'YZ';
 ?>

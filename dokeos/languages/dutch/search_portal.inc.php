@@ -10,4 +10,8 @@ $lang['search_portal']['NoResultsFound'] = 'Geen zoekresultaten gevonden';
 $lang['search_portal']['Error'] = 'Fout';
 $lang['search_portal']['NoOptionsAvailable'] = 'Geen opties beschikbaar';
 $lang['search_portal']['Reset'] = 'Herstart';
+$lang['search_portal']['MyAccount'] = ' ';
+$lang['search_portal']['Repository'] = ' ';
+$lang['search_portal']['Administration'] = ' ';
+$lang['search_portal']['Logout'] = ' ';
 ?>

@@ -104,4 +104,7 @@ $lang['install']['SearchPortal'] = 'Zoekportaal';
 $lang['install']['Weblcms'] = 'Cursussen';
 $lang['install']['Default'] = 'Standaard';
 $lang['install']['ConfigureBlockFirst'] = 'Configureer de eerste blok';
+$lang['install']['HelpItemsInstalled'] = ' ';
+$lang['install']['Folder'] = ' ';
+$lang['install']['Site'] = ' ';
 ?>
