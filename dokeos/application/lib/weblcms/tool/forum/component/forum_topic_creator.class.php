@@ -46,6 +46,28 @@ class ForumToolTopicCreatorComponent extends ForumToolComponent
 				
 				$cloi->create();
 				
+				$children = RepositoryDataManager :: get_instance()->count_complex_learning_object_items(new EqualityCondition('parent', $object_id));
+				
+				if($children == 0)
+				{
+					$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($object_id);
+					
+					$learning_object = new AbstractLearningObject('forum_post', $this->get_user_id());
+					$learning_object->set_title($object->get_title());
+					$learning_object->set_description($object->get_description());
+					$learning_object->set_owner_id($this->get_user_id());
+					$learning_object->create();
+					
+					$cloi = ComplexLearningObjectItem :: factory('forum_post');
+	
+					$cloi->set_ref($learning_object->get_id());
+					$cloi->set_user_id($this->get_user_id());
+					$cloi->set_parent($object_id);
+					$cloi->set_display_order(1);
+					
+					$cloi->create();
+				}
+				
 				$this->my_redirect($pid);
 			}
 

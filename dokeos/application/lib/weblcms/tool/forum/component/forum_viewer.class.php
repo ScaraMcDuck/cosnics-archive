@@ -79,7 +79,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 	function create_topics_table_header($table)
 	{
 		$table->setCellContents(0, 0, '<b>' . Translation :: get('Topics') . '</b>');
-		$table->setCellAttributes(0, 0, array('colspan' => 6, 'class' => 'category'));
+		$table->setCellAttributes(0, 0, array('colspan' => 7, 'class' => 'category'));
 		
 		$table->setHeaderContents(1, 0, Translation :: get('Topics'));
 		$table->setCellAttributes(1, 0, array('colspan' => 2));
@@ -91,12 +91,14 @@ class ForumToolViewerComponent extends ForumToolComponent
 		$table->setCellAttributes(1, 4, array('width' => 50));
 		$table->setHeaderContents(1, 5, Translation :: get('LastPost'));
 		$table->setCellAttributes(1, 5, array('width' => 140));
+		$table->setHeaderContents(1, 6, '');
+		$table->setCellAttributes(1, 6, array('width' => 20));
 	}
 	
 	function create_topics_table_footer($table, $row)
 	{
 		$table->setCellContents($row, 0, '');
-		$table->setCellAttributes($row, 0, array('colspan' => 6, 'class' => 'category'));
+		$table->setCellAttributes($row, 0, array('colspan' => 7, 'class' => 'category'));
 	}
 	
 	function create_topics_table_content($table, &$row)
@@ -118,7 +120,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 			$table->setCellAttributes($row, 1, array('class' => 'row1'));
 			$table->setCellContents($row, 2, $udm->retrieve_user($topic->get_user_id())->get_fullname());
 			$table->setCellAttributes($row, 2, array('align' => 'center', 'class' => 'row2'));
-			$table->setCellContents($row, 3, ($count > 1)?$count - 1: $count);
+			$table->setCellContents($row, 3, ($count > 0)?$count - 1: $count);
 			$table->setCellAttributes($row, 3, array('align' => 'center', 'class' => 'row1'));
 			$table->setCellContents($row, 4, '');
 			$table->setCellAttributes($row, 4, array('align' => 'center', 'class' => 'row2'));
@@ -136,8 +138,24 @@ class ForumToolViewerComponent extends ForumToolComponent
 			}
 			
 			$table->setCellAttributes($row, 5, array('align' => 'center', 'class' => 'row1'));
+			$table->setCellContents($row, 6, $this->get_topic_actions($topic));
+			$table->setCellAttributes($row, 6, array('align' => 'center', 'class' => 'row1'));
 			$row++;
 		} 
+	}
+	
+	function get_topic_actions($topic)
+	{
+		if($this->is_allowed(DELETE_RIGHT))
+		{
+			$actions[] = array(
+				'href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_DELETE_TOPIC, 'topic' => $topic->get_id())),
+				'label' => Translation :: get('Delete'),
+				'img' => Theme :: get_common_image_path() . 'action_delete.png'
+			);
+		}
+		
+		return '<div style="float: right;">' . DokeosUtilities :: build_toolbar($actions) . '</div>';
 	}
 	
 	function get_forums_table_html()
