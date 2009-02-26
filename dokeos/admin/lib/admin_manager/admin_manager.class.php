@@ -16,6 +16,7 @@ require_once Path :: get_home_path(). 'lib/home_manager/home_manager.class.php';
 require_once Path :: get_help_path(). 'lib/help_manager/help_manager.class.php';
 require_once Path :: get_menu_path(). 'lib/menu_manager/menu_manager.class.php';
 require_once Path :: get_migration_path(). 'lib/migration_manager/migration_manager.class.php';
+require_once Path :: get_webservice_path() . 'lib/webservice_data_manager.class.php';
 require_once dirname(__FILE__).'/../admin_block.class.php';
 
 /**

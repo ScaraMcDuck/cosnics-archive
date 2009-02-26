@@ -1,0 +1,9 @@
+<xml>
+	<category name="manage groups"> 
+		<webservice name="update group" />
+		<webservice name="delete group" />
+		<webservice name="create group" />
+		<webservice name="subscribe users" />
+		<webservice name="unsubscribe users" />
+	</category>			
+</xml>

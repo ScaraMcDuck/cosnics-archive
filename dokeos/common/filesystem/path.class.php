@@ -33,6 +33,7 @@ define('SYS_APP_MENU_PATH', 'SYS_APP_MENU_PATH');
 define('SYS_APP_HOME_PATH', 'SYS_APP_HOME_PATH');
 define('SYS_APP_TRACKING_PATH', 'SYS_APP_TRACKING_PATH');
 define('SYS_APP_REPORTING_PATH', 'SYS_APP_REPORTING_PATH');
+define('SYS_APP_WEBSERVICE_PATH', 'SYS_APP_WEBSERVICE_PATH');
 
 // Files-paths
 define('WEB_ARCHIVE_PATH', 'WEB_ARCHIVE_PATH');
@@ -115,6 +116,8 @@ class Path
 				return self :: get(SYS_PATH) . 'tracking/';
 			case SYS_APP_REPORTING_PATH :
 				return self :: get(SYS_PATH) . 'reporting/';
+			case SYS_APP_WEBSERVICE_PATH :
+				return self :: get(SYS_PATH) . 'webservice/';
 			
 			// Application-paths
 			case SYS_APP_LIB_PATH :
@@ -229,6 +232,11 @@ class Path
     public static function get_reporting_path()
     {
     	return self :: get(SYS_APP_REPORTING_PATH);
+    }
+    
+	public static function get_webservice_path()
+    {
+    	return self :: get(SYS_APP_WEBSERVICE_PATH);
     }
 }
 ?>

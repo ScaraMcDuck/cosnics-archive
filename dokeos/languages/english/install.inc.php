@@ -112,4 +112,11 @@ $lang['install']['Reporting'] = 'Reporting';
 $lang['install']['ReportingAdded'] = 'Reporting successfully added';
 $lang['install']['TrackingAdded'] = 'Tracking successfully added';
 $lang['install']['VariousFinished'] = 'Various post-processing items successfully completed';
+$lang['install']['WebserviceSucces'] = 'Webservices successfully registered';
+$lang['install']['WebserviceRegistration'] = 'Webservice registered';
+$lang['install']['WebserviceCategoryCreation'] = 'Webservice category created';
+$lang['install']['WebserviceFailed'] = 'Webservice registering failed';
+$lang['install']['Webservices'] = 'Webservices';
+$lang['install']['Webservice'] = 'Webservice';
+$lang['install']['NoWebservices'] = 'There are no webservices registered';
 ?>
