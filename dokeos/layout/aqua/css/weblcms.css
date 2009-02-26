@@ -485,3 +485,31 @@ table.forum td.spacer
 	background-color: #aec7e4;
 	height: 5px;
 }
+
+table.forum .quotetitle, .attachtitle 
+{
+	background-color: #A9B8C2;
+	border-color: #A9B8C2;
+	border-style: solid;
+	border-width: 1px 1px 0;
+	color: #333333;
+	font-size: 0.85em;
+	font-weight: bold;
+	margin: 10px 5px 0;
+	padding: 4px;
+}
+
+table.forum .quotecontent, .attachcontent 
+{
+	background-color: #FAFAFA;
+	border-color: #A9B8C2;
+	border-style: solid;
+	border-width: 0 1px 1px;
+	color: #4B5C77;
+	font-family: "Lucida Grande","Trebuchet MS",Helvetica,Arial,sans-serif;
+	font-size: 1em;
+	font-weight: normal;
+	line-height: 1.4em;
+	margin: 0 5px 10px;
+	padding: 5px;
+}

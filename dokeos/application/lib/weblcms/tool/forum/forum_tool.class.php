@@ -53,7 +53,7 @@ class ForumTool extends Tool
 				$component = ForumToolComponent :: factory('PostCreator', $this);
 				break;
 			case self :: ACTION_EDIT_FORUM_POST :
-				$component = ForumToolComponent :: factory('PostDeleter', $this);
+				$component = ForumToolComponent :: factory('PostEditor', $this);
 				break;
 			case self :: ACTION_DELETE_FORUM_POST :
 				$component = ForumToolComponent :: factory('PostDeleter', $this);

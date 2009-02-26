@@ -3,6 +3,7 @@
 require_once dirname(__FILE__) . '/../forum_tool.class.php';
 require_once dirname(__FILE__) . '/../forum_tool_component.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
+require_once Path :: get_library_path() . 'html/bbcode_parser.class.php';
 
 class ForumToolTopicViewerComponent extends ForumToolComponent
 {
@@ -100,11 +101,12 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 			
 			$row++;
 			
-			$info = '<img src="' . $user->get_full_picture_url() . '" /><br /><br />' . $post->get_add_date();
+			$info = '<br /><img src="' . $user->get_full_picture_url() . '" /><br /><br />' . $post->get_add_date();
+			$message = $this->format_message($post->get_ref()->get_description());
 			
 			$table->setCellContents($row, 0, $info);
-			$table->setCellAttributes($row, 0, array('class' => $class, 'align' => 'center', 'height' => 150));
-			$table->setCellContents($row, 1, $post->get_ref()->get_description());
+			$table->setCellAttributes($row, 0, array('class' => $class, 'align' => 'center', 'valign' => 'top', 'height' => 150));
+			$table->setCellContents($row, 1, $message);
 			$table->setCellAttributes($row, 1, array('class' => $class, 'valign' => 'top', 'style' => 'padding: 10px; padding-top: 0px;'));
 			
 			$row++;
@@ -127,6 +129,20 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 		}
 	}
 	
+	private function format_message($message)
+	{
+		//$message = BbcodeParser :: get_instance()->parse($message);
+		//$message = preg_replace('#\[quote(?:="(.*?)")\]((?!\[quote(?:=".*?")\]).)?#ise', 
+		//						"<div class=\"quotetitle\">'\$1':</div><div class=\"quotecontent\">'\$2'" ,$message);
+		
+		$message = preg_replace('[\[quote="(.*)"\]]', 
+								"<div class=\"quotetitle\">$1 " . Translation :: get('wrote') . ":</div><div class=\"quotecontent\">" ,$message);
+		
+		$message = str_replace('[/quote]', '</div>', $message);
+		
+		return $message;
+	}
+	
 	function get_post_actions($cloi)
 	{
 		$post = $cloi->get_ref();
@@ -135,13 +151,13 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 		$cid = Request :: get(Tool :: PARAM_COMPLEX_ID);
 		
 		$actions[] = array(
-			'href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, Tool :: PARAM_ACTION => ForumTool :: ACTION_QUOTE_FORUM_POST, 'quote' => $cloi->get_ref()->get_id())),
+			'href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, Tool :: PARAM_ACTION => ForumTool :: ACTION_QUOTE_FORUM_POST, 'quote' => $cloi->get_id())),
 			'label' => Translation :: get('Quote'),
 			'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_quote.gif'
 		);
 
 		$actions[] = array(
-			'href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, Tool :: PARAM_ACTION => ForumTool :: ACTION_CREATE_FORUM_POST, 'reply' => $cloi->get_ref()->get_id())),
+			'href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, Tool :: PARAM_ACTION => ForumTool :: ACTION_CREATE_FORUM_POST, 'reply' => $cloi->get_id())),
 			'label' => Translation :: get('Reply'),
 			'img' => Theme :: get_image_path() . 'forum/buttons/button_pm_reply.gif'
 		);

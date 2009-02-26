@@ -26,6 +26,18 @@ class LearningObjectRepoViewer extends RepoViewer
 		$this->set_repo_viewer_actions(array ('creator','browser', 'finder'));
 		$this->parse_input_from_table();
 	}
+	
+	private $creation_defaults;
+	
+	function set_creation_defaults($defaults)
+	{
+		$this->creation_defaults = $defaults;
+	}
+	
+	function get_creation_defaults()
+	{
+		return $this->creation_defaults;
+	}
 
 	/**
 	 * Returns the repo_viewer's output in HTML format.
