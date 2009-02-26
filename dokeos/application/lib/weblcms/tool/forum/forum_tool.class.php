@@ -22,8 +22,8 @@ class ForumTool extends Tool
 	const ACTION_DELETE_FORUM_POST = 'delete_post';
 	const ACTION_QUOTE_FORUM_POST = 'quote_post';
 	
-	const ACTION_CREATE_TOPIC = 'create';
-	const ACTION_DELETE_TOPIC = 'delete';
+	const ACTION_CREATE_TOPIC = 'create_topic';
+	const ACTION_DELETE_TOPIC = 'delete_topic';
 	
 	/**
 	 * Inherited.
