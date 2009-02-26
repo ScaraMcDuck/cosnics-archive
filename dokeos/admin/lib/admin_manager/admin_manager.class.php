@@ -16,6 +16,7 @@ require_once Path :: get_home_path(). 'lib/home_manager/home_manager.class.php';
 require_once Path :: get_help_path(). 'lib/help_manager/help_manager.class.php';
 require_once Path :: get_menu_path(). 'lib/menu_manager/menu_manager.class.php';
 require_once Path :: get_migration_path(). 'lib/migration_manager/migration_manager.class.php';
+require_once Path :: get_webservice_path() . 'lib/webservice_manager/webservice_manager.class.php';
 require_once Path :: get_webservice_path() . 'lib/webservice_data_manager.class.php';
 require_once dirname(__FILE__).'/../admin_block.class.php';
 
@@ -363,26 +364,30 @@ class AdminManager
 		$group_manager = new GroupManager($user->get_id());
 		$info[] = $group_manager->get_application_platform_admin_links();
 		
-		// 6. Tracking
+		// 6. Webservices
+		$webservice_manager = new WebserviceManager($user->get_id());
+		$info[] = $webservice_manager->get_application_platform_admin_links();
+		
+		// 7. Tracking
 		$tracking_manager = new TrackingManager($user);
 		$info[] = $tracking_manager->get_application_platform_admin_links();
 		
-		// 7. Home
+		// 8. Home
 		$home_manager = new HomeManager($user->get_id());
 		$info[] = $home_manager->get_application_platform_admin_links();		
 		
-		// 8. Menu
+		// 9. Menu
 		$menu_manager = new MenuManager($user->get_id());
 		$info[] = $menu_manager->get_application_platform_admin_links();		
 		
-		// 9. Migration
+		// 10. Migration
 		$migration_manager = new MigrationManager($user->get_id());
 		$info[] = $migration_manager->get_application_platform_admin_links();	
 		
 		$help_manager = new HelpManager($user->get_id());
 		$info[] = $help_manager->get_application_platform_admin_links();	
 
-		// 10.The links for the plugin applications running on top of the essential Dokeos components
+		// 11.The links for the plugin applications running on top of the essential Dokeos components
 		$path = Path :: get_application_path() . 'lib';
 		
 		$applications = Application :: load_all();

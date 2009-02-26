@@ -14,7 +14,6 @@ require_once dirname(__FILE__).'/../../../common/condition/equality_condition.cl
 require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
 require_once dirname(__FILE__).'/component/group_browser/group_browser_table.class.php';
 require_once dirname(__FILE__).'/component/group_rel_user_browser/group_rel_user_browser_table.class.php';
-require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
 
 /**
  * A user manager provides some functionalities to the admin to manage

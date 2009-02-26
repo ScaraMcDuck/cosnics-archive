@@ -12,7 +12,6 @@ require_once dirname(__FILE__).'/wizard/license_install_wizard_page.class.php';
 require_once dirname(__FILE__).'/wizard/database_install_wizard_page.class.php';
 require_once dirname(__FILE__).'/wizard/application_install_wizard_page.class.php';
 require_once dirname(__FILE__).'/wizard/settings_install_wizard_page.class.php';
-
 require_once dirname(__FILE__).'/wizard/install_wizard_process.class.php';
 require_once dirname(__FILE__).'/wizard/install_wizard_display.class.php';
 /**
