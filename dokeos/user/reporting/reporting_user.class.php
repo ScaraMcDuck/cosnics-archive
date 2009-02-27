@@ -1,14 +1,47 @@
 <?php
-require_once '../trackers/browsers_tracker.class.php';
 class ReportingUser {
 
     function ReportingUser() {
     }
     
-    public static function getBrowers()
+    public static function getBrowsers()
     {
-    	$browerstracker = new BrowsersTracker();
-    	//dump($browerstracker->export('01/01/1990','01/01/2010',))
+    	require_once(dirname(__FILE__) . '/../trackers/browsers_tracker.class.php');
+    	$tracker = new BrowsersTracker();
+    	
+    	return Reporting :: array_from_tracker($tracker);
+    }
+    
+    public static function getCountries()
+    {
+    	require_once(dirname(__FILE__) . '/../trackers/countries_tracker.class.php');
+    	$tracker = new CountriesTracker();
+    	
+    	return Reporting :: array_from_tracker($tracker);
+    }
+    
+    public static function getOs()
+    {
+    	require_once(dirname(__FILE__) . '/../trackers/os_tracker.class.php');
+    	$tracker = new OSTracker();
+    	
+    	return Reporting :: array_from_tracker($tracker);
+    }
+    
+    public static function getProviders()
+    {
+    	require_once(dirname(__FILE__) . '/../trackers/providers_tracker.class.php');
+    	$tracker = new ProvidersTracker();
+    	
+    	return Reporting :: array_from_tracker($tracker);
+    }
+    
+    public static function getReferers()
+    {
+    	require_once(dirname(__FILE__) . '/../trackers/referrers_tracker.class.php');
+    	$tracker = new ReferrersTracker();
+    	
+    	return Reporting :: array_from_tracker($tracker);
     }
     
 	public static function getActiveInactive()
@@ -26,7 +59,7 @@ class ReportingUser {
  		return $array;
  	}//getActiveInactive
  	
- 	 	public static function getActiveInactivePerYearAndMonth()
+ 	public static function getActiveInactivePerYearAndMonth()
  	{
 		$array = array();
 		$data[] = array("Name"=>"Januari","Serie1"=>1500,"Serie2"=>100);
