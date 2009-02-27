@@ -78,13 +78,13 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 	
 	function retrieve_webservice_category($id)
 	{
-		$condition = new EqualityCondition(WebserviceCategoryRegistration :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(WebserviceCategoryRegistration :: get_table_name(), $condition);
+		$condition = new EqualityCondition(WebserviceCategory :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(WebserviceCategory :: get_table_name(), $condition);
 	}
 	
 	function retrieve_webservice_categories($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
-		return $this->database->retrieve_objects(WebserviceCategoryRegistration :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+		return $this->database->retrieve_objects(WebserviceCategory :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
 	function delete_webservice($webservice)

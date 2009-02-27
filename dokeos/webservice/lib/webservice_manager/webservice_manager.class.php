@@ -25,8 +25,10 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	const PARAM_APPLICATION = 'application';
 	
 	const PARAM_WEBSERVICE_ID = 'webservice';
+	const PARAM_WEBSERVICE_CATEGORY_ID = 'webservice_category_id';
 	
-	const ACTION_BROWSE_WEBSERVICES = 'browse_webservices';	
+	const ACTION_BROWSE_WEBSERVICES = 'browse_webservices';
+	const ACTION_BROWSE_WEBSERVICE_CATEGORIES = 'browse_webservice_categories';	
 	
 	private $parameters;
 	private $search_parameters;
