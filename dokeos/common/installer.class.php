@@ -353,7 +353,7 @@ abstract class Installer
 	 */
 	function register_block($array)
 	{
-		return ReportingBlocks :: create_block($array['name'],$array['application'],$array['function'],$array['displaymode']);
+		return ReportingBlocks :: create_block($array['name'],$array['application'],$array['function'],$array['displaymode'],$array['width'],$array['height']);
 	}
 	
 	function register_reporting()

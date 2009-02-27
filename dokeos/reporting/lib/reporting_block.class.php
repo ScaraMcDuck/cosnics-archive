@@ -11,9 +11,11 @@
  	const PROPERTY_APPLICATION = 'application';
  	const PROPERTY_FUNCTION = 'function';
  	const PROPERTY_DISPLAYMODE = 'displaymode';
+ 	const PROPERTY_WIDTH = 'width';
+ 	const PROPERTY_HEIGHT = 'height';
  	
  	//private $id='id',$name='Default block',$application,$application_url,$function,$displaymode;
- 	private $properties, $data, $reportingBlockLayout;
+ 	private $properties, $data;
  	
  	public function ReportingBlock($properties = array())
  	{
@@ -49,7 +51,9 @@
 			self :: PROPERTY_NAME,
 			self :: PROPERTY_APPLICATION,
 			self :: PROPERTY_FUNCTION,
-			self :: PROPERTY_DISPLAYMODE
+			self :: PROPERTY_DISPLAYMODE,
+			self :: PROPERTY_WIDTH,
+			self :: PROPERTY_HEIGHT
 		);
 	}
 
@@ -176,14 +180,24 @@
  		$this->set_property(self :: PROPERTY_DISPLAYMODE,$value);
  	}
  	
- 	public function get_reportingblocklayout()
+ 	public function get_width()
  	{
- 		return $this->reportingBlockLayout;
+ 		return $this->get_property(self :: PROPERTY_WIDTH);
  	}
  	
- 	public function set_reportingblocklayout($value)
+ 	public function set_width($value)
  	{
- 		$this->reportingBlockLayout = $value;
+ 		$this->set_property(self :: PROPERTY_WIDTH,$value);
+ 	}
+ 	
+ 	public function get_height()
+ 	{
+ 		return $this->get_property(self :: PROPERTY_HEIGHT);
+ 	}
+ 	
+ 	public function set_height($value)
+ 	{
+ 		$this->set_property(self :: PROPERTY_HEIGHT,$value);
  	}
  }//class Reporting_Block
 ?>

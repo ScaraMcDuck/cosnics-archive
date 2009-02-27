@@ -10,10 +10,9 @@ require_once("reporting_formatter.class.php");
 class Reporting{
 	public static function generate_block(&$reporting_block){
 		$reporting_block->retrieve_data();
-		
  		$html .= "<div class=\"reporting_block\" " .
- 				"style=\"height: ".$reporting_block->get_reportingblocklayout()->get_height()."px; " .
- 						"width: ".$reporting_block->get_reportingblocklayout()->get_width()."px\">";
+ 				"style=\"height: ".$reporting_block->get_height()."px; " .
+ 						"width: ".$reporting_block->get_width()."px\">";
  		$html .= "<div class=\"reporting_header\">";
  		$html .= Translation :: get('Displaymode').' ';
  		$html .= "<select name=\"charttype\">";
@@ -32,5 +31,25 @@ class Reporting{
  		
  		return $html;
 	}//generate_block
+	public static function array_from_tracker($tracker)
+	{
+		$c = 0;
+    	$array = array();
+    	$trackerdata = $tracker->export();
+    	
+    	foreach($trackerdata as $key => $value)
+    	{
+    		$data[$c]["Name"] = $value->get_name();
+    		$data[$c]["Serie1"] = $value->get_value();
+    		$c++;
+    	}
+    	
+    	$datadescription["Position"] = "Name";
+		$datadescription["Values"][] = "Serie1";
+		
+		array_push($array,$data);
+		array_push($array,$datadescription);
+ 		return $array;
+	}//array_from_tracker
 }//class reporting
 ?>
