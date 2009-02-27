@@ -45,75 +45,20 @@ class MenuInstaller extends Installer
 	
 	function create_basic_menu()
 	{
+		$applications = FileSystem :: get_directory_content(Path :: get_application_path() . 'lib/', FileSystem :: LIST_DIRECTORIES, false);
 		$values = $this->values;
 		
-		if(isset($values['install_weblcms']))
+		foreach($applications as $application)
 		{
-			$menu_item = new MenuItem();
-			$menu_item->set_title('Courses');
-			$menu_item->set_application('weblcms');
-			$menu_item->set_section('weblcms');
-			$menu_item->set_category(0);
-			$menu_item->create();
-		}
-		
-		if(isset($values['install_personal_calendar']) || isset($values['install_personal_messenger']) || isset($values['install_portfolio']))
-		{
-			$personal_item = new MenuItem();
-			$personal_item->set_title('Personal');
-			$personal_item->set_section('personal');
-			$personal_item->set_category(0);
-			$personal_item->create();
-			
-			if(isset($values['install_personal_calendar']))
+			if(isset($values['install_' . $application]))
 			{
 				$menu_item = new MenuItem();
-				$menu_item->set_title('Personal Calendar');
-				$menu_item->set_application('personal_calendar');
-				$menu_item->set_section('personal_calendar');
-				$menu_item->set_category($personal_item->get_id());
+				$menu_item->set_title(Translation :: get(DokeosUtilities :: underscores_to_camelcase($application)));
+				$menu_item->set_application($application);
+				$menu_item->set_section($application);
+				$menu_item->set_category(0);
 				$menu_item->create();
 			}
-			
-			if(isset($values['install_personal_messenger']))
-			{
-				$menu_item = new MenuItem();
-				$menu_item->set_title('Personal Messenger');
-				$menu_item->set_application('personal_messenger');
-				$menu_item->set_section('personal_messenger');
-				$menu_item->set_category($personal_item->get_id());
-				$menu_item->create();	
-			}	
-			
-			if(isset($values['install_portfolio']))
-			{
-				$menu_item = new MenuItem();
-				$menu_item->set_title('My Portfolio');
-				$menu_item->set_application('myportfolio');
-				$menu_item->set_section('myportfolio');
-				$menu_item->set_category($personal_item->get_id());
-				$menu_item->create();
-			}
-		}
-		
-		if(isset($values['install_profiler']))
-		{
-			$menu_item = new MenuItem();
-			$menu_item->set_title('Profiler');
-			$menu_item->set_application('profiler');
-			$menu_item->set_section('profiler');
-			$menu_item->set_category(0);
-			$menu_item->create();
-		}
-		
-		if(isset($values['install_search_portal']))
-		{
-			$menu_item = new MenuItem();
-			$menu_item->set_title('Search Portal');
-			$menu_item->set_application('search_portal');
-			$menu_item->set_section('search_portal');
-			$menu_item->set_category(0);
-			$menu_item->create();		
 		}
 		
 		return true;
