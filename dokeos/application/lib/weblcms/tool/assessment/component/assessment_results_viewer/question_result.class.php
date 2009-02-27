@@ -83,13 +83,17 @@ abstract class QuestionResult
 	{
 		for ($i = -$max_score; $i <= $max_score; $i++)
 		{
-			$values[] = $i;
+			$values[$i] = $i;
 		}
 		if ($this->results != null)
 		{
 			$result = $this->results[0];
-			$this->formvalidator->addElement('select', 'score'.$this->get_question()->get_id(), Translation :: get('ChangeScore'), $values);
+			$score = $this->formvalidator->createElement('select', 'score'.$this->get_question()->get_id(), Translation :: get('ChangeScore'), $values);
+			$defaults['score'.$this->get_question()->get_id()] = 0;
+			$this->formvalidator->addElement($score);
 		}
+		//print_r($defaults);
+		$this->formvalidator->setDefaults($defaults);
 	}
 	
 	function display_question_header($show_correct_answer = true)
