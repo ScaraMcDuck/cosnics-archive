@@ -24,11 +24,9 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	const PARAM_COMPONENT_ACTION = 'action';
 	const PARAM_APPLICATION = 'application';
 	
-	const PARAM_ROLE_ID = 'role';
+	const PARAM_WEBSERVICE_ID = 'webservice';
 	
-	const ACTION_BROWSE_WEBSERVICES = 'browse_webservices';
-	const ACTION_ACTIVATE_WEBSERVICE = 'activate';
-	const ACTION_DEACTIVATE_WEBSERVICE = 'deactivate';
+	const ACTION_BROWSE_WEBSERVICES = 'browse_webservices';	
 	
 	private $parameters;
 	private $search_parameters;
@@ -55,12 +53,20 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	 * Run this webservice manager
 	 */
 	function run()
-	{
+	{		
 		$action = $this->get_action();
-		$component = null;		
-		$this->set_action(self :: ACTION_BROWSE_WEBSERVICES);
-		$component = WebserviceManagerComponent :: factory('WebserviceBrowser', $this);		
-		$component->run();
+		
+		$component = null;
+		switch ($action)
+		{
+			case self :: ACTION_BROWSE_WEBSERVICES :								
+				$component = WebserviceManagerComponent :: factory('WebserviceBrowser', $this);			
+				break;
+			default :				
+				$component = WebserviceManagerComponent :: factory('WebserviceBrowser', $this);		
+		}									
+		$component->run(); //wordt gestart
+		
 	}
 	/**
 	 * Gets the current action.
@@ -229,6 +235,11 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		return WebserviceDataManager :: get_instance()->retrieve_webservices($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
+ 	function count_webservices($condition = null)
+	{
+		return WebserviceDataManager :: get_instance()->count_webservices($condition);
+	}
+	
 	function retrieve_webservice_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return WebserviceDataManager :: get_instance()->retrieve_webservice_categories($condition, $offset, $count, $order_property, $order_direction);
@@ -340,7 +351,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	public function get_application_platform_admin_links()
 	{
 		$links = array();
-		$links[] = array('name' => Translation :: get('Webservices'), 'action' => 'manage', 'url' => $this->get_link(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)));
+		$links[] = array('name' => Translation :: get('Manage'), 'action' => 'manage', 'url' => $this->get_link(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)));
 		return array('application' => array('name' => Translation :: get('Webservice'), 'class' => 'webservice'), 'links' => $links, 'search' => null);
 	}
 	

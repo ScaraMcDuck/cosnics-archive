@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../webservice_manager.class.php';
 require_once dirname(__FILE__).'/../webservice_manager_component.class.php';
-//require_once dirname(__FILE__).'/role_browser_table/role_browser_table.class.php';
+require_once dirname(__FILE__).'/webservice_browser_table/webservice_browser_table.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 /**
@@ -17,11 +17,10 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{
-
+	{		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(Translation :: get('Webservices')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseServices')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Webservices')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseWebservices')));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
@@ -42,7 +41,7 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
 	
 	function get_user_html()
 	{		
-		$table = new RoleBrowserTable($this, array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES), $this->get_condition());
+		$table = new WebserviceBrowserTable($this, array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES), $this->get_condition());
 		
 		$html = array();
 		$html[] = '<div style="float: right; width: 100%;">';
@@ -74,7 +73,7 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
 		
 		$action_bar->set_search_url($this->get_url(array(WebserviceManager :: PARAM_WEBSERVICE_ID => $this->get_webservice())));
 		//$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_CREATE_ROLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('webservices'));
+		//$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('webservice'));
 		
 		return $action_bar;
 	}

@@ -16,12 +16,10 @@ $usermgr = new UserManager(Session :: get_user_id());
 $user = $usermgr->retrieve_user(Session :: get_user_id());
 
 $wsmgr = new WebserviceManager($user);
-/*$wsmgr->display_header();
-$wsmgr->display_footer();*/
 
 try
-{
-	$wsmgr->run();
+{	
+	$wsmgr->run();	
 }
 catch(Exception $exception)
 {
@@ -29,5 +27,4 @@ catch(Exception $exception)
 	Display :: error_message($exception->getMessage());
 	$wsmgr->display_footer();
 }
-
 ?>

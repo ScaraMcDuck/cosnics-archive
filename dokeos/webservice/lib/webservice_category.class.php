@@ -141,7 +141,7 @@ class WebserviceCategory
 	function create()
 	{
 		$wdm = WebserviceDataManager :: get_instance();
-		$this->set_id($wdm->get_next_webservice_id());
+		$this->set_id($wdm->get_next_webservice_category_id());
 		return $wdm->create_webservice_category($this);
 	}
 }
