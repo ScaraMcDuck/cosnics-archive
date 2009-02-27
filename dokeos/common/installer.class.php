@@ -570,8 +570,7 @@ abstract class Installer
 			$this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceCategoryCreation') . ' : <em>'.$categories['name']. '</em>');					
 			if (!$webserviceCategory->create())
 			{
-				$this->installation_failed(Translation :: get('WebserviceCategoryCreationFailed') . ' : <em>'.$categories['name'] . '</em>');
-				return false;
+				return $this->installation_failed(Translation :: get('WebserviceCategoryCreationFailed') . ' : <em>'.$categories['name'] . '</em>');
 			}
 			$catparent = $webserviceCategory->get_id();									
 			$this->parse_webservices($categories, $catparent);
@@ -590,8 +589,7 @@ abstract class Installer
 					$this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceCategoryCreation') . ' : <em>'.$element['name']. '</em>');							
 					if (!$webserviceCategory->create())
 					{	
-						$this->installation_failed(Translation :: get('WebserviceCategoryCreationFailed') . ' : <em>'.$element['name'] . '</em>');
-						return false;
+						return $this->installation_failed(Translation :: get('WebserviceCategoryCreationFailed') . ' : <em>'.$element['name'] . '</em>');
 					}
 					$catparent = $webserviceCategory->get_id();
 					$this->parse_webservices($element, $catparent);
@@ -612,8 +610,7 @@ abstract class Installer
 			$this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceRegistration') . ' : <em>'.$webservices['name']. '</em>');					
 			if (!$webservice->create())
 			{
-				$this->installation_failed(Translation :: get('WebserviceRegistrationFailed') . ' : <em>'.$webservices['name'] . '</em>');
-				return false;
+				return $this->installation_failed(Translation :: get('WebserviceRegistrationFailed') . ' : <em>'.$webservices['name'] . '</em>');
 			}										
 			$this->parse_webservices($webservices, $parent);
 			
@@ -634,8 +631,7 @@ abstract class Installer
 					$this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceRegistration') . ' : <em>'.$element['name']. '</em>');
 					if (!$webservice->create())
 					{
-						$this->installation_failed(Translation :: get('WebserviceRegistrationFailed') . ' : <em>'.$element['name'] . '</em>');
-						return false;
+						return $this->installation_failed(Translation :: get('WebserviceRegistrationFailed') . ' : <em>'.$element['name'] . '</em>');
 					}							
 					$this->parse_webservices($element, $parent);
 				}
