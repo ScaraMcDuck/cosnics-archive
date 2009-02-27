@@ -5,8 +5,11 @@
 require_once dirname(__FILE__).'/../webservice_manager.class.php';
 require_once dirname(__FILE__).'/../webservice_manager_component.class.php';
 require_once dirname(__FILE__).'/webservice_browser_table/webservice_browser_table.class.php';
+require_once dirname(__FILE__).'/../../webservice_category_menu.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
+require_once dirname(__FILE__).'/../../webservice_category.class.php';
+
 /**
  * Weblcms component which allows the user to manage his or her user subscriptions
  */
@@ -32,10 +35,12 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
 		
 		$this->action_bar = $this->get_action_bar();
 		$output = $this->get_user_html();
+		$menu = $this->get_menu_html();
 		
 		$this->display_header($trail, false);
 		echo '<br />' . $this->action_bar->as_html() . '<br />';
 		echo $output;
+		echo $menu;
 		$this->display_footer();
 	}
 	
@@ -44,19 +49,39 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
 		$table = new WebserviceBrowserTable($this, array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES), $this->get_condition());
 		
 		$html = array();
-		$html[] = '<div style="float: right; width: 100%;">';
+		$html[] = '<div style="float: right; width: 80%;">';
 		$html[] = $table->as_html();		 
+		$html[] = '</div>';
+		
+		return implode($html, "\n");
+	}
+	
+	function get_menu_html()
+	{
+		$webservice_category_menu = new WebserviceCategoryMenu($this->get_webservice_category());
+		$html = array();
+		$html[] = '<div style="float: left; width: 20%;">';
+		$html[] = $webservice_category_menu->render_as_tree();
 		$html[] = '</div>';
 		
 		return implode($html, "\n");
 	}
 
 	function get_condition()
-	{	
+	{
+		$condition = new EqualityCondition(WebserviceCategory :: PROPERTY_PARENT, $this->get_webservice_category());
+		
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$condition = new LikeCondition(HelpItem :: PROPERTY_NAME, $query);
+			$or_conditions = array();
+			$or_conditions[] = new LikeCondition(WebserviceCategory :: PROPERTY_NAME, $query);
+			$or_condition = new OrCondition($or_conditions); 
+			
+			$and_conditions = array();
+			$and_conditions[] = $condition;
+			$and_conditions[] = $or_condition;
+			$condition = new AndCondition($and_conditions);
 		}
 		
 		return $condition;
@@ -67,11 +92,16 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
 		return (isset($_GET[WebserviceManager :: PARAM_WEBSERVICE_ID]) ? $_GET[WebserviceManager :: PARAM_WEBSERVICE_ID] : 0);
 	}
 	
+	function get_webservice_category()
+	{
+		return (isset($_GET[WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID]) ? $_GET[WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID] : 0);
+	}
+	
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
-		$action_bar->set_search_url($this->get_url(array(WebserviceManager :: PARAM_WEBSERVICE_ID => $this->get_webservice())));
+		$action_bar->set_search_url($this->get_url(array(WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID => $this->get_webservice_category())));
 		//$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_CREATE_ROLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		//$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('webservice'));
 		
