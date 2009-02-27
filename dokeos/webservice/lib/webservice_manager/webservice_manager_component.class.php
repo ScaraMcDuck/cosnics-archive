@@ -22,7 +22,7 @@ abstract class WebserviceManagerComponent {
 	
 	/**
 	 * Constructor
-	 * @param GroupsManager $groups_manager The user manager which
+	 * @param WebserviceManager $groups_manager The user manager which
 	 * provides this component
 	 */
     function WebserviceManagerComponent($webservice_manager) 
@@ -163,6 +163,11 @@ abstract class WebserviceManagerComponent {
 		return $this->get_parent()->get_search_validate();
 	}
 	
+	function count_webservices($conditions = null)
+	{
+		return $this->get_parent()->count_webservices($conditions);
+	}
+	
 	/**
 	 * @see GroupsManager::force_menu_url()
 	 */
@@ -221,7 +226,7 @@ abstract class WebserviceManagerComponent {
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" component');
-		}
+		} 
 		$class = 'WebserviceManager'.$type.'Component';
 		require_once $filename;
 		return new $class($user_manager);

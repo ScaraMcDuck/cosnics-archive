@@ -55,6 +55,8 @@ abstract class WebserviceDataManager
 	
 	abstract function get_next_webservice_id();
 	
+	abstract function get_next_webservice_category_id();
+	
 	abstract function count_webservices($conditions = null);
 	
 	abstract function truncate_webservice($id);

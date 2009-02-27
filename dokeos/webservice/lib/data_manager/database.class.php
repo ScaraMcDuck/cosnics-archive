@@ -37,6 +37,12 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 		return $id;
 	}
 	
+	function get_next_webservice_category_id()
+	{
+		$id = $this->database->get_next_id(WebserviceCategory :: get_table_name());
+		return $id;
+	}
+	
 	function count_webservices($conditions = null)
 	{
 		return $this->database->count_objects(WebserviceRegistration :: get_table_name(), $conditions);
