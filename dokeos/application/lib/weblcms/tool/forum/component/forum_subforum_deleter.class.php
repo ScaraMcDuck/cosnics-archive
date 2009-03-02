@@ -8,6 +8,7 @@ class ForumToolSubforumDeleterComponent extends ForumToolComponent
 		{ 
 			$forum = Request :: get('forum');
 			$subforums = Request :: get('subforum');
+			$is_subforum = Request :: get('is_subforum');
 			$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID); 
 				
 			if (!is_array($subforums))
@@ -17,6 +18,8 @@ class ForumToolSubforumDeleterComponent extends ForumToolComponent
 			
 			$datamanager = RepositoryDataManager :: get_instance();
 			$params = array(Tool :: PARAM_ACTION => 'view', 'pid' => $pid);
+			if($is_subforum)
+				$params['forum'] = $forum;
 			
 			foreach($subforums as $subforum)
 			{

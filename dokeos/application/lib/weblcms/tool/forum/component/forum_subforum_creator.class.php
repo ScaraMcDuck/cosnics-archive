@@ -12,6 +12,7 @@ class ForumToolSubforumCreatorComponent extends ForumToolComponent
 		{
 			$pid = Request :: get('pid');
 			$forum = Request :: get('forum');
+			$is_subforum = Request :: get('is_subforum');
 			
 			if(!$pid || !$forum)
 			{
@@ -24,6 +25,7 @@ class ForumToolSubforumCreatorComponent extends ForumToolComponent
 			$pub->set_parameter(Tool :: PARAM_ACTION, ForumTool :: ACTION_CREATE_SUBFORUM);
 			$pub->set_parameter('pid', $pid);
 			$pub->set_parameter('forum', $forum);
+			$pub->set_parameter('is_subforum', $is_subforum);
 			
 			$object_id = Request :: get('object');
 			
@@ -39,26 +41,38 @@ class ForumToolSubforumCreatorComponent extends ForumToolComponent
 			{	
 				$cloi = ComplexLearningObjectItem :: factory('forum');
 
+				if($is_subforum)
+				{
+					$subforum = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($forum)->get_ref();
+					$cloi->set_parent($subforum);
+				}
+				else
+				{
+					$cloi->set_parent($forum);
+				}
+				
 				$cloi->set_ref($object_id);
 				$cloi->set_user_id($this->get_user_id());
-				$cloi->set_parent($forum);
 				$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($forum));
 				
 				$cloi->create();
 				
-				$this->my_redirect($pid);
+				$this->my_redirect($pid, $forum, $is_subforum);
 			}
 
 		}
 	}
 	
-	private function my_redirect($pid)
+	private function my_redirect($pid, $forum, $is_subforum)
 	{
 		$message = htmlentities(Translation :: get('SubforumCreated'));
 				
 		$params = array();
 		$params['pid'] = $pid;
 		$params['tool_action'] = 'view'; 
+		
+		if($is_subforum)
+			$params['forum'] = $forum;
 	
 		$this->redirect(null, $message, '', $params);
 	}

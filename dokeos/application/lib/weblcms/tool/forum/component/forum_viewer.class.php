@@ -9,6 +9,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 	private $action_bar;
 	private $forum;
 	private $current_forum;
+	private $is_subforum;
 	private $forums;
 	private $topics;
 	private $pid;
@@ -23,8 +24,22 @@ class ForumToolViewerComponent extends ForumToolComponent
 		
 		$this->pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
 		$this->forum = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($this->pid)->get_learning_object();
-		$this->current_forum = $this->forum;
-		$this->retrieve_children($this->forum);
+		
+		$current_id = Request :: get('forum');
+		if(!isset($current_id))
+		{
+			$this->current_forum = $this->forum;
+			$this->is_subforum = false;
+			$this->retrieve_children($this->current_forum);
+		}
+		else
+		{
+			$rdm = RepositoryDataManager :: get_instance();
+			$this->current_forum = $rdm->retrieve_complex_learning_object_item($current_id);
+			$lo_current_forum = $rdm->retrieve_learning_object($this->current_forum->get_ref());
+			$this->retrieve_children($lo_current_forum);
+			$this->is_subforum = true;  
+		}
 		
 		$this->action_bar = $this->get_action_bar();
 		$topics_table = $this->get_topics_table_html();
@@ -149,7 +164,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 		if($this->is_allowed(DELETE_RIGHT))
 		{
 			$actions[] = array(
-				'href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_DELETE_TOPIC, 'topic' => $topic->get_id())),
+				'href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, Tool :: PARAM_ACTION => ForumTool :: ACTION_DELETE_TOPIC, 'topic' => $topic->get_id())),
 				'label' => Translation :: get('Delete'),
 				'img' => Theme :: get_common_image_path() . 'action_delete.png'
 			);
@@ -183,14 +198,14 @@ class ForumToolViewerComponent extends ForumToolComponent
 		$table->setHeaderContents(1, 4, Translation :: get('LastPost'));
 		$table->setCellAttributes(1, 4, array('width' => 140));
 		$table->setHeaderContents(1, 5, '');
-		$table->setCellAttributes(1, 5, array('width' => 125));
+		$table->setCellAttributes(1, 5, array('width' => 40));
 	}
 	
 	function create_forums_table_content($table, $row)
 	{
 		foreach($this->forums as $forum)
 		{
-			$title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $this->forum->get_id(), Tool :: PARAM_COMPLEX_ID => $forum->get_id())) . '">' . $forum->get_ref()->get_title() . '</a><br />' . strip_tags($forum->get_ref()->get_description());
+			$title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $this->pid, 'forum' => $forum->get_id())) . '">' . $forum->get_ref()->get_title() . '</a><br />' . strip_tags($forum->get_ref()->get_description());
 			
 			$table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.png" />');
 			$table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px;'));
@@ -213,9 +228,9 @@ class ForumToolViewerComponent extends ForumToolComponent
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('NewTopic'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'*/ Theme :: get_common_image_path().'action_add.png', 
-				$this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_CREATE_TOPIC)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+				$this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, Tool :: PARAM_ACTION => ForumTool :: ACTION_CREATE_TOPIC)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('NewSubForum'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'*/ Theme :: get_common_image_path().'action_add.png', 
-				$this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_CREATE_SUBFORUM)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+				$this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, Tool :: PARAM_ACTION => ForumTool :: ACTION_CREATE_SUBFORUM)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('forum tool'));
 		return $action_bar;
 	}
@@ -225,7 +240,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 		if($this->is_allowed(DELETE_RIGHT))
 		{
 			$delete = array(
-				'href' => $this->get_url(array('subforum' => $forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_DELETE_SUBFORUM)),
+				'href' => $this->get_url(array('subforum' => $forum->get_id(), 'is_subforum' => $this->is_subforum, 'forum' => $this->current_forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_DELETE_SUBFORUM, 'pid' => $this->pid)),
 				'label' => Translation :: get('Delete'),
 				'img' => Theme :: get_common_image_path() . 'action_delete.png'
 			);
@@ -234,7 +249,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			
-			if($first)
+			/*if($first)
 			{
 				$actions[] = array(
 					'label' => Translation :: get('MoveUpNA'),
@@ -264,10 +279,10 @@ class ForumToolViewerComponent extends ForumToolComponent
 					'label' => Translation :: get('MoveDown'),
 					'img' => Theme :: get_common_image_path() . 'action_down.png'
 				);
-			}
+			}*/
 			
 			$actions[] = array(
-				'href' => $this->get_url(array('subforum' => $forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_EDIT_SUBFORUM)),
+				'href' => $this->get_url(array('subforum' => $forum->get_id(), 'is_subforum' => $this->is_subforum, 'forum' => $this->current_forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_EDIT_SUBFORUM, 'pid' => $this->pid)),
 				'label' => Translation :: get('Edit'),
 				'img' => Theme :: get_common_image_path() . 'action_edit.png'
 			);
