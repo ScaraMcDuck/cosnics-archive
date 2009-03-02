@@ -401,11 +401,14 @@ abstract class Installer
 		{
 			$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
 			
-			foreach($files as $file)
+			if(count($files) > 0)
 			{
-				if ((substr($file, -3) == 'xml'))
+				foreach($files as $file)
 				{
-					$this->create_tracking_storage_unit($file);
+					if ((substr($file, -3) == 'xml'))
+					{
+						$this->create_tracking_storage_unit($file);
+					}
 				}
 			}
 		}
