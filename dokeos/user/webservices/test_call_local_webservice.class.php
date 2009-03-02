@@ -30,7 +30,7 @@ class TestCallLocalWebservice
 	
 	function run()
 	{	
-		/*$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+		$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		$functions = array();
 		
 		{
@@ -39,7 +39,7 @@ class TestCallLocalWebservice
 				'parameters' => '',
 				'handler' => 'handle_webservice'
 			);
-		}*/
+		}
 		
 		
 		/*$user = new User();

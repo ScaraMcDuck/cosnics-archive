@@ -8,7 +8,7 @@ require_once Path :: get_library_path().'installer.class.php';
  * This installer can be used to create the storage structure for the
  * group application.
  */
-class WebservicesInstaller extends Installer
+class WebserviceInstaller extends Installer
 {
 	/**
 	 * Constructor
