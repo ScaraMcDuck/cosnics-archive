@@ -35,8 +35,8 @@ class MatchingQuestionForm extends LearningObjectForm
 	}
 	function setDefaults($defaults = array ())
 	{
-		if(!$this->isSubmitted())
-		{
+		//if(!$this->isSubmitted())
+		//{
 			$object = $this->get_learning_object();
 			if(!is_null($object))
 			{
@@ -54,13 +54,15 @@ class MatchingQuestionForm extends LearningObjectForm
 					$defaults['match'][$index] = $match;
 				}
 			}
-			$number_of_options = intval($_SESSION['mc_number_of_options']);
+			$number_of_options = intval($_SESSION['mq_number_of_options']);
 		
+			//echo 'defaults '.$number_of_options;
 			for($option_number = 0; $option_number <$number_of_options ; $option_number++)
 			{
-				$defaults['option_weight'][$option_number] = 0;
+				//echo $option_number;
+				$defaults['option_weight'][$option_number] = 1;
 			}
-		}
+		//}
 
 		parent :: setDefaults($defaults);
 	}
