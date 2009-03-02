@@ -5,6 +5,7 @@
   <property name="locked" type="integer"/>
   <property name="total_topics" type="integer" unsigned="1" default="0"/>
   <property name="total_posts" type="integer" unsigned="1" default="0"/>
+  <property name="last_post" type="integer" unsigned="1" default="0"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
