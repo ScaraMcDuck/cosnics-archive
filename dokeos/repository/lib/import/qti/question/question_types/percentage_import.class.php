@@ -8,10 +8,16 @@ class PercentageQuestionQtiImport extends QuestionQtiImport
 	{
 		$data = $this->get_file_content_array();
 		
-		$question_type = Question :: TYPE_PERCENTAGE;
 		$title = $data['title'];
 		$descr = $data['itemBody']['sliderInteraction']['prompt'];
-		$question = parent :: create_question($title, $descr, $question_type);
+		$low = 0;
+		$high = 100;
+		$question = new RatingQuestion();
+		$question->set_title($title);
+		$question->set_description($description);
+		$question->set_high($high);
+		$question->set_low($low);
+		parent :: create_question($question);
 		return $question->get_id();
 	}
 }
