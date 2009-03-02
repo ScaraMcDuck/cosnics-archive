@@ -11,6 +11,7 @@ require_once Path :: get_repository_path(). 'lib/repository_manager/repository_m
 require_once Path :: get_user_path(). 'lib/user_manager/user_manager.class.php';
 require_once Path :: get_group_path(). 'lib/group_manager/group_manager.class.php';
 require_once Path :: get_tracking_path(). 'lib/tracking_manager/tracking_manager.class.php';
+require_once Path :: get_reporting_path(). 'lib/reporting_manager/reporting_manager.class.php';
 require_once Path :: get_rights_path(). 'lib/rights_manager/rights_manager.class.php';
 require_once Path :: get_home_path(). 'lib/home_manager/home_manager.class.php';
 require_once Path :: get_help_path(). 'lib/help_manager/help_manager.class.php';
@@ -372,22 +373,26 @@ class AdminManager
 		$tracking_manager = new TrackingManager($user);
 		$info[] = $tracking_manager->get_application_platform_admin_links();
 		
-		// 8. Home
+		// 8. Reporting
+		$reporting_manager = new ReportingManager($user);
+		$info[] = $reporting_manager->get_application_platform_admin_links();
+		
+		// 9. Home
 		$home_manager = new HomeManager($user->get_id());
 		$info[] = $home_manager->get_application_platform_admin_links();		
 		
-		// 9. Menu
+		// 10. Menu
 		$menu_manager = new MenuManager($user->get_id());
 		$info[] = $menu_manager->get_application_platform_admin_links();		
 		
-		// 10. Migration
+		// 11. Migration
 		$migration_manager = new MigrationManager($user->get_id());
 		$info[] = $migration_manager->get_application_platform_admin_links();	
 		
 		$help_manager = new HelpManager($user->get_id());
 		$info[] = $help_manager->get_application_platform_admin_links();	
 
-		// 11.The links for the plugin applications running on top of the essential Dokeos components
+		// 12.The links for the plugin applications running on top of the essential Dokeos components
 		$path = Path :: get_application_path() . 'lib';
 		
 		$applications = Application :: load_all();

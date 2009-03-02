@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @author Michael Kyndt
+ */
 require_once Path :: get_library_path(). 'database/result_set.class.php';
 /**
  * This class represents a resultset which represents a set of courses.

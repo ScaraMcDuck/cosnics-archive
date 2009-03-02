@@ -1,4 +1,7 @@
 <?php
+/**
+ * @author Michael Kyndt
+ */
 class ReportingUser {
 
     function ReportingUser() {
