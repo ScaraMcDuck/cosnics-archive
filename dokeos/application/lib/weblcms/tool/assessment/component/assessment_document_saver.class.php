@@ -32,11 +32,11 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 	
 	function save_assessment_docs($assessment_id)
 	{
-		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($assessment_id);
+		//$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($assessment_id);
 		$track = new WeblcmsAssessmentAttemptsTracker();
-		$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
+		$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $assessment_id);
 		$user_assessments = $track->retrieve_tracker_items($condition);
-
+		//dump($user_assessments);
 		foreach ($user_assessments as $user_assessment)
 		{
 			$ua_filenames = $this->save_user_assessment_docs($user_assessment);
@@ -61,17 +61,22 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 			if ($question->get_type() == 'open_question')
 			{
 				if ($question->get_question_type() == OpenQuestion :: TYPE_DOCUMENT || $question->get_question_type() == OpenQuestion :: TYPE_OPEN_WITH_DOCUMENT)
+				{
+					$c_questions[] = $clo_question;
 					$questions[] = $question;
+				}
 			}
 		}
 		
-		foreach ($questions as $question)
+		foreach ($questions as $i => $question)
 		{
+			$clo_question = $c_questions[$i];
 			$track = new WeblcmsQuestionAttemptsTracker();
 			$conditiona = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
-			$conditionq = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_id());
+			$conditionq = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $clo_question->get_id());
 			$condition = new AndCondition(array($conditiona, $conditionq));
 			$user_questions = $track->retrieve_tracker_items($condition);
+			//print_r($condition);
 			//dump($user_questions);
 			if ($question->get_question_type() == OpenQuestion :: TYPE_DOCUMENT)
 			{
@@ -81,8 +86,12 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 			{
 				$user_question = $user_questions[1];
 			}
-			$document = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_question->get_answer(), 'document');
-			$filenames[] = Path :: get(SYS_REPO_PATH).$document->get_path();
+			
+			if ($user_question != null)
+			{
+				$document = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_question->get_answer(), 'document');
+				$filenames[] = Path :: get(SYS_REPO_PATH).$document->get_path();
+			}
 		}
 		
 		return $filenames;

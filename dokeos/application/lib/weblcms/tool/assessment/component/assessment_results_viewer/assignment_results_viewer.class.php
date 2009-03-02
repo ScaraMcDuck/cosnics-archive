@@ -10,7 +10,7 @@ class AssignmentResultsViewer extends ResultsViewer
 
 //		$this->addElement('html', '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$assessment->get_icon_name().'.png);">');
 //		$this->addElement('html', '<div class="title" style="font-size: 14px">');
-		$this->addElement('html', '<h3>' . Translation :: get('ViewAssignmentResults').': '.$assessment->get_title() . '</h3>');
+		$this->addElement('html', '<h3>' . Translation :: get('ViewExerciseResults').': '.$assessment->get_title() . '</h3>');
 //		$this->addElement('html', '</div>');
 //		$this->addElement('html', '<div class="description">');
 		$this->addElement('html', $assessment->get_description());
@@ -28,12 +28,12 @@ class AssignmentResultsViewer extends ResultsViewer
 			$question = $dm->retrieve_learning_object($clo_question->get_ref());
 			$track = new WeblcmsQuestionAttemptsTracker();
 			$condition_ass = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $this->get_user_assessment()->get_id());
-			$condition_question = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_id());
+			$condition_question = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $clo_question->get_id());
 			$condition = new AndCondition(array($condition_ass, $condition_question));
 			$q_results = $track->retrieve_tracker_items($condition);
-			$question_result = QuestionResult :: create_question_result($this, $question, $q_results, $this->get_edit_rights(), $count);
+			$question_result = QuestionResult :: create_question_result($this, $clo_question, $q_results, $this->get_edit_rights(), $count, parent :: get_user_assessment()->get_id());
 			$count++;
-			$question_result->display_assignment();
+			$question_result->display_exercise();
 		}
 		if ($_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
 		{
@@ -42,13 +42,9 @@ class AssignmentResultsViewer extends ResultsViewer
 
 			$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		}
-		$ass_score = parent :: get_user_assessment()->get_total_score();
-		if ($ass_score != null)
-		{
-			$max_total_score = $assessment->get_maximum_score();
-			$pct_score = round((parent :: get_user_assessment()->get_total_score() / $max_total_score) * 10000) / 100;
-			$this->addElement('html', '<h3>'.Translation :: get('TotalScore').': '.$ass_score."/".$max_total_score.' ('.$pct_score.'%)</h3><br />');
-		}
+		$max_total_score = $assessment->get_maximum_score();
+		$pct_score = round((parent :: get_user_assessment()->get_total_score() / $max_total_score) * 10000) / 100;
+		$this->addElement('html', '<h3>'.Translation :: get('TotalScore').': '.parent :: get_user_assessment()->get_total_score()."/".$max_total_score.' ('.$pct_score.'%)</h3><br />');
 			
 	}
 }
