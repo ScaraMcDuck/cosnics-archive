@@ -152,7 +152,6 @@ class MDB2_Extended extends MDB2_Module_Common
         $params = array_values($fields_values);
         if (empty($params)) {
             $query = $this->buildManipSQL($table, $keys, $mode, $where);
-
             $db =& $this->getDBInstance();
             if (PEAR::isError($db)) {
                 return $db;
@@ -169,6 +168,7 @@ class MDB2_Extended extends MDB2_Module_Common
             }
             $result =& $stmt->execute($params, $result_class);
             $stmt->free();
+
         }
         return $result;
     }

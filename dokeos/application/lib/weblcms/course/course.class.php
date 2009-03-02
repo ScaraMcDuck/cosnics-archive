@@ -5,6 +5,7 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager/weblcms.class.php';
 
 /**
  *	This class represents a course in the weblcms.
@@ -122,7 +123,7 @@ class Course {
     {
     	$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
-    }
+	}
 
     /**
 	 * Gets a default property of this course object by name.
@@ -150,6 +151,11 @@ class Course {
 	function set_default_property($name, $value)
 	{
 		$this->defaultProperties[$name] = $value;
+	}
+	
+    function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
 	}
 
 	/**
@@ -587,5 +593,6 @@ class Course {
 			return true;
 		}
 	}
+	
 }
 ?>
