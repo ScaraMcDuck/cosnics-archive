@@ -31,7 +31,9 @@ class RepositoryManagerAddLearningObjectsComponent extends RepositoryManagerComp
 			
 			foreach ($ids as $ref)
 			{
-				$cloi = new ComplexLearningObjectItem();
+				$type = RepositoryDataManager :: get_instance()->determine_learning_object_type($ref);
+				
+				$cloi = ComplexLearningObjectItem :: factory($type);
 				
 				$cloi->set_ref($ref);
 				$cloi->set_user_id($this->get_user()->get_id());

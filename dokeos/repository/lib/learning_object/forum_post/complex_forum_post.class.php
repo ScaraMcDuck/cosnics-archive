@@ -24,6 +24,22 @@ class ComplexForumPost extends ComplexLearningObjectItem
 		return array(self :: PROPERTY_REPLY_ON_POST);
 	}
 	
+	function create()
+	{
+		parent :: create();
+		
+		$parent = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->get_parent());
+		$parent->add_post();
+	}
+	
+	function delete()
+	{
+		parent :: delete();
+		
+		$parent = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->get_parent());
+		$parent->remove_post();
+	}
+	
 	/*function get_allowed_types()
 	{
 		return array('forum_post');
