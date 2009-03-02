@@ -67,6 +67,7 @@ class QuestionQtiImport extends QtiImport
 	
 	function create_question($question)
 	{
+		//dump($question);
 		$question->set_owner_id($this->get_user()->get_id());
 		$question->set_parent_id(0);
 		return $question->create();

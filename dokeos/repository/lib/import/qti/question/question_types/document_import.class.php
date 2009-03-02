@@ -14,7 +14,7 @@ class DocumentQuestionQtiImport extends QuestionQtiImport
 		$descr = $data['itemBody']['uploadInteraction']['prompt'];
 		$question->set_title($title);
 		$question->set_description($descr);
-		$question->create();
+		//$question->create();
 		parent :: create_question($question);
 		return $question->get_id();
 	}

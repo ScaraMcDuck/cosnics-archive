@@ -87,12 +87,14 @@ class AssessmentQtiImport extends QtiImport
 		{
 			$dir .= $dirparts[$i].'/';
 		}
+		//dump($item_ref_file);
 		$question_qti_import = QtiImport :: factory_qti($item_ref_file, $this->get_user(), $this->get_category(), $dir);
 		$qid = $question_qti_import->import_learning_object();
 		
 		if ($qid != null)
 		{
 			$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($qid);
+			//dump($question);
 			$this->create_complex_question($assessment, $question, $weight);
 		}
 	}
@@ -109,7 +111,7 @@ class AssessmentQtiImport extends QtiImport
 		$question_clo->set_parent($assessment->get_id());
 		$question_clo->set_weight($weight);
 		$question_clo->set_user_id($this->get_user()->get_id());
-
+		//dump($question_clo);
 		return $question_clo->create();
 	}
 }

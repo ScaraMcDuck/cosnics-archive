@@ -26,7 +26,7 @@ class MatchingQuestionQtiImport extends QuestionQtiImport
 		{
 			$parts = split(' ', $matchvalue);
 			$matches[$parts[0]]['match'] = $parts[1];
-			//print_r($matches);
+			//dump($matches);
 		}
 		
 		$matchscores = $data['responseDeclaration']['mapping']['mapEntry'];
@@ -34,22 +34,25 @@ class MatchingQuestionQtiImport extends QuestionQtiImport
 		{
 			$parts = split(' ', $matchscore['mapKey']);
 			$matches[$parts[0]]['score'] = $matchscore['mappedValue'];
-			//print_r($matches);
+			if (!isset($matches[$parts[0]]['match']))
+				$matches[$parts[0]]['match'] = $parts[1];
+				
+			//dump($matches);
 		}
 		
 		//get actual answers
 		$matchsets = $data['itemBody']['matchInteraction']['simpleMatchSet'];
 		foreach ($matchsets as $matchset)
 		{
-			//print_r($matchset);
+			//dump($matchset);
 			$answers = $matchset['simpleAssociableChoice'];
 			foreach ($answers as $answer)
 			{
-				//print_r($answer);
+				//dump($answer);
 				$question_answers[$answer['identifier']] = $answer['_content'];
 			}
 		}
-		//print_r($question_answers);
+		//dump($question_answers);
 		
 		//create answers and complex answers
 		foreach ($matches as $id => $match)
