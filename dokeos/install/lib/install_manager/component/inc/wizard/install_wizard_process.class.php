@@ -36,6 +36,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 	function perform($page, $actionName)
 	{
 		$this->values = $page->controller->exportValues();
+		
 		$this->applications['core']	= array('admin', 'help','reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu', 'webservice');
 		$this->applications['extra']	= FileSystem :: get_directory_content(Path :: get_application_path() . 'lib/', FileSystem :: LIST_DIRECTORIES, false);
 		
@@ -62,14 +63,14 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		
 		$this->counter++;
 
-		// 5. Post-Processing all applications
+		// 4. Post-Processing all applications
 		echo '<h3>' . Translation :: get('PostProcessing') . '</h3>';
 		$this->post_process();
 		
 		$this->counter++;
 		
 		echo '<h3>' . Translation :: get('FileSystem') . '</h3>';
-		// 6. Create additional folders
+		// 5. Create additional folders
 		$folder_creation = $this->create_folders();
 		$this->process_result('folder', $folder_creation['success'], $folder_creation['message']);
 		flush();
@@ -78,7 +79,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		
 		echo '<h3>' . Translation :: get('Finished') . '</h3>';
 		
-		// 8. If all goes well we now show the link to the portal
+		// 6. If all goes well we now show the link to the portal
 		$message = '<a href="../index.php">' . Translation :: get('GoToYourNewlyCreatedPortal') . '</a>';
 		$this->process_result('finished', true, $message);
 		flush();
