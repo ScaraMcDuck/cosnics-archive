@@ -79,6 +79,10 @@ class CourseGroup
 		$this->defaultProperties[$name] = $value;
 		return true;
 	}
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
 	/**
 	 * Get the default properties of all course_groups.
 	 * @return array The property names.

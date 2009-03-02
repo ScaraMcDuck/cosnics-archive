@@ -337,6 +337,14 @@ abstract class WeblcmsDataManager
 	 * @return boolean True if creation succceeded, false otherwise.
 	 */
 	abstract function delete_course_user_category($courseusercategory);
+	
+	/**
+	 * Deletes a course user object from persistent storage.
+	 * @param CourseUserRelation $courseuser The course user to make persistent.
+	 * @return boolean True if creation succceeded, false otherwise.
+	 */
+	
+	abstract function delete_course_user($courseuser);
 
 	/**
 	 * Creates a learning object publication in persistent storage.

@@ -11,7 +11,7 @@ class SoapNusoapWebservice
 		$this->webservice_handler = $webservice_handler;
 	}
 	
-	function provide_webservice($functions)
+	/*function provide_webservice($functions)
 	{
 		$server = new soap_server();
 		$server->configureWSDL('Dokeos', 'http://www.dokeos.com');
@@ -49,7 +49,78 @@ class SoapNusoapWebservice
 			if (!isset($HTTP_RAW_POST_DATA)) $HTTP_RAW_POST_DATA = implode("\r\n", file('php://input'));
 			$server->service($HTTP_RAW_POST_DATA);
 		}
+	}*/
+	
+	
+	function provide_webservice($functions)
+	{
+		$server = new soap_server();
+		$server->configureWSDL('Dokeos', 'http://www.dokeos.com');
+		
+		foreach($functions as $name => $objects)
+		{
+			if(isset($objects['input']))
+			{
+				$in = $objects['input'];
+				$input = array();
+				
+				foreach($in->get_default_property_names() as $property)
+				{
+					$input[$property] = 'xsd:string';
+				}
+			}
+			
+			if($objects['array'])
+			{
+				$out = $objects['output'][0];
+			}
+			else
+			{
+				$out = $objects['output'];
+			}			
+			$properties = array();
+				
+			foreach($out->get_default_property_names() as $property)
+			{
+				$properties[$property] = array('name' => $property, 'type' => 'xsd:string');
+			}
+			
+			$server->wsdl->addComplexType(
+			    get_class($out),
+			    'complexType',
+			    'struct',
+			    'all',
+			    '',
+			    $properties
+			);
+			
+			if($objects['array'])
+			{
+				$server->wsdl->addComplexType(
+				  get_class($out).'s',
+				  'complexType', 
+				  'array', 
+				  '', 
+				  'SOAP-ENC:Array', 
+				  array(),
+				  array(
+				    array('ref' => 'SOAP-ENC:arrayType', 
+				         'wsdl:arrayType' => 'tns:'.get_class($out).'[]')
+				  ),
+				  'tns:'.get_class($out)
+				);
+			}
+			
+			
+			$server->register(get_class($this->webservice_handler) . '.' . $name, $input, array('return' => 'tns:' . get_class($out).($objects['array']?'s':'')),
+			       'http://www.dokeos.com', 'http://www.dokeos.com#' . $name, 'rpc', 'encoded', '', '', 'NusoapWebservice.handle_webservice');
+			
+		}
+		
+		if (!isset($HTTP_RAW_POST_DATA)) $HTTP_RAW_POST_DATA = implode("\r\n", file('php://input'));
+			$server->service($HTTP_RAW_POST_DATA);
 	}
+	
 	
 	function provide_webservice_with_wsdl($wsdl)
 	{

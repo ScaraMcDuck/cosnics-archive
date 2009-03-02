@@ -11,9 +11,9 @@ class ActionSuccess
 	
 	private $defaultProperties;
 
-	function ActionSuccess($defaultProperties = array ())
+	function ActionSuccess($success)
 	{
-		$this->defaultProperties = $defaultProperties;
+		$this->set_success($success);
 	}
 	
 	function get_default_property($name)

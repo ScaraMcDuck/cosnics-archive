@@ -82,6 +82,11 @@ class CourseUserRelation {
 	{
 		$this->defaultProperties[$name] = $value;
 	}
+	
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
 
 	/**
 	 * Get the default properties of all course user relations.
@@ -272,11 +277,11 @@ class CourseUserRelation {
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		$success = $wdm->create_course_user_relation($this);
+		
 		if (!$success)
 		{
 			return false;
 		}
-
 		return true;
 	}
 
@@ -287,7 +292,7 @@ class CourseUserRelation {
 	function delete()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		$success = $wdm->delete_course_user_category($this);
+		$success = $wdm->delete_course_user($this);
 		if (!$success)
 		{
 			return false;
