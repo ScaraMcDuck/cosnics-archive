@@ -211,10 +211,10 @@ class ForumToolViewerComponent extends ForumToolComponent
 			$table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px;'));
 			$table->setCellContents($row, 1, $title);
 			$table->setCellAttributes($row, 1, array('class' => 'row1'));
-			$table->setCellContents($row, 2, '');
-			$table->setCellAttributes($row, 2, array('class' => 'row2'));
-			$table->setCellContents($row, 3, '');
-			$table->setCellAttributes($row, 3, array('class' => 'row2'));
+			$table->setCellContents($row, 2, $forum->get_ref()->get_total_topics());
+			$table->setCellAttributes($row, 2, array('class' => 'row2', 'align' => 'center'));
+			$table->setCellContents($row, 3, $forum->get_ref()->get_total_posts());
+			$table->setCellAttributes($row, 3, array('class' => 'row2', 'align' => 'center'));
 			$table->setCellContents($row, 4, '');
 			$table->setCellAttributes($row, 4, array('class' => 'row2'));
 			$table->setCellContents($row, 5, $this->get_forum_actions($forum, true, true));

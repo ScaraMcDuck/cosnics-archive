@@ -26,6 +26,17 @@ class ComplexForumForm extends ComplexLearningObjectItemForm
 		parent :: setDefaults($defaults);
 	}
 
+	function get_default_values()
+	{
+		
+	}
+	
+	function create_cloi_from_values($values)
+	{
+		$cloi = $this->get_complex_learning_object_item();
+		return parent :: create_complex_learning_object_item();
+	}
+	
 	function set_csv_values($valuearray)
 	{	
 		parent :: set_values($defaults);

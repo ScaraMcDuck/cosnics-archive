@@ -11,5 +11,29 @@ class ComplexForum extends ComplexLearningObjectItem
 	{
 		return array('forum','forum_topic');
 	}
+	
+	function create()
+	{
+		parent :: create();
+		
+		$rdm = RepositoryDataManager :: get_instance();
+		$lo = $rdm->retrieve_learning_object($this->get_ref());
+
+		$parent = $rdm->retrieve_learning_object($this->get_parent());
+		$parent->add_topic($lo->get_total_topics());
+		$parent->add_post($lo->get_total_posts());
+	}
+	
+	function delete()
+	{
+		parent :: delete();
+		
+		$rdm = RepositoryDataManager :: get_instance();
+		$lo = $rdm->retrieve_learning_object($this->get_ref());
+
+		$parent = $rdm->retrieve_learning_object($this->get_parent());
+		$parent->remove_topic($lo->get_total_topics());
+		$parent->remove_post($lo->get_total_posts());
+	}
 }
 ?>
