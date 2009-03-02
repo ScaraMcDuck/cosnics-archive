@@ -12,6 +12,7 @@ class Forum extends LearningObject
 	const PROPERTY_LOCKED = 'locked';
 	const PROPERTY_TOTAL_TOPICS = 'total_topics';
 	const PROPERTY_TOTAL_POSTS = 'total_posts';
+	const PROPERTY_LAST_POST = 'last_post';
 	
 	function get_locked()
 	{
@@ -30,7 +31,7 @@ class Forum extends LearningObject
 	 
 	function set_total_topics($total_topics)
 	{
-		return $this->set_additional_property(self :: PROPERTY_TOTAL_TOPICS, $total_topics);
+		$this->set_additional_property(self :: PROPERTY_TOTAL_TOPICS, $total_topics);
 	}
 	
 	function get_total_posts()
@@ -40,12 +41,33 @@ class Forum extends LearningObject
 	 
 	function set_total_posts($total_posts)
 	{
-		return $this->set_additional_property(self :: PROPERTY_TOTAL_POSTS, $total_posts);
+		$this->set_additional_property(self :: PROPERTY_TOTAL_POSTS, $total_posts);
+	}
+	
+	function get_last_post()
+	{
+		return $this->get_additional_property(self :: PROPERTY_LAST_POST);
+	}
+	 
+	function set_last_post($last_post)
+	{
+		$this->set_additional_property(self :: PROPERTY_LAST_POST, $last_post);
+		
+		$rdm = RepositoryDataManager :: get_instance();
+		
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->get_id());
+		$wrappers = $rdm->retrieve_complex_learning_object_items($condition);
+		
+		while($item = $wrappers->next_result())
+		{
+			$lo = $rdm->retrieve_learning_object($item->get_parent());
+			$lo->set_last_post($last_post);
+		}
 	}
 	
 	static function get_additional_property_names()
 	{
-		return array(self :: PROPERTY_LOCKED, self :: PROPERTY_TOTAL_TOPICS, self :: PROPERTY_TOTAL_POSTS);
+		return array(self :: PROPERTY_LOCKED, self :: PROPERTY_TOTAL_TOPICS, self :: PROPERTY_TOTAL_POSTS, self :: PROPERTY_LAST_POST);
 	}
 	
 	function get_allowed_types()
