@@ -1,6 +1,6 @@
 <?php
 /**
- * @package tracking.lib.datamanager
+ * @author Michael Kyndt
  */
 require_once dirname(__FILE__).'/../reporting_data_manager.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
@@ -10,6 +10,8 @@ require_once dirname(__FILE__).'/database/databasereportingblockresultset.class.
 class DatabaseReportingDataManager extends ReportingDataManager
 {
 	const ALIAS_REPORTINGBLOCK_TABLE = 'rpb';
+	
+	const ALIAS_REPORTINGTEMPLATE_TABLE = 'rpt';
 
 	/**
 	 * The database connection.
@@ -237,7 +239,7 @@ class DatabaseReportingDataManager extends ReportingDataManager
 	 * Creates a reporting block in the database
 	 * @param ReportingBlock $reporting_block
 	 */
-	function create_block(&$reporting_block)
+	function create_reporting_block(&$reporting_block)
 	{
 		$props = array();
 		foreach ($reporting_block->get_properties() as $key => $value)
@@ -254,7 +256,7 @@ class DatabaseReportingDataManager extends ReportingDataManager
 	 * Updates an reporting block (needed for change of activity)
 	 * @param ReportingBlock $reporting_block
 	 */
-	function update_block(&$reporting_block)
+	function update_reporting_block(&$reporting_block)
 	{
 		$condition = new EqualityCondition('id', $reporting_block->get_id());
 		
@@ -274,7 +276,7 @@ class DatabaseReportingDataManager extends ReportingDataManager
 	 * @param String $name
 	 * @return ReportingBlock $reporting_block
 	 */
-	function retrieve_block_by_name($blockname)
+	function retrieve_reporting_block_by_name($blockname)
 	{
 		$query = 'SELECT * FROM ' . $this->escape_table_name('reporting_block') . ' AS ' . 
 				 self :: ALIAS_REPORTINGBLOCK_TABLE;
@@ -306,7 +308,7 @@ class DatabaseReportingDataManager extends ReportingDataManager
 	 * Retrieves all reporting blocks 
 	 * @return array of reporting blocks
 	 */
-	function retrieve_reportingblocks($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_reporting_blocks($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$query = 'SELECT * FROM ' . $this->escape_table_name('reporting_block') . ' AS ' . 
 				 self :: ALIAS_REPORTINGBLOCK_TABLE;
@@ -349,7 +351,7 @@ class DatabaseReportingDataManager extends ReportingDataManager
 	 * @param Condition $condition
 	 * @return Int reporting block count
 	 */
-	function count_reportingblocks($condition = null)
+	function count_reporting_blocks($condition = null)
 	{
 		$params = array ();
 		$query = 'SELECT COUNT('.$this->escape_column_name(ReportingBlock :: PROPERTY_ID).') FROM '.$this->escape_table_name('reporting_block');
@@ -373,7 +375,7 @@ class DatabaseReportingDataManager extends ReportingDataManager
 	 * @param int $reporting_block_id
 	 * @return ReportingBlock $reporting_block
 	 */
-	function retrieve_reportingblock($reporting_block_id)
+	function retrieve_reporting_block($reporting_block_id)
 	{
 		$query = 'SELECT * FROM ' . $this->escape_table_name('reporting_block') . ' AS ' . 
 				 self :: ALIAS_REPORTINGBLOCK_TABLE;

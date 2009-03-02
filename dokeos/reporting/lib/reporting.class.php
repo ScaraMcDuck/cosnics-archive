@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Receives a request, makes the reporting block retrieve its data & displays the block in the given format;
  * 
  * @author: Michael Kyndt
@@ -10,15 +10,21 @@ require_once("reporting_formatter.class.php");
 class Reporting{
 	public static function generate_block(&$reporting_block){
 		$reporting_block->retrieve_data();
- 		$html .= "<div class=\"reporting_block\" " .
+ 		$html .= "<div id=\"".$reporting_block->get_name()."\" class=\"reporting_block\" " .
  				"style=\"height: ".$reporting_block->get_height()."px; " .
  						"width: ".$reporting_block->get_width()."px\">";
  		$html .= "<div class=\"reporting_header\">";
  		$html .= Translation :: get('Displaymode').' ';
- 		$html .= "<select name=\"charttype\">";
+ 		$html .= "<select name=\"charttype\" class=\"charttype\"";
  		foreach($reporting_block->get_displaymodes() as $key => $value)
  		{
- 			$html .= "<option value=".$key.">".$value."</option>";
+ 			if($key == $reporting_block->get_displaymode())
+ 			{
+ 				$html .= "<option SELECTED value=".$key.">".$value."</option>";
+ 			}else
+ 			{
+ 				$html .= "<option value=".$key.">".$value."</option>";
+ 			}
  		}
  		$html .= "</select>";
  		$html .= "</div>";

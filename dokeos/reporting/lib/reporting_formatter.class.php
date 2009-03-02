@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Format the reporting block into its given display mode
  * 
  * @author: Michael Kyndt

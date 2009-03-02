@@ -351,9 +351,9 @@ abstract class Installer
 	/**
 	 * Function used to register a block.
 	 */
-	function register_block($array)
+	function register_reporting_block($array)
 	{
-		return ReportingBlocks :: create_block($array['name'],$array['application'],$array['function'],$array['displaymode'],$array['width'],$array['height']);
+		return ReportingBlocks :: create_reporting_block($array['name'],$array['application'],$array['function'],$array['displaymode'],$array['width'],$array['height']);
 	}
 	
 	function register_reporting()
@@ -362,7 +362,7 @@ abstract class Installer
 		
 		$base_path = (Application :: is_application($application) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
 		
-		$file = $base_path .$application. '/reporting/blocks.xml';
+		$file = $base_path .$application. '/reporting/reporting_blocks.xml';
 		
 		//$this->add_message(self :: TYPE_NORMAL, $file);
 		
@@ -370,11 +370,11 @@ abstract class Installer
 		{
 			$xml = $this->extract_xml_file($file);
 			
-			foreach($xml["block"] as $key => $value)
+			foreach($xml["reporting_block"] as $key => $value)
 			{
-				if ($this->register_block($value)) //$value = array
+				if ($this->register_reporting_block($value)) //$value = array
 				{
-					$this->add_message(self :: TYPE_NORMAL, 'Registered block: <em>'.$value['name'].'</em>');
+					$this->add_message(self :: TYPE_NORMAL, 'Registered reporting block: <em>'.$value['name'].'</em>');
 				}
 				else
 				{

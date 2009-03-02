@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Class representing a reporting block
  * 
  * @author: Michael Kyndt
@@ -95,7 +95,7 @@
  	{
  		$repdmg = ReportingDataManager :: get_instance();
 		$this->set_id($repdmg->get_next_id('block'));
-		return $repdmg->create_block($this);
+		return $repdmg->create_reporting_block($this);
  	}
  	
  	/**
