@@ -83,7 +83,17 @@ class CourseSectionForm extends FormValidator {
     	$course_section = $this->course_section;
     	$values = $this->exportValues();
     	
-    	$course_section->set_name($values[CourseSection :: PROPERTY_NAME]);
+    	$name = $values[CourseSection :: PROPERTY_NAME];
+    	
+    	$conditions[] = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, $this->course_section->get_course_code());
+    	$conditions[] = new EqualityCondition(CourseSection :: PROPERTY_NAME, $name);
+    	$condition = new AndCondition($conditions);
+    	
+    	$course_sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections($condition);
+    	if($course_sections->size() > 0)
+    		return false;
+    	
+    	$course_section->set_name($name);
     	$visible = $values[CourseSection :: PROPERTY_VISIBLE]?$values[CourseSection :: PROPERTY_VISIBLE]:0;
     	$course_section->set_visible($visible);
     	

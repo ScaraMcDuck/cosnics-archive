@@ -47,7 +47,7 @@ class DocumentSlideshowBrowser extends LearningObjectPublicationBrowser
 			if (!$publication->is_visible_for_target_users() && !($this->is_allowed(DELETE_RIGHT) || $this->is_allowed(EDIT_RIGHT)))
 			{
 				continue;
-			}
+			} 
 			$document = $publication->get_learning_object();
 			if($document->is_image())
 			{
@@ -68,12 +68,8 @@ class DocumentSlideshowBrowser extends LearningObjectPublicationBrowser
 		return $dm->count_learning_object_publications($this->get_course_id(), $category, $this->get_user_id(), $this->get_course_groups(), $this->get_condition($category));
 	}
 
-	function get_condition($category = null)
+	function get_condition($category = 0)
 	{
-		if(is_null($category))
-		{
-			//$category = $this->get_publication_category_tree()->get_current_category_id();
-		}
 		$tool_cond= new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,'document');
 		$category_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID,$category );
 		return new AndCondition($tool_cond, $category_cond);

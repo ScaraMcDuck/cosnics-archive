@@ -31,9 +31,9 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 			$toolbar_data[] = array(
 				'img'=>Theme :: get_common_image_path().'action_slideshow.png',
 				'label'=>Translation :: get('Slideshow'),
-				'href' => $this->get_url(array('thumbnails'=>null)),
+				'href' => $this->get_url(array('tool_action' => 'slideshow', 'thumbnails'=>null)),
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-			$html[] = DokeosUtilities::build_toolbar($toolbar_data);
+			$html[] = DokeosUtilities::build_toolbar($toolbar_data) . '<br /><br />';
 			$html[] = $this->render_thumbnails($publications);
 		}
 		else
@@ -43,16 +43,17 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 			$toolbar_data[] = array(
 				'img'=>Theme :: get_common_image_path().'action_slideshow_thumbnails.png',
 				'label'=>Translation :: get('Thumbnails'),
-				'href' => $this->get_url(array('thumbnails'=>1)),
+				'href' => $this->get_url(array('tool_action' => 'slideshow','thumbnails'=>1)),
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-			$html[] = DokeosUtilities::build_toolbar($toolbar_data);
+			$html[] = DokeosUtilities::build_toolbar($toolbar_data) . '<br /><br />';
+			
 			$navigation[] = '<div style="text-align: center;">';
 			$navigation[] = ($slideshow_index +1).' / '.count($publications);
 			$navigation[] = '<div style="width=30%;text-align:left;float:left;">';
 			if (!$first)
 			{
-				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => 0)).'"><img src="'.Theme :: get_common_image_path().'action_first.png" alt="'.Translation :: get('First').'"/></a>';
-				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => $slideshow_index -1)).'"><img src="'.Theme :: get_common_image_path().'action_prev.png" alt="'.Translation :: get('Previous').'"/></a>';
+				$navigation[] = '<a href="'.$this->get_url(array ('tool_action' => 'slideshow', 'slideshow_index' => 0)).'"><img src="'.Theme :: get_common_image_path().'action_first.png" alt="'.Translation :: get('First').'"/></a>';
+				$navigation[] = '<a href="'.$this->get_url(array ('tool_action' => 'slideshow', 'slideshow_index' => $slideshow_index -1)).'"><img src="'.Theme :: get_common_image_path().'action_prev.png" alt="'.Translation :: get('Previous').'"/></a>';
 			}
 			else
 			{
@@ -63,8 +64,8 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 			$navigation[] = '<div style="width=30%;text-align:right;float:right;">';
 			if (!$last)
 			{
-				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => $slideshow_index +1)).'"><img src="'.Theme :: get_common_image_path().'action_next.png" alt="'.Translation :: get('Next').'"/></a>';
-				$navigation[] = '<a href="'.$this->get_url(array ('slideshow_index' => count($publications) - 1)).'"><img src="'.Theme :: get_common_image_path().'action_last.png" alt="'.Translation :: get('Last').'"/></a>';
+				$navigation[] = '<a href="'.$this->get_url(array ('tool_action' => 'slideshow','slideshow_index' => $slideshow_index +1)).'"><img src="'.Theme :: get_common_image_path().'action_next.png" alt="'.Translation :: get('Next').'"/></a>';
+				$navigation[] = '<a href="'.$this->get_url(array ('tool_action' => 'slideshow','slideshow_index' => count($publications) - 1)).'"><img src="'.Theme :: get_common_image_path().'action_last.png" alt="'.Translation :: get('Last').'"/></a>';
 			}
 			else
 			{
@@ -90,7 +91,7 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 		$html[] = $this->render_title($publication);
 		$html[] = '</div>';
 		$html[] = '<div style="text-align: center;">';
-		$html[] = '<img src="'.$url.'" alt="" style="border:1px solid black;padding:5px;"/>';
+		$html[] = '<a href="' . $url . '" target="about:blank"><img src="'.$url.'" alt="" style="max-width: 800px; border:1px solid black;padding:5px;"/></a>';
 		$html[] = '<div class="description'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_description($publication);
 		$html[] = $this->render_attachments($publication);
@@ -107,7 +108,7 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 			$path = $document->get_full_path();
 			$thumbnail_path = $this->get_thumbnail_path($path);
 			$thumbnail_url = $this->browser->get_path(WEB_TEMP_PATH).basename($thumbnail_path);
-			$html[] = '<a href="'.$this->get_url(array ('slideshow_index' => $index)).'" style="border:1px solid #F0F0F0;margin: 2px;text-align: center;width:110px;height:110px;padding:5px;float:left;">';
+			$html[] = '<a href="'.$this->get_url(array ('tool_action' => 'slideshow','slideshow_index' => $index)).'" style="border:1px solid #F0F0F0;margin: 2px;text-align: center;width:110px;height:110px;padding:5px;float:left;">';
 			$html[] = '<img src="'.$thumbnail_url.'" style="margin: 5px;"/>';
 			$html[] = '</a>';
 		}
