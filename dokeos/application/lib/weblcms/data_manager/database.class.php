@@ -46,7 +46,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$this->prefix = 'weblcms_';
 		$this->connection->query('SET NAMES utf8');
 		
-		$this->db = new Database(array('course_section' => 'cs', 'course_category' => 'cat', 'learning_object_publication_category' => 'pub_cat', 'user_answer' => 'ans', 'user_assessment' => 'ass', 'user_question' => 'uq', 'survey_invitation' => 'si'));
+		$this->db = new Database(array('course_section' => 'cs', 'course_category' => 'cat', 'learning_object_publication_category' => 'pub_cat', 'user_answer' => 'ans', 'user_assessment' => 'ass', 'user_question' => 'uq', 'survey_invitation' => 'si', 'course_group' => 'cg'));
 		$this->db->set_prefix('weblcms_');
 		
 		//$this->database = new Database(array('course_category' => 'cat', 'user_answer' => 'ans', 'user_assessment' => 'ass'));
@@ -1923,16 +1923,27 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	//@todo: Take parameters into account
 	function retrieve_course_groups($course_code,$category = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		$query = 'SELECT * FROM '. $this->escape_table_name('course_group');
+		/*$query = 'SELECT * FROM '. $this->escape_table_name('course_group');
 		$query .= ' WHERE '.$this->escape_column_name('course_code').'=?';
 		$params[] = $course_code;
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
-		return new DatabaseCourseGroupResultSet($this, $res);
+		return new DatabaseCourseGroupResultSet($this, $res);*/
+		
+		$condition = new EqualityCondition('course_code', $course_code);
+		return $this->db->retrieve_objects('course_group', $condition, $offset, $count, $order_property, $order_direction);
 	}
+	
+	function count_course_groups($course_code)
+	{
+		$condition = new EqualityCondition('course_code', $course_code);
+		return $this->db->count_objects('course_group', $condition);
+	}
+	
 	// Inherited
 	function retrieve_course_group_user_ids($course_group)
 	{
+		
 		$query = 'SELECT user_id FROM '.$this->escape_table_name('course_group_rel_user');
 		$query .= ' WHERE '.$this->escape_column_name('course_group_id').'=?';
 		$params[] = $course_group->get_id();

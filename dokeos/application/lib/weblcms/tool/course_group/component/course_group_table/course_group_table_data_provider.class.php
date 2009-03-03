@@ -20,6 +20,10 @@ class CourseGroupTableDataProvider
     {
 		$dm = WeblcmsDataManager :: get_instance();
 		$course = $this->course_group_tool->get_parent()->get_course();
+		
+		$order_property = array($order_property);
+		$order_direction = array($order_direction);
+		
 		return $dm->retrieve_course_groups($course->get_id(),$category, $offset, $count, $order_property, $order_direction);
     }
 
