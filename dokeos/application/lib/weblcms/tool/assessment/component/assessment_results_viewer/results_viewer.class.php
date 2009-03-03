@@ -37,7 +37,17 @@ abstract class ResultsViewer extends FormValidator
 	
 	function get_assessment() 
 	{
-		return $this->get_publication()->get_learning_object();
+		$user_assessment = $this->get_user_assessment();
+		if (get_class($user_assessment) == 'WeblcmsAssessmentAttemptsTracker')
+		{
+			$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
+			$assessment = $pub->get_learning_object();
+		}
+		else
+		{
+			$assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_assessment->get_assessment_id());
+		}
+		return $assessment;
 	}
 	
 	function get_publication()
@@ -58,7 +68,6 @@ abstract class ResultsViewer extends FormValidator
 		{
 			$assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_assessment->get_assessment_id());
 		}
-
 		
 		switch ($assessment->get_assessment_type()) 
 		{

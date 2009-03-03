@@ -97,7 +97,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 	
 	function get_publication_id()
 	{
-		return $pid;
+		return $this->pid;
 	}
 	
 	private function get_progress_bar()
