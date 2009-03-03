@@ -676,6 +676,28 @@ class DatabaseTrackingDataManager extends TrackingDataManager
 		return $trackeritems;
 	}
 	
+	function count_tracker_items($tablename, $condition)
+	{
+		$query = 'SELECT COUNT(*) as count FROM ' . $this->escape_table_name($tablename) . ' AS ' . 
+				 self :: ALIAS_TRACKER_TABLE;
+		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$statement = $this->connection->prepare($query);
+		$result = $statement->execute($params);
+		
+		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+
+		return $record['count']?$record['count']:0;
+	}
+	
 	/**
 	 * Retrieves a tracker item from the database
 	 * @param string $tablename the table name where the database has to be written to

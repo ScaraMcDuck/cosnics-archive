@@ -62,6 +62,12 @@ abstract class MainTracker
 		return $trkdmg->retrieve_tracker_items($this->table, get_class($this), $condition);
 	}
 	
+	function count_tracker_items($condition)
+	{
+		$trkdmg = TrackingDataManager :: get_instance();
+		return $trkdmg->count_tracker_items($this->table, $condition);
+	}
+	
 	/**
 	 * Removes tracker items with a given condition
 	 */

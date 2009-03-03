@@ -134,7 +134,7 @@ class WeblcmsQuestionAttemptsTracker extends MainTracker
     
     function empty_tracker($event)
     {
-    	
+    	$this->remove();
     }
 }
 ?>

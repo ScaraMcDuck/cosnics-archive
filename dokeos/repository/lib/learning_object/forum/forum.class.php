@@ -52,6 +52,12 @@ class Forum extends LearningObject
 	function set_last_post($last_post)
 	{
 		$this->set_additional_property(self :: PROPERTY_LAST_POST, $last_post);
+	}
+	
+	function add_last_post($last_post)
+	{
+		$this->set_last_post($last_post);
+		$this->update();
 		
 		$rdm = RepositoryDataManager :: get_instance();
 		
@@ -61,7 +67,33 @@ class Forum extends LearningObject
 		while($item = $wrappers->next_result())
 		{
 			$lo = $rdm->retrieve_learning_object($item->get_parent());
-			$lo->set_last_post($last_post);
+			$lo->add_last_post($last_post);
+		}
+	}
+	
+	function recalculate_last_post()
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_id());
+		$children = $rdm->retrieve_complex_learning_object_items($condition, array('add_date'), array(SORT_DESC), 0, 1);
+		$lp = $children->next_result();
+		
+		$id = ($lp)?$lp->get_id():0;
+		
+		if($this->get_last_post() != $id)
+		{
+			$this->set_last_post($id);
+			$this->update();
+			
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->get_id());
+			$wrappers = $rdm->retrieve_complex_learning_object_items($condition);
+			
+			while($item = $wrappers->next_result())
+			{
+				$lo = $rdm->retrieve_learning_object($item->get_parent());
+				$lo->recalculate_last_post();
+			}
 		}
 	}
 	

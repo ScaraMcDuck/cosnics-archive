@@ -116,7 +116,7 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
     
     function empty_tracker($event)
     {
-    	
+    	$this->remove();
     }
     
 	function get_times_taken($publication)

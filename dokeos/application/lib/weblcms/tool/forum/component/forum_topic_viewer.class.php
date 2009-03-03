@@ -21,6 +21,10 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 		
 		$cid = Request :: get(Tool :: PARAM_COMPLEX_ID);
 		$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+		
+		Events :: trigger_event('view_forum_topic', 'weblcms', array('user_id' => $this->get_user_id(), 'publication_id' => $pid,
+								'forum_topic_id' => $cid));
+		
 		$this->forum = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid)->get_learning_object();
 		
 		$lo = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition('id', $cid))->next_result()->get_ref();
