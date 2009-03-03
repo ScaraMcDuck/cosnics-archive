@@ -47,10 +47,18 @@ abstract class ResultsViewer extends FormValidator
 		return $pub;
 	}
 	
-	static function factory($user_assessment, $edit_rights, $url,$component)
+	static function factory($user_assessment, $edit_rights, $url, $component)
 	{
-		$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
-		$assessment = $pub->get_learning_object();
+		if (get_class($user_assessment) == 'WeblcmsAssessmentAttemptsTracker')
+		{
+			$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
+			$assessment = $pub->get_learning_object();
+		}
+		else
+		{
+			$assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_assessment->get_assessment_id());
+		}
+
 		
 		switch ($assessment->get_assessment_type()) 
 		{

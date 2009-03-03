@@ -1,6 +1,8 @@
 <?php
 require_once dirname(__FILE__).'/score.class.php';
+require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_question_attempts_tracker.class.php';
+require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_learning_path_assessment_attempts_tracker.class.php';
 require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_assessment_attempts_tracker.class.php';
 
 class AssessmentScoreCalculator 
@@ -12,6 +14,7 @@ class AssessmentScoreCalculator
 		//dump($values);
 		$this->parent = $parent;
 		$tracker_id = $_SESSION['assessment_tracker'];
+		//dump($tracker_id);
 		if ($tracker_type == 'learning_path')
 		{
 			$tracker = new WeblcmsLearningPathAssessmentAttemptsTracker();
@@ -24,19 +27,23 @@ class AssessmentScoreCalculator
 		$condition = new EqualityCondition(MainTracker :: PROPERTY_ID, $tracker_id);
 		$assessment_trackers = $tracker->retrieve_tracker_items($condition);
 		$assessment_tracker = $assessment_trackers[0];
+		//dump($assessment_tracker);
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id());
 		$clo_questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
 		
 		while ($clo_question = $clo_questions->next_result())
 		{
+			//dump($clo_question);
 			$this->check_create_answer($datamanager, $assessment_tracker, $values, $clo_question, $tracker_type);
 		}
 		
-		if ($assessment->get_assessment_type() != Assessment :: TYPE_ASSIGNMENT)
+		//if ($assessment->get_assessment_type() != Assessment :: TYPE_ASSIGNMENT)
 			$assessment_tracker->set_total_score($this->calculate_score($assessment_tracker));
-		else
-			$assessment_tracker->set_total_score(null);
+		//else
+		//	$assessment_tracker->set_total_score(null);
+		//dump($assessment_tracker);
 		$assessment_tracker->update();
+		echo 'hier';
 	}
 	
 	function get_user_id($assessment)
@@ -113,8 +120,10 @@ class AssessmentScoreCalculator
 				{
 					$question_tracker = new WeblcmsQuestionAttemptsTracker();
 				}
+				//dump($params);
 				//$question_tracker = new WeblcmsQuestionAttemptsTracker();
 				$question_track_id = $question_tracker->track($params);
+				//echo 'hier';
 			}
 		}
 	}
@@ -143,11 +152,20 @@ class AssessmentScoreCalculator
 	static function calculate_score($assessment_tracker)
 	{
 		$score = 0;
-		$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($assessment_tracker->get_assessment_id());
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $pub->get_learning_object()->get_id());
-		$questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+		if (get_class($assessment_tracker) == 'WeblcmsAssessmentAttemptsTracker')
+		{
+			$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($assessment_tracker->get_assessment_id());
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $pub->get_learning_object()->get_id());
+			$questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+		}
+		else
+		{
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_tracker->get_assessment_id());
+			$questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
+		}
 		while ($question = $questions->next_result())
 		{
+			//dump($question);
 			$q_score = self :: calculate_question_score($assessment_tracker, $question);
 			$score += $q_score;
 		}
@@ -157,11 +175,23 @@ class AssessmentScoreCalculator
 	static function calculate_question_score($assessment_tracker, $question)
 	{
 		$maxscore = self :: get_all_score($question);
-		$track = new WeblcmsQuestionAttemptsTracker();
-		$condition_aid = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $assessment_tracker->get_id());
-		$condition_qid = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_ref());
-		$condition = new AndCondition(array($condition_aid, $condition_qid));
-		$question_trackers = $track->retrieve_tracker_items($condition);
+		if (get_class($assessment_tracker) == 'WeblcmsAssessmentAttemptsTracker')
+		{
+			$track = new WeblcmsQuestionAttemptsTracker();
+			$condition_aid = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $assessment_tracker->get_id());
+			$condition_qid = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_ref());
+			$condition = new AndCondition(array($condition_aid, $condition_qid));
+			$question_trackers = $track->retrieve_tracker_items($condition);
+		}
+		else
+		{
+			$track = new WeblcmsLearningPathQuestionAttemptsTracker();
+			$condition_aid = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LEARNING_PATH_ASSESSMENT_ATTEMPT_ID, $assessment_tracker->get_id());
+			$condition_qid = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_ref());
+			$condition = new AndCondition(array($condition_aid, $condition_qid));
+			$question_trackers = $track->retrieve_tracker_items($condition);
+		}
+		
 		$score = 0;
 		foreach ($question_trackers as $q_tracker)
 		{

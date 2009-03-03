@@ -29,7 +29,7 @@ class WeblcmsLearningPathAssessmentAttemptsTracker extends MainTracker
     	$learning_path = $parameters['learning_path_id'];
     	$assessment = $parameters['assessment_id'];
     	$total_score = $parameters['total_score'];
-    	$course = $parameters['course_id'];
+    	$course_id = $parameters['course_id'];
     	
     	$this->set_user_id($user);
     	$this->set_course_id($course_id);
@@ -38,6 +38,7 @@ class WeblcmsLearningPathAssessmentAttemptsTracker extends MainTracker
     	
     	$this->set_date(DatabaseRepositoryDataManager :: to_db_date(time()));
     	$this->set_total_score($total_score);
+    	//dump($this);
     	
     	$this->create();
     	
