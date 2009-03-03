@@ -37,9 +37,23 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 		} 
 		else if ($column->get_object_property() == Assessment :: PROPERTY_ASSESSMENT_TYPE)
 		{
-			return $publication->get_learning_object()->get_assessment_type();
+			if ($publication->is_hidden())
+			{
+				return '<span style="color: gray">'. $publication->get_learning_object()->get_assessment_type().'</span>';
+			}
+			else
+			{
+				return $publication->get_learning_object()->get_assessment_type();
+			}
 		}
-		return parent :: render_cell($column, $publication->get_learning_object());
+		if ($publication->is_hidden())
+		{
+			return '<span style="color: gray">'. parent :: render_cell($column, $publication->get_learning_object()).'</span>';
+		}
+		else
+		{
+			return parent :: render_cell($column, $publication->get_learning_object());
+		}
 	}
 	
 	function get_actions($publication) 
