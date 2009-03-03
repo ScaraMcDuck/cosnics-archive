@@ -43,7 +43,7 @@ class AssessmentScoreCalculator
 		//	$assessment_tracker->set_total_score(null);
 		//dump($assessment_tracker);
 		$assessment_tracker->update();
-		echo 'hier';
+		//echo 'hier';
 	}
 	
 	function get_user_id($assessment)

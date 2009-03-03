@@ -3,6 +3,7 @@ require_once dirname(__FILE__) . '/../learning_path_learning_object_display.clas
 require_once Path :: get_application_path().'lib/weblcms/tool/assessment/component/assessment_tester_form/assessment_tester_display.class.php';
 require_once Path :: get_application_path().'lib/weblcms/tool/assessment/component/assessment_tester_form/assessment_score_calculator.class.php';
 require_once Path :: get_application_path().'lib/weblcms/tool/assessment/component/assessment_results_viewer/results_viewer.class.php';
+require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_learning_path_assessment_attempts_tracker.class.php';
 require_once Path :: get_repository_path().'lib/learning_object/assessment/assessment.class.php';
 require_once Path :: get_repository_path().'lib/learning_object/survey/survey.class.php';
 
@@ -54,10 +55,11 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 	function create_tracker($assessment)
 	{
 		$args = array(
-		'assessment_id' => $assessment->get_id(), 
-		'user_id' => $this->get_parent()->get_user_id(), 
-		'learning_path_id' => $this->get_parent()->get_publication_id(),
-		'total_score' => 0
+			'assessment_id' => $assessment->get_id(), 
+			'user_id' => $this->get_parent()->get_user_id(), 
+			'learning_path_id' => $this->get_parent()->get_publication_id(),
+			'course_id' => $this->get_parent()->get_course_id(),
+			'total_score' => 0
 		);
 		$tracker = new WeblcmsLearningPathAssessmentAttemptsTracker();
 		//dump($args);
@@ -69,14 +71,17 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 	function redirect_to_score_calculator($values = null)
 	{
 		//dump($_SESSION);
-		
+		//unset($_SESSION['assessment_tracker']);
+		//unset($_SESSION['started']);
 		if ($values == null)
 			$values = $_SESSION['formvalues'];
 			
 		$score_calculator = new AssessmentScoreCalculator();
 		$score_calculator->build_answers($values, $this->assessment, $this->datamanager, $this, 'learning_path');
-		$uaid = $tracker_id = $_SESSION['assessment_tracker'];
-		$_SESSION['assessment_tracker'] = null;
+		$uaid = $_SESSION['assessment_tracker'];
+		unset($_SESSION['assessment_tracker']);
+		unset($_SESSION['started']);
+		
 		//WeblcmsDataManager :: get_instance()->create_user_assessment($user_assessment);
 		$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid);
 		if ($this->invitation != null)
@@ -85,6 +90,13 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 			$this->datamanager->update_survey_invitation($this->invitation);
 			$params[AssessmentTool::PARAM_INVITATION_ID] = $this->invitation->get_invitation_code();
 		}		
+		$track = new WeblcmsLearningPathAssessmentAttemptsTracker();
+		$condition = new EqualityCondition(WeblcmsLearningPathAssessmentAttemptsTracker :: PROPERTY_ID, $uaid);
+		$items = $track->retrieve_tracker_items($condition);
+		$user_assessment = $items[0];
+		//dump($uaid);
+		
+		//dump($user_assessment);
 		$results_form = ResultsViewer :: factory($user_assessment, false, null, 'WeblcmsLearningPathAssessmentAttemptsTracker');
 		$results_form->build();
 		return $results_form->toHtml();
