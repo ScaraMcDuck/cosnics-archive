@@ -413,7 +413,7 @@ abstract class Installer
 			}
 		}
 		
-		$path = '/' . $application . '/trackers/';
+		$path = (Application :: is_application($application) ? 'application/lib/' : '') . $application . '/trackers/';
 		
 		$trackers_file = $base_path . $application . '/trackers/trackers_'. $application .'.xml';
 		

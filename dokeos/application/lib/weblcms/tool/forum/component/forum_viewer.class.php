@@ -137,7 +137,14 @@ class ForumToolViewerComponent extends ForumToolComponent
 			$table->setCellAttributes($row, 2, array('align' => 'center', 'class' => 'row2'));
 			$table->setCellContents($row, 3, ($count > 0)?$count - 1: $count);
 			$table->setCellAttributes($row, 3, array('align' => 'center', 'class' => 'row1'));
-			$table->setCellContents($row, 4, '');
+			
+			$conditions[] = new EqualityCondition('publication_id',$this->pid);
+			$conditions[] = new EqualityCondition('forum_topic_id',$topic->get_id());
+			$condition = new AndCondition($conditions);
+			
+			$views = TrackingDataManager :: get_instance()->count_tracker_items('weblcms_forum_topic_views', $condition);
+			
+			$table->setCellContents($row, 4, $views);
 			$table->setCellAttributes($row, 4, array('align' => 'center', 'class' => 'row2'));
 			
 			if($last_post)
