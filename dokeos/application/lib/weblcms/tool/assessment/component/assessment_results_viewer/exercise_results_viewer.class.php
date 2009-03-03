@@ -22,12 +22,37 @@ class ExerciseResultsViewer extends ResultsViewer
 		$uaid = parent :: get_user_assessment()->get_id();
 		$dm = RepositoryDataManager :: get_instance();
 		$db = WeblcmsDataManager :: get_instance();
-		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication(parent :: get_user_assessment()->get_assessment_id());
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $publication->get_learning_object()->get_id());
+		$user_assessment = parent :: get_user_assessment();
+		if (get_class($user_assessment) == 'WeblcmsAssessmentAttemptsTracker')
+		{
+			$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication(parent :: get_user_assessment()->get_assessment_id());
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $publication->get_learning_object()->get_id());
+		}
+		else
+		{
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $user_assessment->get_assessment_id());
+		}
 		$clo_questions = $dm->retrieve_complex_learning_object_items($condition);
 		while($clo_question = $clo_questions->next_result())
 		{
 			$question = $dm->retrieve_learning_object($clo_question->get_ref());
+			
+			if (get_class($user_assessment) == 'WeblcmsAssessmentAttemptsTracker')
+			{
+				$track = new WeblcmsQuestionAttemptsTracker();
+				$condition_ass = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $this->get_user_assessment()->get_id());
+				$condition_question = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $clo_question->get_id());
+				$condition = new AndCondition(array($condition_ass, $condition_question));		
+			}
+			else
+			{
+				$track = new WeblcmsLearningPathQuestionAttemptsTracker();
+				$condition_ass = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LEARNING_PATH_ASSESSMENT_ATTEMPT_ID, $this->get_user_assessment()->get_id());
+				$condition_question = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $clo_question->get_id());
+				$condition = new AndCondition(array($condition_ass, $condition_question));	
+			}
+			
+			
 			$track = new WeblcmsQuestionAttemptsTracker();
 			$condition_ass = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $this->get_user_assessment()->get_id());
 			$condition_question = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $clo_question->get_id());

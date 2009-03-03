@@ -3,7 +3,7 @@ require_once Path :: get_tracking_path() . 'lib/main_tracker.class.php';
 
 class WeblcmsLearningPathQuestionAttemptsTracker extends MainTracker
 {	
-	const PROPERTY_LEARNING_PATH_ASSESSMENT_ATTEMPT_ID = 'learning_path_assessment_attempt_id';
+	const PROPERTY_LEARNING_PATH_ASSESSMENT_ATTEMPT_ID = 'assessment_attempt_id';
 	const PROPERTY_QUESTION_ID = 'question_id';
 	const PROPERTY_ANSWER_INDEX = 'answer_idx';
 	const PROPERTY_ANSWER = 'answer';
@@ -25,7 +25,7 @@ class WeblcmsLearningPathQuestionAttemptsTracker extends MainTracker
      */
     function track($parameters = array())
     {
-    	$learning_path_assessment_attempt_id = $parameters['learning_path_assessment_attempt_id'];
+    	$learning_path_assessment_attempt_id = $parameters['assessment_attempt_id'];
     	$question_id = $parameters['question_id'];
     	$answer = $parameters['answer'];
     	$answer_idx = $parameters['answer_idx'];
@@ -39,7 +39,7 @@ class WeblcmsLearningPathQuestionAttemptsTracker extends MainTracker
     	$this->set_feedback($feedback);
     	$this->set_score($score);
     	$this->set_date(DatabaseRepositoryDataManager :: to_db_date(time()));
-    	
+    	//dump($this);
     	$this->create();
     }
     

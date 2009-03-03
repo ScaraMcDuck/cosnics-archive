@@ -71,9 +71,9 @@ abstract class QuestionResult
 			$this->formvalidator->addElement('html', '<h4>'.Translation :: get("AddFeedback").'</h4>');
 			
 			$result = $this->results[0];
-			$this->formvalidator->addElement('hidden', 'ex_'.$this->get_question()->get_id(), '');
-			$buttons[] = $this->formvalidator->createElement('text', 'ex'.$this->get_question()->get_id().'_name', null, array('DISABLED=DISABLED', 'style="height: 19px;"'));
-			$buttons[] = $this->formvalidator->createElement('style_submit_button', 'feedback_'.$this->get_question()->get_id(), Translation :: get('Select'), array('class' => 'positive'));
+			$this->formvalidator->addElement('hidden', 'ex_'.$this->get_clo_question()->get_id(), '');
+			$buttons[] = $this->formvalidator->createElement('text', 'ex'.$this->get_clo_question()->get_id().'_name', null, array('DISABLED=DISABLED', 'style="height: 19px;"'));
+			$buttons[] = $this->formvalidator->createElement('style_submit_button', 'feedback_'.$this->get_clo_question()->get_id(), Translation :: get('Select'), array('class' => 'positive'));
 
 			$this->formvalidator->addGroup($buttons, 'buttons', '<div style="padding-top: 4px;">' . Translation :: get('SelectedFeedback') . '</div>', '&nbsp;', false);
 		}
@@ -88,7 +88,7 @@ abstract class QuestionResult
 		if ($this->results != null)
 		{
 			$result = $this->results[0];
-			$score = $this->formvalidator->createElement('select', 'score'.$this->get_question()->get_id(), Translation :: get('ChangeScore'), $values);
+			$score = $this->formvalidator->createElement('select', 'score'.$this->get_clo_question()->get_id(), Translation :: get('ChangeScore'), $values);
 			$defaults['score'.$this->get_question()->get_id()] = 0;
 			$this->formvalidator->addElement($score);
 		}
