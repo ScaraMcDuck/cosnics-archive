@@ -86,8 +86,9 @@ class UserForm extends FormValidator {
 		$this->addElement('text', User :: PROPERTY_OFFICIAL_CODE, Translation :: get('OfficialCode'), array("size" => "50"));
 		// Picture URI
 		$this->addElement('file', User :: PROPERTY_PICTURE_URI, Translation :: get('AddPicture'));
-		$allowed_picture_types = array ('jpg', 'jpeg', 'png', 'gif');
-		$this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'filetype', $allowed_picture_types);
+//		$allowed_picture_types = array ('jpg', 'jpeg', 'png', 'gif');
+//		$this->addRule(User :: PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'filetype', $allowed_picture_types);
+		$this->addRule( User::PROPERTY_PICTURE_URI, Translation :: get('OnlyImagesAllowed'), 'mimetype', array('image/gif', 'image/jpeg', 'image/png','image/x-png'));
 		// Phone Number
 		$this->addElement('text', User :: PROPERTY_PHONE, Translation :: get('PhoneNumber'), array("size" => "50"));
 		// Language
@@ -380,7 +381,12 @@ class UserForm extends FormValidator {
 		{
 			$defaults[self :: PARAM_FOREVER] = 1;
 			$defaults['pw']['pass'] = $user->get_password();
+			
+			$defaults[User :: PROPERTY_DATABASE_QUOTA] = '300';
+			$defaults[User :: PROPERTY_DISK_QUOTA] = '209715200';
+			$defaults[User :: PROPERTY_VERSION_QUOTA] = '20';
 		}
+		
 		$defaults['admin'][User :: PROPERTY_PLATFORMADMIN] = $user->get_platformadmin();
 		$defaults['mail']['send_mail'] = 1;
 		$defaults[User :: PROPERTY_USER_ID] = $user->get_id();

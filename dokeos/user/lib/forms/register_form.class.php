@@ -207,7 +207,11 @@ class RegisterForm extends FormValidator {
 		else
 		{
 			$defaults['pw']['pass'] = $user->get_password();
+			$defaults[User :: PROPERTY_DATABASE_QUOTA] = '300';
+			$defaults[User :: PROPERTY_DISK_QUOTA] = '209715200';
+			$defaults[User :: PROPERTY_VERSION_QUOTA] = '20';
 		}
+		
 		$defaults['admin'][User :: PROPERTY_PLATFORMADMIN] = $user->get_platformadmin();
 		$defaults['mail']['send_mail'] = 1;
 		$defaults[User :: PROPERTY_USER_ID] = $user->get_id();
