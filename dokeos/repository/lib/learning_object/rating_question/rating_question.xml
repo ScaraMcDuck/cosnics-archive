@@ -4,6 +4,7 @@
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="low" type="integer" notnull="1"/>
   <property name="high" type="integer" notnull="1"/>
+  <property name="correct" type="integer" notnull="0"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

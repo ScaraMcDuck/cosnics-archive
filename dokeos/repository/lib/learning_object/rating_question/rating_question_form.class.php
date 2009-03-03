@@ -25,6 +25,7 @@ class RatingQuestionForm extends LearningObjectForm
 		if ($object != null) {
 			$defaults[RatingQuestion :: PROPERTY_LOW] = $object->get_low();
 			$defaults[RatingQuestion :: PROPERTY_HIGH] = $object->get_high();
+			$defaults[RatingQuestion :: PROPERTY_CORRECT] = $object->get_correct();
 			
 			if ($object->get_low() == 0 && $object->get_high() == 100)
 			{
@@ -51,7 +52,9 @@ class RatingQuestionForm extends LearningObjectForm
 		$this->addElement('html', '<div style="margin-left:25px;display:block;" id="buttons">');
 		$this->add_textfield(RatingQuestion :: PROPERTY_LOW, Translation :: get ('LowValue'), false);
 		$this->add_textfield(RatingQuestion :: PROPERTY_HIGH, Translation :: get('HighValue'), false);
+		
 		$this->addElement('html', '</div>');
+		$this->add_textfield(RatingQuestion :: PROPERTY_CORRECT, Translation :: get('CorrectValue'), false);
 		$this->addElement('html',"<script type=\"text/javascript\">
 			/* <![CDATA[ */
 			hide_controls('buttons');
@@ -66,6 +69,10 @@ class RatingQuestionForm extends LearningObjectForm
 			/* ]]> */
 				</script>\n");
 		$this->addElement('category');
+		
+		$this->addRule(RatingQuestion :: PROPERTY_LOW, Translation :: get('ValueShouldBeNumeric'), 'numeric');
+		$this->addRule(RatingQuestion :: PROPERTY_HIGH, Translation :: get('ValueShouldBeNumeric'), 'numeric');
+		$this->addRule(RatingQuestion :: PROPERTY_CORRECT, Translation :: get('ValueShouldBeNumeric'), 'numeric');
 	}
 	protected function build_editing_form()
 	{
@@ -77,6 +84,12 @@ class RatingQuestionForm extends LearningObjectForm
 		$this->addElement('html', '<div style="margin-left:25px;display:block;" id="buttons">');
 		$this->add_textfield(RatingQuestion :: PROPERTY_LOW, Translation :: get ('LowValue'), false);
 		$this->add_textfield(RatingQuestion :: PROPERTY_HIGH, Translation :: get('HighValue'), false);
+		$this->add_textfield(RatingQuestion :: PROPERTY_CORRECT, Translation :: get('CorrectValue'));
+		
+		$this->addRule(RatingQuestion :: PROPERTY_LOW, Translation :: get('ValueShouldBeNumeric'), 'numeric');
+		$this->addRule(RatingQuestion :: PROPERTY_HIGH, Translation :: get('ValueShouldBeNumeric'), 'numeric');
+		$this->addRule(RatingQuestion :: PROPERTY_CORRECT, Translation :: get('ValueShouldBeNumeric'), 'numeric');
+		
 		$this->addElement('html', '</div>');
 		
 		$this->addElement('html',"<script type=\"text/javascript\">
@@ -109,6 +122,9 @@ class RatingQuestionForm extends LearningObjectForm
 		else
 			$object->set_high(100);
 			
+		if (isset($values[RatingQuestion :: PROPERTY_CORRECT]))
+			$object->set_correct($values[RatingQuestion :: PROPERTY_CORRECT]);
+			
 		$this->set_learning_object($object);
 		return parent :: create_learning_object();
 	}
@@ -127,6 +143,11 @@ class RatingQuestionForm extends LearningObjectForm
 			$object->set_high($values[RatingQuestion :: PROPERTY_HIGH]);
 		else
 			$object->set_high(100);
+			
+		if (isset($values[RatingQuestion :: PROPERTY_CORRECT]))
+			$object->set_correct($values[RatingQuestion :: PROPERTY_CORRECT]);
+		else
+			$object->set_correct(null);
 
 		$this->set_learning_object($object);
 		return parent :: update_learning_object();

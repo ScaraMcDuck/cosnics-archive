@@ -12,6 +12,7 @@ class RatingQuestion extends LearningObject
 {
 	const PROPERTY_LOW = 'low';
 	const PROPERTY_HIGH = 'high';
+	const PROPERTY_CORRECT = 'correct';
 	
 	function get_allowed_types()
 	{
@@ -38,11 +39,22 @@ class RatingQuestion extends LearningObject
 		$this->set_additional_property(self :: PROPERTY_HIGH, $value);
 	}
 	
+	function get_correct()
+	{
+		return $this->get_additional_property(self :: PROPERTY_CORRECT);
+	}
+	
+	function set_correct($value)
+	{
+		$this->set_additional_property(self :: PROPERTY_CORRECT, $value);
+	}
+	
 	static function get_additional_property_names()
 	{
 		return array (
 			self :: PROPERTY_LOW,
-		 	self :: PROPERTY_HIGH
+		 	self :: PROPERTY_HIGH,
+		 	self :: PROPERTY_CORRECT
 		 );
 	}
 }
