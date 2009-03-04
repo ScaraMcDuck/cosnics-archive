@@ -69,21 +69,26 @@ class HotspotQuestionForm extends LearningObjectForm
 			if(!is_null($object))
 			{
 				$answers = $object->get_answers();
-				foreach ($answers as $answer)
+				foreach ($answers as $i => $answer)
 				{
-					$defaults['answer'][] = $answer->get_answer();
-					$defaults['type'][] = $answer->get_hotspot_type();
-					$defaults['comment'][] = $answer->get_comment();
-					$defaults['coordinates'][] = $answer->get_hotspot_coordinates();
-					$defaults['option_weight'][] = $answer->get_weight();
+					$defaults['answer'][$i] = $answer->get_answer();
+					$defaults['type'][$i] = $answer->get_hotspot_type();
+					$defaults['comment'][$i] = $answer->get_comment();
+					$defaults['coordinates'][$i] = $answer->get_hotspot_coordinates();
+					$defaults['option_weight'][$i] = $answer->get_weight();
 				}
-				$this->set_session_answers($defaults);
+				
 				/*$options = $object->get_answers();
 				foreach($options as $index => $option)
 				{
 					$defaults['option'][$index] = $option->get_value();
 					$defaults['weight'][$index] = $option->get_weight();
 				}*/
+				for ($i = count($answers); $i < $_SESSION['mc_number_of_options']; $i++)
+				{
+					$defaults['option_weight'][$i] = 1;
+				}
+				$this->set_session_answers($defaults);
 			}
 		}
 		else
@@ -92,7 +97,7 @@ class HotspotQuestionForm extends LearningObjectForm
 		
 			for($option_number = 0; $option_number <$number_of_options ; $option_number++)
 			{
-				$defaults['option_weight'][$option_number] = 0;
+				$defaults['option_weight'][$option_number] = 1;
 			}
 		}
 		

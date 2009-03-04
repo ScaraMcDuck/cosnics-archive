@@ -43,7 +43,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 		
 				for($option_number = 0; $option_number <$number_of_options ; $option_number++)
 				{
-					$defaults['option_weight'][$option_number] = 0;
+					$defaults['option_weight'][$option_number] = 1;
 				}
 			}
 		}
