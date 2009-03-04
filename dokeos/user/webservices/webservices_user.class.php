@@ -12,7 +12,7 @@ $handler->run();
 class WebServicesUser
 {
 	private $webservice;
-	private $functions;
+	private $functions;	
 	
 	function WebServicesUser()
 	{
@@ -47,19 +47,27 @@ class WebServicesUser
 			'input' => new User(),
 			'output' => new ActionSuccess()
 		);
+		
+		$functions['validate'] = array(
+			'input' => new User(),
+			'output' => new ActionSuccess()
+		);
 
 		$this->webservice->provide_webservice($functions);
 	}
 	
 	function get_user($input_user)
-	{
+	{		
 		$udm = DatabaseUserDataManager :: get_instance();
 		$user = $udm->retrieve_user($input_user[id]);
 		if(isset($user))
-		return $user->get_default_properties();
+		{					
+			return $user->get_default_properties();
+		}		
 		else
 		return new ActionSuccess(0);
 	}
+	
 	
 	function get_all_users()
 	{
@@ -67,8 +75,8 @@ class WebServicesUser
 		$users = $udm->retrieve_users();
 		$users = $users->as_array();
 		foreach($users as &$user)
-		{
-			$user = $user->get_default_properties();
+		{			
+			$user = $user->get_default_properties();			
 		}
 		return $users;
 	}
@@ -95,5 +103,42 @@ class WebServicesUser
 		$success = new ActionSuccess();
 		$success->set_success($u->update());
 		return $success->get_default_properties();
+	}	
+	
+	function validate($input_user)
+	{
+		
+		$udm = DatabaseUserDataManager :: get_instance();
+		//echo 'username : ' . $input_user[username];
+		//echo 'password : ' . $input_user[password];
+		$user = $udm->retrieve_user_by_username($input_user[username]);		
+		if(isset($user)) //user exists
+		{	
+			$username = $input_user[username];		
+			$db_password = $user->get_password();			
+			$password = $input_user[password];
+			if($db_password == $password) //check passwords
+			{				
+				echo 'username and password accepted';				
+				echo 'creating hash : ';					
+				$parameters = '' . $username . '' . $password;
+				echo 'parameters : ' . $parameters;
+				$hash = md5($parameters);
+				echo 'hash : ' . $hash;
+				echo '</body></html>';
+				
+			}
+			else
+			{
+				echo 'wrong values';
+			}			
+		}
+		else
+		{
+			echo 'input is geen user object';
+		}		
+	
 	}
+	
+	
 }
