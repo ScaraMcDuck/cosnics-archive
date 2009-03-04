@@ -24,33 +24,6 @@ abstract class QuestionQtiExport extends QtiExport
 	{
 		switch ($question->get_type())
 		{
-			/*case Question :: TYPE_OPEN:
-				$export_type = new OpenQuestionQtiExport($question);
-				break;
-			case Question :: TYPE_OPEN_WITH_DOCUMENT:
-				$export_type = new OpenQuestionWithDocumentQtiExport($question);
-				break;
-			case Question :: TYPE_DOCUMENT:
-				$export_type = new DocumentQuestionQtiExport($question);
-				break;
-			case Question :: TYPE_FILL_IN_BLANKS:
-				$export_type = new FillInBlanksQuestionQtiExport($question);
-				break;
-			case Question :: TYPE_MATCHING:
-				$export_type = new MatchingQuestionQtiExport($question);
-				break;
-			case Question :: TYPE_MULTIPLE_ANSWER:
-				$export_type = new MultipleAnswerQuestionQtiExport($question);
-				break;
-			case Question :: TYPE_MULTIPLE_CHOICE:
-				$export_type = new MultipleChoiceQuestionQtiExport($question);
-				break;
-			case Question :: TYPE_PERCENTAGE:
-				$export_type = new PercentageQuestionQtiExport($question);
-				break;
-			case Question :: TYPE_SCORE:
-				$export_type = new ScoreQuestionQtiExport($question);
-				break;*/
 			case 'open_question':
 				$export_type = new OpenQuestionQtiExport($question);
 				break;

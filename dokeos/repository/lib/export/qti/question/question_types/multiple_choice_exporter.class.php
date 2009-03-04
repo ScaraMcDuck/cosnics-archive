@@ -16,7 +16,7 @@ class MultipleChoiceQuestionQtiExport extends QuestionQtiExport
 		foreach ($q_answers as $q_answer)
 		{
 			//$answer = $rdm->retrieve_learning_object($clo_answer->get_ref(), 'answer');
-			$answers[] = array('answer' => $q_answer->get_value(), 'score' => $q_answer->get_weight(), 'correct' => $q_answer->is_correct());
+			$answers[] = array('answer' => $q_answer->get_value(), 'score' => $q_answer->get_weight(), 'correct' => $q_answer->is_correct(), 'feedback' => $q_answer->get_comment());
 		}
 		
 		$item_xml[] = '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1    http://www.imsglobal.org/xsd/imsqti_v2p1.xsd" identifier="q'.$question->get_id().'" title="'.$question->get_title().'" adaptive="false" timeDependent="false">';
@@ -46,6 +46,7 @@ class MultipleChoiceQuestionQtiExport extends QuestionQtiExport
 	function get_outcome_xml($answers)
 	{
 		$outcome_xml[] = '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer">';
+		$outcome_xml[] = '<outcomeDeclaration identifier="FEEDBACK" cardinality="single" baseType="identifier">';
 		$outcome_xml[] = '<defaultValue>';
 		$outcome_xml[] = '<value>0</value>';
 		$outcome_xml[] = '</defaultValue>';
@@ -60,7 +61,9 @@ class MultipleChoiceQuestionQtiExport extends QuestionQtiExport
 		$interaction_xml[] = '<prompt>'.htmlspecialchars($this->get_learning_object()->get_description()).'</prompt>';
 		foreach ($answers as $i => $answer)
 		{
-			$interaction_xml[] = '<simpleChoice identifier="c'.$i.'" fixed="false">'.htmlspecialchars($answer['answer']).'</simpleChoice>';
+			$interaction_xml[] = '<simpleChoice identifier="c'.$i.'" fixed="false">'.htmlspecialchars($answer['answer']);
+			$interaction_xml[] = '<feedbackInline outcomeIdentifier="FEEDBACK" identifier="c'.$i.'" showHide="show">'.htmlspecialchars($answer['comment']).'</feedbackInline>';
+			$interaction_xml[] = '</simpleChoice>';
 		}
 		$interaction_xml[] = '</choiceInteraction>';
 		$interaction_xml[] = '</itemBody>';

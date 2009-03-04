@@ -13,7 +13,7 @@
  <index name="id" type="primary">
   <indexproperty name="id"/>
  </index>
- <index name="learning_path_assessment_attempt_id">
-  <indexproperty name="learning_path_assessment_attempt_id"/>
+ <index name="assessment_attempt_id">
+  <indexproperty name="assessment_attempt_id"/>
  </index>
 </object>
