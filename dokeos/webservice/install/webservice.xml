@@ -5,7 +5,7 @@
   <property name="name" type="text" length="255"/>
   <property name="description" type="text"/>
   <property name="parent" type="integer" unsigned="1" notnull="1"/>
-  <property name="active" type="boolean" notnull="1" />
+  <property name="active" type="boolean" notnull="1" default="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
