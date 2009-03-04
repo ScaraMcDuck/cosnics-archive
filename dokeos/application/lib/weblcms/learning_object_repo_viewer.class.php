@@ -41,8 +41,12 @@ class LearningObjectRepoViewer extends RepoViewer
 	
 	function redirect_complex($type)
 	{
-		if($type == 'forum_topic')
-			return false;
+		switch ($type)
+		{
+			case 'forum_topic':
+				return false;
+			default: return true;
+		}
 	}
 
 	/**
