@@ -8,16 +8,11 @@ class MatchingQuestionQtiExport extends QuestionQtiExport
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		$question = $this->get_learning_object();
-		//$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $question->get_id());
-		//$clo_answers = $rdm->retrieve_complex_learning_object_items($condition);
+
 		$q_answers = $question->get_options();
 		$q_matches = $question->get_matches();
 		foreach($q_answers as $q_answer)
 		{
-			//$answer = $rdm->retrieve_learning_object($clo_answer->get_ref(), 'answer');
-			//$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $answer->get_id());
-			//$clo_match = $rdm->retrieve_complex_learning_object_items($condition)->next_result();
-			//$match = $rdm->retrieve_learning_object($clo_match->get_ref());
 			$match = $q_matches[$q_answer->get_match()]; 
 			$answers[] = array('answer' => $q_answer->get_value(), 'matchnum' => $q_answer->get_match(), 'match' => $match, 'score' => $q_answer->get_weight());
 		}
@@ -65,7 +60,7 @@ class MatchingQuestionQtiExport extends QuestionQtiExport
 		}
 		$interaction_xml[] = '</simpleMatchSet>';
 		$interaction_xml[] = '<simpleMatchSet>';
-		//$matches = $this->create_match_list($answers);
+
 		foreach ($matches as $i => $match)
 		{
 			$interaction_xml[] = '<simpleAssociableChoice identifier="m'.$i.'" matchMax="'.sizeof($answers).'">'.htmlspecialchars($match).'</simpleAssociableChoice>';
@@ -77,7 +72,7 @@ class MatchingQuestionQtiExport extends QuestionQtiExport
 		return implode('', $interaction_xml);
 	}
 	
-	function create_match_list($answers)
+	/*function create_match_list($answers)
 	{
 		foreach ($answers as $answer)
 		{
@@ -94,6 +89,6 @@ class MatchingQuestionQtiExport extends QuestionQtiExport
 			}
 		}
 		return $matches;
-	}
+	}*/
 }
 ?>
