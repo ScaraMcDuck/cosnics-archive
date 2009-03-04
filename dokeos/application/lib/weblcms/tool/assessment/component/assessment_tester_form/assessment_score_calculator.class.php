@@ -151,6 +151,7 @@ class AssessmentScoreCalculator
 	
 	static function calculate_score($assessment_tracker)
 	{
+		//dump(get_class($assessment_tracker));
 		$score = 0;
 		if (get_class($assessment_tracker) == 'WeblcmsAssessmentAttemptsTracker')
 		{
@@ -179,7 +180,7 @@ class AssessmentScoreCalculator
 		{
 			$track = new WeblcmsQuestionAttemptsTracker();
 			$condition_aid = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $assessment_tracker->get_id());
-			$condition_qid = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_ref());
+			$condition_qid = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_id());
 			$condition = new AndCondition(array($condition_aid, $condition_qid));
 			$question_trackers = $track->retrieve_tracker_items($condition);
 		}
@@ -187,11 +188,11 @@ class AssessmentScoreCalculator
 		{
 			$track = new WeblcmsLearningPathQuestionAttemptsTracker();
 			$condition_aid = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LEARNING_PATH_ASSESSMENT_ATTEMPT_ID, $assessment_tracker->get_id());
-			$condition_qid = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_ref());
+			$condition_qid = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question->get_id());
 			$condition = new AndCondition(array($condition_aid, $condition_qid));
 			$question_trackers = $track->retrieve_tracker_items($condition);
 		}
-		
+		//dump($question_trackers);
 		$score = 0;
 		foreach ($question_trackers as $q_tracker)
 		{
