@@ -232,5 +232,7 @@ abstract class UserDataManager
 	abstract function delete_role_link($group, $role_id);
 	
 	abstract function update_role_links($group, $roles);
+	
+	abstract function get_database();
 }
 ?>

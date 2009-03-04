@@ -38,7 +38,7 @@ class ObjectTableColumn
 	 *                                                   object property, false
 	 *                                                   otherwise.
 	 */
-	function ObjectTableColumn($property_name_or_column_title, $contains_object_property = false)
+	function ObjectTableColumn($property_name_or_column_title, $contains_object_property = false, $is_sortable = true)
 	{
 		if ($contains_object_property)
 		{
@@ -49,6 +49,11 @@ class ObjectTableColumn
 		else
 		{
 			$this->title = $property_name_or_column_title;
+			$this->sortable = false;
+		}
+		
+		if (!$is_sortable)
+		{
 			$this->sortable = false;
 		}
 	}

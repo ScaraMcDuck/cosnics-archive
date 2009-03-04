@@ -395,7 +395,35 @@ class Database
 
 		$class_name = DokeosUtilities :: underscores_to_camelcase($table_name);
 		if($record)
+		{
 			return self :: record_to_object($record, $class_name);
+		}
+	}
+	
+	function retrieve_distinct($table_name, $column_name, $condition = null, $order_direction = SORT_ASC)
+	{
+		$query = 'SELECT DISTINCT(' . $this->escape_column_name($column_name) . ') FROM '.$this->escape_table_name($table_name);
+		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$statement = $this->connection->prepare($query);
+		
+		$res = $statement->execute($params);
+		
+		$distinct_elements = array();
+		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
+		{
+			$distinct_elements[] = $record[$column_name];
+		}
+		
+		return $distinct_elements;
 	}
 	
 	function get_alias($table_name)
