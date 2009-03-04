@@ -115,6 +115,9 @@
 			<setting name="allow_wiki_page_creation" field="checkbox" default="1">
 				<options type="static"><option name="allow_wiki_page_creation" value="1" /></options>
 			</setting>
+			<setting name="allow_youtube_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_youtube_creation" value="1" /></options>
+			</setting>
 		</category>
 	</settings>
 </application>
