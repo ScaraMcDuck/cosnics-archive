@@ -25,6 +25,8 @@ require_once 'MDB2.php';
 
 class DatabaseUserDataManager extends UserDataManager
 {
+	const ALIAS_USER = 'u';
+	
 	private $database;
 	
 	/**
@@ -32,7 +34,7 @@ class DatabaseUserDataManager extends UserDataManager
 	 */
 	function initialize()
 	{
-		$this->database = new Database(array('user' => 'u','user_quota' => 'uq', 'user_role' => 'ur'));
+		$this->database = new Database(array(User :: get_table_name() => self :: ALIAS_USER,'user_quota' => 'uq', 'user_role' => 'ur'));
 		$this->database->set_prefix('user_');
 	}
 	

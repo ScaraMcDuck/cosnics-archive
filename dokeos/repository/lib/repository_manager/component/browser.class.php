@@ -88,7 +88,9 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 		
 		$cond = $this->form->get_filter_conditions();
 		if($cond)
+		{
 			$conditions[] = $cond;
+		}
 		
 		$condition = new AndCondition($conditions);
 		//dump($condition);
