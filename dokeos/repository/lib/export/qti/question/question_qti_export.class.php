@@ -1,13 +1,14 @@
 <?php
-require_once dirname(__FILE__).'/question_types/document_exporter.class.php';
+//require_once dirname(__FILE__).'/question_types/document_exporter.class.php';
 require_once dirname(__FILE__).'/question_types/fill_in_blanks_exporter.class.php';
 require_once dirname(__FILE__).'/question_types/matching_exporter.class.php';
 require_once dirname(__FILE__).'/question_types/multiple_answer_exporter.class.php';
 require_once dirname(__FILE__).'/question_types/multiple_choice_exporter.class.php';
 require_once dirname(__FILE__).'/question_types/open_question_exporter.class.php';
-require_once dirname(__FILE__).'/question_types/open_question_with_document_exporter.class.php';
-require_once dirname(__FILE__).'/question_types/percentage_exporter.class.php';
+//require_once dirname(__FILE__).'/question_types/open_question_with_document_exporter.class.php';
+//require_once dirname(__FILE__).'/question_types/percentage_exporter.class.php';
 require_once dirname(__FILE__).'/question_types/score_exporter.class.php';
+require_once dirname(__FILE__).'/question_types/hotspot_question_exporter.class.php';
 require_once dirname(__FILE__).'/../qti_export.class.php';
 
 abstract class QuestionQtiExport extends QtiExport
@@ -41,6 +42,9 @@ abstract class QuestionQtiExport extends QtiExport
 				break;
 			case 'rating_question':
 				$export_type = new ScoreQuestionQtiExport($question);
+				break;
+			case 'hotspot_question':
+				$export_type = new HotspotQuestionQtiExport($question);
 				break;
 			default:
 				$export_type = null;

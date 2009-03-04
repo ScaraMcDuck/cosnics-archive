@@ -14,7 +14,7 @@ class FillInBlanksQuestionQtiExport extends QuestionQtiExport
 		$item_xml[] = $this->get_response_xml($answers);
 		$item_xml[] = $this->get_outcome_xml();
 		$item_xml[] = $this->get_interaction_xml($answers);
-		$item_xml[] = '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct" />';
+		$item_xml[] = $this->get_response_processing_xml($answers);
 		$item_xml[] = '</assessmentItem>';
 		$file = parent :: create_qti_file(implode('', $item_xml));
 		//echo(implode('', $item_xml));
@@ -56,13 +56,40 @@ class FillInBlanksQuestionQtiExport extends QuestionQtiExport
 		foreach ($answers as $i => $answer)
 		{
 			$interaction_xml[] = '<textEntryInteraction responseIdentifier="c'.$i.'" expectedLength="20">';
-			//$interaction_xml[] = '<feedbackInline outcomeIdentifier="'..'" identifier="MGH001A" showHide="show">No, he is the President of the USA.</feedbackInline>';
+			$interaction_xml[] = '<feedbackInline outcomeIdentifier="FEEDBACK'.$i.'" identifier="INCORRECT" showHide="hide">'.$answer->get_comment().'</feedbackInline>';
 			$interaction_xml[] = '</textEntryInteraction>';
 		}
 
 		$interaction_xml[] = '</itemBody>';
 		
 		return implode('', $interaction_xml);
+	}
+	
+	
+	function get_response_processing_xml($answers)
+	{
+		$rp_xml[] = '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct">';
+		foreach ($answers as $answer)
+		{
+			$rp_xml[] = '<responseCondition>';
+			$rp_xml[] = '<responseIf>';
+			
+			$rp_xml[] = '<not>';
+			$rp_xml[] = '<match>';
+			$rp_xml[] = '<variable identifier="c'.$i.'" />';
+			$rp_xml[] = '<correct identifier="c'.$i.'" />';
+			$rp_xml[] = '</match>';
+			$rp_xml[] = '</not>';
+			
+			$rp_xml[] = '<setOutcomeValue identifier="FEEDBACK'.$i.'" >';
+			$rp_xml[] = '<baseValue baseType="identifier">INCORRECT</baseValue>';
+			$rp_xml[] = '</setOutcomeValue>';
+
+			$rp_xml[] = '</responseIf>';
+			$rp_xml[] = '</responseCondition>';
+		}
+		$rp_xml[] = '</responseProcessing>';
+		return implode('', $rp_xml);
 	}
 }
 ?>
