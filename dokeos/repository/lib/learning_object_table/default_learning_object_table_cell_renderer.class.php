@@ -83,5 +83,10 @@ class DefaultLearningObjectTableCellRenderer implements ObjectTableCellRenderer
 		}
 		return '&nbsp;';
 	}
+	
+	function render_id_cell($object)
+	{
+		return $object->get_id();
+	}
 }
 ?>

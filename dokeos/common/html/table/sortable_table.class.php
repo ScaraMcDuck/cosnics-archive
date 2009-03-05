@@ -126,7 +126,7 @@ class SortableTable extends HTML_Table
 	 * @param int $default_order_direction The default order direction; either
 	 * the constant SORT_ASC or SORT_DESC
 	 */
-	function SortableTable($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $default_column = 1, $default_items_per_page = 20, $default_order_direction = SORT_ASC, $ajax_enabled = true)
+	function SortableTable($table_name = 'table', $get_total_number_function = null, $get_data_function = null, $default_column = 1, $default_items_per_page = 20, $default_order_direction = SORT_ASC, $ajax_enabled = false)
 	{
 		parent :: HTML_Table(array ('class' => 'data_table'), 0, true);
 		$this->table_name = $table_name;
@@ -345,7 +345,7 @@ class SortableTable extends HTML_Table
 		$table_data = $this->get_table_data($from);
 		
 		foreach ($table_data as $index => $row)
-		{
+		{			
 			$row_id = $row[0];
 			$row = $this->filter_data($row);
 			$current_row = $this->addRow($row);

@@ -230,5 +230,16 @@ class Group
 		$gdm = GroupDataManager :: get_instance();
 		return $gdm->update_role_links($this, $roles);
 	}
+	
+	function get_users($include_subgroups = false)
+	{
+		$gdm = GroupDataManager :: get_instance();
+		
+		if ($include_subgroups)
+		{
+			// Get all subgroups of this group recursively
+			
+		}
+	}
 }
 ?>
