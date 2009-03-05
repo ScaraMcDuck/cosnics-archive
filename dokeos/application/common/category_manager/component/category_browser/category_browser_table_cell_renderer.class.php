@@ -68,6 +68,11 @@ class CategoryBrowserTableCellRenderer implements ObjectTableCellRenderer
 		return '&nbsp;';
 		
 	}
+	
+	function render_id_cell($object)
+	{
+		return $object->get_id();
+	}
 	/**
 	 * Gets the action links to display
 	 * @param LearningObject $learning_object The learning object for which the
