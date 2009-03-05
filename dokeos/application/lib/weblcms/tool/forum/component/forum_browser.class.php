@@ -10,6 +10,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
 {
 	private $action_bar;
 	private $introduction_text;
+	private $size; //Number of published forums
 	
 	function run()
 	{
@@ -34,6 +35,9 @@ class ForumToolBrowserComponent extends ForumToolComponent
 		
 		echo $this->action_bar->as_html();
 		echo $table->toHtml();
+		
+		if($this->size == 0)
+			echo '<br><div style="text-align: center"><h3>' . Translation :: get('NoPublications') . '</h3></div>';
 		
 		$this->display_footer();
 	}
@@ -104,6 +108,8 @@ class ForumToolBrowserComponent extends ForumToolComponent
 		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), $parent, $user_id, $course_groups, $condition, false, array (Forum :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_ASC), 0, -1, null, $cond);
 		
 		$size = $publications->size();
+		$this->size = $size;
+		
 		$counter = 0;
 		while($publication = $publications->next_result())
 		{
@@ -142,7 +148,8 @@ class ForumToolBrowserComponent extends ForumToolComponent
 			$delete = array(
 				'href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DELETE)),
 				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_image_path() . 'action_delete.png'
+				'img' => Theme :: get_common_image_path() . 'action_delete.png',
+				'confirm' => true
 			);
 		}
 			
