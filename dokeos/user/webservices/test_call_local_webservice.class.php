@@ -3,7 +3,6 @@ require_once(dirname(__FILE__) . '/../../common/global.inc.php');
 require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php';
 require_once dirname(__FILE__) . '/../lib/user.class.php';
 
-echo 'tetn';
 $handler = new TestCallLocalWebservice();
 
 $handler->run();
