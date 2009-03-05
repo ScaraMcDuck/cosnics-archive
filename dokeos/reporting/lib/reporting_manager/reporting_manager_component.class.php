@@ -212,6 +212,14 @@ abstract class ReportingManagerComponent {
 	{
 		$this->get_parent()->not_allowed();
 	}
+	
+	/**
+	 * @see AdminManager ::display_popup_form()
+	 */
+	function get_application_platform_admin_links()
+	{
+		return $this->get_parent()->get_application_platform_admin_links();
+	}
 	/**
 	 * Create a new user manager component
 	 * @param string $type The type of the component to create.

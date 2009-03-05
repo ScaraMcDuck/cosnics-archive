@@ -1,0 +1,42 @@
+div.configure {
+    clear: both;
+	text-align: center;
+	height: 80px;
+	width: 100%;
+	margin:0 auto;
+}
+
+div.configure div.application
+{
+	float: left;
+	width: 80px;
+	height: 68px;
+	text-align: center;
+	padding: 5px 5px 5px 5px;
+	margin: 2px 2px 2px 2px;
+	border: 1px solid #ebebeb;
+	font-size: 75%;
+}
+
+div.configure div.application_current
+{
+	float: left;
+	width: 80px;
+	height: 68px;
+	text-align: center;
+	padding: 5px 5px 5px 5px;
+	margin: 2px 2px 2px 2px;
+	border: 1px solid #c0c0c0;
+	background: #ebebeb;
+	font-size: 75%;
+}
+
+div.configure div.application img
+{
+	width: 60%;
+}
+
+div.configure div.application_current img
+{
+	width: 60%;
+}

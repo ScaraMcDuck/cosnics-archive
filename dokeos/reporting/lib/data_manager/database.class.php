@@ -6,11 +6,11 @@ require_once dirname(__FILE__).'/../reporting_data_manager.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once dirname(__FILE__).'/database/databasereportingblockresultset.class.php';
+require_once dirname(__FILE__).'/database/databasereportingtemplateresultset.class.php';
 
 class DatabaseReportingDataManager extends ReportingDataManager
 {
 	const ALIAS_REPORTINGBLOCK_TABLE = 'rpb';
-	
 	const ALIAS_REPORTINGTEMPLATE_TABLE = 'rpt';
 
 	/**
@@ -398,6 +398,147 @@ class DatabaseReportingDataManager extends ReportingDataManager
 		
 		return $reporting_block;
 	}
+	
+	function create_reporting_template(&$reporting_template)
+	{
+		$props = array();
+		foreach ($reporting_template->get_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('reporting_template'), $props, MDB2_AUTOQUERY_INSERT);
+		
+		return true;
+	}//create_reporting_template
+	
+	function update_reporting_template(&$reporting_template)
+	{
+		$condition = new EqualityCondition('id', $reporting_template->get_id());
+		
+		$props = array();
+		foreach ($reporting_template->get_properties() as $key => $value)
+		{
+			if($key == 'id') continue;
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$this->connection->loadModule('Extended');
+		$this->connection->extended->autoExecute($this->get_table_name('reporting_template'), $props, MDB2_AUTOQUERY_UPDATE, $condition);
+		return true;
+	}//update_reporting_template
+	
+	function retrieve_reporting_template_by_name($reporting_template_name)
+	{
+		$query = 'SELECT * FROM ' . $this->escape_table_name('reporting_template') . ' AS ' . 
+				 self :: ALIAS_REPORTINGTEMPLATE_TABLE;
+		
+		$conditions = array();
+		$conditions[] = new EqualityCondition('name', $reporting_template_name);
+		
+		$condition = new AndCondition($conditions);
+		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$statement = $this->connection->prepare($query);
+		$result = $statement->execute($params);
+		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+	
+		$reporting_template = $this->record_to_classobject($record, 'ReportingTemplate');
+		
+		return $reporting_template;
+	}//retrieve_reporting_template_by_name
+	
+	function retrieve_reporting_templates($condition = null,$offset = null,$maxObjects = null, $order_property = null, $order_direction = null)
+	{
+		$query = 'SELECT * FROM ' . $this->escape_table_name('reporting_template') . ' AS ' . 
+				 self :: ALIAS_REPORTINGTEMPLATE_TABLE;
+		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$orderBy[] = ReportingTemplate :: PROPERTY_NAME;
+		$orderDir[] = SORT_ASC;
+		$order = array ();
+		
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects < 0)
+		{
+			$maxObjects = null;
+		}
+		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		
+		//dump($query);
+		//dump($params);
+		
+		//dump($statement);
+		//dump($res);
+		return new DatabaseReportingTemplateResultSet($this, $res);
+	}//retrieve_reporting_templates
+	
+	function count_reporting_templates($condition = null)
+	{
+		$params = array ();
+		$query = 'SELECT COUNT('.$this->escape_column_name(ReportingTemplate :: PROPERTY_ID).') FROM '.$this->escape_table_name('reporting_template');
+		
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $record[0];
+	}//count_reporting_templates
+	
+	function retrieve_reporting_template($reporting_template_id)
+	{
+		$query = 'SELECT * FROM ' . $this->escape_table_name('reporting_template') . ' AS ' . 
+				 self :: ALIAS_REPORTINGTEMPLATE_TABLE;
+		
+		$condition = new EqualityCondition('id', $reporting_template_id);
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$statement = $this->connection->prepare($query);
+		$result = $statement->execute($params);
+		$record = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
+		
+		$reporting_template = $this->record_to_classobject($record, 'ReportingTemplate');
+		
+		return $reporting_template;
+	}//retrieve_reporting_template
 	
 	/**
 	 * Creates a archive controller item in the database

@@ -31,6 +31,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	const ACTION_BROWSE_TEMPLATES = 'browse_templates';
 	const ACTION_ADD_TEMPLATE = 'add_template';
 	const ACTION_DELETE_TEMPLATE = 'delete_template';
+	const ACTION_APPLICATION_TEMPLATES = 'application_templates';
 	const PARAM_TEMPLATE_ID = 'template_id';
 	
 	private $parameters;
@@ -102,20 +103,11 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	 * @param boolean $display_search Should the header include a search form or
 	 * not?
 	 */
-	function display_header($breadcrumbtrail, $display_search = false)
+	function display_header($breadcrumbtrail = array(), $display_search = false)
 	{
 		if (is_null($breadcrumbtrail))
 		{
 			$breadcrumbtrail = new BreadcrumbTrail();
-		}
-		
-		$categories = $this->breadcrumbs;
-		if (count($categories) > 0)
-		{
-			foreach($categories as $category)
-			{
-				$breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
-			}
 		}
 		
 		$title = $breadcrumbtrail->get_last()->get_name();
@@ -124,21 +116,23 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		{
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
-		Display :: header($breadcrumbtrail);
+		Display :: header($breadcrumbtrail, $title_short);
 		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
 		if ($display_search)
 		{
 			$this->display_search_form();
 		}
-
 		echo '<div class="clear">&nbsp;</div>';
-		if ($msg = $_GET[self :: PARAM_MESSAGE])
-		{			
-			$this->display_message($msg);
-		}
-		if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
+		
+		$message = Request :: get(self :: PARAM_MESSAGE);
+		if (isset($message))
 		{
-			$this->display_error_message($msg);
+			$this->display_message($message);
+		}
+		$message = Request :: get(self :: PARAM_ERROR_MESSAGE);
+		if(isset($message))
+		{
+			$this->display_error_message($message);
 		}
 	}	
 	
@@ -147,7 +141,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	 */
 	function display_footer()
 	{
-		echo '</div>';
+		//echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
 		Display :: footer();
 	}
@@ -245,6 +239,23 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 //	{
 //		return ReportingDataManager :: get_instance()->retrieve_available_templates($condition,$offset,$order_property,$order_direction);
 //	}
+
+	/**
+	 * Returns an array of platform reporting templates for an application
+	 */
+	function retrieve_platform_reporting_templates_for_application($application)
+	{
+		$rpdm = ReportingDatamanager :: get_instance();
+		$conditions[] = new EqualityCondition('application',$application);
+		$conditions[] = new EqualityCondition('platform','1');
+		$cond = new AndCondition($conditions);
+		$templateresultset = $rpdm->retrieve_reporting_templates($cond);
+		while($template = $templateresultset->next_result())
+		{
+			$templates[] = $template;
+		}
+		return $templates;
+	}
 	
 	/**
 	 * Redirect the end user to another location.
