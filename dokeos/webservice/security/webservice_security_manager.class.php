@@ -19,14 +19,12 @@ class WebserviceSecurityManager
 	
 	function create_hash($username, $password) //methode to create the hash, and store it in the db
 	{	
-		echo 'username and password accepted';		
-		echo 'creating hash : ';		
-		$parameters = '' . $username . '' . $password;
-		echo 'parameters : ' . $parameters;
+		$parameters = $username.''.$password;
 		$hash = md5($parameters);
+		$hash = hash('whirlpool',$hash);
 		echo 'hash : ' . $hash;
 		//naar de database schrijven
-		
+		return $hash;
 	}
 	
 	function validate_hash($hash)
@@ -60,16 +58,16 @@ class WebserviceSecurityManager
 			$password = $input_user[password];
 			if($db_password == $password) //check passwords
 			{				
-				$this->create_hash($username, $password); //create hash
+				return $this->create_hash($username, $password); //create hash
 			}
 			else
 			{
-				echo 'wrong values';
+				return false;
 			}			
 		}
 		else
 		{
-			echo 'input is not an object';
+			return 'input is not an object';
 		}
 	}	
 	
