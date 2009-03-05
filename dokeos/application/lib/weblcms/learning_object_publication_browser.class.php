@@ -136,6 +136,11 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->category;
 	}
+	
+	function set_category($category)
+	{
+		$this->category = $category;
+	}
 
 	/**
 	 * @see Tool :: get_user_id()

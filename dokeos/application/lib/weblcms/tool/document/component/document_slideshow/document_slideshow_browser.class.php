@@ -18,10 +18,11 @@ class DocumentSlideshowBrowser extends LearningObjectPublicationBrowser
 		parent :: __construct($parent, 'document');
 		$tree_id = 'pcattree';
 		//$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
-		//$parent->set_parameter($tree_id, $_GET[$tree_id]);
+		$parent->set_parameter($tree_id, $_GET[$tree_id]);
 		$renderer = new DocumentPublicationSlideshowRenderer($this);
 		$this->set_publication_list_renderer($renderer);
 		//$this->set_publication_category_tree($tree);
+		$this->set_category(Request :: get($tree_id));
 	}
 
 	function get_publications($from, $count, $column, $direction)
@@ -39,7 +40,7 @@ class DocumentSlideshowBrowser extends LearningObjectPublicationBrowser
 		}
 		
 		$cond = new EqualityCondition('type','document');
-		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $user_id, $course_groups, $this->get_condition(), false, array (Document :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $cond);
+		$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), $this->get_category(), $user_id, $course_groups, $this->get_condition($this->get_category()), false, array (Document :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_DESC), 0, -1, null, $cond);
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
 		{
