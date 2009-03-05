@@ -2,10 +2,11 @@
 require_once(dirname(__FILE__) . '/../../common/global.inc.php');
 require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php';
 require_once dirname(__FILE__) . '/provider/input_user.class.php';
-require_once dirname(__FILE__) . '/../lib/data_manager/database.class.php';
-require_once dirname(__FILE__) . '/../lib/user.class.php';
+require_once dirname(__FILE__) . '/../../user/lib/user.class.php';
 require_once dirname(__FILE__) . '/../../common/webservices/action_success.class.php';
+require_once dirname(__FILE__) . '/webservice_security_manager.class.php';
 
+$wsm = new WebserviceSecurityManager();
 $handler = new WebServiceLogin();
 $handler->run();
 
@@ -33,10 +34,9 @@ class WebServiceLogin
 	
 	
 	
-	function validate($input_user)
+	function validate($user)
 	{
-
-		dump($this->validate($input_user));
+		dump($wsm->validate_login($user));
 	}
 	
 	

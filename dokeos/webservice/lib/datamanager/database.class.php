@@ -61,6 +61,12 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 		return $this->database->delete(WebserviceCategoryRegistration :: get_table_name(), $condition);
 	}
 	
+	function truncate_webservice_credential($webserviceCredential)
+	{
+		$condition = new EqualityCondition(WebserviceCredential :: PROPERTY_USER_ID, $webserviceCredential->get_user_id());
+		return $this->database->delete(WebserviceCredential :: get_table_name(), $condition);
+	}
+	
 	function create_storage_unit($name, $properties, $indexes)
 	{
 		return $this->database->create_storage_unit($name, $properties, $indexes);
@@ -86,6 +92,18 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 	function retrieve_webservice_categories($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		return $this->database->retrieve_objects(WebserviceCategory :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+	}
+	
+	function retrieve_webservice_credential_by_hash($hash)
+	{
+		$condition = new EqualityCondition(WebserviceCredential :: PROPERTY_HASH, $hash);
+		return $this->database->retrieve_object(WebserviceCredential :: get_table_name(), $condition);
+	}
+	
+	function retrieve_webservice_credential_by_user_id($user_id)
+	{
+		$condition = new EqualityCondition(WebserviceCredential :: PROPERTY_USER_ID, $user_id);
+		return $this->database->retrieve_object(WebserviceCredential :: get_table_name(), $condition);
 	}
 	
 	function delete_webservice($webservice)
@@ -114,6 +132,15 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 		return $bool;
 	}
 	
+	function delete_webservice_credential($webserviceCredential)
+	{
+		$condition = new EqualityCondition(WebserviceCredential :: PROPERTY_USER_ID, $webserviceCredential->get_user_id());
+		$bool = $this->database->delete($webserviceCredential->get_table_name(), $condition);
+		$this->truncate_webservice_category($webserviceCredential);
+		
+		return $bool;
+	}
+	
 	function update_webservice($webservice)
 	{
 		$condition = new EqualityCondition(WebserviceRegistration :: PROPERTY_ID, $webservice->get_id());
@@ -135,6 +162,11 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 	{
 		return $this->database->create($webserviceCategory);
 	}	
+	
+	function create_webservice_credential($webserviceCredential)
+	{
+		return $this->database->create($webserviceCredential);
+	}
 
 }
 ?>
