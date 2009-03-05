@@ -47,6 +47,51 @@ class TestCallLocalWebservice
 			);
 		}*/
 		
+		/*A test to retrieve courses of a user from the db
+		 * 
+		 */
+		
+		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		$functions = array();
+		
+		{
+			$functions[] = array(
+				'name' => 'WebServicesCourse.get_user_courses',
+				'parameters' => array('id' => 2),
+				'handler' => 'handle_webservice'
+			);
+		}*/
+		
+		/*A test to retrieve courses of a user from the db
+		 * 
+		 */
+		
+		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		$functions = array();
+		
+		{
+			$functions[] = array(
+				'name' => 'WebServicesCourse.get_course_users',
+				'parameters' => array('id' => 1),
+				'handler' => 'handle_webservice'
+			);
+		}*/
+		
+		/*A test to get new publications from the db
+		 * 
+		 */
+		
+		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		$functions = array();
+		
+		{
+			$functions[] = array(
+				'name' => 'WebServicesCourse.get_new_publications',
+				'parameters' => array('id' => 1),
+				'handler' => 'handle_webservice'
+			);
+		}
+		
 		
 		
 		/*A test to delete a course in the db
@@ -245,16 +290,16 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  $group_rel_user = new GroupRelUser();
+		  /*$group_rel_user = new GroupRelUser();
 		  $group_rel_user->set_user_id(2);
 		  $group_rel_user->set_group_id(1);
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServiceSubscribeUserGroup.subscribe_user',
-				'parameters' => $group_rel_user->to_array(),
+				'parameters' => $group_rel_user->get_default_properties(),
 		  		'handler' => 'handle_webservice'			
-			);
+			);*/
 		
 		
 		
@@ -281,7 +326,8 @@ class TestCallLocalWebservice
 		//global $file;
 		//fwrite($file, date('[H:i]') . 'Called webservice :' . "\n" . var_export($result, true) . "\n");
 		//echo ('<p>'.date('[H:i]') . 'Called webservice :' . "\n" . var_export($result, true) . "\n".'</p>');
-		echo '<pre>'.var_export($result,true).'</pre>';
+		//echo '<pre>'.var_export($result,true).'</pre';
+		dump($result);
 	}
 }
 

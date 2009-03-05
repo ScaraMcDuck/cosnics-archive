@@ -279,10 +279,8 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 				$query .= ' AND ';
 			$params = $translator->get_parameters();
 		}
-		
 		if($search_condition)
 			$query .= 'learning_object IN (SELECT id FROM repository_learning_object WHERE ' . $search_condition . ')';
-		
 		/*
 		 * Always respect display order as a last resort.
 		 */
@@ -304,7 +302,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		/*
 		 * Get publications.
 		 */
-		$res = $this->limitQuery($query,  intval($maxObjects),intval($offset), $params);
+		$res = $this->limitQuery($query,intval($maxObjects),intval($offset),$params);
 		return new DatabaseLearningObjectPublicationResultSet($this, $res);
 	}
 
@@ -526,8 +524,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		if (!is_null($condition))
 		{
 			$cond[] = $condition;
+			$condition = new AndCondition($cond);
 		}
-		$condition = new AndCondition($cond);
+		
 		
 		if (!is_null($condition))
 		{
