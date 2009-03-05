@@ -231,15 +231,59 @@ class Group
 		return $gdm->update_role_links($this, $roles);
 	}
 	
-	function get_users($include_subgroups = false)
+	function get_users($include_subgroups = false, $recursive_subgroups = false)
 	{
 		$gdm = GroupDataManager :: get_instance();
 		
+		$groups = array();
+		$groups[] = $this->get_id();
+		
 		if ($include_subgroups)
 		{
-			// Get all subgroups of this group recursively
+			$subgroups =  $this->get_subgroups($recursive_subgroups);
 			
+			foreach($subgroups as $subgroup)
+			{
+				$groups[] = $subgroup->get_id();
+			}
 		}
+		
+		$condition = new InCondition(GroupRelUser :: PROPERTY_GROUP_ID, $groups);
+		$group_rel_users = $gdm->retrieve_group_rel_users($condition);
+		$users = array();
+		
+		while ($group_rel_user = $group_rel_users->next_result())
+		{
+			$user_id = $group_rel_user->get_user_id();
+			if (!in_array($user_id, $users))
+			{
+				$users[] = $user_id;
+			}
+		}
+		
+		return $users;
+	}
+	
+	function get_subgroups($recursive = false)
+	{
+		$gdm = GroupDataManager :: get_instance();
+		
+		$condition = new EqualityCondition(self :: PROPERTY_PARENT, $this->get_id());
+		$groups = $gdm->retrieve_groups($condition);
+		
+		$subgroups = array();
+		
+		while ($group = $groups->next_result())
+		{
+			$subgroups[$group->get_id()] = $group;
+			
+			if ($recursive)
+			{
+				$subgroups += $group->get_subgroups($recursive);
+			}
+		}
+		
+		return $subgroups;
 	}
 }
 ?>
