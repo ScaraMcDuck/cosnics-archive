@@ -39,5 +39,10 @@ class DefaultHelpItemTableCellRenderer implements ObjectTableCellRenderer
 		}
 		return '&nbsp;';
 	}
+	
+	function render_id_cell($help_item)
+	{
+		return $help_item->get_id();
+	}
 }
 ?>

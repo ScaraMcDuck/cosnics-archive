@@ -54,6 +54,12 @@ class DefaultUserTableCellRenderer implements ObjectTableCellRenderer
 		}
 		return '&nbsp;';
 	}
+	
+	function render_id_cell($object)
+	{
+		return $object->get_id();
+	}
+	
 	private function render_picture($user)
 	{
 		if ($user->has_picture())

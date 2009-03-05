@@ -77,6 +77,11 @@ class ObjectTable
 	 * The form actions to use in this table
 	 */
 	private $form_actions;
+	
+	/**
+	 * Whether or not this table can be sorted via AJAX
+	 */
+	 private $ajax_enabled;
 
 	/**
 	 * Constructor. Creates a learning object table.
@@ -94,7 +99,7 @@ class ObjectTable
 	 *                                                       Omit to use the
 	 *                                                       default renderer.
 	 */
-	function ObjectTable($data_provider, $table_name, $column_model, $cell_renderer)
+	function ObjectTable($data_provider, $table_name, $column_model, $cell_renderer, $ajax_enabled = false)
 	{
 		$this->set_data_provider($data_provider);
 		$this->set_name($table_name);
@@ -128,7 +133,7 @@ class ObjectTable
 	 */
 	function as_html()
 	{
-		$table = new SortableTable($this->get_name(), array ($this, 'get_object_count'), array ($this, 'get_objects'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction());
+		$table = new SortableTable($this->get_name(), array ($this, 'get_object_count'), array ($this, 'get_objects'), $this->get_column_model()->get_default_order_column() + ($this->has_form_actions() ? 1 : 0), $this->get_default_row_count(), $this->get_column_model()->get_default_order_direction(), $this->get_ajax_enabled());
 		$table->set_additional_parameters($this->get_additional_parameters());
 		if ($this->has_form_actions())
 		{
@@ -178,6 +183,24 @@ class ObjectTable
 	function set_name($name)
 	{
 		$this->table_name = $name;
+	}
+	
+	/**
+	 * Gets whether the table is ajax enabled.
+	 * @return string The ajax_enabled property.
+	 */
+	function get_ajax_enabled()
+	{
+		return $this->ajax_enabled;
+	}
+
+	/**
+	 * Sets whether the table is ajax enabled.
+	 * @param string $ajax_enabled The ajax_enabled property.
+	 */
+	function set_ajax_enabled($ajax_enabled)
+	{
+		$this->ajax_enabled = $ajax_enabled;
 	}
 
 	/**
@@ -304,8 +327,9 @@ class ObjectTable
 		{
 			$row = array ();
 			if ($this->has_form_actions())
-			{
-				$row[] = $object->get_id();
+			{				
+				$row[] = $this->get_cell_renderer()->render_id_cell($object);
+				//$row[] = $object->get_id();
 			}
 			for ($i = 0; $i < $column_count; $i ++)
 			{
