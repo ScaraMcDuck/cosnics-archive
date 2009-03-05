@@ -11,11 +11,11 @@ class SoapNusoapWebservice
 		$this->webservice_handler = $webservice_handler;
 	}
 	
+
 	function provide_webservice($functions)
 	{
 		$server = new soap_server();
 		$server->configureWSDL('Dokeos', 'http://www.dokeos.com');
-		
 		foreach($functions as $name => $objects)
 		{
 			if(isset($objects['input']))
@@ -52,6 +52,7 @@ class SoapNusoapWebservice
 			    '',
 			    $properties
 			);
+	
 			
 			if($objects['array'])
 			{
