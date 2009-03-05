@@ -642,7 +642,7 @@ abstract class Installer
 			$webservice = new WebserviceRegistration();		
 			$webservice->set_name($webservices['name']);
 			$webservice->set_description('omschrijving');
-			$webservice->set_active(1);					
+			$webservice->set_active(1); 				
 			$webservice->set_parent($parent);
 			$webservice->set_application('test');
 			$this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceRegistration') . ' : <em>'.$webservices['name']. '</em>');					
@@ -663,7 +663,7 @@ abstract class Installer
 					$webservice = new WebserviceRegistration();		
 					$webservice->set_name($element['name']);
 					$webservice->set_description('omschrijving');
-					$webservice->set_active(1);					
+					$webservice->set_active(1); 				
 					$webservice->set_parent($parent);
 					$webservice->set_application('test');
 					$this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceRegistration') . ' : <em>'.$element['name']. '</em>');
