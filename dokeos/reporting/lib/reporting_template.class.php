@@ -5,10 +5,12 @@
  * @author: Michael Kyndt
  */
  
- abstract class ReportingTemplate{
+class ReportingTemplate{
  	const PROPERTY_ID = 'id';
  	const PROPERTY_NAME = 'name';
  	const PROPERTY_APPLICATION = 'application';
+ 	const PROPERTY_CLASSNAME = 'class';
+ 	const PROPERTY_PLATFORM = 'platform';
  	private $properties, $reporting_blocks;
  	
  	public function ReportingTemplate($properties = array())
@@ -26,7 +28,9 @@
 		return array (
 			self :: PROPERTY_ID,
 			self :: PROPERTY_NAME,
-			self :: PROPERTY_APPLICATION
+			self :: PROPERTY_APPLICATION,
+			self :: PROPERTY_CLASSNAME,
+			self :: PROPERTY_PLATFORM
 		);
 	}
 
@@ -65,11 +69,32 @@
 	{
 		return $this->properties;
 	}
+	
+	function retrieve_reporting_blocks()
+	{
+		//
+	}
+	
+	function isPlatformTemplate()
+	{
+		return $this->get_platform == '1';
+	}
+	
+	function create()
+	{
+		$repdmg = ReportingDataManager :: get_instance();
+		$this->set_id($repdmg->get_next_id('reporting_template'));
+		return $repdmg->create_reporting_template($this);
+	}
+	
+	function to_html()
+	{
+		
+	}
  	
  	/**
  	 * Getters and setters
  	 */
- 	
  	public function get_reporting_blocks()
  	{
  		return $this->reporting_blocks;
@@ -105,6 +130,24 @@
  		$this->set_property(self :: PROPERTY_APPLICATION,$value);
  	}
  	
- 	abstract function to_html();
+ 	public function get_classname()
+ 	{
+ 		return $this->get_property(self :: PROPERTY_CLASSNAME);
+ 	}
+ 	
+ 	public function set_classname($value)
+ 	{
+ 		$this->set_property(self :: PROPERTY_CLASSNAME,$value);
+ 	}
+ 	
+ 	public function get_platform()
+ 	{
+ 		return $this->get_property(self :: PROPERTY_PLATFORM);
+ 	}
+ 	
+ 	public function set_platform($value)
+ 	{
+ 		$this->set_property(self :: PROPERTY_PLATFORM,$value);
+ 	}
  }//class ReportingTemplate
 ?>

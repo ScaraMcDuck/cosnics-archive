@@ -94,7 +94,7 @@
  	public function create()
  	{
  		$repdmg = ReportingDataManager :: get_instance();
-		$this->set_id($repdmg->get_next_id('block'));
+		$this->set_id($repdmg->get_next_id('reporting_block'));
 		return $repdmg->create_reporting_block($this);
  	}
  	

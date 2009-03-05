@@ -3,11 +3,12 @@
  * @author Michael Kyndt
  */
 require_once Path :: get_reporting_path(). 'lib/reporting_template.class.php';
-class LoginReportingTemplate extends ReportingTemplate {
+class LoginDataReportingTemplate extends ReportingTemplate {
 	
-	function LoginReportingTemplate()
+	function LoginDataReportingTemplate()
 	{
-		
+		$this->set_name('Login Data');
+		$this->set_platform('1');
 		//$this->add_reporting_block()
 	}
     

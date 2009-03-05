@@ -18,6 +18,7 @@ require_once Path :: get_webservice_path() . 'lib/webservice_category.class.php'
 require_once Path :: get_webservice_path() . 'lib/webservice_registration.class.php';
 require_once Path :: get_webservice_path() . 'lib/webservice_data_manager.class.php';
 require_once Path :: get_reporting_path() . 'lib/reporting_blocks.class.php';
+require_once Path :: get_reporting_path() . 'lib/reporting_templates.class.php';
  
 abstract class Installer
 {
@@ -356,6 +357,11 @@ abstract class Installer
 		return ReportingBlocks :: create_reporting_block($array['name'],$array['application'],$array['function'],$array['displaymode'],$array['width'],$array['height']);
 	}
 	
+	function register_reporting_template($name, $application, $classname,$platform)
+	{
+		return ReportingTemplates :: create_reporting_template($name, $application, $classname,$platform);
+	}
+	
 	function register_reporting()
 	{
 		$application = $this->get_application();
@@ -379,6 +385,35 @@ abstract class Installer
 				else
 				{
 					$this->installation_failed(Translation :: get('ReportingBlockRegistrationFailed') . ': <em>' . $value['name'] . '</em>');
+				}
+			}
+		}
+		$dir = $base_path .$application.'/reporting/templates';
+		if(is_dir($dir))
+		{
+			$files = FileSystem :: get_directory_content($dir, FileSystem :: LIST_FILES);
+			
+			if(count($files)>0)
+			{
+				foreach($files as $file)
+				{
+					if((substr($file,-19)== '_template.class.php'))
+					{
+						require_once($file);
+						$bla =  explode('.',basename($file));
+						$classname = DokeosUtilities :: underscores_to_camelcase($bla[0]);
+						$class = new $classname();
+						$name = $class->get_name();
+						$platform = $class->get_platform();
+						if($this->register_reporting_template($name,$application,$classname,$platform))
+						{
+							$this->add_message(self :: TYPE_NORMAL, 'Registered reporting template: <em>'.$name.'</em>');
+						}
+						else
+						{
+							$this->installation_failed(Translation :: get('ReportingTemplateRegistrationFailed').': <em>'.$name.'</em>');
+						}
+					}
 				}
 			}
 		}

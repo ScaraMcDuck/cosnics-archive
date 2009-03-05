@@ -40,7 +40,6 @@ class ReportingTableFormatter extends ReportingFormatter {
 				$counter++;
 			}
 			$j = 0;
-			$html .= '<tr>';
 			foreach ($value as $key2) 
 			{
 				$table->setCellContents($i,$j,$key2);
