@@ -22,8 +22,13 @@ class TestCallLocalWebservice
 		
 		{
 			$functions[] = array(
+<<<<<<< .mine
+				'name' => 'WebServicesUser.get_user',
+				'parameters' => array('id' => 2),
+=======
 				'name' => 'WebServicesUser.validate',
 				'parameters' => array('username' => 'admin', 'password' => '4a0091108fb271e05f34da7cf77c975f'),
+>>>>>>> .r18794
 				'handler' => 'handle_webservice'
 			);
 		}		

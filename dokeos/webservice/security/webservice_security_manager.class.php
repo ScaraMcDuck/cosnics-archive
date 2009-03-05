@@ -1,30 +1,40 @@
 <?php
-require_once dirname(__FILE__) . '/../lib/user_data_manager.class.php';
+require_once dirname(__FILE__) . '/../../user/lib/user_data_manager.class.php';
+require_once dirname(__FILE__).'/../../common/configuration/configuration.class.php';
 
 class WebserviceSecurityManager
 {
 	private static $instance;
 	private $dbhash;
 	
+	private function WebserviceSecurityManager()
+	{
+		
+	}
+	
 	static function get_instance()
 	{
 		if (!isset (self :: $instance))
-		{			
-			require_once Path :: get_library_path() . 'webservices/webservice_security_manager.class.php';
-			$class = 'WebserviceSecurityManager';
+		{
+			$type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
+			require_once dirname(__FILE__).'/data_manager/'.strtolower($type).'.class.php';
+			$class = $type.'WebserviceSecurityManager';
 			self :: $instance = new $class ();
 		}
 		return self :: $instance;
 	}
 	
-	function create_hash($username, $password) //methode to create the hash, and store it in the db
+	/*This method creates a hash from a hash,
+	 *  based on the concatenation of a given username and password. 
+	 */
+	
+	function create_hash($username, $password)
 	{	
-		$parameters = $username.''.$password;
-		$hash = md5($parameters);
-		$hash = hash('whirlpool',$hash);
-		echo 'hash : ' . $hash;
+		$dbhash = md5($username.''.$password);
+		$dbhash = hash('whirlpool',$dbhash);
+		//echo 'hash : ' . $hash;
 		//naar de database schrijven
-		return $hash;
+		return $dbhash;
 	}
 	
 	function validate_hash($hash)
@@ -46,19 +56,15 @@ class WebserviceSecurityManager
 		$convertime = date("Y-h-d",$time);
 	}
 	
-	function validate($input_user)
+	function validate_login($input_user)
 	{
-		
 		$udm = DatabaseUserDataManager :: get_instance();		
 		$user = $udm->retrieve_user_by_username($input_user[username]);		
-		if(isset($user)) //user exists
+		if(isset($user))
 		{	
-			$username = $input_user[username];		
-			$db_password = $user->get_password();			
-			$password = $input_user[password];
-			if($db_password == $password) //check passwords
+			if(strcmp($user->get_password(),$input_user[password])===0)
 			{				
-				return $this->create_hash($username, $password); //create hash
+				return $this->create_hash($username, $password);
 			}
 			else
 			{
@@ -67,7 +73,7 @@ class WebserviceSecurityManager
 		}
 		else
 		{
-			return 'input is not an object';
+			return false;
 		}
 	}	
 	

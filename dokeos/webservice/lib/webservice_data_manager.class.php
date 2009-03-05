@@ -58,6 +58,8 @@ abstract class WebserviceDataManager
 	
 	abstract function truncate_webservice($id);
 	
+	abstract function truncate_webservice_credential($webserviceCredential);
+	
 	abstract function retrieve_webservice($id);
 	
 	abstract function retrieve_webservices($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
@@ -66,11 +68,17 @@ abstract class WebserviceDataManager
 	
 	abstract function retrieve_webservice_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
+	abstract function retrieve_webservice_credential_by_hash($hash);
+	
+	abstract function retrieve_webservice_credential_by_user_id($user_id);
+	
 	abstract function create_storage_unit($name,$properties,$indexes);
 	
 	abstract function delete_webservice($webservice);
 	
 	abstract function delete_webservice_category($webserviceCategory);
+	
+	abstract function delete_webservice_credential($webserviceCredential);
 	
 	abstract function update_webservice($webservice);
 	
@@ -79,6 +87,8 @@ abstract class WebserviceDataManager
 	abstract function create_webservice($webservice);
 	
 	abstract function create_webservice_category($webserviceCategory);
+	
+	abstract function create_webservice_credential($webserviceCredential);
 
 }
 ?>

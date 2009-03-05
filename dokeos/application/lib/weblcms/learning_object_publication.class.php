@@ -101,6 +101,59 @@ class LearningObjectPublication
 		$this->emailSent = $emailSent;
 		$this->show_on_homepage = $show_on_homepage;
 	}
+	
+	/**
+	 * Gets a default property of this user object by name.
+	 * @param string $name The name of the property.
+	 */
+	function get_default_property($name)
+	{
+		return $this->defaultProperties[$name];
+	}
+
+	/**
+	 * Gets the default properties of this user.
+	 * @return array An associative array containing the properties.
+	 */
+	function get_default_properties()
+	{
+		return $this->defaultProperties;
+	}
+	
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
+	
+	static function get_default_property_names()
+	{
+		return array (self :: PROPERTY_ID, self :: PROPERTY_LEARNING_OBJECT_ID, 
+					  self :: PROPERTY_COURSE_ID, self :: PROPERTY_TOOL, 
+					  self :: PROPERTY_PARENT_ID, self :: PROPERTY_CATEGORY_ID, 
+					  self :: PROPERTY_FROM_DATE, self :: PROPERTY_TO_DATE, 
+					  self :: PROPERTY_HIDDEN, self :: PROPERTY_PUBLISHER_ID, 
+					  self :: PROPERTY_PUBLICATION_DATE, self ::PROPERTY_MODIFIED_DATE, 
+					  self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_EMAIL_SENT, 
+					  self :: PROPERTY_SHOW_ON_HOMEPAGE);
+	}
+	
+	function set_default_property($name, $value)
+	{
+		$this->defaultProperties[$name] = $value;
+	}
+
+	/**
+	 * Checks if the given identifier is the name of a default user
+	 * property.
+	 * @param string $name The identifier.
+	 * @return boolean True if the identifier is a property name, false
+	 *                 otherwise.
+	 */
+	static function is_default_property_name($name)
+	{
+		return in_array($name, self :: get_default_property_names());
+	}
+	
    /**
     * Gets the publication id.
     * @return int
