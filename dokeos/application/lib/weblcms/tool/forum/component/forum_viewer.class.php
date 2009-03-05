@@ -46,7 +46,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 		$forum_table =  $this->get_forums_table_html();
 		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $pid)), $this->forum->get_title()));
+		$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $this->pid)), $this->forum->get_title()));
 		
 		$this->display_header($trail);
 		echo $this->action_bar->as_html();
@@ -173,7 +173,8 @@ class ForumToolViewerComponent extends ForumToolComponent
 			$actions[] = array(
 				'href' => $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, Tool :: PARAM_ACTION => ForumTool :: ACTION_DELETE_TOPIC, 'topic' => $topic->get_id())),
 				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_image_path() . 'action_delete.png'
+				'img' => Theme :: get_common_image_path() . 'action_delete.png',
+				'confirm' => true
 			);
 		}
 		
@@ -249,7 +250,8 @@ class ForumToolViewerComponent extends ForumToolComponent
 			$delete = array(
 				'href' => $this->get_url(array('subforum' => $forum->get_id(), 'is_subforum' => $this->is_subforum, 'forum' => $this->current_forum->get_id(), Tool :: PARAM_ACTION => ForumTool :: ACTION_DELETE_SUBFORUM, 'pid' => $this->pid)),
 				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_common_image_path() . 'action_delete.png'
+				'img' => Theme :: get_common_image_path() . 'action_delete.png',
+				'confirm' => true
 			);
 		}
 			

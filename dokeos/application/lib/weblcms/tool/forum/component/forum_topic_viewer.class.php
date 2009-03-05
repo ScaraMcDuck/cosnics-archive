@@ -105,8 +105,22 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 			
 			$row++;
 			
-			$info = '<br /><img src="' . $user->get_full_picture_url() . '" /><br /><br />' . $post->get_add_date();
+			$info = '<br /><img style="max-width: 100px;" src="' . $user->get_full_picture_url() . '" /><br /><br />' . $post->get_add_date();
 			$message = $this->format_message($post->get_ref()->get_description());
+			
+			$attachments = $post->get_ref()->get_attached_learning_objects();
+	
+			if(count($attachments) > 0)
+			{
+				$message .= '<div class="quotetitle">' . Translation :: get('Attachments') . ':</div><div class="quotecontent"><ul>';
+				
+				foreach($attachments as $attachment)
+				{
+					$message .= '<li><a href="' . $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_ATTACHMENT, Tool :: PARAM_OBJECT_ID => $attachment->get_id())) . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
+				}
+				
+				$message .= '</ul></div>';
+			}
 			
 			$table->setCellContents($row, 0, $info);
 			$table->setCellAttributes($row, 0, array('class' => $class, 'align' => 'center', 'valign' => 'top', 'height' => 150));
@@ -180,7 +194,8 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 			$actions[] = array(
 				'href' => $this->get_url(array('pid' => $pid, 'cid' => $cid, Tool :: PARAM_ACTION => ForumTool :: ACTION_DELETE_FORUM_POST, 'post' => $cloi->get_id())),
 				'label' => Translation :: get('Delete'),
-				'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_delete.gif'
+				'img' => Theme :: get_image_path() . 'forum/buttons/icon_post_delete.gif',
+				'confirm' => true
 			);
 		}
 		
