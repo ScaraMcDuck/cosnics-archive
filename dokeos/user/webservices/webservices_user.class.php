@@ -2,7 +2,7 @@
 require_once(dirname(__FILE__) . '/../../common/global.inc.php');
 require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php';
 require_once dirname(__FILE__) . '/provider/input_user.class.php';
-require_once dirname(__FILE__) . '/../lib/datamanager/database.class.php';
+require_once dirname(__FILE__) . '/../lib/data_manager/database.class.php';
 require_once dirname(__FILE__) . '/../lib/user.class.php';
 require_once dirname(__FILE__) . '/../../common/webservices/action_success.class.php';
 

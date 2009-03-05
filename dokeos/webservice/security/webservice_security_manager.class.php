@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/../../user/lib/user_data_manager.class.php';
+require_once dirname(__FILE__) . '/../../user/lib/data_manager/database.class.php';
 require_once dirname(__FILE__).'/../../common/configuration/configuration.class.php';
 
 class WebserviceSecurityManager
@@ -7,14 +7,15 @@ class WebserviceSecurityManager
 	private static $instance;
 	private $dbhash;
 	
+	function WebserviceSecurityManager()
+	{}
+	
 	static function get_instance()
 	{
-		if (!isset (self :: $instance))
+		dump('tetn');
+		if (!isset(self :: $instance))
 		{
-			$type = Configuration :: get_instance()->get_parameter('general', 'data_manager');
-			require_once dirname(__FILE__).'/data_manager/'.strtolower($type).'.class.php';
-			$class = $type.'WebserviceSecurityManager';
-			self :: $instance = new $class ();
+			self :: $instance = new WebserviceSecurityManager();
 		}
 		return self :: $instance;
 	}
@@ -27,24 +28,10 @@ class WebserviceSecurityManager
 	{	
 		$dbhash = md5($username.''.$password);
 		$dbhash = hash('whirlpool',$dbhash);
-		//echo 'hash : ' . $hash;
-		//naar de database schrijven
+		//write to db
 		return $dbhash;
 	}
 	
-	function validate_hash($hash)
-	{
-		//$dbhash uit de dbhalen
-		
-		if($hash == $dbhash);
-		{
-			echo 'hash correct'
-		}
-		else
-		{
-			echo 'hash incorrect';
-		}
-	}
 	
 	function check_time_left($time)
 	{
