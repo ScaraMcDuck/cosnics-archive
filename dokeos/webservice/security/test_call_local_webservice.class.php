@@ -1,6 +1,6 @@
 <?php
-require_once(dirname(__FILE__) . '/../global.inc.php');
-require_once dirname(__FILE__) . '/webservice.class.php';
+require_once(dirname(__FILE__) . '/../../common/global.inc.php');
+require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php';
 
 $handler = new TestCallLocalWebservice();
 $handler->run();
@@ -15,9 +15,9 @@ class TestCallLocalWebservice
 	
 	function run()
 	{	
-		$wsdl = 'http://localhost/common/webservices/login_webservice.class.php?wsdl';
+		$wsdl = 'http://localhost/webservice/security/webservice_login.class.php?wsdl';
 		$functions = array();
-		
+		$user = new User()
 		$functions[] = array(
 				'name' => 'WebServiceLogin.validate',
 				'parameters' => array('username' => 'Soliber',

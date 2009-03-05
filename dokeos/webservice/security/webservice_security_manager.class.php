@@ -7,11 +7,6 @@ class WebserviceSecurityManager
 	private static $instance;
 	private $dbhash;
 	
-	private function WebserviceSecurityManager()
-	{
-		
-	}
-	
 	static function get_instance()
 	{
 		if (!isset (self :: $instance))
@@ -64,7 +59,8 @@ class WebserviceSecurityManager
 		{	
 			if(strcmp($user->get_password(),$input_user[password])===0)
 			{				
-				return $this->create_hash($username, $password);
+				//return $this->create_hash($username, $password);
+				return true;
 			}
 			else
 			{
