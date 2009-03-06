@@ -59,8 +59,17 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 	{ 
 		if(is_null($event->get_id())) return;
 		
-		$publication = PersonalCalendarDataManager :: get_instance()->retrieve_calendar_event_publication($event->get_id());
-		$object = $publication->get_publication_object();
+		if($event->get_source() == 'weblcms')
+		{
+			$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($event->get_id());
+			$object = $publication->get_learning_object();
+		}
+		else
+		{
+			$publication = PersonalCalendarDataManager :: get_instance()->retrieve_calendar_event_publication($event->get_id());
+			$object = $publication->get_publication_object();
+		}
+		
 		if ($object->supports_attachments())
 		{
 			$attachments = $object->get_attached_learning_objects();
