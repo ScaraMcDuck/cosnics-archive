@@ -91,7 +91,11 @@ class CourseUserRelationForm extends FormValidator {
 	function setDefaults($defaults = array ())
 	{
 		$courseuserrelation = $this->courseuserrelation;
-		$defaults[Course :: PROPERTY_ID] = $courseuserrelation->get_course();
+		
+		$course = WeblcmsDataManager :: get_instance()->retrieve_course($courseuserrelation->get_course());
+		
+		$defaults[Course :: PROPERTY_ID] = $course->get_visual();
+		
 		$defaults[CourseUserRelation :: PROPERTY_COURSE] = $courseuserrelation->get_course();
 		$defaults[CourseUserRelation :: PROPERTY_CATEGORY] = $courseuserrelation->get_category();
 		parent :: setDefaults($defaults);
