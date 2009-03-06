@@ -7,6 +7,9 @@ $(document).ready(function()
 	$("#tool_bar_hide").bind("click", hideBlockScreen);
 	$("#tool_bar_show").bind("click", showBlockScreen);
 	
+	if(hide)
+		hideBlockScreen();
+	
 	function toggleButtons()
 	{
 		$("#tool_bar_hide").toggle();
@@ -37,6 +40,13 @@ $(document).ready(function()
 				break;
 		}
 		
+		$.ajax({
+			type: "POST",
+			url: "./common/javascript/ajax/toolbar_memory.php",
+			data: { state: 'hide'},
+			async: false
+		})
+		
 		return false;
 	}
 	
@@ -63,6 +73,13 @@ $(document).ready(function()
 				$("#tool_browser_icon_right").animate({marginRight: "54px"}, 300);
 				break;
 		}
+		
+		$.ajax({
+			type: "POST",
+			url: "./common/javascript/ajax/toolbar_memory.php",
+			data: { state: 'show'},
+			async: false
+		})
 		
 		return false;
 	}

@@ -238,6 +238,9 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 			$html[] = '</div>';
 			$html[] = '<br />';
 			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' .'"></script>';
+		
+			if($_SESSION['toolbar_state'] == 'hide')
+				$html[] = '<script type="text/javascript">var hide = "true";</script>';
 		}
 		return implode($html, "\n");
 	}
