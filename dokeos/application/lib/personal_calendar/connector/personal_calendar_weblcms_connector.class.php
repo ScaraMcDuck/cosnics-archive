@@ -54,7 +54,7 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
 				$event->set_title($object->get_title());
 				$event->set_content($object->get_description());
 				$event->set_source('weblcms');
-				
+				$event->set_id($publication->get_id());
 				$result[] = $event;
 			}
 		}
