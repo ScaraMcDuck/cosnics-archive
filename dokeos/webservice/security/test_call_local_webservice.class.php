@@ -15,10 +15,10 @@ class TestCallLocalWebservice
 	
 	function run()
 	{	
-		$wsdl = 'http://localhost/webservice/security/webservice_login.class.php?wsdl';
+		$wsdl = Path :: get(WEB_PATH) . 'webservice/security/webservice_login.class.php?wsdl';
 		$functions = array();
 		$user = new User();
-		$user->set_username('Soliber');
+		$user->set_username('admin');
 		$user->set_password('4a0091108fb271e05f34da7cf77c975f');
 		$functions[] = array(
 				'name' => 'WebServiceLogin.login',
