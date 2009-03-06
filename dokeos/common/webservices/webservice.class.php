@@ -1,10 +1,12 @@
 <?php
 require_once Path :: get_library_path() . 'webservices/webservice.class.php';
-require_once Path :: get_webservice_path() . 'security/webservice_security_manager.class.php';
 
 abstract class Webservice
 {
-	var $wsm; // = WebserviceSecurityManager :: get_instance();	
+	/*$wsm is the webservice_security_manager. 
+	 * It will be appointed an instance in each of the individual webservice constructors.
+	 */
+	protected $wsm;
 	
 	public static function factory($webservice_handler, $protocol = 'Soap', $implementation = 'Nusoap')
 	{
@@ -27,8 +29,6 @@ abstract class Webservice
 	
 	abstract function call_webservice($wsdl, $functions);
 	
-    abstract function validate_hash($hash);
-		
 	
 }	
 	
