@@ -55,29 +55,36 @@ class ReportingManagerReportingTemplateBrowserComponent extends ReportingManager
 		
 		$html = array();
 		
-		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/application.js' .'"></script>';
-		$html[] = '<div class="configure">';
-		
+		//$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/application.js' .'"></script>';
+        $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_menu.js' .'"></script>';
+        $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_menu_interface.js' .'"></script>';
+		//$html[] = '<div class="configure">';
+		$html[] = '<div class="dock" id="dock">';
+        $html[] = '<div class="dock-container"> ';
 		$applications = Application :: load_all();
 			
 		foreach (AdminManager :: get_application_platform_admin_links() as $application_links)
 		{
 			if (isset($application) && $application == $application_links['application']['class'])
 			{
-				$html[] = '<div class="application_current">';
+				//$html[] = '<div class="application_current">';
 			}
 			else
 			{
-				$html[] = '<div class="application">';
+				//$html[] = '<div class="application">';
 			}
-			$html[] = '<a href="'. $this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
-			$html[] = '<img src="'. Theme :: get_image_path('admin') . 'place_' . $application_links['application']['class'] .'.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'];
-			$html[] = '</a>';
-			$html[] = '</div>';
+			$html[] = '<a class="dock-item" href="'. $this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
+            			$html[] = '<img src="'. Theme :: get_image_path('admin') . 'place_' . $application_links['application']['class'] .'.png" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/>';
+			$html[] = '<span>'. $application_links['application']['name'].'</span>';
+            $html[] = '</a>';
+			//$html[] = '</div>';
 		}
-		
+        
 		$html[] = '</div>';
-		$html[] = '<div style="clear: both;"></div>';
+        $html[] = '</div>';
+		$html[] = '<div style="clear: both;"></div><br /><br />';
+
+        $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_dock.js' .'"></script>';
 
 		return implode("\n", $html);
 	}
