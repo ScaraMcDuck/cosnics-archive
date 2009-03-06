@@ -27,12 +27,19 @@ class WebserviceSecurityManager
 	
 	function create_hash($username, $password)
 	{	
-		return $this->dbhash = hash('whirlpool',md5($username.''.$password));
+		return $this->dbhash = md5($username.''.$password);
 	}
 	
 	function check_hash($hash)
 	{
-		return strcmp($hash,$this->dbhash);
+		if(strcmp($hash,$this->dbhash)===0)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 	
 	

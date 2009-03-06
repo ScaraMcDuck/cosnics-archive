@@ -28,50 +28,50 @@ class SoapNusoapWebservice
 					$input[$property] = 'xsd:string';
 				}
 			}
-			
-			if($objects['array'])
+			if(isset($objects['output']))
 			{
-				$out = $objects['output'][0];
-			}
-			else
-			{
-				$out = $objects['output'];
-			}			
-			$properties = array();
+				if($objects['array'])
+				{
+					$out = $objects['output'][0];
+				}
+				else
+				{
+					$out = $objects['output'];
+				}			
+				$properties = array();
+					
+				foreach($out->get_default_property_names() as $property)
+				{
+					$properties[$property] = array('name' => $property, 'type' => 'xsd:string');
+				}
 				
-			foreach($out->get_default_property_names() as $property)
-			{
-				$properties[$property] = array('name' => $property, 'type' => 'xsd:string');
-			}
-			
-			$server->wsdl->addComplexType(
-			    get_class($out),
-			    'complexType',
-			    'struct',
-			    'all',
-			    '',
-			    $properties
-			);
-	
-			
-			if($objects['array'])
-			{
 				$server->wsdl->addComplexType(
-				  get_class($out).'s',
-				  'complexType', 
-				  'array', 
-				  '', 
-				  'SOAP-ENC:Array', 
-				  array(),
-				  array(
-				    array('ref' => 'SOAP-ENC:arrayType', 
-				         'wsdl:arrayType' => 'tns:'.get_class($out).'[]')
-				  ),
-				  'tns:'.get_class($out)
+				    get_class($out),
+				    'complexType',
+				    'struct',
+				    'all',
+				    '',
+				    $properties
 				);
+				
+				
+				if($objects['array'])
+				{
+					$server->wsdl->addComplexType(
+					  get_class($out).'s',
+					  'complexType', 
+					  'array', 
+					  '', 
+					  'SOAP-ENC:Array', 
+					  array(),
+					  array(
+					    array('ref' => 'SOAP-ENC:arrayType', 
+					         'wsdl:arrayType' => 'tns:'.get_class($out).'[]')
+					  ),
+					  'tns:'.get_class($out)
+					);
+				}
 			}
-			
-			
 			$server->register(get_class($this->webservice_handler) . '.' . $name, $input, array('return' => 'tns:' . get_class($out).($objects['array']?'s':'')),
 			       'http://www.dokeos.com', 'http://www.dokeos.com#' . $name, 'rpc', 'encoded', '', '', 'NusoapWebservice.handle_webservice');
 			
@@ -104,6 +104,11 @@ class SoapNusoapWebservice
 			$this->debug($client);
 		}
 	}	
+	
+	function raise_message($message)
+	{
+		 return new soapval('return', 'xsd:'.gettype($message), $message);
+	}
 	
 	function debug($client)
 	{	
