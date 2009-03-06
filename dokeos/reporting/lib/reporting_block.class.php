@@ -6,6 +6,8 @@
  */
  
  class ReportingBlock{
+    const CLASS_NAME = __CLASS__;
+
  	const PROPERTY_ID = 'id';
  	const PROPERTY_NAME = 'name';
  	const PROPERTY_APPLICATION = 'application';
@@ -26,7 +28,7 @@
 	 * Gets a default property by name.
 	 * @param string $name The name of the property.
 	 */
-	function get_property($name)
+	function get_default_property($name)
 	{
 		return $this->properties[$name];
 	}
@@ -35,7 +37,7 @@
 	 * Gets the default properties
 	 * @return array An associative array containing the properties.
 	 */
-	function get_properties()
+	function get_default_properties()
 	{
 		return $this->properties;
 	}
@@ -44,7 +46,7 @@
 	 * Get the default properties
 	 * @return array The property names.
 	 */
-	static function get_property_names()
+	static function get_default_property_names()
 	{
 		return array (
 			self :: PROPERTY_ID,
@@ -62,7 +64,7 @@
 	 * @param string $name The name of the property.
 	 * @param mixed $value The new value for the property.
 	 */
-	function set_property($name, $value)
+	function set_default_property($name, $value)
 	{
 		$this->properties[$name] = $value;
 	}
@@ -70,7 +72,7 @@
 	/**
 	 * Sets the default properties of this class
 	 */
-	function set_properties($properties)
+	function set_default_properties($properties)
 	{
 		$this->properties = $properties;
 	}
@@ -94,7 +96,7 @@
  	public function create()
  	{
  		$repdmg = ReportingDataManager :: get_instance();
-		$this->set_id($repdmg->get_next_id('reporting_block'));
+		$this->set_id($repdmg->get_next_reporting_block_id());
 		return $repdmg->create_reporting_block($this);
  	}
  	
@@ -141,63 +143,68 @@
  	
  	public function get_id()
  	{
- 		return $this->get_property(self :: PROPERTY_ID);
+ 		return $this->get_default_property(self :: PROPERTY_ID);
  	}
  	
 	function set_id($id)
 	{
-		$this->set_property(self :: PROPERTY_ID, $id);
+		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
  	
  	public function get_name(){
- 		return $this->get_property(self :: PROPERTY_NAME);
+ 		return $this->get_default_property(self :: PROPERTY_NAME);
  	}
  	public function set_name($value){
- 		$this->set_property(self :: PROPERTY_NAME,$value);
+ 		$this->set_default_property(self :: PROPERTY_NAME,$value);
  	}
  	
  	public function get_application(){
- 		return $this->get_property(self :: PROPERTY_APPLICATION);
+ 		return $this->get_default_property(self :: PROPERTY_APPLICATION);
  	}
  	
  	public function set_application($value){
- 		$this->set_property(self :: PROPERTY_APPLICATION,$value);
+ 		$this->set_default_property(self :: PROPERTY_APPLICATION,$value);
  	}
  	
  	public function get_function(){
- 		return $this->get_property(self :: PROPERTY_FUNCTION);
+ 		return $this->get_default_property(self :: PROPERTY_FUNCTION);
  	}
  	
  	public function set_function($value){
- 		$this->set_property(self :: PROPERTY_FUNCTION,$value);
+ 		$this->set_default_property(self :: PROPERTY_FUNCTION,$value);
  	}
  	
  	public function get_displaymode(){
- 		return $this->get_property(self :: PROPERTY_DISPLAYMODE);
+ 		return $this->get_default_property(self :: PROPERTY_DISPLAYMODE);
  	}
  	
  	public function set_displaymode($value){
- 		$this->set_property(self :: PROPERTY_DISPLAYMODE,$value);
+ 		$this->set_default_property(self :: PROPERTY_DISPLAYMODE,$value);
  	}
  	
  	public function get_width()
  	{
- 		return $this->get_property(self :: PROPERTY_WIDTH);
+ 		return $this->get_default_property(self :: PROPERTY_WIDTH);
  	}
  	
  	public function set_width($value)
  	{
- 		$this->set_property(self :: PROPERTY_WIDTH,$value);
+ 		$this->set_default_property(self :: PROPERTY_WIDTH,$value);
  	}
  	
  	public function get_height()
  	{
- 		return $this->get_property(self :: PROPERTY_HEIGHT);
+ 		return $this->get_default_property(self :: PROPERTY_HEIGHT);
  	}
  	
  	public function set_height($value)
  	{
- 		$this->set_property(self :: PROPERTY_HEIGHT,$value);
+ 		$this->set_default_property(self :: PROPERTY_HEIGHT,$value);
  	}
+
+    static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
  }//class Reporting_Block
 ?>

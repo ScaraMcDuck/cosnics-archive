@@ -70,7 +70,7 @@ class ReportingManagerReportingTemplateBrowserComponent extends ReportingManager
 			{
 				$html[] = '<div class="application">';
 			}
-			$html[] = '<a href="'. $this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_APPLICATION_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
+			$html[] = '<a href="'. $this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
 			$html[] = '<img src="'. Theme :: get_image_path('admin') . 'place_' . $application_links['application']['class'] .'.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'];
 			$html[] = '</a>';
 			$html[] = '</div>';
@@ -106,7 +106,7 @@ class ReportingManagerReportingTemplateBrowserComponent extends ReportingManager
 		{
 			$j = 0;
 			//dump($value->get_properties());
-			foreach($value->get_properties() as $key2 => $value2)
+			foreach($value->get_default_properties() as $key2 => $value2)
 			{
 				if($key2 == 'name')
 				{
@@ -114,7 +114,7 @@ class ReportingManagerReportingTemplateBrowserComponent extends ReportingManager
 					$j++;
 				}
 			}
-			$html .= '<a href="'. $this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_APPLICATION_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $value->get_name())) .'">'; //only value?
+			$html .= '<a href="'. $this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_VIEW_TEMPLATE, ReportingManager :: PARAM_TEMPLATE => $value->get_name())) .'">'; //only value?
 			$html .= '<img src="'. Theme :: get_image_path('common') . 'action_chart.png" border="0" style="vertical-align: middle;" alt="View Template" title="View Template"/>';
 			$html .= '</a>';
 			$table->setCellContents($i,$j,$html);

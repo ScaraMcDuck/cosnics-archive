@@ -402,9 +402,15 @@ abstract class Installer
 						require_once($file);
 						$bla =  explode('.',basename($file));
 						$classname = DokeosUtilities :: underscores_to_camelcase($bla[0]);
-						$class = new $classname();
-						$name = $class->get_name();
-						$platform = $class->get_platform();
+                        $class = new $classname();
+                        //$class = new ReflectionClass($classname);
+                        $name = new ReflectionProperty($classname, 'name');
+                        $name = $name->getValue($class);
+                        $platform = new ReflectionProperty($classname, 'platform');
+                        $platform = $platform->getValue($class);
+						//$class = new $classname();
+						//$name = $class->get_name();
+						//$platform = $class->get_platform();
 						if($this->register_reporting_template($name,$application,$classname,$platform))
 						{
 							$this->add_message(self :: TYPE_NORMAL, 'Registered reporting template: <em>'.$name.'</em>');

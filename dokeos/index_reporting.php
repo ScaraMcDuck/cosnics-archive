@@ -22,8 +22,8 @@ try
 }
 catch(Exception $exception)
 {
-	$cgmgr->display_header();
+	$rmgr->display_header();
 	Display :: error_message($exception->getMessage());
-	$cgmgr->display_footer();
+	$rmgr->display_footer();
 }
 ?>
