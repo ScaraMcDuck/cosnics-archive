@@ -522,4 +522,5 @@ $lang['weblcms']['user_id'] = 'User';
 $lang['weblcms']['date'] = 'Date';
 $lang['weblcms']['total_score'] = 'Total score';
 $lang['weblcms']['UsersSubscribedToCourse'] = 'Users subscribed to course';
+$lang['weblcms']['GeneralCourses'] = 'General courses';
 ?>

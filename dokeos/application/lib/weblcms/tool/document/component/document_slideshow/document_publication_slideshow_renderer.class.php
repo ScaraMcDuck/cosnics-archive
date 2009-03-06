@@ -28,24 +28,24 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 		}
 		if (isset ($_GET['thumbnails']))
 		{
-			$toolbar_data[] = array(
+			/*$toolbar_data[] = array(
 				'img'=>Theme :: get_common_image_path().'action_slideshow.png',
 				'label'=>Translation :: get('Slideshow'),
 				'href' => $this->get_url(array('tool_action' => 'slideshow', 'thumbnails'=>null)),
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-			$html[] = DokeosUtilities::build_toolbar($toolbar_data) . '<br /><br />';
+			$html[] = DokeosUtilities::build_toolbar($toolbar_data) . '<br /><br />';*/
 			$html[] = $this->render_thumbnails($publications);
 		}
 		else
 		{
 			$first = ($slideshow_index == 0);
 			$last = ($slideshow_index == count($publications) - 1);
-			$toolbar_data[] = array(
-				'img'=>Theme :: get_common_image_path().'action_slideshow_thumbnails.png',
+			/*$toolbar_data[] = array(
+				'img'=>Theme :: get_common_image_path().'action_slideshow_thumbnail.png',
 				'label'=>Translation :: get('Thumbnails'),
 				'href' => $this->get_url(array('tool_action' => 'slideshow','thumbnails'=>1)),
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL);
-			$html[] = DokeosUtilities::build_toolbar($toolbar_data) . '<br /><br />';
+			$html[] = DokeosUtilities::build_toolbar($toolbar_data) . '<br /><br />';*/
 			
 			$navigation[] = '<div style="text-align: center;">';
 			$navigation[] = ($slideshow_index +1).' / '.count($publications);
