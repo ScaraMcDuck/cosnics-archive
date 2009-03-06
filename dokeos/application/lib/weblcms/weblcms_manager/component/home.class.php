@@ -178,14 +178,14 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 			$html[] = '<div style="clear: both;"></div></div>';
 			$html[] = '<div class="description">';
 			
-			$html[] = '<ul>';
+			$html[] = '<ul style="margin-left: -20px;">';
 			while ($course = $courses->next_result())
 			{
 				$weblcms = $this->get_parent();
 				$weblcms->set_course($course);
 				$weblcms->load_tools();
 				$tools = $weblcms->get_registered_tools();
-				$html[] = '<li><a href="'. $this->get_course_viewing_url($course) .'">'.$course->get_name().'</a>';				
+				$html[] = '<li style="margin-left: -20px; list-style: none; margin-bottom: 5px;"><img src="' . Theme :: get_common_image_path() . 'action_home.png"> &nbsp; <a style="top: -2px; position: relative;" href="'. $this->get_course_viewing_url($course) .'">'.$course->get_name().'</a>';				
 				/*$html[] = '<br />'. $course->get_id();
 				
 				$course_titular = $course->get_titular_string();
@@ -225,7 +225,7 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 				
 				if(count($text) > 0)
 				{
-					$html[] = '<br />' . implode(' - ', $text);
+					$html[] = '<br /><span style="margin-left: 24px;">' . implode(' - ', $text) . '</span>';
 				}
 				
 				$html[] = '</li>';
