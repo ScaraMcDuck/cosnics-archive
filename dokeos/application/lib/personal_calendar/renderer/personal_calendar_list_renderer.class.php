@@ -77,9 +77,10 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 			{
 				$html[] = '<h4>Attachments</h4>';
 				DokeosUtilities :: order_learning_objects_by_title($attachments);
+				$html[] = '<ul>';
 				foreach ($attachments as $attachment)
 				{
-					$disp = LearningObjectDisplay :: factory($attachment);
+					/*$disp = LearningObjectDisplay :: factory($attachment);
 					$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'action_attachment.png);">';
 					$html[] = '<div class="title">';
 					$html[] = $attachment->get_title();
@@ -88,8 +89,11 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 					$html[] = $attachment->get_description();
 					$html[] = '</div>';
 					//$html[] =  $disp->get_full_html();
-					$html[] = '</div>';
+					$html[] = '</div>';*/
+					
+					$html[] = '<li><a href="' . $this->get_parent()->get_url(array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_VIEW_ATTACHMENT, 'object' => $attachment->get_id())) . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
 				}
+				$html[] = '</ul>';
 				//$html[] = '</ul>';
 				return implode("\n",$html);
 			}
