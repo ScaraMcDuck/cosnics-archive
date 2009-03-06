@@ -27,6 +27,7 @@ class PersonalCalendar extends WebApplication
 	const ACTION_CREATE_PUBLICATION = 'publish';
 	const ACTION_DELETE_PUBLICATION = 'delete';
 	const ACTION_EDIT_PUBLICATION = 'edit';
+	const ACTION_VIEW_ATTACHMENT = 'view_attachment';
 	
 	const ACTION_RENDER_BLOCK = 'block';
 
@@ -75,6 +76,9 @@ class PersonalCalendar extends WebApplication
 				break;
 			case self :: ACTION_EDIT_PUBLICATION :
 				$component = PersonalCalendarComponent :: factory('Editor', $this);
+				break;
+			case self :: ACTION_VIEW_ATTACHMENT :
+				$component = PersonalCalendarComponent :: factory('AttachmentViewer', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CALENDAR);
