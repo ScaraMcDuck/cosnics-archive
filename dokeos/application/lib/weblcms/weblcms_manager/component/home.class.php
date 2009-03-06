@@ -161,10 +161,23 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		$html = array();
 		if($courses->size() > 0)
 		{
+			$html[] = '<div class="block" id="block_courses" style="background-image: url('.Theme :: get_image_path('weblcms').'block_weblcms.png);">';
+			$html[] = '<div class="title"><div style="float: left;">';
+			
 			if (isset($course_category))
 			{
-				$html[] = '<ul class="user_course_category"><li>'.htmlentities($course_category->get_title()).'</li></ul>';
+				//$html[] = '<ul class="user_course_category"><li>'.htmlentities($course_category->get_title()).'</li></ul>';
+				$html[] = htmlentities($course_category->get_title());
 			}
+			else
+			{
+				$html[] = Translation :: get('GeneralCourses');
+			}
+			
+			$html[] = '</div><a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_image_path().'action_visible.png"/><img class="invisible" style="display: none;") src="'.Theme :: get_common_image_path().'action_invisible.png" /></a>';
+			$html[] = '<div style="clear: both;"></div></div>';
+			$html[] = '<div class="description">';
+			
 			$html[] = '<ul>';
 			while ($course = $courses->next_result())
 			{
@@ -219,6 +232,12 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 				$weblcms->set_course(null);
 			}
 			$html[] = '</ul>';
+			
+			$html[] = '<div style="clear: both;"></div>';
+			$html[] = '</div>';
+			$html[] = '</div>';
+			$html[] = '<br />';
+			$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' .'"></script>';
 		}
 		return implode($html, "\n");
 	}
