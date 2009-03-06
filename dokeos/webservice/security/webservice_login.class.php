@@ -27,12 +27,12 @@ class WebServiceLogin
 		
 		$functions['login'] = array(
 			'input' => new User(),
-			'output' => new WebserviceCredential()
+			'output' => new WebserviceCredential(),
+			//'require_hash' => true
 		);
 		
 		$functions['complete_login'] = array(
-			'input' => new WebserviceCredential(),
-			'output' => new ActionSuccess()
+			'input' => new WebserviceCredential()
 		);
 
 		$this->webservice->provide_webservice($functions);
@@ -42,14 +42,21 @@ class WebServiceLogin
 	
 	function login($user)
 	{
-		/*$c = new WebserviceCredential(array('hash' => $this->wsm->validate_login($user)));
-		return $c->get_default_properties();*/
-		return $this->wsm->validate_login($user);
+		$hash =  $this->wsm->validate_login($user);
+
+		if(!empty($hash))
+		{
+			return $hash;
+		}
+		else
+		{
+			return $this->webservice->raise_message('Wrong login. Please check the submitted username and password, and try again.');
+		}
 	}
 	
 	function complete_login($hash)
 	{
-		return array('success' => $this->wsm->check_hash($hash));
+		return $this->webservice->raise_message($this->wsm->check_hash($hash));
 	}
 	
 }
