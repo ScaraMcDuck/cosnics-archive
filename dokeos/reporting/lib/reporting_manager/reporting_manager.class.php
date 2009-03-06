@@ -25,13 +25,14 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	const PARAM_FIRSTLETTER = 'firstletter';
 	const PARAM_COMPONENT_ACTION = 'action';
 	const PARAM_APPLICATION = 'application';
+	const PARAM_TEMPLATE = 'template';
 	
 	const PARAM_ROLE_ID = 'role';
 	
 	const ACTION_BROWSE_TEMPLATES = 'browse_templates';
 	const ACTION_ADD_TEMPLATE = 'add_template';
 	const ACTION_DELETE_TEMPLATE = 'delete_template';
-	const ACTION_APPLICATION_TEMPLATES = 'application_templates';
+	const ACTION_VIEW_TEMPLATE = 'application_templates';
 	const PARAM_TEMPLATE_ID = 'template_id';
 	
 	private $parameters;
@@ -72,6 +73,9 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 				break;
 			case self :: ACTION_BROWSE_TEMPLATES :
 				$component = ReportingManagerComponent :: factory('ReportingTemplateBrowser', $this);
+				break;
+			case self :: ACTION_VIEW_TEMPLATE :
+				$component = ReportingManagerComponent :: factory('ReportingTemplateView',$this);
 				break;
 			default:
 				$this->set_action(self :: ACTION_BROWSE_TEMPLATES);

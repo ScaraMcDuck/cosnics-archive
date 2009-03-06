@@ -6,24 +6,25 @@
  */
  
 class ReportingTemplate{
+    const CLASS_NAME = __CLASS__;
+    
  	const PROPERTY_ID = 'id';
  	const PROPERTY_NAME = 'name';
  	const PROPERTY_APPLICATION = 'application';
  	const PROPERTY_CLASSNAME = 'class';
  	const PROPERTY_PLATFORM = 'platform';
- 	private $properties, $reporting_blocks;
+ 	private $properties;
  	
  	public function ReportingTemplate($properties = array())
  	{
  		$this->properties = $properties;	
- 		$reporting_block = array();
  	}
 
 	/**
 	 * Get the default properties
 	 * @return array The property names.
 	 */
-	static function get_property_names()
+	static function get_default_property_names()
 	{
 		return array (
 			self :: PROPERTY_ID,
@@ -39,7 +40,7 @@ class ReportingTemplate{
 	 * @param string $name The name of the property.
 	 * @param mixed $value The new value for the property.
 	 */
-	function set_property($name, $value)
+	function set_default_property($name, $value)
 	{
 		$this->properties[$name] = $value;
 	}
@@ -47,7 +48,7 @@ class ReportingTemplate{
 	/**
 	 * Sets the default properties of this class
 	 */
-	function set_properties($properties)
+	function set_default_properties($properties)
 	{
 		$this->properties = $properties;
 	}
@@ -56,7 +57,7 @@ class ReportingTemplate{
 	 * Gets a default property by name.
 	 * @param string $name The name of the property.
 	 */
-	function get_property($name)
+	function get_default_property($name)
 	{
 		return $this->properties[$name];
 	}
@@ -65,89 +66,75 @@ class ReportingTemplate{
 	 * Gets the default properties
 	 * @return array An associative array containing the properties.
 	 */
-	function get_properties()
+	function get_default_properties()
 	{
 		return $this->properties;
-	}
-	
-	function retrieve_reporting_blocks()
-	{
-		//
-	}
-	
-	function isPlatformTemplate()
-	{
-		return $this->get_platform == '1';
 	}
 	
 	function create()
 	{
 		$repdmg = ReportingDataManager :: get_instance();
-		$this->set_id($repdmg->get_next_id('reporting_template'));
+		$this->set_id($repdmg->get_next_reporting_template_id());
 		return $repdmg->create_reporting_template($this);
 	}
-	
-	function to_html()
-	{
-		
-	}
+
+    function isPlatformTemplate()
+    {
+        return $this->get_default_property(self :: PROPERTY_PLATFORM) == '1';
+    }
  	
  	/**
  	 * Getters and setters
  	 */
- 	public function get_reporting_blocks()
- 	{
- 		return $this->reporting_blocks;
- 	}
- 	
- 	public function add_reporting_block(&$reporting_block)
- 	{
- 		array_push($this->reporting_blocks,$reporting_block);
- 	}
  	
  	public function get_id()
  	{
- 		return $this->get_property(self :: PROPERTY_ID);
+ 		return $this->get_default_property(self :: PROPERTY_ID);
  	}
  	
 	public function set_id($id)
 	{
-		$this->set_property(self :: PROPERTY_ID, $id);
+		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
  	
  	public function get_name(){
- 		return $this->get_property(self :: PROPERTY_NAME);
+ 		return $this->get_default_property(self :: PROPERTY_NAME);
  	}
  	public function set_name($value){
- 		$this->set_property(self :: PROPERTY_NAME,$value);
+ 		$this->set_default_property(self :: PROPERTY_NAME,$value);
  	}
  	
  	public function get_application(){
- 		return $this->get_property(self :: PROPERTY_APPLICATION);
+ 		return $this->get_default_property(self :: PROPERTY_APPLICATION);
  	}
  	
  	public function set_application($value){
- 		$this->set_property(self :: PROPERTY_APPLICATION,$value);
+ 		$this->set_default_property(self :: PROPERTY_APPLICATION,$value);
  	}
  	
  	public function get_classname()
  	{
- 		return $this->get_property(self :: PROPERTY_CLASSNAME);
+ 		return $this->get_default_property(self :: PROPERTY_CLASSNAME);
  	}
  	
  	public function set_classname($value)
  	{
- 		$this->set_property(self :: PROPERTY_CLASSNAME,$value);
+ 		$this->set_default_property(self :: PROPERTY_CLASSNAME,$value);
  	}
  	
  	public function get_platform()
  	{
- 		return $this->get_property(self :: PROPERTY_PLATFORM);
+ 		return $this->get_default_property(self :: PROPERTY_PLATFORM);
  	}
  	
  	public function set_platform($value)
  	{
- 		$this->set_property(self :: PROPERTY_PLATFORM,$value);
+ 		$this->set_default_property(self :: PROPERTY_PLATFORM,$value);
  	}
+
+    static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
  }//class ReportingTemplate
 ?>
