@@ -1,18 +1,19 @@
 <?php
 require_once dirname(__FILE__) . '/../../user/lib/data_manager/database.class.php';
 require_once dirname(__FILE__).'/../../common/configuration/configuration.class.php';
+require_once dirname(__FILE__).'/../lib/webservice_credential.class.php';
 
 class WebserviceSecurityManager
 {
 	private static $instance;
 	private $dbhash;
+	private $credential;
 	
 	function WebserviceSecurityManager()
 	{}
 	
 	static function get_instance()
 	{
-		dump('tetn');
 		if (!isset(self :: $instance))
 		{
 			self :: $instance = new WebserviceSecurityManager();
@@ -26,16 +27,18 @@ class WebserviceSecurityManager
 	
 	function create_hash($username, $password)
 	{	
-		$dbhash = md5($username.''.$password);
-		$dbhash = hash('whirlpool',$dbhash);
-		//write to db
-		return $dbhash;
+		return $this->dbhash = hash('whirlpool',md5($username.''.$password));
+	}
+	
+	function check_hash($hash)
+	{
+		return strcmp($hash,$this->dbhash);
 	}
 	
 	
 	function check_time_left($time)
 	{
-		$convertime = date("Y-h-d",$time);
+		return date("Y-h-d",$time);
 	}
 	
 	function validate_login($input_user)
@@ -46,8 +49,8 @@ class WebserviceSecurityManager
 		{	
 			if(strcmp($user->get_password(),$input_user[password])===0)
 			{				
-				//return $this->create_hash($username, $password);
-				return true;
+				$this->credential = new WebserviceCredential(array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($username, $password), 'time_created' => time()));
+				return $this->credential->get_default_properties();
 			}
 			else
 			{
@@ -59,6 +62,11 @@ class WebserviceSecurityManager
 			return false;
 		}
 	}	
+	
+	function complete_login()
+	{
+		
+	}
 	
 	
 }
