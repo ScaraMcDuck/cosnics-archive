@@ -2,6 +2,7 @@
 require_once dirname(__FILE__) . '/../../user/lib/data_manager/database.class.php';
 require_once dirname(__FILE__).'/../../common/configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../lib/webservice_credential.class.php';
+require_once dirname(__FILE__).'/../lib/data_manager/database.class.php';
 
 class WebserviceSecurityManager
 {
@@ -10,7 +11,8 @@ class WebserviceSecurityManager
 	private $credential;
 	
 	function WebserviceSecurityManager()
-	{}
+	{
+	}
 	
 	static function get_instance()
 	{
@@ -32,13 +34,25 @@ class WebserviceSecurityManager
 	
 	function check_hash($hash)
 	{
-		if(strcmp($hash,$this->dbhash)===0)
+		if(strcmp($hash,$this->credential->get_hash())===0)
 		{
-			return 1;
+			return true;
 		}
 		else
 		{
-			return 0;
+			return false;
+		}
+	}
+	
+	function check_ip($ip)
+	{
+		if(strcmp($ip,$this->credential->get_ip())===0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 	
@@ -48,15 +62,18 @@ class WebserviceSecurityManager
 		return date("Y-h-d",$time);
 	}
 	
-	function validate_login($input_user)
+	function validate_login($input_user,$ip)
 	{
 		$udm = DatabaseUserDataManager :: get_instance();		
-		$user = $udm->retrieve_user_by_username($input_user[username]);		
+		$user = $udm->retrieve_user_by_username($input_user[username]);	
 		if(isset($user))
 		{	
 			if(strcmp($user->get_password(),$input_user[password])===0)
 			{				
-				$this->credential = new WebserviceCredential(array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($username, $password), 'time_created' => time()));
+				$this->credential = new WebserviceCredential(
+				array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($username, $password), 'time_created' => time(), 'ip' =>$ip, 'completed' =>false)
+				);
+				//$this->credential->create();
 				return $this->credential->get_default_properties();
 			}
 			else
@@ -70,9 +87,22 @@ class WebserviceSecurityManager
 		}
 	}	
 	
-	function complete_login()
+	function complete_login($webserviceCredential)
 	{
-		
+		dump('tetn'.isset(self :: $credential));
+		/*$wdm = DatabaseWebserviceDataManager :: get_instance();
+		$this->credential = $wdm->retrieve_webservice_credential_by_hash($webserviceCredential[hash]);
+		if($this->check_hash($credential[hash]) && $this->check_ip($credential[ip]))
+		{
+			//write credentials to db
+			$this->credential->set_time_created(time());
+			return $this->credential->create();
+		}
+		else
+		{
+			unset($GLOBALS['credential']);
+			return false;
+		}*/
 	}
 	
 	

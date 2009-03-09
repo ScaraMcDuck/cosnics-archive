@@ -13,10 +13,11 @@ class WebserviceCredential
 	const CLASS_NAME = __CLASS__;	
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_HASH = 'hash';
-	const PROPERTY_IP = 'IP';
+	const PROPERTY_IP = 'ip';
 	const PROPERTY_TIME_CREATED = 'time_created';
+	const PROPERTY_COMPLETED = 'completed';
 	
-/**
+	/**
 	 * Default properties of the webservice_category object, stored in an associative
 	 * array.
 	 */
@@ -122,6 +123,15 @@ class WebserviceCredential
 	}
 	
 	/**
+	 * Returns the time this webservice_credential was created.
+	 * @return int
+	 */
+	function get_completed()
+	{
+		return $this->get_default_property(self :: PROPERTY_COMPLETED);
+	}
+	
+	/**
 	 * Sets the user_id of this credential.
 	 * @param int $webservice_id The webservice_id.
 	 */
@@ -153,6 +163,14 @@ class WebserviceCredential
 	function set_time_created($time_created)
 	{
 		$this->set_default_property(self :: PROPERTY_TIME_CREATED, $time_created);
+	}
+	/**
+	 * Sets the time this webservice_credential was created.
+	 * @param String $time_created the time_created.
+	 */
+	function set_completed($completed)
+	{
+		$this->set_default_property(self :: PROPERTY_COMPLETED, $completed);
 	}
 	static function get_table_name()
 	{

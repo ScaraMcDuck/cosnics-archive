@@ -28,6 +28,10 @@ class SoapNusoapWebservice
 					$input[$property] = 'xsd:string';
 				}
 			}
+			if(isset($objects['require_hash']))
+			{
+				$input['hash'] = 'xsd:string';
+			}
 			if(isset($objects['output']))
 			{
 				if($objects['array'])
@@ -72,6 +76,8 @@ class SoapNusoapWebservice
 					);
 				}
 			}
+			
+			
 			$server->register(get_class($this->webservice_handler) . '.' . $name, $input, array('return' => 'tns:' . get_class($out).($objects['array']?'s':'')),
 			       'http://www.dokeos.com', 'http://www.dokeos.com#' . $name, 'rpc', 'encoded', '', '', 'NusoapWebservice.handle_webservice');
 			

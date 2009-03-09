@@ -28,7 +28,7 @@ class WebServiceLogin
 		$functions['login'] = array(
 			'input' => new User(),
 			'output' => new WebserviceCredential(),
-			//'require_hash' => true
+			'require_hash' => true
 		);
 		
 		$functions['complete_login'] = array(
@@ -42,7 +42,7 @@ class WebServiceLogin
 	
 	function login($user)
 	{
-		$hash =  $this->wsm->validate_login($user);
+		$hash =  $this->wsm->validate_login($user,$_SERVER['REMOTE_ADDR']);
 
 		if(!empty($hash))
 		{
@@ -54,9 +54,11 @@ class WebServiceLogin
 		}
 	}
 	
-	function complete_login($hash)
+	function complete_login($webserviceCredential)
 	{
-		return $this->webservice->raise_message($this->wsm->check_hash($hash));
+		$webserviceCredential[ip] = $_SERVER['REMOTE_ADDR'];
+		$webserviceCredential[time_created] = time();
+		$this->webservice->raise_message($this->wsm->complete_login($webserviceCredential));
 	}
 	
 }
