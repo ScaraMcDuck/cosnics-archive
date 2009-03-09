@@ -111,8 +111,15 @@ class PersonalMessagePublicationForm extends FormValidator
     {
 		$values = $this->exportValues();
 		$pmdm = PersonalMessengerDataManager :: get_instance();
-		//dump($values);
-		$recipients = array_merge($extra_rec, $values['recipients']);
+	
+		if($extra_rec && (count($extra_rec) > 0))
+		{
+			$recipients = array_merge($extra_rec, $values['recipients']);
+		}
+		else
+		{
+			$recipients = $values['recipients'];
+		}
 		
 		foreach ($recipients as $recipient)
 		{ 

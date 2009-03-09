@@ -37,7 +37,11 @@ class PersonalMessagePublisher
 		if ($form->validate() || ($edit && (isset($user) && !empty($user))))
 		{
 			$failures = 0;
-			if ($form->create_learning_object_publication(array('user|' . $user)))
+			
+			if($edit)
+				$array = array('user|' . $user);
+			
+			if ($form->create_learning_object_publication($array))
 			{
 				$message = 'PersonalMessagePublished';
 			}
