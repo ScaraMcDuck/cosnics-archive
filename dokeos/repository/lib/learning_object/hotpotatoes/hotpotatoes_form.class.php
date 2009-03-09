@@ -59,6 +59,7 @@ class HotpotatoesForm extends LearningObjectForm
 		$this->upload_file($object);
 		
 		$this->set_learning_object($object);
+		//$object->add_javascript();
 		return parent :: create_learning_object();
 	}
 	
