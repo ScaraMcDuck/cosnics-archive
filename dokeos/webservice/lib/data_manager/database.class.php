@@ -99,13 +99,13 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 	function retrieve_webservice_credential_by_hash($hash)
 	{
 		$condition = new EqualityCondition(WebserviceCredential :: PROPERTY_HASH, $hash);
-		return $this->database->retrieve_object(WebserviceCredential :: get_table_name(), $hash);
+		return $this->database->retrieve_object(WebserviceCredential :: get_table_name(), $condition);
 	}
 	
 	function retrieve_webservice_credential_by_user_id($user_id)
 	{
 		$condition = new EqualityCondition(WebserviceCredential :: PROPERTY_USER_ID, $user_id);
-		return $this->database->retrieve_object(WebserviceCredential :: get_table_name(), $user_id);
+		return $this->database->retrieve_object(WebserviceCredential :: get_table_name(), $condition);
 	}
 	
 	function delete_webservice($webservice)
