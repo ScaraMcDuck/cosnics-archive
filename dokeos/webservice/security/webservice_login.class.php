@@ -43,7 +43,7 @@ class WebServiceLogin
 	function login($user)
 	{
 		$hash =  $this->wsm->validate_login($user,$_SERVER['REMOTE_ADDR']);
-		if(!empty($hash) && get_class($hash)=='WebserviceCredential')
+		if(!empty($hash) && gettype($hash)=='array')
 		{
 			return $hash;
 		}
