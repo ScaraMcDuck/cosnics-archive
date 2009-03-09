@@ -33,35 +33,41 @@ class GroupMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function GroupMenu($current_category, $url_format = '?go=browse&group_id=%s')
+	function GroupMenu($current_category, $url_format = '?go=browse&group_id=%s', $include_root = true)
 	{
 		$this->urlFmt = $url_format;
-		$menu = $this->get_menu();
+		$menu = $this->get_menu($include_root);
 		//print_r($menu);
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
 		$this->forceCurrentUrl($this->get_url($current_category));
 	}
 	
-	
-	function get_menu()
+	function get_menu($include_root)
 	{
-		$menu = array();
-		
-		$menu_item = array();
-		$menu_item['title'] = Translation :: get('Groups');
-		$menu_item['url'] = $this->get_home_url();
-	
-		$sub_menu_items = $this->get_menu_items(0);
-		if(count($sub_menu_items) > 0)
+		if (!$include_root)
 		{
-			$menu_item['sub'] = $sub_menu_items;
+			return $this->get_menu_items(0);
 		}
-	
-		$menu_item['class'] = 'home';
-		$menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
-		$menu[0] = $menu_item;
-		return $menu;
+		else
+		{
+			$menu = array();
+			
+			$menu_item = array();
+			$menu_item['title'] = Translation :: get('Groups');
+			$menu_item['url'] = $this->get_home_url();
+		
+			$sub_menu_items = $this->get_menu_items(0);
+			if(count($sub_menu_items) > 0)
+			{
+				$menu_item['sub'] = $sub_menu_items;
+			}
+		
+			$menu_item['class'] = 'home';
+			$menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
+			$menu[0] = $menu_item;
+			return $menu;
+		}
 	}
 	
 	/**
