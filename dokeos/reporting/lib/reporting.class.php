@@ -9,7 +9,7 @@ require_once("reporting_formatter.class.php");
 
 class Reporting{
 	public static function generate_block(&$reporting_block){
-		$reporting_block->retrieve_data();
+		//$reporting_block->retrieve_data();
  		$html .= "<div id=\"".$reporting_block->get_id()."\" class=\"reporting_block\" " .
  				"style=\"height: ".$reporting_block->get_height()."px; " .
  						"width: ".$reporting_block->get_width()."px\">";
@@ -32,6 +32,7 @@ class Reporting{
  		$html .= ReportingFormatter :: get_instance($reporting_block)->to_html();
  		$html .= "</div>";
  		$html .= "<div class=\"reporting_footer\">";
+        $html .= Translation :: get('Export').':  O O O O';
  		$html .= "</div>";
  		$html .= "</div>";
  		

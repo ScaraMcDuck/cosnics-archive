@@ -2611,7 +2611,7 @@ span.dropOver
  
 .reporting_block
 {
-	background-color: #dddddd;
+	/*background-color: red;*/
 	margin: 4px;
 	padding: 4px;
 }
@@ -2631,5 +2631,5 @@ span.dropOver
 {
 	margin: 2px;
 	padding: 2px;
-	text-align: right;
+	text-align: left;
 }
