@@ -89,7 +89,7 @@ abstract class QuestionResult
 		{
 			$result = $this->results[0];
 			$score = $this->formvalidator->createElement('select', 'score'.$this->get_clo_question()->get_id(), Translation :: get('ChangeScore'), $values);
-			$defaults['score'.$this->get_question()->get_id()] = 0;
+			$defaults['score'.$this->get_clo_question()->get_id()] = 0;
 			$this->formvalidator->addElement($score);
 		}
 		//print_r($defaults);
