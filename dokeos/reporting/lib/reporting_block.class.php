@@ -113,21 +113,30 @@
  	 */
  	public function get_displaymodes()
  	{
- 		$datadescription = $this->data[1];
+        $data = $this->get_data();
+ 		$datadescription = $data[1];
+        $chartdata = $data[0];
+        $names = sizeof($chartdata);
  		$series = sizeof($datadescription["Values"]);
  		
  		$modes = array();
  		$modes["Text"] = 'Text';
  		$modes["Table"] = 'Table';
- 		if($series>1)
- 		{
- 			$modes["Chart:Bar"] = 'Bar';
- 			$modes["Chart:Line"] = 'Line';
- 			$modes["Chart:FilledCubic"] = 'FilledCubic';
- 		}else
+ 		if($series == 1)
  		{
  			$modes["Chart:Pie"] = 'Pie';
- 		}
+            if($names > 2)
+            {
+                $modes["Chart:Bar"] = 'Bar';
+                $modes["Chart:Line"] = 'Line';
+                $modes["Chart:FilledCubic"] = 'Filled Cubic';
+            }
+        }else
+        {
+            $modes["Chart:Bar"] = 'Bar';
+            $modes["Chart:Line"] = 'Line';
+            $modes["Chart:FilledCubic"] = 'Filled Cubic';
+        }
  		
  		return $modes;
  	}
