@@ -54,7 +54,10 @@ class AssessmentTesterForm extends FormValidator
 		//$this->addElement('html', '</div>');
 		$this->addElement('html', '</h3>');
 		/*$this->addElement('html', '<div class="description">');*/
-		$this->addElement('html', $assessment->get_description());
+		if ($assessment->get_assessment_type() == Survey :: TYPE_SURVEY && $page == 1)
+			$this->addElement('html', $assessment->get_introduction_text());
+		else if ($assessment->get_assessment_type() != Survey :: TYPE_SURVEY)
+			$this->addElement('html', $assessment->get_description());
 		/*$this->addElement('html', '</div>');
 		$this->addElement('html', '</div>');*/
 		

@@ -56,7 +56,11 @@ class HotspotQuestionQtiExport extends QuestionQtiExport
 		$imagename = $parts[count($parts)-1];
 		$parts = split('\.', $image);
 		$extension = strtolower($parts[count($parts)-1]);
-		$size = getimagesize(Path :: get(SYS_FILE_PATH).'/repository/'.$image);
+		$size = getimagesize(Path :: get(SYS_FILE_PATH).'repository/'.$image);
+		
+		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/images/'.$imagename;
+		mkdir(Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/images/', null, true);
+		copy(Path :: get(SYS_FILE_PATH).'repository/'.$image ,$temp_dir);
 
 		$interaction_xml[] = '<object type="image/'.$extension.'" width="'.$size[0].'" height="'.$size[1].'" data="images/'.$imagename.'"></object>';
 		foreach ($answers as $i => $answer)
