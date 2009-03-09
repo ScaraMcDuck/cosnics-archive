@@ -31,10 +31,6 @@ class WebServiceLogin
 			'require_hash' => true
 		);
 		
-		$functions['complete_login'] = array(
-			'input' => new WebserviceCredential()
-		);
-
 		$this->webservice->provide_webservice($functions);
 	}
 	
