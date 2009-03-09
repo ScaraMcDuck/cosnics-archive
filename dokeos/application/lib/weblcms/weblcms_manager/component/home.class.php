@@ -241,6 +241,8 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 		
 			if($_SESSION['toolbar_state'] == 'hide')
 				$html[] = '<script type="text/javascript">var hide = "true";</script>';
+			else
+				$html[] = '<script type="text/javascript">var hide = "false";</script>';
 		}
 		return implode($html, "\n");
 	}
