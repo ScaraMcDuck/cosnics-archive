@@ -27,7 +27,6 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 		);
 		
-		
 		/*$wsdl = Path :: get(WEB_PATH) . 'webservice/security/webservice_login.class.php?wsdl';
 		$functions = array();
 		$c = new WebserviceCredential();

@@ -113,7 +113,7 @@ class SoapNusoapWebservice
 	
 	function raise_message($message)
 	{
-		 return new soapval('return', 'xsd:'.gettype($message), $message);
+		return new soapval('return', 'xsd:'.gettype($message), $message);
 	}
 	
 	function debug($client)

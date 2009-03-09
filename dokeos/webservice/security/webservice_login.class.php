@@ -43,22 +43,13 @@ class WebServiceLogin
 	function login($user)
 	{
 		$hash =  $this->wsm->validate_login($user,$_SERVER['REMOTE_ADDR']);
-
-		if(!empty($hash))
+		if(!empty($hash) && get_class($hash)=='WebserviceCredential')
 		{
 			return $hash;
 		}
 		else
 		{
-			return $this->webservice->raise_message('Wrong login. Please check the submitted username and password, and try again.');
+			return $this->webservice->raise_message($hash);
 		}
 	}
-	
-	function complete_login($webserviceCredential)
-	{
-		$webserviceCredential[ip] = $_SERVER['REMOTE_ADDR'];
-		$webserviceCredential[time_created] = time();
-		$this->webservice->raise_message($this->wsm->complete_login($webserviceCredential));
-	}
-	
 }
