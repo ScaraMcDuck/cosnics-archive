@@ -1002,6 +1002,8 @@ div.user_course_category
 div.user_course_category div.title
 {
 	float: left;
+	padding-top: 2px;
+	height: 17px;
 }
 
 div.user_course_category div.options
@@ -1009,6 +1011,11 @@ div.user_course_category div.options
 	float: right;
 	margin-left: 5px;
 }
+
+div.nocourses
+{
+	text-align: center;
+}	
 
 div.user_course_element
 {
