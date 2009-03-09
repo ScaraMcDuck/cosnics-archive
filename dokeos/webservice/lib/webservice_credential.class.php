@@ -61,7 +61,7 @@ class WebserviceCredential
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_HASH, self :: PROPERTY_IP, self :: PROPERTY_TIME_CREATED, self :: PROPERTY_COMPLETED);
+		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_HASH, self :: PROPERTY_IP, self :: PROPERTY_TIME_CREATED);
 	}
 	
 	/**
