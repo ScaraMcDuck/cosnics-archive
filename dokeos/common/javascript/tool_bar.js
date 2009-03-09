@@ -6,8 +6,8 @@ $(document).ready(function()
 	
 	$("#tool_bar_hide").bind("click", hideBlockScreen);
 	$("#tool_bar_show").bind("click", showBlockScreen);
-	
-	if(hide)
+
+	if(hide == 'true')
 		hideBlockScreen();
 	
 	function toggleButtons()
