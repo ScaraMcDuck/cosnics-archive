@@ -5,9 +5,12 @@
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../group.class.php';
 require_once dirname(__FILE__).'/../group_data_manager.class.php';
+require_once Path :: get_group_path() . 'lib/group_menu.class.php';
 
 class GroupMoveForm extends FormValidator 
 {
+	const PROPERTY_LOCATION = 'location';
+	
     private $group;
     private $locations = array();
     private $level = 1;
@@ -20,16 +23,14 @@ class GroupMoveForm extends FormValidator
     	
     	$this->gdm = GroupDataManager :: get_instance();
     	
-    	if($group->get_parent() != 0)
-    		$this->locations[0] = Translation :: get('Groups');
-    	$this->get_locations(0);
-    	
 		$this->build_form();
+		
+		$this->setDefaults();
     }
 
     function build_form()
     {
-    	$this->addElement('select', 'location', Translation :: get('NewLocation'),$this->locations);
+    	$this->addElement('select', self :: PROPERTY_LOCATION, Translation :: get('NewLocation'), $this->get_groups());
 		//$this->addElement('submit', 'group_export', Translation :: get('Ok'));
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive move'));
 		//$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -37,33 +38,37 @@ class GroupMoveForm extends FormValidator
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
     
-    function get_locations($parent)
-    {
-    	$conditions[] = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $this->group->get_id()));
-    	$conditions[] = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $this->group->get_parent()));
-    	$conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $parent);
-    	$condition = new AndCondition($conditions);	
-    	
-    	$groups = $this->gdm->retrieve_groups($condition);
-    	while($group = $groups->next_result())
-    	{
-    		$this->locations[$group->get_id()] = str_repeat('--', $this->level) . ' ' . $group->get_name();
-    		$this->level++;
-    		$this->get_locations($group->get_id());
-    		$this->level--;
-    	}
-    }
-    
     function move_group()
     {
-    	$new_parent = $this->exportValue('location');
+    	$new_parent = $this->exportValue(self :: PROPERTY_LOCATION);
     	$this->group->set_parent($new_parent);
     	return $this->group->update();
     }
     
     function get_new_parent()
     {
-    	return $this->exportValue('location');
+    	return $this->exportValue(self :: PROPERTY_LOCATION);
     }
+    
+	function get_groups()
+	{
+		$group = $this->group;
+		
+		$group_menu = new GroupMenu($group->get_id(), null, true, true);
+		$renderer = new OptionsMenuRenderer();
+		$group_menu->render($renderer, 'sitemap');		
+		return $renderer->toArray();
+	}
+	
+	/**
+	 * Sets default values. 
+	 * @param array $defaults Default values for this form's parameters.
+	 */
+	function setDefaults($defaults = array ())
+	{
+		$group = $this->group;
+		$defaults[self :: PROPERTY_LOCATION] = $group->get_parent();
+		parent :: setDefaults($defaults);
+	}
 }
 ?>
