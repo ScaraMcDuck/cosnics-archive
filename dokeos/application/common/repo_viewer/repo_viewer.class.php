@@ -151,9 +151,16 @@ class RepoViewer
 		$this->parameters[$name] = $value;
 	}
 	
+	private $creation_defaults;
+	
+	function set_creation_defaults($defaults)
+	{
+		$this->creation_defaults = $defaults;
+	}
+	
 	function get_creation_defaults()
 	{
-		return array();
+		return $this->creation_defaults;
 	}
 	
 	function redirect_complex($type)

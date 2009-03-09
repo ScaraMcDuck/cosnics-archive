@@ -27,18 +27,6 @@ class LearningObjectRepoViewer extends RepoViewer
 		$this->parse_input_from_table();
 	}
 	
-	private $creation_defaults;
-	
-	function set_creation_defaults($defaults)
-	{
-		$this->creation_defaults = $defaults;
-	}
-	
-	function get_creation_defaults()
-	{
-		return $this->creation_defaults;
-	}
-	
 	function redirect_complex($type)
 	{
 		switch ($type)

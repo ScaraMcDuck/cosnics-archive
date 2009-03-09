@@ -29,7 +29,7 @@ class PersonalMessagePublisher
 		$out = ($new ? Display :: normal_message(htmlentities(Translation :: get('LearningObjectCreated')), true) : '');
 		//$tool = $this->get_parent()->get_parent();
 		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
-		$edit = $_GET[RepoViewer :: PARAM_EDIT];
+		$edit = $_GET['reply'];
 		$user = $_GET[PersonalMessenger :: PARAM_USER_ID];
 		
 		$form_action_parameters = array_merge($this->parent->get_parameters(), array (PersonalMessageRepoViewer :: PARAM_ID => $learning_object->get_id()));
@@ -37,7 +37,7 @@ class PersonalMessagePublisher
 		if ($form->validate() || ($edit && (isset($user) && !empty($user))))
 		{
 			$failures = 0;
-			if ($form->create_learning_object_publication())
+			if ($form->create_learning_object_publication(array('user|' . $user)))
 			{
 				$message = 'PersonalMessagePublished';
 			}

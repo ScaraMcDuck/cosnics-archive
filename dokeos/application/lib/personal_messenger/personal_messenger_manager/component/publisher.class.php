@@ -27,14 +27,29 @@ class PersonalMessengerPublisherComponent extends PersonalMessengerComponent
 			$this->folder = PersonalMessenger :: ACTION_FOLDER_INBOX;
 		}
 		
+		$reply = Request :: get('reply');
+		$user = Request :: get(PersonalMessenger :: PARAM_USER_ID);
+		
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SendPersonalMessage')));
 		
 		$object = $_GET['object'];
 		$pub = new PersonalMessageRepoViewer($this, 'personal_message', true);
+		$pub->set_parameter('reply', $reply);
+		$pub->set_parameter(PersonalMessenger :: PARAM_USER_ID, $user);
 		
 		if(!isset($object))
 		{	
+			if($reply)
+			{
+				$publication = PersonalMessengerDataManager :: get_instance()->retrieve_personal_message_publication($reply);
+				$lo_id = $publication->get_personal_message();
+				$lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($lo_id, 'personal_message');
+				$title = $lo->get_title();
+				$defaults['title'] = (substr($title, 0, 3) == 'RE:') ? $title : 'RE: ' . $title;
+				$pub->set_creation_defaults($defaults);
+			}	
+			
 			$html[] = '<p><a href="' . $this->get_url(array('go' => null), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
 		}
