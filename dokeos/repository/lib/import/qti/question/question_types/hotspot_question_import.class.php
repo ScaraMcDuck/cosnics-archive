@@ -12,7 +12,18 @@ class HotspotQuestionQtiImport extends QuestionQtiImport
 		$title = $data['title'];
 		
 		$interaction = $data['itemBody']['graphicOrderInteraction'];
-		$description = $interaction['prompt'];
+		$prompt = $interaction['prompt'];
+		//dump($prompt);
+		if (is_array($prompt))
+		{
+			foreach ($prompt as $tag => $element)
+			{
+				$description .= $element;
+			}
+		}
+		else
+			$description = $prompt;
+		
 		
 		$question->set_title($title);
 		$question->set_description($description);
@@ -23,6 +34,8 @@ class HotspotQuestionQtiImport extends QuestionQtiImport
 		$question->set_image($imagename);
 		
 		$this->create_answers($question, $interaction['hotspotChoice']);
+		parent :: create_question($question);
+		return $question->get_id();
 	}
 	
 	function create_answers($question, $answers)
@@ -33,8 +46,9 @@ class HotspotQuestionQtiImport extends QuestionQtiImport
 			$coords = $answer['coords'];
 			
 			$hotspot_type = $this->convert_type($type);
-			$hotspot_coords = $this->convert_coords($type, $coords);
+			$hotspot_coords = $this->convert_coords($hotspot_type, $coords);
 			$hotspot_answer = new HotspotQuestionAnswer('import'.$i, '', 1, $hotspot_coords, $hotspot_type);
+			$question->add_answer($hotspot_answer);
 		}
 	}
 	
@@ -60,19 +74,20 @@ class HotspotQuestionQtiImport extends QuestionQtiImport
 		switch ($type)
 		{
 			case 'square':
-				$points = split($coords);
+				$points = split(',', $coords);
 				$hotspot_coords = $points[0].';'.$points[1].'|'.($points[2] - $points[0]).'|'.($points[3] - $points[1]);
+				//dump($hotspot_coords);
 				return $hotspot_coords;
 			case 'ellipse':
-				$points = split($coords);
+				$points = split(',', $coords);
 				$hotspot_coords = $points[0].';'.$points[1].'|'.$points[2].'|'.$points[3];
 				return $hotspot_coords;
 			case 'circle':
-				$points = split($coords);
+				$points = split(',', $coords);
 				$hotspot_coords = $points[0].';'.$points[1].'|'.$points[2].'|'.$points[2];
 				return $hotspot_coords;
 			case 'poly':
-				$points = split($coords);
+				$points = split(',', $coords);
 				for ($i = 0; $i < count($points) - 2; $i += 2)
 				{
 					$hotspot_coords .= $points[$i].';'.$points[$i+1].'|';
