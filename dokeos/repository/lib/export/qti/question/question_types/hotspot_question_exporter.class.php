@@ -44,23 +44,74 @@ class HotspotQuestionQtiExport extends QuestionQtiExport
 	function get_interaction_xml($answers)
 	{
 		$interaction_xml[] = '<itemBody>';
-		$interaction_xml[] = '<p>'.htmlspecialchars($this->get_learning_object()->get_description()).'</p>';
 		//add answers 
 
-			$interaction_xml[] = '<graphicOrderInteraction responseIdentifier="RESPONSE" >';
-			$interaction_xml[] = '<prompt></prompt>';
-			
-			$image = $this->get_learning_object()->get_image();
-			$interaction_xml[] = '<object type="image" data="images/"></object>';
-			foreach ($answers as $i => $answer)
-			{
-				$coords = $answer->get_hotspot_coordinates();
-				$interaction_xml[] = '<hotspotChoice shape="'.$answer->get_hotspot_type().'" coords="'.$coords.'" identifier="A'.$i.'" />';
-			}
-			$interaction_xml[] = '</graphicOrderInteraction>';
+		$interaction_xml[] = '<graphicOrderInteraction responseIdentifier="RESPONSE" >';
+		$interaction_xml[] = '<prompt>';
+		$interaction_xml[] = '<p>'.htmlspecialchars($this->get_learning_object()->get_description()).'</p>';
+		$interaction_xml[] = '</prompt>';
+		
+		$image = $this->get_learning_object()->get_image();
+		$parts = split('/', $image);
+		$imagename = $parts[count($parts)-1];
+		$parts = split('\.', $image);
+		$extension = strtolower($parts[count($parts)-1]);
+		$size = getimagesize(Path :: get(SYS_FILE_PATH).'/repository/'.$image);
+
+		$interaction_xml[] = '<object type="image/'.$extension.'" width="'.$size[0].'" height="'.$size[1].'" data="images/'.$imagename.'"></object>';
+		foreach ($answers as $i => $answer)
+		{
+			$coords = $answer->get_hotspot_coordinates();
+			$type = $answer->get_hotspot_type();
+			$export_type = $this->export_type($type);
+			$export_coords = $this->transform_coords($coords, $export_type);
+			//dump($export_coords);
+			$interaction_xml[] = '<hotspotChoice shape="'.$export_type.'" coords="'.$export_coords.'" identifier="A'.$i.'" />';
+		}
+		$interaction_xml[] = '</graphicOrderInteraction>';
 
 		$interaction_xml[] = '</itemBody>';
 		return implode('', $interaction_xml);
+	}
+	
+	function export_type($type)
+	{
+		switch ($type)
+		{
+			case 'square':
+				return 'rect';
+			case 'circle':
+				return 'ellipse';
+			case 'poly':
+				return 'poly';
+			default:
+				return '';
+		}
+	}
+	
+	function transform_coords($coords, $export_type)
+	{
+		switch ($export_type)
+		{
+			case 'rect':
+				$coords = str_replace('|', ',', $coords);
+				$coords = str_replace(';', ',', $coords);
+				$parts = split(',', $coords);
+				$points = $parts[0].','.$parts[1].','.($parts[2] + $parts[0]).','.($parts[3] + $parts[1]);
+				return $points;
+			case 'ellipse':
+				$coords = str_replace('|', ',', $coords);
+				$coords = str_replace(';', ',', $coords);
+				return $coords;
+			case 'poly':
+				$coords = str_replace('|', ',', $coords);
+				$coords = str_replace(';', ',', $coords);
+				$parts = split(',', $coords);
+				$coords .= ','.$parts[0].','.$parts[1];
+				return $coords;
+			default:
+				return '';
+		}
 	}
 }
 ?>
