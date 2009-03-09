@@ -37,7 +37,7 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 		);*/		
 		
-		$this->webservice->call_webservice($wsdl, $functions,'dsdfsdf');
+		$this->webservice->call_webservice($wsdl, $functions,'d41d8cd98f00b204e9800998ecf8427e');
 	}
 	
 	function handle_webservice($result)

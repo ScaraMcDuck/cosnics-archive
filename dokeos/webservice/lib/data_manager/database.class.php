@@ -96,8 +96,8 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 		return $this->database->retrieve_objects(WebserviceCategory :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 	
-	function retrieve_webservice_credential_by_hash($hash)
-	{
+	function retrieve_webservice_credential_by_hash($hash)	
+	{		
 		$condition = new EqualityCondition(WebserviceCredential :: PROPERTY_HASH, $hash);
 		return $this->database->retrieve_object(WebserviceCredential :: get_table_name(), $condition);
 	}
@@ -144,6 +144,12 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 	{
 		$condition = new EqualityCondition(WebserviceCategoryRegistration :: PROPERTY_ID, $webserviceCategory->get_id());
 		return $this->database->update($webserviceCategory, $condition);
+	}
+	
+	function update_webservice_credential($webserviceCredential)
+	{
+		$condition = new EqualityCondition(WebserviceCredential :: PROPERTY_HASH, $webserviceCredential->get_hash());
+		return $this->database->update($webserviceCredential, $condition);
 	}
 	
 	function create_webservice($webservice)

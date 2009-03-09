@@ -2,12 +2,11 @@
 require_once dirname(__FILE__) . '/../../user/lib/data_manager/database.class.php';
 require_once dirname(__FILE__).'/../../common/configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../lib/webservice_credential.class.php';
-require_once dirname(__FILE__).'/../lib/data_manager/database.class.php';
+require_once Path :: get_library_path() . 'database/database.class.php';
 
 class WebserviceSecurityManager
 {
-	private static $instance;
-	private $dbhash;
+	private static $instance;	
 	private $credential;
 	
 	function WebserviceSecurityManager()
@@ -32,29 +31,40 @@ class WebserviceSecurityManager
 		return $this->dbhash = md5($username.''.$password);
 	}
 	
-	function check_hash($hash)
+	function validate_service($hash, $ip)
 	{
-		if(strcmp($hash,$this->credential->get_hash())===0)
-		{
-			return true;
+		$wdm = WebserviceDataManager :: get_instance();		
+		//dump($hash);
+		$credential = $wdm->retrieve_webservice_credential_by_hash($hash);
+
+		if(isset($credential) /*empty(hash)*/)
+		{		
+			if(strcmp($hash,$credential->get_hash())===0)
+			{
+				return true;
+			}
+			else
+			{
+				echo 'wrong hashvalue';
+				return false;
+			}
+			
+			if(strcmp($ip,$credential->get_ip())===0)
+			{
+				return true;
+			}
+			else
+			{
+				echo 'ip doesnt match';
+				return false;
+			}
 		}
 		else
 		{
-			return 'false';
+			echo 'wrong hashvalue';
+			return false; 
 		}
 	}
-	
-	function check_ip($ip)
-	{
-		if(strcmp($ip,$this->credential->get_ip())===0)
-		{
-			return true;
-		}
-		else
-		{
-			return 'false';
-		}
-	}	
 	
 	function set_end_time($time)
 	{
