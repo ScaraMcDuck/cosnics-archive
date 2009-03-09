@@ -1,8 +1,9 @@
 <?php
 require_once dirname(__FILE__).'/../../../common/global.inc.php';
 require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/../group.class.php';
-require_once dirname(__FILE__).'/../group_data_manager.class.php';
+require_once Path :: get_group_path() . 'lib/group.class.php';
+require_once Path :: get_group_path() . 'lib/group_data_manager.class.php';
+require_once Path :: get_group_path() . 'lib/group_menu.class.php';
 
 class GroupForm extends FormValidator {
 	
@@ -38,6 +39,10 @@ class GroupForm extends FormValidator {
     {
 		$this->addElement('text', Group :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
 		$this->addRule(Group :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
+		
+		$this->addElement('select', Group :: PROPERTY_PARENT, Translation :: get('Location'), $this->get_groups());
+		$this->addRule(Group :: PROPERTY_PARENT, Translation :: get('ThisFieldIsRequired'), 'required');
+		
 		$this->add_html_editor(Group :: PROPERTY_DESCRIPTION, Translation :: get('Description'), true);
 		$this->addRule(Group :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
 		
@@ -154,6 +159,7 @@ class GroupForm extends FormValidator {
 	{
 		$group = $this->group;
 		$defaults[Group :: PROPERTY_ID] = $group->get_id();
+		$defaults[Group :: PROPERTY_PARENT] = $group->get_parent();
 		$defaults[Group :: PROPERTY_NAME] = $group->get_name();
 		$defaults[Group :: PROPERTY_DESCRIPTION] = $group->get_description();
 		parent :: setDefaults($defaults);
@@ -162,6 +168,16 @@ class GroupForm extends FormValidator {
 	function get_group()
 	{
 		return $this->group;
+	}
+	
+	function get_groups()
+	{
+		$group = $this->group;
+		
+		$group_menu = new GroupMenu($group->get_id(), null, true, true);
+		$renderer = new OptionsMenuRenderer();
+		$group_menu->render($renderer, 'sitemap');		
+		return $renderer->toArray();
 	}
 }
 ?>

@@ -22,6 +22,13 @@ class GroupMenu extends HTML_Menu
 	 * The array renderer used to determine the breadcrumbs.
 	 */
 	private $array_renderer;
+	
+	private $include_root;
+	
+	private $exclude_children;
+	
+	private $current_category;
+	
 	/**
 	 * Creates a new category navigation menu.
 	 * @param int $owner The ID of the owner of the categories to provide in
@@ -33,18 +40,24 @@ class GroupMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function GroupMenu($current_category, $url_format = '?go=browse&group_id=%s', $include_root = true)
+	function GroupMenu($current_category, $url_format = '?go=browse&group_id=%s', $include_root = true, $exclude_children = false)
 	{
+		$this->include_root = $include_root;
+		$this->exclude_children = $exclude_children;
+		$this->current_category = $current_category;
+		
 		$this->urlFmt = $url_format;
-		$menu = $this->get_menu($include_root);
+		$menu = $this->get_menu();
 		//print_r($menu);
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
 		$this->forceCurrentUrl($this->get_url($current_category));
 	}
 	
-	function get_menu($include_root)
+	function get_menu()
 	{
+		$include_root = $this->include_root;
+		
 		if (!$include_root)
 		{
 			return $this->get_menu_items(0);
@@ -80,25 +93,33 @@ class GroupMenu extends HTML_Menu
 	 */
 	private function get_menu_items($parent_id = 0)
 	{ 
-		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, $parent_id);
-		$objects = GroupDataManager :: get_instance()->retrieve_groups($condition, null, null, array(Group :: PROPERTY_SORT), array(SORT_ASC));
+		$exclude_children = $this->exclude_children;
+		$current_category = $this->current_category;
 		
-		while ($object = $objects->next_result())
-		{ 
-			$menu_item = array();
-			$menu_item['title'] = $object->get_name();
-			$menu_item['url'] = $this->get_url($object->get_id());
+		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, $parent_id);
+		$groups = GroupDataManager :: get_instance()->retrieve_groups($condition, null, null, array(Group :: PROPERTY_SORT), array(SORT_ASC));
+		
+		while ($group = $groups->next_result())
+		{
+			$group_id = $group->get_id();
 			
-			$sub_menu_items = $this->get_menu_items($object->get_id());
-			
-			if(count($sub_menu_items) > 0)
+			if (!($exclude_children && $group_id == $current_category))
 			{
-				$menu_item['sub'] = $sub_menu_items;
+				$menu_item = array();
+				$menu_item['title'] = $group->get_name();
+				$menu_item['url'] = $this->get_url($group->get_id());
+				
+				$sub_menu_items = $this->get_menu_items($group->get_id());
+				
+				if(count($sub_menu_items) > 0)
+				{
+					$menu_item['sub'] = $sub_menu_items;
+				}
+				
+				$menu_item['class'] = 'type_category';
+				$menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
+				$menu[$group->get_id()] = $menu_item;
 			}
-			
-			$menu_item['class'] = 'type_category';
-			$menu_item[OptionsMenuRenderer :: KEY_ID] = $object->get_id();
-			$menu[$object->get_id()] = $menu_item;
 		}
 		
 		return $menu;
