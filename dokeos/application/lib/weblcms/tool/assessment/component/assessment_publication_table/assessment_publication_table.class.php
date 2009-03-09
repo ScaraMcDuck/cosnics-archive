@@ -13,7 +13,7 @@ require_once Path::get_library_path() . 'html/table/object_table/object_table.cl
  */
 class AssessmentPublicationTable extends ObjectTable
 {
-	const DEFAULT_NAME = 'assessment_publication_table';
+	const DEFAULT_NAME = 'publication_table';
 	
 	/**
 	 * Constructor.
