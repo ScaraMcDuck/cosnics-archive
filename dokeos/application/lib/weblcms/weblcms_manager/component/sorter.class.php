@@ -289,6 +289,18 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			$html[] = '<div style="clear:both;"></div>';
 			$html[] = '</div>';
 		}
+		else
+		{
+			$html[] = '<div class="user_course_category">';
+			$html[] = '<div class="title">';
+			$html[] = Translation :: get('GeneralCourses');
+			$html[] = '</div>';
+			$html[] = '<div class="options">';
+//			$html[] = $this->get_category_modification_links($course_category, $cat_key, $cat_count);
+			$html[] = '</div>';
+			$html[] = '<div style="clear:both;"></div>';
+			$html[] = '</div>';
+		}
 		
 		if($courses->size() > 0)
 		{
