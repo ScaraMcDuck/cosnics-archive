@@ -318,6 +318,11 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 			}
 			$html[] = '</div>';
 		}
+		else
+		{
+			$html[] = '<div class="nocourses">' . Translation :: get('NoCourses') . '</div><br />';
+		}
+		
 		return implode($html, "\n");
 	}
 	
