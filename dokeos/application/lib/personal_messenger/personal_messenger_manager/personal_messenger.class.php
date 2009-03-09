@@ -625,6 +625,11 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_PUBLICATION));
 	}
+	
+ 	function get_publication_reply_url($personal_message)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_PUBLICATION, 'reply' => $personal_message->get_id(), PersonalMessenger :: PARAM_USER_ID => $personal_message->get_sender()));
+	}
 
 	/**
 	 * Gets the current personal messenger folder
