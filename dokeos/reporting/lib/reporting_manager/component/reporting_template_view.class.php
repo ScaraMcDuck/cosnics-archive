@@ -31,15 +31,13 @@ class ReportingManagerReportingTemplateViewComponent extends ReportingManagerCom
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get(Application :: application_to_class($template)) . '&nbsp;' . Translation :: get('Template')));
 
         $rpdm = ReportingDataManager :: get_instance();
-    	$reporting_template = $rpdm->retrieve_reporting_template_by_name($template);
-
-        $application = $reporting_template->get_application();
-        $base_path = (Application :: is_application($application) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
-        $file = $base_path .$application. '/reporting/templates/'.DokeosUtilities :: camelcase_to_underscores($reporting_template->get_classname()).'.class.php';;
-        require_once($file);
-
-        $classname = $reporting_template->get_classname();
-        $template = new $classname($this);
+    	if(!$reporting_template = $rpdm->retrieve_reporting_template($template))
+        {
+            $this->display_header($trail);
+			Display :: error_message(Translation :: get("NotFound"));
+			$this->display_footer();
+			exit;
+        }
 
         //is platform template
         if ($reporting_template->isPlatformTemplate() && !$this->get_user()->is_platform_admin())
@@ -49,6 +47,14 @@ class ReportingManagerReportingTemplateViewComponent extends ReportingManagerCom
 			$this->display_footer();
 			exit;
 		}
+
+        $application = $reporting_template->get_application();
+        $base_path = (Application :: is_application($application) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
+        $file = $base_path .$application. '/reporting/templates/'.DokeosUtilities :: camelcase_to_underscores($reporting_template->get_classname()).'.class.php';;
+        require_once($file);
+
+        $classname = $reporting_template->get_classname();
+        $template = new $classname($this);
 
 		$this->display_header($trail);
 

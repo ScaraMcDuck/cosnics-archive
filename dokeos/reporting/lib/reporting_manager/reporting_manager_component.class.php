@@ -136,6 +136,21 @@ abstract class ReportingManagerComponent {
 	{
 		return $this->get_parent()->retrieve_webservice_category($id);
 	}
+
+    function count_reporting_templates($condition = null)
+	{
+		return ReportingDataManager :: get_instance()->count_reporting_templates($condition);
+	}
+
+    function retrieve_reporting_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return ReportingDataManager :: get_instance()->retrieve_reporting_templates($condition, $offset, $count, $order_property, $order_direction);
+	}
+
+    function get_reporting_template_viewing_url($reporting_template)
+	{
+		return $this->get_parent()->get_reporting_template_viewing_url($reporting_template);
+	}
 	
 	/**
 	 * @see GroupsManager::get_parameters()

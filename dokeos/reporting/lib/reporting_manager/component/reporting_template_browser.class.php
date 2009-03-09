@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../reporting_manager.class.php';
 require_once dirname(__FILE__).'/../reporting_manager_component.class.php';
-//require_once dirname(__FILE__).'/role_browser_table/role_browser_table.class.php';
+require_once dirname(__FILE__).'/reporting_template_browser_table/reporting_template_browser_table.class.php';
 //require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
@@ -94,8 +94,14 @@ class ReportingManagerReportingTemplateBrowserComponent extends ReportingManager
 	 */
 	function get_template_html()
 	{		
-		//$table = new RoleBrowserTable($this, array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES), $this->get_condition());
-		$table = new HTML_Table(array('class' => 'data_table'));
+		$table = new ReportingTemplateBrowserTable($this, array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES), $this->get_condition());
+        $html = array();
+		$html[] = '<div style="float: right; width: 100%;">';
+		$html[] = $table->as_html();
+		$html[] = '</div>';
+
+		return implode($html, "\n");
+		/*$table = new HTML_Table(array('class' => 'data_table'));
 		$table->updateAttributes('style="width: 500px"');
 		$table->updateAttributes('align="center"');
 		$table->altRowAttributes(1, array ('class' => 'row_odd'), array ('class' => 'row_even'), true);
@@ -136,7 +142,7 @@ class ReportingManagerReportingTemplateBrowserComponent extends ReportingManager
 		$html[] = $table->toHtml(); 
 		$html[] = '</div>';
 		
-		return implode($html, "\n");
+		return implode($html, "\n");*/
 	}
 	
 	//?
@@ -145,10 +151,14 @@ class ReportingManagerReportingTemplateBrowserComponent extends ReportingManager
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$condition = new LikeCondition(HelpItem :: PROPERTY_NAME, $query);
+			$condition[] = new LikeCondition(HelpItem :: PROPERTY_NAME, $query);
 		}
-		
-		return $condition;
+
+        $conditions[] = new EqualityCondition('application',$this->application);
+		$conditions[] = new EqualityCondition('platform','1');
+		$cond = new AndCondition($conditions);
+        
+		return $cond;
 	}
 	
 	///*

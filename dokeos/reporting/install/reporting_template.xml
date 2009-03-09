@@ -6,6 +6,7 @@
   <property name="application" length="50" type="text"  unsigned="1" notnull="1"/>
   <property name="class" length="50" type="text"  unsigned="1" notnull="1"/>
   <property name="platform" type="integer" unsigned="1" notnull="1" default="1"/>
+  <property name="description" length="500" type="text"  unsigned="1" notnull="1"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
