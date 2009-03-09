@@ -54,28 +54,47 @@ class WebserviceSecurityManager
 		{
 			return 'false';
 		}
+	}	
+	
+	function set_end_time($time)
+	{
+		return $endTime = $time + (10*60);  //timeframe 10 mins
+		//return date("l, F d, Y h:i" ,$endTime);
 	}
 	
+	function set_create_time($time)
+	{		
+		return date("l, F d, Y h:i" ,$time);
+	}
 	
-	function check_time_left($time)
+	function check_time_left($endTime)
 	{
-		return date("Y-h-d",$time);
+		if(time() > $endtime)
+		{
+			return 'your available time has been used up.';
+		}
+		else
+		{			
+			$restTime = $endTime - time();
+			return 'you have ' . $endTime . ' time left.';
+		}
 	}
 	
 	function validate_login($input_user,$ip)
 	{
+		
 		$udm = DatabaseUserDataManager :: get_instance();		
 		$user = $udm->retrieve_user_by_username($input_user[username]);	
 		if(isset($user))
-		{	
+		{						
 			if(strcmp($user->get_password(),$input_user[password])===0)
 			{				
 				$this->credential = new WebserviceCredential(
-				array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($username, $password), 'time_created' => time(), 'ip' =>$ip)
+				array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($username, $password), 'time_created' =>time(), 'end_time'=>$this->set_end_time(time()), 'ip' =>$ip)
 				);
 				$this->credential->create();
 				return $this->credential->get_default_properties();
-			}
+			}			
 			else
 			{
 				return 'Wrong password submitted.';

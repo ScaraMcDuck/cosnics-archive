@@ -64,7 +64,6 @@ class WebServicesUser
 		{					
 			return $user->get_default_properties();
 		}		
-		else
 		return new ActionSuccess(0);
 	}
 	
@@ -103,42 +102,9 @@ class WebServicesUser
 		$success = new ActionSuccess();
 		$success->set_success($u->update());
 		return $success->get_default_properties();
-	}	
-	
-	function validate($input_user)
-	{
-		
-		$udm = DatabaseUserDataManager :: get_instance();
-		//echo 'username : ' . $input_user[username];
-		//echo 'password : ' . $input_user[password];
-		$user = $udm->retrieve_user_by_username($input_user[username]);		
-		if(isset($user)) //user exists
-		{	
-			$username = $input_user[username];		
-			$db_password = $user->get_password();			
-			$password = $input_user[password];
-			if($db_password == $password) //check passwords
-			{				
-				echo 'username and password accepted';				
-				echo 'creating hash : ';					
-				$parameters = '' . $username . '' . $password;
-				echo 'parameters : ' . $parameters;
-				$hash = md5($parameters);
-				echo 'hash : ' . $hash;
-				echo '</body></html>';
-				
-			}
-			else
-			{
-				echo 'wrong values';
-			}			
-		}
-		else
-		{
-			echo 'input is geen user object';
-		}		
-	
 	}
+	
+	
 	
 	
 }
