@@ -82,9 +82,7 @@ abstract class WebserviceDataManager
 	
 	abstract function update_webservice($webservice);
 	
-	abstract function update_webservice_category($webserviceCategory);
-	
-	abstract function update_webservice_credential($webserviceCredential);
+	abstract function update_webservice_category($webserviceCategory);	
 	
 	abstract function create_webservice($webservice);
 	

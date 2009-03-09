@@ -15,6 +15,7 @@ class WebserviceCredential
 	const PROPERTY_HASH = 'hash';
 	const PROPERTY_IP = 'ip';
 	const PROPERTY_TIME_CREATED = 'time_created';
+	const PROPERTY_END_TIME = 'end_time';
 	
 	/**
 	 * Default properties of the webservice_category object, stored in an associative
@@ -61,7 +62,7 @@ class WebserviceCredential
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_HASH, self :: PROPERTY_IP, self :: PROPERTY_TIME_CREATED);
+		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_HASH, self :: PROPERTY_IP, self :: PROPERTY_TIME_CREATED, self :: PROPERTY_END_TIME);
 	}
 	
 	/**
@@ -120,6 +121,11 @@ class WebserviceCredential
 	{
 		return $this->get_default_property(self :: PROPERTY_TIME_CREATED);
 	}
+	
+	function get_end_time()
+	{
+		return $this->get_default_property(self :: PROPERTY_END_TIME);
+	}
 
 	
 	/**
@@ -156,6 +162,11 @@ class WebserviceCredential
 		$this->set_default_property(self :: PROPERTY_TIME_CREATED, $time_created);
 	}
 	
+	function set_end_time($end_time)
+	{
+		$this->set_default_property(self :: PROPERTY_END_TIME, $end_time);
+	}
+	
 	static function get_table_name()
 	{
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
@@ -165,12 +176,6 @@ class WebserviceCredential
 	{
 		$wdm = WebserviceDataManager :: get_instance();
 		return $wdm->create_webservice_credential($this);
-	}
-	
-	function update()
-	{
-		$wdm = WebserviceDataManager :: get_instance();
-		return $wdm->update_webservice_credential($this);
 	}
 	
 	function delete()

@@ -1,6 +1,7 @@
 <?php
 require_once Path :: get_library_path() . 'webservices/webservice.class.php';
 require_once Path :: get_plugin_path() . 'nusoap/nusoap.php';
+require_once Path :: get_webservice_path() . '/security/webservice_security_manager.class.php';
 
 class SoapNusoapWebservice
 {
@@ -95,20 +96,36 @@ class SoapNusoapWebservice
 			$server->service($HTTP_RAW_POST_DATA);
 	}
 	
-	function call_webservice($wsdl, $functions)
+	function call_webservice($wsdl, $functions, $hash, $ip)
 	{
-		$client = new nusoap_client($wsdl, 'wsdl');
+		$client = new nusoap_client($wsdl, 'wsdl');		
 		
-		foreach($functions as $function)
+		$wsm = WebserviceSecurityManager :: get_instance();
+		
+		/*if(!)
 		{
-			$function_name = $function['name'];
-			$function_parameters = $function['parameters'];
-			$handler_function = $function['handler'];
-			$result = $client->call($function_name, $function_parameters);
-			$this->webservice_handler->{$handler_function}($result);
-			
-			$this->debug($client);
+			return 'wrong hashvalue';
 		}
+		else if($ip != $dbip)
+		{
+			return 'ip doesnt match';			
+		}
+		else if($ip == $dbip && $hash = $dbhash)
+		{
+			echo 'validation succes';*/
+	
+			foreach($functions as $function)
+			{
+				$function_name = $function['name'];
+				$function_parameters = $function['parameters'];
+				$handler_function = $function['handler'];
+				$result = $client->call($function_name, $function_parameters);
+				$this->webservice_handler->{$handler_function}($result);
+				
+				$this->debug($client);
+			}
+		//}
+		
 	}	
 	
 	function raise_message($message)
