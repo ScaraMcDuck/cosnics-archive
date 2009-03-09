@@ -102,18 +102,8 @@ class SoapNusoapWebservice
 		
 		$wsm = WebserviceSecurityManager :: get_instance();
 		
-		/*if(!)
+		if($wsm->validate_service($hash, $ip))
 		{
-			return 'wrong hashvalue';
-		}
-		else if($ip != $dbip)
-		{
-			return 'ip doesnt match';			
-		}
-		else if($ip == $dbip && $hash = $dbhash)
-		{
-			echo 'validation succes';*/
-	
 			foreach($functions as $function)
 			{
 				$function_name = $function['name'];
@@ -124,7 +114,7 @@ class SoapNusoapWebservice
 				
 				$this->debug($client);
 			}
-		//}
+		}
 		
 	}	
 	
