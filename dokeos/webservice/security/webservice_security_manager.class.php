@@ -40,7 +40,7 @@ class WebserviceSecurityManager
 		}
 		else
 		{
-			return false;
+			return 'false';
 		}
 	}
 	
@@ -52,7 +52,7 @@ class WebserviceSecurityManager
 		}
 		else
 		{
-			return false;
+			return 'false';
 		}
 	}
 	
@@ -71,39 +71,23 @@ class WebserviceSecurityManager
 			if(strcmp($user->get_password(),$input_user[password])===0)
 			{				
 				$this->credential = new WebserviceCredential(
-				array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($username, $password), 'time_created' => time(), 'ip' =>$ip, 'completed' =>false)
+				array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($username, $password), 'time_created' => time(), 'ip' =>$ip)
 				);
-				//$this->credential->create();
+				$this->credential->create();
 				return $this->credential->get_default_properties();
 			}
 			else
 			{
-				return false;
+				return 'Wrong password submitted.';
 			}			
 		}
 		else
 		{
-			return false;
+			return "User $input_user[username] does not exist.";
 		}
 	}	
 	
-	function complete_login($webserviceCredential)
-	{
-		dump('tetn'.isset(self :: $credential));
-		/*$wdm = DatabaseWebserviceDataManager :: get_instance();
-		$this->credential = $wdm->retrieve_webservice_credential_by_hash($webserviceCredential[hash]);
-		if($this->check_hash($credential[hash]) && $this->check_ip($credential[ip]))
-		{
-			//write credentials to db
-			$this->credential->set_time_created(time());
-			return $this->credential->create();
-		}
-		else
-		{
-			unset($GLOBALS['credential']);
-			return false;
-		}*/
-	}
+	
 	
 	
 }

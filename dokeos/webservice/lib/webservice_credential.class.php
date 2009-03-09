@@ -15,7 +15,6 @@ class WebserviceCredential
 	const PROPERTY_HASH = 'hash';
 	const PROPERTY_IP = 'ip';
 	const PROPERTY_TIME_CREATED = 'time_created';
-	const PROPERTY_COMPLETED = 'completed';
 	
 	/**
 	 * Default properties of the webservice_category object, stored in an associative
@@ -62,7 +61,7 @@ class WebserviceCredential
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_HASH, self :: PROPERTY_IP, self :: PROPERTY_TIME_CREATED);
+		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_HASH, self :: PROPERTY_IP, self :: PROPERTY_TIME_CREATED, self :: PROPERTY_COMPLETED);
 	}
 	
 	/**
@@ -121,15 +120,7 @@ class WebserviceCredential
 	{
 		return $this->get_default_property(self :: PROPERTY_TIME_CREATED);
 	}
-	
-	/**
-	 * Returns the time this webservice_credential was created.
-	 * @return int
-	 */
-	function get_completed()
-	{
-		return $this->get_default_property(self :: PROPERTY_COMPLETED);
-	}
+
 	
 	/**
 	 * Sets the user_id of this credential.
@@ -164,14 +155,7 @@ class WebserviceCredential
 	{
 		$this->set_default_property(self :: PROPERTY_TIME_CREATED, $time_created);
 	}
-	/**
-	 * Sets the time this webservice_credential was created.
-	 * @param String $time_created the time_created.
-	 */
-	function set_completed($completed)
-	{
-		$this->set_default_property(self :: PROPERTY_COMPLETED, $completed);
-	}
+	
 	static function get_table_name()
 	{
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
@@ -181,6 +165,12 @@ class WebserviceCredential
 	{
 		$wdm = WebserviceDataManager :: get_instance();
 		return $wdm->create_webservice_credential($this);
+	}
+	
+	function update()
+	{
+		$wdm = WebserviceDataManager :: get_instance();
+		return $wdm->update_webservice_credential($this);
 	}
 	
 	function delete()
