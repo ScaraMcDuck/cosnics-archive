@@ -138,6 +138,10 @@
  	
  	public function get_data()
  	{
+        if($this->data == null)
+        {
+            $this->retrieve_data();
+        }
  		return $this->data;
  	}
  	

@@ -357,9 +357,9 @@ abstract class Installer
 		return ReportingBlocks :: create_reporting_block($array['name'],$array['application'],$array['function'],$array['displaymode'],$array['width'],$array['height']);
 	}
 	
-	function register_reporting_template($name, $application, $classname,$platform)
+	function register_reporting_template(&$props)
 	{
-		return ReportingTemplates :: create_reporting_template($name, $application, $classname,$platform);
+		return ReportingTemplates :: create_reporting_template($props);
 	}
 	
 	function register_reporting()
@@ -402,18 +402,13 @@ abstract class Installer
 						require_once($file);
 						$bla =  explode('.',basename($file));
 						$classname = DokeosUtilities :: underscores_to_camelcase($bla[0]);
-                        $class = new $classname();
-                        //$class = new ReflectionClass($classname);
-                        $name = new ReflectionProperty($classname, 'name');
-                        $name = $name->getValue($class);
-                        $platform = new ReflectionProperty($classname, 'platform');
-                        $platform = $platform->getValue($class);
-						//$class = new $classname();
-						//$name = $class->get_name();
-						//$platform = $class->get_platform();
-						if($this->register_reporting_template($name,$application,$classname,$platform))
+                        $method = new ReflectionMethod($classname, 'get_properties');
+                        $props = $method->invoke(null);
+                        $props['application'] = $application;
+                        $props['classname'] = $classname;
+						if($this->register_reporting_template($props))
 						{
-							$this->add_message(self :: TYPE_NORMAL, 'Registered reporting template: <em>'.$name.'</em>');
+							$this->add_message(self :: TYPE_NORMAL, 'Registered reporting template: <em>'.$props['name'].'</em>');
 						}
 						else
 						{
@@ -717,16 +712,16 @@ abstract class Installer
 		$this->add_message(self :: TYPE_NORMAL, '');
 		
 		// VARIOUS #2: Reporting
-//		$this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">'. Translation :: get('Reporting') .'</span>');
-//		if (!$this->register_reporting())
-//		{
-//			return $this->installation_failed(Translation :: get('ReportingFailed'));
-//		}
-//		else
-//		{
-//			$this->add_message(self :: TYPE_NORMAL, Translation :: get('ReportingAdded'));
-//		}
-//		$this->add_message(self :: TYPE_NORMAL, '');
+		$this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">'. Translation :: get('Reporting') .'</span>');
+		if (!$this->register_reporting())
+		{
+			return $this->installation_failed(Translation :: get('ReportingFailed'));
+		}
+		else
+		{
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('ReportingAdded'));
+		}
+		$this->add_message(self :: TYPE_NORMAL, '');
 		
 		// VARIOUS #3: Webservices
 		$this->add_message(self :: TYPE_NORMAL, '<span class="subtitle">'. Translation :: get('Webservice') .'</span>');
