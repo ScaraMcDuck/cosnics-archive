@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/question_types/matching_import.class.php';
 require_once dirname(__FILE__).'/question_types/multiple_answer_import.class.php';
 require_once dirname(__FILE__).'/question_types/multiple_choice_import.class.php';
 require_once dirname(__FILE__).'/question_types/open_question_import.class.php';
+require_once dirname(__FILE__).'/question_types/hotspot_question_import.class.php';
 require_once dirname(__FILE__).'/question_types/open_question_with_document_import.class.php';
 require_once dirname(__FILE__).'/question_types/percentage_import.class.php';
 require_once dirname(__FILE__).'/question_types/score_import.class.php';
@@ -60,6 +61,8 @@ class QuestionQtiImport extends QtiImport
 				return new FillInBlanksQuestionQtiImport($lo_file, $user, $category);
 			case 'matchInteraction': 
 				return new MatchingQuestionQtiImport($lo_file, $user, $category);
+			case 'graphicOrderInteraction':
+				return new HotspotQuestionQtiImport($lo_file, $user, $category);
 			default:
 				return null;
 		}

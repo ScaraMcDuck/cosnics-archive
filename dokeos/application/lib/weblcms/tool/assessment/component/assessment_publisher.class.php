@@ -28,7 +28,7 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
 		
 		$object = $_GET['object'];
 		
-		$pub = new LearningObjectRepoViewer($this, array('assessment', 'survey'), true);
+		$pub = new LearningObjectRepoViewer($this, array('assessment', 'survey'), true, RepoViewer :: SELECT_MULTIPLE);
 		
 		if(!isset($object))
 		{	
