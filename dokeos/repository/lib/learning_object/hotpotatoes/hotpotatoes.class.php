@@ -37,7 +37,8 @@ class Hotpotatoes extends LearningObject
 	
 	function get_maximum_score()
 	{
-		return WeblcmsDataManager :: get_instance()->get_maximum_score($this);
+		//return WeblcmsDataManager :: get_instance()->get_maximum_score($this);
+		return 100;
 	}
 	
 	function get_maximum_attempts()

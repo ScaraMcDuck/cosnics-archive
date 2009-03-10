@@ -35,18 +35,30 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		
 		if($this->assessment->get_assessment_type() == 'hotpotatoes')
 		{
-			$this->create_tracker();
+			$track = new WeblcmsAssessmentAttemptsTracker();
+			$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $pid);
+			$trackers = $track->retrieve_tracker_items($condition);
 			
-			$this->display_header(new BreadcrumbTrail());
-			
-			$this->assessment->add_javascript($this->get_course_id());
-			$path = $this->assessment->get_test_path();
-			echo '<iframe src="' . $path . '" width="100%" height="600">
-  				 <p>Your browser does not support iframes.</p>
-				 </iframe>';
-			//require_once $path;
-			$this->display_footer();
-			exit();
+			if (count($trackers) < $assessment->get_maximum_attempts() || $assessment->get_maximum_attempts() == 0)
+			{			
+				$this->create_tracker();
+				
+				$this->display_header(new BreadcrumbTrail());
+				
+				$this->assessment->add_javascript($this->get_course_id());
+				$path = $this->assessment->get_test_path();
+				echo '<iframe src="' . $path . '" width="100%" height="600">
+	  				 <p>Your browser does not support iframes.</p>
+					 </iframe>';
+				//require_once $path;
+				$this->display_footer();
+				exit();
+			}
+			else
+			{
+				$params = array();
+				$this->redirect(null, null, null, $params);
+			}
 		}
 		
 		if (isset($_GET[AssessmentTool :: PARAM_INVITATION_ID]))

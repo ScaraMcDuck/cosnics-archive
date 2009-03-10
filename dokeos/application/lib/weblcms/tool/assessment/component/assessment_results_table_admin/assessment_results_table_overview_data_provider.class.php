@@ -127,7 +127,7 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
     	$conds[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category);
     	
     	$type_cond = array();
-    	$types = array('assessment', 'survey');
+    	$types = array('assessment', 'survey', 'hotpotatoes');
     	foreach ($types as $type)
     	{
     		$type_cond[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
