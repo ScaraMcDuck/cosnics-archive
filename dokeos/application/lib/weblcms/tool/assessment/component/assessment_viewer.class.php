@@ -48,7 +48,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 		
 		echo '</div>';
 		echo '<div style="width:80%; padding-left: 1%; float:right; ">';
-		$table = new AssessmentPublicationTable($this, $this->get_user(), array('assessment', 'survey'), null);
+		$table = new AssessmentPublicationTable($this, $this->get_user(), array('assessment', 'survey', 'hotpotatoes'), null);
 		echo $table->as_html();
 		echo '</div>';
 		

@@ -3,6 +3,8 @@
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="path" type="text" length="255" notnull="1" default=""/>
+  <property name="max_attempts" type="integer" unsigned="1" notnull="1" />
+  <property name="questions_per_page" type="integer" unsigned="1" notnull="1" default="0" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

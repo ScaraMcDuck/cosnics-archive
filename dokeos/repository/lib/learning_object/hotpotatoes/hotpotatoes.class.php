@@ -11,10 +11,54 @@ require_once dirname(__FILE__) . '/../../learning_object.class.php';
 class Hotpotatoes extends LearningObject
 {
 	const PROPERTY_PATH = 'path';
+	const PROPERTY_MAXIMUM_ATTEMPTS = 'max_attempts';
+	const PROPERTY_QUESTIONS_PER_PAGE = 'questions_per_page';
 	
 	static function get_additional_property_names()
 	{
-		return array(self :: PROPERTY_PATH,);
+		return array(self :: PROPERTY_PATH, self :: PROPERTY_MAXIMUM_ATTEMPTS, self :: PROPERTY_QUESTIONS_PER_PAGE);
+	}
+	
+	const TYPE_HOTPOTATOES = 'hotpotatoes';
+	
+	function get_assessment_type()
+	{
+		return self :: TYPE_HOTPOTATOES;
+	}
+	
+	function get_times_taken() 
+	{
+		return WeblcmsDataManager :: get_instance()->get_num_user_assessments($this);
+	}
+	
+	function get_average_score()
+	{
+		return WeblcmsDataManager :: get_instance()->get_average_score($this);
+	}
+	
+	function get_maximum_score()
+	{
+		return WeblcmsDataManager :: get_instance()->get_maximum_score($this);
+	}
+	
+	function get_questions_per_page()
+	{
+		return $this->get_additional_property(self :: PROPERTY_QUESTIONS_PER_PAGE);
+	}
+	
+	function set_questions_per_page($value)
+	{
+		$this->set_additional_property(self :: PROPERTY_QUESTIONS_PER_PAGE, $value);
+	}
+	
+	function get_maximum_attempts()
+	{
+		return $this->get_additional_property(self :: PROPERTY_MAXIMUM_ATTEMPTS);
+	}
+	
+	function set_maximum_attempts($value)
+	{
+		$this->set_additional_property(self :: PROPERTY_MAXIMUM_ATTEMPTS, $value);
 	}
 	
 	function get_path()
