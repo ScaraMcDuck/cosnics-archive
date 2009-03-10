@@ -12,11 +12,10 @@ class Hotpotatoes extends LearningObject
 {
 	const PROPERTY_PATH = 'path';
 	const PROPERTY_MAXIMUM_ATTEMPTS = 'max_attempts';
-	const PROPERTY_QUESTIONS_PER_PAGE = 'questions_per_page';
 	
 	static function get_additional_property_names()
 	{
-		return array(self :: PROPERTY_PATH, self :: PROPERTY_MAXIMUM_ATTEMPTS, self :: PROPERTY_QUESTIONS_PER_PAGE);
+		return array(self :: PROPERTY_PATH, self :: PROPERTY_MAXIMUM_ATTEMPTS);
 	}
 	
 	const TYPE_HOTPOTATOES = 'hotpotatoes';
@@ -39,16 +38,6 @@ class Hotpotatoes extends LearningObject
 	function get_maximum_score()
 	{
 		return WeblcmsDataManager :: get_instance()->get_maximum_score($this);
-	}
-	
-	function get_questions_per_page()
-	{
-		return $this->get_additional_property(self :: PROPERTY_QUESTIONS_PER_PAGE);
-	}
-	
-	function set_questions_per_page($value)
-	{
-		$this->set_additional_property(self :: PROPERTY_QUESTIONS_PER_PAGE, $value);
 	}
 	
 	function get_maximum_attempts()
@@ -88,6 +77,11 @@ class Hotpotatoes extends LearningObject
 		$content = $this->read_file_content();
 		$js_content = $this->replace_javascript($content);
 		$this->write_file_content($js_content);
+	}
+	
+	function get_test_path()
+	{
+		return Path :: get(WEB_REPO_PATH) . substr($this->get_path(), 0, strlen($this->get_path()) - 4) . '.' . Session :: get_user_id() . '.t.htm';
 	}
 	
 	private function read_file_content()

@@ -18,7 +18,7 @@ class HotpotatoesForm extends LearningObjectForm
 		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
 		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
 		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];	
-		$defaults[Hotpotatoes :: PROPERTY_PATH] = $valuearray[3];
+		$defaults[Hotpotatoes :: PROPERTY_MAXIMUM_ATTEMPTS] = $valuearray[3];
 
 		parent :: set_values($defaults);			
 	}
@@ -29,12 +29,10 @@ class HotpotatoesForm extends LearningObjectForm
 		if ($object != null) 
 		{
 			$defaults[Hotpotatoes :: PROPERTY_MAXIMUM_ATTEMPTS] = $object->get_maximum_attempts();
-			$defaults[Hotpotatoes :: PROPERTY_QUESTIONS_PER_PAGE] = $object->get_questions_per_page();
 		}
 		else
 		{
 			$defaults[Hotpotatoes :: PROPERTY_MAXIMUM_ATTEMPTS] = 0;
-			$defaults[Hotpotatoes :: PROPERTY_QUESTIONS_PER_PAGE] = 0;
 		}
 			
 		parent :: setDefaults($defaults);
@@ -46,9 +44,7 @@ class HotpotatoesForm extends LearningObjectForm
     	$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
     	$this->add_textfield(Assessment :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts')); 
     	$this->addElement('html', Translation :: get('NoMaximumAttemptsFillIn0'));
-    	$this->add_textfield(Assessment :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('QuestionsPerPage'), false);
-    	$this->addElement('html', Translation :: get('AllQuestionsOnOnePageFillIn0'));
-    	$this->addElement('file', 'file', Translation :: get('UploadHotspot'));
+    	$this->addElement('file', 'file', Translation :: get('UploadHotpotatoes'));
     	$this->addRule('file', Translation :: get('ThisFileIsRequired'), 'required');
     	$this->addElement('category');
     }
@@ -59,9 +55,7 @@ class HotpotatoesForm extends LearningObjectForm
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
 		$this->add_textfield(Hotpotatoes :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts')); 
     	$this->addElement('html', Translation :: get('NoMaximumAttemptsFillIn0'));
-    	$this->add_textfield(Hotpotatoes :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('QuestionsPerPage'), false);
-    	$this->addElement('html', Translation :: get('AllQuestionsOnOnePageFillIn0'));
-    	$this->addElement('file', 'file', Translation :: get('ChangeHotspot'));
+    	$this->addElement('file', 'file', Translation :: get('ChangeHotpotatoes'));
     	$this->addElement('category');
 	}
 
@@ -74,10 +68,7 @@ class HotpotatoesForm extends LearningObjectForm
 		$this->upload_file($object);
 		
 		$att = $values[Hotpotatoes :: PROPERTY_MAXIMUM_ATTEMPTS];
-		$qp = $values[Hotpotatoes :: PROPERTY_QUESTIONS_PER_PAGE];
-		
 		$object->set_maximum_attempts($att ? $att : 0);
-		$object->set_questions_per_page($qp ? $qp : 0);
 		
 		$this->set_learning_object($object);
 		//$object->add_javascript();
@@ -96,10 +87,7 @@ class HotpotatoesForm extends LearningObjectForm
 		}
 		
 		$att = $values[Hotpotatoes :: PROPERTY_MAXIMUM_ATTEMPTS];
-		$qp = $values[Hotpotatoes :: PROPERTY_QUESTIONS_PER_PAGE];
-		
 		$object->set_maximum_attempts($att ? $att : 0);
-		$object->set_questions_per_page($qp ? $qp : 0);
 		
 		$this->set_learning_object($object);
 		return parent :: update_learning_object();
