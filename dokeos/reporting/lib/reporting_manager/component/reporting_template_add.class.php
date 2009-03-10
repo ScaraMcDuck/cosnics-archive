@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../reporting_manager_component.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 /**
- * Weblcms component which allows the user to manage his or her user subscriptions
+ * 
  */
 class ReportingManagerReportingTemplateAddComponent extends ReportingManagerComponent
 {

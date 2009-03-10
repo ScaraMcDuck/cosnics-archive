@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../reporting_manager.class.php';
 require_once dirname(__FILE__).'/../reporting_manager_component.class.php';
 require_once dirname(__FILE__).'/reporting_template_browser_table/reporting_template_browser_table.class.php';
-//require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
+
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
 class ReportingManagerReportingTemplateBrowserComponent extends ReportingManagerComponent
@@ -101,72 +101,29 @@ class ReportingManagerReportingTemplateBrowserComponent extends ReportingManager
 		$html[] = '</div>';
 
 		return implode($html, "\n");
-		/*$table = new HTML_Table(array('class' => 'data_table'));
-		$table->updateAttributes('style="width: 500px"');
-		$table->updateAttributes('align="center"');
-		$table->altRowAttributes(1, array ('class' => 'row_odd'), array ('class' => 'row_even'), true);
-		
-		$table->setHeaderContents(0, 0, 'Name');
-		$table->setHeaderContents(0, 1, 'View');
-		
-		$table->updateColAttributes(1,'style="width: 40px;"');
-		
-		$templates = $this->get_parent()->retrieve_platform_reporting_templates_for_application($this->application);
-		$counter = 0;
-		$i = 1;
-		$j = 0;
-		foreach ($templates as $key => $value) 
-		{
-			$j = 0;
-			//dump($value->get_properties());
-			foreach($value->get_default_properties() as $key2 => $value2)
-			{
-				if($key2 == 'name')
-				{
-					$table->setCellContents($i,$j,$value2);
-					$j++;
-				}
-			}
-			$html .= '<a href="'. $this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_VIEW_TEMPLATE, ReportingManager :: PARAM_TEMPLATE => $value->get_name())) .'">'; //only value?
-			$html .= '<img src="'. Theme :: get_image_path('common') . 'action_chart.png" border="0" style="vertical-align: middle;" alt="View Template" title="View Template"/>';
-			$html .= '</a>';
-			$table->setCellContents($i,$j,$html);
-			unset($html);
-			$i++;
-		}
-		//$table->setCellContents(0,0,'');
-		
-		$html = array();
-		$html[] = '<div style="float: right; width: 100%;">';
-		//$html[] = $table->as_html();	
-		$html[] = $table->toHtml(); 
-		$html[] = '</div>';
-		
-		return implode($html, "\n");*/
 	}
 	
-	//?
 	function get_condition() 
-	{	
+	{
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$condition[] = new LikeCondition(HelpItem :: PROPERTY_NAME, $query);
-		}
-
-        $conditions[] = new EqualityCondition('application',$this->application);
-		$conditions[] = new EqualityCondition('platform','1');
-		$cond = new AndCondition($conditions);
-        
+			$conditions[] = new LikeCondition(ReportingTemplate :: PROPERTY_NAME, $query);
+            $conditions[] = new LikeCondition(ReportingTemplate :: PROPERTY_APPLICATION, $query);
+            $cond = new OrCondition($conditions);
+		}else
+        {
+            $conditions[] = new EqualityCondition('application',$this->application);
+            $conditions[] = new EqualityCondition('platform','1');
+            $cond = new AndCondition($conditions);
+        }
 		return $cond;
 	}
 	
-	///*
 	function get_template()
 	{
 		return (isset($_GET[ReportingManager :: PARAM_TEMPLATE_ID]) ? $_GET[ReportingManager :: PARAM_TEMPLATE_ID] : 0);
 	}
-	//*/
 	
 	function get_action_bar()
 	{
@@ -174,7 +131,7 @@ class ReportingManagerReportingTemplateBrowserComponent extends ReportingManager
 		
 		$action_bar->set_search_url($this->get_url(array(ReportingManager :: PARAM_TEMPLATE_ID => $this->get_template())));
 		//$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_CREATE_ROLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('reporting'));
+		//$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('reporting'));
 		
 		return $action_bar;
 	}
