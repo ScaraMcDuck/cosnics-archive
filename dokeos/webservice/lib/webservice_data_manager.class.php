@@ -69,6 +69,8 @@ abstract class WebserviceDataManager
 	abstract function retrieve_webservice_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
 	abstract function retrieve_webservice_credential_by_hash($hash);
+
+    abstract function retrieve_webservice_credentials_by_ip($ip);
 	
 	abstract function retrieve_webservice_credential_by_user_id($user_id);
 	
@@ -79,6 +81,8 @@ abstract class WebserviceDataManager
 	abstract function delete_webservice_category($webserviceCategory);
 	
 	abstract function delete_webservice_credential($webserviceCredential);
+
+    abstract function delete_expired_webservice_credentials();
 	
 	abstract function update_webservice($webservice);
 	

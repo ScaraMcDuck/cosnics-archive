@@ -3,6 +3,7 @@ require_once dirname(__FILE__) . '/../../user/lib/data_manager/database.class.ph
 require_once dirname(__FILE__).'/../../common/configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../lib/webservice_credential.class.php';
 require_once Path :: get_library_path() . 'database/database.class.php';
+require_once Path :: get_webservice_path() . 'lib/data_manager/database.class.php';
 
 class WebserviceSecurityManager
 {
@@ -31,28 +32,47 @@ class WebserviceSecurityManager
 		$input = $ip.''.$hash;
 		return $this->dbhash = hash('sha1', $input);
 	}
-	
+
+    function check_ip($ip)
+    {
+        $wdm = WebserviceDataManager :: get_instance();
+        //return $wdm->delete_expired_webservice_credential();
+        dump($wdm->retrieve_webservice_credential_by_ip($ip)->as_array());
+    }
+
+   
 	function validate_function($hash)
 	{
 		$wdm = WebserviceDataManager :: get_instance();
-		$ip = $_SERVER['REMOTE_ADDR']; 		
-		$credential = $wdm->retrieve_webservice_credential_by_hash($hash); //aanpassen naar ip
-
-		if(isset($credential) /*empty(hash)*/)
-		{		
-			if(strcmp($ip,$credential->get_ip())===0)
-			{
-				return true;
-			}
-			else
-			{
-				echo 'The ip used is not valid.';
-				return false;
-			}
+		$ip = $_SERVER['REMOTE_ADDR'];
+        //dump($ip);
+        $wdm->delete_expired_webservice_credentials();
+		$credentials = $wdm->retrieve_webservice_credentials_by_ip($ip);
+        $credentials = $credentials->as_array();
+       // dump($credentials);
+		if(is_array($credentials))
+		{
+            foreach($credentials as $c)
+            {
+                $input_hash = $c->get_hash();
+                $h = hash('sha1',$input_hash.''.$SERVER['REMOTE_ADDR']);
+               if(strcmp($h , $hash)===0)
+                {
+                    return true;
+                   // echo 'hash value is VALID';
+                }
+                else
+                {
+                    echo 'The hash value is not valid.';
+                }
+            }
+			
+			//
+			//return false;
 		}
 		else
 		{
-			echo 'No credential found for the given hashvalue.';
+			echo 'No credential found for the given ip.';
 			return false; 
 		}
 	}

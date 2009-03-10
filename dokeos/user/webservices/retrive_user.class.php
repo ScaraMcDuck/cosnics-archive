@@ -35,8 +35,8 @@ class RetriveUser
 	}	
 	
 	function retrive($user)
-	{		
-		if(is_array($user))
+	{
+        if(is_array($user))
 		{			
 			$input_password = hash('md5',$user[password]);
 			$input_string = $input_password .''.$_SERVER['REMOTE_ADDR'];						
