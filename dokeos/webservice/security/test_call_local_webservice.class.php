@@ -2,7 +2,7 @@
 require_once(dirname(__FILE__) . '/../../common/global.inc.php');
 require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php';
 require_once dirname(__FILE__).'/../lib/webservice_credential.class.php';
-require_once 'http://localhost/webservice/security/remote_addr.class.php';
+
 
 $handler = new TestCallLocalWebservice();
 $handler->run();
@@ -28,7 +28,7 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 		);*/
 
-        echo remote_addr ::getIP();
+        echo readfile('http://localhost/webservice/security/remote_addr.php');
         
 		/*$wsdl = Path :: get(WEB_PATH) . 'webservice/security/webservice_login.class.php?wsdl';
 		$functions = array();
