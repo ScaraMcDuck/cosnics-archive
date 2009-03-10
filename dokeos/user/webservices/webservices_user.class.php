@@ -28,8 +28,8 @@ class WebServicesUser
 		$functions['get_user'] = array(
 			'input' => new InputUser(),
 			'output' => new User(),
-			'require_hash' => true
-		);
+            'require_hash' => true
+        );
 		
 		$functions['get_all_users'] = array(
 			'output' => array(new User()),
@@ -61,9 +61,10 @@ class WebServicesUser
 	
 	function get_user($input_user)
 	{		
-		$udm = DatabaseUserDataManager :: get_instance();
+        $udm = DatabaseUserDataManager :: get_instance();
 		$user = $udm->retrieve_user($input_user[id]);
-		$input_hash = $input_user[hash];		
+		$input_hash = $input_user[hash];
+        //dump(hash('sha1',$input_hash.''.$SERVER['REMOTE_ADDR']));
 		if($this->wsm->validate_function($input_hash)) //validation
 		{
 			if(isset($user))

@@ -17,14 +17,17 @@ class TestCallLocalWebservice
 	
 	function run()
 	{		
+		//$wsdl = Path :: get(WEB_PATH) . 'webservice/security/webservice_login.class.php?wsdl';
 		$wsdl = Path :: get(WEB_PATH) . 'user/webservices/retrive_user.class.php?wsdl';
 		$functions = array();
 		$user = new User();
-		$user->set_username('Admin');
+		$user->set_username('Soliber');
 		$user->set_password('werk');
+        $user = $user->get_default_properties();
+        $user['hash'] = '';
 		$functions[] = array(
 				'name' => 'RetriveUser.retrive',
-				'parameters' =>$user->get_default_properties(),
+				'parameters' =>$user,
 				'handler' => 'handle_webservice'
 		);
 
@@ -40,8 +43,9 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 		);*/		
 		
-		$this->webservice->call_webservice($wsdl, $functions);
-	}
+
+		$this->webservice->call_webservice($wsdl, $functions,'d41d8cd98f00b204e9800998ecf8427e');
+}
 	
 	function handle_webservice($result)
 	{
