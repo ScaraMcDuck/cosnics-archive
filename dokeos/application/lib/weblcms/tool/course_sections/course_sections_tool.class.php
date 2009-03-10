@@ -16,7 +16,7 @@ class CourseSectionsTool extends Tool
 	const ACTION_CREATE_COURSE_SECTION = 'create';
 	const ACTION_REMOVE_COURSE_SECTION = 'remove';
 	const ACTION_UPDATE_COURSE_SECTION = 'update';
-	const ACTION_MOVE_COURSE_SECTION = 'move';
+	const ACTION_MOVE_COURSE_SECTION = 'move_course_section';
 	const ACTION_CHANGE_COURSE_SECTION_VISIBILITY = 'change_visibility';
 	const ACTION_SELECT_TOOLS_COURSE_SECTION = 'tool_selector';
 	const ACTION_CHANGE_SECTION = 'change_section';

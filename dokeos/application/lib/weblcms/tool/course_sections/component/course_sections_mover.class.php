@@ -27,9 +27,8 @@ class CourseSectionsToolMoverComponent extends CourseSectionsToolComponent
 		
 		if (!empty ($id))
 		{
-			
 			$course_section = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $id))->next_result();
-
+			
 			$display_order = $course_section->get_display_order();
 			$new_place = $display_order + $direction;
 			$course_section->set_display_order($new_place);

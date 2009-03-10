@@ -155,6 +155,7 @@ class CategoryForm extends FormValidator {
 			{
 				$category = $this->manager->get_category();
 				$category->set_name($value);
+				$category->set_parent($this->category->get_parent());
 				$result &= $category->create();
 			}
 		}
