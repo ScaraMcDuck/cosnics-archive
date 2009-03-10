@@ -122,6 +122,10 @@ class SoapNusoapWebservice
 	{
 		return new soapval('return', 'xsd:'.gettype($message), $message);
 	}
+    function raise_error($faultstring = 'unknown error', $faultcode = 'Client', $faultactor = NULL, $detail = NULL, $mode = null, $options = null)
+	{
+		return new soap_fault($faultstring, $faultcode, $faultactor, $detail, $mode, $options);
+	}
 	
 	function debug($client)
 	{	
