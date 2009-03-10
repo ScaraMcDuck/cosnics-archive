@@ -4,7 +4,6 @@ require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php
 require_once dirname(__FILE__) . '/provider/input_user.class.php';
 require_once dirname(__FILE__) . '/../lib/data_manager/database.class.php';
 require_once dirname(__FILE__) . '/../lib/user.class.php';
-require_once dirname(__FILE__) . '/../../common/webservices/action_success.class.php';
 require_once Path :: get_webservice_path() . '/security/webservice_security_manager.class.php';
 
 $handler = new WebServicesUser();
@@ -33,84 +32,110 @@ class WebServicesUser
 		
 		$functions['get_all_users'] = array(
 			'output' => array(new User()),
-			'array' => true
+			'array' => true,
+            'require_hash' => true
 		);
 		
 		$functions['delete_user'] = array(
 			'input' => new User(),
-			'output' => new ActionSuccess()
+			'require_hash' => true
 		);
 		
 		$functions['create_user'] = array(
 			'input' => new User(),
-			'output' => new ActionSuccess()
+			'require_hash' => true
 		);
 		
 		$functions['update_user'] = array(
 			'input' => new User(),
-			'output' => new ActionSuccess()
-		);
-		
-		$functions['validate'] = array(
-			'input' => new User(),
-			'output' => new ActionSuccess()
+			'require_hash' => true
 		);
 
 		$this->webservice->provide_webservice($functions); 
 	}
 	
 	function get_user($input_user)
-	{		
-        $udm = DatabaseUserDataManager :: get_instance();
-		$user = $udm->retrieve_user($input_user[id]);
-		$input_hash = $input_user[hash];
-        //dump(hash('sha1',$input_hash.''.$SERVER['REMOTE_ADDR']));
-		if($this->wsm->validate_function($input_hash)) //validation
+	{
+        if($this->wsm->validate_function($input_user[hash]))
 		{
-			if(isset($user))
+            $udm = DatabaseUserDataManager :: get_instance();
+            $user = $udm->retrieve_user($input_user[id]);
+            if(isset($user))
 			{					
 				return $user->get_default_properties();
 			}		
-			return new ActionSuccess(0);
-		}		
+			else
+            {
+                return $this->webservice->raise_error('User '.$input_user[id].' not found.');
+            }
+		}
+        else
+        {
+            return $this->webservice->raise_error('Hash authentication failed.');
+        }
 		
 	}
 	
 	
-	function get_all_users()
+	function get_all_users($input_user)
 	{
-		$udm = DatabaseUserDataManager :: get_instance();
-		$users = $udm->retrieve_users();
-		$users = $users->as_array();
-		foreach($users as &$user)
-		{			
-			$user = $user->get_default_properties();			
-		}
-		return $users;
+        if($this->wsm->validate_function($input_user[hash]))
+		{
+            $udm = DatabaseUserDataManager :: get_instance();
+            $users = $udm->retrieve_users();
+            $users = $users->as_array();
+            foreach($users as &$user)
+            {
+                $user = $user->get_default_properties();
+            }
+            return $users;
+        }
+        else
+        {
+            return $this->webservice->raise_error('Hash authentication failed.');
+        }
 	}
 	
 	function delete_user($input_user)
 	{
-		$u = new User(0,$input_user);
-		$success = new ActionSuccess();
-		$success->set_success($u->delete());
-		return $success->get_default_properties();
+        if($this->wsm->validate_function($input_user[hash]))
+		{
+            unset($input_user[hash]);
+            $u = new User(0,$input_user);
+            return $this->webservice->raise_message($u->delete());
+        }
+        else
+        {
+            return $this->webservice->raise_error('Hash authentication failed.');
+        }
 	}
 	
 	function create_user($input_user)
 	{
-		$u = new User(0,$input_user);
-		$success = new ActionSuccess();
-		$success->set_success($u->create());
-		return $success->get_default_properties();
+        if($this->wsm->validate_function($input_user[hash]))
+		{
+            unset($input_user[hash]);
+            $u = new User(0,$input_user);
+            return $this->webservice->raise_message($u->create());
+        }
+        else
+        {
+            return $this->webservice->raise_error('Hash authentication failed.');
+        }
 	}
 	
 	function update_user($input_user)
 	{
-		$u = new User(0,$input_user);
-		$success = new ActionSuccess();
-		$success->set_success($u->update());
-		return $success->get_default_properties();
+        if($this->wsm->validate_function($input_user[hash]))
+		{
+            unset($input_user[hash]);
+            $u = new User(0,$input_user);
+            return $this->webservice->raise_message($u->update());
+        }
+        else
+        {
+            return $this->webservice->raise_error('Hash authentication failed.');
+        }
 	}
 	
 	
