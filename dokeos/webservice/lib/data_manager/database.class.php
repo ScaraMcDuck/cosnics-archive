@@ -174,12 +174,6 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 		$this->truncate_webservice_credential($webserviceCredential);
 		
 		return $bool;
-	}
-
-	function update_webservice_credential($webserviceCredential)
-	{
-		$condition = new EqualityCondition(WebserviceCredential :: PROPERTY_ID, $webserviceCredential->get_id());
-		return $this->database->update($webserviceCredential, $condition);
-	}
+	}	
 }
 ?>
