@@ -95,4 +95,12 @@ $lang['common']['YourTabIsBeingAdded'] = 'Your tab is being added';
 $lang['common']['Square'] = 'Square';
 $lang['common']['Select'] = 'Select';
 $lang['common']['Elipse'] = 'Elipse';
+$lang['common']['HotpotatoesCreationFormTitle'] = 'Create hotpotatoes';
+$lang['common']['HotpotatoesTypeName'] = 'Hotpotatoes';
+$lang['common']['HotpotatoesFormTitle'] = 'Title';
+$lang['common']['HotpotatoesFormDescription'] = 'Description';
+$lang['common']['HotpotatoesFormProperties'] = 'Hotpotatoes properties';
+$lang['common']['UploadHotpotatoes'] = 'Upload hotpotatoes';
+$lang['common']['ChangeHotpotatoes'] = 'Change hotpotatoes';
+$lang['common']['NoMaximumAttemptsFillIn0'] = 'For unlimited maximum attempts, fill in 0';
 ?>

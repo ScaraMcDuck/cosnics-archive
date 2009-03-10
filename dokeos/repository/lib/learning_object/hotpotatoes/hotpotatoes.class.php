@@ -130,7 +130,7 @@ class Hotpotatoes extends LearningObject
 					"			else\n".
 					"			{\n".
 				//	"				window.alert(Score);\n".
-					"				window.location.href = \"".Path ::get(WEB_PATH)."application/lib/weblcms/tool/assessment/component/assessment_tester_form/"."hotpotatoes_score.php?course=$coursetracker=$tracker_id&score=\"+Score;\n".
+					"				window.location.href   = \"".Path ::get(WEB_PATH)."application/lib/weblcms/tool/assessment/component/assessment_tester_form/"."hotpotatoes_score.php?course=$course&tracker=$tracker_id&score=\"+Score;\n".
 					"			}\n".
 					"		}\n".
 					"}\n".
