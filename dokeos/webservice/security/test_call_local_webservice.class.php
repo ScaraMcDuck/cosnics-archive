@@ -17,18 +17,18 @@ class TestCallLocalWebservice
 	
 	function run()
 	{		
-		/*$wsdl = Path :: get(WEB_PATH) . 'webservice/security/webservice_login.class.php?wsdl';
+		$wsdl = Path :: get(WEB_PATH) . 'user/webservices/retrive_user.class.php?wsdl';
 		$functions = array();
 		$user = new User();
 		$user->set_username('Admin');
-		$user->set_password('4a0091108fb271e05f34da7cf77c975f');
+		$user->set_password('werk');
 		$functions[] = array(
-				'name' => 'WebServiceLogin.login',
+				'name' => 'RetriveUser.retrive',
 				'parameters' =>$user->get_default_properties(),
 				'handler' => 'handle_webservice'
-		);*/
+		);
 
-        echo readfile('http://localhost/webservice/security/remote_addr.php');
+        //echo readfile('http://localhost/webservice/security/remote_addr.php');
         
 		/*$wsdl = Path :: get(WEB_PATH) . 'webservice/security/webservice_login.class.php?wsdl';
 		$functions = array();
@@ -40,7 +40,7 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 		);*/		
 		
-		//$this->webservice->call_webservice($wsdl, $functions,'d41d8cd98f00b204e9800998ecf8427e');
+		$this->webservice->call_webservice($wsdl, $functions);
 	}
 	
 	function handle_webservice($result)
