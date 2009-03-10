@@ -95,12 +95,14 @@ class ProfileForm extends LearningObjectForm
 	{
 		$object = new Profile();
 		$this->fill_properties($object);
+		parent :: set_learning_object($object);
 		return parent :: create_learning_object();
 	}
 	function update_learning_object()
 	{
 		$object = $this->get_learning_object();
 		$this->fill_properties($object);
+		parent :: set_learning_object($object);
 		return parent :: update_learning_object();
 	}
 	private function fill_properties($object)
