@@ -89,7 +89,7 @@ class WebserviceSecurityManager
 		$hash = hash('sha1',$user->get_password().''.$ip);		
 		if(isset($user))
 		{						
-			if($hash == $input_hash) //loginservice validate succesful, credential needed to validate the other webservices
+			if(strcmp($hash, $input_hash)==0) //loginservice validate succesful, credential needed to validate the other webservices
 			{				
 				$this->credential = new WebserviceCredential(
 				array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($ip, $hash), 'time_created' =>time(), 'end_time'=>$this->set_end_time(time()), 'ip' =>$ip)
