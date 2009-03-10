@@ -2623,8 +2623,8 @@ span.dropOver
 }
 .reporting_content
 {
-	margin-left:auto;
-	margin-right:auto;
+    margin: 2px;
+    padding: 2px;
 	overflow:auto;
 }
 .reporting_footer

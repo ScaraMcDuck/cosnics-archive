@@ -11,8 +11,8 @@ require_once dirname(__FILE__).'/../../../common/condition/equality_condition.cl
 require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
 
 /**
- * A webservice manager provides some functionalities to the admin to manage
- * his webservices.
+ * A reporting manager provides some functionalities to the admin to manage
+ * the reporting
  */
  class ReportingManager {
  	
@@ -21,11 +21,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
  	const PARAM_ACTION = 'go';
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
-	const PARAM_REMOVE_SELECTED = 'delete';
-	const PARAM_FIRSTLETTER = 'firstletter';
-	const PARAM_COMPONENT_ACTION = 'action';
 	const PARAM_APPLICATION = 'application';
-	//const PARAM_TEMPLATE = 'template';
     const PARAM_TEMPLATE_ID = 'template';
 	
 	const PARAM_ROLE_ID = 'role';
@@ -34,27 +30,16 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	const ACTION_ADD_TEMPLATE = 'add_template';
 	const ACTION_DELETE_TEMPLATE = 'delete_template';
 	const ACTION_VIEW_TEMPLATE = 'application_templates';
-	//const PARAM_TEMPLATE_ID = 'template_id';
 	
 	private $parameters;
 	private $search_parameters;
-	private $user_id;
 	private $user;
-	private $user_search_form;
-	private $group_search_form;
-	private $category_menu;
-	private $quota_url;
-	private $publication_url;
-	private $create_url;
-	private $recycle_bin_url;
-	private $breadcrumbs;
 		
     function ReportingManager($user = null) 
     {
     	$this->user = $user;
 		$this->parameters = array ();
-		$this->set_action($_GET[self :: PARAM_ACTION]);		
-		//$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_GROUP));   	
+		$this->set_action($_GET[self :: PARAM_ACTION]);		 	
     }
     
     /**
@@ -239,36 +224,15 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	{
 		$this->parameters[$name] = $value;
 	}	
-	
-//	function retrieve_available_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
-//	{
-//		return ReportingDataManager :: get_instance()->retrieve_available_templates($condition,$offset,$order_property,$order_direction);
-//	}
-
-	/**
-	 * Returns an array of platform reporting templates for an application
-	 */
-	function retrieve_platform_reporting_templates_for_application($application)
+    
+    function count_reporting_templates($condition = null)
 	{
-		$rpdm = ReportingDatamanager :: get_instance();
-		$conditions[] = new EqualityCondition('application',$application);
-		$conditions[] = new EqualityCondition('platform','1');
-		$cond = new AndCondition($conditions);
-		$templateresultset = $rpdm->retrieve_reporting_templates($cond);
-		while($template = $templateresultset->next_result())
-		{
-			$templates[] = $template;
-		}
-		return $templates;
+		return ReportingDataManager :: get_instance()->count_reporting_templates($condition);
 	}
 
-    function retrieve_platform_reporting_templates_for_application_res($application)
+    function retrieve_reporting_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		$rpdm = ReportingDatamanager :: get_instance();
-		$conditions[] = new EqualityCondition('application',$application);
-		$conditions[] = new EqualityCondition('platform','1');
-		$cond = new AndCondition($conditions);
-		return $rpdm->retrieve_reporting_templates($cond);
+		return ReportingDataManager :: get_instance()->retrieve_reporting_templates($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
 	/**
@@ -336,14 +300,9 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		return $url;
 	}
 	/**
-	 * Gets the user id.
-	 * @return int The requested user id.
+	 * Gets the user.
+	 * @return int The requested user.
 	 */
-	function get_user_id()
-	{
-		return $this->user->get_id();
-	}
-	
 	function get_user()
 	{
 		return $this->user;
@@ -391,26 +350,4 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, self :: PARAM_TEMPLATE_ID => $reporting_template->get_id()));
 	}
-
-	/*function is_allowed($right, $role_id, $location_id)
-	{
-		$rdm = RightsDataManager :: get_instance();
-		$rolerightlocation = $rdm->retrieve_role_right_location($right, $role_id, $location_id);
-		return $rolerightlocation->get_value();
-	}
-	
-	function retrieve_role_right_location($right_id, $role_id, $location_id)
-	{
-		return RightsDataManager :: get_instance()->retrieve_role_right_location($right_id, $role_id, $location_id);
-	}
-	
-	function get_role_deleting_url($role)
-	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_ROLES, self :: PARAM_ROLE_ID => $role->get_id()));
-	}
-	
-	function get_role_editing_url($role)
-	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_ROLES, self :: PARAM_ROLE_ID => $role->get_id()));
-	}*/
  }

@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../../../reporting_template_table/default_reporting_template_table_column_model.class.php';
 require_once dirname(__FILE__).'/../../../reporting_template.class.php';
 /**
- * Table column model for the user browser table
+ * Table column model for the reporting browser table
  */
 class ReportingTemplateBrowserTableColumnModel extends DefaultReportingTemplateTableColumnModel
 {

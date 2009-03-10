@@ -1,9 +1,8 @@
 <?php
 
 /**
- * Base class for a webservice manager component.
- * A webservice manager provides different tools to the end user. Each tool is
- * represented by a webservice manager component and should extend this class.
+ * Base class for a reporting manager component.
+ * A reporting manager provides different tools to the administrator.
  */
  /**
  * @author Michael Kyndt
@@ -15,7 +14,7 @@ abstract class ReportingManagerComponent {
 	 */
 	private static $component_count = 0;
 	/**
-	 * The user manager in which this component is used
+	 * The reporting manager in which this component is used
 	 */
 	private $reporting_manager;
 	/**
@@ -25,7 +24,7 @@ abstract class ReportingManagerComponent {
 	
 	/**
 	 * Constructor
-	 * @param GroupsManager $groups_manager The user manager which
+	 * @param ReportingManager $reporting_manager The reporting manager which
 	 * provides this component
 	 */
     function ReportingManagerComponent($reporting_manager) 
@@ -35,7 +34,7 @@ abstract class ReportingManagerComponent {
     }
     
     /**
-	 * @see WebserviceManager::display_header()
+	 * @see ReportingManager::display_header()
 	 */
 	function display_header($breadcrumbtrail, $display_search = false)
 	{
@@ -43,7 +42,7 @@ abstract class ReportingManagerComponent {
 	}
 	
 	/**
-	 * @see GroupsManager::display_footer()
+	 * @see ReportingManager::display_footer()
 	 */
 	function display_footer()
 	{
@@ -51,7 +50,7 @@ abstract class ReportingManagerComponent {
 	}
 	
 	/**
-	 * @see GroupsManager::display_message()
+	 * @see ReportingManager::display_message()
 	 */
 	function display_message($message)
 	{
@@ -59,7 +58,7 @@ abstract class ReportingManagerComponent {
 	}
 	
 	/**
-	 * @see GroupsManager::display_error_message()
+	 * @see ReportingManager::display_error_message()
 	 */
 	function display_error_message($message)
 	{
@@ -67,7 +66,7 @@ abstract class ReportingManagerComponent {
 	}
 	
 	/**
-	 * @see GroupsManager::display_error_page()
+	 * @see ReportingManager::display_error_page()
 	 */
 	function display_error_page($message)
 	{
@@ -75,7 +74,7 @@ abstract class ReportingManagerComponent {
 	}
 	
 	/**
-	 * @see GroupsManager::display_warning_page()
+	 * @see ReportingManager::display_warning_page()
 	 */
 	function display_warning_page($message)
 	{
@@ -83,7 +82,7 @@ abstract class ReportingManagerComponent {
 	}
 	
 	/**
-	 * @see GroupsManager::display_popup_form()
+	 * @see ReportingManager::display_popup_form()
 	 */
 	function display_popup_form($form_html)
 	{
@@ -95,19 +94,9 @@ abstract class ReportingManagerComponent {
 		return $this->get_parent()->get_search_condition();
 	}
 	
-	function get_user_search_condition()
-	{
-		return $this->get_parent()->get_user_search_condition();
-	}
-	
-	function display_user_search_form()
-	{
-		return $this->get_parent()->display_user_search_form();
-	}
-	
 	/**
-	 * Retrieve the user manager in which this component is active
-	 * @return GroupsManager
+	 * Retrieve the reporting manager in which this component is active
+	 * @return ReportingManager
 	 */
 	function get_parent()
 	{
@@ -126,25 +115,15 @@ abstract class ReportingManagerComponent {
 	{
 		return $this->get_parent()->get_user();
 	}
-	
-	function get_user_id()
-	{
-		return $this->get_parent()->get_user_id();
-	}
-	
-	function retrieve_webservice_category($id)
-	{
-		return $this->get_parent()->retrieve_webservice_category($id);
-	}
 
     function count_reporting_templates($condition = null)
 	{
-		return ReportingDataManager :: get_instance()->count_reporting_templates($condition);
+        return $this->get_parent()->count_reporting_templates($condition);
 	}
 
     function retrieve_reporting_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return ReportingDataManager :: get_instance()->retrieve_reporting_templates($condition, $offset, $count, $order_property, $order_direction);
+        return $this->get_parent()->retrieve_reporting_templates($condition, $offset, $count, $order_property, $order_direction);
 	}
 
     function get_reporting_template_viewing_url($reporting_template)
@@ -153,7 +132,7 @@ abstract class ReportingManagerComponent {
 	}
 	
 	/**
-	 * @see GroupsManager::get_parameters()
+	 * @see ReportingManager::get_parameters()
 	 */
 	function get_parameters($include_search = false)
 	{
@@ -161,7 +140,7 @@ abstract class ReportingManagerComponent {
 	}
 	
 	/**
-	 * @see GroupsManager::get_parameter()
+	 * @see ReportingManager::get_parameter()
 	 */
 	function get_parameter($name)
 	{
@@ -169,7 +148,7 @@ abstract class ReportingManagerComponent {
 	}
 	
 	/**
-	 * @see GroupsManager::set_parameter()
+	 * @see ReportingManager::set_parameter()
 	 */
 	function set_parameter($name, $value)
 	{
@@ -182,7 +161,7 @@ abstract class ReportingManagerComponent {
 	}
 	
 	/**
-	 * @see GroupsManager::force_menu_url()
+	 * @see ReportingManager::force_menu_url()
 	 */
 	function force_menu_url($url)
 	{
@@ -190,7 +169,7 @@ abstract class ReportingManagerComponent {
 	}
 	
 	/**
-	 * @see GroupsManager::get_url()
+	 * @see ReportingManager::get_url()
 	 */
 	function get_url($additional_parameters = array(), $include_search = false, $encode_entities = false, $include_user_search = false)
 	{
@@ -198,7 +177,7 @@ abstract class ReportingManagerComponent {
 	}
 	
 	/**
-	 * @see GroupsManager::get_link()
+	 * @see ReportingManager::get_link()
 	 */
 	function get_link($parameters = array (), $encode = false)
 	{
@@ -206,7 +185,7 @@ abstract class ReportingManagerComponent {
 	}
 	
 	/**
-	 * @see GroupsManager::redirect()
+	 * @see ReportingManager::redirect()
 	 */
 	function redirect($type = 'url', $message = null, $error_message = false, $extra_params = null)
 	{
@@ -214,14 +193,14 @@ abstract class ReportingManagerComponent {
 	}
 	
 	/**
-	 * @see GroupsManager::get_path()
+	 * @see ReportingManager::get_path()
 	 */
 	function get_path($path_type)
 	{
 		return $this->get_parent()->get_path($path_type);
 	}
 	/**
-	 * @see GroupsManager::not_allowed()
+	 * @see ReportingManager::not_allowed()
 	 */
 	function not_allowed()
 	{
@@ -229,19 +208,19 @@ abstract class ReportingManagerComponent {
 	}
 	
 	/**
-	 * @see AdminManager ::display_popup_form()
+	 * @see ReportingManager ::display_popup_form()
 	 */
 	function get_application_platform_admin_links()
 	{
 		return $this->get_parent()->get_application_platform_admin_links();
 	}
 	/**
-	 * Create a new user manager component
+	 * Create a new reporting manager component
 	 * @param string $type The type of the component to create.
-	 * @param GroupsManager $groups_manager The user manager in
+	 * @param ReportingManager $reporting_manager The user manager in
 	 * which the created component will be used
 	 */
-	static function factory($type, $user_manager)
+	static function factory($type, $reporting_manager)
 	{
 		$filename = dirname(__FILE__).'/component/'.DokeosUtilities :: camelcase_to_underscores($type).'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
@@ -250,12 +229,7 @@ abstract class ReportingManagerComponent {
 		}
 		$class = 'ReportingManager'.$type.'Component';
 		require_once $filename;
-		return new $class($user_manager);
-	}
-	
-	function get_manage_roles_url($webservice)
-	{
-		return $this->get_parent()->get_manage_roles_url($webservice);
+		return new $class($reporting_manager);
 	}
 }
 ?>

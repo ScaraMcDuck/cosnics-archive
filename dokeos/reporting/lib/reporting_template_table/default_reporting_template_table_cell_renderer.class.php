@@ -1,6 +1,6 @@
 <?php
 /**
- * @package repository.usertable
+ * @author: Michael Kyndt
  */
 
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
@@ -29,6 +29,8 @@ class DefaultReportingTemplateTableCellRenderer implements ObjectTableCellRender
 		{
 			switch ($property)
 			{
+                case ReportingTemplate :: PROPERTY_APPLICATION:
+                    return $reporting_template->get_application();
 				case ReportingTemplate :: PROPERTY_NAME :
 					return $reporting_template->get_name();
 				case ReportingTemplate :: PROPERTY_DESCRIPTION :
