@@ -33,6 +33,22 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			$url = $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $this->pid));
 		}
 		
+		if($this->assessment->get_assessment_type() == 'hotpotatoes')
+		{
+			$this->create_tracker();
+			
+			$this->display_header(new BreadcrumbTrail());
+			
+			$this->assessment->add_javascript();
+			$path = $this->assessment->get_test_path();
+			echo '<iframe src="' . $path . '" width="100%" height="600">
+  				 <p>Your browser does not support iframes.</p>
+				 </iframe>';
+			
+			$this->display_footer();
+			exit();
+		}
+		
 		if (isset($_GET[AssessmentTool :: PARAM_INVITATION_ID]))
 		{
 			$this->iid = $_GET[AssessmentTool :: PARAM_INVITATION_ID];

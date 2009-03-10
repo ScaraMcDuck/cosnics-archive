@@ -62,20 +62,25 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 	
 	function get_actions($user_assessment) 
 	{
-		$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
-			'label' => Translation :: get('ViewResults'),
-			'img' => Theme :: get_common_image_path().'action_view_results.png'
-		);
-		
-		$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
-			'label' => Translation :: get('ExportResults'),
-			'img' => Theme :: get_common_image_path().'action_export.png'
-		);
-		
 		$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
 		$assessment = $pub->get_learning_object();
+		
+		if ($assessment->get_assessment_type() != 'hotpotatoes')
+		{
+			$actions[] = array(
+				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
+				'label' => Translation :: get('ViewResults'),
+				'img' => Theme :: get_common_image_path().'action_view_results.png'
+			);
+			
+			$actions[] = array(
+				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
+				'label' => Translation :: get('ExportResults'),
+				'img' => Theme :: get_common_image_path().'action_export.png'
+			);
+		}
+		
+		
 		if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
 		{
 			$actions[] = array(
@@ -84,8 +89,8 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 				'img' => Theme :: get_common_image_path().'action_download.png'
 			);
 		}
-
-		return DokeosUtilities :: build_toolbar($actions);
+		if(count($actions) > 0 )
+			return DokeosUtilities :: build_toolbar($actions);
 	}
 	
 	/**
