@@ -5,6 +5,7 @@ require_once dirname(__FILE__) . '/provider/input_user.class.php';
 require_once dirname(__FILE__) . '/../lib/data_manager/database.class.php';
 require_once dirname(__FILE__) . '/../lib/user.class.php';
 require_once dirname(__FILE__) . '/../../common/webservices/action_success.class.php';
+require_once Path :: get_webservice_path() . '/security/webservice_security_manager.class.php';
 
 $handler = new WebServicesUser();
 $handler->run();
@@ -12,11 +13,12 @@ $handler->run();
 class WebServicesUser
 {
 	private $webservice;
-	private $functions;	
+	private $functions;		
 	
 	function WebServicesUser()
 	{
 		$this->webservice = Webservice :: factory($this);
+		$this->wsm = WebserviceSecurityManager :: get_instance($this);
 	}
 	
 	function run()
@@ -25,7 +27,8 @@ class WebServicesUser
 		
 		$functions['get_user'] = array(
 			'input' => new InputUser(),
-			'output' => new User()
+			'output' => new User(),
+			'require_hash' => true
 		);
 		
 		$functions['get_all_users'] = array(
@@ -53,18 +56,23 @@ class WebServicesUser
 			'output' => new ActionSuccess()
 		);
 
-		$this->webservice->provide_webservice($functions);
+		$this->webservice->provide_webservice($functions); 
 	}
 	
 	function get_user($input_user)
 	{		
 		$udm = DatabaseUserDataManager :: get_instance();
 		$user = $udm->retrieve_user($input_user[id]);
-		if(isset($user))
-		{					
-			return $user->get_default_properties();
+		$input_hash = $input_user[hash];		
+		if($this->wsm->validate_function($input_hash)) //validation
+		{
+			if(isset($user))
+			{					
+				return $user->get_default_properties();
+			}		
+			return new ActionSuccess(0);
 		}		
-		return new ActionSuccess(0);
+		
 	}
 	
 	

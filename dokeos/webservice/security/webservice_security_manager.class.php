@@ -26,42 +26,33 @@ class WebserviceSecurityManager
 	 *  based on the concatenation of a given username and password. 
 	 */
 	
-	function create_hash($username, $password)
+	function create_hash($ip, $hash)
 	{	
-		return $this->dbhash = md5($username.''.$password);
+		$input = $ip.''.$hash;
+		return $this->dbhash = hash('sha1', $input);
 	}
 	
-	function validate_service($hash, $ip)
+	function validate_function($hash)
 	{
-		$wdm = WebserviceDataManager :: get_instance();		
-		//dump($hash);
-		$credential = $wdm->retrieve_webservice_credential_by_hash($hash);
+		$wdm = WebserviceDataManager :: get_instance();
+		$ip = $_SERVER['REMOTE_ADDR']; 		
+		$credential = $wdm->retrieve_webservice_credential_by_hash($hash); //aanpassen naar ip
 
 		if(isset($credential) /*empty(hash)*/)
 		{		
-			if(strcmp($hash,$credential->get_hash())===0)
-			{
-				return true;
-			}
-			else
-			{
-				echo 'wrong hashvalue';
-				return false;
-			}
-			
 			if(strcmp($ip,$credential->get_ip())===0)
 			{
 				return true;
 			}
 			else
 			{
-				echo 'ip doesnt match';
+				echo 'The ip used is not valid.';
 				return false;
 			}
 		}
 		else
 		{
-			echo 'wrong hashvalue';
+			echo 'No credential found for the given hashvalue.';
 			return false; 
 		}
 	}
@@ -90,29 +81,30 @@ class WebserviceSecurityManager
 		}
 	}
 	
-	function validate_login($input_user,$ip)
-	{
-		
+	function validate_login($username,$input_hash)
+	{			
 		$udm = DatabaseUserDataManager :: get_instance();		
-		$user = $udm->retrieve_user_by_username($input_user[username]);	
+		$user = $udm->retrieve_user_by_username($username);
+		$ip = $_SERVER['REMOTE_ADDR'];		
+		$hash = hash('sha1',$user->get_password().''.$ip);		
 		if(isset($user))
 		{						
-			if(strcmp($user->get_password(),$input_user[password])===0)
+			if($hash == $input_hash) //loginservice validate succesful, credential needed to validate the other webservices
 			{				
 				$this->credential = new WebserviceCredential(
-				array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($username, $password), 'time_created' =>time(), 'end_time'=>$this->set_end_time(time()), 'ip' =>$ip)
-				);
-				$this->credential->create();
+				array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($ip, $hash), 'time_created' =>time(), 'end_time'=>$this->set_end_time(time()), 'ip' =>$ip)
+				);				
+				$this->credential->create();				
 				return $this->credential->get_default_properties();
 			}			
 			else
 			{
-				return 'Wrong password submitted.';
+				return 'Wrong hash value submitted.';
 			}			
 		}
 		else
 		{
-			return "User $input_user[username] does not exist.";
+			return "User $username does not exist.";
 		}
 	}	
 	

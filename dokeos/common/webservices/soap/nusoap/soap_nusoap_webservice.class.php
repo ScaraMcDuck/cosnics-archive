@@ -6,17 +6,18 @@ require_once Path :: get_webservice_path() . '/security/webservice_security_mana
 class SoapNusoapWebservice
 {
 	private $webservice_handler;
+	private $webservice;
 	
 	function SoapNusoapWebservice($webservice_handler)
 	{
-		$this->webservice_handler = $webservice_handler;
+		$this->webservice_handler = $webservice_handler;				
 	}
 	
-
 	function provide_webservice($functions)
 	{
 		$server = new soap_server();
 		$server->configureWSDL('Dokeos', 'http://www.dokeos.com');
+		
 		foreach($functions as $name => $objects)
 		{
 			if(isset($objects['input']))
@@ -96,24 +97,19 @@ class SoapNusoapWebservice
 			$server->service($HTTP_RAW_POST_DATA);
 	}
 	
-	function call_webservice($wsdl, $functions, $hash, $ip)
+	function call_webservice($wsdl, $functions)
 	{
 		$client = new nusoap_client($wsdl, 'wsdl');		
 		
-		$wsm = WebserviceSecurityManager :: get_instance();
-		
-		if($wsm->validate_service($hash, $ip))
+		foreach($functions as $function)
 		{
-			foreach($functions as $function)
-			{
-				$function_name = $function['name'];
-				$function_parameters = $function['parameters'];
-				$handler_function = $function['handler'];
-				$result = $client->call($function_name, $function_parameters);
-				$this->webservice_handler->{$handler_function}($result);
-				
-				$this->debug($client);
-			}
+			$function_name = $function['name'];
+			$function_parameters = $function['parameters'];
+			$handler_function = $function['handler'];
+			$result = $client->call($function_name, $function_parameters);
+			$this->webservice_handler->{$handler_function}($result);
+			
+			$this->debug($client);
 		}
 		
 	}	
