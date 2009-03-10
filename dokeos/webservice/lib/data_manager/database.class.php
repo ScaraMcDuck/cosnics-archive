@@ -174,6 +174,13 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 		$this->truncate_webservice_credential($webserviceCredential);
 		
 		return $bool;
-	}	
+	}
+
+    function delete_expired_webservice_credentials()
+	{
+        $condition = new InequalityCondition(WebserviceCredential :: PROPERTY_END_TIME, InequalityCondition :: LESS_THAN_OR_EQUAL, time());
+        $bool = $this->database->delete(WebserviceCredential :: get_table_name(), $condition);
+		return $bool;
+	}
 }
 ?>
