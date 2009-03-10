@@ -97,7 +97,9 @@ class HotpotatoesForm extends LearningObjectForm
 	{
 		$path = $this->upload();
 		
-		if($_FILES['file']['type'] == 'application/zip')
+		//dump($_FILES['file']);
+		$filetype = $_FILES['file']['type'];
+		if($filetype == 'application/zip' || $filetype == 'application/x-zip-compressed')
 		{
 			$path = $this->manage_zip_file($object, $path);
 			$object->set_path($path);

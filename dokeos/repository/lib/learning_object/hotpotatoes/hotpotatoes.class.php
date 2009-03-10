@@ -72,16 +72,16 @@ class Hotpotatoes extends LearningObject
 		Filesystem::remove($path);
 	}
 	
-	function add_javascript()
+	function add_javascript($course)
 	{
 		$content = $this->read_file_content();
-		$js_content = $this->replace_javascript($content);
+		$js_content = $this->replace_javascript($content, $course);
 		$this->write_file_content($js_content);
 	}
 	
-	function get_test_path()
+	function get_test_path($type = WEB_REPO_PATH)
 	{
-		return Path :: get(WEB_REPO_PATH) . substr($this->get_path(), 0, strlen($this->get_path()) - 4) . '.' . Session :: get_user_id() . '.t.htm';
+		return Path :: get($type) . substr($this->get_path(), 0, strlen($this->get_path()) - 4) . '.' . Session :: get_user_id() . '.t.htm';
 	}
 	
 	private function read_file_content()
@@ -112,10 +112,10 @@ class Hotpotatoes extends LearningObject
 		}
 	}
 	
-	private function replace_javascript($content)
+	private function replace_javascript($content, $course)
 	{
 		$mit = "function Finish(){";
-
+		$tracker_id = $_SESSION['assessment_tracker'];
 		$js_content = "var SaveScoreVariable = 0; // This variable included by Dokeos System\n".
 					"function mySaveScore() // This function included by Dokeos System\n".
 					"{\n".
@@ -124,13 +124,13 @@ class Hotpotatoes extends LearningObject
 					"			SaveScoreVariable = 1;\n".
 					"			if (C.ie)\n".
 					"			{\n".
-				//	"				//document.location.href = \"".Path :: get(WEB_PATH)."main/exercice/"."savescores.php?origin=$origin&learnpath_id=$learnpath_id&learnpath_item_id=$learnpath_item_id&time=$time&test=".$doc_url."&uid=".$_user['user_id']."&cid=".$cid."&score=\"+Score;\n".
-					"				window.alert(Score);\n".
+					"				document.location.href = \"".Path ::get(WEB_PATH)."application/lib/weblcms/tool/assessment/component/assessment_tester_form/"."hotpotatoes_score.php?course=$course&tracker=$tracker_id&score=\"+Score;\n".
+				//	"				window.alert(Score);\n".
 					"			}\n".
 					"			else\n".
 					"			{\n".
-					"				window.alert(Score);\n".
-				//	"				//window.location.href = \"".Path :: get(WEB_PATH)."main/exercice/"."savescores.php?origin=$origin&learnpath_id=$learnpath_id&learnpath_item_id=$learnpath_item_id&time=$time&test=".$doc_url."&uid=".$_user['user_id']."&cid=".$cid."&score=\"+Score;\n".
+				//	"				window.alert(Score);\n".
+					"				window.location.href = \"".Path ::get(WEB_PATH)."application/lib/weblcms/tool/assessment/component/assessment_tester_form/"."hotpotatoes_score.php?course=$coursetracker=$tracker_id&score=\"+Score;\n".
 					"			}\n".
 					"		}\n".
 					"}\n".

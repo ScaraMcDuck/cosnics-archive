@@ -77,7 +77,7 @@ abstract class Tool
 		if (isset ($_POST['action']) || isset($_POST['tool_action']))
 		{ 
 			$ids = $_POST['id'];
-			
+			dump($_POST);
 			if (empty ($ids))
 			{
 				$ids = $_POST['publication_table_id'];

@@ -39,12 +39,12 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			
 			$this->display_header(new BreadcrumbTrail());
 			
-			$this->assessment->add_javascript();
+			$this->assessment->add_javascript($this->get_course_id());
 			$path = $this->assessment->get_test_path();
 			echo '<iframe src="' . $path . '" width="100%" height="600">
   				 <p>Your browser does not support iframes.</p>
 				 </iframe>';
-			
+			//require_once $path;
 			$this->display_footer();
 			exit();
 		}
