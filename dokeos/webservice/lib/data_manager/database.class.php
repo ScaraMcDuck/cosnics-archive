@@ -107,6 +107,12 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 		$condition = new EqualityCondition(WebserviceCredential :: PROPERTY_USER_ID, $user_id);
 		return $this->database->retrieve_object(WebserviceCredential :: get_table_name(), $condition);
 	}
+
+    function retrieve_webservice_credential_by_ip($ip)
+	{
+		$condition = new EqualityCondition(WebserviceCredential :: PROPERTY_IP, $ip);
+		return $this->database->retrieve_objects(WebserviceCredential :: get_table_name(), $condition);
+	}
 	
 	function delete_webservice($webservice)
 	{
