@@ -2054,7 +2054,7 @@ div.action_bar
 {
 	background-color: #E5EDF9; 
 	border: 1px solid #4271B5;
-	p/adding-bottom: 5px;
+	padding-bottom: 5px;
 	margin-bottom: 10px;
 	position: relative;
 	-moz-border-radius-topleft: 15px;
@@ -2545,7 +2545,7 @@ span.dropOver
 .helpdialog.ui-dialog .ui-dialog-titlebar {
 	background: #cccccc url(../img/common/bg.png) repeat-x scroll 0 50%;
 	height: 28px;
-	m/argin-top: 10px;
+	margin-top: 10px;
 	_height: 29px;
 	-moz-border-radius: 10px;
 }
