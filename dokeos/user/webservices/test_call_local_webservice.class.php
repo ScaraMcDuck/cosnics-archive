@@ -24,7 +24,7 @@ class TestCallLocalWebservice
 		{
 			$functions[] = array(
 				'name' => 'WebServicesUser.get_user',
-				'parameters' => array('id' => 2),
+				'parameters' => array('id' => 2,'hash'=>'7531de1c4361fbd396cad34050d07493593480c4'),
 				'handler' => 'handle_webservice'
 			);
 		}

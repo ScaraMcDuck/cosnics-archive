@@ -29,6 +29,8 @@ abstract class Webservice
 	
 	abstract function call_webservice($wsdl, $functions);
 	
+	abstract function validate_webservice($functions, $hash);
+	
 	abstract function raise_message($message);
 	
 	
