@@ -52,13 +52,20 @@ class ReportingManagerReportingTemplateRegistrationViewComponent extends Reporti
 
         $classname = $reporting_template_registration->get_classname();
         $template = new $classname($this);
+        $template->set_registration_id($reporting_template_registration->get_id());
 
 		$this->display_header($trail);
 
         if(isset($_GET['s']))
 		{
-			$rep_block = ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name($_GET['s']);
-            $template->add_reporting_block($rep_block);
+			//$rep_block = ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name($_GET['s']);
+            /* 
+             * @todo
+             * set the given reporting block visible & the rest invisible
+             * $template->show_reporting_block($name);
+             */
+            $template->show_reporting_block($_GET['s']);
+            //$template->add_reporting_block($rep_block,1);
 		}
         echo $template->to_html();
 		$this->display_footer();

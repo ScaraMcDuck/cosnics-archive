@@ -1,39 +1,26 @@
 <?php
 /**
  * @author Michael Kyndt
- */
-require_once Path :: get_reporting_path(). 'lib/reporting_template.class.php';
-require_once Path :: get_reporting_path().'lib/reporting.class.php';
-class LoginDataReportingTemplate extends ReportingTemplate
-{
-	private $parent;
-    private $id = 1;
-   // public $name = 'Login Data';
-   // public $platform = 1;
-    private $reporting_blocks = array();
-
-/*
- * Todo:
- * Add a list of blocks to this template
- * Generate menu from available blocks
- *
+ * @todo:
  * Template configuration:
  * Able to change name, description etc
  * 2 listboxes: one with available reporting blocks for the app, one with
  * reporting blocks already in template.
  */
+require_once Path :: get_reporting_path(). 'lib/reporting_template.class.php';
+class LoginDataReportingTemplate extends ReportingTemplate
+{
 	function LoginDataReportingTemplate($parent=null)
 	{
         $this->parent = $parent;
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Browsers"),0);
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Countries"),0);
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Os"),0);
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Providers"),0);
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Referers"),0);
 	}
 
-    function add_reporting_block(&$reporting_block)
-    {
-        array_push($this->reporting_blocks, $reporting_block);
-    }
-
     /**
-     *
      * @see ReportingTemplate -> get_properties()
      */
     public static function get_properties()
@@ -45,27 +32,22 @@ class LoginDataReportingTemplate extends ReportingTemplate
         return $properties;
     }
 
-    function set_id($id)
-    {
-        $this->id = $id;
-    }
-    
+    /**
+     * @see ReportingTemplate -> to_html()
+     */
     function to_html()
     {
     	//template header
-    	$html[] = '<a href="' . $this->parent->get_url(array('s' => 'Browsers','template' => $this->id)) . '">Browsers</a><br />';
-		$html[] = '<a href="' . $this->parent->get_url(array('s' => 'Countries','template' => $this->id)) . '">Countries</a><br />';
-		$html[] = '<a href="' . $this->parent->get_url(array('s' => 'Os','template' => $this->id)) . '">Os</a><br />';
-		$html[] = '<a href="' . $this->parent->get_url(array('s' => 'Providers','template' => $this->id)) . '">Providers</a><br />';
-		$html[] = '<a href="' . $this->parent->get_url(array('s' => 'Referers','template' => $this->id)) . '">Referers</a><br />';
+        $html[] = $this->get_header();
 
-        foreach($this->reporting_blocks as $reporting_block)
-        {
-            $html[] =  Reporting :: generate_block($reporting_block);
-            $html[] = '<br />';
-        }
+        //template menu
+        $html[] = $this->get_menu();
+
+        //show visible blocks
+        $html[] = $this->get_visible_reporting_blocks();
+
     	//template footer
-    	$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
+        $html[] = $this->get_footer();
 
     	return implode("\n", $html);
     }
