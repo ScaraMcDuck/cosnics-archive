@@ -23,6 +23,7 @@ class AdminCourseBrowserTableColumnModel extends DefaultCourseTableColumnModel
 		$this->add_column(new ObjectTableColumn(Course :: PROPERTY_CATEGORY, true));
 		$this->add_column(new ObjectTableColumn(Course :: PROPERTY_SUBSCRIBE_ALLOWED, true));
 		$this->add_column(new ObjectTableColumn(Course :: PROPERTY_UNSUBSCRIBE_ALLOWED, true));
+		$this->add_column(new ObjectTableColumn(Course :: PROPERTY_TITULAR, true));
 		$this->set_default_order_column(0);
 		$this->add_column(self :: get_modification_column());
 	}
