@@ -184,14 +184,18 @@ class RightsUtilities
 			$roles = array();
 			
 			$user_groups = $user->get_groups();
-			while ($group = $user_groups->next_result())
+			
+			if (!is_null($user_groups))
 			{
-				//$group_roles[] = $group->get_role();
-				$group_roles = $group->get_roles();
-				
-				while ($group_role = $group_roles->next_result())
+				while ($group = $user_groups->next_result())
 				{
-					$roles[] = $group_role->get_id();
+					//$group_roles[] = $group->get_role();
+					$group_roles = $group->get_roles();
+					
+					while ($group_role = $group_roles->next_result())
+					{
+						$roles[] = $group_role->get_id();
+					}
 				}
 			}
 			
@@ -201,7 +205,7 @@ class RightsUtilities
 			
 			while ($user_role = $user_roles->next_result())
 			{
-				$role = $user_role->get_id();
+				$role = $user_role->get_role_id();
 				if (!in_array($role, $roles))
 				{
 					$roles[] = $role;

@@ -220,8 +220,7 @@ class Display
 	 */
 	public static function footer()
 	{
-		global $adm; //necessary to have the value accessible in the footer
-		$footer = new Footer($adm);
+		$footer = new Footer();
 		$footer->display();
 	}
 	
