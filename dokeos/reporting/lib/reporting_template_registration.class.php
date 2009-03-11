@@ -9,7 +9,7 @@ class ReportingTemplateRegistration{
     const CLASS_NAME = __CLASS__;
     
  	const PROPERTY_ID = 'id';
- 	const PROPERTY_NAME = 'name';
+ 	const PROPERTY_TITLE = 'title';
  	const PROPERTY_APPLICATION = 'application';
  	const PROPERTY_CLASSNAME = 'class';
  	const PROPERTY_PLATFORM = 'platform';
@@ -33,7 +33,7 @@ class ReportingTemplateRegistration{
 	{
 		return array (
 			self :: PROPERTY_ID,
-			self :: PROPERTY_NAME,
+			self :: PROPERTY_TITLE,
 			self :: PROPERTY_APPLICATION,
 			self :: PROPERTY_CLASSNAME,
 			self :: PROPERTY_PLATFORM,
@@ -111,11 +111,11 @@ class ReportingTemplateRegistration{
 		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
  	
- 	public function get_name(){
- 		return $this->get_default_property(self :: PROPERTY_NAME);
+ 	public function get_title(){
+ 		return $this->get_default_property(self :: PROPERTY_TITLE);
  	}
- 	public function set_name($value){
- 		$this->set_default_property(self :: PROPERTY_NAME,$value);
+ 	public function set_title($value){
+ 		$this->set_default_property(self :: PROPERTY_TITLE,$value);
  	}
  	
  	public function get_application(){

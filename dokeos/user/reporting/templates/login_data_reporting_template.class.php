@@ -13,11 +13,12 @@ class LoginDataReportingTemplate extends ReportingTemplate
 	function LoginDataReportingTemplate($parent=null)
 	{
         $this->parent = $parent;
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Browsers"),0);
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Countries"),0);
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Os"),0);
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Providers"),0);
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Referers"),0);
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Browsers"),ReportingTemplate :: REPORTING_BLOCK_INVISIBLE);
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Countries"),ReportingTemplate :: REPORTING_BLOCK_INVISIBLE);
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Os"),ReportingTemplate :: REPORTING_BLOCK_INVISIBLE);
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Providers"),ReportingTemplate :: REPORTING_BLOCK_INVISIBLE);
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Referers"),ReportingTemplate :: REPORTING_BLOCK_INVISIBLE);
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("ActiveInactivePerYearAndMonth"),ReportingTemplate :: REPORTING_BLOCK_INVISIBLE);
 	}
 
     /**
@@ -25,9 +26,10 @@ class LoginDataReportingTemplate extends ReportingTemplate
      */
     public static function get_properties()
     {
-        $properties['name'] = 'Login Data';
+        //name vervangen door title
+        $properties['title'] = Translation :: get('LoginDataReportingTemplateTitle');
         $properties['platform'] = 1;
-        $properties['description'] = 'The template description';
+        $properties['description'] = Translation :: get('LoginDataReportingTemplateDescription');
 
         return $properties;
     }

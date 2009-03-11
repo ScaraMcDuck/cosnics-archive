@@ -30,9 +30,9 @@ class DefaultReportingTemplateRegistrationTableCellRenderer implements ObjectTab
 			switch ($property)
 			{
                 case ReportingTemplateRegistration :: PROPERTY_APPLICATION:
-                    return $reporting_template_registration->get_application();
-				case ReportingTemplateRegistration :: PROPERTY_NAME :
-					return $reporting_template_registration->get_name();
+                    return Translation :: get($reporting_template_registration->get_application());
+				case ReportingTemplateRegistration :: PROPERTY_TITLE :
+					return $reporting_template_registration->get_title();
 				case ReportingTemplateRegistration :: PROPERTY_DESCRIPTION :
 					$description = strip_tags($reporting_template_registration->get_description());
 					if(strlen($description) > 203)
