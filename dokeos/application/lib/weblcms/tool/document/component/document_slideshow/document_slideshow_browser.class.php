@@ -75,5 +75,11 @@ class DocumentSlideshowBrowser extends LearningObjectPublicationBrowser
 		$category_cond = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID,$category );
 		return new AndCondition($tool_cond, $category_cond);
 	}
+	
+	function get_category()
+	{
+		$cat = Request :: get('pcattree');
+		return $cat?$cat:0;
+	}
 }
 ?>
