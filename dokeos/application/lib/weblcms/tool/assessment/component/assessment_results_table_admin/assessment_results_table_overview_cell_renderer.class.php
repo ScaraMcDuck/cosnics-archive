@@ -83,6 +83,12 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 			);
 		}
 		
+		$actions[] = array(
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
+			'label' => Translation :: get('DeleteAllResults'),
+			'img' => Theme :: get_common_image_path().'action_delete.png'
+		);
+		
 		return DokeosUtilities :: build_toolbar($actions);
 	}
 	

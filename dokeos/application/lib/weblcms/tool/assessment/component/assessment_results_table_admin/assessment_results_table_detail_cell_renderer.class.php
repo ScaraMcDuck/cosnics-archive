@@ -65,6 +65,12 @@ class AssessmentResultsTableDetailCellRenderer extends DefaultLearningObjectTabl
 		$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
 		$assessment = $pub->get_learning_object();
 		
+		$actions[] = array(
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id())),
+			'label' => Translation :: get('DeleteResult'),
+			'img' => Theme :: get_common_image_path().'action_delete.png'
+		);
+		
 		if ($assessment->get_assessment_type() != 'hotpotatoes')
 		{
 			$actions[] = array(
