@@ -60,7 +60,7 @@ class WebServicesUser
 		{
             $udm = DatabaseUserDataManager :: get_instance();
             $user = $udm->retrieve_user($input_user[id]);
-            if(isset($user))
+            if(count($group->get_default_properties())>0)
 			{					
 				return $user->get_default_properties();
 			}		
@@ -84,11 +84,18 @@ class WebServicesUser
             $udm = DatabaseUserDataManager :: get_instance();
             $users = $udm->retrieve_users();
             $users = $users->as_array();
-            foreach($users as &$user)
+            if(!count($users)==0)
             {
-                $user = $user->get_default_properties();
+                foreach($users as &$user)
+                {
+                    $user = $user->get_default_properties();
+                }
+                return $users;
             }
-            return $users;
+            else
+            {
+                return $this->webservice->raise_error('Hash authentication failed.');
+            }
         }
         else
         {
