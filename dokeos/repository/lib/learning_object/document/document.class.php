@@ -91,7 +91,7 @@ class Document extends LearningObject
 		$filename = $this->get_filename();
 		$parts = explode('.', $filename);
 		$extension = $parts[count($parts) - 1];
-		return in_array($extension,array('gif','png','jpg','jpeg','svg','bmp'));
+		return in_array($extension,array('gif','png','jpg','jpeg','svg','bmp', 'GIF', 'PNG','JPG','JPEG','SVG','BMP'));
 	}
 	function send_as_download()
 	{	
