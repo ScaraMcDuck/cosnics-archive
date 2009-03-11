@@ -359,7 +359,7 @@ abstract class Installer
 	
 	function register_reporting_template(&$props)
 	{
-		return ReportingTemplates :: create_reporting_template($props);
+		return ReportingTemplates :: create_reporting_template_registration($props);
 	}
 	
 	function register_reporting()

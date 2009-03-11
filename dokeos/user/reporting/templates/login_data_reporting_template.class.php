@@ -4,14 +4,24 @@
  */
 require_once Path :: get_reporting_path(). 'lib/reporting_template.class.php';
 require_once Path :: get_reporting_path().'lib/reporting.class.php';
-class LoginDataReportingTemplate
+class LoginDataReportingTemplate extends ReportingTemplate
 {
 	private $parent;
     private $id = 1;
-    public $name = 'Login Data';
-    public $platform = 1;
+   // public $name = 'Login Data';
+   // public $platform = 1;
     private $reporting_blocks = array();
 
+/*
+ * Todo:
+ * Add a list of blocks to this template
+ * Generate menu from available blocks
+ *
+ * Template configuration:
+ * Able to change name, description etc
+ * 2 listboxes: one with available reporting blocks for the app, one with
+ * reporting blocks already in template.
+ */
 	function LoginDataReportingTemplate($parent=null)
 	{
         $this->parent = $parent;
@@ -22,6 +32,10 @@ class LoginDataReportingTemplate
         array_push($this->reporting_blocks, $reporting_block);
     }
 
+    /**
+     *
+     * @see ReportingTemplate -> get_properties()
+     */
     public static function get_properties()
     {
         $properties['name'] = 'Login Data';

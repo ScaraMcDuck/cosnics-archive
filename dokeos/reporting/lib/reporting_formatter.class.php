@@ -8,8 +8,12 @@
  abstract class ReportingFormatter
  {	
  	private static $instance;
- 	private $reporting_block;
- 	
+ 	//private $reporting_block;
+
+    /**
+     * Generates the html representing the chosen display mode
+     * @return html
+     */
  	abstract function to_html();
  	
  	public static function get_instance(&$reporting_block)

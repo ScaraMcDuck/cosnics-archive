@@ -8,6 +8,11 @@
 require_once("reporting_formatter.class.php");
 
 class Reporting{
+    /**
+     * Generates a reporting block
+     * @param ReportingBlock $reporting_block
+     * @return html
+     */
 	public static function generate_block(&$reporting_block){
 		//$reporting_block->retrieve_data();
  		$html .= "<div id=\"".$reporting_block->get_id()."\" class=\"reporting_block\" " .
@@ -38,6 +43,14 @@ class Reporting{
  		
  		return $html;
 	}//generate_block
+
+    /**
+     * Generates an array from a tracker
+     * Currently only supports 1 serie
+     * @todo support multiple series
+     * @param Tracker $tracker
+     * @return array
+     */
 	public static function array_from_tracker($tracker)
 	{
 		$c = 0;

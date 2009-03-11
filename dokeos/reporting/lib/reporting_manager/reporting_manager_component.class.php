@@ -116,19 +116,19 @@ abstract class ReportingManagerComponent {
 		return $this->get_parent()->get_user();
 	}
 
-    function count_reporting_templates($condition = null)
+    function count_reporting_template_registrations($condition = null)
 	{
-        return $this->get_parent()->count_reporting_templates($condition);
+        return $this->get_parent()->count_reporting_template_registrations($condition);
 	}
 
-    function retrieve_reporting_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_reporting_template_registrations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-        return $this->get_parent()->retrieve_reporting_templates($condition, $offset, $count, $order_property, $order_direction);
+        return $this->get_parent()->retrieve_reporting_template_registrations($condition, $offset, $count, $order_property, $order_direction);
 	}
 
-    function get_reporting_template_viewing_url($reporting_template)
+    function get_reporting_template_registration_viewing_url($reporting_template_registration)
 	{
-		return $this->get_parent()->get_reporting_template_viewing_url($reporting_template);
+		return $this->get_parent()->get_reporting_template_registration_viewing_url($reporting_template_registration);
 	}
 	
 	/**

@@ -9,6 +9,9 @@ class PiePchartReportingChartFormatter extends PchartReportingChartFormatter {
 		parent :: __construct($reporting_block);
 	}
 
+     /**
+     * @see Reporting Formatter -> to_html
+     */
 	public function to_html() {
 		$all_data = $this->reporting_block->get_data();
         $width = $this->reporting_block->get_width()-20;

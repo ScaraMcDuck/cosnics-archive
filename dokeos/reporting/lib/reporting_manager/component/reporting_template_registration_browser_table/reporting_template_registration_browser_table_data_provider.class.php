@@ -1,27 +1,28 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @author Michael Kyndt
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_data_provider.class.php';
 /**
- * Data provider for a repository browser table.
+ * Data provider for a reporting template registration browser table.
  *
- * This class implements some functions to allow repository browser tables to
- * retrieve information about the learning objects to display.
+ * This class implements some functions to allow reporting template registration
+ * browser tables to retrieve information about the reporting template
+ * registration objects to display.
  */
-class ReportingTemplateBrowserTableDataProvider extends ObjectTableDataProvider
+class ReportingTemplateRegistrationBrowserTableDataProvider extends ObjectTableDataProvider
 {
   /**
    * Constructor
-   * @param RepositoryManagerComponent $browser
+   * @param ReportingTemplateRegistrationManagerComponent $browser
    * @param Condition $condition
    */
-  function ReportingTemplateBrowserTableDataProvider($browser, $condition)
+  function ReportingTemplateRegistrationBrowserTableDataProvider($browser, $condition)
   {
 		parent :: __construct($browser, $condition);
   }
   /**
-   * Gets the learning objects
+   * Gets the reporting template registration objects
    * @param int $offset
    * @param int $count
    * @param string $order_property
@@ -35,15 +36,15 @@ class ReportingTemplateBrowserTableDataProvider extends ObjectTableDataProvider
 		$order_direction = $this->get_order_property($order_direction);
         //return $this->get_browser()->get_parent()->retrieve_platform_reporting_templates_for_application($this->get_condition(), $offset, $count, $order_property, $order_direction);
         //return $this->get_browser()->retrieve_reporting_templates($this->get_condition(), $offset, $count, $order_property, $order_direction);
-        return $this->get_browser()->retrieve_reporting_templates($this->get_condition(), $offset, $count, $order_property, $order_direction);
+        return $this->get_browser()->retrieve_reporting_template_registrations($this->get_condition(), $offset, $count, $order_property, $order_direction);
     }
   /**
-   * Gets the number of learning objects in the table
+   * Gets the number of reporting template registration objects in the table
    * @return int
    */
     function get_object_count()
     {
-      return $this->get_browser()->count_reporting_templates($this->get_condition());
+      return $this->get_browser()->count_reporting_template_registrations($this->get_condition());
     }
 }
 ?>
