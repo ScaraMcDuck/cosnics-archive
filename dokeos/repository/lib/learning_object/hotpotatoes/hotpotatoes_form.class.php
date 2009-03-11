@@ -59,6 +59,8 @@ class HotpotatoesForm extends LearningObjectForm
     	$this->addElement('category');
 	}
 
+	private $includes;
+	
 	// Inherited
 	function create_learning_object()
 	{
@@ -72,7 +74,12 @@ class HotpotatoesForm extends LearningObjectForm
 		
 		$this->set_learning_object($object);
 		//$object->add_javascript();
-		return parent :: create_learning_object();
+		$succes = parent :: create_learning_object();
+		
+		foreach($this->includes as $include)
+			$object->include_learning_object($include);
+		
+		return $succes;
 	}
 	
 	function update_learning_object()
@@ -90,7 +97,13 @@ class HotpotatoesForm extends LearningObjectForm
 		$object->set_maximum_attempts($att ? $att : 0);
 		
 		$this->set_learning_object($object);
-		return parent :: update_learning_object();
+		
+		$succes = parent :: update_learning_object();
+		
+		foreach($this->includes as $include)
+			$object->include_learning_object($include);
+		
+		return $succes;
 	}
 	
 	function upload_file($object)
@@ -137,6 +150,8 @@ class HotpotatoesForm extends LearningObjectForm
 		$dir = $filecompression->extract_file($full_path);
 		$entries = Filesystem::get_directory_content($dir);
 		
+		$this->includes = array();
+		
 		foreach($entries as $index => $entry)
 		{
 			$filename = Filesystem :: create_unique_name($repo_path, basename($entry));
@@ -150,13 +165,14 @@ class HotpotatoesForm extends LearningObjectForm
 			}
 			else
 			{
-				$object = new Document();
-				$object->set_path($new_path);
-				$object->set_filename($filename);
-				$object->set_filesize(Filesystem::get_disk_space($full_new_path));
-				$object->set_parent_id(0);
-				$this->set_learning_object($object);
-				$object = parent :: create_learning_object();
+				$doc = new Document();
+				$doc->set_path($new_path);
+				$doc->set_filename($filename);
+				$doc->set_filesize(Filesystem::get_disk_space($full_new_path));
+				$doc->set_parent_id(0);
+				$this->set_learning_object($doc);
+				parent :: create_learning_object();
+				$this->includes[] = $doc->get_id();
 			}
 		}
 		
