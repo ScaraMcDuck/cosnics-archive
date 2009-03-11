@@ -39,7 +39,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $pid);
 			$trackers = $track->retrieve_tracker_items($condition);
 			
-			if (count($trackers) < $assessment->get_maximum_attempts() || $assessment->get_maximum_attempts() == 0)
+			if (count($trackers) < $this->assessment->get_maximum_attempts() || $this->assessment->get_maximum_attempts() == 0)
 			{			
 				$this->create_tracker();
 				
