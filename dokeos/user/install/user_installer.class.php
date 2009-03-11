@@ -45,6 +45,15 @@ class UserInstaller extends Installer
 			$this->add_message(self :: TYPE_NORMAL, Translation :: get('AdminAccountCreated'));
 		}
 		
+		if (!$this->create_test_user_account())
+		{
+			return false;
+		}
+		else
+		{
+			$this->add_message(self :: TYPE_NORMAL, Translation :: get('TestUserAccountCreated'));
+		}
+		
 		return true;
 	}
 	
@@ -119,6 +128,39 @@ class UserInstaller extends Installer
 				return true;
 			}
 		}
+	}
+	
+	function create_test_user_account()
+	{
+		$values = $this->get_form_values();
+		
+		$user = new User();
+		
+		$user->set_lastname('Doe');
+		$user->set_firstname('John');
+		$user->set_username('JohnDoe');
+		$user->set_password(md5('JohnDoe'));
+		$user->set_auth_source('platform');
+		$user->set_email('john.doe@nowhere.org');
+		$user->set_status('1');
+		$user->set_platformadmin('0');
+		$user->set_official_code('TEST_USER');
+		//$user->set_phone($values['admin_phone']);
+		$user->set_language($values['install_language']);
+		$user->set_disk_quota('209715200');
+		$user->set_database_quota('300');
+		$user->set_version_quota('20');
+		$user->set_expiration_date(0);
+		
+		if (!$user->create())
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+		
 	}
 	
 	function get_path()

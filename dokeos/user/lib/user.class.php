@@ -683,9 +683,15 @@ class User
 			$group_ids[] = $group->get_group_id();
 		}
 		
-		$condition = new InCondition(Group :: PROPERTY_ID, $group_ids);
-		
-		return $gdm->retrieve_groups($condition);
+		if (count($group_ids) > 0)
+		{
+			$condition = new InCondition(Group :: PROPERTY_ID, $group_ids);
+			return $gdm->retrieve_groups($condition);
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	function get_roles()
