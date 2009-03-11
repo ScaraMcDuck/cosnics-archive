@@ -1,4 +1,8 @@
 <?php
+/**
+ * This changes the reporting block displaymode
+ * @author Michael Kyndt
+ */
 require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once Path :: get_reporting_path().'/lib/reporting.class.php';
 require_once dirname(__FILE__).'/../lib/reporting_data_manager.class.php';

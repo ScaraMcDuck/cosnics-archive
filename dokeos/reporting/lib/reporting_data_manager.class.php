@@ -3,7 +3,7 @@
  * @author Michael Kyndt
  */
 require_once dirname(__FILE__) . '/reporting_block.class.php';
-require_once dirname(__FILE__) . '/reporting_template.class.php';
+require_once dirname(__FILE__) . '/reporting_template_registration.class.php';
 
 abstract class ReportingDataManager {
 	private static $instance;
@@ -39,17 +39,17 @@ abstract class ReportingDataManager {
 
 	abstract function retrieve_reporting_block($block_id);
 	
-	abstract function create_reporting_template(&$reporting_template);
+	abstract function create_reporting_template_registration(&$reporting_template_registration);
 
-	abstract function update_reporting_template(&$reporting_template);
+	abstract function update_reporting_template_registration(&$reporting_template_registration);
 
-	abstract function retrieve_reporting_template_by_name($reporting_template_name);
+	//abstract function retrieve_reporting_template_registration_by_name($reporting_template_registration_name);
 
-	abstract function retrieve_reporting_templates($condition = null,$offset = null,$count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_reporting_template_registrations($condition = null,$offset = null,$count = null, $order_property = null, $order_direction = null);
 
-	abstract function count_reporting_templates($condition = null);
+	abstract function count_reporting_template_registrations($condition = null);
 
-	abstract function retrieve_reporting_template($reporting_template_id);
+	abstract function retrieve_reporting_template_registration($reporting_template_registration_id);
 	
 }//ReportingDataManager
 ?>

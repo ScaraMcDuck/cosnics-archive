@@ -8,6 +8,9 @@
 class ReportingTextFormatter extends ReportingFormatter {
 	private $reporting_block;
 
+    /**
+     * @see Reporting Formatter -> to_html
+     */
 	public function to_html() {
 		$all_data = $this->reporting_block->get_data();
 		$data = $all_data[0];

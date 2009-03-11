@@ -7,6 +7,9 @@ class ReportingChartFormatter extends ReportingFormatter {
 	private $instance;
 	private $reporting_block;
 
+     /**
+     * @see Reporting Formatter -> to_html
+     */
 	public function to_html()
 	{
 		return $this->get_chart_instance()->to_html();

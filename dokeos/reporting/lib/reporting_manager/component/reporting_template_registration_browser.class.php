@@ -4,11 +4,11 @@
  */
 require_once dirname(__FILE__).'/../reporting_manager.class.php';
 require_once dirname(__FILE__).'/../reporting_manager_component.class.php';
-require_once dirname(__FILE__).'/reporting_template_browser_table/reporting_template_browser_table.class.php';
+require_once dirname(__FILE__).'/reporting_template_registration_browser_table/reporting_template_registration_browser_table.class.php';
 
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
-class ReportingManagerReportingTemplateBrowserComponent extends ReportingManagerComponent
+class ReportingManagerReportingTemplateRegistrationBrowserComponent extends ReportingManagerComponent
 {
 	private $action_bar;
 	private $application;
@@ -94,7 +94,7 @@ class ReportingManagerReportingTemplateBrowserComponent extends ReportingManager
 	 */
 	function get_template_html()
 	{		
-		$table = new ReportingTemplateBrowserTable($this, array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES), $this->get_condition());
+		$table = new ReportingTemplateRegistrationBrowserTable($this, array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES), $this->get_condition());
         $html = array();
 		$html[] = '<div style="float: right; width: 100%;">';
 		$html[] = $table->as_html();
@@ -108,8 +108,8 @@ class ReportingManagerReportingTemplateBrowserComponent extends ReportingManager
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$conditions[] = new LikeCondition(ReportingTemplate :: PROPERTY_NAME, $query);
-            $conditions[] = new LikeCondition(ReportingTemplate :: PROPERTY_APPLICATION, $query);
+			$conditions[] = new LikeCondition(ReportingTemplateRegistration :: PROPERTY_NAME, $query);
+            $conditions[] = new LikeCondition(ReportingTemplateRegistration :: PROPERTY_APPLICATION, $query);
             $cond = new OrCondition($conditions);
 		}else
         {
@@ -120,7 +120,7 @@ class ReportingManagerReportingTemplateBrowserComponent extends ReportingManager
 		return $cond;
 	}
 	
-	function get_template()
+	function get_reporting_template()
 	{
 		return (isset($_GET[ReportingManager :: PARAM_TEMPLATE_ID]) ? $_GET[ReportingManager :: PARAM_TEMPLATE_ID] : 0);
 	}
@@ -129,7 +129,7 @@ class ReportingManagerReportingTemplateBrowserComponent extends ReportingManager
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
-		$action_bar->set_search_url($this->get_url(array(ReportingManager :: PARAM_TEMPLATE_ID => $this->get_template())));
+		$action_bar->set_search_url($this->get_url(array(ReportingManager :: PARAM_TEMPLATE_ID => $this->get_reporting_template())));
 		//$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_CREATE_ROLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		//$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('reporting'));
 		

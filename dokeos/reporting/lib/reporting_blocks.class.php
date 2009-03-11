@@ -7,7 +7,18 @@ require_once dirname(__FILE__) . '/reporting_block_layout.class.php';
 require_once dirname(__FILE__) . '/reporting_data_manager.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 class ReportingBlocks {
-	
+
+    /**
+     * Creates a reporting block in the database
+     * @todo not all properties individually but as an array (parameter)
+     * @param String $name
+     * @param String $application
+     * @param int $function
+     * @param String $displaymode
+     * @param int $width
+     * @param int $height
+     * @return ReportingBlock
+     */
 	public static function create_reporting_block($name,$application,$function,$displaymode,$width,$height)
 	{
 		$reporting_block = new ReportingBlock();

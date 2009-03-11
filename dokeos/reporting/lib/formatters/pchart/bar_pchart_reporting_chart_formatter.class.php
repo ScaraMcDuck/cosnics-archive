@@ -9,6 +9,9 @@ class BarPchartReportingChartFormatter extends PchartReportingChartFormatter {
 		parent :: __construct($reporting_block);
 	}
 
+    /**
+     * @see Reporting Formatter -> to_html
+     */
 	public function to_html() {
 		//return "succes! Here's your pretty bar.";
 		$all_data = $this->reporting_block->get_data();

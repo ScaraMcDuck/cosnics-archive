@@ -1,152 +1,96 @@
 <?php
 /**
- * Class representing a reporting template
- * 
- * @author: Michael Kyndt
+ * Extendable class for the reporting templates
+ * This contains the general shared template properties such as
+ *      Properties (name, description, etc)
+ *      Layout (header,menu, footer)
+ *
+ * @author Michael Kyndt
  */
- 
-class ReportingTemplate{
-    const CLASS_NAME = __CLASS__;
+abstract class ReportingTemplate {
     
- 	const PROPERTY_ID = 'id';
- 	const PROPERTY_NAME = 'name';
- 	const PROPERTY_APPLICATION = 'application';
- 	const PROPERTY_CLASSNAME = 'class';
- 	const PROPERTY_PLATFORM = 'platform';
-    const PROPERTY_DESCRIPTION = 'description';
- 	private $properties;
- 	
- 	public function ReportingTemplate($properties = array())
- 	{
- 		$this->properties = $properties;	
- 	}
-
-	/**
-	 * Get the default properties
-	 * @return array The property names.
-	 */
-	static function get_default_property_names()
-	{
-		return array (
-			self :: PROPERTY_ID,
-			self :: PROPERTY_NAME,
-			self :: PROPERTY_APPLICATION,
-			self :: PROPERTY_CLASSNAME,
-			self :: PROPERTY_PLATFORM,
-            self :: PROPERTY_DESCRIPTION
-		);
-	}
-
-	/**
-	 * Sets a default property by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
-	 */
-	function set_default_property($name, $value)
-	{
-		$this->properties[$name] = $value;
-	}
-
-	/**
-	 * Sets the default properties of this class
-	 */
-	function set_default_properties($properties)
-	{
-		$this->properties = $properties;
-	}
-	
-	 /**
-	 * Gets a default property by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->properties[$name];
-	}
-	
-	/**
-	 * Gets the default properties
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->properties;
-	}
-	
-	function create()
-	{
-		$repdmg = ReportingDataManager :: get_instance();
-		$this->set_id($repdmg->get_next_reporting_template_id());
-		return $repdmg->create_reporting_template($this);
-	}
-
-    function isPlatformTemplate()
+    function ReportingTemplate()
     {
-        return $this->get_default_property(self :: PROPERTY_PLATFORM) == '1';
-    }
- 	
- 	/**
- 	 * Getters and setters
- 	 */
- 	
- 	public function get_id()
- 	{
- 		return $this->get_default_property(self :: PROPERTY_ID);
- 	}
- 	
-	public function set_id($id)
-	{
-		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}
- 	
- 	public function get_name(){
- 		return $this->get_default_property(self :: PROPERTY_NAME);
- 	}
- 	public function set_name($value){
- 		$this->set_default_property(self :: PROPERTY_NAME,$value);
- 	}
- 	
- 	public function get_application(){
- 		return $this->get_default_property(self :: PROPERTY_APPLICATION);
- 	}
- 	
- 	public function set_application($value){
- 		$this->set_default_property(self :: PROPERTY_APPLICATION,$value);
- 	}
- 	
- 	public function get_classname()
- 	{
- 		return $this->get_default_property(self :: PROPERTY_CLASSNAME);
- 	}
- 	
- 	public function set_classname($value)
- 	{
- 		$this->set_default_property(self :: PROPERTY_CLASSNAME,$value);
- 	}
- 	
- 	public function get_platform()
- 	{
- 		return $this->get_default_property(self :: PROPERTY_PLATFORM);
- 	}
- 	
- 	public function set_platform($value)
- 	{
- 		$this->set_default_property(self :: PROPERTY_PLATFORM,$value);
- 	}
+        
+    }//ReportingTemplateProperties
+    
+    /*
+     * Layout
+     */
 
-    public function get_description()
+    /**
+     * The reporting template header
+     * @return html representing the header
+     */
+    function get_header()
     {
-        return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
+        
+    }//get_header
+
+    /**
+     * Generates a menu from the reporting blocks within the reporting template
+     * @return html representing the menu
+     */
+    function get_menu()
+    {
+
     }
 
-    public function set_description($value)
+    /**
+     * The reporting template footer
+     * @return html representing the footer
+     */
+    function get_footer()
     {
-        $this->set_default_property(self :: PROPERTY_DESCRIPTION, $value);
+        
+    }//get_footer
+    
+    /*
+     * Properties
+     */
+
+    /**
+     * Gets the properties for this template (name, description, platform)
+     * @return an array of properties
+     */
+    abstract static function get_properties();
+
+    /**
+     * Sets the id under which this template is registered
+     */
+    function set_registration_id()
+    {
+
     }
 
-    static function get_table_name()
-	{
-		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
- }//class ReportingTemplate
+    /**
+     * Gets the id under which this template is registered
+     * @return the id under which this template is registered
+     */
+    function get_registration_id()
+    {
+
+    }
+
+    /*
+     * Reporting blocks
+     */
+
+    /**
+     * Adds a reporting block to this template
+     */
+    function add_reporting_block()
+    {
+
+    }
+
+    /**
+     * Returns all reporting blocks for this reporting template
+     * @return an array of reporting blocks
+     */
+    function retrieve_reporting_blocks()
+    {
+
+    }
+}//ReportingTemplateProperties
 ?>

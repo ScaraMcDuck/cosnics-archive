@@ -8,7 +8,10 @@ class LinePchartReportingChartFormatter extends PchartReportingChartFormatter {
 	public function LinePchartReportingChartFormatter(&$reporting_block) {
 		parent :: __construct($reporting_block);
 	}
-
+    
+    /**
+     * @see Reporting Formatter -> to_html
+     */
 	public function to_html() {
 		//return "succes! Here's your pretty bar.";
 		$all_data = $this->reporting_block->get_data();

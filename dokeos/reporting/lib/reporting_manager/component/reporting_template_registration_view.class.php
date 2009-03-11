@@ -5,21 +5,18 @@
 require_once dirname(__FILE__).'/../reporting_manager.class.php';
 require_once Path :: get_reporting_path() . 'lib/reporting.class.php';
 require_once dirname(__FILE__).'/../reporting_manager_component.class.php';
-//require_once dirname(__FILE__).'/role_browser_table/role_browser_table.class.php';
-//require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
-//require_once Path :: get_reporting_path() . 'lib/reporting_template_viewer.class.php';
 
-class ReportingManagerReportingTemplateViewComponent extends ReportingManagerComponent
+class ReportingManagerReportingTemplateRegistrationViewComponent extends ReportingManagerComponent
 {
-	private $action_bar;
-	private $template;
+	//private $template;
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$template = $this->template = Request :: get('template');
+		//$template = $this->template = Request :: get('template');
+        $template = Request :: get('template');
 		if (!isset($template))
 		{
 			//$template = $this->template = 'reporting';
@@ -31,7 +28,7 @@ class ReportingManagerReportingTemplateViewComponent extends ReportingManagerCom
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get(Application :: application_to_class($template)) . '&nbsp;' . Translation :: get('Template')));
 
         $rpdm = ReportingDataManager :: get_instance();
-    	if(!$reporting_template = $rpdm->retrieve_reporting_template($template))
+    	if(!$reporting_template_registration = $rpdm->retrieve_reporting_template_registration($template))
         {
             $this->display_header($trail);
 			Display :: error_message(Translation :: get("NotFound"));
@@ -40,7 +37,7 @@ class ReportingManagerReportingTemplateViewComponent extends ReportingManagerCom
         }
 
         //is platform template
-        if ($reporting_template->isPlatformTemplate() && !$this->get_user()->is_platform_admin())
+        if ($reporting_template_registration->isPlatformTemplate() && !$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($trail);
 			Display :: error_message(Translation :: get("NotAllowed"));
@@ -48,12 +45,12 @@ class ReportingManagerReportingTemplateViewComponent extends ReportingManagerCom
 			exit;
 		}
 
-        $application = $reporting_template->get_application();
+        $application = $reporting_template_registration->get_application();
         $base_path = (Application :: is_application($application) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
-        $file = $base_path .$application. '/reporting/templates/'.DokeosUtilities :: camelcase_to_underscores($reporting_template->get_classname()).'.class.php';;
+        $file = $base_path .$application. '/reporting/templates/'.DokeosUtilities :: camelcase_to_underscores($reporting_template_registration->get_classname()).'.class.php';;
         require_once($file);
 
-        $classname = $reporting_template->get_classname();
+        $classname = $reporting_template_registration->get_classname();
         $template = new $classname($this);
 
 		$this->display_header($trail);

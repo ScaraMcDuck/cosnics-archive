@@ -52,20 +52,20 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		switch ($action)
 		{
 			case self :: ACTION_ADD_TEMPLATE :
-				$component = ReportingManagerComponent :: factory('ReportingTemplateAdd', $this);
+				$component = ReportingManagerComponent :: factory('ReportingTemplateRegistrationAdd', $this);
 				break;
 			case self :: ACTION_DELETE_TEMPLATE :
-				$component = ReportingManagerComponent :: factory('ReportingTemplateDelete', $this);
+				$component = ReportingManagerComponent :: factory('ReportingTemplateRegistrationDelete', $this);
 				break;
 			case self :: ACTION_BROWSE_TEMPLATES :
-				$component = ReportingManagerComponent :: factory('ReportingTemplateBrowser', $this);
+				$component = ReportingManagerComponent :: factory('ReportingTemplateRegistrationBrowser', $this);
 				break;
 			case self :: ACTION_VIEW_TEMPLATE :
-				$component = ReportingManagerComponent :: factory('ReportingTemplateView',$this);
+				$component = ReportingManagerComponent :: factory('ReportingTemplateRegistrationView',$this);
 				break;
 			default:
 				$this->set_action(self :: ACTION_BROWSE_TEMPLATES);
-				$component = ReportingManagerComponent :: factory('ReportingTemplateBrowser', $this);
+				$component = ReportingManagerComponent :: factory('ReportingTemplateRegistrationBrowser', $this);
 				break;
 		}		
 		$component->run();
@@ -225,14 +225,14 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		$this->parameters[$name] = $value;
 	}	
     
-    function count_reporting_templates($condition = null)
+    function count_reporting_template_registrations($condition = null)
 	{
-		return ReportingDataManager :: get_instance()->count_reporting_templates($condition);
+		return ReportingDataManager :: get_instance()->count_reporting_template_registrations($condition);
 	}
 
-    function retrieve_reporting_templates($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+    function retrieve_reporting_template_registrations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return ReportingDataManager :: get_instance()->retrieve_reporting_templates($condition, $offset, $count, $order_property, $order_direction);
+		return ReportingDataManager :: get_instance()->retrieve_reporting_template_registrations($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
 	/**
@@ -346,8 +346,8 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		return $link;
 	}
 
-    function get_reporting_template_viewing_url($reporting_template)
+    function get_reporting_template_registration_viewing_url($reporting_template_registration)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, self :: PARAM_TEMPLATE_ID => $reporting_template->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, self :: PARAM_TEMPLATE_ID => $reporting_template_registration->get_id()));
 	}
  }

@@ -1,13 +1,13 @@
 <?php
 /**
- * @package repository.repositorymanager
+ * @author Michael Kyndt
  */
-require_once dirname(__FILE__).'/../../../reporting_template_table/default_reporting_template_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../reporting_template.class.php';
+require_once dirname(__FILE__).'/../../../reporting_template_registration_table/default_reporting_template_registration_table_column_model.class.php';
+require_once Path :: get_reporting_path().'lib/reporting_template_registration.class.php';
 /**
  * Table column model for the reporting browser table
  */
-class ReportingTemplateBrowserTableColumnModel extends DefaultReportingTemplateTableColumnModel
+class ReportingTemplateRegistrationBrowserTableColumnModel extends DefaultReportingTemplateRegistrationTableColumnModel
 {
 	/**
 	 * The tables modification column
@@ -16,7 +16,7 @@ class ReportingTemplateBrowserTableColumnModel extends DefaultReportingTemplateT
 	/**
 	 * Constructor
 	 */
-	function ReportingTemplateBrowserTableColumnModel()
+	function ReportingTemplateRegistrationBrowserTableColumnModel()
 	{
 		parent :: __construct();
 		$this->set_default_order_column(1);
@@ -24,7 +24,7 @@ class ReportingTemplateBrowserTableColumnModel extends DefaultReportingTemplateT
 	}
 	/**
 	 * Gets the modification column
-	 * @return LearningObjectTableColumn
+	 * @return ReportingTemplateRegistrationTableColumn
 	 */
 	static function get_modification_column()
 	{
