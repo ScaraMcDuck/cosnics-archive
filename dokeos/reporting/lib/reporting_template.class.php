@@ -7,8 +7,20 @@
  *
  * @author Michael Kyndt
  */
+require_once Path :: get_reporting_path().'lib/reporting.class.php';
+
 abstract class ReportingTemplate {
     
+    protected $parent;
+    /*
+     * array with all the reporting block and specific properties such as
+     *  - visible
+     *
+     * @todo add 'zone'
+     */
+    protected $reporting_blocks = array();
+    protected $id;
+
     function ReportingTemplate()
     {
         
@@ -33,7 +45,11 @@ abstract class ReportingTemplate {
      */
     function get_menu()
     {
-
+        foreach($this->retrieve_reporting_blocks() as $key => $value)
+        {
+            $html[] = '<a href="' . $this->parent->get_url(array('s' => $value[0]->get_name(),'template' => $this->get_registration_id())) . '">'.$value[0]->get_name().'</a><br />';
+        }
+        return implode("\n", $html);
     }
 
     /**
@@ -42,7 +58,7 @@ abstract class ReportingTemplate {
      */
     function get_footer()
     {
-        
+        return '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
     }//get_footer
     
     /*
@@ -57,10 +73,11 @@ abstract class ReportingTemplate {
 
     /**
      * Sets the id under which this template is registered
+     * @param int $value
      */
-    function set_registration_id()
+    function set_registration_id($value)
     {
-
+        $this->id = $value;
     }
 
     /**
@@ -69,7 +86,7 @@ abstract class ReportingTemplate {
      */
     function get_registration_id()
     {
-
+        return $this->id;
     }
 
     /*
@@ -78,10 +95,49 @@ abstract class ReportingTemplate {
 
     /**
      * Adds a reporting block to this template
+     * @param ReportingBlock $reporting_block
+     * @param int $visible
      */
-    function add_reporting_block()
+    function add_reporting_block($reporting_block,$visible)
     {
+        array_push($this->reporting_blocks,array($reporting_block,$visible));
+    }
 
+    /**
+     * Sets the visible value to 1 for this reporting block & 0 for the rest
+     * @param String $name
+     */
+    function show_reporting_block($name)
+    {
+        foreach($this->reporting_blocks as $key => $value)
+        {
+            if($value[0]->get_name() == $name)
+            {
+                $value[1] = 1;
+            }else
+            {
+                $value[1] = 0;
+            }
+            $this->reporting_blocks[$key] = $value;
+        }
+    }
+
+    /**
+     * Generates all the visible reporting blocks
+     * @return html
+     */
+    function get_visible_reporting_blocks()
+    {
+        foreach($this->retrieve_reporting_blocks() as $key => $value)
+        {
+            // check if reporting block is visible
+            if($value[1] == 1)
+            {
+                $html[] = Reporting :: generate_block($value[0]);
+                $html[] = '<br />';
+            }
+        }
+        return implode("\n", $html);
     }
 
     /**
@@ -90,7 +146,7 @@ abstract class ReportingTemplate {
      */
     function retrieve_reporting_blocks()
     {
-
+        return $this->reporting_blocks;
     }
 }//ReportingTemplateProperties
 ?>
