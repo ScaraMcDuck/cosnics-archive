@@ -50,9 +50,36 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 		}
 		$html[] = $event->get_content();
 		$html[] = $this->render_attachments($event);
-		$html[] = '</div></div>';
+		$html[] = '</div>';
+		$html[] = '<div style="float: right;">';
+		$html[] = $this->get_publication_actions($event);
+		$html[] = '</div><div class="clear">&nbsp;</div>';
+		$html[] = '</div>';
 		
 		return implode("\n", $html);
+	}
+	
+	function get_publication_actions($event)
+	{
+		$toolbar_data[] = array(
+			'href' => $this->get_url(array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_VIEW_PUBLICATION, PersonalCalendar :: PARAM_CALENDAR_EVENT_ID => $event->get_id())),
+			'label' => Translation :: get('View'),
+			'img' => Theme :: get_common_image_path().'action_browser.png',
+		);
+		
+		$toolbar_data[] = array(
+			'href' => $this->get_parent()->get_publication_editing_url($event),
+			'label' => Translation :: get('Edit'),
+			'img' => Theme :: get_common_image_path().'action_edit.png',
+		);		
+		$toolbar_data[] = array(
+			'href' => $this->get_parent()->get_publication_deleting_url($event),
+			'label' => Translation :: get('Delete'),
+			'img' => Theme :: get_common_image_path().'action_delete.png',
+			'confirm' => true,
+		);
+		
+		return DokeosUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
 	}
 	
 	function render_attachments($event)
@@ -75,26 +102,15 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 			$attachments = $object->get_attached_learning_objects();
 			if(count($attachments)>0)
 			{
-				$html[] = '<h4>Attachments</h4>';
+				$html[] = '<div class="attachments" style="margin-top: 1em;">';
+				$html[] = '<div class="attachments_title">'.htmlentities(Translation :: get('Attachments')).'</div>';
 				DokeosUtilities :: order_learning_objects_by_title($attachments);
-				$html[] = '<ul>';
+				$html[] = '<ul class="attachments_list">';
 				foreach ($attachments as $attachment)
 				{
-					/*$disp = LearningObjectDisplay :: factory($attachment);
-					$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'action_attachment.png);">';
-					$html[] = '<div class="title">';
-					$html[] = $attachment->get_title();
-					$html[] = '</div>';
-					$html[] = '<div class="description">';
-					$html[] = $attachment->get_description();
-					$html[] = '</div>';
-					//$html[] =  $disp->get_full_html();
-					$html[] = '</div>';*/
-					
 					$html[] = '<li><a href="' . $this->get_parent()->get_url(array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_VIEW_ATTACHMENT, 'object' => $attachment->get_id())) . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
 				}
-				$html[] = '</ul>';
-				//$html[] = '</ul>';
+				$html[] = '</ul></div>';
 				return implode("\n",$html);
 			}
 		}

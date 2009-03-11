@@ -129,7 +129,7 @@ abstract class LearningObjectDisplay
 			$attachments = $object->get_attached_learning_objects();
 			if (count($attachments))
 			{
-				$html = array();
+				/*$html = array();
 				$html[] = '<div class="attachments" style="margin-top: 1em;">';
 				$html[] = '<div class="attachments_title">'.htmlentities(Translation :: get('Attachments')).'</div>';
 				$html[] = '<ul class="attachments_list">';
@@ -141,7 +141,20 @@ abstract class LearningObjectDisplay
 				}
 				$html[] = '</ul>';
 				$html[] = '</div>';
-				return implode("\n", $html);
+				return implode("\n", $html);*/
+				
+				//$html[] = '<h4>Attachments</h4>';
+				$html[] = '<div class="attachments" style="margin-top: 1em;">';
+				$html[] = '<div class="attachments_title">'.htmlentities(Translation :: get('Attachments')).'</div>';
+				DokeosUtilities :: order_learning_objects_by_title($attachments);
+				$html[] = '<ul class="attachments_list">';
+				foreach ($attachments as $attachment)
+				{
+					$html[] = '<li><a href="' . Path :: get(WEB_PATH) .'index_repository_manager.php?go=view_attachment&object=' . $attachment->get_id() . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
+				}
+				$html[] = '</ul>';
+				$html[] = '</div>';
+				return implode("\n",$html);
 			}
 		}
 		return '';
