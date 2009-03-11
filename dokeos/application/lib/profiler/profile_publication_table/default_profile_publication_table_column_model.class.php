@@ -24,10 +24,10 @@ class DefaultProfilePublicationTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
+		$columns[] = new ObjectTableColumn(ProfilePublication :: PROPERTY_PROFILE, true);
 		$columns[] = new ObjectTableColumn(User :: PROPERTY_USERNAME, true);
 		$columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, true);
 		$columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, true);
-		$columns[] = new ObjectTableColumn(ProfilePublication :: PROPERTY_PROFILE, true);
 		return $columns;
 	}
 }
