@@ -12,6 +12,7 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 {	
 	private $folder;
 	private $publication;
+	private $actionbar;
 	
 	/**
 	 * Runs this component and displays its output.
@@ -41,8 +42,10 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 				$publication->update();
 			}
 			
+			$this->action_bar = $this->get_action_bar($publication);
 			
 			$this->display_header($trail);
+			echo $this->action_bar->as_html();
 			echo '<br />' . $this->get_publication_modification_links();
 			echo '<div class="clear"></div><br />';
 			echo $this->get_publication_as_html();
@@ -53,6 +56,15 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 		{
 			$this->display_error_page(htmlentities(Translation :: get('NoPersonalMessageSelected')));
 		}
+	}
+	
+	function get_action_bar($personal_message)
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Reply'), Theme :: get_common_image_path().'action_reply.png', $this->get_publication_reply_url($personal_message), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('announcement tool'));
+		
+		return $action_bar;
 	}
 	
 	function get_publication_as_html()

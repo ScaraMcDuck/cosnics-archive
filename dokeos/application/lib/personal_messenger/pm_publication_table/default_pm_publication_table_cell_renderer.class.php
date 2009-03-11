@@ -34,10 +34,12 @@ class DefaultPmPublicationTableCellRenderer implements ObjectTableCellRenderer
 					return $personal_message_publication->get_publication_object()->get_title();
 				case PersonalMessagePublication :: PROPERTY_SENDER :
 					$user = $personal_message_publication->get_publication_sender();
-					return $user->get_firstname() . '&nbsp;' . $user->get_lastname();
+					if($user)
+						return $user->get_firstname() . '&nbsp;' . $user->get_lastname();
 				case PersonalMessagePublication :: PROPERTY_RECIPIENT :
 					$user = $personal_message_publication->get_publication_recipient();
-					return $user->get_firstname() . '&nbsp;' . $user->get_lastname();
+					if($user)
+						return $user->get_firstname() . '&nbsp;' . $user->get_lastname();
 				case PersonalMessagePublication :: PROPERTY_PUBLISHED :
 					return $personal_message_publication->get_published();
 				case PersonalMessagePublication :: PROPERTY_STATUS :
