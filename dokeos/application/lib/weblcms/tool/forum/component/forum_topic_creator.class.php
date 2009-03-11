@@ -67,7 +67,12 @@ class ForumToolTopicCreatorComponent extends ForumToolComponent
 					$learning_object->set_title($object->get_title());
 					$learning_object->set_description($object->get_description());
 					$learning_object->set_owner_id($this->get_user_id());
+					
 					$learning_object->create();
+					
+					$attachments = $object->get_attached_learning_objects();
+					foreach($attachments as $attachment)
+						$learning_object->attach_learning_object($attachment->get_id());
 					
 					$cloi = ComplexLearningObjectItem :: factory('forum_post');
 	

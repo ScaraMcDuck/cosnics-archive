@@ -13,6 +13,11 @@ class ForumTopic extends LearningObject
 	const PROPERTY_TOTAL_POSTS = 'total_posts';
 	const PROPERTY_LAST_POST = 'last_post';
 
+	function supports_attachments()
+	{
+		return true;
+	}
+	
 	function get_locked()
 	{
 		return $this->get_additional_property(self :: PROPERTY_LOCKED);
