@@ -10,7 +10,9 @@
 require_once Path :: get_reporting_path().'lib/reporting.class.php';
 
 abstract class ReportingTemplate {
-    
+
+    const REPORTING_BLOCK_VISIBLE = 1;
+    const REPORTING_BLOCK_INVISIBLE = 0;
     protected $parent;
     /*
      * array with all the reporting block and specific properties such as
@@ -47,7 +49,7 @@ abstract class ReportingTemplate {
     {
         foreach($this->retrieve_reporting_blocks() as $key => $value)
         {
-            $html[] = '<a href="' . $this->parent->get_url(array('s' => $value[0]->get_name(),'template' => $this->get_registration_id())) . '">'.$value[0]->get_name().'</a><br />';
+            $html[] = '<a href="' . $this->parent->get_url(array('s' => $value[0]->get_name(),'template' => $this->get_registration_id())) . '">'.Translation :: get($value[0]->get_name()).'</a><br />';
         }
         return implode("\n", $html);
     }
@@ -113,10 +115,12 @@ abstract class ReportingTemplate {
         {
             if($value[0]->get_name() == $name)
             {
-                $value[1] = 1;
+                //add constant if visible
+                // ReportingTemplate :: VISIBLE
+                $value[1] = self :: REPORTING_BLOCK_VISIBLE;
             }else
             {
-                $value[1] = 0;
+                $value[1] = self :: REPORTING_BLOCK_INVISIBLE;
             }
             $this->reporting_blocks[$key] = $value;
         }
@@ -131,7 +135,7 @@ abstract class ReportingTemplate {
         foreach($this->retrieve_reporting_blocks() as $key => $value)
         {
             // check if reporting block is visible
-            if($value[1] == 1)
+            if($value[1] == self :: REPORTING_BLOCK_VISIBLE)
             {
                 $html[] = Reporting :: generate_block($value[0]);
                 $html[] = '<br />';

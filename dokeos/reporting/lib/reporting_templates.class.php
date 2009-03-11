@@ -15,7 +15,7 @@ class ReportingTemplates {
 	public static function create_reporting_template_registration($props)
 	{
 		$reporting_template_registration = new ReportingTemplateRegistration();
-		$reporting_template_registration->set_name($props['name']);
+		$reporting_template_registration->set_title($props['title']);
 		$reporting_template_registration->set_application($props['application']);
 		$reporting_template_registration->set_classname($props['classname']);
 		$reporting_template_registration->set_platform($props['platform']);
