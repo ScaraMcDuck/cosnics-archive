@@ -69,7 +69,7 @@ class WebServicesGroup
 		{
             $gdm = DatabaseGroupDataManager :: get_instance();
             $group = $gdm->retrieve_group($input_group[id]);
-            if(isset($group))
+            if(count($group->get_default_properties())>0)
             {
                 return $group->get_default_properties();
             }

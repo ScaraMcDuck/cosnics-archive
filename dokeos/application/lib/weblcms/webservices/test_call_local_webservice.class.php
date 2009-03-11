@@ -42,7 +42,7 @@ class TestCallLocalWebservice
 		{
 			$functions[] = array(
 				'name' => 'WebServicesCourse.get_course',
-				'parameters' => array('id' => 1),
+				'parameters' => array('id' => 1, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
 				'handler' => 'handle_webservice'
 			);
 		}*/
@@ -57,7 +57,7 @@ class TestCallLocalWebservice
 		{
 			$functions[] = array(
 				'name' => 'WebServicesCourse.get_user_courses',
-				'parameters' => array('id' => 2),
+				'parameters' => array('id' => 2, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
 				'handler' => 'handle_webservice'
 			);
 		}*/
@@ -72,58 +72,101 @@ class TestCallLocalWebservice
 		{
 			$functions[] = array(
 				'name' => 'WebServicesCourse.get_course_users',
-				'parameters' => array('id' => 1),
+				'parameters' => array('id' => 3, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
 				'handler' => 'handle_webservice'
 			);
 		}*/
 		
-		/*A test to get new publications from the db
+		/*A test to get new publications in course X from the db
 		 * 
 		 */
 		
-		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		$functions = array();
 		
 		{
 			$functions[] = array(
-				'name' => 'WebServicesCourse.get_new_publications',
-				'parameters' => array('id' => 1),
+				'name' => 'WebServicesCourse.get_new_publications_in_course',
+				'parameters' => array('user_id' => 2, 'id' => 3, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
+				'handler' => 'handle_webservice'
+			);
+		}*/
+		
+		/*A test to get new publications in course X, tool Y from the db
+		 *
+		 */
+
+		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		$functions = array();
+
+		{
+			$functions[] = array(
+				'name' => 'WebServicesCourse.get_new_publications_in_course_tool',
+				'parameters' => array('user_id' => 2, 'id' => 3, 'tool' => 'announcement', 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
+				'handler' => 'handle_webservice'
+			);
+		}*/
+
+        /*A test to get publications for user X from the db
+		 *
+		 */
+
+		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		$functions = array();
+
+		{
+			$functions[] = array(
+				'name' => 'WebServicesCourse.get_publications_for_user',
+				'parameters' => array('id' => 2, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
+				'handler' => 'handle_webservice'
+			);
+		}*/
+
+        /*A test to get publications for course X from the db
+		 *
+		 */
+
+		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		$functions = array();
+
+		{
+			$functions[] = array(
+				'name' => 'WebServicesCourse.get_publications_for_course',
+				'parameters' => array('id' => 3, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
 				'handler' => 'handle_webservice'
 			);
 		}
-		
-		
 		
 		/*A test to delete a course in the db
 		 * 
 		 */
 		
-		/*$course = new Course();
-		$course->set_default_properties(array (
-			  'id' => '1',
-			  'layout' => '1',
-			  'visual_code' => 'Test',
-			  'category' => '1',
-			  'title' => 'Test',
-			  'titular' => '2',
-			  'course_language' => 'japanese',
-			  'department_url' => NULL,
-			  'department_name' => NULL,
-			  'visibility' => '3',
-			  'subscribe' => '1',
-			  'unsubscribe' => '0',
-			  'theme' => NULL,
-			  'tool_shortcut' => '1',
-			  'menu' => '1',
-			  'breadcrumb' => '1',
-			  'allow_feedback' => '1',
-			));
-		echo '<pre>'.var_export($course->get_default_properties(),true).'</pre>';
+		/*$course = array (
+          'id' => '2',
+          'layout' => '1',
+          'visual_code' => 'Tjaffen',
+          'category' => '1',
+          'title' => 'Tjaffen',
+          'titular' => '2',
+          'course_language' => 'english',
+          'department_url' => NULL,
+          'department_name' => NULL,
+          'visibility' => '3',
+          'subscribe' => '1',
+          'unsubscribe' => '0',
+          'theme' => NULL,
+          'tool_shortcut' => '1',
+          'menu' => '1',
+          'breadcrumb' => '1',
+          'allow_feedback' => '1',
+          'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+        );
+
 		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.delete_course',
-				'parameters' => $course->get_default_properties(),
+				'parameters' => $course,
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -133,31 +176,31 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  /*$course = new Course();
-		  $course->set_default_properties(array (
-			  'id' => '2',
-			  'layout' => '1',
-			  'visual_code' => NULL,
-			  'category' => '1',
-			  'title' => 'japanese 101',
-			  'titular' => NULL,
-			  'course_language' => 'japanese',
-			  'department_url' => NULL,
-			  'department_name' => NULL,
-			  'visibility' => '1',
-			  'subscribe' => '1',
-			  'unsubscribe' => '1',
-			  'theme' => NULL,
-			  'tool_shortcut' => '1',
-			  'menu' => '1',
-			  'breadcrumb' => '1',
-			  'allow_feedback' => '1',
-			));
+		  /*$course = array (
+          'id' => '3',
+          'layout' => '1',
+          'visual_code' => 'Vissen',
+          'category' => '1',
+          'title' => 'Vissen',
+          'titular' => '2',
+          'course_language' => 'Japanese',
+          'department_url' => NULL,
+          'department_name' => NULL,
+          'visibility' => '3',
+          'subscribe' => '1',
+          'unsubscribe' => '0',
+          'theme' => NULL,
+          'tool_shortcut' => '1',
+          'menu' => '1',
+          'breadcrumb' => '1',
+          'allow_feedback' => '1',
+          'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+             );
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.create_course',
-				'parameters' => $course->get_default_properties(),
+				'parameters' => $course,
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -165,8 +208,7 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  /*$course = new Course();
-		  $course->set_default_properties(array (
+		 /* $course = array (
 			  'course_code' => '2',
 			  'user_id' => '1',
 			  'status' => '1',
@@ -174,13 +216,14 @@ class TestCallLocalWebservice
 			  'course_group_id' => '0',
 			  'tutor_id' => '1',
 			  'sort' => '1',
-			  'user_course_cat' => '0'
-			));
+			  'user_course_cat' => '0',
+              'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+			);
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.subscribe_user',
-				'parameters' => $course->get_default_properties(),
+				'parameters' => $course,
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -188,8 +231,7 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  /*$course = new Course();
-		  $course->set_default_properties(array (
+		  /*$course = array (
 			  'course_code' => '2',
 			  'user_id' => '1',
 			  'status' => '1',
@@ -197,13 +239,14 @@ class TestCallLocalWebservice
 			  'course_group_id' => '0',
 			  'tutor_id' => '1',
 			  'sort' => '1',
-			  'user_course_cat' => '0'
-			));
+			  'user_course_cat' => '0',
+              'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+			);
 	   	  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.unsubscribe_user',
-				'parameters' => $course->get_default_properties(),
+				'parameters' => $course,
 		  		'handler' => 'handle_webservice'			
 			);*/
 
@@ -211,21 +254,21 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  /*$coursegroup = new CourseGroup();
-		  $coursegroup->set_default_properties(array (
+		  /*$coursegroup = array (
 		  	  'id' => '1',
 			  'course_code' => '2',
 			  'name' => 'test',
 			  'description' => 'test',
 			  'max_number_of_members' => '999',
 			  'self_reg_allowed' => '1',
-			  'self_unreg_allowed' => '1'
-			));
+			  'self_unreg_allowed' => '1',
+              'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+			);
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.subscribe_group',
-				'parameters' => $coursegroup->get_default_properties(),
+				'parameters' => $coursegroup,
 		  		'handler' => 'handle_webservice'			
 			);*/
 			
@@ -233,21 +276,21 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  /*$coursegroup = new CourseGroup();
-		  $coursegroup->set_default_properties(array (
-		  	  'id' => '4',
+		   /*$coursegroup = array (
+		  	  'id' => '1',
 			  'course_code' => '2',
 			  'name' => 'test',
 			  'description' => 'test',
 			  'max_number_of_members' => '999',
 			  'self_reg_allowed' => '1',
-			  'self_unreg_allowed' => '1'
-			));
+			  'self_unreg_allowed' => '1',
+              'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+			);
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.unsubscribe_group',
-				'parameters' => $coursegroup->get_default_properties(),
+				'parameters' => $coursegroup,
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -255,32 +298,32 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  /*$course = new Course();
-		  $course->set_default_properties(array (
-			  'id' => '1',
-			  'layout' => '1',
-			  'visual_code' => 'Test',
-			  'category' => '1',
-			  'title' => 'Test',
-			  'titular' => '2',
-			  'course_language' => 'Japanese',
-			  'department_url' => NULL,
-			  'department_name' => NULL,
-			  'visibility' => '3',
-			  'subscribe' => '1',
-			  'unsubscribe' => '0',
-			  'theme' => NULL,
-			  'tool_shortcut' => '1',
-			  'menu' => '1',
-			  'breadcrumb' => '1',
-			  'allow_feedback' => '1',
-			));
+		  /*$course = array (
+          'id' => '3',
+          'layout' => '1',
+          'visual_code' => 'Tjaffen',
+          'category' => '1',
+          'title' => 'Tjaffen',
+          'titular' => '2',
+          'course_language' => 'Japanese',
+          'department_url' => NULL,
+          'department_name' => NULL,
+          'visibility' => '3',
+          'subscribe' => '1',
+          'unsubscribe' => '0',
+          'theme' => NULL,
+          'tool_shortcut' => '1',
+          'menu' => '1',
+          'breadcrumb' => '1',
+          'allow_feedback' => '1',
+          'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+        );
 		
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.update_course',
-				'parameters' => $course->get_default_properties(),
+				'parameters' => $course,
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -326,8 +369,8 @@ class TestCallLocalWebservice
 		//global $file;
 		//fwrite($file, date('[H:i]') . 'Called webservice :' . "\n" . var_export($result, true) . "\n");
 		//echo ('<p>'.date('[H:i]') . 'Called webservice :' . "\n" . var_export($result, true) . "\n".'</p>');
-		//echo '<pre>'.var_export($result,true).'</pre';
-		dump($result);
+		echo '<pre>'.var_export($result,true).'</pre';
+		//dump($result);
 	}
 }
 
