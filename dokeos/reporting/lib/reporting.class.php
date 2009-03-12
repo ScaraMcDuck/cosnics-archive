@@ -15,33 +15,34 @@ class Reporting{
      */
 	public static function generate_block(&$reporting_block){
 		//$reporting_block->retrieve_data();
- 		$html .= "<div id=\"".$reporting_block->get_id()."\" class=\"reporting_block\" " .
+ 		$html[] = "<div id=\"".$reporting_block->get_id()."\" class=\"reporting_block\" " .
  				"style=\"height: ".$reporting_block->get_height()."px; " .
  						"width: ".$reporting_block->get_width()."px\">";
- 		$html .= "<div class=\"reporting_header\">";
- 		$html .= Translation :: get('Displaymode').' ';
- 		$html .= "<select name=\"charttype\" class=\"charttype\"";
+ 		$html[] = "<div class=\"reporting_header\">";
+        $html[] = "<div class=\"reporting_header_title\">".Translation :: get($reporting_block->get_name())."</div>";
+ 		$html[] = Translation :: get('Displaymode').' ';
+ 		$html[] = "<select name=\"charttype\" class=\"charttype\"";
  		foreach($reporting_block->get_displaymodes() as $key => $value)
  		{
  			if($key == $reporting_block->get_displaymode())
  			{
- 				$html .= "<option SELECTED value=".$key.">".$value."</option>";
+ 				$html[] = "<option SELECTED value=".$key.">".$value."</option>";
  			}else
  			{
- 				$html .= "<option value=".$key.">".$value."</option>";
+ 				$html[] = "<option value=".$key.">".$value."</option>";
  			}
  		}
- 		$html .= "</select>";
- 		$html .= "</div>";
- 		$html .= "<div class=\"reporting_content\">";
- 		$html .= ReportingFormatter :: get_instance($reporting_block)->to_html();
- 		$html .= "</div>";
- 		$html .= "<div class=\"reporting_footer\">";
-        $html .= Translation :: get('Export').':  O O O O';
- 		$html .= "</div>";
- 		$html .= "</div>";
+ 		$html[] = "</select>";
+ 		$html[] = "</div>";
+ 		$html[] = "<div class=\"reporting_content\">";
+ 		$html[] = ReportingFormatter :: factory($reporting_block)->to_html();
+ 		$html[] = "</div>";
+ 		$html[] = "<div class=\"reporting_footer\">";
+        $html[] = Translation :: get('Export').':  O O O O';
+ 		$html[] = "</div>";
+ 		$html[] = "</div>";
  		
- 		return $html;
+ 		return implode("\n", $html);
 	}//generate_block
 
     /**
@@ -66,6 +67,7 @@ class Reporting{
     	
     	$datadescription["Position"] = "Name";
 		$datadescription["Values"][] = "Serie1";
+        $datadescription["Description"]["Serie1"] = "Browsers";
 		
 		array_push($array,$data);
 		array_push($array,$datadescription);

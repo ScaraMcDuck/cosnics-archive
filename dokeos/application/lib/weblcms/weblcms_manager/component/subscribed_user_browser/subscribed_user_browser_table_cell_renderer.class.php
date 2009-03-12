@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/subscribed_user_browser_table_column_model.clas
 require_once Path :: get_user_path(). 'lib/user_table/default_user_table_cell_renderer.class.php';
 require_once Path :: get_user_path(). 'lib/user.class.php';
 require_once Path :: get_user_path(). 'lib/user_manager/user_manager.class.php';
+require_once Path :: get_reporting_path().'lib/reporting_manager/reporting_manager.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
@@ -105,6 +106,21 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 					'img' => Theme :: get_common_image_path().'action_unsubscribe.png'
 				);
 			}
+
+            //@todo check rights ?
+			//$parameters[Weblcms::PARAM_TOOL_ACTION] = UserTool::ACTION_USER_DETAILS;
+			//$parameters[Weblcms :: PARAM_USERS] = $user->get_id();
+            $params = array();
+            //$params[ReportingManager :: PARAM_APPLICATION] = "weblcms";
+            $params["course_id"] = $this->browser->get_course_id();
+            $params["user_id"] = $user->get_id();
+            $unsubscribe_url = ReportingManager :: get_reporting_template_registration_url('CourseUserReportingTemplate',$params);
+			//$unsubscribe_url = $this->browser->get_url($parameters);
+			$toolbar_data[] = array(
+				'href' => $unsubscribe_url,
+				'label' => Translation :: get('Report'),
+				'img' => Theme :: get_common_image_path().'action_chart.png'
+			);
 		}
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
