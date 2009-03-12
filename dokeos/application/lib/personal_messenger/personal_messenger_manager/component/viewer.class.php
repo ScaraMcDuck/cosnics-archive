@@ -82,9 +82,13 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 		
 		if($sender)
 			$html[] = '<b>'.Translation :: get('MessageFrom'). '</b>:&nbsp;'. $sender->get_firstname(). '&nbsp;' .$sender->get_lastname() . '<br />';
-		
+		else
+			$html[] = '<b>'.Translation :: get('MessageFrom'). '</b>:&nbsp;'. Translation :: get('SenderUnknown') . '<br />';
+			
 		if($recipient)	
 			$html[] = '<b>'.Translation :: get('MessageTo'). '</b>:&nbsp;'. $recipient->get_firstname(). '&nbsp;' .$recipient->get_lastname() . '<br />';
+		else
+			$html[] = '<b>'.Translation :: get('MessageTo'). '</b>:&nbsp;'. Translation :: get('RecipientUnknown') . '<br />';
 			
 		$html[] = '<b>'.Translation :: get('MessageDate'). '</b>:&nbsp;'. Text :: format_locale_date(Translation :: get('dateFormatShort').', '.Translation :: get('timeNoSecFormat'),$publication->get_published()) . '<br />';
 		$html[] = '<b>'.Translation :: get('MessageSubject'). '</b>:&nbsp;'. $message->get_title();
