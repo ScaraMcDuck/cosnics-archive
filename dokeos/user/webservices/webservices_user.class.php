@@ -5,6 +5,7 @@ require_once dirname(__FILE__) . '/provider/input_user.class.php';
 require_once dirname(__FILE__) . '/../lib/data_manager/database.class.php';
 require_once dirname(__FILE__) . '/../lib/user.class.php';
 require_once Path :: get_webservice_path() . '/security/webservice_security_manager.class.php';
+require_once Path :: get_library_path() . 'validator/validator.class.php';
 
 $handler = new WebServicesUser();
 $handler->run();
@@ -12,12 +13,14 @@ $handler->run();
 class WebServicesUser
 {
 	private $webservice;
-	private $functions;		
+	private $functions;
+    private $validator;
 	
 	function WebServicesUser()
 	{
 		$this->webservice = Webservice :: factory($this);
 		$this->wsm = WebserviceSecurityManager :: get_instance($this);
+        $this->validator = Validator :: get_validator('user');
 	}
 	
 	function run()
@@ -103,13 +106,21 @@ class WebServicesUser
         }
 	}
 	
-	function delete_user($input_user)
+	function delete_user(&$input_user)
 	{
         if($this->wsm->validate_function($input_user[hash]))
 		{
             unset($input_user[hash]);
-            $u = new User(0,$input_user);
-            return $this->webservice->raise_message($u->delete());
+            if($this->validator->validate_delete($input_user))
+            {
+                $u = new User(0,$input_user);
+                return $this->webservice->raise_message($u->delete());
+            }
+            else
+            {
+                return $this->webservice->raise_error('Could not delete user. Please check the data you\'ve provided.');
+            }
+
         }
         else
         {
@@ -117,13 +128,20 @@ class WebServicesUser
         }
 	}
 	
-	function create_user($input_user)
+	function create_user(&$input_user)
 	{
         if($this->wsm->validate_function($input_user[hash]))
 		{
             unset($input_user[hash]);
-            $u = new User(0,$input_user);
-            return $this->webservice->raise_message($u->create());
+            if($this->validator->validate_create($input_user))
+            {
+                $u = new User(0,$input_user);
+                return $this->webservice->raise_message($u->create());
+            }
+            else
+            {
+                return $this->webservice->raise_error('Could not create user. Please check the data you\'ve provided.');
+            }
         }
         else
         {
@@ -131,13 +149,20 @@ class WebServicesUser
         }
 	}
 	
-	function update_user($input_user)
+	function update_user(&$input_user)
 	{
         if($this->wsm->validate_function($input_user[hash]))
 		{
             unset($input_user[hash]);
-            $u = new User(0,$input_user);
-            return $this->webservice->raise_message($u->update());
+            if($this->validator->validate_update($input_user))
+            {
+                $u = new User(0,$input_user);
+                return $this->webservice->raise_message($u->update());
+            }
+            else
+            {
+                return $this->webservice->raise_error('Could not update user. Please check the data you\'ve provided.');
+            }
         }
         else
         {
