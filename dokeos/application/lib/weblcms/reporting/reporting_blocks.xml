@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="weblcms">
+	<reporting_block name="UserInformation"
+		   application="user"
+		   function="getUserInformation"
+		   displaymode="Table"
+		   width="500"
+		   height="240" />
+	<reporting_block name="UserPlatformStatistics"
+		   application="user"
+		   function="getUserPlatformStatistics"
+		   displaymode="Table"
+		   width="500"
+		   height="240" />
+	<reporting_block name="CourseInformation"
+		   application="weblcms"
+		   function="getCourseInformation"
+		   displaymode="Text"
+		   width="500"
+		   height="500" />
+	<reporting_block name="CourseUserLearningpathInformation"
+		   application="weblcms"
+		   function="getCourseUserLearningpathInformation"
+		   displaymode="Table"
+		   width="100%"
+		   height="500" />
+	<reporting_block name="CourseUserExerciseInformation"
+		   application="weblcms"
+		   function="getCourseUserExcerciseInformation"
+		   displaymode="Table"
+		   width="100%"
+		   height="500" />
+</application>

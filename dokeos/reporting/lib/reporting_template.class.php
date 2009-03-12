@@ -6,6 +6,9 @@
  *      Layout (header,menu, footer)
  *
  * @author Michael Kyndt
+ * @todo add row & column to "add_reporting_block"
+ * function add_reporting_block will then place the block accordingly & create
+ * empty spaces before & after
  */
 require_once Path :: get_reporting_path().'lib/reporting.class.php';
 
@@ -25,9 +28,9 @@ abstract class ReportingTemplate {
 
     function ReportingTemplate()
     {
-        
+
     }//ReportingTemplateProperties
-    
+
     /*
      * Layout
      */
@@ -38,7 +41,7 @@ abstract class ReportingTemplate {
      */
     function get_header()
     {
-        
+
     }//get_header
 
     /**
@@ -62,7 +65,7 @@ abstract class ReportingTemplate {
     {
         return '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
     }//get_footer
-    
+
     /*
      * Properties
      */
@@ -152,5 +155,30 @@ abstract class ReportingTemplate {
     {
         return $this->reporting_blocks;
     }
+
+    function set_reporting_blocks_parameters($params)
+    {
+        foreach($this->retrieve_reporting_blocks() as $key => $value)
+        {
+            //foreach($value as $key2 => $value2)
+            //{
+                $value[0]->set_function_parameters($params);
+            //}
+        }
+    }//set_reporting_blocks_parameters
+
+    function set_reporting_block_parameters($blockname,$params)
+    {
+        foreach($this->retrieve_reporting_blocks() as $key => $value)
+        {
+            foreach($value as $key2 => $value2)
+            {
+                if($key2[0]->get_name() == $blockname)
+                {
+                    $key2[0]->set_function_parameters($params);
+                }
+            }
+        }
+    }//set_reporting_block_parameters
 }//ReportingTemplateProperties
 ?>

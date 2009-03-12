@@ -25,7 +25,7 @@ class ReportingManagerReportingTemplateRegistrationBrowserComponent extends Repo
 
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get(Application :: application_to_class($application)) . '&nbsp;' . Translation :: get('Template')));
+		$trail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application)), Translation :: get(Application :: application_to_class($application)) . '&nbsp;' . Translation :: get('Template')));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
@@ -108,9 +108,11 @@ class ReportingManagerReportingTemplateRegistrationBrowserComponent extends Repo
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$conditions[] = new LikeCondition(ReportingTemplateRegistration :: PROPERTY_NAME, $query);
+			$conditions[] = new LikeCondition(ReportingTemplateRegistration :: PROPERTY_TITLE, $query);
             $conditions[] = new LikeCondition(ReportingTemplateRegistration :: PROPERTY_APPLICATION, $query);
-            $cond = new OrCondition($conditions);
+            $orcond = new OrCondition($conditions);
+            $condition = new EqualityCondition('platform','1');
+            $cond = new AndCondition($orcond,$condition);
 		}else
         {
             $conditions[] = new EqualityCondition('application',$this->application);

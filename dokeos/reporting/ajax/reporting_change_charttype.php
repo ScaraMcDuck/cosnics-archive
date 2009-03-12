@@ -19,5 +19,5 @@ $block = $rdm->retrieve_reporting_block($block_id);
 $block->set_displaymode($type);
 $rdm->update_reporting_block($block);
 
-echo ReportingFormatter :: get_instance($block)->to_html();
+echo ReportingFormatter :: factory($block)->to_html();
 ?>

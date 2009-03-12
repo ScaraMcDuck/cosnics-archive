@@ -22,12 +22,12 @@ class ReportingChartFormatter extends ReportingFormatter {
 
 	public function get_chart_instance()
 	{
-		if (!isset ($this->instance)) {
+		//if (!isset ($this->instance)) {
 			$chartformatter = 'Pchart';
 			require_once dirname(__FILE__) . '/'.strtolower($chartformatter).'/'.strtolower($chartformatter).'_reporting_chart_formatter.class.php';
 			$class = $chartformatter.'ReportingChartFormatter';
 			$this->instance = new $class ($this->reporting_block);
-		}
+		//}
 		return $this->instance;
 	} //get_instance
 } //ReportingChartFormatter

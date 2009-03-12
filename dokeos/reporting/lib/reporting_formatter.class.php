@@ -7,29 +7,22 @@
 
  abstract class ReportingFormatter
  {	
- 	private static $instance;
- 	//private $reporting_block;
-
     /**
      * Generates the html representing the chosen display mode
      * @return html
      */
  	abstract function to_html();
  	
- 	public static function get_instance(&$reporting_block)
+ 	public static function factory(&$reporting_block)
  	{
- 		$type = $reporting_block->get_displaymode();
- 		if (!isset (self :: $instance))
-		{
+            $type = $reporting_block->get_displaymode();
 			if(strpos($type, 'Chart:') !== false)
 			{
 				$type = 'Chart';
 			}
 			require_once dirname(__FILE__).'/formatters/reporting_'.strtolower($type).'_formatter.class.php';
 			$class = 'Reporting' . $type .'Formatter';
-			self :: $instance = new $class ($reporting_block);
-		}
-		return self :: $instance;
+		return new $class ($reporting_block);
  	}//get_instance
  	
  }//ReportingFormatter

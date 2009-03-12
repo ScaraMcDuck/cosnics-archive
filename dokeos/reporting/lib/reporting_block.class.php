@@ -17,7 +17,7 @@
  	const PROPERTY_HEIGHT = 'height';
  	
  	//private $id='id',$name='Default block',$application,$application_url,$function,$displaymode;
- 	private $properties, $data;
+ 	private $properties, $data,$params;
  	
  	public function ReportingBlock($properties = array())
  	{
@@ -87,7 +87,7 @@
 		
 		$file = $base_path .$this->get_application(). '/reporting/reporting_'.$this->get_application().'.class.php';
 		require_once $file;
- 		$this->data = call_user_func('Reporting'.$this->get_application().'::'.$this->get_function());
+ 		$this->data = call_user_func('Reporting'.$this->get_application().'::'.$this->get_function(), $this->get_function_parameters());
  	}
  	
  	/**
@@ -153,6 +153,16 @@
         }
  		return $this->data;
  	}
+
+    public function set_function_parameters($params)
+    {
+        $this->params = $params;
+    }
+
+    public function get_function_parameters()
+    {
+        return $this->params;
+    }
  	
  	public function get_id()
  	{
