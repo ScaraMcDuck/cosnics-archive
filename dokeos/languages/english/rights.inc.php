@@ -42,4 +42,6 @@ $lang['rights']['ThisFieldIsRequired'] = 'required field';
 $lang['rights']['Description'] = 'Description';
 $lang['rights']['Save'] = 'Save';
 $lang['rights']['Reset'] = 'Reset';
+$lang['rights']['Update'] = 'Update';
+$lang['rights']['Create'] = 'Create';
 ?>
