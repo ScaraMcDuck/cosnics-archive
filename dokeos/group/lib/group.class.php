@@ -186,8 +186,8 @@ class Group
 		$gdm = GroupDataManager :: get_instance();
 		
 		$condition = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
-		$groups = $gdm->retrieve_groups($condition);
-		if($groups->size() > 0)
+		$groups = $gdm->count_groups($condition);
+		if($groups > 0)
 			return false;
 		
 		$this->set_id($gdm->get_next_group_id());
@@ -197,6 +197,12 @@ class Group
 	function update() 
 	{
 		$gdm = GroupDataManager :: get_instance();
+		
+		$condition = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
+		$groups = $gdm->count_groups($condition);
+		if($groups > 0)
+			return false;
+			
 		$success = $gdm->update_group($this);
 		if (!$success)
 		{
