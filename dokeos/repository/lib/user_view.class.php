@@ -172,9 +172,9 @@ class UserView
 			$uvrlo->set_learning_object_type($registration);
 			
 			if(in_array($registration, $values))
-				$uvrlo->set_visibility(0);
-			else
 				$uvrlo->set_visibility(1);
+			else
+				$uvrlo->set_visibility(0);
 				
 			$uvrlo->create();
 		}

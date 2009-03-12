@@ -1565,7 +1565,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function reset_user_view($user_view)
 	{
 		$query = 'UPDATE '.$this->database->escape_table_name('user_view_rel_learning_object').' SET '.
-				 $this->database->escape_column_name(UserViewRelLearningObject :: PROPERTY_VISIBILITY).'=1 WHERE '.
+				 $this->database->escape_column_name(UserViewRelLearningObject :: PROPERTY_VISIBILITY).'=0 WHERE '.
 				 $this->database->escape_column_name(UserViewRelLearningObject :: PROPERTY_VIEW_ID).'=?;';
 				 
 		$statement = $this->database->get_connection()->prepare($query); 
