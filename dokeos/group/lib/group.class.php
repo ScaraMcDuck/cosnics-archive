@@ -184,6 +184,12 @@ class Group
 	function create()
 	{
 		$gdm = GroupDataManager :: get_instance();
+		
+		$condition = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
+		$groups = $gdm->retrieve_groups($condition);
+		if($groups->size() > 0)
+			return false;
+		
 		$this->set_id($gdm->get_next_group_id());
 		return $gdm->create_group($this);
 	}
