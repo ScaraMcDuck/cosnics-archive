@@ -355,7 +355,7 @@ div.row div.label
 div.row div.formw
 {
 	width: 80%;
-	float: right;
+	float: left;
 	text-align: left;
 }
 
@@ -401,6 +401,17 @@ div.row div.forme
 	float: right;
 	text-align: left;
 }
+
+div.row div.element
+{
+	float: left;
+}
+
+div.row div.feedback
+{
+	position: relative;
+	left: 15px;
+}	
 
 span.form_required
 {
