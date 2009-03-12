@@ -96,18 +96,20 @@ class MenuToolListRenderer extends ToolListRenderer
 				$html[] = $this->display_tool($tool);
 			}
 		}
-		
-		$html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px;"></div>';
 		$html[] = '</ul>';
 		
-		$form = new FormValidator('search_simple', 'post', $parent->get_url(array('tool' => 'search')), '', null, false);
-		$form->addElement('text', 'query', '', 'size="18" class="search_query_no_icon" style="margin-left: -30px; background-color: white; border: 1px solid grey; height: 18px; "');
-		$form->addElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'normal search'));
-		$html[] = $form->toHtml();
-
+		if ($this->display_menu_text())
+		{
+			$html[] = '<div style="margin: 10px 0 10px 0; border-bottom: 1px dotted #4271B5; height: 0px;"></div>';	
+			
+			$form = new FormValidator('search_simple', 'post', $parent->get_url(array('tool' => 'search')), '', null, false);
+			$form->addElement('text', 'query', '', 'size="18" class="search_query_no_icon" style="margin-left: -30px; background-color: white; border: 1px solid grey; height: 18px; "');
+			$form->addElement('style_submit_button', 'submit', Translation :: get('Search'), array('class' => 'normal search'));
+			$html[] = $form->toHtml();
+		}
 		
 		$html[] = '</div>';
-		$html[] = '<div class="clear"></div>';
+		$html[] = '<div class="clear">&nbsp;</div>';
 	
 		if ($this->get_menu_style() == 'left')
 		{
