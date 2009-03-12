@@ -41,11 +41,8 @@ class TestCallLocalWebservice
 		}*/
 		
 		
-		/*$user = new User();
-		$user->set_id(1);
-        $user = $user->get_default_properties();
-        $user['hash'] = '8856ffce09dad0fd33bfe3ae803cd97cc4540a78';
-		$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+		/*$user = array('username' => 'Bond', 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78');
+        $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesUser.delete_user',
@@ -66,7 +63,7 @@ class TestCallLocalWebservice
 		  'phone' => NULL,
 		  'official_code' => 'ADMIN',
 		  'picture_uri' => NULL,
-		  'creator_id' => NULL,
+		  'creator_id' => Soliber,
 		  'language' => 'english',
 		  'disk_quota' => '209715200',
 		  'database_quota' => '300',
@@ -87,12 +84,10 @@ class TestCallLocalWebservice
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
-		$user = new User();
-		$user->set_default_properties(array (
-		  'user_id' => '10',
-		  'lastname' => 'Bond',
-		  'firstname' => 'James',
-		  'username' => 'admin',
+		$user = array (
+		  'lastname' => 'Joske',
+		  'firstname' => 'Den Os',
+		  'username' => 'Den Os',
 		  'password' => '4a0091108fb271e05f34da7cf77c975f',
 		  'auth_source' => 'platform',
 		  'email' => 'admin@localhost.localdomain',
@@ -101,20 +96,19 @@ class TestCallLocalWebservice
 		  'phone' => NULL,
 		  'official_code' => 'ADMIN',
 		  'picture_uri' => NULL,
-		  'creator_id' => NULL,
+		  'creator_id' => 'Den Os',
 		  'language' => 'english',
 		  'disk_quota' => '209715200',
-		  'database_quota' => '3000',
+		  'database_quota' => '300',
 		  'version_quota' => '20',
 		  'theme' => NULL,
 		  'activation_date' => '0',
 		  'expiration_date' => '0',
 		  'registration_date' => '1234774883',
 		  'active' => '1',
-		));
-        $user = $user->get_default_properties();
-        $user['hash'] = '8856ffce09dad0fd33bfe3ae803cd97cc4540a78';
-		$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+          'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+		);
+        $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesUser.update_user',

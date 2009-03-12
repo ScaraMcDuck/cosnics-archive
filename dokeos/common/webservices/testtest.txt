@@ -1,7 +1,21 @@
-[11:25]Called webservice :
-array (
-  'name' => 'Developer',
-  'email' => 'developer@dokeos.com',
-  'gender' => 'M',
-)
-Total: 1.3315858840942 s
+[14:33]Called webservice :
+false
+[14:33]Called webservice :
+false
+[14:33]Called webservice :
+false
+[14:33]Called webservice :
+false
+[14:33]Called webservice :
+false
+[14:33]Called webservice :
+false
+[14:33]Called webservice :
+false
+[14:33]Called webservice :
+false
+[14:33]Called webservice :
+false
+[14:33]Called webservice :
+false
+Total: 0.039117097854614 s

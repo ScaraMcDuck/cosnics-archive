@@ -130,6 +130,12 @@ class DatabaseGroupDataManager extends GroupDataManager
 		$condition = new EqualityCondition(Group :: PROPERTY_ID, $id);
 		return $this->database->retrieve_object(Group :: get_table_name(), $condition);
 	}
+
+    function retrieve_group_by_name($name)
+	{
+		$condition = new EqualityCondition(Group :: PROPERTY_NAME, $name);
+		return $this->database->retrieve_object(Group :: get_table_name(), $condition);
+	}
 	
 	function create_storage_unit($name, $properties, $indexes)
 	{
