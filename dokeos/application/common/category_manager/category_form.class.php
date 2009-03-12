@@ -156,7 +156,18 @@ class CategoryForm extends FormValidator {
 				$category = $this->manager->get_category();
 				$category->set_name($value);
 				$category->set_parent($this->category->get_parent());
-				$result &= $category->create();
+		
+				$condition = new EqualityCondition(PlatformCategory :: PROPERTY_NAME, $category->get_name());
+				$cats = $this->manager->count_categories($condition);
+				
+				if($cats > 0)
+				{
+					$result = false;
+				}
+				else
+				{
+					$result &= $category->create();
+				}
 			}
 		}
 		return $result;
@@ -166,6 +177,15 @@ class CategoryForm extends FormValidator {
     {
 		$category = $this->category;
 		$category->set_name($this->exportValue(PlatformCategory :: PROPERTY_NAME));
+		
+   		$condition = new EqualityCondition(PlatformCategory :: PROPERTY_NAME, $category->get_name());
+		$cats = $this->manager->count_categories($condition);
+		
+		if($cats > 0)
+		{
+			return false;
+		}
+		
 		return $category->update();
     }
 
