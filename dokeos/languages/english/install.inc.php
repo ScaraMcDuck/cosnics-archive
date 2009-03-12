@@ -107,11 +107,10 @@ $lang['install']['ConfigureBlockFirst'] = 'Configure this block first';
 $lang['install']['HelpItemsInstalled'] = 'Help items installed';
 $lang['install']['Folder'] = 'Folder';
 $lang['install']['Site'] = 'Site';
-$lang['install']['WebserviceSucces'] = 'Webservices successfully registered';
-$lang['install']['WebserviceRegistration'] = 'Webservice registered';
-$lang['install']['WebserviceCategoryCreation'] = 'Webservice category created';
-$lang['install']['WebserviceFailed'] = 'Webservice registering failed';
-$lang['install']['Webservices'] = 'Webservices';
-$lang['install']['Webservice'] = 'Webservice';
-$lang['install']['NoWebservices'] = 'There are no webservices registered';
+$lang['install']['PreProduction'] = 'Pre-production';
+$lang['install']['Reporting'] = 'Reporting';
+$lang['install']['PostProcessing'] = 'Post processing';
+$lang['install']['ReportingAdded'] = 'Reporting added';
+$lang['install']['VariousFinished'] = 'Various finished';
+$lang['install']['TrackingAdded'] = 'Tracking added';
 ?>

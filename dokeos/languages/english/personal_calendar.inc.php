@@ -45,6 +45,7 @@ $lang['personal_calendar']['No'] = 'No';
 $lang['personal_calendar']['Yes'] = 'Yes';
 $lang['personal_calendar']['FromUntil'] = 'From until';
 $lang['personal_calendar']['MyRepository'] = 'My respository';
+$lang['personal_calendar']['Title'] = 'Title';
 $lang['personal_calendar']['Description'] = 'Description';
 $lang['personal_calendar']['MyAccount'] = 'My account';
 $lang['personal_calendar']['Repository'] = 'Repository';
@@ -57,4 +58,6 @@ $lang['personal_calendar']['Biweekly'] = 'Biweekly';
 $lang['personal_calendar']['Monthly'] = 'Monthly';
 $lang['personal_calendar']['Yearly'] = 'Yearly';
 $lang['personal_calendar']['Week'] = 'Week';
+$lang['personal_calendar']['View'] = 'View';
+$lang['personal_calendar']['ViewAttachment'] = 'View attachment';
 ?>
