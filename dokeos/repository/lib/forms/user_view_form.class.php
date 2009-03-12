@@ -32,15 +32,15 @@ class UserViewForm extends FormValidator {
     {
 		$this->addElement('text', UserView :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
 		$this->addRule(UserView :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
-		$this->add_html_editor(UserView :: PROPERTY_DESCRIPTION, Translation :: get('Description'), true);
+		$this->add_html_editor(UserView :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
 		
 		if($this->form_type == self :: TYPE_EDIT)
 		{
 			$uvrlo = RepositoryDataManager :: get_instance()->retrieve_user_view_rel_learning_objects(new EqualityCondition(UserViewRelLearningObject :: PROPERTY_VIEW_ID, $this->get_user_view()->get_id()));
 	    	while($type = $uvrlo->next_result())
 	    	{
-	    		$learning_object_types[$type->get_learning_object_type()] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($type->get_learning_object_type()));
-	    		if(!$type->get_visibility())
+	    		$learning_object_types[$type->get_learning_object_type()] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($type->get_learning_object_type()) . 'TypeName');
+	    		if($type->get_visibility())
 	    			$defaults[] = $type->get_learning_object_type();
 	    	}
 		}
@@ -50,11 +50,12 @@ class UserViewForm extends FormValidator {
 			$registrations = $dm->get_registered_types();
 			foreach($registrations as $registration)
 			{
-				$learning_object_types[$registration] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($registration));
+				$learning_object_types[$registration] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($registration) . 'TypeName');
+				//$defaults[] = $registration;
 			}
 		}
 		
-		$this->addElement('advmultiselect', 'types', Translation :: get('SelectHiddenTypes'), 
+		$this->addElement('advmultiselect', 'types', Translation :: get('SelectTypesToShow'), 
 									  $learning_object_types, array('style' => 'width:300px; height: 300px'));
 			
 		$this->setDefaults(array('types' => $defaults));
@@ -105,7 +106,7 @@ class UserViewForm extends FormValidator {
     		$condition = new AndCondition($conditions);
  
     		$lo_type = $dm->retrieve_user_view_rel_learning_objects($condition)->next_result(); 
-    		$lo_type->set_visibility(0);
+    		$lo_type->set_visibility(1);
     		$lo_type->update();
     	}
     	
