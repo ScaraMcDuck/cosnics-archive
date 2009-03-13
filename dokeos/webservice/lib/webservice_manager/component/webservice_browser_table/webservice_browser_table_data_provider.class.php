@@ -33,9 +33,9 @@ class WebserviceBrowserTableDataProvider extends ObjectTableDataProvider
 		$order_property = $this->get_order_property($order_property);
 		$order_direction = $this->get_order_property($order_direction);
        
-      $webservices = WebserviceDataManager :: get_instance()->retrieve_webservices($this->get_condition(), $offset, $count, $order_property, $order_direction);
+        $webservices = WebserviceDataManager :: get_instance()->retrieve_webservices($this->get_condition(), $offset, $count, $order_property, $order_direction);
      
-      return $webservices;
+        return $webservices;
     }
   /**
    * Gets the number of learning objects in the table

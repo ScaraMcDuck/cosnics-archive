@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/webservice_data_manager.class.php';
+require_once dirname(__FILE__).'/webservice_rights.class.php';
 
 /**
  * @package webservice
@@ -214,10 +215,36 @@ class WebserviceRegistration
 	}
 	
 	function create()
-	{
+	{       
 		$wdm = WebserviceDataManager :: get_instance();
 		$this->set_id($wdm->get_next_webservice_id());
-		return $wdm->create_webservice($this);
+
+        $wdm->create_webservice($this);
+        
+        $location = new Location();
+		$location->set_location($this->get_name());
+		$location->set_application('webservice');
+		$location->set_type('webservice');
+		$location->set_identifier($this->get_id());
+
+        //echo $location->get_location();
+        
+        if($this->get_parent())
+        {
+			$parent = WebserviceRights :: get_location_id_by_identifier('webservice_category', $this->get_parent());
+            $location->set_parent($parent);
+        }
+		else
+			$location->set_parent(WebserviceRights :: get_root_id());
+
+        //echo 'parent : ' . $location->get_parent();
+        
+		if (!$location->create())
+		{
+			return false;
+		}
+
+		return true;
 	}
 	
 	function update() 

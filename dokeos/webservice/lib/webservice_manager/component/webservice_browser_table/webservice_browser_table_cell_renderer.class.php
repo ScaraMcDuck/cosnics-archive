@@ -45,12 +45,11 @@ class WebserviceBrowserTableCellRenderer extends DefaultWebserviceTableCellRende
 	{
 		/*$toolbar_data = array();
 		
-		$activating_url = $this->browser->get_activation_url($webservice); //was edit
 		$toolbar_data[] = array(
-			'href' => $activating_url,
-			'label' => Translation :: get('Activate'),
-			'img' => Theme :: get_common_image_path().'action_edit.png',
-		);*/
+				'href' => $this->browser->get_manage_roles_url($webservice),
+				'label' => Translation :: get('ManageWebservices'),
+				'img' => Theme :: get_common_image_path().'action_rights.png'
+			);*/
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}

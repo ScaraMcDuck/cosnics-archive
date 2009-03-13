@@ -605,7 +605,7 @@ abstract class Installer
 			//register webservice_category
 			$webserviceCategory = new WebserviceCategory();
 			$webserviceCategory->set_name($categories['name']);
-			$webserviceCategory->set_parent($parent);			
+			$webserviceCategory->set_parent($parent);            
 			$this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceCategoryCreation') . ' : <em>'.$categories['name']. '</em>');					
 			if (!$webserviceCategory->create())
 			{
@@ -642,10 +642,10 @@ abstract class Installer
 			//register webservice 
 			$webservice = new WebserviceRegistration();		
 			$webservice->set_name($webservices['name']);
-			$webservice->set_description('omschrijving');
+			$webservice->set_description('description');
 			$webservice->set_active(1); 				
 			$webservice->set_parent($parent);
-			$webservice->set_application('test');
+			$webservice->set_application('webservice');
 			$this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceRegistration') . ' : <em>'.$webservices['name']. '</em>');					
 			if (!$webservice->create())
 			{
@@ -663,10 +663,10 @@ abstract class Installer
 					//register webservice
 					$webservice = new WebserviceRegistration();		
 					$webservice->set_name($element['name']);
-					$webservice->set_description('omschrijving');
+					$webservice->set_description('description');
 					$webservice->set_active(1); 				
 					$webservice->set_parent($parent);
-					$webservice->set_application('test');
+					$webservice->set_application('webservice');
 					$this->add_message(self :: TYPE_NORMAL, Translation :: get('WebserviceRegistration') . ' : <em>'.$element['name']. '</em>');
 					if (!$webservice->create())
 					{

@@ -5,7 +5,7 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/pm_publication_browser_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../pm_publication_table/default_pm_publication_table_cell_renderer.class.php';
+require_once Path :: get_application_path().'lib/personal_messenger/pm_publication_table/default_pm_publication_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../personal_messenger.class.php';
 /**
  * Cell render for the personal message publication browser table
