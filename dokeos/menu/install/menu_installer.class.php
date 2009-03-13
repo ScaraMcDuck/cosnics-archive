@@ -48,15 +48,22 @@ class MenuInstaller extends Installer
 		$applications = FileSystem :: get_directory_content(Path :: get_application_path() . 'lib/', FileSystem :: LIST_DIRECTORIES, false);
 		$values = $this->values;
 		
-		sort($applications);
+		$menu_applications = array();
 		
 		foreach($applications as $application)
+		{
+			$menu_applications[Translation :: get(DokeosUtilities :: underscores_to_camelcase($application))] = $application;			
+		}
+		
+		sort($menu_applications);
+		
+		foreach($menu_applications as $name => $application)
 		{
 			// TODO: Temporary fix.
 			if(isset($values['install_' . $application]) && $application != '.svn')
 			{
 				$menu_item = new MenuItem();
-				$menu_item->set_title(Translation :: get(DokeosUtilities :: underscores_to_camelcase($application)));
+				$menu_item->set_title($name);
 				$menu_item->set_application($application);
 				$menu_item->set_section($application);
 				$menu_item->set_category(0);
