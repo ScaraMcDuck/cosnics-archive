@@ -269,7 +269,7 @@ define('XML_UNSERIALIZER_ERROR_NO_UNSERIALIZATION', 151);
  * @author    Stephan Schmidt <schst@php.net>
  * @copyright 2003-2008 Stephan Schmidt <schst@php.net>
  * @license   http://opensource.org/licenses/bsd-license New BSD License
- * @version   Release: 0.19.1
+ * @version   Release: 0.19.2
  * @link      http://pear.php.net/package/XML_Serializer
  * @see       XML_Serializer
  */
@@ -450,7 +450,7 @@ class XML_Unserializer extends PEAR
      */
     function apiVersion()
     {
-        return '0.19.1';
+        return '0.19.2';
     }
 
     /**

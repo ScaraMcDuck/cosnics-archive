@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 
-// $Id: oci8.php,v 1.72 2007/03/28 16:58:54 quipo Exp $
+// $Id: oci8.php,v 1.73 2008/10/07 10:57:37 quipo Exp $
 
 require_once 'MDB2/Driver/Datatype/Common.php';
 
@@ -72,6 +72,23 @@ class MDB2_Driver_Datatype_oci8 extends MDB2_Driver_Datatype_Common
             return null;
         }
         switch ($type) {
+        case 'text':
+            if (is_object($value) && is_a($value, 'OCI-Lob')) {
+                //LOB => fetch into variable
+                $clob = $this->_baseConvertResult($value, 'clob', $rtrim);
+                if (!PEAR::isError($clob) && is_resource($clob)) {
+                    $clob_value = '';
+                    while (!feof($clob)) {
+                        $clob_value .= fread($clob, 8192);
+                    }
+                    $this->destroyLOB($clob);
+                }
+                $value = $clob_value;
+            }
+            if ($rtrim) {
+                $value = rtrim($value);
+            }
+            return $value;
         case 'date':
             return substr($value, 0, strlen('YYYY-MM-DD'));
         case 'time':

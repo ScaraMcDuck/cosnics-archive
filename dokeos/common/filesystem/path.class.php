@@ -48,8 +48,6 @@ define('WEB_TEMP_PATH', 'WEB_TEMP_PATH');
 define('SYS_TEMP_PATH', 'SYS_TEMP_PATH');
 define('WEB_USER_PATH', 'WEB_USER_PATH');
 define('SYS_USER_PATH', 'SYS_USER_PATH');
-define('WEB_FCK_PATH', 'WEB_FCK_PATH');
-define('SYS_FCK_PATH', 'SYS_FCK_PATH');
 
 class Path
 {

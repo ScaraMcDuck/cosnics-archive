@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 
-// $Id: oci8.php,v 1.107 2008/03/12 15:16:42 afz Exp $
+// $Id: oci8.php,v 1.111 2009/01/07 09:20:20 afz Exp $
 
 require_once 'MDB2/Driver/Manager/Common.php';
 
@@ -629,7 +629,11 @@ END;
         if (!empty($changes['change']) && is_array($changes['change'])) {
             $fields = array();
             foreach ($changes['change'] as $field_name => $field) {
-                $fields[] = $field_name. ' ' . $db->getDeclaration($field['definition']['type'], '', $field['definition']);
+                //fix error "column to be modified to NOT NULL is already NOT NULL" 
+                if (!array_key_exists('notnull', $field)) {
+                    unset($field['definition']['notnull']);
+                }
+                $fields[] = $db->getDeclaration($field['definition']['type'], $field_name, $field['definition']);
             }
             $result = $db->exec("ALTER TABLE $name MODIFY (". implode(', ', $fields).')');
             if (PEAR::isError($result)) {
@@ -1071,10 +1075,6 @@ END;
     /**
      * Create triggers to enforce the FOREIGN KEY constraint on the table
      *
-     * NB: since there's no RAISE_APPLICATION_ERROR facility in mysql,
-     * we call a non-existent procedure to raise the FK violation message.
-     * @see http://forums.mysql.com/read.php?99,55108,71877#msg-71877
-     *
      * @param string $table        table name
      * @param array  $foreign_keys FOREIGN KEY definitions
      *
@@ -1091,10 +1091,10 @@ END;
         if ($db->supports('triggers') && !empty($foreign_keys)) {
             $table = $db->quoteIdentifier($table, true);
             foreach ($foreign_keys as $fkname => $fkdef) {
-                if (empty($fkdef) || empty($fkdef['onupdate'])) {
+                if (empty($fkdef)) {
                     continue;
                 }
-                $fkdef['onupdate'] = strtoupper($fkdef['onupdate']);
+                $fkdef['onupdate'] = empty($fkdef['onupdate']) ? $db->options['default_fk_action_onupdate'] : strtoupper($fkdef['onupdate']);
                 if ('RESTRICT' == $fkdef['onupdate'] || 'NO ACTION' == $fkdef['onupdate']) {
                     // already handled by default
                     continue;

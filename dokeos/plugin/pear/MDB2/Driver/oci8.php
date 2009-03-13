@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 
-// $Id: oci8.php,v 1.213 2008/03/08 14:18:39 quipo Exp $
+// $Id: oci8.php,v 1.217 2008/11/16 21:45:08 quipo Exp $
 
 /**
  * MDB2 OCI8 driver
@@ -367,9 +367,7 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
         }
 
         if (function_exists('oci_connect')) {
-            if (isset($this->dsn['new_link'])
-                && ($this->dsn['new_link'] == 'true' || $this->dsn['new_link'] === true)
-            ) {
+            if ($this->_isNewLinkSet()) {
                 $connect_function = 'oci_new_connect';
             } else {
                 $connect_function = $persistent ? 'oci_pconnect' : 'oci_connect';
@@ -539,13 +537,20 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
             }
 
             if (!$this->opened_persistent || $force) {
+                $ok = false;
                 if (function_exists('oci_close')) {
-                    @oci_close($this->connection);
+                    $ok = @oci_close($this->connection);
                 } else {
-                    @OCILogOff($this->connection);
+                    $ok = @OCILogOff($this->connection);
+                }
+                if (!$ok) {
+                    return $this->raiseError(MDB2_ERROR_DISCONNECT_FAILED,
+                           null, null, null, __FUNCTION__);
                 }
             }
             $this->uncommitedqueries = 0;
+        } else {
+            return false;
         }
         return parent::disconnect($force);
     }
@@ -851,7 +856,8 @@ class MDB2_Driver_oci8 extends MDB2_Driver_Common
                     $length = strlen($parameter) + 1;
                 } else {
                     ++$parameter;
-                    $length = strlen($parameter);
+                    //$length = strlen($parameter);
+                    $length = 1; // strlen('?')
                 }
                 if (!in_array($parameter, $positions)) {
                     $positions[] = $parameter;
@@ -1408,7 +1414,9 @@ class MDB2_Statement_oci8 extends MDB2_Statement_Common
      *
      * @param mixed $result_class string which specifies which result class to use
      * @param mixed $result_wrap_class string which specifies which class to wrap results in
-     * @return mixed a result handle or MDB2_OK on success, a MDB2 error on failure
+     *
+     * @return mixed MDB2_Result or integer (affected rows) on success,
+     *               a MDB2 error on failure
      * @access private
      */
     function &_execute($result_class = true, $result_wrap_class = false)

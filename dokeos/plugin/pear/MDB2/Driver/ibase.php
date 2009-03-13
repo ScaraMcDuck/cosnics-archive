@@ -43,7 +43,7 @@
 // | Author: Lorenzo Alberton <l.alberton@quipo.it>                       |
 // +----------------------------------------------------------------------+
 //
-// $Id: ibase.php,v 1.219 2008/03/08 14:18:38 quipo Exp $
+// $Id: ibase.php,v 1.224 2009/01/14 15:00:02 quipo Exp $
 
 /**
  * MDB2 FireBird/InterBase driver
@@ -536,21 +536,25 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
             $this->disconnect(false);
         }
 
-        if (!empty($this->database_name)) {
-            $connection = $this->_doConnect($this->dsn['username'],
-                                            $this->dsn['password'],
-                                            $this->database_name,
-                                            $this->options['persistent']);
-            if (PEAR::isError($connection)) {
-                return $connection;
-            }
-            $this->connection =& $connection;
-            $this->connected_dsn = $this->dsn;
-            $this->connected_database_name = $database_file;
-            $this->opened_persistent = $this->options['persistent'];
-            $this->dbsyntax = $this->dsn['dbsyntax'] ? $this->dsn['dbsyntax'] : $this->phptype;
-            $this->supported['limit_queries'] = ($this->dbsyntax == 'firebird') ? true : 'emulated';
+        if (empty($this->database_name)) {
+            return $this->raiseError(MDB2_ERROR_CONNECT_FAILED, null, null,
+            'unable to establish a connection', __FUNCTION__);
         }
+
+        $connection = $this->_doConnect($this->dsn['username'],
+                                        $this->dsn['password'],
+                                        $this->database_name,
+                                        $this->options['persistent']);
+        if (PEAR::isError($connection)) {
+            return $connection;
+        }
+        $this->connection =& $connection;
+        $this->connected_dsn = $this->dsn;
+        $this->connected_database_name = $database_file;
+        $this->opened_persistent = $this->options['persistent'];
+        $this->dbsyntax = $this->dsn['dbsyntax'] ? $this->dsn['dbsyntax'] : $this->phptype;
+        $this->supported['limit_queries'] = ($this->dbsyntax == 'firebird') ? true : 'emulated';
+
         return MDB2_OK;
     }
 
@@ -581,7 +585,7 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
      * @param  boolean $force if the disconnect should be forced even if the
      *                        connection is opened persistently
      * @return mixed true on success, false if not connected and error
-     *                object on error
+     *               object on error
      * @access public
      */
     function disconnect($force = true)
@@ -601,8 +605,14 @@ class MDB2_Driver_ibase extends MDB2_Driver_Common
             }
 
             if (!$this->opened_persistent || $force) {
-                @ibase_close($this->connection);
+                $ok = @ibase_close($this->connection);
+                if (!$ok) {
+                    return $this->raiseError(MDB2_ERROR_DISCONNECT_FAILED,
+                           null, null, null, __FUNCTION__);
+                }
             }
+        } else {
+            return false;
         }
         return parent::disconnect($force);
     }
@@ -1437,7 +1447,9 @@ class MDB2_Statement_ibase extends MDB2_Statement_Common
      *
      * @param mixed $result_class string which specifies which result class to use
      * @param mixed $result_wrap_class string which specifies which class to wrap results in
-     * @return mixed a result handle or MDB2_OK on success, a MDB2 error on failure
+     *
+     * @return mixed MDB2_Result or integer (affected rows) on success,
+     *               a MDB2 error on failure
      * @access private
      */
     function &_execute($result_class = true, $result_wrap_class = false)

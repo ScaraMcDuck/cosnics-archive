@@ -43,7 +43,7 @@
 // | Author: Paul Cooper <pgc@ucecom.com>                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php,v 1.197 2008/03/08 14:18:39 quipo Exp $
+// $Id: pgsql.php,v 1.203 2008/11/29 14:04:46 afz Exp $
 
 /**
  * MDB2 PostGreSQL driver
@@ -95,7 +95,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
         $this->options['DBA_username'] = false;
         $this->options['DBA_password'] = false;
         $this->options['multi_query'] = false;
-        $this->options['disable_smart_seqname'] = false;
+        $this->options['disable_smart_seqname'] = true;
         $this->options['max_identifiers_length'] = 63;
     }
 
@@ -135,6 +135,8 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
                 '/(relation|sequence|table).*does not exist|class .* not found/i'
                     => MDB2_ERROR_NOSUCHTABLE,
                 '/database .* does not exist/'
+                    => MDB2_ERROR_NOT_FOUND,
+                '/constraint .* does not exist/'
                     => MDB2_ERROR_NOT_FOUND,
                 '/index .* does not exist/'
                     => MDB2_ERROR_NOT_FOUND,
@@ -423,9 +425,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             $params[0].= ' service=' . $this->dsn['service'];
         }
 
-        if (!empty($this->dsn['new_link'])
-            && ($this->dsn['new_link'] == 'true' || $this->dsn['new_link'] === true))
-        {
+        if ($this->_isNewLinkSet()) {
             if (version_compare(phpversion(), '4.3.0', '>=')) {
                 $params[] = PGSQL_CONNECT_FORCE_NEW;
             }
@@ -580,8 +580,14 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             }
 
             if (!$this->opened_persistent || $force) {
-                @pg_close($this->connection);
+                $ok = @pg_close($this->connection);
+                if (!$ok) {
+                    return $this->raiseError(MDB2_ERROR_DISCONNECT_FAILED,
+                           null, null, null, __FUNCTION__);
+                }
             }
+        } else {
+            return false;
         }
         return parent::disconnect($force);
     }
@@ -1036,8 +1042,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             }
         }
 
-        return sprintf($this->options['seqname_format'],
-            preg_replace('/[^\w\$.]/i', '_', $sqn));
+        return parent::getSequenceName($sqn);
     }
 
     // }}}
@@ -1389,7 +1394,9 @@ class MDB2_Statement_pgsql extends MDB2_Statement_Common
      *
      * @param mixed $result_class string which specifies which result class to use
      * @param mixed $result_wrap_class string which specifies which class to wrap results in
-     * @return mixed a result handle or MDB2_OK on success, a MDB2 error on failure
+     *
+     * @return mixed MDB2_Result or integer (affected rows) on success,
+     *               a MDB2 error on failure
      * @access private
      */
     function &_execute($result_class = true, $result_wrap_class = false)

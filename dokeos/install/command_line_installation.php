@@ -244,7 +244,7 @@ function process_result($application, $result, $message)
 }
 
 // Available applications
-$core_applications = array('admin', 'help','reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu', 'webservice');
+$core_applications = array('webservice', 'admin', 'help','reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
 $applications = FileSystem :: get_directory_content(Path :: get_application_path() . 'lib/', FileSystem :: LIST_DIRECTORIES, false);
 
 // Extra Configuration values

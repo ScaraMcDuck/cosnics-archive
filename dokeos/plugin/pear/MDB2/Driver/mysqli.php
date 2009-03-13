@@ -43,7 +43,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysqli.php,v 1.188 2008/03/13 03:31:55 afz Exp $
+// $Id: mysqli.php,v 1.192 2008/11/16 21:45:08 quipo Exp $
 //
 
 /**
@@ -334,7 +334,7 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
         } elseif ($this->in_transaction) {
             return MDB2_OK;  //nothing to do
         }
-        $query = $this->start_transaction ? 'START TRANSACTION' : 'SET AUTOCOMMIT = 1';
+        $query = $this->start_transaction ? 'START TRANSACTION' : 'SET AUTOCOMMIT = 0';
         $result =& $this->_doQuery($query, true);
         if (PEAR::isError($result)) {
             return $result;
@@ -387,7 +387,7 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
             return $result;
         }
         if (!$this->start_transaction) {
-            $query = 'SET AUTOCOMMIT = 0';
+            $query = 'SET AUTOCOMMIT = 1';
             $result =& $this->_doQuery($query, true);
             if (PEAR::isError($result)) {
                 return $result;
@@ -433,7 +433,7 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
             return $result;
         }
         if (!$this->start_transaction) {
-            $query = 'SET AUTOCOMMIT = 0';
+            $query = 'SET AUTOCOMMIT = 1';
             $result =& $this->_doQuery($query, true);
             if (PEAR::isError($result)) {
                 return $result;
@@ -673,8 +673,14 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
             }
 
             if ($force) {
-                @mysqli_close($this->connection);
+                $ok = @mysqli_close($this->connection);
+                if (!$ok) {
+                    return $this->raiseError(MDB2_ERROR_DISCONNECT_FAILED,
+                           null, null, null, __FUNCTION__);
+                }
             }
+        } else {
+            return false;
         }
         return parent::disconnect($force);
     }
@@ -946,7 +952,7 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
                     $this->supported['prepared_statements'] = true;
                 }
 
-                // SAVEPOINTS were introduced in MySQL 4.0.14 and 4.1.1 (InnoDB)
+                // SAVEPOINTs were introduced in MySQL 4.0.14 and 4.1.1 (InnoDB)
                 if (version_compare($server_version, '4.1.0', '>=')) {
                     if (version_compare($server_version, '4.1.1', '<')) {
                         $this->supported['savepoints'] = false;
@@ -1140,8 +1146,7 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
     /**
      * Execute a SQL REPLACE query. A REPLACE query is identical to a INSERT
      * query, except that if there is already a row in the table with the same
-     * key field values, the REPLACE query just updates its values instead of
-     * inserting a new row.
+     * key field values, the old row is deleted before the new row is inserted.
      *
      * The REPLACE type of query does not make part of the SQL standards. Since
      * practically only MySQL implements it natively, this type of query is
@@ -1199,6 +1204,7 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
      *
      *    Default: 0
      *
+     * @see http://dev.mysql.com/doc/refman/5.0/en/replace.html
      * @return mixed MDB2_OK on success, a MDB2 error on failure
      */
     function replace($table, $fields)
@@ -1646,7 +1652,9 @@ class MDB2_Statement_mysqli extends MDB2_Statement_Common
      *
      * @param mixed $result_class string which specifies which result class to use
      * @param mixed $result_wrap_class string which specifies which class to wrap results in
-     * @return mixed a result handle or MDB2_OK on success, a MDB2 error on failure
+     *
+     * @return mixed MDB2_Result or integer (affected rows) on success,
+     *               a MDB2 error on failure
      * @access private
      */
     function &_execute($result_class = true, $result_wrap_class = false)
