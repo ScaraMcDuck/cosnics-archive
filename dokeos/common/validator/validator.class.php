@@ -23,8 +23,6 @@ abstract class Validator
 
     abstract function get_required_property_names();
 
-     abstract function validate_retrieve(&$object);
-
     abstract function validate_create(&$object);
 
     abstract function validate_update(&$object);

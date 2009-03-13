@@ -50,11 +50,11 @@ class TestCallLocalWebservice
 		  		'handler' => 'handle_webservice'			
 			);*/
 
-		/*$user = new User();
+		$user = new User();
 		$user->set_default_properties(array (
 		  'lastname' => 'Joske',
 		  'firstname' => 'Den Os',
-		  'username' => 'admin',
+		  'username' => 'Joske',
 		  'password' => '4a0091108fb271e05f34da7cf77c975f',
 		  'auth_source' => 'platform',
 		  'email' => 'admin@localhost.localdomain',
@@ -82,9 +82,9 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesUser.create_user',
 				'parameters' => $user,
 		  		'handler' => 'handle_webservice'			
-			);*/
+			);
 		
-		$user = array (
+		/*$user = array (
 		  'lastname' => 'Joske',
 		  'firstname' => 'Den Os',
 		  'username' => 'Den Os',
@@ -94,7 +94,7 @@ class TestCallLocalWebservice
 		  'status' => '1',
 		  'admin' => '1',
 		  'phone' => NULL,
-		  'official_code' => 'ADMIN',
+		  'official_code' => 'Joske',
 		  'picture_uri' => NULL,
 		  'creator_id' => 'Den Os',
 		  'language' => 'english',
@@ -114,7 +114,7 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesUser.update_user',
 				'parameters' => $user,
 		  		'handler' => 'handle_webservice'			
-			);
+			);*/
 	
 		$this->webservice->call_webservice($wsdl, $functions);
 	}
