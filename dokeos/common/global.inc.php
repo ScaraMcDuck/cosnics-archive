@@ -35,10 +35,23 @@ $error_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	</head>
 	<body>
 		<div id="header1">Dokeos not installed!</div>
-		<div style="text-align: center;"><br /><br />
-				<form action="install/index.php" method="get"><input type="submit" value="&nbsp;&nbsp; Click to INSTALL DOKEOS &nbsp;&nbsp;" /></form><br />
-				or <a href="documentation/installation_guide.html" target="_blank">read the installation guide</a><br /><br />
-		</div>
+		<div style="text-align: center;"><br /><br />';
+
+$version = phpversion();
+
+if($version >= 5.2)
+{
+	$error_message .= '<form action="install/index.php" method="get"><input type="submit" value="&nbsp;&nbsp; Click to INSTALL DOKEOS &nbsp;&nbsp;" /></form><br />
+				or <a href="documentation/installation_guide.html" target="_blank">read the installation guide</a><br /><br />';
+}
+else
+{
+	$error_message .= '<div class="error-message">Your version of PHP is not recent enough to use dokeos 2.0. 
+					   <br /><a href="http://www.php.net">Please upgrade to PHP version 5.2 or higher</a></div><br /><br />';
+}
+
+
+$error_message .= '</div>
 		<div id="footer">
 			<div class="copyright">Platform <a href="http://www.dokeos.com"> Dokeos </a> &copy; ' . date('Y') . '</div>
 			&nbsp;
