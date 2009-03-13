@@ -4,7 +4,12 @@ class DiagnoserCellRenderer
 {
 	function render_cell($default_property, $data)
 	{
-		return $data[$default_property]; 
+		$data = $data[$default_property];
+		
+		if(is_null($data))
+			$data = '-';
+
+		return $data;
 	}
 	
 	function get_properties()
