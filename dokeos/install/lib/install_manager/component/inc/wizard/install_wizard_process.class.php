@@ -37,7 +37,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 	{
 		$this->values = $page->controller->exportValues();
 		
-		$this->applications['core']	= array('admin', 'help','reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu', 'webservice');
+		$this->applications['core']	= array('webservice', 'admin', 'help','reporting', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
 		$this->applications['extra']	= FileSystem :: get_directory_content(Path :: get_application_path() . 'lib/', FileSystem :: LIST_DIRECTORIES, false);
 		
 		// Display the page header

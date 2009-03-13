@@ -16,7 +16,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{
+	{ 
 		$this->application = Request :: get('application');
 		$location = Request :: get('location');
 		if (isset($location))
@@ -254,7 +254,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		$html[] = '<div class="configure">';
 			
 		$the_applications = Application :: load_all();
-		$the_applications = array_merge(array('admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu'), $the_applications);
+		$the_applications = array_merge(array('admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu', 'webservice', 'reporting'), $the_applications);
 					
 		foreach ($the_applications as $the_application)
 		{

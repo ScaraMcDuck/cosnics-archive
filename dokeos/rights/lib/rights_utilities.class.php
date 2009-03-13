@@ -16,7 +16,7 @@ class RightsUtilities
 {    
     function install_initial_application_locations()
     {
-		$core_applications = array('admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
+		$core_applications = array('admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu', 'webservice');
 		
 		foreach ($core_applications as $core_application)
 		{
@@ -331,6 +331,10 @@ class RightsUtilities
 		{
 			return $location->get_id();
 		}
+        else
+        {
+            echo 'no location for that identifier ';
+        }
 		return null;
 	}
 	

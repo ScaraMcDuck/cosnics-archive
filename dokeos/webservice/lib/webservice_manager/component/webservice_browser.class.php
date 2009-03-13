@@ -46,7 +46,7 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
 	
 	function get_user_html()
 	{		
-		$table = new WebserviceBrowserTable($this, array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES), $this->get_condition());
+		$table = new WebserviceBrowserTable($this, array(WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID =>$this->get_webservice_category()), $this->get_condition());
 		
 		$html = array();
 		$html[] = '<div style="float: right; width: 80%;">';
@@ -102,8 +102,7 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
 		$action_bar->set_search_url($this->get_url(array(WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID => $this->get_webservice_category())));
-		//$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_CREATE_ROLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		//$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('webservice'));
+		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('webservice'));
 		
 		return $action_bar;
 	}

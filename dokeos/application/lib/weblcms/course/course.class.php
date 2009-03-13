@@ -496,8 +496,9 @@ class Course {
 		$location->set_type($this);
 		$location->set_identifier($this->get_id());
 		
-		$parent = WeblcmsRights :: get_location_id_by_identifier('course_category', $this->get_category());
-		
+        $parent = WeblcmsRights :: get_location_id_by_identifier('course_category', 1);
+		//echo 'parent : ' . $parent;
+        
 		if($parent)
 			$location->set_parent($parent);
 		else
