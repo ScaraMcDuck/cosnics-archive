@@ -104,7 +104,16 @@ class SimpleTable extends HTML_Table
 		
 		foreach($this->defaultproperties as $defaultproperty)
 		{
-			$this->setHeaderContents(0, $counter, Translation::get(get_class($this->data_array[0]) . '_'. $defaultproperty));
+			if(method_exists($this->cellrenderer, 'get_prefix'))
+			{
+				$prefix = $this->cellrenderer->get_prefix();
+			}
+			
+			if($defaultproperty)
+				$this->setHeaderContents(0, $counter, Translation::get($prefix . $defaultproperty));
+			else
+				$this->setHeaderContents(0, $counter, '');
+				
 			$counter++;
 		}
 		
@@ -135,9 +144,9 @@ class SimpleTable extends HTML_Table
 				
 			}
 			
-			foreach($this->defaultproperties as $defaultproperty)
-			{
-				$contents[] = $this->cellrenderer->render_cell($defaultproperty, $data);
+			foreach($this->defaultproperties as $index => $defaultproperty)
+			{	
+				$contents[] = $this->cellrenderer->render_cell($index, $data);
 			}
 			
 			if(method_exists($this->cellrenderer, 'get_modification_links'))

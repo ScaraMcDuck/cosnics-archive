@@ -119,4 +119,14 @@ $lang['common']['VariousFinished'] = 'Various finished';
 $lang['common']['UserName'] = 'Username';
 $lang['common']['Pass'] = 'Pass';
 $lang['common']['Login'] = 'Login';
+$lang['common']['Diagnose'] = 'Diagnose';
+$lang['common']['DokeosTitle'] = 'Dokeos';
+$lang['common']['PhpTitle'] = 'Php';
+$lang['common']['MysqlTitle'] = 'Mysql';
+$lang['common']['WebserverTitle'] = 'Webserver';
+$lang['common']['Section'] = 'Section';
+$lang['common']['Setting'] = 'Setting';
+$lang['common']['Current'] = 'Current';
+$lang['common']['Expected'] = 'Expected';
+$lang['common']['Comment'] = 'Comment';
 ?>

@@ -48,6 +48,7 @@ class AdminManager
 	const ACTION_HIDE_SYSTEM_ANNOUNCEMENT = 'sysvisibility';
 	const ACTION_MANAGE_CATEGORIES = 'manage_categories';
 	const ACTION_WHOIS_ONLINE = 'whois_online';
+	const ACTION_DIAGNOSE = 'diagnose';
 
 	private $parameters;
 
@@ -98,6 +99,9 @@ class AdminManager
 				break;
 			case self :: ACTION_WHOIS_ONLINE :
 				$component = AdminManagerComponent :: factory('WhoisOnline', $this);
+				break;
+			case self :: ACTION_DIAGNOSE :
+				$component = AdminManagerComponent :: factory('Diagnoser', $this);
 				break;
 			default :
 				$component = AdminManagerComponent :: factory('Browser', $this);
@@ -347,6 +351,7 @@ class AdminManager
 		$links[]	= array('name' => Translation :: get('Settings'), 'action' => 'manage', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM)));
 		$links[]	= array('name' => Translation :: get('SystemAnnouncements'), 'action' => 'list', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)));
 		$links[]	= array('name' => Translation :: get('ManageCategories'), 'action' => 'list', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES)));
+		$links[]	= array('name' => Translation :: get('Diagnose'), 'action' => 'information', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DIAGNOSE)));
 		$info[]		= array('application' => array('name' => Translation :: get('Admin'), 'class' => self :: APPLICATION_NAME), 'links' => $links);
 		
 		// 2. Repository
