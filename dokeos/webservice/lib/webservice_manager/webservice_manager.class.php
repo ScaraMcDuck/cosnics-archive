@@ -28,7 +28,8 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	const PARAM_WEBSERVICE_CATEGORY_ID = 'webservice_category_id';
 	
 	const ACTION_BROWSE_WEBSERVICES = 'browse_webservices';
-	const ACTION_BROWSE_WEBSERVICE_CATEGORIES = 'browse_webservice_categories';	
+	const ACTION_BROWSE_WEBSERVICE_CATEGORIES = 'browse_webservice_categories';
+    const ACTION_MANAGE_ROLES = 'manage_webservice_roles';
 	
 	private $parameters;
 	private $search_parameters;
@@ -63,6 +64,9 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		{
 			case self :: ACTION_BROWSE_WEBSERVICES :								
 				$component = WebserviceManagerComponent :: factory('WebserviceBrowser', $this);			
+				break;
+            case self :: ACTION_MANAGE_ROLES :
+				$component = WebserviceManagerComponent :: factory('WebserviceRoleManager', $this);
 				break;
 			default :				
 				$component = WebserviceManagerComponent :: factory('WebserviceBrowser', $this);		
@@ -247,12 +251,12 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		return WebserviceDataManager :: get_instance()->retrieve_webservice_categories($condition, $offset, $count, $order_property, $order_direction);
 	}
 	
-	/*function retrieve_webservice($id)
+	function retrieve_webservice($id)
 	{
-		return WebserviceDataManager :: get_instance()->retrieve_webservice($id));
+		return WebserviceDataManager :: get_instance()->retrieve_webservice($id);
 	}
 	
-	function retrieve_webservice_category($id)
+	/*function retrieve_webservice_category($id)
 	{
 		return WebserviceDataManager :: get_instance()->retrieve_webservice_category($id);
 	}*/
@@ -369,6 +373,11 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 			$link = htmlentities($link);
 		}
 		return $link;
+	}
+
+    function get_manage_roles_url($webservice)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_ID => $webservice->get_id()));
 	}
 	
 	/*function is_allowed($right, $role_id, $location_id)
