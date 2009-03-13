@@ -42,7 +42,7 @@
 // | Author: Paul Cooper <pgc@ucecom.com>                                 |
 // +----------------------------------------------------------------------+
 //
-// $Id: pgsql.php,v 1.91 2008/03/09 12:28:08 quipo Exp $
+// $Id: pgsql.php,v 1.93 2008/08/28 20:32:57 afz Exp $
 
 require_once 'MDB2/Driver/Datatype/Common.php';
 
@@ -124,8 +124,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
 
         switch ($field['type']) {
         case 'text':
-            $length = !empty($field['length'])
-                ? $field['length'] : $db->options['default_text_field_length'];
+            $length = !empty($field['length']) ? $field['length'] : false;
             $fixed = !empty($field['fixed']) ? $field['fixed'] : false;
             return $fixed ? ($length ? 'CHAR('.$length.')' : 'CHAR('.$db->options['default_text_field_length'].')')
                 : ($length ? 'VARCHAR('.$length.')' : 'TEXT');

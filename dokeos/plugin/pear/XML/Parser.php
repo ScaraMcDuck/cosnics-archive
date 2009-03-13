@@ -45,7 +45,7 @@
  * @author    Stephan Schmidt <schst@php.net>
  * @copyright 2002-2008 The PHP Group
  * @license   http://opensource.org/licenses/bsd-license New BSD License
- * @version   CVS: $Id: Parser.php,v 1.29 2008/08/24 21:48:21 ashnazg Exp $
+ * @version   CVS: $Id: Parser.php,v 1.30 2008/09/16 16:06:22 ashnazg Exp $
  * @link      http://pear.php.net/package/XML_Parser
  */
 
@@ -608,9 +608,9 @@ class XML_Parser extends PEAR
      * @param string  $msg   the error message
      * @param integer $ecode the error message code
      *
-     * @return XML_Parser_Error
+     * @return XML_Parser_Error reference to the error object
      **/
-    function raiseError($msg = null, $ecode = 0)
+    function &raiseError($msg = null, $ecode = 0)
     {
         $msg = !is_null($msg) ? $msg : $this->parser;
         $err = &new XML_Parser_Error($msg, $ecode);

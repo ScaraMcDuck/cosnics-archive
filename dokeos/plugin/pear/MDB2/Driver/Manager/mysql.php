@@ -42,7 +42,7 @@
 // | Author: Lukas Smith <smith@pooteeweet.org>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: mysql.php,v 1.108 2008/03/11 19:58:12 quipo Exp $
+// $Id: mysql.php,v 1.113 2008/11/23 20:30:29 quipo Exp $
 //
 
 require_once 'MDB2/Driver/Manager/Common.php';
@@ -940,10 +940,10 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
         }
 
         $type = '';
-        $name = $db->quoteIdentifier($db->getIndexName($name), true);
+        $idx_name = $db->quoteIdentifier($db->getIndexName($name), true);
         if (!empty($definition['primary'])) {
             $type = 'PRIMARY';
-            $name = 'KEY';
+            $idx_name = 'KEY';
         } elseif (!empty($definition['unique'])) {
             $type = 'UNIQUE';
         } elseif (!empty($definition['foreign'])) {
@@ -955,13 +955,17 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
         }
 
         $table_quoted = $db->quoteIdentifier($table, true);
-        $query = "ALTER TABLE $table_quoted ADD $type $name";
+        $query = "ALTER TABLE $table_quoted ADD $type $idx_name";
         if (!empty($definition['foreign'])) {
             $query .= ' FOREIGN KEY';
         }
         $fields = array();
-        foreach (array_keys($definition['fields']) as $field) {
-            $fields[] = $db->quoteIdentifier($field, true);
+        foreach ($definition['fields'] as $field => $fieldinfo) {
+            $quoted = $db->quoteIdentifier($field, true);
+            if (!empty($fieldinfo['length'])) {
+                $quoted .= '(' . $fieldinfo['length'] . ')';
+            }
+            $fields[] = $quoted;
         }
         $query .= ' ('. implode(', ', $fields) . ')';
         if (!empty($definition['foreign'])) {
@@ -972,6 +976,13 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
             }
             $query .= ' ('. implode(', ', $referenced_fields) . ')';
             $query .= $this->_getAdvancedFKOptions($definition);
+
+            // add index on FK column(s) or we can't add a FK constraint
+            // @see http://forums.mysql.com/read.php?22,19755,226009
+            $result = $this->createIndex($table, $name.'_fkidx', $definition);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
         }
         $res = $db->exec($query);
         if (PEAR::isError($res)) {
@@ -1053,14 +1064,14 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
         }
         // create triggers to enforce FOREIGN KEY constraints
         if ($db->supports('triggers') && !empty($foreign_keys)) {
-            $table = $db->quoteIdentifier($table, true);
+            $table_quoted = $db->quoteIdentifier($table, true);
             foreach ($foreign_keys as $fkname => $fkdef) {
                 if (empty($fkdef)) {
                     continue;
                 }
-                //set actions to 'RESTRICT' if not set
-                $fkdef['onupdate'] = empty($fkdef['onupdate']) ? 'RESTRICT' : strtoupper($fkdef['onupdate']);
-                $fkdef['ondelete'] = empty($fkdef['ondelete']) ? 'RESTRICT' : strtoupper($fkdef['ondelete']);
+                //set actions to default if not set
+                $fkdef['onupdate'] = empty($fkdef['onupdate']) ? $db->options['default_fk_action_onupdate'] : strtoupper($fkdef['onupdate']);
+                $fkdef['ondelete'] = empty($fkdef['ondelete']) ? $db->options['default_fk_action_ondelete'] : strtoupper($fkdef['ondelete']);
 
                 $trigger_names = array(
                     'insert'    => $fkname.'_insert_trg',
@@ -1075,10 +1086,10 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
                 $restrict_action = ' IF (SELECT ';
                 $aliased_fields = array();
                 foreach ($table_fields as $field) {
-                    $aliased_fields[] = $table .'.'.$field .' AS '.$field;
+                    $aliased_fields[] = $table_quoted .'.'.$field .' AS '.$field;
                 }
                 $restrict_action .= implode(',', $aliased_fields)
-                       .' FROM '.$table
+                       .' FROM '.$table_quoted
                        .' WHERE ';
                 $conditions  = array();
                 $new_values  = array();
@@ -1088,13 +1099,18 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
                     $new_values[]  = $table_fields[$i] .' = NEW.'.$referenced_fields[$i];
                     $null_values[] = $table_fields[$i] .' = NULL';
                 }
+                $conditions2 = array();
+                for ($i=0; $i<count($referenced_fields); $i++) {
+                    $conditions2[]  = 'NEW.'.$referenced_fields[$i] .' <> OLD.'.$referenced_fields[$i];
+                }
                 $restrict_action .= implode(' AND ', $conditions).') IS NOT NULL'
+                                .' AND (' .implode(' OR ', $conditions2) .')'
                                 .' THEN CALL %s_ON_TABLE_'.$table.'_VIOLATES_FOREIGN_KEY_CONSTRAINT();'
                                 .' END IF;';
 
-                $cascade_action_update = 'UPDATE '.$table.' SET '.implode(', ', $new_values) .' WHERE '.implode(' AND ', $conditions). ';';
-                $cascade_action_delete = 'DELETE FROM '.$table.' WHERE '.implode(' AND ', $conditions). ';';
-                $setnull_action        = 'UPDATE '.$table.' SET '.implode(', ', $null_values).' WHERE '.implode(' AND ', $conditions). ';';
+                $cascade_action_update = 'UPDATE '.$table_quoted.' SET '.implode(', ', $new_values) .' WHERE '.implode(' AND ', $conditions). ';';
+                $cascade_action_delete = 'DELETE FROM '.$table_quoted.' WHERE '.implode(' AND ', $conditions). ';';
+                $setnull_action        = 'UPDATE '.$table_quoted.' SET '.implode(', ', $null_values).' WHERE '.implode(' AND ', $conditions). ';';
 
                 if ('SET DEFAULT' == $fkdef['onupdate'] || 'SET DEFAULT' == $fkdef['ondelete']) {
                     $db->loadModule('Reverse', null, true);
@@ -1106,7 +1122,7 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
                         }
                         $default_values[] = $table_field .' = '. $field_definition[0]['default'];
                     }
-                    $setdefault_action = 'UPDATE '.$table.' SET '.implode(', ', $default_values).' WHERE '.implode(' AND ', $conditions). ';';
+                    $setdefault_action = 'UPDATE '.$table_quoted.' SET '.implode(', ', $default_values).' WHERE '.implode(' AND ', $conditions). ';';
                 }
 
                 $query = 'CREATE TRIGGER %s'
@@ -1122,8 +1138,7 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
                     $sql_update = sprintf($query, $trigger_names['pk_update'], 'BEFORE UPDATE', 'update') . $setdefault_action;
                 } elseif ('NO ACTION' == $fkdef['onupdate']) {
                     $sql_update = sprintf($query.$restrict_action, $trigger_names['pk_update'], 'AFTER UPDATE', 'update');
-                } else {
-                    //'RESTRICT'
+                } elseif ('RESTRICT' == $fkdef['onupdate']) {
                     $sql_update = sprintf($query.$restrict_action, $trigger_names['pk_update'], 'BEFORE UPDATE', 'update');
                 }
                 if ('CASCADE' == $fkdef['ondelete']) {
@@ -1134,8 +1149,7 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
                     $sql_delete = sprintf($query, $trigger_names['pk_delete'], 'BEFORE DELETE', 'delete') . $setdefault_action;
                 } elseif ('NO ACTION' == $fkdef['ondelete']) {
                     $sql_delete = sprintf($query.$restrict_action, $trigger_names['pk_delete'], 'AFTER DELETE', 'delete');
-                } else {
-                    //'RESTRICT'
+                } elseif ('RESTRICT' == $fkdef['ondelete']) {
                     $sql_delete = sprintf($query.$restrict_action, $trigger_names['pk_delete'], 'BEFORE DELETE', 'delete');
                 }
                 $sql_update .= ' SET FOREIGN_KEY_CHECKS = 1; END;';

@@ -43,7 +43,7 @@
 // | Author: Frank M. Kromann <frank@kromann.info>                        |
 // +----------------------------------------------------------------------+
 //
-// $Id: mssql.php,v 1.174 2008/03/08 14:18:39 quipo Exp $
+// $Id: mssql.php,v 1.178 2008/08/19 19:09:01 afz Exp $
 //
 // {{{ Class MDB2_Driver_mssql
 /**
@@ -330,9 +330,7 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
             $params[0].= ((substr(PHP_OS, 0, 3) == 'WIN') ? ',' : ':').$this->dsn['port'];
         }
         if (!$persistent) {
-            if (isset($this->dsn['new_link'])
-                && ($this->dsn['new_link'] == 'true' || $this->dsn['new_link'] === true)
-            ) {
+            if ($this->_isNewLinkSet()) {
                 $params[] = true;
             } else {
                 $params[] = false;
@@ -349,12 +347,14 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
 
         @mssql_query('SET ANSI_NULL_DFLT_ON ON', $connection);
 
+        /*
         if (!empty($this->dsn['charset'])) {
             $result = $this->setCharset($this->dsn['charset'], $connection);
             if (PEAR::isError($result)) {
                 return $result;
             }
         }
+        */
 
        if ((bool)ini_get('mssql.datetimeconvert')) {
            @ini_set('mssql.datetimeconvert', '0');
@@ -480,8 +480,14 @@ class MDB2_Driver_mssql extends MDB2_Driver_Common
             }
 
             if (!$this->opened_persistent || $force) {
-                @mssql_close($this->connection);
+                $ok = @mssql_close($this->connection);
+                if (!$ok) {
+                    return $this->raiseError(MDB2_ERROR_DISCONNECT_FAILED,
+                           null, null, null, __FUNCTION__);
+                }
             }
+        } else {
+            return false;
         }
         return parent::disconnect($force);
     }
@@ -1094,7 +1100,10 @@ class MDB2_BufferedResult_mssql extends MDB2_Result_mssql
                 'Could not get row count', __FUNCTION__);
         }
         if ($this->limit) {
-            $rows -= $this->limit -1 + $this->offset;
+            $rows -= $this->offset;
+            if ($rows > $this->limit) {
+                $rows = $this->limit;
+            }
             if ($rows < 0) {
                 $rows = 0;
             }

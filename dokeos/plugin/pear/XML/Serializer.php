@@ -42,7 +42,7 @@
  * @author    Stephan Schmidt <schst@php.net>
  * @copyright 2003-2008 Stephan Schmidt <schst@php.net>
  * @license   http://opensource.org/licenses/bsd-license New BSD License
- * @version   CVS: $Id: Serializer.php,v 1.56 2008/09/19 19:41:08 ashnazg Exp $
+ * @version   CVS: $Id: Serializer.php,v 1.57 2009/01/25 03:51:11 ashnazg Exp $
  * @link      http://pear.php.net/package/XML_Serializer
  * @see       XML_Unserializer
  */
@@ -410,7 +410,7 @@ define('XML_SERIALIZER_ENTITIES_HTML', XML_UTIL_ENTITIES_HTML);
  * @author    Stephan Schmidt <schst@php.net>
  * @copyright 2003-2008 Stephan Schmidt <schst@php.net>
  * @license   http://opensource.org/licenses/bsd-license New BSD License
- * @version   Release: 0.19.1
+ * @version   Release: 0.19.2
  * @link      http://pear.php.net/package/XML_Serializer
  * @see       XML_Unserializer
  */
@@ -604,7 +604,7 @@ class XML_Serializer extends PEAR
      */
     function apiVersion()
     {
-        return '0.19.1';
+        return '0.19.2';
     }
 
     /**
@@ -1167,7 +1167,7 @@ class XML_Serializer extends PEAR
             $tag['content'] =   '';
         }
 
-        // replace XML entities (only needed, if this is not a nested call)
+        // replace XML entities
         if ($firstCall === true) {
             if ($this->options[XML_SERIALIZER_OPTION_CDATA_SECTIONS] === true) {
                 $replaceEntities = XML_UTIL_CDATA_SECTION;
@@ -1175,7 +1175,16 @@ class XML_Serializer extends PEAR
                 $replaceEntities = $this->options[XML_SERIALIZER_OPTION_ENTITIES];
             }
         } else {
+            // this is a nested call, so value is already encoded 
+            // and must not be encoded again
             $replaceEntities = XML_SERIALIZER_ENTITIES_NONE;
+            // but attributes need to be encoded anyways
+            // (done here because the rest of the code assumes the same encoding
+            // can be used both for attributes and content)
+            foreach ($tag['attributes'] as $k => &$v) {
+                $v = XML_Util::replaceEntities($v, 
+                    $this->options[XML_SERIALIZER_OPTION_ENTITIES]);
+            }
         }
         if (is_scalar($tag['content']) || is_null($tag['content'])) {
             if ($this->options[XML_SERIALIZER_OPTION_ENCODE_FUNC]) {

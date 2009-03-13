@@ -44,7 +44,7 @@
 // |          Daniel Convissor <danielc@php.net>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: mssql.php,v 1.65 2008/02/19 14:54:17 afz Exp $
+// $Id: mssql.php,v 1.66 2008/05/31 10:08:47 quipo Exp $
 //
 
 require_once 'MDB2/Driver/Datatype/Common.php';
@@ -376,6 +376,7 @@ class MDB2_Driver_Datatype_mssql extends MDB2_Driver_Datatype_Common
             $type[0] = 'integer';
             $length = 8;
             break;
+        case 'smalldatetime':
         case 'datetime':
             $type[0] = 'timestamp';
             break;
