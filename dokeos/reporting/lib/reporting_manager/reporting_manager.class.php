@@ -23,7 +23,7 @@ class ReportingManager {
     const PARAM_ERROR_MESSAGE = 'error_message';
     const PARAM_APPLICATION = 'application';
     const PARAM_TEMPLATE_ID = 'template';
-    const PARAM_SUB_APPLICATIONS = 'sub_applications';
+    //const PARAM_SUB_APPLICATIONS = 'sub_applications';
     const PARAM_TEMPLATE_PARAMETERS = 'template_parameters';
 
     const PARAM_ROLE_ID = 'role';
@@ -32,6 +32,7 @@ class ReportingManager {
     const ACTION_ADD_TEMPLATE = 'add_template';
     const ACTION_DELETE_TEMPLATE = 'delete_template';
     const ACTION_VIEW_TEMPLATE = 'application_templates';
+    const ACTION_EDIT_TEMPLATE = 'edit_template';
 
     private $parameters;
     private $search_parameters;
@@ -64,6 +65,9 @@ class ReportingManager {
                 break;
             case self :: ACTION_VIEW_TEMPLATE :
                 $component = ReportingManagerComponent :: factory('ReportingTemplateRegistrationView',$this);
+                break;
+            case self :: ACTION_EDIT_TEMPLATE :
+                $component = ReportingManagerComponent :: factory('ReportingTemplateRegistrationEdit',$this);
                 break;
             default:
                 $this->set_action(self :: ACTION_BROWSE_TEMPLATES);
@@ -237,6 +241,11 @@ class ReportingManager {
         return ReportingDataManager :: get_instance()->retrieve_reporting_template_registrations($condition, $offset, $count, $order_property, $order_direction);
     }
 
+    function retrieve_reporting_template_registration($reporting_template_registration_id)
+    {
+        return ReportingDataManager :: get_instance()->retrieve_reporting_template_registration($reporting_template_registration_id);
+    }
+
     /**
      * Redirect the end user to another location.
      * @param string $action The action to take (default = browse learning
@@ -351,6 +360,11 @@ class ReportingManager {
     function get_reporting_template_registration_viewing_url($reporting_template_registration)
     {
         return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_TEMPLATE, self :: PARAM_TEMPLATE_ID => $reporting_template_registration->get_id()));
+    }
+
+    function get_reporting_template_registration_editing_url($reporting_template_registration)
+    {
+        return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_TEMPLATE, self :: PARAM_TEMPLATE_ID => $reporting_template_registration->get_id()));
     }
 
     /**
