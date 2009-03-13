@@ -111,7 +111,7 @@ EOT;
 		$element_template[] = '</div>';
 		$element_template[] = '<div class="formw">';
 		$element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
-		$element_template[] = '<div class="feedback"></div></div>';
+		$element_template[] = '<div class="form_feedback"></div></div>';
 		$element_template[] = '<div class="clear">&nbsp;</div>';
 		$element_template[] = '</div>';
 		$element_template = implode("\n", $element_template);
