@@ -62,7 +62,7 @@ class TestCallLocalWebservice
 			);
 		}*/
 		
-		/*A test to retrieve courses of a user from the db
+		/*A test to retrieve users of a course from the db
 		 * 
 		 */
 		
@@ -72,7 +72,7 @@ class TestCallLocalWebservice
 		{
 			$functions[] = array(
 				'name' => 'WebServicesCourse.get_course_users',
-				'parameters' => array('id' => 3, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
+				'parameters' => array('id' => 1, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
 				'handler' => 'handle_webservice'
 			);
 		}*/
@@ -111,22 +111,22 @@ class TestCallLocalWebservice
 		 *
 		 */
 
-		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		$functions = array();
 
 		{
 			$functions[] = array(
 				'name' => 'WebServicesCourse.get_publications_for_user',
-				'parameters' => array('id' => 2, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
+				'parameters' => array('id' => 1, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
 				'handler' => 'handle_webservice'
 			);
-		}*/
+		}
 
         /*A test to get publications for course X from the db
 		 *
 		 */
 
-		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		$functions = array();
 
 		{
@@ -135,7 +135,7 @@ class TestCallLocalWebservice
 				'parameters' => array('id' => 3, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
 				'handler' => 'handle_webservice'
 			);
-		}
+		}*/
 		
 		/*A test to delete a course in the db
 		 * 
@@ -369,8 +369,8 @@ class TestCallLocalWebservice
 		//global $file;
 		//fwrite($file, date('[H:i]') . 'Called webservice :' . "\n" . var_export($result, true) . "\n");
 		//echo ('<p>'.date('[H:i]') . 'Called webservice :' . "\n" . var_export($result, true) . "\n".'</p>');
-		echo '<pre>'.var_export($result,true).'</pre';
-		//dump($result);
+		//echo '<pre>'.var_export($result,true).'</pre';
+		dump($result);
 	}
 }
 
