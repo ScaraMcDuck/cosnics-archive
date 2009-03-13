@@ -48,7 +48,7 @@ class MenuInstaller extends Installer
 		$applications = FileSystem :: get_directory_content(Path :: get_application_path() . 'lib/', FileSystem :: LIST_DIRECTORIES, false);
 		$values = $this->values;
 		
-		$applications = sort($applications);
+		sort($applications);
 		
 		foreach($applications as $application)
 		{
