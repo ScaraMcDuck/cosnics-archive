@@ -55,7 +55,7 @@ class MenuInstaller extends Installer
 			$menu_applications[Translation :: get(DokeosUtilities :: underscores_to_camelcase($application))] = $application;			
 		}
 		
-		sort($menu_applications);
+		ksort($menu_applications);
 		
 		foreach($menu_applications as $name => $application)
 		{
