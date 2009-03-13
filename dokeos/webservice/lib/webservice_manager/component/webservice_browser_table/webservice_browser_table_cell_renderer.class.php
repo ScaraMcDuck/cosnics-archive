@@ -43,13 +43,13 @@ class WebserviceBrowserTableCellRenderer extends DefaultWebserviceTableCellRende
 	 */
 	private function get_modification_links($webservice)
 	{
-		/*$toolbar_data = array();
+		$toolbar_data = array();
 		
 		$toolbar_data[] = array(
 				'href' => $this->browser->get_manage_roles_url($webservice),
 				'label' => Translation :: get('ManageWebservices'),
 				'img' => Theme :: get_common_image_path().'action_rights.png'
-			);*/
+			);
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
