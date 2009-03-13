@@ -126,10 +126,20 @@ abstract class ReportingManagerComponent {
         return $this->get_parent()->retrieve_reporting_template_registrations($condition, $offset, $count, $order_property, $order_direction);
 	}
 
+    function retrieve_reporting_template_registration($reporting_template_registration_id)
+    {
+        return $this->get_parent()->retrieve_reporting_template_registration($reporting_template_registration_id);
+    }
+
     function get_reporting_template_registration_viewing_url($reporting_template_registration)
 	{
 		return $this->get_parent()->get_reporting_template_registration_viewing_url($reporting_template_registration);
 	}
+
+    function get_reporting_template_registration_editing_url($reporting_template_registration)
+    {
+        return $this->get_parent()->get_reporting_template_registration_editing_url($reporting_template_registration);
+    }
 	
 	/**
 	 * @see ReportingManager::get_parameters()

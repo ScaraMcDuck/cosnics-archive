@@ -88,6 +88,12 @@ class ReportingTemplateRegistration{
 		return $repdmg->create_reporting_template_registration($this);
 	}
 
+    function update()
+    {
+         $repdmg = ReportingDataManager :: get_instance();
+         return $repdmg->update_reporting_template_registration($this);
+    }
+
     /**
      * Checks if the reporting template registration is aplatform template.
      * @return int

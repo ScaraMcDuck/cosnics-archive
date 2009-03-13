@@ -94,7 +94,7 @@ class ReportingManagerReportingTemplateRegistrationBrowserComponent extends Repo
 	 */
 	function get_template_html()
 	{		
-		$table = new ReportingTemplateRegistrationBrowserTable($this, array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES), $this->get_condition());
+		$table = new ReportingTemplateRegistrationBrowserTable($this, array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $this->application), $this->get_condition());
         $html = array();
 		$html[] = '<div style="float: right; width: 100%;">';
 		$html[] = $table->as_html();

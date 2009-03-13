@@ -32,11 +32,12 @@ class ReportingManagerReportingTemplateRegistrationViewComponent extends Reporti
 		//$trail = new BreadcrumbTrail();
 		//$trail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
 		//$trail->add(new Breadcrumb($this->get_url(), Translation :: get(Application :: application_to_class($template)) . '&nbsp;' . Translation :: get('Template')));
-
+        
         $rpdm = ReportingDataManager :: get_instance();
     	if(!$reporting_template_registration = $rpdm->retrieve_reporting_template_registration($template))
         {
             $this->display_header($trail);
+            echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
 			Display :: error_message(Translation :: get("NotFound"));
 			$this->display_footer();
 			exit;
@@ -46,6 +47,7 @@ class ReportingManagerReportingTemplateRegistrationViewComponent extends Reporti
         if ($reporting_template_registration->isPlatformTemplate() && !$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($trail);
+            echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -66,7 +68,9 @@ class ReportingManagerReportingTemplateRegistrationViewComponent extends Reporti
             $template->set_reporting_blocks_parameters($params);
         }
 
-		$this->display_header($trail);
+		$this->display_header($trail,false,false);
+
+        echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
 
         if(isset($_GET['s']))
 		{

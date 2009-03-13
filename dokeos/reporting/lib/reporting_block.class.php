@@ -105,7 +105,8 @@
  	 */
  	 public function update()
  	 {
- 	 	return true;
+         $repdmg = ReportingDataManager :: get_instance();
+         return $repdmg->update_reporting_block($this);
  	 }
  	
  	/**

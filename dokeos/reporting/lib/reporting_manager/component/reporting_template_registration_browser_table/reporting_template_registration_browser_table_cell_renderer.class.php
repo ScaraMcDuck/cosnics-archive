@@ -45,11 +45,18 @@ class ReportingTemplateRegistrationBrowserTableCellRenderer extends DefaultRepor
 	{
 		$toolbar_data = array();
         
-		$editing_url = $this->browser->get_reporting_template_registration_viewing_url($reporting_template_registration);
+		$viewing_url = $this->browser->get_reporting_template_registration_viewing_url($reporting_template_registration);
 		$toolbar_data[] = array(
-			'href' => $editing_url,
+			'href' => $viewing_url,
 			'label' => Translation :: get('View'),
 			'img' => Theme :: get_common_image_path().'action_chart.png',
+		);
+
+        $editing_url = $this->browser->get_reporting_template_registration_editing_url($reporting_template_registration);
+		$toolbar_data[] = array(
+			'href' => $editing_url,
+			'label' => Translation :: get('Edit'),
+			'img' => Theme :: get_common_image_path().'action_edit.png',
 		);
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);
