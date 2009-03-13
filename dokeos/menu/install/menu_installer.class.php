@@ -50,7 +50,8 @@ class MenuInstaller extends Installer
 		
 		foreach($applications as $application)
 		{
-			if(isset($values['install_' . $application]))
+			// TODO: Temporary fix.
+			if(isset($values['install_' . $application]) && $application != '.svn')
 			{
 				$menu_item = new MenuItem();
 				$menu_item->set_title(Translation :: get(DokeosUtilities :: underscores_to_camelcase($application)));
