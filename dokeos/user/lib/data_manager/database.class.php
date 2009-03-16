@@ -54,6 +54,11 @@ class DatabaseUserDataManager extends UserDataManager
 		return $this->database->update($user_quota, $condition);
 	}
 	
+	function create_user_quota($user_quota)
+	{
+		return $this->database->create($user_quota);
+	}
+	
 	function get_next_user_id()
 	{
 		return $this->database->get_next_id(User :: get_table_name());
