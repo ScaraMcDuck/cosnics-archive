@@ -28,6 +28,11 @@ abstract class RepoViewerCreatorComponent extends RepoViewerComponent
 				return $this->get_editing_form($oid, $params);
 			//}
 		}
+		/*else if ($_GET[RepoViewer :: PARAM_ID])
+		{
+			$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $_GET[RepoViewer :: PARAM_ID]));
+			$this->redirect(null, false, $redirect_params);
+		}*/
 		else
 		{
 			$type = $this->get_type();
@@ -121,7 +126,7 @@ abstract class RepoViewerCreatorComponent extends RepoViewerComponent
 			//$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_EDIT => $edit));
 			if($learning_object->is_complex_learning_object() && $this->redirect_complex($learning_object->get_type()))
 			{
-				$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_EDIT_ID => $learning_object->get_id()));
+				$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id()));
 				$_SESSION['redirect_url'] = $this->get_url($redirect_params);
 				header('Location: index_repository_manager.php?go=createcomplex&publish=1&cloi_ref=' . $learning_object->get_id());
 			}
