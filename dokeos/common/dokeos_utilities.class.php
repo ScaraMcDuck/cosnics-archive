@@ -188,6 +188,15 @@ class DokeosUtilities
 		}
 		return self :: $us_camel_map[$string];
 	}
+	
+	static function underscores_to_camelcase_with_spaces($string)
+	{
+		if (!isset (self :: $us_camel_map[$string]))
+		{
+			self :: $us_camel_map[$string] = ucfirst(preg_replace('/_([a-z])/e', '" " . strtoupper(\1)', $string));
+		}
+		return self :: $us_camel_map[$string];
+	}
 
 	/**
 	 * Converts the given CamelCase string to under_score notation.
