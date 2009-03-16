@@ -2,15 +2,16 @@
 require_once Path :: get_library_path() . 'webservices/webservice.class.php';
 require_once Path :: get_plugin_path() . 'nusoap/nusoap.php';
 require_once Path :: get_webservice_path() . '/security/webservice_security_manager.class.php';
+require_once Path :: get_webservice_path() .'lib/webservice_data_manager.class.php';
 
 class SoapNusoapWebservice
 {
 	private $webservice_handler;
-	private $webservice;
+	private $webservice;    
 	
 	function SoapNusoapWebservice($webservice_handler)
 	{
-		$this->webservice_handler = $webservice_handler;				
+		$this->webservice_handler = $webservice_handler;        
 	}
 	
 	function provide_webservice($functions)
@@ -133,5 +134,24 @@ class SoapNusoapWebservice
 		echo '<h2>Response</h2><pre>' . htmlspecialchars($client->response, ENT_QUOTES) . '</pre>';
 		echo '<h2>Debug</h2><pre>' . htmlspecialchars($client->getDebug(), ENT_QUOTES) . '</pre>';			
 	}
+
+    public function check_rights($functions)
+    {
+        $webserviceName = 'delete user';
+        $wm = new WebserviceManager();
+        $webservice = $wm->retrieve_webservice_by_name($webserviceName); //werkt
+        $location = WebserviceRights :: get_location_by_identifier('webservice',$webservice->get_id() ); //werkt
+        $ru = new RightsUtilities();
+        if($ru->is_allowed('useright', $location, 'webservice', 'webservice'))
+        {
+            $this->provide_webservice($functions);
+        }
+        else
+        {
+            echo 'locatie : ' .$location->get_id();
+            echo ' You are not allowed to use this webservice';
+            return false;
+        }
+    }
 }
 ?>

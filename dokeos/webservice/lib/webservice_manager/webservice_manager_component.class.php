@@ -222,16 +222,11 @@ abstract class WebserviceManagerComponent {
 	 */
 	static function factory($type, $user_manager)
 	{
-		$filename = Path :: get_webservice_path() .'component/'.DokeosUtilities :: camelcase_to_underscores($type).'.class.php';
+		$filename = dirname(__FILE__).'/component/'.DokeosUtilities :: camelcase_to_underscores($type).'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
-		{
-            echo $filename;
+		{            
 			die('Failed to load "'.$type.'" component');
-		}
-        else
-        {
-            echo $filename;
-        }
+		}       
 		$class = 'WebserviceManager'.$type.'Component';
 		require_once $filename;
 		return new $class($user_manager);

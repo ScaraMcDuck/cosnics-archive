@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/webservice_data_manager.class.php';
 require_once dirname(__FILE__).'/webservice_rights.class.php';
+require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
 
 /**
  * @package webservice
@@ -258,5 +259,6 @@ class WebserviceRegistration
 
 		return true;	
 	}
+    
 }
 ?>

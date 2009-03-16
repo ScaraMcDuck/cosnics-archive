@@ -16,7 +16,7 @@ class RightsUtilities
 {    
     function install_initial_application_locations()
     {
-		$core_applications = array('admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu', 'webservice');
+		$core_applications = array('webservice','admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu');
 		
 		foreach ($core_applications as $core_application)
 		{
