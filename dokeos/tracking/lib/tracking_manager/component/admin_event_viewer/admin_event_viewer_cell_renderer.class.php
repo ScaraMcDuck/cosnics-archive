@@ -75,8 +75,8 @@ class AdminEventViewerCellRenderer
 	function get_properties()
 	{
 		return array(
-					TrackerRegistration :: PROPERTY_CLASS,
-					TrackerRegistration :: PROPERTY_PATH
+					TrackerRegistration :: PROPERTY_CLASS => 'Class',
+					TrackerRegistration :: PROPERTY_PATH => 'Path'
 			);
 	}
 }

@@ -63,7 +63,7 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 		switch ($action)
 		{
 			case self :: ACTION_BROWSE_EVENTS :
-				$component = TrackingManagerComponent :: factory('AdminEventsBrowser', $this);
+				$component = TrackingManagerComponent :: factory('AdminEventBrowser', $this);
 				break;
 			case self :: ACTION_VIEW_EVENT :
 				$component = TrackingManagerComponent :: factory('AdminEventViewer', $this);

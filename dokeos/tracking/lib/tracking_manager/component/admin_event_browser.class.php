@@ -10,7 +10,7 @@ require_once Path :: get(SYS_LIB_PATH).'/html/table/simple_table.class.php';
 /**
  * Component for viewing tracker events 
  */
-class TrackingManagerAdminEventsBrowserComponent extends TrackingManagerComponent
+class TrackingManagerAdminEventBrowserComponent extends TrackingManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
