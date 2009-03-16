@@ -110,10 +110,16 @@ abstract class RepoViewerCreatorComponent extends RepoViewerComponent
 	private function handle_form($form, $edit = 0) {
 		if ($form->validate())
 		{
-			$learning_object = $form->create_learning_object();
+			if ($edit)
+			{
+				$form->update_learning_object();
+				$learning_object = $form->get_learning_object();
+			}
+			else
+				$learning_object = $form->create_learning_object();
 			//$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_EDIT => $edit));
 			$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_EDIT => $edit));
-			
+			unset($redirect_params['edit']);
 			if($learning_object->is_complex_learning_object() && $this->redirect_complex($learning_object->get_type()))
 			{
 				$_SESSION['redirect_url'] = $this->get_url($redirect_params);
