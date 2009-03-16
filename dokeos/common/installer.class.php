@@ -408,11 +408,11 @@ abstract class Installer
                         $props['classname'] = $classname;
 						if($this->register_reporting_template($props))
 						{
-							$this->add_message(self :: TYPE_NORMAL, 'Registered reporting template: <em>'.$props['name'].'</em>');
+							$this->add_message(self :: TYPE_NORMAL, 'Registered reporting template: <em>'.$props['title'].'</em>');
 						}
 						else
 						{
-							$this->installation_failed(Translation :: get('ReportingTemplateRegistrationFailed').': <em>'.$name.'</em>');
+							$this->installation_failed(Translation :: get('ReportingTemplateRegistrationFailed').': <em>'.$props['title'].'</em>');
 						}
 					}
 				}
