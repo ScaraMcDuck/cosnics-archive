@@ -174,13 +174,16 @@ END;
 
 	private static function display_result ($object)
 	{
+		$query = Request :: get('query');
+		$object->set_title(Text :: highlight($object->get_title(), $query, 'yellow'));
+		$object->set_description(Text :: highlight($object->get_description(), $query, 'yellow'));
 		/*
 		 * This pretty much makes every GIF file accessible, which is evil.
 		 * Type GIFs should be in a separate directory.
 		 */
 		echo '<li class="portal_search_result" style="background-image: url(', Theme :: get_common_image_path().'learning_object/'.$object->get_type().'.png);">';
 		//echo '<div class="portal_search_result_title"><a href="'.htmlentities($object->get_view_url()).'">'.htmlspecialchars($object->get_title()).'</a></div>';
-		echo '<div class="portal_search_result_title">'.htmlspecialchars($object->get_title()).'</div>';
+		echo '<div class="portal_search_result_title">'.$object->get_title().'</div>';
 		/*
 		 * We can't guarantee types from remote repositories will be registered
 		 * locally, so all the formatting we do is remove underscores.
