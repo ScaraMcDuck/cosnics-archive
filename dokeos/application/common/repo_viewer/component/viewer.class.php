@@ -29,7 +29,7 @@ class RepoViewerViewerComponent extends RepoViewerComponent
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
 			);
 			$toolbar_data[] = array(
-				'href' => $this->get_url(array_merge($this->get_parameters(), array (RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_EDIT => 1))),
+				'href' => $this->get_url(array_merge($this->get_parameters(), array (RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_EDIT_ID => $learning_object->get_id()))), //, RepoViewer :: PARAM_EDIT => 1))),
 				'img' => Theme :: get_common_image_path().'action_editpublish.png',
 				'label' => Translation :: get('EditAndPublish'),
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL

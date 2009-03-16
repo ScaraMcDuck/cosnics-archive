@@ -20,13 +20,13 @@ abstract class RepoViewerCreatorComponent extends RepoViewerComponent
 	 */
 	function as_html($params = array())
 	{
-		$oid = $_GET[RepoViewer :: PARAM_ID];
+		$oid = $_GET[RepoViewer :: PARAM_EDIT_ID];
 		if ($oid)
 		{
-			if ($_GET[RepoViewer :: PARAM_EDIT])
-			{
+			//if ($_GET[RepoViewer :: PARAM_EDIT])
+			//{
 				return $this->get_editing_form($oid, $params);
-			}
+			//}
 		}
 		else
 		{
@@ -100,7 +100,7 @@ abstract class RepoViewerCreatorComponent extends RepoViewerComponent
 	private function get_editing_form($learning_object_id, $params = array())
 	{
 		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
-		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array_merge($this->get_parameters(), array_merge($params,array (RepoViewer :: PARAM_ID => $learning_object_id, RepoViewer :: PARAM_EDIT => 1)))));
+		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array_merge($this->get_parameters(), array_merge($params,array (RepoViewer :: PARAM_EDIT_ID => $learning_object_id))))); //, RepoViewer :: PARAM_EDIT => 1)))));
 		return $this->handle_form($form, 1);
 	}
 	
@@ -118,15 +118,16 @@ abstract class RepoViewerCreatorComponent extends RepoViewerComponent
 			else
 				$learning_object = $form->create_learning_object();
 			//$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_EDIT => $edit));
-			$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_EDIT => $edit));
-			unset($redirect_params['edit']);
+			//$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_EDIT => $edit));
 			if($learning_object->is_complex_learning_object() && $this->redirect_complex($learning_object->get_type()))
 			{
+				$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_EDIT_ID => $learning_object->get_id()));
 				$_SESSION['redirect_url'] = $this->get_url($redirect_params);
 				header('Location: index_repository_manager.php?go=createcomplex&publish=1&cloi_ref=' . $learning_object->get_id());
 			}
 			else
 			{
+				$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id()));
 				$this->redirect(null, false, $redirect_params);
 			}
 		}

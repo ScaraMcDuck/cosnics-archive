@@ -19,6 +19,7 @@ class RepoViewer
 	const PARAM_ACTION = 'repoviewer_action';
 	const PARAM_EDIT = 'edit';
 	const PARAM_ID = 'object';
+	const PARAM_EDIT_ID = 'obj';
 	
 	const PARAM_PUBLISH_SELECTED = 'repoviewer_selected';
 
