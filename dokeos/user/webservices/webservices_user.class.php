@@ -24,7 +24,8 @@ class WebServicesUser
 	}
 	
 	function run()
-	{	
+	{
+
 		$functions = array();
 		
 		$functions['get_user'] = array(
@@ -53,8 +54,8 @@ class WebServicesUser
 			'input' => new User(),
 			'require_hash' => true
 		);
-
-		$this->webservice->provide_webservice($functions); 
+        
+		$this->webservice->check_rights($functions);
 	}
 	
 	function get_user($input_user)

@@ -56,11 +56,13 @@ abstract class WebserviceDataManager
 	
 	abstract function count_webservices($conditions = null);
 	
-	abstract function truncate_webservice($id);
+	abstract function truncate_webservice($id);    
 	
 	abstract function truncate_webservice_credential($webserviceCredential);
 	
 	abstract function retrieve_webservice($id);
+
+    abstract function retrieve_webservice_by_name($name);
 	
 	abstract function retrieve_webservices($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	

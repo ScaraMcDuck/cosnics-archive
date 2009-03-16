@@ -79,6 +79,12 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 		$condition = new EqualityCondition(WebserviceRegistration :: PROPERTY_ID, $id);
 		return $this->database->retrieve_object(WebserviceRegistration:: get_table_name(), $condition);
 	}
+
+    function retrieve_webservice_by_name($name)
+	{
+		$condition = new EqualityCondition(WebserviceRegistration :: PROPERTY_NAME, $name);
+		return $this->database->retrieve_object(WebserviceRegistration:: get_table_name(), $condition);
+	}
 	
 	function retrieve_webservices($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{

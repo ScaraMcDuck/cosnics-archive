@@ -32,7 +32,8 @@ abstract class Webservice
 	abstract function validate_webservice($functions, $hash);
 	
 	abstract function raise_message($message);
-	
+
+    abstract static function check_rights($functions);
 	
 }	
 	

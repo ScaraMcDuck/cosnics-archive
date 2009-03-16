@@ -52,7 +52,7 @@ class TestCallLocalWebservice
 		 */
 		
 		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
-		$functions = array();
+	$functions = array();
 		
 		{
 			$functions[] = array(
@@ -60,22 +60,22 @@ class TestCallLocalWebservice
 				'parameters' => array('id' => 2, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
 				'handler' => 'handle_webservice'
 			);
-		}*/
+		}
 		
 		/*A test to retrieve users of a course from the db
 		 * 
 		 */
 		
-		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		$functions = array();
 		
 		{
 			$functions[] = array(
-				'name' => 'WebServicesCourse.get_course_users',
-				'parameters' => array('id' => 1, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
+				'name' => 'WebServicesUser.delete_user',
+				'parameters' => array('id' => 3, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
 				'handler' => 'handle_webservice'
 			);
-		}*/
+		}
 		
 		/*A test to get new publications in course X from the db
 		 * 
@@ -111,7 +111,7 @@ class TestCallLocalWebservice
 		 *
 		 */
 
-		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		$functions = array();
 
 		{
@@ -120,7 +120,7 @@ class TestCallLocalWebservice
 				'parameters' => array('id' => 1, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
 				'handler' => 'handle_webservice'
 			);
-		}
+		}*/
 
         /*A test to get publications for course X from the db
 		 *

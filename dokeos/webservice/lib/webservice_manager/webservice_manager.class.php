@@ -1,6 +1,7 @@
 <?php
 
 require_once dirname(__FILE__).'/webservice_manager_component.class.php';
+require_once dirname(__FILE__).'/../webservice_rights.class.php';
 require_once dirname(__FILE__).'/../webservice_data_manager.class.php';
 require_once dirname(__FILE__).'/../../../common/html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/or_condition.class.php';
@@ -29,27 +30,18 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	
 	const ACTION_BROWSE_WEBSERVICES = 'browse_webservices';
 	const ACTION_BROWSE_WEBSERVICE_CATEGORIES = 'browse_webservice_categories';
-    const ACTION_MANAGE_ROLES = 'manage_webservice_roles';
+    const ACTION_MANAGE_ROLES = 'rights_editor';
 	
 	private $parameters;
 	private $search_parameters;
-	private $user_id;
 	private $user;
-	private $user_search_form;
-	private $group_search_form;
-	private $category_menu;
-	private $quota_url;
-	private $publication_url;
-	private $create_url;
-	private $recycle_bin_url;
-	private $breadcrumbs;
+	private $breadcrumbs;    
 		
     function WebserviceManager($user = null) 
     {
     	$this->user = $user;
 		$this->parameters = array ();
-		$this->set_action($_GET[self :: PARAM_ACTION]);		
-		//$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_GROUP));   	
+		$this->set_action($_GET[self :: PARAM_ACTION]);			   	
     }
     
     /**
@@ -66,7 +58,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 				$component = WebserviceManagerComponent :: factory('WebserviceBrowser', $this);			
 				break;
             case self :: ACTION_MANAGE_ROLES :
-				$component = WebserviceManagerComponent :: factory('WebserviceRoleManager', $this);
+				$component = WebserviceManagerComponent :: factory('RightsEditor', $this);
 				break;
 			default :				
 				$component = WebserviceManagerComponent :: factory('WebserviceBrowser', $this);		
@@ -74,6 +66,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		$component->run(); //wordt gestart
 		
 	}
+
 	/**
 	 * Gets the current action.
 	 * @see get_parameter()
@@ -255,6 +248,11 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	{
 		return WebserviceDataManager :: get_instance()->retrieve_webservice($id);
 	}
+
+    function retrieve_webservice_by_name($name)
+	{
+		return WebserviceDataManager :: get_instance()->retrieve_webservice_by_name($name);
+	}
 	
 	/*function retrieve_webservice_category($id)
 	{
@@ -375,9 +373,38 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 		return $link;
 	}
 
-    function get_manage_roles_url($webservice)
+    public function get_manage_roles_url($webservice)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_ID => $webservice->get_id()));
+	}
+
+    public function get_manage_roles_cat_url($webserviceCategory)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_CATEGORY_ID => $webserviceCategory->get_id()));
+	}
+
+    public static function get_tool_bar_item($id)
+	{
+        $wdm = new WebserviceManager();
+		$user_id = Session :: get_user_id();
+		$user = UserDataManager :: get_instance()->retrieve_user($user_id);
+
+		if(!$user || !$user->get_language())
+			$language = PlatformSetting :: get('platform_language');
+		else
+			$language = $user->get_language();
+
+		$toolbar_item = WebserviceDataManager :: get_instance()->retrieve_webservice_category($id);
+        if(isset($toolbar_item))
+        {
+            $url = $wdm->get_manage_roles_cat_url($toolbar_item);            
+        }
+        else
+        {   
+            $wsm = new WebserviceManager();
+            $url = $wsm->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_CATEGORY_ID => null));
+        }
+        return new ToolbarItem('Change rights ', Theme :: get_common_image_path().'action_rights.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false);
 	}
 	
 	/*function is_allowed($right, $role_id, $location_id)
