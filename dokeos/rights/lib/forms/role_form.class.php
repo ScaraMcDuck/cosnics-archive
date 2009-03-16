@@ -47,7 +47,7 @@ class RoleForm extends FormValidator {
 		$this->addElement('text', Role :: PROPERTY_NAME, Translation :: get('Name'), array("size" => "50"));
 		$this->addRule(Role :: PROPERTY_NAME, Translation :: get('ThisFieldIsRequired'), 'required');
 		
-		$this->add_html_editor(Role :: PROPERTY_DESCRIPTION, Translation :: get('Description'), true);
+		$this->add_html_editor(Role :: PROPERTY_DESCRIPTION, Translation :: get('Description'), false);
     }
 
     /**
