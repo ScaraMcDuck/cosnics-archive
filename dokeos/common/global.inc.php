@@ -351,7 +351,7 @@ if (isset($_SESSION['_uid']))
 		$language_interface = $user->get_language();
 	}
 }
-echo Hashing :: hash('apple'); echo '<br />' . sha1('apple');
+//echo Hashing :: hash('apple'); echo '<br />' . sha1('apple');
 /**
  * Dump functionality with decent output
  */
