@@ -47,6 +47,19 @@ class SettingsInstallWizardPage extends InstallWizardPage
 		$self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('Yes'), 1);
 		$self_reg[] = $this->createElement('radio', 'self_reg', null, Translation :: get('No'), 0);
 		$this->addGroup($self_reg, 'self_reg', Translation :: get("AllowSelfReg"), '&nbsp;', false);
+		
+		$dir = Path :: get_library_path() . 'hashing';
+		$folders = Filesystem :: get_directory_content($dir, Filesystem :: LIST_DIRECTORIES, false);
+		
+		foreach($folders as $folder)
+		{
+			if(substr($folder, 0, 1) == '.') continue;
+			
+			$active_folders[$folder] = $folder;
+		}
+		
+		$this->addElement('select', 'hashing_algorithm', Translation :: get('HashingAlgorithm'), $active_folders);
+		
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('back'), '<< '.Translation :: get('Previous'));
 		$prevnext[] = $this->createElement('submit', $this->getButtonName('next'), Translation :: get('Next').' >>');
 		$this->addGroup($prevnext, 'buttons', '', '&nbsp;', false);
@@ -75,6 +88,7 @@ class SettingsInstallWizardPage extends InstallWizardPage
 		$defaults['organization_url'] = 'http://www.dokeosplanet.org';
 		$defaults['self_reg'] = 0;
 		$defaults['encrypt_password'] = 1;
+		$defaults['hashing_algorithm'] = 'sha1';
 		$this->setDefaults($defaults);
 	}
 	

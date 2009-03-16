@@ -22,5 +22,8 @@ $configuration['general']['url_append']
 	
 $configuration['general']['security_key']
 	= '{SECURITY_KEY}';
+	
+$configuration['general']['hashing_algorithm']
+	= '{HASHING_ALGORITHM}';
 
 ?>

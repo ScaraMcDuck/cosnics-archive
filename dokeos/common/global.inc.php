@@ -131,6 +131,7 @@ require_once Path :: get_library_path().'session/request.class.php';
 require_once Path :: get_library_path().'session/session.class.php';
 require_once Path :: get_library_path().'session/cookie.class.php';
 require_once Path :: get_library_path().'translation/translation.class.php';
+require_once Path :: get_library_path().'hashing/hashing.class.php';
 require_once Path :: get_library_path().'html/text.class.php';
 require_once Path :: get_library_path().'mail/mail.class.php';
 require_once Path :: get_library_path().'html/theme.class.php';
@@ -350,7 +351,7 @@ if (isset($_SESSION['_uid']))
 		$language_interface = $user->get_language();
 	}
 }
-
+echo Hashing :: hash('apple'); echo '<br />' . sha1('apple');
 /**
  * Dump functionality with decent output
  */
