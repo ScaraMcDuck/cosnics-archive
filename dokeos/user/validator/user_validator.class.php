@@ -33,12 +33,29 @@ class UserValidator extends Validator
                       User :: PROPERTY_ACTIVE);
 	}
 
+    function validate_retrieve(&$userProperties)
+    {
+        if($userProperties[username]==null)
+        return false;
+
+        return true;
+    }
+
     function validate_create(&$userProperties)
     {
-        if(!$this->validate_properties($userProperties))
+        if(!$this->validate_properties($userProperties,$this->get_required_property_names()))
+        return false;
+
+        if(!$this->validate_property_names($groupProperties, User :: get_default_property_names()))
         return false;
 
         if(!$this->udm->is_username_available($userProperties[User :: PROPERTY_USERNAME]))
+        return false;
+
+        if(!$this->check_quota($userProperties))
+        return false;
+
+        if(!$this->check_dates($userProperties))
         return false;
         
         if(!empty($userProperties[User :: PROPERTY_CREATOR_ID]))
@@ -50,12 +67,18 @@ class UserValidator extends Validator
             $userProperties[User :: PROPERTY_CREATOR_ID] = $var;
         }
 
+        if($userProperties[User :: PROPERTY_ACTIVE] !=='0' && $userProperties[User :: PROPERTY_ACTIVE] !=='1' && $userProperties[User :: PROPERTY_ACTIVE] !== false && $userProperties[User :: PROPERTY_ACTIVE] !== true)
+        return false;
+
         return true;
     }
 
     function validate_update(&$userProperties)
     {
-        if(!$this->validate_properties($userProperties))
+        if(!$this->validate_properties($userProperties,$this->get_required_property_names()))
+        return false;
+
+        if(!$this->validate_property_names($userProperties, User :: get_default_property_names()))
         return false;
 
         /*
@@ -79,11 +102,26 @@ class UserValidator extends Validator
             $userProperties[User :: PROPERTY_CREATOR_ID] = $var;
         }
 
+        if(!$this->check_quota($userProperties))
+        return false;
+
+        if(!$this->check_dates($userProperties))
+        return false;
+
+        if($userProperties[User :: PROPERTY_ACTIVE] !=='0' && $userProperties[User :: PROPERTY_ACTIVE] !=='1' && $userProperties[User :: PROPERTY_ACTIVE] !== false && $userProperties[User :: PROPERTY_ACTIVE] !== true)
+        return false;
+
         return true;
     }
 
     function validate_delete(&$userProperties)
     {
+        if(!$this->validate_property_names($groupProperties, User :: get_default_property_names()))
+        return false;
+
+        if($userProperties[username]==null)
+        return false;
+        
         /*
          * To check if the username exists, and retrieve the ID
          */
@@ -107,6 +145,31 @@ class UserValidator extends Validator
         {
             return false;
         }
+    }
+
+    private function check_quota($userProperties)
+    {
+        if($userProperties[User :: PROPERTY_DATABASE_QUOTA]<0)
+        return false;
+
+        if($userProperties[User :: PROPERTY_DISK_QUOTA]<0)
+        return false;
+
+        if($userProperties[User :: PROPERTY_VERSION_QUOTA]<0)
+        return false;
+        
+        return true;
+    }
+
+    private function check_dates($userProperties)
+    {
+        if($userProperties[User :: PROPERTY_REGISTRATION_DATE]>time())
+        return false;
+
+        if($userProperties[User :: PROPERTY_EXPIRATION_DATE]<time() && $userProperties[User :: PROPERTY_EXPIRATION_DATE]!=0)
+        return false;
+
+        return true;
     }
 }
 ?>

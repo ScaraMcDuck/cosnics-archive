@@ -1,5 +1,7 @@
 <?php
 require_once Path :: get_group_path() . '/lib/data_manager/database.class.php';
+require_once Path :: get_group_path() . '/lib/group.class.php';
+require_once Path :: get_group_path() . '/lib/group_rel_user.class.php';
 require_once Path :: get_library_path() . 'validator/validator.class.php';
 /* 
  * To change this template, choose Tools | Templates
@@ -15,37 +17,122 @@ require_once Path :: get_library_path() . 'validator/validator.class.php';
  */
 class GroupValidator extends Validator
 {
-    const PROPERTY_ID = 'id';
-	const PROPERTY_NAME = 'name';
-	const PROPERTY_DESCRIPTION = 'description';
-	const PROPERTY_SORT = 'sort';
-	const PROPERTY_PARENT = 'parent';
-
     private $gdm;
+    private $udm;
 
     function GroupValidator()
     {
         $this->gdm = DatabaseGroupDataManager ::get_instance();
+        $this->udm = DatabaseUserDataManager ::get_instance();
     }
 
-    public function get_required_property_names()
+    private function get_required_group_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_SORT, self :: PROPERTY_PARENT);
+		return array (Group :: PROPERTY_SORT, Group :: PROPERTY_PARENT);
 	}
 
-    function validate_create(&$userProperties)
+    private function get_required_group_rel_user_property_names()
+	{
+		return array (GroupRelUser :: PROPERTY_GROUP_ID, GroupRelUser :: PROPERTY_USER_ID);
+	}
+
+    function validate_retrieve(&$groupProperties)
     {
-        
+        if($groupProperties[name]==null)
+        return false;
+
+        return true;
     }
 
-    function validate_update(&$userProperties)
+    function validate_create(&$groupProperties)
     {
-        
+        if(!$this->validate_properties($groupProperties,$this->get_required_group_property_names()))
+        return false;
+
+        if(!$this->validate_property_names($groupProperties, Group :: get_default_property_names()))
+        return false;
+
+        if(!$this->gdm->is_groupname_available($groupProperties[Group :: PROPERTY_NAME]))
+        return false;
+
+        /*
+         * If the ID of the parent is 0, it's a root group and thus has no parent.
+         */
+        if($groupProperties[Group :: PROPERTY_PARENT]!='0')
+        {
+            $var = $this->get_group_id($groupProperties[Group :: PROPERTY_PARENT]);
+            if(!$var)
+            return false;
+            else
+            $groupProperties[User :: PROPERTY_PARENT] = $var;
+        }
+
+        return true;
     }
 
-    function validate_delete(&$userProperties)
+    function validate_update(&$groupProperties)
     {
+        if(!$this->validate_properties($groupProperties,$this->get_required_group_property_names()))
+        return false;
+
+        if(!$this->validate_property_names($groupProperties, Group :: get_default_property_names()))
+        return false;
+
+        $var = $this->get_group_id($groupProperties[Group :: PROPERTY_NAME]);
+        if(!$var)
+        return false;
+        else
+        $groupProperties[Group :: PROPERTY_ID] = $var;
         
+        if($groupProperties[Group :: PROPERTY_PARENT]!='0')
+        {
+            $var = $this->get_group_id($groupProperties[Group :: PROPERTY_PARENT]);
+            if(!$var)
+            return false;
+            else
+            $groupProperties[Group :: PROPERTY_PARENT] = $var;
+        }
+        return true;
+    }
+
+    function validate_delete(&$groupProperties)
+    {
+        if(!$this->validate_properties($groupProperties,$this->get_required_group_property_names()))
+        return false;
+
+        if(!$this->validate_property_names($groupProperties, Group :: get_default_property_names()))
+        return false;
+        
+        $var = $this->get_group_id($groupProperties[Group :: PROPERTY_NAME]);
+        if(!$var)
+        return false;
+        else
+        $groupProperties[Group :: PROPERTY_ID] = $var;
+
+        return true;
+    }
+
+    function validate_subscribe_or_unsubscribe(&$input_group_rel_user)
+    {
+        if(!$this->validate_properties($input_group_rel_user,$this->get_required_group_rel_user_property_names()))
+        return false;
+
+        if(!$this->validate_property_names($input_group_rel_user, GroupRelUser :: get_default_property_names))
+        return false;
+        
+        $var = $this->get_person_id($input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID]);
+        if(!$var)
+        return false;
+        else
+        $input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID] = $var;
+
+        $var = $this->get_group_id($input_group_rel_user[GroupRelUser :: PROPERTY_GROUP_ID]);
+        if(!$var)
+        return false;
+        else
+        $input_group_rel_user[GroupRelUser :: PROPERTY_GROUP_ID] = $var;
+
+        return true;
     }
 
     private function get_person_id($person_name)

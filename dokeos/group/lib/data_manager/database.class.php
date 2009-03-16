@@ -209,5 +209,18 @@ class DatabaseGroupDataManager extends GroupDataManager
 		
 		return true;
 	}
+
+    function is_groupname_available($groupname, $group_id = null)
+	{
+		$condition = new EqualityCondition(Group :: PROPERTY_NAME,$groupname);
+		if($group_id)
+		{
+			$conditions = array();
+			$conditions[] = new EqualityCondition(Group :: PROPERTY_NAME,$username);
+			$conditions = new EqualityCondition(Group :: PROPERTY_ID, $group_id);
+			$condition = new AndCondition($conditions);
+		}
+		return !($this->database->count_objects(Group :: get_table_name(), $condition) == 1);
+	}
 }
 ?>

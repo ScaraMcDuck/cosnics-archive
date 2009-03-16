@@ -32,25 +32,15 @@ class WebserviceSecurityManager
 		$input = $ip.''.$hash;
 		return $this->dbhash = hash('sha1', $input);
 	}
-
-    function check_ip($ip)
-    {
-        $wdm = WebserviceDataManager :: get_instance();
-        //return $wdm->delete_expired_webservice_credential();
-        dump($wdm->retrieve_webservice_credential_by_ip($ip)->as_array());
-    }
-
    
 	function validate_function($hash)
 	{
 		$wdm = WebserviceDataManager :: get_instance();
 		$ip = $_SERVER['REMOTE_ADDR'];
-        //dump($ip);
         $wdm->delete_expired_webservice_credentials();
 		$credentials = $wdm->retrieve_webservice_credentials_by_ip($ip);
         $credentials = $credentials->as_array();
-       // dump($credentials);
-		if(is_array($credentials))
+        if(is_array($credentials))
 		{
             foreach($credentials as $c)
             {
@@ -59,20 +49,15 @@ class WebserviceSecurityManager
                if(strcmp($h , $hash)===0)
                 {
                     return true;
-                   // echo 'hash value is VALID';
                 }
                 else
                 {
-                    echo 'The hash value is not valid.';
+                    return false;
                 }
             }
-			
-			//
-			//return false;
 		}
 		else
 		{
-			echo 'No credential found for the given ip.';
 			return false; 
 		}
 	}

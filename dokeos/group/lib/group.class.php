@@ -200,7 +200,7 @@ class Group
 		
 		$condition = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
 		$groups = $gdm->count_groups($condition);
-		if($groups > 0)
+		if($groups > 1)
 			return false;
 			
 		$success = $gdm->update_group($this);

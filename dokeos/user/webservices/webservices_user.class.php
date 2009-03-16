@@ -28,7 +28,7 @@ class WebServicesUser
 		$functions = array();
 		
 		$functions['get_user'] = array(
-			'input' => new InputUser(),
+			'input' => new User(),
 			'output' => new User(),
             'require_hash' => true
         );
@@ -62,14 +62,21 @@ class WebServicesUser
         if($this->wsm->validate_function($input_user[hash]))
 		{
             $udm = DatabaseUserDataManager :: get_instance();
-            $user = $udm->retrieve_user($input_user[id]);
-            if(count($group->get_default_properties())>0)
-			{					
-				return $user->get_default_properties();
-			}		
-			else
+            if($this->validator->validate_retrieve($input_user))
             {
-                return $this->webservice->raise_error('User '.$input_user[id].' not found.');
+                $user = $udm->retrieve_user_by_username($input_user[username]);
+                if(isset($user) && count($user->get_default_properties())>0)
+                {
+                    return $user->get_default_properties();
+                }
+                else
+                {
+                    return $this->webservice->raise_error('User '.$input_user[username].' not found.');
+                }
+            }
+            else
+            {
+                return $this->webservice->raise_error('Could not retrieve user. Please check the data you\'ve provided.');
             }
 		}
         else
