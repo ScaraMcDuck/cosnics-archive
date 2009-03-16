@@ -6,8 +6,8 @@
   <property name="application" length="50" type="text"  unsigned="1" notnull="1"/>
   <property name="function" type="text" length="50" notnull="1" />
   <property name="displaymode" type="text" length="50" notnull="1" default="Table" />
-  <property name="width" type="integer" unsigned="1" notnull="0" default="300"/>
-  <property name="height" type="integer" unsigned="1" notnull="0" default="200"/>
+  <property name="width" type="text" length="10" notnull="0" default="300px" />
+  <property name="height" type="text" length="10" notnull="0" default="300px" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

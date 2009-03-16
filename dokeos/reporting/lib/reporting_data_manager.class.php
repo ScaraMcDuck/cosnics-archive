@@ -25,7 +25,7 @@ abstract class ReportingDataManager {
 		$this->initialize();
 	}//ReportingDataManager
 
-	abstract function create_storage_unit($name,$properties,$indexes); //?
+	abstract function create_storage_unit($name,$properties,$indexes);
 
 	abstract function create_reporting_block(&$reporting_block);
 
