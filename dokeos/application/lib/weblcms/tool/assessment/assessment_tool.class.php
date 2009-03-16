@@ -96,5 +96,10 @@ class AssessmentTool extends Tool
 		
 		$component->run();
 	}
+	
+	static function get_allowed_types()
+	{
+		return array('assessment', 'survey', 'hotpotatoes');
+	}
 }
 ?>

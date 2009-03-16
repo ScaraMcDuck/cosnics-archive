@@ -560,5 +560,9 @@ abstract class Tool
 		return implode("\n",$html);
 	}
 
+	static function get_allowed_types()
+	{
+		return array();
+	}
 }
 ?>

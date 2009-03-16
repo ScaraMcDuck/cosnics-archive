@@ -137,16 +137,16 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 			//$this->addElement('html', '<br /><br /><h3 style="margin-left: 15%;">' . Translation :: get(Application::application_to_class($application_name)) . '</h3>');
 			
 			$this->addElement('html', '<div class="block" id="block_introduction" style="background-image: url('.Theme :: get_image_path('home').'block_' . $application_name . '.png);">');
-			$this->addElement('html', '<div class="title">'. Translation :: get(Application::application_to_class($application_name)));
-			$this->addElement('html', '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_image_path().'action_visible.png" /><img class="invisible" style="display: none;") src="'.Theme :: get_common_image_path().'action_invisible.png" /></a></div>');
-			$this->addElement('html', '<div class="description">');
+			$this->addElement('html', '<div class="title"><div style="float:left;">'. Translation :: get(Application::application_to_class($application_name)));
+			$this->addElement('html', '</div><div style="float:right;"><a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_image_path().'action_visible.png" /><img class="invisible" style="display: none;") src="'.Theme :: get_common_image_path().'action_invisible.png" /></a></div><div class="clear">&nbsp;</div></div>');
+			$this->addElement('html', '<div class="description"><br />');
 		
 			$application_name = DokeosUtilities :: underscores_to_camelcase($application_name);
 		
 			foreach($locations as $id => $location )
 			{
 				$cbname = $application_name . '_' . $id;
-				$this->addElement('checkbox', $cbname, '', $location, 'style=\'margin-left: -20%;\'');
+				$this->addElement('checkbox', $cbname, '', $location);
 				$appDefaults[$cbname] = '1';
 			}
 			
@@ -166,6 +166,8 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 			$this->addElement('html', '<br /><br /><a href="?" style="margin-left: 0%"  onclick="setCheckbox(\'\', true); return false;">'.Translation :: get('SelectAll').'</a>');
 			$this->addElement('html', ' - <a href="?" onclick="setCheckbox(\'\', false); return false;">'.Translation :: get('UnSelectAll').'</a>');
 		}
+		
+		$this->addElement('html', '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' .'"></script>');
 		
 		$this->setDefaultAction('next');
 		$this->setDefaults($appDefaults);

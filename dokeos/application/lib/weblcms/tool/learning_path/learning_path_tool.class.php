@@ -83,5 +83,10 @@ class LearningPathTool extends Tool
 			$this->display_footer();
 		}*/
 	}
+	
+	static function get_allowed_types()
+	{
+		return array('learning_path');
+	}
 }
 ?>
