@@ -34,12 +34,12 @@ class PersonalMessengerPublisherComponent extends PersonalMessengerComponent
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SendPersonalMessage')));
 		
 		$object = $_GET['object'];
-		$edit = $_GET['edit'];
+		//$edit = $_GET['edit'];
 		$pub = new PersonalMessageRepoViewer($this, 'personal_message', true);
 		$pub->set_parameter('reply', $reply);
 		$pub->set_parameter(PersonalMessenger :: PARAM_USER_ID, $user);
 		
-		if(!isset($object) || $edit == 1)
+		if(!isset($object))// || $edit == 1)
 		{	
 			if($reply)
 			{

@@ -81,7 +81,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 		);
 		
 		$browser_actions[] = array(
-			'href' => $this->get_url(array_merge($this->get_parameters(), array (RepoViewer :: PARAM_ACTION => 'creator', RepoViewer :: PARAM_ID => '__ID__', RepoViewer :: PARAM_EDIT => 1))),
+			'href' => $this->get_url(array_merge($this->get_parameters(), array (RepoViewer :: PARAM_ACTION => 'creator', RepoViewer :: PARAM_EDIT_ID => '__ID__'))), //, RepoViewer :: PARAM_EDIT => 1))),
 			'img' => Theme :: get_common_image_path().'action_editpublish.png',
 			'label' => Translation :: get('EditAndPublish')
 		);
