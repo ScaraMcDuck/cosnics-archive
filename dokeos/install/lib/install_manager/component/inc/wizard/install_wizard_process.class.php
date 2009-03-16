@@ -161,7 +161,8 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		$config['{ROOT_SYS}']			= str_replace('\\', '/', realpath($values['platform_url']).'/');
 		$config['{SECURITY_KEY}']		= md5(uniqid(rand().time()));
 		$config['{URL_APPEND}']	= str_replace('/install/index.php', '', $_SERVER['PHP_SELF']);
-	
+		$config['{HASHING_ALGORITHM}'] = $values['hashing_algorithm'];
+		
 		foreach ($config as $key => $value)
 		{
 			$content = str_replace($key, $value, $content);
