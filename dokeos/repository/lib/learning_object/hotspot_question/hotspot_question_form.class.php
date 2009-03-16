@@ -27,6 +27,7 @@ class HotspotQuestionForm extends LearningObjectForm
 		if (!isset($_SESSION['web_path']))
 		{
 			$this->addElement('file', 'file', Translation :: get('UploadImage'));
+			$this->addElement('html', Translation :: get('JpgOnly'));
 			$this->addElement('submit', 'fileupload', Translation :: get('Submit'));
 		}
 		else
@@ -157,22 +158,26 @@ class HotspotQuestionForm extends LearningObjectForm
 	{
 		if ($_FILES['file'] != null && $_SESSION['web_path'] == null)
 		{
-			$owner = $this->get_owner_id();
-			$filename = Filesystem :: create_unique_name(Path :: get(SYS_REPO_PATH).$owner, $_FILES['file']['name']);
-
-			$repo_path = Path :: get(SYS_REPO_PATH) . $owner . '/';
-			$full_path = $repo_path . $filename;
-			
-			if(!is_dir($repo_path))
-				Filesystem :: create_dir($repo_path);
+			$filetype = $_FILES['file']['type'];
+			if ($filetype == 'image/pjpeg' || $filetype == 'image/jpeg')
+			{
+				$owner = $this->get_owner_id();
+				$filename = Filesystem :: create_unique_name(Path :: get(SYS_REPO_PATH).$owner, $_FILES['file']['name']);
+	
+				$repo_path = Path :: get(SYS_REPO_PATH) . $owner . '/';
+				$full_path = $repo_path . $filename;
 				
-			$web_path = Path :: get(WEB_REPO_PATH).$path;
-			move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
-			chmod($full_path, 0777);
-			$_SESSION['hotspot_path'] = htmlspecialchars($owner.'/'.$filename);
-			$_SESSION['web_path'] = $web_path;
-			$_SESSION['full_path'] = $full_path;
-			$_FILES['file'] = null;
+				if(!is_dir($repo_path))
+					Filesystem :: create_dir($repo_path);
+					
+				$web_path = Path :: get(WEB_REPO_PATH).$path;
+				move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
+				chmod($full_path, 0777);
+				$_SESSION['hotspot_path'] = htmlspecialchars($owner.'/'.$filename);
+				$_SESSION['web_path'] = $web_path;
+				$_SESSION['full_path'] = $full_path;
+				$_FILES['file'] = null;
+			}
 		}
 	}
 	
