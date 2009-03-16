@@ -97,11 +97,14 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 		$table->set_header(0, null, false);
 		$table->set_header(1, Translation :: get('Type'), false);
 		$table->set_header(2, Translation :: get('Quota'), false);
+		$this->table = $table;
 		$html[] = $table->as_html();
 
 		return implode("\n", $html);
 	}
 
+	private $table;
+	
 	function get_registered_types_count()
 	{
 		return count($this->get_registered_types()) + 1;
@@ -109,20 +112,38 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 
 	function get_registered_types_data()
 	{
+		$pager = $this->table->get_pager();
+		$current_page = $pager->_currentPage;
+		$items_per_page = $pager->_perPage;
+		
+		$start = ($current_page - 1) * $items_per_page;
+		$stop = $start + $items_per_page;
+		//dump($start);
+		
 		$user = $this->get_user();
 		$user_version_quota = $user->get_version_quota();
 		$types = $this->get_registered_types();
 		$quota_data = array();
 
-		$quota_data_row = array();
-		$quota_data_row[] = '<img src="'. Theme :: get_common_image_path().'place_versions.png" alt=""/>';
-		$quota_data_row[] = Translation :: get('Default');
-		$quota_data_row[] = $user->get_version_quota();
-
-		$quota_data[] = $quota_data_row;
+		$counter = -1;
+		
+		if($start == 0)
+		{
+			$quota_data_row = array();
+			$quota_data_row[] = '<img src="'. Theme :: get_common_image_path().'place_versions.png" alt=""/>';
+			$quota_data_row[] = Translation :: get('Default');
+			$quota_data_row[] = $user->get_version_quota();
+			$quota_data[] = $quota_data_row;
+			$counter++;
+		}
 
 		foreach ($types as $type)
 		{
+			$counter++;
+
+			if($counter < $start || $counter >= $stop)
+				continue;
+				
 			$quota_data_row = array();
 
 			$quota_data_row[] = '<img src="'. Theme :: get_common_image_path() . 'learning_object/' . $type .'.png" alt="'.$type.'"/>';
@@ -138,6 +159,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 			}
 
 			$quota_data[] = $quota_data_row;
+
 		}
 		return $quota_data;
 	}

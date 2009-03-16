@@ -663,7 +663,21 @@ class User
 		$udm = UserDataManager :: get_instance();
 		$this->set_id($udm->get_next_user_id());
 		$this->set_registration_date(time());
-		return $udm->create_user($this);
+		$succes = $udm->create_user($this);
+		
+		$rdm = RepositoryDataManager :: get_instance();
+		$types = $rdm->get_registered_types();
+		
+		foreach($types as $type)
+		{
+			$userquota = new UserQuota();
+    		$userquota->set_learning_object_type($type);
+    		$userquota->set_user_quota($this->get_version_quota());
+    		$userquota->set_user_id($this->get_id());
+    		$userquota->create();
+		}
+		
+		return $succes;
 	}
 	
 	static function get_table_name()

@@ -64,6 +64,11 @@ class UserQuota
 		return $this->defaultProperties;
 	}
 	
+	function set_default_properties($prop)
+	{
+		return $this->defaultProperties = $prop;
+	}
+	
 	/**
 	 * Get the default properties of all users quota objects.
 	 * @return array The property names.
@@ -101,7 +106,7 @@ class UserQuota
 	 */
 	function get_user_id()
 	{
-		return $this->user_id;
+		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
 	
 	/**
@@ -128,7 +133,7 @@ class UserQuota
 	 */
 	function set_user_id($user_id)
 	{
-		$this->user_id = $user_id;
+		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
 	}
 	
 	/**
@@ -156,6 +161,12 @@ class UserQuota
 	{
 		$udm = UserDataManager :: get_instance();
 		return $udm->update_user_quota($this);
+	}
+	
+	function create()
+	{
+		$udm = UserDataManager :: get_instance();
+		return $udm->create_user_quota($this);
 	}
 	
 	static function get_table_name()
