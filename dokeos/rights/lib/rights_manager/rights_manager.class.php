@@ -373,7 +373,7 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
 	{
 		$links = array();
 		$links[] = array('name' => Translation :: get('Roles'), 'action' => 'list', 'url' => $this->get_link(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES)));
-		$links[] = array('name' => Translation :: get('Edit'), 'action' => 'manage', 'url' => $this->get_link(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)));
+		$links[] = array('name' => Translation :: get('Rights'), 'action' => 'manage', 'url' => $this->get_link(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)));
 		return array('application' => array('name' => Translation :: get('Rights'), 'class' => 'rights'), 'links' => $links, 'search' => null);
 	}
 	
