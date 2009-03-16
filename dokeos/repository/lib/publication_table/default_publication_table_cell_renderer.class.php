@@ -33,7 +33,7 @@ class DefaultPublicationTableCellRenderer implements ObjectTableCellRenderer
 				case LearningObjectPublicationAttributes :: PROPERTY_PUBLICATION_OBJECT :
 					return $learning_object_publication->get_publication_object_id();
 				case LearningObjectPublicationAttributes :: PROPERTY_APPLICATION :
-					return $learning_object_publication->get_application();
+					return DokeosUtilities :: underscores_to_camelcase_with_spaces($learning_object_publication->get_application());
 				case LearningObjectPublicationAttributes :: PROPERTY_LOCATION :
 					$application = $learning_object_publication->get_application();
 					
