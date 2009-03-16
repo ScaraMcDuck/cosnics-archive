@@ -224,9 +224,12 @@ class Text
 	    
 	    if (is_array($matches[0]) && count($matches[0]) >= 1) 
 	    {
-	        foreach ($matches[0] as $match) 
+	    	foreach ($matches[0] as $match) 
 	        {
-	            $haystack = str_replace($match, '<span style="background-color:'.$highlight_color.';">'.$match.'</span>', $haystack);
+	            if(in_array($match, $matches_done))	continue;
+	            
+	        	$matches_done[] = $match;
+	        	$haystack = str_replace($match, '<span style="background-color:'.$highlight_color.';">'.$match.'</span>', $haystack);
 	        }
 	    }
 	    return $haystack;
