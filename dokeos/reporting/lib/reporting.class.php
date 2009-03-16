@@ -15,9 +15,8 @@ class Reporting{
      */
 	public static function generate_block(&$reporting_block){
 		//$reporting_block->retrieve_data();
- 		$html[] = "<div id=\"".$reporting_block->get_id()."\" class=\"reporting_block\" " .
- 				"style=\"height: ".$reporting_block->get_height()."px; " .
- 						"width: ".$reporting_block->get_width()."px\">";
+ 		$html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block"'.
+ 				'style="max-height:'.$reporting_block->get_height().'; width:'.$reporting_block->get_width().';\">';
  		$html[] = "<div class=\"reporting_header\">";
         $html[] = "<div class=\"reporting_header_title\">".Translation :: get($reporting_block->get_name())."</div>";
  		$html[] = Translation :: get('Displaymode').' ';
