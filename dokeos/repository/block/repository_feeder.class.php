@@ -32,16 +32,24 @@ class RepositoryFeeder extends RepositoryBlock
 			
 			$feed = $display->parse_file($learning_object->get_url());
 			
-			$html[] = '<ul style="padding: 0px; margin: 0px 0px 0px 15px;">';
-			foreach ($feed['items'] as $item)
+			if($feed)
 			{
-	//			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path() . 'learning_object/rss_feed_item.png);">';
-				$html[] = '<li><a href="'.htmlentities($item['link']).'">'. $item['title'] .'</a></li>';
-	//			$html[] = html_entity_decode($item['description']);
-	//			$html[] = '<div class="link_url" style="margin-top: 1em;"><a href="'.htmlentities($item['link']).'">'.htmlentities($item['link']).'</a></div>';
-	//			$html[] = '</div>';
+			
+				$html[] = '<ul style="padding: 0px; margin: 0px 0px 0px 15px;">';
+				foreach ($feed['items'] as $item)
+				{
+		//			$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path() . 'learning_object/rss_feed_item.png);">';
+					$html[] = '<li><a href="'.htmlentities($item['link']).'">'. $item['title'] .'</a></li>';
+		//			$html[] = html_entity_decode($item['description']);
+		//			$html[] = '<div class="link_url" style="margin-top: 1em;"><a href="'.htmlentities($item['link']).'">'.htmlentities($item['link']).'</a></div>';
+		//			$html[] = '</div>';
+				}
+				$html[] = '</ul>';
 			}
-			$html[] = '</ul>';
+			else
+			{
+				$html[] = Translation :: get('CanNotConnectToFeed');
+			}
 		}
 		$html[] = $this->display_footer();
 		

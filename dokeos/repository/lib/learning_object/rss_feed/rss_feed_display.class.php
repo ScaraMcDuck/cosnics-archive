@@ -67,7 +67,8 @@ class RssFeedDisplay extends LearningObjectDisplay
 		}
 		else
 		{
-			die ('Error: RSS file not found...');
+			return false;
+			//die ('Error: RSS file not found...');
 		}
     }
 
