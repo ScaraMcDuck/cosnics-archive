@@ -161,6 +161,12 @@ class UserView
 	{
 		//dump($values);
 		$gdm = RepositoryDataManager :: get_instance();
+		
+		$condition = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
+		$views = $gdm->count_user_views($condition);
+		if($views > 0)
+			return false;
+		
 		$this->set_id($gdm->get_next_user_view_id());
 		$success = $gdm->create_user_view($this);
 		
