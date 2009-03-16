@@ -265,12 +265,12 @@ abstract class QuestionResult
 				if($answer_lines[0] == '<p>&#160;</p>')
 					$answer_lines[0] = Translation :: get('NoAnswer');
 					
-				$this->formvalidator->addElement('html', '<td><br />' . $answer_lines[0] . '<br /><br /></td>');
-				$this->formvalidator->addElement('html', '<td>' . $correct_answer_lines[0] . '</td>');
+				$this->formvalidator->addElement('html', '<td valign="top"><br />' . $answer_lines[0] . '<br /><br /></td>');
+				$this->formvalidator->addElement('html', '<td valign="top">' . $correct_answer_lines[0] . '</td>');
 			}
 			else 
 			{
-				if($use_list)
+				/*if($use_list)
 				{
 					if ($numbered) 
 					{
@@ -287,15 +287,36 @@ abstract class QuestionResult
 				{
 					$list_items = '<ul style="list-style-type: none; padding: 0px;">';
 					$list_correct_items = '<ul style="list-style-type: none; padding: 0px;">';
-				}
+				}*/
 					
 				for ($i = 0; $i < sizeof($answer_lines); $i++)
 				{
-					$list_items .= '<li>'.$answer_lines[$i].'</li>';
+					if ($use_list)
+					{
+						if ($numbered)
+						{
+							$line = ($i+1).'.'.$answer_lines[$i];
+							$correct = ($i+1).'.'.$correct_answer_lines[$i];
+						}
+						else
+						{
+							$line = '* '.$answer_lines[$i];
+							$correct = '* '.$correct_answer_lines[$i];
+						}
+					}
+					else
+					{
+						$line = $answer_lines[$i];
+						$correct = $correct_answer_lines[$i];
+					}
+					$this->formvalidator->addElement('html', '<tr>');
+					$this->formvalidator->addElement('html', '<td valign="top">'.$line.'</td>');
+					$this->formvalidator->addElement('html', '<td valign="top">'. $correct.'</td>');
+					$this->formvalidator->addElement('html', '</tr>');
+					//$list_items .= '<li>'.$answer_lines[$i].'</li>';
 				}
 				
-				
-				for ($i = 0; $i < sizeof($correct_answer_lines); $i++)
+				/*for ($i = 0; $i < sizeof($correct_answer_lines); $i++)
 				{
 					$list_correct_items .= '<li>'.$correct_answer_lines[$i].'</li>';
 				}
@@ -309,10 +330,10 @@ abstract class QuestionResult
 				{ 
 					$list_items .= '</ul>';
 					$list_correct_items .= '</ul>';
-				}
+				}*/
 				
-				$this->formvalidator->addElement('html', '<td>'.$list_items.'</td>');
-				$this->formvalidator->addElement('html', '<td>'. $list_correct_items . '</td>');
+				//$this->formvalidator->addElement('html', '<td valign="top">'.$list_items.'</td>');
+				//$this->formvalidator->addElement('html', '<td valign="top">'. $list_correct_items . '</td>');
 			}
 		}
 
