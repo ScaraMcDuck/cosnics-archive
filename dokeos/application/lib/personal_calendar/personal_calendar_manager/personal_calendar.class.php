@@ -108,9 +108,17 @@ class PersonalCalendar extends WebApplication
 		$dm = PersonalCalendarDatamanager::get_instance();
 		$condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_PUBLISHER, $this->get_user_id());
 		$publications = $dm->retrieve_calendar_event_publications($condition);
+		
+		$query = Request :: post('query');
+		
 		while($publication = $publications->next_result())
 		{
 			$object = $publication->get_publication_object();
+			if(isset($query) && $query != '')
+			{
+				if((stripos($object->get_title(), $query) === false) && (stripos($object->get_description(), $query) === false))
+					continue;
+			}
 			
 			if ($object->repeats())
 			{
