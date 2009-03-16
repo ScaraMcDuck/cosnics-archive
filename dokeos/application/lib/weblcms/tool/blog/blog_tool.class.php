@@ -39,5 +39,10 @@ class BlogTool extends Tool
 		
 		$component->run();
 	}
+	
+	static function get_allowed_types()
+	{
+		return array('blog');
+	}
 }
 ?>

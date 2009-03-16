@@ -698,29 +698,47 @@ class Weblcms extends WebApplication
 	 */
 	function get_learning_object_publication_locations($learning_object)
 	{
-		$allowed_types = array('announcement', 'blog', 'description', 'calendar_event', 'description', 'document',
-							   'assessment', 'forum', 'learning_path', 'wiki', 'link');
+		$locations = array();
 		
 		$type = $learning_object->get_type();
-		if(in_array($type, $allowed_types))
+		
+		$courses = $this->retrieve_courses($user); 
+		while($course = $courses->next_result())
+			$c[] = $course;
+		
+		$directory = dirname(__FILE__) . '/../tool/';
+		$tools = Filesystem :: get_directory_content($directory, Filesystem::LIST_DIRECTORIES, false);
+		foreach($tools as $tool)
 		{
-			$user = Session :: get_user_id();
+			$path =  $directory . $tool . '/' . $tool . '_tool.class.php';
 			
-			$courses = $this->retrieve_courses($user); 
-			while($course = $courses->next_result())
-				$locations[$course->get_id() . '-' . $type] = 'Course: ' . $course->get_name() . ' - Tool: ' . $type;
-				
-			return $locations;
+			if(!file_exists($path)) continue;
+			
+			require_once $path;
+			$class = DokeosUtilities :: underscores_to_camelcase($tool) . 'Tool';
+			$obj = new $class($this);
+			$types[$tool] = $obj->get_allowed_types();
 		}
 		
-		return array();	
+		foreach($types as $tool => $allowed_types)
+		{
+			if(in_array($type, $allowed_types))
+			{
+				$user = Session :: get_user_id();
+				
+				foreach($c as $course)
+					$locations[$course->get_id() . '-' . $tool] = 'Course: ' . $course->get_name() . ' - Tool: ' . $tool;
+			}
+		}
+		
+		return $locations;
 	}
 	
 	function publish_learning_object($learning_object, $location)
 	{
 		$location_split = split('-', $location);
 		$course = $location_split[0];
-		$tool = $location_split[1]; echo $location;
+		$tool = $location_split[1]; //echo $location;
 		$dm = WeblcmsDataManager :: get_instance();
 		$do = $dm->get_next_learning_object_publication_display_order_index($course,$tool,0);
 		
