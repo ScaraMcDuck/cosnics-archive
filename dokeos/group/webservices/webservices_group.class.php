@@ -6,6 +6,7 @@ require_once dirname(__FILE__) . '/../lib/group.class.php';
 require_once dirname(__FILE__) . '/../lib/data_manager/database.class.php';
 require_once Path :: get_webservice_path() . '/security/webservice_security_manager.class.php';
 require_once dirname(__FILE__) . '/../../common/webservices/action_success.class.php';
+require_once Path :: get_library_path() . 'validator/validator.class.php';
 
 
 $handler = new WebServicesGroup();
@@ -15,11 +16,13 @@ class WebServicesGroup
 {
 	private $webservice;
 	private $functions;
+    private $validator;
 	
 	function WebServicesGroup()
 	{
 		$this->webservice = Webservice :: factory($this);
         $this->wsm = WebserviceSecurityManager :: get_instance($this);
+        $this->validator = Validator :: get_validator('group');
 	}
 	
 	function run()
@@ -27,7 +30,7 @@ class WebServicesGroup
 		$functions = array();
 		
 		$functions['get_group'] = array(
-			'input' => new InputGroup(),
+			'input' => new Group(),
 			'output' => new Group(),
             'require_hash' => true
 		);
@@ -63,19 +66,26 @@ class WebServicesGroup
 
 	}
 	
-	function get_group($input_group)
+	function get_group(&$input_group)
 	{
         if($this->wsm->validate_function($input_group[hash]))
 		{
             $gdm = DatabaseGroupDataManager :: get_instance();
-            $group = $gdm->retrieve_group($input_group[id]);
-            if(count($group->get_default_properties())>0)
+            if($this->validator->validate_retrieve($input_group))
             {
-                return $group->get_default_properties();
+                $group = $gdm->retrieve_group_by_name($input_group[name]);
+                if(count($group->get_default_properties())>0)
+                {
+                    return $group->get_default_properties();
+                }
+                else
+                {
+                    return $this->webservice->raise_error('Group '.$input_group[name].' not found.');
+                }
             }
             else
             {
-                return $this->webservice->raise_error('Group '.$input_group[id].' not found.');
+                return $this->webservice->raise_error("Could not retrieve group. Please check the data you've provided.");
             }
         }
         else
@@ -84,13 +94,20 @@ class WebServicesGroup
         }
 	}
 	
-	function create_group($input_group)
+	function create_group(&$input_group)
 	{
         if($this->wsm->validate_function($input_group[hash]))
 		{
             unset($input_group[hash]);
-            $g = new Group(0,$input_group);
-            return $this->webservice->raise_message($g->create());
+            if($this->validator->validate_create($input_group))
+            {
+                $g = new Group(0,$input_group);
+                return $this->webservice->raise_message($g->create());
+            }
+            else
+            {
+                return $this->webservice->raise_error("Could not create group. Please check the data you've provided.");
+            }
         }
         else
         {
@@ -103,8 +120,15 @@ class WebServicesGroup
 		if($this->wsm->validate_function($input_group[hash]))
 		{
             unset($input_group[hash]);
-            $g = new Group(0,$input_group);
-            return $this->webservice->raise_message($g->update());
+            if($this->validator->validate_update($input_group))
+            {
+                $g = new Group(0,$input_group);
+                return $this->webservice->raise_message($g->update());
+            }
+            else
+            {
+                return $this->webservice->raise_error("Could not update group. Please check the data you've provided.");
+            }
         }
         else
         {
@@ -112,13 +136,20 @@ class WebServicesGroup
         }
 	}
 	
-	function delete_group($input_group)
+	function delete_group(&$input_group)
 	{
 		if($this->wsm->validate_function($input_group[hash]))
 		{
             unset($input_group[hash]);
-            $g = new Group(0,$input_group);
-            return $this->webservice->raise_message($g->delete());
+            if($this->validator->validate_delete($input_group))
+            {
+                $g = new Group(0,$input_group);
+                return $this->webservice->raise_message($g->delete());
+            }
+            else
+            {
+                return $this->webservice->raise_error("Could not delete group. Please check the data you've provided.");
+            }
         }
         else
         {
@@ -126,13 +157,20 @@ class WebServicesGroup
         }
 	}
 	
-	function subscribe_user($input_group_rel_user)
+	function subscribe_user(&$input_group_rel_user)
 	{
         if($this->wsm->validate_function($input_group_rel_user[hash]))
 		{
             unset($input_group_rel_user[hash]);
-            $gru = new GroupRelUser($input_group_rel_user[group_id],$input_group_rel_user[user_id]);
-            return $this->webservice->raise_message($gru->create());
+            if($this->validator->validate_subscribe_or_unsubscribe($input_group_rel_user))
+            {
+                $gru = new GroupRelUser($input_group_rel_user[group_id],$input_group_rel_user[user_id]);
+                return $this->webservice->raise_message($gru->create());
+            }
+            else
+            {
+                return $this->webservice->raise_error("Could not subscribe user to group. Please check the data you've provided.");
+            }
          }
         else
         {
@@ -140,13 +178,20 @@ class WebServicesGroup
         }
 	}
 	
-	function unsubscribe_user($input_group_rel_user)
+	function unsubscribe_user(&$input_group_rel_user)
 	{
 		if($this->wsm->validate_function($input_group_rel_user[hash]))
 		{
             unset($input_group_rel_user[hash]);
-            $gru = new GroupRelUser($input_group_rel_user[group_id],$input_group_rel_user[user_id]);
-            return $this->webservice->raise_message($gru->delete());
+            if($this->validator->validate_subscribe_or_unsubscribe($input_group_rel_user))
+            {
+                $gru = new GroupRelUser($input_group_rel_user[group_id],$input_group_rel_user[user_id]);
+                return $this->webservice->raise_message($gru->delete());
+            }
+            else
+            {
+                return $this->webservice->raise_error("Could not unsubscribe user from group. Please check the data you've provided.");
+            }
          }
         else
         {

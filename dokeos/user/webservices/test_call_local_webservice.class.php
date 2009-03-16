@@ -24,7 +24,7 @@ class TestCallLocalWebservice
 		{
 			$functions[] = array(
 				'name' => 'WebServicesUser.get_user',
-				'parameters' => array('id' => 2,'hash'=>'8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
+				'parameters' => array('username' => 'Soliberke','hash'=>'8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
 				'handler' => 'handle_webservice'
 			);
 		}*/
@@ -41,7 +41,7 @@ class TestCallLocalWebservice
 		}*/
 		
 		
-		/*$user = array('username' => 'Bond', 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78');
+		/*$user = array('username' => 'Kuchiki', 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78');
         $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
@@ -50,8 +50,7 @@ class TestCallLocalWebservice
 		  		'handler' => 'handle_webservice'			
 			);*/
 
-		$user = new User();
-		$user->set_default_properties(array (
+		  /*$user = array (
 		  'lastname' => 'Joske',
 		  'firstname' => 'Den Os',
 		  'username' => 'Joske',
@@ -63,7 +62,7 @@ class TestCallLocalWebservice
 		  'phone' => NULL,
 		  'official_code' => 'ADMIN',
 		  'picture_uri' => NULL,
-		  'creator_id' => Soliber,
+		  'creator_id' => 'Soliber',
 		  'language' => 'english',
 		  'disk_quota' => '209715200',
 		  'database_quota' => '300',
@@ -73,30 +72,29 @@ class TestCallLocalWebservice
 		  'expiration_date' => '0',
 		  'registration_date' => '1234774883',
 		  'active' => '1',
-		));
-		$user = $user->get_default_properties();
-        $user['hash'] = '8856ffce09dad0fd33bfe3ae803cd97cc4540a78';
+          'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+		);
 		$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesUser.create_user',
 				'parameters' => $user,
 		  		'handler' => 'handle_webservice'			
-			);
+			);*/
 		
-		/*$user = array (
+		  $user = array (
 		  'lastname' => 'Joske',
 		  'firstname' => 'Den Os',
-		  'username' => 'Den Os',
+          'username' => 'Joske',
 		  'password' => '4a0091108fb271e05f34da7cf77c975f',
 		  'auth_source' => 'platform',
 		  'email' => 'admin@localhost.localdomain',
 		  'status' => '1',
 		  'admin' => '1',
 		  'phone' => NULL,
-		  'official_code' => 'Joske',
+		  'official_code' => 'TEST_USER',
 		  'picture_uri' => NULL,
-		  'creator_id' => 'Den Os',
+		  'creator_id' => 'Soliber',
 		  'language' => 'english',
 		  'disk_quota' => '209715200',
 		  'database_quota' => '300',
@@ -114,7 +112,7 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesUser.update_user',
 				'parameters' => $user,
 		  		'handler' => 'handle_webservice'			
-			);*/
+			);
 	
 		$this->webservice->call_webservice($wsdl, $functions);
 	}
