@@ -19,6 +19,12 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 		$events = $this->get_events(0, strtotime('+10 Years', time()));
 		$dm = RepositoryDataManager :: get_instance();
 		$html = array ();
+		
+		if(count($events) == 0)
+		{
+			$this->get_parent()->display_message(Translation :: get('NoPublications'));	
+		}
+		
 		foreach ($events as $index => $event)
 		{
 			$html[$event->get_start_date()][] = $this->render_event($event);
