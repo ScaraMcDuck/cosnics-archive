@@ -18,16 +18,15 @@ class TestCallLocalWebservice
 	
 	function run()
 	{	
-		/*$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+		$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		$functions = array();
-		
-		{
-			$functions[] = array(
+
+		$functions[] = array(
 				'name' => 'WebServicesUser.get_user',
-				'parameters' => array('username' => 'Soliberke','hash'=>'8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
+				'parameters' => array('username' => 'Soliber','hash'=>'ef903275e1fcd9678c036b700db0fd21d4a8c430354fdf33da40b8058b74d0efc4220e6078024e33d1ee63cbcddbca4c86255d5c9857c94c5fc4cc7263996ec2'),
 				'handler' => 'handle_webservice'
-			);
-		}*/
+		);
+		
 		
 		/*$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		$functions = array();
@@ -82,7 +81,7 @@ class TestCallLocalWebservice
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
-		  $user = array (
+		  /*$user = array (
 		  'lastname' => 'Joske',
 		  'firstname' => 'Den Os',
           'username' => 'Joske',
@@ -112,7 +111,7 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesUser.update_user',
 				'parameters' => $user,
 		  		'handler' => 'handle_webservice'			
-			);
+			);*/
 	
 		$this->webservice->call_webservice($wsdl, $functions);
 	}

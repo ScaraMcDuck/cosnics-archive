@@ -54,8 +54,8 @@ class WebServicesUser
 			'input' => new User(),
 			'require_hash' => true
 		);
-        
-		$this->webservice->check_rights($functions);
+        $this->webservice->provide_webservice($functions); //function and no hash
+		//$this->webservice->check_rights($functions);
 	}
 	
 	function get_user($input_user)

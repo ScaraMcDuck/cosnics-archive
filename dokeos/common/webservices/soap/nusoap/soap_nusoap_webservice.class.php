@@ -101,12 +101,7 @@ class SoapNusoapWebservice
 	function call_webservice($wsdl, $functions)
 	{
 		$client = new nusoap_client($wsdl, 'wsdl');		
-		
-
-		$wsm = WebserviceSecurityManager :: get_instance();
-		
-		//if($wsm->validate_service($hash, $ip))
-		foreach($functions as $function)
+        foreach($functions as $function)
 		{
 			$function_name = $function['name'];
 			$function_parameters = $function['parameters'];
