@@ -179,11 +179,18 @@ abstract class LearningObjectForm extends FormValidator
 		{
 			if ($object->get_version_count() < $quotamanager->get_max_versions($object->get_type()))
 			{
-				$this->add_element_hider('script_block');
-				$this->addElement('checkbox','version', Translation :: get('CreateAsNewVersion'), null, 'onclick="javascript:showElement(\''. LearningObject :: PROPERTY_COMMENT .'\')"');
-				$this->add_element_hider('begin', LearningObject :: PROPERTY_COMMENT);
-				$this->addElement('text', LearningObject :: PROPERTY_COMMENT, Translation :: get('VersionComment'), array("size" => "50"));
-				$this->add_element_hider('end', LearningObject :: PROPERTY_COMMENT);
+				if($object->is_versioning_required())
+				{
+					$this->addElement('hidden','version');
+				}
+				else
+				{
+					$this->add_element_hider('script_block');
+					$this->addElement('checkbox','version', Translation :: get('CreateAsNewVersion'), null, 'onclick="javascript:showElement(\''. LearningObject :: PROPERTY_COMMENT .'\')"');
+					$this->add_element_hider('begin', LearningObject :: PROPERTY_COMMENT);
+					$this->addElement('text', LearningObject :: PROPERTY_COMMENT, Translation :: get('VersionComment'), array("size" => "50"));
+					$this->add_element_hider('end', LearningObject :: PROPERTY_COMMENT);
+				}
 			}
 			else
 			{
@@ -401,6 +408,12 @@ EOT;
 			$defaults[LearningObject :: PROPERTY_TITLE] = $lo->get_title();
 			$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
 		}
+	
+		if($lo->is_versioning_required() && $this->form_type == self :: TYPE_EDIT)
+		{
+			$defaults['version'] = 1;
+		}
+		
 		parent :: setDefaults($defaults);
 	}
 	

@@ -1059,5 +1059,14 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return Path :: get($path_type);
 	}
+	
+	/**
+	 * Determines whether an edit of a learning object requires a new version or not
+	 * @return false
+	 */
+	function is_versioning_required()
+	{
+		return false;
+	}
 }
 ?>

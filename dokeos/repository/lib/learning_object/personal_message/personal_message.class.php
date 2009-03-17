@@ -20,7 +20,12 @@ class PersonalMessage extends LearningObject
 
 	function is_versionable()
 	{
-		return false;
+		return true;
+	}
+	
+	function is_versioning_required()
+	{
+		return true;
 	}
 }
 ?>
