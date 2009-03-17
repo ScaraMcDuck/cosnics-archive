@@ -212,13 +212,13 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 				$condition_q = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question_id);
 				$condition = new AndCondition(array($condition_ass, $condition_q));
 				$user_answers = $track->retrieve_tracker_items($condition);
-				foreach ($user_answers as $user_answer)
+				//foreach ($user_answers as $user_answer)
 				{
-					$user_answer->set_score($value);
-					if ($user_answer->get_answer() == null)
-					 	$user_answer->set_answer(' ');
+					$user_answers[0]->set_score($value);
+					if ($user_answers[0]->get_answer() == null)
+					 	$user_answers[0]->set_answer(' ');
 					 	
-					 $user_answer->update();
+					 $user_answers[0]->update();
 				}
 			}
 			else if (substr($key, 0, 3) == 'ex_')
