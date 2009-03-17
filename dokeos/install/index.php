@@ -17,6 +17,7 @@ require_once(Path :: get_library_path().'translation/translation.class.php');
 require_once Path :: get_library_path().'html/text.class.php';
 require_once Path :: get_library_path().'mail/mail.class.php';
 require_once dirname(__FILE__).'/lib/install_manager/install_manager.class.php';
+require_once Path :: get_library_path() . 'hashing/hashing.class.php';
 
 Translation :: set_application($this_section);
 Translation :: set_language('english');

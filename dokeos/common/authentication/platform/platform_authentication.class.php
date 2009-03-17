@@ -6,7 +6,7 @@
 require_once dirname(__FILE__).'/../authentication.class.php';
 /**
  * This authentication class implements the default authentication method for
- * the platform using md5-encrypted passwords.
+ * the platform using hashed passwords.
  */
 class PlatformAuthentication extends Authentication
 {
@@ -24,7 +24,7 @@ class PlatformAuthentication extends Authentication
     	}
     	else
     	{
-    		if($user->get_username() == $username && $user->get_password() == md5($password))
+    		if($user->get_username() == $username && $user->get_password() == Hashing :: hash($password))
     			return 'true';
     		
     		return Translation :: get("UsernameOrPasswordIncorrect");

@@ -203,7 +203,7 @@ class UserForm extends FormValidator {
     {
     	$user = $this->user;
     	$values = $this->exportValues();
-    	$password = $values['pw']['pass'] == '1' ? md5(Text :: generate_password()) : ($values['pw']['pass'] == '2' ? $user->get_password() : md5($values['pw'][User :: PROPERTY_PASSWORD]));
+    	$password = $values['pw']['pass'] == '1' ? Hashing :: hash(Text :: generate_password()) : ($values['pw']['pass'] == '2' ? $user->get_password() : Hashing :: hash($values['pw'][User :: PROPERTY_PASSWORD]));
     	if ($_FILES[User :: PROPERTY_PICTURE_URI] && file_exists($_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name']))
     	{
 			$user->set_picture_file($_FILES[User :: PROPERTY_PICTURE_URI]);
@@ -287,7 +287,7 @@ class UserForm extends FormValidator {
     		$user->set_firstname($values[User :: PROPERTY_FIRSTNAME]);
     		$user->set_email($values[User :: PROPERTY_EMAIL]);
 	    	$user->set_username($values[User :: PROPERTY_USERNAME]);
-	 	   	$user->set_password(md5($password));
+	 	   	$user->set_password(Hashing :: hash($password));
 	 	   	$this->unencryptedpass = $password;
 	 	   	
 			if ($values[self :: PARAM_FOREVER] != 0)

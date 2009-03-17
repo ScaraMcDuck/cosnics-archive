@@ -58,7 +58,7 @@ class Security
 	 */
 	function get_token()
 	{
-		$token = md5(uniqid(rand(), true));
+		$token = Hashing :: hash(uniqid(rand(), true));
 		Session :: register('sec_token', $token);
 		return $token;
 	}

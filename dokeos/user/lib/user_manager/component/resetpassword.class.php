@@ -106,7 +106,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 	private function create_new_password($user)
 	{
 		$password = Text :: generate_password();
-		$user->set_password(md5($password));
+		$user->set_password(Hashing :: hash($password));
 		$user->update();
 		$mail_subject = Translation :: get('LoginRequest');
 		$mail_body[] = $user->get_fullname().',';
@@ -145,7 +145,7 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 	private function get_user_key($user)
 	{
 		global $security_key;
-		return md5($security_key.$user->get_email());
+		return Hashing :: hash($security_key.$user->get_email());
 	}
 }
 ?>

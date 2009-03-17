@@ -66,7 +66,7 @@ class UserInstaller extends Installer
 		$user->set_lastname($values['admin_surname']);
 		$user->set_firstname($values['admin_firstname']);
 		$user->set_username($values['admin_username']);
-		$user->set_password(md5($values['admin_password']));
+		$user->set_password(Hashing :: hash($values['admin_password']));
 		$user->set_auth_source('platform');
 		$user->set_email($values['admin_email']);
 		$user->set_status('1');
@@ -99,7 +99,7 @@ class UserInstaller extends Installer
 		$user->set_lastname(Translation :: get('Anonymous'));
 		$user->set_firstname(Translation :: get('Mr'));
 		$user->set_username('anonymous');
-		$user->set_password(md5($values['admin_password']));
+		$user->set_password(Hashing :: hash($values['admin_password']));
 		$user->set_auth_source('platform');
 		$user->set_email($values['admin_email']);
 		$user->set_status('1');
@@ -139,7 +139,7 @@ class UserInstaller extends Installer
 		$user->set_lastname('Doe');
 		$user->set_firstname('John');
 		$user->set_username('JohnDoe');
-		$user->set_password(md5('JohnDoe'));
+		$user->set_password(Hashing :: hash('JohnDoe'));
 		$user->set_auth_source('platform');
 		$user->set_email('john.doe@nowhere.org');
 		$user->set_status('1');

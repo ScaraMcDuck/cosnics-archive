@@ -12,7 +12,7 @@ class LdapParser
 		$user_properties[User:: PROPERTY_LASTNAME] = $info[0]['sn'][0];
 		$user_properties[User:: PROPERTY_FIRSTNAME] = $info[0]['givenname'][0];
 		$user_properties[User:: PROPERTY_USERNAME] = $username;
-		$user_properties[User:: PROPERTY_PASSWORD] = md5('PLACEHOLDER');
+		$user_properties[User:: PROPERTY_PASSWORD] = Hashing :: hash('PLACEHOLDER');
 		$user_properties[User:: PROPERTY_AUTH_SOURCE] = 'ldap';
 		$user_properties[User:: PROPERTY_EMAIL] = $info[0]['mail'][0];;
 		
