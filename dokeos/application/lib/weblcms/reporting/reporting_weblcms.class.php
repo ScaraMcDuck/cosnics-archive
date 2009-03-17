@@ -118,5 +118,15 @@ class ReportingWeblcms {
         array_push($array,$datadescription);
         return $array;
     }
+
+    public static function getNoOfCourses($params)
+    {
+
+    }
+
+    public static function getNoOfObjectsPerType($params)
+    {
+        
+    }
 }
 ?>

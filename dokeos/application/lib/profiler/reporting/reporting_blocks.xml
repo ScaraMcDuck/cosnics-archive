@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="profiler">
+	<reporting_block name="ProfilerTestBlock"
+		   application="profiler"
+		   function="getTestBlock"
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+</application>

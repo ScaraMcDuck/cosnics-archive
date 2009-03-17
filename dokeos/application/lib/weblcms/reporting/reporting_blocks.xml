@@ -30,4 +30,16 @@
 		   displaymode="Table"
 		   width="500px"
 		   height="500px" />
+    <reporting_block name="WeblcmsNoOfCourses"
+           application="weblcms"
+           function="getNoOfCourses"
+           displaymode="Table"
+           width="500px"
+           height="500px" />
+    <reporting_block name="WeblcmsNoOfObjectsPerType"
+           application="weblcms"
+           function="getNoOfObjectsPerType"
+           displaymode="Table"
+           width="500px"
+           height="500px" />
 </application>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="reporting">
+	<reporting_block name="ReportingNoOfTemplates"
+		   application="reporting"
+		   function="getNoOfTemplates"
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+	<reporting_block name="ReportingMostViewedTemplates"
+		   application="reporting"
+		   function="getMostViewedTemplates"
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+	<reporting_block name="ReportingLeastViewedTemplates"
+		   application="reporting"
+		   function="getLeastViewedTemplates"
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+	<reporting_block name="ReportingNoOfReportingBlocks"
+		   application="reporting"
+		   function="getNoOfReportingBlocks"
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+</application>
