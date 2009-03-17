@@ -74,6 +74,12 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 			'img' => Theme :: get_common_image_path().'action_view_results.png'
 		);
 		
+		$actions[] = array(
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
+			'label' => Translation :: get('DeleteAllResults'),
+			'img' => Theme :: get_common_image_path().'action_delete.png'
+		);
+		
 		if ($assessment->get_assessment_type() == Assessment :: TYPE_ASSIGNMENT)
 		{
 			$actions[] = array(
@@ -82,12 +88,6 @@ class AssessmentResultsTableOverviewAdminCellRenderer extends DefaultLearningObj
 				'img' => Theme :: get_common_image_path().'action_download.png'
 			);
 		}
-		
-		$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_DELETE_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $publication->get_id())),
-			'label' => Translation :: get('DeleteAllResults'),
-			'img' => Theme :: get_common_image_path().'action_delete.png'
-		);
 		
 		return DokeosUtilities :: build_toolbar($actions);
 	}
