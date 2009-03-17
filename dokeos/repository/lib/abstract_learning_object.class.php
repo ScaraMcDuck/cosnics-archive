@@ -54,5 +54,11 @@ class AbstractLearningObject extends LearningObject
 		$dummy_object = LearningObject :: factory($this->get_type());
 		return $dummy_object->is_versionable();
 	}
+	
+	function is_versioning_required()
+	{
+		$dummy_object = LearningObject :: factory($this->get_type());
+		return $dummy_object->is_versioning_required();
+	}
 }
 ?>
