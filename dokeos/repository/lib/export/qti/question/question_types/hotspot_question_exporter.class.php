@@ -48,7 +48,7 @@ class HotspotQuestionQtiExport extends QuestionQtiExport
 
 		$interaction_xml[] = '<graphicOrderInteraction responseIdentifier="RESPONSE" >';
 		$interaction_xml[] = '<prompt>';
-		$interaction_xml[] = '<p>'.htmlspecialchars($this->get_learning_object()->get_description()).'</p>';
+		$interaction_xml[] = '<p>'.include_question_images($this->get_learning_object()->get_description()).'</p>';
 		$interaction_xml[] = '</prompt>';
 		
 		$image = $this->get_learning_object()->get_image();
