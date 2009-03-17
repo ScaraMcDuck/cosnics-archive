@@ -86,8 +86,8 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$options = $this->get_active_elements();
 		$find = 'ElementFinder.find(this.value, \''.$this->search_url.'\', document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));';
 		$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array ('style' => 'width: 100%', 'onkeyup' => $find, 'onchange' => $find, 'onkeypress' => 'var evt = (window.event || event); if (evt && evt.keyCode == 13) return false;', 'class' => 'element_query', 'id' => $this->getName().'_search_field'));
-		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '>>', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'ElementFinder.activate(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\'));', 'id' => $activate_button_id, 'disabled' => 'disabled', 'class' => 'activate_elements'));
-		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '<<', array ('style' => 'margin: 0.5ex 1ex', 'onclick' => 'ElementFinder.deactivate(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));',  'id' => $deactivate_button_id, 'disabled' => 'disabled', 'class' => 'deactivate_elements'));
+		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '>>', array ('onclick' => 'ElementFinder.activate(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\'));', 'id' => $activate_button_id, 'disabled' => 'disabled', 'class' => 'activate_elements'));
+		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '<<', array ('onclick' => 'ElementFinder.deactivate(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));',  'id' => $deactivate_button_id, 'disabled' => 'disabled', 'class' => 'deactivate_elements'));
 	}
 
 	function getValue()
@@ -172,47 +172,85 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		} 
 		$html[] = $this->_elements[0]->toHTML();
 		$id = 'tbl_'.$this->getName();
-		$html[] = '<table border="0" width="100%" cellpadding="0" cellspacing="0" id="'.$id.'" style="height:'.$this->getHeight().'px; '. ($this->isCollapsed() ? ' display: none;' : '').'">';
-		$html[] = '<tr>';
-		$html[] = '<td width="50%" valign="top">';
+		
+		
+		
+		
+		
+		$html[] = '<div id="'.$id.'" style="width: 650px; height:'.$this->getHeight().'px; '. ($this->isCollapsed() ? ' display: none;' : '').'">';
+		
+		// Search + Inactive
+		$html[] = '<div style="float: left; width: 290px;">';
 		$this->_elements[1]->setValue('');
 		$html[] = $this->_elements[1]->toHTML();
-		$html[] = '</td>';
-
-		$html[] = '<td rowspan="2" valign="middle">';
-		$html[] = $this->_elements[2]->toHTML();
-		$html[] = $this->_elements[3]->toHTML();
-		$html[] = '</td>';
-
-		$html[] = '<td valign="top" rowspan="2" width="50%">';
-		// TODO: Make height: 100% work
-		$html[] = '<div id="elf_'.$this->getName().'_active" class="active_elements" style="width: 100%; height: '.$this->getHeight().'px; overflow: auto; border: 1px solid black; padding: 1px;"></div>';
-
-		$html[] = '</td>';
-
-		$html[] = '</tr>';
-		$html[] = '<tr>';
-
-		$html[] = '<td width="50%" valign="top">';
-		// TODO: Make height: 100% work
-		$html[] = '<div id="elf_'.$this->getName().'_inactive" class="inactive_elements" style="width: 100%; height: '.($this->getHeight()-20).'px; overflow: auto; border: 1px solid black; padding: 1px;">';
+		$html[] = '<div id="elf_'.$this->getName().'_inactive" class="inactive_elements" style="width: 100%; height: '.($this->getHeight()-27).'px; overflow: auto;">';
+		$html[] = '</div>';
+		$html[] = '</div>';
 		
-		/*foreach($this->defaults as $my_id => $default)
-		{
-			//$string = implode("\t", array($default['class'], $default['title'], $default['description']));
-			$aID = 'elf_'.$this->getName().'_inactive' . '_' . $my_id;
-			$string = '<li class="'. $default['class'] . '">';
-			$string .= '<a id="' . $aID . '" href="javascript:ElementFinder.toggleLinkSelectionState(document.getElementById(\'' . $aID . '\'), document.getElementById(\'elf_'.$this->getName().'_inactive\'));" element="' . $my_id . '">' . $default['title'] . '</a><br />';
-			$string .= '</li>';
-			$html[] = $string;
-		}*/
+		// Buttons
+		$html[] = '<div style="float: left; width: 70px; text-align: center;">';
+		$html[] = $this->_elements[2]->toHTML();
+		$html[] = '<br />';
+		$html[] = $this->_elements[3]->toHTML();
+		$html[] = '</div>';
+		
+		
+		// Active
+		$html[] = '<div style="float: left; width: 290px;">';
+		$html[] = '<div id="elf_'.$this->getName().'_active" class="active_elements" style="width: 100%; height: '.$this->getHeight().'px; overflow: auto;"></div>';
+		$html[] = '</div>';
+		
+		$html[] = '<div class="clear"></div>';
 		
 		$html[] = '</div>';
-
-		$html[] = '</td>';
-
-		$html[] = '</tr>';
-		$html[] = '</table>';
+		
+		
+		
+		
+		
+		
+		
+//		$html[] = '<table border="0" cellpadding="0" cellspacing="0" id="'.$id.'" style="height:'.$this->getHeight().'px; '. ($this->isCollapsed() ? ' display: none;' : '').'">';
+//		$html[] = '<tr>';
+//		$html[] = '<td width="50%" valign="top">';
+//		$this->_elements[1]->setValue('');
+//		$html[] = $this->_elements[1]->toHTML();
+//		$html[] = '</td>';
+//
+//		$html[] = '<td rowspan="2" valign="middle">';
+//		//$html[] = $this->_elements[2]->toHTML();
+//		//$html[] = $this->_elements[3]->toHTML();
+//		$html[] = '</td>';
+//
+//		$html[] = '<td valign="top" rowspan="2" width="50%">';
+//		// TODO: Make height: 100% work
+//		$html[] = '<div id="elf_'.$this->getName().'_active" class="active_elements" style="width: 100%; height: '.$this->getHeight().'px; overflow: auto;"></div>';
+//
+//		$html[] = '</td>';
+//
+//		$html[] = '</tr>';
+//		$html[] = '<tr>';
+//
+//		$html[] = '<td width="50%" valign="top">';
+//		// TODO: Make height: 100% work
+//		$html[] = '<div id="elf_'.$this->getName().'_inactive" class="inactive_elements" style="width: 100%; height: '.($this->getHeight()-27).'px; overflow: auto;">';
+//		
+//		/*foreach($this->defaults as $my_id => $default)
+//		{
+//			//$string = implode("\t", array($default['class'], $default['title'], $default['description']));
+//			$aID = 'elf_'.$this->getName().'_inactive' . '_' . $my_id;
+//			$string = '<li class="'. $default['class'] . '">';
+//			$string .= '<a id="' . $aID . '" href="javascript:ElementFinder.toggleLinkSelectionState(document.getElementById(\'' . $aID . '\'), document.getElementById(\'elf_'.$this->getName().'_inactive\'));" element="' . $my_id . '">' . $default['title'] . '</a><br />';
+//			$string .= '</li>';
+//			$html[] = $string;
+//		}*/
+//		
+//		$html[] = '</div>';
+//
+//		$html[] = '</td>';
+//
+//		$html[] = '</tr>';
+//		$html[] = '</table>';
 		if ($this->isCollapsed())
 		{
 			$html[] = '<input type="button" value="'.htmlentities($this->locale['Display']).'" '.'onclick="document.getElementById(\''.$id.'\').style.display = \'\'; this.style.display = \'none\'; document.getElementById(\''.$this->getName().'_search_field\').focus();" id="'.$this->getName().'_expand_button" />';

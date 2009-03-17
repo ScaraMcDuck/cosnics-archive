@@ -1576,7 +1576,7 @@ ul.tree-menu li div a.type_announcement, .active_elements li.type_announcement a
 
 ul.tree-menu li div a.type_user, .active_elements li.type_user a
 {
-	background-image: url(../img/common/treemenu_types/user.png);
+	background-image: url(../img/common/treemenu/user.png);
 	background-repeat: no-repeat;
 }
 
