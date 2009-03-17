@@ -405,8 +405,8 @@ abstract class Installer
 						$classname = DokeosUtilities :: underscores_to_camelcase($bla[0]);
                         $method = new ReflectionMethod($classname, 'get_properties');
                         $props = $method->invoke(null);
-                        $props['application'] = $application;
-                        $props['classname'] = $classname;
+                        $props[ReportingTemplateRegistration :: PROPERTY_APPLICATION] = $application;
+                        $props[ReportingTemplateRegistration :: PROPERTY_CLASSNAME] = $classname;
 						if($this->register_reporting_template($props))
 						{
 							$this->add_message(self :: TYPE_NORMAL, 'Registered reporting template: <em>'.$props['title'].'</em>');
