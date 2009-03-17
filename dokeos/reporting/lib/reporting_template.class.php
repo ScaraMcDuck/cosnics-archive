@@ -14,8 +14,12 @@ require_once Path :: get_reporting_path().'lib/reporting.class.php';
 
 abstract class ReportingTemplate {
 
+    const PARAM_VISIBLE = 'visible';
+    const PARAM_DIMENSIONS = 'dimensions';
     const REPORTING_BLOCK_VISIBLE = 1;
     const REPORTING_BLOCK_INVISIBLE = 0;
+    const REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS = 1;
+    const REPORTING_BLOCK_USE_BLOCK_DIMENSIONS = 0;
     protected $parent;
     /*
      * array with all the reporting block and specific properties such as
@@ -63,7 +67,9 @@ abstract class ReportingTemplate {
      */
     function get_footer()
     {
-        return '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
+        $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
+        $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' .'"></script>';
+        return implode("\n", $html);
     }//get_footer
 
     /*
@@ -103,9 +109,9 @@ abstract class ReportingTemplate {
      * @param ReportingBlock $reporting_block
      * @param int $visible
      */
-    function add_reporting_block($reporting_block,$visible)
+    function add_reporting_block($reporting_block,$params)
     {
-        array_push($this->reporting_blocks,array($reporting_block,$visible));
+        array_push($this->reporting_blocks,array($reporting_block,$params));
     }
 
     /**
@@ -114,16 +120,15 @@ abstract class ReportingTemplate {
      */
     function show_reporting_block($name)
     {
+        //dump($this->reporting_blocks);
         foreach($this->reporting_blocks as $key => $value)
         {
             if($value[0]->get_name() == $name)
             {
-                //add constant if visible
-                // ReportingTemplate :: VISIBLE
-                $value[1] = self :: REPORTING_BLOCK_VISIBLE;
+                $value[1][self :: PARAM_VISIBLE] = self :: REPORTING_BLOCK_VISIBLE;
             }else
             {
-                $value[1] = self :: REPORTING_BLOCK_INVISIBLE;
+                $value[1][self :: PARAM_VISIBLE] = self :: REPORTING_BLOCK_INVISIBLE;
             }
             $this->reporting_blocks[$key] = $value;
         }
@@ -138,13 +143,49 @@ abstract class ReportingTemplate {
         foreach($this->retrieve_reporting_blocks() as $key => $value)
         {
             // check if reporting block is visible
-            if($value[1] == self :: REPORTING_BLOCK_VISIBLE)
+            if($value[1][self :: PARAM_VISIBLE] == self :: REPORTING_BLOCK_VISIBLE)
             {
                 $html[] = Reporting :: generate_block($value[0]);
                 $html[] = '<br />';
             }
         }
         return implode("\n", $html);
+    }
+
+    function get_reporting_block_html($name)
+    {
+        $array = $this->retrieve_reporting_blocks();
+        foreach($array as $key => $value)
+        {
+            if($value[0]->get_name() == $name)
+            {
+                return Reporting :: generate_block($value[0],$this->get_reporting_block_template_properties($name));
+            }
+        }
+    }
+
+    function set_reporting_block_template_properties($name,$params)
+    {
+        $array = $this->retrieve_reporting_blocks();
+        foreach($array as $key => $value)
+        {
+            if($value[0]->get_name() == $name)
+            {
+                $value[1] = $params;
+            }
+        }
+    }//set_reporting_block_template_properties
+
+    function get_reporting_block_template_properties($name)
+    {
+        $array = $this->retrieve_reporting_blocks();
+        foreach($array as $key => $value)
+        {
+            if($value[0]->get_name() == $name)
+            {
+                return $value[1];
+            }
+        }
     }
 
     /**
@@ -156,27 +197,21 @@ abstract class ReportingTemplate {
         return $this->reporting_blocks;
     }
 
-    function set_reporting_blocks_parameters($params)
+    function set_reporting_blocks_function_parameters($params)
     {
         foreach($this->retrieve_reporting_blocks() as $key => $value)
         {
-            //foreach($value as $key2 => $value2)
-            //{
-                $value[0]->set_function_parameters($params);
-            //}
+            $value[0]->set_function_parameters($params);
         }
     }//set_reporting_blocks_parameters
 
-    function set_reporting_block_parameters($blockname,$params)
+    function set_reporting_block_function_parameters($blockname,$params)
     {
         foreach($this->retrieve_reporting_blocks() as $key => $value)
         {
-            foreach($value as $key2 => $value2)
+            if($value[0]->get_name() == $blockname)
             {
-                if($key2[0]->get_name() == $blockname)
-                {
-                    $key2[0]->set_function_parameters($params);
-                }
+                $value[0]->set_function_parameters($params);
             }
         }
     }//set_reporting_block_parameters

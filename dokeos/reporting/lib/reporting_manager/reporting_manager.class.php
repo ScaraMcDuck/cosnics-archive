@@ -24,7 +24,7 @@ class ReportingManager {
     const PARAM_APPLICATION = 'application';
     const PARAM_TEMPLATE_ID = 'template';
     //const PARAM_SUB_APPLICATIONS = 'sub_applications';
-    const PARAM_TEMPLATE_PARAMETERS = 'template_parameters';
+    const PARAM_TEMPLATE_FUNCTION_PARAMETERS = 'template_parameters';
 
     const PARAM_ROLE_ID = 'role';
 
@@ -383,7 +383,7 @@ class ReportingManager {
             $parameters = array();
             $parameters[ReportingManager :: PARAM_ACTION] = ReportingManager ::ACTION_VIEW_TEMPLATE;
             $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = $template->get_id();
-            $parameters[ReportingManager :: PARAM_TEMPLATE_PARAMETERS] = $para;
+            $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $para;
         }else
         {
             $parameters = array();

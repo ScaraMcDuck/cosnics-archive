@@ -49,7 +49,7 @@ class ReportingTableFormatter extends ReportingFormatter {
         }else
         {
             $i = 1;
-            $j = 1;
+            $j = 0;
             foreach ($datadescription as $key => $value)
             {
                 if($key == "Description")
@@ -60,10 +60,10 @@ class ReportingTableFormatter extends ReportingFormatter {
                         $table->setCellContents($i, 0, $value2);
                         $i++;
                     }
+                    $j++;
                 }
             }
             $i = 1;
-            $j = 1;
             foreach ($data as $key => $value)
             {
                 foreach($value as $key2 => $value2)
