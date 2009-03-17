@@ -142,12 +142,13 @@ class RightsUtilities
 		}
 	}
 	
-	function is_allowed($right, $location, $type, $application = 'admin')
+	function is_allowed($right, $location, $type, $application = 'admin', $user_id = null)
 	{
 		$rdm = RightsDataManager :: get_instance();
 		$udm = UserDataManager :: get_instance();
-		
-		$user = $udm->retrieve_user(Session :: get_user_id());
+
+        $user_id = $user_id ? $user_id : Session :: get_user_id();
+		$user = $udm->retrieve_user($user_id);
 		
 		if (is_object($user) && $user->is_platform_admin())
 		{

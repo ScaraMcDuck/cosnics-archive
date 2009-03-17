@@ -60,7 +60,7 @@ class WebServicesUser
 	
 	function get_user($input_user)
 	{
-        if($this->wsm->validate_function($input_user[hash]))
+        if($this->webservice->can_execute($input_user, 'get user'))
 		{
             $udm = DatabaseUserDataManager :: get_instance();
             if($this->validator->validate_retrieve($input_user))
@@ -82,7 +82,7 @@ class WebServicesUser
 		}
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->raise_error('Hash authentication failed, or no rights.');
         }
 		
 	}
@@ -90,7 +90,7 @@ class WebServicesUser
 	
 	function get_all_users($input_user)
 	{
-        if($this->wsm->validate_function($input_user[hash]))
+        if($this->webservice->can_execute($input_user, 'get all users'))
 		{
             $udm = DatabaseUserDataManager :: get_instance();
             $users = $udm->retrieve_users();
@@ -110,13 +110,13 @@ class WebServicesUser
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->raise_error('Hash authentication failed, or no rights.');
         }
 	}
 	
 	function delete_user(&$input_user)
 	{
-        if($this->wsm->validate_function($input_user[hash]))
+        if($this->webservice->can_execute($input_user, 'delete user'))
 		{
             unset($input_user[hash]);
             if($this->validator->validate_delete($input_user))
@@ -132,13 +132,13 @@ class WebServicesUser
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->raise_error('Hash authentication failed, or no rights.');
         }
 	}
 	
 	function create_user(&$input_user)
 	{
-        if($this->wsm->validate_function($input_user[hash]))
+        if($this->webservice->can_execute($input_user, 'create user'))
 		{
             unset($input_user[hash]);
             if($this->validator->validate_create($input_user))
@@ -153,13 +153,13 @@ class WebServicesUser
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->raise_error('Hash authentication failed, or no rights.');
         }
 	}
 	
 	function update_user(&$input_user)
 	{
-        if($this->wsm->validate_function($input_user[hash]))
+        if($this->webservice->can_execute($input_user, 'update user'))
 		{
             unset($input_user[hash]);
             if($this->validator->validate_update($input_user))
@@ -174,7 +174,7 @@ class WebServicesUser
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->raise_error('Hash authentication failed, or no rights.');
         }
 	}
 	
