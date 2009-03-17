@@ -13,6 +13,7 @@ require_once Path :: get_application_path().'lib/weblcms/tool/tool.class.php';
  */
 class AssessmentTool extends Tool
 {
+	const ACTION_DELETE_PUBLICATION = 'delete_pub';
 	const ACTION_VIEW_ASSESSMENTS = 'view';
 	const ACTION_VIEW_USER_ASSESSMENTS = 'view_user';
 	const ACTION_TAKE_ASSESSMENT = 'take';
@@ -88,6 +89,9 @@ class AssessmentTool extends Tool
 				break;
 			case self :: ACTION_DELETE_RESULTS:
 				$component = AssessmentToolComponent :: Factory('ResultsDeleter', $this);
+				break;
+			case self :: ACTION_DELETE_PUBLICATION:
+				$component = AssessmentToolComponent :: Factory('Deleter', $this);
 				break;
 			default:
 				$component = AssessmentToolComponent :: factory('Viewer', $this);
