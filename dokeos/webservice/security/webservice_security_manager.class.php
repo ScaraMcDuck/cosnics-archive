@@ -29,23 +29,20 @@ class WebserviceSecurityManager
 	
 	function create_hash($ip, $hash)
 	{	
-		$input = $ip.''.$hash;
-		return $this->dbhash = hash('sha1', $input);
+		return $this->dbhash = Hashing :: hash($ip.$hash);
 	}
    
 	function validate_function($hash)
 	{
 		$wdm = WebserviceDataManager :: get_instance();
-		$ip = $_SERVER['REMOTE_ADDR'];
-        $wdm->delete_expired_webservice_credentials();
-		$credentials = $wdm->retrieve_webservice_credentials_by_ip($ip);
+		$wdm->delete_expired_webservice_credentials();
+		$credentials = $wdm->retrieve_webservice_credentials_by_ip($_SERVER['REMOTE_ADDR']);
         $credentials = $credentials->as_array();
         if(is_array($credentials))
 		{
             foreach($credentials as $c)
             {
-                $input_hash = $c->get_hash();
-                $h = hash('sha1',$input_hash.''.$SERVER['REMOTE_ADDR']);
+               $h = Hashing :: hash($c->get_hash().$SERVER['REMOTE_ADDR']);
                if(strcmp($h , $hash)===0)
                 {
                     return true;
@@ -90,14 +87,13 @@ class WebserviceSecurityManager
 	{			
 		$udm = DatabaseUserDataManager :: get_instance();		
 		$user = $udm->retrieve_user_by_username($username);
-		$ip = $_SERVER['REMOTE_ADDR'];		
-		$hash = hash('sha1',$user->get_password().''.$ip);		
+        $hash = Hashing :: hash ($user->get_password().$_SERVER['REMOTE_ADDR']);
 		if(isset($user))
 		{						
 			if(strcmp($hash, $input_hash)==0) //loginservice validate succesful, credential needed to validate the other webservices
 			{				
 				$this->credential = new WebserviceCredential(
-				array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($ip, $hash), 'time_created' =>time(), 'end_time'=>$this->set_end_time(time()), 'ip' =>$ip)
+				array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($_SERVER['REMOTE_ADDR'], $hash), 'time_created' =>time(), 'end_time'=>$this->set_end_time(time()), 'ip' =>$_SERVER['REMOTE_ADDR'])
 				);				
 				$this->credential->create();				
 				return $this->credential->get_default_properties();

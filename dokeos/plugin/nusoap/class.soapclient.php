@@ -153,7 +153,7 @@ class nusoap_client extends nusoap_base  {
 	* @access   public
 	*/
 	function call($operation,$params=array(),$namespace='http://tempuri.org',$soapAction='',$headers=false,$rpcParams=null,$style='rpc',$use='encoded'){
-		$this->operation = $operation;
+        $this->operation = $operation;
 		$this->fault = false;
 		$this->setError('');
 		$this->request = '';
