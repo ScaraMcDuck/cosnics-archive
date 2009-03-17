@@ -17,8 +17,11 @@ class OpenQuestionResult extends QuestionResult
 			case OpenQuestion :: TYPE_OPEN:
 				$result = $results[0];
 				$user_score = $result->get_score();
-		
-				$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
+				
+				/*if ($user_score != null)
+					$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
+				else
+					$score_line = Translation :: get('NoScore');*/
 				//$this->display_score($score_line);
 		
 				$answer_lines[] = $result->get_answer();
@@ -26,6 +29,12 @@ class OpenQuestionResult extends QuestionResult
 			case OpenQuestion :: TYPE_DOCUMENT:
 				$result = $results[0];
 				$user_score = $result->get_score();
+				
+				/*if ($user_score != null)
+					$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
+				else
+					$score_line = Translation :: get('NoScore');*/
+					
 				if ($result->get_answer() != null)
 				{
 					$lo_document = RepositoryDataManager :: get_instance()->retrieve_learning_object($result->get_answer(), 'document');
@@ -40,8 +49,10 @@ class OpenQuestionResult extends QuestionResult
 				$result = $results[0];
 				$user_score = $result->get_score();
 		
-				$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
-				//$this->display_score($score_line);
+				/*if ($user_score != null)
+					$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
+				else
+					$score_line = Translation :: get('NoScore');*/
 		
 				$answer_lines[] = $result->get_answer();
 				$result = $results[1];
@@ -59,6 +70,11 @@ class OpenQuestionResult extends QuestionResult
 			default:
 				break;
 		}
+		
+		if ($user_score != null)
+			$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
+		else
+			$score_line = Translation :: get('NoScore');
 		
 		/*$this->display_answers($answer_lines);
 			
