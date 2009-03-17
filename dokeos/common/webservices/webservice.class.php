@@ -1,13 +1,13 @@
 <?php
 require_once Path :: get_library_path() . 'webservices/webservice.class.php';
+require_once dirname(__FILE__) . '/../../user/lib/data_manager/database.class.php';
+require_once dirname(__FILE__).'/../../common/configuration/configuration.class.php';
+require_once Path :: get_webservice_path().'/lib/webservice_credential.class.php';
+require_once Path :: get_library_path() . 'database/database.class.php';
+require_once Path :: get_webservice_path() . 'lib/data_manager/database.class.php';
 
 abstract class Webservice
 {
-	/*$wsm is the webservice_security_manager. 
-	 * It will be appointed an instance in each of the individual webservice constructors.
-	 */
-	protected $wsm;
-	
 	public static function factory($webservice_handler, $protocol = 'Soap', $implementation = 'Nusoap')
 	{
 		$file_protocol = DokeosUtilities :: camelcase_to_underscores($protocol);
@@ -27,13 +27,127 @@ abstract class Webservice
 	 * ex :: array(0 => (array('name' => functionname, 'parameters' => array of parameters, 'handler' => handler function)))
 	 */	
 	
-	abstract function call_webservice($wsdl, $functions);
+	abstract function call_webservice($wsdl, $functions);	
 	
-	abstract function validate_webservice($functions, $hash);
-	
-	abstract function raise_message($message);
+	abstract function raise_message($message);    
 
-    abstract static function check_rights($functions);
+    function create_hash($ip, $hash)
+	{
+		$input = $ip.''.$hash;
+		return $this->dbhash = hash('sha1', $input);
+	}
+
+	function validate_function($hash) //returns userid
+	{
+		$wdm = WebserviceDataManager :: get_instance();
+		$ip = $_SERVER['REMOTE_ADDR'];
+        $wdm->delete_expired_webservice_credentials();
+		$credentials = $wdm->retrieve_webservice_credentials_by_ip($ip);
+        $credentials = $credentials->as_array();
+        if(is_array($credentials))
+		{
+            foreach($credentials as $c)
+            {
+                $input_hash = $c->get_hash();
+                $h = hash('sha1',$input_hash.''.$SERVER['REMOTE_ADDR']);
+               if(strcmp($h , $hash)===0)
+                {
+                    return $c->get_user_id();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	function set_end_time($time)
+	{
+		return $endTime = $time + (10*60);  //timeframe 10 mins
+		
+	}
+
+	function set_create_time($time)
+	{
+		return date("l, F d, Y h:i" ,$time);
+	}
+
+	function check_time_left($endTime)
+	{
+		if(time() > $endtime)
+		{
+			return 'your available time has been used up.';
+		}
+		else
+		{
+			$restTime = $endTime - time();
+			return 'you have ' . $endTime . ' time left.';
+		}
+	}
+
+	function validate_login($username,$input_hash)
+	{
+		$udm = DatabaseUserDataManager :: get_instance();
+		$user = $udm->retrieve_user_by_username($username);
+		$ip = $_SERVER['REMOTE_ADDR'];
+		$hash = hash('sha1',$user->get_password().''.$ip);
+		if(isset($user))
+		{
+			if(strcmp($hash, $input_hash)==0) //loginservice validate succesful, credential needed to validate the other webservices
+			{
+				$this->credential = new WebserviceCredential(
+				array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($ip, $hash), 'time_created' =>time(), 'end_time'=>$this->set_end_time(time()), 'ip' =>$ip)
+				);
+				$this->credential->create();
+				return $this->credential->get_default_properties();
+			}
+			else
+			{
+				return 'Wrong hash value submitted.';
+			}
+		}
+		else
+		{
+			return "User $username does not exist.";
+		}
+	}
+
+    public function check_rights($webservicename,$userid)
+    {
+        $wm = new WebserviceManager();
+        $webservice = $wm->retrieve_webservice_by_name($webservicename); //werkt
+        if(isset($webservice))
+        {
+            $location = WebserviceRights :: get_location_by_identifier('webservice',$webservice->get_id() ); //werkt
+            $ru = new RightsUtilities();
+            if($ru->is_allowed('useright', $location, 'webservice', 'webservice', $userid )) //userid meegeven
+            {
+
+               return true;
+            }
+            else
+            {
+                echo 'You are not allowed to use this webservice';
+                return false;
+            }
+        }
+        else
+        {           
+            echo 'No webservice by that name';
+        }
+        
+    }
+
+    public function can_execute($input_user, $webservicename)
+    {
+        $userid = $this->validate_function($input_user[hash]);        
+        $this->check_rights($webservicename,$userid);
+    }
 	
 }	
 	
