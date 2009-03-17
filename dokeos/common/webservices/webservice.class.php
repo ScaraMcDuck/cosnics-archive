@@ -33,24 +33,21 @@ abstract class Webservice
 
     function create_hash($ip, $hash)
 	{
-		$input = $ip.''.$hash;
-		return $this->dbhash = hash('sha1', $input);
+		return $this->dbhash = Hashing :: hash($ip.$hash);
 	}
 
 	function validate_function($hash) //returns userid
 	{
 		$wdm = WebserviceDataManager :: get_instance();
-		$ip = $_SERVER['REMOTE_ADDR'];
-        $wdm->delete_expired_webservice_credentials();
-		$credentials = $wdm->retrieve_webservice_credentials_by_ip($ip);
+		$wdm->delete_expired_webservice_credentials();
+		$credentials = $wdm->retrieve_webservice_credentials_by_ip($_SERVER['REMOTE_ADDR']);
         $credentials = $credentials->as_array();
         if(is_array($credentials))
 		{
             foreach($credentials as $c)
             {
-                $input_hash = $c->get_hash();
-                $h = hash('sha1',$input_hash.''.$SERVER['REMOTE_ADDR']);
-               if(strcmp($h , $hash)===0)
+                $h = Hashing ::hash($c->get_hash().$SERVER['REMOTE_ADDR']);
+                if(strcmp($h , $hash)===0)
                 {
                     return $c->get_user_id();
                 }
@@ -94,14 +91,13 @@ abstract class Webservice
 	{
 		$udm = DatabaseUserDataManager :: get_instance();
 		$user = $udm->retrieve_user_by_username($username);
-		$ip = $_SERVER['REMOTE_ADDR'];
-		$hash = hash('sha1',$user->get_password().''.$ip);
+		$hash = Hashing :: hash($user->get_password().$_SERVER['REMOTE_ADDR']);
 		if(isset($user))
 		{
 			if(strcmp($hash, $input_hash)==0) //loginservice validate succesful, credential needed to validate the other webservices
 			{
 				$this->credential = new WebserviceCredential(
-				array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($ip, $hash), 'time_created' =>time(), 'end_time'=>$this->set_end_time(time()), 'ip' =>$ip)
+				array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($_SERVER['REMOTE_ADDR'], $hash), 'time_created' =>time(), 'end_time'=>$this->set_end_time(time()), 'ip' =>$_SERVER['REMOTE_ADDR'])
 				);
 				$this->credential->create();
 				return $this->credential->get_default_properties();
@@ -120,19 +116,19 @@ abstract class Webservice
     public function check_rights($webservicename,$userid)
     {
         $wm = new WebserviceManager();
-        $webservice = $wm->retrieve_webservice_by_name($webservicename); //werkt
+        $webservice = $wm->retrieve_webservice_by_name($webservicename); 
         if(isset($webservice))
         {
-            $location = WebserviceRights :: get_location_by_identifier('webservice',$webservice->get_id() ); //werkt
+            //$location = WebserviceRights :: get_location_by_identifier('webservice',$webservice->get_id() );
             $ru = new RightsUtilities();
-            if($ru->is_allowed('useright', $location, 'webservice', 'webservice', $userid )) //userid meegeven
+            if($ru->is_allowed('1', $webservice->get_id(), 'webservice', 'webservice', $userid ))
             {
 
                return true;
             }
             else
             {
-                echo 'You are not allowed to use this webservice';
+                //echo 'You are not allowed to use this webservice';
                 return false;
             }
         }
@@ -146,7 +142,22 @@ abstract class Webservice
     public function can_execute($input_user, $webservicename)
     {
         $userid = $this->validate_function($input_user[hash]);        
-        $this->check_rights($webservicename,$userid);
+        if(isset($userid))
+        {
+            if($this->check_rights($webservicename,$userid))
+            {                
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+        
     }
 	
 }	
