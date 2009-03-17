@@ -98,8 +98,9 @@ function write_config_file()
 	$config['{DATABASE_NAME}']		= $values['database_name'];
 	$config['{ROOT_WEB}']			= $values['platform_url'];
 	$config['{ROOT_SYS}']			= str_replace('\\', '/', realpath($values['platform_url']).'/');
-	$config['{SECURITY_KEY}']		= Hashing :: hash(uniqid(rand().time()));
+	$config['{SECURITY_KEY}']		= md5(uniqid(rand().time()));
 	$config['{URL_APPEND}']	= str_replace('/install/index.php', '', $_SERVER['PHP_SELF']);
+	$config['{HASHING_ALGORITHM}'] = $values['hashing_algorithm'];
 
 	foreach ($config as $key => $value)
 	{
