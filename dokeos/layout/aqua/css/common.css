@@ -2622,23 +2622,25 @@ span.dropOver
  
 .reporting_block
 {
-	/*background-color: red;*/
+	background-color: #F6F6F6;
+    -moz-border-radius: 1em;
 	margin: 4px;
 	padding: 4px;
 }
 .reporting_header
 {
-	margin: 2px;
-	padding: 2px;
-	text-align: right;
+	margin: 0px;
+	padding: 5px;
+   // border-bottom: 1px dotted grey;
 }
 .reporting_header_title
 {
-    margin: 2px;
-    padding: 2px;
-    text-align: left;
     float: left;
     font-weight: bold;
+}
+.reporting_header_displaymode
+{
+    float: right;
 }
 .reporting_content
 {
@@ -2648,7 +2650,33 @@ span.dropOver
 }
 .reporting_footer
 {
-	margin: 2px;
-	padding: 2px;
-	text-align: left;
+	margin: 0px;
+	padding: 5px;
+   // border-top: 1px dotted grey;
+}
+.reporting_footer_export
+{
+    float:right;
+}
+
+.reporting_template_container
+{
+    -moz-border-radius: 1em;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+}
+
+.reporting_template_con_left
+{
+    margin: 0px;
+    padding: 0px;
+    float: left;
+}
+
+.reporting_template_con_right
+{
+    margin: 0px;
+    padding: 0px;
+    float: right;
 }

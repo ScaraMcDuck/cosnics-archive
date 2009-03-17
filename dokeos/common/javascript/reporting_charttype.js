@@ -2,7 +2,7 @@
 {
 	var handle_charttype = function(ev, ui)
 	{
-		var parent = $(this).parent().parent();
+		var parent = $(this).parent().parent().parent();
 		var block = parent.attr('id');
 		var type = $(this).val();
 		

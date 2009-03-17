@@ -80,7 +80,7 @@
  	/**
  	 * Retrieves the data for this block
  	 */
- 	public function retrieve_data()
+ 	private function retrieve_data()
  	{
  		//require_once($this->get_applicationUrl());
  		$base_path = (Application :: is_application($this->get_application()) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
@@ -148,7 +148,7 @@
  	
  	public function get_data()
  	{
-        if($this->data == null)
+        if(!$this->data)
         {
             $this->retrieve_data();
         }
@@ -218,7 +218,7 @@
  	
  	public function get_height()
  	{
- 		return $this->get_default_property(self :: PROPERTY_HEIGHT);
+        return $this->get_default_property(self :: PROPERTY_HEIGHT);
  	}
  	
  	public function set_height($value)

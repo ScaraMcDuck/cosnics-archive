@@ -62,10 +62,10 @@ class ReportingManagerReportingTemplateRegistrationViewComponent extends Reporti
         $template = new $classname($this);
         $template->set_registration_id($reporting_template_registration->get_id());
 
-        if(isset($_GET[ReportingManager :: PARAM_TEMPLATE_PARAMETERS]))
+        if(isset($_GET[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS]))
         {
-            $params = $_GET[ReportingManager :: PARAM_TEMPLATE_PARAMETERS];
-            $template->set_reporting_blocks_parameters($params);
+            $params = $_GET[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+            $template->set_reporting_blocks_function_parameters($params);
         }
 
 		$this->display_header($trail,false,false);

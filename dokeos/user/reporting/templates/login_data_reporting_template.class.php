@@ -13,12 +13,18 @@ class LoginDataReportingTemplate extends ReportingTemplate
 	function LoginDataReportingTemplate($parent=null)
 	{
         $this->parent = $parent;
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Browsers"),ReportingTemplate :: REPORTING_BLOCK_INVISIBLE);
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Countries"),ReportingTemplate :: REPORTING_BLOCK_INVISIBLE);
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Os"),ReportingTemplate :: REPORTING_BLOCK_INVISIBLE);
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Providers"),ReportingTemplate :: REPORTING_BLOCK_INVISIBLE);
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Referers"),ReportingTemplate :: REPORTING_BLOCK_INVISIBLE);
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("ActiveInactivePerYearAndMonth"),ReportingTemplate :: REPORTING_BLOCK_INVISIBLE);
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Browsers"),
+            array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Countries"),
+            array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Os"),
+            array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Providers"),
+            array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("Referers"),
+            array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("ActiveInactivePerYearAndMonth"),
+            array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
 	}
 
     /**

@@ -13,11 +13,16 @@ class CourseUserReportingTemplate extends ReportingTemplate
 	function CourseUserReportingTemplate($parent=null)
 	{
         $this->parent = $parent;
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserInformation"),ReportingTemplate :: REPORTING_BLOCK_VISIBLE);
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserPlatformStatistics"),ReportingTemplate :: REPORTING_BLOCK_VISIBLE);
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("CourseInformation"),ReportingTemplate :: REPORTING_BLOCK_VISIBLE);
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("CourseUserLearningpathInformation"),ReportingTemplate :: REPORTING_BLOCK_VISIBLE);
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("CourseUserExerciseInformation"),ReportingTemplate :: REPORTING_BLOCK_VISIBLE);
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserInformation"),
+            array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserPlatformStatistics"),
+            array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("CourseInformation"),
+            array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("CourseUserLearningpathInformation"),
+            array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("CourseUserExerciseInformation"),
+            array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
 	}
 
     /**
@@ -41,11 +46,26 @@ class CourseUserReportingTemplate extends ReportingTemplate
     	//template header
         $html[] = $this->get_header();
 
-        //template menu
-        //$html[] = $this->get_menu();
+        //content
+        $html[] = '<div class="reporting_template_container">';
+        $html[] = '<div class="reporting_template_con_left">';
+        $html[] = $this->get_reporting_block_html('UserInformation');
+        $html[] = '</div>';
+        $html[] = '<div class="reporting_template_con_right">';
+        $html[] = $this->get_reporting_block_html('UserPlatformStatistics');
+        $html[] = '</div><div class="clear">&nbsp;</div>';
+        $html[] = '</div>';
 
-        //show visible blocks
-        $html[] = $this->get_visible_reporting_blocks();
+        $html[] = '<div class="reporting_template_container">';
+        $html[] = $this->get_reporting_block_html('CourseInformation');
+        $html[] = '</div>';
+
+        $html[] = '<div class="clear">&nbsp;</div>';
+
+        $html[] = '<div class="reporting_template_container">';
+        $html[] = $this->get_reporting_block_html('CourseUserLearningpathInformation');
+        $html[] = $this->get_reporting_block_html('CourseUserExerciseInformation');
+        $html[] = '</div>';
 
     	//template footer
         $html[] = $this->get_footer();
