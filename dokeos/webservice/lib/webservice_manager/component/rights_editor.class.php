@@ -19,15 +19,14 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 	 */
 	function run()
 	{
-        //verschil tussen cat en webservice maken
-
 		$webserviceID = Request :: get(WebserviceManager :: PARAM_WEBSERVICE_ID);
         if(!$webserviceID)
         {           
            $categoryID = Request :: get(WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID);
            if ($categoryID == null )
            {
-               $this->location = WebserviceRights :: get_root();               
+                $this->location = WebserviceRights :: get_root();
+                
            }
            else
            {
@@ -250,7 +249,7 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
 		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRights')));
-        $trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), $this->location->get_location()));
+        $trail->add(new Breadcrumb('WEBSERVICE MANAGEMENT'));
 			
 			$this->display_header($trail);
 			echo $this->get_modification_links();

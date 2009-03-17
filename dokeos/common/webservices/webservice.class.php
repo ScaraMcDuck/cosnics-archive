@@ -8,6 +8,8 @@ require_once Path :: get_webservice_path() . 'lib/data_manager/database.class.ph
 
 abstract class Webservice
 {
+    private $message;
+
 	public static function factory($webservice_handler, $protocol = 'Soap', $implementation = 'Nusoap')
 	{
 		$file_protocol = DokeosUtilities :: camelcase_to_underscores($protocol);
@@ -36,7 +38,7 @@ abstract class Webservice
 		return $this->dbhash = Hashing :: hash($ip.$hash);
 	}
 
-	function validate_function($hash) //returns userid
+	function validate_function($hash) 
 	{
 		$wdm = WebserviceDataManager :: get_instance();
 		$wdm->delete_expired_webservice_credentials();
@@ -53,13 +55,15 @@ abstract class Webservice
                 }
                 else
                 {
-                    return null;
+                    $this->message = 'Incorrect hash value.';
+                    return null;                    
                 }
+                
             }
 		}
 		else
 		{
-			return null;
+			$this->message = 'Incorrect IP address.';
 		}
 	}
 
@@ -118,29 +122,30 @@ abstract class Webservice
         $wm = new WebserviceManager();
         $webservice = $wm->retrieve_webservice_by_name($webservicename); 
         if(isset($webservice))
-        {
-            //$location = WebserviceRights :: get_location_by_identifier('webservice',$webservice->get_id() );
+        {            
             $ru = new RightsUtilities();
             if($ru->is_allowed('1', $webservice->get_id(), 'webservice', 'webservice', $userid ))
             {
-
                return true;
             }
             else
             {
-                //echo 'You are not allowed to use this webservice';
-                return false;
+                $this->message = 'You are not allowed to use this webservice';
+                return false; 
+                
             }
         }
         else
-        {           
-            echo 'No webservice by that name';
+        {
+            $this->message = 'No webservice by that name';
+            return false; 
+
         }
         
     }
 
     public function can_execute($input_user, $webservicename)
-    {
+    {   
         $userid = $this->validate_function($input_user[hash]);        
         if(isset($userid))
         {
@@ -158,6 +163,11 @@ abstract class Webservice
             return false;
         }
         
+    }
+
+    public function get_message()
+    {
+        return $this->raise_message($this->message);
     }
 	
 }	

@@ -37,6 +37,7 @@ abstract class WebserviceManagerComponent {
 	function display_header($breadcrumbtrail, $display_search = false)
 	{
 		$this->get_parent()->display_header($breadcrumbtrail, $display_search);
+        
 	}
 	
 	/**
