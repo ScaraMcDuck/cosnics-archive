@@ -52,7 +52,7 @@ class MatchingQuestionQtiExport extends QuestionQtiExport
 	{
 		$interaction_xml[] = '<itemBody>';
 		$interaction_xml[] = '<matchInteraction responseIdentifier="RESPONSE" shuffle="true" maxAssociations="'.sizeof($answers).'">';
-		$interaction_xml[] = '<prompt>'.htmlspecialchars($this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.include_question_images($this->get_learning_object()->get_description()).'</prompt>';
 		$interaction_xml[] = '<simpleMatchSet>';
 		foreach ($answers as $i => $answer)
 		{

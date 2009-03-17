@@ -30,6 +30,7 @@ class AssessmentQtiExport extends QtiExport
 			$assessment_xml[] = '</assessmentItemRef>';
 		}
 		$assessment_xml[] = $this->get_assessment_xml_footer();
+		
 		$path = $this->createdoc(implode('', $assessment_xml));
 		return $path;
 	}
@@ -64,8 +65,31 @@ class AssessmentQtiExport extends QtiExport
 			http://www.imsglobal.org/xsd/imsqti_v2p1.xsd" identifier="a'.$assessment->get_id().'" title="'.$assessment->get_title().'">';
  		$header[] = '<testPart identifier="P1" navigationMode="linear" submissionMode="individual">';
  		$header[] = '<itemSessionControl maxAttempts="'.$assessment->get_maximum_attempts().'" />';
- 		$header[] = '<assessmentSection identifier="set" title="'.htmlspecialchars($assessment->get_description()).'" visible="true">';
+ 		$header[] = '<assessmentSection identifier="set" title="'.$this->include_assessment_images($assessment).'" visible="true">';
   		return implode('', $header);
+	}
+	
+	function include_assessment_images($assessment)
+	{
+		$tags = Text :: fetch_tag_into_array($assessment->get_description(), '<img>');
+		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/images/';
+		$description = $assessment->get_description();		
+		
+		foreach($tags as $tag)
+		{
+			$parts = split('/', $tag['src']);
+			$newfilename = $temp_dir.$parts[count($parts)-1];
+			$repl_filename = 'images/'.$parts[count($parts)-1];
+			$files[$newfilename] = $tag['src'];//str_replace($base_path, '', $tag['src']);
+			$description = str_replace($tag['src'], $repl_filename, $description);
+		}
+		//dump(htmlspecialchars($description));
+		//dump($files);
+		foreach ($files as $new => $original)
+		{
+			copy($original, $new);
+		}
+		return $description;
 	}
 	
 	function get_assessment_xml_footer()

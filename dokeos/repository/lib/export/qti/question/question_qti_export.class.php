@@ -71,5 +71,27 @@ abstract class QuestionQtiExport extends QtiExport
 		return $xml_path;
 	}
 
+	function include_question_images($assessment)
+	{
+		$tags = Text :: fetch_tag_into_array($question->get_description(), '<img>');
+		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/images/';
+		$description = $question->get_description();		
+		
+		foreach($tags as $tag)
+		{
+			$parts = split('/', $tag['src']);
+			$newfilename = $temp_dir.$parts[count($parts)-1];
+			$repl_filename = 'images/'.$parts[count($parts)-1];
+			$files[$newfilename] = $tag['src'];//str_replace($base_path, '', $tag['src']);
+			$description = str_replace($tag['src'], $repl_filename, $description);
+		}
+		//dump(htmlspecialchars($description));
+		//dump($files);
+		foreach ($files as $new => $original)
+		{
+			copy($original, $new);
+		}
+		return $description;
+	}
 }
 ?>
