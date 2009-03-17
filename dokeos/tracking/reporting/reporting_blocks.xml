@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="tracking">
+	<reporting_block name="TrackingNoOfTrackers"
+		   application="tracking"
+		   function="getNoOfTrackers"
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+	<reporting_block name="TrackingNoOfItemsTracked"
+		   application="tracking"
+		   function="getNoOfItemsTracked"
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+	<reporting_block name="TrackingMostActiveTracker"
+		   application="tracking"
+		   function="getMostActiveTracker"
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+	<reporting_block name="TrackingLeastActiveTracker"
+		   application="tracking"
+		   function="getLeastActiveTracker"
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+	<reporting_block name="TrackingLastUsedTracker"
+		   application="tracking"
+		   function="getLastUsedTracker"
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+</application>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="rights">
+	<reporting_block name="RightsUsersPerRights"
+		   application="rights"
+		   function="getUsersPerRights"
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+	<reporting_block name="RightsNoOfRights"
+		   application="rights"
+		   function="getNoOfRights"
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+</application>

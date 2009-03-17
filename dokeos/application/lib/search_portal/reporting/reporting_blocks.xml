@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application name="search_portal">
+	<reporting_block name="SearchPortalNoOfTimesSearched"
+		   application="search_portal"
+		   function="getNoOfTimesSearched"
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+    <reporting_block name="SearchPortalMostPopularWords"
+		   application="search_portal"
+		   function="getMostPopularWords"
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+    <reporting_block name="SearchPortalApplicationsSearchedFrom"
+		   application="search_portal"
+		   function="getApplicationsSearchedFrom"
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+</application>
