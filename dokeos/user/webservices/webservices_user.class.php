@@ -82,7 +82,7 @@ class WebServicesUser
 		}
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed, or no rights.');
+            return $this->webservice->get_message();
         }
 		
 	}

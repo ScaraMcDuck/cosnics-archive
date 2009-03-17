@@ -40,6 +40,10 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
 		$menu = $this->get_menu_html();
 		
 		$this->display_header($trail, false);
+        $message = 'This tool allows the user to efficiently manage the provided web services.
+                    On the left hand side you can find all web service categories, ordered in a tree structure.
+                    You can easily modify the rights by clicking the change rights link, or icon.';
+        $this->display_message($message);
 		echo '<br />' . $this->action_bar->as_html() . '<br />';
 		echo $output;
 		echo $menu;
@@ -48,8 +52,7 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
 	}
 	
 	function get_user_html()
-	{
-        //echo 'webservice Category = ' .$this->get_webservice_category();
+	{        
 		$table = new WebserviceBrowserTable($this, array(WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID =>$this->get_webservice_category()), $this->get_condition());
         
 		$html = array();
