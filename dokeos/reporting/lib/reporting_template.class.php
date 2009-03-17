@@ -6,16 +6,15 @@
  *      Layout (header,menu, footer)
  *
  * @author Michael Kyndt
- * @todo add row & column to "add_reporting_block"
- * function add_reporting_block will then place the block accordingly & create
- * empty spaces before & after
  */
+require_once dirname(__FILE__) . '/reporting_template_registration.class.php';
 require_once Path :: get_reporting_path().'lib/reporting.class.php';
 
 abstract class ReportingTemplate {
 
     const PARAM_VISIBLE = 'visible';
     const PARAM_DIMENSIONS = 'dimensions';
+
     const REPORTING_BLOCK_VISIBLE = 1;
     const REPORTING_BLOCK_INVISIBLE = 0;
     const REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS = 1;

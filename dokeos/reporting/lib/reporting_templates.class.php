@@ -15,11 +15,11 @@ class ReportingTemplates {
 	public static function create_reporting_template_registration($props)
 	{
 		$reporting_template_registration = new ReportingTemplateRegistration();
-		$reporting_template_registration->set_title($props['title']);
-		$reporting_template_registration->set_application($props['application']);
-		$reporting_template_registration->set_classname($props['classname']);
-		$reporting_template_registration->set_platform($props['platform']);
-        $reporting_template_registration->set_description($props['description']);
+		$reporting_template_registration->set_title($props[ReportingTemplateRegistration :: PROPERTY_TITLE]);
+		$reporting_template_registration->set_application($props[ReportingTemplateRegistration :: PROPERTY_APPLICATION]);
+		$reporting_template_registration->set_classname($props[ReportingTemplateRegistration :: PROPERTY_CLASSNAME]);
+		$reporting_template_registration->set_platform($props[ReportingTemplateRegistration :: PROPERTY_PLATFORM]);
+        $reporting_template_registration->set_description($props[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION]);
 		if(!$reporting_template_registration->create())
 		{
 			return false;

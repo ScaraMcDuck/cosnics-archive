@@ -32,10 +32,9 @@ class LoginDataReportingTemplate extends ReportingTemplate
      */
     public static function get_properties()
     {
-        //name vervangen door title
-        $properties['title'] = Translation :: get('LoginDataReportingTemplateTitle');
-        $properties['platform'] = 1;
-        $properties['description'] = Translation :: get('LoginDataReportingTemplateDescription');
+        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = Translation :: get('CourseUserReportingTemplateTitle');
+        $properties[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = 0;
+        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = Translation :: get('CourseUserReportingTemplateDescription');
 
         return $properties;
     }

@@ -3,7 +3,6 @@
  * @author Michael Kyndt
  * @todo:
  * Template configuration:
- * Able to change name, description etc
  * 2 listboxes: one with available reporting blocks for the app, one with
  * reporting blocks already in template.
  */
@@ -30,10 +29,9 @@ class CourseUserReportingTemplate extends ReportingTemplate
      */
     public static function get_properties()
     {
-        //name vervangen door title
-        $properties['title'] = Translation :: get('CourseUserReportingTemplateTitle');
-        $properties['platform'] = 0;
-        $properties['description'] = Translation :: get('CourseUserReportingTemplateDescription');
+        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = Translation :: get('CourseUserReportingTemplateTitle');
+        $properties[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = 0;
+        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = Translation :: get('CourseUserReportingTemplateDescription');
 
         return $properties;
     }
