@@ -143,7 +143,7 @@ class RegisterForm extends FormValidator {
     		$user->set_firstname($values[User :: PROPERTY_FIRSTNAME]);
     		$user->set_email($values[User :: PROPERTY_EMAIL]);
 	    	$user->set_username($values[User :: PROPERTY_USERNAME]);
-	 	   	$user->set_password(md5($password));
+	 	   	$user->set_password(Hashing :: hash($password));
 	 	   	$this->unencryptedpass = $password;
     		$user->set_official_code($values[User :: PROPERTY_OFFICIAL_CODE]);
   		  	$user->set_phone($values[User :: PROPERTY_PHONE]);

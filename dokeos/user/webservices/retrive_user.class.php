@@ -38,9 +38,9 @@ class RetriveUser
 	{
         if(is_array($user))
 		{			
-			$input_password = hash('md5',$user[password]);
+			$input_password = Hashing :: hash($user[password]);
 			$input_string = $input_password .''.$_SERVER['REMOTE_ADDR'];						
-			$input_hash = hash('sha1',$input_string);			
+			$input_hash = Hashing :: hash($input_string);			
 			$hash =  $this->wsm->validate_login($user[username],$input_hash); //no password will be sent, only the username//hash
 			if(!empty($hash) && gettype($hash)=='array')
 			{

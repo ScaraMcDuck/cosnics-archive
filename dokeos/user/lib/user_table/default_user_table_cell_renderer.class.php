@@ -76,7 +76,7 @@ class DefaultUserTableCellRenderer implements ObjectTableCellRenderer
 	}
 	private function get_thumbnail_path($image_path)
 	{
-		$thumbnail_path = Path :: get(WEB_TEMP_PATH).md5($image_path).basename($image_path);
+		$thumbnail_path = Path :: get(WEB_TEMP_PATH).Hashing :: hash($image_path).basename($image_path);
 		if(!is_file($thumbnail_path))
 		{
 			$thumbnail_creator = ImageManipulation :: factory($image_path);

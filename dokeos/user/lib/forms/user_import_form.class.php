@@ -79,7 +79,7 @@ class UserImportForm extends FormValidator {
     			$pass = $csvuser[User :: PROPERTY_PASSWORD];
     			if(!$pass || $pass == "")
     				$pass = uniqid();
-    			$pass = md5($pass); 
+    			$pass = Hashing :: hash($pass); 
     			
     			$user->set_password($pass);
     			$user->set_email($csvuser[User :: PROPERTY_EMAIL]);

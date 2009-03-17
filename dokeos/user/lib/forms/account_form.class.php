@@ -199,7 +199,7 @@ class AccountForm extends FormValidator {
 		}
 		if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) && strlen($values[User :: PROPERTY_PASSWORD]))
 		{
-			$user->set_password(md5($values[User::PROPERTY_PASSWORD]));
+			$user->set_password(Hashing :: hash($values[User::PROPERTY_PASSWORD]));
 		}
 		if(PlatformSetting :: get('allow_change_user_picture', UserManager :: APPLICATION_NAME))
 		{

@@ -19,7 +19,8 @@ require_once Path :: get_webservice_path() . 'lib/webservice_registration.class.
 require_once Path :: get_webservice_path() . 'lib/webservice_data_manager.class.php';
 require_once Path :: get_reporting_path() . 'lib/reporting_blocks.class.php';
 require_once Path :: get_reporting_path() . 'lib/reporting_templates.class.php';
- 
+require_once dirname(__FILE__) . '/hashing/hashing.class.php';
+
 abstract class Installer
 {
 	const TYPE_NORMAL = '1';

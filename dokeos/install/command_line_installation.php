@@ -16,7 +16,7 @@ require_once(Path :: get_library_path().'translation/translation.class.php');
 require_once Path :: get_library_path().'html/text.class.php';
 require_once Path :: get_library_path().'mail/mail.class.php';
 require_once dirname(__FILE__).'/lib/install_manager/install_manager.class.php';
-
+require_once Path :: get_library_path() . 'hashing/hashing.class.php';
 require_once Path :: get_library_path() . 'filesystem/filesystem.class.php';
 require_once Path :: get_application_path() . 'lib/application.class.php';
 require_once Path :: get_library_path() . 'installer.class.php';
@@ -98,7 +98,7 @@ function write_config_file()
 	$config['{DATABASE_NAME}']		= $values['database_name'];
 	$config['{ROOT_WEB}']			= $values['platform_url'];
 	$config['{ROOT_SYS}']			= str_replace('\\', '/', realpath($values['platform_url']).'/');
-	$config['{SECURITY_KEY}']		= md5(uniqid(rand().time()));
+	$config['{SECURITY_KEY}']		= Hashing :: hash(uniqid(rand().time()));
 	$config['{URL_APPEND}']	= str_replace('/install/index.php', '', $_SERVER['PHP_SELF']);
 
 	foreach ($config as $key => $value)
