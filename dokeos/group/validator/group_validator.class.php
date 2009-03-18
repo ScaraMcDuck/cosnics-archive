@@ -78,11 +78,8 @@ class GroupValidator extends Validator
         if(!$this->validate_property_names($groupProperties, Group :: get_default_property_names()))
         return false;
 
-        $var = $this->get_group_id($groupProperties[Group :: PROPERTY_NAME]);
-        if(!$var)
+        if(!$this->does_group_exist($groupProperties[id]))
         return false;
-        else
-        $groupProperties[Group :: PROPERTY_ID] = $var;
         
         if($groupProperties[Group :: PROPERTY_PARENT]!='0')
         {
@@ -90,7 +87,7 @@ class GroupValidator extends Validator
             if(!$var)
             return false;
             else
-            $groupProperties[Group :: PROPERTY_PARENT] = $var;
+            $groupProperties[User :: PROPERTY_PARENT] = $var;
         }
         return true;
     }
@@ -103,11 +100,8 @@ class GroupValidator extends Validator
         if(!$this->validate_property_names($groupProperties, Group :: get_default_property_names()))
         return false;
         
-        $var = $this->get_group_id($groupProperties[Group :: PROPERTY_NAME]);
-        if(!$var)
+        if(!$this->does_group_exist($groupProperties[id]))
         return false;
-        else
-        $groupProperties[Group :: PROPERTY_ID] = $var;
 
         return true;
     }
@@ -159,6 +153,16 @@ class GroupValidator extends Validator
         {
             return false;
         }
+    }
+
+    private function does_group_exist($group_id)
+    {
+        return $this->gdm->count_groups(new EqualityCondition(Group :: PROPERTY_ID, $group_id))!=0;
+    }
+
+    private function does_user_exist($user_id)
+    {
+        return $this->udm->count_users(new EqualityCondition(User :: PROPERTY_USER_ID, $user_id))!=0;
     }
 }
 ?>
