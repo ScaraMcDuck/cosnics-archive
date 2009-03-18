@@ -51,7 +51,7 @@ class ScoreQuestionQtiExport extends QuestionQtiExport
 		}*/
 		$interaction_xml[] = '<itemBody>';
 		$interaction_xml[] = '<sliderInteraction responseIdentifier="RESPONSE" lowerBound="'.$low.'" upperBound="'.$high.'" step="1">';
-		$interaction_xml[] = '<prompt>'.include_question_images($this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object(), $this->get_learning_object()->get_description()).'</prompt>';
 		$interaction_xml[] = '</sliderInteraction>';
 		$interaction_xml[] = '</itemBody>';
 		
