@@ -221,7 +221,7 @@ class WebServicesCourse
 	
 	function subscribe_group($input_group)
 	{
-		if($this->webservice->can_execute($input_course, 'subscribe group'))
+		if($this->webservice->can_execute($input_group, 'subscribe group'))
 		{
             unset($input_group[hash]);
             $cg = new CourseGroup($input_group[id],$input_group[course_code]);
@@ -238,7 +238,7 @@ class WebServicesCourse
 	
 	function unsubscribe_group($input_group)
 	{
-		if($this->webservice->can_execute($input_course, 'unsubscribe group'))
+		if($this->webservice->can_execute($input_group, 'unsubscribe group'))
 		{
             unset($input_group[hash]);
             $cg = new CourseGroup($input_group[id],$input_group[course_code]);
@@ -253,12 +253,12 @@ class WebServicesCourse
         }
 	}
 	
-	function get_user_courses($user_id)
+	function get_user_courses($input_user)
 	{
-        if($this->webservice->can_execute($input_course, 'get user courses'))
+        if($this->webservice->can_execute($input_user, 'get user courses'))
 		{
-            $wdm = DatabaseWeblcmsDataManager :: get_instance();
-            $courses = $wdm->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id[id]));
+            $wdm = DatabaseWeblcmsDataManager :: get_instance();            
+            $courses = $wdm->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $input_user[id]));
             $courses = $courses->as_array();
             foreach($courses as &$course)
             {
@@ -370,7 +370,7 @@ class WebServicesCourse
 
     function get_publications_for_user($input_user)
 	{
-        if($this->webservice->can_execute($input_course, 'get publications for user'))
+        if($this->webservice->can_execute($input_user, 'get publications for user'))
 		{
             unset($input_user[hash]);
             $wdm = DatabaseWeblcmsDataManager :: get_instance();

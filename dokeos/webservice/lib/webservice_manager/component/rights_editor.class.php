@@ -26,7 +26,7 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
         if(!$this->webserviceID)
         {           
            $this->categoryID = Request :: get(WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID);
-          // echo 'cat = ' .$this->categoryID;
+          
            if ($this->categoryID == null)
            {
                
@@ -34,8 +34,7 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
                 
            }
            else
-           {
-              // echo 'run';
+           {              
                $this->location = WebserviceRights :: get_location_by_identifier('webservice_category', $this->categoryID);
            }
            
@@ -180,11 +179,7 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 				{                    
 					$toolbar->add_item(new ToolbarItem(Translation :: get('LocationInherit'), Theme :: get_common_image_path() . 'action_setting_true_inherit.png', $this->get_url(array(WebserviceManager :: PARAM_COMPONENT_ACTION => 'inherit', 'application' => 'webservice', 'webservice' => $this->webserviceID, 'webservice_category_id' => $this->categoryID))));
 				}
-			}
-            else
-            {
-                echo 'location is root';
-            }
+			}           
         }
         else
         {
