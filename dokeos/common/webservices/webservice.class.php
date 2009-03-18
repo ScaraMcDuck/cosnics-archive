@@ -82,12 +82,14 @@ abstract class Webservice
 	{
 		if(time() > $endtime)
 		{
-			return 'your available time has been used up.';
+			$this->message = 'your available time has been used up.';
+            return true;
 		}
 		else
 		{
 			$restTime = $endTime - time();
-			return 'you have ' . $endTime . ' time left.';
+			$this->message = 'you have ' . $endTime . ' time left.';
+            return false;
 		}
 	}
 
@@ -108,12 +110,14 @@ abstract class Webservice
 			}
 			else
 			{
-				return 'Wrong hash value submitted.';
+				$this->message = 'Wrong hash value submitted.';
+                return false;
 			}
 		}
 		else
 		{
-			return "User $username does not exist.";
+			$this->message = "User $username does not exist.";
+            return false;
 		}
 	}
 
@@ -125,7 +129,7 @@ abstract class Webservice
         {            
             $ru = new RightsUtilities();
             if($ru->is_allowed('1', $webservice->get_id(), 'webservice', 'webservice', $userid ))
-            {
+            {               
                return true;
             }
             else

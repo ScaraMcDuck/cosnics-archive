@@ -152,7 +152,7 @@ class RightsUtilities
 		
 		if (is_object($user) && $user->is_platform_admin())
 		{
-			return true; 
+			return true;
 		}
 		
 		$conditions = array();
