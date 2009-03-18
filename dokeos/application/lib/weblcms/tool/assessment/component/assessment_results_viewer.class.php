@@ -138,7 +138,6 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 					AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid,
 					AssessmentTool :: PARAM_ADD_FEEDBACK => 1
 				);
-				//dump($_SESSION['formvalues']);
 				$this->redirect(null, null, false, array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_REPOVIEWER, AssessmentTool :: PARAM_REPO_TYPES => array('feedback')));
 			}
 		}
@@ -223,17 +222,14 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			}
 			else if (substr($key, 0, 3) == 'ex_')
 			{
-				//dump($key);
 				$question_id = substr($key, 3);
 				$track = new WeblcmsQuestionAttemptsTracker();
 				$condition_ass = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_ASSESSMENT_ATTEMPT_ID, $user_assessment->get_id());
 				$condition_q = new EqualityCondition(WeblcmsQuestionAttemptsTracker :: PROPERTY_QUESTION_ID, $question_id);
 				$condition = new AndCondition(array($condition_ass, $condition_q));
-				//dump($condition);
 				$user_answers = $track->retrieve_tracker_items($condition);
 				foreach ($user_answers as $user_answer)
 				{
-					dump($user_answer);
 					if ($value != '') {
 						$user_answer->set_feedback($value);
 					}
@@ -244,7 +240,6 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 					if ($user_answer->get_answer() == null)
 					 	$user_answer->set_answer(' ');
 					 	
-					// dump($user_answer);
 					$user_answer->update(); 	
 				}
 			}
