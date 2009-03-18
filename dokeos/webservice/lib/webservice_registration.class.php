@@ -20,7 +20,7 @@ class WebserviceRegistration
 	const PROPERTY_PARENT = 'parent';
 	const PROPERTY_ACTIVE = 'active';
 	const PROPERTY_APPLICATION = 'application';	
-	const PROPERTY_CATEGORY = 'category';
+	const PROPERTY_CATEGORY = 'category';    
 	
 	/**
 	 * Default properties of the webservice object, stored in an associative

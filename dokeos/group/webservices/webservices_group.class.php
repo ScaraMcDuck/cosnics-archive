@@ -68,7 +68,7 @@ class WebServicesGroup
 	
 	function get_group(&$input_group)
 	{
-        if($this->wsm->validate_function($input_group[hash]))
+        if($this->webservice->can_execute($input_group, 'get group'))
 		{
             $gdm = DatabaseGroupDataManager :: get_instance();
             if($this->validator->validate_retrieve($input_group))
@@ -90,13 +90,13 @@ class WebServicesGroup
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 	
 	function create_group(&$input_group)
 	{
-        if($this->wsm->validate_function($input_group[hash]))
+        if($this->webservice->can_execute($input_group, 'create group'))
 		{
             unset($input_group[hash]);
             if($this->validator->validate_create($input_group))
@@ -111,13 +111,13 @@ class WebServicesGroup
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 
     function update_group($input_group)
 	{
-		if($this->wsm->validate_function($input_group[hash]))
+		if($this->webservice->can_execute($input_group, 'update group'))
 		{
             unset($input_group[hash]);
             if($this->validator->validate_update($input_group))
@@ -132,13 +132,13 @@ class WebServicesGroup
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 	
 	function delete_group(&$input_group)
 	{
-		if($this->wsm->validate_function($input_group[hash]))
+		if($this->webservice->can_execute($input_group, 'delete group'))
 		{
             unset($input_group[hash]);
             if($this->validator->validate_delete($input_group))
@@ -153,13 +153,13 @@ class WebServicesGroup
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 	
 	function subscribe_user(&$input_group_rel_user)
 	{
-        if($this->wsm->validate_function($input_group_rel_user[hash]))
+        if($this->webservice->can_execute($input_group, 'subscribe user'))
 		{
             unset($input_group_rel_user[hash]);
             if($this->validator->validate_subscribe_or_unsubscribe($input_group_rel_user))
@@ -174,13 +174,13 @@ class WebServicesGroup
          }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 	
 	function unsubscribe_user(&$input_group_rel_user)
 	{
-		if($this->wsm->validate_function($input_group_rel_user[hash]))
+		if($this->webservice->can_execute($input_group, 'unsubscribe user'))
 		{
             unset($input_group_rel_user[hash]);
             if($this->validator->validate_subscribe_or_unsubscribe($input_group_rel_user))
@@ -195,7 +195,7 @@ class WebServicesGroup
          }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 	
