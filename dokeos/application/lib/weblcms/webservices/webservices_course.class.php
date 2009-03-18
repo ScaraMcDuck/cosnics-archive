@@ -121,7 +121,7 @@ class WebServicesCourse
 	
 	function get_course($input_course)
 	{
-        if($this->wsm->validate_function($input_course[hash]))
+        if($this->webservice->can_execute($input_course, 'get course'))
 		{
             $wdm = DatabaseWeblcmsDataManager :: get_instance();
             $course = $wdm->retrieve_course($input_course[id]);
@@ -136,13 +136,13 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
     }
 	
 	function delete_course($input_course)
 	{
-        if($this->wsm->validate_function($input_course[hash]))
+        if($this->webservice->can_execute($input_course, 'delete course'))
 		{
             unset($input_course[hash]);
             $c = new Course($input_course[id],$input_course);
@@ -150,14 +150,14 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 	
 	
 	function update_course($input_course)
 	{
-		if($this->wsm->validate_function($input_course[hash]))
+		if($this->webservice->can_execute($input_course, 'update course'))
 		{
             unset($input_course[hash]);
             $c = new Course($input_course[id],$input_course);
@@ -165,13 +165,13 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 	
 	function create_course($input_course)
 	{
-		if($this->wsm->validate_function($input_course[hash]))
+		if($this->webservice->can_execute($input_course, 'create course'))
 		{
             unset($input_course[hash]);
             unset($input_course[id]);
@@ -180,13 +180,13 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 	
 	function subscribe_user($input_course)
 	{
-        if($this->wsm->validate_function($input_course[hash]))
+        if($this->webservice->can_execute($input_course, 'subscribe user'))
 		{
             unset($input_course[hash]);
             $wdm = DatabaseWeblcmsDataManager :: get_instance();
@@ -198,13 +198,13 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
     }
 	
 	function unsubscribe_user($input_course)
 	{
-		if($this->wsm->validate_function($input_course[hash]))
+		if($this->webservice->can_execute($input_course, 'unsubscribe user'))
 		{
             unset($input_course[hash]);
             $cur = new CourseUserRelation($input_course[course_code],$input_course[user_id]);
@@ -215,13 +215,13 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 	
 	function subscribe_group($input_group)
 	{
-		if($this->wsm->validate_function($input_group[hash]))
+		if($this->webservice->can_execute($input_course, 'subscribe group'))
 		{
             unset($input_group[hash]);
             $cg = new CourseGroup($input_group[id],$input_group[course_code]);
@@ -232,13 +232,13 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 	
 	function unsubscribe_group($input_group)
 	{
-		if($this->wsm->validate_function($input_group[hash]))
+		if($this->webservice->can_execute($input_course, 'unsubscribe group'))
 		{
             unset($input_group[hash]);
             $cg = new CourseGroup($input_group[id],$input_group[course_code]);
@@ -249,13 +249,13 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 	
 	function get_user_courses($user_id)
 	{
-        if($this->wsm->validate_function($user_id[hash]))
+        if($this->webservice->can_execute($input_course, 'get user courses'))
 		{
             $wdm = DatabaseWeblcmsDataManager :: get_instance();
             $courses = $wdm->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $user_id[id]));
@@ -268,13 +268,13 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 	
 	function get_course_users($input_course)
 	{
-		if($this->wsm->validate_function($input_course[hash]))
+		if($this->webservice->can_execute($input_course, 'get course users'))
 		{
             unset($input_course[hash]);
             $wdm = DatabaseWeblcmsDataManager :: get_instance();
@@ -291,13 +291,13 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 	
 	function get_new_publications_in_course($input_course)
 	{
-        if($this->wsm->validate_function($input_course[hash]))
+        if($this->webservice->can_execute($input_course, 'get new publications in course'))
 		{
             unset($input_course[hash]);
             $udm = DatabaseUserDataManager :: get_instance();
@@ -329,13 +329,13 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 
     function get_new_publications_in_course_tool($input_course)
 	{
-        if($this->wsm->validate_function($input_course[hash]))
+        if($this->webservice->can_execute($input_course, 'get new publications in course tool'))
 		{
             unset($input_course[hash]);
             $udm = DatabaseUserDataManager :: get_instance();
@@ -364,13 +364,13 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 
     function get_publications_for_user($input_user)
 	{
-        if($this->wsm->validate_function($input_user[hash]))
+        if($this->webservice->can_execute($input_course, 'get publications for user'))
 		{
             unset($input_user[hash]);
             $wdm = DatabaseWeblcmsDataManager :: get_instance();
@@ -385,13 +385,13 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 
     function get_publications_for_course($input_course)
 	{
-        if($this->wsm->validate_function($input_course[hash]))
+        if($this->webservice->can_execute($input_course, 'get publications for course'))
 		{
             unset($input_course[hash]);
             $wdm = DatabaseWeblcmsDataManager :: get_instance();
@@ -406,7 +406,7 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed.');
+            return $this->webservice->get_message();
         }
 	}
 	

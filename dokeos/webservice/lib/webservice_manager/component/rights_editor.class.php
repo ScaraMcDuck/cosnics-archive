@@ -13,45 +13,46 @@ require_once dirname(__FILE__).'/../../webservice_rights.class.php';
 class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 {
 	private $location;
+    private $webserviceID;
+    private $categoryID;
 	
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$webserviceID = Request :: get(WebserviceManager :: PARAM_WEBSERVICE_ID);
-        if(!$webserviceID)
+        
+        $this->webserviceID = Request :: get(WebserviceManager :: PARAM_WEBSERVICE_ID);
+        if(!$this->webserviceID)
         {           
-           $categoryID = Request :: get(WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID);
-           if ($categoryID == null )
+           $this->categoryID = Request :: get(WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID);
+          // echo 'cat = ' .$this->categoryID;
+           if ($this->categoryID == null)
            {
-                $this->location = WebserviceRights :: get_root();
+               
+               $this->location = WebserviceRights :: get_root(); 
                 
            }
            else
            {
-                $this->location = WebserviceRights :: get_location_by_identifier('webservice_category', $categoryID);
+              // echo 'run';
+               $this->location = WebserviceRights :: get_location_by_identifier('webservice_category', $this->categoryID);
            }
            
         }
         else
         {            
-            $this->location = WebserviceRights :: get_location_by_identifier('webservice', $webserviceID);
+            $this->location = WebserviceRights :: get_location_by_identifier('webservice', $this->webserviceID);
         }
         
-
-		
-		$component_action = $_GET[RightsManager :: PARAM_COMPONENT_ACTION];
+		$component_action = $_GET[WebserviceManager :: PARAM_COMPONENT_ACTION];        
 		
 		switch($component_action)
 		{
 			case 'edit':
 				$this->edit_right();
-				break;
-			case 'lock':
-				$this->lock_location();
-				break;
-			case 'inherit':
+				break;			
+			case 'inherit':                
 				$this->inherit_location();
 				break;
 			default :
@@ -62,11 +63,9 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 	
 	function get_rights_table_html()
 	{
-		$rdm = RightsDataManager :: get_instance();
+		$rdm = RightsDataManager :: get_instance();		
 		
-		//$application = WebserviceManager :: APPLICATION_NAME;
-		$location = $this->location;
-        //echo 'location is : ' .$location->get_location(); //object wordt juist opgehaald
+		$location = $this->location;        
 		
 		// TODO: When PHP 5.3 gets released, replace this by $class :: get_available_rights()
 	    $reflect = new ReflectionClass('WebserviceRights');
@@ -96,8 +95,7 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 		
 		$roles = $rdm->retrieve_roles();
         if(isset($location))
-        {
-            //echo 'location is object!';
+        {            
             $locked_parent = $location->get_locked_parent();
         }
         else
@@ -132,21 +130,21 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 							
 							if ($inherited_value)
 							{
-								$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightInheritTrue"></div></a>';
+								$html[] = '<a class="setRight" href="'. $this->get_url(array(WebserviceManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightInheritTrue"></div></a>';
 							}
 							else
 							{
-								$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
+								$html[] = '<a class="setRight" href="'. $this->get_url(array(WebserviceManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
 							}
 						}
 						else
 						{
-							$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
+							$html[] = '<a class="setRight" href="'. $this->get_url(array(WebserviceManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightFalse"></div></a>';
 						}
 					}
 					else
 					{
-						$html[] = '<a class="setRight" href="'. $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightTrue"></div></a>';
+						$html[] = '<a class="setRight" href="'. $this->get_url(array(WebserviceManager :: PARAM_COMPONENT_ACTION => 'edit', 'application' => $this->application, 'role_id' => $role->get_id(), 'right_id' => $id, 'location' => $location->get_id())) .'">' . '<div class="rightTrue"></div></a>';
 					}
 				}
 				$html[] = '</div>';
@@ -165,97 +163,83 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 	}
 	
 	function get_modification_links()
-	{
-		$location = $this->location;
+    {
+        
+        $toolbar = new Toolbar();        
+		$location = $this->location;       
+        
         if(isset($location))
         {
-            $locked_parent = $location->get_locked_parent();
+            if (!$location->is_root())
+			{
+				if ($location->inherits())
+				{                    
+					$toolbar->add_item(new ToolbarItem(Translation :: get('LocationNoInherit'), Theme :: get_common_image_path() . 'action_setting_false_inherit.png', $this->get_url(array(WebserviceManager :: PARAM_COMPONENT_ACTION => 'inherit', 'application' => 'webservice', 'webservice' => $this->webserviceID, 'webservice_category_id' => $this->categoryID))));
+				}
+				else
+				{                    
+					$toolbar->add_item(new ToolbarItem(Translation :: get('LocationInherit'), Theme :: get_common_image_path() . 'action_setting_true_inherit.png', $this->get_url(array(WebserviceManager :: PARAM_COMPONENT_ACTION => 'inherit', 'application' => 'webservice', 'webservice' => $this->webserviceID, 'webservice_category_id' => $this->categoryID))));
+				}
+			}
+            else
+            {
+                echo 'location is root';
+            }
         }
         else
         {
             echo 'location is no object';
         }
 		
-		
-		$toolbar = new Toolbar();
-		
-		if(isset($locked_parent))
-		{
-			if ($location->is_locked())
-			{
-				$toolbar->add_item(new ToolbarItem(Translation :: get('UnlockChildren'), Theme :: get_common_image_path() . 'action_unlock.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'lock', 'application' => $this->application, 'object' => $location->get_identifier()))));
-			}
-			else
-			{
-				$toolbar->add_item(new ToolbarItem(Translation :: get('LockChildren'), Theme :: get_common_image_path() . 'action_lock.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'lock', 'application' => $this->application, 'object' => $location->get_identifier()))));
-			}
-			
-			if (!$location->is_root())
-			{
-				if ($location->inherits())
-				{
-					$toolbar->add_item(new ToolbarItem(Translation :: get('LocationNoInherit'), Theme :: get_common_image_path() . 'action_setting_false_inherit.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'inherit', 'application' => $this->application, 'object' => $location->get_identifier()))));
-				}
-				else
-				{
-					$toolbar->add_item(new ToolbarItem(Translation :: get('LocationInherit'), Theme :: get_common_image_path() . 'action_setting_true_inherit.png', $this->get_url(array(RightsManager :: PARAM_COMPONENT_ACTION => 'inherit', 'application' => $this->application, 'object' => $location->get_identifier()))));
-				}
-			}
-		}
-		
 		return $toolbar->as_html();
 	}
 	
 	function edit_right()
 	{
+        
 		$role = $_GET['role_id'];
 		$right = $_GET['right_id'];
 		$location =  $this->location;
+        
+        $success = RightsUtilities :: invert_role_right_location($right, $role, $location);
+
+        if($this->webserviceID == null)
+        {
+            $this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice', 'webservice_category_id' => $this->categoryID));
+        }
+        else
+        {
+            $this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice', 'webservice' => $this->webserviceID));
+        }
 		
-		$success = RightsUtilities :: invert_role_right_location($right, $role, $location);
-		
-		$this->redirect(WebserviceManager :: ACTION_MANAGE_ROLES, Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), 0, !$success, array('object' => $location->get_identifier()));
-	}
-	
-	function lock_location()
-	{
-		$location = $this->location;
-		$success = RightsUtilities :: switch_location_lock($location);
-		
-		if ($location->is_locked())
-		{
-			$true_message = 'LocationLocked';
-			$false_message = 'LocactionNotLocked';
-		}
-		else
-		{
-			$true_message = 'LocationUnlocked';
-			$false_message = 'LocactionNotUnlocked';
-		}
-		
-		$this->redirect(WebserviceManager :: ACTION_MANAGE_ROLES, Translation :: get($success == true ? $true_message : $false_message), 0, !$success, array('object' => $location->get_identifier()));
 	}
 	
 	function inherit_location()
-	{
-		$location = $this->location;
-		
-		$success = RightsUtilities :: switch_location_inherit($location);
-		$this->redirect(WebserviceManager :: ACTION_MANAGE_ROLES, Translation :: get($success == true ? 'LocationUpdated' : 'LocationNotUpdated'), 0, !$success, array('object' => $location->get_identifier()));
+	{        
+		$location = $this->location;        
+		$success = RightsUtilities :: switch_location_inherit($location);        
+        if($this->webserviceID == null)
+        {
+            $this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice', 'webservice_category_id' => $this->categoryID));
+        }
+        else
+        {
+            $this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice', 'webservice' => $this->webserviceID));
+        }
 	}
 	
 	function show_rights_list()
-	{
+	{        
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
 		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRights')));
-        $trail->add(new Breadcrumb('WEBSERVICE MANAGEMENT'));
-			
+        			
 			$this->display_header($trail);
-			echo $this->get_modification_links();
-			echo $this->get_rights_table_html();
+			echo $this->get_modification_links();            
+			echo $this->get_rights_table_html();            
 			echo RightsUtilities :: get_rights_legend();
 			$this->display_footer();
 	}
+    
 }
 ?>

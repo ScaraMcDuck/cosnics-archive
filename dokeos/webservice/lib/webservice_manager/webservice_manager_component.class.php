@@ -237,5 +237,10 @@ abstract class WebserviceManagerComponent {
 	{
 		return $this->get_parent()->get_manage_roles_url($webservice);
 	}
+
+    function retrieve_location($location_id)
+	{
+		return $this->get_parent()->retrieve_location($location_id);
+	}
 }
 ?>

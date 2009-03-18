@@ -23,8 +23,9 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	const PARAM_REMOVE_SELECTED = 'delete';
 	const PARAM_FIRSTLETTER = 'firstletter';
 	const PARAM_COMPONENT_ACTION = 'action';
-	const PARAM_APPLICATION = 'application';
-	
+    const PARAM_APPLICATION = 'application';
+
+    const PARAM_LOCATION_ID = 'location';
 	const PARAM_WEBSERVICE_ID = 'webservice';
 	const PARAM_WEBSERVICE_CATEGORY_ID = 'webservice_category_id';
 	
@@ -374,7 +375,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	}
 
     public function get_manage_roles_url($webservice)
-	{
+	{ 
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_ID => $webservice->get_id()));
 	}
 

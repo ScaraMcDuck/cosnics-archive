@@ -14,6 +14,7 @@ class WebserviceCategory
 	const PROPERTY_ID = 'id';
 	const PROPERTY_NAME = 'name';
 	const PROPERTY_PARENT = 'parent';
+    const PROPERTY_LOCATION = 'location';
 	
 /**
 	 * Default properties of the webservice_category object, stored in an associative
