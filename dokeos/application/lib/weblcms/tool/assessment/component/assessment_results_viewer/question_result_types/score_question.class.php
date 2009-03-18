@@ -20,23 +20,11 @@ class ScoreQuestionResult extends QuestionResult
 		}
 		else
 		{
-			//$results = parent :: get_results();
 			$answer_line[] = $results[0]->get_answer();
-			$score_line = $results[0]->get_score()/$question->get_max.'/'.$this->get_clo_question()->get_weight();
+			$score_line = round($results[0]->get_score())/$question->get_max.'/'.$this->get_clo_question()->get_weight();
 		}
 		
-		/*$this->display_answers($score_line);
-			
-		$this->display_feedback();
-		$this->display_score();
-		
-		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
-			$this->add_feedback_controls();
-		
-		$this->display_footer();*/
-		
 		$this->display_answers($answer_line);
-	//	$this->display_question_feedback();
 		
 		$this->display_score($score_line);
 		$this->display_feedback();
@@ -66,26 +54,27 @@ class ScoreQuestionResult extends QuestionResult
 	
 	function display_assignment()
 	{
-		$this->display_question_header();
+		$this->display_question_header(false);
 		
 		$results = parent :: get_results();
 		$low = parent :: get_question()->get_low();
 		$high = parent :: get_question()->get_high();
 
-		$score_line[] = Translation :: get('YourRating').': '.$results[0]->get_answer().' ('.Translation :: get('from').' '.$low.' '.Translation :: get('to').' '.$high.')';
+		$question = parent :: get_question();
+		if ($question->get_correct() == null)
+		{
+			$answer_line[] = Translation :: get('YourRating').': '.$results[0]->get_answer().' ('.Translation :: get('from').' '.$low.' '.Translation :: get('to').' '.$high.')';
+			$score_line = '';
+		}
+		else
+		{
+			$answer_line[] = $results[0]->get_answer();
+			$score_line = Translation :: get('Score').': '.round($results[0]->get_score())/$question->get_max.'/'.$this->get_clo_question()->get_weight();
+		}
 		
-		/*$this->display_answers($score_line);
-		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
-			$this->add_feedback_controls();
-			
-		$this->display_feedback();
-		$this->display_score();
-		$this->display_footer();*/
+		$this->display_answers($answer_line);
 		
-		$this->display_answers($score_line);
-		//$this->display_question_feedback();
-		
-		$this->display_score();
+		$this->display_score($score_line);
 		$this->display_feedback();
 		
 		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')

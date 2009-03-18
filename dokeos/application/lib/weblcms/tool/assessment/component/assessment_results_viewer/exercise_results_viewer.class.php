@@ -74,8 +74,9 @@ class ExerciseResultsViewer extends ResultsViewer
 			$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		}
 		$max_total_score = $assessment->get_maximum_score();
-		$pct_score = round((parent :: get_user_assessment()->get_total_score() / $max_total_score) * 10000) / 100;
-		$this->addElement('html', '<h3>'.Translation :: get('TotalScore').': '.parent :: get_user_assessment()->get_total_score()."/".$max_total_score.' ('.$pct_score.'%)</h3><br />');
+		$score = round(parent :: get_user_assessment()->get_total_score());
+		$pct_score = round(($score / $max_total_score) * 100, 2);
+		$this->addElement('html', '<h3>'.Translation :: get('TotalScore').': '.$score."/".$max_total_score.' ('.$pct_score.'%)</h3><br />');
 		
 	}
 }

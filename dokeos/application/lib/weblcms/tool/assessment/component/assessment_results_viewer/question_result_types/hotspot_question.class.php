@@ -26,7 +26,7 @@ class HotspotQuestionResult extends QuestionResult
 		
 		$total_score = $total_score / $total_div * $this->get_clo_question()->get_weight();
 		$total_div = $this->get_clo_question()->get_weight();
-		$score_line = Translation :: get('Score').': '.$total_score.'/'.$total_div;
+		$score_line = Translation :: get('Score').': '.round($total_score).'/'.$total_div;
 		
 		//print_r($results);
 		//$this->display_answers($answer_lines, $correct_answer_lines);
@@ -108,7 +108,7 @@ class HotspotQuestionResult extends QuestionResult
 		
 		$total_score = $total_score / $total_div * $this->get_clo_question()->get_weight();
 		$total_div = $this->get_clo_question()->get_weight();
-		$score_line = Translation :: get('Score').': '.$total_score.'/'.$total_div;
+		$score_line = Translation :: get('Score').': '.round($total_score).'/'.$total_div;
 		
 		//print_r($results);
 		//$this->display_answers($answer_lines, $correct_answer_lines);
