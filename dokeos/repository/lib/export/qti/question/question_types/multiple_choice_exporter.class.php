@@ -58,11 +58,11 @@ class MultipleChoiceQuestionQtiExport extends QuestionQtiExport
 	{
 		$interaction_xml[] = '<itemBody>';
 		$interaction_xml[] = '<choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1">';
-		$interaction_xml[] = '<prompt>'.include_question_images($this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object(), $this->get_learning_object()->get_description()).'</prompt>';
 		foreach ($answers as $i => $answer)
 		{
-			$interaction_xml[] = '<simpleChoice identifier="c'.$i.'" fixed="false">'.htmlspecialchars($answer['answer']);
-			$interaction_xml[] = '<feedbackInline outcomeIdentifier="FEEDBACK" identifier="c'.$i.'" showHide="show">'.htmlspecialchars($answer['comment']).'</feedbackInline>';
+			$interaction_xml[] = '<simpleChoice identifier="c'.$i.'" fixed="false">'.$this->include_question_images($this->get_learning_object(), $answer['answer']);
+			$interaction_xml[] = '<feedbackInline outcomeIdentifier="FEEDBACK" identifier="c'.$i.'" showHide="show">'.$this->include_question_images($this->get_learning_object(), $answer['comment']).'</feedbackInline>';
 			$interaction_xml[] = '</simpleChoice>';
 		}
 		$interaction_xml[] = '</choiceInteraction>';

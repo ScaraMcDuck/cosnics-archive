@@ -53,7 +53,7 @@ class AssessmentQtiExport extends QtiExport
 		$zip = Filecompression :: factory();
 		$zip->set_filename('qti_assessment', 'zip');
 		$zippath = $zip->create_archive($temp_dir);
-		FileSystem :: remove($temp_dir);
+		//FileSystem :: remove($temp_dir);
 			
 		return $zippath;
 	}
@@ -74,6 +74,11 @@ class AssessmentQtiExport extends QtiExport
 		$tags = Text :: fetch_tag_into_array($assessment->get_description(), '<img>');
 		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/images/';
 		$description = $assessment->get_description();		
+		
+	  	if(!is_dir($temp_dir))
+  		{
+  			mkdir($temp_dir, '0777', true);
+  		}
 		
 		foreach($tags as $tag)
 		{

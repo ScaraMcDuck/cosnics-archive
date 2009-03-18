@@ -71,11 +71,16 @@ abstract class QuestionQtiExport extends QtiExport
 		return $xml_path;
 	}
 
-	function include_question_images($assessment)
+	function include_question_images($question, $text)
 	{
-		$tags = Text :: fetch_tag_into_array($question->get_description(), '<img>');
+		$tags = Text :: fetch_tag_into_array($text, '<img>');
 		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/images/';
-		$description = $question->get_description();		
+		
+		if (!file_exists($temp_dir))
+		{
+			mkdir($temp_dir, null, true);
+		}
+		$description = $text;		
 		
 		foreach($tags as $tag)
 		{
