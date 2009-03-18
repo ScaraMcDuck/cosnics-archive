@@ -17,24 +17,11 @@ class OpenQuestionResult extends QuestionResult
 			case OpenQuestion :: TYPE_OPEN:
 				$result = $results[0];
 				$user_score = $result->get_score();
-				
-				/*if ($user_score != null)
-					$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
-				else
-					$score_line = Translation :: get('NoScore');*/
-				//$this->display_score($score_line);
-		
 				$answer_lines[] = $result->get_answer();
 				break;
 			case OpenQuestion :: TYPE_DOCUMENT:
 				$result = $results[0];
 				$user_score = $result->get_score();
-				
-				/*if ($user_score != null)
-					$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
-				else
-					$score_line = Translation :: get('NoScore');*/
-					
 				if ($result->get_answer() != null)
 				{
 					$lo_document = RepositoryDataManager :: get_instance()->retrieve_learning_object($result->get_answer(), 'document');
@@ -48,12 +35,6 @@ class OpenQuestionResult extends QuestionResult
 			case OpenQuestion :: TYPE_OPEN_WITH_DOCUMENT:
 				$result = $results[0];
 				$user_score = $result->get_score();
-		
-				/*if ($user_score != null)
-					$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
-				else
-					$score_line = Translation :: get('NoScore');*/
-		
 				$answer_lines[] = $result->get_answer();
 				$result = $results[1];
 				$user_score = $result->get_score();
@@ -72,25 +53,11 @@ class OpenQuestionResult extends QuestionResult
 		}
 		
 		if ($user_score != null)
-			$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
+			$score_line = Translation :: get('Score').': '.round($user_score).'/'.parent :: get_clo_question()->get_weight();
 		else
 			$score_line = Translation :: get('NoScore');
 		
-		/*$this->display_answers($answer_lines);
-			
-		$this->display_feedback();
-		$this->display_score($score_line);
-		
-		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
-			$this->add_feedback_controls();
-		
-		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
-					$this->add_score_controls($this->get_clo_question()->get_weight());
-		
-		$this->display_footer();*/
-		
 		$this->display_answers($answer_lines);
-		//$this->display_question_feedback();
 		
 		$this->display_score($score_line);
 		$this->display_feedback();
@@ -130,10 +97,6 @@ class OpenQuestionResult extends QuestionResult
 			case OpenQuestion :: TYPE_OPEN:
 				$result = $results[0];
 				$user_score = $result->get_score();
-		
-				$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
-				//$this->display_score($score_line);
-		
 				$answer_lines[] = $result->get_answer();
 				break;
 			case OpenQuestion :: TYPE_DOCUMENT:
@@ -152,12 +115,6 @@ class OpenQuestionResult extends QuestionResult
 			case OpenQuestion :: TYPE_OPEN_WITH_DOCUMENT:
 				$result = $results[0];
 				$user_score = $result->get_score();
-		
-				$score_line = Translation :: get('Score').': '.$user_score.'/'.parent :: get_clo_question()->get_weight();
-				//$this->display_score($score_line);
-			/*	if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
-					$this->add_score_controls($this->get_clo_question()->get_weight());*/
-		
 				$answer_lines[] = $result->get_answer();
 				$result = $results[1];
 				$user_score = $result->get_score();
@@ -175,26 +132,14 @@ class OpenQuestionResult extends QuestionResult
 				break;
 		}
 		
-	/*	$this->display_answers($answer_lines);
-		
-		$this->display_feedback();
 		if ($user_score != null)
-			$this->display_score($score_line);
-		
-		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
-			$this->add_feedback_controls();
-		
-		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
-			$this->add_score_controls($this->get_clo_question()->get_weight());
-		
-		$this->display_footer();*/
+			$score_line = Translation :: get('Score').': '.round($user_score).'/'.parent :: get_clo_question()->get_weight();
+		else
+			$score_line = Translation :: get('NoScore');
 		
 		$this->display_answers($answer_lines);
-		//$this->display_question_feedback();
 		
-		if ($user_score != null)
-			$this->display_score($score_line);
-			
+		$this->display_score($score_line);
 		$this->display_feedback();
 		
 		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')

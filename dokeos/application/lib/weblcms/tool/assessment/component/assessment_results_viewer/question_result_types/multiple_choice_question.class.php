@@ -76,7 +76,18 @@ class MultipleChoiceQuestionResult extends QuestionResult
 		$correct_lines = array();
 		foreach($answers as $key => $answer)
 		{
-			//$correct_line = $key + 1 . '. ';
+			if ($question->get_answer_type() == 'radio')
+			{
+				if ($answer->is_correct())
+				{
+					$user_score_div += $answer->get_weight();
+				}
+			}
+			else
+			{
+				$user_score_div += $answer->get_weight();
+			}
+			
 			if($answer->is_correct())
 			{
 				$correct_line = '<b>' . $answer->get_value() . '</b>';
@@ -89,27 +100,14 @@ class MultipleChoiceQuestionResult extends QuestionResult
 			$correct_line .= ' <span style="color: navy; font-style: italic;">(' . $answer->get_comment() . ')</span>';
 			
 			$correct_lines[] = $correct_line;
-			$user_score_div += $answer->get_weight();
 		}
 		
 		$clo_question = $this->get_clo_question();
 		$user_question_score = $user_score / $user_score_div * $clo_question->get_weight();
 		
-		$score_line = Translation :: get('Score').': '.$user_question_score.'/'.$clo_question->get_weight();
-		//$this->display_score($score_line);
-		
-		/*$this->display_answers($answer_lines, $correct_lines);
-			
-		$this->display_feedback();
-		$this->display_score($score_line);
-		
-		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
-			$this->add_feedback_controls();
-		
-		$this->display_footer();*/
+		$score_line = Translation :: get('Score').': '.round($user_question_score).'/'.$clo_question->get_weight();
 		
 		$this->display_answers($answer_lines, $correct_lines);
-		//$this->display_question_feedback();
 		
 		$this->display_score($score_line);
 		$this->display_feedback();
@@ -138,7 +136,7 @@ class MultipleChoiceQuestionResult extends QuestionResult
 	
 	function display_assignment()
 	{
-				$this->display_question_header();
+		$this->display_question_header();
 		
 		$question = $this->get_question();
 		$results = $this->get_results();
@@ -161,10 +159,7 @@ class MultipleChoiceQuestionResult extends QuestionResult
 					$answer_line = '<span style="color: red">' . $answer_line . '</span>';
 				}
 				
-				//$answer_line = $result->get_answer() + 1 . '. ' . $answer_line;
-				
 				$answer_line .= ' ('.Translation :: get('Score').': '.$result->get_score().')';
-				
 				$answer_lines[] = $answer_line;
 				$user_score = $result->get_score();
 			}
@@ -190,12 +185,9 @@ class MultipleChoiceQuestionResult extends QuestionResult
 				{
 					$answer_line = '<span style="color: red">' . $answer_line . '</span>';
 				}
-				
 				//$answer_line = $result->get_answer() + 1 . '. ' . $answer_line;
 				$answer_line .= ' ('.Translation :: get('Score').': '.$result->get_score().')';
-				
 				$answer_lines[] = $answer_line;
-				
 				$user_score += $result->get_score();
 			}
 			if(count($results) == 0)
@@ -208,7 +200,18 @@ class MultipleChoiceQuestionResult extends QuestionResult
 		$correct_lines = array();
 		foreach($answers as $key => $answer)
 		{
-			//$correct_line = $key + 1 . '. ';
+			if ($question->get_answer_type() == 'radio')
+			{
+				if ($answer->is_correct())
+				{
+					$user_score_div += $answer->get_weight();
+				}
+			}
+			else
+			{
+				$user_score_div += $answer->get_weight();
+			}
+			
 			if($answer->is_correct())
 			{
 				$correct_line = '<b>' . $answer->get_value() . '</b>';
@@ -221,25 +224,14 @@ class MultipleChoiceQuestionResult extends QuestionResult
 			$correct_line .= ' <span style="color: navy; font-style: italic;">(' . $answer->get_comment() . ')</span>';
 			
 			$correct_lines[] = $correct_line;
-			$user_score_div += $answer->get_weight();
 		}
 		
 		$clo_question = $this->get_clo_question();
 		$user_question_score = $user_score / $user_score_div * $clo_question->get_weight();
 		
-		$score_line = Translation :: get('Score').': '.$user_question_score.'/'.$clo_question->get_weight();
-		//$this->display_score($score_line);
-		
-		/*$this->display_answers($answer_lines, $correct_lines);
-		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
-			$this->add_feedback_controls();
-			
-		$this->display_feedback();
-		$this->display_score($score_line);
-		$this->display_footer();*/
-		
+		$score_line = Translation :: get('Score').': '.round($user_question_score).'/'.$clo_question->get_weight();
+
 		$this->display_answers($answer_lines, $correct_lines);
-		//$this->display_question_feedback();
 		
 		$this->display_score($score_line);
 		$this->display_feedback();
