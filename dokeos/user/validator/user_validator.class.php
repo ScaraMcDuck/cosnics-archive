@@ -82,16 +82,13 @@ class UserValidator extends Validator
         return false;
 
         /*
-         * To check if the username exists, and retrieve the ID
+         * To check if the user_id exists.
          */
-        $var = $this->get_person_id($userProperties[User :: PROPERTY_USERNAME]);
-        if(!$var)
+        if(!$this->does_user_exist($userProperties[user_id]))
         return false;
-        else
-        $userProperties[User :: PROPERTY_USER_ID] = $var;
 
         /*
-         * To check if the creatorname has an equivalent ID, and if so, swap them.
+         * To check if the creator exists and retrieve it's ID.
          */
         if(!empty($userProperties[User :: PROPERTY_CREATOR_ID]))
         {
@@ -123,13 +120,10 @@ class UserValidator extends Validator
         return false;
         
         /*
-         * To check if the username exists, and retrieve the ID
+         * To check if the user_id exists.
          */
-        $var = $this->get_person_id($userProperties[User :: PROPERTY_USERNAME]);
-        if(!$var)
+        if(!$this->does_user_exist($userProperties[user_id]))
         return false;
-        else
-        $userProperties[User :: PROPERTY_USER_ID] = $var;
         
         return true;
     }
@@ -145,6 +139,11 @@ class UserValidator extends Validator
         {
             return false;
         }
+    }
+
+    private function does_user_exist($user_id)
+    {
+        return $this->udm->count_users(new EqualityCondition(User :: PROPERTY_USER_ID, $user_id))!=0;
     }
 
     private function check_quota($userProperties)
