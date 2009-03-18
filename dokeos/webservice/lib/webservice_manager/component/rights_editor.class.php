@@ -15,6 +15,8 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 	private $location;
     private $webserviceID;
     private $categoryID;
+    private $message;
+    private $submessage;
 	
 	/**
 	 * Runs this component and displays its output.
@@ -30,18 +32,23 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
            if ($this->categoryID == null)
            {
                
-               $this->location = WebserviceRights :: get_root(); 
+               $this->location = WebserviceRights :: get_root();
+               $this->message = 'Edit rights for all provided webservices ';
                 
            }
            else
            {              
                $this->location = WebserviceRights :: get_location_by_identifier('webservice_category', $this->categoryID);
+               $this->message = 'Edit rights ';
+               $this->submessage = 'Set rights for the " ' .$this->location->get_location() .' " category';
            }
            
         }
         else
         {            
             $this->location = WebserviceRights :: get_location_by_identifier('webservice', $this->webserviceID);
+            $this->message = 'Edit rights ';
+            $this->submessage = 'Set rights for webservice " ' .$this->location->get_location() .' " ';
         }
         
 		$component_action = $_GET[WebserviceManager :: PARAM_COMPONENT_ACTION];        
@@ -226,10 +233,12 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 	function show_rights_list()
 	{        
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
-		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRights')));
+		$trail->add(new Breadcrumb($this->get_url(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)), Translation :: get('BrowseWebservices')));		
+        $trail->add(new Breadcrumb($this->get_url(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES)), $this->message));
+        
         			
 			$this->display_header($trail);
+            echo $this->submessage .'<br/><br/>';
 			echo $this->get_modification_links();            
 			echo $this->get_rights_table_html();            
 			echo RightsUtilities :: get_rights_legend();
