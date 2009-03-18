@@ -195,7 +195,7 @@ abstract class QuestionResult
 	
 	function render_feedback_actions()
 	{
-		$quest = $this->get_question();
+		$quest = $this->get_clo_question();
 	
 		if($this->formvalidator->get_component()->is_allowed(DELETE_RIGHT))
 		{ 
