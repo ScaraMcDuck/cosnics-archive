@@ -2,7 +2,21 @@
 
 $file = dirname(__FILE__) . '/user_import.csv';
 $users = parse_csv($file);
-dump($users);
+//dump($users);
+
+foreach($users as $user)
+{
+	$action = $user['action'];
+	switch($action)
+	{
+		case 'I': create_user($user); break;
+		case 'i': create_user($user); break;
+		case 'U': update_user($user); break;
+		case 'u': update_user($user); break;
+		case 'D': delete_user($user); break;
+		case 'd': delete_user($user); break;
+	}
+}
 
 function parse_csv($file)
 {
@@ -24,7 +38,7 @@ function parse_csv($file)
 	}
 	else
 	{
-		echo("FOUT: Kan het bestand niet openen ($file)");
+		log("FOUT: Kan het bestand niet openen ($file)");
 	}
 	
 	return $users;
@@ -32,17 +46,20 @@ function parse_csv($file)
 
 function create_user($user)
 {
-	
+	log_message('Creating user ' . $user['official_code']);
+	log_message('Create succesful');
 }
 
 function update_user($user)
 {
-	
+	log_message('Updating user ' . $user['official_code']);
+	log_message('Update succesful');
 }
 
 function delete_user($user)
 {
-	
+	log_message('Deleting user: ' . $user['official_code']);
+	log_message('Delete succesful');
 }
 
 function dump($value)
@@ -50,6 +67,11 @@ function dump($value)
 	echo '<pre>';
 	print_r($value);
 	echo '</pre>';
+}
+
+function log_message($text)
+{
+	echo date('[H:m] ', time()) . $text . '<br />';
 }
 
 ?>
