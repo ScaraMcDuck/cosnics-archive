@@ -50,6 +50,7 @@ class Footer
 		$output[] = '  </div> <!-- end of #outerframe opened in header -->';
 		$output[] = ' </body>';
 		$output[] = '</html>';
+		//$output[] = '<script language="JavaScript">( function($) { $(window).unload(function() { alert("ByeNow!"); }); })(jQuery);</script>';
 		return implode("\n",$output);
 	}
 }
