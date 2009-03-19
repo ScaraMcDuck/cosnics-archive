@@ -54,10 +54,10 @@ function create_user($user)
 {
 	global $hash, $client;
 	log_message('Creating user ' . $user['official_code']);
-	
+	dump($hash);
 	$hash = ($hash == '') ? login() : $hash;
 	$result = $client->call('create_user', array('user' => $user, 'hash' => $hash));
-	
+
 	log_message(print_r($result, true));
 }
 
@@ -85,12 +85,20 @@ function delete_user($user)
 
 function login()
 {
-	global $client, $username, $password;
+	global $client;
 	
-	$login_client = new nusoap_client('http://localhost/lcms/user/webservices/retrive_user.class.php?wsdl', 'wsdl');
-	$result = $login_client->call('retrive_user', array('username' => $username, 'password' => $password));
-	dump($result);
-	return $result['hash'];
+	$username = 'test';
+	$password = 'test';
+	
+	$login_client = new nusoap_client('http://localhost/lcms/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
+	$result = $login_client->call('LoginWebservice.login', array('username' => $username, 'password' => $password));
+
+	log_message(print_r($result, true));
+	
+	if(is_array($result) && array_key_exists('hash', $result))
+		return $result['hash'];
+		
+	return '';
 }
 
 function dump($value)
@@ -103,6 +111,13 @@ function dump($value)
 function log_message($text)
 {
 	echo date('[H:m] ', time()) . $text . '<br />';
+}
+
+function debug($client)
+{
+	echo '<h2>Request</h2><pre>' . htmlspecialchars($client->request, ENT_QUOTES) . '</pre>';
+	echo '<h2>Response</h2><pre>' . htmlspecialchars($client->response, ENT_QUOTES) . '</pre>';
+	echo '<h2>Debug</h2><pre>' . htmlspecialchars($client->getDebug(), ENT_QUOTES) . '</pre>';		
 }
 
 ?>
