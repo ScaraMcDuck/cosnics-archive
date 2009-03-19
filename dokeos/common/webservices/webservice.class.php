@@ -110,8 +110,9 @@ abstract class Webservice
 			}
 			else
 			{
-				$this->message = 'Wrong hash value submitted.';
-                return false;
+                $this->message = 'Wrong hash value submitted.';
+                
+                
 			}
 		}
 		else
