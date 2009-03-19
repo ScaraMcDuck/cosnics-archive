@@ -42,12 +42,12 @@ class LoginWebservice
 			}
 			else
 			{
-				return $this->webservice->raise_message($hash);
+				return $this->webservice->get_message();
 			}
 		}
 		else
 		{
-			return $this->webservice->raise_message('Validation unsuccessful. Wrong hash value.');
+			return $this->webservice->get_message();
 		}
 			
 	}
