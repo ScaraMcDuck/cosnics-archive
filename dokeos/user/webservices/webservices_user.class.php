@@ -63,9 +63,9 @@ class WebServicesUser
         if($this->webservice->can_execute($input_user, 'get user'))
 		{           
             $udm = DatabaseUserDataManager :: get_instance();
-            if($this->validator->validate_retrieve($input_user))
+            if($this->validator->validate_retrieve($input_user)) //input validation
             {
-                $user = $udm->retrieve_user_by_username($input_user[username]);
+                $user = $udm->retrieve_user_by_username($input_user[username]); 
                 if(isset($user) && count($user->get_default_properties())>0)
                 {
                     return $user->get_default_properties();

@@ -52,7 +52,18 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 			);
 		}*/
-		
+
+        //TEST 4 : Login Webservice
+		$wsdl = 'http://localhost/user/webservices/login_webservice.class.php?wsdl';
+		$functions = array();
+
+		{
+			$functions[] = array(
+				'name' => 'LoginWebservice.login',
+				'parameters' => array('username'=>'Soliber','password'=>'8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
+				'handler' => 'handle_webservice'
+			);
+		}
 		
 		/*$user = array('username' => 'Kuchiki', 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78');
         $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';

@@ -3,21 +3,18 @@ require_once(dirname(__FILE__) . '/../../common/global.inc.php');
 require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php';
 require_once dirname(__FILE__) . '/../../user/lib/user.class.php';
 require_once dirname(__FILE__) . '/../../common/webservices/action_success.class.php';
-require_once Path :: get_webservice_path() . '/security/webservice_security_manager.class.php';
 require_once Path :: get_webservice_path() . '/lib/webservice_credential.class.php';
 
-$handler = new RetriveUser();
+$handler = new LoginWebservice();
 $handler->run();
 
-class RetriveUser
+class LoginWebservice
 {
-	private $webservice;
-	private $functions;	
+	private $webservice;		
 	
-	function RetriveUser()
+	function LoginWebservice()
 	{
-		$this->webservice = Webservice :: factory($this);
-		$this->wsm = WebserviceSecurityManager :: get_instance();
+		$this->webservice = Webservice :: factory($this);		
 	}
 	
 	function run()
@@ -25,23 +22,20 @@ class RetriveUser
 		
 		$functions = array();
 		
-		$functions['retrive'] = array(
+		$functions['login'] = array(
 			'input' => new User(),
 			'output' => new WebserviceCredential(),
 			'require_hash' => false
 		);
 		
-		$this->webservice->provide_webservice($functions); //function and no hash
+		$this->webservice->provide_webservice($functions); 
 	}	
 	
-	function retrive($user)
+	function login($user)
 	{
         if(is_array($user))
 		{			
-			$input_password = Hashing :: hash($user[password]);
-			$input_string = $input_password.$_SERVER['REMOTE_ADDR'];						
-			$input_hash = Hashing :: hash($input_string);
-            $hash =  $this->wsm->validate_login($user[username],$input_hash);//no password will be sent, only the username//hash
+            $hash =  $this->webservice->validate_login($user[username],$user[password]);//no password will be sent, only the username//hash
 			if(!empty($hash) && gettype($hash)=='array')
 			{
 				return $hash;
