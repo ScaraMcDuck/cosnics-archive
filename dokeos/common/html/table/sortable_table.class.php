@@ -259,8 +259,10 @@ class SortableTable extends HTML_Table
 							}
 							/* ]]> */
 							</script>';
-				$params = $this->get_sortable_table_param_string.'&amp;'.$this->get_additional_url_paramstring();
-
+				// Initially replaced $this->get_sortable_table_param_string with
+				// $this->get_sortable_table_param_string() .. but I doubt it should be there anyway? 
+				//$params = $this->get_sortable_table_param_string().'&amp;'.$this->get_additional_url_paramstring();
+				$params = $this->get_additional_url_paramstring();
 				$html[] = '<form method="post" action="'.$_SERVER['PHP_SELF'].'?'.$params.'" name="form_'.$this->table_name.'"  onsubmit="return anyCheckboxChecked(\'form_'.$this->table_name.'\') &amp;&amp; confirm(\''.addslashes(htmlentities(Translation :: get("ConfirmYourChoice"))).'\');">';
 			}
 		}

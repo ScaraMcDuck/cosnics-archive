@@ -139,4 +139,8 @@ $lang['common']['FolderMustBeWritable'] = 'Folder must be writable';
 $lang['common']['IsWritable'] = 'Is writable';
 $lang['common']['DirectoryExists'] = 'Directory exists';
 $lang['common']['DirectoryShouldBeRemoved'] = 'Directory should be removed';
+$lang['common']['Logout'] = 'Logout';
+$lang['common']['Administration'] = 'Administration';
+$lang['common']['Repository'] = 'Repository';
+$lang['common']['MyAccount'] = 'My account';
 ?>

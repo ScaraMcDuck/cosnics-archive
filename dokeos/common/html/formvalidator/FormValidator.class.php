@@ -250,9 +250,9 @@ EOT;
 	 * @param string $name The element name
 	 * @return HTML_QuickForm_datepicker The element.
 	 */
-	function add_datepicker($name,$label)
+	function add_datepicker($name,$label, $include_time_picker = true)
 	{
-		$element = $this->addElement('datepicker', $name, $label, array ('form_name' => $this->getAttribute('name')), true);
+		$element = $this->addElement('datepicker', $name, $label, array ('form_name' => $this->getAttribute('name')), $include_time_picker);
 		$this->addRule($name, Translation :: get('InvalidDate'), 'date');
 		return $element;
 	}
@@ -264,10 +264,10 @@ EOT;
 	 * @param string $label The label for the form-element
 	 * @param string $name The element name
 	 */
-	function add_timewindow($name_1, $name_2,  $label_1,$label_2)
+	function add_timewindow($name_1, $name_2,  $label_1,$label_2, $include_time_picker = true)
 	{
-		$this->add_datepicker($name_1, $label_1);
-		$this->add_datepicker( $name_2, $label_2);
+		$this->add_datepicker($name_1, $label_1, $include_time_picker);
+		$this->add_datepicker( $name_2, $label_2, $include_time_picker);
 		$this->addRule(array ($name_1, $name_2), Translation :: get('StartDateShouldBeBeforeEndDate'), 'date_compare', 'lte');
 	}
 	/**

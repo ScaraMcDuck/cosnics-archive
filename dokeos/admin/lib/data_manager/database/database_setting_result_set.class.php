@@ -38,7 +38,7 @@ class DatabaseSettingResultSet extends ResultSet {
 			return $this->data_manager->record_to_setting($record);
 		}
     	return null;
-    }
+    }    
 	/*
 	 * Inherited
 	 */
