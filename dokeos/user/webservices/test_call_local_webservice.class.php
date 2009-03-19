@@ -60,7 +60,7 @@ class TestCallLocalWebservice
 		{
 			$functions[] = array(
 				'name' => 'LoginWebservice.login',
-				'parameters' => array('username'=>'Soliber','password'=>'8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
+				'parameters' => array('username'=>'Soliber','password'=>'94390bf841d79d92d1eb48cbc6623f3be2713ad6'),
 				'handler' => 'handle_webservice'
 			);
 		}
