@@ -96,10 +96,11 @@ abstract class Webservice
 	function validate_login($username,$input_hash)
 	{
 		$udm = DatabaseUserDataManager :: get_instance();
-		$user = $udm->retrieve_user_by_username($username);
-		$hash = Hashing :: hash($user->get_password().$_SERVER['REMOTE_ADDR']);
+		$user = $udm->retrieve_user_by_username($username);		
 		if(isset($user))
 		{
+            $hash = Hashing :: hash($user->get_password().$_SERVER['REMOTE_ADDR']);
+            
 			if(strcmp($hash, $input_hash)==0) //loginservice validate succesful, credential needed to validate the other webservices
 			{
 				$this->credential = new WebserviceCredential(
