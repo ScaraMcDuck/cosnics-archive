@@ -112,8 +112,8 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 			//$parameters[Weblcms :: PARAM_USERS] = $user->get_id();
             $params = array();
             //$params[ReportingManager :: PARAM_APPLICATION] = "weblcms";
-            $params["course_id"] = $this->browser->get_course_id();
-            $params["user_id"] = $user->get_id();
+            $params[ReportingManager :: PARAM_COURSE_ID] = $this->browser->get_course_id();
+            $params[ReportingManager :: PARAM_USER_ID] = $user->get_id();
             $unsubscribe_url = ReportingManager :: get_reporting_template_registration_url('CourseUserReportingTemplate',$params);
 			//$unsubscribe_url = $this->browser->get_url($parameters);
 			$toolbar_data[] = array(

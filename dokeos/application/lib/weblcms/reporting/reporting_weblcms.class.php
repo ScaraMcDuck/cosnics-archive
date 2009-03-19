@@ -11,7 +11,7 @@ class ReportingWeblcms {
     public static function getCourseInformation($params)
     {
         $wdm = WeblcmsDataManager::get_instance();
-        $course = $wdm->retrieve_course($params["course_id"]);
+        $course = $wdm->retrieve_course($params[ReportingManager :: PARAM_COURSE_ID]);
         $array = array();
 
         $data[] = array("Name"=>Translation :: get('Name'),"Serie1"=>$course->get_name());
@@ -30,8 +30,8 @@ class ReportingWeblcms {
     {
         $array = array();
         $wdm = WeblcmsDataManager::get_instance();
-        $course_id = $params['course_id'];
-        $user_id = $params['user_id'];
+        $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
+        $user_id = $params[ReportingManager :: PARAM_USER_ID];
         $series = $wdm->count_learning_object_publications($course_id, null, $user_id);
         $lops = $wdm->retrieve_learning_object_publications($course_id, null, $user_id);
         

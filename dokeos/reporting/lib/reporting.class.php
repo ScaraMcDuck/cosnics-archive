@@ -15,6 +15,7 @@ class Reporting{
      * @return html
      */
 	public static function generate_block(&$reporting_block,$params){
+        //dump($reporting_block);
 		//$reporting_block->retrieve_data();
         if($params[ReportingTemplate :: PARAM_DIMENSIONS] == ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS)
         {
@@ -27,7 +28,7 @@ class Reporting{
         }
  		$html[] = '<div class="reporting_header">';
         $html[] = '<div class="reporting_header_title">'.Translation :: get($reporting_block->get_name()).'</div>';
- 		$html[] = '<div class="reporting_header_displaymode">'.Translation :: get('Displaymode').' ';
+ 		$html[] = '<div class="reporting_header_displaymode">';
  		$html[] = '<select name="charttype" class="charttype"';
  		foreach($reporting_block->get_displaymodes() as $key => $value)
  		{
@@ -64,22 +65,23 @@ class Reporting{
      * @param Tracker $tracker
      * @return array
      */
-	public static function array_from_tracker($tracker)
+	public static function array_from_tracker($tracker,$condition = null,$description)
 	{
 		$c = 0;
     	$array = array();
-    	$trackerdata = $tracker->export();
+        $trackerdata = $tracker->retrieve_tracker_items($condition);
+    	//$trackerdata = $tracker->export(null,null,$event);
     	
     	foreach($trackerdata as $key => $value)
     	{
-    		$data[$c]["Name"] = $value->get_name();
-    		$data[$c]["Serie1"] = $value->get_value();
-    		$c++;
+            $data[$c]["Name"] = $value->get_name();
+            $data[$c]["Serie1"] = $value->get_value();
+            $c++;
     	}
     	
     	$datadescription["Position"] = "Name";
 		$datadescription["Values"][] = "Serie1";
-        $datadescription["Description"]["Serie1"] = "Browsers";
+        $datadescription["Description"]["Serie1"] = $description;
 		
 		array_push($array,$data);
 		array_push($array,$datadescription);
