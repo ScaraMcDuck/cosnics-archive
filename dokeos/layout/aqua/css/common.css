@@ -1531,7 +1531,7 @@ ul.tree-menu li div a.home
 }
 
 ul.tree-menu li div a.selected, .active_elements a.selected {
-	background-color: #F0F0FF;
+	background-color: #d0e3fa;
 }
 
 ul.tree-menu li div a.disabled, ul.tree-menu li div a.disabled:hover,
@@ -2692,7 +2692,7 @@ span.dropOver
 	background-color: #f5f5f5;
 	border: 1px solid #dedede;
 	padding: 2px 4px 2px 4px;
-	width: 290px; 
+	width: 294px; 
 }
 
 .active_elements:hover, .active_elements:focus , .inactive_elements:hover, .inactive_elements:focus 
@@ -2703,7 +2703,7 @@ span.dropOver
 
 input[type=text].element_query
 {
-	width: 274px;
+	width: 278px;
 	background-image: url('../img/common/buttons/button_search.png');
 	background-repeat: no-repeat;
 	background-position: 2px 2px;

@@ -3,7 +3,7 @@
  * @package users
  * @subpackage datamanager
  */
-require_once dirname(__FILE__).'/database/databaseuserresultset.class.php';
+require_once dirname(__FILE__).'/database/database_user_result_set.class.php';
 require_once dirname(__FILE__).'/../user_data_manager.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../user_quota.class.php';

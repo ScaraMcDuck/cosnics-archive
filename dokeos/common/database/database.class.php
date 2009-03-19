@@ -400,7 +400,7 @@ class Database
 		}
 	}
 	
-	function retrieve_distinct($table_name, $column_name, $condition = null, $order_direction = SORT_ASC)
+	function retrieve_distinct($table_name, $column_name, $condition = null)
 	{
 		$query = 'SELECT DISTINCT(' . $this->escape_column_name($column_name) . ') FROM '.$this->escape_table_name($table_name);
 		
@@ -424,6 +424,26 @@ class Database
 		}
 		
 		return $distinct_elements;
+	}
+	
+	function count_distinct($table_name, $column_name, $condition = null)
+	{
+		$query = 'SELECT COUNT(DISTINCT(' . $this->escape_column_name($column_name) . ')) FROM '.$this->escape_table_name($table_name);
+		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$statement = $this->connection->prepare($query);
+		
+		$res = $statement->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		return $record[0];
 	}
 	
 	function get_alias($table_name)

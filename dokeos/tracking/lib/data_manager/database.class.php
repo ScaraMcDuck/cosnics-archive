@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../tracking_data_manager.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
-require_once dirname(__FILE__).'/database/databaseeventresultset.class.php';
+require_once dirname(__FILE__).'/database/database_event_result_set.class.php';
 
 require_once 'MDB2.php';
 
