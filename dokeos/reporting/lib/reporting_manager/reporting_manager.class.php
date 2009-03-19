@@ -28,6 +28,9 @@ class ReportingManager {
 
     const PARAM_ROLE_ID = 'role';
 
+    const PARAM_USER_ID = 'user_id';
+    const PARAM_COURSE_ID = 'course_id';
+
     const ACTION_BROWSE_TEMPLATES = 'browse_templates';
     const ACTION_ADD_TEMPLATE = 'add_template';
     const ACTION_DELETE_TEMPLATE = 'delete_template';
