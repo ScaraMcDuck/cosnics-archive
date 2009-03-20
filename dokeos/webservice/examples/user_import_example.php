@@ -3,8 +3,9 @@ require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 
 $file = dirname(__FILE__) . '/user_import.csv';
 $users = parse_csv($file);
-$location = 'http://localhost/lcms/user/webservices/webservices_user.class.php';
+$location = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
+$hash = '';
 
 //dump($users);
 
@@ -48,57 +49,79 @@ function parse_csv($file)
 	return $users;
 }
 
-$hash = '';
-
 function create_user($user)
 {
 	global $hash, $client;
-	log_message('Creating user ' . $user['official_code']);
-	dump($hash);
+	log_message('Creating user ' . $user['username']);	
 	$hash = ($hash == '') ? login() : $hash;
-	$result = $client->call('create_user', array('user' => $user, 'hash' => $hash));
-
-	log_message(print_r($result, true));
+    $user['hash'] = $hash;
+    $user['password'] = 'ae12e345f679aaf';
+    $user['registration_date'] = '0';
+    $user['disk_quota'] = '209715200';
+    $user['database_quota'] = '300';
+    $user['version_quota'] = '20';    
+	$result = $client->call('WebServicesUser.create_user', $user);    
+	if($result == 1)
+    {
+        log_message(print_r('User successfully created', true));
+    }
+    else
+    	log_message(print_r($result, true));
 }
 
 function update_user($user)
 {
 	global $hash, $client;
-	log_message('Updating user ' . $user['official_code']);
-	
+	log_message('Updating user ' . $user['username']);	
 	$hash = ($hash == '') ? login() : $hash;
-	$result = $client->call('update_user', array('user' => $user, 'hash' => $hash));
-	
-	log_message(print_r($result, true));
+    $user['hash'] = $hash;
+    $user['user_id'] = '17';
+    $user['password'] = 'ae12e345f679aaf';
+    $user['registration_date'] = '0';
+    $user['disk_quota'] = '209715200';
+    $user['database_quota'] = '300';
+    $user['version_quota'] = '20';    
+	$result = $client->call('WebServicesUser.update_user', $user);
+    if($result == 1)
+    {
+        log_message(print_r('User successfully updated', true));
+    }
+    else
+    	log_message(print_r($result, true));
 }
 
 function delete_user($user)
 {
 	global $hash, $client;
-	log_message('Deleting user: ' . $user['official_code']);
-	
+	log_message('Deleting user: ' . $user['username']);
+    $user['hash'] = $hash;
+    $user['user_id'] = '44';
 	$hash = ($hash == '') ? login() : $hash;
-	$result = $client->call('delete_user', array('official_code' => $user['official_code'], 'hash' => $hash));
-	
-	log_message(print_r($result, true));
+	$result = $client->call('WebServicesUser.delete_user', array('username' => $user['username'],'user_id'=> $user['user_id'],'hash' => $hash));
+    if($result == 1)
+    {
+        log_message(print_r('User successfully deleted', true));
+    }
+    else
+    	log_message(print_r($result, true));
 }
 
 function login()
-{
+{    
 	global $client;
 	
-	$username = 'test';
-	$password = 'test';
+	$username = 'Soliber';
+	$password = '58350136959beae3f874cd512ebcf320a7afa507';
 	
-	$login_client = new nusoap_client('http://localhost/lcms/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
+	$login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
 	$result = $login_client->call('LoginWebservice.login', array('username' => $username, 'password' => $password));
 
-	log_message(print_r($result, true));
-	
-	if(is_array($result) && array_key_exists('hash', $result))
-		return $result['hash'];
+    log_message(print_r($result, true)); 
+    if(is_array($result) && array_key_exists('hash', $result))
+        return $result['hash']; //hash 3
 		
 	return '';
+    
 }
 
 function dump($value)

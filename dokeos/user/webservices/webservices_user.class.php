@@ -13,7 +13,6 @@ $handler->run();
 class WebServicesUser
 {
 	private $webservice;
-	private $functions;
     private $validator;
 	
 	function WebServicesUser()
@@ -65,7 +64,7 @@ class WebServicesUser
             $udm = DatabaseUserDataManager :: get_instance();
             if($this->validator->validate_retrieve($input_user)) //input validation
             {
-                $user = $udm->retrieve_user_by_username($input_user[username]); 
+                $user = $udm->retrieve_user_by_username($input_user[username]);
                 if(isset($user) && count($user->get_default_properties())>0)
                 {
                     return $user->get_default_properties();
@@ -82,7 +81,7 @@ class WebServicesUser
 		}
         else
         {
-            return $this->webservice->get_message();
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 		
 	}
@@ -110,7 +109,7 @@ class WebServicesUser
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed, or no rights.');
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 	
@@ -132,7 +131,7 @@ class WebServicesUser
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed, or no rights.');
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 	
@@ -153,7 +152,7 @@ class WebServicesUser
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed, or no rights.');
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 	
@@ -174,7 +173,7 @@ class WebServicesUser
         }
         else
         {
-            return $this->webservice->raise_error('Hash authentication failed, or no rights.');
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 	
