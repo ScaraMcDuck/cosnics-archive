@@ -234,5 +234,17 @@ abstract class UserDataManager
 	abstract function update_role_links($group, $roles);
 	
 	abstract function get_database();
+	
+	abstract function get_next_buddy_list_category_id();
+	abstract function create_buddy_list_category($buddy_list_category);
+	abstract function update_buddy_list_category($buddy_list_category);
+	abstract function delete_buddy_list_category($buddy_list_category);
+	abstract function retrieve_buddy_list_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	
+	abstract function get_next_buddy_list_item_id();
+	abstract function create_buddy_list_item($buddy_list_item);
+	abstract function update_buddy_list_item($buddy_list_item);
+	abstract function delete_buddy_list_item($buddy_list_item);
+	abstract function retrieve_buddy_list_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 }
 ?>
