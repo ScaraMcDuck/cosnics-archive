@@ -232,4 +232,5 @@ $lang['admin']['LdapRemoteDn'] = 'LDAP Remote DN';
 $lang['admin']['LdapSearchDn'] = 'LDAP Search DN';
 $lang['admin']['Disabled'] = 'Disabled';
 $lang['admin']['AllowedLearningObjects'] = 'Allowed objects';
+$lang['admin']['Search'] = 'Search';
 ?>

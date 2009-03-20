@@ -5,76 +5,76 @@
  *****************************************************/
 
 /* Platform admin overview */
+
+div.admin
+{
+	float: left;
+	width: 49%;
+	margin: 10px 20px 10px 0px;
+}
+
 div.admin_section {
-	width: 45%;
-	float: left;
-	margin: 10px 20px;
-	border: 1px solid #c0c0c0;
-	font-size: 75%;
+	clear: both;
+	padding: 10px;
+	border: 1px solid #ebebeb;
+	-moz-border-radius-topright: 10px;
+	-moz-border-radius-bottomleft: 10px;
 }
 
-.admin_submit
-{
-	border: 1px solid grey; 
-	height: 19px; 
-	/*padding-bottom: 3px;*/
-	margin-top: -4px;
-	vertical-align: middle;
+div.admin_header {
+	clear: both;
 }
 
-div.admin_section div.main
+div.admin_header span.category
 {
 	float: left;
-	width: 80px;
-	text-align: center;
-	padding: 5px;
-	border-right: 1px solid #c0c0c0;
-	height: 80px;
-	background: #EBEBEB;
+	background-color: #FFFFFF;
+	font-weight: bold;
+	color: #4271B5;
+	padding: 5px 15px 0px 15px;
+	border: 1px solid #ebebeb;
+	border-bottom: 0px solid white;
+	margin: 0px 0px -1px 15px;
+	-moz-border-radius-topright: 10px;
+}
+
+div.admin_header span.category img
+{
+	margin: 0px 5px 0px 0px;
+}
+
+div.admin_header span.category span.title
+{
+	color: #000066;
+	font-size: 14px;
+}
+
+div.admin_header div.admin_search
+{
+	float: right;
+	margin: -10px 15px 0px 0px;
+	background-color: #FFFFFF;
+	font-weight: bold;
+	color: #4271B5;
 }
 
 div.admin_section div.actions
 {
-	float: left;
+	clear: both;
 	text-align: center;
-	height: 100%;
 }
 
 div.admin_section div.actions div.action
 {
 	float: left;
-	height: 100%;
 	text-align: center;
 	padding: 5px 10px 5px 10px;
 	margin: 0;
-	border-right: 1px solid #ebebeb;
-	width: 70px;
-	height: 80px;
 }
 
 div.admin_section div.actions div.action img
 {
 	margin: 8px 15px 8px 15px;
-}
-
-div.admin_section div.admin_search
-{
-	clear: both;
-	border-top: 1px solid #c0c0c0;
-	padding: 5px;
-	height: 20px;
-}
-
-form
-{
-	margin: 0;
-	padding: 0;
-}
-
-form input
-{
-	border: 1px solid #C0C0C0;
-	height: 17px;
 }
 
 /* Platform settings application icons */
@@ -117,4 +117,33 @@ div.configure div.application img
 div.configure div.application_current img
 {
 	width: 60%;
+}
+
+/*
+ * Various
+ */
+div.admin_search_form
+{
+	clear: both;
+	float: right;
+	padding-top: 4px;
+}
+
+div.admin_search_form div.row
+{
+	clear: none;
+	float: left;
+	padding: 0px;
+	margin-left: 10px;
+}
+
+div.admin_search_form div.row div.formw
+{
+	float: none;
+	width: auto;
+}
+
+div.admin_search_form div.row div.formw button
+{
+	margin-top: -2px;
 }
