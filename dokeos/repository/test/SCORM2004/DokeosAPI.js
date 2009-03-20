@@ -28,7 +28,7 @@ function DokeosGetValue($variable)
 function DokeosSetValue($variable, $value)
 {
 	this.values[$variable] = $value;
-	alert($variable . ' ' . $value);
+	alert($variable + ' ' + $value);
 	return "true";
 }
 
