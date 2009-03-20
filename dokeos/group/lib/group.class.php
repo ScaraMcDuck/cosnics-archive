@@ -276,6 +276,13 @@ class Group
 		return $users;
 	}
 	
+	function count_users($include_subgroups = false, $recursive_subgroups = false)
+	{
+		$users = $this->get_users($include_subgroups, $recursive_subgroups);
+		
+		return count($users);
+	}
+	
 	function get_subgroups($recursive = false)
 	{
 		$gdm = GroupDataManager :: get_instance();
@@ -296,6 +303,26 @@ class Group
 		}
 		
 		return $subgroups;
+	}
+	
+	function count_subgroups($recursive = false)
+	{
+		$gdm = GroupDataManager :: get_instance();
+		
+		$condition = new EqualityCondition(Group :: PROPERTY_PARENT,$this->get_id()); 
+		$count = $gdm->count_groups($condition);
+		
+		if($recursive)
+		{
+			$subgroups = $this->get_subgroups($recursive);
+			
+			foreach($subgroups as $subgroup)
+			{
+				$count += $subgroup->count_subgroups();
+			}
+		}
+		
+		return $count;
 	}
 }
 ?>

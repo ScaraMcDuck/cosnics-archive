@@ -27,8 +27,6 @@ class DefaultGroupTableColumnModel extends ObjectTableColumnModel
 		$columns = array();
 		$columns[] = new ObjectTableColumn(Group :: PROPERTY_NAME, true);
 		$columns[] = new ObjectTableColumn(Group :: PROPERTY_DESCRIPTION, true);
-		$columns[] = new ObjectTableColumn(Translation :: get('Users'), false);
-		$columns[] = new ObjectTableColumn(Translation :: get('Subgroups'), false);
 		return $columns;
 	}
 }
