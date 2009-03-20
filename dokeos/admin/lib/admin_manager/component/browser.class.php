@@ -59,16 +59,16 @@ class AdminBrowserComponent extends AdminManagerComponent
 				$html[] = '<span class="title">' . $application_links['application']['name'] . '</span>';
 				$html[] = '</span>';
 				
-//				if (isset($application_links['search']))
-//				{
-//					$search_form = new AdminSearchForm($this, $application_links['search'], $search_form_index);
-//					$html[] = $search_form->display();
-//				}
-//				else
-//				{
+				if (isset($application_links['search']))
+				{
+					$search_form = new AdminSearchForm($this, $application_links['search'], $search_form_index);
+					$html[] = $search_form->display();
+				}
+				else
+				{
 					$html[] = '<div class="admin_search">';
 					$html[] = '</div>';
-//				}
+				}
 				$html[] = '<div class="clear"></div>';
 				$html[] = '</div>';
 				
