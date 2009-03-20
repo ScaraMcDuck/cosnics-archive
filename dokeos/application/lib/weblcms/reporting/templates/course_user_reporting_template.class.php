@@ -12,9 +12,9 @@ class CourseUserReportingTemplate extends ReportingTemplate
 	function CourseUserReportingTemplate($parent=null)
 	{
         $this->parent = $parent;
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserInformation"),
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserUserInformation"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserPlatformStatistics"),
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserUserPlatformStatistics"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("CourseInformation"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
@@ -47,10 +47,10 @@ class CourseUserReportingTemplate extends ReportingTemplate
         //content
         $html[] = '<div class="reporting_template_container">';
         $html[] = '<div class="reporting_template_con_left">';
-        $html[] = $this->get_reporting_block_html('UserInformation');
+        $html[] = $this->get_reporting_block_html('UserUserInformation');
         $html[] = '</div>';
         $html[] = '<div class="reporting_template_con_right">';
-        $html[] = $this->get_reporting_block_html('UserPlatformStatistics');
+        $html[] = $this->get_reporting_block_html('UserUserPlatformStatistics');
         $html[] = '</div><div class="clear">&nbsp;</div>';
         $html[] = '</div>';
 

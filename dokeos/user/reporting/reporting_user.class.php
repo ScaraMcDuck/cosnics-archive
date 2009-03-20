@@ -35,7 +35,7 @@ class ReportingUser {
                 $active[Translation :: get('Inactive')]++;
             }
         }
-        return self :: getSerieArray($active);
+        return Reporting :: getSerieArray($active);
     }//getActiveInactive
 
     public static function getNoOfUsers()
@@ -44,7 +44,7 @@ class ReportingUser {
 
         $arr = array(Translation :: get('NumberOfUsers')=>$udm->count_users());
 
-        return self :: getSerieArray($arr);
+        return Reporting :: getSerieArray($arr);
     }
 
     public static function getNoOfLogins()
@@ -56,24 +56,7 @@ class ReportingUser {
 
         $arr = array(Translation :: get('Logins')=>sizeof($trackerdata));
 
-        return self :: getSerieArray($arr);
-    }
-
-    public static function getSerieArray($arr)
-    {
-        $array = array();
-        $i = 0;
-        foreach($arr as $key => $value)
-        {
-            $data[$i]["Name"] = $key;
-            $data[$i]["Serie1"] = $value;
-            $i++;
-        }
-        $datadescription["Position"] = "Name";
-        $datadescription["Values"][] = "Serie1";
-        array_push($array, $data);
-        array_push($array,$datadescription);
-        return $array;
+        return Reporting :: getSerieArray($arr);
     }
 
     public static function getDateArray($data,$format)
@@ -106,7 +89,7 @@ class ReportingUser {
 
         $months = self :: getDateArray($trackerdata,'F');
 
-        return self :: getSerieArray($months);
+        return Reporting :: getSerieArray($months);
     }
 
     public static function getNoOfLoginsDay()
@@ -118,7 +101,7 @@ class ReportingUser {
 
         $days = self :: getDateArray($trackerdata,'l');
 
-        return self :: getSerieArray($days);
+        return Reporting :: getSerieArray($days);
     }
 
     public static function getNoOfLoginsHour()
@@ -130,7 +113,7 @@ class ReportingUser {
 
         $hours = self :: getDateArray($trackerdata,'G');
 
-        return self :: getSerieArray($hours);
+        return Reporting :: getSerieArray($hours);
     }
 
     public static function getNoOfUsersPicture()
@@ -152,7 +135,7 @@ class ReportingUser {
                 $picture[$nopicturetext]++;
             }
         }
-        return self :: getSerieArray($picture);
+        return Reporting :: getSerieArray($picture);
     }
 
     public static function getNoOfUsersSubscribedCourse()
@@ -167,7 +150,7 @@ class ReportingUser {
         $arr[Translation :: get('UserSubscribedToCourse')] = $courses;
         $arr[Translation :: get('UserNotSubscribedToCourse')] = $users-$courses;
 
-        return self :: getSerieArray($arr);
+        return Reporting :: getSerieArray($arr);
     }
 
     public static function getUserInformation($params)
@@ -195,7 +178,7 @@ class ReportingUser {
         //$arr[Translation :: get('Status')] = $user->get_status_name();
         $arr[Translation :: get('Online')] = ($online)?Translation :: get('Online'):Translation :: get('Offline');
 
-        return self :: getSerieArray($arr);
+        return Reporting :: getSerieArray($arr);
     }
 
     public static function getUserPlatformStatistics($params)
@@ -231,7 +214,7 @@ class ReportingUser {
         $arr[Translation :: get('LastConnection')] = $lastconnection;
         $arr[Translation :: get('TimeOnPlatform')] = '00:00:00';
 
-        return self :: getSerieArray($arr);
+        return Reporting :: getSerieArray($arr);
     }
 
     public static function getBrowsers()
