@@ -258,5 +258,72 @@ class DatabaseUserDataManager extends UserDataManager
 		
 		return true;
 	}
+	
+	function get_next_buddy_list_category_id()
+	{
+		return $this->database->get_next_id(BuddyListCategory :: get_table_name());
+	}
+	
+	function create_buddy_list_category($buddy_list_category)
+	{
+		return $this->database->create($buddy_list_category);
+	}
+	
+	function update_buddy_list_category($buddy_list_category)
+	{	
+		$condition = new EqualityCondition(BuddyListCategory :: PROPERTY_ID, $buddy_list_category->get_id());
+		return $this->database->update($buddy_list_category, $condition);
+	}
+	
+	function delete_buddy_list_category($buddy_list_category)
+	{
+		$condition = new EqualityCondition(BuddyListCategory :: PROPERTY_ID, $buddy_list_category->get_id());
+		$succes = $this->database->delete(BuddyListCategory :: get_table_name(), $condition);
+		
+		$condition = new EqualityCondition(BuddyListItem :: PROPERTY_CATEGORY_ID, $buddy_list_category->get_id());
+		$succes &= $this->database->delete(BuddyListItem :: get_table_name(), $condition);
+		
+		return $succes;
+	}
+	
+	function retrieve_buddy_list_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->database->retrieve_objects(BuddyListCategory :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction);
+	}
+	
+	function get_next_buddy_list_item_id()
+	{
+		return $this->database->get_next_id(BuddyListItem :: get_table_name());
+	}
+	
+	function create_buddy_list_item($buddy_list_item)
+	{
+		return $this->database->create($buddy_list_item);
+	}
+	
+	function update_buddy_list_item($buddy_list_item)
+	{
+		$conditions = array();		
+		$conditions[] = new EqualityCondition(BuddyListItem :: PROPERTY_USER_ID, $buddy_list_item->get_user_id());
+		$conditions[] = new EqualityCondition(BuddyListItem :: PROPERTY_BUDDY_ID, $buddy_list_item->get_buddy_id());
+		$condition = new AndCondition($conditions);
+		
+		return $this->database->update($buddy_list_item, $condition);
+	}
+	
+	function delete_buddy_list_item($buddy_list_item)
+	{
+		$conditions = array();		
+		$conditions[] = new EqualityCondition(BuddyListItem :: PROPERTY_USER_ID, $buddy_list_item->get_user_id());
+		$conditions[] = new EqualityCondition(BuddyListItem :: PROPERTY_BUDDY_ID, $buddy_list_item->get_buddy_id());
+		$condition = new AndCondition($conditions);
+		
+		return $this->database->delete(BuddyListItem :: get_table_name(), $condition);
+	}
+	
+	function retrieve_buddy_list_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->database->retrieve_objects(BuddyListItem :: get_table_name(), $condition, $offset, $count, $order_property, $order_direction);
+	}
 }
 ?>
