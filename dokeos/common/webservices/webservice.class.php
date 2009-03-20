@@ -9,6 +9,8 @@ require_once Path :: get_webservice_path() . 'lib/data_manager/database.class.ph
 abstract class Webservice
 {
     private $message;
+    private $credential;
+    private $dbhash;
 
 	public static function factory($webservice_handler, $protocol = 'Soap', $implementation = 'Nusoap')
 	{
@@ -35,10 +37,10 @@ abstract class Webservice
 
     function create_hash($ip, $hash)
 	{
-		return $this->dbhash = Hashing :: hash($ip.$hash);
+		return $this->dbhash = Hashing :: hash($ip.$hash); //hash 2
 	}
 
-	function validate_function($hash) 
+	function validate_function($hash3) //hash 3
 	{
 		$wdm = WebserviceDataManager :: get_instance();
 		$wdm->delete_expired_webservice_credentials();
@@ -48,16 +50,17 @@ abstract class Webservice
 		{
             foreach($credentials as $c)
             {
-                $h = Hashing ::hash($c->get_hash().$SERVER['REMOTE_ADDR']);
-                if(strcmp($h , $hash)===0)
+                $h = Hashing ::hash($_SERVER['REMOTE_ADDR'].$c->get_hash()); //hash 3 based on hash 2
+
+                if(strcmp($h , $hash3)===0)
                 {
                     return $c->get_user_id();
                 }
-                else
+                /*else
                 {
                     $this->message = 'Incorrect hash value.';
                     return null;                    
-                }
+                }*/
                 
             }
 		}
@@ -82,43 +85,50 @@ abstract class Webservice
 	{
 		if(time() > $endtime)
 		{
-			$this->message = 'your available time has been used up.';
+            $this->message = 'your available time has been used up.';
+            $this->raise_message($this->message);
             return true;
 		}
 		else
 		{
 			$restTime = $endTime - time();
 			$this->message = 'you have ' . $endTime . ' time left.';
+            $this->raise_message($this->message);
             return false;
 		}
 	}
 
-	function validate_login($username,$input_hash)
+	function validate_login($username,$input_hash) //hash 1 = ip+password
 	{
 		$udm = DatabaseUserDataManager :: get_instance();
 		$user = $udm->retrieve_user_by_username($username);		
 		if(isset($user))
-		{
-            $hash = Hashing :: hash($user->get_password().$_SERVER['REMOTE_ADDR']);
+		{            
+            $hash = Hashing :: hash($_SERVER['REMOTE_ADDR'].$user->get_password()); //hash 1            
             
 			if(strcmp($hash, $input_hash)==0) //loginservice validate succesful, credential needed to validate the other webservices
 			{
 				$this->credential = new WebserviceCredential(
 				array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($_SERVER['REMOTE_ADDR'], $hash), 'time_created' =>time(), 'end_time'=>$this->set_end_time(time()), 'ip' =>$_SERVER['REMOTE_ADDR'])
 				);
-				$this->credential->create();
-				return $this->credential->get_default_properties();
+				$this->credential->create(); //create credential with hash 2
+                $array = $this->credential->get_default_properties();
+                $hash2 = $array['hash'];
+                $hash3 = Hashing ::hash($_SERVER['REMOTE_ADDR'].$hash2); //hash 3 based on hash 2
+                return $hash3;  //returns hash 3
+                
 			}
 			else
 			{
                 $this->message = 'Wrong hash value submitted.';
-                
-                
+                $this->raise_message($this->message);
+                return false;
 			}
 		}
 		else
 		{
 			$this->message = "User $username does not exist.";
+            $this->raise_message($this->message);
             return false;
 		}
 	}
@@ -137,6 +147,7 @@ abstract class Webservice
             else
             {
                 $this->message = 'You are not allowed to use this webservice';
+                $this->raise_message($this->message);
                 return false; 
                 
             }
@@ -144,6 +155,7 @@ abstract class Webservice
         else
         {
             $this->message = 'No webservice by that name';
+            $this->raise_message($this->message);
             return false; 
 
         }

@@ -25,7 +25,7 @@ class TestCallLocalWebservice
 
 		$functions[] = array(
 				'name' => 'WebServicesUser.get_user',
-				'parameters' => array('username' => 'Soliber','hash'=>'04ae934de922cdba69ccd7fb71b009f83ccec6cf'),
+				'parameters' => array('username' => 'Soliber','hash'=>'09456a841324fd37329857c26b43b9047780d6e3'),
 				'handler' => 'handle_webservice'
 		);*/
 
@@ -54,30 +54,23 @@ class TestCallLocalWebservice
 		}*/
 
         //TEST 4 : Login Webservice
-		$wsdl = 'http://localhost/user/webservices/login_webservice.class.php?wsdl';
+		/*$wsdl = 'http://localhost/user/webservices/login_webservice.class.php?wsdl';
 		$functions = array();
 
 		{
 			$functions[] = array(
 				'name' => 'LoginWebservice.login',
-				'parameters' => array('username'=>'','password'=>'94390bf841d79d92d1eb48cbc6623f3be2713ad6'),
+				'parameters' => array('username'=>'Soliber','password'=>'58350136959beae3f874cd512ebcf320a7afa507'), //password is actually hash 1
 				'handler' => 'handle_webservice'
 			);
-		}
-		
-		/*$user = array('username' => 'Kuchiki', 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78');
-        $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
-		  $functions = array();
-		  $functions[] = array(
-				'name' => 'WebServicesUser.delete_user',
-				'parameters' => $user,
-		  		'handler' => 'handle_webservice'			
-			);*/
+		}*/
 
-		  /*$user = array (
+        //TEST 5 :  Create User
+
+        /*$user = array (
 		  'lastname' => 'Joske',
 		  'firstname' => 'Den Os',
-		  'username' => 'Joske',
+		  'username' => 'Jefke',
 		  'password' => '4a0091108fb271e05f34da7cf77c975f',
 		  'auth_source' => 'platform',
 		  'email' => 'admin@localhost.localdomain',
@@ -96,29 +89,33 @@ class TestCallLocalWebservice
 		  'expiration_date' => '0',
 		  'registration_date' => '1234774883',
 		  'active' => '1',
-          'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+          'hash' => '550859312670dd7996153002d046737f08ba2c9f' //hash 3 needed for credential
 		);
-		$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
-		  $functions = array();
-		  $functions[] = array(
-				'name' => 'WebServicesUser.create_user',
-				'parameters' => $user,
-		  		'handler' => 'handle_webservice'			
-			);*/
-		
-		  /*$user = array (
+
+        $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+        $functions = array();
+        $functions[] = array(
+            'name' => 'WebServicesUser.create_user',
+            'parameters' => $user,
+            'handler' => 'handle_webservice'
+        );*/
+
+       //TEST 6 :: Update User
+
+       /*$user = array (
+          'user_id' => '17',
 		  'lastname' => 'Joske',
 		  'firstname' => 'Den Os',
-          'username' => 'Joske',
+		  'username' => 'tetjes',
 		  'password' => '4a0091108fb271e05f34da7cf77c975f',
 		  'auth_source' => 'platform',
 		  'email' => 'admin@localhost.localdomain',
 		  'status' => '1',
 		  'admin' => '1',
 		  'phone' => NULL,
-		  'official_code' => 'TEST_USER',
+		  'official_code' => 'ADMIN',
 		  'picture_uri' => NULL,
-		  'creator_id' => 'Soliber',
+		  'creator_id' => NULL,
 		  'language' => 'english',
 		  'disk_quota' => '209715200',
 		  'database_quota' => '300',
@@ -128,8 +125,30 @@ class TestCallLocalWebservice
 		  'expiration_date' => '0',
 		  'registration_date' => '1234774883',
 		  'active' => '1',
-          'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+          'hash' => '550859312670dd7996153002d046737f08ba2c9f' //hash 3 needed for credential
+		);
+
+        $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+		$functions = array();
+
+		$functions[] = array(
+				'name' => 'WebServicesUser.update_user',
+				'parameters' => $user,
+				'handler' => 'handle_webservice'
 		);*/
+
+
+        //TEST 7 : Delete User
+
+        $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+		$functions = array();
+
+		$functions[] = array(
+				'name' => 'WebServicesUser.delete_user',
+				'parameters' => array('user_id' => '32','username'=>'ka', 'hash'=>'550859312670dd7996153002d046737f08ba2c9f'),
+				'handler' => 'handle_webservice'
+		);
+
 	
 		$this->webservice->call_webservice($wsdl, $functions);
 	}

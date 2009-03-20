@@ -41,7 +41,7 @@ class UserValidator extends Validator
         return true;
     }
 
-    function validate_create(&$userProperties)
+    function validate_create(&$userProperties) //works
     {
         if(!$this->validate_properties($userProperties,$this->get_required_property_names()))
         return false;
@@ -90,7 +90,8 @@ class UserValidator extends Validator
         /*
          * To check if the creator exists and retrieve it's ID.
          */
-        if(!empty($userProperties[User :: PROPERTY_CREATOR_ID]))
+        
+       if(!empty($userProperties[User :: PROPERTY_CREATOR_ID]))
         {
             $var = $this->get_person_id($userProperties[User :: PROPERTY_CREATOR_ID]);
             if(!$var)
