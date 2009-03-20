@@ -28,6 +28,8 @@ class ReportingWeblcms {
 
     public static function getCourseUserLearningpathInformation($params)
     {
+        return self :: getCourseUserExcerciseInformation($params);
+        
         $array = array();
         $wdm = WeblcmsDataManager::get_instance();
         $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
@@ -96,6 +98,10 @@ class ReportingWeblcms {
 
     public static function getCourseUserExcerciseInformation($params)
     {
+        $arr[''] = 'Not Available yet';
+        
+        return Reporting :: getSerieArray($arr);
+        /*
         $array = array();
         $data[] = array("Name"=>"Learning paths","Serie1"=>"1_Chapter 1","Serie2"=>"2_Chapter 2","Serie3"=>"3_Chapter 3","Serie4"=>"4_Chapter 4","Serie5"=>"Al bar","Serie 6"=>"Il passato prossimo","Serie 7"=>"La pronuncia","Serie 8"=>"ripasso_1semestre");
         $data[] = array("Name"=>"Time","Serie1"=>"00:22:42","Serie2"=>"00:17:02","Serie3"=>"00:03:19","Serie4"=>"00:55:14","Serie5"=>"00:40:15","Serie6"=>"00:30:15","Serie7"=>"00:10:01","Serie8"=>"1:00:02");
@@ -117,9 +123,54 @@ class ReportingWeblcms {
         array_push($array,$data);
         array_push($array,$datadescription);
         return $array;
+        */
     }
 
     public static function getNoOfCourses($params)
+    {
+        $wdm = WeblcmsDataManager::get_instance();
+        $count = $wdm->count_courses();
+
+        $arr[Translation :: get('CourseCount')] = $count;
+
+        return Reporting :: getSerieArray($arr);
+    }
+
+    public static function getAccessToTools($params)
+    {
+
+    }
+
+    public static function getLatestAccess($params)
+    {
+    }
+
+    public static function getNoOfCoursesByLanguage($params)
+    {
+        $wdm = WeblcmsDataManager::get_instance();
+        $arr = array();
+        $courses = $wdm->retrieve_courses();
+        while($course = $courses->next_result())
+        {
+            $lang = $course->get_language();
+            if (array_key_exists($lang, $arr))
+            {
+                $arr[$lang]++;
+            }else
+            {
+                $arr[$lang] = 1;
+            }
+        }
+
+        return Reporting :: getSerieArray($arr);
+    }
+
+    public static function getMostActiveInactive($params)
+    {
+
+    }
+
+    public static function getMostActiveInactiveDetail($params)
     {
 
     }

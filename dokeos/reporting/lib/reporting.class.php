@@ -87,5 +87,22 @@ class Reporting{
 		array_push($array,$datadescription);
  		return $array;
 	}//array_from_tracker
+
+    public static function getSerieArray($arr)
+    {
+        $array = array();
+        $i = 0;
+        foreach($arr as $key => $value)
+        {
+            $data[$i]["Name"] = $key;
+            $data[$i]["Serie1"] = $value;
+            $i++;
+        }
+        $datadescription["Position"] = "Name";
+        $datadescription["Values"][] = "Serie1";
+        array_push($array, $data);
+        array_push($array,$datadescription);
+        return $array;
+    }
 }//class reporting
 ?>
