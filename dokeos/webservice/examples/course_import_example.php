@@ -22,6 +22,7 @@ foreach($courses as $course)
 		case 'u': update_course($course); break;
 		case 'D': delete_course($course); break;
 		case 'd': delete_course($course); break;
+        case 's': subscribe_user(); break;
 	}
 }
 
