@@ -49,7 +49,7 @@ class Reporting{
 
  		$html[] = '<div class="reporting_footer">';
         $html[] = '<div class="reporting_footer_export">';
-        $html[] = Translation :: get('Export').':  O O O O';
+        $html[] = $reporting_block->get_export_links();
         $html[] = '</div>&nbsp;<div class="clear">&nbsp;</div>';
  		$html[] = '</div>';
         
