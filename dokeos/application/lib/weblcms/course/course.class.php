@@ -173,7 +173,7 @@ class Course {
 				      self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, 
 				      self :: PROPERTY_UNSUBSCRIBE_ALLOWED, self :: PROPERTY_THEME,
 				      self :: PROPERTY_TOOL_SHORTCUT, self :: PROPERTY_MENU, self :: PROPERTY_BREADCRUMB,
-				      self :: PROPERTY_ALLOW_FEEDBACK);
+				      self :: PROPERTY_ALLOW_FEEDBACK, self :: PROPERTY_DISK_QUOTA);
 	}
 
 	/**
