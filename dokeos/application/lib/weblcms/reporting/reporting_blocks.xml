@@ -24,9 +24,9 @@
            displaymode="Table"
            width="500px"
            height="500px" />
-    <reporting_block name="WeblcmsAccessToTools"
+    <reporting_block name="WeblcmsLastAccessToTools"
            application="weblcms"
-           function="getAccessToTools"
+           function="getLastAccessToTools"
            displaymode="Table"
            width="500px"
            height="500px" />

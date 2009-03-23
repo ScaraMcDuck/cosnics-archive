@@ -3,7 +3,7 @@
  * @author Michael Kyndt
  */
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
-require_once dirname(__FILE__).'/../weblcms_manager/weblcms.class.php';
+//require_once dirname(__FILE__).'/../weblcms_manager/weblcms.class.php';
 
 class ReportingWeblcms {
 
@@ -150,14 +150,29 @@ class ReportingWeblcms {
     }
 
     /**
-     * Returns a list of tools with their access statistics
-     * If a course id is provided than a list of the tools within this course
-     * is returned
+     * Returns a list of tools with their access statistics for a specified course
      * @param <type> $params
      */
-    public static function getAccessToTools($params)
+    public static function getLastAccessToTools($params)
     {
-        
+        $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
+        $course_id = 2;
+        $wdm = WeblcmsDataManager :: get_instance();
+        $course = $wdm->retrieve_course($course_id);
+		$tools = $wdm->get_course_modules($course_id);
+        foreach($tools as $key => $value)
+        {
+            $date = $wdm->get_last_visit_date_per_course($course_id,$value->name);
+            if($date)
+            {
+                $date = date('d F Y (G:i:s)',$date);
+            }else
+            {
+                $date = Translation :: get('NeverAccessed');
+            }
+            $arr[$value->name] = $date;
+        }
+        return Reporting :: getSerieArray($arr);
     }
 
     /**
