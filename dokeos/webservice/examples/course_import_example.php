@@ -22,7 +22,9 @@ foreach($courses as $course)
 		case 'u': update_course($course); break;
 		case 'D': delete_course($course); break;
 		case 'd': delete_course($course); break;
-        case 's': subscribe_user(); break;
+        case 's': subscribe_user($course); break;
+        case 'S': subscribe_user($course); break;
+
 	}
 }
 
@@ -108,6 +110,25 @@ function delete_course($course)
     }
     else
     	log_message(print_r($result, true));
+}
+
+function subscribe_user($course)
+{
+    global $hash, $client;
+	log_message('Subscribing user to course ' . $course['title']);
+	$hash = ($hash == '') ? login() : $hash;
+    $course['hash'] = $hash;
+    $course['user_id'] = '4';
+    $course['visual_code'] = 'H1';
+    $result = $client->call('WebServicesCourse.subscribe_user', $course);
+    if($result == 1)
+    {
+        log_message(print_r('User successfully subscribed to course', true));
+    }
+    else
+    	log_message(print_r($result, true));
+
+
 }
 
 function login()

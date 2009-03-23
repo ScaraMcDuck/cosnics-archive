@@ -4,8 +4,8 @@
 		<webservice name="update course" />
 		<webservice name="delete course" />
 		<webservice name="create course" />
-		<webservice name="subscribe users" />
-		<webservice name="unsubscribe users" />		
+		<webservice name="subscribe user" />
+		<webservice name="unsubscribe user" />		
 		<webservice name="subscribe groups"  />
 		<webservice name="unsubscribe groups" />
         <webservice name="get user courses" />
