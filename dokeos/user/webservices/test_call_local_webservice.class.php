@@ -151,7 +151,7 @@ class TestCallLocalWebservice
 
         //TEST 8 : Create Course
 
-          $course = array (
+          /*$course = array (
             'course_language' => 'english',
             'title' => 'LocalTest',
             'description' => '',
@@ -159,7 +159,7 @@ class TestCallLocalWebservice
             'visibility' => '1',
             'show_score' => '1',
             'titular' => 'Soliber', //needs the username, not the id
-            'visual_code' => '1',
+            'visual_code' => '12456789',
             'department_name' => '',
             'department_url' => '',
             'disk_quota' => '200', //needs to > 1
@@ -181,7 +181,7 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesCourse.create_course',
 				'parameters' => $course,
 		  		'handler' => 'handle_webservice'
-			);
+			);*/
 
         //TEST 9 : Update Course
 

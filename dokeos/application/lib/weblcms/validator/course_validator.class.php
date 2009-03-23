@@ -59,7 +59,7 @@ class CourseValidator extends Validator
 
         if(!$this->validate_property_names($courseProperties, Course :: get_default_property_names()))
         return false;
-
+        
         if(!$this->wdm->is_visual_code_available($courseProperties[Course :: PROPERTY_VISUAL]))
         return false; //visual code is required and must be different from existing values
 
