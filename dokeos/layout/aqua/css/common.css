@@ -2626,12 +2626,12 @@ span.dropOver
     -moz-border-radius: 1em;
 	margin: 4px;
 	padding: 4px;
+    overflow: auto;
 }
 .reporting_header
 {
 	margin: 0px;
 	padding: 5px;
-   // border-bottom: 1px dotted grey;
 }
 .reporting_header_title
 {
@@ -2646,13 +2646,11 @@ span.dropOver
 {
     margin: 2px;
     padding: 2px;
-	overflow:auto;
 }
 .reporting_footer
 {
 	margin: 0px;
 	padding: 5px;
-   // border-top: 1px dotted grey;
 }
 .reporting_footer_export
 {
