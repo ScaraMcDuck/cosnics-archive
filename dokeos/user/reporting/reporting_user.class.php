@@ -8,6 +8,12 @@ class ReportingUser {
     function ReportingUser() {
     }
 
+    /**
+     * Checks if a given start date is greater than a given end date
+     * @param <type> $start_date
+     * @param <type> $end_date
+     * @return <type>
+     */
     public static function greaterDate($start_date,$end_date)
     {
         $start = strtotime($start_date);
@@ -18,6 +24,11 @@ class ReportingUser {
         return 0;
     }
 
+    /**
+     * Returns all the active and inactive users
+     * @param <type> $params
+     * @return <type>
+     */
     public static function getActiveInactive($params)
     {
         $udm = UserDataManager :: get_instance();
@@ -38,6 +49,10 @@ class ReportingUser {
         return Reporting :: getSerieArray($active);
     }//getActiveInactive
 
+    /**
+     * Returns the number of users
+     * @return <type>
+     */
     public static function getNoOfUsers()
     {
         $udm = UserDataManager :: get_instance();
@@ -47,6 +62,10 @@ class ReportingUser {
         return Reporting :: getSerieArray($arr);
     }
 
+    /**
+     * Returns the number of logins
+     * @return <type>
+     */
     public static function getNoOfLogins()
     {
         require_once(dirname(__FILE__) . '/../trackers/login_logout_tracker.class.php');
@@ -59,6 +78,12 @@ class ReportingUser {
         return Reporting :: getSerieArray($arr);
     }
 
+    /**
+     * Splits given data into a given date format
+     * @param <type> $data
+     * @param <type> $format
+     * @return <type>
+     */
     public static function getDateArray($data,$format)
     {
         $arr = array();
@@ -80,6 +105,10 @@ class ReportingUser {
         return $arr;
     }
 
+    /**
+     * Returns the number of logins per month
+     * @return <type>
+     */
     public static function getNoOfLoginsMonth()
     {
         require_once(dirname(__FILE__) . '/../trackers/login_logout_tracker.class.php');
@@ -92,6 +121,10 @@ class ReportingUser {
         return Reporting :: getSerieArray($months);
     }
 
+    /**
+     * Returns the number of logins per day
+     * @return <type>
+     */
     public static function getNoOfLoginsDay()
     {
         require_once(dirname(__FILE__) . '/../trackers/login_logout_tracker.class.php');
@@ -104,6 +137,10 @@ class ReportingUser {
         return Reporting :: getSerieArray($days);
     }
 
+    /**
+     * Returns the number of logins per hour
+     * @return <type>
+     */
     public static function getNoOfLoginsHour()
     {
         require_once(dirname(__FILE__) . '/../trackers/login_logout_tracker.class.php');
@@ -116,6 +153,10 @@ class ReportingUser {
         return Reporting :: getSerieArray($hours);
     }
 
+    /**
+     * returns the number of users with and without picture
+     * @return <type>
+     */
     public static function getNoOfUsersPicture()
     {
         $udm = UserDataManager :: get_instance();
@@ -138,6 +179,10 @@ class ReportingUser {
         return Reporting :: getSerieArray($picture);
     }
 
+    /**
+     * Returns the number of users subscribed to a course
+     * @return <type>
+     */
     public static function getNoOfUsersSubscribedCourse()
     {
         require_once Path :: get_application_path().'lib/weblcms/weblcms_data_manager.class.php';
@@ -147,12 +192,17 @@ class ReportingUser {
         $wdm = WeblcmsDataManager :: get_instance();
         $courses = $wdm->count_user_courses();
 
-        $arr[Translation :: get('UserSubscribedToCourse')] = $courses;
-        $arr[Translation :: get('UserNotSubscribedToCourse')] = $users-$courses;
+        $arr[Translation :: get('UsersSubscribedToCourse')] = $courses;
+        $arr[Translation :: get('UsersNotSubscribedToCourse')] = $users-$courses;
 
         return Reporting :: getSerieArray($arr);
     }
 
+    /**
+     * Returns the user information about a specified user
+     * @param <type> $params
+     * @return <type>
+     */
     public static function getUserInformation($params)
     {
         $uid = $params[ReportingManager :: PARAM_USER_ID];
@@ -181,6 +231,11 @@ class ReportingUser {
         return Reporting :: getSerieArray($arr);
     }
 
+    /**
+     * Returns the platform statistics from a specified user
+     * @param <type> $params
+     * @return <type>
+     */
     public static function getUserPlatformStatistics($params)
     {
         $uid = $params[ReportingManager :: PARAM_USER_ID];
@@ -208,7 +263,6 @@ class ReportingUser {
                 $lastconnection = $value->get_date();
             }
         }
-        echo $firstconnection, $lastconnection;
 
         $arr[Translation :: get('FirstConnection')] = $firstconnection;
         $arr[Translation :: get('LastConnection')] = $lastconnection;
@@ -217,6 +271,10 @@ class ReportingUser {
         return Reporting :: getSerieArray($arr);
     }
 
+    /**
+     * Returns a list of browsers and their amount
+     * @return <type>
+     */
     public static function getBrowsers()
     {
         require_once(dirname(__FILE__) . '/../trackers/browsers_tracker.class.php');
@@ -226,6 +284,10 @@ class ReportingUser {
         return Reporting :: array_from_tracker($tracker,$condition,Translation :: get('Browsers'));
     }
 
+    /**
+     * Returns a list of countries logged in from and their amount
+     * @return <type>
+     */
     public static function getCountries()
     {
         require_once(dirname(__FILE__) . '/../trackers/countries_tracker.class.php');
@@ -235,6 +297,10 @@ class ReportingUser {
         return Reporting :: array_from_tracker($tracker,$condition,Translation :: get('Countries'));
     }
 
+    /**
+     * Returns a list of os logged in from and their amount
+     * @return <type>
+     */
     public static function getOs()
     {
         require_once(dirname(__FILE__) . '/../trackers/os_tracker.class.php');
@@ -244,6 +310,10 @@ class ReportingUser {
         return Reporting :: array_from_tracker($tracker,$condition,Translation :: get('Os'));
     }
 
+    /**
+     * Returns a list of providers logged in from and their amount
+     * @return <type>
+     */
     public static function getProviders()
     {
         require_once(dirname(__FILE__) . '/../trackers/providers_tracker.class.php');
@@ -253,6 +323,10 @@ class ReportingUser {
         return Reporting :: array_from_tracker($tracker,$condition,Translation :: get('Providers'));
     }
 
+    /**
+     * Returns a list of referers logged in from and their amount
+     * @return <type>
+     */
     public static function getReferers()
     {
         require_once(dirname(__FILE__) . '/../trackers/referrers_tracker.class.php');
