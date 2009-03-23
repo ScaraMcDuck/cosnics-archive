@@ -3,29 +3,32 @@
  * @author Michael Kyndt
  */
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager/weblcms.class.php';
+
 class ReportingWeblcms {
 
     function ReportingWeblcms() {
     }
 
+    /**
+     * Returns the course information
+     * @param <type> $params
+     * @return <type>
+     */
     public static function getCourseInformation($params)
     {
         $wdm = WeblcmsDataManager::get_instance();
         $course = $wdm->retrieve_course($params[ReportingManager :: PARAM_COURSE_ID]);
-        $array = array();
-
-        $data[] = array("Name"=>Translation :: get('Name'),"Serie1"=>$course->get_name());
-        // $data[] = array("Name"=>Translation :: get('CourseConnections'),"Serie1"=>76);
-        $data[] = array("Name"=>Translation :: get('Titular'),"Serie1"=>$course->get_titular_string());
-
-        $datadescription["Position"] = "Name";
-        $datadescription["Values"][] = "Serie1";
-
-        array_push($array,$data);
-        array_push($array,$datadescription);
-        return $array;
+        $arr[Translation :: get('Name')] = $course->get_name();
+        $arr[Translation :: get('Titular')] = $course->get_titular_string();
+        return Reporting :: getSerieArray($arr);
     }
 
+    /**
+     * Returns the learning path information from a given course & user
+     * @param <type> $params
+     * @return <type>
+     */
     public static function getCourseUserLearningpathInformation($params)
     {
         return self :: getCourseUserExcerciseInformation($params);
@@ -96,6 +99,11 @@ class ReportingWeblcms {
         return $array;
     }
 
+    /**
+     * Returns excercise information from a course / user information
+     * @param <type> $params
+     * @return <type>
+     */
     public static function getCourseUserExcerciseInformation($params)
     {
         $arr[''] = 'Not Available yet';
@@ -126,6 +134,11 @@ class ReportingWeblcms {
         */
     }
 
+    /**
+     * returns the number of courses currently on the system
+     * @param <type> $params
+     * @return <type>
+     */
     public static function getNoOfCourses($params)
     {
         $wdm = WeblcmsDataManager::get_instance();
@@ -136,15 +149,31 @@ class ReportingWeblcms {
         return Reporting :: getSerieArray($arr);
     }
 
+    /**
+     * Returns a list of tools with their access statistics
+     * If a course id is provided than a list of the tools within this course
+     * is returned
+     * @param <type> $params
+     */
     public static function getAccessToTools($params)
     {
-
+        
     }
 
+    /**
+     * Returns a list of the latest acces to a course
+     * @param <type> $params
+     */
     public static function getLatestAccess($params)
     {
+
     }
 
+    /**
+     * Returns the number of courses listed by language
+     * @param <type> $params
+     * @return <type>
+     */
     public static function getNoOfCoursesByLanguage($params)
     {
         $wdm = WeblcmsDataManager::get_instance();
@@ -165,16 +194,30 @@ class ReportingWeblcms {
         return Reporting :: getSerieArray($arr);
     }
 
+    /**
+     * Returns the most active/inactive courses
+     * @param array $params
+     */
     public static function getMostActiveInactive($params)
     {
 
     }
 
+    /**
+     * Returns the most active / inactive courses
+     * Top 5 active, inactive
+     * Link to course statistics page
+     * @param array $params
+     */
     public static function getMostActiveInactiveDetail($params)
     {
 
     }
 
+    /**
+     * Returns a list of object types and their amount
+     * @param <type> $params
+     */
     public static function getNoOfObjectsPerType($params)
     {
         
