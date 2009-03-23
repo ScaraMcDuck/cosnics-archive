@@ -2607,5 +2607,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		}
         return !($this->count_courses($condition) == 1);
 	}
+
+    function retrieve_course_by_visual_code($visual_code)
+	{
+		$condition = new EqualityCondition(Course :: PROPERTY_VISUAL, $visual_code);
+		return $this->db->retrieve_object(Course :: get_table_name(), $condition);
+	}
 }
 ?>

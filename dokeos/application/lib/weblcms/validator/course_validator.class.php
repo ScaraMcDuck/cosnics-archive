@@ -21,7 +21,7 @@ require_once Path :: get_application_path() . '/lib/weblcms/course_group/course_
 class CourseValidator extends Validator
 {
     private $udm;
-    private $wdm;
+    private $wdm;    
 
     function CourseValidator()
     {
@@ -130,20 +130,28 @@ class CourseValidator extends Validator
 
     function validate_subscribe_or_unsubscribe_user(&$input_course_rel_user)
     {
+        
         if(!$this->validate_properties($input_course_rel_user,$this->get_required_course_rel_user_property_names()))
-        return false;
+        return false;        
 
         if(!$this->validate_property_names($input_course_rel_user, CourseUserRelation ::get_default_property_names()))
-        return false;
+        return false;        
 
-        if($this->wdm->count_courses(new EqualityCondition(Course ::PROPERTY_VISUAL, $input_course_rel_user[visual_code]))==0)
-        return false;
+        if($this->wdm->count_courses(new EqualityCondition(Course ::PROPERTY_VISUAL, $input_course_rel_user[course_code]))==0)
+        return false;        
 
         $var = $this->get_person_id($input_course_rel_user[user_id]);
         if($var == false)
         return false;
         else
-        $input_course_rel_user[user_id] = $var;
+        $input_course_rel_user[user_id] = $var;        
+
+        $var2 = $this->get_course_id($input_course_rel_user[course_code]);
+        if($var2 == false)
+        return false;
+        else
+        $input_course_rel_user[course_code] = $var2;
+        
 
         return true;
     }
@@ -168,9 +176,33 @@ class CourseValidator extends Validator
         return true;
     }
 
+    private function get_course_id($visual_code)
+    {
+        $course = $this->wdm->retrieve_course_by_visual_code($visual_code);
+        $subscribe = $course->get_default_property('subscribe');
+        if($subscribe == 1) //allowed to subscribe
+        {
+            if(isset($course) && count($course->get_default_properties())>0)
+            {
+
+               return $course->get_default_property('id');
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            echo 'Not allowed to subscribe';
+            return false;
+        }
+        
+    }
+
     private function get_person_id($person_name)
     {
-        $user = $this->udm->retrieve_user_by_username($person_name);        
+        $user = $this->udm->retrieve_user_by_username($person_name);
         if(isset($user) && count($user->get_default_properties())>0)
         {
            return $user->get_id();

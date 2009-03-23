@@ -31,6 +31,8 @@ require_once dirname(__FILE__).'/../weblcms_manager/weblcms.class.php';
 
 class Course {
 
+    const CLASS_NAME				= __CLASS__;
+
 	const PROPERTY_ID = 'id';
 	const PROPERTY_VISUAL = 'visual_code';
 	const PROPERTY_NAME = 'title';
@@ -605,6 +607,11 @@ class Course {
 		{
 			return true;
 		}
+	}
+
+    static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 	
 }

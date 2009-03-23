@@ -207,17 +207,21 @@ class WebServicesCourse
         }
 	}
 	
-	function subscribe_user($input_course)
+	function subscribe_user($input_course) //course user relation object
 	{
         if($this->webservice->can_execute($input_course, 'subscribe user'))
 		{
-            unset($input_course[hash]);
-            $wdm = DatabaseWeblcmsDataManager :: get_instance();
-            $cur = new CourseUserRelation($input_course[visual_code],$input_course[user_id]);
-            unset($input_course['user_id']);
-            unset($input_course['visual_code']);
-            $cur->set_default_properties($input_course);
-            return $this->webservice->raise_message($cur->create());
+            unset($input_course[hash]);            
+            if($this->validator->validate_subscribe_or_unsubscribe_user($input_course)) //input validation
+            {                               
+                $cur = new CourseUserRelation($input_course[course_code],$input_course[user_id]);                
+                return $this->webservice->raise_message($cur->create());
+            }
+            else
+            {               
+                return $this->webservice->raise_error('Could not update course. Please check the data you\'ve provided.');
+            }
+            
         }
         else
         {
@@ -230,9 +234,9 @@ class WebServicesCourse
 		if($this->webservice->can_execute($input_course, 'unsubscribe user'))
 		{
             unset($input_course[hash]);
-            $cur = new CourseUserRelation($input_course[course_code],$input_course[user_id]);
+            $cur = new CourseUserRelation($input_course[visual_code],$input_course[user_id]);
             unset($input_course['user_id']);
-            unset($input_course['course_code']);
+            unset($input_course['visual_code']);
             $cur->set_default_properties($input_course);
             return $this->webservice->raise_message($cur->delete());
         }
