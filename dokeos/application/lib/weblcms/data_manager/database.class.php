@@ -826,6 +826,32 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$this->connection->extended->autoExecute($this->get_table_name('course_module_last_access'), $props, MDB2_AUTOQUERY_INSERT);
 		}
 	}
+    /**
+     * Returns the last visit date per course and module
+     * @param <type> $course_code
+     * @param <type> $module_name
+     * @return <type>
+     */
+    function get_last_visit_date_per_course($course_code,$module_name = null)
+	{
+		$params[] = $course_code;
+		$query = 'SELECT * FROM '.$this->escape_table_name('course_module_last_access').' WHERE course_code = ? ';
+		if(!is_null($module_name))
+		{
+			$params[] = $module_name;
+			$query .= 'AND module_name = ? ';
+		}
+		$query .= ' ORDER BY access_date DESC ';
+		$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		if($res->numRows() == 0)
+		{
+			return 0;
+		}
+		$module = $res->fetchRow(MDB2_FETCHMODE_OBJECT);
+		return $module->access_date;
+	}
 	function get_last_visit_date($course_code,$user_id,$module_name = null,$category_id = 0)
 	{
 		$params[] = $course_code;
