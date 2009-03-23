@@ -2567,5 +2567,19 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $row[0];*/
 		return 0;
 	}
+
+    //Inherited.
+	function is_visual_code_available($visual_code, $id = null) //course
+	{
+		$condition = new EqualityCondition(Course :: PROPERTY_VISUAL,$visual_code);
+		if($id)
+		{
+			$conditions = array();
+			$conditions[] = new EqualityCondition(Course :: PROPERTY_VISUAL,$visual_code);
+			$conditions = new EqualityCondition(Course :: PROPERTY_ID, $id);
+			$condition = new AndCondition($conditions);
+		}
+		return !($this->db->count_objects('course_category', $condition) == 1);
+	}
 }
 ?>
