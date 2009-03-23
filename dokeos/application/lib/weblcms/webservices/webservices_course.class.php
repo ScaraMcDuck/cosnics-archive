@@ -12,6 +12,7 @@ require_once dirname(__FILE__) . '/../data_manager/database.class.php';
 require_once dirname(__FILE__) . '/../../../../repository/lib/learning_object.class.php';
 require_once dirname(__FILE__) . '/../learning_object_publication.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager/weblcms.class.php';
+require_once Path :: get_library_path() . 'validator/validator.class.php';
 
 
 $handler = new WebServicesCourse();
@@ -20,12 +21,12 @@ $handler->run();
 class WebServicesCourse
 {
 	private $webservice;
-	private $functions;
+    private $validator;
 	
 	function WebServicesCourse()
 	{
 		$this->webservice = Webservice :: factory($this);
-        $this->wsm = WebserviceSecurityManager :: get_instance($this);
+        $this->validator = Validator :: get_validator('course');
 	}
 	
 	function run()
@@ -124,19 +125,26 @@ class WebServicesCourse
         if($this->webservice->can_execute($input_course, 'get course'))
 		{
             $wdm = DatabaseWeblcmsDataManager :: get_instance();
-            $course = $wdm->retrieve_course($input_course[id]);
-            if(count($course->get_default_properties())>0)
+            if($this->validator->validate_retrieve($input_course)) //input validation
             {
-                return $course->get_default_properties();
+                $course = $wdm->retrieve_course($input_course[id]);
+                if(count($course->get_default_properties())>0)
+                {
+                    return $course->get_default_properties();
+                }
+                else
+                {
+                    return $this->webservice->raise_error('Course '.$input_course[id].' not found.');
+                }
             }
             else
             {
-                return $this->webservice->raise_error('Course '.$input_course[id].' not found.');
+                return $this->webservice->raise_error('Could not retrieve course. Please check the data you\'ve provided.');
             }
         }
         else
         {
-            return $this->webservice->get_message();
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
     }
 	
@@ -150,7 +158,7 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->get_message();
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 	
@@ -160,12 +168,19 @@ class WebServicesCourse
 		if($this->webservice->can_execute($input_course, 'update course'))
 		{
             unset($input_course[hash]);
-            $c = new Course($input_course[id],$input_course);
-            return $this->webservice->raise_message($c->update());
+            if($this->validator->validate_update($input_course)) //input validation
+            {
+                $c = new Course($input_course[id],$input_course);
+                return $this->webservice->raise_message($c->update());
+            }
+            else
+            {
+                return $this->webservice->raise_error('Could not update course. Please check the data you\'ve provided.');
+            }
         }
         else
         {
-            return $this->webservice->get_message();
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 	
@@ -175,12 +190,20 @@ class WebServicesCourse
 		{
             unset($input_course[hash]);
             unset($input_course[id]);
-            $c = new Course(0,$input_course);
-            return $this->webservice->raise_message($c->create());
+            if($this->validator->validate_create($input_course)) //input validation
+            {
+                $c = new Course(0,$input_course);
+                return $this->webservice->raise_message($c->create());
+            }
+            else
+            {
+                return $this->webservice->raise_error('Could not create course. Please check the data you\'ve provided.');
+            }
+            
         }
         else
         {
-            return $this->webservice->get_message();
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 	
@@ -198,7 +221,7 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->get_message();
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
     }
 	
@@ -215,7 +238,7 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->get_message();
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 	
@@ -232,7 +255,7 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->get_message();
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 	
@@ -249,7 +272,7 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->get_message();
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 	
@@ -268,7 +291,7 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->get_message();
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 	
@@ -291,7 +314,7 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->get_message();
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 	
@@ -329,7 +352,7 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->get_message();
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 
@@ -364,7 +387,7 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->get_message();
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 
@@ -385,7 +408,7 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->get_message();
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 
@@ -406,7 +429,7 @@ class WebServicesCourse
         }
         else
         {
-            return $this->webservice->get_message();
+            return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
 	

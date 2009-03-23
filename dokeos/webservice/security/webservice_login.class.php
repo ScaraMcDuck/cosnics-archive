@@ -11,13 +11,11 @@ $handler->run();
 
 class WebServiceLogin
 {
-	private $webservice;
-	private $functions;	
+	private $webservice;	
 	
 	function WebServiceLogin()
 	{
-		$this->webservice = Webservice :: factory($this);
-		$this->wsm = WebserviceSecurityManager :: get_instance();
+		$this->webservice = Webservice :: factory($this);		
 	}
 	
 	function run()
@@ -37,15 +35,8 @@ class WebServiceLogin
 	
 	
 	function login($user)
-	{
-        /*$u = new User();
-        foreach($user as $propkey => $propvalue)
-        {
-            $u->set_default_property($propkey, $propvalue);
-        }
-        dump($u);*/
-        $this->wsm->check_ip('127.0.0.1');
-        $hash =  $this->wsm->validate_login($user,$_SERVER['REMOTE_ADDR']);
+	{        
+        $hash =  $this->webservice->validate_login($user,$input_hash);
 		if(!empty($hash) && gettype($hash)=='array')
 		{
 			return $hash;

@@ -334,7 +334,7 @@ class RightsUtilities
 		}
         else
         {
-            echo 'no location for that identifier ';
+           // echo 'no location for that identifier ';
         }
 		return null;
 	}

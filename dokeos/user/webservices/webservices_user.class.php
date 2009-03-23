@@ -17,8 +17,7 @@ class WebServicesUser
 	
 	function WebServicesUser()
 	{
-		$this->webservice = Webservice :: factory($this);
-		$this->wsm = WebserviceSecurityManager :: get_instance($this);
+		$this->webservice = Webservice :: factory($this);		
         $this->validator = Validator :: get_validator('user');
 	}
 	

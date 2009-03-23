@@ -48,6 +48,8 @@ class Course {
 	const PROPERTY_MENU = 'menu';
 	const PROPERTY_BREADCRUMB = 'breadcrumb';
 	const PROPERTY_ALLOW_FEEDBACK = 'allow_feedback';
+    const PROPERTY_SHOW_SCORE = 'show_score';
+    const PROPERTY_DISK_QUOTA = 'disk_quota';
 
 	// Remnants from the old Dokeos system
 	const PROPERTY_LAST_VISIT = 'last_visit';
@@ -165,7 +167,7 @@ class Course {
 	static function get_default_property_names()
 	{
 		return array (self :: PROPERTY_ID, self :: PROPERTY_LAYOUT, self :: PROPERTY_VISUAL, 
-				      self :: PROPERTY_CATEGORY, self :: PROPERTY_NAME, 
+				      self :: PROPERTY_CATEGORY, self :: PROPERTY_NAME, self :: PROPERTY_SHOW_SCORE,
 				      self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, 
 				      self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, 
 				      self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, 
@@ -449,6 +451,16 @@ class Course {
 	function get_allow_feedback()
 	{
 		return $this->get_default_property(self :: PROPERTY_ALLOW_FEEDBACK);
+	}
+
+    function get_show_score()
+	{
+		return $this->get_default_property(self :: PROPERTY_SHOW_SCORE);
+	}
+
+    function set_show_score()
+	{
+		return $this->set_default_property(self :: PROPERTY_SHOW_SCORE);
 	}
 	
 	/**

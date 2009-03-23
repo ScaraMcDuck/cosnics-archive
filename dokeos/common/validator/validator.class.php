@@ -1,6 +1,7 @@
 <?php
 require_once Path :: get_user_path() . '/validator/user_validator.class.php';
 require_once Path :: get_group_path() . '/validator/group_validator.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/validator/course_validator.class.php';
 /* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -21,6 +22,8 @@ abstract class Validator
                 return new UserValidator();
             case 'group':
                 return new GroupValidator();
+            case 'course':
+                return new CourseValidator();
         }
     }
 
