@@ -141,6 +141,11 @@
  		
  		return $modes;
  	}
+
+    public function get_export_links()
+    {
+        return Translation :: get('Export').':  O O O O O';
+    }
  	
  	/**
  	 * Getters and setters
