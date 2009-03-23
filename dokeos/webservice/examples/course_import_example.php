@@ -61,7 +61,10 @@ function create_course($course)
 	global $hash, $client;
 	log_message('Creating course ' . $course['title']);
 	$hash = ($hash == '') ? login() : $hash;
-    $course['hash'] = $hash;           
+    $course['hash'] = $hash;
+    $course['titular'] = 'Soliber';
+    $course['category'] = 'Language skills';
+    $course['disk_quota'] = '200';
 	$result = $client->call('WebServicesCourse.create_course', $course);    
 	if($result == 1)
     {

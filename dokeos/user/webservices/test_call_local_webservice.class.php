@@ -35,9 +35,9 @@ class TestCallLocalWebservice
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.get_user_courses',
-				'parameters' => array('id' => '4','hash'=>'04ae934de922cdba69ccd7fb71b009f83ccec6cf'),
+				'parameters' => array('id' => '4','hash'=>'550859312670dd7996153002d046737f08ba2c9f'),
 		  		'handler' => 'handle_webservice'
-			); */
+			);*/
 
 		
 		//TEST 3 : Get Group
@@ -140,14 +140,48 @@ class TestCallLocalWebservice
 
         //TEST 7 : Delete User
 
-        $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+        /*$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		$functions = array();
 
 		$functions[] = array(
 				'name' => 'WebServicesUser.delete_user',
 				'parameters' => array('user_id' => '32','username'=>'ka', 'hash'=>'550859312670dd7996153002d046737f08ba2c9f'),
 				'handler' => 'handle_webservice'
-		);
+		);*/
+
+        //TEST 8 : Create Course
+
+         /* $course = array (
+            'course_language' => 'english',
+            'title' => 'LocalTest',
+            'description' => '',
+            'category' 	=> 'Language skills', //needs the name, not the id
+            'visibility' => '1',
+            'show_score' => '1',
+            'titular' => 'Soliber', //needs the username, not the id
+            'visual_code' => '12345',
+            'department_name' => '',
+            'department_url' => '',
+            'disk_quota' => '200', //needs to > 1
+            'target_course_code' => '',
+            'layout' => '1',
+            'subscribe' => '1',
+            'unsubscribe' => '0',
+            'theme' => '1',
+            'tool_shortcut' => '1',
+            'menu' 	=> '1',
+            'breadcrumb' => '1',
+            'allow_feedback' => '1',
+            'hash' => '550859312670dd7996153002d046737f08ba2c9f' //hash 3 needed for credential
+            );
+            
+          $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		  $functions = array();
+		  $functions[] = array(
+				'name' => 'WebServicesCourse.create_course',
+				'parameters' => $course,
+		  		'handler' => 'handle_webservice'
+			);*/
 
 	
 		$this->webservice->call_webservice($wsdl, $functions);

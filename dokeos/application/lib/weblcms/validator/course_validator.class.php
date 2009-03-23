@@ -1,9 +1,9 @@
 <?php
 require_once Path :: get_application_path() . '/lib/weblcms/data_manager/database.class.php';
-require_once Path :: get_user_path() . '/libdata_manager/database.class.php';
+require_once Path :: get_user_path() . 'lib/data_manager/database.class.php';
 require_once Path :: get_application_path() . '/lib/weblcms/data_manager/database.class.php';
 require_once Path :: get_application_path() . '/lib/weblcms/course/course.class.php';
-require_once Path :: get_application_path() . '/lib/weblcms/course/course_category.class.php';
+require_once Path :: get_application_path() . '/lib/weblcms/category_manager/course_category.class.php';
 require_once Path :: get_application_path() . '/lib/weblcms/course/course_user_relation.class.php';
 require_once Path :: get_application_path() . '/lib/weblcms/course_group/course_group.class.php';
 /* 
@@ -31,7 +31,7 @@ class CourseValidator extends Validator
 
     private function get_required_course_property_names()
 	{
-        return array(Course :: PROPERTY_ID, Course ::PROPERTY_CATEGORY);
+        return array(Course ::PROPERTY_CATEGORY, Course ::PROPERTY_SHOW_SCORE);
   	}
 
     private function get_required_course_rel_user_property_names()
@@ -55,13 +55,13 @@ class CourseValidator extends Validator
     function validate_create(&$courseProperties)
     {
         if(!$this->validate_properties($courseProperties,$this->get_required_course_property_names()))
-        return false;
+        return false; 
 
         if(!$this->validate_property_names($courseProperties, Course :: get_default_property_names()))
         return false;
 
         $var = $this->get_category_id($courseProperties[Course :: PROPERTY_CATEGORY]);
-        if($var === false)
+        if($var === false) //checks type and contents
         {
             return false;
         }
@@ -82,10 +82,7 @@ class CourseValidator extends Validator
 
         if(!$this->check_quota($courseProperties))
         return false;
-
-        if(!$this->check_dates($courseProperties))
-        return false;
-
+        
         return true;
     }
 
@@ -172,7 +169,7 @@ class CourseValidator extends Validator
 
     private function get_person_id($person_name)
     {
-        $user = $this->udm->retrieve_user_by_username($person_name);
+        $user = $this->udm->retrieve_user_by_username($person_name);        
         if(isset($user) && count($user->get_default_properties())>0)
         {
            return $user->get_id();
@@ -185,14 +182,26 @@ class CourseValidator extends Validator
 
     private function get_category_id($category_name)
     {
-        $category = $this->wdm->retrieve_course_categories(new EqualityCondition(CourseCategory2 ::PROPERTY_NAME, $category_name));
-        if(isset($category) && count($category->get_default_properties()))
+        $categories = $this->wdm->retrieve_course_categories(new EqualityCondition(CourseCategory ::PROPERTY_NAME, $category_name));
+        $categories = $categories->as_array();        
+        foreach($categories as $category) //array van course category objects
         {
-            return $category->get_id();
-        }
-        else
-        {
-            return false;
+            if(isset($category)) 
+            {                
+                if(count($category->get_default_properties()))
+                {
+                    return $category->get_id();
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 
@@ -202,14 +211,6 @@ class CourseValidator extends Validator
         return false;
 
         return true;
-    }
-
-    private function check_dates($courseProperties)
-    {
-        if($courseProperties[Course ::PROPERTY_LAST_EDIT]>time() || $courseProperties[Course ::PROPERTY_LAST_VISIT]>time() || $courseProperties[Course :: PROPERTY_CREATION_DATE]>time() || $courseProperties[Course ::PROPERTY_EXPIRATION_DATE]<time())
-        return false;
-
-        return true;
-    }
+    }    
 }
 ?>

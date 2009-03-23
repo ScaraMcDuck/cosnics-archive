@@ -56,11 +56,6 @@ abstract class Webservice
                 {
                     return $c->get_user_id();
                 }
-                /*else
-                {
-                    $this->message = 'Incorrect hash value.';
-                    return null;                    
-                }*/
                 
             }
 		}
@@ -85,14 +80,14 @@ abstract class Webservice
 	{
 		if(time() > $endtime)
 		{
-            $this->message = 'your available time has been used up.';
+            $this->message = 'Your available time has been used up.';
             $this->raise_message($this->message);
             return true;
 		}
 		else
 		{
 			$restTime = $endTime - time();
-			$this->message = 'you have ' . $endTime . ' time left.';
+			$this->message = 'You have ' . $endTime . ' time left.';
             $this->raise_message($this->message);
             return false;
 		}
