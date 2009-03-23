@@ -3,25 +3,25 @@ require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', 7200);
 $time_start = microtime(true);
 
-$file = dirname(__FILE__) . '/user_import.csv';
-$users = parse_csv($file);
-$location = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+$file = dirname(__FILE__) . '/course_import.csv';
+$courses = parse_csv($file);
+$location = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
 //dump($users);
 
-foreach($users as $user)
+foreach($courses as $course)
 {
-	$action = $user['action'];
+	$action = $course['action'];
 	switch($action)
 	{
-		case 'I': create_user($user); break;
-		case 'i': create_user($user); break;
-		case 'U': update_user($user); break;
-		case 'u': update_user($user); break;
-		case 'D': delete_user($user); break;
-		case 'd': delete_user($user); break;
+		case 'I': create_course($course); break;
+		case 'i': create_course($course); break;
+		case 'U': update_course($course); break;
+		case 'u': update_course($course); break;
+		case 'D': delete_course($course); break;
+		case 'd': delete_course($course); break;
 	}
 }
 
@@ -35,16 +35,16 @@ function parse_csv($file)
 	if(file_exists($file) && $fp = fopen($file, "r"))
 	{
 		$keys = fgetcsv($fp, 1000, ";");
-		$users = array();
+		$courses = array();
 		
-		while($user_data = fgetcsv($fp, 1000, ";"))
+		while($course_data = fgetcsv($fp, 1000, ";"))
 		{
-			$user = array();
+			$course = array();
 			foreach($keys as $index => $key)
 			{
-				$user[$key] = trim($user_data[$index]);	
+				$course[$key] = trim($course_data[$index]);
 			}
-			$users[] = $user;
+			$courses[] = $course;
 		}
 		fclose($fp);
 	}
@@ -53,61 +53,51 @@ function parse_csv($file)
 		log("ERROR: Can't open file ($file)");
 	}
 	
-	return $users;
+	return $courses;
 }
 
-function create_user($user)
+function create_course($course)
 {
 	global $hash, $client;
-	log_message('Creating user ' . $user['username']);	
+	log_message('Creating course ' . $course['title']);
 	$hash = ($hash == '') ? login() : $hash;
-    $user['hash'] = $hash;
-    $user['password'] = 'ae12e345f679aaf';
-    $user['registration_date'] = '0';
-    $user['disk_quota'] = '209715200';
-    $user['database_quota'] = '300';
-    $user['version_quota'] = '20';    
-	$result = $client->call('WebServicesUser.create_user', $user);    
+    $course['hash'] = $hash;           
+	$result = $client->call('WebServicesCourse.create_course', $course);    
 	if($result == 1)
     {
-        log_message(print_r('User successfully created', true));
+        log_message(print_r('Course successfully created', true));
     }
     else
     	log_message(print_r($result, true));
 }
 
-function update_user($user)
+function update_course($course)
 {
 	global $hash, $client;
-	log_message('Updating user ' . $user['username']);	
+	log_message('Updating course ' . $course['username']);
 	$hash = ($hash == '') ? login() : $hash;
-    $user['hash'] = $hash;
-    $user['user_id'] = '17';
-    $user['password'] = 'ae12e345f679aaf';
-    $user['registration_date'] = '0';
-    $user['disk_quota'] = '209715200';
-    $user['database_quota'] = '300';
-    $user['version_quota'] = '20';    
-	$result = $client->call('WebServicesUser.update_user', $user);
+    $course['hash'] = $hash;
+      
+	$result = $client->call('WebServicesCourse.update_course', $course);
     if($result == 1)
     {
-        log_message(print_r('User successfully updated', true));
+        log_message(print_r('Course successfully updated', true));
     }
     else
     	log_message(print_r($result, true));
 }
 
-function delete_user($user)
+function delete_course($course)
 {
 	global $hash, $client;
-	log_message('Deleting user: ' . $user['username']);
-    $user['hash'] = $hash;
+	log_message('Deleting course ' . $course['username']);
+    $course['hash'] = $hash;
     $user['user_id'] = '45';
 	$hash = ($hash == '') ? login() : $hash;
-	$result = $client->call('WebServicesUser.delete_user', array('username' => $user['username'],'user_id'=> $user['user_id'],'hash' => $hash));
+	$result = $client->call('WebServicesCourse.delete_course', array('username' => $user['username'],'user_id'=> $user['user_id'],'hash' => $hash));
     if($result == 1)
     {
-        log_message(print_r('User successfully deleted', true));
+        log_message(print_r('Course successfully deleted', true));
     }
     else
     	log_message(print_r($result, true));
