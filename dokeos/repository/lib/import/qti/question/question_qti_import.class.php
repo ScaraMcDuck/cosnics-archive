@@ -8,7 +8,6 @@ require_once dirname(__FILE__).'/question_types/multiple_choice_import.class.php
 require_once dirname(__FILE__).'/question_types/open_question_import.class.php';
 require_once dirname(__FILE__).'/question_types/hotspot_question_import.class.php';
 require_once dirname(__FILE__).'/question_types/open_question_with_document_import.class.php';
-require_once dirname(__FILE__).'/question_types/percentage_import.class.php';
 require_once dirname(__FILE__).'/question_types/score_import.class.php';
 
 class QuestionQtiImport extends QtiImport
@@ -66,6 +65,68 @@ class QuestionQtiImport extends QtiImport
 			default:
 				return null;
 		}
+	}
+	
+	function import_images($text)
+	{
+		$tags = Text :: fetch_tag_into_array($text, '<img>');
+		$new_dir = Path :: get(REL_PATH).'files/repository/'. $this->get_user()->get_id().'/';
+		
+		if (!file_exists($temp_dir))
+		{
+			mkdir($temp_dir, null, true);
+		}	
+		
+		foreach($tags as $tag)
+		{
+			$parts = split('/', $tag['src']);
+			$newfilename = $new_dir.$parts[count($parts)-1];
+			$files[$newfilename] = $tag['src'];
+			$text = str_replace($tag['src'], $newfilename, $text);
+		}
+		$orig_path = dirname($this->get_learning_object_file());
+		foreach ($files as $new => $original)
+		{
+			copy($orig_path.'/'.$original, $new);
+		}
+		return $text;
+	}
+	
+	function get_tag_content($tagname, $params = array())
+	{
+		$doc = new DOMDocument();
+		$doc->load(parent :: get_learning_object_file());
+		$elems = $doc->getElementsByTagName($tagname);
+
+		if (!is_array($params))
+		{
+			$xmltag = $elems[$params];
+		}
+		else
+		{
+			foreach ($elems as $elem)
+			{
+				$valid = true;
+				foreach ($params as $attr => $value)
+				{
+					if ($elem->getAttribute($attr) != $value)
+					{
+						$valid = false;
+					}
+				}
+				if ($valid)
+				{
+					$xmltag = $elem;
+					break;
+				}
+			}
+		}
+		
+		$tag = $xmltag->C14N();
+		$index = stripos($tag, '>');
+		$tag = substr($tag, $index+1);
+		$tag = substr($tag, 0, strlen($tag) - strlen('</'.$tagname.'>'));
+		return $tag;
 	}
 	
 	function create_question($question)

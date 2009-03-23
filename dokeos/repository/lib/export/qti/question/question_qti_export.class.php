@@ -55,7 +55,6 @@ abstract class QuestionQtiExport extends QtiExport
 	
 	function create_qti_file($xml)
 	{
-		//dump(htmlspecialchars($xml));
 		$doc = new DOMDocument();
 		$doc->loadXML($xml);
 		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/';
@@ -67,11 +66,10 @@ abstract class QuestionQtiExport extends QtiExport
   	
   		$xml_path = $temp_dir . 'question_qti_'.$this->get_learning_object()->get_id().'.xml';
 		$doc->save($xml_path);
-		//dump($xml_path);
 		return $xml_path;
 	}
 
-	function include_question_images($question, $text)
+	function include_question_images($text)
 	{
 		$tags = Text :: fetch_tag_into_array($text, '<img>');
 		$temp_dir = Path :: get(SYS_TEMP_PATH). $this->get_learning_object()->get_owner_id() . '/export_qti/images/';
@@ -79,8 +77,7 @@ abstract class QuestionQtiExport extends QtiExport
 		if (!file_exists($temp_dir))
 		{
 			mkdir($temp_dir, null, true);
-		}
-		$description = $text;		
+		}		
 		
 		foreach($tags as $tag)
 		{
@@ -88,15 +85,13 @@ abstract class QuestionQtiExport extends QtiExport
 			$newfilename = $temp_dir.$parts[count($parts)-1];
 			$repl_filename = 'images/'.$parts[count($parts)-1];
 			$files[$newfilename] = $tag['src'];//str_replace($base_path, '', $tag['src']);
-			$description = str_replace($tag['src'], $repl_filename, $description);
+			$text = str_replace($tag['src'], $repl_filename, $text);
 		}
-		//dump(htmlspecialchars($description));
-		//dump($files);
 		foreach ($files as $new => $original)
 		{
 			copy($original, $new);
 		}
-		return $description;
+		return $text;
 	}
 }
 ?>

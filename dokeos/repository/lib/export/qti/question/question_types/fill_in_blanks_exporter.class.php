@@ -52,11 +52,11 @@ class FillInBlanksQuestionQtiExport extends QuestionQtiExport
 	function get_interaction_xml($answers)
 	{
 		$interaction_xml[] = '<itemBody>';
-		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object(), $this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
 		foreach ($answers as $i => $answer)
 		{
 			$interaction_xml[] = '<textEntryInteraction responseIdentifier="c'.$i.'" expectedLength="20">';
-			$interaction_xml[] = '<feedbackInline outcomeIdentifier="FEEDBACK'.$i.'" identifier="INCORRECT" showHide="hide">'.$this->include_question_images($this->get_learning_object(), $answer->get_comment()).'</feedbackInline>';
+			$interaction_xml[] = '<feedbackInline outcomeIdentifier="FEEDBACK'.$i.'" identifier="INCORRECT" showHide="hide">'.$this->include_question_images($answer->get_comment()).'</feedbackInline>';
 			$interaction_xml[] = '</textEntryInteraction>';
 		}
 

@@ -11,7 +11,10 @@ class MultipleChoiceQuestionQtiImport extends QuestionQtiImport
 		$question = new MultipleChoiceQuestion();
 		$question->set_answer_type('radio');
 		$title = $data['title'];
-		$descr = $data['itemBody']['choiceInteraction']['prompt'];
+		//$descr = $data['itemBody']['choiceInteraction']['prompt'];
+		$descr = parent :: get_tag_content('prompt');
+		$descr = parent :: import_images($description);
+		
 		$question->set_title($title);
 		$question->set_description($description);
 		
@@ -27,7 +30,8 @@ class MultipleChoiceQuestionQtiImport extends QuestionQtiImport
 		//echo 'answer items';
 		foreach ($answer_items as $answer)
 		{
-			$answers[$answer['identifier']]['title'] = $answer['_content'];
+			$answer_text = parent :: get_tag_content('simpleChoice', array('identifier' => $answer['identifier']));
+			$answers[$answer['identifier']]['title'] = parent :: import_images($answer_text);
 			$answers[$answer['identifier']]['score'] = 0;
 		}
 		

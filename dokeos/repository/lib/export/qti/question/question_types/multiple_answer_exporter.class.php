@@ -20,10 +20,11 @@ class MultipleAnswerQuestionQtiExport extends QuestionQtiExport
 		$item_xml[] = '</responseDeclaration>';
 
 		$item_xml[] = '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" />';
-		$item_xml[] = '<outcomeDeclaration identifier="FEEDBACK" cardinality="multiple" baseType="identifier">';
+		$item_xml[] = '<outcomeDeclaration identifier="FEEDBACK" cardinality="multiple" baseType="identifier" />';
 		$item_xml[] = $this->get_interaction_xml($answers);
 		$item_xml[] = '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/map_response" />';
 		$item_xml[] = '</assessmentItem>';
+		//dump(htmlspecialchars(implode('', $item_xml)));
 		return parent :: create_qti_file(implode('', $item_xml));
 	}
 	
@@ -50,11 +51,11 @@ class MultipleAnswerQuestionQtiExport extends QuestionQtiExport
 	{
 		$interaction_xml[] = '<itemBody>';
 		$interaction_xml[] = '<choiceInteraction responseIdentifier="RESPONSE" shuffle="true" maxChoices="0">';
-		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object(), $this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
 		foreach ($answers as $i => $answer)
 		{
-			$interaction_xml[] = '<simpleChoice identifier="c'.$i.'" fixed="false">'.$this->include_question_images($this->get_learning_object(), $answer['answer']);
-			$interaction_xml[] = '<feedbackInline outcomeIdentifier="FEEDBACK" identifier="c'.$i.'" showHide="show">'.$this->include_question_images($this->get_learning_object(), $answer['comment']).'</feedbackInline>';
+			$interaction_xml[] = '<simpleChoice identifier="c'.$i.'" fixed="false">'.$this->include_question_images($answer['answer']);
+			$interaction_xml[] = '<feedbackInline outcomeIdentifier="FEEDBACK" identifier="c'.$i.'" showHide="show">'.$this->include_question_images($answer['comment']).'</feedbackInline>';
 			$interaction_xml[] = '</simpleChoice>';
 		}
 		$interaction_xml[] = '</choiceInteraction>';

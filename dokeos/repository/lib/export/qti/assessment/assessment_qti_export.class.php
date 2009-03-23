@@ -53,7 +53,7 @@ class AssessmentQtiExport extends QtiExport
 		$zip = Filecompression :: factory();
 		$zip->set_filename('qti_assessment', 'zip');
 		$zippath = $zip->create_archive($temp_dir);
-		//FileSystem :: remove($temp_dir);
+		FileSystem :: remove($temp_dir);
 			
 		return $zippath;
 	}
@@ -65,7 +65,7 @@ class AssessmentQtiExport extends QtiExport
 			http://www.imsglobal.org/xsd/imsqti_v2p1.xsd" identifier="a'.$assessment->get_id().'" title="'.$assessment->get_title().'">';
  		$header[] = '<testPart identifier="P1" navigationMode="linear" submissionMode="individual">';
  		$header[] = '<itemSessionControl maxAttempts="'.$assessment->get_maximum_attempts().'" />';
- 		$header[] = '<assessmentSection identifier="set" title="'.$this->include_assessment_images($assessment).'" visible="true">';
+ 		$header[] = '<assessmentSection identifier="set" title="'.htmlspecialchars($this->include_assessment_images($assessment)).'" visible="true">';
   		return implode('', $header);
 	}
 	
@@ -88,8 +88,6 @@ class AssessmentQtiExport extends QtiExport
 			$files[$newfilename] = $tag['src'];//str_replace($base_path, '', $tag['src']);
 			$description = str_replace($tag['src'], $repl_filename, $description);
 		}
-		//dump(htmlspecialchars($description));
-		//dump($files);
 		foreach ($files as $new => $original)
 		{
 			copy($original, $new);

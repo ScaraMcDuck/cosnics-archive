@@ -10,10 +10,12 @@ class OpenQuestionQtiImport extends QuestionQtiImport
 		
 		$question = new OpenQuestion();
 		$title = $data['title'];
-		$descr = $data['itemBody']['extendedTextInteraction']['prompt'];
+		//$descr = $data['itemBody']['extendedTextInteraction']['prompt'];
+		$description = parent :: get_tag_content('prompt', 0); 
 		$question->set_title($title);
-		$question->set_description($description);
-		$document = $data['itemBody']['uploadInteraction']['prompt'];
+		$question->set_description(parent :: import_images($description));
+		//$document = $data['itemBody']['uploadInteraction']['prompt'];
+		$document = parent :: get_tag_content('prompt', 1); 
 		if ($document == null)
 			$question->set_question_type(OpenQuestion :: TYPE_OPEN);
 		else

@@ -10,9 +10,10 @@ class MatchingQuestionQtiImport extends QuestionQtiImport
 		
 		$question = new MatchingQuestion();
 		$title = $data['title'];
-		$descr = $data['itemBody']['matchInteraction']['prompt'];
+		//$descr = $data['itemBody']['matchInteraction']['prompt'];
+		$description = parent :: get_tag_content('prompt');
 		$question->set_title($title);
-		$question->set_description($description);		
+		$question->set_description($this->import_images($description));		
 		$this->create_answers($data, $question);
 		parent :: create_question($question);
 		return $question->get_id();
@@ -49,10 +50,12 @@ class MatchingQuestionQtiImport extends QuestionQtiImport
 			foreach ($answers as $answer)
 			{
 				//dump($answer);
-				$question_answers[$answer['identifier']] = $answer['_content'];
+				//$starttag = '<simpleAssociableChoice identifier="'.$answer['identifier'].'" matchMax="'.$answer['matchMax'].'">';
+				//$endtag = '</simpleAssociableChoice>';
+				$text = $this->get_tag_content('simpleAssociableChoice', array('identifier' => $answer['identifier']));
+				$question_answers[$answer['identifier']] = $text;
 			}
 		}
-		//dump($question_answers);
 		
 		//create answers and complex answers
 		foreach ($matches as $id => $match)
@@ -60,15 +63,8 @@ class MatchingQuestionQtiImport extends QuestionQtiImport
 			$answer_title = $question_answers[$id];
 			//echo $answer_title.'<br/>';
 			$match_index = $this->check_match($question, $question_answers[$match['match']]);
-			$opt = new MatchingQuestionOption($answer_title, $match_index, $match['score']);
+			$opt = new MatchingQuestionOption($this->import_images($answer_title), $match_index, $match['score']);
 			$question->add_option($opt);
-			
-			//$answer = $this->create_answer($answer_title);
-			//$this->create_complex_answer($question, $answer, $match['score']);
-			//$answer_match_title = $question_answers[$match['match']];
-			//echo $answer_match_title.'<br/>';
-			//$answer_match = $this->create_answer($answer_match_title);
-			//$this->create_complex_answer($answer, $answer_match, 1, rand(0, count($question_answers)));
 		}
 	}
 	
@@ -85,7 +81,7 @@ class MatchingQuestionQtiImport extends QuestionQtiImport
 		}
 		if (!$found)
 		{
-			$question->add_match($match);
+			$question->add_match($this->import_images($match));
 			return count($question->get_matches())-1;
 		}
 	}

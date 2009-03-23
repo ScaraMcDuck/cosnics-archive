@@ -12,9 +12,12 @@ class HotspotQuestionQtiImport extends QuestionQtiImport
 		$title = $data['title'];
 		
 		$interaction = $data['itemBody']['graphicOrderInteraction'];
-		$prompt = $interaction['prompt'];
+		//$prompt = $interaction['prompt'];
+		$description = parent :: get_tag_content('prompt');
+		$description = parent :: import_images($description);
+		
 		//dump($prompt);
-		if (is_array($prompt))
+		/*if (is_array($prompt))
 		{
 			foreach ($prompt as $tag => $element)
 			{
@@ -22,7 +25,7 @@ class HotspotQuestionQtiImport extends QuestionQtiImport
 			}
 		}
 		else
-			$description = $prompt;
+			$description = $prompt;*/
 		
 		
 		$question->set_title($title);

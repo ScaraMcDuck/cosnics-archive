@@ -11,9 +11,10 @@ class DocumentQuestionQtiImport extends QuestionQtiImport
 		$question = new OpenQuestion();
 		$question->set_question_type(OpenQuestion :: TYPE_DOCUMENT);
 		$title = $data['title'];
-		$descr = $data['itemBody']['uploadInteraction']['prompt'];
+		//$descr = $data['itemBody']['uploadInteraction']['prompt'];
+		$descr = parent :: get_tag_content('prompt');
 		$question->set_title($title);
-		$question->set_description($descr);
+		$question->set_description(parent :: import_images($descr));
 		//$question->create();
 		parent :: create_question($question);
 		return $question->get_id();

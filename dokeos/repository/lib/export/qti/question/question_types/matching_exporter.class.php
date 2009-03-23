@@ -52,18 +52,18 @@ class MatchingQuestionQtiExport extends QuestionQtiExport
 	{
 		$interaction_xml[] = '<itemBody>';
 		$interaction_xml[] = '<matchInteraction responseIdentifier="RESPONSE" shuffle="true" maxAssociations="'.sizeof($answers).'">';
-		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object(), $this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
 		$interaction_xml[] = '<simpleMatchSet>';
 		foreach ($answers as $i => $answer)
 		{
-			$interaction_xml[] = '<simpleAssociableChoice identifier="c'.$i.'" matchMax="1">'.$this->include_question_images($this->get_learning_object(), $answer['answer']).'</simpleAssociableChoice>';
+			$interaction_xml[] = '<simpleAssociableChoice identifier="c'.$i.'" matchMax="1">'.$this->include_question_images($answer['answer']).'</simpleAssociableChoice>';
 		}
 		$interaction_xml[] = '</simpleMatchSet>';
 		$interaction_xml[] = '<simpleMatchSet>';
 
 		foreach ($matches as $i => $match)
 		{
-			$interaction_xml[] = '<simpleAssociableChoice identifier="m'.$i.'" matchMax="'.sizeof($answers).'">'.$this->include_question_images($this->get_learning_object(), $match).'</simpleAssociableChoice>';
+			$interaction_xml[] = '<simpleAssociableChoice identifier="m'.$i.'" matchMax="'.sizeof($answers).'">'.$this->include_question_images($match).'</simpleAssociableChoice>';
 		}
 		$interaction_xml[] = '</simpleMatchSet>';
 		$interaction_xml[] = '</matchInteraction>';

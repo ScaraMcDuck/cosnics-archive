@@ -9,13 +9,9 @@ class MultipleChoiceQuestionQtiExport extends QuestionQtiExport
 		$rdm = RepositoryDataManager :: get_instance();
 		$question = $this->get_learning_object();
 		
-		//$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $question->get_id());
-		//$clo_answers = $rdm->retrieve_complex_learning_object_items($condition);
-		//while ($clo_answer = $clo_answers->next_result())
 		$q_answers = $question->get_options();
 		foreach ($q_answers as $q_answer)
 		{
-			//$answer = $rdm->retrieve_learning_object($clo_answer->get_ref(), 'answer');
 			$answers[] = array('answer' => $q_answer->get_value(), 'score' => $q_answer->get_weight(), 'correct' => $q_answer->is_correct(), 'feedback' => $q_answer->get_comment());
 		}
 		
@@ -27,6 +23,8 @@ class MultipleChoiceQuestionQtiExport extends QuestionQtiExport
 		$item_xml[] = $this->get_interaction_xml($answers);
 		$item_xml[] = '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct" />';
 		$item_xml[] = '</assessmentItem>';
+		//echo 'nikkers';
+		//dump(htmlspecialchars(implode('', $item_xml)));
 		return parent :: create_qti_file(implode('', $item_xml));
 	}
 	
@@ -46,11 +44,11 @@ class MultipleChoiceQuestionQtiExport extends QuestionQtiExport
 	function get_outcome_xml($answers)
 	{
 		$outcome_xml[] = '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="integer">';
-		$outcome_xml[] = '<outcomeDeclaration identifier="FEEDBACK" cardinality="single" baseType="identifier">';
 		$outcome_xml[] = '<defaultValue>';
 		$outcome_xml[] = '<value>0</value>';
 		$outcome_xml[] = '</defaultValue>';
 		$outcome_xml[] = '</outcomeDeclaration>';
+		$outcome_xml[] = '<outcomeDeclaration identifier="FEEDBACK" cardinality="single" baseType="identifier" />';
 		return implode('', $outcome_xml);
 	}
 	
@@ -58,11 +56,11 @@ class MultipleChoiceQuestionQtiExport extends QuestionQtiExport
 	{
 		$interaction_xml[] = '<itemBody>';
 		$interaction_xml[] = '<choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1">';
-		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object(), $this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
 		foreach ($answers as $i => $answer)
 		{
-			$interaction_xml[] = '<simpleChoice identifier="c'.$i.'" fixed="false">'.$this->include_question_images($this->get_learning_object(), $answer['answer']);
-			$interaction_xml[] = '<feedbackInline outcomeIdentifier="FEEDBACK" identifier="c'.$i.'" showHide="show">'.$this->include_question_images($this->get_learning_object(), $answer['comment']).'</feedbackInline>';
+			$interaction_xml[] = '<simpleChoice identifier="c'.$i.'" fixed="false">'.$this->include_question_images($answer['answer']);
+			$interaction_xml[] = '<feedbackInline outcomeIdentifier="FEEDBACK" identifier="c'.$i.'" showHide="show">'.$this->include_question_images($answer['comment']).'</feedbackInline>';
 			$interaction_xml[] = '</simpleChoice>';
 		}
 		$interaction_xml[] = '</choiceInteraction>';

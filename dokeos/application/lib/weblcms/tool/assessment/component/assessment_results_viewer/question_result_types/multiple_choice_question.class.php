@@ -47,7 +47,9 @@ class MultipleChoiceQuestionResult extends QuestionResult
 			$answers = $question->get_options();
 			foreach($results as $result)
 			{
-				$answer = $answers[$result->get_answer()];
+				//dump($result);
+
+				$answer = $answers[$result->get_answer_index()-1];
 				$answer_line = $answer->get_value();
 				
 				if($answer->is_correct())
@@ -91,15 +93,15 @@ class MultipleChoiceQuestionResult extends QuestionResult
 			if($answer->is_correct())
 			{
 				$correct_line = '<b>' . $answer->get_value() . '</b>';
+				$correct_line .= ' <span style="color: navy; font-style: italic;">(' . $answer->get_comment() . ')</span>';
+				$correct_lines[] = $correct_line;
 			}
 			else
 			{
-				$correct_line = $answer->get_value();
+				//$correct_line = $answer->get_value();
 			}
 			
-			$correct_line .= ' <span style="color: navy; font-style: italic;">(' . $answer->get_comment() . ')</span>';
 			
-			$correct_lines[] = $correct_line;
 		}
 		
 		$clo_question = $this->get_clo_question();
