@@ -2579,7 +2579,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$conditions = new EqualityCondition(Course :: PROPERTY_ID, $id);
 			$condition = new AndCondition($conditions);
 		}
-		return !($this->db->count_objects('course_category', $condition) == 1);
+        return !($this->count_courses($condition) == 1);
 	}
 }
 ?>

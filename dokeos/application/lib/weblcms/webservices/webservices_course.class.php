@@ -213,9 +213,9 @@ class WebServicesCourse
 		{
             unset($input_course[hash]);
             $wdm = DatabaseWeblcmsDataManager :: get_instance();
-            $cur = new CourseUserRelation($input_course[course_code],$input_course[user_id]);
+            $cur = new CourseUserRelation($input_course[visual_code],$input_course[user_id]);
             unset($input_course['user_id']);
-            unset($input_course['course_code']);
+            unset($input_course['visual_code']);
             $cur->set_default_properties($input_course);
             return $this->webservice->raise_message($cur->create());
         }

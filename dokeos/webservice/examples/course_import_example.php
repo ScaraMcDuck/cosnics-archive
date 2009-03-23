@@ -100,7 +100,7 @@ function delete_course($course)
 	log_message('Deleting course ' . $course['title']);
 	$hash = ($hash == '') ? login() : $hash;
     $course['hash'] = $hash;
-    $course['id'] = '36';
+    $course['id'] = '51';
 	$result = $client->call('WebServicesCourse.delete_course', $course);
     if($result == 1)
     {
