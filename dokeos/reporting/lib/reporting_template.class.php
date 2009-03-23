@@ -145,7 +145,7 @@ abstract class ReportingTemplate {
             if($value[1][self :: PARAM_VISIBLE] == self :: REPORTING_BLOCK_VISIBLE)
             {
                 $html[] = Reporting :: generate_block($value[0]);
-                $html[] = '<br />';
+                $html[] = '<div class="clear">&nbsp;</div>';
             }
         }
         return implode("\n", $html);
