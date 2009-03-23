@@ -58,9 +58,9 @@ class AssessmentQtiImport extends QtiImport
 	
 	function import_assessment_section($assessment_section, $assessment)
 	{
-		echo 'hier3';
+		//echo 'hier3';
 		$descr = $assessment_section['title'];
-		$assessment->set_description($descr);
+		$assessment->set_description($this->import_images($descr));
 
 		$assessment->update();
 		$assessment_item_refs = $assessment_section['assessmentItemRef'];
@@ -79,7 +79,7 @@ class AssessmentQtiImport extends QtiImport
 	
 	function import_assessment_item_ref($item_ref, $assessment)
 	{
-		echo 'hier2';
+		//echo 'hier2';
 		$item_ref_file = $item_ref['href'];
 		$weight = $item_ref['weight']['value'];
 		$dirparts = split('/', $this->get_learning_object_file());
@@ -101,7 +101,7 @@ class AssessmentQtiImport extends QtiImport
 	
 	function create_complex_question($assessment, $question, $weight)
 	{
-		echo 'hier';
+		//echo 'hier';
 		$type = $question->get_type();
 		$complextype = 'complex_'.$type;
 		require_once Path :: get_repository_path().'lib/learning_object/'.$type.'/'.$complextype.'.class.php';
@@ -113,6 +113,37 @@ class AssessmentQtiImport extends QtiImport
 		$question_clo->set_user_id($this->get_user()->get_id());
 		//dump($question_clo);
 		return $question_clo->create();
+	}
+	
+	function import_images($text)
+	{
+		$tags = Text :: fetch_tag_into_array($text, '<img>');
+		$new_dir = Path :: get(REL_PATH).'files/repository/'. $this->get_user()->get_id().'/';
+		
+		if (!file_exists($temp_dir))
+		{
+			mkdir($temp_dir, null, true);
+		}	
+		
+		foreach($tags as $tag)
+		{
+			$parts = split('/', $tag['src']);
+			$newfilename = $new_dir.$parts[count($parts)-1];
+			//$repl_filename = $new.$parts[count($parts)-1];
+			$files[$newfilename] = $tag['src'];//str_replace($base_path, '', $tag['src']);
+			$text = str_replace($tag['src'], $newfilename, $text);
+		}
+		//dump(htmlspecialchars($description));
+		//dump($files);
+		$orig_path = dirname($this->get_learning_object_file());
+		foreach ($files as $new => $original)
+		{
+			//dump($orig_path.'/'.$original);
+			//dump($new);
+			copy($orig_path.'/'.$original, $new);
+		}
+		//dump($text);
+		return $text;
 	}
 }
 ?>

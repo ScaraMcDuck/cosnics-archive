@@ -10,14 +10,16 @@ class FillInBlanksQuestionQtiImport extends QuestionQtiImport
 		$title = $data['title'];
 		
 		//description may not be in prompt, but in a <p> tag, maybe even with an embedded blockquote
-		$descr = $data['itemBody']['prompt'];
-		if ($descr == null)
+		$description = parent :: get_tag_content('prompt');
+		$description = parent :: import_images($description);
+		//$descr = $data['itemBody']['prompt'];
+		/*if ($descr == null)
 			$descr = $data['itemBody']['p'];
 
 		if ($data['itemBody']['blockquote'] != null)
 		{
 			$descr .= $data['itemBody']['blockquote']['_content'];
-		}
+		}*/
 		$question = new FillInBlanksQuestion();
 		$question->set_title($title);
 		$question->set_description($description);

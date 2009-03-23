@@ -48,7 +48,7 @@ class HotspotQuestionQtiExport extends QuestionQtiExport
 
 		$interaction_xml[] = '<graphicOrderInteraction responseIdentifier="RESPONSE" >';
 		$interaction_xml[] = '<prompt>';
-		$interaction_xml[] = '<p>'.$this->include_question_images($this->get_learning_object(), $this->get_learning_object()->get_description()).'</p>';
+		$interaction_xml[] = '<p>'.$this->include_question_images($this->get_learning_object()->get_description()).'</p>';
 		$interaction_xml[] = '</prompt>';
 		
 		$image = $this->get_learning_object()->get_image();
@@ -69,7 +69,7 @@ class HotspotQuestionQtiExport extends QuestionQtiExport
 			$type = $answer->get_hotspot_type();
 			$export_type = $this->export_type($type);
 			$export_coords = $this->transform_coords($coords, $export_type);
-			//dump($export_coords);
+
 			$interaction_xml[] = '<hotspotChoice shape="'.$export_type.'" coords="'.$export_coords.'" identifier="A'.$i.'" />';
 		}
 		$interaction_xml[] = '</graphicOrderInteraction>';

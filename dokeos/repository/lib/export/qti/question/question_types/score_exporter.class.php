@@ -8,13 +8,7 @@ class ScoreQuestionQtiExport extends QuestionQtiExport
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		$question = $this->get_learning_object();
-		//$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $question->get_id());
-		//$clo_answers = $rdm->retrieve_complex_learning_object_items($condition);
-		//while ($clo_answer = $clo_answers->next_result())
-		/*{
-			$answer = $rdm->retrieve_learning_object($clo_answer->get_ref(), 'answer');
-			$answers[] = array('answer' => $answer, 'score' => $clo_answer->get_score());
-		}*/
+
 		$high = $question->get_high();
 		$low = $question->get_low();
 		
@@ -40,18 +34,9 @@ class ScoreQuestionQtiExport extends QuestionQtiExport
 	
 	function get_interaction_xml($high, $low)
 	{
-		/*$high = -10000;
-		$low = 10000;
-		foreach ($answers as $answer)
-		{
-			if ($answer['score'] < $low)
-				$low = $answer['score'];
-			if ($answer['score'] > $high)
-				$high = $answer['score'];
-		}*/
 		$interaction_xml[] = '<itemBody>';
 		$interaction_xml[] = '<sliderInteraction responseIdentifier="RESPONSE" lowerBound="'.$low.'" upperBound="'.$high.'" step="1">';
-		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object(), $this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
 		$interaction_xml[] = '</sliderInteraction>';
 		$interaction_xml[] = '</itemBody>';
 		

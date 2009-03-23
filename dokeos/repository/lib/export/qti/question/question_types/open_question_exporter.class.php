@@ -64,7 +64,7 @@ class OpenQuestionQtiExport extends QuestionQtiExport
 	{
 		$interaction_xml[] = '<itemBody>';
 		$interaction_xml[] = '<uploadInteraction responseIdentifier="RESPONSE">';
-		$interaction_xml[] = '<prompt>'.htmlspecialchars($this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
 
 		$interaction_xml[] = '</uploadInteraction>';
 		$interaction_xml[] = '</itemBody>';
@@ -87,11 +87,11 @@ class OpenQuestionQtiExport extends QuestionQtiExport
 	{
 		$interaction_xml[] = '<itemBody>';
 		$interaction_xml[] = '<extendedTextInteraction responseIdentifier="RESPONSE_T" expectedLength="250">';
-		$interaction_xml[] = '<prompt>'.htmlspecialchars($this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
 
 		$interaction_xml[] = '</extendedTextInteraction>';
 		$interaction_xml[] = '<uploadInteraction responseIdentifier="RESPONSE_P">';
-		$interaction_xml[] = '<prompt>'.htmlspecialchars($this->get_learning_object()->get_description()).'</prompt>';
+		$interaction_xml[] = '<prompt>'.$this->include_question_images($this->get_learning_object()->get_description()).'</prompt>';
 
 		$interaction_xml[] = '</uploadInteraction>';
 		$interaction_xml[] = '</itemBody>';
