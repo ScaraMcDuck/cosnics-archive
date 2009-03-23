@@ -29,15 +29,15 @@ class Reporting{
  		$html[] = '<div class="reporting_header">';
         $html[] = '<div class="reporting_header_title">'.Translation :: get($reporting_block->get_name()).'</div>';
  		$html[] = '<div class="reporting_header_displaymode">';
- 		$html[] = '<select name="charttype" class="charttype"';
+ 		$html[] = '<select name="charttype" class="charttype">';
  		foreach($reporting_block->get_displaymodes() as $key => $value)
  		{
  			if($key == $reporting_block->get_displaymode())
  			{
- 				$html[] = '<option SELECTED value='.$key.'>'.$value.'</option>';
+ 				$html[] = '<option SELECTED value="'.$key.'">'.$value.'</option>';
  			}else
  			{
- 				$html[] = '<option value='.$key.'>'.$value.'</option>';
+ 				$html[] = '<option value="'.$key.'">'.$value.'</option>';
  			}
  		}
  		$html[] = '</select></div><div class="clear">&nbsp;</div>';
