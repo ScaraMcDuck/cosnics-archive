@@ -183,6 +183,56 @@ class TestCallLocalWebservice
 		  		'handler' => 'handle_webservice'
 			);*/
 
+        //TEST 9 : Update Course
+
+          /*$course = array (
+            'id' => '33',
+            'course_language' => 'english',
+            'title' => 'Sweetdreams',
+            'description' => '',
+            'category' 	=> 'Language skills', //needs the name, not the id
+            'visibility' => '1',
+            'show_score' => '1',
+            'titular' => 'Soliber', //needs the username, not the id
+            'visual_code' => '12345',
+            'department_name' => '',
+            'department_url' => '',
+            'disk_quota' => '200', //needs to > 1
+            'target_course_code' => '',
+            'layout' => '1',
+            'subscribe' => '1',
+            'unsubscribe' => '0',
+            'theme' => '1',
+            'tool_shortcut' => '1',
+            'menu' 	=> '1',
+            'breadcrumb' => '1',
+            'allow_feedback' => '1',
+            'hash' => '550859312670dd7996153002d046737f08ba2c9f' //hash 3 needed for credential
+            );
+
+          $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		  $functions = array();
+		  $functions[] = array(
+				'name' => 'WebServicesCourse.update_course',
+				'parameters' => $course,
+		  		'handler' => 'handle_webservice'
+			);*/
+
+        //TEST 10 : Delete Course
+
+        $course = array (
+            'id' => '37',
+            'hash' => '550859312670dd7996153002d046737f08ba2c9f' //hash 3 needed for credential
+            );
+
+          $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		  $functions = array();
+		  $functions[] = array(
+				'name' => 'WebServicesCourse.delete_course',
+				'parameters' => $course,
+		  		'handler' => 'handle_webservice'
+			);
+
 	
 		$this->webservice->call_webservice($wsdl, $functions);
 	}

@@ -109,9 +109,7 @@ class CourseValidator extends Validator
 
         if(!$this->check_quota($courseProperties))
         return false;
-
-        if(!$this->check_dates($courseProperties))
-        return false;
+        
 
         return true;
     }
@@ -211,6 +209,16 @@ class CourseValidator extends Validator
         return false;
 
         return true;
-    }    
+    }
+    
+    private function check_dates($courseProperties)
+    {
+        if($courseProperties[Course :: PROPERTY_LAST_EDIT]>time() || $courseProperties[Course :: PROPERTY_LAST_VISIT]>time() || $courseProperties[Course :: PROPERTY_CREATION_DATE]>time() || $courseProperties[Course :: PROPERTY_EXPIRATION_DATE]<time())
+        return false;
+
+        return true;
+    }
+
+
 }
 ?>

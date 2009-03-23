@@ -77,10 +77,13 @@ function create_course($course)
 function update_course($course)
 {
 	global $hash, $client;
-	log_message('Updating course ' . $course['username']);
+	log_message('Updating course ' . $course['title']);
 	$hash = ($hash == '') ? login() : $hash;
     $course['hash'] = $hash;
-      
+    $course['id'] = '33';
+    $course['titular'] = 'Soliber';
+    $course['category'] = 'Language skills';
+    $course['disk_quota'] = '200';
 	$result = $client->call('WebServicesCourse.update_course', $course);
     if($result == 1)
     {
@@ -93,11 +96,11 @@ function update_course($course)
 function delete_course($course)
 {
 	global $hash, $client;
-	log_message('Deleting course ' . $course['username']);
-    $course['hash'] = $hash;
-    $user['user_id'] = '45';
+	log_message('Deleting course ' . $course['title']);
 	$hash = ($hash == '') ? login() : $hash;
-	$result = $client->call('WebServicesCourse.delete_course', array('username' => $user['username'],'user_id'=> $user['user_id'],'hash' => $hash));
+    $course['hash'] = $hash;
+    $course['id'] = '36';
+	$result = $client->call('WebServicesCourse.delete_course', $course);
     if($result == 1)
     {
         log_message(print_r('Course successfully deleted', true));
