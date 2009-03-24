@@ -218,24 +218,23 @@ class CourseValidator extends Validator
 
     private function validate_subscribe($course_code)
     {
-        $course = $this->wdm->retrieve_course($course_code);        
+        $course = $this->wdm->retrieve_course($course_code);       
         if(isset($course) && count($course->get_default_properties())>0)
         {            
             $subscribe = $course->get_default_property('subscribe');
             if($subscribe == 1 ) //allowed to subscribe
-            {
-                //echo 'hier geraaktemwel zenne';
+            {  
                 return true;
             }
             else
             {
-                //echo 'Not allowed to subscribe';
+                echo 'Not allowed to subscribe';
                 return false;
             }
         }
         else
         {
-            //echo 'No course for this code';
+            echo 'No course for this code';
             return false;
         }       
         
@@ -254,13 +253,13 @@ class CourseValidator extends Validator
             }
             else
             {
-                //echo 'Not allowed to unsubscribe';
+                echo 'Not allowed to unsubscribe';
                 return false;
             }
         }
         else
         {
-            //echo 'No course for this code';
+            echo 'No course for this code';
             return false;
         }
         

@@ -9,8 +9,6 @@ $location = 'http://localhost/application/lib/weblcms/webservices/webservices_co
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
-//dump($users);
-
 foreach($courses as $course)
 {
 	$action = $course['action'];
@@ -21,9 +19,7 @@ foreach($courses as $course)
 		case 'U': update_course($course); break;
 		case 'u': update_course($course); break;
 		case 'D': delete_course($course); break;
-		case 'd': delete_course($course); break;
-        case 's': subscribe_user($course); break;
-        case 'S': subscribe_user($course); break;
+		case 'd': delete_course($course); break;       
 
 	}
 }
@@ -112,25 +108,6 @@ function delete_course($course)
     	log_message(print_r($result, true));
 }
 
-function subscribe_user($course)
-{
-    global $hash, $client;
-	log_message('Subscribing user to course ' . $course['title']);
-	$hash = ($hash == '') ? login() : $hash;
-    $course['hash'] = $hash;
-    $course['user_id'] = '4';
-    $course['visual_code'] = 'H1';
-    $result = $client->call('WebServicesCourse.subscribe_user', $course);
-    if($result == 1)
-    {
-        log_message(print_r('User successfully subscribed to course', true));
-    }
-    else
-    	log_message(print_r($result, true));
-
-
-}
-
 function login()
 {    
 	global $client;
@@ -167,7 +144,5 @@ function debug($client)
 	echo '<h2>Response</h2><pre>' . htmlspecialchars($client->response, ENT_QUOTES) . '</pre>';
 	echo '<h2>Debug</h2><pre>' . htmlspecialchars($client->getDebug(), ENT_QUOTES) . '</pre>';		
 }
-
-
 
 ?>

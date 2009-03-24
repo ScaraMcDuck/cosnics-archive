@@ -219,7 +219,7 @@ class WebServicesCourse
             }
             else
             {               
-                return $this->webservice->raise_error('Could not update course. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error('Could not subscribe user to course. Please check the data you\'ve provided.');
             }
             
         }
@@ -241,7 +241,7 @@ class WebServicesCourse
             }
             else
             {
-                return $this->webservice->raise_error('Could not update course. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error('Could not unsubscribe from course. Please check the data you\'ve provided.');
             }
            
         }
