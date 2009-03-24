@@ -8,6 +8,8 @@ require_once dirname(__FILE__).'/../user_data_manager.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../user_quota.class.php';
 require_once dirname(__FILE__).'/../user_role.class.php';
+require_once dirname(__FILE__).'/../buddy_list_item.class.php';
+require_once dirname(__FILE__).'/../buddy_list_category.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/learning_object.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once Path :: get_library_path() . 'database/database.class.php';
@@ -34,7 +36,7 @@ class DatabaseUserDataManager extends UserDataManager
 	 */
 	function initialize()
 	{
-		$this->database = new Database(array(User :: get_table_name() => self :: ALIAS_USER,'user_quota' => 'uq', 'user_role' => 'ur'));
+		$this->database = new Database(array(User :: get_table_name() => self :: ALIAS_USER,'user_quota' => 'uq', 'user_role' => 'ur', 'buddy_list_category' => 'blc', 'buddy_list_item' => 'bli'));
 		$this->database->set_prefix('user_');
 	}
 	

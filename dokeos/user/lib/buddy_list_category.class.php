@@ -12,6 +12,7 @@ class BuddyListCategory
 	
 	const PROPERTY_ID = 'id';
 	const PROPERTY_TITLE = 'title';
+	const PROPERTY_USER_ID = 'user_id';
 
 	/**
 	 * Default properties of the userrole object, stored in an associative
@@ -48,7 +49,7 @@ class BuddyListCategory
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_TITLE, self :: PROPERTY_USER_ID);
 	}
 		
 	/**
@@ -91,6 +92,16 @@ class BuddyListCategory
 	function set_title($title)
 	{
 		$this->set_default_property(self :: PROPERTY_TITLE, $title);
+	}	
+	
+	function get_user_id()
+	{
+		return $this->get_default_property(self :: PROPERTY_USER_ID);
+	}
+	
+	function set_user_id($user_id)
+	{
+		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
 	}	
 	
 	function delete()

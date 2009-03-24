@@ -143,4 +143,8 @@ $lang['common']['Logout'] = 'Logout';
 $lang['common']['Administration'] = 'Administration';
 $lang['common']['Repository'] = 'Repository';
 $lang['common']['MyAccount'] = 'My account';
+$lang['common']['MyBuddies'] = 'My buddies';
+$lang['common']['OtherBuddies'] = 'Other buddies';
+$lang['common']['Requested'] = 'Requested';
+$lang['common']['Rejected'] = 'Rejected';
 ?>
