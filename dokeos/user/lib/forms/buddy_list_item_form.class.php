@@ -22,7 +22,16 @@ class BuddyListItemForm extends FormValidator
      */
     function build_basic_form()
     {
-		// Roles element finder
+		$cats[0] = Translation :: get('OtherBuddies');
+		
+    	$condition = new EqualityCondition(BuddyListCategory :: PROPERTY_USER_ID, $this->user->get_id());
+   		$categories = UserDataManager :: get_instance()->retrieve_buddy_list_categories($condition);
+   		while($cat = $categories->next_result())
+   			$cats[$cat->get_id()] = $cat->get_title();
+   			
+    	$this->addElement('select', 'category', Translation :: get('Category'), $cats);
+    	
+    	// Roles element finder
 		$user = $this->user;
 
 		$url = Path :: get(WEB_PATH).'user/xml_user_feed.php';
@@ -71,7 +80,7 @@ class BuddyListItemForm extends FormValidator
 			$buddy->set_user_id($user->get_id());
 			$buddy->set_buddy_id($us);
 			$buddy->set_status(BuddyListItem :: STATUS_REQUESTED);
-			$buddy->set_category_id(0);
+			$buddy->set_category_id($values['category']);
 			$succes &= $buddy->create();
 		}
 		

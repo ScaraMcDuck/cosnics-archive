@@ -34,7 +34,7 @@ class UserManagerBuddyListItemDeleterComponent extends UserManagerComponent
 				}
 			}
 			
-			if ($failures)
+			if (!$failures)
 			{
 				if (count($ids) == 1)
 				{
