@@ -2775,3 +2775,103 @@ div.element_finder_buttons
 {
 	margin: 0px 10px 0px 10px;
 }
+
+/*********************************************
+ * BuddyList Styles					         *
+ *********************************************/
+ 
+ div.buddylist
+ {
+ 	background-color: #F6F6F6;
+ 	-moz-border-radius: 10px;
+ 	width: 300px;
+ 	padding: 10px;
+ }
+ 
+ div.buddylist div.buddylist_header
+ {
+ 	height: 30px;
+ 	border-bottom: 1px dotted grey;
+ }
+ 
+ div.buddylist div.buddylist_header span.title
+ {
+ 	color: #000066;
+	font-size: 14px;
+	font-weight: bold;
+	position: relative;
+	top: -5px;
+	left: 5px;
+ }
+ 
+ div.buddylist div.buddylist_content
+ {
+ 	padding: 10px;
+ }
+ 
+ div.buddylist div.buddylist_footer
+ {
+ 	height: 20px;
+ 	border-top: 1px dotted grey;
+ 	padding-top: 10px;
+ }
+ 
+ div.buddylist div.buddylist_footer_actions
+ {
+ 	float: right;
+ 	padding-right: 8px;
+ }
+ 
+ div.buddylist ul.category_list
+ {
+ 	margin: 0px;
+ 	padding: 0px;
+ }
+ 
+ div.buddylist li.category_list_item
+ {
+ 	list-style: none;
+ }
+ 
+ div.buddylist li.category_list_item img.category_toggle, 
+ div.buddylist li.category_list_item img.item_toggle 
+ {
+ 	float: left;
+ 	padding-right: 5px;
+ }
+ 
+ div.buddylist li.category_list_item span.title
+ {
+ 	font-weight: bold;
+ 	position: relative;
+ 	top: 2px;
+ }
+ 
+ div.buddylist ul.buddy_list
+ {
+ 	margin: 0px;
+ 	margin-left: 20px;
+ 	padding: 0px;
+ 	padding-bottom: 6px;
+ 	padding-top: 3px;
+ }
+ 
+ div.buddylist li.buddy_list_item
+ {
+ 	list-style: none;
+ }
+ 
+ div.buddylist div.buddy_list_item_text
+ {
+ 	float: left;
+ }
+ 
+ div.buddylist div.buddy_list_item_actions
+ {
+ 	float: right;
+ }
+ 
+ div.buddylist li.buddy_list_item span.info
+ {
+ 	font-weight: bold;
+ }
