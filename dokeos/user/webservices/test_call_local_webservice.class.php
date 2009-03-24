@@ -235,7 +235,7 @@ class TestCallLocalWebservice
 
         //TEST 11 : Subscribe User
 
-        $course = array (
+        /*$course = array (
             'user_id' => 'Soliber', //expect name
             'tutor_id' => '1',
             'status' => '1',
@@ -250,7 +250,26 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesCourse.subscribe_user',
 				'parameters' => $course,
 		  		'handler' => 'handle_webservice'
-			);
+			);*/
+
+        //TEST 12 : Unsubscribe User
+
+        /*$course = array (
+            'user_id' => 'Soliber', //expect name
+            'tutor_id' => '1',
+            'status' => '1',
+            'course_group_id' => '0',
+            'course_code' => 'H1', //the name is course_code, because we expect a course_user_rel, but the the value is visual_code
+            'hash' => '550859312670dd7996153002d046737f08ba2c9f' //hash 3 needed for credential
+            );
+
+          $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		  $functions = array();
+		  $functions[] = array(
+				'name' => 'WebServicesCourse.unsubscribe_user',
+				'parameters' => $course,
+		  		'handler' => 'handle_webservice'
+			);*/
 
 	
 		$this->webservice->call_webservice($wsdl, $functions);
