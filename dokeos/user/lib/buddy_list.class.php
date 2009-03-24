@@ -35,6 +35,7 @@ class BuddyList
 	{
 		$categories = $this->retrieve_buddy_list_categories();
 		$buddies = $this->retrieve_buddies();
+		$requests = $this->retrieve_requests();
 		
 		$html = array();
 		$html[] = $this->display_buddy_list_header();
@@ -49,12 +50,21 @@ class BuddyList
 		$category->set_title(Translation :: get('OtherBuddies'));
 		$category->set_user_id($this->user->get_id());
 		
-		$html[] = $this->display_buddy_list_category($category, $buddies[$category->get_id()]);
+		$html[] = $this->display_buddy_list_category($category, $buddies[$category->get_id()], false, true);
+		
+		$category = new BuddyListCategory();
+		$category->set_title(Translation :: get('Requests'));
+		$html[] = $this->display_buddy_list_category($category, $requests, true);
+		
 		$html[] = $this->display_buddy_list_footer();
 		
 		return implode("\n", $html);
 	}
 	
+	/**
+	 * Displays the header of the buddy list
+	 * @return html code
+	 */
 	function display_buddy_list_header()
 	{
 		$html = array();
@@ -72,9 +82,12 @@ class BuddyList
 		return implode("\n", $html);
 	}
 	
-	function display_buddy_list_category($category, $buddies)
+	/**
+	 * Displays a category of the buddylist
+	 * @return html code
+	 */
+	function display_buddy_list_category($category, $buddies, $is_request = false, $is_normal = false)
 	{
-		$udm = UserDataManager :: get_instance();
 		$html = array();
 		
 		$html[] = '<li class="category_list_item"><img class="category_toggle" src="' . Theme :: get_common_image_path() . 'treemenu/bullet_toggle_minus.png" />';
@@ -82,55 +95,33 @@ class BuddyList
 		$html[] = '<span class="title">' . $category->get_title() . '</span></div>';
 		
 		$html[] = '<div class="buddy_list_item_actions" style="position: relative;">';
-		$toolbar_data = array();
-
-		$toolbar_data[] = array(
-			'href' => $this->parent->get_url(),
-			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_image_path().'action_edit.png',
-		);
 		
-		$toolbar_data[] = array(
-			'href' => $this->parent->get_url(),
-			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_image_path().'action_delete.png',
-			'confirm' => true
-		);
-		
-		$html[] = DokeosUtilities :: build_toolbar($toolbar_data);
-		$html[] = '</div><div class="clear">&nbsp;</div>';
-		
-		$html[] = '<ul class="buddy_list">';
-				
-		foreach($buddies as $buddy)
-		{
-			$user = $udm->retrieve_user($buddy->get_buddy_id());
-			$html[] = '<li class="buddy_list_item"><img class="category_toggle" src="' . Theme :: get_common_image_path() . 'treemenu/user.png" />';
-			$html[] = '<div class="buddy_list_item_text">' . $user->get_fullname() .'<span class="info">';
-			
-			switch($buddy->get_status())
-			{
-				case 1: $html[] = '(' . Translation :: get('Requested') . ')'; break;
-				case 2: $html[] = '(' . Translation :: get('Rejected') . ')'; break;
-			}
-			
-			$html[] = '</span></div>';
-			
-			$html[] = '<div class="buddy_list_item_actions">';
+		if(!$is_request && !$is_normal)
+		{	
 			$toolbar_data = array();
-
+	
 			$toolbar_data[] = array(
-				'href' => $this->parent->get_url(),
-				'label' => Translation :: get('DeleteUser'),
-				'img' => Theme :: get_common_image_path().'action_unsubscribe.png',
+				'href' => $this->parent->get_update_buddylist_category_url($category->get_id()),
+				'label' => Translation :: get('Delete'),
+				'img' => Theme :: get_common_image_path().'action_edit.png',
+			);
+			
+			$toolbar_data[] = array(
+				'href' => $this->parent->get_delete_buddylist_category_url($category->get_id()),
+				'label' => Translation :: get('Delete'),
+				'img' => Theme :: get_common_image_path().'action_delete.png',
 				'confirm' => true
 			);
 			
 			$html[] = DokeosUtilities :: build_toolbar($toolbar_data);
-			$html[] = '</div>';
-			
-			$html[] = '<div class="clear">&nbsp;</div>';
-			$html[] = '</li>';
+		}
+		
+		$html[] = '</div>';
+		$html[] = '<div class="clear">&nbsp;</div><ul class="buddy_list">';
+				
+		foreach($buddies as $buddy)
+		{
+			$html[] = $this->display_buddy($buddy, $is_request);
 		}
 		
 		$html[] = '</ul></li>';
@@ -138,6 +129,72 @@ class BuddyList
 		return implode("\n", $html);
 	}
 	
+	/**
+	 * Displays a single buddy
+	 * @return html code
+	 */
+	function display_buddy($buddy, $is_request = false)
+	{
+		$html = array();
+		
+		$udm = UserDataManager :: get_instance();
+		$user = $udm->retrieve_user($buddy->get_buddy_id());
+		$html[] = '<li class="buddy_list_item"><img class="category_toggle" src="' . Theme :: get_common_image_path() . 'treemenu/user.png" />';
+		$html[] = '<div class="buddy_list_item_text">' . $user->get_fullname() .'<span class="info">';
+		
+		if(!$is_request)
+		{
+			switch($buddy->get_status())
+			{
+				case BuddyListItem :: STATUS_REQUESTED: $html[] = '(' . Translation :: get('Requested') . ')'; break;
+				case BuddyListItem :: STATUS_REJECTED: $html[] = '(' . Translation :: get('Rejected') . ')'; break;
+			}
+		}
+		
+		$html[] = '</span></div>';
+		
+		$html[] = '<div class="buddy_list_item_actions">';
+		$toolbar_data = array();
+
+		if(!$is_request)
+		{
+			$toolbar_data[] = array(
+				'href' => $this->parent->get_delete_buddylist_item_url($buddy->get_buddy_id()),
+				'label' => Translation :: get('DeleteUser'),
+				'img' => Theme :: get_common_image_path().'action_unsubscribe.png',
+				'confirm' => true
+			);
+		}
+		else
+		{
+			$toolbar_data[] = array(
+				'href' => $this->parent->get_change_buddylist_item_status_url($buddy->get_user_id(), BuddyListItem :: STATUS_NORMAL),
+				'label' => Translation :: get('Accept'),
+				'img' => Theme :: get_common_image_path().'action_setting_true.png',
+				'confirm' => true
+			);
+			
+			$toolbar_data[] = array(
+				'href' => $this->parent->get_change_buddylist_item_status_url($buddy->get_user_id(), BuddyListItem :: STATUS_REJECTED),
+				'label' => Translation :: get('Reject'),
+				'img' => Theme :: get_common_image_path().'action_setting_false.png',
+				'confirm' => true
+			);
+		}
+		
+		$html[] = DokeosUtilities :: build_toolbar($toolbar_data);
+		$html[] = '</div>';
+		
+		$html[] = '<div class="clear">&nbsp;</div>';
+		$html[] = '</li>';
+		
+		return implode("\n", $html);
+	}
+	
+	/**
+	 * Displays the footer of the buddy list
+	 * @return html code
+	 */
 	function display_buddy_list_footer()
 	{
 		$html = array();
@@ -149,13 +206,13 @@ class BuddyList
 		$toolbar_data = array();
 
 		$toolbar_data[] = array(
-			'href' => $this->parent->get_url(),
+			'href' => $this->parent->get_create_buddylist_category_url(),
 			'label' => Translation :: get('AddCategory'),
 			'img' => Theme :: get_common_image_path().'action_add.png'
 		);
 		
 		$toolbar_data[] = array(
-			'href' => $this->parent->get_url(),
+			'href' => $this->parent->get_create_buddylist_item_url(),
 			'label' => Translation :: get('AddUser'),
 			'img' => Theme :: get_common_image_path().'action_subscribe.png'
 		);
@@ -177,7 +234,7 @@ class BuddyList
 	{
 		$condition = new EqualityCondition(BuddyListCategory :: PROPERTY_USER_ID, $this->user->get_id());
 		$udm = UserDataManager :: get_instance();
-		return $udm->retrieve_buddy_list_categories($condition);
+		return $udm->retrieve_buddy_list_categories($condition, null, null, array(BuddyListCategory :: PROPERTY_TITLE), array(SORT_ASC));
 	}
 	
 	/**
@@ -196,6 +253,27 @@ class BuddyList
 		}
 		
 		return $buddies;
+	}
+	
+	/**
+	 * Retrieves the requests from other buddies
+	 * @return Resultset of requests
+	 */
+	function retrieve_requests()
+	{
+		$conditions[] = new EqualityCondition(BuddyListItem :: PROPERTY_BUDDY_ID, $this->user->get_id());
+		$conditions[] = new EqualityCondition(BuddyListItem :: PROPERTY_STATUS, BuddyListItem :: STATUS_REQUESTED);
+		$condition = new AndCondition($conditions);
+		
+		$udm = UserDataManager :: get_instance();
+		$items = $udm->retrieve_buddy_list_items($condition);
+											   
+		while($item = $items->next_result())
+		{
+			$requests[] = $item;
+		}
+		
+		return $requests;
 	}
 }
 

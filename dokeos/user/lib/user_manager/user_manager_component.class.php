@@ -290,7 +290,7 @@ abstract class UserManagerComponent {
 	 */
 	static function factory($type, $user_manager)
 	{
-		$filename = dirname(__FILE__).'/component/'.strtolower($type).'.class.php';
+		$filename = dirname(__FILE__).'/component/'.DokeosUtilities :: camelcase_to_underscores($type).'.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
 			die('Failed to load "'.$type.'" component');
@@ -298,6 +298,36 @@ abstract class UserManagerComponent {
 		$class = 'UserManager'.$type.'Component';
 		require_once $filename;
 		return new $class($user_manager);
+	}
+	
+	function get_create_buddylist_category_url()
+	{
+		return $this->get_parent()->get_create_buddylist_category_url();
+	}
+	
+ 	function get_delete_buddylist_category_url($category_id)
+	{
+		return $this->get_parent()->get_delete_buddylist_category_url($category_id);
+	}
+	
+ 	function get_update_buddylist_category_url($category_id)
+	{
+		return $this->get_parent()->get_update_buddylist_category_url($category_id);
+	}
+	
+ 	function get_create_buddylist_item_url()
+	{
+		return $this->get_parent()->get_create_buddylist_item_url();
+	}
+	
+ 	function get_delete_buddylist_item_url($item_id)
+	{
+		return $this->get_parent()->get_delete_buddylist_item_url($item_id);
+	}
+	
+ 	function get_change_buddylist_item_status_url($item_id, $status)
+	{
+		return $this->get_parent()->get_change_buddylist_item_status_url($item_id, $status);
 	}
 }
 ?>

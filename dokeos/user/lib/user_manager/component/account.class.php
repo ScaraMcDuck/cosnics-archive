@@ -6,7 +6,6 @@ require_once dirname(__FILE__).'/../user_manager.class.php';
 require_once dirname(__FILE__).'/../user_manager_component.class.php';
 require_once dirname(__FILE__).'/../../forms/account_form.class.php';
 require_once dirname(__FILE__).'/../../user_data_manager.class.php';
-require_once dirname(__FILE__).'/../../buddy_list.class.php';
 
 class UserManagerAccountComponent extends UserManagerComponent
 {
@@ -34,12 +33,6 @@ class UserManagerAccountComponent extends UserManagerComponent
 		{
 			$this->display_header($trail);
 			$form->display();
-			//echo '<div class="clear">&nbsp;</div><br /><h3>' . Translation :: get('BuddyList') . '</h3>';
-			echo "<br />";
-			
-			$buddylist = new BuddyList($user, $this);
-			echo $buddylist->to_html();
-			
 			$this->display_footer();
 		}
 	}

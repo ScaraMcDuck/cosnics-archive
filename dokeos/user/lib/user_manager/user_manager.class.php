@@ -39,6 +39,17 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	const ACTION_RESET_PASSWORD = 'reset_password';
 	const ACTION_CHANGE_USER = 'change_user';
 	const ACTION_MANAGE_ROLES = 'manage_user_roles';
+	
+	const ACTION_VIEW_BUDDYLIST = 'buddy_view';
+	const ACTION_CREATE_BUDDYLIST_CATEGORY = 'buddy_create_category';
+	const ACTION_DELETE_BUDDYLIST_CATEGORY = 'buddy_delete_category';
+	const ACTION_UPDATE_BUDDYLIST_CATEGORY = 'buddy_update_category';
+	const ACTION_CREATE_BUDDYLIST_ITEM = 'buddy_create_item';
+	const ACTION_DELETE_BUDDYLIST_ITEM = 'buddy_delete_item';
+	const ACTION_CHANGE_BUDDYLIST_ITEM_STATUS = 'buddy_status_change';
+	
+	const PARAM_BUDDYLIST_CATEGORY = 'buddylist_category';
+	const PARAM_BUDDYLIST_ITEM = 'buddylist_item';
 
 	private $parameters;
 	private $search_parameters;
@@ -176,6 +187,27 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 				break;
 			case self :: ACTION_MANAGE_ROLES :
 				$component = UserManagerComponent :: factory('UserRoleManager', $this);
+				break;
+			case self :: ACTION_VIEW_BUDDYLIST :
+				$component = UserManagerComponent :: factory('BuddyListViewer', $this);
+				break;
+			case self :: ACTION_CREATE_BUDDYLIST_CATEGORY :
+				$component = UserManagerComponent :: factory('BuddyListCategoryCreator', $this);
+				break;
+			case self :: ACTION_DELETE_BUDDYLIST_CATEGORY :
+				$component = UserManagerComponent :: factory('BuddyListCategoryDeleter', $this);
+				break;
+			case self :: ACTION_UPDATE_BUDDYLIST_CATEGORY :
+				$component = UserManagerComponent :: factory('BuddyListCategoryEditor', $this);
+				break;
+			case self :: ACTION_CREATE_BUDDYLIST_ITEM :	
+				$component = UserManagerComponent :: factory('BuddyListItemCreator', $this);
+				break;
+			case self :: ACTION_DELETE_BUDDYLIST_ITEM :
+				$component = UserManagerComponent :: factory('BuddyListItemDeleter', $this);
+				break;
+			case self :: ACTION_CHANGE_BUDDYLIST_ITEM_STATUS :
+				$component = UserManagerComponent :: factory('BuddyListItemStatusChanger', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_USERS);
@@ -598,5 +630,40 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	{
 		return PlatformSetting :: get($variable, $application = self :: APPLICATION_NAME);
 	}	
+	
+	function get_create_buddylist_category_url()
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_BUDDYLIST_CATEGORY));
+	}
+	
+ 	function get_delete_buddylist_category_url($category_id)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_BUDDYLIST_CATEGORY,
+									 self :: PARAM_BUDDYLIST_CATEGORY => $category_id));
+	}
+	
+ 	function get_update_buddylist_category_url($category_id)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_BUDDYLIST_CATEGORY,
+									 self :: PARAM_BUDDYLIST_CATEGORY => $category_id));
+	}
+	
+ 	function get_create_buddylist_item_url()
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_BUDDYLIST_ITEM));
+	}
+	
+ 	function get_delete_buddylist_item_url($item_id)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_BUDDYLIST_ITEM,
+									 self :: PARAM_BUDDYLIST_ITEM => $item_id));
+	}
+	
+ 	function get_change_buddylist_item_status_url($item_id, $status)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CHANGE_BUDDYLIST_ITEM_STATUS,
+									 self :: PARAM_BUDDYLIST_ITEM => $item_id, 'status' => $status));
+	}
+	
 }
 ?>
