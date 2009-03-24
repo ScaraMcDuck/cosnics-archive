@@ -128,7 +128,7 @@ class CourseValidator extends Validator
         return true;
     }
 
-    function validate_subscribe_or_unsubscribe_user(&$input_course_rel_user)
+    function validate_subscribe_user(&$input_course_rel_user)
     {
         
         if(!$this->validate_properties($input_course_rel_user,$this->get_required_course_rel_user_property_names()))
@@ -152,8 +152,35 @@ class CourseValidator extends Validator
         else
         $input_course_rel_user[course_code] = $var2;
         
+        return $this->validate_subscribe($input_course_rel_user[course_code]);
+    }
 
-        return true;
+    function validate_unsubscribe_user(&$input_course_rel_user)
+    {
+
+        if(!$this->validate_properties($input_course_rel_user,$this->get_required_course_rel_user_property_names()))
+        return false;
+
+        if(!$this->validate_property_names($input_course_rel_user, CourseUserRelation ::get_default_property_names()))
+        return false;
+
+        if($this->wdm->count_courses(new EqualityCondition(Course ::PROPERTY_VISUAL, $input_course_rel_user[course_code]))==0)
+        return false;
+
+        $var = $this->get_person_id($input_course_rel_user[user_id]);
+        if($var == false)
+        return false;
+        else
+        $input_course_rel_user[user_id] = $var;
+
+        $var2 = $this->get_course_id($input_course_rel_user[course_code]);
+        if($var2 == false)
+        return false;
+        else
+        $input_course_rel_user[course_code] = $var2;
+        
+        return $this->validate_unsubscribe($input_course_rel_user[course_code]);
+       
     }
 
     function validate_subscribe_or_unsubscribe_group(&$input_course_group)
@@ -178,23 +205,62 @@ class CourseValidator extends Validator
 
     private function get_course_id($visual_code)
     {
-        $course = $this->wdm->retrieve_course_by_visual_code($visual_code);
-        $subscribe = $course->get_default_property('subscribe');
-        if($subscribe == 1) //allowed to subscribe
+        $course = $this->wdm->retrieve_course_by_visual_code($visual_code);        
+        if(isset($course) && count($course->get_default_properties())>0)
         {
-            if(isset($course) && count($course->get_default_properties())>0)
-            {
+           return $course->get_default_property('id');
+        }
+        else
+        {
+            return false;
+        }
+    }
 
-               return $course->get_default_property('id');
+    private function validate_subscribe($course_code)
+    {
+        $course = $this->wdm->retrieve_course($course_code);        
+        if(isset($course) && count($course->get_default_properties())>0)
+        {            
+            $subscribe = $course->get_default_property('subscribe');
+            if($subscribe == 1 ) //allowed to subscribe
+            {
+                //echo 'hier geraaktemwel zenne';
+                return true;
             }
             else
             {
+                //echo 'Not allowed to subscribe';
                 return false;
             }
         }
         else
         {
-            echo 'Not allowed to subscribe';
+            //echo 'No course for this code';
+            return false;
+        }       
+        
+    }
+
+    private function validate_unsubscribe($course_code)
+    {        
+        $course = $this->wdm->retrieve_course($course_code);        
+        if(isset($course) && count($course->get_default_properties())>0)
+        {
+            $unsubscribe = $course->get_default_property('unsubscribe');
+            if($unsubscribe == 1 ) //allowed to unsubscribe
+            {
+               
+                return true;
+            }
+            else
+            {
+                //echo 'Not allowed to unsubscribe';
+                return false;
+            }
+        }
+        else
+        {
+            //echo 'No course for this code';
             return false;
         }
         
