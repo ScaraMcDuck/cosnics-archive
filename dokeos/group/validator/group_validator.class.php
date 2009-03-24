@@ -111,7 +111,7 @@ class GroupValidator extends Validator
         if(!$this->validate_properties($input_group_rel_user,$this->get_required_group_rel_user_property_names()))
         return false;
 
-        if(!$this->validate_property_names($input_group_rel_user, GroupRelUser :: get_default_property_names))
+        if(!$this->validate_property_names($input_group_rel_user, GroupRelUser :: get_default_property_names()))
         return false;
         
         $var = $this->get_person_id($input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID]);
