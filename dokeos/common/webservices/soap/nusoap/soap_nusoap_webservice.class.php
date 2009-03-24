@@ -1,7 +1,6 @@
 <?php
 require_once Path :: get_library_path() . 'webservices/webservice.class.php';
 require_once Path :: get_plugin_path() . 'nusoap/nusoap.php';
-require_once Path :: get_webservice_path() . '/security/webservice_security_manager.class.php';
 require_once Path :: get_webservice_path() .'lib/webservice_data_manager.class.php';
 
 class SoapNusoapWebservice extends Webservice

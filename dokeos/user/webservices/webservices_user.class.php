@@ -4,7 +4,6 @@ require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php
 require_once dirname(__FILE__) . '/provider/input_user.class.php';
 require_once dirname(__FILE__) . '/../lib/data_manager/database.class.php';
 require_once dirname(__FILE__) . '/../lib/user.class.php';
-require_once Path :: get_webservice_path() . '/security/webservice_security_manager.class.php';
 require_once Path :: get_library_path() . 'validator/validator.class.php';
 
 $handler = new WebServicesUser();
@@ -64,7 +63,7 @@ class WebServicesUser
             if($this->validator->validate_retrieve($input_user)) //input validation
             {
                 $user = $udm->retrieve_user_by_username($input_user[username]);
-                if(isset($user) && count($user->get_default_properties())>0)
+                if(!empty($user))
                 {
                     return $user->get_default_properties();
                 }
@@ -93,18 +92,11 @@ class WebServicesUser
             $udm = DatabaseUserDataManager :: get_instance();
             $users = $udm->retrieve_users();
             $users = $users->as_array();
-            if(!count($users)==0)
+            foreach($users as &$user)
             {
-                foreach($users as &$user)
-                {
-                    $user = $user->get_default_properties();
-                }
-                return $users;
+                $user = $user->get_default_properties();
             }
-            else
-            {
-                return $this->webservice->raise_error('Hash authentication failed.');
-            }
+            return $users;
         }
         else
         {

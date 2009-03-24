@@ -4,8 +4,6 @@ require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php
 require_once dirname(__FILE__) . '/provider/input_group.class.php';
 require_once dirname(__FILE__) . '/../lib/group.class.php';
 require_once dirname(__FILE__) . '/../lib/data_manager/database.class.php';
-require_once Path :: get_webservice_path() . '/security/webservice_security_manager.class.php';
-require_once dirname(__FILE__) . '/../../common/webservices/action_success.class.php';
 require_once Path :: get_library_path() . 'validator/validator.class.php';
 
 
@@ -21,7 +19,6 @@ class WebServicesGroup
 	function WebServicesGroup()
 	{
 		$this->webservice = Webservice :: factory($this);
-        $this->wsm = WebserviceSecurityManager :: get_instance($this);
         $this->validator = Validator :: get_validator('group');
 	}
 	
