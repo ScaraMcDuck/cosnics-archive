@@ -33,22 +33,14 @@ class LoginWebservice
 	
 	function login($user)
 	{
-        if(is_array($user))
-		{			
-            $hash =  $this->webservice->validate_login($user[username],$user[password]); //hash 3
-			if(!empty($hash))
-			{				
-                return array('hash' => $hash);
-			}
-			else
-			{
-				return $this->webservice->raise_error($this->webservice->get_message());
-			}
+        $hash =  $this->webservice->validate_login($user[username],$user[password]); //hash 3
+		if(!empty($hash))
+		{				
+            return array('hash' => $hash);
 		}
 		else
 		{
-			return $this->webservice->raise_error($this->webservice->get_message());
+            return $this->webservice->raise_error($this->webservice->get_message());
 		}
-			
 	}
 }
