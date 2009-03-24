@@ -10,8 +10,7 @@ abstract class Webservice
 {
     private $message;
     private $credential;
-    private $dbhash;
-
+    
 	public static function factory($webservice_handler, $protocol = 'Soap', $implementation = 'Nusoap')
 	{
 		$file_protocol = DokeosUtilities :: camelcase_to_underscores($protocol);
@@ -35,12 +34,7 @@ abstract class Webservice
 	
 	abstract function raise_message($message);    
 
-    function create_hash($ip, $hash)
-	{
-		return $this->dbhash = Hashing :: hash($ip.$hash); //hash 2
-	}
-
-	function validate_function($hash3) //hash 3
+    function validate_function($hash3) //hash 3
 	{
 		$wdm = WebserviceDataManager :: get_instance();
 		$wdm->delete_expired_webservice_credentials();
@@ -65,13 +59,13 @@ abstract class Webservice
 		}
 	}
 
-	function set_end_time($time)
+	function get_end_time()
 	{
-		return $endTime = $time + (10*60);  //timeframe 10 mins
+		return (time() + (10*60));  //timeframe 10 mins
 		
 	}
 
-	function set_create_time($time)
+	function get_create_time($time)
 	{
 		return date("l, F d, Y h:i" ,$time);
 	}
@@ -86,8 +80,7 @@ abstract class Webservice
 		}
 		else
 		{
-			$restTime = $endTime - time();
-			$this->message = 'You have ' . $endTime . ' time left.';
+			$this->message = 'You have ' . ($endTime - time()) . ' time left.';
             $this->raise_message($this->message);
             return false;
 		}
@@ -99,19 +92,14 @@ abstract class Webservice
 		$user = $udm->retrieve_user_by_username($username);		
 		if(isset($user))
 		{            
-            $hash = Hashing :: hash($_SERVER['REMOTE_ADDR'].$user->get_password()); //hash 1            
-            
-			if(strcmp($hash, $input_hash)==0) //loginservice validate succesful, credential needed to validate the other webservices
+            $hash = Hashing :: hash($_SERVER['REMOTE_ADDR'].$user->get_password()); //hash 1
+            if(strcmp($hash, $input_hash)==0) //loginservice validate succesful, credential needed to validate the other webservices
 			{
-				$this->credential = new WebserviceCredential(
-				array('user_id' => $user->get_id(), 'hash' =>$this->create_hash($_SERVER['REMOTE_ADDR'], $hash), 'time_created' =>time(), 'end_time'=>$this->set_end_time(time()), 'ip' =>$_SERVER['REMOTE_ADDR'])
+                $this->credential = new WebserviceCredential(
+                    array('user_id' => $user->get_id(), 'hash' => Hashing ::hash($_SERVER['REMOTE_ADDR'].$hash), 'time_created' =>time(), 'end_time'=>$this->get_end_time(), 'ip' =>$_SERVER['REMOTE_ADDR'])
 				);
-				$this->credential->create(); //create credential with hash 2
-                $array = $this->credential->get_default_properties();
-                $hash2 = $array['hash'];
-                $hash3 = Hashing ::hash($_SERVER['REMOTE_ADDR'].$hash2); //hash 3 based on hash 2
-                return $hash3;  //returns hash 3
-                
+                $this->credential->create(); //create credential with hash 2
+                return Hashing ::hash($_SERVER['REMOTE_ADDR'].$this->credential->get_default_property('hash')); //hash 3 based on hash 2, which resides in the credential object (as seen 2 lines above)
 			}
 			else
 			{
@@ -131,7 +119,7 @@ abstract class Webservice
     public function check_rights($webservicename,$userid)
     {
         $wm = new WebserviceManager();
-        $webservice = $wm->retrieve_webservice_by_name($webservicename); 
+        $webservice = $wm->retrieve_webservice_by_name($webservicename);
         if(isset($webservice))
         {            
             $ru = new RightsUtilities();
@@ -160,22 +148,10 @@ abstract class Webservice
     public function can_execute($input_user, $webservicename)
     {   
         $userid = $this->validate_function($input_user[hash]);        
-        if(isset($userid))
-        {
-            if($this->check_rights($webservicename,$userid))
-            {                
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        if(isset($userid) && $this->check_rights($webservicename,$userid))
+        return true;
         else
-        {
-            return false;
-        }
-        
+        return false;        
     }
 
     public function get_message()

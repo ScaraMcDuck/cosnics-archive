@@ -4,7 +4,7 @@
 		<webservice name="update group" />
 		<webservice name="delete group" />
 		<webservice name="create group" />
-		<webservice name="subscribe users" />
-		<webservice name="unsubscribe users" />
+		<webservice name="subscribe user" />
+		<webservice name="unsubscribe user" />
 	</category>			
 </xml>
