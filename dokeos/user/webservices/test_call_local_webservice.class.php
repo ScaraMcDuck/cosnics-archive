@@ -54,17 +54,17 @@ class TestCallLocalWebservice
 		}*/
 
         //TEST 4 : Login Webservice
-		/*$wsdl = 'http://localhost/user/webservices/login_webservice.class.php?wsdl';
+		$wsdl = 'http://localhost/user/webservices/login_webservice.class.php?wsdl';
 		$functions = array();
 
 		{
 			$functions[] = array(
 				'name' => 'LoginWebservice.login',
-				'parameters' => array('username'=>'Soliber','password'=>'58350136959beae3f874cd512ebcf320a7afa507'), //password is actually hash 1
+				'parameters' => array('username'=>'Jefke','password'=>'c14d68b0ef49d97929c36f7725842b5adbf5f006'), //password is actually hash 1
 				'handler' => 'handle_webservice'
 			);
-		}*/
-
+		}
+        
         //TEST 5 :  Create User
 
         /*$user = array (
@@ -89,7 +89,7 @@ class TestCallLocalWebservice
 		  'expiration_date' => '0',
 		  'registration_date' => '1234774883',
 		  'active' => '1',
-          'hash' => '550859312670dd7996153002d046737f08ba2c9f' //hash 3 needed for credential
+          'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f' //hash 3 needed for credential
 		);
 
         $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
@@ -235,7 +235,8 @@ class TestCallLocalWebservice
 
         //TEST 11 : Subscribe User
 
-        /*$course = array (
+       /*$course = array (
+
             'user_id' => 'Soliber', //expect name
             'tutor_id' => '1',
             'status' => '1',

@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', 7200);
 $time_start = microtime(true);
 
-$file = dirname(__FILE__) . '/group_unsubscribe.csv';
+$file = dirname(__FILE__) . '/group_subscribe.csv';
 $groups = parse_csv($file);
 $location = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');

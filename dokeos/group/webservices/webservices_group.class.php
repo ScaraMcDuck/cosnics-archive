@@ -74,7 +74,7 @@ class WebServicesGroup
             if($this->validator->validate_retrieve($input_group))
             {
                 $group = $gdm->retrieve_group_by_name($input_group[name]);
-                if(count($group->get_default_properties())>0)
+                if(!empty($group))
                 {
                     return $group->get_default_properties();
                 }
