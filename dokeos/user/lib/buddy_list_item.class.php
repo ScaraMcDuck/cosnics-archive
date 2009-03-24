@@ -14,6 +14,10 @@ class BuddyListItem
 	const PROPERTY_BUDDY_ID = 'buddy_id';
 	const PROPERTY_CATEGORY_ID = 'category_id';
 	const PROPERTY_STATUS = 'status';
+	
+	const STATUS_NORMAL = 0;
+	const STATUS_REQUESTED = 1;
+	const STATUS_REJECTED = 2;
 
 	/**
 	 * Default properties of the userrole object, stored in an associative
@@ -122,13 +126,13 @@ class BuddyListItem
 	
 	function create()
 	{
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		return $udm->create_buddy_list_item($this);
 	}
 	
 	function update() 
 	{
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		return $udm->update_buddy_list_item($this);	
 	}
 	

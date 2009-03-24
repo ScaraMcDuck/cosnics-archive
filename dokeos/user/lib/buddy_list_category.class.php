@@ -111,13 +111,14 @@ class BuddyListCategory
 	
 	function create()
 	{
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
+		$this->set_id($udm->get_next_buddy_list_category_id());
 		return $udm->create_buddy_list_category($this);
 	}
 	
 	function update() 
 	{
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		return $udm->update_buddy_list_category($this);	
 	}
 	
