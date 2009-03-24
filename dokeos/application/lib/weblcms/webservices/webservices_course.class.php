@@ -5,7 +5,6 @@ require_once dirname(__FILE__) . '/provider/input_course.class.php';
 require_once dirname(__FILE__) . '/../data_manager/database.class.php';
 require_once dirname(__FILE__) . '/../course/course.class.php';
 require_once dirname(__FILE__) . '/../course/course_user_relation.class.php';
-require_once dirname(__FILE__) . '/../../../../common/webservices/action_success.class.php';
 require_once dirname(__FILE__) . '/../../../../common/webservices/input_user.class.php';
 require_once dirname(__FILE__) . '/../../../../user/lib/data_manager/database.class.php';
 require_once dirname(__FILE__) . '/../data_manager/database.class.php';

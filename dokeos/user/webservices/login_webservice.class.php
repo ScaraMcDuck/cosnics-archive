@@ -24,8 +24,7 @@ class LoginWebservice
 		
 		$functions['login'] = array(
 			'input' => new User(),
-			'output' => new WebserviceCredential(),
-			'require_hash' => false
+			'output' => new WebserviceCredential()
 		);
 		
 		$this->webservice->provide_webservice($functions); 
