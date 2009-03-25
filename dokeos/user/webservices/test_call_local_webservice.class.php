@@ -79,7 +79,7 @@ class TestCallLocalWebservice
 		  'phone' => NULL,
 		  'official_code' => 'ADMIN',
 		  'picture_uri' => NULL,
-		  'creator_id' => 'Soliber',
+		  'creator_id' => 'admin',
 		  'language' => 'english',
 		  'disk_quota' => '209715200',
 		  'database_quota' => '300',
