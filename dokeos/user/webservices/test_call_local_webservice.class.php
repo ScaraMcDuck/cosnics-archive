@@ -54,7 +54,7 @@ class TestCallLocalWebservice
 		}*/
         
         //TEST 4 : Login Webservice
-		/*$wsdl = 'http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl';
+		$wsdl = 'http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl';
 		$functions = array();
 
 		{
@@ -63,9 +63,9 @@ class TestCallLocalWebservice
 				'parameters' => array('username'=>'admin','password'=>'772d9ed50e3b34cbe3f9e36b77337c6b2f4e0cfa'), //password is actually hash 1
 				'handler' => 'handle_webservice'
 			);
-		}*/
+		}
         
-        //TEST 5 :  Create User
+        /*//TEST 5 :  Create User
 
         $user = array (
 		  'lastname' => 'Joske',
@@ -98,7 +98,7 @@ class TestCallLocalWebservice
             'name' => 'WebServicesUser.create_user',
             'parameters' => $user,
             'handler' => 'handle_webservice'
-        );
+        );*/
 
        //TEST 6 :: Update User
 
