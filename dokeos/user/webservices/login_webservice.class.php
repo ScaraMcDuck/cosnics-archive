@@ -31,8 +31,8 @@ class LoginWebservice
 	}	
 	
 	function login($user)
-	{
-        $hash =  $this->webservice->validate_login($user[username],$user[password]); //hash 3
+	{ 
+        $hash =  $this->webservice->validate_login($user[username],$user[password]);
 		if(!empty($hash))
 		{				
             return array('hash' => $hash);
