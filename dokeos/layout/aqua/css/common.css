@@ -2361,7 +2361,7 @@ div.padding_10
 	line-height: 16px;
 	padding-left: 3px;
 }
-span.dropOver
+.dropOver
 {
 	background-color: #00c;
 	color: #fff;
@@ -2833,14 +2833,19 @@ div.element_finder_buttons
  	list-style: none;
  }
  
- div.buddylist li.category_list_item img.category_toggle, 
- div.buddylist li.category_list_item img.item_toggle 
+ div.buddylist li.category_list_item_static
+ {
+ 	list-style: none;
+ }
+ 
+ div.buddylist img.category_toggle, 
+ div.buddylist img.item_toggle 
  {
  	float: left;
  	padding-right: 5px;
  }
  
- div.buddylist li.category_list_item span.title
+ div.buddylist span.title
  {
  	font-weight: bold;
  	position: relative;
@@ -2861,6 +2866,11 @@ div.element_finder_buttons
  	list-style: none;
  }
  
+ div.buddylist li.buddy_list_item_static
+ {
+ 	list-style: none;
+ }
+ 
  div.buddylist div.buddy_list_item_text
  {
  	float: left;
@@ -2871,7 +2881,12 @@ div.element_finder_buttons
  	float: right;
  }
  
- div.buddylist li.buddy_list_item span.info
+ div.buddylist span.info
  {
  	font-weight: bold;
+ }
+ 
+ li.buddyDrop
+ {
+ 	background-color: #4171B5;
  }

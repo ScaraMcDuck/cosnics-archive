@@ -47,6 +47,7 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	const ACTION_CREATE_BUDDYLIST_ITEM = 'buddy_create_item';
 	const ACTION_DELETE_BUDDYLIST_ITEM = 'buddy_delete_item';
 	const ACTION_CHANGE_BUDDYLIST_ITEM_STATUS = 'buddy_status_change';
+	const ACTION_CHANGE_BUDDYLIST_ITEM_CATEGORY = 'buddy_category_change';
 	
 	const PARAM_BUDDYLIST_CATEGORY = 'buddylist_category';
 	const PARAM_BUDDYLIST_ITEM = 'buddylist_item';
@@ -208,6 +209,9 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 				break;
 			case self :: ACTION_CHANGE_BUDDYLIST_ITEM_STATUS :
 				$component = UserManagerComponent :: factory('BuddyListItemStatusChanger', $this);
+				break;
+			case self :: ACTION_CHANGE_BUDDYLIST_ITEM_CATEGORY :
+				$component = UserManagerComponent :: factory('BuddyListItemCategoryChanger', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_USERS);

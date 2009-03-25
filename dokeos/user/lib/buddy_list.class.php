@@ -90,7 +90,9 @@ class BuddyList
 	{
 		$html = array();
 		
-		$html[] = '<li class="category_list_item"><img class="category_toggle" src="' . Theme :: get_common_image_path() . 'treemenu/bullet_toggle_minus.png" />';
+		$class = $is_request ? 'category_list_item_static' : 'category_list_item';
+		
+		$html[] = '<li id="' . $category->get_id() . '" class="' . $class . '"><img class="category_toggle" src="' . Theme :: get_common_image_path() . 'treemenu/bullet_toggle_minus.png" />';
 		$html[] = '<div class="buddy_list_item_text">';
 		$html[] = '<span class="title">' . $category->get_title() . '</span></div>';
 		
@@ -139,7 +141,10 @@ class BuddyList
 		
 		$udm = UserDataManager :: get_instance();
 		$user = $udm->retrieve_user($buddy->get_buddy_id());
-		$html[] = '<li class="buddy_list_item"><img class="category_toggle" src="' . Theme :: get_common_image_path() . 'treemenu/user.png" />';
+		
+		$class = $is_request ? 'buddy_list_item_static' : 'buddy_list_item';
+		
+		$html[] = '<li id="' . $buddy->get_buddy_id() . '" class="' . $class . '"><img class="category_toggle" src="' . Theme :: get_common_image_path() . 'treemenu/user.png" />';
 		$html[] = '<div class="buddy_list_item_text">' . $user->get_fullname() .'<span class="info">';
 		
 		if(!$is_request)
