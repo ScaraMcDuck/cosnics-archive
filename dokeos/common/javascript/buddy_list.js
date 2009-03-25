@@ -15,18 +15,28 @@
 	
 		$(this).attr('src', current);
 		
-		$(".buddy_list", $(this).parent()).toggle();
+		$('.buddy_list', $(this).parent()).toggle();
 	}
 	
 	var buddy_dropped = function(event, ui)
 	{
 		var old_parent = ui.draggable.parent();
 		
-		$(".buddy_list", $(this)).append(ui.draggable);
-		var buddy = ui.draggable.attr("id");
-		var new_category = $(this).attr("id");
+		$('.buddy_list', $(this)).append(ui.draggable);
+		var buddy = ui.draggable.attr('id');
+		var new_category = $(this).attr('id');
 		
-		$.post("index_user.php?go=buddy_category_change",
+		var children = $('.buddy_list', old_parent.parent()).children();
+		if(children.size() == 0)
+		{
+			$('.category_toggle', old_parent.parent()).css('visibility', 'hidden');
+		}
+	
+		$('.category_toggle', $(this)).css('visibility', 'visible');
+	
+		var current = $(this);
+		
+		$.post('index_user.php?go=buddy_category_change',
 		{
 	    	buddy:  buddy,
 	    	new_category: new_category
@@ -34,8 +44,16 @@
 	    	{
 	    		if(data.length > 0)
 	    		{
-	    			alert(translation('CategoryChangeFailed', 'user'));
 	    			old_parent.append(ui.draggable);
+	    			$('.category_toggle', old_parent.parent()).css('visibility', 'visible');
+	    			
+	    			var children = $('.buddy_list', current).children();
+	    			if(children.size() == 0)
+	    			{
+	    				$('.category_toggle', current).css('visibility', 'hidden');
+	    			}
+	    			
+	    			alert(translation('CategoryChangeFailed', 'user'));
 	    		}
 	    	}
 	    );

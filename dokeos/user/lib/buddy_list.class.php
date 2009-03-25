@@ -92,7 +92,10 @@ class BuddyList
 		
 		$class = $is_request ? 'category_list_item_static' : 'category_list_item';
 		
-		$html[] = '<li id="' . $category->get_id() . '" class="' . $class . '"><img class="category_toggle" src="' . Theme :: get_common_image_path() . 'treemenu/bullet_toggle_minus.png" />';
+		if(count($buddies) == 0)
+			$style = 'style="visibility:hidden;" ';
+		
+		$html[] = '<li id="' . $category->get_id() . '" class="' . $class . '"><img class="category_toggle" ' . $style . 'src="' . Theme :: get_common_image_path() . 'treemenu/bullet_toggle_minus.png" />';
 		$html[] = '<div class="buddy_list_item_text">';
 		$html[] = '<span class="title">' . $category->get_title() . '</span></div>';
 		
