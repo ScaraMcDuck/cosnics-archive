@@ -19,8 +19,8 @@ class ReportingWeblcms {
     {
         $wdm = WeblcmsDataManager::get_instance();
         $course = $wdm->retrieve_course($params[ReportingManager :: PARAM_COURSE_ID]);
-        $arr[Translation :: get('Name')] = $course->get_name();
-        $arr[Translation :: get('Titular')] = $course->get_titular_string();
+        $arr[Translation :: get('Name')][] = $course->get_name();
+        $arr[Translation :: get('Titular')][] = $course->get_titular_string();
         return Reporting :: getSerieArray($arr);
     }
 
@@ -106,7 +106,7 @@ class ReportingWeblcms {
      */
     public static function getCourseUserExcerciseInformation($params)
     {
-        $arr[''] = 'Not Available yet';
+        $arr[''][] = 'Not Available yet';
         
         return Reporting :: getSerieArray($arr);
         /*
@@ -144,7 +144,7 @@ class ReportingWeblcms {
         $wdm = WeblcmsDataManager::get_instance();
         $count = $wdm->count_courses();
 
-        $arr[Translation :: get('CourseCount')] = $count;
+        $arr[Translation :: get('CourseCount')][] = $count;
 
         return Reporting :: getSerieArray($arr);
     }
@@ -170,7 +170,7 @@ class ReportingWeblcms {
             {
                 $date = Translation :: get('NeverAccessed');
             }
-            $arr[$value->name] = $date;
+            $arr[$value->name][] = $date;
         }
         return Reporting :: getSerieArray($arr);
     }
@@ -199,10 +199,10 @@ class ReportingWeblcms {
             $lang = $course->get_language();
             if (array_key_exists($lang, $arr))
             {
-                $arr[$lang]++;
+                $arr[$lang][]++;
             }else
             {
-                $arr[$lang] = 1;
+                $arr[$lang][] = 1;
             }
         }
 
@@ -210,12 +210,18 @@ class ReportingWeblcms {
     }
 
     /**
-     * Returns the most active/inactive courses
+     * Returns a list of courses active within the last 24hrs, last week, last month
      * @param array $params
      */
     public static function getMostActiveInactive($params)
     {
+        $arr[Translation :: get('ActivePast24hr')][] = 'course name';
+        $arr[Translation :: get('ActivePast24hr')][] = 'course name';
+        $arr[Translation :: get('ActivePastWeek')][] = 'course name';
+        $arr[Translation :: get('ActivePastMonth')][] = 'course name';
+        $arr[Translation :: get('ActivePastYear')][] = 'course name';
 
+        return Reporting :: getSerieArray($arr);
     }
 
     /**
@@ -226,7 +232,36 @@ class ReportingWeblcms {
      */
     public static function getMostActiveInactiveDetail($params)
     {
+        require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
+        $wdm = WeblcmsDataManager::get_instance();
+        $tracker = new VisitTracker();
+        $courses = $wdm->retrieve_courses();
+        while($course = $courses->next_result())
+        {
+            $lastaccess = Translation :: get('NeverAccessed');
+            $lastpublication = Translation :: get('NothingPublished');
+            $arr[Translation :: get('Course')][] = '<a href="run.php?go=courseviewer&course='.$course->get_id().'&application=weblcms&" />'.$course->get_name().'</a>';
 
+            $condition = new LikeCondition(VisitTracker::PROPERTY_LOCATION,'&course='.$course->get_id());
+            $trackerdata = $tracker->retrieve_tracker_items($condition);
+            foreach($trackerdata as $key => $value)
+            {
+                $lastaccess = $value->get_leave_date();
+            }
+
+            $condition = new EqualityCondition(LearningObjectPublication::PROPERTY_COURSE_ID,$course->get_id());
+            $publications = $wdm->retrieve_learning_object_publications(null, null, null, null, $condition);
+            while($publication = $publications->next_result())
+            {
+                $lastpublication = $publication->get_modified_date();
+                $lastpublication = date('d F Y (G:i:s)',$lastpublication);
+            }
+
+            $arr[Translation :: get('LastVisit')][] = $lastaccess;
+            $arr[Translation :: get('LastPublication')][] = $lastpublication;
+        }
+
+        return Reporting :: getSerieArray($arr);
     }
 
     /**

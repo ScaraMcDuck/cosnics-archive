@@ -165,7 +165,7 @@
 	$(document).ready( function() 
 	{	
 		$(".buddy_list_item").draggable({
-			revert: true,
+			revert: true
 		});
 		
 		$(".category_list_item").droppable({

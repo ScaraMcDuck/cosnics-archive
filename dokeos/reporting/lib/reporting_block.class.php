@@ -16,7 +16,6 @@
  	const PROPERTY_WIDTH = 'width';
  	const PROPERTY_HEIGHT = 'height';
  	
- 	//private $id='id',$name='Default block',$application,$application_url,$function,$displaymode;
  	private $properties, $data,$params;
  	
  	public function ReportingBlock($properties = array())

@@ -33,17 +33,17 @@ class ReportingUser {
     {
         $udm = UserDataManager :: get_instance();
         $users = $udm->retrieve_users();
-        $active[Translation :: get('Active')] = 0;
-        $active[Translation :: get('Inactive')] = 0;
+        $active[Translation :: get('Active')][0] = 0;
+        $active[Translation :: get('Inactive')][0] = 0;
         while($user = $users->next_result())
         {
             if($user->get_active())
             {
-                $active[Translation :: get('Active')]++;
+                $active[Translation :: get('Active')][0]++;
             }
             else
             {
-                $active[Translation :: get('Inactive')]++;
+                $active[Translation :: get('Inactive')][0]++;
             }
         }
         return Reporting :: getSerieArray($active);
@@ -57,7 +57,7 @@ class ReportingUser {
     {
         $udm = UserDataManager :: get_instance();
 
-        $arr = array(Translation :: get('NumberOfUsers')=>$udm->count_users());
+        $arr[Translation :: get('NumberOfUsers')][] = $udm->count_users();
 
         return Reporting :: getSerieArray($arr);
     }
@@ -73,7 +73,7 @@ class ReportingUser {
         $tracker = new LoginLogoutTracker();
         $trackerdata = $tracker->retrieve_tracker_items($condition);
 
-        $arr = array(Translation :: get('Logins')=>sizeof($trackerdata));
+        $arr[Translation :: get('Logins')][] = sizeof($trackerdata);
 
         return Reporting :: getSerieArray($arr);
     }
@@ -96,10 +96,10 @@ class ReportingUser {
             $date = (is_numeric($date))?$date:Translation :: get($date);
             if (array_key_exists($date, $arr))
             {
-                $arr[$date]++;
+                $arr[$date][0]++;
             }else
             {
-                $arr[$date] = 1;
+                $arr[$date][0] = 1;
             }
         }
         return $arr;
@@ -163,17 +163,17 @@ class ReportingUser {
         $users = $udm->retrieve_users();
         $picturetext = Translation :: get('Picture');
         $nopicturetext = Translation :: get('NoPicture');
-        $picture[$picturetext] = 0;
-        $picture[$nopicturetext] = 0;
+        $picture[$picturetext][0] = 0;
+        $picture[$nopicturetext][0] = 0;
         while($user = $users->next_result())
         {
             if($user->get_picture_uri())
             {
-                $picture[$picturetext]++;
+                $picture[$picturetext][0]++;
             }
             else
             {
-                $picture[$nopicturetext]++;
+                $picture[$nopicturetext][0]++;
             }
         }
         return Reporting :: getSerieArray($picture);
@@ -192,8 +192,8 @@ class ReportingUser {
         $wdm = WeblcmsDataManager :: get_instance();
         $courses = $wdm->count_user_courses();
 
-        $arr[Translation :: get('UsersSubscribedToCourse')] = $courses;
-        $arr[Translation :: get('UsersNotSubscribedToCourse')] = $users-$courses;
+        $arr[Translation :: get('UsersSubscribedToCourse')][] = $courses;
+        $arr[Translation :: get('UsersNotSubscribedToCourse')][] = $users-$courses;
 
         return Reporting :: getSerieArray($arr);
     }
@@ -222,11 +222,11 @@ class ReportingUser {
 
         $user = $udm->retrieve_user($uid);
 
-        $arr[Translation :: get('Name')] = $user->get_fullname();
-        $arr[Translation :: get('Email')] = $user->get_email();
-        $arr[Translation :: get('Phone')] = $user->get_phone();
+        $arr[Translation :: get('Name')][] = $user->get_fullname();
+        $arr[Translation :: get('Email')][] = $user->get_email();
+        $arr[Translation :: get('Phone')][] = $user->get_phone();
         //$arr[Translation :: get('Status')] = $user->get_status_name();
-        $arr[Translation :: get('Online')] = ($online)?Translation :: get('Online'):Translation :: get('Offline');
+        $arr[Translation :: get('Online')][] = ($online)?Translation :: get('Online'):Translation :: get('Offline');
 
         return Reporting :: getSerieArray($arr);
     }
@@ -264,9 +264,9 @@ class ReportingUser {
             }
         }
 
-        $arr[Translation :: get('FirstConnection')] = $firstconnection;
-        $arr[Translation :: get('LastConnection')] = $lastconnection;
-        $arr[Translation :: get('TimeOnPlatform')] = '00:00:00';
+        $arr[Translation :: get('FirstConnection')][] = $firstconnection;
+        $arr[Translation :: get('LastConnection')][] = $lastconnection;
+        $arr[Translation :: get('TimeOnPlatform')][] = '00:00:00';
 
         return Reporting :: getSerieArray($arr);
     }

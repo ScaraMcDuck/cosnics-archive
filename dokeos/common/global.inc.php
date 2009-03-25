@@ -138,6 +138,7 @@ require_once Path :: get_library_path().'html/theme.class.php';
 require_once Path :: get_library_path().'html/breadcrumb_trail.class.php';
 require_once Path :: get_library_path().'html/breadcrumb.class.php';
 require_once Path :: get_library_path().'html/display.class.php';
+require_once Path :: get_library_path().'html/header.class.php';
 require_once Path :: get_help_path(). 'lib/help_manager/help_manager.class.php';
 
 require_once(Path :: get_admin_path().'lib/admin_data_manager.class.php');
@@ -349,7 +350,13 @@ if (isset($_SESSION['_uid']))
 	if($user)
 	{
 		$language_interface = $user->get_language();
-	}
+    }
+
+    if(strpos($_SERVER['REQUEST_URI'], 'leave.php') === false && strpos($_SERVER['REQUEST_URI'], 'ajax') === false)
+    {
+        $return = Events :: trigger_event('enter','user',array('location' => $_SERVER['REQUEST_URI'], 'user' => $user,'event'=>'enter'));
+        $htmlHeadXtra[] = '<script language="javascript">var tracker=' . $return[0] . '</script>';
+    }
 }
 //echo Hashing :: hash('apple'); echo '<br />' . sha1('apple');
 /**

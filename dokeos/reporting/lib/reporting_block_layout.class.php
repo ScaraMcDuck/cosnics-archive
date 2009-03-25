@@ -32,5 +32,5 @@
  	{
  		$this->height = $h;
  	}
- }//ReportingBlockDimensions
+ }//ReportingBlockLayout
 ?>

@@ -8,7 +8,7 @@
  * @author Michael Kyndt
  */
 require_once dirname(__FILE__) . '/reporting_template_registration.class.php';
-require_once Path :: get_reporting_path().'lib/reporting.class.php';
+require_once dirname(__FILE__) . '/reporting.class.php';
 
 abstract class ReportingTemplate {
 
@@ -65,7 +65,7 @@ abstract class ReportingTemplate {
      * @return html representing the footer
      */
     function get_footer()
-    {
+    {'<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' .'"></script>';
         return implode("\n", $html);
@@ -144,7 +144,7 @@ abstract class ReportingTemplate {
             // check if reporting block is visible
             if($value[1][self :: PARAM_VISIBLE] == self :: REPORTING_BLOCK_VISIBLE)
             {
-                $html[] = Reporting :: generate_block($value[0]);
+                $html[] = Reporting :: generate_block($value[0],$this->get_reporting_block_template_properties($value[0]->get_name()));
                 $html[] = '<div class="clear">&nbsp;</div>';
             }
         }

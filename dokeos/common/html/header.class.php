@@ -50,6 +50,7 @@ class Header
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.timeout.interval.idle.js');
 		$this->add_javascript_file_header($this->get_path(WEB_LIB_PATH).'javascript/notifications.js');
 		$this->add_javascript_file_header($this->get_path(WEB_LIB_PATH).'javascript/help.js');
+        $this->add_javascript_file_header($this->get_path(WEB_LIB_PATH).'javascript/visit.js');
 		$this->add_link_header($this->get_path(WEB_PATH). 'index.php','top');
 		//$this->add_link_header($this->get_path(WEB_PATH). 'index_user.php?go=account','account',htmlentities(Translation :: get('ModifyProfile')));
 		$this->add_link_header('http://www.dokeos.com/documentation.php','help');
