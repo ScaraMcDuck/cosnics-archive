@@ -49,6 +49,9 @@ class AssessmentTesterForm extends FormValidator
 		
 		//$this->addElement('html', '<br/><div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$assessment->get_icon_name().'.png);">');
 		//$this->addElement('html', '<div class="title" style="font-size: 14px">');
+		$this->addElement('hidden', 'hiddentime', '', array('id' => 'hiddentime'));
+		$this->add_textfield('time', Translation :: get('TimeTaken'), false, array('DISABLED', 'size' => 5));
+		
 		$this->addElement('html', '<h3>');
 		$this->addElement('html', $assessment->get_title());
 		//$this->addElement('html', '</div>');
@@ -96,6 +99,82 @@ class AssessmentTesterForm extends FormValidator
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('SubmitAnswers'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		
+		$this->add_timer_script($assessment);
+	}
+	
+	function add_timer_script($assessment)
+	{
+		$elapsed = 0;
+		if ($_GET['hiddentime'])
+			$elapsed = $_GET['hiddentime'];
+			
+		$max_time = $assessment->get_maximum_time() * 60;
+		if ($max_time > 0)
+		{
+			$this->addElement('html', 
+				'<script type="text/javascript"">
+				<!--
+				var secs
+				var maxSecs
+				var timerID = null
+				var timerRunning = false
+				var delay = 1000
+
+				InitializeTimer()
+				
+				function InitializeTimer()
+				{
+				    // Set the length of the timer, in seconds
+				    secs = '.$elapsed.'
+				    maxSecs = '.$max_time.'
+				    StopTheClock()
+				    StartTheTimer()
+				}
+				
+				function StopTheClock()
+				{
+				    if(timerRunning)
+				        clearTimeout(timerID)
+				    timerRunning = false
+				}
+				
+				function StartTheTimer()
+				{
+				    if (secs >= maxSecs)
+				    {
+				        StopTheClock()
+				        alert("'.Translation :: get('OutOfTime').'")
+				        document.forms[0].submit()
+				    }
+				    else
+				    {
+				        secs = secs + 1
+				        timerRunning = true
+				        timerID = self.setTimeout("StartTheTimer()", delay)
+				        UpdateTime(secs);
+				    }
+				}
+				
+				function UpdateTime(secs)
+				{
+					mins = Math.floor(secs / 60)
+					seconds = secs % 60
+					
+					if (seconds < 10)
+						seconds = "0" + seconds
+						
+					htime = document.getElementById("hiddentime");
+					if (htime == null)
+						htime = document.assessment["hiddentime"];
+						
+					htime.value = secs
+					document.assessment.time.value = mins + ":" + seconds
+				}
+				//-->
+				</SCRIPT>'
+			);
+		}
 	}
 }
 ?>
