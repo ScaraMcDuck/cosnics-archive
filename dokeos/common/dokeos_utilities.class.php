@@ -272,8 +272,11 @@ class DokeosUtilities
 			}
 			if (isset ($elmt['href']))
 			{
-				$button = '<a href="'.htmlentities($elmt['href']).'" title="'.$label.'"'. ($elmt['confirm'] ? ' onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"' : '').'>'.$button.'</a>';
+				$class = isset($elmt['class']) ? 'class="' . $elmt['class'] . '" ' : '';
+				$id = isset($elmt['id']) ? 'id="' . $elmt['id'] . '" ' : '';
+				$button = '<a ' . $id . $class . 'href="'.htmlentities($elmt['href']).'" title="'.$label.'"'. ($elmt['confirm'] ? ' onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"' : '').'>'.$button.'</a>';
 			}
+			
 			$classes = array();
 			if ($index == 0)
 			{

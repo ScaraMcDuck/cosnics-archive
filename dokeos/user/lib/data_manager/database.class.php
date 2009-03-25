@@ -282,8 +282,11 @@ class DatabaseUserDataManager extends UserDataManager
 		$condition = new EqualityCondition(BuddyListCategory :: PROPERTY_ID, $buddy_list_category->get_id());
 		$succes = $this->database->delete(BuddyListCategory :: get_table_name(), $condition);
 		
-		$condition = new EqualityCondition(BuddyListItem :: PROPERTY_CATEGORY_ID, $buddy_list_category->get_id());
-		$succes &= $this->database->delete(BuddyListItem :: get_table_name(), $condition);
+		$query = 'UPDATE '.$this->database->escape_table_name('buddy_list_item').' SET '.
+				 $this->database->escape_column_name(BuddyListItem :: PROPERTY_CATEGORY_ID).'=0 WHERE'.
+				 $this->database->escape_column_name(BuddyListItem :: PROPERTY_CATEGORY_ID).'=?;';
+		$statement = $this->database->get_connection()->prepare($query); 
+		$statement->execute(array($buddy_list_category->get_id()));
 		
 		return $succes;
 	}
