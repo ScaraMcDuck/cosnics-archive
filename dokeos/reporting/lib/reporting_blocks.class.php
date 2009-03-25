@@ -4,8 +4,6 @@
  */
 require_once dirname(__FILE__) . '/reporting_block.class.php';
 require_once dirname(__FILE__) . '/reporting_block_layout.class.php';
-require_once dirname(__FILE__) . '/reporting_data_manager.class.php';
-require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 class ReportingBlocks {
 
     /**

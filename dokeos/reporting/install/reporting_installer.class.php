@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @author Michael Kyndt
+ */
 require_once dirname(__FILE__).'/../lib/reporting_data_manager.class.php';
 require_once Path :: get_library_path().'installer.class.php';
 require_once Path :: get_library_path().'filesystem/filesystem.class.php';

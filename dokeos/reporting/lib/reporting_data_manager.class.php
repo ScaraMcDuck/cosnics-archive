@@ -43,8 +43,6 @@ abstract class ReportingDataManager {
 
 	abstract function update_reporting_template_registration(&$reporting_template_registration);
 
-	//abstract function retrieve_reporting_template_registration_by_name($reporting_template_registration_name);
-
 	abstract function retrieve_reporting_template_registrations($condition = null,$offset = null,$count = null, $order_property = null, $order_direction = null);
 
 	abstract function count_reporting_template_registrations($condition = null);

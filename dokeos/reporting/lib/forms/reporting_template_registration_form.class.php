@@ -1,6 +1,6 @@
 <?php
 /**
- * @package users.lib.usermanager
+ * @author Michael Kyndt
  */
 require_once Path :: get_library_path() . 'html/formvalidator/FormValidator.class.php';
 require_once Path :: get_reporting_path() . 'lib/reporting_template_registration.class.php';

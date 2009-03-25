@@ -5,7 +5,7 @@
  * @author: Michael Kyndt
  */
 
-require_once("reporting_formatter.class.php");
+require_once dirname(__FILE__).'/reporting_formatter.class.php';
 require_once dirname(__FILE__).'/reporting_template.class.php';
 
 class Reporting{
@@ -15,12 +15,10 @@ class Reporting{
      * @return html
      */
 	public static function generate_block(&$reporting_block,$params){
-        //dump($reporting_block);
-		//$reporting_block->retrieve_data();
         if($params[ReportingTemplate :: PARAM_DIMENSIONS] == ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS)
         {
             $html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="max-height:'.$reporting_block->get_height().';'.
-                '">';//'width:100%;">';
+                '">';
         }else
         {
             $html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="max-height:'.$reporting_block->get_height().';'.
@@ -65,13 +63,12 @@ class Reporting{
      * @param Tracker $tracker
      * @return array
      */
-	public static function array_from_tracker($tracker,$condition = null,$description)
+	public static function array_from_tracker($tracker,$condition = null,$description = null)
 	{
 		$c = 0;
     	$array = array();
         $trackerdata = $tracker->retrieve_tracker_items($condition);
-    	//$trackerdata = $tracker->export(null,null,$event);
-    	
+        
     	foreach($trackerdata as $key => $value)
     	{
             $data[$c]["Name"] = $value->get_name();
@@ -88,21 +85,33 @@ class Reporting{
  		return $array;
 	}//array_from_tracker
 
-    public static function getSerieArray($arr)
+    public static function getSerieArray($arr,$description=null)
     {
         $array = array();
         $i = 0;
         foreach($arr as $key => $value)
         {
+            $serie = 1;
             $data[$i]["Name"] = $key;
-            $data[$i]["Serie1"] = $value;
+            foreach($value as $key2 => $value2)
+            {
+                $data[$i]["Serie".$serie] = $value2;
+                $serie++;
+            }
             $i++;
         }
+
         $datadescription["Position"] = "Name";
-        $datadescription["Values"][] = "Serie1";
-        array_push($array, $data);
+        $count = count($data[0])-1;
+        for($i = 1;$i<=$count;$i++)
+        {
+            $datadescription["Values"][] = "Serie".$i;
+            if($description)
+                $datadescription["Description"]["Serie".$i] = $description[$i];
+        }
+        array_push($array,$data);
         array_push($array,$datadescription);
         return $array;
-    }
+    }//getSerieArray
 }//class reporting
 ?>

@@ -35,4 +35,10 @@
 	<event name="quota">
 		<tracker name ="user_changes" />
 	</event>
+    <event name="enter">
+        <tracker name="visit" />
+    </event>
+    <event name="leave">
+        <tracker name="visit" />
+    </event>
 </application>
