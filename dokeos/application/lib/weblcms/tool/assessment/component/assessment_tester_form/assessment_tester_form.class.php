@@ -106,8 +106,8 @@ class AssessmentTesterForm extends FormValidator
 	function add_timer_script($assessment)
 	{
 		$elapsed = 0;
-		if ($_GET['hiddentime'])
-			$elapsed = $_GET['hiddentime'];
+		if ($_POST['hiddentime'])
+			$elapsed = $_POST['hiddentime'];
 			
 		$max_time = $assessment->get_maximum_time() * 60;
 		if ($max_time > 0)
@@ -145,7 +145,7 @@ class AssessmentTesterForm extends FormValidator
 				    {
 				        StopTheClock()
 				        alert("'.Translation :: get('OutOfTime').'")
-				        document.forms[0].submit()
+				        document.assessment.submit.click()
 				    }
 				    else
 				    {
