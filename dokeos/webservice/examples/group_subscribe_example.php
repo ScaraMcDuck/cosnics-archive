@@ -5,7 +5,10 @@ $time_start = microtime(true);
 
 $file = dirname(__FILE__) . '/group_subscribe.csv';
 $groups = parse_csv($file);
-$location = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
+/*
+ * change location to the location of the test server
+ */
+$location = 'http://www.dokeosplanet.org/demo_portal/group/webservices/webservices_group.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
