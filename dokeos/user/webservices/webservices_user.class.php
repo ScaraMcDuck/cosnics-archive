@@ -128,6 +128,8 @@ class WebServicesUser
 	
 	function create_user(&$input_user)
 	{
+        echo 'create user!';
+
         if($this->webservice->can_execute($input_user, 'create user'))
 		{
             echo 'can execute !';

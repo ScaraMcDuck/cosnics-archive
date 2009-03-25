@@ -153,7 +153,8 @@ abstract class Webservice
 
     public function can_execute($input_user, $webservicename)
     {   
-        $userid = $this->validate_function($input_user[hash]);        
+        $userid = $this->validate_function($input_user[hash]);
+        echo 'user-id = ' .$userid;
         if(isset($userid) && $this->check_rights($webservicename,$userid))
         return true;
         else
