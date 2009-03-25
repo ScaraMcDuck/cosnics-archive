@@ -67,7 +67,7 @@ class TestCallLocalWebservice
         
         //TEST 5 :  Create User
 
-        $user = array (
+        /*$user = array (
 		  'lastname' => 'Joske',
 		  'firstname' => 'Den Os',
 		  'username' => 'Jefke',
@@ -98,7 +98,7 @@ class TestCallLocalWebservice
             'name' => 'WebServicesUser.create_user',
             'parameters' => $user,
             'handler' => 'handle_webservice'
-        );
+        );*/
 
        //TEST 6 :: Update User
 
@@ -151,14 +151,14 @@ class TestCallLocalWebservice
 
         //TEST 8 : Create Course
 
-          /*$course = array (
+          $course = array (
             'course_language' => 'english',
             'title' => 'LocalTest',
             'description' => '',
             'category' 	=> 'Language skills', //needs the name, not the id
             'visibility' => '1',
             'show_score' => '1',
-            'titular' => 'Soliber', //needs the username, not the id
+            'titular' => 'admin', //needs the username, not the id
             'visual_code' => '12456789',
             'department_name' => '',
             'department_url' => '',
@@ -172,16 +172,16 @@ class TestCallLocalWebservice
             'menu' 	=> '1',
             'breadcrumb' => '1',
             'allow_feedback' => '1',
-            'hash' => '550859312670dd7996153002d046737f08ba2c9f' //hash 3 needed for credential
+            'hash' => '95abbf9f0c9d666c66aa30ce36da3ec0f57df48c' //hash 3 needed for credential
             );
             
-          $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+          $wsdl = 'http://www.dokeosplanet.org/demo_portal/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.create_course',
 				'parameters' => $course,
 		  		'handler' => 'handle_webservice'
-			);*/
+			);
 
         //TEST 9 : Update Course
 
