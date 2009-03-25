@@ -5,7 +5,10 @@ $time_start = microtime(true);
 
 $file = dirname(__FILE__) . '/course_subs.csv';
 $courses = parse_csv($file);
-$location = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+/*
+ * change location to the location of the test server
+ */
+$location = 'http://www.dokeosplanet.org/demo_portal/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 

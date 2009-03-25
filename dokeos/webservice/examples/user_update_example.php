@@ -5,7 +5,10 @@ $time_start = microtime(true);
 
 $file = dirname(__FILE__) . '/user_update.csv';
 $users = parse_csv($file);
-$location = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+/*
+ * change location to the location of the test server
+ */
+$location = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservices_user.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
