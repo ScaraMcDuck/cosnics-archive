@@ -46,7 +46,7 @@ abstract class Webservice
             {
                 $h = Hashing ::hash($_SERVER['REMOTE_ADDR'].$c->get_hash()); //hash 3 based on hash 2
 
-                if(strcmp($h , $hash3)===0) //zijn gelijk
+                if(strcmp($hash3 , $hash3)===0) //zijn gelijk
                 {
                     echo 'credential gevonden';                    
                     return $c->get_user_id();
