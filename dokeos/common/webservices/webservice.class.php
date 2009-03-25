@@ -87,7 +87,7 @@ abstract class Webservice
 	}
 
 	function validate_login($username,$input_hash) //hash 1 = ip+password
-	{
+	{        
 		$udm = DatabaseUserDataManager :: get_instance();
 		$user = $udm->retrieve_user_by_username($username);		
 		if(isset($user))
@@ -111,6 +111,7 @@ abstract class Webservice
 		else
 		{
 			$this->message = "User $username does not exist.";
+            //$this->message = Hashing :: hash('193.190.172.141'.'d033e22ae348aeb5660fc2140aec35850c4da997');
             $this->raise_message($this->message);
             return false;
 		}

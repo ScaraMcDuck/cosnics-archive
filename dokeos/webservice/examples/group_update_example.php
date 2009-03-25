@@ -62,8 +62,16 @@ function update_group($group)
 function login()
 {
     global $client;
-	$username = 'Soliber';
-	$password = '58350136959beae3f874cd512ebcf320a7afa507';
+
+    /* Change the username and password to the ones corresponding to  your database.
+     * The password for the login service is :
+     * IP = the ip from where the call to the webservice is made
+     * PW = your hashed password from the db
+     *
+     * $password = Hash(IP+PW) ;
+     */
+	$username = 'admin';
+	$password = 'ef1fffa5a0b8736f2d8a5f0c913bb0930d1f16c0';
     $login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
 	$result = $login_client->call('LoginWebservice.login', array('username' => $username, 'password' => $password));
     //log_message(print_r($result, true));

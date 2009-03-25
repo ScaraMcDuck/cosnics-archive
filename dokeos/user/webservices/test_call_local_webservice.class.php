@@ -52,18 +52,18 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 			);
 		}*/
-
+        
         //TEST 4 : Login Webservice
-		/*$wsdl = 'http://localhost/user/webservices/login_webservice.class.php?wsdl';
+		$wsdl = 'http://localhost/user/webservices/login_webservice.class.php?wsdl';
 		$functions = array();
 
 		{
 			$functions[] = array(
 				'name' => 'LoginWebservice.login',
-				'parameters' => array('username'=>'Jefke','password'=>'c14d68b0ef49d97929c36f7725842b5adbf5f006'), //password is actually hash 1
+				'parameters' => array('username'=>'sjeeker','password'=>'ef1fffa5a0b8736f2d8a5f0c913bb0930d1f16c0'), //password is actually hash 1
 				'handler' => 'handle_webservice'
 			);
-		}*/
+		}
         
         //TEST 5 :  Create User
 
@@ -274,14 +274,14 @@ class TestCallLocalWebservice
 
         //TEST 13 :  Get all users
 
-        $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+        /*$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		$functions = array();
 
 		$functions[] = array(
 				'name' => 'WebServicesUser.get_all_users',
 				'parameters' => array('hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
-		);
+		);*/
 
 	
 		$this->webservice->call_webservice($wsdl, $functions);
