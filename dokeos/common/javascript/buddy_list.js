@@ -95,7 +95,7 @@
 		
 		var children = $('.buddy_list', object).children();
 		
-		var normal_category = $('.category_list_item[id="0"]', object_parent.parent());
+		var normal_category = $('.category_list_item[id="0"]', object_parent);
 		var normal_buddy_list = $('.buddy_list', normal_category);
 		
 		if(normal_buddy_list.attr('class') != 'buddy_list')
@@ -112,7 +112,6 @@
 		
 		$.get('index_user.php?go=buddy_delete_category',
 		{
-			buddylist_item:  id,
 			buddylist_category: id,
 			ajax: 1
 	    },  function(data)
@@ -148,7 +147,6 @@
 		$.get('index_user.php?go=buddy_delete_item',
 		{
 			buddylist_item:  id,
-			buddylist_category: id,
 			ajax: 1
 	    },  function(data)
 	    	{
