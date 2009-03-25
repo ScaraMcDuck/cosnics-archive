@@ -79,10 +79,10 @@ function update_course($course)
 	log_message('Updating course ' . $course['title']);
 	$hash = ($hash == '') ? login() : $hash;
     $course['hash'] = $hash;
-    $course['id'] = '33';
-    $course['titular'] = 'Soliber';
-    $course['category'] = 'Language skills';
-    $course['disk_quota'] = '200';
+    //$course['id'] = '33';
+    //$course['titular'] = 'Soliber';
+    //$course['category'] = 'Language skills';
+    //$course['disk_quota'] = '200';
 	$result = $client->call('WebServicesCourse.update_course', $course);
     if($result == 1)
     {
@@ -98,7 +98,7 @@ function delete_course($course)
 	log_message('Deleting course ' . $course['title']);
 	$hash = ($hash == '') ? login() : $hash;
     $course['hash'] = $hash;
-    $course['id'] = '51';
+    //$course['id'] = '51';
 	$result = $client->call('WebServicesCourse.delete_course', $course);
     if($result == 1)
     {

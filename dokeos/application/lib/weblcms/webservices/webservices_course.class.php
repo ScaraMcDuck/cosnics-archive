@@ -207,12 +207,12 @@ class WebServicesCourse
 	}
 	
 	function subscribe_user($input_course) //course user relation object
-	{
+	{        
         if($this->webservice->can_execute($input_course, 'subscribe user'))
-		{
+		{            
             unset($input_course[hash]);            
             if($this->validator->validate_subscribe_user($input_course)) //input validation
-            {
+            {                
                 $cur = new CourseUserRelation($input_course[course_code],$input_course[user_id]);
                 unset($input_course[course_code]);
                 unset($input_course[user_id]);

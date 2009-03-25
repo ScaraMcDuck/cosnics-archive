@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', 7200);
 $time_start = microtime(true);
 
-$file = dirname(__FILE__) . '/group_subscribe.csv';
+$file = dirname(__FILE__) . '/group_unsubscribe.csv';
 $groups = parse_csv($file);
 $location = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
@@ -140,7 +140,7 @@ function login()
 {
     global $client;
 	$username = 'Soliber';
-	$password = 'c14d68b0ef49d97929c36f7725842b5adbf5f006';
+	$password = '58350136959beae3f874cd512ebcf320a7afa507';
     $login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
 	$result = $login_client->call('LoginWebservice.login', array('username' => $username, 'password' => $password));
     //log_message(print_r($result, true));
