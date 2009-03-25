@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', 7200);
 $time_start = microtime(true);
 
-$file = dirname(__FILE__) . '/group_import.csv';
+$file = dirname(__FILE__) . '/group_update.csv';
 $groups = parse_csv($file);
 $location = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
@@ -11,7 +11,7 @@ $hash = '';
 
 foreach($groups as $group)
 {
-	create_group($group);
+	update_group($group);
 }
 
 $time_end = microtime(true);
@@ -43,17 +43,17 @@ function parse_csv($file)
     return $groups;
 }
 
-function create_group($group)
+function update_group($group)
 {
     global $hash, $client;
-	log_message('Creating group ' . $group['name']);
-    if(empty($hash))
+	log_message('Updating group ' . $group['name']);
+	if(empty($hash))
     $hash = login();
     $group['hash'] = $hash;
-    $result = $client->call('WebServicesGroup.create_group', $group);
+    $result = $client->call('WebServicesGroup.update_group', $group);
     if($result == 1)
     {
-        log_message(print_r('Group successfully created', true));
+        log_message(print_r('Group successfully updated', true));
     }
     else
     	log_message(print_r($result, true));
@@ -63,7 +63,7 @@ function login()
 {
     global $client;
 	$username = 'Soliber';
-	$password = '58350136959beae3f874cd512ebcf320a7afa507';    
+	$password = '58350136959beae3f874cd512ebcf320a7afa507';
     $login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
 	$result = $login_client->call('LoginWebservice.login', array('username' => $username, 'password' => $password));
     //log_message(print_r($result, true));

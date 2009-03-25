@@ -3,15 +3,15 @@ require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', 7200);
 $time_start = microtime(true);
 
-$file = dirname(__FILE__) . '/group_import.csv';
-$groups = parse_csv($file);
-$location = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
+$file = dirname(__FILE__) . '/course_unsubs.csv';
+$courses = parse_csv($file);
+$location = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
-foreach($groups as $group)
+foreach($courses as $course)
 {
-	create_group($group);
+	unsubscribe_user($course);
 }
 
 $time_end = microtime(true);
@@ -24,15 +24,16 @@ function parse_csv($file)
 	if(file_exists($file) && $fp = fopen($file, "r"))
 	{
 		$keys = fgetcsv($fp, 1000, ";");
-		$groups = array();
-		while($group_data = fgetcsv($fp, 1000, ";"))
+		$courses = array();
+
+		while($course_data = fgetcsv($fp, 1000, ";"))
 		{
-			$group = array();
+			$course = array();
 			foreach($keys as $index => $key)
 			{
-				$group[$key] = trim($group_data[$index]);
+				$course[$key] = trim($course_data[$index]);
 			}
-			$groups[] = $group;
+			$courses[] = $course;
 		}
 		fclose($fp);
 	}
@@ -40,20 +41,25 @@ function parse_csv($file)
 	{
 		log("ERROR: Can't open file ($file)");
 	}
-    return $groups;
+
+	return $courses;
 }
 
-function create_group($group)
+function unsubscribe_user($course)
 {
     global $hash, $client;
-	log_message('Creating group ' . $group['name']);
-    if(empty($hash))
-    $hash = login();
-    $group['hash'] = $hash;
-    $result = $client->call('WebServicesGroup.create_group', $group);
+	log_message('Unsubscribing user to course ');
+	$hash = ($hash == '') ? login() : $hash;
+    $course['hash'] = $hash;
+    /*$course['user_id'] = 'Soliber';
+    $course['tutor_id'] = '1';
+    $course['status'] = '1';
+    $course['course_group_id'] = '0';
+    $course['course_code'] = 'H1';*/
+    $result = $client->call('WebServicesCourse.unsubscribe_user', $course);
     if($result == 1)
     {
-        log_message(print_r('Group successfully created', true));
+        log_message(print_r('User successfully unsubscribed from course', true));
     }
     else
     	log_message(print_r($result, true));
@@ -61,16 +67,20 @@ function create_group($group)
 
 function login()
 {
-    global $client;
+	global $client;
+
 	$username = 'Soliber';
-	$password = '58350136959beae3f874cd512ebcf320a7afa507';    
-    $login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
+	$password = '58350136959beae3f874cd512ebcf320a7afa507';
+
+	$login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
 	$result = $login_client->call('LoginWebservice.login', array('username' => $username, 'password' => $password));
-    //log_message(print_r($result, true));
-    if(!empty($result['hash']))
+
+    log_message(print_r($result, true));
+    if(is_array($result) && array_key_exists('hash', $result))
         return $result['hash']; //hash 3
 
 	return '';
+
 }
 
 function dump($value)
@@ -91,7 +101,5 @@ function debug($client)
 	echo '<h2>Response</h2><pre>' . htmlspecialchars($client->response, ENT_QUOTES) . '</pre>';
 	echo '<h2>Debug</h2><pre>' . htmlspecialchars($client->getDebug(), ENT_QUOTES) . '</pre>';
 }
-
-
 
 ?>

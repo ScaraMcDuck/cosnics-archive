@@ -11,17 +11,7 @@ $hash = '';
 
 foreach($courses as $course)
 {
-	$action = $course['action'];
-	switch($action)
-	{
-		case 'I': create_course($course); break;
-		case 'i': create_course($course); break;
-		case 'U': update_course($course); break;
-		case 'u': update_course($course); break;
-		case 'D': delete_course($course); break;
-		case 'd': delete_course($course); break;       
-
-	}
+	create_course($course);
 }
 
 $time_end = microtime(true);
@@ -68,41 +58,6 @@ function create_course($course)
 	if($result == 1)
     {
         log_message(print_r('Course successfully created', true));
-    }
-    else
-    	log_message(print_r($result, true));
-}
-
-function update_course($course)
-{
-	global $hash, $client;
-	log_message('Updating course ' . $course['title']);
-	$hash = ($hash == '') ? login() : $hash;
-    $course['hash'] = $hash;
-    //$course['id'] = '33';
-    //$course['titular'] = 'Soliber';
-    //$course['category'] = 'Language skills';
-    //$course['disk_quota'] = '200';
-	$result = $client->call('WebServicesCourse.update_course', $course);
-    if($result == 1)
-    {
-        log_message(print_r('Course successfully updated', true));
-    }
-    else
-    	log_message(print_r($result, true));
-}
-
-function delete_course($course)
-{
-	global $hash, $client;
-	log_message('Deleting course ' . $course['title']);
-	$hash = ($hash == '') ? login() : $hash;
-    $course['hash'] = $hash;
-    //$course['id'] = '51';
-	$result = $client->call('WebServicesCourse.delete_course', $course);
-    if($result == 1)
-    {
-        log_message(print_r('Course successfully deleted', true));
     }
     else
     	log_message(print_r($result, true));
