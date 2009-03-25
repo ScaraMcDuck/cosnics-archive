@@ -122,14 +122,19 @@ class BuddyList
 		}
 		
 		$html[] = '</div>';
-		$html[] = '<div class="clear">&nbsp;</div><ul class="buddy_list">';
-				
-		foreach($buddies as $buddy)
+		$html[] = '<div class="clear">&nbsp;</div>';
+		
+		if(count($buddies) > 0)
 		{
-			$html[] = $this->display_buddy($buddy, $is_request);
+			$html[] = '<ul class="buddy_list">';
+			foreach($buddies as $buddy)
+			{
+				$html[] = $this->display_buddy($buddy, $is_request);
+			}
+			$html[] = '</ul>';
 		}
 		
-		$html[] = '</ul></li>';
+		$html[] = '</li>';
 		
 		return implode("\n", $html);
 	}
