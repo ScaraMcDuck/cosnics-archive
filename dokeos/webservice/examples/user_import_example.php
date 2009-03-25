@@ -84,7 +84,10 @@ function login()
 	$username = 'admin';
 	$password = 'ef1fffa5a0b8736f2d8a5f0c913bb0930d1f16c0';
 	
-	$login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
+	/*
+     * change location to server location for the wsdl
+     */
+	$login_client = new nusoap_client('http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
 	$result = $login_client->call('LoginWebservice.login', array('username' => $username, 'password' => $password));
 
     log_message(print_r($result, true)); 

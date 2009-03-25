@@ -54,7 +54,7 @@ class TestCallLocalWebservice
 		}*/
         
         //TEST 4 : Login Webservice
-		$wsdl = 'http://www.dokeosplanet.org/demo_porta/user/webservices/login_webservice.class.php?wsdl';
+		$wsdl = 'http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl';
 		$functions = array();
 
 		{
