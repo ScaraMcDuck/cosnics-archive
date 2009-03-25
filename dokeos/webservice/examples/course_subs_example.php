@@ -11,14 +11,7 @@ $hash = '';
 
 foreach($courses as $course)
 {
-	$action = $course['action'];
-	switch($action)
-	{
-        case 's': subscribe_user($course); break;
-        case 'S': subscribe_user($course); break;
-        case 'u': unsubscribe_user($course); break;
-        case 'U': unsubscribe_user($course); break;
-	}
+	subscribe_user($course);
 }
 
 $time_end = microtime(true);
@@ -67,26 +60,6 @@ function subscribe_user($course)
     if($result == 1)
     {
         log_message(print_r('User successfully subscribed to course', true));
-    }
-    else
-    	log_message(print_r($result, true));
-}
-
-function unsubscribe_user($course)
-{
-    global $hash, $client;
-	log_message('Unsubscribing user to course ');
-	$hash = ($hash == '') ? login() : $hash;
-    $course['hash'] = $hash;
-    /*$course['user_id'] = 'Soliber';
-    $course['tutor_id'] = '1';
-    $course['status'] = '1';
-    $course['course_group_id'] = '0';
-    $course['course_code'] = 'H1';*/
-    $result = $client->call('WebServicesCourse.unsubscribe_user', $course);
-    if($result == 1)
-    {
-        log_message(print_r('User successfully unsubscribed from course', true));
     }
     else
     	log_message(print_r($result, true));

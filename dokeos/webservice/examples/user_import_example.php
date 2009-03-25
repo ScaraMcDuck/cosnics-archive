@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', 7200);
 $time_start = microtime(true);
 
-$file = dirname(__FILE__) . '/user_update.csv';
+$file = dirname(__FILE__) . '/user_import.csv';
 $users = parse_csv($file);
 $location = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
@@ -13,16 +13,7 @@ $hash = '';
 
 foreach($users as $user)
 {
-	$action = $user['action'];
-	switch($action)
-	{
-		case 'I': create_user($user); break;
-		case 'i': create_user($user); break;
-		case 'U': update_user($user); break;
-		case 'u': update_user($user); break;
-		case 'D': delete_user($user); break;
-		case 'd': delete_user($user); break;
-	}
+	create_user($user); 
 }
 
 $time_end = microtime(true);
@@ -71,42 +62,6 @@ function create_user($user)
 	if($result == 1)
     {
         log_message(print_r('User successfully created', true));
-    }
-    else
-    	log_message(print_r($result, true));
-}
-
-function update_user($user)
-{
-	global $hash, $client;
-	log_message('Updating user ' . $user['username']);	
-	$hash = ($hash == '') ? login() : $hash;
-    $user['hash'] = $hash;    
-    /*$user['password'] = 'ae12e345f679aaf';
-    $user['registration_date'] = '0';
-    $user['disk_quota'] = '209715200';
-    $user['database_quota'] = '300';
-    $user['version_quota'] = '20';*/
-	$result = $client->call('WebServicesUser.update_user', $user);
-    if($result == 1)
-    {
-        log_message(print_r('User successfully updated', true));
-    }
-    else
-    	log_message(print_r($result, true));
-}
-
-function delete_user($user)
-{
-	global $hash, $client;
-	log_message('Deleting user: ' . $user['username']);
-    $user['hash'] = $hash;
-    //$user['user_id'] = '45';
-	$hash = ($hash == '') ? login() : $hash;
-	$result = $client->call('WebServicesUser.delete_user', array('username' => $user['username'],'user_id'=> $user['user_id'],'hash' => $hash));
-    if($result == 1)
-    {
-        log_message(print_r('User successfully deleted', true));
     }
     else
     	log_message(print_r($result, true));

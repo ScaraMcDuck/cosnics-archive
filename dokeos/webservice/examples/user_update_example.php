@@ -3,15 +3,17 @@ require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', 7200);
 $time_start = microtime(true);
 
-$file = dirname(__FILE__) . '/group_import.csv';
-$groups = parse_csv($file);
-$location = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
+$file = dirname(__FILE__) . '/user_update.csv';
+$users = parse_csv($file);
+$location = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
-foreach($groups as $group)
+//dump($users);
+
+foreach($users as $user)
 {
-	create_group($group);
+	update_user($user);
 }
 
 $time_end = microtime(true);
@@ -24,15 +26,16 @@ function parse_csv($file)
 	if(file_exists($file) && $fp = fopen($file, "r"))
 	{
 		$keys = fgetcsv($fp, 1000, ";");
-		$groups = array();
-		while($group_data = fgetcsv($fp, 1000, ";"))
+		$users = array();
+
+		while($user_data = fgetcsv($fp, 1000, ";"))
 		{
-			$group = array();
+			$user = array();
 			foreach($keys as $index => $key)
 			{
-				$group[$key] = trim($group_data[$index]);
+				$user[$key] = trim($user_data[$index]);
 			}
-			$groups[] = $group;
+			$users[] = $user;
 		}
 		fclose($fp);
 	}
@@ -40,20 +43,25 @@ function parse_csv($file)
 	{
 		log("ERROR: Can't open file ($file)");
 	}
-    return $groups;
+
+	return $users;
 }
 
-function create_group($group)
+function update_user($user)
 {
-    global $hash, $client;
-	log_message('Creating group ' . $group['name']);
-    if(empty($hash))
-    $hash = login();
-    $group['hash'] = $hash;
-    $result = $client->call('WebServicesGroup.create_group', $group);
+	global $hash, $client;
+	log_message('Updating user ' . $user['username']);
+	$hash = ($hash == '') ? login() : $hash;
+    $user['hash'] = $hash;
+    /*$user['password'] = 'ae12e345f679aaf';
+    $user['registration_date'] = '0';
+    $user['disk_quota'] = '209715200';
+    $user['database_quota'] = '300';
+    $user['version_quota'] = '20';*/
+	$result = $client->call('WebServicesUser.update_user', $user);
     if($result == 1)
     {
-        log_message(print_r('Group successfully created', true));
+        log_message(print_r('User successfully updated', true));
     }
     else
     	log_message(print_r($result, true));
@@ -61,16 +69,20 @@ function create_group($group)
 
 function login()
 {
-    global $client;
+	global $client;
+
 	$username = 'Soliber';
-	$password = '58350136959beae3f874cd512ebcf320a7afa507';    
-    $login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
+	$password = '58350136959beae3f874cd512ebcf320a7afa507';
+
+	$login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
 	$result = $login_client->call('LoginWebservice.login', array('username' => $username, 'password' => $password));
-    //log_message(print_r($result, true));
-    if(!empty($result['hash']))
+
+    log_message(print_r($result, true));
+    if(is_array($result) && array_key_exists('hash', $result))
         return $result['hash']; //hash 3
 
 	return '';
+
 }
 
 function dump($value)
