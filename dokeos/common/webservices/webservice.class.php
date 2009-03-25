@@ -103,16 +103,15 @@ abstract class Webservice
 			}
 			else
 			{
-                $this->message = 'hash = ' .$hash .'  input hash = ' .$input_hash;
-                //$this->message = 'Wrong hash value submitted.';
+                //$this->message = 'hash = ' .$hash .'  input hash = ' .$input_hash;
+                $this->message = 'Wrong hash value submitted.';
                 $this->raise_message($this->message);
                 return false;
 			}
 		}
 		else
 		{
-			$this->message = "User $username does not exist.";
-            //$this->message = Hashing :: hash('193.190.172.141'.'d033e22ae348aeb5660fc2140aec35850c4da997');
+			$this->message = "User $username does not exist.";            
             $this->raise_message($this->message);
             return false;
 		}
