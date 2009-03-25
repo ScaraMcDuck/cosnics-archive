@@ -1,28 +1,31 @@
 action;id;name;description;parent;sort
-U;2;Shinsengumi;hoezee;0;0
-U;3;ShinsengumiII;hoezee;0;0
-U;4;ShinsengumiIII;hoezee;0;0
-U;5;ShinsengumiIV;hoezee;0;0
-U;6;ShinsengumiV;hoezee;0;0
-U;7;ShinsengumiVI;hoezee;0;0
-U;8;ShinsengumiVII;hoezee;0;0
-U;9;ShinsengumiVIII;hoezee;0;0
-U;10;ShinsengumiIX;hoezee;0;0
-U;11;ShinsengumiX;hoezee;0;0
-U;12;ShinsengumiXI;hoezee;0;0
-U;13;ShinsengumiXII;hoezee;0;0
-U;14;ShinsengumiXIII;hoezee;0;0
-U;15;ShinsengumiXIV;hoezee;0;0
-U;16;ShinsengumiXV;hoezee;0;0
-U;17;ShinsengumiXVI;hoezee;0;0
-U;18;ShinsengumiXVII;hoezee;0;0
-U;19;ShinsengumiXVIII;hoezee;0;0
-U;20;ShinsengumiXIX;hoezee;0;0
-U;21;ShinsengumiXX;hoezee;0;0
-U;22;ShinsengumiXXI;hoezee;0;0
-U;23;ShinsengumiXXII;hoezee;0;0
-U;24;ShinsengumiXXIII;hoezee;0;0
-U;25;ShinsengumiXXIV;hoezee;0;0
-U;26;ShinsengumiXXV;hoezee;0;0
-U;27;ShinsengumiXXVI;hoezee;0;0
-U;28;ShinsengumiXXVII;hoezee;0;0
+U;57;ShinsengumiXXVII;Ziekerst niede;0;0
+U;56;ShinsengumiXXVI;Ziekerst niede;0;0
+U;55;ShinsengumiXXV;Ziekerst niede;0;0
+U;54;ShinsengumiXXIV;Ziekerst niede;0;0
+U;53;ShinsengumiXXIII;Ziekerst niede;0;0
+U;52;ShinsengumiXXII;Ziekerst niede;0;0
+U;51;ShinsengumiXXI;Ziekerst niede;0;0
+U;50;ShinsengumiXX;Ziekerst niede;0;0
+U;49;ShinsengumiXIX;Ziekerst niede;0;0
+U;48;ShinsengumiXVIII;Ziekerst niede;0;0
+U;47;ShinsengumiXVII;Ziekerst niede;0;0
+U;46;ShinsengumiXVI;Ziekerst niede;0;0
+U;45;ShinsengumiXV;Ziekerst niede;0;0
+U;44;ShinsengumiXIV;Ziekerst niede;0;0
+U;43;ShinsengumiXIII;Ziekerst niede;0;0
+U;42;ShinsengumiXII;Ziekerst niede;0;0
+U;41;ShinsengumiXI;Ziekerst niede;0;0
+U;40;ShinsengumiX;Ziekerst niede;0;0
+U;39;ShinsengumiIX;Ziekerst niede;0;0
+U;38;ShinsengumiVIII;Ziekerst niede;0;0
+U;37;ShinsengumiVII;Ziekerst niede;0;0
+U;36;ShinsengumiVI;Ziekerst niede;0;0
+U;35;ShinsengumiV;Ziekerst niede;0;0
+U;34;ShinsengumiIV;Ziekerst niede;0;0
+U;33;ShinsengumiIII;Ziekerst niede;0;0
+U;32;ShinsengumiII;Ziekerst niede;0;0
+U;31;Shinsengumi;test;0;0
+U;58;ShinsengumiXXVIII;Ziekerst niede;0;0
+U;59;ShinsengumiXXIX;Ziekerst niede;0;0
+U;60;ShinsengumiXXX;Ziekerst niede;0;0

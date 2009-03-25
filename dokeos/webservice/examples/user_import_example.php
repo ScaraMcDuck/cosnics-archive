@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', 7200);
 $time_start = microtime(true);
 
-$file = dirname(__FILE__) . '/user_import.csv';
+$file = dirname(__FILE__) . '/user_update.csv';
 $users = parse_csv($file);
 $location = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
@@ -66,7 +66,7 @@ function create_user($user)
     $user['registration_date'] = '0';
     $user['disk_quota'] = '209715200';
     $user['database_quota'] = '300';
-    $user['version_quota'] = '20';    
+    $user['version_quota'] = '20';
 	$result = $client->call('WebServicesUser.create_user', $user);    
 	if($result == 1)
     {
@@ -81,13 +81,12 @@ function update_user($user)
 	global $hash, $client;
 	log_message('Updating user ' . $user['username']);	
 	$hash = ($hash == '') ? login() : $hash;
-    $user['hash'] = $hash;
-    $user['user_id'] = '17';
-    $user['password'] = 'ae12e345f679aaf';
+    $user['hash'] = $hash;    
+    /*$user['password'] = 'ae12e345f679aaf';
     $user['registration_date'] = '0';
     $user['disk_quota'] = '209715200';
     $user['database_quota'] = '300';
-    $user['version_quota'] = '20';    
+    $user['version_quota'] = '20';*/
 	$result = $client->call('WebServicesUser.update_user', $user);
     if($result == 1)
     {
@@ -102,7 +101,7 @@ function delete_user($user)
 	global $hash, $client;
 	log_message('Deleting user: ' . $user['username']);
     $user['hash'] = $hash;
-    $user['user_id'] = '45';
+    //$user['user_id'] = '45';
 	$hash = ($hash == '') ? login() : $hash;
 	$result = $client->call('WebServicesUser.delete_user', array('username' => $user['username'],'user_id'=> $user['user_id'],'hash' => $hash));
     if($result == 1)

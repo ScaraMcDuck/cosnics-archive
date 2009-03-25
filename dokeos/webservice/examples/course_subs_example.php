@@ -58,11 +58,11 @@ function subscribe_user($course)
 	log_message('Subscribing user to course ');
 	$hash = ($hash == '') ? login() : $hash;
     $course['hash'] = $hash;
-    $course['user_id'] = 'Soliber';
+    /*$course['user_id'] = 'Soliber';
     $course['tutor_id'] = '1';
     $course['status'] = '1';
     $course['course_group_id'] = '0';
-    $course['course_code'] = 'H1';
+    $course['course_code'] = 'H1';*/
     $result = $client->call('WebServicesCourse.subscribe_user', $course);
     if($result == 1)
     {
@@ -78,11 +78,11 @@ function unsubscribe_user($course)
 	log_message('Unsubscribing user to course ');
 	$hash = ($hash == '') ? login() : $hash;
     $course['hash'] = $hash;
-    $course['user_id'] = 'Soliber';
+    /*$course['user_id'] = 'Soliber';
     $course['tutor_id'] = '1';
     $course['status'] = '1';
     $course['course_group_id'] = '0';
-    $course['course_code'] = 'H1';
+    $course['course_code'] = 'H1';*/
     $result = $client->call('WebServicesCourse.unsubscribe_user', $course);
     if($result == 1)
     {

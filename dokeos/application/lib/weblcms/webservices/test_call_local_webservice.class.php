@@ -217,8 +217,9 @@ class TestCallLocalWebservice
 			  'tutor_id' => '1',
 			  'sort' => '1',
 			  'user_course_cat' => '0',
-              'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'
+              'hash' => '550859312670dd7996153002d046737f08ba2c9f'
 			);
+
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
