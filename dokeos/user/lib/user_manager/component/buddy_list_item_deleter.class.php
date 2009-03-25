@@ -55,9 +55,12 @@ class UserManagerBuddyListItemDeleterComponent extends UserManagerComponent
 				{
 					$message = 'BuddyListItemNotDeleted';
 				}
+				echo $message;
 			}
 			
-			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
+			$ajax = Request :: get('ajax');
+			if(!$ajax)
+				$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
 		}
 		else
 		{

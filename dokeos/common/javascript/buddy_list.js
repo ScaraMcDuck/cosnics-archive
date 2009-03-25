@@ -20,20 +20,26 @@
 	
 	var buddy_dropped = function(event, ui)
 	{
+		//Variable initialisation
 		var old_parent = ui.draggable.parent();
 		var old_super_parent = old_parent.parent();
 		var buddylist = $('.buddy_list', $(this));
 		
+		//Check if buddylist exists in new parent or add it
 		if(buddylist.attr('class') != 'buddy_list')
 		{
 			$(this).append('<ul class="buddy_list"></ul>');
 			buddylist = $('.buddy_list', $(this));
 		}
 		
+		//Add item to buddylist
 		buddylist.append(ui.draggable);
+		
+		//Determine postback variables
 		var buddy = ui.draggable.attr('id');
 		var new_category = $(this).attr('id');
 		
+		//Check wheter the buddylist from old parent may be removed
 		var is_remove = false;
 		var children = $('.buddy_list', old_super_parent).children();
 		if(children.size() == 0)
@@ -42,10 +48,12 @@
 			$('.buddy_list', old_super_parent).remove();
 			is_remove = true;
 		}
-	
+		
+		//Toggle the visibility of new parent's icon
 		$('.category_toggle', $(this)).css('visibility', 'visible');
 	
 		var current = $(this);
+		bind_icons();
 		
 		$.post('index_user.php?go=buddy_category_change',
 		{
@@ -55,6 +63,7 @@
 	    	{
 	    		if(data.length > 0)
 	    		{ 
+	    			//Turn back actions
 	    			if(is_remove)
 	    			{
 	    				old_super_parent.append('<ul class="buddy_list"></ul>');
@@ -71,16 +80,92 @@
 	    				buddylist.remove();
 	    			}
 	    			
+	    			bind_icons();
 	    			alert(translation('CategoryChangeFailed', 'user'));
 	    		}
 	    	}
 	    );
 	}
 	
-	$(document).ready( function() 
-	{
-		$(".category_toggle").bind('click', item_clicked);
+	var delete_category_clicked = function(ev, ui) 
+	{ 		
+		var id = $(this).attr('id');
+		var object = $(this).parent().parent().parent().parent();
+		var object_parent = object.parent();
 		
+		var children = $('.buddy_list', object).children();
+		
+		var normal_category = $('.category_list_item[id="0"]', object_parent.parent());
+		var normal_buddy_list = $('.buddy_list', normal_category);
+		
+		if(normal_buddy_list.attr('class') != 'buddy_list')
+		{
+			normal_category.append('<ul class="buddy_list"></ul>');
+			normal_buddy_list = $('.buddy_list', normal_category);
+			$('.category_toggle', normal_category).css('visibility', 'visible');
+		}
+		
+		normal_buddy_list.append(children);
+		
+		object.remove();
+		bind_icons();
+		
+		$.get('index_user.php?go=buddy_delete_category',
+		{
+			buddylist_item:  id,
+			buddylist_category: id,
+			ajax: 1
+	    },  function(data)
+	    	{
+	    		if(data.length > 0)
+	    		{ 
+	    			alert(data);
+	    			object_parent.prepend(object);
+	    			$('.buddy_list', object).append(children);
+	    			
+	    			if(normal_buddy_list.children().size() == 0)
+	    			{
+	    				normal_buddy_list.remove();
+	    				$('.category_toggle', normal_category).css('visibility', 'hidden');
+	    			}
+	    			bind_icons();
+	    		}
+	    	}
+		);
+		
+		return false;
+	}
+	
+	var delete_item_clicked = function(ev, ui) 
+	{ 
+		var id = $(this).attr('id');
+		var object = $(this).parent().parent().parent().parent();
+		var object_parent = object.parent();
+		
+		object.remove();
+		bind_icons();
+		
+		$.get('index_user.php?go=buddy_delete_item',
+		{
+			buddylist_item:  id,
+			buddylist_category: id,
+			ajax: 1
+	    },  function(data)
+	    	{
+	    		if(data.length > 0)
+	    		{ 
+	    			alert(data);
+	    			object_parent.prepend(object);
+	    			bind_icons();
+	    		}
+	    	}
+		);
+		
+		return false;
+	}
+	
+	$(document).ready( function() 
+	{	
 		$(".buddy_list_item").draggable({
 			revert: true,
 		});
@@ -90,7 +175,16 @@
 			hoverClass: 'buddyDrop',
 			drop: buddy_dropped
 		});
+		
+		bind_icons();
 	});
+	
+	function bind_icons()
+	{
+		$(".category_toggle").bind('click', item_clicked);
+		$(".delete_category").bind('click', delete_category_clicked);
+		$(".delete_item").bind('click', delete_item_clicked);
+	}
 	
 	function translation(string, application) {
 		

@@ -115,6 +115,8 @@ class BuddyList
 				'href' => $this->parent->get_delete_buddylist_category_url($category->get_id()),
 				'label' => Translation :: get('Delete'),
 				'img' => Theme :: get_common_image_path().'action_delete.png',
+				'class' => 'delete_category',
+				'id' => $category->get_id(),
 				'confirm' => true
 			);
 			
@@ -175,6 +177,8 @@ class BuddyList
 				'href' => $this->parent->get_delete_buddylist_item_url($buddy->get_buddy_id()),
 				'label' => Translation :: get('DeleteUser'),
 				'img' => Theme :: get_common_image_path().'action_unsubscribe.png',
+				'class' => 'delete_item',
+				'id' => $buddy->get_buddy_id(),
 				'confirm' => true
 			);
 		}
