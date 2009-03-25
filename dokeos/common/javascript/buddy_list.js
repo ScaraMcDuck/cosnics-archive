@@ -18,26 +18,54 @@
 		$(".buddy_list", $(this).parent()).toggle();
 	}
 	
+	var buddy_dropped = function(event, ui)
+	{
+		var old_parent = ui.draggable.parent();
+		
+		$(".buddy_list", $(this)).append(ui.draggable);
+		var buddy = ui.draggable.attr("id");
+		var new_category = $(this).attr("id");
+		
+		$.post("index_user.php?go=buddy_category_change",
+		{
+	    	buddy:  buddy,
+	    	new_category: new_category
+	    },	function(data)
+	    	{
+	    		if(data.length > 0)
+	    		{
+	    			alert(translation('CategoryChangeFailed', 'user'));
+	    			old_parent.append(ui.draggable);
+	    		}
+	    	}
+	    );
+	}
+	
 	$(document).ready( function() 
 	{
 		$(".category_toggle").bind('click', item_clicked);
 		
 		$(".buddy_list_item").draggable({
 			revert: true,
-			autoSize: true,
-			ghosting: true
 		});
 		
 		$(".category_list_item").droppable({
-			accept			: 'buddy_list_item',
-			hoverclass		: 'dropOver',
-			activeclass		: 'fakeClass',
-			tollerance		: 'pointer',
-			ondrop			: function(dropped)
-			{
-				alert(dropped.attr('class'));
-			}
+			accept: '.buddy_list_item',
+			hoverClass: 'buddyDrop',
+			drop: buddy_dropped
 		});
 	});
+	
+	function translation(string, application) {
+		
+		var translated_string = $.ajax({
+			type: "POST",
+			url: "./common/javascript/ajax/translation.php",
+			data: { string: string, application: application },
+			async: false
+		}).responseText;
+		
+		return translated_string;
+	};
 	
 })(jQuery);
