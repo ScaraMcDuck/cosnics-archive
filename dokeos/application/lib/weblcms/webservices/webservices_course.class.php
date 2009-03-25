@@ -212,8 +212,11 @@ class WebServicesCourse
 		{
             unset($input_course[hash]);            
             if($this->validator->validate_subscribe_user($input_course)) //input validation
-            {                               
-                $cur = new CourseUserRelation($input_course[course_code],$input_course[user_id]);                
+            {
+                $cur = new CourseUserRelation($input_course[course_code],$input_course[user_id]);
+                unset($input_course[course_code]);
+                unset($input_course[user_id]);
+                $cur->set_default_properties($input_course);
                 return $this->webservice->raise_message($cur->create());
             }
             else

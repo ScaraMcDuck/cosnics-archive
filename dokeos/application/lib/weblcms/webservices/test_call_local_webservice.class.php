@@ -36,7 +36,7 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		$functions = array();
 		
 		{
@@ -45,7 +45,7 @@ class TestCallLocalWebservice
 				'parameters' => array('visual_code' => 'KIT', 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 			);
-		}
+		}*/
 		
 		/*A test to retrieve courses of a user from the db
 		 * 
@@ -208,16 +208,16 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		 /* $course = array (
-			  'course_code' => '2',
-			  'user_id' => '1',
+		  /*$course = array (
+			  'course_code' => 'KIT',
+			  'user_id' => 'Soliber',
 			  'status' => '1',
 			  'role' => 'NULL',
 			  'course_group_id' => '0',
 			  'tutor_id' => '1',
 			  'sort' => '1',
 			  'user_course_cat' => '0',
-              'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+              'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'
 			);
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
@@ -231,16 +231,16 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  /*$course = array (
-			  'course_code' => '2',
-			  'user_id' => '1',
+		 $course = array (
+			  'course_code' => 'KIT',
+			  'user_id' => 'Soliber',
 			  'status' => '1',
 			  'role' => 'NULL',
 			  'course_group_id' => '0',
 			  'tutor_id' => '1',
 			  'sort' => '1',
 			  'user_course_cat' => '0',
-              'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+              'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'
 			);
 	   	  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
@@ -248,7 +248,7 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesCourse.unsubscribe_user',
 				'parameters' => $course,
 		  		'handler' => 'handle_webservice'			
-			);*/
+			);
 
 		/*A test to subscribe a group to a course in the db
 		 * 
