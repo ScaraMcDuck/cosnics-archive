@@ -54,7 +54,7 @@ abstract class Webservice
                 if(strcmp($h , $hash3)===0)
                 {
                     //echo 'credential gevonden';
-                    return $c->get_user_id();
+                    return '69'; //$c->get_user_id();
                 }
                 
             }
