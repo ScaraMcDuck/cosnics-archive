@@ -1,9 +1,9 @@
 /*
- * SimpleModal 1.2.2 - jQuery Plugin
+ * SimpleModal 1.2.3 - jQuery Plugin
  * http://www.ericmmartin.com/projects/simplemodal/
- * Copyright (c) 2008 Eric Martin
+ * Copyright (c) 2009 Eric Martin
  * Dual licensed under the MIT and GPL licenses
- * Revision: $Id: jquery.simplemodal.js 181 2008-12-16 16:51:44Z emartin24 $
+ * Revision: $Id: jquery.simplemodal.js 185 2009-02-09 21:51:12Z emartin24 $
  */
 
 /**
@@ -57,11 +57,11 @@
  * @requires jQuery v1.2.2
  * @cat Plugins/Windows and Overlays
  * @author Eric Martin (http://ericmmartin.com)
- * @version 1.2.2
+ * @version 1.2.3
  */
 (function ($) {
-	var ie6 = $.browser.msie && parseInt($.browser.version) == 6 && !window['XMLHttpRequest'],
-		ieQuirks = $.browser.msie && !$.boxModel,
+	var ie6 = $.browser.msie && parseInt($.browser.version) == 6 && typeof window['XMLHttpRequest'] != "object",
+		ieQuirks = null,
 		w = [];
 
 	/*
@@ -151,6 +151,9 @@
 			if (this.dialog.data) {
 				return false;
 			}
+
+			// $.boxModel is undefined if checked earlier
+			ieQuirks = $.browser.msie && !$.boxModel;
 
 			// merge defaults and user options
 			this.opts = $.extend({}, $.modal.defaults, options);
@@ -328,12 +331,13 @@
 					else {
 						var te, le;
 						if (p && p.constructor == Array) {
-							if (p[0]) {
-								var top = typeof p[0] == 'number' ? p[0].toString() : p[0].replace(/px/, '');
-								te = top.indexOf('%') == -1 
-									? top + ' + (t = ' + st + ' ? ' + st + ' : ' + bst + ') + "px"'
-									: parseInt(top.replace(/%/, '')) + ' * ((' + ch + ' || ' + bch + ') / 100) + (t = ' + st + ' ? ' + st + ' : ' + bst + ') + "px"';
-							}
+							var top = p[0] 
+								? typeof p[0] == 'number' ? p[0].toString() : p[0].replace(/px/, '')
+								: el.css('top').replace(/px/, '');
+							te = top.indexOf('%') == -1 
+								? top + ' + (t = ' + st + ' ? ' + st + ' : ' + bst + ') + "px"'
+								: parseInt(top.replace(/%/, '')) + ' * ((' + ch + ' || ' + bch + ') / 100) + (t = ' + st + ' ? ' + st + ' : ' + bst + ') + "px"';
+
 							if (p[1]) {
 								var left = typeof p[1] == 'number' ? p[1].toString() : p[1].replace(/px/, '');
 								le = left.indexOf('%') == -1 

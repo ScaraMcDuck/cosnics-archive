@@ -2,6 +2,8 @@
 require_once Path :: get_library_path().'html/toolbar/toolbar_item.class.php';
 
 // Theme-paths
+define('WEB_THEME_PATH', 'WEB_THEME_PATH');
+define('SYS_THEME_PATH', 'SYS_THEME_PATH');
 define('WEB_IMG_PATH', 'WEB_IMG_PATH');
 define('SYS_IMG_PATH', 'SYS_IMG_PATH');
 define('WEB_CSS_PATH', 'WEB_CSS_PATH');
@@ -63,7 +65,20 @@ class Theme
 				return Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/css/';
 			case SYS_CSS_PATH :
 				return Path :: get(SYS_LAYOUT_PATH) . $this->get_theme() . '/css/';
+			case WEB_THEME_PATH :
+				return Path :: get(WEB_LAYOUT_PATH) . $this->get_theme() . '/';
+			case SYS_THEME_PATH :
+				return Path :: get(SYS_LAYOUT_PATH) . $this->get_theme() . '/';
 		}
+    }
+    
+	/**
+	 * Get the web path to the theme's folder
+	 */
+    function get_theme_path()
+    {
+    	$instance = self :: get_instance();
+		return $instance->get_path(WEB_THEME_PATH);
     }
     
 	/**

@@ -336,6 +336,10 @@ div.announcements
 {
 	border: 1px dashed #c0c0c0;
 	background-color: #F2F2F2;
+	display: inline;
+	float: left;
+	padding: 0px;
+	margin: 0px -1px 5px -1px;
 }
 
 .tool
