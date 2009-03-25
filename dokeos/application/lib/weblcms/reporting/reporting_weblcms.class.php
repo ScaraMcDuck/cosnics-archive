@@ -199,10 +199,10 @@ class ReportingWeblcms {
             $lang = $course->get_language();
             if (array_key_exists($lang, $arr))
             {
-                $arr[$lang][]++;
+                $arr[$lang][0]++;
             }else
             {
-                $arr[$lang][] = 1;
+                $arr[$lang][0] = 1;
             }
         }
 
