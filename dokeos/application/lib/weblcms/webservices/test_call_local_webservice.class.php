@@ -36,16 +36,16 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		$functions = array();
 		
 		{
 			$functions[] = array(
 				'name' => 'WebServicesCourse.get_course',
-				'parameters' => array('id' => 1, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
+				'parameters' => array('visual_code' => 'KIT', 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 			);
-		}*/
+		}
 		
 		/*A test to retrieve courses of a user from the db
 		 * 
@@ -66,7 +66,7 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		$functions = array();
 		
 		{
@@ -75,7 +75,7 @@ class TestCallLocalWebservice
 				'parameters' => array('id' => 3, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
 				'handler' => 'handle_webservice'
 			);
-		}
+		}*/
 		
 		/*A test to get new publications in course X from the db
 		 * 
