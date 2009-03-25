@@ -60,7 +60,7 @@ class TestCallLocalWebservice
 		{
 			$functions[] = array(
 				'name' => 'LoginWebservice.login',
-				'parameters' => array('username'=>'sjeeker','password'=>'ef1fffa5a0b8736f2d8a5f0c913bb0930d1f16c0'), //password is actually hash 1
+				'parameters' => array('username'=>'admin','password'=>'ef1fffa5a0b8736f2d8a5f0c913bb0930d1f16c0'), //password is actually hash 1
 				'handler' => 'handle_webservice'
 			);
 		}
