@@ -49,7 +49,7 @@ abstract class Webservice
                 /*echo 'credential hash' .$c->get_hash();
                 echo 'ip address = ' .$_SERVER['REMOTE_ADDR'];
                 echo 'credential ip = ' .$c->get_ip();*/
-                echo 'hash = ' .$h .' hash = ' .$hash3;
+                //echo 'hash = ' .$h .' hash = ' .$hash3;
 
                 if(strcmp($h , $hash3)===0)
                 {
@@ -109,7 +109,6 @@ abstract class Webservice
 			}
 			else
 			{
-                //$this->message = 'hash = ' .$hash .'  input hash = ' .$input_hash;
                 $this->message = 'Wrong hash value submitted.';
                 $this->raise_message($this->message);
                 return false;
