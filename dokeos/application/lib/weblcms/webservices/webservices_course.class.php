@@ -443,12 +443,4 @@ class WebServicesCourse
             return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
-	
-	/*function casttoclass($class,$object)
-	{
-		return unserialize(preg_replace('/^O:\d+:"[^"]++"/', 'O:' . strlen($class) . ':"' . $class . '"', serialize($object)));
-	}*/
-
-	
-
 }
