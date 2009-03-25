@@ -265,6 +265,7 @@ div.deleteColumn
 	border: 1px dashed #c0c0c0;
 	background-color: #F2F2F2;
 	-moz-border-radius: 10px;
+	margin: 0px 0px 1em 0px;
 }
 
 .tabSortHelper
@@ -282,4 +283,10 @@ div.deleteColumn
 .droppable-hover
 {
 	outline: 1px dotted black;
+}
+
+.ui-state-highlight
+{
+	border: 1px dashed #c0c0c0;
+	background-color: #F2F2F2;
 }

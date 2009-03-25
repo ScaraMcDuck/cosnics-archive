@@ -90,23 +90,18 @@
 	}
 	
 	function toolsSortableStart(e, ui) {
-		ui.helper.css("width", ui.item.width());
 		ui.helper.css("border", "4px solid #c0c0c0");
 	}
 	
-	function toolsSortableChange(e, ui) {
-		if (ui.sender) {
-			var w = ui.element.width();
-			ui.placeholder.width(w);
-			ui.helper.css("width", ui.element.children().width());
-		}
+	function toolSortableBeforeStop(e, ui) {
+		ui.helper.css("border", "0px solid #c0c0c0");
 	}
 	
 	function toolsSortableUpdate(e, ui) {
 		var section = $(this).attr("id");
 		var order = $(this).sortable("serialize");
 
-		$.post("./application/lib/weblcms//ajax/block_sort.php", {
+		$.post("./application/lib/weblcms/ajax/block_sort.php", {
 			column : column,
 			order : order
 		}// ,
@@ -119,14 +114,16 @@
 		$(".toolblock .block .description").sortable({
 			cancel : 'a',
 			opacity : 0.8,
+			forceHelperSize : true,
+			forcePlaceholderSize : true,
 			cursor : 'move',
-			helper : 'clone',
+			helper : 'original',
 			placeholder : 'toolSortHelper',
 			revert : true,
-			scroll : true,
+			scroll : false,
 			start : toolsSortableStart,
-			change : toolsSortableChange
-			//update : sortableUpdate
+			beforeStop : toolSortableBeforeStop,
+			//update : toolSortableUpdate
 		});
 	}
 

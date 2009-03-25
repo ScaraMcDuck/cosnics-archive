@@ -35,12 +35,15 @@
 			}
 		});
 		
-		bindIcons();
+		bindIconsLegacy();
 	}
-
+	
 	function sortableStart(e, ui) {
-		ui.helper.css("width", ui.item.width());
 		ui.helper.css("border", "4px solid #c0c0c0");
+	}
+	
+	function sortableBeforeStop(e, ui) {
+		ui.helper.css("border", "0px solid #c0c0c0");
 	}
 	
 	function sortableStop(e, ui) {
@@ -63,17 +66,7 @@
 		$("li.current a.deleteTab").css('display', 'inline');
 		$("li.normal a.deleteTab").css('display', 'none');
 		
-		$("#tab_menu li").unbind();
-		$("#tab_menu li:not(.current)").bind('click', showTab);
-		$("#tab_menu li.current").bind('click', editTab);
-	}
-
-	function sortableChange(e, ui) {
-		if (ui.sender) {
-			var w = ui.element.width();
-			ui.placeholder.width(w);
-			ui.helper.css("width", ui.element.children().width());
-		}
+		tabsDroppable();
 	}
 
 	function sortableUpdate(e, ui) {
@@ -231,7 +224,7 @@
 			$("div.title a").css('display', 'none');
 			order = column.sortable("serialize");
 
-			bindIcons();
+			bindIconsLegacy();
 			blocksDraggable();
 
 			$.post("./home/ajax/block_sort.php", {
@@ -272,7 +265,7 @@
 		$.post("./home/ajax/tab_add.php", {}, function (data) {
 			$("#main .tab:last").after(data.html);
 			$("#tab_menu ul").append(data.title);
-			bindIcons();
+			bindIconsLegacy();
 			tabsSortable();
 			columnsSortable();
 			columnsResizable();
@@ -311,7 +304,7 @@
 			
 			$("div.column:last", row).after(columnHtml);
 			
-			bindIcons();
+			bindIconsLegacy();
 			columnsSortable();
 			columnsResizable();
 			
@@ -506,36 +499,38 @@
 			handleLoadingBox(loading);
 		}, "json");
 	}
-
-	function bindIcons() {
+	
+	function bindIconsLegacy() {
 		$("div.title a").hide();
-		$("a.closeEl").unbind();
-		$("a.closeEl").bind('click', collapseItem);
-		$("a.deleteEl").unbind();
-		$("a.deleteEl").bind('click', deleteItem);
-
 		$("div.title").unbind();
 		$("div.title").bind('mouseenter', hoverInItem);
 		$("div.title").bind('mouseleave', hoverOutItem);
+	}
 
-		$("a.addEl").unbind();
-		$("a.addEl").bind('click', showBlockScreen);
+	function bindIcons() {
+		//$("a.closeEl").unbind();
+		$("a.closeEl").live('click', collapseItem);
+		//$("a.deleteEl").unbind();
+		$("a.deleteEl").live('click', deleteItem);
+
+		//$("a.addEl").unbind();
+		$("a.addEl").live('click', showBlockScreen);
 		
-		$("#tab_menu li").unbind();
-		$("#tab_menu li:not(.current)").bind('click', showTab);
-		$("#tab_menu li.current").bind('click', editTab);
+		//$("#tab_menu li").unbind();
+		$("#tab_menu li:not(.current)").live('click', showTab);
+		$("#tab_menu li.current").live('click', editTab);
 		
-		$("a.addTab").unbind();
-		$("a.addTab").bind('click', addTab);
+		//$("a.addTab").unbind();
+		$("a.addTab").live('click', addTab);
 		
-		$("a.addColumn").unbind();
-		$("a.addColumn").bind('click', addColumn);
+		//$("a.addColumn").unbind();
+		$("a.addColumn").live('click', addColumn);
 		
-		$("a.deleteTab").unbind();
-		$("a.deleteTab").bind('click', deleteTab);
+		//$("a.deleteTab").unbind();
+		$("a.deleteTab").live('click', deleteTab);
 		
-		$(".deleteColumn").unbind();
-		$(".deleteColumn").bind('click', deleteColumn);	
+		//$(".deleteColumn").unbind();
+		$(".deleteColumn").live('click', deleteColumn);	
 	}
 	
 	function getDraggableParent(e, ui) {
@@ -547,7 +542,7 @@
 	}
 	
 	function endDraggable() {
-		bindIcons();
+		bindIconsLegacy();
 	}
 	
 	function blocksDraggable() {
@@ -628,15 +623,16 @@
 			handle : 'div.title',
 			cancel : 'a',
 			opacity : 0.8,
+			forcePlaceholderSize : true,
 			cursor : 'move',
-			helper : 'clone',
+			helper : 'original',
 			placeholder : 'blockSortHelper',
 			revert : true,
 			scroll : true,
-			connectWith : columns,
+			connectWith : '.column',
 			start : sortableStart,
+			beforeStop : sortableBeforeStop,
 			stop : sortableStop,
-			change : sortableChange,
 			update : sortableUpdate
 		});
 	}
@@ -646,12 +642,12 @@
 		$("#tab_menu #tab_elements").sortable({
 			cancel : 'a.deleteTab',
 			opacity : 0.8,
+			forcePlaceholderSize : true,
 			cursor : 'move',
-			helper : 'clone',
+			helper : 'original',
 			placeholder : 'tabSortHelper',
 			revert : true,
 			scroll : true,
-			start : sortableStart,
 			update : tabsSortableUpdate
 		});
 	}
@@ -659,12 +655,11 @@
 	function columnsResizable() {
 		$("div.column").resizable("destroy");
 		$("div.column").resizable({
-			handles : "e",
-			transparent : true,
+			handles : 'e',
 			autoHide : true,
 			ghost : true,
 			preventDefault : true,
-			preserveCursor : true,
+			helper: 'ui-state-highlight',
 			stop : resizableStop
 		});
 	}
@@ -680,6 +675,7 @@
 		$("a.addEl").toggle();
 		$("li.current a.deleteTab").css('display', 'inline');
 
+		bindIconsLegacy();
 		bindIcons();
 		
 		tabsSortable();
