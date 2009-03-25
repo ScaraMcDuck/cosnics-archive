@@ -126,16 +126,16 @@ class TestCallLocalWebservice
 		 *
 		 */
 
-		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		$functions = array();
 
 		{
 			$functions[] = array(
 				'name' => 'WebServicesCourse.get_publications_for_course',
-				'parameters' => array('id' => 3, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
+				'parameters' => array('id' => 1, 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 			);
-		}*/
+		}
 		
 		/*A test to delete a course in the db
 		 * 
@@ -208,7 +208,7 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  /*$course = array (
+		  $course = array (
 			  'course_code' => 'KIT',
 			  'user_id' => 'Soliber',
 			  'status' => '1',
@@ -225,13 +225,13 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesCourse.subscribe_user',
 				'parameters' => $course,
 		  		'handler' => 'handle_webservice'			
-			);*/
+			);
 		
 		/*A test to unsubscribe a user from a course in the db
 		 * 
 		 */
 		
-		 $course = array (
+		 /*$course = array (
 			  'course_code' => 'KIT',
 			  'user_id' => 'Soliber',
 			  'status' => '1',
@@ -248,7 +248,7 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesCourse.unsubscribe_user',
 				'parameters' => $course,
 		  		'handler' => 'handle_webservice'			
-			);
+			);*/
 
 		/*A test to subscribe a group to a course in the db
 		 * 
