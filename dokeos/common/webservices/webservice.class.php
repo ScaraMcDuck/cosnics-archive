@@ -41,16 +41,14 @@ abstract class Webservice
 		$credentials = $wdm->retrieve_webservice_credentials_by_ip($_SERVER['REMOTE_ADDR']);
         $credentials = $credentials->as_array();
         if(is_array($credentials))
-		{
-            dump($credentials);
-
-            foreach($credentials as $c)
+		{   
+            foreach($credentials as $c) //werkt
             {
                 $h = Hashing ::hash($_SERVER['REMOTE_ADDR'].$c->get_hash()); //hash 3 based on hash 2
 
-                if(strcmp($h , $hash3)===0)
+                if(strcmp($h , $hash3)===0) //zijn gelijk
                 {
-                    echo 'credential gevonden';
+                    echo 'credential gevonden';                    
                     return $c->get_user_id();
                 }
                 
