@@ -33,7 +33,7 @@ class WebServicesCourse
 		$functions = array();
 		
 		$functions['get_course'] = array(
-			'input' => new InputCourse(),
+			'input' => new Course(),
 			'output' => new Course(),
             'require_hash' => true
 		);
@@ -126,14 +126,14 @@ class WebServicesCourse
             $wdm = DatabaseWeblcmsDataManager :: get_instance();
             if($this->validator->validate_retrieve($input_course)) //input validation
             {
-                $course = $wdm->retrieve_course($input_course[id]);
-                if(count($course->get_default_properties())>0)
+                $course = $wdm->retrieve_course_by_visual_code($input_course[visual_code]);
+                if(!empty($course))
                 {
                     return $course->get_default_properties();
                 }
                 else
                 {
-                    return $this->webservice->raise_error('Course '.$input_course[id].' not found.');
+                    return $this->webservice->raise_error('Course '.$input_course[visual_code].' not found.');
                 }
             }
             else

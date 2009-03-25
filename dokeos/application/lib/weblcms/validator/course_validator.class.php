@@ -46,7 +46,7 @@ class CourseValidator extends Validator
 
     function validate_retrieve(&$courseProperties)
     {
-        if($courseProperties[name]==null)
+        if($courseProperties[visual_code]==null)
         return false;
 
         return true;
