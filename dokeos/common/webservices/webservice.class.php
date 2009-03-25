@@ -48,8 +48,8 @@ abstract class Webservice
 
                 /*echo 'credential hash' .$c->get_hash();
                 echo 'ip address = ' .$_SERVER['REMOTE_ADDR'];
-                echo 'credential ip = ' .$c->get_ip();
-                echo 'hash = ' .$h .' hash = ' .$hash3;*/
+                echo 'credential ip = ' .$c->get_ip();*/
+                echo 'hash = ' .$h .' hash = ' .$hash3;
 
                 if(strcmp($h , $hash3)===0)
                 {
