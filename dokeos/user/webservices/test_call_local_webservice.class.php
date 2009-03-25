@@ -89,7 +89,7 @@ class TestCallLocalWebservice
 		  'expiration_date' => '0',
 		  'registration_date' => '1234774883',
 		  'active' => '1',
-          'hash' => '95abbf9f0c9d666c66aa30ce36da3ec0f57df48c ' //hash 3 needed for credential
+          'hash' => '95abbf9f0c9d666c66aa30ce36da3ec0f57df48c' //hash 3 needed for credential
 		);
 
         $wsdl = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservices_user.class.php?wsdl';

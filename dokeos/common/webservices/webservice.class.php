@@ -45,11 +45,9 @@ abstract class Webservice
             foreach($credentials as $c) //werkt
             {
                 $h = Hashing ::hash($_SERVER['REMOTE_ADDR'].$c->get_hash()); //hash 3 based on hash 2
-
-                echo 'hash = ' .$h .'input hash = ' .$hash3;
+                
                 if(strcmp($h , $hash3)===0) //zijn gelijk
-                {
-                    echo ' credential gevonden';
+                {                    
                     return $c->get_user_id();
                 }
                 
@@ -149,8 +147,7 @@ abstract class Webservice
 
     public function can_execute($input_user, $webservicename)
     {   
-        $userid = $this->validate_function($input_user[hash]);
-        echo ' user_id = ' .$userid;
+        $userid = $this->validate_function($input_user[hash]);       
         if(isset($userid) && $this->check_rights($webservicename,$userid))
         return true;
         else

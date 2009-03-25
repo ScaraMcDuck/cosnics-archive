@@ -127,16 +127,13 @@ class WebServicesUser
 	}
 	
 	function create_user(&$input_user)
-	{
-        echo 'create user!';
+	{        
 
         if($this->webservice->can_execute($input_user, 'create user'))
 		{
-            echo 'can execute !';
             unset($input_user[hash]);
             if($this->validator->validate_create($input_user))
-            {
-                echo 'validate create !';
+            {                
                 $u = new User(0,$input_user);
                 return $this->webservice->raise_message($u->create());
             }
