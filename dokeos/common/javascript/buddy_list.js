@@ -21,6 +21,23 @@
 	$(document).ready( function() 
 	{
 		$(".category_toggle").bind('click', item_clicked);
+		
+		$(".buddy_list_item").draggable({
+			revert: true,
+			autoSize: true,
+			ghosting: true
+		});
+		
+		$(".category_list_item").droppable({
+			accept			: 'buddy_list_item',
+			hoverclass		: 'dropOver',
+			activeclass		: 'fakeClass',
+			tollerance		: 'pointer',
+			ondrop			: function(dropped)
+			{
+				alert(dropped.attr('class'));
+			}
+		});
 	});
 	
 })(jQuery);
