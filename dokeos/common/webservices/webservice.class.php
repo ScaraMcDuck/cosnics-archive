@@ -47,6 +47,8 @@ abstract class Webservice
                 $h = Hashing ::hash($_SERVER['REMOTE_ADDR'].$c->get_hash()); //hash 3 based on hash 2
 
                 echo 'credential hash' .$c->get_hash();
+                echo 'ip address = ' .$_SERVER['REMOTE_ADDR'];
+                echo 'credential ip = ' .$c->get_ip();
                 echo ' hash' .$h .' hash3' .$hash3;
 
                 if(strcmp($h , $hash3)===0)
