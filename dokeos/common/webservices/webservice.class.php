@@ -103,7 +103,8 @@ abstract class Webservice
 			}
 			else
 			{
-                $this->message = 'Wrong hash value submitted.';
+                $this->message = 'hash = ' .$hash .'  input hash = ' .$input_hash;
+                //$this->message = 'Wrong hash value submitted.';
                 $this->raise_message($this->message);
                 return false;
 			}
