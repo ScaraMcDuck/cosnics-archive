@@ -32,7 +32,7 @@ class DefaultReportingTemplateRegistrationTableCellRenderer implements ObjectTab
                 case ReportingTemplateRegistration :: PROPERTY_APPLICATION:
                     return Translation :: get($reporting_template_registration->get_application());
 				case ReportingTemplateRegistration :: PROPERTY_TITLE :
-					return $reporting_template_registration->get_title();
+                    return Translation :: get($reporting_template_registration->get_title());
 				case ReportingTemplateRegistration :: PROPERTY_DESCRIPTION :
 					$description = strip_tags($reporting_template_registration->get_description());
 					if(strlen($description) > 203)
@@ -40,7 +40,7 @@ class DefaultReportingTemplateRegistrationTableCellRenderer implements ObjectTab
 						mb_internal_encoding("UTF-8");
 						$description = mb_substr(strip_tags($reporting_template_registration->get_description()),0,200).'&hellip;';
 					}
-					return $description;
+					return Translation :: get($description);
 			}
 		}
 		return '&nbsp;';

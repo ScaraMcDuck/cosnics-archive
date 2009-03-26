@@ -29,9 +29,9 @@ class CourseUserReportingTemplate extends ReportingTemplate
      */
     public static function get_properties()
     {
-        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = Translation :: get('CourseUserReportingTemplateTitle');
+        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = 'CourseUserReportingTemplateTitle';
         $properties[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = 0;
-        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = Translation :: get('CourseUserReportingTemplateDescription');
+        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = 'CourseUserReportingTemplateDescription';
 
         return $properties;
     }

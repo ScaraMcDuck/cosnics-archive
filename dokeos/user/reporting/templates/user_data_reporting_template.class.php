@@ -32,9 +32,9 @@ class UserDataReportingTemplate extends ReportingTemplate
      */
     public static function get_properties()
     {
-        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = Translation :: get('UserDataReportingTemplateTitle');
+        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = 'UserDataReportingTemplateTitle';
         $properties[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = 1;
-        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = Translation :: get('UserDataReportingTemplateDescription');
+        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = 'UserDataReportingTemplateDescription';
 
         return $properties;
     }

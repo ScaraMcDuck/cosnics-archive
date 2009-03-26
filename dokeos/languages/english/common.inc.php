@@ -148,4 +148,16 @@ $lang['common']['OtherBuddies'] = 'Other buddies';
 $lang['common']['Requested'] = 'Requested';
 $lang['common']['Requests'] = 'Requests';
 $lang['common']['Rejected'] = 'Rejected';
+$lang['common']['Admin'] = 'Admin';
+$lang['common']['Group'] = 'Group';
+$lang['common']['Home'] = 'Home';
+$lang['common']['Menu'] = 'Menu';
+$lang['common']['Migration'] = 'Migration';
+$lang['common']['Help'] = 'Help';
+$lang['common']['Myportfolio'] = 'My Portfolio';
+$lang['common']['PersonalCalendar'] = 'Personal Calendar';
+$lang['common']['PersonalMessenger'] = 'Personal Messenger';
+$lang['common']['Profiler'] = 'Profiler';
+$lang['common']['SearchPortal'] = 'Serach Portal';
+$lang['common']['Weblcms'] = 'Weblcms';
 ?>
