@@ -36,9 +36,10 @@ class BuddyList
 		$categories = $this->retrieve_buddy_list_categories();
 		$buddies = $this->retrieve_buddies();
 		$requests = $this->retrieve_requests();
+		$total = count($buddies, COUNT_RECURSIVE) + count($requests) - $categories->size();
 		
 		$html = array();
-		$html[] = $this->display_buddy_list_header();
+		$html[] = $this->display_buddy_list_header($total);
 		
 		while($category = $categories->next_result())
 		{
@@ -65,7 +66,7 @@ class BuddyList
 	 * Displays the header of the buddy list
 	 * @return html code
 	 */
-	function display_buddy_list_header()
+	function display_buddy_list_header($size)
 	{
 		$html = array();
 		
@@ -73,7 +74,7 @@ class BuddyList
 		
 		$html[] = '<div class="buddylist_header">';
 		$html[] = '<img src="' . Theme :: get_image_path('admin') . 'place_mini_user.png" alt="user" />';
-		$html[] = '<span class="title">' . Translation :: get('MyBuddies') . '</span>';
+		$html[] = '<span class="title">' . Translation :: get('MyBuddies') . ' (<span class="totalusers">' . $size . '</span>)</span>';
 		$html[] = '</div>';
 		
 		$html[] = '<div class="buddylist_content">';
