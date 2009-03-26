@@ -93,7 +93,8 @@ class ReportingUser {
             $bla2 = explode(' ',$bla[2]);
             $hoursarray = explode(':',$bla2[1]);
             $date = date($format,mktime($hoursarray[0],$hoursarray[1],$hoursarray[2],$bla[1],$bla2[0],$bla[0]));
-            $date = (is_numeric($date))?$date:Translation :: get($date);
+            $date = (is_numeric($date))?$date:Translation :: get($date.'Long');
+            //dump($date);
             if (array_key_exists($date, $arr))
             {
                 $arr[$date][0]++;
@@ -149,6 +150,8 @@ class ReportingUser {
         $trackerdata = $tracker->retrieve_tracker_items($condition);
 
         $hours = self :: getDateArray($trackerdata,'G');
+
+        ksort($hours);
 
         return Reporting :: getSerieArray($hours);
     }
