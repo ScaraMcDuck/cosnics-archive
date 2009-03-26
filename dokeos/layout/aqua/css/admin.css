@@ -114,16 +114,15 @@ div.configure div.application_current img {
  * Various
  */
 div.admin_search_form {
-	clear: both;
-	float: right;
-	padding-top: 4px;
+	padding: 10px 0px 0px 0px;
+	margin: 0px;
+	height: 48px;
 }
 
 div.admin_search_form div.row {
 	clear: none;
 	float: left;
 	padding: 0px;
-	margin-left: 10px;
 }
 
 div.admin_search_form div.row div.formw {
@@ -133,6 +132,7 @@ div.admin_search_form div.row div.formw {
 
 div.admin_search_form div.row div.formw button {
 	margin-top: -2px;
+	margin-left: 10px;
 }
 
 div.vertical_action
