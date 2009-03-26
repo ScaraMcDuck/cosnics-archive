@@ -53,7 +53,7 @@
 		$('.category_toggle', $(this)).css('visibility', 'visible');
 	
 		var current = $(this);
-		bind_icons();
+		count_sizes();
 		
 		$.post('index_user.php?go=buddy_category_change',
 		{
@@ -80,7 +80,7 @@
 	    				buddylist.remove();
 	    			}
 	    			
-	    			bind_icons();
+	    			count_sizes();
 	    			alert(translation('CategoryChangeFailed', 'user'));
 	    		}
 	    	}
@@ -108,7 +108,7 @@
 		normal_buddy_list.append(children);
 		
 		object.remove();
-		bind_icons();
+		count_sizes();
 		
 		$.get('index_user.php?go=buddy_delete_category',
 		{
@@ -127,7 +127,7 @@
 	    				normal_buddy_list.remove();
 	    				$('.category_toggle', normal_category).css('visibility', 'hidden');
 	    			}
-	    			bind_icons();
+	    			count_sizes();
 	    		}
 	    	}
 		);
@@ -152,7 +152,7 @@
 			buddy_list.remove();
 		}
 		
-		bind_icons();
+		count_sizes();
 		
 		$.get('index_user.php?go=buddy_delete_item',
 		{
@@ -172,7 +172,7 @@
 	    			}
 	    			
 	    			buddy_list.prepend(buddy_list_item);
-	    			bind_icons();
+	    			count_sizes();
 	    		}
 	    	}
 		);
@@ -207,7 +207,22 @@
 			is_remove = true; 
 		}
 		
-		bind_icons();
+		var reject_buddy = $('.reject_buddy', buddy_list_item);
+		var accept_buddy = $(this);
+		
+		accept_buddy.css('visibility', 'hidden');
+		reject_buddy.attr('class', 'delete_item');
+		
+		var src = reject_buddy.children().attr('src');
+		src = src.replace('action_setting_false.png', 'action_unsubscribe.png');
+		reject_buddy.children().attr('src', src);
+		
+		var href = reject_buddy.attr('href');
+		href = href.replace('buddy_status_change', 'buddy_delete_item');
+		href = href.replace('&status=2', '');
+		reject_buddy.attr('href', href);
+		
+		count_sizes();
 		
 		$.get('index_user.php?go=buddy_status_change',
 		{
@@ -235,7 +250,17 @@
 	    				normal_buddy_list.remove();
 	    			}
 	    			
-	    			bind_icons();
+	    			reject_buddy.attr('class', 'reject_buddy');
+	    			accept_buddy.css('visibility', 'visible');
+	    			
+	    			src = src.replace('action_unsubscribe.png', 'action_setting_false.png');
+	    			reject_buddy.children().attr('src', src);
+	    			
+	    			href = href.replace('buddy_delete_item', 'buddy_status_change');
+	    			href += '&status=2';
+	    			reject_buddy.attr('href', href);
+	    			
+	    			count_sizes();
 	    		}
 	    	}
 		);
@@ -260,7 +285,7 @@
 			buddy_list.remove();
 		}
 		
-		bind_icons();
+		count_sizes();
 		
 		$.get('index_user.php?go=buddy_status_change',
 		{
@@ -282,7 +307,7 @@
 	    			
 	    			buddy_list.prepend(buddy_list_item);
 	    			
-	    			bind_icons();
+	    			count_sizes();
 	    		}
 	    	}
 		);
@@ -303,16 +328,20 @@
 		});
 		
 		bind_icons();
+		count_sizes();
 	});
 	
 	function bind_icons()
 	{
-		$(".category_toggle").bind('click', item_clicked);
-		$(".delete_category").bind('click', delete_category_clicked);
-		$(".delete_item").bind('click', delete_item_clicked);
-		$(".accept_buddy").bind('click', accept_buddy_clicked);
-		$(".reject_buddy").bind('click', reject_buddy_clicked);
-		
+		$(".category_toggle").live('click', item_clicked);
+		$(".delete_category").live('click', delete_category_clicked);
+		$(".delete_item").live('click', delete_item_clicked);
+		$(".accept_buddy").live('click', accept_buddy_clicked);
+		$(".reject_buddy").live('click', reject_buddy_clicked);
+	}
+	
+	function count_sizes()
+	{
 		var total = 0;
 		
 		$('.category_list_item, .category_list_item_static').each(function()
