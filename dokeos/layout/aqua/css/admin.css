@@ -135,6 +135,33 @@ div.admin_search_form div.row div.formw button {
 	margin-top: -2px;
 }
 
+div.vertical_action
+{
+	clear: both;
+	width: 100%;
+	overflow: hidden;
+	padding: 10px 0px 10px 0px;
+	border-top: 1px solid #EBEBEB;
+}
+
+div.vertical_action div.icon
+{
+	float: left;
+	width: 64px;
+	height: 48px;
+}
+
+div.vertical_action div.icon img
+{
+	margin: 8px;
+}
+
+div.vertical_action h4
+{
+	margin: 0px;
+	padding: 0px;
+}
+
 /*********************************************
  * jQuery CSS: Tabs
  *********************************************/
@@ -186,9 +213,9 @@ div.admin_search_form div.row div.formw button {
 div.scrollable
 {
 	position: relative;
-	overflow: hidden;
-	width: 94%;
-	height: 90px;
+	/*overflow: hidden;*/
+	width: 100%;
+	/*height: 90px;*/
 }
 
 /* 
@@ -197,14 +224,17 @@ div.scrollable
 	it's enough that you set width and height for the root element and
 	not for this element.
 */
+/*
 div.scrollable div.items
 {
 	width: 20000em;
 	position: absolute;
 	clear: both;
 }
+*/
 
 /* single scrollable item */
+/*
 div.scrollable div.items div
 {
 	float: left;
@@ -212,6 +242,7 @@ div.scrollable div.items div
 	overflow: hidden;
 	height: 90px;
 }
+*/
 
 /* this makes it possible to add next button beside scrollable */
 div.scrollable

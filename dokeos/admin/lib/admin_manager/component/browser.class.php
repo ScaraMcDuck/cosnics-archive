@@ -35,8 +35,8 @@ class AdminBrowserComponent extends AdminManagerComponent
 		$this->display_header($trail);
 		echo $this->get_application_platform_admin_tabs($links);
 		echo '<div class="clear"></div>';
-		echo '<br /><br /><br /><br />';
-		echo '<div class="clear"></div>';
+//		echo '<br /><br /><br /><br />';
+//		echo '<div class="clear"></div>';
 		//echo $this->get_application_platform_admin_sections($links);
 		$this->display_footer();
 	}
@@ -81,22 +81,47 @@ class AdminBrowserComponent extends AdminManagerComponent
 			{
 				$html[] = '<div class="tab" id="tabs-'. $index .'">';
 				
-				$html[] = '<a class="prev"></a>';
+				//$html[] = '<a class="prev"></a>';
 				
 				$html[] = '<div class="scrollable">';
 				$html[] = '<div class="items">';
+				
+				$count = 0;
+				
 				foreach ($application_links['links'] as $link)
 				{
+					$count++;
+					
 					if($link['confirm'])
 					{
 						$onclick = 'onclick = "return confirm(\'' . $link['confirm'] . '\')"';
 					}
-					$html[] = '<div class="action"><a href="'.$link['url'] .'" ' . $onclick . '><img src="'. Theme :: get_image_path() .'action_'. $link['action'] .'.png" alt="'. $link['name'] .'" title="'. $link['name'] .'"/><br />'.$link['name'].'</a></div>';
+					
+					$html[] = '<div class="vertical_action"'. ($count == 1 ? ' style="border-top: 0px solid #FAFCFC;"' : '') .'>';
+						$html[] = '<div class="icon">';
+							$html[] = '<a href="'.$link['url'] .'" ' . $onclick . '><img src="'. Theme :: get_image_path() .'action_'. $link['action'] .'.png" alt="'. $link['name'] .'" title="'. $link['name'] .'"/></a>';
+						$html[] = '</div>';
+						
+						//$html[] = '<div class="text">';
+							$html[] = '<h4>' . $link['name'] . '</h4>';
+							$html[] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin augue risus, viverra sit amet, hendrerit non, pellentesque vitae, risus. Nulla tincidunt molestie sem. Maecenas sit amet nisl. Mauris est erat, sollicitudin ac, pharetra at, sollicitudin id, tortor. Pellentesque rhoncus velit. Cras nec leo. In egestas augue et leo. Sed at metus. In orci dui, hendrerit eget, tempor non, imperdiet in, nulla.';
+						//$html[] = '</div>';
+						
+					
+					$html[] = '</div>';
+					
+					
+//					if($link['confirm'])
+//					{
+//						$onclick = 'onclick = "return confirm(\'' . $link['confirm'] . '\')"';
+//					}
+//					$html[] = '<div class="action"><a href="'.$link['url'] .'" ' . $onclick . '><img src="'. Theme :: get_image_path() .'action_'. $link['action'] .'.png" alt="'. $link['name'] .'" title="'. $link['name'] .'"/><br />'.$link['name'].'</a></div>';
 				}
+				
 				$html[] = '</div>';
 				$html[] = '</div>';
 				
-				$html[] = '<a class="next"></a>';
+				//$html[] = '<a class="next"></a>';
 				
 				$html[] = '<div class="clear"></div>';
 				

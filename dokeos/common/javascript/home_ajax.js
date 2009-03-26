@@ -1,6 +1,6 @@
-(function ($) {
+/*global $, addBlock, bindIcons, bindIconsLegacy, blocksDraggable, tabsDroppable, columnsResizable, columnsSortable, confirm, document, editTab, filterComponents, getLoadingBox, getMessageBox, handleLoadingBox, jQuery, showAllComponents, tabsSortable */
 
-	/*global addBlock, bindIcons, columnsResizable, columnsSortable, confirm, document, editTab, filterComponents, getLoadingBox, getMessageBox, handleLoadingBox, jQuery, showAllComponents, tabsSortable */
+$(function () {
 	
 	var columns = $(".column");
 	
@@ -22,8 +22,9 @@
 		emptyBlock += '</div>';
 		
 		$("div.tab div.column").each(function (i) {
-			var numberOfBlocks = $(".block", this).length;
-			var emptyBlockExists = $(".empty_column", this).length;
+			var numberOfBlocks, emptyBlockExists;
+			numberOfBlocks = $(".block", this).length;
+			emptyBlockExists = $(".empty_column", this).length;
 			
 			if (numberOfBlocks === 0 && emptyBlockExists === 0)
 			{
@@ -54,8 +55,9 @@
 	
 	function showTab(e, ui) {
 		e.preventDefault();
-		var tabId = $(this).attr('id');
-		var tab = tabId.split("_");
+		var tabId, tab;
+		tabId = $(this).attr('id');
+		tab = tabId.split("_");
 		
 		$("div.tab:not(#tab_" + tab[2] + ")").css('display', 'none');
 		$("div #tab_" + tab[2]).css('display', 'block');
@@ -70,8 +72,9 @@
 	}
 
 	function sortableUpdate(e, ui) {
-		var column = $(this).attr("id");
-		var order = $(this).sortable("serialize");
+		var column, order;
+		column = $(this).attr("id");
+		order = $(this).sortable("serialize");
 
 		$.post("./home/ajax/block_sort.php", {
 			column : column,
@@ -92,20 +95,23 @@
 	}
 
 	function resizableStop(e, ui) {
-		var columnId = $(this).attr("id");
-		var rowId = $(this).parent().attr("id");
-		var countColumns = $("div.column" , $(this).parent()).length;
+		var columnId, rowId, countColumns, widthBox, widthRow, widthPercentage, widthCurrentTotal;
+		
+		columnId = $(this).attr("id");
+		rowId = $(this).parent().attr("id");
+		countColumns = $("div.column" , $(this).parent()).length;
 
-		var widthBox = $(this).width();
-		var widthRow = $(this).parent().width();
-		var widthPercentage = (widthBox / widthRow) * 100;
+		widthBox = $(this).width();
+		widthRow = $(this).parent().width();
+		widthPercentage = (widthBox / widthRow) * 100;
 		widthPercentage = widthPercentage.toFixed(0);
 
-		var widthCurrentTotal = 0;
+		widthCurrentTotal = 0;
 
 		$("#" + rowId + " div.column").each(function (i) {
-			var curWidthBox = $(this).width();
-			var curWidthPercentage = (curWidthBox / widthRow) * 100;
+			var curWidthBox, curWidthPercentage;
+			curWidthBox = $(this).width();
+			curWidthPercentage = (curWidthBox / widthRow) * 100;
 			curWidthPercentage = parseInt(curWidthPercentage.toFixed(0), 10);
 
 			widthCurrentTotal = widthCurrentTotal + curWidthPercentage;
@@ -202,13 +208,15 @@
 	}
 
 	function addBlock(e, ui) {
-		var column = $(".tab:visible .column:first-child");
-		var columnId = column.attr("id");
-		var order = column.sortable("serialize");
+		var column, columnId, order, loadingMessage, loading;
 		
-		var loadingMessage = 'YourBlockIsBeingAdded';
+		column = $(".tab:visible .column:first-child");
+		columnId = column.attr("id");
+		order = column.sortable("serialize");
+		
+		loadingMessage = 'YourBlockIsBeingAdded';
 
-		var loading = $.modal(getLoadingBox(loadingMessage), {
+		loading = $.modal(getLoadingBox(loadingMessage), {
 			overlayId : 'homeOverlay',
 			containerId : 'homeContainer',
 			opacity: 75,
@@ -252,10 +260,12 @@
 	
 	function addTab(e, ui) {
 		e.preventDefault();
+		
+		var loadingMessage, loading;
 			
-		var loadingMessage = 'YourTabIsBeingAdded';
+		loadingMessage = 'YourTabIsBeingAdded';
 
-		var loading = $.modal(getLoadingBox(loadingMessage), {
+		loading = $.modal(getLoadingBox(loadingMessage), {
 			overlayId : 'homeOverlay',
 			containerId : 'homeContainer',
 			opacity : 75,
@@ -278,12 +288,15 @@
 	
 	function addColumn(e, ui) {
 		e.preventDefault();
-		var row = $(".tab:visible .row:first");
-		var rowId = row.attr('id');
 		
-		var loadingMessage = 'YourColumnIsBeingAdded';
+		var row, rowId, loadingMessage, loading;
+		
+		row = $(".tab:visible .row:first");
+		rowId = row.attr('id');
+		
+		loadingMessage = 'YourColumnIsBeingAdded';
 
-		var loading = $.modal(getLoadingBox(loadingMessage), {
+		loading = $.modal(getLoadingBox(loadingMessage), {
 			overlayId: 'homeOverlay',
 			containerId: 'homeContainer',
 			opacity: 75,
@@ -291,10 +304,12 @@
 		});
 		
 		$.post("./home/ajax/column_add.php", {row: rowId}, function (data) {
-			var columnHtml = data.html;
-			var newWidths = data.width;
+			var columnHtml, newWidths, lastColumn;
 			
-			var lastColumn = $("div.column:last", row);
+			columnHtml = data.html;
+			newWidths = data.width;
+			
+			lastColumn = $("div.column:last", row);
 			lastColumn.css('margin-right', '1%');
 			
 			$("div.column", row).each(function (i) {
@@ -315,7 +330,7 @@
 	
 	function getMessageBox(isError, message)
 	{
-		var messageClass;
+		var messageClass, successMessage;
 		
 		if (isError === '0')
 		{
@@ -326,7 +341,7 @@
 			messageClass = 'statusConfirmation';
 		}
 		
-		var successMessage  = '<div class="' + messageClass + '" style="margin-bottom: 15px;">';
+		successMessage  = '<div class="' + messageClass + '" style="margin-bottom: 15px;">';
 		successMessage += '</div>';
 		successMessage += '<div>';
 		successMessage += '<h3>' + message + '</h3>';
@@ -360,14 +375,17 @@
 	function deleteTab(e, ui)
 	{
 		e.preventDefault();
-		var tab = $(this).parent().attr('id');
+		
+		var tab, tabId, loadingMessage, loading;
+		
+		tab = $(this).parent().attr('id');
 		tab = tab.split("_");
 		
-		var tabId = tab[2];
+		tabId = tab[2];
 		
-		var loadingMessage = 'YourTabIsBeingDeleted';
+		loadingMessage = 'YourTabIsBeingDeleted';
 	
-		var loading = $.modal(getLoadingBox(loadingMessage), {
+		loading = $.modal(getLoadingBox(loadingMessage), {
 			overlayId: 'homeOverlay',
 			containerId: 'homeContainer',
 			opacity: 75,
@@ -508,28 +526,14 @@
 	}
 
 	function bindIcons() {
-		//$("a.closeEl").unbind();
 		$("a.closeEl").live('click', collapseItem);
-		//$("a.deleteEl").unbind();
 		$("a.deleteEl").live('click', deleteItem);
-
-		//$("a.addEl").unbind();
 		$("a.addEl").live('click', showBlockScreen);
-		
-		//$("#tab_menu li").unbind();
 		$("#tab_menu li:not(.current)").live('click', showTab);
 		$("#tab_menu li.current").live('click', editTab);
-		
-		//$("a.addTab").unbind();
 		$("a.addTab").live('click', addTab);
-		
-		//$("a.addColumn").unbind();
 		$("a.addColumn").live('click', addColumn);
-		
-		//$("a.deleteTab").unbind();
 		$("a.deleteTab").live('click', deleteTab);
-		
-		//$(".deleteColumn").unbind();
 		$(".deleteColumn").live('click', deleteColumn);	
 	}
 	
@@ -688,4 +692,4 @@
 
 	});
 
-})(jQuery);
+});
