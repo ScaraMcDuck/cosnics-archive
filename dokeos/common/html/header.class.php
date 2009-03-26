@@ -37,9 +37,9 @@ class Header
 	public function add_default_headers()
 	{
 		$this->add_http_header('Content-Type: text/html; charset=UTF-8');
+		$this->add_css_file_header(Theme :: get_theme_path() . 'plugin/jquery/jquery.css');
 		$this->add_css_file_header(Theme :: get_common_css_path());
 		$this->add_css_file_header(Theme :: get_css_path());
-		$this->add_css_file_header(Theme :: get_theme_path() . 'plugin/jquery/jquery.css');
 		//$this->add_css_file_header($this->get_path(WEB_CSS_PATH) .'print.css','print');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.min.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.tablednd.js');
@@ -48,6 +48,8 @@ class Header
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.treeview.pack.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.treeview.async.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.timeout.interval.idle.js');
+		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.mousewheel.min.js');
+		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.scrollable.pack.js');
 		$this->add_javascript_file_header($this->get_path(WEB_LIB_PATH).'javascript/notifications.js');
 		$this->add_javascript_file_header($this->get_path(WEB_LIB_PATH).'javascript/help.js');
         $this->add_javascript_file_header($this->get_path(WEB_LIB_PATH).'javascript/visit.js');

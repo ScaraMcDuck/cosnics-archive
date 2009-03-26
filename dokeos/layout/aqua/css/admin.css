@@ -3,11 +3,8 @@
 /*****************************************************
  *  ADMIN STYLES                                     *
  *****************************************************/
-
-/* Platform admin overview */
-
-div.admin
-{
+	/* Platform admin overview */
+div.admin {
 	float: left;
 	width: 49%;
 	margin: 10px 20px 10px 0px;
@@ -26,8 +23,7 @@ div.admin_header {
 	clear: both;
 }
 
-div.admin_header span.category
-{
+div.admin_header span.category {
 	float: left;
 	background-color: #f6f6f6;
 	font-weight: bold;
@@ -43,19 +39,16 @@ div.admin_header span.category
 	*/
 }
 
-div.admin_header span.category img
-{
+div.admin_header span.category img {
 	margin: 0px 5px 0px 0px;
 }
 
-div.admin_header span.category span.title
-{
+div.admin_header span.category span.title {
 	color: #000066;
 	font-size: 14px;
 }
 
-div.admin_header div.admin_search
-{
+div.admin_header div.admin_search {
 	float: right;
 	margin: -10px 15px 0px 0px;
 	background-color: #FFFFFF;
@@ -63,22 +56,19 @@ div.admin_header div.admin_search
 	color: #4271B5;
 }
 
-div.admin_section div.actions
-{
+div.admin_section div.actions {
 	clear: both;
 	text-align: center;
 }
 
-div.admin_section div.actions div.action
-{
+div.action {
 	float: left;
 	text-align: center;
 	padding: 5px 10px 5px 10px;
 	margin: 0;
 }
 
-div.admin_section div.actions div.action img
-{
+div.action img {
 	margin: 8px 15px 8px 15px;
 }
 
@@ -89,8 +79,7 @@ div.configure {
 	height: 80px;
 }
 
-div.configure div.application
-{
+div.configure div.application {
 	float: left;
 	width: 80px;
 	height: 68px;
@@ -101,8 +90,7 @@ div.configure div.application
 	font-size: 75%;
 }
 
-div.configure div.application_current
-{
+div.configure div.application_current {
 	float: left;
 	width: 80px;
 	height: 68px;
@@ -114,41 +102,193 @@ div.configure div.application_current
 	font-size: 75%;
 }
 
-div.configure div.application img
-{
+div.configure div.application img {
 	width: 60%;
 }
 
-div.configure div.application_current img
-{
+div.configure div.application_current img {
 	width: 60%;
 }
 
 /*
  * Various
  */
-div.admin_search_form
-{
+div.admin_search_form {
 	clear: both;
 	float: right;
 	padding-top: 4px;
 }
 
-div.admin_search_form div.row
-{
+div.admin_search_form div.row {
 	clear: none;
 	float: left;
 	padding: 0px;
 	margin-left: 10px;
 }
 
-div.admin_search_form div.row div.formw
-{
+div.admin_search_form div.row div.formw {
 	float: none;
 	width: auto;
 }
 
-div.admin_search_form div.row div.formw button
-{
+div.admin_search_form div.row div.formw button {
 	margin-top: -2px;
+}
+
+/*********************************************
+ * jQuery CSS: Tabs
+ *********************************************/
+.ui-tabs {
+	padding: 0px;
+}
+
+.ui-tabs .ui-tabs-panel {
+	border: 1px solid #ebebeb;
+	background-color: #FAFCFC;
+}
+
+.ui-tabs .ui-tabs-nav {
+	padding-left: 0.4em;
+	padding-right: 0.4em;
+}
+
+.ui-widget-content {
+	border: 0px;
+	background-image: none;
+	background-color: transparent;
+}
+
+.ui-widget-header {
+	border-width: 0px;
+	background-image: none;
+	background-color: transparent;
+}
+
+.ui-state-default,.ui-widget-content .ui-state-default {
+	border: 0px solid #c5dbec;
+}
+
+.ui-state-hover,.ui-widget-content .ui-state-hover,.ui-state-focus,.ui-widget-content .ui-state-focus
+	{
+	border: 0px solid #79b7e7;
+}
+
+.ui-state-active,.ui-widget-content .ui-state-active {
+	border: 1px solid #ebebeb;
+}
+
+/*********************************************
+ * jQuery CSS: Scrollable actions in Tabs
+ *********************************************/ /* 
+	root element for the scrollable. 
+	when scrolling occurs this element stays still. 
+*/
+div.scrollable
+{
+	position: relative;
+	overflow: hidden;
+	width: 94%;
+	height: 90px;
+}
+
+/* 
+	root element for scrollable items. Must be absolutely positioned
+	and it should have a super large width to accomodate scrollable items.
+	it's enough that you set width and height for the root element and
+	not for this element.
+*/
+div.scrollable div.items
+{
+	width: 20000em;
+	position: absolute;
+	clear: both;
+}
+
+/* single scrollable item */
+div.scrollable div.items div
+{
+	float: left;
+	width: 75px;
+	overflow: hidden;
+	height: 90px;
+}
+
+/* this makes it possible to add next button beside scrollable */
+div.scrollable
+{
+	float: left;
+}
+
+/* prev, next, prevPage and nextPage buttons */
+a.prev,a.next,a.prevPage,a.nextPage
+{
+	display: none;
+	width: 16px;
+	height: 16px;
+	background: url(../plugin/jquery/scrollable/left.png) no-repeat;
+	float: left;
+	margin-top: 37px;
+	cursor: pointer;
+}
+
+a.prev,a.prevPage
+{
+	margin-right: 10px;
+}
+
+a.next,a.nextPage
+{
+	margin-left: 10px;
+}
+
+/* mouseover state */
+a.prev:hover,a.next:hover,a.prevPage:hover,a.nextPage:hover
+{
+	background-position: 0px -16px;
+}
+
+/* disabled navigational button */
+a.disabled
+{
+	visibility: hidden !important;
+}
+
+/* next button uses another background image */
+a.next,a.nextPage
+{
+	background-image: url(../plugin/jquery/scrollable/right.png);
+	clear: right;
+}
+
+/*********** navigator ***********/
+	/* position and dimensions of the navigator */
+div.navi
+{
+	margin-left: 328px;
+	width: 200px;
+	height: 20px;
+}
+
+/* items inside navigator */
+div.navi a
+{
+	width: 8px;
+	height: 8px;
+	float: left;
+	margin: 3px;
+	background: url(../plugin/jquery/scrollable/navigator.png) 0 0 no-repeat
+		;
+	cursor: pointer;
+}
+
+/* mouseover state */
+div.navi a:hover
+{
+	background-position: 0 -8px;
+}
+
+/* active state (current page state) */
+div.navi a.active
+{
+	background-position: 0 -16px;
 }

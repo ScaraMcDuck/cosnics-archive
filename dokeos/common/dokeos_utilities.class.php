@@ -193,7 +193,7 @@ class DokeosUtilities
 	{
 		if (!isset (self :: $us_camel_map[$string]))
 		{
-			self :: $us_camel_map[$string] = ucfirst(preg_replace('/_([a-z])/e', '" " . strtoupper(\1)', $string));
+			self :: $us_camel_map[$string] = ucfirst(preg_replace('/_([a-z])/e', '" " . strtoupper("\1")', $string));
 		}
 		return self :: $us_camel_map[$string];
 	}
@@ -204,10 +204,10 @@ class DokeosUtilities
 	 * @return string The string in under_score notation.
 	 */
 	static function camelcase_to_underscores($string)
-	{
+	{		
 		if (!isset (self :: $camel_us_map[$string]))
 		{
-			self :: $camel_us_map[$string] = preg_replace(array ('/^([A-Z])/e', '/([A-Z])/e'), array ('strtolower(\1)', '"_".strtolower(\1)'), $string);
+			self :: $camel_us_map[$string] = preg_replace(array ('/^([A-Z])/e', '/([A-Z])/e'), array ('strtolower("\1")', '"_".strtolower("\1")'), $string);
 		}
 		return self :: $camel_us_map[$string];
 	}
