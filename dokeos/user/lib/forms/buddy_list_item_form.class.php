@@ -46,14 +46,20 @@ class BuddyListItemForm extends FormValidator
 		
    		$exclude = array();
    		
-   		$condition = new EqualityCondition(BuddyListItem :: PROPERTY_USER_ID, $this->user->get_id());
+   		$conditions[] = new EqualityCondition(BuddyListItem :: PROPERTY_USER_ID, $this->user->get_id());
+   		$conditions[] = new EqualityCondition(BuddyListItem :: PROPERTY_BUDDY_ID, $this->user->get_id());
+   		$condition = new OrCondition($conditions);
+   		
    		$buddies = UserDataManager :: get_instance()->retrieve_buddy_list_items($condition);
    		
    		$exclude[] = $this->user->get_id();
    		
    		while($buddy = $buddies->next_result())
    		{
-			$exclude[] = $buddy->get_buddy_id();
+			if($buddy->get_buddy_id() != $this->user->get_id())
+   				$exclude[] = $buddy->get_buddy_id();
+   			else
+   				$exclude[] = $buddy->get_user_id();
    		}
 		
    		$elem->excludeElements($exclude);

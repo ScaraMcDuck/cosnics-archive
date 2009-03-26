@@ -138,10 +138,20 @@
 	var delete_item_clicked = function(ev, ui) 
 	{ 
 		var id = $(this).attr('id');
-		var object = $(this).parent().parent().parent().parent();
-		var object_parent = object.parent();
+		var buddy_list_item = $(this).parent().parent().parent().parent();
+		var buddy_list = buddy_list_item.parent();
+		var category_list_item = buddy_list.parent();
 		
-		object.remove();
+		buddy_list_item.remove();
+		
+		var is_remove = false;
+		if(buddy_list.children().size() == 0)
+		{
+			is_remove = true;
+			$('.category_toggle', category_list_item).css('visibility', 'hidden');
+			buddy_list.remove();
+		}
+		
 		bind_icons();
 		
 		$.get('index_user.php?go=buddy_delete_item',
@@ -153,7 +163,125 @@
 	    		if(data.length > 0)
 	    		{ 
 	    			alert(data);
-	    			object_parent.prepend(object);
+	    			
+	    			if(is_remove)
+	    			{
+	    				category_list_item.append('<ul class="buddy_list"></ul>');
+	    				$('.category_toggle', category_list_item).css('visibility', 'visible');
+	    				buddy_list = $('.buddy_list', category_list_item);
+	    			}
+	    			
+	    			buddy_list.prepend(buddy_list_item);
+	    			bind_icons();
+	    		}
+	    	}
+		);
+		
+		return false;
+	}
+	
+	var accept_buddy_clicked = function(ev, ui) 
+	{ 
+		var id = $(this).attr('id');
+		var buddy_list_item = $(this).parent().parent().parent().parent();
+		var buddy_list = buddy_list_item.parent();
+		var category_list_item = buddy_list.parent();
+		
+		var normal_category = $('.category_list_item[id="0"]', category_list_item.parent());
+		var normal_buddy_list = $('.buddy_list', normal_category);
+		
+		if(normal_buddy_list.attr('class') != 'buddy_list')
+		{
+			normal_category.append('<ul class="buddy_list"></ul>');
+			normal_buddy_list = $('.buddy_list', normal_category);
+			$('.category_toggle', normal_category).css('visibility', 'visible');
+		}
+		
+		normal_buddy_list.append(buddy_list_item);
+	
+		var is_remove = false;
+		if(buddy_list.children().size() == 0)
+		{
+			$('.category_toggle', category_list_item).css('visibility', 'hidden');
+			buddy_list.remove();
+			is_remove = true; 
+		}
+		
+		bind_icons();
+		
+		$.get('index_user.php?go=buddy_status_change',
+		{
+			buddylist_item:  id,
+			status: 0,
+			ajax: 1
+	    },  function(data)
+	    	{
+	    		if(data.length > 0)
+	    		{ 
+	    			alert(data);
+	    			
+	    			if(is_remove)
+	    			{
+	    				category_list_item.append('<ul class="buddy_list"></ul>');
+	    				$('.category_toggle', category_list_item).css('visibility', 'visible');
+	    				buddy_list = $('.buddy_list', category_list_item);
+	    			}
+	    		
+	    			buddy_list.prepend(buddy_list_item);
+	    			
+	    			if(normal_buddy_list.children().size() == 0)
+	    			{
+	    				$('.category_toggle', normal_category).css('visibility', 'hidden');
+	    				normal_buddy_list.remove();
+	    			}
+	    			
+	    			bind_icons();
+	    		}
+	    	}
+		);
+		
+		return false;
+	}
+	
+	var reject_buddy_clicked = function(ev, ui) 
+	{ 
+		var id = $(this).attr('id');
+		var buddy_list_item = $(this).parent().parent().parent().parent();
+		var buddy_list = buddy_list_item.parent();
+		var category_list_item = buddy_list.parent();
+		
+		buddy_list_item.remove();
+		
+		var is_remove = false;
+		if(buddy_list.children().size() == 0)
+		{
+			is_remove = true;
+			$('.category_toggle', category_list_item).css('visibility', 'hidden');
+			buddy_list.remove();
+		}
+		
+		bind_icons();
+		
+		$.get('index_user.php?go=buddy_status_change',
+		{
+			buddylist_item:  id,
+			status: 2,
+			ajax: 1
+	    },  function(data)
+	    	{
+	    		if(data.length > 0)
+	    		{ 
+	    			alert(data);
+	    			
+	    			if(is_remove)
+	    			{
+	    				category_list_item.append('<ul class="buddy_list"></ul>');
+	    				$('.category_toggle', category_list_item).css('visibility', 'visible');
+	    				buddy_list = $('.buddy_list', category_list_item);
+	    			}
+	    			
+	    			buddy_list.prepend(buddy_list_item);
+	    			
 	    			bind_icons();
 	    		}
 	    	}
@@ -182,10 +310,12 @@
 		$(".category_toggle").bind('click', item_clicked);
 		$(".delete_category").bind('click', delete_category_clicked);
 		$(".delete_item").bind('click', delete_item_clicked);
+		$(".accept_buddy").bind('click', accept_buddy_clicked);
+		$(".reject_buddy").bind('click', reject_buddy_clicked);
 		
 		var total = 0;
 		
-		$('.category_list_item').each(function()
+		$('.category_list_item, .category_list_item_static').each(function()
 		{
 			var size = $('.buddy_list', $(this)).children().size();
 			total += size;

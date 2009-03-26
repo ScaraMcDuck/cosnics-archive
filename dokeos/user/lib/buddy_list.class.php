@@ -189,14 +189,16 @@ class BuddyList
 				'href' => $this->parent->get_change_buddylist_item_status_url($buddy->get_user_id(), BuddyListItem :: STATUS_NORMAL),
 				'label' => Translation :: get('Accept'),
 				'img' => Theme :: get_common_image_path().'action_setting_true.png',
-				'confirm' => true
+				'class' => 'accept_buddy',
+				'id' => $buddy->get_user_id()
 			);
 			
 			$toolbar_data[] = array(
 				'href' => $this->parent->get_change_buddylist_item_status_url($buddy->get_user_id(), BuddyListItem :: STATUS_REJECTED),
 				'label' => Translation :: get('Reject'),
 				'img' => Theme :: get_common_image_path().'action_setting_false.png',
-				'confirm' => true
+				'class' => 'reject_buddy',
+				'id' => $buddy->get_user_id()
 			);
 		}
 		
