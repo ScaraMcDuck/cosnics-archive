@@ -665,6 +665,8 @@ class User
 		$this->set_registration_date(time());
 		$succes = $udm->create_user($this);
 		
+		$version_quota = $this->get_version_quota() ? $this->get_version_quota() : 20;
+		
 		$rdm = RepositoryDataManager :: get_instance();
 		$types = $rdm->get_registered_types();
 		
@@ -672,7 +674,7 @@ class User
 		{
 			$userquota = new UserQuota();
     		$userquota->set_learning_object_type($type);
-    		$userquota->set_user_quota($this->get_version_quota());
+    		$userquota->set_user_quota($version_quota);
     		$userquota->set_user_id($this->get_id());
     		$userquota->create();
 		}
