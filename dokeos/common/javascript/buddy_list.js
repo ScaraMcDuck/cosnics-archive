@@ -183,11 +183,16 @@
 		$(".delete_category").bind('click', delete_category_clicked);
 		$(".delete_item").bind('click', delete_item_clicked);
 		
+		var total = 0;
+		
 		$('.category_list_item').each(function()
 		{
 			var size = $('.buddy_list', $(this)).children().size();
+			total += size;
 			$('.userscount', $(this)).text(size);
 		});
+		
+		$('.totalusers').text(total);
 	}
 	
 	function translation(string, application) {
