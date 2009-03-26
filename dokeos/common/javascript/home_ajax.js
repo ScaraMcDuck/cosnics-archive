@@ -95,7 +95,7 @@ $(function () {
 	}
 
 	function resizableStop(e, ui) {
-		var columnId, rowId, countColumns, widthBox, widthRow, widthPercentage, widthCurrentTotal;
+		var columnId, rowId, countColumns, widthBox, widthRow, widthPercentage, widthCurrentTotal, widthSurplus;
 		
 		columnId = $(this).attr("id");
 		rowId = $(this).parent().attr("id");
@@ -120,7 +120,7 @@ $(function () {
 		widthCurrentTotal = widthCurrentTotal + countColumns - 1;
 
 		if (widthCurrentTotal > 100) {
-			var widthSurplus = widthCurrentTotal - 100;
+			widthSurplus = widthCurrentTotal - 100;
 
 			widthPercentage = widthPercentage - widthSurplus;
 			widthBox = ((widthRow / 100) * widthPercentage) - 1;
@@ -160,9 +160,12 @@ $(function () {
 
 	function deleteItem(e) {
 		e.preventDefault();
-		var confirmation = confirm('Are you sure ?');
+		
+		var confirmation, columnId, order;
+		
+		confirmation = confirm('Are you sure ?');
 		if (confirmation) {
-			var columnId = $(this).parent().parent().parent().attr("id");
+			columnId = $(this).parent().parent().parent().attr("id");
 
 			$(this).parent().parent().remove();
 			$.post("./home/ajax/block_delete.php", {
@@ -171,7 +174,7 @@ $(function () {
 					// function(data){alert("Data Loaded: " + data);}
 					);
 
-			var order = $("#" + columnId).sortable("serialize");
+			order = $("#" + columnId).sortable("serialize");
 			$.post("./home/ajax/block_sort.php", {
 				column : columnId,
 				order : order
@@ -421,11 +424,14 @@ $(function () {
 	function saveTabTitle(e)
 	{
 		e.preventDefault();
-		var tab = e.data.tab.parent().attr('id');
+		
+		var tab, tabId, newTitle;
+		
+		tab = e.data.tab.parent().attr('id');
 		tab = tab.split("_");
 		
-		var tabId = tab[2];
-		var newTitle = $('#tabTitle').attr('value');
+		tabId = tab[2];
+		newTitle = $('#tabTitle').attr('value');
 		
 		$.post("./home/ajax/tab_edit.php", {tab: tabId, title: newTitle}, function (data) {
 			if (data.success === '1')
@@ -443,12 +449,14 @@ $(function () {
 	{
 		e.preventDefault();
 		
-		var editTabHTML  = '<div id="editTab"><h3>Edit tab name</h3>';
+		var editTabHTML, loading;
+		
+		editTabHTML  = '<div id="editTab"><h3>Edit tab name</h3>';
 		editTabHTML += '<input id="tabTitle" type="text" value="' + $('.tabTitle', this).html() + '"/>&nbsp;';
 		editTabHTML += '<input id="tabSave" type="submit" class="button" value="' + translation('Save') + '"/>';
 		editTabHTML += '</div>';
 		
-		var loading = $.modal(editTabHTML, {
+		loading = $.modal(editTabHTML, {
 			overlayId : 'homeOverlay',
 			containerId : 'homeEditContainer',
 			opacity: 75
@@ -472,13 +480,15 @@ $(function () {
 	}
 	
 	function deleteColumn(e, ui) {
-		var column = $(this).parent().parent();
-		var columnId = column.attr("id").split("_");
+		var column, columnId, loadingMessage, loading;
+		
+		column = $(this).parent().parent();
+		columnId = column.attr("id").split("_");
 		columnId = columnId[1];
 		
-		var loadingMessage = 'YourColumnIsBeingDeleted';
+		loadingMessage = 'YourColumnIsBeingDeleted';
 		
-		var loading = $.modal(getLoadingBox(loadingMessage), {
+		loading = $.modal(getLoadingBox(loadingMessage), {
 			overlayId: 'homeOverlay',
 			containerId: 'homeContainer',
 			opacity: 75,
@@ -488,18 +498,20 @@ $(function () {
 		$.post("./home/ajax/column_delete.php", {column: columnId}, function (data) {
 			if (data.success === '1')
 			{
+				var columnWidth, otherColumn, otherColumnWidth, newColumnWidth;
+				
 				// Get the deleted column's width
-				var columnWidth = column.css('width');
+				columnWidth = column.css('width');
 				columnWidth = parseInt(columnWidth.replace('%', ''), 10);
 				column.remove();
 				
 				// Get the last column's width 
-				var otherColumn = $(".tab:visible .column:last");
-				var otherColumnWidth = otherColumn.css('width');
+				otherColumn = $(".tab:visible .column:last");
+				otherColumnWidth = otherColumn.css('width');
 				otherColumnWidth = parseInt(otherColumnWidth.replace('%', ''), 10);
 				
 				// Calculate the new width
-				var newColumnWidth =  columnWidth + otherColumnWidth + 1;
+				newColumnWidth =  columnWidth + otherColumnWidth + 1;
 				
 				// Set the new width + postback
 				otherColumn.css('margin-right', '0px');
@@ -564,25 +576,27 @@ $(function () {
 	}
 	
 	function processDroppedBlock(e, ui) {
+		var newTab, newTabSplit, newTabId, block, blockSplit, blockId, newColumn, newColumnSplit, newColumnId, theBlock, loadingMessage, loading;
+		
 		// Retrieving some variables
-		var newTab = $(this).attr('id');
-		var	newTabSplit = newTab.split("_");
-		var newTabId = newTabSplit[2];
+		newTab = $(this).attr('id');
+		newTabSplit = newTab.split("_");
+		newTabId = newTabSplit[2];
 		
-		var block = ui.draggable.attr('id');
-		var blockSplit = block.split("_");
-		var blockId = blockSplit[2];
+		block = ui.draggable.attr('id');
+		blockSplit = block.split("_");
+		blockId = blockSplit[2];
 		
-		var newColumn = $("#tab_" + newTabId + " .row:first .column:first").attr('id');
-		var newColumnSplit = newColumn.split("_");
-		var newColumnId = newColumnSplit[1];
+		newColumn = $("#tab_" + newTabId + " .row:first .column:first").attr('id');
+		newColumnSplit = newColumn.split("_");
+		newColumnId = newColumnSplit[1];
 		
-		var theBlock = ui.draggable.parent().parent();
+		theBlock = ui.draggable.parent().parent();
 		
 		// Show the processing modal
-		var loadingMessage = 'YourBlockIsBeingMoved';
+		loadingMessage = 'YourBlockIsBeingMoved';
 		
-		var loading = $.modal(getLoadingBox(loadingMessage), {
+		loading = $.modal(getLoadingBox(loadingMessage), {
 			overlayId : 'homeOverlay',
 			containerId : 'homeContainer',
 			opacity : 75,
