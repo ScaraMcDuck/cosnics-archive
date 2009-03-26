@@ -97,7 +97,7 @@ class BuddyList
 		
 		$html[] = '<li id="' . $category->get_id() . '" class="' . $class . '"><img class="category_toggle" ' . $style . 'src="' . Theme :: get_common_image_path() . 'treemenu/bullet_toggle_minus.png" />';
 		$html[] = '<div class="buddy_list_item_text">';
-		$html[] = '<span class="title">' . $category->get_title() . '</span></div>';
+		$html[] = '<span class="title">' . $category->get_title() . ' (<span class="userscount">' . count($buddies) . '</span>)</span></div>';
 		
 		$html[] = '<div class="buddy_list_item_actions" style="position: relative;">';
 		

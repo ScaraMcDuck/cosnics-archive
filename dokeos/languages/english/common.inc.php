@@ -146,5 +146,6 @@ $lang['common']['MyAccount'] = 'My account';
 $lang['common']['MyBuddies'] = 'My buddies';
 $lang['common']['OtherBuddies'] = 'Other buddies';
 $lang['common']['Requested'] = 'Requested';
+$lang['common']['Requests'] = 'Requests';
 $lang['common']['Rejected'] = 'Rejected';
 ?>
