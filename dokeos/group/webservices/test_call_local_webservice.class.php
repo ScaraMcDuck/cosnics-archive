@@ -132,14 +132,14 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-          /*$group_rel_user = array('user_id' => 'Soliber', 'group_id' => 'Shinsengumi', 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f');
+          $group_rel_user = array('user_id' => 'Soliber', 'group_id' => 'Shinsengumi', 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f');
 		  $wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
           $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesGroup.unsubscribe_user',
 				'parameters' => $group_rel_user,
 		  		'handler' => 'handle_webservice'
-			);*/
+			);
 			
 			
 		$this->webservice->call_webservice($wsdl, $functions);

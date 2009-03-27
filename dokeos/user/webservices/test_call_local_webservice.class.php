@@ -54,23 +54,24 @@ class TestCallLocalWebservice
 		}*/
         
         //TEST 4 : Login Webservice
-		/*$wsdl = 'http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl';
+		//$wsdl = 'http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl';
+        /*$wsdl = 'http://localhost/user/webservices/login_webservice.class.php?wsdl';
 		$functions = array();
 
 		{
 			$functions[] = array(
 				'name' => 'LoginWebservice.login',
-				'parameters' => array('username'=>'admin','password'=>'772d9ed50e3b34cbe3f9e36b77337c6b2f4e0cfa'), //password is actually hash 1
+				'parameters' => array('username'=>'Soliber','password'=>'c14d68b0ef49d97929c36f7725842b5adbf5f006'), //password is actually hash 1
 				'handler' => 'handle_webservice'
 			);
 		}*/
         
         //TEST 5 :  Create User
 
-        /*$user = array (
-		  'lastname' => 'Joske',
+          /*$user = array (
+		  'lastname' => 'Jos',
 		  'firstname' => 'Den Os',
-		  'username' => 'Jefke',
+		  'username' => 'Joske',
 		  'password' => '4a0091108fb271e05f34da7cf77c975f',
 		  'auth_source' => 'platform',
 		  'email' => 'admin@localhost.localdomain',
@@ -89,10 +90,11 @@ class TestCallLocalWebservice
 		  'expiration_date' => '0',
 		  'registration_date' => '1234774883',
 		  'active' => '1',
-          'hash' => '95abbf9f0c9d666c66aa30ce36da3ec0f57df48c' //hash 3 needed for credential
+          'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f' //hash 3 needed for credential
 		);
 
-        $wsdl = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservices_user.class.php?wsdl';
+        //$wsdl = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservices_user.class.php?wsdl';
+        $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
         $functions = array();
         $functions[] = array(
             'name' => 'WebServicesUser.create_user',
@@ -102,12 +104,11 @@ class TestCallLocalWebservice
 
        //TEST 6 :: Update User
 
-       /*$user = array (
-          'user_id' => '17',
-		  'lastname' => 'Joske',
-		  'firstname' => 'Den Os',
-		  'username' => 'tetjes',
-		  'password' => '4a0091108fb271e05f34da7cf77c975f',
+          /*$user = array (
+          'lastname' => 'Den Os',
+		  'firstname' => 'Jos',
+		  'username' => 'Joske',
+		  'password' => 'b9921b6ebaac9174f01ea9e2fe3df9f95010410b',
 		  'auth_source' => 'platform',
 		  'email' => 'admin@localhost.localdomain',
 		  'status' => '1',
@@ -125,7 +126,7 @@ class TestCallLocalWebservice
 		  'expiration_date' => '0',
 		  'registration_date' => '1234774883',
 		  'active' => '1',
-          'hash' => '550859312670dd7996153002d046737f08ba2c9f' //hash 3 needed for credential
+          'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f' //hash 3 needed for credential
 		);
 
         $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
@@ -140,26 +141,55 @@ class TestCallLocalWebservice
 
         //TEST 7 : Delete User
 
-        /*$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+          /*$user = array (
+          'lastname' => 'Den Os',
+		  'firstname' => 'Jos',
+		  'username' => 'Joske',
+		  'password' => 'b9921b6ebaac9174f01ea9e2fe3df9f95010410b',
+		  'auth_source' => 'platform',
+		  'email' => 'admin@localhost.localdomain',
+		  'status' => '1',
+		  'admin' => '1',
+		  'phone' => NULL,
+		  'official_code' => 'ADMIN',
+		  'picture_uri' => NULL,
+		  'creator_id' => NULL,
+		  'language' => 'english',
+		  'disk_quota' => '209715200',
+		  'database_quota' => '300',
+		  'version_quota' => '20',
+		  'theme' => NULL,
+		  'activation_date' => '0',
+		  'expiration_date' => '0',
+		  'registration_date' => '1234774883',
+		  'active' => '1',
+          'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f' //hash 3 needed for credential
+		);
+        
+        $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		$functions = array();
 
 		$functions[] = array(
 				'name' => 'WebServicesUser.delete_user',
-				'parameters' => array('user_id' => '32','username'=>'ka', 'hash'=>'550859312670dd7996153002d046737f08ba2c9f'),
+				'parameters' => $user,
 				'handler' => 'handle_webservice'
 		);*/
 
         //TEST 8 : Create Course
 
+
+            /*$course = array (
+
           /*$course = array (
+
             'course_language' => 'english',
-            'title' => 'LocalTest',
+            'title' => 'Kennisintensieve Toepassingen',
             'description' => '',
             'category' 	=> 'Language skills', //needs the name, not the id
             'visibility' => '1',
             'show_score' => '1',
-            'titular' => 'admin', //needs the username, not the id
-            'visual_code' => '12456789',
+            'titular' => 'Stefaan', //needs the username, not the id
+            'visual_code' => 'KIT',
             'department_name' => '',
             'department_url' => '',
             'disk_quota' => '200', //needs to > 1
@@ -172,10 +202,11 @@ class TestCallLocalWebservice
             'menu' 	=> '1',
             'breadcrumb' => '1',
             'allow_feedback' => '1',
-            'hash' => '95abbf9f0c9d666c66aa30ce36da3ec0f57df48c' //hash 3 needed for credential
+            'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f' //hash 3 needed for credential
             );
             
-          $wsdl = 'http://www.dokeosplanet.org/demo_portal/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+          //$wsdl = 'http://www.dokeosplanet.org/demo_portal/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+          $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.create_course',
@@ -185,17 +216,15 @@ class TestCallLocalWebservice
 
         //TEST 9 : Update Course
 
-          /*$course = array (
-            'id' => '33',
+            /*$course = array (
             'course_language' => 'english',
-            'title' => 'Sweetdreams',
-            'description' => '',
+            'title' => 'Kennisintensieve Toepassingen',
             'category' 	=> 'Language skills', //needs the name, not the id
             'visibility' => '1',
             'show_score' => '1',
-            'titular' => 'Soliber', //needs the username, not the id
-            'visual_code' => '12345',
-            'department_name' => '',
+            'titular' => 'Stefaan', //needs the username, not the id
+            'visual_code' => 'KIT',
+            'department_name' => 'BINF',
             'department_url' => '',
             'disk_quota' => '200', //needs to > 1
             'target_course_code' => '',
@@ -207,7 +236,7 @@ class TestCallLocalWebservice
             'menu' 	=> '1',
             'breadcrumb' => '1',
             'allow_feedback' => '1',
-            'hash' => '550859312670dd7996153002d046737f08ba2c9f' //hash 3 needed for credential
+            'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f' //hash 3 needed for credential
             );
 
           $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
@@ -221,8 +250,26 @@ class TestCallLocalWebservice
         //TEST 10 : Delete Course
 
         /*$course = array (
-            'id' => '37',
-            'hash' => '550859312670dd7996153002d046737f08ba2c9f' //hash 3 needed for credential
+            'course_language' => 'english',
+            'title' => 'Kennisintensieve Toepassingen',
+            'category' 	=> 'Language skills', //needs the name, not the id
+            'visibility' => '1',
+            'show_score' => '1',
+            'titular' => 'Stefaan', //needs the username, not the id
+            'visual_code' => 'KIT',
+            'department_name' => 'BINF',
+            'department_url' => '',
+            'disk_quota' => '200', //needs to > 1
+            'target_course_code' => '',
+            'layout' => '1',
+            'subscribe' => '1',
+            'unsubscribe' => '0',
+            'theme' => '1',
+            'tool_shortcut' => '1',
+            'menu' 	=> '1',
+            'breadcrumb' => '1',
+            'allow_feedback' => '1',
+            'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f' //hash 3 needed for credential
             );
 
           $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
@@ -235,14 +282,13 @@ class TestCallLocalWebservice
 
         //TEST 11 : Subscribe User
 
-       /*$course = array (
-
+            /*$course = array (
             'user_id' => 'Soliber', //expect name
-            'tutor_id' => '1',
+            'tutor_id' => 'Stefaan',
             'status' => '1',
             'course_group_id' => '0',
-            'course_code' => 'H1', //the name is course_code, because we expect a course_user_rel, but the the value is visual_code
-            'hash' => '550859312670dd7996153002d046737f08ba2c9f' //hash 3 needed for credential
+            'course_code' => 'KIT', //the name is course_code, because we expect a course_user_rel, but the the value is visual_code
+            'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f' //hash 3 needed for credential
             );
 
           $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
@@ -255,13 +301,13 @@ class TestCallLocalWebservice
 
         //TEST 12 : Unsubscribe User
 
-        /*$course = array (
+            /*$course = array (
             'user_id' => 'Soliber', //expect name
-            'tutor_id' => '1',
+            'tutor_id' => 'Stefaan',
             'status' => '1',
             'course_group_id' => '0',
-            'course_code' => 'H1', //the name is course_code, because we expect a course_user_rel, but the the value is visual_code
-            'hash' => '550859312670dd7996153002d046737f08ba2c9f' //hash 3 needed for credential
+            'course_code' => 'KIT', //the name is course_code, because we expect a course_user_rel, but the the value is visual_code
+            'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f' //hash 3 needed for credential
             );
 
           $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
@@ -283,6 +329,50 @@ class TestCallLocalWebservice
 				'handler' => 'handle_webservice'
 		);*/
 
+
+        /*TEST 14 : A test to subscribe a group to a course in the db
+		 *
+		 */
+
+              /*$coursegroup = array (
+		  	  'course_code' => 'KIT',
+			  'name' => 'testgroup',
+			  'description' => 'test',
+			  'max_number_of_members' => '999',
+			  'self_reg_allowed' => '1',
+			  'self_unreg_allowed' => '1',
+              'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'
+			);
+		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		  $functions = array();
+		  $functions[] = array(
+				'name' => 'WebServicesCourse.subscribe_group',
+				'parameters' => $coursegroup,
+		  		'handler' => 'handle_webservice'
+			);*/
+
+		/*TEST 15 : A test to unsubscribe a group from a course in the db
+		 *
+		 */
+
+		   /*$coursegroup = array (
+		  	  'course_code' => 'KIT',
+			  'name' => 'testgroup',
+			  'description' => 'test',
+			  'max_number_of_members' => '999',
+			  'self_reg_allowed' => '1',
+			  'self_unreg_allowed' => '1',
+              'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'
+			);
+		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		  $functions = array();
+		  $functions[] = array(
+				'name' => 'WebServicesCourse.unsubscribe_group',
+				'parameters' => $coursegroup,
+		  		'handler' => 'handle_webservice'
+			);*/
+
+
         //TEST 14 : Get Group
 		/*$wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
 		$functions = array();
@@ -296,7 +386,7 @@ class TestCallLocalWebservice
 		}*/
 
 		//TEST 15 : Delete Group
-		  $group = array (
+		  /*$group = array (
 			    'name' => 'ShinsengumiXXVII',
 			    'description' => 'test',
 			    'sort' => '1',
@@ -310,7 +400,8 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesGroup.delete_group',
 				'parameters' => $group,
 		  		'handler' => 'handle_webservice'			
-			);
+			);*/
+
 
 	
 		$this->webservice->call_webservice($wsdl, $functions);

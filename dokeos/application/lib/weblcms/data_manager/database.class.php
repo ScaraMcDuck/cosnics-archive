@@ -1944,6 +1944,12 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$res = $statement->execute($params);
 		return $this->record_to_course_group($res->fetchRow(MDB2_FETCHMODE_ASSOC));
 	}
+
+    function retrieve_course_group_by_name($name)
+	{
+        $condition = new EqualityCondition(CourseGroup ::PROPERTY_NAME, $name);
+		return $this->db->retrieve_object('course_group', $condition);
+	}
 	// Inherited
 	//@todo: Take parameters into account
 	function retrieve_course_groups($course_code,$category = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
