@@ -334,7 +334,7 @@ class TestCallLocalWebservice
 		 *
 		 */
 
-              /*$coursegroup = array (
+             /* $coursegroup = array (
 		  	  'course_code' => 'KIT',
 			  'name' => 'testgroup',
 			  'description' => 'test',
@@ -350,12 +350,13 @@ class TestCallLocalWebservice
 				'parameters' => $coursegroup,
 		  		'handler' => 'handle_webservice'
 			);*/
+            
 
 		/*TEST 15 : A test to unsubscribe a group from a course in the db
 		 *
 		 */
 
-		   /*$coursegroup = array (
+		      $coursegroup = array (
 		  	  'course_code' => 'KIT',
 			  'name' => 'testgroup',
 			  'description' => 'test',
@@ -370,7 +371,7 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesCourse.unsubscribe_group',
 				'parameters' => $coursegroup,
 		  		'handler' => 'handle_webservice'
-			);*/
+			);
 
 
         //TEST 14 : Get Group
