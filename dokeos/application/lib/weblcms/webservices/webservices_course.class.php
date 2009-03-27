@@ -152,8 +152,15 @@ class WebServicesCourse
         if($this->webservice->can_execute($input_course, 'delete course'))
 		{
             unset($input_course[hash]);
-            $c = new Course($input_course[id],$input_course);
-            return $this->webservice->raise_message($c->delete());
+            if($this->validator->validate_delete($input_course)) //input validation
+            {
+                $c = new Course($input_course[id],$input_course);
+                return $this->webservice->raise_message($c->delete());
+            }
+            else
+            {
+                return $this->webservice->raise_error('Could not delete course. Please check the data you\'ve provided.');
+            }
         }
         else
         {
@@ -221,7 +228,7 @@ class WebServicesCourse
             }
             else
             {               
-                return $this->webservice->raise_error('Could not subscribe user to course. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error('Could not subscribe user to course. Either there\'s something wrong with the data you\'ve provided, or subscriptions to this course are not allowed.');
             }
             
         }
@@ -243,7 +250,7 @@ class WebServicesCourse
             }
             else
             {
-                return $this->webservice->raise_error('Could not unsubscribe from course. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error('Could not unsubscribe from course. Either there\'s something wrong with the data you\'ve provided, or unsubscribing from this course is not allowed.');
             }
            
         }
@@ -258,11 +265,18 @@ class WebServicesCourse
 		if($this->webservice->can_execute($input_group, 'subscribe group'))
 		{
             unset($input_group[hash]);
-            $cg = new CourseGroup($input_group[id],$input_group[course_code]);
-            unset($input_group['id']);
-            unset($input_group['course_code']);
-            $cg->set_default_properties($input_group);
-            return $this->webservice->raise_message($cg->create());
+            if($this->validator->validate_subscribe_group($input_group)) //input validation
+            {
+                $cg = new CourseGroup($input_group[id],$input_group[course_code]);
+                unset($input_group['id']);
+                unset($input_group['course_code']);
+                $cg->set_default_properties($input_group);
+                return $this->webservice->raise_message($cg->create());
+            }
+            else
+            {
+                 return $this->webservice->raise_error('Could not subscribe group to course.');
+            }
         }
         else
         {
@@ -275,11 +289,18 @@ class WebServicesCourse
 		if($this->webservice->can_execute($input_group, 'unsubscribe group'))
 		{
             unset($input_group[hash]);
-            $cg = new CourseGroup($input_group[id],$input_group[course_code]);
-            unset($input_group['id']);
-            unset($input_group['course_code']);
-            $cg->set_default_properties($input_group);
-            return $this->webservice->raise_message($cg->delete());
+            if($this->validator->validate_unsubscribe_group($input_group)) //input validation
+            {
+                $cg = new CourseGroup($input_group[id],$input_group[course_code]);
+                unset($input_group['id']);
+                unset($input_group['course_code']);
+                $cg->set_default_properties($input_group);
+                return $this->webservice->raise_message($cg->delete());
+            }
+            else
+            {
+                 return $this->webservice->raise_error('Could not unsubscribe group to course.');
+            }
         }
         else
         {

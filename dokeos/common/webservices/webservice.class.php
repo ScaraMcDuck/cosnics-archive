@@ -36,7 +36,7 @@ abstract class Webservice
 
     function validate_function($hash3) //hash 3
 	{
-		$wdm = WebserviceDataManager :: get_instance();
+        $wdm = WebserviceDataManager :: get_instance();
 		$wdm->delete_expired_webservice_credentials();
 		$credentials = $wdm->retrieve_webservice_credentials_by_ip($_SERVER['REMOTE_ADDR']);
         $credentials = $credentials->as_array();
@@ -89,8 +89,8 @@ abstract class Webservice
 	function validate_login($username,$input_hash) //hash 1 = ip+password
 	{        
 		$udm = DatabaseUserDataManager :: get_instance();
-		$user = $udm->retrieve_user_by_username($username);		
-		if(isset($user))
+		$user = $udm->retrieve_user_by_username($username);
+        if(isset($user))
 		{            
             $hash = Hashing :: hash($_SERVER['REMOTE_ADDR'].$user->get_password()); //hash 1
             if(strcmp($hash, $input_hash)==0) //loginservice validate succesful, credential needed to validate the other webservices
@@ -147,7 +147,7 @@ abstract class Webservice
 
     public function can_execute($input_user, $webservicename)
     {   
-        $userid = $this->validate_function($input_user[hash]);       
+        $userid = $this->validate_function($input_user[hash]);
         if(isset($userid) && $this->check_rights($webservicename,$userid))
         return true;
         else

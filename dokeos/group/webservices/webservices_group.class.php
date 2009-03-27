@@ -157,7 +157,7 @@ class WebServicesGroup
 	function subscribe_user(&$input_group_rel_user)
 	{
         if($this->webservice->can_execute($input_group_rel_user, 'subscribe user'))
-		{
+		{            
             unset($input_group_rel_user[hash]);
             if($this->validator->validate_subscribe_or_unsubscribe($input_group_rel_user))
             {
