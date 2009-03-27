@@ -79,11 +79,11 @@ class GroupValidator extends Validator
         if(!$this->validate_property_names($groupProperties, Group :: get_default_property_names()))
         return false;
 
-        $var2 = $this->get_group_name($groupProperties[Group :: PROPERTY_ID]);
-        if($var2 == false)
+        $var = $this->get_group_id($groupProperties[Group :: PROPERTY_NAME]);
+        if(!$var)
         return false;
         else
-        $groupProperties[Group :: PROPERTY_ID] = $var2;
+        $groupProperties[User :: PROPERTY_ID] = $var;
 
         if(!$this->does_group_exist($groupProperties[id]))
         return false;
@@ -107,11 +107,11 @@ class GroupValidator extends Validator
         if(!$this->validate_property_names($groupProperties, Group :: get_default_property_names()))
         return false;
 
-        $var2 = $this->get_group_name($groupProperties[Group :: PROPERTY_ID]);
-        if($var2 == false)
+        $var = $this->get_group_id($groupProperties[Group :: PROPERTY_NAME]);
+        if(!$var)
         return false;
         else
-        $groupProperties[Group :: PROPERTY_ID] = $var2;
+        $groupProperties[User :: PROPERTY_ID] = $var;
         
         if(!$this->does_group_exist($groupProperties[id]))
         return false;

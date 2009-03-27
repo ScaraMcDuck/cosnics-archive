@@ -151,7 +151,7 @@ class TestCallLocalWebservice
 
         //TEST 8 : Create Course
 
-          $course = array (
+          /*$course = array (
             'course_language' => 'english',
             'title' => 'LocalTest',
             'description' => '',
@@ -181,7 +181,7 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesCourse.create_course',
 				'parameters' => $course,
 		  		'handler' => 'handle_webservice'
-			);
+			);*/
 
         //TEST 9 : Update Course
 
@@ -282,6 +282,35 @@ class TestCallLocalWebservice
 				'parameters' => array('hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 		);*/
+
+        //TEST 14 : Get Group
+		/*$wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
+		$functions = array();
+
+		{
+			$functions[] = array(
+				'name' => 'WebServicesGroup.get_group',
+				'parameters' => array('name' => 'SShinsengumi','hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'handler' => 'handle_webservice'
+			);
+		}*/
+
+		//TEST 15 : Delete Group
+		  $group = array (
+			    'name' => 'de coolste groep',
+			    'description' => 'test',
+			    'sort' => '1',
+			    'parent' => '1',
+                'hash' => '550859312670dd7996153002d046737f08ba2c9f'
+			);
+
+		  $wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
+		  $functions = array();
+		  $functions[] = array(
+				'name' => 'WebServicesGroup.delete_group',
+				'parameters' => $group,
+		  		'handler' => 'handle_webservice'			
+			);
 
 	
 		$this->webservice->call_webservice($wsdl, $functions);
