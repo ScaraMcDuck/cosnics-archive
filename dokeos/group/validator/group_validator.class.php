@@ -58,6 +58,7 @@ class GroupValidator extends Validator
         /*
          * If the ID of the parent is 0, it's a root group and thus has no parent.
          */
+
         if($groupProperties[Group :: PROPERTY_PARENT]!='0')
         {
             $var = $this->get_group_id($groupProperties[Group :: PROPERTY_PARENT]);
@@ -77,6 +78,12 @@ class GroupValidator extends Validator
 
         if(!$this->validate_property_names($groupProperties, Group :: get_default_property_names()))
         return false;
+
+        $var2 = $this->get_group_name($groupProperties[Group :: PROPERTY_ID]);
+        if($var2 == false)
+        return false;
+        else
+        $groupProperties[Group :: PROPERTY_ID] = $var2;
 
         if(!$this->does_group_exist($groupProperties[id]))
         return false;
@@ -99,6 +106,12 @@ class GroupValidator extends Validator
 
         if(!$this->validate_property_names($groupProperties, Group :: get_default_property_names()))
         return false;
+
+        $var2 = $this->get_group_name($groupProperties[Group :: PROPERTY_ID]);
+        if($var2 == false)
+        return false;
+        else
+        $groupProperties[Group :: PROPERTY_ID] = $var2;
         
         if(!$this->does_group_exist($groupProperties[id]))
         return false;
@@ -153,7 +166,7 @@ class GroupValidator extends Validator
         {
             return false;
         }
-    }
+    }    
 
     private function does_group_exist($group_id)
     {
