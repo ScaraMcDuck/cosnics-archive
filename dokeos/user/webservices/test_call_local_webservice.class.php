@@ -297,7 +297,7 @@ class TestCallLocalWebservice
 
 		//TEST 15 : Delete Group
 		  $group = array (
-			    'name' => 'de coolste groep',
+			    'name' => 'ShinsengumiXXVII',
 			    'description' => 'test',
 			    'sort' => '1',
 			    'parent' => '1',
