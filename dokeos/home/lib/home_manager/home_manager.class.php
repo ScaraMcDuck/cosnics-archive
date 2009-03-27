@@ -422,9 +422,15 @@ require_once dirname(__FILE__).'/../../../common/condition/pattern_match_conditi
 	
 	public function get_application_platform_admin_links()
 	{
-		$links = array();
-		$links[] = array('name' => Translation :: get('Manage'), 'action' => 'manage', 'url' => $this->get_link(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)));
-		$links[] = array('name' => Translation :: get('Build'), 'action' => 'build', 'url' => $this->get_link(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_BUILD_HOME)));
+		$links		= array();
+		$links[]	= array('name' => Translation :: get('Manage'),
+							'description' => Translation :: get('ManageDescription'),
+							'action' => 'manage',
+							'url' => $this->get_link(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)));
+		$links[]	= array('name' => Translation :: get('Build'),
+							'description' => Translation :: get('BuildDescription'),
+							'action' => 'build',
+							'url' => $this->get_link(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_BUILD_HOME)));
 		return array('application' => array('name' => Translation :: get('Home'), 'class' => 'home'), 'links' => $links, 'search' => null);
 	}
 	

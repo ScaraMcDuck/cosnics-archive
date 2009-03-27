@@ -355,8 +355,11 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	
 	public function get_application_platform_admin_links()
 	{
-		$links = array();
-		$links[] = array('name' => Translation :: get('List'), 'action' => 'list', 'url' => $this->get_link(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)));
+		$links		= array();
+		$links[]	= array('name' => Translation :: get('List'),
+							'description' => Translation :: get('ListDescription'),
+							'action' => 'list',
+							'url' => $this->get_link(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)));
 		return array('application' => array('name' => Translation :: get('Webservice'), 'class' => 'webservice'), 'links' => $links, 'search' => null);
 	}
 	

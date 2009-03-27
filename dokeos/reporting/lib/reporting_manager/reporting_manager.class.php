@@ -339,8 +339,11 @@ class ReportingManager {
 
     public function get_application_platform_admin_links()
     {
-        $links = array();
-        $links[] = array('name' => Translation :: get('List'), 'action' => 'list', 'url' => $this->get_link(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)));
+        $links		= array();
+        $links[]	= array('name' => Translation :: get('List'),
+							'description' => Translation :: get('ListDescription'),
+							'action' => 'list',
+							'url' => $this->get_link(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)));
         //$links[] = array('name' => Translation :: get('Create'), 'action' => 'add', 'url' => $this->get_link(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_ADD_TEMPLATE)));
         //$links[] = array('name' => Translation :: get('Delete'), 'action' => 'remove', 'url' => $this->get_link(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_DELETE_TEMPLATE)));
         return array('application' => array('name' => Translation :: get('Reporting'), 'class' => 'reporting'), 'links' => $links, 'search' => null);

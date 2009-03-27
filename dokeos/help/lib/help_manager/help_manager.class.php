@@ -313,8 +313,11 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	
 	public function get_application_platform_admin_links()
 	{
-		$links = array();
-		$links[] = array('name' => Translation :: get('List'), 'action' => 'list', 'url' => $this->get_link(array(HelpManager :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS)));
+		$links		= array();
+		$links[]	= array('name' => Translation :: get('List'),
+							'description' => Translation :: get('ListDescription'),
+							'action' => 'list',
+							'url' => $this->get_link(array(HelpManager :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS)));
 		return array('application' => array('name' => Translation :: get('Help'), 'class' => 'help'), 'links' => $links, 'search' => $this->get_link(array(HelpManager :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS)));
 	}
 	

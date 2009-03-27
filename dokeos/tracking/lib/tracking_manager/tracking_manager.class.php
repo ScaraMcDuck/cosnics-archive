@@ -279,9 +279,16 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 	 */
 	public function get_application_platform_admin_links()
 	{
-		$links = array();
-		$links[] = array('name' => Translation :: get('List'), 'action' => 'list', 'url' => $this->get_link(array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS)));
-		$links[] = array('name' => Translation :: get('Archive'), 'action' => 'archive', 'url' => $this->get_link(array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)));
+		$links		= array();
+		$links[]	= array('name' => Translation :: get('List'),
+							'description' => Translation :: get('ListDescription'),
+							'action' => 'list',
+							'url' => $this->get_link(array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS)));
+		$links[]	= array('name' => Translation :: get('Archive'),
+							'description' => Translation :: get('ArchiveDescription'),
+							'action' => 'archive',
+							'url' => $this->get_link(array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)));
+		
 		return array('application' => array('name' => Translation :: get('Tracking'), 'class' => 'tracking'), 'links' => $links);
 	}
 	

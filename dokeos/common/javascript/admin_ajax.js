@@ -1,4 +1,4 @@
-/*global $, document, jQuery */
+/*global $, document, jQuery, window */
 
 $(function () {
 	
@@ -10,43 +10,56 @@ $(function () {
 	});
 
 	$(document).ready(function () {
-		
-		$("a.prev").show();
-		$("a.next").show();
+		var elementHeight, dimensions, htmlHeight, windowHeight, extraSpace, scrollableHeight, newScrollableHeight, maxElements;
 		
 		$("#tabs").tabs();
+		$('#tabs').tabs('paging', { cycle: false, follow: false, nextButton : "", prevButton : "" } );
 		
-//		//var currentTab = $("div.tab:visible");
-//		
-//		var elementWidth = $("div.scrollable:first div.items div:first").outerWidth();
-//		var scrollableWidth = $("div.scrollable").outerWidth();
-//		var scrollableSize = (scrollableWidth - (scrollableWidth % elementWidth)) / elementWidth;
-//		var scrollableNewWidth = scrollableSize * elementWidth;
-//		
-//		$("div.tab").each(function (i) {
-//			var elementCount = $("div.scrollable div.items div", $(this)).size();
-//	    	  
-//	  		if (elementCount > scrollableSize)
-//			{
-//				$("div.scrollable", $(this)).scrollable({
-//					size : scrollableSize,
-//					clickable : false
-//				});
-//			}
-//			else
-//			{
-//				$("div.scrollable", $(this)).next().hide();
-//				$("div.scrollable", $(this)).prev().hide();
-//				$("div.scrollable", $(this)).width("100%");
-//				
-//			}
-//	  	});
-//		
-//		$("div#tabs", $(this)).scrollable({
-//			size : scrollableSize,
-//			clickable : false,
-//			items: "ul"
-//		});
+		elementHeight = $("div.scrollable:first div.items div:first").outerHeight();
+		
+		dimensions = {width: 0, height: 0};
+		
+		if (window.innerWidth && window.innerHeight)
+		{
+			dimensions.width = window.innerWidth;
+			dimensions.height = window.innerHeight;
+		}
+		else if (document.documentElement)
+		{
+			dimensions.width = document.documentElement.offsetWidth;
+			dimensions.height = document.documentElement.offsetHeight;
+		}
+
+		htmlHeight = $("body").outerHeight();
+		windowHeight = dimensions.height;
+		extraSpace = windowHeight - htmlHeight;
+		
+		scrollableHeight = $("div.scrollable:first").height();
+		scrollableHeight = scrollableHeight + extraSpace;
+		
+		newScrollableHeight = scrollableHeight - (scrollableHeight % elementHeight);
+		maxElements = newScrollableHeight / elementHeight;
+		
+		$("div.tab").each(function (i) {
+			var elementCount = $("div.scrollable:first div.items div.vertical_action", $(this)).size();
+			
+			if (elementCount > maxElements)
+			{
+				$("div.scrollable", $(this)).next().show();
+				$("div.scrollable", $(this)).prev().show();
+				$("div.scrollable", $(this)).height(newScrollableHeight);
+	  			
+				$("div.scrollable div.items", $(this)).height("20000em");
+				$("div.scrollable div.items", $(this)).css("position", "absolute");
+	  			
+				$("div.scrollable", $(this)).scrollable({
+					size : maxElements,
+					clickable : false,
+					vertical : true,
+					hoverClass : "hover"
+				});
+			}
+		});
 	});
 
 });

@@ -34,7 +34,7 @@ class AdminBrowserComponent extends AdminManagerComponent
 
 		$this->display_header($trail);
 		echo $this->get_application_platform_admin_tabs($links);
-		echo '<div class="clear"></div>';
+//		echo '<div class="clear"></div>';
 //		echo '<br /><br /><br /><br />';
 //		echo '<div class="clear"></div>';
 		//echo $this->get_application_platform_admin_sections($links);
@@ -81,7 +81,7 @@ class AdminBrowserComponent extends AdminManagerComponent
 			{
 				$html[] = '<div class="tab" id="tabs-'. $index .'">';
 				
-				//$html[] = '<a class="prev"></a>';
+				$html[] = '<a class="prev"></a>';
 				
 				$html[] = '<div class="scrollable">';
 				$html[] = '<div class="items">';
@@ -98,37 +98,30 @@ class AdminBrowserComponent extends AdminManagerComponent
 					}
 					
 					$html[] = '<div class="vertical_action"'. ($count == 1 ? ' style="border-top: 0px solid #FAFCFC;"' : '') .'>';
-						$html[] = '<div class="icon">';
-							$html[] = '<a href="'.$link['url'] .'" ' . $onclick . '><img src="'. Theme :: get_image_path() .'action_'. $link['action'] .'.png" alt="'. $link['name'] .'" title="'. $link['name'] .'"/></a>';
-						$html[] = '</div>';
-						
-						//$html[] = '<div class="text">';
-							$html[] = '<h4>' . $link['name'] . '</h4>';
-							$html[] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin augue risus, viverra sit amet, hendrerit non, pellentesque vitae, risus. Nulla tincidunt molestie sem. Maecenas sit amet nisl. Mauris est erat, sollicitudin ac, pharetra at, sollicitudin id, tortor. Pellentesque rhoncus velit. Cras nec leo. In egestas augue et leo. Sed at metus. In orci dui, hendrerit eget, tempor non, imperdiet in, nulla.';
-						//$html[] = '</div>';
-						
-					
+					$html[] = '<div class="icon">';
+					$html[] = '<a href="'.$link['url'] .'" ' . $onclick . '><img src="'. Theme :: get_image_path() .'action_'. $link['action'] .'.png" alt="'. $link['name'] .'" title="'. $link['name'] .'"/></a>';
+					$html[] = '</div>';
+					$html[] = '<h4>' . $link['name'] . '</h4>';
+					$html[] = $link['description'];
 					$html[] = '</div>';
 				}
 
 				if (isset($application_links['search']))
 				{
-					$html[] = '<div class="vertical_action"'. ($count == 1 ? ' style="border-top: 0px solid #FAFCFC;"' : '') .'>';
-						$html[] = '<div class="icon">';
-							$html[] = '<img src="'. Theme :: get_image_path() .'action_search.png" alt="'. Translation :: get('Search') .'" title="'. Translation :: get('Search') .'"/>';
-						$html[] = '</div>';
-						
-						$search_form = new AdminSearchForm($this, $application_links['search'], $index);
-						$html[] = $search_form->display();
-						
+					$search_form = new AdminSearchForm($this, $application_links['search'], $index);
 					
+					$html[] = '<div class="vertical_action">';
+					$html[] = '<div class="icon">';
+					$html[] = '<img src="'. Theme :: get_image_path() .'action_search.png" alt="'. Translation :: get('Search') .'" title="'. Translation :: get('Search') .'"/>';
+					$html[] = '</div>';
+					$html[] = $search_form->display();
 					$html[] = '</div>';
 				}
 				
 				$html[] = '</div>';
 				$html[] = '</div>';
 				
-				//$html[] = '<a class="next"></a>';
+				$html[] = '<a class="next"></a>';
 				
 				$html[] = '<div class="clear"></div>';
 				
