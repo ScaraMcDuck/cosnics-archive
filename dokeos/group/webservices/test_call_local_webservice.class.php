@@ -36,7 +36,7 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		$wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
+		/*$wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
 		$functions = array();
 		
 		{
@@ -45,28 +45,28 @@ class TestCallLocalWebservice
 				'parameters' => array('name' => 'SShinsengumi','hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 			);
-		}
-		
+		}*/
 		
 		
 		/*A test to delete a group in the db
 		 * 
 		 */
 		
-		  /*$group = array (
+		  $group = array (
 			    'name' => 'de coolste groep',
 			    'description' => 'test',
 			    'sort' => '1',
 			    'parent' => '1',
-                'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+                'hash' => '550859312670dd7996153002d046737f08ba2c9f'
 			);
+
 		  $wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesGroup.delete_group',
 				'parameters' => $group,
 		  		'handler' => 'handle_webservice'			
-			);*/
+			);
 		
 		
 		

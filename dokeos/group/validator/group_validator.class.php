@@ -65,7 +65,7 @@ class GroupValidator extends Validator
             if(!$var)
             return false;
             else
-            $groupProperties[User :: PROPERTY_PARENT] = $var;
+            $groupProperties[Group :: PROPERTY_PARENT] = $var;
         }
 
         return true;
@@ -83,7 +83,7 @@ class GroupValidator extends Validator
         if(!$var)
         return false;
         else
-        $groupProperties[User :: PROPERTY_ID] = $var;
+        $groupProperties[Group :: PROPERTY_NAME] = $var;
 
         if(!$this->does_group_exist($groupProperties[id]))
         return false;
@@ -94,7 +94,7 @@ class GroupValidator extends Validator
             if(!$var)
             return false;
             else
-            $groupProperties[User :: PROPERTY_PARENT] = $var;
+            $groupProperties[Group :: PROPERTY_PARENT] = $var;
         }
         return true;
     }
@@ -111,7 +111,7 @@ class GroupValidator extends Validator
         if(!$var)
         return false;
         else
-        $groupProperties[User :: PROPERTY_ID] = $var;
+        $groupProperties[Group :: PROPERTY_NAME] = $var;
         
         if(!$this->does_group_exist($groupProperties[id]))
         return false;
