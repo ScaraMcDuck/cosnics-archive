@@ -77,15 +77,18 @@ class UserValidator extends Validator
     {
         if(!$this->validate_properties($userProperties,$this->get_required_property_names()))
         return false;
-
+        
         if(!$this->validate_property_names($userProperties, User :: get_default_property_names()))
         return false;
 
         /*
-         * To check if the user_id exists.
+         * To look up the username and retrieve the corresponding id
          */
-        if(!$this->does_user_exist($userProperties[user_id]))
+        $var = $this->get_person_id($userProperties[User ::PROPERTY_USERNAME]);
+        if(!$var)
         return false;
+        else
+        $userProperties[User :: PROPERTY_USER_ID] = $var;
 
         /*
          * To check if the creator exists and retrieve it's ID.
@@ -121,10 +124,13 @@ class UserValidator extends Validator
         return false;
         
         /*
-         * To check if the user_id exists.
+         * To look up the username and retrieve the corresponding id
          */
-        if(!$this->does_user_exist($userProperties[user_id]))
+        $var = $this->get_person_id($userProperties[User ::PROPERTY_USERNAME]);
+        if(!$var)
         return false;
+        else
+        $userProperties[User :: PROPERTY_USER_ID] = $var;
         
         return true;
     }
