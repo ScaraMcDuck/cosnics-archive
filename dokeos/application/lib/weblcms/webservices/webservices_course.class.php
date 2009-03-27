@@ -275,7 +275,7 @@ class WebServicesCourse
             }
             else
             {
-                 return $this->webservice->raise_error('Could not subscribe group to course.');
+                 return $this->webservice->raise_error('Could not subscribe group to course. Either something is wrong with the data you\'ve provided, or subscriptions are not allowed for this course.');
             }
         }
         else
@@ -299,7 +299,7 @@ class WebServicesCourse
             }
             else
             {
-                 return $this->webservice->raise_error('Could not unsubscribe group to course.');
+                 return $this->webservice->raise_error('Could not unsubscribe group to course. Either something is wrong with the data you\'ve provided, or unsubscribing is not allowed for this course.');
             }
         }
         else
