@@ -223,7 +223,7 @@ class CourseValidator extends Validator
         else
         $input_course_group[course_code] = $var;
 
-        return true;
+        return $this->validate_subscribe($input_course_group[course_code]);
     }
 
     function validate_unsubscribe_group(&$input_course_group)
@@ -234,13 +234,19 @@ class CourseValidator extends Validator
         if(!$this->validate_property_names($input_course_group, CourseGroup ::get_default_property_names()))
         return false;
 
-        $var = $this->get_course_group_id($input_course_group[name]);
+        $var = $this->get_course_id($input_course_group[course_code]);
         if($var == false)
         return false;
         else
         $input_course_group[course_code] = $var;
-
-        return true;
+        
+        $var = $this->get_course_group_id($input_course_group[name]);
+        if($var == false)
+        return false;
+        else
+        $input_course_group[id] = $var;
+        
+        return $this->validate_unsubscribe($input_course_group[course_code]);
     }
 
     private function get_course_id($visual_code)
@@ -259,7 +265,7 @@ class CourseValidator extends Validator
     private function validate_subscribe($course_code)
     {
         $course = $this->wdm->retrieve_course($course_code);       
-        if(isset($course) && count($course->get_default_properties())>0)
+        if(!empty($course))
         {            
             $subscribe = $course->get_default_property('subscribe');
             if($subscribe == 1 ) //allowed to subscribe
@@ -280,13 +286,13 @@ class CourseValidator extends Validator
 
     private function validate_unsubscribe($course_code)
     {        
-        $course = $this->wdm->retrieve_course($course_code);        
+        $course = $this->wdm->retrieve_course($course_code);
+        
         if(!empty($course))
         {
             $unsubscribe = $course->get_default_property('unsubscribe');
             if($unsubscribe == 1 ) //allowed to unsubscribe
             {
-               
                 return true;
             }
             else
@@ -319,7 +325,7 @@ class CourseValidator extends Validator
         $group = $this->wdm->retrieve_course_group_by_name($group_name);
         if(!empty($group))
         {
-           return $group->get_id();
+           return $group->get_default_property('id');
         }
         else
         {
