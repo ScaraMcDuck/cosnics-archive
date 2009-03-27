@@ -142,18 +142,19 @@ div.vertical_action
 	overflow: hidden;
 	padding: 10px 0px 10px 0px;
 	border-top: 1px solid #EBEBEB;
+	height: 64px;
 }
 
 div.vertical_action div.icon
 {
 	float: left;
 	width: 64px;
-	height: 48px;
+	height: 64px;
 }
 
 div.vertical_action div.icon img
 {
-	margin: 8px;
+	margin: 16px;
 }
 
 div.vertical_action h4
@@ -172,11 +173,17 @@ div.vertical_action h4
 .ui-tabs .ui-tabs-panel {
 	border: 1px solid #ebebeb;
 	background-color: #FAFCFC;
+	padding: 0px;
 }
 
 .ui-tabs .ui-tabs-nav {
 	padding-left: 0.4em;
 	padding-right: 0.4em;
+}
+
+.ui-widget
+{
+	font-family: verdana, sans-serif;
 }
 
 .ui-widget-content {
@@ -213,9 +220,8 @@ div.vertical_action h4
 div.scrollable
 {
 	position: relative;
-	/*overflow: hidden;*/
+	overflow: hidden;
 	width: 100%;
-	/*height: 90px;*/
 }
 
 /* 
@@ -224,25 +230,12 @@ div.scrollable
 	it's enough that you set width and height for the root element and
 	not for this element.
 */
-/*
+
 div.scrollable div.items
 {
-	width: 20000em;
-	position: absolute;
 	clear: both;
 }
-*/
 
-/* single scrollable item */
-/*
-div.scrollable div.items div
-{
-	float: left;
-	width: 75px;
-	overflow: hidden;
-	height: 90px;
-}
-*/
 
 /* this makes it possible to add next button beside scrollable */
 div.scrollable
@@ -256,20 +249,18 @@ a.prev,a.next,a.prevPage,a.nextPage
 	display: none;
 	width: 16px;
 	height: 16px;
-	background: url(../plugin/jquery/scrollable/left.png) no-repeat;
+	background: url(../plugin/jquery/scrollable/top.png) no-repeat;
 	float: left;
-	margin-top: 37px;
+	/*position: relative;*/
+	margin-left: 50%;
 	cursor: pointer;
+	margin-bottom: 10px;
+	margin-top: 10px;
 }
 
-a.prev,a.prevPage
+.hover
 {
-	margin-right: 10px;
-}
-
-a.next,a.nextPage
-{
-	margin-left: 10px;
+	background-color: #f2f4f4;
 }
 
 /* mouseover state */
@@ -287,7 +278,7 @@ a.disabled
 /* next button uses another background image */
 a.next,a.nextPage
 {
-	background-image: url(../plugin/jquery/scrollable/right.png);
+	background-image: url(../plugin/jquery/scrollable/bottom.png);
 	clear: right;
 }
 
@@ -307,8 +298,7 @@ div.navi a
 	height: 8px;
 	float: left;
 	margin: 3px;
-	background: url(../plugin/jquery/scrollable/navigator.png) 0 0 no-repeat
-		;
+	background: url(../plugin/jquery/scrollable/navigator.png) 0 0 no-repeat);
 	cursor: pointer;
 }
 
@@ -322,4 +312,45 @@ div.navi a:hover
 div.navi a.active
 {
 	background-position: 0 -16px;
+}
+
+/*********************************************
+ * jQuery CSS: Scrollable tabs
+ *********************************************/
+
+.ui-tabs-paging-next
+{ 
+   float: right;
+}
+
+.ui-tabs-paging-prev, .ui-tabs-paging-next
+{
+	position: relative;
+	top: 10px;
+	padding: 0px;
+	margin: 0px;
+	width: 16px;
+	height: 16px;
+	background-color: transparent;
+	background: url(../plugin/jquery/scrollable/left.png) no-repeat;
+}
+
+.ui-tabs-paging-next
+{
+	background: url(../plugin/jquery/scrollable/right.png) no-repeat;
+}
+
+.ui-tabs-paging-next:hover,
+.ui-tabs-paging-next:focus,
+.ui-tabs-paging-next:active,
+.ui-tabs-paging-prev:hover,
+.ui-tabs-paging-prev:focus,
+.ui-tabs-paging-prev:active
+{
+	background-position: 0px -16px;
+}
+
+.ui-tabs-paging-disabled
+{
+	visibility: hidden;
 }

@@ -115,13 +115,13 @@ img
  *****************************************************/
 #main
 {
- position: relative; /* to avoid the IE peekabo bug*/
- margin: 0px auto;
- margin-top: 10px;
- width: 98%;
- padding: 0px 10px 10px 10px;
- background-color: #fff;
- min-height: 520px;
+	position: relative; /* to avoid the IE peekabo bug*/
+	margin: 0px auto;
+	margin-top: 10px;
+	width: 98%;
+	padding: 0px 10px 10px 10px;
+	background-color: #fff;
+	min-height: 505px;
 }
 
 /* "menu" classes for menu/navigation section in main index.php  */

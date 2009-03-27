@@ -567,11 +567,24 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	 */
 	public function get_application_platform_admin_links()
 	{
-		$links = array();
-		$links[] = array('name' => Translation :: get('List'), 'action' => 'list', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
-		$links[] = array('name' => Translation :: get('Create'), 'action' => 'add', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
-		$links[] = array('name' => Translation :: get('Export'), 'action' => 'export', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
-		$links[] = array('name' => Translation :: get('Import'), 'action' => 'import', 'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
+		$links		= array();
+		$links[]	= array('name' => Translation :: get('List'),
+							'description' => Translation :: get('ListDescription'),
+							'action' => 'list',
+							'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
+		$links[]	= array('name' => Translation :: get('Create'),
+							'description' => Translation :: get('CreateDescription'),
+							'action' => 'add',
+							'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)));
+		$links[]	= array('name' => Translation :: get('Export'),
+							'description' => Translation :: get('ExportDescription'),
+							'action' => 'export',
+							'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_EXPORT_USERS)));
+		$links[]	= array('name' => Translation :: get('Import'),
+							'description' => Translation :: get('ImportDescription'),
+							'action' => 'import',
+							'url' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
+		
 		return array('application' => array('name' => Translation :: get('Users'), 'class' => 'user'), 'links' => $links, 'search' => $this->get_link(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
 	}
 

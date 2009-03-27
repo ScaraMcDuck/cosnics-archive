@@ -348,10 +348,23 @@ class AdminManager
 
 		// 1. Admin-core components
 		$links		= array();
-		$links[]	= array('name' => Translation :: get('Settings'), 'action' => 'manage', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM)));
-		$links[]	= array('name' => Translation :: get('SystemAnnouncements'), 'action' => 'list', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)));
-		$links[]	= array('name' => Translation :: get('ManageCategories'), 'action' => 'list', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES)));
-		$links[]	= array('name' => Translation :: get('Diagnose'), 'action' => 'information', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DIAGNOSE)));
+		$links[]	= array('name' => Translation :: get('Settings'),
+							'description' => Translation :: get('SettingsDescription'),
+							'action' => 'manage',
+							'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM)));
+		$links[]	= array('name' => Translation :: get('SystemAnnouncements'),
+							'description' => Translation :: get('SystemAnnouncementsDescription'),
+							'action' => 'list',
+							'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)));
+		$links[]	= array('name' => Translation :: get('ManageCategories'),
+							'description' => Translation :: get('ManageCategoriesDescription'),
+							'action' => 'list',
+							'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES)));
+		$links[]	= array('name' => Translation :: get('Diagnose'),
+							'description' => Translation :: get('DiagnoseDescription'),
+							'action' => 'information',
+							'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DIAGNOSE)));
+		
 		$info[]		= array('application' => array('name' => Translation :: get('Admin'), 'class' => self :: APPLICATION_NAME), 'links' => $links);
 		
 		// 2. Repository
