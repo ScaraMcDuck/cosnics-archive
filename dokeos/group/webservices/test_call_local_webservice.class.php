@@ -42,7 +42,7 @@ class TestCallLocalWebservice
 		{
 			$functions[] = array(
 				'name' => 'WebServicesGroup.get_group',
-				'parameters' => array('name' => 'SShinsengumi','hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'parameters' => array('input' => array('name' => 'Shinsengumi'),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 			);
 		}*/
@@ -55,39 +55,36 @@ class TestCallLocalWebservice
 		  /*$group = array (
 			    'name' => 'de coolste groep',
 			    'description' => 'test',
-			    'sort' => '1',
-			    'parent' => '1',
-                'hash' => '550859312670dd7996153002d046737f08ba2c9f'
-			);
+			    'sort' => '0',
+			    'parent' => '0'
+            );
 
 		  $wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesGroup.delete_group',
-				'parameters' => $group,
+				'parameters' => array('input' => $group, 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
-			);*/
-		
+			);
+		*/
 		
 		
 		/*A test to create a group in the db
 		 * 
 		 */
 		
-		 /* $group = array (
-                'id' => '',
-			    'name' => 'de coolste groep',
+		 /*$group = array (
+                'name' => 'de coolste groep',
 			    'description' => 'test',
-			    'sort' => '1',
-			    'parent' => '0',
-                'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'
+			    'sort' => '0',
+			    'parent' => '0'
 			);
 
 		  $wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesGroup.create_group',
-				'parameters' => $group,
+				'parameters' => array('input' => $group, 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
 	
@@ -98,16 +95,15 @@ class TestCallLocalWebservice
 		
 		  /*$group = array (
 				'name' => 'de coolste groep',
-				'description' => 'cool',
-				'sort' => '1',
-				'parent' => '1',
-                'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
-		    );
+				'description' => 'coolste',
+				'sort' => '0',
+				'parent' => '0'
+           );
 		  $wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesGroup.update_group',
-				'parameters' => $group,
+				'parameters' => array('input' => $group, 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -117,12 +113,12 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  /*$group_rel_user = array('user_id' => 'admin', 'group_id' => 'Shinsengumi', 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f');
+		  /*$group_rel_user = array('user_id' => 'Soliber', 'group_id' => 'Shinsengumi');
 		  $wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesGroup.subscribe_user',
-				'parameters' => $group_rel_user,
+				'parameters' => array('input' => $group_rel_user, 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -132,12 +128,12 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-          $group_rel_user = array('user_id' => 'admin', 'group_id' => 'Shinsengumi', 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f');
+          $group_rel_user = array('user_id' => 'Soliber', 'group_id' => 'Shinsengumi');
 		  $wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
           $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesGroup.unsubscribe_user',
-				'parameters' => $group_rel_user,
+				'parameters' => array('input' => $group_rel_user, 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'
 			);
 			

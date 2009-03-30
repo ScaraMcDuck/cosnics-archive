@@ -51,8 +51,6 @@ class WebServicesGroup
 			'input' => new GroupRelUser()
 		);
 		
-		
-		
 		$this->webservice->provide_webservice($functions);
 
 	}
@@ -62,16 +60,16 @@ class WebServicesGroup
         if($this->webservice->can_execute($input_group, 'get group'))
 		{
             $gdm = DatabaseGroupDataManager :: get_instance();
-            if($this->validator->validate_retrieve($input_group))
+            if($this->validator->validate_retrieve($input_group[input]))
             {
-                $group = $gdm->retrieve_group_by_name($input_group[name]);
+                $group = $gdm->retrieve_group_by_name($input_group[input][name]);
                 if(!empty($group))
                 {
                     return $group->get_default_properties();
                 }
                 else
                 {
-                    return $this->webservice->raise_error('Group '.$input_group[name].' not found.');
+                    return $this->webservice->raise_error('Group '.$input_group[input][name].' not found.');
                 }
             }
             else
@@ -89,10 +87,9 @@ class WebServicesGroup
 	{
         if($this->webservice->can_execute($input_group, 'create group'))
 		{
-            unset($input_group[hash]);
-            if($this->validator->validate_create($input_group))
+            if($this->validator->validate_create($input_group[input]))
             {
-                $g = new Group(0,$input_group);
+                $g = new Group(0,$input_group[input]);
                 return $this->webservice->raise_message($g->create());
             }
             else
@@ -110,10 +107,9 @@ class WebServicesGroup
 	{
 		if($this->webservice->can_execute($input_group, 'update group'))
 		{
-            unset($input_group[hash]);
-            if($this->validator->validate_update($input_group))
+            if($this->validator->validate_update($input_group[input]))
             {
-                $g = new Group(0,$input_group);
+                $g = new Group(0,$input_group[input]);
                 return $this->webservice->raise_message($g->update());
             }
             else
@@ -131,10 +127,9 @@ class WebServicesGroup
 	{
 		if($this->webservice->can_execute($input_group, 'delete group'))
 		{
-            unset($input_group[hash]);
-            if($this->validator->validate_delete($input_group))
+            if($this->validator->validate_delete($input_group[input]))
             {
-                $g = new Group(0,$input_group);
+                $g = new Group(0,$input_group[input]);
                 return $this->webservice->raise_message($g->delete());
             }
             else
@@ -152,10 +147,9 @@ class WebServicesGroup
 	{
         if($this->webservice->can_execute($input_group_rel_user, 'subscribe user'))
 		{            
-            unset($input_group_rel_user[hash]);
-            if($this->validator->validate_subscribe_or_unsubscribe($input_group_rel_user))
+            if($this->validator->validate_subscribe_or_unsubscribe($input_group_rel_user[input]))
             {
-                $gru = new GroupRelUser($input_group_rel_user[group_id],$input_group_rel_user[user_id]);
+                $gru = new GroupRelUser($input_group_rel_user[input][group_id],$input_group_rel_user[input][user_id]);
                 return $this->webservice->raise_message($gru->create());
             }
             else
@@ -173,10 +167,9 @@ class WebServicesGroup
 	{
         if($this->webservice->can_execute($input_group_rel_user, 'unsubscribe user'))
 		{
-            unset($input_group_rel_user[hash]);
-            if($this->validator->validate_subscribe_or_unsubscribe($input_group_rel_user))
+            if($this->validator->validate_subscribe_or_unsubscribe($input_group_rel_user[input]))
             {
-                $gru = new GroupRelUser($input_group_rel_user[group_id],$input_group_rel_user[user_id]);
+                $gru = new GroupRelUser($input_group_rel_user[input][group_id],$input_group_rel_user[input][user_id]);
                 return $this->webservice->raise_message($gru->delete());
             }
             else
