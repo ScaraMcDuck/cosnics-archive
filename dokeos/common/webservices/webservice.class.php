@@ -5,11 +5,18 @@ require_once dirname(__FILE__).'/../../common/configuration/configuration.class.
 require_once Path :: get_webservice_path().'/lib/webservice_credential.class.php';
 require_once Path :: get_library_path() . 'database/database.class.php';
 require_once Path :: get_webservice_path() . 'lib/data_manager/database.class.php';
+require_once Path :: get_webservice_path() . 'lib/webservice_data_manager.class.php';
 
 abstract class Webservice
 {
     private $message;
     private $credential;
+    private $ru;
+
+    public function Webservice()
+    {
+        $this->ru = new RightsUtilities();
+    }
     
 	public static function factory($webservice_handler, $protocol = 'Soap', $implementation = 'Nusoap')
 	{
@@ -118,12 +125,11 @@ abstract class Webservice
 
     public function check_rights($webservicename,$userid)
     {
-        $wm = new WebserviceManager();
+        $wm = WebserviceDataManager ::get_instance();
         $webservice = $wm->retrieve_webservice_by_name($webservicename);
         if(isset($webservice))
         {            
-            $ru = new RightsUtilities();
-            if($ru->is_allowed('1', $webservice->get_id(), 'webservice', 'webservice', $userid ))
+            if($this->ru->is_allowed('1', $webservice->get_id(), 'webservice', 'webservice', $userid ))
             {               
                return true;
             }

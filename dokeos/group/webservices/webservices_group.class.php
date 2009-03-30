@@ -28,33 +28,27 @@ class WebServicesGroup
 		
 		$functions['get_group'] = array(
 			'input' => new Group(),
-			'output' => new Group(),
-            'require_hash' => true
+			'output' => new Group()
 		);
 		
 		$functions['create_group'] = array(
-			'input' => new Group(),
-			'require_hash' => true
+			'input' => new Group()
 		);
 
         $functions['update_group'] = array(
-			'input' => new Group(),
-			'require_hash' => true
+			'input' => new Group()
 		);
 
 		$functions['delete_group'] = array(
-			'input' => new Group(),
-			'require_hash' => true
+			'input' => new Group()
 		);
 		
 		$functions['subscribe_user'] = array(
-			'input' => new GroupRelUser(),
-			'require_hash' => true
+			'input' => new GroupRelUser()
 		);
 		
 		$functions['unsubscribe_user'] = array(
-			'input' => new GroupRelUser(),
-			'require_hash' => true
+			'input' => new GroupRelUser()
 		);
 		
 		

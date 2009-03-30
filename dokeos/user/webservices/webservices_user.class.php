@@ -29,29 +29,28 @@ class WebServicesUser
 		
 		$functions['get_user'] = array(
 			'input' => new User(),
-			'output' => new User(),
-            'require_hash' => true
+			'output' => new User()
         );
 		
 		$functions['get_all_users'] = array(
-			'output' => array(new User()),
-			'array' => true,
-            'require_hash' => true
-		);
+            'array' => true,
+			'output' => array(new User()));
 		
 		$functions['delete_user'] = array(
 			'input' => new User(),
-			'require_hash' => true
 		);
 		
 		$functions['create_user'] = array(
 			'input' => new User(),
-			'require_hash' => true
 		);
+
+        $functions['create_users'] = array(
+            'array_input' => true,
+			'input' => array(new User()),
+        );
 		
 		$functions['update_user'] = array(
 			'input' => new User(),
-			'require_hash' => true
 		);
 
         $time_end = microtime(true);
@@ -61,15 +60,12 @@ class WebServicesUser
 	}
 	
 	function get_user($input_user)
-	{   echo date('[H:m:s] ', time()) . 'aanroep' . '<br />';
-        if($this->webservice->can_execute($input_user, 'get user'))
+	{   if($this->webservice->can_execute($input_user, 'get user'))
 		{
-            echo date('[H:m:s] ', time()) . 'can execute done' . '<br />';
             $udm = DatabaseUserDataManager :: get_instance();
-            if($this->validator->validate_retrieve($input_user)) //input validation
+            if($this->validator->validate_retrieve($input_user[input])) //input validation
             {
-                echo date('[H:m:s] ', time()) . 'validate done' . '<br />';
-                $user = $udm->retrieve_user_by_username($input_user[username]);
+                $user = $udm->retrieve_user_by_username($input_user[input][username]);
                 if(!empty($user))
                 {
                     echo date('[H:m:s] ', time()) . 'user properties opgehaald' . '<br />';
@@ -77,7 +73,7 @@ class WebServicesUser
                 }
                 else
                 {
-                    return $this->webservice->raise_error('User '.$input_user[username].' not found.');
+                    return $this->webservice->raise_error('User '.$input_user[input][username].' not found.');
                 }
             }
             else
@@ -99,7 +95,7 @@ class WebServicesUser
 		{
             $udm = DatabaseUserDataManager :: get_instance();
             $users = $udm->retrieve_users();
-            $users = $users->as_array();
+            $users = $users->as_array();            
             foreach($users as &$user)
             {
                 $user = $user->get_default_properties();
@@ -116,10 +112,9 @@ class WebServicesUser
 	{
         if($this->webservice->can_execute($input_user, 'delete user'))
 		{
-            unset($input_user[hash]);
-            if($this->validator->validate_delete($input_user))
+            if($this->validator->validate_delete($input_user[input]))
             {
-                $u = new User(0,$input_user);
+                $u = new User(0,$input_user[input]);
                 return $this->webservice->raise_message($u->delete());
             }
             else
@@ -138,10 +133,9 @@ class WebServicesUser
 	{        
         if($this->webservice->can_execute($input_user, 'create user'))
 		{            
-            unset($input_user[hash]);
-            if($this->validator->validate_create($input_user))
-            {   
-                $u = new User(0,$input_user);                
+            if($this->validator->validate_create($input_user[input]))
+            {                
+                $u = new User(0,$input_user[input]);
                 return $this->webservice->raise_message($u->create());
             }
             else
@@ -154,15 +148,38 @@ class WebServicesUser
             return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
+
+    function create_users(&$input_user)
+	{
+       if($this->webservice->can_execute($input_user, 'create users'))
+       {
+           foreach($input_user[input] as $user)
+           {
+               if($this->validator->validate_create($user))
+               {
+                   $u = new User(0,$user);
+                   $u->create();
+               }
+               else
+               {
+                   return $this->webservice->raise_error('Could not create user. Please check the data you\'ve provided.');
+               }
+           }
+           return $this->webservice->raise_message('Users created.');
+       }
+       else
+       {
+           return $this->webservice->raise_error($this->webservice->get_message());
+       }
+	}
 	
 	function update_user(&$input_user)
 	{
         if($this->webservice->can_execute($input_user, 'update user'))
 		{
-            unset($input_user[hash]);
-            if($this->validator->validate_update($input_user))
+            if($this->validator->validate_update($input_user[input]))
             {
-                $u = new User(0,$input_user);
+                $u = new User(0,$input_user[input]);
                 return $this->webservice->raise_message($u->update());
             }
             else
@@ -174,7 +191,5 @@ class WebServicesUser
         {
             return $this->webservice->raise_error($this->webservice->get_message());
         }
-	} 
-	
-	
+	}
 }
