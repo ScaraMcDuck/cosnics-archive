@@ -73,7 +73,7 @@ function login()
      * $password = Hash(IP+PW) ;
      */
 	$username = 'admin';
-	$password = '772d9ed50e3b34cbe3f9e36b77337c6b2f4e0cfa';
+    $password = hash('sha1','193.190.172.141'.hash('sha1','admin'));
     
     /*
      * change location to server location for the wsdl

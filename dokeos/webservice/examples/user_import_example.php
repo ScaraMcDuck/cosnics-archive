@@ -8,7 +8,7 @@ $users = parse_csv($file);
 /*
  * change location to the location of the test server
  */
-$location = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservices_user.class.php?wsdl';
+$location = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
@@ -25,7 +25,7 @@ $time = $time_end - $time_start;
 echo "Execution time was  $time seconds\n";
 
 function parse_csv($file)
-{
+{    
 	if(file_exists($file) && $fp = fopen($file, "r"))
 	{
 		$keys = fgetcsv($fp, 1000, ";");
@@ -40,7 +40,7 @@ function parse_csv($file)
 			}
 			$users[] = $user;
 		}
-		fclose($fp);
+		fclose($fp);        
 	}
 	else
 	{
@@ -61,7 +61,9 @@ function create_user($user)
     $user['disk_quota'] = '209715200';
     $user['database_quota'] = '300';
     $user['version_quota'] = '20';
-	$result = $client->call('WebServicesUser.create_user', $user);    
+    log_message('CALL NAAR DE WEBSERVICE');
+	$result = $client->call('WebServicesUser.create_user', $user);
+    log_message('RETURN GEKREGEN VAN DE WEBSERVICE');
 	if($result == 1)
     {
         log_message(print_r('User successfully created', true));
@@ -82,17 +84,19 @@ function login()
      * $password = Hash(IP+PW) ;
      */
 	$username = 'admin';
-	$password = '772d9ed50e3b34cbe3f9e36b77337c6b2f4e0cfa';
+	$password = 'c14d68b0ef49d97929c36f7725842b5adbf5f006';
 	
 	/*
      * change location to server location for the wsdl
      */
-	$login_client = new nusoap_client('http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
+    $login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
 	$result = $login_client->call('LoginWebservice.login', array('username' => $username, 'password' => $password));
 
-    log_message(print_r($result, true)); 
+    log_message(print_r($result, true));    
     if(is_array($result) && array_key_exists('hash', $result))
         return $result['hash']; //hash 3
+
+    
 		
 	return '';
     
@@ -106,8 +110,8 @@ function dump($value)
 }
 
 function log_message($text)
-{
-	echo date('[H:m] ', time()) . $text . '<br />';
+{      
+	echo date('[H:m:s] ', time()) . $text . '<br />';
 }
 
 function debug($client)
