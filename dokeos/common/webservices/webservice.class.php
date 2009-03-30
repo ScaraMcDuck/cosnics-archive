@@ -44,8 +44,8 @@ abstract class Webservice
 		{   
             foreach($credentials as $c) //werkt
             {
-                $h = Hashing ::hash($_SERVER['REMOTE_ADDR'].$c->get_hash()); //hash 3 based on hash 2
-                
+                $h = Hashing ::hash($_SERVER['REMOTE_ADDR'].$c->get_hash()); //hash 3 based on hash 2               
+
                 if(strcmp($h , $hash3)===0) //zijn gelijk
                 {                    
                     return $c->get_user_id();

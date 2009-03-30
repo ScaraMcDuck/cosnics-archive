@@ -9,6 +9,8 @@ require_once Path :: get_library_path() . 'validator/validator.class.php';
 $handler = new WebServicesUser();
 $handler->run();
 
+$time_start = microtime(true);
+
 class WebServicesUser
 {
 	private $webservice;
@@ -51,20 +53,26 @@ class WebServicesUser
 			'input' => new User(),
 			'require_hash' => true
 		);
+
+        $time_end = microtime(true);
+        $time = $time_end - $time_start;
         
         $this->webservice->provide_webservice($functions); 
 	}
 	
 	function get_user($input_user)
-	{
+	{   echo date('[H:m:s] ', time()) . 'aanroep' . '<br />';
         if($this->webservice->can_execute($input_user, 'get user'))
-		{           
+		{
+            echo date('[H:m:s] ', time()) . 'can execute done' . '<br />';
             $udm = DatabaseUserDataManager :: get_instance();
             if($this->validator->validate_retrieve($input_user)) //input validation
             {
+                echo date('[H:m:s] ', time()) . 'validate done' . '<br />';
                 $user = $udm->retrieve_user_by_username($input_user[username]);
                 if(!empty($user))
                 {
+                    echo date('[H:m:s] ', time()) . 'user properties opgehaald' . '<br />';
                     return $user->get_default_properties();
                 }
                 else
@@ -128,13 +136,12 @@ class WebServicesUser
 	
 	function create_user(&$input_user)
 	{        
-
         if($this->webservice->can_execute($input_user, 'create user'))
-		{
+		{            
             unset($input_user[hash]);
             if($this->validator->validate_create($input_user))
-            {                
-                $u = new User(0,$input_user);
+            {   
+                $u = new User(0,$input_user);                
                 return $this->webservice->raise_message($u->create());
             }
             else
@@ -167,9 +174,7 @@ class WebServicesUser
         {
             return $this->webservice->raise_error($this->webservice->get_message());
         }
-	}
-	
-	
+	} 
 	
 	
 }

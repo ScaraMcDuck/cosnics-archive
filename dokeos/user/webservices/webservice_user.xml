@@ -3,6 +3,7 @@
 		<webservice name="update user" />
 		<webservice name="delete user" />
 		<webservice name="create user" />
+        <webservice name="create users" />
         <webservice name="get user" />
         <webservice name="get all users" />
 	</category>			
