@@ -156,7 +156,7 @@ class ReportingWeblcms {
     public static function getLastAccessToTools($params)
     {
         $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
-        $course_id = 2;
+        //$course_id = 2;
         $wdm = WeblcmsDataManager :: get_instance();
         $course = $wdm->retrieve_course($course_id);
 		$tools = $wdm->get_course_modules($course_id);
@@ -364,9 +364,17 @@ class ReportingWeblcms {
      * Returns a list of object types and their amount
      * @param <type> $params
      */
-    public static function getNoOfObjectsPerType($params)
+    public static function getNoOfPublishedObjectsPerType($params)
     {
-        
+        $wdm = WeblcmsDataManager :: get_instance();
+        $learning_objects = $wdm->retrieve_learning_object_publications();
+        while($learning_object = $learning_objects->next_result())
+        {
+            //dump($learning_object);
+            $arr[Translation :: get($learning_object->get_learning_object()->get_type())][0]++;
+        }
+
+        return Reporting :: getSerieArray($arr);
     }
 }
 ?>
