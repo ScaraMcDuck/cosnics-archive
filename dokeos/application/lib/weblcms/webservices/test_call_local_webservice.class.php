@@ -42,7 +42,7 @@ class TestCallLocalWebservice
 		{
 			$functions[] = array(
 				'name' => 'WebServicesCourse.get_course',
-				'parameters' => array('visual_code' => 'KIT', 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'parameters' => array('input' => array('visual_code' => 'KIT'),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 			);
 		}*/
@@ -52,15 +52,15 @@ class TestCallLocalWebservice
 		 */
 		
 		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
-	$functions = array();
+        $functions = array();
 		
 		{
 			$functions[] = array(
 				'name' => 'WebServicesCourse.get_user_courses',
-				'parameters' => array('id' => 2, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
+				'parameters' => array('input' => array('id' => '2'),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 			);
-		}
+		}*/
 		
 		/*A test to retrieve users of a course from the db
 		 * 
@@ -126,7 +126,7 @@ class TestCallLocalWebservice
 		 *
 		 */
 
-		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		$functions = array();
 
 		{
@@ -135,38 +135,38 @@ class TestCallLocalWebservice
 				'parameters' => array('id' => 1, 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 			);
-		}
+		}*/
 		
 		/*A test to delete a course in the db
 		 * 
 		 */
 		
-		/*$course = array (
-          'id' => '2',
-          'layout' => '1',
-          'visual_code' => 'Tjaffen',
-          'category' => '1',
-          'title' => 'Tjaffen',
-          'titular' => '2',
-          'course_language' => 'english',
-          'department_url' => NULL,
-          'department_name' => NULL,
-          'visibility' => '3',
-          'subscribe' => '1',
-          'unsubscribe' => '0',
-          'theme' => NULL,
-          'tool_shortcut' => '1',
-          'menu' => '1',
-          'breadcrumb' => '1',
-          'allow_feedback' => '1',
-          'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+		/*$course = array(
+            'layout' => '1',
+            'visual_code' => 'KITT',
+            'category' => 'language skills', //required
+            'title' => 'Kennisintensieve Toepassingen', //required
+            'show_score' => '1',
+            'titular' => 'Soliber',
+            'course_language' => 'english',
+            'department_url' => '' ,
+            'department_name' => '',
+            'visibility' => '1',
+            'subscribe' => '1',
+            'unsubscribe' => '1',
+            'theme' => '1',
+            'tool_shortcut' => '1',
+            'menu' => '1',
+            'breadcrumb' => '1',
+            'allow_feedback' => '1',
+            'disk_quota' => '200',
         );
 
 		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.delete_course',
-				'parameters' => $course,
+				'parameters' => array('input' => $course,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -176,31 +176,32 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  /*$course = array (
-          'id' => '3',
-          'layout' => '1',
-          'visual_code' => 'Vissen',
-          'category' => '1',
-          'title' => 'Vissen',
-          'titular' => '2',
-          'course_language' => 'Japanese',
-          'department_url' => NULL,
-          'department_name' => NULL,
-          'visibility' => '3',
-          'subscribe' => '1',
-          'unsubscribe' => '0',
-          'theme' => NULL,
-          'tool_shortcut' => '1',
-          'menu' => '1',
-          'breadcrumb' => '1',
-          'allow_feedback' => '1',
-          'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
-             );
+		  /*$course = array(
+            'layout' => '1',
+            'visual_code' => 'KITT',
+            'category' => 'language skills', //required
+            'title' => 'Kennisintensieve Toepassingennnn', //required
+            'show_score' => '1',
+            'titular' => 'Soliber',
+            'course_language' => 'english',
+            'department_url' => '' ,
+            'department_name' => '',
+            'visibility' => '1',
+            'subscribe' => '1',
+            'unsubscribe' => '1',
+            'theme' => '1',
+            'tool_shortcut' => '1',
+            'menu' => '1',
+            'breadcrumb' => '1',
+            'allow_feedback' => '1',
+            'disk_quota' => '200',
+        );
+
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.create_course',
-				'parameters' => $course,
+				'parameters' => array('input' => $course,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -208,68 +209,64 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  $course = array (
+		  /*$course = array (
 			  'course_code' => 'KIT',
 			  'user_id' => 'Soliber',
 			  'status' => '1',
 			  'role' => 'NULL',
-			  'course_group_id' => '0',
-			  'tutor_id' => '1',
-			  'sort' => '1',
-			  'user_course_cat' => '0',
-              'hash' => '550859312670dd7996153002d046737f08ba2c9f'
-			);
+			  'course_group_id' => 'testgroup',
+			  'tutor_id' => 'Soliber',
+			  'sort' => '0',
+			  'user_course_cat' => '0'
+        );
 
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.subscribe_user',
-				'parameters' => $course,
+				'parameters' => array('input' => $course,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
-			);
+			);*/
 		
 		/*A test to unsubscribe a user from a course in the db
 		 * 
 		 */
 		
-		 /*$course = array (
+		/* $course = array (
 			  'course_code' => 'KIT',
 			  'user_id' => 'Soliber',
 			  'status' => '1',
 			  'role' => 'NULL',
-			  'course_group_id' => '0',
-			  'tutor_id' => '1',
-			  'sort' => '1',
-			  'user_course_cat' => '0',
-              'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'
-			);
+			  'course_group_id' => 'testgroup',
+			  'tutor_id' => 'Soliber',
+			  'sort' => '0',
+			  'user_course_cat' => '0'
+        );
 	   	  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.unsubscribe_user',
-				'parameters' => $course,
+				'parameters' => array('input' => $course,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
-
+        
 		/*A test to subscribe a group to a course in the db
 		 * 
 		 */
 		
-		  /*$coursegroup = array (
-		  	  'id' => '1',
-			  'course_code' => '2',
+		 /* $coursegroup = array (
+		  	  'course_code' => 'KIT',
 			  'name' => 'test',
 			  'description' => 'test',
 			  'max_number_of_members' => '999',
 			  'self_reg_allowed' => '1',
-			  'self_unreg_allowed' => '1',
-              'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
-			);
+			  'self_unreg_allowed' => '1'
+            );
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.subscribe_group',
-				'parameters' => $coursegroup,
+				'parameters' => array('input' => $coursegroup,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
 			
@@ -278,20 +275,18 @@ class TestCallLocalWebservice
 		 */
 		
 		   /*$coursegroup = array (
-		  	  'id' => '1',
-			  'course_code' => '2',
+		  	  'course_code' => 'KIT',
 			  'name' => 'test',
 			  'description' => 'test',
 			  'max_number_of_members' => '999',
 			  'self_reg_allowed' => '1',
-			  'self_unreg_allowed' => '1',
-              'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
-			);
+			  'self_unreg_allowed' => '1'
+            );
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.unsubscribe_group',
-				'parameters' => $coursegroup,
+				'parameters' => array('input' => $coursegroup,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -299,32 +294,32 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  /*$course = array (
-          'id' => '3',
-          'layout' => '1',
-          'visual_code' => 'Tjaffen',
-          'category' => '1',
-          'title' => 'Tjaffen',
-          'titular' => '2',
-          'course_language' => 'Japanese',
-          'department_url' => NULL,
-          'department_name' => NULL,
-          'visibility' => '3',
-          'subscribe' => '1',
-          'unsubscribe' => '0',
-          'theme' => NULL,
-          'tool_shortcut' => '1',
-          'menu' => '1',
-          'breadcrumb' => '1',
-          'allow_feedback' => '1',
-          'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'
+		  /*$course = array(
+            'layout' => '1',
+            'visual_code' => 'KITT',
+            'category' => 'language skills', //required
+            'title' => 'Kennisintensieve Toepassingen', //required
+            'show_score' => '1',
+            'titular' => 'Soliber',
+            'course_language' => 'english',
+            'department_url' => '' ,
+            'department_name' => '',
+            'visibility' => '1',
+            'subscribe' => '1',
+            'unsubscribe' => '1',
+            'theme' => '1',
+            'tool_shortcut' => '1',
+            'menu' => '1',
+            'breadcrumb' => '1',
+            'allow_feedback' => '1',
+            'disk_quota' => '200',
         );
 		
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
 				'name' => 'WebServicesCourse.update_course',
-				'parameters' => $course,
+				'parameters' => array('input' => $course,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		

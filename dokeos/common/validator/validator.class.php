@@ -41,8 +41,9 @@ abstract class Validator
     {
         foreach($requiredProperties as $property)
         {
-            if($properties[$property]==null)
+            if(empty($properties[$property]))
             {
+                dump($property);
                 return false;
             }
         }
