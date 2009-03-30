@@ -568,6 +568,11 @@ button.search, a.search_button
 	background-image: url(../img/common/buttons/button_search.png);
 }
 
+button.filter, a.filter_button
+{
+	background-image: url(../img/common/buttons/button_filter.png);
+}
+
 button.save, a.save_button
 {
 	background-image: url(../img/common/buttons/button_save.png);
@@ -2889,3 +2894,33 @@ div.element_finder_buttons
  {
  	background-color: #4171B5;
  }
+ 
+/*************************************
+ * Filter form styles
+ *************************************/
+
+div.filter_form
+{
+	clear: both;
+	float: right;
+	padding-top: 4px;
+}
+
+div.filter_form div.row
+{
+	clear: none;
+	float: left;
+	padding: 0px;
+	margin-left: 10px;
+}
+
+div.filter_form div.row div.formw
+{
+	float: none;
+	width: auto;
+}
+
+div.filter_form div.row div.formw button
+{
+	margin-top: -4px;
+}

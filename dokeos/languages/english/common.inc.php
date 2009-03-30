@@ -160,4 +160,6 @@ $lang['common']['PersonalMessenger'] = 'Personal Messenger';
 $lang['common']['Profiler'] = 'Profiler';
 $lang['common']['SearchPortal'] = 'Serach Portal';
 $lang['common']['Weblcms'] = 'Weblcms';
+$lang['common']['Filter'] = 'Filter';
+$lang['common']['View'] = 'View';
 ?>
