@@ -86,24 +86,39 @@ class ReportingUser {
      */
     public static function getDateArray($data,$format)
     {
-        $arr = array();
         foreach($data as $key => $value)
         {
             $bla =  explode('-',$value->get_date());
             $bla2 = explode(' ',$bla[2]);
             $hoursarray = explode(':',$bla2[1]);
-            $date = date($format,mktime($hoursarray[0],$hoursarray[1],$hoursarray[2],$bla[1],$bla2[0],$bla[0]));
-            $date = (is_numeric($date))?$date:Translation :: get($date.'Long');
-            //dump($date);
-            if (array_key_exists($date, $arr))
-            {
-                $arr[$date][0]++;
-            }else
-            {
-                $arr[$date][0] = 1;
-            }
+            $bus = mktime($hoursarray[0],$hoursarray[1],$hoursarray[2],$bla[1],$bla2[0],$bla[0]);
+//            $date = date($format,mktime($hoursarray[0],$hoursarray[1],$hoursarray[2],$bla[1],$bla2[0],$bla[0]));
+//            $date = (is_numeric($date))?$date:Translation :: get($date.'Long');
+//            //dump($date);
+//            if (array_key_exists($date, $arr))
+//                $arr[$date][0]++;
+//            else
+//                $arr[$date][0] = 1;
+
+            $arr2[$bus][0]++;
+//            if (array_key_exists($bus,$arr2))
+//                $arr2[$bus][0]++;
+//            else
+//                $arr2[$bus][0] = 1;
         }
-        return $arr;
+        //sort the array
+        ksort($arr2); 
+        foreach($arr2 as $key => $value)
+        {
+            $date = date($format,$key);
+            $date = (is_numeric($date))?$date:Translation :: get($date.'Long');
+            if (array_key_exists($date,$arr2))
+                $arr2[$date][0] += $arr2[$key][0];
+            else
+                $arr2[$date][0] = $arr2[$key][0];
+            unset($arr2[$key]);
+        } 
+        return $arr2;
     }
 
     /**
@@ -134,7 +149,22 @@ class ReportingUser {
         $trackerdata = $tracker->retrieve_tracker_items($condition);
 
         $days = self :: getDateArray($trackerdata,'l');
-
+//        $new_days = array();
+//
+//        $day_names = array(
+//            Translation :: get('MondayLong'),
+//            Translation :: get('TuesdayLong'),
+//            Translation :: get('WednesdayLong'),
+//            Translation :: get('ThursdayLong'),
+//            Translation :: get('FridayLong'),
+//            Translation :: get('SaturdayLong'),
+//            Translation :: get('SundayLong')
+//            );
+//
+//        foreach($day_names as $name)
+//        {
+//             $new_days[$name] = $days[$name] ? $days[$name] : array(0);
+//        }
         return Reporting :: getSerieArray($days);
     }
 
@@ -193,7 +223,7 @@ class ReportingUser {
         $users = $udm->count_users();
 
         $wdm = WeblcmsDataManager :: get_instance();
-        $courses = $wdm->count_user_courses();
+        $courses = $wdm->count_distinct_course_user_relations();
 
         $arr[Translation :: get('UsersSubscribedToCourse')][] = $courses;
         $arr[Translation :: get('UsersNotSubscribedToCourse')][] = $users-$courses;

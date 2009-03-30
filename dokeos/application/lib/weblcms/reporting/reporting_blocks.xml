@@ -42,9 +42,15 @@
            displaymode="Table"
            width="500px"
            height="500px" />
-   <reporting_block name="WeblcmsMostActiveInactive"
+   <reporting_block name="WeblcmsMostActiveInactiveLastVisit"
            application="weblcms"
-           function="getMostActiveInactive"
+           function="getMostActiveInactiveLastVisit"
+           displaymode="Table"
+           width="500px"
+           height="500px" />
+   <reporting_block name="WeblcmsMostActiveInactiveLastPublication"
+           application="weblcms"
+           function="getMostActiveInactiveLastPublication"
            displaymode="Table"
            width="500px"
            height="500px" />
