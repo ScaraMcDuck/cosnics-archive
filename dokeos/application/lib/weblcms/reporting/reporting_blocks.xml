@@ -60,9 +60,9 @@
            displaymode="Table"
            width="500px"
            height="500px" />
-    <reporting_block name="WeblcmsNoOfObjectsPerType"
+    <reporting_block name="WeblcmsNoOfPublishedObjectsPerType"
            application="weblcms"
-           function="getNoOfObjectsPerType"
+           function="getNoOfPublishedObjectsPerType"
            displaymode="Table"
            width="500px"
            height="500px" />
