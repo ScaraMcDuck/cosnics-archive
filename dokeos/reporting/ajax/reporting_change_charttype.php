@@ -8,8 +8,10 @@ require_once dirname(__FILE__).'/../lib/reporting.class.php';
 require_once dirname(__FILE__).'/../lib/reporting_data_manager.class.php';
 require_once dirname(__FILE__).'/../lib/reporting_formatter.class.php';
 
-//Translation :: set_application($this_section);
-//Theme :: set_application($this_section);
+$this_section = 'reporting';
+
+Translation :: set_application($this_section);
+Theme :: set_application($this_section);
 
 $block_id = $_POST['block'];
 $type = $_POST['type'];

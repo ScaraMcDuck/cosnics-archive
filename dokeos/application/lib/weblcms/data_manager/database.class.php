@@ -430,7 +430,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return new DatabaseCourseUserRelationResultSet($this, $res);
 	}
 
+    function count_distinct_course_user_relations()
+    {
+        $query = 'SELECT COUNT(DISTINCT'.$this->escape_column_name(CourseUserRelation :: PROPERTY_USER).') FROM '.$this->escape_table_name('course_rel_user');
 
+        $sth = $this->connection->prepare($query);
+        $res = $sth->execute();
+        $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+        return $record[0];
+    }
 	function count_course_user_relations($conditions = null)
 	{
 		$query = 'SELECT COUNT('.$this->escape_column_name(CourseUserRelation :: PROPERTY_COURSE).') FROM '.$this->escape_table_name('course_rel_user');

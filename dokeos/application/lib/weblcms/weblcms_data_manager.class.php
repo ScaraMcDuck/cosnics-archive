@@ -185,6 +185,12 @@ abstract class WeblcmsDataManager
 	 */
 	abstract function count_user_courses($conditions = null);
 
+    /**
+     * Count the number of distinct course user relations
+     * @return int
+     */
+    abstract function count_distinct_course_user_relations();
+    
 	/**
 	 * Count the number of course user relations
 	 * @param Condition $condition

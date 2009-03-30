@@ -213,14 +213,108 @@ class ReportingWeblcms {
      * Returns a list of courses active within the last 24hrs, last week, last month
      * @param array $params
      */
-    public static function getMostActiveInactive($params)
+    public static function getMostActiveInactiveLastVisit($params)
     {
-        $arr[Translation :: get('ActivePast24hr')][] = 'course name';
-        $arr[Translation :: get('ActivePast24hr')][] = 'course name';
-        $arr[Translation :: get('ActivePastWeek')][] = 'course name';
-        $arr[Translation :: get('ActivePastMonth')][] = 'course name';
-        $arr[Translation :: get('ActivePastYear')][] = 'course name';
+        require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
+        $wdm = WeblcmsDataManager :: get_instance();
+        $tracker = new VisitTracker();
+        $courses = $wdm->retrieve_courses();
 
+        $arr[Translation :: get('Past24hr')][0] = 0;
+        $arr[Translation :: get('PastWeek')][0] = 0;
+        $arr[Translation :: get('PastMonth')][0] = 0;
+        $arr[Translation :: get('PastYear')][0] = 0;
+        $arr[Translation :: get('NeverAccessed')][0] = 0;
+        
+        while($course = $courses->next_result())
+        {
+            $lastaccess = 0;
+            $condition = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course->get_id());
+            $trackerdata = $tracker->retrieve_tracker_items($condition);
+            foreach ($trackerdata as $key => $value) {
+                $lastaccess = $value->get_leave_date();
+            }
+
+            if($lastaccess == 0)
+            {
+                $arr[Translation :: get('NeverAccessed')][0]++;
+            }
+            else if(strtotime($lastaccess) > time()-86400)
+            {
+                $arr[Translation :: get('Past24hr')][0]++;
+            }
+            else if(strtotime($lastaccess) > time()-604800)
+            {
+                $arr[Translation :: get('PastWeek')][0]++;
+            }
+            else if(strtotime($lastaccess) > time()-18144000)
+            {
+                $arr[Translation :: get('PastMonth')][0]++;
+            }
+            else if(strtotime($lastaccess) > time()-31536000)
+            {
+                $arr[Translation :: get('PastYear')][0]++;
+            }
+            else
+            {
+                $arr[Translation :: get('MoreThenOneYear')][0]++;
+            }
+        }
+        return Reporting :: getSerieArray($arr);
+    }
+
+        /**
+     * Returns a list of courses active within the last 24hrs, last week, last month
+     * @param array $params
+     */
+    public static function getMostActiveInactiveLastPublication($params)
+    {
+        $wdm = WeblcmsDataManager :: get_instance();
+        $courses = $wdm->retrieve_courses();
+
+        $arr[Translation :: get('Past24hr')][0] = 0;
+        $arr[Translation :: get('PastWeek')][0] = 0;
+        $arr[Translation :: get('PastMonth')][0] = 0;
+        $arr[Translation :: get('PastYear')][0] = 0;
+        $arr[Translation :: get('NothingPublished')][0] = 0;
+
+        while($course = $courses->next_result())
+        {
+            $lastpublication = 0;
+
+            $condition = new EqualityCondition(LearningObjectPublication::PROPERTY_COURSE_ID,$course->get_id());
+            $publications = $wdm->retrieve_learning_object_publications(null, null, null, null, $condition);
+            while($publication = $publications->next_result())
+            {
+                $lastpublication = $publication->get_modified_date();
+                $lastpublication = date('Y-m-d G:i:s',$lastpublication);
+            }
+
+            if($lastpublication == 0)
+            {
+                $arr[Translation :: get('NothingPublished')][0]++;
+            }
+            else if(strtotime($lastpublication) > time()-86400)
+            {
+                $arr[Translation :: get('Past24hr')][0]++;
+            }
+            else if(strtotime($lastpublication) > time()-604800)
+            {
+                $arr[Translation :: get('PastWeek')][0]++;
+            }
+            else if(strtotime($lastpublication) > time()-18144000)
+            {
+                $arr[Translation :: get('PastMonth')][0]++;
+            }
+            else if(strtotime($lastpublication) > time()-31536000)
+            {
+                $arr[Translation :: get('PastYear')][0]++;
+            }
+            else
+            {
+                $arr[Translation :: get('MoreThenOneYear')][0]++;
+            }
+        }
         return Reporting :: getSerieArray($arr);
     }
 
@@ -240,7 +334,7 @@ class ReportingWeblcms {
         {
             $lastaccess = Translation :: get('NeverAccessed');
             $lastpublication = Translation :: get('NothingPublished');
-            $arr[Translation :: get('Course')][] = '<a href="run.php?go=courseviewer&course='.$course->get_id().'&application=weblcms&" />'.$course->get_name().'</a>';
+            
 
             $condition = new LikeCondition(VisitTracker::PROPERTY_LOCATION,'&course='.$course->get_id());
             $trackerdata = $tracker->retrieve_tracker_items($condition);
@@ -254,9 +348,11 @@ class ReportingWeblcms {
             while($publication = $publications->next_result())
             {
                 $lastpublication = $publication->get_modified_date();
-                $lastpublication = date('d F Y (G:i:s)',$lastpublication);
+                //$lastpublication = date_create($lastpublication);
+                $lastpublication = date('Y-m-d G:i:s',$lastpublication);
             }
 
+            $arr[Translation :: get('Course')][] = '<a href="run.php?go=courseviewer&course='.$course->get_id().'&application=weblcms&" />'.$course->get_name().'</a>';
             $arr[Translation :: get('LastVisit')][] = $lastaccess;
             $arr[Translation :: get('LastPublication')][] = $lastpublication;
         }
