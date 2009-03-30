@@ -100,7 +100,7 @@ class QuestionQtiImport extends QtiImport
 
 		if (!is_array($params))
 		{
-			$xmltag = $elems[$params];
+			$xmltag = $elems->item($params);
 		}
 		else
 		{
