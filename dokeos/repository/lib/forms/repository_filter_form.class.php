@@ -6,6 +6,8 @@ require_once dirname(__FILE__).'/../repository_data_manager.class.php';
 
 class RepositoryFilterForm extends FormValidator
 {
+	const FILTER_TYPE = 'filter_type';
+	
 	private $manager;
 	private $renderer;
 
@@ -33,42 +35,40 @@ class RepositoryFilterForm extends FormValidator
 	 */
 	private function build_form()
 	{
-		$this->renderer->setElementTemplate('{element}');
+		$this->renderer->setFormTemplate('<form {attributes}><div class="filter_form">{content}</div><div class="clear">&nbsp;</div></form>');
+		$this->renderer->setElementTemplate('<div class="row"><div class="formw">{label}&nbsp;{element}</div></div>');
 		
-		$dm = RepositoryDataManager :: get_instance();
-		$regs = $dm->get_registered_types();
+		$rdm = RepositoryDataManager :: get_instance();
+		$registrations = $rdm->get_registered_types();
 		
-		for($i = 0; $i<count($regs); $i++)
-		{
-			$registrations[$regs[$i]] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($regs[$i] . 'TypeName'));
-		}
+		$filters = array();
+		
+		$filters[0] = Translation :: get('ShowAll');		
 		
 		$condition = new EqualityCondition(UserView :: PROPERTY_USER_ID, $this->manager->get_user_id());
-		$userviews = $dm->retrieve_user_views($condition);
-		while($uv = $userviews->next_result())
+		$userviews = $rdm->retrieve_user_views($condition);
+		
+		if ($userviews->size() > 0)
 		{
-			$views[$uv->get_id()] = $uv->get_name();
+			$filters['c_0'] = '--------------------------';
+			
+			while($userview = $userviews->next_result())
+			{
+				$filters[$userview->get_id()] = Translation :: get('View') . ': ' . $userview->get_name();
+			}
 		}
 		
-		$group[] =& $this->createElement('radio', 'type', null, Translation :: get('All'),0);
-		$group[] =& $this->createElement('radio', 'type', null, Translation :: get('Single'),1);
-		$group[] =& $this->createElement('select', 'single_type', null, $registrations);
+		$filters['c_1'] = '--------------------------';
 		
-		if(count($views) > 0)
+		for($i = 0; $i < count($registrations); $i++)
 		{
-			$group[] =& $this->createElement('radio', 'type', null, Translation :: get('SelectView'),2);
-			$group[] =& $this->createElement('select', 'view', null, $views);
+			$filters[$registrations[$i]] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($registrations[$i] . 'TypeName'));
 		}
 		
-		$this->addGroup($group, 'filter_type', Translation :: get('Password'), '&nbsp;&nbsp;&nbsp;');
+		$this->addElement('select', self :: FILTER_TYPE, null, $filters);
+		$this->addElement('style_submit_button', 'submit', Translation :: get('Filter'), array('class' => 'normal filter'));
 		
-		/*$this->addElement('html', '<br /><div style="padding-top: 5px;">');
-		$this->addElement('checkbox', 'published', null, Translation :: get('ShowPublished'));*/
-		$this->addElement('html', '&nbsp;&nbsp;&nbsp;');
-		$this->addElement('submit', 'search', Translation :: get('Ok'));
-		//$this->addElement('html', '</div>');
-		
-		$this->setDefaults(array('filter_type' => array('type' => 0), 'published' => 1));
+		$this->setDefaults(array(self :: FILTER_TYPE => 0, 'published' => 1));
 	}
 	
 	function get_filter_conditions()
@@ -76,21 +76,14 @@ class RepositoryFilterForm extends FormValidator
 		if($this->validate())
 		{
 			$values = $this->exportValues();
-			$filter_type = $values['filter_type'];
+			$filter_type = $values[self :: FILTER_TYPE];
 			
-			switch($filter_type['type'])
+			if (is_numeric($filter_type))
 			{
-				case 0: 
-					$condition = null; 
-					break;
-				case 1: 
-					$type = $filter_type['single_type'];
-					$condition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
-					break;
-				case 2:
-					$view = $filter_type['view'];
+				if ($filter_type != '0')
+				{
 					$dm = RepositoryDataManager :: get_instance();
-					$learning_objects = $dm->retrieve_user_view_rel_learning_objects(new EqualityCondition(UserViewRelLearningObject :: PROPERTY_VIEW_ID, $view));
+					$learning_objects = $dm->retrieve_user_view_rel_learning_objects(new EqualityCondition(UserViewRelLearningObject :: PROPERTY_VIEW_ID, $filter_type));
 					while($lo = $learning_objects->next_result())
 					{
 						if($lo->get_visibility())
@@ -99,6 +92,15 @@ class RepositoryFilterForm extends FormValidator
 						}
 						$condition = new InCondition(LearningObject :: PROPERTY_TYPE, $visible_lo);
 					}
+				}
+				else
+				{
+					$condition = null; 
+				}
+			}
+			else
+			{
+				$condition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $filter_type);
 			}
 			
 			return $condition;
