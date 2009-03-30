@@ -162,4 +162,9 @@ $lang['common']['SearchPortal'] = 'Serach Portal';
 $lang['common']['Weblcms'] = 'Weblcms';
 $lang['common']['Filter'] = 'Filter';
 $lang['common']['View'] = 'View';
+$lang['common']['TemplateTypeName'] = 'Template';
+$lang['common']['TemplateCreationFormTitle'] = 'Design template';
+$lang['common']['TemplateFormTitle'] = 'Name';
+$lang['common']['TemplateFormDescription'] = 'Description';
+$lang['common']['Design'] = 'Design';
 ?>
