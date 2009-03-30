@@ -33,6 +33,18 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			$url = $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $this->pid));
 		}
 		
+		$track = new WeblcmsAssessmentAttemptsTracker();
+		$condition_t = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $this->pid);
+		$condition_u = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
+		$condition = new AndCondition(array($condition_t, $condition_u));
+		$trackers = $track->retrieve_tracker_items($condition);
+		
+		if ($assessment->get_maximum_attempts() != 0 && count($trackers) >= $assessment->get_maximum_attempts())
+		{
+			Display :: not_allowed();
+			return;
+		}
+		
 		if($this->assessment->get_assessment_type() == 'hotpotatoes')
 		{
 			$track = new WeblcmsAssessmentAttemptsTracker();
