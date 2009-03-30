@@ -85,9 +85,6 @@ class GroupValidator extends Validator
         else
         $groupProperties[Group :: PROPERTY_ID] = $var;
 
-        if(!$this->does_group_exist($groupProperties[Group :: PROPERTY_ID]))
-        return false;
-        
         if($groupProperties[Group :: PROPERTY_PARENT]!='0')
         {
             $var = $this->get_group_id($groupProperties[Group :: PROPERTY_PARENT]);
@@ -101,15 +98,18 @@ class GroupValidator extends Validator
 
     function validate_delete(&$groupProperties)
     {
+        if(!$this->validate_properties($groupProperties,$this->get_required_group_property_names()))
+        return false;
+
+        if(!$this->validate_property_names($groupProperties, Group :: get_default_property_names()))
+        return false;
+        
         $var = $this->get_group_id($groupProperties[Group :: PROPERTY_NAME]);
         if(!$var)
         return false;
         else
         $groupProperties[Group :: PROPERTY_ID] = $var;
         
-        if(!$this->does_group_exist($groupProperties[Group :: PROPERTY_ID]))
-        return false;        
-
         return true;
     }
 
