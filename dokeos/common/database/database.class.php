@@ -84,9 +84,9 @@ class Database
 		// Do something with the arguments
 		if($args[1] == 'query')
 		{
-//			echo '<pre>';
-//		 	echo($args[2]);
-//		 	echo '</pre>';
+			/*echo '<pre>';
+		 	echo($args[2]);
+		 	echo '</pre>';*/
 		}
 	}
 	

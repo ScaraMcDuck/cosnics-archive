@@ -34,85 +34,71 @@ class WebServicesCourse
 		
 		$functions['get_course'] = array(
 			'input' => new Course(),
-			'output' => new Course(),
-            'require_hash' => true
+			'output' => new Course()
 		);
 		
 		$functions['delete_course'] = array(
-			'input' => new Course(),
-			'require_hash' => true
+			'input' => new Course()
 		);
 		
 		$functions['update_course'] = array(
-			'input' => new Course(),
-			'require_hash' => true
+			'input' => new Course()
 		);
 		
 		$functions['create_course'] = array(
-			'input' => new Course(),
-			'require_hash' => true
+			'input' => new Course()
 		);
 		
 		$functions['subscribe_user'] = array(
-			'input' => new CourseUserRelation(),
-			'require_hash' => true
+			'input' => new CourseUserRelation()
 		);
 		
 		$functions['unsubscribe_user'] = array(
-			'input' => new CourseUserRelation(),
-			'require_hash' => true
+			'input' => new CourseUserRelation()
 		);
 		
 		$functions['subscribe_group'] = array(
-			'input' => new CourseGroup(),
-			'require_hash' => true
+			'input' => new CourseGroup()
 		);		
 		
 		$functions['unsubscribe_group'] = array(
-			'input' => new CourseGroup(),
-			'require_hash' => true
+			'input' => new CourseGroup()
 		);
 		
 		$functions['get_user_courses'] = array(
 			'input' => new InputUser(),
 			'output' => array(new Course()),
-			'array' => true,
-            'require_hash' => true
+			'array' => true
 		);
 		
 		$functions['get_course_users'] = array(
 			'input' => new InputCourse(),
 			'output' => array(new User()),
-			'array' => true,
-            'require_hash' => true
+			'array' => true
 		);
 		
 		$functions['get_new_publications_in_course'] = array(
             'input' => new InputCourse(),
             'output' => array(new LearningObject()),
-			'array' => true,
-            'require_hash' => true
+			'array' => true
 		);
 
         $functions['get_new_publications_in_course_tool'] = array(
             'input' => new InputCourse(),
             'output' => array(new LearningObject()),
-			'array' => true,
-            'require_hash' => true
+			'array' => true
 		);
 
         $functions['get_publications_for_user'] = array(
             'input' => new InputUser(),
             'output' => array(new LearningObject()),
-			'array' => true,
-            'require_hash' => true
+			'array' => true
 		);
 
         $functions['get_publications_for_course'] = array(
             'input' => new InputCourse(),
             'output' => array(new LearningObject()),
-			'array' => true,
-            'require_hash' => true
+			'array' => true
 		);
 		
 		$this->webservice->provide_webservice($functions);
@@ -124,16 +110,16 @@ class WebServicesCourse
         if($this->webservice->can_execute($input_course, 'get course'))
 		{
             $wdm = DatabaseWeblcmsDataManager :: get_instance();
-            if($this->validator->validate_retrieve($input_course)) //input validation
+            if($this->validator->validate_retrieve($input_course[input])) //input validation
             {
-                $course = $wdm->retrieve_course_by_visual_code($input_course[visual_code]);
+                $course = $wdm->retrieve_course_by_visual_code($input_course[input][visual_code]);
                 if(!empty($course))
                 {
                     return $course->get_default_properties();
                 }
                 else
                 {
-                    return $this->webservice->raise_error('Course '.$input_course[visual_code].' not found.');
+                    return $this->webservice->raise_error('Course '.$input_course[input][visual_code].' not found.');
                 }
             }
             else
@@ -151,10 +137,9 @@ class WebServicesCourse
 	{
         if($this->webservice->can_execute($input_course, 'delete course'))
 		{
-            unset($input_course[hash]);
-            if($this->validator->validate_delete($input_course)) //input validation
+            if($this->validator->validate_delete($input_course[input])) //input validation
             {
-                $c = new Course($input_course[id],$input_course);
+                $c = new Course($input_course[input][id],$input_course[input]);
                 return $this->webservice->raise_message($c->delete());
             }
             else
@@ -173,10 +158,9 @@ class WebServicesCourse
 	{
 		if($this->webservice->can_execute($input_course, 'update course'))
 		{
-            unset($input_course[hash]);
-            if($this->validator->validate_update($input_course)) //input validation
+            if($this->validator->validate_update($input_course[input])) //input validation
             {
-                $c = new Course($input_course[id],$input_course);
+                $c = new Course($input_course[input][id],$input_course[input]);
                 return $this->webservice->raise_message($c->update());
             }
             else
@@ -194,11 +178,10 @@ class WebServicesCourse
 	{
 		if($this->webservice->can_execute($input_course, 'create course'))
 		{
-            unset($input_course[hash]);
-            unset($input_course[id]);
-            if($this->validator->validate_create($input_course)) //input validation
+            unset($input_course[input][id]);
+            if($this->validator->validate_create($input_course[input])) //input validation
             {
-                $c = new Course(0,$input_course);
+                $c = new Course(0,$input_course[input]);
                 return $this->webservice->raise_message($c->create());
             }
             else
@@ -213,17 +196,16 @@ class WebServicesCourse
         }
 	}
 	
-	function subscribe_user($input_course) //course user relation object
-	{        
+	function subscribe_user(&$input_course) //course user relation object
+	{
         if($this->webservice->can_execute($input_course, 'subscribe user'))
 		{            
-            unset($input_course[hash]);            
-            if($this->validator->validate_subscribe_user($input_course)) //input validation
+            if($this->validator->validate_subscribe_user($input_course[input])) //input validation
             {                
-                $cur = new CourseUserRelation($input_course[course_code],$input_course[user_id]);
-                unset($input_course[course_code]);
-                unset($input_course[user_id]);
-                $cur->set_default_properties($input_course);
+                $cur = new CourseUserRelation($input_course[input][course_code],$input_course[input][user_id]);
+                unset($input_course[input][course_code]);
+                unset($input_course[input][user_id]);
+                $cur->set_default_properties($input_course[input]);
                 return $this->webservice->raise_message($cur->create());
             }
             else
@@ -238,14 +220,13 @@ class WebServicesCourse
         }
     }
 	
-	function unsubscribe_user($input_course)
+	function unsubscribe_user(&$input_course)
 	{
 		if($this->webservice->can_execute($input_course, 'unsubscribe user'))
 		{
-           unset($input_course[hash]);
-           if($this->validator->validate_unsubscribe_user($input_course)) //input validation
+           if($this->validator->validate_unsubscribe_user($input_course[input])) //input validation
             {
-                $cur = new CourseUserRelation($input_course[course_code],$input_course[user_id]);
+                $cur = new CourseUserRelation($input_course[input][course_code],$input_course[input][user_id]);
                 return $this->webservice->raise_message($cur->delete());
             }
             else
@@ -260,17 +241,16 @@ class WebServicesCourse
         }
 	}
 	
-	function subscribe_group($input_group)
+	function subscribe_group(&$input_group)
 	{
 		if($this->webservice->can_execute($input_group, 'subscribe group'))
 		{
-            unset($input_group[hash]);
-            if($this->validator->validate_subscribe_group($input_group)) //input validation
+            if($this->validator->validate_subscribe_group($input_group[input])) //input validation
             {
-                $cg = new CourseGroup($input_group[id],$input_group[course_code]);
-                unset($input_group['id']);
-                unset($input_group['course_code']);
-                $cg->set_default_properties($input_group);
+                $cg = new CourseGroup($input_group[input][id],$input_group[input][course_code]);
+                unset($input_group[input]['id']);
+                unset($input_group[input]['course_code']);
+                $cg->set_default_properties($input_group[input]);
                 return $this->webservice->raise_message($cg->create());
             }
             else
@@ -284,17 +264,16 @@ class WebServicesCourse
         }
 	}
 	
-	function unsubscribe_group($input_group)
+	function unsubscribe_group(&$input_group)
 	{
 		if($this->webservice->can_execute($input_group, 'unsubscribe group'))
 		{
-            unset($input_group[hash]);
-            if($this->validator->validate_unsubscribe_group($input_group)) //input validation
+            if($this->validator->validate_unsubscribe_group($input_group[input])) //input validation
             {
-                $cg = new CourseGroup($input_group[id],$input_group[course_code]);
-                unset($input_group['id']);
-                unset($input_group['course_code']);
-                $cg->set_default_properties($input_group);
+                $cg = new CourseGroup($input_group[input][id],$input_group[input][course_code]);
+                unset($input_group[input]['id']);
+                unset($input_group[input]['course_code']);
+                $cg->set_default_properties($input_group[input]);
                 return $this->webservice->raise_message($cg->delete());
             }
             else
@@ -313,7 +292,7 @@ class WebServicesCourse
         if($this->webservice->can_execute($input_user, 'get user courses'))
 		{
             $wdm = DatabaseWeblcmsDataManager :: get_instance();            
-            $courses = $wdm->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $input_user[id]));
+            $courses = $wdm->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $input_user[input][id]));
             $courses = $courses->as_array();
             foreach($courses as &$course)
             {
@@ -331,10 +310,9 @@ class WebServicesCourse
 	{
 		if($this->webservice->can_execute($input_course, 'get course users'))
 		{
-            unset($input_course[hash]);
             $wdm = DatabaseWeblcmsDataManager :: get_instance();
             $udm = DatabaseUserDataManager :: get_instance();
-            $course = new Course($input_course[id],$input_course);
+            $course = new Course($input_user[input][id],$input_user[input]);
             $users = $wdm->retrieve_course_users($course);
             $users = $users->as_array();
             foreach($users as &$user)
@@ -354,11 +332,10 @@ class WebServicesCourse
 	{
         if($this->webservice->can_execute($input_course, 'get new publications in course'))
 		{
-            unset($input_course[hash]);
             $udm = DatabaseUserDataManager :: get_instance();
             $wdm = DatabaseWeblcmsDataManager :: get_instance();
-            $user = $udm->retrieve_user($input_course[user_id]);
-            $course = $wdm->retrieve_course($input_course[id]);
+            $user = $udm->retrieve_user($input_course[input][user_id]);
+            $course = $wdm->retrieve_course($input_course[input][id]);
             $weblcms = new Weblcms($user,null);
             $weblcms->set_course($course);
             $weblcms->load_tools();
@@ -392,20 +369,19 @@ class WebServicesCourse
 	{
         if($this->webservice->can_execute($input_course, 'get new publications in course tool'))
 		{
-            unset($input_course[hash]);
             $udm = DatabaseUserDataManager :: get_instance();
             $wdm = DatabaseWeblcmsDataManager :: get_instance();
-            $user = $udm->retrieve_user($input_course[user_id]);
-            $course = $wdm->retrieve_course($input_course[id]);
+            $user = $udm->retrieve_user($input_course[input][user_id]);
+            $course = $wdm->retrieve_course($input_course[input][id]);
             $weblcms = new Weblcms($user,null);
             $weblcms->set_course($course);
             $weblcms->load_tools();
             $conditions[1] = new InequalityCondition(LearningObjectPublication :: PROPERTY_MODIFIED_DATE,InequalityCondition :: LESS_THAN_OR_EQUAL,mktime(0,0,0,date('m'),date('d')+1,date('Y')));
-            if($weblcms->tool_has_new_publications($input_course[tool]))
+            if($weblcms->tool_has_new_publications($input_course[input][tool]))
             {
-                $lastVisit = $weblcms->get_last_visit_date($input_course[tool]);
+                $lastVisit = $weblcms->get_last_visit_date($input_course[input][tool]);
                 $conditions[0] = new InequalityCondition(LearningObjectPublication :: PROPERTY_MODIFIED_DATE,InequalityCondition :: GREATER_THAN_OR_EQUAL,mktime(0,0,0,date('m',$lastVisit),date('d',$lastVisit),date('Y',$lastVisit)));
-                $conditions[2] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,$input_course[tool]);
+                $conditions[2] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,$input_course[input][tool]);
                 $condition = new AndCondition($conditions);
                 $pubs = $wdm->retrieve_learning_object_publications(null,null,null,null,$condition);
                 $pubs = $pubs->as_array();
@@ -427,9 +403,8 @@ class WebServicesCourse
 	{
         if($this->webservice->can_execute($input_user, 'get publications for user'))
 		{
-            unset($input_user[hash]);
             $wdm = DatabaseWeblcmsDataManager :: get_instance();
-            $pubs = $wdm->retrieve_learning_object_publications(null,null,$input_user[id]);
+            $pubs = $wdm->retrieve_learning_object_publications(null,null,$input_user[input][id]);
             $pubs = $pubs->as_array();
             foreach($pubs as &$pub)
             {
@@ -448,9 +423,8 @@ class WebServicesCourse
 	{
         if($this->webservice->can_execute($input_course, 'get publications for course'))
 		{
-            unset($input_course[hash]);
             $wdm = DatabaseWeblcmsDataManager :: get_instance();
-            $pubs = $wdm->retrieve_learning_object_publications($input_course[id]);
+            $pubs = $wdm->retrieve_learning_object_publications($input_course[input][id]);
             $pubs = $pubs->as_array();
             foreach($pubs as &$pub)
             {

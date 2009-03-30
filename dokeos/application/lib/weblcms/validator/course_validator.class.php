@@ -85,7 +85,7 @@ class CourseValidator extends Validator
 
         if(!$this->check_quota($courseProperties))
         return false;
-        
+
         return true;
     }
 
@@ -144,14 +144,10 @@ class CourseValidator extends Validator
 
     function validate_subscribe_user(&$input_course_rel_user)
     {
-        
         if(!$this->validate_properties($input_course_rel_user,$this->get_required_course_rel_user_property_names()))
         return false;        
 
         if(!$this->validate_property_names($input_course_rel_user, CourseUserRelation ::get_default_property_names()))
-        return false;        
-
-        if($this->wdm->count_courses(new EqualityCondition(Course ::PROPERTY_VISUAL, $input_course_rel_user[course_code]))==0)
         return false;        
 
         $var = $this->get_person_id($input_course_rel_user[user_id]);
@@ -166,11 +162,17 @@ class CourseValidator extends Validator
         else
         $input_course_rel_user[tutor_id] = $var;
 
-        $var2 = $this->get_course_id($input_course_rel_user[course_code]);
-        if($var2 == false)
+        $var = $this->get_course_group_id($input_course_rel_user[CourseUserRelation ::PROPERTY_COURSE_GROUP]);
+        if($var == false)
         return false;
         else
-        $input_course_rel_user[course_code] = $var2;
+        $input_course_rel_user[CourseUserRelation ::PROPERTY_COURSE_GROUP] = $var;
+
+        $var = $this->get_course_id($input_course_rel_user[course_code]);
+        if($var == false)
+        return false;
+        else
+        $input_course_rel_user[course_code] = $var;
 
         return $this->validate_subscribe($input_course_rel_user[course_code]);
     }
@@ -251,7 +253,7 @@ class CourseValidator extends Validator
 
     private function get_course_id($visual_code)
     {
-        $course = $this->wdm->retrieve_course_by_visual_code($visual_code);        
+        $course = $this->wdm->retrieve_course_by_visual_code($visual_code);
         if(isset($course) && count($course->get_default_properties())>0)
         {
            return $course->get_default_property('id');
