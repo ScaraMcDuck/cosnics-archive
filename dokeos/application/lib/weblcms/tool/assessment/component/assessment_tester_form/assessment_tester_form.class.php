@@ -47,10 +47,12 @@ class AssessmentTesterForm extends FormValidator
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id);
 		$clo_questions = $dm->retrieve_complex_learning_object_items($condition);
 		
-		//$this->addElement('html', '<br/><div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$assessment->get_icon_name().'.png);">');
-		//$this->addElement('html', '<div class="title" style="font-size: 14px">');
-		$this->addElement('hidden', 'hiddentime', '', array('id' => 'hiddentime'));
-		$this->add_textfield('time', Translation :: get('TimeTaken'), false, array('DISABLED', 'size' => 5));
+		$max_time = $assessment->get_maximum_time() * 60;
+		if ($max_time > 0)
+		{
+			$this->addElement('hidden', 'hiddentime', '', array('id' => 'hiddentime'));
+			$this->add_textfield('time', Translation :: get('TimeTaken'), false, array('DISABLED', 'size' => 5));
+		}
 		
 		$this->addElement('html', '<h3>');
 		$this->addElement('html', $assessment->get_title());
@@ -100,7 +102,8 @@ class AssessmentTesterForm extends FormValidator
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		
-		$this->add_timer_script($assessment);
+		if ($max_time > 0)
+			$this->add_timer_script($assessment);
 	}
 	
 	function add_timer_script($assessment)

@@ -7,6 +7,7 @@ require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object/survey/survey.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__).'/assessment_publication_table_column_model.class.php';
+require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_assessment_attempts_tracker.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
  */
@@ -59,9 +60,14 @@ class AssessmentPublicationTableCellRenderer extends DefaultLearningObjectTableC
 	function get_actions($publication) 
 	{
 		$assessment = $publication->get_learning_object();
-		$times_taken = WeblcmsDataManager :: get_instance()->times_taken($this->browser->get_user_id(), $assessment->get_id());
+		//$times_taken = WeblcmsDataManager :: get_instance()->times_taken($this->browser->get_user_id(), $assessment->get_id());
+		$track = new WeblcmsAssessmentAttemptsTracker();
+		$condition_t = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $publication->get_id());
+		$condition_u = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->browser->get_user_id());
+		$condition = new AndCondition(array($condition_t, $condition_u));
+		$trackers = $track->retrieve_tracker_items($condition);
 		
-		if ($assessment->get_maximum_attempts == 0 || $times_taken < $assessment->get_maximum_times_taken())
+		if ($assessment->get_maximum_attempts() == 0 || count($trackers) < $assessment->get_maximum_attempts())
 		{
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'start' => '1')),
