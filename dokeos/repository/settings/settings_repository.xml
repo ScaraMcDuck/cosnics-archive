@@ -106,6 +106,9 @@
 			<setting name="allow_system_announcement_creation" field="checkbox" default="0">
 				<options type="static"><option name="allow_system_announcement_creation" value="1" /></options>
 			</setting>
+			<setting name="allow_template_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_template_creation" value="1" /></options>
+			</setting>
 			<setting name="allow_user_info_content_creation" field="checkbox" default="0">
 				<options type="static"><option name="allow_user_info_content_creation" value="1" /></options>
 			</setting>
