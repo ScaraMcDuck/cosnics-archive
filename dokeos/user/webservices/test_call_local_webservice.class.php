@@ -2,7 +2,7 @@
 require_once(dirname(__FILE__) . '/../../common/global.inc.php');
 require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php';
 require_once dirname(__FILE__) . '/../lib/user.class.php';
-
+$time_start = microtime(true);
 $handler = new TestCallLocalWebservice();
 
 $handler->run();
@@ -25,7 +25,7 @@ class TestCallLocalWebservice
 
 		$functions[] = array(
 				'name' => 'WebServicesUser.get_user',
-				'parameters' => array('username' => 'admin','hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+                'parameters' => array('input' => array('username' => 'Soliber'),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 		);*/
 
@@ -80,7 +80,7 @@ class TestCallLocalWebservice
 		  'phone' => NULL,
 		  'official_code' => 'ADMIN',
 		  'picture_uri' => NULL,
-		  'creator_id' => 'admin',
+		  'creator_id' => 'Soliber',
 		  'language' => 'english',
 		  'disk_quota' => '209715200',
 		  'database_quota' => '300',
@@ -90,22 +90,21 @@ class TestCallLocalWebservice
 		  'expiration_date' => '0',
 		  'registration_date' => '1234774883',
 		  'active' => '1',
-          'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f' //hash 3 needed for credential
-		);
+        );
 
         //$wsdl = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservices_user.class.php?wsdl';
         $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
         $functions = array();
         $functions[] = array(
             'name' => 'WebServicesUser.create_user',
-            'parameters' => $user,
+            'parameters' => array('input' => $user,'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
             'handler' => 'handle_webservice'
         );*/
 
        //TEST 6 :: Update User
 
           /*$user = array (
-          'lastname' => 'Den Os',
+          'lastname' => 'Oske',
 		  'firstname' => 'Jos',
 		  'username' => 'Joske',
 		  'password' => 'b9921b6ebaac9174f01ea9e2fe3df9f95010410b',
@@ -126,15 +125,14 @@ class TestCallLocalWebservice
 		  'expiration_date' => '0',
 		  'registration_date' => '1234774883',
 		  'active' => '1',
-          'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f' //hash 3 needed for credential
-		);
+        );
 
         $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		$functions = array();
 
 		$functions[] = array(
 				'name' => 'WebServicesUser.update_user',
-				'parameters' => $user,
+				'parameters' => array('input' => $user,'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 		);*/
 
@@ -142,10 +140,10 @@ class TestCallLocalWebservice
         //TEST 7 : Delete User
 
           /*$user = array (
-          'lastname' => 'Den Os',
-		  'firstname' => 'Jos',
+		  'lastname' => 'Jos',
+		  'firstname' => 'Den Os',
 		  'username' => 'Joske',
-		  'password' => 'b9921b6ebaac9174f01ea9e2fe3df9f95010410b',
+		  'password' => '4a0091108fb271e05f34da7cf77c975f',
 		  'auth_source' => 'platform',
 		  'email' => 'admin@localhost.localdomain',
 		  'status' => '1',
@@ -153,7 +151,7 @@ class TestCallLocalWebservice
 		  'phone' => NULL,
 		  'official_code' => 'ADMIN',
 		  'picture_uri' => NULL,
-		  'creator_id' => NULL,
+		  'creator_id' => 'Soliber',
 		  'language' => 'english',
 		  'disk_quota' => '209715200',
 		  'database_quota' => '300',
@@ -163,15 +161,14 @@ class TestCallLocalWebservice
 		  'expiration_date' => '0',
 		  'registration_date' => '1234774883',
 		  'active' => '1',
-          'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f' //hash 3 needed for credential
-		);
+        );
         
         $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		$functions = array();
 
 		$functions[] = array(
 				'name' => 'WebServicesUser.delete_user',
-				'parameters' => $user,
+				'parameters' => array('input' => $user, 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 		);*/
 
@@ -179,8 +176,6 @@ class TestCallLocalWebservice
 
 
             /*$course = array (
-
-          /*$course = array (
 
             'course_language' => 'english',
             'title' => 'Kennisintensieve Toepassingen',
@@ -356,7 +351,7 @@ class TestCallLocalWebservice
 		 *
 		 */
 
-		      $coursegroup = array (
+		      /*$coursegroup = array (
 		  	  'course_code' => 'KIT',
 			  'name' => 'testgroup',
 			  'description' => 'test',
@@ -371,7 +366,7 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesCourse.unsubscribe_group',
 				'parameters' => $coursegroup,
 		  		'handler' => 'handle_webservice'
-			);
+			);*/
 
 
         //TEST 14 : Get Group
@@ -403,6 +398,105 @@ class TestCallLocalWebservice
 		  		'handler' => 'handle_webservice'			
 			);*/
 
+        //TEST 16 :  Get all Users
+
+        /*$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+		$functions = array();
+
+		$functions[] = array(
+				'name' => 'WebServicesUser.get_all_users',
+				'parameters' => array('hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'handler' => 'handle_webservice'
+		);*/
+
+       //TEST 17 :  Create Users
+
+          $users = array ('0' => array
+        (
+            'lastname' => 'Doe',
+            'firstname' => 'Jane',
+            'username' => 'Spiderman',
+            'password' => 'ae12e345f679aaf',
+            'auth_source' => 'platform',
+            'email' => 'admin@localhost.localdomain',
+            'status' => '1',
+            'admin' => '',
+            'phone' => '',
+            'official_code' => 'ADMIN',
+            'picture_uri' =>'',
+            'creator_id' => 'Soliber',
+            'language' => 'english',
+            'disk_quota' => '209715200',
+            'database_quota' => '300',
+            'version_quota' => '20',
+            'theme' => '',
+            'activation_date' => '0',
+            'expiration_date' => '0',
+            'registration_date' => '1238155721',
+            'active' => 1
+        ),
+
+    '1' => array
+        (
+            'lastname' => 'Doe',
+            'firstname' => 'Joe',
+            'username' => 'Spidermannnnn',
+            'password' => 'ae12e345f679aaf',
+            'auth_source' => 'platform',
+            'email' => 'admin@localhost.localdomain',
+            'status' => '1',
+            'admin' => '',
+            'phone' => '',
+            'official_code' => 'ADMIN',
+            'picture_uri' =>'',
+            'creator_id' => 'Soliber',
+            'language' => 'english',
+            'disk_quota' => '209715200',
+            'database_quota' => '300',
+            'version_quota' => '20',
+            'theme' => '',
+            'activation_date' => '0',
+            'expiration_date' => '0',
+            'registration_date' => '1238155721',
+            'active' => 1
+        ),
+
+      '2' => array
+        (
+            'lastname' => 'Doe',
+            'firstname' => 'Johnson',
+            'username' => 'Spidermannnntetnn',
+            'password' => 'ae12e345f679aaf',
+            'auth_source' => 'platform',
+            'email' => 'admin@localhost.localdomain',
+            'status' => '1',
+            'admin' => '',
+            'phone' => '',
+            'official_code' => 'ADMIN',
+            'picture_uri' =>'',
+            'creator_id' => 'Soliber',
+            'language' => 'english',
+            'disk_quota' => '209715200',
+            'database_quota' => '300',
+            'version_quota' => '20',
+            'theme' => '',
+            'activation_date' => '0',
+            'expiration_date' => '0',
+            'registration_date' => '1238155721',
+            'active' => 1,
+        
+        )
+);
+
+        //$wsdl = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservices_user.class.php?wsdl';
+        $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+        $functions = array();
+        $functions[] = array(
+            'name' => 'WebServicesUser.create_users',
+            'parameters' => array('input' => $users, 'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+            'handler' => 'handle_webservice'
+        );
+
 
 	
 		$this->webservice->call_webservice($wsdl, $functions);
@@ -410,6 +504,9 @@ class TestCallLocalWebservice
 	
 	function handle_webservice($result)
 	{
+        $time_end = microtime(true);
+        $time = $time_end - $GLOBALS['time_start'];
+        echo "Execution time was  $time seconds\n";
 		//global $file;
 		//fwrite($file, date('[H:i]') . 'Called webservice :' . "\n" . var_export($result, true) . "\n");
 		//echo ('<p>'.date('[H:i]') . 'Called webservice :' . "\n" . var_export($result, true) . "\n".'</p>');

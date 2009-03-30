@@ -5,46 +5,81 @@ require_once Path :: get_webservice_path() .'lib/webservice_data_manager.class.p
 
 class SoapNusoapWebservice extends Webservice
 {
-	private $webservice_handler;
-	private $webservice;    
+	private $webservice_handler;    
 	
 	function SoapNusoapWebservice($webservice_handler)
 	{
-		$this->webservice_handler = $webservice_handler;        
+		$this->webservice_handler = $webservice_handler;
+        parent :: Webservice();
 	}
 	
 	function provide_webservice($functions)
 	{
 		$server = new soap_server();
 		$server->configureWSDL('Dokeos', 'http://www.dokeos.com');
-		
-		foreach($functions as $name => $objects)
+        
+		foreach($functions as $name => $objects) //doorloopt alle functies
 		{
-			if(isset($objects['input']))
+            //input field
+            if(isset($objects['input'])) 
 			{
-				$in = $objects['input'];
-				$input = array();
-				
-				foreach($in->get_default_property_names() as $property)
+                if($objects['array_input'])
 				{
-					$input[$property] = 'xsd:string';
+					$in = $objects['input'][0];
+				}
+				else
+				{
+					$in = $objects['input'];
+				}
+                
+                $input = array();
+
+                foreach($in->get_default_property_names() as $property)
+                {
+                    $input[$property] = array('name' => $property, 'type' => 'xsd:string');
+                }
+
+                $server->wsdl->addComplexType(
+				    get_class($in),
+				    'complexType',
+				    'struct',
+				    'all',
+				    '',
+				    $input
+				);
+
+
+				if($objects['array_input'])
+				{
+					$server->wsdl->addComplexType(
+					  get_class($in).'s',
+					  'complexType',
+					  'array',
+					  '',
+					  'SOAP-ENC:Array',
+					  array(),
+					  array(
+					    array('ref' => 'SOAP-ENC:arrayType',
+					         'wsdl:arrayType' => 'tns:'.get_class($in).'[]')
+					  ),
+					  'tns:'.get_class($in)
+					);
 				}
 			}
-			if(isset($objects['require_hash']))
-			{
-				$input['hash'] = 'xsd:string';
-			}
+
+            //output
 			if(isset($objects['output']))
 			{
 				if($objects['array'])
 				{
-					$out = $objects['output'][0];
+					$out = $objects['output'][0];                    
 				}
 				else
 				{
 					$out = $objects['output'];
-				}			
-				$properties = array();
+				}
+                
+				$properties = array();                
 					
 				foreach($out->get_default_property_names() as $property)
 				{
@@ -78,9 +113,8 @@ class SoapNusoapWebservice extends Webservice
 					);
 				}
 			}
-			
-			
-			$server->register(get_class($this->webservice_handler) . '.' . $name, $input, array('return' => 'tns:' . get_class($out).($objects['array']?'s':'')),
+			// method name, input parameters, output parameters
+			$server->register(get_class($this->webservice_handler) . '.' . $name, array('input' =>'tns:' . get_class($in).($objects['array_input']?'s':''),'hash' => 'xsd:string'), array('return' => 'tns:' . get_class($out).($objects['array']?'s':'')),
 			       'http://www.dokeos.com', 'http://www.dokeos.com#' . $name, 'rpc', 'encoded', '', '', 'NusoapWebservice.handle_webservice');
 			
 		}

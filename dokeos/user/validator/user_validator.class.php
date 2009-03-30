@@ -45,10 +45,9 @@ class UserValidator extends Validator
     {
         if(!$this->validate_properties($userProperties,$this->get_required_property_names()))
         return false;
-
+        
         if(!$this->validate_property_names($groupProperties, User :: get_default_property_names()))
         return false;
-
         if(!$this->udm->is_username_available($userProperties[User :: PROPERTY_USERNAME]))
         return false;
 

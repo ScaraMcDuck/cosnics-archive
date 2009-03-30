@@ -36,13 +36,19 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	private $parameters;
 	private $search_parameters;
 	private $user;
-	private $breadcrumbs;    
+	private $breadcrumbs;
+    private $instance;
 		
-    function WebserviceManager($user = null) 
+    private function WebserviceManager($user = null)
     {
     	$this->user = $user;
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);			   	
+    }
+
+    static function get_instance()
+    {
+
     }
     
     /**
