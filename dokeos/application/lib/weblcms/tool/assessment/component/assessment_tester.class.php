@@ -39,7 +39,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		$condition = new AndCondition(array($condition_t, $condition_u));
 		$trackers = $track->retrieve_tracker_items($condition);
 		
-		if ($assessment->get_maximum_attempts() != 0 && count($trackers) >= $assessment->get_maximum_attempts())
+		if ($this->assessment->get_maximum_attempts() != 0 && count($trackers) >= $this->assessment->get_maximum_attempts())
 		{
 			Display :: not_allowed();
 			return;
