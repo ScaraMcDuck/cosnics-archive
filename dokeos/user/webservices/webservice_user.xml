@@ -1,7 +1,9 @@
 <xml>
 	<category name="manage users"> 
 		<webservice name="update user" />
+        <webservice name="update users" />
 		<webservice name="delete user" />
+        <webservice name="delete users" />
 		<webservice name="create user" />
         <webservice name="create users" />
         <webservice name="get user" />
