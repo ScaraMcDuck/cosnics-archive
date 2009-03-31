@@ -39,18 +39,13 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
 	private $breadcrumbs;
     private $instance;
 		
-    private function WebserviceManager($user = null)
+    public function WebserviceManager($user = null)
     {
     	$this->user = $user;
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);			   	
     }
 
-    static function get_instance()
-    {
-
-    }
-    
     /**
 	 * Run this webservice manager
 	 */
