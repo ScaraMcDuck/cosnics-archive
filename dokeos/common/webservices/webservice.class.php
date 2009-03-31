@@ -95,7 +95,7 @@ abstract class Webservice
 
 	function validate_login($username,$input_hash) //hash 1 = ip+password
 	{        
-		$udm = DatabaseUserDataManager :: get_instance();
+		$udm = DatabaseUserDataManager :: get_instance();        
 		$user = $udm->retrieve_user_by_username($username);
         if(isset($user))
 		{            

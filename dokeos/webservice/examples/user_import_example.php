@@ -15,10 +15,11 @@ $hash = '';
 
 //dump($users);
 
-foreach($users as $user)
+create_users($users);
+/*foreach($users as $user)
 {
 	create_user($user); 
-}
+}*/
 
 $time_end = microtime(true);
 $time = $time_end - $time_start;
@@ -56,18 +57,16 @@ function create_user(&$user)
 	global $hash, $client;
 	log_message('Creating user ' . $user['username']);	
 	if($hash == '')
-    $hash = login();
+    $hash = login();    
     
-    $user['hash'] = $hash;
-    $user['password'] = 'ae12e345f679aaf';
-    $user['registration_date'] = '0';
+    $user['password'] = 'ae12e345f679aaf';    
     $user['disk_quota'] = '209715200';
     $user['database_quota'] = '300';
     $user['version_quota'] = '20';
-    $user['creator_id'] = 'Soliber';
-	$result = $client->call('WebServicesUser.create_user', $user);    
+    $user['creator_id'] = 'admin';
+    $user['registration_date'] = '0';
     log_message('CALL NAAR DE WEBSERVICE');
-	$result = $client->call('WebServicesUser.create_user', $user);
+	$result = $client->call('WebServicesUser.create_user', array('input' => $user, 'hash' => $hash));
     log_message('RETURN GEKREGEN VAN DE WEBSERVICE');
 	if($result == 1)
     {
@@ -75,6 +74,23 @@ function create_user(&$user)
     }
     else
     	log_message(print_r($result, true));
+}
+
+function create_users(&$users)
+{
+    global $hash, $client;
+	log_message('Creating users ');
+	if($hash == '')
+    $hash = login();    
+   
+    $result = $client->call('WebServicesUser.create_users', array('input' => $users, 'hash' => $hash));
+    if($result == 1)
+    {
+        log_message(print_r('User successfully created', true));
+    }
+    else
+    	log_message(print_r($result, true));
+
 }
 
 function login()
@@ -89,13 +105,13 @@ function login()
      * $password = Hash(IP+PW) ;
      */
 
-	//$username = 'admin';
+	$username = 'admin';
 	//$password = '772d9ed50e3b34cbe3f9e36b77337c6b2f4e0cfa';
 
-    $username = 'admin';
+    //$username = 'Soliber';
 //    $password = 'c14d68b0ef49d97929c36f7725842b5adbf5f006';
-    $password = hash('sha1,193.190.172.141',hash('sha1','admin'));
-	$username = 'admin';
+    //$password = hash('sha1,193.190.172.141',hash('sha1','admin'));
+	//$username = 'admin';
 	$password = 'c14d68b0ef49d97929c36f7725842b5adbf5f006';
 
 	
@@ -105,7 +121,7 @@ function login()
 
 	//$login_client = new nusoap_client('http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
     $login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
-    $result = $login_client->call('LoginWebservice.login', array('username' => $username, 'password' => $password));
+    $result = $login_client->call('LoginWebservice.login', array('input' => array('username' => $username, 'password' => $password), 'hash' => ''));
     log_message(print_r($result, true));
     if(is_array($result) && array_key_exists('hash', $result))
         return $result['hash']; //hash 3
