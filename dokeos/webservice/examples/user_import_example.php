@@ -82,8 +82,9 @@ function create_users(&$users)
 	log_message('Creating users ');
 	if($hash == '')
     $hash = login();    
-   
+    log_message('CALL NAAR DE WEBSERVICE');
     $result = $client->call('WebServicesUser.create_users', array('input' => $users, 'hash' => $hash));
+    log_message('RETURN GEKREGEN VAN DE WEBSERVICE');
     if($result == 1)
     {
         log_message(print_r('User successfully created', true));
