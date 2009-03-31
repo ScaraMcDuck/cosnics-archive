@@ -1,8 +1,8 @@
 <?php
 require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', 7200);
+ini_set('memory_limit','1024M');
 $time_start = microtime(true);
-dump('test');
 
 $file = dirname(__FILE__) . '/user_import.csv';
 $users = parse_csv($file);
@@ -28,7 +28,7 @@ $time = $time_end - $time_start;
 echo "Execution time was  $time seconds\n";
 
 function parse_csv($file)
-{    
+{
 	if(file_exists($file) && $fp = fopen($file, "r"))
 	{
 		$keys = fgetcsv($fp, 1000, ";");
@@ -43,7 +43,7 @@ function parse_csv($file)
 			}
 			$users[] = $user;
 		}
-		fclose($fp);        
+		fclose($fp);
 	}
 	else
 	{
