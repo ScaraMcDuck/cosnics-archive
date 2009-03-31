@@ -411,7 +411,7 @@ class TestCallLocalWebservice
 
        //TEST 17 :  Create Users
 
-          /*$users = array ('0' => array
+         /* $users = array ('0' => array
         (
             'lastname' => 'Doe',
             'firstname' => 'Jane',
@@ -496,6 +496,94 @@ class TestCallLocalWebservice
             'parameters' => array('input' => $users, 'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
             'handler' => 'handle_webservice'
         );*/
+
+        //TEST 17 :  Delete Users
+
+          $users = array ('0' => array
+        (
+            'lastname' => 'Doe',
+            'firstname' => 'Jane',
+            'username' => 'Spiderman',
+            'password' => 'ae12e345f679aaf',
+            'auth_source' => 'platform',
+            'email' => 'admin@localhost.localdomain',
+            'status' => '1',
+            'admin' => '',
+            'phone' => '',
+            'official_code' => 'ADMIN',
+            'picture_uri' =>'',
+            'creator_id' => 'Soliber',
+            'language' => 'english',
+            'disk_quota' => '209715200',
+            'database_quota' => '300',
+            'version_quota' => '20',
+            'theme' => '',
+            'activation_date' => '0',
+            'expiration_date' => '0',
+            'registration_date' => '1238155721',
+            'active' => 1
+        ),
+
+    '1' => array
+        (
+            'lastname' => 'Doe',
+            'firstname' => 'Joe',
+            'username' => 'Spidermannnnn',
+            'password' => 'ae12e345f679aaf',
+            'auth_source' => 'platform',
+            'email' => 'admin@localhost.localdomain',
+            'status' => '1',
+            'admin' => '',
+            'phone' => '',
+            'official_code' => 'ADMIN',
+            'picture_uri' =>'',
+            'creator_id' => 'Soliber',
+            'language' => 'english',
+            'disk_quota' => '209715200',
+            'database_quota' => '300',
+            'version_quota' => '20',
+            'theme' => '',
+            'activation_date' => '0',
+            'expiration_date' => '0',
+            'registration_date' => '1238155721',
+            'active' => 1
+        ),
+
+      '2' => array
+        (
+            'lastname' => 'Doe',
+            'firstname' => 'Johnson',
+            'username' => 'Spidermannnntetnn',
+            'password' => 'ae12e345f679aaf',
+            'auth_source' => 'platform',
+            'email' => 'admin@localhost.localdomain',
+            'status' => '1',
+            'admin' => '',
+            'phone' => '',
+            'official_code' => 'ADMIN',
+            'picture_uri' =>'',
+            'creator_id' => 'Soliber',
+            'language' => 'english',
+            'disk_quota' => '209715200',
+            'database_quota' => '300',
+            'version_quota' => '20',
+            'theme' => '',
+            'activation_date' => '0',
+            'expiration_date' => '0',
+            'registration_date' => '1238155721',
+            'active' => 1,
+
+        )
+);
+
+        //$wsdl = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservices_user.class.php?wsdl';
+        $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+        $functions = array();
+        $functions[] = array(
+            'name' => 'WebServicesUser.delete_users',
+            'parameters' => array('input' => $users, 'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+            'handler' => 'handle_webservice'
+        );
 
 
 	

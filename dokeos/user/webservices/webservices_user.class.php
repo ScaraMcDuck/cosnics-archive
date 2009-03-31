@@ -37,21 +37,28 @@ class WebServicesUser
 			'output' => array(new User()));
 		
 		$functions['delete_user'] = array(
-			'input' => new User(),
+			'input' => new User()
 		);
 		
 		$functions['create_user'] = array(
-			'input' => new User(),
+			'input' => new User()
 		);
 
         $functions['create_users'] = array(
             'array_input' => true,
-			'input' => array(new User()),
+			'input' => array(new User())
         );
 		
 		$functions['update_user'] = array(
-			'input' => new User(),
+			'input' => new User()
 		);
+
+        $functions['delete_users'] = array(
+			'array_input' => true,
+			'input' => array(new User())
+		);
+
+
 
         $time_end = microtime(true);
         $time = $time_end - $time_start;
@@ -78,7 +85,7 @@ class WebServicesUser
             }
             else
             {
-                return $this->webservice->raise_error('Could not retrieve user. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error('Could not retrieve user'.$input_user[input][username].'. Please check the data you\'ve provided.');
             }
 		}
         else
@@ -119,7 +126,7 @@ class WebServicesUser
             }
             else
             {
-                return $this->webservice->raise_error('Could not delete user. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error('Could not delete user'.$input_user[input][username].'. Please check the data you\'ve provided.');
             }
 
         }
@@ -140,7 +147,7 @@ class WebServicesUser
             }
             else
             {
-                return $this->webservice->raise_error('Could not create user. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error('Could not create user'.$input_user[input][username].'. Please check the data you\'ve provided.');
             }
         }
         else
@@ -162,7 +169,7 @@ class WebServicesUser
                }
                else
                {
-                   return $this->webservice->raise_error('Could not create user. Please check the data you\'ve provided.');
+                   return $this->webservice->raise_error('Could not create user'.$input_user[input][username].'. Please check the data you\'ve provided.');
                }
            }
            return $this->webservice->raise_message('Users created.');
@@ -184,7 +191,7 @@ class WebServicesUser
             }
             else
             {
-                return $this->webservice->raise_error('Could not update user. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error('Could not update user'.$input_user[input][username].'. Please check the data you\'ve provided.');
             }
         }
         else
@@ -192,4 +199,52 @@ class WebServicesUser
             return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
+
+    function update_users(&$input_user)
+    {
+        if($this->webservice->can_execute($input_user, 'update users'))
+		{
+           foreach($input_user[input] as $user)
+           {
+                if($this->validator->validate_update($user))
+                {
+                    $u = new User(0,$user);
+                    $u->update();
+                }
+                else
+                {
+                    return $this->webservice->raise_error('Could not update user '.$user[username].'. Please check the data you\'ve provided.');
+                }
+           }
+           return $this->webservice->raise_message('Users updated.');
+        }
+        else
+        {
+            return $this->webservice->raise_error($this->webservice->get_message());
+        }
+    }
+
+    function delete_users(&$input_user)
+    {
+        if($this->webservice->can_execute($input_user, 'delete users'))
+		{
+           foreach($input_user[input] as $user)
+           {
+                if($this->validator->validate_delete($user))
+                {
+                    $u = new User(0,$user);
+                    $u->delete();
+                }
+                else
+                {
+                    return $this->webservice->raise_error('Could not delete user '.$user[username].'. Please check the data you\'ve provided.');
+                }
+           }
+           return $this->webservice->raise_message('Users deleted.');
+        }
+        else
+        {
+            return $this->webservice->raise_error($this->webservice->get_message());
+        }
+    }
 }
