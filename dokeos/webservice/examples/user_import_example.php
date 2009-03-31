@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', 7200);
-ini_set('memory_limit','1024M');
+ini_set('memory_limit',-1);
 $time_start = microtime(true);
 
 $file = dirname(__FILE__) . '/user_import.csv';
@@ -14,9 +14,9 @@ $location = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservice
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
-dump($users);
+//dump($users);
 
-//create_users($users);
+create_users($users);
 /*foreach($users as $user)
 {
 	create_user($user); 
