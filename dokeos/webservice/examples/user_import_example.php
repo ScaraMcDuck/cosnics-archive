@@ -14,9 +14,9 @@ $location = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservice
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
-dump($users);
+//dump($users);
 
-//create_users($users);
+create_users($users);
 /*foreach($users as $user)
 {
 	create_user($user); 
