@@ -55,20 +55,20 @@ class TestCallLocalWebservice
         
         //TEST 4 : Login Webservice
 		//$wsdl = 'http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl';
-        $wsdl = 'http://localhost/user/webservices/login_webservice.class.php?wsdl';
+        /*$wsdl = 'http://localhost/user/webservices/login_webservice.class.php?wsdl';
 		$functions = array();
 
 		{
 			$functions[] = array(
 				'name' => 'LoginWebservice.login',
-				'parameters' => array('username'=>'admin','password'=>'c14d68b0ef49d97929c36f7725842b5adbf5f006'), //password is actually hash 1
+				'parameters' => array('input' => array('username'=>'admin','password'=>'c14d68b0ef49d97929c36f7725842b5adbf5f006'), 'hash' =>''), //password is actually hash 1
 				'handler' => 'handle_webservice'
 			);
-		}
+		}*/
         
         //TEST 5 :  Create User
 
-          /*$user = array (
+          $user = array (
 		  'lastname' => 'Jos',
 		  'firstname' => 'Den Os',
 		  'username' => 'Jocham',
@@ -80,7 +80,7 @@ class TestCallLocalWebservice
 		  'phone' => NULL,
 		  'official_code' => 'ADMIN',
 		  'picture_uri' => NULL,
-		  'creator_id' => 'Soliber',
+		  'creator_id' => 'admin',
 		  'language' => 'english',
 		  'disk_quota' => '209715200',
 		  'database_quota' => '300',
@@ -99,7 +99,7 @@ class TestCallLocalWebservice
             'name' => 'WebServicesUser.create_user',
             'parameters' => array('input' => $user,'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
             'handler' => 'handle_webservice'
-        );*/
+        );
 
        //TEST 6 :: Update User
 
@@ -411,7 +411,7 @@ class TestCallLocalWebservice
 
        //TEST 17 :  Create Users
 
-          $users = array ('0' => array
+          /*$users = array ('0' => array
         (
             'lastname' => 'Doe',
             'firstname' => 'Jane',
@@ -495,7 +495,7 @@ class TestCallLocalWebservice
             'name' => 'WebServicesUser.create_users',
             'parameters' => array('input' => $users, 'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
             'handler' => 'handle_webservice'
-        );
+        );*/
 
 
 	

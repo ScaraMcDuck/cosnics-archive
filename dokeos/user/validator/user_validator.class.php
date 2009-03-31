@@ -41,8 +41,8 @@ class UserValidator extends Validator
         return true;
     }
 
-    function validate_create(&$userProperties) //works
-    {
+    function validate_create(&$userProperties) 
+    {        
         if(!$this->validate_properties($userProperties,$this->get_required_property_names()))
         return false;
         
@@ -54,8 +54,8 @@ class UserValidator extends Validator
         if(!$this->check_quota($userProperties))
         return false;
 
-        if(!$this->check_dates($userProperties))
-        return false;
+        /*if(!$this->check_dates($userProperties))
+        return false;*/
         
         if(!empty($userProperties[User :: PROPERTY_CREATOR_ID]))
         {

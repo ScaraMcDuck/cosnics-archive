@@ -60,7 +60,8 @@ class WebServicesUser
 	}
 	
 	function get_user($input_user)
-	{   if($this->webservice->can_execute($input_user, 'get user'))
+	{
+        if($this->webservice->can_execute($input_user, 'get user'))
 		{
             $udm = DatabaseUserDataManager :: get_instance();
             if($this->validator->validate_retrieve($input_user[input])) //input validation
