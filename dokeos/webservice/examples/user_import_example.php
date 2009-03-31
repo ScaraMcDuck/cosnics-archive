@@ -2,6 +2,7 @@
 require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', 7200);
 $time_start = microtime(true);
+dump('test');
 
 $file = dirname(__FILE__) . '/user_import.csv';
 $users = parse_csv($file);
