@@ -13,9 +13,9 @@ $location = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservice
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
-//dump($users);
+dump($users);
 
-create_users($users);
+//create_users($users);
 /*foreach($users as $user)
 {
 	create_user($user); 
@@ -82,12 +82,12 @@ function create_users(&$users)
 	log_message('Creating users ');
 	if($hash == '')
     $hash = login();    
-    log_message('CALL NAAR DE WEBSERVICE');
+    
     $result = $client->call('WebServicesUser.create_users', array('input' => $users, 'hash' => $hash));
-    log_message('RETURN GEKREGEN VAN DE WEBSERVICE');
+    
     if($result == 1)
     {
-        log_message(print_r('User successfully created', true));
+        log_message(print_r('Users successfully created', true));
     }
     else
     	log_message(print_r($result, true));

@@ -68,8 +68,7 @@ class WebServicesUser
             {
                 $user = $udm->retrieve_user_by_username($input_user[input][username]);
                 if(!empty($user))
-                {
-                    echo date('[H:m:s] ', time()) . 'user properties opgehaald' . '<br />';
+                {                    
                     return $user->get_default_properties();
                 }
                 else
