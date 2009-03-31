@@ -58,6 +58,11 @@ class WebServicesUser
 			'input' => array(new User())
 		);
 
+        $functions['update_users'] = array(
+			'array_input' => true,
+			'input' => array(new User())
+		);
+
 
 
         $time_end = microtime(true);
