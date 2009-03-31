@@ -43,7 +43,6 @@ abstract class Validator
         {
             if($properties[$property] == null)
             {
-                dump($property);
                 return false;
             }
         }
