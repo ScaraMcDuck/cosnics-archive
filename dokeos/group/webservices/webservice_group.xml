@@ -2,9 +2,14 @@
 	<category name="manage groups">
         <webservice name="get group" />
 		<webservice name="update group" />
+        <webservice name="update groups" />
 		<webservice name="delete group" />
+        <webservice name="delete groups" />
 		<webservice name="create group" />
+        <webservice name="create groups" />
 		<webservice name="subscribe user" />
+        <webservice name="subscribe users" />
 		<webservice name="unsubscribe user" />
+        <webservice name="unsubscribe users" />
 	</category>			
 </xml>

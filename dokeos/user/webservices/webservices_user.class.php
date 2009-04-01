@@ -164,6 +164,26 @@ class WebServicesUser
         }
 	}
 
+   	function update_user(&$input_user)
+	{
+        if($this->webservice->can_execute($input_user, 'update user'))
+		{
+            if($this->validator->validate_update($input_user[input]))
+            {
+                $u = new User(0,$input_user[input]);
+                return $this->webservice->raise_message($u->update());
+            }
+            else
+            {
+                return $this->webservice->raise_error('Could not update user'.$input_user[input][username].'. Please check the data you\'ve provided.');
+            }
+        }
+        else
+        {
+            return $this->webservice->raise_error($this->webservice->get_message());
+        }
+	}
+
     function create_users(&$input_user)
 	{
        if($this->webservice->can_execute($input_user, 'create users'))
@@ -186,26 +206,6 @@ class WebServicesUser
        {
            return $this->webservice->raise_error($this->webservice->get_message());
        }
-	}
-	
-	function update_user(&$input_user)
-	{
-        if($this->webservice->can_execute($input_user, 'update user'))
-		{
-            if($this->validator->validate_update($input_user[input]))
-            {
-                $u = new User(0,$input_user[input]);
-                return $this->webservice->raise_message($u->update());
-            }
-            else
-            {
-                return $this->webservice->raise_error('Could not update user'.$input_user[input][username].'. Please check the data you\'ve provided.');
-            }
-        }
-        else
-        {
-            return $this->webservice->raise_error($this->webservice->get_message());
-        }
 	}
 
     function update_users(&$input_user)

@@ -9,8 +9,8 @@ $users = parse_csv($file);
 /*
  * change location to the location of the test server
  */
-$location = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
-//$location = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservices_user.class.php?wsdl';
+//$location = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+$location = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservices_user.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
@@ -78,20 +78,19 @@ function login()
      * $password = Hash(IP+PW) ;
      */
 
-	//$username = 'admin';
+	$username = 'Soliber';
 	//$password = '772d9ed50e3b34cbe3f9e36b77337c6b2f4e0cfa';
     
-    //$password = hash('sha1','193.190.172.141'.hash('sha1','admin'));
-    $username = 'Soliber';
-	$password = 'c14d68b0ef49d97929c36f7725842b5adbf5f006';
+    $password = hash('sha1','193.190.172.141'.hash('sha1','admin'));
+    //$password = 'c14d68b0ef49d97929c36f7725842b5adbf5f006';
 
 
 	/*
      * change location to server location for the wsdl
      */
 
-	//$login_client = new nusoap_client('http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
-    $login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
+	$login_client = new nusoap_client('http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
+    //$login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
     $result = $login_client->call('LoginWebservice.login', array('input' => array('username' => $username, 'password' => $password), 'hash' => ''));
     log_message(print_r($result, true));
     if(is_array($result) && array_key_exists('hash', $result))
