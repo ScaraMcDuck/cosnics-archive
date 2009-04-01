@@ -13,6 +13,8 @@ require_once dirname(__FILE__) . '/../learning_object_publication.class.php';
 require_once dirname(__FILE__) . '/../weblcms_manager/weblcms.class.php';
 require_once Path :: get_library_path() . 'validator/validator.class.php';
 
+ini_set('max_execution_time', -1);
+ini_set('memory_limit',-1);
 
 $handler = new WebServicesCourse();
 $handler->run();

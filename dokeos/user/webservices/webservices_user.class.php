@@ -6,6 +6,9 @@ require_once dirname(__FILE__) . '/../lib/data_manager/database.class.php';
 require_once dirname(__FILE__) . '/../lib/user.class.php';
 require_once Path :: get_library_path() . 'validator/validator.class.php';
 
+ini_set('max_execution_time', -1);
+ini_set('memory_limit',-1);
+
 $handler = new WebServicesUser();
 $handler->run();
 
