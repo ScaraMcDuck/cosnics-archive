@@ -2281,7 +2281,7 @@ class soap_transport_http extends nusoap_base {
 	* @return	boolean true if connected, false if not
 	* @access   private
 	*/
-	function connect($connection_timeout=0,$response_timeout=30){
+	function connect($connection_timeout=0,$response_timeout=300){
 	  	// For PHP 4.3 with OpenSSL, change https scheme to ssl, then treat like
 	  	// "regular" socket.
 	  	// TODO: disabled for now because OpenSSL must be *compiled* in (not just
@@ -7058,7 +7058,7 @@ class nusoap_client extends nusoap_base  {
     var $xml_encoding = '';			// character set encoding of incoming (response) messages
 	var $http_encoding = false;
 	var $timeout = 0;				// HTTP connection timeout
-	var $response_timeout = 30;		// HTTP response timeout
+	var $response_timeout = 300;		// HTTP response timeout
 	var $endpointType = '';			// soap|wsdl, empty for WSDL initialization error
 	var $persistentConnection = false;
 	var $defaultRpcParams = false;	// This is no longer used
@@ -7110,7 +7110,7 @@ class nusoap_client extends nusoap_base  {
 	* @param	integer $response_timeout set the response timeout
 	* @access   public
 	*/
-	function nusoap_client($endpoint,$wsdl = false,$proxyhost = false,$proxyport = false,$proxyusername = false, $proxypassword = false, $timeout = 0, $response_timeout = 30){
+	function nusoap_client($endpoint,$wsdl = false,$proxyhost = false,$proxyport = false,$proxyusername = false, $proxypassword = false, $timeout = -1, $response_timeout = -1){
 		parent::nusoap_base();
 		$this->endpoint = $endpoint;
 		$this->proxyhost = $proxyhost;
@@ -7417,7 +7417,7 @@ class nusoap_client extends nusoap_base  {
 	* @return	mixed native PHP types.
 	* @access   private
 	*/
-	function send($msg, $soapaction = '', $timeout=0, $response_timeout=30) {
+	function send($msg, $soapaction = '', $timeout=0, $response_timeout=300) {
 		$this->checkCookies();
 		// detect transport
 		switch(true){

@@ -133,7 +133,9 @@ class SoapNusoapWebservice extends Webservice
 	
 	function call_webservice($wsdl, $functions)
 	{
-		$client = new nusoap_client($wsdl, 'wsdl');		
+		$client = new nusoap_client($wsdl, 'wsdl');
+        $client->response_timeout = -1;
+        $client->timeout = -1;
         foreach($functions as $function)
 		{
 			$function_name = $function['name'];
