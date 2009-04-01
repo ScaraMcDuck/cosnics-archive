@@ -3,7 +3,7 @@
 		{
 			$('#dock').Fisheye(
 				{
-					maxWidth: 50,
+					maxWidth: 35,
 					items: 'a',
 					itemsText: 'span',
 					container: '.dock-container',
