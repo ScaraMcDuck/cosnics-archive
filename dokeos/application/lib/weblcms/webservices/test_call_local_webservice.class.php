@@ -141,7 +141,7 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		/*$course = array(
+		$course = array(
             'layout' => '1',
             'visual_code' => 'KITT',
             'category' => 'language skills', //required
@@ -165,10 +165,10 @@ class TestCallLocalWebservice
 		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
-				'name' => 'WebServicesCourse.delete_course',
-				'parameters' => array('input' => $course,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'name' => 'WebServicesCourse.delete_courses',
+				'parameters' => array('input' => array($course),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
-			);*/
+			);
 		
 		
 		
@@ -200,8 +200,8 @@ class TestCallLocalWebservice
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
-				'name' => 'WebServicesCourse.create_course',
-				'parameters' => array('input' => $course,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'name' => 'WebServicesCourse.create_courses',
+				'parameters' => array('input' => array($course),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -209,7 +209,8 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  /*$course = array (
+		  /*$courses = array(
+              array (
 			  'course_code' => 'KIT',
 			  'user_id' => 'Soliber',
 			  'status' => '1',
@@ -218,13 +219,24 @@ class TestCallLocalWebservice
 			  'tutor_id' => 'Soliber',
 			  'sort' => '0',
 			  'user_course_cat' => '0'
-        );
+        ),
+        array (
+			  'course_code' => 'KIT',
+			  'user_id' => 'admin',
+			  'status' => '1',
+			  'role' => 'NULL',
+			  'course_group_id' => 'testgroup',
+			  'tutor_id' => 'Soliber',
+			  'sort' => '0',
+			  'user_course_cat' => '0'
+        )
+    );
 
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
-				'name' => 'WebServicesCourse.subscribe_user',
-				'parameters' => array('input' => $course,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'name' => 'WebServicesCourse.subscribe_users',
+				'parameters' => array('input' => $courses,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -232,7 +244,8 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		/* $course = array (
+		 /*$courses = array(
+              array (
 			  'course_code' => 'KIT',
 			  'user_id' => 'Soliber',
 			  'status' => '1',
@@ -241,12 +254,23 @@ class TestCallLocalWebservice
 			  'tutor_id' => 'Soliber',
 			  'sort' => '0',
 			  'user_course_cat' => '0'
-        );
+        ),
+        array (
+			  'course_code' => 'KIT',
+			  'user_id' => 'admin',
+			  'status' => '1',
+			  'role' => 'NULL',
+			  'course_group_id' => 'testgroup',
+			  'tutor_id' => 'Soliber',
+			  'sort' => '0',
+			  'user_course_cat' => '0'
+        )
+    );
 	   	  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
-				'name' => 'WebServicesCourse.unsubscribe_user',
-				'parameters' => array('input' => $course,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'name' => 'WebServicesCourse.unsubscribe_users',
+				'parameters' => array('input' => $courses,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
         
@@ -254,19 +278,29 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		 /* $coursegroup = array (
+		 /*$coursegroups = array(
+             array (
 		  	  'course_code' => 'KIT',
 			  'name' => 'test',
 			  'description' => 'test',
 			  'max_number_of_members' => '999',
 			  'self_reg_allowed' => '1',
 			  'self_unreg_allowed' => '1'
-            );
+            ),
+             array (
+		  	  'course_code' => 'KIT',
+			  'name' => 'testertest',
+			  'description' => 'test',
+			  'max_number_of_members' => '999',
+			  'self_reg_allowed' => '1',
+			  'self_unreg_allowed' => '1'
+            )
+        );
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
-				'name' => 'WebServicesCourse.subscribe_group',
-				'parameters' => array('input' => $coursegroup,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'name' => 'WebServicesCourse.subscribe_groups',
+				'parameters' => array('input' => $coursegroups,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
 			
@@ -274,19 +308,29 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		   /*$coursegroup = array (
+		   /*$coursegroups = array(
+             array (
 		  	  'course_code' => 'KIT',
 			  'name' => 'test',
 			  'description' => 'test',
 			  'max_number_of_members' => '999',
 			  'self_reg_allowed' => '1',
 			  'self_unreg_allowed' => '1'
-            );
+            ),
+             array (
+		  	  'course_code' => 'KIT',
+			  'name' => 'testertest',
+			  'description' => 'test',
+			  'max_number_of_members' => '999',
+			  'self_reg_allowed' => '1',
+			  'self_unreg_allowed' => '1'
+            )
+        );
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
-				'name' => 'WebServicesCourse.unsubscribe_group',
-				'parameters' => array('input' => $coursegroup,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'name' => 'WebServicesCourse.unsubscribe_groups',
+				'parameters' => array('input' => $coursegroups,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -318,44 +362,11 @@ class TestCallLocalWebservice
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
-				'name' => 'WebServicesCourse.update_course',
-				'parameters' => array('input' => $course,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'name' => 'WebServicesCourse.update_courses',
+				'parameters' => array('input' => array($course),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
-		
-		
-		/*A test subscribe a user to a group
-		 * 
-		 */
-		
-		  /*$group_rel_user = new GroupRelUser();
-		  $group_rel_user->set_user_id(2);
-		  $group_rel_user->set_group_id(1);
-		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
-		  $functions = array();
-		  $functions[] = array(
-				'name' => 'WebServiceSubscribeUserGroup.subscribe_user',
-				'parameters' => $group_rel_user->get_default_properties(),
-		  		'handler' => 'handle_webservice'			
-			);*/
-		
-		
-		
-		/*A test subscribe a user to a group
-		 * 
-		 */
-		
-		/*$group_rel_user = new GroupRelUser();
-		  $group_rel_user->set_user_id(2);
-		  $group_rel_user->set_group_id(1);
-          $wsdl = 'http://localhost/group/webservices/webservice_unsubscribe_user_from_group.class.php?wsdl';
-		  $functions = array();
-		  $functions[] = array(
-				'name' => 'WebServiceUnsubscribeUserGroup.unsubscribe_user',
-				'parameters' => $group_rel_user->to_array(),
-		  		'handler' => 'handle_webservice'			
-			);*/
 			
 			
 		$this->webservice->call_webservice($wsdl, $functions);

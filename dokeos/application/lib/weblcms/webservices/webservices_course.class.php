@@ -42,29 +42,64 @@ class WebServicesCourse
 		$functions['delete_course'] = array(
 			'input' => new Course()
 		);
+
+        $functions['delete_courses'] = array(
+            'array_input' => true,
+			'input' => array(new Course())
+		);
 		
 		$functions['update_course'] = array(
 			'input' => new Course()
+		);
+
+        $functions['update_courses'] = array(
+			'array_input' => true,
+			'input' => array(new Course())
 		);
 		
 		$functions['create_course'] = array(
 			'input' => new Course()
 		);
+
+        $functions['create_courses'] = array(
+			'array_input' => true,
+			'input' => array(new Course())
+		);
 		
 		$functions['subscribe_user'] = array(
 			'input' => new CourseUserRelation()
+		);
+
+        $functions['subscribe_users'] = array(
+            'array_input' => true,
+			'input' => array(new CourseUserRelation())
 		);
 		
 		$functions['unsubscribe_user'] = array(
 			'input' => new CourseUserRelation()
 		);
+
+        $functions['unsubscribe_users'] = array(
+			'array_input' => true,
+			'input' => array(new CourseUserRelation())
+		);
 		
 		$functions['subscribe_group'] = array(
 			'input' => new CourseGroup()
-		);		
+		);
+
+        $functions['subscribe_groups'] = array(
+            'array_input' => true,
+			'input' => array(new CourseGroup())
+		);
 		
 		$functions['unsubscribe_group'] = array(
 			'input' => new CourseGroup()
+		);
+
+        $functions['unsubscribe_groups'] = array(
+            'array_input' => true,
+			'input' => array(new CourseGroup())
 		);
 		
 		$functions['get_user_courses'] = array(
@@ -154,6 +189,30 @@ class WebServicesCourse
             return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
+
+    function delete_courses($input_course)
+	{
+        if($this->webservice->can_execute($input_course, 'delete courses'))
+		{
+            foreach($input_course[input] as $course)
+            {
+                if($this->validator->validate_delete($course)) //input validation
+                {
+                    $course = new Course($course[id],$course);
+                    $course->delete();
+                }
+                else
+                {
+                    return $this->webservice->raise_error("Could not delete course {$course[Course ::PROPERTY_NAME]}. Please check the data you\'ve provided.");
+                }
+            }
+            return $this->webservice->raise_message('Courses deleted');
+        }
+        else
+        {
+            return $this->webservice->raise_error($this->webservice->get_message());
+        }
+	}
 	
 	
 	function update_course($input_course)
@@ -169,6 +228,30 @@ class WebServicesCourse
             {
                 return $this->webservice->raise_error('Could not update course. Please check the data you\'ve provided.');
             }
+        }
+        else
+        {
+            return $this->webservice->raise_error($this->webservice->get_message());
+        }
+	}
+
+    function update_courses($input_course)
+	{
+		if($this->webservice->can_execute($input_course, 'update courses'))
+		{
+            foreach($input_course[input] as $course)
+            {
+                if($this->validator->validate_update($course)) //input validation
+                {
+                    $course = new Course($course[id],$course);
+                    $course->update();
+                }
+                else
+                {
+                    return $this->webservice->raise_error("Could not update course {$course[Course ::PROPERTY_NAME]}. Please check the data you\'ve provided.");
+                }
+            }
+            return $this->webservice->raise_message('Courses updated.');
         }
         else
         {
@@ -191,6 +274,31 @@ class WebServicesCourse
                 return $this->webservice->raise_error('Could not create course. Please check the data you\'ve provided.');
             }
             
+        }
+        else
+        {
+            return $this->webservice->raise_error($this->webservice->get_message());
+        }
+	}
+
+    function create_courses($input_course)
+	{
+		if($this->webservice->can_execute($input_course, 'create courses'))
+		{
+            foreach($input_course[input] as $course)
+            {
+                unset($course[id]);
+                if($this->validator->validate_create($course)) //input validation
+                {
+                    $course = new Course(0,$course);
+                    $course->create();
+                }
+                else
+                {
+                    return $this->webservice->raise_error("Could not create course {$course[Course ::PROPERTY_NAME]}. Please check the data you\'ve provided.");
+                }
+            }
+            return $this->webservice->raise_message('Courses created.');
         }
         else
         {
@@ -221,6 +329,34 @@ class WebServicesCourse
             return $this->webservice->raise_error($this->webservice->get_message());
         }
     }
+
+    function subscribe_users(&$input_course) //course user relation object
+	{
+        if($this->webservice->can_execute($input_course, 'subscribe users'))
+		{
+            foreach($input_course[input] as $c)
+            {
+                if($this->validator->validate_subscribe_user($c)) //input validation
+                {
+                    $cur = new CourseUserRelation($c[course_code],$c[user_id]);
+                    unset($c[course_code]);
+                    unset($c[user_id]);
+                    $cur->set_default_properties($c);
+                    $cur->create();
+                }
+                else
+                {
+                    return $this->webservice->raise_error("Could not subscribe user {$c[CourseUserRelation ::PROPERTY_USER]} to course {$c[CourseUserRelation ::PROPERTY_COURSE]}. Either there\'s something wrong with the data you\'ve provided, or subscriptions to this course are not allowed.");
+                }
+            }
+            return $this->webservice->raise_message('Users subscribed.');
+
+        }
+        else
+        {
+            return $this->webservice->raise_error($this->webservice->get_message());
+        }
+    }
 	
 	function unsubscribe_user(&$input_course)
 	{
@@ -236,6 +372,30 @@ class WebServicesCourse
                 return $this->webservice->raise_error('Could not unsubscribe from course. Either there\'s something wrong with the data you\'ve provided, or unsubscribing from this course is not allowed.');
             }
            
+        }
+        else
+        {
+            return $this->webservice->raise_error($this->webservice->get_message());
+        }
+	}
+
+    function unsubscribe_users(&$input_course)
+	{
+		if($this->webservice->can_execute($input_course, 'unsubscribe users'))
+		{
+            foreach($input_course[input] as $c)
+            {
+                if($this->validator->validate_unsubscribe_user($c)) //input validation
+                {
+                    $cur = new CourseUserRelation($c[course_code],$c[user_id]);
+                    $cur->delete();
+                }
+                else
+                {
+                    return $this->webservice->raise_error("Could not unsubscribe user {$c[CourseUserRelation ::PROPERTY_USER]} from course {$c[CourseUserRelation ::PROPERTY_COURSE]}. Either there\'s something wrong with the data you\'ve provided, or unsubscribing from this course is not allowed.");
+                }
+            }
+           return $this->webservice->raise_message('Users unsubscribed');
         }
         else
         {
@@ -265,6 +425,33 @@ class WebServicesCourse
             return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
+
+    function subscribe_groups(&$input_group)
+	{
+		if($this->webservice->can_execute($input_group, 'subscribe groups'))
+		{
+            foreach($input_group[input] as $course_group)
+            {
+                if($this->validator->validate_subscribe_group($course_group)) //input validation
+                {
+                    $cg = new CourseGroup($course_group[id],$course_group[course_code]);
+                    unset($course_group['id']);
+                    unset($course_group['course_code']);
+                    $cg->set_default_properties($course_group);
+                    $cg->create();
+                }
+                else
+                {
+                     return $this->webservice->raise_error("Could not subscribe group {$course_group[CourseGroup ::PROPERTY_NAME]} to course {$course_group[CourseGroup ::PROPERTY_COURSE_CODE]}. Either something is wrong with the data you\'ve provided, or subscriptions are not allowed for this course.");
+                }
+            }
+            return $this->webservice->raise_message('Groups subscribed.');
+        }
+        else
+        {
+            return $this->webservice->raise_error($this->webservice->get_message());
+        }
+	}
 	
 	function unsubscribe_group(&$input_group)
 	{
@@ -282,6 +469,33 @@ class WebServicesCourse
             {
                  return $this->webservice->raise_error('Could not unsubscribe group to course. Either something is wrong with the data you\'ve provided, or unsubscribing is not allowed for this course.');
             }
+        }
+        else
+        {
+            return $this->webservice->raise_error($this->webservice->get_message());
+        }
+	}
+
+    function unsubscribe_groups(&$input_group)
+	{
+		if($this->webservice->can_execute($input_group, 'unsubscribe groups'))
+		{
+            foreach($input_group[input] as $course_group)
+            {
+                if($this->validator->validate_unsubscribe_group($course_group)) //input validation
+                {
+                    $cg = new CourseGroup($course_group[id],$course_group[course_code]);
+                    unset($course_group['id']);
+                    unset($course_group['course_code']);
+                    $cg->set_default_properties($course_group);
+                    $cg->delete();
+                }
+                else
+                {
+                     return $this->webservice->raise_error("Could not unsubscribe group {$course_group[CourseGroup ::PROPERTY_NAME]} from course {$course_group[CourseGroup ::PROPERTY_COURSE_CODE]}. Either something is wrong with the data you\'ve provided, or unsubscribing is not allowed for this course.");
+                }
+            }
+            return $this->webservice->raise_message('Groups unsubscribed.');
         }
         else
         {

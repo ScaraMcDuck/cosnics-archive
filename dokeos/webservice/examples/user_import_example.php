@@ -65,10 +65,9 @@ function create_user(&$user)
     $user['disk_quota'] = '209715200';
     $user['database_quota'] = '300';
     $user['version_quota'] = '20';
-    $user['creator_id'] = 'admin';
-    $user['registration_date'] = '0';
-    log_message('CALL NAAR DE WEBSERVICE');
+    $user['creator_id'] = 'Soliber';
 	$result = $client->call('WebServicesUser.create_user', array('input' => $user, 'hash' => $hash));
+
     log_message('RETURN GEKREGEN VAN DE WEBSERVICE');
 	if($result == 1)
     {
@@ -83,7 +82,7 @@ function create_users(&$users)
     global $hash, $client;
 	log_message('Creating users ');
 	if($hash == '')
-    $hash = login();    
+    $hash = login();
     log_message('CALL NAAR DE WEBSERVICE');
     $result = $client->call('WebServicesUser.create_users', array('input' => $users, 'hash' => $hash));
     log_message('RETURN GEKREGEN VAN DE WEBSERVICE');
@@ -108,13 +107,15 @@ function login()
      * $password = Hash(IP+PW) ;
      */
 
-	$username = 'admin'; //server and local
-    $password = hash('sha1','193.190.172.141'.hash('sha1','admin'));
-	//$password = '772d9ed50e3b34cbe3f9e36b77337c6b2f4e0cfa'; //server
-	//$password = 'c14d68b0ef49d97929c36f7725842b5adbf5f006'; //local
 
-	
-	/*
+	//$username = 'admin';
+	//$password = '772d9ed50e3b34cbe3f9e36b77337c6b2f4e0cfa';
+    //$username = 'Soliber';
+    //$password = hash('sha1','193.190.172.141',hash('sha1','admin'));
+    //$password = 'c14d68b0ef49d97929c36f7725842b5adbf5f006';
+    $username = 'admin'; //server and local
+    $password = hash('sha1','193.190.172.141'.hash('sha1','admin'));
+    /*
      * change location to server location for the wsdl
      */
 
