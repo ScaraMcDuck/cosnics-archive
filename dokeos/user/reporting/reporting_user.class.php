@@ -92,32 +92,32 @@ class ReportingUser {
             $bla2 = explode(' ',$bla[2]);
             $hoursarray = explode(':',$bla2[1]);
             $bus = mktime($hoursarray[0],$hoursarray[1],$hoursarray[2],$bla[1],$bla2[0],$bla[0]);
-//            $date = date($format,mktime($hoursarray[0],$hoursarray[1],$hoursarray[2],$bla[1],$bla2[0],$bla[0]));
-//            $date = (is_numeric($date))?$date:Translation :: get($date.'Long');
-//            //dump($date);
-//            if (array_key_exists($date, $arr))
-//                $arr[$date][0]++;
-//            else
-//                $arr[$date][0] = 1;
+            //            $date = date($format,mktime($hoursarray[0],$hoursarray[1],$hoursarray[2],$bla[1],$bla2[0],$bla[0]));
+            //            $date = (is_numeric($date))?$date:Translation :: get($date.'Long');
+            //            //dump($date);
+            //            if (array_key_exists($date, $arr))
+            //                $arr[$date][0]++;
+            //            else
+            //                $arr[$date][0] = 1;
 
             $arr2[$bus][0]++;
-//            if (array_key_exists($bus,$arr2))
-//                $arr2[$bus][0]++;
-//            else
-//                $arr2[$bus][0] = 1;
+            //            if (array_key_exists($bus,$arr2))
+            //                $arr2[$bus][0]++;
+            //            else
+            //                $arr2[$bus][0] = 1;
         }
         //sort the array
-        ksort($arr2); 
+        ksort($arr2);
         foreach($arr2 as $key => $value)
         {
             $date = date($format,$key);
             $date = (is_numeric($date))?$date:Translation :: get($date.'Long');
             if (array_key_exists($date,$arr2))
-                $arr2[$date][0] += $arr2[$key][0];
+            $arr2[$date][0] += $arr2[$key][0];
             else
-                $arr2[$date][0] = $arr2[$key][0];
+            $arr2[$date][0] = $arr2[$key][0];
             unset($arr2[$key]);
-        } 
+        }
         return $arr2;
     }
 
@@ -149,22 +149,22 @@ class ReportingUser {
         $trackerdata = $tracker->retrieve_tracker_items($condition);
 
         $days = self :: getDateArray($trackerdata,'l');
-//        $new_days = array();
-//
-//        $day_names = array(
-//            Translation :: get('MondayLong'),
-//            Translation :: get('TuesdayLong'),
-//            Translation :: get('WednesdayLong'),
-//            Translation :: get('ThursdayLong'),
-//            Translation :: get('FridayLong'),
-//            Translation :: get('SaturdayLong'),
-//            Translation :: get('SundayLong')
-//            );
-//
-//        foreach($day_names as $name)
-//        {
-//             $new_days[$name] = $days[$name] ? $days[$name] : array(0);
-//        }
+        $new_days = array();
+
+        $day_names = array(
+            Translation :: get('MondayLong'),
+            Translation :: get('TuesdayLong'),
+            Translation :: get('WednesdayLong'),
+            Translation :: get('ThursdayLong'),
+            Translation :: get('FridayLong'),
+            Translation :: get('SaturdayLong'),
+            Translation :: get('SundayLong')
+        );
+
+        foreach($day_names as $name)
+        {
+            $new_days[$name] = $days[$name] ? $days[$name] : array(0);
+        }
         return Reporting :: getSerieArray($days);
     }
 
@@ -266,14 +266,17 @@ class ReportingUser {
 
     /**
      * Returns the platform statistics from a specified user
+     * If a course id is given, adds the time the user has been in this course
      * @param <type> $params
      * @return <type>
      */
     public static function getUserPlatformStatistics($params)
     {
+        $course_id = $params[ReportingManager::PARAM_COURSE_ID];
         $uid = $params[ReportingManager :: PARAM_USER_ID];
         //$uid = 2;
         require_once(dirname(__FILE__) . '/../trackers/login_logout_tracker.class.php');
+        require_once(dirname(__FILE__) . '/../trackers/visit_tracker.class.php');
         $conditions[] = new EqualityCondition(LoginLogoutTracker::PROPERTY_USER_ID,$uid);
         $conditions[] = new EqualityCondition(LoginLogoutTracker::PROPERTY_TYPE,'login');
         $condition = new AndCondition($conditions);
@@ -296,12 +299,46 @@ class ReportingUser {
                 $lastconnection = $value->get_date();
             }
         }
-
         $arr[Translation :: get('FirstConnection')][] = $firstconnection;
         $arr[Translation :: get('LastConnection')][] = $lastconnection;
-        $arr[Translation :: get('TimeOnPlatform')][] = '00:00:00';
+        unset($conditions);
+        unset($condition);
+        $tracker = new VisitTracker();
+        if(isset($course_id))
+        {
+            $conditions[] = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
+            $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$uid);
+            $condition = new AndCondition($conditions);
+            $trackerdata = $tracker->retrieve_tracker_items($condition);
+
+//            foreach ($trackerdata as $key => $value) {
+//                $timeoncourse += strtotime($value->get_leave_date())-strtotime($value->get_enter_date());
+//            }
+
+            $arr[Translation :: get('TimeOnCourse')][] = self :: get_total_time($trackerdata);
+        }
+
+        $condition = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$uid);
+        $trackerdata = $tracker->retrieve_tracker_items($condition);
+
+//        foreach ($trackerdata as $key => $value) {
+//            $totaltime += strtotime($value->get_leave_date())-strtotime($value->get_enter_date());
+//        }
+        $arr[Translation :: get('TimeOnPlatform')][] = self :: get_total_time($trackerdata);
 
         return Reporting :: getSerieArray($arr);
+    }
+
+    private static function get_total_time($trackerdata)
+    {
+        foreach ($trackerdata as $key => $value)
+        {
+            $time += strtotime($value->get_leave_date())-strtotime($value->get_enter_date());
+        }
+
+        $time = mktime(0,0,$time);
+        $time = date('G:i:s',$time);
+        return $time;
     }
 
     /**
