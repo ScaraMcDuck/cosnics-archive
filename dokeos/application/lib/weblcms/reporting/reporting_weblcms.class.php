@@ -177,11 +177,55 @@ class ReportingWeblcms {
 
     /**
      * Returns a list of the latest acces to a course
+     * If a user is specified, returns access for this user to the course, else
+     * it returns a list of all users
      * @param <type> $params
      */
     public static function getLatestAccess($params)
     {
+        $course_id = $params[ReportingManager::PARAM_COURSE_ID];
+        $user_id = $params[ReportingManager::PARAM_USER_ID];
+        //$user_id = 2;
+        //$course_id = 2;
+        require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
+        $tracker = new VisitTracker();
+        $udm = UserDataManager::get_instance();
 
+        if(isset($user_id))
+        {
+            $conditions[] = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
+            $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
+            $condition = new AndCondition($conditions);
+        }
+        else
+        {
+            $condition = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
+        }
+        $user = $udm->retrieve_user($user_id);
+        $trackerdata = $tracker->retrieve_tracker_items($condition);
+        foreach ($trackerdata as $key => $value) {
+            $lastaccess = $value->get_leave_date();
+            if(!isset($user_id))
+                $user = $udm->retrieve_user($value->get_user_id());
+
+            $arr[Translation :: get('User')][] = $user->get_fullname();
+            $arr[Translation :: get('LastAccess')][] = $lastaccess;
+        }
+        arsort($arr[Translation::get('LastAccess')]);
+
+        $i = 0;
+        foreach($arr[Translation :: get('LastAccess')] as $key => $value)
+        {
+            if($i < sizeof($arr[Translation :: get('LastAccess')])/2)
+            {
+                $bla = $arr[Translation :: get('User')][$key];
+                $arr[Translation :: get('User')][$key] = $arr[Translation :: get('User')][$i];
+                $arr[Translation :: get('User')][$i] = $bla;
+                $i++;
+            }
+        }
+
+        return Reporting :: getSerieArray($arr);
     }
 
     /**
