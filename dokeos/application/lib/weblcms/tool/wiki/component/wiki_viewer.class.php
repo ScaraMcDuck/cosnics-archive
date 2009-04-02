@@ -16,9 +16,22 @@ class WikiToolViewerComponent extends WikiToolComponent
 			Display :: not_allowed();
 			return;
 		}
-	
-		$this->display_header(new BreadcrumbTrail());
+
+        $publication_id = Request :: get('pid');
+        $wm = WeblcmsDataManager :: get_instance();
+        $dm = RepositoryDataManager :: get_instance();
+        $publication = $wm->retrieve_learning_object_publication($publication_id);
+        $object_id = $publication->get_learning_object()->get_id();
         
+        $wiki = $dm->retrieve_learning_object($object_id);      
+              
+		$this->display_header(new BreadcrumbTrail());
+        echo '<h2>Title : ' .$wiki->get_default_property('title') .'</h2>';
+
+        /*
+         *  check which pages are linked to this wiki, loop them and show the name (basic)
+         */
+        //dump($wiki->get_included_learning_objects());
 		$this->display_footer();
 	}
 }

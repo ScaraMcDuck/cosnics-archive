@@ -40,6 +40,7 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
 		{
 			switch ($property)
 			{
+                //hier link maken naar externe pagina voor de wiki
 				case LearningObject :: PROPERTY_TITLE :
 					return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>';
 			}
