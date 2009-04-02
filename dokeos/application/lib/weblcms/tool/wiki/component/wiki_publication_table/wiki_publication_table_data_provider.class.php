@@ -48,28 +48,30 @@ class WikiPublicationTableDataProvider extends ObjectTableDataProvider
     {
     	$order_property = $this->get_order_property($order_property);
     	$order_direction = $this->get_order_direction($order_direction);
-    	$dm = RepositoryDataManager :: get_instance();
+    	$dm = RepositoryDataManager :: get_instance();       
     	return $this->get_publications($offset, $count, $order_property, $order_direction);
     }
     
     function get_publications($from, $count, $column, $direction)
-    {
+    {        
     	$datamanager = WeblcmsDataManager :: get_instance();
 		$tool_condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'wiki');
 		$condition = $tool_condition;
 		$lo_condition = $this->get_condition();
 		if($this->parent->is_allowed(EDIT_RIGHT))
 		{
+            //is allowed resets the user id and course groups
 			$user_id = null;
 			$course_groups = null;
+            /*$user_id = $this->parent->get_user_id();
+			$course_groups = $this->parent->get_course_groups();*/
 		}
 		else
 		{
 			$user_id = $this->parent->get_user_id();
 			$course_groups = $this->parent->get_course_groups();
 		}
-		$course = $this->parent->get_course_id();
-		//echo $course.";".$owner.";".$course_groups.";".$condition.";".$columns.";".$direction;
+		$course = $this->parent->get_course_id();		
     	$publications = $datamanager->retrieve_learning_object_publications($course, null, $user_id, $course_groups, $condition, false, array(), array(), 0, -1, null, $lo_condition);
 		$visible_publications = array ();
 		while ($publication = $publications->next_result())
@@ -80,7 +82,7 @@ class WikiPublicationTableDataProvider extends ObjectTableDataProvider
 				continue;
 			}
 			$visible_publications[] = $publication;
-		}
+		}        
 		$publications = $visible_publications;
 		return $publications;
     }

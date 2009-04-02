@@ -38,7 +38,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 		
 		$html[] = '<br /><div style="width: 15%; overflow: auto; float:left">';
 		$html[] = $menu->render_as_tree();
-		$table = new LearningObjectTable($this, $this->get_user(), $this->get_types(), $this->get_query(), $actions);
+		$table = new LearningObjectTable($this, $this->get_user(), $this->get_types(), $this->get_query(), $actions);        
 		$html[] = '</div><div style="width: 83%; float: right;">' . $table->as_html() . '</div>';
 		$html[] = '<div class="clear">&nbsp;</div>';
 		return implode("\n", $html);

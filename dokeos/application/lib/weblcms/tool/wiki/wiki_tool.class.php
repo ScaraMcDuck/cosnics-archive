@@ -15,12 +15,14 @@ class WikiTool extends Tool
 	const ACTION_BROWSE_WIKIS = 'browse';
 	const ACTION_VIEW_WIKI = 'view';
 	const ACTION_VIEW_WIKI_PAGE = 'view_item';
+    const ACTION_PUBLISH = 'publish';
 	
 	/**
 	 * Inherited.
 	 */
 	function run()
 	{
+        //wiki tool
 		$action = $this->get_action();
 		$component = parent :: run();
 		
@@ -31,7 +33,7 @@ class WikiTool extends Tool
 		
 		switch ($action)
 		{
-			case self :: ACTION_BROWSE_WIKIS :
+			case self :: ACTION_BROWSE_WIKIS :               
 				$component = WikiToolComponent :: factory('Browser', $this);
 				break;
 			case self :: ACTION_VIEW_WIKI :
@@ -40,7 +42,10 @@ class WikiTool extends Tool
 			case self :: ACTION_VIEW_WIKI_PAGE :
 				$component = WikiToolComponent :: factory('ItemViewer', $this);
 				break;
-			default :
+            case self :: ACTION_PUBLISH :
+				$component = WikiToolComponent :: factory('Publisher', $this);
+				break;
+			default :                
 				$component = WikiToolComponent :: factory('Browser', $this);
 		}
 		$component->run();
