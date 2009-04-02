@@ -15,7 +15,7 @@ class AnnouncementToolPublisherComponent extends AnnouncementToolComponent
 			return;
 		}
 		$trail = new BreadcrumbTrail();
-		
+        
 		$object = $_GET['object'];
 		$pub = new LearningObjectRepoViewer($this, 'announcement', true);
 		

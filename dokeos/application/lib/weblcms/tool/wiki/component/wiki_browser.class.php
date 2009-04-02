@@ -8,7 +8,7 @@ class WikiToolBrowserComponent extends WikiToolComponent
 	private $action_bar;
 	
 	function run()
-	{
+	{        
 		if (!$this->is_allowed(VIEW_RIGHT))
 		{
 			Display :: not_allowed();
@@ -27,10 +27,10 @@ class WikiToolBrowserComponent extends WikiToolComponent
 			echo '<br />' . $this->display_introduction_text();
 		}
 		
-		echo '<br />' . $this->action_bar->as_html();
-		$table = new WikiPublicationTable($this, $this->get_user(), array('wiki'), null);
+		echo '<br />' . $this->action_bar->as_html();        
+		$table = new WikiPublicationTable($this, $this->get_user(), array('wiki'), null);        
 		echo $table->as_html();
-		
+
 		$this->display_footer();
 	}
 	
@@ -41,7 +41,7 @@ class WikiToolBrowserComponent extends WikiToolComponent
 		$action_bar->set_search_url($this->get_url());
 		$action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 		

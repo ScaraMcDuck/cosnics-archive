@@ -18,7 +18,7 @@ class WikiToolViewerComponent extends WikiToolComponent
 		}
 	
 		$this->display_header(new BreadcrumbTrail());
-		
+        
 		$this->display_footer();
 	}
 }
