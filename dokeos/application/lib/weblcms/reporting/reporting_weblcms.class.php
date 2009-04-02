@@ -210,6 +210,10 @@ class ReportingWeblcms {
 
             $arr[Translation :: get('User')][] = $user->get_fullname();
             $arr[Translation :: get('LastAccess')][] = $lastaccess;
+            $time = strtotime($lastaccess) - strtotime($value->get_enter_date());
+            $time = mktime(0,0,$time,0,0,0);
+            $time = date('G:i:s',$time);
+            $arr[Translation :: get('TotalTime')][] = $time;
         }
         arsort($arr[Translation::get('LastAccess')]);
 
@@ -221,10 +225,13 @@ class ReportingWeblcms {
                 $bla = $arr[Translation :: get('User')][$key];
                 $arr[Translation :: get('User')][$key] = $arr[Translation :: get('User')][$i];
                 $arr[Translation :: get('User')][$i] = $bla;
+                $bla = $arr[Translation :: get('TotalTime')][$key];
+                $arr[Translation :: get('TotalTime')][$key] = $arr[Translation :: get('TotalTime')][$i];
+                $arr[Translation :: get('TotalTime')][$i] = $bla;
+                //$arr[Translation :: get('TotalTime')][] = $lastaccess - $value->get_enter_date();
                 $i++;
             }
         }
-
         return Reporting :: getSerieArray($arr);
     }
 
@@ -364,8 +371,7 @@ class ReportingWeblcms {
 
     /**
      * Returns the most active / inactive courses
-     * Top 5 active, inactive
-     * Link to course statistics page
+     * Link to course
      * @param array $params
      */
     public static function getMostActiveInactiveDetail($params)
@@ -405,17 +411,44 @@ class ReportingWeblcms {
     }
 
     /**
-     * Returns a list of object types and their amount
-     * @param <type> $params
+     * Returns a list of published object types and their amount
+     * @param array $params
      */
     public static function getNoOfPublishedObjectsPerType($params)
     {
+                $rdm = RepositoryDataManager::get_instance();
+        $list = $rdm->get_registered_types();
+        foreach ($list as $key => $value) {
+            $arr[Translation :: get($value)][0] = 0;
+        }
+        
         $wdm = WeblcmsDataManager :: get_instance();
         $learning_objects = $wdm->retrieve_learning_object_publications();
         while($learning_object = $learning_objects->next_result())
         {
             //dump($learning_object);
             $arr[Translation :: get($learning_object->get_learning_object()->get_type())][0]++;
+        }
+
+        return Reporting :: getSerieArray($arr);
+    }
+
+    /**
+     * Returns a list of object types and their amount
+     * @param array $params
+     */
+    public static function getNoOfObjectsPerType($params)
+    {
+        $rdm = RepositoryDataManager::get_instance();
+        $list = $rdm->get_registered_types();
+        foreach ($list as $key => $value) {
+            $arr[Translation :: get($value)][0] = 0;
+        }
+
+        $list = $rdm->retrieve_learning_objects();
+        while($learning_object = $list->next_result())
+        {
+            $arr[Translation :: get($learning_object->get_type())][0]++;
         }
 
         return Reporting :: getSerieArray($arr);
