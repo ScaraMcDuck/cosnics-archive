@@ -60,11 +60,9 @@ class WikiPublicationTableDataProvider extends ObjectTableDataProvider
 		$lo_condition = $this->get_condition();
 		if($this->parent->is_allowed(EDIT_RIGHT))
 		{
-            //is allowed resets the user id and course groups
-			$user_id = null;
+            $user_id = null;
 			$course_groups = null;
-            /*$user_id = $this->parent->get_user_id();
-			$course_groups = $this->parent->get_course_groups();*/
+            
 		}
 		else
 		{
