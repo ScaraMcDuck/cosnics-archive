@@ -18,10 +18,6 @@ class ReportingManagerReportingTemplateRegistrationBrowserComponent extends Repo
     function run()
     {
         $application = $this->application = Request :: get('application');
-        if (!isset($application))
-        {
-            $application = $this->application = 'reporting';
-        }
 
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
@@ -40,7 +36,14 @@ class ReportingManagerReportingTemplateRegistrationBrowserComponent extends Repo
 
         $this->display_header($trail);
         echo '<br />' . $this->action_bar->as_html() . '<br />';
+        echo '<div id="applications" class="applications">';
         echo $this->get_applications();
+        if(isset ($application))
+            echo $this->get_template_html();
+        else
+            echo $this->get_templates();
+        unset($application);
+        echo '</div>';
         //echo $output;
         $this->display_footer();
     }
@@ -57,8 +60,8 @@ class ReportingManagerReportingTemplateRegistrationBrowserComponent extends Repo
 
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_menu.js' .'"></script>';
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_menu_interface.js' .'"></script>';
+        $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_dock.js' .'"></script>';
 
-        $html[] = '<div id="applications" class="applications">';
         $html[] = '<div class="dock" id="dock">';
         $html[] = '<div class="dock-container"> ';
         $applications = Application :: load_all();
@@ -75,7 +78,7 @@ class ReportingManagerReportingTemplateRegistrationBrowserComponent extends Repo
             }
             //$html[] = '<a id="'.$application_links['application']['class'].'" class="dock-item" href="'. $this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
             //$html[] = '<a class="dock-item" href="#tabs-'.$index.'" />';
-            $html[] = '<a id="'.$application_links['application']['class'].'" class="dock-item" href="#application-'.$application_links['application']['class'].'" />';
+            $html[] = '<a id="'.$application_links['application']['class'].'" class="dock-item" href="index_reporting.php?go=browse_templates#application-'.$application_links['application']['class'].'" />';
             $html[] = '<img src="'. Theme :: get_image_path('admin') . 'place_' . $application_links['application']['class'] .'.png" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/>';
             $html[] = '<span>'. $application_links['application']['name'].'</span>';
             $html[] = '</a>';
@@ -84,6 +87,13 @@ class ReportingManagerReportingTemplateRegistrationBrowserComponent extends Repo
         $html[] = '</div>';
         $html[] = '</div>';
         $html[] = '<div style="clear: both;"></div><br /><br />';
+        return implode("\n", $html);
+    }
+
+    function get_templates()
+    {
+        require_once Path :: get_admin_path().'lib/admin_manager/admin_manager.class.php';
+        $html = array();
 
         $html[] = '<div id="applications-list" class="applications-list" >';
         foreach(AdminManager :: get_application_platform_admin_links() as $application_links)
@@ -96,8 +106,6 @@ class ReportingManagerReportingTemplateRegistrationBrowserComponent extends Repo
         }
         $html[] = '</div>';
 
-        $html[] = '</div>';
-        $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_dock.js' .'"></script>';
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_browser.js' .'"></script>';
         return implode("\n", $html);
     }

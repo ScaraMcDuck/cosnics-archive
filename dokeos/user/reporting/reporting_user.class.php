@@ -336,7 +336,7 @@ class ReportingUser {
             $time += strtotime($value->get_leave_date())-strtotime($value->get_enter_date());
         }
 
-        $time = mktime(0,0,$time);
+        $time = mktime(0,0,$time,0,0,0);
         $time = date('G:i:s',$time);
         return $time;
     }
