@@ -1,5 +1,7 @@
 ( function($) {
 	
+	var windowHeight = getWindowHeight(), resizeTimer = null;
+	
 	function hideMessages() {
 		setTimeout("$('.normal-message').fadeOut(500);", 5000);
 		setTimeout("$('.error-message').fadeOut(500);", 1000);
@@ -26,10 +28,74 @@
 		$(".error-message").bind('mouseleave', function(e){$("#closeErrorMessage", this).fadeOut(150);});
 		$("#closeErrorMessage").bind('click', function(e){$(".error-message").fadeOut(500)});
 	}
+	
+	function placeFooter()
+	{
+		htmlHeight = $("body").outerHeight();
+		
+		if (htmlHeight > windowHeight)
+		{
+			$("#footer").css("position", "static");
+			$("#footer").css("bottom", "");
+			$("#footer").css("left", "");
+			$("#footer").css("right", "");
+			
+			$("#main").css("margin-bottom", '0px;');
+		}
+		else
+		{
+			$("#footer").css("position", "fixed");
+			$("#footer").css("bottom", "0px");
+			$("#footer").css("left", "0px");
+			$("#footer").css("right", "0px");
+			
+			$("#main").css("margin-bottom", '30px;');
+		}
+		
+		$(window).bind('resize', handleResize);
+	}
+	
+	function handleResize() {
+		var currentHeight = getWindowHeight();
+		
+		if (resizeTimer)
+		{
+			clearTimeout(resizeTimer);
+		}
+		
+		if (windowHeight != currentHeight)
+		{
+			reinit();
+		}
+	}
+	
+	function getWindowHeight()
+	{
+		if (window.innerHeight)
+		{
+			return window.innerHeight;
+		}
+		else if (document.documentElement)
+		{
+			return document.documentElement.offsetHeight;
+		}
+	}
+	
+	function reinit() {	
+		windowHeight = getWindowHeight();
+		destroy();
+		placeFooter();
+	}
+	
+	function destroy() {
+		$(window).unbind('resize', handleResize);
+	}
 
 	$(document).ready( function() {
 		addClosers();
 		//hideMessages();
+		
+		placeFooter();
 	});
 
 })(jQuery);
