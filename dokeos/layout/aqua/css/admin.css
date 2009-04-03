@@ -234,6 +234,7 @@ div.scrollable
 div.scrollable div.items
 {
 	clear: both;
+	width: 100%;
 }
 
 
@@ -250,6 +251,7 @@ a.prev,a.next,a.prevPage,a.nextPage
 	width: 16px;
 	height: 16px;
 	background: url(../plugin/jquery/scrollable/top.png) no-repeat;
+	background-position: 0px -16px;
 	float: left;
 	/*position: relative;*/
 	margin-left: 50%;
@@ -258,7 +260,7 @@ a.prev,a.next,a.prevPage,a.nextPage
 	margin-top: 10px;
 }
 
-.hover
+.hover, div.vertical_action:hover
 {
 	background-color: #f2f4f4;
 }
@@ -266,13 +268,20 @@ a.prev,a.next,a.prevPage,a.nextPage
 /* mouseover state */
 a.prev:hover,a.next:hover,a.prevPage:hover,a.nextPage:hover
 {
-	background-position: 0px -16px;
+	background-position: 0px -32px;
 }
 
 /* disabled navigational button */
 a.disabled
 {
-	visibility: hidden !important;
+	cursor: default;
+	background-position: 0px 0px;
+	/*visibility: hidden !important;*/
+}
+
+a.disabled:hover
+{
+	background-position: 0px 0px;
 }
 
 /* next button uses another background image */
