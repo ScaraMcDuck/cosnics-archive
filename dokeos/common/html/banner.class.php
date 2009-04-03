@@ -46,6 +46,7 @@ class Banner
 		$output[] = '<a name="top"></a>';
 		$output[] = '<div id="header">  <!-- header section start -->';
 		$output[] = '<div id="header1"> <!-- top of banner with institution name/hompage link -->';
+		//$output[] = '<img class="banner" style="float: left;" src="'. Theme :: get_common_image_path() .'dokeos_banner.png" alt="' . $this->get_setting('site_name', 'admin') . '" />';
 		$output[] = '<div id="institution">';
 		$output[] = '<a href="'.$this->get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('site_name', 'admin').'</a>';
 		$output[] = '-';
