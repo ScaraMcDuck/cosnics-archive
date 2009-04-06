@@ -100,6 +100,7 @@ class RepositoryManager
 	const ACTION_PUBLISH_LEARNING_OBJECT = 'publish';
 	const ACTION_MANAGE_CATEGORIES = 'manage_categories';
 	const ACTION_VIEW_ATTACHMENT = 'view_attachment';
+	const ACTION_BUILD_COMPLEX_LEARNING_OBJECT = 'build_complex';
 	
 	const ACTION_BROWSE_USER_VIEWS = 'browse_views';
 	const ACTION_CREATE_USER_VIEW = 'create_view';
@@ -255,6 +256,9 @@ class RepositoryManager
 				break;
 			case self :: ACTION_VIEW_ATTACHMENT :
 				$component = RepositoryManagerComponent :: factory('AttachmentViewer', $this);
+				break;
+			case self :: ACTION_BUILD_COMPLEX_LEARNING_OBJECT :
+				$component = RepositoryManagerComponent :: factory('ComplexBuilder', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);

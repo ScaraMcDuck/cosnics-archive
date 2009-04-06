@@ -10,6 +10,7 @@ require_once dirname(__FILE__).'/../../abstract_learning_object.class.php';
 require_once dirname(__FILE__).'/../../repository_data_manager.class.php';
 require_once dirname(__FILE__).'/../../import/learning_object_import.class.php';
 require_once dirname(__FILE__).'/../../quota_manager.class.php';
+require_once dirname(__FILE__) . '/../../complex_builder/complex_builder.class.php';
 //require_once dirname(__FILE__).'/csv_creator.class.php';
 /**
  * Repository manager component which gives the user the possibility to create a
@@ -33,7 +34,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		$type_options[''] = '-- ' . Translation :: get('SelectObject') . ' --';
 		$extra_params = array();
 		
-		if(isset($clo_id) && isset($root_id))
+		/*if(isset($clo_id) && isset($root_id))
 		{
 			$clo = $this->retrieve_learning_object($clo_id);
 			$types = $clo->get_allowed_types();
@@ -59,14 +60,14 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			}
 		}
 		else
-		{
+		{*/
 			foreach ($this->get_learning_object_types(true) as $type)
 			{
 				$setting = PlatformSetting :: get('allow_' . $type . '_creation', 'repository');
 				if($setting)
 					$type_options[$type] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
 			}
-		}
+		//}
 		
 		$type_form = new FormValidator('create_type', 'post', $this->get_url($extra_params));
 		
@@ -88,8 +89,16 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 
 				if($object->is_complex_learning_object() || count($extra_params) == 2 || count($extra_params) == 3)
 				{
-					$params = array_merge(array(RepositoryManager :: PARAM_CLOI_REF => $object->get_id()), $extra_params);
-					$this->redirect(RepositoryManager :: ACTION_CREATE_COMPLEX_LEARNING_OBJECTS, null, 0, false, $params);
+					if($object->get_type() == 'assessment')
+					{
+						$params = array(ComplexBuilder :: PARAM_ROOT_LO => $object->get_id(), 'category' => null);
+						$this->redirect(RepositoryManager :: ACTION_BUILD_COMPLEX_LEARNING_OBJECT, null, 0, false, $params);
+					}
+					else
+					{
+						$params = array_merge(array(RepositoryManager :: PARAM_CLOI_REF => $object->get_id()), $extra_params);
+						$this->redirect(RepositoryManager :: ACTION_CREATE_COMPLEX_LEARNING_OBJECTS, null, 0, false, $params);
+					}
 				}
 				else
 				{
