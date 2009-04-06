@@ -6,7 +6,10 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
 {
 	function run()
 	{
-		echo "aap";
+		$this->display_header(new BreadCrumbTrail());
+		echo '<br />';
+		echo $this->get_clo_table_html();
+		$this->display_footer();
 	}
 }
 

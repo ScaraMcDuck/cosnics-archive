@@ -1,6 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/complex_builder_component.class.php';
+require_once dirname(__FILE__) . '/../repository_manager/component/complex_browser/complex_browser_table.class.php';
 
 /**
  * This class represents a basic complex builder structure. 
@@ -18,6 +19,7 @@ abstract class ComplexBuilder
 	const PARAM_CLOI_ID = 'cloi';
 	const PARAM_DELETE_SELECTED_CLOI = 'delete_selected_cloi';
 	const PARAM_MOVE_SELECTED_CLOI = 'move_selected_cloi';
+	const PARAM_TYPE = 'type';
 	
 	const ACTION_DELETE_CLOI = 'delete_cloi';
 	const ACTION_UPDATE_CLOI = 'update_cloi';
@@ -28,7 +30,12 @@ abstract class ComplexBuilder
 	function ComplexBuilder($parent)
 	{
 		$this->parent = $parent;
-		$this->set_action(Request :: get(self :: PARAM_BUILDER_ACTION));
+		$action = Request :: get(self :: PARAM_BUILDER_ACTION);
+		
+		if(!$action)
+			$action = self :: ACTION_BROWSE_CLO;
+
+		$this->set_action($action);
 	}
 	
 	//Singleton
@@ -59,6 +66,21 @@ abstract class ComplexBuilder
 		$action = $this->get_action();
 		switch($action)
 		{
+			case self :: ACTION_CREATE_CLOI :
+				$component = ComplexBuilderComponent :: factory(null, 'Creator', $this);
+				break;
+			case self :: ACTION_DELETE_CLOI :
+				$component = ComplexBuilderComponent :: factory(null, 'Deleter', $this);
+				break;
+			case self :: ACTION_UPDATE_CLOI :
+				$component = ComplexBuilderComponent :: factory(null, 'Updater', $this);
+				break;
+			case self :: ACTION_MOVE_CLOI :
+				$component = ComplexBuilderComponent :: factory(null, 'Mover', $this);
+				break;
+			case self :: ACTION_BROWSE_CLO :
+				$component = ComplexBuilderComponent :: factory(null, 'Browser', $this);
+				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CLO);
 				$component = ComplexBuilderComponent :: factory(null, 'Browser', $this);
@@ -71,7 +93,7 @@ abstract class ComplexBuilder
 	
 	function get_action()
 	{
-		$this->get_parameter(self :: PARAM_BUILDER_ACTION);
+		return $this->get_parameter(self :: PARAM_BUILDER_ACTION);
 	}
 	
 	function set_action($action)
@@ -94,14 +116,19 @@ abstract class ComplexBuilder
 		$this->get_parent()->set_parameter($parameter, $value);
 	}
 	
-	function get_parameter($parammeter)
+	function get_parameter($parameter)
 	{
 		return $this->get_parent()->get_parameter($parameter);
 	}
 	
+	function get_parameters()
+	{
+		return $this->get_parent()->get_parameters();
+	}
+	
 	function display_header($breadcrumbtrail)
 	{
-		$this->get_parent()->display_header($breadcrumbtrail);
+		$this->get_parent()->display_header($breadcrumbtrail, false, false);
 	}
 	
 	function display_footer()
@@ -157,6 +184,33 @@ abstract class ComplexBuilder
 	function get_user_id()
 	{
 		return $this->get_parent()->get_user_id();
+	}
+	
+	/**
+	 * Common functionality
+	 */
+	
+	function get_clo_table_html($show_subitems_column = true)
+	{
+		$table = new ComplexBrowserTable($this, $this->get_parameters(), $this->get_clo_table_condition(), $show_subitems_column);
+		return $table->as_html();
+	}
+	
+	private function get_clo_table_condition()
+	{
+		$cloi_id = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
+		if(isset($cloi_id))
+		{
+			$cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($cloi_id);
+			return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi->get_ref());
+		}
+		$root_lo = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
+		return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $root_lo);
+	}
+	
+	function get_clo_tree_structure()
+	{
+		
 	}
 }
 

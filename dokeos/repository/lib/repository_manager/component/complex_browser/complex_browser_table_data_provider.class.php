@@ -38,7 +38,7 @@ class ComplexBrowserTableDataProvider extends ObjectTableDataProvider
 		$order_property[] = ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER;
 		$order_direction[] = SORT_ASC;
 		
-      return $this->get_browser()->retrieve_complex_learning_object_items($this->get_condition(), $order_property, $order_direction, $offset, $count);
+      return RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($this->get_condition(), $order_property, $order_direction, $offset, $count);
     }
   /**
    * Gets the number of learning objects in the table
@@ -46,7 +46,7 @@ class ComplexBrowserTableDataProvider extends ObjectTableDataProvider
    */
     function get_object_count()
     {
-      return $this->get_browser()->count_complex_learning_object_items($this->get_condition());
+      return RepositoryDataManager :: get_instance()->count_complex_learning_object_items($this->get_condition());
     }
 }
 ?>

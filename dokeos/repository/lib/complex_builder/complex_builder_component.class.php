@@ -49,6 +49,11 @@ abstract class ComplexBuilderComponent
 		return $this->get_parent()->get_parameter($parameter);
 	}
 	
+	function get_parameters()
+	{
+		return $this->get_parent()->get_parameters();
+	}
+	
 	function display_header($breadcrumbtrail)
 	{
 		$this->get_parent()->display_header($breadcrumbtrail);
@@ -113,7 +118,7 @@ abstract class ComplexBuilderComponent
 	{
 		$filename = dirname(__FILE__).'/'.
 			DokeosUtilities :: camelcase_to_underscores($builder_name).'/component/' . 
-			DokeosUtilities :: camelcase_to_underscores($builder_name). ($builder_name?'_':'') . 
+			//DokeosUtilities :: camelcase_to_underscores($builder_name). ($builder_name?'_':'') . 
 			DokeosUtilities :: camelcase_to_underscores($component_name). '.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
@@ -123,9 +128,18 @@ abstract class ComplexBuilderComponent
 		$class = $builder_name . 'Builder'.$component_name.'Component';
 		if(!$builder_name)
 			$class = 'Complex' . $class;
-			 
+
 		require_once $filename;
 		return new $class($builder);
+	}
+	
+	/**
+	 * Common functionality
+	 */
+	
+	function get_clo_table_html($show_subitems_column = true)
+	{
+		return $this->get_parent()->get_clo_table_html($show_subitems_column);
 	}
 }
 
