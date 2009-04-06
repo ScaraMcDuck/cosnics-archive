@@ -39,7 +39,7 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 			return $this->get_actions($publication);
 		}
 
-        $learning_object = $this->get_publication_from_clo_item($publication);
+        $learning_object = $this->get_publication_from_clo_item($publication);        
         if ($property = $column->get_title())
 		{
 			switch ($property)
@@ -69,13 +69,13 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 		if ($this->browser->is_allowed(EDIT_RIGHT))
 		{
 			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_ref())),
 			'label' => Translation :: get('Delete'),
 			'img' => Theme :: get_common_image_path().'action_delete.png'
 			);
 
 			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_ref())),
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
