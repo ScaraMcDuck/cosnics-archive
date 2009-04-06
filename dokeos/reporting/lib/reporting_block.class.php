@@ -120,22 +120,22 @@ class ReportingBlock{
         $series = sizeof($datadescription["Values"]);
 
         $modes = array();
-        $modes["Text"] = 'Text';
-        $modes["Table"] = 'Table';
+        $modes["Text"] = Translation :: get('Text');
+        $modes["Table"] = Translation :: get('Table');
         if($series == 1)
         {
-            $modes["Chart:Pie"] = 'Pie';
+            $modes["Chart:Pie"] = Translation :: get('Pie');
             if($names > 2)
             {
-                $modes["Chart:Bar"] = 'Bar';
-                $modes["Chart:Line"] = 'Line';
-                $modes["Chart:FilledCubic"] = 'Filled Cubic';
+                $modes["Chart:Bar"] = Translation :: get('Bar');
+                $modes["Chart:Line"] = Translation :: get('Line');
+                $modes["Chart:FilledCubic"] = Translation :: get('Filled Cubic');
             }
         }else
         {
-            $modes["Chart:Bar"] = 'Bar';
-            $modes["Chart:Line"] = 'Line';
-            $modes["Chart:FilledCubic"] = 'Filled Cubic';
+            $modes["Chart:Bar"] = Translation :: get('Bar');
+            $modes["Chart:Line"] = Translation :: get('Line');
+            $modes["Chart:FilledCubic"] = Translation :: get('Filled Cubic');
         }
 
         return $modes;
