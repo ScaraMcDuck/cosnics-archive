@@ -15,8 +15,8 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
 			return;
 		}
 		$trail = new BreadcrumbTrail();
-        $this->display_header($trail);
 		$object = $_GET['object'];
+
 		$this->pub = new LearningObjectRepoViewer($this, 'wiki_page', true,RepoViewer :: SELECT_MULTIPLE, WikiTool ::ACTION_CREATE_PAGE);
         $this->pub->set_parameter('wiki_id', $_GET['wiki_id']);
 
@@ -24,21 +24,22 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
 		{
 			$html[] = '<p><a href="' . $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $this->pub->as_html();
-
-        echo implode("\n",$html);
-		}
+            $this->display_header($trail);
+            echo implode("\n",$html);
+        }
 		else
-        {   $cloi = new ComplexLearningObjectItem(array(ComplexLearningObjectItem :: PROPERTY_REF => $_GET['object'], ComplexLearningObjectItem ::PROPERTY_PARENT => $this->pub->get_parameter('wiki_id'), ComplexLearningObjectItem ::PROPERTY_USER_ID => $this->pub->get_user_id(), ComplexLearningObjectItem ::PROPERTY_DISPLAY_ORDER => '1'));
-            $cloi->create();
-            $action_bar = $this->get_toolbar();
+		{
+           $cloi = new ComplexLearningObjectItem(array(ComplexLearningObjectItem :: PROPERTY_REF => $_GET['object'], ComplexLearningObjectItem ::PROPERTY_PARENT => $this->pub->get_parameter('wiki_id'), ComplexLearningObjectItem ::PROPERTY_USER_ID => $this->pub->get_user_id(), ComplexLearningObjectItem ::PROPERTY_DISPLAY_ORDER => '1'));
+           $cloi->create();
+           $this->display_header($trail);
+
+           $action_bar = $this->get_toolbar();
             echo '<br />' . $action_bar->as_html();
             echo '<p>Page created</p>';
-		}
-
-
-		$this->display_footer();
+        }
+        $this->display_footer();
 	}
-
+    
     function get_toolbar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
