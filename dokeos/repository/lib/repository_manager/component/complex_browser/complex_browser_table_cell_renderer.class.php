@@ -17,6 +17,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 	 */
 	private $browser;
 	private $learning_object;
+	private $rdm;
 	/**
 	 * Constructor
 	 * @param RepositoryManagerBrowserComponent $browser
@@ -25,6 +26,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 	{
 		parent :: __construct();
 		$this->browser = $browser;
+		$this->rdm = RepositoryDataManager :: get_instance();
 	}
 	// Inherited
 	function render_cell($column, $cloi)
@@ -38,7 +40,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		
 		if(!$this->learning_object || $this->learning_object->get_id() != $ref)
 		{ 
-			$learning_object = $this->browser->retrieve_learning_object($ref);
+			$learning_object = $this->rdm->retrieve_learning_object($ref);
 			$this->learning_object = $learning_object;
 		}
 		else

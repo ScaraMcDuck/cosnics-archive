@@ -1,6 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/../complex_builder.class.php';
+require_once dirname(__FILE__) . '/assessment_builder_component.class.php';
 
 class AssessmentBuilder extends ComplexBuilder
 {
@@ -13,14 +14,10 @@ class AssessmentBuilder extends ComplexBuilder
 			case ComplexBuilder :: ACTION_BROWSE_CLO :
 				$component = AssessmentBuilderComponent :: factory('Browser', $this); 
 				break;
-			/*default :
-			 	$this->set_action(ComplexBuilder :: ACTION_BROWSE_CLO);
-				$component = AssessmentBuilderComponent :: factory('Browser', $this); 
-				break;*/
 		}
 		
 		if(!$component)
-			$component = parent :: run();
+			parent :: run();
 		else
 			$component->run();
 	}
