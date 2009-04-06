@@ -27,22 +27,31 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 		}
 		else
 		{
-			$rdm = RepositoryDataManager :: get_instance();
-			
-			$cloi = new ComplexLearningObjectItem();
-			$cloi->set_ref($object);
-			
-			$parent = $root_lo;
-			if($cloi_id)
+			if(!is_array($object))
 			{
-				$parent_cloi = $rdm->retrieve_complex_learning_object_item($cloi_id);
-				$parent = $parent_cloi->get_ref();
+				$object = array($object);
 			}
 			
-			$cloi->set_parent($parent);
-			$cloi->set_display_order($rdm->select_next_display_order($parent));
-			$cloi->set_user_id($this->get_user_id());
-			$cloi->create();
+			foreach($object as $obj)
+			{
+				$rdm = RepositoryDataManager :: get_instance();
+				$type = $rdm->determine_learning_object_type($obj);
+				
+				$cloi = ComplexLearningObjectItem :: factory($type);
+				$cloi->set_ref($obj);
+				
+				$parent = $root_lo;
+				if($cloi_id)
+				{
+					$parent_cloi = $rdm->retrieve_complex_learning_object_item($cloi_id);
+					$parent = $parent_cloi->get_ref();
+				}
+				
+				$cloi->set_parent($parent);
+				$cloi->set_display_order($rdm->select_next_display_order($parent));
+				$cloi->set_user_id($this->get_user_id());
+				$cloi->create();
+			}
 		}
 		
 		$this->display_header($trail);

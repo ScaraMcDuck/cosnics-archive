@@ -18,15 +18,17 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 	private $browser;
 	private $learning_object;
 	private $rdm;
+	private $condition;
 	/**
 	 * Constructor
 	 * @param RepositoryManagerBrowserComponent $browser
 	 */
-	function ComplexBrowserTableCellRenderer($browser)
+	function ComplexBrowserTableCellRenderer($browser, $condition)
 	{
 		parent :: __construct();
 		$this->browser = $browser;
 		$this->rdm = RepositoryDataManager :: get_instance();
+		$this->condition = $condition;
 	}
 	// Inherited
 	function render_cell($column, $cloi)
@@ -100,8 +102,9 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		
 		if($cloi->is_extended())
 		{
+			//$url = $this->browser->get_complex_learning_object_item_edit_url($cloi, $this->browser->get_root());
 			$toolbar_data[] = array(
-				'href' => $this->browser->get_complex_learning_object_item_edit_url($cloi, $this->browser->get_root()),
+				'href' => $url,
 				'label' => Translation :: get('Edit'),
 				'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
@@ -114,8 +117,9 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 			);
 		}
 		
+		//$url = $this->browser->get_complex_learning_object_item_delete_url($cloi, $this->browser->get_root());
 		$toolbar_data[] = array(
-			'href' => $this->browser->get_complex_learning_object_item_delete_url($cloi, $this->browser->get_root()),
+			'href' => $url,
 			'label' => Translation :: get('Delete'),
 			'img' => Theme :: get_common_image_path().'action_delete.png',
 			'confirm' => true
@@ -125,8 +129,9 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		
 		if($allowed["moveup"])
 		{
+			//$url = $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_UP);
 			$toolbar_data[] = array(
-				'href' => $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_UP),
+				'href' => $url,
 				'label' => Translation :: get('MoveUp'),
 				'img' => Theme :: get_common_image_path().'action_up.png',
 			);
@@ -142,8 +147,9 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		
 		if($allowed["movedown"])
 		{
+			//$url = $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_DOWN);
 			$toolbar_data[] = array(
-				'href' => $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_DOWN),
+				'href' => $url,
 				'label' => Translation :: get('MoveDown'),
 				'img' => Theme :: get_common_image_path().'action_down.png',
 			);
@@ -164,7 +170,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		$moveup_allowed = true;
 		$movedown_allowed = true;
 		
-		$count = $this->browser->count_complex_learning_object_items($this->browser->get_condition());
+		$count = $this->rdm->count_complex_learning_object_items($this->condition);
 		if($count == 1)
 		{
 			$moveup_allowed = false;
