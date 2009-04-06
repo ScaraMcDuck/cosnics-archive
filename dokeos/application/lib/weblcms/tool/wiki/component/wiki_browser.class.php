@@ -27,7 +27,7 @@ class WikiToolBrowserComponent extends WikiToolComponent
 			echo '<br />' . $this->display_introduction_text();
 		}
 		
-		echo '<br />' . $this->action_bar->as_html();        
+		echo '<br />' . $this->action_bar->as_html();
 		$table = new WikiPublicationTable($this, $this->get_user(), array('wiki'), null);        
 		echo $table->as_html();
 
