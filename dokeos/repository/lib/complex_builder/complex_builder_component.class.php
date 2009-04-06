@@ -29,6 +29,16 @@ abstract class ComplexBuilderComponent
 		$this->parent = $parent;
 	}
 	
+	function get_action()
+	{
+		return $this->get_parent()->get_action();
+	}
+	
+	function set_action($action)
+	{
+		$this->get_parent()->set_action($action);
+	}
+	
 	function set_parameter($parameter, $value)
 	{
 		$this->get_parent()->set_parameter($parameter, $value);
@@ -109,9 +119,13 @@ abstract class ComplexBuilderComponent
 		{
 			die('Failed to load "'.$component_name.'" component');
 		}
-		$class = $tool_name . 'Tool'.$component_name.'Component';
+		
+		$class = $builder_name . 'Builder'.$component_name.'Component';
+		if(!$builder_name)
+			$class = 'Complex' . $class;
+			 
 		require_once $filename;
-		return new $class($tool);
+		return new $class($builder);
 	}
 }
 

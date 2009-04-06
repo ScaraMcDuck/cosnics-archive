@@ -18,7 +18,7 @@ class RepositoryManagerComplexBuilderComponent extends RepositoryManagerComponen
 	 */
 	function run()
 	{
-		$complex_builder = ComplexBuilder :: factory();
+		$complex_builder = ComplexBuilder :: factory($this);
 		$complex_builder->run();
 	}
 }
