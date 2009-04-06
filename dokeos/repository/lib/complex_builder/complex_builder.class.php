@@ -26,15 +26,20 @@ abstract class ComplexBuilder
 	//Singleton
 	private static $instance;
 	
-	static function get_instance($type)
+	static function factory()
 	{
 		if(is_null(self :: $instance))
 		{
-			$small_type = DokeosUtilities :: camelcase_to_underscores($type); 
-			$file = dirname(__FILE__) . '/' . $small_type . '_builder/' . $small_type . '_builder.class.php'; 
-			require_once $file;
-			$class = $type . 'Builder';
-			self :: $instance = new $class;
+			$root_lo = Request :: get(self :: PARAM_ROOT_LO);
+			if($root_lo)
+			{
+				$type = RepositoryDataManager :: get_instance()->determine_learning_object_type($root_lo);
+				$small_type = DokeosUtilities :: camelcase_to_underscores($type); 
+				$file = dirname(__FILE__) . '/' . $small_type . '/' . $small_type . '_builder.class.php'; 
+				require_once $file;
+				$class = $type . 'Builder';
+				self :: $instance = new $class;
+			}
 		}
 		
 		return self :: $instance;
@@ -47,7 +52,7 @@ abstract class ComplexBuilder
 		switch($action)
 		{
 			//case ACTION_CREATE_CLOI : 
-		}
+		} 
 	}
 	
 	private $parent;
@@ -117,7 +122,7 @@ abstract class ComplexBuilder
 		$this->get_parent()->display_popup_form($form_html);
 	}
 	
-	function redirect($action = self :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $error_message = false, $extra_params = null)
+	function redirect($action, $message = null, $error_message = false, $extra_params = null)
 	{
 		$this->get_parent()->redirect($action, $message, $error_message, $extra_params);
 	}
