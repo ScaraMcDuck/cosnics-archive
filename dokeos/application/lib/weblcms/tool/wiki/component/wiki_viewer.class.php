@@ -17,7 +17,7 @@ class WikiToolViewerComponent extends WikiToolComponent
 		{
 			Display :: not_allowed();
 			return;
-		}
+		}        
         $this->display_header(new BreadcrumbTrail());
         
         $publication_id = Request :: get('pid');
@@ -29,11 +29,8 @@ class WikiToolViewerComponent extends WikiToolComponent
 		$this->action_bar = $this->get_toolbar();
         echo '<br />' . $this->action_bar->as_html();
         echo '<h2>Title : ' .$wiki->get_default_property('title') .'</h2>';
-        
-        /*
-         *  check which pages are linked to this wiki, loop them and show the name (basic)
-         */
-        $table = new WikiPageTable($this, $wiki->get_id());
+               
+        $table = new WikiPageTable($this, $wiki->get_id());        
 		echo $table->as_html();
         
         $this->display_footer();
@@ -42,6 +39,8 @@ class WikiToolViewerComponent extends WikiToolComponent
     function get_toolbar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+        //dump($this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE)));
+
 		$action_bar->set_search_url($this->get_url());
 		$action_bar->add_common_action(
 			new ToolbarItem(
