@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname(__FILE__) . '/complex_builder_component.class.php';
+
 /**
  * This class represents a basic complex builder structure. 
  * When a builder is needed for a certain type of complex learning object an extension should be written.
@@ -23,10 +25,16 @@ abstract class ComplexBuilder
 	const ACTION_MOVE_CLOI = 'move_cloi';
 	const ACTION_BROWSE_CLO = 'browse';
 	
+	function ComplexBuilder($parent)
+	{
+		$this->parent = $parent;
+		$this->set_action(Request :: get(self :: PARAM_BUILDER_ACTION));
+	}
+	
 	//Singleton
 	private static $instance;
 	
-	static function factory()
+	static function factory($parent)
 	{
 		if(is_null(self :: $instance))
 		{
@@ -38,7 +46,7 @@ abstract class ComplexBuilder
 				$file = dirname(__FILE__) . '/' . $small_type . '/' . $small_type . '_builder.class.php'; 
 				require_once $file;
 				$class = $type . 'Builder';
-				self :: $instance = new $class;
+				self :: $instance = new $class($parent);
 			}
 		}
 		
@@ -48,18 +56,27 @@ abstract class ComplexBuilder
 	// This run method handles the basic functionality like editing of lo's, deleting of lo wrappers, organising lo wrappers..
 	function run()
 	{
-		$action = $this->get_parameters(self :: PARAM_BUILDER_ACTION);
+		$action = $this->get_action();
 		switch($action)
 		{
-			//case ACTION_CREATE_CLOI : 
+			default :
+				$this->set_action(self :: ACTION_BROWSE_CLO);
+				$component = ComplexBuilderComponent :: factory(null, 'Browser', $this);
 		} 
+		
+		$component->run();
 	}
 	
 	private $parent;
 	
-	function ComplexBuilder($parent)
+	function get_action()
 	{
-		$this->parent = $parent;
+		$this->get_parameter(self :: PARAM_BUILDER_ACTION);
+	}
+	
+	function set_action($action)
+	{
+		$this->set_parameter(self :: PARAM_BUILDER_ACTION, $action);
 	}
 	
 	function get_parent()
