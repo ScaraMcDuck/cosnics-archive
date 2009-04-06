@@ -100,11 +100,11 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 	{
 		$toolbar_data = array();
 		
-		if($cloi->is_extended())
+		$edit_url = $this->browser->get_complex_learning_object_item_edit_url($cloi, $this->browser->get_root());
+		if($cloi->is_extended() || get_class($this->browser) == 'AssessmentBuilder')
 		{
-			//$url = $this->browser->get_complex_learning_object_item_edit_url($cloi, $this->browser->get_root());
 			$toolbar_data[] = array(
-				'href' => $url,
+				'href' => $edit_url,
 				'label' => Translation :: get('Edit'),
 				'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
@@ -117,9 +117,12 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 			);
 		}
 		
-		//$url = $this->browser->get_complex_learning_object_item_delete_url($cloi, $this->browser->get_root());
+		$delete_url = $this->browser->get_complex_learning_object_item_delete_url($cloi, $this->browser->get_root());
+		$moveup_url = $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_UP);
+		$movedown_url = $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_DOWN);
+		
 		$toolbar_data[] = array(
-			'href' => $url,
+			'href' => $delete_url,
 			'label' => Translation :: get('Delete'),
 			'img' => Theme :: get_common_image_path().'action_delete.png',
 			'confirm' => true
@@ -129,9 +132,8 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		
 		if($allowed["moveup"])
 		{
-			//$url = $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_UP);
 			$toolbar_data[] = array(
-				'href' => $url,
+				'href' => $moveup_url,
 				'label' => Translation :: get('MoveUp'),
 				'img' => Theme :: get_common_image_path().'action_up.png',
 			);
@@ -147,9 +149,8 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		
 		if($allowed["movedown"])
 		{
-			//$url = $this->browser->get_complex_learning_object_item_move_url($cloi, $this->browser->get_root(), RepositoryManager :: PARAM_DIRECTION_DOWN);
 			$toolbar_data[] = array(
-				'href' => $url,
+				'href' => $movedown_url,
 				'label' => Translation :: get('MoveDown'),
 				'img' => Theme :: get_common_image_path().'action_down.png',
 			);

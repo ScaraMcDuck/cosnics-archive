@@ -2,6 +2,7 @@
 
 require_once dirname(__FILE__) . '/complex_builder_component.class.php';
 require_once dirname(__FILE__) . '/../repository_manager/component/complex_browser/complex_browser_table.class.php';
+require_once Path :: get_library_path() . 'redirect.class.php'; 
 
 /**
  * This class represents a basic complex builder structure. 
@@ -20,6 +21,7 @@ abstract class ComplexBuilder
 	const PARAM_DELETE_SELECTED_CLOI = 'delete_selected_cloi';
 	const PARAM_MOVE_SELECTED_CLOI = 'move_selected_cloi';
 	const PARAM_TYPE = 'type';
+	const PARAM_DIRECTION = 'direction';
 	
 	const ACTION_DELETE_CLOI = 'delete_cloi';
 	const ACTION_UPDATE_CLOI = 'update_cloi';
@@ -166,9 +168,15 @@ abstract class ComplexBuilder
 		$this->get_parent()->display_popup_form($form_html);
 	}
 	
-	function redirect($action, $message = null, $error_message = false, $extra_params = null)
+	function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
 	{
-		$this->get_parent()->redirect($action, $message, $error_message, $extra_params);
+		if (isset($message))
+		{
+			$parameters[$error_message ? Redirect :: PARAM_ERROR_MESSAGE :  Redirect :: PARAM_MESSAGE] = $message;
+		}
+		
+		$parameters = array_merge($this->get_parent()->get_parameters(), $parameters);
+		Redirect :: url($parameters, $filter, $encode_entities);
 	}
 	
 	function get_url($additional_parameters = array ())
@@ -211,6 +219,35 @@ abstract class ComplexBuilder
 	function get_clo_tree_structure()
 	{
 		
+	}
+	
+	function get_root()
+	{
+		return Request :: get(self :: PARAM_ROOT_LO);
+	}
+	
+	//url building
+	
+	function get_complex_learning_object_item_edit_url($cloi, $root_id)
+	{
+		return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_UPDATE_CLOI,
+									self :: PARAM_ROOT_LO => $root_id,
+									self :: PARAM_CLOI_ID => $cloi->get_id()));
+	}
+	
+	function get_complex_learning_object_item_delete_url($cloi, $root_id)
+	{
+		return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_DELETE_CLOI,
+									self :: PARAM_ROOT_LO => $root_id,
+									self :: PARAM_CLOI_ID => $cloi->get_id()));
+	}
+	
+	function get_complex_learning_object_item_move_url($cloi, $root_id, $direction)
+	{
+		return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_MOVE_CLOI,
+									self :: PARAM_ROOT_LO => $root_id,
+									self :: PARAM_CLOI_ID => $cloi->get_id(),
+									self :: PARAM_DIRECTION => $direction));
 	}
 }
 

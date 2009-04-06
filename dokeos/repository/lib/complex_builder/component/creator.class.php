@@ -52,6 +52,8 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 				$cloi->set_user_id($this->get_user_id());
 				$cloi->create();
 			}
+			
+			$this->redirect(Translation :: get('QuestionAdded'), false, array('go' => 'build_complex', ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_LO => $root_lo));
 		}
 		
 		$this->display_header($trail);

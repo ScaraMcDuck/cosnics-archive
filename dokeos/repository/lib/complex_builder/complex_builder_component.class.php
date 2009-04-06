@@ -94,9 +94,9 @@ abstract class ComplexBuilderComponent
 		$this->get_parent()->display_popup_form($form_html);
 	}
 	
-	function redirect($action, $message = null, $error_message = false, $extra_params = null)
+	function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
 	{
-		$this->get_parent()->redirect($action, $message, $error_message, $extra_params);
+		$this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
 	}
 	
 	function get_url($additional_parameters = array ())
