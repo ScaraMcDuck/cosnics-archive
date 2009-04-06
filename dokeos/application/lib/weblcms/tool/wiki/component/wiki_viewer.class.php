@@ -17,7 +17,9 @@ class WikiToolViewerComponent extends WikiToolComponent
 			Display :: not_allowed();
 			return;
 		}
-
+        $this->display_header(new BreadcrumbTrail());
+        $this->action_bar = $this->get_toolbar();
+        echo '<br />' . $this->action_bar->as_html();
         $publication_id = Request :: get('pid');
         $wm = WeblcmsDataManager :: get_instance();
         $dm = RepositoryDataManager :: get_instance();
@@ -25,7 +27,7 @@ class WikiToolViewerComponent extends WikiToolComponent
         $object_id = $publication->get_learning_object()->get_id();
         
         $wiki = $dm->retrieve_learning_object($object_id);      
-		$this->display_header(new BreadcrumbTrail());
+		
         echo '<h2>Title : ' .$wiki->get_default_property('title') .'</h2>';
         
         /*
@@ -35,6 +37,31 @@ class WikiToolViewerComponent extends WikiToolComponent
 		echo $table->as_html();
         
         $this->display_footer();
+	}
+
+    function get_toolbar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+//dump($this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE)));
+		$action_bar->set_search_url($this->get_url());
+		$action_bar->add_common_action(
+			new ToolbarItem(
+				Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+			)
+		);
+
+		$action_bar->add_common_action(
+			new ToolbarItem(
+				Translation :: get('Browse'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+			)
+		);
+
+		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
+		{
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		}
+		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('wiki tool'));
+		return $action_bar;
 	}
 }
 ?>
