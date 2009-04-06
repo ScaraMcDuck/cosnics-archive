@@ -24,7 +24,7 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
 		{
 			$html[] = '<p><a href="' . $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $this->pub->as_html();
-            
+
         echo implode("\n",$html);
 		}
 		else
@@ -35,7 +35,7 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
             echo '<p>Page created</p>';
 		}
 
-		
+
 		$this->display_footer();
 	}
 
