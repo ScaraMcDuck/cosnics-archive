@@ -70,6 +70,13 @@ class ComplexMultipleChoiceQuestionForm extends ComplexLearningObjectItemForm
 		return parent :: create_complex_learning_object_item();
 	}
 	
+	function update_cloi_from_values($values)
+	{
+		$cloi = $this->get_complex_learning_object_item();
+		$cloi->set_weight($values[ComplexMultipleChoiceQuestion :: PROPERTY_WEIGHT]); 
+		return parent :: update_complex_learning_object_item();
+	}
+	
 	// Inherited
 	function update_complex_learning_object_item()
 	{

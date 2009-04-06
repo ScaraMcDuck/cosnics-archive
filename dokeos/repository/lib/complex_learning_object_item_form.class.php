@@ -157,7 +157,8 @@ abstract class ComplexLearningObjectItemForm extends FormValidator
 	{
 		$cloi = $this->complex_learning_object_item;
 		$values = $this->exportValues();
-		$cloi->set_id($values[ComplexLearningObjectItem :: PROPERTY_ID]);
+		if($values[ComplexLearningObjectItem :: PROPERTY_ID])
+			$cloi->set_id($values[ComplexLearningObjectItem :: PROPERTY_ID]);
 		return $cloi->update();
 	}
 
