@@ -23,6 +23,8 @@ class ReportingManager {
     const PARAM_ERROR_MESSAGE = 'error_message';
     const PARAM_APPLICATION = 'application';
     const PARAM_TEMPLATE_ID = 'template';
+    const PARAM_REPORTING_BLOCK_ID = 'reporting_block';
+    const PARAM_EXPORT_TYPE = 'export';
     //const PARAM_SUB_APPLICATIONS = 'sub_applications';
     const PARAM_TEMPLATE_FUNCTION_PARAMETERS = 'template_parameters';
 
@@ -36,6 +38,7 @@ class ReportingManager {
     const ACTION_DELETE_TEMPLATE = 'delete_template';
     const ACTION_VIEW_TEMPLATE = 'application_templates';
     const ACTION_EDIT_TEMPLATE = 'edit_template';
+    const ACTION_EXPORT = 'export';
 
     private $parameters;
     private $search_parameters;
@@ -71,6 +74,9 @@ class ReportingManager {
                 break;
             case self :: ACTION_EDIT_TEMPLATE :
                 $component = ReportingManagerComponent :: factory('ReportingTemplateRegistrationEdit',$this);
+                break;
+            case self :: ACTION_EXPORT :
+                $component = ReportingManagerComponent :: factory('ReportingExport', $this);
                 break;
             default:
                 $this->set_action(self :: ACTION_BROWSE_TEMPLATES);
