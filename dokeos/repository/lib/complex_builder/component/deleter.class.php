@@ -13,9 +13,9 @@ class ComplexBuilderDeleterComponent extends ComplexBuilderComponent
 	 */
 	function run()
 	{
-		$ids = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
+		$ids = $_GET[ComplexBuilder :: PARAM_CLOI_ID];
 		$root = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
-		
+	
 		$failures = 0;
 		$parent = 0;
 		

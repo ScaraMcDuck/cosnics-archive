@@ -27,7 +27,16 @@ class ComplexBrowserTable extends ObjectTable
 		parent :: __construct($data_provider, RepositoryBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters); 
 		$actions = array();
-		$actions[RepositoryManager :: PARAM_REMOVE_SELECTED_CLOI] = Translation :: get('RemoveSelected');
+		
+		if(get_parent_class($browser) == 'ComplexBuilder')
+		{
+			$actions[ComplexBuilder :: PARAM_DELETE_SELECTED_CLOI] = Translation :: get('RemoveSelected');
+		}
+		else
+		{
+			$actions[RepositoryManager :: PARAM_REMOVE_SELECTED_CLOI] = Translation :: get('RemoveSelected');
+		}
+		
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}
