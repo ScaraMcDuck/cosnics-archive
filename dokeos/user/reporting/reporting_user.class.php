@@ -165,7 +165,7 @@ class ReportingUser {
         {
             $new_days[$name] = $days[$name] ? $days[$name] : array(0);
         }
-        return Reporting :: getSerieArray($days);
+        return Reporting :: getSerieArray($new_days);
     }
 
     /**

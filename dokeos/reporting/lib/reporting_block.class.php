@@ -143,7 +143,23 @@
 
     public function get_export_links()
     {
-        return Translation :: get('Export').':  O O O O O';
+        require_once Path :: get_library_path().'export/export.class.php';
+        $list = Export::get_supported_filetypes(array('ical'));
+
+        foreach ($list as $export_format) {
+            $file = Theme :: get_common_image_path().'export_'.$export_format.'.png';
+            $sys_file = Theme :: get_instance()->get_path(SYS_IMG_PATH) .'common/export_'.$export_format.'.png';
+            if(!file_exists($sys_file))
+                $file = Theme :: get_common_image_path().'export_unknown.png';
+                $arr[] = '<a target="_blank" href="index_reporting.php?'.ReportingManager::PARAM_ACTION.'='.ReportingManager::ACTION_EXPORT.'&'.ReportingManager::PARAM_REPORTING_BLOCK_ID.'='.$this->get_id().'&'.ReportingManager::PARAM_EXPORT_TYPE.'='.$export_format.'" /><img src="'.$file.'" border="0" title="'.$export_format.'" alt="'.$export_format.'" width="10" height="10" /></a>';
+        }
+
+        $return = Translation :: get('Export').': ';
+        foreach ($arr as $key => $value) {
+            $return .= $value.' ';
+        }
+
+        return $return;
     }
  	
  	/**
