@@ -9,6 +9,7 @@ class WikiToolViewerComponent extends WikiToolComponent
 {
 	private $action_bar;
 	private $introduction_text;
+    private $object_id;
 	
 	function run()
 	{
@@ -18,16 +19,15 @@ class WikiToolViewerComponent extends WikiToolComponent
 			return;
 		}
         $this->display_header(new BreadcrumbTrail());
-        $this->action_bar = $this->get_toolbar();
-        echo '<br />' . $this->action_bar->as_html();
+        
         $publication_id = Request :: get('pid');
         $wm = WeblcmsDataManager :: get_instance();
         $dm = RepositoryDataManager :: get_instance();
         $publication = $wm->retrieve_learning_object_publication($publication_id);
-        $object_id = $publication->get_learning_object()->get_id();
-        
-        $wiki = $dm->retrieve_learning_object($object_id);      
-		
+        $this->object_id = $publication->get_learning_object()->get_id();
+        $wiki = $dm->retrieve_learning_object($this->object_id);
+		$this->action_bar = $this->get_toolbar();
+        echo '<br />' . $this->action_bar->as_html();
         echo '<h2>Title : ' .$wiki->get_default_property('title') .'</h2>';
         
         /*
@@ -42,11 +42,10 @@ class WikiToolViewerComponent extends WikiToolComponent
     function get_toolbar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-//dump($this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE)));
 		$action_bar->set_search_url($this->get_url());
 		$action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'wiki_id' => $this->object_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
