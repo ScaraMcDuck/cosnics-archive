@@ -16,7 +16,6 @@ abstract class ComplexBuilder
 {
 	const PARAM_BUILDER_ACTION = 'builder_action';
 	const PARAM_ROOT_LO = 'root_lo';
-	const PARAM_CURRENT_LO = 'current_lo';
 	const PARAM_CLOI_ID = 'cloi';
 	const PARAM_DELETE_SELECTED_CLOI = 'delete_selected_cloi';
 	const PARAM_MOVE_SELECTED_CLOI = 'move_selected_cloi';
@@ -38,6 +37,8 @@ abstract class ComplexBuilder
 			$action = self :: ACTION_BROWSE_CLO;
 
 		$this->set_action($action);
+		
+		$this->parse_input_from_table();
 	}
 	
 	//Singleton
@@ -89,6 +90,30 @@ abstract class ComplexBuilder
 		} 
 		
 		$component->run();
+	}
+	
+	private function parse_input_from_table()
+	{ 
+		if (isset ($_POST['action']))
+		{
+			$selected_ids = $_POST[RepositoryBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			if (empty ($selected_ids))
+			{
+				$selected_ids = array ();
+			}
+			elseif (!is_array($selected_ids))
+			{
+				$selected_ids = array ($selected_ids);
+			}
+			switch ($_POST['action'])
+			{
+				case self :: PARAM_DELETE_SELECTED_CLOI :
+					$this->set_action(self :: ACTION_DELETE_CLOI);
+					$_GET[self :: PARAM_CLOI_ID] = $selected_ids;
+
+					break;
+			}
+		}
 	}
 	
 	private $parent;
@@ -200,7 +225,14 @@ abstract class ComplexBuilder
 	
 	function get_clo_table_html($show_subitems_column = true)
 	{
-		$table = new ComplexBrowserTable($this, $this->get_parameters(), $this->get_clo_table_condition(), $show_subitems_column);
+		$parameters = array(self :: PARAM_ROOT_LO => Request :: get(self :: PARAM_ROOT_LO));
+		
+		if(Request :: get(self :: PARAM_CLOI_ID))
+		{
+			$parameters[self :: PARAM_CLOI_ID] = Request :: get(self :: PARAM_CLOI_ID);
+		}
+		
+		$table = new ComplexBrowserTable($this, array_merge($this->get_parameters(), $parameters), $this->get_clo_table_condition(), $show_subitems_column);
 		return $table->as_html();
 	}
 	
