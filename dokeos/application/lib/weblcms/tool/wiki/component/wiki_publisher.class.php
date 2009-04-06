@@ -15,10 +15,11 @@ class WikiToolPublisherComponent extends WikiToolComponent
 
 		$trail = new BreadcrumbTrail();		
 		$object = $_GET['object'];
+       
 		$pub = new LearningObjectRepoViewer($this, 'wiki', true);
 	
 		if(!isset($object))
-		{            
+		{  
 			$html[] = '<p><a href="' . $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
 		}
