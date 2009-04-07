@@ -60,4 +60,8 @@ $lang['personal_calendar']['Yearly'] = 'Yearly';
 $lang['personal_calendar']['Week'] = 'Week';
 $lang['personal_calendar']['View'] = 'View';
 $lang['personal_calendar']['ViewAttachment'] = 'View attachment';
+$lang['personal_calendar']['PersonalCalendar'] = 'Personal Calendar';
+$lang['personal_calendar']['Weblcms'] = 'Courses';
+$lang['personal_calendar']['Help'] = 'Help';
+$lang['personal_calendar']['NoPublications'] = 'No publications';
 ?>

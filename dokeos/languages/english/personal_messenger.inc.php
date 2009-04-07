@@ -57,4 +57,12 @@ $lang['personal_messenger']['PersonalMessageFormDescription'] = 'Description';
 $lang['personal_messenger']['MyRepository'] = 'My Repository';
 $lang['personal_messenger']['Save'] = 'Save';
 $lang['personal_messenger']['FinderTitle'] = 'Find';
+$lang['personal_messenger']['SenderUnknown'] = 'Sender unknown';
+$lang['personal_messenger']['SelectedPublicationDeleted'] = 'Selected publication deleted';
+$lang['personal_messenger']['Title'] = 'Title';
+$lang['personal_messenger']['Description'] = 'Description';
+$lang['personal_messenger']['Publish'] = 'Publish survey';
+$lang['personal_messenger']['PublishSelected'] = 'Publish selected';
+$lang['personal_messenger']['EditAndPublish'] = 'Edit and publish';
+$lang['personal_messenger']['RecipientUnknown'] = 'Recipient unknown';
 ?>
