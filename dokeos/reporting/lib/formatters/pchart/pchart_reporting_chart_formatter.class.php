@@ -19,6 +19,14 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
         return $this->get_pchart_instance()->to_html();
     } //to_html
 
+    /**
+    * @see Reporting Chart Formatter -> to_link
+    */
+    public function to_link($type='SYS')
+    {
+        return $this->get_pchart_instance()->to_link();
+    }
+
     public function PchartReportingChartFormatter(&$reporting_block)
     {
         $this->reporting_block = $reporting_block;
@@ -44,16 +52,28 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
      * @param String $chartname
      * @return html
      */
-    protected function render_chart($chart,$chartname='chart')
+    protected function render_html($path)
+    {
+        //$random = rand();
+        // Render the pie chart to a temporary file
+        //$path = Path :: get(SYS_FILE_PATH) . 'temp/'.$this->reporting_block->get_name().'_'.$chartname . $random . '.png';
+        //$chart->Render($path);
+
+        // Return the html code to the file
+        //$path = Path :: get(WEB_FILE_PATH) . 'temp/'.$this->reporting_block->get_name().'_'.$chartname . $random . '.png';
+        return '<img src="' . $path . '" border="0" />';
+    }
+
+    protected function render_link($chart,$chartname='chart',$type='SYS')
     {
         $random = rand();
         // Render the pie chart to a temporary file
         $path = Path :: get(SYS_FILE_PATH) . 'temp/'.$this->reporting_block->get_name().'_'.$chartname . $random . '.png';
         $chart->Render($path);
 
-        // Return the html code to the file
-        $path = Path :: get(WEB_FILE_PATH) . 'temp/'.$this->reporting_block->get_name().'_'.$chartname . $random . '.png';
-        return '<img src="' . $path . '" border="0" />';
+        // Return the link to the file
+        $path = Path :: get($type._FILE_PATH) . 'temp/'.$this->reporting_block->get_name().'_'.$chartname . $random . '.png';
+        return $path;
     }
 }
 ?>

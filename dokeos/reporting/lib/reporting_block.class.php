@@ -129,13 +129,13 @@ class ReportingBlock{
             {
                 $modes["Chart:Bar"] = Translation :: get('Bar');
                 $modes["Chart:Line"] = Translation :: get('Line');
-                $modes["Chart:FilledCubic"] = Translation :: get('Filled Cubic');
+                $modes["Chart:FilledCubic"] = Translation :: get('FilledCubic');
             }
         }else
         {
             $modes["Chart:Bar"] = Translation :: get('Bar');
             $modes["Chart:Line"] = Translation :: get('Line');
-            $modes["Chart:FilledCubic"] = Translation :: get('Filled Cubic');
+            $modes["Chart:FilledCubic"] = Translation :: get('FilledCubic');
         }
 
         return $modes;
