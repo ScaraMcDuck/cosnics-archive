@@ -9,7 +9,7 @@ class AssessmentBuilderBrowserComponent extends AssessmentBuilderComponent
 	function run()
 	{
 		$this->display_header(new BreadCrumbTrail());
-		$assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object(Request :: get(ComplexBuilder :: PARAM_ROOT_LO));
+		$assessment = $this->get_root_lo();
 		$action_bar = $this->get_action_bar($assessment);
 		
 		echo '<br />';

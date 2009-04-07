@@ -114,6 +114,16 @@ abstract class ComplexBuilderComponent
 		return $this->get_parent()->get_user_id();
 	}
 	
+	function get_root_lo()
+	{
+		return $this->get_parent()->get_root_lo();
+	}
+	
+	function get_cloi()
+	{
+		return $this->get_parent()->get_cloi();
+	}
+	
 	static function factory($builder_name, $component_name, $builder)
 	{
 		$filename = dirname(__FILE__).'/'.
@@ -140,6 +150,16 @@ abstract class ComplexBuilderComponent
 	function get_clo_table_html($show_subitems_column = true)
 	{
 		return $this->get_parent()->get_clo_table_html($show_subitems_column);
+	}
+	
+	function get_clo_menu()
+	{
+		return $this->get_parent()->get_clo_menu();
+	}
+	
+	function get_clo_breadcrumbs()
+	{
+		return $this->get_parent()->get_clo_breadcrumbs();
 	}
 }
 

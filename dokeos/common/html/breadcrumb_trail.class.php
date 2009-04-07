@@ -5,10 +5,13 @@ class BreadcrumbTrail
 	//
 	private $breadcrumbtrail;
 
-    function BreadcrumbTrail()
+    function BreadcrumbTrail($include_main_index = true)
     {
     	$this->breadcrumbtrail = array();
-    	$this->add(new BreadCrumb($this->get_path(WEB_PATH).'index.php', $this->get_setting('site_name', 'admin')));
+    	if($include_main_index)
+    	{
+    		$this->add(new BreadCrumb($this->get_path(WEB_PATH).'index.php', $this->get_setting('site_name', 'admin')));
+    	}
     }
     
     function add($breadcrumb)
@@ -88,6 +91,11 @@ class BreadcrumbTrail
 	function get_breadcrumbs()
 	{
 		return $this->breadcrumbtrail;
+	}
+	
+	function add_breadcrumbs($breadcrumbs)
+	{
+		$this->breadcrumbtrail = array_merge($this->breadcrumbtrail, $breadcrumbs);
 	}
 }
 ?>
