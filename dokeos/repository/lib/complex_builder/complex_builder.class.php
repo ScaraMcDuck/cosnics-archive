@@ -3,6 +3,7 @@
 require_once dirname(__FILE__) . '/complex_builder_component.class.php';
 require_once dirname(__FILE__) . '/../repository_manager/component/complex_browser/complex_browser_table.class.php';
 require_once Path :: get_library_path() . 'redirect.class.php'; 
+require_once dirname(__FILE__) . '/complex_menu.class.php';
 
 /**
  * This class represents a basic complex builder structure. 
@@ -28,6 +29,10 @@ abstract class ComplexBuilder
 	const ACTION_MOVE_CLOI = 'move_cloi';
 	const ACTION_BROWSE_CLO = 'browse';
 	
+	private $menu;
+	private $root;
+	private $cloi;
+	
 	function ComplexBuilder($parent)
 	{
 		$this->parent = $parent;
@@ -37,8 +42,17 @@ abstract class ComplexBuilder
 			$action = self :: ACTION_BROWSE_CLO;
 
 		$this->set_action($action);
-		
 		$this->parse_input_from_table();
+		
+		$root_id = Request :: get(self :: PARAM_ROOT_LO);
+		$cloi_id = Request :: get(self :: PARAM_CLOI_ID);
+		
+		$this->root = RepositoryDataManager :: get_instance()->retrieve_learning_object($root_id);
+		if($cloi_id)
+		{
+			$this->cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($cloi_id);
+		}
+		
 	}
 	
 	//Singleton
@@ -219,17 +233,27 @@ abstract class ComplexBuilder
 		return $this->get_parent()->get_user_id();
 	}
 	
+	function get_root_lo()
+	{
+		return $this->root;
+	}
+	
+	function get_cloi()
+	{
+		return $this->cloi;
+	}
+	
 	/**
 	 * Common functionality
 	 */
 	
 	function get_clo_table_html($show_subitems_column = true)
 	{
-		$parameters = array(self :: PARAM_ROOT_LO => Request :: get(self :: PARAM_ROOT_LO));
+		$parameters = array(self :: PARAM_ROOT_LO => $this->get_root_lo()->get_id());
 		
-		if(Request :: get(self :: PARAM_CLOI_ID))
+		if($this->get_cloi())
 		{
-			$parameters[self :: PARAM_CLOI_ID] = Request :: get(self :: PARAM_CLOI_ID);
+			$parameters[self :: PARAM_CLOI_ID] = $this->get_cloi()->get_id();
 		}
 		
 		$table = new ComplexBrowserTable($this, array_merge($this->get_parameters(), $parameters), $this->get_clo_table_condition(), $show_subitems_column);
@@ -238,24 +262,39 @@ abstract class ComplexBuilder
 	
 	private function get_clo_table_condition()
 	{
-		$cloi_id = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
-		if(isset($cloi_id))
+		if($this->get_cloi())
 		{
-			$cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($cloi_id);
-			return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi->get_ref());
+			return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_cloi()->get_ref());
 		}
-		$root_lo = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
-		return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $root_lo);
+		return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_root_lo()->get_id());
 	}
 	
-	function get_clo_tree_structure()
+	function get_clo_menu()
 	{
-		
+		if(is_null($this->menu))
+		{
+			$this->build_menu();
+		}
+		return $this->menu->render_as_tree();
+	}
+	
+	function get_clo_breadcrumbs()
+	{
+		if(is_null($this->menu))
+		{
+			$this->build_menu();
+		}
+		return $this->menu->get_breadcrumbs();
+	}
+	
+	private function build_menu()
+	{
+		$this->menu = new ComplexMenu($this->get_root_lo(), $this->get_cloi());
 	}
 	
 	function get_root()
 	{
-		return Request :: get(self :: PARAM_ROOT_LO);
+		return $this->get_root_lo()->get_id();
 	}
 	
 	//url building
