@@ -203,7 +203,13 @@ class UserForm extends FormValidator {
     {
     	$user = $this->user;
     	$values = $this->exportValues();
-    	$password = $values['pw']['pass'] == '1' ? Hashing :: hash(Text :: generate_password()) : ($values['pw']['pass'] == '2' ? $user->get_password() : Hashing :: hash($values['pw'][User :: PROPERTY_PASSWORD]));
+    	
+    	if($values['pw']['pass'] != '2')
+    	{
+	    	$this->unencryptedpass = $values['pw']['pass'] == '1' ? $this->unencryptedpass : $values['pw'][User :: PROPERTY_PASSWORD];
+	    	$password = Hashing :: hash($this->unencryptedpass);
+    	}
+    	
     	if ($_FILES[User :: PROPERTY_PICTURE_URI] && file_exists($_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name']))
     	{
 			$user->set_picture_file($_FILES[User :: PROPERTY_PICTURE_URI]);
@@ -215,7 +221,7 @@ class UserForm extends FormValidator {
 		$user->set_email($values[User :: PROPERTY_EMAIL]);
     	$user->set_username($values[User :: PROPERTY_USERNAME]);
  	   	$user->set_password($password);
- 	   	$this->unencryptedpass = $password;
+ 	   	
  	   	
 		if ($values[self :: PARAM_FOREVER] != 0)
 		{
@@ -423,7 +429,7 @@ class UserForm extends FormValidator {
 		$password = $this->unencryptedpass;
 		
 		$subject = '['.PlatformSetting :: get('site_name').'] '.Translation :: get('YourReg').' '.PlatformSetting :: get('site_name');
-		$body = Translation :: get('Dear')." ".stripslashes("$firstname $lastname").",\n\n".Translation :: get('YouAreReg')." ". PlatformSetting :: get('site_name') ." ".Translation :: get('Settings')." ". $username ."\n". Translation :: get('Password')." : ".stripslashes($password)."\n\n" .Translation :: get('Address') ." ". PlatformSetting :: get('site_name') ." ". Translation :: get('Is') ." : ". $rootWeb ."\n\n". Translation :: get('Problem'). "\n\n". Translation :: get('Formula').",\n\n".PlatformSetting :: get('administrator_firstname')." ".PlatformSetting :: get('administrator_surname')."\n". Translation :: get('Manager'). " ".PlatformSetting :: get('site_name')."\nT. ".PlatformSetting :: get('administrator_telephone')."\n" .Translation :: get('Email') ." : ".PlatformSetting :: get('administrator_email');		
+		$body = Translation :: get('Dear')." ".stripslashes("$firstname $lastname").",\n\n".Translation :: get('YouAreReg')." ". PlatformSetting :: get('site_name') ." ".Translation :: get('Settings')." ". $username ."\n". ($password ? Translation :: get('Password')." : ".stripslashes($password) : '') ."\n\n" .Translation :: get('Address') ." ". PlatformSetting :: get('site_name') ." ". Translation :: get('Is') ." : ". Path :: get(WEB_PATH) ."\n\n". Translation :: get('Problem'). "\n\n". Translation :: get('Formula').",\n\n".PlatformSetting :: get('administrator_firstname')." ".PlatformSetting :: get('administrator_surname')."\n". Translation :: get('Manager'). " ".PlatformSetting :: get('site_name')."\nT. ".PlatformSetting :: get('administrator_telephone')."\n" .Translation :: get('Email') ." : ".PlatformSetting :: get('administrator_email');		
 		
 		$mail = Mail :: factory($subject, $body, $user->get_email(), PlatformSetting :: get('administrator_email'));
 		$mail->send();
