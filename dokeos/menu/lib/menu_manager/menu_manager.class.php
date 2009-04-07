@@ -29,6 +29,7 @@ require_once dirname(__FILE__).'/component/menu_item_browser/menu_item_browser_t
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	
 	const ACTION_RENDER_BAR = 'render_bar';
+	const ACTION_RENDER_MINI_BAR = 'render_mini_bar';
 	const ACTION_RENDER_TREE = 'render_tree';	
 	const ACTION_SORT_MENU = 'sort';
 	
@@ -83,6 +84,9 @@ require_once dirname(__FILE__).'/component/menu_item_browser/menu_item_browser_t
 		{
 			case self :: ACTION_RENDER_BAR :
 				$component = MenuManagerComponent :: factory('Bar', $this);
+				break;
+			case self :: ACTION_RENDER_MINI_BAR :
+				$component = MenuManagerComponent :: factory('MiniBar', $this);
 				break;
 			case self :: ACTION_RENDER_TREE :
 				$component = MenuManagerComponent :: factory('Tree', $this);

@@ -1,5 +1,6 @@
-( function($) {
-	
+/*global $, window, handleResize, getWindowHeight, reinit, document, jQuery, destroy, setTimeout, clearTimeout */
+
+$(function () {
 	var windowHeight = getWindowHeight(), resizeTimer = null;
 	
 	function hideMessages() {
@@ -9,29 +10,31 @@
 	}
 	
 	function addClosers() {
-		var closeNormalHtml = '<div id="closeNormalMessage"></div>';
-		var closeWarningHtml = '<div id="closeWarningMessage"></div>';
-		var closeErrorHtml = '<div id="closeErrorMessage"></div>';
+		var closeNormalHtml, closeWarningHtml, closeErrorHtml;
+		
+		closeNormalHtml = '<div id="closeNormalMessage"></div>';
+		closeWarningHtml = '<div id="closeWarningMessage"></div>';
+		closeErrorHtml = '<div id="closeErrorMessage"></div>';
 			
 		$(".normal-message").append(closeNormalHtml);
-		$(".normal-message").bind('mouseenter', function(e){$("#closeNormalMessage", this).fadeIn(150);});
-		$(".normal-message").bind('mouseleave', function(e){$("#closeNormalMessage", this).fadeOut(150);});
-		$("#closeNormalMessage").bind('click', function(e){$(".normal-message").fadeOut(500)});
+		$(".normal-message").bind('mouseenter', function (e){$("#closeNormalMessage", this).fadeIn(150);});
+		$(".normal-message").bind('mouseleave', function (e){$("#closeNormalMessage", this).fadeOut(150);});
+		$("#closeNormalMessage").bind('click', function (e){$(".normal-message").fadeOut(500);});
 		
 		$(".warning-message").append(closeWarningHtml);
-		$(".warning-message").bind('mouseenter', function(e){$("#closeWarningMessage", this).fadeIn(150);});
-		$(".warning-message").bind('mouseleave', function(e){$("#closeWarningMessage", this).fadeOut(150);});
-		$("#closeWarningMessage").bind('click', function(e){$(".warning-message").fadeOut(500)});
+		$(".warning-message").bind('mouseenter', function (e){$("#closeWarningMessage", this).fadeIn(150);});
+		$(".warning-message").bind('mouseleave', function (e){$("#closeWarningMessage", this).fadeOut(150);});
+		$("#closeWarningMessage").bind('click', function (e){$(".warning-message").fadeOut(500);});
 		
 		$(".error-message").append(closeErrorHtml);
-		$(".error-message").bind('mouseenter', function(e){$("#closeErrorMessage", this).fadeIn(150);});
-		$(".error-message").bind('mouseleave', function(e){$("#closeErrorMessage", this).fadeOut(150);});
-		$("#closeErrorMessage").bind('click', function(e){$(".error-message").fadeOut(500)});
+		$(".error-message").bind('mouseenter', function (e){$("#closeErrorMessage", this).fadeIn(150);});
+		$(".error-message").bind('mouseleave', function (e){$("#closeErrorMessage", this).fadeOut(150);});
+		$("#closeErrorMessage").bind('click', function (e){$(".error-message").fadeOut(500);});
 	}
 	
 	function placeFooter()
 	{
-		htmlHeight = $("body").outerHeight();
+		var htmlHeight = $("body").outerHeight();
 		
 		if (htmlHeight > windowHeight)
 		{
@@ -40,7 +43,7 @@
 			$("#footer").css("left", "");
 			$("#footer").css("right", "");
 			
-			$("#main").css("margin-bottom", '0px;');
+			$("#main").css("margin-bottom", "0px");
 		}
 		else
 		{
@@ -49,7 +52,7 @@
 			$("#footer").css("left", "0px");
 			$("#footer").css("right", "0px");
 			
-			$("#main").css("margin-bottom", '30px;');
+			$("#main").css("margin-bottom", "30px");
 		}
 		
 		$(window).bind('resize', handleResize);
@@ -63,7 +66,7 @@
 			clearTimeout(resizeTimer);
 		}
 		
-		if (windowHeight != currentHeight)
+		if (windowHeight !== currentHeight)
 		{
 			reinit();
 		}
@@ -91,7 +94,7 @@
 		$(window).unbind('resize', handleResize);
 	}
 
-	$(document).ready( function() {
+	$(document).ready( function () {
 		addClosers();
 		//hideMessages();
 		

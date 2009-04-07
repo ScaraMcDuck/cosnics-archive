@@ -46,49 +46,57 @@ class Banner
 		$output[] = '<a name="top"></a>';
 		$output[] = '<div id="header">  <!-- header section start -->';
 		$output[] = '<div id="header1"> <!-- top of banner with institution name/hompage link -->';
-		//$output[] = '<img class="banner" style="float: left;" src="'. Theme :: get_common_image_path() .'dokeos_banner.png" alt="' . $this->get_setting('site_name', 'admin') . '" />';
-		$output[] = '<div id="institution">';
-		$output[] = '<a href="'.$this->get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('site_name', 'admin').'</a>';
-		$output[] = '-';
-		$output[] = '<a href="'.$this->get_setting('institution_url', 'admin').'" target="_top">'.$this->get_setting('institution', 'admin').'</a>';
-		$output[] = '</div>';
-		
-		$world = PlatformSetting :: get('whoisonlineaccess');
-		
-		if($world == "1" || $_SESSION['_uid'] && $world == "2")
-		{
-		
-			$output[] = '<div style="float:right;">';
-			$output[] = '<a href="' . $this->get_path(WEB_PATH). 'index_admin.php?go=whois_online">' . Translation :: get('WhoisOnline') . '</a>';
-			$output[] = '</div>';
-		}
-
-		//not to let the header disappear if there's nothing on the left
-		$output[] = '<div class="clear">&nbsp;</div>';
-		$output[] = '</div> <!-- end of #header1 -->';
-		$output[] = '<div id="header2">';
+		$output[] = '<img class="banner" src="'. Theme :: get_common_image_path() .'dokeos_banner.png" alt="' . $this->get_setting('site_name', 'admin') . '" />';
 		
 		if (isset($_SESSION['_uid']))
 		{
+			$output[] = '<div class="bracket_right">';
+			$output[] = '</div>';
+			$output[] = '<div class="applications">';
+			
 			$usermgr = new UserManager($_SESSION['_uid']);
 			$user = $usermgr->get_user();
 			
 			$menumanager = new MenuManager($user);
-			$output[] = $menumanager->render_menu('render_bar');
+			$output[] = $menumanager->render_menu('render_mini_bar');
+			
+			$output[] = '</div>';
+			$output[] = '<div class="bracket_left">';
+			$output[] = '</div>';
 		}
 		
-//		$output[] = '<div id="Header2Right">';
-//		//$output[] = '<ul>';		
-//		// TODO: Reimplement "Who is online ?" 
-//		//$output[] = '</ul>';
-//		$output[] = '</div>';
-//		$output[] = '<!-- link to campus home (not logged in)';
-//		$output[] = '<a href="'.$this->get_path(WEB_PATH).'index.php" target="_top">' . $this->get_setting('site_name', 'admin') . '</a>';
-//		$output[] = '-->';
-		//not to let the empty header disappear and ensure help pic is inside the header
-		$output[] = '<div class="clear">&nbsp;</div>';
+		//$output[] = '<div id="institution">';
+		//$output[] = '<a href="'.$this->get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('site_name', 'admin').'</a>';
+		//$output[] = '-';
+		//$output[] = '<a href="'.$this->get_setting('institution_url', 'admin').'" target="_top">'.$this->get_setting('institution', 'admin').'</a>';
+		//$output[] = '</div>';
+		
+//		$world = PlatformSetting :: get('whoisonlineaccess');
+//		
+//		if($world == "1" || $_SESSION['_uid'] && $world == "2")
+//		{
+//		
+//			$output[] = '<div style="float:right;">';
+//			$output[] = '<a href="' . $this->get_path(WEB_PATH). 'index_admin.php?go=whois_online">' . Translation :: get('WhoisOnline') . '</a>';
+//			$output[] = '</div>';
+//		}
 
-		$output[] = '</div><!-- End of header 2-->';
+		//not to let the header disappear if there's nothing on the left
+		$output[] = '<div class="clear">&nbsp;</div>';
+		$output[] = '</div> <!-- end of #header1 -->';
+//		$output[] = '<div id="header2">';
+//		
+//		if (isset($_SESSION['_uid']))
+//		{
+//			$usermgr = new UserManager($_SESSION['_uid']);
+//			$user = $usermgr->get_user();
+//			
+//			$menumanager = new MenuManager($user);
+//			$output[] = $menumanager->render_menu('render_bar');
+//		}
+//		$output[] = '<div class="clear">&nbsp;</div>';
+//
+//		$output[] = '</div><!-- End of header 2-->';
 
 		/*
 		-----------------------------------------------------------------------------
