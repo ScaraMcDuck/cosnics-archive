@@ -29,6 +29,12 @@ class Import
 		$result = array ();
 		$handle = fopen($filename, "r");
 		$keys = fgetcsv($handle, 1000, ";");
+		
+		for($i = 0; $i<count($keys); $i++)
+		{
+			$keys[$i] = DokeosUtilities :: camelcase_to_underscores($keys[$i]);
+		}
+		
 		while (($row_tmp = fgetcsv($handle, 1000, ";")) !== FALSE)
 		{
 

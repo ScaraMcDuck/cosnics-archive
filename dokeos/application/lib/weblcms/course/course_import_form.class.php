@@ -10,6 +10,9 @@ require_once dirname(__FILE__).'/course.class.php';
 require_once dirname(__FILE__).'/course_category.class.php';
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 
+ini_set("max_execution_time", -1);
+ini_set("memory_limit", -1);
+
 class CourseImportForm extends FormValidator {
 	
 	const TYPE_IMPORT = 1;
@@ -87,6 +90,7 @@ class CourseImportForm extends FormValidator {
     		{
     			$failures++;
     			$this->failedcsv[] = implode($csvcourse, ';');
+    			break;
     		}
     	}
     	
@@ -133,6 +137,11 @@ class CourseImportForm extends FormValidator {
 			$failures++;
 		}*/
 
+    	if($csvcourse['teacher'])
+    	{
+    		$csvcourse[Course :: PROPERTY_TITULAR] = $csvcourse['teacher'];
+    	}
+    	
 		//3. check if teacher exists
 		$teacher_info = $this->get_teacher_info($csvcourse[Course :: PROPERTY_TITULAR]);
 		if (!isset($teacher_info))

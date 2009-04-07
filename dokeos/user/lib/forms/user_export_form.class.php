@@ -6,6 +6,9 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../user_data_manager.class.php';
 
+ini_set("max_execution_time", -1);
+ini_set("memory_limit", -1);
+
 class UserExportForm extends FormValidator {
 
 	const TYPE_EXPORT = 1;

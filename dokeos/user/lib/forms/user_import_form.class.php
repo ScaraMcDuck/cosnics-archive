@@ -7,6 +7,9 @@ require_once Path :: get_library_path().'import/import.class.php';
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../user_data_manager.class.php';
 
+ini_set("max_execution_time", -1);
+ini_set("memory_limit", -1);
+
 class UserImportForm extends FormValidator {
 	
 	const TYPE_IMPORT = 1;
@@ -68,8 +71,8 @@ class UserImportForm extends FormValidator {
     	//dump($csvusers);
     	foreach ($csvusers as $csvuser)
     	{
-    		if ($this->validate_data($csvuser))
-    		{
+    		if ($csvuser = $this->validate_data($csvuser))
+    		{ //dump($csvuser);
     			$user = new User();
     			
     			$user->set_firstname($csvuser[User :: PROPERTY_FIRSTNAME]);
@@ -124,6 +127,7 @@ class UserImportForm extends FormValidator {
     		{
     			$failures++;
     			$this->failedcsv[] = implode($csvuser, ';');
+    			break;
     		}
     	}
     	
@@ -148,6 +152,9 @@ class UserImportForm extends FormValidator {
     	$udm = $this->udm;
     	$udm = UserDataManager :: get_instance();
 		
+    	if($csvuser['user_name'])
+			$csvuser[User :: PROPERTY_USERNAME] = $csvuser['user_name'];
+    	
 		//1. Check if username exists
 		if (!$udm->is_username_available($csvuser[User :: PROPERTY_USERNAME]))
 		{
@@ -155,24 +162,50 @@ class UserImportForm extends FormValidator {
 		}
 		
 		//2. Check status
-		if ($csvuser[User :: PROPERTY_STATUS] != 5 && $csvuser[User :: PROPERTY_STATUS] != 1)
+		if($csvuser[User :: PROPERTY_STATUS])
 		{
-			$failures++;
+			if ($csvuser[User :: PROPERTY_STATUS] != 5 && $csvuser[User :: PROPERTY_STATUS] != 1)
+			{
+				$failures++;
+			}
 		}
+		else
+		{
+			$csvuser[User :: PROPERTY_STATUS] = 5;
+		}
+		
 		$email = $csvuser[User :: PROPERTY_EMAIL];
+		
+		if($csvuser['phone_number'])
+			$csvuser[User :: PROPERTY_PHONE] = $csvuser['phone_number'];
+		
+		if(!$csvuser[User :: PROPERTY_ACTIVE])
+			$csvuser[User :: PROPERTY_ACTIVE] = 1;
+		
+		if(!$csvuser[User :: PROPERTY_ACTIVATION_DATE])
+			$csvuser[User :: PROPERTY_ACTIVATION_DATE] = 0;
+		
+		if(!$csvuser[User :: PROPERTY_EXPIRATION_DATE])
+			$csvuser[User :: PROPERTY_EXPIRATION_DATE] = 0;
+		
+		if(!$csvuser[User :: PROPERTY_AUTH_SOURCE])
+			$csvuser[User :: PROPERTY_AUTH_SOURCE] = 'platform';
+
+		if(!$csvuser[User :: PROPERTY_LANGUAGE])
+			$csvuser[User :: PROPERTY_LANGUAGE] = 'english';	
 		
 		if(!$email || $email == '')
 		{
 			$failures++;
 		}
-		
+
 		if ($failures > 0)
 		{
 			return false;
 		}
 		else
 		{
-    		return true;
+    		return $csvuser;
 		}
     }
     

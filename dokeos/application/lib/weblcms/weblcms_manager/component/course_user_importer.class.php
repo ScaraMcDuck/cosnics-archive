@@ -17,7 +17,7 @@ class WeblcmsCourseUserImporterComponent extends WeblcmsComponent
 	function run()
 	{	
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseUserCreateCsv')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseUserImportCSV')));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
@@ -49,7 +49,7 @@ class WeblcmsCourseUserImporterComponent extends WeblcmsComponent
 		$html[] = '<p>'. Translation :: get('CSVMustLookLike') .' ('. Translation :: get('MandatoryFields') .')</p>';
 		$html[] = '<blockquote>';
 		$html[] = '<pre>';
-		$html[] = '<b>username</b>;<b>courseode</b>;<b>status</b>';
+		$html[] = '<b>username</b>;<b>coursecode</b>;<b>status</b>';
 		$html[] = 'jdoe;course01;'. COURSEMANAGER;
 		$html[] = 'a.dam;course01;'. STUDENT;
 		$html[] = '</pre>';

@@ -9,6 +9,9 @@ require_once Path :: get_library_path().'import/import.class.php';
 require_once dirname(__FILE__).'/course.class.php';
 require_once dirname(__FILE__).'/course_user_relation.class.php';
 
+ini_set("max_execution_time", -1);
+ini_set("memory_limit", -1);
+
 class CourseUserImportForm extends FormValidator {
 	
 	const TYPE_IMPORT = 1;
@@ -64,6 +67,7 @@ class CourseUserImportForm extends FormValidator {
     		{
     			$failures++;
     			$this->failedcsv[] = implode($csvcourse, ';');
+    			break;
     		}
     	}
     	
@@ -135,6 +139,7 @@ class CourseUserImportForm extends FormValidator {
     function is_course($course_code)
     {
     	$course = WeblcmsDataManager :: get_instance()->retrieve_courses(null, new EqualityCondition('visual_code', $course_code))->next_result();
+    	
     	if($course) return true;
     	
     	return false;

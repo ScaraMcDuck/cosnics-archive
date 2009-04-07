@@ -20,7 +20,7 @@ class WeblcmsCourseImporterComponent extends WeblcmsComponent
 		$this_section='platform_admin';
 		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseCreateCsv')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseImportCSV')));
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
@@ -54,7 +54,7 @@ class WeblcmsCourseImporterComponent extends WeblcmsComponent
 		$html[] = '<p>'. Translation :: get('CSVMustLookLike') .' ('. Translation :: get('MandatoryFields') .')</p>';
 		$html[] = '<blockquote>';
 		$html[] = '<pre>';
-		$html[] = '<b>code</b>;<b>title</b>;<b>category</b>;<b>titular</b>';
+		$html[] = '<b>code</b>;<b>title</b>;<b>category</b>;<b>teacher</b>';
 		$html[] = 'BIO0015;Biology;BIO;username';
 		$html[] = '</pre>';
 		$html[] = '</blockquote>';
