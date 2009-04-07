@@ -65,11 +65,11 @@ class CourseForm extends FormValidator {
 		$this->addElement('text', Course :: PROPERTY_VISUAL, Translation :: get('VisualCode'), array("size" => "50"));
 		$this->addRule(Course :: PROPERTY_VISUAL, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		if (!$this->user->is_platform_admin())
+		/*if (!$this->user->is_platform_admin())
 		{
 			$this->addElement('text', Course :: PROPERTY_TITULAR, Translation :: get('Teacher'), array("size" => "50"));
 		}
-		else
+		else*/
 		{
 			$user_options = array();
 			
