@@ -79,7 +79,7 @@ class ReportingWeblcms {
 
         $dataserie++;
         $serie=1;
-        $data[$dataserie]["Name"] = Translation :: get('Last Connection');
+        $data[$dataserie]["Name"] = Translation :: get('LastConnection');
         while($serie <= $series)
         {
             $data[$dataserie]["Serie".$serie] = 'unknown';

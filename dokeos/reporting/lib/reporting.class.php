@@ -17,8 +17,9 @@ class Reporting{
 	public static function generate_block(&$reporting_block,$params){
         if($params[ReportingTemplate :: PARAM_DIMENSIONS] == ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS)
         {
-            $html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="max-height:'.$reporting_block->get_height().';'.
-                '">';
+            $html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="max-height:'.$reporting_block->get_height().';">';
+            $width = "<script>document.write(screen.width);</script>";
+            //$reporting_block->set_width($width.'px');
         }else
         {
             $html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="max-height:'.$reporting_block->get_height().';'.
