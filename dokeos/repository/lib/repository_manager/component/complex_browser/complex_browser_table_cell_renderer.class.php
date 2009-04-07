@@ -85,7 +85,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 				if($cloi->is_complex())
 				{
 					$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi->get_ref());
-					return $this->browser->count_complex_learning_object_items($condition);
+					return $this->rdm->count_complex_learning_object_items($condition);
 				}
 				return 0;
 		}
