@@ -1955,7 +1955,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
     function retrieve_course_group_by_name($name)
 	{
-        $condition = new EqualityCondition(CourseGroup ::PROPERTY_NAME, $name);
+        $condition = new EqualityCondition(CourseGroup :: PROPERTY_NAME, $name);
 		return $this->db->retrieve_object('course_group', $condition);
     }
 	// Inherited

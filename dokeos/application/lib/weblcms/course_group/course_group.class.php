@@ -47,8 +47,8 @@ class CourseGroup
 	 */
 	function CourseGroup($id = null, $course_code , $defaultProperties = array ())
 	{
-		$this->id = $id;
-		$this->course_code = $course_code;
+		$this->set_id($id);
+		$this->set_course_code($course_code);
 		$this->defaultProperties = $defaultProperties;
 	}
     /**
@@ -97,12 +97,12 @@ class CourseGroup
 	 */
 	function get_id()
 	{
-		return $this->id;
+		return $this->get_default_property(self::PROPERTY_ID);
 	}
 	
 	function set_id($id)
 	{
-		$this->id = $id;
+		return $this->set_default_property(self::PROPERTY_ID,$id);
 	}
 	
 	/**
@@ -111,12 +111,12 @@ class CourseGroup
 	 */
 	function get_course_code()
 	{
-		return $this->course_code;
+		return $this->get_default_property(self::PROPERTY_COURSE_CODE);
 	}
 	
 	function set_course_code($code)
 	{
-		$this->course_code = $code;
+		return $this->set_default_property(self::PROPERTY_COURSE_CODE,$code);
 	}
 	/**
 	 * Gets the name of this course_group
