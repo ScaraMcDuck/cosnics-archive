@@ -93,9 +93,9 @@ class BreadcrumbTrail
 		return $this->breadcrumbtrail;
 	}
 	
-	function add_breadcrumbs($breadcrumbs)
+	function merge($trail)
 	{
-		$this->breadcrumbtrail = array_merge($this->breadcrumbtrail, $breadcrumbs);
+		$this->breadcrumbtrail = array_merge($this->breadcrumbtrail, $trail->get_breadcrumbtrail()); 
 	}
 }
 ?>

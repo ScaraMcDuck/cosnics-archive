@@ -11,12 +11,22 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 		$trail = new BreadcrumbTrail();
         
 		$object = Request :: get('object');
-		$type = Request :: get(ComplexBuilder :: PARAM_TYPE);
 		$root_lo = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
 		$cloi_id = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
+		$type = $rtype = Request :: get(ComplexBuilder :: PARAM_TYPE);
+	
+		if($this->get_cloi())
+			$lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->get_cloi()->get_ref());
+		else
+			$lo = $this->get_root_lo();
+			
+		if(!$type)
+			$type = $lo->get_allowed_types();
 		
-		$pub = new ComplexRepoViewer($this, $type, true);
-		$pub->set_parameter(ComplexBuilder :: PARAM_TYPE, $type);
+		$pub = new ComplexRepoViewer($this, $type);
+		if($rtype)
+			$pub->set_parameter(ComplexBuilder :: PARAM_TYPE, $rtype);
+
 		$pub->set_parameter(ComplexBuilder :: PARAM_ROOT_LO, $root_lo);
 		$pub->set_parameter(ComplexBuilder :: PARAM_CLOI_ID, $cloi_id);
 		
@@ -53,7 +63,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 				$cloi->create();
 			}
 			
-			$this->redirect(Translation :: get('QuestionAdded'), false, array('go' => 'build_complex', ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_LO => $root_lo));
+			$this->redirect(Translation :: get('QuestionAdded'), false, array('go' => 'build_complex', ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_LO => $root_lo, ComplexBuilder :: PARAM_CLOI_ID => $cloi_id));
 		}
 		
 		$this->display_header($trail);
