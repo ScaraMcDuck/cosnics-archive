@@ -12,14 +12,19 @@ $lang['reporting']['NotFound'] = 'Not found';
 $lang['reporting']['View'] = 'View';
 $lang['reporting']['Displaymode'] = 'Mode';
 $lang['reporting']['Export'] = 'Export';
-$lang['reporting']['UserNoOfLoginsMonth'] = 'Number of logins per month';
-$lang['reporting']['Users'] = 'Users';
-$lang['reporting']['user'] = 'User';
-$lang['reporting']['Application'] = 'Application';
+$lang['reporting']['Text'] = 'Text';
+$lang['reporting']['Table'] = 'Table';
+$lang['reporting']['Pie'] = 'Pie';
+$lang['reporting']['Bar'] = 'Bar';
+$lang['reporting']['Line'] = 'Line';
 $lang['reporting']['Title'] = 'Title';
+$lang['reporting']['ThisFieldIsRequired'] = 'required field';
 $lang['reporting']['Description'] = 'Description';
-$lang['reporting']['LoginDataReportingTemplateTitle'] = 'Login Data';
-$lang['reporting']['UserDataReportingTemplateTitle'] = 'User Data';
-$lang['reporting']['LoginDataReportingTemplateDescription'] = 'Shows login statistics';
-$lang['reporting']['UserDataReportingTemplateDescription'] = 'Shows the user statistics';
+$lang['reporting']['Update'] = 'Update';
+$lang['reporting']['Reset'] = 'Reset';
+$lang['reporting']['ListDescription'] = 'Description';
+$lang['reporting']['Back'] = 'Back';
+$lang['reporting']['Edit'] = 'Edit
+';
+$lang['reporting']['NoReportingTemplateRegistrationSelected'] = 'No reporting template selected.';
 ?>

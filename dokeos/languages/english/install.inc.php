@@ -113,4 +113,5 @@ $lang['install']['PostProcessing'] = 'Post processing';
 $lang['install']['ReportingAdded'] = 'Reporting added';
 $lang['install']['VariousFinished'] = 'Various finished';
 $lang['install']['TrackingAdded'] = 'Tracking added';
+$lang['install']['HashingAlgorithm'] = 'Hashing algorithm';
 ?>

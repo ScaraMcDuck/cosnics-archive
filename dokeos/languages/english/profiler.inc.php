@@ -69,4 +69,7 @@ $lang['profiler']['Name'] = 'Name';
 $lang['profiler']['Subcategories'] = 'Subcategories';
 $lang['profiler']['Required'] = 'Required';
 $lang['profiler']['CategoryName'] = 'Category name';
+$lang['profiler']['Contact'] = 'Contact';
+$lang['profiler']['TelShort'] = 'Tel';
+$lang['profiler']['FaxShort'] = 'Fax';
 ?>

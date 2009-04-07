@@ -232,5 +232,11 @@ $lang['admin']['LdapRemoteDn'] = 'LDAP Remote DN';
 $lang['admin']['LdapSearchDn'] = 'LDAP Search DN';
 $lang['admin']['Disabled'] = 'Disabled';
 $lang['admin']['AllowedLearningObjects'] = 'Allowed objects';
+$lang['admin']['NumberOfApplications'] = 'Number of Applications';
 $lang['admin']['Search'] = 'Search';
+$lang['admin']['Diagnose'] = 'Diagnose';
+$lang['admin']['SettingsDescription'] = ' ';
+$lang['admin']['SystemAnnouncementsDescription'] = ' ';
+$lang['admin']['ManageCategoriesDescription'] = ' ';
+$lang['admin']['DiagnoseDescription'] = ' ';
 ?>

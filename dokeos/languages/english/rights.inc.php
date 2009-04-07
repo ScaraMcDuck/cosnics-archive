@@ -44,4 +44,14 @@ $lang['rights']['Save'] = 'Save';
 $lang['rights']['Reset'] = 'Reset';
 $lang['rights']['Update'] = 'Update';
 $lang['rights']['Create'] = 'Create';
+$lang['rights']['MyAccount'] = 'My Account';
+$lang['rights']['Administration'] = 'Administration';
+$lang['rights']['Logout'] = 'Logout';
+$lang['rights']['Help'] = 'Help';
+$lang['rights']['RoleCreated'] = 'Role created';
+$lang['rights']['SelectedRolesDeleted'] = 'Selected roles deleted';
+$lang['rights']['ShowRightsLegend'] = 'Show rights legend';
+$lang['rights']['ViewRight'] = 'View';
+$lang['rights']['RolesDescription'] = ' ';
+$lang['rights']['RightsDescription'] = ' ';
 ?>
