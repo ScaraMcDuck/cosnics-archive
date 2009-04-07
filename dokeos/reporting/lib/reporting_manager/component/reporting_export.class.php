@@ -32,16 +32,29 @@ class ReportingManagerReportingExportComponent extends ReportingManagerComponent
                 $data = $rep_block->get_data();
                 $datadescription = $data[1];
                 $data = $data[0];
-
-                foreach ($data as $key => $value)
+                $series = sizeof($datadescription["Values"]);
+                if($series==1)
                 {
-                    $test[0][] = $value['Name'];
-                    for ($i = 1;$i<count($value);$i++)
+                    foreach($data as $key => $value)
                     {
-                        $test[$i][] = strip_tags($value['Serie'.$i]);
+                        $single_serie = array();
+                        $single_serie[] = $value['Name'];
+                        $single_serie[] = strip_tags($value['Serie1']);
+                        $test[] = $single_serie;
+                    }
+                }else
+                {
+                    foreach ($data as $key => $value)
+                    {
+                        $test[0][] = $value['Name'];
+                        for ($i = 1;$i<count($value);$i++)
+                        {
+                            $test[$i][] = strip_tags($value['Serie'.$i]);
+                        }
                     }
                 }
             }
+            //dump($test);
             $this->export_report($export, $test, $rep_block->get_name(), $displaymode);
         }else if (isset($ti))
         {
