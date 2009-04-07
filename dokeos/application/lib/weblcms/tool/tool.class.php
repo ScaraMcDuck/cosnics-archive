@@ -549,6 +549,9 @@ abstract class Tool
 			);
 			
 			$html[] = '<div class="announcements level_1">';
+			$html[] = '<div class="title">';
+			$html[] = $introduction_text->get_learning_object()->get_title();
+			$html[] = '</div><div class="clear">&nbsp;</div>';
 			$html[] = '<div class="description">';
 			$html[] = $introduction_text->get_learning_object()->get_description();
 			$html[] = '</div>';
