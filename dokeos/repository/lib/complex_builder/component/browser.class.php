@@ -13,7 +13,7 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
 		$trail->merge($menu_trail);
 		
 		if($this->get_cloi())
-			$lo = $this->rdm->retrieve_learning_object($this->get_cloi()->get_ref());
+			$lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->get_cloi()->get_ref());
 		else
 			$lo = $this->get_root_lo();
 		
