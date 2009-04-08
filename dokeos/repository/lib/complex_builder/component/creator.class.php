@@ -15,6 +15,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 		$object = Request :: get('object');
 		$root_lo = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
 		$cloi_id = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
+		$publish = Request :: get('publish');
 		$type = $rtype = Request :: get(ComplexBuilder :: PARAM_TYPE);
 	
 		$this->rdm = RepositoryDataManager :: get_instance();
@@ -36,11 +37,12 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 
 		$pub->set_parameter(ComplexBuilder :: PARAM_ROOT_LO, $root_lo);
 		$pub->set_parameter(ComplexBuilder :: PARAM_CLOI_ID, $cloi_id);
+		$pub->set_parameter('publish', $publish);
 		$pub->set_excluded_objects($exclude);
 		
 		if(!isset($object))
 		{	
-			$html[] = '<p><a href="' . $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_LO => $root_lo)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
+			$html[] = '<p><a href="' . $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_LO => $root_lo, ComplexBuilder :: PARAM_CLOI_ID => $cloi_id, 'publish' => $publish)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
 		}
 		else
@@ -71,7 +73,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 				$cloi->create();
 			}
 			
-			$this->redirect(Translation :: get('ObjectAdded'), false, array('go' => 'build_complex', ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_LO => $root_lo, ComplexBuilder :: PARAM_CLOI_ID => $cloi_id));
+			$this->redirect(Translation :: get('ObjectAdded'), false, array('go' => 'build_complex', ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_LO => $root_lo, ComplexBuilder :: PARAM_CLOI_ID => $cloi_id, 'publish' => Request :: get('publish')));
 		}
 		
 		$this->display_header($trail);

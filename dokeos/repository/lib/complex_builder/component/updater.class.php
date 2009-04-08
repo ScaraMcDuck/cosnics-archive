@@ -15,7 +15,7 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 		$root_lo = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
 		$cloi_id = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
 		
-		$parameters = array(ComplexBuilder :: PARAM_ROOT_LO => $root_lo, ComplexBuilder :: PARAM_CLOI_ID => $cloi_id);
+		$parameters = array(ComplexBuilder :: PARAM_ROOT_LO => $root_lo, ComplexBuilder :: PARAM_CLOI_ID => $cloi_id, 'publish' => Request :: get('publish'));
 		
 		$rdm = RepositoryDataManager :: get_instance();
 		$cloi = $rdm->retrieve_complex_learning_object_item($cloi_id);
