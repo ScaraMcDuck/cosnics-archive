@@ -48,7 +48,7 @@ class Banner
 		$output[] = '<div id="header1"> <!-- top of banner with institution name/hompage link -->';
 		$output[] = '<div class="banner"></div>';
 		
-		if (isset($_SESSION['_uid']))
+		if (Authentication :: is_valid()) 
 		{
 			$output[] = '<div class="menu_container">';
 			//$output[] = 'aaaa';

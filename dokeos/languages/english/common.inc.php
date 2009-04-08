@@ -156,6 +156,7 @@ $lang['common']['Yes'] = 'Yes';
 $lang['common']['No'] = 'No';
 $lang['common']['On'] = 'On';
 $lang['common']['Off'] = 'Off';
-$lang['common']['Lassi'] = 'Lassi';
-$lang['common']['Sts'] = 'STS';
+$lang['common']['License'] = 'License';
+$lang['common']['PrivacyPolicy'] = 'Privacy policy';
+$lang['common']['Contact'] = 'Contact';
 ?>

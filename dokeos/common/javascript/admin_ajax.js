@@ -139,8 +139,8 @@ $(function () {
 		$("#tabs").tabs();
 		$('#tabs').tabs('paging', { cycle: false, follow: false, nextButton : "", prevButton : "" } );
 		
-		applyScroll();
-		placeFooter();
+		//applyScroll();
+		//placeFooter();
 	});
 
 });

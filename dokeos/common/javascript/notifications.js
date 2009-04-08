@@ -98,7 +98,7 @@ $(function () {
 		addClosers();
 		//hideMessages();
 		
-		placeFooter();
+		//placeFooter();
 	});
 
 })(jQuery);
