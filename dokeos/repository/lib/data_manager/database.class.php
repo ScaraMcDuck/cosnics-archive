@@ -1366,8 +1366,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		$query = 'SELECT * FROM ' . $this->escape_table_name('complex_learning_object_item') . ' AS ' .
 				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
-
-		$params = array ();
+        $params = array ();
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
@@ -1571,6 +1570,39 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$statement = $this->database->get_connection()->prepare($query); 
 		return $statement->execute(array($user_view->get_id()));
 	}
+
+    function retrieve_complex_wiki_page($condition)
+    {
+        $query = 'SELECT * FROM '.$this->escape_table_name('complex_learning_object_item').' AS '.
+				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE.' JOIN '.$this->escape_table_name('complex_wiki_page').' ON '.self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE.'.id = '.$this->escape_table_name('complex_wiki_page').'.id';
+
+		$params = array ();
+		$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
+		$translator->translate($condition);
+		$query .= $translator->render_query();
+		$params = $translator->get_parameters();
+		
+
+        //$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$res->free();
+
+		// Determine type
+
+		$ref = $record[ComplexLearningObjectItem :: PROPERTY_REF];
+
+		$type = $this->determine_learning_object_type($ref);
+		$cloi = ComplexLearningObjectItem :: factory($type, array(), array());
+
+		$bool = false;
+
+		if($cloi->is_extended())
+			$bool = true;
+
+		return self :: record_to_complex_learning_object_item($record, $type, $bool);
+    }
 
 }
 ?>

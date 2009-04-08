@@ -39,14 +39,20 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 			return $this->get_actions($publication);
 		}
 
-        $learning_object = $this->get_publication_from_clo_item($publication);        
+        $learning_object = $this->get_publication_from_clo_item($publication);
+
+        if($publication->get_additional_property('is_homepage')==1)
+        {
+            $homepage = ' (homepage)';
+        }
+
         if ($property = $column->get_title())
 		{
 			switch ($property)
 			{
                 //hier link maken naar externe pagina voor de wiki
 				case 'Title' :
-					return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $learning_object->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>';
+					return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $learning_object->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>'.$homepage;
                     //default:
                     //return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>';
 
@@ -57,15 +63,13 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 	}
 
 	function get_actions($publication)
-	{
-		/*$execute = array(
+	{   /*$execute = array(
 		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_TAKE_EXERCISE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
 		'label' => Translation :: get('Take exercise'),
 		'img' => Theme :: get_common_image_path().'action_right.png'
 		);*/
 
 		//$actions[] = $execute;
-
 		if ($this->browser->is_allowed(EDIT_RIGHT))
 		{
 			$actions[] = array(
@@ -79,6 +83,15 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
+
+            if(($publication->get_additional_property('is_homepage')==0))
+            {
+                $actions[] = array(
+                'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_SET_AS_HOMEPAGE, ComplexWikiPage ::PROPERTY_PARENT => $publication->get_parent(), Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+                'label' => Translation :: get('Set as homepage'),
+                'img' => Theme :: get_common_image_path().'action_home.png'
+                );
+            }
 
 		}
 

@@ -3,6 +3,7 @@ require_once dirname(__FILE__).'/../../../learning_object_repo_viewer.class.php'
 require_once Path::get_library_path().'/html/action_bar/action_bar_renderer.class.php';
 require_once dirname(__FILE__) . '/../../../publisher/learning_object_publisher.class.php';
 require_once Path::get_repository_path().'/lib/complex_learning_object_item.class.php';
+require_once Path::get_repository_path().'lib/complex_builder/complex_repo_viewer.class.php';
 
 class WikiToolPageCreatorComponent extends WikiToolComponent
 {
@@ -15,9 +16,9 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
 			return;
 		}
 		$trail = new BreadcrumbTrail();
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 
-		$this->pub = new LearningObjectRepoViewer($this, 'wiki_page', true,RepoViewer :: SELECT_MULTIPLE, WikiTool ::ACTION_CREATE_PAGE);
+		$this->pub = new LearningObjectRepoViewer($this, 'wiki_page', true, RepoViewer :: SELECT_MULTIPLE, WikiTool ::ACTION_CREATE_PAGE);
         $this->pub->set_parameter('wiki_id', $_GET['wiki_id']);
 
 		if(!isset($object))
@@ -29,11 +30,16 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
         }
 		else
 		{
-           $cloi = new ComplexLearningObjectItem(array(ComplexLearningObjectItem :: PROPERTY_REF => $_GET['object'], ComplexLearningObjectItem ::PROPERTY_PARENT => $this->pub->get_parameter('wiki_id'), ComplexLearningObjectItem ::PROPERTY_USER_ID => $this->pub->get_user_id(), ComplexLearningObjectItem ::PROPERTY_DISPLAY_ORDER => '1'));
-           $cloi->create();
-           $this->display_header($trail);
+            $cloi = ComplexLearningObjectItem ::factory('wiki_page');
+            $cloi->set_ref($object);
+            $cloi->set_parent(Request :: get('wiki_id'));
+            $cloi->set_user_id($this->pub->get_user_id());
+            $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order(Request :: get('wiki_id')));
+            $cloi->set_additional_properties(array('is_homepage' => 0));
+            $cloi->create();
+            $this->display_header($trail);
 
-           $action_bar = $this->get_toolbar();
+            $action_bar = $this->get_toolbar();
             echo '<br />' . $action_bar->as_html();
             echo '<p>Page created</p>';
         }
@@ -49,10 +55,10 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
 				Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'wiki_id' => $this->pub->get_parameter('wiki_id'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
-
+        
 		$action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Browse'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                Translation :: get('Browse'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'wiki_id' => Request :: get('wiki_id'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 

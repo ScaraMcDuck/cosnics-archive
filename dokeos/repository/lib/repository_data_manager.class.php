@@ -908,5 +908,7 @@ abstract class RepositoryDataManager
 		return $this->number_of_categories{$user_id};
 
 	}
+
+    abstract function retrieve_complex_wiki_page($condition);
 }
 ?>

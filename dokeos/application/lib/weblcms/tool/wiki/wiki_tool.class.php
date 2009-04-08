@@ -17,6 +17,7 @@ class WikiTool extends Tool
 	const ACTION_VIEW_WIKI_PAGE = 'view_item';
     const ACTION_PUBLISH = 'publish';
     const ACTION_CREATE_PAGE = 'create_page';
+    const ACTION_SET_AS_HOMEPAGE = 'set_as_homepage';
 	
 	/**
 	 * Inherited.
@@ -48,6 +49,9 @@ class WikiTool extends Tool
 				break;
             case self :: ACTION_CREATE_PAGE :
                 $component = WikiToolComponent :: factory('PageCreator', $this);
+                break;
+            case self :: ACTION_SET_AS_HOMEPAGE :
+                $component = WikiToolComponent :: factory('HomepageSetter', $this);
                 break;
 			default :                
 				$component = WikiToolComponent :: factory('Browser', $this);
