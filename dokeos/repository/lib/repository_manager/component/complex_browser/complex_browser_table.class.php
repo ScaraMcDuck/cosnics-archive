@@ -19,10 +19,13 @@ class ComplexBrowserTable extends ObjectTable
 	 * Constructor
 	 * @see LearningObjectTable::LearningObjectTable()
 	 */
-	function ComplexBrowserTable($browser, $parameters, $condition, $show_subitems_column = true)
+	function ComplexBrowserTable($browser, $parameters, $condition, $show_subitems_column = true, $model = null, $renderer = null)
 	{
-		$model = new ComplexBrowserTableColumnModel($show_subitems_column);
-		$renderer = new ComplexBrowserTableCellRenderer($browser, $condition);
+		if(!$model)
+			$model = new ComplexBrowserTableColumnModel($show_subitems_column);
+		if(!$renderer)
+			$renderer = new ComplexBrowserTableCellRenderer($browser, $condition);
+			
 		$data_provider = new ComplexBrowserTableDataProvider($browser, $condition);
 		parent :: __construct($data_provider, RepositoryBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters); 

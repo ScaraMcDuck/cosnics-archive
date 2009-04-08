@@ -247,7 +247,7 @@ abstract class ComplexBuilder
 	 * Common functionality
 	 */
 	
-	function get_clo_table_html($show_subitems_column = true)
+	function get_clo_table_html($show_subitems_column = true, $model = null, $renderer = null)
 	{
 		$parameters = array(self :: PARAM_ROOT_LO => $this->get_root_lo()->get_id());
 		
@@ -256,11 +256,11 @@ abstract class ComplexBuilder
 			$parameters[self :: PARAM_CLOI_ID] = $this->get_cloi()->get_id();
 		}
 		
-		$table = new ComplexBrowserTable($this, array_merge($this->get_parameters(), $parameters), $this->get_clo_table_condition(), $show_subitems_column);
+		$table = new ComplexBrowserTable($this, array_merge($this->get_parameters(), $parameters), $this->get_clo_table_condition(), $show_subitems_column, $model, $renderer);
 		return $table->as_html();
 	}
 	
-	private function get_clo_table_condition()
+	function get_clo_table_condition()
 	{
 		if($this->get_cloi())
 		{
