@@ -89,16 +89,16 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 
 				if($object->is_complex_learning_object() || count($extra_params) == 2 || count($extra_params) == 3)
 				{
-					if($object->get_type() == 'assessment' || $object->get_type() == 'forum')
+					//if($object->get_type() == 'assessment' || $object->get_type() == 'forum')
 					{
 						$params = array(ComplexBuilder :: PARAM_ROOT_LO => $object->get_id(), 'category' => null);
 						$this->redirect(RepositoryManager :: ACTION_BUILD_COMPLEX_LEARNING_OBJECT, null, 0, false, $params);
 					}
-					else
+					/*else
 					{
 						$params = array_merge(array(RepositoryManager :: PARAM_CLOI_REF => $object->get_id()), $extra_params);
 						$this->redirect(RepositoryManager :: ACTION_CREATE_COMPLEX_LEARNING_OBJECTS, null, 0, false, $params);
-					}
+					}*/
 				}
 				else
 				{
