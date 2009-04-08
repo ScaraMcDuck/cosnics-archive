@@ -130,7 +130,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 			$toolbar_data[] = array(
 				'href' => $unsubscribe_url,
 				'label' => Translation :: get('Report'),
-				'img' => Theme :: get_common_image_path().'action_chart.png'
+				'img' => Theme :: get_common_image_path().'action_reporting.png'
 			);
 		}
 		return DokeosUtilities :: build_toolbar($toolbar_data);
