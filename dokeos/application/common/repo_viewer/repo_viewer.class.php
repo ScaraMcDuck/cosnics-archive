@@ -44,6 +44,8 @@ class RepoViewer
 	
 	private $maximum_select;
 	
+	private $excluded_objects;
+	
 	/**
 	 * You have two choices for the select multiple
 	 * 0 / SELECT MULTIPLE - you can select as many lo as you want
@@ -58,7 +60,7 @@ class RepoViewer
 	 * @param  boolean $email_option If true the repo_viewer has the option to
 	 * send the repoviewered learning object by email to the selecter target users.
 	 */
-	function RepoViewer($parent, $types, $mail_option = false, $maximum_select = self :: SELECT_MULTIPLE)
+	function RepoViewer($parent, $types, $mail_option = false, $maximum_select = self :: SELECT_MULTIPLE, $excluded_objects = array())
 	{
 		$this->maximum_select = $maximum_select;
 		$this->parent = $parent;
@@ -67,6 +69,7 @@ class RepoViewer
 		$this->types = (is_array($types) ? $types : array ($types));
 		$this->mail_option = $mail_option;
 		$this->set_repo_viewer_actions(array ('creator','browser', 'finder'));
+		$this->excluded_objects = $excluded_objects;
 		$this->set_parameter(RepoViewer :: PARAM_ACTION, ($_GET[RepoViewer :: PARAM_ACTION] ? $_GET[RepoViewer :: PARAM_ACTION] : 'creator'));
 	}
 	
@@ -244,6 +247,16 @@ class RepoViewer
 					break;
 			}
 		}
+	}
+	
+	function get_excluded_objects()
+	{
+		return $this->excluded_objects;
+	}
+	
+	function set_excluded_objects($excluded_objects)
+	{
+		$this->excluded_objects = $excluded_objects;
 	}
 }
 ?>

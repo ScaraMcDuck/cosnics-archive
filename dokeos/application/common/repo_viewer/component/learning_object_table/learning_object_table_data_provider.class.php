@@ -25,6 +25,8 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
 	 * The search query, or null if none.
 	 */
 	private $query;
+	
+	private $parent;
 	/**
 	 * Constructor.
 	 * @param int $owner The user id of the current active user.
@@ -32,11 +34,12 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
 	 * selected.
 	 * @param string $query The search query.
 	 */
-    function LearningObjectTableDataProvider($owner, $types, $query = null)
+    function LearningObjectTableDataProvider($owner, $types, $query = null, $parent)
     {
     	$this->types = $types;
     	$this->owner = $owner;
     	$this->query = $query;
+    	$this->parent = $parent;
     }
 	/*
 	 * Inherited
@@ -84,6 +87,12 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
 		{
 			$conds[] = $c;
 		}
+		
+		foreach($this->parent->get_excluded_objects() as $excluded)
+		{
+			$conds[] = new NotCondition(new EqualityCondition(LearningObject :: PROPERTY_ID, $excluded));
+		}
+		
     	return new AndCondition($conds);
     }
 }
