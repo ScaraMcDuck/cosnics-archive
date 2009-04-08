@@ -13,6 +13,37 @@ class ForumTopic extends LearningObject
 	const PROPERTY_TOTAL_POSTS = 'total_posts';
 	const PROPERTY_LAST_POST = 'last_post';
 
+	function create()
+	{
+		$succes = parent :: create();
+		$children = RepositoryDataManager :: get_instance()->count_complex_learning_object_items(new EqualityCondition('parent', $this->get_id()));
+				
+		if($children == 0)
+		{
+			$learning_object = new AbstractLearningObject('forum_post', $this->get_owner_id());
+			$learning_object->set_title($this->get_title());
+			$learning_object->set_description($this->get_description());
+			$learning_object->set_owner_id($this->get_owner_id());
+			
+			$learning_object->create();
+			
+			$attachments = $this->get_attached_learning_objects();
+			foreach($attachments as $attachment)
+				$learning_object->attach_learning_object($attachment->get_id());
+			
+			$cloi = ComplexLearningObjectItem :: factory('forum_post');
+
+			$cloi->set_ref($learning_object->get_id());
+			$cloi->set_user_id($this->get_owner_id());
+			$cloi->set_parent($this->get_id());
+			$cloi->set_display_order(1);
+			
+			$cloi->create();
+		}
+		
+		return $succes;
+	}
+	
 	function supports_attachments()
 	{
 		return true;

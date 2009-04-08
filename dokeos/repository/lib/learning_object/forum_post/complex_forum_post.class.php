@@ -37,7 +37,21 @@ class ComplexForumPost extends ComplexLearningObjectItem
 	{
 		parent :: delete();
 		
-		$parent = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->get_parent());
+		$datamanager = RepositoryDataManager :: get_instance();
+		
+		$siblings = $datamanager->count_complex_learning_object_items(new EqualityCondition('parent', $this->get_parent()));
+		if($siblings == 0)
+		{
+			$wrappers = $datamanager->retrieve_complex_learning_object_items(new EqualityCondition('ref', $this->get_parent()));
+			while($wrapper = $wrappers->next_result())
+			{
+				$wrapper->delete();
+			}
+			
+			$datamanager->delete_learning_object_by_id($this->get_parent());
+		}
+		
+		$parent = $datamanager->retrieve_learning_object($this->get_parent());
 		$parent->remove_post();
 		//$parent->recalculate_last_post();
 	}

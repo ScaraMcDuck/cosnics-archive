@@ -27,13 +27,13 @@ class ForumToolPostDeleterComponent extends ForumToolComponent
 				$siblings = $datamanager->count_complex_learning_object_items(new EqualityCondition('parent', $cloi->get_parent()));
 				if($siblings == 0)
 				{
-					$wrappers = $datamanager->retrieve_complex_learning_object_items(new EqualityCondition('ref', $cloi->get_parent()));
+					/*$wrappers = $datamanager->retrieve_complex_learning_object_items(new EqualityCondition('ref', $cloi->get_parent()));
 					while($wrapper = $wrappers->next_result())
 					{
 						$wrapper->delete();
 					}
 					
-					$datamanager->delete_learning_object_by_id($cloi->get_parent());
+					$datamanager->delete_learning_object_by_id($cloi->get_parent());*/
 					
 					$params[Tool :: PARAM_ACTION] = 'view';
 					$params['cid'] = null;
