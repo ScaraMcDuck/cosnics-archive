@@ -28,7 +28,7 @@ class LearningObjectTable extends ObjectTable
 	 */
 	function LearningObjectTable($parent, $owner, $types, $query, $table_actions)
 	{
-		$data_provider = new LearningObjectTableDataProvider($owner, $types, $query);
+		$data_provider = new LearningObjectTableDataProvider($owner, $types, $query, $parent);
 		$column_model = new LearningObjectTableColumnModel();
 		$cell_renderer = new LearningObjectTableCellRenderer($table_actions);
 		parent :: __construct($data_provider, LearningObjectTable :: DEFAULT_NAME, $column_model, $cell_renderer);

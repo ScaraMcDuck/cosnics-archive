@@ -126,5 +126,10 @@ abstract class RepoViewerComponent
 	{
 		return $this->get_parent()->get_creation_defaults();
 	}
+	
+	function get_excluded_objects()
+	{
+		return $this->get_parent()->get_excluded_objects();
+	}
 }
 ?>
