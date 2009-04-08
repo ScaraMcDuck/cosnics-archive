@@ -303,14 +303,16 @@ abstract class ComplexBuilder
 	{
 		return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_UPDATE_CLOI,
 									self :: PARAM_ROOT_LO => $root_id,
-									self :: PARAM_CLOI_ID => $cloi->get_id()));
+									self :: PARAM_CLOI_ID => $cloi->get_id(),
+									'publish' => Request :: get('publish')));
 	}
 	
 	function get_complex_learning_object_item_delete_url($cloi, $root_id)
 	{
 		return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_DELETE_CLOI,
 									self :: PARAM_ROOT_LO => $root_id,
-									self :: PARAM_CLOI_ID => $cloi->get_id()));
+									self :: PARAM_CLOI_ID => $cloi->get_id(),
+									'publish' => Request :: get('publish')));
 	}
 	
 	function get_complex_learning_object_item_move_url($cloi, $root_id, $direction)
@@ -318,7 +320,8 @@ abstract class ComplexBuilder
 		return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_MOVE_CLOI,
 									self :: PARAM_ROOT_LO => $root_id,
 									self :: PARAM_CLOI_ID => $cloi->get_id(),
-									self :: PARAM_DIRECTION => $direction));
+									self :: PARAM_DIRECTION => $direction,
+									'publish' => Request :: get('publish')));
 	}
 	
 	function get_action_bar($lo)
@@ -330,7 +333,7 @@ abstract class ComplexBuilder
 		$types = $lo->get_allowed_types();
 		foreach($types as $type)
 		{
-			$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null)));
+			$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get(DokeosUtilities :: underscores_to_camelcase($type . 'TypeName')), Theme :: get_common_image_path().'learning_object/' . $type . '.png', $url));	
 		}
 		
