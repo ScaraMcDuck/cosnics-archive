@@ -50,8 +50,10 @@ abstract class ComplexBuilder
 		
 		$this->root = RepositoryDataManager :: get_instance()->retrieve_learning_object($root_id);
 		if($cloi_id)
-		{
-			$this->cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($cloi_id);
+		{ 
+			$cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($cloi_id); 
+			if($cloi)
+				$this->cloi = $cloi;
 		}
 		
 	}
@@ -124,7 +126,7 @@ abstract class ComplexBuilder
 			{
 				case self :: PARAM_DELETE_SELECTED_CLOI :
 					$this->set_action(self :: ACTION_DELETE_CLOI);
-					$_GET[self :: PARAM_CLOI_ID] = $selected_ids;
+					$_GET[self :: PARAM_SELECTED_CLOI_ID] = $selected_ids;
 
 					break;
 			}
@@ -250,7 +252,7 @@ abstract class ComplexBuilder
 	
 	function get_clo_table_html($show_subitems_column = true, $model = null, $renderer = null)
 	{
-		$parameters = array(self :: PARAM_ROOT_LO => $this->get_root_lo()->get_id());
+		$parameters = array(self :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), self :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null));
 		
 		if($this->get_cloi())
 		{

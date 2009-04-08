@@ -1253,8 +1253,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-		$res->free();
-
+		if(!$record)
+			return null;
+		
 		// Determine type
 
 		$ref = $record[ComplexLearningObjectItem :: PROPERTY_REF];
