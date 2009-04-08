@@ -17,9 +17,9 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
 	/**
 	 * Constructor
 	 */
-	function ComplexBrowserTableColumnModel($show_subitems_column)
+	function ComplexBrowserTableColumnModel($show_subitems_column, $additional_columns = array())
 	{
-		parent :: __construct(self :: get_default_columns($show_subitems_column), 1);
+		parent :: __construct(self :: get_default_columns($show_subitems_column, $additional_columns), 1);
 		$this->set_default_order_column(0);
 	}
 	/**
@@ -35,7 +35,7 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
 		return self :: $modification_column;
 	}
 	
-	private static function get_default_columns($show_subitems_column = true)
+	private static function get_default_columns($show_subitems_column = true, $additional_columns = array())
 	{
 		$columns = array();
 		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TYPE);
@@ -44,6 +44,10 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
 		//$columns[] = new ObjectTableColumn(ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER);
 		if($show_subitems_column)
 			$columns[] = new ObjectTableColumn('subitems');
+		
+		foreach($additional_columns as $additional_column)	
+			$columns[] = $additional_column;
+			
 		//$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE);
 		$columns[] = self :: get_modification_column();
 		return $columns;

@@ -3,6 +3,7 @@
 require_once dirname(__FILE__) . '/../assessment_builder_component.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path() . '/lib/learning_object/assessment/assessment.class.php';
+require_once dirname(__FILE__) . '/browser/assessment_browser_table_cell_renderer.class.php';
 
 class AssessmentBuilderBrowserComponent extends AssessmentBuilderComponent
 {
@@ -18,7 +19,9 @@ class AssessmentBuilderBrowserComponent extends AssessmentBuilderComponent
 		echo '<br />';
 		echo $action_bar->as_html();
 		echo '<br />';
-		echo $this->get_clo_table_html(false);
+		$display = LearningObjectDisplay :: factory($assessment);
+		echo $display->get_full_html();
+		echo $this->get_clo_table_html(false, new AssessmentBrowserTableColumnModel(false), new AssessmentBrowserTableCellRenderer($this->get_parent(), $this->get_clo_table_condition()));
 		
 		$this->display_footer();
 	}

@@ -147,9 +147,14 @@ abstract class ComplexBuilderComponent
 	 * Common functionality
 	 */
 	
-	function get_clo_table_html($show_subitems_column = true)
+	function get_clo_table_html($show_subitems_column = true, $model = null, $renderer = null)
 	{
-		return $this->get_parent()->get_clo_table_html($show_subitems_column);
+		return $this->get_parent()->get_clo_table_html($show_subitems_column, $model, $renderer);
+	}
+	
+	function get_clo_table_condition()
+	{
+		return $this->get_parent()->get_clo_table_condition();
 	}
 	
 	function get_clo_menu()

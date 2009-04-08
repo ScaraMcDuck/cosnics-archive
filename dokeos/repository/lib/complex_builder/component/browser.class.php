@@ -19,6 +19,9 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
 		echo $action_bar->as_html();
 		echo '<br />';
 		
+		$display = LearningObjectDisplay :: factory($this->get_root_lo());
+		echo $display->get_full_html();
+		
 		echo '<div style="width: 18%; overflow: auto; float: left;">';
 		echo $this->get_clo_menu();
 		echo '</div><div style="width: 80%; float: right;">';
