@@ -15,8 +15,9 @@ class ComplexBuilderMoverComponent extends ComplexBuilderComponent
 	 */
 	function run()
 	{
-		$id = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
+		$id = Request :: get(ComplexBuilder :: PARAM_SELECTED_CLOI_ID);
 		$root = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
+		$parent_cloi = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
 		$direction = Request :: get(ComplexBuilder :: PARAM_DIRECTION);
 		$succes = true;
 		
@@ -47,7 +48,8 @@ class ComplexBuilderMoverComponent extends ComplexBuilderComponent
 			$this->redirect($succes?Translation :: get('ComplexLearningObjectItemsMoved'):Translation :: get('ComplexLearningObjectItemsNotMoved'), false, 
 				array('go' => 'build_complex',
 					  ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO,  
-				      ComplexBuilder :: PARAM_ROOT_LO => $root, 
+				      ComplexBuilder :: PARAM_ROOT_LO => $root,
+				      ComplexBuilder :: PARAM_CLOI_ID => $parent_cloi, 
 				      'publish' => Request :: get('publish')));
 		}
 		else

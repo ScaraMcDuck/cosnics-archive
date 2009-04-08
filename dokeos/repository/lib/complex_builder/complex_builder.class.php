@@ -18,6 +18,7 @@ abstract class ComplexBuilder
 	const PARAM_BUILDER_ACTION = 'builder_action';
 	const PARAM_ROOT_LO = 'root_lo';
 	const PARAM_CLOI_ID = 'cloi';
+	const PARAM_SELECTED_CLOI_ID = 'selected_cloi';
 	const PARAM_DELETE_SELECTED_CLOI = 'delete_selected_cloi';
 	const PARAM_MOVE_SELECTED_CLOI = 'move_selected_cloi';
 	const PARAM_TYPE = 'type';
@@ -303,7 +304,8 @@ abstract class ComplexBuilder
 	{
 		return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_UPDATE_CLOI,
 									self :: PARAM_ROOT_LO => $root_id,
-									self :: PARAM_CLOI_ID => $cloi->get_id(),
+									self :: PARAM_SELECTED_CLOI_ID => $cloi->get_id(),
+									self :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null),
 									'publish' => Request :: get('publish')));
 	}
 	
@@ -311,7 +313,8 @@ abstract class ComplexBuilder
 	{
 		return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_DELETE_CLOI,
 									self :: PARAM_ROOT_LO => $root_id,
-									self :: PARAM_CLOI_ID => $cloi->get_id(),
+									self :: PARAM_SELECTED_CLOI_ID => $cloi->get_id(),
+									self :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null),
 									'publish' => Request :: get('publish')));
 	}
 	
@@ -319,8 +322,9 @@ abstract class ComplexBuilder
 	{
 		return $this->get_url(array(self :: PARAM_BUILDER_ACTION => self :: ACTION_MOVE_CLOI,
 									self :: PARAM_ROOT_LO => $root_id,
-									self :: PARAM_CLOI_ID => $cloi->get_id(),
+									self :: PARAM_SELECTED_CLOI_ID => $cloi->get_id(),
 									self :: PARAM_DIRECTION => $direction,
+									self :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null),
 									'publish' => Request :: get('publish')));
 	}
 	
