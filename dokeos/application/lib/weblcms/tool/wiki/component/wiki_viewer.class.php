@@ -19,13 +19,21 @@ class WikiToolViewerComponent extends WikiToolComponent
 			return;
 		}        
         $this->display_header(new BreadcrumbTrail());
-        
-        $publication_id = Request :: get('pid');
-        $wm = WeblcmsDataManager :: get_instance();
         $dm = RepositoryDataManager :: get_instance();
-        $publication = $wm->retrieve_learning_object_publication($publication_id);
-        $this->object_id = $publication->get_learning_object()->get_id();
-        $wiki = $dm->retrieve_learning_object($this->object_id);
+        $publication_id = Request :: get('pid');
+        $wiki_id = Request :: get('wiki_id');
+        if(!empty($publication_id))
+        {
+            $publication_id = Request :: get('pid');
+            $wm = WeblcmsDataManager :: get_instance();
+            $publication = $wm->retrieve_learning_object_publication($publication_id);
+            $this->object_id = $publication->get_learning_object()->get_id();
+            $wiki = $dm->retrieve_learning_object($this->object_id);
+        }
+        elseif(!empty($wiki_id))
+        {
+            $wiki = $dm->retrieve_learning_object(Request :: get('wiki_id'));
+        }
 		$this->action_bar = $this->get_toolbar();
         echo '<br />' . $this->action_bar->as_html();
         echo '<h2>Title : ' .$wiki->get_default_property('title') .'</h2>';
