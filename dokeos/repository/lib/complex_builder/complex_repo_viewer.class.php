@@ -23,12 +23,16 @@ class ComplexRepoViewer extends RepoViewer
 	{
 		parent :: __construct($parent, $types, $mail_option, $maximum_select);
 		$this->set_repo_viewer_actions(array ('creator','browser', 'finder'));
-		$this->parse_input_from_table();
 	}
 	
 	function redirect_complex($type)
 	{
 		return false;
+	}
+	
+	function parse_input()
+	{
+		$this->parse_input_from_table();
 	}
 
 	/**
