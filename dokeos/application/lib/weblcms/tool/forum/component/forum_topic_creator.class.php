@@ -57,7 +57,7 @@ class ForumToolTopicCreatorComponent extends ForumToolComponent
 				
 				$cloi->create();
 				
-				$children = RepositoryDataManager :: get_instance()->count_complex_learning_object_items(new EqualityCondition('parent', $object_id));
+				/*$children = RepositoryDataManager :: get_instance()->count_complex_learning_object_items(new EqualityCondition('parent', $object_id));
 				
 				if($children == 0)
 				{
@@ -82,7 +82,7 @@ class ForumToolTopicCreatorComponent extends ForumToolComponent
 					$cloi->set_display_order(1);
 					
 					$cloi->create();
-				}
+				}*/
 				
 				$this->my_redirect($pid, $forum, $is_subforum);
 			}
