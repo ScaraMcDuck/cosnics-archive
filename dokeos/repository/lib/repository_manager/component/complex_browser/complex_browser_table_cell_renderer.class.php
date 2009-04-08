@@ -15,10 +15,10 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 	/**
 	 * The repository browser component
 	 */
-	private $browser;
-	private $learning_object;
-	private $rdm;
-	private $condition;
+	protected $browser;
+	protected $learning_object;
+	protected $rdm;
+	protected $condition;
 	/**
 	 * Constructor
 	 * @param RepositoryManagerBrowserComponent $browser
@@ -30,6 +30,22 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		$this->rdm = RepositoryDataManager :: get_instance();
 		$this->condition = $condition;
 	}
+	
+	function retrieve_learning_object($lo_id)
+	{
+		if(!$this->learning_object || $this->learning_object->get_id() != $lo_id)
+		{ 
+			$learning_object = $this->rdm->retrieve_learning_object($lo_id);
+			$this->learning_object = $learning_object;
+		}
+		else
+		{
+			$learning_object = $this->learning_object;
+		}
+		
+		return $learning_object;
+	}
+	
 	// Inherited
 	function render_cell($column, $cloi)
 	{
@@ -38,26 +54,16 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 			return $this->get_modification_links($cloi);
 		}
 
-		$ref = $cloi->get_ref();
-		
-		if(!$this->learning_object || $this->learning_object->get_id() != $ref)
-		{ 
-			$learning_object = $this->rdm->retrieve_learning_object($ref);
-			$this->learning_object = $learning_object;
-		}
-		else
-		{
-			$learning_object = $this->learning_object;
-		}
+		$learning_object = $this->retrieve_learning_object($cloi->get_ref());
 		
 		switch ($column->get_title())
 		{ 
-			case LearningObject :: PROPERTY_TYPE :
+			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TYPE)) :
 				$type = $learning_object->get_type();
 				$icon = $learning_object->get_icon_name();
 				$url = '<img src="'.Theme :: get_common_image_path() . 'learning_object/' .$icon.'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($type).'TypeName')).'"/>';
 				return $url;//'<a href="'.htmlentities($this->browser->get_type_filter_url($learning_object->get_type())).'">'.$url.'</a>';
-			case LearningObject :: PROPERTY_TITLE :
+			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TITLE)) :
 				$title = htmlspecialchars($learning_object->get_title());
 				$title_short = $title;
 				if(strlen($title_short) > 53)
@@ -73,7 +79,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 				}
 				
 				return $title_short; //'<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
-			case LearningObject :: PROPERTY_DESCRIPTION :
+			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_DESCRIPTION)) :
 				$description = strip_tags($learning_object->get_description());
 				if(strlen($description) > 203)
 				{
@@ -81,7 +87,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 					$description = mb_substr(strip_tags($learning_object->get_description()),0,200).'&hellip;';
 				}
 				return $description;
-			case 'subitems':
+			case Translation :: get('Subitems'):
 				if($cloi->is_complex())
 				{
 					$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi->get_ref());
@@ -96,7 +102,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */
-	private function get_modification_links($cloi)
+	protected function get_modification_links($cloi, $additional_toolbar_items = array())
 	{
 		$toolbar_data = array();
 		
@@ -162,6 +168,8 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 				'img' => Theme :: get_common_image_path().'action_down_na.png',
 			);	
 		}	
+		
+		$toolbar_data = array_merge($toolbar_data, $additional_toolbar_items);
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}

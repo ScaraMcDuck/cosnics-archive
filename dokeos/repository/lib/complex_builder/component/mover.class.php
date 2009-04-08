@@ -46,8 +46,7 @@ class ComplexBuilderMoverComponent extends ComplexBuilderComponent
 			
 			$this->redirect($succes?Translation :: get('ComplexLearningObjectItemsMoved'):Translation :: get('ComplexLearningObjectItemsNotMoved'), false, 
 				array('go' => 'build_complex',
-					  ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO,
-					  ComplexBuilder :: PARAM_CLOI_ID => $parent,  
+					  ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO,  
 				      ComplexBuilder :: PARAM_ROOT_LO => $root, 
 				      'publish' => Request :: get('publish')));
 		}

@@ -8,6 +8,11 @@ class WikiBuilderComponent extends ComplexBuilderComponent
 	{
 		return parent :: factory('Wiki', $component_name, $builder);
 	}
+	
+	function get_select_homepage_url()
+	{
+		return $this->get_parent()->get_select_homepage_url();
+	}
 }
 
 ?>
