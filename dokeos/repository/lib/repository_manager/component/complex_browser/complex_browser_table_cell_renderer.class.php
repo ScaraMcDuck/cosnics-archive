@@ -107,7 +107,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		$toolbar_data = array();
 		
 		$edit_url = $this->browser->get_complex_learning_object_item_edit_url($cloi, $this->browser->get_root());
-		if($cloi->is_extended() || get_parent_class($browser) == 'ComplexBuilder')
+		if($cloi->is_extended() || get_parent_class($this->browser) == 'ComplexBuilder')
 		{
 			$toolbar_data[] = array(
 				'href' => $edit_url,
