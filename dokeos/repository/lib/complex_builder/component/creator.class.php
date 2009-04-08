@@ -12,7 +12,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 	{
 		$trail = new BreadcrumbTrail();
         
-		$object = Request :: get('object');
+		$object = $_GET['object'];
 		$root_lo = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
 		$cloi_id = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
 		$publish = Request :: get('publish');
@@ -39,6 +39,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 		$pub->set_parameter(ComplexBuilder :: PARAM_CLOI_ID, $cloi_id);
 		$pub->set_parameter('publish', $publish);
 		$pub->set_excluded_objects($exclude);
+		$pub->parse_input();
 		
 		if(!isset($object))
 		{	
