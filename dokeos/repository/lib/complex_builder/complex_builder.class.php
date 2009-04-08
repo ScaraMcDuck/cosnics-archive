@@ -320,6 +320,27 @@ abstract class ComplexBuilder
 									self :: PARAM_CLOI_ID => $cloi->get_id(),
 									self :: PARAM_DIRECTION => $direction));
 	}
+	
+	function get_action_bar($lo)
+	{
+		$pub = Request :: get('publish');
+		
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		
+		$types = $lo->get_allowed_types();
+		foreach($types as $type)
+		{
+			$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null)));
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get(DokeosUtilities :: underscores_to_camelcase($type . 'TypeName')), Theme :: get_common_image_path().'learning_object/' . $type . '.png', $url));	
+		}
+		
+		if($pub && $pub != '')
+		{
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $_SESSION['redirect_url']));
+		}
+
+		return $action_bar;
+	}
 }
 
 ?>

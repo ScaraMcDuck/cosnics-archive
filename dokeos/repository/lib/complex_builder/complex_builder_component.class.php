@@ -166,6 +166,11 @@ abstract class ComplexBuilderComponent
 	{
 		return $this->get_parent()->get_clo_breadcrumbs();
 	}
+	
+	function get_action_bar($lo)
+	{
+		return $this->get_parent()->get_action_bar($lo);
+	}
 }
 
 ?>
