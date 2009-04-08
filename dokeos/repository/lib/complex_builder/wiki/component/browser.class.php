@@ -25,27 +25,6 @@ class WikiBuilderBrowserComponent extends WikiBuilderComponent
 		
 		$this->display_footer();
 	}
-	
-	function get_action_bar($wiki)
-	{
-		$pub = Request :: get('publish');
-		
-		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		
-		$types = $wiki->get_allowed_types();
-		foreach($types as $type)
-		{
-			$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $wiki->get_id()));
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get(DokeosUtilities :: underscores_to_camelcase($type . 'TypeName')), Theme :: get_common_image_path().'learning_object/' . $type . '.png', $url));	
-		}
-		
-		if($pub && $pub != '')
-		{
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $_SESSION['redirect_url']));
-		}
-
-		return $action_bar;
-	}
 }
 
 ?>
