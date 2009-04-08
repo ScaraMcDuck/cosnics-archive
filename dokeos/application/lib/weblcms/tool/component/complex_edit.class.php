@@ -7,7 +7,7 @@ class ToolComplexEditComponent extends ToolComponent
 {
 	function run()
 	{
-		if($this->is_allowed(EDIT_RIGHT))
+        if($this->is_allowed(EDIT_RIGHT))
 		{
 			$cid = isset($_GET[Tool :: PARAM_COMPLEX_ID]) ? $_GET[Tool :: PARAM_COMPLEX_ID] : $_POST[Tool :: PARAM_COMPLEX_ID];
 			

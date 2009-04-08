@@ -22,7 +22,7 @@ abstract class Tool
 	const PARAM_COMPLEX_ID = 'cid';
 	const PARAM_MOVE = 'move';
 	const PARAM_VISIBILITY = 'visible';
-	const PARAM_OBJECT_ID = 'object';
+	const PARAM_OBJECT_ID = 'object_id';
 
 	const ACTION_PUBLISH = 'publish';
 	const ACTION_EDIT = 'edit';

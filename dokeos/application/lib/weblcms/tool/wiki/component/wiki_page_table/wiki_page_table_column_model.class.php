@@ -31,6 +31,7 @@ class WikiPageTableColumnModel extends ObjectTableColumnModel {
 		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
 		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);        
         $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_MODIFICATION_DATE, true);
+        $columns[] = new ObjectTableColumn('versions', true);
 		$columns[] = self :: get_action_column();
 		return $columns;
 	}

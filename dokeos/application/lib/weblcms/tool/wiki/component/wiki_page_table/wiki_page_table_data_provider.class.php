@@ -47,7 +47,7 @@ class WikiPageTableDataProvider extends ObjectTableDataProvider
     function get_objects($offset, $count, $order_property = null, $order_direction = null)
     {
     	$dm = RepositoryDataManager :: get_instance();
-        $condition = new EqualityCondition(LearningObject::PROPERTY_PARENT_ID, $this->owner);
+        $condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->owner);
         return $dm->retrieve_complex_learning_object_items($condition, $order_property, $order_direction, $offset, $count);
     }
 	/*

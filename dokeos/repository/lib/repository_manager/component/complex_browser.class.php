@@ -156,7 +156,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			if($cloi_form)
 			{
 				$elements = $cloi_form->get_elements();
-				$defaults = $cloi_form->get_default_values();
+				//$defaults = $cloi_form->get_default_values();
 			}
 			
 			$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array_merge($this->get_parameters(), array('type' => $type))), null, $elements);

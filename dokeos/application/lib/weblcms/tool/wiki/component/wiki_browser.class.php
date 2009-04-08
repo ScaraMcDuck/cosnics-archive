@@ -41,7 +41,7 @@ class WikiToolBrowserComponent extends WikiToolComponent
 		$action_bar->set_search_url($this->get_url());
 		$action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Create Wiki'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 		

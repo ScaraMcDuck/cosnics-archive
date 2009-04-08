@@ -23,7 +23,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{
+	{        
 		$id = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
 		if ($id)
 		{
