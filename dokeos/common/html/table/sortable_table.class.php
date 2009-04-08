@@ -215,9 +215,9 @@ class SortableTable extends HTML_Table
 		$empty_table = false;
 		if ($this->get_total_number_of_items() == 0)
 		{
-			$cols = $this->getColCount();
-			$this->setCellAttributes(1, 0, 'style="font-style: italic;text-align:center;" colspan='.$cols);
-			$this->setCellContents(1, 0, Translation :: get('NoSearchResults'));
+			$cols = $this->getHeader()->getColCount();
+			$this->setCellAttributes(0, 0, 'style="font-style: italic;text-align:center;" colspan='.$cols);
+			$this->setCellContents(0, 0, Translation :: get('NoSearchResults'));
 			$empty_table = true;
 		}
 		if (!$empty_table)

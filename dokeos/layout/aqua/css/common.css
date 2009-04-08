@@ -146,15 +146,91 @@ img
  *****************************************************/
 #footer
 {
-	padding: 8px;
-	border-top: 1px solid #4171B5;
-	background-color: #E5EDF9;
+	text-align: center;
+	
+	padding: 23px;
+	font-size: 10px;
+	clear: both;
+	
+	color: #4171b5;
+	
+	background-color: #264269;
+	background-image: url('../img/common/background_footer.png');
+	background-repeat: repeat-x;
+}
+
+#footer a
+{
+	color: #4171b5;
+	outline: none;
+}
+
+#footer a:hover
+{
+	color: #8cabd6;
+}
+
+#footer a:active
+{
+	color: #fa8500;
+}
+
+#copyright
+{
+	color: #4171b5;
+	clear: both;
+}
+
+#copyright div.logo
+{
+	margin-bottom: 6px;
+}
+
+#footer_menu
+{
+	clear: both;
+	text-align: left;
+	width: 50%;	
+	border: 1px solid #4171B5;
+	-moz-border-radius: 5px;
+	background-color: #15243B;
+	padding: 23px;
+	margin-bottom: 23px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#footer_menu h1
+{
+	display: block;
 	font-size: 12px;
 	clear: both;
 }
-#footer .copyright
+
+#footer_menu div.item
 {
-	float: right;
+	display: block;
+	font-size: 10px;
+	clear: both;
+}
+
+#footer_menu div.categories
+{
+}
+
+#footer_menu div.category
+{
+	float: left;
+	margin-right: 23px;
+	padding: 0px 23px 0px 0px;
+	/*border-right: 1px dotted #4171B5;*/
+	font-size: 10px;
+}
+
+#footer_menu div.no_padding
+{
+	margin: 0px;
+	padding: 0px;
 }
 
 /*****************************************************
@@ -165,9 +241,11 @@ img
 	position: relative; /* to avoid the IE peekabo bug*/
 	margin: 0px auto;
 	margin-top: 10px;
+	margin-bottom: 10px;
 	width: 98%;
 	padding: 0px 10px 10px 10px;
 	background-color: #FFFFFF;
+	min-height: 500px;
 }
 
 /* "menu" classes for menu/navigation section in main index.php  */
@@ -350,371 +428,6 @@ a:active
 	color: #FA8500;
 }
 
-input.link_alike
-{
-	background-color: #FFFFFF;
-	border-width: 0px;
-	color: #4171b5;
-	font-weight: bold;
-	text-align: left;
-	padding: 0px;
-	margin: 0px;
-}
-
-input.link_alike:hover
-{
-	background-color: #FFFFFF;
-	border-width: 0px;
-	color: #FF0000;
-	font-weight: bold;
-	text-align: left;
-	padding: 0px;
-	margin: 0px;
-}
-
-/*****************************************************
- *  FORM STYLES                                      *
- *****************************************************/
-div.row
-{
-	clear: both;
-	padding-top: 5px;
-	margin-bottom: 5px;
-}
-div.row div.form_header
-{
-	white-space: nowrap;
-	padding: 2px;
-	background-color: #E5EDF9;
-	border: 1px solid #4271B5;
-}
-div.row div.label
-{
-	float: left;
-	width: 18%;
-	text-align: right;
-	overflow: hidden;
-	font-weight: bold;
-	color: #565656;
-}
-
-div.row div.formw
-{
-	width: 80%;
-	float: left;
-	text-align: left;
-}
-
-div.formw input[type=text], div.row div.formw input[type=password], div.row div.formw select
-{
-	/*
-	background-image: url(../img/common/buttons/button_link.png);
-	background-repeat: no-repeat;
-	background-position: 2px center;
-	padding-left: 20px;
-	*/
-	
-    background-color: #f5f5f5;
-    border: 1px solid #dedede;
-}
-
-div.formw input[type=text]:hover, div.row div.formw input[type=text]:focus,
-div.row div.formw input[type=password]:hover, div.row div.formw input[type=password]:focus,
-div.row div.formw select:hover, div.row div.formw select:focus
-{
-	background-color: #f7fbfd;
-	border-color: #4171B5;
-}
-
-div.row div.forme
-{
-	margin-left: 20%;
-	border-width: 1px;
-	border-style: solid;
-	padding: 10px;
-	background-color: #ffedd1;
-	border-color: #ff9900;
-}
-
-[dir=ltr] div.row div.label, [dir=rtl] div.row div.formw
-{
-	float: left;
-	text-align: right;
-}
-
-[dir=rtl] div.row div.label, [dir=ltr] div.row div.formw
-{
-	float: right;
-	text-align: left;
-}
-
-div.row div.element
-{
-	float: left;
-}
-
-div.row div.feedback
-{
-	position: relative;
-	left: 15px;
-}	
-
-span.form_required
-{
-	color: #f00;
-}
-
-span.form_error
-{
-	color: #f00;
-	font-size: x-small;
-	margin: 2px;
-}
-
-/* Form elements - some general styling */
-select, textarea
-{
-	color : #000;
-	border: 1px solid #000;
-}
-
-input[type=text], input[type=password]
-{
-	margin: 0px;
-	padding: 2px 4px 2px 4px;
-	border: 1px solid #4171B5;
-}
-
-input.checkbox , input[type=checkbox]
-{
-	border-width: 0;
-}
- /* Normal submit button */
-input.mainoption
-{
-	font-weight : bold;
-}
-
- /* None-bold submit button */
-input.liteoption
-{
-	font-weight : normal;
-}
-
-select, input[type=checkbox], input[type=radio], input[type=button], input[type=submit]
-{
-	cursor: pointer;
-	font-size: 12px;
-}
-
-input[text]
-{
-	font-size: 12px;
-}
-
-.input_numeric
-{
-	text-align: right;
-}
-
-button, a.button
-{
-    margin:0 7px 0 0;
-    background-color:#f5f5f5;
-    border:1px solid #dedede;
-    border-top:1px solid #eeeeee;
-    border-left:1px solid #eeeeee;
-    
-    font-size:100%;
-    line-height:100%;
-    text-decoration:none;
-    font-weight:bold;
-    color:#565656;
-    cursor:pointer;
-    
-    width:auto;
-    overflow:visible;
-    padding: 4px 7px 4px 32px;
-    vertical-align: middle;
-}
-
-button.positive, a.positive_button
-{
-	background-image: url(../img/common/buttons/button_confirm.png);
-	background-repeat: no-repeat;
-	background-position: 10px center;
-	color: #529214;
-}
-
-a.positive_button:hover, button.positive:hover{
-    background-color: #E6EFC2;
-    border: 1px solid #C6D880;
-    color: #529214;
-}
-button.positive:active, a.positive_button:active{
-    background-color: #5ca54d;
-    border: 1px solid #5ca54d;
-    color: #ffffff;
-}
-
-button.negative, a.negative_button
-{
-	background-image: url(../img/common/buttons/button_cancel.png);
-	background-repeat: no-repeat;
-	background-position: 10px center;
-	color: #d12f19;
-}
-
-a.negative_button:hover, button.negative:hover{
-    background-color: #fbe3e4;
-    border: 1px solid #fbc2c4;
-    color: #d12f19;
-}
-button.negative:active, a.negative_button:active{
-    background-color: #bf382b;
-    border: 1px solid #bf382b;
-    color: #ffffff;
-}
-
-button.normal, a.normal_button
-{
-	background-image: url(../img/common/buttons/button_next.png);
-	background-repeat: no-repeat;
-	background-position: 10px center;
-}
-
-a.normal_button:hover, button.normal:hover{
-    background-color: #dff4ff;
-    border: 1px solid #c2e1ef;
-    color: #336699;
-}
-button.normal:active, a.normal_button:active{
-    background-color: #6299c5;
-    border: 1px solid #6299c5;
-    color: #ffffff;
-}
-
-button.empty, a.empty_button
-{
-	background-image: url(../img/common/buttons/button_empty.png);
-}
-
-button.select, a.select_button
-{
-	background-image: url(../img/common/buttons/button_select.png);
-}
-
-button.login, a.login_button
-{
-	background-image: url(../img/common/buttons/button_login.png);
-}
-
-button.search, a.search_button
-{
-	background-image: url(../img/common/buttons/button_search.png);
-}
-
-button.filter, a.filter_button
-{
-	background-image: url(../img/common/buttons/button_filter.png);
-}
-
-button.save, a.save_button
-{
-	background-image: url(../img/common/buttons/button_save.png);
-}
-
-button.update, a.update_button
-{
-	background-image: url(../img/common/buttons/button_update.png);
-}
-
-button.publish, a.publish_button
-{
-	background-image: url(../img/common/buttons/button_publish.png);
-}
-
-button.send, a.send_button
-{
-	background-image: url(../img/common/buttons/button_send.png);
-}
-
-button.import, a.import_button
-{
-	background-image: url(../img/common/buttons/button_import.png);
-}
-
-button.export, a.export_button
-{
-	background-image: url(../img/common/buttons/button_export.png);
-}
-
-button.subscribe, a.subscribe_button
-{
-	background-image: url(../img/common/buttons/button_subscribe.png);
-}
-
-button.unsubscribe, a.unsubscribe_button
-{
-	background-image: url(../img/common/buttons/button_unsubscribe.png);
-}
-
-button.move, a.move_button
-{
-	background-image: url(../img/common/buttons/button_move.png);
-}
-
-button.compare, a.compare_button
-{
-	background-image: url(../img/common/buttons/button_compare.png);
-}
-
-button.register, a.register_button
-{
-	background-image: url(../img/common/buttons/button_register.png);
-}
-
-/*****************************************************
- *  DATA TABLE STYLES                                *
- *****************************************************/
-.data_table
-{
-  	border-collapse: collapse;
-	width: 100%;
-	padding: 5px;
-}
-
-.data_table th
-{
-	padding-right: 20px;
-  	border: 1px  solid gray;
-  	background-color: #E5EDF9;
-}
-
-.data_table tr.row_odd
-{
-  	background-color: #fafafa;
-}
-
-.data_table tr.row_odd:hover, .data_table tr.row_even:hover
-{
-  	background-color: #f0f0f0;
-}
-
-.data_table tr.row_even
-{
-  	background-color: #fff;
-}
-
-.data_table td
-{
-  	padding: 5px;
-	vertical-align: top;
-  	border-bottom: 1px solid #b0b0b0;
-  	border-right: 1px dotted #e1e1e1;
-  	border-left: 1px dotted #e1e1e1;
-}
-
 /*****************************************************
  *  SOME MORE GENERAL STYLES                         *
  *****************************************************/
@@ -723,11 +436,6 @@ label.left
 	float: left;
 	width: 15em;
 	margin: 0 0 0.5em 0;
-}
-
-form br
-{
-	clear: both;
 }
 
 /* Fix for alignment problem in IE-Win browsers  */
@@ -1099,46 +807,6 @@ div.user_course_options
 	padding: 5px;
 }
 
-input#attachments_expand_button
-{
-	border: 0;
-	background: transparent;
-	background-image: url(../img/common/action_attachment.png);
-	background-position: 0 50%;
-	background-repeat: no-repeat;
-	padding: 0 0 0 18px;
-	height: 16px;
-	font-weight: bold;
-	font-family: arial, verdana, helvetica, sans-serif;
-	font-size: 12px;
-	color: #4171b5;
-	cursor: pointer;
-}
-input#attachments_expand_button:hover
-{
-	color: red;
-}
-
-input#roles_expand_button
-{
-	border: 0;
-	background: transparent;
-	background-image: url(../img/common/action_rights.png);
-	background-position: 0 50%;
-	background-repeat: no-repeat;
-	padding: 0 0 0 18px;
-	height: 16px;
-	font-weight: bold;
-	font-family: arial, verdana, helvetica, sans-serif;
-	font-size: 12px;
-	color: #4171b5;
-	cursor: pointer;
-}
-input#roles_expand_button:hover
-{
-	color: red;
-}
-
 /* Learning style survey */
 ul.learning-style-survey-categories
 {
@@ -1319,385 +987,6 @@ div.survey-categories-header, div.survey-outline-header, div.survey-result-heade
 }
 
 /*****************************************************
- *  TREEMENU STYLES                                  *
- *****************************************************/
-/*
- * This turns off the unsightly unstyled tree before the page has
- * been completely loaded. Since it is made visible through JavaScript,
- * having CSS on but JavaScript off breaks the tree.
- */
-ul.tree-menu
-{
-	visibility: hidden;
-}
-
-ul.tree-menu, ul.tree-menu ul
-{
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-ul.tree-menu ul
-{
-	background: url(../img/common/treemenu/tree-branch.png) repeat-y;
-}
-
-/*
- * li.last > ul doesn't work in IE, so we force it this way
- */
-ul.tree-menu li.last ul.last
-{
-	background: none;
-}
-
-ul.tree-menu li
-{
-	margin: 0;
-	padding: 0 0 0 18px;
-}
-
-ul.tree-menu li div
-{
-	margin: 0;
-	padding: 0 0 0 18px;
-	background: url(../img/common/treemenu/tree-node-open.png) no-repeat;
-	height: 18px;
-}
-
-ul.tree-menu li.collapsed div
-{
-	background-image: url(../img/common/treemenu/tree-node.png);
-}
-
-ul.tree-menu li.root
-{
-	padding-left: 0;
-}
-
-/*
- * see above (li.last > div)
- */
-ul.tree-menu li.last div.last
-{
-	background-image: url(../img/common/treemenu/tree-node-open-end.png);
-}
-
-/*
- * IE doesn't like li.last.collapsed
- */
-ul.tree-menu li.last.collapsed div.last,
-ul.tree-menu li.last-collapsed div.last
-{
-	background-image: url(../img/common/treemenu/tree-node-end.png);
-}
-
-ul.tree-menu li.leaf div, ul.tree-menu li.empty div
-{
-	background-image: url(../img/common/treemenu/tree-leaf.png);
-}
-
-/*
- * IE doesn't like li.last.leaf
- */
-ul.tree-menu li.last.leaf div.last, ul.tree-menu li.last.empty div.last,
-ul.tree-menu li.last-leaf div.last, ul.tree-menu li.last-empty div.last
-{
-	background-image: url(../img/common/treemenu/tree-leaf-end.png);
-}
-
-ul.tree-menu li div a
-{
-	margin: 0;
-	padding: 0 0 0 18px;
-	background: url(../img/common/treemenu/tree-folder-open.png) no-repeat 0 0;
-	/*
-	 * Stretches links over the entire width of the menu
-	 * Also required for minimum height
-	 */
-	display: block;
-	height: 18px;
-	white-space: nowrap;
-	/*overflow: hidden;*/
-}
-
-ul.tree-menu li.empty div a
-{
-	background-image: url(../img/common/treemenu/tree-folder-closed.png);
-}
-
-ul.tree-menu li.collapsed div a
-{
-	background-image: url(../img/common/treemenu/tree-folder-closed.png);
-}
-
-ul.tree-menu li.leaf div a
-{
-	background-image: url(../img/common/treemenu/tree-document.png);
-}
-
-ul.tree-menu li.collapsed ul
-{
-	display: none;
-}
-
-ul.tree-menu li div.current a
-{
-	text-decoration: underline;
-}
-
-/*
- * Tweak: Font size is 12px, nodes are 18px high. That leaves (18 - 12) / 2px.
- */
-ul.tree-menu li div a
-{
-	padding-top: 3px;
-	height: 15px;
-}
-
-/*
- * IE doesn't like the tweak above very much
- */
-* html ul.tree-menu li div a
-{
-	padding-top: 2px;
-	height: 16px;
-}
-
-ul.tree-menu li div
-{
-	/*overflow: hidden;*/
-}
-
-/*
- * Tweak: Some extra space between folder and text--3px will do.
- */
-ul.tree-menu li div a
-{
-	background-position: 0px 1px;
-	padding-left: 21px;
-}
-
-/*
- * Tweak: Trash icon.
- */
-ul.tree-menu li div a.trash
-{
-	background-image: url(../img/common/treemenu/trash.png);
-}
-ul.tree-menu li div a.trash_full
-{
-	background-image: url(../img/common/treemenu/trash_full.png);
-}
-
-/*
- * Tweak: Quota icon.
- */
-ul.tree-menu li div a.quota
-{
-	background-image: url(../img/common/treemenu/quota.png);
-}
-
-/*
- * Tweak: User View icon.
- */
-ul.tree-menu li div a.userview
-{
-	background-image: url(../img/common/treemenu/userview.png);
-}
-
-/*
- * Tweak: Publication icon.
- */
-ul.tree-menu li div a.publication
-{
-	background-image: url(../img/common/treemenu/publication.png);
-}
-
-/*
- * Tweak: Create icon.
- */
-ul.tree-menu li div a.create
-{
-	background-image: url(../img/common/treemenu/create.png);
-}
-
-/*
- * Tweak: Import icon.
- */
-ul.tree-menu li div a.import
-{
-	background-image: url(../img/common/treemenu/import.png);
-}
-
-/*
- * Tweak: Search results icon.
- */
-ul.tree-menu li div a.search_results
-{
-	background-image: url(../img/common/treemenu/search.png);
-}
-
-ul.tree-menu li div a.home
-{
-	background-image: url(../img/common/treemenu/home.png);
-}
-
-/*****************************************************
- *  JAVASCRIPT ELEMENT FINDER                        *
- *****************************************************/
-/*
- * For element finder
- */
-.active_elements ul {
-	list-style: none;
-}
-
-.active_elements ul, .active_elements ul li {
-	margin: 0;
-	padding: 0;
-}
-
-.active_elements a {
-	display: block;
-}
-
-.active_elements li.type {
-	height: 18px;
-}
-
-/* This should be like the tree menu padding */
-.active_elements li.type a {
-	padding: 3px 0 0 21px;
-	height: 15px;
-}
-
-/*
- * IE doesn't like the tweak above very much
- */
-* html .active_elements li.type a
-{
-	padding-top: 2px;
-	height: 16px;
-}
-
-ul.tree-menu li div a.selected, .active_elements a.selected {
-	background-color: #d0e3fa;
-}
-
-ul.tree-menu li div a.disabled, ul.tree-menu li div a.disabled:hover,
-ul.tree-menu li div a.disabled:active  {
-	color: #999;
-	font-weight: normal !important;
-	cursor: default;
-}
-
-ul.tree-menu li div a.unlinked, ul.tree-menu li div a.unlinked:hover,
-ul.tree-menu li div a.unlinked:active {
-	color: #666;
-	cursor: default;
-}
-
-ul.tree-menu li div a.type_category, ul.tree-menu li div a.type_category:hover,
-ul.tree-menu li div a.type_category:active
-{
-	background-image: url(../img/common/treemenu/tree-folder-open.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li.collapsed div a.type_category, ul.tree-menu li.collapsed div a.type_category:hover,
-ul.tree-menu li.collapsed div a.type_category:active
-{
-	background-image: url(../img/common/treemenu/tree-folder-closed.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li div.current a.type_category, ul.tree-menu li div.current a.type_category:hover,
-ul.tree-menu li div.current a.type_category:active
-{
-	background-image: url(../img/common/treemenu/tree-folder-open.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li div a.type_announcement, .active_elements li.type_announcement a
-{
-	background-image: url(../img/common/treemenu_types/announcement.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li div a.type_user, .active_elements li.type_user a
-{
-	background-image: url(../img/common/treemenu/user.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li div a.type_calendar_event, .active_elements li.type_calendar_event a
-{
-	background-image: url(../img/common/treemenu_types/calendar_event.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li div a.type_description, .active_elements li.type_description a
-{
-	background-image: url(../img/common/treemenu_types/description.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li div a.type_document, .active_elements li.type_document a
-{
-	background-image: url(../img/common/treemenu_types/document.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li div a.type_forum, .active_elements li.type_forum a
-{
-	background-image: url(../img/common/treemenu_types/forum.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li div a.type_forum_post, .active_elements li.type_forum_post a
-{
-	background-image: url(../img/common/treemenu_types/forum_post.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li div a.type_forum_topic, .active_elements li.type_forum_topic a
-{
-	background-image: url(../img/common/treemenu_types/forum_topic.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li div a.type_learning_path, .active_elements li.type_learning_path a
-{
-	background-image: url(../img/common/treemenu_types/learning_path.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li div a.type_learning_path_chapter, .active_elements li.type_learning_path_chapter a
-{
-	background-image: url(../img/common/treemenu_types/learning_path_chapter.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li div a.type_learning_path_item, .active_elements li.type_learning_path_item a
-{
-	background-image: url(../img/common/treemenu_types/learning_path_item.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li div a.type_link, .active_elements li.type_link a
-{
-	background-image: url(../img/common/treemenu_types/link.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li div a.type_role, .active_elements li.type_role a
-{
-	background-image: url(../img/common/treemenu/rights.png);
-	background-repeat: no-repeat;
-}
-
-/*****************************************************
  *  CALENDAR TABLE STYLES                            *
  *****************************************************/
 table.calendar
@@ -1797,16 +1086,6 @@ table.mini
 /*****************************************************
  *  SOME MORE GENERIC STYLES                         *
  *****************************************************/
-input.search_query
-{
-	background: url(../img/common/action_search.png) 1px 50% no-repeat;
-	padding: 0 0 0 21px;
-}
-
-input.search_query_no_icon
-{
-	padding: 0px 0px 0px 0px;
-}
 
 /* Repository Quota */
 .usage_bar {
@@ -1893,458 +1172,6 @@ ul.toolbar li span, ul.toolbar_horizontal li span, ul.toolbar_vertical li span
 ul.toolbar li.last span, ul.toolbar_horizontal li.last span, ul.toolbar_vertical li.last span
 {
 	padding-right: 0;
-}
-
-/*************************************************************/
-/*   Design:   Multiflex-3 Update-7 / Drop-Down Menu         */
-/*-----------------------------------------------------------*/
-/*   Author:   Wolfgang, based on Stu Nichols ingenious      */
-/*             designs over at www.cssplay.co.uk             */
-/*   Date:     January 15, 2007                              */
-/*   Homepage: wwww.1-2-3-4.info                             */
-/*-----------------------------------------------------------*/
-/*   License:  Public domain.                                */
-/*************************************************************/
-
-/*Basic Setup*/
-
-/*Color navigation bar normal mode*/
-#header2 .dropnav *
-{
-	padding: 0;
-	margin: 0;
-	background-color: #4271B5;
-	color: #E5EDF9;
-}
-
-#header2 .dropnav
-{
-	float:left;
-	width: 100%;
-	border:none;
-	background-color: #4271B5;
-	color: #E5EDF9;
-	text-decoration: none;
-}
-
-#header2 .dropnav ul
-{
-	list-style-type: none;
-}
-
-#header2 .dropnav ul.admin
-{
-	list-style-type: none;
-	float: right;
-}
-
-#header2 .dropnav ul li
-{
-	float:left;
-	position:relative;
-	z-index:auto !important /*Non-IE6*/;
-	z-index:1000 /*IE6*/;
-	border-right:solid 1px #6a91c8;
-	border-left: solid 1px #325588;
-}
-
-#header2 .dropnav ul li.admin
-{
-	float:left;
-	position:relative;
-	z-index:auto !important /*Non-IE6*/;
-	z-index:1000 /*IE6*/;
-	border-right:solid 1px #6a91c8;
-	border-left: solid 1px #325588;
-}
-
-#header2 .dropnav ul li.admin form
-{
-	float: left;
-	height: 24px;
-	line-height:30px;
-	text-decoration:none;
-}
-
-#header2 .dropnav ul li.admin input
-{
-	float:left;
-	margin: 0;
-	padding: 0;
-	height: 24px;
-	padding:0px;
-	text-decoration: none;
-	font-weight: bold;
-	color: #E5EDF9;
-	background-color: transparent;
-	border: 0px;
-	
-	font-family: arial, verdana, helvetica, sans-serif;
-	font-size: 12px;
-}
-
-#header2 .dropnav ul li a
-{
-	float: none !important /*Non-IE6*/;
-	float: left /*IE-6*/;
-	display: block;
-	height: 24px;
-	line-height: 24px;
-	padding: 0px 10px 0px 10px;
-	text-decoration: none;
-	font-weight: bold;
-	color: #E5EDF9;
-}
-
-#header2 .dropnav ul li ul
-{
-	display: none;
-	border: none;
-}
-
-/*Non-IE6 hovering*/
-/*Color main cells hovering mode*/
-#header2 .dropnav ul li:hover a
-{
-	color: #000066;
-	background-color: #FFFFFF;
-	text-decoration: none;
-}
-
-#header2 .dropnav ul li a.current
-{
-	color: #000066;
-	background-color: #FFFFFF;
-	text-decoration: none;
-}
-
-#header2 .dropnav ul li:hover a.current
-{
-	color: #000066;
-	background-color: #FFFFFF;
-	text-decoration: none;
-}
-
-#header2 .dropnav ul li:hover ul
-{
-	display: block;
-	width: 10.0em;
-	position: absolute;
-	z-index: 999;
-	top: 23px;
-	margin-top: 1px;
-	left: 0;
-}
-
-/*Color subcells normal mode*/
-#header2 .dropnav ul li:hover ul li a
-{
-	display:block;
-	width:10.0em;
-	height:auto;
-	line-height:1.3em;
-	margin-left:-1px;
-	padding:4px 10px 4px 10px;
-	border-left:solid 1px rgb(255,255,255);
-	border-bottom: solid 1px rgb(255,255,255);
-	background-color:rgb(243,243,243);
-	background-image: none;
-	font-weight:normal;
-	color:rgb(50,50,50);
-}
-
-/*Color subcells hovering mode*/
-#header2 .dropnav ul li:hover ul li a:hover
-{
-	background-color:rgb(227,227,227);
-	text-decoration:none;
-}
-
-/*IE6 hovering*/
-#header2 .dropnav table
-{
-	position: absolute;
-	top: 0;
-	left: 0;
-	border-collapse: collapse;
-}
-
-/*Color main cells hovering mode*/
-#header2 .dropnav ul li a:hover
-{
-	color: #000066;
-	background-color: #FFFFFF;
-	text-decoration: none;
-}
-
-#header2 .dropnav ul li a:hover ul
-{
-	display:block;
-	width:10.0em;
-	position:absolute;
-	z-index:999;
-	top: 24px;
-	t\op: 23px;
-	left:0;
-	marg\in-top: 0.1em;
-}
-
-/*Color subcells normal mode*/
-#header2 .dropnav ul li a:hover ul li a
-{
-	display: block;
-	w\idth: 10.0em;
-	height: 1px;
-	line-height: 1.3em;
-	padding:4px 10px 4px 10px;
-	border-left: solid 1px rgb(255,255,255);
-	border-bottom: solid 1px rgb(255,255,255);
-	background-color: rgb(243,243,243);
-	background-image: none;
-	font-weight: normal;
-	color: rgb(50,50,50);
-}
-
-/*Color subcells hovering mode*/
-#header2 .dropnav ul li a:hover ul li a:hover
-{
-	background-color: rgb(227,227,227);
-	text-decoration: none;
-}
-
-/*************************************************************/
-/*   Design:   Multiflex-3 Update-7 / Drop-Down Menu         */
-/*-----------------------------------------------------------*/
-/*   Author:   Wolfgang, based on Stu Nichols ingenious      */
-/*             designs over at www.cssplay.co.uk             */
-/*   Date:     January 15, 2007                              */
-/*   Homepage: wwww.1-2-3-4.info                             */
-/*-----------------------------------------------------------*/
-/*   License:  Public domain.                                */
-/*************************************************************/
-
-/*Basic Setup*/
-
-/*Color navigation bar normal mode*/
-#header1 div.applications
-{
-	display: inline;
-	/*overflow: hidden;*/
-	
-	float: right;
-	margin: 38px 0px 0px 0px;
-	padding: 0px;
-	height: 24px;
-	
-	color: #E5EDF9;
-	text-decoration: none;
-	font-size: 98%;
-	font-weight: bold;
-	
-	background-color: #264269;
-	background-image: url('../img/common/background_header_menu.png');
-	background-repeat: repeat-x;
-	/*
-	border-left: 1px solid white;
-	border-right: 1px solid white;
-	*/
-}
-
-#header1 ul.bracket_left li, #header1 ul.bracket_right li
-{
-	display: inline-block;
-	height: 24px;
-	width: 4px;
-	padding: 0px;
-	margin: 0px;
-	
-	background-repeat: no-repeat;
-	background-position: center left;
-}
-
-#header1 ul.bracket_left li
-{
-	margin-right: 9px;
-	background-image: url('../img/common/background_header_left.png');
-}
-
-#header1 ul.bracket_right li
-{
-	margin-left: 9px;
-	background-image: url('../img/common/background_header_right.png');
-}
-
-#header1 div.applications ul
-{
-	display: inline;
-	margin: 0px;
-	padding: 0px;
-	list-style-type: none;
-}
-
-#header1 div.applications ul li
-{
-	display: inline;
-	float:left;
-	position:relative;
-	z-index:auto !important /*Non-IE6*/;
-	z-index:1000 /*IE6*/;
-	white-space: nowrap;
-}
-
-#header1 div.applications ul li.bullet
-{
-	height: 16px;
-	padding: 4px 9px 4px 9px;
-}
-
-#header1 div.applications ul li form
-{
-	float: left;
-	height: 16px;
-	line-height: 16px;
-	text-decoration:none;
-}
-
-#header1 div.applications ul li input
-{
-	float:left;
-	margin: 0;
-	padding: 0;
-	height: 16px;
-	padding: 0px;
-	text-decoration: none;
-	font-weight: bold;
-	color: #E5EDF9;
-	background-color: transparent;
-	border: 0px;
-	
-	font-family: arial, verdana, helvetica, sans-serif;
-	font-size: 10px;
-}
-
-#header1 div.applications ul li a
-{
-	float: none !important /*Non-IE6*/;
-	float: left /*IE-6*/;
-	display: block;
-	height: auto;
-	line-height: 16px;
-	height: 16px;
-	padding: 4px 0px 4px 0px;
-	text-decoration: none;
-	font-weight: bold;
-	color: #E5EDF9;
-}
-
-#header1 div.applications ul li ul
-{
-	display: none;
-	border: none;
-}
-
-/*Color main cells hovering mode*/
-#header1 div.applications ul li:hover a
-{
-	color: #88a8d4;
-	text-decoration: none;
-}
-
-#header1 div.applications ul li a.current
-{
-	color: #88a8d4;
-	text-decoration: none;
-}
-
-#header1 div.applications ul li:hover a.current
-{
-	color: #88a8d4;
-	text-decoration: none;
-}
-
-#header1 div.applications ul li:hover ul
-{
-	display: block;
-	position: absolute;
-	z-index: 999;
-	top: 23px;
-	margin-top: 1px;
-	left: 0px;
-	background-color: #264269;
-	background-image: url('../img/common/background_header_submenu.png');
-	background-repeat: repeat-x;
-	background-position: bottom left;
-	clear: both;
-	/*border: 2px solid #15243B;*/
-	border-top: none;
-}
-
-/*Color subcells normal mode*/
-#header1 div.applications ul li:hover ul li img
-{
-	vertical-align: middle;
-	margin: 0px 9px 0px 0px;
-}
-
-#header1 div.applications ul li:hover ul li a
-{
-	display: block;
-	width: 12.0em;
-	height: 16px;
-	line-height: 16px;
-	padding: 4px 9px 4px 9px;
-	border-bottom: 1px dotted #E5EDF9;
-	color: #E5EDF9;
-}
-
-/*Color subcells hovering mode*/
-#header1 div.applications ul li:hover ul li a:hover
-{
-	background-color: #15243B;
-	text-decoration: none;
-}
-
-/*Color main cells hovering mode*/
-#header1 div.applications ul li a:hover
-{
-	color: #88a8d4;
-	text-decoration: none;
-	outline: none;
-}
-
-#header1 div.applications ul li a:active
-{
-	color: #fa8500;
-	outline: none;
-}
-
-#header1 div.applications ul li a:hover ul
-{
-	display: block;
-	width: 12.0em;
-	position: absolute;
-	z-index: 999;
-	top: 24px;
-	t\op: 23px;
-	left: 0px;
-	marg\in-top: 0.1em;
-}
-
-/*Color subcells normal mode*/
-#header1 div.applications ul li a:hover ul li a
-{
-	display: block;
-	w\idth: 12.0em;
-	height: 1px;
-	line-height: 1.3em;
-	padding: 4px 9px 4px 9px;
-	border-bottom: 1px dotted #E5EDF9;
-}
-
-/*Color subcells hovering mode*/
-#header1 div.applications ul li a:hover ul li a:hover
-{
-	text-decoration: none;
 }
 
 /*******************
@@ -2502,32 +1329,6 @@ div.action_bar_left .action_bar_left_hide_container, div.action_bar_left .show
 .action_bar_left_show img
 {
 	margin: 10px 6px 11px 4px;
-}
-
-/*IE-fix to avoid adding unwanted margins to the form*/
-div.simple_search form
-{
-	margin: 0;
-	padding: 0;
-}
-
-div.configuration_form {
-	clear: both;
-	margin: 20px 2px 2px 2px;
-	padding: 10px;
-	border: 1px solid #ebebeb;
-	-moz-border-radius-topright: 10px;
-	-moz-border-radius-bottomleft: 10px;
-}
-
-div.configuration_form span.category
-{
-	position: relative;
-	top: -20px;
-	background-color: #FFFFFF;
-	font-weight: bold;
-	color: #4271B5;
-	padding: 0px 5px 0px 5px;
 }
 
 div.block
@@ -2970,103 +1771,6 @@ div.padding_10
 }
 
 /*********************************************
- * Quickform Element Finder Styles           *
- * ----------------------------------------- *
- * Don't change unless you have a death wish *
- *********************************************/
-
-.active_elements, .inactive_elements
-{
-	background-color: #f5f5f5;
-	border: 1px solid #dedede;
-	padding: 2px 4px 2px 4px;
-	width: 294px; 
-}
-
-.active_elements:hover, .active_elements:focus , .inactive_elements:hover, .inactive_elements:focus 
-{
-	background-color: #f7fbfd;
-	border: 1px solid #4171B5;
-}
-
-input[type=text].element_query
-{
-	width: 278px;
-	background-image: url('../img/common/buttons/button_search.png');
-	background-repeat: no-repeat;
-	background-position: 2px 2px;
-	padding: 2px 4px 2px 20px;
-}
-
-input[type=button].activate_elements, input[type=button].deactivate_elements
-{
-    margin: 2px 0px 2px 0px;
-    background-color: #f5f5f5;
-	background-repeat: no-repeat;
-	background-position: center 0px;
-    border: 1px solid #dedede;
-    border-top: 1px solid #eeeeee;
-    border-left: 1px solid #eeeeee;
-    
-    font-size: 100%;
-    line-height: 100%;
-    text-decoration: none;
-    font-weight: bold;
-    color: #565656;
-    cursor: pointer;
-    
-    padding: 0px;
-    vertical-align: middle;
-    
-    width: 22px;
-    height: 19px;
-}
-
-input[type=button].activate_elements
-{
-	background-image: url('../img/common/buttons/button_activate_element.png');
-}
-
-input[type=button].deactivate_elements
-{
-	background-image: url('../img/common/buttons/button_deactivate_element.png');
-}
-
-input[type=button].activate_elements:hover, input[type=button].deactivate_elements:hover
-{
-    background-color: #dff4ff;
-    border: 1px solid #c2e1ef;
-    color: #336699;
-}
-input[type=button].activate_elements:active, input[type=button].deactivate_elements:active
-{
-    background-color: #6299c5;
-    border: 1px solid #6299c5;
-    color: #ffffff;
-}
-
-div.element_finder
-{
-	margin: 0px;
-	padding: 0px;
-}
-
-div.element_finder_search
-{
-	margin-bottom: 5px;
-}
-
-div.element_finder_active, div.element_finder_buttons, div.element_finder_inactive
-{
-	float: left;
-}
-
-div.element_finder_buttons
-{
-	margin: 0px 10px 0px 10px;
-}
-
-/*********************************************
  * BuddyList Styles					         *
  *********************************************/
  
@@ -3179,33 +1883,3 @@ div.element_finder_buttons
  {
  	background-color: #4171B5;
  }
- 
-/*************************************
- * Filter form styles
- *************************************/
-
-div.filter_form
-{
-	clear: both;
-	float: right;
-	padding-top: 4px;
-}
-
-div.filter_form div.row
-{
-	clear: none;
-	float: left;
-	padding: 0px;
-	margin-left: 10px;
-}
-
-div.filter_form div.row div.formw
-{
-	float: none;
-	width: auto;
-}
-
-div.filter_form div.row div.formw button
-{
-	margin-top: -4px;
-}

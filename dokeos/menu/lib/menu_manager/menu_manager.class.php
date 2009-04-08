@@ -30,7 +30,8 @@ require_once dirname(__FILE__).'/component/menu_item_browser/menu_item_browser_t
 	
 	const ACTION_RENDER_BAR = 'render_bar';
 	const ACTION_RENDER_MINI_BAR = 'render_mini_bar';
-	const ACTION_RENDER_TREE = 'render_tree';	
+	const ACTION_RENDER_TREE = 'render_tree';
+	const ACTION_RENDER_SITEMAP = 'render_sitemap';	
 	const ACTION_SORT_MENU = 'sort';
 	
 	const ACTION_COMPONENT_BROWSE_CATEGORY = 'browse';
@@ -90,6 +91,9 @@ require_once dirname(__FILE__).'/component/menu_item_browser/menu_item_browser_t
 				break;
 			case self :: ACTION_RENDER_TREE :
 				$component = MenuManagerComponent :: factory('Tree', $this);
+				break;
+			case self :: ACTION_RENDER_SITEMAP :
+				$component = MenuManagerComponent :: factory('Sitemap', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_RENDER_BAR);
