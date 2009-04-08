@@ -30,6 +30,8 @@ class ComplexForumPost extends ComplexLearningObjectItem
 		
 		$parent = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->get_parent());
 		$parent->add_post();
+		
+		return true;
 		//$parent->add_last_post($this->get_id());
 	}
 	
@@ -38,6 +40,9 @@ class ComplexForumPost extends ComplexLearningObjectItem
 		parent :: delete();
 		
 		$datamanager = RepositoryDataManager :: get_instance();
+		
+		$parent = $datamanager->retrieve_learning_object($this->get_parent());
+		$parent->remove_post();
 		
 		$siblings = $datamanager->count_complex_learning_object_items(new EqualityCondition('parent', $this->get_parent()));
 		if($siblings == 0)
@@ -48,11 +53,10 @@ class ComplexForumPost extends ComplexLearningObjectItem
 				$wrapper->delete();
 			}
 			
-			$datamanager->delete_learning_object_by_id($this->get_parent());
+			$parent->delete();
 		}
 		
-		$parent = $datamanager->retrieve_learning_object($this->get_parent());
-		$parent->remove_post();
+		return ture;
 		//$parent->recalculate_last_post();
 	}
 	

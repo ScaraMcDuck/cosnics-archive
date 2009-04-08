@@ -13,7 +13,7 @@ class ComplexBuilderDeleterComponent extends ComplexBuilderComponent
 	 */
 	function run()
 	{
-		$ids = $_GET[ComplexBuilder :: PARAM_SELECTED_CLOI_ID];
+		$ids = $_GET[ComplexBuilder :: PARAM_SELECTED_CLOI_ID]; 
 		$root = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
 		$parent_cloi = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
 	
@@ -75,7 +75,7 @@ class ComplexBuilderDeleterComponent extends ComplexBuilderComponent
 				}
 			}
 			
-			$this->redirect(Translation :: get($message), false, array('go' => 'build_complex', ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_CLOI_ID => $parent_cloi, ComplexBuilder :: PARAM_ROOT_LO => $root, 'publish' => Request :: get('publish')));
+			$this->redirect(Translation :: get($message), $failures?true:false, array('go' => 'build_complex', ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_CLOI_ID => $parent_cloi, ComplexBuilder :: PARAM_ROOT_LO => $root, 'publish' => Request :: get('publish')));
 		}
 		else
 		{
