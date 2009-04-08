@@ -478,10 +478,10 @@ EOT;
 	 * additional learning object properties, and then call the super method.
 	 * @return boolean True if the update succeeded, false otherwise.
 	 */
-	function update_learning_object()
+	function update_learning_object() 
 	{
 		$object = $this->learning_object;
-		$values = $this->exportValues();
+		$values = $this->exportValues();        
 
 		$object->set_title($values[LearningObject :: PROPERTY_TITLE]);
 		$desc = $values[LearningObject :: PROPERTY_DESCRIPTION]?$values[LearningObject :: PROPERTY_DESCRIPTION]:'';
@@ -495,6 +495,7 @@ EOT;
 				if ($object->move_allowed($parent))
 				{
 					$object->set_parent_id($parent);
+                    
 				}
 				else
 				{

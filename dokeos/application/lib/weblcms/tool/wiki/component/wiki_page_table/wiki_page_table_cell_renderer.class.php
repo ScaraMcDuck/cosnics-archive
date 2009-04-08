@@ -40,24 +40,28 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 		}
 
         $learning_object = $this->get_publication_from_clo_item($publication);
+        
 
         if($publication->get_additional_property('is_homepage')==1)
         {
             $homepage = ' (homepage)';
         }
-
-        if ($property = $column->get_title())
-		{
-			switch ($property)
-			{
-                //hier link maken naar externe pagina voor de wiki
-				case 'Title' :
-					return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $learning_object->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>'.$homepage;
-                    //default:
-                    //return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>';
-
-			}
-		}
+       
+        if(isset($learning_object))
+        {
+            if ($property = $column->get_title())
+            {
+                switch ($property)
+                {
+                    case 'Title' :
+                        return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_OBJECT_ID => $learning_object->get_id())) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>'.$homepage;
+                        //default:
+                        //return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>';
+                    case 'versions' :
+                            return $learning_object->get_version_count();
+                }
+            }
+        }
 
 		return parent :: render_cell($column, $learning_object);
 	}
@@ -73,13 +77,13 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 		if ($this->browser->is_allowed(EDIT_RIGHT))
 		{
 			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_ref())),
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_DELETE_PAGE, Tool :: PARAM_COMPLEX_ID => $publication->get_id())),
 			'label' => Translation :: get('Delete'),
 			'img' => Theme :: get_common_image_path().'action_delete.png'
 			);
 
 			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_ref())),
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_EDIT_PAGE, Tool :: PARAM_COMPLEX_ID => $publication->get_id())),
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 			);

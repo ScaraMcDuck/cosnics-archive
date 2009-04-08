@@ -35,8 +35,9 @@ class WikiPageTable extends ObjectTable
 		parent :: __construct($data_provider, WikiPageTable :: DEFAULT_NAME, $column_model, $cell_renderer);
 
 		$actions = array();
-		$actions[Tool :: ACTION_DELETE] = Translation :: get('RemoveSelected');
-		$this->set_form_actions($actions);
+        
+		$actions[WikiTool :: ACTION_DELETE_PAGE] = Translation :: get('RemoveSelected');
+		$this->set_form_actions($actions);   
 
 	}
 

@@ -50,7 +50,7 @@ class DefaultLearningObjectTableCellRenderer implements ObjectTableCellRenderer
 	 * @return string A HTML representation of the rendered table cell
 	 */
 	function render_cell($column, $learning_object)
-	{
+	{        
 		if ($property = $column->get_object_property())
 		{
 			switch ($property)
