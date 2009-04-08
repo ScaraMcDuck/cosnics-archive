@@ -46,12 +46,12 @@ class Banner
 		$output[] = '<a name="top"></a>';
 		$output[] = '<div id="header">  <!-- header section start -->';
 		$output[] = '<div id="header1"> <!-- top of banner with institution name/hompage link -->';
-		$output[] = '<img class="banner" src="'. Theme :: get_common_image_path() .'dokeos_banner.png" alt="' . $this->get_setting('site_name', 'admin') . '" />';
+		$output[] = '<div class="banner"></div>';
 		
 		if (isset($_SESSION['_uid']))
 		{
-			$output[] = '<div class="bracket_right">';
-			$output[] = '</div>';
+			$output[] = '<div class="menu_container">';
+			//$output[] = 'aaaa';
 			$output[] = '<div class="applications">';
 			
 			$usermgr = new UserManager($_SESSION['_uid']);
@@ -61,7 +61,6 @@ class Banner
 			$output[] = $menumanager->render_menu('render_mini_bar');
 			
 			$output[] = '</div>';
-			$output[] = '<div class="bracket_left">';
 			$output[] = '</div>';
 		}
 		

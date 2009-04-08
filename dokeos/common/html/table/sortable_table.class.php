@@ -336,9 +336,9 @@ class SortableTable extends HTML_Table
 	 * Get the HTML-code with the data-table.
 	 */
 	function get_table_html()
-	{
+	{		
 		// Make sure the header isn't dragable or droppable
-		$this->setRowAttributes(0, array('class' => 'nodrag nodrop'), true);
+		//$this->setRowAttributes(0, array('class' => 'nodrag nodrop'), true);
 		
 		// Now process the rest of the table
 		$pager = $this->get_pager();
@@ -347,7 +347,7 @@ class SortableTable extends HTML_Table
 		$table_data = $this->get_table_data($from);
 		
 		foreach ($table_data as $index => $row)
-		{			
+		{
 			$row_id = $row[0];
 			$row = $this->filter_data($row);
 			$current_row = $this->addRow($row);
@@ -433,6 +433,8 @@ class SortableTable extends HTML_Table
 	 */
 	function set_header($column, $label, $sortable = true, $th_attributes = null, $td_attributes = null)
 	{
+		$header = $this->getHeader();
+		
 		$param['direction'] = SORT_ASC;
 		if ($this->column == $column && $this->direction == SORT_ASC)
 		{
@@ -460,7 +462,7 @@ class SortableTable extends HTML_Table
 			$link = $label;
 		}
 		
-		$this->setHeaderContents(0, $column, $link);
+		$header->setHeaderContents(0, $column, $link);
 		if (!is_null($td_attributes))
 		{
 			$this->td_attributes[$column] = $td_attributes;
@@ -469,6 +471,9 @@ class SortableTable extends HTML_Table
 		{
 			$this->th_attributes[$column] = $th_attributes;
 		}
+		//$header->addCol(array($link), $attributes, 'th');
+		
+		return $link;
 	}
 	
 	/**
