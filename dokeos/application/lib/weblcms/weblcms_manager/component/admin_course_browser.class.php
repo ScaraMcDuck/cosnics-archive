@@ -113,8 +113,8 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 		if (isset($query) && $query != '')
 		{
 			$conditions = array ();
-			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_ID, '*'.$query.'*');
 			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_NAME, '*'.$query.'*');
+			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_VISUAL, '*'.$query.'*');
 			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_LANGUAGE, '*'.$query.'*');
 		
 			$search_conditions = new OrCondition($conditions);

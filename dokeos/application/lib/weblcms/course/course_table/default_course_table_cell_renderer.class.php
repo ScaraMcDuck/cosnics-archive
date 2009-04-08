@@ -35,7 +35,8 @@ class DefaultCourseTableCellRenderer implements ObjectTableCellRenderer
 					return $course->get_name();
 				case Course :: PROPERTY_TITULAR :
 					$titular = UserDataManager :: get_instance()->retrieve_user($course->get_titular());
-					return $titular->get_fullname();
+					if($titular)
+						return $titular->get_fullname(); return '';
 				case Course :: PROPERTY_LANGUAGE :
 					return $course->get_language();
 				case Course :: PROPERTY_SUBSCRIBE_ALLOWED :
