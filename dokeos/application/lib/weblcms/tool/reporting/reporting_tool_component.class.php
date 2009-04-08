@@ -1,4 +1,7 @@
 <?php
+/**
+ * @author Michael Kyndt
+ */
 require_once dirname(__FILE__) . '/../tool_component.class.php';
 
 class ReportingToolComponent extends ToolComponent
