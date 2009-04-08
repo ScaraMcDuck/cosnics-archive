@@ -910,5 +910,7 @@ abstract class RepositoryDataManager
 	}
 
     abstract function retrieve_complex_wiki_page($condition);
+
+    abstract function retrieve_complex_wiki_pages($condition);
 }
 ?>

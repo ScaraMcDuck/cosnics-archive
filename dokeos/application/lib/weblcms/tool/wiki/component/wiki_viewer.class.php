@@ -47,7 +47,7 @@ class WikiToolViewerComponent extends WikiToolComponent
     function get_toolbar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        //dump($this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE)));
+        
 
 		$action_bar->set_search_url($this->get_url());
 		$action_bar->add_common_action(
@@ -66,6 +66,12 @@ class WikiToolViewerComponent extends WikiToolComponent
 		{
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
+
+        $action_bar->add_common_action(
+			new ToolbarItem(
+				Translation :: get('Delete contents'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_DELETE_WIKI_CONTENTS, 'wiki_id' => $this->object_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+			)
+		);
 		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('wiki tool'));
 		return $action_bar;
 	}
