@@ -31,7 +31,7 @@ class WikiBuilder extends ComplexBuilder
 	{
 		return $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => self :: ACTION_SELECT_HOMEPAGE, 
 									ComplexBuilder :: PARAM_ROOT_LO => $root_lo->get_id(),
-									ComplexBuilder :: PARAM_CLOI_ID => $cloi->get_id()));
+									ComplexBuilder :: PARAM_SELECTED_CLOI_ID => $cloi->get_id()));
 	}
 }
 

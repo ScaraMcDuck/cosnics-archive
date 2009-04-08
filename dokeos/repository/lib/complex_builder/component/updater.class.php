@@ -13,9 +13,11 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 		$trail = new BreadcrumbTrail();
 
 		$root_lo = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
-		$cloi_id = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
+		$cloi_id = Request :: get(ComplexBuilder :: PARAM_SELECTED_CLOI_ID);
+		$parent_cloi = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
 		
-		$parameters = array(ComplexBuilder :: PARAM_ROOT_LO => $root_lo, ComplexBuilder :: PARAM_CLOI_ID => $cloi_id, 'publish' => Request :: get('publish'));
+		$parameters = array(ComplexBuilder :: PARAM_ROOT_LO => $root_lo, ComplexBuilder :: PARAM_CLOI_ID => $parent_cloi, 
+			ComplexBuilder :: PARAM_SELECTED_CLOI_ID => $cloi_id, 'publish' => Request :: get('publish'));
 		
 		$rdm = RepositoryDataManager :: get_instance();
 		$cloi = $rdm->retrieve_complex_learning_object_item($cloi_id);
@@ -45,9 +47,9 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 			
 			if($cloi_form)
 				$cloi_form->update_cloi_from_values($lo_form->exportValues());
-			
-			$parameters[ComplexBuilder :: PARAM_CLOI_ID] = null;
 
+			$parameters[ComplexBuilder :: PARAM_SELECTED_CLOI_ID] = null;
+				
 			$this->redirect(Translation :: get('LearningObjectUpdated'), false, 
 					array_merge($parameters, array(
 						'go' => 'build_complex',
