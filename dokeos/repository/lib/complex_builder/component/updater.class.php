@@ -43,7 +43,8 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 				$cloi->set_ref($lo->get_latest_version()->get_id());
 			}
 			
-			$cloi_form->update_cloi_from_values($lo_form->exportValues());
+			if($cloi_form)
+				$cloi_form->update_cloi_from_values($lo_form->exportValues());
 			
 			$parameters[ComplexBuilder :: PARAM_CLOI_ID] = null;
 
