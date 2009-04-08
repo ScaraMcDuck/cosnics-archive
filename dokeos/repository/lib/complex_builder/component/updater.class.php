@@ -45,9 +45,8 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 			
 			$cloi_form->update_cloi_from_values($lo_form->exportValues());
 			
-			if($cloi->get_parent() == $root_lo) $parameters[ComplexBuilder :: PARAM_CLOI_ID] = null;
-			else $parameters[ComplexBuilder :: PARAM_CLOI_ID] = $cloi->get_parent();
-			
+			$parameters[ComplexBuilder :: PARAM_CLOI_ID] = null;
+
 			$this->redirect(Translation :: get('LearningObjectUpdated'), false, 
 					array_merge($parameters, array(
 						'go' => 'build_complex',

@@ -23,5 +23,29 @@ class ComplexWikiPage extends ComplexLearningObjectItem
 	{
 		$this->set_additional_property(self :: PROPERTY_IS_HOMEPAGE, $value);
 	}
+	
+	function update()
+	{
+		if($this->get_is_homepage())
+		{
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->get_parent());
+			//$conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_IS_HOMEPAGE, 1);
+			//$condition = new AndCondition($conditions);
+		
+			$rdm = RepositoryDataManager :: get_instance();
+			$children = $rdm->retrieve_complex_learning_object_items($condition);
+			while($child = $children->next_result())
+			{
+				if($child->get_is_homepage())
+				{
+					$child->set_is_homepage(0);
+					$child->update();
+					break;
+				}
+			}
+		}
+		
+		return parent :: update();
+	}
 }
 ?>

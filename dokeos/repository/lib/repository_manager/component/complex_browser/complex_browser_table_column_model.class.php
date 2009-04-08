@@ -38,12 +38,12 @@ class ComplexBrowserTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns($show_subitems_column = true, $additional_columns = array())
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TYPE);
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE);
-		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION);
+		$columns[] = new ObjectTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TYPE)));
+		$columns[] = new ObjectTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TITLE)));
+		$columns[] = new ObjectTableColumn(Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_DESCRIPTION)));
 		//$columns[] = new ObjectTableColumn(ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER);
 		if($show_subitems_column)
-			$columns[] = new ObjectTableColumn('subitems');
+			$columns[] = new ObjectTableColumn(Translation :: get('Subitems'));
 		
 		foreach($additional_columns as $additional_column)	
 			$columns[] = $additional_column;
