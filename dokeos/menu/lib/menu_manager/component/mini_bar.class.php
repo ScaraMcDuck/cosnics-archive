@@ -17,6 +17,8 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
 		
 		$html[] = '<div class="minidropnav">';
 		
+		$html[] = '<ul class="bracket_left"><li></li></ul>';
+		
 		while ($root_item = $root_items->next_result())
 		{
 			$application = $root_item->get_application();
@@ -131,6 +133,8 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
 			$html[] = '<ul>';
 			$html[] = '<li><a href="index.php?logout=true">' . Translation :: get('Logout') . '</a></li>';
 			$html[] = '</ul>';
+			
+			$html[] = '<ul class="bracket_right"><li></li></ul>';
 		}
 		
 		$html[] = '</div>';

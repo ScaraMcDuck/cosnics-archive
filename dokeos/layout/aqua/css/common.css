@@ -41,7 +41,6 @@ img
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	overflow: hidden;
 }
 /* Header 1: Containing title, portal and organization */
 #header1
@@ -66,51 +65,24 @@ img
 	text-decoration: none;
 }
 
-#header1 .banner
+#header1 div.banner
 {
 	float: left;
-	margin: 18px 0px 19px 19px;
+	margin: 18px 19px 19px 19px;
+	background-image: url('../img/common/dokeos_banner.png');
+	background-repeat: no-repeat;
+	height: 64px;
+	width: 218px;
 }
 
-#header1 div.applications
+#header1 div.menu_container
 {
-	float: right;
-	margin: 38px 0px 0px 0px;
-	padding: 0px 6px 0px 6px;
-	
-	font-size: 98%;
-	font-weight: bold;
-	
-	height: 24px;
-	/*overflow: hidden;*/
-	
-	background-color: #264269;
-	background-image: url('../img/common/background_header_menu.png');
-	background-repeat: repeat-x;
-	
-	color: #E5EDF9;
-}
-
-#header1 div.bracket_left, #header1 div.bracket_right
-{
-	float: right;
-	margin: 34px 0px 0px 0px;
-	width: 12px;
-	height: 32px;
-}
-
-#header1 div.bracket_left
-{
-	margin-left: 19px;
-	background-image: url('../img/common/background_header_left.png');
-	background-repeat: repeat-x;
-}
-
-#header1 div.bracket_right
-{
+	position: relative;
+	margin-left: 256px;
+	right: 0px;
+	left: 0px;
 	margin-right: 19px;
-	background-image: url('../img/common/background_header_right.png');
-	background-repeat: repeat-x;
+	color: white;
 }
 
 #sitename
@@ -142,8 +114,31 @@ img
 #breadcrumbtrail
 {
 	clear: both;
-	margin: 0;
-	margin-left: 0.5em;
+	position: relative;
+	left: 0px;
+	right: 0px;
+	padding: 5px 1% 5px 1%;
+	margin-bottom: 10px;
+	
+	color: #444444;
+	background-color: #f2f2f2;
+	border-bottom: 1px solid black;
+}
+
+#breadcrumbtrail a
+{
+	color: #444444;
+}
+
+#breadcrumbtrail a:hover
+{
+	color: red;
+}
+
+#breadcrumbtrail a:active
+{
+	color: #fa8500;
+	outline: none;
 }
 
 /*****************************************************
@@ -172,7 +167,7 @@ img
 	margin-top: 10px;
 	width: 98%;
 	padding: 0px 10px 10px 10px;
-	background-color: #fff;
+	background-color: #FFFFFF;
 }
 
 /* "menu" classes for menu/navigation section in main index.php  */
@@ -2133,8 +2128,50 @@ ul.toolbar li.last span, ul.toolbar_horizontal li.last span, ul.toolbar_vertical
 /*Color navigation bar normal mode*/
 #header1 div.applications
 {
+	display: inline;
+	/*overflow: hidden;*/
+	
+	float: right;
+	margin: 38px 0px 0px 0px;
+	padding: 0px;
+	height: 24px;
+	
 	color: #E5EDF9;
 	text-decoration: none;
+	font-size: 98%;
+	font-weight: bold;
+	
+	background-color: #264269;
+	background-image: url('../img/common/background_header_menu.png');
+	background-repeat: repeat-x;
+	/*
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+	*/
+}
+
+#header1 ul.bracket_left li, #header1 ul.bracket_right li
+{
+	display: inline-block;
+	height: 24px;
+	width: 4px;
+	padding: 0px;
+	margin: 0px;
+	
+	background-repeat: no-repeat;
+	background-position: center left;
+}
+
+#header1 ul.bracket_left li
+{
+	margin-right: 9px;
+	background-image: url('../img/common/background_header_left.png');
+}
+
+#header1 ul.bracket_right li
+{
+	margin-left: 9px;
+	background-image: url('../img/common/background_header_right.png');
 }
 
 #header1 div.applications ul
@@ -2152,10 +2189,12 @@ ul.toolbar li.last span, ul.toolbar_horizontal li.last span, ul.toolbar_vertical
 	position:relative;
 	z-index:auto !important /*Non-IE6*/;
 	z-index:1000 /*IE6*/;
+	white-space: nowrap;
 }
 
 #header1 div.applications ul li.bullet
 {
+	height: 16px;
 	padding: 4px 9px 4px 9px;
 }
 
@@ -2191,6 +2230,7 @@ ul.toolbar li.last span, ul.toolbar_horizontal li.last span, ul.toolbar_vertical
 	display: block;
 	height: auto;
 	line-height: 16px;
+	height: 16px;
 	padding: 4px 0px 4px 0px;
 	text-decoration: none;
 	font-weight: bold;
@@ -2269,6 +2309,13 @@ ul.toolbar li.last span, ul.toolbar_horizontal li.last span, ul.toolbar_vertical
 {
 	color: #88a8d4;
 	text-decoration: none;
+	outline: none;
+}
+
+#header1 div.applications ul li a:active
+{
+	color: #fa8500;
+	outline: none;
 }
 
 #header1 div.applications ul li a:hover ul
