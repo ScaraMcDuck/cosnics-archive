@@ -69,6 +69,13 @@ class ComplexForumPostForm extends ComplexLearningObjectItemForm
 		return parent :: create_complex_learning_object_item();
 	}
 	
+	function update_cloi_from_values($values)
+	{
+		$cloi = $this->get_complex_learning_object_item();
+		$cloi->set_reply_on_post($values[ComplexForumPost :: PROPERTY_REPLY_ON_POST]); 
+		return parent :: update_complex_learning_object_item();
+	}
+	
 	// Inherited
 	function update_complex_learning_object_item()
 	{
