@@ -18,10 +18,10 @@ class ReportingTool extends Tool
 		switch ($action)
 		{
 			case self :: ACTION_VIEW_REPORT :
-				$component = StatisticsToolComponent :: factory('Viewer', $this);
+				$component = ReportingToolComponent :: factory('Viewer', $this);
 				break;
 			default :
-				$component = StatisticsToolComponent :: factory('Viewer', $this);
+				$component = ReportingToolComponent :: factory('Viewer', $this);
 		}
 		$component->run();
 	}
