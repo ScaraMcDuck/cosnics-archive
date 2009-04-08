@@ -49,7 +49,7 @@ class CourseUserImportForm extends FormValidator {
     	
     	foreach ($csvcourses as $csvcourse)
     	{
-    		if ($this->validate_data($csvcourse))
+    		if ($csvcourse = $this->validate_data($csvcourse))
     		{
     			$user_info = $this->get_user_info($csvcourse['username']);
     			
@@ -113,6 +113,11 @@ class CourseUserImportForm extends FormValidator {
 			$failures++;
 		}
 		
+		if($csvcourse['coursecode'])
+		{
+			$csvcourse['course'] = $csvcourse['coursecode'];
+		}
+		
 		//2. check if course code exists
 		if (!$this->is_course($csvcourse['course']))
 		{
@@ -131,7 +136,7 @@ class CourseUserImportForm extends FormValidator {
 		}
 		else
 		{
-    		return true;
+    		return $csvcourse;
 		}
     }
     
