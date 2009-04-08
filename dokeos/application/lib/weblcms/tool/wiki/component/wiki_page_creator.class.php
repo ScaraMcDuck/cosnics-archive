@@ -37,37 +37,9 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
             $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order(Request :: get('wiki_id')));
             $cloi->set_additional_properties(array('is_homepage' => 0));
             $cloi->create();
-            $this->display_header($trail);
-
-            $action_bar = $this->get_toolbar();
-            echo '<br />' . $action_bar->as_html();
-            echo '<p>Page created</p>';
+            $this->redirect(null, $message, '', array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, WikiTool :: PARAM_PUBLICATION_ID => $cloi->get_ref()));
         }
         $this->display_footer();
-	}
-    
-    function get_toolbar()
-	{
-		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		$action_bar->set_search_url($this->get_url());
-		$action_bar->add_common_action(
-			new ToolbarItem(
-				Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'wiki_id' => $this->pub->get_parameter('wiki_id'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			)
-		);
-        
-		$action_bar->add_common_action(
-			new ToolbarItem(
-                Translation :: get('Browse'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'wiki_id' => Request :: get('wiki_id'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			)
-		);
-
-		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
-		{
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		}
-		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('wiki tool'));
-		return $action_bar;
-	}
+    }
 }
 ?>
