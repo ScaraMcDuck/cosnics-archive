@@ -8,7 +8,9 @@ require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.
 class WikiToolItemViewerComponent extends WikiToolComponent
 {
 	private $action_bar;
-    private $object_id;
+    private $wiki_page_id;
+    private $wiki_id;
+    private $cid;
 	
 
 	function run()
@@ -19,18 +21,26 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 			return;
 		}
         
-        $this->object_id = Request :: get('object_id');
-        
+        $this->wiki_page_id = Request :: get('wiki_page_id');
+        $this->wiki_id = Request :: get('wiki_id');       
         $dm = RepositoryDataManager :: get_instance();
-        $object_id = $dm->retrieve_learning_object($this->object_id);
+        $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
+
+        /*
+         * complex object id needed to delete / update
+         */
+        $condition = New EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $wiki_page->get_id());
+        $cloi = $dm->retrieve_complex_learning_object_items($condition)->as_array();       
+        $this->cid = $cloi[0]->get_id();
+
         $this->display_header(new BreadcrumbTrail());
         
         $this->action_bar = $this->get_toolbar();
         echo '<br />' . $this->action_bar->as_html();
 
 		
-        echo '<h2>'.$object_id->get_title().'</h2>';
-        echo $object_id->get_description();
+        echo '<h2>'.$wiki_page->get_title().'</h2>';
+        echo $wiki_page->get_description();
         $this->display_footer();
 	}
 
@@ -42,42 +52,36 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('View'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, 'object_id' => $this->object_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			)
-		);
-
-        $action_bar->add_common_action(
-			new ToolbarItem(
-				Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'object_id' => $this->object_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Create Wiki Page'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 		$action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_EDIT_PAGE, 'object_id' => $this->object_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_EDIT_PAGE, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_DELETE, 'object_id' => $this->object_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_DELETE, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
         $action_bar->add_tool_action(
 			new ToolbarItem(
-				Translation :: get('Discuss'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_DISCUSS, 'object_id' => $this->object_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Discuss'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_DISCUSS, 'wiki_page_id' => $this->wiki_page_id, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
         $action_bar->add_tool_action(
 			new ToolbarItem(
-				Translation :: get('History'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_HISTORY, 'object_id' => $this->object_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('History'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_HISTORY, 'wiki_page_id' => $this->wiki_page_id, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
         $action_bar->add_tool_action(
 			new ToolbarItem(
-				Translation :: get('Notify Changes'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_HISTORY, 'object_id' => $this->object_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Notify Changes'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_HISTORY, 'wiki_page_id' => $this->wiki_page_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 

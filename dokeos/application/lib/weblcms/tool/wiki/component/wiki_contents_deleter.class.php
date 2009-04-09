@@ -8,9 +8,7 @@ require_once Path::get_repository_path().'/lib/complex_learning_object_item.clas
 
 class WikiToolContentsDeleterComponent extends WikiToolComponent
 {
-	private $action_bar;
-	private $introduction_text;
-    private $object_id;
+    private $wiki_id;
 
 	function run()
 	{
@@ -20,14 +18,17 @@ class WikiToolContentsDeleterComponent extends WikiToolComponent
 			return;
 		}
         $dm = RepositoryDataManager :: get_instance();
-        $wiki_id = Request :: get('wiki_id');
-        $condition = new EqualityCondition(ComplexLearningObjectItem ::PROPERTY_PARENT, $wiki_id);
+        $this->wiki_id = Request :: get('wiki_id');
+        /*
+         *  needs a rework to fix the use of a condition ( Stefan )
+         */
+        $condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->wiki_id);
         $pages = $dm->retrieve_complex_wiki_pages($condition);
         foreach($pages as $page)
         {
             $page->delete();
-        }
-        $this->redirect(null, $message, '', array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, 'wiki_id' => $wiki_id));
+        }        
+        $this->redirect(null, $message, '', array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, 'wiki_id' => $this->wiki_id));
 	}
 }
 ?>
