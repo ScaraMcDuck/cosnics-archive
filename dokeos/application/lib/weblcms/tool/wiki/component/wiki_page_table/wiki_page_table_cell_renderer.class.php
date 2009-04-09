@@ -15,6 +15,8 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 	private $table_actions;
 	private $browser;
     private $dm;
+    private $wiki_id;
+    private $wiki_page_id;
 	/**
 	 * Constructor.
 	 * @param string $publish_url_format URL for publishing the selected
@@ -40,10 +42,11 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 		}
 
         $wiki_page = $this->get_publication_from_clo_item($publication);        
-
+        $this->wiki_id = $publication->get_parent();
+        $this->wiki_page_id = $publication->get_ref();
         if($publication->get_additional_property('is_homepage')==1)
         {
-            $homepage = ' (homepage)';
+            $homepage = ' ('.Translation :: get('homepage').')';
         }
        
         if(isset($wiki_page))
@@ -90,7 +93,7 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
             if(($publication->get_additional_property('is_homepage')==0))
             {
                 $actions[] = array(
-                'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_SET_AS_HOMEPAGE, ComplexWikiPage ::PROPERTY_PARENT => $publication->get_parent(), Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+                'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_SET_AS_HOMEPAGE, ComplexWikiPage ::PROPERTY_PARENT => $publication->get_parent(), ComplexWikiPage ::PROPERTY_PARENT => $this->wiki_id, ComplexWikiPage ::PROPERTY_REF => $this->wiki_page_id)),
                 'label' => Translation :: get('Set as homepage'),
                 'img' => Theme :: get_common_image_path().'action_home.png'
                 );
