@@ -38,7 +38,7 @@ class LearningPathLearningObjectDisplay
 	
 	protected function display_link($link)
 	{
-		$html[] = '<iframe frameborder="0" style="border: 1px solid black;" src="' . $link . '" width="100%" height="500px">';
+		$html[] = '<iframe frameborder="0" style="border: 1px solid grey;" src="' . $link . '" width="100%" height="500px">';
 		$html[] = '<p>Your browser does not support iframes.</p></iframe>';
 		
 		return implode("\n", $html);
