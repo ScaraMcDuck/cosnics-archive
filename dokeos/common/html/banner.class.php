@@ -51,7 +51,6 @@ class Banner
 		if (Authentication :: is_valid()) 
 		{
 			$output[] = '<div class="menu_container">';
-			//$output[] = 'aaaa';
 			$output[] = '<div class="applications">';
 			
 			$usermgr = new UserManager($_SESSION['_uid']);
@@ -60,7 +59,9 @@ class Banner
 			$menumanager = new MenuManager($user);
 			$output[] = $menumanager->render_menu('render_mini_bar');
 			
+			$output[] = '<div class="clear">&nbsp;</div>';
 			$output[] = '</div>';
+			$output[] = '<div class="clear">&nbsp;</div>';
 			$output[] = '</div>';
 		}
 		

@@ -103,35 +103,35 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
 		$user = $this->get_user();
 		if (isset($user))
 		{	
-			$html[] = '<ul>';
-			$html[] = '<li><a href="index_user.php?go=account">' . Translation :: get('MyAccount') . '</a></li>';
+			$html[] = '<ul class="admin">';
+			$html[] = '<li class="admin"><a href="index_user.php?go=account">' . Translation :: get('MyAccount') . '</a></li>';
 			$html[] = '</ul>';
 			
-			$html[] = '<ul>';
+			$html[] = '<ul class="admin">';
 			$html[] = '<li class="bullet">&bull;</li>';
 			$html[] = '</ul>';
 			
-			$html[] = '<ul>';
-			$html[] = '<li><a href="index_repository_manager.php">' . Translation :: get('Repository') . '</a></li>';
+			$html[] = '<ul class="admin">';
+			$html[] = '<li class="admin"><a href="index_repository_manager.php">' . Translation :: get('Repository') . '</a></li>';
 			$html[] = '</ul>';
 			
-			$html[] = '<ul>';
+			$html[] = '<ul class="admin">';
 			$html[] = '<li class="bullet">&bull;</li>';
 			$html[] = '</ul>';
 			
 			if ($user->is_platform_admin())
 			{
-				$html[] = '<ul>';
-				$html[] = '<li><a href="index_admin.php">' . Translation :: get('Administration') . '</a></li>';
+				$html[] = '<ul class="admin">';
+				$html[] = '<li class="admin"><a href="index_admin.php">' . Translation :: get('Administration') . '</a></li>';
 				$html[] = '</ul>';
 				
-				$html[] = '<ul>';
+				$html[] = '<ul class="admin">';
 				$html[] = '<li class="bullet">&bull;</li>';
 				$html[] = '</ul>';
 			}
 			
-			$html[] = '<ul>';
-			$html[] = '<li><a href="index.php?logout=true">' . Translation :: get('Logout') . '</a></li>';
+			$html[] = '<ul class="admin">';
+			$html[] = '<li class="admin"><a href="index.php?logout=true">' . Translation :: get('Logout') . '</a></li>';
 			$html[] = '</ul>';
 			
 			$html[] = '<ul class="bracket_right"><li></li></ul>';
