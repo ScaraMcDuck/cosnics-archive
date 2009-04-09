@@ -200,7 +200,10 @@ abstract class ReportingTemplate {
     {
         foreach($this->retrieve_reporting_blocks() as $key => $value)
         {
-            $value[0]->set_function_parameters($params);
+            foreach ($params as $key2 => $value2) {
+                $value[0]->add_function_parameter($key2,$value2);
+            }
+            //$value[0]->set_function_parameters($params);
         }
     }//set_reporting_blocks_parameters
 

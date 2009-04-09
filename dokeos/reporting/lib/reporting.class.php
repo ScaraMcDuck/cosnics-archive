@@ -107,9 +107,21 @@ class Reporting{
         for($i = 1;$i<=$count;$i++)
         {
             $datadescription["Values"][] = "Serie".$i;
-            if($description)
+            if($description && $count > 1 && count($description) < $count)
                 $datadescription["Description"]["Serie".$i] = $description[$i];
+            else if($description)
+            {
+                for($i = 0;$i<count($description);$i++)
+                {
+                    $datadescription["Description"]["Column".$i] = $description[$i];
+                }
+            }
         }
+        if(isset($description["Orientation"]))
+            $datadescription["Orientation"] = $description["Orientation"];
+        else
+            $datadescription["Orientation"] = ($serie-1 == 1)?'vertical':'horizontal';
+
         array_push($array,$data);
         array_push($array,$datadescription);
         return $array;

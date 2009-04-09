@@ -72,4 +72,22 @@
            displaymode="Table"
            width="500px"
            height="500px" />
+    <reporting_block name="WeblcmsAverageLearningpathScore"
+            application="weblcms"
+            function="getAverageLearningpathScore"
+            displaymode="Table"
+            width="500px"
+            height="500px" />
+    <reporting_block name="WeblcmsAverageExerciseScore"
+            application="weblcms"
+            function="getAverageExcerciseScore"
+            displaymode="Table"
+            width="500px"
+            height="500px" />
+    <reporting_block name="WeblcmsWikiPageMostActiveUser"
+            application="weblcms"
+            function="getWikiPageMostActiveUser"
+            displaymode="Table"
+            width="500px"
+            height="500px" />
 </application>

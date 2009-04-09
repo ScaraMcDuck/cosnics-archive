@@ -181,6 +181,16 @@ class ReportingBlock{
         return $this->data;
     }
 
+    public function add_function_parameter($key,$value)
+    {
+        $this->params[$key] = $value;
+    }
+
+    public function remove_function_parameter($key)
+    {
+        unset($this->params[$key]);
+    }
+
     public function set_function_parameters($params)
     {
         $this->params = $params;

@@ -15,25 +15,20 @@ class ReportingTableFormatter extends ReportingFormatter {
         $all_data = $this->reporting_block->get_data();
         $data = $all_data[0];
         $datadescription = $all_data[1];
-        $series = sizeof($datadescription["Values"]);
-
+        $orientation = $datadescription["Orientation"];
         $counter = 1;
-        $values = 0;
         $i = 1;
         $j = 0;
-        foreach ($datadescription["Values"] as $key => $value) {
-            $values++;
-        }
         $table = new HTML_Table(array('class' => 'data_table'));
         $table->altRowAttributes(1, array ('class' => 'row_odd'), array ('class' => 'row_even'), true);
-        if($series==1)
+        if($orientation == 'vertical')
         {
-            foreach ($data as $key => $value)
+            foreach($data as $key => $value)
             {
-                if ($counter == 1) {
-                    foreach ($value as $key2 => $value2)
-                    {
-                        $table->setHeaderContents(0, $j, '');
+                if($counter == 1)
+                {
+                    foreach ($value as $key2 => $value2) {
+                        $table->setHeaderContents(0, $j, $datadescription["Description"]["Column".$j]);
                         $j++;
                     }
                     $counter++;
@@ -41,12 +36,12 @@ class ReportingTableFormatter extends ReportingFormatter {
                 $j = 0;
                 foreach ($value as $key2)
                 {
-                    $table->setCellContents($i,$j,$key2);
+                    $table->setCellContents($i, $j, $key2);
                     $j++;
                 }
                 $i++;
             }
-        }else
+        }else if($orientation == 'horizontal')
         {
             $i = 1;
             $j = 0;
