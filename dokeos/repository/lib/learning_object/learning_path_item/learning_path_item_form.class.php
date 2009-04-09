@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../../learning_object_form.class.php';
-require_once dirname(__FILE__).'/learning_path.class.php';
+require_once dirname(__FILE__).'/learning_path_item.class.php';
 /**
  * @package repository.learningobject
  * @subpackage learning_path
@@ -43,8 +43,16 @@ class LearningPathItemForm extends LearningObjectForm
 	{
 		parent :: build_editing_form();
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-		$this->addElement('checkbox',LearningPathItem :: PROPERTY_REFERENCE, Translation :: get('Reference'));
+		$this->addElement('text',LearningPathItem :: PROPERTY_REFERENCE, Translation :: get('Reference'));
 		$this->addElement('category');
 	}
+	
+	function setDefaults($defaults = array ())
+	{
+		$object = $this->get_learning_object();
+		$defaults[LearningPathItem :: PROPERTY_REFERENCE] = $object->get_reference();
+		parent :: setDefaults($defaults);
+	}
+		
 }
 ?>

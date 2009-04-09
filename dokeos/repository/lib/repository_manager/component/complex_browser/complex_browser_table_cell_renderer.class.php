@@ -47,14 +47,15 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 	}
 	
 	// Inherited
-	function render_cell($column, $cloi)
+	function render_cell($column, $cloi, $learning_object = null)
 	{
 		if ($column === ComplexBrowserTableColumnModel :: get_modification_column())
 		{
 			return $this->get_modification_links($cloi);
 		}
 
-		$learning_object = $this->retrieve_learning_object($cloi->get_ref());
+		if(!$learning_object)
+			$learning_object = $this->retrieve_learning_object($cloi->get_ref());
 		
 		switch ($column->get_title())
 		{ 
@@ -74,8 +75,8 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 				if($learning_object->is_complex_learning_object())
 				{
 					$title_short = '<a href="' . $this->browser->get_url(
-						array(RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->browser->get_root(), 
-							  RepositoryManager :: PARAM_CLOI_ID => $cloi->get_id(), 'publish' => $_GET['publish'])) . '">' . $title_short . '</a>'; 
+						array(ComplexBuilder :: PARAM_ROOT_LO => $this->browser->get_root(), 
+							  ComplexBuilder :: PARAM_CLOI_ID => $cloi->get_id(), 'publish' => $_GET['publish'])) . '">' . $title_short . '</a>'; 
 				}
 				
 				return $title_short; //'<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
@@ -174,7 +175,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 	
-	private function check_move_allowed($cloi)
+	protected function check_move_allowed($cloi)
 	{
 		$moveup_allowed = true;
 		$movedown_allowed = true;
