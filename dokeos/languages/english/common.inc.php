@@ -159,4 +159,5 @@ $lang['common']['Off'] = 'Off';
 $lang['common']['License'] = 'License';
 $lang['common']['PrivacyPolicy'] = 'Privacy policy';
 $lang['common']['Contact'] = 'Contact';
+$lang['common']['Version'] = 'Version';
 ?>

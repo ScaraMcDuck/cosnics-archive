@@ -36,7 +36,9 @@ class Footer
 		$output[] = '</div> <!-- end of #main" started at the end of banner.inc.php -->';
 		$output[] = '<div id="footer"> <!-- start of #footer section -->';
 		
-		if (Authentication :: is_valid()) 
+		$show_sitemap = $this->get_setting('show_footer_sitemap', 'admin');
+		
+		if (Authentication :: is_valid() && $show_sitemap == '1') 
 		{
 			$output[] = '<div id="footer_menu">';
 			$output[] = '<div class="categories">';
@@ -56,18 +58,10 @@ class Footer
 		$output[] = '<a href="http://www.dokeosplanet.org"><img src="'. Theme :: get_common_image_path() .'dokeos_logo_small.png" /></a>';
 		$output[] = '</div>';
 		$output[] = '<div class="links">';
-		$output[] = Translation :: get('License') . '&nbsp;|&nbsp;' . Translation :: get('PrivacyPolicy') . '&nbsp;|&nbsp;' . Translation :: get('Contact') . '&nbsp;|&nbsp;<a href="http://www.dokeosplanet.org">http://www.dokeosplanet.org</a>';
+		$output[] = Translation :: get('Version') . ' ' . $this->get_setting('version', 'admin') . '&nbsp;|&nbsp;' . Translation :: get('License') . '&nbsp;|&nbsp;' . Translation :: get('PrivacyPolicy') . '&nbsp;|&nbsp;' . Translation :: get('Contact') . '&nbsp;|&nbsp;<a href="http://www.dokeosplanet.org">http://www.dokeosplanet.org</a>';
 		$output[] = '</div>';
 		$output[] = '<div class="clear"></div>';
 		$output[] = '</div>';
-		
-		$output[] = '';
-		$output[] = '';
-		$output[] = '';
-		$output[] = '';
-		$output[] = '';
-		$output[] = '';
-		$output[] = '';
 		
 //		$output[] = '<a href="http://www.dokeosplanet.org"><img src="'. Theme :: get_common_image_path() .'dokeos_logo_small.png" /></a>';
 //		
