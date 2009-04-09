@@ -17,10 +17,10 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
 			return;
 		}
 		$trail = new BreadcrumbTrail();
-		$object = Request :: get('object');
+		$object = Request :: get('object'); //the object that was made, needed to set the reference for the complex object
 
 		$this->pub = new LearningObjectRepoViewer($this, 'wiki_page', true, RepoViewer :: SELECT_MULTIPLE, WikiTool ::ACTION_CREATE_PAGE);
-        $this->pub->set_parameter('object_id', $_GET['object_id']);
+        $this->pub->set_parameter('wiki_id', $_GET['wiki_id']); //needed to set parent, which is the wiki_id
 
 		if(!isset($object))
 		{
@@ -35,12 +35,12 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
             
             $cloi = ComplexLearningObjectItem ::factory('wiki_page');
             $cloi->set_ref($object);
-            $cloi->set_parent(Request :: get('object_id'));
+            $cloi->set_parent(Request :: get('wiki_id'));
             $cloi->set_user_id($this->pub->get_user_id());
-            $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order(Request :: get('object_id')));
+            $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order(Request :: get('wiki_id')));
             $cloi->set_additional_properties(array('is_homepage' => 0));
             $cloi->create();
-            $this->redirect(null, $message, '', array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, WikiTool ::PARAM_OBJECT_ID => $cloi->get_ref()));
+            $this->redirect(null, $message, '', array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, WikiTool :: PARAM_WIKI_PAGE_ID => $cloi->get_ref()));
         }
         $this->display_footer();
     }

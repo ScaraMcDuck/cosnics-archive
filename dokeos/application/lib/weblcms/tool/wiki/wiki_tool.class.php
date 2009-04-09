@@ -12,6 +12,9 @@ require_once dirname(__FILE__).'/wiki_tool_component.class.php';
  */
 class WikiTool extends Tool
 {
+    const PARAM_WIKI_ID = 'wiki_id';
+    const PARAM_WIKI_PAGE_ID = 'wiki_page_id';
+
 	const ACTION_BROWSE_WIKIS = 'browse';
 	const ACTION_VIEW_WIKI = 'view';
 	const ACTION_VIEW_WIKI_PAGE = 'view_item';
@@ -62,11 +65,11 @@ class WikiTool extends Tool
                 $component = WikiToolComponent :: factory('ContentsDeleter', $this);
                 break;
             case self :: ACTION_DELETE_PAGE :
-                $component = WikiToolComponent :: factory('Deleter', $this);
-                break;
+                $component = ToolComponent :: factory('', 'ComplexDeleter', $this);
+				break;
             case self :: ACTION_EDIT_PAGE :
-                $component = WikiToolComponent :: factory('Editor', $this);
-                break;
+               $component = ToolComponent :: factory('', 'ComplexEdit', $this);
+				break;
             case self :: ACTION_DISCUSS :
                 $component = WikiToolComponent :: factory('Discuss', $this);
                 break;

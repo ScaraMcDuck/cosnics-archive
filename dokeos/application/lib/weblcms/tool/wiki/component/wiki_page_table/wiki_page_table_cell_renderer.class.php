@@ -39,31 +39,30 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 			return $this->get_actions($publication);
 		}
 
-        $learning_object = $this->get_publication_from_clo_item($publication);
-        
+        $wiki_page = $this->get_publication_from_clo_item($publication);        
 
         if($publication->get_additional_property('is_homepage')==1)
         {
             $homepage = ' (homepage)';
         }
        
-        if(isset($learning_object))
+        if(isset($wiki_page))
         {
             if ($property = $column->get_title())
             {
                 switch ($property)
                 {
                     case 'Title' :
-                        return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_OBJECT_ID => $learning_object->get_id())) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>'.$homepage;
+                        return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, WikiTool :: PARAM_WIKI_PAGE_ID => $wiki_page->get_id(), WikiTool :: PARAM_WIKI_ID => $publication->get_parent())) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>'.$homepage;
                         //default:
-                        //return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>';
+                        //return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>';
                     case 'versions' :
-                            return $learning_object->get_version_count();
+                            return $wiki_page->get_version_count();
                 }
             }
         }
 
-		return parent :: render_cell($column, $learning_object);
+		return parent :: render_cell($column, $wiki_page);
 	}
 
 	function get_actions($publication)
@@ -104,18 +103,18 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 
 	/**
 	 * Gets the links to publish or edit and publish a learning object.
-	 * @param LearningObject $learning_object The learning object for which the
+	 * @param LearningObject $wiki_page The learning object for which the
 	 * links should be returned.
 	 * @return string A HTML-representation of the links.
 	 */
-	private function get_publish_links($learning_object)
+	private function get_publish_links($wiki_page)
 	{
 		$toolbar_data = array();
 		$table_actions = $this->table_actions;
 
 		foreach($table_actions as $table_action)
 		{
-			$table_action['href'] = sprintf($table_action['href'], $learning_object->get_id());
+			$table_action['href'] = sprintf($table_action['href'], $wiki_page->get_id());
 			$toolbar_data[] = $table_action;
 		}
 
