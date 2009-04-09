@@ -516,18 +516,47 @@ class ReportingWeblcms {
     public static function getWikiPageMostActiveUser($params)
     {
         require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
+        require_once Path :: get_user_path().'/lib/user_data_manager.class.php';
         $wiki_page_id = $params['wiki_page_id'];
         $dm = RepositoryDataManager :: get_instance();
         $wiki_page = $dm->retrieve_learning_object($wiki_page_id);
         $versions = $dm->retrieve_learning_object_versions($wiki_page);
-        $arr[Translation :: get('MostActiveUser')][] = 'Username';
+        $users = array();
+        foreach($versions as $version)
+        {
+            $users[$version->get_default_property('owner')]++;
+        }
+        arsort($users);
+        $keys=array_keys($users);
+        $user = UserDataManager ::get_instance()->retrieve_user($keys[0]);
+        $arr[Translation :: get('MostActiveUser')][] = $user->get_username();
+        $arr[Translation :: get('NumberOfContributions')][] = $users[$user->get_id()];
 
         return Reporting::getSerieArray($arr);
     }
 
     public static function getWikiPageUsersContributions($params)
     {
-        
+        require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
+        require_once Path :: get_user_path().'/lib/user_data_manager.class.php';
+        $wiki_page_id = $params['wiki_page_id'];
+        $dm = RepositoryDataManager :: get_instance();
+        $wiki_page = $dm->retrieve_learning_object($wiki_page_id);
+        $versions = $dm->retrieve_learning_object_versions($wiki_page);
+        $users = array();
+        foreach($versions as $version)
+        {
+            $users[$version->get_default_property('owner')]++;
+        }
+        arsort($users);
+        foreach($users as $user => $number)
+        {
+            $user = UserDataManager ::get_instance()->retrieve_user($user);
+            $arr[Translation :: get('Username')][] = $user->get_username();
+            $arr[Translation :: get('NumberOfContributions')][] = $number;
+        }        
+        $description['Orientation'] = 'horizontal';
+        return Reporting::getSerieArray($arr,$description);
     }
 }
 ?>

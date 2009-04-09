@@ -20,7 +20,6 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 			Display :: not_allowed();
 			return;
 		}
-        
         $this->wiki_page_id = Request :: get('wiki_page_id');
         $this->wiki_id = Request :: get('wiki_id');       
         $dm = RepositoryDataManager :: get_instance();
@@ -34,7 +33,6 @@ class WikiToolItemViewerComponent extends WikiToolComponent
         $this->cid = $cloi[0]->get_id();
 
         $this->display_header(new BreadcrumbTrail());
-        
         $this->action_bar = $this->get_toolbar();
         echo '<br />' . $this->action_bar->as_html();
 
