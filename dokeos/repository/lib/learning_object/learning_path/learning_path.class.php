@@ -8,7 +8,7 @@ class LearningPath extends LearningObject
 {
 	function get_allowed_types()
 	{
-		return array('learning_path_chapter');
+		return array('learning_path', 'learning_path_item');
 	}
 }
 ?>

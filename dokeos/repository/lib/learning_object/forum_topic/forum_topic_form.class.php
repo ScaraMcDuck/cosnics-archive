@@ -55,7 +55,7 @@ class ForumTopicForm extends LearningObjectForm
 		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
 		$defaults[LearningObject :: PROPERTY_PARENT_ID] = $valuearray[1];
 		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[2];
-		$defaults[LearningObject :: PROPERTY_LOCKED] = $valuearray[3];	
+		$defaults[ForumTopic :: PROPERTY_LOCKED] = $valuearray[3];	
 		parent :: set_values($defaults);			
 	}
 	
