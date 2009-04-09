@@ -68,8 +68,8 @@ abstract class ComplexBuilder
 			$root_lo = Request :: get(self :: PARAM_ROOT_LO);
 			if($root_lo)
 			{
-				$type = RepositoryDataManager :: get_instance()->determine_learning_object_type($root_lo);
-				$small_type = DokeosUtilities :: camelcase_to_underscores($type); 
+				$small_type = RepositoryDataManager :: get_instance()->determine_learning_object_type($root_lo);
+				$type = DokeosUtilities :: underscores_to_camelcase($small_type); 
 				$file = dirname(__FILE__) . '/' . $small_type . '/' . $small_type . '_builder.class.php'; 
 				require_once $file;
 				$class = $type . 'Builder';

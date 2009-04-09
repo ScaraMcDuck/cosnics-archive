@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__FILE__) . '/../complex_builder_component.class.php';
-require_once dirname(__FILE__) . '/../complex_repo_viewer.class.php';
+require_once dirname(__FILE__) . '/../learning_path_builder_component.class.php';
+require_once dirname(__FILE__) . '/../../complex_repo_viewer.class.php';
 require_once Path :: get_repository_path() . 'lib/repository_data_manager.class.php';
 
-class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
+class LearningPathBuilderItemCreatorComponent extends LearningPathBuilderComponent
 {
 	private $rdm;
 	
@@ -56,11 +56,18 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 			$rdm = RepositoryDataManager :: get_instance();
 			
 			foreach($object as $obj)
-			{
-				$type = $rdm->determine_learning_object_type($obj);
+			{	
+				$learning_object = new LearningPathItem();
+				$learning_object->set_title('learning_path_item');
+				$learning_object->set_description('learning_path_item');
+				$learning_object->set_owner_id($this->get_user_id());
+				$learning_object->set_reference($obj);
+				$learning_object->set_parent_id(0);
 				
-				$cloi = ComplexLearningObjectItem :: factory($type);
-				$cloi->set_ref($obj);
+				$learning_object->create();
+				
+				$cloi = ComplexLearningObjectItem :: factory('learning_path_item');
+				$cloi->set_ref($learning_object->get_id());
 				
 				$parent = $root_lo;
 				if($cloi_id)
