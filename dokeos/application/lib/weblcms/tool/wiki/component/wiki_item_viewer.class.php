@@ -85,6 +85,12 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 			)
 		);
 
+        $action_bar->add_tool_action(
+			new ToolbarItem(
+				Translation :: get('Statistics'), Theme :: get_common_image_path().'action_statistics.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_PAGE_STATISTICS, 'wiki_page_id' => $this->wiki_page_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+			)
+		);
+
 		
 		return $action_bar;
 	}
