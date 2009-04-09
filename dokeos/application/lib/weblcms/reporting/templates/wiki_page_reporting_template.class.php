@@ -10,6 +10,8 @@ class WikiPageReportingTemplate extends ReportingTemplate
         $this->parent = $parent;
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsWikiPageMostActiveUser"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsWikiPageUsersContributions"),
+            array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
 	}
 
     /**
@@ -41,7 +43,6 @@ class WikiPageReportingTemplate extends ReportingTemplate
         $html[] = '</div>';
 
     	//template footer
-        $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_hover.js' .'"></script>';
         $html[] = $this->get_footer();
 
     	return implode("\n", $html);
