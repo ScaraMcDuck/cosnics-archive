@@ -46,8 +46,7 @@ img
 #header1
 {
 	font-size: 12px;
-	padding: 4px;
-	background-color: #264269;
+	padding: 0px;
 	color: #ffffff;
 	border-bottom: 1px solid white;
 }
@@ -61,6 +60,25 @@ img
 	color: #ffffff;
 	text-decoration: none;
 }
+
+#header1 div.banner
+{
+	clear: both;
+	margin: 0px;
+	background-color: #264269;
+	background-image: url('../img/common/dokeos_banner.png');
+	background-repeat: no-repeat;
+	height: 24px;
+	width: 100%
+}
+
+#header1 div.menu_container
+{
+	background-image: none;
+	background-color: #4271b5;
+	clear: both;
+}
+
 #sitename
 {
 	margin: 0;
