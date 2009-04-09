@@ -524,5 +524,10 @@ class ReportingWeblcms {
 
         return Reporting::getSerieArray($arr);
     }
+
+    public static function getWikiPageUsersContributions($params)
+    {
+        
+    }
 }
 ?>

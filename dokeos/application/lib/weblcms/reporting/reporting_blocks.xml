@@ -35,7 +35,7 @@
            function="getLatestAccess"
            displaymode="Table"
            width="500px"
-           height="500px" />
+           height="300px" />
    <reporting_block name="WeblcmsNoOfCoursesByLanguage"
            application="weblcms"
            function="getNoOfCoursesByLanguage"
@@ -87,6 +87,12 @@
     <reporting_block name="WeblcmsWikiPageMostActiveUser"
             application="weblcms"
             function="getWikiPageMostActiveUser"
+            displaymode="Table"
+            width="500px"
+            height="500px" />
+    <reporting_block name="WeblcmsWikiPageUsersContributions"
+            application="weblcms"
+            function="getWikiPageUsersContributions"
             displaymode="Table"
             width="500px"
             height="500px" />
