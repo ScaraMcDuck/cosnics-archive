@@ -91,7 +91,12 @@ class LearningPathTree extends HTML_Menu
 		while ($object = $objects->next_result())
 		{
 			$lo = $datamanager->retrieve_learning_object($object->get_ref());
-				
+			
+			if($lo->get_type() == 'learning_path_item')
+			{
+				$lo = $datamanager->retrieve_learning_object($lo->get_reference());
+			}
+			
 			$menu_item = array();
 			$menu_item['title'] = $lo->get_title();
 			$menu_item['class'] = 'type_' . $lo->get_type();
@@ -99,7 +104,7 @@ class LearningPathTree extends HTML_Menu
 			
 			$sub_menu_items = array();
 			
-			if($lo->get_type() == 'learning_path_chapter')
+			if($lo->get_type() == 'learning_path')
 				$sub_menu_items = $this->get_menu_items($object->get_ref());
 			
 			if(count($sub_menu_items) > 0)
