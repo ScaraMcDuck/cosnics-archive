@@ -44,7 +44,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		echo $this->get_progress_bar();
 		echo $this->get_navigation_menu($menu->count_steps(), $step) . '<br /><br />';
 		echo '</div>';
-		echo '<div style="width: 80%; border-left: 1px solid black; float: right; padding-left: 10px; min-height: 500px;">' . $display . '</div>';
+		echo '<div style="width: 80%; float: right; padding-left: 10px; min-height: 500px;">' . $display . '</div>';
 		echo '<div class="clear">&nbsp;</div>';
 		$this->display_footer();
 	}
