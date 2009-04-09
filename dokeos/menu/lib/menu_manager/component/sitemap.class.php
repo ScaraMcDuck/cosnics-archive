@@ -89,7 +89,7 @@ class MenuManagerSitemapComponent extends MenuManagerComponent
 		$user = $this->get_user();
 		if (isset($user))
 		{	
-			$html[] = '<div class="platform">';
+			$html[] = '<div class="category no_margin">';
 			$html[] = '<h1>' . Translation :: get('Platform') . '</h1>';
 			$html[] = '<div class="item"><a href="index_user.php?go=account">' . Translation :: get('MyAccount') . '</a></div>';
 			$html[] = '<div class="item"><a href="index_repository_manager.php">' . Translation :: get('Repository') . '</a></div>';
