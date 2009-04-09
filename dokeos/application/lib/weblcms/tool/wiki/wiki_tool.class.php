@@ -24,8 +24,9 @@ class WikiTool extends Tool
     const ACTION_DELETE_WIKI_CONTENTS = 'delete_wiki_contents';
     const ACTION_DELETE_PAGE = 'delete_page';
     const ACTION_EDIT_PAGE = 'edit_page';
-    const ACTION_DISCUSS = 'Discuss';
-    const ACTION_HISTORY = 'History';
+    const ACTION_DISCUSS = 'discuss';
+    const ACTION_HISTORY = 'history';
+    const ACTION_PAGE_STATISTICS = 'page_statistics';
 	
 	/**
 	 * Inherited.
@@ -75,6 +76,9 @@ class WikiTool extends Tool
                 break;
             case self :: ACTION_HISTORY :
                 $component = WikiToolComponent :: factory('History', $this);
+                break;
+            case self :: ACTION_PAGE_STATISTICS :
+                $component = WikiToolComponent :: factory('PageStatisticsViewer', $this);
                 break;
 			default :                
 				$component = WikiToolComponent :: factory('Browser', $this);
