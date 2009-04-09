@@ -60,6 +60,12 @@
             displaymode="Table"
             width="500px"
             height="500px" />
+    <reporting_block name="UserCourseStatistics"
+            application="user"
+            function="getUserCourseStatistics"
+            displaymode="Table"
+            width="500px"
+            height="500px" />
 	<reporting_block name="Browsers" 
 		   application="user" 
 		   function="getBrowsers" 
@@ -87,6 +93,12 @@
 	<reporting_block name="Referers" 
 		   application="user" 
 		   function="getReferers" 
+		   displaymode="Table"
+		   width="500px"
+		   height="500px" />
+    <reporting_block name="UserTracking"
+		   application="user"
+		   function="getUserTracking"
 		   displaymode="Table"
 		   width="500px"
 		   height="500px" />

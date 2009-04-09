@@ -20,6 +20,12 @@ class WikiToolPageStatisticsViewerComponent extends WikiToolComponent
 			return;
 		}
 
+        $params = array();
+        $params[ReportingManager :: PARAM_COURSE_ID] = $this->get_course_id();
+        $params['wiki_page_id'] = Request :: get('wiki_page_id');
+        $url = ReportingManager :: get_reporting_template_registration_url('WikiPageReportingTemplate',$params);
+        header('location: '.$url);
+        
         $this->wiki_page_id = Request :: get('wiki_page_id');
        
         $dm = RepositoryDataManager :: get_instance();

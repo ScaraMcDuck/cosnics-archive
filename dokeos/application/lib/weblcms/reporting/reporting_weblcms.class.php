@@ -155,14 +155,21 @@ class ReportingWeblcms {
      */
     public static function getLastAccessToTools($params)
     {
-        $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
-        //$course_id = 2;
+        require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
+        
         $wdm = WeblcmsDataManager :: get_instance();
+        $tracker = new VisitTracker();
+        $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
         $course = $wdm->retrieve_course($course_id);
 		$tools = $wdm->get_course_modules($course_id);
+
+        //dump($tools);
         foreach($tools as $key => $value)
         {
-            $date = $wdm->get_last_visit_date_per_course($course_id,$value->name);
+            $name = $value->name;
+            $link = $name;
+            $counter = 0;
+            $date = $wdm->get_last_visit_date_per_course($course_id,$name);
             if($date)
             {
                 $date = date('d F Y (G:i:s)',$date);
@@ -170,9 +177,23 @@ class ReportingWeblcms {
             {
                 $date = Translation :: get('NeverAccessed');
             }
-            $arr[$value->name][] = $date;
+            $conditions = array();
+            $conditions[] = new LikeCondition(VisitTracker::PROPERTY_LOCATION,'&course='.$course_id);
+            $conditions[] = new LikeCondition(VisitTracker::PROPERTY_LOCATION,'&tool='.$name);
+            $condition = new AndCondition($conditions);
+            $trackerdata = $tracker->retrieve_tracker_items($condition);
+            foreach ($trackerdata as $key => $value) {
+                $counter++;
+            }
+            $arr[$link][] = $date;
+            $arr[$link][] = $counter;
+
+            $description[0] = Translation :: get('Tool');
+            $description[1] = Translation :: get('LastAccess');
+            $description[2] = Translation :: get('Clicks');
+            $description["Orientation"] = 'vertical';
         }
-        return Reporting :: getSerieArray($arr);
+        return Reporting :: getSerieArray($arr,$description);
     }
 
     /**
@@ -204,13 +225,13 @@ class ReportingWeblcms {
         $user = $udm->retrieve_user($user_id);
         $trackerdata = $tracker->retrieve_tracker_items($condition);
         foreach ($trackerdata as $key => $value) {
-            $lastaccess = $value->get_leave_date();
+            $lastaccess = $value->get_enter_date();
             if(!isset($user_id))
                 $user = $udm->retrieve_user($value->get_user_id());
 
             $arr[Translation :: get('User')][] = $user->get_fullname();
             $arr[Translation :: get('LastAccess')][] = $lastaccess;
-            $time = strtotime($lastaccess) - strtotime($value->get_enter_date());
+            $time = strtotime($value->get_leave_date()) - strtotime($value->get_enter_date());
             $time = mktime(0,0,$time,0,0,0);
             $time = date('G:i:s',$time);
             $arr[Translation :: get('TotalTime')][] = $time;
@@ -416,7 +437,7 @@ class ReportingWeblcms {
      */
     public static function getNoOfPublishedObjectsPerType($params)
     {
-                $rdm = RepositoryDataManager::get_instance();
+        $rdm = RepositoryDataManager::get_instance();
         $list = $rdm->get_registered_types();
         foreach ($list as $key => $value) {
             $arr[Translation :: get($value)][0] = 0;
@@ -452,6 +473,56 @@ class ReportingWeblcms {
         }
 
         return Reporting :: getSerieArray($arr);
+    }
+
+    public static function getAverageLearningpathScore($params)
+    {
+        $course_id = $params[ReportingManager::PARAM_COURSE_ID];
+        $wdm = WeblcmsDataManager::get_instance();
+        //$lops = $wdm->retrieve_learning_object_publications($course_id);
+        $condition = new EqualityCondition(LearningObjectPublication::PROPERTY_TOOL,'learning_path');
+        $lops = $wdm->retrieve_learning_object_publications($course_id, null, null, null, $condition);
+
+        while($lop = $lops->next_result())
+        {
+            $lpo = $lop->get_learning_object();
+            $arr[$lpo->get_title()][0] = 0;
+        }
+
+        $datadescription[0] = Translation :: get('LearningPath');
+        $datadescription[1] = Translation :: get('Average');
+
+        return Reporting :: getSerieArray($arr,$datadescription);
+    }
+
+    public static function getAverageExcerciseScore($params)
+    {
+        $course_id = $params[ReportingManager::PARAM_COURSE_ID];
+        $wdm = WeblcmsDataManager::get_instance();
+
+        $condition = new EqualityCondition(LearningObjectPublication::PROPERTY_TOOL,'assessment');
+        $lops = $wdm->retrieve_learning_object_publications($course_id, null, null, null, $condition);
+
+        while($lop = $lops->next_result())
+        {
+            //dump($lop);
+        }
+
+        $arr[''][] = Translation :: get('NotAvailable');
+
+        return Reporting::getSerieArray($arr);
+    }
+
+    public static function getWikiPageMostActiveUser($params)
+    {
+        require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
+        $wiki_page_id = $params['wiki_page_id'];
+        $dm = RepositoryDataManager :: get_instance();
+        $wiki_page = $dm->retrieve_learning_object($wiki_page_id);
+        $versions = $dm->retrieve_learning_object_versions($wiki_page);
+        $arr[Translation :: get('MostActiveUser')][] = 'Username';
+
+        return Reporting::getSerieArray($arr);
     }
 }
 ?>

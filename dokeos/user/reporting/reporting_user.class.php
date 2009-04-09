@@ -266,15 +266,12 @@ class ReportingUser {
 
     /**
      * Returns the platform statistics from a specified user
-     * If a course id is given, adds the time the user has been in this course
      * @param <type> $params
      * @return <type>
      */
     public static function getUserPlatformStatistics($params)
     {
-        $course_id = $params[ReportingManager::PARAM_COURSE_ID];
         $uid = $params[ReportingManager :: PARAM_USER_ID];
-        //$uid = 2;
         require_once(dirname(__FILE__) . '/../trackers/login_logout_tracker.class.php');
         require_once(dirname(__FILE__) . '/../trackers/visit_tracker.class.php');
         $conditions[] = new EqualityCondition(LoginLogoutTracker::PROPERTY_USER_ID,$uid);
@@ -282,12 +279,10 @@ class ReportingUser {
         $condition = new AndCondition($conditions);
         $tracker = new LoginLogoutTracker();
         $trackerdata = $tracker->retrieve_tracker_items($condition);
-        //dump($condition);
         foreach($trackerdata as $key => $value)
         {
             if(!$firstconnection)
             {
-                //$firstconnection = $value->get_date();
                 $firstconnection = $value->get_date();
                 $lastconnection = $value->get_date();
             }
@@ -304,27 +299,50 @@ class ReportingUser {
         unset($conditions);
         unset($condition);
         $tracker = new VisitTracker();
-        if(isset($course_id))
-        {
-            $conditions[] = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
-            $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$uid);
-            $condition = new AndCondition($conditions);
-            $trackerdata = $tracker->retrieve_tracker_items($condition);
-
-//            foreach ($trackerdata as $key => $value) {
-//                $timeoncourse += strtotime($value->get_leave_date())-strtotime($value->get_enter_date());
-//            }
-
-            $arr[Translation :: get('TimeOnCourse')][] = self :: get_total_time($trackerdata);
-        }
 
         $condition = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$uid);
         $trackerdata = $tracker->retrieve_tracker_items($condition);
-
-//        foreach ($trackerdata as $key => $value) {
-//            $totaltime += strtotime($value->get_leave_date())-strtotime($value->get_enter_date());
-//        }
         $arr[Translation :: get('TimeOnPlatform')][] = self :: get_total_time($trackerdata);
+
+        return Reporting :: getSerieArray($arr);
+    }
+
+    public static function getUserCourseStatistics($params)
+    {
+        $course_id = $params[ReportingManager::PARAM_COURSE_ID];
+        $user_id = $params[ReportingManager::PARAM_USER_ID];
+        require_once(dirname(__FILE__) . '/../trackers/visit_tracker.class.php');
+        $tracker = new VisitTracker();
+
+        $conditions[] = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
+        $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
+        $condition = new AndCondition($conditions);
+        $trackerdata = $tracker->retrieve_tracker_items($condition);
+        $count = 0;
+        foreach ($trackerdata as $key => $value) {
+            $count++;
+            if(!$firstconnection)
+            {
+                $firstconnection = $value->get_enter_date();
+                $lastconnection = $value->get_leave_date();
+            }
+            if(self :: greaterDate($value->get_leave_date(),$lastconnection))
+                $lastconnection = $value->get_leave_date();
+            if(self :: greaterDate($firstconnection, $value->get_enter_date()))
+                $firstconnection = $value->get_enter_date();
+        }
+
+//        unset($conditions);
+//        unset($condition);
+//        $conditions[] = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
+//        $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$uid);
+//        $condition = new AndCondition($conditions);
+//        $trackerdata = $tracker->retrieve_tracker_items($condition);
+
+        $arr[Translation :: get('FirstAccessToCourse')][] = $firstconnection;
+        $arr[Translation :: get('LastAccessToCourse')][] = $lastconnection;
+        $arr[Translation :: get('TimeOnCourse')][] = self :: get_total_time($trackerdata);
+        $arr[Translation :: get('TotalTimesAccessed')][] = $count;
 
         return Reporting :: getSerieArray($arr);
     }
@@ -404,6 +422,32 @@ class ReportingUser {
         $condition = new EqualityCondition(ReferrersTracker :: PROPERTY_TYPE,'referer');
 
         return Reporting :: array_from_tracker($tracker,$condition,Translation :: get('Referers'));
+    }
+
+    public static function getUserTracking($params)
+    {
+        require_once Path :: get_application_path().'/lib/weblcms/weblcms_data_manager.class.php';
+        $course_id = $params[ReportingManager::PARAM_COURSE_ID];
+        $wdm = WeblcmsDataManager::get_instance();
+        $udm = UserDataManager::get_instance();
+        $course = $wdm->retrieve_course($course_id);
+        $list = $wdm->retrieve_course_users($course);
+        while($user = $list->next_result())
+        {
+            $user_id = $user->get_user();
+            $params[ReportingManager::PARAM_USER_ID] = $user_id;
+            $user = $udm->retrieve_user($user_id);
+            $arr[Translation :: get('Lastname')][] = $user->get_lastname();
+            $arr[Translation :: get('Firstname')][] = $user->get_firstname();
+            $arr[Translation :: get('TimeOnCourse')][] = 0;
+            $arr[Translation :: get('LearningPathProgress')][] = 0;
+            $arr[Translation :: get('ExcerciseProgress')][] = 0;
+            $arr[Translation :: get('TotalPublications')][] = 0;
+            $url = ReportingManager :: get_reporting_template_registration_url('CourseLearnerTrackerDetailReportingTemplate',$params);
+            $arr[Translation :: get('Detail')][] = '<a href="'.$url.'" />'.Translation :: get('Detail').'</a>';;
+        }
+
+        return Reporting::getSerieArray($arr);
     }
 }
 ?>
