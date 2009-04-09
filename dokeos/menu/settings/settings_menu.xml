@@ -2,7 +2,7 @@
 <application name="menu">
 	<settings>
 		<category name="visual">
-			<setting name="show_footer_sitemap" field="radio" default="0">
+			<setting name="show_sitemap" field="radio" default="0">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />

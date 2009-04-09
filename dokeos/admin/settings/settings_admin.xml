@@ -66,6 +66,12 @@
 				</options>
 			</setting>
 			<setting name="version" field="text" default="2.0" locked="true"/>
+			<setting name="show_version_data" field="radio" default="0">
+				<options type="static">
+					<option name="true" value="1" />
+					<option name="false" value="0" />
+				</options>
+			</setting>
 		</category>
 		<category name="security">
 			<setting name="type_of_filtering" field="radio" default="blacklist">
