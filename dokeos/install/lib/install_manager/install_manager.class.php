@@ -115,16 +115,17 @@ class InstallManager
 		
 		echo '<div id="header">  <!-- header section start -->'."\n";
 		echo '<div id="header1"> <!-- top of banner with institution name/hompage link -->'."\n";
-		echo 'Dokeos installation - version ' . $dokeos_version;
-		if ($installType == 'new')
-		{
-			echo ' - New installation';
-		}
-		elseif ($installType == 'update')
-		{
-			echo ' - Update from Dokeos ' . implode('|',$updateFromVersion);
-		}		
-		echo '</div>'."\n";
+		echo '<div class="banner"></div>';
+//		echo 'Dokeos installation - version ' . $dokeos_version;
+//		if ($installType == 'new')
+//		{
+//			echo ' - New installation';
+//		}
+//		elseif ($installType == 'update')
+//		{
+//			echo ' - Update from Dokeos ' . implode('|',$updateFromVersion);
+//		}		
+//		echo '</div>'."\n";
 		echo '<div class="clear">&nbsp;</div>'."\n";
 		echo '</div> <!-- end of the whole #header section -->'."\n";
 		echo '<div id="main"> <!-- start of #main wrapper for #content and #menu divs -->'."\n";

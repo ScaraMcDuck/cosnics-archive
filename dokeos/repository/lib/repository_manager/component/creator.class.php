@@ -173,7 +173,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 				
 				echo '</div>';
 				
-				echo '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/repository.js' .'"></script>';
+				echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
 			}
 			$this->display_footer();
 		}

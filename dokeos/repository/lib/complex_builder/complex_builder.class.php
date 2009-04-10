@@ -354,7 +354,7 @@ abstract class ComplexBuilder
 	
 	function get_creation_links($lo, $types = array())
 	{
-		$html[] = '<div style="border: 1px solid #f0f0f0"><div id="learning_object_selection">';
+		$html[] = '<div class="category_form"><div id="learning_object_selection">';
 		
 		if(count($types) == 0)
 			$types = $lo->get_allowed_types();
@@ -362,12 +362,16 @@ abstract class ComplexBuilder
 		foreach($types as $type)
 		{
 			$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
-			$html[] = '<a href="'. $url .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/' . $type . '.png);">';
+			$html[] = '<a href="'. $url .'"><div class="create_complex_block" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/big/' . $type . '.png);">';
 			$html[] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
+			$html[] = '<div class="clear">&nbsp;</div>';
 			$html[] = '</div></a>';
 		}
 		
-		$html[] = '</div><div class="clear">&nbsp;</div></div>';
+		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
+		$html[] = '</div>';
+		$html[] = '<div class="clear">&nbsp;</div>';
+		$html[] = '</div>';
 		
 		return implode("\n", $html);
 	}

@@ -101,4 +101,4 @@ $(function () {
 		//placeFooter();
 	});
 
-})(jQuery);
+});

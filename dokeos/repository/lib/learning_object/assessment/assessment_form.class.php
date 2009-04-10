@@ -40,11 +40,11 @@ class AssessmentForm extends LearningObjectForm
     	$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
     	$this->add_select(Assessment :: PROPERTY_ASSESSMENT_TYPE, Translation :: get('AssessmentType'), Assessment :: get_types());
     	$this->add_textfield(Assessment :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('MaximumAttempts')); 
-    	$this->addElement('html', Translation :: get('NoMaximumAttemptsFillIn0'));
+    	$this->addElement('static', null, null, Translation :: get('NoMaximumAttemptsFillIn0'));
     	$this->add_textfield(Assessment :: PROPERTY_QUESTIONS_PER_PAGE, Translation :: get('QuestionsPerPage'), false);
-    	$this->addElement('html', Translation :: get('AllQuestionsOnOnePageFillIn0'));
+    	$this->addElement('static', null, null, Translation :: get('AllQuestionsOnOnePageFillIn0'));
     	$this->add_textfield(Assessment :: PROPERTY_MAXIMUM_TIME, Translation :: get('MaximumTimeAllowed'), false);
-    	$this->addElement('html', Translation :: get('FillIn0ForNoTimeLimit'));
+    	$this->addElement('static', null, null, Translation :: get('FillIn0ForNoTimeLimit'));
     	$this->addElement('category');
     	
     	$this->addRule(Assessment :: PROPERTY_MAXIMUM_ATTEMPTS, Translation :: get('ValueShouldBeNumeric'), 'numeric');
