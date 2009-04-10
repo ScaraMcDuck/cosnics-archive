@@ -22,6 +22,10 @@ class WeblcmsLpAttemptTracker extends MainTracker
      */
     function track($parameters = array())
     {
+    	foreach($this->parameters as $key => $parameter)
+    		$this->set_property($key, $parameter);
+    	
+    	$this->create();
     }
     
     /**
