@@ -17,10 +17,19 @@ class AssessmentBuilderBrowserComponent extends AssessmentBuilderComponent
 		$action_bar = $this->get_action_bar($assessment);
 		
 		echo '<br />';
-		echo $action_bar->as_html();
-		echo '<br />';
-		$display = LearningObjectDisplay :: factory($assessment);
+		if($action_bar)
+		{
+			echo $action_bar->as_html();
+			echo '<br />';
+		}
+		
+		$display = LearningObjectDisplay :: factory($this->get_root_lo());
 		echo $display->get_full_html();
+		
+		echo '<br />';
+		echo $this->get_creation_links($assessment);
+		echo '<div class="clear">&nbsp;</div><br />';
+		
 		echo $this->get_clo_table_html(false, new AssessmentBrowserTableColumnModel(false), new AssessmentBrowserTableCellRenderer($this->get_parent(), $this->get_clo_table_condition()));
 		
 		$this->display_footer();
