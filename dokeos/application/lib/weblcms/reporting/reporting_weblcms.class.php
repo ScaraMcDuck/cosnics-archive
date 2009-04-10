@@ -551,12 +551,68 @@ class ReportingWeblcms {
         arsort($users);
         foreach($users as $user => $number)
         {
-            $user = UserDataManager ::get_instance()->retrieve_user($user);
-            $arr[Translation :: get('Username')][] = $user->get_username();
-            $arr[Translation :: get('NumberOfContributions')][] = $number;
+            if($count<5)
+            {
+                $user = UserDataManager ::get_instance()->retrieve_user($user);
+                $arr[Translation :: get('Username')][] = $user->get_username();
+                $arr[Translation :: get('NumberOfContributions')][] = $number;
+                $count++;
+            }
         }        
         $description['Orientation'] = 'horizontal';
         return Reporting::getSerieArray($arr,$description);
+    }
+
+    public static function getWikiMostVisitedPage($params)
+    {
+        require_once Path :: get_tracking_path().'lib/tracking_data_manager.class.php';
+        require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
+        $tdm = TrackingDataManager :: get_instance();
+        $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*tool_action=view_item*wiki_id='.$params['wiki_id']);
+        $items = $tdm->retrieve_tracker_items('visit', 'VisitTracker', $condition);
+        foreach($items as $item)
+        {
+            $var[] = explode('&',$item->get_location());
+        }
+        foreach($var as $piece)
+        {
+            foreach($piece as &$entry)
+            {
+                $entry = (explode('=',$entry));
+                if(strcmp($entry[0],'wiki_page_id')===0)
+                $pages[] = $entry[1];
+            }
+        }
+        foreach($pages as &$page)
+        {
+            $page = RepositoryDataManager :: get_instance()->retrieve_learning_object($page);
+            $visits[$page->get_title()] = $visits[$page->get_title()]+1;
+        }
+        arsort($visits);
+        $keys=array_keys($visits);
+        $arr[Translation :: get('MostVisitedPage')][] = $keys[0];
+        $arr[Translation :: get('NumberOfVisits')][] = $visits[$keys[0]];
+
+        return Reporting::getSerieArray($arr);
+    }
+
+    public static function getWikiMostEditedPage($params)
+    {
+        require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
+        $clois = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexlearningObjectItem :: PROPERTY_PARENT, $params['wiki_id']))->as_array();
+        foreach($clois as $cloi)
+        {
+            $pages[] = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref());
+        }
+        foreach($pages as $page)
+        {
+            $edits[$page->get_title()] = RepositoryDataManager :: get_instance()->count_learning_object_versions($page);
+        }
+        arsort($edits);
+        $keys=array_keys($edits);
+        $arr[Translation :: get('MostEditedPage')][] = $keys[0];
+        $arr[Translation :: get('NumberOfEdits')][] = $edits[$keys[0]];
+        return Reporting::getSerieArray($arr);
     }
 }
 ?>
