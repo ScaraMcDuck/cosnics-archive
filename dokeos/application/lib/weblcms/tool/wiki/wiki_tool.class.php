@@ -27,6 +27,7 @@ class WikiTool extends Tool
     const ACTION_DISCUSS = 'discuss';
     const ACTION_HISTORY = 'history';
     const ACTION_PAGE_STATISTICS = 'page_statistics';
+    const ACTION_STATISTICS = 'statistics';
 	
 	/**
 	 * Inherited.
@@ -79,6 +80,9 @@ class WikiTool extends Tool
                 break;
             case self :: ACTION_PAGE_STATISTICS :
                 $component = WikiToolComponent :: factory('PageStatisticsViewer', $this);
+                break;
+            case self :: ACTION_STATISTICS :
+                $component = WikiToolComponent :: factory('StatisticsViewer', $this);
                 break;
 			default :                
 				$component = WikiToolComponent :: factory('Browser', $this);

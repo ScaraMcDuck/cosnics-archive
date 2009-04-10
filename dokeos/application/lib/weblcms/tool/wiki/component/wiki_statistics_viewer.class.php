@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
 require_once dirname(__FILE__).'/wiki_page_table/wiki_page_table.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 
-class WikiToolPageStatisticsViewerComponent extends WikiToolComponent
+class WikiToolStatisticsViewerComponent extends WikiToolComponent
 {
 	private $action_bar;
     private $wiki_page_id;
@@ -22,26 +22,10 @@ class WikiToolPageStatisticsViewerComponent extends WikiToolComponent
 
         $params = array();
         $params[ReportingManager :: PARAM_COURSE_ID] = $this->get_course_id();
-        $params['wiki_page_id'] = Request :: get('wiki_page_id');
-        $url = ReportingManager :: get_reporting_template_registration_url('WikiPageReportingTemplate',$params);
+        $params['wiki_id'] = Request :: get('wiki_id');
+        $url = ReportingManager :: get_reporting_template_registration_url('WikiReportingTemplate',$params);
         header('location: '.$url);
-        
-        $this->wiki_page_id = Request :: get('wiki_page_id');
-       
-        $dm = RepositoryDataManager :: get_instance();
-        $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
-        $versions = $dm->retrieve_learning_object_versions($wiki_page);
-        
-
-        $this->display_header(new BreadcrumbTrail());
-
-        $this->action_bar = $this->get_toolbar();
-        echo '<br />' . $this->action_bar->as_html();
-        dump($this->get_most_active_user($versions));
-
-        
-        $this->display_footer();
-	}
+    }
 
     function get_toolbar()
 	{

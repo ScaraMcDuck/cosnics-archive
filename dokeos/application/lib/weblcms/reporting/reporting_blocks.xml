@@ -96,4 +96,16 @@
             displaymode="Table"
             width="500px"
             height="500px" />
+    <reporting_block name="WeblcmsWikiMostVisitedPage"
+            application="weblcms"
+            function="getWikiMostVisitedPage"
+            displaymode="Table"
+            width="500px"
+            height="500px" />
+    <reporting_block name="WeblcmsWikiMostEditedPage"
+            application="weblcms"
+            function="getWikiMostEditedPage"
+            displaymode="Table"
+            width="500px"
+            height="500px" />
 </application>
