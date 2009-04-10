@@ -17,10 +17,19 @@ class WikiBuilderBrowserComponent extends WikiBuilderComponent
 		$action_bar = $this->get_action_bar($wiki);
 		
 		echo '<br />';
-		echo $action_bar->as_html();
-		echo '<br />';
-		$display = LearningObjectDisplay :: factory($wiki);
+		if($action_bar)
+		{
+			echo $action_bar->as_html();
+			echo '<br />';
+		}
+		
+		$display = LearningObjectDisplay :: factory($this->get_root_lo());
 		echo $display->get_full_html();
+		
+		echo '<br />';
+		echo $this->get_creation_links($wiki);
+		echo '<div class="clear">&nbsp;</div><br />';
+		
 		echo $this->get_clo_table_html(false, null, new WikiBrowserTableCellRenderer($this->get_parent(), $this->get_clo_table_condition()));
 		
 		$this->display_footer();

@@ -171,6 +171,11 @@ abstract class ComplexBuilderComponent
 	{
 		return $this->get_parent()->get_action_bar($lo);
 	}
+	
+	function get_creation_links($lo, $types = array())
+	{
+		return $this->get_parent()->get_creation_links($lo, $types);
+	}
 }
 
 ?>

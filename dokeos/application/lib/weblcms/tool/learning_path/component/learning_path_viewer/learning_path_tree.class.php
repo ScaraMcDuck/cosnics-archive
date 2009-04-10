@@ -150,4 +150,16 @@ class LearningPathTree extends HTML_Menu
 	{
 		return count($this->objects);
 	}
+	
+	function get_breadcrumbs()
+	{
+		$this->render($this->array_renderer, 'urhere');
+		$breadcrumbs = $this->array_renderer->toArray();
+		$trail = new BreadcrumbTrail(false);
+		foreach ($breadcrumbs as $crumb)
+		{
+			$trail->add(new Breadcrumb($crumb['url'], $crumb['title']));
+		}
+		return $trail;
+	}
 }

@@ -37,6 +37,8 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		$object = $menu->get_object($step);
 		$display = LearningPathLearningObjectDisplay :: factory($this, $object->get_type())->display_learning_object($object);
 		
+		$trail->merge($menu->get_breadcrumbs());
+		
 		$this->display_header($trail);
 		echo '<br />';
 		echo '<div style="width: 18%; overflow: auto; float: left;">';

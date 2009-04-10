@@ -336,19 +336,40 @@ abstract class ComplexBuilder
 		
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
-		$types = $lo->get_allowed_types();
-		foreach($types as $type)
+		//$types = $lo->get_allowed_types();
+		/*foreach($types as $type)
 		{
 			$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get(DokeosUtilities :: underscores_to_camelcase($type . 'TypeName')), Theme :: get_common_image_path().'learning_object/' . $type . '.png', $url));	
-		}
+		}*/
 		
 		if($pub && $pub != '')
 		{
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $_SESSION['redirect_url']));
+			return $action_bar;
 		}
 
-		return $action_bar;
+		
+	}
+	
+	function get_creation_links($lo, $types = array())
+	{
+		$html[] = '<div style="border: 1px solid #f0f0f0"><div id="learning_object_selection">';
+		
+		if(count($types) == 0)
+			$types = $lo->get_allowed_types();
+			
+		foreach($types as $type)
+		{
+			$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_CREATE_CLOI, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
+			$html[] = '<a href="'. $url .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/' . $type . '.png);">';
+			$html[] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
+			$html[] = '</div></a>';
+		}
+		
+		$html[] = '</div><div class="clear">&nbsp;</div></div>';
+		
+		return implode("\n", $html);
 	}
 }
 

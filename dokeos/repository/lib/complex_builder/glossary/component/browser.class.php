@@ -18,10 +18,19 @@ class GlossaryBuilderBrowserComponent extends GlossaryBuilderComponent
 		$action_bar = $this->get_action_bar($glossary);
 		
 		echo '<br />';
-		echo $action_bar->as_html();
-		echo '<br />';
-		$display = LearningObjectDisplay :: factory($glossary);
+		if($action_bar)
+		{
+			echo $action_bar->as_html();
+			echo '<br />';
+		}
+		
+		$display = LearningObjectDisplay :: factory($this->get_root_lo());
 		echo $display->get_full_html();
+		
+		echo '<br />';
+		echo $this->get_creation_links($glossary);
+		echo '<div class="clear">&nbsp;</div><br />';
+		
 		echo $this->get_clo_table_html(false);
 		
 		$this->display_footer();
