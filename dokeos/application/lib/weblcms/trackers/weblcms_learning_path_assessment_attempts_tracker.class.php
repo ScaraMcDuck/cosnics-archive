@@ -16,7 +16,7 @@ class WeblcmsLearningPathAssessmentAttemptsTracker extends MainTracker
 	 */
     function WeblcmsLearningPathAssessmentAttemptsTracker() 
     {
-    	parent :: MainTracker('weblcms_learning_path_assessment_attempts');
+    	parent :: MainTracker('weblcms_lp_assessment_attempts');
     }
     
     /**
