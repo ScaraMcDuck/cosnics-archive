@@ -24,7 +24,8 @@ class LearningPathTree extends HTML_Menu
 	 */
 	private $urlFmt;
 
-	private $objects;
+	private $current_object;
+	private $current_cloi;
 	
 	private $dm;
 	/**
@@ -43,6 +44,8 @@ class LearningPathTree extends HTML_Menu
 		$this->current_step = $current_step;
 		$this->lp_id = $lp_id;
 		$this->urlFmt = $url_format;
+		$this->step_size = 0;
+		
 		$this->dm = RepositoryDataManager :: get_instance();
 		$menu = $this->get_menu($lp_id);
 		parent :: __construct($menu);
@@ -115,7 +118,13 @@ class LearningPathTree extends HTML_Menu
 			{
 				$menu_item['url'] = $this->get_url($this->step);
 				$menu_item[OptionsMenuRenderer :: KEY_ID] = $this->step;
-				$this->objects[$this->step] = $lo;
+				
+				if($this->step == $this->current_step)
+				{
+					$this->current_cloi = $object;
+					$this->current_object = $lo;
+				}
+				
 				$this->step++;
 			}
 
@@ -125,9 +134,14 @@ class LearningPathTree extends HTML_Menu
 		return $menu;
 	}
 	
-	function get_object($step)
+	function get_current_object()
 	{
-		return $this->objects[$step];
+		return $this->current_object;
+	}
+	
+	function get_current_cloi()
+	{
+		return $this->current_cloi;
 	}
 
 	private function get_url($current_step)
@@ -148,7 +162,7 @@ class LearningPathTree extends HTML_Menu
 	
 	function count_steps()
 	{
-		return count($this->objects);
+		return $this->step - 1;
 	}
 	
 	function get_breadcrumbs()

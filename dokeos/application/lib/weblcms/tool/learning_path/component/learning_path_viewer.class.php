@@ -34,7 +34,8 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		$step = $_GET[LearningPathTool :: PARAM_LP_STEP]?$_GET[LearningPathTool :: PARAM_LP_STEP]:1;
 		$menu = $this->get_menu($root_object->get_id(), $step, $pid);
 		
-		$object = $menu->get_object($step);
+		$object = $menu->get_current_object();
+		$cloi = $menu->get_current_cloi();
 		$display = LearningPathLearningObjectDisplay :: factory($this, $object->get_type())->display_learning_object($object);
 		
 		$trail->merge($menu->get_breadcrumbs());
