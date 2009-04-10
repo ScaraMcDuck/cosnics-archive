@@ -49,6 +49,7 @@ img
 	padding: 0px;
 	color: #ffffff;
 	border-bottom: 1px solid white;
+	background-color: #264269;
 }
 #header1 a
 {
@@ -68,8 +69,8 @@ img
 	background-color: #264269;
 	background-image: url('../img/common/dokeos_banner.png');
 	background-repeat: no-repeat;
+	background-position: 10px center;
 	height: 24px;
-	width: 100%
 }
 
 #header1 div.menu_container
@@ -93,16 +94,6 @@ img
 {
 	float: right;
 	font-weight: bold;
-}
-
-/* Header 2: Containing online users, student/teacher view, help */
-#header2
-{
-	font-size: 1.0em;
-	padding: 0px 0px 0px 0px;
-	background-color: #4271b5;
-	color: #ffffff;
-	/* border-bottom: 1px solid #666; */
 }
 
 #breadcrumbtrail

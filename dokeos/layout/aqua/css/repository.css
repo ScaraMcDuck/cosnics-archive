@@ -1,6 +1,6 @@
 @CHARSET "ISO-8859-1";
 
-div.create_block
+div.create_block, div.create_complex_block
 {
 	background-repeat: no-repeat;
 	background-position: center 10px;
@@ -17,6 +17,11 @@ div.create_block
 	font-weight: bold;
 	color: #565656;
 	font-size: 11px;
+}
+
+div.create_complex_block
+{
+	padding-top: 68px;
 }
 
 #learning_object_selection
