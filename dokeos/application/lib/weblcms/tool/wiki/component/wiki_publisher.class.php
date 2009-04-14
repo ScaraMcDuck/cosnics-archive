@@ -27,6 +27,8 @@ class WikiToolPublisherComponent extends WikiToolComponent
 		{
 			$publisher = new LearningObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
+            $wiki = ComplexLearningObjectItem ::factory('wiki',array('ref' => $object,'parent' => 0, 'user_id' => $this->get_user_id(), 'display_order' => RepositoryDataManager :: get_instance()->select_next_display_order($object)),array('is_locked' => false));
+            $wiki->create();
 		}
 		
 		$this->display_header($trail);
