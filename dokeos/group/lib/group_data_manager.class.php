@@ -92,5 +92,11 @@ abstract class GroupDataManager
 	abstract function delete_role_link($group, $role_id);
 	
 	abstract function update_role_links($group, $roles);
+	
+	abstract function add_nested_values($group, $previous_visited, $number_of_elements = 1);
+	
+	abstract function delete_nested_values($group);
+	
+	abstract function move_group($group, $new_parent_id, $new_previous_id = 0);
 }
 ?>

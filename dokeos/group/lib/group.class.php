@@ -20,6 +20,8 @@ class Group
 	const PROPERTY_DESCRIPTION = 'description';
 	const PROPERTY_SORT = 'sort';
 	const PROPERTY_PARENT = 'parent';
+	const PROPERTY_LEFT_VALUE = 'left_value';
+	const PROPERTY_RIGHT_VALUE = 'right_value';
 	
 	/**
 	 * Default properties of the group object, stored in an associative
@@ -68,7 +70,7 @@ class Group
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_SORT, self :: PROPERTY_PARENT);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_SORT, self :: PROPERTY_PARENT, self :: PROPERTY_LEFT_VALUE, self :: PROPERTY_RIGHT_VALUE);
 	}
 		
 	/**
@@ -167,13 +169,178 @@ class Group
 		$this->set_default_property(self :: PROPERTY_PARENT, $parent);
 	}
 	
+	function get_left_value()
+	{
+		return $this->get_default_property(self :: PROPERTY_LEFT_VALUE);
+	}
+		
+	function set_left_value($left_value)
+	{
+		$this->set_default_property(self :: PROPERTY_LEFT_VALUE, $left_value);
+	}
+	
+	function get_right_value()
+	{
+		return $this->get_default_property(self :: PROPERTY_RIGHT_VALUE);
+	}
+		
+	function set_right_value($right_value)
+	{
+		$this->set_default_property(self :: PROPERTY_RIGHT_VALUE, $right_value);
+	}
+	
+	/**
+	 * Get all of the group's parents 
+	 */
+	function get_parents($include_self = true)
+	{
+		$gdm = GroupDataManager :: get_instance();
+		
+		$parent_conditions = array();
+		if ($include_self)
+		{
+			$parent_conditions[] = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN_OR_EQUAL, $this->get_left_value());
+			$parent_conditions[] = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN_OR_EQUAL, $this->get_right_value());
+		}
+		else
+		{
+			$parent_conditions[] = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: LESS_THAN, $this->get_left_value());
+			$parent_conditions[] = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $this->get_right_value());
+		}
+		
+		$parent_condition = new AndCondition($parent_conditions);
+		$order = array(Group :: PROPERTY_LEFT_VALUE);
+		$order_direction = array(SORT_DESC);
+			
+		return $rdm->retrieve_groups($parent_condition, null, null, $order, $order_direction);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	function is_child_of($parent_id)
+	{
+		$gdm = GroupDataManager :: get_instance();
+		
+		$parent = $gdm->retrieve_group($parent_id);
+		// TODO: What if $parent is invalid ? Return error
+
+        // Check if the left and right value of the child are within the
+        // left and right value of the parent, if so it is a child
+        if ($parent->get_left_value() < $this->get_left_value() && $parent->get_right_value() > $this->get_right_value())
+        {
+            return true;
+        }
+
+        return false;
+	}
+	
+	/**
+	 * Get the groups on the same level with the same parent
+	 */
+	function get_siblings($include_self = true)
+	{
+		$gdm = GroupDataManager :: get_instance();
+		
+		$siblings_conditions = array();
+		$siblings_conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_parent());
+		
+		if (!$include_self)
+		{
+			$siblings_conditions[] = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $this->get_id()));
+		}
+		
+		$siblings_condition = new AndCondition($siblings_conditions);
+			
+		return $gdm->retrieve_groups($siblings_condition);
+	}
+	
+	function has_siblings()
+	{
+		$gdm = GroupDataManager :: get_instance();
+		
+		$siblings_conditions = array();
+		$siblings_conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_parent());
+		$siblings_conditions[] = new NotCondition(new EqualityCondition(Group :: PROPERTY_ID, $this->get_id()));
+		
+		$siblings_condition = new AndCondition($siblings_conditions);
+			
+		return ($gdm->count_groups($siblings_condition) > 0);
+	}
+	
+	/**
+	 * Get the group's first level children
+	 */
+	function get_children()
+	{
+		$gdm = GroupDataManager :: get_instance();
+		$children_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_id());
+		return $gdm->retrieve_groups($children_condition);
+	}
+	
+	function has_children()
+	{
+		$gdm = GroupDataManager :: get_instance();
+		$children_condition = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_id());
+		return ($gdm->retrieve_locations($children_condition) > 0);
+	}
+	
+	function move($new_parent_id, $new_previous_id = 0)
+	{
+		$gdm = GroupDataManager :: get_instance();
+		
+		if (!$gdm->move_location($this, $new_parent_id, $new_previous_id))
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Instructs the Datamanager to delete this group.
 	 * @return boolean True if success, false otherwise.
 	 */
 	function delete()
 	{
-		return GroupDataManager :: get_instance()->delete_group($this);
+		$gdm = GroupDataManager :: get_instance();
+		
+		// Delete the actual location
+		if (!$gdm->delete_group($this))
+		{
+			return false;
+		}
+		
+		// Update left and right values
+		if (!$gdm->delete_nested_values($this))
+		{
+        	// TODO: Some kind of general error handling framework would be nice: PEAR-ERROR maybe ?
+        	return false;
+		}
 	}
 	
 	function truncate()
@@ -181,17 +348,58 @@ class Group
 		return GroupDataManager :: get_instance()->truncate_group($this);
 	}
 	
-	function create()
+	function create($previous_id = 0)
 	{
 		$gdm = GroupDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
-		$groups = $gdm->count_groups($condition);
-		if($groups > 0)
-			return false;
+		$parent_id = $this->get_parent();
 		
-		$this->set_id($gdm->get_next_group_id());
-		return $gdm->create_group($this);
+        $previous_visited = 0;
+
+        if ($parent_id || $previous_id)
+        {
+            if ($previous_id)
+            {
+            	$node = $gdm->retrieve_group($previous_id);
+            	$parent_id = $node->get_parent();
+            	
+            	// TODO: If $node is invalid, what then ?
+            }
+            else
+            {
+            	$node = $gdm->retrieve_group($parent_id);
+            }
+            
+            // Set the new location's parent id
+            $this->set_parent($parent_id);
+
+			// TODO: If $node is invalid, what then ?
+
+            // get the "visited"-value where to add the new element behind
+            // if $previous_id is given, we need to use the right-value
+            // if only the $parent_id is given we need to use the left-value
+            $previous_visited = $previous_id ? $node->get_right_value() : $node->get_left_value();
+            
+            // Correct the left and right values wherever necessary.
+            if (!$gdm->add_nested_values($this, $previous_visited, 1))
+            {
+            	// TODO: Some kind of general error handling framework would be nice: PEAR-ERROR maybe ?
+            	return false;
+            }
+        }
+        
+        // Left and right values have been shifted so now we
+        // want to really add the location itself, but first
+        // we have to set it's left and right value.
+        $this->set_left_value($previous_visited + 1);
+        $this->set_right_value($previous_visited + 2);
+        $this->set_id($gdm->get_next_group_id());
+        if (!$gdm->create_group($this))
+        {
+        	return false;
+        }
+        
+        return true;
 	}
 	
 	function update() 
