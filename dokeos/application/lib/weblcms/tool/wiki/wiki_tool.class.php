@@ -29,6 +29,9 @@ class WikiTool extends Tool
     const ACTION_PAGE_STATISTICS = 'page_statistics';
     const ACTION_COMPARE = 'Compare';
     const ACTION_STATISTICS = 'statistics';
+    const ACTION_LOCK = 'lock';
+
+
 
 	
 	/**
@@ -64,6 +67,9 @@ class WikiTool extends Tool
                 break;
             case self :: ACTION_SET_AS_HOMEPAGE :
                 $component = WikiToolComponent :: factory('HomepageSetter', $this);
+                break;
+            case self :: ACTION_LOCK :
+                $component = WikiToolComponent :: factory('Locker', $this);
                 break;
             case self :: ACTION_DELETE_WIKI_CONTENTS :
                 $component = WikiToolComponent :: factory('ContentsDeleter', $this);
