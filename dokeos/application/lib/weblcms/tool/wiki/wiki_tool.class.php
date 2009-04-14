@@ -27,7 +27,9 @@ class WikiTool extends Tool
     const ACTION_DISCUSS = 'discuss';
     const ACTION_HISTORY = 'history';
     const ACTION_PAGE_STATISTICS = 'page_statistics';
+    const ACTION_COMPARE = 'Compare';
     const ACTION_STATISTICS = 'statistics';
+
 	
 	/**
 	 * Inherited.
@@ -78,6 +80,9 @@ class WikiTool extends Tool
             case self :: ACTION_HISTORY :
                 $component = WikiToolComponent :: factory('History', $this);
                 break;
+            case self :: ACTION_COMPARE :
+                $component = WikiToolComponent :: factory('Comparer', $this);
+                break;
             case self :: ACTION_PAGE_STATISTICS :
                 $component = WikiToolComponent :: factory('PageStatisticsViewer', $this);
                 break;
@@ -93,6 +98,7 @@ class WikiTool extends Tool
 	static function get_allowed_types()
 	{
 		return array('wiki');
-	}
+	}    
+    
 }
 ?>
