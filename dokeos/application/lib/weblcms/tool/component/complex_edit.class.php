@@ -13,44 +13,60 @@ class ToolComplexEditComponent extends ToolComponent
 			
 			$datamanager = RepositoryDataManager :: get_instance();
 			$cloi = $datamanager->retrieve_complex_learning_object_item($cid);
-            $cloi->set_default_property('user_id',$this->get_user_id());
-			$learning_object = $datamanager->retrieve_learning_object($cloi->get_ref());
-			$learning_object->set_default_property('owner',$this->get_user_id());
-			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cid, Tool :: PARAM_PUBLICATION_ID => $_GET['pid'], 'details' => $_GET['details'])));
-            
-			if( $form->validate() || $_GET['validated'])
-			{
-				$form->update_learning_object();
-				if($form->is_version())
-				{	
-					$cloi->set_ref($learning_object->get_latest_version()->get_id());
-					$cloi->update();
-				}
-				
-				$message = htmlentities(Translation :: get('LearningObjectUpdated'));
-				
-				$params = array();
-				$params['pid'] = $_GET['pid'];
-				$params['tool_action'] = 'view'; 
-				
-				if($_GET['details'] == 1)
-				{
-					$params['cid'] = $cid;
-					$params['tool_action'] = 'view_item'; 
-				}
-				
-				$this->redirect(null, $message, '', $params);
+            if($this->is_locked($cloi)==0)
+            {
+                $cloi->set_default_property('user_id',$this->get_user_id());
+                $learning_object = $datamanager->retrieve_learning_object($cloi->get_ref());
+                $learning_object->set_default_property('owner',$this->get_user_id());
+                $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cid, Tool :: PARAM_PUBLICATION_ID => $_GET['pid'], 'details' => $_GET['details'])));
 
-			}
-			else
-			{
-				$this->display_header(new BreadCrumbTrail());
-				$form->display();
-				$this->display_footer();
-			}
+                if( $form->validate() || $_GET['validated'])
+                {
+                    $form->update_learning_object();
+                    if($form->is_version())
+                    {
+                        $cloi->set_ref($learning_object->get_latest_version()->get_id());
+                        $cloi->update();
+                    }
+
+                    $message = htmlentities(Translation :: get('LearningObjectUpdated'));
+
+                    $params = array();
+                    $params['pid'] = $_GET['pid'];
+                    $params['tool_action'] = 'view';
+
+                    if($_GET['details'] == 1)
+                    {
+                        $params['cid'] = $cid;
+                        $params['tool_action'] = 'view_item';
+                    }
+
+                    $this->redirect(null, $message, '', $params);
+
+                }
+                else
+                {
+                    $this->display_header(new BreadCrumbTrail());
+                    $form->display();
+                    $this->display_footer();
+                }
+            }
+            else
+            {
+                $this->display_header(new BreadCrumbTrail());
+                $this->display_footer();
+            }
 
 		}
 	}
+
+    private function is_locked($publication)
+    {
+        $conditions[] = new EqualityCondition(ComplexLearningObjectItem::PROPERTY_PARENT,0);
+        $conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF,$publication->get_parent());
+        $wiki_cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new AndCondition($conditions))->as_array();
+        return $wiki_cloi[0]->get_is_locked();
+    }
 
 }
 ?>
