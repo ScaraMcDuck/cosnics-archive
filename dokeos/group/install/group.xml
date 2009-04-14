@@ -5,6 +5,8 @@
   <property name="name" type="text" length="255"/>
   <property name="description" type="text"/>
   <property name="parent" type="integer" unsigned="1" notnull="1"/>
+  <property name="left_value" type="integer" unsigned="1" notnull="1"/>
+  <property name="right_value" type="integer" unsigned="1" notnull="1"/>
   <property name="sort" type="integer" unsigned="1" notnull="1"/>
  </properties>
  <index name="id" type="primary">
