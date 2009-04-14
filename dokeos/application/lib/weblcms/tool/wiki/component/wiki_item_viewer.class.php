@@ -34,6 +34,7 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 
         $this->display_header(new BreadcrumbTrail());
         $this->action_bar = $this->get_toolbar();
+
         echo '<br />' . $this->action_bar->as_html();
 
 		
