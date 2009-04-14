@@ -19,7 +19,7 @@ class PortfolioPublicationsComponent extends PortfolioComponent
 
 		$item=$this->get_parent()->get_item_id();
         //willen we vub veranderen dan gaan we naar ../../install/myportfolio_installer.php
-        $agency = Configuration :: get_instance()->get_parameter('portfolio', 'agency');
+        $agency = 'vub';//Configuration :: get_instance()->get_parameter('portfolio', 'agency');
         $file = dirname(__FILE__).'/../../'.$agency.'/publications.class.php';
 
 
