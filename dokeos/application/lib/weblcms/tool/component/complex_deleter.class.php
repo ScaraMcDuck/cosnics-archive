@@ -21,9 +21,12 @@ class ToolComplexDeleterComponent extends ToolComponent
 			foreach($cloi_ids as $index => $cid)
 			{
 				//$publication = $datamanager->retrieve_complex_learning_object_item($pid);
-				$cloi = new ComplexLearningObjectItem();
-				$cloi->set_id($cid);
-				$cloi->delete();
+                if($this->is_locked($cid)==0)
+                {
+                    $cloi = new ComplexLearningObjectItem();
+                    $cloi->set_id($cid);
+                    $cloi->delete();
+                }
 			}
 			if(count($cloi_ids) > 1)
 			{
@@ -37,6 +40,15 @@ class ToolComplexDeleterComponent extends ToolComponent
 			$this->redirect(null, $message, false, array(Tool :: PARAM_ACTION => 'view', 'pid' => $_GET['pid']));
 		}
 	}
+
+    private function is_locked(&$publication)
+    {
+        $publication = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($publication);
+        $conditions[] = new EqualityCondition(ComplexLearningObjectItem::PROPERTY_PARENT,0);
+        $conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF,$publication->get_parent());
+        $wiki_cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new AndCondition($conditions))->as_array();
+        return $wiki_cloi[0]->get_is_locked();
+    }
 
 }
 ?>
