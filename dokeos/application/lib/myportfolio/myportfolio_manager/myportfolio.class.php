@@ -4,9 +4,10 @@
  * @package application.portfolio
  */
 require_once dirname(__FILE__).'/../../web_application.class.php';
-require_once dirname(__FILE__).'/../myportfolio_manager/portfoliocomponent.class.php';
-require_once dirname(__FILE__).'/../pftreemanager.class.php';
-require_once dirname(__FILE__).'/../portfoliodatamanager.class.php';
+require_once dirname(__FILE__).'/../myportfolio_manager/portfolio_component.class.php';
+require_once dirname(__FILE__).'/../portfolio_tree_manager.class.php';
+require_once dirname(__FILE__).'/../portfolio_data_manager.class.php';
+require_once dirname(__FILE__).'/../myportfolio_block.class.php';
 
 /**
 ================================================================================
@@ -16,19 +17,28 @@ require_once dirname(__FILE__).'/../portfoliodatamanager.class.php';
 ================================================================================
  */
 
-class Myportfolio extends WebApplication
-{
+class MyPortfolio extends WebApplication
+{	
+
+	const APPLICATION_NAME = 'myportfolio';
+
 	const PARAM_ACTION = 'portfolio_action';
 	const PARAM_ITEM = 'item';
 	const PARAM_TITLE = 'title';
-	const APPLICATION_NAME = 'myportfolio';
+	const PARAM_FIRSTLETTER = 'l';
+	const PARAM_EXAMPLE = 'ex';
+	
 
 	const ACTION_CREATE = 'pf_create_child';
 	const ACTION_EDIT = 'pf_edit_child';
 	const ACTION_VIEW = 'pf_item_view';
-	const ACTION_SHARING = 'pf_sharing';
-	const ACTION_STATE = 'pf_state';
+	const ACTION_BROWSE = 'pf_browse';
 	const ACTION_PROPS = 'pf_props';
+	
+	//VUB
+	const ACTION_PFPUBS = 'pf_pubs';
+	const ACTION_PFPROJ = 'pf_proj';
+	const ACTION_PFTHES = 'pf_thes';
 
 	const ACTION_CREATED = 'pf_created_child';
 	const ACTION_DELETE = 'pf_delete_child';
@@ -37,9 +47,9 @@ class Myportfolio extends WebApplication
 	private $action;
 	private $owner;
 
-	public static $item;
+//	public static $item;
 
-	function Myportfolio($user)
+	function MyPortfolio($user)
 	{
 		parent :: __construct();
 		if(isset($_POST[self :: PARAM_ACTION]))
@@ -68,7 +78,8 @@ class Myportfolio extends WebApplication
 			$usermgr = new UserManager($owner_id);
 			$this->owner=$usermgr->retrieve_user($owner_id);
 		}
-//		self :: $item= $this->get_item_id();
+		$ptm = PFTreeManager :: get_instance();
+		if($user) $ptm->set_current_item($this->get_item_id());
 	}
 
 	/*
@@ -79,50 +90,36 @@ class Myportfolio extends WebApplication
 		$this->action = $this->get_parameter(self::PARAM_ACTION);
 		$ptm = PFTreeManager :: get_instance();
 		$component = PortfolioComponent :: factory('Viewer', $this);
-		if($this->action)
-		{
-			switch($this->action)
-			{
-				case self::ACTION_CREATED: 
-					$this->created_child($this->get_parameter(self::PARAM_ITEM));
-					break;
-				case self::ACTION_DELETE:
-					$this->delete_child($this->get_parameter(self::PARAM_ITEM));
-					break;
-				default:
-			}
-		}
 
-//		$this->display_header();
-
-//		echo $this->action.$this->get_parameter(self::PARAM_ITEM);
 		if($this->action)
 		{
 			switch($this->action)
 			{
 				case self::ACTION_CREATE: 
-					//$this->create_child($this->get_parameter(self::PARAM_ITEM));
-					$component = PortfolioComponent :: factory('Publishing', $this);
+					$component = PortfolioComponent :: factory('Publishing', $this );
 					break;
 				case self::ACTION_EDIT: 
-					//$this->edit_item($this->get_parameter(self::PARAM_ITEM));
 					$component = PortfolioComponent :: factory('Editor', $this);
 					break;
+				case self::ACTION_BROWSE: 
+					$component = PortfolioComponent :: factory('Browser', $this);
+					break;
 				case self::ACTION_PROPS: 
-					//$this->edit_item($this->get_parameter(self::PARAM_ITEM));
 					$component = PortfolioComponent :: factory('Props', $this);
 					break;
-				case self::ACTION_STATE: 
-					//$this->edit_item($this->get_parameter(self::PARAM_ITEM));
-					$component = PortfolioComponent :: factory('State', $this);
+                // vub specific
+				case self::ACTION_PFPUBS: 
+					$component = PortfolioComponent :: factory('Publications', $this);
 					break;
-				case self::ACTION_SHARING: 
-					//$this->edit_item($this->get_parameter(self::PARAM_ITEM));
-					$component = PortfolioComponent :: factory('Sharing', $this);
+				case self::ACTION_PFPROJ: 
+					$component = PortfolioComponent :: factory('Projects', $this);
 					break;
+				case self::ACTION_PFTHES: 
+					$component = PortfolioComponent :: factory('Theses', $this);
+					break;
+                //end vub specific
 				case self::ACTION_VIEW:
 				default:
-					//$this->show_item($this->get_parameter(self::PARAM_ITEM));
 					$component = PortfolioComponent :: factory('Viewer', $this);
 			}
 		}
@@ -131,98 +128,9 @@ class Myportfolio extends WebApplication
 //			$this->show_item($ptm->get_root_element($this->user));
 			$component = PortfolioComponent :: factory('Viewer', $this);
 		}
+//		echo $this->action;
 		$component->run();
 //		$this->display_footer();
-	}
-
-/*	function show_item($item)
-	{
-		$this->show_item_header($item);
-		$pdm = PortfolioDataManager :: get_instance();
-		if($item == "")
-		{
-			$item=$pdm->get_root_element($this->user);
-		}
-	
-		$title=$pdm->get_item_title($item);
-		print '<h3 style="float: left;" title="'.$title.'">'.$title.'</h3><br /><br />';
-
-		print "<br />some publication content will come here<br /><br />";
-		
-	}
-*/
-
-/*	function show_item_header($item)
-	{
-		print '<a href="'.$this->get_url(array (self :: PARAM_ACTION=>self::ACTION_CREATE,self :: PARAM_ITEM => $item), true).'">'.Translation :: get("pf_create_child").'</a>';
-		print '<a href="'.$this->get_url(array (self :: PARAM_ACTION=>self::ACTION_EDIT,self :: PARAM_ITEM => $item), true).'">'.Translation :: get("pf_edit_item").'</a>';
-		print '<a href="'.$this->get_url(array (self :: PARAM_ACTION=>self::ACTION_DELETE,self :: PARAM_ITEM => $item), true).'">'.Translation :: get("pf_delete_item").'</a><br /><br />';
-	}
-*/
-
-/*	function create_child($item)
-	{
-		$this->show_item_header($item);
-		$pdm = PortfolioDataManager :: get_instance();
-		if($item == "")
-		{
-			$item=$pdm->get_root_element($this->user);
-		}
-		$title=$pdm->get_item_title($item);
-		print '<h3 style="float: left;" title="'.Translation :: get("pf_title_new_page_for").' '.$title.'">'.Translation :: get("pf_title_new_page_for").' '.$title.'</h3>';
-
-		require_once dirname(__FILE__).'/../weblcms/learning_object_publisher.class.php';
-		$pub = new LearningObjectPublisher($this, 'document');
-		print  $pub->as_html();
-
-
-//		$form = new FormValidator('create_page', 'post');
-//		$form->addElement('hidden', self :: PARAM_ITEM);
-//		$form->addElement('hidden', self :: PARAM_ACTION);
-//		$form->add_textfield('title', Translation :: get('title'),$required = true);
-//		$form->addElement('submit', 'submit', Translation :: get('Ok'));
-//		$form->setDefaults(array (self :: PARAM_ITEM => $item, self :: PARAM_ACTION => self::ACTION_CREATED));
-//		print $form->toHtml();
-	}
-*/
-
-	function edit_item($item)
-	{
-		$this->show_item_header($item);
-		$pdm = PortfolioDataManager :: get_instance();
-		if($item == "")
-		{
-			$item=$pdm->get_root_element($this->user);
-		}
-		$title=$pdm->get_item_title($item);
-		print '<h3 style="float: left;" title="'.Translation :: get("pf_title_new_page_for").' '.$title.'">'.Translation :: get("pf_title_new_page_for").' '.$title.'</h3>';
-
-
-		$form = new FormValidator('create_page', 'post');
-		$form->addElement('hidden', self :: PARAM_ITEM);
-		$form->addElement('hidden', self :: PARAM_ACTION);
-		$form->add_textfield('title', Translation :: get('title'),$required = true);
-		$form->addElement('submit', 'submit', Translation :: get('Ok'));
-		$form->setDefaults(array (self :: PARAM_ITEM => $item, self :: PARAM_ACTION => self::ACTION_CREATED));
-		print $form->toHtml();
-	}
-
-	function delete_child($item)
-	{
-		$ptm = PFTreeManager :: get_instance();
-		$parent=$ptm->get_parent($item);
-		$ptm->delete_item($item,$this->user);
-		$this->action=self::ACTION_VIEW;
-		$this->set_parameter(self :: PARAM_ITEM, $parent);
-	}
-
-	function created_child($item)
-	{
-		$ptm = PFTreeManager :: get_instance();
-		$title=$_POST[self :: PARAM_TITLE];
-		$new_item = $ptm->create_child($item,$this->user, $title);
-		$this->action=self::ACTION_VIEW;
-		$this->set_parameter(self :: PARAM_ITEM, $new_item);
 	}
 
 	function display_header($breadcrumbtrail, $display_search = false)
@@ -232,15 +140,18 @@ class Myportfolio extends WebApplication
 			$breadcrumbtrail = new BreadcrumbTrail();
 		}
 		
-		$title = $breadcrumbtrail->get_last()->get_name();
+		/*
+		 * $title = $breadcrumbtrail->get_last()->get_name();
 		$title_short = $title;
 		if (strlen($title_short) > 53)
 		{
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
+		*/
 		Display :: header($breadcrumbtrail);
 		echo '<div style="float: left; width: 20%;">';
 		$this->display_treeview();
+		echo '<br />';
 		echo '</div>';
 		echo '<div style="float: left; width: 70%;">';
 
@@ -252,12 +163,20 @@ class Myportfolio extends WebApplication
 	{
 		echo '</div>';
 		echo '<div style="float: right; width: 10%;">';
-		//$this->owner->photo or so
-		echo '<img align=right src="'.Theme :: get_common_image_path().'unknown.jpg"</img><br />';
+		//FIXME $this->owner->photo or so
+		if($this->owner->get_id()==6)
+		echo '<img align=right src="'.Theme :: get_instance()->get_common_img_path().'fquestie.jpeg"></img><br />';
+		else echo '<img align=right src="'.Theme :: get_instance()->get_common_image_path().'unknown.jpg"></img><br />';
 		echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
 		Display :: footer();
 	}
+
+	function render_block($block)
+        {
+                $myportfolio_block = MyPortfolioBlock :: factory($this, $block);
+                return $myportfolio_block->run();
+        }
 
 	/**
 	 * Displays a normal message.
@@ -265,7 +184,7 @@ class Myportfolio extends WebApplication
 	 */
 	function display_message($message)
 	{
-		Display :: normal_message($message);
+		Display :: display_normal_message($message);
 	}
 	/**
 	 * Displays an error message.
@@ -273,7 +192,7 @@ class Myportfolio extends WebApplication
 	 */
 	function display_error_message($message)
 	{
-		Display :: error_message($message);
+		Display :: display_error_message($message);
 	}
 	/**
 	 * Displays a warning message.
@@ -281,7 +200,7 @@ class Myportfolio extends WebApplication
 	 */
 	function display_warning_message($message)
 	{
-		Display :: warning_message($message);
+		Display :: display_warning_message($message);
 	}
 	/**
 	 * Displays an error page.
@@ -311,7 +230,7 @@ class Myportfolio extends WebApplication
 	 */
 	function display_popup_form($form_html)
 	{
-		Display :: normal_message($form_html);
+		Display :: display_normal_message($form_html);
 	}
 
 	function display_treeview()
@@ -361,23 +280,28 @@ class Myportfolio extends WebApplication
 		
 	}
 	
-	function publish_learning_object($learning_object, $location)
+	function get_learning_object_publication_locations($learning_object)
 	{
 		
 	}
 	
-			
-	/**
-	 * Inherited
-	 */
-	function get_learning_object_publication_locations($learning_object)
+	function publish_learning_object($learning_object, $location)
 	{
-		return array();	
+		
+	}
+
+	
+	
+	function count_portfolio_publications($condition = null)
+	{
+		$pmdm = PortfolioDataManager :: get_instance();
+		return $pmdm->count_portfolio_publications($condition);
 	}
 	
 	function get_application_platform_admin_links()
 	{
 		$links = array();
+		$links[] = array('name' => Translation :: get('NoOptionsAvailable'), 'action' => 'empty', 'url' => $this->get_link());
 		return array('application' => array('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links);
 	}
 	
@@ -400,7 +324,49 @@ class Myportfolio extends WebApplication
 		}
 		return $link;
 	}
+	
+	/**
+	 * Gets an URL.
+	 * @param array $additional_parameters Additional parameters to add in the
+	 * query string (default = no additional parameters).
+	 * @param boolean $include_search Include the search parameters in the
+	 * query string of the URL? (default = false).
+	 * @param boolean $encode_entities Apply php function htmlentities to the
+	 * resulting URL ? (default = false).
+	 * @return string The requested URL.
+	 */
+	function get_url($additional_parameters = array (), $include_search = false, $encode_entities = false, $x = null)
+	{
+		$eventual_parameters = array_merge($this->get_parameters($include_search), $additional_parameters);
+		$url = $_SERVER['PHP_SELF'].'?'.http_build_query($eventual_parameters);
+		if ($encode_entities)
+		{
+			$url = htmlentities($url);
+		}
 
+		return $url;
+	}
+	
+	/**
+	 * Gets the url for viewing a portfolio publication
+	 * @param PortfolioPublication
+	 * @return string The url
+	 */
+	function get_publication_viewing_url($portfolio)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW, self :: PARAM_ITEM => $portfolio->get_id()));
+	}
+	
+	/**
+	 * Gets the url for deleting a portfolio publication
+	 * @param PortfolioPublication
+	 * @return string The url
+	 */
+	function get_publication_deleting_url($portfolio)
+	{
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE, self :: PARAM_ITEM => $portfolio->get_id()));
+	}
+	
 	/**
 	 * Retrieve a portfolio publication
 	 * @param int $id
@@ -418,6 +384,12 @@ class Myportfolio extends WebApplication
 		return $pdm->retrieve_portfolio_publication_from_item($item);
 	}
 
+	function retrieve_portfolio_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+		$pmdm = PortfolioDataManager :: get_instance();
+		return $pmdm->retrieve_portfolio_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
+	}
+
 	function get_user_id()
 	{
 		return $this->user->get_id();
@@ -428,15 +400,17 @@ class Myportfolio extends WebApplication
 		return $this->user;
 	}
 	
+	function get_owner()
+	{
+		return $this->owner;
+	}
+	
 	function get_item_id()
 	{
 		if($this->get_parameter(self::PARAM_ITEM)=="")
 		{
-			$pdm = PortfolioDataManager :: get_instance();
-			//echo "this one?";
-			$root=$pdm->get_root_element($this->user);
-			//echo "no";
-			return $root;
+			$ptm = PFTreeManager :: get_instance();
+			return $ptm->get_root_element($this->user);
 		}
 		else return $this->get_parameter(self::PARAM_ITEM);
 	}

@@ -3,8 +3,8 @@
  * @package application.lib.portfolio.portfolio_manager
  */
 require_once dirname(__FILE__).'/../myportfolio.class.php';
-require_once dirname(__FILE__).'/../portfoliocomponent.class.php';
-require_once dirname(__FILE__).'/../../portfoliopublisher.class.php';
+require_once dirname(__FILE__).'/../portfolio_component.class.php';
+require_once dirname(__FILE__).'/../../portfolio_publisher.class.php';
 
 class PortfolioPublishingComponent extends PortfolioComponent
 {	
@@ -21,7 +21,7 @@ class PortfolioPublishingComponent extends PortfolioComponent
 		$this->display_header($trail);
 		
 		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-		foreach (array (MyPortfolio::ACTION_VIEW, MyPortfolio::ACTION_CREATE,MyPortfolio::ACTION_EDIT,MyPortfolio::ACTION_PROPS,MyPortfolio::ACTION_SHARING, MyPortfolio::ACTION_STATE) as $action)
+		foreach (array (MyPortfolio::ACTION_VIEW, MyPortfolio::ACTION_EDIT,MyPortfolio::ACTION_CREATE,MyPortfolio::ACTION_PROPS) as $action)
 		{
 			$out .= '<li><a';
 			if ($this->get_parent()->get_action() == $action) $out .= ' class="current"';
@@ -31,8 +31,6 @@ class PortfolioPublishingComponent extends PortfolioComponent
 
 		$out.= $publisher;
 
-	//	echo $publisher;
-	//	echo '<div style="clear: both;"></div>';
 		$out .= '</div></div>';
 		echo $out;
 		$this->display_footer();
