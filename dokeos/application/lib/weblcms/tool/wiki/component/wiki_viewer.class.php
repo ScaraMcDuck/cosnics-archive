@@ -63,11 +63,11 @@ class WikiToolViewerComponent extends WikiToolComponent
 			)
 		);
 
-        $action_bar->add_common_action(
+        /*$action_bar->add_common_action(
 			new ToolbarItem(
 				Translation :: get('DeleteContents'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_DELETE_WIKI_CONTENTS, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
-		);
+		);*/
 
         $action_bar->add_common_action(
 			new ToolbarItem(

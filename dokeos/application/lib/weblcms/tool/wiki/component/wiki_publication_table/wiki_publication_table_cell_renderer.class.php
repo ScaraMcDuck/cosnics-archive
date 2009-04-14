@@ -80,6 +80,7 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
 			);
 			
 		}
+        
         if($this->is_locked($publication)==0)
         {
             $actions[] = array(
@@ -123,7 +124,7 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
     private function is_locked($publication)
     {
         $conditions[] = new EqualityCondition(ComplexLearningObjectItem::PROPERTY_PARENT,0);
-        $conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF,$publication->get_id());
+        $conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF,$publication->get_learning_object()->get_id());
         $wiki_cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new AndCondition($conditions))->as_array();
         return $wiki_cloi[0]->get_is_locked();
     }
