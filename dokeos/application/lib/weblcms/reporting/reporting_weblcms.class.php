@@ -190,12 +190,16 @@ class ReportingWeblcms {
             }
             $arr[$link][] = $date;
             $arr[$link][] = $counter;
-
-            $description[0] = Translation :: get('Tool');
-            $description[1] = Translation :: get('LastAccess');
-            $description[2] = Translation :: get('Clicks');
-            $description["Orientation"] = 'vertical';
+            $params['tool'] = $name;
+            $url = ReportingManager :: get_reporting_template_registration_url('ToolPublicationsDetailReportingTemplate',$params);
+            $arr[$link][] = '<a href="'.$url.'">'.Translation :: get('ViewPublications').'</a>';
         }
+
+        $description[0] = Translation :: get('Tool');
+        $description[1] = Translation :: get('LastAccess');
+        $description[2] = Translation :: get('Clicks');
+        $description[3] = Translation :: get('Publications');
+        $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_VERTICAL;
         return Reporting :: getSerieArray($arr,$description);
     }
 
@@ -562,7 +566,7 @@ class ReportingWeblcms {
                 $count++;
             }
         }        
-        $description['Orientation'] = 'horizontal';
+        $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
         return Reporting::getSerieArray($arr,$description);
     }
 
@@ -616,6 +620,46 @@ class ReportingWeblcms {
         $arr[Translation :: get('MostEditedPage')][] = $keys[0];
         $arr[Translation :: get('NumberOfEdits')][] = $edits[$keys[0]];
         return Reporting::getSerieArray($arr);
+    }
+
+    public static function getToolPublicationsDetail($params)
+    {
+        require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
+
+
+        $course_id = $params[ReportingManager::PARAM_COURSE_ID];
+        $user_id = $params[ReportingManager::PARAM_USER_ID];
+        $tool = $params['tool'];
+
+        $tracker = new VisitTracker();
+        $wdm = WeblcmsDataManager::get_instance();
+        $condition = new EqualityCondition(Weblcms::PARAM_TOOL,$tool);
+        $lops = $wdm->retrieve_learning_object_publications($course_id, null, $user_id, null, $condition);
+
+        while($lop = $lops->next_result())
+        {
+            $condition = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*course='.$course_id.'*pid='.$lop->get_learning_object()->get_id());
+            $trackerdata = $tracker->retrieve_tracker_items($condition);
+
+            foreach($trackerdata as $key => $value)
+            {
+                if($value->get_leave_date() > $lastaccess)
+                    $lastaccess = $value->get_leave_date();
+            }
+            $arr[Translation :: get('Title')][] = $lop->get_learning_object()->get_title();
+
+
+            $des = strip_tags($lop->get_learning_object()->get_description());
+            $des = DokeosUtilities::truncate_string($des, 50);
+            
+            $arr[Translation :: get('Description')][] = Translation :: get($des);
+            $arr[Translation :: get('LastAccess')][] = $lastaccess;
+            $arr[Translation :: get('TotalTimesAccessed')][] = count($trackerdata);
+        }
+
+        $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
+
+        return Reporting :: getSerieArray($arr,$description);
     }
 }
 ?>

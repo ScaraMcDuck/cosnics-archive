@@ -108,4 +108,10 @@
             displaymode="Table"
             width="500px"
             height="500px" />
+    <reporting_block name="WeblcmsToolPublicationsDetail"
+            application="weblcms"
+            function="getToolPublicationsDetail"
+            displaymode="Table"
+            width="500px"
+            height="500px" />
 </application>

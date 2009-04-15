@@ -9,6 +9,10 @@ require_once dirname(__FILE__).'/reporting_formatter.class.php';
 require_once dirname(__FILE__).'/reporting_template.class.php';
 
 class Reporting{
+    const PARAM_ORIENTATION = 'orientation';
+
+    const ORIENTATION_VERTICAL = 'vertical';
+    const ORIENTATION_HORIZONTAL = 'horizontal';
     /**
      * Generates a reporting block
      * @param ReportingBlock $reporting_block
@@ -117,10 +121,10 @@ class Reporting{
                 }
             }
         }
-        if(isset($description["Orientation"]))
-            $datadescription["Orientation"] = $description["Orientation"];
+        if(isset($description[self::PARAM_ORIENTATION]))
+            $datadescription[self::PARAM_ORIENTATION] = $description[self::PARAM_ORIENTATION];
         else
-            $datadescription["Orientation"] = ($serie-1 == 1)?'vertical':'horizontal';
+            $datadescription[self::PARAM_ORIENTATION] = ($serie-1 == 1)?self::ORIENTATION_VERTICAL:self::ORIENTATION_HORIZONTAL;
 
         array_push($array,$data);
         array_push($array,$datadescription);
