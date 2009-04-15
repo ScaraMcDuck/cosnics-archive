@@ -58,8 +58,8 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
 		);*/
 		
 		//$actions[] = $execute;
-        //dump($this->is_locked($publication));
-        if ($this->browser->is_allowed(EDIT_RIGHT) && $this->is_locked($publication)==0)
+        
+        if ($this->browser->is_allowed(EDIT_RIGHT) && !WikiTool :: is_wiki_locked($publication->get_learning_object()->get_id()))
 		{
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
@@ -81,10 +81,10 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
 			
 		}
         
-        if($this->is_locked($publication)==0)
+        if(!WikiTool :: is_wiki_locked($publication->get_learning_object()->get_id()))
         {
             $actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_LOCK, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_LOCK, Tool :: PARAM_PUBLICATION_ID => $publication->get_learning_object()->get_id())),
 			'label' => Translation :: get('Lock'),
 			'img' => Theme :: get_common_image_path().'action_lock.png'
 			);
@@ -92,7 +92,7 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
         else
         {
             $actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_LOCK, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_LOCK, Tool :: PARAM_PUBLICATION_ID => $publication->get_learning_object()->get_id())),
 			'label' => Translation :: get('Lock'),
 			'img' => Theme :: get_common_image_path().'action_unlock.png'
 			);
@@ -120,13 +120,5 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
 		
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
-
-    private function is_locked($publication)
-    {
-        $conditions[] = new EqualityCondition(ComplexLearningObjectItem::PROPERTY_PARENT,0);
-        $conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF,$publication->get_learning_object()->get_id());
-        $wiki_cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new AndCondition($conditions))->as_array();
-        return $wiki_cloi[0]->get_is_locked();
-    }
 }
 ?>
