@@ -11,7 +11,7 @@ class ReportingToolViewerComponent extends ReportingToolComponent
 	{
         $params = array();
         $params[ReportingManager :: PARAM_COURSE_ID] = $this->get_course_id();
-        $url = ReportingManager :: get_reporting_template_registration_url('CourseReportingTemplate',$params);
+        $url = ReportingManager :: get_reporting_template_registration_url('CourseLearnerTrackerReportingTemplate',$params);
         header('location: '.$url);
 	}
 }

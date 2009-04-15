@@ -15,13 +15,13 @@ class ReportingTableFormatter extends ReportingFormatter {
         $all_data = $this->reporting_block->get_data();
         $data = $all_data[0];
         $datadescription = $all_data[1];
-        $orientation = $datadescription["Orientation"];
+        $orientation = $datadescription[Reporting::PARAM_ORIENTATION];
         $counter = 1;
         $i = 1;
         $j = 0;
         $table = new HTML_Table(array('class' => 'data_table'));
         $table->altRowAttributes(1, array ('class' => 'row_odd'), array ('class' => 'row_even'), true);
-        if($orientation == 'vertical')
+        if($orientation == Reporting::ORIENTATION_VERTICAL)
         {
             foreach($data as $key => $value)
             {
@@ -41,13 +41,13 @@ class ReportingTableFormatter extends ReportingFormatter {
                 }
                 $i++;
             }
-        }else if($orientation == 'horizontal')
+        }else if($orientation == Reporting::ORIENTATION_HORIZONTAL)
         {
             $i = 1;
             $j = 0;
             foreach ($datadescription as $key => $value)
             {
-                if($key == "Description")
+                if($key == "Description") //@todo: make sure column contains data before adding one
                 {
                     $table->setHeaderContents(0, 0, '');
                     foreach($value as $key2 => $value2)

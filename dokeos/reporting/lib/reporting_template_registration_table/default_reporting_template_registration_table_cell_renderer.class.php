@@ -35,11 +35,7 @@ class DefaultReportingTemplateRegistrationTableCellRenderer implements ObjectTab
                     return Translation :: get($reporting_template_registration->get_title());
 				case ReportingTemplateRegistration :: PROPERTY_DESCRIPTION :
 					$description = strip_tags($reporting_template_registration->get_description());
-					if(strlen($description) > 203)
-					{
-						mb_internal_encoding("UTF-8");
-						$description = mb_substr(strip_tags($reporting_template_registration->get_description()),0,200).'&hellip;';
-					}
+                    $description = DokeosUtilities::truncate_string($description, 50);
 					return Translation :: get($description);
 			}
 		}
