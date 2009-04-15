@@ -51,16 +51,16 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
         $functions = array();
 		
 		{
 			$functions[] = array(
 				'name' => 'WebServicesCourse.get_user_courses',
-				'parameters' => array('input' => array('id' => '2'),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'parameters' => array('input' => array('id' => '3'),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 			);
-		}*/
+		}
 		
 		/*A test to retrieve users of a course from the db
 		 * 
@@ -141,7 +141,7 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		$course = array(
+		/*$course = array(
             'layout' => '1',
             'visual_code' => 'KITT',
             'category' => 'language skills', //required
@@ -168,7 +168,7 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesCourse.delete_courses',
 				'parameters' => array('input' => array($course),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
-			);
+			);*/
 		
 		
 		
