@@ -13,7 +13,7 @@ class ToolComplexEditComponent extends ToolComponent
 			
 			$datamanager = RepositoryDataManager :: get_instance();
 			$cloi = $datamanager->retrieve_complex_learning_object_item($cid);
-            if($this->is_locked($cloi)==0)
+            if(!WikiTool :: is_wiki_locked($cloi->get_parent()))
             {
                 $cloi->set_default_property('user_id',$this->get_user_id());
                 $learning_object = $datamanager->retrieve_learning_object($cloi->get_ref());
@@ -51,22 +51,7 @@ class ToolComplexEditComponent extends ToolComponent
                     $this->display_footer();
                 }
             }
-            else
-            {
-                $this->display_header(new BreadCrumbTrail());
-                $this->display_footer();
-            }
-
-		}
+        }
 	}
-
-    private function is_locked($publication)
-    {
-        $conditions[] = new EqualityCondition(ComplexLearningObjectItem::PROPERTY_PARENT,0);
-        $conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF,$publication->get_parent());
-        $wiki_cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new AndCondition($conditions))->as_array();
-        return $wiki_cloi[0]->get_is_locked();
-    }
-
 }
 ?>

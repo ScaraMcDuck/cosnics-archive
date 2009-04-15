@@ -76,7 +76,7 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 		);*/
 
 		//$actions[] = $execute;
-        if ($this->browser->is_allowed(EDIT_RIGHT) && $this->is_locked($publication)==0)
+        if ($this->browser->is_allowed(EDIT_RIGHT) && !WikiTool :: is_wiki_locked($publication->get_parent()))
 		{
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_DELETE_PAGE, Tool :: PARAM_COMPLEX_ID => $publication->get_id())),
@@ -128,16 +128,6 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
     {
         $publication = $this->dm->retrieve_learning_objects(null, new EqualityCondition(LearningObject :: PROPERTY_ID,$clo_item->get_default_property(ComplexLearningObjectItem :: PROPERTY_REF)))->as_array();
         return $publication[0];
-    }
-
-    private function is_locked($publication)
-    {
-        $conditions[] = new EqualityCondition(ComplexLearningObjectItem::PROPERTY_PARENT,0);
-        $conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF,$publication->get_parent());
-        $conditions = new AndCondition($conditions);
-        $dm = RepositoryDataManager :: get_instance();
-        $wiki_cloi = $dm->retrieve_complex_learning_object_items($conditions)->as_array();
-        return $wiki_cloi[0]->get_is_locked();
     }
 }
 ?>

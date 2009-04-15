@@ -104,7 +104,22 @@ class WikiTool extends Tool
 	static function get_allowed_types()
 	{
 		return array('wiki');
-	}    
+	}
+
+    static function is_wiki_locked($publication_id)
+    {
+        $conditions[] = new EqualityCondition(ComplexLearningObjectItem::PROPERTY_PARENT,0);
+        $conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF,$publication_id);
+        $wiki_cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new AndCondition($conditions))->as_array();
+        if(empty($wiki_cloi[0]))
+        {
+            return false;
+        }
+        else
+        {
+            return $wiki_cloi[0]->get_is_locked()==1;
+        }
+    }
     
 }
 ?>
