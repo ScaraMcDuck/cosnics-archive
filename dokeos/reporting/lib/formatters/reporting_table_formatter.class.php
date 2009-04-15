@@ -47,7 +47,7 @@ class ReportingTableFormatter extends ReportingFormatter {
             $j = 0;
             foreach ($datadescription as $key => $value)
             {
-                if($key == "Description") //@todo: make sure column contains data before adding one
+                if($key == "Description")
                 {
                     foreach($value as $key2 => $value2)
                     {
