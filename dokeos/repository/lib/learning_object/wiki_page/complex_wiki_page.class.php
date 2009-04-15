@@ -8,10 +8,11 @@ require_once dirname(__FILE__) . '/../../complex_learning_object_item.class.php'
 class ComplexWikiPage extends ComplexLearningObjectItem
 {
     const PROPERTY_IS_HOMEPAGE = 'is_homepage';
+    const PROPERTY_IS_LOCKED = 'is_locked';
 
 	static function get_additional_property_names()
 	{
-		return array(self :: PROPERTY_IS_HOMEPAGE);
+		return array(self :: PROPERTY_IS_HOMEPAGE, self :: PROPERTY_IS_LOCKED);
 	}
 
 	function get_is_homepage()
@@ -19,9 +20,19 @@ class ComplexWikiPage extends ComplexLearningObjectItem
 		return $this->get_additional_property(self :: PROPERTY_IS_HOMEPAGE);
 	}
 
+    function get_is_locked()
+	{
+		return $this->get_additional_property(self :: PROPERTY_IS_LOCKED);
+	}
+
 	function set_is_homepage($value)
 	{
 		$this->set_additional_property(self :: PROPERTY_IS_HOMEPAGE, $value);
+	}
+
+    function set_is_locked($value)
+	{
+		$this->set_additional_property(self :: PROPERTY_IS_LOCKED, $value);
 	}
 	
 	function update()

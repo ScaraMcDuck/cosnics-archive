@@ -73,14 +73,15 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
 			
-			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
-			'label' => Translation :: get('Visible'), 
-			'img' => Theme :: get_common_image_path().'action_visible.png'
-			);
 			
 		}
         
+        $actions[] = array(
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
+			'label' => Translation :: get('Visible'),
+			'img' => Theme :: get_common_image_path().'action_visible.png'
+			);
+			
         if(!WikiTool :: is_wiki_locked($publication->get_learning_object()->get_id()))
         {
             $actions[] = array(
