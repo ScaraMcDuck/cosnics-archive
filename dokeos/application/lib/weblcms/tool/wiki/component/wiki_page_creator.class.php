@@ -26,23 +26,24 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
 
             if(!isset($object))
             {
-
                 $html[] = '<p><a href="' . $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
                 $html[] =  $this->pub->as_html();
                 $this->display_header($trail);
                 echo implode("\n",$html);
+                session_start();
+                $_SESSION['wiki_id'] = Request :: get('wiki_id');
             }
             else
             {
-
                 $cloi = ComplexLearningObjectItem ::factory('wiki_page');
                 $cloi->set_ref($object);
-                $cloi->set_parent(Request :: get('wiki_id'));
+                $cloi->set_parent($_SESSION['wiki_id']);
                 $cloi->set_user_id($this->pub->get_user_id());
-                $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order(Request :: get('wiki_id')));
+                $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($_SESSION['wiki_id']));
                 $cloi->set_additional_properties(array('is_homepage' => 0));
                 $cloi->create();
                 $this->redirect(null, $message, '', array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, WikiTool :: PARAM_WIKI_PAGE_ID => $cloi->get_ref()));
+                session_stop();
             }
         }
         else
