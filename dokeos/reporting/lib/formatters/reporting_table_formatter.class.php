@@ -49,13 +49,19 @@ class ReportingTableFormatter extends ReportingFormatter {
             {
                 if($key == "Description") //@todo: make sure column contains data before adding one
                 {
-                    $table->setHeaderContents(0, 0, '');
                     foreach($value as $key2 => $value2)
                     {
-                        $table->setCellContents($i, 0, $value2);
-                        $i++;
+                        if($value2 != '')
+                        {
+                            $table->setCellContents($i, 0, $value2);
+                            $i++;
+                        }
                     }
-                    $j++;
+                    if($i>1)
+                    {
+                        $table->setHeaderContents(0, 0, '');
+                        $j++;
+                    }
                 }
             }
             $i = 1;
