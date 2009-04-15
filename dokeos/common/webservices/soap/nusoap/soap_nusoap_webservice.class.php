@@ -69,8 +69,8 @@ class SoapNusoapWebservice extends Webservice
 
             //output
 			if(isset($objects['output']))
-			{
-				if($objects['array'])
+			{//dump($objects['array_output']);
+				if($objects['array_output'])
 				{
 					$out = $objects['output'][0];                    
 				}
@@ -96,7 +96,7 @@ class SoapNusoapWebservice extends Webservice
 				);
 				
 				
-				if($objects['array'])
+				if($objects['array_output'])
 				{
 					$server->wsdl->addComplexType(
 					  get_class($out).'s',
@@ -114,7 +114,7 @@ class SoapNusoapWebservice extends Webservice
 				}
 			}
 			// method name, input parameters, output parameters
-			$server->register(get_class($this->webservice_handler) . '.' . $name, array('input' =>'tns:' . get_class($in).($objects['array_input']?'s':''),'hash' => 'xsd:string'), array('return' => 'tns:' . get_class($out).($objects['array']?'s':'')),
+			$server->register(get_class($this->webservice_handler) . '.' . $name, array('input' =>'tns:' . get_class($in).($objects['array_input']?'s':''),'hash' => 'xsd:string'), array('return' => 'tns:' . get_class($out).($objects['array_output']?'s':'')),
 			       'http://www.dokeos.com', 'http://www.dokeos.com#' . $name, 'rpc', 'encoded', '', '', 'NusoapWebservice.handle_webservice');
 			
 		}

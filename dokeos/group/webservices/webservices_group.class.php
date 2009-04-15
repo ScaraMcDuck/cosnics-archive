@@ -37,7 +37,7 @@ class WebServicesGroup
             'array_input' => true,
 			'input' => array(new Group()),
 			'output' => array(new Group()),
-            'array' => true,
+            'array_output' => true,
 		);
 		
 		$functions['create_group'] = array(
@@ -126,7 +126,14 @@ class WebServicesGroup
             {
                 if($this->validator->validate_retrieve($group))
                 {
-                    $groups[] = $gdm->retrieve_group_by_name($group[name])->get_default_properties();
+                    $g = $gdm->retrieve_group_by_name($group[name]);
+                    if(!empty($g))
+                        $groups[] = $g->get_default_properties();
+                    else
+                    {
+                        return $this->webservice->raise_error("No group by name of ".$group[name]);
+                    }
+
                 }
                 else
                 {

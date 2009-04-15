@@ -1,6 +1,7 @@
 <xml>
 	<category name="manage groups">
         <webservice name="get group" />
+        <webservice name="get groups" />
 		<webservice name="update group" />
         <webservice name="update groups" />
 		<webservice name="delete group" />

@@ -36,7 +36,7 @@ class WebServicesUser
         );
 		
 		$functions['get_all_users'] = array(
-            'array' => true,
+            'array_output' => true,
 			'output' => array(new User()));
 		
 		$functions['delete_user'] = array(

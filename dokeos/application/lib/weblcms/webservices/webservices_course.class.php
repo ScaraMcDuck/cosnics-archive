@@ -105,37 +105,37 @@ class WebServicesCourse
 		$functions['get_user_courses'] = array(
 			'input' => new InputUser(),
 			'output' => array(new Course()),
-			'array' => true
+			'array_output' => true
 		);
 		
 		$functions['get_course_users'] = array(
 			'input' => new InputCourse(),
 			'output' => array(new User()),
-			'array' => true
+			'array_output' => true
 		);
 		
 		$functions['get_new_publications_in_course'] = array(
             'input' => new InputCourse(),
             'output' => array(new LearningObject()),
-			'array' => true
+			'array_output' => true
 		);
 
         $functions['get_new_publications_in_course_tool'] = array(
             'input' => new InputCourse(),
             'output' => array(new LearningObject()),
-			'array' => true
+			'array_output' => true
 		);
 
         $functions['get_publications_for_user'] = array(
             'input' => new InputUser(),
             'output' => array(new LearningObject()),
-			'array' => true
+			'array_output' => true
 		);
 
         $functions['get_publications_for_course'] = array(
             'input' => new InputCourse(),
             'output' => array(new LearningObject()),
-			'array' => true
+			'array_output' => true
 		);
 		
 		$this->webservice->provide_webservice($functions);
