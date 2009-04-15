@@ -29,14 +29,17 @@ class WikiPageTable extends ObjectTable
 	 */
 	function WikiPageTable($parent,$owner)
 	{
-		$data_provider = new WikiPageTableDataProvider($parent,$owner);
-        $column_model = new WikiPageTableColumnModel();
-		$cell_renderer = new WikiPageTableCellRenderer($parent);
-		parent :: __construct($data_provider, WikiPageTable :: DEFAULT_NAME, $column_model, $cell_renderer);
+		
+        $model = new WikiPageTableColumnModel();
+		$renderer = new WikiPageTableCellRenderer($parent);
+        $data_provider = new WikiPageTableDataProvider($parent,$owner);
+		parent :: __construct($data_provider, WikiPageTable :: DEFAULT_NAME, $model, $renderer);
 
 		$actions = array();
         
 		$actions[WikiTool :: ACTION_DELETE_PAGE] = Translation :: get('RemoveSelected');
+        $actions[WikiTool :: ACTION_HIDE] = Translation :: get('Hide');
+        $actions[WikiTool :: ACTION_SHOW] = Translation :: get('Show');
 		$this->set_form_actions($actions);   
 
 	}
@@ -49,7 +52,7 @@ class WikiPageTable extends ObjectTable
 	 */
 	function get_objects($offset, $count, $order_column, $order_direction)
 	{
-		$objects = $this->get_data_provider()->get_objects(null, null, /*$this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_object_property()*/null, null)->as_array();
+		$objects = $this->get_data_provider()->get_objects($offset, $count, /*$this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_object_property()*/null, $order_direction)->as_array();
         $table_data = array ();        
 		$column_count = $this->get_column_model()->get_column_count();
 		foreach ($objects as $object)

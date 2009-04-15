@@ -36,17 +36,36 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
 		}
 		$learning_object = $publication->get_learning_object();
 
-		if ($property = $column->get_object_property())
-		{
-			switch ($property)
-			{
-                //hier link maken naar externe pagina voor de wiki
-				case LearningObject :: PROPERTY_TITLE :
-					return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>';
-			}
-		}
+        
 		
-		return parent :: render_cell($column, $publication->get_learning_object());
+		if ($publication->is_hidden())
+		{
+			return '<span style="color: gray">'. parent :: render_cell($column, $learning_object).'</span>';
+            if ($property = $column->get_object_property())
+            {
+                switch ($property)
+                {
+                    //hier link maken naar externe pagina voor de wiki
+                    case LearningObject :: PROPERTY_TITLE :
+                        return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>';
+                }
+            }
+		}
+		else
+		{
+            if ($property = $column->get_object_property())
+            {
+                switch ($property)
+                {
+                    //hier link maken naar externe pagina voor de wiki
+                    case LearningObject :: PROPERTY_TITLE :
+                        return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>';
+                }
+            }
+			return parent :: render_cell($column, $publication->get_learning_object());
+		}
+
+        
 	}
 	
 	function get_actions($publication) 
@@ -76,6 +95,11 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
 			
 		}
         
+        $img = 'action_visible.png';
+        if ($publication->is_hidden())
+        {
+            $img = 'action_visible_na.png';
+        }
         $actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
 			'label' => Translation :: get('Visible'),
