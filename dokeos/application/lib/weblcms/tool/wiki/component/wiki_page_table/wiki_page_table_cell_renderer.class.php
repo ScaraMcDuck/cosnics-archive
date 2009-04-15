@@ -94,8 +94,16 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
             {
                 $actions[] = array(
                 'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_SET_AS_HOMEPAGE, ComplexWikiPage ::PROPERTY_PARENT => $publication->get_parent(), ComplexWikiPage ::PROPERTY_PARENT => $this->wiki_id, ComplexWikiPage ::PROPERTY_REF => $this->wiki_page_id)),
-                'label' => Translation :: get('Set as homepage'),
+                'label' => Translation :: get('SetAsHomepage'),
                 'img' => Theme :: get_common_image_path().'action_home.png'
+                );
+            }
+            else
+            {
+                $actions[] = array(
+                'href' => '',
+                'label' => Translation :: get('SetAsHomepage'),
+                'img' => Theme :: get_common_image_path().'action_home_na.png'
                 );
             }
 
