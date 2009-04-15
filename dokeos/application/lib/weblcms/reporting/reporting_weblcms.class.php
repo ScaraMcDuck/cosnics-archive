@@ -160,6 +160,7 @@ class ReportingWeblcms {
         $wdm = WeblcmsDataManager :: get_instance();
         $tracker = new VisitTracker();
         $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
+        $user_id = $params[ReportingManager :: PARAM_USER_ID];
         $course = $wdm->retrieve_course($course_id);
 		$tools = $wdm->get_course_modules($course_id);
 
@@ -167,7 +168,7 @@ class ReportingWeblcms {
         foreach($tools as $key => $value)
         {
             $name = $value->name;
-            $link = $name;
+            $link = '<img src="'.Theme :: get_image_path('weblcms').'tool_'.$name.'.png" style="vertical-align: middle;" /> '.Translation :: get($name);
             $counter = 0;
             $date = $wdm->get_last_visit_date_per_course($course_id,$name);
             if($date)
@@ -180,6 +181,8 @@ class ReportingWeblcms {
             $conditions = array();
             $conditions[] = new LikeCondition(VisitTracker::PROPERTY_LOCATION,'&course='.$course_id);
             $conditions[] = new LikeCondition(VisitTracker::PROPERTY_LOCATION,'&tool='.$name);
+            if(isset($user_id))
+                $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
             $condition = new AndCondition($conditions);
             $trackerdata = $tracker->retrieve_tracker_items($condition);
             foreach ($trackerdata as $key => $value) {

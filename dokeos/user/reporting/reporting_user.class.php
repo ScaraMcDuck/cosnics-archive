@@ -427,26 +427,37 @@ class ReportingUser {
     public static function getUserTracking($params)
     {
         require_once Path :: get_application_path().'/lib/weblcms/weblcms_data_manager.class.php';
+        require_once(dirname(__FILE__) . '/../trackers/visit_tracker.class.php');
         $course_id = $params[ReportingManager::PARAM_COURSE_ID];
         $wdm = WeblcmsDataManager::get_instance();
         $udm = UserDataManager::get_instance();
+        $rdm = RepositoryDataManager::get_instance();
+
         $course = $wdm->retrieve_course($course_id);
         $list = $wdm->retrieve_course_users($course);
+        $tracker = new VisitTracker();
         while($user = $list->next_result())
         {
             $user_id = $user->get_user();
+            unset($conditions);
+            unset($condition);
+            $conditions[] = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
+            $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
+            $condition = new AndCondition($conditions);
+
+            $trackerdata = $tracker->retrieve_tracker_items($condition);
             $params[ReportingManager::PARAM_USER_ID] = $user_id;
             $user = $udm->retrieve_user($user_id);
             $arr[Translation :: get('Lastname')][] = $user->get_lastname();
             $arr[Translation :: get('Firstname')][] = $user->get_firstname();
-            $arr[Translation :: get('TimeOnCourse')][] = 0;
+            $arr[Translation :: get('TimeOnCourse')][] = self :: get_total_time($trackerdata);
             $arr[Translation :: get('LearningPathProgress')][] = 0;
             $arr[Translation :: get('ExcerciseProgress')][] = 0;
-            $arr[Translation :: get('TotalPublications')][] = 0;
+            $arr[Translation :: get('TotalPublications')][] = $rdm->count_learning_objects(null, new EqualityCondition(LearningObject::PROPERTY_OWNER_ID,$user_id));
             $url = ReportingManager :: get_reporting_template_registration_url('CourseLearnerTrackerDetailReportingTemplate',$params);
             $arr[Translation :: get('Detail')][] = '<a href="'.$url.'" />'.Translation :: get('Detail').'</a>';;
         }
-
+        
         return Reporting::getSerieArray($arr);
     }
 }
