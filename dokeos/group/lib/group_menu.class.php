@@ -58,27 +58,30 @@ class GroupMenu extends HTML_Menu
 	{
 		$include_root = $this->include_root;
 		
+		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
+		$group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, array(Group :: PROPERTY_SORT), array(SORT_ASC))->next_result();
+		
 		if (!$include_root)
 		{
-			return $this->get_menu_items(0);
+			return $this->get_menu_items($group->get_id());
 		}
 		else
 		{
 			$menu = array();
 			
 			$menu_item = array();
-			$menu_item['title'] = Translation :: get('Groups');
-			$menu_item['url'] = $this->get_home_url();
+			$menu_item['title'] = $group->get_name();
+			$menu_item['url'] = $this->get_url($group->get_id());
 		
-			$sub_menu_items = $this->get_menu_items(0);
+			$sub_menu_items = $this->get_menu_items($group->get_id());
 			if(count($sub_menu_items) > 0)
 			{
 				$menu_item['sub'] = $sub_menu_items;
 			}
 		
 			$menu_item['class'] = 'home';
-			$menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
-			$menu[0] = $menu_item;
+			$menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
+			$menu[$group->get_id()] = $menu_item;
 			return $menu;
 		}
 	}
