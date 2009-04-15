@@ -457,8 +457,9 @@ class ReportingUser {
             $url = ReportingManager :: get_reporting_template_registration_url('CourseLearnerTrackerDetailReportingTemplate',$params);
             $arr[Translation :: get('Detail')][] = '<a href="'.$url.'" />'.Translation :: get('Detail').'</a>';;
         }
-        
-        return Reporting::getSerieArray($arr);
+
+        $description[Reporting :: PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
+        return Reporting::getSerieArray($arr,$description);
     }
 }
 ?>
