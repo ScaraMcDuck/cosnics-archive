@@ -48,10 +48,10 @@ class WikiToolViewerComponent extends WikiToolComponent
     function get_toolbar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        
+        $action_bar->set_search_url($this->get_url());
+
         if(!WikiTool ::is_wiki_locked($this->wiki_id))
-        {
-            $action_bar->set_search_url($this->get_url());
+        {            
             $action_bar->add_common_action(
                 new ToolbarItem(
                     Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL

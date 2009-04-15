@@ -27,7 +27,6 @@ class WikiTool extends Tool
     const ACTION_DISCUSS = 'discuss';
     const ACTION_HISTORY = 'history';
     const ACTION_PAGE_STATISTICS = 'page_statistics';
-    const ACTION_COMPARE = 'Compare';
     const ACTION_STATISTICS = 'statistics';
     const ACTION_LOCK = 'lock';
 
@@ -78,17 +77,14 @@ class WikiTool extends Tool
                 $component = ToolComponent :: factory('', 'ComplexDeleter', $this);
 				break;
             case self :: ACTION_EDIT_PAGE :
-               $component = ToolComponent :: factory('', 'ComplexEdit', $this);
+               $component = WikiToolComponent :: factory('Edit', $this);
 				break;
             case self :: ACTION_DISCUSS :
                 $component = WikiToolComponent :: factory('Discuss', $this);
                 break;
             case self :: ACTION_HISTORY :
                 $component = WikiToolComponent :: factory('History', $this);
-                break;
-            case self :: ACTION_COMPARE :
-                $component = WikiToolComponent :: factory('Comparer', $this);
-                break;
+                break;            
             case self :: ACTION_PAGE_STATISTICS :
                 $component = WikiToolComponent :: factory('PageStatisticsViewer', $this);
                 break;

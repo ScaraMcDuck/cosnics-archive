@@ -28,14 +28,15 @@ class WikiPublicationTable extends ObjectTable
 	 * @see PublicationCandidateTableCellRenderer::PublicationCandidateTableCellRenderer()
 	 */
 	function WikiPublicationTable($parent, $owner, $types, $query)
-	{
-		$data_provider = new WikiPublicationTableDataProvider($parent, $owner, $types, $query);
-		$column_model = new WikiPublicationTableColumnModel();
-		$cell_renderer = new WikiPublicationTableCellRenderer($parent);
-		parent :: __construct($data_provider, WikiPublicationTable :: DEFAULT_NAME, $column_model, $cell_renderer);
-		
+	{		
+		$model = new WikiPublicationTableColumnModel();
+		$renderer = new WikiPublicationTableCellRenderer($parent);
+        $data_provider = new WikiPublicationTableDataProvider($parent, $owner, $types, $query);
+		parent :: __construct($data_provider, WikiPublicationTable :: DEFAULT_NAME, $model, $renderer);		
 		$actions = array();
 		$actions[Tool :: ACTION_DELETE] = Translation :: get('RemoveSelected');
+        $actions[Tool :: ACTION_HIDE] = Translation :: get('Hide');
+        $actions[Tool :: ACTION_SHOW] = Translation :: get('Show');
 		$this->set_form_actions($actions);
 	}
 	
@@ -48,7 +49,7 @@ class WikiPublicationTable extends ObjectTable
 	function get_objects($offset, $count, $order_column, $order_direction)
 	{
 		$objects = $this->get_data_provider()->get_objects($offset, $count, $this->get_column_model()->get_column($order_column - ($this->has_form_actions() ? 1 : 0))->get_object_property(), $order_direction);
-		$table_data = array ();        
+		$table_data = array ();
 		$column_count = $this->get_column_model()->get_column_count();
 		foreach ($objects as $object)
 		{
