@@ -8,6 +8,7 @@ require_once dirname(__FILE__) . '/complex_wiki.class.php';
 
 class ComplexWikiForm extends ComplexLearningObjectItemForm
 {
+
 }
 
 ?>

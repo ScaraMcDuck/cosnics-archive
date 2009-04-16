@@ -37,7 +37,7 @@ class WikiPublicationTable extends ObjectTable
 		$actions[Tool :: ACTION_DELETE] = Translation :: get('RemoveSelected');
         $actions[Tool :: ACTION_HIDE] = Translation :: get('Hide');
         $actions[Tool :: ACTION_SHOW] = Translation :: get('Show');
-		$this->set_form_actions($actions);
+        $this->set_form_actions($actions);
 	}
 	
 	

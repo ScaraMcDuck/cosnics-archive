@@ -10,14 +10,13 @@ class ToolEditComponent extends ToolComponent
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			$pid = isset($_GET[Tool :: PARAM_PUBLICATION_ID]) ? $_GET[Tool :: PARAM_PUBLICATION_ID] : $_POST[Tool :: PARAM_PUBLICATION_ID];
-            if(!WikiTool ::is_wiki_locked($pid))
-            {
+            
                 $datamanager = WeblcmsDataManager :: get_instance();
                 $publication = $datamanager->retrieve_learning_object_publication($pid);
 
                 $learning_object = $publication->get_learning_object(); //RepositoryDataManager :: get_instance()->retrieve_learning_object($publication->get_learning_object()->get_id());
                 $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $pid)));
-
+                
                 if( $form->validate() || $_GET['validated'])
                 {
                     if(!$_GET['validated'])
@@ -62,7 +61,7 @@ class ToolEditComponent extends ToolComponent
             }
 			/**/
 		}
-	}
+	
 
 }
 ?>

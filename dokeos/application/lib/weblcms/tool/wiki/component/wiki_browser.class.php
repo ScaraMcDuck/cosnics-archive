@@ -24,10 +24,10 @@ class WikiToolBrowserComponent extends WikiToolComponent
 		$this->display_header($trail);
 		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
 		{
-			echo '<br />' . $this->display_introduction_text();
+			echo $this->display_introduction_text();
 		}
 		
-		echo '<br />' . $this->action_bar->as_html();
+		echo $this->action_bar->as_html();
 		$table = new WikiPublicationTable($this, $this->get_user(), array('wiki'), null);        
 		echo $table->as_html();
 
@@ -37,13 +37,13 @@ class WikiToolBrowserComponent extends WikiToolComponent
 	function get_toolbar() 
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		
 		$action_bar->set_search_url($this->get_url());
-		$action_bar->add_common_action(
-			new ToolbarItem(
-				Translation :: get('CreateWiki'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			)
-		);
+            $action_bar->add_common_action(
+                new ToolbarItem(
+                    Translation :: get('CreateWiki'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                )
+            );
+       
 		
 		$action_bar->add_common_action(
 			new ToolbarItem(

@@ -21,16 +21,13 @@ class ToolComplexDeleterComponent extends ToolComponent
 			foreach($cloi_ids as $index => $cid)
 			{
 				//$publication = $datamanager->retrieve_complex_learning_object_item($pid);
-                if(!WikiTool :: is_wiki_locked($cid))
+                //if(!WikiTool :: is_wiki_locked($cid))
                 {
                     $cloi = new ComplexLearningObjectItem();
                     $cloi->set_id($cid);
                     $cloi->delete();
                 }
-                else
-                {
-                    $message = htmlentities(Translation :: get('WikiIsLocked'));
-                }
+                
 			}
             if(empty($message))
             {

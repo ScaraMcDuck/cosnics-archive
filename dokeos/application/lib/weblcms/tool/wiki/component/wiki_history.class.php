@@ -73,9 +73,10 @@ class WikiToolHistoryComponent extends WikiToolComponent
                 }
                 $version_entry['date'] = date('d M y, H:i', $version->get_creation_date());
                 $version_entry['comment'] = $version->get_comment();
-                $version_entry['viewing_link'] = $rm->get_learning_object_viewing_url($version);
-
+                //$version_entry['viewing_link'] = $rm->get_learning_object_viewing_url($version);
+                $version_entry['viewing_link'] = "http://localhost/index_repository_manager.php?go=view&category={$version->get_parent_id()}&object=".$version->get_id();
                 $delete_url = $rm->get_learning_object_deletion_url($version, 'version');
+                //$delete_url = "http://localhost/index_repository_manager.php?go=delete&category={$version->get_parent_id()}&object={$version->get_id()}&delete_version=1";
                 if (isset($delete_url))
                 {
                     $version_entry['delete_link'] = $delete_url;
@@ -136,7 +137,7 @@ class WikiToolHistoryComponent extends WikiToolComponent
 
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('BrowsePages'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 

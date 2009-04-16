@@ -27,6 +27,7 @@ class WikiTool extends Tool
     const ACTION_DISCUSS = 'discuss';
     const ACTION_HISTORY = 'history';
     const ACTION_PAGE_STATISTICS = 'page_statistics';
+    const ACTION_COMPARE = 'compare';
     const ACTION_STATISTICS = 'statistics';
     const ACTION_LOCK = 'lock';
 
@@ -77,7 +78,7 @@ class WikiTool extends Tool
                 $component = ToolComponent :: factory('', 'ComplexDeleter', $this);
 				break;
             case self :: ACTION_EDIT_PAGE :
-               $component = WikiToolComponent :: factory('Edit', $this);
+               $component = ToolComponent :: factory('', 'ComplexEdit', $this);
 				break;
             case self :: ACTION_DISCUSS :
                 $component = WikiToolComponent :: factory('Discuss', $this);
@@ -104,17 +105,17 @@ class WikiTool extends Tool
 
     static function is_wiki_locked($publication_id)
     {
-        $conditions[] = new EqualityCondition(ComplexLearningObjectItem::PROPERTY_PARENT,0);
-        $conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF,$publication_id);
-        $wiki_cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new AndCondition($conditions))->as_array();
-        if(empty($wiki_cloi[0]))
-        {
-            return false;
-        }
-        else
-        {
-            return $wiki_cloi[0]->get_is_locked()==1;
-        }
+        $wiki = RepositoryDataManager :: get_instance()->retrieve_learning_object($publication_id);
+        return $wiki->get_locked()==1;
+    }
+
+    static function get_wiki_homepage($wiki_id)
+    {
+        require_once Path :: get_repository_path() .'/lib/learning_object/wiki_page/complex_wiki_page.class.php';
+        $conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_PARENT,$wiki_id);
+        $conditions[] = new EqualityCondition(ComplexWikiPage :: PROPERTY_IS_HOMEPAGE,1);
+        $wiki_homepage = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new AndCondition($conditions),array (),array (), 0, -1, 'complex_wiki_page')->as_array();
+        return $wiki_homepage[0];
     }
     
 }
