@@ -33,12 +33,12 @@ class DefaultWebserviceTableCellRenderer implements ObjectTableCellRenderer
 					return $webservice->get_name();
 				case WebserviceRegistration :: PROPERTY_DESCRIPTION :
 					$description = strip_tags($webservice->get_description());
-					if(strlen($description) > 203)
-					{
-						mb_internal_encoding("UTF-8");
-						$description = mb_substr(strip_tags($role->get_description()),0,200).'&hellip;';
-					}
-					return $description;
+//					if(strlen($description) > 203)
+//					{
+//						mb_internal_encoding("UTF-8");
+//						$description = mb_substr(strip_tags($role->get_description()),0,200).'&hellip;';
+//					}
+                    return DokeosUtilities::truncate_string($description);
 			}
 		}
 		return '&nbsp;';

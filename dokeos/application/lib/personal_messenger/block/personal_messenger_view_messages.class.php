@@ -96,10 +96,13 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
 		$html[] = $new? '<img width="15" height="15" src="'.Theme :: get_common_image_path().'learning_object/personal_message_new.png" />' : '<img width="15" height="15" src="'.Theme :: get_common_image_path().'learning_object/personal_message_na.png" />';
 		
 		$html[] = '<a href="'. $personal_messenger->get_publication_viewing_link($publication) .'">';
-		$html[] = $this->str_trim($publication->get_publication_sender()->get_fullname()) . $separator;
-		$html[] = $this->str_trim($publication->get_publication_object()->get_title());
+		//$html[] = $this->str_trim($publication->get_publication_sender()->get_fullname()) . $separator;
+		//$html[] = $this->str_trim($publication->get_publication_object()->get_title());
+        $html[] = DokeosUtilities::truncate_string($publication->get_publication_sender()->get_fullname(),32) . $separator;
+        $html[] = DokeosUtilities::truncate_string($publication->get_publication_object()->get_title(),32);
 		$html[] = '</a><br /><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$html[] = $this->str_trim(strip_tags($publication->get_publication_object()->get_description()),50);
+		//$html[] = $this->str_trim(strip_tags($publication->get_publication_object()->get_description()),50);
+        $html[] = DokeosUtilities::truncate_string($publication->get_publication_object()->get_description(), 50);
 		$html[] = '</i>';
 		$html[] = '<br />	';
 	}
@@ -128,14 +131,14 @@ class PersonalMessengerViewMessages extends PersonalMessengerBlock
 		return new AndCondition($conditions);
 	}
 	
-	 // Trim a string to specified legnth and append an end character (default = ...)
- 	function str_trim($str, $lim = 32, $chr = '&#8230;')
- 	{
-     // If length of string is less than $lim, return string
-     	if (strlen($str = html_entity_decode($str)) <= $lim) return $str;
-
-     // Else, cut string down to size
-     	return htmlentities(substr($str, 0, $lim - 3)).$chr;
- 	}
+	 // Trim a string to specified length and append an end character (default = ...)
+// 	function str_trim($str, $lim = 32, $chr = '&#8230;')
+// 	{
+//     // If length of string is less than $lim, return string
+//     	if (strlen($str = html_entity_decode($str)) <= $lim) return $str;
+//
+//     // Else, cut string down to size
+//     	return htmlentities(substr($str, 0, $lim - 3)).$chr;
+// 	}
 }
 ?>

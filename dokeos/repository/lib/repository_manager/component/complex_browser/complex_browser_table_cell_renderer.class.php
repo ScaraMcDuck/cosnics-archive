@@ -67,10 +67,11 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TITLE)) :
 				$title = htmlspecialchars($learning_object->get_title());
 				$title_short = $title;
-				if(strlen($title_short) > 53)
-				{
-					$title_short = mb_substr($title_short,0,50).'&hellip;';
-				}
+//				if(strlen($title_short) > 53)
+//				{
+//					$title_short = mb_substr($title_short,0,50).'&hellip;';
+//				}
+                $title_short = DokeosUtilities::truncate_string($title_short,53,false);
 				
 				if($learning_object->is_complex_learning_object())
 				{
@@ -81,13 +82,13 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 				
 				return $title_short; //'<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
 			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_DESCRIPTION)) :
-				$description = strip_tags($learning_object->get_description());
-				if(strlen($description) > 203)
-				{
-					mb_internal_encoding("UTF-8");
-					$description = mb_substr(strip_tags($learning_object->get_description()),0,200).'&hellip;';
-				}
-				return $description;
+//				$description = strip_tags($learning_object->get_description());
+////				if(strlen($description) > 203)
+////				{
+////					mb_internal_encoding("UTF-8");
+////					$description = mb_substr(strip_tags($learning_object->get_description()),0,200).'&hellip;';
+////				}
+                 return DokeosUtilities::truncate_string($description,203);
 			case Translation :: get('Subitems'):
 				if($cloi->is_complex())
 				{

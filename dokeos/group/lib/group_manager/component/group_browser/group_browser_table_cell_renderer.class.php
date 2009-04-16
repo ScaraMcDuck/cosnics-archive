@@ -47,11 +47,11 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 				return '<a href="'.htmlentities($this->browser->get_group_viewing_url($group)).'" title="'.$title.'">'.$title_short.'</a>';
 			case Group :: PROPERTY_DESCRIPTION :
 				$description = strip_tags(parent :: render_cell($column, $group));
-				if(strlen($description) > 175)
-				{
-					$description = mb_substr($description,0,170).'&hellip;';
-				}
-				return $description;
+//				if(strlen($description) > 175)
+//				{
+//					$description = mb_substr($description,0,170).'&hellip;';
+//				}
+                return DokeosUtilities::truncate_string($description);
 		}
 		
 		switch($column->get_title())
