@@ -68,7 +68,8 @@ class DefaultLearningObjectTableCellRenderer implements ObjectTableCellRenderer
 					if(strlen($description) > 203)
 					{
 						mb_internal_encoding("UTF-8");
-						$description = mb_substr(strip_tags($learning_object->get_description()),0,200).'&hellip;';
+						//$description = mb_substr(strip_tags($learning_object->get_description()),0,200).'&hellip;';
+                        $description = DokeosUtilities::truncate_string($learning_object->get_description());
 					}
 					return $description;
 				case LearningObject :: PROPERTY_CREATION_DATE :

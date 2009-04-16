@@ -40,10 +40,11 @@ class ProfilePublicationBrowserTableCellRenderer extends DefaultProfilePublicati
 			case ProfilePublication :: PROPERTY_PROFILE:
 				$title = parent :: render_cell($column, $profile);
 				$title_short = $title;
-				if(strlen($title_short) > 53)
-				{
-					$title_short = mb_substr($title_short,0,50).'&hellip;';
-				}
+//				if(strlen($title_short) > 53)
+//				{
+//					$title_short = mb_substr($title_short,0,50).'&hellip;';
+//				}
+                $title_short = DokeosUtilities::truncate_string($title_short,53,false);
 				return '<a href="'.htmlentities($this->browser->get_publication_viewing_url($profile)).'" title="'.$title.'">'.$title_short.'</a>';
 				break;	
 		}

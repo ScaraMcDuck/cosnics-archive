@@ -466,18 +466,23 @@ class DokeosUtilities
 
     /**
      * strips tags and truncates a given string to be the given length if the string is longer.
-     * Adds 3 trailing dots
+     * Adds a character at the end (either specified or default ...)
+     * Boolean $strip to indicate if the string has to be stripped
      * @param string $string
-     * @param ing $length
+     * @param int $length
+     * @param boolean $strip
+     * @param char $char
      * @return string
      */
-    static function truncate_string($string,$length)
+    static function truncate_string($string,$length=200,$strip=true,$char='&hellip;')
     {
-        $string = strip_tags($string);
-        if(strlen($string) > $length)
+        if($strip)
+            $string = strip_tags($string);
+        $string = html_entity_decode($string);
+        if(strlen($string) >= $length)
         {
             mb_internal_encoding("UTF-8");
-            $string = mb_substr(strip_tags($string),0,$length-3).'&hellip;';
+            $string = htmlentities(mb_substr($string,0,$length-3)).$char;
         }
         return $string;
     }

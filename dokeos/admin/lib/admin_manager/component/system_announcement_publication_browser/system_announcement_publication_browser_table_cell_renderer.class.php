@@ -40,10 +40,11 @@ class SystemAnnouncementPublicationBrowserTableCellRenderer extends DefaultSyste
 			case SystemAnnouncementPublication :: PROPERTY_LEARNING_OBJECT_ID:
 				$title = parent :: render_cell($column, $system_announcement_publication);
 				$title_short = $title;
-				if(strlen($title_short) > 53)
-				{
-					$title_short = mb_substr($title_short,0,50).'&hellip;';
-				}
+//				if(strlen($title_short) > 53)
+//				{
+//					$title_short = mb_substr($title_short,0,50).'&hellip;';
+//				}
+                $title_short = DokeosUtilities::truncate_string($title_short,53,false);
 				return '<a href="'.htmlentities($this->browser->get_system_announcement_publication_viewing_url($system_announcement_publication)).'" title="'.$title.'">'.$title_short.'</a>';
 				break;	
 		}

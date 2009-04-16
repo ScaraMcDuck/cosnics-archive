@@ -38,10 +38,11 @@ class RepositoryBrowserTableCellRenderer extends DefaultLearningObjectTableCellR
 			case LearningObject :: PROPERTY_TITLE :
 				$title = parent :: render_cell($column, $learning_object);
 				$title_short = $title;
-				if(strlen($title_short) > 53)
-				{
-					$title_short = mb_substr($title_short,0,50).'&hellip;';
-				}
+//				if(strlen($title_short) > 53)
+//				{
+//					$title_short = mb_substr($title_short,0,50).'&hellip;';
+//				}
+                $title_short = DokeosUtilities::truncate_string($title_short,53,false);
 				return '<a href="'.htmlentities($this->browser->get_learning_object_viewing_url($learning_object)).'" title="'.$title.'">'.$title_short.'</a>';
 			case LearningObject :: PROPERTY_MODIFICATION_DATE:
 				return Text :: format_locale_date(Translation :: get('dateFormatShort').', '.Translation :: get('timeNoSecFormat'),$learning_object->get_modification_date());

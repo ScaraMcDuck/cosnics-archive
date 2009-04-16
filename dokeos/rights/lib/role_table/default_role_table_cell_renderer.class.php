@@ -32,13 +32,13 @@ class DefaultRoleTableCellRenderer implements ObjectTableCellRenderer
 				case Role :: PROPERTY_NAME :
 					return $role->get_name();
 				case Role :: PROPERTY_DESCRIPTION :
-					$description = strip_tags($role->get_description());
-					if(strlen($description) > 203)
-					{
-						mb_internal_encoding("UTF-8");
-						$description = mb_substr(strip_tags($role->get_description()),0,200).'&hellip;';
-					}
-					return $description;
+//					$description = strip_tags($role->get_description());
+//					if(strlen($description) > 203)
+//					{
+//						mb_internal_encoding("UTF-8");
+//						$description = mb_substr(strip_tags($role->get_description()),0,200).'&hellip;';
+//					}
+					return DokeosUtilities::truncate_string($description,203);
 			}
 		}
 		return '&nbsp;';

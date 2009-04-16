@@ -52,10 +52,11 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 			case PersonalMessagePublication :: PROPERTY_PERSONAL_MESSAGE:
 				$title = parent :: render_cell($column, $personal_message);
 				$title_short = $title;
-				if(strlen($title_short) > 53)
-				{
-					$title_short = mb_substr($title_short,0,50).'&hellip;';
-				}
+//				if(strlen($title_short) > 53)
+//				{
+//					$title_short = mb_substr($title_short,0,50).'&hellip;';
+//				}
+                $title_short = DokeosUtilities::truncate_string($title_short,53,false);
 				return '<a href="'.htmlentities($this->browser->get_publication_viewing_url($personal_message)).'" title="'.$title.'">'.$title_short.'</a>';
 				break;	
 		}
