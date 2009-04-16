@@ -38,33 +38,25 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
 
         
 		
-		if ($publication->is_hidden())
-		{
-			return '<span style="color: gray">'. parent :: render_cell($column, $learning_object).'</span>';
-            if ($property = $column->get_object_property())
+		if ($property = $column->get_object_property())
             {
                 switch ($property)
                 {
                     //hier link maken naar externe pagina voor de wiki
                     case LearningObject :: PROPERTY_TITLE :
-                        return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>';
-                }
-            }
-		}
-		else
-		{
-            if ($property = $column->get_object_property())
-            {
-                switch ($property)
-                {
-                    //hier link maken naar externe pagina voor de wiki
-                    case LearningObject :: PROPERTY_TITLE :
-                        return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>';
+                        $homepage = WikiTool :: get_wiki_homepage($learning_object->get_object_number());
+                        if(empty($homepage))
+                        $url = $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() ));
+                        else
+                        $url = $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, WikiTool :: PARAM_WIKI_PAGE_ID => $homepage->get_ref(), WikiTool :: PARAM_WIKI_ID => $learning_object->get_object_number()));
+                        if($publication->is_hidden())
+                        return '<a class="invisible" href="'.$url.'">' . htmlspecialchars($learning_object->get_title()) . '</a>';
+                        else
+                        return '<a href="'.$url.'">' . htmlspecialchars($learning_object->get_title()) . '</a>';
+
                 }
             }
 			return parent :: render_cell($column, $publication->get_learning_object());
-		}
-
         
 	}
 	
@@ -78,35 +70,28 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
 		
 		//$actions[] = $execute;
         
-        if ($this->browser->is_allowed(EDIT_RIGHT) && !WikiTool :: is_wiki_locked($publication->get_learning_object()->get_id()))
-		{
-			$actions[] = array(
+        $actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 			'label' => Translation :: get('Delete'), 
 			'img' => Theme :: get_common_image_path().'action_delete.png'
 			);
-			
-			$actions[] = array(
+
+        $actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 			'label' => Translation :: get('Edit'), 
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
-			
-			
-		}
-        
-        $img = 'action_visible.png';
-        if ($publication->is_hidden())
-        {
-            $img = 'action_visible_na.png';
-        }
-        $actions[] = array(
+
+            $actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
 			'label' => Translation :: get('Visible'),
-			'img' => Theme :: get_common_image_path().'action_visible.png'
+			'img' => $publication->is_hidden()? Theme :: get_common_image_path().'action_visible_na.png' : Theme :: get_common_image_path().'action_visible.png'
 			);
-			
-        if(!WikiTool :: is_wiki_locked($publication->get_learning_object()->get_id()))
+		
+        
+		
+		
+        /*if(!WikiTool :: is_wiki_locked($publication->get_learning_object()->get_id()))
         {
             $actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_LOCK, Tool :: PARAM_PUBLICATION_ID => $publication->get_learning_object()->get_id())),
@@ -121,7 +106,7 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
 			'label' => Translation :: get('Lock'),
 			'img' => Theme :: get_common_image_path().'action_unlock.png'
 			);
-        }
+        }*/
 		
 		return DokeosUtilities :: build_toolbar($actions);
 	}

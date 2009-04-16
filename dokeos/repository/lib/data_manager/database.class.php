@@ -1363,11 +1363,20 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * Retrieves the complex learning object items with the given condition
 	 * @param Condition
 	 */
-	function retrieve_complex_learning_object_items($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	function retrieve_complex_learning_object_items($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1, $type = null)
 	{
 		$query = 'SELECT * FROM ' . $this->escape_table_name('complex_learning_object_item') . ' AS ' .
 				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
         $params = array ();
+		
+        if (isset ($type))
+		{
+            switch($type)
+            {
+                case 'complex_wiki_page':
+                $query .= ' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' = '.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(ComplexLearningObjectItem :: PROPERTY_ID);
+            }
+		}
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);

@@ -4,7 +4,7 @@ class ToolDeleteComponent extends ToolComponent
 {
 	function run()
 	{
-        if($this->is_allowed(DELETE_RIGHT) && !WikiTool :: is_wiki_locked(Request :: get(Tool :: PARAM_PUBLICATION_ID)))
+        if($this->is_allowed(DELETE_RIGHT) /*&& !WikiTool :: is_wiki_locked(Request :: get(Tool :: PARAM_PUBLICATION_ID))*/)
 		{ 
 			if(isset($_GET[Tool :: PARAM_PUBLICATION_ID]))
 				$publication_ids = $_GET[Tool :: PARAM_PUBLICATION_ID]; 

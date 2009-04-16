@@ -11,31 +11,25 @@ class WikiToolHomepageSetterComponent extends WikiToolComponent
     private $pub;
 	function run()
 	{
-		if (!$this->is_allowed(ADD_RIGHT))
+        if (!$this->is_allowed(EDIT_RIGHT))
 		{
 			Display :: not_allowed();
 			return;
 		}
+        
 		$trail = new BreadcrumbTrail();
 
         $dm = RepositoryDataManager :: get_instance();
         $conditions[] = new EqualityCondition(ComplexWikipage ::PROPERTY_REF, Request :: get('ref'));
         $conditions[] = new EqualityCondition(ComplexWikipage ::PROPERTY_PARENT, Request :: get('parent'));
         $page = $dm->retrieve_complex_learning_object_items(new AndCondition($conditions))->as_array();
-        if(!empty($page[0]) && $this->is_locked($page[0])==0)
+        if(!empty($page[0]))
         {
             $page[0]->set_is_homepage(true);
             $page[0]->update();
         }
         $this->redirect(null, null, '', array(Tool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, WikiTool :: PARAM_PUBLICATION_ID => Request :: get('parent')));
-    }
-
-    private function is_locked($publication)
-    {
-        $conditions[] = new EqualityCondition(ComplexLearningObjectItem::PROPERTY_PARENT,0);
-        $conditions[] = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF,$publication->get_parent());
-        $wiki_cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new AndCondition($conditions))->as_array();
-        return $wiki_cloi[0]->get_is_locked();
+        
     }
 }
 

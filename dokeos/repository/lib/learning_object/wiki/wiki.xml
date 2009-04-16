@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="complex_wiki">
+<object name="wiki">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
-  <property name="ref" type="integer" unsigned="1" notnull="1"/>
-  <property name="is_locked" type="boolean" notnull="1"/>
+  <property name="locked" type="integer"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

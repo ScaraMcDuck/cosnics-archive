@@ -75,9 +75,9 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 		'img' => Theme :: get_common_image_path().'action_right.png'
 		);*/
 
-		//$actions[] = $execute;
-        if ($this->browser->is_allowed(EDIT_RIGHT) && !WikiTool :: is_wiki_locked($publication->get_parent()))
-		{
+		
+        //if(!WikiTool ::is_wiki_locked($publication->get_parent()))
+        {
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_DELETE_PAGE, Tool :: PARAM_COMPLEX_ID => $publication->get_id())),
 			'label' => Translation :: get('Delete'),
@@ -106,8 +106,29 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
                 'img' => Theme :: get_common_image_path().'action_home_na.png'
                 );
             }
+        }
+        /*else
+        {
+            $actions[] = array(
+			'href' => '',
+			'label' => Translation :: get('Locked'),
+			'img' => Theme :: get_common_image_path().'action_delete_na.png'
+			);
 
-		}
+			$actions[] = array(
+			'href' => '',
+			'label' => Translation :: get('Locked'),
+			'img' => Theme :: get_common_image_path().'action_edit_na.png'
+			);
+
+            $actions[] = array(
+            'href' => '',
+            'label' => Translation :: get('Locked'),
+            'img' => Theme :: get_common_image_path().'action_home_na.png'
+            );
+        }*/
+
+		
 
 		return DokeosUtilities :: build_toolbar($actions);
 	}

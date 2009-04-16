@@ -13,7 +13,7 @@ class ToolComplexEditComponent extends ToolComponent
 			
 			$datamanager = RepositoryDataManager :: get_instance();
 			$cloi = $datamanager->retrieve_complex_learning_object_item($cid);
-            if(!WikiTool :: is_wiki_locked($cloi->get_parent()))
+            //if(!WikiTool :: is_wiki_locked($cloi->get_parent()))
             {
                 $cloi->set_default_property('user_id',$this->get_user_id());
                 $learning_object = $datamanager->retrieve_learning_object($cloi->get_ref());
@@ -32,8 +32,18 @@ class ToolComplexEditComponent extends ToolComponent
                     $message = htmlentities(Translation :: get('LearningObjectUpdated'));
 
                     $params = array();
-                    $params['pid'] = $_GET['pid'];
-                    $params['tool_action'] = 'view';
+                    if($_GET['pid']!=null)
+                    {
+                        $params['pid'] = $_GET['pid'];
+                        $params['tool_action'] = 'view';
+                    }
+                    elseif(Request :: get('cid')!=null)
+                    {
+                        $params['wiki_id'] = $cloi->get_parent();
+                        $params['wiki_page_id'] = $cloi->get_ref();
+                        $params['tool_action'] = 'view_item';
+                    }
+                    
 
                     if($_GET['details'] == 1)
                     {

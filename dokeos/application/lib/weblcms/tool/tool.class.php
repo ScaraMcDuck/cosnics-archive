@@ -102,6 +102,16 @@ abstract class Tool
 					$this->set_action(self :: ACTION_DELETE);
 					$_GET[self :: PARAM_PUBLICATION_ID] = $ids;
 					break;
+
+                case self :: ACTION_HIDE :
+					$this->set_action(self :: ACTION_HIDE);
+					$_GET[self :: PARAM_PUBLICATION_ID] = $ids;
+					break;
+
+                case self :: ACTION_SHOW :
+					$this->set_action(self :: ACTION_SHOW);
+					$_GET[self :: PARAM_PUBLICATION_ID] = $ids;
+					break;
 			}
 		}
 	}
@@ -171,11 +181,11 @@ abstract class Tool
 				$component = ToolComponent :: factory('', 'ToggleVisibility', $this);
 				break;
 			case self :: ACTION_SHOW :
-				$_GET[PARAM_VISIBILITY] = 0;
+                $_GET[PARAM_VISIBILITY] = 0;
 				$component = ToolComponent :: factory('', 'ToggleVisibility', $this);
 				break;
 			case self :: ACTION_HIDE :
-				$_GET[PARAM_VISIBILITY] = 1;
+                $_GET[PARAM_VISIBILITY] = 1;
 				$component = ToolComponent :: factory('', 'ToggleVisibility', $this);
 				break;
 			case self :: ACTION_VIEW_ATTACHMENT:

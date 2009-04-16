@@ -34,7 +34,7 @@ class WikiToolViewerComponent extends WikiToolComponent
             $wiki = $dm->retrieve_learning_object($this->wiki_id);
             
         }
-		$this->action_bar = $this->get_toolbar();
+		$this->action_bar = $this->get_toolbar($wiki);
         echo '<br />' . $this->action_bar->as_html();
         if(isset($wiki))
         {
@@ -45,23 +45,25 @@ class WikiToolViewerComponent extends WikiToolComponent
         $this->display_footer();
 	}
 
-    function get_toolbar()
+    function get_toolbar($wiki)
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $action_bar->set_search_url($this->get_url());
 
-        if(!WikiTool ::is_wiki_locked($this->wiki_id))
-        {            
+
+        $action_bar->set_search_url($this->get_url());
+        $action_bar->set_search_url($this->get_url());
+          
+
             $action_bar->add_common_action(
-                new ToolbarItem(
-                    Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+            new ToolbarItem(
+                Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
                 )
             );
-        }
+
 
 		$action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Browse'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
@@ -78,6 +80,7 @@ class WikiToolViewerComponent extends WikiToolComponent
 		);
 		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('wiki tool'));
 		return $action_bar;
+        
 	}
 }
 ?>
