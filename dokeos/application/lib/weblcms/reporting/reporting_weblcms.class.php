@@ -161,15 +161,14 @@ class ReportingWeblcms {
         $tracker = new VisitTracker();
         $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
         $user_id = $params[ReportingManager :: PARAM_USER_ID];
-        $course = $wdm->retrieve_course($course_id);
+        //$course = $wdm->retrieve_course($course_id);
 		$tools = $wdm->get_course_modules($course_id);
 
         //dump($tools);
         foreach($tools as $key => $value)
         {
             $name = $value->name;
-            $link = '<img src="'.Theme :: get_image_path('weblcms').'tool_'.$name.'.png" style="vertical-align: middle;" /> '.Translation :: get($name);
-            $counter = 0;
+            $link = '<img src="'.Theme :: get_image_path('weblcms').'tool_'.$name.'.png" style="vertical-align: middle;" /> <a href="run.php?go=courseviewer&course='.$course_id.'&tool='.$name.'&application=weblcms">'.Translation :: get($name).'</a>';
             $date = $wdm->get_last_visit_date_per_course($course_id,$name);
             if($date)
             {
@@ -179,17 +178,25 @@ class ReportingWeblcms {
                 $date = Translation :: get('NeverAccessed');
             }
             $conditions = array();
-            $conditions[] = new LikeCondition(VisitTracker::PROPERTY_LOCATION,'&course='.$course_id);
-            $conditions[] = new LikeCondition(VisitTracker::PROPERTY_LOCATION,'&tool='.$name);
+            $conditions2 = array();
+            $conditions3 = array();
+            $conditions[] = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*course='.$course_id.'*tool='.$name.'*');
             if(isset($user_id))
                 $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
-            $condition = new AndCondition($conditions);
-            $trackerdata = $tracker->retrieve_tracker_items($condition);
-            foreach ($trackerdata as $key => $value) {
-                $counter++;
+            $conditions2[] = new AndCondition($conditions);
+
+            if($name == 'reporting'){
+                $conditions3[] = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*course_id???='.$course_id.'*');
+                if(isset($user_id))
+                    $conditions3[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
+                $conditions2[] = new AndCondition($conditions3);
             }
+            $condition = new OrCondition($conditions2);
+            
+            $trackerdata = $tracker->retrieve_tracker_items($condition);
+
             $arr[$link][] = $date;
-            $arr[$link][] = $counter;
+            $arr[$link][] = count($trackerdata);
             $params['tool'] = $name;
             $url = ReportingManager :: get_reporting_template_registration_url('ToolPublicationsDetailReportingTemplate',$params);
             $arr[$link][] = '<a href="'.$url.'">'.Translation :: get('ViewPublications').'</a>';
@@ -221,7 +228,8 @@ class ReportingWeblcms {
 
         if(isset($user_id))
         {
-            $conditions[] = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
+            $conditions[] = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*course='.$course_id.'**');
+            //$conditions[] = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
             $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
             $condition = new AndCondition($conditions);
         }
@@ -660,6 +668,11 @@ class ReportingWeblcms {
         $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
 
         return Reporting :: getSerieArray($arr,$description);
+    }
+
+    public static function getPublicationDetail($params)
+    {
+        
     }
 }
 ?>
