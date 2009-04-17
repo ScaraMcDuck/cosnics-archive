@@ -48,13 +48,13 @@
             displaymode="Table"
             width="500px"
             height="500px" />
-    <reporting_block name="UserUserInformation"
+    <reporting_block name="UserInformation"
             application="user"
             function="getUserInformation"
             displaymode="Table"
             width="500px"
             height="500px" />
-    <reporting_block name="UserUserPlatformStatistics"
+    <reporting_block name="UserPlatformStatistics"
             application="user"
             function="getUserPlatformStatistics"
             displaymode="Table"
