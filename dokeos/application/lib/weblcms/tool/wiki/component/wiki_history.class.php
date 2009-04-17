@@ -100,8 +100,12 @@ class WikiToolHistoryComponent extends WikiToolComponent
                  $object = $rdm->retrieve_learning_object($params['object']);
                  $diff = $object->get_difference($params['compare']);
                  $diff_display = LearningObjectDifferenceDisplay :: factory($diff);
+                 echo DokeosUtilities :: add_block_hider();
+                 echo DokeosUtilities :: build_block_hider('compare_legend');
+                 echo $diff_display->get_legend();
+                 echo DokeosUtilities :: build_block_hider();
                  echo $diff_display->get_diff_as_html();
-                 echo $display->get_version_quota_as_html($version_data);
+                 echo $display->get_version_quota_as_html($version_data);           
                 
             }
 

@@ -33,6 +33,8 @@ class WikiToolBrowserComponent extends WikiToolComponent
 
 		$this->display_footer();
 	}
+
+    
 	
 	function get_toolbar() 
 	{
