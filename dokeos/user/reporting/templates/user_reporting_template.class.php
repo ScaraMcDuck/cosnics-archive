@@ -41,10 +41,10 @@ class UserReportingTemplate extends ReportingTemplate
 
         $html[] = '<div class="reporting_template_container">';
         $html[] = '<div class="reporting_template_con_left">';
-        $html[] = $this->get_reporting_block_html('UserUserInformation');
+        $html[] = $this->get_reporting_block_html('UserInformation');
         $html[] = '</div>';
         $html[] = '<div class="reporting_template_con_right">';
-        $html[] = $this->get_reporting_block_html('UserCourseStatistics');
+        $html[] = $this->get_reporting_block_html('UserPlatformStatistics');
         $html[] = '</div><div class="clear">&nbsp;</div>';
         $html[] = '</div>';
 
