@@ -44,6 +44,18 @@ class WikiToolViewerComponent extends WikiToolComponent
         }
         $this->display_footer();
 	}
+    
+    function get_condition()
+	{
+		$query = $this->action_bar->get_query();
+		if(isset($query) && $query != '')
+		{
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
+			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
+			return new OrCondition($conditions);
+		}
+		return null;
+	}
 
     function get_toolbar($wiki)
 	{
@@ -82,5 +94,7 @@ class WikiToolViewerComponent extends WikiToolComponent
 		return $action_bar;
         
 	}
+
+    
 }
 ?>

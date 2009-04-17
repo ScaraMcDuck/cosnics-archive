@@ -19,4 +19,6 @@ class WikiToolComponent extends ToolComponent
 	{
 		return parent :: factory('Wiki', $component_name, $announcement_tool);
 	}
+
+    
 }

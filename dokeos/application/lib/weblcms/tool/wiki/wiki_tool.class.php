@@ -103,9 +103,9 @@ class WikiTool extends Tool
 		return array('wiki');
 	}
 
-    static function is_wiki_locked($publication_id)
+    static function is_wiki_locked($wiki_id)
     {
-        $wiki = RepositoryDataManager :: get_instance()->retrieve_learning_object($publication_id);
+        $wiki = RepositoryDataManager :: get_instance()->retrieve_learning_object($wiki_id);
         return $wiki->get_locked()==1;
     }
 

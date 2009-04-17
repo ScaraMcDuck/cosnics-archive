@@ -14,6 +14,7 @@ require_once dirname(__FILE__).'/../../../browser/learningobjectpublicationcateg
 class AssessmentToolViewerComponent extends AssessmentToolComponent 
 {
 	private $action_bar;
+    private $introduction_text;
 	
 	function run()
 	{
