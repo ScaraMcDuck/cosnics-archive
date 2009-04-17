@@ -74,6 +74,14 @@ class BlogToolViewerComponent extends BlogToolComponent
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('blog tool'));
+
+        if(isset($_GET['pid']))
+        {
+            $params['pid'] = $_GET['pid'];
+            $url = ReportingManager :: get_reporting_template_registration_url('PublicationDetailReportingTemplate',$params);
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AccessDetails'),Theme :: get_common_image_path().'action_reporting.png',$url));
+        }
+
 		return $action_bar;
 	}
 	

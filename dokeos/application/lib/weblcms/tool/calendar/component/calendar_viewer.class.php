@@ -80,7 +80,14 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path().'tool_calendar_today.png', $this->get_url(array('view' => (isset ($_GET['view']) ? $_GET['view'] : 'month'), 'time' => time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('calendar tool'));
-		
+        
+        if(isset($_GET['pid']))
+        {
+            $params['pid'] = $_GET['pid'];
+            $url = ReportingManager :: get_reporting_template_registration_url('PublicationDetailReportingTemplate',$params);
+            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AccessDetails'),Theme :: get_common_image_path().'action_reporting.png',$url));
+        }
+        
 		return $action_bar;
 	}
 	
