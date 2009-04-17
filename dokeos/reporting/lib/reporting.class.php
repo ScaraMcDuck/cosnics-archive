@@ -94,6 +94,11 @@ class Reporting{
     {
         $array = array();
         $i = 0;
+        if(!isset($arr))
+        {
+            $arr[''][] = Translation :: get('NotAvailable');
+            unset($description);
+        }
         foreach($arr as $key => $value)
         {
             $serie = 1;
