@@ -91,8 +91,8 @@ ElementFinderSearch.prototype.returnResults = function () {
 		var ul = document.createElement('ul');
 		this.destination.appendChild(ul);
 		ElementFinder.buildResults(mainLeaf, ul, this.destination.getAttribute('id'));
-		ul.className = TreeMenu.className;
-		TreeMenu.init(ul, -1);
+		ul.className = "tree-menu";
+		//ElementFinder.init(ul, -1);
 	}
 	else {
 		ElementFinder.notify('NoResults', this.destination);
@@ -119,7 +119,7 @@ ElementFinder.lastChild = function(node) {
 	if (!node || !node.childNodes || node.childNodes.length == 0) {
 		return null;
 	}
-	var a = TreeMenu.filterTextNodes(node.childNodes);
+	var a = ElementFinder.filterTextNodes(node.childNodes);
 	return (a.length == 0 ? null : a[a.length - 1]);
 }
 
@@ -136,7 +136,7 @@ ElementFinder.buildResults = function(node, ul, destinationID) {
 	li.appendChild(a);
 	var ulSub = document.createElement('ul');
 	li.appendChild(ulSub);
-	var childNodes = TreeMenu.filterTextNodes(node.childNodes);
+	var childNodes = ElementFinder.filterTextNodes(node.childNodes);
 	for (var i = 0; i < childNodes.length; i++) {
 		var child = childNodes[i];
 		switch (child.nodeName) {
@@ -176,14 +176,14 @@ ElementFinder.toggleLinkSelectionState = function(link, destination) {
 ElementFinder.setLinkSelected = function(link, selected, destination) {
 	if (selected) {
 		link.setAttribute('selected', 1);
-		TreeMenu.addClassName(link, 'selected');
+		ElementFinder.addClassName(link, 'selected');
 		if (destination) {
 			ElementFinder.selectedElements[destination.getAttribute('id')] = ElementFinder.addToArray(ElementFinder.selectedElements[destination.getAttribute('id')], link);
 		}
 	}
 	else {
 		link.removeAttribute('selected');
-		TreeMenu.removeClassName(link, 'selected');
+		ElementFinder.removeClassName(link, 'selected');
 		if (destination) {
 			ElementFinder.selectedElements[destination.getAttribute('id')] = ElementFinder.removeFromArray(ElementFinder.selectedElements[destination.getAttribute('id')], link);
 		}
@@ -290,13 +290,13 @@ ElementFinder.setLinkEnabled = function(link, enabled) {
 		if (realHref) {
 			link.setAttribute('href', realHref);
 			link.removeAttribute('realHref');
-			TreeMenu.removeClassName(link, 'disabled');
+			ElementFinder.removeClassName(link, 'disabled');
 		}
 	}
 	else if (href) {
 		link.setAttribute('realHref', href);
 		link.setAttribute('href', 'javascript:void(0);');
-		TreeMenu.addClassName(link, 'disabled');
+		ElementFinder.addClassName(link, 'disabled');
 	}
 };
 
@@ -457,4 +457,123 @@ ElementFinder.unserialize = function(string) {
 
 ElementFinder.getAjaxObject = function() {
 	return ElementFinder.ajaxMethods[ElementFinder.ajaxMethodIndex]();
+};
+
+ElementFinder.filterTextNodes = function(nodes) {
+	var result = new Array();
+	for (var i = 0; i < nodes.length; i++) {
+		var node = nodes[i];
+		if (node.nodeType != 3) {
+			result[result.length] = node;
+		}
+	}
+	return result;
+};
+
+ElementFinder.getElementsByClassName = function(tagName, className)
+{
+	var el = document.getElementsByTagName(tagName);
+	var res = new Array();
+	for (var i = 0; i < el.length; i++)
+	{
+		var elmt = el[i];
+		if (ElementFinder.hasClassName(elmt, className))
+		{
+			res[res.length] = elmt;
+		}
+	}
+	return res;
+};
+
+ElementFinder.addClassName = function(element, className)
+{
+	if (!ElementFinder.hasClassName(element, className))
+	{
+		var names = ElementFinder.getClassNames(element);
+		names[names.length] = className;
+		ElementFinder.setClassNames(element, names);
+	}
+	if (ElementFinder.requiresCssFix(className))
+	{
+		ElementFinder.ieCssFix(element);
+	}
+};
+
+ElementFinder.removeClassName = function(element, className)
+{
+	var names = ElementFinder.getClassNames(element);
+	var newNames = new Array();
+	for (var i = 0; i < names.length; i++)
+	{
+		if (names[i] != className)
+		{
+			newNames[newNames.length] = names[i];
+		}
+	}
+	ElementFinder.setClassNames(element, newNames);
+	if (ElementFinder.requiresCssFix(className))
+	{
+		ElementFinder.ieCssFix(element);
+	}
+};
+
+ElementFinder.hasClassName = function(element, className)
+{
+	return ElementFinder.arrayContains(ElementFinder.getClassNames(element), className);
+};
+
+ElementFinder.getClassNames = function(element)
+{
+	return (element && element.className ? element.className.split(/ +/) : new Array());
+};
+
+ElementFinder.setClassNames = function(element, classNames)
+{
+	if (!element) return;
+	var n = "";
+	for (var i = 0; i < classNames.length; i++)
+	{
+		n += classNames[i] + " ";
+	}
+	element.className = n;
+};
+
+ElementFinder.ieCssFix = function(element)
+{
+	ElementFinder.removeClassName(element, "last-empty");
+	ElementFinder.removeClassName(element, "last-leaf");
+	ElementFinder.removeClassName(element, "last-collapsed");
+	var names = ElementFinder.getClassNames(element);
+	if (ElementFinder.arrayContains(names, "last"))
+	{
+		if (ElementFinder.arrayContains(names, "empty"))
+		{
+			ElementFinder.addClassName(element, "last-empty");
+		}
+		else if (ElementFinder.arrayContains(names, "leaf"))
+		{
+			ElementFinder.addClassName(element, "last-leaf");
+		}
+		else if (ElementFinder.arrayContains(names, "collapsed"))
+		{
+			ElementFinder.addClassName(element, "last-collapsed");
+		}
+	}
+};
+
+ElementFinder.requiresCssFix = function(className)
+{
+	return (document.all && (className == "last" || className == "empty" || className == "leaf" || className == "collapsed"));
+};
+
+ElementFinder.arrayContains = function(haystack, needle)
+{
+	for (var i = 0; i < haystack.length; i++)
+	{
+		if (haystack[i] == needle)
+		{
+			return true;
+		}
+	}
+	return false;
 };

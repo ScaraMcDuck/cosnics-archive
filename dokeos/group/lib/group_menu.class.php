@@ -5,6 +5,7 @@
 require_once 'HTML/Menu.php';
 require_once 'HTML/Menu/ArrayRenderer.php';
 require_once Path :: get_library_path() . 'html/menu/tree_menu_renderer.class.php';
+require_once Path :: get_library_path() . 'html/menu/xml_tree_menu_renderer.class.php';
 require_once dirname(__FILE__) . '/group.class.php';
 require_once dirname(__FILE__) . '/group_data_manager.class.php';
 /**
@@ -46,9 +47,16 @@ class GroupMenu extends HTML_Menu
 		$this->exclude_children = $exclude_children;
 		$this->current_category = $current_category;
 		
+		if ($current_category == '0')
+		{
+			$condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
+			$group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, array(Group :: PROPERTY_SORT), array(SORT_ASC))->next_result();
+			
+			$this->current_category = $group->get_id();
+		}
+		
 		$this->urlFmt = $url_format;
 		$menu = $this->get_menu();
-		//print_r($menu);
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
 		$this->forceCurrentUrl($this->get_url($current_category));
@@ -56,6 +64,9 @@ class GroupMenu extends HTML_Menu
 	
 	function get_menu()
 	{
+		//$xtmr = new XmlTreeMenuRenderer($this);
+		//return $xtmr->get_tree();
+		
 		$include_root = $this->include_root;
 		
 		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
@@ -133,7 +144,7 @@ class GroupMenu extends HTML_Menu
 	 * @param int $category The id of the category
 	 * @return string The requested URL
 	 */
-	private function get_url ($group)
+	function get_url ($group)
 	{
 		// TODO: Put another class in charge of the htmlentities() invocation
 		return htmlentities(sprintf($this->urlFmt, $group));

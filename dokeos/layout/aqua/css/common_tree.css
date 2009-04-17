@@ -6,16 +6,13 @@
  * been completely loaded. Since it is made visible through JavaScript,
  * having CSS on but JavaScript off breaks the tree.
  */
-ul.tree-menu
-{
-	visibility: hidden;
-}
 
 ul.tree-menu, ul.tree-menu ul
 {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	border: 1px solid red;
 }
 
 ul.tree-menu ul
@@ -37,12 +34,12 @@ ul.tree-menu li
 	padding: 0 0 0 18px;
 }
 
-ul.tree-menu li div
+ul.tree-menu li
 {
 	margin: 0;
 	padding: 0 0 0 18px;
-	background: url(../img/common/treemenu/tree-node-open.png) no-repeat;
-	height: 18px;
+	background: url(../img/common/treemenu/tree-leaf.png) no-repeat;
+	clear: both;
 }
 
 ul.tree-menu li.collapsed div
@@ -86,11 +83,11 @@ ul.tree-menu li.last-leaf div.last, ul.tree-menu li.last-empty div.last
 	background-image: url(../img/common/treemenu/tree-leaf-end.png);
 }
 
-ul.tree-menu li div a
+ul.tree-menu li a
 {
 	margin: 0;
 	padding: 0 0 0 18px;
-	background: url(../img/common/treemenu/tree-folder-open.png) no-repeat 0 0;
+	background: url(../img/common/treemenu/tree-folder-closed.png) no-repeat 0 0;
 	/*
 	 * Stretches links over the entire width of the menu
 	 * Also required for minimum height
@@ -98,20 +95,21 @@ ul.tree-menu li div a
 	display: block;
 	height: 18px;
 	white-space: nowrap;
+	outline: none;
 	/*overflow: hidden;*/
 }
 
-ul.tree-menu li.empty div a
+ul.tree-menu li.empty a
 {
 	background-image: url(../img/common/treemenu/tree-folder-closed.png);
 }
 
-ul.tree-menu li.collapsed div a
+ul.tree-menu li.collapsed a
 {
 	background-image: url(../img/common/treemenu/tree-folder-closed.png);
 }
 
-ul.tree-menu li.leaf div a
+ul.tree-menu li.leaf a
 {
 	background-image: url(../img/common/treemenu/tree-document.png);
 }
@@ -121,15 +119,20 @@ ul.tree-menu li.collapsed ul
 	display: none;
 }
 
-ul.tree-menu li div.current a
+ul.tree-menu li.current a
 {
-	text-decoration: underline;
+	color: red;
+}
+
+ul.tree-menu li.current ul li a
+{
+	color: #4171b5;
 }
 
 /*
  * Tweak: Font size is 12px, nodes are 18px high. That leaves (18 - 12) / 2px.
  */
-ul.tree-menu li div a
+ul.tree-menu li a
 {
 	padding-top: 3px;
 	height: 15px;
@@ -138,13 +141,13 @@ ul.tree-menu li div a
 /*
  * IE doesn't like the tweak above very much
  */
-* html ul.tree-menu li div a
+* html ul.tree-menu li a
 {
 	padding-top: 2px;
 	height: 16px;
 }
 
-ul.tree-menu li div
+ul.tree-menu li
 {
 	/*overflow: hidden;*/
 }
@@ -152,7 +155,7 @@ ul.tree-menu li div
 /*
  * Tweak: Some extra space between folder and text--3px will do.
  */
-ul.tree-menu li div a
+ul.tree-menu li a
 {
 	background-position: 0px 1px;
 	padding-left: 21px;
@@ -161,11 +164,11 @@ ul.tree-menu li div a
 /*
  * Tweak: Trash icon.
  */
-ul.tree-menu li div a.trash
+ul.tree-menu li a.trash
 {
 	background-image: url(../img/common/treemenu/trash.png);
 }
-ul.tree-menu li div a.trash_full
+ul.tree-menu li a.trash_full
 {
 	background-image: url(../img/common/treemenu/trash_full.png);
 }
@@ -173,7 +176,7 @@ ul.tree-menu li div a.trash_full
 /*
  * Tweak: Quota icon.
  */
-ul.tree-menu li div a.quota
+ul.tree-menu li a.quota
 {
 	background-image: url(../img/common/treemenu/quota.png);
 }
@@ -181,7 +184,7 @@ ul.tree-menu li div a.quota
 /*
  * Tweak: User View icon.
  */
-ul.tree-menu li div a.userview
+ul.tree-menu li a.userview
 {
 	background-image: url(../img/common/treemenu/userview.png);
 }
@@ -189,7 +192,7 @@ ul.tree-menu li div a.userview
 /*
  * Tweak: Publication icon.
  */
-ul.tree-menu li div a.publication
+ul.tree-menu li a.publication
 {
 	background-image: url(../img/common/treemenu/publication.png);
 }
@@ -197,7 +200,7 @@ ul.tree-menu li div a.publication
 /*
  * Tweak: Create icon.
  */
-ul.tree-menu li div a.create
+ul.tree-menu li a.create
 {
 	background-image: url(../img/common/treemenu/create.png);
 }
@@ -205,7 +208,7 @@ ul.tree-menu li div a.create
 /*
  * Tweak: Import icon.
  */
-ul.tree-menu li div a.import
+ul.tree-menu li a.import
 {
 	background-image: url(../img/common/treemenu/import.png);
 }
@@ -213,127 +216,113 @@ ul.tree-menu li div a.import
 /*
  * Tweak: Search results icon.
  */
-ul.tree-menu li div a.search_results
+ul.tree-menu li a.search_results
 {
 	background-image: url(../img/common/treemenu/search.png);
 }
 
-ul.tree-menu li div a.home
+ul.tree-menu li a.home
 {
 	background-image: url(../img/common/treemenu/home.png);
 }
 
-ul.tree-menu li div a.selected, .active_elements a.selected {
+ul.tree-menu li a.selected, .active_elements a.selected {
 	background-color: #d0e3fa;
 }
 
-ul.tree-menu li div a.disabled, ul.tree-menu li div a.disabled:hover,
-ul.tree-menu li div a.disabled:active  {
+ul.tree-menu li a.disabled, ul.tree-menu li a.disabled:hover,
+ul.tree-menu li a.disabled:active  {
 	color: #999;
 	font-weight: normal !important;
 	cursor: default;
 }
 
-ul.tree-menu li div a.unlinked, ul.tree-menu li div a.unlinked:hover,
-ul.tree-menu li div a.unlinked:active {
+ul.tree-menu li a.unlinked, ul.tree-menu li a.unlinked:hover,
+ul.tree-menu li a.unlinked:active {
 	color: #666;
 	cursor: default;
 }
 
-ul.tree-menu li div a.type_category, ul.tree-menu li div a.type_category:hover,
-ul.tree-menu li div a.type_category:active
-{
-	background-image: url(../img/common/treemenu/tree-folder-open.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li.collapsed div a.type_category, ul.tree-menu li.collapsed div a.type_category:hover,
-ul.tree-menu li.collapsed div a.type_category:active
+ul.tree-menu li a.type_category, ul.tree-menu li a.type_category:hover,
+ul.tree-menu li a.type_category:active
 {
 	background-image: url(../img/common/treemenu/tree-folder-closed.png);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div.current a.type_category, ul.tree-menu li div.current a.type_category:hover,
-ul.tree-menu li div.current a.type_category:active
-{
-	background-image: url(../img/common/treemenu/tree-folder-open.png);
-	background-repeat: no-repeat;
-}
-
-ul.tree-menu li div a.type_announcement, .active_elements li.type_announcement a
+ul.tree-menu li a.type_announcement, .active_elements li.type_announcement a
 {
 	background-image: url(../img/common/treemenu_types/announcement.png);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_user, .active_elements li.type_user a
+ul.tree-menu li a.type_user, .active_elements li.type_user a
 {
 	background-image: url(../img/common/treemenu/user.png);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_calendar_event, .active_elements li.type_calendar_event a
+ul.tree-menu li a.type_calendar_event, .active_elements li.type_calendar_event a
 {
 	background-image: url(../img/common/treemenu_types/calendar_event.png);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_description, .active_elements li.type_description a
+ul.tree-menu li a.type_description, .active_elements li.type_description a
 {
 	background-image: url(../img/common/treemenu_types/description.png);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_document, .active_elements li.type_document a
+ul.tree-menu li a.type_document, .active_elements li.type_document a
 {
 	background-image: url(../img/common/treemenu_types/document.png);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_forum, .active_elements li.type_forum a
+ul.tree-menu li a.type_forum, .active_elements li.type_forum a
 {
 	background-image: url(../img/common/treemenu_types/forum.png);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_forum_post, .active_elements li.type_forum_post a
+ul.tree-menu li a.type_forum_post, .active_elements li.type_forum_post a
 {
 	background-image: url(../img/common/treemenu_types/forum_post.png);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_forum_topic, .active_elements li.type_forum_topic a
+ul.tree-menu li a.type_forum_topic, .active_elements li.type_forum_topic a
 {
 	background-image: url(../img/common/treemenu_types/forum_topic.png);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_learning_path, .active_elements li.type_learning_path a
+ul.tree-menu li a.type_learning_path, .active_elements li.type_learning_path a
 {
 	background-image: url(../img/common/treemenu_types/learning_path.png);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_learning_path_chapter, .active_elements li.type_learning_path_chapter a
+ul.tree-menu li a.type_learning_path_chapter, .active_elements li.type_learning_path_chapter a
 {
 	background-image: url(../img/common/treemenu_types/learning_path_chapter.png);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_learning_path_item, .active_elements li.type_learning_path_item a
+ul.tree-menu li a.type_learning_path_item, .active_elements li.type_learning_path_item a
 {
 	background-image: url(../img/common/treemenu_types/learning_path_item.png);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_link, .active_elements li.type_link a
+ul.tree-menu li a.type_link, .active_elements li.type_link a
 {
 	background-image: url(../img/common/treemenu_types/link.png);
 	background-repeat: no-repeat;
 }
 
-ul.tree-menu li div a.type_role, .active_elements li.type_role a
+ul.tree-menu li a.type_role, .active_elements li.type_role a
 {
 	background-image: url(../img/common/treemenu/rights.png);
 	background-repeat: no-repeat;
