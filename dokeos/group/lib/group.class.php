@@ -215,16 +215,6 @@ class Group
 		return $rdm->retrieve_groups($parent_condition, null, null, $order, $order_direction);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	function is_child_of($parent_id)
 	{
 		$gdm = GroupDataManager :: get_instance();
@@ -276,12 +266,24 @@ class Group
 	}
 	
 	/**
-	 * Get the group's first level children
+	 * Get the group's children
 	 */
-	function get_children()
+	function get_children($recursive = true)
 	{
 		$gdm = GroupDataManager :: get_instance();
-		$children_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_id());
+		
+		if ($recursive)
+		{
+			$children_conditions = array();
+			$children_conditions = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $this->get_left_value());
+			$children_conditions = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: LESS_THAN, $this->get_right_value());
+			$children_condition = new AndCondition($children_conditions);
+		}
+		else
+		{
+			$children_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_id());
+		}
+		
 		return $gdm->retrieve_groups($children_condition);
 	}
 	
@@ -289,7 +291,7 @@ class Group
 	{
 		$gdm = GroupDataManager :: get_instance();
 		$children_condition = new EqualityCondition(Location :: PROPERTY_PARENT, $this->get_id());
-		return ($gdm->retrieve_locations($children_condition) > 0);
+		return ($gdm->count_groups($children_condition) > 0);
 	}
 	
 	function move($new_parent_id, $new_previous_id = 0)
@@ -303,23 +305,6 @@ class Group
 		
 		return true;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	/**
 	 * Instructs the Datamanager to delete this group.

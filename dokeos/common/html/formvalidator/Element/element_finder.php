@@ -159,7 +159,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		if (!self :: $initialized)
 		{
 			$rm = ResourceManager :: get_instance();
-			$html[] = $rm->get_resource_html(Path :: get(WEB_LIB_PATH).'javascript/treemenu.js');
+			//$html[] = $rm->get_resource_html(Path :: get(WEB_LIB_PATH).'javascript/treemenu.js');
 			$html[] = $rm->get_resource_html(Path :: get(WEB_LIB_PATH).'javascript/element_finder.js');
 			self :: $initialized = true;
 		}
