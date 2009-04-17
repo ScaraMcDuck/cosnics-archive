@@ -27,8 +27,9 @@ $lang['reporting']['Back'] = 'Back';
 $lang['reporting']['Edit'] = 'Edit
 ';
 $lang['reporting']['NoReportingTemplateRegistrationSelected'] = 'No reporting template selected.';
-$lang['reporting']['Logout'] = ' ';
-$lang['reporting']['Administration'] = ' ';
-$lang['reporting']['Repository'] = ' ';
-$lang['reporting']['MyAccount'] = ' ';
+$lang['reporting']['Logout'] = 'Logout';
+$lang['reporting']['Administration'] = 'Administration';
+$lang['reporting']['Repository'] = 'Repository
+';
+$lang['reporting']['MyAccount'] = 'My Account';
 ?>
