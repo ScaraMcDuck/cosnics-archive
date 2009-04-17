@@ -166,23 +166,25 @@ class ReportingWeblcms {
             $time = date('G:i:s',$time);
             $arr[Translation :: get('TotalTime')][] = $time;
         }
-        arsort($arr[Translation::get('LastAccess')]);
 
-        $i = 0;
-        foreach($arr[Translation :: get('LastAccess')] as $key => $value)
-        {
-            if($i < sizeof($arr[Translation :: get('LastAccess')])/2)
-            {
-                $bla = $arr[Translation :: get('User')][$key];
-                $arr[Translation :: get('User')][$key] = $arr[Translation :: get('User')][$i];
-                $arr[Translation :: get('User')][$i] = $bla;
-                $bla = $arr[Translation :: get('TotalTime')][$key];
-                $arr[Translation :: get('TotalTime')][$key] = $arr[Translation :: get('TotalTime')][$i];
-                $arr[Translation :: get('TotalTime')][$i] = $bla;
-                //$arr[Translation :: get('TotalTime')][] = $lastaccess - $value->get_enter_date();
-                $i++;
-            }
-        }
+        Reporting :: sort_array($arr,Translation::get('LastAccess'));
+//        arsort($arr[Translation::get('LastAccess')]);
+//
+//        $i = 0;
+//        foreach($arr[Translation :: get('LastAccess')] as $key => $value)
+//        {
+//            if($i < sizeof($arr[Translation :: get('LastAccess')])/2)
+//            {
+//                $bla = $arr[Translation :: get('User')][$key];
+//                $arr[Translation :: get('User')][$key] = $arr[Translation :: get('User')][$i];
+//                $arr[Translation :: get('User')][$i] = $bla;
+//                $bla = $arr[Translation :: get('TotalTime')][$key];
+//                $arr[Translation :: get('TotalTime')][$key] = $arr[Translation :: get('TotalTime')][$i];
+//                $arr[Translation :: get('TotalTime')][$i] = $bla;
+//                //$arr[Translation :: get('TotalTime')][] = $lastaccess - $value->get_enter_date();
+//                $i++;
+//            }
+//        }
         return Reporting :: getSerieArray($arr);
     }
 
@@ -657,23 +659,9 @@ class ReportingWeblcms {
             $time = date('G:i:s',$time);
             $arr[Translation :: get('TotalTime')][] = $time;
         }
-        arsort($arr[Translation::get('LastAccess')]);
 
-        $i = 0;
-        foreach($arr[Translation :: get('LastAccess')] as $key => $value)
-        {
-            if($i < sizeof($arr[Translation :: get('LastAccess')])/2)
-            {
-                $bla = $arr[Translation :: get('User')][$key];
-                $arr[Translation :: get('User')][$key] = $arr[Translation :: get('User')][$i];
-                $arr[Translation :: get('User')][$i] = $bla;
-                $bla = $arr[Translation :: get('TotalTime')][$key];
-                $arr[Translation :: get('TotalTime')][$key] = $arr[Translation :: get('TotalTime')][$i];
-                $arr[Translation :: get('TotalTime')][$i] = $bla;
-                //$arr[Translation :: get('TotalTime')][] = $lastaccess - $value->get_enter_date();
-                $i++;
-            }
-        }
+        Reporting :: sort_array($arr,Translation :: get('LastAccess'));
+
         return Reporting :: getSerieArray($arr);
     }
 
@@ -710,22 +698,24 @@ class ReportingWeblcms {
             $arr[Translation :: get('Clicks')][] = $search[$key]['clicks'];
         }
 
-        arsort($arr[Translation::get('LastAccess')]);
+        Reporting :: sort_array($arr,Translation :: get('LastAccess'));
 
-        $i = 0;
-        foreach($arr[Translation :: get('LastAccess')] as $key => $value)
-        {
-            if($i < sizeof($arr[Translation :: get('LastAccess')])/2)
-            {
-                $bla = $arr[Translation :: get('User')][$key];
-                $arr[Translation :: get('User')][$key] = $arr[Translation :: get('User')][$i];
-                $arr[Translation :: get('User')][$i] = $bla;
-                $bla = $arr[Translation :: get('Clicks')][$key];
-                $arr[Translation :: get('Clicks')][$key] = $arr[Translation :: get('Clicks')][$i];
-                $arr[Translation :: get('Clicks')][$i] = $bla;
-                $i++;
-            }
-        }
+//        arsort($arr[Translation::get('LastAccess')]);
+//
+//        $i = 0;
+//        foreach($arr[Translation :: get('LastAccess')] as $key => $value)
+//        {
+//            if($i < sizeof($arr[Translation :: get('LastAccess')])/2)
+//            {
+//                $bla = $arr[Translation :: get('User')][$key];
+//                $arr[Translation :: get('User')][$key] = $arr[Translation :: get('User')][$i];
+//                $arr[Translation :: get('User')][$i] = $bla;
+//                $bla = $arr[Translation :: get('Clicks')][$key];
+//                $arr[Translation :: get('Clicks')][$key] = $arr[Translation :: get('Clicks')][$i];
+//                $arr[Translation :: get('Clicks')][$i] = $bla;
+//                $i++;
+//            }
+//        }
 
         $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
         return Reporting :: getSerieArray($arr,$description);
