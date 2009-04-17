@@ -135,5 +135,25 @@ class Reporting{
         array_push($array,$datadescription);
         return $array;
     }//getSerieArray
+
+    public static function sort_array(&$arr,$tesor)
+    {
+        arsort($arr[$tesor]);
+        $i=0;
+        foreach ($arr[$tesor] as $key => $value) {
+            if($i < sizeof($arr[$tesor])/2)
+            {
+                foreach ($arr as $key2 => $value2) {
+                    if($key2 != $tesor)
+                    {
+                        $bla = $arr[$key2][$key];
+                        $arr[$key2][$key] = $arr[$key2][$i];
+                        $arr[$key2][$i] = $bla;
+                    }
+                }
+                $i++;
+            }
+        }
+    }//sort_array
 }//class reporting
 ?>

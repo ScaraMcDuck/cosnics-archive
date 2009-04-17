@@ -114,4 +114,22 @@
             displaymode="Table"
             width="500px"
             height="500px" />
+    <reporting_block name="WeblcmsPublicationDetail"
+            application="weblcms"
+            function="getPublicationDetail"
+            displaymode="Table"
+            width="600px"
+            height="300px" />
+    <reporting_block name="WeblcmsPublicationAccess"
+            application="weblcms"
+            function="getPublicationAccess"
+            displaymode="Table"
+            width="500px"
+            height="500px" />
+    <reporting_block name="WeblcmsPublicationUserAccess"
+            application="weblcms"
+            function="getPublicationUserAccess"
+            displaymode="Table"
+            width="500px"
+            height="500px" />
 </application>
