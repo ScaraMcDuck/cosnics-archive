@@ -11,6 +11,7 @@ class WikiToolItemViewerComponent extends WikiToolComponent
     private $wiki_page_id;
     private $wiki_id;
     private $cid;
+    private $wiki_page;
 	
 
 	function run()
@@ -21,16 +22,28 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 			return;
 		}
         $this->wiki_page_id = Request :: get('wiki_page_id');
-        $this->wiki_id = Request :: get('wiki_id');       
+        $this->wiki_id = Request :: get('wiki_id');
+        $this->cid = Request :: get('cid');        
         $dm = RepositoryDataManager :: get_instance();
-        $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
+        if(isset($this->wiki_page_id))
+            $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
+        elseif(isset($this->cid))
+        {
+            $cloi = $dm->retrieve_complex_learning_object_item($this->cid);
+            $this->wiki_page_id = $cloi->get_ref();
+            $this->wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
+        }
 
         /*
          * complex object id needed to delete / update
          */
-        $condition = New EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $wiki_page->get_id());
-        $cloi = $dm->retrieve_complex_learning_object_items($condition)->as_array();       
-        $this->cid = $cloi[0]->get_id();
+              
+        if(!isset($this->cid))
+        {
+            $condition = New EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $wiki_page->get_id());
+            $cloi = $dm->retrieve_complex_learning_object_items($condition)->as_array();
+            $this->cid = $cloi[0]->get_id();
+        }        
 
         $this->display_header(new BreadcrumbTrail());
         $this->action_bar = $this->get_toolbar();
@@ -38,8 +51,8 @@ class WikiToolItemViewerComponent extends WikiToolComponent
         echo '<br />' . $this->action_bar->as_html();
 
 		
-        echo '<h2>'.$wiki_page->get_title().'</h2>';
-        echo $wiki_page->get_description();
+        echo '<h2>'.$this->wiki_page->get_title().'</h2>';
+        echo $this->wiki_page->get_description();
         $this->display_footer();
 	}
 
@@ -60,8 +73,7 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 			new ToolbarItem(
 				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
-		);
-        
+		);        
 
         $action_bar->add_common_action(
 			new ToolbarItem(

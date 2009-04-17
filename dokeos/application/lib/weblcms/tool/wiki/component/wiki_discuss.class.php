@@ -3,6 +3,7 @@
 require_once dirname(__FILE__) . '/../wiki_tool.class.php';
 require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
 require_once dirname(__FILE__).'/wiki_page_table/wiki_page_table.class.php';
+require_once Path :: get_repository_path().'lib/learning_object_display.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 
 class WikiToolDiscussComponent extends WikiToolComponent
@@ -37,6 +38,14 @@ class WikiToolDiscussComponent extends WikiToolComponent
         echo '<br />' . $this->action_bar->as_html();
         
         echo '<h2>' .Translation :: get('DiscussThe') .$wiki_page->get_title() . Translation :: get('Page') .'</h2>';
+        $display = LearningObjectDisplay :: factory($wiki_page);
+        echo $display->get_full_html();
+
+        /*$browser = new WikiDiscussBrowser($this);
+        echo '<div id="action_bar_browser">';
+		echo $browser->as_html();
+		echo '</div>';*/
+        
 
         $this->display_footer();
     }
@@ -77,12 +86,16 @@ class WikiToolDiscussComponent extends WikiToolComponent
 			)
 		);
 
-        $action_bar->add_tool_action(
+        /*$action_bar->add_tool_action(
 			new ToolbarItem(
 				Translation :: get('Discuss'), Theme :: get_common_image_path().'action_users.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_DISCUSS, 'wiki_page_id' => $this->wiki_page_id, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
-		);
-
+		);*/
+        $action_bar->add_tool_action(
+            new ToolbarItem(
+                Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+            )
+        );
         $action_bar->add_tool_action(
 			new ToolbarItem(
 				Translation :: get('History'), Theme :: get_common_image_path().'action_versions.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_HISTORY, 'wiki_page_id' => $this->wiki_page_id, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL

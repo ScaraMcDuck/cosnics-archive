@@ -10,6 +10,7 @@ class WikiToolViewerComponent extends WikiToolComponent
 	private $action_bar;
     private $publication_id;
     private $wiki_id;
+    private $cid;
 	
 	function run()
 	{
@@ -22,6 +23,7 @@ class WikiToolViewerComponent extends WikiToolComponent
         $dm = RepositoryDataManager :: get_instance();
         $this->publication_id = Request :: get('pid');
         $this->wiki_id = Request :: get('wiki_id');
+        $this->cid = Request :: get('cid');
         if(!empty($this->publication_id))
         {           
             $wm = WeblcmsDataManager :: get_instance();
