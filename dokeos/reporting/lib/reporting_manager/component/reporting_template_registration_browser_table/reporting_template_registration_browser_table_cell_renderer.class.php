@@ -49,7 +49,7 @@ class ReportingTemplateRegistrationBrowserTableCellRenderer extends DefaultRepor
 		$toolbar_data[] = array(
 			'href' => $viewing_url,
 			'label' => Translation :: get('View'),
-			'img' => Theme :: get_common_image_path().'action_chart.png',
+			'img' => Theme :: get_common_image_path().'action_reporting.png',
 		);
 
         $editing_url = $this->browser->get_reporting_template_registration_editing_url($reporting_template_registration);
