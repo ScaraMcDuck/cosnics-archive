@@ -18,13 +18,14 @@ class ToolFeedbackPublisherComponent extends ToolComponent
 		$trail = new BreadcrumbTrail();
 		
 		$object = $_GET['object'];
-		
 		$pub = new LearningObjectRepoViewer($this, 'feedback', true);
 		$pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_FEEDBACK);
-		$pub->set_parameter('pid', $_GET['pid']);
+		if(isset($_GET['pid']))
+            $pub->set_parameter('pid', $_GET['pid']);
 		
 		if(isset($_GET['cid']))
 			$pub->set_parameter('cid', $_GET['cid']);
+        
 		
 		if(!isset($object))
 		{	
@@ -44,7 +45,7 @@ class ToolFeedbackPublisherComponent extends ToolComponent
 			$publication_feedback= new LearningObjectPublicationFeedback(null, $feedback, $this->get_course_id(), $this->get_tool_id().'_feedback', $id,$this->get_user_id(), time(), 0, 0);
 			$publication_feedback->set_show_on_homepage(0); 
 			$publication_feedback->create(); 
-			$this->redirect(null, Translation :: get('FeedbackAdded'), '', array(Tool :: PARAM_ACTION => isset($_GET['cid'])?'view_item':'view', isset($_GET['cid'])?'cid':'pid' => $id, 'pid' => $pid));	
+			$this->redirect(null, Translation :: get('FeedbackAdded'), '', array(Tool :: PARAM_ACTION => isset($_GET['cid'])?'view_item':'view', isset($_GET['cid'])?'cid':'pid' => $id, 'pid' => $pid));
 		}
 		
 	}

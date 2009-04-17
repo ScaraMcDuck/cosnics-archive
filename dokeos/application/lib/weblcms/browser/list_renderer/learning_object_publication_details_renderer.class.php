@@ -122,7 +122,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 	/**
 	 * Renders a list of all LearningObjects of the type 'feedback' attached to this LearningObject
 	 * @param  LearningObjectPublication $publication The publication.
-	 * @return string The rendered HTLM.
+	 * @return string The rendered HTML.
 	 */
 	function render_publication_feedback($publication){
 		$html = array();

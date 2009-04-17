@@ -35,7 +35,7 @@ abstract class LearningObjectIncludeParser
 	
 	static function get_include_types()
 	{
-		return array('image', 'flash');
+		return array('image', 'flash', 'wiki');
 	}
 	
 	function parse_includes($form)
