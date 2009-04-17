@@ -32,71 +32,13 @@ class ReportingWeblcms {
     public static function getCourseUserLearningpathInformation($params)
     {
         return self :: getCourseUserExcerciseInformation($params);
-        
+
         $array = array();
         $wdm = WeblcmsDataManager::get_instance();
         $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
         $user_id = $params[ReportingManager :: PARAM_USER_ID];
         $series = $wdm->count_learning_object_publications($course_id, null, $user_id);
         $lops = $wdm->retrieve_learning_object_publications($course_id, null, $user_id);
-        
-        $dataserie = 0;
-        $serie = 1;
-        $data[$dataserie]["Name"] = Translation :: get('LearningPaths');
-        while($lop = $lops->next_result())
-        {
-            $lpo = $lop->get_learning_object();
-            $data[$dataserie]["Serie".$serie] = $lpo->get_title();
-            $serie++;
-        }
-        
-        $dataserie++;
-        $serie=1;
-        $data[$dataserie]["Name"] = Translation :: get('Time');
-        while($serie <= $series)
-        {
-            $data[$dataserie]["Serie".$serie] = 'unknown';
-            $serie++;
-        }
-
-        $dataserie++;
-        $serie=1;
-        $data[$dataserie]["Name"] = Translation :: get('Score');
-        while($serie <= $series)
-        {
-            $data[$dataserie]["Serie".$serie] = 'unknown';
-            $serie++;
-        }
-
-        $dataserie++;
-        $serie=1;
-        $data[$dataserie]["Name"] = Translation :: get('Completed');
-        while($serie <= $series)
-        {
-            $data[$dataserie]["Serie".$serie] = 'unknown';
-            $serie++;
-        }
-
-        $dataserie++;
-        $serie=1;
-        $data[$dataserie]["Name"] = Translation :: get('LastConnection');
-        while($serie <= $series)
-        {
-            $data[$dataserie]["Serie".$serie] = 'unknown';
-            $serie++;
-        }
-        
-        $serie=1;
-        $datadescription["Position"] = "Name";
-        while($serie <= $series)
-        {
-            $datadescription["Values"][] = "Serie".$serie;
-            $serie++;
-        }
-        
-        array_push($array,$data);
-        array_push($array,$datadescription);
-        return $array;
     }
 
     /**
@@ -107,31 +49,8 @@ class ReportingWeblcms {
     public static function getCourseUserExcerciseInformation($params)
     {
         $arr[''][] = 'Not Available yet';
-        
-        return Reporting :: getSerieArray($arr);
-        /*
-        $array = array();
-        $data[] = array("Name"=>"Learning paths","Serie1"=>"1_Chapter 1","Serie2"=>"2_Chapter 2","Serie3"=>"3_Chapter 3","Serie4"=>"4_Chapter 4","Serie5"=>"Al bar","Serie 6"=>"Il passato prossimo","Serie 7"=>"La pronuncia","Serie 8"=>"ripasso_1semestre");
-        $data[] = array("Name"=>"Time","Serie1"=>"00:22:42","Serie2"=>"00:17:02","Serie3"=>"00:03:19","Serie4"=>"00:55:14","Serie5"=>"00:40:15","Serie6"=>"00:30:15","Serie7"=>"00:10:01","Serie8"=>"1:00:02");
-        $data[] = array("Name"=>"Score","Serie1"=>"72.94%","Serie2"=>"22.45%","Serie3"=>"0%","Serie4"=>"0%","Serie5"=>"0%","Serie6"=>"0%","Serie7"=>"0%","Serie8"=>"0%");
-        $data[] = array("Name"=>"Completed","Serie1"=>"100%","Serie2"=>"100%","Serie3"=>"100%","Serie4"=>"100%","Serie5"=>"100%","Serie6"=>"100%","Serie7"=>"100%","Serie8"=>"100%");
-        $data[] = array("Name"=>"Last Connection","Serie1"=>"12 december 2008","Serie2"=>"06 januari 2009","Serie3"=>"12 december 2008","Serie4"=>"06 januari 2009","Serie5"=>"12 december 2008","Serie6"=>"06 januari 2009","Serie7"=>"12 december 2008","Serie8"=>"06 januari 2009");
-        //details ?
 
-        $datadescription["Position"] = "Name";
-        $datadescription["Values"][] = "Serie1";
-        $datadescription["Values"][] = "Serie2";
-        $datadescription["Values"][] = "Serie3";
-        $datadescription["Values"][] = "Serie4";
-        $datadescription["Values"][] = "Serie5";
-        $datadescription["Values"][] = "Serie6";
-        $datadescription["Values"][] = "Serie7";
-        $datadescription["Values"][] = "Serie8";
-        
-        array_push($array,$data);
-        array_push($array,$datadescription);
-        return $array;
-        */
+        return Reporting :: getSerieArray($arr);
     }
 
     /**
@@ -156,15 +75,13 @@ class ReportingWeblcms {
     public static function getLastAccessToTools($params)
     {
         require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
-        
+
         $wdm = WeblcmsDataManager :: get_instance();
         $tracker = new VisitTracker();
         $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
         $user_id = $params[ReportingManager :: PARAM_USER_ID];
-        //$course = $wdm->retrieve_course($course_id);
-		$tools = $wdm->get_course_modules($course_id);
+        $tools = $wdm->get_course_modules($course_id);
 
-        //dump($tools);
         foreach($tools as $key => $value)
         {
             $name = $value->name;
@@ -182,17 +99,17 @@ class ReportingWeblcms {
             $conditions3 = array();
             $conditions[] = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*course='.$course_id.'*tool='.$name.'*');
             if(isset($user_id))
-                $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
+            $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
             $conditions2[] = new AndCondition($conditions);
 
             if($name == 'reporting'){
                 $conditions3[] = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*course_id???='.$course_id.'*');
                 if(isset($user_id))
-                    $conditions3[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
+                $conditions3[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
                 $conditions2[] = new AndCondition($conditions3);
             }
             $condition = new OrCondition($conditions2);
-            
+
             $trackerdata = $tracker->retrieve_tracker_items($condition);
 
             $arr[$link][] = $date;
@@ -220,16 +137,14 @@ class ReportingWeblcms {
     {
         $course_id = $params[ReportingManager::PARAM_COURSE_ID];
         $user_id = $params[ReportingManager::PARAM_USER_ID];
-        //$user_id = 2;
-        //$course_id = 2;
+
         require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
         $tracker = new VisitTracker();
         $udm = UserDataManager::get_instance();
 
         if(isset($user_id))
         {
-            $conditions[] = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*course='.$course_id.'**');
-            //$conditions[] = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&course='.$course_id);
+            $conditions[] = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*course='.$course_id.'*');
             $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
             $condition = new AndCondition($conditions);
         }
@@ -242,7 +157,7 @@ class ReportingWeblcms {
         foreach ($trackerdata as $key => $value) {
             $lastaccess = $value->get_enter_date();
             if(!isset($user_id))
-                $user = $udm->retrieve_user($value->get_user_id());
+            $user = $udm->retrieve_user($value->get_user_id());
 
             $arr[Translation :: get('User')][] = $user->get_fullname();
             $arr[Translation :: get('LastAccess')][] = $lastaccess;
@@ -312,7 +227,7 @@ class ReportingWeblcms {
         $arr[Translation :: get('PastMonth')][0] = 0;
         $arr[Translation :: get('PastYear')][0] = 0;
         $arr[Translation :: get('NeverAccessed')][0] = 0;
-        
+
         while($course = $courses->next_result())
         {
             $lastaccess = 0;
@@ -420,7 +335,7 @@ class ReportingWeblcms {
         {
             $lastaccess = Translation :: get('NeverAccessed');
             $lastpublication = Translation :: get('NothingPublished');
-            
+
 
             $condition = new LikeCondition(VisitTracker::PROPERTY_LOCATION,'&course='.$course->get_id());
             $trackerdata = $tracker->retrieve_tracker_items($condition);
@@ -457,7 +372,7 @@ class ReportingWeblcms {
         foreach ($list as $key => $value) {
             $arr[Translation :: get($value)][0] = 0;
         }
-        
+
         $wdm = WeblcmsDataManager :: get_instance();
         $learning_objects = $wdm->retrieve_learning_object_publications();
         while($learning_object = $learning_objects->next_result())
@@ -523,8 +438,6 @@ class ReportingWeblcms {
             //dump($lop);
         }
 
-        $arr[''][] = Translation :: get('NotAvailable');
-
         return Reporting::getSerieArray($arr);
     }
 
@@ -573,7 +486,7 @@ class ReportingWeblcms {
                 $arr[Translation :: get('NumberOfContributions')][] = $number;
                 $count++;
             }
-        }        
+        }
         $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
         return Reporting::getSerieArray($arr,$description);
     }
@@ -646,23 +559,25 @@ class ReportingWeblcms {
 
         while($lop = $lops->next_result())
         {
-            $condition = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*course='.$course_id.'*pid='.$lop->get_learning_object()->get_id());
+            $condition = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*course='.$course_id.'*pid='.$lop->get_learning_object()->get_id().'*');
             $trackerdata = $tracker->retrieve_tracker_items($condition);
 
             foreach($trackerdata as $key => $value)
             {
                 if($value->get_leave_date() > $lastaccess)
-                    $lastaccess = $value->get_leave_date();
+                $lastaccess = $value->get_leave_date();
             }
-            $arr[Translation :: get('Title')][] = $lop->get_learning_object()->get_title();
+            $url = 'run.php?go=courseviewer&course='.$course_id.'&tool='.$tool.'&application=weblcms&tool_action=view&pid='.$lop->get_learning_object()->get_id();
+            $arr[Translation :: get('Title')][] = '<a href="'.$url.'">'.$lop->get_learning_object()->get_title().'</a>';
 
 
-            $des = strip_tags($lop->get_learning_object()->get_description());
-            $des = DokeosUtilities::truncate_string($des, 50);
-            
-            $arr[Translation :: get('Description')][] = Translation :: get($des);
+            $des = $lop->get_learning_object()->get_description();
+            $arr[Translation :: get('Description')][] = DokeosUtilities::truncate_string($des, 50);
             $arr[Translation :: get('LastAccess')][] = $lastaccess;
             $arr[Translation :: get('TotalTimesAccessed')][] = count($trackerdata);
+            $params['pid'] = $lop->get_learning_object()->get_id();
+            $url = ReportingManager :: get_reporting_template_registration_url('PublicationDetailReportingTemplate',$params);
+            $arr[Translation :: get('PublicationDetails')][] = '<a href="'.$url.'">'.Translation :: get('ViewDetails').'</a>';
         }
 
         $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
@@ -672,7 +587,148 @@ class ReportingWeblcms {
 
     public static function getPublicationDetail($params)
     {
+        require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
+
+
+        $course_id = $params[ReportingManager::PARAM_COURSE_ID];
+        $user_id = $params[ReportingManager::PARAM_USER_ID];
+        $tool = $params['tool'];
+        $pid = $params['pid'];
+
+        $tracker = new VisitTracker();
+        $wdm = WeblcmsDataManager::get_instance();
+        $condition = new EqualityCondition(Weblcms::PARAM_TOOL,$tool);
+        $lop = $wdm->retrieve_learning_object_publication($pid);
+        //$lops = $wdm->retrieve_learning_object_publications($course_id, null, $user_id, null, $condition);
+
+        $condition = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*pid='.$pid.'*');
+        $trackerdata = $tracker->retrieve_tracker_items($condition);
+
+        foreach($trackerdata as $key => $value)
+        {
+            if($value->get_leave_date() > $lastaccess)
+            $lastaccess = $value->get_leave_date();
+        }
+        $url = 'run.php?go=courseviewer&course='.$course_id.'&tool='.$tool.'&application=weblcms&tool_action=view&pid='.$lop->get_learning_object()->get_id();
+        $arr[Translation :: get('Title')][] = '<a href="'.$url.'">'.$lop->get_learning_object()->get_title().'</a>';
+
+        $des = $lop->get_learning_object()->get_description();
+        $arr[Translation :: get('Description')][] = DokeosUtilities::truncate_string($des, 50);
+        $arr[Translation :: get('LastAccess')][] = $lastaccess;
+        $arr[Translation :: get('TotalTimesAccessed')][] = count($trackerdata);
+
+        //$description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
+
+        return Reporting :: getSerieArray($arr,$description);
+    }
+
+    public static function getPublicationAccess($params)
+    {
+        $course_id = $params[ReportingManager::PARAM_COURSE_ID];
+        $user_id = $params[ReportingManager::PARAM_USER_ID];
+        $pid = $params['pid'];
+        $tool = $params['tool'];
+
+        require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
+        $tracker = new VisitTracker();
+        $udm = UserDataManager::get_instance();
+
+        if(isset($user_id))
+        {
+            $conditions[] = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*pid='.$pid.'*');
+            $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
+            $condition = new AndCondition($conditions);
+        }
+        else
+        {
+            $condition = new LikeCondition(VisitTracker :: PROPERTY_LOCATION,'&pid='.$pid);
+        }
+        $user = $udm->retrieve_user($user_id);
+        $trackerdata = $tracker->retrieve_tracker_items($condition);
+        foreach ($trackerdata as $key => $value) {
+            $lastaccess = $value->get_enter_date();
+            if(!isset($user_id))
+            $user = $udm->retrieve_user($value->get_user_id());
+
+            $arr[Translation :: get('User')][] = $user->get_fullname();
+            $arr[Translation :: get('LastAccess')][] = $lastaccess;
+            $time = strtotime($value->get_leave_date()) - strtotime($value->get_enter_date());
+            $time = mktime(0,0,$time,0,0,0);
+            $time = date('G:i:s',$time);
+            $arr[Translation :: get('TotalTime')][] = $time;
+        }
+        arsort($arr[Translation::get('LastAccess')]);
+
+        $i = 0;
+        foreach($arr[Translation :: get('LastAccess')] as $key => $value)
+        {
+            if($i < sizeof($arr[Translation :: get('LastAccess')])/2)
+            {
+                $bla = $arr[Translation :: get('User')][$key];
+                $arr[Translation :: get('User')][$key] = $arr[Translation :: get('User')][$i];
+                $arr[Translation :: get('User')][$i] = $bla;
+                $bla = $arr[Translation :: get('TotalTime')][$key];
+                $arr[Translation :: get('TotalTime')][$key] = $arr[Translation :: get('TotalTime')][$i];
+                $arr[Translation :: get('TotalTime')][$i] = $bla;
+                //$arr[Translation :: get('TotalTime')][] = $lastaccess - $value->get_enter_date();
+                $i++;
+            }
+        }
+        return Reporting :: getSerieArray($arr);
+    }
+
+    /**
+     * Returns a list of all users which have accessed this publication
+     * + last access date & how many times
+     * @param <type> $params
+     */
+    public static function getPublicationUserAccess($params)
+    {
+        require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
+
+        $tracker = new VisitTracker();
+        $course_id = $params[ReportingManager :: PARAM_COURSE_ID];
+        $user_id = $params[ReportingManager :: PARAM_USER_ID];
+        $tool = $params['tool'];
+        $pid = $params['pid'];
+
+        $udm = UserDataManager::get_instance();
         
+        $condition = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*pid='.$pid.'*');
+        $trackerdata = $tracker->retrieve_tracker_items($condition);
+
+        foreach ($trackerdata as $key => $value) {
+            if($search[$value->get_user_id()]['lastaccess'] < $value->get_enter_date())
+                $search[$value->get_user_id()]['lastaccess'] = $value->get_enter_date();
+            $search[$value->get_user_id()]['clicks']++;
+        }
+
+        foreach($search as $key => $value)
+        {
+            $arr[Translation :: get('User')][] = $udm->retrieve_user($key)->get_fullname();
+            $arr[Translation :: get('LastAccess')][] = $search[$key]['lastaccess'];
+            $arr[Translation :: get('Clicks')][] = $search[$key]['clicks'];
+        }
+
+        arsort($arr[Translation::get('LastAccess')]);
+
+        $i = 0;
+        foreach($arr[Translation :: get('LastAccess')] as $key => $value)
+        {
+            if($i < sizeof($arr[Translation :: get('LastAccess')])/2)
+            {
+                $bla = $arr[Translation :: get('User')][$key];
+                $arr[Translation :: get('User')][$key] = $arr[Translation :: get('User')][$i];
+                $arr[Translation :: get('User')][$i] = $bla;
+                $bla = $arr[Translation :: get('Clicks')][$key];
+                $arr[Translation :: get('Clicks')][$key] = $arr[Translation :: get('Clicks')][$i];
+                $arr[Translation :: get('Clicks')][$i] = $bla;
+                $i++;
+            }
+        }
+
+        $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
+        return Reporting :: getSerieArray($arr,$description);
     }
 }
 ?>
