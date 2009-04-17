@@ -66,7 +66,17 @@ class AdminCourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 			'label' => Translation :: get('Maintenance'),
 			'img' => Theme :: get_common_image_path().'action_maintenance.png'
 		);
-		
+
+        $params = array();
+        $params[ReportingManager :: PARAM_COURSE_ID] = $course->get_id();
+        $url = ReportingManager :: get_reporting_template_registration_url('CourseLearnerTrackerReportingTemplate',$params);
+			//$unsubscribe_url = $this->browser->get_url($parameters);
+		$toolbar_data[] = array(
+            'href' => $url,
+            'label' => Translation :: get('Report'),
+            'img' => Theme :: get_common_image_path().'action_reporting.png'
+		);
+
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }

@@ -12,7 +12,7 @@ class CourseUserReportingTemplate extends ReportingTemplate
 	function CourseUserReportingTemplate($parent=null)
 	{
         $this->parent = $parent;
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserUserInformation"),
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserInformation"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserCourseStatistics"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
@@ -47,7 +47,7 @@ class CourseUserReportingTemplate extends ReportingTemplate
         //content
         $html[] = '<div class="reporting_template_container">';
         $html[] = '<div class="reporting_template_con_left">';
-        $html[] = $this->get_reporting_block_html('UserUserInformation');
+        $html[] = $this->get_reporting_block_html('UserInformation');
         $html[] = '</div>';
         $html[] = '<div class="reporting_template_con_right">';
         $html[] = $this->get_reporting_block_html('UserCourseStatistics');
