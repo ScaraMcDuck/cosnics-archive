@@ -69,10 +69,21 @@ img
 {
 	float: left;
 	margin: 18px 19px 19px 19px;
+	height: 64px;
+	width: 218px;
+}
+
+#header1 div.banner div.logo
+{
 	background-image: url('../img/common/dokeos_banner.png');
 	background-repeat: no-repeat;
 	height: 64px;
 	width: 218px;
+}
+
+#header1 div.banner div.text
+{
+	display: none;
 }
 
 #header1 div.menu_container

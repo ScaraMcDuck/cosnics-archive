@@ -71,7 +71,7 @@ class LearningObjectCategoryMenu extends HTML_Menu
 		{
 			$menu_item['sub'] = $sub_menu_items;
 		}
-		$menu_item['class'] = 'type_category';
+		$menu_item['class'] = 'category';
 		$menu_item[OptionsMenuRenderer :: KEY_ID] = 0;
 		$menu[0] = $menu_item;
 		if (count($extra_items))
@@ -108,7 +108,7 @@ class LearningObjectCategoryMenu extends HTML_Menu
 			{
 				$menu_item['sub'] = $sub_menu_items;
 			}
-			$menu_item['class'] = 'type_category';
+			$menu_item['class'] = 'category';
 			$menu_item[OptionsMenuRenderer :: KEY_ID] = $category->get_id();
 			$categories[$category->get_id()] = $menu_item;
 		}

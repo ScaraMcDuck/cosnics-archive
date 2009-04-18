@@ -474,16 +474,20 @@ class DokeosUtilities
      * @param char $char
      * @return string
      */
-    static function truncate_string($string,$length=200,$strip=true,$char='&hellip;')
+    static function truncate_string($string, $length = 200, $strip = true, $char = '&hellip;')
     {
         if($strip)
+        {
             $string = strip_tags($string);
-        $string = html_entity_decode($string);
-        if(strlen($string) >= $length)
+        }
+        
+        $decoded_string = html_entity_decode($string);
+        if(strlen($decoded_string) >= $length)
         {
             mb_internal_encoding("UTF-8");
-            $string = htmlentities(mb_substr($string,0,$length-3)).$char;
+            $string = htmlentities(mb_substr($string, 0, $length-3)) . $char;
         }
+        
         return $string;
     }
 
