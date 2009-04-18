@@ -51,7 +51,7 @@ class GroupBrowserTableCellRenderer extends DefaultGroupTableCellRenderer
 //				{
 //					$description = mb_substr($description,0,170).'&hellip;';
 //				}
-                return DokeosUtilities::truncate_string($description);
+                return DokeosUtilities :: truncate_string($description);
 		}
 		
 		switch($column->get_title())

@@ -130,7 +130,7 @@ class GroupMenu extends HTML_Menu
 					$menu_item['sub'] = $sub_menu_items;
 				}
 				
-				$menu_item['class'] = 'type_category';
+				$menu_item['class'] = 'category';
 				$menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
 				$menu[$group->get_id()] = $menu_item;
 			}

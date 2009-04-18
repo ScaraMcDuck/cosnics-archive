@@ -46,7 +46,7 @@ class Banner
 		$output[] = '<a name="top"></a>';
 		$output[] = '<div id="header">  <!-- header section start -->';
 		$output[] = '<div id="header1"> <!-- top of banner with institution name/hompage link -->';
-		$output[] = '<div class="banner"></div>';
+		$output[] = '<div class="banner"><a href="' . $this->get_path(WEB_PATH) . 'index.php" target="_top"><div class="logo"></div><div class="text">' . $this->get_setting('site_name', 'admin') . '</div></a></div>';
 		
 		if (Authentication :: is_valid()) 
 		{
