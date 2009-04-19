@@ -298,7 +298,7 @@ class Group
 	{
 		$gdm = GroupDataManager :: get_instance();
 		
-		if (!$gdm->move_location($this, $new_parent_id, $new_previous_id))
+		if (!$gdm->move_group($this, $new_parent_id, $new_previous_id))
 		{
 			return false;
 		}
@@ -390,11 +390,6 @@ class Group
 	function update() 
 	{
 		$gdm = GroupDataManager :: get_instance();
-		
-		$condition = new EqualityCondition(self :: PROPERTY_NAME, $this->get_name());
-		$groups = $gdm->count_groups($condition);
-		if($groups > 1)
-			return false;
 			
 		$success = $gdm->update_group($this);
 		if (!$success)
@@ -480,19 +475,25 @@ class Group
 	{
 		$gdm = GroupDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(self :: PROPERTY_PARENT, $this->get_id());
-		$groups = $gdm->retrieve_groups($condition);
+		if ($recursive)
+		{
+			$children_conditions = array();
+			$children_conditions = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $this->get_left_value());
+			$children_conditions = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: LESS_THAN, $this->get_right_value());
+			$children_condition = new AndCondition($children_conditions);
+		}
+		else
+		{
+			$children_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_id());
+		}
+		
+		$groups = $gdm->retrieve_groups($children_condition);
 		
 		$subgroups = array();
 		
 		while ($group = $groups->next_result())
 		{
 			$subgroups[$group->get_id()] = $group;
-			
-			if ($recursive)
-			{
-				$subgroups += $group->get_subgroups($recursive);
-			}
 		}
 		
 		return $subgroups;
@@ -502,20 +503,16 @@ class Group
 	{
 		$gdm = GroupDataManager :: get_instance();
 		
-		$condition = new EqualityCondition(Group :: PROPERTY_PARENT,$this->get_id()); 
-		$count = $gdm->count_groups($condition);
-		
-		if($recursive)
+		if ($recursive)
 		{
-			$subgroups = $this->get_subgroups($recursive);
-			
-			foreach($subgroups as $subgroup)
-			{
-				$count += $subgroup->count_subgroups();
-			}
+			return ($this->get_right_value() - $this->get_left_value() - 1) / 2;
 		}
-		
-		return $count;
+		else
+		{
+			$gdm = GroupDataManager :: get_instance();
+			$children_condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_id());
+			return $gdm->count_groups($children_condition);
+		}
 	}
 }
 ?>
