@@ -276,9 +276,9 @@ class DatabaseGroupDataManager extends GroupDataManager
 		// Update all necessary nested-values
 		$condition = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $group->get_left_value());
 		
-		$query  = 'UPDATE '. $this->escape_table_name('group');
-		$query .= ' SET '. $this->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . '=' . $this->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . ' - ?,';
-		$query .= $this->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . ' - ?';
+		$query  = 'UPDATE '. $this->database->escape_table_name('group');
+		$query .= ' SET '. $this->database->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . '=' . $this->database->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . ' - ?,';
+		$query .= $this->database->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . '=' . $this->database->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . ' - ?';
 
 		$params = array ();
 		$params[] = $delta;
@@ -286,13 +286,13 @@ class DatabaseGroupDataManager extends GroupDataManager
 		
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, true);
+			$translator = new ConditionTranslator($this->database, $params, false);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
 		
-		$statement = $this->connection->prepare($query);
+		$statement = $this->database->get_connection()->prepare($query);
 		// TODO: Some error-handling please !
 		$statement->execute($params);
 		
@@ -302,21 +302,21 @@ class DatabaseGroupDataManager extends GroupDataManager
 		$conditions[] = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: GREATER_THAN, $group->get_right_value());
 		$condition = new AndCondition($conditions);
 		
-		$query  = 'UPDATE '. $this->escape_table_name('group');
-		$query .= ' SET '. $this->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . ' - ?';
+		$query  = 'UPDATE '. $this->database->escape_table_name('group');
+		$query .= ' SET '. $this->database->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . '=' . $this->database->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . ' - ?';
 
 		$params = array ();
 		$params[] = $delta;
 		
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, true);
+			$translator = new ConditionTranslator($this->database, $params, false);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
 		
-		$statement = $this->connection->prepare($query);
+		$statement = $this->database->get_connection()->prepare($query);
 		// TODO: Some error-handling please !
 		$statement->execute($params);
 		
@@ -414,12 +414,12 @@ class DatabaseGroupDataManager extends GroupDataManager
         // Do the actual update
 		$conditions = array();
 		$conditions[] = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, ($group->get_left_value() - 1));
-		$conditions[] = new InequalityCondition(group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: LESS_THAN, ($group->get_right_value() + 1));
+		$conditions[] = new InequalityCondition(Group :: PROPERTY_RIGHT_VALUE, InequalityCondition :: LESS_THAN, ($group->get_right_value() + 1));
 		$condition = new AndCondition($conditions);
 		
-		$query  = 'UPDATE '. $this->escape_table_name('group');
-		$query .= ' SET '. $this->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . '=' . $this->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . ' + ?,';
-		$query .= $this->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . '=' . $this->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . ' + ?';
+		$query  = 'UPDATE '. $this->database->escape_table_name('group');
+		$query .= ' SET '. $this->database->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . '=' . $this->database->escape_column_name(Group :: PROPERTY_LEFT_VALUE) . ' + ?,';
+		$query .= $this->database->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . '=' . $this->database->escape_column_name(Group :: PROPERTY_RIGHT_VALUE) . ' + ?';
 
 		$params = array ();
 		$params[] = $offset;
@@ -427,13 +427,13 @@ class DatabaseGroupDataManager extends GroupDataManager
 		
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, true);
+			$translator = new ConditionTranslator($this->database, $params, false);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
 		
-		$statement = $this->connection->prepare($query);
+		$statement = $this->database->get_connection()->prepare($query);
 		// TODO: Some error-handling please !
 		$statement->execute($params);
 		

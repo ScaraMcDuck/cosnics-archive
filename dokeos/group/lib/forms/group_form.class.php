@@ -112,9 +112,13 @@ class GroupForm extends FormValidator {
     	
     	$group->set_name($values[Group :: PROPERTY_NAME]);
     	$group->set_description($values[Group :: PROPERTY_DESCRIPTION]);
-    	$group->set_parent($values[Group :: PROPERTY_PARENT]);
+    	$value = $group->update();
     	
-   		$value = $group->update();
+    	$new_parent = $values[Group :: PROPERTY_PARENT];
+    	if ($group->get_parent() != $new_parent)
+    	{
+    		$group->move($new_parent);
+    	}
    		
 		if (!$group->update_role_links($values['roles']))
 		{
