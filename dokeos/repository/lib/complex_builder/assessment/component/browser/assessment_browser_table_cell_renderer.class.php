@@ -29,6 +29,8 @@ class AssessmentBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
 		{ 
 			case Translation :: get('Weight'): return $cloi->get_weight();
 		}
+		
+		return '';
 	}
 }
 ?>
