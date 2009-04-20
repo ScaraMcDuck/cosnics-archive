@@ -81,12 +81,7 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 		}
 		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('calendar tool'));
         
-        if(isset($_GET['pid']))
-        {
-            $params['pid'] = $_GET['pid'];
-            $url = ReportingManager :: get_reporting_template_registration_url('PublicationDetailReportingTemplate',$params);
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AccessDetails'),Theme :: get_common_image_path().'action_reporting.png',$url));
-        }
+        $action_bar->add_tool_action(ReportingManager :: get_access_details_toolbar_item());
         
 		return $action_bar;
 	}

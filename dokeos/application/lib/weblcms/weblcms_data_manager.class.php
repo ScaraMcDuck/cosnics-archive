@@ -474,6 +474,12 @@ abstract class WeblcmsDataManager
 	
 	abstract function get_course_sections($course_code);
 
+    /**
+     * Gets all course modules
+     * @return array The list of available course modules
+     */
+    abstract function get_all_course_modules();
+
 	/**
 	 * Retrieves a single course from persistent storage.
 	 * @param string $course_code The alphanumerical identifier of the course.
