@@ -94,11 +94,20 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 		$condition = new EqualityCondition(WeblcmsLearningPathAssessmentAttemptsTracker :: PROPERTY_ID, $uaid);
 		$items = $track->retrieve_tracker_items($condition);
 		$user_assessment = $items[0];
+		
+		$results_form = ResultsViewer :: factory($user_assessment, false, null, 'WeblcmsLearningPathAssessmentAttemptsTracker');
+		$results_form->build();
+		
+		$trackers = $this->get_parent()->get_trackers();
+		$lpi_tracker = $trackers['lpi_tracker'];
+		$lpi_tracker->set_status('completed');
+		$lpi_tracker->set_score($user_assessment->get_total_score());
+		$lpi_tracker->set_end_time(time());
+		$lpi_tracker->update();
+		
 		//dump($uaid);
 		
 		//dump($user_assessment);
-		$results_form = ResultsViewer :: factory($user_assessment, false, null, 'WeblcmsLearningPathAssessmentAttemptsTracker');
-		$results_form->build();
 		return $results_form->toHtml();
 	}
 	
