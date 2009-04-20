@@ -402,7 +402,7 @@ class ReportingWeblcms {
         $rdm = RepositoryDataManager::get_instance();
         $list = $rdm->get_registered_types();
         foreach ($list as $key => $value) {
-            $arr[Translation :: get($value)][0] = 0;
+            $arr[$value][0] = 0;
         }
 
         $wdm = WeblcmsDataManager :: get_instance();
@@ -410,7 +410,13 @@ class ReportingWeblcms {
         while($learning_object = $learning_objects->next_result())
         {
             //dump($learning_object);
-            $arr[Translation :: get($learning_object->get_learning_object()->get_type())][0]++;
+            $arr[$learning_object->get_learning_object()->get_type()][0]++;
+        }
+
+        foreach ($arr as $key => $value)
+        {
+            $arr[Translation :: get(DokeosUtilities::underscores_to_camelcase($key))] = $arr[$key];
+            unset($arr[$key]);
         }
 
         return Reporting :: getSerieArray($arr);
@@ -425,13 +431,19 @@ class ReportingWeblcms {
         $rdm = RepositoryDataManager::get_instance();
         $list = $rdm->get_registered_types();
         foreach ($list as $key => $value) {
-            $arr[Translation :: get($value)][0] = 0;
+            $arr[$value][0] = 0;
         }
 
         $list = $rdm->retrieve_learning_objects();
         while($learning_object = $list->next_result())
         {
-            $arr[Translation :: get($learning_object->get_type())][0]++;
+            $arr[$learning_object->get_type()][0]++;
+        }
+
+        foreach ($arr as $key => $value)
+        {
+            $arr[Translation :: get(DokeosUtilities::underscores_to_camelcase($key))] = $arr[$key];
+            unset($arr[$key]);
         }
 
         return Reporting :: getSerieArray($arr);

@@ -66,9 +66,16 @@ abstract class ReportingTemplate {
      * @return html representing the footer
      */
     function get_footer()
-    {//'<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
+    {
+        $properties = $this->get_properties();
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' .'"></script>';
+        $html[] = '<div class="template-data">';
+        $html[] = '<br /><br /><br />';
+        $html[] = '<b><u>Template data</u></b><br />';
+        $html[] = '<b>Template title: </b><i>'.Translation::get($properties[ReportingTemplateRegistration :: PROPERTY_TITLE]).'</i><br />';
+        $html[] = '<b>Template description: </b><i>'.Translation :: get($properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION]).'</i>';
+        $html[] = '</div>';
         return implode("\n", $html);
     }//get_footer
 
