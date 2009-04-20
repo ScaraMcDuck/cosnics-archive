@@ -19,9 +19,9 @@ class WikiReportingTemplate extends ReportingTemplate
      */
     public static function get_properties()
     {
-        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = 'CourseTrainingTrackerReportingTemplateTitle';
+        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = 'WeblcmsWikiReportingTemplate';
         $properties[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = 0;
-        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = 'CourseTrainingTrackerReportingTemplateDescription';
+        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = 'WeblcmsWikiReportingTemplate';
 
         return $properties;
     }
