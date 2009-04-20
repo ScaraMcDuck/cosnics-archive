@@ -8,8 +8,7 @@ require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.
 class WikiToolItemViewerComponent extends WikiToolComponent
 {
 	private $action_bar;
-    private $wiki_page_id;
-    private $wiki_id;
+    private $publication_id;
     private $cid;
     private $wiki_page;
 	
@@ -21,17 +20,14 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 			Display :: not_allowed();
 			return;
 		}
-        $this->wiki_page_id = Request :: get('wiki_page_id');
-        $this->wiki_id = Request :: get('wiki_id');
+        $this->publication_id = Request :: get('pid');        
         $this->cid = Request :: get('cid');        
         $dm = RepositoryDataManager :: get_instance();
-        if(isset($this->wiki_page_id))
-            $this->wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
-        elseif(isset($this->cid))
+       
+        if(isset($this->cid))
         {
             $cloi = $dm->retrieve_complex_learning_object_item($this->cid);
-            $this->wiki_page_id = $cloi->get_ref();
-            $this->wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
+            $this->wiki_page = $dm->retrieve_learning_object($cloi->get_ref());
         }
 
         /*
@@ -65,13 +61,13 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);        
 
