@@ -972,6 +972,20 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $sections;
 	}
 
+    function get_all_course_modules()
+    {
+		$query = 'SELECT DISTINCT NAME FROM '.$this->escape_table_name('course_module');
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute();
+
+		$modules = array();
+		$module = null;
+		while ($module = $res->fetchRow(MDB2_FETCHMODE_OBJECT)) {
+		    $modules[$module->name] = $module;
+		}
+		return $modules;
+    }
+
 	function retrieve_course($course_code)
 	{
 		$query = 'SELECT * FROM '. $this->escape_table_name('course') .' WHERE '.$this->escape_column_name(Course :: PROPERTY_ID).'=?';

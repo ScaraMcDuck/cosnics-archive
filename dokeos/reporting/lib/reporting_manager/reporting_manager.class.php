@@ -407,4 +407,18 @@ class ReportingManager {
 
         return $url;
     }
+
+    function get_access_details_toolbar_item()
+    {
+        if(isset($_GET['pid']))
+        {
+            $params['pid'] = $_GET['pid'];
+            $params[ReportingManager::PARAM_COURSE_ID] = $_GET['course'];
+            $params['tool'] = $_GET['tool'];
+            $url = ReportingManager :: get_reporting_template_registration_url('PublicationDetailReportingTemplate',$params);
+            return new ToolbarItem(Translation :: get('AccessDetails'),Theme :: get_common_image_path().'action_reporting.png',$url);
+        }else{
+            return new ToolbarItem('');
+        }
+    }
 }

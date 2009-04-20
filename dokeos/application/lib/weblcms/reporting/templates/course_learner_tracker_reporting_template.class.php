@@ -38,9 +38,9 @@ class CourseLearnerTrackerReportingTemplate extends ReportingTemplate
         $html[] = '<div align="center">';
         $url = ReportingManager :: get_reporting_template_registration_url('CourseLearnerTrackerReportingTemplate',$params);
         //$html[] = '<a href="'.$url.'" />'.Translation :: get('LearnerTracker').'</a> | ';
-        $html[] = Translation :: get('LearnerTracker').' | ';
+        $html[] = Translation :: get('CourseLearnerTrackerReportingTemplateTitle').' | ';
         $url = ReportingManager :: get_reporting_template_registration_url('CourseTrainingTrackerReportingTemplate',$params);
-        $html[] = '<a href="'.$url.'" />'.Translation :: get('TrainingTracker').'</a>';
+        $html[] = '<a href="'.$url.'" />'.Translation :: get('CourseTrainingTrackerReportingTemplateTitle').'</a>';
         $html[] = '</div><br />';
         //show visible blocks
         $html[] = $this->get_visible_reporting_blocks();

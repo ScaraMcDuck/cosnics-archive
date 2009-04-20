@@ -41,10 +41,10 @@ class CourseTrainingTrackerReportingTemplate extends ReportingTemplate
         $params = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
         $html[] = '<div align="center">';
         $url = ReportingManager :: get_reporting_template_registration_url('CourseLearnerTrackerReportingTemplate',$params);
-        $html[] = '<a href="'.$url.'" />'.Translation :: get('LearnerTracker').'</a> | ';
+        $html[] = '<a href="'.$url.'" />'.Translation :: get('CourseLearnerTrackerReportingTemplateTitle').'</a> | ';
         $url = ReportingManager :: get_reporting_template_registration_url('CourseTrainingTrackerReportingTemplate',$params);
         //$html[] = '<a href="'.$url.'" />'.Translation :: get('TrainingTracker').'</a>';
-        $html[] = Translation :: get('TrainingTracker');
+        $html[] = Translation :: get('CourseTrainingTrackerReportingTemplateTitle');
         $html[] = '</div><br />';
 
         //show visible blocks

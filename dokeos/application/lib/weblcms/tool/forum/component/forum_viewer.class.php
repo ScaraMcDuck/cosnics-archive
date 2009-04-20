@@ -241,12 +241,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 				$this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, Tool :: PARAM_ACTION => ForumTool :: ACTION_CREATE_SUBFORUM)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('forum tool'));
 
-        if(isset($_GET['pid']))
-        {
-            $params['pid'] = $_GET['pid'];
-            $url = ReportingManager :: get_reporting_template_registration_url('PublicationDetailReportingTemplate',$params);
-            $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AccessDetails'),Theme :: get_common_image_path().'action_reporting.png',$url));
-        }
+        $action_bar->add_tool_action(ReportingManager :: get_access_details_toolbar_item());
         
 		return $action_bar;
 	}

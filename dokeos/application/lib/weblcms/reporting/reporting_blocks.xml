@@ -132,4 +132,16 @@
             displaymode="Table"
             width="500px"
             height="500px" />
+    <reporting_block name="WeblcmsTrainingsPerCategory"
+            application="weblcms"
+            function="getTrainingsPerCategory"
+            displaymode="Table"
+            width="500px"
+            height="500px" />
+    <reporting_block name="WeblcmsLastAccessToToolsPlatform"
+           application="weblcms"
+           function="getLastAccessToToolsPlatform"
+           displaymode="Table"
+           width="500px"
+           height="500px" />
 </application>

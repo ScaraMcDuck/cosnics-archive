@@ -48,7 +48,7 @@ class ReportingWeblcms {
      */
     public static function getCourseUserExcerciseInformation($params)
     {
-        $arr[''][] = 'Not Available yet';
+        //$arr[''][] = 'Not Available yet';
 
         return Reporting :: getSerieArray($arr);
     }
@@ -85,7 +85,7 @@ class ReportingWeblcms {
         foreach($tools as $key => $value)
         {
             $name = $value->name;
-            $link = '<img src="'.Theme :: get_image_path('weblcms').'tool_'.$name.'.png" style="vertical-align: middle;" /> <a href="run.php?go=courseviewer&course='.$course_id.'&tool='.$name.'&application=weblcms">'.Translation :: get($name).'</a>';
+            $link = '<img src="'.Theme :: get_image_path('weblcms').'tool_'.$name.'.png" style="vertical-align: middle;" /> <a href="run.php?go=courseviewer&course='.$course_id.'&tool='.$name.'&application=weblcms">'.Translation :: get(DokeosUtilities::underscores_to_camelcase($name)).'</a>';
             $date = $wdm->get_last_visit_date_per_course($course_id,$name);
             if($date)
             {
@@ -127,6 +127,36 @@ class ReportingWeblcms {
         return Reporting :: getSerieArray($arr,$description);
     }
 
+    public static function getLastAccessToToolsPlatform($params)
+    {
+        require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
+
+        $wdm = WeblcmsDataManager :: get_instance();
+        $tracker = new VisitTracker();
+
+        $tools = $wdm->get_all_course_modules();
+
+        foreach($tools as $key => $value)
+        {
+            $name = $value->name;
+            $link = '<img src="'.Theme :: get_image_path('weblcms').'tool_'.$name.'.png" style="vertical-align: middle;" /> '.Translation :: get(DokeosUtilities::underscores_to_camelcase($name));
+            $condition = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*tool='.$name.'*');
+
+            $trackerdata = $tracker->retrieve_tracker_items($condition);
+
+            $arr[$link][] = count($trackerdata);
+            $params['tool'] = $name;
+            $url = ReportingManager :: get_reporting_template_registration_url('ToolPublicationsDetailReportingTemplate',$params);
+            $arr[$link][] = '<a href="'.$url.'">'.Translation :: get('ViewPublications').'</a>';
+        }
+
+        $description[0] = Translation :: get('Tool');
+        $description[1] = Translation :: get('Clicks');
+        $description[2] = Translation :: get('Publications');
+        $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_VERTICAL;
+        return Reporting :: getSerieArray($arr,$description);
+    }
+
     /**
      * Returns a list of the latest acces to a course
      * If a user is specified, returns access for this user to the course, else
@@ -157,7 +187,7 @@ class ReportingWeblcms {
         foreach ($trackerdata as $key => $value) {
             $lastaccess = $value->get_enter_date();
             if(!isset($user_id))
-            $user = $udm->retrieve_user($value->get_user_id());
+                $user = $udm->retrieve_user($value->get_user_id());
 
             $arr[Translation :: get('User')][] = $user->get_fullname();
             $arr[Translation :: get('LastAccess')][] = $lastaccess;
@@ -168,23 +198,23 @@ class ReportingWeblcms {
         }
 
         Reporting :: sort_array($arr,Translation::get('LastAccess'));
-//        arsort($arr[Translation::get('LastAccess')]);
-//
-//        $i = 0;
-//        foreach($arr[Translation :: get('LastAccess')] as $key => $value)
-//        {
-//            if($i < sizeof($arr[Translation :: get('LastAccess')])/2)
-//            {
-//                $bla = $arr[Translation :: get('User')][$key];
-//                $arr[Translation :: get('User')][$key] = $arr[Translation :: get('User')][$i];
-//                $arr[Translation :: get('User')][$i] = $bla;
-//                $bla = $arr[Translation :: get('TotalTime')][$key];
-//                $arr[Translation :: get('TotalTime')][$key] = $arr[Translation :: get('TotalTime')][$i];
-//                $arr[Translation :: get('TotalTime')][$i] = $bla;
-//                //$arr[Translation :: get('TotalTime')][] = $lastaccess - $value->get_enter_date();
-//                $i++;
-//            }
-//        }
+        //        arsort($arr[Translation::get('LastAccess')]);
+        //
+        //        $i = 0;
+        //        foreach($arr[Translation :: get('LastAccess')] as $key => $value)
+        //        {
+        //            if($i < sizeof($arr[Translation :: get('LastAccess')])/2)
+        //            {
+        //                $bla = $arr[Translation :: get('User')][$key];
+        //                $arr[Translation :: get('User')][$key] = $arr[Translation :: get('User')][$i];
+        //                $arr[Translation :: get('User')][$i] = $bla;
+        //                $bla = $arr[Translation :: get('TotalTime')][$key];
+        //                $arr[Translation :: get('TotalTime')][$key] = $arr[Translation :: get('TotalTime')][$i];
+        //                $arr[Translation :: get('TotalTime')][$i] = $bla;
+        //                //$arr[Translation :: get('TotalTime')][] = $lastaccess - $value->get_enter_date();
+        //                $i++;
+        //            }
+        //        }
         return Reporting :: getSerieArray($arr);
     }
 
@@ -538,7 +568,7 @@ class ReportingWeblcms {
         $clois = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexlearningObjectItem :: PROPERTY_PARENT, $wiki->get_id()))->as_array();
         foreach($clois as $cloi)
         {
-        	$pages[] = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref());
+            $pages[] = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref());
         }
 
         foreach($pages as $page)
@@ -620,7 +650,8 @@ class ReportingWeblcms {
             if($value->get_leave_date() > $lastaccess)
             $lastaccess = $value->get_leave_date();
         }
-        $url = 'run.php?go=courseviewer&course='.$course_id.'&tool='.$tool.'&application=weblcms&tool_action=view&pid='.$lop->get_learning_object()->get_id();
+        //      run.php?go=courseviewer&course=1&tool=announcement&application=weblcms&pid=1&tool_action=view
+        $url = 'run.php?go=courseviewer&course='.$course_id.'&tool='.$tool.'&application=weblcms&pid='.$lop->get_learning_object()->get_id().'&tool_action=view';
         $arr[Translation :: get('Title')][] = '<a href="'.$url.'">'.$lop->get_learning_object()->get_title().'</a>';
 
         $des = $lop->get_learning_object()->get_description();
@@ -690,7 +721,7 @@ class ReportingWeblcms {
         $pid = $params['pid'];
 
         $udm = UserDataManager::get_instance();
-        
+
         $condition = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*pid='.$pid.'*');
         $trackerdata = $tracker->retrieve_tracker_items($condition);
 
@@ -698,36 +729,44 @@ class ReportingWeblcms {
             if($search[$value->get_user_id()]['lastaccess'] < $value->get_enter_date())
                 $search[$value->get_user_id()]['lastaccess'] = $value->get_enter_date();
             $search[$value->get_user_id()]['clicks']++;
+            $search[$value->get_user_id()]['totaltime'] += strtotime($value->get_leave_date())-strtotime($value->get_enter_date());
         }
 
         foreach($search as $key => $value)
         {
             $arr[Translation :: get('User')][] = $udm->retrieve_user($key)->get_fullname();
             $arr[Translation :: get('LastAccess')][] = $search[$key]['lastaccess'];
+            $time = mktime(0,0,$search[$key]['totaltime'],0,0,0);
+            $time = date('G:i:s',$time);
+            $arr[Translation :: get('TotalTime')][] = $time;
             $arr[Translation :: get('Clicks')][] = $search[$key]['clicks'];
         }
 
         Reporting :: sort_array($arr,Translation :: get('LastAccess'));
 
-//        arsort($arr[Translation::get('LastAccess')]);
-//
-//        $i = 0;
-//        foreach($arr[Translation :: get('LastAccess')] as $key => $value)
-//        {
-//            if($i < sizeof($arr[Translation :: get('LastAccess')])/2)
-//            {
-//                $bla = $arr[Translation :: get('User')][$key];
-//                $arr[Translation :: get('User')][$key] = $arr[Translation :: get('User')][$i];
-//                $arr[Translation :: get('User')][$i] = $bla;
-//                $bla = $arr[Translation :: get('Clicks')][$key];
-//                $arr[Translation :: get('Clicks')][$key] = $arr[Translation :: get('Clicks')][$i];
-//                $arr[Translation :: get('Clicks')][$i] = $bla;
-//                $i++;
-//            }
-//        }
 
         $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
         return Reporting :: getSerieArray($arr,$description);
     }
+
+    public static function getTrainingsPerCategory($params)
+    {
+        $wdm = WeblcmsDataManager::get_instance();
+
+        $categories = $wdm->retrieve_course_categories();
+
+        while($category = $categories->next_result())
+        {
+            $arr[$category->get_name()][0] = 0;
+            $condition = new EqualityCondition(Weblcms :: PARAM_COURSE_CATEGORY_ID,$category->get_id());
+            $courses = $wdm->retrieve_courses(null, $condition);
+            while($course = $courses->next_result())
+            {
+                $arr[$category->get_name()][0]++;
+            }
+        }
+
+        return Reporting::getSerieArray($arr);
+    }//getTrainingsPerCategory
 }
 ?>

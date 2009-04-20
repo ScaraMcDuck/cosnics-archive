@@ -448,14 +448,14 @@ class ReportingUser {
             $trackerdata = $tracker->retrieve_tracker_items($condition);
             $params[ReportingManager::PARAM_USER_ID] = $user_id;
             $user = $udm->retrieve_user($user_id);
-            $arr[Translation :: get('Lastname')][] = $user->get_lastname();
-            $arr[Translation :: get('Firstname')][] = $user->get_firstname();
+            $arr[Translation :: get('LastName')][] = $user->get_lastname();
+            $arr[Translation :: get('FirstName')][] = $user->get_firstname();
             $arr[Translation :: get('TimeOnCourse')][] = self :: get_total_time($trackerdata);
             $arr[Translation :: get('LearningPathProgress')][] = 0;
             $arr[Translation :: get('ExcerciseProgress')][] = 0;
             $arr[Translation :: get('TotalPublications')][] = $rdm->count_learning_objects(null, new EqualityCondition(LearningObject::PROPERTY_OWNER_ID,$user_id));
             $url = ReportingManager :: get_reporting_template_registration_url('CourseLearnerTrackerDetailReportingTemplate',$params);
-            $arr[Translation :: get('Detail')][] = '<a href="'.$url.'" />'.Translation :: get('Detail').'</a>';;
+            $arr[Translation :: get('UserDetail')][] = '<a href="'.$url.'" />'.Translation :: get('Detail').'</a>';;
         }
 
         $description[Reporting :: PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;

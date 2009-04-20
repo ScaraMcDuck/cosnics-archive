@@ -57,6 +57,7 @@ abstract class ReportingTemplate {
         {
             $html[] = '<a href="' . $this->parent->get_url(array('s' => $value[0]->get_name(),'template' => $this->get_registration_id())) . '">'.Translation :: get($value[0]->get_name()).'</a><br />';
         }
+        $html[] = '<br />';
         return implode("\n", $html);
     }
 
