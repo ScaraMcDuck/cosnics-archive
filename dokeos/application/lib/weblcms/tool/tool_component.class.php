@@ -56,6 +56,11 @@ abstract class ToolComponent
 		$this->tool->display_footer();
 	}
 	
+	function display_error_message($message)
+	{
+		$this->tool->display_error_message($message);
+	}
+	
 	function get_action()
 	{
 		return $this->tool->get_action();

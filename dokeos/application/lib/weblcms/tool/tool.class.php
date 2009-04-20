@@ -312,6 +312,11 @@ abstract class Tool
 		echo '</div>';
 		$this->parent->display_footer();
 	}
+	
+	function display_error_message($message)
+	{
+		$this->parent->display_error_message($message);
+	}
 
 	/**
 	 * Informs the user that access to the page was denied.
