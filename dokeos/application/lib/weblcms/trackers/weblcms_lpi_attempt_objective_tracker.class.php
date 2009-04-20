@@ -32,6 +32,8 @@ class WeblcmsLpiAttemptObjectiveTracker extends MainTracker
     	}
     	
     	$this->create();
+    	
+    	return $this;
     }
     
     /**

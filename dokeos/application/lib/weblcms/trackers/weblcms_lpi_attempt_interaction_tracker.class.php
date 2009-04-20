@@ -35,6 +35,8 @@ class WeblcmsLpiAttemptInteractionTracker extends MainTracker
     	}
     	
     	$this->create();
+    	
+    	return $this;
     }
     
     /**
