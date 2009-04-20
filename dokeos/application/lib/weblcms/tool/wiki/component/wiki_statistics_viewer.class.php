@@ -22,7 +22,7 @@ class WikiToolStatisticsViewerComponent extends WikiToolComponent
 
         $params = array();
         $params[ReportingManager :: PARAM_COURSE_ID] = $this->get_course_id();
-        $params['wiki_id'] = Request :: get('wiki_id');
+        $params['pid'] = Request :: get('pid');
         $url = ReportingManager :: get_reporting_template_registration_url('WikiReportingTemplate',$params);
         header('location: '.$url);
     }

@@ -498,7 +498,7 @@ class ReportingWeblcms {
         require_once Path :: get_tracking_path().'lib/tracking_data_manager.class.php';
         require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
         $tdm = TrackingDataManager :: get_instance();
-        $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*tool_action=view_item*wiki_id='.$params['wiki_id']);
+        $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*tool_action=view_item&pid='.$params['pid'].'*');
         $items = $tdm->retrieve_tracker_items('visit', 'VisitTracker', $condition);
         foreach($items as $item)
         {
@@ -509,19 +509,20 @@ class ReportingWeblcms {
             foreach($piece as &$entry)
             {
                 $entry = (explode('=',$entry));
-                if(strcmp($entry[0],'wiki_page_id')===0)
-                $pages[] = $entry[1];
+                if(strcmp($entry[0],'cid')===0)
+                $cids[] = $entry[1];
             }
         }
-        foreach($pages as &$page)
+        foreach($cids as &$cid)
         {
-            $page = RepositoryDataManager :: get_instance()->retrieve_learning_object($page);
-			$page_ids[$page->get_title()] = $page->get_id();
-            $visits[$page->get_title()] = $visits[$page->get_title()]+1;
+            $visits[$cid] = $visits[$cid]+1;
+            $cloi = RepositoryDataManager ::get_instance()->retrieve_complex_learning_object_item($cid);
+            $cloi_refs[$cid] = $cloi->get_ref();
         }
         arsort($visits);
         $keys=array_keys($visits);
-        $link = '<a href="' ."/run.php?go=courseviewer&course={$params['course_id']}&tool=wiki&application=weblcms&tool_action=view_item&wiki_page_id={$page_ids[$keys[0]]}&wiki_id={$params['wiki_id']}" . '">' . htmlspecialchars($keys[0]) . '</a>';
+        $page = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi_refs[$keys[0]]);
+        $link = '<a href="' ."/run.php?go=courseviewer&course={$params['course_id']}&tool=wiki&application=weblcms&tool_action=view_item&cid={$keys[0]}&pid={$params['pid']}" . '">' . htmlspecialchars($page->get_title()) . '</a>';
         $arr[Translation :: get('MostVisitedPage')][] = $link;
         $arr[Translation :: get('NumberOfVisits')][] = $visits[$keys[0]];
 
@@ -531,8 +532,10 @@ class ReportingWeblcms {
     public static function getWikiMostEditedPage($params)
     {
         require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
+        require_once Path :: get_application_path().'lib/weblcms/data_manager/database.class.php';
+        $wiki = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($params['pid'])->get_learning_object();
         
-        $clois = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexlearningObjectItem :: PROPERTY_PARENT, $params['wiki_id']))->as_array();
+        $clois = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexlearningObjectItem :: PROPERTY_PARENT, $wiki->get_id()))->as_array();
         foreach($clois as $cloi)
         {
         	$pages[] = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref());
@@ -545,7 +548,7 @@ class ReportingWeblcms {
         }
         arsort($edits);
         $keys=array_keys($edits);
-        $link = '<a href="' ."/run.php?go=courseviewer&course={$params['course_id']}&tool=wiki&application=weblcms&tool_action=view_item&wiki_page_id={$page_ids[$keys[0]]}&wiki_id={$params['wiki_id']}" . '">' . htmlspecialchars($keys[0]) . '</a>';
+        $link = '<a href="' ."/run.php?go=courseviewer&course={$params['course_id']}&tool=wiki&application=weblcms&tool_action=view_item&cid={$page_ids[$keys[0]]}&pid={$wiki->get_id()}" . '">' . htmlspecialchars($keys[0]) . '</a>';
         $arr[Translation :: get('MostEditedPage')][] = $link;
         $arr[Translation :: get('NumberOfEdits')][] = $edits[$keys[0]];
         return Reporting::getSerieArray($arr);
