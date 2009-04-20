@@ -47,9 +47,9 @@ class CourseGroup
 	 */
 	function CourseGroup($id = null, $course_code , $defaultProperties = array ())
 	{
+		$this->defaultProperties = $defaultProperties;
 		$this->set_id($id);
 		$this->set_course_code($course_code);
-		$this->defaultProperties = $defaultProperties;
 	}
     /**
 	 * Gets a default property of this course_group object by name.
@@ -116,7 +116,7 @@ class CourseGroup
 	
 	function set_course_code($code)
 	{
-		return $this->set_default_property(self::PROPERTY_COURSE_CODE,$code);
+		$this->set_default_property(self::PROPERTY_COURSE_CODE,$code);
 	}
 	/**
 	 * Gets the name of this course_group
@@ -267,7 +267,7 @@ class CourseGroup
 	 * @return boolean
 	 */
 	function create()
-	{
+	{ 
 		$wdm = WeblcmsDataManager :: get_instance();
 		$this->set_id($wdm->get_next_course_group_id());
 		return $wdm->create_course_group($this);
