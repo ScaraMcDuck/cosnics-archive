@@ -73,15 +73,15 @@
 		<tracker name="weblcms_forum_topic_views" />
 	</event>
 	<event name="attempt_learning_path">
-		<tracker name="weblcms_lp_attempt_tracker" />
+		<tracker name="weblcms_lp_attempt" />
 	</event>
 	<event name="attempt_learning_path_item">
-		<tracker name="weblcms_lpi_attempt_tracker" />
+		<tracker name="weblcms_lpi_attempt" />
 	</event>
 	<event name="attempt_learning_path_item_interaction">
-		<tracker name="weblcms_lpi_attempt_interaction_tracker" />
+		<tracker name="weblcms_lpi_attempt_interaction" />
 	</event>
 	<event name="attempt_learning_path_item_objective">
-		<tracker name="weblcms_lpi_attempt_objective_tracker" />
+		<tracker name="weblcms_lpi_attempt_objective" />
 	</event>
 </application>
