@@ -94,9 +94,9 @@ class WikiToolViewerComponent extends WikiToolComponent
 		);
 		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('wiki tool'));
 
-        if(isset($_GET['pid']))
+        if(Request :: get('pid')!=null)
         {
-            $params['pid'] = $_GET['pid'];
+            $params['pid'] = Request :: get('pid');
             $url = ReportingManager :: get_reporting_template_registration_url('PublicationDetailReportingTemplate',$params);
             $action_bar->add_tool_action(new ToolbarItem(Translation :: get('AccessDetails'),Theme :: get_common_image_path().'action_reporting.png',$url));
         }
