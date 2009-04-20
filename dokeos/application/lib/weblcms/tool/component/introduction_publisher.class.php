@@ -33,9 +33,18 @@ class ToolIntroductionPublisherComponent extends ToolComponent
 		}
 		else
 		{
-			//$html[] = 'LearningObject: ';
-			$publisher = new LearningObjectPublisher($pub);
-			$html[] = $publisher->get_publications_form($object);
+			$dm = WeblcmsDataManager :: get_instance();
+			$do = $dm->get_next_learning_object_publication_display_order_index($this->get_course_id(),$this->get_tool_id(),0);
+
+			$obj = new LearningObject();
+			$obj->set_id($object);
+			$pub = new LearningObjectPublication(null, $obj, $this->get_course_id(), $this->get_tool_id(), 0, array(), array(), 0, 0, Session :: get_user_id(), time(), time(), 0, $do, false, 0);
+			$pub->create();
+			
+			$parameters = $this->get_parameters();
+			$parameters['tool_action'] = null;
+
+			$this->redirect(null,Translation :: get('IntroductionPublished'), (false), $parameters);
 		}
 		
 		$this->display_header($trail);
