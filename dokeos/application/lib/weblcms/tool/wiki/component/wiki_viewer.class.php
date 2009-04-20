@@ -8,8 +8,7 @@ require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.
 class WikiToolViewerComponent extends WikiToolComponent
 {
 	private $action_bar;
-    private $publication_id;
-    private $wiki_id;
+    private $publication_id; 
     private $cid;
 	
 	function run()
@@ -22,7 +21,6 @@ class WikiToolViewerComponent extends WikiToolComponent
         $this->display_header(new BreadcrumbTrail());
         $dm = RepositoryDataManager :: get_instance();
         $this->publication_id = Request :: get('pid');
-        $this->wiki_id = Request :: get('wiki_id');
         $this->cid = Request :: get('cid');
         if(!empty($this->publication_id))
         {           
@@ -31,11 +29,7 @@ class WikiToolViewerComponent extends WikiToolComponent
             $this->wiki_id = $publication->get_learning_object()->get_id();
             $wiki = $dm->retrieve_learning_object($this->wiki_id);
         }
-        elseif(!empty($this->wiki_id))
-        {
-            $wiki = $dm->retrieve_learning_object($this->wiki_id);
-            
-        }
+        
 		$this->action_bar = $this->get_toolbar($wiki);
         echo '<br />' . $this->action_bar->as_html();
         if(isset($wiki))
@@ -70,7 +64,7 @@ class WikiToolViewerComponent extends WikiToolComponent
 
             $action_bar->add_common_action(
             new ToolbarItem(
-                Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
                 )
             );
 
@@ -89,7 +83,7 @@ class WikiToolViewerComponent extends WikiToolComponent
 
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('WikiStatistics'), Theme :: get_common_image_path().'action_reporting.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_STATISTICS, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('WikiStatistics'), Theme :: get_common_image_path().'action_reporting.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_STATISTICS, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('wiki tool'));

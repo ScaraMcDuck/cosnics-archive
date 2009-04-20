@@ -20,7 +20,7 @@ class IncludeWikiParser extends LearningObjectIncludeParser
 		{
 			if (isset($values[$html_editor]))
 			{
-				$tags = Text :: fetch_tag_into_array($values[$html_editor], '<wikilink>'); //bvb wikilink
+				$tags = Text :: fetch_tag_into_array($values[$html_editor], '[wikilink=]'); //bvb wikilink
 
 				foreach($tags as $tag)
 				{

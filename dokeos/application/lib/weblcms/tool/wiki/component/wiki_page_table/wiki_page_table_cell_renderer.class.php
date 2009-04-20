@@ -15,8 +15,10 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 	private $table_actions;
 	private $browser;
     private $dm;
-    private $wiki_id;
-    private $wiki_page_id;
+    private $pid;
+    private $cid;
+ 
+   
 	/**
 	 * Constructor.
 	 * @param string $publish_url_format URL for publishing the selected
@@ -41,9 +43,11 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 			return $this->get_actions($publication);
 		}
 
-        $wiki_page = $this->get_publication_from_clo_item($publication);        
-        $this->wiki_id = $publication->get_parent();
-        $this->wiki_page_id = $publication->get_ref();
+        $this->pid = Request :: get('pid');        
+
+        $wiki_page = $this->get_publication_from_clo_item($publication);
+        $this->cid = $publication->get_id();
+
         if($publication->get_additional_property('is_homepage')==1)
         {
             $homepage = ' ('.Translation :: get('homepage').')';
@@ -56,7 +60,7 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
                 switch ($property)
                 {
                     case 'Title' :
-                        return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, WikiTool :: PARAM_WIKI_PAGE_ID => $wiki_page->get_id(), WikiTool :: PARAM_WIKI_ID => $publication->get_parent())) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>'.$homepage;
+                        return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->pid, Tool :: PARAM_COMPLEX_ID =>$this->cid )) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>'.$homepage;
                         //default:
                         //return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>';
                     case 'versions' :
