@@ -42,6 +42,8 @@ abstract class Tool
 	const ACTION_PUBLISH_FEEDBACK = 'publish_feedback';
 	const ACTION_MANAGE_CATEGORIES = 'managecategories';
 	const ACTION_VIEW_ATTACHMENT = 'view_attachment';
+    const ACTION_FEEDBACK_CLOI = 'feedback_cloi';
+
 	
 	/**
 	 * The action of the tool
@@ -144,6 +146,9 @@ abstract class Tool
 				break;
 			case self :: ACTION_PUBLISH_FEEDBACK :
 				$component = ToolComponent :: factory('', 'FeedbackPublisher', $this);
+				break;
+            case self :: ACTION_FEEDBACK_CLOI :
+				$component = ToolComponent :: factory('', 'ComplexFeedback', $this);
 				break;
 			case self :: ACTION_MANAGE_CATEGORIES :
 				$component = ToolComponent :: factory('', 'CategoryManager', $this);
