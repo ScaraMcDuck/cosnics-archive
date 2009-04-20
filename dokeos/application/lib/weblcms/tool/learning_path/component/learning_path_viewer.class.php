@@ -10,6 +10,7 @@ require_once dirname(__FILE__).'/../../../trackers/weblcms_lpi_attempt_tracker.c
 class LearningPathToolViewerComponent extends LearningPathToolComponent
 {
 	private $pid;
+	private $trackers;
 	
 	function run() 
 	{
@@ -40,7 +41,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		$cloi = $menu->get_current_cloi();
 		$display = LearningPathLearningObjectDisplay :: factory($this, $object->get_type())->display_learning_object($object);
 		
-		$this->update_tracker($root_object, $cloi, $object);	
+		$this->trackers = $this->update_trackers($root_object, $cloi);	
 		
 		$trail->merge($menu->get_breadcrumbs());
 		
@@ -56,10 +57,15 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		$this->display_footer();
 	}
 	
+	function get_trackers()
+	{
+		return $this->trackers;
+	}
+	
 	private function get_menu($root_object_id, $selected_object_id, $pid)
 	{
 		$menu = new LearningPathTree($root_object_id, $selected_object_id, 
-			$url_format = '?go=courseviewer&course=' . $_GET['course'] . '&application=weblcms&tool=learning_path&tool_action=view&pid=' . 
+			'?go=courseviewer&course=' . $_GET['course'] . '&application=weblcms&tool=learning_path&tool_action=view&pid=' . 
 			$pid . '&'.LearningPathTool :: PARAM_LP_STEP.'=%s');
 		
 		return $menu;
@@ -118,7 +124,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		return implode("\n", $html);
 	}
 	
-	private function update_tracker($lp, $current_cloi, $current_object)
+	private function update_trackers($lp, $current_cloi)
 	{
 		$conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID, $this->get_course_id());
 		$conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $lp->get_id());
@@ -128,13 +134,36 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		
 		$dummy = new WeblcmsLpAttemptTracker();
 		$trackers = $dummy->retrieve_tracker_items($condition);
-		$tracker = $trackers[0];
+		$lp_tracker = $trackers[0];
 		
-		if(!$tracker)
+		if(!$lp_tracker)
 		{
-			$tracker_id = Events :: trigger_event('attempt_learning_path', 'weblcms', array());
-			dump($tracker_id);
+			$lp_view_id = Events :: trigger_event('attempt_learning_path', 'weblcms', array('user_id' => $this->get_user_id(), 'course_id' => $this->get_course_id(), 'lp_id' => $lp->get_id()));
+			$condition = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_ID, $lp_view_id);
+			$trackers = $dummy->retrieve_tracker_items($condition);
+			$lp_tracker = $trackers[0];
 		}
+
+		$conditions = array();
+		$conditions[] = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID, $lp_tracker->get_id());
+		$conditions[] = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_ITEM_ID, $current_cloi->get_id());
+		$conditions[] = new NotCondition(new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_STATUS, 'completed'));
+		$condition = new AndCondition($conditions);
+		
+		$dummy = new WeblcmsLpiAttemptTracker();
+		$trackers = $dummy->retrieve_tracker_items($condition);
+		$lpi_tracker = $trackers[0];
+		
+		if(!$lpi_tracker)
+		{
+			$lpi_view_id = Events :: trigger_event('attempt_learning_path_item', 'weblcms', array('lp_view_id' => $lp_tracker->get_id(), 'lp_item_id' => $current_cloi->get_id(), 'start_time' => time(), 'status' => 'incomplete'));
+			$condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_ID, $lpi_view_id);
+			$trackers = $dummy->retrieve_tracker_items($condition);
+			$lpi_tracker = $trackers[0];
+		}
+		
+		return array('lp_tracker' => $lp_tracker, 'lpi_tracker' => $lpi_tracker);
+		
 	}
 
 }

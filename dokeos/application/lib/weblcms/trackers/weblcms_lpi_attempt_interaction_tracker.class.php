@@ -28,8 +28,11 @@ class WeblcmsLpiAttemptInteractionTracker extends MainTracker
      */
     function track($parameters = array())
     {
-    	foreach($this->parameters as $key => $parameter)
-    		$this->set_property($key, $parameter);
+    	foreach($parameters as $key => $parameter)
+    	{ 
+    		if($key != 'event' && $key != 'id')
+    			$this->set_property($key, $parameter);
+    	}
     	
     	$this->create();
     }
