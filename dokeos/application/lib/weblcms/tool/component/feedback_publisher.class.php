@@ -17,14 +17,14 @@ class ToolFeedbackPublisherComponent extends ToolComponent
 		
 		$trail = new BreadcrumbTrail();
 		
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 		$pub = new LearningObjectRepoViewer($this, 'feedback', true);
 		$pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_FEEDBACK);
-		if(isset($_GET['pid']))
-            $pub->set_parameter('pid', $_GET['pid']);
+		if(Request :: get('pid')!=null)
+            $pub->set_parameter('pid', Request :: get('pid'));
 		
-		if(isset($_GET['cid']))
-			$pub->set_parameter('cid', $_GET['cid']);
+		if(Request :: get('cid')!=null)
+			$pub->set_parameter('cid', Request :: get('cid'));
         
 		
 		if(!isset($object))
@@ -39,13 +39,13 @@ class ToolFeedbackPublisherComponent extends ToolComponent
 		{
 			$feedback = new Feedback();
 			$feedback->set_id($object);
-			$id = isset($_GET['cid'])?$_GET['cid']:$_GET['pid'];
-			$pid = $_GET['pid'];
+			$id = Request :: get('cid')!=null?Request :: get('cid'):Request :: get('pid');
+			$pid = Request :: get('pid');
 			
 			$publication_feedback= new LearningObjectPublicationFeedback(null, $feedback, $this->get_course_id(), $this->get_tool_id().'_feedback', $id,$this->get_user_id(), time(), 0, 0);
 			$publication_feedback->set_show_on_homepage(0); 
 			$publication_feedback->create(); 
-			$this->redirect(null, Translation :: get('FeedbackAdded'), '', array(Tool :: PARAM_ACTION => isset($_GET['cid'])?'view_item':'view', isset($_GET['cid'])?'cid':'pid' => $id, 'pid' => $pid));
+			$this->redirect(null, Translation :: get('FeedbackAdded'), '', array(Tool :: PARAM_ACTION => Request :: get('cid')!=null?'view_item':'view', Request :: get('cid')!=null?'cid':'pid' => $id, 'pid' => $pid));
 		}
 		
 	}
