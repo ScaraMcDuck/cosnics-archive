@@ -20,13 +20,13 @@ class WikiToolHomepageSetterComponent extends WikiToolComponent
 		$trail = new BreadcrumbTrail();
 
         $dm = RepositoryDataManager :: get_instance();
-        $page = $dm->retrieve_complex_learning_object_item(Request :: get('id'));
+        $page = $dm->retrieve_complex_learning_object_item(Request :: get('cid'));
         if(!empty($page))
         {
             $page->set_is_homepage(true);
             $page->update();
         }
-        $this->redirect(null, null, '', array(Tool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'cid' => Request :: get('id')));
+        $this->redirect(null, null, '', array(Tool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'pid' => Request :: get('pid')));
         
     }
 }
