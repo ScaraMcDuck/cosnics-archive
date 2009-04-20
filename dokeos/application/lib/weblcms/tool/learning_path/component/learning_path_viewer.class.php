@@ -55,7 +55,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		echo '<br />';
 		echo '<div style="width: 18%; overflow: auto; float: left;">';
 		echo $menu->render_as_tree(). '<br /><br />';
-		echo $this->get_progress_bar();
+		echo $this->get_progress_bar($menu->get_progress());
 		echo $this->get_navigation_menu($menu->count_steps(), $step) . '<br /><br />';
 		echo '</div>';
 		echo '<div style="width: 80%; float: right; padding-left: 10px; min-height: 500px;">' . $display . '</div>';
@@ -119,12 +119,12 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		return $this->pid;
 	}
 	
-	private function get_progress_bar()
+	private function get_progress_bar($progress)
 	{
 		$html[] = '<div style="text-align: center; border: 1px solid black; height: 14px; width:100px;">';
-		$html[] = '<div style="background-color: lightblue; height: 14px; width:10px; text-align: center;">';
+		$html[] = '<div style="background-color: lightblue; height: 14px; width:' . $progress . 'px; text-align: center;">';
 		$html[] = '</div>';
-		$html[] = '<div>10%</div>';
+		$html[] = '<div>' . $progress . '%</div>';
 		$html[] = '</div><br />';
 		
 		return implode("\n", $html);
