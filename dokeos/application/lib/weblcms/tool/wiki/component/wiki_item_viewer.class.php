@@ -3,6 +3,7 @@
 require_once dirname(__FILE__) . '/../wiki_tool.class.php';
 require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
 require_once dirname(__FILE__).'/wiki_page_table/wiki_page_table.class.php';
+require_once dirname(__FILE__).'/wiki_parser.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 
 class WikiToolItemViewerComponent extends WikiToolComponent
@@ -46,9 +47,12 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 
         echo '<br />' . $this->action_bar->as_html();
 
-		
+		$parser = new WikiToolParserComponent();
+        $parser->set_pid(Request :: get('pid'));
+        $parser->set_course_id($this->get_course_id());
+
         echo '<h2>'.$this->wiki_page->get_title().'</h2>';
-        echo $this->wiki_page->get_description();
+        echo $parser->handle_internal_links($this->wiki_page->get_description());
         $this->display_footer();
 	}
 
