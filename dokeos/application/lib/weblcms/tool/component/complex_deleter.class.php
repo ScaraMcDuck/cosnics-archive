@@ -40,7 +40,19 @@ class ToolComplexDeleterComponent extends ToolComponent
                     $message = htmlentities(Translation :: get('LearningObjectPublicationDeleted'));
                 }
             }
-			$this->redirect(null, $message, false, array(Tool :: PARAM_ACTION => 'view', 'pid' => $_GET['pid']));
+            
+            $wiki = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'));
+            if(!empty($wiki))
+            {
+                if(!empty(WikiTool ::get_wiki_homepage($wiki->get_learning_object()->get_id())))
+                $this->redirect(null, $message, false, array(Tool :: PARAM_ACTION => 'view_item', 'cid' => $wiki_homepage[0]->get_id()));
+                else
+                $this->redirect(null, $message, false, array(Tool :: PARAM_ACTION => 'view', 'pid' => Request :: get ('pid')));
+            }
+            else
+            {
+                $this->redirect(null, $message, false, array(Tool :: PARAM_ACTION => 'view', 'pid' => Request :: get ('pid')));
+            }
 		}
 	}
 }

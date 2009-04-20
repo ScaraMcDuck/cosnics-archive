@@ -447,9 +447,9 @@ class ReportingWeblcms {
     {
         require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
         require_once Path :: get_user_path().'/lib/user_data_manager.class.php';
-        $wiki_page_id = $params['wiki_page_id'];
         $dm = RepositoryDataManager :: get_instance();
-        $wiki_page = $dm->retrieve_learning_object($wiki_page_id);
+        $cloi = $dm->retrieve_complex_learning_object_item($params['cid']);
+        $wiki_page = $dm->retrieve_learning_object($cloi->get_ref());
         $versions = $dm->retrieve_learning_object_versions($wiki_page);
         $users = array();
         foreach($versions as $version)
@@ -469,9 +469,9 @@ class ReportingWeblcms {
     {
         require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
         require_once Path :: get_user_path().'/lib/user_data_manager.class.php';
-        $wiki_page_id = $params['wiki_page_id'];
         $dm = RepositoryDataManager :: get_instance();
-        $wiki_page = $dm->retrieve_learning_object($wiki_page_id);
+        $cloi = $dm->retrieve_complex_learning_object_item($params['cid']);
+        $wiki_page = $dm->retrieve_learning_object($cloi->get_ref());
         $versions = $dm->retrieve_learning_object_versions($wiki_page);
         $users = array();
         foreach($versions as $version)
