@@ -8,7 +8,7 @@
 					itemsText: 'span',
 					container: '.dock-container',
 					itemWidth: 40,
-					proximity: 60,
+					proximity: 30,
 					halign : 'center'
 				}
 			)
