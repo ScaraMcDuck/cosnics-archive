@@ -34,12 +34,18 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		$publication = $dm->retrieve_learning_object_publication($pid);
 		$root_object = $publication->get_learning_object();
 		
+		$this->trackers['lp_tracker'] = $this->retrieve_lp_tracker($root_object);	
+		
 		$step = $_GET[LearningPathTool :: PARAM_LP_STEP]?$_GET[LearningPathTool :: PARAM_LP_STEP]:1;
-		$menu = $this->get_menu($root_object->get_id(), $step, $pid);
+		$menu = $this->get_menu($root_object->get_id(), $step, $pid, $this->trackers['lp_tracker']);
 		$object = $menu->get_current_object();
 		$cloi = $menu->get_current_cloi();
 		
-		$this->trackers = $this->update_trackers($root_object, $cloi);	
+		$lpi_tracker = $menu->get_current_tracker();
+		if(!$lpi_tracker)
+			$lpi_tracker = $this->create_lpi_tracker($this->trackers['lp_tracker'], $cloi);
+		
+		$this->trackers['lpi_tracker'] = $lpi_tracker;
 		
 		$display = LearningPathLearningObjectDisplay :: factory($this, $object->get_type())->display_learning_object($object);
 		
@@ -62,11 +68,11 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		return $this->trackers;
 	}
 	
-	private function get_menu($root_object_id, $selected_object_id, $pid)
+	private function get_menu($root_object_id, $selected_object_id, $pid, $lp_tracker)
 	{
 		$menu = new LearningPathTree($root_object_id, $selected_object_id, 
 			'?go=courseviewer&course=' . $_GET['course'] . '&application=weblcms&tool=learning_path&tool_action=view&pid=' . 
-			$pid . '&'.LearningPathTool :: PARAM_LP_STEP.'=%s');
+			$pid . '&'.LearningPathTool :: PARAM_LP_STEP.'=%s', $lp_tracker);
 		
 		return $menu;
 	}
@@ -124,7 +130,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		return implode("\n", $html);
 	}
 	
-	private function update_trackers($lp, $current_cloi)
+	private function retrieve_lp_tracker($lp)
 	{
 		$conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID, $this->get_course_id());
 		$conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $lp->get_id());
@@ -139,34 +145,21 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		if(!$lp_tracker)
 		{
 			$return = Events :: trigger_event('attempt_learning_path', 'weblcms', array('user_id' => $this->get_user_id(), 'course_id' => $this->get_course_id(), 'lp_id' => $lp->get_id()));
-			$lp_view_id = $return[0];
-			$condition = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_ID, $lp_view_id);
-			$trackers = $dummy->retrieve_tracker_items($condition);
-			$lp_tracker = $trackers[0];
-		}
-
-		$conditions = array();
-		$conditions[] = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID, $lp_tracker->get_id());
-		$conditions[] = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_ITEM_ID, $current_cloi->get_id());
-		$conditions[] = new NotCondition(new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_STATUS, 'completed'));
-		$condition = new AndCondition($conditions);
-		
-		$dummy = new WeblcmsLpiAttemptTracker();
-		$trackers = $dummy->retrieve_tracker_items($condition);
-		$lpi_tracker = $trackers[0];
-		
-		if(!$lpi_tracker)
-		{
-			$return = Events :: trigger_event('attempt_learning_path_item', 'weblcms', array('lp_view_id' => $lp_tracker->get_id(), 'lp_item_id' => $current_cloi->get_id(), 'start_time' => time(), 'status' => 'incomplete'));
-			$lpi_view_id = $return[0];
-			$condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_ID, $lpi_view_id);
-			$trackers = $dummy->retrieve_tracker_items($condition);
-			$lpi_tracker = $trackers[0];
+			$lp_tracker = $return[0];
 		}
 		
-		return array('lp_tracker' => $lp_tracker, 'lpi_tracker' => $lpi_tracker);
-		
+		return $lp_tracker;
 	}
+	
+	private function create_lpi_tracker($lp_tracker, $current_cloi)
+	{
+		$return = Events :: trigger_event('attempt_learning_path_item', 'weblcms', array('lp_view_id' => $lp_tracker->get_id(), 'lp_item_id' => $current_cloi->get_id(), 'start_time' => time(), 'status' => 'incomplete'));
+		$lpi_tracker = $return[0];
+		
+		return $lpi_tracker;
+	}
+	
+	
 
 }
 ?>

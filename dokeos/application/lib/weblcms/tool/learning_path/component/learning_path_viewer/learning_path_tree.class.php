@@ -18,6 +18,7 @@ class LearningPathTree extends HTML_Menu
 	
 	private $current_step;
 	private $lp_id;
+	private $lp_tracker;
 	
 	/**
 	 * The string passed to sprintf() to format category URLs
@@ -26,7 +27,8 @@ class LearningPathTree extends HTML_Menu
 
 	private $current_object;
 	private $current_cloi;
-	
+	private $current_tracker;
+		
 	private $dm;
 	/**
 	 * Creates a new category navigation menu.
@@ -39,12 +41,12 @@ class LearningPathTree extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function LearningPathTree($lp_id, $current_step, $url_format)
+	function LearningPathTree($lp_id, $current_step, $url_format, $lp_tracker)
 	{
 		$this->current_step = $current_step;
 		$this->lp_id = $lp_id;
 		$this->urlFmt = $url_format;
-		$this->step_size = 0;
+		$this->lp_tracker = $lp_tracker;
 		
 		$this->dm = RepositoryDataManager :: get_instance();
 		$menu = $this->get_menu($lp_id);
@@ -119,10 +121,25 @@ class LearningPathTree extends HTML_Menu
 				$menu_item['url'] = $this->get_url($this->step);
 				$menu_item[OptionsMenuRenderer :: KEY_ID] = $this->step;
 				
+				$conditions = array();
+				$conditions[] = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID, $this->lp_tracker->get_id());
+				$conditions[] = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_ITEM_ID, $object->get_id());
+				$condition = new AndCondition($conditions);
+				
+				$dummy = new WeblcmsLpiAttemptTracker();
+				$trackers = $dummy->retrieve_tracker_items($condition);
+				$lpi_tracker = $trackers[0];
+				
+				if($lpi_tracker && $lpi_tracker->get_status() == 'completed')
+				{
+					$menu_item['title'] .= ' + ';
+				}
+				
 				if($this->step == $this->current_step)
 				{
 					$this->current_cloi = $object;
 					$this->current_object = $lo;
+					$this->current_tracker = $lpi_tracker;
 				}
 				
 				$this->step++;
@@ -142,6 +159,11 @@ class LearningPathTree extends HTML_Menu
 	function get_current_cloi()
 	{
 		return $this->current_cloi;
+	}
+	
+	function get_current_tracker()
+	{
+		return $this->current_tracker;
 	}
 
 	private function get_url($current_step)
