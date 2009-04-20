@@ -460,7 +460,7 @@ abstract class Tool
 			}
 		}
 		return;
-		$tool_id = $this->get_tool_id();
+		//$tool_id = $this->get_tool_id();
 		
 		// Roles and rights system
 		//$user_id = $this->get_user_id();
