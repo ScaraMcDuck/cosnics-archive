@@ -34,14 +34,23 @@ class WikiToolParserComponent
             $first = stripos($text,'[[');
             $last = stripos($text,']]');
             $title = substr($text,$first+2,$last-$first-2);
+            $pipe = strpos($title,'|');
+            if($pipe===false)
             $text = substr_replace($text, $this->get_wiki_page_url($title),$first,$last-$first+2);
+            else
+            {
+            	$title = explode('|',$title);
+            	$text = substr_replace($text, $this->get_wiki_page_url($title[0],$title[1]),$first,$last-$first+2);
+            }
         }
         return $text;
     }
 
-    private function get_wiki_page_url($title)
+    private function get_wiki_page_url(&$title, $viewTitle = null)
     {
-        $page = RepositoryDataManager :: get_instance()->retrieve_learning_objects('wiki_page', new EqualityCondition(LearningObject :: PROPERTY_TITLE,$title))->as_array();
+    	$page = RepositoryDataManager :: get_instance()->retrieve_learning_objects('wiki_page', new EqualityCondition(LearningObject :: PROPERTY_TITLE,$title))->as_array();
+    	if($viewTitle!=null)
+    	$title = $viewTitle;
         if(!empty($page))
         {
             $page = $page[count($page)-1];
