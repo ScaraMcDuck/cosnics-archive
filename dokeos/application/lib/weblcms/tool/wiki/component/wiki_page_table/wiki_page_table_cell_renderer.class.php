@@ -79,13 +79,13 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
         //if(!WikiTool ::is_wiki_locked($publication->get_parent()))
         {
 			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_DELETE_PAGE, Tool :: PARAM_COMPLEX_ID => $publication->get_id())),
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE_CLOI, Tool :: PARAM_COMPLEX_ID => $publication->get_id())),
 			'label' => Translation :: get('Delete'),
 			'img' => Theme :: get_common_image_path().'action_delete.png'
 			);
 
 			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_EDIT_PAGE, Tool :: PARAM_COMPLEX_ID => $publication->get_id())),
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $publication->get_id())),
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
