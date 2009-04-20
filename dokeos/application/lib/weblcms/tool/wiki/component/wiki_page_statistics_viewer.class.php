@@ -22,26 +22,11 @@ class WikiToolPageStatisticsViewerComponent extends WikiToolComponent
 
         $params = array();
         $params[ReportingManager :: PARAM_COURSE_ID] = $this->get_course_id();
-        $params['wiki_page_id'] = Request :: get('wiki_page_id');
+        $params['pid'] = Request :: get('pid');
+        $params['cid'] = Request :: get('cid');
         $url = ReportingManager :: get_reporting_template_registration_url('WikiPageReportingTemplate',$params);
         header('location: '.$url);
-        
-        $this->wiki_page_id = Request :: get('wiki_page_id');
-       
-        $dm = RepositoryDataManager :: get_instance();
-        $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
-        $versions = $dm->retrieve_learning_object_versions($wiki_page);
-        
-
-        $this->display_header(new BreadcrumbTrail());
-
-        $this->action_bar = $this->get_toolbar();
-        echo '<br />' . $this->action_bar->as_html();
-        dump($this->get_most_active_user($versions));
-
-        
-        $this->display_footer();
-	}
+    }
 
     function get_toolbar()
 	{
