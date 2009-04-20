@@ -26,7 +26,7 @@ class WikiToolItemViewerComponent extends WikiToolComponent
         $this->cid = Request :: get('cid');        
         $dm = RepositoryDataManager :: get_instance();
         if(isset($this->wiki_page_id))
-            $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
+            $this->wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
         elseif(isset($this->cid))
         {
             $cloi = $dm->retrieve_complex_learning_object_item($this->cid);
@@ -40,7 +40,7 @@ class WikiToolItemViewerComponent extends WikiToolComponent
               
         if(!isset($this->cid))
         {
-            $condition = New EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $wiki_page->get_id());
+            $condition = New EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->wiki_page->get_id());
             $cloi = $dm->retrieve_complex_learning_object_items($condition)->as_array();
             $this->cid = $cloi[0]->get_id();
         }        
