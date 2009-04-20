@@ -38,15 +38,6 @@ class WikiToolHistoryComponent extends WikiToolComponent
         
         $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
 
-
-
-        /*
-         * complex object id needed to delete / update
-         */
-        /*$condition = New EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $wiki_page->get_id());
-        $cloi = $dm->retrieve_complex_learning_object_items($condition)->as_array();
-        $this->cid = $cloi[0]->get_id();*/
-
         $display = LearningObjectDisplay :: factory($wiki_page);
 
         $version_data = array();
@@ -57,8 +48,7 @@ class WikiToolHistoryComponent extends WikiToolComponent
         $this->action_bar = $this->get_toolbar();
         echo '<br />' . $this->action_bar->as_html();
         echo '<h2>'. Translation :: get('HistoryForThe') .$wiki_page->get_title() . Translation :: get('Page') .'</h2>';
-        //echo $display->get_full_html();
-
+        
         foreach ($wiki_page->get_learning_object_versions() as $version)
         {
             // If this learning object is published somewhere in an application, these locations are listed here.
@@ -85,8 +75,8 @@ class WikiToolHistoryComponent extends WikiToolComponent
                 $version_entry['comment'] = $version->get_comment();
                 //$version_entry['viewing_link'] = $rm->get_learning_object_viewing_url($version);
                 $version_entry['viewing_link'] = "http://localhost/index_repository_manager.php?go=view&category={$version->get_parent_id()}&object=".$version->get_id();
-                $delete_url = $rm->get_learning_object_deletion_url($version, 'version');
-                //$delete_url = "http://localhost/index_repository_manager.php?go=delete&category={$version->get_parent_id()}&object={$version->get_id()}&delete_version=1";
+                //$delete_url = $rm->get_learning_object_deletion_url($version, 'version');
+                $delete_url = "http://localhost/index_repository_manager.php?go=delete&category={$version->get_parent_id()}&object={$version->get_id()}&delete_version=1";
                 if (isset($delete_url))
                 {
                     $version_entry['delete_link'] = $delete_url;
@@ -105,10 +95,10 @@ class WikiToolHistoryComponent extends WikiToolComponent
             $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_COMPARE, $wiki_page, 'compare', 'post', $this->get_url(array(Tool::PARAM_ACTION => 'history', 'pid' => $this->publication_id, 'cid' => $this->cid)), array('version_data' => $version_data));
             if ($form->validate())
             {
-                 $params = $form->compare_learning_object();
+                 $params = $form->compare_learning_object();                 
                  $rdm = RepositoryDataManager :: get_instance();
-                 $object = $rdm->retrieve_learning_object($params['object']);
-                 $diff = $object->get_difference($params['compare']);
+                 $object = $rdm->retrieve_learning_object($params['compare']);
+                 $diff = $object->get_difference($params['object']);
                  $diff_display = LearningObjectDifferenceDisplay :: factory($diff);
                  echo DokeosUtilities :: add_block_hider();
                  echo DokeosUtilities :: build_block_hider('compare_legend');
