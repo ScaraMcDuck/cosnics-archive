@@ -10,7 +10,8 @@ class ToolComplexEditComponent extends ToolComponent
         if($this->is_allowed(EDIT_RIGHT))
 		{
 			$cid = isset($_GET[Tool :: PARAM_COMPLEX_ID]) ? $_GET[Tool :: PARAM_COMPLEX_ID] : $_POST[Tool :: PARAM_COMPLEX_ID];
-			
+            $pid = isset($_GET[Tool :: PARAM_PUBLICATION_ID]) ? $_GET[Tool :: PARAM_PUBLICATION_ID] : $_POST[Tool :: PARAM_PUBLICATION_ID];
+
 			$datamanager = RepositoryDataManager :: get_instance();
 			$cloi = $datamanager->retrieve_complex_learning_object_item($cid);
             //if(!WikiTool :: is_wiki_locked($cloi->get_parent()))
@@ -18,7 +19,7 @@ class ToolComplexEditComponent extends ToolComponent
                 $cloi->set_default_property('user_id',$this->get_user_id());
                 $learning_object = $datamanager->retrieve_learning_object($cloi->get_ref());
                 $learning_object->set_default_property('owner',$this->get_user_id());
-                $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cid, Tool :: PARAM_PUBLICATION_ID => $_GET['pid'], 'details' => $_GET['details'])));
+                $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cid, Tool :: PARAM_PUBLICATION_ID => $pid, 'details' => $_GET['details'])));
 
                 if( $form->validate() || $_GET['validated'])
                 {
@@ -32,15 +33,15 @@ class ToolComplexEditComponent extends ToolComponent
                     $message = htmlentities(Translation :: get('LearningObjectUpdated'));
 
                     $params = array();
-                    if($_GET['pid']!=null)
+                    if(Request :: get('pid')!=null)
                     {
-                        $params['pid'] = $_GET['pid'];
+                        $params['pid'] = Request :: get('pid');
                         $params['tool_action'] = 'view';
                     }
-                    elseif(Request :: get('cid')!=null)
+                    
+                    if(Request :: get('cid')!=null)
                     {
-                        $params['wiki_id'] = $cloi->get_parent();
-                        $params['wiki_page_id'] = $cloi->get_ref();
+                        $params['cid'] = $cloi->get_id();
                         $params['tool_action'] = 'view_item';
                     }
                     
@@ -50,7 +51,7 @@ class ToolComplexEditComponent extends ToolComponent
                         $params['cid'] = $cid;
                         $params['tool_action'] = 'view_item';
                     }
-
+                    
                     $this->redirect(null, $message, '', $params);
 
                 }
