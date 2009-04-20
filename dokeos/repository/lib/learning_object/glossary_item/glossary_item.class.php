@@ -10,10 +10,5 @@ require_once dirname(__FILE__) . '/../../learning_object.class.php';
  */
 class GlossaryItem extends LearningObject
 {
-	//Inherited
-	function supports_attachments()
-	{
-		return true;
-	}
 }
 ?>
