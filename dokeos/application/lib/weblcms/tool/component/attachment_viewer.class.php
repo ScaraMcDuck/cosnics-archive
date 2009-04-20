@@ -17,7 +17,7 @@ class ToolAttachmentViewerComponent extends ToolComponent
 			return;
 		}
 		
-		$object_id = Request :: get('object');
+		$object_id = Request :: get('object_id');
 		if($object_id)
 		{
 			$trail = new BreadCrumbTrail();
