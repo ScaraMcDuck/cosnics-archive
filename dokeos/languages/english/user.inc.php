@@ -104,5 +104,5 @@ $lang['user']['Help'] = 'Help';
 $lang['user']['LoginAsUser'] = 'Login as user';
 $lang['user']['ManageRoles'] = 'Manage roles';
 $lang['user']['expiration_date'] = 'Expiration date';
-$lang['user']['Repository'] = ' ';
+$lang['user']['Repository'] = 'Repository';
 ?>

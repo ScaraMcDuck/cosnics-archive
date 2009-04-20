@@ -62,7 +62,7 @@ $lang['install']['MyDokeos'] = 'My Dokeos';
 $lang['install']['Dokeos'] = 'Dokeos';
 $lang['install']['General'] = 'general';
 $lang['install']['Applications'] = 'Applications';
-$lang['install']['Tracking'] = 'Reporting';
+$lang['install']['Tracking'] = 'Tracking';
 $lang['install']['Rights'] = 'Rights';
 $lang['install']['FileSystem'] = 'Filesystem';
 $lang['install']['Finished'] = 'Finished';
@@ -114,4 +114,6 @@ $lang['install']['ReportingAdded'] = 'Reporting added';
 $lang['install']['VariousFinished'] = 'Various finished';
 $lang['install']['TrackingAdded'] = 'Tracking added';
 $lang['install']['HashingAlgorithm'] = 'Hashing algorithm';
+$lang['install']['TestUserAccountCreated'] = 'Testuser account created';
+$lang['install']['Anonymous'] = 'Anonymous';
 ?>

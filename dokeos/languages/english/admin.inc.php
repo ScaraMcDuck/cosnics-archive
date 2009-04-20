@@ -239,4 +239,13 @@ $lang['admin']['SettingsDescription'] = ' ';
 $lang['admin']['SystemAnnouncementsDescription'] = ' ';
 $lang['admin']['ManageCategoriesDescription'] = ' ';
 $lang['admin']['DiagnoseDescription'] = ' ';
+$lang['admin']['DokeosTitle'] = 'Dokeos';
+$lang['admin']['PhpTitle'] = 'PHP';
+$lang['admin']['MysqlTitle'] = 'MySQL';
+$lang['admin']['WebserverTitle'] = 'Webserver';
+$lang['admin']['Section'] = 'Section';
+$lang['admin']['Setting'] = 'Setting';
+$lang['admin']['Current'] = 'Current';
+$lang['admin']['Expected'] = 'Expected';
+$lang['admin']['Comment'] = 'Comment';
 ?>
