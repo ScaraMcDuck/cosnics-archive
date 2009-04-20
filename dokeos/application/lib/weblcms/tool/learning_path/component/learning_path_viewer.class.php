@@ -36,12 +36,12 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		
 		$step = $_GET[LearningPathTool :: PARAM_LP_STEP]?$_GET[LearningPathTool :: PARAM_LP_STEP]:1;
 		$menu = $this->get_menu($root_object->get_id(), $step, $pid);
-		
 		$object = $menu->get_current_object();
 		$cloi = $menu->get_current_cloi();
-		$display = LearningPathLearningObjectDisplay :: factory($this, $object->get_type())->display_learning_object($object);
 		
 		$this->trackers = $this->update_trackers($root_object, $cloi);	
+		
+		$display = LearningPathLearningObjectDisplay :: factory($this, $object->get_type())->display_learning_object($object);
 		
 		$trail->merge($menu->get_breadcrumbs());
 		
@@ -138,7 +138,8 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		
 		if(!$lp_tracker)
 		{
-			$lp_view_id = Events :: trigger_event('attempt_learning_path', 'weblcms', array('user_id' => $this->get_user_id(), 'course_id' => $this->get_course_id(), 'lp_id' => $lp->get_id()));
+			$return = Events :: trigger_event('attempt_learning_path', 'weblcms', array('user_id' => $this->get_user_id(), 'course_id' => $this->get_course_id(), 'lp_id' => $lp->get_id()));
+			$lp_view_id = $return[0];
 			$condition = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_ID, $lp_view_id);
 			$trackers = $dummy->retrieve_tracker_items($condition);
 			$lp_tracker = $trackers[0];
@@ -156,7 +157,8 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		
 		if(!$lpi_tracker)
 		{
-			$lpi_view_id = Events :: trigger_event('attempt_learning_path_item', 'weblcms', array('lp_view_id' => $lp_tracker->get_id(), 'lp_item_id' => $current_cloi->get_id(), 'start_time' => time(), 'status' => 'incomplete'));
+			$return = Events :: trigger_event('attempt_learning_path_item', 'weblcms', array('lp_view_id' => $lp_tracker->get_id(), 'lp_item_id' => $current_cloi->get_id(), 'start_time' => time(), 'status' => 'incomplete'));
+			$lpi_view_id = $return[0];
 			$condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_ID, $lpi_view_id);
 			$trackers = $dummy->retrieve_tracker_items($condition);
 			$lpi_tracker = $trackers[0];

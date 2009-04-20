@@ -31,6 +31,8 @@ class WeblcmsLpiAttemptTracker extends MainTracker
     	}
     	
     	$this->create();
+    	
+    	return $this->get_id();
     }
     
     /**

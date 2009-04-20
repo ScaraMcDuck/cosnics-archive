@@ -6,6 +6,7 @@ class LinkDisplay extends LearningPathLearningObjectDisplay
 {
 	function display_learning_object($link)
 	{
+		$this->update_trackers();
 		//$html[] = '<h3>' . $link->get_title() . '</h3>' . $link->get_description() . '<br />';
 		$html[] = $this->display_link($link->get_url());
 		

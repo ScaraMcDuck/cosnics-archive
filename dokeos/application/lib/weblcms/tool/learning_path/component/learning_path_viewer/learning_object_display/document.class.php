@@ -6,6 +6,8 @@ class DocumentDisplay extends LearningPathLearningObjectDisplay
 {
 	function display_learning_object($document)
 	{
+		$this->update_trackers();
+		
 		$name = $document->get_filename();
 		
 		//$html[] = '<h3>' . $document->get_title() . '</h3>' . $document->get_description() . '<br />';

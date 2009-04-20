@@ -91,7 +91,7 @@ class LearningPathTree extends HTML_Menu
 		$datamanager = $this->dm;
 		$objects = $datamanager->retrieve_complex_learning_object_items($condition);
 		
-		while ($object = $objects->next_result())
+		while (($object = $objects->next_result()))
 		{
 			$lo = $datamanager->retrieve_learning_object($object->get_ref());
 			

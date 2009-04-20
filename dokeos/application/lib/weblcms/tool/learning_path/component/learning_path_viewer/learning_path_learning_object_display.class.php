@@ -32,8 +32,18 @@ class LearningPathLearningObjectDisplay
 	
 	function display_learning_object($object)
 	{
+		$this->update_trackers();
 		$display = LearningObjectDisplay :: factory($object);
 		return $display->get_full_html();
+	}
+	
+	function update_trackers()
+	{
+		$trackers = $this->get_parent()->get_trackers();
+		$lpi_tracker = $trackers['lpi_tracker'];
+		$lpi_tracker->set_status('completed');
+		$lpi_tracker->set_end_time(time());
+		$lpi_tracker->update();
 	}
 	
 	protected function display_link($link)
