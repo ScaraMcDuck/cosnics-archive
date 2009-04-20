@@ -28,6 +28,7 @@ class LearningPathTree extends HTML_Menu
 	private $current_object;
 	private $current_cloi;
 	private $current_tracker;
+	private $taken_steps = 0;
 		
 	private $dm;
 	/**
@@ -133,6 +134,7 @@ class LearningPathTree extends HTML_Menu
 				if($lpi_tracker && $lpi_tracker->get_status() == 'completed')
 				{
 					$menu_item['title'] .= ' + ';
+					$this->taken_steps++;
 				}
 				
 				if($this->step == $this->current_step)
@@ -185,6 +187,11 @@ class LearningPathTree extends HTML_Menu
 	function count_steps()
 	{
 		return $this->step - 1;
+	}
+	
+	function get_progress()
+	{
+		return ($this->taken_steps / ($this->step - 1)) * 100;
 	}
 	
 	function get_breadcrumbs()
