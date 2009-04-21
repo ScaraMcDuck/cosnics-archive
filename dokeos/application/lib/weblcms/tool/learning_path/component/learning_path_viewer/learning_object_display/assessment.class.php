@@ -62,8 +62,11 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 	
 	function create_tracker($assessment)
 	{
+		$trackers = $this->get_parent()->get_trackers();
+		$lpi_tracker = $trackers['lpi_tracker'];
+		
 		$args = array(
-			'assessment_id' => $assessment->get_id(), 
+			'assessment_id' => $lpi_tracker->get_id(), 
 			'user_id' => $this->get_parent()->get_user_id(), 
 			'learning_path_id' => $this->get_parent()->get_publication_id(),
 			'course_id' => $this->get_parent()->get_course_id(),
@@ -101,7 +104,8 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 		$track = new WeblcmsLearningPathAssessmentAttemptsTracker();
 		$condition = new EqualityCondition(WeblcmsLearningPathAssessmentAttemptsTracker :: PROPERTY_ID, $uaid);
 		$items = $track->retrieve_tracker_items($condition);
-		$user_assessment = $items[0];
+		$user_assessment = $items[0]; 
+		$user_assessment->set_assessment_id($this->assessment);
 		
 		$results_form = ResultsViewer :: factory($user_assessment, false, null, 'WeblcmsLearningPathAssessmentAttemptsTracker');
 		$results_form->build();

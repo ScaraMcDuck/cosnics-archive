@@ -23,9 +23,9 @@ class ExerciseResultsViewer extends ResultsViewer
 		$dm = RepositoryDataManager :: get_instance();
 		$db = WeblcmsDataManager :: get_instance();
 		$user_assessment = parent :: get_user_assessment();
-		
-		//dump($assessment);
-		//dump($user_assessment);
+	
+		//dump($assessmenecho "test";t);
+		//dump($user_assessment); echo "test";
 		if (get_class($user_assessment) == 'WeblcmsAssessmentAttemptsTracker')
 		{
 			$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication(parent :: get_user_assessment()->get_assessment_id());
@@ -33,7 +33,7 @@ class ExerciseResultsViewer extends ResultsViewer
 		}
 		else
 		{
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $user_assessment->get_assessment_id());
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_id);
 		}
 		$clo_questions = $dm->retrieve_complex_learning_object_items($condition);
 		while($clo_question = $clo_questions->next_result())

@@ -35,9 +35,11 @@ abstract class ResultsViewer extends FormValidator
 		return $this->edit_rights;
 	}
 	
-	function get_assessment() 
+	function get_assessment($user_assessment) 
 	{
-		$user_assessment = $this->get_user_assessment();
+		if(!$user_assessment)
+			$user_assessment = $this->get_user_assessment();
+			
 		if (get_class($user_assessment) == 'WeblcmsAssessmentAttemptsTracker')
 		{
 			$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
@@ -45,7 +47,7 @@ abstract class ResultsViewer extends FormValidator
 		}
 		else
 		{
-			$assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_assessment->get_assessment_id());
+			$assessment = $user_assessment->get_assessment_id(); 
 		}
 		return $assessment;
 	}
@@ -59,16 +61,7 @@ abstract class ResultsViewer extends FormValidator
 	
 	static function factory($user_assessment, $edit_rights, $url, $component)
 	{
-		if (get_class($user_assessment) == 'WeblcmsAssessmentAttemptsTracker')
-		{
-			$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($user_assessment->get_assessment_id());
-			$assessment = $pub->get_learning_object();
-		}
-		else
-		{
-			$assessment = RepositoryDataManager :: get_instance()->retrieve_learning_object($user_assessment->get_assessment_id());
-		}
-		
+		$assessment = self :: get_assessment($user_assessment);
 		switch ($assessment->get_assessment_type()) 
 		{
 			case Assessment :: TYPE_ASSIGNMENT:
