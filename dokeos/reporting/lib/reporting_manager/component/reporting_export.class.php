@@ -13,12 +13,14 @@ class ReportingManagerReportingExportComponent extends ReportingManagerComponent
         $rbi = $_GET[ReportingManager::PARAM_REPORTING_BLOCK_ID];
         else if(isset($_GET[ReportingManager::PARAM_TEMPLATE_ID]))
         $ti = $_GET[ReportingManager::PARAM_TEMPLATE_ID];
+        $params = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
 
         $export = $_GET[ReportingManager::PARAM_EXPORT_TYPE];
 
         if(isset($rbi))
         {
             $rep_block = ReportingDataManager::get_instance()->retrieve_reporting_block($rbi);
+            $rep_block->set_function_parameters($params);
             $displaymode = $rep_block->get_displaymode();
             if(strpos($displaymode, 'Chart:') !== false)
             {
