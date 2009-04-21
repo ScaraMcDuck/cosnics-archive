@@ -86,14 +86,14 @@ abstract class LearningObjectDisplay
 		$html[] = self::DESCRIPTION_MARKER;
 		$html[] = $this->get_attached_learning_objects_as_html();
 		$html[] = '</div>';
-		if ($parent_id = $object->get_parent_id())
+		/*if ($parent_id = $object->get_parent_id())
 		{
 			$parent_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($parent_id);
 			if ($parent_object->get_type() != 'category')
 			{
 				$html[] = '<div class="parent_link" style="margin: 1em 0;"><a href="'.htmlentities($this->get_learning_object_url($parent_object)).'">'.htmlentities(Translation :: get('ViewParent')).'</a></div>';
 			}
-		}
+		}*/
 		return implode("\n",$html);
 	}
 	/**
