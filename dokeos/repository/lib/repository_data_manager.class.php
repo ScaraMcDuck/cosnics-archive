@@ -889,8 +889,12 @@ abstract class RepositoryDataManager
 	abstract function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
 	abstract function update_user_view_rel_learning_object($user_view_rel_learning_object);
-	abstract function create_user_view_rel_learning_object($user_view_rel_learning_object);
+	abstract function create_user_view_rel_learning_object($user_view_rel_learning_object);    
+    abstract function create_learning_object_pub_feedback($learning_object_publication_feedback);
+    abstract function update_learning_object_pub_feedback($learning_object_publication_feedback);
+    abstract function delete_learning_object_pub_feedback($learning_object_publication_feedback);
 	abstract function retrieve_user_view_rel_learning_objects($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+    abstract function retrieve_learning_object_pub_feedback($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
 	/**
 	 * Gets the number of categories the user has defined in his repository

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="learning_object_pub_feedback">
+ <properties>
+  <property name="pid" type="integer" unsigned="1" notnull="1"/>
+  <property name="cid" type="integer"/>
+  <property name="fid" type="integer"/>
+ </properties> 
+</object>
+

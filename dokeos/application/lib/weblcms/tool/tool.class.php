@@ -27,6 +27,7 @@ abstract class Tool
 	const ACTION_PUBLISH = 'publish';
 	const ACTION_EDIT = 'edit';
 	const ACTION_EDIT_CLOI = 'edit_cloi';
+    const ACTION_EDIT_FEEDBACK = 'edit_feedback';
 	const ACTION_CREATE_CLOI = 'create_cloi';
 	const ACTION_MOVE_UP = 'move_up';
 	const ACTION_MOVE_DOWN = 'move_down';
@@ -35,6 +36,7 @@ abstract class Tool
 	const ACTION_MOVE = 'move';
 	const ACTION_DELETE = 'delete';
 	const ACTION_DELETE_CLOI = 'delete_cloi';
+    const ACTION_DELETE_FEEDBACK = 'delete_feedback';
 	const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
 	const ACTION_SHOW = 'show';
 	const ACTION_HIDE = 'hide';
@@ -181,8 +183,14 @@ abstract class Tool
 			case self :: ACTION_DELETE_CLOI :
 				$component = ToolComponent :: factory('', 'ComplexDeleter', $this);
 				break;
+            case self :: ACTION_DELETE_FEEDBACK :
+				$component = ToolComponent :: factory('', 'FeedbackDeleter', $this);
+				break;
 			case self :: ACTION_EDIT_CLOI :
 				$component = ToolComponent :: factory('', 'ComplexEdit', $this);
+				break;
+            case self :: ACTION_EDIT_FEEDBACK :
+				$component = ToolComponent :: factory('', 'FeedbackEdit', $this);
 				break;
 			case self :: ACTION_CREATE_CLOI :
 				$component = ToolComponent :: factory('', 'ComplexCreator', $this);
