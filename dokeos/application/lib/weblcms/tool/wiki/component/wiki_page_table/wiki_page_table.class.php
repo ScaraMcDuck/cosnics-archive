@@ -37,7 +37,7 @@ class WikiPageTable extends ObjectTable
 
 		$actions = array();
         
-		$actions[Tool ::ACTION_DELETE_CLOI] = Translation :: get('RemoveSelected');
+		$actions[WikiTool :: ACTION_DELETE_CLOI] = Translation :: get('RemoveSelected');
         $actions[WikiTool :: ACTION_HIDE] = Translation :: get('Hide');
         $actions[WikiTool :: ACTION_SHOW] = Translation :: get('Show');
 		$this->set_form_actions($actions);   
