@@ -14,11 +14,7 @@ class ReportingTemplates {
 	public static function create_reporting_template_registration($props)
 	{
 		$reporting_template_registration = new ReportingTemplateRegistration();
-		$reporting_template_registration->set_title($props[ReportingTemplateRegistration :: PROPERTY_TITLE]);
-		$reporting_template_registration->set_application($props[ReportingTemplateRegistration :: PROPERTY_APPLICATION]);
-		$reporting_template_registration->set_classname($props[ReportingTemplateRegistration :: PROPERTY_CLASSNAME]);
-		$reporting_template_registration->set_platform($props[ReportingTemplateRegistration :: PROPERTY_PLATFORM]);
-        $reporting_template_registration->set_description($props[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION]);
+        $reporting_template_registration->set_default_properties($props);
 		if(!$reporting_template_registration->create())
 		{
 			return false;
