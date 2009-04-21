@@ -89,9 +89,7 @@ class WikiPublicationTableDataProvider extends ObjectTableDataProvider
 	 */
     function get_object_count()
     {
-    	//$dm = RepositoryDataManager :: get_instance();
-    	//return $dm->count_learning_objects(null, $this->get_condition());
-    	return count($this->get_publications());
+        return count($this->get_objects());
     }
 	/**
 	 * Gets the condition by which the learning objects should be selected.

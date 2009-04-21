@@ -55,9 +55,7 @@ class WikiPageTableDataProvider extends ObjectTableDataProvider
 	 */
     function get_object_count()
     {
-    	//$dm = RepositoryDataManager :: get_instance();
-    	//return $dm->count_learning_objects(null, $this->get_condition());
-    	return count($this->get_objects());
+    	return count($this->get_objects()->as_array());
     }
 }
 ?>

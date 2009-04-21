@@ -79,7 +79,7 @@ abstract class Tool
 		if (isset ($_POST['action']) || isset($_POST['tool_action']))
 		{ 
 			$ids = $_POST['id'];
-			//dump($_POST);
+
 			if (empty ($ids))
 			{
 				$ids = $_POST['publication_table_id'];
@@ -92,7 +92,6 @@ abstract class Tool
 			}
 
 			$action = ($_POST['tool_action'])?$_POST['tool_action']:$_POST['action'];
-			
 			switch ($action)
 			{
 				case self :: ACTION_MOVE_SELECTED_TO_CATEGORY :
@@ -103,6 +102,12 @@ abstract class Tool
 				case self :: ACTION_DELETE :
 					$this->set_action(self :: ACTION_DELETE);
 					$_GET[self :: PARAM_PUBLICATION_ID] = $ids;
+					break;
+
+                case self :: ACTION_DELETE_CLOI :
+					$this->set_action(self :: ACTION_DELETE_CLOI);
+					$_GET[self :: PARAM_COMPLEX_ID] = $_POST['page_table_id'];
+                    $_GET[self :: PARAM_PUBLICATION_ID] = Request :: get('pid');
 					break;
 
                 case self :: ACTION_HIDE :
