@@ -422,6 +422,7 @@ abstract class LearningObjectPublicationListRenderer
 		return $this->browser->get_publications();
 	}
 
+   
 	/**
 	 * @see LearningObjectPublicationBrowser :: get_publication_count()
 	 */
@@ -429,6 +430,8 @@ abstract class LearningObjectPublicationListRenderer
 	{
 		return $this->browser->get_publication_count();
 	}
+
+   
 
 	/**
 	 * Returns the value of the given renderer parameter.

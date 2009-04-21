@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id$
+ * $Id: learning_object_publication_browser.class.php 18811 2009-03-05 14:11:20Z vanpouckesven $
  * @package application.weblcms
  */
 require_once dirname(__FILE__).'/browser/learning_object_publication_list_renderer.class.php';
@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/browser/learningobjectpublicationcategorytree.c
  *	@author Tim De Pauw
 ==============================================================================
  */
-abstract class LearningObjectPublicationBrowser
+abstract class LearningObjectPubFeedbackBrowser
 {
 	/**
 	 * The types of learning objects for which publications need to be
@@ -40,8 +40,8 @@ abstract class LearningObjectPublicationBrowser
 	 * The tool that instantiated this browser.
 	 */
 	private $parent;
-	
-	private $publication_id; 
+
+	private $publication_id;
 
 	/**
 	 * Constructor.
@@ -49,7 +49,7 @@ abstract class LearningObjectPublicationBrowser
 	 * @param mixed $types The types of learning objects for which
 	 *                     publications need to be displayed.
 	 */
-	function LearningObjectPublicationBrowser($parent, $types)
+	function LearningObjectPubFeedbackBrowser($parent, $types)
 	{
 		$this->parent = $parent;
 		$this->types = is_array($types) ? $types : array ($types);
@@ -99,17 +99,17 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->categoryTree;
 	}
-	
+
 	function get_publication_id()
 	{
 		return $this->publication_id;
 	}
-	
+
 	function set_publication_id($publication_id)
 	{
-		$this->publication_id = $publication_id;  
+		$this->publication_id = $publication_id;
 	}
-	
+
 	/**
 	 * Sets the publication category tree.
 	 * @param LearningObjectPublicationCategoryTree $tree The category tree.
@@ -136,7 +136,7 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->category;
 	}
-	
+
 	function set_category($category)
 	{
 		$this->category = $category;
@@ -149,7 +149,7 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->parent->get_user_id();
 	}
-	
+
 	function get_user_info($user_id)
 	{
 		return $this->parent->get_user_info($user_id);
@@ -228,14 +228,11 @@ abstract class LearningObjectPublicationBrowser
 	 *                       SORT_DESC.
 	 * @return array The learning object publications.
 	 */
-	abstract function get_publications($from, $count, $column, $direction);    
-
-	/**
-	 * Returns the number of learning object publications to display.
-	 * @return int The number of publications.
-	 */
-	abstract function get_publication_count();    
 	
+    /*abstract function get_publications($from, $count, $column, $direction);
+
+    abstract function get_publication_count();*/
+
 	function get_path($path_type)
 	{
 		return $this->get_parent()->get_parent()->get_path($path_type);

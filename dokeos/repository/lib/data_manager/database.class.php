@@ -29,6 +29,7 @@ require_once 'MDB2.php';
 
 class DatabaseRepositoryDataManager extends RepositoryDataManager
 {
+    const ALIAS_LEARNING_OBJECT_PUB_FEEDBACK_TABLE = 'lopf';
 	const ALIAS_LEARNING_OBJECT_TABLE = 'lo';
 	const ALIAS_LEARNING_OBJECT_VERSION_TABLE = 'lov';
 	const ALIAS_LEARNING_OBJECT_ATTACHMENT_TABLE = 'loa';
@@ -62,7 +63,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$this->prefix = 'repository_';
 		$this->connection->query('SET NAMES utf8');
 		
-		$this->database = new Database(array('repository_category' => 'cat', 'user_view' => 'uv', 'user_view_rel_learning_object' => 'uvrlo'));
+		$this->database = new Database(array('repository_category' => 'cat', 'user_view' => 'uv', 'user_view_rel_learning_object' => 'uvrlo', 'learning_object_pub_feedback' => 'lopf'));
 		$this->database->set_prefix('repository_'); 
 	}
 
@@ -1560,15 +1561,46 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		
 		return $this->database->update($user_view_rel_learning_object, $condition);
 	}
+
+    function update_learning_object_pub_feedback($learning_object_pub_feedback)
+	{
+		$conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_PUBLICATION_ID, $learning_object_pub_feedback->get_publication_id());
+		$conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_CLOI_ID, $learning_object_pub_feedback->get_cloi_id());
+        $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_FEEDBACK_ID, $learning_object_pub_feedback->get_feedback_id());
+
+		$condition = new AndCondition($conditions);
+
+		return $this->database->update($learning_object_pub_feedback, $condition);
+	}
 	
 	function create_user_view_rel_learning_object($user_view_rel_learning_object)
 	{
 		return $this->database->create($user_view_rel_learning_object);
 	}
+
+    function create_learning_object_pub_feedback($learning_object_pub_feedback)
+	{
+		return $this->database->create($learning_object_pub_feedback);
+	}
 	
 	function retrieve_user_view_rel_learning_objects($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return $this->database->retrieve_objects('user_view_rel_learning_object', $condition, $offset, $count, $order_property, $order_direction);
+	}
+
+    function retrieve_learning_object_pub_feedback($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->database->retrieve_objects('learning_object_pub_feedback', $condition, $offset, $count, $order_property, $order_direction);
+	}
+
+    function delete_learning_object_pub_feedback($learning_object_pub_feedback)
+	{		
+
+        $condition = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_FEEDBACK_ID, $learning_object_pub_feedback->get_feedback_id());
+        
+		$success = $this->database->delete('learning_object_pub_feedback', $condition);
+
+		return $success;
 	}
 	
 	function reset_user_view($user_view)
