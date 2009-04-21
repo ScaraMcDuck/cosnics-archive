@@ -56,11 +56,28 @@ class ReportingManagerReportingExportComponent extends ReportingManagerComponent
                     }
                 }
             }
+            //$test = '<html><head></head><body>';
+            $test = ReportingFormatter :: factory($rep_block)->to_html();
+            //$test += '</body></html>';
             //dump($test);
             $this->export_report($export, $test, $rep_block->get_name(), $displaymode);
         }else if (isset($ti))
         {
-            //export template
+            $rpdm = ReportingDataManager :: get_instance();
+            if($reporting_template_registration = $rpdm->retrieve_reporting_template_registration($ti))
+            {
+                $application = $reporting_template_registration->get_application();
+                $base_path = (Application :: is_application($application) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
+                $file = $base_path .$application. '/reporting/templates/'.DokeosUtilities :: camelcase_to_underscores($reporting_template_registration->get_classname()).'.class.php';;
+                require_once($file);
+
+                $classname = $reporting_template_registration->get_classname();
+                $template = new $classname($this);
+                $template->set_reporting_blocks_function_parameters($params);
+                $template->set_registration_id($ti);
+                $display = $template->to_html();
+                $this->export_report($export, $display, $reporting_template_registration->get_title(), null);
+            }
         }
     }//run
 
@@ -70,9 +87,11 @@ class ReportingManagerReportingExportComponent extends ReportingManagerComponent
         $export = Export::factory($file_type,$filename);
         if($file_type == 'pdf')
         {
-            $data = array(array('key' => $name, 'data' => $data));
-            $function = 'write_to_file_'.$displaymode;
-            $export->$function($data);
+            //$data = array(array('key' => $name, 'data' => $data));
+            //$function = 'write_to_file_'.$displaymode;
+            //$function = 'write_to_file_html';
+            //$export->$function($data);
+            $export->write_to_file_html($data);
         }else
         $export->write_to_file($data);
         return;

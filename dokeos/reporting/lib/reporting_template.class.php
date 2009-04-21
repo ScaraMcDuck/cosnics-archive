@@ -67,9 +67,13 @@ abstract class ReportingTemplate {
      */
     function get_footer()
     {
+        $parameters = array();
+            $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
         $properties = $this->get_properties();
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' .'"></script>';
+        $html[] = '<br /><br /><br />';
+        $html[] = Translation :: get('Export').': <a href="index_reporting.php?go=export&template='.$this->get_registration_id().'&export=pdf&'.http_build_query($parameters).'">pdf</a>';
 //        $html[] = '<div class="template-data">';
 //        $html[] = '<br /><br /><br />';
 //        $html[] = '<b><u>Template data</u></b><br />';

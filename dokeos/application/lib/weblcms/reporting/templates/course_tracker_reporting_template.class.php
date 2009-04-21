@@ -47,7 +47,7 @@ class CourseTrackerReportingTemplate extends ReportingTemplate
         $html[] = '</div><br />';
 
         //show visible blocks
-        $html[] = '<div align="center">';
+        $html[] = '<div style="margin-left:auto;margin-right:auto;">';
         $html[] = $this->get_visible_reporting_blocks();
         $html[] = '</div>';
 
