@@ -780,5 +780,15 @@ class ReportingWeblcms {
 
         return Reporting::getSerieArray($arr);
     }//getTrainingsPerCategory
+
+    public static function getLearningPathProgress($params)
+    {
+        $arr['Score'][] = 1;
+        $arr['Status'][] = 'completed';
+
+        $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
+
+        return Reporting :: getSerieArray($arr, $description);
+    }
 }
 ?>
