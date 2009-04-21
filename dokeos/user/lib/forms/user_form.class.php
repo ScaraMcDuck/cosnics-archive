@@ -208,6 +208,7 @@ class UserForm extends FormValidator {
     	{
 	    	$this->unencryptedpass = $values['pw']['pass'] == '1' ? $this->unencryptedpass : $values['pw'][User :: PROPERTY_PASSWORD];
 	    	$password = Hashing :: hash($this->unencryptedpass);
+	    	$user->set_password($password);
     	}
     	
     	if ($_FILES[User :: PROPERTY_PICTURE_URI] && file_exists($_FILES[User :: PROPERTY_PICTURE_URI]['tmp_name']))
@@ -220,7 +221,6 @@ class UserForm extends FormValidator {
 		$user->set_firstname($values[User :: PROPERTY_FIRSTNAME]);
 		$user->set_email($values[User :: PROPERTY_EMAIL]);
     	$user->set_username($values[User :: PROPERTY_USERNAME]);
- 	   	$user->set_password($password);
  	   	
  	   	
 		if ($values[self :: PARAM_FOREVER] != 0)
