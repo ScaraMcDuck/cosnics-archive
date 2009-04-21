@@ -612,7 +612,7 @@ class ReportingWeblcms {
 
         while($lop = $lops->next_result())
         {
-            $condition = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*course='.$course_id.'*pid='.$lop->get_learning_object()->get_id().'*');
+            $condition = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*course='.$course_id.'*pid='.$lop->get_id().'*');
             $trackerdata = $tracker->retrieve_tracker_items($condition);
 
             foreach($trackerdata as $key => $value)
@@ -620,7 +620,7 @@ class ReportingWeblcms {
                 if($value->get_leave_date() > $lastaccess)
                 $lastaccess = $value->get_leave_date();
             }
-            $url = 'run.php?go=courseviewer&course='.$course_id.'&tool='.$tool.'&application=weblcms&tool_action=view&pid='.$lop->get_learning_object()->get_id();
+            $url = 'run.php?go=courseviewer&course='.$course_id.'&tool='.$tool.'&application=weblcms&tool_action=view&pid='.$lop->get_id();
             $arr[Translation :: get('Title')][] = '<a href="'.$url.'">'.$lop->get_learning_object()->get_title().'</a>';
 
 
@@ -630,7 +630,7 @@ class ReportingWeblcms {
             $arr[Translation :: get('TotalTimesAccessed')][] = count($trackerdata);
             $params['pid'] = $lop->get_learning_object()->get_id();
             $url = ReportingManager :: get_reporting_template_registration_url('PublicationDetailReportingTemplate',$params);
-            $arr[Translation :: get('PublicationDetails')][] = '<a href="'.$url.'">'.Translation :: get('ViewDetails').'</a>';
+            $arr[Translation :: get('PublicationDetails')][] = '<a href="'.$url.'">'.Translation :: get('AccessDetails').'</a>';
         }
 
         $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
@@ -663,7 +663,7 @@ class ReportingWeblcms {
             $lastaccess = $value->get_leave_date();
         }
         //      run.php?go=courseviewer&course=1&tool=announcement&application=weblcms&pid=1&tool_action=view
-        $url = 'run.php?go=courseviewer&course='.$course_id.'&tool='.$tool.'&application=weblcms&pid='.$lop->get_learning_object()->get_id().'&tool_action=view';
+        $url = 'run.php?go=courseviewer&course='.$course_id.'&tool='.$tool.'&application=weblcms&pid='.$lop->get_id().'&tool_action=view';
         $arr[Translation :: get('Title')][] = '<a href="'.$url.'">'.$lop->get_learning_object()->get_title().'</a>';
 
         $des = $lop->get_learning_object()->get_description();
