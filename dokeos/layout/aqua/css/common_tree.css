@@ -76,15 +76,23 @@ ul.tree-menu li div a
 {
 	clear: both;
 	display: block;
-	height: 15px;
+	height: 16px;
 	padding-left: 21px;
-	padding-top: 3px;
 	
 	background-repeat: no-repeat;
 	background-image: url(../img/common/treemenu/tree-document.png);
 	
 	overflow: hidden;
 	white-space: nowrap;
+}
+
+ul.tree-menu li div img
+{
+	height: 16px;
+	margin-left: 2px;
+	position: relative;
+	margin-top: -1px;
+	vertical-align: middle;
 }
 
 /*
