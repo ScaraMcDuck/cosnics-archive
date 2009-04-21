@@ -28,6 +28,7 @@ class WikiToolHistoryComponent extends WikiToolComponent
         $dm = RepositoryDataManager :: get_instance();
         $rm = new RepositoryManager();
         $this->publication_id = Request :: get('pid');
+        dump('$this->publication_id');
         $this->cid = Request :: get('cid');
         $complexeObject = $dm->retrieve_complex_learning_object_item($this->cid);
         if(isset($complexeObject))
