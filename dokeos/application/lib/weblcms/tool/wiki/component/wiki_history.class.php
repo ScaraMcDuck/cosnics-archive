@@ -28,7 +28,6 @@ class WikiToolHistoryComponent extends WikiToolComponent
         $dm = RepositoryDataManager :: get_instance();
         $rm = new RepositoryManager();
         $this->publication_id = Request :: get('pid');
-        dump('$this->publication_id');
         $this->cid = Request :: get('cid');
         $complexeObject = $dm->retrieve_complex_learning_object_item($this->cid);
         if(isset($complexeObject))
@@ -48,7 +47,7 @@ class WikiToolHistoryComponent extends WikiToolComponent
         $this->display_header(new BreadcrumbTrail());
         $this->action_bar = $this->get_toolbar();
         echo '<br />' . $this->action_bar->as_html();
-        echo '<h2>'. Translation :: get('HistoryForThe') .$wiki_page->get_title() . Translation :: get('Page') .'</h2>';
+        echo '<h2>'. Translation :: get('HistoryForThe') .$wiki_page->get_title() .' ' . Translation :: get('Page') .'</h2>';
         
         foreach ($wiki_page->get_learning_object_versions() as $version)
         {
@@ -165,11 +164,11 @@ class WikiToolHistoryComponent extends WikiToolComponent
 			)
 		);
 
-        $action_bar->add_tool_action(
+        /*$action_bar->add_tool_action(
 			new ToolbarItem(
 				Translation :: get('NotifyChanges'), Theme :: get_common_image_path().'action_subscribe.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_HISTORY, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
-		);
+		);*/
 
         $action_bar->add_tool_action(
 			new ToolbarItem(

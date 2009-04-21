@@ -99,11 +99,11 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 			)
 		);
 
-        $action_bar->add_tool_action(
+        /*$action_bar->add_tool_action(
 			new ToolbarItem(
 				Translation :: get('NotifyChanges'), Theme :: get_common_image_path().'action_subscribe.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_HISTORY, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
-		);
+		);*/
 
         $action_bar->add_tool_action(
 			new ToolbarItem(

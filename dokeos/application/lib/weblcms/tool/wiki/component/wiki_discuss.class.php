@@ -28,14 +28,13 @@ class WikiToolDiscussComponent extends WikiToolComponent
         $dm = RepositoryDataManager :: get_instance();
         $rm = new RepositoryManager();
         $this->publication_id = Request :: get('pid');
-        $this->pid = Request :: get('pid');
-
         $this->cid = Request :: get('cid');
+        
         $complexeObject = $dm->retrieve_complex_learning_object_item($this->cid);
         if(isset($complexeObject))
         {
             $this->wiki_page_id = $complexeObject->get_ref();
-        $this->wiki_id = $complexeObject->get_parent();
+            $this->wiki_id = $complexeObject->get_parent();
         } 
         $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
         
@@ -138,11 +137,11 @@ class WikiToolDiscussComponent extends WikiToolComponent
 			)
 		);
 
-        $action_bar->add_tool_action(
+        /*$action_bar->add_tool_action(
 			new ToolbarItem(
 				Translation :: get('NotifyChanges'), Theme :: get_common_image_path().'action_subscribe.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_HISTORY, 'pid' => $this->pid, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
-		);
+		);*/
 
         $action_bar->add_tool_action(
 			new ToolbarItem(
