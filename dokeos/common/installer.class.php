@@ -355,7 +355,7 @@ abstract class Installer
      */
     function register_reporting_block($array)
     {
-        return ReportingBlocks :: create_reporting_block($array['name'],$array['application'],$array['function'],$array['displaymode'],$array['width'],$array['height']);
+        return ReportingBlocks :: create_reporting_block($array);
     }
 
     function register_reporting_template(&$props)
