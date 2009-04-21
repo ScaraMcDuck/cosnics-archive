@@ -144,4 +144,10 @@
            displaymode="Table"
            width="500px"
            height="500px" />
+    <reporting_block name="WeblcmsLearningPathProgress"
+           application="weblcms"
+           function="getLearningPathProgress"
+           displaymode="Table"
+           width="500px"
+           height="500px" />
 </application>
