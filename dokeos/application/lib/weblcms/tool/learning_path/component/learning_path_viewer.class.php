@@ -160,7 +160,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		$html[] = '<div style="text-align: center; border: 1px solid black; height: 14px; width:100px;">';
 		$html[] = '<div style="background-color: lightblue; height: 14px; width:' . $progress . 'px; text-align: center;">';
 		$html[] = '</div>';
-		$html[] = '<div>' . $progress . '%</div>';
+		$html[] = '<div>' . round($progress) . '%</div>';
 		$html[] = '</div><br />';
 		
 		return implode("\n", $html);

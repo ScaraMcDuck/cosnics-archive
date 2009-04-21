@@ -15,6 +15,14 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 	
 	function display_learning_object($assessment)
 	{
+		$trackers = $this->get_parent()->get_trackers();
+		$lpi_tracker = $trackers['lpi_tracker'];
+		
+		if($lpi_tracker->get_status() == 'completed')
+		{
+			return Translation :: get('LearningPathItemIsCompleted');
+		}
+		
 		$this->assessment = $assessment;
 		$this->datamanager = WeblcmsDataManager :: get_instance();
 
