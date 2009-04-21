@@ -798,13 +798,13 @@ class ReportingWeblcms {
     		if($tracker)
     		{
     			$data[Translation :: get('Status')][] = $tracker->get_status();
-    			$data[Translation :: get('Score')][] = $tracker->get_score();
+    			$data[Translation :: get('Score')][] = $tracker->get_score() . '%';
     			$data[Translation :: get('Time')][] = DokeosUtilities :: format_seconds_to_hours($tracker->get_end_time() - $tracker->get_start_time());
     		}
     		else
     		{
     			$data[Translation :: get('Status')][] = 'incomplete';
-    			$data[Translation :: get('Score')][] = 0;
+    			$data[Translation :: get('Score')][] = '0%';
     			$data[Translation :: get('Time')][] = '0:00:00';
     		}
     	}

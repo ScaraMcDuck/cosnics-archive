@@ -101,7 +101,11 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 		$trackers = $this->get_parent()->get_trackers();
 		$lpi_tracker = $trackers['lpi_tracker'];
 		$lpi_tracker->set_status('completed');
-		$lpi_tracker->set_score($user_assessment->get_total_score());
+		
+		$score = $user_assessment->get_total_score();
+		$max_total_score = $this->assessment->get_maximum_score();
+		$pct_score = round(($score / $max_total_score) * 100, 2);
+		$lpi_tracker->set_score($pct_score);
 		$lpi_tracker->set_end_time(time());
 		$lpi_tracker->update();
 		
