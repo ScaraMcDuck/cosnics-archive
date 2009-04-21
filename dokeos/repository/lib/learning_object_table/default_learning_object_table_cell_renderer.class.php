@@ -64,14 +64,7 @@ class DefaultLearningObjectTableCellRenderer implements ObjectTableCellRenderer
 				case LearningObject :: PROPERTY_TITLE :
 					return htmlspecialchars($learning_object->get_title());
 				case LearningObject :: PROPERTY_DESCRIPTION :
-					$description = strip_tags($learning_object->get_description());
-					if(strlen($description) > 203)
-					{
-						mb_internal_encoding("UTF-8");
-						//$description = mb_substr(strip_tags($learning_object->get_description()),0,200).'&hellip;';
-                        $description = DokeosUtilities::truncate_string($learning_object->get_description());
-					}
-					return $description;
+					return DokeosUtilities::truncate_string($learning_object->get_description(),50);
 				case LearningObject :: PROPERTY_CREATION_DATE :
 					// TODO: i18n
 					return date('Y-m-d, H:i', $learning_object->get_creation_date());
