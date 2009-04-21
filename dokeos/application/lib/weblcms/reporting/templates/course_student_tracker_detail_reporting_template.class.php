@@ -3,9 +3,9 @@
  * @author Michael Kyndt
  */
 require_once Path :: get_reporting_path(). 'lib/reporting_template.class.php';
-class CourseLearnerTrackerDetailReportingTemplate extends ReportingTemplate
+class CourseStudentTrackerDetailReportingTemplate extends ReportingTemplate
 {
-	function CourseLearnerTrackerDetailReportingTemplate($parent=null)
+	function CourseStudentTrackerDetailReportingTemplate($parent=null)
 	{
         $this->parent = $parent;
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserInformation"),
@@ -27,9 +27,9 @@ class CourseLearnerTrackerDetailReportingTemplate extends ReportingTemplate
      */
     public static function get_properties()
     {
-        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = 'CourseLearnerTrackerDetailReportingTemplateTitle';
+        $properties[ReportingTemplateRegistration :: PROPERTY_TITLE] = 'CourseStudentTrackerDetailReportingTemplateTitle';
         $properties[ReportingTemplateRegistration :: PROPERTY_PLATFORM] = 0;
-        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = 'CourseLearnerTrackerDetailReportingTemplateDescription';
+        $properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION] = 'CourseStudentTrackerDetailReportingTemplateDescription';
 
         return $properties;
     }

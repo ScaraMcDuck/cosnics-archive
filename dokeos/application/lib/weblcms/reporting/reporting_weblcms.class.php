@@ -628,7 +628,7 @@ class ReportingWeblcms {
             $arr[Translation :: get('Description')][] = DokeosUtilities::truncate_string($des, 50);
             $arr[Translation :: get('LastAccess')][] = $lastaccess;
             $arr[Translation :: get('TotalTimesAccessed')][] = count($trackerdata);
-            $params['pid'] = $lop->get_learning_object()->get_id();
+            $params['pid'] = $lop->get_id();
             $url = ReportingManager :: get_reporting_template_registration_url('PublicationDetailReportingTemplate',$params);
             $arr[Translation :: get('PublicationDetails')][] = '<a href="'.$url.'">'.Translation :: get('AccessDetails').'</a>';
         }
@@ -761,7 +761,7 @@ class ReportingWeblcms {
         return Reporting :: getSerieArray($arr,$description);
     }
 
-    public static function getTrainingsPerCategory($params)
+    public static function getCoursesPerCategory($params)
     {
         $wdm = WeblcmsDataManager::get_instance();
 
@@ -779,7 +779,7 @@ class ReportingWeblcms {
         }
 
         return Reporting::getSerieArray($arr);
-    }//getTrainingsPerCategory
+    }//getCoursesPerCategory
 
     public static function getLearningPathProgress($params)
     {

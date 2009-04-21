@@ -150,9 +150,9 @@
             exclude_displaymodes="Charts"
             width="500px"
             height="500px" />
-    <reporting_block name="WeblcmsTrainingsPerCategory"
+    <reporting_block name="WeblcmsCoursesPerCategory"
             application="weblcms"
-            function="getTrainingsPerCategory"
+            function="getCoursesPerCategory"
             displaymode="Table"
             width="500px"
             height="500px" />
