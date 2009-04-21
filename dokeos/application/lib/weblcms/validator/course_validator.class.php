@@ -251,20 +251,7 @@ class CourseValidator extends Validator
         return $this->validate_unsubscribe($input_course_group[course_code]);
     }
 
-    private function get_course_id($visual_code)
-    {
-        $course = $this->wdm->retrieve_course_by_visual_code($visual_code);
-        if(isset($course) && count($course->get_default_properties())>0)
-        {
-           return $course->get_default_property('id');
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    private function validate_subscribe($course_code)
+    private function validate_subscribe(&$course_code)
     {
         $course = $this->wdm->retrieve_course($course_code);       
         if(!empty($course))
@@ -286,7 +273,7 @@ class CourseValidator extends Validator
         
     }
 
-    private function validate_unsubscribe($course_code)
+    private function validate_unsubscribe(&$course_code)
     {        
         $course = $this->wdm->retrieve_course($course_code);
         
@@ -309,6 +296,34 @@ class CourseValidator extends Validator
         
     }
 
+    function validate_get_user_courses(&$input_user)
+    {
+        if(empty($input_user[USER :: PROPERTY_USERNAME]))
+        return false;
+
+        $user = $this->get_person_id($input_user[USER :: PROPERTY_USERNAME]);
+        if($user===false)
+        return false;
+        else
+        $input_user[USER :: PROPERTY_USER_ID] = $user;
+
+        return true;
+    }
+
+    function validate_get_course_users(&$input_course)
+    {
+        if(empty($input_course[Course :: PROPERTY_VISUAL]))
+        return false;
+
+        $course = $this->get_course_id($input_course[Course :: PROPERTY_VISUAL]);
+        if($course===false)
+        return false;
+        else
+        $input_course[Course :: PROPERTY_ID] = $course;
+
+        return true;
+    }
+
     private function get_person_id($person_name)
     {
         $user = $this->udm->retrieve_user_by_username($person_name);
@@ -322,12 +337,25 @@ class CourseValidator extends Validator
         }
     }
 
+    private function get_course_id($visual_code)
+    {
+        $course = $this->wdm->retrieve_course_by_visual_code($visual_code);
+        if(!empty($course))
+        {
+           return $course->get_default_property(Course :: PROPERTY_ID);
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     private function get_course_group_id($group_name)
     {
         $group = $this->wdm->retrieve_course_group_by_name($group_name);
         if(!empty($group))
         {
-           return $group->get_default_property('id');
+            return $group->get_default_property(CourseGroup :: PROPERTY_ID);
         }
         else
         {
@@ -337,27 +365,11 @@ class CourseValidator extends Validator
 
     private function get_category_id($category_name)
     {
-        $categories = $this->wdm->retrieve_course_categories(new EqualityCondition(CourseCategory ::PROPERTY_NAME, $category_name));
-        $categories = $categories->as_array();        
-        foreach($categories as $category) //array van course category objects
-        {
-            if(isset($category)) 
-            {                
-                if(count($category->get_default_properties()))
-                {
-                    return $category->get_id();
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-            else
-            {
-                return false;
-            }
-        }
+        $categories = $this->wdm->retrieve_course_categories(new EqualityCondition(CourseCategory ::PROPERTY_NAME, $category_name))->as_array();
+        if(!empty($categories[0]))
+        return $categories[0]->get_id();
+        else
+        return false;
     }
 
     private function check_quota($courseProperties)

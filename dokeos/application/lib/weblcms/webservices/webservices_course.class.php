@@ -103,13 +103,13 @@ class WebServicesCourse
 		);
 		
 		$functions['get_user_courses'] = array(
-			'input' => new InputUser(),
+			'input' => new User(),
 			'output' => array(new Course()),
 			'array_output' => true
 		);
 		
 		$functions['get_course_users'] = array(
-			'input' => new InputCourse(),
+			'input' => new Course(),
 			'output' => array(new User()),
 			'array_output' => true
 		);
@@ -503,18 +503,25 @@ class WebServicesCourse
         }
 	}
 	
-	function get_user_courses($input_user)
+	function get_user_courses(&$input_user)
 	{
         if($this->webservice->can_execute($input_user, 'get user courses'))
 		{
-            $wdm = DatabaseWeblcmsDataManager :: get_instance();            
-            $courses = $wdm->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $input_user[input][id]));
-            $courses = $courses->as_array();
-            foreach($courses as &$course)
+            if($this->validator->validate_get_user_courses($input_user[input]))
             {
-                $course = $course->get_default_properties();
+                $wdm = DatabaseWeblcmsDataManager :: get_instance();
+                $courses = $wdm->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $input_user[input][User :: PROPERTY_USER_ID]));
+                $courses = $courses->as_array();
+                foreach($courses as &$course)
+                {
+                    $course = $course->get_default_properties();
+                }
+                return $courses;
             }
-            return $courses;
+            else
+            {
+                return $this->webservice->raise_error("Could not retrieve courses for user {$input_user[User :: PROPERTY_USERNAME]}. Please check the data you\'ve provided.");
+            }
         }
         else
         {
@@ -522,21 +529,28 @@ class WebServicesCourse
         }
 	}
 	
-	function get_course_users($input_course)
+	function get_course_users(&$input_course)
 	{
 		if($this->webservice->can_execute($input_course, 'get course users'))
 		{
-            $wdm = DatabaseWeblcmsDataManager :: get_instance();
-            $udm = DatabaseUserDataManager :: get_instance();
-            $course = new Course($input_user[input][id],$input_user[input]);
-            $users = $wdm->retrieve_course_users($course);
-            $users = $users->as_array();
-            foreach($users as &$user)
+            if($this->validator->validate_get_course_users($input_course[input]))
             {
-                $user = $udm->retrieve_user($user->get_user());
-                $user = $user->get_default_properties();
+                $wdm = DatabaseWeblcmsDataManager :: get_instance();
+                $udm = DatabaseUserDataManager :: get_instance();
+                $course = new Course($input_course[input][Course :: PROPERTY_ID],$input_course[input]);
+                $users = $wdm->retrieve_course_users($course);
+                $users = $users->as_array();
+                foreach($users as &$user)
+                {
+                    $user = $udm->retrieve_user($user->get_user());
+                    $user = $user->get_default_properties();
+                }
+                return $users;
             }
-            return $users;
+            else
+            {
+                return $this->webservice->raise_error("Could not retrieve users for course {$input_course[Course :: PROPERTY_VISUAL]}. Please check the data you\'ve provided.");
+            }
         }
         else
         {

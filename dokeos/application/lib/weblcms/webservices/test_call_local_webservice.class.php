@@ -51,31 +51,31 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
         $functions = array();
 		
 		{
 			$functions[] = array(
 				'name' => 'WebServicesCourse.get_user_courses',
-				'parameters' => array('input' => array('id' => '3'),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'parameters' => array('input' => array('username' => 'JohnDoe'),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 			);
-		}
+		}*/
 		
 		/*A test to retrieve users of a course from the db
 		 * 
 		 */
 		
-		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		$functions = array();
 		
 		{
 			$functions[] = array(
-				'name' => 'WebServicesUser.delete_user',
-				'parameters' => array('id' => 3, 'hash' => '8856ffce09dad0fd33bfe3ae803cd97cc4540a78'),
+				'name' => 'WebServicesCourse.get_course_users',
+				'parameters' => array('input' => array(Course :: PROPERTY_VISUAL => 'COBOL'),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 			);
-		}*/
+		}
 		
 		/*A test to get new publications in course X from the db
 		 * 

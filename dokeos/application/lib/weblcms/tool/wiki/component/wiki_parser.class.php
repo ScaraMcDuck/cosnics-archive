@@ -28,7 +28,6 @@ class WikiToolParserComponent
     {
         $text = $wikiText;
         $linkCount = substr_count($text,'[[');
-        //dump($linkCount);
         for($i=0;$i<$linkCount;$i++)
         {
             $first = stripos($text,'[[');
