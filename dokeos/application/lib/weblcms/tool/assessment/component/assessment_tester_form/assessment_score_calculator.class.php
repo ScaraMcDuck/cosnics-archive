@@ -38,7 +38,7 @@ class AssessmentScoreCalculator
 		}
 		
 		//if ($assessment->get_assessment_type() != Assessment :: TYPE_ASSIGNMENT)
-			$assessment_tracker->set_total_score($this->calculate_score($assessment_tracker));
+			$assessment_tracker->set_total_score($this->calculate_score($assessment_tracker, $assessment));
 		//else
 		//	$assessment_tracker->set_total_score(null);
 		//dump($assessment_tracker);
@@ -149,7 +149,7 @@ class AssessmentScoreCalculator
 		return $score;
 	}
 	
-	static function calculate_score($assessment_tracker)
+	static function calculate_score($assessment_tracker, $assessment)
 	{
 		//dump(get_class($assessment_tracker));
 		$score = 0;
@@ -161,7 +161,7 @@ class AssessmentScoreCalculator
 		}
 		else
 		{
-			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment_tracker->get_assessment_id());
+			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id());
 			$questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items($condition);
 		}
 		while ($question = $questions->next_result())
