@@ -167,7 +167,7 @@
            application="weblcms"
            function="getLearningPathProgress"
            displaymode="Table"
-           exclude_displaymodes="Charts"
+           exclude_displaymodes="Charts,Text"
            width="500px"
            height="500px" />
 </application>
