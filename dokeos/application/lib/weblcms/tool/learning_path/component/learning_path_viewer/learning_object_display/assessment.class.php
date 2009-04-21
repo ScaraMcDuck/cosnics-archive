@@ -20,7 +20,7 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 		
 		if($lpi_tracker->get_status() == 'completed')
 		{
-			return Translation :: get('LearningPathItemIsCompleted');
+			return Display :: warning_message(Translation :: get('LearningPathItemIsCompleted'), true);
 		}
 		
 		$this->assessment = $assessment;
