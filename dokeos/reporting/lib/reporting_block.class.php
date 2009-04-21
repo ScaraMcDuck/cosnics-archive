@@ -13,6 +13,7 @@ class ReportingBlock{
     const PROPERTY_APPLICATION = 'application';
     const PROPERTY_FUNCTION = 'function';
     const PROPERTY_DISPLAYMODE = 'displaymode';
+    const PROPERTY_EXCLUDE_DISPLAYMODES = 'exclude_displaymodes';
     const PROPERTY_WIDTH = 'width';
     const PROPERTY_HEIGHT = 'height';
 
@@ -54,7 +55,8 @@ class ReportingBlock{
             self :: PROPERTY_FUNCTION,
             self :: PROPERTY_DISPLAYMODE,
             self :: PROPERTY_WIDTH,
-            self :: PROPERTY_HEIGHT
+            self :: PROPERTY_HEIGHT,
+            self :: PROPERTY_EXCLUDE_DISPLAYMODES
         );
     }
 
@@ -111,6 +113,36 @@ class ReportingBlock{
     /**
      * Returns all available displaymodes
      */
+//    public function get_displaymodes()
+//    {
+//        $data = $this->get_data();
+//        $datadescription = $data[1];
+//        $chartdata = $data[0];
+//        $names = sizeof($chartdata);
+//        $series = sizeof($datadescription["Values"]);
+//
+//        $modes = array();
+//        $modes["Text"] = Translation :: get('Text');
+//        $modes["Table"] = Translation :: get('Table');
+//        if($series == 1)
+//        {
+//            $modes["Chart:Pie"] = Translation :: get('Pie');
+//            if($names > 2)
+//            {
+//                $modes["Chart:Bar"] = Translation :: get('Bar');
+//                $modes["Chart:Line"] = Translation :: get('Line');
+//                $modes["Chart:FilledCubic"] = Translation :: get('FilledCubic');
+//            }
+//        }else
+//        {
+//            $modes["Chart:Bar"] = Translation :: get('Bar');
+//            $modes["Chart:Line"] = Translation :: get('Line');
+//            $modes["Chart:FilledCubic"] = Translation :: get('FilledCubic');
+//        }
+//
+//        return $modes;
+//    }
+
     public function get_displaymodes()
     {
         $data = $this->get_data();
@@ -118,26 +150,53 @@ class ReportingBlock{
         $chartdata = $data[0];
         $names = sizeof($chartdata);
         $series = sizeof($datadescription["Values"]);
+        
+        $modes = $this->get_available_displaymodes();
+        $excluded = $this->get_excluded_displaymodes();
+        $excluded = explode(',',$excluded);
 
+        if($series == 1 && $names <= 1)
+        {
+            $excluded[] = 'Chart:Bar';
+            $excluded[] = 'Chart:Line';
+            $excluded[] = 'Chart:FilledCubic';
+        }
+        if($series > 1)
+        {
+            $excluded[] = 'Chart:Pie';
+        }
+
+        if(in_array('Charts', $excluded))
+        {
+            unset($excluded[array_search('Charts',$excluded)]);
+            $excluded[] = 'Chart:Pie';
+            $excluded[] = 'Chart:Bar';
+            $excluded[] = 'Chart:Line';
+            $excluded[] = 'Chart:FilledCubic';
+        }
+        foreach ($excluded as $key => $value)
+        {
+            $excluded[$value] = Translation :: get($value);
+            unset($excluded[$key]);
+        }
+        $diff = array_diff($modes, $excluded);
+        return $diff;
+     }
+
+    /**
+     *
+     * @return array modes
+     * @todo build modes dynamically
+     */
+    private function get_available_displaymodes()
+    {
         $modes = array();
         $modes["Text"] = Translation :: get('Text');
         $modes["Table"] = Translation :: get('Table');
-        if($series == 1)
-        {
-            $modes["Chart:Pie"] = Translation :: get('Pie');
-            if($names > 2)
-            {
-                $modes["Chart:Bar"] = Translation :: get('Bar');
-                $modes["Chart:Line"] = Translation :: get('Line');
-                $modes["Chart:FilledCubic"] = Translation :: get('FilledCubic');
-            }
-        }else
-        {
-            $modes["Chart:Bar"] = Translation :: get('Bar');
-            $modes["Chart:Line"] = Translation :: get('Line');
-            $modes["Chart:FilledCubic"] = Translation :: get('FilledCubic');
-        }
-
+        $modes["Chart:Pie"] = Translation :: get('Chart:Pie');
+        $modes["Chart:Bar"] = Translation :: get('Chart:Bar');
+        $modes["Chart:Line"] = Translation :: get('Chart:Line');
+        $modes["Chart:FilledCubic"] = Translation :: get('Chart:FilledCubic');
         return $modes;
     }
 
@@ -240,6 +299,16 @@ class ReportingBlock{
 
     public function set_displaymode($value){
         $this->set_default_property(self :: PROPERTY_DISPLAYMODE,$value);
+    }
+
+    public function get_excluded_displaymodes()
+    {
+        return $this->get_default_property(self :: PROPERTY_EXCLUDE_DISPLAYMODES);
+    }
+
+    public function set_excluded_displaymodes($value)
+    {
+        $this->set_default_property(self :: PROPERTY_EXCLUDE_DISPLAYMODES, $value);
     }
 
     public function get_width()

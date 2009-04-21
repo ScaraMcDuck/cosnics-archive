@@ -52,18 +52,21 @@
             application="user"
             function="getUserInformation"
             displaymode="Table"
+            exclude_displaymodes="Charts"
             width="500px"
             height="500px" />
     <reporting_block name="UserPlatformStatistics"
             application="user"
             function="getUserPlatformStatistics"
             displaymode="Table"
+            exclude_displaymodes="Charts"
             width="500px"
             height="500px" />
     <reporting_block name="UserCourseStatistics"
             application="user"
             function="getUserCourseStatistics"
             displaymode="Table"
+            exclude_displaymodes="Charts"
             width="500px"
             height="500px" />
 	<reporting_block name="Browsers" 
@@ -100,6 +103,7 @@
 		   application="user"
 		   function="getUserTracking"
 		   displaymode="Table"
+           exclude_displaymodes="Charts"
 		   width="500px"
 		   height="500px" />
 </application>
