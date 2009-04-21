@@ -947,6 +947,13 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return $this->get_type();
 	}
+	
+	function get_icon()
+	{
+		$src = Theme :: get_common_image_path() . 'learning_object/' . $this->get_icon_name() . '.png';
+		return '<img src="' . $src . '" alt="' . $this->get_icon_name() . '" />';
+	}
+	
 	/**
 	 * Checks if the learning object's additional properties have already been
 	 * loaded, and requests them from the data manager if they have not.

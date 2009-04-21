@@ -29,7 +29,8 @@ class LearningPathTree extends HTML_Menu
 	private $current_cloi;
 	private $current_tracker;
 	private $taken_steps = 0;
-		
+	private $objects = array();
+	
 	private $dm;
 	/**
 	 * Creates a new category navigation menu.
@@ -53,7 +54,19 @@ class LearningPathTree extends HTML_Menu
 		$menu = $this->get_menu($lp_id);
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
-		$this->forceCurrentUrl($this->get_url($current_step));
+		
+		
+		if(!$current_step)
+		{
+			$this->forceCurrentUrl($this->get_progress_url());
+		}
+		else
+		{
+			$this->forceCurrentUrl($this->get_url($current_step));
+		}
+		
+		$lp_tracker->set_progress($this->get_progress());
+		$lp_tracker->update();
 	}
 	
 	function get_menu($lp_id)
@@ -61,19 +74,29 @@ class LearningPathTree extends HTML_Menu
 		$menu = array();
 		$datamanager = $this->dm;
 		$lo = $datamanager->retrieve_learning_object($lp_id);
-		$menu_item = array();
-		$menu_item['title'] = $lo->get_title();
+		$lp_item = array();
+		$lp_item['title'] = $lo->get_title();
 		//$menu_item['url'] = $this->get_url($lp_id);
 	
 		$sub_menu_items = $this->get_menu_items($lp_id);
 		if(count($sub_menu_items) > 0)
 		{
-			$menu_item['sub'] = $sub_menu_items;
+			$lp_item['sub'] = $sub_menu_items;
 		}
-		$menu_item['class'] = 'type_' . $lo->get_type();
+		$lp_item['class'] = 'type_' . $lo->get_type();
 		//$menu_item['class'] = 'type_category';
-		$menu_item[OptionsMenuRenderer :: KEY_ID] = -1;
-		$menu[$lp_id] = $menu_item;
+		$lp_item[OptionsMenuRenderer :: KEY_ID] = -1;
+		
+		
+		$menu_item = array();
+		$menu_item['title'] = Translation :: get('Progress');
+		$menu_item['url'] = $this->get_progress_url();
+		$menu_item['class'] = 'type_statistics';
+		$menu_item[OptionsMenuRenderer :: KEY_ID] = $this->step;
+		$lp_item['sub'] = array_merge($lp_item['sub'],array($menu_item));
+		
+		$menu[] = $lp_item;
+		
 		return $menu;
 	}
 	
@@ -133,8 +156,8 @@ class LearningPathTree extends HTML_Menu
 				
 				if($lpi_tracker && $lpi_tracker->get_status() == 'completed')
 				{
-					$menu_item['title'] = '<span style="position: relative; top: -4px;">' . $menu_item['title'] . '</span> ' . 
-									      Theme :: get_common_image('status_ok_mini');
+					$menu_item['title'] = $menu_item['title'] . ' <span style="position: relative; top: 3px;">' . 
+										  Theme :: get_common_image('status_ok_mini') . '</span> ' ;
 					$this->taken_steps++;
 				}
 				
@@ -145,13 +168,20 @@ class LearningPathTree extends HTML_Menu
 					$this->current_tracker = $lpi_tracker;
 				}
 				
+				$this->objects[] = array('object' => $lo, 'tracker' => $lpi_tracker);
+				
 				$this->step++;
 			}
 
-			$menu[$object->get_ref()] = $menu_item;
+			$menu[] = $menu_item;
 		}
 		
 		return $menu;
+	}
+	
+	function get_objects()
+	{
+		return $this->objects;
 	}
 	
 	function get_current_object()
@@ -172,6 +202,11 @@ class LearningPathTree extends HTML_Menu
 	private function get_url($current_step)
 	{
 		return htmlentities(sprintf($this->urlFmt, $current_step));
+	}
+	
+	private function get_progress_url()
+	{
+		return str_replace('&step=%s','', $this->urlFmt) . '&lp_action=view_progress';
 	}
 	
 	/**
@@ -202,7 +237,7 @@ class LearningPathTree extends HTML_Menu
 		$trail = new BreadcrumbTrail(false);
 		foreach ($breadcrumbs as $crumb)
 		{
-			$trail->add(new Breadcrumb($crumb['url'], $crumb['title']));
+			$trail->add(new Breadcrumb($crumb['url'], strip_tags($crumb['title'])));
 		}
 		return $trail;
 	}

@@ -463,6 +463,23 @@ class DokeosUtilities
         }
         return null;
     }
+    
+    static function format_seconds_to_hours($seconds)
+    {
+    	$hours = floor($seconds / 3600);
+    	$rest = $seconds % 3600;
+    	
+    	$minutes = floor($rest / 60);
+    	$seconds = $rest % 60;
+
+    	if($minutes < 10)
+    		$minutes = '0' . $minutes;
+    	
+    	if($seconds < 10)
+    		$seconds = '0' . $seconds;
+    	
+    	return $hours . ':' . $minutes . ':' . $seconds;
+    }
 
     /**
      * strips tags and truncates a given string to be the given length if the string is longer.
