@@ -156,8 +156,7 @@ class LearningPathTree extends HTML_Menu
 				
 				if($lpi_tracker && $lpi_tracker->get_status() == 'completed')
 				{
-					$menu_item['title'] = $menu_item['title'] . ' <span style="position: relative; top: 3px;">' . 
-										  Theme :: get_common_image('status_ok_mini') . '</span> ' ;
+					$menu_item['title'] = $menu_item['title'] . Theme :: get_common_image('status_ok_mini');
 					$this->taken_steps++;
 				}
 				
