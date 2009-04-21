@@ -783,12 +783,35 @@ class ReportingWeblcms {
 
     public static function getLearningPathProgress($params)
     {
-        $arr['Score'][] = 1;
-        $arr['Status'][] = 'completed';
+    	$data = array();
+    	
+    	$objects = $params['objects'];
+    	
+    	foreach($objects as $object)
+    	{
+    		$obj = $object['object'];
+    		$tracker = $object['tracker'];
+    		
+    		$data[''][] = $obj->get_icon();
+    		$data[Translation :: get('Title')][] = $obj->get_title();
+    		
+    		if($tracker)
+    		{
+    			$data[Translation :: get('Status')][] = $tracker->get_status();
+    			$data[Translation :: get('Score')][] = $tracker->get_score();
+    			$data[Translation :: get('Time')][] = DokeosUtilities :: format_seconds_to_hours($tracker->get_end_time() - $tracker->get_start_time());
+    		}
+    		else
+    		{
+    			$data[Translation :: get('Status')][] = 'incomplete';
+    			$data[Translation :: get('Score')][] = 0;
+    			$data[Translation :: get('Time')][] = '0:00:00';
+    		}
+    	}
 
         $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
 
-        return Reporting :: getSerieArray($arr, $description);
+        return Reporting :: getSerieArray($data, $description);
     }
 }
 ?>
