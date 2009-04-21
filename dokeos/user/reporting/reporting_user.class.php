@@ -241,6 +241,7 @@ class ReportingUser {
         $uid = $params[ReportingManager :: PARAM_USER_ID];
         //$uid = 2;
         require_once Path :: get_admin_path().'/trackers/online_tracker.class.php';
+        require_once Path :: get_user_path().'lib/user_data_manager.class.php';
         $udm = UserDataManager :: get_instance();
         $tracking = new OnlineTracker();
 
@@ -255,8 +256,9 @@ class ReportingUser {
 
         $user = $udm->retrieve_user($uid);
 
+
         $arr[Translation :: get('Name')][] = $user->get_fullname();
-        $arr[Translation :: get('Email')][] = $user->get_email();
+        $arr[Translation :: get('Email')][] = '<a href="mailto:'.$user->get_email().'" >'.$user->get_email().'</a>';
         $arr[Translation :: get('Phone')][] = $user->get_phone();
         //$arr[Translation :: get('Status')] = $user->get_status_name();
         $arr[Translation :: get('Online')][] = ($online)?Translation :: get('Online'):Translation :: get('Offline');
@@ -455,7 +457,7 @@ class ReportingUser {
             $arr[Translation :: get('ExcerciseProgress')][] = 0;
             $arr[Translation :: get('TotalPublications')][] = $rdm->count_learning_objects(null, new EqualityCondition(LearningObject::PROPERTY_OWNER_ID,$user_id));
             $url = ReportingManager :: get_reporting_template_registration_url('CourseStudentTrackerDetailReportingTemplate',$params);
-            $arr[Translation :: get('UserDetail')][] = '<a href="'.$url.'" />'.Translation :: get('Detail').'</a>';;
+            $arr[Translation :: get('UserDetail')][] = '<a href="'.$url.'">'.Translation :: get('Detail').'</a>';;
         }
 
         $description[Reporting :: PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
