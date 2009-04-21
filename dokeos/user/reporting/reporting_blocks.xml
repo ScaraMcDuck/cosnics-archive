@@ -10,12 +10,14 @@
             application="user"
             function="getNoOfUsers"
             displaymode="Text"
+            exclude_displaymodes="Charts"
             width="500px"
             height="100px" />
     <reporting_block name="UserNoOfLogins"
             application="user"
             function="getNoOfLogins"
             displaymode="Text"
+            exclude_displaymodes="Charts"
             width="500px"
             height="100px" />
     <reporting_block name="UserNoOfLoginsMonth"
