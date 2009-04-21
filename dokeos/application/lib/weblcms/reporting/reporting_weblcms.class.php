@@ -542,6 +542,8 @@ class ReportingWeblcms {
         $tdm = TrackingDataManager :: get_instance();
         $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*tool_action=view_item&pid='.$params['pid'].'*');
         $items = $tdm->retrieve_tracker_items('visit', 'VisitTracker', $condition);
+        if(empty($item))
+        return Reporting::getSerieArray($arr);
         foreach($items as $item)
         {
             $var[] = explode('&',$item->get_location());
@@ -578,6 +580,10 @@ class ReportingWeblcms {
         $wiki = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($params['pid'])->get_learning_object();
         
         $clois = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexlearningObjectItem :: PROPERTY_PARENT, $wiki->get_id()))->as_array();
+
+        if(empty($clois))
+        return Reporting::getSerieArray($arr);
+
         foreach($clois as $cloi)
         {
             $pages[] = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref());
