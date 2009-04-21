@@ -382,6 +382,16 @@ img
 	color: #999;
 }
 
+.does_not_exist a:link, does_not_exist a:visited
+{
+	color: #FF0000;
+}
+
+a.does_not_exist:link, a.does_not_exist:visited
+{
+	color: #FF0000;
+}
+
 .invisible a:link, .invisible a:visited
 {
 	color: #999;
