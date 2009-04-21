@@ -88,12 +88,12 @@ class WebServicesUser
                 }
                 else
                 {
-                    return $this->webservice->raise_error('User '.$input_user[input][username].' not found.');
+                    return $this->webservice->raise_error(Translation :: get('User').' '.$input_user[input][username].' '.Translation :: get('NotFound').'.');
                 }
             }
             else
             {
-                return $this->webservice->raise_error('Could not retrieve user'.$input_user[input][username].'. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error(Translation :: get('CouldNotRetrieveUser').$input_user[input][username].'. '.Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
             }
 		}
         else
@@ -134,7 +134,7 @@ class WebServicesUser
             }
             else
             {
-                return $this->webservice->raise_error('Could not delete user'.$input_user[input][username].'. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error(Translation :: get('CouldNotDeleteUser').$input_user[input][username].'. '.Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
             }
 
         }
@@ -155,7 +155,7 @@ class WebServicesUser
             }
             else
             {
-                return $this->webservice->raise_error('Could not create user'.$input_user[input][username].'. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error(Translation :: get('CouldNotCreateUser').$input_user[input][username].'. '.Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
             }
         }
         else
@@ -175,7 +175,7 @@ class WebServicesUser
             }
             else
             {
-                return $this->webservice->raise_error('Could not update user'.$input_user[input][username].'. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error(Translation :: get('CouldNotUpdateUser').$input_user[input][username].'. '.Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
             }
         }
         else
@@ -197,10 +197,10 @@ class WebServicesUser
                }
                else
                {
-                   return $this->webservice->raise_error('Could not create user'.$input_user[input][username].'. Please check the data you\'ve provided.');
+                   return $this->webservice->raise_error(Translation :: get('CouldNotCreateUser').$user[username].'. '.Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
                }
            }
-           return $this->webservice->raise_message('Users created.');
+           return $this->webservice->raise_message(Translation :: get('UsersCreated').'.');
        }
        else
        {
@@ -221,10 +221,10 @@ class WebServicesUser
                 }
                 else
                 {
-                    return $this->webservice->raise_error('Could not update user '.$user[username].'. Please check the data you\'ve provided.');
+                    return $this->webservice->raise_error(Translation :: get('CouldNotUpdateUser').$user[username].'. '.Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
                 }
            }
-           return $this->webservice->raise_message('Users updated.');
+           return $this->webservice->raise_message(Translation :: get('UsersUpdated').'.');
         }
         else
         {
@@ -245,10 +245,10 @@ class WebServicesUser
                 }
                 else
                 {
-                    return $this->webservice->raise_error('Could not delete user '.$user[username].'. Please check the data you\'ve provided.');
+                    return $this->webservice->raise_error(Translation :: get('CouldNotDeleteUser').$user[username].'. '.Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
                 }
            }
-           return $this->webservice->raise_message('Users deleted.');
+           return $this->webservice->raise_message(Translation :: get('UsersDeleted').'.');
         }
         else
         {
