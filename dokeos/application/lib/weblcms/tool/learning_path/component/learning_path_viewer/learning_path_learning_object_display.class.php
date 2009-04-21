@@ -41,9 +41,12 @@ class LearningPathLearningObjectDisplay
 	{
 		$trackers = $this->get_parent()->get_trackers();
 		$lpi_tracker = $trackers['lpi_tracker'];
-		$lpi_tracker->set_status('completed');
-		$lpi_tracker->set_end_time(time());
-		$lpi_tracker->update();
+		if($lpi_tracker->get_status() != 'completed')
+		{
+			$lpi_tracker->set_status('completed');
+			$lpi_tracker->set_end_time(time());
+			$lpi_tracker->update();
+		}
 	}
 	
 	protected function display_link($link)
