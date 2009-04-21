@@ -156,12 +156,12 @@ class WebServicesCourse
                 }
                 else
                 {
-                    return $this->webservice->raise_error('Course '.$input_course[input][visual_code].' not found.');
+                    return $this->webservice->raise_error(Translation :: get('Course').' '.$input_course[input][visual_code].Translation :: get('Not Found').'.');
                 }
             }
             else
             {
-                return $this->webservice->raise_error('Could not retrieve course. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error(Translation :: get('CouldNotRetrieveCourse').$input_course[input][visual_code].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
             }
         }
         else
@@ -181,7 +181,7 @@ class WebServicesCourse
             }
             else
             {
-                return $this->webservice->raise_error('Could not delete course. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error(Translation :: get('CouldNotDeleteCourse').$input_course[input][visual_code].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
             }
         }
         else
@@ -203,10 +203,10 @@ class WebServicesCourse
                 }
                 else
                 {
-                    return $this->webservice->raise_error("Could not delete course {$course[Course ::PROPERTY_NAME]}. Please check the data you\'ve provided.");
+                    return $this->webservice->raise_error(Translation :: get('CouldNotDeleteCourse').$course[visual_code].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
                 }
             }
-            return $this->webservice->raise_message('Courses deleted');
+            return $this->webservice->raise_message(Translation :: get('CoursesDeleted').'.');
         }
         else
         {
@@ -226,7 +226,7 @@ class WebServicesCourse
             }
             else
             {
-                return $this->webservice->raise_error('Could not update course. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error(Translation :: get('CouldNotUpdateCourse').$input_course[input][visual_code].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
             }
         }
         else
@@ -248,10 +248,10 @@ class WebServicesCourse
                 }
                 else
                 {
-                    return $this->webservice->raise_error("Could not update course {$course[Course ::PROPERTY_NAME]}. Please check the data you\'ve provided.");
+                    return $this->webservice->raise_error(Translation :: get('CouldNotUpdateCourse').$course[visual_code].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
                 }
             }
-            return $this->webservice->raise_message('Courses updated.');
+            return $this->webservice->raise_message(Translation :: get('CoursesUpdated').'.');
         }
         else
         {
@@ -271,7 +271,7 @@ class WebServicesCourse
             }
             else
             {
-                return $this->webservice->raise_error('Could not create course. Please check the data you\'ve provided.');
+                return $this->webservice->raise_error(Translation :: get('CouldNotCreateCourse').$input_course[input][visual_code].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
             }
             
         }
@@ -295,10 +295,10 @@ class WebServicesCourse
                 }
                 else
                 {
-                    return $this->webservice->raise_error("Could not create course {$course[Course ::PROPERTY_NAME]}. Please check the data you\'ve provided.");
+                    return $this->webservice->raise_error(Translation :: get('CouldNotCreateCourse').$course[visual_code].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
                 }
             }
-            return $this->webservice->raise_message('Courses created.');
+            return $this->webservice->raise_message(Translation :: get('Courses created').'.');
         }
         else
         {
@@ -320,7 +320,7 @@ class WebServicesCourse
             }
             else
             {               
-                return $this->webservice->raise_error('Could not subscribe user to course. Either there\'s something wrong with the data you\'ve provided, or subscriptions to this course are not allowed.');
+                return $this->webservice->raise_error(Translation :: get('CouldNotSubscribeUser').$input_course[input][user_id].' '.Translation :: get('ToCourse').$input_course[input][course_code].'. '.Translation :: get('EitherThere\'sSomethingWrongWithTheDataYou\'veProvided,OrSubscriptionsToThisCourseAreNotAllowed'));
             }
             
         }
@@ -346,10 +346,10 @@ class WebServicesCourse
                 }
                 else
                 {
-                    return $this->webservice->raise_error("Could not subscribe user {$c[CourseUserRelation ::PROPERTY_USER]} to course {$c[CourseUserRelation ::PROPERTY_COURSE]}. Either there\'s something wrong with the data you\'ve provided, or subscriptions to this course are not allowed.");
+                    return $this->webservice->raise_error(Translation :: get('CouldNotSubscribeUser').$c[user_id].' '.Translation :: get('ToCourse').$c[course_code].'. '.Translation :: get('EitherThere\'sSomethingWrongWithTheDataYou\'veProvided,OrSubscriptionsToThisCourseAreNotAllowed'));
                 }
             }
-            return $this->webservice->raise_message('Users subscribed.');
+            return $this->webservice->raise_message(Translation :: get('UsersSubscribed').'.');
 
         }
         else
@@ -369,7 +369,7 @@ class WebServicesCourse
             }
             else
             {
-                return $this->webservice->raise_error('Could not unsubscribe from course. Either there\'s something wrong with the data you\'ve provided, or unsubscribing from this course is not allowed.');
+                return $this->webservice->raise_error(Translation :: get('CouldNotUnsubscribeUser').$input_course[input][user_id].' '.Translation :: get('ToCourse').$input_course[input][course_code].'. '.Translation :: get('EitherThere\'sSomethingWrongWithTheDataYou\'veProvided,OrSubscriptionsToThisCourseAreNotAllowed'));
             }
            
         }
@@ -392,10 +392,10 @@ class WebServicesCourse
                 }
                 else
                 {
-                    return $this->webservice->raise_error("Could not unsubscribe user {$c[CourseUserRelation ::PROPERTY_USER]} from course {$c[CourseUserRelation ::PROPERTY_COURSE]}. Either there\'s something wrong with the data you\'ve provided, or unsubscribing from this course is not allowed.");
+                    return $this->webservice->raise_error(Translation :: get('CouldNotUnsubscribeUser').$c[user_id].' '.Translation :: get('ToCourse').$c[course_code].'. '.Translation :: get('EitherThere\'sSomethingWrongWithTheDataYou\'veProvided,OrSubscriptionsToThisCourseAreNotAllowed'));
                 }
             }
-           return $this->webservice->raise_message('Users unsubscribed');
+           return $this->webservice->raise_message(Translation :: get('UsersUnsubscribed'));
         }
         else
         {
@@ -417,7 +417,7 @@ class WebServicesCourse
             }
             else
             {
-                 return $this->webservice->raise_error('Could not subscribe group to course. Either something is wrong with the data you\'ve provided, or subscriptions are not allowed for this course.');
+                return $this->webservice->raise_error(Translation :: get('CouldNotSubscribeGroup').$input_group[input][id].' '.Translation :: get('ToCourse').$input_group[input][course_code].'. '.Translation :: get('EitherThere\'sSomethingWrongWithTheDataYou\'veProvided,OrSubscriptionsToThisCourseAreNotAllowed'));
             }
         }
         else
@@ -442,10 +442,10 @@ class WebServicesCourse
                 }
                 else
                 {
-                     return $this->webservice->raise_error("Could not subscribe group {$course_group[CourseGroup ::PROPERTY_NAME]} to course {$course_group[CourseGroup ::PROPERTY_COURSE_CODE]}. Either something is wrong with the data you\'ve provided, or subscriptions are not allowed for this course.");
+                    return $this->webservice->raise_error(Translation :: get('CouldNotSubscribeGroup').$course_group[id].' '.Translation :: get('ToCourse').$course_group[course_code].'. '.Translation :: get('EitherThere\'sSomethingWrongWithTheDataYou\'veProvided,OrSubscriptionsToThisCourseAreNotAllowed'));
                 }
             }
-            return $this->webservice->raise_message('Groups subscribed.');
+            return $this->webservice->raise_message(Translation :: get('GroupsSubscribed'));
         }
         else
         {
@@ -467,7 +467,7 @@ class WebServicesCourse
             }
             else
             {
-                 return $this->webservice->raise_error('Could not unsubscribe group to course. Either something is wrong with the data you\'ve provided, or unsubscribing is not allowed for this course.');
+                return $this->webservice->raise_error(Translation :: get('CouldNotUnsubscribeGroup').$input_group[input][id].' '.Translation :: get('ToCourse').$input_group[input][course_code].'. '.Translation :: get('EitherThere\'sSomethingWrongWithTheDataYou\'veProvided,OrSubscriptionsToThisCourseAreNotAllowed'));
             }
         }
         else
@@ -492,10 +492,10 @@ class WebServicesCourse
                 }
                 else
                 {
-                     return $this->webservice->raise_error("Could not unsubscribe group {$course_group[CourseGroup ::PROPERTY_NAME]} from course {$course_group[CourseGroup ::PROPERTY_COURSE_CODE]}. Either something is wrong with the data you\'ve provided, or unsubscribing is not allowed for this course.");
+                    return $this->webservice->raise_error(Translation :: get('CouldNotUnsubscribeGroup').$course_group[id].' '.Translation :: get('ToCourse').$course_group[course_code].'. '.Translation :: get('EitherThere\'sSomethingWrongWithTheDataYou\'veProvided,OrSubscriptionsToThisCourseAreNotAllowed'));
                 }
             }
-            return $this->webservice->raise_message('Groups unsubscribed.');
+            return $this->webservice->raise_message(Translation :: get('GroupsUnsubscribed'));
         }
         else
         {
@@ -520,7 +520,7 @@ class WebServicesCourse
             }
             else
             {
-                return $this->webservice->raise_error("Could not retrieve courses for user {$input_user[User :: PROPERTY_USERNAME]}. Please check the data you\'ve provided.");
+                return $this->webservice->raise_error(Translation :: get('CouldNotRetrieveCoursesForUser').$input_user[input][User :: PROPERTY_USERNAME].'. '.Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
             }
         }
         else
@@ -549,7 +549,7 @@ class WebServicesCourse
             }
             else
             {
-                return $this->webservice->raise_error("Could not retrieve users for course {$input_course[Course :: PROPERTY_VISUAL]}. Please check the data you\'ve provided.");
+                return $this->webservice->raise_error(Translation :: get('CouldNotRetrieveUsersForCourse').$input_course[input][Course :: PROPERTY_VISUAL].'. '.Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
             }
         }
         else
