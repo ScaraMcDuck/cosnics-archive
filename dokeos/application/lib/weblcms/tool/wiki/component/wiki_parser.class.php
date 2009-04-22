@@ -12,6 +12,12 @@ class WikiToolParserComponent
     private $pid;
     private $course_id;
 
+    function __construct($pId,$courseId)
+    {
+         $this->pid = $pId;
+         $this->course_id = $courseId;
+    }
+
     function set_pid($value)
     {
         $this->pid = $value;

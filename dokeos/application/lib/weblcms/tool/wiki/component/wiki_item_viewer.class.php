@@ -25,31 +25,27 @@ class WikiToolItemViewerComponent extends WikiToolComponent
         $this->cid = Request :: get('cid');        
         $dm = RepositoryDataManager :: get_instance();
        
-        if(isset($this->cid))
+        if(!empty($this->cid))
         {
             $cloi = $dm->retrieve_complex_learning_object_item($this->cid);
             $this->wiki_page = $dm->retrieve_learning_object($cloi->get_ref());
         }
-
-        /*
-         * complex object id needed to delete / update
-         */
-              
-        if(!isset($this->cid))
+        else
         {
+           /*
+            * complex object id needed to delete / update
+            */
             $condition = New EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->wiki_page->get_id());
             $cloi = $dm->retrieve_complex_learning_object_items($condition)->as_array();
             $this->cid = $cloi[0]->get_id();
-        }        
+        }
 
         $this->display_header(new BreadcrumbTrail());
         $this->action_bar = $this->get_toolbar();
 
         echo '<br />' . $this->action_bar->as_html();
 
-		$parser = new WikiToolParserComponent();
-        $parser->set_pid(Request :: get('pid'));
-        $parser->set_course_id($this->get_course_id());
+		$parser = new WikiToolParserComponent(Request :: get('pid'),$this->get_course_id());
 
         echo '<h2>'.$this->wiki_page->get_title().'</h2>';
         echo $parser->handle_internal_links($this->wiki_page->get_description());
