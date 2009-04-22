@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/wiki_page_table/wiki_page_table.class.php';
 require_once Path :: get_repository_path().'lib/learning_object_display.class.php';
 require_once Path :: get_repository_path().'lib/learning_object_pub_feedback.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
+require_once dirname(__FILE__) . '/wiki_parser.class.php';
 
 class WikiToolDiscussComponent extends WikiToolComponent
 {
@@ -45,7 +46,10 @@ class WikiToolDiscussComponent extends WikiToolComponent
         
         echo '<h2>' .Translation :: get('DiscussThe') .$wiki_page->get_title().' ' . Translation :: get('Page') .'</h2>';
         $display = LearningObjectDisplay :: factory($wiki_page);
-        echo $display->get_full_html();        
+        $parser = new WikiToolParserComponent();
+        $parser->set_pid(Request :: get('pid'));
+        $parser->set_course_id($this->get_course_id());
+        echo $parser->handle_internal_links($display->get_full_html());
         
         if(isset($this->cid)&& isset($this->publication_id))
         {
