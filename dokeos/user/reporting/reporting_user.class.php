@@ -370,8 +370,9 @@ class ReportingUser {
         require_once(dirname(__FILE__) . '/../trackers/browsers_tracker.class.php');
         $tracker = new BrowsersTracker();
         $condition = new EqualityCondition(BrowsersTracker::PROPERTY_TYPE,'browser');
+        $description[0] = Translation :: get('Browsers');
 
-        return Reporting :: array_from_tracker($tracker,$condition,Translation :: get('Browsers'));
+        return Reporting :: array_from_tracker($tracker,$condition,$description);
     }
 
     /**
@@ -383,8 +384,9 @@ class ReportingUser {
         require_once(dirname(__FILE__) . '/../trackers/countries_tracker.class.php');
         $tracker = new CountriesTracker();
         $condition = new EqualityCondition(CountriesTracker::PROPERTY_TYPE,'country');
+        $description[0] = Translation :: get('Countries');
 
-        return Reporting :: array_from_tracker($tracker,$condition,Translation :: get('Countries'));
+        return Reporting :: array_from_tracker($tracker,$condition,$description);
     }
 
     /**
@@ -396,8 +398,9 @@ class ReportingUser {
         require_once(dirname(__FILE__) . '/../trackers/os_tracker.class.php');
         $tracker = new OSTracker();
         $condition = new EqualityCondition(OSTracker :: PROPERTY_TYPE,'os');
+        $description[0] = Translation :: get('Os');
 
-        return Reporting :: array_from_tracker($tracker,$condition,Translation :: get('Os'));
+        return Reporting :: array_from_tracker($tracker,$condition,$description);
     }
 
     /**
@@ -409,8 +412,9 @@ class ReportingUser {
         require_once(dirname(__FILE__) . '/../trackers/providers_tracker.class.php');
         $tracker = new ProvidersTracker();
         $condition = new EqualityCondition(ProvidersTracker :: PROPERTY_TYPE,'provider');
+        $description[0] = Translation :: get('Providers');
 
-        return Reporting :: array_from_tracker($tracker,$condition,Translation :: get('Providers'));
+        return Reporting :: array_from_tracker($tracker,$condition,$description);
     }
 
     /**
@@ -422,8 +426,9 @@ class ReportingUser {
         require_once(dirname(__FILE__) . '/../trackers/referrers_tracker.class.php');
         $tracker = new ReferrersTracker();
         $condition = new EqualityCondition(ReferrersTracker :: PROPERTY_TYPE,'referer');
+        $description[0] = Translation :: get('Referers');
 
-        return Reporting :: array_from_tracker($tracker,$condition,Translation :: get('Referers'));
+        return Reporting :: array_from_tracker($tracker,$condition,$description);
     }
 
     public static function getUserTracking($params)
