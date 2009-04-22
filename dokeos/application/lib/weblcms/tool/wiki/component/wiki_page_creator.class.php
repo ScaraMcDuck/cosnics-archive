@@ -25,9 +25,8 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
             $object = Request :: get('object'); //the object that was made, needed to set the reference for the complex object
             
             $this->pub = new LearningObjectRepoViewer($this, 'wiki_page', true, RepoViewer :: SELECT_MULTIPLE, WikiTool :: ACTION_CREATE_PAGE);
-            //$this->pub->set_parameter('wiki_id', Request :: get('wiki_id')); //needed to set parent, which is the wiki_id
 
-            $this->publication_id = Request :: get('pid');            
+            $this->publication_id = Request :: get('pid');
             if(!empty($this->publication_id))
             {
                 $wm = WeblcmsDataManager :: get_instance();
@@ -37,9 +36,8 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
                 $_SESSION['pid'] = $this->publication_id;
             }
             
-            if(!isset($object))
+            if(empty($object))
             {
-                
                 $html[] = '<p><a href="' . $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
                 $html[] =  $this->pub->as_html();
                 $this->display_header($trail);

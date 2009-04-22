@@ -32,9 +32,9 @@ class WikiToolViewerComponent extends WikiToolComponent
         
 		$this->action_bar = $this->get_toolbar($wiki);
         echo '<br />' . $this->action_bar->as_html();
-        if(isset($wiki))
+        if(!empty($wiki))
         {
-            echo '<h2>' .$wiki->get_default_property('title') .' : Home </h2>';
+            echo '<h2>' .$wiki->get_default_property('title') .' : '.Translation :: get('Home'). '</h2>';
             $table = new WikiPageTable($this, $wiki->get_id());
             echo $table->as_html();
         }
@@ -57,11 +57,8 @@ class WikiToolViewerComponent extends WikiToolComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-
         $action_bar->set_search_url($this->get_url());
-        $action_bar->set_search_url($this->get_url());
-          
-
+        
             $action_bar->add_common_action(
             new ToolbarItem(
                 Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
@@ -74,12 +71,6 @@ class WikiToolViewerComponent extends WikiToolComponent
 				Translation :: get('BrowseWikis'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
-
-        /*$action_bar->add_common_action(
-			new ToolbarItem(
-				Translation :: get('DeleteContents'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_DELETE_WIKI_CONTENTS, 'wiki_id' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			)
-		);*/
 
         $action_bar->add_common_action(
 			new ToolbarItem(
