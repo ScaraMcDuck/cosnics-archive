@@ -115,13 +115,13 @@ class WebServicesCourse
 		);
 		
 		$functions['get_new_publications_in_course'] = array(
-            'input' => new InputCourse(),
+            'input' => new Course(),
             'output' => array(new LearningObject()),
 			'array_output' => true
 		);
 
         $functions['get_new_publications_in_course_tool'] = array(
-            'input' => new InputCourse(),
+            'input' => new Course(),
             'output' => array(new LearningObject()),
 			'array_output' => true
 		);
@@ -133,7 +133,7 @@ class WebServicesCourse
 		);
 
         $functions['get_publications_for_course'] = array(
-            'input' => new InputCourse(),
+            'input' => new Course(),
             'output' => array(new LearningObject()),
 			'array_output' => true
 		);
