@@ -76,18 +76,9 @@ class Reporting{
         
     	foreach($trackerdata as $key => $value)
     	{
-            $data[$c]["Name"] = $value->get_name();
-            $data[$c]["Serie1"] = $value->get_value();
-            $c++;
+            $arr[$value->get_name()][] = $value->get_value();
     	}
-    	
-    	$datadescription["Position"] = "Name";
-		$datadescription["Values"][] = "Serie1";
-        $datadescription["Description"]["Serie1"] = $description;
-		
-		array_push($array,$data);
-		array_push($array,$datadescription);
- 		return $array;
+        return self :: getSerieArray($arr,$description);
 	}//array_from_tracker
 
     public static function getSerieArray($arr,$description=null)
