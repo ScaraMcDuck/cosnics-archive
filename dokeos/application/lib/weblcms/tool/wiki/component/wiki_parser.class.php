@@ -1,4 +1,12 @@
 <?php
+/*
+ * This is a standalone wiki parser component, used to parse links to other wiki pages, much in the same way as on Wikipedia.
+ * A normal wiki page link looks like [[*title of wiki page*]]
+ * A | character can also be used to give the link a title different from the page title. E.g: [[*title of wiki page*|*title of URL*]]
+ * The pid is the publication ID of the wiki, and the course id is the id of the course wherein the parent wiki resides.
+ * For the moment it's only possible to link to other wiki pages in the same wiki.
+ * Author: Stefan Billiet
+ */
 class WikiToolParserComponent
 {
     private $pid;
