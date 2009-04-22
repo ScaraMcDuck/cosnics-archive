@@ -86,6 +86,11 @@ class TableSort
 	 */
 	function sort_table($data, $column = 0, $direction = SORT_ASC, $type = SORT_REGULAR)
 	{
+		if(!is_array($data) or count($data)==0){return array();}
+	    if($column != strval(intval($column))){return $data;} //probably an attack
+	    if(!in_array($direction,array(SORT_ASC,SORT_DESC))){return $data;} // probably an attack
+		$compare_function = '';
+		
 		switch ($type)
 		{
 			case SORT_REGULAR :
@@ -106,14 +111,15 @@ class TableSort
 			case SORT_NUMERIC :
 				$compare_function = 'strip_tags($el1) > strip_tags($el2)';
 				break;
-			case SORT_STRING :
-				$compare_function = 'strnatcmp(TableSort::orderingstring(strip_tags($el1)),TableSort::orderingstring(strip_tags($el2))) > 0';
-				break;
 			case SORT_IMAGE :
 				$compare_function = 'strnatcmp(TableSort::orderingstring(strip_tags($el1,"<img>")),TableSort::orderingstring(strip_tags($el2,"<img>"))) > 0';
 				break;
 			case SORT_DATE :
 				$compare_function = 'strtotime(strip_tags($el1)) > strtotime(strip_tags($el2))';
+			case SORT_STRING :
+			default:
+				$compare_function = 'strnatcmp(TableSort::orderingstring(strip_tags($el1)),TableSort::orderingstring(strip_tags($el2))) > 0';
+				break;
 		}
 		$function_body = '$el1 = $a['.$column.']; $el2 = $b['.$column.']; return ('.$direction.' == SORT_ASC ? ('.$compare_function.') : !('.$compare_function.'));';
 		// Sort the content
