@@ -6,9 +6,13 @@ require_once Path :: get_reporting_path(). 'lib/reporting_template.class.php';
 require_once Path :: get_reporting_path().'lib/reporting_manager/reporting_manager.class.php';
 class LearningPathProgressReportingTemplate extends ReportingTemplate
 {
-	function LearningPathProgressReportingTemplate()
+	private $object;
+	
+	function LearningPathProgressReportingTemplate($object)
 	{
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsLearningPathProgress"),
+        $this->object = $object;
+        
+		$this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsLearningPathProgress"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
 	}
 
@@ -32,6 +36,12 @@ class LearningPathProgressReportingTemplate extends ReportingTemplate
     	//template header
         $html[] = $this->get_header();
 
+        if(Request :: get('cid'))
+        {
+        	$display = LearningObjectDisplay :: factory($this->object);
+        	$html[] = $display->get_full_html();
+        }
+        
         $html[] = '<div align="center">';
         //show visible blocks
         $html[] = $this->get_visible_reporting_blocks();
