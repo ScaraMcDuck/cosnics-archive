@@ -1,7 +1,6 @@
 <?php
 require_once(dirname(__FILE__) . '/../../../../common/global.inc.php');
 require_once dirname(__FILE__) . '/../../../../common/webservices/webservice.class.php';
-require_once dirname(__FILE__) . '/provider/input_course.class.php';
 require_once dirname(__FILE__) . '/../course/course.class.php';
 
 /*// No PHP-memory limits
@@ -66,7 +65,7 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+		/*$wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		$functions = array();
 		
 		{
@@ -75,7 +74,7 @@ class TestCallLocalWebservice
 				'parameters' => array('input' => array(Course :: PROPERTY_VISUAL => 'COBOL'),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 			);
-		}
+		}*/
 		
 		/*A test to get new publications in course X from the db
 		 * 
@@ -176,9 +175,9 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  /*$course = array(
+		  $course = array(
             'layout' => '1',
-            'visual_code' => 'KITT',
+            'vissual_code' => 'KITT',
             'category' => 'language skills', //required
             'title' => 'Kennisintensieve Toepassingennnn', //required
             'show_score' => '1',
@@ -200,10 +199,10 @@ class TestCallLocalWebservice
 		  $wsdl = 'http://localhost/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
-				'name' => 'WebServicesCourse.create_courses',
-				'parameters' => array('input' => array($course),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'name' => 'WebServicesCourse.create_course',
+				'parameters' => array('input' => $course,'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
-			);*/
+			);
 		
 		/*A test to subscribe a user to a course in the db
 		 * 
