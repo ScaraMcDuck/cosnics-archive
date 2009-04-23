@@ -819,7 +819,7 @@ class ReportingWeblcms {
 	    		if($tracker_data)
 	    		{
 	    			$data[Translation :: get('Status')][] = Translation :: get($tracker_data['completed']?'Completed':'Incomplete');
-	    			$data[Translation :: get('Score')][] = $tracker_data['score'] / $tracker_data['size'] . '%';
+	    			$data[Translation :: get('Score')][] = round($tracker_data['score'] / $tracker_data['size']) . '%';
 	    			$data[Translation :: get('Time')][] = DokeosUtilities :: format_seconds_to_hours($tracker_data['time']);
 	    		}
 	    		else
