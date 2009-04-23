@@ -18,7 +18,7 @@ class LearningPathTree extends HTML_Menu
 	
 	private $current_step;
 	private $lp_id;
-	private $lp_tracker;
+	private $lpi_tracker_data;
 	
 	/**
 	 * The string passed to sprintf() to format category URLs
@@ -28,7 +28,6 @@ class LearningPathTree extends HTML_Menu
 	private $current_object;
 	private $current_cloi;
 	private $current_tracker;
-	private $taken_steps = 0;
 	private $objects = array();
 	
 	private $dm;
@@ -43,12 +42,12 @@ class LearningPathTree extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function LearningPathTree($lp_id, $current_step, $url_format, $lp_tracker)
+	function LearningPathTree($lp_id, $current_step, $url_format, $lpi_tracker_data)
 	{
 		$this->current_step = $current_step;
 		$this->lp_id = $lp_id;
 		$this->urlFmt = $url_format;
-		$this->lp_tracker = $lp_tracker;
+		$this->lpi_tracker_data = $lpi_tracker_data;
 		
 		$this->dm = RepositoryDataManager :: get_instance();
 		$menu = $this->get_menu($lp_id);
@@ -64,9 +63,6 @@ class LearningPathTree extends HTML_Menu
 		{
 			$this->forceCurrentUrl($this->get_url($current_step));
 		}
-		
-		$lp_tracker->set_progress($this->get_progress());
-		$lp_tracker->update();
 	}
 	
 	function get_menu($lp_id)
@@ -120,6 +116,7 @@ class LearningPathTree extends HTML_Menu
 		while (($object = $objects->next_result()))
 		{
 			$lo = $datamanager->retrieve_learning_object($object->get_ref());
+			$lpi_tracker_data = $this->lpi_tracker_data[$object->get_id()];
 			
 			if($lo->get_type() == 'learning_path_item')
 			{
@@ -145,16 +142,7 @@ class LearningPathTree extends HTML_Menu
 				$menu_item['url'] = $this->get_url($this->step);
 				$menu_item[OptionsMenuRenderer :: KEY_ID] = $this->step;
 				
-				$conditions = array();
-				$conditions[] = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID, $this->lp_tracker->get_id());
-				$conditions[] = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_ITEM_ID, $object->get_id());
-				$condition = new AndCondition($conditions);
-				
-				$dummy = new WeblcmsLpiAttemptTracker();
-				$trackers = $dummy->retrieve_tracker_items($condition);
-				$lpi_tracker = $trackers[0];
-				
-				if($lpi_tracker && $lpi_tracker->get_status() == 'completed')
+				if($lpi_tracker_data['completed'])
 				{
 					$menu_item['title'] = $menu_item['title'] . Theme :: get_common_image('status_ok_mini');
 					$this->taken_steps++;
@@ -164,10 +152,10 @@ class LearningPathTree extends HTML_Menu
 				{
 					$this->current_cloi = $object;
 					$this->current_object = $lo;
-					$this->current_tracker = $lpi_tracker;
+					$this->current_tracker = $lpi_tracker_data['active_tracker'];
 				}
 				
-				$this->objects[] = array('object' => $lo, 'tracker' => $lpi_tracker);
+				$this->objects[$object->get_id()] = $lo;
 				
 				$this->step++;
 			}
@@ -219,14 +207,14 @@ class LearningPathTree extends HTML_Menu
 		return $renderer->toHTML();
 	}
 	
-	function count_steps()
-	{
-		return $this->step - 1;
-	}
-	
 	function get_progress()
 	{
 		return ($this->taken_steps / ($this->step - 1)) * 100;
+	}
+	
+	function count_steps()
+	{
+		return $this->step - 1;
 	}
 	
 	function get_breadcrumbs()

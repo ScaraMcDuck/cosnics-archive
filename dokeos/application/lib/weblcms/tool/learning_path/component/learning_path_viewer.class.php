@@ -11,18 +11,23 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 {
 	private $pid;
 	private $trackers;
+	private $lpi_attempt_data;
 	
 	function run() 
 	{
+		// Check for rights
 		if (!$this->is_allowed(VIEW_RIGHT))
 		{
 			Display :: not_allowed();
 			return;
 		}
+		
 		$trail = new BreadcrumbTrail();
 		
-		$pid = $_GET['pid'];
+		// Check and retrieve publication
+		$pid = Request :: get('pid');
 		$this->pid = $pid;
+		
 		if(!$pid)
 		{
 			$this->display_header($trail);
@@ -34,8 +39,11 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		$publication = $dm->retrieve_learning_object_publication($pid);
 		$root_object = $publication->get_learning_object();
 		
+		// Do tracking stuff
 		$this->trackers['lp_tracker'] = $this->retrieve_lp_tracker($root_object);	
+		$lpi_attempt_data = $this->retrieve_tracker_items($this->trackers['lp_tracker']);
 		
+		// Retrieve tree menu
 		if(Request :: get('lp_action') == 'view_progress')
 		{
 			$step = null;
@@ -45,15 +53,20 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 			$step = $_GET[LearningPathTool :: PARAM_LP_STEP]?$_GET[LearningPathTool :: PARAM_LP_STEP]:1;
 		}
 		
-		$menu = $this->get_menu($root_object->get_id(), $step, $pid, $this->trackers['lp_tracker']);
+		$menu = $this->get_menu($root_object->get_id(), $step, $pid, $lpi_attempt_data);
 		$object = $menu->get_current_object();
 		$cloi = $menu->get_current_cloi();
 		
+		// Update main tracker
+		$this->trackers['lp_tracker']->set_progress($menu->get_progress());
+		$this->trackers['lp_tracker']->update();
+		
+		// Retrieve correct display and show it on screen
 		if(Request :: get('lp_action') == 'view_progress')
 		{
 			require_once(Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_progress_reporting_template.class.php');
 			$template = new LearningPathProgressReportingTemplate();
-			$template->set_reporting_blocks_function_parameters(array('objects' => $menu->get_objects()));
+			$template->set_reporting_blocks_function_parameters(array('objects' => $menu->get_objects(), 'attempt_data' => $lpi_attempt_data));
 			$display = $template->to_html();
 		}
 		else
@@ -81,11 +94,15 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		$this->display_footer();
 	}
 	
-	function get_trackers()
-	{
-		return $this->trackers;
-	}
-	
+	/**
+	 * Creates the tree menu for the learning path
+	 *
+	 * @param int $root_object_id
+	 * @param int $selected_object_id
+	 * @param int $pid
+	 * @param LearningPathAttemptTracker $lp_tracker
+	 * @return HTML code of the menu
+	 */
 	private function get_menu($root_object_id, $selected_object_id, $pid, $lp_tracker)
 	{
 		$menu = new LearningPathTree($root_object_id, $selected_object_id, 
@@ -95,6 +112,27 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		return $menu;
 	}
 	
+	// Getters & Setters
+	
+	function get_publication_id()
+	{
+		return $this->pid;
+	}
+	
+	function get_trackers()
+	{
+		return $this->trackers;
+	}
+	
+	// Layout functionality
+	
+	/**
+	 * Retrieves the navigation menu for the learning path
+	 *
+	 * @param int $total_steps
+	 * @param int $current_step
+	 * @return HTML of the navigation menu
+	 */
 	private function get_navigation_menu($total_steps, $current_step)
 	{
 		if(!$current_step)
@@ -150,11 +188,12 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		return DokeosUtilities :: build_toolbar($actions);
 	}
 	
-	function get_publication_id()
-	{
-		return $this->pid;
-	}
-	
+	/**
+	 * Retrieves the progress bar for the learning path
+	 *
+	 * @param int $progress - The current progress
+	 * @return HTML code of the progress bar
+	 */
 	private function get_progress_bar($progress)
 	{
 		$html[] = '<div style="text-align: center; border: 1px solid black; height: 14px; width:100px;">';
@@ -166,6 +205,13 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		return implode("\n", $html);
 	}
 	
+	// Tracker functionality
+	
+	/**
+	 * Retrieves the learning path tracker for the current user
+	 * @param LearningPath $lp
+	 * @return A LearningPathAttemptTracker
+	 */
 	private function retrieve_lp_tracker($lp)
 	{
 		$conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID, $this->get_course_id());
@@ -187,6 +233,53 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		return $lp_tracker;
 	}
 	
+	/**
+	 * Retrieve the tracker items for the current LearningPathAttemptTracker
+	 *
+	 * @param LearningPathAttemptTracker $lp_tracker
+	 * @return array of LearningPathItemAttemptTracker
+	 */
+	private function retrieve_tracker_items($lp_tracker)
+	{
+		$lpi_attempt_data = array();
+		
+		$condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID, $lp_tracker->get_id());
+		
+		$dummy = new WeblcmsLpiAttemptTracker();
+		$trackers = $dummy->retrieve_tracker_items($condition);
+		
+		foreach($trackers as $tracker)
+		{
+			$item_id = $tracker->get_lp_item_id();
+			if(!$lpi_attempt_data[$item_id])
+			{
+				$lpi_attempt_data[$item_id]['score'] = 0;
+				$lpi_attempt_data[$item_id]['time'] = 0;
+			}
+			
+			$lpi_attempt_data[$item_id]['trackers'][] = $tracker;
+			$lpi_attempt_data[$item_id]['size']++;
+			$lpi_attempt_data[$item_id]['score'] += $tracker->get_score();
+			if($tracker->get_end_time())
+				$lpi_attempt_data[$item_id]['time'] += $tracker->get_end_time() - $tracker->get_start_time();
+			
+			if($tracker->get_status() == 'completed')
+				$lpi_attempt_data[$item_id]['completed'] = 1;
+			else
+				$lpi_attempt_data[$item_id]['active_tracker'] = $tracker;
+		}
+		//dump($lpi_attempt_data);
+		return $lpi_attempt_data; 
+		
+	}
+	
+	/**
+	 * Creates a learning path item tracker
+	 *
+	 * @param LearningPathAttemptTracker $lp_tracker
+	 * @param ComplexLearningObjectItem $current_cloi
+	 * @return array LearningPathItemAttemptTracker
+	 */
 	private function create_lpi_tracker($lp_tracker, $current_cloi)
 	{
 		$return = Events :: trigger_event('attempt_learning_path_item', 'weblcms', array('lp_view_id' => $lp_tracker->get_id(), 'lp_item_id' => $current_cloi->get_id(), 'start_time' => time(), 'status' => 'incomplete'));

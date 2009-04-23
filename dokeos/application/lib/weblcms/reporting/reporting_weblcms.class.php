@@ -792,20 +792,20 @@ class ReportingWeblcms {
     	$data = array();
     	
     	$objects = $params['objects'];
+    	$attempt_data = $params['attempt_data'];
     	
-    	foreach($objects as $object)
+    	foreach($objects as $wrapper_id => $object)
     	{
-    		$obj = $object['object'];
-    		$tracker = $object['tracker'];
+    		$tracker_data = $attempt_data[$wrapper_id];
     		
-    		$data[''][] = $obj->get_icon();
-    		$data[Translation :: get('Title')][] = $obj->get_title();
+    		$data[''][] = $object->get_icon();
+    		$data[Translation :: get('Title')][] = $object->get_title();
     		
-    		if($tracker)
+    		if($tracker_data)
     		{
-    			$data[Translation :: get('Status')][] = $tracker->get_status();
-    			$data[Translation :: get('Score')][] = $tracker->get_score() . '%';
-    			$data[Translation :: get('Time')][] = DokeosUtilities :: format_seconds_to_hours($tracker->get_end_time() - $tracker->get_start_time());
+    			$data[Translation :: get('Status')][] = Translation :: get($tracker_data['completed']?'Completed':'Incomplete');
+    			$data[Translation :: get('Score')][] = $tracker_data['score'] / $tracker_data['size'] . '%';
+    			$data[Translation :: get('Time')][] = DokeosUtilities :: format_seconds_to_hours($tracker_data['time']);
     		}
     		else
     		{
