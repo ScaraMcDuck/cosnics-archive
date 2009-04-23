@@ -12,16 +12,17 @@ class FilledCubicPchartReportingChartFormatter extends PchartReportingChartForma
     protected function render_chart()
     {
         $all_data = $this->reporting_block->get_data();
-        $width = $this->reporting_block->get_width()-20;
-        $height = $this->reporting_block->get_height()-50;
 		$data = $all_data[0];
 		$datadescription = $all_data[1];
+        $width = $this->reporting_block->get_width()-20;
+        $height = $this->reporting_block->get_height()-50;
+        $legend = sizeof($datadescription["Values"])*30;
 
 		// Initialise the graph
-		$Test = new pChart($width, $height);
+		$Test = new pChart($width, $height+$legend);
 		$Test->setFontProperties($this->font, 8);
-		$Test->setGraphArea(40, 30, $width*0.8, $height*0.9);
-		$Test->drawFilledRoundedRectangle(7, 7, $width-7, $height-7, 5, 240, 240, 240);
+		$Test->setGraphArea(40, 30, $width*0.9, $height-$legend);
+		$Test->drawFilledRoundedRectangle(7, 7, $width-7, $height-7+$legend, 5, 240, 240, 240);
 		$Test->drawGraphArea(255, 255, 255, TRUE);
 		$Test->drawScale($data, $datadescription, SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2);
 		$Test->drawGrid(4, TRUE, 230, 230, 230, 50);
@@ -35,7 +36,7 @@ class FilledCubicPchartReportingChartFormatter extends PchartReportingChartForma
 
 		// Finish the graph
 		$Test->setFontProperties($this->font, 8);
-		$Test->drawLegend($width*0.83, 15, $datadescription, 255, 255, 255);
+		$Test->drawLegend(15, $height, $datadescription, 255, 255, 255);
 		$Test->setFontProperties($this->font, 10);
 		$Test->drawTitle(50, 22, $this->reporting_block->get_name(), 50, 50, 50, $width*0.6);
 
