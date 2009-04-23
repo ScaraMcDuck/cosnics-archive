@@ -20,14 +20,14 @@ class TestCallLocalWebservice
 	{	
 		//TEST 1 :  Get User
 
-        $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
+        /*$wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 		$functions = array();
 
 		$functions[] = array(
-				'name' => 'WebServicesUser.get_all_users',
-                'parameters' => array('hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'name' => 'WebServicesUser.get_user',
+                'parameters' => array('input' => array(User :: PROPERTY_USERNAME => 'SSoliber'),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
-		);
+		);*/
 
         //TEST 2 : Get User Courses
 
@@ -61,7 +61,7 @@ class TestCallLocalWebservice
 		{
 			$functions[] = array(
 				'name' => 'LoginWebservice.login',
-				'parameters' => array('input' => array('username'=>'admin','password'=>'c14d68b0ef49d97929c36f7725842b5adbf5f006'), 'hash' =>''), //password is actually hash 1
+				'parameters' => array('input' => array('username'=>'Soliber','password'=>'c14d68b0ef49d97929c36f7725842b5adbf5f006'), 'hash' =>''), //password is actually hash 1
 				'handler' => 'handle_webservice'
 			);
 		}*/
@@ -71,7 +71,7 @@ class TestCallLocalWebservice
           /*$user = array (
 		  'lastname' => 'Jos',
 		  'firstname' => 'Den Os',
-		  'username' => 'Jocham',
+		  'username' => 'Soliberr',
 		  'password' => '4a0091108fb271e05f34da7cf77c975f',
 		  'auth_source' => 'platform',
 		  'email' => 'admin@localhost.localdomain',
@@ -80,7 +80,7 @@ class TestCallLocalWebservice
 		  'phone' => NULL,
 		  'official_code' => 'ADMIN',
 		  'picture_uri' => NULL,
-		  'creator_id' => 'admin',
+		  'creator_id' => 'Soliber',
 		  'language' => 'english',
 		  'disk_quota' => '209715200',
 		  'database_quota' => '300',
@@ -89,15 +89,15 @@ class TestCallLocalWebservice
 		  'activation_date' => '0',
 		  'expiration_date' => '0',
 		  'registration_date' => '1234774883',
-		  'active' => '1',
+		  'active' => '1'
         );
 
         //$wsdl = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservices_user.class.php?wsdl';
         $wsdl = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
         $functions = array();
         $functions[] = array(
-            'name' => 'WebServicesUser.create_users',
-            'parameters' => array('input' => array($user),'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+            'name' => 'WebServicesUser.create_user',
+            'parameters' => array('input' => $user,'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
             'handler' => 'handle_webservice'
         );*/
 
@@ -106,7 +106,7 @@ class TestCallLocalWebservice
           /*$user = array (
           'lastname' => 'Oske',
 		  'firstname' => 'Jos',
-		  'username' => 'Joske',
+		  'username' => 'Zorro',
 		  'password' => 'b9921b6ebaac9174f01ea9e2fe3df9f95010410b',
 		  'auth_source' => 'platform',
 		  'email' => 'admin@localhost.localdomain',
@@ -131,18 +131,18 @@ class TestCallLocalWebservice
 		$functions = array();
 
 		$functions[] = array(
-				'name' => 'WebServicesUser.update_users',
-				'parameters' => array('input' => array($user),'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'name' => 'WebServicesUser.update_user',
+				'parameters' => array('input' => $user,'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 		);*/
 
 
         //TEST 7 : Delete User
 
-          /*$user = array (
+          $user = array (
 		  'lastname' => 'Jos',
 		  'firstname' => 'Den Os',
-		  'username' => 'Joske',
+		  'username' => 'Zorro',
 		  'password' => '4a0091108fb271e05f34da7cf77c975f',
 		  'auth_source' => 'platform',
 		  'email' => 'admin@localhost.localdomain',
@@ -170,7 +170,7 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesUser.delete_users',
 				'parameters' => array('input' => array($user), 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
-		);*/
+		);
 
         //TEST 8 : Create Course
 

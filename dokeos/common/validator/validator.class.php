@@ -14,6 +14,8 @@ require_once Path :: get_application_path() . 'lib/weblcms/validator/course_vali
  */
 abstract class Validator
 {
+    protected $errorMessage;
+    
     public static function get_validator($type)
     {
         switch($type)
@@ -27,7 +29,10 @@ abstract class Validator
         }
     }
 
-    //abstract function get_required_property_names();
+    function get_error_message()
+    {
+        return $this->errorMessage;
+    }
 
     abstract function validate_retrieve(&$object);
 
@@ -43,6 +48,7 @@ abstract class Validator
         {
             if($properties[$property] == null)
             {
+                $this->errorMessage = Translation :: get('Property').' '.$property.' '.Translation :: get('IsNotPresentButRequired');
                 return false;
             }
         }
@@ -55,6 +61,7 @@ abstract class Validator
         {
             if(!in_array($property,array_keys($defaultProperties)))
             {
+                $this->errorMessage = Translation :: get('Property').' '.$property.' '.Translation :: get('IsNotAValidPropertyName');
                 return false;
             }
         }

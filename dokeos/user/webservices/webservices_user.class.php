@@ -1,7 +1,6 @@
 <?php
-require_once(dirname(__FILE__) . '/../../common/global.inc.php');
+require_once dirname(__FILE__) . '/../../common/global.inc.php';
 require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php';
-require_once dirname(__FILE__) . '/provider/input_user.class.php';
 require_once dirname(__FILE__) . '/../lib/data_manager/database.class.php';
 require_once dirname(__FILE__) . '/../lib/user.class.php';
 require_once Path :: get_library_path() . 'validator/validator.class.php';
@@ -88,7 +87,7 @@ class WebServicesUser
                 }
                 else
                 {
-                    return $this->webservice->raise_error(Translation :: get('User').' '.$input_user[input][username].' '.Translation :: get('NotFound').'.');
+                    return $this->webservice->raise_error(Translation :: get('User').' '.$input_user[input][username].' '.Translation :: get('NotFound').'.', Translation :: get('Client'), Translation :: get('NotFound'), Translation :: get('UserDoesNotExistInTheDatabase'));
                 }
             }
             else
@@ -134,7 +133,7 @@ class WebServicesUser
             }
             else
             {
-                return $this->webservice->raise_error(Translation :: get('CouldNotDeleteUser').$input_user[input][username].'. '.Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                return $this->webservice->raise_error($this->validator->get_error_message());
             }
 
         }
@@ -145,7 +144,7 @@ class WebServicesUser
 	}
 	
 	function create_user(&$input_user)
-	{        
+	{    
         if($this->webservice->can_execute($input_user, 'create user'))
 		{            
             if($this->validator->validate_create($input_user[input]))
@@ -155,7 +154,7 @@ class WebServicesUser
             }
             else
             {
-                return $this->webservice->raise_error(Translation :: get('CouldNotCreateUser').$input_user[input][username].'. '.Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                return $this->webservice->raise_error($this->validator->get_error_message());
             }
         }
         else
@@ -175,7 +174,7 @@ class WebServicesUser
             }
             else
             {
-                return $this->webservice->raise_error(Translation :: get('CouldNotUpdateUser').$input_user[input][username].'. '.Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                return $this->webservice->raise_error($this->validator->get_error_message());
             }
         }
         else
@@ -197,7 +196,7 @@ class WebServicesUser
                }
                else
                {
-                   return $this->webservice->raise_error(Translation :: get('CouldNotCreateUser').$user[username].'. '.Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                   return $this->webservice->raise_error($this->validator->get_error_message());
                }
            }
            return $this->webservice->raise_message(Translation :: get('UsersCreated').'.');
@@ -221,7 +220,7 @@ class WebServicesUser
                 }
                 else
                 {
-                    return $this->webservice->raise_error(Translation :: get('CouldNotUpdateUser').$user[username].'. '.Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                    return $this->webservice->raise_error($this->validator->get_error_message());
                 }
            }
            return $this->webservice->raise_message(Translation :: get('UsersUpdated').'.');
@@ -245,7 +244,7 @@ class WebServicesUser
                 }
                 else
                 {
-                    return $this->webservice->raise_error(Translation :: get('CouldNotDeleteUser').$user[username].'. '.Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                    return $this->webservice->raise_error($this->validator->get_error_message());
                 }
            }
            return $this->webservice->raise_message(Translation :: get('UsersDeleted').'.');
