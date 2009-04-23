@@ -14,9 +14,9 @@ $lang['webservice']['Logout'] = 'Logout';
 $lang['webservice']['Administration'] = 'Administration';
 $lang['webservice']['Repository'] = 'Repository';
 $lang['webservice']['List'] = 'List';
-$lang['webservice']['ListDescription'] = ' ';
-$lang['webservice']['LockedFalse'] = ' ';
-$lang['webservice']['LocationNoInherit'] = ' ';
-$lang['webservice']['LocationInherit'] = ' ';
+$lang['webservice']['ListDescription'] = 'List description';
+$lang['webservice']['LockedFalse'] = 'Locked false';
+$lang['webservice']['LocationNoInherit'] = 'Location no inherit';
+$lang['webservice']['LocationInherit'] = 'Location inherit';
 $lang['webservice']['ManageWebservices'] = 'Manage webservices';
 ?>

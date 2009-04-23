@@ -44,5 +44,5 @@ $lang['menu']['Save'] = 'Save';
 $lang['menu']['Reset'] = 'Reset';
 $lang['menu']['Update'] = 'Update';
 $lang['menu']['Create'] = 'Create';
-$lang['menu']['ManageDescription'] = ' ';
+$lang['menu']['ManageDescription'] = 'Manage description';
 ?>

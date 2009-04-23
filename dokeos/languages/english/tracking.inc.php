@@ -44,6 +44,6 @@ $lang['tracking']['Visible'] = 'Visible';
 $lang['tracking']['ViewEvent'] = 'View event';
 $lang['tracking']['You_are_viewing_trackers_for_event'] = 'You are viewing trackers for event';
 $lang['tracking']['InvalidDataRetrievedFromDatabase'] = 'Invalid data retrieved from database';
-$lang['tracking']['ListDescription'] = ' ';
-$lang['tracking']['ArchiveDescription'] = ' ';
+$lang['tracking']['ListDescription'] = 'List description';
+$lang['tracking']['ArchiveDescription'] = 'Archive description';
 ?>

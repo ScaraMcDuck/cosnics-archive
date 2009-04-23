@@ -123,6 +123,6 @@ $lang['home']['YourTabIsBeingDeleted'] = 'Your tab is being deleted';
 $lang['home']['YourTabIsDeleted'] = 'Your tab is deleted';
 $lang['home']['YourColumnIsBeingAdded'] = 'Your column is being added';
 $lang['home']['Create'] = 'Create';
-$lang['home']['ManageDescription'] = ' ';
-$lang['home']['BuildDescription'] = ' ';
+$lang['home']['ManageDescription'] = 'Manage description';
+$lang['home']['BuildDescription'] = 'Build description';
 ?>
