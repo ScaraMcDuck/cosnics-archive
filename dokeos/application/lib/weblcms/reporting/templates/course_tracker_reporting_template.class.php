@@ -39,7 +39,7 @@ class CourseTrackerReportingTemplate extends ReportingTemplate
         //template menu
         //$html[] = $this->get_menu();
         $params = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
-        $html[] = '<div align="center">';
+        $html[] = '<div class="reporting_center">';
         $url = ReportingManager :: get_reporting_template_registration_url('CourseStudentTrackerReportingTemplate',$params);
         $html[] = '<a href="'.$url.'" />'.Translation :: get('CourseStudentTrackerReportingTemplateTitle').'</a> | ';
         $url = ReportingManager :: get_reporting_template_registration_url('CourseTrackerReportingTemplate',$params);
