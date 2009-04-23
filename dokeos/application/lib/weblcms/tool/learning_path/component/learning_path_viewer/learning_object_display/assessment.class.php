@@ -65,16 +65,32 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 		$trackers = $this->get_parent()->get_trackers();
 		$lpi_tracker = $trackers['lpi_tracker'];
 		
-		$args = array(
-			'assessment_id' => $lpi_tracker->get_id(), 
-			'user_id' => $this->get_parent()->get_user_id(), 
-			'learning_path_id' => $this->get_parent()->get_publication_id(),
-			'course_id' => $this->get_parent()->get_course_id(),
-			'total_score' => 0
-		);
+		$conditions[] = new EqualityCondition(WeblcmsLearningPathAssessmentAttemptsTracker :: PROPERTY_COURSE_ID, $this->get_parent()->get_course_id());
+		$conditions[] = new EqualityCondition(WeblcmsLearningPathAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $lpi_tracker->get_id());
+		$conditions[] = new EqualityCondition(WeblcmsLearningPathAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_parent()->get_user_id());
+		$conditions[] = new EqualityCondition(WeblcmsLearningPathAssessmentAttemptsTracker :: PROPERTY_LEARNING_PATH_ID, $this->get_parent()->get_publication_id());
+		$condition = new AndCondition($conditions);
+		
 		$tracker = new WeblcmsLearningPathAssessmentAttemptsTracker();
-		//dump($args);
-		$tracker_id = $tracker->track($args);
+		$trackers = $tracker->retrieve_tracker_items($condition);
+		$ass_tracker = $trackers[0];
+		
+		if(!$ass_tracker)
+		{
+			$args = array(
+				'assessment_id' => $lpi_tracker->get_id(), 
+				'user_id' => $this->get_parent()->get_user_id(), 
+				'learning_path_id' => $this->get_parent()->get_publication_id(),
+				'course_id' => $this->get_parent()->get_course_id(),
+				'total_score' => 0
+			);
+			//dump($args);
+			$tracker_id = $tracker->track($args);
+		}
+		else 
+		{
+			$tracker_id = $ass_tracker->get_id();
+		}
 		//dump($tracker_id);
 		$_SESSION['assessment_tracker'] = $tracker_id;
 	}
