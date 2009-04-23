@@ -93,7 +93,7 @@ abstract class GroupDataManager
 	
 	abstract function update_role_links($group, $roles);
 	
-	abstract function add_nested_values($group, $previous_visited, $number_of_elements = 1);
+	abstract function add_nested_values($previous_visited, $number_of_elements = 1);
 	
 	abstract function delete_nested_values($group);
 	
