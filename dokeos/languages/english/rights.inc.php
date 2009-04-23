@@ -52,6 +52,6 @@ $lang['rights']['RoleCreated'] = 'Role created';
 $lang['rights']['SelectedRolesDeleted'] = 'Selected roles deleted';
 $lang['rights']['ShowRightsLegend'] = 'Show rights legend';
 $lang['rights']['ViewRight'] = 'View';
-$lang['rights']['RolesDescription'] = ' ';
-$lang['rights']['RightsDescription'] = ' ';
+$lang['rights']['RolesDescription'] = 'Roles description';
+$lang['rights']['RightsDescription'] = 'Rights description';
 ?>
