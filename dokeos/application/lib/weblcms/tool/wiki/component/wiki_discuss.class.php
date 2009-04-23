@@ -44,7 +44,7 @@ class WikiToolDiscussComponent extends WikiToolComponent
         $this->action_bar = $this->get_toolbar();
         echo '<br />' . $this->action_bar->as_html();
         
-        echo '<h2>' .Translation :: get('DiscussThe') .$wiki_page->get_title().' ' . Translation :: get('Page') .'</h2>';
+        echo '<h2>' .Translation :: get('DiscussThe'). ' ' .$wiki_page->get_title().' ' . Translation :: get('Page') .'</h2>';
         $display = LearningObjectDisplay :: factory($wiki_page);
         $parser = new WikiToolParserComponent();
         $parser->set_pid(Request :: get('pid'));

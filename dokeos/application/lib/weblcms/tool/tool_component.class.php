@@ -221,6 +221,7 @@ abstract class ToolComponent
 	
 	function display_introduction_text($introduction_text)
 	{
+        $this->tool = new ToolComponent();
 		return $this->tool->display_introduction_text($introduction_text);
 	}
 	
