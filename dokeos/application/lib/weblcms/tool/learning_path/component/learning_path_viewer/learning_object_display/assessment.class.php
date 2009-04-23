@@ -39,8 +39,10 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 			$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = null;
 			$_SESSION['formvalues'] = null;
 			$_SESSION['started'] = true;
-			$this->create_tracker($assessment);
+			
 		}
+		
+		$this->create_tracker($assessment);
 		
 		if (isset($_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE]))
 			$page = $_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE];
@@ -102,7 +104,8 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 		else 
 		{
 			$tracker_id = $ass_tracker->get_id();
-			$ass_tracker->set_start_time(time());
+			$lpi_tracker->set_start_time(time());
+			$lpi_tracker->update();
 		}
 		//dump($tracker_id);
 		$_SESSION['assessment_tracker'] = $tracker_id;
@@ -147,7 +150,7 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 		$max_total_score = $this->assessment->get_maximum_score();
 		$pct_score = round(($score / $max_total_score) * 100, 2);
 		$lpi_tracker->set_score($pct_score);
-		$lpi_tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
+		$lpi_tracker->set_total_time($lpi_tracker->get_total_time() + (time() - $lpi_tracker->get_start_time()));
 		$lpi_tracker->update();
 		
 		//dump($uaid);

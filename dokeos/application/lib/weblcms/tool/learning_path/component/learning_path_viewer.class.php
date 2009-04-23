@@ -66,8 +66,10 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		{
 			$url = $this->get_url(array('tool_action' => 'view', 'pid' => $pid, 'lp_action' => 'view_progress'));
 			require_once(Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_progress_reporting_template.class.php');
-			$template = new LearningPathProgressReportingTemplate();
-			$template->set_reporting_blocks_function_parameters(array('objects' => $menu->get_objects(), 'attempt_data' => $lpi_attempt_data, 'cid' => Request :: get('cid'), 'url' => $url));
+			$objects = $menu->get_objects();
+			$cid = Request :: get('cid');
+			$template = new LearningPathProgressReportingTemplate($objects[$cid]);
+			$template->set_reporting_blocks_function_parameters(array('objects' => $objects, 'attempt_data' => $lpi_attempt_data, 'cid' => $cid, 'url' => $url));
 			$display = $template->to_html();
 		}
 		else
