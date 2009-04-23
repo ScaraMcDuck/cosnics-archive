@@ -28,7 +28,7 @@ class GroupValidator extends Validator
 
     private function get_required_group_property_names()
 	{
-		return array (Group :: PROPERTY_SORT, Group :: PROPERTY_PARENT);
+		return array (Group :: PROPERTY_NAME, Group :: PROPERTY_SORT, Group :: PROPERTY_PARENT, Group :: PROPERTY_LEFT_VALUE, Group :: PROPERTY_RIGHT_VALUE);
 	}
 
     private function get_required_group_rel_user_property_names()
@@ -39,7 +39,10 @@ class GroupValidator extends Validator
     function validate_retrieve(&$groupProperties)
     {
         if($groupProperties[name]==null)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('GroupnameIsRequired');
+            return false;
+        }
 
         return true;
     }
@@ -53,7 +56,10 @@ class GroupValidator extends Validator
         return false;
 
         if(!$this->gdm->is_groupname_available($groupProperties[Group :: PROPERTY_NAME]))
-        return false;
+        {
+            $this->errorMessage = Translation :: get('GroupnameIsAlreadyUsed');
+            return false;
+        }
 
         /*
          * If the ID of the parent is 0, it's a root group and thus has no parent.
@@ -63,7 +69,10 @@ class GroupValidator extends Validator
         {
             $var = $this->get_group_id($groupProperties[Group :: PROPERTY_PARENT]);
             if(!$var)
-            return false;
+            {
+                $this->errorMessage = Translation :: get('ParentGroupName').' '.$groupProperties[Group :: PROPERTY_PARENT].' '.Translation :: get('wasNotFoundInTheDatabase');
+                return false;
+            }
             else
             $groupProperties[Group :: PROPERTY_PARENT] = $var;
         }
@@ -81,7 +90,10 @@ class GroupValidator extends Validator
 
         $var = $this->get_group_id($groupProperties[Group :: PROPERTY_NAME]);
         if(!$var)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('Group').' '.$groupProperties[Group :: PROPERTY_NAME].' '.Translation :: get('wasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $groupProperties[Group :: PROPERTY_ID] = $var;
 
@@ -89,7 +101,10 @@ class GroupValidator extends Validator
         {
             $var = $this->get_group_id($groupProperties[Group :: PROPERTY_PARENT]);
             if(!$var)
-            return false;
+            {
+                $this->errorMessage = Translation :: get('ParentGroupName').' '.$groupProperties[Group :: PROPERTY_PARENT].' '.Translation :: get('wasNotFoundInTheDatabase');
+                return false;
+            }
             else
             $groupProperties[Group :: PROPERTY_PARENT] = $var;
         }
@@ -106,7 +121,10 @@ class GroupValidator extends Validator
         
         $var = $this->get_group_id($groupProperties[Group :: PROPERTY_NAME]);
         if(!$var)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('Group').' '.$groupProperties[Group :: PROPERTY_NAME].' '.Translation :: get('wasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $groupProperties[Group :: PROPERTY_ID] = $var;
         
@@ -123,13 +141,19 @@ class GroupValidator extends Validator
         
         $var = $this->get_person_id($input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID]);
         if(!$var)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('User').' '.$input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID].' '.Translation :: get('wasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID] = $var;
 
         $var = $this->get_group_id($input_group_rel_user[GroupRelUser :: PROPERTY_GROUP_ID]);
         if(!$var)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('Group').' '.$input_group_rel_user[GroupRelUser :: PROPERTY_GROUP_ID].' '.Translation :: get('wasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $input_group_rel_user[GroupRelUser :: PROPERTY_GROUP_ID] = $var;
 

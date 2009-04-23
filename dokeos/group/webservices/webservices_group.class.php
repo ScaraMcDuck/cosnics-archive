@@ -1,7 +1,6 @@
 <?php
 require_once(dirname(__FILE__) . '/../../common/global.inc.php');
 require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php';
-require_once dirname(__FILE__) . '/provider/input_group.class.php';
 require_once dirname(__FILE__) . '/../lib/group.class.php';
 require_once dirname(__FILE__) . '/../lib/data_manager/database.class.php';
 require_once Path :: get_library_path() . 'validator/validator.class.php';
@@ -103,12 +102,12 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error(Translation :: get('Group').' '.$input_group[input][name].Translation :: get('NotFound').'.');
+                    return $this->webservice->raise_error(Translation :: get('Group').' '.$input_group[input][name].' '.Translation :: get('wasNotFoundInTheDatabase').'.');
                 }
             }
             else
             {
-                return $this->webservice->raise_error(Translation :: get('CouldNotRetrieveGroup').' '.$input_group[input][Group :: PROPERTY_NAME].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                return $this->webservice->raise_error($this->validator->get_error_message());
             }
         }
         else
@@ -131,13 +130,13 @@ class WebServicesGroup
                         $groups[] = $g->get_default_properties();
                     else
                     {
-                        return $this->webservice->raise_error(Translation :: get('Group').' '.Translation :: get('NotFound').'.');
+                        return $this->webservice->raise_error(Translation :: get('Group').' '.$group[name].' '.Translation :: get('wasNotFoundInTheDatabase').'.');
                     }
 
                 }
                 else
                 {
-                    return $this->webservice->raise_error(Translation :: get('CouldNotRetrieveGroup').' '.$group[Group :: PROPERTY_NAME].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                    return $this->webservice->raise_error($this->validator->get_error_message());
                 }
             }
             return $groups;
@@ -154,12 +153,13 @@ class WebServicesGroup
 		{
             if($this->validator->validate_create($input_group[input]))
             {
-                $g = new Group(0,$input_group[input]);
+                $g = new Group();
+                $g->set_default_properties($input_group[input]);
                 return $this->webservice->raise_message($g->create());
             }
             else
             {
-                return $this->webservice->raise_error(Translation :: get('CouldNotCreateGroup').' '.$input_group[input][Group ::PROPERTY_NAME].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                return $this->webservice->raise_error($this->validator->get_error_message());
             }
         }
         else
@@ -176,12 +176,13 @@ class WebServicesGroup
             {
                 if($this->validator->validate_create($group))
                 {
-                    $g = new Group(0,$group);
+                    $g = new Group();
+                    $g->set_default_properties($input_group[input]);
                     $g->create();
                 }
                 else
                 {
-                    return $this->webservice->raise_error(Translation :: get('CouldNotCreateGroup').' '.$group[Group ::PROPERTY_NAME].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                    return $this->webservice->raise_error($this->validator->get_error_message());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('GroupsCreated'));
@@ -198,12 +199,13 @@ class WebServicesGroup
 		{
             if($this->validator->validate_update($input_group[input]))
             {
-                $g = new Group(0,$input_group[input]);
+                $g = new Group();
+                $g->set_default_properties($input_group[input]);
                 return $this->webservice->raise_message($g->update());
             }
             else
             {
-                return $this->webservice->raise_error(Translation :: get('CouldNotUpdateGroup').' '.$input_group[input][Group ::PROPERTY_NAME].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                return $this->webservice->raise_error($this->validator->get_error_message());
             }
         }
         else
@@ -220,12 +222,13 @@ class WebServicesGroup
             {
                 if($this->validator->validate_update($group))
                 {
-                    $g = new Group(0,$group);
+                    $g = new Group();
+                    $g->set_default_properties($input_group[input]);
                     $g->update();
                 }
                 else
                 {
-                    return $this->webservice->raise_error(Translation :: get('CouldNotUpdateGroup').' '.$group[Group ::PROPERTY_NAME].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                    return $this->webservice->raise_error($this->validator->get_error_message());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('GroupsUpdated'));
@@ -242,12 +245,13 @@ class WebServicesGroup
 		{
             if($this->validator->validate_delete($input_group[input]))
             {
-                $g = new Group(0,$input_group[input]);
+                $g = new Group();
+                $g->set_default_properties($input_group[input]);
                 return $this->webservice->raise_message($g->delete());
             }
             else
             {
-                return $this->webservice->raise_error(Translation :: get('CouldNotDeleteGroup').' '.$input_group[input][Group ::PROPERTY_NAME].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                return $this->webservice->raise_error($this->validator->get_error_message());
             }
         }
         else
@@ -264,12 +268,13 @@ class WebServicesGroup
             {
                 if($this->validator->validate_delete($group))
                 {
-                    $g = new Group(0,$group);
+                    $g = new Group();
+                    $g->set_default_properties($input_group[input]);
                     $g->delete();
                 }
                 else
                 {
-                return $this->webservice->raise_error(Translation :: get('CouldNotDeleteGroup').' '.$group[Group ::PROPERTY_NAME].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                    return $this->webservice->raise_error($this->validator->get_error_message());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('GroupsDeleted'));
@@ -291,7 +296,7 @@ class WebServicesGroup
             }
             else
             {
-                return $this->webservice->raise_error(Translation :: get('CouldNotSubscribeUser').' '.$input_group_rel_user[input][user_id].Translation :: get('ToGroup').' '.$input_group_rel_user[input][group_id].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                return $this->webservice->raise_error($this->validator->get_error_message());
             }
          }
         else
@@ -313,7 +318,7 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error(Translation :: get('CouldNotSubscribeUser').' '.$group_rel_user[user_id].Translation :: get('ToGroup').' '.$group_rel_user[group_id].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                    return $this->webservice->raise_error($this->validator->get_error_message());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('UsersSubscribed'));
@@ -335,7 +340,7 @@ class WebServicesGroup
             }
             else
             {
-                return $this->webservice->raise_error(Translation :: get('CouldNotUnsubscribeUser').' '.$input_group_rel_user[input][user_id].Translation :: get('FromGroup').' '.$input_group_rel_user[input][group_id].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                return $this->webservice->raise_error($this->validator->get_error_message());
             }
          }
         else
@@ -357,7 +362,7 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error(Translation :: get('CouldNotUnsubscribeUser').' '.$group_rel_user[user_id].Translation :: get('FromGroup').' '.$group_rel_user[group_id].'. '. Translation :: get('PleaseCheckTheDataYou\'veProvided').'.');
+                    return $this->webservice->raise_error($this->validator->get_error_message());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('UsersUnsubscribed'));

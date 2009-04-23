@@ -67,7 +67,7 @@ class UserValidator extends Validator
             $var = $this->get_person_id($userProperties[User :: PROPERTY_CREATOR_ID]);
             if(!$var)
             {
-                $this->errorMessage = Translation :: get('Creator').' '.$userProperties[User :: PROPERTY_CREATOR_ID].' '.Translation :: get('DoesNotExist');
+                $this->errorMessage = Translation :: get('Creator').' '.$userProperties[User :: PROPERTY_CREATOR_ID].' '.Translation :: get('doesNotExist');
                 return false;
             }
             else
@@ -76,7 +76,7 @@ class UserValidator extends Validator
 
         if($userProperties[User :: PROPERTY_ACTIVE] !=='0' && $userProperties[User :: PROPERTY_ACTIVE] !=='1' && $userProperties[User :: PROPERTY_ACTIVE] !== false && $userProperties[User :: PROPERTY_ACTIVE] !== true)
         {
-            $this->errorMessage = Translation :: get('Property').' '.User :: PROPERTY_ACTIVE.Translation :: get('HasWrongValue').': '.$userProperties[User :: PROPERTY_ACTIVE];
+            $this->errorMessage = Translation :: get('Property').' '.User :: PROPERTY_ACTIVE.Translation :: get('hasWrongValue').': '.$userProperties[User :: PROPERTY_ACTIVE];
             return false;
         }
 
@@ -97,7 +97,7 @@ class UserValidator extends Validator
         $var = $this->get_person_id($userProperties[User ::PROPERTY_USERNAME]);
         if(!$var)
         {
-            $this->errorMessage = Translation :: get('Username').' '.$userProperties[User ::PROPERTY_USERNAME].' '.Translation :: get('WasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('User').' '.$userProperties[User ::PROPERTY_USERNAME].' '.Translation :: get('wasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -112,7 +112,7 @@ class UserValidator extends Validator
             $var = $this->get_person_id($userProperties[User :: PROPERTY_CREATOR_ID]);
             if(!$var)
             {
-                $this->errorMessage = Translation :: get('Creator').' '.$userProperties[User :: PROPERTY_CREATOR_ID].' '.Translation :: get('DoesNotExist');
+                $this->errorMessage = Translation :: get('Creator').' '.$userProperties[User :: PROPERTY_CREATOR_ID].' '.Translation :: get('doesNotExist');
                 return false;
             }
             else
@@ -127,7 +127,7 @@ class UserValidator extends Validator
 
         if($userProperties[User :: PROPERTY_ACTIVE] !=='0' && $userProperties[User :: PROPERTY_ACTIVE] !=='1' && $userProperties[User :: PROPERTY_ACTIVE] !== false && $userProperties[User :: PROPERTY_ACTIVE] !== true)
         {
-            $this->errorMessage = Translation :: get('Property').' '.User :: PROPERTY_ACTIVE.Translation :: get('HasWrongValue').': '.$userProperties[User :: PROPERTY_ACTIVE];
+            $this->errorMessage = Translation :: get('Property').' '.User :: PROPERTY_ACTIVE.Translation :: get('hasWrongValue').': '.$userProperties[User :: PROPERTY_ACTIVE];
             return false;
         }
 
@@ -151,7 +151,7 @@ class UserValidator extends Validator
         $var = $this->get_person_id($userProperties[User ::PROPERTY_USERNAME]);
         if(!$var)
         {
-            $this->errorMessage = Translation :: get('Username').' '.$userProperties[User ::PROPERTY_USERNAME].' '.Translation :: get('WasNotFoundInTheDatabase');
+            $this->errorMessage = Translation :: get('User').' '.$userProperties[User ::PROPERTY_USERNAME].' '.Translation :: get('wasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -182,19 +182,19 @@ class UserValidator extends Validator
     {
         if($userProperties[User :: PROPERTY_DATABASE_QUOTA]<0)
         {
-            $this->errorMessage = User :: PROPERTY_DATABASE_QUOTA.' '.Translation :: get('MayNotBeNegative');
+            $this->errorMessage = User :: PROPERTY_DATABASE_QUOTA.' '.Translation :: get('mayNotBeNegative');
             return false;
         }
 
         if($userProperties[User :: PROPERTY_DISK_QUOTA]<0)
         {
-            $this->errorMessage = User :: PROPERTY_DISK_QUOTA.' '.Translation :: get('MayNotBeNegative');
+            $this->errorMessage = User :: PROPERTY_DISK_QUOTA.' '.Translation :: get('mayNotBeNegative');
             return false;
         }
 
         if($userProperties[User :: PROPERTY_VERSION_QUOTA]<0)
         {
-            $this->errorMessage = User :: PROPERTY_VERSION_QUOTA.' '.Translation :: get('MayNotBeNegative');
+            $this->errorMessage = User :: PROPERTY_VERSION_QUOTA.' '.Translation :: get('mayNotBeNegative');
             return false;
         }
         
