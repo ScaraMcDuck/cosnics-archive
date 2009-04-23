@@ -7,10 +7,7 @@ require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.
 
 class WikiToolStatisticsViewerComponent extends WikiToolComponent
 {
-    private $cid;
-
-
-	function run()
+    function run()
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{

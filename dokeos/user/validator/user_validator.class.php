@@ -18,6 +18,7 @@ class UserValidator extends Validator
 {
     private $udm;
 
+
     function UserValidator()
     {
         $this->udm = DatabaseUserDataManager ::get_instance();
@@ -36,38 +37,48 @@ class UserValidator extends Validator
     function validate_retrieve(&$userProperties)
     {
         if($userProperties[username]==null)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('UsernameIsRequired');
+            return false;
+        }
 
         return true;
     }
 
     function validate_create(&$userProperties) 
-    {        
+    {   
         if(!$this->validate_properties($userProperties,$this->get_required_property_names()))
         return false;
         
-        if(!$this->validate_property_names($groupProperties, User :: get_default_property_names()))
+        if(!$this->validate_property_names($userProperties, User :: get_default_property_names()))
         return false;
+        
         if(!$this->udm->is_username_available($userProperties[User :: PROPERTY_USERNAME]))
-        return false;
+        {
+            $this->errorMessage = Translation :: get('UsernameIsAlreadyUsed');
+            return false;
+        }
 
         if(!$this->check_quota($userProperties))
         return false;
 
-        /*if(!$this->check_dates($userProperties))
-        return false;*/
-        
         if(!empty($userProperties[User :: PROPERTY_CREATOR_ID]))
         {
             $var = $this->get_person_id($userProperties[User :: PROPERTY_CREATOR_ID]);
             if(!$var)
-            return false;
+            {
+                $this->errorMessage = Translation :: get('Creator').' '.$userProperties[User :: PROPERTY_CREATOR_ID].' '.Translation :: get('DoesNotExist');
+                return false;
+            }
             else
             $userProperties[User :: PROPERTY_CREATOR_ID] = $var;
         }
 
         if($userProperties[User :: PROPERTY_ACTIVE] !=='0' && $userProperties[User :: PROPERTY_ACTIVE] !=='1' && $userProperties[User :: PROPERTY_ACTIVE] !== false && $userProperties[User :: PROPERTY_ACTIVE] !== true)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('Property').' '.User :: PROPERTY_ACTIVE.Translation :: get('HasWrongValue').': '.$userProperties[User :: PROPERTY_ACTIVE];
+            return false;
+        }
 
         return true;
     }
@@ -85,7 +96,10 @@ class UserValidator extends Validator
          */
         $var = $this->get_person_id($userProperties[User ::PROPERTY_USERNAME]);
         if(!$var)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('Username').' '.$userProperties[User ::PROPERTY_USERNAME].' '.Translation :: get('WasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $userProperties[User :: PROPERTY_USER_ID] = $var;
 
@@ -97,7 +111,10 @@ class UserValidator extends Validator
         {
             $var = $this->get_person_id($userProperties[User :: PROPERTY_CREATOR_ID]);
             if(!$var)
-            return false;
+            {
+                $this->errorMessage = Translation :: get('Creator').' '.$userProperties[User :: PROPERTY_CREATOR_ID].' '.Translation :: get('DoesNotExist');
+                return false;
+            }
             else
             $userProperties[User :: PROPERTY_CREATOR_ID] = $var;
         }
@@ -109,7 +126,10 @@ class UserValidator extends Validator
         return false;
 
         if($userProperties[User :: PROPERTY_ACTIVE] !=='0' && $userProperties[User :: PROPERTY_ACTIVE] !=='1' && $userProperties[User :: PROPERTY_ACTIVE] !== false && $userProperties[User :: PROPERTY_ACTIVE] !== true)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('Property').' '.User :: PROPERTY_ACTIVE.Translation :: get('HasWrongValue').': '.$userProperties[User :: PROPERTY_ACTIVE];
+            return false;
+        }
 
         return true;
     }
@@ -120,14 +140,20 @@ class UserValidator extends Validator
         return false;
 
         if($userProperties[username]==null)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('UsernameIsRequired');
+            return false;
+        }
         
         /*
          * To look up the username and retrieve the corresponding id
          */
         $var = $this->get_person_id($userProperties[User ::PROPERTY_USERNAME]);
         if(!$var)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('Username').' '.$userProperties[User ::PROPERTY_USERNAME].' '.Translation :: get('WasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $userProperties[User :: PROPERTY_USER_ID] = $var;
         
@@ -155,13 +181,22 @@ class UserValidator extends Validator
     private function check_quota($userProperties)
     {
         if($userProperties[User :: PROPERTY_DATABASE_QUOTA]<0)
-        return false;
+        {
+            $this->errorMessage = User :: PROPERTY_DATABASE_QUOTA.' '.Translation :: get('MayNotBeNegative');
+            return false;
+        }
 
         if($userProperties[User :: PROPERTY_DISK_QUOTA]<0)
-        return false;
+        {
+            $this->errorMessage = User :: PROPERTY_DISK_QUOTA.' '.Translation :: get('MayNotBeNegative');
+            return false;
+        }
 
         if($userProperties[User :: PROPERTY_VERSION_QUOTA]<0)
-        return false;
+        {
+            $this->errorMessage = User :: PROPERTY_VERSION_QUOTA.' '.Translation :: get('MayNotBeNegative');
+            return false;
+        }
         
         return true;
     }

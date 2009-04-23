@@ -39,7 +39,9 @@ abstract class Webservice
 	
 	abstract function call_webservice($wsdl, $functions);	
 	
-	abstract function raise_message($message);    
+	abstract function raise_message($message);
+
+    //abstract function raise_error($faultstring = 'unknown error', $faultcode = 'Client', $faultactor = NULL, $detail = NULL, $mode = null, $options = null);
 
     function validate_function($hash3) //hash 3
 	{
@@ -62,7 +64,7 @@ abstract class Webservice
 		}
 		else
 		{
-			$this->message = 'Incorrect IP address.';
+			$this->message = Translation :: get('IncorrectIPAddress').': '.$_SERVER['REMOTE_ADDR'].'.';
 		}
 	}
 
@@ -81,13 +83,13 @@ abstract class Webservice
 	{
 		if(time() > $endtime)
 		{
-            $this->message = 'Your available time has been used up.';
+            $this->message = Translation :: get('YourAvailableTimeHasBeenUsedUp').'.';
             $this->raise_message($this->message);
             return true;
 		}
 		else
 		{
-			$this->message = 'You have ' . ($endTime - time()) . ' time left.';
+			$this->message = Translation :: get('YouHave').' ' . ($endTime - time()). ' ' . Translation :: get('TimeLeft').'.';
             $this->raise_message($this->message);
             return false;
 		}
@@ -110,15 +112,13 @@ abstract class Webservice
 			}
 			else
 			{
-                $this->message = 'Wrong hash value submitted.';
-                $this->raise_message($this->message);
+                $this->message = Translation :: get('WrongHashValueSubmitted').'.';
                 return false;
 			}
 		}
 		else
 		{
-			$this->message = "User $username does not exist.";            
-            $this->raise_message($this->message);
+			$this->message = Translation :: get('User') . $username . Translation :: get('DoesNotExist').'.';
             return false;
 		}
 	}
@@ -135,18 +135,14 @@ abstract class Webservice
             }
             else
             {
-                $this->message = 'You are not allowed to use this webservice';
-                $this->raise_message($this->message);
-                return false; 
-                
+                $this->message = Translation :: get('YouAreNotAllowedToUseThisWebservice');
+                return false;                 
             }
         }
         else
         {
-            $this->message = 'No webservice by that name';
-            $this->raise_message($this->message);
+            $this->message = Translation :: get('NoWebserviceByThatName');
             return false; 
-
         }
         
     }
@@ -154,7 +150,7 @@ abstract class Webservice
     public function can_execute($input_user, $webservicename)
     {   
         $userid = $this->validate_function($input_user[hash]);
-        if(isset($userid) && $this->check_rights($webservicename,$userid))
+        if(!empty($userid) && $this->check_rights($webservicename,$userid))
         return true;
         else
         return false;        
