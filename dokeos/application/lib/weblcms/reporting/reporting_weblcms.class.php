@@ -790,29 +790,45 @@ class ReportingWeblcms {
     public static function getLearningPathProgress($params)
     {
     	$data = array();
-    	
     	$objects = $params['objects'];
-    	$attempt_data = $params['attempt_data'];
-    	
-    	foreach($objects as $wrapper_id => $object)
+	    $attempt_data = $params['attempt_data'];
+	    $cid = $params['cid'];
+	    $url = $params['url'];
+	    
+    	if($cid)
     	{
-    		$tracker_data = $attempt_data[$wrapper_id];
+    		$object = $objects[$cid];
+    		$tracker_datas = $attempt_data[$cid];
     		
-    		$data[''][] = $object->get_icon();
-    		$data[Translation :: get('Title')][] = $object->get_title();
-    		
-    		if($tracker_data)
+    		foreach($tracker_datas['trackers'] as $tracker)
     		{
-    			$data[Translation :: get('Status')][] = Translation :: get($tracker_data['completed']?'Completed':'Incomplete');
-    			$data[Translation :: get('Score')][] = $tracker_data['score'] / $tracker_data['size'] . '%';
-    			$data[Translation :: get('Time')][] = DokeosUtilities :: format_seconds_to_hours($tracker_data['time']);
+    			$data[Translation :: get('Status')][] = Translation :: get($tracker->get_status() == 'completed'?'Completed':'Incomplete');
+	    		$data[Translation :: get('Score')][] = $tracker->get_score() . '%';
+	    		$data[Translation :: get('Time')][] = DokeosUtilities :: format_seconds_to_hours($tracker->get_total_time());
     		}
-    		else
-    		{
-    			$data[Translation :: get('Status')][] = 'incomplete';
-    			$data[Translation :: get('Score')][] = '0%';
-    			$data[Translation :: get('Time')][] = '0:00:00';
-    		}
+    	}
+    	else 
+    	{
+	    	foreach($objects as $wrapper_id => $object)
+	    	{
+	    		$tracker_data = $attempt_data[$wrapper_id];
+	    		
+	    		$data[''][] = $object->get_icon();
+	    		$data[Translation :: get('Title')][] = '<a href="' . $url . '&cid=' . $wrapper_id . '">' . $object->get_title() . '</a>';
+	    		
+	    		if($tracker_data)
+	    		{
+	    			$data[Translation :: get('Status')][] = Translation :: get($tracker_data['completed']?'Completed':'Incomplete');
+	    			$data[Translation :: get('Score')][] = $tracker_data['score'] / $tracker_data['size'] . '%';
+	    			$data[Translation :: get('Time')][] = DokeosUtilities :: format_seconds_to_hours($tracker_data['time']);
+	    		}
+	    		else
+	    		{
+	    			$data[Translation :: get('Status')][] = 'incomplete';
+	    			$data[Translation :: get('Score')][] = '0%';
+	    			$data[Translation :: get('Time')][] = '0:00:00';
+	    		}
+	    	}
     	}
 
         $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
