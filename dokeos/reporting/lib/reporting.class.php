@@ -21,13 +21,15 @@ class Reporting{
 	public static function generate_block(&$reporting_block,$params){
         if($params[ReportingTemplate :: PARAM_DIMENSIONS] == ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS)
         {
-            $html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="max-height:'.$reporting_block->get_height().';">';
+            //$html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="max-height:'.$reporting_block->get_height().';">';
+            $html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block">';
             $width = "<script>document.write(screen.width);</script>";
             //$reporting_block->set_width($width.'px');
         }else
         {
-            $html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="max-height:'.$reporting_block->get_height().';'.
-            'width:'.$reporting_block->get_width().';">';
+            //$html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="max-height:'.$reporting_block->get_height().';'.
+            //'width:'.$reporting_block->get_width().';">';
+            $html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="width:'.$reporting_block->get_width().';">';
         }
  		$html[] = '<div class="reporting_header">';
         $html[] = '<div class="reporting_header_title">'.Translation :: get($reporting_block->get_name()).'</div>';
@@ -83,6 +85,7 @@ class Reporting{
 
     public static function getSerieArray($arr,$description=null)
     {
+        $len = 50;
         $array = array();
         $i = 0;
         if(!isset($arr))
@@ -93,7 +96,7 @@ class Reporting{
         foreach($arr as $key => $value)
         {
             $serie = 1;
-            $data[$i]["Name"] = $key;
+            $data[$i]["Name"] = DokeosUtilities::truncate_string($key,$len,false,'...');
             foreach($value as $key2 => $value2)
             {
                 $data[$i]["Serie".$serie] = $value2;
