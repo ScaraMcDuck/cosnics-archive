@@ -3,7 +3,7 @@
  */
 ( function($)
 {
-	$(window).unload( function()
+	$(window).bind("beforeunload", function(e)
 	{
         var response = $.ajax({
 			type: "POST",

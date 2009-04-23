@@ -49,15 +49,27 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 			
 		$form_display = new AssessmentTesterDisplay($this, $this->assessment);
 		
+		$html = array();
+		
 		$result = $form_display->build_form($url, $page);
 		if($result == 'form')
 		{
-			return $form_display->as_html();
+			$html[] = $form_display->as_html();
 		}
 		else
 		{
-			return $result;
+			$html[] = $result;
 		}
+		
+		$trackers = $this->get_parent()->get_trackers();
+		$lpi_tracker = $trackers['lpi_tracker'];
+		
+		$html[] = '<script languages="JavaScript">';
+		$html[] = '    var tracker_id = ' . $lpi_tracker->get_id() . ';';
+		$html[] = '</script>';
+		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/learning_path_item.js');
+		
+		return implode("\n", $html);
 	}
 	
 	function create_tracker($assessment)
@@ -90,6 +102,7 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 		else 
 		{
 			$tracker_id = $ass_tracker->get_id();
+			$ass_tracker->set_start_time(time());
 		}
 		//dump($tracker_id);
 		$_SESSION['assessment_tracker'] = $tracker_id;
@@ -134,7 +147,7 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 		$max_total_score = $this->assessment->get_maximum_score();
 		$pct_score = round(($score / $max_total_score) * 100, 2);
 		$lpi_tracker->set_score($pct_score);
-		$lpi_tracker->set_end_time(time());
+		$lpi_tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
 		$lpi_tracker->update();
 		
 		//dump($uaid);
