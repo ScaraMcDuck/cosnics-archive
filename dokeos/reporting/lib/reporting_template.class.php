@@ -20,6 +20,7 @@ abstract class ReportingTemplate {
     const REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS = 1;
     const REPORTING_BLOCK_USE_BLOCK_DIMENSIONS = 0;
     protected $parent;
+    protected $parameters;
     /*
      * array with all the reporting block and specific properties such as
      *  - visible
@@ -68,8 +69,8 @@ abstract class ReportingTemplate {
     function get_footer()
     {
         $parameters = array();
-            $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
-        $properties = $this->get_properties();
+        $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+        //$parameters = $this->parameters;
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' .'"></script>';
         $html[] = '<br /><br /><br />';
@@ -210,6 +211,7 @@ abstract class ReportingTemplate {
 
     function set_reporting_blocks_function_parameters($params)
     {
+        $this->parameters = $params;
         foreach($this->retrieve_reporting_blocks() as $key => $value)
         {
             foreach ($params as $key2 => $value2) {

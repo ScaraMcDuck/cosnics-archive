@@ -462,7 +462,7 @@ class ReportingUser {
             $arr[Translation :: get('ExcerciseProgress')][] = 0;
             $arr[Translation :: get('TotalPublications')][] = $rdm->count_learning_objects(null, new EqualityCondition(LearningObject::PROPERTY_OWNER_ID,$user_id));
             $url = ReportingManager :: get_reporting_template_registration_url('CourseStudentTrackerDetailReportingTemplate',$params);
-            $arr[Translation :: get('UserDetail')][] = '<a href="'.$url.'">'.Translation :: get('Detail').'</a>';;
+            $arr[Translation :: get('UserDetail')][] = '<a href="'.$url.'">'.Translation :: get('Detail').'</a>';
         }
 
         $description[Reporting :: PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
