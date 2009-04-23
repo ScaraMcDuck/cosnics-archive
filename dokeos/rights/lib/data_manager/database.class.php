@@ -811,7 +811,7 @@ class DatabaseRightsDataManager extends RightsDataManager
             }
             // Move the location underneath one of it's children ?
             // I think not ... Return error
-            if ($location->is_child_of($new_parent_id))
+            if ($location->is_parent_of($new_parent_id))
             {
             	return false;
             }
@@ -838,6 +838,7 @@ class DatabaseRightsDataManager extends RightsDataManager
         
         // Now we can update the actual parent_id
         // Return false if this failed
+        $location = $this->retrieve_location($location->get_id());
         $location->set_parent($new_parent_id);
         if (!$location->update())
         {

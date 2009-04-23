@@ -223,7 +223,7 @@ class DatabaseGroupDataManager extends GroupDataManager
 		return !($this->database->count_objects(Group :: get_table_name(), $condition) == 1);
 	}
 	
-	function add_nested_values($group, $previous_visited, $number_of_elements = 1)
+	function add_nested_values($previous_visited, $number_of_elements = 1)
 	{
 		// Update all necessary left-values
 		$condition = new InequalityCondition(Group :: PROPERTY_LEFT_VALUE, InequalityCondition :: GREATER_THAN, $previous_visited);
@@ -348,7 +348,7 @@ class DatabaseGroupDataManager extends GroupDataManager
             }
             // Move the group underneath one of it's children ?
             // I think not ... Return error
-            if ($group->is_child_of($new_parent_id))
+            if ($group->is_parent_of($new_parent_id))
             {
             	return false;
             }
@@ -368,13 +368,14 @@ class DatabaseGroupDataManager extends GroupDataManager
         
         // Update the nested values so we can actually add the element
         // Return false if this failed
-        if (!$this->add_nested_values($group, $previous_visited, $number_of_elements))
+        if (!$this->add_nested_values($previous_visited, $number_of_elements))
         {
         	return false;
         }
         
         // Now we can update the actual parent_id
         // Return false if this failed
+        $group = $this->retrieve_group($group->get_id());
         $group->set_parent($new_parent_id);
         if (!$group->update())
         {

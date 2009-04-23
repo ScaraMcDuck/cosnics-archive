@@ -220,16 +220,25 @@ class Group
 		$gdm = GroupDataManager :: get_instance();
 		
 		$parent = $gdm->retrieve_group($parent_id);
+		
 		// TODO: What if $parent is invalid ? Return error
 
         // Check if the left and right value of the child are within the
         // left and right value of the parent, if so it is a child
-        if ($parent->get_left_value() < $this->get_left_value() && $parent->get_right_value() > $this->get_right_value())
+        if ($this->get_left_value() > $parent->get_left_value() && $parent->get_right_value() > $this->get_right_value())
         {
             return true;
         }
 
         return false;
+	}
+	
+	function is_parent_of($child_id)
+	{
+		$gdm = GroupDataManager :: get_instance();
+		
+		$child = $gdm->retrieve_group($child_id);
+		return $child->is_child_of($this->get_id());
 	}
 	
 	/**
@@ -366,7 +375,7 @@ class Group
             $previous_visited = $previous_id ? $node->get_right_value() : $node->get_left_value();
             
             // Correct the left and right values wherever necessary.
-            if (!$gdm->add_nested_values($this, $previous_visited, 1))
+            if (!$gdm->add_nested_values($previous_visited, 1))
             {
             	// TODO: Some kind of general error handling framework would be nice: PEAR-ERROR maybe ?
             	return false;

@@ -271,16 +271,25 @@ class Location
 		$rdm = RightsDataManager :: get_instance();
 		
 		$parent = $rdm->retrieve_location($parent_id);
+		
 		// TODO: What if $parent is invalid ? Return error
 
         // Check if the left and right value of the child are within the
         // left and right value of the parent, if so it is a child
-        if ($parent->get_left_value() < $this->get_left_value() && $parent->get_right_value() > $this->get_right_value())
+        if ($this->get_left_value() > $parent->get_left_value() && $parent->get_right_value() > $this->get_right_value())
         {
             return true;
         }
 
         return false;
+	}
+	
+	function is_parent_of($child_id)
+	{
+		$rdm = RightsDataManager :: get_instance();
+		
+		$child = $rdm->retrieve_location($child_id);
+		return $child->is_child_of($this->get_id());
 	}
 	
 	/**
