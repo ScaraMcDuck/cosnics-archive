@@ -52,13 +52,32 @@ abstract class ReportingTemplate {
      * Generates a menu from the reporting blocks within the reporting template
      * @return html representing the menu
      */
-    function get_menu()
+    function get_menu($orientation)
     {
-        foreach($this->retrieve_reporting_blocks() as $key => $value)
+        if(!isset($orientation)) $orientation = Reporting::ORIENTATION_VERTICAL;
+        $html[] = '<div class="reporting_template_menu">';
+        if($orientation == Reporting::ORIENTATION_VERTICAL)
         {
-            $html[] = '<a href="' . $this->parent->get_url(array('s' => $value[0]->get_name(),'template' => $this->get_registration_id())) . '">'.Translation :: get($value[0]->get_name()).'</a><br />';
+            $html[] = '<ul id="nav">';
+            $html[] = '<li><a href="#">'.Translation :: get('SelectReportingBlock').'</a>';
+            $html[] = '<ul>';
+            foreach($this->retrieve_reporting_blocks() as $key => $value)
+            {
+                $html[] = '<li>';
+                $html[] = '<a href="' . $this->parent->get_url(array('s' => $value[0]->get_name(),'template' => $this->get_registration_id())) . '">'.Translation :: get($value[0]->get_name()).'</a>';
+                $html[] = '</li>';
+            }
+            $html[] = '</ul></li>';
+            $html[] = '</ul>';
+        }else if($orientation == Reporting::ORIENTATION_HORIZONTAL)
+        {
+            foreach($this->retrieve_reporting_blocks() as $key => $value)
+            {
+                $html[] = '<a href="' . $this->parent->get_url(array('s' => $value[0]->get_name(),'template' => $this->get_registration_id())) . '">'.Translation :: get($value[0]->get_name()).'</a> | ';
+            }
         }
-        $html[] = '<br />';
+        $html[] = '</div>';
+        $html[] = '<br /><br />';
         return implode("\n", $html);
     }
 
@@ -75,12 +94,12 @@ abstract class ReportingTemplate {
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' .'"></script>';
         $html[] = '<br /><br /><br />';
         $html[] = Translation :: get('Export').': <a href="index_reporting.php?go=export&template='.$this->get_registration_id().'&export=pdf&'.http_build_query($parameters).'">pdf</a>';
-//        $html[] = '<div class="template-data">';
-//        $html[] = '<br /><br /><br />';
-//        $html[] = '<b><u>Template data</u></b><br />';
-//        $html[] = '<b>Template title: </b><i>'.Translation::get($properties[ReportingTemplateRegistration :: PROPERTY_TITLE]).'</i><br />';
-//        $html[] = '<b>Template description: </b><i>'.Translation :: get($properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION]).'</i>';
-//        $html[] = '</div>';
+        //        $html[] = '<div class="template-data">';
+        //        $html[] = '<br /><br /><br />';
+        //        $html[] = '<b><u>Template data</u></b><br />';
+        //        $html[] = '<b>Template title: </b><i>'.Translation::get($properties[ReportingTemplateRegistration :: PROPERTY_TITLE]).'</i><br />';
+        //        $html[] = '<b>Template description: </b><i>'.Translation :: get($properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION]).'</i>';
+        //        $html[] = '</div>';
         return implode("\n", $html);
     }//get_footer
 
