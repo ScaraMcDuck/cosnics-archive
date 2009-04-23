@@ -76,13 +76,13 @@ class WikiToolHistoryComponent extends WikiToolComponent
                 //$version_entry['viewing_link'] = $rm->get_learning_object_viewing_url($version);
                 $version_entry['viewing_link'] = "http://localhost/index_repository_manager.php?go=view&category={$version->get_parent_id()}&object=".$version->get_id();
                 //$delete_url = $rm->get_learning_object_deletion_url($version, 'version');
-                $delete_url = "http://localhost/index_repository_manager.php?go=delete&category={$version->get_parent_id()}&object={$version->get_id()}&delete_version=1";
+                //$delete_url = "http://localhost/index_repository_manager.php?go=delete&category={$version->get_parent_id()}&object={$version->get_id()}&delete_version=1";
                 if (isset($delete_url))
                 {
                     $version_entry['delete_link'] = $delete_url;
                 }
 
-                $revert_url = $rm->get_learning_object_revert_url($version, 'version');
+                //$revert_url = $rm->get_learning_object_revert_url($version, 'version');
                 if (isset($revert_url))
                 {
                     $version_entry['revert_link'] = $revert_url;
