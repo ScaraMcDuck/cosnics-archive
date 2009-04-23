@@ -2,8 +2,7 @@
 require_once(dirname(__FILE__) . '/../../common/global.inc.php');
 require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php';
 require_once dirname(__FILE__) . '/../lib/group.class.php';
-//require_once dirname(__FILE__) . '/../lib/group_rel_user.class.php';
-require_once dirname(__FILE__) . '/provider/input_group.class.php';
+
 /*// No PHP-memory limits
 ini_set("memory_limit", "3500M"	);
 // Two hours should be enough
@@ -36,16 +35,16 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		$wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
+		/*$wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
 		$functions = array();
 		
 		{
 			$functions[] = array(
-				'name' => 'WebServicesGroup.get_groups',
-				'parameters' => array('input' => array(array('name' => 'Shinsengumi'),array('name' => 'de coolste groep')),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'name' => 'WebServicesGroup.get_group',
+				'parameters' => array('input' => array('name' => 'Shinsengumi'),'hash'=>'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
 			);
-		}
+		}*/
 		
 		
 		/*A test to delete a group in the db
@@ -55,6 +54,8 @@ class TestCallLocalWebservice
 		  /*$group = array (
 			    'name' => 'de coolste groep',
 			    'description' => 'test',
+                'left_value' => 0,
+                'right_value' => 1,
 			    'sort' => '0',
 			    'parent' => '0'
             );
@@ -65,8 +66,8 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesGroup.delete_group',
 				'parameters' => array('input' => $group, 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
-			);
-		*/
+			);*/
+		
 		
 		
 		/*A test to create a group in the db
@@ -76,6 +77,8 @@ class TestCallLocalWebservice
 		 /*$group = array (
                 'name' => 'de coolste groep',
 			    'description' => 'test',
+                'left_value' => 0,
+                'right_value' => 1,
 			    'sort' => '0',
 			    'parent' => '0'
 			);
@@ -83,8 +86,8 @@ class TestCallLocalWebservice
 		  $wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
-				'name' => 'WebServicesGroup.create_groups',
-				'parameters' => array('input' => array($group), 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'name' => 'WebServicesGroup.create_group',
+				'parameters' => array('input' => $group, 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
 	
@@ -113,12 +116,12 @@ class TestCallLocalWebservice
 		 * 
 		 */
 		
-		  /*$group_rel_user = array('user_id' => 'Soliber', 'group_id' => 'Shinsengumi');
+		  /*$group_rel_user = array('user_id' => 'Soliber', 'group_id' => 'de coolste groep');
 		  $wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
 		  $functions = array();
 		  $functions[] = array(
-				'name' => 'WebServicesGroup.subscribe_users',
-				'parameters' => array('input' => array($group_rel_user), 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'name' => 'WebServicesGroup.subscribe_user',
+				'parameters' => array('input' => $group_rel_user, 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'			
 			);*/
 		
@@ -132,8 +135,8 @@ class TestCallLocalWebservice
 		  $wsdl = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
           $functions = array();
 		  $functions[] = array(
-				'name' => 'WebServicesGroup.unsubscribe_users',
-				'parameters' => array('input' => array($group_rel_user), 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'name' => 'WebServicesGroup.unsubscribe_user',
+				'parameters' => array('input' => $group_rel_user, 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 		  		'handler' => 'handle_webservice'
 			);*/
 			
