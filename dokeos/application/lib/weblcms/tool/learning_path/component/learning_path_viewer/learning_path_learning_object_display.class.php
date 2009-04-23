@@ -40,6 +40,8 @@ class LearningPathLearningObjectDisplay
 	{
 		$trackers = $this->get_parent()->get_trackers();
 		$tracker_id = $trackers['lpi_tracker']->get_id();
+		$trackers['lpi_tracker']->set_status('completed');
+		$trackers['lpi_tracker']->update();
 		
 		$html[] = '<script languages="JavaScript">';
 		$html[] = '    var tracker_id = ' . $tracker_id . ';';
