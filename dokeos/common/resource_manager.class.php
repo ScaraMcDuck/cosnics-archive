@@ -36,6 +36,7 @@ class ResourceManager
 	
 	private function _get_resource_html($path)
 	{
+		$matches = array();
 		preg_match('/[^.]*$/', $path, $matches);
 		$extension = $matches[0];
 		switch (strtolower($extension))

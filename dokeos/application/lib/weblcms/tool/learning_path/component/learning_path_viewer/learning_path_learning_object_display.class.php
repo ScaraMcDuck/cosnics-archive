@@ -32,21 +32,21 @@ class LearningPathLearningObjectDisplay
 	
 	function display_learning_object($object)
 	{
-		$this->update_trackers();
-		$display = LearningObjectDisplay :: factory($object);
+		$display = LearningObjectDisplay :: factory($object) . "\n" . $this->add_tracking_javascript();
 		return $display->get_full_html();
 	}
 	
-	function update_trackers()
+	function add_tracking_javascript()
 	{
 		$trackers = $this->get_parent()->get_trackers();
-		$lpi_tracker = $trackers['lpi_tracker'];
-		if($lpi_tracker->get_status() != 'completed')
-		{
-			$lpi_tracker->set_status('completed');
-			$lpi_tracker->set_end_time(time());
-			$lpi_tracker->update();
-		}
+		$tracker_id = $trackers['lpi_tracker']->get_id();
+		
+		$html[] = '<script languages="JavaScript">';
+		$html[] = '    var tracker_id = ' . $tracker_id . ';';
+		$html[] = '</script>';
+		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/learning_path_item.js');
+		
+		return implode("\n", $html);
 	}
 	
 	protected function display_link($link)

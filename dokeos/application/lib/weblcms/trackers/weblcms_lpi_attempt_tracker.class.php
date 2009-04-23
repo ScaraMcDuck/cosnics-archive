@@ -6,7 +6,7 @@ class WeblcmsLpiAttemptTracker extends MainTracker
 	const PROPERTY_LP_ITEM_ID = 'lp_item_id';
 	const PROPERTY_LP_VIEW_ID = 'lp_view_id';
 	const PROPERTY_START_TIME = 'start_time';
-	const PROPERTY_END_TIME = 'end_time';
+	const PROPERTY_TOTAL_TIME = 'total_time';
 	const PROPERTY_SCORE = 'score';
 	const PROPERTY_STATUS = 'status';
 	
@@ -50,7 +50,7 @@ class WeblcmsLpiAttemptTracker extends MainTracker
     function get_default_property_names()
     {
     	return array_merge(parent :: get_default_property_names(), array(self :: PROPERTY_LP_VIEW_ID, self :: PROPERTY_START_TIME,
-    		self :: PROPERTY_LP_ITEM_ID, self :: PROPERTY_END_TIME, self :: PROPERTY_SCORE, self :: PROPERTY_STATUS));
+    		self :: PROPERTY_LP_ITEM_ID, self :: PROPERTY_TOTAL_TIME, self :: PROPERTY_SCORE, self :: PROPERTY_STATUS));
     }
 
     function get_lp_view_id()
@@ -83,14 +83,14 @@ class WeblcmsLpiAttemptTracker extends MainTracker
     	$this->set_property(self :: PROPERTY_LP_ITEM_ID, $lp_item_id);
     }
     
-    function get_end_time()
+    function get_total_time()
     {
-    	return $this->get_property(self :: PROPERTY_END_TIME);
+    	return $this->get_property(self :: PROPERTY_TOTAL_TIME);
     }
  
-    function set_end_time($end_time)
+    function set_total_time($total_time)
     {
-    	$this->set_property(self :: PROPERTY_END_TIME, $end_time);
+    	$this->set_property(self :: PROPERTY_TOTAL_TIME, $total_time);
     }
     
  	function get_score()

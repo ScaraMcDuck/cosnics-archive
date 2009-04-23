@@ -6,7 +6,7 @@ class DocumentDisplay extends LearningPathLearningObjectDisplay
 {
 	function display_learning_object($document)
 	{
-		$this->update_trackers();
+		$html[] = $this->add_tracking_javascript();
 		
 		$name = $document->get_filename();
 		
