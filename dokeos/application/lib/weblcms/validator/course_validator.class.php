@@ -31,12 +31,12 @@ class CourseValidator extends Validator
 
     private function get_required_course_property_names()
 	{
-        return array(Course ::PROPERTY_CATEGORY, Course ::PROPERTY_SHOW_SCORE);
+        return array(Course :: PROPERTY_CATEGORY, Course :: PROPERTY_SHOW_SCORE, Course :: PROPERTY_VISUAL);
   	}
 
     private function get_required_course_rel_user_property_names()
 	{
-        return array(CourseUserRelation ::PROPERTY_COURSE, CourseUserRelation ::PROPERTY_USER, CourseUserRelation ::PROPERTY_STATUS, CourseUserRelation ::PROPERTY_COURSE_GROUP, CourseUserRelation ::PROPERTY_TUTOR);
+        return array(CourseUserRelation :: PROPERTY_COURSE, CourseUserRelation :: PROPERTY_USER, CourseUserRelation :: PROPERTY_STATUS, CourseUserRelation :: PROPERTY_COURSE_GROUP, CourseUserRelation :: PROPERTY_TUTOR);
   	}
 
     private function get_required_course_group_property_names()
@@ -47,7 +47,10 @@ class CourseValidator extends Validator
     function validate_retrieve(&$courseProperties)
     {
         if($courseProperties[visual_code]==null)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('CoursenameIsRequired');
+            return false;
+        }
 
         return true;
     }
@@ -61,11 +64,15 @@ class CourseValidator extends Validator
         return false;
         
         if(!$this->wdm->is_visual_code_available($courseProperties[Course :: PROPERTY_VISUAL]))
-        return false; //visual code is required and must be different from existing values
+        {
+            $this->errorMessage = Translation :: get('VisualCodeIsAlreadyUsed');
+            return false; //visual code is required and must be different from existing values
+        }
 
         $var = $this->get_category_id($courseProperties[Course :: PROPERTY_CATEGORY]);
         if($var === false) //checks type and contents
         {
+            $this->errorMessage = Translation :: get('CourseCategory').' '.$courseProperties[Course :: PROPERTY_CATEGORY].' '.Translation :: get('wasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -76,6 +83,7 @@ class CourseValidator extends Validator
         $var = $this->get_person_id($courseProperties[Course :: PROPERTY_TITULAR]);
         if($var === false)
         {
+            $this->errorMessage = Translation :: get('CourseTitular').' '.$courseProperties[Course :: PROPERTY_TITULAR].' '.Translation :: get('wasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -100,6 +108,7 @@ class CourseValidator extends Validator
         $var = $this->get_course_id($courseProperties[Course :: PROPERTY_VISUAL]);
         if($var === false)
         {
+            $this->errorMessage = Translation :: get('CourseVisualCode').' '.$courseProperties[Course :: PROPERTY_VISUAL].' '.Translation :: get('wasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -110,6 +119,7 @@ class CourseValidator extends Validator
         $var = $this->get_person_id($courseProperties[Course :: PROPERTY_TITULAR]);
         if($var === false)
         {
+            $this->errorMessage = Translation :: get('CourseTitular').' '.$courseProperties[Course :: PROPERTY_TITULAR].' '.Translation :: get('wasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -132,6 +142,7 @@ class CourseValidator extends Validator
         $var = $this->get_course_id($courseProperties[Course :: PROPERTY_VISUAL]);
         if($var === false)
         {
+            $this->errorMessage = Translation :: get('CourseVisualCode').' '.$courseProperties[Course :: PROPERTY_VISUAL].' '.Translation :: get('wasNotFoundInTheDatabase');
             return false;
         }
         else
@@ -152,25 +163,37 @@ class CourseValidator extends Validator
 
         $var = $this->get_person_id($input_course_rel_user[user_id]);
         if($var == false)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('CourseUser').' '.$input_course_rel_user[user_id].' '.Translation :: get('wasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $input_course_rel_user[user_id] = $var;
 
         $var = $this->get_person_id($input_course_rel_user[tutor_id]);
         if($var == false)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('CourseTitular').' '.$input_course_rel_user[tutor_id].' '.Translation :: get('wasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $input_course_rel_user[tutor_id] = $var;
 
         $var = $this->get_course_group_id($input_course_rel_user[CourseUserRelation ::PROPERTY_COURSE_GROUP]);
         if($var == false)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('CourseGroup').' '.$input_course_rel_user[CourseUserRelation ::PROPERTY_COURSE_GROUP].' '.Translation :: get('wasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $input_course_rel_user[CourseUserRelation ::PROPERTY_COURSE_GROUP] = $var;
 
         $var = $this->get_course_id($input_course_rel_user[course_code]);
         if($var == false)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('Course').' '.$input_course_rel_user[course_code].' '.Translation :: get('wasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $input_course_rel_user[course_code] = $var;
 
@@ -186,24 +209,30 @@ class CourseValidator extends Validator
         if(!$this->validate_property_names($input_course_rel_user, CourseUserRelation ::get_default_property_names()))
         return false;
 
-        if($this->wdm->count_courses(new EqualityCondition(Course ::PROPERTY_VISUAL, $input_course_rel_user[course_code]))==0)
-        return false;
-
         $var = $this->get_person_id($input_course_rel_user[user_id]);
         if($var == false)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('CourseUser').' '.$input_course_rel_user[user_id].' '.Translation :: get('wasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $input_course_rel_user[user_id] = $var;
 
         $var = $this->get_person_id($input_course_rel_user[tutor_id]);
         if($var == false)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('CourseTitular').' '.$input_course_rel_user[tutor_id].' '.Translation :: get('wasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $input_course_rel_user[tutor_id] = $var;
 
-        $var2 = $this->get_course_id($input_course_rel_user[course_code]);
-        if($var2 == false)
-        return false;
+        $var = $this->get_course_id($input_course_rel_user[course_code]);
+        if($var == false)
+        {
+            $this->errorMessage = Translation :: get('Course').' '.$input_course_rel_user[course_code].' '.Translation :: get('wasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $input_course_rel_user[course_code] = $var2;
         
@@ -221,7 +250,10 @@ class CourseValidator extends Validator
 
         $var = $this->get_course_id($input_course_group[course_code]);
         if($var == false)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('Course').' '.$input_course_group[course_code].' '.Translation :: get('wasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $input_course_group[course_code] = $var;
 
@@ -238,13 +270,19 @@ class CourseValidator extends Validator
 
         $var = $this->get_course_id($input_course_group[course_code]);
         if($var == false)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('Course').' '.$input_course_group[course_code].' '.Translation :: get('wasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $input_course_group[course_code] = $var;
         
         $var = $this->get_course_group_id($input_course_group[name]);
         if($var == false)
-        return false;
+        {
+            $this->errorMessage = Translation :: get('CourseGroup').' '.$input_course_rel_user[course_code].' '.Translation :: get('wasNotFoundInTheDatabase');
+            return false;
+        }
         else
         $input_course_group[id] = $var;
         
