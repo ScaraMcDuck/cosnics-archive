@@ -73,7 +73,14 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		{	
 			$lpi_tracker = $menu->get_current_tracker();
 			if(!$lpi_tracker)
+			{
 				$lpi_tracker = $this->create_lpi_tracker($this->trackers['lp_tracker'], $cloi);
+			}
+			else
+			{
+				$lpi_tracker->set_start_time(time());
+				$lpi_tracker->update();
+			}
 			
 			$this->trackers['lpi_tracker'] = $lpi_tracker;
 			
@@ -260,8 +267,8 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 			$lpi_attempt_data[$item_id]['trackers'][] = $tracker;
 			$lpi_attempt_data[$item_id]['size']++;
 			$lpi_attempt_data[$item_id]['score'] += $tracker->get_score();
-			if($tracker->get_end_time())
-				$lpi_attempt_data[$item_id]['time'] += $tracker->get_end_time() - $tracker->get_start_time();
+			if($tracker->get_total_time())
+				$lpi_attempt_data[$item_id]['time'] += $tracker->get_total_time();
 			
 			if($tracker->get_status() == 'completed')
 				$lpi_attempt_data[$item_id]['completed'] = 1;

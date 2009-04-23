@@ -51,17 +51,29 @@ define('SYS_USER_PATH', 'SYS_USER_PATH');
 
 class Path
 {
-    public static function get($path_type)
+	private static $web_path;
+	private static $sys_path;
+	private static $rel_path;
+	
+	public static function get($path_type)
     {
 		switch ($path_type)
 		{
 			case WEB_PATH :
-				return Configuration :: get_instance()->get_parameter('general', 'root_web');
+				if(!self :: $web_path)
+					self :: $web_path = Configuration :: get_instance()->get_parameter('general', 'root_web');
+				return self :: $web_path;
 			case SYS_PATH :
-				return realpath(dirname(__FILE__) . '/../../') . '/';
+				if(!self :: $sys_path)
+					self :: $sys_path = realpath(dirname(__FILE__) . '/../../') . '/';
+				return self :: $sys_path;
 			case REL_PATH :
-				$url_append = Configuration :: get_instance()->get_parameter('general', 'url_append');
-				return (substr($url_append, -1) === '/' ? $url_append : $url_append.'/');
+				if(!self :: $rel_path)
+				{
+					$url_append = Configuration :: get_instance()->get_parameter('general', 'url_append');
+					self :: $rel_path = (substr($url_append, -1) === '/' ? $url_append : $url_append.'/');
+				}
+				return self :: $rel_path;
 				
 			// Platform-level paths
 			case WEB_LIB_PATH :
