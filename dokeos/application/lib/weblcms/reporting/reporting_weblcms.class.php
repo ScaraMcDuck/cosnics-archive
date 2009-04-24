@@ -794,6 +794,7 @@ class ReportingWeblcms {
 	    $attempt_data = $params['attempt_data'];
 	    $cid = $params['cid'];
 	    $url = $params['url'];
+	    $total = 0;
 	    
     	if($cid)
     	{
@@ -802,9 +803,11 @@ class ReportingWeblcms {
     		
     		foreach($tracker_datas['trackers'] as $tracker)
     		{
+    			$data[Translation :: get('LastStartTime')][] = DokeosUtilities :: to_db_date($tracker->get_start_time());
     			$data[Translation :: get('Status')][] = Translation :: get($tracker->get_status() == 'completed'?'Completed':'Incomplete');
 	    		$data[Translation :: get('Score')][] = $tracker->get_score() . '%';
 	    		$data[Translation :: get('Time')][] = DokeosUtilities :: format_seconds_to_hours($tracker->get_total_time());
+	    		$total += $tracker->get_total_time();
     		}
     	}
     	else 
@@ -821,6 +824,7 @@ class ReportingWeblcms {
 	    			$data[Translation :: get('Status')][] = Translation :: get($tracker_data['completed']?'Completed':'Incomplete');
 	    			$data[Translation :: get('Score')][] = round($tracker_data['score'] / $tracker_data['size']) . '%';
 	    			$data[Translation :: get('Time')][] = DokeosUtilities :: format_seconds_to_hours($tracker_data['time']);
+	    			$total += $tracker_data['time'];
 	    		}
 	    		else
 	    		{
@@ -831,6 +835,9 @@ class ReportingWeblcms {
 	    	}
     	}
 
+    	$data[Translation :: get('Status')][] = '<span style="font-weight: bold;">' . Translation :: get('TotalTime') . '</span>';
+    	$data[Translation :: get('Time')][] = '<span style="font-weight: bold;">' . DokeosUtilities :: format_seconds_to_hours($total) . '</span>';
+    	
         $description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
 
         return Reporting :: getSerieArray($data, $description);
