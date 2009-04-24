@@ -46,8 +46,9 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 
 		$parser = new WikiToolParserComponent(Request :: get('pid'),$this->get_course_id());
 
-        echo '<h2>'.$this->wiki_page->get_title().'</h2>';
+        echo '<h2>'.$this->wiki_page->get_title().'</h2>';       
         echo $parser->handle_internal_links($this->wiki_page->get_description());
+       
         $this->display_footer();
 	}
 

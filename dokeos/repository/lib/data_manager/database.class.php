@@ -1387,7 +1387,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 
 		$orderBy[] = ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER;
-		$orderDir[] = SORT_ASC;
+		//$orderDir[] = SORT_ASC;
 		$order = array ();
 
 		for ($i = 0; $i < count($orderBy); $i ++)

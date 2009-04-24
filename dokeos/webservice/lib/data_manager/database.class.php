@@ -28,9 +28,7 @@ class DatabaseWebserviceDataManager extends WebserviceDataManager
 	{
 		$this->database = new Database(array('webservice_registration' => 'cw', 'webservice_category' => 'cwc', 'webservice_credential' => 'cwcr'));
 		$this->database->set_prefix('webservice_');
-	}
-	
-	
+	}	
 	
 	function get_next_webservice_id()
 	{

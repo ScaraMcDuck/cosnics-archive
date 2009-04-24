@@ -17,7 +17,8 @@ class WikiToolViewerComponent extends WikiToolComponent
 		{
 			Display :: not_allowed();
 			return;
-		}        
+		}
+        
         $this->display_header(new BreadcrumbTrail());
         $dm = RepositoryDataManager :: get_instance();
         $this->publication_id = Request :: get('pid');

@@ -56,6 +56,23 @@ class WikiToolParserComponent
             	$text = substr_replace($text, $this->get_wiki_page_url($title[0],$title[1]),$first,$last-$first+2);
             }
         }
+        
+        $c_linkCount = substr_count($text,'[=');
+        for($i=0;$i<$c_linkCount;$i++)
+        {
+            $c_first = stripos($text,'[=');
+            $c_last = stripos($text,'=]');
+            $c_title = substr($text,$c_first+2,$c_last-$c_first-2);
+            $pipe = strpos($title,'|');
+            if($pipe===false)
+            $text = fwrite($text, $this->create_wiki_contentstable($c_title),$c_first,$c_last-$c_first+2);
+            else
+            {
+            	$c_title = explode('|',$c_title);
+            	$text = fwrite($text, $this->create_wiki_contentstable($c_title[0],$c_title[1]),$c_first,$c_last-$c_first+2);
+            }
+        }
+
         return $text;
     }
 
@@ -78,6 +95,16 @@ class WikiToolParserComponent
             return '<a class="does_not_exist" href="'.'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?go=courseviewer&course={$this->course_id}&tool=wiki&application=weblcms&&tool_action=create_page&pid={$this->pid}" . '">' . htmlspecialchars($title) . '</a>';
         }
     }
+
+    private function create_wiki_contentstable(&$title, $viewTitle = null)
+    {
+
+       return '<div style="padding:5px;border-style:solid;border-width: 1px">'.$title.'</div>';
+
+
+    }
+
+   
 }
 
 ?>
