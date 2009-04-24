@@ -61,6 +61,8 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		$this->trackers['lp_tracker']->set_progress($menu->get_progress());
 		$this->trackers['lp_tracker']->update();
 		
+		$trail->merge($menu->get_breadcrumbs());
+		
 		// Retrieve correct display and show it on screen
 		if(Request :: get('lp_action') == 'view_progress')
 		{
@@ -68,6 +70,12 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 			require_once(Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_progress_reporting_template.class.php');
 			$objects = $menu->get_objects();
 			$cid = Request :: get('cid');
+			
+			if($cid)
+			{
+				$trail->add(new BreadCrumb($this->get_url(array('tool_action' => 'view', 'pid' => $pid, 'lp_action' => 'view_progress', 'cid' => $cid)), Translation :: get('ItemDetails')));
+			}
+			
 			$template = new LearningPathProgressReportingTemplate($objects[$cid]);
 			$template->set_reporting_blocks_function_parameters(array('objects' => $objects, 'attempt_data' => $lpi_attempt_data, 'cid' => $cid, 'url' => $url));
 			$display = $template->to_html();
@@ -89,8 +97,6 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 			
 			$display = LearningPathLearningObjectDisplay :: factory($this, $object->get_type())->display_learning_object($object);
 		}
-		
-		$trail->merge($menu->get_breadcrumbs());
 		
 		$this->display_header($trail);
 		echo '<br />';
