@@ -40,7 +40,7 @@ class ToolComplexEditComponent extends ToolComponent
                     }
                     if(Request :: get('cid')!=null)
                     {
-                        $params['pid'] = $cloi->get_parent();
+                        $params['pid'] = Request :: get('pid');
                         $params['cid'] = Request :: get('cid');
                         $params['tool_action'] = 'view_item';
                     }

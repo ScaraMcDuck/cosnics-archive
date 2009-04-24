@@ -89,7 +89,7 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 			);
 
 			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $publication->get_id())),
+			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $publication->get_id(), Tool :: PARAM_PUBLICATION_ID => $this->pid)),
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
