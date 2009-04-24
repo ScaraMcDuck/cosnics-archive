@@ -42,7 +42,12 @@ class LearningPathPublicationTableCellRenderer extends DefaultLearningObjectTabl
 			switch ($property)
 			{
 				case LearningObject :: PROPERTY_TITLE :
-					return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>';
+					$title = '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($learning_object->get_title()) . '</a>';
+					if($publication->is_hidden())
+					{
+						return '<span style="color: gray">'. $title .'</span>';
+					}
+					return $title;
 			}
 		}
 		
@@ -65,7 +70,13 @@ class LearningPathPublicationTableCellRenderer extends DefaultLearningObjectTabl
 			}
 		}
 		
-		return parent :: render_cell($column, $publication->get_learning_object());
+		$info = parent :: render_cell($column, $publication->get_learning_object());
+		if($publication->is_hidden())
+		{
+			return '<span style="color: gray">'. $info .'</span>';
+		}
+		
+		return $info;
 	}
 	
 	private function get_progress_bar($progress)
@@ -102,10 +113,15 @@ class LearningPathPublicationTableCellRenderer extends DefaultLearningObjectTabl
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
 			
+			if($publication->is_hidden())
+				$icon = 'action_invisible.png';
+			else
+				$icon = 'action_visible.png';
+			
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 			'label' => Translation :: get('Visible'), 
-			'img' => Theme :: get_common_image_path().'action_visible.png'
+			'img' => Theme :: get_common_image_path(). $icon
 			);
 			
 			$actions[] = array(
