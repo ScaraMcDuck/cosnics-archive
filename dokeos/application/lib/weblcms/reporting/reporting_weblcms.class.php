@@ -835,5 +835,30 @@ class ReportingWeblcms {
 
         return Reporting :: getSerieArray($data, $description);
     }
+    
+    public static function getLearningPathAttempts($params)
+    {
+    	$data = array();
+    	
+    	$conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID, $params['course']);
+    	$conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $params['publication']->get_id());
+		$condition = new AndCondition($conditions);
+		
+		$udm = UserDataManager :: get_instance();
+		
+		$dummy = new WeblcmsLpAttemptTracker();
+		$trackers = $dummy->retrieve_tracker_items($condition);
+		foreach($trackers as $tracker)
+		{
+			$url = $params['url'] . '&attempt_id=' . $tracker->get_id();
+			$user = $udm->retrieve_user($tracker->get_user_id());
+			$data[Translation :: get('User')][] = $user->get_fullname();
+			$data[Translation :: get('Progress')][] = $tracker->get_progress() . '%';
+			$data[Translation :: get('Details')][] = '<a href="' . $url . '">' . Theme :: get_common_image('action_reporting') . '</a>';
+		}
+		
+		$description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
+        return Reporting :: getSerieArray($data, $description);
+    }
 }
 ?>
