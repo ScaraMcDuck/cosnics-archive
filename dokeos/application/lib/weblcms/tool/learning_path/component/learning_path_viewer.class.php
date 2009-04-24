@@ -206,11 +206,10 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 	 */
 	private function get_progress_bar($progress)
 	{
-		$html[] = '<div style="text-align: center; border: 1px solid black; height: 14px; width:100px;">';
+		$html[] = '<div style="position: relative; text-align: center; border: 1px solid black; height: 14px; width:100px;">';
 		$html[] = '<div style="background-color: lightblue; height: 14px; width:' . $progress . 'px; text-align: center;">';
 		$html[] = '</div>';
-		$html[] = '<div>' . round($progress) . '%</div>';
-		$html[] = '</div><br />';
+		$html[] = '<div style="width: 100px; text-align: center; position: absolute; top: 0px;">' . round($progress) . '%</div></div>';
 		
 		return implode("\n", $html);
 	}
