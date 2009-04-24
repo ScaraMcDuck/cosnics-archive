@@ -808,6 +808,9 @@ class ReportingWeblcms {
 	    		$data[Translation :: get('Score')][] = $tracker->get_score() . '%';
 	    		$data[Translation :: get('Time')][] = DokeosUtilities :: format_seconds_to_hours($tracker->get_total_time());
 	    		$total += $tracker->get_total_time();
+	    		
+	    		if($params['delete'])
+	    			$data[''][] = Text :: create_link($params['url'] . '&stats_action=delete_lpi_attempt&attempt_id=' . $tracker->get_id(), Theme :: get_common_image('action_delete'));
     		}
     	}
     	else 
@@ -832,6 +835,9 @@ class ReportingWeblcms {
 	    			$data[Translation :: get('Score')][] = '0%';
 	    			$data[Translation :: get('Time')][] = '0:00:00';
 	    		}
+	    		
+	    		if($params['delete'])
+	    			$data[' '][] = Text :: create_link($params['url'] . '&stats_action=delete_lpi_attempts&item_id=' . $wrapper_id, Theme :: get_common_image('action_delete'));
 	    	}
     	}
 
@@ -858,11 +864,14 @@ class ReportingWeblcms {
 		foreach($trackers as $tracker)
 		{
 			$url = $params['url'] . '&attempt_id=' . $tracker->get_id();
+			$delete_url = $url . '&stats_action=delete_lp_attempt';
+			
 			$user = $udm->retrieve_user($tracker->get_user_id());
 			$data[Translation :: get('User')][] = $user->get_fullname();
 			$data[Translation :: get('Progress')][] = $tracker->get_progress() . '%';
 			//$data[Translation :: get('Details')][] = '<a href="' . $url . '">' . Theme :: get_common_image('action_reporting') . '</a>';
-			$data[Translation :: get('Details')][] = Text :: create_link($url, Theme :: get_common_image('action_reporting'));
+			$data[''][] = Text :: create_link($url, Theme :: get_common_image('action_reporting')) . ' ' . 
+						  Text :: create_link($delete_url, Theme :: get_common_image('action_delete'));
 		}
 		
 		$description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
