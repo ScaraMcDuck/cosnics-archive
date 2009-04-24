@@ -19,6 +19,20 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 			$this->display_footer();
 		}
 		
+		$stats_action = Request :: get('stats_action');
+		switch($stats_action)
+		{
+			case 'delete_lp_attempt':
+				$this->delete_lp_attempt(Request :: get('attempt_id'));
+				exit;
+			case 'delete_lpi_attempts':
+				$this->delete_lpi_attempts_from_item(Request :: get('item_id'));
+				exit;
+			case 'delete_lpi_attempt':
+				$this->delete_lpi_attempt(Request :: get('attempt_id'));
+				exit;
+		}
+		
 		$dm = WeblcmsDataManager :: get_instance();
 		$publication = $dm->retrieve_learning_object_publication($pid);
 		$root_object = $publication->get_learning_object();
@@ -53,7 +67,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 			require_once(Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_progress_reporting_template.class.php');
 			$objects = $menu->get_objects();
 			$template = new LearningPathProgressReportingTemplate($objects[$cid]);
-			$template->set_reporting_blocks_function_parameters(array('objects' => $menu->get_objects(), 'attempt_data' => $attempt_data, 'cid' => $cid, 'url' => $url));
+			$template->set_reporting_blocks_function_parameters(array('objects' => $menu->get_objects(), 'attempt_data' => $attempt_data, 'cid' => $cid, 'url' => $url, 'delete' => true));
 			$display = $template->to_html();
 		}
 		else 
@@ -78,6 +92,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 		return $menu;
 	}
 	
+	// Statistics
 	private function retrieve_tracker($attempt_id)
 	{
 		$condition = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_ID, $attempt_id);
@@ -118,6 +133,32 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 		//dump($lpi_attempt_data);
 		return $lpi_attempt_data; 
 		
+	}
+	
+	// Deleter functions
+	private function delete_lp_attempt($lp_attempt_id)
+	{
+		$condition = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_ID, $lp_attempt_id);	
+		$tracker = new WeblcmsLpAttemptTracker();
+		$tracker->remove($condition);
+		
+		$condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID, $lp_attempt_id);
+		$tracker = new WeblcmsLpiAttemptTracker();
+		$tracker->remove($condition);
+	}
+	
+	private function delete_lpi_attempt($lpi_attempt_id)
+	{
+		$condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_ID, $lpi_attempt_id);
+		$tracker = new WeblcmsLpiAttemptTracker();
+		$tracker->remove($condition);
+	}
+	
+	private function delete_lpi_attempts_from_item($item_id)
+	{
+		$condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_ITEM_ID, $item_id);
+		$tracker = new WeblcmsLpiAttemptTracker();
+		$tracker->remove($condition);
 	}
 }
 ?>
