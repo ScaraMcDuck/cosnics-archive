@@ -38,6 +38,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 		echo $this->action_bar->as_html();
 		echo '<br />' . $this->form->display() . '<br />';
 		echo $output;
+		echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
 		
 		$this->display_footer();
 	}

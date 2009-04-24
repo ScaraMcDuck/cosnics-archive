@@ -14,22 +14,24 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
 		$trail->merge($menu_trail);
 		
 		if($this->get_cloi())
+		{
 			$lo = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->get_cloi()->get_ref());
+		}
 		else
+		{
 			$lo = $this->get_root_lo();
+		}
 		
 		$this->display_header($trail);
 		$action_bar = $this->get_action_bar($lo);
 		
-		echo '<br />';
 		if($action_bar)
 		{
-			echo $action_bar->as_html();
 			echo '<br />';
+			echo $action_bar->as_html();
 		}
 		
-		$display = LearningObjectDisplay :: factory($this->get_root_lo());
-		echo $display->get_full_html();
+		//echo $this->get_object_info();
 		
 		echo '<br />';
 		$types = array('learning_path', 'announcement', 'assessment', 'blog_item', 'calendar_event', 'description', 'document', 'forum', 'glossary', 'link', 'note', 'wiki');
@@ -44,6 +46,26 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
 		echo '<div class="clear">&nbsp;</div>';
 		
 		$this->display_footer();
+	}
+	
+	function get_object_info()
+	{
+		$html = array();
+		
+		$learning_object = $this->get_root_lo();
+		$display = LearningObjectDisplay :: factory($learning_object);
+		$learning_object_display = $display->get_full_html();
+		$check_empty = trim(strip_tags($learning_object_display));
+		
+		if (!empty($check_empty) && $check_empty != $learning_object->get_title())
+		{
+			$html[] = '<div class="complex_browser_display">';
+			$html[] = $learning_object_display;
+			$html[] = '<div class="clear">&nbsp;</div>';
+			$html[] = '</div>';
+		}
+		
+		return implode("\n", $html);
 	}
 	
 	function get_action_bar()
@@ -72,7 +94,9 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
 	
 	function get_creation_links($lo, $types = array())
 	{
-		$html[] = '<div class="category_form"><div id="learning_object_selection">';
+		$html[] = '<div class="select_complex_element">';
+		$html[] = '<span class="title">' . Theme :: get_common_image('place_add') . Translation :: get('LearningPathAddLearningObject') . '</span>';
+		$html[] = '<div id="learning_object_selection">';
 		
 		if(count($types) == 0)
 			$types = $lo->get_allowed_types();
@@ -94,6 +118,7 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
 			$html[] = '</div></a>';
 		}
 		
+		$html[] = '<div class="clear">&nbsp;</div>';
 		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
 		$html[] = '</div>';
 		$html[] = '<div class="clear">&nbsp;</div>';

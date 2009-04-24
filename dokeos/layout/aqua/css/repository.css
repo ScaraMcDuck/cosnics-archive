@@ -1,5 +1,50 @@
 @CHARSET "ISO-8859-1";
 
+div.select_complex_element
+{
+	clear: both;
+	margin: 0px;
+	padding: 0px 0px 0px 10px;
+	border: 1px solid #ebebeb;
+	-moz-border-radius-topright: 10px;
+	-moz-border-radius-bottomleft: 10px;
+}
+
+div.select_complex_element span.title
+{
+	position: relative;
+	top: -11px;
+	background-color: #FFFFFF;
+	font-weight: bold;
+	color: #4271B5;
+	padding: 0px 5px 0px 5px;
+	height: 22px;
+	line-height: 22px;
+	overflow: hidden;
+	font-size: 120%;
+}
+
+div.select_complex_element span.title img
+{
+	vertical-align: middle;
+	margin-right: 5px;
+}
+
+div.select_complex_element div#learning_object_selection
+{
+	margin-top: 0px;
+}
+
+div.complex_browser_display
+{
+	margin-top: 10px;
+}
+
+div.complex_browser_display div.learning_object div.title
+{
+	color: #4271B5;
+}
+
 div.create_block, div.create_complex_block
 {
 	background-repeat: no-repeat;
