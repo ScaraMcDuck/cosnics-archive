@@ -32,8 +32,8 @@ class LearningPathLearningObjectDisplay
 	
 	function display_learning_object($object)
 	{
-		$display = LearningObjectDisplay :: factory($object) . "\n" . $this->add_tracking_javascript();
-		return $display->get_full_html();
+		$display = LearningObjectDisplay :: factory($object);
+		return $display->get_full_html() . "\n" . $this->add_tracking_javascript();
 	}
 	
 	function add_tracking_javascript()

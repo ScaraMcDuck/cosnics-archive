@@ -66,7 +66,12 @@ class LearningPathPublicationTableCellRenderer extends DefaultLearningObjectTabl
 					$trackers = $dummy->retrieve_tracker_items($condition);
 					$lp_tracker = $trackers[0];
 					
-					return $this->get_progress_bar($lp_tracker->get_progress());
+					if($lp_tracker)
+						$progress = $lp_tracker->get_progress();
+					else
+						$progress = 0;
+					
+					return $this->get_progress_bar($progress);
 			}
 		}
 		
