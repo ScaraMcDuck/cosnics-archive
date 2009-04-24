@@ -854,7 +854,8 @@ class ReportingWeblcms {
 			$user = $udm->retrieve_user($tracker->get_user_id());
 			$data[Translation :: get('User')][] = $user->get_fullname();
 			$data[Translation :: get('Progress')][] = $tracker->get_progress() . '%';
-			$data[Translation :: get('Details')][] = '<a href="' . $url . '">' . Theme :: get_common_image('action_reporting') . '</a>';
+			//$data[Translation :: get('Details')][] = '<a href="' . $url . '">' . Theme :: get_common_image('action_reporting') . '</a>';
+			$data[Translation :: get('Details')][] = Text :: create_link($url, Theme :: get_common_image('action_reporting'));
 		}
 		
 		$description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;

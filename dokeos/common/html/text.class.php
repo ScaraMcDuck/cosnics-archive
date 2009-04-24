@@ -249,5 +249,32 @@ class Text
 		
 		return $string;
 	}
+	
+	public function create_link($url, $text, $new_page = false, $class = null, $styles = array())
+	{
+		$link = '<a href="' . $url . '" ';
+		
+		if($new_page)
+			$link .= 'target="about:blank" ';
+		
+		if($class)
+			$link .= 'class="' . $class . '" ';
+		
+		if(count($styles) > 0)
+		{
+			$link .= 'style="';
+			
+			foreach($styles as $name => $value)
+			{
+				$link .= $name . ': ' . $value . ';';		
+			}
+			
+			$link .= '" ';
+		}
+		
+		$link .= '>' . $text . '</a>';
+
+		return $link;
+	}
 }
 ?>
