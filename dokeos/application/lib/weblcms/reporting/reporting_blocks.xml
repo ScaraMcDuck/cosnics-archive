@@ -170,4 +170,11 @@
            exclude_displaymodes="Charts,Text"
            width="500px"
            height="500px" />
+    <reporting_block name="WeblcmsLearningPathAttempts"
+           application="weblcms"
+           function="getLearningPathAttempts"
+           displaymode="Table"
+           exclude_displaymodes="Charts,Text"
+           width="500px"
+           height="500px" />
 </application>
