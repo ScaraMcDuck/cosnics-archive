@@ -88,7 +88,7 @@ class Reporting{
         $len = 50;
         $array = array();
         $i = 0;
-        if(!isset($arr))
+        if(!isset($arr) || count($arr) == 0)
         {
             $arr[''][] = Translation :: get('NotAvailable');
             unset($description);
