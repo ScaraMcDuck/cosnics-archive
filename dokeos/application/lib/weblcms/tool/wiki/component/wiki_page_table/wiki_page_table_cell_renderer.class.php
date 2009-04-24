@@ -84,7 +84,8 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE_CLOI, Tool :: PARAM_COMPLEX_ID => $publication->get_id(), Tool :: PARAM_PUBLICATION_ID => $publication->get_parent())),
 			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_image_path().'action_delete.png'
+			'img' => Theme :: get_common_image_path().'action_delete.png',
+            'confirm' => true
 			);
 
 			$actions[] = array(
