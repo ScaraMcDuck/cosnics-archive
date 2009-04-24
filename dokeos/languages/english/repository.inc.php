@@ -499,4 +499,5 @@ $lang['repository']['HomePage'] = 'Homepage';
 $lang['repository']['SelectAsHomepage'] = 'Select as Homepage';
 $lang['repository']['HomepageSelected'] = 'Homepage selected';
 $lang['repository']['Subitems'] = 'Subitems';
+$lang['repository']['LearningPathAddLearningObject'] = 'Add learning object';
 ?>
