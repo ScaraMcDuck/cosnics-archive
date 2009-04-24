@@ -71,7 +71,9 @@ class LearningPathPublicationTableCellRenderer extends DefaultLearningObjectTabl
 					else
 						$progress = 0;
 					
-					return $this->get_progress_bar($progress);
+					$bar = $this->get_progress_bar($progress);
+					$url = $this->browser->get_url(array('tool_action' => 'view', 'pid' => $publication->get_id(), 'lp_action' => 'view_progress'));
+					return Text :: create_link($url, $bar);
 			}
 		}
 		

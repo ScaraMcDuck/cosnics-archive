@@ -12,7 +12,7 @@ class DocumentDisplay extends LearningPathLearningObjectDisplay
 		
 		//$html[] = '<h3>' . $document->get_title() . '</h3>' . $document->get_description() . '<br />';
 		
-		if(substr($name, -5) == '.html' || substr($name, -3) == '.htm')
+		if($this->is_showable($name))
 		{
 			$html[] = $this->display_link($document->get_url());
 		}
@@ -25,6 +25,20 @@ class DocumentDisplay extends LearningPathLearningObjectDisplay
 		}
 			
 		return implode("\n", $html);
+	}
+	
+	function is_showable($file)
+	{
+		$extensions = array('.html', '.htm', '.txt', '.jpg', '.bmp', '.jpeg', '.png');
+		
+		foreach($extensions as $extension)
+		{
+			$len = strlen($extension) * -1;
+			if(substr(strtolower($file), $len) == $extension)
+				return true;
+		}
+		
+		return false;
 	}
 }
 
