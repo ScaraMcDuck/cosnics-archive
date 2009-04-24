@@ -45,16 +45,27 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
                
             }
             else
-            {                
-                $cloi = ComplexLearningObjectItem ::factory('wiki_page');
-                $cloi->set_ref($object);                
-                $cloi->set_parent($_SESSION['wiki_id']);
-                $cloi->set_user_id($this->pub->get_user_id());
-                $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($_SESSION['wiki_id']));
-                $cloi->set_additional_properties(array('is_homepage' => 0));
-                $cloi->create();
-                $this->redirect(null, $message, '', array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_COMPLEX_ID => $cloi->get_id(), 'pid' => $_SESSION['pid']));
-                session_stop();
+            {
+                $o = RepositoryDataManager :: get_instance()->retrieve_learning_object($object);
+                $count = RepositoryDataManager ::get_instance()->count_learning_objects('wiki_page', new EqualityCondition(LearningObject :: PROPERTY_TITLE,$o->get_title()));
+                if($count==1)
+                {
+                    $cloi = ComplexLearningObjectItem ::factory('wiki_page');
+                    $cloi->set_ref($object);
+                    $cloi->set_parent($_SESSION['wiki_id']);
+                    $cloi->set_user_id($this->pub->get_user_id());
+                    $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($_SESSION['wiki_id']));
+                    $cloi->set_additional_properties(array('is_homepage' => 0));
+                    $cloi->create();
+                    $this->redirect(null, $message, '', array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_COMPLEX_ID => $cloi->get_id(), 'pid' => $_SESSION['pid']));
+                    session_stop();
+                }
+                else
+                {
+                    $this->display_header($trail);
+                    $this->display_error_message(Translation :: get('WikiPageTitleError'));
+                    $this->display_footer();
+                }
             }
         /*}
         else
