@@ -43,12 +43,12 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
                 switch ($property)
                 {
                     //hier link maken naar externe pagina voor de wiki
-                    case LearningObject :: PROPERTY_TITLE :
-                        $homepage = WikiTool :: get_wiki_homepage($learning_object->get_object_number());
+                    case LearningObject :: PROPERTY_TITLE :                       
+                        $homepage = WikiTool :: get_wiki_homepage($learning_object->get_id());
                         if(empty($homepage))
-                        $url = $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() ));
+                            $url = $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() ));
                         else
-                        $url = $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, 'cid' => $homepage->get_id(), 'pid' => $publication->get_id()));
+                            $url = $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, 'cid' => $homepage->get_id(), 'pid' => $publication->get_id()));
                         if($publication->is_hidden())
                         return '<a class="invisible" href="'.$url.'">' . htmlspecialchars($learning_object->get_title()) . '</a>';
                         else
