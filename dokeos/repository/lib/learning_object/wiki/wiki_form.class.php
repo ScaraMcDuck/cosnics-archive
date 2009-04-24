@@ -43,7 +43,7 @@ class WikiForm extends LearningObjectForm
 	{
 		parent :: build_editing_form();
         $this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-		$this->addElement('checkbox','locked', Translation :: get('Locked'));
+		$this->addElement('checkbox','locked', Translation :: get('WikiLocked'));
         $this->addElement('category');
 	}
 
