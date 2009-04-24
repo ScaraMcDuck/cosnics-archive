@@ -90,8 +90,9 @@ class Reporting{
         $i = 0;
         if(!isset($arr) || count($arr) == 0)
         {
-            $arr[''][] = Translation :: get('NotAvailable');
+            $arr[''][] = '<div style="text-align: center;">' . Translation :: get('NoSearchResults') . '</div>';
             unset($description);
+            $description[self::PARAM_ORIENTATION] = self :: ORIENTATION_HORIZONTAL;
         }
         foreach($arr as $key => $value)
         {
