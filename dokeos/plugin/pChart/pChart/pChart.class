@@ -621,11 +621,28 @@
           }
          else
           {
-           $YPos = $this->GArea_Y2+10+$TextHeight;
+              /**
+               * This fixes a bug where the text wasnt shown correctly at the bottom of the graph
+               *
+               * changed from:
+                 $YPos = $this->GArea_Y2+10+$TextHeight;
+                 if ( $Angle <= 90 )
+                    imagettftext($this->Picture,$this->FontSize,$Angle,floor($XPos)-$TextWidth+5,$YPos,$C_TextColor,$this->FontName,$Value);
+                 else
+                    imagettftext($this->Picture,$this->FontSize,$Angle,floor($XPos)+$TextWidth+5,$YPos,$C_TextColor,$this->FontName,$Value);
+               */
+           //Start fix
            if ( $Angle <= 90 )
-            imagettftext($this->Picture,$this->FontSize,$Angle,floor($XPos)-$TextWidth+5,$YPos,$C_TextColor,$this->FontName,$Value);
+           {
+               $YPos = $this->GArea_Y2+10+$TextHeight;
+               imagettftext($this->Picture,$this->FontSize,$Angle,floor($XPos)-$TextWidth+5,$YPos,$C_TextColor,$this->FontName,$Value);
+           }
            else
-            imagettftext($this->Picture,$this->FontSize,$Angle,floor($XPos)+$TextWidth+5,$YPos,$C_TextColor,$this->FontName,$Value);
+           {
+               $YPos = $this->GArea_Y2+15;
+               imagettftext($this->Picture,$this->FontSize,$Angle,floor($XPos),$YPos,$C_TextColor,$this->FontName,$Value);
+           }
+           //End fix
           }
          if ( $YMax < $YPos || $YMax == NULL ) { $YMax = $YPos; }
         }

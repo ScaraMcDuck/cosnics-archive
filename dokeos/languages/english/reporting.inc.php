@@ -231,4 +231,5 @@ $lang['reporting']['Bar'] = 'Bar';
 $lang['reporting']['Line'] = 'Line';
 $lang['reporting']['FilledCubic'] = 'Filled cubic';
 $lang['reporting']['ChangingDisplaymode'] = 'Changing displaymode';
+$lang['reporting']['Object'] = 'Object';
 ?>

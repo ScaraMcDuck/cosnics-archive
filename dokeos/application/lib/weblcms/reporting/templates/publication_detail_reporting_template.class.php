@@ -6,9 +6,9 @@ require_once Path :: get_reporting_path(). 'lib/reporting_template.class.php';
 require_once Path :: get_reporting_path().'lib/reporting_manager/reporting_manager.class.php';
 class PublicationDetailReportingTemplate extends ReportingTemplate
 {
-	function PublicationDetailReportingTemplate($parent=null)
+	function PublicationDetailReportingTemplate($parent,$id)
 	{
-        $this->parent = $parent;
+        parent :: __construct($parent,$id);
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsPublicationDetail"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsPublicationAccess"),
@@ -37,7 +37,7 @@ class PublicationDetailReportingTemplate extends ReportingTemplate
     	//template header
         $html[] = $this->get_header();
 
-        $html[] = '<div align="center">';
+        $html[] = '<div class="reporting_center">';
         //show visible blocks
         $html[] = $this->get_visible_reporting_blocks();
         $html[] = '</div>';

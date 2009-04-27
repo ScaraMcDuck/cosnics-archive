@@ -8,8 +8,9 @@ class LearningPathProgressReportingTemplate extends ReportingTemplate
 {
 	private $object;
 	
-	function LearningPathProgressReportingTemplate($object)
+	function LearningPathProgressReportingTemplate($parent,$id,$object)
 	{
+        parent :: __construct($parent,$id);
         $this->object = $object;
         
 		$this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsLearningPathProgress"),
@@ -42,7 +43,7 @@ class LearningPathProgressReportingTemplate extends ReportingTemplate
         	$html[] = $display->get_full_html();
         }
         
-        $html[] = '<div align="center">';
+        $html[] = '<div class="reporting_center">';
         //show visible blocks
         $html[] = $this->get_visible_reporting_blocks();
         $html[] = '</div>';

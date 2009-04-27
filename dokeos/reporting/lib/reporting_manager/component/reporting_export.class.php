@@ -75,6 +75,10 @@ class ReportingManagerReportingExportComponent extends ReportingManagerComponent
                 $template = new $classname($this);
                 $template->set_reporting_blocks_function_parameters($params);
                 $template->set_registration_id($ti);
+                if(isset($_GET['s']))
+                {
+                    $template->show_reporting_block($_GET['s']);
+                }
                 $display = $template->to_html();
                 $this->export_report($export, $display, $reporting_template_registration->get_title(), null);
             }

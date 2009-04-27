@@ -10,6 +10,8 @@
 require_once dirname(__FILE__) . '/reporting_template_registration.class.php';
 require_once dirname(__FILE__) . '/reporting.class.php';
 
+require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
+
 abstract class ReportingTemplate {
 
     const PARAM_VISIBLE = 'visible';
@@ -29,10 +31,13 @@ abstract class ReportingTemplate {
      */
     protected $reporting_blocks = array();
     protected $id;
+    protected $action_bar;
 
-    function ReportingTemplate()
+    function ReportingTemplate($parent=null,$id)
     {
-
+        $this->parent = $parent;
+        $this->set_registration_id($id);
+        $this->action_bar = $this->get_action_bar();
     }//ReportingTemplateProperties
 
     /*
@@ -45,8 +50,22 @@ abstract class ReportingTemplate {
      */
     function get_header()
     {
-
+        $html[] = '<br />' . $this->action_bar->as_html() . '<br />';
+        return implode("\n", $html);
     }//get_header
+
+    function get_action_bar()
+    {
+        $parameters = array();
+        $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+        $parameters['s'] = $_GET['s'];
+        $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), null, 'index_reporting.php?go=export&template='.$this->get_registration_id().'&export=pdf&'.http_build_query($parameters)));
+        //$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('reporting'));
+
+        return $action_bar;
+    }
 
     /**
      * Generates a menu from the reporting blocks within the reporting template
@@ -92,8 +111,8 @@ abstract class ReportingTemplate {
         //$parameters = $this->parameters;
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' .'"></script>';
-        $html[] = '<br /><br /><br />';
-        $html[] = Translation :: get('Export').': <a href="index_reporting.php?go=export&template='.$this->get_registration_id().'&export=pdf&'.http_build_query($parameters).'">pdf</a>';
+        //$html[] = '<br /><br /><br />';
+        //$html[] = Translation :: get('Export').': <a href="index_reporting.php?go=export&template='.$this->get_registration_id().'&export=pdf&'.http_build_query($parameters).'">pdf</a>';
         //        $html[] = '<div class="template-data">';
         //        $html[] = '<br /><br /><br />';
         //        $html[] = '<b><u>Template data</u></b><br />';

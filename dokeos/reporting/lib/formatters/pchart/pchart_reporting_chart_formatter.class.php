@@ -19,6 +19,22 @@ class PchartReportingChartFormatter extends ReportingChartFormatter
         return $this->get_pchart_instance()->to_html();
     } //to_html
 
+    protected function strip_data_names($data)
+    {
+        foreach ($data as $key => $value)
+        {
+            foreach ($value as $key2 => $value2)
+            {
+                if($key2 == "Name")
+                {
+                    $value[$key2] = DokeosUtilities::truncate_string($value2, 30,false, '...');
+                }
+            }
+            $data[$key] = $value;
+        }
+        return $data;
+    }
+
     /**
     * @see Reporting Chart Formatter -> to_link
     */
