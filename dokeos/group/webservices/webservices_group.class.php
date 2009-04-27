@@ -107,7 +107,7 @@ class WebServicesGroup
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message());
+                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
             }
         }
         else
@@ -136,7 +136,7 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
                 }
             }
             return $groups;
@@ -159,7 +159,7 @@ class WebServicesGroup
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message());
+                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
             }
         }
         else
@@ -182,7 +182,7 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('GroupsCreated'));
@@ -205,7 +205,7 @@ class WebServicesGroup
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message());
+                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
             }
         }
         else
@@ -228,7 +228,7 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('GroupsUpdated'));
@@ -251,7 +251,7 @@ class WebServicesGroup
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message());
+                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
             }
         }
         else
@@ -274,7 +274,7 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('GroupsDeleted'));
@@ -296,7 +296,7 @@ class WebServicesGroup
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message());
+                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
             }
          }
         else
@@ -318,7 +318,7 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('UsersSubscribed'));
@@ -340,7 +340,7 @@ class WebServicesGroup
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message());
+                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
             }
          }
         else
@@ -362,7 +362,7 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('UsersUnsubscribed'));

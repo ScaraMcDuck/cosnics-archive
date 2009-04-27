@@ -46,6 +46,8 @@ class CourseValidator extends Validator
 
     function validate_retrieve(&$courseProperties)
     {
+        $this->errorSource = Translation :: get('ErrorRetreivingCourse');
+        
         if($courseProperties[visual_code]==null)
         {
             $this->errorMessage = Translation :: get('CoursenameIsRequired');
@@ -57,6 +59,8 @@ class CourseValidator extends Validator
 
     function validate_create(&$courseProperties)
     {
+        $this->errorSource = Translation :: get('ErrorCreatingCourse').': '.$courseProperties[Course :: PROPERTY_VISUAL];
+
         if(!$this->validate_properties($courseProperties,$this->get_required_course_property_names()))
         return false; 
 
@@ -99,6 +103,8 @@ class CourseValidator extends Validator
 
     function validate_update(&$courseProperties)
     {
+        $this->errorSource = Translation :: get('ErrorUpdatingCourse').': '.$courseProperties[Course :: PROPERTY_VISUAL];
+
         if(!$this->validate_properties($courseProperties,$this->get_required_course_property_names()))
         return false;
 
@@ -136,6 +142,8 @@ class CourseValidator extends Validator
 
     function validate_delete(&$courseProperties)
     {
+        $this->errorSource = Translation :: get('ErrorDeletingCourse').': '.$courseProperties[Course :: PROPERTY_VISUAL];
+
         if(!$this->validate_property_names($courseProperties, Course :: get_default_property_names()))
         return false;
 
@@ -155,6 +163,8 @@ class CourseValidator extends Validator
 
     function validate_subscribe_user(&$input_course_rel_user)
     {
+        $this->errorSource = Translation :: get('ErrorSubscribingUser').' '.$input_course_rel_user[user_id].' '.Translation :: get('toCourse').' '.$input_course_rel_user[CourseUserRelation ::PROPERTY_COURSE_GROUP];
+
         if(!$this->validate_properties($input_course_rel_user,$this->get_required_course_rel_user_property_names()))
         return false;        
 
@@ -202,7 +212,8 @@ class CourseValidator extends Validator
 
     function validate_unsubscribe_user(&$input_course_rel_user)
     {
-
+        $this->errorSource = Translation :: get('ErrorSubscribingUser').' '.$input_course_rel_user[user_id].' '.Translation :: get('toCourse').' '.$input_course_rel_user[CourseUserRelation ::PROPERTY_COURSE_GROUP];
+        
         if(!$this->validate_properties($input_course_rel_user,$this->get_required_course_rel_user_property_names()))
         return false;
 
@@ -242,6 +253,8 @@ class CourseValidator extends Validator
 
     function validate_subscribe_group(&$input_course_group)
     {
+        $this->errorSource = Translation :: get('ErrorSubscribingGroup').' '.$input_course_group[CourseGroup :: PROPERTY_NAME].' '.Translation :: get('toCourse').' '.$input_course_group[CourseGroup :: PROPERTY_COURSE_CODE];
+
         if(!$this->validate_properties($input_course_group,$this->get_required_course_group_property_names()))
         return false;
 
@@ -262,6 +275,8 @@ class CourseValidator extends Validator
 
     function validate_unsubscribe_group(&$input_course_group)
     {
+        $this->errorSource = Translation :: get('ErrorUnsubscribingGroup').' '.$input_course_group[CourseGroup :: PROPERTY_NAME].' '.Translation :: get('toCourse').' '.$input_course_group[CourseGroup :: PROPERTY_COURSE_CODE];
+        
         if(!$this->validate_properties($input_course_group,$this->get_required_course_group_property_names()))
         return false;
         
