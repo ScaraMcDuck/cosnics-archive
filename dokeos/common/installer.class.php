@@ -218,7 +218,7 @@ abstract class Installer
      * @param String $path
      */
     function create_storage_unit($path)
-    {
+    { //print_r($path);
         $storage_unit_info = self :: parse_xml_file($path);
         $this->add_message(self :: TYPE_NORMAL, Translation :: get('StorageUnitCreation') . ': <em>'.$storage_unit_info['name'] . '</em>');
         if (!$this->data_manager->create_storage_unit($storage_unit_info['name'],$storage_unit_info['properties'],$storage_unit_info['indexes']))
@@ -800,27 +800,7 @@ abstract class Installer
 
     function extract_xml_file($file)
     {
-        if (file_exists($file))
-        {
-            $unserializer = &new XML_Unserializer();
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
-            $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('location'));
-
-            // userialize the document
-            $status = $unserializer->unserialize($file, true);
-            if (PEAR::isError($status))
-            {
-                return false;
-            }
-            else
-            {
-                $data = $unserializer->getUnserializedData();
-                return $data;
-            }
-        }
+        return DokeosUtilities :: extract_xml_file($file);
     }
 }
 ?>

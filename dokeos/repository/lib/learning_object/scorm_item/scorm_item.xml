@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object name="scorm_item">
+ <properties>
+  <property name="id" type="integer" unsigned="1" notnull="1" />
+  <property name="path" type="text" notnull="1" />
+  <property name="visible" type="integer" unsigned="1" notnull="1" default="1" />
+  <property name="parameters" type="text" length="1000" />
+  <property name="time_limit_action" type="text" length="500" />
+  <property name="data_from_lms" type="text" length="4000" /> 
+  <property name="completion_treshold" type="decimal"/>
+ </properties>
+ <index name="id" type="primary">
+  <indexproperty name="id"/>
+ </index>
+</object>

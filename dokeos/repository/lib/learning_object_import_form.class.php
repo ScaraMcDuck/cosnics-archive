@@ -23,6 +23,7 @@ class LearningObjectImportForm extends FormValidator
 	
 	private $category;
 	private $user;
+	private $import_type;
 
 	/**
 	 * Constructor.
@@ -30,10 +31,11 @@ class LearningObjectImportForm extends FormValidator
 	 * @param string $method The method to use ('post' or 'get').
 	 * @param string $action The URL to which the form should be submitted.
 	 */
-	function LearningObjectImportForm($form_name, $method = 'post', $action = null, $category, $user)
+	function LearningObjectImportForm($form_name, $method = 'post', $action = null, $category, $user, $import_type = null)
 	{
 		parent :: __construct($form_name, $method, $action);
 		$this->category = $category;
+		$this->import_type = $import_type;
 		$this->user = $user;
 		$this->build_basic_form();
 		$this->setDefaults();
@@ -87,7 +89,10 @@ class LearningObjectImportForm extends FormValidator
 	{
 		$path_parts = pathinfo($_FILES[self :: IMPORT_FILE_NAME]['name']);
 		$type = $path_parts['extension'];
-		$type = ($type == 'zip' ? 'dlof' : $type);
+		if($this->import_type)
+			$type = $this->import_type;
+		else
+			$type = ($type == 'zip' ? 'dlof' : $type);
 		
 		$values = $this->exportValues();
 		
