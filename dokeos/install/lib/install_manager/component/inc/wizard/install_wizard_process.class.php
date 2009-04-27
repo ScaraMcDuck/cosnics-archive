@@ -128,7 +128,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 	function create_folders()
 	{
 		$files_path = dirname(__FILE__).'/../../../../../../files/';
-		$directories = array('archive','fckeditor','garbage','repository','temp','userpictures');
+		$directories = array('archive','fckeditor','garbage','repository','temp','userpictures', 'scorm');
 		foreach($directories as $index => $directory)
 		{
 			$path = $files_path . $directory;

@@ -48,6 +48,8 @@ define('WEB_TEMP_PATH', 'WEB_TEMP_PATH');
 define('SYS_TEMP_PATH', 'SYS_TEMP_PATH');
 define('WEB_USER_PATH', 'WEB_USER_PATH');
 define('SYS_USER_PATH', 'SYS_USER_PATH');
+define('WEB_SCORM_PATH', 'WEB_SCORM_PATH');
+define('SYS_SCORM_PATH', 'SYS_SCORM_PATH');
 
 class Path
 {
@@ -158,7 +160,10 @@ class Path
 				return self :: get(SYS_FILE_PATH) . 'repository/';
 			case REL_REPO_PATH :
 				return self :: get(REL_FILE_PATH) . 'repository/';
-				
+			case SYS_SCORM_PATH :
+				return self :: get(SYS_FILE_PATH) . 'scorm/';
+			case REL_SCORM_PATH :
+				return self :: get(REL_FILE_PATH) . 'scorm/';
 			default :
 				return;
 		}

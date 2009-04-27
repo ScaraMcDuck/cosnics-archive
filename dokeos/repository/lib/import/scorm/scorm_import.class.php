@@ -9,12 +9,9 @@ require_once Path :: get_library_path() . 'filecompression/filecompression.class
  * Exports learning object to the dokeos learning object format (xml)
  */
 class ScormImport extends LearningObjectImport
-{
-	private $rdm;
-	
+{	
 	function ScormImport($learning_object_file, $user, $category)
 	{
-		$this->rdm = RepositoryDataManager :: get_instance();
 		parent :: __construct($learning_object_file, $user, $category);	
 	}
 	
@@ -22,29 +19,34 @@ class ScormImport extends LearningObjectImport
 	{
 		$zip = Filecompression :: factory();
 		$extracted_files_dir = $zip->extract_file($this->get_learning_object_file_property('tmp_name'));
-		
+	
 		$manifest_file = $extracted_files_dir . '/imsmanifest.xml';
 		$xml_data = $this->extract_xml_file($manifest_file);
 		
-		//dump($xml_data);
+		$dir = Path :: get(SYS_SCORM_PATH) . $this->get_user()->get_id() . '/' . $xml_data['identifier'] . '/';
+		FileSystem :: move_file($extracted_files_dir, $dir);
 		
-		$organizations = $xml_data['organizations']['organization'];
+		$manifest_file = $dir . '/imsmanifest.xml';
+		$xml_data = $this->extract_xml_file($manifest_file);
+		
+		//$this->build_organizations($xml_data['organizations']['organization']);
+		
+		FileSystem :: remove($extracted_files_dir);
+		
+	}
+	
+	private function build_organizations($organizations)
+	{
 		foreach($organizations as $organization)
 		{
 			$learning_path = $this->create_learning_path($organization['title']);
 			
 			foreach($organization['item'] as $item)
 			{
-				//dump($item);
 				$scorm_item = $this->create_scorm_item($item);
 				$this->add_scorm_item_to_learning_path($scorm_item, $learning_path);
 			}
-			
-			//dump($organization);
 		}
-		
-		FileSystem :: remove($extracted_files_dir);
-		
 	}
 	
 	private function extract_xml_file($file)
@@ -126,6 +128,24 @@ class ScormImport extends LearningObjectImport
 		
 		$wrapper = ComplexLearningObjectItem :: factory('learning_path_item');
 		$wrapper->set_ref($learning_path_item->get_id());
+		$wrapper->set_parent($learning_path->get_id());
+		$wrapper->set_user_id($this->get_user()->get_id());
+		$wrapper->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($learning_path->get_id()));
+		$wrapper->create();
+		
+		return $wrapper;
+	}
+	
+	/**
+	 * Adds a sub learning path to a learning path
+	 * @param LearningPath $sub_learning_path
+	 * @param LearningPath $learning_path
+	 * @return ComplexScormItem - The wrapper
+	 */
+	private function add_sub_learning_path_to_learning_path($learning_path, $sub_learning_path)
+	{
+		$wrapper = ComplexLearningObjectItem :: factory('learning_path_item');
+		$wrapper->set_ref($sub_learning_path->get_id());
 		$wrapper->set_parent($learning_path->get_id());
 		$wrapper->set_user_id($this->get_user()->get_id());
 		$wrapper->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($learning_path->get_id()));
