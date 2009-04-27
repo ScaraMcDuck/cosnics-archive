@@ -4,6 +4,15 @@
   <property name="pid" type="integer" unsigned="1" notnull="1"/>
   <property name="cid" type="integer"/>
   <property name="fid" type="integer"/>
- </properties> 
+ </properties>
+ <index name="pid" type="primary">
+  <indexproperty name="pid"/>
+ </index>
+ <index name="cid">
+   <indexproperty name="cid" />
+ </index>
+ <index name="fid">
+   <indexproperty name="fid" />
+ </index>
 </object>
 

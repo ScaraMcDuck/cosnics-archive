@@ -1018,7 +1018,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// Inherited
 	function create_storage_unit($name,$properties,$indexes)
 	{
-		$name = $this->get_table_name($name);
+		$name = $this->get_table_name($name);        
 		$this->connection->loadModule('Manager');
 		$manager = $this->connection->manager;
 		// If table allready exists -> drop it
