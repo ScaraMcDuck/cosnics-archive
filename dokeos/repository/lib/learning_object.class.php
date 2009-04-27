@@ -602,7 +602,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	function set_additional_property($name, $value)
 	{
-		$this->check_for_additional_properties();
+		//$this->check_for_additional_properties();
 		$this->additionalProperties[$name] = $value;
 	}
 
