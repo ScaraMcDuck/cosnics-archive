@@ -4,21 +4,18 @@ ini_set('max_execution_time', -1);
 ini_set('memory_limit',-1);
 $time_start = microtime(true);
 
-$file = dirname(__FILE__) . '/user_update.csv';
-$users = parse_csv($file);
+$file = dirname(__FILE__) . '/user_import.csv';
+$user = parse_csv($file);
 /*
  * change location to the location of the test server
  */
-$location = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservices_user.class.php?wsdl';
+$location = 'http://www.dokeosplanet.org/skible/user/webservices/webservices_user.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
-//dump($users);
 
-foreach($users as $user)
-{
-	update_user($user);
-}
+
+update_user($user[0]);
 
 $time_end = microtime(true);
 $time = $time_end - $time_start;
@@ -56,13 +53,8 @@ function update_user($user)
 	global $hash, $client;
 	log_message('Updating user ' . $user['username']);
 	$hash = ($hash == '') ? login() : $hash;
-    $user['hash'] = $hash;
-    /*$user['password'] = 'ae12e345f679aaf';
-    $user['registration_date'] = '0';
-    $user['disk_quota'] = '209715200';
-    $user['database_quota'] = '300';
-    $user['version_quota'] = '20';*/
-	$result = $client->call('WebServicesUser.update_user', $user);
+
+	 $result = $client->call('WebServicesUser.update_user', array('input' => $user, 'hash' => $hash));
     if($result == 1)
     {
         log_message(print_r('User successfully updated', true));
@@ -82,13 +74,16 @@ function login()
      *
      * $password = Hash(IP+PW) ;
      */
-	$username = 'admin';
-	$password = '772d9ed50e3b34cbe3f9e36b77337c6b2f4e0cfa';
+	$username = 'Samumon';
+    //$username = 'Soliber';
+
+    $password = hash('sha1','193.190.172.141'.hash('sha1','60d9efdb7c'));
+    //$password = hash('sha1','127.0.0.1'.hash('sha1','werk'));
 
 	/*
      * change location to server location for the wsdl
      */
-	$login_client = new nusoap_client('http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
+	$login_client = new nusoap_client('http://www.dokeosplanet.org/skible/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
 	$result = $login_client->call('LoginWebservice.login', array('username' => $username, 'password' => $password));
 
     log_message(print_r($result, true));

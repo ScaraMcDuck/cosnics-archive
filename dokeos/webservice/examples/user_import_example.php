@@ -15,13 +15,7 @@ $location = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservice
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
-//dump($users);
-
 create_users($users);
-/*foreach($users as $user)
-{
-	create_user($user); 
-}*/
 
 $time_end = microtime(true);
 $time = $time_end - $time_start;
@@ -65,7 +59,7 @@ function create_user(&$user)
     $user['disk_quota'] = '209715200';
     $user['database_quota'] = '300';
     $user['version_quota'] = '20';
-    $user['creator_id'] = 'Soliber';
+    $user['creator_id'] = 'admin';
 	$result = $client->call('WebServicesUser.create_user', array('input' => $user, 'hash' => $hash));
 
     log_message('RETURN GEKREGEN VAN DE WEBSERVICE');
@@ -114,12 +108,12 @@ function login()
     //$password = hash('sha1','193.190.172.141',hash('sha1','admin'));
     //$password = 'c14d68b0ef49d97929c36f7725842b5adbf5f006';
     $username = 'admin'; //server and local
-    $password = hash('sha1','193.190.172.141'.hash('sha1','admin'));
+    $password = hash('sha1','193.190.172.141'.hash('sha1','koendo'));
     /*
      * change location to server location for the wsdl
      */
 
-	$login_client = new nusoap_client('http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
+	$login_client = new nusoap_client('http://www.dokeosplanet.org/skible/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
     //$login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
     $result = $login_client->call('LoginWebservice.login', array('input' => array('username' => $username, 'password' => $password), 'hash' => ''));
     log_message(print_r($result, true));
