@@ -122,9 +122,6 @@ class UserValidator extends Validator
         if(!$this->check_quota($userProperties))
         return false;
 
-        if(!$this->check_dates($userProperties))
-        return false;
-
         if($userProperties[User :: PROPERTY_ACTIVE] !=='0' && $userProperties[User :: PROPERTY_ACTIVE] !=='1' && $userProperties[User :: PROPERTY_ACTIVE] !== false && $userProperties[User :: PROPERTY_ACTIVE] !== true)
         {
             $this->errorMessage = Translation :: get('Property').' '.User :: PROPERTY_ACTIVE.Translation :: get('hasWrongValue').': '.$userProperties[User :: PROPERTY_ACTIVE];

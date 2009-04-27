@@ -118,7 +118,7 @@ abstract class Webservice
 		}
 		else
 		{
-			$this->message = Translation :: get('User') . $username . Translation :: get('DoesNotExist').'.';
+			$this->message = Translation :: get('LoginError').': '.Translation :: get('User') . $username . Translation :: get('DoesNotExist').'.';
             return false;
 		}
 	}
