@@ -11,8 +11,6 @@ ini_set('memory_limit',-1);
 $handler = new WebServicesUser();
 $handler->run();
 
-$time_start = microtime(true);
-
 class WebServicesUser
 {
 	private $webservice;
@@ -255,3 +253,4 @@ class WebServicesUser
         }
     }
 }
+?>

@@ -1,16 +1,16 @@
 <xml>
-	<category name="manage groups">
-        <webservice name="get group" />
-        <webservice name="get groups" />
-		<webservice name="update group" />
-        <webservice name="update groups" />
-		<webservice name="delete group" />
-        <webservice name="delete groups" />
-		<webservice name="create group" />
-        <webservice name="create groups" />
-		<webservice name="subscribe user" />
-        <webservice name="subscribe users" />
-		<webservice name="unsubscribe user" />
-        <webservice name="unsubscribe users" />
+	<category name="manageGroups">
+        <webservice name="GetGroup" description="ThisWebserviceAllowsYouToGetAGroup"/>
+        <webservice name="GetGroups" description="ThisWebserviceAllowsYouToGetMultipleGroups"/>
+		<webservice name="UpdateGroup" description="ThisWebserviceAllowsYouToUpdateAGroup"/>
+        <webservice name="UpdateGroups" description="ThisWebserviceAllowsYouToUpdateMultipleGroups"/>
+		<webservice name="DeleteGroup" description="ThisWebserviceAllowsYouToDeleteAGroup"/>
+        <webservice name="DeleteGroups" description="ThisWebserviceAllowsYouToDeleteMultipleGroups"/>
+		<webservice name="CreateGroup" description="ThisWebserviceAllowsYouToCreateAGroup"/>
+        <webservice name="CreateGroups" description="ThisWebserviceAllowsYouToCreateMultipleGroups"/>
+		<webservice name="SubscribeUser" description="ThisWebserviceAllowsYouToSubscribeAUserToAGroup"/>
+        <webservice name="SubscribeUsers" description="ThisWebserviceAllowsYouToSubscribeMultipleUsersToAgroup"/>
+		<webservice name="UnsubscribeUser" description="ThisWebserviceAllowsYouToUnsubscribeAUserToAGroup"/>
+        <webservice name="UnsubscribeUsers" description="ThisWebserviceAllowsYouToUnsubscribeMultipleUsersToAgroup"/>
 	</category>			
 </xml>

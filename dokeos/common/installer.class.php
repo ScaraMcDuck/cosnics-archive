@@ -658,7 +658,7 @@ abstract class Installer
             //register webservice
             $webservice = new WebserviceRegistration();
             $webservice->set_name($webservices['name']);
-            $webservice->set_description('description');
+            $webservice->set_description($webservices['description']);
             $webservice->set_active(1);
             $webservice->set_parent($parent);
             $webservice->set_application('webservice');
@@ -679,7 +679,7 @@ abstract class Installer
                     //register webservice
                     $webservice = new WebserviceRegistration();
                     $webservice->set_name($element['name']);
-                    $webservice->set_description('description');
+                    $webservice->set_description($element['description']);
                     $webservice->set_active(1);
                     $webservice->set_parent($parent);
                     $webservice->set_application('webservice');

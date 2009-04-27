@@ -47,11 +47,11 @@ class WikiToolBrowserComponent extends WikiToolComponent
             );
        
 		
-		$action_bar->add_common_action(
+		/*$action_bar->add_common_action(
 			new ToolbarItem(
 				Translation :: get('Browse'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
-		);
+		);*/
 		
 		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
 		{
