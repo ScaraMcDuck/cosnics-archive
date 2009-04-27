@@ -15,6 +15,7 @@ require_once Path :: get_application_path() . 'lib/weblcms/validator/course_vali
 abstract class Validator
 {
     protected $errorMessage;
+    protected $errorSource;
     
     public static function get_validator($type)
     {
@@ -32,6 +33,11 @@ abstract class Validator
     function get_error_message()
     {
         return $this->errorMessage;
+    }
+
+    function get_error_source()
+    {
+        return $this->errorSource;
     }
 
     abstract function validate_retrieve(&$object);

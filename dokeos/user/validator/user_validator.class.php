@@ -36,6 +36,8 @@ class UserValidator extends Validator
 
     function validate_retrieve(&$userProperties)
     {
+        $this->errorSource = Translation :: get('ErrorRetrievingUser');
+        
         if($userProperties[username]==null)
         {
             $this->errorMessage = Translation :: get('UsernameIsRequired');
@@ -46,7 +48,9 @@ class UserValidator extends Validator
     }
 
     function validate_create(&$userProperties) 
-    {   
+    {
+        $this->errorSource = Translation :: get('ErrorCreatingUser').': '.$userProperties[User :: PROPERTY_USERNAME];
+
         if(!$this->validate_properties($userProperties,$this->get_required_property_names()))
         return false;
         
@@ -85,6 +89,8 @@ class UserValidator extends Validator
 
     function validate_update(&$userProperties)
     {
+        $this->errorSource = Translation :: get('ErrorUpdatingUser').': '.$userProperties[User :: PROPERTY_USERNAME];
+
         if(!$this->validate_properties($userProperties,$this->get_required_property_names()))
         return false;
         
@@ -133,6 +139,8 @@ class UserValidator extends Validator
 
     function validate_delete(&$userProperties)
     {
+        $this->errorSource = Translation :: get('ErrorDeletingUser').': '.$userProperties[User :: PROPERTY_USERNAME];
+
         if(!$this->validate_property_names($groupProperties, User :: get_default_property_names()))
         return false;
 

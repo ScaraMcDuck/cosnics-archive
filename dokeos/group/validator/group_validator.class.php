@@ -38,6 +38,8 @@ class GroupValidator extends Validator
 
     function validate_retrieve(&$groupProperties)
     {
+        $this->errorSource = Translation :: get('ErrorRetreivingGroup');
+
         if($groupProperties[name]==null)
         {
             $this->errorMessage = Translation :: get('GroupnameIsRequired');
@@ -49,6 +51,8 @@ class GroupValidator extends Validator
 
     function validate_create(&$groupProperties)
     {
+        $this->errorSource = Translation :: get('ErrorCreatingGroup').': '.$groupProperties[Group :: PROPERTY_NAME];
+
         if(!$this->validate_properties($groupProperties,$this->get_required_group_property_names()))
         return false;
 
@@ -82,6 +86,8 @@ class GroupValidator extends Validator
 
     function validate_update(&$groupProperties)
     {
+        $this->errorSource = Translation :: get('ErrorUpdatingGroup').': '.$groupProperties[Group :: PROPERTY_NAME];
+
         if(!$this->validate_properties($groupProperties,$this->get_required_group_property_names()))
         return false;
 
@@ -113,6 +119,8 @@ class GroupValidator extends Validator
 
     function validate_delete(&$groupProperties)
     {
+        $this->errorSource = Translation :: get('ErrorDeletingGroup').': '.$groupProperties[Group :: PROPERTY_NAME];
+
         if(!$this->validate_properties($groupProperties,$this->get_required_group_property_names()))
         return false;
 
@@ -133,6 +141,8 @@ class GroupValidator extends Validator
 
     function validate_subscribe_or_unsubscribe(&$input_group_rel_user)
     {
+        $this->errorSource = Translation :: get('ErrorSubscribingOrUnsubscribingUser').' '.$input_group_rel_user[GroupRelUser :: PROPERTY_USER_ID].' '.Translation :: get('ToFrom').' '.Translation :: get('Group').' '.$input_group_rel_user[GroupRelUser :: PROPERTY_GROUP_ID];
+
         if(!$this->validate_properties($input_group_rel_user,$this->get_required_group_rel_user_property_names()))
         return false;
         

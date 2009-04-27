@@ -131,7 +131,7 @@ class WebServicesUser
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message());
+                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
             }
 
         }
@@ -152,7 +152,7 @@ class WebServicesUser
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message());
+                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
             }
         }
         else
@@ -172,7 +172,7 @@ class WebServicesUser
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message());
+                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
             }
         }
         else
@@ -194,7 +194,7 @@ class WebServicesUser
                }
                else
                {
-                   return $this->webservice->raise_error($this->validator->get_error_message());
+                   return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
                }
            }
            return $this->webservice->raise_message(Translation :: get('UsersCreated').'.');
@@ -218,7 +218,7 @@ class WebServicesUser
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
                 }
            }
            return $this->webservice->raise_message(Translation :: get('UsersUpdated').'.');
@@ -242,7 +242,7 @@ class WebServicesUser
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
                 }
            }
            return $this->webservice->raise_message(Translation :: get('UsersDeleted').'.');
