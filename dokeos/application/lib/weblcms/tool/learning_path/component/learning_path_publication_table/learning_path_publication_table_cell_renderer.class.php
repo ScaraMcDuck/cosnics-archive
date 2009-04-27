@@ -57,7 +57,7 @@ class LearningPathPublicationTableCellRenderer extends DefaultLearningObjectTabl
 			{
 				case Translation :: get('Progress'):
 					$conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_COURSE_ID, $this->browser->get_course_id());
-					$conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $learning_object->get_id());
+					$conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_LP_ID, $publication->get_id());
 					$conditions[] = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_USER_ID, $this->browser->get_user_id());
 					//$conditions[] = new NotCondition(new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_PROGRESS, 100));
 					$condition = new AndCondition($conditions);

@@ -810,7 +810,7 @@ class ReportingWeblcms {
 	    		$total += $tracker->get_total_time();
 	    		
 	    		if($params['delete'])
-	    			$data[''][] = Text :: create_link($params['url'] . '&stats_action=delete_lpi_attempt&attempt_id=' . $tracker->get_id(), Theme :: get_common_image('action_delete'));
+	    			$data[''][] = Text :: create_link($params['url'] . '&stats_action=delete_lpi_attempt&delete_id=' . $tracker->get_id(), Theme :: get_common_image('action_delete'));
     		}
     	}
     	else 

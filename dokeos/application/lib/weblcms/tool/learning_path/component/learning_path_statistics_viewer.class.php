@@ -2,6 +2,8 @@
 
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lp_attempt_tracker.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lpi_attempt_tracker.class.php';
+require_once dirname(__FILE__).'/../../../trackers/weblcms_learning_path_assessment_attempts_tracker.class.php';
+require_once dirname(__FILE__).'/../../../trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_tree.class.php';
 
 class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponent
@@ -29,7 +31,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 				$this->delete_lpi_attempts_from_item(Request :: get('item_id'));
 				exit;
 			case 'delete_lpi_attempt':
-				$this->delete_lpi_attempt(Request :: get('attempt_id'));
+				$this->delete_lpi_attempt(Request :: get('delete_id'));
 				exit;
 		}
 		
@@ -139,26 +141,46 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 	private function delete_lp_attempt($lp_attempt_id)
 	{
 		$condition = new EqualityCondition(WeblcmsLpAttemptTracker :: PROPERTY_ID, $lp_attempt_id);	
-		$tracker = new WeblcmsLpAttemptTracker();
-		$tracker->remove($condition);
+		$dummy = new WeblcmsLpAttemptTracker();
+		$trackers = $dummy->retrieve_tracker_items($condition);
+		foreach($trackers as $tracker)
+			$tracker->delete();
 		
-		$condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_VIEW_ID, $lp_attempt_id);
-		$tracker = new WeblcmsLpiAttemptTracker();
-		$tracker->remove($condition);
+		$params = array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, 
+						Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'));
+		
+		$this->redirect(Weblcms :: ACTION_VIEW_COURSE, Translation :: get('LpAttemptDeleted'), false, $params);
 	}
 	
 	private function delete_lpi_attempt($lpi_attempt_id)
 	{
 		$condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_ID, $lpi_attempt_id);
-		$tracker = new WeblcmsLpiAttemptTracker();
-		$tracker->remove($condition);
+		$dummy = new WeblcmsLpiAttemptTracker();
+		$trackers = $dummy->retrieve_tracker_items($condition);
+		foreach($trackers as $tracker)
+			$tracker->delete();
+		
+		$params = array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, 
+						Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'),
+						'attempt_id' => Request :: get('attempt_id'),
+						'cid' => Request :: get('cid'));
+		
+		$this->redirect(Weblcms :: ACTION_VIEW_COURSE, Translation :: get('LpiAttemptDeleted'), false, $params);
 	}
 	
 	private function delete_lpi_attempts_from_item($item_id)
 	{
 		$condition = new EqualityCondition(WeblcmsLpiAttemptTracker :: PROPERTY_LP_ITEM_ID, $item_id);
-		$tracker = new WeblcmsLpiAttemptTracker();
-		$tracker->remove($condition);
+		$dummy = new WeblcmsLpiAttemptTracker();
+		$trackers = $dummy->retrieve_tracker_items($condition);
+		foreach($trackers as $tracker)
+			$tracker->delete();
+		
+		$params = array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_STATISTICS, 
+						Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'),
+						'attempt_id' => Request :: get('attempt_id'));
+		
+		$this->redirect(Weblcms :: ACTION_VIEW_COURSE, Translation :: get('LpiAttemptsDeleted'), false, $params);
 	}
 }
 ?>

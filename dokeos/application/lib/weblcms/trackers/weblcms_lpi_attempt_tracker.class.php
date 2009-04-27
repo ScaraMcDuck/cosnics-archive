@@ -117,5 +117,18 @@ class WeblcmsLpiAttemptTracker extends MainTracker
     {
     	$this->remove();
     }
+    
+	function delete()
+    {
+    	$succes = parent :: delete();
+    	
+    	$condition = new EqualityCondition(WeblcmsLearningPathAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $this->get_id());
+		$dummy = new WeblcmsLearningPathAssessmentAttemptsTracker();
+		$trackers = $dummy->retrieve_tracker_items($condition);
+		foreach($trackers as $tracker)
+			$succes &= $tracker->delete();
+    	
+    	return $succes;
+    }
 }
 ?>

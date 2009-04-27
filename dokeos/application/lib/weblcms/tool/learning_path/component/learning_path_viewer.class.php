@@ -40,7 +40,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		$root_object = $publication->get_learning_object();
 		
 		// Do tracking stuff
-		$this->trackers['lp_tracker'] = $this->retrieve_lp_tracker($root_object);	
+		$this->trackers['lp_tracker'] = $this->retrieve_lp_tracker($publication);	
 		$lpi_attempt_data = $this->retrieve_tracker_items($this->trackers['lp_tracker']);
 		
 		// Retrieve tree menu
