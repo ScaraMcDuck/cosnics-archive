@@ -26,30 +26,40 @@ class LearningPathTool extends Tool
 	function run()
 	{
 		$action = $this->get_action();
-		$component = parent :: run();
-		
-		if ($component) return;
 		
 		switch($action)
 		{
-			case self :: ACTION_PUBLISH:
-				$component = LearningPathToolComponent :: factory('Publisher', $this);
+			case Tool :: ACTION_DELETE :
+				$component = LearningPathToolComponent :: factory('Deleter', $this);
 				break;
-			case self :: ACTION_VIEW_LEARNING_PATH:
-				$component = LearningPathToolComponent :: factory('Viewer', $this);
-				break;
-			case self :: ACTION_BROWSE_LEARNING_PATHS:
-				$component = LearningPathToolComponent :: factory('Browser', $this);
-				break;
-			case self :: ACTION_EXPORT_SCORM:
-				$component = LearningPathToolComponent :: factory('ScormExporter', $this);
-				break;
-			case self :: ACTION_VIEW_STATISTICS:
-				$component = LearningPathToolComponent :: factory('StatisticsViewer', $this);
-				break;
-			default:
-				$component = LearningPathToolComponent :: factory('Browser', $this);
-				break;
+		}
+		
+		if(!$component)
+		{
+			$component = parent :: run();
+			if ($component) return;
+		
+			switch($action)
+			{
+				case self :: ACTION_PUBLISH:
+					$component = LearningPathToolComponent :: factory('Publisher', $this);
+					break;
+				case self :: ACTION_VIEW_LEARNING_PATH:
+					$component = LearningPathToolComponent :: factory('Viewer', $this);
+					break;
+				case self :: ACTION_BROWSE_LEARNING_PATHS:
+					$component = LearningPathToolComponent :: factory('Browser', $this);
+					break;
+				case self :: ACTION_EXPORT_SCORM:
+					$component = LearningPathToolComponent :: factory('ScormExporter', $this);
+					break;
+				case self :: ACTION_VIEW_STATISTICS:
+					$component = LearningPathToolComponent :: factory('StatisticsViewer', $this);
+					break;
+				default:
+					$component = LearningPathToolComponent :: factory('Browser', $this);
+					break;
+			}
 		}
 		
 		$component->run();
