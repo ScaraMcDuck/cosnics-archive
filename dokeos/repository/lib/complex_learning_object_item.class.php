@@ -245,6 +245,10 @@ class ComplexLearningObjectItem
 	
 	/**
 	 * Creates an instance of an extended class with the given type
+	 * @param String type
+	 * @param Array defaultProperties
+	 * @param Array additionalProperties
+	 * @return ComplexLearningObjectItem
 	 */
 	static function factory($type, $defaultProperties = array(), $additionalProperties = array())
 	{

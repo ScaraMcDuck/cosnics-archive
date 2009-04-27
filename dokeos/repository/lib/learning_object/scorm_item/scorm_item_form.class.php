@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../../learning_object_form.class.php';
-require_once dirname(__FILE__).'/learning_path_item.class.php';
+require_once dirname(__FILE__).'/scorm_item.class.php';
 /**
  * @package repository.learningobject
  * @subpackage learning_path

@@ -13,11 +13,6 @@ class ScormItem extends LearningObject
 	const PROPERTY_DATA_FROM_LMS = 'data_from_lms';
 	const PROPERTY_COMPLETION_TRESHOLD = 'completion_treshold';
 	
-	function ScormItem()
-	{
-		$this->set_visible(1);
-	}
-	
 	static function get_additional_property_names()
 	{
 		return array (self :: PROPERTY_PATH, self :: PROPERTY_VISIBLE, self :: PROPERTY_PARAMETERS,
