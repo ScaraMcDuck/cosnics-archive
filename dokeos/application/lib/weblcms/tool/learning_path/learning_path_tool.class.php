@@ -16,6 +16,7 @@ class LearningPathTool extends Tool
 	const ACTION_VIEW_LEARNING_PATH = 'view';
 	const ACTION_BROWSE_LEARNING_PATHS = 'browse';
 	const ACTION_EXPORT_SCORM = 'exp_scorm';
+	const ACTION_IMPORT_SCORM = 'import';
 	const ACTION_VIEW_STATISTICS = 'stats';
 	
 	const PARAM_LEARNING_PATH = 'lp';
@@ -55,6 +56,9 @@ class LearningPathTool extends Tool
 					break;
 				case self :: ACTION_VIEW_STATISTICS:
 					$component = LearningPathToolComponent :: factory('StatisticsViewer', $this);
+					break;
+				case self :: ACTION_IMPORT_SCORM:
+					$component = LearningPathToolComponent :: factory('ScormImporter', $this);
 					break;
 				default:
 					$component = LearningPathToolComponent :: factory('Browser', $this);
