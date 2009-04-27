@@ -294,7 +294,9 @@ class ReportingWeblcms {
                 $arr[Translation :: get('MoreThenOneYear')][0]++;
             }
         }
-        return Reporting :: getSerieArray($arr);
+        $description[0] = Translation :: get('Time');
+        $description[1] = Translation :: get('TimesAccessed');
+        return Reporting :: getSerieArray($arr,$description);
     }
 
         /**
@@ -446,7 +448,8 @@ class ReportingWeblcms {
             unset($arr[$key]);
         }
 
-        return Reporting :: getSerieArray($arr);
+        $description[0] = Translation :: get('Object');
+        return Reporting :: getSerieArray($arr,$description);
     }
 
     public static function getAverageLearningpathScore($params)

@@ -97,7 +97,7 @@ class Reporting{
         foreach($arr as $key => $value)
         {
             $serie = 1;
-            $data[$i]["Name"] = DokeosUtilities::truncate_string($key,$len,false,'...');
+            $data[$i]["Name"] = $key;
             foreach($value as $key2 => $value2)
             {
                 $data[$i]["Serie".$serie] = $value2;

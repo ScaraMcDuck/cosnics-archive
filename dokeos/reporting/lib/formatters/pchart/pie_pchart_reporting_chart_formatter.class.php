@@ -17,7 +17,8 @@ class PiePchartReportingChartFormatter extends PchartReportingChartFormatter {
         $width = $this->reporting_block->get_width()-20;
         $legend = sizeof($data)*20;
         $height = $this->reporting_block->get_height()-50;
-
+        $data = $this->strip_data_names($data);
+        
 		// Initialise the graph
 		$Test = new pChart($width, $height+$legend);
 		$Test->drawFilledRoundedRectangle(7, 7, $width-7, $height-7+$legend , 5, 240, 240, 240);

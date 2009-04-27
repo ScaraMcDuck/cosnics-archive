@@ -14,17 +14,20 @@ class LinePchartReportingChartFormatter extends PchartReportingChartFormatter {
 		$all_data = $this->reporting_block->get_data();
 		$data = $all_data[0];
 		$datadescription = $all_data[1];
-        $width = $this->reporting_block->get_width()-20;
+
+        //$width = $this->reporting_block->get_width()-20;
+        $width=100+count($data)*30;
         $height = $this->reporting_block->get_height()-50;
-        $legend = sizeof($datadescription["Values"])*30;
+        $legend = 30+sizeof($datadescription["Values"])*30;
+        $data = $this->strip_data_names($data);
         
 		// Initialise the graph
 		$Test = new pChart($width, $height+$legend);
 		$Test->setFontProperties($this->font,8);
-		$Test->setGraphArea(40, 30, $width*0.9, $height-$legend);
+		$Test->setGraphArea(40, 30, $width-20, $height-$legend);
 		$Test->drawFilledRoundedRectangle(7, 7, $width-7, $height-7+$legend, 5, 240, 240, 240);
 		$Test->drawGraphArea(255, 255, 255, TRUE);
-		$Test->drawScale($data, $datadescription, SCALE_NORMAL, 150, 150, 150, TRUE, 0, 2);
+		$Test->drawScale($data, $datadescription, SCALE_NORMAL, 150, 150, 150, TRUE, 315, 2,true,0,false);
 		$Test->drawGrid(4, TRUE, 230, 230, 230, 50);
 
 		// Draw the 0 line
@@ -37,7 +40,7 @@ class LinePchartReportingChartFormatter extends PchartReportingChartFormatter {
 
 		// Finish the graph
 		$Test->setFontProperties($this->font,8);
-		$Test->drawLegend(15, $height, $datadescription, 255, 255, 255);
+		$Test->drawLegend(15, $height+30, $datadescription, 255, 255, 255);
 		$Test->setFontProperties($this->font,10);
 		$Test->drawTitle(60, 22, $this->reporting_block->get_name(), 50, 50, 50, $width*0.7);
 

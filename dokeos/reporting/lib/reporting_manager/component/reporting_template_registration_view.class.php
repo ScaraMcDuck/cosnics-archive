@@ -59,8 +59,8 @@ class ReportingManagerReportingTemplateRegistrationViewComponent extends Reporti
         require_once($file);
 
         $classname = $reporting_template_registration->get_classname();
-        $template = new $classname($this);
-        $template->set_registration_id($reporting_template_registration->get_id());
+        $template = new $classname($this,$reporting_template_registration->get_id());
+        //$template->set_registration_id($reporting_template_registration->get_id());
 
         if(isset($_GET[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS]))
         {
