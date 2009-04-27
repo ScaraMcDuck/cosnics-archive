@@ -4,17 +4,15 @@ ini_set('max_execution_time', -1);
 ini_set('memory_limit',-1);
 $time_start = microtime(true);
 
-$file = dirname(__FILE__) . '/user_update.csv';
+$file = dirname(__FILE__) . '/user_import.csv';
 $users = parse_csv($file);
 /*
  * change location to the location of the test server
  */
 //$location = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
-$location = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservices_user.class.php?wsdl';
+$location = 'http://www.dokeosplanet.org/skible/user/webservices/webservices_user.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
-
-//dump($users);
 
 update_users($users);
 
@@ -55,7 +53,6 @@ function update_users(&$users)
 	log_message('Updating users ');
 	if($hash == '')
     $hash = login();
-    //dump($hash);
     $result = $client->call('WebServicesUser.update_users', array('input' => $users, 'hash' => $hash));
     if($result == 1)
     {
@@ -78,18 +75,17 @@ function login()
      * $password = Hash(IP+PW) ;
      */
 
-	$username = 'Soliber';
-	//$password = '772d9ed50e3b34cbe3f9e36b77337c6b2f4e0cfa';
+	$username = 'Samumon';
+    //$username = 'Soliber';
+	
+    $password = hash('sha1','193.190.172.141'.hash('sha1','60d9efdb7c'));
+    //$password = hash('sha1','127.0.0.1'.hash('sha1','werk'));
     
-    $password = hash('sha1','193.190.172.141'.hash('sha1','admin'));
-    //$password = 'c14d68b0ef49d97929c36f7725842b5adbf5f006';
-
-
 	/*
      * change location to server location for the wsdl
      */
 
-	$login_client = new nusoap_client('http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
+	$login_client = new nusoap_client('http://www.dokeosplanet.org/skible/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
     //$login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
     $result = $login_client->call('LoginWebservice.login', array('input' => array('username' => $username, 'password' => $password), 'hash' => ''));
     log_message(print_r($result, true));
