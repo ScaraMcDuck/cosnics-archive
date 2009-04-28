@@ -1,12 +1,14 @@
 <?php
 /**
- * @package export
+ * @package import
+ * @author Sven Vanpoucke - University College Ghent
+ * @copyright 2009 - Sven Vanpoucke
  */
 require_once dirname(__FILE__).'/../learning_object_import.class.php';
 require_once Path :: get_library_path() . 'filecompression/filecompression.class.php';
 
 /**
- * Exports learning object to the dokeos learning object format (xml)
+ * Imports SCORM activities to learning paths
  */
 class ScormImport extends LearningObjectImport
 {	
@@ -23,7 +25,9 @@ class ScormImport extends LearningObjectImport
 	 */
 	private function extract_xml_file($file)
 	{
-		$options = array(XML_UNSERIALIZER_OPTION_FORCE_ENUM => array('item', 'organization', 'resource', 'file', 'dependency'));
+		$options = 	array(XML_UNSERIALIZER_OPTION_FORCE_ENUM => 
+				   		array('item', 'organization', 'resource', 'file', 'dependency', 'adlnav:hideLMSUI'
+				   	));
 		return DokeosUtilities :: extract_xml_file($file, $options);
 	}
 	
@@ -56,7 +60,7 @@ class ScormImport extends LearningObjectImport
 		
 		// Remove the temporary files
 		FileSystem :: remove($extracted_files_dir);
-		
+		dump($xml_data);
 	}
 	
 	/**
@@ -167,6 +171,10 @@ class ScormImport extends LearningObjectImport
 		
 		if($item['adlcp:timeLimitAction'])
 			$scorm_item->set_time_limit_action($item['adlcp:timeLimitAction']);
+		
+		$hideLMSUI = $item['adlnav:presentation']['adlnav:navigationInterface']['adlnav:hideLMSUI'];
+		if($hideLMSUI)
+			$scorm_item->set_hide_lms_ui($hideLMSUI);
 		
 		$scorm_item->create();
 		

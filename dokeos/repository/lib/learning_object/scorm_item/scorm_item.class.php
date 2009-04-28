@@ -12,11 +12,13 @@ class ScormItem extends LearningObject
 	const PROPERTY_TIME_LIMIT_ACTION = 'time_limit_action';
 	const PROPERTY_DATA_FROM_LMS = 'data_from_lms';
 	const PROPERTY_COMPLETION_TRESHOLD = 'completion_treshold';
+	const PROPERTY_HIDE_LMS_UI = 'hide_lms_ui';
 	
 	static function get_additional_property_names()
 	{
 		return array (self :: PROPERTY_PATH, self :: PROPERTY_VISIBLE, self :: PROPERTY_PARAMETERS,
-					  self :: PROPERTY_TIME_LIMIT_ACTION, self :: PROPERTY_DATA_FROM_LMS, self :: PROPERTY_COMPLETION_TRESHOLD );
+					  self :: PROPERTY_TIME_LIMIT_ACTION, self :: PROPERTY_DATA_FROM_LMS, self :: PROPERTY_COMPLETION_TRESHOLD,
+					  self :: PROPERTY_HIDE_LMS_UI );
 	}
 	
 	function get_path()
@@ -77,6 +79,16 @@ class ScormItem extends LearningObject
 	function set_completion_treshold($completion_treshold)
 	{
 		$this->set_additional_property(self :: PROPERTY_COMPLETION_TRESHOLD, $completion_treshold);
+	}
+	
+	function get_hide_lms_ui()
+	{
+		return $this->get_additional_property(unserialize(self :: PROPERTY_HIDE_LMS_UI));
+	}
+	
+	function set_hide_lms_ui($hide_lms_ui)
+	{
+		$this->set_additional_property(self :: PROPERTY_HIDE_LMS_UI, serialize($hide_lms_ui));
 	}
 	
 	function get_url()

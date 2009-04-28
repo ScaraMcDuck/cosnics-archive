@@ -8,6 +8,7 @@
   <property name="time_limit_action" type="text" length="500" />
   <property name="data_from_lms" type="text" length="4000" /> 
   <property name="completion_treshold" type="decimal"/>
+  <property name="hide_lms_ui" type="text" length="255" default="" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
