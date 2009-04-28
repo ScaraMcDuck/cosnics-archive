@@ -4,9 +4,9 @@ require_once dirname(__FILE__) . '/../learning_path_learning_object_display.clas
 
 class ScormItemDisplay extends LearningPathLearningObjectDisplay
 {
-	function display_learning_object($document)
+	function display_learning_object($scorm_item)
 	{	
-		$html[] = $this->display_link($document->get_url());
+		$html[] = $this->display_link($scorm_item->get_url(true));
 			
 		return implode("\n", $html);
 	}
