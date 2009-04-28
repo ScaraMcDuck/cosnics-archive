@@ -3,19 +3,18 @@ require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', -1);
 ini_set('memory_limit',-1);
 $time_start = microtime(true);
-/*
- * Change to the location of the .csv file which you wish to use.
- */
-$file = dirname(__FILE__) . '/course_update.csv';
-$course = parse_csv($file);
+
+$file = dirname(__FILE__) . '/group_update.csv';
+$groups = parse_csv($file);
 /*
  * change location to the location of the test server
  */
-$location = 'http://www.dokeosplanet.org/skible/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+$location = 'http://www.dokeosplanet.org/skible/group/webservices/webservices_group.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
-update_course($course[0]);
+
+update_groups($groups);
 
 $time_end = microtime(true);
 $time = $time_end - $time_start;
@@ -27,16 +26,16 @@ function parse_csv($file)
 	if(file_exists($file) && $fp = fopen($file, "r"))
 	{
 		$keys = fgetcsv($fp, 1000, ";");
-		$courses = array();
+		$groups = array();
 
-		while($course_data = fgetcsv($fp, 1000, ";"))
+		while($group_data = fgetcsv($fp, 1000, ";"))
 		{
-			$course = array();
+			$group = array();
 			foreach($keys as $index => $key)
 			{
-				$course[$key] = trim($course_data[$index]);
+				$group[$key] = trim($group_data[$index]);
 			}
-			$courses[] = $course;
+			$groups[] = $group;
 		}
 		fclose($fp);
 	}
@@ -45,27 +44,24 @@ function parse_csv($file)
 		log("ERROR: Can't open file ($file)");
 	}
 
-	return $courses;
+	return $groups;
 }
 
-function update_course($course)
+function update_groups(&$groups)
 {
-	global $hash, $client;
-    log_message('Updating course ' . $course['title']);
+    global $hash, $client;
+	log_message('Updating groups ');
+	if($hash == '')
+    $hash = login();
 
-	/*
-     * If the hash is empty, request a new one. Else use the existing one.
-     * Expires by default after 10 min.
-     */
-	$hash = ($hash == '') ? login() : $hash;
-    
-    $result = $client->call('WebServicesCourse.update_course', array('input' => $course, 'hash' => $hash));
+    $result = $client->call('WebServicesGroup.update_groups', array('input' => $groups, 'hash' => $hash));
     if($result == 1)
     {
-        log_message(print_r('Course successfully updated', true));
+        log_message(print_r('Groups successfully updated', true));
     }
     else
     	log_message(print_r($result, true));
+
 }
 
 function login()
@@ -74,17 +70,15 @@ function login()
 
 	/* Change the username and password to the ones corresponding to  your database.
      * The password for the login service is :
-     * IP = the IP as seen by the target Dokeos server from where the call to the webservice is made.
-     * You can request this through e.g. http://www.whatsmyip.org/
+     * IP = the ip from where the call to the webservice is made
      * PW = your hashed password from the db
-     * The hashing algoritm needs to be the same as the one used on the Dokeos installation you're trying to communicate with.
-     * When in doubt, ask the administrator of said installation.
+     *
      * $password = Hash(IP+PW) ;
      */
 
 	$username = 'Samumon';
-    $password = hash('sha1','193.190.172.141'.hash('sha1','60d9efdb7c'));
 
+    $password = hash('sha1','193.190.172.141'.hash('sha1','60d9efdb7c'));
 
 	/*
      * change location to server location for the wsdl
@@ -95,6 +89,7 @@ function login()
     log_message(print_r($result, true));
     if(is_array($result) && array_key_exists('hash', $result))
         return $result['hash']; //hash 3
+
 
     return '';
 
@@ -109,7 +104,7 @@ function dump($value)
 
 function log_message($text)
 {
-	echo date('[H:m] ', time()) . $text . '<br />';
+	echo date('[H:m:s] ', time()) . $text . '<br />';
 }
 
 function debug($client)
@@ -118,5 +113,7 @@ function debug($client)
 	echo '<h2>Response</h2><pre>' . htmlspecialchars($client->response, ENT_QUOTES) . '</pre>';
 	echo '<h2>Debug</h2><pre>' . htmlspecialchars($client->getDebug(), ENT_QUOTES) . '</pre>';
 }
+
+
 
 ?>

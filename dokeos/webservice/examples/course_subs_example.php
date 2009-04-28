@@ -3,20 +3,19 @@ require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', -1);
 ini_set('memory_limit',-1);
 $time_start = microtime(true);
-
+/*
+ * Change to the location of the .csv file which you wish to use.
+ */
 $file = dirname(__FILE__) . '/course_subs.csv';
-$courses = parse_csv($file);
+$course = parse_csv($file);
 /*
  * change location to the location of the test server
  */
-$location = 'http://www.dokeosplanet.org/demo_portal/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+$location = 'http://www.dokeosplanet.org/skible/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
-foreach($courses as $course)
-{
-	subscribe_user($course);
-}
+subscribe_user($course[0]);
 
 $time_end = microtime(true);
 $time = $time_end - $time_start;
@@ -52,15 +51,15 @@ function parse_csv($file)
 function subscribe_user($course)
 {
     global $hash, $client;
-	log_message('Subscribing user to course ');
+    log_message('Subscribing user to course ');
+
+	/*
+     * If the hash is empty, request a new one. Else use the existing one.
+     * Expires by default after 10 min.
+     */
 	$hash = ($hash == '') ? login() : $hash;
-    $course['hash'] = $hash;
-    /*$course['user_id'] = 'Soliber';
-    $course['tutor_id'] = '1';
-    $course['status'] = '1';
-    $course['course_group_id'] = '0';
-    $course['course_code'] = 'H1';*/
-    $result = $client->call('WebServicesCourse.subscribe_user', $course);
+    
+    $result = $client->call('WebServicesCourse.subscribe_user', array('input' => $course, 'hash' => $hash));
     if($result == 1)
     {
         log_message(print_r('User successfully subscribed to course', true));
@@ -75,25 +74,29 @@ function login()
 
 	/* Change the username and password to the ones corresponding to  your database.
      * The password for the login service is :
-     * IP = the ip from where the call to the webservice is made
+     * IP = the IP as seen by the target Dokeos server from where the call to the webservice is made.
+     * You can request this through e.g. http://www.whatsmyip.org/
      * PW = your hashed password from the db
-     *
+     * The hashing algoritm needs to be the same as the one used on the Dokeos installation you're trying to communicate with.
+     * When in doubt, ask the administrator of said installation.
      * $password = Hash(IP+PW) ;
      */
-	$username = 'admin';
-	$password = '772d9ed50e3b34cbe3f9e36b77337c6b2f4e0cfa';
 
-    /*
+	$username = 'Samumon';
+    $password = hash('sha1','193.190.172.141'.hash('sha1','60d9efdb7c'));
+
+
+	/*
      * change location to server location for the wsdl
      */
-	$login_client = new nusoap_client('http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
-	$result = $login_client->call('LoginWebservice.login', array('username' => $username, 'password' => $password));
 
+	$login_client = new nusoap_client('http://www.dokeosplanet.org/skible/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
+    $result = $login_client->call('LoginWebservice.login', array('input' => array('username' => $username, 'password' => $password), 'hash' => ''));
     log_message(print_r($result, true));
     if(is_array($result) && array_key_exists('hash', $result))
         return $result['hash']; //hash 3
 
-	return '';
+    return '';
 
 }
 

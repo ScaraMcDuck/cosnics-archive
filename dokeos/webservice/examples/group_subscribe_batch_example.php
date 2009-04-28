@@ -6,16 +6,16 @@ $time_start = microtime(true);
 /*
  * Change to the location of the .csv file which you wish to use.
  */
-$file = dirname(__FILE__) . '/course_update.csv';
-$course = parse_csv($file);
+$file = dirname(__FILE__) . '/group_subscribe.csv';
+$groups = parse_csv($file);
 /*
  * change location to the location of the test server
  */
-$location = 'http://www.dokeosplanet.org/skible/application/lib/weblcms/webservices/webservices_course.class.php?wsdl';
+$location = 'http://www.dokeosplanet.org/skible/group/webservices/webservices_group.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
-update_course($course[0]);
+subscribe_users($groups);
 
 $time_end = microtime(true);
 $time = $time_end - $time_start;
@@ -27,16 +27,15 @@ function parse_csv($file)
 	if(file_exists($file) && $fp = fopen($file, "r"))
 	{
 		$keys = fgetcsv($fp, 1000, ";");
-		$courses = array();
-
-		while($course_data = fgetcsv($fp, 1000, ";"))
+		$groups = array();
+		while($group_data = fgetcsv($fp, 1000, ";"))
 		{
-			$course = array();
+			$group = array();
 			foreach($keys as $index => $key)
 			{
-				$course[$key] = trim($course_data[$index]);
+				$group[$key] = trim($group_data[$index]);
 			}
-			$courses[] = $course;
+			$groups[] = $group;
 		}
 		fclose($fp);
 	}
@@ -44,25 +43,25 @@ function parse_csv($file)
 	{
 		log("ERROR: Can't open file ($file)");
 	}
-
-	return $courses;
+    return $groups;
 }
 
-function update_course($course)
+function subscribe_users($group_rel_user)
 {
-	global $hash, $client;
-    log_message('Updating course ' . $course['title']);
+    global $hash, $client;
+    log_message('Subscribing users to groups');
 
 	/*
      * If the hash is empty, request a new one. Else use the existing one.
      * Expires by default after 10 min.
      */
-	$hash = ($hash == '') ? login() : $hash;
-    
-    $result = $client->call('WebServicesCourse.update_course', array('input' => $course, 'hash' => $hash));
+    if(empty($hash))
+    $hash = login();
+
+	$result = $client->call('WebServicesGroup.subscribe_users', array('input' => $group_rel_user, 'hash' => $hash));
     if($result == 1)
     {
-        log_message(print_r('Course successfully updated', true));
+        log_message(print_r('Users successfully subscribed', true));
     }
     else
     	log_message(print_r($result, true));
@@ -118,5 +117,7 @@ function debug($client)
 	echo '<h2>Response</h2><pre>' . htmlspecialchars($client->response, ENT_QUOTES) . '</pre>';
 	echo '<h2>Debug</h2><pre>' . htmlspecialchars($client->getDebug(), ENT_QUOTES) . '</pre>';
 }
+
+
 
 ?>
