@@ -69,7 +69,7 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 		$html[] = '<script languages="JavaScript">';
 		$html[] = '    var tracker_id = ' . $lpi_tracker->get_id() . ';';
 		$html[] = '</script>';
-		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/learning_path_item.js');
+		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_APP_PATH) . 'lib/weblcms/tool/learning_path/javascript/learning_path_item.js');
 		
 		return implode("\n", $html);
 	}
