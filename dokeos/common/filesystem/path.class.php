@@ -20,6 +20,7 @@ define('SYS_LANG_PATH', 'SYS_LANG_PATH');
 
 // Some paths for the LCMS-applications
 define('SYS_APP_PATH', 'SYS_APP_PATH');
+define('WEB_APP_PATH', 'WEB_APP_PATH');
 define('SYS_APP_LIB_PATH', 'SYS_APP_LIB_PATH');
 define('SYS_APP_ADMIN_PATH', 'SYS_APP_ADMIN_PATH');
 define('SYS_APP_CLASS_GROUP_PATH', 'SYS_APP_CLASS_GROUP_PATH');
@@ -104,6 +105,8 @@ class Path
 			// Some paths for the LCMS applications
 			case SYS_APP_PATH :
 				return self :: get(SYS_PATH) . 'application/';
+			case WEB_APP_PATH :
+				return self :: get(WEB_PATH) . 'application/';
 			case SYS_APP_ADMIN_PATH :
 				return self :: get(SYS_PATH) . 'admin/';
 			case SYS_APP_CLASS_GROUP_PATH :

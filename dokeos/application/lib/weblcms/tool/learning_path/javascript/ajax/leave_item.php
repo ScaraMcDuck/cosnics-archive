@@ -11,5 +11,4 @@ $trackers = $dummy->retrieve_tracker_items($condition);
 $tracker = $trackers[0];
 $tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
 $tracker->update();
-
 ?>
