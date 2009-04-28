@@ -56,11 +56,12 @@ class ScormImport extends LearningObjectImport
 		$resources_list = $this->build_resources_list($xml_data['resources']['resource'], $resources_path);
 
 		// Build the organizations tree
-		$this->build_organizations($xml_data['organizations']['organization'], $resources_list);
+		$learning_paths = $this->build_organizations($xml_data['organizations']['organization'], $resources_list);
 		
 		// Remove the temporary files
 		FileSystem :: remove($extracted_files_dir);
-		dump($xml_data);
+		
+		return $learning_paths;
 	}
 	
 	/**
@@ -89,11 +90,16 @@ class ScormImport extends LearningObjectImport
 	 */
 	private function build_organizations($organizations, $resources_list)
 	{
+		$learning_paths = array();
+		
 		foreach($organizations as $organization)
 		{
 			$learning_path = $this->create_learning_path($organization['title']);
 			$this->build_items($organization['item'], $resources_list, $learning_path);
+			$learning_paths[] = $learning_path;
 		}
+		
+		return $learning_paths;
 	}
 	
 	/**

@@ -162,8 +162,8 @@ class Path
 				return self :: get(REL_FILE_PATH) . 'repository/';
 			case SYS_SCORM_PATH :
 				return self :: get(SYS_FILE_PATH) . 'scorm/';
-			case REL_SCORM_PATH :
-				return self :: get(REL_FILE_PATH) . 'scorm/';
+			case WEB_SCORM_PATH :
+				return self :: get(WEB_FILE_PATH) . 'scorm/';
 			default :
 				return;
 		}

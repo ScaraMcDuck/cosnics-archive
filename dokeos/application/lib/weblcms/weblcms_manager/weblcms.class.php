@@ -1395,7 +1395,12 @@ class Weblcms extends WebApplication
 	
 	function get_platform_setting($variable, $application = self :: APPLICATION_NAME)
 	{
-		return PlatformSetting :: get($variable, $application = self :: APPLICATION_NAME);
+		return PlatformSetting :: get($variable, $application);
+	}
+	
+	function get_parent()
+	{
+		return $this;	
 	}
 }
 ?>

@@ -91,21 +91,50 @@ class ScormItem extends LearningObject
 		$this->set_additional_property(self :: PROPERTY_HIDE_LMS_UI, serialize($hide_lms_ui));
 	}
 	
-	function get_url()
+	function get_url($include_parameters = false)
 	{
-		return Path :: get(WEB_REPO_PATH) . $this->get_path();
+		$url = Path :: get(WEB_SCORM_PATH) . $this->get_path();
+		
+		if($include_parameters)
+			$url = $this->add_parameters_to_url($url);
+		
+		return $url;
 	}
 	
 	function get_full_path()
 	{
-		return Path :: get(SYS_REPO_PATH) . $this->get_path();
+		return Path :: get(SYS_SCORM_PATH) . $this->get_path();
 	}
 	
-	function delete()
+	function add_parameters_to_url($url)
 	{
-		$path = Path :: get(SYS_REPO_PATH) . $this->get_path();
-		Filesystem::remove($path);
-		parent :: delete();
+		$parameters = $this->get_parameters();
+		
+		while((substr($parameters, 0, 1) == '&') || (substr($parameters, 0, 1) == '?'))
+		{
+			$parameters = substr($parameters, 1, strlen($parameters) - 1);
+		}
+		
+		if(substr($parameters, 0, 1) == '#')
+		{
+			if(substr($url, 0, 1) == '#')
+			{
+				return $url;
+			}
+			else 
+			{
+				return $url . $parameters;
+			}
+		}
+		
+		if(substr_count($url, '?') > 0)
+		{
+			return $url . '&' . $parameters;
+		}
+		else 
+		{
+			return $url . '?' . $parameters;
+		}
 	}
 }
 ?>
