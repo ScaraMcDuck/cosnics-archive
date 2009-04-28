@@ -256,5 +256,10 @@ class Path
     {
     	return self :: get(SYS_APP_WEBSERVICE_PATH);
     }
+
+    public static function get_common_path()
+    {
+    	return self :: get(SYS_LIB_PATH);
+    }
 }
 ?>

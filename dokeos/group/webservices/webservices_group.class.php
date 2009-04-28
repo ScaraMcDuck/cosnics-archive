@@ -1,4 +1,48 @@
 <?php
+/*
+ * This is the class which contains all the webservices for the Group application.
+ * Each webservice checks first the provided hash (which resides in the 'hash' field of every input stream), to see if a call may be made.
+ * Next the input is passed to a validator object. This validator validates the input and, if necessary, retrieves ID's based on names.
+ * E.g. a userid/groupid based on the provided username/groupname. This is because the ID's of objects are never public knowledge so it's for example impossible
+ * for an outsider to delete a user based on the ID of said user. Not in one go anyway.
+ * The expected input/output of these webservices goes as follows:
+ *
+ * get_group:
+ *  -input: A Group object with the property 'name' filled in.
+ *  -output: The full corresponding Group object with all the available properties filled in.
+ *
+ * get_groups:
+ *  -input: An array of Group objects with for each the property 'name' filled in.
+ *  -output: Array of Group objects of the requested groups.
+ *
+ * delete_group:
+ *  -input: A Group object with the property 'name' filled in.
+ *  -output: Nothing.
+ *
+ * delete_groups:
+ *  -input: An array of Group objects with for each the property 'name' filled in.
+ *  -output: Nothing.
+ *
+ * create_group:
+ *  -input: A Group object with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * create_groups:
+ *  -input: An array of Group objects with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * update_group:
+ *  -input: A Group object with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * update_groups:
+ *  -input: A Group object with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * Authors:
+ * Stefan Billiet & Nick De Feyter
+ * University College of Ghent
+ */
 require_once(dirname(__FILE__) . '/../../common/global.inc.php');
 require_once dirname(__FILE__) . '/../../common/webservices/webservice.class.php';
 require_once dirname(__FILE__) . '/../lib/group.class.php';
@@ -107,7 +151,7 @@ class WebServicesGroup
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
             }
         }
         else
@@ -136,7 +180,7 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
                 }
             }
             return $groups;
@@ -159,7 +203,7 @@ class WebServicesGroup
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
             }
         }
         else
@@ -182,7 +226,7 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('GroupsCreated'));
@@ -205,7 +249,7 @@ class WebServicesGroup
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
             }
         }
         else
@@ -228,7 +272,7 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('GroupsUpdated'));
@@ -251,7 +295,7 @@ class WebServicesGroup
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
             }
         }
         else
@@ -274,7 +318,7 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('GroupsDeleted'));
@@ -296,7 +340,7 @@ class WebServicesGroup
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
             }
          }
         else
@@ -318,7 +362,7 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('UsersSubscribed'));
@@ -340,7 +384,7 @@ class WebServicesGroup
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
             }
          }
         else
@@ -362,7 +406,7 @@ class WebServicesGroup
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('UsersUnsubscribed'));

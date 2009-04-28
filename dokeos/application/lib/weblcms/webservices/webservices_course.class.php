@@ -1,4 +1,77 @@
 <?php
+/*
+ * This is the class which contains all the webservices for the Course application.
+ * Each webservice checks first the provided hash (which resides in the 'hash' field of every input stream), to see if a call may be made.
+ * Next the input is passed to a validator object. This validator validates the input and, if necessary, retrieves ID's based on names.
+ * E.g. a userid based on the provided username. This is because the ID's of objects are never public knowledge so it's for example impossible
+ * for an outsider to delete a user based on the ID of said user. Not in one go anyway.
+ * The expected input/output of these webservices goes as follows:
+ *
+ * get_course:
+ *  -input: A Course object with the property 'visual_code' filled in.
+ *  -output: The full corresponding Course object with all the available properties filled in.
+ * 
+ * delete_course:
+ *  -input: A Course object with the property 'visual_code' filled in.
+ *  -output: Nothing.
+ *
+ * delete_courses:
+ *  -input: An array of Course objects with for each the property 'visual_code' filled in.
+ *  -output: Nothing.
+ *
+ * create_course:
+ *  -input: A Course object with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * create_courses:
+ *  -input: An array of Course objects with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * update_course:
+ *  -input: A Course object with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * update_courses:
+ *  -input: A Course object with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * subscribe_user:
+ *  -input: A CourseUserRelation object with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * subscribe_users:
+ *  -input: An array of CourseUserRelation objects with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * unsubscribe_user:
+ *  -input: A CourseUserRelation object with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * unsubscribe_users:
+ *  -input: An array of CourseUserRelation objects with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * subscribe_group:
+ *  -input: A CourseGroup object with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * subscribe_groups:
+ *  -input: An array of CourseGroup objects with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * unsubscribe_group:
+ *  -input: A CourseGroup object with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * unsubscribe_groups:
+ *  -input: An array of CourseGroup objects with all the required properties filled in.
+ *  -output: Nothing.
+ *
+ * Authors:
+ * Stefan Billiet & Nick De Feyter
+ * University College of Ghent
+ */
+
 require_once(dirname(__FILE__) . '/../../../../common/global.inc.php');
 require_once dirname(__FILE__) . '/../../../../common/webservices/webservice.class.php';
 require_once dirname(__FILE__) . '/../data_manager/database.class.php';
@@ -124,7 +197,7 @@ class WebServicesCourse
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
             }
         }
         else
@@ -144,7 +217,7 @@ class WebServicesCourse
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
             }
         }
         else
@@ -166,7 +239,7 @@ class WebServicesCourse
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('CoursesDeleted').'.');
@@ -189,7 +262,7 @@ class WebServicesCourse
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
             }
         }
         else
@@ -211,7 +284,7 @@ class WebServicesCourse
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('CoursesUpdated').'.');
@@ -234,7 +307,7 @@ class WebServicesCourse
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
             }
             
         }
@@ -258,7 +331,7 @@ class WebServicesCourse
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('CoursesCreated').'.');
@@ -283,7 +356,7 @@ class WebServicesCourse
             }
             else
             {               
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
             }
             
         }
@@ -309,7 +382,7 @@ class WebServicesCourse
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('UsersSubscribed').'.');
@@ -332,7 +405,7 @@ class WebServicesCourse
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
             }           
         }
         else
@@ -354,7 +427,7 @@ class WebServicesCourse
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
                 }
             }
            return $this->webservice->raise_message(Translation :: get('UsersUnsubscribed'));
@@ -379,7 +452,7 @@ class WebServicesCourse
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
             }
         }
         else
@@ -404,7 +477,7 @@ class WebServicesCourse
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('GroupsSubscribed'));
@@ -429,7 +502,7 @@ class WebServicesCourse
             }
             else
             {
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
             }
         }
         else
@@ -454,7 +527,7 @@ class WebServicesCourse
                 }
                 else
                 {
-                    return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
+                    return $this->webservice->raise_error($this->validator->get_error_message(),null,Translation :: get('Client'),$this->validator->get_error_source());
                 }
             }
             return $this->webservice->raise_message(Translation :: get('GroupsUnsubscribed'));
@@ -464,173 +537,6 @@ class WebServicesCourse
             return $this->webservice->raise_error($this->webservice->get_message());
         }
 	}
-	
-	function get_user_courses(&$input_user)
-	{
-        if($this->webservice->can_execute($input_user, 'get user courses'))
-		{
-            if($this->validator->validate_get_user_courses($input_user[input]))
-            {
-                $wdm = DatabaseWeblcmsDataManager :: get_instance();
-                $courses = $wdm->retrieve_user_courses(new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $input_user[input][User :: PROPERTY_USER_ID]));
-                $courses = $courses->as_array();
-                foreach($courses as &$course)
-                {
-                    $course = $course->get_default_properties();
-                }
-                return $courses;
-            }
-            else
-            {
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
-            }
-        }
-        else
-        {
-            return $this->webservice->raise_error($this->webservice->get_message());
-        }
-	}
-	
-	function get_course_users(&$input_course)
-	{
-		if($this->webservice->can_execute($input_course, 'get course users'))
-		{
-            if($this->validator->validate_get_course_users($input_course[input]))
-            {
-                $wdm = DatabaseWeblcmsDataManager :: get_instance();
-                $udm = DatabaseUserDataManager :: get_instance();
-                $course = new Course($input_course[input][Course :: PROPERTY_ID],$input_course[input]);
-                $users = $wdm->retrieve_course_users($course);
-                $users = $users->as_array();
-                foreach($users as &$user)
-                {
-                    $user = $udm->retrieve_user($user->get_user());
-                    $user = $user->get_default_properties();
-                }
-                return $users;
-            }
-            else
-            {
-                return $this->webservice->raise_error($this->validator->get_error_message(),Translation :: get('Client'),null,$this->validator->get_error_source());
-            }
-        }
-        else
-        {
-            return $this->webservice->raise_error($this->webservice->get_message());
-        }
-	}
-	
-	function get_new_publications_in_course($input_course)
-	{
-        if($this->webservice->can_execute($input_course, 'get new publications in course'))
-		{
-            $udm = DatabaseUserDataManager :: get_instance();
-            $wdm = DatabaseWeblcmsDataManager :: get_instance();
-            $user = $udm->retrieve_user($input_course[input][user_id]);
-            $course = $wdm->retrieve_course($input_course[input][id]);
-            $weblcms = new Weblcms($user,null);
-            $weblcms->set_course($course);
-            $weblcms->load_tools();
-            $conditions[1] = new InequalityCondition(LearningObjectPublication :: PROPERTY_MODIFIED_DATE,InequalityCondition :: LESS_THAN_OR_EQUAL,mktime(0,0,0,date('m'),date('d')+1,date('Y')));
-            foreach($weblcms->get_registered_tools() as $tool)
-            {
-                if($weblcms->tool_has_new_publications($tool->name))
-                {
-                    $lastVisit = $weblcms->get_last_visit_date($tool->name);
-                    $conditions[0] = new InequalityCondition(LearningObjectPublication :: PROPERTY_MODIFIED_DATE,InequalityCondition :: GREATER_THAN_OR_EQUAL,mktime(0,0,0,date('m',$lastVisit),date('d',$lastVisit),date('Y',$lastVisit)));
-                    $conditions[2] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,$tool->name);
-                    $condition = new AndCondition($conditions);
-                    $pubs = $wdm->retrieve_learning_object_publications(null,null,null,null,$condition);
-                    $pubs = $pubs->as_array();
-                }
-           }
-            foreach($pubs as &$pub)
-            {
-                $pub = $pub->get_learning_object();
-                $pub = $pub->get_default_properties();
-            }
-            return $pubs;
-        }
-        else
-        {
-            return $this->webservice->raise_error($this->webservice->get_message());
-        }
-	}
-
-    function get_new_publications_in_course_tool($input_course)
-	{
-        if($this->webservice->can_execute($input_course, 'get new publications in course tool'))
-		{
-            $udm = DatabaseUserDataManager :: get_instance();
-            $wdm = DatabaseWeblcmsDataManager :: get_instance();
-            $user = $udm->retrieve_user($input_course[input][user_id]);
-            $course = $wdm->retrieve_course($input_course[input][id]);
-            $weblcms = new Weblcms($user,null);
-            $weblcms->set_course($course);
-            $weblcms->load_tools();
-            $conditions[1] = new InequalityCondition(LearningObjectPublication :: PROPERTY_MODIFIED_DATE,InequalityCondition :: LESS_THAN_OR_EQUAL,mktime(0,0,0,date('m'),date('d')+1,date('Y')));
-            if($weblcms->tool_has_new_publications($input_course[input][tool]))
-            {
-                $lastVisit = $weblcms->get_last_visit_date($input_course[input][tool]);
-                $conditions[0] = new InequalityCondition(LearningObjectPublication :: PROPERTY_MODIFIED_DATE,InequalityCondition :: GREATER_THAN_OR_EQUAL,mktime(0,0,0,date('m',$lastVisit),date('d',$lastVisit),date('Y',$lastVisit)));
-                $conditions[2] = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL,$input_course[input][tool]);
-                $condition = new AndCondition($conditions);
-                $pubs = $wdm->retrieve_learning_object_publications(null,null,null,null,$condition);
-                $pubs = $pubs->as_array();
-            }
-            foreach($pubs as &$pub)
-            {
-                $pub = $pub->get_learning_object();
-                $pub = $pub->get_default_properties();
-            }
-            return $pubs;
-        }
-        else
-        {
-            return $this->webservice->raise_error($this->webservice->get_message());
-        }
-	}
-
-    function get_publications_for_user($input_user)
-	{
-        if($this->webservice->can_execute($input_user, 'get publications for user'))
-		{
-            $wdm = DatabaseWeblcmsDataManager :: get_instance();
-            $pubs = $wdm->retrieve_learning_object_publications(null,null,$input_user[input][id]);
-            $pubs = $pubs->as_array();
-            foreach($pubs as &$pub)
-            {
-                $pub = $pub->get_learning_object();
-                $pub = $pub->get_default_properties();
-            }
-            return $pubs;
-        }
-        else
-        {
-            return $this->webservice->raise_error($this->webservice->get_message());
-        }
-	}
-
-    function get_publications_for_course($input_course)
-	{
-        if($this->webservice->can_execute($input_course, 'get publications for course'))
-		{
-            $wdm = DatabaseWeblcmsDataManager :: get_instance();
-            $pubs = $wdm->retrieve_learning_object_publications($input_course[input][id]);
-            $pubs = $pubs->as_array();
-            foreach($pubs as &$pub)
-            {
-                $pub = $pub->get_learning_object();
-                $pub = $pub->get_default_properties();
-            }
-            return $pubs;
-        }
-        else
-        {
-            return $this->webservice->raise_error($this->webservice->get_message());
-        }
-	}
-
 }
 ?>
 

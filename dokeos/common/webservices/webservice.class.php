@@ -1,4 +1,32 @@
 <?php
+/*
+ * This is the abstract webservice class which serves as a backbone for all webservice implementations.
+ * The abstract methods call_webservice and provide_webservice need to be implemented in the more specific implementation classes.
+ * It also serves as a factory for webservice handlers, which, by default, are of the NuSoap implementation.
+ *
+ * Furthermore, it serves as a gatekeeper for all webservice calls.
+ * The validate_login method will take the input hash,
+ * which is actually a hash of (the outside IP address of the client caller + his hashed password (as it is stored in the database)).
+ * This constitutes hash 1, so the input hash, should be hash 1. To check if this is so, the validate_login method will capture the IP
+ * of the client caller, and look up his hashed password based on the provided username. Hash 1 can then be recalculated and if it indeed
+ * matches the input hash, hash 2 will be created, stored in a credential and written to the database.
+ * Hash 2 is created as follows: hash(client IP + hash1).
+ * Hereafter, hash 3 is sent back to the client, which is created as follows: hash(client IP + hash2).
+ * 
+ * So the chain goes as follows:
+ * input hash = hash 1 = hash(*external IP address of client caller*.*his hashed password as stored in the server database*)
+ * hash 2 = hash(client IP + hash1). This is stored in the database in the credential table.
+ * hash 3 = hash(client IP + hash2). This is returned to the user and must be used to call a webservice.
+ * Everytime you hash something, you *have* to use the same algorithm as was used to hash your password during registration, because if you don't, obviously the resulting hashes won't be the same.
+ * If you don't know which one was used, ask the system admin.
+ *
+ * The can execute method will check the provided hash (hash 3) to see if it checks out,
+ * after which it will consult with the rights and roles system to see if you are allowed to use the called webservice.
+ *
+ * Authors:
+ * Stefan Billiet & Nick De Feyter
+ * University College of Ghent
+ */
 require_once Path :: get_library_path() . 'webservices/webservice.class.php';
 require_once dirname(__FILE__) . '/../../user/lib/data_manager/database.class.php';
 require_once dirname(__FILE__).'/../../common/configuration/configuration.class.php';
