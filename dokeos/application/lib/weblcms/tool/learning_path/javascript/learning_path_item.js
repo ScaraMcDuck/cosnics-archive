@@ -13,7 +13,7 @@
 		}).responseText;
 
         //alert(response);
-        alert('bla');
+        //alert('bla');
 		//$(".charttype").bind('change',handle_charttype);
 	});
 })(jQuery);
