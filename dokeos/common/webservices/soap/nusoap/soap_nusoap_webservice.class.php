@@ -1,4 +1,32 @@
 <?php
+/*
+ * This is the NuSoap wrapper class as it were. It orchestrates the providing and calling of webservices.
+ * The provide_webservice method runs through all the provided functions which have to be provided and,
+ * for each function, "converts" the properties of the input and output objects to a WSDL file.
+ * This WSDL file is then used to provide the desired webservices.
+ * Arrays of objects of the same class for input and output are supported.
+ *
+ * The provide_webservice_with_wsdl method takes a premade WSDL file
+ * and provides the webservices described in said WSDL file.
+ *
+ * The call_webservice method dissects the provided $functions variable and, for each function,
+ * searches the corresponding name, the provided parameters and the name of the handler method,
+ * which will process the result on the client side.
+ * Then, the call is made and the result is returned to the handler method on the client side.
+ *
+ * The raise_message method returns the provided ordinary message, e.g. 'Update success' and returns it in a SOAP variable.
+ * If you return this variable to the client side, you can send ordinary text messages to the client.
+ *
+ * The raise_error method allows for returning a detailed error message as a SOAP fault.
+ * You can provide a general faultstring, a faultcode (default is null), the wrong doing party (default is Client)
+ * and a more detailed message of exactly what went wrong.
+ *
+ * The debug method prints out the request, respons and debug information for a webservice call.
+ * 
+ * Authors:
+ * Stefan Billiet & Nick De Feyter
+ * University College of Ghent
+ */
 require_once Path :: get_library_path() . 'webservices/webservice.class.php';
 require_once Path :: get_plugin_path() . 'nusoap/nusoap.php';
 require_once Path :: get_webservice_path() .'lib/webservice_data_manager.class.php';
@@ -18,7 +46,7 @@ class SoapNusoapWebservice extends Webservice
 		$server = new soap_server();
 		$server->configureWSDL('Dokeos', 'http://www.dokeos.com');
         
-		foreach($functions as $name => $objects) //doorloopt alle functies
+		foreach($functions as $name => $objects) //runs through all methods
 		{
             //input field
             if(isset($objects['input'])) 
@@ -69,7 +97,7 @@ class SoapNusoapWebservice extends Webservice
 
             //output
 			if(isset($objects['output']))
-			{//dump($objects['array_output']);
+			{
 				if($objects['array_output'])
 				{
 					$out = $objects['output'][0];                    
@@ -154,7 +182,7 @@ class SoapNusoapWebservice extends Webservice
 		return new soapval('return', 'xsd:'.gettype($message), $message);
 	}
     
-    function raise_error($faultstring = 'unknown error', $faultcode = 'Client', $faultactor = NULL, $detail = NULL, $mode = null, $options = null)
+    function raise_error($faultstring = 'unknown error', $faultcode = NULL, $faultactor = 'Client', $detail = NULL, $mode = null, $options = null)
 	{
 		return new soap_fault($faultstring, $faultcode, $faultactor, $detail, $mode, $options);
 	}

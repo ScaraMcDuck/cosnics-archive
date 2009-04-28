@@ -6,17 +6,19 @@ require_once Path :: get_application_path() . '/lib/weblcms/course/course.class.
 require_once Path :: get_application_path() . '/lib/weblcms/category_manager/course_category.class.php';
 require_once Path :: get_application_path() . '/lib/weblcms/course/course_user_relation.class.php';
 require_once Path :: get_application_path() . '/lib/weblcms/course_group/course_group.class.php';
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  * Description of course_validatorclass
  * The purpose of this class is to validate the given Course/CourseUserRelation-properties:
  * -To check if all the required properties are there
  * -To check if e.g. the name of a person exists and retrieve the respective ID where necessary
- * @author Samumon
+ * Each validator also generates an error message if something goes wrong,
+ * together with an error source to keep track of what was happening when something went wrong.
+ * This is especially useful during large batch assignments, so you can easily see which entry produces errors.
+ *
+ * Authors:
+ * Stefan Billiet & Nick De Feyter
+ * University College of Ghent
  */
 class CourseValidator extends Validator
 {

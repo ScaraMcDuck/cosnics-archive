@@ -2,15 +2,19 @@
 require_once Path :: get_user_path() . '/validator/user_validator.class.php';
 require_once Path :: get_group_path() . '/validator/group_validator.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/validator/course_validator.class.php';
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+require_once Path :: get_reporting_path() . '/validator/reporting_validator.class.php';
+
 
 /**
- * Description of validatorclass
+ * This is the abstract validator class. It is to be a base class for specific validators
+ * for User/Group/Course/Reporting webservices.
+ * It also doubles as a factory for the aforementioned specific validators.
+ * Furthermore, it has an error message and an error source, which can be used,
+ * if need be, to create a detailed SOAP fault error message.
  *
- * @author Samumon
+ * Authors:
+ * Stefan Billiet & Nick De Feyter
+ * University College of Ghent
  */
 abstract class Validator
 {
@@ -27,6 +31,8 @@ abstract class Validator
                 return new GroupValidator();
             case 'course':
                 return new CourseValidator();
+            case 'reporting':
+                return new ReportingValidator();
         }
     }
 

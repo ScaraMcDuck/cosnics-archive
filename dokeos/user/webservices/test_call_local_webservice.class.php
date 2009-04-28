@@ -103,10 +103,10 @@ class TestCallLocalWebservice
 
        //TEST 6 :: Update User
 
-          /*$user = array (
+          $user = array (
           'lastname' => 'Oske',
 		  'firstname' => 'Jos',
-		  'username' => 'Zorro',
+		  'username' => 'admin',
 		  'password' => 'b9921b6ebaac9174f01ea9e2fe3df9f95010410b',
 		  'auth_source' => 'platform',
 		  'email' => 'admin@localhost.localdomain',
@@ -131,15 +131,15 @@ class TestCallLocalWebservice
 		$functions = array();
 
 		$functions[] = array(
-				'name' => 'WebServicesUser.update_user',
-				'parameters' => array('input' => $user,'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
+				'name' => 'WebServicesUser.update_users',
+				'parameters' => array('input' => array($user),'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
-		);*/
+		);
 
 
         //TEST 7 : Delete User
 
-          $user = array (
+          /*$user = array (
 		  'lastname' => 'Jos',
 		  'firstname' => 'Den Os',
 		  'username' => 'Zorro',
@@ -170,7 +170,7 @@ class TestCallLocalWebservice
 				'name' => 'WebServicesUser.delete_users',
 				'parameters' => array('input' => array($user), 'hash' => 'c31ec0d4e5296ec2b12b11cf1f7ac9eb3014857f'),
 				'handler' => 'handle_webservice'
-		);
+		);*/
 
         //TEST 8 : Create Course
 

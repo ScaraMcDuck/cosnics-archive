@@ -7,12 +7,17 @@ require_once Path :: get_library_path() . 'validator/validator.class.php';
  * and open the template in the editor.
  */
 
-/**
- * Description of user_validatorclass
+/*
  * The purpose of this class is to validate the given User-properties:
- * -To check if all the required properties are there
+ * -To check if all the required properties are there and, in some cases, have valid contents
  * -To check if e.g. the name of a person exists and retrieve the respective ID where necessary
- * @author Samumon
+ * Each validator also generates an error message if something goes wrong,
+ * together with an error source to keep track of what was happening when something went wrong.
+ * This is especially useful during large batch assignments, so you can easily see which entry produces errors.
+ * 
+ * Authors:
+ * Stefan Billiet & Nick De Feyter
+ * University College of Ghent
  */
 class UserValidator extends Validator
 {
