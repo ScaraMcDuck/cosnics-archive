@@ -3,19 +3,20 @@ require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', -1);
 ini_set('memory_limit',-1);
 $time_start = microtime(true);
-
+/*
+ * Change to the location of the .csv file which you wish to use.
+ */
 $file = dirname(__FILE__) . '/user_import.csv';
-$users = parse_csv($file);
+$user = parse_csv($file);
 /*
  * change location to the location of the test server
  */
 
 $location = 'http://www.dokeosplanet.org/demo_portal/user/webservices/webservices_user.class.php?wsdl';
-//$location = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
-create_users($users);
+create_users($user[0]);
 
 $time_end = microtime(true);
 $time = $time_end - $time_start;
@@ -51,42 +52,22 @@ function parse_csv($file)
 function create_user(&$user)
 {
 	global $hash, $client;
-	log_message('Creating user ' . $user['username']);	
+	log_message('Creating user ' . $user['username']);
+    /*
+     * If the hash is empty, request a new one. Else use the existing one.
+     * Expires by default after 10 min.
+     */
 	if($hash == '')
     $hash = login();    
     
-    $user['password'] = 'ae12e345f679aaf';    
-    $user['disk_quota'] = '209715200';
-    $user['database_quota'] = '300';
-    $user['version_quota'] = '20';
-    $user['creator_id'] = 'admin';
-	$result = $client->call('WebServicesUser.create_user', array('input' => $user, 'hash' => $hash));
+    $result = $client->call('WebServicesUser.create_user', array('input' => $user, 'hash' => $hash));
 
-    log_message('RETURN GEKREGEN VAN DE WEBSERVICE');
-	if($result == 1)
+    if($result == 1)
     {
         log_message(print_r('User successfully created', true));
     }
     else
     	log_message(print_r($result, true));
-}
-
-function create_users(&$users)
-{
-    global $hash, $client;
-	log_message('Creating users ');
-	if($hash == '')
-    $hash = login();
-    log_message('CALL NAAR DE WEBSERVICE');
-    $result = $client->call('WebServicesUser.create_users', array('input' => $users, 'hash' => $hash));
-    log_message('RETURN GEKREGEN VAN DE WEBSERVICE');
-    if($result == 1)
-    {
-        log_message(print_r('Users successfully created', true));
-    }
-    else
-    	log_message(print_r($result, true));
-
 }
 
 function login()
@@ -95,34 +76,29 @@ function login()
 	
 	/* Change the username and password to the ones corresponding to  your database.
      * The password for the login service is :
-     * IP = the ip from where the call to the webservice is made
+     * IP = the IP as seen by the target Dokeos server from where the call to the webservice is made.
+     * You can request this through e.g. http://www.whatsmyip.org/
      * PW = your hashed password from the db
-     *
+     * The hashing algoritm needs to be the same as the one used on the Dokeos installation you're trying to communicate with.
+     * When in doubt, ask the administrator of said installation.
      * $password = Hash(IP+PW) ;
      */
 
+	$username = 'Samumon';
+    $password = hash('sha1','193.190.172.141'.hash('sha1','60d9efdb7c'));
 
-	//$username = 'admin';
-	//$password = '772d9ed50e3b34cbe3f9e36b77337c6b2f4e0cfa';
-    //$username = 'Soliber';
-    //$password = hash('sha1','193.190.172.141',hash('sha1','admin'));
-    //$password = 'c14d68b0ef49d97929c36f7725842b5adbf5f006';
-    $username = 'admin'; //server and local
-    $password = hash('sha1','193.190.172.141'.hash('sha1','koendo'));
-    /*
+
+	/*
      * change location to server location for the wsdl
      */
 
 	$login_client = new nusoap_client('http://www.dokeosplanet.org/skible/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
-    //$login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
     $result = $login_client->call('LoginWebservice.login', array('input' => array('username' => $username, 'password' => $password), 'hash' => ''));
     log_message(print_r($result, true));
     if(is_array($result) && array_key_exists('hash', $result))
         return $result['hash']; //hash 3
 
-    
-		
-	return '';
+    return '';
     
 }
 

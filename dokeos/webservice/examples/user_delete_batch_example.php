@@ -3,18 +3,17 @@ require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', -1);
 ini_set('memory_limit',-1);
 $time_start = microtime(true);
-
+/*
+ * Change to the location of the .csv file which you wish to use.
+ */
 $file = dirname(__FILE__) . '/user_import.csv';
 $users = parse_csv($file);
 /*
  * change location to the location of the test server
  */
-//$location = 'http://localhost/user/webservices/webservices_user.class.php?wsdl';
 $location = 'http://www.dokeosplanet.org/skible/user/webservices/webservices_user.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
-
-//dump($users);
 
 delete_users($users);
 
@@ -53,6 +52,10 @@ function delete_users(&$users)
 {
     global $hash, $client;
 	log_message('Deleting users');
+    /*
+     * If the hash is empty, request a new one. Else use the existing one.
+     * Expires by default after 10 min.
+     */
 	if($hash == '')
     $hash = login();
 
@@ -72,18 +75,16 @@ function login()
 
 	/* Change the username and password to the ones corresponding to  your database.
      * The password for the login service is :
-     * IP = the ip from where the call to the webservice is made
+     * IP = the IP as seen by the target Dokeos server from where the call to the webservice is made.
+     * You can request this through e.g. http://www.whatsmyip.org/
      * PW = your hashed password from the db
-     *
+     * The hashing algoritm needs to be the same as the one used on the Dokeos installation you're trying to communicate with.
+     * When in doubt, ask the administrator of said installation.
      * $password = Hash(IP+PW) ;
      */
 
-	
-	//$password = '772d9ed50e3b34cbe3f9e36b77337c6b2f4e0cfa';
-    $username = 'Samumon';
-//    $password = 'c14d68b0ef49d97929c36f7725842b5adbf5f006';
+	$username = 'Samumon';
     $password = hash('sha1','193.190.172.141'.hash('sha1','60d9efdb7c'));
-
 
 
 	/*
@@ -91,15 +92,12 @@ function login()
      */
 
 	$login_client = new nusoap_client('http://www.dokeosplanet.org/skible/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
-    //$login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
     $result = $login_client->call('LoginWebservice.login', array('input' => array('username' => $username, 'password' => $password), 'hash' => ''));
     log_message(print_r($result, true));
     if(is_array($result) && array_key_exists('hash', $result))
         return $result['hash']; //hash 3
 
-
-
-	return '';
+    return '';
 
 }
 

@@ -6,8 +6,8 @@ $time_start = microtime(true);
 /*
  * Change to the location of the .csv file which you wish to use.
  */
-$file = dirname(__FILE__) . '/course_update.csv';
-$course = parse_csv($file);
+$file = dirname(__FILE__) . '/course_subs.csv';
+$courses = parse_csv($file);
 /*
  * change location to the location of the test server
  */
@@ -15,7 +15,7 @@ $location = 'http://www.dokeosplanet.org/skible/application/lib/weblcms/webservi
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
-update_course($course[0]);
+subscribe_users($courses);
 
 $time_end = microtime(true);
 $time = $time_end - $time_start;
@@ -48,21 +48,21 @@ function parse_csv($file)
 	return $courses;
 }
 
-function update_course($course)
+function subscribe_users($course)
 {
-	global $hash, $client;
-    log_message('Updating course ' . $course['title']);
+    global $hash, $client;
+    log_message('Subscribing users to courses ');
 
 	/*
      * If the hash is empty, request a new one. Else use the existing one.
      * Expires by default after 10 min.
      */
 	$hash = ($hash == '') ? login() : $hash;
-    
-    $result = $client->call('WebServicesCourse.update_course', array('input' => $course, 'hash' => $hash));
+
+    $result = $client->call('WebServicesCourse.subscribe_users', array('input' => $course, 'hash' => $hash));
     if($result == 1)
     {
-        log_message(print_r('Course successfully updated', true));
+        log_message(print_r('Users successfully subscribed to courses', true));
     }
     else
     	log_message(print_r($result, true));

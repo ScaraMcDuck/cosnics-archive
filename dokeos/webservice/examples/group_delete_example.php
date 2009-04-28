@@ -3,21 +3,19 @@ require_once dirname(__FILE__) . '/../../plugin/nusoap/nusoap.php';
 ini_set('max_execution_time', -1);
 ini_set('memory_limit',-1);
 $time_start = microtime(true);
-
+/*
+ * Change to the location of the .csv file which you wish to use.
+ */
 $file = dirname(__FILE__) . '/group_delete.csv';
-$groups = parse_csv($file);
+$group = parse_csv($file);
 /*
  * change location to the location of the test server
  */
-$location = 'http://www.dokeosplanet.org/demo_portal/group/webservices/webservices_group.class.php?wsdl';
-//$location = 'http://localhost/group/webservices/webservices_group.class.php?wsdl';
+$location = 'http://www.dokeosplanet.org/skible/group/webservices/webservices_group.class.php?wsdl';
 $client = new nusoap_client($location, 'wsdl');
 $hash = '';
 
-foreach($groups as $group)
-{
-	delete_group($group);
-}
+delete_group($group[0]);
 
 $time_end = microtime(true);
 $time = $time_end - $time_start;
@@ -51,11 +49,16 @@ function parse_csv($file)
 function delete_group($group)
 {
     global $hash, $client;
-	log_message('Deleting group: ' . $group['name']);
+    log_message('Deleting group: ' . $group['name']);
+
+	/*
+     * If the hash is empty, request a new one. Else use the existing one.
+     * Expires by default after 10 min.
+     */
     if(empty($hash))
     $hash = login();
-    $group['hash'] = $hash;
-	$result = $client->call('WebServicesGroup.delete_group', $group);
+
+	$result = $client->call('WebServicesGroup.delete_group', array('input' => $group, 'hash' => $hash));
     if($result == 1)
     {
         log_message(print_r('Group successfully deleted', true));
@@ -66,29 +69,34 @@ function delete_group($group)
 
 function login()
 {
-    global $client;
+	global $client;
+
 	/* Change the username and password to the ones corresponding to  your database.
      * The password for the login service is :
-     * IP = the ip from where the call to the webservice is made
+     * IP = the IP as seen by the target Dokeos server from where the call to the webservice is made.
+     * You can request this through e.g. http://www.whatsmyip.org/
      * PW = your hashed password from the db
-     *
+     * The hashing algoritm needs to be the same as the one used on the Dokeos installation you're trying to communicate with.
+     * When in doubt, ask the administrator of said installation.
      * $password = Hash(IP+PW) ;
      */
-	$username = 'admin';
-	//$password = 'c14d68b0ef49d97929c36f7725842b5adbf5f006';
-    $password = hash('sha1','193.190.172.141'.hash('sha1','admin'));
-    
-    /*
+
+	$username = 'Samumon';
+    $password = hash('sha1','193.190.172.141'.hash('sha1','60d9efdb7c'));
+
+
+	/*
      * change location to server location for the wsdl
      */
-	$login_client = new nusoap_client('http://www.dokeosplanet.org/demo_portal/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
-    //$login_client = new nusoap_client('http://localhost/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
-	$result = $login_client->call('LoginWebservice.login', array('username' => $username, 'password' => $password));
-    //log_message(print_r($result, true));
-    if(!empty($result['hash']))
+
+	$login_client = new nusoap_client('http://www.dokeosplanet.org/skible/user/webservices/login_webservice.class.php?wsdl', 'wsdl');
+    $result = $login_client->call('LoginWebservice.login', array('input' => array('username' => $username, 'password' => $password), 'hash' => ''));
+    log_message(print_r($result, true));
+    if(is_array($result) && array_key_exists('hash', $result))
         return $result['hash']; //hash 3
 
-	return '';
+    return '';
+
 }
 
 function dump($value)
