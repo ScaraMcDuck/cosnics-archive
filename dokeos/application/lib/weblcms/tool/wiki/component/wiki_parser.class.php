@@ -12,11 +12,13 @@ class WikiToolParserComponent
     private $pid;
     private $course_id;
     private $cid;
+    private $wikiText;
 
-    function __construct($pId,$courseId)
+    function __construct($pId,$courseId, $wikiText)
     {
          $this->pid = $pId;
          $this->course_id = $courseId;
+         $this->wikiText = $wikiText;
     }
 
     function set_pid($value)
@@ -38,30 +40,36 @@ class WikiToolParserComponent
     {
         return $this->course_id;
     }
-    
-    private function handle_internal_links($wikiText,$list)
+
+    function get_wiki_text()
     {
-        $text = $wikiText;
-        $l = $list;        
-        $linkCount = substr_count($text,'[[');
+        return $this->wikiText;
+    }
+
+    public function parse_wiki_text()
+    {
+        $this->handle_internal_links();
+        $this->create_wiki_contentsbox();
+    }
+    
+    private function handle_internal_links()
+    {
+        $linkCount = substr_count($this->wikiText,'[[');
+        
         for($i=0;$i<$linkCount;$i++)
         {
-            $first = stripos($text,'[[');
-            $last = stripos($text,']]');
-            $title = substr($text,$first+2,$last-$first-2);
+            $first = stripos($this->wikiText,'[[');
+            $last = stripos($this->wikiText,']]');
+            $title = substr($this->wikiText,$first+2,$last-$first-2);
             $pipe = strpos($title,'|');
             if($pipe===false)
-            $text = substr_replace($text, $this->get_wiki_page_url($title),$first,$last-$first+2);
+            $this->wikiText = substr_replace($this->wikiText, $this->get_wiki_page_url($title),$first,$last-$first+2);
             else
             {
             	$title = explode('|',$title);
-            	$text = substr_replace($text, $this->get_wiki_page_url($title[0],$title[1]),$first,$last-$first+2);
+            	$this->wikiText = substr_replace($this->wikiText, $this->get_wiki_page_url($title[0],$title[1]),$first,$last-$first+2);
             }
         }
-        
-        $text = $this->remove_wiki_tags($text,$l);
-        
-        return $text;
     }
 
     private function get_wiki_page_url(&$title, $viewTitle = null)
@@ -85,11 +93,11 @@ class WikiToolParserComponent
         }
     }
 
-    public function create_wiki_contentsbox($wikiText)
-    {        
-        $text = $wikiText;       
-        $linkCount = substr_count($text,'[=');
-        $list = $this->parse_wiki_content($text);        
+    private function create_wiki_contentsbox()
+    {              
+        $linkCount = substr_count($this->wikiText,'==');
+        $list = $this->parse_wiki_headers($this->wikiText);
+
         if($linkCount > 0)
         {
              echo   '<pre><div name="top" style="padding:5px;border-style:solid;border-width:1px;width:20%">
@@ -97,96 +105,81 @@ class WikiToolParserComponent
                     $this->fill_content_box($list).
                     '</div></pre>';
         }
-
-        return $text = $this->handle_internal_links($text, $list);
     }
 
-    private function parse_wiki_content($wikiText)
+    private function parse_wiki_headers()
     {
-        //list
         $list= array();
-        $i = 1;
 
-        //text to parse
-        $text = $wikiText;
+        $pattern = '/(<p>==*?[[:alnum:] ]*?==*?<\/p>)/';
 
-        //pattern       
-        $pattern = '/[\[][=](.*?)[=][\]]/';
-
-        // perform the regex
-        preg_match_all($pattern, $text, $matches, PREG_PATTERN_ORDER);
+        preg_match_all($pattern, $this->wikiText, $matches, PREG_PATTERN_ORDER);
        
         foreach($matches[1] as $value)
         {
-            $list[$i] = $value;
-            $i++;
+            $old_link = $value;
+            $head = substr_count($value,'=')/2-1;
+            $heads[$head]++;
+            $value = str_replace('<p>','',$value);
+            $value = str_replace('=','',$value);
+            $value = str_replace('</p>','',$value);
+            $this->reset_heads($heads, $head+1);
+            switch($head)
+            {
+                case 1:
+                    {
+                        $index[$value] = $heads[1];
+                        break;
+                    }
+                case 2:
+                    {
+                        $index[$value] = $heads[1].'.'.$heads[2];
+                        break;
+                    }
+                case 3:
+                    {
+                        $index[$value] = $heads[1].'.'.$heads[2].'.'.$heads[3];
+                        break;
+                    }
+                case 4:
+                    {
+                        $index[$value] = $heads[1].'.'.$heads[2].'.'.$heads[3].'.'.$heads[4];
+                        break;
+                    }
+                case 5:
+                    {
+                        $index[$value] = $heads[1].'.'.$heads[2].'.'.$heads[3].'.'.$heads[4].'.'.$heads[5];
+                        break;
+                    }
+                case 6:
+                    {
+                        $index[$value] = $heads[1].'.'.$heads[2].'.'.$heads[3].'.'.$heads[4].'.'.$heads[5].'.'.$heads[6];
+                        break;
+                    }
+            }
+            $value = '<a id ="'.str_replace(' ','',$value).'">'.$value.'</a>';
+            $this->wikiText = str_replace($old_link,$value,$this->wikiText);
         }
-        
-        return $list;
+        return $index;
+    }
+
+    private function reset_heads(&$heads,$start)
+    {
+        for($i = $start;$i<7;$i++)
+        {
+            $heads[$i] = 0;
+        }
     }
 
     private function fill_content_box($list)
     {
-        $l = $this->create_index($list);
-        
-        foreach( $l as $value)
+        foreach($list as $key => $value)
         {
-             $html .= '<a href ="#'.$value.'">'.$value.'</a><br />';
+             $html .= '<a href ="#'.str_replace(' ','',$key).'">'.$value.' '.$key.'</a><br />';
         }
         
         return $html;
     }
-
-    private function remove_wiki_tags($wikiText,$list)
-    {
-        $text = $wikiText;
-      
-        foreach($list as $value)
-        {
-            $text = str_replace('[='.$value.'=]' , '<a name ="'.$value.'">'.$value.'</a>' , $text);
-
-            
-           
-        }
-
-        $text.= '<a href="#top">'.'back to top'.'</a>';
-        return $text;
-
-    }
-
-    private function create_index($list)
-    {
-        $j = 1;
-        $l = $list;
-        
-        foreach($l as $link)
-        {           
-           if(stristr($link , '=')) //if link contains '=' it is a sublink
-           {               
-               $first = stripos($link,'=');
-               $last = stripos($link,'=');
-               $title = substr($link,$first+1,$last-$first-1);
-               $link = str_replace('='.$title.'=' , ' '.$title, $link);               
-               $l[$j] = $link;
-               if(stristr($link , '='))                    
-                 $this->create_index($l);
-
-           }
-           else
-           {               
-               $l[$j] = $link;
-               $link = str_replace($link , '', $link);
-               
-           }
-           
-           $j++;
-
-           
-        }        
-        
-        return $l;
-    }
-   
 }
 
 ?>
