@@ -74,7 +74,7 @@ class LearningPathTree extends HTML_Menu
 		$lp_item['title'] = $lo->get_title();
 		//$menu_item['url'] = $this->get_url($lp_id);
 	
-		$sub_menu_items = $this->get_menu_items($lp_id);
+		$sub_menu_items = $this->get_menu_items($lo);
 		if(count($sub_menu_items) > 0)
 		{
 			$lp_item['sub'] = $sub_menu_items;
@@ -109,7 +109,7 @@ class LearningPathTree extends HTML_Menu
 	 
 	private function get_menu_items($parent)
 	{
-		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent);
+		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent->get_id());
 		$datamanager = $this->dm;
 		$objects = $datamanager->retrieve_complex_learning_object_items($condition);
 		
@@ -131,7 +131,9 @@ class LearningPathTree extends HTML_Menu
 			$sub_menu_items = array();
 			
 			if($lo->get_type() == 'learning_path')
-				$sub_menu_items = $this->get_menu_items($object->get_ref());
+				$sub_menu_items = $this->get_menu_items($lo);
+			
+			$control_mode = $parent->get_control_mode();	
 			
 			if(count($sub_menu_items) > 0)
 			{
@@ -139,25 +141,27 @@ class LearningPathTree extends HTML_Menu
 			}
 			else
 			{
-				$menu_item['url'] = $this->get_url($this->step);
-				$menu_item[OptionsMenuRenderer :: KEY_ID] = $this->step;
-				
-				if($lpi_tracker_data['completed'])
+				if($control_mode['choice'] != 0)
 				{
-					$menu_item['title'] = $menu_item['title'] . Theme :: get_common_image('status_ok_mini');
-					$this->taken_steps++;
+					$menu_item['url'] = $this->get_url($this->step);
+					$menu_item[OptionsMenuRenderer :: KEY_ID] = $this->step;	
 				}
 				
-				if($this->step == $this->current_step)
-				{
-					$this->current_cloi = $object;
-					$this->current_object = $lo;
-					$this->current_tracker = $lpi_tracker_data['active_tracker'];
-				}
-				
-				$this->objects[$object->get_id()] = $lo;
-				
-				$this->step++;
+					$this->objects[$object->get_id()] = $lo;
+					if($lpi_tracker_data['completed'])
+					{
+						$menu_item['title'] = $menu_item['title'] . Theme :: get_common_image('status_ok_mini');
+						$this->taken_steps++;
+					}
+					
+					if($this->step == $this->current_step)
+					{
+						$this->current_cloi = $object;
+						$this->current_object = $lo;
+						$this->current_tracker = $lpi_tracker_data['active_tracker'];
+					}
+					
+					$this->step++;
 			}
 
 			$menu[] = $menu_item;

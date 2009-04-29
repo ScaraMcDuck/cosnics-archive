@@ -32,6 +32,11 @@ class WeblcmsInstaller extends Installer
 			return false;
 		}
 		
+		if(!$this->create_course())
+		{
+			return false;
+		}
+		
 		return true;
 	}
 	
@@ -70,6 +75,22 @@ class WeblcmsInstaller extends Installer
 		}
 		
 		return true;
+	}
+	
+	function create_course()
+	{
+		$course = new Course();
+		$course->set_name('ExampleCourse');
+		$course->set_titular(2);
+		$course->set_category(1);
+		$course->set_visual('EX');
+		$course->set_language('english');
+		$succes = $course->create();
+		
+		$wdm = WeblcmsDataManager :: get_instance();
+		$succes &= $wdm->subscribe_user_to_course($course, '1', '1', 2);
+		
+		return $succes;
 	}
 	
 	function get_path()
