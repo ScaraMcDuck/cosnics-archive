@@ -44,11 +44,12 @@ class WikiToolItemViewerComponent extends WikiToolComponent
         $this->action_bar = $this->get_toolbar();
         echo  $this->action_bar->as_html();
 
-		$parser = new WikiToolParserComponent(Request :: get('pid'),$this->get_course_id());
+		$parser = new WikiToolParserComponent(Request :: get('pid'),$this->get_course_id(),$this->wiki_page->get_description());
 
         echo '<h2>'.$this->wiki_page->get_title().'</h2>';
-        $wikiText = $this->wiki_page->get_description();
-        echo $parser->create_wiki_contentsbox($wikiText);                
+
+        $parser->parse_wiki_text();
+        echo $parser->get_wiki_text();
         $this->display_footer();
 	}
 
