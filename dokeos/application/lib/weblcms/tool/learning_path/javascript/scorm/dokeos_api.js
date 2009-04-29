@@ -48,7 +48,29 @@ function DokeosTerminate(params)
 	initialized = false;
 	last_error = 0;
 	
+	check_redirect_conditions();
+	
 	return "true";
+}
+
+function check_redirect_conditions()
+{
+	var url = null;
+
+	if(this.values['adl.nav.request'] == 'continue')
+	{
+		url = continue_url;
+	}
+	
+	if(this.values['adl.nav.request'] == 'previous')
+	{
+		url = previous_url;
+	}
+	
+	/*if(url)
+	{
+		window.location = url;
+	}*/
 }
 
 function DokeosGetValue(variable)
@@ -66,7 +88,18 @@ function DokeosGetValue(variable)
 	}
 	
 	last_error = 0;
-	return this.values[variable];
+	var value = this.values[variable]; 
+	if(!value)
+	{ 
+		value = jQuery.ajax({
+			type: "POST",
+			url: "./application/lib/weblcms/tool/learning_path/javascript/scorm/ajax/get_value.php",
+			data: { tracker_id: tracker_id, variable: variable},
+			async: false
+		}).responseText; 
+	}
+
+	return value;
 }
 
 function DokeosSetValue(variable, value)

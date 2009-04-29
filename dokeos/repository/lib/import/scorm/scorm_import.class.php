@@ -57,7 +57,7 @@ class ScormImport extends LearningObjectImport
 
 		// Build the organizations tree
 		$learning_paths = $this->build_organizations($xml_data['organizations']['organization'], $resources_list);
-		
+		//dump($xml_data);
 		// Remove the temporary files
 		FileSystem :: remove($extracted_files_dir);
 		
@@ -94,7 +94,7 @@ class ScormImport extends LearningObjectImport
 		
 		foreach($organizations as $organization)
 		{
-			$learning_path = $this->create_learning_path($organization['title']);
+			$learning_path = $this->create_learning_path($organization);
 			$this->build_items($organization['item'], $resources_list, $learning_path);
 			$learning_paths[] = $learning_path;
 		}
@@ -116,14 +116,14 @@ class ScormImport extends LearningObjectImport
 		{
 			if($item['item'])
 			{
-				$sub_learning_path = $this->create_learning_path($item['title']);
+				$sub_learning_path = $this->create_learning_path($item);
 				$this->build_items($item['item'], $resources_list, $sub_learning_path);
 				$this->add_sub_learning_path_to_learning_path($parent_learning_path, $sub_learning_path);
 			}
 			else
 			{
 				$scorm_item = $this->create_scorm_item($item, $resources_list[$item['identifierref']]);
-				$this->add_scorm_item_to_learning_path($scorm_item, $parent_learning_path);
+				$this->add_scorm_item_to_learning_path($scorm_item, $parent_learning_path, $item);
 			}
 		}
 	}
@@ -136,15 +136,22 @@ class ScormImport extends LearningObjectImport
 	 * @param String $title
 	 * @return LearningPath
 	 */
-	private function create_learning_path($title)
+	private function create_learning_path($item)
 	{
+		$title = $item['title'];
 		$learning_path = AbstractLearningObject :: factory('learning_path');
 		$learning_path->set_title($title);
 		$learning_path->set_description($title);
 		$learning_path->set_parent_id($this->get_category());
 		$learning_path->set_owner_id($this->get_user()->get_id());
-		$learning_path->create();
 		
+		$sequencing = $item['imsss:sequencing'];
+		
+		if($sequencing['imsss:controlMode'])
+			$learning_path->set_control_mode($sequencing['imsss:controlMode']);
+		
+		$learning_path->create();
+			
 		return $learning_path;
 	}
 	
@@ -182,6 +189,14 @@ class ScormImport extends LearningObjectImport
 		if($hideLMSUI)
 			$scorm_item->set_hide_lms_ui($hideLMSUI);
 		
+		$sequencing = $item['imsss:sequencing'];
+		if($sequencing['imsss:controlMode'])
+			$scorm_item->set_control_mode($sequencing['imsss:controlMode']);	
+		
+		$limit_conditions = $sequencing['imsss:limitConditions'];
+		if($limit_conditions['attemptAbsoluteDurationLimit'])
+			$scorm_item->set_time_limit($limit_conditions['attemptAbsoluteDurationLimit']);	
+		
 		$scorm_item->create();
 		
 		return $scorm_item;
@@ -192,9 +207,10 @@ class ScormImport extends LearningObjectImport
 	 *
 	 * @param ScormItem $scorm_item
 	 * @param LearningPath $learning_path
+	 * @param Array String $item -> The item in xml form, needed for sequencing data
 	 * @return ComplexScormItem - The wrapper
 	 */
-	private function add_scorm_item_to_learning_path($scorm_item, $learning_path)
+	private function add_scorm_item_to_learning_path($scorm_item, $learning_path, $item)
 	{
 		$learning_path_item = AbstractLearningObject :: factory('learning_path_item');
 		$learning_path_item->set_parent_id($this->get_category());
@@ -202,6 +218,11 @@ class ScormImport extends LearningObjectImport
 		$learning_path_item->set_title($scorm_item->get_title());
 		$learning_path_item->set_description($scorm_item->get_description());
 		$learning_path_item->set_reference($scorm_item->get_id());
+		
+		$limit_conditions = $item['imsss:sequencing']['imsss:limitConditions'];
+		if($limit_conditions['attemptLimit'])
+			$learning_path_item->set_max_attempts($limit_conditions['attemptLimit']);	
+		
 		$learning_path_item->create();
 		
 		$wrapper = ComplexLearningObjectItem :: factory('learning_path_item');
