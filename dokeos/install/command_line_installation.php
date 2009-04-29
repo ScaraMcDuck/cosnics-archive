@@ -7,6 +7,7 @@ $this_section = 'install';
 ini_set('include_path',realpath(dirname(__FILE__).'/../plugin/pear'));
 ini_set("memory_limit"		,"-1"	);	// Geen php-beperkingen voor geheugengebruik
 ini_set("max_execution_time"	,"7200");	// Twee uur moet voldoende zijn...
+ini_set("error_reporting", "E_ALL & ~E_NOTICE");
 
 require_once dirname(__FILE__).'/../common/filesystem/path.class.php';
 require_once Path :: get_library_path().'/database/connection.class.php';
@@ -22,7 +23,7 @@ require_once Path :: get_application_path() . 'lib/application.class.php';
 require_once Path :: get_library_path() . 'installer.class.php';
 require_once 'MDB2.php';
 
-require_once 'command_line_configuration.inc.php';
+require_once  dirname(__FILE__) . '/command_line_configuration.inc.php';
 
 Translation :: set_application($this_section);
 Translation :: set_language('english');

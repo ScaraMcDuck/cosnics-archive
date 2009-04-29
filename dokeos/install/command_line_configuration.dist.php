@@ -9,6 +9,7 @@ $values['database_host'] = 'localhost';
 $values['database_username'] = '';
 $values['database_password'] = '';
 $values['database_name'] = 'lcms';
+$values['database_user'] = '';
 $values['platform_language'] = 'english';
 $values['platform_url'] = '';
 $values['admin_email'] = '';
@@ -21,4 +22,5 @@ $values['platform_name'] = 'Dokeos';
 $values['organization_name'] = '';
 $values['organization_url'] = 'http://www.dokeosplanet.org';
 $values['self_reg'] = '0';
+$values['hashing_algorithm'] = 'sha1';
 ?>
