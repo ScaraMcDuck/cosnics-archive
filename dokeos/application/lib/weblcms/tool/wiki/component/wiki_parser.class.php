@@ -95,7 +95,7 @@ class WikiToolParserComponent
 
     private function create_wiki_contentsbox()
     {              
-        $linkCount = substr_count($this->wikiText,'==');
+        $linkCount = substr_count($this->wikiText,'<p>==');
         $list = $this->parse_wiki_headers($this->wikiText);
 
         if($linkCount > 0)
