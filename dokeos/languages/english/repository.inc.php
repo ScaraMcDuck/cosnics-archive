@@ -421,7 +421,7 @@ $lang['repository']['SurveyFormDescription'] = 'Description';
 $lang['repository']['SurveyFormProperties'] = 'Properties';
 $lang['repository']['WikiPageCreationFormTitle'] = 'Create wiki page';
 $lang['repository']['WikiPageFormTitle'] = 'Title';
-$lang['repository']['WikiPageFormDescription'] = 'Description';
+$lang['repository']['WikiPageFormDescription'] = 'Content';
 $lang['repository']['BlogItemCreationFormTitle'] = 'Create blog item';
 $lang['repository']['BlogItemFormTitle'] = 'Title';
 $lang['repository']['BlogItemFormDescription'] = 'Description';
@@ -499,5 +499,7 @@ $lang['repository']['HomePage'] = 'Homepage';
 $lang['repository']['SelectAsHomepage'] = 'Select as Homepage';
 $lang['repository']['HomepageSelected'] = 'Homepage selected';
 $lang['repository']['Subitems'] = 'Subitems';
-$lang['repository']['LearningPathAddLearningObject'] = 'Add learning object';
+$lang['repository']['ForumLocked'] = 'Forum blocked';
+$lang['repository']['WikiLocked'] = 'Wiki locked';
+$lang['repository']['LearningPathAddLearningObject'] = 'Learning path add object';
 ?>
