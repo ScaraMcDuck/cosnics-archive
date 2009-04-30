@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * This is the history page. Here a user can follow the changes made to a wiki_page.
+ * Author: Stefan Billiet
+ * Author: Nick De Feyter
+ */
+
 require_once dirname(__FILE__) . '/../wiki_tool.class.php';
 require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
 require_once dirname(__FILE__).'/wiki_page_table/wiki_page_table.class.php';
@@ -24,9 +30,18 @@ class WikiToolHistoryComponent extends WikiToolComponent
 			return;
 		}
         
-        //DATA                
+                    
         $dm = RepositoryDataManager :: get_instance();
         $rm = new RepositoryManager();
+
+        /*
+         * publication and complex object id are requested.
+         * These are used to retrieve
+         *  1) the complex object ( reference is stored )
+         *  2) the learning object ( actual inforamation about a wiki_page is stored here )
+         *
+         */
+        
         $this->publication_id = Request :: get('pid');
         $this->cid = Request :: get('cid');
         $complexeObject = $dm->retrieve_complex_learning_object_item($this->cid);
@@ -38,24 +53,38 @@ class WikiToolHistoryComponent extends WikiToolComponent
         
         $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
 
+        /*
+         *  We make use of the existing LearningObjectDisplay class, changing the type to wiki_page
+         */
         $display = LearningObjectDisplay :: factory($wiki_page);
 
+        /*
+         *  We make a new array called version_data, this will hold every version for a wiki_page.
+         *  A new version is created after an edit to the page is made, and the user chose to create a new version.         *
+         */
         $version_data = array();
-		$versions = $wiki_page->get_learning_object_versions(); 
         $publication_attr = array();
+		$versions = $wiki_page->get_learning_object_versions();         
 
         $this->display_header(new BreadcrumbTrail());
         $this->action_bar = $this->get_toolbar();
         echo '<br />' . $this->action_bar->as_html();
         echo '<h2>'. Translation :: get('HistoryForThe') .$wiki_page->get_title() .' ' . Translation :: get('Page') .'</h2>';
-        
-        foreach ($wiki_page->get_learning_object_versions() as $version)
+
+        /*
+         * All versions for a wiki_page will be looped and the publications attributes are stored in the $publication_attr array
+         */
+        foreach ($versions as $version)
         {
             // If this learning object is published somewhere in an application, these locations are listed here.
             $publications = $dm->get_learning_object_publication_attributes($this->get_user(), $version->get_id());
             $publication_attr = array_merge($publication_attr, $publications);
         }
 
+        /*
+         *  If the page has more then version
+         *  Every version will be looped and it's information stored in the version_entry array.
+         */
         if (count($versions) >= 2)
         {            
             //DokeosUtilities :: order_learning_objects_by_id_desc($versions);
@@ -91,7 +120,11 @@ class WikiToolHistoryComponent extends WikiToolComponent
                 $version_data[] = $display->get_version_as_html($version_entry);
             }
 
-
+            /*
+             *  Here the compare form is made. It will redirect to the history page passing the right parameters to compare.
+             *  You can select 2 versions to compare.
+             *  The first selected version ('object') will be compared with the second selected version ('compare') and it's differences shown using the LearningObjectDifferenceDisplay
+             */
             $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_COMPARE, $wiki_page, 'compare', 'post', $this->get_url(array(Tool::PARAM_ACTION => 'history', 'pid' => $this->publication_id, 'cid' => $this->cid)), array('version_data' => $version_data));
             if ($form->validate())
             {
@@ -100,6 +133,9 @@ class WikiToolHistoryComponent extends WikiToolComponent
                  $object = $rdm->retrieve_learning_object($params['compare']);
                  $diff = $object->get_difference($params['object']);
                  $diff_display = LearningObjectDifferenceDisplay :: factory($diff);
+                 /*
+                  *  A block hider is added to hide , and show the legend for the LearningObjectDifferenceDisplay
+                  */
                  echo DokeosUtilities :: add_block_hider();
                  echo DokeosUtilities :: build_block_hider('compare_legend');
                  echo $diff_display->get_legend();
