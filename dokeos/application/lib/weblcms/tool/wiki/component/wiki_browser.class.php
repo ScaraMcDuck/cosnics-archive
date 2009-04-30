@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This is the first page you'll get when adding a wiki to a course.
+ * It shows a list of every available wiki. You can edit, delete or hide a wiki.
+ * 
+ * Author: Stefan Billiet
+ * Author: Nick De Feyter
+ */
+
 require_once Path :: get_library_path().'/html/action_bar/action_bar_renderer.class.php';
 require_once dirname(__FILE__).'/wiki_publication_table/wiki_publication_table.class.php';
 

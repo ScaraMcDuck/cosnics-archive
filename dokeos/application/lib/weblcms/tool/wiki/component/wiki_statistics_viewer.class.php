@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This is the component that allows the user view all statisctics about a wiki.
+ * 
+ * Author: Stefan Billiet
+ * Author: Nick De Feyter
+ */
+
 require_once dirname(__FILE__) . '/../wiki_tool.class.php';
 require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
 require_once dirname(__FILE__).'/wiki_page_table/wiki_page_table.class.php';
@@ -15,6 +22,10 @@ class WikiToolStatisticsViewerComponent extends WikiToolComponent
 			return;
 		}
 
+        /*
+         *  We use the Reporting Tool, for more information about it, please read the information provided in the reporting class
+         */
+        
         $params = array();
         $params[ReportingManager :: PARAM_COURSE_ID] = $this->get_course_id();
         $params['pid'] = Request :: get('pid');

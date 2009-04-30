@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * This is the discuss page. Here a user can add feedback to a wiki_page. 
+ * Author: Stefan Billiet
+ * Author: Nick De Feyter
+ */
+
 require_once dirname(__FILE__) . '/../wiki_tool.class.php';
 require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
 require_once dirname(__FILE__).'/wiki_page_table/wiki_page_table.class.php';
@@ -28,6 +34,14 @@ class WikiToolDiscussComponent extends WikiToolComponent
 
         $dm = RepositoryDataManager :: get_instance();
         $rm = new RepositoryManager();
+
+        /*
+         * publication and complex object id are requested.
+         * These are used to retrieve
+         *  1) the complex object ( reference is stored )
+         *  2) the learning object ( actual inforamation about a wiki_page is stored here )
+         *
+         */
         $this->publication_id = Request :: get('pid');
         $this->cid = Request :: get('cid');
         
@@ -45,12 +59,23 @@ class WikiToolDiscussComponent extends WikiToolComponent
         echo '<br />' . $this->action_bar->as_html();
         
         echo '<h2>' .Translation :: get('DiscussThe'). ' ' .$wiki_page->get_title().' ' . Translation :: get('Page') .'</h2>';
+        /*
+         *  We make use of the existing LearningObjectDisplay class, changing the type to wiki_page
+         */
         $display = LearningObjectDisplay :: factory($wiki_page);
+        /*
+         *  Here we make the call to the wiki_parser.
+         *  For more information about the parser, please read the information in the wiki_parser class.
+         */
         $parser = new WikiToolParserComponent();
         $parser->set_pid(Request :: get('pid'));
         $parser->set_course_id($this->get_course_id());
         echo $parser->handle_internal_links($display->get_full_html());
-        
+
+        /*
+         *  We make use of the existing condition framework to show the data we want.
+         *  If the publication id , and the compled object id are equal to the ones passed the feedback will be shown.
+         */
         if(isset($this->cid)&& isset($this->publication_id))
         {
             $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_PUBLICATION_ID, $this->publication_id);
@@ -64,6 +89,10 @@ class WikiToolDiscussComponent extends WikiToolComponent
                     echo '<h3>' . Translation :: get('Feedback') . '</h3>';
                 }
                 $this->fid = $feedback->get_feedback_id();
+                /*
+                 *  We retrieve the learning object, because that one contains the information we want to show.
+                 *  We then display it using the LearningObjectDisplay and setting the type to feedback
+                 */
                 $feedback_display = $dm->retrieve_learning_object($this->fid);
                 $creationDate = $feedback_display->get_creation_date();
                 echo date("F j, Y, H:i:s",$creationDate );

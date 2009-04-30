@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This viewer will show the selected wiki_page.
+ * You'll be redirected here from the wiki_viewer page by clicking on the name of a wiki_page
+ * Author: Stefan Billiet
+ * Author: Nick De Feyter
+ */
+
 require_once dirname(__FILE__) . '/../wiki_tool.class.php';
 require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
 require_once dirname(__FILE__).'/wiki_page_table/wiki_page_table.class.php';
@@ -21,33 +28,43 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 			Display :: not_allowed();
 			return;
 		}
+
+        /*
+         * publication and complex object id are requested.
+         * These are used to retrieve
+         *  1) the complex object ( reference is stored )
+         *  2) the learning object ( actual inforamation about a wiki_page is stored here )
+         *
+         */
         $this->publication_id = Request :: get('pid');        
         $this->cid = Request :: get('cid');        
         $dm = RepositoryDataManager :: get_instance();
-       
+
+       /*
+        *  If a complex object id is passed, the object will be retrieved
+        */
         if(!empty($this->cid))
         {
             $cloi = $dm->retrieve_complex_learning_object_item($this->cid);
             $this->wiki_page = $dm->retrieve_learning_object($cloi->get_ref());
         }
-        else
-        {
-           /*
-            * complex object id needed to delete / update
-            */
+        /*else This condition isn't needed anymore
+        {           
             $condition = New EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $this->wiki_page->get_id());
             $cloi = $dm->retrieve_complex_learning_object_items($condition)->as_array();
             $this->cid = $cloi[0]->get_id();
-        }
+        }*/
 
         $this->display_header(new BreadcrumbTrail());
         $this->action_bar = $this->get_toolbar();
         echo  $this->action_bar->as_html();
-
-		$parser = new WikiToolParserComponent(Request :: get('pid'),$this->get_course_id(),$this->wiki_page->get_description());
-
         echo '<h2>'.$this->wiki_page->get_title().'</h2>';
 
+        /*
+         *  Here we create the wiki_parser component.
+         * For more information about the parser, please read the information provided in the wiki_parser class
+         */
+		$parser = new WikiToolParserComponent(Request :: get('pid'),$this->get_course_id(),$this->wiki_page->get_description());
         $parser->parse_wiki_text();
         echo $parser->get_wiki_text();
         $this->display_footer();

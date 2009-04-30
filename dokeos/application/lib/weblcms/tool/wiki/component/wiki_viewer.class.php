@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This is the compenent that allows the user to view all pages of a wiki.
+ * If no homepage is set all available pages will be shown, otherwise the homepage will be shown.
+ * 
+ * Author: Stefan Billiet
+ * Author: Nick De Feyter
+ */
+
 require_once dirname(__FILE__) . '/../wiki_tool.class.php';
 require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
 require_once dirname(__FILE__).'/wiki_page_table/wiki_page_table.class.php';
@@ -21,13 +29,30 @@ class WikiToolViewerComponent extends WikiToolComponent
         
         $this->display_header(new BreadcrumbTrail());
         $dm = RepositoryDataManager :: get_instance();
+
+        /*
+         * publication and complex object id are requested.
+         * These are used to retrieve
+         *  1) the complex object ( reference is stored )
+         *  2) the learning object ( actual inforamation about a wiki_page is stored here )
+         *
+         */
+        
         $this->publication_id = Request :: get('pid');
         $this->cid = Request :: get('cid');
+
+        /*
+         *  If the publication id isn't empty the publication will be retrieved.
+         *  This controle make sure that
+         *      1)the retrieve learning object publication is valid
+         *      2)the method get_id() is only called when the publication object is made.
+         */
         if(!empty($this->publication_id))
         {           
             $wm = WeblcmsDataManager :: get_instance();
             $publication = $wm->retrieve_learning_object_publication($this->publication_id);
-            $this->wiki_id = $publication->get_learning_object()->get_id();
+            if(isset($publication))
+                $this->wiki_id = $publication->get_learning_object()->get_id();
             $wiki = $dm->retrieve_learning_object($this->wiki_id);
         }
         

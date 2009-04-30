@@ -126,6 +126,7 @@ class WikiToolParserComponent
                     <pre>'.
                     $this->fill_content_box($list).
                     '<pre></div></div>';
+
         }
     }
 
