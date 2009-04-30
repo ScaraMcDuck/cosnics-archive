@@ -28,6 +28,7 @@ class WikiTool extends Tool
     const ACTION_COMPARE = 'compare';
     const ACTION_STATISTICS = 'statistics';
     const ACTION_LOCK = 'lock';
+    const ACTION_ADD_LINK = 'add_wiki_link';
 
 
 
@@ -84,6 +85,9 @@ class WikiTool extends Tool
             case self :: ACTION_STATISTICS :
                 $component = WikiToolComponent :: factory('StatisticsViewer', $this);
                 break;
+            case self :: ACTION_ADD_LINK :
+                $component = ToolComponent :: factory('', 'WikiLinkCreator', $this);
+				break;
 			default :                
 				$component = WikiToolComponent :: factory('Browser', $this);
 		}

@@ -26,8 +26,13 @@ class ToolComplexEditComponent extends ToolComponent
                     $form->update_learning_object();
                     if($form->is_version())
                     {
+                        echo 'test';
                         $cloi->set_ref($learning_object->get_latest_version()->get_id());
                         $cloi->update();
+                    }
+                    else
+                    {
+                        echo 'fack';
                     }
 
                     $message = htmlentities(Translation :: get('LearningObjectUpdated'));
@@ -51,6 +56,8 @@ class ToolComplexEditComponent extends ToolComponent
                         $params['cid'] = $cid;
                         $params['tool_action'] = 'view_item';
                     }
+
+                    
                     
                     $this->redirect(null, $message, '', $params);
 
