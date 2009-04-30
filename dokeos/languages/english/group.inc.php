@@ -106,4 +106,16 @@ $lang['group']['UsersSubscribed'] = 'Users subscribed';
 $lang['group']['CouldNotUnsubscribeUser'] = 'Could not unsubscribe user';
 $lang['group']['FromGroup'] = 'from group';
 $lang['group']['UsersUnsubscribed'] = 'The selected users have been unsubscribed from the course';
+$lang['group']['GroupnameIsRequired'] = 'Groupname is required';
+$lang['group']['GroupnameIsAlreadyUsed'] = 'Groupname is already used';
+$lang['group']['ParentGroupName'] = 'Parent group name';
+$lang['group']['wasNotFoundInTheDatabase'] = 'was not found in the database';
+$lang['group']['User'] = 'User';
+$lang['group']['ErrorRetreivingGroup'] = 'Error retrieving group';
+$lang['group']['ErrorCreatingGroup'] = 'Error creating group';
+$lang['group']['ErrorUpdatingGroup'] = 'Error updating group';
+$lang['group']['ErrorDeletingGroup'] = 'Error deleting group';
+$lang['group']['ErrorSubscribingOrUnsubscribingUser'] = 'Error subscribing or unsubscribing user';
+$lang['group']['ToFrom'] = 'to / from';
+$lang['group']['Client'] = 'Client';
 ?>

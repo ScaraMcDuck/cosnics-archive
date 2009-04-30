@@ -231,5 +231,16 @@ $lang['reporting']['Bar'] = 'Bar';
 $lang['reporting']['Line'] = 'Line';
 $lang['reporting']['FilledCubic'] = 'Filled cubic';
 $lang['reporting']['ChangingDisplaymode'] = 'Changing displaymode';
-$lang['reporting']['Object'] = 'Object';
+$lang['reporting']['SelectReportingBlock'] = 'Select reporting block';
+$lang['reporting']['ExportToPdf'] = 'Export to PDF';
+$lang['reporting']['NoSearchResults'] = 'No search results';
+$lang['reporting']['ErrorRetrievingUserCourses'] = 'Error retrieving user courses';
+$lang['reporting']['UsernameIsRequired'] = 'Username is required';
+$lang['reporting']['wasNotFoundInTheDatabase'] = 'was not found in the database';
+$lang['reporting']['ErrorRetrievingCourseUsers'] = 'Error retrieving course users';
+$lang['reporting']['CourseVisualCodeIsRequired'] = 'Course visual code is required';
+$lang['reporting']['ErrorRetrievingNewCoursePublications'] = 'Error retrieving new course publications';
+$lang['reporting']['ErrorRetrievingNewPublicationsInCourseTool'] = 'Error retrieving new publications in course tool';
+$lang['reporting']['ToolNameIsRequired'] = 'Tool name is required';
+$lang['reporting']['Client'] = 'Client';
 ?>
