@@ -50,6 +50,7 @@ class WikiToolParserComponent
     {
         $this->handle_internal_links();
         $this->create_wiki_contentsbox();
+        $this->handle_doubt_tags();
     }
     
     private function handle_internal_links()
@@ -101,7 +102,7 @@ class WikiToolParserComponent
         if($linkCount > 0)
         {
              echo   '<pre><div name="top" style="padding:5px;border-style:solid;border-width:1px;width:20%">
-                    <h3 style="text-align:center;font-family:Arial;">'. Contents . '</h3>'.
+                    <h3 style="text-align:center;font-family:Arial;">'. Translation :: get('Contents') . '</h3>'.
                     $this->fill_content_box($list).
                     '</div></pre>';
         }
@@ -157,10 +158,27 @@ class WikiToolParserComponent
                         break;
                     }
             }
-            $value = '<a id ="'.str_replace(' ','',$value).'">'.$value.'</a>';
+            $value = '<a class="head'.$head.'" id ="'.str_replace(' ','',$value).'">'.$value.'</a>';
             $this->wikiText = str_replace($old_link,$value,$this->wikiText);
         }
         return $index;
+    }
+
+    private function handle_doubt_tags()
+    {
+        $doubts = substr_count($this->wikiText,'{{'.Translation :: get('Disputed').'}}');
+
+        for($i=0;$i<$doubts;$i++)
+        {
+            $first = stripos($this->wikiText,'{{');
+            $last = stripos($this->wikiText,'}}');
+            
+            $doubtBox =   '<pre><div name="doubt" style="padding:5px;border-style:solid;border-width:1px;width:auto">
+                    <h3 style="text-align:center;font-family:Arial;">'. Translation :: get('ThereIsDoubtAboutTheFactualAccuracyOfThisPart') . '.</h3>
+                    <p>'.Translation :: get('ConsultTheDiscussionPageForMoreInformationAndModifyTheArticleIfDesirable').'.</p></div></pre>';
+
+            $this->wikiText = str_replace('{{'.Translation :: get('Disputed').'}}',$doubtBox,$this->wikiText);
+        }
     }
 
     private function reset_heads(&$heads,$start)
