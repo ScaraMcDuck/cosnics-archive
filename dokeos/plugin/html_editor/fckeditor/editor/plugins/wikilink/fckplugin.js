@@ -47,13 +47,13 @@ FCKPlaceholders.Add = function( name )
 
 FCKPlaceholders.SetupSpan = function( span, name )
 {
-	span.innerHTML = '[[ ' + name + ' ]]' ;
+	span.innerHTML = '[[' + name + ']]' ;
 
 	if ( FCKBrowserInfo.IsGecko )
 		span.style.cursor = 'default' ;
 
 	span._fckplaceholder = name ;
-	span.contentEditable = false ;
+	//span.contentEditable = false ;
 
 	// To avoid it to be resized.
 	span.onresizestart = function()
@@ -102,7 +102,7 @@ FCKPlaceholders.SetupSpan = function( span, name )
 FCK.RegisterDoubleClickHandler( FCKPlaceholders.OnDoubleClick, 'SPAN' ) ;*/
 
 // Check if a Placholder name is already in use.
-FCKPlaceholders.Exist = function( name )
+/*FCKPlaceholders.Exist = function( name )
 {
 	var aSpans = FCK.EditorDocument.getElementsByTagName( 'SPAN' ) ;
 
@@ -202,4 +202,4 @@ FCKXHtml.TagProcessors['span'] = function( node, htmlNode )
 		FCKXHtml._AppendChildNodes( node, htmlNode, false ) ;
 
 	return node ;
-}
+}*/
