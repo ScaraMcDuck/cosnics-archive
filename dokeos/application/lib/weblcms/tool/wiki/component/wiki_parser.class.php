@@ -1,18 +1,30 @@
 <?php
+
 /*
  * This is a standalone wiki parser component, used to parse links to other wiki pages, much in the same way as on Wikipedia.
  * A normal wiki page link looks like [[*title of wiki page*]]
  * A | character can also be used to give the link a title different from the page title. E.g: [[*title of wiki page*|*title of URL*]]
  * The pid is the publication ID of the wiki, and the course id is the id of the course wherein the parent wiki resides.
  * For the moment it's only possible to link to other wiki pages in the same wiki.
+ * A normal content link looks like ==*title of header*==
+ * The more == are used, the lower in the index it will be placed
+ * fe :
+ *      ==Root==
+ *      ==subRoot==
+ * would become :   1. Root
+ *                  1.1 subRoot
+ * The contentbox can be shown and hidden by using actionscript
+ * 
  * Author: Stefan Billiet
+ * Author: Nick De Feyter
  */
+
 class WikiToolParserComponent
 {
     private $pid;
     private $course_id;
     private $cid;
-    private $wikiText;
+    private $wikiText;    
 
     function __construct($pId,$courseId, $wikiText)
     {
@@ -101,10 +113,18 @@ class WikiToolParserComponent
 
         if($linkCount > 0)
         {
-             echo   '<pre><div name="top" style="padding:5px;border-style:solid;border-width:1px;width:20%">
-                    <h3 style="text-align:center;font-family:Arial;">'. Translation :: get('Contents') . '</h3>'.
+            $this->set_script();
+            echo    '<div name="top" style="padding:5px;border-style:solid;border-width:1px;width:20%">
+                    <h3 style="text-align:center;font-family:Arial;">'. Translation :: get('Contents') . '</h3>
+                    <div id="show" style="text-align:right;display:none">
+                        <a href="#" onclick="showhide();">'. Translation :: get(Show).'</a><br />
+                    </div>
+                    <div id="hide" style="text-align:right;display:block">
+                        <a href="#" onclick="showhide();">'. Translation :: get(Hide).'</a><br />
+                    </div>
+                    <div id="content" style="display:block";>'.
                     $this->fill_content_box($list).
-                    '</div></pre>';
+                    '</div></div>';
         }
     }
 
@@ -129,7 +149,7 @@ class WikiToolParserComponent
             {
                 case 1:
                     {
-                        $index[$value] = $heads[1];
+                        $index[$value] = $heads[1].'.';
                         break;
                     }
                 case 2:
@@ -197,7 +217,16 @@ class WikiToolParserComponent
         }
         
         return $html;
+   
     }
+
+    private function set_script()
+    {
+        echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/showhide_content.js');;
+    }
+
+   
+    
 }
 
 ?>
