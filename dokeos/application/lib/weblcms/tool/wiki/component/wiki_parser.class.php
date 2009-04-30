@@ -115,7 +115,7 @@ class WikiToolParserComponent
         {
             $this->set_script();
             echo    '<div style="width:80%;float: right">
-                    <div name="top" style="padding:5px;border-style:solid;border-width:1px;width:20%">
+                    <div name="top" style="padding:5px;border-style:solid;border-width:1px;width:30%">
                     <h3 style="text-align:center;font-family:Arial;">'. Translation :: get('Contents') . '</h3>
                     <div id="show" style="text-align:right;display:none">
                         <a href="#" onclick="showhide();">'. Translation :: get(Show).'</a><br />
@@ -126,7 +126,7 @@ class WikiToolParserComponent
                     <div id="content" style="display:block";>
                     <pre>'.
                     $this->fill_content_box($list).
-                    '<pre></div></div></div>';
+                    '</pre></div></div></div>';
 
         }
     }
@@ -196,7 +196,7 @@ class WikiToolParserComponent
             $first = stripos($this->wikiText,'{{');
             $last = stripos($this->wikiText,'}}');
             
-            $doubtBox =   '<pre><div name="doubt" style="padding:5px;border-style:solid;border-width:1px;width:auto">
+            $doubtBox =   '<pre><div name="doubt" style="padding:5px;border-style:solid;border-width:1px;width:75%;">
                     <h3 style="text-align:center;font-family:Arial;">'. Translation :: get('ThereIsDoubtAboutTheFactualAccuracyOfThisPart') . '.</h3>
                     <p>'.Translation :: get('ConsultTheDiscussionPageForMoreInformationAndModifyTheArticleIfDesirable').'.</p></div></pre>';
 

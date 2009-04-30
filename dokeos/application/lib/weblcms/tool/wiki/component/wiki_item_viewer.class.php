@@ -66,7 +66,7 @@ class WikiToolItemViewerComponent extends WikiToolComponent
          */
 		$parser = new WikiToolParserComponent(Request :: get('pid'),$this->get_course_id(),$this->wiki_page->get_description());
         $parser->parse_wiki_text();
-        echo $parser->get_wiki_text();
+        echo '<div style="width:80%;float: right"><br />'.$parser->get_wiki_text().'</div>';
         $this->display_footer();
 	}
 
