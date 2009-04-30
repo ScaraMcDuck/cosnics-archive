@@ -122,9 +122,10 @@ class WikiToolParserComponent
                     <div id="hide" style="text-align:right;display:block">
                         <a href="#" onclick="showhide();">'. Translation :: get(Hide).'</a><br />
                     </div>
-                    <div id="content" style="display:block";>'.
+                    <div id="content" style="display:block";>
+                    <pre>'.
                     $this->fill_content_box($list).
-                    '</div></div>';
+                    '<pre></div></div>';
         }
     }
 
@@ -154,27 +155,27 @@ class WikiToolParserComponent
                     }
                 case 2:
                     {
-                        $index[$value] = $heads[1].'.'.$heads[2];
+                        $index[$value] = ' '.$heads[1].'.'.$heads[2];
                         break;
                     }
                 case 3:
                     {
-                        $index[$value] = $heads[1].'.'.$heads[2].'.'.$heads[3];
+                        $index[$value] = '  '.$heads[1].'.'.$heads[2].'.'.$heads[3];
                         break;
                     }
                 case 4:
                     {
-                        $index[$value] = $heads[1].'.'.$heads[2].'.'.$heads[3].'.'.$heads[4];
+                        $index[$value] = '   '.$heads[1].'.'.$heads[2].'.'.$heads[3].'.'.$heads[4];
                         break;
                     }
                 case 5:
                     {
-                        $index[$value] = $heads[1].'.'.$heads[2].'.'.$heads[3].'.'.$heads[4].'.'.$heads[5];
+                        $index[$value] = '    '.$heads[1].'.'.$heads[2].'.'.$heads[3].'.'.$heads[4].'.'.$heads[5];
                         break;
                     }
                 case 6:
                     {
-                        $index[$value] = $heads[1].'.'.$heads[2].'.'.$heads[3].'.'.$heads[4].'.'.$heads[5].'.'.$heads[6];
+                        $index[$value] = '     '.$heads[1].'.'.$heads[2].'.'.$heads[3].'.'.$heads[4].'.'.$heads[5].'.'.$heads[6];
                         break;
                     }
             }
