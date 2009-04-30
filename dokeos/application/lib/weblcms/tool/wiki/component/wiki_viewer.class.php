@@ -57,12 +57,12 @@ class WikiToolViewerComponent extends WikiToolComponent
         }
         
 		$this->action_bar = $this->get_toolbar($wiki);
-        echo '<br />' . $this->action_bar->as_html();
+        echo $this->action_bar->as_html();
         if(!empty($wiki))
         {
-            echo '<h2>' .$wiki->get_default_property('title') .' : '.Translation :: get('Home'). '</h2>';
+            echo '<div style="width:80%;float: right"><h2>' .$wiki->get_default_property('title') .' : '.Translation :: get('Home'). '</h2>';
             $table = new WikiPageTable($this, $wiki->get_id());
-            echo $table->as_html();
+            echo $table->as_html().'</div>';
         }
         $this->display_footer();
 	}
@@ -81,15 +81,16 @@ class WikiToolViewerComponent extends WikiToolComponent
 
     function get_toolbar($wiki)
 	{
-		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_WIKI);
 
         $action_bar->set_search_url($this->get_url());
-        
-            $action_bar->add_common_action(
-            new ToolbarItem(
-                Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-                )
-            );
+
+        //PAGE ACTIONS
+        $action_bar->add_common_action(
+        new ToolbarItem(
+            Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+            )
+        );
 
 
 		$action_bar->add_common_action(
@@ -98,14 +99,29 @@ class WikiToolViewerComponent extends WikiToolComponent
 			)
 		);
 
-        $action_bar->add_common_action(
+        //INFORMATION
+        $action_bar->add_tool_action(
 			new ToolbarItem(
 				Translation :: get('WikiStatistics'), Theme :: get_common_image_path().'action_reporting.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_STATISTICS, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
-		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('wiki tool'));
-
         $action_bar->add_tool_action(ReportingManager :: get_access_details_toolbar_item());
+        $action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('wiki tool'));
+
+        //NAVIGATION
+        $action_bar->add_navigation_link(
+        new ToolbarItem(
+				'Test', null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+			));
+
+        $action_bar->add_navigation_link(
+        new ToolbarItem(
+				Translation :: get('AddLink'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool  :: ACTION_ADD_LINK,'pid' => $this->publication_id, 'cid' => $this->cid )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+			));
+         $action_bar->add_navigation_link(
+        new ToolbarItem(
+				Translation :: get('RemoveLink'), Theme :: get_common_image_path().'action_remove.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+			));
 
 		return $action_bar;
         

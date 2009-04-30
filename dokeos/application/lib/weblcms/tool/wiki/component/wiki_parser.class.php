@@ -114,7 +114,8 @@ class WikiToolParserComponent
         if($linkCount > 0)
         {
             $this->set_script();
-            echo    '<div name="top" style="padding:5px;border-style:solid;border-width:1px;width:20%">
+            echo    '<div style="width:80%;float: right">
+                    <div name="top" style="padding:5px;border-style:solid;border-width:1px;width:20%">
                     <h3 style="text-align:center;font-family:Arial;">'. Translation :: get('Contents') . '</h3>
                     <div id="show" style="text-align:right;display:none">
                         <a href="#" onclick="showhide();">'. Translation :: get(Show).'</a><br />
@@ -125,7 +126,7 @@ class WikiToolParserComponent
                     <div id="content" style="display:block";>
                     <pre>'.
                     $this->fill_content_box($list).
-                    '<pre></div></div>';
+                    '<pre></div></div></div>';
 
         }
     }

@@ -11,12 +11,15 @@ class ActionBarRenderer
 	const ACTION_BAR_COMMON = 'common';
 	const ACTION_BAR_TOOL = 'tool';
 	const ACTION_BAR_SEARCH = 'search';
+    const ACTION_BAR_NAVIGATION = 'navigation';
 	
 	const TYPE_HORIZONTAL = 'hoirzontal';
 	const TYPE_VERTICAL = 'vertical';
+    const TYPE_WIKI = 'wiki';
 	
 	private $name;
 	private $actions = array();
+    private $links = array();
 	private $search_form;
 	private $type;
 	
@@ -55,6 +58,11 @@ class ActionBarRenderer
 	{
 		$this->actions[self :: ACTION_BAR_COMMON][] = $action;
 	}
+
+    function add_navigation_link($link)
+	{
+		$this->links[self :: ACTION_BAR_NAVIGATION][] = $link;
+	}
 	
 	function add_tool_action($action)
 	{
@@ -85,6 +93,16 @@ class ActionBarRenderer
 	{
 		$this->actions[self :: ACTION_BAR_COMMON] = $actions;
 	}
+
+    function set_navigation_links($links)
+	{
+		$this->links[self :: ACTION_BAR_NAVIGATION] = $links;
+	}
+
+    function get_navigation_links()
+	{
+		return $this->links[self :: ACTION_BAR_NAVIGATION];
+	}
 	
 	function set_search_url($search_url)
 	{
@@ -103,6 +121,9 @@ class ActionBarRenderer
 				break;
 			case self :: TYPE_VERTICAL :
 				return $this->render_vertical();
+				break;
+            case self :: TYPE_WIKI :
+				return $this->render_wiki();
 				break;
 			default :
 				return $this->render_horizontal();
@@ -247,6 +268,85 @@ class ActionBarRenderer
 		
 		return implode("\n", $html);
 	}
+
+    function render_wiki()
+	{
+		$html = array();
+
+		$html[] = '<div id="'. $this->get_name() .'_action_bar_left" class="action_bar_wiki">';
+		$html[] = '<h3>' . Translation :: get('Manage') . '</h3>';
+
+
+		$common_actions = $this->get_common_actions();
+		$tool_actions = $this->get_tool_actions();
+        $wiki_links = $this->get_navigation_links();      
+
+		$action_bar_has_search_form = !is_null($this->search_form);
+		$action_bar_has_common_actions = (count($common_actions) > 0);
+        $action_bar_has_links = (count($wiki_links)>0);
+		$action_bar_has_tool_actions = (count($tool_actions) > 0);
+		$action_bar_has_common_and_tool_actions = (count($common_actions) > 0) && (count($tool_actions) > 0);
+
+		if (!is_null($this->search_form))
+		{
+			$search_form = $this->search_form;
+            $html[] = '<h4>' . Translation :: get('Search') . '</h4>';
+			$html[] = $search_form->as_html();
+		}
+
+		if ($action_bar_has_search_form && ($action_bar_has_common_actions || $action_bar_has_tool_actions))
+		{
+			$html[] = '<div class="divider"></div>';
+		}
+
+		if ($action_bar_has_common_actions)
+		{
+            $html[] = '<h4>' . Translation :: get('PageActions') . '</h4>';
+			$html[] = '<div class="clear"></div>';
+
+			$toolbar = new Toolbar();
+			$toolbar->set_items($common_actions);
+			$toolbar->set_type(Toolbar :: TYPE_VERTICAL);
+			$html[] = $toolbar->as_html();
+		}
+
+		if ($action_bar_has_common_and_tool_actions)
+		{
+			$html[] = '<div class="divider"></div>';
+		}
+        
+        if ($action_bar_has_links)
+		{
+            $html[] = '<h4>' . Translation :: get('Navigation') . '</h4>';
+			$html[] = '<div class="clear"></div>';
+
+			$toolbar = new Toolbar();
+			$toolbar->set_items($wiki_links);
+			$toolbar->set_type(Toolbar :: TYPE_VERTICAL);
+			$html[] = $toolbar->as_html();
+		}
+
+        if ($action_bar_has_tool_actions)
+		{
+            $html[] = '<h4>' . Translation :: get('Information') . '</h4>';
+			$html[] = '<div class="clear"></div>';
+
+			$toolbar = new Toolbar();
+			$toolbar->set_items($tool_actions);
+			$toolbar->set_type(Toolbar :: TYPE_VERTICAL);
+			$html[] = $toolbar->as_html();
+		}
+
+
+        
+		$html[] = '</div>';
+
+		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/action_bar_vertical.js');
+		
+
+		return implode("\n", $html);
+	}
+
 	
 	function get_query()
 	{
