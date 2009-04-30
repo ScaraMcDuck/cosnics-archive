@@ -117,7 +117,7 @@ FCKConfig.ToolbarSets["FullHTML"] = [
 ] ;
 
 FCKConfig.ToolbarSets["Basic"] = [
-	['Bold','Italic','Underline','-','OrderedList','UnorderedList','-','Link','Unlink','-','TextColor','BGColor','-','Rule','-','Image','Flash','YouTube','-','Templates']
+	['Bold','Italic','Underline','-','OrderedList','UnorderedList','-','Link','Unlink','-','TextColor','BGColor','-','Rule','-','Image','Flash','YouTube','WikiLink','-','Templates']
 ] ;
 
 FCKConfig.EnterMode = 'p' ;			// p | div | br
@@ -311,5 +311,6 @@ FCKConfig.SmileyWindowWidth		= 320 ;
 FCKConfig.SmileyWindowHeight	= 240 ;
 
 FCKConfig.Plugins.Add( 'youtube', 'en,ja' ) ;
+FCKConfig.Plugins.Add( 'wikilink', 'en,ja' ) ;
 
 FCKConfig.TemplatesXmlPath = FCKConfig.BasePath + '../fcktemplates.xml.php' ;
