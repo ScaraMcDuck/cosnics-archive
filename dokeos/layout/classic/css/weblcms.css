@@ -248,3 +248,35 @@ div.normal_calendar
 	float: left;
 	width: 80%;
 }
+
+/*****************************************************
+ *  Wiki head styles                                *
+ *****************************************************/
+
+.head1
+{
+	font-size: 21px;
+}
+
+.head2
+{
+	font-size: 18px;
+}
+
+.head3
+{
+	font-size: 15px;
+	margin-top: 0px;
+	padding-top: 0px;
+	margin-bottom: 5px;
+}
+
+.head4
+{
+	font-size: 12px;
+}
+
+.head5,.head6
+{
+	font-family: verdana, arial, helvetica, sans-serif;
+}
