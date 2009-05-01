@@ -57,6 +57,11 @@ class WikiToolParserComponent
     {
         return $this->wikiText;
     }
+    
+	function set_wiki_text($value)
+    {
+        $this->wikiText = $value;
+    }
 
     public function parse_wiki_text()
     {
