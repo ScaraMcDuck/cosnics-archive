@@ -67,21 +67,23 @@ class WikiToolDiscussComponent extends WikiToolComponent
          *  Here we make the call to the wiki_parser.
          *  For more information about the parser, please read the information in the wiki_parser class.
          */
-        $parser = new WikiToolParserComponent();
-        $parser->set_pid(Request :: get('pid'));
-        $parser->set_course_id($this->get_course_id());
-        echo $parser->handle_internal_links($display->get_full_html());
+
+        $parser = new WikiToolParserComponent(Request :: get('pid'), $this->get_course_id(), $display->get_full_html());
+        $parser->parse_wiki_text();
+        echo $parser->get_wiki_text();
 
         /*
          *  We make use of the existing condition framework to show the data we want.
          *  If the publication id , and the compled object id are equal to the ones passed the feedback will be shown.
          */
+        
         if(isset($this->cid)&& isset($this->publication_id))
         {
             $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_PUBLICATION_ID, $this->publication_id);
             $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_CLOI_ID, $this->cid);
             $condition = new AndCondition($conditions);
             $feedbacks = $dm->retrieve_learning_object_pub_feedback($condition);
+
             while($feedback = $feedbacks->next_result())
             {
                 if($i == 0)
@@ -96,8 +98,10 @@ class WikiToolDiscussComponent extends WikiToolComponent
                 $feedback_display = $dm->retrieve_learning_object($this->fid);
                 $creationDate = $feedback_display->get_creation_date();
                 echo date("F j, Y, H:i:s",$creationDate );
-                $feedbackdisplay = LearningObjectDisplay :: factory($feedback_display);                
-                echo $feedbackdisplay->get_full_html();
+                $feedbackdisplay = LearningObjectDisplay :: factory($feedback_display);
+                $parser->set_wiki_text($feedbackdisplay->get_full_html());
+                $parser->parse_wiki_text();
+                echo $parser->get_wiki_text();                
                 echo $this->build_actions() . '<br /><br />';
                 $i++;
 
