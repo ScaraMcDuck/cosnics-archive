@@ -7,7 +7,12 @@ class ScormItemDisplay extends LearningPathLearningObjectDisplay
 	function display_learning_object($scorm_item, $tracker_attempt_data, $navigation)
 	{	
 		//dump($tracker_attempt_data);
-		$html[] = '<script language="JavaScript">var tracker_id = ' . $tracker_attempt_data['active_tracker']->get_id();
+		if($tracker_attempt_data['active_tracker'])
+			$id = $tracker_attempt_data['active_tracker']->get_id();
+		else 
+			$id = 0;
+			
+		$html[] = '<script language="JavaScript">var tracker_id = ' . $id;
 		$html[] = 'var continue_url = "' . $navigation['continue_url'] . '";';
 		$html[] = 'var previous_url = "' . $navigation['previous_url'] . '";';  
 		$html[] = '</script>';

@@ -19,7 +19,13 @@ $scorm_item = $rdm->retrieve_learning_object($learning_path_item->get_reference(
 
 switch($variable)
 {
-	case 'cmi.max_time_allowed' : $value = $scorm_item->get_time_limit();
+	case 'cmi.max_time_allowed' : 
+		$value = $scorm_item->get_time_limit(); 
+		break;
+	case 'cmi.scaled_passing_score' : 
+		$objectives = $scorm_item->get_objectives();
+		$value = $objectives->get_primary_objective()->get_minimum_satisfied_measure();
+		break;
 }
 
 echo $value;

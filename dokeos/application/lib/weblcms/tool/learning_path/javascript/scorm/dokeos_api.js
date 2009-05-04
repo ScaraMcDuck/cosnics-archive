@@ -48,29 +48,30 @@ function DokeosTerminate(params)
 	initialized = false;
 	last_error = 0;
 	
-	check_redirect_conditions();
+	check_redirect_conditions(this.values);
 	
 	return "true";
 }
 
-function check_redirect_conditions()
+function check_redirect_conditions(values)
 {
 	var url = null;
+	var request = values['adl.nav.request'];
 
-	if(this.values['adl.nav.request'] == 'continue')
+	if(request == 'continue')
 	{
 		url = continue_url;
 	}
 	
-	if(this.values['adl.nav.request'] == 'previous')
+	if(request == 'previous')
 	{
 		url = previous_url;
 	}
-	
-	/*if(url)
+
+	if(url)
 	{
 		window.location = url;
-	}*/
+	}
 }
 
 function DokeosGetValue(variable)

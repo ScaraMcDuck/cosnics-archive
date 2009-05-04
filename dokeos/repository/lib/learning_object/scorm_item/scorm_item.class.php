@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../../learning_object.class.php';
+require_once dirname(__FILE__) . '/objectives/objectives.class.php';
 /**
  * @package repository.learningobject
  * @subpackage learning_path
@@ -15,12 +16,14 @@ class ScormItem extends LearningObject
 	const PROPERTY_HIDE_LMS_UI = 'hide_lms_ui';
 	const PROPERTY_CONTROL_MODE = 'control_mode';
 	const PROPERTY_TIME_LIMIT = 'time_limit';
+	const PROPERTY_OBJECTIVES = 'objectives';
 	
 	static function get_additional_property_names()
 	{
 		return array (self :: PROPERTY_PATH, self :: PROPERTY_VISIBLE, self :: PROPERTY_PARAMETERS,
 					  self :: PROPERTY_TIME_LIMIT_ACTION, self :: PROPERTY_DATA_FROM_LMS, self :: PROPERTY_COMPLETION_TRESHOLD,
-					  self :: PROPERTY_HIDE_LMS_UI, self :: PROPERTY_CONTROL_MODE, self :: PROPERTY_TIME_LIMIT);
+					  self :: PROPERTY_HIDE_LMS_UI, self :: PROPERTY_CONTROL_MODE, self :: PROPERTY_TIME_LIMIT,
+					  self :: PROPERTY_OBJECTIVES);
 	}
 	
 	function get_path()
@@ -114,6 +117,26 @@ class ScormItem extends LearningObject
 			$control_mode = array($control_mode);
 			
 		$this->set_additional_property(self :: PROPERTY_CONTROL_MODE, serialize($control_mode));
+	}
+	
+	function set_objectives($objectives)
+	{
+		$this->set_additional_property(self :: PROPERTY_OBJECTIVES, serialize($objectives));
+	}
+	
+	function get_objectives()
+	{
+		return unserialize($this->get_additional_property(self :: PROPERTY_OBJECTIVES));
+	}
+	
+	function add_objective($objective, $primary = false)
+	{
+		$objectives = $this->get_objectives();
+		if(!$objectives)
+			$objectives = new Objectives();
+		
+		$objectives->add_objective($objective, $primary);
+		$this->set_objectives($objectives);
 	}
 	
 	function get_url($include_parameters = false)
