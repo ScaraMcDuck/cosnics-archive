@@ -18,7 +18,9 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 	private $action_bar;
     private $publication_id;
     private $cid;
+    private $wid;
     private $wiki_page;
+    private $links;
 	
 
 	function run()
@@ -39,7 +41,9 @@ class WikiToolItemViewerComponent extends WikiToolComponent
         $this->publication_id = Request :: get('pid');        
         $this->cid = Request :: get('cid');        
         $dm = RepositoryDataManager :: get_instance();
-
+        $this->wid = (RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($this->cid)->get_parent());
+        $this->links = explode(';',RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wid)->get_links());
+        
        /*
         *  If a complex object id is passed, the object will be retrieved
         */
@@ -57,9 +61,8 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 
         $this->display_header(new BreadcrumbTrail());       
         $this->action_bar = $this->get_toolbar();
-        echo  $this->action_bar->as_html();        
+        echo  $this->action_bar->as_html();
         echo '<div style="top:0;left:170px;right:20px;position: absolute;border-left:1px solid #4271B5; padding:10px;font-size:20px;">'.$this->wiki_page->get_title().'<hr style="height:1px;color:#4271B5;width:100%;"></div>';
-
         /*
          *  Here we create the wiki_parser component.
          *  For more information about the parser, please read the information provided in the wiki_parser class
@@ -133,20 +136,16 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 			)
 		);
         
-        //NAVIGATION        
-        $action_bar->add_navigation_link(
-        new ToolbarItem(
-				'Link 1', null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+        //NAVIGATION
+        $p = new WikiToolParserComponent();
+        
+        foreach($this->links as $link)
+        {
+            $action_bar->add_navigation_link(
+            new ToolbarItem(
+                $p->get_title_from_url($link), null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), Tool :: PARAM_COMPLEX_ID =>$p->get_cid_from_url($link) )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			));
-        $action_bar->add_navigation_link(
-        new ToolbarItem(
-				'Link 2', null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			));
-        $action_bar->add_navigation_link(
-        new ToolbarItem(
-				'Link 3', null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			));
-
+        }
 		
 		return $action_bar;
 	}

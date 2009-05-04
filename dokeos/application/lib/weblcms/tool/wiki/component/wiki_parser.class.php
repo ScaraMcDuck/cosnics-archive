@@ -243,6 +243,40 @@ class WikiToolParserComponent
         return $this->get_wiki_text();
     }
 
+    public function get_title_from_url($link)
+    {
+        $link = str_replace('</a>','',$link);
+        $pattern = '/(<a.*>)/';
+        return preg_replace($pattern,'',$link);
+    }
+
+    public function get_pid_from_url($link)
+    {
+        $pattern = '/(pid=[0-9]*)/';
+
+        preg_match_all($pattern, $link, $matches, PREG_PATTERN_ORDER);
+
+        foreach($matches as &$match)
+        {
+            $match = str_replace('pid=','',$match);
+        }
+
+        return $matches[0][0];
+    }
+
+    public function get_cid_from_url($link)
+    {
+        $pattern = '/(cid=[0-9]*)/';
+
+        preg_match_all($pattern, $link, $matches, PREG_PATTERN_ORDER);
+
+        foreach($matches as &$match)
+        {
+            $match = str_replace('cid=','',$match);
+        }
+
+        return $matches[0][0];
+    }
 }
 
 ?>

@@ -22,6 +22,7 @@ class WikiToolDiscussComponent extends WikiToolComponent
     private $cid;
     private $fid;
     private $publication_id;
+    private $links;
 
 
 	function run()
@@ -52,7 +53,7 @@ class WikiToolDiscussComponent extends WikiToolComponent
             $this->wiki_id = $complexeObject->get_parent();
         } 
         $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
-        
+        $this->links = explode(';',RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links());
 		$this->display_header(new BreadcrumbTrail());
 
         $this->action_bar = $this->get_toolbar();
@@ -197,18 +198,15 @@ class WikiToolDiscussComponent extends WikiToolComponent
 		);
 
         //NAVIGATION
-        $action_bar->add_navigation_link(
-        new ToolbarItem(
-				'Link 1', null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+        $p = new WikiToolParserComponent();
+
+        foreach($this->links as $link)
+        {
+            $action_bar->add_navigation_link(
+            new ToolbarItem(
+                $p->get_title_from_url($link), null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), Tool :: PARAM_COMPLEX_ID =>$p->get_cid_from_url($link) )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			));
-        $action_bar->add_navigation_link(
-        new ToolbarItem(
-				'Link 2', null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			));
-        $action_bar->add_navigation_link(
-        new ToolbarItem(
-				'Link 3', null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			));
+        }
 
 
 		return $action_bar;
