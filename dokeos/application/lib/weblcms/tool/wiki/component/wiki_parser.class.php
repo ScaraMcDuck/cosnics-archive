@@ -233,8 +233,12 @@ class WikiToolParserComponent
         echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/showhide_content.js');;
     }
 
-   
-    
+    public function handle_toolbox_links($links)
+    {
+        $this->set_wiki_text($links);
+        $this->handle_internal_links();
+        return $this->get_wiki_text();
+    }    
 }
 
 ?>

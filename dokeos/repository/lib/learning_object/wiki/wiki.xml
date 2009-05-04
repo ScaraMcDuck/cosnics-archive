@@ -3,6 +3,7 @@
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="locked" type="integer"/>
+  <property name="links" type="text"/>
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
