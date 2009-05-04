@@ -87,7 +87,7 @@ function DokeosGetValue(variable)
 		last_error = 301;
 		return "";
 	}
-	
+	//alert(variable);
 	last_error = 0;
 	var value = this.values[variable]; 
 	if(!value)
@@ -100,6 +100,11 @@ function DokeosGetValue(variable)
 		}).responseText; 
 	}
 
+	if(value == "")
+	{
+		last_error = 403;
+	}
+	
 	return value;
 }
 
