@@ -42,13 +42,20 @@ class Objectives
 	
 	function get_objective($index)
 	{
+		if($this->primary_objective)
+		{
+			if($index == 0)
+				return $this->primary_objective;
+			
+			$index--;
+		}
+		
 		return $this->objectives[$index];
 	}
 	
-	function remove_objective($index)
+	function count_objectives()
 	{
-		$this->objectives[$index] = null;
-		unset($this->objectives[$index]);
+		return count($this->objectives) + ($this->primary_objective ? 1 : 0);
 	}
 }
 ?>
