@@ -88,6 +88,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 			if(!$lpi_tracker)
 			{
 				$lpi_tracker = $this->create_lpi_tracker($this->trackers['lp_tracker'], $cloi);
+				$lpi_attempt_data[$cloi->get_id()]['active_tracker'] = $lpi_tracker;
 			}
 			else
 			{
@@ -173,7 +174,9 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		{
 		
 			if(get_class($object) == 'ScormItem')
-				$hide_lms_ui = $object->get_hide_lms_ui(); 
+			{
+				$hide_lms_ui = $object->get_hide_lms_ui();
+			} 
 			
 			if(!$hide_lms_ui) $hide_lms_ui = array($hide_lms_ui);
 			

@@ -197,6 +197,28 @@ class ScormImport extends LearningObjectImport
 		if($limit_conditions['attemptAbsoluteDurationLimit'])
 			$scorm_item->set_time_limit($limit_conditions['attemptAbsoluteDurationLimit']);	
 		
+		$objectives = $sequencing['imsss:objectives'];
+		$primary_objective = $objectives['imsss:primaryObjective'];
+		
+		if($primary_objective)
+		{
+			$objective = new Objective($item['identifier']);
+			
+			if($primary_objective['objectiveID'])
+				$objective->set_id($primary_objective['objectiveID']);
+			
+			if($primary_objective['satisfiedByMeasure'])
+				$objective->set_satisfied_by_measure($primary_objective['satisfiedByMeasure']);	
+			
+			if($primary_objective['imsss:minNormalizedMeasure'])
+				$objective->set_minimum_satisfied_measure($primary_objective['imsss:minNormalizedMeasure']);	
+			
+			if($primary_objective['imsss:contributesToRollup'])
+				$objective->set_contributes_to_rollup($primary_objective['imsss:contributesToRollup']);	
+			
+			$scorm_item->add_objective($objective, true);
+		}
+		
 		$scorm_item->create();
 		
 		return $scorm_item;

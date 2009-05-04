@@ -226,9 +226,14 @@ class LearningPathTree extends HTML_Menu
 		$this->render($this->array_renderer, 'urhere');
 		$breadcrumbs = $this->array_renderer->toArray();
 		$trail = new BreadcrumbTrail(false);
+		$used_urls = array();
 		foreach ($breadcrumbs as $crumb)
 		{
-			$trail->add(new Breadcrumb($crumb['url'], strip_tags($crumb['title'])));
+			if(!in_array($crumb['url'], $used_urls))
+			{
+				$trail->add(new Breadcrumb($crumb['url'], strip_tags($crumb['title'])));
+				$used_urls[] = $crumb['url'];
+			}
 		}
 		return $trail;
 	}
