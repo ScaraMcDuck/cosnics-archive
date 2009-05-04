@@ -56,9 +56,9 @@ class WikiToolDiscussComponent extends WikiToolComponent
 		$this->display_header(new BreadcrumbTrail());
 
         $this->action_bar = $this->get_toolbar();
-        echo '<br />' . $this->action_bar->as_html();
-        
-        echo '<h2>' .Translation :: get('DiscussThe'). ' ' .$wiki_page->get_title().' ' . Translation :: get('Page') .'</h2>';
+        echo $this->action_bar->as_html();        
+        echo '<div style="top:0;left:170px;right:20px;position: absolute;border-left:1px solid #4271B5; padding:10px;font-size:20px;">'.Translation :: get('DiscussThe'). ' ' .$wiki_page->get_title().' ' . Translation :: get('Page') .'<hr style="height:1px;color:#4271B5;width:100%;"></div>';
+        echo '<br /><div style="left:160px;position:relative;width:80%;border-left:1px solid #4271B5; padding:10px">';
         /*
          *  We make use of the existing LearningObjectDisplay class, changing the type to wiki_page
          */
@@ -107,7 +107,8 @@ class WikiToolDiscussComponent extends WikiToolComponent
 
             }
         }
-        
+
+        echo '</div>';
         $this->display_footer();
     }
 
@@ -134,20 +135,14 @@ class WikiToolDiscussComponent extends WikiToolComponent
 
     function get_toolbar()
 	{
-		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_WIKI);
 
 		$action_bar->set_search_url($this->get_url());
 
-
+        //PAGE ACTIONS
         $action_bar->add_common_action(
 			new ToolbarItem(
 				Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_CREATE_PAGE, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			)
-		);
-
-        $action_bar->add_common_action(
-			new ToolbarItem(
-				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
@@ -159,16 +154,29 @@ class WikiToolDiscussComponent extends WikiToolComponent
 
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(WikiTool :: PARAM_ACTION => Tool:: ACTION_DELETE_CLOI, 'pid' => $this->publication_id,'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
+				Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(WikiTool :: PARAM_ACTION => Tool:: ACTION_DELETE_CLOI, 'pid' => $this->publication_id,'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
 			)
 		);
-
-        $action_bar->add_tool_action(
+        $action_bar->add_common_action(
 			new ToolbarItem(
 				Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(WikiTool :: PARAM_ACTION => Tool :: ACTION_FEEDBACK_CLOI, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
+        $action_bar->add_common_action(
+			new ToolbarItem(
+				Translation :: get('Discuss'), Theme :: get_common_image_path().'action_users.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_DISCUSS, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+			)
+		);
+
+
+         $action_bar->add_common_action(
+			new ToolbarItem(
+				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+			)
+		);
+
+        //INFORMATION
         $action_bar->add_tool_action(
 			new ToolbarItem(
 				Translation :: get('History'), Theme :: get_common_image_path().'action_versions.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_HISTORY, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
@@ -181,11 +189,26 @@ class WikiToolDiscussComponent extends WikiToolComponent
 			)
 		);*/
 
+
         $action_bar->add_tool_action(
 			new ToolbarItem(
 				Translation :: get('Statistics'), Theme :: get_common_image_path().'action_reporting.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_PAGE_STATISTICS, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
+
+        //NAVIGATION
+        $action_bar->add_navigation_link(
+        new ToolbarItem(
+				'Link 1', null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+			));
+        $action_bar->add_navigation_link(
+        new ToolbarItem(
+				'Link 2', null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+			));
+        $action_bar->add_navigation_link(
+        new ToolbarItem(
+				'Link 3', null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+			));
 
 
 		return $action_bar;

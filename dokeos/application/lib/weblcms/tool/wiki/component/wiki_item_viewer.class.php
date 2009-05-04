@@ -58,7 +58,7 @@ class WikiToolItemViewerComponent extends WikiToolComponent
         $this->display_header(new BreadcrumbTrail());       
         $this->action_bar = $this->get_toolbar();
         echo  $this->action_bar->as_html();        
-        echo '<div style="top:0;left:170px;right:20px;position: absolute;border-left:1px solid #4271B5; padding:10px;font-size:20px;">'.$this->wiki_page->get_title().'<hr style="height:1px;color:#4271B5;width:100%";"></div>';
+        echo '<div style="top:0;left:170px;right:20px;position: absolute;border-left:1px solid #4271B5; padding:10px;font-size:20px;">'.$this->wiki_page->get_title().'<hr style="height:1px;color:#4271B5;width:100%;"></div>';
 
         /*
          *  Here we create the wiki_parser component.
