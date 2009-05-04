@@ -44,7 +44,7 @@ div.complex_browser_display div.learning_object div.title
 	color: #4271B5;
 }
 
-div.create_block, div.create_complex_block
+div.create_block
 {
 	background-repeat: no-repeat;
 	background-position: center 10px;
@@ -52,7 +52,7 @@ div.create_block, div.create_complex_block
 
 	float: left;
 	margin: 0px 10px 10px 0px;
-	padding: 42px 10px 10px 10px;
+	padding: 68px 10px 10px 10px;
 	-moz-border-radius: 5px;
 	overflow: hidden;
 	width: 100px;
@@ -63,12 +63,7 @@ div.create_block, div.create_complex_block
 	font-size: 11px;
 }
 
-div.create_complex_block
-{
-	padding-top: 68px;
-}
-
-#learning_object_selection
+.learning_object_selection
 {
 	clear: both;
 	margin-top: 10px;

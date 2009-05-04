@@ -158,25 +158,92 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 				$type_form->accept($renderer);
 				echo $renderer->toHTML();
 				
-				echo '<div id="learning_object_selection">';
-				
-				foreach ($this->get_learning_object_types(true) as $type)
-				{
-					$setting = PlatformSetting :: get('allow_' . $type . '_creation', 'repository');
-					if($setting)
-					{
-						echo '<a href="'. $this->get_url(array_merge($extra_params, array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type))) .'"><div class="create_complex_block" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/big/' . $type . '.png);">';
-						echo Translation :: get(LearningObject :: type_to_class($type).'TypeName');
-						echo '</div></a>';
-					}
-				}
-				
-				echo '</div>';
-				
-				echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
+				$user_objects = $quotamanager->get_used_database_space();
+				echo $this->get_learning_object_type_counts(($user_objects == 0));
 			}
 			$this->display_footer();
 		}
+	}
+	
+	function get_learning_object_type_counts($use_general_statistics = false)
+	{
+		$type_counts = array();
+		$most_used_type_count = 0;
+		
+		if (!$use_general_statistics)
+		{
+			$condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, $this->get_user_id());
+		}
+		else
+		{
+			$condition = null;
+		}
+				
+		foreach ($this->get_learning_object_types(true) as $type)
+		{
+			$count = $this->count_learning_objects($type, $condition);
+			$type_counts[$type] = $count;
+			if ($count > $most_used_type_count)
+			{
+				$most_used_type_count = $count;
+			}
+		}
+		
+		arsort($type_counts, SORT_STRING);
+		
+		$limit = round($most_used_type_count / 2);
+		$html = array();
+		$used_html = array();
+		$unused_html = array();
+		
+		foreach ($type_counts as $type => $count)
+		{
+			$object = array();		
+			$setting = PlatformSetting :: get('allow_' . $type . '_creation', 'repository');
+			if($setting)
+			{
+				$object[] = '<a href="'. $this->get_url(array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type)) .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/big/' . $type . '.png);">';
+				$object[] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
+				$object[] = '</div></a>';
+			}
+			
+			if ($count >= $limit)
+			{
+				$used_html[$type] = implode("\n", $object);
+			}
+			else
+			{
+				$unused_html[$type] = implode("\n", $object);
+			}
+		}
+		
+		ksort($used_html, SORT_STRING);
+		ksort($unused_html, SORT_STRING);
+		
+		if (!$use_general_statistics)
+		{
+			$html[] = '<h3>'. Translation :: get('MostUsedObjectTypes') .'</h3>';
+		}
+		else
+		{
+			$html[] = '<h3>'. Translation :: get('MostUsedGeneralObjectTypes') .'</h3>';
+		}
+		
+		$html[] = '<div class="learning_object_selection">';
+		$html[] = implode("\n", $used_html);
+		$html[] = '<div class="clear"></div>';
+		$html[] = '</div>';
+		$html[] = DokeosUtilities :: add_block_hider();
+		$html[] = DokeosUtilities :: build_block_hider('other_learning_object_types');
+		//$html[] = '<h3>'. Translation :: get('OtherObjectTypes') .'</h3>';
+		$html[] = '<div class="learning_object_selection">';
+		$html[] = implode("\n", $unused_html);
+		$html[] = '<div class="clear"></div>';
+		$html[] = '</div>';
+		$html[] = DokeosUtilities :: build_block_hider();
+		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
+			
+		return implode("\n", $html);;
 	}
 }
 ?>

@@ -112,7 +112,7 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
 				$url = $this->get_url(array(ComplexBuilder :: PARAM_BUILDER_ACTION => LearningPathBuilder :: ACTION_CREATE_LP_ITEM, ComplexBuilder :: PARAM_TYPE => $type, ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id(), ComplexBuilder :: PARAM_CLOI_ID => ($this->get_cloi()?$this->get_cloi()->get_id():null), 'publish' => Request :: get('publish')));
 			}
 			
-			$html[] = '<a href="'. $url .'"><div class="create_complex_block" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/big/' . $type . '.png);">';
+			$html[] = '<a href="'. $url .'"><div class="create_block" style="background-image: url(' . Theme :: get_common_image_path() . 'learning_object/big/' . $type . '.png);">';
 			$html[] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
 			$html[] = '<div class="clear">&nbsp;</div>';
 			$html[] = '</div></a>';
