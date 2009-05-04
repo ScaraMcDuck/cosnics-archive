@@ -66,8 +66,9 @@ class WikiToolParserComponent
     public function parse_wiki_text()
     {
         $this->handle_internal_links();
-        return $this->create_wiki_contentsbox();
         $this->handle_doubt_tags();
+        return $this->create_wiki_contentsbox();
+        
     }
     
     private function handle_internal_links()
@@ -202,9 +203,9 @@ class WikiToolParserComponent
             $first = stripos($this->wikiText,'{{');
             $last = stripos($this->wikiText,'}}');
             
-            $doubtBox =   '<pre><div name="doubt" style="padding:5px;border-style:solid;border-width:1px;width:75%;">
+            $doubtBox =   '<pre><div name="doubt" style="padding:5px;border:1px solid #4271B5;left:35px;right:35px;background-color:#faf7f7;position:relative">
                     <h3 style="text-align:center;font-family:Arial;">'. Translation :: get('ThereIsDoubtAboutTheFactualAccuracyOfThisPart') . '.</h3>
-                    <p>'.Translation :: get('ConsultTheDiscussionPageForMoreInformationAndModifyTheArticleIfDesirable').'.</p></div></pre>';
+                    <p style="text-align:center;font-family:Arial;">'.Translation :: get('ConsultTheDiscussionPageForMoreInformationAndModifyTheArticleIfDesirable').'.</p></div></pre>';
 
             $this->wikiText = str_replace('{{'.Translation :: get('Disputed').'}}',$doubtBox,$this->wikiText);
         }

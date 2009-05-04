@@ -60,13 +60,16 @@ class WikiForm extends LearningObjectForm
         $parser = new WikiToolParserComponent();
         
 		$lo = $this->get_learning_object();
-		$defaults[LearningObject :: PROPERTY_ID] = $lo->get_id();
+        if(isset($lo))
+        {
+            $defaults[LearningObject :: PROPERTY_ID] = $lo->get_id();
 
-		$defaults[LearningObject :: PROPERTY_TITLE] = $lo->get_title();
-        $defaults[LearningObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
-        $defaults[Wiki :: PROPERTY_LOCKED] = $lo->get_locked();
-        $defaults[Wiki :: PROPERTY_LINKS] = $lo->get_links();
-		
+            $defaults[LearningObject :: PROPERTY_TITLE] = $lo->get_title();
+            $defaults[LearningObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
+            $defaults[Wiki :: PROPERTY_LOCKED] = $lo->get_locked();
+            $defaults[Wiki :: PROPERTY_LINKS] = $lo->get_links();
+        }
+        
         parent :: setDefaults($defaults);
 	}
 
