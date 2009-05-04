@@ -1325,17 +1325,15 @@ div.action_bar_left
 
 div.action_bar_wiki
 {
-	background-color: #E5EDF9;
-	border: 1px solid #4271B5;
-	border-left: 0px;
-	padding: 10px;
-
-	position: fixed;
-	top: 22%;
+	background-color: #ffffff;		
+	padding: 1px;
+	position: absolute;
+	top: 0px;
 	left: 0px;
-	width: 210px;
-
+	width: 150px;    
 	text-align: left;
+    
+
 }
 
 div.action_bar_left div.divider

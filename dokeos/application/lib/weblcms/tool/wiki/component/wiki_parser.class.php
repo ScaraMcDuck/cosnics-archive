@@ -66,7 +66,7 @@ class WikiToolParserComponent
     public function parse_wiki_text()
     {
         $this->handle_internal_links();
-        $this->create_wiki_contentsbox();
+        return $this->create_wiki_contentsbox();
         $this->handle_doubt_tags();
     }
     
@@ -81,7 +81,7 @@ class WikiToolParserComponent
             $title = substr($this->wikiText,$first+2,$last-$first-2);
             $pipe = strpos($title,'|');
             if($pipe===false)
-            $this->wikiText = substr_replace($this->wikiText, $this->get_wiki_page_url($title),$first,$last-$first+2);
+                $this->wikiText = substr_replace($this->wikiText, $this->get_wiki_page_url($title),$first,$last-$first+2);
             else
             {
             	$title = explode('|',$title);
@@ -119,19 +119,20 @@ class WikiToolParserComponent
         if($linkCount > 0)
         {
             $this->set_script();
-            echo    '<div style="width:80%;float: right">
-                    <div name="top" style="padding:5px;border-style:solid;border-width:1px;width:30%">
-                    <h3 style="text-align:center;font-family:Arial;">'. Translation :: get('Contents') . '</h3>
-                    <div id="show" style="text-align:right;display:none">
-                        <a href="#" onclick="showhide();">'. Translation :: get(Show).'</a><br />
-                    </div>
-                    <div id="hide" style="text-align:right;display:block">
-                        <a href="#" onclick="showhide();">'. Translation :: get(Hide).'</a><br />
-                    </div>
-                    <div id="content" style="display:block";>
-                    <pre>'.
-                    $this->fill_content_box($list).
-                    '</pre></div></div></div>';
+            $html = array();
+            
+            $html[] =        '<div name="top" style="padding:5px;border:1px solid #4271B5;background-color:#faf7f7;">';
+            $html[] =        '<h3 style="text-align:center;font-family:Arial;">'. Translation :: get('Contents') . '</h3>';
+            $html[] =        '<div id="show" style="text-align:right;display:none">';
+            $html[] =        '<a href="#" onclick="showhide();">'. Translation :: get(Show).'</a><br /></div>';
+            $html[] =        '<div id="hide" style="text-align:right;display:block">';
+            $html[] =        '<a href="#" onclick="showhide();">'. Translation :: get(Hide).'</a><br /></div>';
+            $html[] =        '<div id="content" style="display:block;">';
+            $html[] =        '<pre>';
+            $html[] =           $this->fill_content_box($list);
+            $html[] =        '<pre></div></div>';            
+
+            return implode("\n", $html);
 
         }
     }
@@ -233,12 +234,14 @@ class WikiToolParserComponent
         echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/showhide_content.js');;
     }
 
+
     public function handle_toolbox_links($links)
     {
         $this->set_wiki_text($links);
         $this->handle_internal_links();
         return $this->get_wiki_text();
-    }    
+    }
+
 }
 
 ?>

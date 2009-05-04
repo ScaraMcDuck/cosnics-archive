@@ -273,9 +273,7 @@ class ActionBarRenderer
 	{
 		$html = array();
 
-		$html[] = '<div id="'. $this->get_name() .'_action_bar_left" class="action_bar_wiki">';
-		$html[] = '<h3>' . Translation :: get('Manage') . '</h3>';
-
+		$html[] = '<div id="'. $this->get_name() .'_action_bar_left" class="action_bar_wiki">';		
 
 		$common_actions = $this->get_common_actions();
 		$tool_actions = $this->get_tool_actions();
@@ -286,13 +284,26 @@ class ActionBarRenderer
         $action_bar_has_links = (count($wiki_links)>0);
 		$action_bar_has_tool_actions = (count($tool_actions) > 0);
 		$action_bar_has_common_and_tool_actions = (count($common_actions) > 0) && (count($tool_actions) > 0);
+        
+        if ($action_bar_has_links)
+		{
+            
+            $html[] = Translation :: get('Navigation');
+			
+			$toolbar = new Toolbar();
+            $html[] = '<div style="border:1px solid #4271B5;padding:3px;width:135px;background-color: #faf7f7;">';
+			$toolbar->set_items($wiki_links);
+			$toolbar->set_type(Toolbar :: TYPE_VERTICAL);
+			$html[] = $toolbar->as_html();
+            $html[] = '</div><br />';
+		}
 
-		if (!is_null($this->search_form))
+        /*if (!is_null($this->search_form))
 		{
 			$search_form = $this->search_form;
-            $html[] = '<h4>' . Translation :: get('Search') . '</h4>';
+            $html[] = Translation :: get('Search');
 			$html[] = $search_form->as_html();
-		}
+		}*/
 
 		if ($action_bar_has_search_form && ($action_bar_has_common_actions || $action_bar_has_tool_actions))
 		{
@@ -301,13 +312,15 @@ class ActionBarRenderer
 
 		if ($action_bar_has_common_actions)
 		{
-            $html[] = '<h4>' . Translation :: get('PageActions') . '</h4>';
-			$html[] = '<div class="clear"></div>';
+            $html[] = Translation :: get('PageActions');
+			//$html[] = '<div class="clear"></div>';
 
 			$toolbar = new Toolbar();
+            $html[] = '<div style="border:1px solid #4271B5;padding:3px;width:135px;background-color: #faf7f7;">';
 			$toolbar->set_items($common_actions);
 			$toolbar->set_type(Toolbar :: TYPE_VERTICAL);
 			$html[] = $toolbar->as_html();
+            $html[] = '</div><br />';
 		}
 
 		if ($action_bar_has_common_and_tool_actions)
@@ -315,29 +328,20 @@ class ActionBarRenderer
 			$html[] = '<div class="divider"></div>';
 		}
         
-        if ($action_bar_has_links)
-		{
-            $html[] = '<h4>' . Translation :: get('Navigation') . '</h4>';
-			$html[] = '<div class="clear"></div>';
-
-			$toolbar = new Toolbar();
-			$toolbar->set_items($wiki_links);
-			$toolbar->set_type(Toolbar :: TYPE_VERTICAL);
-			$html[] = $toolbar->as_html();
-		}
+        
 
         if ($action_bar_has_tool_actions)
 		{
-            $html[] = '<h4>' . Translation :: get('Information') . '</h4>';
+            $html[] = Translation :: get('Information');
 			$html[] = '<div class="clear"></div>';
 
 			$toolbar = new Toolbar();
+            $html[] = '<div style="border:1px solid #4271B5;padding:3px;width:135px;background-color: #faf7f7;">';
 			$toolbar->set_items($tool_actions);
 			$toolbar->set_type(Toolbar :: TYPE_VERTICAL);
 			$html[] = $toolbar->as_html();
+            $html[] = '</div><br />';
 		}
-
-
         
 		$html[] = '</div>';
 
