@@ -543,7 +543,7 @@ class ReportingWeblcms {
         require_once Path :: get_tracking_path().'lib/tracking_data_manager.class.php';
         require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
         $tdm = TrackingDataManager :: get_instance();
-        $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*tool_action=view_item&pid='.$params['pid'].'*');
+        $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*tool_action=view_item*&pid='.$params['pid'].'*');
         $items = $tdm->retrieve_tracker_items('visit', 'VisitTracker', $condition);
         if(empty($items))
         return Reporting::getSerieArray($arr);
@@ -589,13 +589,13 @@ class ReportingWeblcms {
 
         foreach($clois as $cloi)
         {
-            $pages[] = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref());
+            $pages[$cloi->get_id()] = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref());
         }
 
-        foreach($pages as $page)
+        foreach($pages as $cid => $page)
         {
             $edits[$page->get_title()] = RepositoryDataManager :: get_instance()->count_learning_object_versions($page);
-            $page_ids[$page->get_title()] = $page->get_id();
+            $page_ids[$page->get_title()] = $cid;
         }
         arsort($edits);
         $keys=array_keys($edits);
