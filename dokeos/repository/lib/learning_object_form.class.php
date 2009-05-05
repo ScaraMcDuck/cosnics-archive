@@ -395,7 +395,6 @@ EOT;
 	 */
 	function setDefaults($defaults = array ())
 	{
-		
 		$lo = $this->learning_object;
 		$defaults[LearningObject :: PROPERTY_ID] = $lo->get_id();
 	
@@ -405,7 +404,7 @@ EOT;
 		}
 		else
 		{			
-			$defaults[LearningObject :: PROPERTY_TITLE] = $lo->get_title();
+			$defaults[LearningObject :: PROPERTY_TITLE] = $defaults[LearningObject :: PROPERTY_TITLE]==null?$lo->get_title():$defaults[LearningObject :: PROPERTY_TITLE];
 			$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
 		}
 	
