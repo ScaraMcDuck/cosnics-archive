@@ -156,6 +156,9 @@ class Reporting{
         else
             $datadescription[self::PARAM_ORIENTATION] = ($serie-1 == 1)?self::ORIENTATION_VERTICAL:self::ORIENTATION_HORIZONTAL;
 
+        if(isset($description['default_sort_column']))
+            $datadescription['default_sort_column'] = $description['default_sort_column'];
+        
         array_push($array,$data);
         array_push($array,$datadescription);
         return $array;

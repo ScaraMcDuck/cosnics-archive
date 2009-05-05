@@ -44,7 +44,8 @@ class ReportingTableFormatter extends ReportingFormatter {
             $data = $data2;
         }
 
-        $table = new SortableTableFromArray($data,0,10,'table_'.$this->reporting_block->get_id());
+        $column = (isset($datadescription['default_sort_column']))?$datadescription['default_sort_column']:0;
+        $table = new SortableTableFromArray($data,$column,10,'table_'.$this->reporting_block->get_id());
         foreach ($_GET as $key => $value) {
             if(strstr($key, 'table_'.$this->reporting_block->get_id()))
                 unset($_GET[$key]);
@@ -53,8 +54,11 @@ class ReportingTableFormatter extends ReportingFormatter {
 
         $j = 0;
         foreach ($datadescription["Description"] as $key => $value) {
-            $table->set_header($j, $value,true);
-            $j++;
+            if($value != "")
+            {
+                $table->set_header($j, $value,true);
+                $j++;
+            }
         }
 
         return $table->toHTML();
