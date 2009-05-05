@@ -73,7 +73,7 @@ class WikiToolItemViewerComponent extends WikiToolComponent
          *  Here we create the wiki_parser component.
          *  For more information about the parser, please read the information provided in the wiki_parser class
          */        
-		$parser = new WikiToolParserComponent(Request :: get('pid'),$this->get_course_id(),$this->wiki_page->get_description());
+		$parser = new WikiToolParserComponent(Request :: get('pid'),$this->get_course_id(),$this->wiki_page->get_description(),$this->cid);
         echo $parser->parse_wiki_text();
         echo $parser->get_wiki_text();
         /*

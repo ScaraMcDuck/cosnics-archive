@@ -26,11 +26,12 @@ class WikiToolParserComponent
     private $cid;
     private $wikiText;    
 
-    function __construct($pId,$courseId, $wikiText)
+    function __construct($pId,$courseId, $wikiText, $cId)
     {
          $this->pid = $pId;
          $this->course_id = $courseId;
          $this->wikiText = $wikiText;
+         $this->cid = $cId;
     }
 
     function set_pid($value)
@@ -103,13 +104,17 @@ class WikiToolParserComponent
         if(!empty($page))
         {
             $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition('ref',$page->get_id()))->as_array();
-            $this->cid = $cloi[0]->get_id();
             return '<a href="'.'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?go=courseviewer&course={$this->course_id}&tool=wiki&application=weblcms&tool_action=view_item&cid={$cloi[0]->get_id()}&pid={$this->pid}" . '">' . htmlspecialchars($title) . '</a>';
         }
         else
         {
             return '<a class="does_not_exist" href="'.'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?go=courseviewer&course={$this->course_id}&tool=wiki&application=weblcms&&tool_action=create_page&pid={$this->pid}" . '">' . htmlspecialchars($title) . '</a>';
         }
+    }
+
+    private function get_wiki_page_discussion_url()
+    {
+        return '<a href="'.'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?go=courseviewer&course={$this->course_id}&tool=wiki&application=weblcms&tool_action=discuss&cid={$this->cid}&pid={$this->pid}" . '">' . htmlspecialchars(Translation :: get('discussionPage')) . '</a>';
     }
 
     private function create_wiki_contentsbox()
@@ -210,7 +215,7 @@ class WikiToolParserComponent
             $doubtBox =     '<div name="doubt" style="padding:5px;border:1px solid #4271B5;background-color:#faf7f7; margin-left: 10%; margin-right: 10%;">'.
                             '<div style="text-align:center;font-weight:bold;font-size:15px">'.Translation :: get('ThereIsDoubtAboutTheFactualAccuracyOfThisPart').'</div>'.
                             '<div style="align:left;margin-left:5%;"><img src="'.$url.'" /></div>'.
-                            '<div style="text-align:center;font-family:Arial;">'.Translation :: get('ConsultTheDiscussionPageForMoreInformationAndModifyTheArticleIfDesirable').'</div>'.
+                            '<div style="text-align:center;font-family:Arial;">'.Translation :: get('ConsultThe').' '.$this->get_wiki_page_discussion_url().' '.Translation :: get('ForMoreInformationAndModifyTheArticleIfDesirable').'</div>'.
                             '</div>';
 
             $this->wikiText = str_replace('{{'.Translation :: get('Disputed').'}}',$doubtBox,$this->wikiText);
