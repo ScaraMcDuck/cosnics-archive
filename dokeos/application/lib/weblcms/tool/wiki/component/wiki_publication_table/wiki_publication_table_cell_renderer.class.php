@@ -53,7 +53,9 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
                         return '<a class="invisible" href="'.$url.'">' . htmlspecialchars($learning_object->get_title()) . '</a>';
                         else
                         return '<a href="'.$url.'">' . htmlspecialchars($learning_object->get_title()) . '</a>';
-
+                    case LearningObject ::PROPERTY_DESCRIPTION :
+                        if($publication->is_hidden())
+                        return '<span class = "invisible">'.DokeosUtilities::truncate_string($learning_object->get_description(),50).'</span>';
                 }
             }
 			return parent :: render_cell($column, $publication->get_learning_object());
