@@ -12,12 +12,14 @@ require_once dirname(__FILE__) . '/../wiki_tool.class.php';
 require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
 require_once dirname(__FILE__).'/wiki_page_table/wiki_page_table.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
+require_once dirname(__FILE__).'/wiki_parser.class.php';
 
 class WikiToolViewerComponent extends WikiToolComponent
 {
 	private $action_bar;
     private $publication_id; 
     private $cid;
+    private $links;
 	
 	function run()
 	{
@@ -55,7 +57,7 @@ class WikiToolViewerComponent extends WikiToolComponent
                 $this->wiki_id = $publication->get_learning_object()->get_id();
             $wiki = $dm->retrieve_learning_object($this->wiki_id);
         }
-        
+        $this->links = explode(';',RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links());
 		$this->action_bar = $this->get_toolbar($wiki);
         echo $this->action_bar->as_html();
         if(!empty($wiki))
@@ -95,13 +97,13 @@ class WikiToolViewerComponent extends WikiToolComponent
 
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(WikiTool :: PARAM_ACTION => Tool:: ACTION_DELETE_CLOI, 'pid' => $this->publication_id,'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
+				Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(WikiTool :: PARAM_ACTION => Tool:: ACTION_DELETE, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
 			)
 		);
         
@@ -128,18 +130,18 @@ class WikiToolViewerComponent extends WikiToolComponent
         
 
         //NAVIGATION
-        $action_bar->add_navigation_link(
-        new ToolbarItem(
-				'Link 1', null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			));
-        $action_bar->add_navigation_link(
-        new ToolbarItem(
-				'Link 2', null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			));
-        $action_bar->add_navigation_link(
-        new ToolbarItem(
-				'Link 3', null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			));
+        $p = new WikiToolParserComponent();
+
+        if(!empty($this->links[0]))
+        {
+            foreach($this->links as $link)
+            {
+                $action_bar->add_navigation_link(
+                new ToolbarItem(
+                    $p->get_title_from_url($link), null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), Tool :: PARAM_COMPLEX_ID =>$p->get_cid_from_url($link) )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                ));
+            }
+        }
 
 
 		return $action_bar;
