@@ -37,10 +37,10 @@ class LearningPathAttemptsReportingTemplate extends ReportingTemplate
     	//template header
         $html[] = $this->get_header();
         
-        $html[] = '<div align="center">';
+        //$html[] = '<div align="center">';
         //show visible blocks
         $html[] = $this->get_visible_reporting_blocks();
-        $html[] = '</div>';
+        //$html[] = '</div>';
     	//template footer
         $html[] = $this->get_footer();
 

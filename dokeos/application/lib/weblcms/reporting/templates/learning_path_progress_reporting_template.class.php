@@ -44,10 +44,10 @@ class LearningPathProgressReportingTemplate extends ReportingTemplate
         	$html[] = $display->get_full_html();
         }
         
-        $html[] = '<div class="reporting_center">';
+        //$html[] = '<div class="reporting_center">';
         //show visible blocks
         $html[] = $this->get_visible_reporting_blocks();
-        $html[] = '</div>';
+        //$html[] = '</div>';
     	//template footer
         $html[] = $this->get_footer();
 
