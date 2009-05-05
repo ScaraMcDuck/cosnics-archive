@@ -62,7 +62,8 @@ class WikiActionbar
 
 		if ($action_bar_has_common_actions)
 		{
-            $html[] = 'PageActions'.Translation :: get('PageActions');
+
+            $html[] = Translation :: get('PageActions');
 			$html[] = '<div class="clear"></div>';
 
 			$toolbar = new Toolbar();
