@@ -5,7 +5,7 @@ require_once dirname(__FILE__).'/repository_data_manager.class.php';
 class LearningObjectPubFeedback extends LearningObject
 {
 	const CLASS_NAME = __CLASS__;
-
+    const PROPERTY_ID = 'id';
 	const PROPERTY_PUBLICATION_ID = 'pid';
 	const PROPERTY_CLOI_ID = 'cid';
 	const PROPERTY_FEEDBACK_ID = 'fid';
@@ -42,7 +42,7 @@ class LearningObjectPubFeedback extends LearningObject
 
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_CLOI_ID, self :: PROPERTY_FEEDBACK_ID);
+		return array (self ::PROPERTY_ID, self :: PROPERTY_PUBLICATION_ID, self :: PROPERTY_CLOI_ID, self :: PROPERTY_FEEDBACK_ID);
 	}
 
 
@@ -57,6 +57,10 @@ class LearningObjectPubFeedback extends LearningObject
 		return in_array($name, self :: get_default_property_names());
 	}
 
+    function get_id()
+    {
+        return $this->get_default_property(self :: PROPERTY_ID);
+    }
 
 	function get_publication_id()
 	{
@@ -74,6 +78,10 @@ class LearningObjectPubFeedback extends LearningObject
 		return $this->get_default_property(self :: PROPERTY_FEEDBACK_ID);
 	}
 
+    function set_id($id)
+	{
+		$this->set_default_property(self :: PROPERTY_ID, $id);
+	}
 
 	function set_publication_id($publication_id)
 	{
@@ -98,6 +106,9 @@ class LearningObjectPubFeedback extends LearningObject
 	function create()
 	{
 		$gdm = RepositoryDataManager :: get_instance();
+        $id = $gdm->get_next_learning_object_pub_feedback_id();
+        $this->set_id($id);
+
         return $gdm->create_learning_object_pub_feedback($this);
 	}
 

@@ -298,6 +298,11 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		return $id;
 	}
 
+    function get_next_learning_object_pub_feedback_id()
+    {
+        return $this->connection->nextID($this->get_table_name('learning_object_pub_feedback'));
+    }
+
 	function get_next_learning_object_number()
 	{
 		$id = $this->connection->nextID($this->get_table_name('learning_object') .'_number');

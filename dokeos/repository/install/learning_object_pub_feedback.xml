@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <object name="learning_object_pub_feedback">
  <properties>
+  <property name="id" type="integer" unsigned="1" notnull="1"/>
   <property name="pid" type="integer" unsigned="1" notnull="1"/>
   <property name="cid" type="integer"/>
   <property name="fid" type="integer"/>
  </properties>
- <index name="pid" type="primary">
-  <indexproperty name="pid"/>
- </index>
- <index name="cid">
-   <indexproperty name="cid" />
- </index>
- <index name="fid">
-   <indexproperty name="fid" />
+ <index name="id" type="primary">
+  <indexproperty name="id"/>
  </index>
 </object>
 

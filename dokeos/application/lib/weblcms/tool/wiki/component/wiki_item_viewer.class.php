@@ -138,13 +138,16 @@ class WikiToolItemViewerComponent extends WikiToolComponent
         
         //NAVIGATION
         $p = new WikiToolParserComponent();
-        
-        foreach($this->links as $link)
+
+        if(!empty($this->links[0]))
         {
-            $action_bar->add_navigation_link(
-            new ToolbarItem(
-                $p->get_title_from_url($link), null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), Tool :: PARAM_COMPLEX_ID =>$p->get_cid_from_url($link) )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			));
+            foreach($this->links as $link)
+            {
+                $action_bar->add_navigation_link(
+                new ToolbarItem(
+                    $p->get_title_from_url($link), null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), Tool :: PARAM_COMPLEX_ID =>$p->get_cid_from_url($link) )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                ));
+            }
         }
 		
 		return $action_bar;
