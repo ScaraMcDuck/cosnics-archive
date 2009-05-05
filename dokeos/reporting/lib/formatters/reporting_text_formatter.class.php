@@ -18,17 +18,6 @@ class ReportingTextFormatter extends ReportingFormatter {
         $values = sizeof($datadescription["Values"]);
         $count = 1;
 
-        echo '<script type="text/javascript">';
-        echo' var n_pages = <?php echo $n_pages ?>;';
-        echo' function revealDiv(n)';
-        echo '{';
-        echo'for (var count = 1; count <= n_pages; count++) {';
-        echo 'document.getElementById("page"+count).style.display = \'none\';';
-        echo '}';
-        echo 'document.getElementById("page"+n).style.display = \'block\';';
-        echo '}';
-        echo '</script>';
-
         $pager_params = array ();
         $pager_params['mode'] = 'Sliding';
         $pager_params['perPage'] = 10;
