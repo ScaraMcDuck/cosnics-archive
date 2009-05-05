@@ -136,10 +136,20 @@ class WikiToolViewerComponent extends WikiToolComponent
         {
             foreach($this->links as $link)
             {
-                $action_bar->add_navigation_link(
-                new ToolbarItem(
-                    $p->get_title_from_url($link), null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), Tool :: PARAM_COMPLEX_ID =>$p->get_cid_from_url($link) )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-                ));
+                if(substr_count($link,'class="does_not_exist"'))
+                {
+                    $action_bar->add_navigation_link(
+                    new ToolbarItem(
+                        $p->get_title_from_url($link), null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool ::ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link))), ToolbarItem :: DISPLAY_ICON_AND_LABEL,null,'does_not_exist'
+                    ));
+                }
+                else
+                {
+                    $action_bar->add_navigation_link(
+                    new ToolbarItem(
+                        $p->get_title_from_url($link), null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), Tool :: PARAM_COMPLEX_ID =>$p->get_cid_from_url($link) )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                    ));
+                }
             }
         }
 
