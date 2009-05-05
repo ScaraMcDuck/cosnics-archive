@@ -12,6 +12,7 @@
   <property name="control_mode" type="text" length="255" default="" />
   <property name="time_limit" type="text" length="100" default="" />
   <property name="objectives" type="text" />
+  <property name="condition_rules" type="text" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>

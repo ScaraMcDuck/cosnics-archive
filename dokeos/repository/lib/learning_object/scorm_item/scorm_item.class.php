@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../learning_object.class.php';
 require_once dirname(__FILE__) . '/objectives/objectives.class.php';
+require_once dirname(__FILE__) . '/condition_rules/condition_rules.class.php';
 /**
  * @package repository.learningobject
  * @subpackage learning_path
@@ -17,13 +18,14 @@ class ScormItem extends LearningObject
 	const PROPERTY_CONTROL_MODE = 'control_mode';
 	const PROPERTY_TIME_LIMIT = 'time_limit';
 	const PROPERTY_OBJECTIVES = 'objectives';
+	const PROPERTY_CONDITION_RULES = 'condition_rules';
 	
 	static function get_additional_property_names()
 	{
 		return array (self :: PROPERTY_PATH, self :: PROPERTY_VISIBLE, self :: PROPERTY_PARAMETERS,
 					  self :: PROPERTY_TIME_LIMIT_ACTION, self :: PROPERTY_DATA_FROM_LMS, self :: PROPERTY_COMPLETION_TRESHOLD,
 					  self :: PROPERTY_HIDE_LMS_UI, self :: PROPERTY_CONTROL_MODE, self :: PROPERTY_TIME_LIMIT,
-					  self :: PROPERTY_OBJECTIVES);
+					  self :: PROPERTY_OBJECTIVES, self :: PROPERTY_CONDITION_RULES);
 	}
 	
 	function get_path()
@@ -137,6 +139,26 @@ class ScormItem extends LearningObject
 		
 		$objectives->add_objective($objective, $primary);
 		$this->set_objectives($objectives);
+	}
+	
+	function set_condition_rules($condition_rules)
+	{
+		$this->set_additional_property(self :: PROPERTY_CONDITION_RULES, serialize($condition_rules));
+	}
+	
+	function get_condition_rules()
+	{
+		return unserialize($this->get_additional_property(self :: PROPERTY_CONDITION_RULES));
+	}
+	
+	function add_condition_rule($condition_rule, $type = 'pre')
+	{
+		$condition_rules = $this->get_condition_rules();
+		if(!$condition_rules)
+			$condition_rules = new ConditionRules();
+		
+		$condition_rules->add_condition_rule($condition_rule, $type);
+		$this->set_condition_rules($condition_rules);
 	}
 	
 	function get_url($include_parameters = false)
