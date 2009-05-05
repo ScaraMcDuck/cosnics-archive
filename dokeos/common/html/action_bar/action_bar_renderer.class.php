@@ -291,7 +291,7 @@ class ActionBarRenderer
             $html[] = Translation :: get('Navigation');
 			
 			$toolbar = new Toolbar();
-            $html[] = '<div style="border:1px solid #4271B5;padding:3px;width:135px;background-color: #faf7f7;">';
+            $html[] = '<div style="border:1px solid #4271B5;padding:3px;background-color: #faf7f7;">';
 			$toolbar->set_items($wiki_links);
 			$toolbar->set_type(Toolbar :: TYPE_VERTICAL);
 			$html[] = $toolbar->as_html();
@@ -316,7 +316,7 @@ class ActionBarRenderer
 			//$html[] = '<div class="clear"></div>';
 
 			$toolbar = new Toolbar();
-            $html[] = '<div style="border:1px solid #4271B5;padding:3px;width:135px;background-color: #faf7f7;">';
+            $html[] = '<div style="border:1px solid #4271B5;padding:3px;background-color: #faf7f7;">';
 			$toolbar->set_items($common_actions);
 			$toolbar->set_type(Toolbar :: TYPE_VERTICAL);
 			$html[] = $toolbar->as_html();
@@ -336,7 +336,7 @@ class ActionBarRenderer
 			$html[] = '<div class="clear"></div>';
 
 			$toolbar = new Toolbar();
-            $html[] = '<div style="border:1px solid #4271B5;padding:3px;width:135px;background-color: #faf7f7;">';
+            $html[] = '<div style="border:1px solid #4271B5;padding:3px;background-color: #faf7f7;">';
 			$toolbar->set_items($tool_actions);
 			$toolbar->set_type(Toolbar :: TYPE_VERTICAL);
 			$html[] = $toolbar->as_html();
