@@ -29,16 +29,11 @@ require_once Path :: get_plugin_path().'/pear/Pager/Pager.php';
 
     protected function get_pager_links($pager)
 	{
-		return '<div style="text-align: center; margin: 1em 0;">'.$pager_links .= $pager->links.'</div>';
+		return '<div class="page" style="text-align: center; margin: 1em 0;">'.$pager_links .= $pager->links.'</div>';
 	}
 
-	protected function create_pager($total, $per_page,$urlvar)
+	protected function create_pager($params)
 	{
-		$params = array ();
-		$params['mode'] = 'Sliding';
-		$params['perPage'] = $per_page;
-		$params['totalItems'] = $total;
-        $params['urlVar'] = $urlvar;
 		return Pager :: factory($params);
 	}
  	
