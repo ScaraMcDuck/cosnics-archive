@@ -203,8 +203,9 @@ class ReportingWeblcms {
             $arr[Translation :: get('TotalTime')][] = $time;
         }
 
+        $description['default_sort_column'] = 1;
         Reporting :: sort_array($arr,Translation::get('LastAccess'));
-        return Reporting :: getSerieArray($arr);
+        return Reporting :: getSerieArray($arr,$description);
     }
 
     /**
