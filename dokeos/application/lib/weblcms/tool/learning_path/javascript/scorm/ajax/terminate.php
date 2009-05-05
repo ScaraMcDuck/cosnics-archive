@@ -21,6 +21,7 @@ $scorm_item = $rdm->retrieve_learning_object($learning_path_item->get_reference(
 if(!$scorm_item->get_completion_set_by_content())
 {
 	$tracker->set_status('completed');
+	$tracker->set_total_time($tracker->get_total_time() + (time() - $tracker->get_start_time()));
 	$tracker->update();
 }
 
