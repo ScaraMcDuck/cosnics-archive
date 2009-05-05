@@ -409,7 +409,7 @@ class Weblcms extends WebApplication
 	 * Displays the header of this application
 	 * @param array $breadcrumbs The breadcrumbs which should be displayed
 	 */
-	function display_header($breadcrumbtrail, $display_search = false)
+	function display_header($breadcrumbtrail, $display_search = false, $display_title = true)
 	{
 		if (is_null($breadcrumbtrail))
 		{
@@ -463,9 +463,13 @@ class Weblcms extends WebApplication
 				}
 			}
 			echo '</select></form></div>';*/
-			echo '<div style="float: left;">';
-			Display :: tool_title(htmlentities(Translation :: get($this->tool_class.'Title')));
-			echo '</div>';
+            if($display_title)
+            {
+               echo '<div style="float: left;">';
+                Display :: tool_title(htmlentities(Translation :: get($this->tool_class.'Title')));
+                echo '</div>';
+            }
+			
 		}
 		else
 		{

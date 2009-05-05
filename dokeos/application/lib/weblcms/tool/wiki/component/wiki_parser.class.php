@@ -122,7 +122,7 @@ class WikiToolParserComponent
             $this->set_script();
             $html = array();
             
-            $html[] =        '<div name="top" style="padding:5px;border:1px solid #4271B5;background-color:#faf7f7;">';
+            $html[] =        '<div name="top" style="float: left; min-width: 150px; padding:5px;border:1px solid #4271B5;background-color:#faf7f7;">';
             $html[] =        '<h3 style="text-align:center;font-family:Arial;">'. Translation :: get('Contents') . '</h3>';
             $html[] =        '<div id="show" style="text-align:right;display:none">';
             $html[] =        '<a href="#" onclick="showhide();">'. Translation :: get(Show).'</a><br /></div>';
@@ -131,7 +131,7 @@ class WikiToolParserComponent
             $html[] =        '<div id="content" style="display:block;">';
             $html[] =        '<pre>';
             $html[] =           $this->fill_content_box($list);
-            $html[] =        '<pre></div></div>';            
+            $html[] =        '<pre></div></div>';
 
             return implode("\n", $html);
 
@@ -203,7 +203,7 @@ class WikiToolParserComponent
             $first = stripos($this->wikiText,'{{');
             $last = stripos($this->wikiText,'}}');
             
-            $doubtBox =   '<pre><div name="doubt" style="padding:5px;border:1px solid #4271B5;left:35px;right:35px;background-color:#faf7f7;position:relative">
+            $doubtBox =   '<pre><div name="doubt" style="padding:5px;border:1px solid #4271B5;background-color:#faf7f7; margin-left: 10%; margin-right: 10%;">
                     <h3 style="text-align:center;font-family:Arial;">'. Translation :: get('ThereIsDoubtAboutTheFactualAccuracyOfThisPart') . '.</h3>
                     <p style="text-align:center;font-family:Arial;">'.Translation :: get('ConsultTheDiscussionPageForMoreInformationAndModifyTheArticleIfDesirable').'.</p></div></pre>';
 
