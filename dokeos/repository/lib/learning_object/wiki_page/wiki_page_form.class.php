@@ -20,5 +20,11 @@ class WikiPageForm extends LearningObjectForm
 		$this->set_learning_object($object);
 		return parent :: create_learning_object();
 	}
+	function setDefaults($defaults = array ())
+	{
+		$defaults[LearningObject :: PROPERTY_TITLE] = Request :: get('title')==null?NULL:Request :: get('title');
+		
+		parent :: setDefaults($defaults);
+	}
 }
 ?>
