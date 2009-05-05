@@ -168,3 +168,14 @@ function DokeosGetDiagnostic()
 {
 	return "";
 }
+
+function translation(string, application) {		
+	var translated_string = $.ajax({
+		type: "POST",
+		url: "./common/javascript/ajax/translation.php",
+		data: { string: string, application: application },
+		async: false
+	}).responseText;
+	
+	return translated_string;
+}
