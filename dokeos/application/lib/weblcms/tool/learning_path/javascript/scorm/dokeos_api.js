@@ -48,6 +48,13 @@ function DokeosTerminate(params)
 	initialized = false;
 	last_error = 0;
 	
+	var response = jQuery.ajax({
+		type: "POST",
+		url: "./application/lib/weblcms/tool/learning_path/javascript/scorm/ajax/terminate.php",
+		data: { tracker_id: tracker_id },
+		async: false
+	}).responseText; alert(response);
+	
 	check_redirect_conditions(this.values);
 	
 	return "true";

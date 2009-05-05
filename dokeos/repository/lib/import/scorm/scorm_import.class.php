@@ -199,11 +199,15 @@ class ScormImport extends LearningObjectImport
 			$scorm_item->set_time_limit($limit_conditions['attemptAbsoluteDurationLimit']);	
 		
 		$objectives = $sequencing['imsss:objectives'];
+		
+		//if(array_key_exists('imsss:primaryObjective', $objectives))
+		//{
+		
 		$primary_objective = $objectives['imsss:primaryObjective'];
 		
 		if($primary_objective)
 		{
-			$objective = new Objective($item['identifier']);
+			$objective = new Objective();
 			
 			if($primary_objective['objectiveID'])
 				$objective->set_id($primary_objective['objectiveID']);
@@ -213,9 +217,8 @@ class ScormImport extends LearningObjectImport
 			
 			if($primary_objective['imsss:minNormalizedMeasure'])
 				$objective->set_minimum_satisfied_measure($primary_objective['imsss:minNormalizedMeasure']);	
-			
-			if($primary_objective['imsss:contributesToRollup'])
-				$objective->set_contributes_to_rollup($primary_objective['imsss:contributesToRollup']);	
+
+			$objective->set_contributes_to_rollup(1);	
 			
 			$scorm_item->add_objective($objective, true);
 		}

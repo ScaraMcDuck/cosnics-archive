@@ -19,13 +19,16 @@ class ScormItem extends LearningObject
 	const PROPERTY_TIME_LIMIT = 'time_limit';
 	const PROPERTY_OBJECTIVES = 'objectives';
 	const PROPERTY_CONDITION_RULES = 'condition_rules';
+	const PROPERTY_COMPLETION_SET_BY_CONTENT = 'completion_set_by_content';
+	const PROPERTY_OBJECTIVE_SET_BY_CONTENT = 'objective_set_by_content';
 	
 	static function get_additional_property_names()
 	{
 		return array (self :: PROPERTY_PATH, self :: PROPERTY_VISIBLE, self :: PROPERTY_PARAMETERS,
 					  self :: PROPERTY_TIME_LIMIT_ACTION, self :: PROPERTY_DATA_FROM_LMS, self :: PROPERTY_COMPLETION_TRESHOLD,
 					  self :: PROPERTY_HIDE_LMS_UI, self :: PROPERTY_CONTROL_MODE, self :: PROPERTY_TIME_LIMIT,
-					  self :: PROPERTY_OBJECTIVES, self :: PROPERTY_CONDITION_RULES);
+					  self :: PROPERTY_OBJECTIVES, self :: PROPERTY_CONDITION_RULES, self :: PROPERTY_COMPLETION_SET_BY_CONTENT,
+					  self :: PROPERTY_OBJECTIVE_SET_BY_CONTENT);
 	}
 	
 	function get_path()
@@ -159,6 +162,26 @@ class ScormItem extends LearningObject
 		
 		$condition_rules->add_condition_rule($condition_rule, $type);
 		$this->set_condition_rules($condition_rules);
+	}
+	
+	function set_completion_set_by_content($completion_set_by_content)
+	{
+		$this->set_additional_property(self :: PROPERTY_COMPLETION_SET_BY_CONTENT, $completion_set_by_content);
+	}
+	
+	function get_completion_set_by_content()
+	{
+		return $this->get_additional_property(self :: PROPERTY_COMPLETION_SET_BY_CONTENT);
+	}
+	
+	function set_objective_set_by_content($objective_set_by_content)
+	{
+		$this->set_additional_property(self :: PROPERTY_OBJECTIVE_SET_BY_CONTENT, $objective_set_by_content);
+	}
+	
+	function get_objective_set_by_content()
+	{
+		return $this->get_additional_property(self :: PROPERTY_OBJECTIVE_SET_BY_CONTENT);
 	}
 	
 	function get_url($include_parameters = false)

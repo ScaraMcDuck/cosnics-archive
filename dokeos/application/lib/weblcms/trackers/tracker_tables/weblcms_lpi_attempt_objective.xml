@@ -3,10 +3,10 @@
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1" />
   <property name="lpi_view_id" type="integer" unsigned="1" notnull="1" />
-  <property name="objective_id" type="integer" unsigned="1" notnull="1" />
-  <property name="score_raw" type="float" notnull="1" />
-  <property name="score_max" type="float" notnull="1" />
-  <property name="score_min" type="float" notnull="1" />
+  <property name="objective_id" type="text" lenght="100" />
+  <property name="score_raw" type="float" />
+  <property name="score_max" type="float" />
+  <property name="score_min" type="float" />
   <property name="status" type="text" length="32" notnull="1"/>
   <property name="display_order" type="integer" unsigned="1" notnull="1" />
  </properties>

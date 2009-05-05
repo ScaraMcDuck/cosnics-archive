@@ -16,7 +16,7 @@ class WeblcmsLpiAttemptObjectiveTracker extends MainTracker
 	 */
     function WeblcmsLpiAttemptObjectiveTracker() 
     {
-    	parent :: MainTracker('weblcms_lpi_attempt');
+    	parent :: MainTracker('weblcms_lpi_attempt_objective');
     }
     
     /**
