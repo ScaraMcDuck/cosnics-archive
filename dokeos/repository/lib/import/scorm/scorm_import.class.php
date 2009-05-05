@@ -27,7 +27,8 @@ class ScormImport extends LearningObjectImport
 	{
 		$options = 	array(XML_UNSERIALIZER_OPTION_FORCE_ENUM => 
 				   		array('item', 'organization', 'resource', 'file', 'dependency', 'adlnav:hideLMSUI', 
-				   		'imsss:preConditionRule', 'imsss:postConditionRule', 'imsss:exitConditionRule', 'imsss:ruleCondition'
+				   		'imsss:preConditionRule', 'imsss:postConditionRule', 'imsss:exitConditionRule', 'imsss:ruleCondition',
+				   		'imsss:objective'
 				   	));
 		return DokeosUtilities :: extract_xml_file($file, $options);
 	}
@@ -222,7 +223,28 @@ class ScormImport extends LearningObjectImport
 			
 			$scorm_item->add_objective($objective, true);
 		}
-
+		
+		$other_objectives = $objectives['imsss:objective']; dump($other_objectives);
+		foreach($other_objectives as $other_objective)
+		{
+			$objective = new Objective();
+			
+			if($other_objective['objectiveID'])
+				$objective->set_id($other_objective['objectiveID']);
+			
+			if($other_objective['satisfiedByMeasure'])
+				$objective->set_satisfied_by_measure($other_objective['satisfiedByMeasure']);	
+			
+			if($other_objective['imsss:minNormalizedMeasure'])
+				$objective->set_minimum_satisfied_measure($other_objective['imsss:minNormalizedMeasure']);
+	
+			$scorm_item->add_objective($objective, false);
+		}
+		
+		$objective_set_by_content = $sequencing['imsss:deliveryControls']['objectiveSetByContent'];
+		if($objective_set_by_content == 'true')
+			$scorm_item->set_objective_set_by_content(1);
+		
 		$sequencing_rules = $sequencing['imsss:sequencingRules'];
 		$types = array('pre', 'post', 'exit');
 		
