@@ -8,10 +8,12 @@ class ScormItemDisplay extends LearningPathLearningObjectDisplay
 	{	
 		//dump($tracker_attempt_data);
 		if($tracker_attempt_data['active_tracker'])
+		{
 			$id = $tracker_attempt_data['active_tracker']->get_id();
-		else 
-			$id = 0;
-
+			$tracker_attempt_data['active_tracker']->set_start_time(time());
+			$tracker_attempt_data['active_tracker']->update();
+		}
+		
 		$html[] = '<script language="JavaScript">var tracker_id = ' . $id;
 		$html[] = 'var continue_url = "' . $navigation['continue_url'] . '";';
 		$html[] = 'var previous_url = "' . $navigation['previous_url'] . '";';  
