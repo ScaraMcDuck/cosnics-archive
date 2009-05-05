@@ -5,23 +5,41 @@
             var parent = $(this).parent().parent().parent();
             var block = parent.attr('id');
             var type = $(this).val();
-            var pare = $('.reporting_content', parent);
+            parent = $('.reporting_content', parent);
 
-            pare.html(getLoadingBox('ChangingDisplaymode'));
+            var para = serialize_array(params);
+
+            parent.html(getLoadingBox('ChangingDisplaymode'));
             $.post("./reporting/ajax/reporting_change_charttype.php?"+gup(),
             {
+                para: para,
                 block:  block,
                 type: type
             },	function(data)
             {
                 if(data.length > 0)
                 {
-                    pare.html(data);
+                    parent.html(data);
                 }
             }
             );
 		
             return false;
+        }
+
+        function serialize_array(array)
+        {
+            var str = '';
+
+            for(var i in array)
+            {
+                str += i + '=>' + array[i] + ',';
+            }
+
+            str = str.substr(0, str.length - 1);
+
+            return str;
+
         }
 
         function getLoadingBox(message)

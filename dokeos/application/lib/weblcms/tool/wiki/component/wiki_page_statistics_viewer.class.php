@@ -33,7 +33,7 @@ class WikiToolPageStatisticsViewerComponent extends WikiToolComponent
         /*
          *  The publication id and complex object id are requested and passed to the url
          */
-        $url = ReportingManager :: get_reporting_template_registration_url('WikiPageReportingTemplate',$params);
+        $url = ReportingManager :: get_reporting_template_registration_url_content($this,'WikiPageReportingTemplate',$params);
         header('location: '.$url);
     }
 }

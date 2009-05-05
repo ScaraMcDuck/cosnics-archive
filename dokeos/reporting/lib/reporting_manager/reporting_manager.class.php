@@ -23,16 +23,17 @@ class ReportingManager {
     const PARAM_ERROR_MESSAGE = 'error_message';
     const PARAM_APPLICATION = 'application';
     const PARAM_TEMPLATE_ID = 'template';
+    const PARAM_TEMPLATE_NAME = 'template_name';
+    const PARAM_PUBLICATION_ID = 'pid';
+    const PARAM_TOOL = 'tool';
     const PARAM_REPORTING_BLOCK_ID = 'reporting_block';
     const PARAM_EXPORT_TYPE = 'export';
-    //const PARAM_SUB_APPLICATIONS = 'sub_applications';
     const PARAM_TEMPLATE_FUNCTION_PARAMETERS = 'template_parameters';
-
     const PARAM_ROLE_ID = 'role';
-
     const PARAM_USER_ID = 'user_id';
     const PARAM_COURSE_ID = 'course_id';
-
+    const PARAM_REPORTING_PARENT = 'reporting_parent';
+    
     const ACTION_BROWSE_TEMPLATES = 'browse_templates';
     const ACTION_ADD_TEMPLATE = 'add_template';
     const ACTION_DELETE_TEMPLATE = 'delete_template';
@@ -385,39 +386,46 @@ class ReportingManager {
      * @param array $params
      * @return link
      */
-    function get_reporting_template_registration_url($classname,$para)
+//    function get_reporting_template_registration_url($classname,$para)
+//    {
+//        $condition = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_CLASSNAME, $classname);
+//        $rpdm = ReportingDataManager :: get_instance();
+//        $templates = $rpdm->retrieve_reporting_template_registrations($condition);
+//        if($template = $templates->next_result())
+//        {
+//            $parameters = array();
+//            $parameters[ReportingManager :: PARAM_ACTION] = ReportingManager ::ACTION_VIEW_TEMPLATE;
+//            $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = $template->get_id();
+//            $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $para;
+//        }else
+//        {
+//            $parameters = array();
+//            $parameters[ReportingManager :: PARAM_ACTION] = ReportingManager ::ACTION_VIEW_TEMPLATE;
+//            $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = 0;
+//        }
+//
+//        $url = ReportingManager :: get_link().'?'.http_build_query($parameters);
+//
+//        return $url;
+//    }
+
+    function get_reporting_template_registration_url_content($parent,$classname,$params)
     {
-        $condition = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_CLASSNAME, $classname);
-        $rpdm = ReportingDataManager :: get_instance();
-        $templates = $rpdm->retrieve_reporting_template_registrations($condition);
-        if($template = $templates->next_result())
-        {
-            $parameters = array();
-            $parameters[ReportingManager :: PARAM_ACTION] = ReportingManager ::ACTION_VIEW_TEMPLATE;
-            $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = $template->get_id();
-            $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $para;
-        }else
-        {
-            $parameters = array();
-            $parameters[ReportingManager :: PARAM_ACTION] = ReportingManager ::ACTION_VIEW_TEMPLATE;
-            $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = 0;
-        }
-
-        $url = ReportingManager :: get_link().'?'.http_build_query($parameters);
-
-        return $url;
+        //return $parent->get_url($params);
+        //Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,
+        return $parent->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS=>$params, ReportingManager::PARAM_TEMPLATE_NAME => $classname));
+        //return $parent->get_url(array(ReportingManager :: PARAM_TEMPLATE_NAME => $classname));
     }
 
-    function get_access_details_toolbar_item()
+    function get_access_details_toolbar_item($parent)
     {
         if(isset($_GET['pid']))
         {
-            $params['pid'] = $_GET['pid'];
-            $params[ReportingManager::PARAM_COURSE_ID] = $_GET['course'];
-            $params['tool'] = $_GET['tool'];
-            $url = ReportingManager :: get_reporting_template_registration_url('PublicationDetailReportingTemplate',$params);
-            return new ToolbarItem(Translation :: get('AccessDetails'),Theme :: get_common_image_path().'action_reporting.png',$url);
-        }else{
+            //Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,
+            $url = $parent->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,Tool::PARAM_PUBLICATION_ID=>$_GET['pid'], ReportingManager::PARAM_TEMPLATE_NAME => 'PublicationDetailReportingTemplate'));
+            return new ToolbarItem(Translation :: get('AccessDetails'), Theme :: get_common_image_path().'action_reporting.png',$url);
+        }else
+        {
             return new ToolbarItem('');
         }
     }

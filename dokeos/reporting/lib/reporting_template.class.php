@@ -22,7 +22,8 @@ abstract class ReportingTemplate {
     const REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS = 1;
     const REPORTING_BLOCK_USE_BLOCK_DIMENSIONS = 0;
     protected $parent;
-    protected $parameters;
+    protected $trail;
+    protected $params;
     /*
      * array with all the reporting block and specific properties such as
      *  - visible
@@ -33,10 +34,13 @@ abstract class ReportingTemplate {
     protected $id;
     protected $action_bar;
 
-    function ReportingTemplate($parent=null,$id)
+    function ReportingTemplate($parent=null,$id,$params,$trail)
     {
         $this->parent = $parent;
         $this->set_registration_id($id);
+        $this->set_reporting_blocks_function_parameters($params);
+        $this->trail = $trail;
+
         $this->action_bar = $this->get_action_bar();
     }//ReportingTemplateProperties
 
@@ -56,12 +60,14 @@ abstract class ReportingTemplate {
 
     function get_action_bar()
     {
-        $parameters = array();
-        $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+        $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $this->params;
         $parameters['s'] = $_GET['s'];
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), null, 'index_reporting.php?go=export&template='.$this->get_registration_id().'&export=pdf&'.http_build_query($parameters)));
+        //$url = $this->parent->get_url(array (Tool :: PARAM_ACTION=>ReportingTool::ACTION_EXPORT_REPORT,ReportingManager::PARAM_TEMPLATE_ID => $this->id,ReportingManager::PARAM_EXPORT_TYPE=>'pdf',ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS => $this->params));
+        $url = 'index_reporting.php?go=export&template='.$this->get_registration_id().'&export=pdf&'.http_build_query($parameters);
+
+        $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), null, $url));
         //$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('reporting'));
 
         return $action_bar;
@@ -111,6 +117,13 @@ abstract class ReportingTemplate {
         //$parameters = $this->parameters;
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' .'"></script>';
+        $html[] = '<script type="text/javascript">';
+        $html[] = 'var params = new Array();';
+        foreach($this->params as $key => $value)
+        {
+            $html[] = 'params[\''.$key.'\'] = \''.$value.'\';';
+        }
+        $html[] = '</script>';
         //$html[] = '<br /><br /><br />';
         //$html[] = Translation :: get('Export').': <a href="index_reporting.php?go=export&template='.$this->get_registration_id().'&export=pdf&'.http_build_query($parameters).'">pdf</a>';
         //        $html[] = '<div class="template-data">';
@@ -184,18 +197,38 @@ abstract class ReportingTemplate {
         }
     }
 
+    abstract function to_html();
+
+    function to_html_export()
+    {
+        $html[] = '<div class="template-data">';
+        $html[] = '<br /><br /><br />';
+        $html[] = '<b><u>Template data</u></b><br />';
+        $html[] = '<b>Template title: </b><i>'.Translation::get($properties[ReportingTemplateRegistration :: PROPERTY_TITLE]).'</i><br />';
+        $html[] = '<b>Template description: </b><i>'.Translation :: get($properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION]).'</i><br />';
+        if(isset($this->params['course_id']))
+            $html[] = '<b>Course: </b><i>'.$this->params['course_id'].'</i>';
+        $html[] = '</div><br /><br />';
+
+        $html[] = $this->get_visible_reporting_blocks(true);
+    	return implode("\n", $html);
+    }
+
     /**
      * Generates all the visible reporting blocks
      * @return html
      */
-    function get_visible_reporting_blocks()
+    function get_visible_reporting_blocks($export=false)
     {
         foreach($this->retrieve_reporting_blocks() as $key => $value)
         {
             // check if reporting block is visible
             if($value[1][self :: PARAM_VISIBLE] == self :: REPORTING_BLOCK_VISIBLE)
             {
-                $html[] = Reporting :: generate_block($value[0],$this->get_reporting_block_template_properties($value[0]->get_name()));
+                if($export)
+                    $html[] = Reporting :: generate_block_export($value[0],$this->get_reporting_block_template_properties($value[0]->get_name()));
+                else
+                    $html[] = Reporting :: generate_block($value[0],$this->get_reporting_block_template_properties($value[0]->get_name()));
                 $html[] = '<div class="clear">&nbsp;</div>';
             }
         }
@@ -249,7 +282,7 @@ abstract class ReportingTemplate {
 
     function set_reporting_blocks_function_parameters($params)
     {
-        $this->parameters = $params;
+        $this->params = $params;
         foreach($this->retrieve_reporting_blocks() as $key => $value)
         {
             foreach ($params as $key2 => $value2) {

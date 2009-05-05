@@ -69,7 +69,7 @@ class AdminCourseBrowserTableCellRenderer extends DefaultCourseTableCellRenderer
 
         $params = array();
         $params[ReportingManager :: PARAM_COURSE_ID] = $course->get_id();
-        $url = ReportingManager :: get_reporting_template_registration_url('CourseStudentTrackerReportingTemplate',$params);
+        $url = ReportingManager :: get_reporting_template_registration_url_content($this->browser,'CourseStudentTrackerReportingTemplate',$params);
 			//$unsubscribe_url = $this->browser->get_url($parameters);
 		$toolbar_data[] = array(
             'href' => $url,

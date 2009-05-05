@@ -1803,22 +1803,16 @@ div.padding_10
 .reporting_template_container
 {
     -moz-border-radius: 1em;
-    margin: 0px;
-    padding: 0px;
     width: 100%;
 }
 
 .reporting_template_con_left
 {
-    margin: 0px;
-    padding: 0px;
     float: left;
 }
 
 .reporting_template_con_right
 {
-    margin: 0px;
-    padding: 0px;
     float: right;
 }
 
@@ -1889,6 +1883,7 @@ div.reporting_template_menu ul ul li{
 
 div.reporting_center
 {
+    text-align: center;
     margin:0 auto;
     width: 30em;
 }

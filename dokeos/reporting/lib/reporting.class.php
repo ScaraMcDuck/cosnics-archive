@@ -27,9 +27,10 @@ class Reporting{
             //$reporting_block->set_width($width.'px');
         }else
         {
+            $html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block">';
             //$html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="max-height:'.$reporting_block->get_height().';'.
             //'width:'.$reporting_block->get_width().';">';
-            $html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="width:'.$reporting_block->get_width().';">';
+            //$html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block" style="width:'.$reporting_block->get_width().';">';
         }
  		$html[] = '<div class="reporting_header">';
         $html[] = '<div class="reporting_header_title">'.Translation :: get($reporting_block->get_name()).'</div>';
@@ -62,6 +63,34 @@ class Reporting{
  		
  		return implode("\n", $html);
 	}//generate_block
+
+    public static function generate_block_export(&$reporting_block,$params){
+        if($params[ReportingTemplate :: PARAM_DIMENSIONS] == ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS)
+        {
+            $html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block">';
+        }else
+        {
+            $html[] = '<div id="'.$reporting_block->get_id().'" class="reporting_block">';
+        }
+ 		$html[] = '<div class="reporting_header">';
+        $html[] = '<div class="reporting_header_title"><b>'.Translation :: get($reporting_block->get_name()).'</b></div>';
+        $html[] = '</div>';
+
+ 		$html[] = '<div class="reporting_content">';
+        //remove links
+        $data = ReportingFormatter :: factory($reporting_block)->to_html();
+        $data = str_replace('</a>', '', $data);
+        $data = preg_replace('/<a[^>]+href[^>]+>/', '', $data);
+ 		$html[] = $data;
+ 		$html[] = '</div>';
+
+ 		$html[] = '<div class="clear">&nbsp;</div>';
+ 		$html[] = '</div>';
+
+ 		$html[] = '</div>';
+
+ 		return implode("\n", $html);
+	}//generate_block_export
 
     /**
      * Generates an array from a tracker
@@ -117,7 +146,8 @@ class Reporting{
             {
                 for($i = 0;$i<count($description);$i++)
                 {
-                    $datadescription["Description"]["Column".$i] = $description[$i];
+                    if($description[$i] != "")
+                        $datadescription["Description"]["Column".$i] = $description[$i];
                 }
             }
         }

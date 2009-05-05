@@ -45,6 +45,7 @@ abstract class Tool
 	const ACTION_MANAGE_CATEGORIES = 'managecategories';
 	const ACTION_VIEW_ATTACHMENT = 'view_attachment';
     const ACTION_FEEDBACK_CLOI = 'feedback_cloi';
+    const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
 
 	
 	/**
@@ -209,6 +210,9 @@ abstract class Tool
 			case self :: ACTION_VIEW_ATTACHMENT:
 				$component = ToolComponent :: factory('', 'AttachmentViewer', $this);
 				break;
+            case self :: ACTION_VIEW_REPORTING_TEMPLATE:
+                $component = ToolComponent::factory('', 'ReportingTemplateViewer', $this);
+                break;
 		}
 		if($component)
 		{

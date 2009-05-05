@@ -5,15 +5,16 @@
 require_once Path :: get_reporting_path(). 'lib/reporting_template.class.php';
 class CourseTrackerReportingTemplate extends ReportingTemplate
 {
-	function CourseTrackerReportingTemplate($parent,$id)
+	function CourseTrackerReportingTemplate($parent,$id,$params,$trail)
 	{
-        parent :: __construct($parent,$id);
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsAverageLearningpathScore"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsAverageExerciseScore"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsLastAccessToTools"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
+
+        parent :: __construct($parent,$id,$params,$trail);
 	}
 
     /**
@@ -38,11 +39,12 @@ class CourseTrackerReportingTemplate extends ReportingTemplate
 
         //template menu
         //$html[] = $this->get_menu();
-        $params = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+        $params = $this->params;
+        
         $html[] = '<div class="reporting_center">';
-        $url = ReportingManager :: get_reporting_template_registration_url('CourseStudentTrackerReportingTemplate',$params);
+        $url = ReportingManager :: get_reporting_template_registration_url_content($this->parent,'CourseStudentTrackerReportingTemplate',$params);
         $html[] = '<a href="'.$url.'" />'.Translation :: get('CourseStudentTrackerReportingTemplateTitle').'</a> | ';
-        $url = ReportingManager :: get_reporting_template_registration_url('CourseTrackerReportingTemplate',$params);
+        //$url = ReportingManager :: get_reporting_template_registration_url('CourseTrackerReportingTemplate',$params);
         $html[] = Translation :: get('CourseTrackerReportingTemplateTitle');
         $html[] = '</div><br />';
 
@@ -52,7 +54,6 @@ class CourseTrackerReportingTemplate extends ReportingTemplate
         $html[] = '</div>';
 
     	//template footer
-        $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_hover.js' .'"></script>';
         $html[] = $this->get_footer();
 
     	return implode("\n", $html);

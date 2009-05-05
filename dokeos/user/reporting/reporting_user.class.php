@@ -461,7 +461,10 @@ class ReportingUser {
             $arr[Translation :: get('LearningPathProgress')][] = 0;
             $arr[Translation :: get('ExcerciseProgress')][] = 0;
             $arr[Translation :: get('TotalPublications')][] = $rdm->count_learning_objects(null, new EqualityCondition(LearningObject::PROPERTY_OWNER_ID,$user_id));
-            $url = ReportingManager :: get_reporting_template_registration_url('CourseStudentTrackerDetailReportingTemplate',$params);
+            $url = $params['url'].'&'.ReportingManager :: PARAM_TEMPLATE_NAME .'=CourseStudentTrackerDetailReportingTemplate&';
+            $parameters[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
+            $url .= http_build_query($parameters);
+            //$url = ReportingManager :: get_reporting_template_registration_url_content($_SESSION[ReportingManager::PARAM_REPORTING_PARENT],'CourseStudentTrackerDetailReportingTemplate',$params);
             $arr[Translation :: get('UserDetail')][] = '<a href="'.$url.'">'.Translation :: get('Detail').'</a>';
         }
 

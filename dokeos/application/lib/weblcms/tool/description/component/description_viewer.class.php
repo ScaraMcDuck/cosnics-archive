@@ -67,7 +67,7 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
 		}
 		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('description tool'));
 
-		$action_bar->add_tool_action(ReportingManager :: get_access_details_toolbar_item());
+		$action_bar->add_tool_action(ReportingManager :: get_access_details_toolbar_item($this));
 
 		return $action_bar;
 	}

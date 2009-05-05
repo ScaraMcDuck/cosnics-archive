@@ -10,11 +10,12 @@ class LearningPathProgressReportingTemplate extends ReportingTemplate
 	
 	function LearningPathProgressReportingTemplate($parent,$id,$object)
 	{
-        parent :: __construct($parent,$id);
         $this->object = $object;
         
 		$this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsLearningPathProgress"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
+
+        parent :: __construct($parent,$id);
 	}
 
     /**
