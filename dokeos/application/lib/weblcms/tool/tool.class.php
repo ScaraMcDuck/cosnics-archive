@@ -246,7 +246,7 @@ abstract class Tool
 	/**
 	 * @see Application :: display_header()
 	 */
-	function display_header($breadcrumbtrail)
+	function display_header($breadcrumbtrail, $display_title)
 	{
 		$trail = new BreadcrumbTrail();
 		switch($this->parent->get_course()->get_breadcrumb())
@@ -287,7 +287,7 @@ abstract class Tool
 					$trail->add($breadcrumb);
 			}
 		}
-		$this->parent->display_header($trail);
+		$this->parent->display_header($trail, false, $display_title);
 		//echo '<div class="clear"></div>';
 		
 		if($this->parent->get_course()->get_tool_shortcut() == Course :: TOOL_SHORTCUT_ON)

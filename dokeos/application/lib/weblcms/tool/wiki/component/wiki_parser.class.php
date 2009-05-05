@@ -122,7 +122,7 @@ class WikiToolParserComponent
             $this->set_script();
             $html = array();
             
-            $html[] =        '<div name="top" style="float: left; min-width: 150px; padding:5px;border:1px solid #4271B5;background-color:#faf7f7;">';
+            $html[] =        '<div name="top" style="float: left; margin-right:100%;margin-bottom:15px;margin-top:15px;min-width: 150px; padding:5px;border:1px solid #4271B5;background-color:#faf7f7;">';
             $html[] =        '<h3 style="text-align:center;font-family:Arial;">'. Translation :: get('Contents') . '</h3>';
             $html[] =        '<div id="show" style="text-align:right;display:none">';
             $html[] =        '<a href="#" onclick="showhide();">'. Translation :: get(Show).'</a><br /></div>';

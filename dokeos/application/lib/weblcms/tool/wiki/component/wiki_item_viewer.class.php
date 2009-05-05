@@ -59,12 +59,10 @@ class WikiToolItemViewerComponent extends WikiToolComponent
             $this->cid = $cloi[0]->get_id();
         }*/
 
-        $this->display_header(new BreadcrumbTrail(),false, false);
+        $this->display_header(new BreadcrumbTrail(),false);
         $this->action_bar = $this->get_toolbar();
         echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
-        echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;">'.$this->wiki_page->get_title().'<hr>';
-        echo  $this->action_bar->as_html();
-        echo '<div style="top:0;left:170px;right:20px;position: absolute;border-left:1px solid #4271B5; padding:10px;font-size:20px;">'.$this->wiki_page->get_title().'<hr style="height:1px;color:#4271B5;width:100%;"></div>';
+        echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'.$this->wiki_page->get_title().'</div><hr>';
 
         /*
          *  Here we create the wiki_parser component.
@@ -72,8 +70,8 @@ class WikiToolItemViewerComponent extends WikiToolComponent
          */        
 		$parser = new WikiToolParserComponent(Request :: get('pid'),$this->get_course_id(),$this->wiki_page->get_description());
         echo $parser->parse_wiki_text();
-        echo '<div style="clear:both">' . $parser->get_wiki_text().'</div>';
-        //echo '<div ><a href=#top>'.'back to top'.'</a></div></div>';
+        echo $parser->get_wiki_text();
+        echo '<div ><a href=#top>'.'back to top'.'</a></div>';
         echo '</div>';
         $this->display_footer();
 	}
