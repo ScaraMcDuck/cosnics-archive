@@ -29,7 +29,6 @@ class WikiToolViewerComponent extends WikiToolComponent
 			return;
 		}
         
-        $this->display_header(new BreadcrumbTrail());
         $dm = RepositoryDataManager :: get_instance();
 
         /*
@@ -57,6 +56,12 @@ class WikiToolViewerComponent extends WikiToolComponent
                 $this->wiki_id = $publication->get_learning_object()->get_id();
             $wiki = $dm->retrieve_learning_object($this->wiki_id);
         }
+
+        $_SESSION['wiki_title'] = $publication->get_learning_object()->get_title();
+        $trail = new BreadcrumbTrail();
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $this->publication_id)), $publication->get_learning_object()->get_title()));
+        $this->display_header($trail);
+
         $this->links = explode(';',RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links());
 		$this->action_bar = $this->get_toolbar($wiki);
         echo $this->action_bar->as_html();

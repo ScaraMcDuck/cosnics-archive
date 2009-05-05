@@ -16,7 +16,10 @@ class ToolEditComponent extends ToolComponent
 
                 $learning_object = $publication->get_learning_object(); //RepositoryDataManager :: get_instance()->retrieve_learning_object($publication->get_learning_object()->get_id());
                 $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $pid)));
-                
+
+                $trail = new BreadcrumbTrail();
+                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $pid)), $_SESSION['wiki_title']));
+
                 if( $form->validate() || $_GET['validated'])
                 {
                     if(!$_GET['validated'])
@@ -47,14 +50,14 @@ class ToolEditComponent extends ToolComponent
                     }
                     else
                     {
-                        $this->display_header(new BreadCrumbTrail());
+                        $this->display_header($trail);
                         $publication_form->display();
                         $this->display_footer();
                     }
                 }
                 else
                 {
-                    $this->display_header(new BreadCrumbTrail());
+                    $this->display_header($trail);
                     $form->display();
                     $this->display_footer();
                 }

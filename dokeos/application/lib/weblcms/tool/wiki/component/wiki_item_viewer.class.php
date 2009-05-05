@@ -59,7 +59,12 @@ class WikiToolItemViewerComponent extends WikiToolComponent
             $this->cid = $cloi[0]->get_id();
         }*/
 
-        $this->display_header(new BreadcrumbTrail(),false);
+
+        $trail = new BreadcrumbTrail();
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $this->publication_id)), $_SESSION['wiki_title']));
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->publication_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), $this->wiki_page->get_title()));
+        $this->display_header($trail);
+
         $this->action_bar = $this->get_toolbar();
         echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
         echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'.$this->wiki_page->get_title().'</div><hr>';

@@ -14,12 +14,18 @@ class ToolComplexEditComponent extends ToolComponent
 
 			$datamanager = RepositoryDataManager :: get_instance();
 			$cloi = $datamanager->retrieve_complex_learning_object_item($cid);
+
             //if(!WikiTool :: is_wiki_locked($cloi->get_parent()))
             {
                 $cloi->set_default_property('user_id',$this->get_user_id());
                 $learning_object = $datamanager->retrieve_learning_object($cloi->get_ref());
                 $learning_object->set_default_property('owner',$this->get_user_id());
                 $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cid, Tool :: PARAM_PUBLICATION_ID => $pid, 'details' => $_GET['details'])));
+
+                $trail = new BreadcrumbTrail();
+                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $pid)), $_SESSION['wiki_title']));
+                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $pid, Tool :: PARAM_COMPLEX_ID => $cid)), $learning_object->get_title()));
+
 
                 if( $form->validate() || $_GET['validated'])
                 {
@@ -64,7 +70,7 @@ class ToolComplexEditComponent extends ToolComponent
                 }
                 else
                 {
-                    $this->display_header(new BreadCrumbTrail());
+                    $this->display_header($trail);
                     $form->display();
                     $this->display_footer();
                 }
