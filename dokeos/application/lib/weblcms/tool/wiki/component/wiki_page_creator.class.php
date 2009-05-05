@@ -27,7 +27,8 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
 			Display :: not_allowed();
 			return;
 		}
-		$trail = new BreadcrumbTrail();        
+		$trail = new BreadcrumbTrail();
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $_SESSION['wiki_title']));
         //if(!WikiTool ::is_wiki_locked(Request :: get('wiki_id')))
         //{
             $object = Request :: get('object'); //the object that was made, needed to set the reference for the complex object
