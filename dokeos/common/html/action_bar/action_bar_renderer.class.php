@@ -2,24 +2,23 @@
 require_once dirname(__FILE__) . '/action_bar_search_form.class.php';
 require_once Path :: get_library_path().'html/toolbar/toolbar.class.php';
 require_once Path :: get_library_path().'html/toolbar/toolbar_item.class.php';
+require_once Path ::get_application_path().'lib/weblcms/tool/wiki/component/wiki_actionbar.class.php';
+
 /**
  * Class that renders an action bar divided in 3 parts, a left menu for actions, a middle menu for actions
  * and a right menu for a search bar.
  */
-class ActionBarRenderer
+class ActionBarRenderer extends WikiActionbar
 {
 	const ACTION_BAR_COMMON = 'common';
 	const ACTION_BAR_TOOL = 'tool';
-	const ACTION_BAR_SEARCH = 'search';
-    const ACTION_BAR_NAVIGATION = 'navigation';
+	const ACTION_BAR_SEARCH = 'search';    
 	
 	const TYPE_HORIZONTAL = 'hoirzontal';
-	const TYPE_VERTICAL = 'vertical';
-    const TYPE_WIKI = 'wiki';
+	const TYPE_VERTICAL = 'vertical';    
 	
 	private $name;
-	private $actions = array();
-    private $links = array();
+	private $actions = array();    
 	private $search_form;
 	private $type;
 	
@@ -57,12 +56,7 @@ class ActionBarRenderer
 	function add_common_action($action)
 	{
 		$this->actions[self :: ACTION_BAR_COMMON][] = $action;
-	}
-
-    function add_navigation_link($link)
-	{
-		$this->links[self :: ACTION_BAR_NAVIGATION][] = $link;
-	}
+	}    
 	
 	function add_tool_action($action)
 	{
@@ -92,16 +86,6 @@ class ActionBarRenderer
 	function set_common_actions($actions)
 	{
 		$this->actions[self :: ACTION_BAR_COMMON] = $actions;
-	}
-
-    function set_navigation_links($links)
-	{
-		$this->links[self :: ACTION_BAR_NAVIGATION] = $links;
-	}
-
-    function get_navigation_links()
-	{
-		return $this->links[self :: ACTION_BAR_NAVIGATION];
 	}
 	
 	function set_search_url($search_url)
@@ -268,89 +252,6 @@ class ActionBarRenderer
 		
 		return implode("\n", $html);
 	}
-
-    function render_wiki()
-	{
-		$html = array();
-
-		$html[] = '<div id="'. $this->get_name() .'_action_bar_left" class="action_bar_wiki">';		
-
-		$common_actions = $this->get_common_actions();
-		$tool_actions = $this->get_tool_actions();
-        $wiki_links = $this->get_navigation_links();      
-
-		$action_bar_has_search_form = !is_null($this->search_form);
-		$action_bar_has_common_actions = (count($common_actions) > 0);
-        $action_bar_has_links = (count($wiki_links)>0);
-		$action_bar_has_tool_actions = (count($tool_actions) > 0);
-		$action_bar_has_common_and_tool_actions = (count($common_actions) > 0) && (count($tool_actions) > 0);
-        
-        if ($action_bar_has_links)
-		{
-            
-            $html[] = Translation :: get('Navigation');
-			
-			$toolbar = new Toolbar();
-            $html[] = '<div style="border:1px solid #4271B5;padding:3px;background-color: #faf7f7;">';
-			$toolbar->set_items($wiki_links);
-			$toolbar->set_type(Toolbar :: TYPE_VERTICAL);
-			$html[] = $toolbar->as_html();
-            $html[] = '</div><br />';
-		}
-
-        /*if (!is_null($this->search_form))
-		{
-			$search_form = $this->search_form;
-            $html[] = Translation :: get('Search');
-			$html[] = $search_form->as_html();
-		}*/
-
-		if ($action_bar_has_search_form && ($action_bar_has_common_actions || $action_bar_has_tool_actions))
-		{
-			$html[] = '<div class="divider"></div>';
-		}
-
-		if ($action_bar_has_common_actions)
-		{
-            $html[] = Translation :: get('PageActions');
-			//$html[] = '<div class="clear"></div>';
-
-			$toolbar = new Toolbar();
-            $html[] = '<div style="border:1px solid #4271B5;padding:3px;background-color: #faf7f7;">';
-			$toolbar->set_items($common_actions);
-			$toolbar->set_type(Toolbar :: TYPE_VERTICAL);
-			$html[] = $toolbar->as_html();
-            $html[] = '</div><br />';
-		}
-
-		if ($action_bar_has_common_and_tool_actions)
-		{
-			$html[] = '<div class="divider"></div>';
-		}
-        
-        
-
-        if ($action_bar_has_tool_actions)
-		{
-            $html[] = Translation :: get('Information');
-			$html[] = '<div class="clear"></div>';
-
-			$toolbar = new Toolbar();
-            $html[] = '<div style="border:1px solid #4271B5;padding:3px;background-color: #faf7f7;">';
-			$toolbar->set_items($tool_actions);
-			$toolbar->set_type(Toolbar :: TYPE_VERTICAL);
-			$html[] = $toolbar->as_html();
-            $html[] = '</div><br />';
-		}
-        
-		$html[] = '</div>';
-
-		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/action_bar_vertical.js');
-		
-
-		return implode("\n", $html);
-	}
-
 	
 	function get_query()
 	{
