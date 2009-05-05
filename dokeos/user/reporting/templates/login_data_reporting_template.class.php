@@ -10,9 +10,8 @@
 require_once Path :: get_reporting_path(). 'lib/reporting_template.class.php';
 class LoginDataReportingTemplate extends ReportingTemplate
 {
-	function LoginDataReportingTemplate($parent=null,$id)
+	function LoginDataReportingTemplate($parent,$id,$params,$trail)
 	{
-        parent :: __construct($parent,$id);
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("ActiveInactive"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserNoOfUsers"),
@@ -29,6 +28,8 @@ class LoginDataReportingTemplate extends ReportingTemplate
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserNoOfUsersSubscribedCourse"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_INVISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
+
+        parent :: __construct($parent,$id,$params,$trail);
 	}
 
     /**

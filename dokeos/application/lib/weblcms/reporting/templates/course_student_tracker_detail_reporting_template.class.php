@@ -5,21 +5,24 @@
 require_once Path :: get_reporting_path(). 'lib/reporting_template.class.php';
 class CourseStudentTrackerDetailReportingTemplate extends ReportingTemplate
 {
-	function CourseStudentTrackerDetailReportingTemplate($parent,$id)
+	function CourseStudentTrackerDetailReportingTemplate($parent,$id,$params,$trail)
 	{
-        parent :: __construct($parent,$id);
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserInformation"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserCourseStatistics"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
-        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsLastAccessToTools"),
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("CourseInformation"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("CourseUserLearningpathInformation"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("CourseUserExerciseInformation"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
+        $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsLastAccessToTools"),
+            array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsLatestAccess"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
+
+        parent :: __construct($parent,$id,$params,$trail);
 	}
 
     /**
@@ -53,9 +56,10 @@ class CourseStudentTrackerDetailReportingTemplate extends ReportingTemplate
         $html[] = '<br />';
         
         $html[] = '<div class="reporting_template_container">';
-        $html[] = $this->get_reporting_block_html('WeblcmsLastAccessToTools').'<br />';
+        $html[] = $this->get_reporting_block_html('CourseInformation').'<br />';
         $html[] = $this->get_reporting_block_html('CourseUserLearningpathInformation').'<br />';
         $html[] = $this->get_reporting_block_html('CourseUserExerciseInformation').'<br />';
+        $html[] = $this->get_reporting_block_html('WeblcmsLastAccessToTools').'<br />';
         $html[] = $this->get_reporting_block_html('WeblcmsLatestAccess');//.'<br />';
         $html[] = '</div>';
         //template menu

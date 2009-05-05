@@ -5,6 +5,8 @@
  * @author: Michael Kyndt
  */
 
+require_once Path :: get_plugin_path().'/pear/Pager/Pager.php';
+
  abstract class ReportingFormatter
  {	
     /**
@@ -24,6 +26,21 @@
 			$class = 'Reporting' . $type .'Formatter';
 		return new $class ($reporting_block);
  	}//get_instance
+
+    protected function get_pager_links($pager)
+	{
+		return '<div style="text-align: center; margin: 1em 0;">'.$pager_links .= $pager->links.'</div>';
+	}
+
+	protected function create_pager($total, $per_page,$urlvar)
+	{
+		$params = array ();
+		$params['mode'] = 'Sliding';
+		$params['perPage'] = $per_page;
+		$params['totalItems'] = $total;
+        $params['urlVar'] = $urlvar;
+		return Pager :: factory($params);
+	}
  	
  }//ReportingFormatter
 ?>

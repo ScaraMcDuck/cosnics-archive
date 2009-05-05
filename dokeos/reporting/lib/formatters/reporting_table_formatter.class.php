@@ -1,10 +1,11 @@
 <?php
-
-
-/*
+/**
  *
  * @author: Michael Kyndt
  */
+
+require_once Path :: get_common_path().'html/table/sortable_table.class.php';
+
 class ReportingTableFormatter extends ReportingFormatter {
     private $reporting_block;
 
@@ -16,73 +17,47 @@ class ReportingTableFormatter extends ReportingFormatter {
         $data = $all_data[0];
         $datadescription = $all_data[1];
         $orientation = $datadescription[Reporting::PARAM_ORIENTATION];
-        $counter = 1;
-        $i = 1;
+
         $j = 0;
-        $table = new HTML_Table(array('class' => 'data_table'));
-        $table->altRowAttributes(1, array ('class' => 'row_odd'), array ('class' => 'row_even'), true);
-        if($orientation == Reporting::ORIENTATION_VERTICAL)
-        {
-            foreach($data as $key => $value)
-            {
-                if($counter == 1)
-                {
-                    foreach ($value as $key2 => $value2) {
-                        $table->setHeaderContents(0, $j, $datadescription["Description"]["Column".$j]);
-                        $j++;
-                    }
-                    $counter++;
-                }
-                $j = 0;
-                foreach ($value as $key2)
-                {
-                    $table->setCellContents($i, $j, $key2);
-                    $j++;
-                }
-                $i++;
-            }
-        }else if($orientation == Reporting::ORIENTATION_HORIZONTAL)
-        {
-            $i = 1;
-            $j = 0;
-            foreach ($datadescription as $key => $value)
-            {
-                if($key == "Description")
-                {
-                    foreach($value as $key2 => $value2)
-                    {
-                        if($value2 != '')
-                        {
-                            $table->setCellContents($i, 0, $value2);
-                            $i++;
-                        }
-                    }
-                    if($i>1)
-                    {
-                        $table->setHeaderContents(0, 0, '');
-                        $j++;
-                    }
-                }
-            }
-            $i = 1;
-            foreach ($data as $key => $value)
-            {
-                foreach($value as $key2 => $value2)
-                {
-                    if($key2 == "Name")
-                    {
-                        $table->setHeaderContents(0, $j, $value2);
-                    }else
-                    {
-                        $table->setCellContents($i, $j, $value2);
-                        $i++;
-                    }
-                }
-                $i = 1;
+        foreach ($data as $key => $value) {
+            foreach ($value as $key2 => $value2) {
+                $value[$j] = $value[$key2];
+                unset($value[$key2]);
                 $j++;
             }
+            $data[$key] = $value;
+            $j=0;
         }
-        return $table->toHtml();
+
+        if($orientation == Reporting::ORIENTATION_HORIZONTAL) {
+            foreach ($data as $key => $value) {
+                $datadescription["Description"][$j] = $value[0];
+                unset($value[0]);
+                $data[$key] = $value;
+                $j++;
+            }
+            foreach ($data as $key => $value) {
+                foreach ($value as $key2 => $value2) {
+                    $data2[$key2-1][] = $value2;
+                }
+            }
+            $data = $data2;
+        }
+
+        $table = new SortableTableFromArray($data,0,10,'table_'.$this->reporting_block->get_id());
+        foreach ($_GET as $key => $value) {
+            if(strstr($key, 'table_'.$this->reporting_block->get_id()))
+                unset($_GET[$key]);
+        }
+        $table->set_additional_parameters($_GET);
+
+        $j = 0;
+        foreach ($datadescription["Description"] as $key => $value) {
+            $table->set_header($j, $value,true);
+            $j++;
+        }
+
+        return $table->toHTML();
     }
 
     public function ReportingTableFormatter(&$reporting_block) {

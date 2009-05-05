@@ -44,7 +44,8 @@ class ReportingTemplateRegistrationBrowserTableCellRenderer extends DefaultRepor
 	private function get_modification_links($reporting_template_registration)
 	{
 		$toolbar_data = array();
-        
+
+        //$viewing_url = ReportingManager::get_reporting_template_registration_url_content($this->browser,$reporting_template_registration->get_classname());
 		$viewing_url = $this->browser->get_reporting_template_registration_viewing_url($reporting_template_registration);
 		$toolbar_data[] = array(
 			'href' => $viewing_url,

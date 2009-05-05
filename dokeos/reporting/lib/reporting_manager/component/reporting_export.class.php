@@ -5,100 +5,31 @@
 require_once Path :: get_reporting_path().'lib/reporting.class.php';
 require_once Path :: get_reporting_path().'lib/reporting_formatter.class.php';
 require_once Path :: get_library_path().'export/export.class.php';
+require_once Path :: get_reporting_path().'lib/reporting_exporter.class.php';
 
 class ReportingManagerReportingExportComponent extends ReportingManagerComponent {
     function run()
     {
+        $rte = new ReportingExporter($this);
+
         if(isset($_GET[ReportingManager::PARAM_REPORTING_BLOCK_ID]))
-        $rbi = $_GET[ReportingManager::PARAM_REPORTING_BLOCK_ID];
+            $rbi = $_GET[ReportingManager::PARAM_REPORTING_BLOCK_ID];
         else if(isset($_GET[ReportingManager::PARAM_TEMPLATE_ID]))
-        $ti = $_GET[ReportingManager::PARAM_TEMPLATE_ID];
+            $ti = $_GET[ReportingManager::PARAM_TEMPLATE_ID];
+
         $params = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+
+        $_SESSION[ReportingManager::PARAM_REPORTING_PARENT] = $this;
 
         $export = $_GET[ReportingManager::PARAM_EXPORT_TYPE];
 
         if(isset($rbi))
         {
-            $rep_block = ReportingDataManager::get_instance()->retrieve_reporting_block($rbi);
-            $rep_block->set_function_parameters($params);
-            $displaymode = $rep_block->get_displaymode();
-            if(strpos($displaymode, 'Chart:') !== false)
-            {
-                $displaymode = 'image';
-                $test = ReportingFormatter::factory($rep_block)->to_link('SYS');
-                //$this->export_report($export, $link, $rep_block->get_name(), $displaymode);
-            }
-            else
-            {
-                $displaymode = strtolower($displaymode);
-                $data = $rep_block->get_data();
-                $datadescription = $data[1];
-                $data = $data[0];
-                $series = sizeof($datadescription["Values"]);
-                if($series==1)
-                {
-                    foreach($data as $key => $value)
-                    {
-                        $single_serie = array();
-                        $single_serie[] = $value['Name'];
-                        $single_serie[] = strip_tags($value['Serie1']);
-                        $test[] = $single_serie;
-                    }
-                }else
-                {
-                    foreach ($data as $key => $value)
-                    {
-                        $test[0][] = $value['Name'];
-                        for ($i = 1;$i<count($value);$i++)
-                        {
-                            $test[$i][] = strip_tags($value['Serie'.$i]);
-                        }
-                    }
-                }
-            }
-            //$test = '<html><head></head><body>';
-            $test = ReportingFormatter :: factory($rep_block)->to_html();
-            //$test += '</body></html>';
-            //dump($test);
-            $this->export_report($export, $test, $rep_block->get_name(), $displaymode);
-        }else if (isset($ti))
+            $rte->export_reporting_block($rbi,$export,$params);
+        }else if(isset($ti))
         {
-            $rpdm = ReportingDataManager :: get_instance();
-            if($reporting_template_registration = $rpdm->retrieve_reporting_template_registration($ti))
-            {
-                $application = $reporting_template_registration->get_application();
-                $base_path = (Application :: is_application($application) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
-                $file = $base_path .$application. '/reporting/templates/'.DokeosUtilities :: camelcase_to_underscores($reporting_template_registration->get_classname()).'.class.php';;
-                require_once($file);
-
-                $classname = $reporting_template_registration->get_classname();
-                $template = new $classname($this);
-                $template->set_reporting_blocks_function_parameters($params);
-                $template->set_registration_id($ti);
-                if(isset($_GET['s']))
-                {
-                    $template->show_reporting_block($_GET['s']);
-                }
-                $display = $template->to_html();
-                $this->export_report($export, $display, $reporting_template_registration->get_title(), null);
-            }
+            $rte->export_template($ti,$export,$params);
         }
     }//run
-
-    function export_report($file_type, $data, $name, $displaymode)
-    {
-        $filename = $name.date('_Y-m-d_H-i-s');
-        $export = Export::factory($file_type,$filename);
-        if($file_type == 'pdf')
-        {
-            //$data = array(array('key' => $name, 'data' => $data));
-            //$function = 'write_to_file_'.$displaymode;
-            //$function = 'write_to_file_html';
-            //$export->$function($data);
-            $export->write_to_file_html($data);
-        }else
-        $export->write_to_file($data);
-        return;
-    }
 }
 ?>

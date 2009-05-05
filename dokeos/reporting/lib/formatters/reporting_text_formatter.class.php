@@ -18,27 +18,50 @@ class ReportingTextFormatter extends ReportingFormatter {
         $values = sizeof($datadescription["Values"]);
         $count = 1;
 
+        $total = count($datadescription["Values"]);
+        $limit = 10;
+        $urlvar = 'pageID_'.$this->reporting_block->get_id();
+        $pager = $this->create_pager($total,$limit,$urlvar);
+        $pager_links = $this->get_pager_links($pager);
+
+        $offset = $pager->getOffsetByPageId();
+
+        $start = $offset[0];
+        $end = $offset[1];
+
         if ($values > 1) {
             while($count <= $values)
             {
-                foreach ($data as $key => $value)
+                if($count>=$start && $count <=$end)
                 {
-                    $html[] = $value["Name"].': '.$value["Serie".$count];
+                    foreach ($data as $key => $value)
+                    {
+                        $html[] = $value["Name"].': '.$value["Serie".$count];
+                        $html[] = '<br />';
+                    }
+                    //$count++;
                     $html[] = '<br />';
                 }
                 $count++;
-                $html[] = '<br />';
             }
         }else {
             foreach ($data as $key => $value)
             {
+                $j = 0;
                 foreach ($value as $key2)
                 {
+                    if(isset($datadescription["Description"]["Column".$j]))
+                    {
+                        $html[] = $datadescription["Description"]["Column".$j].': '.$key2;
+                        $html[] = '<br />';
+                    }else
                     $html[] = $key2 . " ";
+                    $j++;
                 }
                 $html[] = "<br />";
             }
         }
+        $html[] = $pager_links;
         return implode("\n", $html);
     }
 

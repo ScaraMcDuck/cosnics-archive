@@ -119,7 +119,7 @@ class WikiToolViewerComponent extends WikiToolComponent
 				Translation :: get('WikiStatistics'), Theme :: get_common_image_path().'action_reporting.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_STATISTICS, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
-        $action_bar->add_tool_action(ReportingManager :: get_access_details_toolbar_item());
+        $action_bar->add_tool_action(ReportingManager :: get_access_details_toolbar_item($this));
         $action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('wiki tool'));
 
         /*$action_bar->add_tool_action(

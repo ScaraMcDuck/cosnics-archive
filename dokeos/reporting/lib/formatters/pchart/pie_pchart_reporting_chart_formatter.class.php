@@ -17,7 +17,7 @@ class PiePchartReportingChartFormatter extends PchartReportingChartFormatter {
         $width = $this->reporting_block->get_width()-20;
         $legend = sizeof($data)*20;
         $height = $this->reporting_block->get_height()-50;
-        $data = $this->strip_data_names($data);
+        $data = $this->strip_data_names($data,50);
         
 		// Initialise the graph
 		$Test = new pChart($width, $height+$legend);

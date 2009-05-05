@@ -161,7 +161,7 @@ class ReportingBlock{
             $excluded[] = 'Chart:Line';
             $excluded[] = 'Chart:FilledCubic';
         }
-        if($series > 1)
+        if($series > 1 || $names > 5)
         {
             $excluded[] = 'Chart:Pie';
         }

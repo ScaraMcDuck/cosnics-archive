@@ -3,7 +3,6 @@
  * @author Michael Kyndt
  */
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
-//require_once dirname(__FILE__).'/../weblcms_manager/weblcms.class.php';
 
 class ReportingWeblcms {
 
@@ -48,8 +47,6 @@ class ReportingWeblcms {
      */
     public static function getCourseUserExcerciseInformation($params)
     {
-        //$arr[''][] = 'Not Available yet';
-
         return Reporting :: getSerieArray($arr);
     }
 
@@ -85,7 +82,8 @@ class ReportingWeblcms {
         foreach($tools as $key => $value)
         {
             $name = $value->name;
-            $link = '<img src="'.Theme :: get_image_path('weblcms').'tool_'.$name.'.png" style="vertical-align: middle;" /> <a href="run.php?go=courseviewer&course='.$course_id.'&tool='.$name.'&application=weblcms">'.Translation :: get(DokeosUtilities::underscores_to_camelcase($name)).'</a>';
+            //$link = '<img src="'.Theme :: get_image_path('weblcms').'tool_'.$name.'.png" style="vertical-align: middle;" />';// <a href="run.php?go=courseviewer&course='.$course_id.'&tool='.$name.'&application=weblcms">'.Translation :: get(DokeosUtilities::underscores_to_camelcase($name)).'</a>';
+            $link = ' <a href="run.php?go=courseviewer&course='.$course_id.'&tool='.$name.'&application=weblcms">'.Translation :: get(DokeosUtilities::underscores_to_camelcase($name)).'</a>';
             $date = $wdm->get_last_visit_date_per_course($course_id,$name);
             if($date)
             {
@@ -99,13 +97,14 @@ class ReportingWeblcms {
             $conditions3 = array();
             $conditions[] = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*course='.$course_id.'*tool='.$name.'*');
             if(isset($user_id))
-            $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
+                $conditions[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
             $conditions2[] = new AndCondition($conditions);
 
-            if($name == 'reporting'){
+            if($name == 'reporting')
+            {
                 $conditions3[] = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*course_id???='.$course_id.'*');
                 if(isset($user_id))
-                $conditions3[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
+                    $conditions3[] = new EqualityCondition(VisitTracker::PROPERTY_USER_ID,$user_id);
                 $conditions2[] = new AndCondition($conditions3);
             }
             $condition = new OrCondition($conditions2);
@@ -115,7 +114,11 @@ class ReportingWeblcms {
             $arr[$link][] = $date;
             $arr[$link][] = count($trackerdata);
             $params['tool'] = $name;
-            $url = ReportingManager :: get_reporting_template_registration_url('ToolPublicationsDetailReportingTemplate',$params);
+            $url = $params['url'].'&'.ReportingManager :: PARAM_TEMPLATE_NAME .'=ToolPublicationsDetailReportingTemplate&';
+            $parameters[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
+            $url .= http_build_query($parameters);
+            //$url = ReportingManager::get_reporting_template_registration_url_content($_SESSION[ReportingManager::PARAM_REPORTING_PARENT],'ToolPublicationsDetailReportingTemplate',$params);
+            //$url = ReportingManager :: get_reporting_template_registration_url_content($params[ReportingManager::PARAM_REPORTING_PARENT],'ToolPublicationsDetailReportingTemplate',$params);
             $arr[$link][] = '<a href="'.$url.'">'.Translation :: get('ViewPublications').'</a>';
         }
 
@@ -146,7 +149,10 @@ class ReportingWeblcms {
 
             $arr[$link][] = count($trackerdata);
             $params['tool'] = $name;
-            $url = ReportingManager :: get_reporting_template_registration_url('ToolPublicationsDetailReportingTemplate',$params);
+            $url = $params['url'].'&'.ReportingManager :: PARAM_TEMPLATE_NAME .'=ToolPublicationsDetailReportingTemplate&';
+            $parameters[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
+            $url .= http_build_query($parameters);
+            //$url = ReportingManager :: get_reporting_template_registration_url('ToolPublicationsDetailReportingTemplate',$params);
             $arr[$link][] = '<a href="'.$url.'">'.Translation :: get('ViewPublications').'</a>';
         }
 
@@ -198,23 +204,6 @@ class ReportingWeblcms {
         }
 
         Reporting :: sort_array($arr,Translation::get('LastAccess'));
-        //        arsort($arr[Translation::get('LastAccess')]);
-        //
-        //        $i = 0;
-        //        foreach($arr[Translation :: get('LastAccess')] as $key => $value)
-        //        {
-        //            if($i < sizeof($arr[Translation :: get('LastAccess')])/2)
-        //            {
-        //                $bla = $arr[Translation :: get('User')][$key];
-        //                $arr[Translation :: get('User')][$key] = $arr[Translation :: get('User')][$i];
-        //                $arr[Translation :: get('User')][$i] = $bla;
-        //                $bla = $arr[Translation :: get('TotalTime')][$key];
-        //                $arr[Translation :: get('TotalTime')][$key] = $arr[Translation :: get('TotalTime')][$i];
-        //                $arr[Translation :: get('TotalTime')][$i] = $bla;
-        //                //$arr[Translation :: get('TotalTime')][] = $lastaccess - $value->get_enter_date();
-        //                $i++;
-        //            }
-        //        }
         return Reporting :: getSerieArray($arr);
     }
 
@@ -474,17 +463,6 @@ class ReportingWeblcms {
 
     public static function getAverageExcerciseScore($params)
     {
-        $course_id = $params[ReportingManager::PARAM_COURSE_ID];
-        $wdm = WeblcmsDataManager::get_instance();
-
-        $condition = new EqualityCondition(LearningObjectPublication::PROPERTY_TOOL,'assessment');
-        $lops = $wdm->retrieve_learning_object_publications($course_id, null, null, null, $condition);
-
-        while($lop = $lops->next_result())
-        {
-            //dump($lop);
-        }
-
         return Reporting::getSerieArray($arr);
     }
 
@@ -609,7 +587,6 @@ class ReportingWeblcms {
     {
         require_once Path :: get_user_path().'trackers/visit_tracker.class.php';
 
-
         $course_id = $params[ReportingManager::PARAM_COURSE_ID];
         $user_id = $params[ReportingManager::PARAM_USER_ID];
         $tool = $params['tool'];
@@ -638,7 +615,10 @@ class ReportingWeblcms {
             $arr[Translation :: get('LastAccess')][] = $lastaccess;
             $arr[Translation :: get('TotalTimesAccessed')][] = count($trackerdata);
             $params['pid'] = $lop->get_id();
-            $url = ReportingManager :: get_reporting_template_registration_url('PublicationDetailReportingTemplate',$params);
+            $url = $params['url'].'&'.ReportingManager :: PARAM_TEMPLATE_NAME .'=PublicationDetailReportingTemplate&';
+            $parameters[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
+            $url .= http_build_query($parameters);
+            //$url = ReportingManager :: get_reporting_template_registration_url_content($_SESSION[ReportingManager::PARAM_REPORTING_PARENT],'PublicationDetailReportingTemplate',$params);
             $arr[Translation :: get('PublicationDetails')][] = '<a href="'.$url.'">'.Translation :: get('AccessDetails').'</a>';
         }
 
@@ -681,7 +661,7 @@ class ReportingWeblcms {
         $arr[Translation :: get('TotalTimesAccessed')][] = count($trackerdata);
 
         //$description[Reporting::PARAM_ORIENTATION] = Reporting::ORIENTATION_HORIZONTAL;
-
+      
         return Reporting :: getSerieArray($arr,$description);
     }
 
