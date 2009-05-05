@@ -525,11 +525,19 @@ table.forum .quotecontent, .attachcontent
 .head1
 {
 	font-size: 21px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+	padding-top: 0px;
+    padding-bottom: 0px;
 }
 
 .head2
 {
 	font-size: 18px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+	padding-top: 0px;
+    padding-bottom: 0px;
 }
 
 .head3
@@ -537,6 +545,7 @@ table.forum .quotecontent, .attachcontent
 	font-size: 15px;
 	margin-top: 0px;
 	padding-top: 0px;
+    padding-bottom: 0px;
 	margin-bottom: 5px;
 }
 

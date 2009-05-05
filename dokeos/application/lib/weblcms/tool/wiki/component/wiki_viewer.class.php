@@ -64,11 +64,10 @@ class WikiToolViewerComponent extends WikiToolComponent
 
         $this->links = explode(';',RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links());
 		$this->action_bar = $this->get_toolbar($wiki);
-        echo $this->action_bar->as_html();
+        echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
         if(!empty($wiki))
         {
-            echo '<div style="top:0;left:170px;right:20px;position: absolute;border-left:1px solid #4271B5; padding:10px;font-size:20px;">'.$wiki->get_default_property('title').'<hr style="height:1px;color:#4271B5;width:100%;"></div>';
-            echo '<br /><div style="left:160px;position:relative;width:80%;border-left:1px solid #4271B5; padding:10px">';
+            echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'.$wiki->get_default_property('title').'</div><hr style="height:1px;color:#4271B5;width:100%;">';
             $table = new WikiPageTable($this, $wiki->get_id());
             echo $table->as_html().'</div>';
         }
@@ -112,10 +111,10 @@ class WikiToolViewerComponent extends WikiToolComponent
 			)
 		);
         
-        $action_bar->add_common_action(
+        /*$action_bar->add_common_action(
         new ToolbarItem(
 				Translation :: get('BrowseWikis'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			));
+			));*/
         
 
         //INFORMATION

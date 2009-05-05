@@ -74,9 +74,9 @@ class WikiToolHistoryComponent extends WikiToolComponent
         $this->display_header($trail);
         
         $this->action_bar = $this->get_toolbar();
-        echo $this->action_bar->as_html();
-        echo '<div style="top:0;left:170px;right:20px;position: absolute;border-left:1px solid #4271B5; padding:10px;font-size:20px;">'. Translation :: get('HistoryForThe').' ' .$wiki_page->get_title() .' ' . Translation :: get('Page') .'<hr style="height:1px;color:#4271B5;width:100%;"></div>';
-        echo '<br /><div style="left:160px;position:relative;width:80%;border-left:1px solid #4271B5; padding:10px">';
+        echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
+        echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'. Translation :: get('HistoryForThe').' ' .$wiki_page->get_title() .' ' . Translation :: get('Page') .'</div><hr style="height:1px;color:#4271B5;width:100%;">';
+       
 
         /*
          * All versions for a wiki_page will be looped and the publications attributes are stored in the $publication_attr array
@@ -143,10 +143,11 @@ class WikiToolHistoryComponent extends WikiToolComponent
                  /*
                   *  A block hider is added to hide , and show the legend for the LearningObjectDifferenceDisplay
                   */
-                 echo DokeosUtilities :: add_block_hider();
-                 echo DokeosUtilities :: build_block_hider('compare_legend');
+                
+                 echo DokeosUtilities :: add_block_hider();                  
+                 echo DokeosUtilities :: build_block_hider('compare_legend');                 
                  echo $diff_display->get_legend();
-                 echo DokeosUtilities :: build_block_hider();
+                 echo DokeosUtilities :: build_block_hider();                 
                  echo $diff_display->get_diff_as_html();
                  echo $display->get_version_quota_as_html($version_data);           
                 
@@ -196,11 +197,11 @@ class WikiToolHistoryComponent extends WikiToolComponent
 		);
        
 
-         $action_bar->add_common_action(
+         /*$action_bar->add_common_action(
 			new ToolbarItem(
 				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
-		);
+		);*/
 
         //INFORMATION
         $action_bar->add_tool_action(

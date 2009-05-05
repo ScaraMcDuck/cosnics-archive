@@ -62,7 +62,7 @@ class WikiActionbar
 
 		if ($action_bar_has_common_actions)
 		{
-            $html[] = Translation :: get('PageActionss');
+            $html[] = 'PageActions'.Translation :: get('PageActions');
 			$html[] = '<div class="clear"></div>';
 
 			$toolbar = new Toolbar();
@@ -82,7 +82,7 @@ class WikiActionbar
 
         if ($action_bar_has_tool_actions)
 		{
-            $html[] = Translation :: get('Informations');
+            $html[] = 'Information'.Translation :: get('Information');
 			$html[] = '<div class="clear"></div>';
 
 			$toolbar = new Toolbar();

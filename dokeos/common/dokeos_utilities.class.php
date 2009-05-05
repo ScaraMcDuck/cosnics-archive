@@ -389,7 +389,7 @@ class DokeosUtilities
 
             $html[] = '<div id="plus-'.$id.'"><a href="javascript:showElement(\''. $id .'\')">'. Translation :: get('Show' . $message) .'</a></div>';
             $html[] = '<div id="minus-'.$id.'" style="display: none;"><a href="javascript:showElement(\''. $id .'\')">'. Translation :: get('Hide' . $message) .'</a></div>';
-            $html[] = '<div id="'. $id .'" style="display: none; clear: both;">';
+            $html[] = '<div id="'. $id .'" style="display: none;">';
         }
         else
         {

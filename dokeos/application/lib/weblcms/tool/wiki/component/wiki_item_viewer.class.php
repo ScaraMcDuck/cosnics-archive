@@ -65,9 +65,9 @@ class WikiToolItemViewerComponent extends WikiToolComponent
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->publication_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), $this->wiki_page->get_title()));
         $this->display_header($trail);
 
-        $this->action_bar = $this->get_toolbar();
+        $this->action_bar = $this->get_toolbar();        
         echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
-        echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'.$this->wiki_page->get_title().'</div><hr>';
+        echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'.$this->wiki_page->get_title().'</div><hr style="height:1px;color:#4271B5;width:100%;">';
 
         /*
          *  Here we create the wiki_parser component.
@@ -76,6 +76,9 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 		$parser = new WikiToolParserComponent(Request :: get('pid'),$this->get_course_id(),$this->wiki_page->get_description());
         echo $parser->parse_wiki_text();
         echo $parser->get_wiki_text();
+        /*
+         * If you don't want the bottom link to show, put the next line in comment
+         */
         echo '<div ><a href=#top>'.'back to top'.'</a></div>';
         echo '</div>';
         $this->display_footer();
@@ -111,7 +114,7 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 				Translation :: get('Discuss'), Theme :: get_common_image_path().'action_users.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_DISCUSS, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
-        $action_bar->add_common_action(
+        /*$action_bar->add_common_action(
         new ToolbarItem(
 				Translation :: get('BrowseWikis'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			));
@@ -120,7 +123,7 @@ class WikiToolItemViewerComponent extends WikiToolComponent
 			new ToolbarItem(
 				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
-		);
+		);*/
 
         //INFORMATION
         $action_bar->add_tool_action(
