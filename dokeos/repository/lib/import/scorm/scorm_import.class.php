@@ -26,7 +26,8 @@ class ScormImport extends LearningObjectImport
 	private function extract_xml_file($file)
 	{
 		$options = 	array(XML_UNSERIALIZER_OPTION_FORCE_ENUM => 
-				   		array('item', 'organization', 'resource', 'file', 'dependency', 'adlnav:hideLMSUI'
+				   		array('item', 'organization', 'resource', 'file', 'dependency', 'adlnav:hideLMSUI', 
+				   		'imsss:preConditionRule', 'imsss:postConditionRule', 'imsss:exitConditionRule', 'imsss:ruleCondition'
 				   	));
 		return DokeosUtilities :: extract_xml_file($file, $options);
 	}
@@ -217,6 +218,29 @@ class ScormImport extends LearningObjectImport
 				$objective->set_contributes_to_rollup($primary_objective['imsss:contributesToRollup']);	
 			
 			$scorm_item->add_objective($objective, true);
+		}
+
+		$sequencing_rules = $sequencing['imsss:sequencingRules'];
+		$types = array('pre', 'post', 'exit');
+		
+		foreach($types as $type)
+		{
+			$condition_rules = $sequencing_rules['imsss:' . $type . 'ConditionRule'];
+			foreach($condition_rules as $xml_condition_rule)
+			{
+				$conditions = $xml_condition_rule['imsss:ruleConditions']['imsss:ruleCondition'];
+				$action = $xml_condition_rule['imsss:ruleAction']['action'];
+				
+				$condition_rule = new ConditionRule();
+				$condition_rule->set_action($action);
+				
+				foreach($conditions as $condition)
+				{
+					$condition_rule->add_condition($condition);
+				}
+	
+				$scorm_item->add_condition_rule($condition_rule, $type);
+			}
 		}
 		
 		$scorm_item->create();
