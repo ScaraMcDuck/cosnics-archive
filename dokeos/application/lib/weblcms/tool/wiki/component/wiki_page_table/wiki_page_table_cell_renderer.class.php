@@ -65,6 +65,9 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
                         //return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>';
                     case 'versions' :
                             return $wiki_page->get_version_count();
+                    case 'Description' :
+                        $description = str_ireplace(']]','',str_ireplace('[[','',str_ireplace('=', '', $wiki_page->get_description())));
+                        return DokeosUtilities::truncate_string($description,50);
                 }
             }
         }
