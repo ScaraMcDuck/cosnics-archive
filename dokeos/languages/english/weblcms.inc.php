@@ -717,4 +717,6 @@ $lang['weblcms']['Contents'] = 'Contents';
 $lang['weblcms']['Disputed'] = 'Disputed';
 $lang['weblcms']['ThereIsDoubtAboutTheFactualAccuracyOfThisPart'] = 'There is doubt about the factual accuracy of this part';
 $lang['weblcms']['ConsultTheDiscussionPageForMoreInformationAndModifyTheArticleIfDesirable'] = 'Consult the discussion page for more information and modify the article if desirable';
+$lang['weblcms']['AddLink'] = 'Add link';
+$lang['weblcms']['RemoveLink'] = 'Remove link';
 ?>
