@@ -23,6 +23,8 @@ class WikiToolDiscussComponent extends WikiToolComponent
     private $fid;
     private $publication_id;
     private $links;
+    const TITLE_MARKER = '<!-- /title -->';
+    const DESCRIPTION_MARKER = '<!-- /description -->';
 
 
 	function run()
@@ -61,9 +63,9 @@ class WikiToolDiscussComponent extends WikiToolComponent
         $this->display_header($trail);
 
         $this->action_bar = $this->get_toolbar();
-        echo $this->action_bar->as_html();        
-        echo '<div style="top:0;left:170px;right:20px;position: absolute;border-left:1px solid #4271B5; padding:10px;font-size:20px;">'.Translation :: get('DiscussThe'). ' ' .$wiki_page->get_title().' ' . Translation :: get('Page') .'<hr style="height:1px;color:#4271B5;width:100%;"></div>';
-        echo '<br /><div style="left:160px;position:relative;width:80%;border-left:1px solid #4271B5; padding:10px">';
+        echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
+        echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'.Translation :: get('DiscussThe'). ' ' .$wiki_page->get_title().' ' . Translation :: get('Page') .'<hr style="height:1px;color:#4271B5;width:100%;"></div>';
+       
         /*
          *  We make use of the existing LearningObjectDisplay class, changing the type to wiki_page
          */
@@ -75,7 +77,10 @@ class WikiToolDiscussComponent extends WikiToolComponent
 
         $parser = new WikiToolParserComponent(Request :: get('pid'), $this->get_course_id(), $display->get_full_html());
         $parser->parse_wiki_text();
-        echo $parser->get_wiki_text();
+       
+        $this->set_script();       
+        echo '<a href="#" onclick="showhide();">'. Translation :: get('Show/HideContent').'</a><br /><br />';
+        echo '<div id="content" style="display:inline;">'.$parser->get_wiki_text().'</div><br />';
 
         /*
          *  We make use of the existing condition framework to show the data we want.
@@ -93,21 +98,16 @@ class WikiToolDiscussComponent extends WikiToolComponent
             {
                 if($i == 0)
                 {
-                    echo '<h3>' . Translation :: get('Feedback') . '</h3>';
+                    echo '<div style="font-size:18px;">' . Translation :: get('Feedback') .'</div><hr>';
+                    echo $this->show_add_feedback().'<br /><br />';
                 }
                 $this->fid = $feedback->get_feedback_id();
                 /*
                  *  We retrieve the learning object, because that one contains the information we want to show.
                  *  We then display it using the LearningObjectDisplay and setting the type to feedback
                  */
-                $feedback_display = $dm->retrieve_learning_object($this->fid);
-                $creationDate = $feedback_display->get_creation_date();
-                echo date("F j, Y, H:i:s",$creationDate );
-                $feedbackdisplay = LearningObjectDisplay :: factory($feedback_display);
-                $parser->set_wiki_text($feedbackdisplay->get_full_html());
-                $parser->parse_wiki_text();
-                echo $parser->get_wiki_text();                
-                echo $this->build_actions() . '<br /><br />';
+                $feedback_display = $dm->retrieve_learning_object($this->fid);                   
+                echo $this->show_feedback($feedback_display);                
                 $i++;
 
             }
@@ -118,7 +118,7 @@ class WikiToolDiscussComponent extends WikiToolComponent
     }
 
 
-    function build_actions()
+    function build_feedback_actions()
     {
         $actions[] = array(
 			'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE_FEEDBACK, 'fid' => $this->fid, 'cid' => $this->cid, 'pid' => $this->publication_id)),
@@ -137,6 +137,18 @@ class WikiToolDiscussComponent extends WikiToolComponent
 
     }
 
+    function show_add_feedback()
+    {
+        $actions[] = array(
+			'href' => $this->get_url(array(WikiTool :: PARAM_ACTION => Tool :: ACTION_FEEDBACK_CLOI, 'pid' => $this->publication_id, 'cid' => $this->cid)),
+			'label' => Translation :: get('AddFeedback'),
+			'img' => Theme :: get_common_image_path().'action_add.png',
+            'confirm' => false
+			);
+
+        return DokeosUtilities :: build_toolbar($actions);
+
+    }
 
     function get_toolbar()
 	{
@@ -175,11 +187,11 @@ class WikiToolDiscussComponent extends WikiToolComponent
 		);
 
 
-         $action_bar->add_common_action(
+         /*$action_bar->add_common_action(
 			new ToolbarItem(
 				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
-		);
+		);*/
 
         //INFORMATION
         $action_bar->add_tool_action(
@@ -228,6 +240,28 @@ class WikiToolDiscussComponent extends WikiToolComponent
 
 		return $action_bar;
 	}
+
+    private function show_feedback($object)
+    {
+        $creationDate = $object->get_creation_date();
+        
+        $html = array();
+		$html[] = '<div class="learning_object" style="background-image: url('.Theme :: get_common_image_path() . 'learning_object/' .$object->get_icon_name().($object->is_latest_version() ? '' : '_na').'.png);">';
+        $html[] = '<div class="title">'. htmlentities($object->get_title()) .' | '.htmlentities(date("F j, Y, H:i:s",$creationDate )).'</div>';
+		$html[] = self::TITLE_MARKER;
+		$html[] = $object->get_description();
+		$html[] = self::DESCRIPTION_MARKER;
+        $html[] = '<div style="float:right">'.$this->build_feedback_actions().'</div>';
+        $html[] = '<br />';
+		$html[] = '</div>';
+
+        return implode("\n",$html);
+    }
+
+    private function set_script()
+    {
+        echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/showhide_content.js');;
+    }
 }
 
 ?>

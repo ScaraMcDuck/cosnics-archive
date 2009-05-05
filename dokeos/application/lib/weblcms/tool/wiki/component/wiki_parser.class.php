@@ -123,15 +123,13 @@ class WikiToolParserComponent
             $html = array();
             
             $html[] =        '<div name="top" style="float: left; margin-right:100%;margin-bottom:15px;margin-top:15px;min-width: 150px; padding:5px;border:1px solid #4271B5;background-color:#faf7f7;">';
-            $html[] =        '<h3 style="text-align:center;font-family:Arial;">'. Translation :: get('Contents') . '</h3>';
-            $html[] =        '<div id="show" style="text-align:right;display:none">';
-            $html[] =        '<a href="#" onclick="showhide();">'. Translation :: get(Show).'</a><br /></div>';
-            $html[] =        '<div id="hide" style="text-align:right;display:block">';
-            $html[] =        '<a href="#" onclick="showhide();">'. Translation :: get(Hide).'</a><br /></div>';
-            $html[] =        '<div id="content" style="display:block;">';
-            $html[] =        '<pre>';
+            $html[] =        '<div id="hide" style="align:center;font-family:Arial;font-size:13px;display:inline;font-weight:bold;">'. Translation :: get('Contents');
+            $html[] =        '<a href="#" onclick="showhide();">['. Translation :: get(Hide).']</a><br /></div>';
+            $html[] =         '<div id="show" style="align:center;font-family:Arial;font-size:13px;font-weight:bold;display:none">'. Translation :: get('Contents');
+            $html[] =        '<a href="#" onclick="showhide();">['. Translation :: get(Show).']</a><br /></div><br />';
+            $html[] =        '<div id="content" style="display:inline;">';
             $html[] =           $this->fill_content_box($list);
-            $html[] =        '<pre></div></div>';
+            $html[] =        '</div></div>';
 
             return implode("\n", $html);
 
@@ -188,7 +186,12 @@ class WikiToolParserComponent
                         break;
                     }
             }
-            $value = '<a class="head'.$head.'" id ="'.str_replace(' ','',$value).'">'.$value.'</a>';
+            $top =  '<div style="float:right">
+                    <a href="#top">
+                    <img alt="" src="'.Theme :: get_common_image_path().'/action_ajax_add.png"/>
+                    </a>
+                    </div>';
+            $value =  $top.'<p class="head'.$head.'" id ="'.str_replace(' ','',$value).'">'.$value.'</p><hr>';
             $this->wikiText = str_replace($old_link,$value,$this->wikiText);
         }
         return $index;
@@ -196,6 +199,7 @@ class WikiToolParserComponent
 
     private function handle_doubt_tags()
     {
+        $url = Theme :: get_common_image_path().'status_doubt.png';
         $doubts = substr_count($this->wikiText,'{{'.Translation :: get('Disputed').'}}');
 
         for($i=0;$i<$doubts;$i++)
@@ -203,9 +207,11 @@ class WikiToolParserComponent
             $first = stripos($this->wikiText,'{{');
             $last = stripos($this->wikiText,'}}');
             
-            $doubtBox =   '<pre><div name="doubt" style="padding:5px;border:1px solid #4271B5;background-color:#faf7f7; margin-left: 10%; margin-right: 10%;">
-                    <h3 style="text-align:center;font-family:Arial;">'. Translation :: get('ThereIsDoubtAboutTheFactualAccuracyOfThisPart') . '.</h3>
-                    <p style="text-align:center;font-family:Arial;">'.Translation :: get('ConsultTheDiscussionPageForMoreInformationAndModifyTheArticleIfDesirable').'.</p></div></pre>';
+            $doubtBox =     '<div name="doubt" style="padding:5px;border:1px solid #4271B5;background-color:#faf7f7; margin-left: 10%; margin-right: 10%;">'.
+                            '<div style="text-align:center;font-weight:bold;font-size:15px">'.Translation :: get('ThereIsDoubtAboutTheFactualAccuracyOfThisPart').'</div>'.
+                            '<div style="align:left;margin-left:5%;"><img src="'.$url.'" /></div>'.
+                            '<div style="text-align:center;font-family:Arial;">'.Translation :: get('ConsultTheDiscussionPageForMoreInformationAndModifyTheArticleIfDesirable').'</div>'.
+                            '</div>';
 
             $this->wikiText = str_replace('{{'.Translation :: get('Disputed').'}}',$doubtBox,$this->wikiText);
         }
