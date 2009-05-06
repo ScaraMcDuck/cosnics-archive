@@ -27,7 +27,8 @@ class ToolReportingTemplateViewerComponent extends ToolComponent
         $trail->add(new Breadcrumb(ReportingManager::get_reporting_template_registration_url_content($this,$classname,$params),$classname));
 
         $params['trail'] = $trail;
-        $params['pid'] = $_GET['pid'];
+        if(isset($_GET['pid']))
+            $params['pid'] = $_GET['pid'];
 
         $rtv->show_reporting_template_by_name($classname, $params);
     }
