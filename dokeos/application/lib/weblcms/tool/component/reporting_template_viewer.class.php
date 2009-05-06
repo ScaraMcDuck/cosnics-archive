@@ -24,6 +24,18 @@ class ToolReportingTemplateViewerComponent extends ToolComponent
         $params['parent'] = $this;
 
         $trail = new BreadcrumbTrail();
+        /*
+         * Quick and dirty solution for wiki breadcrumbs. 
+         * This can go as soon as a better way is found.
+         */
+        if(isset($_SESSION['wiki_title']))
+        {
+            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $_SESSION['wiki_id'])), DokeosUtilities::truncate_string($_SESSION['wiki_title'],20)));
+        }
+        if(isset($_SESSION['wiki_page_title']))
+        {
+            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $_SESSION['wiki_id'], Tool :: PARAM_COMPLEX_ID => $_SESSION['wiki_page_id'])), DokeosUtilities::truncate_string($_SESSION['wiki_page_title'],20)));
+        }
         $trail->add(new Breadcrumb(ReportingManager::get_reporting_template_registration_url_content($this,$classname,$params),$classname));
 
         $params['trail'] = $trail;

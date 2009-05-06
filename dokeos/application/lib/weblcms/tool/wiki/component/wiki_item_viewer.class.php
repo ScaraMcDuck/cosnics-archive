@@ -51,6 +51,9 @@ class WikiToolItemViewerComponent extends WikiToolComponent
         {
             $cloi = $dm->retrieve_complex_learning_object_item($this->cid);
             $this->wiki_page = $dm->retrieve_learning_object($cloi->get_ref());
+
+            $_SESSION['wiki_page_title'] = $this->wiki_page->get_title();
+            $_SESSION['wiki_page_id'] = $this->cid;
         }
         /*else This condition isn't needed anymore
         {           
@@ -58,7 +61,6 @@ class WikiToolItemViewerComponent extends WikiToolComponent
             $cloi = $dm->retrieve_complex_learning_object_items($condition)->as_array();
             $this->cid = $cloi[0]->get_id();
         }*/
-
 
         $trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $this->publication_id)), DokeosUtilities::truncate_string($_SESSION['wiki_title'],20)));
