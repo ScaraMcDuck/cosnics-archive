@@ -61,14 +61,14 @@ class ComplexWikiPageForm extends ComplexLearningObjectItemForm
 	function create_cloi_from_values($values)
 	{
 		$cloi = $this->get_complex_learning_object_item();
-		$cloi->set_is_homepage($values[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE]);
+		$cloi->set_is_homepage(empty($values[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE])?false:$values[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE]);
 		return parent :: create_complex_learning_object_item();
 	}
 
 	function update_cloi_from_values($values)
 	{
 		$cloi = $this->get_complex_learning_object_item();
-		$cloi->set_is_homepage($values[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE]);
+		$cloi->set_is_homepage(empty($values[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE])?false:$values[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE]);
 		return parent :: update_complex_learning_object_item();
 	}
 
@@ -77,7 +77,7 @@ class ComplexWikiPageForm extends ComplexLearningObjectItemForm
 	{
 		$cloi = $this->get_complex_learning_object_item();
 		$values = $this->exportValues();
-		$cloi->set_is_homepage($values[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE]);
+		$cloi->set_is_homepage(empty($values[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE])?false:$values[ComplexWikiPage :: PROPERTY_IS_HOMEPAGE]);
 		return parent :: update_complex_learning_object_item();
 	}
 }
