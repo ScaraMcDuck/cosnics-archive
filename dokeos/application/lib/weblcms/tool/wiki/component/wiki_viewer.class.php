@@ -64,7 +64,8 @@ class WikiToolViewerComponent extends WikiToolComponent
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $this->publication_id)), DokeosUtilities::truncate_string($publication->get_learning_object()->get_title(),20)));
         $this->display_header($trail);
 
-        $this->links = explode(';',RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links());
+        $this->links = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links();
+        
 		$this->action_bar = $this->get_toolbar($wiki);
         echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
         if(!empty($wiki))
@@ -136,26 +137,31 @@ class WikiToolViewerComponent extends WikiToolComponent
         
 
         //NAVIGATION
-        $p = new WikiToolParserComponent();
-
-        if(!empty($this->links[0]))
+        
+        if(!empty($this->links))
         {
-            foreach($this->links as $link)
+            $p = new WikiToolParserComponent($this->publication_id,$this->get_course()->get_id(),$this->links);
+            $toolboxlinks = $p->handle_toolbox_links($this->links);
+            $this->links = explode(';',$this->links);
+            $i=0;
+
+            foreach($toolboxlinks as $link)
             {
                 if(substr_count($link,'class="does_not_exist"'))
                 {
                     $action_bar->add_navigation_link(
                     new ToolbarItem(
-                        $p->get_title_from_url($link), null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool ::ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link))), ToolbarItem :: DISPLAY_ICON_AND_LABEL,null,'does_not_exist'
+                        $p->get_title_from_wiki_tag($this->links[$i],true), null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool ::ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), 'title' =>$p->get_title_from_wiki_tag($this->links[$i],false))), ToolbarItem :: DISPLAY_ICON_AND_LABEL,null,'does_not_exist'
                     ));
                 }
                 else
                 {
                     $action_bar->add_navigation_link(
                     new ToolbarItem(
-                        $p->get_title_from_url($link), null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), Tool :: PARAM_COMPLEX_ID =>$p->get_cid_from_url($link) )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                        $p->get_title_from_wiki_tag($this->links[$i],true), null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), Tool :: PARAM_COMPLEX_ID =>$p->get_cid_from_url($link) )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
                     ));
                 }
+                $i++;
             }
         }
 
