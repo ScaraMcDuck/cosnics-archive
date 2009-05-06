@@ -17,11 +17,19 @@ class ToolReportingTemplateViewerComponent extends ToolComponent
         else
             $classname = 'PublicationDetailReportingTemplate';
 
-        $params = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+        $params_session = $_SESSION[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+        $params_get = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+
+        foreach ($params_session as $key => $value) {
+            $params[$key] = $value;
+        }
+
+        foreach ($params_get as $key => $value) {
+            $params[$key] = $value;
+        }
+
         if(!isset($params[ReportingManager::PARAM_COURSE_ID]))
         $params[ReportingManager::PARAM_COURSE_ID] = Request :: get('course');
-
-        $params['parent'] = $this;
 
         $trail = new BreadcrumbTrail();
         /*
@@ -38,11 +46,14 @@ class ToolReportingTemplateViewerComponent extends ToolComponent
         }
         $trail->add(new Breadcrumb(ReportingManager::get_reporting_template_registration_url_content($this,$classname,$params),$classname));
 
-        $params['trail'] = $trail;
         if(isset($_GET['pid']))
             $params['pid'] = $_GET['pid'];
 
+        $_SESSION[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
+
+        $this->display_header($trail);
         $rtv->show_reporting_template_by_name($classname, $params);
+        $this->display_footer();
     }
 }
 ?>

@@ -117,13 +117,13 @@ abstract class ReportingTemplate {
         //$parameters = $this->parameters;
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' .'"></script>';
-        $html[] = '<script type="text/javascript">';
-        $html[] = 'var params = new Array();';
-        foreach($this->params as $key => $value)
-        {
-            $html[] = 'params[\''.$key.'\'] = \''.$value.'\';';
-        }
-        $html[] = '</script>';
+//        $html[] = '<script type="text/javascript">';
+//        $html[] = 'var params = new Array();';
+//        foreach($this->params as $key => $value)
+//        {
+//            $html[] = 'params[\''.$key.'\'] = \''.$value.'\';';
+//        }
+//        $html[] = '</script>';
         //$html[] = '<br /><br /><br />';
         //$html[] = Translation :: get('Export').': <a href="index_reporting.php?go=export&template='.$this->get_registration_id().'&export=pdf&'.http_build_query($parameters).'">pdf</a>';
         //        $html[] = '<div class="template-data">';

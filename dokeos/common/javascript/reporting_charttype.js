@@ -7,12 +7,12 @@
             var type = $(this).val();
             parent = $('.reporting_content', parent);
 
-            var para = serialize_array(params);
+            //var para = serialize_array(params);
 
             parent.html(getLoadingBox('ChangingDisplaymode'));
             $.post("./reporting/ajax/reporting_change_charttype.php?"+gup(),
             {
-                para: para,
+                //para: para,
                 block:  block,
                 type: type
             },	function(data)

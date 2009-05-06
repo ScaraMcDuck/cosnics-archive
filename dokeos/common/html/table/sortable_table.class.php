@@ -207,12 +207,16 @@ class SortableTable extends HTML_Table
 	{
 		return $this->as_html();
 	}
+
+    function toHTML_export()
+    {
+        return $this->as_html(true);
+    }
 	/**
 	 * Returns the complete table HTML.
 	 */
-	function as_html()
+	function as_html($empty_table = false)
 	{
-		$empty_table = false;
 		if ($this->get_total_number_of_items() == 0)
 		{
 			$cols = $this->getHeader()->getColCount();

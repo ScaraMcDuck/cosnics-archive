@@ -61,6 +61,9 @@ class ReportingTableFormatter extends ReportingFormatter {
             }
         }
 
+        if(isset($_GET['export']))
+            return $table->toHTML_export();
+
         return $table->toHTML();
     }
 
