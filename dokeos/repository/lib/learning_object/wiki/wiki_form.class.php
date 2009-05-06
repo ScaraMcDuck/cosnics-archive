@@ -22,7 +22,7 @@ class WikiForm extends LearningObjectForm
 		$object = new Wiki();
         $parser = new WikiToolParserComponent(Request :: get('pid'), Request :: get('course'));
         $object->set_locked($this->exportValue(Wiki :: PROPERTY_LOCKED));
-        $object->set_links($parser->handle_toolbox_links($this->exportValue(Wiki :: PROPERTY_LINKS)));
+        $object->set_links($this->exportValue(Wiki :: PROPERTY_LINKS));
 		$this->set_learning_object($object);
 		return parent :: create_learning_object();
 	}
@@ -32,7 +32,7 @@ class WikiForm extends LearningObjectForm
         $parser = new WikiToolParserComponent(Request :: get('pid'), Request :: get('course'));
 		$object = $this->get_learning_object();
 		$object->set_locked($this->exportValue(Wiki :: PROPERTY_LOCKED));
-        $object->set_links($parser->handle_toolbox_links($this->exportValue(Wiki :: PROPERTY_LINKS)));
+        $object->set_links($this->exportValue(Wiki :: PROPERTY_LINKS));
 		$this->set_learning_object($object);
 		return parent :: update_learning_object();
 	}

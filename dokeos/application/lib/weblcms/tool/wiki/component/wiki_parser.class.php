@@ -108,7 +108,7 @@ class WikiToolParserComponent
         }
         else
         {
-            return '<a class="does_not_exist" href="'.'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?go=courseviewer&course={$this->course_id}&tool=wiki&application=weblcms&&tool_action=create_page&pid={$this->pid}" . '">' . htmlspecialchars($title) . '</a>';
+            return '<a class="does_not_exist" href="'.'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?go=courseviewer&course={$this->course_id}&tool=wiki&application=weblcms&&tool_action=create_page&pid={$this->pid}&title={$title}" . '">' . htmlspecialchars($title) . '</a>';
         }
     }
 
@@ -251,7 +251,8 @@ class WikiToolParserComponent
     {
         $this->set_wiki_text($links);
         $this->handle_internal_links();
-        return $this->get_wiki_text();
+        $this->wikiText = explode(';',$this->wikiText);
+        return $this->get_wiki_text();       
     }
 
     public function get_title_from_url($link)
@@ -259,6 +260,25 @@ class WikiToolParserComponent
         $link = str_replace('</a>','',$link);
         $pattern = '/(<a.*>)/';
         return preg_replace($pattern,'',$link);
+    }
+
+    public function get_title_from_wiki_tag($tag,$viewTitle = false)
+    {
+        $first = stripos($tag,'[[');
+        $last = stripos($tag,']]');
+        $title = substr($tag,$first+2,$last-$first-2);
+
+        $pipe = strpos($title,'|');
+        if($pipe===false)
+        return $title;
+        else
+        {
+            $title = explode('|',$title);
+            if($viewTitle)
+            return $title[1];
+            else
+            return $title[0];
+        }
     }
 
     public function get_pid_from_url($link)
