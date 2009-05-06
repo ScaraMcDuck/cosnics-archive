@@ -187,11 +187,11 @@ class WikiToolDiscussComponent extends WikiToolComponent
 		);
 
 
-         /*$action_bar->add_common_action(
+         $action_bar->add_common_action(
 			new ToolbarItem(
 				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
-		);*/
+		);
 
         //INFORMATION
         $action_bar->add_tool_action(
