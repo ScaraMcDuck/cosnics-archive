@@ -41,8 +41,6 @@ class ReportingTemplateViewer {
 
         $reporting_template_registration = $templates->next_result();
 
-        $trail = $params['trail'];
-
         //registration doesn't exist
         if(!isset($reporting_template_registration))
         {
@@ -70,15 +68,11 @@ class ReportingTemplateViewer {
 
         //$template->set_reporting_blocks_function_parameters($params);
 
-		$this->parent->display_header($trail);
-
         if(isset($_GET['s']))
 		{
             $template->show_reporting_block($_GET['s']);
 		}
         echo $template->to_html();
-
-		$this->parent->display_footer();
     }
 }
 ?>
