@@ -126,6 +126,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 					default: $title = $this->get_course()->get_visual(); break;
 				}
 				
+				$trail->add(new Breadcrumb($this->get_url(array('go' => null, 'course' => null)), Translation :: get('MyCourses')));
 				$trail->add(new Breadcrumb($this->get_url(), $title));
 				
 				$wdm = WeblcmsDataManager :: get_instance();
