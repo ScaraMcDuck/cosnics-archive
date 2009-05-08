@@ -119,47 +119,7 @@ class PersonalCalendar extends WebApplication
 		
 		$query = Request :: post('query');
 		
-		while($publication = $publications->next_result())
-		{
-			$object = $publication->get_publication_object();
-			if(isset($query) && $query != '')
-			{
-				if((stripos($object->get_title(), $query) === false) && (stripos($object->get_description(), $query) === false))
-					continue;
-			}
-			
-			if ($object->repeats())
-			{
-				$repeats = $object->get_repeats($from_date, $to_date);
-				
-				foreach($repeats as $repeat)
-				{
-					$event = new PersonalCalendarEvent();
-					$event->set_start_date($repeat->get_start_date());
-					$event->set_end_date($repeat->get_end_date());
-					$event->set_url($this->get_publication_viewing_url($publication));
-					$event->set_title($repeat->get_title());
-					$event->set_content($repeat->get_description());
-					$event->set_source(self :: APPLICATION_NAME);
-					$event->set_id($publication->get_id());
-					$events[] = $event;
-				}
-			}
-			elseif($object->get_start_date() >= $from_date && $object->get_start_date() <= $to_date)
-			{
-				$event = new PersonalCalendarEvent();
-				$event->set_start_date($object->get_start_date());
-				$event->set_end_date($object->get_end_date());
-				$event->set_url($this->get_publication_viewing_url($publication));
-				$event->set_title($object->get_title());
-				$event->set_content($object->get_description());
-				$event->set_source(self :: APPLICATION_NAME);
-				$event->set_id($publication->get_id());
-				$events[] = $event;
-			}
-		}
-		
-		return $events;
+		return $this->render_personal_calendar_events($publications, $from_date, $to_date);
 	}
 	
 	public function get_connector_events($from_date, $to_date)
@@ -182,7 +142,62 @@ class PersonalCalendar extends WebApplication
 	
 	public function get_user_shared_events($from_date, $to_date)
 	{
-		return array();
+		$events = array();
+		
+		$dm = PersonalCalendarDatamanager::get_instance();
+		$condition = new EqualityCondition('user', $this->get_user_id());
+		$publications = $dm->retrieve_shared_calendar_event_publications($condition);
+		
+		$source = 'SharedEvents'; 
+		return $this->render_personal_calendar_events($publications, $from_date, $to_date, $source);
+	}
+	
+	public function render_personal_calendar_events($publications, $from_date, $to_date, $source = self :: APPLICATION_NAME)
+	{
+		$events = array();
+		$query = Request :: post('query');
+		
+		while($publication = $publications->next_result())
+		{
+			$object = $publication->get_publication_object();
+			if(isset($query) && $query != '')
+			{
+				if((stripos($object->get_title(), $query) === false) && (stripos($object->get_description(), $query) === false))
+					continue;
+			}
+			
+			if ($object->repeats())
+			{
+				$repeats = $object->get_repeats($from_date, $to_date);
+				
+				foreach($repeats as $repeat)
+				{
+					$event = new PersonalCalendarEvent();
+					$event->set_start_date($repeat->get_start_date());
+					$event->set_end_date($repeat->get_end_date());
+					$event->set_url($this->get_publication_viewing_url($publication));
+					$event->set_title($repeat->get_title());
+					$event->set_content($repeat->get_description());
+					$event->set_source($source);
+					$event->set_id($publication->get_id());
+					$events[] = $event;
+				}
+			}
+			elseif($object->get_start_date() >= $from_date && $object->get_start_date() <= $to_date)
+			{
+				$event = new PersonalCalendarEvent();
+				$event->set_start_date($object->get_start_date());
+				$event->set_end_date($object->get_end_date());
+				$event->set_url($this->get_publication_viewing_url($publication));
+				$event->set_title($object->get_title());
+				$event->set_content($object->get_description());
+				$event->set_source($source);
+				$event->set_id($publication->get_id());
+				$events[] = $event;
+			}
+		}
+		
+		return $events;
 	}
 	
 	

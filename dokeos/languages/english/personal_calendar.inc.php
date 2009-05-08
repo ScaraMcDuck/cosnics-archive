@@ -64,4 +64,5 @@ $lang['personal_calendar']['PersonalCalendar'] = 'Personal Calendar';
 $lang['personal_calendar']['Weblcms'] = 'Courses';
 $lang['personal_calendar']['Help'] = 'Help';
 $lang['personal_calendar']['NoPublications'] = 'No publications';
+$lang['personal_calendar']['SharedEvents'] = 'Shared Events';
 ?>
