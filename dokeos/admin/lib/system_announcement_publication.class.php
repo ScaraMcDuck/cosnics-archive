@@ -173,9 +173,6 @@ class SystemAnnouncementPublication
 		$this->set_id($id);
 		
 		$success = $adm->create_system_announcement_publication($this);
-		$users = $this->get_target_users();
-		$groups = $this->get_target_groups();
-		// TODO: Write target users and class groups to DB.
 		
 		return $success;
 	}

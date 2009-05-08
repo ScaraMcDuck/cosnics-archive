@@ -103,6 +103,14 @@ class PersonalCalendar extends WebApplication
 	 */
 	public function get_events($from_date, $to_date)
 	{
+		$events = $this->get_user_events($from_date, $to_date);
+		$events = array_merge($events, $this->get_connector_events($from_date, $to_date));
+		$events = array_merge($events, $this->get_user_shared_events($from_date, $to_date));
+		return $events;
+	}
+	
+	public function get_user_events($from_date, $to_date)
+	{
 		$events = array();
 		
 		$dm = PersonalCalendarDatamanager::get_instance();
@@ -151,7 +159,13 @@ class PersonalCalendar extends WebApplication
 			}
 		}
 		
-		// Get connectors and retrieve events from them.
+		return $events;
+	}
+	
+	public function get_connector_events($from_date, $to_date)
+	{
+		$events = array();
+		
 		$path = dirname(__FILE__) . '/../connector/';
 		$files = Filesystem :: get_directory_content($path, Filesystem::LIST_FILES, false);
 		foreach($files as $file)
@@ -160,15 +174,18 @@ class PersonalCalendar extends WebApplication
 			$class = DokeosUtilities :: underscores_to_camelcase($file_class[0]);
 			
 			$connector = new $class;
-			$events = array_merge($events,$connector->get_events($this->user, $from_date, $to_date));
+			$events = array_merge($events, $connector->get_events($this->user, $from_date, $to_date));
 		}
-		
-//		echo '<pre>';
-//		print_r($events);
-//		echo '</pre>';
 		
 		return $events;
 	}
+	
+	public function get_user_shared_events($from_date, $to_date)
+	{
+		return array();
+	}
+	
+	
 	/**
 	 * @see Application::learning_object_is_published()
 	 */

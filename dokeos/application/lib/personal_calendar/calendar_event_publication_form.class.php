@@ -88,6 +88,29 @@ class CalendarEventPublicationForm extends FormValidator
 	 */
     function build_form()
     {
+    	$shares = array ();
+//    	if ($publication)
+//    	{
+//			$publication = $this->publication;
+//			$recip = $publication->get_publication_sender();
+//			$recipient = array ();
+//			$recipient['id'] = $recip->get_id();
+//			$recipient['class'] = 'type type_user';
+//			$recipient['title'] = $recip->get_username();
+//			$recipient['description'] = $recip->get_lastname() . ' ' . $recip->get_firstname();
+//			$recipients[$recipient['id']] = $recipient;
+//    	}
+
+		$url = Path :: get(WEB_PATH).'application/lib/personal_calendar/xml_user_feed.php';
+		$locale = array ();
+		$locale['Display'] = Translation :: get('ShareWith');
+		$locale['Searching'] = Translation :: get('Searching');
+		$locale['NoResults'] = Translation :: get('NoResults');
+		$locale['Error'] = Translation :: get('Error');
+		$hidden = false;
+		$elem = $this->addElement('user_group_finder', 'share', Translation :: get('SharedWith'), $url, $locale, $shares);
+		$elem->excludeElements(array($this->form_user->get_id()));
+		$elem->setDefaultCollapsed(false);
     }
     
     function add_footer()
@@ -128,12 +151,16 @@ class CalendarEventPublicationForm extends FormValidator
 
     	$ids = unserialize($values['ids']);
     	
+    	$shares = $values['share'];
+    	
     	foreach($ids as $id)
     	{
 			$pub = new CalendarEventPublication();
 			$pub->set_calendar_event($id);
 			$pub->set_publisher($this->form_user->get_id());
 			$pub->set_published(time());
+			$pub->set_target_users($shares['user']);
+			$pub->set_target_groups($shares['group']);
 	
 			if (!$pub->create())
 			{
