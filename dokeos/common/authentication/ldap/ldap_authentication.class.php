@@ -66,18 +66,22 @@ class LdapAuthentication extends Authentication
 			return true;
 		}
     }
+    
     public function is_password_changeable()
     {
     	return false;
     }
+    
     public function is_username_changeable()
     {
     	return false;
     }
+    
     public function can_register_new_user()
     {
     	return true;
     }
+    
     public function register_new_user($username,$password = null)
     {
 		if($this->check_login(null,$username,$password))

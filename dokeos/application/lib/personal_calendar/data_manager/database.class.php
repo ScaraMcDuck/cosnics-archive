@@ -315,12 +315,39 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		$this->db->get_connection()->loadModule('Extended');
 		if ($this->db->get_connection()->extended->autoExecute($this->db->get_table_name('publication'), $props, MDB2_AUTOQUERY_INSERT))
 		{
+			$users = $publication->get_target_users();
+			foreach($users as $index => $user_id)
+			{
+				$props = array();
+				$props[$this->escape_column_name('publication')] = $publication->get_id();
+				$props[$this->escape_column_name('user')] = $user_id;
+				$this->db->get_connection()->extended->autoExecute($this->db->get_table_name('publication_user'), $props, MDB2_AUTOQUERY_INSERT);
+			}
+			$groups = $publication->get_target_groups();
+			foreach($groups as $index => $group_id)
+			{
+				$props = array();
+				$props[$this->escape_column_name('publication')] = $publication->get_id();
+				$props[$this->escape_column_name('group_id')] = $group_id;
+				$this->db->get_connection()->extended->autoExecute($this->db->get_table_name('publication_group'), $props, MDB2_AUTOQUERY_INSERT);
+			}
+			
 			return true;
 		}
 		else
 		{
 			return false;
 		}
+	}
+	
+	function retrieve_calendar_event_publication_target_groups($calendar_event_publication)
+	{
+		return array();
+	}
+	
+	function retrieve_calendar_event_publication_target_users($calendar_event_publication)
+	{
+		return array();
 	}
 }
 ?>

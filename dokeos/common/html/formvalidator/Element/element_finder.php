@@ -131,7 +131,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$string = str_replace("\t", ' ', $string);
 	}
 
-	private function get_active_elements()
+	function get_active_elements()
 	{
 		$temp = explode("\t", $this->_elements[0]->getValue());
 		$result = array ();

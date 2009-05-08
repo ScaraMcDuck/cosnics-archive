@@ -26,6 +26,9 @@ class CalendarEventPublication
 	private $id;
 	private $defaultProperties;
 	
+	private $target_groups;
+	private $target_users;
+	
 	/**
 	 * Creates a new calendar_event object.
 	 * @param int $id The numeric ID of the CalendarEventPublication object. May be omitted
@@ -182,10 +185,23 @@ class CalendarEventPublication
 	{
 		$now = time();
 		$this->set_published($now);
-		$pmdm = PersonalCalendarDataManager :: get_instance();
-		$id = $pmdm->get_next_calendar_event_publication_id();
+		$pcdm = PersonalCalendarDataManager :: get_instance();
+		$id = $pcdm->get_next_calendar_event_publication_id();
 		$this->set_id($id);
-		return $pmdm->create_calendar_event_publication($this);
+		return $pcdm->create_calendar_event_publication($this);
+		/*
+		if ($success)
+		{
+			$users = $this->get_target_users();
+			$groups = $this->get_target_groups();
+			
+			
+		}
+		else
+		{
+			return false;
+		}
+		*/
 	}
 	
 	/**
@@ -215,6 +231,55 @@ class CalendarEventPublication
 	function update()
 	{
 		return PersonalCalendarDataManager :: get_instance()->update_calendar_event_publication($this);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	function get_target_users()
+	{
+		if (!isset($this->target_users))
+		{
+			$pcdm = PersonalCalendarDataManager :: get_instance();
+			$this->target_users = $pcdm->retrieve_calendar_event_publication_target_users($this);
+		}
+		
+		return $this->target_users;
+	}
+	
+	function get_target_groups()
+	{
+		if (!isset($this->target_groups))
+		{
+			$pcdm = PersonalCalendarDataManager :: get_instance();
+			$this->target_groups = $pcdm->retrieve_calendar_event_publication_target_groups($this);
+		}
+		
+		return $this->target_groups;
+	}
+	
+	function set_target_users($target_users)
+	{
+		$this->target_users = $target_users;
+	}
+	
+	function set_target_groups($target_groups)
+	{
+		$this->target_groups = $target_groups;
 	}
 }
 ?>

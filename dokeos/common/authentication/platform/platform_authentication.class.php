@@ -13,6 +13,7 @@ class PlatformAuthentication extends Authentication
     function PlatformAuthentication()
     {
     }
+    
     public function check_login($user, $username, $password = null)
     {
     	$user_expiration_date = $user->get_expiration_date();
@@ -30,10 +31,12 @@ class PlatformAuthentication extends Authentication
     		return Translation :: get("UsernameOrPasswordIncorrect");
     	}
     }
+    
     public function is_password_changeable()
     {
     	return true;
     }
+    
     public function is_username_changeable()
     {
     	return true;

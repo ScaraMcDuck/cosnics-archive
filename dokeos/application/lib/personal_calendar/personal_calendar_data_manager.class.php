@@ -126,5 +126,9 @@ abstract class PersonalCalendarDataManager
 	 * @return boolean
 	 */
     abstract function create_calendar_event_publication($publication);
+    
+    abstract function retrieve_calendar_event_publication_target_groups($calendar_event_publication);
+    
+    abstract function retrieve_calendar_event_publication_target_users($calendar_event_publication);
 }
 ?>
