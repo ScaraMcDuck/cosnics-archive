@@ -246,6 +246,43 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
 		return new DatabaseCalendarEventPublicationResultSet($this, $res);
 	}
 	
+    function retrieve_shared_calendar_event_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+
+		$query = 'SELECT DISTINCT * FROM '.$this->db->escape_table_name('publication');
+		$query .= 'JOIN '.$this->db->escape_table_name('publication_user') . ' ON id = publication';
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$order = array ();
+
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->db->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects < 0)
+		{
+			$maxObjects = null;
+		}
+
+		$this->db->get_connection()->setLimit(intval($maxObjects),intval($offset));
+		$statement = $this->db->get_connection()->prepare($query);
+		$res = $statement->execute($params);		
+		return new DatabaseCalendarEventPublicationResultSet($this, $res);
+	}
+	
+	
 	//Inherited.
 	function update_calendar_event_publication($calendar_event_publication)
 	{
