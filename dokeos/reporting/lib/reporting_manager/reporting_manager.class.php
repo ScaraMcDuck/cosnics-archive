@@ -386,28 +386,28 @@ class ReportingManager {
      * @param array $params
      * @return link
      */
-//    function get_reporting_template_registration_url($classname,$para)
-//    {
-//        $condition = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_CLASSNAME, $classname);
-//        $rpdm = ReportingDataManager :: get_instance();
-//        $templates = $rpdm->retrieve_reporting_template_registrations($condition);
-//        if($template = $templates->next_result())
-//        {
-//            $parameters = array();
-//            $parameters[ReportingManager :: PARAM_ACTION] = ReportingManager ::ACTION_VIEW_TEMPLATE;
-//            $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = $template->get_id();
-//            $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $para;
-//        }else
-//        {
-//            $parameters = array();
-//            $parameters[ReportingManager :: PARAM_ACTION] = ReportingManager ::ACTION_VIEW_TEMPLATE;
-//            $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = 0;
-//        }
-//
-//        $url = ReportingManager :: get_link().'?'.http_build_query($parameters);
-//
-//        return $url;
-//    }
+    function get_reporting_template_registration_url($classname,$para)
+    {
+        $condition = new EqualityCondition(ReportingTemplateRegistration :: PROPERTY_CLASSNAME, $classname);
+        $rpdm = ReportingDataManager :: get_instance();
+        $templates = $rpdm->retrieve_reporting_template_registrations($condition);
+        if($template = $templates->next_result())
+        {
+            $parameters = array();
+            $parameters[ReportingManager :: PARAM_ACTION] = ReportingManager ::ACTION_VIEW_TEMPLATE;
+            $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = $template->get_id();
+            $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $para;
+        }else
+        {
+            $parameters = array();
+            $parameters[ReportingManager :: PARAM_ACTION] = ReportingManager ::ACTION_VIEW_TEMPLATE;
+            $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = 0;
+        }
+
+        $url = ReportingManager :: get_link().'?'.http_build_query($parameters);
+
+        return $url;
+    }
 
     function get_reporting_template_registration_url_content($parent,$classname,$params)
     {

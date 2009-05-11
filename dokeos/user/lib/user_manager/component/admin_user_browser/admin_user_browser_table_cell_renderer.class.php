@@ -95,7 +95,8 @@ class AdminUserBrowserTableCellRenderer extends DefaultUserTableCellRenderer
             //$params[ReportingManager :: PARAM_APPLICATION] = "weblcms";
             //$params[ReportingManager :: PARAM_COURSE_ID] = $this->browser->get_course_id();
             $params[ReportingManager :: PARAM_USER_ID] = $user->get_id();
-            $url = ReportingManager :: get_reporting_template_registration_url_content($this->browser,'UserReportingTemplate',$params);
+            //$url = ReportingManager :: get_reporting_template_registration_url_content($this->browser,'UserReportingTemplate',$params);
+            $url = ReportingManager :: get_reporting_template_registration_url('UserReportingTemplate',$params);
 			//$unsubscribe_url = $this->browser->get_url($parameters);
 			$toolbar_data[] = array(
 				'href' => $url,
