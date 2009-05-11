@@ -54,7 +54,7 @@ class BreadcrumbTrail
 			}
 		}
     	
-    	return implode("\n".'&nbsp;&gt;&nbsp;', $html);
+    	return implode("\n".'&gt;&nbsp;', $html);
     }
     
     function size()
