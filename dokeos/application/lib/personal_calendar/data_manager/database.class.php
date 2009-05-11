@@ -249,8 +249,9 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
     function retrieve_shared_calendar_event_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 
-		$query = 'SELECT DISTINCT * FROM '.$this->db->escape_table_name('publication');
-		$query .= 'JOIN '.$this->db->escape_table_name('publication_user') . ' ON id = publication';
+		$query = 'SELECT DISTINCT pub.* FROM '.$this->db->escape_table_name('publication') . ' as pub';
+		$query .= ' LEFT JOIN '.$this->db->escape_table_name('publication_user') . ' ON pub.id = '.$this->db->escape_table_name('publication_user').'.publication';
+		$query .= ' LEFT JOIN '.$this->db->escape_table_name('publication_group') . ' ON pub.id = '.$this->db->escape_table_name('publication_group').'.publication';
 
 		$params = array ();
 		if (isset ($condition))

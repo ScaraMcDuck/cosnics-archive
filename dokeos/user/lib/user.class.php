@@ -687,7 +687,7 @@ class User
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 	
-	function get_groups()
+	function get_groups($only_retrieve_ids = false)
 	{
 		$gdm = GroupDataManager :: get_instance();
 		
@@ -697,6 +697,11 @@ class User
 		while($group = $groups->next_result())
 		{
 			$group_ids[] = $group->get_group_id();
+		}
+		
+		if($only_retrieve_ids)
+		{
+			return $group_ids;
 		}
 		
 		if (count($group_ids) > 0)
