@@ -6,6 +6,7 @@ require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_tree.class
 require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_learning_object_display.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lp_attempt_tracker.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lpi_attempt_tracker.class.php';
+require_once dirname(__FILE__).'/../../../trackers/weblcms_lpi_attempt_objective_tracker.class.php';
 
 class LearningPathToolViewerComponent extends LearningPathToolComponent
 {

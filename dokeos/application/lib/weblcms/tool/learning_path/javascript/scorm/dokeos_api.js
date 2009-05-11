@@ -135,7 +135,7 @@ function DokeosSetValue(variable, value)
 		url: "./application/lib/weblcms/tool/learning_path/javascript/scorm/ajax/set_value.php",
 		data: { tracker_id: tracker_id, variable: variable, value: value },
 		async: false
-	}).responseText; alert(response);
+	}).responseText; //alert(response);
 	
 	return "true";
 }
