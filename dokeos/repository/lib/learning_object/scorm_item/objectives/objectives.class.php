@@ -12,9 +12,16 @@ class Objectives
 		$this->objectives = array();
 	}
 	
-	function get_objectives()
+	function get_objectives($include_primary = true)
 	{
-		return $this->objectives;
+		$objectives = $this->objectives;
+		
+		if($include_primary && $this->primary_objective)
+		{
+			$objectives[] = $this->primary_objective;
+		}
+
+		return $objectives; 
 	}
 	
 	function set_objectives($objectives)
