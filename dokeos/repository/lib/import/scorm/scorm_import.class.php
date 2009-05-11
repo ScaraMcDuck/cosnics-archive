@@ -261,7 +261,7 @@ class ScormImport extends LearningObjectImport
 				
 				foreach($conditions as $condition)
 				{
-					$condition_rule->add_condition($condition);
+					$condition_rule->add_condition($condition['condition']);
 				}
 	
 				$scorm_item->add_condition_rule($condition_rule, $type);

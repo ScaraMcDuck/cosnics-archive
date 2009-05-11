@@ -140,34 +140,88 @@ class LearningPathTree extends HTML_Menu
 				$menu_item['sub'] = $sub_menu_items;
 			}
 			else
-			{
+			{	
+				$this->objects[$object->get_id()] = $lo;
+				if($lpi_tracker_data['completed'])
+				{
+					$menu_item['title'] = $menu_item['title'] . Theme :: get_common_image('status_ok_mini');
+					$this->taken_steps++;
+				}
+				
+				//if($this->check_condition_rules($lo, $lpi_tracker_data))
 				if($control_mode['choice'] != 0)
 				{
 					$menu_item['url'] = $this->get_url($this->step);
 					$menu_item[OptionsMenuRenderer :: KEY_ID] = $this->step;	
 				}
 				
-					$this->objects[$object->get_id()] = $lo;
-					if($lpi_tracker_data['completed'])
-					{
-						$menu_item['title'] = $menu_item['title'] . Theme :: get_common_image('status_ok_mini');
-						$this->taken_steps++;
-					}
-					
-					if($this->step == $this->current_step)
-					{
-						$this->current_cloi = $object;
-						$this->current_object = $lo;
-						$this->current_tracker = $lpi_tracker_data['active_tracker'];
-					}
-					
-					$this->step++;
+				if($this->step == $this->current_step)
+				{
+					$this->current_cloi = $object;
+					$this->current_object = $lo;
+					$this->current_tracker = $lpi_tracker_data['active_tracker'];
+				}
+				
+				$this->step++;
+				
 			}
 
 			$menu[] = $menu_item;
 		}
 		
 		return $menu;
+	}
+	
+	function check_condition_rules($object, $tracker_data)
+	{
+		if(get_class($object) != 'ScormItem')
+			return true;
+		
+		if(($rules = $object->get_condition_rules()) == null)
+			return true;
+		
+		$pre_condition_rules = $rules->get_precondition_rules();
+		foreach($pre_condition_rules as $pre_condition_rule)
+		{
+			//$action = $pre_condition_rule->get_action();
+			$rules = $pre_condition_rule->get_conditions();
+			
+			if(($objectives = $object->get_objectives()) == null)
+				continue;
+			
+			if(($primary_objective = $objectives->get_primary_objective()) == null)
+				continue;
+			
+			$ids = array();
+			foreach($tracker_data['trackers'] as $tracker)
+				$ids[] = $tracker->get_id();
+			
+			if(count($ids) == 0)
+				continue;
+				
+			$conditions[] = new InCondition(WeblcmsLpiAttemptObjectiveTracker :: PROPERTY_LPI_VIEW_ID, $ids);		
+			$conditions[] = new EqualityCondition(WeblcmsLpiAttemptObjectiveTracker :: PROPERTY_OBJECTIVE_ID, $primary_objective->get_id());
+			$condition = new AndCondition($conditions);
+			$dummy = new WeblcmsLpiAttemptObjectiveTracker();
+			$objective_trackers = $dummy->retrieve_tracker_items($condition);
+
+			foreach($rules as $rule)
+			{
+				switch($rule)
+				{
+					case "satisfied":
+						foreach($objective_trackers as $objective_tracker)
+						{
+							if($objective_tracker->get_status() == 'completed')
+								return false;
+						}
+				}
+			}
+			
+		}
+		
+		return true;
+		
 	}
 	
 	function get_objects()
@@ -213,7 +267,7 @@ class LearningPathTree extends HTML_Menu
 	
 	function get_progress()
 	{
-		return ($this->taken_steps / ($this->step - 1)) * 100;
+		return ($this->taken_steps / ($this->count_steps())) * 100;
 	}
 	
 	function count_steps()
