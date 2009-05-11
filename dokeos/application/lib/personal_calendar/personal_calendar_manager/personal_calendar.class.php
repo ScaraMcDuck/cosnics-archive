@@ -131,6 +131,7 @@ class PersonalCalendar extends WebApplication
 		foreach($files as $file)
 		{
 			$file_class = split('.class.php', $file); 
+			require_once dirname(__FILE__) . '/../connector/' . $file;
 			$class = DokeosUtilities :: underscores_to_camelcase($file_class[0]);
 			
 			$connector = new $class;
@@ -186,7 +187,17 @@ class PersonalCalendar extends WebApplication
 					$event->set_start_date($repeat->get_start_date());
 					$event->set_end_date($repeat->get_end_date());
 					$event->set_url($this->get_publication_viewing_url($publication));
-					$event->set_title($repeat->get_title());
+					
+					// Check whether it's a shared or regular publication
+					if ($publisher != $this->get_user_id())
+					{
+						$event->set_title($object->get_title() . ' ['. $publishing_user->get_fullname() .']');
+					}
+					else
+					{
+						$event->set_title($object->get_title());
+					}
+					
 					$event->set_content($repeat->get_description());
 					$event->set_source($source);
 					$event->set_id($publication->get_id());
@@ -200,6 +211,7 @@ class PersonalCalendar extends WebApplication
 				$event->set_end_date($object->get_end_date());
 				$event->set_url($this->get_publication_viewing_url($publication));
 				
+				// Check whether it's a shared or regular publication
 				if ($publisher != $this->get_user_id())
 				{
 					$event->set_title($object->get_title() . ' ['. $publishing_user->get_fullname() .']');
@@ -208,6 +220,7 @@ class PersonalCalendar extends WebApplication
 				{
 					$event->set_title($object->get_title());
 				}
+				
 				$event->set_content($object->get_description());
 				$event->set_source($source);
 				$event->set_id($publication->get_id());
