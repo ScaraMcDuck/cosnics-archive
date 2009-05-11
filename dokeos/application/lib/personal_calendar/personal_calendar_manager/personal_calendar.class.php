@@ -143,13 +143,20 @@ class PersonalCalendar extends WebApplication
 	public function get_user_shared_events($from_date, $to_date)
 	{
 		$events = array();
+		$user = $this->get_user();
+		$user_groups = $user->get_groups(true);
 		
-		$dm = PersonalCalendarDatamanager::get_instance();
-		$condition = new EqualityCondition('user', $this->get_user_id());
-		$publications = $dm->retrieve_shared_calendar_event_publications($condition);
+		$pcdm = PersonalCalendarDatamanager::get_instance();
+		$conditions = array();
+		$conditions[] = new EqualityCondition('user', $this->get_user_id());
+		if (count($user_groups) > 0)
+		{
+			$conditions[] = new InCondition('group_id', $user_groups);
+		}
+		$condition = new OrCondition($conditions);
+		$publications = $pcdm->retrieve_shared_calendar_event_publications($condition);
 		
-		$source = 'SharedEvents'; 
-		return $this->render_personal_calendar_events($publications, $from_date, $to_date, $source);
+		return $this->render_personal_calendar_events($publications, $from_date, $to_date, 'SharedEvents');
 	}
 	
 	public function render_personal_calendar_events($publications, $from_date, $to_date, $source = self :: APPLICATION_NAME)
