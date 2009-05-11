@@ -57,6 +57,9 @@ class User
 	const PROPERTY_ACTIVE = 'active';
 
 	const ACTION_CREATE_USER = 'create';
+	
+	const NAME_FORMAT_FIRST = 0;
+	const NAME_FORMAT_LAST = 1;
 
 	/**#@-*/
 
@@ -196,8 +199,19 @@ class User
 	 */
 	 function get_fullname()
 	 {
-	 	//@todo Make format of fullname configurable somewhere
-	 	return $this->get_firstname().' '.$this->get_lastname();
+	 	$format = PlatformSetting :: get('fullname_format', 'user');
+	 	
+	 	switch($format)
+	 	{
+	 		case self :: NAME_FORMAT_FIRST :
+	 			return $this->get_firstname().' '.$this->get_lastname();
+	 			break;
+	 		case self :: NAME_FORMAT_LAST :
+	 			return $this->get_lastname() . $this->get_firstname();
+	 			break;
+	 		default :
+	 			return $this->get_firstname().' '.$this->get_lastname();
+	 	}
 	 }
 
 	/**
@@ -755,6 +769,14 @@ class User
 		{
 			return Translation :: get('Student');
 		}
+	}
+	
+	function get_fullname_format_options()
+	{
+		$options = array();
+		$options[self :: NAME_FORMAT_FIRST] = Translation :: get('FirstName') . ' ' . Translation :: get('LastName');
+		$options[self :: NAME_FORMAT_LAST] = Translation :: get('LastName') . ' ' . Translation :: get('FirstName');
+		return $options;
 	}
 }
 ?>

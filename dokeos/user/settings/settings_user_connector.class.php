@@ -1,5 +1,6 @@
 <?php
 require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
+require_once Path :: get_user_path() . 'lib/user.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_library_path() . 'filesystem/path.class.php';
 require_once Path :: get_library_path() . 'filesystem/filesystem.class.php';
@@ -10,7 +11,11 @@ require_once Path :: get_library_path() . 'filesystem/filesystem.class.php';
  * @author Hans De Bisschop
  */
 
-class SettingsUsersConnector
+class SettingsUserConnector
 {
+	function get_fullname_formats()
+	{
+		return User :: get_fullname_format_options();
+	}
 }
 ?>

@@ -75,7 +75,7 @@ class ConfigurationForm extends FormValidator
 						{
 							$options_source = $setting['options']['source'];
 							$class = 'Settings' . Application :: application_to_class($application) . 'Connector';
-							$options = call_user_func(array($class, $options_source));					
+							$options = call_user_func(array($class, $options_source));				
 						}
 						else
 						{
@@ -88,9 +88,13 @@ class ConfigurationForm extends FormValidator
 							foreach ($options as $option_value => $option_name)
 							{
 								if($setting['field'] == 'checkbox')
+								{
 									$group[] =& $this->createElement($setting['field'], $name, null,null,$option_value);
+								}
 								else
+								{
 									$group[] =& $this->createElement($setting['field'], $name, null,Translation :: get(DokeosUtilities :: underscores_to_camelcase($option_name)),$option_value);
+								}
 							}
 							$this->addGroup($group, $name, Translation :: get(DokeosUtilities :: underscores_to_camelcase($name)), '<br/>', false);
 						}
