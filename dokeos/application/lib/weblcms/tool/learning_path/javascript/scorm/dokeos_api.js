@@ -53,7 +53,7 @@ function DokeosTerminate(params)
 		url: "./application/lib/weblcms/tool/learning_path/javascript/scorm/ajax/terminate.php",
 		data: { tracker_id: tracker_id },
 		async: false
-	}).responseText; alert(response);
+	}).responseText; //alert(response);
 	
 	check_redirect_conditions(this.values);
 	
@@ -99,12 +99,7 @@ function DokeosGetValue(variable)
 	var value = this.values[variable]; 
 	if(!value)
 	{ 
-		value = jQuery.ajax({
-			type: "POST",
-			url: "./application/lib/weblcms/tool/learning_path/javascript/scorm/ajax/get_value.php",
-			data: { tracker_id: tracker_id, variable: variable},
-			async: false
-		}).responseText; 
+		value = get_existing_value(variable);
 	}
 
 	if(value == "")
@@ -129,10 +124,50 @@ function DokeosSetValue(variable, value)
 		return "false";
 	}
 	
+	if(!validate_set_variable(variable, value))
+		return "false";
+	
 	this.values[variable] = value;
 	last_error = 0;
 	
+	var response = jQuery.ajax({
+		type: "POST",
+		url: "./application/lib/weblcms/tool/learning_path/javascript/scorm/ajax/set_value.php",
+		data: { tracker_id: tracker_id, variable: variable, value: value },
+		async: false
+	}).responseText; alert(response);
+	
 	return "true";
+}
+
+function validate_set_variable(variable, value)
+{
+	 var re = new RegExp('cmi.objectives.[0-9]*.id');
+	 if(variable.match(re))
+	 {
+		 var existing_value = get_existing_value(variable);
+		 if(existing_value.length != 0 && existing_value != value)
+		 {
+			 last_error = 351;
+			 return false;
+		 }
+		 else
+			 return true;
+	 }
+	 
+	 return true;
+}
+
+function get_existing_value(variable)
+{
+	var value = jQuery.ajax({
+		type: "POST",
+		url: "./application/lib/weblcms/tool/learning_path/javascript/scorm/ajax/get_value.php",
+		data: { tracker_id: tracker_id, variable: variable},
+		async: false
+	}).responseText; 
+	
+	return value;
 }
 
 function DokeosCommit(params)

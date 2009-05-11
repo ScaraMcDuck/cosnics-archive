@@ -224,7 +224,7 @@ class ScormImport extends LearningObjectImport
 			$scorm_item->add_objective($objective, true);
 		}
 		
-		$other_objectives = $objectives['imsss:objective']; dump($other_objectives);
+		$other_objectives = $objectives['imsss:objective'];
 		foreach($other_objectives as $other_objective)
 		{
 			$objective = new Objective();
