@@ -31,6 +31,12 @@ class PersonalMessengerPublisherComponent extends PersonalMessengerComponent
 		$user = Request :: get(PersonalMessenger :: PARAM_USER_ID);
 		
 		$trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(PersonalMessenger::PARAM_ACTION=>PersonalMessenger::ACTION_BROWSE_MESSAGES,PersonalMessenger::PARAM_FOLDER => PersonalMessenger::ACTION_FOLDER_INBOX)),Translation :: get('MyPersonalMessenger')));
+        if(isset($reply))
+        {
+            $trail->add(new Breadcrumb($this->get_url(array(PersonalMessenger::PARAM_ACTION=>PersonalMessenger::ACTION_BROWSE_MESSAGES,PersonalMessenger::PARAM_FOLDER => PersonalMessenger::ACTION_FOLDER_INBOX)),Translation :: get(ucfirst(PersonalMessenger::ACTION_FOLDER_INBOX))));
+            $trail->add(new Breadcrumb($this->get_url(array(PersonalMessenger::PARAM_ACTION=>PersonalMessenger::ACTION_VIEW_PUBLICATION,PersonalMessenger::PARAM_PERSONAL_MESSAGE_ID=>$reply,PersonalMessenger::PARAM_FOLDER=>PersonalMessenger::ACTION_FOLDER_INBOX)), Translation :: get('ViewPersonalMessage')));
+        }
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SendPersonalMessage')));
 		
 		$object = $_GET['object'];

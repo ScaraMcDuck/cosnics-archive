@@ -19,7 +19,10 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
 	 */
 	function run()
 	{
+        $this->folder = Request :: get('folder');
 		$trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(PersonalMessenger::PARAM_ACTION => PersonalMessenger::ACTION_BROWSE_MESSAGES)), Translation :: get('MyPersonalMessenger')));
+        $trail->add(new Breadcrumb($this->get_url(array(PersonalMessenger::PARAM_ACTION=>PersonalMessenger::ACTION_BROWSE_MESSAGES,PersonalMessenger::PARAM_FOLDER => $this->folder)),Translation :: get(ucfirst($this->folder))));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewPersonalMessage')));
 		
 		$id = $_GET[PersonalMessenger :: PARAM_PERSONAL_MESSAGE_ID];
