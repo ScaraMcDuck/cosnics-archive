@@ -18,7 +18,8 @@ class PersonalCalendarPublisherComponent extends PersonalCalendarComponent
 	function run()
 	{		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishCalendarEvent')));
+        $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendar::PARAM_ACTION => PersonalCalendar::ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
 		
 		$object = $_GET['object'];
 		$pub = new CalendarEventRepoViewer($this, 'calendar_event', true);

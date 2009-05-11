@@ -21,7 +21,7 @@ class PersonalCalendarBrowserComponent extends PersonalCalendarComponent
 	function run()
 	{		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyAgenda')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PersonalCalendar')));
 		
 		$this->display_header($trail);
 		echo '<br /><a name="top"></a>';
