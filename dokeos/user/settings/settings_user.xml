@@ -116,5 +116,10 @@
 				</options>
 			</setting>
 		</category>
+		<category name="fullname">
+			<setting name="fullname_format" field="select" default="0">
+				<options type="dynamic" source="get_fullname_formats"/>
+			</setting>
+		</category>
 	</settings>
 </application>

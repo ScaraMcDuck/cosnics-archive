@@ -167,6 +167,9 @@ class PersonalCalendar extends WebApplication
 		while($publication = $publications->next_result())
 		{
 			$object = $publication->get_publication_object();
+			$publisher = $publication->get_publisher();
+			$publishing_user = $publication->get_publication_publisher();
+			
 			if(isset($query) && $query != '')
 			{
 				if((stripos($object->get_title(), $query) === false) && (stripos($object->get_description(), $query) === false))
@@ -196,7 +199,15 @@ class PersonalCalendar extends WebApplication
 				$event->set_start_date($object->get_start_date());
 				$event->set_end_date($object->get_end_date());
 				$event->set_url($this->get_publication_viewing_url($publication));
-				$event->set_title($object->get_title());
+				
+				if ($publisher != $this->get_user_id())
+				{
+					$event->set_title($object->get_title() . ' ['. $publishing_user->get_fullname() .']');
+				}
+				else
+				{
+					$event->set_title($object->get_title());
+				}
 				$event->set_content($object->get_description());
 				$event->set_source($source);
 				$event->set_id($publication->get_id());
