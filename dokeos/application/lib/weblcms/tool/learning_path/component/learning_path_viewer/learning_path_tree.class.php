@@ -221,40 +221,63 @@ class LearningPathTree extends HTML_Menu
 		if(($rules = $object->get_condition_rules()) == null)
 			return true;
 		
+		if(($objectives = $object->get_objectives()) != null)
+		{
+			if(($primary_objective = $objectives->get_primary_objective()) == null)
+			{
+				$objective_trackers = array();
+			}
+			else 
+			{
+				$ids = array();
+				foreach($tracker_data['trackers'] as $tracker)
+					$ids[] = $tracker->get_id();
+				
+				if(count($ids) == 0)
+				{
+					$objective_trackers = array();
+				}
+				else 
+				{
+					$conditions[] = new InCondition(WeblcmsLpiAttemptObjectiveTracker :: PROPERTY_LPI_VIEW_ID, $ids);		
+					$conditions[] = new EqualityCondition(WeblcmsLpiAttemptObjectiveTracker :: PROPERTY_OBJECTIVE_ID, $primary_objective->get_id());
+					$condition = new AndCondition($conditions);
+					$dummy = new WeblcmsLpiAttemptObjectiveTracker();
+					$objective_trackers = $dummy->retrieve_tracker_items($condition);
+				}
+			}
+		}
+		else 
+		{
+			$objective_trackers = array();
+		}
+		
 		$pre_condition_rules = $rules->get_precondition_rules();
 		foreach($pre_condition_rules as $pre_condition_rule)
 		{
 			//$action = $pre_condition_rule->get_action();
 			$rules = $pre_condition_rule->get_conditions();
-			
-			if(($objectives = $object->get_objectives()) == null)
-				continue;
-			
-			if(($primary_objective = $objectives->get_primary_objective()) == null)
-				continue;
-			
-			$ids = array();
-			foreach($tracker_data['trackers'] as $tracker)
-				$ids[] = $tracker->get_id();
-			
-			if(count($ids) == 0)
-				continue;
-				
-			$conditions[] = new InCondition(WeblcmsLpiAttemptObjectiveTracker :: PROPERTY_LPI_VIEW_ID, $ids);		
-			$conditions[] = new EqualityCondition(WeblcmsLpiAttemptObjectiveTracker :: PROPERTY_OBJECTIVE_ID, $primary_objective->get_id());
-			$condition = new AndCondition($conditions);
-			$dummy = new WeblcmsLpiAttemptObjectiveTracker();
-			$objective_trackers = $dummy->retrieve_tracker_items($condition);
 
 			foreach($rules as $rule)
 			{
 				switch($rule)
 				{
 					case "satisfied":
-						foreach($objective_trackers as $objective_tracker)
+						if(count($objective_trackers) > 0)
 						{
-							if($objective_tracker->get_status() == 'completed')
-								return false;
+							foreach($objective_trackers as $objective_tracker)
+							{
+								if($objective_tracker->get_status() == 'completed')
+									return false;
+							}
+						}
+						else
+						{ 
+							foreach($tracker_data['trackers'] as $tracker)
+							{ 
+								if($tracker->get_status() == 'completed')
+									return false;
+							}
 						}
 				}
 			}
