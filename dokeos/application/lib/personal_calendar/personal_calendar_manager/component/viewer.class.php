@@ -27,7 +27,7 @@ class PersonalCalendarViewerComponent extends PersonalCalendarComponent
 
             $trail = new BreadcrumbTrail();
             $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendar::PARAM_ACTION => PersonalCalendar::ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
-            $trail->add(new Breadcrumb($this->get_url(), $event->get_publication_object()->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendar::PARAM_CALENDAR_EVENT_ID => $id)), $event->get_publication_object()->get_title()));
 
             $action_bar = $this->get_action_bar();
             $output = $this->get_publication_as_html($event, $action_bar);
