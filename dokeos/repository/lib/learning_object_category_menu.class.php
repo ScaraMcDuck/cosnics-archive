@@ -137,6 +137,7 @@ class LearningObjectCategoryMenu extends HTML_Menu
         {
             if($crumb['title'] == Translation :: get('MyRepository')) continue;
             $trail->add(new Breadcrumb($crumb['url'], $crumb['title']));
+           
         }
         return $trail;
 //

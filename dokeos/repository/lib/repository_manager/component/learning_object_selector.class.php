@@ -32,7 +32,7 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 		
 		$trail = new BreadcrumbTrail();
 		if(!isset($_GET['publish']))
-			$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('MyRepository')));
+			$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('Repository')));
 		
 		if(isset($cloi_id) && isset($root_id))
 		{
