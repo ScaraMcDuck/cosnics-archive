@@ -183,6 +183,6 @@ $lang['common']['LdapAuthentication'] = 'LDAP Authentication';
 $lang['common']['CasHost'] = 'Host';
 $lang['common']['CasPort'] = 'Port';
 $lang['common']['CasUri'] = 'Uri';
-$lang['common']['EnableCasUri'] = 'Enable CAS authentication';
+$lang['common']['EnableCas'] = 'Enable CAS authentication';
 
 ?>
