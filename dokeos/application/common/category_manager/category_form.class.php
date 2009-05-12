@@ -40,7 +40,7 @@ class CategoryForm extends FormValidator {
 			$this->build_creation_form();
 		}
 		
-		$this->build_footer();
+		
 
 		$this->setDefaults();
     }
@@ -51,7 +51,7 @@ class CategoryForm extends FormValidator {
 		$this->addElement('html', '<span class="category">' . Translation :: get('Required') . '</span>');
     }
     
-    function build_footer()
+    function build_footer($action_name)
     {
     	$this->addElement('html', '<div style="clear: both;"></div>');
 		$this->addElement('html', '</div>');
@@ -59,7 +59,7 @@ class CategoryForm extends FormValidator {
 		// Submit button
 		//$this->addElement('submit', 'submit', 'OK');
 		
-		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
+		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get($action_name), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
@@ -121,7 +121,7 @@ class CategoryForm extends FormValidator {
 		}
 		
 		$this->addElement('image','add[]',Theme :: get_common_image_path().'action_list_add.png', array('style="border: 0px;"'));
-		
+		$this->build_footer('Create');
     }
     
 	function validate()
@@ -140,6 +140,7 @@ class CategoryForm extends FormValidator {
     {
     	$this->addElement($this->add_name_field());
     	$this->addElement('hidden', PlatformCategory :: PROPERTY_ID);
+    	$this->build_footer('Update');
     }
 
 	function create_category()
