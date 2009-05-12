@@ -719,4 +719,10 @@ $lang['weblcms']['ThereIsDoubtAboutTheFactualAccuracyOfThisPart'] = 'There is do
 $lang['weblcms']['ConsultTheDiscussionPageForMoreInformationAndModifyTheArticleIfDesirable'] = 'Consult the discussion page for more information and modify the article if desirable';
 $lang['weblcms']['AddLink'] = 'Add link';
 $lang['weblcms']['RemoveLink'] = 'Remove link';
+$lang['weblcms']['Navigation'] = 'Navigation';
+$lang['weblcms']['PageActions'] = 'Page actions';
+$lang['weblcms']['Information'] = 'Information';
+$lang['weblcms']['Show/HideContent'] = 'Show/Hide';
+$lang['weblcms']['ConsultThe'] = 'Consult the';
+$lang['weblcms']['ForMoreInformationAndModifyTheArticleIfDesirable'] = ' ';
 ?>

@@ -172,9 +172,9 @@ $lang['common']['DoesNotExist'] = 'does not exist';
 $lang['common']['YouAreNotAllowedToUseThisWebservice'] = 'You are not allowed to use this webservice';
 $lang['common']['NoWebserviceByThatName'] = 'No webservice by that name';
 $lang['common']['LoginError'] = 'An error occured during the login.';
-$lang['common']['Manage'] = ' ';
+$lang['common']['Manage'] = 'Manage';
 $lang['common']['Search'] = 'Search';
-$lang['common']['PageActions'] = ' ';
+$lang['common']['PageActions'] = 'Page actions';
 $lang['common']['Navigation'] = 'Navigation';
-$lang['common']['Information'] = ' ';
+$lang['common']['Information'] = 'Information';
 ?>
