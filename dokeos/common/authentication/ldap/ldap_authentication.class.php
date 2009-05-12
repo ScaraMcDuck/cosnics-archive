@@ -15,56 +15,60 @@ require_once dirname(__FILE__).'/../authentication.class.php';
  */
 class LdapAuthentication extends Authentication
 {
-	private $ldap_host;
-	private $ldap_port;
-	private $ldap_rdn;
-	private $ldap_password;
-	private $ldap_search_dn;
+	private $ldap_settings;
 	
 	/**
 	 * Constructor
 	 */
     function LdapAuthentication()
     {
-    	$this->ldap_host = PlatformSetting :: get('ldap_host');
-    	$this->ldap_port = PlatformSetting :: get('ldap_port');
-    	$this->ldap_rdn = PlatformSetting :: get('ldap_remote_dn');
-    	$this->ldap_password = PlatformSetting :: get('ldap_password');
-    	$this->ldap_search_dn = PlatformSetting :: get('ldap_search_dn');
+    	$configuration = $this->get_configuration();
     }
     
     public function check_login($user,$username,$password = null)
     {
-		//include dirname(__FILE__).'/ldap_authentication_config.inc.php';
-		$ldap_connect=ldap_connect($this->ldap_host,$this->ldap_port);
-		if ($ldap_connect){
-			ldap_set_option($ldap_connect,LDAP_OPT_PROTOCOL_VERSION, 3);
-			$filter="(uid=$username)";
-			$result=ldap_bind($ldap_connect,$this->ldap_rdn,$this->ldap_password);
-			$search_result=ldap_search($ldap_connect,$this->ldap_search_dn,$filter);
-			$info = ldap_get_entries($ldap_connect, $search_result);
-			$dn=($info[0]["dn"]);
-  			ldap_close($ldap_connect);
-		}
-		if ($dn=='')
-		{
-			return false;
-		}
-		if ($password=='')
-		{
-			return false;
-		}
-		$ldap_connect=ldap_connect($this->ldap_host, $this->ldap_port);
-		ldap_set_option($ldap_connect,LDAP_OPT_PROTOCOL_VERSION, 3);
-	 	if (!(@ldap_bind( $ldap_connect, $dn , $password)) == true) {
-	 		ldap_close($ldap_connect);
-			return false;
-		}
-		else
-		{
-			ldap_close($ldap_connect);
-			return true;
-		}
+    	if(!$this->is_configured())
+    	{
+    		Display :: error_message(Translation :: get('CheckLDAPConfiguration'));
+    		exit;
+    	}
+    	else
+    	{
+	    	$settings = $this->get_configuration();
+	    	
+			//include dirname(__FILE__).'/ldap_authentication_config.inc.php';
+			$ldap_connect = ldap_connect($settings['host'], $settings['port']);
+			if ($ldap_connect)
+			{
+				ldap_set_option($ldap_connect, LDAP_OPT_PROTOCOL_VERSION, 3);
+				$filter = "(uid=$username)";
+				$result = ldap_bind($ldap_connect, $settings['rdn'], $settings['password']);
+				$search_result = ldap_search($ldap_connect, $settings['search_dn'], $filter);
+				$info = ldap_get_entries($ldap_connect, $search_result);
+				$dn = ($info[0]["dn"]);
+	  			ldap_close($ldap_connect);
+			}
+			if ($dn == '')
+			{
+				return false;
+			}
+			if ($password == '')
+			{
+				return false;
+			}
+			$ldap_connect = ldap_connect($settings['host'], $settings['port']);
+			ldap_set_option($ldap_connect, LDAP_OPT_PROTOCOL_VERSION, 3);
+		 	if (!(@ldap_bind( $ldap_connect, $dn , $password)) == true)
+			{
+		 		ldap_close($ldap_connect);
+				return false;
+			}
+			else
+			{
+				ldap_close($ldap_connect);
+				return true;
+			}
+    	}
     }
     
     public function is_password_changeable()
@@ -86,14 +90,16 @@ class LdapAuthentication extends Authentication
     {
 		if($this->check_login(null,$username,$password))
 		{
+			$settings = $this->get_configuration();
+			
 			include dirname(__FILE__).'/ldap_parser.class.php';
-			$ldap_connect = ldap_connect( $this->ldap_host, $this->ldap_port);
+			$ldap_connect = ldap_connect( $settings['host'], $settings['port']);
 			if ($ldap_connect)
 			{
 				ldap_set_option($ldap_connect,LDAP_OPT_PROTOCOL_VERSION, 3);
-		    	$ldap_bind = ldap_bind($ldap_connect,$this->ldap_rdn, $this->ldap_password);
-				$filter="(uid=$username)";
-		    	$search_result=ldap_search($ldap_connect, $this->ldap_search_dn, $filter);
+		    	$ldap_bind = ldap_bind($ldap_connect, $settings['rdn'], $settings['password']);
+				$filter = "(uid=$username)";
+		    	$search_result = ldap_search($ldap_connect, $settings['search_dn'], $filter);
 		    	$info = ldap_get_entries($ldap_connect, $search_result);
 		    	
 				$parser = new LdapParser();
@@ -102,6 +108,23 @@ class LdapAuthentication extends Authentication
 	    	ldap_close($ldap_connect);
 		}
 		return false;
+    }
+    
+    function get_configuration()
+    {
+		if (!isset($this->ldap_settings))
+		{
+    		$ldap = array();
+	    	$ldap['host'] = PlatformSetting :: get('ldap_host');
+	    	$ldap['port'] = PlatformSetting :: get('ldap_port');
+	    	$ldap['rdn'] = PlatformSetting :: get('ldap_remote_dn');
+	    	$ldap['password'] = PlatformSetting :: get('ldap_password');
+	    	$ldap['search_dn'] = PlatformSetting :: get('ldap_search_dn');
+	    	
+	    	$this->ldap_settings = $ldap;
+		}
+    	
+    	return $this->ldap_settings;
     }
 }
 ?>

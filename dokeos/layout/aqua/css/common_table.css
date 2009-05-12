@@ -1,6 +1,8 @@
 /*****************************************************
  *  DATA TABLE STYLES                                *
  *****************************************************/
+ 
+ /*
 .data_table
 {
   	border-collapse: collapse;
@@ -37,4 +39,90 @@
   	border-bottom: 1px solid #b0b0b0;
   	border-right: 1px dotted #e1e1e1;
   	border-left: 1px dotted #e1e1e1;
+}
+*/
+
+.data_table
+{
+	border-collapse: collapse;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	border-left: 1px solid #b5d2e7;
+}
+
+.data_table th
+{
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #4f6b72;
+	border-right: 1px solid #b5d1e7;
+	border-bottom: 1px solid #b5d1e7;
+	border-top: 1px solid #b5d1e7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #c8dded url(../img/common/background_table_header.png) no-repeat;
+}
+
+.data_table tr.row_even
+{
+	background: #fff;
+}
+
+.data_table tr.row_even:hover, .data_table tr.row_odd:hover
+{
+  	background-color: #f0f0f0;
+}
+
+.data_table tr.row_odd
+{
+	background: #f4f8fc;
+}
+
+.data_table td
+{
+	border-right: 1px solid #b5d1e7;
+	border-bottom: 1px solid #b5d1e7;
+	padding: 6px 6px 6px 12px;
+	color: #4f6b72;
+}
+
+.data_table tr.row_odd td
+{
+	color: #797268;
+}
+
+
+.data_table caption
+{
+	padding: 0 0 5px 0;
+	width: 700px;	 
+	font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	text-align: right;
+}
+
+.data_table th.nobg
+{
+	border-top: 0;
+	border-left: 0;
+	border-right: 1px solid #b5d1e7;
+	background: none;
+}
+
+.data_table th.spec
+{
+	border-left: 1px solid #b5d1e7;
+	border-top: 0;
+	background: #fff url(images/bullet1.gif) no-repeat;
+	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+.data_table th.specalt
+{
+	border-left: 1px solid #b5d1e7;
+	border-top: 0;
+	background: #f4f8fc url(images/bullet2.gif) no-repeat;
+	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #797268;
 }

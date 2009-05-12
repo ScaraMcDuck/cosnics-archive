@@ -16,19 +16,24 @@ class LdapParser
 		$user_properties[User:: PROPERTY_AUTH_SOURCE] = 'ldap';
 		$user_properties[User:: PROPERTY_EMAIL] = $info[0]['mail'][0];;
 		
-		for($j=0; $j < $info[0]['objectclass']['count']; $j++){
-		   	if($info[0]['objectclass'][$j]=='hgStudent'){
+		for($j=0; $j < $info[0]['objectclass']['count']; $j++)
+		{
+		   	if($info[0]['objectclass'][$j] == 'hgStudent')
+		   	{
 				$student = true;
 			}
-       	    	if($info[0]['objectclass'][$j]=='hgEmployee'){
+       	    if($info[0]['objectclass'][$j] == 'hgEmployee')
+       	    {
 				$personeel = true;
-		       }
+			}
 		}
-		if($student){
+		if($student)
+		{
 			$result['hgOfficialCode'] = $info[0]['hgstamnummer'][0];
 			$status = 5;
 		}
-		if($personeel){
+		if($personeel)
+		{
 			$result['hgOfficialCode'] = $info[0]['hgpersoneelsnummer'][0];
 			$status = 1;
 		}
@@ -44,7 +49,7 @@ class LdapParser
 		
 		$user_properties[User:: PROPERTY_LANGUAGE] = 'english';
 		
-		$user = new User(0,$user_properties);
+		$user = new User(0, $user_properties);
 		$user->create();
 		return true;
     }

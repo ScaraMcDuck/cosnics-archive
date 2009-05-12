@@ -99,11 +99,21 @@
 			<setting name="enable_ldap" field="checkbox">
 				<options type="static"><option name="enable_ldap" value="1" /></options>
 			</setting>
+			<setting name="enable_cas" field="checkbox">
+				<options type="static"><option name="enable_cas" value="1" /></options>
+			</setting>
+		</category>
+		<category name="ldap_authentication">
 			<setting name="ldap_host" field="text" default="" />
 			<setting name="ldap_port" field="text" default="" />
 			<setting name="ldap_password" field="text" default="" />
 			<setting name="ldap_remote_dn" field="text" default="" />
 			<setting name="ldap_search_dn" field="text" default="" />
+		</category>
+		<category name="cas_authentication">
+			<setting name="cas_host" field="text" default="" />
+			<setting name="cas_port" field="text" default="" />
+			<setting name="cas_uri" field="text" default="" />
 		</category>
 	</settings>
 </application>
