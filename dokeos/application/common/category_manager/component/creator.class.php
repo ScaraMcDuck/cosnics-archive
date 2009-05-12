@@ -22,7 +22,7 @@ class CategoryManagerCreatorComponent extends CategoryManagerComponent
             $menu = new CategoryMenu(Request :: get(CategoryManager :: PARAM_CATEGORY_ID), $this->get_parent());
             $trail->merge($menu->get_breadcrumbs());
         }
-        $trail->add(new Breadcrumb($this->get_url(),Translation :: get('Add')));
+        $trail->add(new Breadcrumb($this->get_url(),Translation :: get('AddCategory')));
         
 		$category_id = $_GET[CategoryManager :: PARAM_CATEGORY_ID];
 		$user = $this->get_user();

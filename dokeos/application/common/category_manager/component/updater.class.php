@@ -21,7 +21,7 @@ class CategoryManagerUpdaterComponent extends CategoryManagerComponent
 		$category = $categories->next_result();
 
         $this->get_breadcrumb_trail()->add(new Breadcrumb($this->get_url(array(CategoryManager::PARAM_ACTION => CategoryManager::ACTION_BROWSE_CATEGORIES,CategoryManager :: PARAM_CATEGORY_ID => $category_id)), $category->get_name()));
-        $this->get_breadcrumb_trail()->add(new Breadcrumb($this->get_url(array(CategoryManager::PARAM_CATEGORY_ID => $category_id)),Translation :: get('Update')));
+        $this->get_breadcrumb_trail()->add(new Breadcrumb($this->get_url(array(CategoryManager::PARAM_CATEGORY_ID => $category_id)),Translation :: get('UpdateCategory')));
 		
 		$form = new CategoryForm(CategoryForm :: TYPE_EDIT, $this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $category->get_id())), $category, $user, $this);
 
