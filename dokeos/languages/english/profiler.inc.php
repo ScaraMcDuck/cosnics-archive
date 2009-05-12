@@ -11,7 +11,7 @@ $lang['profiler']['timeNoSecFormat'] = '%I:%M %p';
 $lang['profiler']['Delete'] = 'Delete';
 $lang['profiler']['ViewProfile'] = 'View profile';
 $lang['profiler']['NoProfileSelected'] = 'No profile selected';
-$lang['profiler']['MyProfiler'] = 'My Profiler';
+$lang['profiler']['MyProfiler'] = 'Profiler';
 $lang['profiler']['NoPublicationSelected'] = 'No publication selected';
 $lang['profiler']['PublishProfile'] = 'Publish profile';
 $lang['profiler']['InvalidDataRetrievedFromDatabase'] = 'Invalid data retrieved from database';
@@ -72,4 +72,8 @@ $lang['profiler']['CategoryName'] = 'Category name';
 $lang['profiler']['Contact'] = 'Contact';
 $lang['profiler']['TelShort'] = 'Tel';
 $lang['profiler']['FaxShort'] = 'Fax';
+$lang['profiler']['Help'] = 'Help';
+$lang['profiler']['GeneralCategoriesCopied'] = 'General categories copied';
+$lang['profiler']['CategoryCreated'] = 'Category created';
+$lang['profiler']['CategoryNotUpdated'] = 'Category not updated';
 ?>

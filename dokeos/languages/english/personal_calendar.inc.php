@@ -64,5 +64,9 @@ $lang['personal_calendar']['PersonalCalendar'] = 'Personal Calendar';
 $lang['personal_calendar']['Weblcms'] = 'Courses';
 $lang['personal_calendar']['Help'] = 'Help';
 $lang['personal_calendar']['NoPublications'] = 'No publications';
-$lang['personal_calendar']['SharedEvents'] = 'Shared Events';
+$lang['personal_calendar']['ShareWith'] = 'Share with';
+$lang['personal_calendar']['Searching'] = 'Searching';
+$lang['personal_calendar']['NoResults'] = 'No results found';
+$lang['personal_calendar']['Error'] = 'Error';
+$lang['personal_calendar']['SharedWith'] = 'Shared with';
 ?>

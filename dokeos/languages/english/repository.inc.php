@@ -502,4 +502,8 @@ $lang['repository']['Subitems'] = 'Subitems';
 $lang['repository']['ForumLocked'] = 'Forum blocked';
 $lang['repository']['WikiLocked'] = 'Wiki locked';
 $lang['repository']['LearningPathAddLearningObject'] = 'Learning path add object';
+$lang['repository']['WikiToolBoxLinks'] = ' ';
+$lang['repository']['MostUsedObjectTypes'] = ' ';
+$lang['repository']['MostUsedGeneralObjectTypes'] = ' ';
+$lang['repository']['OtherObjectTypes'] = ' ';
 ?>
