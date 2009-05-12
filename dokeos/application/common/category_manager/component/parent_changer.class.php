@@ -16,6 +16,8 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 		$user = $this->get_user();
 
 		$ids = $_GET[CategoryManager :: PARAM_CATEGORY_ID];
+
+        $this->get_breadcrumb_trail()->add(new Breadcrumb($this->get_url(array(CategoryManager::PARAM_CATEGORY_ID => $ids)),Translation :: get('Move')));
 		
 		if (!$user)
 		{
