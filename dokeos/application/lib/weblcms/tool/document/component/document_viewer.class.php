@@ -77,7 +77,7 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 		
 		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('document tool'));
 
-        $action_bar->add_tool_action(ReportingManager :: get_access_details_toolbar_item($this));
+        $action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
 
 		return $action_bar;
 	}

@@ -223,5 +223,10 @@ abstract class ToolComponent
 	{
 		return $this->tool->display_introduction_text($introduction_text);
 	}
+
+    function get_access_details_toolbar_item($parent)
+    {
+        return $this->tool->get_access_details_toolbar_item($parent);
+    }
 	
 }
