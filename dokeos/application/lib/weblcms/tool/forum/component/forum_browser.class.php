@@ -235,7 +235,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 
-		//$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('general'));
+		//$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('general'));
 		
 		return $action_bar;
 	}

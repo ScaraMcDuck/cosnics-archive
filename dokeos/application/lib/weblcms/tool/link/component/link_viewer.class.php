@@ -67,7 +67,7 @@ class LinkToolViewerComponent extends LinkToolComponent
 		{
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
-		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('link tool'));
+		$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('link tool'));
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(LinkTool :: PARAM_ACTION => LinkTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
