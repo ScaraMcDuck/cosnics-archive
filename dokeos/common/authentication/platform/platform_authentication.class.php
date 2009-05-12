@@ -41,5 +41,10 @@ class PlatformAuthentication extends Authentication
     {
     	return true;
     }
+    
+    function is_configured()
+    {
+    	return true;
+    }
 }
 ?>

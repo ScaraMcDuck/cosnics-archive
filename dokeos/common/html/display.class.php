@@ -113,7 +113,7 @@ class Display
 		{
 			$out .= '<style type="text/css" media="screen, projection">
 /*<![CDATA[*/
-@import "' . Path :: get(WEB_CSS_PATH) . 'default.css";
+@import "' . Theme :: get_common_css_path() . '";
 /*]]>*/
 </style>';
 		}

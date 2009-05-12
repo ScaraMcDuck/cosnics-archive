@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/cas/cas_authentication.class.php';
 /**
  * $Id$
  * @package authentication
@@ -7,11 +8,13 @@
  * An abstract class for handling authentication. Impement new authentication
  * methods by creating a class which extends this abstract class.
  */
-abstract class Authentication {
+abstract class Authentication
+{	
 	/**
 	 * Constructor
 	 */
-    function Authentication() {
+    function Authentication()
+    {
     }
     /**
      * Checks if the given username and password are valid
@@ -63,7 +66,35 @@ abstract class Authentication {
     	// TODO: Add system here to allow authentication via encrypted user key ?
     	if (!Session :: get_user_id())
     	{
-    		return false;
+    		// Check whether external authentication is enabled
+    		$allow_external_authentication = PlatformSetting :: get('allow_external_authentication');
+    		$no_external_authentication = Request :: get('noExtAuth');
+    		
+    		if($allow_external_authentication && !isset($no_external_authentication))
+    		{
+    			$external_authentication_types = self :: get_external_authentication_types();
+    			
+    			foreach($external_authentication_types as $type)
+    			{
+    				$allow_authentication = PlatformSetting :: get('allow_external_'. $type .'_authentication');
+    				$no_authentication = Request :: get('no' . DokeosUtilities :: underscores_to_camelcase($type) . 'Auth');
+    				
+    				if ($allow_authentication)
+    				{
+	    				$authentication = self :: factory($type);
+		    			if ($authentication->check_login())
+		    			{
+		    				return true;
+		    			}
+    				}
+    			}
+
+    			return false;
+    		}
+    		else
+    		{
+    			return false;
+    		}
     	}
     	else
     	{
@@ -83,6 +114,41 @@ abstract class Authentication {
 		$authentication_class = DokeosUtilities :: underscores_to_camelcase($authentication_method).'Authentication';
 		require_once $authentication_class_file;
 		return new $authentication_class;
+    }
+    
+    static function get_external_authentication_types()
+    {
+    	$types = array();
+    	$types[] = 'cas';
+    	return $types;
+    }
+    
+    static function get_internal_authentication_types()
+    {
+    	$types = array();
+    	$types[] = 'ldap';
+    	$types[] = 'platform';
+    	return $types;
+    }
+    
+    function get_configuration()
+    {
+    	return array();
+    }
+    
+    function is_configured()
+    {
+    	$settings = $this->get_configuration();
+    		    	
+    	foreach($settings as $setting => $value)
+    	{
+    		if(empty($value) || !isset($value))
+    		{
+    			return false;
+    		}
+    	}
+    	
+    	return true;
     }
 }
 ?>
