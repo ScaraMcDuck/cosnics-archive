@@ -361,7 +361,13 @@ class RepositoryManager
 				$breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
 			}
 		}*/
-		
+
+        if($display_menu)
+		{
+            if(Request :: get('category'))
+                $breadcrumbtrail->merge($this->get_category_menu()->get_breadcrumbs(false));
+        }
+
 		$title = $breadcrumbtrail->get_last()->get_name();
 		$title_short = $title;
 		if (strlen($title_short) > 53)

@@ -39,7 +39,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 			
 			$this->tree = array();
 			if($parent != 0)
-				$this->tree[] = Translation :: get('MyRepository');
+				$this->tree[] = Translation :: get('Repository');
 			
 			$this->get_categories_for_select(0, $parent);
 			$form = new FormValidator('move', 'post', $this->get_url(array (RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $ids)));
