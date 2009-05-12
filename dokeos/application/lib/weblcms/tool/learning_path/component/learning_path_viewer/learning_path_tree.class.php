@@ -28,6 +28,7 @@ class LearningPathTree extends HTML_Menu
 	private $current_object;
 	private $current_cloi;
 	private $current_tracker;
+	private $current_parent;
 	private $objects = array();
 	
 	private $dm;
@@ -54,6 +55,8 @@ class LearningPathTree extends HTML_Menu
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
 		
+		
+		$this->clean_urls();
 		
 		if(!$current_step)
 		{
@@ -131,10 +134,10 @@ class LearningPathTree extends HTML_Menu
 			
 			$sub_menu_items = array();
 			
+			$control_mode = $parent->get_control_mode();
+
 			if($lo->get_type() == 'learning_path')
 				$sub_menu_items = $this->get_menu_items($lo);
-			
-			$control_mode = $parent->get_control_mode();	
 			
 			if(count($sub_menu_items) > 0)
 			{
@@ -160,8 +163,9 @@ class LearningPathTree extends HTML_Menu
 					$this->current_cloi = $object;
 					$this->current_object = $lo;
 					$this->current_tracker = $lpi_tracker_data['active_tracker'];
+					$this->current_parent = $parent;
 				}
-				
+			
 				if($this->check_condition_rules($lo, $lpi_tracker_data))
 				{
 					$this->step_urls[$this->step] = $this->get_url($this->step);
@@ -179,6 +183,19 @@ class LearningPathTree extends HTML_Menu
 		}
 		
 		return $menu;
+	}
+	
+	private function clean_urls()
+	{
+		$control_mode = $this->get_current_parent()->get_control_mode();
+		
+		if($control_mode['forwardOnly'] != 0)
+		{
+			for($i = 1; $i <= $this->current_step; $i++)
+			{
+				$this->step_urls[$i] = null;
+			}
+		}
 	}
 	
 	function get_continue_url()
@@ -307,6 +324,11 @@ class LearningPathTree extends HTML_Menu
 	function get_current_tracker()
 	{
 		return $this->current_tracker;
+	}
+	
+	function get_current_parent()
+	{
+		return $this->current_parent;
 	}
 
 	private function get_url($current_step)

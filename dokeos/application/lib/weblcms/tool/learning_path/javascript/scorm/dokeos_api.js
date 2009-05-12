@@ -137,6 +137,12 @@ function DokeosSetValue(variable, value)
 		async: false
 	}).responseText; //alert(response);
 	
+	if(response.substr(0, 5) == 'error')
+	{
+		last_error = parseInt(response.substr(6, response.length - 6));
+		return "false";
+	}
+	
 	return "true";
 }
 
@@ -153,6 +159,16 @@ function validate_set_variable(variable, value)
 		 }
 		 else
 			 return true;
+	 }
+	 
+	 if(variable == 'cmi.completion_status')
+	 {
+		 var possible_values = ['incomplete', 'completed', 'not attempted', 'unknown'];
+		 if(!in_array(value, possible_values))
+		 {
+			 last_error = 406;
+			 return false;
+		 }
 	 }
 	 
 	 return true;
@@ -204,6 +220,8 @@ function DokeosGetDiagnostic()
 	return "";
 }
 
+// Helper function
+
 function translation(string, application) {		
 	var translated_string = $.ajax({
 		type: "POST",
@@ -213,4 +231,17 @@ function translation(string, application) {
 	}).responseText;
 	
 	return translated_string;
+}
+
+function in_array(needle, haystack) 
+{
+	for (var i = 0; i < haystack.length; i++) 
+    {
+    	if(haystack[i] == needle)
+    	{
+    		return true;
+    	}
+    }
+ 
+    return false;
 }
