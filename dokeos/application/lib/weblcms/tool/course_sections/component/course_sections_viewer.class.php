@@ -43,7 +43,7 @@ class CourseSectionsToolViewerComponent extends CourseSectionsToolComponent
 		$action_bar->set_search_url($this->get_url());
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_CREATE_COURSE_SECTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('course sections'));
+		$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('course sections'));
 		return $action_bar;
 	}
 	

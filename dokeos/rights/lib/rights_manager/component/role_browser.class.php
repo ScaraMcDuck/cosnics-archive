@@ -74,7 +74,7 @@ class RightsManagerRoleBrowserComponent extends RightsManagerComponent
 		
 		$action_bar->set_search_url($this->get_url(array(RightsManager :: PARAM_ROLE_ID => $this->get_role())));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_CREATE_ROLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('rights'));
+		$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('rights'));
 		
 		return $action_bar;
 	}

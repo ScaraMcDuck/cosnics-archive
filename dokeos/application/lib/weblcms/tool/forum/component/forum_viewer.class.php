@@ -239,7 +239,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 				$this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, Tool :: PARAM_ACTION => ForumTool :: ACTION_CREATE_TOPIC)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('NewSubForum'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'*/ Theme :: get_common_image_path().'action_add.png', 
 				$this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, Tool :: PARAM_ACTION => ForumTool :: ACTION_CREATE_SUBFORUM)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('forum tool'));
+		$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('forum tool'));
 
         $action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
         

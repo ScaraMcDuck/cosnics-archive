@@ -154,7 +154,7 @@ class ReportingManagerReportingTemplateRegistrationBrowserComponent extends Repo
 
         $action_bar->set_search_url($this->get_url(array(ReportingManager :: PARAM_TEMPLATE_ID => $this->get_reporting_template())));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_CREATE_ROLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        //$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('reporting'));
+        //$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('reporting'));
 
         return $action_bar;
     }

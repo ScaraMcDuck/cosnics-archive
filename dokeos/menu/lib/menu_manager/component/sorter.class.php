@@ -95,7 +95,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_create.png', $this->get_menu_item_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array('category' => $category)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-		$action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('menu manager'));
+		$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('menu manager'));
 		return $action_bar;
 	}
 	

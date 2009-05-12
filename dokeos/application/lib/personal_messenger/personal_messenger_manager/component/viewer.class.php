@@ -70,7 +70,7 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
         {
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Reply'), Theme :: get_common_image_path().'action_reply.png', $this->get_publication_reply_url($personal_message), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-        $action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('announcement tool'));
+        $action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('announcement tool'));
 
         return $action_bar;
     }

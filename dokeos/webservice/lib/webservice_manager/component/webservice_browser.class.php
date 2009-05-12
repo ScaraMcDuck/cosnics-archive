@@ -107,7 +107,7 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
         $ID = Request :: get('webservice_category_id');
 		$action_bar->set_search_url($this->get_url(array(WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID => $this->get_webservice_category())));		
         $action_bar->add_common_action(WebserviceManager :: get_tool_bar_item($ID));
-        $action_bar->add_tool_action(HelpManager :: get_tool_bar_help_item('webservice'));
+        $action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('webservice'));
 
 		return $action_bar;
 	}
