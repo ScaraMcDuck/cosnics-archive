@@ -27,8 +27,11 @@ class PmPublicationBrowserTable extends ObjectTable
 		parent :: __construct($data_provider, PmPublicationBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$actions = array();
 		$actions[PersonalMessenger :: PARAM_DELETE_SELECTED] = Translation :: get('RemoveSelected');
-		$actions[PersonalMessenger :: PARAM_MARK_SELECTED_READ] = Translation :: get('MarkSelectedRead');
-		$actions[PersonalMessenger :: PARAM_MARK_SELECTED_UNREAD] = Translation :: get('MarkSelectedUnread');
+		if(Request :: get_folder('folder') == 'inbox')
+		{
+			$actions[PersonalMessenger :: PARAM_MARK_SELECTED_READ] = Translation :: get('MarkSelectedRead');
+			$actions[PersonalMessenger :: PARAM_MARK_SELECTED_UNREAD] = Translation :: get('MarkSelectedUnread');
+		}
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}
