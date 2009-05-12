@@ -21,12 +21,10 @@ class NoteToolPublisherComponent extends NoteToolComponent
 		
 		if(!isset($object))
 		{	
-			$html[] = '<p><a href="' . $this->get_url(array(Tool :: PARAM_ACTION => NoteTool :: ACTION_VIEW_NOTES), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
 		}
 		else
 		{
-			//$html[] = 'LearningObject: ';
 			$publisher = new LearningObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}

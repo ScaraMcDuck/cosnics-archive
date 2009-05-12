@@ -37,7 +37,6 @@ class WikiToolPublisherComponent extends WikiToolComponent
          */
 		if(empty($object))
 		{  
-			$html[] = '<p><a href="' . $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
 		}
 		else
