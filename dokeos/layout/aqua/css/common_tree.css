@@ -38,7 +38,6 @@ ul.tree-menu li div.lastExpand
 	padding-left: 18px;
 	background-repeat: no-repeat;
 	height: 18px;
-	overflow: hidden;
 	clear: both;
 }
 
@@ -82,7 +81,6 @@ ul.tree-menu li div a
 	background-repeat: no-repeat;
 	background-image: url(../img/common/treemenu/tree-document.png);
 	
-	overflow: hidden;
 	white-space: nowrap;
 }
 
