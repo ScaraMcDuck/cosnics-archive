@@ -172,7 +172,7 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 		Display :: header($breadcrumbtrail);
 
 		echo $this->get_menu_html();
-		echo '<div style="float: right; width: 80%;">';
+		echo '<div style="float: right; width: 85%;">';
 		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
 		echo '<div class="clear">&nbsp;</div>';
 
@@ -209,7 +209,7 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 		}
 
 		$html = array();
-		$html[] = '<div style="float: left; width: 20%;">';
+		$html[] = '<div style="float: left; width: 15%;">';
 		$html[] = $user_menu->render_as_tree();
 		$html[] = '</div>';
 
