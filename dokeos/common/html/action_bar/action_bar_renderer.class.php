@@ -12,7 +12,8 @@ class ActionBarRenderer extends WikiActionbar
 {
 	const ACTION_BAR_COMMON = 'common';
 	const ACTION_BAR_TOOL = 'tool';
-	const ACTION_BAR_SEARCH = 'search';    
+	const ACTION_BAR_SEARCH = 'search';
+	const ACTION_BAR_HELP = 'help';    
 	
 	const TYPE_HORIZONTAL = 'hoirzontal';
 	const TYPE_VERTICAL = 'vertical';    
@@ -61,6 +62,16 @@ class ActionBarRenderer extends WikiActionbar
 	function add_tool_action($action)
 	{
 		$this->actions[self :: ACTION_BAR_TOOL][] = $action;
+	}
+	
+	function set_help_action($help_action)
+	{
+		$this->actions[self :: ACTION_BAR_HELP] = $help_action;
+	}
+	
+	function get_help_action()
+	{
+		return $this->actions[self :: ACTION_BAR_HELP];
 	}
 	
 	function get_tool_actions()
@@ -162,12 +173,27 @@ class ActionBarRenderer extends WikiActionbar
 			$html[] = '</div>';
 		}
 		
-		if (!is_null($this->search_form))
+		if (!is_null($this->search_form) || !is_null($this->get_help_action()))
 		{
-			$search_form = $this->search_form;
-			
 			$html[] = '<div class="search_menu">';
-			$html[] = $search_form->as_html();
+			$search_form = $this->search_form;
+			if($search_form)
+			{
+				$html[] = '<div class="search_form">';
+				$html[] = $search_form->as_html();
+				$html[] = '</div>';
+			}
+			
+			if(!is_null($this->get_help_action()))
+			{
+				$html[] = '<div class="help_item">';
+				$toolbar = new Toolbar();
+				$toolbar->set_items(array($this->get_help_action()));
+				$toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
+				$html[] = $toolbar->as_html();
+				$html[] = '</div>';
+			}
+			
 			$html[] = '</div>';
 		}
 		

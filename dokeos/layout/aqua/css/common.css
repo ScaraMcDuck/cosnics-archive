@@ -1273,6 +1273,18 @@ div.action_bar div.search_menu
 	margin-bottom: -1000px;
 	*/
 	float: right;
+	width: 33%;
+}
+
+div.action_bar div.search_menu div.search_form
+{
+	float: right;
+	margin-top: -2px;
+}
+
+div.action_bar div.search_menu div.help_item
+{
+	float: left;
 }
 
 div.action_bar .action_bar_hide_container
