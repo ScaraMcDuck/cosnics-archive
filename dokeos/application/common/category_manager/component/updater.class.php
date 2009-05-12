@@ -13,9 +13,11 @@ class CategoryManagerUpdaterComponent extends CategoryManagerComponent
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{
+	{     
 		$category_id = $_GET[CategoryManager :: PARAM_CATEGORY_ID];
 		$user = $this->get_user();
+
+        $this->get_breadcrumb_trail()->add(new Breadcrumb($this->get_url(array(CategoryManager::PARAM_CATEGORY_ID => $category_id)),Translation :: get('Update')));
 
 		$categories = $this->retrieve_categories(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $category_id));
 		$category = $categories->next_result();
