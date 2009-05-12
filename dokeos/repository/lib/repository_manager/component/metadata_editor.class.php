@@ -22,11 +22,17 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerComponen
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Metadata')));
+        $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('Repository')));
+        $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('MyRepository')));
+
+		
 		$id = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
 		if ($id)
 		{
 			$object = $this->retrieve_learning_object($id);
+
+            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $id)), $object->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Metadata')));
 			$lom = IeeeLomGenerator::generate($object);
 			$this->display_header($trail);
 			echo '<div class="metadata" style="background-image: url('.Theme :: get_common_image_path().'place_metadata.png);">';

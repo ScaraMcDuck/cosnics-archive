@@ -18,6 +18,7 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb('index_repository_manager.php', Translation :: get('Repository')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('RecycleBin')));
 		
 		$this->display_header($trail);

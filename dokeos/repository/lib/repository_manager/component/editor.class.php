@@ -22,6 +22,8 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('Repository')));
+        $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('MyRepository')));
 		
 		$id = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
 		if ($id)
@@ -45,7 +47,8 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 			}
 			else
 			{
-				$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Edit')));
+                $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_VIEW_LEARNING_OBJECTS,RepositoryManager::PARAM_LEARNING_OBJECT_ID => $id)), $object->get_title()));
+				$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_LEARNING_OBJECT_ID => $id)), Translation :: get('Edit')));
 				$this->display_header($trail);
 				$form->display();
 				$this->display_footer();

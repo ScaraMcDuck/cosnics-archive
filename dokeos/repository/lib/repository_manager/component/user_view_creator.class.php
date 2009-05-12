@@ -16,6 +16,7 @@ class RepositoryManagerUserViewCreatorComponent extends RepositoryManagerCompone
 	function run()
 	{		
 		$trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb('index_repository_manager.php', Translation :: get('Repository')));
 		$admin = new AdminManager();
 		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserViewCreate')));

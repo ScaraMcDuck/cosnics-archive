@@ -14,6 +14,7 @@ class RepositoryManagerUserViewUpdaterComponent extends RepositoryManagerCompone
 	function run()
 	{	
 		$trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb('index_repository_manager.php', Translation :: get('Repository')));
 		$admin = new AdminManager();
 		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS)), Translation :: get('UserViewList')));
@@ -22,7 +23,8 @@ class RepositoryManagerUserViewUpdaterComponent extends RepositoryManagerCompone
 		if ($id)
 		{
 			$user_view = $this->retrieve_user_views(new EqualityCondition(UserView :: PROPERTY_ID,$id))->next_result();
-			$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_USER_VIEW => $id)), Translation :: get('UserViewUpdate')));
+            $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_USER_VIEW => $id)), $user_view->get_name()));
+			$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_USER_VIEW => $id)), Translation :: get('Update')));
 		
 			if (!$this->get_user()->is_platform_admin())
 			{
