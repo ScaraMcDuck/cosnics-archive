@@ -225,7 +225,7 @@ class LearningPathTree extends HTML_Menu
 		{
 			if(($primary_objective = $objectives->get_primary_objective()) == null)
 			{
-				$objective_trackers = array();
+				$objective_trackers = null;
 			}
 			else 
 			{
@@ -235,7 +235,7 @@ class LearningPathTree extends HTML_Menu
 				
 				if(count($ids) == 0)
 				{
-					$objective_trackers = array();
+					$objective_trackers = null;
 				}
 				else 
 				{
@@ -244,14 +244,15 @@ class LearningPathTree extends HTML_Menu
 					$condition = new AndCondition($conditions);
 					$dummy = new WeblcmsLpiAttemptObjectiveTracker();
 					$objective_trackers = $dummy->retrieve_tracker_items($condition);
+					
 				}
 			}
 		}
 		else 
 		{
-			$objective_trackers = array();
+			$objective_trackers = null;
 		}
-		
+	
 		$pre_condition_rules = $rules->get_precondition_rules();
 		foreach($pre_condition_rules as $pre_condition_rule)
 		{
@@ -263,7 +264,7 @@ class LearningPathTree extends HTML_Menu
 				switch($rule)
 				{
 					case "satisfied":
-						if(count($objective_trackers) > 0)
+						if(is_array($objective_trackers))
 						{
 							foreach($objective_trackers as $objective_tracker)
 							{
