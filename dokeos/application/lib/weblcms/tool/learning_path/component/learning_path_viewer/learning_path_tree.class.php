@@ -106,7 +106,8 @@ class LearningPathTree extends HTML_Menu
 	 */
 	 
 	private $step = 1;
-	 
+	private $step_urls = array();
+	
 	private function get_menu_items($parent)
 	{
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent->get_id());
@@ -148,7 +149,6 @@ class LearningPathTree extends HTML_Menu
 					$this->taken_steps++;
 				}
 				
-				//if($this->check_condition_rules($lo, $lpi_tracker_data))
 				if($control_mode['choice'] != 0)
 				{
 					$menu_item['url'] = $this->get_url($this->step);
@@ -162,6 +162,15 @@ class LearningPathTree extends HTML_Menu
 					$this->current_tracker = $lpi_tracker_data['active_tracker'];
 				}
 				
+				if($this->check_condition_rules($lo, $lpi_tracker_data))
+				{
+					$this->step_urls[$this->step] = $this->get_url($this->step);
+				}
+				else
+				{
+					$this->step_urls[$this->step] = null;
+				}
+				
 				$this->step++;
 				
 			}
@@ -170,6 +179,38 @@ class LearningPathTree extends HTML_Menu
 		}
 		
 		return $menu;
+	}
+	
+	function get_continue_url()
+	{
+		$step = $this->current_step + 1;
+		while($this->step_urls[$step] == null && $step <= $this->count_steps())
+		{
+			$step++;
+		}
+		
+		if($step <= $this->count_steps())
+		{
+			return $this->step_urls[$step];
+		}
+		
+		return $this->get_progress_url();
+	}
+	
+	function get_previous_url()
+	{
+		$step = $this->current_step - 1;
+		while($this->step_urls[$step] == null && $step > 0)
+		{
+			$step--;
+		}
+		
+		if($step > 0)
+		{
+			return $this->step_urls[$step];
+		}
+		
+		return null;
 	}
 	
 	function check_condition_rules($object, $tracker_data)
@@ -246,7 +287,7 @@ class LearningPathTree extends HTML_Menu
 
 	private function get_url($current_step)
 	{
-		return htmlentities(sprintf($this->urlFmt, $current_step));
+		return sprintf($this->urlFmt, $current_step);
 	}
 	
 	private function get_progress_url()
