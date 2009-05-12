@@ -36,11 +36,13 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 
 			$display = LearningObjectDisplay :: factory($object);
 			$trail = new BreadcrumbTrail();
+            $trail->add(new Breadcrumb('index_repository_manager.php', Translation :: get('Repository')));
 			if ($object->get_state() == LearningObject :: STATE_RECYCLED)
 			{
 				$trail->add(new Breadcrumb($this->get_recycle_bin_url(), Translation :: get('RecycleBin')));
 				$this->force_menu_url($this->get_recycle_bin_url());
-			}
+			}else
+                $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('MyRepository')));
 			$trail->add(new Breadcrumb($this->get_url(), $object->get_title() . ($object->is_latest_version() ? '' : ' ('.Translation :: get('OldVersion').')')));
 
 			$version_data = array();

@@ -130,14 +130,24 @@ class LearningObjectCategoryMenu extends HTML_Menu
 	 */
 	function get_breadcrumbs()
 	{
-		$this->render($this->array_renderer, 'urhere');
-		$breadcrumbs = $this->array_renderer->toArray();
-		foreach ($breadcrumbs as $crumb)
-		{
-			$crumb['name'] = $crumb['title'];
-			unset($crumb['title']);
-		}
-		return $breadcrumbs;
+        $trail = new BreadcrumbTrail(false);
+        $this->render($this->array_renderer, 'urhere');
+        $breadcrumbs = $this->array_renderer->toArray();
+        foreach ($breadcrumbs as $crumb)
+        {
+            if($crumb['title'] == Translation :: get('MyRepository')) continue;
+            $trail->add(new Breadcrumb($crumb['url'], $crumb['title']));
+        }
+        return $trail;
+//
+//		$this->render($this->array_renderer, 'urhere');
+//		$breadcrumbs = $this->array_renderer->toArray();
+//		foreach ($breadcrumbs as $crumb)
+//		{
+//			$crumb['name'] = $crumb['title'];
+//			unset($crumb['title']);
+//		}
+//		return $breadcrumbs;
 	}
 	/**
 	 * Renders the menu as a tree

@@ -28,7 +28,10 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Repository')));
-		
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyRepository')));
+
+        $menu = new LearningObjectCategoryMenu($this->get_user(),$this->get_parent_id());
+        $trail->merge($menu->get_breadcrumbs());
 		$this->action_bar = $this->get_action_bar();
 		$this->form = new RepositoryFilterForm($this, $this->get_url(array('category' => $this->get_parent_id())));
 		$output = $this->get_learning_objects_html();
