@@ -57,8 +57,6 @@ class PersonalMessengerPublisherComponent extends PersonalMessengerComponent
             {
                 $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Send')));
             }
-
-            $html[] = '<p><a href="' . $this->get_url(array('go' => null), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
             $html[] =  $pub->as_html();
         }
         else
