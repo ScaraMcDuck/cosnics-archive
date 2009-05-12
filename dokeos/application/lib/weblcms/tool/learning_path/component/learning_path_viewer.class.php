@@ -183,7 +183,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 			
 			$add_previous_na = false;
 			
-			if($current_step > 1)
+			if($current_step > 1 && $menu->get_previous_url())
 			{	
 				//$previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => $_GET['pid'], 'step' => $current_step - 1));
 				$previous_url = $menu->get_previous_url();
@@ -360,7 +360,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 	 */
 	private function create_lpi_tracker($lp_tracker, $current_cloi)
 	{
-		$return = Events :: trigger_event('attempt_learning_path_item', 'weblcms', array('lp_view_id' => $lp_tracker->get_id(), 'lp_item_id' => $current_cloi->get_id(), 'start_time' => time(), 'status' => 'incomplete'));
+		$return = Events :: trigger_event('attempt_learning_path_item', 'weblcms', array('lp_view_id' => $lp_tracker->get_id(), 'lp_item_id' => $current_cloi->get_id(), 'start_time' => time(), 'status' => 'not attempted'));
 		$lpi_tracker = $return[0];
 		
 		return $lpi_tracker;

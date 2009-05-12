@@ -41,6 +41,11 @@ switch($variable)
 		}
 
 		break;
+	case 'cmi.completion_status':
+		$tracker->set_status($value);
+		$tracker->update();
+		break;
+
 }
 
 ?>
