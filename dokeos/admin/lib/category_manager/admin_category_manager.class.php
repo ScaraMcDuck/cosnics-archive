@@ -8,9 +8,9 @@ require_once dirname(__FILE__) . '/admin_category.class.php';
 
 class AdminCategoryManager extends CategoryManager
 {
-	function AdminCategoryManager($parent)
+	function AdminCategoryManager($parent,$trail)
 	{
-		parent :: __construct($parent);
+		parent :: __construct($parent,$trail);
 	}
 
 	function get_category()

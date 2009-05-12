@@ -12,7 +12,7 @@ class ProfilerCategoryManager extends CategoryManager
 	
 	function ProfilerCategoryManager($parent, $trail)
 	{
-		parent :: __construct($parent);
+		parent :: __construct($parent, $trail);
 		$this->trail = $trail;
 	}
 
