@@ -17,14 +17,15 @@ class ProfilerBrowserComponent extends ProfilerComponent
 	 */
 	function run()
 	{
-		
+        $menu = new ProfilerMenu($this->get_category());
+        
 		$this->action_bar = $this->get_action_bar();
 		
 		$output = $this->get_publications_html();
-		
-		$trail = new BreadcrumbTrail();		
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyProfiler')));
-		
+
+        $trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyProfiler')));
+        $trail->merge($menu->get_breadcrumbs());
 		
 		$this->display_header($trail, false);
 		
