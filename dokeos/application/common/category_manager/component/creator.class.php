@@ -14,6 +14,16 @@ class CategoryManagerCreatorComponent extends CategoryManagerComponent
 	 */
 	function run()
 	{
+        $trail = $this->get_breadcrumb_trail();
+        
+        if(Request :: get(CategoryManager :: PARAM_CATEGORY_ID))
+        {
+            require_once dirname(__FILE__).'/../category_menu.class.php';
+            $menu = new CategoryMenu(Request :: get(CategoryManager :: PARAM_CATEGORY_ID), $this->get_parent());
+            $trail->merge($menu->get_breadcrumbs());
+        }
+        $trail->add(new Breadcrumb($this->get_url(),Translation :: get('Add')));
+        
 		$category_id = $_GET[CategoryManager :: PARAM_CATEGORY_ID];
 		$user = $this->get_user();
 
@@ -33,7 +43,7 @@ class CategoryManagerCreatorComponent extends CategoryManagerComponent
 		}
 		else
 		{
-			$this->display_header($this->get_breadcrumb_trail());
+			$this->display_header($trail);
 			echo '<br />';
 			$form->display();
 			$this->display_footer();

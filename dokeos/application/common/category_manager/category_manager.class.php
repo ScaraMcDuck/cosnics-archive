@@ -36,6 +36,8 @@ abstract class CategoryManager
 	private $publisher_actions;
 	
 	private $parameters;
+
+    private $trail;
 	
 	/**
 	 * Constructor.
@@ -43,9 +45,10 @@ abstract class CategoryManager
 	 * @param  boolean $email_option If true the publisher has the option to
 	 * send the published learning object by email to the selecter target users.
 	 */
-	function CategoryManager($parent)
+	function CategoryManager($parent,$trail)
 	{
 		$this->parent = $parent;
+        $this->trail = $trail;
 		$parent->set_parameter(self :: PARAM_ACTION, $this->get_action());
 		$this->parse_input_from_table();
 	}
@@ -281,7 +284,7 @@ abstract class CategoryManager
 	
 	function get_breadcrumb_trail()
 	{
-		return new BreadcrumbTrail();
+		return $this->trail;
 	}
 	
 	abstract function count_categories($condition);

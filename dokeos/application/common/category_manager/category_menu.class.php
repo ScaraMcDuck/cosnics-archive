@@ -110,14 +110,15 @@ class CategoryMenu extends HTML_Menu
 	 */
 	function get_breadcrumbs()
 	{
-		$this->render($this->array_renderer, 'urhere');
+		$trail = new BreadcrumbTrail(false);
+        $this->render($this->array_renderer, 'urhere');
 		$breadcrumbs = $this->array_renderer->toArray();
 		foreach ($breadcrumbs as $crumb)
 		{
-			$crumb['name'] = $crumb['title'];
-			unset($crumb['title']);
+            if($crumb['title'] == Translation :: get('Categories')) continue;
+			$trail->add(new Breadcrumb($crumb['url'], $crumb['title']));
 		}
-		return $breadcrumbs;
+		return $trail;
 	}
 	/**
 	 * Renders the menu as a tree

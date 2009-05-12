@@ -15,6 +15,7 @@ class ProfilerPublisherComponent extends ProfilerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(Profiler::PARAM_ACTION => Profiler::ACTION_BROWSE_PROFILES)), Translation :: get('MyProfiler')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishProfile')));
 		
 		$object = $_GET['object'];
