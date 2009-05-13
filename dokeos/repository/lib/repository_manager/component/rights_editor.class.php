@@ -22,8 +22,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 		$object = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
 		$this->location = RepositoryRights :: get_location_by_identifier('learning_object', $object);
 		
-		$trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Repository')));
+		$trail = new BreadcrumbTrail(false);
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('EditRights')));
 		
 		$component_action = $_GET[RightsManager :: PARAM_COMPONENT_ACTION];

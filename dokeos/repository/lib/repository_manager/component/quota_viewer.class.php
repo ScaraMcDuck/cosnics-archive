@@ -26,10 +26,10 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb('index_repository_manager.php', Translation :: get('Repository')));
+		$trail = new BreadcrumbTrail(false);
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Quota')));
-		$this->display_header($trail);
+
+        $this->display_header($trail);
 		$quotamanager = new QuotaManager($this->get_user());
 		echo '<h3>'.htmlentities(Translation :: get('DiskSpace')).'</h3>';
 		echo self :: get_bar($quotamanager->get_used_disk_space_percent(), Filesystem :: format_file_size($quotamanager->get_used_disk_space()).' / '. Filesystem :: format_file_size($quotamanager->get_max_disk_space()));
