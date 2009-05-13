@@ -20,12 +20,10 @@ class CasAuthentication extends Authentication
     	}
     	else
     	{
-    		$settings = $this->get_configuration();
-    		
-	    	$udm = UserDataManager :: get_instance();
+    		$settings = $this->get_configuration();    		
 	    	
 			// initialize phpCAS
-			phpCAS :: client(CAS_VERSION_2_0, $settings['host'], $settings['port'], '');
+			phpCAS :: client(CAS_VERSION_2_0, $settings['host'], (int) $settings['port'], '');
 			
 			// no SSL validation for the CAS server
 			phpCAS :: setNoCasServerValidation();
@@ -35,6 +33,7 @@ class CasAuthentication extends Authentication
 			
 			$user_id = phpCAS :: getUser();
 			
+			$udm = UserDataManager :: get_instance();
 			if (!$udm->is_username_available($user_id))
 			{
 				$user = $udm->retrieve_user_info($user_id);
@@ -155,6 +154,21 @@ class CasAuthentication extends Authentication
 		}
     	
     	return $this->cas_settings;
+    }
+    
+    function is_configured()
+    {
+    	$settings = $this->get_configuration();
+    		    	
+    	foreach($settings as $setting => $value)
+    	{
+    		if((empty($value) || !isset($value)) && $setting != 'uri')
+    		{
+    			return false;
+    		}
+    	}
+    	
+    	return true;
     }
 }
 ?>

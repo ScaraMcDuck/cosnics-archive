@@ -99,6 +99,8 @@
 			<setting name="enable_external_authentication" field="checkbox">
 				<options type="static"><option name="enable_external_authentication" value="1" /></options>
 			</setting>
+		</category>
+		<category name="external_authentication">
 			<setting name="enable_ldap_authentication" field="checkbox">
 				<options type="static"><option name="enable_ldap_authentication" value="1" /></options>
 			</setting>
