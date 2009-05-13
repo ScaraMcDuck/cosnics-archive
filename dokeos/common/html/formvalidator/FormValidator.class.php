@@ -135,6 +135,11 @@ EOT;
 	</div>
 EOT;
 		$renderer->setRequiredNoteTemplate($required_note_template);
+		
+		foreach($this->_submitValues as $index => $value)
+		{
+			$this->_submitValues[$index] = Security :: remove_XSS($value);
+		}
 	}
 	
 	function set_error_reporting ($enabled)
