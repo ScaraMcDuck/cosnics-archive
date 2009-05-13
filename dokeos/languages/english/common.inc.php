@@ -179,11 +179,5 @@ $lang['common']['Navigation'] = 'Navigation';
 $lang['common']['Information'] = 'Information';
 $lang['common']['CheckCasConfiguration'] = 'There seems to be a problem with your platform CAS configuration, please check the configuration or contact the system administrator.';
 $lang['common']['CheckLdapConfiguration'] = 'There seems to be a problem with your platform LDAP configuration, please check it or contact the system administrator.';
-$lang['common']['LdapAuthentication'] = 'LDAP Authentication';
-$lang['common']['CasAuthentication'] = 'CAS Authentication';
-$lang['common']['CasHost'] = 'Host';
-$lang['common']['CasPort'] = 'Port';
-$lang['common']['CasUri'] = 'Uri';
-$lang['common']['EnableCas'] = 'Enable CAS authentication';
 
 ?>
