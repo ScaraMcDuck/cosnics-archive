@@ -71,4 +71,7 @@ $lang['personal_messenger']['CreateAsNewVersion'] = 'Create as new version';
 $lang['personal_messenger']['Update'] = 'Update';
 $lang['personal_messenger']['CalendarEventPublicationUpdated'] = 'Publication updated';
 $lang['personal_messenger']['Repeats'] = 'Repeats';
+$lang['personal_messenger']['Help'] = 'Help';
+$lang['personal_messenger']['ShowAttachment'] = 'Show attachment';
+$lang['personal_messenger']['SelectedPublicationsUpdated'] = 'Selected publications updated';
 ?>
