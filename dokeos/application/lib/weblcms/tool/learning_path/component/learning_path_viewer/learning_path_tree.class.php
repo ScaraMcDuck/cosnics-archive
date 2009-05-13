@@ -110,6 +110,7 @@ class LearningPathTree extends HTML_Menu
 	 
 	private $step = 1;
 	private $step_urls = array();
+	private $jump_urls = array();
 	
 	private function get_menu_items($parent)
 	{
@@ -175,6 +176,9 @@ class LearningPathTree extends HTML_Menu
 					$this->step_urls[$this->step] = null;
 				}
 				
+				if($lo->get_type() == 'scorm_item')
+					$this->jump_urls[$lo->get_identifier()] = $this->get_url($this->step);
+				
 				$this->step++;
 				
 			}
@@ -228,6 +232,11 @@ class LearningPathTree extends HTML_Menu
 		}
 		
 		return null;
+	}
+	
+	function get_jump_urls()
+	{
+		return $this->jump_urls;
 	}
 	
 	function check_condition_rules($object, $tracker_data)

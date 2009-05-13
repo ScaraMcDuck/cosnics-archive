@@ -15,6 +15,7 @@
   <property name="condition_rules" type="text" />
   <property name="completion_set_by_content" type="integer" unsigned="1" lenght="1" default="0" />
   <property name="objective_set_by_content" type="integer" unsigned="1" lenght="1" default="0" />
+  <property name="identifier" type="text" lenght="500" />
  </properties>
  <index name="id" type="primary">
   <indexproperty name="id"/>
