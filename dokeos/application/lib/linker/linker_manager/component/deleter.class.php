@@ -1,0 +1,66 @@
+<?php
+/**
+ * @package application.lib.encyclopedia.encyclopedia_manager
+ */
+require_once dirname(__FILE__).'/../linker.class.php';
+require_once dirname(__FILE__).'/../linker_component.class.php';
+
+class LinkerDeleterComponent extends LinkerComponent
+{
+	/**
+	 * Runs this component and displays its output.
+	 */
+	function run()
+	{
+		$ids = $_GET[Linker :: PARAM_LINK_ID];
+		$failures = 0;
+		
+		if (!empty ($ids))
+		{
+			if (!is_array($ids))
+			{
+				$ids = array ($ids);
+			}
+			
+			foreach ($ids as $id)
+			{
+				$link = $this->retrieve_link($id);
+				
+				if (!$link->delete())
+				{
+					$failures++;
+				}
+			}
+			
+			if ($failures)
+			{
+				if (count($ids) == 1)
+				{
+					$message = 'SelectedLinkDeleted';
+				}
+				else
+				{
+					$message = 'SelectedLinkDeleted';
+				}
+			}
+			else
+			{
+				if (count($ids) == 1)
+				{
+					$message = 'SelectedLinksDeleted';
+				}
+				else
+				{
+					$message = 'SelectedLinksDeleted';
+				}
+			}
+			
+			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(Linker :: PARAM_ACTION => Linker :: ACTION_BROWSE_LINKS));
+		}
+		else
+		{
+			$this->display_error_page(htmlentities(Translation :: get('NoLinksSelected')));
+		}
+	}
+}
+?>
