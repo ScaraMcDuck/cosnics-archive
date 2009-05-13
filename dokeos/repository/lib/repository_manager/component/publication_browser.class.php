@@ -17,8 +17,7 @@ class RepositoryManagerPublicationBrowserComponent extends RepositoryManagerComp
 	 */
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb('index_repository_manager.php', Translation :: get('Repository')));
+		$trail = new BreadcrumbTrail(false);
 		
 		$output = $this->get_publications_html();
 		

@@ -35,8 +35,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			}
 
 			$display = LearningObjectDisplay :: factory($object);
-			$trail = new BreadcrumbTrail();
-            $trail->add(new Breadcrumb('index_repository_manager.php', Translation :: get('Repository')));
+			$trail = new BreadcrumbTrail(false);
             
 			if ($object->get_state() == LearningObject :: STATE_RECYCLED)
 			{

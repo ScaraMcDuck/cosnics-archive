@@ -353,6 +353,9 @@ class RepositoryManager
 			$breadcrumbtrail = new BreadcrumbTrail();
 		}
 
+        $trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('Repository')));
+
 		/*$categories = $this->breadcrumbs;
 		if (count($categories) > 0 && $this->get_action() == self :: ACTION_BROWSE_LEARNING_OBJECTS)
 		{
@@ -365,8 +368,12 @@ class RepositoryManager
         if($display_menu)
 		{
             if(Request :: get('category'))
-                $breadcrumbtrail->merge($this->get_category_menu()->get_breadcrumbs(false));
+                $trail->merge($this->get_category_menu()->get_breadcrumbs(false));
         }
+
+        $trail->merge($breadcrumbtrail);
+
+        $breadcrumbtrail = $trail;
 
 		$title = $breadcrumbtrail->get_last()->get_name();
 		$title_short = $title;

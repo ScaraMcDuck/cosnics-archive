@@ -26,8 +26,8 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb('index_repository_manager.php', Translation :: get('Repository')));
+		$trail = new BreadcrumbTrail(false);
+        
 		$clo_id= $_GET[RepositoryManager :: PARAM_CLOI_ID]; 
 		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
 		

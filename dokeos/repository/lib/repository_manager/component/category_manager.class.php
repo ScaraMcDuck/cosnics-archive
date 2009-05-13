@@ -16,9 +16,10 @@ class RepositoryManagerCategoryManagerComponent extends RepositoryManagerCompone
 	 */
 	function run()
 	{
-        $trail = new BreadCrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('Repository')));
-		$category_manager = new RepositoryCategoryManager($this,$trail);
+        $trail = new BreadCrumbTrail(false);
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('ManageCategories')));
+
+        $category_manager = new RepositoryCategoryManager($this,$trail);
 		$category_manager->run();
 	}
 }
