@@ -351,7 +351,7 @@ $lang['weblcms']['OrCopyAndPasteThisText'] = 'or copy and paste this text';
 $lang['weblcms']['ViewInvitedUsers'] = 'View invited users';
 $lang['weblcms']['IntroductionPublished'] = 'Introduction published';
 $lang['weblcms']['CourseSettingsUpdated'] = 'Course settings updated';
-$lang['weblcms']['AnnouncementFormTitle'] = 'Title';
+$lang['weblcms']['AnnouncementFormTitle'] = 'Create announcement';
 $lang['weblcms']['IntroductionFormTitle'] = 'Title';
 $lang['weblcms']['CreateAsNewVersion'] = 'Create as new version';
 $lang['weblcms']['VersionComment'] = 'Version comment';
@@ -724,5 +724,5 @@ $lang['weblcms']['PageActions'] = 'Page actions';
 $lang['weblcms']['Information'] = 'Information';
 $lang['weblcms']['Show/HideContent'] = 'Show/Hide';
 $lang['weblcms']['ConsultThe'] = 'Consult the';
-$lang['weblcms']['ForMoreInformationAndModifyTheArticleIfDesirable'] = ' ';
+$lang['weblcms']['ForMoreInformationAndModifyTheArticleIfDesirable'] = 'For more information modify the article if desirable';
 ?>

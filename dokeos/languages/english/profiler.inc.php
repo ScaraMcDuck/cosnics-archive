@@ -76,4 +76,10 @@ $lang['profiler']['Help'] = 'Help';
 $lang['profiler']['GeneralCategoriesCopied'] = 'General categories copied';
 $lang['profiler']['CategoryCreated'] = 'Category created';
 $lang['profiler']['CategoryNotUpdated'] = 'Category not updated';
+$lang['profiler']['Update'] = 'Update';
+$lang['profiler']['MoveSelected'] = 'Move selected';
+$lang['profiler']['MoveDown'] = 'Move down';
+$lang['profiler']['MoveUp'] = 'Move up';
+$lang['profiler']['MoveUpNA'] = 'Move up not available';
+$lang['profiler']['MoveDownNA'] = 'Move down not available';
 ?>
