@@ -259,10 +259,20 @@ class ScormImport extends LearningObjectImport
 				
 				$condition_rule = new ConditionRule();
 				$condition_rule->set_action($action);
+				$condition_rule->set_conditions_operator($xml_condition_rule['imsss:ruleConditions']['conditionCombination']);
 				
 				foreach($conditions as $condition)
 				{
-					$condition_rule->add_condition($condition['condition']);
+					$cond = new RuleCondition();
+					$cond->set_condition($condition['condition']);
+					
+					if($condition['operator'] == 'not')
+						$cond->set_not_condition(true);
+					
+					if($condition['referencedObjective'])
+						$cond->set_referenced_objective($condition['referencedObjective']);
+					
+					$condition_rule->add_condition($cond);
 				}
 	
 				$scorm_item->add_condition_rule($condition_rule, $type);
