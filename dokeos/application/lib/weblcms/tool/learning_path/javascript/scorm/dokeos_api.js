@@ -64,6 +64,8 @@ function check_redirect_conditions(values)
 {
 	var url = null;
 	var request = values['adl.nav.request'];
+	if(request == null)
+		return
 
 	if(request == 'continue')
 	{
@@ -75,6 +77,16 @@ function check_redirect_conditions(values)
 		url = previous_url;
 	}
 
+	 var re = new RegExp('{target=.*}jump');
+	 if(request.match(re))
+	 {
+		 var re = new RegExp('{.*}');
+		 var m = re.exec(request);
+		 var identifier = m[0];
+		 identifier = identifier.substr(8, identifier.length - 9);
+		 url = jump_urls[identifier];
+	 }
+	
 	if(url)
 	{
 		window.location = url;
@@ -96,7 +108,12 @@ function DokeosGetValue(variable)
 	}
 	//alert(variable);
 	last_error = 0;
-	var value = this.values[variable]; 
+	
+	var value = check_for_special_requests(variable);
+	if(value)
+		return value;
+	
+	value = this.values[variable]; 
 	if(!value)
 	{ 
 		value = get_existing_value(variable);
@@ -108,6 +125,40 @@ function DokeosGetValue(variable)
 	}
 	
 	return value;
+}
+
+function check_for_special_requests(variable)
+{
+	 if(variable == "adl.nav.request_valid.continue")
+	 {
+		 if (continue_url != null)
+			 return "true";
+		 else
+			 return "false";
+	 }
+	 
+	 if(variable == "adl.nav.request_valid.previous")
+	 {
+		 if (previous_url != null)
+			 return "true";
+		 else
+			 return "false";
+	 }
+	 
+	 var re = new RegExp('adl.nav.request_valid.choice.{target=.*}');
+	 if(variable.match(re))
+	 {
+		 var re = new RegExp('{.*}');
+		 var m = re.exec(variable);
+		 var identifier = m[0];
+		 identifier = identifier.substr(8, identifier.length - 9);
+		 
+		 if(jump_urls[identifier] != null)
+			 return "true";
+		 else
+			 return "false";
+		 
+	 }
 }
 
 function DokeosSetValue(variable, value)

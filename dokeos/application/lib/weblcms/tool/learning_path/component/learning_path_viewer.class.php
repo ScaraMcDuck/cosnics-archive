@@ -99,7 +99,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 			
 			$this->trackers['lpi_tracker'] = $lpi_tracker;
 			
-			$display = LearningPathLearningObjectDisplay :: factory($this, $object->get_type())->display_learning_object($object, $lpi_attempt_data[$cloi->get_id()], $navigation);
+			$display = LearningPathLearningObjectDisplay :: factory($this, $object->get_type())->display_learning_object($object, $lpi_attempt_data[$cloi->get_id()], $menu->get_continue_url(), $menu->get_previous_url(), $menu->get_jump_urls());
 		}
 		
 		$this->display_header($trail);
@@ -107,7 +107,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		echo '<div style="width: 18%; overflow: auto; float: left;">';
 		echo $menu->render_as_tree(). '<br /><br />';
 		echo $this->get_progress_bar($menu->get_progress());
-		echo $navigation['bar'] . '<br /><br />';
+		echo $navigation . '<br /><br />';
 		echo '</div>';
 		echo '<div style="width: 80%; float: right; padding-left: 10px; min-height: 500px;">' . $display . '</div>';
 		echo '<div class="clear">&nbsp;</div>';
@@ -264,7 +264,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 			}
 		}
 		
-		return array('bar' => DokeosUtilities :: build_toolbar($actions), 'continue_url' => $continue_url, 'previous_url' => $previous_url);
+		return DokeosUtilities :: build_toolbar($actions);
 	}
 	
 	/**

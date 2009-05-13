@@ -171,6 +171,7 @@ class ScormImport extends LearningObjectImport
 		$scorm_item->set_parent_id($this->get_category());
 		$scorm_item->set_owner_id($this->get_user()->get_id());
 		$scorm_item->set_path($path);
+		$scorm_item->set_identifier($item['identifier']);
 		
 		if($item['isvisible'])
 			$scorm_item->set_visible(($item['isvisible'] == 'true'));
