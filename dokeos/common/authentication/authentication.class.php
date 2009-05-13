@@ -67,7 +67,7 @@ abstract class Authentication
     	if (!Session :: get_user_id())
     	{
     		// Check whether external authentication is enabled
-    		$allow_external_authentication = PlatformSetting :: get('allow_external_authentication');
+    		$allow_external_authentication = PlatformSetting :: get('enable_external_authentication');
     		$no_external_authentication = Request :: get('noExtAuth');
     		
     		if($allow_external_authentication && !isset($no_external_authentication))
@@ -76,7 +76,7 @@ abstract class Authentication
     			
     			foreach($external_authentication_types as $type)
     			{
-    				$allow_authentication = PlatformSetting :: get('allow_external_'. $type .'_authentication');
+    				$allow_authentication = PlatformSetting :: get('enable_'. $type .'_authentication');
     				$no_authentication = Request :: get('no' . DokeosUtilities :: underscores_to_camelcase($type) . 'Auth');
     				
     				if ($allow_authentication)
