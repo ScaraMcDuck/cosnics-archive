@@ -98,55 +98,72 @@ class InstallManager
 	function display_header_content()
 	{
 		global $dokeos_version, $installType, $updateFromVersion;
+		$output = array();
 		
-		echo '<!DOCTYPE html
+		$output[] = '<!DOCTYPE html
 		     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
-		echo '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">'."\n";
-		echo '<head>'."\n";
-		echo '<title>-- ' .$dokeos_version . ' Installation --</title>'."\n";
-		echo '<link rel="stylesheet" href="../layout/aqua/css/common.css" type="text/css"/>'."\n";
-		echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'."\n";		
-		echo '</head>'."\n";
-		echo '<body dir="'. Translation :: get('text_dir') .'">' . "\n";
+		$output[] = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">'."\n";
+		$output[] = '<head>'."\n";
+		$output[] = '<title>-- ' .$dokeos_version . ' Installation --</title>'."\n";
+		$output[] = '<link rel="stylesheet" href="../layout/aqua/css/common.css" type="text/css"/>'."\n";
+		$output[] = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'."\n";		
+		$output[] = '</head>'."\n";
+		$output[] = '<body dir="'. Translation :: get('text_dir') .'">' . "\n";
 		
-		echo '<!-- #outerframe container to control some general layout of all pages -->'."\n";
-		echo '<div id="outerframe">'."\n";
+		$output[] = '<!-- #outerframe container to control some general layout of all pages -->'."\n";
+		$output[] = '<div id="outerframe">'."\n";
 		
-		echo '<div id="header">  <!-- header section start -->'."\n";
-		echo '<div id="header1"> <!-- top of banner with institution name/hompage link -->'."\n";
-		echo '<div class="banner"></div>';
-//		echo 'Dokeos installation - version ' . $dokeos_version;
-//		if ($installType == 'new')
-//		{
-//			echo ' - New installation';
-//		}
-//		elseif ($installType == 'update')
-//		{
-//			echo ' - Update from Dokeos ' . implode('|',$updateFromVersion);
-//		}		
-//		echo '</div>'."\n";
-		echo '<div class="clear">&nbsp;</div>'."\n";
-		echo '</div> <!-- end of the whole #header section -->'."\n";
-		echo '<div id="main"> <!-- start of #main wrapper for #content and #menu divs -->'."\n";
-		echo '<!--   Begin Of script Output   -->'."\n";
+		$output[] = '<a name="top"></a>';
+		$output[] = '<div id="header">  <!-- header section start -->';
+		$output[] = '<div id="header1"> <!-- top of banner with institution name/hompage link -->';
+		$output[] = '<div class="banner"><div class="logo"></div></div>';
+		$output[] = '<div class="clear">&nbsp;</div>';
+		$output[] = '</div> <!-- end of #header1 -->';
+		$output[] = '<div class="clear">&nbsp;</div>';
+		$output[] = '</div> <!-- end of the whole #header section -->';
+		
+		$output[] = '<div id="main"> <!-- start of #main wrapper for #content and #menu divs -->'."\n";
+		$output[] = '<!--   Begin Of script Output   -->'."\n";
+		
+		echo implode("\n", $output);
 	}
 	/**
 	 * Displays the footer.
 	 */
 	function display_footer()
 	{
-		echo '</div>';
 		global $dokeos_version, $installType, $updateFromVersion;
-		echo '<div class="clear">&nbsp;</div> <!-- \'clearing\' div to make sure that footer stays below the main and right column sections -->'."\n";
-		echo "\n";
-		echo '<div id="footer"> <!-- start of #footer section -->'."\n";
-		echo $dokeos_version . '&nbsp;&copy;&nbsp;2007-'. date('Y');
-		echo '</div> <!-- end of #footer -->'."\n";
-		echo '</div> <!-- end of #outerframe opened in header -->'."\n";
-		echo "\n";
-		echo '</body>'."\n";
-		echo '</html>'."\n";
+		$output = array();
+		
+		$output[] = '</div>';
+		$output[] = '<div class="clear">&nbsp;</div> <!-- "clearing" div to make sure that footer stays below the main and right column sections -->';
+		$output[] = '</div> <!-- end of #main" started at the end of banner.inc.php -->';
+		
+		$output[] = '<div id="footer"> <!-- start of #footer section -->';		
+		$output[] = '<div id="copyright">';
+		$output[] = '<div class="logo">';
+		$output[] = '<a href="http://www.dokeosplanet.org"><img src="'. '../layout/aqua/img/common/dokeos_logo_small.png" /></a>';
+		$output[] = '</div>';
+		$output[] = '<div class="links">';
+		
+		$links = array();		
+		$links[] = Translation :: get('License');
+		$links[] = Translation :: get('PrivacyPolicy');		
+		$links[] = '<a href="http://www.dokeosplanet.org">http://www.dokeosplanet.org</a>';
+		$links[] = '&copy;&nbsp;' . date('Y');
+		
+		$output[] = implode('&nbsp;|&nbsp;', $links);
+		$output[] = '</div>';
+		$output[] = '<div class="clear"></div>';
+		$output[] = '</div>';
+		
+		$output[] = '   </div> <!-- end of #footer -->';
+		$output[] = '  </div> <!-- end of #outerframe opened in header -->';
+		$output[] = ' </body>';
+		$output[] = '</html>';
+		
+		echo implode("\n", $output);
 	}
 	/**
 	 * Displays a normal message.
