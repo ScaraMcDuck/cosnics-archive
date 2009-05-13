@@ -93,14 +93,17 @@
 			<setting name="permissions_new_files" field="text" default="0660" />
 		</category>
 		<category name="authentication">
-			<setting name="enable_platform" field="checkbox">
-				<options type="static"><option name="enable_platform" value="1" /></options>
+			<setting name="enable_platform_authentication" field="checkbox">
+				<options type="static"><option name="enable_platform_authentication" value="1" /></options>
 			</setting>
-			<setting name="enable_ldap" field="checkbox">
-				<options type="static"><option name="enable_ldap" value="1" /></options>
+			<setting name="enable_external_authentication" field="checkbox">
+				<options type="static"><option name="enable_external_authentication" value="1" /></options>
 			</setting>
-			<setting name="enable_cas" field="checkbox">
-				<options type="static"><option name="enable_cas" value="1" /></options>
+			<setting name="enable_ldap_authentication" field="checkbox">
+				<options type="static"><option name="enable_ldap_authentication" value="1" /></options>
+			</setting>
+			<setting name="enable_cas_authentication" field="checkbox">
+				<options type="static"><option name="enable_cas_authentication" value="1" /></options>
 			</setting>
 		</category>
 		<category name="ldap_authentication">
