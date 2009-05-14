@@ -16,6 +16,8 @@ class RightsManagerRoleCreatorComponent extends UserManagerComponent
 	function run()
 	{		
 		$trail = new BreadcrumbTrail();
+        $admin = new AdminManager();
+        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
 		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('CreateRole')));
 			
