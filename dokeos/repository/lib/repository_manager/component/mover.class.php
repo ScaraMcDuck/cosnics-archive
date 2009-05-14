@@ -109,13 +109,10 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 				//$form->accept($renderer);
 
                 if(count($ids)==1)
-                {
                     $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $ids)), $this->retrieve_learning_object($ids)->get_title()));
-                }
                 else
-                {
                     $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_BROWSE_LEARNING_OBJECTS), Translation :: get('Objects'))));
-                }
+                    
 				$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));
 				$this->display_header($trail);
 				echo $form->toHTML();

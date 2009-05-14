@@ -21,8 +21,7 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerComponen
 	 */
 	function run()
 	{
-		$trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('Repository')));
+		$trail = new BreadcrumbTrail(false);
 
 		
 		$id = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
