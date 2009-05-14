@@ -149,11 +149,12 @@ class LearningPathTree extends HTML_Menu
 			else
 			{	
 				
-				$this->jump_urls[$lo->get_identifier()] = $this->step_urls[$this->step] = $this->get_url($this->step);
+				$this->step_urls[$this->step] = $this->get_url($this->step);
 				$status = 'enabled';
 				
 				if(get_class($lo) == 'ScormItem')
 				{
+					$this->jump_urls[$lo->get_identifier()] = $this->step_urls[$this->step];
 					$status = $this->translator->get_status_from_item($lo, $lpi_tracker_data); 
 					//dump($status);
 					switch($status)

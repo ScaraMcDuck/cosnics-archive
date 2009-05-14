@@ -126,7 +126,6 @@ class RuleConditionTranslator
 	
 	private function check_for_attempted($tracker_data)
 	{
-		echo (count($tracker_data['trackers']) > 0);
 		return count($tracker_data['trackers']) > 0;
 	}
 	
