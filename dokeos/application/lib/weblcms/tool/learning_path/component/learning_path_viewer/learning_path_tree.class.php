@@ -154,7 +154,8 @@ class LearningPathTree extends HTML_Menu
 				
 				if(get_class($lo) == 'ScormItem')
 				{
-					$status = $this->translator->get_status_from_item($lo, $lpi_tracker_data);
+					$status = $this->translator->get_status_from_item($lo, $lpi_tracker_data); 
+					//dump($status);
 					switch($status)
 					{
 						case 'skip': $this->step_urls[$this->step] = null; break;
@@ -210,36 +211,46 @@ class LearningPathTree extends HTML_Menu
 		}
 	}
 	
+	private $continue_url = null;
 	function get_continue_url()
 	{
-		$step = $this->current_step + 1;
-		while($this->step_urls[$step] == null && $step <= $this->count_steps())
+		if(!$this->continue_url)
 		{
-			$step++;
+			$step = $this->current_step + 1;
+			while($this->step_urls[$step] == null && $step <= $this->count_steps())
+			{
+				$step++;
+			}
+			
+			if($step <= $this->count_steps())
+			{
+				$this->continue_url = $this->step_urls[$step];
+				return $this->continue_url;
+			}
+			
+			$this->continue_url = $this->get_progress_url();
 		}
-		
-		if($step <= $this->count_steps())
-		{
-			return $this->step_urls[$step];
-		}
-		
-		return $this->get_progress_url();
+		return $this->continue_url;
 	}
 	
+	private $previous_url = null;
 	function get_previous_url()
 	{
-		$step = $this->current_step - 1;
-		while($this->step_urls[$step] == null && $step > 0)
+		if(!$this->previous_url)
 		{
-			$step--;
+			$step = $this->current_step - 1;
+			while($this->step_urls[$step] == null && $step > 0)
+			{
+				$step--;
+			}
+			
+			if($step > 0)
+			{
+				$this->previous_url = $this->step_urls[$step];
+			}
 		}
 		
-		if($step > 0)
-		{
-			return $this->step_urls[$step];
-		}
-		
-		return null;
+		return $this->previous_url;
 	}
 	
 	function get_jump_urls()
