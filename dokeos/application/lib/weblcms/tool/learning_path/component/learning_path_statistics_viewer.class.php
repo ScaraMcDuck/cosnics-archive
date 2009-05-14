@@ -2,6 +2,7 @@
 
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lp_attempt_tracker.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lpi_attempt_tracker.class.php';
+require_once dirname(__FILE__).'/../../../trackers/weblcms_lpi_attempt_objective_tracker.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_learning_path_assessment_attempts_tracker.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_tree.class.php';
@@ -68,15 +69,17 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 			
 			require_once(Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_progress_reporting_template.class.php');
 			$objects = $menu->get_objects();
-			$template = new LearningPathProgressReportingTemplate($objects[$cid]);
-			$template->set_reporting_blocks_function_parameters(array('objects' => $menu->get_objects(), 'attempt_data' => $attempt_data, 'cid' => $cid, 'url' => $url, 'delete' => true));
+			$parameters = array('objects' => $menu->get_objects(), 'attempt_data' => $attempt_data, 'cid' => $cid, 'url' => $url, 'delete' => true);
+			$template = new LearningPathProgressReportingTemplate($this, 0, $parameters, $trail, $objects[$cid]);
+			$template->set_reporting_blocks_function_parameters($parameters);
 			$display = $template->to_html();
 		}
 		else 
 		{
 			require_once(Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_attempts_reporting_template.class.php');
-			$template = new LearningPathAttemptsReportingTemplate();
-			$template->set_reporting_blocks_function_parameters(array('publication' => $publication, 'course' => $this->get_course_id(), 'url' => $url));
+			$parameters = array('publication' => $publication, 'course' => $this->get_course_id(), 'url' => $url);
+			$template = new LearningPathAttemptsReportingTemplate($this,0,$parameters,$trail);
+			$template->set_reporting_blocks_function_parameters($parameters);
 			$display = $template->to_html();
 		}
 													    
