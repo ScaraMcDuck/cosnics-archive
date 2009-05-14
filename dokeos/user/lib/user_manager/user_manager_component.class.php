@@ -329,5 +329,10 @@ abstract class UserManagerComponent {
 	{
 		return $this->get_parent()->get_change_buddylist_item_status_url($item_id, $status);
 	}
+
+    function get_reporting_url($classname, $params)
+    {
+        return $this->get_parent()->get_reporting_url($classname, $params);
+    }
 }
 ?>

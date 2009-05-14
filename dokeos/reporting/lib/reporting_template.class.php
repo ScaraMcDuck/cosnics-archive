@@ -22,7 +22,6 @@ abstract class ReportingTemplate {
     const REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS = 1;
     const REPORTING_BLOCK_USE_BLOCK_DIMENSIONS = 0;
     protected $parent;
-    protected $trail;
     protected $params;
     /*
      * array with all the reporting block and specific properties such as
@@ -34,12 +33,11 @@ abstract class ReportingTemplate {
     protected $id;
     protected $action_bar;
 
-    function ReportingTemplate($parent=null,$id,$params,$trail)
+    function ReportingTemplate($parent=null,$id,$params)
     {
         $this->parent = $parent;
         $this->set_registration_id($id);
         $this->set_reporting_blocks_function_parameters($params);
-        $this->trail = $trail;
 
         $this->action_bar = $this->get_action_bar();
     }//ReportingTemplateProperties
@@ -114,24 +112,9 @@ abstract class ReportingTemplate {
     {
         $parameters = array();
         $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
-        //$parameters = $this->parameters;
+
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' .'"></script>';
-//        $html[] = '<script type="text/javascript">';
-//        $html[] = 'var params = new Array();';
-//        foreach($this->params as $key => $value)
-//        {
-//            $html[] = 'params[\''.$key.'\'] = \''.$value.'\';';
-//        }
-//        $html[] = '</script>';
-        //$html[] = '<br /><br /><br />';
-        //$html[] = Translation :: get('Export').': <a href="index_reporting.php?go=export&template='.$this->get_registration_id().'&export=pdf&'.http_build_query($parameters).'">pdf</a>';
-        //        $html[] = '<div class="template-data">';
-        //        $html[] = '<br /><br /><br />';
-        //        $html[] = '<b><u>Template data</u></b><br />';
-        //        $html[] = '<b>Template title: </b><i>'.Translation::get($properties[ReportingTemplateRegistration :: PROPERTY_TITLE]).'</i><br />';
-        //        $html[] = '<b>Template description: </b><i>'.Translation :: get($properties[ReportingTemplateRegistration :: PROPERTY_DESCRIPTION]).'</i>';
-        //        $html[] = '</div>';
         return implode("\n", $html);
     }//get_footer
 
@@ -183,7 +166,6 @@ abstract class ReportingTemplate {
      */
     function show_reporting_block($name)
     {
-        //dump($this->reporting_blocks);
         foreach($this->reporting_blocks as $key => $value)
         {
             if($value[0]->get_name() == $name)
@@ -288,7 +270,6 @@ abstract class ReportingTemplate {
             foreach ($params as $key2 => $value2) {
                 $value[0]->add_function_parameter($key2,$value2);
             }
-            //$value[0]->set_function_parameters($params);
         }
     }//set_reporting_blocks_parameters
 

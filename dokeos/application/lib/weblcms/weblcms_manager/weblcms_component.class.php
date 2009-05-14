@@ -651,5 +651,10 @@ abstract class WeblcmsComponent
 		require_once $filename;
 		return new $class($weblcms);
 	}
+
+    function get_reporting_url($classname, $params)
+    {
+        return $this->get_parent()->get_reporting_url($classname, $params);
+    }
 }
 ?>

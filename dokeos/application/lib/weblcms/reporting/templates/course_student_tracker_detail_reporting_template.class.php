@@ -5,7 +5,7 @@
 require_once Path :: get_reporting_path(). 'lib/reporting_template.class.php';
 class CourseStudentTrackerDetailReportingTemplate extends ReportingTemplate
 {
-	function CourseStudentTrackerDetailReportingTemplate($parent,$id,$params,$trail)
+	function CourseStudentTrackerDetailReportingTemplate($parent,$id,$params)
 	{
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("UserInformation"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
@@ -22,7 +22,7 @@ class CourseStudentTrackerDetailReportingTemplate extends ReportingTemplate
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsLatestAccess"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_CONTAINER_DIMENSIONS));
 
-        parent :: __construct($parent,$id,$params,$trail);
+        parent :: __construct($parent,$id,$params);
 	}
 
     /**

@@ -77,6 +77,7 @@ class Weblcms extends WebApplication
 	const ACTION_PUBLISH_INTRODUCTION = 'introduction_publisher';
 	const ACTION_DELETE_INTRODUCTION = 'delete_introduction';
 	const ACTION_EDIT_INTRODUCTION = 'edit_introduction';
+    const ACTION_REPORTING = 'reporting';
 	
 	const ACTION_RENDER_BLOCK = 'block';
 
@@ -190,6 +191,9 @@ class Weblcms extends WebApplication
 			case self :: ACTION_EDIT_INTRODUCTION:
 				$component = WeblcmsComponent :: factory('IntroductionEditor', $this);
 				break;
+            case self :: ACTION_REPORTING:
+                $component = WeblcmsComponent :: factory('Reporting', $this);
+                break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
 				$component = WeblcmsComponent :: factory('Home', $this);
@@ -1406,5 +1410,10 @@ class Weblcms extends WebApplication
 	{
 		return $this;	
 	}
+
+    function get_reporting_url($classname, $params)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, ReportingManager::PARAM_TEMPLATE_NAME => $classname, ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS => $params));
+    }
 }
 ?>
