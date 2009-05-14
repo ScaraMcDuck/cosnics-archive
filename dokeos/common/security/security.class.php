@@ -16,7 +16,17 @@ class Security
 	function remove_XSS($variable)
 	{
 		// TODO: Should this be UTF-8 by default ?
-		return htmlentities($variable, ENT_QUOTES, 'UTF-8');
+		//return htmlentities($variable, ENT_QUOTES, 'UTF-8');
+		
+		$removers = array('<script' => '&lt;script', '</script>' => '&lt;\script&gt;', 'onunload' => '', 'onclick' => '', 'onload' => '',
+						  'onUnload' => '', 'onClick' => '', 'onLoad' => '');
+		
+		foreach($removers as $tag => $replace)
+		{
+			$variable = str_replace($tag, $replace, $variable);	
+		}
+		
+		return $variable;
 	}
 	
 	/**
