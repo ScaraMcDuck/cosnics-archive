@@ -2,7 +2,7 @@
 /**
  * @author Michael Kyndt
  */
-require_once dirname(__FILE__).'/../../../reporting_template_registration_table/default_reporting_template_registration_table_column_model.class.php';
+require_once Path :: get_reporting_path().'lib/reporting_template_registration_table/default_reporting_template_registration_table_column_model.class.php';
 require_once Path :: get_reporting_path().'lib/reporting_template_registration.class.php';
 /**
  * Table column model for the reporting browser table
