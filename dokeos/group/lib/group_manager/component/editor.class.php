@@ -23,7 +23,7 @@ class GroupManagerEditorComponent extends GroupManagerComponent
 		{
 			$group = $this->retrieve_group($id);
 			$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $_GET[GroupManager :: PARAM_GROUP_ID])), $group->get_name()));
-			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('GroupUpdate')));
+			$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $id)), Translation :: get('GroupUpdate')));
 		
 			if (!$this->get_user()->is_platform_admin())
 			{

@@ -17,8 +17,7 @@ class GroupManagerMoverComponent extends GroupManagerComponent
 	{		
 		$trail = new BreadcrumbTrail();
 		$admin = new AdminManager();
-		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('GroupMove')));
+		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));	
 
 		if (!$this->get_user()->is_platform_admin())
 		{
@@ -28,6 +27,8 @@ class GroupManagerMoverComponent extends GroupManagerComponent
 			exit;
 		}
 		$group = $this->retrieve_groups(new EqualityCondition(Group :: PROPERTY_ID, $_GET[GroupManager :: PARAM_GROUP_ID]))->next_result();
+
+        $trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $_GET[GroupManager :: PARAM_GROUP_ID])), $group->get_name()));
 
 		$form = new GroupMoveForm($group, $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $_GET[GroupManager :: PARAM_GROUP_ID])), $this->get_user());
 		
@@ -39,6 +40,7 @@ class GroupManagerMoverComponent extends GroupManagerComponent
 		}
 		else
 		{
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));
 			$this->display_header($trail);
 			echo Translation :: get('Group') . ': ' . $group->get_name(); 
 			$form->display();
