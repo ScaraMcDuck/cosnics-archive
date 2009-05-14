@@ -18,6 +18,8 @@ class TrackingManagerAdminEventBrowserComponent extends TrackingManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
+        $admin = new AdminManager();
+        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('EventsList')));
 		
 		if (!$this->get_user() || !$this->get_user()->is_platform_admin())
