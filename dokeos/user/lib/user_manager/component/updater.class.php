@@ -18,13 +18,14 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 		
 		$trail = new BreadcrumbTrail();
 		$admin = new AdminManager();
-		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserUpdate')));
 		$id = $_GET[UserManager :: PARAM_USER_USER_ID];
 		if ($id)
 		{
 			$user = $this->retrieve_user($id);
+
+            $trail->add(new Breadcrumb($this->get_url(), $user->get_fullname()));
 		
 			if (!$this->get_user()->is_platform_admin())
 			{
@@ -43,6 +44,8 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 			}
 			else
 			{
+                $trail->add(new Breadcrumb($this->get_url(array(UserManager::PARAM_USER_USER_ID => $id)), Translation :: get('Update')));
+
 				$this->display_header($trail);
 				$form->display();
 				$this->display_footer();
