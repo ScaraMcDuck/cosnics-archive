@@ -8,6 +8,7 @@ require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_library_path() . 'html/menu/tree_menu_renderer.class.php';
 require_once Path :: get_library_path() . 'html/menu/options_menu_renderer.class.php';
+require_once dirname(__FILE__) . '/rule_condition_translator.class.php';
 /**
  * This class provides a navigation menu to allow a user to browse through his
  * categories of learning objects.
@@ -30,6 +31,7 @@ class LearningPathTree extends HTML_Menu
 	private $current_tracker;
 	private $current_parent;
 	private $objects = array();
+	private $translator;
 	
 	private $dm;
 	/**
@@ -49,12 +51,12 @@ class LearningPathTree extends HTML_Menu
 		$this->lp_id = $lp_id;
 		$this->urlFmt = $url_format;
 		$this->lpi_tracker_data = $lpi_tracker_data;
+		$this->translator = new RuleConditionTranslator();
 		
 		$this->dm = RepositoryDataManager :: get_instance();
 		$menu = $this->get_menu($lp_id);
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
-		
 		
 		$this->clean_urls();
 		
@@ -146,6 +148,21 @@ class LearningPathTree extends HTML_Menu
 			}
 			else
 			{	
+				
+				$this->jump_urls[$lo->get_identifier()] = $this->step_urls[$this->step] = $this->get_url($this->step);
+				$status = 'enabled';
+				
+				if(get_class($lo) == 'ScormItem')
+				{
+					$status = $this->translator->get_status_from_item($lo, $lpi_tracker_data);
+					switch($status)
+					{
+						case 'skip': $this->step_urls[$this->step] = null; break;
+						case 'disabled': $this->jump_urls[$lo->get_identifier()] = $this->step_urls[$this->step] = null; break;
+						case 'hidden_from_choice': $this->jump_urls[$lo->get_identifier()] = null; break;
+					}
+				}
+				
 				$this->objects[$object->get_id()] = $lo;
 				if($lpi_tracker_data['completed'])
 				{
@@ -153,7 +170,7 @@ class LearningPathTree extends HTML_Menu
 					$this->taken_steps++;
 				}
 				
-				if($control_mode['choice'] != 0)
+				if($control_mode['choice'] != 0 && ($status != 'disabled' || $status != 'hidden_from_choice'))
 				{
 					$menu_item['url'] = $this->get_url($this->step);
 					$menu_item[OptionsMenuRenderer :: KEY_ID] = $this->step;	
@@ -166,18 +183,6 @@ class LearningPathTree extends HTML_Menu
 					$this->current_tracker = $lpi_tracker_data['active_tracker'];
 					$this->current_parent = $parent;
 				}
-			
-				if($this->check_condition_rules($lo, $lpi_tracker_data))
-				{
-					$this->step_urls[$this->step] = $this->get_url($this->step);
-				}
-				else
-				{
-					$this->step_urls[$this->step] = null;
-				}
-				
-				if($lo->get_type() == 'scorm_item')
-					$this->jump_urls[$lo->get_identifier()] = $this->get_url($this->step);
 				
 				$this->step++;
 				
@@ -191,6 +196,9 @@ class LearningPathTree extends HTML_Menu
 	
 	private function clean_urls()
 	{
+		if(!$this->get_current_parent())
+			return;
+			
 		$control_mode = $this->get_current_parent()->get_control_mode();
 		
 		if($control_mode['forwardOnly'] != 0)
@@ -237,82 +245,6 @@ class LearningPathTree extends HTML_Menu
 	function get_jump_urls()
 	{
 		return $this->jump_urls;
-	}
-	
-	function check_condition_rules($object, $tracker_data)
-	{
-		if(get_class($object) != 'ScormItem')
-			return true;
-		
-		if(($rules = $object->get_condition_rules()) == null)
-			return true;
-		
-		if(($objectives = $object->get_objectives()) != null)
-		{
-			if(($primary_objective = $objectives->get_primary_objective()) == null)
-			{
-				$objective_trackers = null;
-			}
-			else 
-			{
-				$ids = array();
-				foreach($tracker_data['trackers'] as $tracker)
-					$ids[] = $tracker->get_id();
-				
-				if(count($ids) == 0)
-				{
-					$objective_trackers = null;
-				}
-				else 
-				{
-					$conditions[] = new InCondition(WeblcmsLpiAttemptObjectiveTracker :: PROPERTY_LPI_VIEW_ID, $ids);		
-					$conditions[] = new EqualityCondition(WeblcmsLpiAttemptObjectiveTracker :: PROPERTY_OBJECTIVE_ID, $primary_objective->get_id());
-					$condition = new AndCondition($conditions);
-					$dummy = new WeblcmsLpiAttemptObjectiveTracker();
-					$objective_trackers = $dummy->retrieve_tracker_items($condition);
-					
-				}
-			}
-		}
-		else 
-		{
-			$objective_trackers = null;
-		}
-	
-		$pre_condition_rules = $rules->get_precondition_rules();
-		foreach($pre_condition_rules as $pre_condition_rule)
-		{
-			//$action = $pre_condition_rule->get_action();
-			$rules = $pre_condition_rule->get_conditions();
-
-			foreach($rules as $rule)
-			{
-				switch($rule)
-				{
-					case "satisfied":
-						if(is_array($objective_trackers))
-						{
-							foreach($objective_trackers as $objective_tracker)
-							{
-								if($objective_tracker->get_status() == 'completed')
-									return false;
-							}
-						}
-						else
-						{ 
-							foreach($tracker_data['trackers'] as $tracker)
-							{ 
-								if($tracker->get_status() == 'completed')
-									return false;
-							}
-						}
-				}
-			}
-			
-		}
-		
-		return true;
-		
 	}
 	
 	function get_objects()

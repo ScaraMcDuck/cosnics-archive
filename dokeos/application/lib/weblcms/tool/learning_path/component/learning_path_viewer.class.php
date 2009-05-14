@@ -79,8 +79,9 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 				$trail->add(new BreadCrumb($this->get_url(array('tool_action' => 'view', 'pid' => $pid, 'lp_action' => 'view_progress', 'cid' => $cid)), Translation :: get('ItemDetails')));
 			}
 			
-			$template = new LearningPathProgressReportingTemplate($this,$objects[$cid]);
-			$template->set_reporting_blocks_function_parameters(array('objects' => $objects, 'attempt_data' => $lpi_attempt_data, 'cid' => $cid, 'url' => $url));
+			$parameters = array('objects' => $objects, 'attempt_data' => $lpi_attempt_data, 'cid' => $cid, 'url' => $url);
+			$template = new LearningPathProgressReportingTemplate($this ,0, $parameters, $trail, $objects[$cid]);
+			$template->set_reporting_blocks_function_parameters($parameters);
 			$display = $template->to_html();
 		}
 		else
