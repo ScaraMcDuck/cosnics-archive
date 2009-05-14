@@ -32,6 +32,13 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
         $this->form = new RepositoryFilterForm($this, $this->get_url(array('category' => $this->get_parent_id())));
         $output = $this->get_learning_objects_html();
 
+        $query = $this->action_bar->get_query();
+        if(isset($query) && $query != '')
+        {
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Search')));
+            $trail->add(new Breadcrumb($this->get_url(), Translation :: get('SearchResultsFor').': '.$query));
+        }
+
         $array = $this->form->getSubmitValues();
 
         if(!$array['filter_type'] == 0)
@@ -40,7 +47,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
             {
                 $condition = new EqualityCondition(UserView :: PROPERTY_ID, $array['filter_type']);
                 $user_view = RepositoryDataManager::get_instance()->retrieve_user_views($condition)->next_result();
-                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . Translation :: get('View') . ': ' . $user_view->get_name()));
+                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . $user_view->get_name()));
             }
             else
                 $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Filter') . ': ' . ucfirst($array['filter_type'])));
