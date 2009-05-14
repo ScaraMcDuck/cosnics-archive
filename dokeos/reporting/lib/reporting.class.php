@@ -183,5 +183,35 @@ class Reporting{
             }
         }
     }//sort_array
+
+    public static function get_params($parent)
+    {
+        $params_session = $_SESSION[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+        $params_get = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+
+        foreach ($params_session as $key => $value) {
+            $params[$key] = $value;
+        }
+
+        foreach ($params_get as $key => $value) {
+            $params[$key] = $value;
+        }
+
+        if(!isset($params[ReportingManager::PARAM_COURSE_ID]))
+            $params[ReportingManager::PARAM_COURSE_ID] = Request :: get('course');
+
+        if(isset($_GET['pid']))
+            $params['pid'] = $_GET['pid'];
+
+        $params['url'] = $parent->get_url();
+
+        $params['parent'] = $parent;
+
+        $_SESSION[ReportingManager::PARAM_REPORTING_PARENT] = $parent;
+
+        $_SESSION[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
+
+        return $params;
+    }
 }//class reporting
 ?>

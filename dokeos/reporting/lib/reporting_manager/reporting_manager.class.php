@@ -411,10 +411,7 @@ class ReportingManager {
 
     function get_reporting_template_registration_url_content($parent,$classname,$params)
     {
-        //return $parent->get_url($params);
-        //Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,
         $_SESSION[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
-        return $parent->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,ReportingManager::PARAM_TEMPLATE_NAME => $classname));
-        //return $parent->get_url(array(ReportingManager :: PARAM_TEMPLATE_NAME => $classname));
+        return $parent->get_parent()->get_reporting_url($classname,$params);
     }
 }

@@ -5,14 +5,14 @@
 require_once Path :: get_reporting_path(). 'lib/reporting_template.class.php';
 class WikiReportingTemplate extends ReportingTemplate
 {
-	function WikiReportingTemplate($parent,$id,$params,$trail)
+	function WikiReportingTemplate($parent,$id,$params)
 	{
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsWikiMostVisitedPage"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
         $this->add_reporting_block(ReportingDataManager :: get_instance()->retrieve_reporting_block_by_name("WeblcmsWikiMostEditedPage"),
             array(ReportingTemplate :: PARAM_VISIBLE => ReportingTemplate :: REPORTING_BLOCK_VISIBLE, ReportingTemplate :: PARAM_DIMENSIONS => ReportingTemplate :: REPORTING_BLOCK_USE_BLOCK_DIMENSIONS));
 
-        parent :: __construct($parent,$id,$params,$trail);
+        parent :: __construct($parent,$id,$params);
     }
 
     /**

@@ -39,6 +39,7 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	const ACTION_RESET_PASSWORD = 'reset_password';
 	const ACTION_CHANGE_USER = 'change_user';
 	const ACTION_MANAGE_ROLES = 'manage_user_roles';
+    const ACTION_REPORTING = 'reporting';
 	
 	const ACTION_VIEW_BUDDYLIST = 'buddy_view';
 	const ACTION_CREATE_BUDDYLIST_CATEGORY = 'buddy_create_category';
@@ -213,6 +214,9 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 			case self :: ACTION_CHANGE_BUDDYLIST_ITEM_CATEGORY :
 				$component = UserManagerComponent :: factory('BuddyListItemCategoryChanger', $this);
 				break;
+            case self :: ACTION_REPORTING:
+                $component = UserManagerComponent :: factory('Reporting',$this);
+                break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_USERS);
 				$component = UserManagerComponent :: factory('AdminUserBrowser', $this);
@@ -681,6 +685,11 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CHANGE_BUDDYLIST_ITEM_STATUS,
 									 self :: PARAM_BUDDYLIST_ITEM => $item_id, 'status' => $status));
 	}
+
+    function get_reporting_url($classname, $params)
+    {
+        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, ReportingManager::PARAM_TEMPLATE_NAME => $classname, ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS => $params));
+    }
 	
 }
 ?>

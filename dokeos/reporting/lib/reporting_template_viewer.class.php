@@ -20,9 +20,7 @@ class ReportingTemplateViewer {
         $rpdm = ReportingDataManager :: get_instance();
         if(!$reporting_template_registration = $rpdm->retrieve_reporting_template_registration($reporting_template_registration_id))
         {
-            $this->parent->display_header($trail);
 			Display :: error_message(Translation :: get("NotFound"));
-			$this->parent->display_footer();
 			exit;
         }
 
@@ -44,18 +42,14 @@ class ReportingTemplateViewer {
         //registration doesn't exist
         if(!isset($reporting_template_registration))
         {
-            $this->parent->display_header($trail);
 			Display :: error_message(Translation :: get("NotFound"));
-			$this->parent->display_footer();
 			exit;
         }
 
         //is platform template
         if ($reporting_template_registration->isPlatformTemplate() && !$this->get_user()->is_platform_admin())
 		{
-			$this->parent->display_header($trail);
 			Display :: error_message(Translation :: get("NotAllowed"));
-			$this->parent->display_footer();
 			exit;
 		}
 
@@ -64,9 +58,7 @@ class ReportingTemplateViewer {
         $file = $base_path .$application. '/reporting/templates/'.DokeosUtilities :: camelcase_to_underscores($reporting_template_registration->get_classname()).'.class.php';;
         require_once($file);
 
-        $template = new $classname($this->parent,$reporting_template_registration->get_id(),$params,$trail);
-
-        //$template->set_reporting_blocks_function_parameters($params);
+        $template = new $classname($this->parent,$reporting_template_registration->get_id(),$params);
 
         if(isset($_GET['s']))
 		{
