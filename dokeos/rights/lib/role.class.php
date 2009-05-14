@@ -1,4 +1,10 @@
 <?php
+require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
+require_once Path :: get_user_path() . 'lib/user.class.php';
+require_once Path :: get_user_path() . 'lib/user_role.class.php';
+require_once Path :: get_group_path() . 'lib/group_data_manager.class.php';
+require_once Path :: get_group_path() . 'lib/group.class.php';
+require_once Path :: get_group_path() . 'lib/group_role.class.php';
 /**
  * @package users
  */
@@ -185,6 +191,54 @@ class Role
 		$rdm = RightsDataManager :: get_instance();
 		$this->set_id($rdm->get_next_role_id());
 		return $rdm->create_role($this);
+	}
+	
+	function get_users()
+	{
+		$udm = UserDataManager :: get_instance();
+		$condition = new EqualityCondition(UserRole :: PROPERTY_ROLE_ID, $this->get_id());
+		
+		$user_roles = $udm->retrieve_user_roles($condition);
+		$user_ids = array();
+		
+		while($user_role = $user_roles->next_result())
+		{
+			$user_ids[] = $user_role->get_user_id();
+		}
+		
+		if (count($user_ids) > 0)
+		{
+			$condition = new InCondition(User :: PROPERTY_USER_ID, $user_ids);
+			return $udm->retrieve_users($condition);
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	function get_groups()
+	{
+		$gdm = GroupDataManager :: get_instance();
+		$condition = new EqualityCondition(GroupRole :: PROPERTY_ROLE_ID, $this->get_id());
+		
+		$group_roles = $gdm->retrieve_group_roles($condition);
+		$group_ids = array();
+		
+		while($group_role = $group_roles->next_result())
+		{
+			$group_ids[] = $group_role->get_user_id();
+		}
+		
+		if (count($group_ids) > 0)
+		{
+			$condition = new InCondition(Group :: PROPERTY_ID, $group_ids);
+			return $gdm->retrieve_groups($condition);
+		}
+		else
+		{
+			return null;
+		}
 	}
 }
 ?>
