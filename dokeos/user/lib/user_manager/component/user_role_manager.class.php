@@ -17,7 +17,7 @@ class UserManagerUserRoleManagerComponent extends UserManagerComponent
 	{
 		$trail = new BreadcrumbTrail();
 		$admin = new AdminManager();
-		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION =>  UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
 
 		$user_id = Request :: get(UserManager :: PARAM_USER_USER_ID);
@@ -30,7 +30,8 @@ class UserManagerUserRoleManagerComponent extends UserManagerComponent
 		}
 		
 		$user = $this->retrieve_user($user_id);
-		
+
+        $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $user_id)), $user->get_fullname()));
 		$trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $user_id)), Translation :: get('ModifyUserRoles')));
 
 		$form = new UserRoleManagerForm($user, $this->get_user(), $this->get_url(array(UserManager :: PARAM_USER_USER_ID => $user_id)));

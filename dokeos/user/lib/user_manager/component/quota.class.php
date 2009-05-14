@@ -19,9 +19,9 @@ class UserManagerQuotaComponent extends UserManagerComponent
 		
 		$trail = new BreadcrumbTrail();
 		$admin = new AdminManager();
-		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserQuota')));
+		
 		
 		if (!$this->get_user()->is_platform_admin()) 
 		{
@@ -32,6 +32,9 @@ class UserManagerQuotaComponent extends UserManagerComponent
 		{
 	
 			$user = $this->retrieve_user($id);
+
+            $trail->add(new Breadcrumb($this->get_url(), $user->get_fullname()));
+
 			if (!$this->get_user()->is_platform_admin())
 			{
 				$this->display_header();
@@ -48,6 +51,7 @@ class UserManagerQuotaComponent extends UserManagerComponent
 			}
 			else
 			{
+                $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserQuota')));
 				$this->display_header($trail);
 				$form->display();
 				$this->display_footer();
