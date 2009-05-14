@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/reporting_template_registration_browser_table/r
 
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
-class ReportingManagerReportingTemplateRegistrationBrowserComponent extends ReportingManagerComponent
+class ReportingManagerBrowserComponent extends ReportingManagerComponent
 {
     private $action_bar;
     private $application;
@@ -20,6 +20,8 @@ class ReportingManagerReportingTemplateRegistrationBrowserComponent extends Repo
         $application = $this->application = Request :: get('application');
 
         $trail = new BreadcrumbTrail();
+        $admin = new AdminManager();
+        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
         $trail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
         //$trail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application)), Translation :: get(Application :: application_to_class($application)) . '&nbsp;' . Translation :: get('Template')));
 

@@ -47,7 +47,7 @@ class ReportingTemplateViewer {
         }
 
         //is platform template
-        if ($reporting_template_registration->isPlatformTemplate() && !$this->get_user()->is_platform_admin())
+        if ($reporting_template_registration->isPlatformTemplate() && !$this->parent->get_user()->is_platform_admin())
 		{
 			Display :: error_message(Translation :: get("NotAllowed"));
 			exit;

@@ -62,26 +62,26 @@ class ReportingManager {
         switch ($action)
         {
             case self :: ACTION_ADD_TEMPLATE :
-                $component = ReportingManagerComponent :: factory('ReportingTemplateRegistrationAdd', $this);
+                $component = ReportingManagerComponent :: factory('Add', $this);
                 break;
             case self :: ACTION_DELETE_TEMPLATE :
-                $component = ReportingManagerComponent :: factory('ReportingTemplateRegistrationDelete', $this);
+                $component = ReportingManagerComponent :: factory('Delete', $this);
                 break;
             case self :: ACTION_BROWSE_TEMPLATES :
-                $component = ReportingManagerComponent :: factory('ReportingTemplateRegistrationBrowser', $this);
+                $component = ReportingManagerComponent :: factory('Browser', $this);
                 break;
             case self :: ACTION_VIEW_TEMPLATE :
-                $component = ReportingManagerComponent :: factory('ReportingTemplateRegistrationView',$this);
+                $component = ReportingManagerComponent :: factory('View',$this);
                 break;
             case self :: ACTION_EDIT_TEMPLATE :
-                $component = ReportingManagerComponent :: factory('ReportingTemplateRegistrationEdit',$this);
+                $component = ReportingManagerComponent :: factory('Edit',$this);
                 break;
             case self :: ACTION_EXPORT :
-                $component = ReportingManagerComponent :: factory('ReportingExport', $this);
+                $component = ReportingManagerComponent :: factory('Export', $this);
                 break;
             default:
                 $this->set_action(self :: ACTION_BROWSE_TEMPLATES);
-                $component = ReportingManagerComponent :: factory('ReportingTemplateRegistrationBrowser', $this);
+                $component = ReportingManagerComponent :: factory('Browser', $this);
                 break;
         }
         $component->run();

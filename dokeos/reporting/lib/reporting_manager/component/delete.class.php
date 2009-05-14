@@ -10,7 +10,7 @@ require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.c
 /**
  * 
  */
-class ReportingManagerReportingTemplateRegistrationDeleteComponent extends ReportingManagerComponent
+class ReportingManagerDeleteComponent extends ReportingManagerComponent
 {
 	private $action_bar;
 	/**
