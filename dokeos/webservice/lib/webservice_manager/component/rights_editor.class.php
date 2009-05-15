@@ -228,8 +228,11 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 	function show_rights_list()
 	{        
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)), Translation :: get('BrowseWebservices')));		
-        $trail->add(new Breadcrumb($this->get_url(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES)), $this->message));
+        $admin = new AdminManager();
+        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+		$trail->add(new Breadcrumb($this->get_url(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)), Translation :: get('Webservices')));
+		$trail->add(new Breadcrumb($this->get_url(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)), Translation :: get('BrowseWebservices')));
+        $trail->add(new Breadcrumb($this->get_url(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES, WebserviceManager::PARAM_WEBSERVICE_ID => Request :: get(WebserviceManager::PARAM_WEBSERVICE_ID))), $this->message));
         
         			
 			$this->display_header($trail);
