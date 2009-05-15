@@ -25,7 +25,16 @@ class WeblcmsAdminCourseBrowserComponent extends WeblcmsComponent
 		$this->category = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
 		
 		$trail = new BreadcrumbTrail();
+        $admin = new AdminManager();
+        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Course')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseList')));
+
+        if($this->category)
+        {
+            $category = WeblcmsDataManager::get_instance()->retrieve_course_category($this->category);
+            $trail->add(new Breadcrumb($this->get_url(), $category->get_name()));
+        }
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
