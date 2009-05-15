@@ -6,12 +6,15 @@ require_once dirname(__FILE__).'/../admin_manager.class.php';
 require_once dirname(__FILE__).'/../admin_manager_component.class.php';
 require_once dirname(__FILE__).'/system_announcement_publication_browser/system_announcement_publication_browser_table.class.php';
 require_once Path :: get_library_path().'html/toolbar/toolbar.class.php';
+require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
+
 /**
  * Admin component to manage system announcements
  */
 class AdminSystemAnnouncementBrowserComponent extends AdminManagerComponent
 {
-    
+	private $action_bar;
+		
 	function run()
 	{
 		$trail = new BreadcrumbTrail();		
@@ -24,13 +27,16 @@ class AdminSystemAnnouncementBrowserComponent extends AdminManagerComponent
 		{
 			$this->not_allowed();
 		}
+		$this->action_bar = $this->get_action_bar();
 		
 		$publications_table = $this->get_publications_html();
-		$toolbar = $this->get_toolbar();
+		$toolbar = $this->get_action_bar();
 		
 		$this->display_header($trail, true);
-		echo $toolbar;
+		echo $this->action_bar->as_html();
+		echo '<div id="action_bar_browser">';
 		echo $publications_table;
+		echo '</div>';
 		$this->display_footer();
 	}
 	
@@ -44,6 +50,25 @@ class AdminSystemAnnouncementBrowserComponent extends AdminManagerComponent
 		$html[] = $table->as_html();
 		
 		return implode($html, "\n");
+	}
+	
+	function add_actionbar_item($item)
+	{
+		$this->action_bar->add_tool_action($item);
+	}
+	
+	function get_action_bar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+		
+		if(!isset($_GET['pid']))
+		{
+			$action_bar->set_search_url($this->get_url());
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_system_announcement_publication_creating_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		}
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+        $action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('announcement tool'));
+		return $action_bar;
 	}
 	
 	function get_condition()
@@ -76,14 +101,6 @@ class AdminSystemAnnouncementBrowserComponent extends AdminManagerComponent
 		}
 		
 		return $condition;
-	}
-	
-	function get_toolbar()
-	{
-		$toolbar = new Toolbar();
-		$toolbar->add_item(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_system_announcement_publication_creating_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		
-		return $toolbar->as_html();
 	}
 }
 ?>

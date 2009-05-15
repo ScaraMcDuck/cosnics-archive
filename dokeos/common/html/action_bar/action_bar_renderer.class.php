@@ -137,7 +137,7 @@ class ActionBarRenderer extends WikiActionbar
 		$common_actions = $this->get_common_actions();
 		$tool_actions = $this->get_tool_actions();
 		
-		if (count($common_actions) > 0)
+		if (count($common_actions) >= 0)
 		{
 //			if (count($tool_actions) > 0 || !is_null($this->search_form))
 //			{
@@ -155,7 +155,7 @@ class ActionBarRenderer extends WikiActionbar
 			$html[] = '</div>';
 		}
 		
-		if (count($tool_actions) > 0)
+		if (count($tool_actions) >= 0)
 		{
 //			if (count($tool_actions) > 0)
 //			{
