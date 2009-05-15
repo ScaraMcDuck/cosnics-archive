@@ -22,8 +22,10 @@ class HomeManagerCreatorComponent extends HomeManagerComponent
 		$this_section='platform_admin';
 		$type = $_GET[HomeManager :: PARAM_HOME_TYPE];
 		$trail = new BreadcrumbTrail();
-		
+		$admin = new AdminManager();
+        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
+        $trail->add(new Breadcrumb($this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManager')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeCreator')));
 		
 		$user = $this->get_user();		
