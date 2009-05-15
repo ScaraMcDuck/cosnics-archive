@@ -95,8 +95,11 @@ class DocumentForm extends LearningObjectForm
 		$object->set_filesize(Filesystem::get_disk_space($full_path));
 		$this->set_learning_object($object);
 		$document = parent :: create_learning_object();
+		
 		if($values['uncompress'])
 		{
+			$documents = array();
+			
 			$filecompression = Filecompression::factory();
 			$dir = $filecompression->extract_file($document->get_full_path());
 			$entries = Filesystem::get_directory_content($dir);
@@ -143,11 +146,16 @@ class DocumentForm extends LearningObjectForm
 						$object->set_parent_id($created_directories[dirname($url)]);
 					}
 					$object->update();
+					$documents[] = $object;
 				}
 			}
 			Filesystem::remove($dir);
+			return $documents;
 		}
-		return $document;
+		else
+		{
+			return $document;
+		}
 	}
 	function update_learning_object()
 	{

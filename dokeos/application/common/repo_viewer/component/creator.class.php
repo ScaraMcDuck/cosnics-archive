@@ -124,7 +124,7 @@ abstract class RepoViewerCreatorComponent extends RepoViewerComponent
 				$learning_object = $form->create_learning_object();
 			//$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_EDIT => $edit));
 			//$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id(), RepoViewer :: PARAM_EDIT => $edit));
-			if($learning_object->is_complex_learning_object() && $this->redirect_complex($learning_object->get_type()))
+			if(!is_array($learning_object) && $learning_object->is_complex_learning_object() && $this->redirect_complex($learning_object->get_type()))
 			{
 				$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id()));
 				$_SESSION['redirect_url'] = $this->get_url($redirect_params);
@@ -132,7 +132,18 @@ abstract class RepoViewerCreatorComponent extends RepoViewerComponent
 			}
 			else
 			{
-				$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $learning_object->get_id()));
+				if(is_array($learning_object))
+				{
+					$ids = array();
+					foreach($learning_object as $lo)
+						$ids[] = $lo->get_id();
+				}
+				else
+				{
+					$ids = $learning_object->get_id();
+				}
+				
+				$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $ids));
 				$this->redirect(null, false, $redirect_params);
 			}
 		}
