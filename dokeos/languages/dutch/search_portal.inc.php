@@ -10,8 +10,9 @@ $lang['search_portal']['NoResultsFound'] = 'Geen zoekresultaten gevonden';
 $lang['search_portal']['Error'] = 'Fout';
 $lang['search_portal']['NoOptionsAvailable'] = 'Geen opties beschikbaar';
 $lang['search_portal']['Reset'] = 'Herstart';
-$lang['search_portal']['MyAccount'] = ' ';
-$lang['search_portal']['Repository'] = ' ';
-$lang['search_portal']['Administration'] = ' ';
-$lang['search_portal']['Logout'] = ' ';
+$lang['search_portal']['MyAccount'] = 'Mijn account';
+$lang['search_portal']['Repository'] = 'Bewaarplaats';
+$lang['search_portal']['Administration'] = 'Administratie';
+$lang['search_portal']['Logout'] = 'Uitloggen';
+$lang['search_portal']['SearchResultsFor'] = 'Zoekresultaten voor:';
 ?>
