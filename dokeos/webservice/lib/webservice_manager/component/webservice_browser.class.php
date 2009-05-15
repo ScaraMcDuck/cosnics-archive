@@ -24,9 +24,13 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
 	{
 
 		$trail = new BreadcrumbTrail();
+        $admin = new AdminManager();
+        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Webservices')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseWebservices')));
-		
+        $category = WebserviceDataManager::get_instance()->retrieve_webservice_category($this->get_webservice_category());
+        if($category)
+            $trail->add(new Breadcrumb($this->get_url(), $category->get_name()));
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($trail);
