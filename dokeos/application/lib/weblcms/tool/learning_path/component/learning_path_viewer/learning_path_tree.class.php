@@ -172,7 +172,7 @@ class LearningPathTree extends HTML_Menu
 					$this->taken_steps++;
 				}
 				
-				if($control_mode['choice'] != 0 && ($status != 'disabled' || $status != 'hidden_from_choice'))
+				if((!array_key_exists('choice', $control_mode) || $control_mode['choice'] != 0) && ($status != 'disabled' || $status != 'hidden_from_choice'))
 				{
 					$menu_item['url'] = $this->get_url($this->step);
 					$menu_item[OptionsMenuRenderer :: KEY_ID] = $this->step;	

@@ -28,7 +28,7 @@ class ScormImport extends LearningObjectImport
 		$options = 	array(XML_UNSERIALIZER_OPTION_FORCE_ENUM => 
 				   		array('item', 'organization', 'resource', 'file', 'dependency', 'adlnav:hideLMSUI', 
 				   		'imsss:preConditionRule', 'imsss:postConditionRule', 'imsss:exitConditionRule', 'imsss:ruleCondition',
-				   		'imsss:objective'
+				   		'imsss:objective', 'imsss:sequencing'
 				   	));
 		return DokeosUtilities :: extract_xml_file($file, $options);
 	}
@@ -57,8 +57,10 @@ class ScormImport extends LearningObjectImport
 		$resources_path = $this->get_user()->get_id() . '/' . $xml_data['identifier'] . '/' . $base_path . $resources_base_path;
 		$resources_list = $this->build_resources_list($xml_data['resources']['resource'], $resources_path);
 
+		$sequencing_collections = $xml_data['imsss:sequencingCollection']; 
+		
 		// Build the organizations tree
-		$learning_paths = $this->build_organizations($xml_data['organizations']['organization'], $resources_list);
+		$learning_paths = $this->build_organizations($xml_data['organizations']['organization'], $resources_list, $sequencing_collections);
 		//dump($xml_data);
 		// Remove the temporary files
 		FileSystem :: remove($extracted_files_dir);
@@ -90,14 +92,14 @@ class ScormImport extends LearningObjectImport
 	 * Build the learning path list from the SCORM organizations
 	 * @param Array of Strings - SCORM organizations
 	 */
-	private function build_organizations($organizations, $resources_list)
+	private function build_organizations($organizations, $resources_list, $sequencing_collections)
 	{
 		$learning_paths = array();
 		
 		foreach($organizations as $organization)
 		{
-			$learning_path = $this->create_learning_path($organization);
-			$this->build_items($organization['item'], $resources_list, $learning_path);
+			$learning_path = $this->create_learning_path($organization, $sequencing_collections);
+			$this->build_items($organization['item'], $resources_list, $learning_path, $sequencing_collections);
 			$learning_paths[] = $learning_path;
 		}
 		
@@ -112,19 +114,19 @@ class ScormImport extends LearningObjectImport
 	 * @param Array of Strings $resources_list - The resources list
 	 * @param LearningPath $parent_learning_path - The parent learning path
 	 */
-	private function build_items($items, $resources_list, $parent_learning_path)
+	private function build_items($items, $resources_list, $parent_learning_path, $sequencing_collections)
 	{
 		foreach($items as $item)
 		{
 			if($item['item'])
 			{
-				$sub_learning_path = $this->create_learning_path($item);
-				$this->build_items($item['item'], $resources_list, $sub_learning_path);
+				$sub_learning_path = $this->create_learning_path($item, $sequencing_collections);
+				$this->build_items($item['item'], $resources_list, $sub_learning_path, $sequencing_collections);
 				$this->add_sub_learning_path_to_learning_path($parent_learning_path, $sub_learning_path);
 			}
 			else
 			{
-				$scorm_item = $this->create_scorm_item($item, $resources_list[$item['identifierref']]);
+				$scorm_item = $this->create_scorm_item($item, $resources_list[$item['identifierref']], $sequencing_collections);
 				$this->add_scorm_item_to_learning_path($scorm_item, $parent_learning_path, $item);
 			}
 		}
@@ -138,7 +140,7 @@ class ScormImport extends LearningObjectImport
 	 * @param String $title
 	 * @return LearningPath
 	 */
-	private function create_learning_path($item)
+	private function create_learning_path($item, $sequencing_collections)
 	{
 		$title = $item['title'];
 		$learning_path = AbstractLearningObject :: factory('learning_path');
@@ -147,7 +149,20 @@ class ScormImport extends LearningObjectImport
 		$learning_path->set_parent_id($this->get_category());
 		$learning_path->set_owner_id($this->get_user()->get_id());
 		
-		$sequencing = $item['imsss:sequencing'];
+		$lp_sequencing = $item['imsss:sequencing'][0];
+
+		//$lp_sequencing = array_filter($lp_sequencing, array($this, "remove_null_values"));
+
+		$global_sequencing = array();
+		foreach($sequencing_collections['imsss:sequencing'] as $sequencing)
+		{ 
+			if($sequencing['ID'] == $lp_sequencing['IDRef'])
+			{
+				$global_sequencing = $sequencing;	
+			}
+		}
+
+		$sequencing = array_merge($global_sequencing, $lp_sequencing);
 		
 		if($sequencing['imsss:controlMode'])
 			$learning_path->set_control_mode($sequencing['imsss:controlMode']);
@@ -157,13 +172,18 @@ class ScormImport extends LearningObjectImport
 		return $learning_path;
 	}
 	
+	function remove_null_values($var)
+	{
+		return $var != null;
+	}
+	
 	/**
 	 * Creates a SCORM item from an item tag in the imsmanifest.xml
 	 *
 	 * @param Array[String] $item
 	 * @return ScormItem
 	 */
-	private function create_scorm_item($item, $path)
+	private function create_scorm_item($item, $path, $sequencing_collections)
 	{
 		$scorm_item = AbstractLearningObject :: factory('scorm_item');
 		$scorm_item->set_title($item['title']);
@@ -192,7 +212,22 @@ class ScormImport extends LearningObjectImport
 		if($hideLMSUI)
 			$scorm_item->set_hide_lms_ui($hideLMSUI);
 		
-		$sequencing = $item['imsss:sequencing'];
+		//Sequencing;
+		$item_sequencing = $item['imsss:sequencing'][0];
+
+		//$item_sequencing = array_filter($item_sequencing, array($this, "remove_null_values"));
+
+		$global_sequencing = array();
+		foreach($sequencing_collections['imsss:sequencing'] as $sequencing)
+		{ 
+			if($sequencing['ID'] == $item_sequencing['IDRef'])
+			{
+				$global_sequencing = $sequencing;	
+			}
+		}
+
+		$sequencing = array_merge($global_sequencing, $item_sequencing);
+
 		if($sequencing['imsss:controlMode'])
 			$scorm_item->set_control_mode($sequencing['imsss:controlMode']);	
 		
@@ -201,10 +236,7 @@ class ScormImport extends LearningObjectImport
 			$scorm_item->set_time_limit($limit_conditions['attemptAbsoluteDurationLimit']);	
 		
 		$objectives = $sequencing['imsss:objectives'];
-		
-		//if(array_key_exists('imsss:primaryObjective', $objectives))
-		//{
-		
+
 		$primary_objective = $objectives['imsss:primaryObjective'];
 		
 		if($primary_objective)
