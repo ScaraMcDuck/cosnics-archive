@@ -13,6 +13,7 @@ class RepositoryManagerUserViewUpdaterComponent extends RepositoryManagerCompone
      */
     function run()
     {
+    	$admin = new AdminManager();
         $trail = new BreadcrumbTrail(false);
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
         $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS)), Translation :: get('UserViewList')));
