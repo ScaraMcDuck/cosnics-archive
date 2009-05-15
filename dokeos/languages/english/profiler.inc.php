@@ -82,4 +82,8 @@ $lang['profiler']['MoveDown'] = 'Move down';
 $lang['profiler']['MoveUp'] = 'Move up';
 $lang['profiler']['MoveUpNA'] = 'Move up not available';
 $lang['profiler']['MoveDownNA'] = 'Move down not available';
+$lang['profiler']['AddCategory'] = 'Add category';
+$lang['profiler']['CategoryMoved'] = 'Category moved';
+$lang['profiler']['Move'] = 'Move';
+$lang['profiler']['UpdateCategory'] = 'Update category';
 ?>
