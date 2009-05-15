@@ -145,6 +145,7 @@ class LearningPathTree extends HTML_Menu
 			if(count($sub_menu_items) > 0)
 			{
 				$menu_item['sub'] = $sub_menu_items;
+				//Calculation PreConditions
 			}
 			else
 			{	
