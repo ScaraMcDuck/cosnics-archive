@@ -11,7 +11,9 @@ class LearningObjectPublicationCategoryManager extends CategoryManager
 	
 	function LearningObjectPublicationCategoryManager($parent)
 	{
-		parent :: __construct($parent);
+		$trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_MANAGE_CATEGORIES)), Translation :: get('ManageCategories')));
+		parent :: __construct($parent, $trail);
 	}
 
 	function get_category()
