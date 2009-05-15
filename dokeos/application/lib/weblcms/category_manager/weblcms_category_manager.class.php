@@ -10,7 +10,9 @@ class WeblcmsCategoryManager extends CategoryManager
 {
 	function WeblcmsCategoryManager($parent)
 	{
-		parent :: __construct($parent);
+		$trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($parent->get_url(), Translation :: get('ManageCategories')));
+		parent :: __construct($parent, $trail);
 	}
 
 	function get_category()

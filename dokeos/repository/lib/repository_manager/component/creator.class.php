@@ -88,7 +88,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			{
 				$object = $lo_form->create_learning_object();
 
-				if($object->is_complex_learning_object() || count($extra_params) == 2 || count($extra_params) == 3)
+				if(!is_array($object) && ($object->is_complex_learning_object() || count($extra_params) == 2 || count($extra_params) == 3))
 				{
 					//if($object->get_type() == 'assessment' || $object->get_type() == 'forum')
 					{
@@ -103,7 +103,15 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 				}
 				else
 				{
-					$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), $object->get_parent_id());
+					if(is_array($object))
+					{
+						$parent = $object[0]->get_parent_id();
+					}
+					else
+					{
+						$parent = $object->get_parent_id();
+					}
+					$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get('ObjectCreated'), $parent);
 				}
 			}
 			else

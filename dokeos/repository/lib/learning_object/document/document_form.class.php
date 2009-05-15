@@ -103,7 +103,9 @@ class DocumentForm extends LearningObjectForm
 			$filecompression = Filecompression::factory();
 			$dir = $filecompression->extract_file($document->get_full_path());
 			$entries = Filesystem::get_directory_content($dir);
-			foreach($entries as $index => $entry)
+			$wdm = RepositoryDataManager :: get_instance();
+			$created_directories = array();
+			foreach($entries as $entry)
 			{
 				$url = str_replace(realpath($dir),'',realpath($entry));
 				if(is_dir($entry))
@@ -119,14 +121,21 @@ class DocumentForm extends LearningObjectForm
 					}
 					$object->update();*/
 					
-					$category = new RepositoryCategory();
-					$category->set_name(basename($url));
-					if(isset($created_directories[dirname($url)]))
+					//Check for existing category
+					$condition = new EqualityCondition(RepositoryCategory :: PROPERTY_NAME, basename($url));
+					$categories = $wdm->retrieve_categories($condition);
+					$category = $categories->next_result();
+					if($category == null)
 					{
-						$category->set_parent($created_directories[dirname($url)]);
+						$category = new RepositoryCategory();
+						$category->set_name(basename($url));
+						if(isset($created_directories[dirname($url)]))
+						{
+							$category->set_parent($created_directories[dirname($url)]);
+						}
+						$category->set_user_id($owner);
+						$category->create();
 					}
-					$category->set_user_id($owner);
-					$category->create();
 					$created_directories[$url] = $category->get_id();
 				}
 				elseif(is_file($entry))
