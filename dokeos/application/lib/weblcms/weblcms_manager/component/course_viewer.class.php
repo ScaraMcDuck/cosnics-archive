@@ -125,8 +125,13 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 					case Course :: BREADCRUMB_COURSE_HOME : $title = Translation :: get('CourseHome'); break;
 					default: $title = $this->get_course()->get_visual(); break;
 				}
-				
-				$trail->add(new Breadcrumb($this->get_url(array('go' => null, 'course' => null)), Translation :: get('MyCourses')));
+
+                if(Request :: get('previous') == 'admin')
+                {
+                    $admin = new AdminManager();
+                    $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+                }else
+                    $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'course' => null)), Translation :: get('MyCourses')));
 				$trail->add(new Breadcrumb($this->get_url(), $title));
 				
 				$wdm = WeblcmsDataManager :: get_instance();
