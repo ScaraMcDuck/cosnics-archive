@@ -2,6 +2,10 @@
 require_once Path :: get_library_path() . 'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__) . '/../{L_OBJECT_CLASS}.class.php';
 
+/**
+ * This class describes the form for a {OBJECT_CLASS} object.
+ * @author {AUTHOR}
+ **/
 class {OBJECT_CLASS}Form extends FormValidator 
 {	
 	const TYPE_CREATE = 1;

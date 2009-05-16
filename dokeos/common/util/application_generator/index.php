@@ -5,11 +5,14 @@ include(dirname(__FILE__) . '/settings.inc.php');
 include(dirname(__FILE__) . '/../my_template.php');
 include(dirname(__FILE__) . '/data_class_generator/data_class_generator.class.php');
 include(dirname(__FILE__) . '/form_generator/form_generator.class.php');
+include(dirname(__FILE__) . '/data_manager_generator/data_manager_generator.class.php');
 include(dirname(__FILE__) . '/rights_generator/rights_generator.class.php');
 include(dirname(__FILE__) . '/install_generator/install_generator.class.php');
 
 $location = $application['location'];
 $name = $application['name'];
+$author = $application['author'];
+
 $data_class_generator = new DataClassGenerator();
 $form_generator = new FormGenerator();
 
@@ -33,15 +36,20 @@ foreach($files as $file)
 	$classname = DokeosUtilities :: underscores_to_camelcase(str_replace('.xml', '', basename($file)));
 	$description = 'This class describes a ' . $classname . ' data object';
 	
-	$data_class_generator->generate_data_class($location, $classname , $properties, $name, $description, $application['author']);
-	$form_generator->generate_form($location . 'forms/', $classname, $properties);
+	$data_class_generator->generate_data_class($location, $classname , $properties, $name, $description, $author);
+	$form_generator->generate_form($location . 'forms/', $classname, $properties, $author);
+	
+	$classes[] = $classname;
 }
+
+//Generate the Data Managers
+generate_data_managers($location, $name, $classes, $author);
 
 //Generate Rights Files
 generate_rights_files($location, $name);
 
 //Generate Install Files
-generate_install_files($location, $name);
+generate_install_files($location, $name, $author);
 
 /**
  * Create folders for the application
@@ -92,6 +100,14 @@ function retrieve_properties_from_xml_file($file)
 	return $properties;
 }
 
+function generate_data_managers($location, $name, $classes, $author)
+{
+	$data_manager_location = $location;
+	$database_location = $location . 'data_manager/';
+	$data_manager_generator = new DataManagerGenerator();
+	$data_manager_generator->generate_data_managers($data_manager_location, $database_location, $name, $classes, $author);
+}
+
 /**
  * Generates rights files for an application
  *
@@ -111,10 +127,10 @@ function generate_rights_files($location, $name)
  * @param String $location - The application location
  * @param String $name - The application name
  */
-function generate_install_files($location, $name)
+function generate_install_files($location, $name, $author)
 {
 	$install_location = $location . 'install/';
 	$install_generator = new InstallGenerator();
-	$install_generator->generate_install_files($install_location, $name);
+	$install_generator->generate_install_files($install_location, $name, $author);
 }
 ?>
