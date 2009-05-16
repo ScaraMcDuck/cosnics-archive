@@ -2,7 +2,7 @@
 /**
  * @package application.lib.portfolio.portfolio_manager
  */
-require_once dirname(__FILE__).'/../myportfolio.class.php';
+require_once dirname(__FILE__).'/../myportfolio_manager.class.php';
 require_once dirname(__FILE__).'/../portfolio_component.class.php';
 
 class PortfolioDeleterComponent extends PortfolioComponent
