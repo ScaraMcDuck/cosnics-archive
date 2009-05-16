@@ -18,7 +18,7 @@ class PersonalMessageRepoViewerFinderComponent extends RepoViewerFinderComponent
 	function PersonalMessageRepoViewerFinderComponent($parent)
 	{
 		parent :: __construct($parent);
-		$this->get_form()->addElement('hidden', PersonalMessenger :: PARAM_ACTION);
+		$this->get_form()->addElement('hidden', PersonalMessengerManager :: PARAM_ACTION);
 		$this->get_form()->addElement('hidden', Application :: PARAM_APPLICATION);
 	}
 }

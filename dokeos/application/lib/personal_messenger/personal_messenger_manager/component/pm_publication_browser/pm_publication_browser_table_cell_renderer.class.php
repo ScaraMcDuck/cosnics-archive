@@ -6,7 +6,7 @@
  */
 require_once dirname(__FILE__).'/pm_publication_browser_table_column_model.class.php';
 require_once Path :: get_application_path().'lib/personal_messenger/pm_publication_table/default_pm_publication_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../../personal_messenger.class.php';
+require_once dirname(__FILE__).'/../../personal_messenger_manager.class.php';
 /**
  * Cell render for the personal message publication browser table
  */
@@ -80,7 +80,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 			'img' => Theme :: get_common_image_path().'action_delete.png'
 		);
 		
-		if ($this->browser->get_folder() == PersonalMessenger :: ACTION_FOLDER_INBOX)
+		if ($this->browser->get_folder() == PersonalMessengerManager :: ACTION_FOLDER_INBOX)
 		{
 			$reply_url = $this->browser->get_publication_reply_url($personal_message);
 			$toolbar_data[] = array(

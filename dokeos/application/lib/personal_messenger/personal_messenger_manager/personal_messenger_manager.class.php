@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/personal_messenger_component.class.php';
+require_once dirname(__FILE__).'/personal_messenger_manager_component.class.php';
 require_once dirname(__FILE__).'/../personal_messenger_data_manager.class.php';
 require_once dirname(__FILE__).'/../../web_application.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
@@ -23,7 +23,7 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
  * A personal messenger manager allows a user to send/receive personal messages.
  * For each functionality a component is available.
  */
- class PersonalMessenger extends WebApplication
+ class PersonalMessengerManager extends WebApplication
  {
 
  	const APPLICATION_NAME = 'personal_messenger';
@@ -59,20 +59,20 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 	 * Constructor
 	 * @param User $user The current user
 	 */
-    function PersonalMessenger($user = null)
+    function PersonalMessengerManager($user = null)
     {
     	$this->user = $user;
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
 		$this->parse_input_from_table();
 
-		if (isset($_GET[PersonalMessenger :: PARAM_FOLDER]))
+		if (isset($_GET[PersonalMessengerManager :: PARAM_FOLDER]))
 		{
-			$this->folder = $_GET[PersonalMessenger :: PARAM_FOLDER];
+			$this->folder = $_GET[PersonalMessengerManager :: PARAM_FOLDER];
 		}
 		else
 		{
-			$this->folder = PersonalMessenger :: ACTION_FOLDER_INBOX;
+			$this->folder = PersonalMessengerManager :: ACTION_FOLDER_INBOX;
 		}
     }
 
@@ -91,26 +91,26 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 		switch ($action)
 		{
 			case self :: ACTION_BROWSE_MESSAGES :
-				$component = PersonalMessengerComponent :: factory('Browser', $this);
+				$component = PersonalMessengerManagerComponent :: factory('Browser', $this);
 				break;
 			case self :: ACTION_VIEW_PUBLICATION :
-				$component = PersonalMessengerComponent :: factory('Viewer', $this);
+				$component = PersonalMessengerManagerComponent :: factory('Viewer', $this);
 				break;
 			case self :: ACTION_VIEW_ATTACHMENTS :
-				$component = PersonalMessengerComponent :: factory('AttachmentViewer', $this);
+				$component = PersonalMessengerManagerComponent :: factory('AttachmentViewer', $this);
 				break;
 			case self :: ACTION_DELETE_PUBLICATION :
-				$component = PersonalMessengerComponent :: factory('Deleter', $this);
+				$component = PersonalMessengerManagerComponent :: factory('Deleter', $this);
 				break;
 			case self :: ACTION_MARK_PUBLICATION :
-				$component = PersonalMessengerComponent :: factory('Marker', $this);
+				$component = PersonalMessengerManagerComponent :: factory('Marker', $this);
 				break;
 			case self :: ACTION_CREATE_PUBLICATION :
-				$component = PersonalMessengerComponent :: factory('Publisher', $this);
+				$component = PersonalMessengerManagerComponent :: factory('Publisher', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_MESSAGES);
-				$component = PersonalMessengerComponent :: factory('Browser', $this);
+				$component = PersonalMessengerManagerComponent :: factory('Browser', $this);
 		}
 		$component->run();
 	}
@@ -199,7 +199,7 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 		$extra_items[] = $create;
 
 		$temp_replacement = '__FOLDER__';
-		$url_format = $this->get_url(array (PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES, PersonalMessenger :: PARAM_FOLDER => $temp_replacement));
+		$url_format = $this->get_url(array (PersonalMessengerManager :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$user_menu = new PersonalMessengerMenu($this->folder, $url_format, $extra_items);
 
@@ -608,7 +608,7 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 //	function get_publication_reply_url($personal_message)
 //	{
 //		return $this->get_url(
-//			array (PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_CREATE_PUBLICATION, 
+//			array (PersonalMessengerManager :: PARAM_ACTION => PersonalMessengerManager :: ACTION_CREATE_PUBLICATION, 
 //				   PersonalMessagePublisher :: PARAM_ACTION => 'publicationcreator', 
 //				   PersonalMessagePublisher :: PARAM_ID => $personal_message->get_personal_message(), 
 //				   self :: PARAM_PERSONAL_MESSAGE_ID => $personal_message->get_id(), 
@@ -628,7 +628,7 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 	
  	function get_publication_reply_url($personal_message)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_PUBLICATION, 'reply' => $personal_message->get_id(), PersonalMessenger :: PARAM_USER_ID => $personal_message->get_sender()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_PUBLICATION, 'reply' => $personal_message->get_id(), PersonalMessengerManager :: PARAM_USER_ID => $personal_message->get_sender()));
 	}
 
 	/**

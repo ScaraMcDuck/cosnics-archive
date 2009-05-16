@@ -4,11 +4,11 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../personal_messenger.class.php';
-require_once dirname(__FILE__).'/../personal_messenger_component.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_manager.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_manager_component.class.php';
 require_once dirname(__FILE__).'/pm_publication_browser/pm_publication_browser_table.class.php';
 
-class PersonalMessengerBrowserComponent extends PersonalMessengerComponent
+class PersonalMessengerManagerBrowserComponent extends PersonalMessengerManagerComponent
 {	
 	private $folder;
 	
@@ -17,13 +17,13 @@ class PersonalMessengerBrowserComponent extends PersonalMessengerComponent
 	 */
 	function run()
 	{
-		if (isset($_GET[PersonalMessenger :: PARAM_FOLDER]))
+		if (isset($_GET[PersonalMessengerManager :: PARAM_FOLDER]))
 		{
-			$this->folder = $_GET[PersonalMessenger :: PARAM_FOLDER];
+			$this->folder = $_GET[PersonalMessengerManager :: PARAM_FOLDER];
 		}
 		else
 		{
-			$this->folder = PersonalMessenger :: ACTION_FOLDER_INBOX;
+			$this->folder = PersonalMessengerManager :: ACTION_FOLDER_INBOX;
 		}
 		
 		$output = $this->get_publications_html();
@@ -59,10 +59,10 @@ class PersonalMessengerBrowserComponent extends PersonalMessengerComponent
 			
 			switch ($folder)
 			{
-				case PersonalMessenger :: ACTION_FOLDER_INBOX :
+				case PersonalMessengerManager :: ACTION_FOLDER_INBOX :
 					$folder_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
 					break;
-				case PersonalMessenger :: ACTION_FOLDER_OUTBOX :
+				case PersonalMessengerManager :: ACTION_FOLDER_OUTBOX :
 					$folder_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_SENDER, $this->get_user_id());
 					break;
 				default :

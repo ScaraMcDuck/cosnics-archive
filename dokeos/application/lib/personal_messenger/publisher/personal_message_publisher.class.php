@@ -30,7 +30,7 @@ class PersonalMessagePublisher
 		//$tool = $this->get_parent()->get_parent();
 		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
 		$edit = $_GET['reply'];
-		$user = $_GET[PersonalMessenger :: PARAM_USER_ID];
+		$user = $_GET[PersonalMessengerManager :: PARAM_USER_ID];
 		
 		$form_action_parameters = array_merge($this->parent->get_parameters(), array (PersonalMessageRepoViewer :: PARAM_ID => $learning_object->get_id()));
 		$form = new PersonalMessagePublicationForm($learning_object, $this->parent->get_user(),$this->parent->get_url($form_action_parameters));
@@ -51,7 +51,7 @@ class PersonalMessagePublisher
 				$message = 'PersonalMessageNotPublished';
 			}
 			
-			$this->parent->redirect(Translation :: get($message), ($failures ? true : false), array(PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES));
+			$this->parent->redirect(Translation :: get($message), ($failures ? true : false), array(PersonalMessengerManager :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES));
 		}
 		else
 		{

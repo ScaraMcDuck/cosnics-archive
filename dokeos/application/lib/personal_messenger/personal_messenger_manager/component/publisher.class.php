@@ -4,12 +4,12 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../personal_messenger.class.php';
-require_once dirname(__FILE__).'/../personal_messenger_component.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_manager.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_manager_component.class.php';
 require_once dirname(__FILE__).'/../../publisher/personal_message_publisher.class.php';
 require_once dirname(__FILE__).'/../../personal_message_repo_viewer.class.php';
 
-class PersonalMessengerPublisherComponent extends PersonalMessengerComponent
+class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManagerComponent
 {	
     private $folder;
 
@@ -18,26 +18,26 @@ class PersonalMessengerPublisherComponent extends PersonalMessengerComponent
      */
     function run()
     {
-        if (isset($_GET[PersonalMessenger :: PARAM_FOLDER]))
+        if (isset($_GET[PersonalMessengerManager :: PARAM_FOLDER]))
         {
-            $this->folder = $_GET[PersonalMessenger :: PARAM_FOLDER];
+            $this->folder = $_GET[PersonalMessengerManager :: PARAM_FOLDER];
         }
         else
         {
-            $this->folder = PersonalMessenger :: ACTION_FOLDER_INBOX;
+            $this->folder = PersonalMessengerManager :: ACTION_FOLDER_INBOX;
         }
 
         $reply = Request :: get('reply');
-        $user = Request :: get(PersonalMessenger :: PARAM_USER_ID);
+        $user = Request :: get(PersonalMessengerManager :: PARAM_USER_ID);
 
         $trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(PersonalMessenger::PARAM_ACTION=>PersonalMessenger::ACTION_BROWSE_MESSAGES,PersonalMessenger::PARAM_FOLDER => PersonalMessenger::ACTION_FOLDER_INBOX)),Translation :: get('MyPersonalMessenger')));
+        $trail->add(new Breadcrumb($this->get_url(array(PersonalMessengerManager :: PARAM_ACTION=>PersonalMessengerManager :: ACTION_BROWSE_MESSAGES,PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: ACTION_FOLDER_INBOX)),Translation :: get('MyPersonalMessenger')));
         
         $object = $_GET['object'];
         //$edit = $_GET['edit'];
         $pub = new PersonalMessageRepoViewer($this, 'personal_message', true);
         $pub->set_parameter('reply', $reply);
-        $pub->set_parameter(PersonalMessenger :: PARAM_USER_ID, $user);
+        $pub->set_parameter(PersonalMessengerManager :: PARAM_USER_ID, $user);
 
         if(!isset($object))// || $edit == 1)
         {
@@ -50,8 +50,8 @@ class PersonalMessengerPublisherComponent extends PersonalMessengerComponent
                 $defaults['title'] = (substr($title, 0, 3) == 'RE:') ? $title : 'RE: ' . $title;
                 $pub->set_creation_defaults($defaults);
 
-                $trail->add(new Breadcrumb($this->get_url(array(PersonalMessenger::PARAM_ACTION=>PersonalMessenger::ACTION_BROWSE_MESSAGES,PersonalMessenger::PARAM_FOLDER => PersonalMessenger::ACTION_FOLDER_INBOX)),Translation :: get(ucfirst(PersonalMessenger::ACTION_FOLDER_INBOX))));
-                $trail->add(new Breadcrumb($this->get_url(array(PersonalMessenger::PARAM_ACTION=>PersonalMessenger::ACTION_VIEW_PUBLICATION,PersonalMessenger::PARAM_PERSONAL_MESSAGE_ID=>$reply,PersonalMessenger::PARAM_FOLDER=>PersonalMessenger::ACTION_FOLDER_INBOX)), $lo->get_title()));
+                $trail->add(new Breadcrumb($this->get_url(array(PersonalMessengerManager :: PARAM_ACTION=>PersonalMessengerManager :: ACTION_BROWSE_MESSAGES,PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: ACTION_FOLDER_INBOX)),Translation :: get(ucfirst(PersonalMessengerManager :: ACTION_FOLDER_INBOX))));
+                $trail->add(new Breadcrumb($this->get_url(array(PersonalMessengerManager :: PARAM_ACTION=>PersonalMessengerManager :: ACTION_VIEW_PUBLICATION,PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID=>$reply,PersonalMessengerManager :: PARAM_FOLDER=>PersonalMessengerManager :: ACTION_FOLDER_INBOX)), $lo->get_title()));
                 $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Reply')));
             }else
             {
