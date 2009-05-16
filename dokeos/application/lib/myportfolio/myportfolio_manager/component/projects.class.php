@@ -4,7 +4,7 @@
  */
 //verwijst naar publications in de map vub die afgeschermd is voor vreemden
 
-require_once dirname(__FILE__).'/../myportfolio.class.php';
+require_once dirname(__FILE__).'/../myportfolio_manager.class.php';
 require_once dirname(__FILE__).'/../portfolio_component.class.php';
 
 class PortfolioProjectsComponent extends PortfolioComponent
