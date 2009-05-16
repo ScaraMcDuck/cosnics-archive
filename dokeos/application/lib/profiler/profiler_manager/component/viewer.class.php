@@ -2,12 +2,12 @@
 /**
  * @package application.lib.profiler.profiler_manager
  */
-require_once dirname(__FILE__).'/../profiler.class.php';
-require_once dirname(__FILE__).'/../profiler_component.class.php';
+require_once dirname(__FILE__).'/../profiler_manager.class.php';
+require_once dirname(__FILE__).'/../profiler_manager_component.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_repository_path(). 'lib/learning_object_display.class.php';
 
-class ProfilerViewerComponent extends ProfilerComponent
+class ProfilerManagerViewerComponent extends ProfilerManagerComponent
 {	
 	private $folder;
 	private $publication;
@@ -18,15 +18,15 @@ class ProfilerViewerComponent extends ProfilerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(Profiler :: PARAM_ACTION => Profiler::ACTION_BROWSE_PROFILES)), Translation :: get('MyProfiler')));
+        $trail->add(new Breadcrumb($this->get_url(array(ProfilerManager :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('MyProfiler')));
 		//$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewProfile')));
 		
-		$id = $_GET[Profiler :: PARAM_PROFILE_ID];
+		$id = $_GET[ProfilerManager :: PARAM_PROFILE_ID];
 		
 		if ($id)
 		{
 			$this->publication = $this->retrieve_profile_publication($id);			
-            $trail->add(new Breadcrumb($this->get_url(array(Profiler::PARAM_PROFILE_ID => $id)),  $this->publication->get_publication_object()->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array(ProfilerManager :: PARAM_PROFILE_ID => $id)),  $this->publication->get_publication_object()->get_title()));
 			
 			$this->display_header($trail);
 			echo $this->get_publication_as_html();

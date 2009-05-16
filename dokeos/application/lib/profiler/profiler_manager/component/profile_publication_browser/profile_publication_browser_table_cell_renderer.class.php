@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/profile_publication_browser_table_column_model.class.php';
 require_once dirname(__FILE__).'/../../../profile_publication_table/default_profile_publication_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../../profiler.class.php';
+require_once dirname(__FILE__).'/../../profiler_manager.class.php';
 /**
  * Cell renderer for the learning object browser table
  */

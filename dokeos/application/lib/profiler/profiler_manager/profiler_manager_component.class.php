@@ -2,7 +2,7 @@
 /**
  * @package application.lib.profiler.profiler_manager
  */
-abstract class ProfilerComponent {
+abstract class ProfilerManagerComponent {
 
 	/**
 	 * The number of components allready instantiated
@@ -21,7 +21,7 @@ abstract class ProfilerComponent {
 	 * @param Profile $pm The profile which
 	 * provides this component
 	 */
-	protected function ProfilerComponent($pm) {
+	protected function ProfilerManagerComponent($pm) {
 		$this->pm = $pm;
 		$this->id =  ++self :: $component_count;
 	}
@@ -251,7 +251,7 @@ abstract class ProfilerComponent {
 		{
 			die('Failed to load "'.$type.'" component');
 		}
-		$class = 'Profiler'.$type.'Component';
+		$class = 'ProfilerManager'.$type.'Component';
 		require_once $filename;
 		return new $class($pm);
 	}

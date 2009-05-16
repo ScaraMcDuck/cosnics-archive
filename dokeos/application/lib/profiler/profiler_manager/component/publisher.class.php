@@ -2,12 +2,12 @@
 /**
  * @package application.lib.profiler.profiler_manager
  */
-require_once dirname(__FILE__).'/../profiler.class.php';
-require_once dirname(__FILE__).'/../profiler_component.class.php';
+require_once dirname(__FILE__).'/../profiler_manager.class.php';
+require_once dirname(__FILE__).'/../profiler_manager_component.class.php';
 require_once dirname(__FILE__).'/../../publisher/profile_publisher.class.php';
 require_once dirname(__FILE__).'/../../profile_repo_viewer.class.php';
 
-class ProfilerPublisherComponent extends ProfilerComponent
+class ProfilerManagerPublisherComponent extends ProfilerManagerComponent
 {	
 	/**
 	 * Runs this component and displays its output.
@@ -15,7 +15,7 @@ class ProfilerPublisherComponent extends ProfilerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(Profiler::PARAM_ACTION => Profiler::ACTION_BROWSE_PROFILES)), Translation :: get('MyProfiler')));
+        $trail->add(new Breadcrumb($this->get_url(array(ProfilerManager :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('MyProfiler')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishProfile')));
 		
 		$object = $_GET['object'];
