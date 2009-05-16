@@ -4,13 +4,13 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../personal_messenger.class.php';
-require_once dirname(__FILE__).'/../personal_messenger_component.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_manager.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_manager_component.class.php';
 require_once dirname(__FILE__).'/publication_browser/publication_browser_table.class.php';
 require_once dirname(__FILE__).'/../../personal_messenger_menu.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 
-class PersonalMessengerAttachmentViewerComponent extends PersonalMessengerComponent
+class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessengerManagerComponent
 {	
 	private $folder;
 	private $publication;
@@ -23,7 +23,7 @@ class PersonalMessengerAttachmentViewerComponent extends PersonalMessengerCompon
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewPersonalMessageAttachments')));
 		
-		$id = $_GET[PersonalMessenger :: PARAM_PERSONAL_MESSAGE_ID];
+		$id = $_GET[PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID];
 		
 		if ($id)
 		{

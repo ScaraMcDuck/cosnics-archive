@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-abstract class PersonalMessengerComponent {
+abstract class PersonalMessengerManagerComponent {
 
 	/**
 	 * The number of components allready instantiated
@@ -23,7 +23,7 @@ abstract class PersonalMessengerComponent {
 	 * @param PersonalMessage $pm The pm which
 	 * provides this component
 	 */
-	protected function PersonalMessengerComponent($pm) {
+	protected function PersonalMessengerManagerComponent($pm) {
 		$this->pm = $pm;
 		$this->id =  ++self :: $component_count;
 	}
@@ -238,7 +238,7 @@ abstract class PersonalMessengerComponent {
 		{
 			die('Failed to load "'.$type.'" component');
 		}
-		$class = 'PersonalMessenger'.$type.'Component';
+		$class = 'PersonalMessengerManager'.$type.'Component';
 		require_once $filename;
 		return new $class($pm);
 	}

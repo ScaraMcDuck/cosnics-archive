@@ -42,7 +42,7 @@ class PersonalMessageRepoViewer extends RepoViewer
 		require_once dirname(__FILE__).'/repo_viewer/personal_message_'.$action.'.class.php';
 		$class = 'PersonalMessageRepoViewer'.ucfirst($action).'Component';
 		$component = new $class ($this); 
-		$out .= $component->as_html(array(PersonalMessenger :: PARAM_USER_ID => $_GET[PersonalMessenger :: PARAM_USER_ID])).'</div></div>';
+		$out .= $component->as_html(array(PersonalMessengerManager :: PARAM_USER_ID => $_GET[PersonalMessengerManager :: PARAM_USER_ID])).'</div></div>';
 		return $out;
 	}
 }

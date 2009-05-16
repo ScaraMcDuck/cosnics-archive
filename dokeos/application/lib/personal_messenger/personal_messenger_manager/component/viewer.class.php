@@ -4,11 +4,12 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../personal_messenger.class.php';
-require_once dirname(__FILE__).'/../personal_messenger_component.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_manager.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_manager_component.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
+require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 
-class PersonalMessengerViewerComponent extends PersonalMessengerComponent
+class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerComponent
 {	
     private $folder;
     private $publication;
@@ -21,7 +22,7 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
     {
         $this->folder = Request :: get('folder');
 
-        $id = $_GET[PersonalMessenger :: PARAM_PERSONAL_MESSAGE_ID];
+        $id = $_GET[PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID];
 
         if ($id)
         {
@@ -29,8 +30,8 @@ class PersonalMessengerViewerComponent extends PersonalMessengerComponent
             $publication = $this->publication;
 
             $trail = new BreadcrumbTrail();
-            $trail->add(new Breadcrumb($this->get_url(array(PersonalMessenger::PARAM_ACTION => PersonalMessenger::ACTION_BROWSE_MESSAGES)), Translation :: get('MyPersonalMessenger')));
-            $trail->add(new Breadcrumb($this->get_url(array(PersonalMessenger::PARAM_ACTION=>PersonalMessenger::ACTION_BROWSE_MESSAGES,PersonalMessenger::PARAM_FOLDER => $this->folder)),Translation :: get(ucfirst($this->folder))));
+            $trail->add(new Breadcrumb($this->get_url(array(PersonalMessengerManager :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES)), Translation :: get('MyPersonalMessenger')));
+            $trail->add(new Breadcrumb($this->get_url(array(PersonalMessengerManager :: PARAM_ACTION=>PersonalMessengerManager :: ACTION_BROWSE_MESSAGES,PersonalMessengerManager :: PARAM_FOLDER => $this->folder)),Translation :: get(ucfirst($this->folder))));
             $trail->add(new Breadcrumb($this->get_url(), $publication->get_publication_object()->get_title()));
 
             if ($this->get_user_id() != $publication->get_user())

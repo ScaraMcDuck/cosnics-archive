@@ -30,10 +30,10 @@ class DefaultPmPublicationTableColumnModel extends ObjectTableColumnModel
 		
 		switch ($folder)
 		{
-			case PersonalMessenger :: ACTION_FOLDER_INBOX :
+			case PersonalMessengerManager :: ACTION_FOLDER_INBOX :
 				$columns[] = new ObjectTableColumn(PersonalMessagePublication :: PROPERTY_SENDER, true);
 				break;
-			case PersonalMessenger :: ACTION_FOLDER_OUTBOX :
+			case PersonalMessengerManager :: ACTION_FOLDER_OUTBOX :
 				$columns[] = new ObjectTableColumn(PersonalMessagePublication :: PROPERTY_RECIPIENT, true);
 				break;
 			default :

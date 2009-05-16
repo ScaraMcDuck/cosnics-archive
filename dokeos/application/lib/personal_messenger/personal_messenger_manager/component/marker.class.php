@@ -5,20 +5,20 @@
  * @author Dieter De Neef
  */
 
-require_once dirname(__FILE__).'/../personal_messenger.class.php';
-require_once dirname(__FILE__).'/../personal_messenger_component.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_manager.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_manager_component.class.php';
 
-class PersonalMessengerMarkerComponent extends PersonalMessengerComponent
+class PersonalMessengerManagerMarkerComponent extends PersonalMessengerManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$ids = $_GET[PersonalMessenger :: PARAM_PERSONAL_MESSAGE_ID];
-		$mark_type = $_GET[PersonalMessenger :: PARAM_MARK_TYPE];
+		$ids = $_GET[PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID];
+		$mark_type = $_GET[PersonalMessengerManager :: PARAM_MARK_TYPE];
 		$failures = 0;
-		$folder = $_GET[PersonalMessenger :: PARAM_FOLDER];
+		$folder = $_GET[PersonalMessengerManager :: PARAM_FOLDER];
 		
 		if (!empty ($ids))
 		{
@@ -30,11 +30,11 @@ class PersonalMessengerMarkerComponent extends PersonalMessengerComponent
 			foreach ($ids as $id)
 			{
 				$publication = $this->get_parent()->retrieve_personal_message_publication($id);
-				if ($mark_type == PersonalMessenger :: PARAM_MARK_SELECTED_READ)
+				if ($mark_type == PersonalMessengerManager :: PARAM_MARK_SELECTED_READ)
 				{
 					$publication->set_status(0);
 				}
-				elseif($mark_type == PersonalMessenger :: PARAM_MARK_SELECTED_UNREAD)
+				elseif($mark_type == PersonalMessengerManager :: PARAM_MARK_SELECTED_UNREAD)
 				{
 					$publication->set_status(1);
 				}
@@ -68,7 +68,7 @@ class PersonalMessengerMarkerComponent extends PersonalMessengerComponent
 				}
 			}
 			
-			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES, PersonalMessenger :: PARAM_FOLDER => $folder));
+			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(PersonalMessengerManager :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => $folder));
 		}
 		else
 		{

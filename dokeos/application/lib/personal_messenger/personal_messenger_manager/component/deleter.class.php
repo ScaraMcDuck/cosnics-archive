@@ -5,19 +5,19 @@
  * @author Dieter De Neef
  */
  
-require_once dirname(__FILE__).'/../personal_messenger.class.php';
-require_once dirname(__FILE__).'/../personal_messenger_component.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_manager.class.php';
+require_once dirname(__FILE__).'/../personal_messenger_manager_component.class.php';
 
-class PersonalMessengerDeleterComponent extends PersonalMessengerComponent
+class PersonalMessengerManagerDeleterComponent extends PersonalMessengerManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$ids = $_GET[PersonalMessenger :: PARAM_PERSONAL_MESSAGE_ID];
+		$ids = $_GET[PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID];
 		$failures = 0;
-		$folder = $_GET[PersonalMessenger :: PARAM_FOLDER];
+		$folder = $_GET[PersonalMessengerManager :: PARAM_FOLDER];
 		
 		if (!empty ($ids))
 		{
@@ -59,7 +59,7 @@ class PersonalMessengerDeleterComponent extends PersonalMessengerComponent
 				}
 			}
 			
-			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(PersonalMessenger :: PARAM_ACTION => PersonalMessenger :: ACTION_BROWSE_MESSAGES, PersonalMessenger :: PARAM_FOLDER => $folder));
+			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(PersonalMessengerManager :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => $folder));
 		}
 		else
 		{
