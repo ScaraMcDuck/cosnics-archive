@@ -2,7 +2,7 @@
 /**
  * @package application.lib.linker.linker_manager
  */
-require_once dirname(__FILE__).'/linker_component.class.php';
+require_once dirname(__FILE__).'/linker_manager_component.class.php';
 require_once dirname(__FILE__).'/../linker_data_manager.class.php';
 require_once dirname(__FILE__).'/../../web_application.class.php';
 
@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
  * A linker manager provides some functionalities to the admin to manage
  * his users. For each functionality a component is available.
  */
- class Linker extends WebApplication
+ class LinkerManager extends WebApplication
  {
  	const APPLICATION_NAME = 'linker';
 
@@ -30,7 +30,7 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 	 * Constructor
 	 * @param User $user The current user
 	 */
-    function Linker($user = null)
+    function LinkerManager($user = null)
     {
     	$this->user = $user;
 		$this->parameters = array ();
@@ -47,20 +47,20 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 		switch ($action)
 		{
 			case self :: ACTION_BROWSE_LINKS :
-				$component = LinkerComponent :: factory('Browser', $this);
+				$component = LinkerManagerComponent :: factory('Browser', $this);
 				break;
 			case self :: ACTION_DELETE_LINK :
-				$component = LinkerComponent :: factory('Deleter', $this);
+				$component = LinkerManagerComponent :: factory('Deleter', $this);
 				break;
 			case self :: ACTION_EDIT_LINK :
-				$component = LinkerComponent :: factory('Updater', $this);
+				$component = LinkerManagerComponent :: factory('Updater', $this);
 				break;
 			case self :: ACTION_CREATE_LINK :
-				$component = LinkerComponent :: factory('Creator', $this);
+				$component = LinkerManagerComponent :: factory('Creator', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_LINKS);
-				$component = LinkerComponent :: factory('Browser', $this);
+				$component = LinkerManagerComponent :: factory('Browser', $this);
 		}
 		$component->run();
 	}

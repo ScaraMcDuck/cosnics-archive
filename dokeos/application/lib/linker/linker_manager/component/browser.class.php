@@ -2,13 +2,13 @@
 /**
  * @package application.linker.linker.component
  */
-require_once dirname(__FILE__).'/../linker.class.php';
-require_once dirname(__FILE__).'/../linker_component.class.php';
+require_once dirname(__FILE__).'/../linker_manager.class.php';
+require_once dirname(__FILE__).'/../linker_manager_component.class.php';
 
 /**
  * linker component which allows the user to browse his links
  */
-class LinkerBrowserComponent extends LinkerComponent
+class LinkerManagerBrowserComponent extends LinkerManagerComponent
 {
 	
 	function run()

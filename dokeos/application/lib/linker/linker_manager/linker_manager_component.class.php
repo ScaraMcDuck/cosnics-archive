@@ -2,7 +2,7 @@
 /**
  * @package application.lib.linker.linker_manager
  */
-abstract class LinkerComponent {
+abstract class LinkerManagerComponent {
 
 	/**
 	 * The number of components allready instantiated
@@ -21,14 +21,14 @@ abstract class LinkerComponent {
 	 * @param Linker $linker The linker which
 	 * provides this component
 	 */
-	protected function LinkerComponent($linker) 
+	protected function LinkerManagerComponent($linker) 
 	{
 		$this->pm = $linker;
 		$this->id =  ++self :: $component_count;
 	}
 	
 	/**
-	 * @see Linker :: redirect()
+	 * @see LinkerManager :: redirect()
 	 */
 	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
 	{
@@ -36,7 +36,7 @@ abstract class LinkerComponent {
 	}
 
 	/**
-	 * @see Linker :: get_parameter()
+	 * @see LinkerManager :: get_parameter()
 	 */
 	function get_parameter($name)
 	{
@@ -44,7 +44,7 @@ abstract class LinkerComponent {
 	}
 	
 	/**
-	 * @see Linker :: get_parameters()
+	 * @see LinkerManager :: get_parameters()
 	 */
 	function get_parameters()
 	{
@@ -52,7 +52,7 @@ abstract class LinkerComponent {
 	}
 	
 	/**
-	 * @see Linker :: set_parameter()
+	 * @see LinkerManager :: set_parameter()
 	 */
 	function set_parameter($name, $value)
 	{
@@ -60,14 +60,14 @@ abstract class LinkerComponent {
 	}
 	
 	/**
-	 * @see Linker :: get_url()
+	 * @see LinkerManager :: get_url()
 	 */
 	function get_url($parameters = array (), $encode = false, $filter = false, $filterOn = array())
 	{
 		return $this->get_parent()->get_url($parameters, $encode, $filter, $filterOn);
 	}
 	/**
-	 * @see Linker :: display_header()
+	 * @see LinkerManager :: display_header()
 	 */
 	function display_header($breadcrumbtrail, $display_search = false)
 	{
@@ -75,7 +75,7 @@ abstract class LinkerComponent {
 	}
 	
 	/**
-	 * @see Linker :: display_message()
+	 * @see LinkerManager :: display_message()
 	 */
 	function display_message($message)
 	{
@@ -83,7 +83,7 @@ abstract class LinkerComponent {
 	}
 	
 	/**
-	 * @see Linker :: display_error_message()
+	 * @see LinkerManager :: display_error_message()
 	 */
 	function display_error_message($message)
 	{
@@ -91,7 +91,7 @@ abstract class LinkerComponent {
 	}
 	
 	/**
-	 * @see Linker :: display_warning_message()
+	 * @see LinkerManager :: display_warning_message()
 	 */
 	function display_warning_message($message)
 	{
@@ -99,7 +99,7 @@ abstract class LinkerComponent {
 	}
 	
 	/**
-	 * @see Linker :: display_footer()
+	 * @see LinkerManager :: display_footer()
 	 */
 	function display_footer()
 	{
@@ -107,7 +107,7 @@ abstract class LinkerComponent {
 	}
 	
 	/**
-	 * @see Linker :: display_error_page()
+	 * @see LinkerManager :: display_error_page()
 	 */
 	function display_error_page($message)
 	{
@@ -115,7 +115,7 @@ abstract class LinkerComponent {
 	}
 	
 	/**
-	 * @see Linker :: display_warning_page()
+	 * @see LinkerManager :: display_warning_page()
 	 */
 	function display_warning_page($message)
 	{
@@ -123,7 +123,7 @@ abstract class LinkerComponent {
 	}
 	
 	/**
-	 * @see Linker :: display_popup_form
+	 * @see LinkerManager :: display_popup_form
 	 */
 	function display_popup_form($form_html)
 	{
@@ -131,7 +131,7 @@ abstract class LinkerComponent {
 	}
 	
 	/**
-	 * @see Linker :: get_parent
+	 * @see LinkerManager :: get_parent
 	 */
 	function get_parent()
 	{
@@ -139,7 +139,7 @@ abstract class LinkerComponent {
 	}
 	
 	/**
-	 * @see Linker :: get_web_code_path
+	 * @see LinkerManager :: get_web_code_path
 	 */
 	function get_path($path_type)
 	{
@@ -147,7 +147,7 @@ abstract class LinkerComponent {
 	}
 	
 	/**
-	 * @see Linker :: get_user()
+	 * @see LinkerManager :: get_user()
 	 */
 	function get_user()
 	{
@@ -155,7 +155,7 @@ abstract class LinkerComponent {
 	}
 	
 	/**
-	 * @see Linker :: get_user_id()
+	 * @see LinkerManager :: get_user_id()
 	 */
 	function get_user_id()
 	{
@@ -207,7 +207,7 @@ abstract class LinkerComponent {
 		{
 			die('Failed to load "'.$type.'" component');
 		}
-		$class = 'Linker'.$type.'Component';
+		$class = 'LinkerManager'.$type.'Component';
 		require_once $filename;
 		return new $class($linker);
 	}

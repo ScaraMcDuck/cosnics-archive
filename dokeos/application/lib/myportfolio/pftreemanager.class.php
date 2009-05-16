@@ -57,7 +57,7 @@ class PFTreeManager
 		{
 			print "&nbsp;";
 		}
-		print '<a href='.$_SERVER['PHP_SELF'].'?portfolio_action='.MyPortfolio::ACTION_VIEW.'&item='.$item.'>'.$title.'</a><br />';
+		print '<a href='.$_SERVER['PHP_SELF'].'?portfolio_action='.MyPortfolioManager :: ACTION_VIEW.'&item='.$item.'>'.$title.'</a><br />';
 		$children=$pdm->get_item_children($item);
 		
 		foreach($children as $child)

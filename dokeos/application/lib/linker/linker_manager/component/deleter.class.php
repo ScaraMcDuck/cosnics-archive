@@ -2,17 +2,17 @@
 /**
  * @package application.lib.encyclopedia.encyclopedia_manager
  */
-require_once dirname(__FILE__).'/../linker.class.php';
-require_once dirname(__FILE__).'/../linker_component.class.php';
+require_once dirname(__FILE__).'/../linker_manager.class.php';
+require_once dirname(__FILE__).'/../linker_manager_component.class.php';
 
-class LinkerDeleterComponent extends LinkerComponent
+class LinkerManagerDeleterComponent extends LinkerManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$ids = $_GET[Linker :: PARAM_LINK_ID];
+		$ids = $_GET[LinkerManager :: PARAM_LINK_ID];
 		$failures = 0;
 		
 		if (!empty ($ids))
@@ -55,7 +55,7 @@ class LinkerDeleterComponent extends LinkerComponent
 				}
 			}
 			
-			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(Linker :: PARAM_ACTION => Linker :: ACTION_BROWSE_LINKS));
+			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(LinkerManager :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS));
 		}
 		else
 		{
