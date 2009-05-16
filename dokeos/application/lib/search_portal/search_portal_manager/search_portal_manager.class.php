@@ -18,7 +18,7 @@ require_once 'Pager/Pager.php';
  * search for learning objects.
 ==============================================================================
  */
-class SearchPortal extends WebApplication
+class SearchPortalManager extends WebApplication
 {
 	const APPLICATION_NAME = 'search_portal';
 
@@ -39,7 +39,7 @@ class SearchPortal extends WebApplication
 	 * from the query string.
 	 * @param Tool $tool The default tool, or null if none.
 	 */
-	function SearchPortal($user = null)
+	function SearchPortalManager($user = null)
 	{
 		$this->parameters = array ();
 		$this->user = $user;
