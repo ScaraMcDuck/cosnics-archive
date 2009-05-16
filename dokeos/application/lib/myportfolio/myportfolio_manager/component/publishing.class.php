@@ -21,11 +21,11 @@ class PortfolioPublishingComponent extends PortfolioComponent
 		$this->display_header($trail);
 		
 		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-		foreach (array (MyPortfolio::ACTION_VIEW, MyPortfolio::ACTION_EDIT,MyPortfolio::ACTION_CREATE,MyPortfolio::ACTION_PROPS) as $action)
+		foreach (array (MyPortfolioManager :: ACTION_VIEW, MyPortfolioManager :: ACTION_EDIT,MyPortfolioManager :: ACTION_CREATE,MyPortfolioManager :: ACTION_PROPS) as $action)
 		{
 			$out .= '<li><a';
 			if ($this->get_parent()->get_action() == $action) $out .= ' class="current"';
-			$out .= ' href="'.$this->get_url(array (MyPortfolio :: PARAM_ACTION => $action), true).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
+			$out .= ' href="'.$this->get_url(array (MyPortfolioManager :: PARAM_ACTION => $action), true).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 

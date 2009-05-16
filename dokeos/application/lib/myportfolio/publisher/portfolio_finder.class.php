@@ -30,7 +30,7 @@ class PortfolioFinder extends PortfolioBrowser
 		parent :: __construct($parent);
 		$this->form = new FormValidator('search', 'get','','',null,false);
 		$this->form->addElement('hidden', PortfolioPublisher :: PARAM_ACTION);
-		$this->form->addElement('hidden', MyPortfolio :: PARAM_ACTION);
+		$this->form->addElement('hidden', MyPortfolioManager :: PARAM_ACTION);
 		$this->form->addElement('text', 'query', Translation :: get('Find'), 'size="40" class="search_query"');
 		$this->form->addElement('submit', 'submit', Translation :: get('Ok'));
 		$this->renderer = clone $this->form->defaultRenderer();

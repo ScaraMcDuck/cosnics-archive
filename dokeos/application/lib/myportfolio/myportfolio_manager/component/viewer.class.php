@@ -18,7 +18,7 @@ class PortfolioViewerComponent extends PortfolioComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewPortfolio')));
 		
-		//$id = $_GET[MyPortfolio :: PARAM_ITEM];
+		//$id = $_GET[MyPortfolioManager :: PARAM_ITEM];
 		$item=$this->get_parent()->get_item_id();
 		
 		if ($item >= 0)
@@ -28,22 +28,22 @@ class PortfolioViewerComponent extends PortfolioComponent
 
 			$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
 			$components = array();
-			$components[] = MyPortfolio::ACTION_VIEW;
+			$components[] = MyPortfolioManager :: ACTION_VIEW;
 			
 			$publication = $this->publication;
 			$object = $publication->get_publication_object();
 			if ($object->get_owner_id() == $this->get_user_id())
 			{
-				 $components[]= MyPortfolio::ACTION_EDIT;
-				 $components[]= MyPortfolio::ACTION_CREATE;
-				 $components[]= MyPortfolio::ACTION_PROPS;
+				 $components[]= MyPortfolioManager :: ACTION_EDIT;
+				 $components[]= MyPortfolioManager :: ACTION_CREATE;
+				 $components[]= MyPortfolioManager :: ACTION_PROPS;
 			}
 			
 			foreach ($components as $action)
 			{
 				$out .= '<li><a';
 				if ($this->get_parent()->get_action() == $action) $out .= ' class="current"';
-				$out .= ' href="'.$this->get_url(array (MyPortfolio :: PARAM_ACTION => $action), true).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
+				$out .= ' href="'.$this->get_url(array (MyPortfolioManager :: PARAM_ACTION => $action), true).'">'.htmlentities(Translation :: get(ucfirst($action).'Title')).'</a></li>';
 			}
 			$out .= '</ul><div class="tabbed-pane-content">';
 

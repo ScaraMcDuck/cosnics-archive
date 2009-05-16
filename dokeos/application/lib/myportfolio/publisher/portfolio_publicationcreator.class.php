@@ -143,7 +143,7 @@ class PortfolioPublicationCreator extends PortfolioPublisherComponent
 			}
 			// TODO: Use a function for this.
 
-			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(MyPortfolio :: PARAM_ACTION => MyPortfolio :: ACTION_VIEW));
+			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(MyPortfolioManager :: PARAM_ACTION => MyPortfolioManager :: ACTION_VIEW));
 		}
 		else
 		{

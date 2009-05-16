@@ -77,14 +77,14 @@ class PFTreeManager
 		print '<script type="text/javascript" src="'.Path::get(WEB_LIB_PATH).'/javascript/treemenu.js"></script>';
 		print '<ul class=tree-menu>';
 		$this->show_item($url, $root, 0);
-		//echo '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_PUBS.'&user='.$this->owner->get_user_id().'>'.Translation :: get('Mypubs').'</a></li>';
-		//print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_PFPUBS.'&user='.$user->get_id().'>'.Translation :: get('MyResearch').'</a>';
+		//echo '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_PUBS.'&user='.$this->owner->get_user_id().'>'.Translation :: get('Mypubs').'</a></li>';
+		//print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_PFPUBS.'&user='.$user->get_id().'>'.Translation :: get('MyResearch').'</a>';
 		//if ($_GET['alles']==1){
         print '<li><a>'.Translation :: get('MyResearch').'</a>';
 		print '<ul>';
-		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_PFPUBS.'&user='.$user->get_id().'&item='.$root.'>'.Translation :: get('Mypubs').'</a>';
-		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_PFPROJ.'&user='.$user->get_id().'&item='.$root.'>'.Translation :: get('Myproj').'</a>';
-		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_PFTHES.'&user='.$user->get_id().'&item='.$root.'>'.Translation :: get('Mythes').'</a>';
+		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_PFPUBS.'&user='.$user->get_id().'&item='.$root.'>'.Translation :: get('Mypubs').'</a>';
+		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_PFPROJ.'&user='.$user->get_id().'&item='.$root.'>'.Translation :: get('Myproj').'</a>';
+		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_PFTHES.'&user='.$user->get_id().'&item='.$root.'>'.Translation :: get('Mythes').'</a>';
 		print '</ul>';	
 		print '</li>';
        // } else {
@@ -94,16 +94,16 @@ class PFTreeManager
 		print '<ul class=tree-menu>';	
 		print '<li><a>Browse Portfolios</a>';
 		print '<ul>';
-		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_BROWSE.'&'.MyPortfolio::PARAM_EXAMPLE.'=1 class=type_home>Examples</a></li>';
-		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_BROWSE.'&'.MyPortfolio::PARAM_FIRSTLETTER.'=a class=type_home>A-C</a></li>';
-		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_BROWSE.'&'.MyPortfolio::PARAM_FIRSTLETTER.'=d class=type_home>D-F</a></li>';
-		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_BROWSE.'&'.MyPortfolio::PARAM_FIRSTLETTER.'=g class=type_home>G-I</a></li>';
-		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_BROWSE.'&'.MyPortfolio::PARAM_FIRSTLETTER.'=j class=type_home>J-L</a></li>';
-		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_BROWSE.'&'.MyPortfolio::PARAM_FIRSTLETTER.'=m class=type_home>M-O</a></li>';
-		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_BROWSE.'&'.MyPortfolio::PARAM_FIRSTLETTER.'=p class=type_home>P-R</a></li>';
-		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_BROWSE.'&'.MyPortfolio::PARAM_FIRSTLETTER.'=s class=type_home>S-U</a></li>';
-		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_BROWSE.'&'.MyPortfolio::PARAM_FIRSTLETTER.'=v class=type_home>V-X</a></li>';
-		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_BROWSE.'&'.MyPortfolio::PARAM_FIRSTLETTER.'=y class=type_home>Y-Z</a></li>';
+		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_BROWSE.'&'.MyPortfolioManager :: PARAM_EXAMPLE.'=1 class=type_home>Examples</a></li>';
+		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_BROWSE.'&'.MyPortfolioManager :: PARAM_FIRSTLETTER.'=a class=type_home>A-C</a></li>';
+		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_BROWSE.'&'.MyPortfolioManager :: PARAM_FIRSTLETTER.'=d class=type_home>D-F</a></li>';
+		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_BROWSE.'&'.MyPortfolioManager :: PARAM_FIRSTLETTER.'=g class=type_home>G-I</a></li>';
+		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_BROWSE.'&'.MyPortfolioManager :: PARAM_FIRSTLETTER.'=j class=type_home>J-L</a></li>';
+		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_BROWSE.'&'.MyPortfolioManager :: PARAM_FIRSTLETTER.'=m class=type_home>M-O</a></li>';
+		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_BROWSE.'&'.MyPortfolioManager :: PARAM_FIRSTLETTER.'=p class=type_home>P-R</a></li>';
+		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_BROWSE.'&'.MyPortfolioManager :: PARAM_FIRSTLETTER.'=s class=type_home>S-U</a></li>';
+		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_BROWSE.'&'.MyPortfolioManager :: PARAM_FIRSTLETTER.'=v class=type_home>V-X</a></li>';
+		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_BROWSE.'&'.MyPortfolioManager :: PARAM_FIRSTLETTER.'=y class=type_home>Y-Z</a></li>';
 		print '</ul>';
 		print '</li>';
 		
@@ -124,7 +124,7 @@ class PFTreeManager
 			{
 				print "&nbsp;";
 			}
-			print '<a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_VIEW.'&item='.$item.'>'.$title.'</a><br>';
+			print '<a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_VIEW.'&item='.$item.'>'.$title.'</a><br>';
 		}
 		$children=$pdm->get_item_children($item);
 		
@@ -144,7 +144,7 @@ class PFTreeManager
 		
 		print '<li';
 		if($cur==$item) print ' class=current';
-		print '><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolio::ACTION_VIEW.'&item='.$item.' class=type_document>'.$title.'</a>';
+		print '><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_VIEW.'&item='.$item.' class=type_document>'.$title.'</a>';
 		
 		$children=$pdm->get_item_children($item);
 		if ($children) print '<ul>';

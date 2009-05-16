@@ -17,7 +17,7 @@ require_once dirname(__FILE__).'/../myportfolio_block.class.php';
 ================================================================================
  */
 
-class MyPortfolio extends WebApplication
+class MyPortfolioManager extends WebApplication
 {	
 
 	const APPLICATION_NAME = 'myportfolio';
@@ -49,7 +49,7 @@ class MyPortfolio extends WebApplication
 
 //	public static $item;
 
-	function MyPortfolio($user)
+	function MyPortfolioManager($user)
 	{
 		parent :: __construct();
 		if(isset($_POST[self :: PARAM_ACTION]))

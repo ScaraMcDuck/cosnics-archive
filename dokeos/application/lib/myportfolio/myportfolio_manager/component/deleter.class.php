@@ -12,7 +12,7 @@ class PortfolioDeleterComponent extends PortfolioComponent
 	 */
 	function run()
 	{
-		$ids = $_GET[MyPortfolio :: PARAM_PROFILE_ID];
+		$ids = $_GET[MyPortfolioManager :: PARAM_PROFILE_ID];
 		$failures = 0;
 		
 		if (!empty ($ids))
@@ -55,7 +55,7 @@ class PortfolioDeleterComponent extends PortfolioComponent
 				}
 			}
 			
-			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(MyPortfolio :: PARAM_ACTION => MyPortfolio :: ACTION_BROWSE_PROFILES));
+			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(MyPortfolioManager :: PARAM_ACTION => MyPortfolioManager :: ACTION_BROWSE_PROFILES));
 		}
 		else
 		{

@@ -206,7 +206,7 @@ class PortfolioPublication
 		$this->set_id($id);
 		$rdm = RepositoryDataManager :: get_instance();
 		$ptm = PFTreeManager :: get_instance();
-		$new_item=$ptm->create_child(MyPortfolio::$item, $this->get_publisher(), $rdm->retrieve_learning_object($this->get_portfolio_item())->get_title());
+		$new_item=$ptm->create_child(MyPortfolioManager :: $item, $this->get_publisher(), $rdm->retrieve_learning_object($this->get_portfolio_item())->get_title());
 		$this->set_treeitem($new_item);
 		return $pmdm->create_portfolio_publication($this);
 	}
