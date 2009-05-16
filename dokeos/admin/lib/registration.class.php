@@ -162,7 +162,7 @@ class Registration
 		$this->set_default_property(self :: PROPERTY_STATUS, $status);
 	}
 	
-	function is_active ()
+	function is_active()
 	{
 		return $this->get_status();
 	}

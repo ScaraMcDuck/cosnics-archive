@@ -2,18 +2,18 @@
 /**
  * @package application.lib.profiler.profiler_manager
  */
-require_once dirname(__FILE__).'/../personal_calendar.class.php';
-require_once dirname(__FILE__).'/../personal_calendar_component.class.php';
+require_once dirname(__FILE__).'/../personal_calendar_manager.class.php';
+require_once dirname(__FILE__).'/../personal_calendar_manager_component.class.php';
 require_once dirname(__FILE__).'/../../../profiler/profiler_manager/profiler.class.php';
 
-class PersonalCalendarDeleterComponent extends PersonalCalendarComponent
+class PersonalCalendarManagerDeleterComponent extends PersonalCalendarManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$ids = $_GET[PersonalCalendar :: PARAM_CALENDAR_EVENT_ID];
+		$ids = $_GET[PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID];
 		$failures = 0;
 		
 		if (!empty ($ids))
@@ -56,7 +56,7 @@ class PersonalCalendarDeleterComponent extends PersonalCalendarComponent
 				}
 			}
 			
-			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR));
+			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR));
 		}
 		else
 		{

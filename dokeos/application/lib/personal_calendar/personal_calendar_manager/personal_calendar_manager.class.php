@@ -6,7 +6,7 @@
 require_once dirname(__FILE__).'/../../web_application.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
-require_once dirname(__FILE__).'/personal_calendar_component.class.php';
+require_once dirname(__FILE__).'/personal_calendar_manager_component.class.php';
 require_once dirname(__FILE__).'/../connector/personal_calendar_weblcms_connector.class.php';
 require_once dirname(__FILE__).'/../personal_calendar_event.class.php';
 require_once dirname(__FILE__).'/../personal_calendar_data_manager.class.php';
@@ -15,7 +15,7 @@ require_once dirname(__FILE__).'/../personal_calendar_block.class.php';
  * This application gives each user the possibility to maintain a personal
  * calendar.
  */
-class PersonalCalendar extends WebApplication
+class PersonalCalendarManager extends WebApplication
 {
 	const APPLICATION_NAME = 'personal_calendar';
 	
@@ -42,7 +42,7 @@ class PersonalCalendar extends WebApplication
 	 * Constructor
 	 * @param int $user_id
 	 */
-	public function PersonalCalendar($user)
+	public function PersonalCalendarManager($user)
 	{
     	$this->user = $user;
 		$this->parameters = array ();
@@ -63,26 +63,26 @@ class PersonalCalendar extends WebApplication
 		switch ($action)
 		{
 			case self :: ACTION_BROWSE_CALENDAR :
-				$component = PersonalCalendarComponent :: factory('Browser', $this);
+				$component = PersonalCalendarManagerComponent :: factory('Browser', $this);
 				break;
 			case self :: ACTION_VIEW_PUBLICATION :
-				$component = PersonalCalendarComponent :: factory('Viewer', $this);
+				$component = PersonalCalendarManagerComponent :: factory('Viewer', $this);
 				break;
 			case self :: ACTION_CREATE_PUBLICATION :
-				$component = PersonalCalendarComponent :: factory('Publisher', $this);
+				$component = PersonalCalendarManagerComponent :: factory('Publisher', $this);
 				break;
 			case self :: ACTION_DELETE_PUBLICATION :
-				$component = PersonalCalendarComponent :: factory('Deleter', $this);
+				$component = PersonalCalendarManagerComponent :: factory('Deleter', $this);
 				break;
 			case self :: ACTION_EDIT_PUBLICATION :
-				$component = PersonalCalendarComponent :: factory('Editor', $this);
+				$component = PersonalCalendarManagerComponent :: factory('Editor', $this);
 				break;
 			case self :: ACTION_VIEW_ATTACHMENT :
-				$component = PersonalCalendarComponent :: factory('AttachmentViewer', $this);
+				$component = PersonalCalendarManagerComponent :: factory('AttachmentViewer', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_CALENDAR);
-				$component = PersonalCalendarComponent :: factory('Browser', $this);
+				$component = PersonalCalendarManagerComponent :: factory('Browser', $this);
 		}
 		$component->run();
 	}
@@ -130,12 +130,19 @@ class PersonalCalendar extends WebApplication
 		$files = Filesystem :: get_directory_content($path, Filesystem::LIST_FILES, false);
 		foreach($files as $file)
 		{
-			$file_class = split('.class.php', $file); 
-			require_once dirname(__FILE__) . '/../connector/' . $file;
-			$class = DokeosUtilities :: underscores_to_camelcase($file_class[0]);
+			$application = str_replace('_connector.class.php', '', $file);
+			$application = preg_replace(PersonalCalendarManager :: APPLICATION_NAME, '', $application, 1);
+			$application = DokeosUtilities :: camelcase_to_underscores($application); 
 			
-			$connector = new $class;
-			$events = array_merge($events, $connector->get_events($this->user, $from_date, $to_date));
+			if (Application :: is_active($application))
+			{
+				$file_class = split('.class.php', $file); 
+				require_once dirname(__FILE__) . '/../connector/' . $file;
+				$class = DokeosUtilities :: underscores_to_camelcase($file_class[0]);
+				
+				$connector = new $class;
+				$events = array_merge($events, $connector->get_events($this->user, $from_date, $to_date));
+			}
 		}
 		
 		return $events;

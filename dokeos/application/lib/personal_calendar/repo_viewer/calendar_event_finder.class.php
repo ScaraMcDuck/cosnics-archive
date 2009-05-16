@@ -18,7 +18,7 @@ class CalendarEventRepoViewerFinderComponent extends RepoViewerFinderComponent
 	function CalendarEventRepoViewerFinderComponent($parent)
 	{
 		parent :: __construct($parent);
-		$this->get_form()->addElement('hidden', PersonalCalendar :: PARAM_ACTION);
+		$this->get_form()->addElement('hidden', PersonalCalendarManager :: PARAM_ACTION);
 		$this->get_form()->addElement('hidden', Application :: PARAM_APPLICATION);
 	}
 }
