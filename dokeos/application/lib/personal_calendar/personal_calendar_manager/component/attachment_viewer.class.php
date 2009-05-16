@@ -1,11 +1,11 @@
 <?php
 
-require_once dirname(__FILE__).'/../personal_calendar.class.php';
-require_once dirname(__FILE__).'/../personal_calendar_component.class.php';
+require_once dirname(__FILE__).'/../personal_calendar_manager.class.php';
+require_once dirname(__FILE__).'/../personal_calendar_manager_component.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object_display.class.php';
 require_once Path :: get_repository_path() . 'lib/repository_data_manager.class.php';
 
-class PersonalCalendarAttachmentViewerComponent extends PersonalCalendarComponent
+class PersonalCalendarManagerAttachmentViewerComponent extends PersonalCalendarManagerComponent
 {
 	
 	function run()

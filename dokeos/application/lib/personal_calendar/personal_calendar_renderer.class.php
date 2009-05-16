@@ -33,7 +33,7 @@ abstract class PersonalCalendarRenderer
 	}
 	/**
 	 * Gets the evenst to display
-	 * @see PersonalCalendar::get_events
+	 * @see PersonalCalendarManager :: get_events
 	 * @param int $from_date
 	 * @param int $to_date
 	 */
@@ -58,7 +58,7 @@ abstract class PersonalCalendarRenderer
 		return $this->personal_calendar;
 	}
 	/**
-	 * @see PersonalCalendar::get_url()
+	 * @see PersonalCalendarManager :: get_url()
 	 */
 	public function get_url($parameters = array (), $encode = false, $filter = false, $filterOn = array())
 	{

@@ -10,7 +10,7 @@ require_once (dirname(__FILE__).'/../../weblcms/weblcms_data_manager.class.php')
  * published calendar events in the WebLcms application.
  */
 class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
-{
+{	
 	/**
 	 * @see PersonalCalendarConnector
 	 */

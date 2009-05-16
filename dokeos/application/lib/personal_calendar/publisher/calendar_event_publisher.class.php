@@ -71,7 +71,7 @@ class CalendarEventPublisher
 				$message = Translation :: get('ObjectPublished');
 			}
 			
-			$this->parent->redirect($message, (!$publication ? true : false), array(PersonalCalendar :: PARAM_ACTION => PersonalCalendar :: ACTION_BROWSE_CALENDAR));
+			$this->parent->redirect($message, (!$publication ? true : false), array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR));
 		}
 		else
 		{

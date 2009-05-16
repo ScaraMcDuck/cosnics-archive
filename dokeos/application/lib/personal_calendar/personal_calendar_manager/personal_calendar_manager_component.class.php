@@ -2,7 +2,7 @@
 /**
  * @package application.lib.calendar.calendar_manager
  */
-abstract class PersonalCalendarComponent {
+abstract class PersonalCalendarManagerComponent {
 
 	/**
 	 * The number of components allready instantiated
@@ -21,7 +21,7 @@ abstract class PersonalCalendarComponent {
 	 * @param Calendar $pm The calendar which
 	 * provides this component
 	 */
-	protected function PersonalCalendarComponent($pm) {
+	protected function PersonalCalendarManagerComponent($pm) {
 		$this->pm = $pm;
 		$this->id =  ++self :: $component_count;
 	}
@@ -253,7 +253,7 @@ abstract class PersonalCalendarComponent {
 		{
 			die('Failed to load "'.$type.'" component');
 		}
-		$class = 'PersonalCalendar'.$type.'Component';
+		$class = 'PersonalCalendarManager'.$type.'Component';
 		require_once $filename;
 		return new $class($pm);
 	}
