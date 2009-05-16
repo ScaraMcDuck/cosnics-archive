@@ -2,13 +2,13 @@
 /**
  * @package application.lib.profiler.profiler_manager
  */
-require_once dirname(__FILE__).'/../profiler.class.php';
-require_once dirname(__FILE__).'/../profiler_component.class.php';
+require_once dirname(__FILE__).'/../profiler_manager.class.php';
+require_once dirname(__FILE__).'/../profiler_manager_component.class.php';
 require_once dirname(__FILE__).'/profile_publication_browser/profile_publication_browser_table.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once dirname(__FILE__).'/../../profiler_menu.class.php';
 
-class ProfilerBrowserComponent extends ProfilerComponent
+class ProfilerManagerBrowserComponent extends ProfilerManagerComponent
 {	
 	private $action_bar;
 	

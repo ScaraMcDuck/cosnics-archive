@@ -18,7 +18,7 @@ class ProfileRepoViewerFinderComponent extends RepoViewerFinderComponent
 	function ProfileRepoViewerFinderComponent($parent)
 	{
 		parent :: __construct($parent);
-		$this->get_form()->addElement('hidden', Profiler :: PARAM_ACTION);
+		$this->get_form()->addElement('hidden', ProfilerManager :: PARAM_ACTION);
 		$this->get_form()->addElement('hidden', Application :: PARAM_APPLICATION);
 	}
 }

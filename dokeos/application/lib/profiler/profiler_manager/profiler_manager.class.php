@@ -2,7 +2,7 @@
 /**
  * @package application.lib.profiler.profiler_manager
  */
-require_once dirname(__FILE__).'/profiler_component.class.php';
+require_once dirname(__FILE__).'/profiler_manager_component.class.php';
 require_once dirname(__FILE__).'/profiler_search_form.class.php';
 require_once dirname(__FILE__).'/../profiler_data_manager.class.php';
 require_once dirname(__FILE__).'/../../web_application.class.php';
@@ -22,7 +22,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
  * A profiler manager provides some functionalities to the admin to manage
  * his users. For each functionality a component is available.
  */
- class Profiler extends WebApplication
+ class ProfilerManager extends WebApplication
  {
  	const APPLICATION_NAME = 'profiler';
 
@@ -51,16 +51,16 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	 * Constructor
 	 * @param User $user The current user
 	 */
-    function Profiler($user = null)
+    function ProfilerManager($user = null)
     {
     	$this->user = $user;
 		$this->parameters = array ();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
 		$this->parse_input_from_table();
 
-		if (isset($_GET[Profiler :: PARAM_FIRSTLETTER]))
+		if (isset($_GET[ProfilerManager :: PARAM_FIRSTLETTER]))
 		{
-			$this->firstletter = $_GET[Profiler :: PARAM_FIRSTLETTER];
+			$this->firstletter = $_GET[ProfilerManager :: PARAM_FIRSTLETTER];
 		}
     }
 
@@ -79,26 +79,26 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		switch ($action)
 		{
 			case self :: ACTION_BROWSE_PROFILES :
-				$component = ProfilerComponent :: factory('Browser', $this);
+				$component = ProfilerManagerComponent :: factory('Browser', $this);
 				break;
 			case self :: ACTION_VIEW_PUBLICATION :
-				$component = ProfilerComponent :: factory('Viewer', $this);
+				$component = ProfilerManagerComponent :: factory('Viewer', $this);
 				break;
 			case self :: ACTION_DELETE_PUBLICATION :
-				$component = ProfilerComponent :: factory('Deleter', $this);
+				$component = ProfilerManagerComponent :: factory('Deleter', $this);
 				break;
 			case self :: ACTION_EDIT_PUBLICATION :
-				$component = ProfilerComponent :: factory('Editor', $this);
+				$component = ProfilerManagerComponent :: factory('Editor', $this);
 				break;
 			case self :: ACTION_CREATE_PUBLICATION :
-				$component = ProfilerComponent :: factory('Publisher', $this);
+				$component = ProfilerManagerComponent :: factory('Publisher', $this);
 				break;
 			case self :: ACTION_MANAGE_CATEGORIES :
-				$component = ProfilerComponent :: factory('CategoryManager', $this);
+				$component = ProfilerManagerComponent :: factory('CategoryManager', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_PROFILES);
-				$component = ProfilerComponent :: factory('Browser', $this);
+				$component = ProfilerManagerComponent :: factory('Browser', $this);
 		}
 		$component->run();
 	}
@@ -206,7 +206,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		}
 
 		$temp_replacement = '__FIRSTLETTER__';
-		$url_format = $this->get_url(array (Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES, Profiler :: PARAM_FIRSTLETTER => $temp_replacement));
+		$url_format = $this->get_url(array (ProfilerManager :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES, ProfilerManager :: PARAM_FIRSTLETTER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$user_menu = new ProfilerMenu($this->firstletter, $url_format, $extra_items);
 
@@ -641,7 +641,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	 */
 	function get_publication_reply_url($profile)
 	{
-		return $this->get_url(array (Profiler :: PARAM_ACTION => Profiler :: ACTION_CREATE_PUBLICATION, ProfilePublisher :: PARAM_ACTION => 'publicationcreator', ProfilePublisher :: PARAM_LEARNING_OBJECT_ID => $profile->get_profile(), self :: PARAM_PROFILE_ID => $profile->get_id(), ProfilePublisher :: PARAM_EDIT => 1));
+		return $this->get_url(array (ProfilerManager :: PARAM_ACTION => ProfilerManager :: ACTION_CREATE_PUBLICATION, ProfilePublisher :: PARAM_ACTION => 'publicationcreator', ProfilePublisher :: PARAM_LEARNING_OBJECT_ID => $profile->get_profile(), self :: PARAM_PROFILE_ID => $profile->get_id(), ProfilePublisher :: PARAM_EDIT => 1));
 	}
 
 	/**

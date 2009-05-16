@@ -3,7 +3,7 @@
  * @package application.lib.profiler.profiler_manager
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/profiler.class.php';
+require_once dirname(__FILE__).'/profiler_manager.class.php';
 require_once dirname(__FILE__).'/../profiler_data_manager.class.php';
 
 class ProfilerSearchForm extends FormValidator

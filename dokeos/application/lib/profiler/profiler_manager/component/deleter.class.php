@@ -2,17 +2,17 @@
 /**
  * @package application.lib.profiler.profiler_manager
  */
-require_once dirname(__FILE__).'/../profiler.class.php';
-require_once dirname(__FILE__).'/../profiler_component.class.php';
+require_once dirname(__FILE__).'/../profiler_manager.class.php';
+require_once dirname(__FILE__).'/../profiler_manager_component.class.php';
 
-class ProfilerDeleterComponent extends ProfilerComponent
+class ProfilerManagerDeleterComponent extends ProfilerManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$ids = $_GET[Profiler :: PARAM_PROFILE_ID];
+		$ids = $_GET[ProfilerManager :: PARAM_PROFILE_ID];
 		$failures = 0;
 		
 		if (!empty ($ids))
@@ -55,7 +55,7 @@ class ProfilerDeleterComponent extends ProfilerComponent
 				}
 			}
 			
-			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => Profiler :: ACTION_BROWSE_PROFILES));
+			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(ProfilerManager :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
 		}
 		else
 		{
