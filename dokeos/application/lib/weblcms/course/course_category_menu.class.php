@@ -88,7 +88,7 @@ class CourseCategoryMenu extends HTML_Menu
 		{
 			$menu_item = array();
 			$menu_item['title'] = $category->get_name();
-			if ($_GET[Weblcms :: PARAM_ACTION] == Weblcms :: ACTION_COURSE_CATEGORY_MANAGER)
+			if ($_GET[WeblcmsManager :: PARAM_ACTION] == WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)
 			{
 				$menu_item['url'] = $this->get_category_url($category->get_id());
 			}

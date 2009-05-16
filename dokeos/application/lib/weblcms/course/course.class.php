@@ -5,7 +5,7 @@
  * @author Dieter De Neef
  */
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
-require_once dirname(__FILE__).'/../weblcms_manager/weblcms.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager/weblcms_manager.class.php';
 
 /**
  *	This class represents a course in the weblcms.
@@ -506,7 +506,7 @@ class Course {
 		
 		$location = new Location();
 		$location->set_location($this->get_name());
-		$location->set_application(Weblcms :: APPLICATION_NAME);
+		$location->set_application(WeblcmsManager :: APPLICATION_NAME);
 		$location->set_type($this);
 		$location->set_identifier($this->get_id());
 		
@@ -593,11 +593,11 @@ class Course {
 	
 	function is_layout_configurable()
 	{
-		$theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
-		$layout = PlatformSetting :: get('allow_course_layout_selection', Weblcms :: APPLICATION_NAME);
-		$shortcut = PlatformSetting :: get('allow_course_tool_short_cut_selection', Weblcms :: APPLICATION_NAME);
-		$menu = PlatformSetting :: get('allow_course_menu_selection', Weblcms :: APPLICATION_NAME);
-		$breadcrumbs = PlatformSetting :: get('allow_course_breadcrumbs', Weblcms :: APPLICATION_NAME);
+		$theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
+		$layout = PlatformSetting :: get('allow_course_layout_selection', WeblcmsManager :: APPLICATION_NAME);
+		$shortcut = PlatformSetting :: get('allow_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME);
+		$menu = PlatformSetting :: get('allow_course_menu_selection', WeblcmsManager :: APPLICATION_NAME);
+		$breadcrumbs = PlatformSetting :: get('allow_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME);
 		
 		if (!$theme && !$layout && !$shortcut && !$menu && !$breadcrumbs)
 		{

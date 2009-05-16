@@ -64,7 +64,7 @@ class ShortcutToolListRenderer extends ToolListRenderer
 				}
 				$tool_image = 'tool_mini_' . $tool->name . $new . '.png';
 				$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'));
-				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION=>Weblcms :: ACTION_VIEW_COURSE,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
+				$html[] = '<a href="'.$parent->get_url(array (WeblcmsManager :: PARAM_ACTION=>WeblcmsManager :: ACTION_VIEW_COURSE,WeblcmsManager :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
 				$html[] = '<img src="'.Theme :: get_image_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/> ';
 				$html[] = '</a>';
 			}

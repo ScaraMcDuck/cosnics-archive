@@ -25,7 +25,7 @@ class CourseCategory extends PlatformCategory
 		
 		$location = new Location();
 		$location->set_location($this->get_name());
-		$location->set_application(Weblcms :: APPLICATION_NAME);
+		$location->set_application(WeblcmsManager :: APPLICATION_NAME);
 		$location->set_type($this);
 		$location->set_identifier($this->get_id());
 		$location->set_parent(WeblcmsRights :: get_root_id());

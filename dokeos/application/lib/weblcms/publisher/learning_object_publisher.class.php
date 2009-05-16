@@ -75,8 +75,8 @@ class LearningObjectPublisher
 			
 			/*if($publication->get_tool() == 'introduction')
 			{
-				//$redirect_parms = array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE);
-				$parameters['go'] = Weblcms :: ACTION_VIEW_COURSE;
+				//$redirect_parms = array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE);
+				$parameters['go'] = WeblcmsManager :: ACTION_VIEW_COURSE;
 			}*/
 			
 			$this->parent->redirect($message, (!$publication ? true : false), $parameters);

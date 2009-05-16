@@ -2,15 +2,15 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/../weblcms.class.php';
-require_once dirname(__FILE__).'/../weblcms_component.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__).'/../../course/course_category_menu.class.php';
 require_once dirname(__FILE__).'/course_browser/course_browser_table.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
-class WeblcmsSubscribeComponent extends WeblcmsComponent
+class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
 {
 	private $category;
 	private $action_bar;
@@ -20,9 +20,9 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 	 */
 	function run()
 	{
-		$this->category = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
-		$course_code = $_GET[Weblcms :: PARAM_COURSE];
-		$users = $_GET[Weblcms :: PARAM_USERS];
+		$this->category = $_GET[WeblcmsManager :: PARAM_COURSE_CATEGORY_ID];
+		$course_code = $_GET[WeblcmsManager :: PARAM_COURSE];
+		$users = $_GET[WeblcmsManager :: PARAM_USERS];
 		if(isset($users) && !is_array($users))
 		{
 			$users = array($users);
@@ -38,7 +38,7 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 				{
 					if ($user_id != $this->get_user_id())
 					{
-						$status = isset($_GET[Weblcms :: PARAM_STATUS]) ? $_GET[Weblcms :: PARAM_STATUS] : 5;
+						$status = isset($_GET[WeblcmsManager :: PARAM_STATUS]) ? $_GET[WeblcmsManager :: PARAM_STATUS] : 5;
 						if (!$this->subscribe_user_to_course($course, $status, '0', $user_id))
 						{
 							$failures++;
@@ -78,7 +78,7 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 					$message = 'PartialUsersNotSubscribedToCourse';
 				}
 
-				$this->redirect(null, Translation :: get($message), ($success ? false : true), array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $course_code, Weblcms :: PARAM_TOOL => 'user'));
+				$this->redirect(null, Translation :: get($message), ($success ? false : true), array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code, WeblcmsManager :: PARAM_TOOL => 'user'));
 			}
 			else
 			{
@@ -91,7 +91,7 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 		}
 
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(null, false, true, array(Weblcms :: PARAM_ACTION)), Translation :: get('MyCourses')));
+		$trail->add(new Breadcrumb($this->get_url(null, false, true, array(WeblcmsManager :: PARAM_ACTION)), Translation :: get('MyCourses')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseSubscribe')));
 
 		$this->action_bar = $this->get_action_bar();
@@ -148,7 +148,7 @@ class WeblcmsSubscribeComponent extends WeblcmsComponent
 		}
 
 		$temp_replacement = '__CATEGORY_ID__';
-		$url_format = $this->get_url(array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_SUBSCRIBE, Weblcms :: PARAM_COURSE_CATEGORY_ID => $temp_replacement));
+		$url_format = $this->get_url(array (WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SUBSCRIBE, WeblcmsManager :: PARAM_COURSE_CATEGORY_ID => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$category_menu = new CourseCategoryMenu($this->category, $url_format);
 

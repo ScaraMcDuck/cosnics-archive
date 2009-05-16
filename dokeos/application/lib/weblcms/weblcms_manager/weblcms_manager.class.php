@@ -1,9 +1,9 @@
 <?php
 /**
- * $Id: weblcms.class.php 11676 2007-03-23 14:54:03Z Scara84 $
+ * $Id: weblcms_manager.class.php 11676 2007-03-23 14:54:03Z Scara84 $
  * @package application.weblcms
  */
-require_once dirname(__FILE__).'/weblcms_component.class.php';
+require_once dirname(__FILE__).'/weblcms_manager_component.class.php';
 require_once dirname(__FILE__).'/weblcms_search_form.class.php';
 require_once dirname(__FILE__).'/../../web_application.class.php';
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
@@ -34,7 +34,7 @@ require_once dirname(__FILE__).'/../weblcms_rights.class.php';
 ==============================================================================
  */
 
-class Weblcms extends WebApplication
+class WeblcmsManager extends WebApplication
 {
 	const APPLICATION_NAME = 'weblcms';
 
@@ -116,7 +116,7 @@ class Weblcms extends WebApplication
 	 * from the query string.
 	 * @param Tool $tool The default tool, or null if none.
 	 */
-	function Weblcms($user = null, $tool = null)
+	function WeblcmsManager($user = null, $tool = null)
 	{
 		parent :: __construct();
 		$this->set_parameter(self :: PARAM_ACTION, $_GET[self :: PARAM_ACTION]);
@@ -150,53 +150,53 @@ class Weblcms extends WebApplication
 		switch ($action)
 		{
 			case self :: ACTION_VIEW_COURSE :
-				$component = WeblcmsComponent :: factory('CourseViewer', $this);
+				$component = WeblcmsManagerComponent :: factory('CourseViewer', $this);
 				break;
 			case self :: ACTION_CREATE_COURSE :
-				$component = WeblcmsComponent :: factory('CourseCreator', $this);
+				$component = WeblcmsManagerComponent :: factory('CourseCreator', $this);
 				break;
 			case self :: ACTION_IMPORT_COURSES :
-				$component = WeblcmsComponent :: factory('CourseImporter', $this);
+				$component = WeblcmsManagerComponent :: factory('CourseImporter', $this);
 				break;
 			case self :: ACTION_IMPORT_COURSE_USERS :
-				$component = WeblcmsComponent :: factory('CourseUserImporter', $this);
+				$component = WeblcmsManagerComponent :: factory('CourseUserImporter', $this);
 				break;
 			case self :: ACTION_MANAGER_SUBSCRIBE :
-				$component = WeblcmsComponent :: factory('Subscribe', $this);
+				$component = WeblcmsManagerComponent :: factory('Subscribe', $this);
 				break;
 			case self :: ACTION_MANAGER_UNSUBSCRIBE :
-				$component = WeblcmsComponent :: factory('Unsubscribe', $this);
+				$component = WeblcmsManagerComponent :: factory('Unsubscribe', $this);
 				break;
 			case self :: ACTION_SUBSCRIBE_GROUPS :
-				$component = WeblcmsComponent :: factory('GroupSubscribe', $this);
+				$component = WeblcmsManagerComponent :: factory('GroupSubscribe', $this);
 				break;
 			case self :: ACTION_MANAGER_SORT :
-				$component = WeblcmsComponent :: factory('Sorter', $this);
+				$component = WeblcmsManagerComponent :: factory('Sorter', $this);
 				break;
 			case self :: ACTION_COURSE_CATEGORY_MANAGER :
-				$component = WeblcmsComponent :: factory('CourseCategoryManager', $this);
+				$component = WeblcmsManagerComponent :: factory('CourseCategoryManager', $this);
 				break;
 			case self :: ACTION_ADMIN_COURSE_BROWSER :
-				$component = WeblcmsComponent :: factory('AdminCourseBrowser', $this);
+				$component = WeblcmsManagerComponent :: factory('AdminCourseBrowser', $this);
 				break;
 			case self :: ACTION_DELETE_COURSE :
-				$component = WeblcmsComponent :: factory('CourseDeleter', $this);
+				$component = WeblcmsManagerComponent :: factory('CourseDeleter', $this);
 				break;
 			case self :: ACTION_PUBLISH_INTRODUCTION:
-				$component = WeblcmsComponent :: factory('IntroductionPublisher', $this);
+				$component = WeblcmsManagerComponent :: factory('IntroductionPublisher', $this);
 				break;
 			case self :: ACTION_DELETE_INTRODUCTION:
-				$component = WeblcmsComponent :: factory('IntroductionDeleter', $this);
+				$component = WeblcmsManagerComponent :: factory('IntroductionDeleter', $this);
 				break;
 			case self :: ACTION_EDIT_INTRODUCTION:
-				$component = WeblcmsComponent :: factory('IntroductionEditor', $this);
+				$component = WeblcmsManagerComponent :: factory('IntroductionEditor', $this);
 				break;
             case self :: ACTION_REPORTING:
-                $component = WeblcmsComponent :: factory('Reporting', $this);
+                $component = WeblcmsManagerComponent :: factory('Reporting', $this);
                 break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_WEBLCMS_HOME);
-				$component = WeblcmsComponent :: factory('Home', $this);
+				$component = WeblcmsManagerComponent :: factory('Home', $this);
 		}
 		$component->run();
 	}
@@ -1361,24 +1361,24 @@ class Weblcms extends WebApplication
 		$links[]	= array('name' => Translation :: get('List'),
 							'description' => Translation :: get('ListDescription'),
 							'action' => 'list',
-							'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)));
+							'url' => $this->get_link(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)));
 		$links[]	= array('name' => Translation :: get('Create'),
 							'description' => Translation :: get('CreateDescription'),
 							'action' => 'add',
-							'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)));
+							'url' => $this->get_link(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)));
 		$links[]	= array('name' => Translation :: get('Import'),
 							'description' => Translation :: get('ImportDescription'),
 							'action' => 'import',
-							'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSES)));
+							'url' => $this->get_link(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)));
 		$links[]	= array('name' => Translation :: get('CourseCategoryManagement'),
 							'description' => Translation :: get('CourseCategoryManagementDescription'),
 							'action' => 'category',
-							'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_COURSE_CATEGORY_MANAGER)));
+							'url' => $this->get_link(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)));
 		$links[]	= array('name' => Translation :: get('UserImport'),
 							'description' => Translation :: get('UserImportDescription'),
 							'action' => 'import',
-							'url' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSE_USERS)));
-		return array('application' => array('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)));
+							'url' => $this->get_link(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)));
+		return array('application' => array('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)));
 	}
 
 	/**

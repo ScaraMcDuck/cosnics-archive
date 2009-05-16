@@ -12,7 +12,7 @@ class CourseGroupUnsubscribedUserBrowserTableDataprovider extends ObjectTableDat
 
   /**
    * Constructor
-   * @param WeblcmsComponent $browser
+   * @param WeblcmsManagerComponent $browser
    * @param Condition $condition
    */
   function CourseGroupUnsubscribedUserBrowserTableDataprovider($browser, $condition)

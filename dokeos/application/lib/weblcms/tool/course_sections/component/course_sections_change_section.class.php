@@ -103,7 +103,7 @@ class CourseSectionsToolChangeSectionComponent extends CourseSectionsToolCompone
 				// Show visibility-icon
 				if ($is_course_admin && $section->get_name() != 'course_admin')
 				{
-					$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_COMPONENT_ACTION=>$lcms_action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img src="'.Theme :: get_common_image_path().$visible_image.'" style="vertical-align: middle;" alt=""/></a>';
+					$html[] = '<a href="'.$parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION=>$lcms_action,WeblcmsManager :: PARAM_TOOL=>$tool->name)).'"><img src="'.Theme :: get_common_image_path().$visible_image.'" style="vertical-align: middle;" alt=""/></a>';
 					$html[] = '&nbsp;&nbsp;&nbsp;';
 				}
 				
@@ -111,7 +111,7 @@ class CourseSectionsToolChangeSectionComponent extends CourseSectionsToolCompone
 				
 				$html[] = '<img ' . $id . ' src="'.Theme :: get_image_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
 				$html[] = '&nbsp;';
-				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
+				$html[] = '<a href="'.$parent->get_url(array (WeblcmsManager :: PARAM_COMPONENT_ACTION=>null,WeblcmsManager :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
 				$html[] = $title;
 				$html[] = '</a>';
 				if($section->get_type() == CourseSection :: TYPE_TOOL)

@@ -212,7 +212,7 @@ abstract class LearningObjectPublicationBrowser
 	}
 
 	/**
-	 * @see WebLcms::get_last_visit_date()
+	 * @see WeblcmsManager :: get_last_visit_date()
 	 */
 	function get_last_visit_date()
 	{

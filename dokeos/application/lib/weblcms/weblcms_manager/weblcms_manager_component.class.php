@@ -5,7 +5,7 @@
  * @author Dieter De Neef
  */
  
-abstract class WeblcmsComponent
+abstract class WeblcmsManagerComponent
 {
 	/**
 	 * The number of components allready instantiated
@@ -24,13 +24,13 @@ abstract class WeblcmsComponent
 	 * @param Weblcms $weblcms The weblcms which
 	 * provides this component
 	 */
-	protected function WeblcmsComponent($weblcms) {
+	protected function WeblcmsManagerComponent($weblcms) {
 		$this->weblcms = $weblcms;
 		$this->id =  ++self :: $component_count;
 	}
 	
 	/**
-	 * @see Weblcms::redirect()
+	 * @see WeblcmsManager :: redirect()
 	 */	
 	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
 	{
@@ -38,7 +38,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::count_courses()
+	 * @see WeblcmsManager :: count_courses()
 	 */	
 	function count_courses($conditions = null)
 	{
@@ -46,7 +46,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::count_course_categories()
+	 * @see WeblcmsManager :: count_course_categories()
 	 */	
 	function count_course_categories($conditions = null)
 	{
@@ -54,7 +54,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::count_user_courses()
+	 * @see WeblcmsManager :: count_user_courses()
 	 */	
 	function count_user_courses($conditions = null)
 	{
@@ -62,7 +62,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::count_course_user_categories()
+	 * @see WeblcmsManager :: count_course_user_categories()
 	 */	
 	function count_course_user_categories($conditions = null)
 	{
@@ -70,7 +70,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_tool_id()
+	 * @see WeblcmsManager :: get_tool_id()
 	 */	
 	function get_tool_id()
 	{
@@ -78,7 +78,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_user_id()
+	 * @see WeblcmsManager :: get_user_id()
 	 */	
 	function get_user_id()
 	{
@@ -86,7 +86,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms:: get_user_info()
+	 * @see WeblcmsManager ::  get_user_info()
 	 */	
 	function get_user_info($user_id)
 	{
@@ -94,7 +94,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_user()
+	 * @see WeblcmsManager :: get_user()
 	 */	
 	function get_user()
 	{
@@ -102,7 +102,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course()
+	 * @see WeblcmsManager :: get_course()
 	 */	
 	function get_course()
 	{
@@ -110,7 +110,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course_id()
+	 * @see WeblcmsManager :: get_course_id()
 	 */	
 	function get_course_id()
 	{
@@ -118,7 +118,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course_groups()
+	 * @see WeblcmsManager :: get_course_groups()
 	 */	
 	function get_course_groups()
 	{
@@ -126,7 +126,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_categories()
+	 * @see WeblcmsManager :: get_categories()
 	 */	
 	function get_categories($list = false)
 	{
@@ -134,7 +134,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_category()
+	 * @see WeblcmsManager :: get_category()
 	 */	
 	function get_category($id)
 	{
@@ -142,7 +142,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_parameter()
+	 * @see WeblcmsManager :: get_parameter()
 	 */
 	function get_parameter($name)
 	{
@@ -150,7 +150,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_parameters()
+	 * @see WeblcmsManager :: get_parameters()
 	 */	
 	function get_parameters()
 	{
@@ -158,7 +158,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::set_parameter()
+	 * @see WeblcmsManager :: set_parameter()
 	 */	
 	function set_parameter($name, $value)
 	{
@@ -166,7 +166,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::set_tool_class()
+	 * @see WeblcmsManager :: set_tool_class()
 	 */	
 	function set_tool_class($class)
 	{
@@ -174,7 +174,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_url()
+	 * @see WeblcmsManager :: get_url()
 	 */	
 	function get_url($parameters = array (), $encode = false, $filter = false, $filterOn = array())
 	{
@@ -182,7 +182,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::display_header()
+	 * @see WeblcmsManager :: display_header()
 	 */	
 	function display_header($breadcrumbtrail, $display_search = false)
 	{
@@ -190,7 +190,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::display_message()
+	 * @see WeblcmsManager :: display_message()
 	 */	
 	function display_message($message)
 	{
@@ -198,7 +198,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::display_error_message()
+	 * @see WeblcmsManager :: display_error_message()
 	 */	
 	function display_error_message($message)
 	{
@@ -206,7 +206,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::display_error_page()
+	 * @see WeblcmsManager :: display_error_page()
 	 */
 	function display_error_page($message)
 	{
@@ -214,7 +214,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::display_warning_message()
+	 * @see WeblcmsManager :: display_warning_message()
 	 */	
 	function display_warning_message($message)
 	{
@@ -222,7 +222,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::display_footer()
+	 * @see WeblcmsManager :: display_footer()
 	 */	
 	function display_footer()
 	{
@@ -230,7 +230,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_registered_tools()
+	 * @see WeblcmsManager :: get_registered_tools()
 	 */	
 	function get_registered_tools()
 	{
@@ -238,7 +238,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_registered_sections()
+	 * @see WeblcmsManager :: get_registered_sections()
 	 */	
 	function get_registered_sections()
 	{
@@ -246,7 +246,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_registered_tools()
+	 * @see WeblcmsManager :: get_registered_tools()
 	 */	
 	function get_tool_properties($module)
 	{
@@ -254,7 +254,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::load_course()
+	 * @see WeblcmsManager :: load_course()
 	 */	
 	function load_course()
 	{
@@ -262,7 +262,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::load_tools()
+	 * @see WeblcmsManager :: load_tools()
 	 */	
 	function load_tools()
 	{
@@ -270,7 +270,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::is_tool_name()
+	 * @see WeblcmsManager :: is_tool_name()
 	 */
 	static function is_tool_name($name)
 	{
@@ -278,7 +278,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::retrieve_max_sort_value()
+	 * @see WeblcmsManager :: retrieve_max_sort_value()
 	 */	
 	function retrieve_max_sort_value($table, $column, $condition = null)
 	{
@@ -286,7 +286,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::learning_object_is_published()
+	 * @see WeblcmsManager :: learning_object_is_published()
 	 */	
 	function learning_object_is_published($object_id)
 	{
@@ -294,7 +294,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::any_learning_object_is_published()
+	 * @see WeblcmsManager :: any_learning_object_is_published()
 	 */
 	function any_learning_object_is_published($object_ids)
 	{
@@ -302,7 +302,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_learning_object_publication_attributes()
+	 * @see WeblcmsManager :: get_learning_object_publication_attributes()
 	 */	
 	function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
@@ -310,7 +310,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_learning_object_publication_attribute()
+	 * @see WeblcmsManager :: get_learning_object_publication_attribute()
 	 */	
 	function get_learning_object_publication_attribute($publication_id)
 	{
@@ -318,7 +318,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::delete_learning_object_publications()
+	 * @see WeblcmsManager :: delete_learning_object_publications()
 	 */	
 	function delete_learning_object_publications($object_id)
 	{
@@ -326,7 +326,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::update_learning_object_publication_id()
+	 * @see WeblcmsManager :: update_learning_object_publication_id()
 	 */	
 	function update_learning_object_publication_id($publication_attr)
 	{
@@ -334,7 +334,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::count_publication_attributes()
+	 * @see WeblcmsManager :: count_publication_attributes()
 	 */	
 	function count_publication_attributes($type = null, $condition = null)
 	{
@@ -342,7 +342,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::retrieve_course_categories()
+	 * @see WeblcmsManager :: retrieve_course_categories()
 	 */	
 	function retrieve_course_categories($conditions = null, $offset = null, $count = null, $orderBy = null, $orderDir = null)
 	{
@@ -350,7 +350,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::retrieve_course_user_categories()
+	 * @see WeblcmsManager :: retrieve_course_user_categories()
 	 */	
 	function retrieve_course_user_categories ($conditions = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
@@ -358,7 +358,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::retrieve_course_user_category()
+	 * @see WeblcmsManager :: retrieve_course_user_category()
 	 */	
 	function retrieve_course_user_category ($course_user_category_id, $user_id = null)
 	{
@@ -366,7 +366,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::retrieve_course_user_category_at_sort()
+	 * @see WeblcmsManager :: retrieve_course_user_category_at_sort()
 	 */	
 	function retrieve_course_user_category_at_sort($user_id, $sort, $direction)
 	{
@@ -374,7 +374,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::retrieve_course()
+	 * @see WeblcmsManager :: retrieve_course()
 	 */	
 	function retrieve_course($course_code)
 	{
@@ -382,7 +382,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::retrieve_course_category()
+	 * @see WeblcmsManager :: retrieve_course_category()
 	 */	
 	function retrieve_course_category($course_category)
 	{
@@ -390,7 +390,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::retrieve_course_user_relation()
+	 * @see WeblcmsManager :: retrieve_course_user_relation()
 	 */	
 	function retrieve_course_user_relation($course_code, $user_id)
 	{
@@ -398,7 +398,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::retrieve_course_user_relation_at_sort()
+	 * @see WeblcmsManager :: retrieve_course_user_relation_at_sort()
 	 */	
 	function retrieve_course_user_relation_at_sort($user_id, $category_id, $sort, $direction)
 	{
@@ -406,7 +406,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::retrieve_course_user_relations()
+	 * @see WeblcmsManager :: retrieve_course_user_relations()
 	 */	
 	function retrieve_course_user_relations($user_id, $course_user_category)
 	{
@@ -414,7 +414,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::retrieve_course_users()
+	 * @see WeblcmsManager :: retrieve_course_users()
 	 */	
 	function retrieve_course_users($course)
 	{
@@ -422,7 +422,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::retrieve_courses()
+	 * @see WeblcmsManager :: retrieve_courses()
 	 */	
 	function retrieve_courses($user = null, $condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
@@ -430,7 +430,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::retrieve_user_courses()
+	 * @see WeblcmsManager :: retrieve_user_courses()
 	 */	
 	function retrieve_user_courses($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
@@ -438,7 +438,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_last_visit_date()
+	 * @see WeblcmsManager :: get_last_visit_date()
 	 */
 	function get_last_visit_date($tool = null,$category_id = null)
 	{
@@ -446,7 +446,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::tool_has_new_publications()
+	 * @see WeblcmsManager :: tool_has_new_publications()
 	 */
 	function tool_has_new_publications($tool)
 	{
@@ -454,7 +454,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_parent()
+	 * @see WeblcmsManager :: get_parent()
 	 */	
 	function get_parent()
 	{
@@ -462,7 +462,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms:: get_course_viewing_url()
+	 * @see WeblcmsManager ::  get_course_viewing_url()
 	 */	
 	function get_course_viewing_url($course)
 	{
@@ -470,7 +470,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course_editing_url()
+	 * @see WeblcmsManager :: get_course_editing_url()
 	 */	
 	function get_course_editing_url($course)
 	{
@@ -478,7 +478,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course_maintenance_url()
+	 * @see WeblcmsManager :: get_course_maintenance_url()
 	 */	
 	function get_course_maintenance_url($course)
 	{
@@ -486,7 +486,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course_subscription_url()
+	 * @see WeblcmsManager :: get_course_subscription_url()
 	 */	
 	function get_course_subscription_url($course)
 	{
@@ -494,7 +494,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course_unsubscription_url()
+	 * @see WeblcmsManager :: get_course_unsubscription_url()
 	 */	
 	function get_course_unsubscription_url($course)
 	{
@@ -502,7 +502,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course_user_category_edit_url()
+	 * @see WeblcmsManager :: get_course_user_category_edit_url()
 	 */	
 	function get_course_user_category_edit_url($course_user_category)
 	{
@@ -510,7 +510,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course_user_category_move_url()
+	 * @see WeblcmsManager :: get_course_user_category_move_url()
 	 */	
 	function get_course_user_category_move_url($course_user_category, $direction)
 	{
@@ -518,7 +518,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course_user_edit_url()
+	 * @see WeblcmsManager :: get_course_user_edit_url()
 	 */	
 	function get_course_user_edit_url($course_user)
 	{
@@ -526,7 +526,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course_user_move_url()
+	 * @see WeblcmsManager :: get_course_user_move_url()
 	 */	
 	function get_course_user_move_url($course_user, $direction)
 	{
@@ -534,7 +534,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course_user_category_add_url()
+	 * @see WeblcmsManager :: get_course_user_category_add_url()
 	 */	
 	function get_course_user_category_add_url()
 	{
@@ -542,7 +542,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course_user_category_delete_url()
+	 * @see WeblcmsManager :: get_course_user_category_delete_url()
 	 */	
 	function get_course_user_category_delete_url($course_user_category)
 	{
@@ -550,7 +550,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course_category_edit_url()
+	 * @see WeblcmsManager :: get_course_category_edit_url()
 	 */
 	function get_course_category_edit_url($coursecategory)
 	{
@@ -558,7 +558,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course_category_add_url()
+	 * @see WeblcmsManager :: get_course_category_add_url()
 	 */	
 	function get_course_category_add_url()
 	{
@@ -566,7 +566,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_course_category_delete_url()
+	 * @see WeblcmsManager :: get_course_category_delete_url()
 	 */	
 	function get_course_category_delete_url($coursecategory)
 	{
@@ -574,7 +574,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::is_subscribed()
+	 * @see WeblcmsManager :: is_subscribed()
 	 */
 	function is_subscribed($course, $user_id)
 	{
@@ -582,7 +582,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_path()
+	 * @see WeblcmsManager :: get_path()
 	 */	
 	function get_path($path_type)
 	{
@@ -590,7 +590,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::subscribe_user_to_course()
+	 * @see WeblcmsManager :: subscribe_user_to_course()
 	 */	
 	function subscribe_user_to_course($course, $status, $tutor_id, $user_id)
 	{
@@ -598,7 +598,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::unsubscribe_user_from_course()
+	 * @see WeblcmsManager :: unsubscribe_user_from_course()
 	 */
 	function unsubscribe_user_from_course($course, $user_id)
 	{
@@ -606,7 +606,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_search_condition()
+	 * @see WeblcmsManager :: get_search_condition()
 	 */
 	function get_search_condition()
 	{
@@ -614,7 +614,7 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_search_validate()
+	 * @see WeblcmsManager :: get_search_validate()
 	 */
 	function get_search_validate()
 	{
@@ -622,14 +622,14 @@ abstract class WeblcmsComponent
 	}
 	
 	/**
-	 * @see Weblcms::get_search_parameter()
+	 * @see WeblcmsManager :: get_search_parameter()
 	 */
 	function get_search_parameter($name)
 	{
 		return $this->get_parent()->get_search_parameter($name);
 	}
 	
-	function get_platform_setting($variable, $application = Weblcms :: APPLICATION_NAME)
+	function get_platform_setting($variable, $application = WeblcmsManager :: APPLICATION_NAME)
 	{
 		return $this->get_parent()->get_platform_setting($variable, $application);
 	}
@@ -647,7 +647,7 @@ abstract class WeblcmsComponent
 		{
 			die('Failed to load "'.$type.'" component');
 		}
-		$class = 'Weblcms'.$type.'Component';
+		$class = 'WeblcmsManager'.$type.'Component';
 		require_once $filename;
 		return new $class($weblcms);
 	}

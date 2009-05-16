@@ -2,12 +2,12 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/../weblcms.class.php';
-require_once dirname(__FILE__).'/../weblcms_component.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager_component.class.php';
 /**
  * Weblcms component which provides the course page
  */
-class WeblcmsCourseViewerComponent extends WeblcmsComponent
+class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 {
 	/**
 	 * The tools that this application offers.
@@ -61,11 +61,11 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 			exit;
 		}*/
 
-		$course = $this->get_parameter(Weblcms :: PARAM_COURSE);
-		$tool = $this->get_parameter(Weblcms :: PARAM_TOOL);
-		$action = $this->get_parameter(Weblcms::PARAM_ACTION);
-		$component_action = $this->get_parameter(Weblcms::PARAM_COMPONENT_ACTION);
-		$category = $this->get_parameter(Weblcms::PARAM_CATEGORY);
+		$course = $this->get_parameter(WeblcmsManager :: PARAM_COURSE);
+		$tool = $this->get_parameter(WeblcmsManager :: PARAM_TOOL);
+		$action = $this->get_parameter(WeblcmsManager :: PARAM_ACTION);
+		$component_action = $this->get_parameter(WeblcmsManager :: PARAM_COMPONENT_ACTION);
+		$category = $this->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
 
 		if(is_null($category))
 		{
@@ -103,7 +103,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 						$publication->update();
 						break;
 				}
-				$this->set_parameter(Weblcms :: PARAM_TOOL, null);
+				$this->set_parameter(WeblcmsManager :: PARAM_TOOL, null);
 			}
 			if ($tool && !$component_action)
 			{
@@ -238,14 +238,14 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 		{
 			
 			$tb_data[] = array(
-				'href' => $this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_EDIT_INTRODUCTION)),
+				'href' => $this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_EDIT_INTRODUCTION)),
 				'label' => Translation :: get('Edit'),
 				'img' => Theme :: get_common_image_path() . 'action_edit.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
 			);
 			
 			$tb_data[] = array(
-				'href' => $this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_DELETE_INTRODUCTION)),
+				'href' => $this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_DELETE_INTRODUCTION)),
 				'label' => Translation :: get('Delete'),
 				'img' => Theme :: get_common_image_path() . 'action_delete.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
@@ -268,7 +268,7 @@ class WeblcmsCourseViewerComponent extends WeblcmsComponent
 		else
 		{
 			$tb_data[] = array(
-				'href' => $this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_PUBLISH_INTRODUCTION)),
+				'href' => $this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_PUBLISH_INTRODUCTION)),
 				'label' => Translation :: get('PublishIntroductionText'),
 				'img' => Theme :: get_common_image_path() . 'action_publish.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL

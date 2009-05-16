@@ -20,10 +20,10 @@ class LearningObjectRepoViewerFinderComponent extends RepoViewerFinderComponent
 		parent :: __construct($parent);
 		$form = $this->get_form();
 		$form->addElement('hidden', Application :: PARAM_APPLICATION);
-		$form->addElement('hidden', Weblcms :: PARAM_ACTION);
-		$form->addElement('hidden', Weblcms :: PARAM_COURSE);
-		$form->addElement('hidden', Weblcms :: PARAM_TOOL);
-		$form->addElement('hidden', Weblcms :: PARAM_TOOL_ACTION);
+		$form->addElement('hidden', WeblcmsManager :: PARAM_ACTION);
+		$form->addElement('hidden', WeblcmsManager :: PARAM_COURSE);
+		$form->addElement('hidden', WeblcmsManager :: PARAM_TOOL);
+		$form->addElement('hidden', WeblcmsManager :: PARAM_TOOL_ACTION);
 	}
 }
 ?>

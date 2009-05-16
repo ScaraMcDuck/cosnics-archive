@@ -25,7 +25,7 @@ class SubscribeGroupBrowserTable extends ObjectTable
 		parent :: __construct($data_provider, SubscribeGroupBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
-		$actions[Weblcms :: PARAM_SUBSCRIBE_SELECTED_GROUP] = Translation :: get('SubscribeSelected');
+		$actions[WeblcmsManager :: PARAM_SUBSCRIBE_SELECTED_GROUP] = Translation :: get('SubscribeSelected');
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}

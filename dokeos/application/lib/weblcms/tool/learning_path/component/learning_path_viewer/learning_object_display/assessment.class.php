@@ -162,12 +162,12 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 	function redirect_to_repoviewer()
 	{
 		$_SESSION['redirect_params'] = array(
-			Weblcms :: PARAM_TOOL => 'learning_path',
+			WeblcmsManager :: PARAM_TOOL => 'learning_path',
 			LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, 
 			Tool :: PARAM_PUBLICATION_ID => $_GET[Tool :: PARAM_PUBLICATION_ID],
 			LearningPathTool :: PARAM_LP_STEP => $_GET[LearningPathTool :: PARAM_LP_STEP]
 		);		
-		$this->redirect(null, null, false, array(Weblcms :: PARAM_TOOL => 'assessment', AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_REPOVIEWER, AssessmentTool :: PARAM_REPO_TYPES => array('document')));
+		$this->redirect(null, null, false, array(WeblcmsManager :: PARAM_TOOL => 'assessment', AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_REPOVIEWER, AssessmentTool :: PARAM_REPO_TYPES => array('document')));
 	}
 	
 	function get_url($params)

@@ -122,7 +122,7 @@ class CourseForm extends FormValidator {
 		/*$this->addElement('text', Course :: PROPERTY_EXTLINK_NAME, Translation :: get('Department'));
 		$this->addElement('text', Course :: PROPERTY_EXTLINK_URL, Translation :: get('DepartmentUrl'));*/
 		
-		if (PlatformSetting :: get('allow_course_language_selection', Weblcms :: APPLICATION_NAME))
+		if (PlatformSetting :: get('allow_course_language_selection', WeblcmsManager :: APPLICATION_NAME))
 		{
 			$adm = AdminDataManager :: get_instance();
 			$lang_options = $adm->get_languages();
@@ -147,7 +147,7 @@ class CourseForm extends FormValidator {
 		$unsubscribe_allowed[] =& $this->createElement('radio', null, null, Translation :: get('UnsubscribeNotAllowed'), 0);
 		$this->addGroup($unsubscribe_allowed, Course :: PROPERTY_UNSUBSCRIBE_ALLOWED, Translation :: get('Unsubscribe'), '<br />');
 
-		if (PlatformSetting :: get('allow_feedback_selection', Weblcms :: APPLICATION_NAME))
+		if (PlatformSetting :: get('allow_feedback_selection', WeblcmsManager :: APPLICATION_NAME))
 		{
 			$feedback_allowed = array();
 			$feedback_allowed[] =& $this->createElement('radio', null, null, Translation :: get('Yes'), 1);
@@ -164,7 +164,7 @@ class CourseForm extends FormValidator {
 			$this->addElement('html', '<div class="configuration_form">');
 			$this->addElement('html', '<span class="category">'. Translation :: get('Layout') .'</span>');
 			
-			$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
+			$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
 			
 			if ($course_can_have_theme)
 			{
@@ -175,22 +175,22 @@ class CourseForm extends FormValidator {
 			}
 			
 			
-			if (PlatformSetting :: get('allow_course_layout_selection', Weblcms :: APPLICATION_NAME))
+			if (PlatformSetting :: get('allow_course_layout_selection', WeblcmsManager :: APPLICATION_NAME))
 			{
 				$this->addElement('select', Course :: PROPERTY_LAYOUT, Translation :: get('Layout'), Course :: get_layouts());
 			}
 			
-			if (PlatformSetting :: get('allow_course_tool_short_cut_selection', Weblcms :: APPLICATION_NAME))
+			if (PlatformSetting :: get('allow_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME))
 			{
 				$this->addElement('select', Course :: PROPERTY_TOOL_SHORTCUT, Translation :: get('ToolShortcut'), Course :: get_tool_shortcut_options());
 			}
 			
-			if (PlatformSetting :: get('allow_course_menu_selection', Weblcms :: APPLICATION_NAME))
+			if (PlatformSetting :: get('allow_course_menu_selection', WeblcmsManager :: APPLICATION_NAME))
 			{
 				$this->addElement('select', Course :: PROPERTY_MENU, Translation :: get('Menu'), Course :: get_menu_options());
 			}
 			
-			if (PlatformSetting :: get('allow_course_breadcrumbs', Weblcms :: APPLICATION_NAME))
+			if (PlatformSetting :: get('allow_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME))
 			{
 				$this->addElement('select', Course :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), Course :: get_breadcrumb_options());
 			}
@@ -248,7 +248,7 @@ class CourseForm extends FormValidator {
 		$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
     	$course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
 		
-		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
+		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
 		if ($course_can_have_theme)
 		{
 			$course->set_theme($values[Course :: PROPERTY_THEME]);
@@ -258,19 +258,19 @@ class CourseForm extends FormValidator {
     	$course->set_language($language ? $language : PlatformSetting :: get('platform_language'));
 		
 		$layout = $values[Course :: PROPERTY_LAYOUT];
-		$course->set_layout($layout? $layout : PlatformSetting :: get('default_course_layout', Weblcms :: APPLICATION_NAME));
+		$course->set_layout($layout? $layout : PlatformSetting :: get('default_course_layout', WeblcmsManager :: APPLICATION_NAME));
 		
 		$tool_shortcut = $values[Course :: PROPERTY_TOOL_SHORTCUT];
-		$course->set_tool_shortcut($tool_shortcut?$tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', Weblcms :: APPLICATION_NAME));
+		$course->set_tool_shortcut($tool_shortcut?$tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME));
 		
 		$menu = $values[Course :: PROPERTY_MENU];
-		$course->set_menu($menu ? $menu : PlatformSetting :: get('default_course_menu_selection', Weblcms :: APPLICATION_NAME));
+		$course->set_menu($menu ? $menu : PlatformSetting :: get('default_course_menu_selection', WeblcmsManager :: APPLICATION_NAME));
 		
 		$breadcrumb = $values[Course :: PROPERTY_BREADCRUMB];
-		$course->set_breadcrumb($breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', Weblcms :: APPLICATION_NAME));
+		$course->set_breadcrumb($breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME));
 
 		$allow_feedback = $values[Course :: PROPERTY_ALLOW_FEEDBACK];
-		$course->set_allow_feedback($allow_feedback ? $allow_feedback : PlatformSetting :: get('feedback', Weblcms :: APPLICATION_NAME));
+		$course->set_allow_feedback($allow_feedback ? $allow_feedback : PlatformSetting :: get('feedback', WeblcmsManager :: APPLICATION_NAME));
 
     	$course->set_visibility($values[Course :: PROPERTY_VISIBILITY]);
     	$course->set_subscribe_allowed($values[Course :: PROPERTY_SUBSCRIBE_ALLOWED]);
@@ -292,7 +292,7 @@ class CourseForm extends FormValidator {
     	$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
     	$course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
     	
-		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
+		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
 		if ($course_can_have_theme)
 		{
 			$course->set_theme($values[Course :: PROPERTY_THEME]);
@@ -306,19 +306,19 @@ class CourseForm extends FormValidator {
     	$course->set_language($language ? $language : PlatformSetting :: get('platform_language'));
 		
 		$layout = $values[Course :: PROPERTY_LAYOUT];
-		$course->set_layout($layout? $layout : PlatformSetting :: get('default_course_layout', Weblcms :: APPLICATION_NAME));
+		$course->set_layout($layout? $layout : PlatformSetting :: get('default_course_layout', WeblcmsManager :: APPLICATION_NAME));
 		
 		$tool_shortcut = $values[Course :: PROPERTY_TOOL_SHORTCUT];
-		$course->set_tool_shortcut($tool_shortcut?$tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', Weblcms :: APPLICATION_NAME));
+		$course->set_tool_shortcut($tool_shortcut?$tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME));
 		
 		$menu = $values[Course :: PROPERTY_MENU];
-		$course->set_menu($menu ? $menu : PlatformSetting :: get('default_course_menu_selection', Weblcms :: APPLICATION_NAME));
+		$course->set_menu($menu ? $menu : PlatformSetting :: get('default_course_menu_selection', WeblcmsManager :: APPLICATION_NAME));
 		
 		$breadcrumb = $values[Course :: PROPERTY_BREADCRUMB];
-		$course->set_breadcrumb($breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', Weblcms :: APPLICATION_NAME));
+		$course->set_breadcrumb($breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME));
 		
 		$allow_feedback = $values[Course :: PROPERTY_ALLOW_FEEDBACK];
-		$course->set_allow_feedback($allow_feedback ? $allow_feedback : PlatformSetting :: get('feedback', Weblcms :: APPLICATION_NAME));
+		$course->set_allow_feedback($allow_feedback ? $allow_feedback : PlatformSetting :: get('feedback', WeblcmsManager :: APPLICATION_NAME));
 
     	if ($course->create())
     	{
@@ -371,21 +371,21 @@ class CourseForm extends FormValidator {
 		$defaults[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED] = $course->get_unsubscribe_allowed();
 		
 		$layout = $course->get_layout();
-		$defaults[Course :: PROPERTY_LAYOUT] = $layout? $layout : PlatformSetting :: get('default_course_layout', Weblcms :: APPLICATION_NAME);
+		$defaults[Course :: PROPERTY_LAYOUT] = $layout? $layout : PlatformSetting :: get('default_course_layout', WeblcmsManager :: APPLICATION_NAME);
 		
 		$tool_shortcut = $course->get_tool_shortcut();
-		$defaults[Course :: PROPERTY_TOOL_SHORTCUT] = $tool_shortcut?$tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', Weblcms :: APPLICATION_NAME);
+		$defaults[Course :: PROPERTY_TOOL_SHORTCUT] = $tool_shortcut?$tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME);
 		
 		$menu = $course->get_menu();
-		$defaults[Course :: PROPERTY_MENU] = $menu ? $menu : PlatformSetting :: get('default_course_menu_selection', Weblcms :: APPLICATION_NAME);
+		$defaults[Course :: PROPERTY_MENU] = $menu ? $menu : PlatformSetting :: get('default_course_menu_selection', WeblcmsManager :: APPLICATION_NAME);
 		
 		$breadcrumb = $course->get_breadcrumb();
-		$defaults[Course :: PROPERTY_BREADCRUMB] = $breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', Weblcms :: APPLICATION_NAME);
+		$defaults[Course :: PROPERTY_BREADCRUMB] = $breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME);
 		
 		$feedback = $course->get_allow_feedback();
-		$defaults[Course :: PROPERTY_ALLOW_FEEDBACK] = $feedback ? $feedback : PlatformSetting :: get('feedback', Weblcms :: APPLICATION_NAME);
+		$defaults[Course :: PROPERTY_ALLOW_FEEDBACK] = $feedback ? $feedback : PlatformSetting :: get('feedback', WeblcmsManager :: APPLICATION_NAME);
 		
-		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', Weblcms :: APPLICATION_NAME);
+		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
 		
 		if ($course_can_have_theme)
 		{

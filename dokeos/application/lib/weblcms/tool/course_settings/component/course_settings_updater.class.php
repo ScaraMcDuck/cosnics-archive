@@ -27,7 +27,7 @@ class CourseSettingsToolUpdaterComponent extends CourseSettingsToolComponent
 		if($form->validate())
 		{
 			$success = $form->update_course();
-			$this->redirect(Weblcms :: ACTION_VIEW_WEBLCMS_HOME, Translation :: get($success ? 'CourseSettingsUpdated' : 'CourseSettingsUpdateFailed'), ($success ? false : true));
+			$this->redirect(WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME, Translation :: get($success ? 'CourseSettingsUpdated' : 'CourseSettingsUpdateFailed'), ($success ? false : true));
 		}
 		else
 		{			

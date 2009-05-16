@@ -15,7 +15,7 @@ class SubscribedUserBrowserTableDataProvider extends ObjectTableDataProvider
   
   /**
    * Constructor
-   * @param WeblcmsComponent $browser
+   * @param WeblcmsManagerComponent $browser
    * @param Condition $condition
    */
   function SubscribedUserBrowserTableDataProvider($browser, $condition)

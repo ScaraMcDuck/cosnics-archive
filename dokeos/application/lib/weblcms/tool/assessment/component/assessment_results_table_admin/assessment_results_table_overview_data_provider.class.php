@@ -123,7 +123,7 @@ class AssessmentResultsTableOverviewAdminDataProvider extends ObjectTableDataPro
     	
     	$conds = array();
     	$parent = $this->parent;
-    	$category = $parent->get_parameter(Weblcms :: PARAM_CATEGORY);
+    	$category = $parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
     	$conds[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category);
     	
     	$type_cond = array();

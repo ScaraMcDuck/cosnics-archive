@@ -2,14 +2,14 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/../weblcms.class.php';
-require_once dirname(__FILE__).'/../weblcms_component.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__).'/../../course/course_import_form.class.php';
 
 /**
  * Weblcms component allows the use to import a course
  */
-class WeblcmsCourseImporterComponent extends WeblcmsComponent
+class WeblcmsManagerCourseImporterComponent extends WeblcmsManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.

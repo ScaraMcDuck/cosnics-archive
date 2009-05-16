@@ -269,7 +269,7 @@ abstract class Tool
 		if(!is_null($this->parent->get_course_group()))
 		{
 			$course_group = $this->parent->get_course_group();
-			$trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, Weblcms::PARAM_COURSE_GROUP=>null)),Translation :: get('CourseGroups')));
+			$trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, WeblcmsManager :: PARAM_COURSE_GROUP=>null)),Translation :: get('CourseGroups')));
 			$trail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), $course_group->get_name()));
 		}
 		elseif($this->get_tool_id() == 'course_group')
@@ -305,11 +305,11 @@ abstract class Tool
 		
 		echo '<div class="clear"></div><br />';
 		
-		if ($msg = $_GET[Weblcms :: PARAM_MESSAGE])
+		if ($msg = $_GET[WeblcmsManager :: PARAM_MESSAGE])
 		{
 			$this->parent->display_message($msg);
 		}
-		if($msg = $_GET[Weblcms :: PARAM_ERROR_MESSAGE])
+		if($msg = $_GET[WeblcmsManager :: PARAM_ERROR_MESSAGE])
 		{
 			$this->parent->display_error_message($msg);
 		}
@@ -515,7 +515,7 @@ abstract class Tool
 		return str_replace('/Tool$/', '', DokeosUtilities :: camelcase_to_underscores($class));
 	}
 	/**
-	 * @see WebLcms::get_last_visit_date()
+	 * @see WeblcmsManager :: get_last_visit_date()
 	 */
 	function get_last_visit_date()
 	{

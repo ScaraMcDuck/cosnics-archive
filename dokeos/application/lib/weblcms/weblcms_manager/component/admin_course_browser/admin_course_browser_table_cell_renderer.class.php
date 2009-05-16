@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/admin_course_browser_table_column_model.class.php';
 require_once dirname(__FILE__).'/../../../course/course_table/default_course_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../../course/course.class.php';
-require_once dirname(__FILE__).'/../../weblcms.class.php';
+require_once dirname(__FILE__).'/../../weblcms_manager.class.php';
 /**
  * Cell rendere for the learning object browser table
  */
