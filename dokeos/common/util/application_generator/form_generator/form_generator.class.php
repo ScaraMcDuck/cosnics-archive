@@ -18,11 +18,13 @@ class FormGenerator
     }
     
     /**
-     * Generate install files with the given info
+     * Generate a form with the given info
      * @param string $location - The location of the class
-     * @param string $object_name - The name of the application
+     * @param string $object_name - The name of the object
+     * @param string $properties - The properties of the object
+     * @param string $author - The author
      */
-    function generate_form($location, $object_name, $properties)
+    function generate_form($location, $object_name, $properties, $author)
     {	
     	if(!is_dir($location))
     		mkdir($location, 0777, true);
@@ -37,7 +39,8 @@ class FormGenerator
 			
 			$this->template->assign_vars(array(
 				'OBJECT_CLASS' => $object_name,
-				'L_OBJECT_CLASS' => strtolower($object_name)
+				'L_OBJECT_CLASS' => strtolower($object_name),
+				'AUTHOR' => $author
 			));
 			
     		foreach($properties as $property)

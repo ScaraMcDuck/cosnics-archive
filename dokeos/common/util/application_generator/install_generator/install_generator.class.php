@@ -22,7 +22,7 @@ class InstallGenerator
      * @param string $location - The location of the class
      * @param string $application_name - The name of the application
      */
-    function generate_install_files($location, $application_name)
+    function generate_install_files($location, $application_name, $author)
     {	
     	if(!is_dir($location))
     		mkdir($location, 0777, true);
@@ -36,8 +36,9 @@ class InstallGenerator
 				);
 			
 			$this->template->assign_vars(array(
-				'APPLICATION_NAME' => $application_name,
-				'C_APPLICATION_NAME' => DokeosUtilities :: underscores_to_camelcase($application_name)
+				'APPLICATION_NAME' => strtolower($application_name),
+				'C_APPLICATION_NAME' => DokeosUtilities :: underscores_to_camelcase($application_name),
+				'AUTHOR' => $author
 			));
 			
 			$string = trim($this->template->pparse_return('install'));
