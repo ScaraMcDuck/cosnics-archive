@@ -8,11 +8,11 @@
  */
 $application_key = $_GET['application'];
 $this_section = $application_key;
-$application_path = dirname(__FILE__).'/application/lib/'.$application_key.'/'.$application_key.'_manager/'.$application_key.'.class.php';
+$application_path = dirname(__FILE__).'/application/lib/'.$application_key.'/'.$application_key.'_manager/'.$application_key.'_manager.class.php';
 
 require_once dirname(__FILE__).'/common/global.inc.php';
 require_once Path :: get_user_path(). 'lib/user_manager/user_manager.class.php';
-require_once Path ::get_application_path().'lib/weblcms/tool/assessment/assessment_tool.class.php';
+//require_once Path ::get_application_path().'lib/weblcms/tool/assessment/assessment_tool.class.php';
 
 // If application path doesn't exist, block the user
 if(!file_exists($application_path))

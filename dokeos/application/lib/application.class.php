@@ -19,6 +19,7 @@ abstract class Application
 	 * Runs the application.
 	 */
 	abstract function run();
+	
 	/**
 	 * Determines whether the given learning object has been published in this
 	 * application.
@@ -27,6 +28,7 @@ abstract class Application
 	 *                 otherwise.
 	 */
 	abstract function learning_object_is_published($object_id);
+	
 	/**
 	 * Determines whether any of the given learning objects has been published
 	 * in this application.
@@ -35,6 +37,7 @@ abstract class Application
 	 * this application, false otherwise
 	 */
 	abstract function any_learning_object_is_published($object_ids);
+	
 	/**
 	 * Determines where in this application the given learning object has been
 	 * published.
@@ -43,6 +46,7 @@ abstract class Application
 	 *               empty if the object has not been published anywhere.
 	 */
 	abstract function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	
 	/**
 	 * Determines where in this application the given learning object
 	 * publication is published.
@@ -50,6 +54,7 @@ abstract class Application
 	 * @return LearningObjectPublicationAttributes
 	 */
 	abstract function get_learning_object_publication_attribute($publication_id);
+	
 	/**
 	 * Counts the number of publications
 	 * @param string $type
@@ -57,6 +62,7 @@ abstract class Application
 	 * @return int
 	 */
 	abstract function count_publication_attributes($type = null, $condition = null);
+	
 	/**
 	 * Deletes all publications of a given learning object
 	 * @param int $object_id The id of the learning object
@@ -71,14 +77,17 @@ abstract class Application
 	 *
 	 */
 	abstract function update_learning_object_publication_id($publication_attr);
+	
 	/**
 	 * Gets the links to admin-components of this application
 	 */
 	abstract function get_application_platform_admin_links();
+	
 	/**
 	 * Gets a platform setting
 	 */
 	abstract function get_platform_setting($variable, $application = 'admin');
+	
 	/**
 	 * Loads the applications installed on the system. Applications are classes
 	 * in the /application/lib subdirectory. Each application is a directory,
@@ -101,7 +110,7 @@ abstract class Application
 				{
 					if ($include_application_classes)
 					{
-						require_once($directory . '/' . $application_name . '_manager/' . $application_name . '.class.php');
+						require_once($directory . '/' . $application_name . '_manager/' . $application_name . '_manager.class.php');
 					}
 					$applications[] = $application_name;
 				}
@@ -123,7 +132,7 @@ abstract class Application
 		{
 			if ($include_application_classes)
 			{
-				require_once $path . '/' . $application->get_name() . '/' . $application->get_name() . '_manager/'.$application->get_name().'.class.php';
+				require_once $path . '/' . $application->get_name() . '/' . $application->get_name() . '_manager/'.$application->get_name().'_manager.class.php';
 			}
 			$active_applications[] = $application->get_name();
 		}
@@ -149,7 +158,6 @@ abstract class Application
 	 */
 	public static function is_application($name)
 	{
-		// TODO: Should "active" applications be registered in the DB to avoid conflicts ?
 		$path = dirname(__FILE__);
 		$application_path = $path . '/' . $name;
 		if (file_exists($application_path) && is_dir($application_path))
@@ -179,8 +187,43 @@ abstract class Application
 	 */
 	public static function factory($application, $user = null)
 	{
-		$class = Application::application_to_class($application);
+		$class = Application :: application_to_class($application) . 'Manager';
 		return new $class($user);
+	}
+	
+	public function is_active($application)
+	{
+		if (self :: is_application($application))
+		{
+			$adm = AdminDataManager :: get_instance();
+			
+			$conditions = array();
+			$conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, 'application');
+			$conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $application);
+			$condition = new AndCondition($conditions);
+			
+			$registrations = $adm->retrieve_registrations($condition);
+			if ($registrations->size() > 0)
+			{
+				$registration = $registrations->next_result();
+				if ($registration->is_active())
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
 ?>

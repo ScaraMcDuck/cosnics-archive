@@ -416,7 +416,7 @@ class AdminManager
 		$applications = Application :: load_all();
 		foreach($applications as $index => $application_name)
 		{
-			$application = Application::factory($application_name);
+			$application = Application :: factory($application_name);
 			$links = $application->get_application_platform_admin_links();
 			if ($links['application']['name'])
 			{
