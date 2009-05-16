@@ -78,8 +78,8 @@ class SubscribeGroupBrowserTableCellRenderer extends DefaultGroupTableCellRender
 	{
 		$toolbar_data = array();
 		
-		$parameters[Weblcms::PARAM_ACTION] = Weblcms::ACTION_SUBSCRIBE_GROUPS;
-		$parameters[Weblcms :: PARAM_USERS] = $group->get_id();
+		$parameters[WeblcmsManager :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE_GROUPS;
+		$parameters[WeblcmsManager :: PARAM_USERS] = $group->get_id();
 		
 		$toolbar_data[] = array(
 			'href' => $this->browser->get_url($parameters),

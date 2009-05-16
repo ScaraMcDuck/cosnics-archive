@@ -1,6 +1,6 @@
 <?php
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/weblcms_manager/weblcms.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/weblcms_manager/weblcms_manager.class.php';
 
 class WeblcmsRights
 {
@@ -17,27 +17,27 @@ class WeblcmsRights
 	
 	function is_allowed($right, $location, $type)
 	{
-		return RightsUtilities :: is_allowed($right, $location, $type, Weblcms :: APPLICATION_NAME);
+		return RightsUtilities :: is_allowed($right, $location, $type, WeblcmsManager :: APPLICATION_NAME);
 	}
 	
 	function get_location_by_identifier($type, $identifier)
 	{
-		return RightsUtilities :: get_location_by_identifier(Weblcms :: APPLICATION_NAME, $type, $identifier);
+		return RightsUtilities :: get_location_by_identifier(WeblcmsManager :: APPLICATION_NAME, $type, $identifier);
 	}
 	
 	function get_location_id_by_identifier($type, $identifier)
 	{
-		return RightsUtilities :: get_location_id_by_identifier(Weblcms :: APPLICATION_NAME, $type, $identifier);
+		return RightsUtilities :: get_location_id_by_identifier(WeblcmsManager :: APPLICATION_NAME, $type, $identifier);
 	}
 	
 	function get_root_id()
 	{
-		return RightsUtilities :: get_root_id(Weblcms :: APPLICATION_NAME);
+		return RightsUtilities :: get_root_id(WeblcmsManager :: APPLICATION_NAME);
 	}
 	
 	function get_root()
 	{
-		return RightsUtilities :: get_root(Weblcms :: APPLICATION_NAME);
+		return RightsUtilities :: get_root(WeblcmsManager :: APPLICATION_NAME);
 	}
 }
 ?>

@@ -2,21 +2,21 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/../weblcms.class.php';
-require_once dirname(__FILE__).'/../weblcms_component.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__).'/course_browser/course_browser_table.class.php';
 require_once Path :: get_group_path() . 'lib/group_data_manager.class.php';
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
-class WeblcmsGroupSubscribeComponent extends WeblcmsComponent
+class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$course_code = $_GET[Weblcms :: PARAM_COURSE];
+		$course_code = $_GET[WeblcmsManager :: PARAM_COURSE];
 		$groups = $_GET['group_id'];
 		
 		if(!is_array($groups))
@@ -44,7 +44,7 @@ class WeblcmsGroupSubscribeComponent extends WeblcmsComponent
 					$message = 'GroupsSubscribedToCourse';
 				}
 
-				$this->redirect(null, Translation :: get($message), ($success ? false : true), array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE, Weblcms :: PARAM_COURSE => $course_code, Weblcms :: PARAM_TOOL => 'user'));
+				$this->redirect(null, Translation :: get($message), ($success ? false : true), array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code, WeblcmsManager :: PARAM_TOOL => 'user'));
 			}
 		}
 
@@ -60,7 +60,7 @@ class WeblcmsGroupSubscribeComponent extends WeblcmsComponent
 			$user_id = $user->get_user_id();
 			if ($user_id != $this->get_user_id())
 			{
-				$status = isset($_GET[Weblcms :: PARAM_STATUS]) ? $_GET[Weblcms :: PARAM_STATUS] : 5;
+				$status = isset($_GET[WeblcmsManager :: PARAM_STATUS]) ? $_GET[WeblcmsManager :: PARAM_STATUS] : 5;
 				$this->subscribe_user_to_course($course, $status, '0', $user_id);
 			}
 		}

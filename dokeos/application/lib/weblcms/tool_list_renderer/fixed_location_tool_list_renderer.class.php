@@ -159,13 +159,13 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				// Show visibility-icon
 				if ($this->is_course_admin )
 				{
-					$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_COMPONENT_ACTION=>$lcms_action,'pid' => $publication->get_id())).'"><img src="'.Theme :: get_common_image_path().$visible_image.'" style="vertical-align: middle;" alt=""/></a>';
-					$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_COMPONENT_ACTION=>'delete_publication','pid' => $publication->get_id())).'"><img src="'.Theme :: get_common_image_path().'action_delete.png" style="vertical-align: middle;" alt=""/></a>';
+					$html[] = '<a href="'.$parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION=>$lcms_action,'pid' => $publication->get_id())).'"><img src="'.Theme :: get_common_image_path().$visible_image.'" style="vertical-align: middle;" alt=""/></a>';
+					$html[] = '<a href="'.$parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION=>'delete_publication','pid' => $publication->get_id())).'"><img src="'.Theme :: get_common_image_path().'action_delete.png" style="vertical-align: middle;" alt=""/></a>';
 					$html[] = '&nbsp;&nbsp;&nbsp;';
 				}
 				
 				// Show tool-icon + name
-				$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $publication->get_tool(), 'pid' => $publication->get_id()), true).'" '.$link_class.'>';
+				$html[] = '<a href="'.$parent->get_url(array (WeblcmsManager :: PARAM_COMPONENT_ACTION=>null,WeblcmsManager :: PARAM_TOOL => $publication->get_tool(), 'pid' => $publication->get_id()), true).'" '.$link_class.'>';
 				$html[] = '<img src="'.Theme :: get_image_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
 				$html[] = '&nbsp;';
 				$html[] = $title;
@@ -281,7 +281,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				// Show visibility-icon
 				if ($this->is_course_admin && $section->get_type() != CourseSection :: TYPE_ADMIN)
 				{
-					$html[] = '<a href="'.$parent->get_url(array(WebLcms :: PARAM_COMPONENT_ACTION=>$lcms_action,WebLcms :: PARAM_TOOL=>$tool->name)).'"><img class="tool_visible" src="'.Theme :: get_common_image_path().$visible_image.'" style="vertical-align: middle;" alt=""/></a>';
+					$html[] = '<a href="'.$parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION=>$lcms_action,WeblcmsManager :: PARAM_TOOL=>$tool->name)).'"><img class="tool_visible" src="'.Theme :: get_common_image_path().$visible_image.'" style="vertical-align: middle;" alt=""/></a>';
 					$html[] = '&nbsp;&nbsp;&nbsp;';
 				}
 				
@@ -289,7 +289,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				
 				$html[] = '<img class="tool_image"' . $id . ' src="'.Theme :: get_image_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
 				$html[] = '&nbsp;';
-				$html[] = '<a id="tool_text" href="'.$parent->get_url(array (WebLcms :: PARAM_COMPONENT_ACTION=>null,WebLcms :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
+				$html[] = '<a id="tool_text" href="'.$parent->get_url(array (WeblcmsManager :: PARAM_COMPONENT_ACTION=>null,WeblcmsManager :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
 				$html[] = $title;
 				$html[] = '</a>';
 				

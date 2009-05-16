@@ -145,7 +145,7 @@ class MenuToolListRenderer extends ToolListRenderer
 		$tool_image = 'tool_mini_' . $tool->name . $new . '.png';
 		$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'));
 		$html[] = '<li class="tool_list_menu">';
-		$html[] = '<a href="'.$parent->get_url(array (WebLcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE,WebLcms :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
+		$html[] = '<a href="'.$parent->get_url(array (WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE,WeblcmsManager :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
 						
 		if ($this->display_menu_icons())
 		{

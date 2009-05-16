@@ -2,14 +2,14 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/../weblcms.class.php';
-require_once dirname(__FILE__).'/../weblcms_component.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__).'/../../course/course_user_category.class.php';
 /**
  * Weblcms component which provides the user with a list
  * of all courses he or she has subscribed to.
  */
-class WeblcmsHomeComponent extends WeblcmsComponent
+class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -131,14 +131,14 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 
 	function display_create_course_link()
 	{
-		return '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_create.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.Translation :: get('CourseCreate').'</a></li>';
+		return '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_create.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)) .'">'.Translation :: get('CourseCreate').'</a></li>';
 	}
 	function display_edit_course_list_links()
 	{
 		$html = array();
-		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_reset.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_SORT)).'">'.Translation :: get('SortMyCourses').'</a></li>';
-		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_subscribe.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_SUBSCRIBE)).'">'.Translation :: get('CourseSubscribe').'</a></li>';
-		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_unsubscribe.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_MANAGER_UNSUBSCRIBE)).'">'.Translation :: get('CourseUnsubscribe').'</a></li>';
+		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_reset.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT)).'">'.Translation :: get('SortMyCourses').'</a></li>';
+		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_subscribe.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SUBSCRIBE)).'">'.Translation :: get('CourseSubscribe').'</a></li>';
+		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_unsubscribe.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_UNSUBSCRIBE)).'">'.Translation :: get('CourseUnsubscribe').'</a></li>';
 
 		return implode($html, "\n");
 	}
@@ -146,12 +146,12 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 	function display_platform_admin_course_list_links()
 	{
 		$html = array();
-		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_create.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.Translation :: get('CourseCreate').'</a></li>';
-		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER)) .'">'.Translation :: get('CourseList').'</a></li>';
-		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_move.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_COURSE_CATEGORY_MANAGER)) .'">'.Translation :: get('CourseCategoryManagement').'</a></li>';
-		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_add.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSES)) .'">'.Translation :: get('ImportCourseCSV').'</a></li>';
-		//$html[] = '<li><a href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_CREATE_COURSE)) .'">'.Translation :: get('AddUserToCourse').'</a></li>';
-		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_add.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_IMPORT_COURSE_USERS)) .'">'.Translation :: get('ImportUsersForCourseCSV').'</a></li>';
+		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_create.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)) .'">'.Translation :: get('CourseCreate').'</a></li>';
+		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_browser.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)) .'">'.Translation :: get('CourseList').'</a></li>';
+		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_move.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)) .'">'.Translation :: get('CourseCategoryManagement').'</a></li>';
+		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_add.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)) .'">'.Translation :: get('ImportCourseCSV').'</a></li>';
+		//$html[] = '<li><a href="'.$this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)) .'">'.Translation :: get('AddUserToCourse').'</a></li>';
+		$html[] = '<li class="tool_list_menu" style="list-style-position: inside; list-style-image: url(' . Theme :: get_common_image_path() . 'action_add.png)"><a style="top: -3px; position: relative;" href="'.$this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)) .'">'.Translation :: get('ImportUsersForCourseCSV').'</a></li>';
 
 		return implode($html, "\n");
 	}
@@ -198,9 +198,9 @@ class WeblcmsHomeComponent extends WeblcmsComponent
 				{					  
 					if($tool->visible && $weblcms->tool_has_new_publications($tool->name))
 					{
-						$params[Weblcms::PARAM_TOOL] = $tool->name;
-						$params[Weblcms::PARAM_COURSE] = $course->get_id();
-						$params[Weblcms::PARAM_ACTION] = Weblcms::ACTION_VIEW_COURSE;
+						$params[WeblcmsManager :: PARAM_TOOL] = $tool->name;
+						$params[WeblcmsManager :: PARAM_COURSE] = $course->get_id();
+						$params[WeblcmsManager :: PARAM_ACTION] = WeblcmsManager :: ACTION_VIEW_COURSE;
 						$url = $weblcms->get_url($params);
 						$html[] = '<a href="'.$url.'"><img src="'. Theme :: get_image_path(). 'tool_' . $tool->name.'_new.png" alt="'.Translation :: get('New').'"/></a>';
 					}

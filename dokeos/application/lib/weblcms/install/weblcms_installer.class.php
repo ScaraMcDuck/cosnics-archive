@@ -2,7 +2,7 @@
 /**
  * @package application.weblcms
  */
-require_once dirname(__FILE__).'/../weblcms_manager/weblcms.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager/weblcms_manager.class.php';
 require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
 require_once Path :: get_library_path().'installer.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';

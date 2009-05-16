@@ -2,15 +2,15 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/../weblcms.class.php';
-require_once dirname(__FILE__).'/../weblcms_component.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__).'/../../course/course_user_relation_form.class.php';
 require_once dirname(__FILE__).'/../../course/course_user_category_form.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 /**
  * Weblcms component which allows the user to manage his or her course subscriptions
  */
-class WeblcmsSorterComponent extends WeblcmsComponent
+class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 {
 	private $category;
 	private $action_bar;
@@ -20,7 +20,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	 */
 	function run()
 	{		
-		$component_action = $this->get_parameter(Weblcms::PARAM_COMPONENT_ACTION);
+		$component_action = $this->get_parameter(WeblcmsManager :: PARAM_COMPONENT_ACTION);
 		
 		switch($component_action)
 		{
@@ -52,13 +52,13 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	
 	function move_course_list()
 	{
-		$direction = $_GET[Weblcms :: PARAM_DIRECTION];
-		$course = $_GET[Weblcms :: PARAM_COURSE_USER];
+		$direction = $_GET[WeblcmsManager :: PARAM_DIRECTION];
+		$course = $_GET[WeblcmsManager :: PARAM_COURSE_USER];
 		
 		if (isset($direction) && isset($course))
 		{
 			$success = $this->move_course($course, $direction);
-			$this->redirect(null, Translation :: get($success ? 'CourseUserMoved' : 'CourseUserNotMoved'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => Weblcms :: ACTION_MANAGER_SORT));
+			$this->redirect(null, Translation :: get($success ? 'CourseUserMoved' : 'CourseUserNotMoved'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT));
 		}
 		else
 		{
@@ -68,13 +68,13 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	
 	function move_category_list()
 	{
-		$direction = $_GET[Weblcms :: PARAM_DIRECTION];
-		$category = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
+		$direction = $_GET[WeblcmsManager :: PARAM_DIRECTION];
+		$category = $_GET[WeblcmsManager :: PARAM_COURSE_CATEGORY_ID];
 		
 		if (isset($direction) && isset($category))
 		{
 			$success = $this->move_category($category, $direction);
-			$this->redirect(null, Translation :: get($success ? 'CourseUserCategoryMoved' : 'CourseUserCategoryNotMoved'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => Weblcms :: ACTION_MANAGER_SORT));
+			$this->redirect(null, Translation :: get($success ? 'CourseUserCategoryMoved' : 'CourseUserCategoryNotMoved'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT));
 		}
 		else
 		{
@@ -84,14 +84,14 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	
 	function assign_course_category()
 	{
-		$course_id = $_GET[Weblcms :: PARAM_COURSE_USER];
+		$course_id = $_GET[WeblcmsManager :: PARAM_COURSE_USER];
 		$courseuserrelation = $this->retrieve_course_user_relation($course_id, $this->get_user_id());
 		$form = new CourseUserRelationForm(CourseUserRelationForm :: TYPE_EDIT, $courseuserrelation, $this->get_user(), $this->get_url(array()));
 		
 		if($form->validate())
 		{
 			$success = $form->update_course_user_relation();
-			$this->redirect(null, Translation :: get($success ? 'CourseUserCategoryUpdated' : 'CourseUserCategoryNotUpdated'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => Weblcms :: ACTION_MANAGER_SORT));
+			$this->redirect(null, Translation :: get($success ? 'CourseUserCategoryUpdated' : 'CourseUserCategoryNotUpdated'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT));
 		}
 		else
 		{
@@ -166,7 +166,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		if($form->validate())
 		{
 			$success = $form->create_course_user_category();
-			$this->redirect(null, Translation :: get($success ? 'CourseUserCategoryAdded' : 'CourseUserCategoryNotAdded'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'view'));
+			$this->redirect(null, Translation :: get($success ? 'CourseUserCategoryAdded' : 'CourseUserCategoryNotAdded'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => 'view'));
 		}
 		else
 		{
@@ -180,15 +180,15 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	
 	function edit_course_user_category()
 	{
-		$course_user_category_id = $_GET[Weblcms :: PARAM_COURSE_USER_CATEGORY_ID];
+		$course_user_category_id = $_GET[WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID];
 		$courseusercategory = $this->retrieve_course_user_category($course_user_category_id);
 		
-		$form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_EDIT, $courseusercategory, $this->get_user(), $this->get_url(array(Weblcms :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id)));
+		$form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_EDIT, $courseusercategory, $this->get_user(), $this->get_url(array(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id)));
 		
 		if($form->validate())
 		{
 			$success = $form->update_course_user_category();
-			$this->redirect(null, Translation :: get($success ? 'CourseUserCategoryUpdated' : 'CourseUserCategoryNotUpdated'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'view', Weblcms :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id));
+			$this->redirect(null, Translation :: get($success ? 'CourseUserCategoryUpdated' : 'CourseUserCategoryNotUpdated'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => 'view', WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id));
 		}
 		else
 		{
@@ -202,7 +202,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	
 	function delete_course_user_category()
 	{
-		$course_user_category_id = $_GET[Weblcms :: PARAM_COURSE_USER_CATEGORY_ID];
+		$course_user_category_id = $_GET[WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID];
 		$courseusercategory = $this->retrieve_course_user_category($course_user_category_id);
 		
 		$relations = $this->retrieve_course_user_relations($this->get_user_id(), $course_user_category_id);
@@ -222,7 +222,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 		}
 		
 		$success = $courseusercategory->delete();
-		$this->redirect(null, Translation :: get($success ? 'CourseUserCategoryDeleted' : 'CourseUserCategoryNotDeleted'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'view'));
+		$this->redirect(null, Translation :: get($success ? 'CourseUserCategoryDeleted' : 'CourseUserCategoryNotDeleted'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => 'view'));
 	}
 	
 	function show_course_list()
@@ -235,7 +235,7 @@ class WeblcmsSorterComponent extends WeblcmsComponent
 	function display_page_header($title)
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(null, false, true, array(Weblcms :: PARAM_ACTION)), Translation :: get('MyCourses')));
+		$trail->add(new Breadcrumb($this->get_url(null, false, true, array(WeblcmsManager :: PARAM_ACTION)), Translation :: get('MyCourses')));
 		$trail->add(new Breadcrumb($this->get_url(), $title));
 		$this->display_header($trail);
 		echo '<div class="clear"></div><br />';

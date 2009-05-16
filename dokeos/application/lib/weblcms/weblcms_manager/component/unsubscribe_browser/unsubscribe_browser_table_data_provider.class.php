@@ -13,7 +13,7 @@ class UnsubscribeBrowserTableDataProvider extends ObjectTableDataProvider
 {
   /**
    * Constructor
-   * @param WeblcmsComponent $browser
+   * @param WeblcmsManagerComponent $browser
    * @param Condition $condition
    */
   function UnsubscribeBrowserTableDataProvider($browser, $condition)

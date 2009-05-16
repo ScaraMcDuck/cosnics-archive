@@ -2,19 +2,19 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/../weblcms.class.php';
-require_once dirname(__FILE__).'/../weblcms_component.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager_component.class.php';
 /**
  * Repository manager component which provides functionality to delete a course
  */
-class WeblcmsCourseDeleterComponent extends WeblcmsComponent
+class WeblcmsManagerCourseDeleterComponent extends WeblcmsManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$course_codes = $_GET[Weblcms :: PARAM_COURSE];
+		$course_codes = $_GET[WeblcmsManager :: PARAM_COURSE];
 		$failures = 0;
 		
 		if (!$this->get_user()->is_platform_admin())
@@ -68,7 +68,7 @@ class WeblcmsCourseDeleterComponent extends WeblcmsComponent
 				}
 			}
 			
-			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_ADMIN_COURSE_BROWSER));
+			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER));
 		}
 		else
 		{

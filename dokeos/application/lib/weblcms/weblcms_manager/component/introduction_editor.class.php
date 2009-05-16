@@ -1,11 +1,11 @@
 <?php
 
-require_once dirname(__FILE__) . '/../weblcms.class.php';
-require_once dirname(__FILE__) . '/../weblcms_component.class.php';
+require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
+require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__) . '/../../learning_object_publication_form.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
 
-class WeblcmsIntroductionEditorComponent extends WeblcmsComponent
+class WeblcmsManagerIntroductionEditorComponent extends WeblcmsManagerComponent
 {
 	function run()
 	{
@@ -23,7 +23,7 @@ class WeblcmsIntroductionEditorComponent extends WeblcmsComponent
 				$introduction_text->set_learning_object($lo->get_latest_version());
 				$introduction_text->update();
 			}
-			$this->redirect(null, Translation :: get('IntroductionEdited'), '', array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE));
+			$this->redirect(null, Translation :: get('IntroductionEdited'), '', array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE));
 		}
 		else
 		{

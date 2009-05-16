@@ -82,7 +82,7 @@ require_once dirname(__FILE__) . '/../../../../user/lib/data_manager/database.cl
 require_once dirname(__FILE__) . '/../data_manager/database.class.php';
 require_once dirname(__FILE__) . '/../../../../repository/lib/learning_object.class.php';
 require_once dirname(__FILE__) . '/../learning_object_publication.class.php';
-require_once dirname(__FILE__) . '/../weblcms_manager/weblcms.class.php';
+require_once dirname(__FILE__) . '/../weblcms_manager/weblcms_manager.class.php';
 require_once Path :: get_library_path() . 'validator/validator.class.php';
 
 ini_set('max_execution_time', -1);

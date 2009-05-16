@@ -5,7 +5,7 @@
 require_once Path :: get_reporting_path().'lib/reporting.class.php';
 require_once Path :: get_reporting_path().'lib/reporting_template_viewer.class.php';
 
-class WeblcmsReportingComponent extends WeblcmsComponent
+class WeblcmsManagerReportingComponent extends WeblcmsManagerComponent
 {
     /**
      * Runs this component and displays its output.

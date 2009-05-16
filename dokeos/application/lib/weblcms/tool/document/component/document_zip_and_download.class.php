@@ -25,7 +25,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 	private function create_document_archive()
 	{
 		$parent = $this->get_parent();
-		$category_id = $parent->get_parameter(Weblcms::PARAM_CATEGORY);
+		$category_id = $parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
 		if(!isset($category_id) || is_null($category_id) || strlen($category_id) == 0)
 		{
 			$category_id = 0;
@@ -80,7 +80,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 			Filesystem::create_dir($path);
 			$parent = $this->get_parent();
 			$course = $parent->get_course_id();
-			$tool = $parent->get_parameter(Weblcms :: PARAM_TOOL);
+			$tool = $parent->get_parameter(WeblcmsManager :: PARAM_TOOL);
 			
 			$conditions[] = new EqualityCondition('course',$course);
 			$conditions[] = new EqualityCondition('tool',$tool);

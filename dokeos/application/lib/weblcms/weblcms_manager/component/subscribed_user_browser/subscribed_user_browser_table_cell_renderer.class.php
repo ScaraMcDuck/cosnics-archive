@@ -70,11 +70,11 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 	private function get_modification_links($user)
 	{
 		$toolbar_data = array();
-		if($_GET[Weblcms::PARAM_TOOL_ACTION] == Weblcms :: ACTION_SUBSCRIBE)
+		if($_GET[WeblcmsManager :: PARAM_TOOL_ACTION] == WeblcmsManager :: ACTION_SUBSCRIBE)
 		{
 			$parameters = array();
-			$parameters[Weblcms::PARAM_ACTION] = Weblcms::ACTION_SUBSCRIBE;
-			$parameters[Weblcms :: PARAM_USERS] = $user->get_id();
+			$parameters[WeblcmsManager :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE;
+			$parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
 			$subscribe_url = $this->browser->get_url($parameters);
 			$toolbar_data[] = array(
 				'href' => $subscribe_url,
@@ -83,9 +83,9 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 			);
 			
 			$parameters = array();
-			$parameters[Weblcms::PARAM_ACTION] = Weblcms::ACTION_SUBSCRIBE;
-			$parameters[Weblcms :: PARAM_USERS] = $user->get_id();
-			$parameters[Weblcms :: PARAM_STATUS] = 1;
+			$parameters[WeblcmsManager :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE;
+			$parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
+			$parameters[WeblcmsManager :: PARAM_STATUS] = 1;
 			$subscribe_url = $this->browser->get_url($parameters);
 			$toolbar_data[] = array(
 				'href' => $subscribe_url,
@@ -96,8 +96,8 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 		else
 		{
 			$parameters = array();
-			$parameters[Weblcms::PARAM_TOOL_ACTION] = UserTool::ACTION_USER_DETAILS;
-			$parameters[Weblcms :: PARAM_USERS] = $user->get_id();
+			$parameters[WeblcmsManager :: PARAM_TOOL_ACTION] = UserTool::ACTION_USER_DETAILS;
+			$parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
 			$unsubscribe_url = $this->browser->get_url($parameters);
 			$toolbar_data[] = array(
 				'href' => $unsubscribe_url,
@@ -108,8 +108,8 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 			if($user->get_id() != $this->browser->get_user()->get_id())
 			{
 				$parameters = array();
-				$parameters[Weblcms::PARAM_ACTION] = Weblcms::ACTION_UNSUBSCRIBE;
-				$parameters[Weblcms :: PARAM_USERS] = $user->get_id();
+				$parameters[WeblcmsManager :: PARAM_ACTION] = WeblcmsManager :: ACTION_UNSUBSCRIBE;
+				$parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
 				$unsubscribe_url = $this->browser->get_url($parameters);
 				$toolbar_data[] = array(
 					'href' => $unsubscribe_url,
@@ -119,8 +119,8 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 			}
 
             //@todo check rights ?
-			//$parameters[Weblcms::PARAM_TOOL_ACTION] = UserTool::ACTION_USER_DETAILS;
-			//$parameters[Weblcms :: PARAM_USERS] = $user->get_id();
+			//$parameters[WeblcmsManager :: PARAM_TOOL_ACTION] = UserTool::ACTION_USER_DETAILS;
+			//$parameters[WeblcmsManager :: PARAM_USERS] = $user->get_id();
             $params = array();
             //$params[ReportingManager :: PARAM_APPLICATION] = "weblcms";
             $params[ReportingManager :: PARAM_COURSE_ID] = $this->browser->get_course_id();

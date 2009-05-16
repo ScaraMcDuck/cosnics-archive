@@ -2,14 +2,14 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/../weblcms.class.php';
-require_once dirname(__FILE__).'/../weblcms_component.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__).'/../../course/course_form.class.php';
 
 /**
  * Weblcms component allows the use to create a course
  */
-class WeblcmsCourseCreatorComponent extends WeblcmsComponent
+class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -48,7 +48,7 @@ class WeblcmsCourseCreatorComponent extends WeblcmsComponent
 		if($form->validate())
 		{
 			$success = $form->create_course();
-			$this->redirect(null, Translation :: get($success ? 'CourseCreated' : 'CourseNotCreated'), ($success ? false : true), array('go' => Weblcms :: ACTION_VIEW_COURSE, 'course' => $course->get_id()));
+			$this->redirect(null, Translation :: get($success ? 'CourseCreated' : 'CourseNotCreated'), ($success ? false : true), array('go' => WeblcmsManager :: ACTION_VIEW_COURSE, 'course' => $course->get_id()));
 		}
 		else
 		{

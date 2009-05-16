@@ -99,8 +99,8 @@ class AssessmentPublicationTableDataProvider extends ObjectTableDataProvider
     	$owner = $this->owner;
     	$conds = array();
     	$parent = $this->parent;
-    	if ($parent->get_parameter(Weblcms :: PARAM_CATEGORY))
-    		$category = $parent->get_parameter(Weblcms :: PARAM_CATEGORY);
+    	if ($parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY))
+    		$category = $parent->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
     	else
     		$category = 0;
     	$conds[] = new EqualityCondition(LearningObjectPublication :: PROPERTY_CATEGORY_ID, $category);

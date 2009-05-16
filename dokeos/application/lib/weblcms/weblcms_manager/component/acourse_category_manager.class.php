@@ -3,15 +3,15 @@
  * @package application.weblcms.weblcms_manager.component
  */
 require_once dirname(__FILE__).'/course_category_browser/course_category_browser_table.class.php';
-require_once dirname(__FILE__).'/../weblcms.class.php';
-require_once dirname(__FILE__).'/../weblcms_component.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager.class.php';
+require_once dirname(__FILE__).'/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__).'/../../course/course_category_form.class.php';
 require_once dirname(__FILE__).'/../../course/course_category_menu.class.php';
 
 /**
  * Weblcms component allows the user to manage course categories
  */
-class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
+class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManagerComponent
 {
 	private $category;
 	
@@ -33,9 +33,9 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 			exit;
 		}
 		
-		$this->category = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
+		$this->category = $_GET[WeblcmsManager :: PARAM_COURSE_CATEGORY_ID];
 		
-		$component_action = $this->get_parameter(Weblcms::PARAM_COMPONENT_ACTION);
+		$component_action = $this->get_parameter(WeblcmsManager :: PARAM_COMPONENT_ACTION);
 		
 		switch($component_action)
 		{
@@ -109,7 +109,7 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 		}
 		
 		$temp_replacement = '__CATEGORY_ID__';
-		$url_format = $this->get_url(array (Weblcms :: PARAM_ACTION => Weblcms :: ACTION_COURSE_CATEGORY_MANAGER, Weblcms :: PARAM_COURSE_CATEGORY_ID => $temp_replacement));
+		$url_format = $this->get_url(array (WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER, WeblcmsManager :: PARAM_COURSE_CATEGORY_ID => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$category_menu = new CourseCategoryMenu($this->category, $url_format);
 		
@@ -152,15 +152,15 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 	
 	function edit_course_category()
 	{
-		$course_category_id = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
+		$course_category_id = $_GET[WeblcmsManager :: PARAM_COURSE_CATEGORY_ID];
 		$course_category = $this->retrieve_course_category($course_category_id);
 		
-		$form = new CourseCategoryForm(CourseCategoryForm :: TYPE_EDIT, $course_category, $this->get_url(array(Weblcms :: PARAM_COURSE_CATEGORY_ID => $course_category_id)));
+		$form = new CourseCategoryForm(CourseCategoryForm :: TYPE_EDIT, $course_category, $this->get_url(array(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID => $course_category_id)));
 		
 		if($form->validate())
 		{
 			$success = $form->update_course_category();
-			$this->redirect(null, Translation :: get($success ? 'CourseCategoryUpdated' : 'CourseCategoryNotUpdated'), ($success ? false : true), array(Weblcms :: PARAM_COURSE_CATEGORY_ID => $course_category_id));
+			$this->redirect(null, Translation :: get($success ? 'CourseCategoryUpdated' : 'CourseCategoryNotUpdated'), ($success ? false : true), array(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID => $course_category_id));
 		}
 		else
 		{
@@ -174,11 +174,11 @@ class WeblcmsCourseCategoryManagerComponent extends WeblcmsComponent
 	
 	function delete_course_category()
 	{
-		$course_category_id = $_GET[Weblcms :: PARAM_COURSE_CATEGORY_ID];
+		$course_category_id = $_GET[WeblcmsManager :: PARAM_COURSE_CATEGORY_ID];
 		$coursecategory = $this->retrieve_course_category($course_category_id);
 		
 		$success = $coursecategory->delete();
-		$this->redirect(null, Translation :: get($success ? 'CourseCategoryDeleted' : 'CourseCategoryNotDeleted'), ($success ? false : true), array(Weblcms :: PARAM_COMPONENT_ACTION => 'view'));
+		$this->redirect(null, Translation :: get($success ? 'CourseCategoryDeleted' : 'CourseCategoryNotDeleted'), ($success ? false : true), array(WeblcmsManager :: PARAM_COMPONENT_ACTION => 'view'));
 	}
 	
 	function get_course_category_manager_modification_links()

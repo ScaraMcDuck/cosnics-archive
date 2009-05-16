@@ -1,10 +1,10 @@
 <?php
 
-require_once dirname(__FILE__) . '/../weblcms.class.php';
-require_once dirname(__FILE__) . '/../weblcms_component.class.php';
+require_once dirname(__FILE__) . '/../weblcms_manager.class.php';
+require_once dirname(__FILE__) . '/../weblcms_manager_component.class.php';
 require_once dirname(__FILE__).'/../../learning_object_repo_viewer.class.php';
 
-class WeblcmsIntroductionPublisherComponent extends WeblcmsComponent
+class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManagerComponent
 {
 	function run()
 	{
@@ -17,7 +17,7 @@ class WeblcmsIntroductionPublisherComponent extends WeblcmsComponent
 		$trail = new BreadcrumbTrail();
 		/*$pub = new LearningObjectPublisher($this, 'introduction', true);
 		
-		$html[] = '<p><a href="' . $this->get_url(array(Weblcms :: PARAM_ACTION => Weblcms :: ACTION_VIEW_COURSE)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
+		$html[] = '<p><a href="' . $this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 		$html[] =  $pub->as_html();*/
 		
 		$object = $_GET['object'];
@@ -39,7 +39,7 @@ class WeblcmsIntroductionPublisherComponent extends WeblcmsComponent
 			$pub->create();
 			
 			$parameters = $this->get_parameters();
-			$parameters['go'] = Weblcms :: ACTION_VIEW_COURSE;
+			$parameters['go'] = WeblcmsManager :: ACTION_VIEW_COURSE;
 
 			$this->redirect(null,Translation :: get('IntroductionPublished'), (false), $parameters);
 		}

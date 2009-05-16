@@ -594,7 +594,7 @@ class ReportingWeblcms {
 
         $tracker = new VisitTracker();
         $wdm = WeblcmsDataManager::get_instance();
-        $condition = new EqualityCondition(Weblcms::PARAM_TOOL,$tool);
+        $condition = new EqualityCondition(WeblcmsManager :: PARAM_TOOL,$tool);
         $lops = $wdm->retrieve_learning_object_publications($course_id, null, $user_id, null, $condition);
 
         while($lop = $lops->next_result())
@@ -640,7 +640,7 @@ class ReportingWeblcms {
 
         $tracker = new VisitTracker();
         $wdm = WeblcmsDataManager::get_instance();
-        $condition = new EqualityCondition(Weblcms::PARAM_TOOL,$tool);
+        $condition = new EqualityCondition(WeblcmsManager :: PARAM_TOOL,$tool);
         $lop = $wdm->retrieve_learning_object_publication($pid);
         //$lops = $wdm->retrieve_learning_object_publications($course_id, null, $user_id, null, $condition);
 
@@ -760,7 +760,7 @@ class ReportingWeblcms {
         while($category = $categories->next_result())
         {
             $arr[$category->get_name()][0] = 0;
-            $condition = new EqualityCondition(Weblcms :: PARAM_COURSE_CATEGORY_ID,$category->get_id());
+            $condition = new EqualityCondition(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID,$category->get_id());
             $courses = $wdm->retrieve_courses(null, $condition);
             while($course = $courses->next_result())
             {
