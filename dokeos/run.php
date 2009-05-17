@@ -2,25 +2,24 @@
 /**
  * $Id: application.class.php 12019 2007-04-13 12:57:10Z Scara84 $
  * @package application
- */
-/**
+ * 
  * This script will load the requested application and call its run() function.
  */
-$application_key = $_GET['application'];
-$this_section = $application_key;
-$application_path = dirname(__FILE__).'/application/lib/'.$application_key.'/'.$application_key.'_manager/'.$application_key.'_manager.class.php';
-
 require_once dirname(__FILE__).'/common/global.inc.php';
 require_once Path :: get_user_path(). 'lib/user_manager/user_manager.class.php';
-//require_once Path ::get_application_path().'lib/weblcms/tool/assessment/assessment_tool.class.php';
+require_once Path :: get_application_path() . 'lib/application.class.php';
+ 
+$application_name = Request :: get('application');
+$this_section = $application_name;
 
 // If application path doesn't exist, block the user
-if(!file_exists($application_path))
+if(!Application :: is_active($application_name))
 {
 	Display :: not_allowed();
 }
 
-require_once $application_path;
+require_once Path :: get_application_path() . 'lib/' . $application_name . '/' . $application_name . '_manager/' . $application_name . '_manager.class.php';
+//require_once Path ::get_application_path().'lib/weblcms/tool/assessment/assessment_tool.class.php';
 
 Translation :: set_application($this_section);
 Theme :: set_application($this_section);
@@ -29,11 +28,13 @@ if (!Authentication :: is_valid() && !isset($_GET[AssessmentTool :: PARAM_INVITA
 {
 	Display :: not_allowed();
 }
+
 // Load the current user
-$usermgr = new UserManager(Session :: get_user_id());
-$user = $usermgr->retrieve_user(Session :: get_user_id()); 
+$user_manager = new UserManager(Session :: get_user_id());
+$user = $user_manager->retrieve_user(Session :: get_user_id()); 
+
 // Load & run the application
-$app = Application :: factory($application_key, $user);
-$app->set_parameter('application',$application_key);
-$app->run();
+$application = Application :: factory($application_name, $user);
+$application->set_parameter('application', $application_name);
+$application->run();
 ?>

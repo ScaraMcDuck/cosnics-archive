@@ -160,7 +160,8 @@ abstract class Application
 	{
 		$path = dirname(__FILE__);
 		$application_path = $path . '/' . $name;
-		if (file_exists($application_path) && is_dir($application_path))
+		$application_manager_path = $path . '/' . $name . '/' . $name . '_manager' . '/' . $name . '_manager.class.php';
+		if (file_exists($application_path) && is_dir($application_path) && file_exists($application_manager_path))
 		{
 			return true;
 		}

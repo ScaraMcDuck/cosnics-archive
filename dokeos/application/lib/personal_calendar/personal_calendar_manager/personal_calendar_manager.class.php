@@ -45,7 +45,7 @@ class PersonalCalendarManager extends WebApplication
 	public function run()
 	{
 		$action = $this->get_action();
-		$component = null;
+		
 		switch ($action)
 		{
 			case self :: ACTION_BROWSE_CALENDAR :

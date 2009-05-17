@@ -100,8 +100,14 @@ abstract class WebApplication extends Application
 	 */
 	function redirect($message = '', $error_message = false, $parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
 	{
-		$parameters[self :: PARAM_MESSAGE] = $message;
-		$parameters[self :: PARAM_ERROR_MESSAGE] = $error_message;
+		if(!$error_message)
+		{
+			$parameters[self :: PARAM_MESSAGE] = $message;
+		}
+		else
+		{
+			$parameters[self :: PARAM_ERROR_MESSAGE] = $message;
+		}
 		
 		$this->simple_redirect($parameters, $filter, $encode_entities, $type);
 	}
@@ -156,6 +162,7 @@ abstract class WebApplication extends Application
 		if (is_null($breadcrumbtrail))
 		{
 			$breadcrumbtrail = new BreadcrumbTrail();
+			$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(DokeosUtilities :: underscores_to_camelcase($this->get_application_name()))));
 		}
 		
 		$categories = $this->get_breadcrumbs();
@@ -168,22 +175,20 @@ abstract class WebApplication extends Application
 		}
 		
 		$title = $breadcrumbtrail->get_last()->get_name();
-		$title_short = $title;
-		if (strlen($title_short) > 53)
-		{
-			$title_short = substr($title_short, 0, 50).'&hellip;';
-		}
 		Display :: header($breadcrumbtrail);
-		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
+		echo '<h3 style="float: left;" title="' . $title . '">' . DokeosUtilities :: truncate_string($title) . '</h3>';
 		echo '<div class="clear">&nbsp;</div>';
-
-		if ($msg = $_GET[self :: PARAM_MESSAGE])
+		
+		$message = Request :: get(self :: PARAM_MESSAGE);
+		if ($message)
 		{
-			$this->display_message($msg);
+			$this->display_message($message);
 		}
-		if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
+		
+		$message = Request :: get(self :: PARAM_ERROR_MESSAGE);
+		if($message)
 		{
-			$this->display_error_message($msg);
+			$this->display_error_message($message);
 		}
 	}
 	
