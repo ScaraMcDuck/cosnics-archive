@@ -10,7 +10,7 @@ require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 
 class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerComponent
-{	
+{
     private $folder;
     private $publication;
     private $actionbar;
@@ -20,7 +20,7 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
      */
     function run()
     {
-        $this->folder = Request :: get('folder');
+        $this->folder = $this->get_folder();
 
         $id = $_GET[PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID];
 
@@ -31,13 +31,13 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
 
             $trail = new BreadcrumbTrail();
             $trail->add(new Breadcrumb($this->get_url(array(PersonalMessengerManager :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES)), Translation :: get('MyPersonalMessenger')));
-            $trail->add(new Breadcrumb($this->get_url(array(PersonalMessengerManager :: PARAM_ACTION=>PersonalMessengerManager :: ACTION_BROWSE_MESSAGES,PersonalMessengerManager :: PARAM_FOLDER => $this->folder)),Translation :: get(ucfirst($this->folder))));
+            $trail->add(new Breadcrumb($this->get_url(array(PersonalMessengerManager :: PARAM_ACTION=>PersonalMessengerManager :: ACTION_BROWSE_MESSAGES)),Translation :: get(ucfirst($this->folder))));
             $trail->add(new Breadcrumb($this->get_url(), $publication->get_publication_object()->get_title()));
 
             if ($this->get_user_id() != $publication->get_user())
             {
                 $this->display_header($trail);
-                Display :: error_message(Translation :: get("NotAllowed"));
+                Display :: error_message(Translation :: get('NotAllowed'));
                 $this->display_footer();
                 exit;
             }
@@ -67,7 +67,7 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
     function get_action_bar($personal_message)
     {
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        if(Request :: get('folder') == 'inbox')
+        if($this->folder == PersonalMessengerManager :: ACTION_FOLDER_INBOX)
         {
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Reply'), Theme :: get_common_image_path().'action_reply.png', $this->get_publication_reply_url($personal_message), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
@@ -90,14 +90,22 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
         $html[] = '<div class="description">';
 
         if($sender)
-        $html[] = '<b>'.Translation :: get('MessageFrom'). '</b>:&nbsp;'. $sender->get_firstname(). '&nbsp;' .$sender->get_lastname() . '<br />';
+        {
+        	$html[] = '<b>'.Translation :: get('MessageFrom'). '</b>:&nbsp;'. $sender->get_firstname(). '&nbsp;' .$sender->get_lastname() . '<br />';
+        }
         else
-        $html[] = '<b>'.Translation :: get('MessageFrom'). '</b>:&nbsp;'. Translation :: get('SenderUnknown') . '<br />';
+        {
+        	$html[] = '<b>'.Translation :: get('MessageFrom'). '</b>:&nbsp;'. Translation :: get('SenderUnknown') . '<br />';
+        }
 
         if($recipient)
-        $html[] = '<b>'.Translation :: get('MessageTo'). '</b>:&nbsp;'. $recipient->get_firstname(). '&nbsp;' .$recipient->get_lastname() . '<br />';
+        {
+        	$html[] = '<b>'.Translation :: get('MessageTo'). '</b>:&nbsp;'. $recipient->get_firstname(). '&nbsp;' .$recipient->get_lastname() . '<br />';
+        }
         else
-        $html[] = '<b>'.Translation :: get('MessageTo'). '</b>:&nbsp;'. Translation :: get('RecipientUnknown') . '<br />';
+        {
+        	$html[] = '<b>'.Translation :: get('MessageTo'). '</b>:&nbsp;'. Translation :: get('RecipientUnknown') . '<br />';
+        }
 
         $html[] = '<b>'.Translation :: get('MessageDate'). '</b>:&nbsp;'. Text :: format_locale_date(Translation :: get('dateFormatShort').', '.Translation :: get('timeNoSecFormat'),$publication->get_published()) . '<br />';
         $html[] = '<b>'.Translation :: get('MessageSubject'). '</b>:&nbsp;'. $message->get_title();

@@ -9,54 +9,42 @@ require_once dirname(__FILE__).'/../personal_messenger_manager_component.class.p
 require_once dirname(__FILE__).'/pm_publication_browser/pm_publication_browser_table.class.php';
 
 class PersonalMessengerManagerBrowserComponent extends PersonalMessengerManagerComponent
-{	
-	private $folder;
-	
+{
+
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		if (isset($_GET[PersonalMessengerManager :: PARAM_FOLDER]))
-		{
-			$this->folder = $_GET[PersonalMessengerManager :: PARAM_FOLDER];
-		}
-		else
-		{
-			$this->folder = PersonalMessengerManager :: ACTION_FOLDER_INBOX;
-		}
-		
-		$output = $this->get_publications_html();
-		
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyPersonalMessenger')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get(ucfirst($this->folder))));
-		
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get(ucfirst($this->get_folder()))));
+
 		$this->display_header($trail);
-		echo $output;
+		echo $this->get_publications_html();
 		$this->display_footer();
 	}
-	
+
 	private function get_publications_html()
 	{
 		$parameters = $this->get_parameters(true);
-		
+
 		$table = new PmPublicationBrowserTable($this, null, $parameters, $this->get_condition());
-		
+
 		$html = array();
 		$html[] = $table->as_html();
-		
+
 		return implode($html, "\n");
 	}
-	
+
 	function get_condition()
 	{
 		$conditions = array();
-		$folder = $this->folder;
+		$folder = $this->get_folder();
 		if (isset($folder))
 		{
 			$folder_condition = null;
-			
+
 			switch ($folder)
 			{
 				case PersonalMessengerManager :: ACTION_FOLDER_INBOX :
@@ -73,16 +61,11 @@ class PersonalMessengerManagerBrowserComponent extends PersonalMessengerManagerC
 		{
 			$folder_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
 		}
-		
+
 		$condition = $folder_condition;
-		
+
 		$user_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $this->get_user_id());
 		return new AndCondition($condition, $user_condition);
-	}
-	
-	function get_folder()
-	{
-		return $this->folder;
 	}
 }
 ?>

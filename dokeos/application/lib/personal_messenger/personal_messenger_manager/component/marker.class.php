@@ -18,15 +18,14 @@ class PersonalMessengerManagerMarkerComponent extends PersonalMessengerManagerCo
 		$ids = $_GET[PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID];
 		$mark_type = $_GET[PersonalMessengerManager :: PARAM_MARK_TYPE];
 		$failures = 0;
-		$folder = $_GET[PersonalMessengerManager :: PARAM_FOLDER];
-		
+
 		if (!empty ($ids))
 		{
 			if (!is_array($ids))
 			{
 				$ids = array ($ids);
 			}
-			
+
 			foreach ($ids as $id)
 			{
 				$publication = $this->get_parent()->retrieve_personal_message_publication($id);
@@ -38,13 +37,13 @@ class PersonalMessengerManagerMarkerComponent extends PersonalMessengerManagerCo
 				{
 					$publication->set_status(1);
 				}
-				
+
 				if (!$publication->update())
 				{
 					$failures++;
 				}
 			}
-			
+
 			if ($failures)
 			{
 				if (count($ids) == 1)
@@ -67,8 +66,8 @@ class PersonalMessengerManagerMarkerComponent extends PersonalMessengerManagerCo
 					$message = 'SelectedPublicationsUpdated';
 				}
 			}
-			
-			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(PersonalMessengerManager :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => $folder));
+
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(PersonalMessengerManager :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES));
 		}
 		else
 		{

@@ -11,10 +11,9 @@ require_once dirname(__FILE__).'/../../personal_messenger_menu.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 
 class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessengerManagerComponent
-{	
-	private $folder;
+{
 	private $publication;
-	
+
 	/**
 	 * Runs this component and displays its output.
 	 */
@@ -22,9 +21,9 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewPersonalMessageAttachments')));
-		
+
 		$id = $_GET[PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID];
-		
+
 		if ($id)
 		{
 			$this->publication = $this->retrieve_personal_message_publication($id);
@@ -36,8 +35,8 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
 				$this->display_footer();
 				exit;
 			}
-			
-			
+
+
 			$this->display_header($trail);
 			echo $this->get_publication_as_html();
 			$this->display_footer();
@@ -47,13 +46,13 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
 			$this->display_error_page(htmlentities(Translation :: get('NoPersonalMessageSelected')));
 		}
 	}
-	
+
 	function get_publication_as_html()
 	{
 		$publication = $this->publication;
-		$message = $publication->get_publication_object(); 
+		$message = $publication->get_publication_object();
 		$html = array();
-		
+
 		if ($message->supports_attachments())
 		{
 			$attachments = $message->get_attached_learning_objects();
@@ -71,7 +70,7 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
 				}
 			}
 		}
-		
+
 		return implode("\n",$html);
 	}
 }
