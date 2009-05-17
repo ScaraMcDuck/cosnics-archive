@@ -52,7 +52,7 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComp
                     $publication->update();
                 }
 
-                $this->redirect('url', Translation :: get(($success ? 'CalendarEventPublicationUpdated' : 'CalendarEventPublicationNotUpdated')), ($success ? false : true), array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR));
+                $this->redirect(Translation :: get(($success ? 'CalendarEventPublicationUpdated' : 'CalendarEventPublicationNotUpdated')), ($success ? false : true), array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR));
             }
             else
             {

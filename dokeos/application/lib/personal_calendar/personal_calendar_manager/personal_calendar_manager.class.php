@@ -318,6 +318,16 @@ class PersonalCalendarManager extends WebApplication
 		return array ('application' => array ('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links);
 	}
 	
+	/**
+	 * Helper function for the WebApplication class,
+	 * pending access to class constants via variables in PHP 5.3
+	 * e.g. $name = $class :: APPLICATION_NAME
+	 * 
+	 * DO NOT USE IN THIS APPLICATION'S CONTEXT
+	 * Instead use:
+	 * - self :: APPLICATION_NAME in the context of this class
+	 * - PersonalCalendarManager :: APPLICATION_NAME in all other application classes
+	 */
 	function get_application_name()
 	{
 		return self :: APPLICATION_NAME;
@@ -341,10 +351,13 @@ class PersonalCalendarManager extends WebApplication
 	
 	function get_publication_viewing_url($publication)
 	{
-		return $this->get_link(array (
-				self :: PARAM_ACTION => self :: ACTION_VIEW_PUBLICATION, 
-				self :: PARAM_CALENDAR_EVENT_ID => $publication->get_id(),
-				'application' => 'personal_calendar'));
+		$parameters = array();
+		$parameters[self :: PARAM_ACTION] = self :: ACTION_VIEW_PUBLICATION;
+		$parameters[self :: PARAM_CALENDAR_EVENT_ID] = $publication->get_id();
+		$parameters[self :: PARAM_ACTION] = self :: ACTION_VIEW_PUBLICATION;
+		$parameters[Application :: PARAM_APPLICATION] = self :: APPLICATION_NAME;
+		
+		return $this->get_link($parameters);
 	}
 }
 ?>

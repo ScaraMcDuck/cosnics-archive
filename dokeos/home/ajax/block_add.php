@@ -64,7 +64,7 @@ if ($user_home_allowed && Authentication :: is_valid())
 	}
 	else
 	{
-		$path = Path :: get_application_path() . 'lib' . '/' . $application . '/' . $application . '_manager' . '/' . $application . '.class.php';
+		$path = Path :: get_application_path() . 'lib' . '/' . $application . '/' . $application . '_manager' . '/' . $application . '_manager.class.php';
 		require_once $path;
 		$app = Application :: factory($application, $user);
 	}

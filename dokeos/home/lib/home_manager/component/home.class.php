@@ -156,7 +156,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 							else
 							{
 								$toolPath = $path . '/' . $application . '/' . $application . '_manager';
-								require_once $toolPath . '/' . $application . '.class.php';
+								require_once $toolPath . '/' . $application . '_manager.class.php';
 								
 								if (!is_null($this->get_user()))
 								{
