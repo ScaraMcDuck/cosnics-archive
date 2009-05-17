@@ -103,21 +103,7 @@ abstract class WebApplication extends Application
 		$parameters[self :: PARAM_MESSAGE] = $message;
 		$parameters[self :: PARAM_ERROR_MESSAGE] = $error_message;
 		
-		switch ($type)
-		{
-			case Redirect :: TYPE_URL :
-				$parameters = (count($parameters) ? array_merge($this->get_parameters(), $parameters) : $this->get_parameters());
-				Redirect :: url($parameters, $filter, $encode_entities);
-				break;
-			case Redirect :: TYPE_LINK :
-				// Use this untill PHP 5.3 is available
-				// Then use get_class($this) :: APPLICATION_NAME
-				// and remove the get_application_name function();
-				$application = $this->get_application_name();
-				Redirect :: link($application, $parameters, $filter, $encode_entities);
-				break;
-		}
-		exit;
+		$this->simple_redirect($parameters, $filter, $encode_entities, $type);
 	}
 
 	/**
