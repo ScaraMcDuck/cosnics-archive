@@ -40,36 +40,10 @@ abstract class WebApplication extends Application
 	 *                        to false.
 	 * @return string The URL.
 	 */
-	function get_url($parameters = array (), $encode = false, $filter = false, $filter_on = array())
+	function get_url($parameters = array (), $encode_entities = false, $filter = array())
 	{
-		if (count($parameters))
-		{
-			$parameters = array_merge($this->get_parameters(), $parameters);
-		}
-		else
-		{
-			$parameters = $this->get_parameters();
-		}
-
-		if ($filter)
-		{
-			$url_parameters = array();
-			
-			foreach ($parameters as $key => $value)
-			{
-				if (!in_array($key, $filter_on))
-				{
-					$url_parameters[$key] = $value;
-				}
-			}
-		}
-
-		$url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'].'?'.http_build_query(($filter ? $url_parameters : $parameters));
-		if ($encode)
-		{
-			$url = htmlentities($url);
-		} 
-		return $url;
+		$parameters = (count($parameters) ? array_merge($this->get_parameters(), $parameters) : $this->get_parameters());
+		return Redirect :: get_url($parameters, $filter, $encode_entities);
 	}
 	
 	/**
@@ -77,53 +51,73 @@ abstract class WebApplication extends Application
 	 * @param array $parameters
 	 * @param boolean $encode
 	 */
-	public function get_link($parameters = array (), $encode = false)
-	{
-		$link = 'run.php';
-		
+	public function get_link($parameters = array (), $filter = array(), $encode_entities = false)
+	{		
 		// Use this untill PHP 5.3 is available
 		// Then use get_class($this) :: APPLICATION_NAME
 		// and remove the get_application_name function();
-		$parameters['application'] = $this->get_application_name();
-		if (count($parameters))
-		{
-			$link .= '?'.http_build_query($parameters);
-		}
-		if ($encode)
-		{
-			$link = htmlentities($link);
-		}
-		return $link;
+		$application = $this->get_application_name();
+		return Redirect :: get_link($application, $parameters, $filter, $encode_entities);
 	}
 
 	/**
 	 * Redirect the end user to another location.
-	 * @param string $action The action to take (default = browse learning
-	 * objects).
+	 * The current url will be used as the basis.
+	 * @param array $parameters Parameters to be added to the url
+	 * @param array $filter Parameters to be filtered from the url
+	 * @param boolean $encode
+	 * @param string $type Redirect to an url or a link
+	 */
+	function simple_redirect($parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
+	{
+		switch ($type)
+		{
+			case Redirect :: TYPE_URL :
+				$parameters = (count($parameters) ? array_merge($this->get_parameters(), $parameters) : $this->get_parameters());
+				Redirect :: url($parameters, $filter, $encode_entities);
+				break;
+			case Redirect :: TYPE_LINK :
+				// Use this untill PHP 5.3 is available
+				// Then use get_class($this) :: APPLICATION_NAME
+				// and remove the get_application_name function();
+				$application = $this->get_application_name();
+				Redirect :: link($application, $parameters, $filter, $encode_entities);
+				break;
+		}
+		exit;
+	}
+	
+	/**
+	 * Redirect the end user to another location.
+	 * The current url will be used as the basis.
+	 * This method allows passing on messages directly instead of using the parameters array
 	 * @param string $message The message to show (default = no message).
 	 * @param boolean $error_message Is the passed message an error message?
-	 * @param array $extra_params Additional parameters to be added to the url
+	 * @param array $parameters Parameters to be added to the url
+	 * @param array $filter Parameters to be filtered from the url
+	 * @param boolean $encode
+	 * @param string $type Redirect to an url or a link
 	 */
-	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
+	function redirect($message = '', $error_message = false, $parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
 	{
-		$params = array ();
-
-		if (isset($extra_params))
-		{
-			foreach($extra_params as $key => $extra)
-			{
-				$params[$key] = $extra;
-			}
-		}
-
-		if (isset ($message))
-		{
-			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
-		}
+		$parameters[self :: PARAM_MESSAGE] = $message;
+		$parameters[self :: PARAM_ERROR_MESSAGE] = $error_message;
 		
-		$url = $this->get_url($params);
-		header('Location: '.$url); 
-		
+		switch ($type)
+		{
+			case Redirect :: TYPE_URL :
+				$parameters = (count($parameters) ? array_merge($this->get_parameters(), $parameters) : $this->get_parameters());
+				Redirect :: url($parameters, $filter, $encode_entities);
+				break;
+			case Redirect :: TYPE_LINK :
+				// Use this untill PHP 5.3 is available
+				// Then use get_class($this) :: APPLICATION_NAME
+				// and remove the get_application_name function();
+				$application = $this->get_application_name();
+				Redirect :: link($application, $parameters, $filter, $encode_entities);
+				break;
+		}
+		exit;
 	}
 
 	/**

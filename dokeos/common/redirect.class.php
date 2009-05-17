@@ -2,6 +2,11 @@
 
 class Redirect
 {
+	// Different redirect types
+	const TYPE_LINK = 'link';
+	const TYPE_URL = 'url';
+	
+	// Different link types
 	const TYPE_CORE = 'core';
 	const TYPE_APPLICATION = 'application';
 	
@@ -10,7 +15,7 @@ class Redirect
 	
     static function link($application, $parameters = array (), $filter = array(), $encode_entities = false, $type = self :: TYPE_APPLICATION)
     {
-    	$link = self :: get_link($parameters, $filter, $encode_entities);
+    	$link = self :: get_link($parameters, $filter, $encode_entities, $type);
     	self :: write_header($link);
     }
     
@@ -19,11 +24,11 @@ class Redirect
     	switch($type)
     	{
     		case self :: TYPE_CORE :
-    			$link = 'run';
-    			$parameters['application'] = $application;
+    			$link = 'index_'. $application;
     			break;
     		case self :: TYPE_APPLICATION :
-    			$link = 'index_'. $application;
+    			$link = 'run';
+    			$parameters['application'] = $application;
     			break;
     		default :
     			$link = 'index_'. $application;
