@@ -10,29 +10,18 @@ require_once dirname(__FILE__).'/../../publisher/personal_message_publisher.clas
 require_once dirname(__FILE__).'/../../personal_message_repo_viewer.class.php';
 
 class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManagerComponent
-{	
-    private $folder;
-
+{
     /**
      * Runs this component and displays its output.
      */
     function run()
     {
-        if (isset($_GET[PersonalMessengerManager :: PARAM_FOLDER]))
-        {
-            $this->folder = $_GET[PersonalMessengerManager :: PARAM_FOLDER];
-        }
-        else
-        {
-            $this->folder = PersonalMessengerManager :: ACTION_FOLDER_INBOX;
-        }
-
         $reply = Request :: get('reply');
         $user = Request :: get(PersonalMessengerManager :: PARAM_USER_ID);
 
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(PersonalMessengerManager :: PARAM_ACTION=>PersonalMessengerManager :: ACTION_BROWSE_MESSAGES,PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: ACTION_FOLDER_INBOX)),Translation :: get('MyPersonalMessenger')));
-        
+
         $object = $_GET['object'];
         //$edit = $_GET['edit'];
         $pub = new PersonalMessageRepoViewer($this, 'personal_message', true);

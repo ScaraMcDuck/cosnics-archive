@@ -12,9 +12,9 @@ abstract class WebApplication extends Application
 
 	private $parameters;
 	private $search_parameters;
-	
+
 	private $breadcrumbs;
-	
+
 	const PARAM_ACTION = 'go';
 
 	const PARAM_MESSAGE = 'message';
@@ -45,14 +45,14 @@ abstract class WebApplication extends Application
 		$parameters = (count($parameters) ? array_merge($this->get_parameters(), $parameters) : $this->get_parameters());
 		return Redirect :: get_url($parameters, $filter, $encode_entities);
 	}
-	
+
 	/**
 	 * Gets a link to the personal calendar application
 	 * @param array $parameters
 	 * @param boolean $encode
 	 */
 	public function get_link($parameters = array (), $filter = array(), $encode_entities = false)
-	{		
+	{
 		// Use this untill PHP 5.3 is available
 		// Then use get_class($this) :: APPLICATION_NAME
 		// and remove the get_application_name function();
@@ -86,7 +86,7 @@ abstract class WebApplication extends Application
 		}
 		exit;
 	}
-	
+
 	/**
 	 * Redirect the end user to another location.
 	 * The current url will be used as the basis.
@@ -108,7 +108,7 @@ abstract class WebApplication extends Application
 		{
 			$parameters[self :: PARAM_ERROR_MESSAGE] = $message;
 		}
-		
+
 		$this->simple_redirect($parameters, $filter, $encode_entities, $type);
 	}
 
@@ -140,17 +140,17 @@ abstract class WebApplication extends Application
 	{
 		$this->parameters[$name] = $value;
 	}
-	
+
 	function set_breadcrumbs($breadcrumbs)
 	{
 		$this->breadcrumbs = $breadcrumbs;
 	}
-	
+
 	function get_breadcrumbs()
 	{
 		return $this->breadcrumbs;
 	}
-	
+
 	/**
 	 * Displays the header.
 	 * @param array $breadcrumbs Breadcrumbs to show in the header.
@@ -164,7 +164,7 @@ abstract class WebApplication extends Application
 			$breadcrumbtrail = new BreadcrumbTrail();
 			$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(DokeosUtilities :: underscores_to_camelcase($this->get_application_name()))));
 		}
-		
+
 		$categories = $this->get_breadcrumbs();
 		if (count($categories) > 0)
 		{
@@ -173,31 +173,48 @@ abstract class WebApplication extends Application
 				$breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
 			}
 		}
-		
+
 		$title = $breadcrumbtrail->get_last()->get_name();
 		Display :: header($breadcrumbtrail);
+
+		// If there is an application-wide menu, show it
+		if ($this->has_menu())
+		{
+			echo '<div style="float: left; width: 15%;">';
+			echo $this->get_menu();
+			echo '</div>';
+			echo '<div style="float: right; width: 85%;">';
+		}
+
 		echo '<h3 style="float: left;" title="' . $title . '">' . DokeosUtilities :: truncate_string($title) . '</h3>';
 		echo '<div class="clear">&nbsp;</div>';
-		
+
 		$message = Request :: get(self :: PARAM_MESSAGE);
 		if ($message)
 		{
 			$this->display_message($message);
 		}
-		
+
 		$message = Request :: get(self :: PARAM_ERROR_MESSAGE);
 		if($message)
 		{
 			$this->display_error_message($message);
 		}
 	}
-	
+
 	function display_footer()
 	{
+		// In wase there was an application-wide menu, properly end it
+		if ($this->has_menu())
+		{
+			echo '<div class="clear">&nbsp;</div>';
+			echo '</div>';
+		}
+
 		echo '<div class="clear">&nbsp;</div>';
 		Display :: footer();
 	}
-	
+
 	/**
 	 * Displays a normal message.
 	 * @param string $message The message.
@@ -252,7 +269,15 @@ abstract class WebApplication extends Application
 	{
 		Display :: normal_message($form_html);
 	}
-	
+
+	/**
+	 * Wrapper for Display :: not_allowed();.
+	 */
+	function not_allowed()
+	{
+		Display :: not_allowed();
+	}
+
 	/**
 	 * Gets the user id of this personal calendars owner
 	 * @return int
@@ -261,7 +286,7 @@ abstract class WebApplication extends Application
 	{
 		return $this->user->get_id();
 	}
-	
+
 	/**
 	 * Gets the user.
 	 * @return int The requested user.
@@ -270,12 +295,12 @@ abstract class WebApplication extends Application
 	{
 		return $this->user;
 	}
-	
+
 	function get_action()
 	{
 		return $this->get_parameter(self :: PARAM_ACTION);
 	}
-	
+
 	/**
 	 * Sets the current action.
 	 * @param string $action The new action.
@@ -284,7 +309,7 @@ abstract class WebApplication extends Application
 	{
 		return $this->set_parameter(self :: PARAM_ACTION, $action);
 	}
-	
+
 	function get_platform_setting($variable)
 	{
 		// Use this untill PHP 5.3 is available
@@ -293,14 +318,14 @@ abstract class WebApplication extends Application
 		$application = $this->get_application_name();
 		return PlatformSetting :: get($variable, $application);
 	}
-	
+
 	function get_path($path_type)
 	{
 		return Path :: get($path_type);
 	}
-	
+
 	abstract function get_application_name();
-	
+
 	/**
 	 * Returns a list of actions available to the admin.
 	 * @return Array $info Contains all possible actions.
@@ -311,13 +336,33 @@ abstract class WebApplication extends Application
 		// Then use get_class($this) :: APPLICATION_NAME
 		// and remove the get_application_name function();
 		$application = $this->get_application_name();
-		
+
 		$info = array();
 		$info['application'] = array('name' => $application, 'class' => $application);
 		$info['links'] = array();
 		$info['search'] = null;
-		
+
 		return $info;
+	}
+
+	/**
+	 * Does the entire application have a leftside menu? False per default.
+	 * Can be overwritten by the specific application
+	 * @return boolean $has_menu True or false
+	 */
+	public function has_menu()
+	{
+		return false;
+	}
+
+	/**
+	 * Returns the html for the application-menu. Empty per default
+	 * Can be overwritten by the specific application
+	 * @return String $menu The menu html
+	 */
+	public function get_menu()
+	{
+		return '';
 	}
 }
 ?>

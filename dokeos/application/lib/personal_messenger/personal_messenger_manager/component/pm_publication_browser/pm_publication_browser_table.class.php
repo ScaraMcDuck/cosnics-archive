@@ -15,19 +15,20 @@ require_once dirname(__FILE__).'/../../personal_messenger_manager.class.php';
 class PmPublicationBrowserTable extends ObjectTable
 {
 	const DEFAULT_NAME = 'pm_publication_browser_table';
-	
+
 	/**
 	 * Constructor
 	 */
 	function PmPublicationBrowserTable($browser, $name, $parameters, $condition)
 	{
-		$model = new PmPublicationBrowserTableColumnModel($browser->get_folder());
+		$folder = $browser->get_folder();
+		$model = new PmPublicationBrowserTableColumnModel($folder);
 		$renderer = new PmPublicationBrowserTableCellRenderer($browser);
 		$data_provider = new PmPublicationBrowserTableDataProvider($browser, $condition);
 		parent :: __construct($data_provider, PmPublicationBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$actions = array();
 		$actions[PersonalMessengerManager :: PARAM_DELETE_SELECTED] = Translation :: get('RemoveSelected');
-		if(Request :: get('folder') == 'inbox')
+		if($folder == PersonalMessengerManager :: ACTION_FOLDER_INBOX)
 		{
 			$actions[PersonalMessengerManager :: PARAM_MARK_SELECTED_READ] = Translation :: get('MarkSelectedRead');
 			$actions[PersonalMessengerManager :: PARAM_MARK_SELECTED_UNREAD] = Translation :: get('MarkSelectedUnread');

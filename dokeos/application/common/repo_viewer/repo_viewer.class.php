@@ -20,7 +20,7 @@ class RepoViewer
 	const PARAM_EDIT = 'edit';
 	const PARAM_ID = 'object';
 	const PARAM_EDIT_ID = 'obj';
-	
+
 	const PARAM_PUBLISH_SELECTED = 'repoviewer_selected';
 
 	/**
@@ -33,19 +33,19 @@ class RepoViewer
 	 * The default learning objects, which are used for form defaults.
 	 */
 	private $default_learning_objects;
-	
+
 	private $parent;
-	
+
 	private $repo_viewer_actions;
-	
+
 	private $parameters;
-	
+
 	private $mail_option;
-	
+
 	private $maximum_select;
-	
+
 	private $excluded_objects;
-	
+
 	/**
 	 * You have two choices for the select multiple
 	 * 0 / SELECT MULTIPLE - you can select as many lo as you want
@@ -53,7 +53,7 @@ class RepoViewer
 	 */
 	const SELECT_MULTIPLE = 0;
 	const SELECT_SINGLE = 1;
-	
+
 	/**
 	 * Constructor.
 	 * @param array $types The learning object types that may be repoviewered.
@@ -72,12 +72,12 @@ class RepoViewer
 		$this->excluded_objects = $excluded_objects;
 		$this->set_parameter(RepoViewer :: PARAM_ACTION, ($_GET[RepoViewer :: PARAM_ACTION] ? $_GET[RepoViewer :: PARAM_ACTION] : 'creator'));
 	}
-	
+
 	function set_maximum_select($maximum_select)
 	{
 		$this->maximum_select = $maximum_select;
 	}
-	
+
 	function get_maximum_select()
 	{
 		return $this->maximum_select;
@@ -99,7 +99,7 @@ class RepoViewer
 	{
 		return $this->parent->get_user_id();
 	}
-	
+
 	function get_user()
 	{
 		return $this->parent->get_user();
@@ -122,7 +122,7 @@ class RepoViewer
 	{
 		return $this->get_parameter(RepoViewer :: PARAM_ACTION);
 	}
-	
+
 	function set_action($action)
 	{
 		$this->set_parameter(RepoViewer :: PARAM_ACTION, $action);
@@ -139,7 +139,7 @@ class RepoViewer
 	{
 		return $this->parameters[$name];
 	}
-	
+
 	function get_parameters()
 	{
 		return $this->parameters;
@@ -149,29 +149,29 @@ class RepoViewer
 	{
 		$this->parameters = $parameters;
 	}
-	
+
 	function set_parameter($name, $value)
 	{
 		$this->parameters[$name] = $value;
 	}
-	
+
 	private $creation_defaults;
-	
+
 	function set_creation_defaults($defaults)
 	{
 		$this->creation_defaults = $defaults;
 	}
-	
+
 	function get_creation_defaults()
 	{
 		return $this->creation_defaults;
 	}
-	
+
 	function redirect_complex($type)
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Sets a default learning object. When the creator component of this
 	 * repo_viewer is displayed, the properties of the given learning object will
@@ -184,7 +184,7 @@ class RepoViewer
 	{
 		$this->default_learning_objects[$type] = $learning_object;
 	}
-	
+
 	function get_default_learning_object($type)
 	{
 		if(isset($this->default_learning_objects[$type]))
@@ -193,23 +193,27 @@ class RepoViewer
 		}
 		return new AbstractLearningObject($type, $this->get_user_id());
 	}
-	
+
 	function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
 	{
-		if (isset($message))
+		if(!$error_message)
 		{
-			$parameters[$error_message ? Redirect :: PARAM_ERROR_MESSAGE :  Redirect :: PARAM_MESSAGE] = $message;
+			$parameters[Redirect :: PARAM_MESSAGE] = $message;
 		}
-		
+		else
+		{
+			$parameters[Redirect :: PARAM_ERROR_MESSAGE] = $message;
+		}
+
 		$parameters = array_merge($this->get_parent()->get_parameters(), $parameters);
 		Redirect :: url($parameters, $filter, $encode_entities);
 	}
-	
+
 	function get_repo_viewer_actions()
 	{
 		return $this->repo_viewer_actions;
 	}
-	
+
 	function set_repo_viewer_actions($repo_viewer_actions)
 	{
 		$this->repo_viewer_actions = $repo_viewer_actions;
@@ -219,15 +223,15 @@ class RepoViewer
 	{
 		return $this->mail_option;
 	}
-	
+
 	function parse_input_from_table()
 	{
 		if (isset ($_POST['action']))
 		{
 			$selected_publication_ids = $_POST[LearningObjectTable :: DEFAULT_NAME . ObjectTable :: CHECKBOX_NAME_SUFFIX];
-			
+
 			if(!is_array($selected_publication_ids)) $selected_publication_ids = array($selected_publication_ids);
-			
+
 			switch ($_POST['action'])
 			{
 				case self :: PARAM_PUBLISH_SELECTED :
@@ -242,18 +246,18 @@ class RepoViewer
 						}
 					}
 					$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $selected_publication_ids));
-					
+
 					$this->redirect(null, false, $redirect_params);
 					break;
 			}
 		}
 	}
-	
+
 	function get_excluded_objects()
 	{
 		return $this->excluded_objects;
 	}
-	
+
 	function set_excluded_objects($excluded_objects)
 	{
 		$this->excluded_objects = $excluded_objects;

@@ -32,7 +32,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 		{
 			return $this->get_modification_links($personal_message);
 		}
-		
+
 		// Add special features here
 		switch ($column->get_object_property())
 		{
@@ -58,7 +58,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 //				}
                 $title_short = DokeosUtilities::truncate_string($title_short,53,false);
 				return '<a href="'.htmlentities($this->browser->get_publication_viewing_url($personal_message)).'" title="'.$title.'">'.$title_short.'</a>';
-				break;	
+				break;
 		}
 		return parent :: render_cell($column, $personal_message);
 	}
@@ -71,15 +71,15 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 	private function get_modification_links($personal_message)
 	{
 		$toolbar_data = array();
-		
-		$delete_url = $this->browser->get_publication_deleting_url($personal_message, $this->browser->get_folder());
+
+		$delete_url = $this->browser->get_publication_deleting_url($personal_message);
 		$toolbar_data[] = array(
 			'href' => $delete_url,
 			'label' => Translation :: get('Delete'),
 			'confirm' => true,
 			'img' => Theme :: get_common_image_path().'action_delete.png'
 		);
-		
+
 		if ($this->browser->get_folder() == PersonalMessengerManager :: ACTION_FOLDER_INBOX)
 		{
 			$reply_url = $this->browser->get_publication_reply_url($personal_message);
@@ -89,7 +89,7 @@ class PmPublicationBrowserTableCellRenderer extends DefaultPmPublicationTableCel
 				'img' => Theme :: get_common_image_path().'action_reply.png'
 			);
 		}
-	
+
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
 }
