@@ -112,7 +112,7 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerCom
 	
 		if (PlatformSetting :: get('allow_personal_agenda', 'user'))
 		{
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_CREATE_PUBLICATION), true)));
+			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_CREATE_PUBLICATION))));
 		}
 
 		$view = isset ($_GET['view']) ? $_GET['view'] : 'month';

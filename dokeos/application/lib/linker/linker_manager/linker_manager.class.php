@@ -407,6 +407,11 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 	{
 		
 	}
+	
+	function get_application_name()
+	{
+		return self :: APPLICATION_NAME;
+	}
 
 }
 ?>
