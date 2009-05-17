@@ -86,7 +86,7 @@ abstract class Application
 	/**
 	 * Gets a platform setting
 	 */
-	abstract function get_platform_setting($variable, $application = 'admin');
+	abstract function get_platform_setting($variable);
 	
 	/**
 	 * Loads the applications installed on the system. Applications are classes

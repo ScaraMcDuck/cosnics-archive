@@ -344,5 +344,10 @@ END;
 	{
 		return Path :: get($path_type);
 	}
+	
+	function get_application_name()
+	{
+		return self :: APPLICATION_NAME;
+	}
 }
 ?>

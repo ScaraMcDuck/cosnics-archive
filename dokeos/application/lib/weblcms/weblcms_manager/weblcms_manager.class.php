@@ -1378,7 +1378,10 @@ class WeblcmsManager extends WebApplication
 							'description' => Translation :: get('UserImportDescription'),
 							'action' => 'import',
 							'url' => $this->get_link(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)));
-		return array('application' => array('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)));
+							
+		$info = parent :: get_application_platform_admin_links();
+		$info['links'] = $links;
+		return $info;
 	}
 
 	/**
@@ -1415,5 +1418,10 @@ class WeblcmsManager extends WebApplication
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, ReportingManager::PARAM_TEMPLATE_NAME => $classname, ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS => $params));
     }
+    
+	function get_application_name()
+	{
+		return self :: APPLICATION_NAME;
+	}
 }
 ?>

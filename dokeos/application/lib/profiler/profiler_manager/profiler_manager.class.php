@@ -737,5 +737,10 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	{
 		return PlatformSetting :: get($variable, $application = self :: APPLICATION_NAME);
 	}
+	
+	function get_application_name()
+	{
+		return self :: APPLICATION_NAME;
+	}
 }
 ?>
