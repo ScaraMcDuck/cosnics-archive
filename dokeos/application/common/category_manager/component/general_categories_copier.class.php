@@ -39,7 +39,7 @@ class CategoryManagerGeneralCategoriesCopierComponent extends CategoryManagerCom
 		else
 			$message = 'GeneralCategoriesNotCopied';
 		
-		$this->redirect('url', Translation :: get($message), ($bool ? false : true), 
+		$this->redirect(Translation :: get($message), ($bool ? false : true), 
 			array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_BROWSE_CATEGORIES));
 
 	}
