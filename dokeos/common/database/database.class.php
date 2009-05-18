@@ -22,7 +22,7 @@ class Database
 	/**
 	 * Constructor
 	 */
-	function Database($aliases)
+	function Database($aliases = array())
 	{
 		$this->aliases = $aliases;
 		$this->initialize();
@@ -448,6 +448,18 @@ class Database
 	
 	function get_alias($table_name)
 	{
+		if(!$this->aliases[$table_name])
+		{
+			$possible_name = substr($table_name, 0, 2) . substr($table_name, -2);
+			$index = 0;
+			while(array_key_exists($possible_name, $this->aliases))
+			{
+				$possible_name = $possible_name . $index;
+				$index = $index++;
+			}
+			$this->aliases[$table_name] = $possible_name;
+		}
+		
 		return $this->aliases[$table_name];
 	}
 
