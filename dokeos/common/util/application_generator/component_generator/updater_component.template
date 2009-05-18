@@ -28,7 +28,7 @@ class {APPLICATION_NAME}Manager{OBJECT_CLASS}UpdaterComponent extends {APPLICATI
 		if($form->validate())
 		{
 			$success = $form->update_{L_OBJECT_CLASS}();
-			$this->redirect('url', $success ? Translation :: get('{OBJECT_CLASS}Updated') : Translation :: get('{OBJECT_CLASS}NotUpdated'), !$success, array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES}));
+			$this->redirect($success ? Translation :: get('{OBJECT_CLASS}Updated') : Translation :: get('{OBJECT_CLASS}NotUpdated'), !$success, array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES}));
 		}
 		else
 		{
