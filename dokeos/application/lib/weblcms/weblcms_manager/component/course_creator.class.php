@@ -23,6 +23,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
 		}
 		
 		$trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'course' => null)), Translation :: get('MyCourses')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
 		
 		if (!$this->get_user()->is_teacher() && !$this->get_user()->is_platform_admin())
