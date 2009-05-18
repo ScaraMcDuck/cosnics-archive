@@ -1,98 +1,41 @@
+<?php
 /**
- * {PACKAGE}
+ * @package application.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}.component
  */
-{INCLUDES}
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager_component.class.php';
+require_once dirname(__FILE__).'/../../forms/{L_OBJECT_CLASS}_form.class.php';
+
 /**
- * {DESCRIPTION}
- *
+ * Component to create a new {L_OBJECT_CLASS} object
  * @author {AUTHOR}
  */
-class {CLASSNAME}
+class {APPLICATION_NAME}ManagerCreatorComponent extends {APPLICATION_NAME}ManagerComponent
 {
 	/**
-	 * {CLASSNAME} properties
-	 */	 
-	<!-- BEGIN CONSTS -->
-	const {CONSTS.PROPERTY_CONST} = '{CONSTS.PROPERTY_NAME}';
-	<!-- END CONSTS -->
-	
-	/**
-	 * Default properties stored in an associative array.
+	 * Runs this component and displays its output.
 	 */
-	private $defaultProperties;
-	
-	/**
-	 * Creates a new {CLASSNAME} object
-	 * @param array $defaultProperties The default properties
-	 */
-	function {CLASSNAME}($defaultProperties = array ())
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-	
-	/**
-	 * Gets a default property by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-	
-	/**
-	 * Gets the default properties
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-	
-	/**
-	 * Get the default properties
-	 * @return array The property names.
-	 */
-	static function get_default_property_names()
-	{
-		return array ({DEFAULT_PROPERTY_NAMES});
-	}
-	
-	/**
-	 * Sets a default property by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
-	 */
-	function set_default_property($name, $value)
-	{
-		$this->defaultProperties[$name] = $value;
-	}
-	
-	/**
-	 * Sets the default properties of this class
-	 */
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
+	function run()
+	{		
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE)), Translation :: get('Browse{APPLICATION_NAME}')));
+		$trail->add(new Breadcrumb($this->get_url(array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES})), Translation :: get('Browse{OBJECT_CLASSES}')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create{OBJECT_CLASS}')));
 
-	<!-- BEGIN PROPERTY -->
-	/**
-	 * Returns the {PROPERTY.PROPERTY_NAME} of this {CLASSNAME}.
-	 * @return the {PROPERTY.PROPERTY_NAME}.
-	 */
-	function get_{PROPERTY.PROPERTY_NAME}()
-	{
-		return $this->get_default_property(self :: {PROPERTY.PROPERTY_CONST});
+		${L_OBJECT_CLASS} = new {OBJECT_CLASS}();
+		$form = new {OBJECT_CLASS}Form({OBJECT_CLASS}Form :: TYPE_CREATE, ${L_OBJECT_CLASS}, $this->get_url(), $this->get_user());
+		
+		if($form->validate())
+		{
+			$success = $form->create_{L_OBJECT_CLASS}();
+			$this->redirect('url', $success ? Translation :: get('{OBJECT_CLASS}Created') : Translation :: get('{OBJECT_CLASS}NotCreated'), !$success, array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES}));
+		}
+		else
+		{
+			$this->display_header($trail);
+			$form->display();
+			$this->display_footer();
+		}
 	}
-	
-	/**
-	 * Sets the {PROPERTY.PROPERTY_NAME} of this {CLASSNAME}.
-	 * @param {PROPERTY.PROPERTY_NAME}
-	 */
-	function set_{PROPERTY.PROPERTY_NAME}(${PROPERTY.PROPERTY_NAME})
-	{
-		$this->set_default_property(self :: {PROPERTY.PROPERTY_CONST}, ${PROPERTY.PROPERTY_NAME});
-	}
-	<!-- END PROPERTY -->
-	
 }
+?>

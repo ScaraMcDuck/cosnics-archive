@@ -1,98 +1,70 @@
+<?php
 /**
- * {PACKAGE}
+ * @package application.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}.component
  */
-{INCLUDES}
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager_component.class.php';
+
 /**
- * {DESCRIPTION}
- *
+ * Component to delete {L_OBJECT_CLASSES} objects
  * @author {AUTHOR}
  */
-class {CLASSNAME}
+class {APPLICATION_NAME}ManagerDeleterComponent extends {APPLICATION_NAME}ManagerComponent
 {
 	/**
-	 * {CLASSNAME} properties
-	 */	 
-	<!-- BEGIN CONSTS -->
-	const {CONSTS.PROPERTY_CONST} = '{CONSTS.PROPERTY_NAME}';
-	<!-- END CONSTS -->
-	
-	/**
-	 * Default properties stored in an associative array.
+	 * Runs this component and displays its output.
 	 */
-	private $defaultProperties;
-	
-	/**
-	 * Creates a new {CLASSNAME} object
-	 * @param array $defaultProperties The default properties
-	 */
-	function {CLASSNAME}($defaultProperties = array ())
+	function run()
 	{
-		$this->defaultProperties = $defaultProperties;
+		$ids = $_GET[{APPLICATION_NAME}Manager :: PARAM_{U_OBJECT_CLASS}_ID];
+		$failures = 0;
+		
+		if (!empty ($ids))
+		{
+			if (!is_array($ids))
+			{
+				$ids = array ($ids);
+			}
+			
+			foreach ($ids as $id)
+			{
+				${L_OBJECT_CLASS} = $this->retrieve_{L_OBJECT_CLASS}($id);
+				
+				if (!${L_OBJECT_CLASS}->delete())
+				{
+					$failures++;
+				}
+			}
+			
+			if ($failures)
+			{
+				if (count($ids) == 1)
+				{
+					$message = 'Selected{OBJECT_CLASS}Deleted';
+				}
+				else
+				{
+					$message = 'Selected{OBJECT_CLASS}Deleted';
+				}
+			}
+			else
+			{
+				if (count($ids) == 1)
+				{
+					$message = 'Selected{OBJECT_CLASSES}Deleted';
+				}
+				else
+				{
+					$message = 'Selected{OBJECT_CLASSES}Deleted';
+				}
+			}
+			
+			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES}));
+		}
+		else
+		{
+			$this->display_error_page(htmlentities(Translation :: get('No{OBJECT_CLASSES}Selected')));
+		}
 	}
-	
-	/**
-	 * Gets a default property by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-	
-	/**
-	 * Gets the default properties
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-	
-	/**
-	 * Get the default properties
-	 * @return array The property names.
-	 */
-	static function get_default_property_names()
-	{
-		return array ({DEFAULT_PROPERTY_NAMES});
-	}
-	
-	/**
-	 * Sets a default property by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
-	 */
-	function set_default_property($name, $value)
-	{
-		$this->defaultProperties[$name] = $value;
-	}
-	
-	/**
-	 * Sets the default properties of this class
-	 */
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
-
-	<!-- BEGIN PROPERTY -->
-	/**
-	 * Returns the {PROPERTY.PROPERTY_NAME} of this {CLASSNAME}.
-	 * @return the {PROPERTY.PROPERTY_NAME}.
-	 */
-	function get_{PROPERTY.PROPERTY_NAME}()
-	{
-		return $this->get_default_property(self :: {PROPERTY.PROPERTY_CONST});
-	}
-	
-	/**
-	 * Sets the {PROPERTY.PROPERTY_NAME} of this {CLASSNAME}.
-	 * @param {PROPERTY.PROPERTY_NAME}
-	 */
-	function set_{PROPERTY.PROPERTY_NAME}(${PROPERTY.PROPERTY_NAME})
-	{
-		$this->set_default_property(self :: {PROPERTY.PROPERTY_CONST}, ${PROPERTY.PROPERTY_NAME});
-	}
-	<!-- END PROPERTY -->
-	
 }
+?>

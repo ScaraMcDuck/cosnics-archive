@@ -1,76 +1,69 @@
 <?php
 
 /**
- * Dataclass generator used to generate dataclasses with given properties
+ * Manager generator used to generate managers
  * @author Sven Vanpoucke
  */
-class DataClassGenerator 
+class ManagerGenerator 
 {
     private $template;
     
     /**
      * Constructor
      */
-    function DataClassGenerator() 
+    function ManagerGenerator() 
     {
     	$this->template = new MyTemplate();
     	$this->template->set_rootdir(dirname(__FILE__));
     }
     
-    /**
-     * Generate a dataclass with the given info
-     * @param string $location - The location of the class
-     * @param string $classname the classname
-     * @param array of strings $properties the properties
-     * @param string $package the package
-     * @param string $description the description
-     * @param string $author, the author
-     */
-    function generate_data_class($location, $classname, $properties, $package, $description, $author)
-    {	
+    function generate_managers($location, $application_name, $classes, $author)
+    {
     	if(!is_dir($location))
     		mkdir($location, 0777, true);
     	 
-    	$file = fopen($location . strtolower($classname) . '.class.php', 'w+');
-    	
-    	if($file)
+    	$manager_file = fopen($location . strtolower($application_name) . '_manager.class.php', 'w+');
+    	$component_file = fopen($location . strtolower($application_name) . '_manager_component.class.php', 'w+');
+  
+    	if($manager_file && $component_file)
     	{
     		$this->template->set_filenames(array(
-				'dataclass' => 'data_class.template')
-				);
-			
-			$property_names = array();
+				'manager' => 'manager.template',
+    			'component' => 'manager_component.template'
+    		));
 			
 			$this->template->assign_vars(array(
-				'PACKAGE' => $package,
-				'DESCRIPTION' => $description,
-				'AUTHOR' => $author,
-				'CLASSNAME' => $classname
+				'APPLICATION_NAME' => DokeosUtilities :: underscores_to_camelcase($application_name),
+				'L_APPLICATION_NAME' => strtolower($application_name),
+				'AUTHOR' => $author
 			));
 			
-			foreach($properties as $property)
+    		foreach($classes as $class)
 			{
-				$property_const = 'PROPERTY_' . strtoupper($property);
-				$property_names[] = 'self :: ' . $property_const;
+				$class_lower = strtolower($class);
+				$class_upper = strtoupper($class);
+				$class2 = substr($class, -1) == 'y' ? substr($class, 0, strlen($class) - 1) . 'ie' : $class;
+				$class2 .= 's';
+				$class2_upper = strtoupper($class2);
+				$class2_lower = strtolower($class2);
 				
-				$this->template->assign_block_vars("CONSTS", array(
-					'PROPERTY_CONST' => $property_const,
-					'PROPERTY_NAME' => $property
-				));
-				
-				$this->template->assign_block_vars("PROPERTY", array(
-					'PROPERTY_CONST' => $property_const,
-					'PROPERTY_NAME' => $property
+				$this->template->assign_block_vars("OBJECTS", array(
+					'OBJECT_CLASS' => $class,
+					'OBJECT_CLASSES' => $class2,
+					'L_OBJECT_CLASS' => $class_lower,
+					'U_OBJECT_CLASS' => $class_upper,
+					'L_OBJECT_CLASSES' => $class2_lower,
+					'U_OBJECT_CLASSES' => $class2_upper
 				));
 			}
 			
-			$this->template->assign_vars(array(
-				'DEFAULT_PROPERTY_NAMES' => implode(', ', $property_names)
-			));
+			$string = trim($this->template->pparse_return('manager'));
+			fwrite($manager_file, $string);
+			fclose($manager_file);
 			
-			$string = "<?php \n" . $this->template->pparse_return('dataclass') . "\n?>";
-			fwrite($file, $string);
-			fclose($file);
+			$string = trim($this->template->pparse_return('component'));
+			fwrite($component_file, $string);
+			fclose($component_file);
     	}
     }
 }

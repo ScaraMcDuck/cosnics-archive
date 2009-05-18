@@ -1,98 +1,39 @@
+<?php
 /**
- * {PACKAGE}
+ * @package application.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}.component
  */
-{INCLUDES}
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
+require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager_component.class.php';
+
 /**
- * {DESCRIPTION}
- *
+ * {L_APPLICATION_NAME} component which allows the user to browse his {L_OBJECT_CLASSES}
  * @author {AUTHOR}
  */
-class {CLASSNAME}
+class {APPLICATION_NAME}Manager{OBJECT_CLASSES}BrowserComponent extends {APPLICATION_NAME}ManagerComponent
 {
-	/**
-	 * {CLASSNAME} properties
-	 */	 
-	<!-- BEGIN CONSTS -->
-	const {CONSTS.PROPERTY_CONST} = '{CONSTS.PROPERTY_NAME}';
-	<!-- END CONSTS -->
 	
-	/**
-	 * Default properties stored in an associative array.
-	 */
-	private $defaultProperties;
-	
-	/**
-	 * Creates a new {CLASSNAME} object
-	 * @param array $defaultProperties The default properties
-	 */
-	function {CLASSNAME}($defaultProperties = array ())
+	function run()
 	{
-		$this->defaultProperties = $defaultProperties;
-	}
-	
-	/**
-	 * Gets a default property by name.
-	 * @param string $name The name of the property.
-	 */
-	function get_default_property($name)
-	{
-		return $this->defaultProperties[$name];
-	}
-	
-	/**
-	 * Gets the default properties
-	 * @return array An associative array containing the properties.
-	 */
-	function get_default_properties()
-	{
-		return $this->defaultProperties;
-	}
-	
-	/**
-	 * Get the default properties
-	 * @return array The property names.
-	 */
-	static function get_default_property_names()
-	{
-		return array ({DEFAULT_PROPERTY_NAMES});
-	}
-	
-	/**
-	 * Sets a default property by name.
-	 * @param string $name The name of the property.
-	 * @param mixed $value The new value for the property.
-	 */
-	function set_default_property($name, $value)
-	{
-		$this->defaultProperties[$name] = $value;
-	}
-	
-	/**
-	 * Sets the default properties of this class
-	 */
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
+		$trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Browse{OBJECT_CLASSES}')));
+
+		$this->display_header($trail);
+
+		echo '<a href="' . $this->get_create_{L_OBJECT_CLASS}_url() . '">' . Translation :: get('Create{OBJECT_CLASS}') . '</a>'; 
+		echo '<br /><br />';
+		
+		${L_OBJECT_CLASSES} = $this->retrieve_{L_OBJECT_CLASSES}();
+		while(${L_OBJECT_CLASS} = ${L_OBJECT_CLASSES}->next_result())
+		{
+			echo '<div style="border: 1px solid grey; padding: 5px;">';
+			dump(${L_OBJECT_CLASS});
+			echo '<br /><a href="' . $this->get_update_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}). '">' . Translation :: get('Update{OBJECT_CLASS}') . '</a>'; 
+			echo ' | <a href="' . $this->get_delete_{L_OBJECT_CLASS}_url(${L_OBJECT_CLASS}) . '">' . Translation :: get('Delete{OBJECT_CLASS}') . '</a>'; 
+			echo '</div><br /><br />'; 
+		}
+		
+		$this->display_footer();
 	}
 
-	<!-- BEGIN PROPERTY -->
-	/**
-	 * Returns the {PROPERTY.PROPERTY_NAME} of this {CLASSNAME}.
-	 * @return the {PROPERTY.PROPERTY_NAME}.
-	 */
-	function get_{PROPERTY.PROPERTY_NAME}()
-	{
-		return $this->get_default_property(self :: {PROPERTY.PROPERTY_CONST});
-	}
-	
-	/**
-	 * Sets the {PROPERTY.PROPERTY_NAME} of this {CLASSNAME}.
-	 * @param {PROPERTY.PROPERTY_NAME}
-	 */
-	function set_{PROPERTY.PROPERTY_NAME}(${PROPERTY.PROPERTY_NAME})
-	{
-		$this->set_default_property(self :: {PROPERTY.PROPERTY_CONST}, ${PROPERTY.PROPERTY_NAME});
-	}
-	<!-- END PROPERTY -->
-	
 }
+?>
