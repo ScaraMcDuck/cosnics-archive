@@ -1,77 +1,97 @@
 <?php
 
 /**
- * Dataclass generator used to generate dataclasses with given properties
+ * Component generator used to generate components
  * @author Sven Vanpoucke
  */
-class DataClassGenerator 
+class ComponentGenerator 
 {
     private $template;
     
     /**
      * Constructor
      */
-    function DataClassGenerator() 
+    function ComponentGenerator() 
     {
     	$this->template = new MyTemplate();
     	$this->template->set_rootdir(dirname(__FILE__));
     }
     
-    /**
-     * Generate a dataclass with the given info
-     * @param string $location - The location of the class
-     * @param string $classname the classname
-     * @param array of strings $properties the properties
-     * @param string $package the package
-     * @param string $description the description
-     * @param string $author, the author
-     */
-    function generate_data_class($location, $classname, $properties, $package, $description, $author)
-    {	
+    function generate_components($location, $application_name, $classes, $author)
+    {
     	if(!is_dir($location))
     		mkdir($location, 0777, true);
     	 
-    	$file = fopen($location . strtolower($classname) . '.class.php', 'w+');
-    	
-    	if($file)
+    	$browser_file = fopen($location . 'browser.class.php', 'w+');
+  
+    	if($browser_file)
     	{
     		$this->template->set_filenames(array(
-				'dataclass' => 'data_class.template')
-				);
-			
-			$property_names = array();
+				'general_browser_component' => 'general_browser_component.template',
+    			'browser_component' => 'browser_component.template',
+    			'creator_component' => 'creator_component.template',
+    			'editor_component' => 'editor_component.template',
+    			'deleter_component' => 'deleter_component.template',
+    		));
 			
 			$this->template->assign_vars(array(
-				'PACKAGE' => $package,
-				'DESCRIPTION' => $description,
-				'AUTHOR' => $author,
-				'CLASSNAME' => $classname
+				'APPLICATION_NAME' => DokeosUtilities :: underscores_to_camelcase($application_name),
+				'L_APPLICATION_NAME' => strtolower($application_name),
+				'AUTHOR' => $author
 			));
 			
-			foreach($properties as $property)
+    		foreach($classes as $class)
 			{
-				$property_const = 'PROPERTY_' . strtoupper($property);
-				$property_names[] = 'self :: ' . $property_const;
+				$class2 = substr($class, -1) == 'y' ? substr($class, 0, strlen($class) - 1) . 'ie' : $class;
+				$class2 .= 's';
+				$class2_lower = strtolower($class2);
 				
-				$this->template->assign_block_vars("CONSTS", array(
-					'PROPERTY_CONST' => $property_const,
-					'PROPERTY_NAME' => $property
-				));
-				
-				$this->template->assign_block_vars("PROPERTY", array(
-					'PROPERTY_CONST' => $property_const,
-					'PROPERTY_NAME' => $property
+				$this->template->assign_block_vars("OBJECTS", array(
+
+					'L_OBJECT_CLASSES' => $class2_lower,
+					'OBJECT_CLASSES' => $class2
 				));
 			}
 			
-			$this->template->assign_vars(array(
-				'DEFAULT_PROPERTY_NAMES' => implode(', ', $property_names)
-			));
-			
-			$string = "<?php \n" . $this->template->pparse_return('dataclass') . "\n?>";
-			fwrite($file, $string);
-			fclose($file);
+			$string = trim($this->template->pparse_return('general_browser_component'));
+			fwrite($browser_file, $string);
+			fclose($browser_file);
     	}
+    	
+    	$components = array('browser', 'creator', 'editor', 'deleter');
+    	
+    	foreach($classes as $class)
+		{
+			$class_lower = strtolower($class);
+			$class_upper = strtoupper($class);
+			
+			$class2 = substr($class, -1) == 'y' ? substr($class, 0, strlen($class) - 1) . 'ie' : $class;
+			$class2 .= 's';
+			$class2_lower = strtolower($class2);
+			$class2_upper = strtoupper($class2);
+			
+			$this->template->assign_vars(array(
+					'L_OBJECT_CLASSES' => $class2_lower,
+					'U_OBJECT_CLASSES' => $class2_upper,
+					'OBJECT_CLASSES' => $class2,
+					'L_OBJECT_CLASS' => $class_lower,
+					'U_OBJECT_CLASS' => $class_upper,
+					'OBJECT_CLASS' => $class,
+				));
+			
+			foreach($components as $component)
+			{
+				if($component == 'browser')
+					$component_file = fopen($location . $class2_lower . '_' . $component . '.class.php', 'w+');
+				else
+					$component_file = fopen($location . $class_lower . '_' . $component . '.class.php', 'w+');
+					
+				$string = trim($this->template->pparse_return($component . '_component'));
+				fwrite($component_file, $string);
+				fclose($component_file);
+			}
+			
+		}
     }
 }
 

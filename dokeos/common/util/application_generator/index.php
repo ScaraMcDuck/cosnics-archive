@@ -6,6 +6,8 @@ include(dirname(__FILE__) . '/../my_template.php');
 include(dirname(__FILE__) . '/data_class_generator/data_class_generator.class.php');
 include(dirname(__FILE__) . '/form_generator/form_generator.class.php');
 include(dirname(__FILE__) . '/data_manager_generator/data_manager_generator.class.php');
+include(dirname(__FILE__) . '/manager_generator/manager_generator.class.php');
+include(dirname(__FILE__) . '/component_generator/component_generator.class.php');
 include(dirname(__FILE__) . '/rights_generator/rights_generator.class.php');
 include(dirname(__FILE__) . '/install_generator/install_generator.class.php');
 
@@ -45,6 +47,12 @@ foreach($files as $file)
 //Generate the Data Managers
 generate_data_managers($location, $name, $classes, $author);
 
+//Generate the Managers
+generate_managers($location, $name, $classes, $author);
+
+//Generate the Components
+generate_components($location, $name, $classes, $author);
+
 //Generate Rights Files
 generate_rights_files($location, $name);
 
@@ -59,7 +67,7 @@ generate_install_files($location, $name, $author);
  */
 function create_folders($location, $name)
 {
-	$folders = array('data_manager', 'forms', 'install', $name . '_manager', 'rights');
+	$folders = array('data_manager', 'forms', 'install', $name . '_manager', $name . '_manager/component' ,'rights');
 	foreach($folders as $folder)
 	{
 		FileSystem :: create_dir($location . $folder);
@@ -100,12 +108,50 @@ function retrieve_properties_from_xml_file($file)
 	return $properties;
 }
 
+/**
+ * Generates the data managers for an application
+ *
+ * @param String $location - The application location
+ * @param String $name - The application name
+ * @param String $classes - The class names
+ * @param String $author - The Author
+ */
 function generate_data_managers($location, $name, $classes, $author)
 {
 	$data_manager_location = $location;
 	$database_location = $location . 'data_manager/';
 	$data_manager_generator = new DataManagerGenerator();
 	$data_manager_generator->generate_data_managers($data_manager_location, $database_location, $name, $classes, $author);
+}
+
+/**
+ * Generates the managers for an application
+ *
+ * @param String $location - The application location
+ * @param String $name - The application name
+ * @param String $classes - The class names
+ * @param String $author - The Author
+ */
+function generate_managers($location, $name, $classes, $author)
+{
+	$manager_location = $location . strtolower($name) . '_manager/';
+	$manager_generator = new ManagerGenerator();
+	$manager_generator->generate_managers($manager_location, $name, $classes, $author);
+}
+
+/**
+ * Generates the components for an application
+ *
+ * @param String $location - The application location
+ * @param String $name - The application name
+ * @param String $classes - The class names
+ * @param String $author - The Author
+ */
+function generate_components($location, $name, $classes, $author)
+{
+	$manager_location = $location . strtolower($name) . '_manager/component/';
+	$component_generator = new ComponentGenerator();
+	$component_generator->generate_components($manager_location, $name, $classes, $author);
 }
 
 /**
