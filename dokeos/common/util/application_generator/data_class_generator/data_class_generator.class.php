@@ -13,8 +13,6 @@ class DataClassGenerator
      */
     function DataClassGenerator() 
     {
-    	$this->template = new MyTemplate();
-    	$this->template->set_rootdir(dirname(__FILE__));
     }
     
     /**
@@ -28,6 +26,9 @@ class DataClassGenerator
      */
     function generate_data_class($location, $classname, $properties, $package, $description, $author, $application_name)
     {	
+    	$this->template = new MyTemplate();
+    	$this->template->set_rootdir(dirname(__FILE__));
+    	
     	if(!is_dir($location))
     		mkdir($location, 0777, true);
     	 
