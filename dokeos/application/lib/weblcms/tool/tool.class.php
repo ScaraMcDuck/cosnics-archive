@@ -611,7 +611,7 @@ abstract class Tool
         if(isset($_GET['pid']))
         {
             //Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,
-            $url = $parent->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,Tool::PARAM_PUBLICATION_ID=>$_GET['pid'], ReportingManager::PARAM_TEMPLATE_NAME => 'PublicationDetailReportingTemplate'));
+            $url = $this->parent->get_url(array (WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_REPORTING,WeblcmsManager::PARAM_TOOL => null,Tool::PARAM_PUBLICATION_ID=>$_GET['pid'], ReportingManager::PARAM_TEMPLATE_NAME => 'PublicationDetailReportingTemplate'));
             return new ToolbarItem(Translation :: get('AccessDetails'), Theme :: get_common_image_path().'action_reporting.png',$url);
         }else
         {
