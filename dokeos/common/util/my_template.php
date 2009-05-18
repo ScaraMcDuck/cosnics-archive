@@ -220,66 +220,6 @@ class MyTemplate {
 		return true;
 	}
 
-
-	function birthday_interface()
-	{
-		global $lang;
-
-		// the following was adapted from bbcode.php's load_bbcode_template function.
-		$bday_filename = $this->make_filename('birthday_interface.tpl');
-		$fp = fopen($bday_filename, 'r');
-		$temp = fread($fp, filesize($bday_filename));
-		fclose($fp);
-
-		$temp = str_replace('\\', '\\\\', $temp);
-		$temp = str_replace('\'', '\\\'', $temp);
-		$temp = str_replace("\n", '', $temp);
-		$temp = preg_replace('#<!-- BEGIN (.*?) -->(.*?)<!-- END (.*?) -->#', "\n" . '$bday_tpls[\'\\1\'] = \'\\2\';', $temp);
-
-		$bday_tpls = array();
-
-		eval($temp);
-
-		$bday_format = preg_replace('#[^djFmMnYy]#','',$lang['DATE_FORMAT']);
-		$bday_format = substr(chunk_split($bday_format,1,'.'),0,-1);
-
-		$bday_template = isset($bday_tpls['bday_start']) ? $bday_tpls['bday_start'] : '';
-
-		$i = '';
-		while ( isset($bday_tpls["bday_month$i"]) && isset($bday_tpls["bday_day$i"]) && isset($bday_tpls["bday_year$i"]) )
-		{
-			if ( !empty($i) )
-			{
-				$bday_template.= isset($bday_tpls['bday_glue']) ? $bday_tpls['bday_glue'] : '';
-			}
-			$bday_template.= strtr($bday_format,array(
-				'd' => $bday_tpls["bday_day$i"],
-				'j' => $bday_tpls["bday_day$i"],
-				'F' => $bday_tpls["bday_month$i"],
-				'm' => $bday_tpls["bday_month$i"],
-				'M' => $bday_tpls["bday_month$i"],
-				'n' => $bday_tpls["bday_month$i"],
-				'Y' => $bday_tpls["bday_year$i"],
-				'y' => $bday_tpls["bday_year$i"],
-				'.' => isset($bday_tpls["bday_subglue$i"]) ? $bday_tpls["bday_subglue$i"] : '')
-			);
-			if ( empty($i) )
-			{
-				$i = 1;
-			}
-			$i++;
-		}
-
-		$bday_template.= isset($bday_tpls['bday_end']) ? $bday_tpls['bday_end'] : '';
-
-		$this->uncompiled_code['bday_interface'] = trim($bday_template);
-		// the following line is a hack to make this MOD work with the eXtreme Styles MOD.  on phpBB's without eXtreme Styles
-		// installed it doesn't do much of anything
-		$this->files['bday_interface'] = true;
-
-		$this->assign_var_from_handle('BIRTHDAY_INTERFACE','bday_interface');
-	}
-
 	/**
 	 * Generates a full path+filename for the given filename, which can either
 	 * be an absolute name, or a name relative to the rootdir for this Template
