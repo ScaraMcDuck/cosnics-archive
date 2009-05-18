@@ -26,7 +26,7 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
 		if(isset($users) && !is_array($users))
 		{
 			$users = array($users);
-		} 
+		}
 		if (isset($course_code))
 		{
 			$course = $this->retrieve_course($course_code);
@@ -78,14 +78,14 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
 					$message = 'PartialUsersNotSubscribedToCourse';
 				}
 
-				$this->redirect(null, Translation :: get($message), ($success ? false : true), array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code, WeblcmsManager :: PARAM_TOOL => 'user'));
+				$this->redirect(Translation :: get($message), ($success ? false : true), array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code, WeblcmsManager :: PARAM_TOOL => 'user'));
 			}
 			else
 			{
 				if ($this->get_course_subscription_url($course))
 				{
 					$success = $this->subscribe_user_to_course($course, '5', '0', $this->get_user_id());
-					$this->redirect(null, Translation :: get($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true));
+					$this->redirect(Translation :: get($success ? 'UserSubscribedToCourse' : 'UserNotSubscribedToCourse'), ($success ? false : true));
 				}
 			}
 		}
@@ -106,11 +106,11 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
 		echo $output;
 		$this->display_footer();
 	}
-	
+
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		
+
 		$action_bar->set_search_url($this->get_url(array('category' => Request :: get('category'))));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
@@ -168,14 +168,14 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
 	function get_condition()
 	{
 		$query = $this->action_bar->get_query();
-		
+
 		if (isset($query) && $query != '')
 		{
 			$conditions = array ();
 			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_ID, '*'.$query.'*');
 			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_NAME, '*'.$query.'*');
 			$conditions[] = new PatternMatchCondition(Course :: PROPERTY_LANGUAGE, '*'.$query.'*');
-		
+
 			$search_conditions = new OrCondition($conditions);
 		}
 

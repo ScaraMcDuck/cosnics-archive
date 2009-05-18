@@ -43,7 +43,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 			$publication_feedback= new LearningObjectPublicationFeedback(null, $feedback, $this->browser->get_course_id(), $publication->get_tool().'_feedback', $this->browser->get_publication_id(),$this->browser->get_user_id(), time(), 0, 0);
 			$publication_feedback->set_show_on_homepage(0);
 			$publication_feedback->create();
-			//$this->browser->get_parent()->redirect(null, '', false, array());
+			//$this->browser->get_parent()->redirect();
 			$html[] = Display :: normal_message(Translation :: get('FeedbackAdded'),true);
 		}*/
 		

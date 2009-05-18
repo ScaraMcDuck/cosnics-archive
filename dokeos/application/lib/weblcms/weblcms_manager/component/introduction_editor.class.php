@@ -11,7 +11,7 @@ class WeblcmsManagerIntroductionEditorComponent extends WeblcmsManagerComponent
 	{
 		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','introduction'));
 		$introduction_text = $publications->next_result();
-		
+
 		$lo = $introduction_text->get_learning_object();
 		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $lo, 'edit', 'post', $this->get_url(array('edit_introduction' => $_GET['edit_introduction'])));
 
@@ -19,11 +19,11 @@ class WeblcmsManagerIntroductionEditorComponent extends WeblcmsManagerComponent
 		{
 			$form->update_learning_object();
 			if($form->is_version())
-			{	
+			{
 				$introduction_text->set_learning_object($lo->get_latest_version());
 				$introduction_text->update();
 			}
-			$this->redirect(null, Translation :: get('IntroductionEdited'), '', array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE));
+			$this->redirect(Translation :: get('IntroductionEdited'), '', array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE));
 		}
 		else
 		{

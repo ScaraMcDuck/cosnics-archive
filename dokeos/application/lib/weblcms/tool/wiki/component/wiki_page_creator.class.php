@@ -2,7 +2,7 @@
 
 /*
  * This is the compenent that allows the user to create a wiki_page.
- * 
+ *
  * Author: Stefan Billiet
  * Author: Nick De Feyter
  */
@@ -21,7 +21,7 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
 
 	function run()
 	{
-        
+
 		if (!$this->is_allowed(ADD_RIGHT))
 		{
 			Display :: not_allowed();
@@ -32,26 +32,26 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
         //if(!WikiTool ::is_wiki_locked(Request :: get('wiki_id')))
         //{
             $object = Request :: get('object'); //the object that was made, needed to set the reference for the complex object
-            
+
             $this->pub = new LearningObjectRepoViewer($this, 'wiki_page', true, RepoViewer :: SELECT_MULTIPLE, WikiTool :: ACTION_CREATE_PAGE);
 
             $this->publication_id = Request :: get('pid');
             if(!empty($this->publication_id))
             {
                 $wm = WeblcmsDataManager :: get_instance();
-                $publication = $wm->retrieve_learning_object_publication($this->publication_id);                
+                $publication = $wm->retrieve_learning_object_publication($this->publication_id);
                 session_start();
                 $_SESSION['wiki_id'] = $publication->get_learning_object()->get_id();
                 $_SESSION['pid'] = $this->publication_id;
             }
-            
+
             if(empty($object))
             {
                 $html[] = '<p><a href="' . $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
                 $html[] =  $this->pub->as_html();
                 $this->display_header($trail);
-                echo implode("\n",$html);               
-               
+                echo implode("\n",$html);
+
             }
             else
             {
@@ -66,7 +66,7 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
                     $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($_SESSION['wiki_id']));
                     $cloi->set_additional_properties(array('is_homepage' => 0));
                     $cloi->create();
-                    $this->redirect(null, $message, '', array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_COMPLEX_ID => $cloi->get_id(), 'pid' => $_SESSION['pid']));
+                    $this->redirect($message, '', array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_COMPLEX_ID => $cloi->get_id(), 'pid' => $_SESSION['pid']));
                     session_stop();
                 }
                 else
@@ -79,7 +79,7 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
         /*}
         else
         {
-            $this->redirect(null, htmlentities(Translation :: get('WikiIsLocked')), '', $params);
+            $this->redirect(htmlentities(Translation :: get('WikiIsLocked')), '', $params);
         }*/
         $this->display_footer();
     }

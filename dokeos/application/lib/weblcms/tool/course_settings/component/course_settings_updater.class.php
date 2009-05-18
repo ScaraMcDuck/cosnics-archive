@@ -13,7 +13,7 @@ class CourseSettingsToolUpdaterComponent extends CourseSettingsToolComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		
+
 		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user()))
 		{
 			$this->display_header($trail);
@@ -21,16 +21,16 @@ class CourseSettingsToolUpdaterComponent extends CourseSettingsToolComponent
 			$this->display_footer();
 			exit;
 		}
-		
+
 		$form = new CourseForm(CourseForm :: TYPE_EDIT, $this->get_course(), $this->get_user(), $this->get_url(array(Tool :: PARAM_ACTION => CourseSettingsTool :: ACTION_UPDATE_COURSE_SETTINGS)));
-		
+
 		if($form->validate())
 		{
 			$success = $form->update_course();
-			$this->redirect(WeblcmsManager :: ACTION_VIEW_WEBLCMS_HOME, Translation :: get($success ? 'CourseSettingsUpdated' : 'CourseSettingsUpdateFailed'), ($success ? false : true));
+			$this->redirect(Translation :: get($success ? 'CourseSettingsUpdated' : 'CourseSettingsUpdateFailed'), ($success ? false : true), array(), array(WeblcmsManager :: PARAM_TOOL));
 		}
 		else
-		{			
+		{
 			$this->display_header($trail);
 			$form->display();
 			$this->display_footer();

@@ -35,7 +35,7 @@ class AssessmentToolResultsDeleterComponent extends AssessmentToolComponent
 		$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS);
 		if (isset($redirect_aid))
 			$params[AssessmentTool :: PARAM_ASSESSMENT] = $redirect_aid;
-		$this->redirect(null, Translation :: get('ResultsDeleted'), false, $params);
+		$this->redirect(Translation :: get('ResultsDeleted'), false, $params);
 	}
 	
 	function delete_user_assessment_results($user_assessment)

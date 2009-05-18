@@ -8,10 +8,10 @@ require_once dirname(__FILE__).'/../../learning_object_repo_viewer.class.php';
 class ToolWikiLinkCreatorComponent extends ToolComponent
 {
 	function run()
-	{        
-        
+	{
+
 		if($this->is_allowed(ADD_RIGHT))
-		{            
+		{
 			$pid = Request :: get('pid');
 			if(!$pid)
 			{
@@ -39,7 +39,7 @@ class ToolWikiLinkCreatorComponent extends ToolComponent
 			}
 			else
 			{
-				
+
 			}
 
 		}
@@ -53,7 +53,7 @@ class ToolWikiLinkCreatorComponent extends ToolComponent
 		$params['pid'] = $pid;
 		$params['tool_action'] = 'view';
 
-		$this->redirect(null, $message, '', $params);
+		$this->redirect($message, '', $params);
 	}
 
 }

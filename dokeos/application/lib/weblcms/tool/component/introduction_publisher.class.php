@@ -14,20 +14,20 @@ class ToolIntroductionPublisherComponent extends ToolComponent
 			Display :: not_allowed();
 			return;
 		}
-		
+
 		$trail = new BreadcrumbTrail();
 		/*$pub = new LearningObjectPublisher($this, 'introduction', true);
-		
+
 		$html[] = '<p><a href="' . $this->get_url() . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 		$html[] =  $pub->as_html();*/
-		
+
 		$object = $_GET['object'];
-		
+
 		$pub = new LearningObjectRepoViewer($this, 'introduction', true);
 		$pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_INTRODUCTION);
-		
+
 		if(!isset($object))
-		{	
+		{
 			$html[] = '<p><a href="' . $this->get_url() . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
 		}
@@ -40,13 +40,13 @@ class ToolIntroductionPublisherComponent extends ToolComponent
 			$obj->set_id($object);
 			$pub = new LearningObjectPublication(null, $obj, $this->get_course_id(), $this->get_tool_id(), 0, array(), array(), 0, 0, Session :: get_user_id(), time(), time(), 0, $do, false, 0);
 			$pub->create();
-			
+
 			$parameters = $this->get_parameters();
 			$parameters['tool_action'] = null;
 
-			$this->redirect(null,Translation :: get('IntroductionPublished'), (false), $parameters);
+			$this->redirect(Translation :: get('IntroductionPublished'), (false), $parameters);
 		}
-		
+
 		$this->display_header($trail);
 		echo implode("\n",$html);
 		$this->display_footer();

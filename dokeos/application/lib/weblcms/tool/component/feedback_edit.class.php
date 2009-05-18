@@ -40,7 +40,7 @@ class ToolFeedbackEditComponent extends ToolComponent
                         $params['tool_action'] = 'view';
                     }
                     if(Request :: get('cid')!=null)
-                    {                        
+                    {
                         $params['cid'] = Request :: get('cid');
                         $params['tool_action'] = 'discuss';
                     }
@@ -56,7 +56,7 @@ class ToolFeedbackEditComponent extends ToolComponent
                         $params['tool_action'] = 'discuss';
                     }
 
-                    $this->redirect(null, $message, '', $params);
+                    $this->redirect($message, '', $params);
 
                 }
                 else

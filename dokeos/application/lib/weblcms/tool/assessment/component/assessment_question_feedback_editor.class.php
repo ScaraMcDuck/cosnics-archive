@@ -52,7 +52,7 @@ class AssessmentToolQuestionFeedbackEditorComponent extends AssessmentToolCompon
 							$message = htmlentities(Translation :: get('QuestionFeedbackNotUpdated'));
 						}
 						
-						$this->redirect(null, $message, '', array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment));
+						$this->redirect($message, '', array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment));
 					}
 					else
 					{

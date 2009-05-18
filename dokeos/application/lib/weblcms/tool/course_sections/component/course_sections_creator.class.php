@@ -10,9 +10,9 @@ class CourseSectionsToolCreatorComponent extends CourseSectionsToolComponent
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{		
+	{
 		$trail = new BreadcrumbTrail();
-		
+
 		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user()))
 		{
 			$this->display_header($trail);
@@ -20,29 +20,29 @@ class CourseSectionsToolCreatorComponent extends CourseSectionsToolComponent
 			$this->display_footer();
 			exit;
 		}
-		
+
 		$course_section = new CourseSection();
 		$course_section->set_course_code($this->get_course_id());
 		$course_section->set_type(CourseSection :: TYPE_TOOL);
-		
+
 		$form = new CourseSectionForm(CourseSectionForm :: TYPE_CREATE, $course_section, $this->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_CREATE_COURSE_SECTION)));
-		
+
 		if($form->validate())
 		{
 			$success = $form->create_course_section();
 			if($success)
 			{
 				$course_section = $form->get_course_section();
-				$this->redirect('url', Translation :: get('CourseSectionCreated'), (false), array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
+				$this->redirect(Translation :: get('CourseSectionCreated'), (false), array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
 			}
 			else
 			{
-				$this->redirect('url', Translation :: get('CourseSectionNotCreated'), (true), array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
+				$this->redirect(Translation :: get('CourseSectionNotCreated'), (true), array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
 			}
 		}
 		else
 		{
-			$this->display_header($trail); 
+			$this->display_header($trail);
 			$form->display();
 			$this->display_footer();
 		}

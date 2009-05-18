@@ -5,19 +5,19 @@ class ToolComplexDeleterComponent extends ToolComponent
 	function run()
 	{
 		if($this->is_allowed(DELETE_RIGHT))
-		{ 
+		{
 			if(isset($_GET[Tool :: PARAM_COMPLEX_ID]))
-				$cloi_ids = $_GET[Tool :: PARAM_COMPLEX_ID]; 
+				$cloi_ids = $_GET[Tool :: PARAM_COMPLEX_ID];
 			else
-				$cloi_ids = $_POST[Tool :: PARAM_COMPLEX_ID]; 
-				
+				$cloi_ids = $_POST[Tool :: PARAM_COMPLEX_ID];
+
 			if (!is_array($cloi_ids))
 			{
 				$cloi_ids = array ($cloi_ids);
 			}
-			
+
 			$datamanager = RepositoryDataManager :: get_instance();
-			
+
 			foreach($cloi_ids as $index => $cid)
 			{
 				//$publication = $datamanager->retrieve_complex_learning_object_item($pid);
@@ -27,7 +27,7 @@ class ToolComplexDeleterComponent extends ToolComponent
                     $cloi->set_id($cid);
                     $cloi->delete();
                 }
-                
+
 			}
             if(empty($message))
             {
@@ -40,18 +40,18 @@ class ToolComplexDeleterComponent extends ToolComponent
                     $message = htmlentities(Translation :: get('LearningObjectPublicationDeleted'));
                 }
             }
-            
+
             $wiki = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'));
             if(!empty($wiki))
             {
                 if(WikiTool ::get_wiki_homepage($wiki->get_learning_object()->get_id())!=null)
-                $this->redirect(null, $message, false, array(Tool :: PARAM_ACTION => 'view_item', 'cid' => $wiki_homepage[0]->get_id()));
+                $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view_item', 'cid' => $wiki_homepage[0]->get_id()));
                 else
-                $this->redirect(null, $message, false, array(Tool :: PARAM_ACTION => 'view', 'pid' => Request :: get ('pid')));
+                $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view', 'pid' => Request :: get ('pid')));
             }
             else
             {
-                $this->redirect(null, $message, false, array(Tool :: PARAM_ACTION => 'view', 'pid' => Request :: get ('pid')));
+                $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view', 'pid' => Request :: get ('pid')));
             }
 		}
 	}

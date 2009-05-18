@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../../../course_group/course_group_form.class.p
 class CourseGroupToolCreatorComponent extends CourseGroupToolComponent
 {
 	private $action_bar;
-	
+
 	function run()
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
@@ -15,16 +15,16 @@ class CourseGroupToolCreatorComponent extends CourseGroupToolComponent
 			Display :: not_allowed();
 			return;
 		}
-		
+
 		$trail = new BreadcrumbTrail();
-		$course = $this->get_course(); 
+		$course = $this->get_course();
 		$course_group = new CourseGroup(null, $course->get_id());
 		$param_add_course_group[Tool :: PARAM_ACTION] = CourseGroupTool :: ACTION_ADD_COURSE_GROUP;
 		$form = new CourseGroupForm(CourseGroupForm :: TYPE_CREATE, $course_group, $this->get_url($param_add_course_group));
 		if ($form->validate())
 		{
 			$form->create_course_group();
-			$this->get_parent()->redirect($this->get_url(), Translation :: get('CourseGroupCreated'));
+			$this->get_parent()->redirect(Translation :: get('CourseGroupCreated'));
 		}
 		else
 		{
@@ -32,7 +32,7 @@ class CourseGroupToolCreatorComponent extends CourseGroupToolComponent
 			$form->display();
 			$this->display_footer();
 		}
-		
+
 	}
 
 }

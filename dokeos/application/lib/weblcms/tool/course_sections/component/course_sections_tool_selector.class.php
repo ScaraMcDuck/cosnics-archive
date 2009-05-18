@@ -10,9 +10,9 @@ class CourseSectionsToolToolSelectorComponent extends CourseSectionsToolComponen
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{	
+	{
 		$trail = new BreadcrumbTrail();
-		
+
 		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user()))
 		{
 			$this->display_header($trail);
@@ -24,13 +24,13 @@ class CourseSectionsToolToolSelectorComponent extends CourseSectionsToolComponen
 		if ($id)
 		{
 			$course_section = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $id))->next_result();
-			
+
 			$form = new CourseSectionToolSelectorForm($course_section, $this->get_url(array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_SELECT_TOOLS_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $id)));
-	
+
 			if($form->validate())
 			{
 				$success = $form->update_course_modules();
-				$this->redirect('url', Translation :: get($success ? 'CourseSectionUpdated' : 'CourseSectionNotUpdated'), ($success ? false : true), array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
+				$this->redirect(Translation :: get($success ? 'CourseSectionUpdated' : 'CourseSectionNotUpdated'), ($success ? false : true), array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
 			}
 			else
 			{

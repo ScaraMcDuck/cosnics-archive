@@ -104,11 +104,6 @@ class WeblcmsManager extends WebApplication
 	 */
 	private $course_group;
 
-	/**
-	 * The user object of the currently active user in this application
-	 */
-	private $user;
-
 	private $search_form;
 
 	/**
@@ -116,9 +111,9 @@ class WeblcmsManager extends WebApplication
 	 * from the query string.
 	 * @param Tool $tool The default tool, or null if none.
 	 */
-	function WeblcmsManager($user = null, $tool = null)
+	function WeblcmsManager($user)
 	{
-		parent :: __construct();
+		parent :: __construct($user);
 		$this->set_parameter(self :: PARAM_ACTION, $_GET[self :: PARAM_ACTION]);
 		$this->set_parameter(self :: PARAM_COMPONENT_ACTION, $_GET[self :: PARAM_COMPONENT_ACTION]);
 		$this->set_parameter(self :: PARAM_CATEGORY, $_GET[self :: PARAM_CATEGORY]);
@@ -128,7 +123,6 @@ class WeblcmsManager extends WebApplication
 
 		$this->parse_input_from_table();
 
-		$this->user = $user;
 		$this->course = new Course();
 		$this->load_course();
 		$this->course_group = null;
@@ -145,7 +139,6 @@ class WeblcmsManager extends WebApplication
 	function run()
 	{
 		$action = $this->get_action();
-		$component = null;
 
 		switch ($action)
 		{
@@ -210,38 +203,9 @@ class WeblcmsManager extends WebApplication
 		return $weblcms_block->run();
 	}
 
-	/**
-	 * Gets the current action.
-	 * @see get_parameter()
-	 * @return string The current action.
-	 */
-	function get_action()
-	{
-		return $this->get_parameter(self :: PARAM_ACTION);
-	}
-
-	/**
-	 * Sets the current action.
-	 * @param string $action The new action.
-	 */
-	function set_action($action)
-	{
-		return $this->set_parameter(self :: PARAM_ACTION, $action);
-	}
-
 	function set_tool_class($class)
 	{
 		return $this->tool_class = $class;
-	}
-
-	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
-	{
-		if ($action == self :: ACTION_VIEW_WEBLCMS_HOME)
-		{
-			$this->set_parameter(self :: PARAM_TOOL, null);
-			$action = null;
-		}
-		return parent :: redirect($action, $message, $error_message, $extra_params);
 	}
 
 	/**
@@ -251,27 +215,6 @@ class WeblcmsManager extends WebApplication
 	function get_tool_id()
 	{
 		return $this->get_parameter(self :: PARAM_TOOL);
-	}
-
-	/**
-	 * Gets the user id.
-	 * @return int The user id.
-	 */
-	function get_user_id()
-	{
-		if ($this->user == null)
-			return 0;
-			
-		return $this->user->get_id();
-	}
-
-	/**
-	 * Gets the user.
-	 * @return int The user.
-	 */
-	function get_user()
-	{
-		return $this->user;
 	}
 
 	/**
@@ -337,46 +280,7 @@ class WeblcmsManager extends WebApplication
 		$course_groups = $wdm->retrieve_course_groups_from_user($this->get_user(),$this->get_course())->as_array();
 		return $course_groups;
 	}
-	/**
-	 * Gets the defined categories in the current tool.
-	 * @param boolean $list When true the categories will be returned as a list.
-	 * If false (default value) a tree structure of the categories will be
-	 * returned
-	 * @return array The categories
-	 */
-//	function get_categories($list = false)
-//	{
-//		return ($list ? $this->get_category_list() : $this->get_category_tree());
-//	}
-//	/**
-//	 * Gets the defined categories in the current tool structured as a tree.
-//	 * @return array
-//	 */
-//	private function get_category_tree()
-//	{
-//		/*
-//		 * Add the root category.
-//		 */
-//		$course = $this->get_course_id();
-//		$tool = $this->get_parameter(self :: PARAM_TOOL);
-//	//	$cats = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($course, $tool);
-//		$root = array ();
-//		//$root['obj'] = new LearningObjectPublicationCategory(0, Translation :: get('RootCategory'), $course->get_code, $tool, 0);
-//		//$root['sub'] = $cats;
-//		$tree = array ();
-//		//$tree[] = $root;
-//		return $tree;
-//	}
-//	/**
-//	 * Gets a list of the defined categories in the current tool.
-//	 */
-//	private function get_category_list()
-//	{
-//		$categories = array ();
-//		$tree = $this->get_category_tree();
-//		self :: translate_category_tree($tree, $categories);
-//		return $categories;
-//	}
+	
 	/**
 	 * Makes a category tree ready for displaying by adding a prefix to the
 	 * category title based on the level of that category in the tree structure.
@@ -512,47 +416,11 @@ class WeblcmsManager extends WebApplication
 	}
 
 	/**
-	 * Displays a normal message.
-	 * @param string $message The message.
-	 */
-	function display_message($message)
-	{
-		Display :: normal_message($message);
-	}
-	/**
-	 * Displays an error message.
-	 * @param string $message The message.
-	 */
-	function display_error_message($message)
-	{
-		Display :: error_message($message);
-	}
-	/**
-	 * Displays a warning message.
-	 * @param string $message The message.
-	 */
-	function display_warning_message($message)
-	{
-		Display :: warning_message($message);
-	}
-
-	/**
 	 * Displays the footer of this application
 	 */
 	function display_footer()
 	{
 		Display :: footer();
-	}
-	
-	/**
-	 * Displays an error page.
-	 * @param string $message The message.
-	 */
-	function display_error_page($message)
-	{
-		$this->display_header();
-		$this->display_error_message($message);
-		$this->display_footer();
 	}
 
 	/**
@@ -1225,14 +1093,6 @@ class WeblcmsManager extends WebApplication
 	}
 
 	/**
-	 * Gets the URL to the Dokeos claroline folder.
-	 */
-	function get_path($path_type)
-	{
-		return Path :: get($path_type);
-	}
-
-	/**
 	 * @todo Clean this up. It's all SortableTable's fault. :-(
 	 */
 	private function parse_input_from_table()
@@ -1402,11 +1262,6 @@ class WeblcmsManager extends WebApplication
 			$link = htmlentities($link);
 		}
 		return $link;
-	}
-	
-	function get_platform_setting($variable, $application = self :: APPLICATION_NAME)
-	{
-		return PlatformSetting :: get($variable, $application);
 	}
 	
 	function get_parent()

@@ -39,7 +39,7 @@ class WikiToolLockerComponent extends WikiToolComponent
             $wiki[0]->set_is_locked(true);
         }
         $wiki[0]->update();
-        $this->redirect(null, null, '', array(Tool :: PARAM_ACTION => WikiTool ::ACTION_BROWSE_WIKIS));
+        $this->redirect(null, '', array(Tool :: PARAM_ACTION => WikiTool ::ACTION_BROWSE_WIKIS));
 	}
 }
 ?>

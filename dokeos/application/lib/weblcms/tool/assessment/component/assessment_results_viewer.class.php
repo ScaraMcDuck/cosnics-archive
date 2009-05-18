@@ -138,7 +138,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 					AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid,
 					AssessmentTool :: PARAM_ADD_FEEDBACK => 1
 				);
-				$this->redirect(null, null, false, array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_REPOVIEWER, AssessmentTool :: PARAM_REPO_TYPES => array('feedback')));
+				$this->redirect(null, false, array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_REPOVIEWER, AssessmentTool :: PARAM_REPO_TYPES => array('feedback')));
 			}
 		}
 		else 
@@ -247,7 +247,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		$user_assessment->set_total_score(AssessmentToolTesterComponent :: calculate_score($user_assessment));
 		$user_assessment->update();
 		$params = array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment->get_id());
-		$this->redirect(null, null, false, $params);
+		$this->redirect(null, false, $params);
 	}
 	
 	function display_header($breadcrumbs = array())

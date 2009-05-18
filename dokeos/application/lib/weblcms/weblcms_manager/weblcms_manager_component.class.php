@@ -30,11 +30,19 @@ abstract class WeblcmsManagerComponent
 	}
 	
 	/**
-	 * @see WeblcmsManager :: redirect()
-	 */	
-	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
+	 * @see WebApplication :: simple_redirect()
+	 */
+	function simple_redirect($parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
 	{
-		return $this->get_parent()->redirect($action, $message, $error_message, $extra_params);
+		return $this->get_parent()->simple_redirect($parameters, $filter, $encode_entities, $type);
+	}
+	
+	/**
+	 * @see WebApplication :: redirect()
+	 */
+	function redirect($message = '', $error_message = false, $parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
+	{
+		return $this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities, $type);
 	}
 	
 	/**
@@ -174,11 +182,16 @@ abstract class WeblcmsManagerComponent
 	}
 	
 	/**
-	 * @see WeblcmsManager :: get_url()
-	 */	
-	function get_url($parameters = array (), $encode = false, $filter = false, $filterOn = array())
+	 * @see CalendarManager :: get_url()
+	 */
+	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
 	{
-		return $this->get_parent()->get_url($parameters, $encode, $filter, $filterOn);
+		return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
+	}
+
+	function get_link($parameters = array (), $filter = array(), $encode = false)
+	{
+		return $this->get_parent()->get_link($parameters, $filter, $encode);
 	}
 	
 	/**

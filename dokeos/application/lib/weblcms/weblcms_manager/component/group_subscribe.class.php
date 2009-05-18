@@ -18,7 +18,7 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
 	{
 		$course_code = $_GET[WeblcmsManager :: PARAM_COURSE];
 		$groups = $_GET['group_id'];
-		
+
 		if(!is_array($groups))
 		{
 			$groups = array($groups);
@@ -44,17 +44,17 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
 					$message = 'GroupsSubscribedToCourse';
 				}
 
-				$this->redirect(null, Translation :: get($message), ($success ? false : true), array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code, WeblcmsManager :: PARAM_TOOL => 'user'));
+				$this->redirect(Translation :: get($message), ($success ? false : true), array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code, WeblcmsManager :: PARAM_TOOL => 'user'));
 			}
 		}
 
 	}
-	
+
 	function subscribe_group($group_id, $course)
 	{
 		$gdm = GroupDataManager :: get_instance();
 		$group_users = $gdm->retrieve_group_rel_users(new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $group_id));
-			
+
 		while($user = $group_users->next_result())
 		{
 			$user_id = $user->get_user_id();
@@ -64,9 +64,9 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
 				$this->subscribe_user_to_course($course, $status, '0', $user_id);
 			}
 		}
-		
+
 		$groups = $gdm->retrieve_groups(new EqualityCondition(Group :: PROPERTY_PARENT, $group_id));
-		
+
 		while($group = $groups->next_result())
 			$this->subscribe_group($group->get_id(), $course);
 	}

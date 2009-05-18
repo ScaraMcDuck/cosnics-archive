@@ -55,7 +55,7 @@ class ToolComplexEditComponent extends ToolComponent
                         $params['cid'] = Request :: get('cid');
                         $params['tool_action'] = 'view_item';
                     }
-                    
+
 
                     if($_GET['details'] == 1)
                     {
@@ -63,9 +63,9 @@ class ToolComplexEditComponent extends ToolComponent
                         $params['tool_action'] = 'view_item';
                     }
 
-                    
-                    
-                    $this->redirect(null, $message, '', $params);
+
+
+                    $this->redirect($message, '', $params);
 
                 }
                 else

@@ -16,35 +16,35 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManagerComponent
 	{
 		$course_codes = $_GET[WeblcmsManager :: PARAM_COURSE];
 		$failures = 0;
-		
+
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$trail = new BreadcrumbTrail();
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('DeleteCourse')));
-			
+
 			$this->display_header($trail);
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
-		
+
 		if (!empty ($course_codes))
 		{
 			if (!is_array($course_codes))
 			{
 				$course_codes = array ($course_codes);
 			}
-			
+
 			foreach ($course_codes as $course_code)
 			{
 				$course = $this->get_parent()->retrieve_course($course_code);
-				
+
 				if (!$course->delete())
 				{
 					$failures++;
 				}
 			}
-			
+
 			if ($failures)
 			{
 				if (count($course_codes) == 1)
@@ -67,8 +67,8 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManagerComponent
 					$message = 'SelectedCoursesDeleted';
 				}
 			}
-			
-			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER));
+
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER));
 		}
 		else
 		{
