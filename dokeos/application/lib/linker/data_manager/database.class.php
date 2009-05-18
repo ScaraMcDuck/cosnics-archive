@@ -29,7 +29,7 @@ class DatabaseLinkerDataManager extends LinkerDataManager
 	 */
 	function initialize()
 	{
-		$this->database = new Database(array('link' => 'lk'));
+		$this->database = new Database();
 		$this->database->set_prefix('link_');
 	}
 
