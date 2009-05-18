@@ -21,7 +21,7 @@ class LinkerManagerUpdaterComponent extends LinkerManagerComponent
 		if($form->validate())
 		{
 			$success = $form->update_link();
-			$this->redirect('url', $success ? Translation :: get('LinkUpdated') : Translation :: get('LinkNotUpdated'), !$success, array(LinkerManager :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS));
+			$this->redirect($success ? Translation :: get('LinkUpdated') : Translation :: get('LinkNotUpdated'), !$success, array(LinkerManager :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS));
 		}
 		else
 		{
