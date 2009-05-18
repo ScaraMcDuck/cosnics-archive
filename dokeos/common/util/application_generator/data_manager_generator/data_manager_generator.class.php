@@ -25,7 +25,7 @@ class DataManagerGenerator
     	if(!is_dir($database_location))
     		mkdir($database_location, 0777, true);
     	 
-    	$dm_file = fopen($data_manager_location . strtolower($application_name) . '_data_manager.class.php', 'w+');
+    	$dm_file = fopen($data_manager_location . DokeosUtilities :: camelcase_to_underscores($application_name) . '_data_manager.class.php', 'w+');
     	$database_file = fopen($database_location . 'database.class.php', 'w+');
   
     	if($dm_file && $database_file)
@@ -37,13 +37,13 @@ class DataManagerGenerator
 			
 			$this->template->assign_vars(array(
 				'APPLICATION_NAME' => DokeosUtilities :: underscores_to_camelcase($application_name),
-				'L_APPLICATION_NAME' => strtolower($application_name),
+				'L_APPLICATION_NAME' => DokeosUtilities :: camelcase_to_underscores($application_name),
 				'AUTHOR' => $author
 			));
 			
     		foreach($classes as $class)
 			{
-				$class_lower = strtolower($class);
+				$class_lower = DokeosUtilities :: camelcase_to_underscores($class);
 				$alias = substr($class_lower, 0, 2) . substr($class_lower, -2);
 				$class2 = substr($class_lower, -1) == 'y' ? substr($class_lower, 0, strlen($class_lower) - 1) . 'ie' : $class_lower;
 				$class2 .= 's';

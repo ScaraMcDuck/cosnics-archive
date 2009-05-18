@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/../../forms/{L_OBJECT_CLASS}_form.class.php';
  * Component to edit an existing {L_OBJECT_CLASS} object
  * @author {AUTHOR}
  */
-class {APPLICATION_NAME}ManagerUpdaterComponent extends {APPLICATION_NAME}ManagerComponent
+class {APPLICATION_NAME}Manager{OBJECT_CLASS}UpdaterComponent extends {APPLICATION_NAME}ManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
@@ -22,8 +22,8 @@ class {APPLICATION_NAME}ManagerUpdaterComponent extends {APPLICATION_NAME}Manage
 		$trail->add(new Breadcrumb($this->get_url(array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES})), Translation :: get('Browse{OBJECT_CLASSES}')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Update{OBJECT_CLASS}')));
 
-		${L_OBJECT_CLASS} = $this->retrieve_{L_OBJECT_CLASS}(Request :: get({APPLICATION_NAME}Manager :: PARAM_LINK_ID));
-		$form = new {OBJECT_CLASS}Form({OBJECT_CLASS}Form :: TYPE_EDIT, ${L_OBJECT_CLASS}, $this->get_url(array({APPLICATION_NAME}Manager :: PARAM_LINK_ID => ${L_OBJECT_CLASS}->get_id())), $this->get_user());
+		${L_OBJECT_CLASS} = $this->retrieve_{L_OBJECT_CLASS}(Request :: get({APPLICATION_NAME}Manager :: PARAM_{U_OBJECT_CLASS}));
+		$form = new {OBJECT_CLASS}Form({OBJECT_CLASS}Form :: TYPE_EDIT, ${L_OBJECT_CLASS}, $this->get_url(array({APPLICATION_NAME}Manager :: PARAM_{U_OBJECT_CLASS} => ${L_OBJECT_CLASS}->get_id())), $this->get_user());
 		
 		if($form->validate())
 		{

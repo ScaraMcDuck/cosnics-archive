@@ -98,7 +98,7 @@ class {OBJECT_CLASS}Form extends FormValidator
 		${L_OBJECT_CLASS} = $this->{L_OBJECT_CLASS};
 		
 		<!-- BEGIN PROPERTIES -->
-    	$defaults[{OBJECT_CLASS} :: PROPERTY_ID] = ${L_OBJECT_CLASS}->get_{PROPERTIES.PROPERTY_L}();
+    	$defaults[{OBJECT_CLASS} :: {PROPERTIES.PROPERTY}] = ${L_OBJECT_CLASS}->get_{PROPERTIES.PROPERTY_L}();
  		<!-- END PROPERTIES -->
 		
 		parent :: setDefaults($defaults);

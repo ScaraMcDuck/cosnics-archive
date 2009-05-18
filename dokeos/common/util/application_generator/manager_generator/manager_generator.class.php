@@ -22,8 +22,8 @@ class ManagerGenerator
     	if(!is_dir($location))
     		mkdir($location, 0777, true);
     	 
-    	$manager_file = fopen($location . strtolower($application_name) . '_manager.class.php', 'w+');
-    	$component_file = fopen($location . strtolower($application_name) . '_manager_component.class.php', 'w+');
+    	$manager_file = fopen($location . DokeosUtilities :: camelcase_to_underscores($application_name) . '_manager.class.php', 'w+');
+    	$component_file = fopen($location . DokeosUtilities :: camelcase_to_underscores($application_name) . '_manager_component.class.php', 'w+');
   
     	if($manager_file && $component_file)
     	{
@@ -34,18 +34,18 @@ class ManagerGenerator
 			
 			$this->template->assign_vars(array(
 				'APPLICATION_NAME' => DokeosUtilities :: underscores_to_camelcase($application_name),
-				'L_APPLICATION_NAME' => strtolower($application_name),
+				'L_APPLICATION_NAME' => DokeosUtilities :: camelcase_to_underscores($application_name),
 				'AUTHOR' => $author
 			));
 			
     		foreach($classes as $class)
 			{
-				$class_lower = strtolower($class);
-				$class_upper = strtoupper($class);
+				$class_lower = DokeosUtilities :: camelcase_to_underscores($class);
+				$class_upper = strtoupper($class_lower);
 				$class2 = substr($class, -1) == 'y' ? substr($class, 0, strlen($class) - 1) . 'ie' : $class;
 				$class2 .= 's';
-				$class2_upper = strtoupper($class2);
-				$class2_lower = strtolower($class2);
+				$class2_lower = DokeosUtilities :: camelcase_to_underscores($class2);
+				$class2_upper = strtoupper($class2_lower);
 				
 				$this->template->assign_block_vars("OBJECTS", array(
 					'OBJECT_CLASS' => $class,

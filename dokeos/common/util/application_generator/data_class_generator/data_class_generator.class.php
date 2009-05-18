@@ -26,12 +26,12 @@ class DataClassGenerator
      * @param string $description the description
      * @param string $author, the author
      */
-    function generate_data_class($location, $classname, $properties, $package, $description, $author)
+    function generate_data_class($location, $classname, $properties, $package, $description, $author, $application_name)
     {	
     	if(!is_dir($location))
     		mkdir($location, 0777, true);
     	 
-    	$file = fopen($location . strtolower($classname) . '.class.php', 'w+');
+    	$file = fopen($location . DokeosUtilities :: camelcase_to_underscores($classname) . '.class.php', 'w+');
     	
     	if($file)
     	{
@@ -45,7 +45,9 @@ class DataClassGenerator
 				'PACKAGE' => $package,
 				'DESCRIPTION' => $description,
 				'AUTHOR' => $author,
-				'CLASSNAME' => $classname
+				'OBJECT_CLASS' => $classname,
+				'L_OBJECT_CLASS' => DokeosUtilities :: camelcase_to_underscores($classname),
+				'APPLICATION_NAME' => DokeosUtilities :: underscores_to_camelcase($application_name)
 			));
 			
 			foreach($properties as $property)

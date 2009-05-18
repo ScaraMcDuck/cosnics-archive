@@ -38,7 +38,7 @@ foreach($files as $file)
 	$classname = DokeosUtilities :: underscores_to_camelcase(str_replace('.xml', '', basename($file)));
 	$description = 'This class describes a ' . $classname . ' data object';
 	
-	$data_class_generator->generate_data_class($location, $classname , $properties, $name, $description, $author);
+	$data_class_generator->generate_data_class($location, $classname , $properties, $name, $description, $author, $name);
 	$form_generator->generate_form($location . 'forms/', $classname, $properties, $author);
 	
 	$classes[] = $classname;
@@ -134,7 +134,7 @@ function generate_data_managers($location, $name, $classes, $author)
  */
 function generate_managers($location, $name, $classes, $author)
 {
-	$manager_location = $location . strtolower($name) . '_manager/';
+	$manager_location = $location . DokeosUtilities :: camelcase_to_underscores($name) . '_manager/';
 	$manager_generator = new ManagerGenerator();
 	$manager_generator->generate_managers($manager_location, $name, $classes, $author);
 }
@@ -149,7 +149,7 @@ function generate_managers($location, $name, $classes, $author)
  */
 function generate_components($location, $name, $classes, $author)
 {
-	$manager_location = $location . strtolower($name) . '_manager/component/';
+	$manager_location = $location . DokeosUtilities :: camelcase_to_underscores($name) . '_manager/component/';
 	$component_generator = new ComponentGenerator();
 	$component_generator->generate_components($manager_location, $name, $classes, $author);
 }

@@ -7,10 +7,12 @@
  *
  * @author {AUTHOR}
  */
-class {CLASSNAME}
+class {OBJECT_CLASS}
 {
+	const CLASS_NAME = __CLASS__;
+	
 	/**
-	 * {CLASSNAME} properties
+	 * {OBJECT_CLASS} properties
 	 */	 
 	<!-- BEGIN CONSTS -->
 	const {CONSTS.PROPERTY_CONST} = '{CONSTS.PROPERTY_NAME}';
@@ -22,10 +24,10 @@ class {CLASSNAME}
 	private $defaultProperties;
 	
 	/**
-	 * Creates a new {CLASSNAME} object
+	 * Creates a new {OBJECT_CLASS} object
 	 * @param array $defaultProperties The default properties
 	 */
-	function {CLASSNAME}($defaultProperties = array ())
+	function {OBJECT_CLASS}($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -77,7 +79,7 @@ class {CLASSNAME}
 
 	<!-- BEGIN PROPERTY -->
 	/**
-	 * Returns the {PROPERTY.PROPERTY_NAME} of this {CLASSNAME}.
+	 * Returns the {PROPERTY.PROPERTY_NAME} of this {OBJECT_CLASS}.
 	 * @return the {PROPERTY.PROPERTY_NAME}.
 	 */
 	function get_{PROPERTY.PROPERTY_NAME}()
@@ -86,7 +88,7 @@ class {CLASSNAME}
 	}
 	
 	/**
-	 * Sets the {PROPERTY.PROPERTY_NAME} of this {CLASSNAME}.
+	 * Sets the {PROPERTY.PROPERTY_NAME} of this {OBJECT_CLASS}.
 	 * @param {PROPERTY.PROPERTY_NAME}
 	 */
 	function set_{PROPERTY.PROPERTY_NAME}(${PROPERTY.PROPERTY_NAME})
@@ -95,4 +97,27 @@ class {CLASSNAME}
 	}
 	<!-- END PROPERTY -->
 	
+	function delete()
+	{
+		$dm = {APPLICATION_NAME}DataManager :: get_instance();
+		return $dm->delete_{L_OBJECT_CLASS}($this);
+	}
+	
+	function create()
+	{
+		$dm = {APPLICATION_NAME}DataManager :: get_instance();
+		$this->set_id($dm->get_next_{L_OBJECT_CLASS}_id());
+       	return $dm->create_{L_OBJECT_CLASS}($this);
+	}
+	
+	function update() 
+	{
+		$dm = {APPLICATION_NAME}DataManager :: get_instance();
+		return $dm->update_{L_OBJECT_CLASS}($this);
+	}
+	
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
 }
