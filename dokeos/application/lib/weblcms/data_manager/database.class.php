@@ -724,15 +724,15 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 //		return $this->get_publication_category_tree($root_category_id, $cats);
 //	}
 //
-//	function retrieve_learning_object_publication_category($id)
-//	{
-//		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'=?';
-//		$this->connection->setLimit(0,1);
-//		$statement = $this->connection->prepare($query);
-//		$res = $statement->execute($id);
-//		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-//		return $this->record_to_publication_category($record);
-//	}
+	function retrieve_learning_object_publication_category($id)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'=?';
+		$this->connection->setLimit(0,1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($id);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		return $this->record_to_publication_category($record);
+	}
 //
 //	function get_next_learning_object_publication_category_id()
 //	{

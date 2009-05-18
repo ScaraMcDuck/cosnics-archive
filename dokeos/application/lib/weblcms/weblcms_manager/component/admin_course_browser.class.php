@@ -27,9 +27,9 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManagerComponent
 		
 		$trail = new BreadcrumbTrail();
         $admin = new AdminManager();
-        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)).'#tabs-19', Translation :: get('Courses')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseList')));
+        //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_APPLICATION => 'weblcms')), Translation :: get('MyCourses')));
+        $trail->add(new Breadcrumb('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?application=weblcms", Translation :: get('MyCourses')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseList')));
 
         if($this->category)
         {

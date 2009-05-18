@@ -26,7 +26,10 @@ class BlogToolViewerComponent extends BlogToolComponent
 		
 		$browser = new BlogBrowser($this);
 		$trail = new BreadcrumbTrail();
-		
+        //dump(WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication_category(Request :: get('pcattree')));
+        //$trail->add(new BreadCrumb($this->get_url(),WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication_category(Request :: get('pcattree'))));
+        if(Request :: get('pid')!=null)
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
 		$this->display_header($trail);
 		
 		//echo '<br /><a name="top"></a>';
