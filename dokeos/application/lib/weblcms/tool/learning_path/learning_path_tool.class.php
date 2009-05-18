@@ -18,28 +18,28 @@ class LearningPathTool extends Tool
 	const ACTION_EXPORT_SCORM = 'exp_scorm';
 	const ACTION_IMPORT_SCORM = 'import';
 	const ACTION_VIEW_STATISTICS = 'stats';
-	
+
 	const PARAM_LEARNING_PATH = 'lp';
 	const PARAM_LP_STEP = 'step';
 	const PARAM_LEARNING_PATH_ID = 'lpid';
-	
+
 	// Inherited.
 	function run()
 	{
 		$action = $this->get_action();
-		
+
 		switch($action)
 		{
 			case Tool :: ACTION_DELETE :
 				$component = LearningPathToolComponent :: factory('Deleter', $this);
 				break;
 		}
-		
+
 		if(!$component)
 		{
 			$component = parent :: run();
 			if ($component) return;
-		
+
 			switch($action)
 			{
 				case self :: ACTION_PUBLISH:
@@ -65,10 +65,10 @@ class LearningPathTool extends Tool
 					break;
 			}
 		}
-		
+
 		$component->run();
 		/*$trail = new BreadcrumbTrail();
-		
+
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
 			Display :: not_allowed();
@@ -82,7 +82,7 @@ class LearningPathTool extends Tool
 		{
 			require_once dirname(__FILE__).'/../../learning_object_repo_viewer.class.php';
 			$pub = new LearningObjectPublisher($this, 'learning_path');
-			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
+			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), array(), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
 			$this->display_header($trail);
 			echo implode("\n",$html);
@@ -93,7 +93,7 @@ class LearningPathTool extends Tool
 			$this->display_header($trail);
 			if($this->is_allowed(ADD_RIGHT))
 			{
-				echo '<p><a href="' . $this->get_url(array('admin' => 1), true) . '"><img src="'.Theme :: get_common_image_path().'action_publish.png" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';
+				echo '<p><a href="' . $this->get_url(array('admin' => 1), array(), true) . '"><img src="'.Theme :: get_common_image_path().'action_publish.png" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';
 			}
 			echo $this->perform_requested_actions();
 			$browser = new LearningPathBrowser($this);
@@ -101,7 +101,7 @@ class LearningPathTool extends Tool
 			$this->display_footer();
 		}*/
 	}
-	
+
 	static function get_allowed_types()
 	{
 		return array('learning_path');

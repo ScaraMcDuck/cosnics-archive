@@ -16,7 +16,7 @@ abstract class LearningObjectPublicationListRenderer
 	protected $browser;
 
 	private $parameters;
-	
+
 	private $actions;
 
 	/**
@@ -30,12 +30,12 @@ abstract class LearningObjectPublicationListRenderer
 		$this->parameters = $parameters;
 		$this->browser = $browser;
 	}
-	
+
 	function get_actions()
 	{
 		return $this->actions;
 	}
-	
+
 	function set_actions($actions)
 	{
 		$this->actions = $actions;
@@ -179,7 +179,7 @@ abstract class LearningObjectPublicationListRenderer
 		if (!$first)
 		{
 			$up_img = 'action_up.png';
-			$up_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+			$up_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_UP, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
 			$up_link = '<a href="'.$up_url.'"><img src="'.Theme :: get_common_image_path().$up_img.'" alt=""/></a>';
 		}
 		else
@@ -201,7 +201,7 @@ abstract class LearningObjectPublicationListRenderer
 		if (!$last)
 		{
 			$down_img = 'action_down.png';
-			$down_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+			$down_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_DOWN, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
 			$down_link = '<a href="'.$down_url.'"><img src="'.Theme :: get_common_image_path().$down_img.'"  alt=""/></a>';
 		}
 		else
@@ -218,7 +218,7 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_visibility_action($publication)
 	{
-		$visibility_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+		$visibility_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
 		if($publication->is_hidden())
 		{
 			$visibility_img = 'action_invisible.png';
@@ -243,11 +243,11 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_edit_action($publication)
 	{
-		$edit_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+		$edit_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
 		$edit_link = '<a href="'.$edit_url.'"><img src="'.Theme :: get_common_image_path().'action_edit.png"  alt=""/></a>';
 		return $edit_link;
 	}
-	
+
 	function render_top_action($publication)
 	{
 		return '<a href="#top"><img src="'.Theme :: get_common_image_path().'action_ajax_add.png"  alt=""/></a>';
@@ -260,23 +260,23 @@ abstract class LearningObjectPublicationListRenderer
 	 */
 	function render_delete_action($publication)
 	{
-		$delete_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+		$delete_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
 		$delete_link = '<a href="'.$delete_url.'" onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"><img src="'.Theme :: get_common_image_path().'action_delete.png"  alt=""/></a>';
 		return $delete_link;
 	}
-	
+
 	/**
 	 * Renders the means to give feedback to the given publication
 	 * @param LearningObjectPublication $publication The publication
-	 * 
+	 *
 	 */
 	function render_feedback_action($publication)
 	{
-		$feedback_url = $this->get_url(array (Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'), true);
+		$feedback_url = $this->get_url(array (Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'), array(), true);
 		$feedback_link = '<a href="'.$feedback_url.'"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt=""/></a>';
 		return $feedback_link;
 	}
-	
+
 	/**
 	 * Renders the means to move the given publication to another category.
 	 * @param LearningObjectPublication $publication The publication.
@@ -290,7 +290,7 @@ abstract class LearningObjectPublicationListRenderer
 		$count++;
 		if($count > 1)
 		{
-			$url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), true);
+			$url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id()), array(), true);
 			$link = '<a href="'.$url.'"><img src="'.Theme :: get_common_image_path().'action_move.png"  alt=""/></a>';
 		}
 		else
@@ -333,7 +333,7 @@ abstract class LearningObjectPublicationListRenderer
 		}
 		return '';
 	}*/
-	
+
 	function render_attachments($publication)
 	{
 		$object = $publication->get_learning_object();
@@ -369,9 +369,9 @@ abstract class LearningObjectPublicationListRenderer
 	{
 		$html = array();
 		$icons = array();
-		
+
 		$html[] = '<span style="white-space: nowrap;">';
-		
+
 		if ($this->is_allowed(DELETE_RIGHT))
 		{
 			$icons[] = $this->render_delete_action($publication);
@@ -385,7 +385,7 @@ abstract class LearningObjectPublicationListRenderer
 			$icons[] = $this->render_feedback_action($publication);
 			$icons[] = $this->render_move_to_category_action($publication,$last);
 		}
-			
+
 		//dump($icons);
 		$html[] = implode('&nbsp;', $icons);
 		$html[] = '</span>';
@@ -402,7 +402,7 @@ abstract class LearningObjectPublicationListRenderer
 		$object = $publication->get_learning_object();
 		return '<img src="'.Theme :: get_common_image_path() . 'learning_object/' .$object->get_icon_name().'.png" alt=""/>';
 	}
-	
+
 	/**
 	 * Formats the given date in a human-readable format.
 	 * @param int $date A UNIX timestamp.
@@ -422,7 +422,7 @@ abstract class LearningObjectPublicationListRenderer
 		return $this->browser->get_publications();
 	}
 
-   
+
 	/**
 	 * @see LearningObjectPublicationBrowser :: get_publication_count()
 	 */
@@ -431,7 +431,7 @@ abstract class LearningObjectPublicationListRenderer
 		return $this->browser->get_publication_count();
 	}
 
-   
+
 
 	/**
 	 * Returns the value of the given renderer parameter.
@@ -462,9 +462,9 @@ abstract class LearningObjectPublicationListRenderer
 	/**
 	 * @see LearningObjectPublicationBrowser :: get_url()
 	 */
-	function get_url($parameters = array (), $encode = false)
+	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
 	{
-		return $this->browser->get_url($parameters, $encode);
+		return $this->browser->get_url($parameters, $filter, $encode_entities);
 	}
 
 	/**
@@ -484,11 +484,11 @@ abstract class LearningObjectPublicationListRenderer
 		$rgb['r'] = substr($color_number,0,3)%255;
 		$rgb['g'] = substr($color_number,2,3)%255;
 		$rgb['b'] = substr($color_number,4,3)%255;
-		
+
 		$rgb['fr'] = round(($rgb['r'] + 234) / 2);
 		$rgb['fg'] = round(($rgb['g'] + 234) / 2);
 		$rgb['fb'] = round(($rgb['b'] + 234) / 2);
-		
+
 		return $rgb;
 	}
 }

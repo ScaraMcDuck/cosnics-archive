@@ -21,7 +21,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 			$browser->get_parent()->add_actionbar_item($item);
 		}
 	}
-	
+
 	/**
 	 * Returns the HTML output of this renderer.
 	 * @return string The HTML output
@@ -34,7 +34,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		//$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE,new AbstractLearningObject('feedback',Session :: get_user_id()),'new_feedback','post',$this->browser->get_url(array('pid'=>$this->browser->get_publication_id())));
 		$this->browser->get_parent()->set_parameter('pid',$publication_id);
 		//$pub = new LearningObjectPublisher($this->browser->get_parent(), 'feedback', true);
-				
+
 		/*if($form->validate())
 		{
 			//creation feedback object
@@ -46,7 +46,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 			//$this->browser->get_parent()->redirect();
 			$html[] = Display :: normal_message(Translation :: get('FeedbackAdded'),true);
 		}*/
-		
+
 		$html[] = '<h3>' . Translation :: get('LearningObjectPublicationDetails') . '</h3>';
 		$html[] = $this->render_publication($publication);
 		//dump($this->browser->get_parent()->get_course());
@@ -83,7 +83,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		{
 			$icon_suffix = '_new';
 		}
-		
+
 		/*$html[] = '<div class="learning_object" style="background-image: url(' . Theme :: get_common_image_path().'learning_object/'.$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
@@ -99,7 +99,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$html[] = $this->render_publication_actions($publication,$first,$last);
 		$html[] = '</div>';
 		$html[] = '</div>';*/
-		
+
 		$html[] = '<div class="announcements level_1" style="background-image: url(' . Theme :: get_common_image_path().'learning_object/'.$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);
@@ -115,7 +115,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$html[] = $this->render_publication_actions($publication,$first,$last);
 		$html[] = '</div>';
 		$html[] = '</div>';
-		
+
 		return implode("\n", $html);
 	}
 
@@ -128,7 +128,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$html = array();
 		$publication_feedback_array = array();
 		$publication_feedback_array = $publication->retrieve_feedback();
-		
+
 		if(count($publication_feedback_array) > 0)
 		{
 			$html[] = '<br /><a href="#" id="showfeedback" style="display:none; float:left;">' . Translation :: get('ShowFeedback') . '</a>';
@@ -140,12 +140,12 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		}
 		return implode("\n", $html);
 	}
-	
+
 	function render_publication_actions($publication,$first,$last)
 	{
 		$html = array();
 		$icons = array();
-		
+
 		$html[] = '<span style="white-space: nowrap;">';
 		if ($this->is_allowed(DELETE_RIGHT))
 		{
@@ -160,7 +160,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 		$html[] = '</span>';
 		return implode($html);
 	}
-	
+
 	/**
 	 * Renders the means to toggle visibility for the given publication.
 	 * @param LearningObjectPublication $publication The publication.
@@ -168,7 +168,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 	 */
 	function render_visibility_action($publication)
 	{
-		$visibility_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'details' => '1'), true);
+		$visibility_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'details' => '1'), array(), true);
 		if($publication->is_hidden())
 		{
 			$visibility_img = 'action_invisible.png';
@@ -193,7 +193,7 @@ class LearningObjectPublicationDetailsRenderer extends LearningObjectPublication
 	 */
 	function render_edit_action($publication)
 	{
-		$edit_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'details' => '1'), true);
+		$edit_url = $this->get_url(array (Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), 'details' => '1'), array(), true);
 		$edit_link = '<a href="'.$edit_url.'"><img src="'.Theme :: get_common_image_path().'action_edit.png"  alt=""/></a>';
 		return $edit_link;
 	}

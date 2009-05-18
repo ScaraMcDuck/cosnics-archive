@@ -13,16 +13,15 @@ class SurveyPublicationViewer extends SurveyPublisherComponent
 		$trail = new BreadCrumbTrail();
 		$trail->add(new BreadCrumb($this->parent->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ACTION => AssessmentTool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => $_GET[Tool :: PARAM_PUBLICATION_ID])), Translation :: get('ViewInvitedUsers')));
 		$toolbar = $this->parent->get_toolbar();
-		
+
 		$wdm = WeblcmsDataManager :: get_instance();
-		$rdm = RepositoryDataManager :: get_instance();
-		
+
 		$pid = $_GET[Tool::PARAM_PUBLICATION_ID];
 		$publication = $wdm->retrieve_learning_object_publication($pid);
 		$survey = $publication->get_learning_object();
-		
+
 		$table = new SurveyUserTable($this, $this->get_user, $pid);
-		
+
 		$this->parent->display_header($trail);
 		echo $toolbar->as_html();
 		//echo '<br/><br/>'.Translation :: get('UsersInvitedToTakeSurvey').': <br/>';

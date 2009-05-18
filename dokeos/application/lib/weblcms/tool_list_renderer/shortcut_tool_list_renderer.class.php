@@ -46,15 +46,15 @@ class ShortcutToolListRenderer extends ToolListRenderer
 	{
 		$parent = $this->get_parent();
 		$course = $parent->get_course();
-		
+
 		foreach ($tools as $index => $tool)
 		{
 			$sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $tool->section));
 			$section = $sections->next_result();
-			
+
 			if(!PlatformSetting :: get($tool->name . '_active', 'weblcms') && $section->get_type() != CourseSection :: TYPE_ADMIN)
 				continue;
-				
+
 			if((($tool->visible && $tool->section != 'course_admin') || $this->is_course_admin) && $tool->visible)
 			{
 				$new = '';
@@ -64,7 +64,7 @@ class ShortcutToolListRenderer extends ToolListRenderer
 				}
 				$tool_image = 'tool_mini_' . $tool->name . $new . '.png';
 				$title = htmlspecialchars(Translation :: get(Tool :: type_to_class($tool->name).'Title'));
-				$html[] = '<a href="'.$parent->get_url(array (WeblcmsManager :: PARAM_ACTION=>WeblcmsManager :: ACTION_VIEW_COURSE,WeblcmsManager :: PARAM_TOOL => $tool->name), true).'" title="'.$title.'">';
+				$html[] = '<a href="'.$parent->get_url(array (WeblcmsManager :: PARAM_ACTION=>WeblcmsManager :: ACTION_VIEW_COURSE,WeblcmsManager :: PARAM_TOOL => $tool->name), array(), true).'" title="'.$title.'">';
 				$html[] = '<img src="'.Theme :: get_image_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/> ';
 				$html[] = '</a>';
 			}

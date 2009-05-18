@@ -47,12 +47,12 @@ abstract class Tool
     const ACTION_FEEDBACK_CLOI = 'feedback_cloi';
     const ACTION_VIEW_REPORTING_TEMPLATE = 'view_reporting_template';
 
-	
+
 	/**
 	 * The action of the tool
 	 */
 	private $action;
-	
+
 	/**
 	 * The application that the tool is associated with.
 	 */
@@ -76,11 +76,11 @@ abstract class Tool
 		$this->set_action(isset($_POST[self :: PARAM_ACTION]) ? $_POST[self :: PARAM_ACTION] : $_GET[self :: PARAM_ACTION]);
 		$this->parse_input_from_table();
 	}
-	
+
 	private function parse_input_from_table()
 	{
 		if (isset ($_POST['action']) || isset($_POST['tool_action']))
-		{ 
+		{
 			$ids = $_POST['id'];
 
 			if (empty ($ids))
@@ -125,12 +125,12 @@ abstract class Tool
 			}
 		}
 	}
-	
+
 	function set_action($action)
 	{
 		$this->action = $action;
 	}
-	
+
 	function get_action()
 	{
 		return $this->action;
@@ -149,7 +149,7 @@ abstract class Tool
 			case self :: ACTION_EDIT :
 				$component = ToolComponent :: factory('', 'Edit', $this);
 				break;
-			case self :: ACTION_PUBLISH_INTRODUCTION : 
+			case self :: ACTION_PUBLISH_INTRODUCTION :
 				$component = ToolComponent :: factory('', 'IntroductionPublisher', $this);
 				break;
 			case self :: ACTION_PUBLISH_FEEDBACK :
@@ -218,7 +218,7 @@ abstract class Tool
 		{
 			$component->run();
 		}
-		
+
 		return $component;
 	}
 
@@ -230,7 +230,7 @@ abstract class Tool
 	{
 		return $this->parent;
 	}
-	
+
 	/**
 	 * Returns the properties of this tool within the specified course.
 	 * @return Tool The tool.
@@ -238,7 +238,7 @@ abstract class Tool
 	function get_properties()
 	{
 		return $this->properties;
-	}	
+	}
 
 	/**
 	 * @see Application :: get_tool_id()
@@ -260,12 +260,12 @@ abstract class Tool
 			case Course :: BREADCRUMB_COURSE_HOME : $title = Translation :: get('CourseHome'); break;
 			default: $title = $this->parent->get_course()->get_visual(); break;
 		}
-		
+
 		$trail->add(new Breadcrumb($this->get_url(array('go' => null, 'tool' => null, 'course' => null)), Translation :: get('MyCourses')));
 		$trail->add(new Breadcrumb($this->get_url(array('tool' => null)), $title));
-		
+
 		// TODO: do this by overriding display_header in the course_group tool
-		
+
 		if(!is_null($this->parent->get_course_group()))
 		{
 			$course_group = $this->parent->get_course_group();
@@ -281,9 +281,9 @@ abstract class Tool
 		{
 			$trail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
 		}
-		
+
 		$breadcrumbs = $breadcrumbtrail->get_breadcrumbs();
-		
+
 		if (count($breadcrumbs))
 		{
 			foreach ($breadcrumbs as $i => $breadcrumb)
@@ -294,7 +294,7 @@ abstract class Tool
 		}
 		$this->parent->display_header($trail, false, $display_title);
 		//echo '<div class="clear"></div>';
-		
+
 		if($this->parent->get_course()->get_tool_shortcut() == Course :: TOOL_SHORTCUT_ON)
 		{
 			$renderer = ToolListRenderer::factory('Shortcut', $this->parent);
@@ -302,9 +302,9 @@ abstract class Tool
 			$renderer->display();
 			echo '</div>';
 		}
-		
+
 		echo '<div class="clear"></div><br />';
-		
+
 		if ($msg = $_GET[WeblcmsManager :: PARAM_MESSAGE])
 		{
 			$this->parent->display_message($msg);
@@ -313,13 +313,13 @@ abstract class Tool
 		{
 			$this->parent->display_error_message($msg);
 		}
-		
-		
+
+
 		$menu_style = $this->parent->get_course()->get_menu();
 		if($menu_style != Course :: MENU_OFF)
 		{
 			$renderer = ToolListRenderer::factory('Menu', $this->parent);
-			$renderer->display();					
+			$renderer->display();
 			echo '<div id="tool_browser_'. ($renderer->display_menu_icons() && !$renderer->display_menu_text() ? 'icon_' : '') . $renderer->get_menu_style() .'">';
 		}
 		else
@@ -335,7 +335,7 @@ abstract class Tool
 		echo '</div>';
 		$this->parent->display_footer();
 	}
-	
+
 	function display_error_message($message)
 	{
 		$this->parent->display_error_message($message);
@@ -393,7 +393,7 @@ abstract class Tool
 	{
 		return $this->parent->get_course_groups();
 	}
-	
+
 	function get_course_group()
 	{
 		return $this->parent->get_course_group();
@@ -426,13 +426,14 @@ abstract class Tool
 	/**
 	 * @see WebApplication :: get_url()
 	 */
-	function get_url($parameters = array(), $encode = false, $filter = false, $filterOn = array())
+
+	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
 	{
-		return $this->parent->get_url($parameters, $encode, $filter, $filterOn);
+		return $this->parent->get_url($parameters, $filter, $encode_entities);
 	}
 
 	/**
-	 * @see WebApplication :: get_url()
+	 * @see WebApplication :: redirect()
 	 */
 	function redirect($message = '', $error_message = false, $parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
 	{
@@ -459,7 +460,7 @@ abstract class Tool
 		 * This completely ignores the roles-rights library.
 		 * TODO: WORK NEEDED FOR PROPPER ROLES-RIGHTS LIBRARY
 		 */
-		
+
 		$this->rights[VIEW_RIGHT] = false;
 		$this->rights[EDIT_RIGHT] = false;
 		$this->rights[ADD_RIGHT] = false;
@@ -469,7 +470,7 @@ abstract class Tool
 		if ($user != null && $course != null)
 		{
 			$relation = $this->parent->retrieve_course_user_relation($course->get_id(),$user->get_id());
-			
+
 			if($relation && $relation->get_status() == 5 && $this->properties->visible == 1)
 			{
 				$this->rights[VIEW_RIGHT] = true;
@@ -484,11 +485,11 @@ abstract class Tool
 		}
 		return;
 		//$tool_id = $this->get_tool_id();
-		
+
 		// Roles and rights system
 		//$user_id = $this->get_user_id();
 		//$course_id = $this->get_course_id();
-		
+
 		// TODO: New Roles & Rights system
 //		$role_id = RolesRights::get_local_user_role_id($user_id, $course_id);
 //		$location_id = RolesRights::get_course_tool_location_id($course_id, $tool_id);
@@ -521,17 +522,17 @@ abstract class Tool
 	{
 		return $this->parent->get_last_visit_date();
 	}
-	
+
 	function get_path($path_type)
 	{
 		return $this->get_parent()->get_path($path_type);
 	}
-	
+
 	/** Dummy functions so we can use the same component class for both tool and repositorytool **/
 	function perform_requested_action()
 	{
 	}
-	
+
 //	function get_categories($list = false)
 //	{
 //		return $this->get_parent()->get_categories($list);
@@ -544,7 +545,7 @@ abstract class Tool
 	{
 		return $this->get_parent()->get_category($id);
 	}
-	
+
 	private function build_move_to_category_form($action)
 	{
 		$form = new FormValidator($action,'get',$this->get_url());
@@ -564,28 +565,28 @@ abstract class Tool
 		}
 		return $form;
 	}
-	
+
 	function display_introduction_text($introduction_text)
 	{
 		$html = array();
-		
+
 		if($introduction_text)
 		{
-			
+
 			$tb_data[] = array(
 				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
 				'label' => Translation :: get('Edit'),
 				'img' => Theme :: get_common_image_path() . 'action_edit.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
 			);
-			
+
 			$tb_data[] = array(
 				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $introduction_text->get_id())),
 				'label' => Translation :: get('Delete'),
 				'img' => Theme :: get_common_image_path() . 'action_delete.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
 			);
-			
+
 			$html[] = '<div class="announcements level_1">';
 			$html[] = '<div class="title">';
 			$html[] = $introduction_text->get_learning_object()->get_title();
@@ -597,7 +598,7 @@ abstract class Tool
 			$html[] = '</div>';
 			$html[] = '<br />';
 		}
-		
+
 		return implode("\n",$html);
 	}
 

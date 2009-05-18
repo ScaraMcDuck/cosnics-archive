@@ -40,8 +40,8 @@ abstract class LearningObjectPublicationBrowser
 	 * The tool that instantiated this browser.
 	 */
 	private $parent;
-	
-	private $publication_id; 
+
+	private $publication_id;
 
 	/**
 	 * Constructor.
@@ -99,17 +99,17 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->categoryTree;
 	}
-	
+
 	function get_publication_id()
 	{
 		return $this->publication_id;
 	}
-	
+
 	function set_publication_id($publication_id)
 	{
-		$this->publication_id = $publication_id;  
+		$this->publication_id = $publication_id;
 	}
-	
+
 	/**
 	 * Sets the publication category tree.
 	 * @param LearningObjectPublicationCategoryTree $tree The category tree.
@@ -136,7 +136,7 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->category;
 	}
-	
+
 	function set_category($category)
 	{
 		$this->category = $category;
@@ -149,7 +149,7 @@ abstract class LearningObjectPublicationBrowser
 	{
 		return $this->parent->get_user_id();
 	}
-	
+
 	function get_user_info($user_id)
 	{
 		return $this->parent->get_user_info($user_id);
@@ -182,9 +182,9 @@ abstract class LearningObjectPublicationBrowser
 	/**
 	 * @see Tool :: get_url()
 	 */
-	function get_url($parameters = array(), $encode = false)
+	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
 	{
-		return $this->parent->get_url($parameters, $encode);
+		return $this->parent->get_url($parameters, $filter, $encode_entities);
 	}
 
 	/**
@@ -228,14 +228,14 @@ abstract class LearningObjectPublicationBrowser
 	 *                       SORT_DESC.
 	 * @return array The learning object publications.
 	 */
-	abstract function get_publications($from, $count, $column, $direction);    
+	abstract function get_publications($from, $count, $column, $direction);
 
 	/**
 	 * Returns the number of learning object publications to display.
 	 * @return int The number of publications.
 	 */
-	abstract function get_publication_count();    
-	
+	abstract function get_publication_count();
+
 	function get_path($path_type)
 	{
 		return $this->get_parent()->get_parent()->get_path($path_type);

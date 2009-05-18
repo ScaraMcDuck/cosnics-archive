@@ -235,8 +235,8 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 	function display_page_header($title)
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'].'?application=weblcms', Translation :: get('MyCourses')));
-        $trail->add(new Breadcrumb('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'].'?go=sort&application=weblcms', Translation :: get('SortMyCourses')));
+		$trail->add(new Breadcrumb($this->get_url(null, array(WeblcmsManager :: PARAM_ACTION)), Translation :: get('MyCourses')));
+        $trail->add(new Breadcrumb($this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT)), Translation :: get('SortMyCourses')));
         if(!empty($title))
         $trail->add(new Breadcrumb($this->get_url(array('category' => Request :: get('category'))), $title));
 		$this->display_header($trail);
