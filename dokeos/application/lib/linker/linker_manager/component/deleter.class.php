@@ -55,7 +55,7 @@ class LinkerManagerDeleterComponent extends LinkerManagerComponent
 				}
 			}
 			
-			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(LinkerManager :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(LinkerManager :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS));
 		}
 		else
 		{
