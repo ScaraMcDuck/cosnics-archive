@@ -59,7 +59,7 @@ class {APPLICATION_NAME}Manager{OBJECT_CLASS}DeleterComponent extends {APPLICATI
 				}
 			}
 			
-			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES}));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array({APPLICATION_NAME}Manager :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES}));
 		}
 		else
 		{
