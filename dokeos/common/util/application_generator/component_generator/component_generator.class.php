@@ -30,13 +30,13 @@ class ComponentGenerator
 				'general_browser_component' => 'general_browser_component.template',
     			'browser_component' => 'browser_component.template',
     			'creator_component' => 'creator_component.template',
-    			'editor_component' => 'editor_component.template',
+    			'updater_component' => 'updater_component.template',
     			'deleter_component' => 'deleter_component.template',
     		));
 			
 			$this->template->assign_vars(array(
 				'APPLICATION_NAME' => DokeosUtilities :: underscores_to_camelcase($application_name),
-				'L_APPLICATION_NAME' => strtolower($application_name),
+				'L_APPLICATION_NAME' => DokeosUtilities :: camelcase_to_underscores($application_name),
 				'AUTHOR' => $author
 			));
 			
@@ -44,7 +44,7 @@ class ComponentGenerator
 			{
 				$class2 = substr($class, -1) == 'y' ? substr($class, 0, strlen($class) - 1) . 'ie' : $class;
 				$class2 .= 's';
-				$class2_lower = strtolower($class2);
+				$class2_lower = DokeosUtilities :: camelcase_to_underscores($class2);
 				
 				$this->template->assign_block_vars("OBJECTS", array(
 
@@ -58,17 +58,17 @@ class ComponentGenerator
 			fclose($browser_file);
     	}
     	
-    	$components = array('browser', 'creator', 'editor', 'deleter');
+    	$components = array('browser', 'creator', 'updater', 'deleter');
     	
     	foreach($classes as $class)
 		{
-			$class_lower = strtolower($class);
-			$class_upper = strtoupper($class);
+			$class_lower = DokeosUtilities :: camelcase_to_underscores($class);
+			$class_upper = strtoupper($class_lower);
 			
 			$class2 = substr($class, -1) == 'y' ? substr($class, 0, strlen($class) - 1) . 'ie' : $class;
 			$class2 .= 's';
-			$class2_lower = strtolower($class2);
-			$class2_upper = strtoupper($class2);
+			$class2_lower = DokeosUtilities :: camelcase_to_underscores($class2);
+			$class2_upper = strtoupper($class2_lower);
 			
 			$this->template->assign_vars(array(
 					'L_OBJECT_CLASSES' => $class2_lower,

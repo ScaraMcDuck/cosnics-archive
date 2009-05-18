@@ -27,7 +27,7 @@ class InstallGenerator
     	if(!is_dir($location))
     		mkdir($location, 0777, true);
     	 
-    	$file = fopen($location . strtolower($application_name) . '_installer.class.php', 'w+');
+    	$file = fopen($location . DokeosUtilities :: camelcase_to_underscores($application_name) . '_installer.class.php', 'w+');
     	
     	if($file)
     	{
@@ -36,7 +36,7 @@ class InstallGenerator
 				);
 			
 			$this->template->assign_vars(array(
-				'APPLICATION_NAME' => strtolower($application_name),
+				'APPLICATION_NAME' => DokeosUtilities :: camelcase_to_underscores($application_name),
 				'C_APPLICATION_NAME' => DokeosUtilities :: underscores_to_camelcase($application_name),
 				'AUTHOR' => $author
 			));

@@ -16,13 +16,15 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 
  	const PARAM_ACTION = 'go';
 	const PARAM_DELETE_SELECTED = 'delete_selected';
-	const PARAM_LINK_ID = 'profile';
 
 	<!-- BEGIN OBJECTS -->
+	const PARAM_{OBJECTS.U_OBJECT_CLASS} = '{OBJECTS.L_OBJECT_CLASS}';
+	
 	const ACTION_DELETE_{OBJECTS.U_OBJECT_CLASS} = 'delete_{OBJECTS.L_OBJECT_CLASS}';
 	const ACTION_EDIT_{OBJECTS.U_OBJECT_CLASS} = 'edit_{OBJECTS.L_OBJECT_CLASS}';
 	const ACTION_CREATE_{OBJECTS.U_OBJECT_CLASS} = 'create_{OBJECTS.L_OBJECT_CLASS}';
 	const ACTION_BROWSE_{OBJECTS.U_OBJECT_CLASSES} = 'browse_{OBJECTS.L_OBJECT_CLASSES}';
+	
 	<!-- END OBJECTS -->
 
 	const ACTION_BROWSE = 'browse';
@@ -354,7 +356,7 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 	
  	function retrieve_{OBJECTS.L_OBJECT_CLASS}($id)
 	{
-		return {APPLICATION_NAME}DataManager :: get_instance()->{OBJECTS.L_OBJECT_CLASS}($id);
+		return {APPLICATION_NAME}DataManager :: get_instance()->retrieve_{OBJECTS.L_OBJECT_CLASS}($id);
 	}
 	
 	<!-- END OBJECTS -->
@@ -369,13 +371,13 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 	function get_update_{OBJECTS.L_OBJECT_CLASS}_url(${OBJECTS.L_OBJECT_CLASS})
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_{OBJECTS.U_OBJECT_CLASS},
-								    self :: PARAM_LINK_ID => ${OBJECTS.L_OBJECT_CLASS}->get_id()));
+								    self :: PARAM_{OBJECTS.U_OBJECT_CLASS} => ${OBJECTS.L_OBJECT_CLASS}->get_id()));
 	}
 	
  	function get_delete_{OBJECTS.L_OBJECT_CLASS}_url(${OBJECTS.L_OBJECT_CLASS})
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_{OBJECTS.U_OBJECT_CLASS},
-								    self :: PARAM_LINK_ID => ${OBJECTS.L_OBJECT_CLASS}->get_id()));
+								    self :: PARAM_{OBJECTS.U_OBJECT_CLASS} => ${OBJECTS.L_OBJECT_CLASS}->get_id()));
 	}
 	
 	function get_browse_{OBJECTS.L_OBJECT_CLASSES}_url()

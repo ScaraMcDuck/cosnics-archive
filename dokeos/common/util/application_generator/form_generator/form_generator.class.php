@@ -29,7 +29,7 @@ class FormGenerator
     	if(!is_dir($location))
     		mkdir($location, 0777, true);
     	 
-    	$file = fopen($location . strtolower($object_name) . '_form.class.php', 'w+');
+    	$file = fopen($location . DokeosUtilities :: camelcase_to_underscores($object_name) . '_form.class.php', 'w+');
     	
     	if($file)
     	{
@@ -39,13 +39,13 @@ class FormGenerator
 			
 			$this->template->assign_vars(array(
 				'OBJECT_CLASS' => $object_name,
-				'L_OBJECT_CLASS' => strtolower($object_name),
+				'L_OBJECT_CLASS' => DokeosUtilities :: camelcase_to_underscores($object_name),
 				'AUTHOR' => $author
 			));
 			
     		foreach($properties as $property)
 			{
-				$property_lower = strtolower($property);
+				$property_lower = DokeosUtilities :: camelcase_to_underscores($property);
 				$property_camelcase = DokeosUtilities :: underscores_to_camelcase($property);
 				$property_const = 'PROPERTY_' . strtoupper($property);
 				

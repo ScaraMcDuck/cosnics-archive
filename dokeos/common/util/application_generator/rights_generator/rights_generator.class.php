@@ -27,7 +27,7 @@ class RightsGenerator
     	if(!is_dir($location))
     		mkdir($location, 0777, true);
     	 
-    	$file = fopen($location . strtolower($application_name) . '_locations.xml', 'w+');
+    	$file = fopen($location . DokeosUtilities :: camelcase_to_underscores($application_name) . '_locations.xml', 'w+');
     	
     	if($file)
     	{

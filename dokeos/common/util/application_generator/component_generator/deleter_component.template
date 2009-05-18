@@ -9,14 +9,14 @@ require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager_component.class
  * Component to delete {L_OBJECT_CLASSES} objects
  * @author {AUTHOR}
  */
-class {APPLICATION_NAME}ManagerDeleterComponent extends {APPLICATION_NAME}ManagerComponent
+class {APPLICATION_NAME}Manager{OBJECT_CLASS}DeleterComponent extends {APPLICATION_NAME}ManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
-		$ids = $_GET[{APPLICATION_NAME}Manager :: PARAM_{U_OBJECT_CLASS}_ID];
+		$ids = $_GET[{APPLICATION_NAME}Manager :: PARAM_{U_OBJECT_CLASS}];
 		$failures = 0;
 		
 		if (!empty ($ids))
