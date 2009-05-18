@@ -24,10 +24,13 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		$this->action_bar = $this->get_action_bar();
 		
 		$browser = new AnnouncementBrowser($this);
+        $announcements = $browser->get_publications();
+        //dump($announcements);
 		$trail = new BreadcrumbTrail();
-		
+        if(Request :: get('tool_action')=='view')
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
 		$this->display_header($trail);
-		
+
 		//echo $this->perform_requested_actions();
 		if(!isset($_GET['pid']))
 		{
