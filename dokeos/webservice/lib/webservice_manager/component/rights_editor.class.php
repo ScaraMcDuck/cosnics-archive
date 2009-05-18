@@ -33,22 +33,22 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
            {
                
                $this->location = WebserviceRights :: get_root();
-               $this->message = Translation :: get('Edit rights for all provided webservices');
+               $this->message = Translation :: get('EditRightsForAllProvidedWebservices');
                 
            }
            else
            {              
                $this->location = WebserviceRights :: get_location_by_identifier('webservice_category', $this->categoryID);
                $this->message = Translation :: get('Edit rights');
-               $this->submessage = Translation :: get('Set rights for the ') .$this->location->get_location() . Translation :: get(' category');
+               $this->submessage = Translation :: get('SetRightsForThe') . " " .$this->location->get_location() ." ". Translation :: get('Category');
            }
            
         }
         else
         {            
             $this->location = WebserviceRights :: get_location_by_identifier('webservice', $this->webserviceID);
-            $this->message = Translation :: get('Edit rights ');
-            $this->submessage = Translation :: get('Set rights for webservice ') .$this->location->get_location() ;
+            $this->message = Translation :: get('EditRights ');
+            $this->submessage = Translation :: get('SetRightsForWebservice ') .$this->location->get_location() ;
         }
         
 		$component_action = $_GET[WebserviceManager :: PARAM_COMPONENT_ACTION];        

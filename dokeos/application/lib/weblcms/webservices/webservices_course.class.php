@@ -192,7 +192,7 @@ class WebServicesCourse
                 }
                 else
                 {
-                    return $this->webservice->raise_error(Translation :: get('Course').' '.$input_course[input][visual_code].Translation :: get('Not Found').'.');
+                    return $this->webservice->raise_error(Translation :: get('Course').' '.$input_course[input][visual_code].Translation :: get('NotFound').'.');
                 }
             }
             else

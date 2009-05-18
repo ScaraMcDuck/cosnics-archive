@@ -76,13 +76,8 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 	}
 
 	function get_actions($publication)
-	{   /*$execute = array(
-		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_TAKE_EXERCISE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-		'label' => Translation :: get('Take exercise'),
-		'img' => Theme :: get_common_image_path().'action_right.png'
-		);*/
-		
-        //if(!WikiTool ::is_wiki_locked($publication->get_parent()))
+	{   
+		//if(!WikiTool ::is_wiki_locked($publication->get_parent()))
         {
 			$actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE_CLOI, Tool :: PARAM_COMPLEX_ID => $publication->get_id(), Tool :: PARAM_PUBLICATION_ID => $this->pid)),

@@ -64,12 +64,6 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
 	
 	function get_actions($publication) 
 	{
-		/*$execute = array(
-		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_TAKE_EXERCISE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-		'label' => Translation :: get('Take exercise'),
-		'img' => Theme :: get_common_image_path().'action_right.png'
-		);*/
-
         $actions[] = array(
 			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())), 
 			'label' => Translation :: get('Delete'), 

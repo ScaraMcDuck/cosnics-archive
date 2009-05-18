@@ -30,7 +30,7 @@ class ComplexWikiPageForm extends ComplexLearningObjectItemForm
 
     public function get_elements()
 	{
-		$elements[] = $this->createElement('checkbox', ComplexWikiPage :: PROPERTY_IS_HOMEPAGE, Translation :: get('Is homepage'));
+		$elements[] = $this->createElement('checkbox', ComplexWikiPage :: PROPERTY_IS_HOMEPAGE, Translation :: get('IsHomepage'));
 		return $elements;
 	}
 
