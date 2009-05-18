@@ -24,7 +24,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		if($this->get_actions())
 			$html[] = '<form name="publication_list" action="' . $this->get_url() . '" method="GET" >';
 		$i = 0;
-		
+
 		foreach ($publications as $index => $publication)
 		{
 			$first = ($index == 0);
@@ -32,7 +32,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 			$html[] = $this->render_publication($publication, $first, $last, $i);
 			$i++;
 		}
-		
+
 		if($this->get_actions() && count($publications) > 0)
 		{
 			foreach($_GET as $parameter => $value)
@@ -51,7 +51,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 							}
 							/* ]]> */
 							</script>';
-			
+
 			$html[] = '<div style="text-align: right;">';
 			$html[] = '<a href="?" onclick="setCheckbox(\'publication_list\', true); return false;">'.Translation :: get('SelectAll').'</a>';
 			$html[] = '- <a href="?" onclick="setCheckbox(\'publication_list\', false); return false;">'.Translation :: get('UnSelectAll').'</a><br />';
@@ -65,7 +65,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 			$html[] = '</form>';
 			$html[] = '</div>';
 		}
-		
+
 		return implode("\n", $html);
 	}
 
@@ -92,7 +92,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 		{
 			$icon_suffix = '_new';
 		}
-		
+
 		$left = $position % 2;
 		switch($left)
 		{
@@ -101,9 +101,9 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 			//case 2: $level = 'level_3'; break;
 			//case 3: $level = 'level_4'; break;
 		}
-		
-		$feedback_url = $this->get_url(array (Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'), true);
-		
+
+		$feedback_url = $this->get_url(array (Tool :: PARAM_PUBLICATION_ID => $publication->get_id(), Tool :: PARAM_ACTION => 'view'), array(), true);
+
 		$html[] = '<div class="announcements ' . $level . '" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = '<a href="' . $feedback_url . '">' . $this->render_title($publication) . '</a>';
@@ -124,7 +124,7 @@ class ListLearningObjectPublicationListRenderer extends LearningObjectPublicatio
 			$html[] = '<input type="checkbox" name="pid[]" value="' . $publication->get_id() . '"/>';
 		$html[] = '</div>';
 		$html[] = '</div><br />';
-		
+
 		/*$html[] = '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path(). 'learning_object/' .$publication->get_learning_object()->get_icon_name().$icon_suffix.'.png);">';
 		$html[] = '<div class="title'. ($publication->is_visible_for_target_users() ? '' : ' invisible').'">';
 		$html[] = $this->render_title($publication);

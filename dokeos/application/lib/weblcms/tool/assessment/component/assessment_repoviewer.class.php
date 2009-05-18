@@ -9,13 +9,13 @@ require_once Path::get_library_path().'/html/action_bar/action_bar_renderer.clas
 /**
  * Represents the repo_viewer component for the assessment tool.
  */
-class AssessmentToolRepoviewerComponent extends AssessmentToolComponent 
+class AssessmentToolRepoviewerComponent extends AssessmentToolComponent
 {
 	/**
 	 * Shows the html for this component.
 	 *
 	 */
-	function run() 
+	function run()
 	{
 		if (!$this->is_allowed(VIEW_RIGHT))
 		{
@@ -28,16 +28,16 @@ class AssessmentToolRepoviewerComponent extends AssessmentToolComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new BreadCrumb($this->get_url($redirect_params), Translation :: get('PreviousPage')));
 		$trail->add(new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_REPOVIEWER, AssessmentTool :: PARAM_REPO_TYPES => $types)), Translation :: get('Repoviewer')));
-		
+
 		$object = $_GET['object'];
-		
+
 		$pub = new LearningObjectRepoViewer($this, $types, true, RepoViewer :: SELECT_MULTIPLE, AssessmentTool :: ACTION_REPOVIEWER);
 		//$pub->set_parameter(AssessmentTool :: PARAM_ACTION, AssessmentTool :: ACTION_REPOVIEWER);
 		$pub->set_parameter(AssessmentTool :: PARAM_REPO_TYPES, $types);
-		
+
 		if(!isset($object))
-		{	
-			$html[] = '<p><a href="' . $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_ASSESSMENTS), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
+		{
+			$html[] = '<p><a href="' . $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_ASSESSMENTS), array(), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
 		}
 		else
@@ -47,9 +47,9 @@ class AssessmentToolRepoviewerComponent extends AssessmentToolComponent
 			$redirect_params['object'] = $object;
 			$this->redirect(null, false, $redirect_params);
 		}
-		
+
 		$this->display_header($trail);
-		
+
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

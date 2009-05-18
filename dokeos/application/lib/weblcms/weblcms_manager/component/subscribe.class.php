@@ -92,7 +92,7 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
 		}
 
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'].'?application=weblcms', Translation :: get('MyCourses')));
+		$trail->add(new Breadcrumb($this->get_url(null, array(WeblcmsManager :: PARAM_ACTION)), Translation :: get('MyCourses')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseSubscribe')));
 
         $this->action_bar = $this->get_action_bar();
@@ -101,7 +101,7 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
 
         if(!empty($this->category))
         $trail->add(new Breadcrumb($this->breadcrumbs[0]['url'], $this->breadcrumbs[0]['title']));
-        
+
 		$output = $this->get_course_html();
 
 		$this->display_header($trail, false);
@@ -157,7 +157,7 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$category_menu = new CourseCategoryMenu($this->category, $url_format);
         $this->breadcrumbs = $category_menu->get_breadcrumbs();
-        
+
 		if (isset ($search_url))
 		{
 			$category_menu->forceCurrentUrl($search_url, true);

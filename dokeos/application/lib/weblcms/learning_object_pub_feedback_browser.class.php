@@ -182,9 +182,9 @@ abstract class LearningObjectPubFeedbackBrowser
 	/**
 	 * @see Tool :: get_url()
 	 */
-	function get_url($parameters = array(), $encode = false)
+	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
 	{
-		return $this->parent->get_url($parameters, $encode);
+		return $this->parent->get_url($parameters, $filter, $encode_entities);
 	}
 
 	/**
@@ -228,7 +228,7 @@ abstract class LearningObjectPubFeedbackBrowser
 	 *                       SORT_DESC.
 	 * @return array The learning object publications.
 	 */
-	
+
     /*abstract function get_publications($from, $count, $column, $direction);
 
     abstract function get_publication_count();*/

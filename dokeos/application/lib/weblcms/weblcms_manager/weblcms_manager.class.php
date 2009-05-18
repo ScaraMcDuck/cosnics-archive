@@ -78,7 +78,7 @@ class WeblcmsManager extends WebApplication
 	const ACTION_DELETE_INTRODUCTION = 'delete_introduction';
 	const ACTION_EDIT_INTRODUCTION = 'edit_introduction';
     const ACTION_REPORTING = 'reporting';
-	
+
 	const ACTION_RENDER_BLOCK = 'block';
 
 	/**
@@ -193,9 +193,9 @@ class WeblcmsManager extends WebApplication
 		}
 		$component->run();
 	}
-	
+
     /**
-	 * Renders the weblcms block and returns it. 
+	 * Renders the weblcms block and returns it.
 	 */
 	function render_block($block)
 	{
@@ -251,7 +251,7 @@ class WeblcmsManager extends WebApplication
 	{
 		if ($this->course == null)
 			return 0;
-			
+
 		return $this->course->get_id();
 	}
 	/**
@@ -280,7 +280,7 @@ class WeblcmsManager extends WebApplication
 		$course_groups = $wdm->retrieve_course_groups_from_user($this->get_user(),$this->get_course())->as_array();
 		return $course_groups;
 	}
-	
+
 	/**
 	 * Makes a category tree ready for displaying by adding a prefix to the
 	 * category title based on the level of that category in the tree structure.
@@ -323,11 +323,11 @@ class WeblcmsManager extends WebApplication
 		{
 			$breadcrumbtrail = new BreadcrumbTrail();
 		}
-		
+
 		$tool = $this->get_parameter(self :: PARAM_TOOL);
 		$course = $this->get_parameter(self :: PARAM_COURSE);
 		$action = $this->get_parameter(self :: PARAM_ACTION);
-		
+
 		if (isset ($this->tool_class))
 		{
 			$tool = str_replace('_tool', '', Tool :: class_to_type($this->tool_class));
@@ -337,7 +337,7 @@ class WeblcmsManager extends WebApplication
 				$htmlHeadXtra[] = '<script type="text/javascript" src="application/lib/weblcms/tool/'.$tool.'/'.$tool.'.js"></script>';
 			}
 		}
-		
+
 		$title = $breadcrumbtrail->get_last()->get_name();
 		$title_short = $title;
 		if (strlen($title_short) > 53)
@@ -345,7 +345,7 @@ class WeblcmsManager extends WebApplication
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
 		Display :: header($breadcrumbtrail);
-		
+
 		if (isset ($this->tool_class))
 		{
 			/*echo '<div style="float: right; margin: 0 0 0.5em 0.5em; padding: 0.5em; border: 1px solid #DDD; background: #FAFAFA;">';
@@ -377,7 +377,7 @@ class WeblcmsManager extends WebApplication
                 Display :: tool_title(htmlentities(Translation :: get($this->tool_class.'Title')));
                 echo '</div>';
             }
-			
+
 		}
 		else
 		{
@@ -398,7 +398,7 @@ class WeblcmsManager extends WebApplication
 
 			//echo '<div class="clear">&nbsp;</div>';
 		}
-		
+
 		if (!isset ($this->tool_class))
 		{
 			if ($msg = $_GET[self :: PARAM_MESSAGE])
@@ -431,7 +431,7 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->tools;
 	}
-	
+
 	/**
 	 * Returns the names of the sections known to this application.
 	 * @return array The tools.
@@ -440,7 +440,7 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->sections;
 	}
-	
+
 	function get_tool_properties($tool)
 	{
 		return $this->tools[$tool];
@@ -455,14 +455,14 @@ class WeblcmsManager extends WebApplication
 		{
 			$wdm = WeblcmsDataManager :: get_instance();
 			$this->tools = $wdm->get_course_modules($this->get_course_id());
-			
+
 			foreach($this->tools as $index => $tool)
 			{
 				require_once dirname(__FILE__).'/../tool/'.$tool->name.'/'.$tool->name.'_tool.class.php';
 			}
 		}
 	}
-	
+
 	/**
 	 * Loads the sections installed on the system.
 	 */
@@ -568,48 +568,48 @@ class WeblcmsManager extends WebApplication
 	{
 		return WeblcmsDataManager :: get_instance()->count_publication_attributes($this->get_user(), $type, $condition);
 	}
-	
+
 	/**
 	 * Inherited
 	 */
 	function get_learning_object_publication_locations($learning_object)
 	{
 		$locations = array();
-		
+
 		$type = $learning_object->get_type();
-		
-		$courses = $this->retrieve_courses($user); 
+
+		$courses = $this->retrieve_courses($user);
 		while($course = $courses->next_result())
 			$c[] = $course;
-		
+
 		$directory = dirname(__FILE__) . '/../tool/';
 		$tools = Filesystem :: get_directory_content($directory, Filesystem::LIST_DIRECTORIES, false);
 		foreach($tools as $tool)
 		{
 			$path =  $directory . $tool . '/' . $tool . '_tool.class.php';
-			
+
 			if(!file_exists($path)) continue;
-			
+
 			require_once $path;
 			$class = DokeosUtilities :: underscores_to_camelcase($tool) . 'Tool';
 			$obj = new $class($this);
 			$types[$tool] = $obj->get_allowed_types();
 		}
-		
+
 		foreach($types as $tool => $allowed_types)
 		{
 			if(in_array($type, $allowed_types))
 			{
 				$user = Session :: get_user_id();
-				
+
 				foreach($c as $course)
 					$locations[$course->get_id() . '-' . $tool] = 'Course: ' . $course->get_name() . ' - Tool: ' . $tool;
 			}
 		}
-		
+
 		return $locations;
 	}
-	
+
 	function publish_learning_object($learning_object, $location)
 	{
 		$location_split = split('-', $location);
@@ -617,10 +617,10 @@ class WeblcmsManager extends WebApplication
 		$tool = $location_split[1]; //echo $location;
 		$dm = WeblcmsDataManager :: get_instance();
 		$do = $dm->get_next_learning_object_publication_display_order_index($course,$tool,0);
-		
+
 		$pub = new LearningObjectPublication(null, $learning_object, $course, $tool, 0, array(), array(), 0, 0, Session :: get_user_id(), time(), time(), 0, $do, false, 0);
 		$pub->create();
-		
+
 		return Translation :: get('PublicationCreated') . ': <b>' . Translation :: get('Course') . '</b>: ' . $course .
 			   ' - <b>' . Translation :: get('Tool') . '</b>: ' . $tool;
 	}
@@ -881,7 +881,7 @@ class WeblcmsManager extends WebApplication
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_COURSE, self :: PARAM_COURSE => $course->get_id()));
 	}
-	
+
     /**
      * Returns the link to the course's page
      * @param Course $course
@@ -1118,7 +1118,7 @@ class WeblcmsManager extends WebApplication
 			{
 				$selected_user_ids = array ($selected_user_ids);
 			}
-			
+
 			$selected_group_ids = $_POST[SubscribeGroupBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty ($selected_group_ids))
 			{
@@ -1238,42 +1238,22 @@ class WeblcmsManager extends WebApplication
 							'description' => Translation :: get('UserImportDescription'),
 							'action' => 'import',
 							'url' => $this->get_link(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)));
-							
+
 		$info = parent :: get_application_platform_admin_links();
 		$info['links'] = $links;
 		return $info;
 	}
 
-	/**
-	 * Return a link to a certain action of this application
-	 * @param array $paramaters The parameters to be added to the url
-	 * @param boolean $encode Should the url be encoded ?
-	 */
-	public function get_link($parameters = array (), $encode = false)
-	{
-		$link = 'run.php';
-		$parameters['application'] = self :: APPLICATION_NAME;
-		if (count($parameters))
-		{
-			$link .= '?'.http_build_query($parameters);
-		}
-		if ($encode)
-		{
-			$link = htmlentities($link);
-		}
-		return $link;
-	}
-	
 	function get_parent()
 	{
-		return $this;	
+		return $this;
 	}
 
     function get_reporting_url($classname, $params)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, ReportingManager::PARAM_TEMPLATE_NAME => $classname, ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS => $params));
     }
-    
+
 	function get_application_name()
 	{
 		return self :: APPLICATION_NAME;

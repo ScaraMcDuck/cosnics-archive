@@ -29,15 +29,15 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 		$this->group_inactive = ($course->get_layout() > 2);
 		$this->is_course_admin = $this->get_parent()->get_course()->is_course_admin($this->get_parent()->get_user());
 	}
-	
+
 	// Inherited
 	function display()
 	{
 		$parent = $this->get_parent();
 		$tools = array ();
-		
+
 		foreach ($parent->get_registered_tools() as $tool)
-		{		
+		{
 			if($this->group_inactive)
 			{
 				if($this->course->get_layout() > 2)
@@ -59,10 +59,10 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				$tools[$tool->section][] = $tool;
 			}
 		}
-		
+
 		//$section_types = $parent->get_registered_sections();
 		//dump($section_types);
-	
+
 		/*foreach($section_types as $section_type => $sections)
 		{
 			if ($section_type == CourseSection :: TYPE_LINK)
@@ -71,13 +71,13 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			}
 			else
 			{
-				if($section_type == CourseSection :: TYPE_DISABLED && $this->course->get_layout() < 3) 
+				if($section_type == CourseSection :: TYPE_DISABLED && $this->course->get_layout() < 3)
 					continue;
-					
+
 				foreach($sections as $section)
-				{ 
+				{
 					$id = ($section_type == CourseSection :: TYPE_DISABLED && $this->course->get_layout() > 2)?0:$section->id;
-					
+
 					if((count($tools[$id]) > 0 && $section->visible) || $this->is_course_admin)
 					{
 						echo $this->display_block_header($section->id, $section->name);
@@ -87,9 +87,9 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				}
 			}
 		}*/
-		
+
 		echo '<div id="coursecode" style="display: none;">' . $this->course->get_id() . '</div>';
-		
+
 		$sections = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('course_code', $this->course->get_id()));
 		while($section = $sections->next_result())
 		{
@@ -99,11 +99,11 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			}
 			else
 			{
-				if($section->get_type() == CourseSection :: TYPE_DISABLED && $this->course->get_layout() < 3) 
+				if($section->get_type() == CourseSection :: TYPE_DISABLED && $this->course->get_layout() < 3)
 					continue;
-				
+
 				$id = ($section->get_type() == CourseSection :: TYPE_DISABLED && $this->course->get_layout() > 2)?0:$section->get_id();
-					
+
 				if((count($tools[$id]) > 0 && $section->visible) || $this->is_course_admin)
 				{
 					echo $this->display_block_header($section, $section->get_name());
@@ -112,7 +112,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				}
 			}
 		}
-		
+
 		echo '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/home_ajax.js' .'"></script>';
 		echo '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/course_home.js' .'"></script>';
 	}
@@ -122,15 +122,15 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 	private function show_links($section)
 	{
 		$parent = $this->get_parent();
-		
+
 		$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, 1);
 		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($parent->get_course_id(), null, null, null, $condition);
-		
+
 		if($publications->size() > 0)
 		{
 			echo $this->display_block_header($section, Translation :: get('Links'));
 		}
-		
+
 		$table = new HTML_Table('style="width: 100%;"');
 		$table->setColCount($this->number_of_columns);
 		$count = 0;
@@ -163,85 +163,85 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 					$html[] = '<a href="'.$parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION=>'delete_publication','pid' => $publication->get_id())).'"><img src="'.Theme :: get_common_image_path().'action_delete.png" style="vertical-align: middle;" alt=""/></a>';
 					$html[] = '&nbsp;&nbsp;&nbsp;';
 				}
-				
+
 				// Show tool-icon + name
-				$html[] = '<a href="'.$parent->get_url(array (WeblcmsManager :: PARAM_COMPONENT_ACTION=>null,WeblcmsManager :: PARAM_TOOL => $publication->get_tool(), 'pid' => $publication->get_id()), true).'" '.$link_class.'>';
+				$html[] = '<a href="'.$parent->get_url(array (WeblcmsManager :: PARAM_COMPONENT_ACTION=>null,WeblcmsManager :: PARAM_TOOL => $publication->get_tool(), 'pid' => $publication->get_id()), array(), true).'" '.$link_class.'>';
 				$html[] = '<img src="'.Theme :: get_image_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
 				$html[] = '&nbsp;';
 				$html[] = $title;
 				$html[] = '</a>';
-				
+
 				$table->setCellContents($row,$col,implode("\n",$html));
 				$table->updateColAttributes($col,'style="width: '.floor(100/$this->number_of_columns).'%;"');
 				$count++;
 			}
 		}
 		$table->display();
-		
+
 		if($publications->size() > 0)
 		{
 			echo $this->display_block_footer($section);
 		}
 	}
-	
+
 	function display_block_header($section, $block_name)
-	{ 
+	{
 		$html = array();
-		
+
 		$icon = 'block_weblcms.png';
-		
+
 		if($section->get_type() == CourseSection :: TYPE_ADMIN)
 			$icon = 'block_admin.png';
-		
+
 		if($section->get_type() == CourseSection :: TYPE_TOOL)
 		{
 			$html[] = '<div class="toolblock" id="block_'. $section->get_id() . '" style="width:100%; height: 100%;">';
 		}
-		
+
 		$html[] = '<div class="block" id="block_'. $section->get_id() .'" style="background-image: url('.Theme :: get_image_path('home'). $icon . ');">';
-		
+
 		$html[] = '<div class="title"><div style="float: left;">'. $block_name . '</div>';
 		$html[] = '<a href="#" class="closeEl"><img class="visible" src="'.Theme :: get_common_image_path().'action_visible.png" /><img class="invisible" style="display: none;" src="'.Theme :: get_common_image_path().'action_invisible.png" /></a>';
 		$html[] = '<div style="clear: both;"></div>';
 		$html[] = '</div>';
 		$html[] = '<div class="description">';
-		
+
 		return implode ("\n", $html);
 	}
-	
+
 	function display_block_footer($section)
 	{
 		$html = array();
-		
+
 		$html[] = '<div style="clear: both;"></div>';
 		$html[] = '</div>';
 		$html[] = '</div>';
-		
+
 		if($section->get_type() == CourseSection :: TYPE_TOOL)
 		{
 			$html[] = '</div>';
 		}
-		
+
 		return implode ("\n", $html);
 	}
-	
+
 	private function show_section_tools($section, $tools)
-	{ 
+	{
 		$parent = $this->get_parent();
-		
+
 		$column_width = 99.9 / $this->number_of_columns;
-		
+
 		//$table = new HTML_Table('style="width: 100%;"');
 		//$table->setColCount($this->number_of_columns);
 		$count = 0;
-		
+
 		$html = array();
-		
+
 		foreach ($tools as $index => $tool)
 		{
 			if(!PlatformSetting :: get($tool->name . '_active', 'weblcms') && $section->get_type() != CourseSection :: TYPE_ADMIN)
 				continue;
-				
+
 			if($tool->visible || $section->get_name() == 'course_admin')
 			{
 				$lcms_action = 'make_invisible';
@@ -266,7 +266,7 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 			$col = $count%$this->number_of_columns;
 			//$html = array();
 			if($this->is_course_admin || $tool->visible)
-			{				
+			{
 				if($section->get_type() == CourseSection :: TYPE_TOOL)
 				{
 					$html[] = '<div id="tool_' . $tool->id . '" class="tool" style="width: ' . $column_width . '%;">';
@@ -277,33 +277,33 @@ class FixedLocationToolListRenderer extends ToolListRenderer
 				{
 					$html[] = '<div class="tool" style="width: ' . $column_width . '%;">';
 				}
-				
+
 				// Show visibility-icon
 				if ($this->is_course_admin && $section->get_type() != CourseSection :: TYPE_ADMIN)
 				{
 					$html[] = '<a href="'.$parent->get_url(array(WeblcmsManager :: PARAM_COMPONENT_ACTION=>$lcms_action,WeblcmsManager :: PARAM_TOOL=>$tool->name)).'"><img class="tool_visible" src="'.Theme :: get_common_image_path().$visible_image.'" style="vertical-align: middle;" alt=""/></a>';
 					$html[] = '&nbsp;&nbsp;&nbsp;';
 				}
-				
+
 				// Show tool-icon + name
-				
+
 				$html[] = '<img class="tool_image"' . $id . ' src="'.Theme :: get_image_path().$tool_image.'" style="vertical-align: middle;" alt="'.$title.'"/>';
 				$html[] = '&nbsp;';
-				$html[] = '<a id="tool_text" href="'.$parent->get_url(array (WeblcmsManager :: PARAM_COMPONENT_ACTION=>null,WeblcmsManager :: PARAM_TOOL => $tool->name), true).'" '.$link_class.'>';
+				$html[] = '<a id="tool_text" href="'.$parent->get_url(array (WeblcmsManager :: PARAM_COMPONENT_ACTION=>null,WeblcmsManager :: PARAM_TOOL => $tool->name), array(), true).'" '.$link_class.'>';
 				$html[] = $title;
 				$html[] = '</a>';
-				
+
 				$html[] = '<div class="clear"></div>';
-				
+
 				$html[] = '</div>';
-				
+
 				//$table->setCellContents($row,$col,implode("\n",$html));
 				//$table->updateColAttributes($col,'style="width: '.floor(100/$this->number_of_columns).'%;"');
 				$count++;
 			}
 		}
 		//$table->display();
-		
+
 		echo implode("\n", $html);
 	}
 }

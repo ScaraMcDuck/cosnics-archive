@@ -19,53 +19,53 @@ abstract class ToolComponent
 	private $id;
 	/** The parent tool **/
 	private $tool;
-	
+
 	/**
 	 * Constructor
 	 * @param Tool $tool the parent tool
 	 */
-    function ToolComponent($tool) 
+    function ToolComponent($tool)
     {
 		$this->tool = $tool;
 		$this->id =  ++self :: $component_count;
     }
-    
+
     /**
      * Returns the tool to which this component belongs to
-     * @return Tool 
+     * @return Tool
      */
     function get_tool()
 	{
 		return $this->tool;
 	}
-	
+
 	function get_parent()
 	{
 		return $this->tool->get_parent();
 	}
-	
+
 	/** Delegation functions **/
-	
+
 	function display_header($breadcrumbtrail, $display_title)
 	{
 		$this->tool->display_header($breadcrumbtrail, $display_title);
 	}
-	
+
 	function display_footer()
 	{
 		$this->tool->display_footer();
 	}
-	
+
 	function display_error_message($message)
 	{
 		$this->tool->display_error_message($message);
 	}
-	
+
 	function get_action()
 	{
 		return $this->tool->get_action();
 	}
-	
+
 	function disallow()
 	{
 		$this->tool->disallow();
@@ -120,7 +120,7 @@ abstract class ToolComponent
 	{
 		return $this->tool->get_course_groups();
 	}
-	
+
 	function get_course_group()
 	{
 		return $this->tool->get_course_group();
@@ -153,9 +153,10 @@ abstract class ToolComponent
 	/**
 	 * @see WebApplication :: get_url()
 	 */
-	function get_url($parameters = array(), $encode = false, $filter = false, $filterOn = array())
+
+	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
 	{
-		return $this->tool->get_url($parameters, $encode, $filter, $filterOn);
+		return $this->tool->get_url($parameters, $filter, $encode_entities);
 	}
 
 	/**
@@ -183,17 +184,17 @@ abstract class ToolComponent
 	{
 		return $this->tool->get_last_visit_date();
 	}
-	
+
 	function get_path($path_type)
 	{
 		return $this->tool->get_path($path_type);
 	}
-	
+
 	function perform_requested_actions()
 	{
 		return $this->tool->perform_requested_actions();
 	}
-	
+
 	function get_categories($list = false)
 	{
 		return $this->tool->get_categories($list);
@@ -203,12 +204,12 @@ abstract class ToolComponent
 	{
 		return $this->tool->get_category($id);
 	}
-	
+
 	static function factory($tool_name, $component_name, $tool)
 	{
 		$filename = dirname(__FILE__).'/'.
-			DokeosUtilities :: camelcase_to_underscores($tool_name).'/component/' . 
-			DokeosUtilities :: camelcase_to_underscores($tool_name). ($tool_name?'_':'') . 
+			DokeosUtilities :: camelcase_to_underscores($tool_name).'/component/' .
+			DokeosUtilities :: camelcase_to_underscores($tool_name). ($tool_name?'_':'') .
 			DokeosUtilities :: camelcase_to_underscores($component_name). '.class.php';
 		if (!file_exists($filename) || !is_file($filename))
 		{
@@ -218,7 +219,7 @@ abstract class ToolComponent
 		require_once $filename;
 		return new $class($tool);
 	}
-	
+
 	function display_introduction_text($introduction_text)
 	{
 		return $this->tool->display_introduction_text($introduction_text);
@@ -228,5 +229,5 @@ abstract class ToolComponent
     {
         return $this->tool->get_access_details_toolbar_item($parent);
     }
-	
+
 }
