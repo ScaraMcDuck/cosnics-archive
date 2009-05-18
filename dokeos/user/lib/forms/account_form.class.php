@@ -111,8 +111,8 @@ class AccountForm extends FormValidator {
 		if (PlatformSetting :: get('allow_change_password', UserManager :: APPLICATION_NAME) == 1)
 		{
 			$this->addElement('static', null, null, '<em>'.Translation :: get('Enter2passToChange').'</em>');
-			$this->addElement('password', User :: PROPERTY_PASSWORD, Translation :: get('Pass'),         array('size' => 40));
-			$this->addElement('password', 'password2', Translation :: get('Confirmation'), array('size' => 40));
+			$this->addElement('password', User :: PROPERTY_PASSWORD, Translation :: get('Pass'),         array('size' => 40, 'autocomplete' => 'off'));
+			$this->addElement('password', 'password2', Translation :: get('Confirmation'), array('size' => 40, 'autocomplete' => 'off'));
 			$this->addRule(array(User :: PROPERTY_PASSWORD, 'password2'), Translation :: get('PassTwo'), 'compare');
 		}
 		

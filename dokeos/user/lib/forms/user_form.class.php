@@ -76,7 +76,7 @@ class UserForm extends FormValidator {
 		}
 		$group[] =& $this->createElement('radio', 'pass', null, Translation :: get('AutoGeneratePassword').'<br />',1);
 		$group[] =& $this->createElement('radio', 'pass', null, null, 0);
-		$group[] =& $this->createElement('password', User :: PROPERTY_PASSWORD, null, null);
+		$group[] =& $this->createElement('password', User :: PROPERTY_PASSWORD, null, null, array('autocomplete' => 'off'));
 		$this->addGroup($group, 'pw', Translation :: get('Password'), '');
 		
 		//$this->add_forever_or_expiration_date_window(User :: PROPERTY_EXPIRATION_DATE, 'ExpirationDate');
