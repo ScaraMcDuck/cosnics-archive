@@ -14,7 +14,7 @@ require_once Path::get_repository_path().'/lib/data_manager/database.class.php';
 require_once Path::get_repository_path().'/lib/learning_object/wiki_page/complex_wiki_page.class.php';
 
 class WikiToolHomepageSetterComponent extends WikiToolComponent
-{    
+{
 	function run()
 	{
         if (!$this->is_allowed(EDIT_RIGHT))
@@ -22,7 +22,7 @@ class WikiToolHomepageSetterComponent extends WikiToolComponent
 			Display :: not_allowed();
 			return;
 		}
-        
+
 		$trail = new BreadcrumbTrail();
 
         $dm = RepositoryDataManager :: get_instance();
@@ -35,8 +35,8 @@ class WikiToolHomepageSetterComponent extends WikiToolComponent
             $page->set_is_homepage(true);
             $page->update();
         }
-        $this->redirect(null, null, '', array(Tool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'pid' => Request :: get('pid')));
-        
+        $this->redirect(null, '', array(Tool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'pid' => Request :: get('pid')));
+
     }
 }
 

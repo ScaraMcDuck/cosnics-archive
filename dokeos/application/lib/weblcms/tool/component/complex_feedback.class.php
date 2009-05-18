@@ -45,7 +45,7 @@ class ToolComplexFeedbackComponent extends ToolComponent
             /*
              * change in the feedback, create new tabel linking the feedback object to the wiki_page
              */
-            
+
             //$rdm = RepositoryDataManager :: get_instance();
             $learning_object_pub_feedback = new LearningObjectPubFeedback();
             if(isset($this->cid))
@@ -57,17 +57,17 @@ class ToolComplexFeedbackComponent extends ToolComponent
                 $learning_object_pub_feedback->set_publication_id($this->pid);
             else
                 $learning_object_pub_feedback->set_publication_id(0);
-                
+
             if(isset($this->fid))
                 $learning_object_pub_feedback->set_feedback_id($this->fid);
             else
                 $learning_object_pub_feedback->set_feedback_id(0);
 
             $learning_object_pub_feedback->create();
-            $this->redirect(null, Translation :: get('FeedbackAdded'), '', array(Tool :: PARAM_ACTION => Request :: get('cid')!=null?'discuss':'view_item', Request :: get('cid')!=null?'cid':'pid' => $this->cid, 'pid' => $this->pid));
-           
+            $this->redirect(Translation :: get('FeedbackAdded'), '', array(Tool :: PARAM_ACTION => Request :: get('cid')!=null?'discuss':'view_item', Request :: get('cid')!=null?'cid':'pid' => $this->cid, 'pid' => $this->pid));
 
-			
+
+
 		}
     }
 }

@@ -434,9 +434,9 @@ abstract class Tool
 	/**
 	 * @see WebApplication :: get_url()
 	 */
-	function redirect($action = null, $message = null, $error_message = false, $extra_params = null)
+	function redirect($message = '', $error_message = false, $parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
 	{
-		return $this->parent->redirect($action, $message, $error_message, $extra_params);
+		return $this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities, $type);
 	}
 
 	/**

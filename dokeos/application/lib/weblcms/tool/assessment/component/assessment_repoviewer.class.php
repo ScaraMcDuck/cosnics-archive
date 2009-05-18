@@ -45,7 +45,7 @@ class AssessmentToolRepoviewerComponent extends AssessmentToolComponent
 			//redirect
 			$redirect_params = $_SESSION['redirect_params'];
 			$redirect_params['object'] = $object;
-			$this->redirect(null, null, false, $redirect_params);
+			$this->redirect(null, false, $redirect_params);
 		}
 		
 		$this->display_header($trail);

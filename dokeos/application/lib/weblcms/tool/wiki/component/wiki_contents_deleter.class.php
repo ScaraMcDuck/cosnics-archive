@@ -24,8 +24,8 @@ class WikiToolContentsDeleterComponent extends WikiToolComponent
         foreach($pages as $page)
         {
             $page->delete();
-        }        
-        $this->redirect(null, $message, '', array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, 'wiki_id' => $this->wiki_id));
+        }
+        $this->redirect($message, '', array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, 'wiki_id' => $this->wiki_id));
 	}*/
 }
 ?>

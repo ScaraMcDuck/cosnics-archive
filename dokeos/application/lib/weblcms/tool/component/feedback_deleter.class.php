@@ -8,7 +8,7 @@ class ToolFeedbackDeleterComponent extends ToolComponent
     private $pid;
 
     function run()
-	{               
+	{
         if($this->is_allowed(DELETE_RIGHT) /*&& !WikiTool :: is_wiki_locked(Request :: get(Tool :: PARAM_PUBLICATION_ID))*/)
 		{
 			if(isset($_GET['fid']))
@@ -51,7 +51,7 @@ class ToolFeedbackDeleterComponent extends ToolComponent
 				$message = htmlentities(Translation :: get('LearningObjectFeedbackDeleted'));
 			}
 
-			$this->redirect(null, $message, '', array(Tool :: PARAM_ACTION => 'discuss', 'pid' => $this->pid, 'cid' => $this->cid));
+			$this->redirect($message, '', array(Tool :: PARAM_ACTION => 'discuss', 'pid' => $this->pid, 'cid' => $this->cid));
 		}
 	}
 

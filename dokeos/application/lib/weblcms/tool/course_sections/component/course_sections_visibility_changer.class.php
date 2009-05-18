@@ -20,29 +20,29 @@ class CourseSectionsToolVisibilityChangerComponent extends CourseSectionsToolCom
 			Display :: error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
-		}		
-		
+		}
+
 		$ids = $_GET[CourseSectionsTool :: PARAM_COURSE_SECTION_ID];
 		$failures = 0;
-		
+
 		if (!empty ($ids))
 		{
 			if (!is_array($ids))
 			{
 				$ids = array ($ids);
 			}
-			
+
 			foreach ($ids as $id)
 			{
 				$course_section = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $id))->next_result();
 				$course_section->set_visible(!$course_section->get_visible());
-				
+
 				if (!$course_section->update())
 				{
 					$failures++;
 				}
 			}
-			
+
 			if ($failures)
 			{
 				if (count($ids) == 1)
@@ -65,8 +65,8 @@ class CourseSectionsToolVisibilityChangerComponent extends CourseSectionsToolCom
 					$message = 'SelectedCourseSectionsVisibilityChanged';
 				}
 			}
-			
-			$this->redirect('url', Translation :: get($message), ($failures != 0 ? true : false), array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
+
+			$this->redirect(Translation :: get($message), ($failures != 0 ? true : false), array(CourseSectionsTool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS));
 		}
 		else
 		{

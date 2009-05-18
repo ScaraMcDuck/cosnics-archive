@@ -10,7 +10,7 @@ class ToolEditComponent extends ToolComponent
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			$pid = isset($_GET[Tool :: PARAM_PUBLICATION_ID]) ? $_GET[Tool :: PARAM_PUBLICATION_ID] : $_POST[Tool :: PARAM_PUBLICATION_ID];
-            
+
                 $datamanager = WeblcmsDataManager :: get_instance();
                 $publication = $datamanager->retrieve_learning_object_publication($pid);
 
@@ -46,7 +46,7 @@ class ToolEditComponent extends ToolComponent
                             $params['tool_action'] = 'view';
                         }
 
-                        $this->redirect(null, $message, '', $params);
+                        $this->redirect($message, '', $params);
                     }
                     else
                     {
@@ -64,7 +64,7 @@ class ToolEditComponent extends ToolComponent
             }
 			/**/
 		}
-	
+
 
 }
 ?>

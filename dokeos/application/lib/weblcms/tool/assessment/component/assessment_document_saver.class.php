@@ -103,7 +103,7 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 			Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS,
 			$type => $id
 		);
-		$this->redirect(null, Translation :: get('NoDocumentsForAssessment'), false, $params);
+		$this->redirect(Translation :: get('NoDocumentsForAssessment'), false, $params);
 	}
 	
 	function send_files($filenames, $assessment_id)

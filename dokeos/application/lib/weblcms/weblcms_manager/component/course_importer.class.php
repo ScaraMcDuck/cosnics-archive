@@ -18,13 +18,13 @@ class WeblcmsManagerCourseImporterComponent extends WeblcmsManagerComponent
 	{
 		global $this_section;
 		$this_section='platform_admin';
-		
+
 		$trail = new BreadcrumbTrail();
         $admin = new AdminManager();
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)).'#tabs-19', Translation :: get('Courses')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseImportCSV')));
-		
+
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($trail);
@@ -33,13 +33,13 @@ class WeblcmsManagerCourseImporterComponent extends WeblcmsManagerComponent
 			$this->display_footer();
 			exit;
 		}
-		
+
 		$form = new CourseImportForm(CourseImportForm :: TYPE_IMPORT, $this->get_url());
-		
+
 		if($form->validate())
 		{
 			$success = $form->import_courses();
-			$this->redirect(null, Translation :: get($success ? 'CourseCreatedCsv' : 'CourseNotCreatedCsv'). '<br />' .$form->get_failed_csv(), ($success ? false : true));
+			$this->redirect(Translation :: get($success ? 'CourseCreatedCsv' : 'CourseNotCreatedCsv'). '<br />' .$form->get_failed_csv(), ($success ? false : true));
 		}
 		else
 		{
@@ -50,7 +50,7 @@ class WeblcmsManagerCourseImporterComponent extends WeblcmsManagerComponent
 			$this->display_footer();
 		}
 	}
-	
+
 	function display_extra_information()
 	{
 		$html = array();
@@ -61,8 +61,8 @@ class WeblcmsManagerCourseImporterComponent extends WeblcmsManagerComponent
 		$html[] = 'BIO0015;Biology;BIO;username';
 		$html[] = '</pre>';
 		$html[] = '</blockquote>';
-		
-		echo implode($html, "\n");		
+
+		echo implode($html, "\n");
 	}
 }
 ?>

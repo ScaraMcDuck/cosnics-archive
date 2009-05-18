@@ -159,11 +159,11 @@ abstract class ToolComponent
 	}
 
 	/**
-	 * @see WebApplication :: get_url()
+	 * @see WebApplication :: redirect()
 	 */
-	function redirect($action = null, $message = null, $error_message = false, $extra_params = null)
+	function redirect($message = '', $error_message = false, $parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
 	{
-		return $this->tool->redirect($action, $message, $error_message, $extra_params);
+		return $this->tool->redirect($message, $error_message, $parameters, $filter, $encode_entities, $type);
 	}
 
 	/**

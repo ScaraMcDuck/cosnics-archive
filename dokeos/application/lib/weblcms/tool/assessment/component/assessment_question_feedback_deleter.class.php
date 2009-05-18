@@ -34,7 +34,7 @@ class AssessmentToolQuestionFeedbackDeleterComponent extends AssessmentToolCompo
 				$message = htmlentities(Translation :: get('QuestionFeedbackNotDeleted'));
 			}
 			
-			$this->redirect(null, $message, '', array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment));
+			$this->redirect($message, '', array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $user_assessment));
 		}
 	}
 

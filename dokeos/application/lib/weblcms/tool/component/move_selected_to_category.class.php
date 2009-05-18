@@ -4,8 +4,8 @@ require_once dirname(__FILE__).'/../tool_component.class.php';
 
 class ToolMoveSelectedToCategoryComponent extends ToolComponent
 {
-	
-	function run() 
+
+	function run()
 	{
 		if($this->is_allowed(EDIT_RIGHT))
 		{
@@ -17,9 +17,9 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 			}
 			$form->addElement('hidden','pids',implode('-',$publication_ids));
 			if($form->validate())
-			{ 
+			{
 				$values = $form->exportValues();
-				$publication_ids = explode('-',$values['pids']); 
+				$publication_ids = explode('-',$values['pids']);
 				//TODO: update all publications in a single action/query
 				foreach($publication_ids as $index => $publication_id)
 				{
@@ -35,7 +35,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 				{
 					$message = Translation :: get('LearningObjectPublicationsMoved');
 				}
-				$this->redirect(null, $message, false, array('pid' => null));
+				$this->redirect($message, false, array('pid' => null));
 			}
 			else
 			{
@@ -46,9 +46,9 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 			}
 		}
 	}
-	
+
 	private $tree;
-	
+
 	function build_move_to_category_form()
 	{
 		$publication_ids = $_GET['pid'];
@@ -56,7 +56,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 		{
 			$publication_ids = array($publication_ids);
 		}
-		
+
 		if(count($publication_ids) > 0)
 		{
 			$pub = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($publication_ids[0]);
@@ -74,13 +74,13 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 
 				$form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 				return $form;
-				
+
 			}
 		}
 	}
-	
+
 	private $level = 1;
-	
+
 	function build_category_tree($parent_id, $exclude)
 	{
 		$dm = WeblcmsDataManager :: get_instance();
@@ -89,7 +89,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 		$conditions[] = new EqualityCondition('tool', $this->get_tool_id());
 		$condition = new AndCondition($conditions);
 		$categories = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($condition);
-		
+
 		$tree = array();
 		while($cat = $categories->next_result())
 		{

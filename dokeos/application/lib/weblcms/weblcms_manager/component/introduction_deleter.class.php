@@ -10,7 +10,7 @@ class WeblcmsManagerIntroductionDeleterComponent extends WeblcmsManagerComponent
 		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','introduction'));
 		$introduction_text = $publications->next_result();
 		$introduction_text->delete();
-		$this->redirect(null, Translation :: get('IntroductionDeleted'), '', array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE));
+		$this->redirect(Translation :: get('IntroductionDeleted'), '', array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE));
 	}
 }
 ?>

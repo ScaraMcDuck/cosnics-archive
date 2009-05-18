@@ -13,14 +13,14 @@ require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_assess
 class AssessmentToolTesterComponent extends AssessmentToolComponent
 {
 	private $datamanager;
-	
+
 	private $pub;
 	private $invitation;
 	private $assessment;
 	private $iid;
 	private $pid;
 	private $showlcms;
-	
+
 	function run()
 	{
 		$this->datamanager = WeblcmsDataManager :: get_instance();
@@ -32,31 +32,31 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			$this->assessment = $this->pub->get_learning_object();
 			$url = $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $this->pid));
 		}
-		
+
 		$track = new WeblcmsAssessmentAttemptsTracker();
 		$condition_t = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $this->pid);
 		$condition_u = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_USER_ID, $this->get_user_id());
 		$condition = new AndCondition(array($condition_t, $condition_u));
 		$trackers = $track->retrieve_tracker_items($condition);
-		
+
 		if ($this->assessment->get_maximum_attempts() != 0 && count($trackers) >= $this->assessment->get_maximum_attempts())
 		{
 			Display :: not_allowed();
 			return;
 		}
-		
+
 		if($this->assessment->get_assessment_type() == 'hotpotatoes')
 		{
 			$track = new WeblcmsAssessmentAttemptsTracker();
 			$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $pid);
 			$trackers = $track->retrieve_tracker_items($condition);
-			
+
 			if (count($trackers) < $this->assessment->get_maximum_attempts() || $this->assessment->get_maximum_attempts() == 0)
-			{			
+			{
 				$this->create_tracker();
-				
+
 				$this->display_header(new BreadcrumbTrail());
-				
+
 				$this->assessment->add_javascript($this->get_course_id());
 				$path = $this->assessment->get_test_path();
 				echo '<iframe src="' . $path . '" width="100%" height="600">
@@ -69,10 +69,10 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			else
 			{
 				$params = array();
-				$this->redirect(null, null, null, $params);
+				$this->redirect(null, null, $params);
 			}
 		}
-		
+
 		if (isset($_GET[AssessmentTool :: PARAM_INVITATION_ID]))
 		{
 			$this->iid = $_GET[AssessmentTool :: PARAM_INVITATION_ID];
@@ -89,19 +89,19 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			Display :: not_allowed();
 			return;
 		}
-		
+
 		if (isset($_GET['start']))
 		{
 			$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = null;
 			$_SESSION['formvalues'] = null;
 			$this->create_tracker();
 		}
-		
+
 		if (isset($_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE]))
 			$page = $_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE];
 		else
 			$page = 1;
-			
+
 		$form_display = new AssessmentTesterDisplay($this, $this->assessment);
 		$show = $form_display->build_form($url, $page);
 		//dump($form_display);
@@ -115,12 +115,12 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			return $show;
 		}
 	}
-	
+
 	function create_tracker()
 	{
 		$args = array(
-		'assessment_id' => $this->pid, 
-		'user_id' => $this->get_user_id(), 
+		'assessment_id' => $this->pid,
+		'user_id' => $this->get_user_id(),
 		'course_id' => $this->get_course_id(),
 		'total_score' => 0
 		);
@@ -128,7 +128,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		$tracker_id = $tracker->track($args);
 		$_SESSION['assessment_tracker'] = $tracker_id;
 	}
-	
+
 	function get_user_id()
 	{
 		if ($this->assessment->get_assessment_type() == Survey :: TYPE_SURVEY)
@@ -138,13 +138,13 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		}
 		return parent :: get_user_id();
 	}
-	
+
 	function show_form($form_display)
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, AssessmentTool :: PARAM_PUBLICATION_ID => $pid, AssessmentTool :: PARAM_INVITATION_ID => $iid)), Translation :: get('TakeAssessment')));
 		$this->display_header($trail);
-			
+
 		if ($this->showlcms)
 		{
 			$this->action_bar = $this->get_toolbar();
@@ -153,7 +153,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		echo $form_display->as_html();
 		$this->display_footer();
 	}
-	
+
 	function is_visible()
 	{
 		$visible = false;
@@ -174,12 +174,12 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		}
 		return $visible;
 	}
-	
+
 	function redirect_to_score_calculator($values = null)
 	{
 		if ($values == null)
 			$values = $_SESSION['formvalues'];
-			
+
 		$score_calculator = new AssessmentScoreCalculator();
 		$score_calculator->build_answers($values, $this->assessment, $this->datamanager, $this);
 		$uaid = $tracker_id = $_SESSION['assessment_tracker'];
@@ -191,20 +191,20 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			$this->invitation->set_valid(false);
 			$this->datamanager->update_survey_invitation($this->invitation);
 			$params[AssessmentTool::PARAM_INVITATION_ID] = $this->invitation->get_invitation_code();
-		}	
-		$this->redirect(null, null, false, $params);
+		}
+		$this->redirect(null, false, $params);
 	}
-	
+
 	function redirect_to_repoviewer()
 	{
 		$_SESSION['redirect_params'] = array(
-			AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, 
+			AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT,
 			AssessmentTool :: PARAM_PUBLICATION_ID => $this->pid,
 			AssessmentTool :: PARAM_INVITATION_ID => $this->iid
-		);		
-		$this->redirect(null, null, false, array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_REPOVIEWER, AssessmentTool :: PARAM_REPO_TYPES => array('document')));
+		);
+		$this->redirect(null, false, array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_REPOVIEWER, AssessmentTool :: PARAM_REPO_TYPES => array('document')));
 	}
-	
+
 	static function calculate_score($user_assessment)
 	{
 		$score_calc = new AssessmentScoreCalculator();
