@@ -2,166 +2,22 @@
 /**
  * @package application.lib.calendar.calendar_manager
  */
-abstract class PersonalCalendarManagerComponent {
+require Path :: get_application_path() . 'lib/web_application_component.class.php';
 
-	/**
-	 * The number of components allready instantiated
-	 */
-	private static $component_count = 0;
-	/**
-	 * The calendar in which this componet is used
-	 */
-	private $pm;
-	/**
-	 * The id of this component
-	 */
-	private $id;
+abstract class PersonalCalendarManagerComponent extends WebApplicationComponent
+{
 	/**
 	 * Constructor
-	 * @param Calendar $pm The calendar which
-	 * provides this component
+	 * @param PersonalCalendarManager $pcm The personal calendar manager which provides this component
 	 */
-	protected function PersonalCalendarManagerComponent($pm) {
-		$this->pm = $pm;
-		$this->id =  ++self :: $component_count;
-	}
-
-	/**
-	 * @see WebApplication :: simple_redirect()
-	 */
-	function simple_redirect($parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
+	protected function PersonalCalendarManagerComponent($pcm)
 	{
-		return $this->get_parent()->simple_redirect($parameters, $filter, $encode_entities, $type);
-	}
-
-	/**
-	 * @see WebApplication :: redirect()
-	 */
-	function redirect($message = '', $error_message = false, $parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
-	{
-		return $this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities, $type);
+		parent :: __construct($pcm);
 	}
 
 	function is_allowed($right, $locations = array())
 	{
 		return $this->get_parent()->is_allowed($right, $locations);
-	}
-
-	/**
-	 * @see CalendarManager :: get_parameter()
-	 */
-	function get_parameter($name)
-	{
-		return $this->get_parent()->get_parameter($name);
-	}
-
-	/**
-	 * @see CalendarManager :: get_parameters()
-	 */
-	function get_parameters()
-	{
-		return $this->get_parent()->get_parameters();
-	}
-
-	/**
-	 * @see CalendarManager :: set_parameter()
-	 */
-	function set_parameter($name, $value)
-	{
-		return $this->get_parent()->set_parameter($name, $value);
-	}
-
-	/**
-	 * @see CalendarManager :: get_url()
-	 */
-	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
-	{
-		return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
-	}
-
-	function get_link($parameters = array (), $filter = array(), $encode = false)
-	{
-		return $this->get_parent()->get_link($parameters, $filter, $encode);
-	}
-
-	/**
-	 * @see CalendarManager :: display_header()
-	 */
-	function display_header($breadcrumbs = array ())
-	{
-		return $this->get_parent()->display_header($breadcrumbs);
-	}
-
-	/**
-	 * @see CalendarManager :: display_message()
-	 */
-	function display_message($message)
-	{
-		return $this->get_parent()->display_message($message);
-	}
-
-	/**
-	 * @see CalendarManager :: display_error_message()
-	 */
-	function display_error_message($message)
-	{
-		return $this->get_parent()->display_error_message($message);
-	}
-
-	/**
-	 * @see CalendarManager :: display_warning_message()
-	 */
-	function display_warning_message($message)
-	{
-		return $this->get_parent()->display_warning_message($message);
-	}
-
-	/**
-	 * @see CalendarManager :: display_footer()
-	 */
-	function display_footer()
-	{
-		return $this->get_parent()->display_footer();
-	}
-
-	/**
-	 * @see CalendarManager :: display_error_page()
-	 */
-	function display_error_page($message)
-	{
-		$this->get_parent()->display_error_page($message);
-	}
-
-	/**
-	 * @see CalendarManager :: display_warning_page()
-	 */
-	function display_warning_page($message)
-	{
-		$this->get_parent()->display_warning_page($message);
-	}
-
-	/**
-	 * @see CalendarManager :: display_popup_form
-	 */
-	function display_popup_form($form_html)
-	{
-		$this->get_parent()->display_popup_form($form_html);
-	}
-
-	/**
-	 * @see CalendarManager :: get_parent
-	 */
-	function get_parent()
-	{
-		return $this->pm;
-	}
-
-	/**
-	 * @see CalendarManager :: get_web_code_path
-	 */
-	function get_path($path_type)
-	{
-		return $this->get_parent()->get_path($path_type);
 	}
 
 	function retrieve_calendar_event_publication($publication_id)
@@ -172,22 +28,6 @@ abstract class PersonalCalendarManagerComponent {
 	function get_events($from_date,$to_date)
 	{
 		return $this->get_parent()->get_events($from_date,$to_date);
-	}
-
-	/**
-	 * @see CalendarManager :: get_user()
-	 */
-	function get_user()
-	{
-		return $this->get_parent()->get_user();
-	}
-
-	/**
-	 * @see CalendarManager :: get_user_id()
-	 */
-	function get_user_id()
-	{
-		return $this->get_parent()->get_user_id();
 	}
 
 	/**
@@ -246,24 +86,6 @@ abstract class PersonalCalendarManagerComponent {
 	function force_menu_url($url)
 	{
 		return $this->get_parent()->force_menu_url($url);
-	}
-
-	/**
-	 * Create a new calendar component
-	 * @param string $type The type of the component to create.
-	 * @param Calendar $pm The pm in
-	 * which the created component will be used
-	 */
-	static function factory($type, $pm)
-	{
-		$filename = dirname(__FILE__).'/component/'.DokeosUtilities :: camelcase_to_underscores($type).'.class.php';
-		if (!file_exists($filename) || !is_file($filename))
-		{
-			die('Failed to load "'.$type.'" component');
-		}
-		$class = 'PersonalCalendarManager'.$type.'Component';
-		require_once $filename;
-		return new $class($pm);
 	}
 
 	function display_light_header($object = null)

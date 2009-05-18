@@ -14,12 +14,12 @@ require_once(Path :: get_admin_path().'lib/registration.class.php');
 abstract class Application
 {
 	const PARAM_APPLICATION = 'application';
-	
+
 	/**
 	 * Runs the application.
 	 */
 	abstract function run();
-	
+
 	/**
 	 * Determines whether the given learning object has been published in this
 	 * application.
@@ -28,7 +28,7 @@ abstract class Application
 	 *                 otherwise.
 	 */
 	abstract function learning_object_is_published($object_id);
-	
+
 	/**
 	 * Determines whether any of the given learning objects has been published
 	 * in this application.
@@ -37,7 +37,7 @@ abstract class Application
 	 * this application, false otherwise
 	 */
 	abstract function any_learning_object_is_published($object_ids);
-	
+
 	/**
 	 * Determines where in this application the given learning object has been
 	 * published.
@@ -46,7 +46,7 @@ abstract class Application
 	 *               empty if the object has not been published anywhere.
 	 */
 	abstract function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	/**
 	 * Determines where in this application the given learning object
 	 * publication is published.
@@ -54,7 +54,7 @@ abstract class Application
 	 * @return LearningObjectPublicationAttributes
 	 */
 	abstract function get_learning_object_publication_attribute($publication_id);
-	
+
 	/**
 	 * Counts the number of publications
 	 * @param string $type
@@ -62,32 +62,32 @@ abstract class Application
 	 * @return int
 	 */
 	abstract function count_publication_attributes($type = null, $condition = null);
-	
+
 	/**
 	 * Deletes all publications of a given learning object
 	 * @param int $object_id The id of the learning object
 	 */
 	abstract function delete_learning_object_publications($object_id);
-	
+
 	abstract function get_learning_object_publication_locations($learning_object);
-	
+
 	abstract function publish_learning_object($learning_object, $location);
-	
+
 	/**
 	 *
 	 */
 	abstract function update_learning_object_publication_id($publication_attr);
-	
+
 	/**
 	 * Gets the links to admin-components of this application
 	 */
 	abstract function get_application_platform_admin_links();
-	
+
 	/**
 	 * Gets a platform setting
 	 */
 	abstract function get_platform_setting($variable);
-	
+
 	/**
 	 * Loads the applications installed on the system. Applications are classes
 	 * in the /application/lib subdirectory. Each application is a directory,
@@ -118,16 +118,16 @@ abstract class Application
 		}
 		return $applications;
 	}
-	
+
 	public static function load_all($include_application_classes = true)
 	{
 		$path = Path :: get_application_path() . 'lib';
 		$adm = AdminDataManager :: get_instance();
 		$condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);
-		
+
 		$applications = $adm->retrieve_registrations($condition);
 		$active_applications = array();
-		
+
 		while ($application = $applications->next_result())
 		{
 			if ($include_application_classes)
@@ -136,10 +136,10 @@ abstract class Application
 			}
 			$active_applications[] = $application->get_name();
 		}
-		
+
 		return $active_applications;
 	}
-	
+
 	/**
 	 * Determines if a given name is the name of an application
 	 * @param string $name
@@ -150,7 +150,7 @@ abstract class Application
 	{
 		return (preg_match('/^[a-z][a-z_]+$/', $name) > 0);
 	}
-	
+
 	/**
 	 * Determines if a given application exists
 	 * @param string $name
@@ -170,7 +170,7 @@ abstract class Application
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Converts an application name to the corresponding class name.
 	 * @param string $application The application name.
@@ -178,7 +178,17 @@ abstract class Application
 	 */
 	public static function application_to_class($application)
 	{
-		return ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $application));
+		return DokeosUtilities :: underscores_to_camelcase($application);
+	}
+
+	/**
+	 * Converts a class name to the corresponding application name.
+	 * @param string $application The class name.
+	 * @return string The application name.
+	 */
+	public static function class_to_application($application)
+	{
+		return DokeosUtilities :: _camelcase_to_underscores($application);
 	}
 	/**
 	 * Creates a new instance of the given application
@@ -191,18 +201,18 @@ abstract class Application
 		$class = Application :: application_to_class($application) . 'Manager';
 		return new $class($user);
 	}
-	
+
 	public function is_active($application)
 	{
 		if (self :: is_application($application))
 		{
 			$adm = AdminDataManager :: get_instance();
-			
+
 			$conditions = array();
 			$conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, 'application');
 			$conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $application);
 			$condition = new AndCondition($conditions);
-			
+
 			$registrations = $adm->retrieve_registrations($condition);
 			if ($registrations->size() > 0)
 			{
