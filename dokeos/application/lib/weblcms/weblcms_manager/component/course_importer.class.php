@@ -20,6 +20,9 @@ class WeblcmsManagerCourseImporterComponent extends WeblcmsManagerComponent
 		$this_section='platform_admin';
 		
 		$trail = new BreadcrumbTrail();
+        $admin = new AdminManager();
+        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)).'#tabs-19', Translation :: get('Courses')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseImportCSV')));
 		
 		if (!$this->get_user()->is_platform_admin())
