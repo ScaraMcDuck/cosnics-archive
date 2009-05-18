@@ -227,7 +227,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 
 	function show_course_list()
 	{
-		$this->display_page_header(Translation :: get('SortMyCourses'));
+		$this->display_page_header();
 		$this->display_courses();
 		$this->display_footer();
 	}
@@ -236,7 +236,9 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'].'?application=weblcms', Translation :: get('MyCourses')));
-		$trail->add(new Breadcrumb($this->get_url(Request :: get('category')==null?'':array('category' => $_GET['category'])), $title));
+        $trail->add(new Breadcrumb('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'].'?go=sort&application=weblcms', Translation :: get('SortMyCourses')));
+        if(!empty($title))
+        $trail->add(new Breadcrumb($this->get_url(array('category' => Request :: get('category'))), $title));
 		$this->display_header($trail);
 		echo '<div class="clear"></div><br />';
 	}
