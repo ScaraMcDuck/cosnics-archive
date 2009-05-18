@@ -13,8 +13,6 @@ class FormGenerator
      */
     function FormGenerator() 
     {
-    	$this->template = new MyTemplate();
-    	$this->template->set_rootdir(dirname(__FILE__));
     }
     
     /**
@@ -26,6 +24,9 @@ class FormGenerator
      */
     function generate_form($location, $object_name, $properties, $author)
     {	
+    	$this->template = new MyTemplate();
+    	$this->template->set_rootdir(dirname(__FILE__));
+    	
     	if(!is_dir($location))
     		mkdir($location, 0777, true);
     	 

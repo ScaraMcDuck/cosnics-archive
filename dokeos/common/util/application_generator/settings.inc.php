@@ -2,7 +2,7 @@
 /**
  * Settings for dataclass generator
  */
-$application['location'] = dirname(__FILE__) . '/examples/linker/';
-$application['name'] = 'linker';
+$application['location'] = dirname(__FILE__) . '/examples/tester/';
+$application['name'] = 'tester';
 $application['author'] = 'Sven Vanpoucke';
 ?>
