@@ -12,6 +12,7 @@ require_once dirname(__FILE__).'/unsubscribe_browser/unsubscribe_browser_table.c
 class WeblcmsManagerUnsubscribeComponent extends WeblcmsManagerComponent
 {
 	private $category;
+    private $breadcrumbs;
 
 	/**
 	 * Runs this component and displays its output.
@@ -92,10 +93,14 @@ class WeblcmsManagerUnsubscribeComponent extends WeblcmsManagerComponent
 		}
 
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(null, false, true, array(WeblcmsManager :: PARAM_ACTION)), Translation :: get('MyCourses')));
+		$trail->add(new Breadcrumb('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'].'?application=weblcms', Translation :: get('MyCourses')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseUnsubscribe')));
 
 		$menu = $this->get_menu_html();
+
+        if(!empty($this->category))
+        $trail->add(new Breadcrumb($this->breadcrumbs[0]['url'], $this->breadcrumbs[0]['title']));
+        
 		$output = $this->get_course_html();
 
 		$this->display_header($trail);
@@ -132,6 +137,7 @@ class WeblcmsManagerUnsubscribeComponent extends WeblcmsManagerComponent
 		$url_format = $this->get_url(array (WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_UNSUBSCRIBE, WeblcmsManager :: PARAM_COURSE_CATEGORY_ID => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$category_menu = new CourseCategoryMenu($this->category, $url_format);
+        $this->breadcrumbs = $category_menu->get_breadcrumbs();
 
 		$html = array();
 		$html[] = '<div style="float: left; width: 20%;">';

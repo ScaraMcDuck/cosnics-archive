@@ -430,7 +430,7 @@ abstract class WeblcmsDataManager
 //	 * @return LearningObjectPublicationCategory The category, or null if it
 //	 *                                           could not be found.
 //	 */
-//	abstract function retrieve_learning_object_publication_category($id);
+	abstract function retrieve_learning_object_publication_category($id);
 //
 //	/**
 //	 * Returns the next available learning object publication category ID.
