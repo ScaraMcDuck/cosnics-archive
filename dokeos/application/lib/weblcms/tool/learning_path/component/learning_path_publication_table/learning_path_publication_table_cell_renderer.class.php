@@ -98,14 +98,6 @@ class LearningPathPublicationTableCellRenderer extends DefaultLearningObjectTabl
 	
 	function get_actions($publication) 
 	{
-		/*$execute = array(
-		'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_TAKE_EXERCISE, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())),
-		'label' => Translation :: get('Take exercise'),
-		'img' => Theme :: get_common_image_path().'action_right.png'
-		);*/
-		
-		//$actions[] = $execute;
-		
 		if ($this->browser->is_allowed(EDIT_RIGHT)) 
 		{
 			$actions[] = array(
