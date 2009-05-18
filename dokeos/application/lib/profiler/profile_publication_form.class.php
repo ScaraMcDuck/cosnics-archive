@@ -108,16 +108,16 @@ class ProfilePublicationForm extends FormValidator
     	$this->categories[0] = Translation :: get('Root');
 		$this->get_categories(0);
 		
-		if(count($this->categories) > 1)
+		//if(count($this->categories) > 1)
 		{
 			// More than one category -> let user select one
 			$this->addElement('select', ProfilePublication :: PROPERTY_CATEGORY, Translation :: get('Category'), $this->categories);
 		}
-		else
+		/*else
 		{
 			// Only root category -> store object in root category
 			$this->addElement('hidden',ProfilePublication :: PROPERTY_CATEGORY,0);
-		}
+		}*/
     }
     
     function add_footer()
