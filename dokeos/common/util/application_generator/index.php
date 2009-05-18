@@ -19,13 +19,16 @@ $data_class_generator = new DataClassGenerator();
 $form_generator = new FormGenerator();
 
 //Create Folders
+log_message('Creating folders...');
 create_folders($location, $name);
+log_message('Folders succesfully created.');
 
 /**
  * Parse XML files
  * Generate DataClasses
  * Generate Forms
  */
+log_message('Generating dataclasses and forms...');
 $files = FileSystem :: get_directory_content($location, FileSystem :: LIST_FILES);
 foreach($files as $file)
 {
@@ -43,21 +46,32 @@ foreach($files as $file)
 	
 	$classes[] = $classname;
 }
+log_message('Dataclasses and forms generated.');
 
 //Generate the Data Managers
+log_message('Generating data managers...');
 generate_data_managers($location, $name, $classes, $author);
+log_message('Data managers generated.');
 
 //Generate the Managers
+log_message('Generating managers...');
 generate_managers($location, $name, $classes, $author);
+log_message('Managers generated.');
 
 //Generate the Components
+log_message('Generating components...');
 generate_components($location, $name, $classes, $author);
+log_message('Components generated.');
 
 //Generate Rights Files
+log_message('Generating right files...');
 generate_rights_files($location, $name);
+log_message('Right files generated.');
 
 //Generate Install Files
+log_message('Generating install files...');
 generate_install_files($location, $name, $author);
+log_message('Install files generated.');
 
 /**
  * Create folders for the application
@@ -178,5 +192,15 @@ function generate_install_files($location, $name, $author)
 	$install_location = $location . 'install/';
 	$install_generator = new InstallGenerator();
 	$install_generator->generate_install_files($install_location, $name, $author);
+}
+
+/**
+ * Log a message to the screen
+ * @param String $message - The message
+ */
+function log_message($message)
+{
+	$total_message = date('[H:m:s] ') . $message . '<br />';
+	echo $total_message;
 }
 ?>
