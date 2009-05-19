@@ -18,6 +18,17 @@ class ToolEditComponent extends ToolComponent
                 $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $pid)));
 
                 $trail = new BreadcrumbTrail();
+
+                if(Request :: get('tool')=='blog' && isset($_SESSION['blog_breadcrumbs']))
+                {
+                    $breadcrumbs = $_SESSION['blog_breadcrumbs'];
+                    foreach($breadcrumbs as $breadcrumb)
+                    {
+                        $trail->add(new BreadCrumb($breadcrumb['url'], $breadcrumb['title']));
+                    }
+                }
+
+
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => $pid)), $learning_object->get_title()));
                
                 if( $form->validate() || $_GET['validated'])
