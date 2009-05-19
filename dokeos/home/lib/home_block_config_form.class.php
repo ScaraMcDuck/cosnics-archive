@@ -9,43 +9,43 @@ require_once dirname(__FILE__).'/home_block.class.php';
 require_once dirname(__FILE__).'/home_block_config.class.php';
 
 class HomeBlockConfigForm extends FormValidator {
-	
+
 	const RESULT_SUCCESS = 'ObjectUpdated';
 	const RESULT_ERROR = 'ObjectUpdateFailed';
-	
+
 	private $homeblock;
 	private $homeblock_config;
 	private $base_path;
 
     function HomeBlockConfigForm($homeblock, $action) {
     	parent :: __construct('home_block', 'post', $action);
-    	
+
     	$this->homeblock = $homeblock;
-    	$this->base_path = (Application :: is_application($this->homeblock->get_application()) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
+    	$this->base_path = (WebApplication :: is_application($this->homeblock->get_application()) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
     	$this->homeblock_config = $this->parse_block_settings();
 		$this->build_form();
 		$this->setDefaults();
     }
-    
+
     function build_form()
-    {    	
+    {
 		$homeblock = $this->homeblock;
 		$base_path = $this->base_path;
-		
+
 		$application = $homeblock->get_application();
 		$component = $homeblock->get_component();
-		
+
 		$homeblock_config = $this->homeblock_config;
-		
+
 		if (count($homeblock_config['settings']) > 0)
 		{
 			require_once $base_path . $application . '/block/connectors/block_' . $application . '_connector.class.php';
-			
+
 			foreach($homeblock_config['settings'] as $category_name => $settings)
 			{
 				$this->addElement('html', '<div class="configuration_form">');
 				$this->addElement('html', '<span class="category">'. Translation :: get(DokeosUtilities :: underscores_to_camelcase($category_name)) .'</span>');
-				
+
 				foreach($settings as $name => $setting)
 				{
 					if ($setting['locked'] == 'true')
@@ -63,13 +63,13 @@ class HomeBlockConfigForm extends FormValidator {
 						{
 							$options_source = $setting['options']['source'];
 							$class = 'Block' . Application :: application_to_class($application) . 'Connector';
-							$options = call_user_func(array($class, $options_source));					
+							$options = call_user_func(array($class, $options_source));
 						}
 						else
 						{
 							$options = $setting['options']['values'];
 						}
-						
+
 						if ($setting['field'] == 'radio' || $setting['field'] == 'checkbox')
 						{
 							$group = array();
@@ -85,11 +85,11 @@ class HomeBlockConfigForm extends FormValidator {
 						}
 					}
 				}
-				
+
 				$this->addElement('html', '<div style="clear: both;"></div>');
 				$this->addElement('html', '</div>');
 			}
-			
+
 			//$this->addElement('submit', 'submit', Translation :: get('Ok'));
 			$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
 			$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -101,15 +101,15 @@ class HomeBlockConfigForm extends FormValidator {
 			$this->addElement('html', Translation :: get('NoConfigurableSettings'));
 		}
     }
-    
+
     function update_block_config()
     {
-		$values = $this->exportValues();		
+		$values = $this->exportValues();
 		$homeblock = $this->homeblock;
 		$homeblock_config = $this->homeblock_config;
-		
+
 		$problems = 0;
-		
+
 		foreach($homeblock_config['settings'] as $category_name => $settings)
 		{
 			foreach($settings as $name => $setting)
@@ -120,7 +120,7 @@ class HomeBlockConfigForm extends FormValidator {
 					$block_config->set_block_id($homeblock->get_id());
 					$block_config->set_variable($name);
 					$block_config->set_value($values[$name]);
-					
+
 					if (!$block_config->update())
 					{
 						$problems++;
@@ -128,7 +128,7 @@ class HomeBlockConfigForm extends FormValidator {
 				}
 			}
 		}
-		
+
 		if ($problems > 0)
 		{
 			return false;
@@ -138,7 +138,7 @@ class HomeBlockConfigForm extends FormValidator {
 			return true;
 		}
     }
-    
+
 	/**
 	 * Sets default values. Traditionally, you will want to extend this method
 	 * so it sets default for your learning object type's additional
@@ -149,7 +149,7 @@ class HomeBlockConfigForm extends FormValidator {
 	{
 		$homeblock_config = $this->homeblock_config;
 		$homeblock_current_config = $this->homeblock->get_configuration();
-		
+
 		foreach($homeblock_config['settings'] as $category_name => $settings)
 		{
 			foreach($settings as $name => $setting)
@@ -162,48 +162,48 @@ class HomeBlockConfigForm extends FormValidator {
 				else
 				{
 					$defaults[$name] = $setting['default'];
-				} 
+				}
 			}
 		}
-		
+
 		parent :: setDefaults($defaults);
 	}
-	
+
 	function parse_block_settings()
 	{
 		$homeblock = $this->homeblock;
 		$base_path = $this->base_path;
-		
+
 		$application = $homeblock->get_application();
 		$component = $homeblock->get_component();
-		
+
 		$file = $base_path . $application . '/block/' . $application . '_' . $component . '.xml';
 		$result = array();
-		
+
 		if (file_exists($file))
 		{
 			$doc = new DOMDocument();
 			$doc->load($file);
 			$object = $doc->getElementsByTagname('block')->item(0);
 			$name = $object->getAttribute('name');
-			
+
 			// Get categories
 			$categories = $doc->getElementsByTagname('category');
 			$settings = array();
-			
+
 			foreach($categories as $index => $category)
 			{
 				$category_name = $category->getAttribute('name');
 				$category_properties = array();
-				
+
 				// Get settings in category
 				$properties = $category->getElementsByTagname('setting');
 				$attributes = array('field', 'default', 'locked');
-				
+
 				foreach($properties as $index => $property)
 				{
 					$property_info = array();
-					
+
 					foreach($attributes as $index => $attribute)
 					{
 						if($property->hasAttribute($attribute))
@@ -211,7 +211,7 @@ class HomeBlockConfigForm extends FormValidator {
 					 		$property_info[$attribute] = $property->getAttribute($attribute);
 					 	}
 					}
-					
+
 					if ($property->hasChildNodes())
 					{
 						$property_options = $property->getElementsByTagname('options')->item(0);
@@ -223,7 +223,7 @@ class HomeBlockConfigForm extends FormValidator {
 						 		$property_info['options'][$options_attribute] = $property_options->getAttribute($options_attribute);
 						 	}
 						}
-						
+
 						if ($property_options->getAttribute('type') == 'static' && $property_options->hasChildNodes())
 						{
 							$options = $property_options->getElementsByTagname('option');
@@ -237,14 +237,14 @@ class HomeBlockConfigForm extends FormValidator {
 					}
 					$category_properties[$property->getAttribute('name')] = $property_info;
 				}
-				
+
 				$settings[$category_name] = $category_properties;
 			}
-			
+
 			$result['name'] = $name;
 			$result['settings'] = $settings;
 		}
-		
+
 		return $result;
 	}
 }

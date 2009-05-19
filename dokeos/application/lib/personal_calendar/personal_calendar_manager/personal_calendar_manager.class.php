@@ -97,13 +97,12 @@ class PersonalCalendarManager extends WebApplication
 
 	public function get_user_events($from_date, $to_date)
 	{
-		$events = array();
 
 		$dm = PersonalCalendarDatamanager::get_instance();
 		$condition = new EqualityCondition(CalendarEventPublication :: PROPERTY_PUBLISHER, $this->get_user_id());
 		$publications = $dm->retrieve_calendar_event_publications($condition);
 
-		$query = Request :: post('query');
+		//$query = Request :: post('query');
 
 		return $this->render_personal_calendar_events($publications, $from_date, $to_date);
 	}
@@ -120,7 +119,7 @@ class PersonalCalendarManager extends WebApplication
 			$application = preg_replace(PersonalCalendarManager :: APPLICATION_NAME, '', $application, 1);
 			$application = DokeosUtilities :: camelcase_to_underscores($application);
 
-			if (Application :: is_active($application))
+			if (WebApplication :: is_active($application))
 			{
 				$file_class = split('.class.php', $file);
 				require_once dirname(__FILE__) . '/../connector/' . $file;

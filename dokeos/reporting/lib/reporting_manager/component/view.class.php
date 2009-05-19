@@ -18,11 +18,11 @@ class ReportingManagerViewComponent extends ReportingManagerComponent
 	{
 		//$template = $this->template = Request :: get('template');
         $template = Request :: get(ReportingManager :: PARAM_TEMPLATE_ID);
-        
+
         $params = Reporting :: get_params($this);
 
         $reporting_template_registration = $this->retrieve_reporting_template_registration($template);
-        
+
         $trail = new BreadcrumbTrail();
         $admin = new AdminManager();
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
@@ -71,7 +71,7 @@ class ReportingManagerViewComponent extends ReportingManagerComponent
 //		}
 //
 //        $application = $reporting_template_registration->get_application();
-//        $base_path = (Application :: is_application($application) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
+//        $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
 //        $file = $base_path .$application. '/reporting/templates/'.DokeosUtilities :: camelcase_to_underscores($reporting_template_registration->get_classname()).'.class.php';;
 //        require_once($file);
 //

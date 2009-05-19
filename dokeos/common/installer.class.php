@@ -367,7 +367,7 @@ abstract class Installer
     {
         $application = $this->get_application();
 
-        $base_path = (Application :: is_application($application) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
+        $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
 
         $file = $base_path .$application. '/reporting/reporting_blocks.xml';
 
@@ -445,7 +445,7 @@ abstract class Installer
     {
         $application = $this->get_application();
 
-        $base_path = (Application :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
+        $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
 
         $dir = $base_path . $application . '/trackers/tracker_tables/';
 
@@ -465,7 +465,7 @@ abstract class Installer
             }
         }
 
-        $path = (Application :: is_application($application) ? 'application/lib/' : '') . $application . '/trackers/';
+        $path = (WebApplication :: is_application($application) ? 'application/lib/' : '') . $application . '/trackers/';
 
         $trackers_file = $base_path . $application . '/trackers/trackers_'. $application .'.xml';
 
@@ -530,7 +530,7 @@ abstract class Installer
     {
         $application = $this->get_application();
 
-        $base_path = (Application :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
+        $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
 
         $settings_file = $base_path . $application . '/settings/settings_'. $application .'.xml';
 
@@ -560,7 +560,7 @@ abstract class Installer
     {
         $application = $this->get_application();
 
-        if (Application :: is_application($application))
+        if (WebApplication :: is_application($application))
         {
             $this->add_message(self :: TYPE_NORMAL, Translation :: get('RegisteringApplication'));
 
@@ -591,7 +591,7 @@ abstract class Installer
     {
         $application = $this->get_application();
 
-        $base_path = (Application :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
+        $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
 
         $path = $base_path . '/' . $application . '/webservices/';
 
@@ -790,7 +790,7 @@ abstract class Installer
     static function factory($application, $values)
     {
         $class = Application :: application_to_class($application) . 'Installer';
-        $base_path = (Application :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
+        $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
 
         require_once($base_path . $application . '/install/'. $application .'_installer.class.php');
         return new $class ($values);

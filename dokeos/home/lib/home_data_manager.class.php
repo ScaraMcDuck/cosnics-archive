@@ -5,7 +5,7 @@
  */
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once dirname(__FILE__).'/../../repository/lib/repository_data_manager.class.php';
-require_once dirname(__FILE__).'/../../application/lib/application.class.php';
+require_once Path :: get_library_path() . 'application.class.php';
 
 /**
  *	This is a skeleton for a data manager for the Users table.
@@ -28,14 +28,14 @@ abstract class HomeDataManager
 	{
 		$this->initialize();
 	}
-	
+
 	/**
 	 * Initializes the data manager.
 	 */
 	abstract function initialize();
-	
+
 	abstract function get_next_home_column_id();
-	
+
 	abstract function get_next_home_block_id();
 
 	/**
@@ -55,7 +55,7 @@ abstract class HomeDataManager
 		}
 		return self :: $instance;
 	}
-	
+
 	/**
 	 * Creates a storage unit
 	 * @param string $name Name of the storage unit
@@ -64,74 +64,74 @@ abstract class HomeDataManager
 	 * storage unit
 	 */
 	abstract function create_storage_unit($name,$properties,$indexes);
-	
+
 	abstract function count_home_rows($condition = null);
-	
+
 	abstract function count_home_columns($condition = null);
-	
+
 	abstract function count_home_blocks($condition = null);
-	
+
 	abstract function retrieve_home_rows($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	abstract function retrieve_home_column($id);
-	
+
 	abstract function retrieve_home_columns($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	abstract function retrieve_home_block($id);
-	
+
 	abstract function retrieve_home_blocks($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	abstract function retrieve_home_tab($id);
-	
+
 	abstract function retrieve_home_tab_blocks($home_tab);
-	
+
 	abstract function retrieve_home_tabs($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	abstract function truncate_home($user_id);
-	
+
 	abstract function retrieve_home_row_at_sort($sort, $direction);
-	
+
 	abstract function retrieve_home_column_at_sort($parent, $sort, $direction);
-	
+
 	abstract function retrieve_home_block_at_sort($parent, $sort, $direction);
-	
+
 	abstract function update_home_block($home_block);
-	
+
 	abstract function update_home_block_config($home_block_config);
-	
+
 	abstract function update_home_column($home_column);
-	
+
 	abstract function update_home_row($home_row);
-	
+
 	abstract function update_home_tab($home_tab);
-	
+
 	abstract function create_home_row($home_row);
-	
+
 	abstract function create_home_column($home_column);
-	
+
 	abstract function create_home_block($home_block);
-	
+
 	abstract function create_home_block_config($home_block_config);
-	
+
 	abstract function delete_home_row($home_row);
-	
+
 	abstract function delete_home_tab($home_tab);
-	
+
 	abstract function delete_home_column($home_column);
-	
+
 	abstract function delete_home_block($home_block);
-	
+
 	abstract function delete_home_block_config($home_block_config);
-	
+
 	abstract function delete_home_block_configs($home_block);
-	
+
 	abstract function retrieve_home_block_config($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	abstract function count_home_block_config($condition = null);
-	
+
 	function retrieve_block_properties($application, $component)
 	{
-		if (Application :: is_application($application))
+		if (WebApplication :: is_application($application))
 		{
 			$path = dirname(__FILE__).'/../../application/lib/'. $application . '/block/'. $application . '_' . $component . '.xml';
 		}
@@ -139,7 +139,7 @@ abstract class HomeDataManager
 		{
 			$path = dirname(__FILE__).'/../../'. $application . '/block/'. $application . '_' . $component . '.xml';
 		}
-		
+
 		if (file_exists($path))
 		{
 			$doc = new DOMDocument();
@@ -151,33 +151,33 @@ abstract class HomeDataManager
 			{
 				 $properties[$property->getAttribute('name')] = $property->getAttribute('default');
 			}
-			
+
 			return $properties;
 		}
 		else
 		{
 			return null;
 		}
-	}	
-	
+	}
+
 	function create_block_properties($block)
 	{
     	$homeblockconfigs = $this->retrieve_block_properties($block->get_application(), $block->get_component());
-    	
+
     	foreach ($homeblockconfigs as $variable => $value)
     	{
     		$homeblockconfig = new HomeBlockConfig($block->get_id());
     		{
     			$homeblockconfig->set_variable($variable);
     			$homeblockconfig->set_value($value);
-    			
+
     			if (!$homeblockconfig->create())
     			{
     				return false;
     			}
     		}
     	}
-    	
+
     	return true;
 	}
 }

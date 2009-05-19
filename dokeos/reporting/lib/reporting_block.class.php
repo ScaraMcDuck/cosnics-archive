@@ -84,7 +84,7 @@ class ReportingBlock{
     private function retrieve_data()
     {
         //require_once($this->get_applicationUrl());
-        $base_path = (Application :: is_application($this->get_application()) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
+        $base_path = (WebApplication :: is_application($this->get_application()) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
 
         $file = $base_path .$this->get_application(). '/reporting/reporting_'.$this->get_application().'.class.php';
         require_once $file;
@@ -150,7 +150,7 @@ class ReportingBlock{
         $chartdata = $data[0];
         $names = sizeof($chartdata);
         $series = sizeof($datadescription["Values"]);
-        
+
         $modes = $this->get_available_displaymodes();
         $excluded = $this->get_excluded_displaymodes();
         $excluded = explode(',',$excluded);
