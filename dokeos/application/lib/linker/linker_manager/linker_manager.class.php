@@ -64,43 +64,43 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 		}
 		$component->run();
 	}
-	
+
 	// Data Retrieving
-	
+
 	function count_links($condition)
 	{
 		return LinkerDataManager :: get_instance()->count_links($condition);
 	}
-	
+
 	function retrieve_links($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return LinkerDataManager :: get_instance()->retrieve_links($condition, $offset, $count, $order_property, $order_direction);
 	}
-	
+
  	function retrieve_link($id)
 	{
 		return LinkerDataManager :: get_instance()->retrieve_link($id);
 	}
-	
+
 	// Url Creation
-	
+
 	function get_create_link_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_LINK));
 	}
-	
+
 	function get_update_link_url($link)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_LINK,
 								    self :: PARAM_LINK_ID => $link->get_id()));
 	}
-	
+
  	function get_delete_link_url($link)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_LINK,
 								    self :: PARAM_LINK_ID => $link->get_id()));
 	}
-	
+
 	// Dummy Methods which are needed because we don't work with learning objects
 	function learning_object_is_published($object_id)
 	{
@@ -116,38 +116,47 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 
 	function get_learning_object_publication_attribute($object_id)
 	{
-		
+
 	}
 
 	function count_publication_attributes($type = null, $condition = null)
 	{
-		
+
 	}
 
 	function delete_learning_object_publications($object_id)
 	{
-		
+
 	}
 
 	function update_learning_object_publication_id($publication_attr)
 	{
-		
+
 	}
-		
+
 	function get_learning_object_publication_locations($learning_object)
 	{
-		
+
 	}
-	
+
 	function publish_learning_object($learning_object, $location)
 	{
-		
+
 	}
-	
+
+	/**
+	 * Helper function for the Application class,
+	 * pending access to class constants via variables in PHP 5.3
+	 * e.g. $name = $class :: APPLICATION_NAME
+	 *
+	 * DO NOT USE IN THIS APPLICATION'S CONTEXT
+	 * Instead use:
+	 * - self :: APPLICATION_NAME in the context of this class
+	 * - YourApplicationManager :: APPLICATION_NAME in all other application classes
+	 */
 	function get_application_name()
 	{
 		return self :: APPLICATION_NAME;
 	}
-
 }
 ?>

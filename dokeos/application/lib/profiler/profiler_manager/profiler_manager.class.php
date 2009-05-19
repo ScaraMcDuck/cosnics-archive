@@ -53,9 +53,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	 */
     function ProfilerManager($user = null)
     {
-    	$this->user = $user;
-		$this->parameters = array ();
-		$this->set_action($_GET[self :: PARAM_ACTION]);
+    	parent :: __construct($user);
 		$this->parse_input_from_table();
 
 		if (isset($_GET[ProfilerManager :: PARAM_FIRSTLETTER]))
@@ -102,33 +100,16 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		}
 		$component->run();
 	}
-	
+
     /**
-	 * Renders the profiler block and returns it. 
+	 * Renders the profiler block and returns it.
 	 */
 	function render_block($block)
 	{
 		$block = ProfilerBlock :: factory($this, $block);
 		return $block->run();
 	}
-	
-	/**
-	 * Gets the current action.
-	 * @see get_parameter()
-	 * @return string The current action.
-	 */
-	function get_action()
-	{
-		return $this->get_parameter(self :: PARAM_ACTION);
-	}
-	/**
-	 * Sets the current action.
-	 * @param string $action The new action.
-	 */
-	function set_action($action)
-	{
-		return $this->set_parameter(self :: PARAM_ACTION, $action);
-	}
+
 	/**
 	 * Displays the header.
 	 * @param array $breadcrumbs Breadcrumbs to show in the header.
@@ -141,7 +122,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		{
 			$breadcrumbtrail = new BreadcrumbTrail();
 		}
-		
+
 		$categories = $this->breadcrumbs;
 		if (count($categories) > 0)
 		{
@@ -150,7 +131,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 				$breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
 			}
 		}
-		
+
 		$title = $breadcrumbtrail->get_last()->get_name();
 		$title_short = $title;
 		if (strlen($title_short) > 53)
@@ -253,61 +234,6 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	}
 
 	/**
-	 * Displays a normal message.
-	 * @param string $message The message.
-	 */
-	function display_message($message)
-	{
-		Display :: normal_message($message);
-	}
-	/**
-	 * Displays an error message.
-	 * @param string $message The message.
-	 */
-	function display_error_message($message)
-	{
-		Display :: error_message($message);
-	}
-	/**
-	 * Displays a warning message.
-	 * @param string $message The message.
-	 */
-	function display_warning_message($message)
-	{
-		Display :: warning_message($message);
-	}
-	/**
-	 * Displays an error page.
-	 * @param string $message The message.
-	 */
-	function display_error_page($message)
-	{
-		$this->display_header();
-		$this->display_error_message($message);
-		$this->display_footer();
-	}
-
-	/**
-	 * Displays a warning page.
-	 * @param string $message The message.
-	 */
-	function display_warning_page($message)
-	{
-		$this->display_header();
-		$this->display_warning_message($message);
-		$this->display_footer();
-	}
-
-	/**
-	 * Displays a popup form.
-	 * @param string $message The message.
-	 */
-	function display_popup_form($form_html)
-	{
-		Display :: normal_message($form_html);
-	}
-
-	/**
 	 * Gets the parameter list
 	 * @param boolean $include_search Include the search parameters in the
 	 * returned list?
@@ -317,42 +243,10 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	{
 		if ($include_search && isset ($this->search_parameters))
 		{
-			return array_merge($this->search_parameters, $this->parameters);
+			return array_merge($this->search_parameters, parent :: get_parameters());
 		}
 
-		return $this->parameters;
-	}
-	/**
-	 * Gets the value of a parameter.
-	 * @param string $name The parameter name.
-	 * @return string The parameter value.
-	 */
-	function get_parameter($name)
-	{
-		return $this->parameters[$name];
-	}
-	/**
-	 * Sets the value of a parameter.
-	 * @param string $name The parameter name.
-	 * @param mixed $value The parameter value.
-	 */
-	function set_parameter($name, $value)
-	{
-		$this->parameters[$name] = $value;
-	}
-
-	/**
-	 * Redirect the end user to another location.
-	 * @param string $action The action to take (default = browse learning
-	 * objects).
-	 * @param string $message The message to show (default = no message).
-	 * @param int $new_category_id The category to show (default = root
-	 * category).
-	 * @param boolean $error_message Is the passed message an error message?
-	 */
-	function redirect($action = null, $message = null, $error_message = false, $extra_params = array())
-	{
-		return parent :: redirect($action, $message, $error_message, $extra_params);
+		return parent :: get_parameters();
 	}
 
 	/**
@@ -362,89 +256,6 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	function force_menu_url($url)
 	{
 		//$this->get_category_menu()->forceCurrentUrl($url);
-	}
-	/**
-	 * Gets an URL.
-	 * @param array $additional_parameters Additional parameters to add in the
-	 * query string (default = no additional parameters).
-	 * @param boolean $include_search Include the search parameters in the
-	 * query string of the URL? (default = false).
-	 * @param boolean $encode_entities Apply php function htmlentities to the
-	 * resulting URL ? (default = false).
-	 * @return string The requested URL.
-	 */
-	function get_url($additional_parameters = array (), $include_search = false, $encode_entities = false, $x = null)
-	{
-		$eventual_parameters = array_merge($this->get_parameters($include_search), $additional_parameters);
-		$url = $_SERVER['PHP_SELF'].'?'.http_build_query($eventual_parameters);
-		if ($encode_entities)
-		{
-			$url = htmlentities($url);
-		}
-
-		return $url;
-	}
-	/**
-	 * Gets the user id.
-	 * @return int The requested user id.
-	 */
-	function get_user_id()
-	{
-		return $this->user->get_id();
-	}
-
-	/**
-	 * Gets the user.
-	 * @return int The requested user.
-	 */
-	function get_user()
-	{
-		return $this->user;
-	}
-
-	/**
-	 * Gets the URL to the Dokeos claroline folder.
-	 */
-	function get_path($path_type)
-	{
-		return Path :: get($path_type);
-	}
-	/**
-	 * Wrapper for Display :: not_allowed();.
-	 */
-	function not_allowed()
-	{
-		Display :: not_allowed();
-	}
-
-	/**
-	 * Returns a list of actions available to the admin.
-	 * @return Array $info Contains all possible actions.
-	 */
-	public function get_application_platform_admin_links()
-	{
-		$links = array();
-		return array ('application' => array ('name' => self :: APPLICATION_NAME, 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES)));
-	}
-
-	/**
-	 * Return a link to a certain action of this application
-	 * @param array $paramaters The parameters to be added to the url
-	 * @param boolean $encode Should the url be encoded ?
-	 */
-	public function get_link($parameters = array (), $encode = false)
-	{
-		$link = 'run.php';
-		$parameters['application'] = self::APPLICATION_NAME;
-		if (count($parameters))
-		{
-			$link .= '?'.http_build_query($parameters);
-		}
-		if ($encode)
-		{
-			$link = htmlentities($link);
-		}
-		return $link;
 	}
 
 	/**
@@ -575,24 +386,24 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		$pmdm = ProfilerDataManager :: get_instance();
 		return $pmdm->retrieve_profile_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
-		
+
 	/**
 	 * Inherited
 	 */
 	function get_learning_object_publication_locations($learning_object)
 	{
 		$allowed_types = array('profile');
-		
+
 		$type = $learning_object->get_type();
 		if(in_array($type, $allowed_types))
 		{
 			$locations = array(__CLASS__);
 			return $locations;
 		}
-		
-		return array();	
+
+		return array();
 	}
-	
+
 	function publish_learning_object($learning_object, $location)
 	{
 		$publication = new ProfilePublication();
@@ -603,7 +414,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		$publication->create();
 		return Translation :: get('PublicationCreated');
 	}
-	
+
 	/**
 	 * Gets the url for deleting a profile publication
 	 * @param PersonalMessagePublication
@@ -613,7 +424,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_PUBLICATION, self :: PARAM_PROFILE_ID => $profile->get_id()));
 	}
-	
+
 	/**
 	 * Gets the url for editing a profile publication
 	 * @param PersonalMessagePublication
@@ -663,7 +474,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_PROFILES));
 	}
-	
+
 	function get_profiler_category_manager_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES));
@@ -732,12 +543,17 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 			}
 		}
 	}
-	
-	function get_platform_setting($variable, $application = self :: APPLICATION_NAME)
-	{
-		return PlatformSetting :: get($variable, $application = self :: APPLICATION_NAME);
-	}
-	
+
+	/**
+	 * Helper function for the Application class,
+	 * pending access to class constants via variables in PHP 5.3
+	 * e.g. $name = $class :: APPLICATION_NAME
+	 *
+	 * DO NOT USE IN THIS APPLICATION'S CONTEXT
+	 * Instead use:
+	 * - self :: APPLICATION_NAME in the context of this class
+	 * - YourApplicationManager :: APPLICATION_NAME in all other application classes
+	 */
 	function get_application_name()
 	{
 		return self :: APPLICATION_NAME;

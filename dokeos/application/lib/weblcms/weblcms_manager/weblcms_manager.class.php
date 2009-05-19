@@ -1244,16 +1244,21 @@ class WeblcmsManager extends WebApplication
 		return $info;
 	}
 
-	function get_parent()
-	{
-		return $this;
-	}
-
     function get_reporting_url($classname, $params)
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, ReportingManager::PARAM_TEMPLATE_NAME => $classname, ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS => $params));
     }
 
+	/**
+	 * Helper function for the Application class,
+	 * pending access to class constants via variables in PHP 5.3
+	 * e.g. $name = $class :: APPLICATION_NAME
+	 *
+	 * DO NOT USE IN THIS APPLICATION'S CONTEXT
+	 * Instead use:
+	 * - self :: APPLICATION_NAME in the context of this class
+	 * - YourApplicationManager :: APPLICATION_NAME in all other application classes
+	 */
 	function get_application_name()
 	{
 		return self :: APPLICATION_NAME;

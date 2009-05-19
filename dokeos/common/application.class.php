@@ -38,7 +38,7 @@ abstract class Application
 	 *                        to false.
 	 * @return string The URL.
 	 */
-	function get_url($parameters = array (), $encode_entities = false, $filter = array())
+	public function get_url($parameters = array (), $filter = array(), $encode_entities = false)
 	{
 		$parameters = (count($parameters) ? array_merge($this->get_parameters(), $parameters) : $this->get_parameters());
 		return Redirect :: get_url($parameters, $filter, $encode_entities);
@@ -49,13 +49,13 @@ abstract class Application
 	 * @param array $parameters
 	 * @param boolean $encode
 	 */
-	public function get_link($parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_APPLICATION)
+	public function get_link($parameters = array (), $filter = array(), $encode_entities = false, $application_type = Redirect :: TYPE_APPLICATION)
 	{
 		// Use this untill PHP 5.3 is available
 		// Then use get_class($this) :: APPLICATION_NAME
 		// and remove the get_application_name function();
 		$application = $this->get_application_name();
-		return Redirect :: get_link($application, $parameters, $filter, $encode_entities, $type);
+		return Redirect :: get_link($application, $parameters, $filter, $encode_entities, $application_type);
 	}
 
 	/**
@@ -336,7 +336,7 @@ abstract class Application
 		$application = $this->get_application_name();
 
 		$info = array();
-		$info['application'] = array('name' => $application, 'class' => $application);
+		$info['application'] = array('name' => Translation :: get(self :: application_to_class($application)), 'class' => $application);
 		$info['links'] = array();
 		$info['search'] = null;
 
@@ -415,10 +415,6 @@ abstract class Application
 
     abstract function get_application_path($application_name);
 
-    public function get_application_component_path()
-    {
-        $application_name = $this->get_application_name();
-        return $this->get_application_path($application_name) . $application_name . '_manager/component/';
-    }
+	abstract function get_application_component_path();
 }
 ?>

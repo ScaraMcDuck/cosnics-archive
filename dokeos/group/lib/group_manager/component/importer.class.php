@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../../forms/group_import_form.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class GroupManagerImporterComponent extends GroupManagerComponent
-{	
+{
 	/**
 	 * Runs this component and displays its output.
 	 */
@@ -18,7 +18,7 @@ class GroupManagerImporterComponent extends GroupManagerComponent
 		$admin = new AdminManager();
 		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('GroupCreateCsv')));
-		
+
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($trail);
@@ -26,13 +26,13 @@ class GroupManagerImporterComponent extends GroupManagerComponent
 			$this->display_footer();
 			exit;
 		}
-		
+
 		$form = new GroupImportForm(GroupImportForm :: TYPE_IMPORT, $this->get_url(), $this->get_user());
-		
+
 		if($form->validate())
 		{
 			$success = $form->import_groups();
-			$this->redirect('url', Translation :: get($success ? 'GroupCreatedCsv' : 'GroupNotCreatedCsv'), ($success ? false : true), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
+			$this->redirect(Translation :: get($success ? 'GroupCreatedCsv' : 'GroupNotCreatedCsv'), ($success ? false : true), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
 		}
 		else
 		{
@@ -42,7 +42,7 @@ class GroupManagerImporterComponent extends GroupManagerComponent
 			$this->display_footer();
 		}
 	}
-	
+
 	function display_extra_information()
 	{
 		$html = array();
@@ -66,8 +66,8 @@ class GroupManagerImporterComponent extends GroupManagerComponent
 		$html[] = '&lt;/groups&gt;';
 		$html[] = '</pre>';
 		$html[] = '</blockquote>';
-		
-		echo implode($html, "\n");		
+
+		echo implode($html, "\n");
 	}
 }
 ?>

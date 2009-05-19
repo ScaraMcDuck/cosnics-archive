@@ -27,6 +27,14 @@ class ApplicationComponent
     }
 
 	/**
+	 * @return String $id The application component id
+	 */
+	function get_component_id()
+	{
+		return $this->id;
+	}
+
+	/**
 	 * @return Application $manager The web application
 	 */
 	function get_parent()
@@ -152,6 +160,14 @@ class ApplicationComponent
 	function display_popup_form($form_html)
 	{
 		$this->get_parent()->display_popup_form($form_html);
+	}
+
+	/**
+	 * @see Application :: not_allowed()
+	 */
+	function not_allowed()
+	{
+		$this->get_parent()->not_allowed();
 	}
 
 	/**
