@@ -2,7 +2,7 @@
 /**
  * @package application.lib.linker.linker_manager
  */
-require Path :: get_application_path() . 'lib/web_application_component.class.php';
+require_once Path :: get_application_path() . 'lib/web_application_component.class.php';
 
 abstract class LinkerManagerComponent extends WebApplicationComponent
 {
