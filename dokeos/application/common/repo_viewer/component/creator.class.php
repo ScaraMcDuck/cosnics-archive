@@ -13,7 +13,7 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
  * This class represents a encyclopedia repo_viewer component which can be used
  * to create a new learning object before publishing it.
  */
-abstract class RepoViewerCreatorComponent extends RepoViewerComponent
+class RepoViewerCreatorComponent extends RepoViewerComponent
 {
 	/*
 	 * Inherited

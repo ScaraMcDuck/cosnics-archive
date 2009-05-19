@@ -6,7 +6,7 @@
  */
 require_once dirname(__FILE__).'/../personal_calendar_manager.class.php';
 require_once dirname(__FILE__).'/../personal_calendar_manager_component.class.php';
-require_once dirname(__FILE__).'/../../calendar_event_repo_viewer.class.php';
+require_once Path :: get_application_library_path(). 'repo_viewer/repo_viewer.class.php';
 require_once dirname(__FILE__).'/../../publisher/calendar_event_publisher.class.php';
 
 class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManagerComponent
@@ -22,7 +22,7 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManagerC
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
 		
 		$object = $_GET['object'];
-		$pub = new CalendarEventRepoViewer($this, 'calendar_event', true);
+		$pub = new RepoViewer($this, 'calendar_event', true);
 		
 		if(!isset($object))
 		{	
