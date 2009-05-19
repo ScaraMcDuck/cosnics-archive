@@ -1,6 +1,6 @@
 <?php
 
-class WebApplicationComponent
+class ApplicationComponent
 {
 	/**
 	 * The application manager in which this component is used
@@ -18,16 +18,16 @@ class WebApplicationComponent
 	private $id;
 
 	/**
-	 * The WebApplicationComponent constructor
+	 * The ApplicationComponent constructor
 	 */
-    function WebApplicationComponent($manager)
+    function ApplicationComponent($manager)
     {
     	$this->manager = $manager;
     	$this->id =  ++self :: $component_count;
     }
 
 	/**
-	 * @return WebApplication $manager The web application
+	 * @return Application $manager The web application
 	 */
 	function get_parent()
 	{
@@ -35,7 +35,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: simple_redirect()
+	 * @see Application :: simple_redirect()
 	 */
 	function simple_redirect($parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
 	{
@@ -43,7 +43,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: redirect()
+	 * @see Application :: redirect()
 	 */
 	function redirect($message = '', $error_message = false, $parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
 	{
@@ -51,7 +51,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: get_parameter()
+	 * @see Application :: get_parameter()
 	 */
 	function get_parameter($name)
 	{
@@ -59,7 +59,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: get_parameters()
+	 * @see Application :: get_parameters()
 	 */
 	function get_parameters()
 	{
@@ -67,7 +67,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: set_parameter()
+	 * @see Application :: set_parameter()
 	 */
 	function set_parameter($name, $value)
 	{
@@ -75,7 +75,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: get_url()
+	 * @see Application :: get_url()
 	 */
 	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
 	{
@@ -83,7 +83,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: get_link()
+	 * @see Application :: get_link()
 	 */
 	function get_link($parameters = array (), $filter = array(), $encode = false)
 	{
@@ -91,7 +91,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: display_header()
+	 * @see Application :: display_header()
 	 */
 	function display_header($breadcrumbs = array ())
 	{
@@ -99,7 +99,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: display_message()
+	 * @see Application :: display_message()
 	 */
 	function display_message($message)
 	{
@@ -107,7 +107,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: display_error_message()
+	 * @see Application :: display_error_message()
 	 */
 	function display_error_message($message)
 	{
@@ -115,7 +115,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: display_warning_message()
+	 * @see Application :: display_warning_message()
 	 */
 	function display_warning_message($message)
 	{
@@ -123,7 +123,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: display_footer()
+	 * @see Application :: display_footer()
 	 */
 	function display_footer()
 	{
@@ -131,7 +131,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: display_error_page()
+	 * @see Application :: display_error_page()
 	 */
 	function display_error_page($message)
 	{
@@ -139,7 +139,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: display_warning_page()
+	 * @see Application :: display_warning_page()
 	 */
 	function display_warning_page($message)
 	{
@@ -147,7 +147,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: display_popup_form
+	 * @see Application :: display_popup_form
 	 */
 	function display_popup_form($form_html)
 	{
@@ -155,7 +155,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: get_path
+	 * @see Application :: get_path
 	 */
 	function get_path($path_type)
 	{
@@ -163,7 +163,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: get_platform_setting
+	 * @see Application :: get_platform_setting
 	 */
 	function get_platform_setting($variable)
 	{
@@ -171,7 +171,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: get_user()
+	 * @see Application :: get_user()
 	 */
 	function get_user()
 	{
@@ -179,7 +179,7 @@ class WebApplicationComponent
 	}
 
 	/**
-	 * @see WebApplication :: get_user_id()
+	 * @see Application :: get_user_id()
 	 */
 	function get_user_id()
 	{
@@ -197,11 +197,9 @@ class WebApplicationComponent
 		$application_name = $manager->get_application_name();
 		$application_class = Application :: application_to_class($application_name);
 
-		$file_path = $manager->get_application_path();
-		$file_name = DokeosUtilities :: camelcase_to_underscores($type) . '.class.php';
-		$full_path = $file_path . $file_name;
+		$file = $manager->get_application_component_path() . DokeosUtilities :: camelcase_to_underscores($type) . '.class.php';
 
-		if (!file_exists($full_path) || !is_file($full_path))
+		if (!file_exists($file) || !is_file($file))
 		{
 			$message = Translation :: get('ComponentFailedToLoad'). ': ';
 			$message .= Translation :: get($application_class) . ' ==> ';
@@ -210,7 +208,7 @@ class WebApplicationComponent
 		}
 
 		$class = $application_class . 'Manager' . $type . 'Component';
-		require_once $full_path;
+		require_once $file;
 		return new $class($manager);
 	}
 }

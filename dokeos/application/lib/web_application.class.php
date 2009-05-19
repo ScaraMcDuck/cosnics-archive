@@ -10,12 +10,6 @@ require_once Path :: get_admin_path() . 'lib/registration.class.php';
 
 abstract class WebApplication extends Application
 {
-
-    /**
-     * Runs the application.
-     */
-    abstract function run();
-
     /**
      * Determines whether the given learning object has been published in this
      * application.
@@ -180,5 +174,18 @@ abstract class WebApplication extends Application
             return false;
         }
     }
+
+    public function get_application_path()
+    {
+        $application_name = $this->get_application_name();
+        return Path :: get_application_path() . '/lib/' . $application_name;
+    }
+
+    public function get_application_component_path()
+    {
+        $application_name = $this->get_application_name();
+        return $this->get_application_path() . '/' . $application_name . '_manager/component/';
+    }
+
 }
 ?>
