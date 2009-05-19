@@ -279,7 +279,7 @@ abstract class Tool
 		// TODO: make this the default
 		if($this->get_tool_id() != 'course_group')
 		{
-			$trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, 'pcattree' => 0)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
+			$trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, 'pcattree' => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
 		}
 
 		$breadcrumbs = $breadcrumbtrail->get_breadcrumbs();
@@ -613,7 +613,7 @@ abstract class Tool
         if(isset($_GET['pid']))
         {
             //Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,
-            $url = $this->parent->get_url(array (Tool :: PARAM_ACTION => Tool ::ACTION_VIEW_REPORTING_TEMPLATE, Tool::PARAM_PUBLICATION_ID=>$_GET['pid'], ReportingManager::PARAM_TEMPLATE_NAME => 'PublicationDetailReportingTemplate'));
+            $url = $this->parent->get_url(array (Tool :: PARAM_ACTION => Tool ::ACTION_VIEW_REPORTING_TEMPLATE, Tool::PARAM_PUBLICATION_ID => Request :: get('pid'), ReportingManager::PARAM_TEMPLATE_NAME => 'PublicationDetailReportingTemplate'));
             return new ToolbarItem(Translation :: get('AccessDetails'), Theme :: get_common_image_path().'action_reporting.png',$url);
         }else
         {

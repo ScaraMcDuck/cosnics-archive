@@ -16,8 +16,9 @@ class ToolFeedbackPublisherComponent extends ToolComponent
 		}
 
 		$trail = new BreadcrumbTrail();
-
-		$object = Request :: get('object');
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_ACTION => 'view')), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK)), Translation :: get('AddFeedback')));
+        $object = Request :: get('object');
 		$pub = new LearningObjectRepoViewer($this, 'feedback', true);
 		$pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_FEEDBACK);
 		if(Request :: get('pid')!=null)
