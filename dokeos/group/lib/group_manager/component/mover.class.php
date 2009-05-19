@@ -14,7 +14,7 @@ class GroupManagerMoverComponent extends GroupManagerComponent
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{		
+	{
 		$trail = new BreadcrumbTrail();
 		$admin = new AdminManager();
 		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
@@ -31,18 +31,18 @@ class GroupManagerMoverComponent extends GroupManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $_GET[GroupManager :: PARAM_GROUP_ID])), $group->get_name()));
 
 		$form = new GroupMoveForm($group, $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $_GET[GroupManager :: PARAM_GROUP_ID])), $this->get_user());
-		
+
 		if($form->validate())
 		{
 			$success = $form->move_group();
 			$parent = $form->get_new_parent();
-			$this->redirect('url', $success?Translation :: get('GroupMoved'):Translation :: get('GroupNotMoved'), $success?(false):true, array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS, GroupManager :: PARAM_GROUP_ID => $parent));
+			$this->redirect($success?Translation :: get('GroupMoved'):Translation :: get('GroupNotMoved'), $success?(false):true, array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS, GroupManager :: PARAM_GROUP_ID => $parent));
 		}
 		else
 		{
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));
 			$this->display_header($trail);
-			echo Translation :: get('Group') . ': ' . $group->get_name(); 
+			echo Translation :: get('Group') . ': ' . $group->get_name();
 			$form->display();
 			$this->display_footer();
 		}

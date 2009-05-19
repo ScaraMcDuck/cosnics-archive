@@ -22,27 +22,27 @@ class GroupManagerDeleterComponent extends GroupManagerComponent
 			$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 			$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('DeleteGroup')));
-			
+
 			$this->display_header($trail);
 			Display :: error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
-		}		
-		
+		}
+
 		$ids = $_GET[GroupManager :: PARAM_GROUP_ID];
 		$failures = 0;
-		
+
 		if (!empty ($ids))
 		{
 			if (!is_array($ids))
 			{
 				$ids = array ($ids);
 			}
-			
+
 			foreach ($ids as $id)
 			{
 				$group = $this->retrieve_group($id);
-				
+
 				if (!$group->delete())
 				{
 					$failures++;
@@ -52,7 +52,7 @@ class GroupManagerDeleterComponent extends GroupManagerComponent
 					Events :: trigger_event('delete', 'group', array('target_group_id' => $group->get_id(), 'action_user_id' => $user->get_id()));
 				}
 			}
-			
+
 			if ($failures)
 			{
 				if (count($ids) == 1)
@@ -75,8 +75,8 @@ class GroupManagerDeleterComponent extends GroupManagerComponent
 					$message = 'SelectedGroupsDeleted';
 				}
 			}
-			
-			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
+
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
 		}
 		else
 		{

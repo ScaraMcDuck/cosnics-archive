@@ -35,18 +35,18 @@ class SubscribeWizardProcess extends HTML_QuickForm_Action
 				$group_id = $values['Group'];
 				$failures = 0;
 				$contains_dupes = false;
-				
+
 				foreach($users as $user)
 				{
 					//$location_id = $values['User-'.$user];
 					$existing_groupreluser = $this->parent->retrieve_group_rel_user($user, $group_id);
-					
+
 					if (!isset($existing_groupreluser))
 					{
 						$groupreluser = new GroupRelUser();
 						$groupreluser->set_group_id($group_id);
 						$groupreluser->set_user_id($user);
-						
+
 						if (!$groupreluser->create())
 						{
 							$failures++;
@@ -61,7 +61,7 @@ class SubscribeWizardProcess extends HTML_QuickForm_Action
 						$contains_dupes = true;
 					}
 				}
-				
+
 				if ($failures)
 				{
 					if (count($users) == 1)
@@ -84,8 +84,8 @@ class SubscribeWizardProcess extends HTML_QuickForm_Action
 							$message = 'SelectedUsersAddedToGroup' . ($contains_dupes ? 'Dupes' : '');
 					}
 				}
-			
-				$this->parent->redirect('url', Translation :: get($message), ($failures ? true : false), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group_id));
+
+				$this->parent->redirect(Translation :: get($message), ($failures ? true : false), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group_id));
 				exit;
 				break;
 		}

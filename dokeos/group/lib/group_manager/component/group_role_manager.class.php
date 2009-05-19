@@ -28,9 +28,9 @@ class GroupManagerGroupRoleManagerComponent extends GroupManagerComponent
 			$this->display_footer();
 			exit();
 		}
-		
+
 		$group = $this->retrieve_group($group_id);
-		
+
 		$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $group_id)), Translation :: get('ModifyGroupRoles')));
 
 		$form = new GroupRoleManagerForm($group, $this->get_user(), $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $group_id)));
@@ -38,14 +38,14 @@ class GroupManagerGroupRoleManagerComponent extends GroupManagerComponent
 		if($form->validate())
 		{
 			$success = $form->update_group_roles();
-			$this->redirect('url', Translation :: get($success ? 'GroupRolesChanged' : 'GroupRolesNotChanged'), ($success ? false : true), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
+			$this->redirect(Translation :: get($success ? 'GroupRolesChanged' : 'GroupRolesNotChanged'), ($success ? false : true), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
 		}
 		else
 		{
 			$this->display_header($trail);
-			
+
 			echo sprintf(Translation :: get('ModifyRolesForGroup'), $group->get_name());
-			
+
 			$form->display();
 			$this->display_footer();
 		}

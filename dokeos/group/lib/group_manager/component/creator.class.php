@@ -14,7 +14,7 @@ class GroupManagerCreatorComponent extends GroupManagerComponent
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{		
+	{
 		$trail = new BreadcrumbTrail();
 		$admin = new AdminManager();
 		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
@@ -30,18 +30,18 @@ class GroupManagerCreatorComponent extends GroupManagerComponent
 		$group = new Group();
 		$group->set_parent($_GET[GroupManager :: PARAM_GROUP_ID]);
 		$form = new GroupForm(GroupForm :: TYPE_CREATE, $group, $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $_GET[GroupManager :: PARAM_GROUP_ID])), $this->get_user());
-		
+
 		if($form->validate())
 		{
 			$success = $form->create_group();
 			if($success)
 			{
 				$group = $form->get_group();
-				$this->redirect('url', Translation :: get('GroupCreated'), (false), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group->get_id()));
+				$this->redirect(Translation :: get('GroupCreated'), (false), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group->get_id()));
 			}
 			else
 			{
-				$this->redirect('url', Translation :: get('GroupNotCreated'), (true), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
+				$this->redirect(Translation :: get('GroupNotCreated'), (true), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
 			}
 		}
 		else

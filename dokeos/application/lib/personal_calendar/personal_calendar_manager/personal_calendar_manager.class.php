@@ -309,14 +309,14 @@ class PersonalCalendarManager extends WebApplication
 	}
 
 	/**
-	 * Helper function for the WebApplication class,
+	 * Helper function for the Application class,
 	 * pending access to class constants via variables in PHP 5.3
 	 * e.g. $name = $class :: APPLICATION_NAME
 	 *
 	 * DO NOT USE IN THIS APPLICATION'S CONTEXT
 	 * Instead use:
 	 * - self :: APPLICATION_NAME in the context of this class
-	 * - PersonalCalendarManager :: APPLICATION_NAME in all other application classes
+	 * - YourApplicationManager :: APPLICATION_NAME in all other application classes
 	 */
 	function get_application_name()
 	{

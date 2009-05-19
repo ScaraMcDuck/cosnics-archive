@@ -1,13 +1,13 @@
 <?php
 require_once Path :: get_library_path() . 'application_component.class.php';
 
-class WebApplicationComponent extends ApplicationComponent
+class CoreApplicationComponent extends ApplicationComponent
 {
 	/**
-	 * The WebApplicationComponent constructor
+	 * The CoreApplicationComponent constructor
 	 * @see ApplicationComponent :: __construct()
 	 */
-    function WebApplicationComponent($manager)
+    function CoreApplicationComponent($manager)
     {
         parent :: __construct($manager);
     }
