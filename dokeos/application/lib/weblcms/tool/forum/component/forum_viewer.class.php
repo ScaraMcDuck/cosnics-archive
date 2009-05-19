@@ -24,7 +24,11 @@ class ForumToolViewerComponent extends ForumToolComponent
 		
 		$this->pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
 		$this->forum = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($this->pid)->get_learning_object();
-		
+        
+		$trail = new BreadcrumbTrail();
+		$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $this->pid)), $this->forum->get_title()));
+        
+        
 		$current_id = Request :: get('forum');
 		if(!isset($current_id))
 		{
@@ -38,16 +42,20 @@ class ForumToolViewerComponent extends ForumToolComponent
 			$this->current_forum = $rdm->retrieve_complex_learning_object_item($current_id);
 			$lo_current_forum = $rdm->retrieve_learning_object($this->current_forum->get_ref());
 			$this->retrieve_children($lo_current_forum);
-			$this->is_subforum = true;  
+			$this->is_subforum = true;
+            $parents = ForumTool :: get_subforum_parents(Request :: get('forum'));
+            foreach($parents as $parent)
+            {
+                $title = $rdm->retrieve_learning_object($parent->get_ref())->get_title();
+                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'forum' => $parent->get_id())), $title));
+            }
 		}
 		
 		$this->action_bar = $this->get_action_bar();
 		$topics_table = $this->get_topics_table_html();
 		$forum_table =  $this->get_forums_table_html();
 		
-		$trail = new BreadcrumbTrail();
-		$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $this->pid)), $this->forum->get_title()));
-		
+
 		$this->display_header($trail);
 		echo $this->action_bar->as_html();
 
@@ -58,8 +66,8 @@ class ForumToolViewerComponent extends ForumToolComponent
 		echo $forum_table->toHtml();
 		$this->display_footer();
 	}
-	
-	function retrieve_children($current_forum)
+
+   	function retrieve_children($current_forum)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		

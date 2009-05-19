@@ -18,6 +18,7 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 			Display :: not_allowed();
 			return;
 		}
+        $rdm = RepositoryDataManager :: get_instance();
 		
 		$cid = Request :: get(Tool :: PARAM_COMPLEX_ID);
 		$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
@@ -27,13 +28,22 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
 		
 		$this->forum = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid)->get_learning_object();
 		
-		$lo = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition('id', $cid))->next_result()->get_ref();
+		$lo = $rdm->retrieve_complex_learning_object_items(new EqualityCondition('id', $cid))->next_result()->get_ref();
 		$this->retrieve_children($lo);
-		
+
 		$this->action_bar = $this->get_action_bar();
 		$table = $this->get_posts_table();
 		$trail = new BreadcrumbTrail();
-		//$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $pid)), $this->forum->get_title()));
+
+        $parents = ForumTool :: get_subforum_parents($cid);
+        unset($parents[count($parents)-1]);
+        foreach($parents as $parent)
+        {
+            $title = $rdm->retrieve_learning_object($parent->get_ref())->get_title();
+            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'forum' => $parent->get_id())), $title));
+        }
+        
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_TOPIC, Tool :: PARAM_PUBLICATION_ID => $pid, Tool :: PARAM_COMPLEX_ID => $cid)), RepositoryDataManager :: get_instance()->retrieve_learning_object($lo)->get_title()));
 		
 		$this->display_header($trail);
 		echo '<a name="top"></a>';
