@@ -36,11 +36,11 @@ class ForumBuilderBrowserComponent extends ForumBuilderComponent
 		echo $this->get_creation_links($lo);
 		echo '<div class="clear">&nbsp;</div><br />';
 		
-		echo '<div style="width: 18%; overflow: auto; float: left;">';
-		echo $this->get_clo_menu();
-		echo '</div><div style="width: 80%; float: right;">';
+		//echo '<div style="width: 18%; overflow: auto; float: left;">';
+		//$this->get_clo_menu();
+		//echo '</div><div style="width: 80%; float: right;">';
 		echo $this->get_table_html();
-		echo '</div>';
+		//echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
 		
 		$this->display_footer();
