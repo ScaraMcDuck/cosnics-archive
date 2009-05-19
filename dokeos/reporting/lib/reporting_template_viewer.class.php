@@ -54,7 +54,7 @@ class ReportingTemplateViewer {
 		}
 
         $application = $reporting_template_registration->get_application();
-        $base_path = (Application :: is_application($application) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
+        $base_path = (WebApplication :: is_application($application) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
         $file = $base_path .$application. '/reporting/templates/'.DokeosUtilities :: camelcase_to_underscores($reporting_template_registration->get_classname()).'.class.php';;
         require_once($file);
 

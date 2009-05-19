@@ -33,7 +33,7 @@ class AdminManager
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
 	const PARAM_SYSTEM_ANNOUNCEMENT_ID = 'announcement';
-	
+
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_EDIT_SELECTED = 'edit_selected';
 
@@ -121,7 +121,7 @@ class AdminManager
 		{
 			$breadcrumbtrail = new BreadcrumbTrail();
 		}
-		
+
 		$title = $breadcrumbtrail->get_last()->get_name();
 		$title_short = $title;
 		if (strlen($title_short) > 53)
@@ -135,7 +135,7 @@ class AdminManager
 			//$this->display_search_form();
 		}
 		echo '<div class="clear">&nbsp;</div>';
-		
+
 		$message = Request :: get(self :: PARAM_MESSAGE);
 		if (isset($message))
 		{
@@ -209,7 +209,7 @@ class AdminManager
 	{
 		Display :: normal_message($form_html);
 	}
-	
+
 	/**
 	 * Gets the parameter list
 	 * @param boolean $include_search Include the search parameters in the
@@ -249,7 +249,7 @@ class AdminManager
 	{
 		return $this->parameters[$name];
 	}
-	
+
 	/**
 	 * Gets an URL.
 	 * @param array $additional_parameters Additional parameters to add in the
@@ -271,7 +271,7 @@ class AdminManager
 
 		return $url;
 	}
-	
+
 	public function get_link($parameters = array (), $encode = false)
 	{
 		$link = 'index_'. self :: APPLICATION_NAME . '.php';
@@ -285,7 +285,7 @@ class AdminManager
 		}
 		return $link;
 	}
-	
+
 	/**
 	 * Redirect the end user to another location.
 	 * @param string $action The action to take (default = browse learning
@@ -317,7 +317,7 @@ class AdminManager
 		{
 			$url = 'index.php';
 		}
-		
+
 		header('Location: '.$url);
 	}
 
@@ -325,7 +325,7 @@ class AdminManager
 	{
 		return $this->user;
 	}
-	
+
 	function get_user_id()
 	{
 		return $this->user->get_id();
@@ -364,56 +364,54 @@ class AdminManager
 							'description' => Translation :: get('DiagnoseDescription'),
 							'action' => 'information',
 							'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DIAGNOSE)));
-		
+
 		$info[]		= array('application' => array('name' => Translation :: get('Admin'), 'class' => self :: APPLICATION_NAME), 'links' => $links);
-		
+
 		// 2. Repository
 		$repository_manager = new RepositoryManager($user);
 		$info[] = $repository_manager->get_application_platform_admin_links();
-		
+
 		// 3. UserManager
 		$user_manager = new UserManager($user->get_id());
 		$info[] = $user_manager->get_application_platform_admin_links();
-		
+
 		// 4. Roles'n'Rights
 		$rights_manager = new RightsManager($user->get_id());
 		$info[] = $rights_manager->get_application_platform_admin_links();
-		
+
 		// 5. Groups
 		$group_manager = new GroupManager($user->get_id());
 		$info[] = $group_manager->get_application_platform_admin_links();
-		
+
 		// 6. Webservices
 		$webservice_manager = new WebserviceManager($user->get_id());
 		$info[] = $webservice_manager->get_application_platform_admin_links();
-		
+
 		// 7. Tracking
 		$tracking_manager = new TrackingManager($user);
 		$info[] = $tracking_manager->get_application_platform_admin_links();
-		
+
 		// 8. Reporting
 		$reporting_manager = new ReportingManager($user);
 		$info[] = $reporting_manager->get_application_platform_admin_links();
-		
+
 		// 9. Home
 		$home_manager = new HomeManager($user->get_id());
-		$info[] = $home_manager->get_application_platform_admin_links();		
-		
+		$info[] = $home_manager->get_application_platform_admin_links();
+
 		// 10. Menu
 		$menu_manager = new MenuManager($user->get_id());
-		$info[] = $menu_manager->get_application_platform_admin_links();		
-		
+		$info[] = $menu_manager->get_application_platform_admin_links();
+
 		// 11. Migration
 		$migration_manager = new MigrationManager($user->get_id());
-		$info[] = $migration_manager->get_application_platform_admin_links();	
-		
+		$info[] = $migration_manager->get_application_platform_admin_links();
+
 		$help_manager = new HelpManager($user->get_id());
-		$info[] = $help_manager->get_application_platform_admin_links();	
+		$info[] = $help_manager->get_application_platform_admin_links();
 
 		// 12.The links for the plugin applications running on top of the essential Dokeos components
-		$path = Path :: get_application_path() . 'lib';
-		
-		$applications = Application :: load_all();
+		$applications = WebApplication :: load_all();
 		foreach($applications as $index => $application_name)
 		{
 			$application = Application :: factory($application_name);
@@ -435,7 +433,7 @@ class AdminManager
 	{
 		return Path :: get($path_type);
 	}
-	
+
 	/**
 	 * Count the system announcements
 	 * @param Condition $condition
@@ -446,7 +444,7 @@ class AdminManager
 		$pmdm = AdminDataManager :: get_instance();
 		return $pmdm->count_system_announcement_publications($condition);
 	}
-	
+
 	/**
 	 * Retrieve a system announcement
 	 * @param int $id
@@ -457,7 +455,7 @@ class AdminManager
 		$pmdm = AdminDataManager :: get_instance();
 		return $pmdm->retrieve_system_announcement_publication($id);
 	}
-	
+
 	/**
 	 * Retrieve a series of system announcements
 	 * @param Condition $condition
@@ -472,12 +470,12 @@ class AdminManager
 		$pmdm = AdminDataManager :: get_instance();
 		return $pmdm->retrieve_system_announcement_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
-	
+
 	function get_system_announcement_publication_deleting_url($system_announcement_publication)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement_publication->get_id()));
 	}
-	
+
 	function get_system_announcement_publication_visibility_url($system_announcement_publication)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_HIDE_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement_publication->get_id()));
@@ -487,17 +485,17 @@ class AdminManager
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement_publication->get_id()));
 	}
-	
+
 	function get_system_announcement_publication_editing_url($system_announcement_publication)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EDIT_SYSTEM_ANNOUNCEMENT, self :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement_publication->get_id()));
 	}
-	
+
 	function get_system_announcement_publication_creating_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_SYSTEM_ANNOUNCEMENT));
 	}
-	
+
 	/**
 	 * Wrapper for Display :: not_allowed().
 	 */
@@ -505,16 +503,16 @@ class AdminManager
 	{
 		Display :: not_allowed();
 	}
-	
+
     /**
-	 * Renders the users block and returns it. 
+	 * Renders the users block and returns it.
 	 */
 	function render_block($block)
 	{
 		$admin_block = AdminBlock :: factory($this, $block);
 		return $admin_block->run();
 	}
-	
+
 	/*
 	 * Inherited
 	 */
@@ -530,19 +528,19 @@ class AdminManager
 	{
 		return AdminDataManager :: get_instance()->get_learning_object_publication_attribute($publication_id);
 	}
-	
+
 	public function any_learning_object_is_published($object_ids)
 	{
 		$adm = AdminDataManager::get_instance();
 		return $adm->any_learning_object_is_published($object_ids);
 	}
-	
+
 	public function count_publication_attributes($type = null, $condition = null)
 	{
 		$adm = AdminDataManager::get_instance();
 		return $adm->count_publication_attributes($type, $condition );
 	}
-	
+
 	public function delete_learning_object_publications($object_id)
 	{
 		$adm = AdminDataManager::get_instance();

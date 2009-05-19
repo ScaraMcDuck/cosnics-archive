@@ -3,366 +3,182 @@
  * $Id$
  * @package application
  */
-require_once dirname(__FILE__).'/application.class.php';
+require_once Path :: get_library_path() . 'application.class.php';
+require_once Path :: get_library_path() . 'filesystem/filesystem.class.php';
+require_once Path :: get_admin_path() . 'lib/admin_data_manager.class.php';
+require_once Path :: get_admin_path() . 'lib/registration.class.php';
 
 abstract class WebApplication extends Application
 {
 
-	private $user;
+    /**
+     * Runs the application.
+     */
+    abstract function run();
 
-	private $parameters;
-	private $search_parameters;
+    /**
+     * Determines whether the given learning object has been published in this
+     * application.
+     * @param int $object_id The ID of the learning object.
+     * @return boolean True if the object is currently published, false
+     *                 otherwise.
+     */
+    abstract function learning_object_is_published($object_id);
 
-	private $breadcrumbs;
+    /**
+     * Determines whether any of the given learning objects has been published
+     * in this application.
+     * @param array $object_ids The Id's of the learning objects
+     * @return boolean True if at least one of the given objects is published in
+     * this application, false otherwise
+     */
+    abstract function any_learning_object_is_published($object_ids);
 
-	const PARAM_ACTION = 'go';
+    /**
+     * Determines where in this application the given learning object has been
+     * published.
+     * @param int $object_id The ID of the learning object.
+     * @return array An array of LearningObjectPublicationAttributes objects;
+     *               empty if the object has not been published anywhere.
+     */
+    abstract function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
-	const PARAM_MESSAGE = 'message';
-	const PARAM_ERROR_MESSAGE = 'error_message';
-	const PARAM_APPLICATION = 'application';
+    /**
+     * Determines where in this application the given learning object
+     * publication is published.
+     * @param int $publication_id The ID of the learning object publication.
+     * @return LearningObjectPublicationAttributes
+     */
+    abstract function get_learning_object_publication_attribute($publication_id);
 
-	function WebApplication($user)
-	{
-		$this->user = $user;
-		$this->parameters = array();
-		$this->search_parameters = array();
-		$this->breadcrumbs = array();
-		$this->set_action($_GET[self :: PARAM_ACTION]);
-	}
+    /**
+     * Counts the number of publications
+     * @param string $type
+     * @param Condition $condition
+     * @return int
+     */
+    abstract function count_publication_attributes($type = null, $condition = null);
 
-	/**
-	 * Gets the URL of the current page in the application. Optionally takes
-	 * an associative array of name/value pairs representing additional query
-	 * string parameters; these will either be added to the parameters already
-	 * present, or override them if a value with the same name exists.
-	 * @param array $parameters The additional parameters, or null if none.
-	 * @param boolean $encode Whether or not to encode HTML entities. Defaults
-	 *                        to false.
-	 * @return string The URL.
-	 */
-	function get_url($parameters = array (), $encode_entities = false, $filter = array())
-	{
-		$parameters = (count($parameters) ? array_merge($this->get_parameters(), $parameters) : $this->get_parameters());
-		return Redirect :: get_url($parameters, $filter, $encode_entities);
-	}
+    /**
+     * Deletes all publications of a given learning object
+     * @param int $object_id The id of the learning object
+     */
+    abstract function delete_learning_object_publications($object_id);
 
-	/**
-	 * Gets a link to the personal calendar application
-	 * @param array $parameters
-	 * @param boolean $encode
-	 */
-	public function get_link($parameters = array (), $filter = array(), $encode_entities = false)
-	{
-		// Use this untill PHP 5.3 is available
-		// Then use get_class($this) :: APPLICATION_NAME
-		// and remove the get_application_name function();
-		$application = $this->get_application_name();
-		return Redirect :: get_link($application, $parameters, $filter, $encode_entities);
-	}
+    abstract function get_learning_object_publication_locations($learning_object);
 
-	/**
-	 * Redirect the end user to another location.
-	 * The current url will be used as the basis.
-	 * @param array $parameters Parameters to be added to the url
-	 * @param array $filter Parameters to be filtered from the url
-	 * @param boolean $encode
-	 * @param string $type Redirect to an url or a link
-	 */
-	function simple_redirect($parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
-	{
-		switch ($type)
-		{
-			case Redirect :: TYPE_URL :
-				$parameters = (count($parameters) ? array_merge($this->get_parameters(), $parameters) : $this->get_parameters());
-				Redirect :: url($parameters, $filter, $encode_entities);
-				break;
-			case Redirect :: TYPE_LINK :
-				// Use this untill PHP 5.3 is available
-				// Then use get_class($this) :: APPLICATION_NAME
-				// and remove the get_application_name function();
-				$application = $this->get_application_name();
-				Redirect :: link($application, $parameters, $filter, $encode_entities);
-				break;
-		}
-		exit;
-	}
+    abstract function publish_learning_object($learning_object, $location);
 
-	/**
-	 * Redirect the end user to another location.
-	 * The current url will be used as the basis.
-	 * This method allows passing on messages directly instead of using the parameters array
-	 * @param string $message The message to show (default = no message).
-	 * @param boolean $error_message Is the passed message an error message?
-	 * @param array $parameters Parameters to be added to the url
-	 * @param array $filter Parameters to be filtered from the url
-	 * @param boolean $encode
-	 * @param string $type Redirect to an url or a link
-	 */
-	function redirect($message = '', $error_message = false, $parameters = array (), $filter = array(), $encode_entities = false, $type = Redirect :: TYPE_URL)
-	{
-		if(!$error_message)
-		{
-			$parameters[self :: PARAM_MESSAGE] = $message;
-		}
-		else
-		{
-			$parameters[self :: PARAM_ERROR_MESSAGE] = $message;
-		}
+    /**
+     *
+     */
+    abstract function update_learning_object_publication_id($publication_attr);
 
-		$this->simple_redirect($parameters, $filter, $encode_entities, $type);
-	}
+    /**
+     * Loads the applications installed on the system. Applications are classes
+     * in the /application/lib subdirectory. Each application is a directory,
+     * which in its turn contains a class file named after the application. For
+     * instance, the weblcms application is the class Weblcms, defined in
+     * /application/lib/weblcms/weblcms.class.php. Applications must extend the
+     * Application class.
+     */
+    public static function load_all_from_filesystem($include_application_classes = true)
+    {
+        $applications = array();
+        $path = dirname(__FILE__);
+        $directories = Filesystem :: get_directory_content($path, Filesystem :: LIST_DIRECTORIES, false);
+        foreach ($directories as $index => $directory)
+        {
+            $application_name = basename($directory);
+            if (Application :: is_application_name($application_name))
+            {
+                if (! in_array($application_name, $applications))
+                {
+                    if ($include_application_classes)
+                    {
+                        require_once ($directory . '/' . $application_name . '_manager/' . $application_name . '_manager.class.php');
+                    }
+                    $applications[] = $application_name;
+                }
+            }
+        }
+        return $applications;
+    }
 
-	/**
-	 * Returns the current URL parameters.
-	 * @return array The parameters.
-	 */
-	function get_parameters()
-	{
-		return $this->parameters;
-	}
+    public static function load_all($include_application_classes = true)
+    {
+        $path = Path :: get_application_path() . 'lib';
+        $adm = AdminDataManager :: get_instance();
+        $condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_APPLICATION);
 
-	/**
-	 * Returns the value of the given URL parameter.
-	 * @param string $name The parameter name.
-	 * @return string The parameter value.
-	 */
-	function get_parameter($name)
-	{
-		return $this->parameters[$name];
-	}
+        $applications = $adm->retrieve_registrations($condition);
+        $active_applications = array();
 
-	/**
-	 * Sets the value of a URL parameter.
-	 * @param string $name The parameter name.
-	 * @param string $value The parameter value.
-	 */
-	function set_parameter($name, $value)
-	{
-		$this->parameters[$name] = $value;
-	}
+        while ($application = $applications->next_result())
+        {
+            if ($include_application_classes)
+            {
+                require_once $path . '/' . $application->get_name() . '/' . $application->get_name() . '_manager/' . $application->get_name() . '_manager.class.php';
+            }
+            $active_applications[] = $application->get_name();
+        }
 
-	function set_breadcrumbs($breadcrumbs)
-	{
-		$this->breadcrumbs = $breadcrumbs;
-	}
+        return $active_applications;
+    }
 
-	function get_breadcrumbs()
-	{
-		return $this->breadcrumbs;
-	}
+    /**
+     * Determines if a given application exists
+     * @param string $name
+     * @return boolean
+     */
+    public static function is_application($name)
+    {
+        $path = dirname(__FILE__);
+        $application_path = $path . '/' . $name;
+        $application_manager_path = $path . '/' . $name . '/' . $name . '_manager' . '/' . $name . '_manager.class.php';
+        if (file_exists($application_path) && is_dir($application_path) && file_exists($application_manager_path))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
-	/**
-	 * Displays the header.
-	 * @param array $breadcrumbs Breadcrumbs to show in the header.
-	 * @param boolean $display_search Should the header include a search form or
-	 * not?
-	 */
-	function display_header($breadcrumbtrail)
-	{
-		if (is_null($breadcrumbtrail))
-		{
-			$breadcrumbtrail = new BreadcrumbTrail();
-			$breadcrumbtrail->add(new Breadcrumb($this->get_url(), Translation :: get(DokeosUtilities :: underscores_to_camelcase($this->get_application_name()))));
-		}
+    public function is_active($application)
+    {
+        if (self :: is_application($application))
+        {
+            $adm = AdminDataManager :: get_instance();
 
-		$categories = $this->get_breadcrumbs();
-		if (count($categories) > 0)
-		{
-			foreach($categories as $category)
-			{
-				$breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
-			}
-		}
+            $conditions = array();
+            $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, 'application');
+            $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $application);
+            $condition = new AndCondition($conditions);
 
-		$title = $breadcrumbtrail->get_last()->get_name();
-		Display :: header($breadcrumbtrail);
-
-		// If there is an application-wide menu, show it
-		if ($this->has_menu())
-		{
-			echo '<div style="float: left; width: 15%;">';
-			echo $this->get_menu();
-			echo '</div>';
-			echo '<div style="float: right; width: 85%;">';
-		}
-
-		echo '<h3 style="float: left;" title="' . $title . '">' . DokeosUtilities :: truncate_string($title) . '</h3>';
-		echo '<div class="clear">&nbsp;</div>';
-
-		$message = Request :: get(self :: PARAM_MESSAGE);
-		if ($message)
-		{
-			$this->display_message($message);
-		}
-
-		$message = Request :: get(self :: PARAM_ERROR_MESSAGE);
-		if($message)
-		{
-			$this->display_error_message($message);
-		}
-	}
-
-	function display_footer()
-	{
-		// In wase there was an application-wide menu, properly end it
-		if ($this->has_menu())
-		{
-			echo '<div class="clear">&nbsp;</div>';
-			echo '</div>';
-		}
-
-		echo '<div class="clear">&nbsp;</div>';
-		Display :: footer();
-	}
-
-	/**
-	 * Displays a normal message.
-	 * @param string $message The message.
-	 */
-	function display_message($message)
-	{
-		Display :: normal_message($message);
-	}
-	/**
-	 * Displays an error message.
-	 * @param string $message The message.
-	 */
-	function display_error_message($message)
-	{
-		Display :: error_message($message);
-	}
-	/**
-	 * Displays a warning message.
-	 * @param string $message The message.
-	 */
-	function display_warning_message($message)
-	{
-		Display :: warning_message($message);
-	}
-	/**
-	 * Displays an error page.
-	 * @param string $message The message.
-	 */
-	function display_error_page($message)
-	{
-		$this->display_header();
-		$this->display_error_message($message);
-		$this->display_footer();
-	}
-
-	/**
-	 * Displays a warning page.
-	 * @param string $message The message.
-	 */
-	function display_warning_page($message)
-	{
-		$this->display_header();
-		$this->display_warning_message($message);
-		$this->display_footer();
-	}
-
-	/**
-	 * Displays a popup form.
-	 * @param string $message The message.
-	 */
-	function display_popup_form($form_html)
-	{
-		Display :: normal_message($form_html);
-	}
-
-	/**
-	 * Wrapper for Display :: not_allowed();.
-	 */
-	function not_allowed()
-	{
-		Display :: not_allowed();
-	}
-
-	/**
-	 * Gets the user id of this personal calendars owner
-	 * @return int
-	 */
-	function get_user_id()
-	{
-		return $this->user->get_id();
-	}
-
-	/**
-	 * Gets the user.
-	 * @return int The requested user.
-	 */
-	function get_user()
-	{
-		return $this->user;
-	}
-
-	function get_action()
-	{
-		return $this->get_parameter(self :: PARAM_ACTION);
-	}
-
-	/**
-	 * Sets the current action.
-	 * @param string $action The new action.
-	 */
-	function set_action($action)
-	{
-		return $this->set_parameter(self :: PARAM_ACTION, $action);
-	}
-
-	function get_platform_setting($variable)
-	{
-		// Use this untill PHP 5.3 is available
-		// Then use get_class($this) :: APPLICATION_NAME
-		// and remove the get_application_name function();
-		$application = $this->get_application_name();
-		return PlatformSetting :: get($variable, $application);
-	}
-
-	function get_path($path_type)
-	{
-		return Path :: get($path_type);
-	}
-
-	abstract function get_application_name();
-
-	/**
-	 * Returns a list of actions available to the admin.
-	 * @return Array $info Contains all possible actions.
-	 */
-	public function get_application_platform_admin_links()
-	{
-		// Use this untill PHP 5.3 is available
-		// Then use get_class($this) :: APPLICATION_NAME
-		// and remove the get_application_name function();
-		$application = $this->get_application_name();
-
-		$info = array();
-		$info['application'] = array('name' => $application, 'class' => $application);
-		$info['links'] = array();
-		$info['search'] = null;
-
-		return $info;
-	}
-
-	/**
-	 * Does the entire application have a leftside menu? False per default.
-	 * Can be overwritten by the specific application
-	 * @return boolean $has_menu True or false
-	 */
-	public function has_menu()
-	{
-		return false;
-	}
-
-	/**
-	 * Returns the html for the application-menu. Empty per default
-	 * Can be overwritten by the specific application
-	 * @return String $menu The menu html
-	 */
-	public function get_menu()
-	{
-		return '';
-	}
+            $registrations = $adm->retrieve_registrations($condition);
+            if ($registrations->size() > 0)
+            {
+                $registration = $registrations->next_result();
+                if ($registration->is_active())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 ?>

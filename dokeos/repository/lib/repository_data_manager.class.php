@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/learning_object_publication_attributes.class.ph
 require_once dirname(__FILE__).'/learning_object.class.php';
 require_once dirname(__FILE__).'/complex_learning_object_item.class.php';
 require_once dirname(__FILE__).'/data_manager/database/database_learning_object_result_set.class.php';
-require_once dirname(__FILE__).'/../../application/lib/application.class.php';
+require_once Path :: get_library_path() . 'application.class.php';
 require_once Path :: get_home_path() . 'lib/home_data_manager.class.php';
 require_once Path :: get_admin_path().'lib/admin_manager/admin_manager.class.php';
 require_once dirname(__FILE__).'/user_view.class.php';
@@ -85,15 +85,15 @@ abstract class RepositoryDataManager
 	{
 		$adm = AdminDataManager :: get_instance();
 		$condition = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_LEARNING_OBJECT);
-		
+
 		$learning_objects = $adm->retrieve_registrations($condition);
 		$active_learning_objects = array();
-		
+
 		while ($learning_object = $learning_objects->next_result())
 		{
 			$active_learning_objects[] = $learning_object->get_name();
 		}
-		
+
 		return $active_learning_objects;
 	}
 
@@ -184,20 +184,20 @@ abstract class RepositoryDataManager
 		$result = false;
 		foreach($applications as $index => $application_name)
 		{
-			
+
 			$application = Application::factory($application_name);
 			if ($application->any_learning_object_is_published($ids))
-			{ 
+			{
 				return true;
 			}
 		}
-		
+
 		$admin = new AdminManager();
 		if ($admin->any_learning_object_is_published($ids))
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -220,14 +220,14 @@ abstract class RepositoryDataManager
 				$info = array_merge($info, $attributes);
 			}
 		}
-		
+
 		$admin = new AdminManager($user);
 		$attributes = $admin->get_learning_object_publication_attributes($id, $type, $offset, $count, $order_property, $order_direction);
 		if(!is_null($attributes) && count($attributes) > 0)
 		{
 			$info = array_merge($info, $attributes);
 		}
-		
+
 		return $info;
 	}
 
@@ -252,19 +252,19 @@ abstract class RepositoryDataManager
 	 * @return boolean True if the given learning object can be deleted
 	 */
 	function learning_object_deletion_allowed($object, $type = null, $user)
-	{	
+	{
 		$homeportal = PlatformSetting :: get('portal_home');
 		if($object->get_id() == $homeportal)
-			return false;	
-		
+			return false;
+
 		$conditions[] = new EqualityCondition('variable', 'use_object');
 		$conditions[] = new EqualityCondition('value', $object->get_id());
 		$condition = new AndCondition($conditions);
-	
+
 		$blockinfos = HomeDataManager :: get_instance()->retrieve_home_block_config($condition);
 		if($blockinfos->size() > 0)
 			return false;
-		
+
 		if (isset($type))
 		{
 			if ($this->is_attached($object, 'version'))
@@ -275,9 +275,9 @@ abstract class RepositoryDataManager
 			$forbidden[] = $object->get_id();
 		}
 		else
-		{ 
+		{
 			if ($this->is_attached($object))
-			{ 
+			{
 				return false;
 			}
 			$children = array();
@@ -288,17 +288,17 @@ abstract class RepositoryDataManager
 		}
 //		if($object->is_complex_learning_object())
 //		{
-//			//return $this->complex_learning_object_removal_allowed($object, $object);	
+//			//return $this->complex_learning_object_removal_allowed($object, $object);
 //		}
-		
+
 		return !$this->any_learning_object_is_published($forbidden);
 	}
-	
+
 	function complex_learning_object_removal_allowed($clo, $root_clo)
 	{
 		if($this->learning_object_is_published($clo))
 			return false;
-		
+
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_REF, $clo->get_id());
 		$items = $this->retrieve_complex_learning_object_items($condition);
 		if($items->size() > 1)
@@ -317,7 +317,7 @@ abstract class RepositoryDataManager
 			else
 				return false;
 	}
-	
+
 	/**
 	 * Copies a complex learning object
 	 */
@@ -327,14 +327,14 @@ abstract class RepositoryDataManager
 		$this->copy_complex_children($clo);
 		return $clo;
 	}
-	
+
 	function copy_complex_children($clo)
 	{
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $clo->get_id());
 		$items = $this->retrieve_complex_learning_object_items($condition);
 		while($item = $items->next_result())
 		{
-			$nitem = new ComplexLearningObjectItem();			
+			$nitem = new ComplexLearningObjectItem();
 			$nitem->set_user_id($item->get_user_id());
 			$nitem->set_display_order($item->get_display_order());
 			$nitem->set_parent($clo->get_id());
@@ -541,10 +541,10 @@ abstract class RepositoryDataManager
 			$application = Application::factory($application_name,$user);
 			$info += $application->count_publication_attributes($type, $condition);
 		}
-		
+
 		$admin = new AdminManager($user);
 		$info += $admin->count_publication_attributes($type, $condition);
-		
+
 		return $info;
 	}
 
@@ -606,45 +606,45 @@ abstract class RepositoryDataManager
 	 * @return int The ID.
 	 */
 	abstract function get_next_complex_learning_object_item_id();
-	
+
 	/**
 	 * Creates a new complex learning object in the database
 	 * @param ComplexLearningObject $clo - The complex learning object
 	 * @return True if success
 	 */
 	abstract function create_complex_learning_object_item($clo_item);
-	
+
 	/**
 	 * Updates a complex learning object in the database
 	 * @param ComplexLearningObject $clo - The complex learning object
 	 * @return True if success
 	 */
 	abstract function update_complex_learning_object_item($clo_item);
-	
+
 	/**
 	 * Deletes a complex learning object in the database
 	 * @param ComplexLearningObject $clo - The complex learning object
 	 * @return True if success
 	 */
 	abstract function delete_complex_learning_object_item($clo_item);
-	
+
 	/**
 	 * Retrieves a complex learning object from the database with a given id
 	 * @param Int $clo_id
-	 * @return The complex learning object 
+	 * @return The complex learning object
 	 */
 	abstract function retrieve_complex_learning_object_item($clo_item_id);
-	
+
 	/**
 	 * Counts the available complex learning objects with the given condition
 	 * @param Condition $condition
 	 * @return Int the amount of complex learning objects
 	 */
 	abstract function count_complex_learning_object_items($condition);
-	
+
 	/**
 	 * Retrieves the complex learning object items with the given condition
-	 * @param Condition 
+	 * @param Condition
 	 */
 	abstract function retrieve_complex_learning_object_items($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
 
@@ -698,9 +698,9 @@ abstract class RepositoryDataManager
 			$application = Application::factory($application_name);
 			$application->delete_learning_object_publications($object->get_id());
 		}
-		
+
 		$admin = AdminDataManager :: get_instance()->delete_learning_object_publications($object->get_id());
-		
+
 		return true;
 	}
 
@@ -752,7 +752,7 @@ abstract class RepositoryDataManager
 	 * @return array The attached learning objects.
 	 */
 	abstract function retrieve_attached_learning_objects ($object);
-	
+
 	/**
 	 * Returns the learning objects that are included into the learning object
 	 * with the given ID.
@@ -783,7 +783,7 @@ abstract class RepositoryDataManager
 	 *                 exist.
 	 */
 	abstract function detach_learning_object ($object, $attachment_id);
-	
+
 	/**
 	 * Adds a learning object to another's include list.
 	 * @param LearningObject $object The learning object to include into the other
@@ -823,7 +823,7 @@ abstract class RepositoryDataManager
 	private function load_types()
 	{
 		$path = Path :: get_repository_path() . 'lib/learning_object/';
-		
+
 		foreach($this->get_registered_types(true) as $learning_object_type)
 		{
 			$learning_object_path = $path . $learning_object_type . '/' . $learning_object_type . '.class.php';
@@ -853,7 +853,7 @@ abstract class RepositoryDataManager
 		{
 			$this->applications = Application::load_all();
 		}
-		
+
 		return $this->applications;
 	}
 
@@ -880,22 +880,22 @@ abstract class RepositoryDataManager
 	abstract function create_category($category);
 	abstract function count_categories($conditions = null);
 	abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	abstract function get_next_user_view_id();
 	abstract function delete_user_view($user_view);
 	abstract function update_user_view($user_view);
 	abstract function create_user_view($user_view);
 	abstract function count_user_views($conditions = null);
 	abstract function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	abstract function update_user_view_rel_learning_object($user_view_rel_learning_object);
-	abstract function create_user_view_rel_learning_object($user_view_rel_learning_object);    
+	abstract function create_user_view_rel_learning_object($user_view_rel_learning_object);
     abstract function create_learning_object_pub_feedback($learning_object_publication_feedback);
     abstract function update_learning_object_pub_feedback($learning_object_publication_feedback);
     abstract function delete_learning_object_pub_feedback($learning_object_publication_feedback);
 	abstract function retrieve_user_view_rel_learning_objects($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
     abstract function retrieve_learning_object_pub_feedback($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	/**
 	 * Gets the number of categories the user has defined in his repository
 	 * @param int $user_id

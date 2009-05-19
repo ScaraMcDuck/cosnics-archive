@@ -3,7 +3,7 @@
  * @package repository
  */
  $this_section = 'home';
- 
+
 require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once Path :: get_home_path() . 'lib/home_manager/home_manager.class.php';
 require_once Path :: get_home_path() . 'lib/home_data_manager.class.php';
@@ -17,7 +17,7 @@ $user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: AP
 if ($user_home_allowed && Authentication :: is_valid())
 {
 	$user_id = Session :: get_user_id();
-	
+
 	$tab = new HomeTab();
 	$tab->set_title(Translation :: get('NewTab'));
 	$tab->set_user($user_id);
@@ -26,7 +26,7 @@ if ($user_home_allowed && Authentication :: is_valid())
 		$json_result['success'] = '0';
 		$json_result['message'] = Translation :: get('TabNotAdded');
 	}
-	
+
 	$row = new HomeRow();
 	$row->set_title(Translation :: get('NewRow'));
 	$row->set_tab($tab->get_id());
@@ -36,7 +36,7 @@ if ($user_home_allowed && Authentication :: is_valid())
 		$json_result['success'] = '0';
 		$json_result['message'] = Translation :: get('TabRowNotAdded');
 	}
-	
+
 	$column = new HomeColumn();
 	$column->set_row($row->get_id());
 	$column->set_title(Translation :: get('NewColumn'));
@@ -48,7 +48,7 @@ if ($user_home_allowed && Authentication :: is_valid())
 		$json_result['success'] = '0';
 		$json_result['message'] = Translation :: get('TabColumnNotAdded');
 	}
-	
+
 	$block = new HomeBlock();
 	$block->set_column($column->get_id());
 	$block->set_title(Translation :: get('DummyBlock'));
@@ -61,19 +61,19 @@ if ($user_home_allowed && Authentication :: is_valid())
 		$json_result['success'] = '0';
 		$json_result['message'] = Translation :: get('TabBlockNotAdded');
 	}
-	
+
 	$usermgr = new UserManager($user_id);
 	$user = $usermgr->get_user();
-	
+
 	$application = $block->get_application();
 	$application_class = Application :: application_to_class($application);
-	
-	if(!Application :: is_application($application))
+
+	if(!WebApplication :: is_application($application))
 	{
 		$path = Path :: get(SYS_PATH) . $application . '/lib/' . $application . '_manager' . '/' . $application . '_manager.class.php';
 		require_once $path;
 		$application_class .= 'Manager';
-		$app = new $application_class($user);		
+		$app = new $application_class($user);
 	}
 	else
 	{
@@ -81,7 +81,7 @@ if ($user_home_allowed && Authentication :: is_valid())
 		require_once $path;
 		$app = Application :: factory($application, $user);
 	}
-	
+
 	$html[] = '<div class="tab" id="tab_'. $tab->get_id() .'" style="display: none;">';
 	$html[] = '<div class="row" id="row_'. $row->get_id() .'">';
 	$html[] = '<div class="column" id="column_'. $column->get_id() .'" style="width: '. $column->get_width() .'%;">';
@@ -89,13 +89,13 @@ if ($user_home_allowed && Authentication :: is_valid())
 	$html[] = '</div>';
 	$html[] = '</div>';
 	$html[] = '</div>';
-	
+
 	$title = array();
 	$title[] = '<li class="normal" id="tab_select_'. $tab->get_id() .'">';
 	$title[] = '<a class="tabTitle" href="#">'. $tab->get_title() .'</a>';
 	$title[] = '<a class="deleteTab"><img src="'. Theme :: get_image_path() .'action_delete_tab.png" /></a>';
 	$title[] = '</li>';
-	
+
 	$json_result['html'] = implode("\n", $html);
 	$json_result['title'] = implode("\n", $title);
 	$json_result['success'] = '1';

@@ -16,7 +16,7 @@ require_once dirname(__FILE__).'/../../admin_rights.class.php';
 class AdminConfigurerComponent extends AdminManagerComponent
 {
 	private $application;
-	
+
 	/**
 	 * Runs this component and displays its output.
 	 */
@@ -27,7 +27,7 @@ class AdminConfigurerComponent extends AdminManagerComponent
 		{
 			$application = $this->application = 'admin';
 		}
-		
+
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Settings')));
@@ -39,9 +39,9 @@ class AdminConfigurerComponent extends AdminManagerComponent
 			$this->display_footer();
 			exit;
 		}
-		
+
 		$form = new ConfigurationForm($application, 'config', 'post', $this->get_url(array(AdminManager :: PARAM_APPLICATION => $application)));
-		
+
 		if($form->validate())
 		{
 			$success = $form->update_configuration();
@@ -55,18 +55,18 @@ class AdminConfigurerComponent extends AdminManagerComponent
 			$this->display_footer();
 		}
 	}
-	
+
 	function get_applications()
 	{
 		$application = $this->application;
-		
+
 		$html = array();
-		
+
 		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/application.js' .'"></script>';
 		$html[] = '<div class="configure">';
-		
-		$applications = Application :: load_all();
-			
+
+		WebApplication :: load_all();
+
 		foreach ($this->get_application_platform_admin_links() as $application_links)
 		{
 			if (isset($application) && $application == $application_links['application']['class'])
@@ -82,7 +82,7 @@ class AdminConfigurerComponent extends AdminManagerComponent
 			$html[] = '</a>';
 			$html[] = '</div>';
 		}
-		
+
 		$html[] = '</div>';
 		$html[] = '<div style="clear: both;"></div>';
 

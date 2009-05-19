@@ -5,9 +5,9 @@
  * @package application.weblcms.tool
  * @subpackage maintenance
  */
- require_once Path :: get_library_path().'filesystem/filesystem.class.php';
- require_once Path :: get_application_path().'lib/application.class.php';
- require_once Path :: get_library_path().'installer.class.php';
+require_once Path :: get_library_path().'filesystem/filesystem.class.php';
+require_once Path :: get_library_path() . 'application.class.php';
+require_once Path :: get_library_path().'installer.class.php';
 /**
  * This class implements the action to take after the user has completed a
  * course maintenance wizard
@@ -30,20 +30,20 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 	function perform($page, $actionName)
 	{
 		$values = $page->controller->exportValues();
-		
+
 		// Display the page header
 		$this->parent->display_header();
-		
+
 		$previous_application = '';
 		$message = '';
-		
+
 		$ids = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
 		if(!is_array($ids))
 			$ids = array($ids);
-		
+
 		foreach($ids as $id)
 			$los[] = $this->parent->retrieve_learning_object($id);
-		
+
 		foreach($values as $location => $value)
 		{
 			if($value == 1)
@@ -51,7 +51,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 				$split = split('_', $location);
 				$application_name = $split[0];
 				$location_id = $split[1];
-				
+
 				if($application_name != $previous_application)
 				{
 					if($previous_application != '')
@@ -59,7 +59,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 					$message = '';
 					$previous_application = $application_name;
 				}
-				
+
 				unset($split[0]);
 				$location = implode('_', $split);
 				$application = Application::factory($application_name);
@@ -67,14 +67,14 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 					$message .= $application->publish_learning_object($lo, $location_id) . '<br />';
 			}
 		}
-		
+
 		$this->process_result($previous_application, true, $message);
-		
+
 		// Display the page footer
 		$this->parent->display_footer();
 	}
 
-	
+
 	function display_block_header($application)
 	{
 		$html = array();
@@ -83,7 +83,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 		$html[] = '<div class="description">';
 		return implode("\n", $html);
 	}
-	
+
 	function display_block_footer()
 	{
 		$html = array();
@@ -91,18 +91,18 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 		$html[] = '</div>';
 		return implode("\n", $html);
 	}
-	
+
 	function process_result($application, $result, $message)
 	{
 		echo $this->display_block_header($application);
 		echo $message;
 		echo $this->display_block_footer();
-		if (!$result) 
+		if (!$result)
 		{
 			$this->parent->display_footer();
 			exit;
 		}
-		
+
 	}
 }
 ?>
