@@ -118,5 +118,18 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 		$this->url_params[$this->tree_id] = $category_id;
 		return $this->browser->get_url($this->url_params);
 	}
+
+    function get_breadcrumbs()
+	{
+        $array_renderer = new HTML_Menu_ArrayRenderer();
+		$this->render($array_renderer, 'urhere');
+		$breadcrumbs = $array_renderer->toArray();
+		foreach ($breadcrumbs as $crumb)
+		{
+			$crumb['name'] = $crumb['title'];
+			unset($crumb['title']);
+		}
+		return $breadcrumbs;
+	}
 }
 ?>

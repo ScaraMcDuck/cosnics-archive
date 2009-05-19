@@ -14,9 +14,7 @@ class BlogToolViewerComponent extends BlogToolComponent
 			Display :: not_allowed();
 			return;
 		}
-		$trail = new BreadcrumbTrail();
-		$trail->add(new BreadCrumb($this->get_url(array('category' => $category)), Translation :: get('ViewBlogs')));
-		
+
 		$pid = Request :: get('pid');
 
 		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','blog'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
@@ -25,9 +23,23 @@ class BlogToolViewerComponent extends BlogToolComponent
 		$this->action_bar = $this->get_action_bar();
 		
 		$browser = new BlogBrowser($this);
-		$trail = new BreadcrumbTrail();
-        //dump(WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication_category(Request :: get('pcattree')));
-        //$trail->add(new BreadCrumb($this->get_url(),WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication_category(Request :: get('pcattree'))));
+        $trail = new BreadcrumbTrail();
+
+        if($browser->get_publication_category_tree()!=null)
+        {
+            $breadcrumbs = $browser->get_publication_category_tree()->get_breadcrumbs();
+            unset($breadcrumbs[0]);
+            $_SESSION['blog_breadcrumbs'] = $breadcrumbs;
+        }
+
+        //needed when viewing a blog item, the publication category tree doesn't exist on that page
+        if(isset($_SESSION['blog_breadcrumbs']) && empty($breadcrumbs))
+        $breadcrumbs = $_SESSION['blog_breadcrumbs'];
+
+        foreach($breadcrumbs as $breadcrumb)
+        {
+           $trail->add(new BreadCrumb($breadcrumb['url'], $breadcrumb['title']));
+        }
         if(Request :: get('pid')!=null)
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
 		$this->display_header($trail);
@@ -95,6 +107,18 @@ class BlogToolViewerComponent extends BlogToolComponent
 		
 		return null;
 	}
+
+    private function get_menu_field_by_index(&$menu, $index)
+    {
+        foreach (array_keys($menu) as $key) {
+            if ($key == $index) {
+                return $menu[$key];
+            } elseif (!empty($menu[$key]['sub']) && '' != ($field = $this->get_menu_field_by_index($menu[$key]['sub'], $index))) {
+                return $field;
+            }
+        }
+        return '';
+    }
 	
 	/*function display_introduction_text()
 	{
