@@ -24,7 +24,9 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
 		
 		$browser = new DescriptionBrowser($this);
 		$trail = new BreadcrumbTrail();
-		
+
+        if(Request :: get('pid')!=null && Request :: get('tool_action')=='view')
+        $trail->add(new BreadCrumb($this->get_url(),WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
 		$this->display_header($trail);
 		
 		echo '<br /><a name="top"></a>';
@@ -36,6 +38,10 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
 				echo $this->display_introduction_text($this->introduction_text);
 			}
 		}
+        else
+        {
+
+        }
 		echo $this->action_bar->as_html() . '<br />';
 		echo '<div style="width:100%; float:right;">';
 		echo $browser->as_html();

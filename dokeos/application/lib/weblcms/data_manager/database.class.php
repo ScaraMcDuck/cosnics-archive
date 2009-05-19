@@ -727,7 +727,7 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 	function retrieve_learning_object_publication_category($id)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication_category').' WHERE '.$this->escape_column_name(LearningObjectPublicationCategory :: PROPERTY_ID).'=?';
-		$this->connection->setLimit(0,1);
+        $this->connection->setLimit(0,1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
@@ -1860,9 +1860,11 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		return $subtree;
 	}
 
-	static function record_to_publication_category($record)
+	function record_to_publication_category($record)
 	{
-		return new LearningObjectPublicationCategory($record[LearningObjectPublicationCategory :: PROPERTY_ID], $record[LearningObjectPublicationCategory :: PROPERTY_TITLE], $record[LearningObjectPublicationCategory :: PROPERTY_COURSE_ID], $record[LearningObjectPublicationCategory :: PROPERTY_TOOL], $record[LearningObjectPublicationCategory :: PROPERTY_PARENT_CATEGORY_ID]);
+        $o = new LearningObjectPublicationCategory();
+        $o->set_default_properties($record);
+		return $o;
 	}
 
 	function record_to_publication($record)
