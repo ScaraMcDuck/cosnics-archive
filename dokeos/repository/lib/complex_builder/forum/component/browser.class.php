@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/../forum_builder_component.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path() . '/lib/learning_object/forum/forum.class.php';
-//require_once dirname(__FILE__) . '/browser/forum_browser_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/browser/forum_browser_table_cell_renderer.class.php';
 
 class ForumBuilderBrowserComponent extends ForumBuilderComponent
 {
@@ -54,6 +54,16 @@ class ForumBuilderBrowserComponent extends ForumBuilderComponent
 		{
 			$parameters[ComplexBuilder :: PARAM_CLOI_ID] = $this->get_cloi()->get_id();
 		}
+
+		$conditions = array();
+		$conditions[] = $this->get_clo_table_condition();
+		$subcondition = new EqualityCondition(LearningObject :: PROPERTY_TYPE, 'forum');
+		$conditions[] = new SubSelectcondition(ComplexLearningObjectItem :: PROPERTY_REF, LearningObject :: PROPERTY_ID, 'learning_object', $subcondition);
+		$condition = new AndCondition($conditions);
+		
+		$html[] = '<h3>' . Translation :: get('Forums') . '</h3>';
+		$table = new ComplexBrowserTable($this->get_parent(), array_merge($this->get_parameters(), $parameters), $condition, true, null, null);
+		$html[] = $table->as_html();
 		
 		$conditions = array();
 		$conditions[] = $this->get_clo_table_condition();
@@ -61,8 +71,11 @@ class ForumBuilderBrowserComponent extends ForumBuilderComponent
 		$conditions[] = new SubSelectcondition(ComplexLearningObjectItem :: PROPERTY_REF, LearningObject :: PROPERTY_ID, 'learning_object', $subcondition);
 		$condition = new AndCondition($conditions);
 		
-		$table = new ComplexBrowserTable($this->get_parent(), array_merge($this->get_parameters(), $parameters), $condition, true, null, null);
-		return $table->as_html();
+		$html[] = '<br /><h3>' . Translation :: get('ForumTopics') . '</h3>';
+		$table = new ComplexBrowserTable($this->get_parent(), array_merge($this->get_parameters(), $parameters), $condition, true, null, new ForumBrowserTableCellRenderer($this->get_parent(), $condition));
+		$html[] = $table->as_html();
+		
+		return implode("\n", $html);
 	}
 }
 
