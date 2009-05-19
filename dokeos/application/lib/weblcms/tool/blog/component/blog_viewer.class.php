@@ -33,16 +33,15 @@ class BlogToolViewerComponent extends BlogToolComponent
             {
                 $trail->add(new BreadCrumb($breadcrumb['url'], $breadcrumb['title']));
             }
-            $_SESSION['breadcrumbs'] = $trail->get_breadcrumbs();
         }
         
         //needed when viewing a blog item, to access the breadcrumbs of the categories
-        if(Request :: get('tool_action') == 'view')
-        $trail->set_breadcrumbtrail($_SESSION['breadcrumbs']);
-
-        if(Request :: get('pid')!=null)
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
-
+        if(Request :: get('tool_action') == 'view' && Request :: get('pid')!=null)
+        {
+            $this->add_pcattree_breadcrumbs(Request :: get('pcattree'), &$trail);
+            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+        }
+        
         $this->display_header($trail);
 		
 		//echo '<br /><a name="top"></a>';
@@ -109,16 +108,20 @@ class BlogToolViewerComponent extends BlogToolComponent
 		return null;
 	}
 
-    private function get_menu_field_by_index(&$menu, $index)
+    private function add_pcattree_breadcrumbs($pcattree,&$trail)
     {
-        foreach (array_keys($menu) as $key) {
-            if ($key == $index) {
-                return $menu[$key];
-            } elseif (!empty($menu[$key]['sub']) && '' != ($field = $this->get_menu_field_by_index($menu[$key]['sub'], $index))) {
-                return $field;
-            }
+        $cat = WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($pcattree);
+        $categories[] = $cat;
+        while ($cat->get_parent()!=0)
+        {
+            $cat = WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($cat->get_parent());
+            $categories[] = $cat;
         }
-        return '';
+        $categories = array_reverse($categories);
+        foreach($categories as $categorie)
+        {
+            $trail->add(new Breadcrumb($this->get_url(array('pcattree' => $categorie->get_id())), $categorie->get_name()));
+        }
     }
 	
 	/*function display_introduction_text()
