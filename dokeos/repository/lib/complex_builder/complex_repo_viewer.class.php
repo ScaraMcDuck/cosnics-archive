@@ -34,40 +34,5 @@ class ComplexRepoViewer extends RepoViewer
 	{
 		$this->parse_input_from_table();
 	}
-
-	/**
-	 * Returns the repo_viewer's output in HTML format.
-	 * @return string The output.
-	 */
-	function as_html()
-	{
-		$action = $this->get_action();
-		
-		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-		$repo_viewer_actions = $this->get_repo_viewer_actions();
-		foreach ($repo_viewer_actions as $repo_viewer_action)
-		{
-			$out .= '<li><a';
-			if ($repo_viewer_action == $action)
-			{
-				$out .= ' class="current"';
-			}
-			elseif(($action == 'publicationcreator' || $action == 'multirepo_viewer') && $repo_viewer_action == 'creator')
-			{
-				$out .= ' class="current"';
-			}
-			$params = $this->get_parameters();
-			$params[RepoViewer :: PARAM_ACTION] = $repo_viewer_action;
-			$out .= ' href="'.$this->get_url($params, true).'">'.htmlentities(Translation :: get(ucfirst($repo_viewer_action).'Title')).'</a></li>';
-		}
-		
-		$out .= '</ul><div class="tabbed-pane-content">';
-		
-		require_once dirname(__FILE__).'/repo_viewer/complex_learning_object_'.$action.'.class.php';
-		$class = 'ComplexLearningObjectRepoViewer'.ucfirst($action).'Component';
-		$component = new $class ($this);
-		$out .= $component->as_html().'</div></div>';
-		return $out;
-	}
 }
 ?>

@@ -21,7 +21,7 @@ class LearningObjectRepoViewer extends RepoViewer
 
 	function LearningObjectRepoViewer($parent, $types, $mail_option = false, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $action = TOOL :: ACTION_PUBLISH)
 	{
-		parent :: __construct($parent, $types, $mail_option, $maximum_select);
+		parent :: __construct($parent, $types, $mail_option, $maximum_select, array(), false);
 		$this->set_parameter(Tool :: PARAM_ACTION, $action);
 		$this->set_repo_viewer_actions(array ('creator','browser', 'finder'));
 		$this->parse_input_from_table();
@@ -36,44 +36,7 @@ class LearningObjectRepoViewer extends RepoViewer
 			default: return true;
 		}
 	}
-
-	/**
-	 * Returns the repo_viewer's output in HTML format.
-	 * @return string The output.
-	 */
-	function as_html()
-	{
-		$action = $this->get_action();
-
-		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-		$repo_viewer_actions = $this->get_repo_viewer_actions();
-		foreach ($repo_viewer_actions as $repo_viewer_action)
-		{
-			$out .= '<li><a';
-			if ($repo_viewer_action == $action)
-			{
-				$out .= ' class="current"';
-			}
-			elseif(($action == 'publicationcreator' || $action == 'multirepo_viewer') && $repo_viewer_action == 'creator')
-			{
-				$out .= ' class="current"';
-			}
-			$params = $this->get_parameters();
-			$params[RepoViewer :: PARAM_ACTION] = $repo_viewer_action;
-			$params[Tool :: PARAM_ACTION] = $this->get_parameter(Tool :: PARAM_ACTION);
-			//$out .= ' href="'.$this->get_url(array (RepoViewer :: PARAM_ACTION => $repo_viewer_action, Tool :: PARAM_ACTION => $this->get_parameter(Tool :: PARAM_ACTION)), array(), true).'">'.htmlentities(Translation :: get(ucfirst($repo_viewer_action).'Title')).'</a></li>';
-			$out .= ' href="'.$this->get_url($params, array(), true).'">'.htmlentities(Translation :: get(ucfirst($repo_viewer_action).'Title')).'</a></li>';
-		}
-
-		$out .= '</ul><div class="tabbed-pane-content">';
-
-		require_once dirname(__FILE__).'/repo_viewer/learning_object_'.$action.'.class.php';
-		$class = 'LearningObjectRepoViewer'.ucfirst($action).'Component';
-		$component = new $class ($this);
-		$out .= $component->as_html().'</div></div>';
-		return $out;
-	}
-
+	
 	/**
 	 * @see Tool::get_course()
 	 */
@@ -113,5 +76,7 @@ class LearningObjectRepoViewer extends RepoViewer
 	{
 		return $this->get_parent();
 	}
+
+	
 }
 ?>

@@ -7,7 +7,7 @@
 require_once dirname(__FILE__).'/../personal_messenger_manager.class.php';
 require_once dirname(__FILE__).'/../personal_messenger_manager_component.class.php';
 require_once dirname(__FILE__).'/../../publisher/personal_message_publisher.class.php';
-require_once dirname(__FILE__).'/../../personal_message_repo_viewer.class.php';
+require_once Path :: get_application_library_path(). 'repo_viewer/repo_viewer.class.php';
 
 class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManagerComponent
 {
@@ -24,7 +24,7 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
 
         $object = $_GET['object'];
         //$edit = $_GET['edit'];
-        $pub = new PersonalMessageRepoViewer($this, 'personal_message', true);
+        $pub = new RepoViewer($this, 'personal_message', true);
         $pub->set_parameter('reply', $reply);
         $pub->set_parameter(PersonalMessengerManager :: PARAM_USER_ID, $user);
 

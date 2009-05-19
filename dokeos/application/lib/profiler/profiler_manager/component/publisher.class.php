@@ -5,7 +5,7 @@
 require_once dirname(__FILE__).'/../profiler_manager.class.php';
 require_once dirname(__FILE__).'/../profiler_manager_component.class.php';
 require_once dirname(__FILE__).'/../../publisher/profile_publisher.class.php';
-require_once dirname(__FILE__).'/../../profile_repo_viewer.class.php';
+require_once Path :: get_application_library_path(). 'repo_viewer/repo_viewer.class.php';
 
 class ProfilerManagerPublisherComponent extends ProfilerManagerComponent
 {	
@@ -19,7 +19,7 @@ class ProfilerManagerPublisherComponent extends ProfilerManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishProfile')));
 		
 		$object = $_GET['object'];
-		$pub = new ProfileRepoViewer($this, 'profile', true);
+		$pub = new RepoViewer($this, 'profile', true);
 		
 		if(!isset($object))
 		{	
