@@ -132,7 +132,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 		foreach($applications as $application_name)
 		{
 			$application = Application::factory($application_name);
-			$locations = $application->get_learning_object_publication_locations($this->learning_objects[0]);
+			$locations = $application->get_learning_object_publication_locations($this->learning_objects[0], $this->get_parent()->get_user());
 			if(count($locations) == 0) continue;
 			
 			//$apps[] =
