@@ -106,5 +106,21 @@ class ForumTool extends Tool
 	{
 		return array('forum');
 	}
+
+    static function get_subforum_parents($subforum_id)
+    {
+        $rdm = RepositoryDataManager :: get_instance();
+
+        $parent = $rdm->retrieve_complex_learning_object_item($subforum_id);
+        while(!empty($parent))
+        {
+            $parents[] = $parent;
+            $parent = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem ::PROPERTY_REF,$parent->get_parent()))->as_array();
+            $parent = $parent[0];
+        }
+        $parents = array_reverse($parents);
+
+        return $parents;
+    }
 }
 ?>
