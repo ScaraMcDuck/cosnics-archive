@@ -407,5 +407,14 @@ abstract class Application
 		$class = Application :: application_to_class($application) . 'Manager';
 		return new $class($user);
 	}
+
+    /**
+     * Runs the application.
+     */
+    abstract function run();
+
+    abstract function get_application_path();
+
+    abstract function get_application_component_path();
 }
 ?>
