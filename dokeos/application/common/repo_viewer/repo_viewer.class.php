@@ -71,8 +71,37 @@ class RepoViewer
 		$this->set_repo_viewer_actions(array ('creator','browser', 'finder'));
 		$this->excluded_objects = $excluded_objects;
 		$this->set_parameter(RepoViewer :: PARAM_ACTION, ($_GET[RepoViewer :: PARAM_ACTION] ? $_GET[RepoViewer :: PARAM_ACTION] : 'creator'));
+		$this->parse_input_from_table();
 	}
 
+	function as_html()
+	{
+		$action = $this->get_action();
+		
+		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
+		$repo_viewer_actions = $this->get_repo_viewer_actions();
+		foreach ($repo_viewer_actions as $repo_viewer_action)
+		{
+			$out .= '<li><a';
+			if ($action == $repo_viewer_action)
+			{
+				$out .= ' class="current"';
+			}			
+			elseif(($action == 'publicationcreator' || $action == 'multirepo_viewer') && $repo_viewer_action == 'creator')
+			{
+				$out .= ' class="current"';
+			}
+			$out .= ' href="'.$this->get_url(array (RepoViewer :: PARAM_ACTION => $repo_viewer_action), true).'">'.htmlentities(Translation :: get(ucfirst($repo_viewer_action).'Title')).'</a></li>';
+		}
+		$out .= '</ul><div class="tabbed-pane-content">';
+		
+		require_once dirname(__FILE__).'/component/'.$action.'.class.php';
+		$class = 'RepoViewer'.ucfirst($action).'Component';
+		$component = new $class ($this);
+		$out .= $component->as_html().'</div></div>';
+		return $out;
+	}
+	
 	function set_maximum_select($maximum_select)
 	{
 		$this->maximum_select = $maximum_select;
