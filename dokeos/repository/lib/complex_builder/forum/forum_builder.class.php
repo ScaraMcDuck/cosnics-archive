@@ -14,6 +14,9 @@ class ForumBuilder extends ComplexBuilder
 			case ComplexBuilder :: ACTION_BROWSE_CLO :
 				$component = ForumBuilderComponent :: factory('Browser', $this); 
 				break;
+			case ComplexBuilder :: ACTION_CREATE_CLOI :
+				$component = ForumBuilderComponent :: factory('Creator', $this); 
+				break;
 		}
 		
 		if(!$component)
