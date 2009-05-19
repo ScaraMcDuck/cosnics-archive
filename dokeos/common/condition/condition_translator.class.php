@@ -9,6 +9,7 @@ require_once dirname(__FILE__).'/or_condition.class.php';
 require_once dirname(__FILE__).'/not_condition.class.php';
 require_once dirname(__FILE__).'/in_condition.class.php';
 require_once dirname(__FILE__).'/like_condition.class.php';
+require_once dirname(__FILE__).'/subselect_condition.class.php';
 
 class ConditionTranslator
 {
@@ -36,7 +37,11 @@ class ConditionTranslator
 		{
 			$this->strings[] = $this->translate_in_condition($condition);
 		}
-		elseif ($condition instanceof Condition)
+		elseif ($condition instanceof SubselectCondition)
+		{
+			$this->translate_subselect_condition($condition);
+		}
+  		elseif ($condition instanceof Condition)
 		{
 			$this->strings[] = $this->translate_simple_condition($condition);
 		}
@@ -121,13 +126,46 @@ class ConditionTranslator
 			$where_clause = $this->data_manager->escape_column_name($name, $prefix_properties).' IN (';
 			$values = $condition->get_values();
 			$placeholders = array();
-			foreach($values as $index => $value)
+			foreach($values as $value)
 			{
 				$placeholders[] = '?';
 				$this->parameters[] = $value;
 			}
 			$where_clause .= implode(',',$placeholders).')';
 			return $where_clause;
+		}
+		else
+		{
+			die('Cannot translate in condition');
+		}
+	}
+	
+	function translate_subselect_condition($condition)
+	{	
+		if ($condition instanceof SubselectCondition)
+		{
+			$prefix_properties = $this->prefix_properties;
+			
+			$name = $condition->get_name();
+			$value = $condition->get_value();
+			$table = $condition->get_table();
+			$etable = $this->data_manager->escape_table_name($table);
+			$sub_condition = $condition->get_condition();
+			
+			$alias = $this->data_manager->get_alias($table);
+			
+			$this->prefix_properties = $alias;
+			$this->strings[] = $this->data_manager->escape_column_name($name, $prefix_properties) . 
+							' IN ( SELECT ' .  $this->data_manager->escape_column_name($value, $alias) . ' FROM ' . $etable . ' AS ' . $alias;
+			
+			if($sub_condition)
+			{
+				$this->strings[] = ' WHERE ';
+				$this->translate($sub_condition);
+			}
+			
+			$this->strings[] = ')';
+			$this->prefix_properties = $prefix_properties;
 		}
 		else
 		{
