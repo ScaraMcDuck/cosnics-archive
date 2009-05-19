@@ -26,11 +26,10 @@ class ToolAccessDetailsViewerComponent extends ToolComponent
         $params = Reporting :: get_params($this);
 
         $trail = new BreadcrumbTrail();
-        //$trail->add(new Breadcrumb($this->get_url(array('go' => null, 'pcattree' => null, 'course' => null)), Translation :: get('MyCourses')));
-        //$trail->add(new Breadcrumb($this->get_url(array('go'=> 'courseviewer','pcattree' => null)), WebLcmsDataManager :: get_instance()->retrieve_course(Request :: get('course'))->get_name()));
-        /*$trail = $_SESSION['breadcrumbtrail'];
-        if($trail->get_last() != new Breadcrumb($this->get_parent()->get_reporting_url($classname, $params), Translation :: get('Reporting')))*/
+        
+        if(Request :: get('pcattree') != null && Request :: get('pcattree') > 0)
         $this->add_pcattree_breadcrumbs(Request :: get('pcattree'),$trail);
+        
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
         $trail->add(new Breadcrumb($this->get_parent()->get_reporting_url($classname, $params), Translation :: get('Reporting')));
         $this->display_header($trail);
