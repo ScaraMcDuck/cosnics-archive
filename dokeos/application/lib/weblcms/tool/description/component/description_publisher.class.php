@@ -16,6 +16,7 @@ class DescriptionToolPublisherComponent extends DescriptionToolComponent
 		}
 		
 		$trail = new BreadcrumbTrail();
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), Translation :: get('Publisher')));
 		
 		$object = $_GET['object'];
 		$pub = new LearningObjectRepoViewer($this, 'description', true);
