@@ -18,7 +18,6 @@ if(!WebApplication :: is_active($application_name))
 	Display :: not_allowed();
 }
 
-require_once Path :: get_application_path() . 'lib/' . $application_name . '/' . $application_name . '_manager/' . $application_name . '_manager.class.php';
 //require_once Path ::get_application_path().'lib/weblcms/tool/assessment/assessment_tool.class.php';
 
 Translation :: set_application($this_section);

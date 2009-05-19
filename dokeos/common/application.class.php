@@ -402,7 +402,7 @@ abstract class Application
 	 * @return Application An instance of the application corresponding to the
 	 * given $application
 	 */
-	public static function factory($application, $user = null)
+	function factory($application, $user = null)
 	{
 		$class = Application :: application_to_class($application) . 'Manager';
 		return new $class($user);
@@ -413,8 +413,12 @@ abstract class Application
      */
     abstract function run();
 
-    abstract function get_application_path();
+    abstract function get_application_path($application_name);
 
-    abstract function get_application_component_path();
+    public function get_application_component_path()
+    {
+        $application_name = $this->get_application_name();
+        return $this->get_application_path($application_name) . $application_name . '_manager/component/';
+    }
 }
 ?>
