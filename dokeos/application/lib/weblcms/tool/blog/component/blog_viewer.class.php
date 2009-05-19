@@ -29,20 +29,21 @@ class BlogToolViewerComponent extends BlogToolComponent
         {
             $breadcrumbs = $browser->get_publication_category_tree()->get_breadcrumbs();
             unset($breadcrumbs[0]);
-            $_SESSION['blog_breadcrumbs'] = $breadcrumbs;
+            foreach($breadcrumbs as $breadcrumb)
+            {
+                $trail->add(new BreadCrumb($breadcrumb['url'], $breadcrumb['title']));
+            }
+            $_SESSION['breadcrumbs'] = $trail->get_breadcrumbs();
         }
+        
+        //needed when viewing a blog item, to access the breadcrumbs of the categories
+        if(Request :: get('tool_action') == 'view')
+        $trail->set_breadcrumbtrail($_SESSION['breadcrumbs']);
 
-        //needed when viewing a blog item, the publication category tree doesn't exist on that page
-        if(isset($_SESSION['blog_breadcrumbs']) && empty($breadcrumbs))
-        $breadcrumbs = $_SESSION['blog_breadcrumbs'];
-
-        foreach($breadcrumbs as $breadcrumb)
-        {
-           $trail->add(new BreadCrumb($breadcrumb['url'], $breadcrumb['title']));
-        }
         if(Request :: get('pid')!=null)
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
-		$this->display_header($trail);
+
+        $this->display_header($trail);
 		
 		//echo '<br /><a name="top"></a>';
 		//echo $this->perform_requested_actions();

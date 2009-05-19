@@ -211,7 +211,7 @@ abstract class Tool
 				$component = ToolComponent :: factory('', 'AttachmentViewer', $this);
 				break;
             case self :: ACTION_VIEW_REPORTING_TEMPLATE:
-                $component = ToolComponent::factory('', 'ReportingTemplateViewer', $this);
+                $component = ToolComponent::factory('', 'AccessDetailsViewer', $this);
                 break;
 		}
 		if($component)
@@ -326,6 +326,7 @@ abstract class Tool
 		{
 			echo '<div id="tool_browser">';
 		}
+        $_SESSION['breadcrumbtrail'] = $trail;
 	}
 	/**
 	 * @see Application :: display_footer()
@@ -612,7 +613,7 @@ abstract class Tool
         if(isset($_GET['pid']))
         {
             //Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,
-            $url = $this->parent->get_url(array (WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_REPORTING,WeblcmsManager::PARAM_TOOL => null,Tool::PARAM_PUBLICATION_ID=>$_GET['pid'], ReportingManager::PARAM_TEMPLATE_NAME => 'PublicationDetailReportingTemplate'));
+            $url = $this->parent->get_url(array (Tool :: PARAM_ACTION => Tool ::ACTION_VIEW_REPORTING_TEMPLATE, Tool::PARAM_PUBLICATION_ID=>$_GET['pid'], ReportingManager::PARAM_TEMPLATE_NAME => 'PublicationDetailReportingTemplate'));
             return new ToolbarItem(Translation :: get('AccessDetails'), Theme :: get_common_image_path().'action_reporting.png',$url);
         }else
         {
