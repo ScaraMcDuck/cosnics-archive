@@ -102,7 +102,7 @@ class ComplexMenu extends HTML_Menu
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent_id);
 		$datamanager = $this->dm;
 		$clois = $datamanager->retrieve_complex_learning_object_items($condition);
-		
+
 		while ($cloi = $clois->next_result())
 		{
 			if($cloi->is_complex() || $this->view_entire_structure)

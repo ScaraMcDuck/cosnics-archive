@@ -1344,7 +1344,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 */
 	function count_complex_learning_object_items($condition)
 	{
-		$query = 'SELECT COUNT('.self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE.'.'.
+		/*$query = 'SELECT COUNT('.self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE.'.'.
 				 $this->escape_column_name(ComplexLearningObjectItem :: PROPERTY_ID).') FROM '.
 				 $this->escape_table_name('complex_learning_object_item').' AS '.
 				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
@@ -1352,17 +1352,18 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$params = array ();
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
+			$translator = new ConditionTranslator($this->database, $params, self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
-		}
+		} dump($query);
 
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
-		return $record[0];
+		return $record[0];*/
+		return $this->database->count_objects('complex_learning_object_item', $condition);
 	}
 
 	/**
@@ -1385,7 +1386,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = false);
+			$translator = new ConditionTranslator($this->database, $params, self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
@@ -1412,8 +1413,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res = $statement->execute($params);
 
 		return new DatabaseComplexLearningObjectItemResultSet($this, $res, true);
+		//return $this->database->retrieve_objects('complex_learning_object_item', $condition, $offset, $maxObjects, $orderBy, $orderDir, 'DatabaseComplexLearningObjectItemResultSet');
 	}
-
+	
 	function select_next_display_order($parent_id)
 	{
 		$query = 'SELECT MAX(' . ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 

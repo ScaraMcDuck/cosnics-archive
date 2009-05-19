@@ -312,11 +312,11 @@ class Database
 	function count_objects($table_name, $condition = null)
 	{
 		$params = array ();
-		$query = 'SELECT COUNT(*) FROM '.$this->escape_table_name($table_name);
+		$query = 'SELECT COUNT(*) FROM '.$this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
 		
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this, $params);
+			$translator = new ConditionTranslator($this, $params, $this->get_alias($table_name));
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
@@ -337,6 +337,7 @@ class Database
 	 * @param Int $maxObjects the max amount of objects to be retrieved
 	 * @param Array(String) $orderBy the list of column names that the objects have to be ordered by
 	 * @param Array(String) $orderDir the list of order directions for the orderBy list
+	 * @param String $resultset - Optional, the resultset to map the items to
 	 * @return ResultSet 
 	 */
 	function retrieve_objects($table_name, $condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
@@ -365,11 +366,12 @@ class Database
 		{
 			$maxObjects = null;
 		}
-		
+	
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
 		
 		$res = $statement->execute($params);
+
 		return new ObjectResultSet($this, $res, $table_name);
 	}
 	
