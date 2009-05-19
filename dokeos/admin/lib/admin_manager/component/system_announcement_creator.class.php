@@ -4,7 +4,7 @@
  */
 require_once dirname(__FILE__).'/../admin_manager.class.php';
 require_once dirname(__FILE__).'/../admin_manager_component.class.php';
-require_once dirname(__FILE__).'/../../system_announcement_repo_viewer.class.php';
+require_once Path :: get_application_library_path(). 'repo_viewer/repo_viewer.class.php';
 require_once dirname(__FILE__).'/../../announcer/system_announcement_multipublisher.class.php';
 
 class AdminSystemAnnouncementCreatorComponent extends AdminManagerComponent
@@ -30,7 +30,7 @@ class AdminSystemAnnouncementCreatorComponent extends AdminManagerComponent
 	private function get_publisher_html()
 	{		
 		$object = $_GET['object'];
-		$pub = new SystemAnnouncementRepoViewer($this, 'system_announcement', true);
+		$pub = new RepoViewer($this, 'system_announcement', true);
 		
 		if(!isset($object))
 		{	

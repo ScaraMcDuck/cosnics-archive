@@ -131,5 +131,20 @@ abstract class RepoViewerComponent
 	{
 		return $this->get_parent()->get_excluded_objects();
 	}
+	
+	static function factory($type, $repoviewer)
+	{
+		$path = dirname(__FILE__) . '/component/' . DokeosUtilities :: camelcase_to_underscores($type) . '.class.php';
+
+		if (!file_exists($path) || !is_file($path))
+		{
+			$message = Translation :: get('ComponentFailedToLoad'). ': ' . Translation :: get($type);
+			Display :: error_message($message);
+		}
+
+		$class = 'RepoViewer' . $type . 'Component';
+		require_once $path;
+		return new $class($repoviewer);
+	}
 }
 ?>

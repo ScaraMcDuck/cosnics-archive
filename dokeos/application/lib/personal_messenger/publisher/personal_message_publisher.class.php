@@ -32,7 +32,7 @@ class PersonalMessagePublisher
 		$edit = $_GET['reply'];
 		$user = $_GET[PersonalMessengerManager :: PARAM_USER_ID];
 		
-		$form_action_parameters = array_merge($this->parent->get_parameters(), array (PersonalMessageRepoViewer :: PARAM_ID => $learning_object->get_id()));
+		$form_action_parameters = array_merge($this->parent->get_parameters(), array (RepoViewer :: PARAM_ID => $learning_object->get_id()));
 		$form = new PersonalMessagePublicationForm($learning_object, $this->parent->get_user(),$this->parent->get_url($form_action_parameters));
 		if ($form->validate() || ($edit && (isset($user) && !empty($user))))
 		{

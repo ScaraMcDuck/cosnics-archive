@@ -5,6 +5,7 @@
 require_once Path :: get_library_path() . 'redirect.class.php';
 require_once Path :: get_repository_path() . 'lib/abstract_learning_object.class.php';
 require_once dirname(__FILE__).'/component/learning_object_table/learning_object_table.class.php';
+require_once dirname(__FILE__).'/repo_viewer_component.class.php';
 
 /**
 ==============================================================================
@@ -60,7 +61,7 @@ class RepoViewer
 	 * @param  boolean $email_option If true the repo_viewer has the option to
 	 * send the repoviewered learning object by email to the selecter target users.
 	 */
-	function RepoViewer($parent, $types, $mail_option = false, $maximum_select = self :: SELECT_MULTIPLE, $excluded_objects = array())
+	function RepoViewer($parent, $types, $mail_option = false, $maximum_select = self :: SELECT_MULTIPLE, $excluded_objects = array(), $parse_input = true)
 	{
 		$this->maximum_select = $maximum_select;
 		$this->parent = $parent;
@@ -71,7 +72,8 @@ class RepoViewer
 		$this->set_repo_viewer_actions(array ('creator','browser', 'finder'));
 		$this->excluded_objects = $excluded_objects;
 		$this->set_parameter(RepoViewer :: PARAM_ACTION, ($_GET[RepoViewer :: PARAM_ACTION] ? $_GET[RepoViewer :: PARAM_ACTION] : 'creator'));
-		$this->parse_input_from_table();
+		if($parse_input)
+			$this->parse_input_from_table();
 	}
 
 	function as_html()
@@ -95,10 +97,9 @@ class RepoViewer
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 		
-		require_once dirname(__FILE__).'/component/'.$action.'.class.php';
-		$class = 'RepoViewer'.ucfirst($action).'Component';
-		$component = new $class ($this);
-		$out .= $component->as_html().'</div></div>';
+		$out .= RepoViewerComponent :: factory($action, $this)->as_html();
+		$out .= '</div></div>';
+		
 		return $out;
 	}
 	
