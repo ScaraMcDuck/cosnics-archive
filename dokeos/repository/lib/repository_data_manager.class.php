@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/learning_object_publication_attributes.class.ph
 require_once dirname(__FILE__).'/learning_object.class.php';
 require_once dirname(__FILE__).'/complex_learning_object_item.class.php';
 require_once dirname(__FILE__).'/data_manager/database/database_learning_object_result_set.class.php';
-require_once Path :: get_library_path() . 'application.class.php';
+require_once Path :: get_application_path() . 'lib/web_application.class.php';
 require_once Path :: get_home_path() . 'lib/home_data_manager.class.php';
 require_once Path :: get_admin_path().'lib/admin_manager/admin_manager.class.php';
 require_once dirname(__FILE__).'/user_view.class.php';
@@ -851,7 +851,7 @@ abstract class RepositoryDataManager
 	{
 		if (!isset($this->applications) || count($this->applications) == 0)
 		{
-			$this->applications = Application::load_all();
+			$this->applications = WebApplication :: load_all();
 		}
 
 		return $this->applications;
