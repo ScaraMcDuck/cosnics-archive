@@ -104,7 +104,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 	 * action links should be returned
 	 * @return string A HTML representation of the action links
 	 */
-	protected function get_modification_links($cloi, $additional_toolbar_items = array())
+	protected function get_modification_links($cloi, $additional_toolbar_items = array(), $no_move = false)
 	{
 		$toolbar_data = array();
 		
@@ -135,41 +135,44 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 			'img' => Theme :: get_common_image_path().'action_delete.png',
 			'confirm' => true
 		);
-		
-		$allowed = $this->check_move_allowed($cloi);
-		
-		if($allowed["moveup"])
-		{
-			$toolbar_data[] = array(
-				'href' => $moveup_url,
-				'label' => Translation :: get('MoveUp'),
-				'img' => Theme :: get_common_image_path().'action_up.png',
-			);
-		}
-		else
-		{
-			$toolbar_data[] = array(
-				'label' => Translation :: get('MoveUpNA'),
-				'img' => Theme :: get_common_image_path().'action_up_na.png',
-			);
 
-		}
-		
-		if($allowed["movedown"])
+		$allowed = $this->check_move_allowed($cloi);
+
+		if(!$no_move)
 		{
-			$toolbar_data[] = array(
-				'href' => $movedown_url,
-				'label' => Translation :: get('MoveDown'),
-				'img' => Theme :: get_common_image_path().'action_down.png',
-			);
+			if($allowed["moveup"])
+			{
+				$toolbar_data[] = array(
+					'href' => $moveup_url,
+					'label' => Translation :: get('MoveUp'),
+					'img' => Theme :: get_common_image_path().'action_up.png',
+				);
+			}
+			else
+			{
+				$toolbar_data[] = array(
+					'label' => Translation :: get('MoveUpNA'),
+					'img' => Theme :: get_common_image_path().'action_up_na.png',
+				);
+	
+			}
+			
+			if($allowed["movedown"])
+			{
+				$toolbar_data[] = array(
+					'href' => $movedown_url,
+					'label' => Translation :: get('MoveDown'),
+					'img' => Theme :: get_common_image_path().'action_down.png',
+				);
+			}
+			else
+			{
+				$toolbar_data[] = array(
+					'label' => Translation :: get('MoveDownNA'),
+					'img' => Theme :: get_common_image_path().'action_down_na.png',
+				);	
+			}	
 		}
-		else
-		{
-			$toolbar_data[] = array(
-				'label' => Translation :: get('MoveDownNA'),
-				'img' => Theme :: get_common_image_path().'action_down_na.png',
-			);	
-		}	
 		
 		$toolbar_data = array_merge($toolbar_data, $additional_toolbar_items);
 		
@@ -180,7 +183,7 @@ class ComplexBrowserTableCellRenderer extends DefaultLearningObjectTableCellRend
 	{
 		$moveup_allowed = true;
 		$movedown_allowed = true;
-		
+	
 		$count = $this->rdm->count_complex_learning_object_items($this->condition);
 		if($count == 1)
 		{
