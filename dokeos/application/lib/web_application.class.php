@@ -175,17 +175,16 @@ abstract class WebApplication extends Application
         }
     }
 
-    public function get_application_path()
+    public function get_application_path($application_name)
     {
-        $application_name = $this->get_application_name();
-        return Path :: get_application_path() . '/lib/' . $application_name;
+        return Path :: get_application_path() . 'lib/' . $application_name . '/';
     }
 
-    public function get_application_component_path()
-    {
-        $application_name = $this->get_application_name();
-        return $this->get_application_path() . '/' . $application_name . '_manager/component/';
-    }
-
+	function factory($application, $user = null)
+	{
+	    $manager_path = self :: get_application_path($application) . $application . '_manager/' . $application . '_manager.class.php';
+	    require_once $manager_path;
+	    return parent :: factory($application, $user);
+	}
 }
 ?>

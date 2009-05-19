@@ -57,7 +57,7 @@ class Path
 	private static $web_path;
 	private static $sys_path;
 	private static $rel_path;
-	
+
 	public static function get($path_type)
     {
 		switch ($path_type)
@@ -77,7 +77,7 @@ class Path
 					self :: $rel_path = (substr($url_append, -1) === '/' ? $url_append : $url_append.'/');
 				}
 				return self :: $rel_path;
-				
+
 			// Platform-level paths
 			case WEB_LIB_PATH :
 				return self :: get(WEB_PATH) . 'common/';
@@ -101,7 +101,7 @@ class Path
 				return self :: get(WEB_PATH) . 'languages/';
 			case SYS_LANG_PATH :
 				return self :: get(SYS_PATH) . 'languages/';
-				
+
 			// Some paths for the LCMS applications
 			case SYS_APP_PATH :
 				return self :: get(SYS_PATH) . 'application/';
@@ -133,11 +133,11 @@ class Path
 				return self :: get(SYS_PATH) . 'reporting/';
 			case SYS_APP_WEBSERVICE_PATH :
 				return self :: get(SYS_PATH) . 'webservice/';
-			
+
 			// Application-paths
 			case SYS_APP_LIB_PATH :
 				return self :: get(SYS_APP_PATH) . 'common/';
-			
+
 			// Files-paths
 			case WEB_ARCHIVE_PATH :
 				return self :: get(WEB_FILE_PATH) . 'archive/';
@@ -171,87 +171,87 @@ class Path
 				return;
 		}
     }
-    
+
     public static function get_library_path()
     {
     	return self :: get(SYS_LIB_PATH);
     }
-    
+
     public static function get_repository_path()
     {
     	return self :: get(SYS_APP_REPOSITORY_PATH);
     }
-    
+
     public static function get_user_path()
     {
     	return self :: get(SYS_APP_USER_PATH);
     }
-    
+
     public static function get_home_path()
     {
     	return self :: get(SYS_APP_HOME_PATH);
     }
-    
+
     public static function get_menu_path()
     {
     	return self :: get(SYS_APP_MENU_PATH);
     }
-    
+
     public static function get_group_path()
     {
     	return self :: get(SYS_APP_CLASS_GROUP_PATH);
     }
-    
+
     public static function get_help_path()
     {
     	return self :: get(SYS_APP_HELP_PATH);
     }
-    
+
     public static function get_rights_path()
     {
     	return self :: get(SYS_APP_RIGHTS_PATH);
     }
-    
+
     public static function get_migration_path()
     {
     	return self :: get(SYS_APP_MIGRATION_PATH);
     }
-    
+
     public static function get_admin_path()
     {
     	return self :: get(SYS_APP_ADMIN_PATH);
     }
-    
+
     public static function get_plugin_path()
     {
     	return self :: get(SYS_PLUGIN_PATH);
     }
-    
+
     public static function get_language_path()
     {
     	return self :: get(SYS_LANG_PATH);
     }
-    
+
     public static function get_application_library_path()
     {
     	return self :: get(SYS_APP_LIB_PATH);
     }
-    
+
     public static function get_tracking_path()
     {
     	return self :: get(SYS_APP_TRACKING_PATH);
     }
-    
+
     public static function get_application_path()
     {
     	return self :: get(SYS_APP_PATH);
     }
-    
+
     public static function get_reporting_path()
     {
     	return self :: get(SYS_APP_REPORTING_PATH);
     }
-    
+
 	public static function get_webservice_path()
     {
     	return self :: get(SYS_APP_WEBSERVICE_PATH);
@@ -260,6 +260,16 @@ class Path
     public static function get_common_path()
     {
     	return self :: get(SYS_LIB_PATH);
+    }
+
+    public static function get_web_application_path($application_name)
+    {
+        return Path :: get_application_path() . 'lib/' . $application_name . '/';
+    }
+
+    public static function get_web_application_component_path($application_name)
+    {
+        return self :: get_web_application_path($application_name) . '/lib/' . $application_name . '_manager/component/';
     }
 }
 ?>
