@@ -572,13 +572,13 @@ class WeblcmsManager extends WebApplication
 	/**
 	 * Inherited
 	 */
-	function get_learning_object_publication_locations($learning_object)
+	function get_learning_object_publication_locations($learning_object, $user = null)
 	{
 		$locations = array();
 
 		$type = $learning_object->get_type();
 
-		$courses = $this->retrieve_courses($user);
+		$courses = $this->retrieve_courses($user->get_id());
 		while($course = $courses->next_result())
 			$c[] = $course;
 
