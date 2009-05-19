@@ -30,6 +30,7 @@ class ToolEditComponent extends ToolComponent
 
 
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => $pid)), $learning_object->get_title()));
+                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'edit', Tool :: PARAM_PUBLICATION_ID => $pid)), Translation :: get('Edit')));
                
                 if( $form->validate() || $_GET['validated'])
                 {
