@@ -56,7 +56,7 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Send')));
         }
 
-        $this->display_header($trail);
+        $this->display_header($trail, 'personal messenger general');
         echo implode("\n", $html);
         echo '<div style="clear: both;"></div>';
         $this->display_footer();

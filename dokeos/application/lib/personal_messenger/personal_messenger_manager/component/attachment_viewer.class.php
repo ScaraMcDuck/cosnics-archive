@@ -30,14 +30,14 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
 			$publication = $this->publication;
 			if ($this->get_user_id() != $publication->get_user())
 			{
-				$this->display_header($trail);
+				$this->display_header($trail, 'personal messenger general');
 				Display :: error_message(Translation :: get("NotAllowed"));
 				$this->display_footer();
 				exit;
 			}
 
 
-			$this->display_header($trail);
+			$this->display_header($trail, 'personal messenger general');
 			echo $this->get_publication_as_html();
 			$this->display_footer();
 		}
