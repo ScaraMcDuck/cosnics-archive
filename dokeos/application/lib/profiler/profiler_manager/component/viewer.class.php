@@ -18,7 +18,7 @@ class ProfilerManagerViewerComponent extends ProfilerManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(ProfilerManager :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('MyProfiler')));
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES)), Translation :: get('MyProfiler')));
 		//$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewProfile')));
 		
 		$id = $_GET[ProfilerManager :: PARAM_PROFILE_ID];

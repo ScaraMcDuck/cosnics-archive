@@ -79,7 +79,7 @@ class RepoViewer
 	function as_html()
 	{
 		$action = $this->get_action();
-		
+
 		$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
 		$repo_viewer_actions = $this->get_repo_viewer_actions();
 		foreach ($repo_viewer_actions as $repo_viewer_action)
@@ -88,7 +88,7 @@ class RepoViewer
 			if ($action == $repo_viewer_action)
 			{
 				$out .= ' class="current"';
-			}			
+			}
 			elseif(($action == 'publicationcreator' || $action == 'multirepo_viewer') && $repo_viewer_action == 'creator')
 			{
 				$out .= ' class="current"';
@@ -96,13 +96,13 @@ class RepoViewer
 			$out .= ' href="'.$this->get_url(array (RepoViewer :: PARAM_ACTION => $repo_viewer_action), true).'">'.htmlentities(Translation :: get(ucfirst($repo_viewer_action).'Title')).'</a></li>';
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
-		
+
 		$out .= RepoViewerComponent :: factory($action, $this)->as_html();
 		$out .= '</div></div>';
-		
+
 		return $out;
 	}
-	
+
 	function set_maximum_select($maximum_select)
 	{
 		$this->maximum_select = $maximum_select;
@@ -228,11 +228,11 @@ class RepoViewer
 	{
 		if(!$error_message)
 		{
-			$parameters[Redirect :: PARAM_MESSAGE] = $message;
+			$parameters[Application :: PARAM_MESSAGE] = $message;
 		}
 		else
 		{
-			$parameters[Redirect :: PARAM_ERROR_MESSAGE] = $message;
+			$parameters[Application :: PARAM_ERROR_MESSAGE] = $message;
 		}
 
 		$parameters = array_merge($this->get_parent()->get_parameters(), $parameters);

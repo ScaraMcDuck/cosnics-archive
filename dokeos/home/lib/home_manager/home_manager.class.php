@@ -24,9 +24,6 @@ class HomeManager extends CoreApplication
 {
  	const APPLICATION_NAME = 'home';
 
- 	const PARAM_ACTION = 'go';
-	const PARAM_MESSAGE = 'message';
-	const PARAM_ERROR_MESSAGE = 'error_message';
 	const PARAM_HOME_ID = 'id';
 	const PARAM_HOME_TYPE = 'type';
 	const PARAM_DIRECTION = 'direction';

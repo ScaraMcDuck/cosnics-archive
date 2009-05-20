@@ -58,7 +58,7 @@ class WeblcmsCourseList extends WeblcmsBlock
 					{
 						$params[WeblcmsManager :: PARAM_TOOL] = $tool->name;
 						$params[WeblcmsManager :: PARAM_COURSE] = $course->get_id();
-						$params[WeblcmsManager :: PARAM_ACTION] = WeblcmsManager :: ACTION_VIEW_COURSE;
+						$params[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_VIEW_COURSE;
 						$url = 'run.php?application=weblcms';
 						
 						foreach($params as $key => $param)

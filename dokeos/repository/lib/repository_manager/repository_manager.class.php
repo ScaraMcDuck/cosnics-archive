@@ -40,9 +40,6 @@ class RepositoryManager extends CoreApplication
     * Constant defining a parameter of the repository manager.
  	*/
 	// SortableTable hogs 'action' so we'll use something else.
-	const PARAM_ACTION = 'go';
-	const PARAM_MESSAGE = 'message';
-	const PARAM_ERROR_MESSAGE = 'error_message';
 	const PARAM_CATEGORY_ID = 'category';
 	const PARAM_LEARNING_OBJECT_ID = 'object';
 	const PARAM_DESTINATION_LEARNING_OBJECT_ID = 'destination';
@@ -384,11 +381,11 @@ class RepositoryManager extends CoreApplication
 		}
 		echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
-		if ($msg = $_GET[self :: PARAM_MESSAGE])
+		if ($msg = $_GET[Application :: PARAM_MESSAGE])
 		{
 			$this->display_message($msg);
 		}
-		if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
+		if($msg = $_GET[Application :: PARAM_ERROR_MESSAGE])
 		{
 			$this->display_error_message($msg);
 		}

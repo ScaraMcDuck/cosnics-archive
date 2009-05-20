@@ -19,7 +19,6 @@ class PersonalCalendarManager extends WebApplication
 {
 	const APPLICATION_NAME = 'personal_calendar';
 
-	const PARAM_ACTION = 'go';
 	const PARAM_CALENDAR_EVENT_ID = 'calendar_event';
 
 	const ACTION_BROWSE_CALENDAR = 'browse';

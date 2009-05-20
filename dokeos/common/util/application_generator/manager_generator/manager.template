@@ -14,7 +14,6 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
  {
  	const APPLICATION_NAME = '{L_APPLICATION_NAME}';
 
- 	const PARAM_ACTION = 'go';
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 
 	<!-- BEGIN OBJECTS -->

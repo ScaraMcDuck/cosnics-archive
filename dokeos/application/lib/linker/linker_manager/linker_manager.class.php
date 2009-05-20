@@ -14,7 +14,6 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
  {
  	const APPLICATION_NAME = 'linker';
 
- 	const PARAM_ACTION = 'go';
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_LINK_ID = 'profile';
 

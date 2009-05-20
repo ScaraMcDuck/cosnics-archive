@@ -10,9 +10,6 @@ class Redirect
 	const TYPE_CORE = 'core';
 	const TYPE_APPLICATION = 'application';
 
-	const PARAM_MESSAGE = 'message';
-	const PARAM_ERROR_MESSAGE = 'error_message';
-
     static function link($application, $parameters = array (), $filter = array(), $encode_entities = false, $type = self :: TYPE_APPLICATION)
     {
     	$link = self :: get_link($application, $parameters, $filter, $encode_entities, $type);

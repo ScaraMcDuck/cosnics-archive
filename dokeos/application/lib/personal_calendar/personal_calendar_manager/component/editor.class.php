@@ -38,11 +38,11 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComp
             $learning_object = $calendar_event_publication->get_publication_object();
 
             $trail = new BreadcrumbTrail();
-            $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
-            $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION,PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $id)), $learning_object->get_title()));
+            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
+            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION,PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $id)), $learning_object->get_title()));
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Edit')));
 
-            $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_EDIT_PUBLICATION, PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $calendar_event_publication->get_id())));
+            $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_EDIT_PUBLICATION, PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $calendar_event_publication->get_id())));
             if( $form->validate())
             {
                 $success = $form->update_learning_object();
@@ -52,7 +52,7 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComp
                     $publication->update();
                 }
 
-                $this->redirect(Translation :: get(($success ? 'CalendarEventPublicationUpdated' : 'CalendarEventPublicationNotUpdated')), ($success ? false : true), array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR));
+                $this->redirect(Translation :: get(($success ? 'CalendarEventPublicationUpdated' : 'CalendarEventPublicationNotUpdated')), ($success ? false : true), array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR));
             }
             else
             {

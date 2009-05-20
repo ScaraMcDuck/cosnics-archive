@@ -44,7 +44,7 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
 					$message = 'GroupsSubscribedToCourse';
 				}
 
-				$this->redirect(Translation :: get($message), ($success ? false : true), array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code, WeblcmsManager :: PARAM_TOOL => 'user'));
+				$this->redirect(Translation :: get($message), ($success ? false : true), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code, WeblcmsManager :: PARAM_TOOL => 'user'));
 			}
 		}
 

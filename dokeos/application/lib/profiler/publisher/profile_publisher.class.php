@@ -70,7 +70,7 @@ class ProfilePublisher
 				$message = Translation :: get('ObjectPublished');
 			}
 			
-			$this->parent->redirect($message, (!$publication ? true : false), array(ProfilerManager :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
+			$this->parent->redirect($message, (!$publication ? true : false), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
 		}
 		else
 		{

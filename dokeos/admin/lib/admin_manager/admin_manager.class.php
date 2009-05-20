@@ -30,10 +30,7 @@ class AdminManager extends CoreApplication
 {
 	const APPLICATION_NAME = 'admin';
 
-	const PARAM_ACTION = 'go';
 	const PARAM_APPLICATION = 'application';
-	const PARAM_MESSAGE = 'message';
-	const PARAM_ERROR_MESSAGE = 'error_message';
 	const PARAM_SYSTEM_ANNOUNCEMENT_ID = 'announcement';
 
 	const PARAM_DELETE_SELECTED = 'delete_selected';
@@ -133,12 +130,12 @@ class AdminManager extends CoreApplication
 		}
 		echo '<div class="clear">&nbsp;</div>';
 
-		$message = Request :: get(self :: PARAM_MESSAGE);
+		$message = Request :: get(Application :: PARAM_MESSAGE);
 		if (isset($message))
 		{
 			$this->display_message($message);
 		}
-		$message = Request :: get(self :: PARAM_ERROR_MESSAGE);
+		$message = Request :: get(Application :: PARAM_ERROR_MESSAGE);
 		if(isset($message))
 		{
 			$this->display_error_message($message);

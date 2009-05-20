@@ -17,7 +17,7 @@ class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManagerCompone
 		$trail = new BreadcrumbTrail();
 		/*$pub = new LearningObjectPublisher($this, 'introduction', true);
 
-		$html[] = '<p><a href="' . $this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
+		$html[] = '<p><a href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 		$html[] =  $pub->as_html();*/
 
 		$object = $_GET['object'];

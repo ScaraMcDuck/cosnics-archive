@@ -23,7 +23,7 @@ class WeblcmsManagerIntroductionEditorComponent extends WeblcmsManagerComponent
 				$introduction_text->set_learning_object($lo->get_latest_version());
 				$introduction_text->update();
 			}
-			$this->redirect(Translation :: get('IntroductionEdited'), '', array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE));
+			$this->redirect(Translation :: get('IntroductionEdited'), '', array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE));
 		}
 		else
 		{

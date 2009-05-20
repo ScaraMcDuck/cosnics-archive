@@ -34,7 +34,7 @@ class UserToolGroupSubscribeBrowserComponent extends UserToolComponent
 	
 	function get_group_subscribe_html()
 	{
-		$table = new SubscribeGroupBrowserTable($this, array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $this->get_course()->get_id(), WeblcmsManager :: PARAM_TOOL => 'user', UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_GROUPS, 'application' => 'weblcms'), $this->get_condition());
+		$table = new SubscribeGroupBrowserTable($this, array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $this->get_course()->get_id(), WeblcmsManager :: PARAM_TOOL => 'user', UserTool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_GROUPS, 'application' => 'weblcms'), $this->get_condition());
 
 		$html = array();
 		$html[] = '<div style="width: 75%; float: right;">';

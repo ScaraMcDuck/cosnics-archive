@@ -23,9 +23,6 @@ class HelpManager extends CoreApplication
 {
  	const APPLICATION_NAME = 'help';
 
- 	const PARAM_ACTION = 'go';
-	const PARAM_MESSAGE = 'message';
-	const PARAM_ERROR_MESSAGE = 'error_message';
 	const PARAM_HELP_ITEM = 'help_item';
 
 	const ACTION_UPDATE_HELP_ITEM = 'update';

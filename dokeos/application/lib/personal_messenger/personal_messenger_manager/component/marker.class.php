@@ -67,7 +67,7 @@ class PersonalMessengerManagerMarkerComponent extends PersonalMessengerManagerCo
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(PersonalMessengerManager :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES));
 		}
 		else
 		{
