@@ -305,23 +305,23 @@ class GroupManager extends CoreApplication
 		$links[]	= array('name' => Translation :: get('List'),
 							'description' => Translation :: get('ListDescription'),
 							'action' => 'list',
-							'url' => $this->get_link(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)));
 		$links[]	= array('name' => Translation :: get('Create'),
 							'description' => Translation :: get('CreateDescription'),
 							'action' => 'add',
-							'url' => $this->get_link(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_CREATE_GROUP, GroupManager :: PARAM_GROUP_ID => 0)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_CREATE_GROUP, GroupManager :: PARAM_GROUP_ID => 0)));
 		$links[]	= array('name' => Translation :: get('Export'),
 							'description' => Translation :: get('ExportDescription'),
 							'action' => 'export',
-							'url' => $this->get_link(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_EXPORT)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_EXPORT)));
 		$links[]	= array('name' => Translation :: get('Import'),
 							'description' => Translation :: get('ImportDescription'),
 							'action' => 'import',
-							'url' => $this->get_link(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_IMPORT)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_IMPORT)));
 
 		$info = parent :: get_application_platform_admin_links();
 		$info['links'] = $links;
-		$info['search'] = $this->get_link(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
+		$info['search'] = $this->get_link(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
 
 		return $info;
 	}

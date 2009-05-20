@@ -165,7 +165,7 @@ class MenuManager extends CoreApplication
 		$links[]	= array('name' => Translation :: get('Manage'),
 							'description' => Translation :: get('ManageDescription'),
 							'action' => 'sort',
-							'url' => $this->get_link(array(MenuManager :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)));
 
 		$info = parent :: get_application_platform_admin_links();
 		$info['links'] = $links;

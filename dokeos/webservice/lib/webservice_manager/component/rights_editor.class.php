@@ -205,7 +205,7 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
         
         $success = RightsUtilities :: invert_role_right_location($right, $role, $location);
 
-        $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice','webservice' => $this->webserviceID, 'webservice_category_id' => $this->categoryID));
+        $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice','webservice' => $this->webserviceID, 'webservice_category_id' => $this->categoryID));
        		
 	}
 	
@@ -214,14 +214,14 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 		$location = $this->location;        
 		$success = RightsUtilities :: switch_location_inherit($location);
         
-        //$this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice','webservice' => $this->webserviceID, 'webservice' => $this->webserviceID,'webservice_category_id' => $this->categoryID));
+        //$this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice','webservice' => $this->webserviceID, 'webservice' => $this->webserviceID,'webservice_category_id' => $this->categoryID));
         if($this->webserviceID == null)
         {
-            $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice', 'webservice_category_id' => $this->categoryID));
+            $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice', 'webservice_category_id' => $this->categoryID));
         }
         else
         {
-            $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice', 'webservice' => $this->webserviceID));
+            $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice', 'webservice' => $this->webserviceID));
         }
 	}
 	
@@ -230,9 +230,9 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 		$trail = new BreadcrumbTrail();
         $admin = new AdminManager();
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)), Translation :: get('Webservices')));
-		$trail->add(new Breadcrumb($this->get_url(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)), Translation :: get('BrowseWebservices')));
-        $trail->add(new Breadcrumb($this->get_url(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES, WebserviceManager::PARAM_WEBSERVICE_ID => Request :: get(WebserviceManager::PARAM_WEBSERVICE_ID))), $this->message));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)), Translation :: get('Webservices')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)), Translation :: get('BrowseWebservices')));
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES, WebserviceManager::PARAM_WEBSERVICE_ID => Request :: get(WebserviceManager::PARAM_WEBSERVICE_ID))), $this->message));
         
         			
 			$this->display_header($trail);

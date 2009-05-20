@@ -21,12 +21,12 @@ class UserManagerBuddyListCategoryCreatorComponent extends UserManagerComponent
 		if($form->validate())
 		{
 			$success = $form->create_category();
-			$this->redirect(Translation :: get($success ? 'BuddyListCategoriesCreated' : 'BuddyListCategoriesNotCreated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
+			$this->redirect(Translation :: get($success ? 'BuddyListCategoriesCreated' : 'BuddyListCategoriesNotCreated'), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
 		}
 		else
 		{
 			$trail = new BreadcrumbTrail();
-			$trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST)), Translation :: get('BuddyList')));
+			$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST)), Translation :: get('BuddyList')));
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddBuddyListCategories')));
 		
 			$this->display_header($trail);

@@ -61,7 +61,7 @@ class RepositoryManagerUserViewDeleterComponent extends RepositoryManagerCompone
 				}
 			}
 
-			$this->redirect(Translation :: get($message), $failures ? true : false, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS));
+			$this->redirect(Translation :: get($message), $failures ? true : false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS));
 		}
 		else
 		{

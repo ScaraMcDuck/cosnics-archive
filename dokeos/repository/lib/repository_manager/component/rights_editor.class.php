@@ -184,7 +184,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 		$location =  $this->location;
 
 		$success = RightsUtilities :: invert_role_right_location($right, $role, $location);
-		$this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), !$success, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_EDIT_LEARNING_OBJECT_RIGHTS, 'object' => $location->get_identifier()));
+		$this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), !$success, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_EDIT_LEARNING_OBJECT_RIGHTS, 'object' => $location->get_identifier()));
 	}
 
 	function lock_location()
@@ -203,7 +203,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 			$false_message = 'LocactionNotUnlocked';
 		}
 
-		$this->redirect(Translation :: get($success == true ? $true_message : $false_message), !$success, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_EDIT_LEARNING_OBJECT_RIGHTS, 'object' => $location->get_identifier()));
+		$this->redirect(Translation :: get($success == true ? $true_message : $false_message), !$success, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_EDIT_LEARNING_OBJECT_RIGHTS, 'object' => $location->get_identifier()));
 	}
 
 	function inherit_location()
@@ -211,7 +211,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 		$location = $this->location;
 
 		$success = RightsUtilities :: switch_location_inherit($location);
-		$this->redirect(Translation :: get($success == true ? 'LocationUpdated' : 'LocationNotUpdated'), !$success, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_EDIT_LEARNING_OBJECT_RIGHTS, 'object' => $location->get_identifier()));
+		$this->redirect(Translation :: get($success == true ? 'LocationUpdated' : 'LocationNotUpdated'), !$success, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_EDIT_LEARNING_OBJECT_RIGHTS, 'object' => $location->get_identifier()));
 	}
 
 	function show_rights_list()

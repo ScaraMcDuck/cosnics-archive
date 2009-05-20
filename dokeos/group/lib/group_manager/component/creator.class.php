@@ -37,11 +37,11 @@ class GroupManagerCreatorComponent extends GroupManagerComponent
 			if($success)
 			{
 				$group = $form->get_group();
-				$this->redirect(Translation :: get('GroupCreated'), (false), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group->get_id()));
+				$this->redirect(Translation :: get('GroupCreated'), (false), array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group->get_id()));
 			}
 			else
 			{
-				$this->redirect(Translation :: get('GroupNotCreated'), (true), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
+				$this->redirect(Translation :: get('GroupNotCreated'), (true), array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
 			}
 		}
 		else

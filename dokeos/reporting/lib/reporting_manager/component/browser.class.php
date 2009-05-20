@@ -22,8 +22,8 @@ class ReportingManagerBrowserComponent extends ReportingManagerComponent
         $trail = new BreadcrumbTrail();
         $admin = new AdminManager();
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
-        //$trail->add(new Breadcrumb($this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application)), Translation :: get(Application :: application_to_class($application)) . '&nbsp;' . Translation :: get('Template')));
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
+        //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application)), Translation :: get(Application :: application_to_class($application)) . '&nbsp;' . Translation :: get('Template')));
 
         if (!$this->get_user()->is_platform_admin())
         {
@@ -78,7 +78,7 @@ class ReportingManagerBrowserComponent extends ReportingManagerComponent
             {
                 //$html[] = '<div class="application">';
             }
-            //$html[] = '<a id="'.$application_links['application']['class'].'" class="dock-item" href="'. $this->get_url(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
+            //$html[] = '<a id="'.$application_links['application']['class'].'" class="dock-item" href="'. $this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
             //$html[] = '<a class="dock-item" href="#tabs-'.$index.'" />';
             $html[] = '<a id="'.$application_links['application']['class'].'" class="dock-item" href="index_reporting.php?go=browse_templates#application-'.$application_links['application']['class'].'" />';
             $html[] = '<img src="'. Theme :: get_image_path('admin') . 'place_' . $application_links['application']['class'] .'.png" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/>';
@@ -117,7 +117,7 @@ class ReportingManagerBrowserComponent extends ReportingManagerComponent
      */
     function get_template_html()
     {
-        $table = new ReportingTemplateRegistrationBrowserTable($this, array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $this->application), $this->get_condition());
+        $table = new ReportingTemplateRegistrationBrowserTable($this, array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $this->application), $this->get_condition());
         $html = array();
         $html[] = '<div style="float: right; width: 100%;">';
         $html[] = $table->as_html();

@@ -9,7 +9,7 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
 	{
 		$menu_trail = $this->get_clo_breadcrumbs();
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('Repository')));
+		$trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('Repository')));
 		$trail->merge($menu_trail);
 		
 		if($this->get_cloi())

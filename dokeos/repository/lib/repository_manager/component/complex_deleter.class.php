@@ -72,7 +72,7 @@ class RepositoryManagerComplexDeleterComponent extends RepositoryManagerComponen
 				}
 			}
 
-			$this->redirect(Translation :: get($message), false, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $parent,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root, 'publish' => $_GET['publish'], 'clo_action' => 'organise'));
+			$this->redirect(Translation :: get($message), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $parent,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root, 'publish' => $_GET['publish'], 'clo_action' => 'organise'));
 		}
 		else
 		{

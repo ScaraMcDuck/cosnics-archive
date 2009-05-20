@@ -22,7 +22,7 @@ class HomeManagerDeleterComponent extends HomeManagerComponent
 		$type = $_GET[HomeManager :: PARAM_HOME_TYPE];
 		$trail = new BreadcrumbTrail();
 
-		$trail->add(new Breadcrumb($this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeDeleter')));
 
 		if (!$this->get_user()->is_platform_admin())
@@ -57,7 +57,7 @@ class HomeManagerDeleterComponent extends HomeManagerComponent
 				$success = true;
 			}
 
-			$this->redirect(Translation :: get($success ? 'HomeDeleted' : 'HomeNotDeleted'), ($success ? false : true), array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
+			$this->redirect(Translation :: get($success ? 'HomeDeleted' : 'HomeNotDeleted'), ($success ? false : true), array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
 		}
 		else
 		{

@@ -18,7 +18,7 @@ class GroupManagerGroupRoleManagerComponent extends GroupManagerComponent
 		$trail = new BreadcrumbTrail();
 		$admin = new AdminManager();
 		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_ACTION =>  GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION =>  GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
 
 		$group_id = Request :: get(GroupManager :: PARAM_GROUP_ID);
 		if(!$group_id)
@@ -38,7 +38,7 @@ class GroupManagerGroupRoleManagerComponent extends GroupManagerComponent
 		if($form->validate())
 		{
 			$success = $form->update_group_roles();
-			$this->redirect(Translation :: get($success ? 'GroupRolesChanged' : 'GroupRolesNotChanged'), ($success ? false : true), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
+			$this->redirect(Translation :: get($success ? 'GroupRolesChanged' : 'GroupRolesNotChanged'), ($success ? false : true), array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
 		}
 		else
 		{

@@ -85,7 +85,7 @@ class SubscribeWizardProcess extends HTML_QuickForm_Action
 					}
 				}
 
-				$this->parent->redirect(Translation :: get($message), ($failures ? true : false), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group_id));
+				$this->parent->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group_id));
 				exit;
 				break;
 		}

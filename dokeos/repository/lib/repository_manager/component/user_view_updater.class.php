@@ -16,7 +16,7 @@ class RepositoryManagerUserViewUpdaterComponent extends RepositoryManagerCompone
     	$admin = new AdminManager();
         $trail = new BreadcrumbTrail(false);
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
-        $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS)), Translation :: get('UserViewList')));
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS)), Translation :: get('UserViewList')));
 
         $admin = new AdminManager();
 
@@ -41,7 +41,7 @@ class RepositoryManagerUserViewUpdaterComponent extends RepositoryManagerCompone
             {
                 $success = $form->update_user_view();
                 $user_view = $form->get_user_view();
-                $this->redirect(Translation :: get($success ? 'UserViewUpdated' : 'UserViewNotUpdated'), ($success ? false : true), array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS));
+                $this->redirect(Translation :: get($success ? 'UserViewUpdated' : 'UserViewNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS));
             }
             else
             {

@@ -22,7 +22,7 @@ class RightsManagerRoleBrowserComponent extends RightsManagerComponent
 		$trail = new BreadcrumbTrail();
         $admin = new AdminManager();
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));      
-		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseRoles')));
 		
 		if (!$this->get_user()->is_platform_admin())
@@ -44,7 +44,7 @@ class RightsManagerRoleBrowserComponent extends RightsManagerComponent
 	
 	function get_user_html()
 	{		
-		$table = new RoleBrowserTable($this, array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES), $this->get_condition());
+		$table = new RoleBrowserTable($this, array(Application :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES), $this->get_condition());
 		
 		$html = array();
 		$html[] = '<div style="float: right; width: 100%;">';
@@ -75,7 +75,7 @@ class RightsManagerRoleBrowserComponent extends RightsManagerComponent
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 		
 		$action_bar->set_search_url($this->get_url(array(RightsManager :: PARAM_ROLE_ID => $this->get_role())));
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_CREATE_ROLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_CREATE_ROLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('rights'));
 		
 		return $action_bar;

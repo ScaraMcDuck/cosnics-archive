@@ -49,7 +49,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 
 		$success = RightsUtilities :: invert_role_right_location($right, $role, $location);
 
-		$this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS,'application' => $this->application, 'location' => $location->get_id()));
+		$this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS,'application' => $this->application, 'location' => $location->get_id()));
 	}
 
 	function lock_location()
@@ -68,14 +68,14 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			$false_message = 'LocactionNotUnlocked';
 		}
 
-		$this->redirect(Translation :: get($success == true ? $true_message : $false_message), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, 'application' => $this->application, 'location' => $location->get_id()));
+		$this->redirect(Translation :: get($success == true ? $true_message : $false_message), ($success == true ? false : true), array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, 'application' => $this->application, 'location' => $location->get_id()));
 	}
 
 	function inherit_location()
 	{
 		$location = $this->location;
 		$success = RightsUtilities :: switch_location_inherit($location);
-		$this->redirect(Translation :: get($success == true ? 'LocationUpdated' : 'LocationNotUpdated'), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, 'application' => $this->application, 'location' => $location->get_id()));
+		$this->redirect(Translation :: get($success == true ? 'LocationUpdated' : 'LocationNotUpdated'), ($success == true ? false : true), array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, 'application' => $this->application, 'location' => $location->get_id()));
 	}
 
 	function show_rights_list()
@@ -83,8 +83,8 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		$trail = new BreadcrumbTrail();
         $admin = new AdminManager();
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
-		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRights')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRights')));
 
 		if (!isset($this->application) && !isset($this->location))
 		{
@@ -271,7 +271,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 
 			$application_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase($the_application));
 
-			$html[] = '<a href="'. $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, RightsManager :: PARAM_APPLICATION => $the_application)) .'">';
+			$html[] = '<a href="'. $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, RightsManager :: PARAM_APPLICATION => $the_application)) .'">';
 			$html[] = '<img src="'. Theme :: get_image_path('admin') . 'place_' . $the_application .'.png" border="0" style="vertical-align: middle;" alt="' . $application_name . '" title="' . $application_name . '"/><br />'. $application_name;
 			$html[] = '</a>';
 			$html[] = '</div>';

@@ -27,7 +27,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 		$trail = new BreadcrumbTrail();
         $admin = new AdminManager();
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(MenuManager :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MenuSort')));
 
 		$user = $this->get_user();
@@ -74,7 +74,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 		$trail = new BreadcrumbTrail();
         $admin = new AdminManager();
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(MenuManager :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SortMenuManagerCategories')));
 
 		$this->display_header($trail, false);
@@ -161,7 +161,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 			$trail = new BreadcrumbTrail();
             $admin = new AdminManager();
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-			$trail->add(new Breadcrumb($this->get_url(array(MenuManager :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));
+			$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddMenuManagerCategory')));
 
 			$this->display_header($trail, false);
@@ -191,7 +191,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 			$trail = new BreadcrumbTrail();
             $admin = new AdminManager();
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-			$trail->add(new Breadcrumb($this->get_url(array(MenuManager :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));
+			$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateMenuManagerCategory')));
 
 			$this->display_header($trail, false);
@@ -290,7 +290,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 			$extra_items_after[] = & $create;*/
 
 			$temp_replacement = '__CATEGORY__';
-			$url_format = $this->get_url(array(MenuManager :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU, MenuManager :: PARAM_CATEGORY => $temp_replacement));
+			$url_format = $this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU, MenuManager :: PARAM_CATEGORY => $temp_replacement));
 			$url_format = str_replace($temp_replacement, '%s', $url_format);
 			$this->menu = new MenuItemMenu($this->category, $url_format, null, null);
 
@@ -310,7 +310,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 
 	function get_menu_home_url()
 	{
-		return $this->get_url(array (MenuManager :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU));
+		return $this->get_url(array (Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU));
 	}
 }
 ?>

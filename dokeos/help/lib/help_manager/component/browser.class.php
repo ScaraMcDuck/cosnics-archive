@@ -43,7 +43,7 @@ class HelpManagerBrowserComponent extends HelpManagerComponent
 	
 	function get_user_html()
 	{		
-		$table = new HelpItemBrowserTable($this, array(HelpManager :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS), $this->get_condition());
+		$table = new HelpItemBrowserTable($this, array(Application :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS), $this->get_condition());
 		
 		$html = array();
 		$html[] = '<div style="float: right; width: 100%;">';

@@ -16,8 +16,8 @@ class RightsManagerRoleEditorComponent extends RightsManagerComponent
 		$trail = new BreadcrumbTrail();
         $admin = new AdminManager();
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
-		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRole')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRole')));
 		
 		$id = $_GET[RightsManager :: PARAM_ROLE_ID];
 		
@@ -38,7 +38,7 @@ class RightsManagerRoleEditorComponent extends RightsManagerComponent
 			if($form->validate())
 			{
 				$success = $form->update_role();
-				$this->redirect(Translation :: get($success ? 'RoleUpdated' : 'RoleNotUpdated'), ($success ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES));
+				$this->redirect(Translation :: get($success ? 'RoleUpdated' : 'RoleNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES));
 			}
 			else
 			{

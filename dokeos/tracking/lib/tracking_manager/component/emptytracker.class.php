@@ -79,7 +79,7 @@ class TrackingManagerEmptyTrackerComponent extends TrackingManagerComponent
 		
 		}
 		
-		$this->redirect(Translation :: get($success ? 'TrackerEmpty' : 'TrackerNotEmpty'), ($success ? false : true), array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_VIEW_EVENT, TrackingManager :: PARAM_EVENT_ID => $event_id));
+		$this->redirect(Translation :: get($success ? 'TrackerEmpty' : 'TrackerNotEmpty'), ($success ? false : true), array(Application :: PARAM_ACTION => TrackingManager :: ACTION_VIEW_EVENT, TrackingManager :: PARAM_EVENT_ID => $event_id));
 	}
 	
 	/**
@@ -101,7 +101,7 @@ class TrackingManagerEmptyTrackerComponent extends TrackingManagerComponent
 			if(!$this->empty_trackers_for_event($event)) $success = false;
 		}
 		
-		$this->redirect(Translation :: get($success ? 'TrackerEmpty' : 'TrackerNotEmpty'), ($success ? false : true), array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
+		$this->redirect(Translation :: get($success ? 'TrackerEmpty' : 'TrackerNotEmpty'), ($success ? false : true), array(Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
 	}
 	
 	/**
@@ -141,7 +141,7 @@ class TrackingManagerEmptyTrackerComponent extends TrackingManagerComponent
 		{
 			if(!$this->empty_trackers_for_event($event)) $success = $false;
 			
-			$this->redirect(Translation :: get($success ? 'TrackerEmpty' : 'TrackerNotEmpty'), ($success ? false : true), array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
+			$this->redirect(Translation :: get($success ? 'TrackerEmpty' : 'TrackerNotEmpty'), ($success ? false : true), array(Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
 		}
 	}
 

@@ -90,11 +90,11 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 		$links[]	= array('name' => Translation :: get('List'),
 							'description' => Translation :: get('ListDescription'),
 							'action' => 'list',
-							'url' => $this->get_link(array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS)));
 		$links[]	= array('name' => Translation :: get('Archive'),
 							'description' => Translation :: get('ArchiveDescription'),
 							'action' => 'archive',
-							'url' => $this->get_link(array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)));
 		
 		return array('application' => array('name' => Translation :: get('Tracking'), 'class' => 'tracking'), 'links' => $links);
 	}
@@ -249,7 +249,7 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 			if($action == 'enable' || $action == 'disable')
 	 		{
 	 			$this->redirect('url', null, null, array(
-		 				TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_CHANGE_ACTIVE, 
+		 				Application :: PARAM_ACTION => TrackingManager :: ACTION_CHANGE_ACTIVE, 
 		 				TrackingManager :: PARAM_EVENT_ID => $selected_ids, 
 		 				TrackingManager :: PARAM_TYPE => 'event',
 		 				TrackingManager :: PARAM_EXTRA => $action));
@@ -257,7 +257,7 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 	 		else
 	 		{
 		 		$this->redirect('url', null, null, array(
-		 				TrackingManager :: PARAM_ACTION => $action, 
+		 				Application :: PARAM_ACTION => $action, 
 		 				TrackingManager :: PARAM_EVENT_ID => $selected_ids, 
 		 				TrackingManager :: PARAM_TYPE => 'event'));
 	 		}
