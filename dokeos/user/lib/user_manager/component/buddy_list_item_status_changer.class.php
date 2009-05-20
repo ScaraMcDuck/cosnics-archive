@@ -45,7 +45,7 @@ class UserManagerBuddyListItemStatusChangerComponent extends UserManagerComponen
 			
 			$ajax = Request :: get('ajax');
 			if(!$ajax)
-				$this->redirect('url', Translation :: get($succes ? 'StatusChanged' : 'StatusNotChanged'), !$succes, array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
+				$this->redirect(Translation :: get($succes ? 'StatusChanged' : 'StatusNotChanged'), !$succes, array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
 		}
 		else
 		{
