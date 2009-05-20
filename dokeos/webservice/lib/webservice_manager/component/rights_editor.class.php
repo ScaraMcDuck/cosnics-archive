@@ -205,7 +205,7 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
         
         $success = RightsUtilities :: invert_role_right_location($right, $role, $location);
 
-        $this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice','webservice' => $this->webserviceID, 'webservice_category_id' => $this->categoryID));
+        $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice','webservice' => $this->webserviceID, 'webservice_category_id' => $this->categoryID));
        		
 	}
 	
@@ -214,14 +214,14 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 		$location = $this->location;        
 		$success = RightsUtilities :: switch_location_inherit($location);
         
-        //$this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice','webservice' => $this->webserviceID, 'webservice' => $this->webserviceID,'webservice_category_id' => $this->categoryID));
+        //$this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice','webservice' => $this->webserviceID, 'webservice' => $this->webserviceID,'webservice_category_id' => $this->categoryID));
         if($this->webserviceID == null)
         {
-            $this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice', 'webservice_category_id' => $this->categoryID));
+            $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice', 'webservice_category_id' => $this->categoryID));
         }
         else
         {
-            $this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice', 'webservice' => $this->webserviceID));
+            $this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES,'application' => 'webservice', 'webservice' => $this->webserviceID));
         }
 	}
 	
