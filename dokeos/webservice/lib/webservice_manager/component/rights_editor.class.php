@@ -235,7 +235,7 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_MANAGE_ROLES, WebserviceManager::PARAM_WEBSERVICE_ID => Request :: get(WebserviceManager::PARAM_WEBSERVICE_ID))), $this->message));
         
         			
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'webservice general');
             echo $this->submessage .'<br/><br/>';
 			echo $this->get_modification_links();            
 			echo $this->get_rights_table_html();            

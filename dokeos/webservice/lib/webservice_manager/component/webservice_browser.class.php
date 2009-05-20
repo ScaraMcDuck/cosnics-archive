@@ -33,7 +33,7 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
             $trail->add(new Breadcrumb($this->get_url(), $category->get_name()));
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'webservice general');
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -43,7 +43,7 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
 		$output = $this->get_user_html();
 		$menu = $this->get_menu_html();
 		
-		$this->display_header($trail, false);        
+		$this->display_header($trail, false, 'webservice general');        
 		echo '<br />' . $this->action_bar->as_html() . '<br />';
 		echo $output;
 		echo $menu;
