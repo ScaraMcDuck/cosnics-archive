@@ -15,8 +15,8 @@ class CourseGroupToolCreatorComponent extends CourseGroupToolComponent
 			Display :: not_allowed();
 			return;
 		}
-
 		$trail = new BreadcrumbTrail();
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_ADD_COURSE_GROUP)), Translation :: get('Create')));
 		$course = $this->get_course();
 		$course_group = new CourseGroup(null, $course->get_id());
 		$param_add_course_group[Tool :: PARAM_ACTION] = CourseGroupTool :: ACTION_ADD_COURSE_GROUP;
