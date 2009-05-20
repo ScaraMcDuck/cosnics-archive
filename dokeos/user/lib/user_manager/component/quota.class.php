@@ -37,7 +37,7 @@ class UserManagerQuotaComponent extends UserManagerComponent
 
 			if (!$this->get_user()->is_platform_admin())
 			{
-				$this->display_header();
+				$this->display_header($trail, false, 'user general');
 				Display :: error_message(Translation :: get("NotAllowed"));
 				$this->display_footer();
 				exit;
@@ -52,7 +52,7 @@ class UserManagerQuotaComponent extends UserManagerComponent
 			else
 			{
                 $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserQuota')));
-				$this->display_header($trail);
+				$this->display_header($trail, false, 'user general');
 				$form->display();
 				$this->display_footer();
 			}

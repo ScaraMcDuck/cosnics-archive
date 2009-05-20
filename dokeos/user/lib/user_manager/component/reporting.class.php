@@ -27,7 +27,7 @@ class UserManagerReportingComponent extends UserManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(ReportingManager::PARAM_TEMPLATE_NAME => $classname, ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS => $params)), Translation :: get('Report')));
 
 
-        $this->display_header($trail);
+        $this->display_header($trail, false, 'user general');
 
         $rtv->show_reporting_template_by_name($classname, $params);
 

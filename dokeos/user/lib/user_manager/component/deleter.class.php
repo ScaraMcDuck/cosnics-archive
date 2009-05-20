@@ -21,7 +21,7 @@ class UserManagerDeleterComponent extends UserManagerComponent
 
 			if (!$this->get_user()->is_platform_admin())
 			{
-				$this->display_header();
+				$this->display_header($trail, false, 'user general');
 				Display :: error_message(Translation :: get("NotAllowed"));
 				$this->display_footer();
 				exit;

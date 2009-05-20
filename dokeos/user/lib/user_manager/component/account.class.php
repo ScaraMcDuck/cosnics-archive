@@ -31,7 +31,7 @@ class UserManagerAccountComponent extends UserManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'user general');
 			$form->display();
 			$this->display_footer();
 		}

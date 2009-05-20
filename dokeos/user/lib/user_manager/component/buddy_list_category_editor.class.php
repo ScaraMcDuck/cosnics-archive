@@ -28,7 +28,7 @@ class UserManagerBuddyListCategoryEditorComponent extends UserManagerComponent
 				$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST)), Translation :: get('BuddyList')));
 				$trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_BUDDYLIST_CATEGORY => $id)), Translation :: get('UpdateBuddyListCategory')));
 			
-				$this->display_header($trail);
+				$this->display_header($trail, false, 'user general');
 				$form->display();
 				$this->display_footer();
 			}

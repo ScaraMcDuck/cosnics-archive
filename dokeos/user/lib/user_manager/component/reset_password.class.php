@@ -33,12 +33,12 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 		}
 		if (isset ($user_id))
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'user general');
 			Display :: warning_message(Translation :: get('AlreadyRegistered'));
 			$this->display_footer();
 			exit;
 		}
-		$this->display_header($trail);
+		$this->display_header($trail, false, 'user general');
 		$request_key = $_GET[self::PARAM_RESET_KEY];
 		$request_user_id = $_GET[User::PROPERTY_USER_ID];
 		if(!is_null($request_key) && !is_null($request_user_id))
