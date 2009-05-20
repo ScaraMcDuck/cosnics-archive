@@ -27,7 +27,7 @@ class DescriptionToolViewerComponent extends DescriptionToolComponent
 
         if(Request :: get('pid')!=null && Request :: get('tool_action')=='view')
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))),WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses description tool');
 		
 		echo '<br /><a name="top"></a>';
 		//echo $this->perform_requested_actions();

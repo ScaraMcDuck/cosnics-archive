@@ -22,7 +22,7 @@ class UserToolDetailsComponent extends UserToolComponent
             $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => Request :: get('users'))), $user->get_firstname().' '.$user->get_lastname()));
         }
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => Request :: get('users'))), Translation :: get('Details')));
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses user');
 		
 		$udm = UserDataManager::get_instance();
 		if(isset($_GET[WeblcmsManager :: PARAM_USERS]))

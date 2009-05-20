@@ -38,7 +38,7 @@ class DocumentToolPublisherComponent extends DocumentToolComponent
 			$html[] = $publisher->get_publications_form($object);
 		}
 		
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses document tool');
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

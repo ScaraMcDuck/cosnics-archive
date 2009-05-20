@@ -24,7 +24,7 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
 		$this->action_bar = $this->get_action_bar();
 		$trail = new BreadcrumbTrail();
 		
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses user');
 		
 		echo '<br /><a name="top"></a>';
 		//echo $this->perform_requested_actions();

@@ -14,7 +14,7 @@ class ForumToolPostEditorComponent extends ForumToolComponent
 
 			if(!$pid || !$cid || !$post)
 			{
-				$this->display_header(new BreadCrumbTrail());
+				$this->display_header(new BreadCrumbTrail(), true, 'courses forum tool');
 				$this->display_error_message(Translation :: get('ObjectNotSelected'));
 				$this->display_footer();
 			}
@@ -57,7 +57,7 @@ class ForumToolPostEditorComponent extends ForumToolComponent
 			}
 			else
 			{
-				$this->display_header(new BreadCrumbTrail());
+				$this->display_header(new BreadCrumbTrail(), true, 'courses forum tool');
 				$form->display();
 				$this->display_footer();
 			}

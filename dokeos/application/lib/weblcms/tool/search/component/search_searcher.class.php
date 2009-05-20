@@ -26,7 +26,7 @@ class SearchToolSearcherComponent extends SearchToolComponent
 	{
 		$trail = new BreadcrumbTrail();
 		$this->action_bar = $this->get_action_bar();
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses search tool');
 		// Display the search form
 		//$form = new SearchForm($this);
 		echo '<div style="text-align:center">';

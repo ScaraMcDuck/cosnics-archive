@@ -40,7 +40,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 			else
 			{
 				//$message = $form->toHtml();
-				$this->display_header(new BreadCrumbTrail());
+				$this->display_header(new BreadCrumbTrail(), true, 'courses general');
 				$form->display();
 				$this->display_footer();
 			}

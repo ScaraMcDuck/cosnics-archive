@@ -28,7 +28,7 @@ class CourseGroupToolBrowserComponent extends CourseGroupToolComponent
 		$course_group_table = new CourseGroupTable(new CourseGroupTableDataProvider($this));
 		$trail = new BreadcrumbTrail();
 		
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses group');
 		
 		echo '<br /><a name="top"></a>';
 		

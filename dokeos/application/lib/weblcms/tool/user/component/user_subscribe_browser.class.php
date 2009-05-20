@@ -21,7 +21,7 @@ class UserToolSubscribeBrowserComponent extends UserToolComponent
 		$trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool ::ACTION_SUBSCRIBE_USERS)), Translation :: get('SubscribeUsers')));
 		
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses user');
 		
 		echo '<br /><a name="top"></a>';
 		//echo $this->perform_requested_actions();

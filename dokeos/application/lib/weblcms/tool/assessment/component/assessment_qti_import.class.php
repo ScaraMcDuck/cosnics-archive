@@ -22,7 +22,7 @@ class AssessmentToolQtiImportComponent extends AssessmentToolComponent {
 		{
 			$trail = new BreadCrumbTrail();
 			$trail->add(new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_IMPORT_QTI)), Translation :: get('ImportQTI')));
-			$this->display_header($trail);
+			$this->display_header($trail, true, 'courses assessment tool');
 		
 			$this->action_bar = $this->get_toolbar();
 			echo $this->action_bar->as_html();

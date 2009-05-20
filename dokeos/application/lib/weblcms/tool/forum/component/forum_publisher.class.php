@@ -30,7 +30,7 @@ class ForumToolPublisherComponent extends ForumToolComponent
 			$html[] = $publisher->get_publications_form($object);
 		}
 		
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses forum tool');
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

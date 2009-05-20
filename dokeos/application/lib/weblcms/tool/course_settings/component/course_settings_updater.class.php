@@ -16,7 +16,7 @@ class CourseSettingsToolUpdaterComponent extends CourseSettingsToolComponent
 
 		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user()))
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, true, 'courses settings');
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -31,7 +31,7 @@ class CourseSettingsToolUpdaterComponent extends CourseSettingsToolComponent
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, true, 'courses settings');
 			$form->display();
 			$this->display_footer();
 		}

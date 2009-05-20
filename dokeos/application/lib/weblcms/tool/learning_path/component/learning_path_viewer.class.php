@@ -31,7 +31,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		
 		if(!$pid)
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, true, 'courses learnpath tool');
 			$this->display_error_message(Translation :: get('NoObjectSelected'));
 			$this->display_footer();
 		}
@@ -103,7 +103,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 			$display = LearningPathLearningObjectDisplay :: factory($this, $object->get_type())->display_learning_object($object, $lpi_attempt_data[$cloi->get_id()], $menu->get_continue_url(), $menu->get_previous_url(), $menu->get_jump_urls());
 		}
 		
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses learnpath tool');
 		echo '<br />';
 		echo '<div style="width: 18%; overflow: auto; float: left;">';
 		echo $menu->render_as_tree(). '<br /><br />';

@@ -16,7 +16,7 @@ class CourseGroupToolCreatorComponent extends CourseGroupToolComponent
 		}
 		
 		$trail = new BreadcrumbTrail();
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses group');
 		
 	
 		$this->display_footer();

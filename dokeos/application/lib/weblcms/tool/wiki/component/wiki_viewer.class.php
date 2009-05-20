@@ -62,7 +62,7 @@ class WikiToolViewerComponent extends WikiToolComponent
 
         $trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $this->publication_id)), DokeosUtilities::truncate_string($publication->get_learning_object()->get_title(),20)));
-        $this->display_header($trail);
+        $this->display_header($trail, true, 'courses wiki tool');
 
         $this->links = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links();
         

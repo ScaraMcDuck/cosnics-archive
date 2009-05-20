@@ -47,7 +47,7 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
 		$html[] = '</div>';
         $trail = new BreadCrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE)), WebLcmsDataManager :: get_instance()->retrieve_course_group(Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP))->get_name()));
-        $this->display_header($trail);
+        $this->display_header($trail, true, 'courses group');
 		echo implode($html, "\n");
 		$this->display_footer();
 	}

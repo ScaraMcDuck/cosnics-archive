@@ -56,7 +56,7 @@ class AssessmentToolQuestionFeedbackEditorComponent extends AssessmentToolCompon
 					}
 					else
 					{
-						$this->display_header(new BreadcrumbTrail());
+						$this->display_header(new BreadcrumbTrail(), true, 'courses assessment tool');
 						$form->display();
 						$this->display_footer();
 					}

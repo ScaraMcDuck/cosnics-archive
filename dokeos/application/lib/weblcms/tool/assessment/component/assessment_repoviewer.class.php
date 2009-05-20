@@ -48,7 +48,7 @@ class AssessmentToolRepoviewerComponent extends AssessmentToolComponent
 			$this->redirect(null, false, $redirect_params);
 		}
 
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses assessment tool');
 
 		echo implode("\n",$html);
 		$this->display_footer();

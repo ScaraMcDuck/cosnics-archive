@@ -61,7 +61,7 @@ class ToolFeedbackEditComponent extends ToolComponent
                 }
                 else
                 {
-                    $this->display_header(new BreadCrumbTrail());
+                    $this->display_header(new BreadCrumbTrail(), true, 'courses general');
                     $form->display();
                     $this->display_footer();
                 }
