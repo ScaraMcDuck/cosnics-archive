@@ -32,7 +32,7 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManagerComponen
 
 			$display = LearningObjectDisplay :: factory($object);
 
-			$this->display_header($trail);
+			$this->display_header($trail, 'administration system announcements');
 			echo $display->get_full_html();
 			echo $this->get_toolbar($system_announcement_publication, $object);
 			$this->display_footer();

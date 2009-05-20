@@ -31,14 +31,13 @@ class AdminManagerWhoisOnlineComponent extends AdminManagerComponent
 			{
 				$output = $this->get_table_html();
 			}
-
-			$this->display_header($trail, true);
+			$this->display_header($trail, true, 'common whoisonline');
 			echo $output;
 			$this->display_footer();
 		}
 		else
 		{
-			$this->display_header($trail, true);
+			$this->display_header($trail, true, 'common whoisonline');
 			$this->display_error_message('NotAllowed');
 			$this->display_footer();
 		}

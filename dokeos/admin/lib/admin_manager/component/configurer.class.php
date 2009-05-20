@@ -34,7 +34,7 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
 
 		if (!AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'settings', 'admin_manager_component'))
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, 'administration');
 			$this->display_error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
@@ -49,7 +49,7 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, 'administration');
 			echo $this->get_applications();
 			$form->display();
 			$this->display_footer();
