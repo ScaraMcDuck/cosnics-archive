@@ -44,7 +44,7 @@ class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManagerCompone
 			$this->redirect(Translation :: get('IntroductionPublished'), (false), $parameters);
 		}
 
-		$this->display_header($trail);
+		$this->display_header($trail, false, true, 'courses general');
 		echo '<div class="clear"></div><br />';
 		echo implode("\n",$html);
 		$this->display_footer();

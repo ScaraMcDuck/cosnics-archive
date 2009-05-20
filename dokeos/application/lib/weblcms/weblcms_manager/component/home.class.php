@@ -19,7 +19,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyCourses')));
 		
-		$this->display_header($trail);
+		$this->display_header($trail, false, true, 'courses general');
 		echo '<div class="clear"></div><br />';
 		$course_categories = $this->retrieve_course_user_categories(null, null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
 

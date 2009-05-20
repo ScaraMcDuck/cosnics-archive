@@ -104,7 +104,7 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
 
 		$output = $this->get_course_html();
 
-		$this->display_header($trail, false);
+		$this->display_header($trail, false, true, 'courses subscribe');
 		echo '<div class="clear"></div>';
 		echo '<br />' . $this->action_bar->as_html() . '<br />';
 		echo $menu;

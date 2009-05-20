@@ -103,7 +103,7 @@ class WeblcmsManagerUnsubscribeComponent extends WeblcmsManagerComponent
 
 		$output = $this->get_course_html();
 
-		$this->display_header($trail);
+		$this->display_header($trail, false, true, 'courses unsubscribe');
 		echo '<div class="clear"></div><br />';
 		echo $menu;
 		echo $output;

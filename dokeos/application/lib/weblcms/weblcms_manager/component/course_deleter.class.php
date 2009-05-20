@@ -22,7 +22,7 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManagerComponent
 			$trail = new BreadcrumbTrail();
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('DeleteCourse')));
 
-			$this->display_header($trail);
+			$this->display_header($trail, false, true, 'courses delete');
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;

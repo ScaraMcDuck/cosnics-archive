@@ -22,7 +22,7 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManagerComponent
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, true, 'courses user importer');
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -37,7 +37,7 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, true, 'courses user importer');
 			$form->display();
 			$this->display_extra_information();
 			$this->display_footer();

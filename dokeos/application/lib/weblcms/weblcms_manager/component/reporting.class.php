@@ -25,7 +25,7 @@ class WeblcmsManagerReportingComponent extends WeblcmsManagerComponent
         if($trail->get_last() != new Breadcrumb($this->get_parent()->get_reporting_url($classname, $params), Translation :: get('Reporting')))
         $trail->add(new Breadcrumb($this->get_parent()->get_reporting_url($classname, $params), Translation :: get('Reporting')));
 
-        $this->display_header($trail);
+        $this->display_header($trail, false, true, 'courses reporting');
         $rtv->show_reporting_template_by_name($classname, $params);
         $this->display_footer();
     }
