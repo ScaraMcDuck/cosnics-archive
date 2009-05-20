@@ -22,7 +22,7 @@ class UserManagerExporterComponent extends UserManagerComponent
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'user general');
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -68,7 +68,7 @@ class UserManagerExporterComponent extends UserManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'user general');
 			$form->display();
 			$this->display_footer();
 		}

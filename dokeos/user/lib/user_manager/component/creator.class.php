@@ -24,7 +24,7 @@ class UserManagerCreatorComponent extends UserManagerComponent
 			
 		if (isset($user_id) && !$this->get_user()->is_platform_admin()) 
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'user general');
 			Display :: warning_message(Translation :: get('AlreadyRegistered'));
 			$this->display_footer();
 			exit;
@@ -49,14 +49,14 @@ class UserManagerCreatorComponent extends UserManagerComponent
 			else
 			{ 
 				$_GET['error_message'] = Translation :: get('UsernameNotAvailable');
-				$this->display_header($trail);
+				$this->display_header($trail, false, 'user general');
 				$form->display();
 				$this->display_footer();
 			}
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'user general');
 			$form->display();
 			$this->display_footer();
 		}

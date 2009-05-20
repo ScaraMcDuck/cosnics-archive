@@ -19,8 +19,7 @@ class UserManagerBuddyListViewerComponent extends UserManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BuddyList')));
 
-		$this->display_header($trail);
-		//echo '<div class="clear">&nbsp;</div><br /><h3>' . Translation :: get('BuddyList') . '</h3>';
+		$this->display_header($trail, false, 'user general');
 		echo "<br />";
 		
 		$buddylist = new BuddyList($this->get_user(), $this);

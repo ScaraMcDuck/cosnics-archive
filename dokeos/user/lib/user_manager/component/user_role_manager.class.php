@@ -23,7 +23,7 @@ class UserManagerUserRoleManagerComponent extends UserManagerComponent
 		$user_id = Request :: get(UserManager :: PARAM_USER_USER_ID);
 		if(!$user_id)
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'user general');
 			$this->display_error_message('NoObjectSelected');
 			$this->display_footer();
 			exit();
@@ -43,7 +43,7 @@ class UserManagerUserRoleManagerComponent extends UserManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'user general');
 			
 			echo sprintf(Translation :: get('ModifyRolesForUser'), $user->get_fullname());
 			
