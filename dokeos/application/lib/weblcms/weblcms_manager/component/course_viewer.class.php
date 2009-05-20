@@ -63,7 +63,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 
 		$course = $this->get_parameter(WeblcmsManager :: PARAM_COURSE);
 		$tool = $this->get_parameter(WeblcmsManager :: PARAM_TOOL);
-		$action = $this->get_parameter(WeblcmsManager :: PARAM_ACTION);
+		$action = $this->get_parameter(Application :: PARAM_ACTION);
 		$component_action = $this->get_parameter(WeblcmsManager :: PARAM_COMPONENT_ACTION);
 		$category = $this->get_parameter(WeblcmsManager :: PARAM_CATEGORY);
 
@@ -238,14 +238,14 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		{
 			
 			$tb_data[] = array(
-				'href' => $this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_EDIT_INTRODUCTION)),
+				'href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_EDIT_INTRODUCTION)),
 				'label' => Translation :: get('Edit'),
 				'img' => Theme :: get_common_image_path() . 'action_edit.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
 			);
 			
 			$tb_data[] = array(
-				'href' => $this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_DELETE_INTRODUCTION)),
+				'href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_DELETE_INTRODUCTION)),
 				'label' => Translation :: get('Delete'),
 				'img' => Theme :: get_common_image_path() . 'action_delete.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON
@@ -268,7 +268,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		else
 		{
 			$tb_data[] = array(
-				'href' => $this->get_url(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_PUBLISH_INTRODUCTION)),
+				'href' => $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_PUBLISH_INTRODUCTION)),
 				'label' => Translation :: get('PublishIntroductionText'),
 				'img' => Theme :: get_common_image_path() . 'action_publish.png',
 				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL

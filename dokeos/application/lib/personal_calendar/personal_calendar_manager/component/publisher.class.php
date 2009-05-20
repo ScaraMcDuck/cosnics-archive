@@ -18,7 +18,7 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManagerC
 	function run()
 	{		
 		$trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
 		
 		$object = $_GET['object'];

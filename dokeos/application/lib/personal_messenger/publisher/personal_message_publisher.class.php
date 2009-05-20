@@ -51,7 +51,7 @@ class PersonalMessagePublisher
 				$message = 'PersonalMessageNotPublished';
 			}
 			
-			$this->parent->redirect(Translation :: get($message), ($failures ? true : false), array(PersonalMessengerManager :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES));
+			$this->parent->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES));
 		}
 		else
 		{

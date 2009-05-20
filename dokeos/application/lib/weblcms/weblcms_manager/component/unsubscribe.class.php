@@ -80,7 +80,7 @@ class WeblcmsManagerUnsubscribeComponent extends WeblcmsManagerComponent
 					$message = 'PartialUsersNotUnsubscribedFromCourse';
 				}
 
-				$this->redirect(Translation :: get($message), ($success ? false : true), array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code, WeblcmsManager :: PARAM_TOOL => 'user'));
+				$this->redirect(Translation :: get($message), ($success ? false : true), array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $course_code, WeblcmsManager :: PARAM_TOOL => 'user'));
 			}
 			else
 			{
@@ -93,7 +93,7 @@ class WeblcmsManagerUnsubscribeComponent extends WeblcmsManagerComponent
 		}
 
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(null, array(WeblcmsManager :: PARAM_ACTION)), Translation :: get('MyCourses')));
+		$trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseUnsubscribe')));
 
 		$menu = $this->get_menu_html();
@@ -134,7 +134,7 @@ class WeblcmsManagerUnsubscribeComponent extends WeblcmsManagerComponent
 	function get_menu_html()
 	{
 		$temp_replacement = '__CATEGORY_ID__';
-		$url_format = $this->get_url(array (WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_UNSUBSCRIBE, WeblcmsManager :: PARAM_COURSE_CATEGORY_ID => $temp_replacement));
+		$url_format = $this->get_url(array (Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_UNSUBSCRIBE, WeblcmsManager :: PARAM_COURSE_CATEGORY_ID => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$category_menu = new CourseCategoryMenu($this->category, $url_format);
         $this->breadcrumbs = $category_menu->get_breadcrumbs();

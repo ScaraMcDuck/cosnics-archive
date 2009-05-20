@@ -30,8 +30,8 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
             $publication = $this->publication;
 
             $trail = new BreadcrumbTrail();
-            $trail->add(new Breadcrumb($this->get_url(array(PersonalMessengerManager :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES)), Translation :: get('MyPersonalMessenger')));
-            $trail->add(new Breadcrumb($this->get_url(array(PersonalMessengerManager :: PARAM_ACTION=>PersonalMessengerManager :: ACTION_BROWSE_MESSAGES)),Translation :: get(ucfirst($this->folder))));
+            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES)), Translation :: get('MyPersonalMessenger')));
+            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION=>PersonalMessengerManager :: ACTION_BROWSE_MESSAGES)),Translation :: get(ucfirst($this->folder))));
             $trail->add(new Breadcrumb($this->get_url(), $publication->get_publication_object()->get_title()));
 
             if ($this->get_user_id() != $publication->get_user())

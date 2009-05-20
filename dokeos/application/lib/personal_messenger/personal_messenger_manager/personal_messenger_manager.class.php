@@ -28,7 +28,6 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 
  	const APPLICATION_NAME = 'personal_messenger';
 
- 	const PARAM_ACTION = 'go';
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_MARK_SELECTED_READ = 'mark_selected_read';
 	const PARAM_MARK_SELECTED_UNREAD = 'mark_selected_unread';
@@ -140,7 +139,7 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 		$extra_items[] = $create;
 
 		$temp_replacement = '__FOLDER__';
-		$url_format = $this->get_url(array (PersonalMessengerManager :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => $temp_replacement));
+		$url_format = $this->get_url(array (Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES, PersonalMessengerManager :: PARAM_FOLDER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$user_menu = new PersonalMessengerMenu($this->get_folder(), $url_format, $extra_items);
 

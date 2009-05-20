@@ -68,7 +68,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 	function get_publication_actions($event)
 	{
 		$toolbar_data[] = array(
-			'href' => $this->get_url(array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION, PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $event->get_id())),
+			'href' => $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION, PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $event->get_id())),
 			'label' => Translation :: get('View'),
 			'img' => Theme :: get_common_image_path().'action_browser.png',
 		);
@@ -114,7 +114,7 @@ class PersonalCalendarListRenderer extends PersonalCalendarRenderer
 				$html[] = '<ul class="attachments_list">';
 				foreach ($attachments as $attachment)
 				{
-					$html[] = '<li><a href="' . $this->get_parent()->get_url(array(PersonalCalendarManager :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_ATTACHMENT, 'object' => $attachment->get_id())) . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
+					$html[] = '<li><a href="' . $this->get_parent()->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_ATTACHMENT, 'object' => $attachment->get_id())) . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
 				}
 				$html[] = '</ul></div>';
 				return implode("\n",$html);

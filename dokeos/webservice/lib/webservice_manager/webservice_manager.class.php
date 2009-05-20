@@ -10,14 +10,11 @@ require_once Path :: get_library_path() . 'core_application.class.php';
  * A webservice manager provides some functionalities to the admin to manage
  * his webservices.
  */
- class WebserviceManager extends  CoreApplication 
+ class WebserviceManager extends  CoreApplication
  {
- 	
+
  	const APPLICATION_NAME = 'webservice';
- 	
- 	const PARAM_ACTION = 'go';
-	const PARAM_MESSAGE = 'message';
-	const PARAM_ERROR_MESSAGE = 'error_message';
+
 	const PARAM_REMOVE_SELECTED = 'delete';
 	const PARAM_FIRSTLETTER = 'firstletter';
 	const PARAM_COMPONENT_ACTION = 'action';
@@ -26,65 +23,65 @@ require_once Path :: get_library_path() . 'core_application.class.php';
     const PARAM_LOCATION_ID = 'location';
 	const PARAM_WEBSERVICE_ID = 'webservice';
 	const PARAM_WEBSERVICE_CATEGORY_ID = 'webservice_category_id';
-	
+
 	const ACTION_BROWSE_WEBSERVICES = 'browse_webservices';
 	const ACTION_BROWSE_WEBSERVICE_CATEGORIES = 'browse_webservice_categories';
     const ACTION_MANAGE_ROLES = 'rights_editor';
-	
+
 	private $parameters;
 	private $search_parameters;
 	private $user;
 	private $breadcrumbs;
     private $instance;
-		
+
     public function WebserviceManager($user = null)
     {
-    	parent :: __construct($user);		   	
+    	parent :: __construct($user);
     }
 
     public function get_application_name()
     {
     	return self :: APPLICATION_NAME;
     }
-    
+
     /**
 	 * Run this webservice manager
 	 */
 	function run()
-	{		
+	{
 		$action = $this->get_action();
-		
+
 		$component = null;
 		switch ($action)
 		{
-			case self :: ACTION_BROWSE_WEBSERVICES :								
-				$component = WebserviceManagerComponent :: factory('WebserviceBrowser', $this);			
+			case self :: ACTION_BROWSE_WEBSERVICES :
+				$component = WebserviceManagerComponent :: factory('WebserviceBrowser', $this);
 				break;
             case self :: ACTION_MANAGE_ROLES :
 				$component = WebserviceManagerComponent :: factory('RightsEditor', $this);
 				break;
-			default :				
-				$component = WebserviceManagerComponent :: factory('WebserviceBrowser', $this);		
-		}									
+			default :
+				$component = WebserviceManagerComponent :: factory('WebserviceBrowser', $this);
+		}
 		$component->run(); //wordt gestart
-		
+
 	}
 
 	function retrieve_webservices($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return WebserviceDataManager :: get_instance()->retrieve_webservices($condition, $offset, $count, $order_property, $order_direction);
 	}
-	
+
  	function count_webservices($condition = null)
 	{
 		return WebserviceDataManager :: get_instance()->count_webservices($condition);
 	}
-	
+
 	function retrieve_webservice_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return WebserviceDataManager :: get_instance()->retrieve_webservice_categories($condition, $offset, $count, $order_property, $order_direction);
 	}
-	
+
 	function retrieve_webservice($id)
 	{
 		return WebserviceDataManager :: get_instance()->retrieve_webservice($id);
@@ -94,7 +91,7 @@ require_once Path :: get_library_path() . 'core_application.class.php';
 	{
 		return WebserviceDataManager :: get_instance()->retrieve_webservice_by_name($name);
 	}
-	
+
 	public function get_application_platform_admin_links()
 	{
 		$links		= array();
@@ -106,7 +103,7 @@ require_once Path :: get_library_path() . 'core_application.class.php';
 	}
 
     public function get_manage_roles_url($webservice)
-	{ 
+	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_ID => $webservice->get_id()));
 	}
 
@@ -129,14 +126,14 @@ require_once Path :: get_library_path() . 'core_application.class.php';
 		$toolbar_item = WebserviceDataManager :: get_instance()->retrieve_webservice_category($id);
         if(isset($toolbar_item))
         {
-            $url = $wdm->get_manage_roles_cat_url($toolbar_item);            
+            $url = $wdm->get_manage_roles_cat_url($toolbar_item);
         }
         else
-        {   
+        {
             $wsm = new WebserviceManager();
             $url = $wsm->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_WEBSERVICE_CATEGORY_ID => null));
         }
         return new ToolbarItem('Change rights ', Theme :: get_common_image_path().'action_rights.png', $url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, false);
 	}
-	
+
  }

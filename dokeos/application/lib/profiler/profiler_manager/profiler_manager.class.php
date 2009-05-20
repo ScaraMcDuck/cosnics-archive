@@ -26,7 +26,6 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
  {
  	const APPLICATION_NAME = 'profiler';
 
- 	const PARAM_ACTION = 'go';
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_MARK_SELECTED_READ = 'mark_selected_read';
 	const PARAM_MARK_SELECTED_UNREAD = 'mark_selected_unread';
@@ -149,11 +148,11 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		}
 		echo '<div class="clear">&nbsp;</div>';
 
-		if ($msg = $_GET[self :: PARAM_MESSAGE])
+		if ($msg = $_GET[Application :: PARAM_MESSAGE])
 		{
 			$this->display_message($msg);
 		}
-		if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
+		if($msg = $_GET[Application :: PARAM_ERROR_MESSAGE])
 		{
 			$this->display_error_message($msg);
 		}
@@ -187,7 +186,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		}
 
 		$temp_replacement = '__FIRSTLETTER__';
-		$url_format = $this->get_url(array (ProfilerManager :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES, ProfilerManager :: PARAM_FIRSTLETTER => $temp_replacement));
+		$url_format = $this->get_url(array (Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES, ProfilerManager :: PARAM_FIRSTLETTER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$user_menu = new ProfilerMenu($this->firstletter, $url_format, $extra_items);
 
@@ -452,7 +451,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	 */
 	function get_publication_reply_url($profile)
 	{
-		return $this->get_url(array (ProfilerManager :: PARAM_ACTION => ProfilerManager :: ACTION_CREATE_PUBLICATION, ProfilePublisher :: PARAM_ACTION => 'publicationcreator', ProfilePublisher :: PARAM_LEARNING_OBJECT_ID => $profile->get_profile(), self :: PARAM_PROFILE_ID => $profile->get_id(), ProfilePublisher :: PARAM_EDIT => 1));
+		return $this->get_url(array (Application :: PARAM_ACTION => ProfilerManager :: ACTION_CREATE_PUBLICATION, ProfilePublisher :: PARAM_ACTION => 'publicationcreator', ProfilePublisher :: PARAM_LEARNING_OBJECT_ID => $profile->get_profile(), self :: PARAM_PROFILE_ID => $profile->get_id(), ProfilePublisher :: PARAM_EDIT => 1));
 	}
 
 	/**

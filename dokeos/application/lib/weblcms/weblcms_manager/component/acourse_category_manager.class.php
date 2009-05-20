@@ -109,7 +109,7 @@ class WeblcmsManagerCourseCategoryManagerComponent extends WeblcmsManagerCompone
 		}
 
 		$temp_replacement = '__CATEGORY_ID__';
-		$url_format = $this->get_url(array (WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER, WeblcmsManager :: PARAM_COURSE_CATEGORY_ID => $temp_replacement));
+		$url_format = $this->get_url(array (Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER, WeblcmsManager :: PARAM_COURSE_CATEGORY_ID => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$category_menu = new CourseCategoryMenu($this->category, $url_format);
 

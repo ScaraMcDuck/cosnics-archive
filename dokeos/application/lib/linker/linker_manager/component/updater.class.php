@@ -12,7 +12,7 @@ class LinkerManagerUpdaterComponent extends LinkerManagerComponent
 	function run()
 	{		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(LinkerManager :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS)), Translation :: get('Links')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS)), Translation :: get('Links')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateLink')));
 
 		$link = $this->retrieve_link(Request :: get(LinkerManager :: PARAM_LINK_ID));
@@ -21,7 +21,7 @@ class LinkerManagerUpdaterComponent extends LinkerManagerComponent
 		if($form->validate())
 		{
 			$success = $form->update_link();
-			$this->redirect($success ? Translation :: get('LinkUpdated') : Translation :: get('LinkNotUpdated'), !$success, array(LinkerManager :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS));
+			$this->redirect($success ? Translation :: get('LinkUpdated') : Translation :: get('LinkNotUpdated'), !$success, array(Application :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS));
 		}
 		else
 		{

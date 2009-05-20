@@ -12,7 +12,7 @@ class LinkerManagerCreatorComponent extends LinkerManagerComponent
 	function run()
 	{		
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(LinkerManager :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS)), Translation :: get('Links')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS)), Translation :: get('Links')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateLink')));
 
 		$link = new Link();
@@ -21,7 +21,7 @@ class LinkerManagerCreatorComponent extends LinkerManagerComponent
 		if($form->validate())
 		{
 			$success = $form->create_link();
-			$this->redirect($success ? Translation :: get('LinkCreated') : Translation :: get('LinkNotCreated'), !$success, array(LinkerManager :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS));
+			$this->redirect($success ? Translation :: get('LinkCreated') : Translation :: get('LinkNotCreated'), !$success, array(Application :: PARAM_ACTION => LinkerManager :: ACTION_BROWSE_LINKS));
 		}
 		else
 		{

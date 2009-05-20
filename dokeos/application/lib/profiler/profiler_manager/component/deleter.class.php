@@ -55,7 +55,7 @@ class ProfilerManagerDeleterComponent extends ProfilerManagerComponent
 				}
 			}
 			
-			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(ProfilerManager :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
+			$this->redirect(null, Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
 		}
 		else
 		{

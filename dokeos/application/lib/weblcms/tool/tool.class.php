@@ -306,11 +306,11 @@ abstract class Tool
 
 		echo '<div class="clear"></div><br />';
 
-		if ($msg = $_GET[WeblcmsManager :: PARAM_MESSAGE])
+		if ($msg = $_GET[Application :: PARAM_MESSAGE])
 		{
 			$this->parent->display_message($msg);
 		}
-		if($msg = $_GET[WeblcmsManager :: PARAM_ERROR_MESSAGE])
+		if($msg = $_GET[Application :: PARAM_ERROR_MESSAGE])
 		{
 			$this->parent->display_error_message($msg);
 		}
@@ -328,7 +328,7 @@ abstract class Tool
 			echo '<div id="tool_browser">';
 		}
 
-        
+
 	}
 	/**
 	 * @see Application :: display_footer()

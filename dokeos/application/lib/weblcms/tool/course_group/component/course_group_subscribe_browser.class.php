@@ -33,7 +33,7 @@ class CourseGroupToolSubscribeBrowserComponent extends CourseGroupToolComponent
 			$course_group->subscribe_users($user);
 			$html[] = Display :: normal_message(Translation :: get('UserSubscribed'),true);
 		}
-		$table = new CourseGroupUnsubscribedUserBrowserTable($this->get_parent(), array (WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $this->get_course()->get_id(), WeblcmsManager :: PARAM_TOOL => $this->get_tool_id(), Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_SUBSCRIBE),$this->get_condition());
+		$table = new CourseGroupUnsubscribedUserBrowserTable($this->get_parent(), array (Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE, WeblcmsManager :: PARAM_COURSE => $this->get_course()->get_id(), WeblcmsManager :: PARAM_TOOL => $this->get_tool_id(), Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_SUBSCRIBE),$this->get_condition());
 		$html[] = $this->action_bar->as_html();
 		$html[] = $table->as_html();
 		echo implode($html, "\n");

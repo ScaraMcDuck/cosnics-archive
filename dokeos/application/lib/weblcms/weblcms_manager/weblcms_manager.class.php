@@ -43,10 +43,7 @@ class WeblcmsManager extends WebApplication
 	const PARAM_USERS = 'users';
 	const PARAM_TOOL = 'tool';
 	const PARAM_COMPONENT_ACTION = 'action';
-	const PARAM_ACTION = 'go';
 	const PARAM_CATEGORY = 'pcattree';
-	const PARAM_MESSAGE = 'message';
-	const PARAM_ERROR_MESSAGE = 'error_message';
 	const PARAM_COURSE_USER_CATEGORY_ID = 'category';
 	const PARAM_COURSE_CATEGORY_ID = 'category';
 	const PARAM_COURSE_USER = 'course';
@@ -401,12 +398,12 @@ class WeblcmsManager extends WebApplication
 
 		if (!isset ($this->tool_class))
 		{
-			if ($msg = $_GET[self :: PARAM_MESSAGE])
+			if ($msg = $_GET[Application :: PARAM_MESSAGE])
 			{
 				echo '<br />';
 				$this->display_message($msg);
 			}
-			if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
+			if($msg = $_GET[Application :: PARAM_ERROR_MESSAGE])
 			{
 				echo '<br />';
 				$this->display_error_message($msg);
@@ -1221,23 +1218,23 @@ class WeblcmsManager extends WebApplication
 		$links[]	= array('name' => Translation :: get('List'),
 							'description' => Translation :: get('ListDescription'),
 							'action' => 'list',
-							'url' => $this->get_link(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_ADMIN_COURSE_BROWSER)));
 		$links[]	= array('name' => Translation :: get('Create'),
 							'description' => Translation :: get('CreateDescription'),
 							'action' => 'add',
-							'url' => $this->get_link(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_CREATE_COURSE)));
 		$links[]	= array('name' => Translation :: get('Import'),
 							'description' => Translation :: get('ImportDescription'),
 							'action' => 'import',
-							'url' => $this->get_link(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSES)));
 		$links[]	= array('name' => Translation :: get('CourseCategoryManagement'),
 							'description' => Translation :: get('CourseCategoryManagementDescription'),
 							'action' => 'category',
-							'url' => $this->get_link(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_COURSE_CATEGORY_MANAGER)));
 		$links[]	= array('name' => Translation :: get('UserImport'),
 							'description' => Translation :: get('UserImportDescription'),
 							'action' => 'import',
-							'url' => $this->get_link(array(WeblcmsManager :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_IMPORT_COURSE_USERS)));
 
 		$info = parent :: get_application_platform_admin_links();
 		$info['links'] = $links;

@@ -22,8 +22,6 @@ class MenuManager extends CoreApplication
 {
  	const APPLICATION_NAME = 'menu';
 
- 	const PARAM_ACTION = 'go';
-	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
 	const PARAM_COMPONENT_ACTION = 'action';
 	const PARAM_DIRECTION = 'direction';
