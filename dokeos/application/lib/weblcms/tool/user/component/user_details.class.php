@@ -15,8 +15,8 @@ class UserToolDetailsComponent extends UserToolComponent
 			Display :: not_allowed();
 			return;
 		}
-		
 		$trail = new BreadcrumbTrail();
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => Request :: get('users'))), Translation :: get('Details')));
 		$this->display_header($trail);
 		
 		$udm = UserDataManager::get_instance();
