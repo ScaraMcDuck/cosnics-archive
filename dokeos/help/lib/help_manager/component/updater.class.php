@@ -26,7 +26,7 @@ class HelpManagerUpdaterComponent extends HelpManagerComponent
 
 			if (!$this->get_user()->is_platform_admin())
 			{
-				$this->display_header();
+				$this->display_header($trail, false, 'help general');
 				Display :: error_message(Translation :: get("NotAllowed"));
 				$this->display_footer();
 				exit;
@@ -42,7 +42,7 @@ class HelpManagerUpdaterComponent extends HelpManagerComponent
 			}
 			else
 			{
-				$this->display_header($trail);
+				$this->display_header($trail, false, 'help general');
 				echo '<h4>' . Translation :: get('UpdateItem') . ': ' . $help_item->get_name() . '</h4>';
 				$form->display();
 				$this->display_footer();

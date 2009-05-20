@@ -26,7 +26,7 @@ class HelpManagerBrowserComponent extends HelpManagerComponent
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'help general');
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -35,7 +35,7 @@ class HelpManagerBrowserComponent extends HelpManagerComponent
 		$this->ab = $this->get_action_bar();
 		$output = $this->get_user_html();
 		
-		$this->display_header($trail, false);
+		$this->display_header($trail, false, 'help general');
 		echo '<br />' . $this->ab->as_html() . '<br />';
 		echo $output;
 		$this->display_footer();
