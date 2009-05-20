@@ -1,6 +1,6 @@
 <?php
 /**
- * @package application.weblcms.weblcms_manager.component
+ * @package group.group_manager.component
  */
 require_once dirname(__FILE__).'/../group_manager.class.php';
 require_once dirname(__FILE__).'/../group_manager_component.class.php';
@@ -27,7 +27,7 @@ class GroupManagerBrowserComponent extends GroupManagerComponent
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'group general');
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -38,7 +38,7 @@ class GroupManagerBrowserComponent extends GroupManagerComponent
 		$menu = $this->get_menu_html();
 		$output = $this->get_user_html();
 		
-		$this->display_header($trail, false);
+		$this->display_header($trail, false, 'group general');
 		echo $this->ab->as_html() . '<br />';
 		echo $menu;
 		echo $output;

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package groups.groupsmanager
+ * @package group.group_manager.component
  */
 require_once dirname(__FILE__).'/../group_manager.class.php';
 require_once dirname(__FILE__).'/../group_manager_component.class.php';
@@ -22,7 +22,7 @@ class GroupManagerCreatorComponent extends GroupManagerComponent
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail,false,'group general');
 			Display :: warning_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
@@ -46,7 +46,7 @@ class GroupManagerCreatorComponent extends GroupManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header($trail,false,'group general');
 			$form->display();
 			$this->display_footer();
 		}

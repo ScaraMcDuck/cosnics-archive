@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package group.group_manager.component
+ */
 require_once dirname(__FILE__).'/../group_manager.class.php';
 require_once dirname(__FILE__).'/../group_manager_component.class.php';
 require_once dirname(__FILE__).'/../../group_data_manager.class.php';
@@ -36,7 +39,7 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 			$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
 			$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $id)), $group->get_name()));
 			
-			$this->display_header($trail, false);
+			$this->display_header($trail, false, 'group general');
 			$this->ab = $this->get_action_bar();
 			echo $this->ab->as_html() . '<br />';
 			

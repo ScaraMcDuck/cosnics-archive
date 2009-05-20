@@ -135,7 +135,7 @@ class GroupManager extends CoreApplication
 	 * @param boolean $display_search Should the header include a search form or
 	 * not?
 	 */
-	function display_header($breadcrumbtrail, $display_search = false)
+	function display_header($breadcrumbtrail, $display_search = false, $helpitem)
 	{
 		if (is_null($breadcrumbtrail))
 		{
