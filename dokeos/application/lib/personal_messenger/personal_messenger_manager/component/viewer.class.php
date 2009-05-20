@@ -36,7 +36,7 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
 
             if ($this->get_user_id() != $publication->get_user())
             {
-                $this->display_header($trail);
+                $this->display_header($trail, 'personal messenger general');
                 Display :: error_message(Translation :: get('NotAllowed'));
                 $this->display_footer();
                 exit;
@@ -50,7 +50,7 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
 
             $this->action_bar = $this->get_action_bar($publication);
 
-            $this->display_header($trail);
+            $this->display_header($trail, 'personal messenger general');
             echo $this->action_bar->as_html();
             echo '<br />' . $this->get_publication_modification_links();
             echo '<div class="clear"></div><br />';
