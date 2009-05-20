@@ -32,7 +32,7 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
             $action_bar = $this->get_action_bar();
             $output = $this->get_publication_as_html($event, $action_bar);
 
-            $this->display_header($trail);
+            $this->display_header($trail, 'personal calendar general');
             echo '<br /><a name="top"></a>';
             echo $action_bar->as_html() . '<br />';
             echo '<div id="action_bar_browser">';

@@ -23,7 +23,7 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerCom
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PersonalCalendar')));
 		
-		$this->display_header($trail);
+		$this->display_header($trail, 'personal calendar general');
 		echo '<br /><a name="top"></a>';
 		echo $this->get_action_bar_html() . '<br />';
 		echo '<div id="action_bar_browser">';
