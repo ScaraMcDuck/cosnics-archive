@@ -43,6 +43,11 @@ class CalendarToolViewerComponent extends CalendarToolComponent
                 $trail->add(new BreadCrumb($this->get_url(), $title));
             }
         }
+
+        if(Request :: get('pid') != null)
+        {
+            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))),WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+        }
         
 		$this->display_header($trail);
 		echo '<br /><a name="top"></a>';
