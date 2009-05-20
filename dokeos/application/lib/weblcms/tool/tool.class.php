@@ -326,7 +326,8 @@ abstract class Tool
 		{
 			echo '<div id="tool_browser">';
 		}
-        $_SESSION['breadcrumbtrail'] = $trail;
+
+        
 	}
 	/**
 	 * @see Application :: display_footer()
