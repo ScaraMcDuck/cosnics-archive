@@ -1,9 +1,6 @@
 <?php
 /**
- * $Id: course_settingstool.class.php 9222 2006-09-15 09:19:38Z bmol $
- * Course maintenance tool
- * @package application.weblcms.tool
- * @subpackage maintenance
+ * @package home.homemanager.component
  */
 /**
  * This class provides the needed functionality to show a page in a maintenance
@@ -34,7 +31,7 @@ class BuildWizardDisplay extends HTML_QuickForm_Action_Display
 		$breadcrumbs[] = array ('url' => $this->parent->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), 'name' => Translation :: get('Home'));
 		$breadcrumbs[] = array ('url' => $this->parent->get_url(), 'name' => Translation :: get('BuildHome'));
 		
-		$this->parent->display_header($breadcrumbs);
+		$this->parent->display_header($breadcrumbs, false, 'home build');
 		if(isset($_SESSION['build_message']))
 		{
 			Display :: normal_message($_SESSION['build_message']);
