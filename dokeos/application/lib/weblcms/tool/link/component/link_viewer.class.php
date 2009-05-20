@@ -33,7 +33,7 @@ class LinkToolViewerComponent extends LinkToolComponent
                 $trail->add(new BreadCrumb($this->get_url(), $breadcrumb->get_name()));
             }
         }
-        //dump($browser->get_publication_category_tree()->get_breadcrumbs());
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
 		$this->display_header($trail);
 		
 		echo '<br /><a name="top"></a>';
