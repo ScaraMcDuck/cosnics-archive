@@ -49,7 +49,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 
 		$success = RightsUtilities :: invert_role_right_location($right, $role, $location);
 
-		$this->redirect('url', Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS,'application' => $this->application, 'location' => $location->get_id()));
+		$this->redirect(Translation :: get($success == true ? 'RightUpdated' : 'RightUpdateFailed'), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS,'application' => $this->application, 'location' => $location->get_id()));
 	}
 
 	function lock_location()
@@ -68,14 +68,14 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 			$false_message = 'LocactionNotUnlocked';
 		}
 
-		$this->redirect('url', Translation :: get($success == true ? $true_message : $false_message), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, 'application' => $this->application, 'location' => $location->get_id()));
+		$this->redirect(Translation :: get($success == true ? $true_message : $false_message), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, 'application' => $this->application, 'location' => $location->get_id()));
 	}
 
 	function inherit_location()
 	{
 		$location = $this->location;
 		$success = RightsUtilities :: switch_location_inherit($location);
-		$this->redirect('url', Translation :: get($success == true ? 'LocationUpdated' : 'LocationNotUpdated'), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, 'application' => $this->application, 'location' => $location->get_id()));
+		$this->redirect(Translation :: get($success == true ? 'LocationUpdated' : 'LocationNotUpdated'), ($success == true ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, 'application' => $this->application, 'location' => $location->get_id()));
 	}
 
 	function show_rights_list()

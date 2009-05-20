@@ -53,7 +53,7 @@ class RightsManagerRoleDeleterComponent extends RightsManagerComponent
 				}
 			}
 			
-			$this->redirect('url', Translation :: get($message), ($failures ? true : false), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES));
 		}
 		else
 		{
