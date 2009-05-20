@@ -16,6 +16,11 @@ require_once Path :: get_library_path() . 'core_application_component.class.php'
  */
 abstract class RepositoryManagerComponent extends CoreApplicationComponent
 {
+	function display_header($breadcrumbtrail, $display_search = false, $display_menu = true, $helpitem)
+	{
+		$this->get_parent()->display_header($breadcrumbtrail, $display_search, $display_menu, $helpitem);
+	}
+	
 	/**
 	 * Constructor
 	 * @param RepositoryManager $repository_manager The repository manager which

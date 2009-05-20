@@ -17,7 +17,7 @@ class ComplexBuilderBrowserComponent extends ComplexBuilderComponent
 		else
 			$lo = $this->get_root_lo();
 		
-		$this->display_header($trail);
+		$this->display_header($trail, 'respository builder');
 		$action_bar = $this->get_action_bar($lo);
 		
 		echo '<br />';

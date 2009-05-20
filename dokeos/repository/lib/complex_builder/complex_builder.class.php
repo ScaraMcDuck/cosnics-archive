@@ -170,9 +170,9 @@ abstract class ComplexBuilder
 		return $this->get_parent()->get_parameters();
 	}
 
-	function display_header($breadcrumbtrail)
+	function display_header($breadcrumbtrail, $helpitem)
 	{
-		$this->get_parent()->display_header($breadcrumbtrail, false, false);
+		$this->get_parent()->display_header($breadcrumbtrail, $helpitem);
 	}
 
 	function display_footer()
