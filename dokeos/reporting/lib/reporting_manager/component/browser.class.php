@@ -66,7 +66,7 @@ class ReportingManagerBrowserComponent extends ReportingManagerComponent
 
         $html[] = '<div class="dock" id="dock">';
         $html[] = '<div class="dock-container"> ';
-        $applications = Application :: load_all();
+        $applications = WebApplication :: load_all();
 
         foreach (AdminManager :: get_application_platform_admin_links() as $application_links)
         {
