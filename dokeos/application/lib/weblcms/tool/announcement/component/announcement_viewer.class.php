@@ -24,12 +24,12 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		$this->action_bar = $this->get_action_bar();
 		
 		$browser = new AnnouncementBrowser($this);
-        $announcements = $browser->get_publications();
+        //$announcements = $browser->get_publications();
         //dump($announcements);
 		$trail = new BreadcrumbTrail();
         if(Request :: get('tool_action')=='view')
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'announcement tool');
 
 		//echo $this->perform_requested_actions();
 		if(!isset($_GET['pid']))
@@ -71,7 +71,7 @@ class AnnouncementToolViewerComponent extends AnnouncementToolComponent
 		
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('announcement tool'));
+        //$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('announcement tool'));
 
         $action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
         

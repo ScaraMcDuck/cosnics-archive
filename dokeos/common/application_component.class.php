@@ -101,9 +101,9 @@ class ApplicationComponent
 	/**
 	 * @see Application :: display_header()
 	 */
-	function display_header($breadcrumbs = array ())
+	function display_header($breadcrumbs = array (), $help_item)
 	{
-		return $this->get_parent()->display_header($breadcrumbs);
+		return $this->get_parent()->display_header($breadcrumbs, $help_item);
 	}
 
 	/**
