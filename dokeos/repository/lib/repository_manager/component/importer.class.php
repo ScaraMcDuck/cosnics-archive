@@ -52,7 +52,7 @@ class RepositoryManagerImporterComponent extends RepositoryManagerComponent
 
 			if ($learning_object === false)
 			{
-				$this->display_header($trail);
+				$this->display_header($trail, false, true, 'repository importer');
 				Display :: warning_message(Translation :: get('LearningObjectNotImported'));
 				$this->display_footer();
 			}
@@ -71,7 +71,7 @@ class RepositoryManagerImporterComponent extends RepositoryManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, true, 'repository importer');
 			$import_form->display();
 			$this->display_footer();
 		}

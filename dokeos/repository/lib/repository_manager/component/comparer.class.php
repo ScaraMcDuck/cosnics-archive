@@ -34,7 +34,7 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 			}
 			$trail->add(new Breadcrumb(null, $object->get_title() . ($object->is_latest_version() ? '' : ' ('.Translation :: get('OldVersion').')')));
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('DifferenceBetweenTwoVersions')));
-			$this->display_header($trail);
+			$this->display_header($trail, false, true, 'repository comparer');
 			
 			$diff = $object->get_difference($version_id);
 			

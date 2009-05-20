@@ -117,11 +117,11 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 				{
                     $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
 					$trail->add(new Breadcrumb($this->get_url(), Translation :: get(LearningObject :: type_to_class($type).'CreationFormTitle')));
-					$this->display_header($trail);
+					$this->display_header($trail, false, true, 'repository general');
 				}
 				else
 				{
-					$this->display_header($trail, false, false);
+					$this->display_header($trail, false, true, 'repository general');
 				}
 
 				$lo_form->display();
@@ -144,11 +144,11 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 
 			if(isset($_GET['publish']))
 			{
-				$this->display_header($trail, false, false);
+				$this->display_header($trail, false, true, 'repository general');
 			}
 			else
 			{
-				$this->display_header($trail);
+				$this->display_header($trail, false, true, 'repository general');
 			}
 
 			//echo $extra;

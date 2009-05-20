@@ -324,7 +324,7 @@ class RepositoryManager extends CoreApplication
 	 * @param boolean $display_search Should the header include a search form or
 	 * not?
 	 */
-	function display_header($breadcrumbtrail, $display_search = false, $display_menu = true)
+	function display_header($breadcrumbtrail, $display_search = false, $display_menu = true, $helpitem)
 	{
 		if (is_null($breadcrumbtrail))
 		{
@@ -359,7 +359,7 @@ class RepositoryManager extends CoreApplication
 		{
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
-		Display :: header($breadcrumbtrail);
+		Display :: header($breadcrumbtrail,$helpitem);
 
 		if($display_menu)
 		{

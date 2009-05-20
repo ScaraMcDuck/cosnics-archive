@@ -22,7 +22,7 @@ class RepositoryManagerPublicationBrowserComponent extends RepositoryManagerComp
 		$output = $this->get_publications_html();
 		
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyPublications')));
-		$this->display_header($trail);
+		$this->display_header($trail, false, true, 'repository publications');
 		echo $output;
 		$this->display_footer();
 	}

@@ -32,7 +32,7 @@ class PublisherWizardProcess extends HTML_QuickForm_Action
 		$values = $page->controller->exportValues();
 
 		// Display the page header
-		$this->parent->display_header();
+		$this->parent->display_header($trail, false, true, 'repository publication wizard');
 
 		$previous_application = '';
 		$message = '';
