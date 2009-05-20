@@ -11,27 +11,27 @@ require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.
 /**
  * Admin component to manage system announcements
  */
-class AdminSystemAnnouncementBrowserComponent extends AdminManagerComponent
+class AdminManagerSystemAnnouncementBrowserComponent extends AdminManagerComponent
 {
 	private $action_bar;
-		
+
 	function run()
 	{
-		$trail = new BreadcrumbTrail();		
+		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SystemAnnouncements')));
-		
+
 		$user = $this->get_user();
-		
+
 		if (!$user->is_platform_admin())
 		{
 			$this->not_allowed();
 		}
 		$this->action_bar = $this->get_action_bar();
-		
+
 		$publications_table = $this->get_publications_html();
 		$toolbar = $this->get_action_bar();
-		
+
 		$this->display_header($trail, true);
 		echo $this->action_bar->as_html();
 		echo '<div id="action_bar_browser">';
@@ -39,28 +39,28 @@ class AdminSystemAnnouncementBrowserComponent extends AdminManagerComponent
 		echo '</div>';
 		$this->display_footer();
 	}
-	
+
 	private function get_publications_html()
 	{
 		$parameters = $this->get_parameters(true);
-		
+
 		$table = new SystemAnnouncementPublicationBrowserTable($this, null, $parameters, $this->get_condition());
-		
+
 		$html = array();
 		$html[] = $table->as_html();
-		
+
 		return implode($html, "\n");
 	}
-	
+
 	function add_actionbar_item($item)
 	{
 		$this->action_bar->add_tool_action($item);
 	}
-	
+
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		
+
 		if(!isset($_GET['pid']))
 		{
 			$action_bar->set_search_url($this->get_url());
@@ -70,36 +70,36 @@ class AdminSystemAnnouncementBrowserComponent extends AdminManagerComponent
         $action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('announcement tool'));
 		return $action_bar;
 	}
-	
+
 	function get_condition()
 	{
 		$condition = null;
 		$user = $this->get_user();
-		
+
 		if (!$user->is_platform_admin())
 		{
 			$conditions = array();
-			
+
 			$conditions[] = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_HIDDEN, false);
-			
+
 			$time_conditions = array();
-			
+
 			$forever_conditions = array();
 			//$forever_conditions[] = new EqualityCondition();
 			$forever_conditions[] = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_FROM_DATE, 0);
 			$forever_conditions[] = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_TO_DATE, 0);
 			$time_conditions[] = new AndCondition($forever_conditions);
-			
+
 			$limited_conditions = array();
 			$limited_conditions[] = new InequalityCondition(SystemAnnouncementPublication :: PROPERTY_FROM_DATE, InequalityCondition :: LESS_THAN_OR_EQUAL, time());
 			$limited_conditions[] = new InequalityCondition(SystemAnnouncementPublication :: PROPERTY_TO_DATE, InequalityCondition :: GREATER_THAN_OR_EQUAL, time());
 			$time_conditions[] = new AndCondition($limited_conditions);
-			
+
 			$conditions[] = new OrCondition($time_conditions);
-			
+
 			$condition = new AndCondition($conditions);
 		}
-		
+
 		return $condition;
 	}
 }
