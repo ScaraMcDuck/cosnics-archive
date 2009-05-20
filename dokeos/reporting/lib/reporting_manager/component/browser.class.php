@@ -27,7 +27,7 @@ class ReportingManagerBrowserComponent extends ReportingManagerComponent
 
         if (!$this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail);
+            $this->display_header($trail, false, 'reporting general');
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit;
@@ -36,7 +36,7 @@ class ReportingManagerBrowserComponent extends ReportingManagerComponent
         $this->action_bar = $this->get_action_bar();
         //$output = $this->get_template_html();
 
-        $this->display_header($trail);
+        $this->display_header($trail, false, 'reporting general');
         echo '<br />' . $this->action_bar->as_html() . '<br />';
         echo '<div id="applications" class="applications">';
         echo $this->get_applications();

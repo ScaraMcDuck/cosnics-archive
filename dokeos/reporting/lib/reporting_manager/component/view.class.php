@@ -31,7 +31,7 @@ class ReportingManagerViewComponent extends ReportingManagerComponent
 
         $rtv = new ReportingTemplateViewer($this);
 
-        $this->display_header($trail);
+        $this->display_header($trail, false, 'reporting general');
         $rtv->show_reporting_template($template, $params);
         $this->display_footer();
 //		if (!isset($template))
