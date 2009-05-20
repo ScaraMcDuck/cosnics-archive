@@ -5,6 +5,7 @@ include(dirname(__FILE__) . '/settings.inc.php');
 include(dirname(__FILE__) . '/../my_template.php');
 include(dirname(__FILE__) . '/data_class_generator/data_class_generator.class.php');
 include(dirname(__FILE__) . '/form_generator/form_generator.class.php');
+include(dirname(__FILE__) . '/sortable_table_generator/sortable_table_generator.class.php');
 include(dirname(__FILE__) . '/data_manager_generator/data_manager_generator.class.php');
 include(dirname(__FILE__) . '/manager_generator/manager_generator.class.php');
 include(dirname(__FILE__) . '/component_generator/component_generator.class.php');
@@ -17,6 +18,7 @@ $author = $application['author'];
 
 $data_class_generator = new DataClassGenerator();
 $form_generator = new FormGenerator();
+$sortable_table_generator = new SortableTableGenerator();
 
 //Create Folders
 log_message('Creating folders...');
@@ -28,8 +30,8 @@ log_message('Folders succesfully created.');
  * Generate DataClasses
  * Generate Forms
  */
-log_message('Generating dataclasses and forms...');
-$files = FileSystem :: get_directory_content($location, FileSystem :: LIST_FILES);
+log_message('Generating dataclasses, forms and tables...');
+$files = FileSystem :: get_directory_content($location, FileSystem :: LIST_FILES, false);
 foreach($files as $file)
 {
 	if(substr($file, -4) != '.xml')
@@ -37,12 +39,19 @@ foreach($files as $file)
 		
 	$new_path = move_file($location, $file); 
 	
-	$properties = retrieve_properties_from_xml_file($file);
-	$classname = DokeosUtilities :: underscores_to_camelcase(str_replace('.xml', '', basename($file)));
+	$properties = retrieve_properties_from_xml_file($location, $file);
+	$lclass = str_replace('.xml', '', basename($file));
+	$classname = DokeosUtilities :: underscores_to_camelcase($lclass);
+
 	$description = 'This class describes a ' . $classname . ' data object';
-	
+
 	$data_class_generator->generate_data_class($location, $classname , $properties, $name, $description, $author, $name);
 	$form_generator->generate_form($location . 'forms/', $classname, $properties, $author);
+	
+	if($application['options'][$lclass]['table'] == 1)
+	{
+		generate_sortable_table($location, $classname , $properties, $name, $author);
+	}
 	
 	$classes[] = $classname;
 }
@@ -81,7 +90,7 @@ log_message('Install files generated.');
  */
 function create_folders($location, $name)
 {
-	$folders = array('data_manager', 'forms', 'install', $name . '_manager', $name . '_manager/component' ,'rights');
+	$folders = array('data_manager', 'forms', 'install', $name . '_manager', $name . '_manager/component' ,'rights', 'tables');
 	foreach($folders as $folder)
 	{
 		FileSystem :: create_dir($location . $folder);
@@ -107,19 +116,39 @@ function move_file($location, $file)
  * @param String $file - The xml file
  * @return Array of String - The properties
  */
-function retrieve_properties_from_xml_file($file)
+function retrieve_properties_from_xml_file($location, $file)
 {
 	$properties = array();
 	
 	$options[] = array(XML_UNSERIALIZER_OPTION_FORCE_ENUM => array('property'));
-	$array = DokeosUtilities :: extract_xml_file($file, $options);
-	
+	$array = DokeosUtilities :: extract_xml_file($location . $file, $options);
+
 	foreach($array['properties']['property'] as $property)
 	{
 		$properties[] = $property['name'];
 	}
-	
+
 	return $properties;
+}
+
+/**
+ * Generates sortable tables for an application
+ *
+ * @param String $location - The application location
+ * @param String $classname - The class names
+ * @param String $properties - The class properties
+ * @param String $name - The application name
+ * @param String $author - The Author
+ */
+function generate_sortable_table($location, $classname , $properties, $name, $author)
+{
+	$l_class = DokeosUtilities :: camelcase_to_underscores($classname);
+	
+	$default_location = $location . 'tables/' . $l_class . '_table/';
+	$browser_table_location = $location . $name . '_manager/component/' . $l_class . '_browser/';
+	
+	global $sortable_table_generator;
+	$sortable_table_generator->generate_tables($default_location, $browser_table_location, $name, $properties, $classname, $author);
 }
 
 /**
@@ -165,7 +194,10 @@ function generate_components($location, $name, $classes, $author)
 {
 	$manager_location = $location . DokeosUtilities :: camelcase_to_underscores($name) . '_manager/component/';
 	$component_generator = new ComponentGenerator();
-	$component_generator->generate_components($manager_location, $name, $classes, $author);
+	
+	global $application;
+	
+	$component_generator->generate_components($manager_location, $name, $classes, $author, $application['options']);
 }
 
 /**

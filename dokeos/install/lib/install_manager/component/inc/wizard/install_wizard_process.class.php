@@ -41,7 +41,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		$this->applications['extra']	= FileSystem :: get_directory_content(Path :: get_application_path() . 'lib/', FileSystem :: LIST_DIRECTORIES, false);
 
 		// Display the page header
-		$this->parent->display_header();
+		$this->parent->display_header(array(), "install");
 
 		echo '<h3>' . Translation :: get('PreProduction') . '</h3>';
 
