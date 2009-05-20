@@ -115,7 +115,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 	 * @param boolean $display_search Should the header include a search form or
 	 * not?
 	 */
-	function display_header($breadcrumbtrail, $display_search = false)
+	function display_header($breadcrumbtrail, $display_search = false, $helpitem)
 	{
 		if (is_null($breadcrumbtrail))
 		{
@@ -137,7 +137,7 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		{
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
-		Display :: header($breadcrumbtrail);
+		Display :: header($breadcrumbtrail, $helpitem);
 
 		//echo $this->get_menu_html();
 		echo '<div style="float: right; width: 100%;">';

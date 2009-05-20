@@ -66,7 +66,7 @@ class ProfilerManagerEditorComponent extends ProfilerManagerComponent
                     }
                     else
                     {
-                        $this->display_header($trail);
+                        $this->display_header($trail, false, 'profiler general');
                         echo LearningObjectDisplay :: factory($profile_publication->get_publication_object())->get_full_html();
                         $publication_form->display();
                         $this->display_footer();
@@ -80,7 +80,7 @@ class ProfilerManagerEditorComponent extends ProfilerManagerComponent
             }
             else
             {
-                $this->display_header($trail);
+                $this->display_header($trail, false, 'profiler general');
                 $form->display();
                 $this->display_footer();
             }
