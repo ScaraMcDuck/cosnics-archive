@@ -39,7 +39,7 @@ class InstallWizardDisplay extends HTML_QuickForm_Action_Display
 		HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>'.Translation :: get('ThisFieldIsRequired').'</small>');
 		$current_page->accept($renderer);
 		
-		$this->parent->display_header();
+		$this->parent->display_header(array(), 'install');
 		
 		echo '<div style="float: left; background-color:#EFEFEF;margin-right: 20px;padding: 15px;">';
 		echo '<div style="margin: 0px; text-align: center;">';

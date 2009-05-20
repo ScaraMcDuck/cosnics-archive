@@ -17,7 +17,7 @@ class ComponentGenerator
     	$this->template->set_rootdir(dirname(__FILE__));
     }
     
-    function generate_components($location, $application_name, $classes, $author)
+    function generate_components($location, $application_name, $classes, $author, $options)
     {
     	if(!is_dir($location))
     		mkdir($location, 0777, true);
@@ -32,6 +32,7 @@ class ComponentGenerator
     			'creator_component' => 'creator_component.template',
     			'updater_component' => 'updater_component.template',
     			'deleter_component' => 'deleter_component.template',
+    			'sortable_browser_component' => 'sortable_browser_component.template'
     		));
 			
 			$this->template->assign_vars(array(
@@ -85,6 +86,9 @@ class ComponentGenerator
 					$component_file = fopen($location . $class2_lower . '_' . $component . '.class.php', 'w+');
 				else
 					$component_file = fopen($location . $class_lower . '_' . $component . '.class.php', 'w+');
+				
+				if($component == 'browser' && $options[$class_lower]['table'] == 1)
+					$component = 'sortable_browser';
 					
 				$string = trim($this->template->pparse_return($component . '_component'));
 				fwrite($component_file, $string);

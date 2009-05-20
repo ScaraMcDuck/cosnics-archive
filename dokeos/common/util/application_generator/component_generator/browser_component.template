@@ -2,6 +2,7 @@
 /**
  * @package application.{L_APPLICATION_NAME}.{L_APPLICATION_NAME}.component
  */
+ 
 require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager.class.php';
 require_once dirname(__FILE__).'/../{L_APPLICATION_NAME}_manager_component.class.php';
 
