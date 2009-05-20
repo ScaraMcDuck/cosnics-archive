@@ -4,13 +4,7 @@
  */
 require_once dirname(__FILE__).'/user_manager_component.class.php';
 require_once Path :: get_library_path() . 'core_application.class.php';
-require_once dirname(__FILE__).'/../forms/user_search_form.class.php';
 require_once dirname(__FILE__).'/../user_data_manager.class.php';
-require_once dirname(__FILE__).'/../user.class.php';
-require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once Path :: get_library_path().'condition/or_condition.class.php';
-require_once Path :: get_library_path().'condition/and_condition.class.php';
-require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once dirname(__FILE__).'/../user_block.class.php';
 
 /**
