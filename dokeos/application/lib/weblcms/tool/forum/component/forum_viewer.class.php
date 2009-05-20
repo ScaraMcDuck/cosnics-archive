@@ -56,7 +56,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 		$forum_table =  $this->get_forums_table_html();
 		
 
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses forum tool');
 		echo $this->action_bar->as_html();
 
 		echo '<br />';

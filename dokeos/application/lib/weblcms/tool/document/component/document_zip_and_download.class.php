@@ -16,7 +16,7 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 			return;
 		}
 		$trail = new BreadcrumbTrail();
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses document tool');
 		$archive_url = $this->create_document_archive();
 		echo Display :: normal_message('<a href="'.$archive_url.'">'.Translation :: get('Download').'</a>',true);
 		$this->display_footer();

@@ -17,7 +17,7 @@ class ForumToolSubforumEditorComponent extends ForumToolComponent
 
 			if(!$pid || !$subforum)
 			{
-				$this->display_header(new BreadCrumbTrail());
+				$this->display_header(new BreadCrumbTrail(), true, 'courses forum tool');
 				$this->display_error_message(Translation :: get('NoParentSelected'));
 				$this->display_footer();
 			}
@@ -44,7 +44,7 @@ class ForumToolSubforumEditorComponent extends ForumToolComponent
 			}
 			else
 			{
-				$this->display_header(new BreadCrumbTrail());
+				$this->display_header(new BreadCrumbTrail(), true, 'courses forum tool');
 				$form->display();
 				$this->display_footer();
 			}

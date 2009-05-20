@@ -29,7 +29,7 @@ class WikiToolBrowserComponent extends WikiToolComponent
 		$this->action_bar = $this->get_toolbar();
 
 		$trail = new BreadcrumbTrail();
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses wiki tool');
 		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
 		{
 			echo $this->display_introduction_text();

@@ -40,7 +40,7 @@ class ToolFeedbackPublisherComponent extends ToolComponent
 		{
 			$html[] = '<p><a href="' . $this->get_url() . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
-			$this->display_header($trail);
+			$this->display_header($trail, true, 'courses general');
 			echo implode("\n",$html);
 			$this->display_footer();
 		}

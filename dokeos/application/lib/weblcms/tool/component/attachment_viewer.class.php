@@ -22,7 +22,7 @@ class ToolAttachmentViewerComponent extends ToolComponent
 		{
 			$trail = new BreadCrumbTrail();
 			$trail->add(new BreadCrumb($this->get_url(array('object' => $object_id)), Translation :: get('ViewAttachment')));
-			$this->display_header($trail);
+			$this->display_header($trail, true, 'courses general');
 			
 			echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
 			
@@ -36,7 +36,7 @@ class ToolAttachmentViewerComponent extends ToolComponent
 		}
 		else
 		{
-			$this->display_header(new BreadCrumbTrail());
+			$this->display_header($trail, true, 'courses general');
 			$this->display_error_message('NoObjectSelected');
 			$this->display_footer();
 		}

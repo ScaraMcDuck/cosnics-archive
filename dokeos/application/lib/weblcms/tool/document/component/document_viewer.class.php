@@ -47,10 +47,8 @@ class DocumentToolViewerComponent extends DocumentToolComponent
         //dump(Tool ::get_pcattree_parents(Request :: get('pcattree')));
         if(Request :: get('pid') != null)
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool ::ACTION_VIEW_DOCUMENTS, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
-		$this->display_header($trail);
-		
-		//echo '<br /><a name="top"></a>';
-		//echo $this->perform_requested_actions();
+		$this->display_header($trail, true, 'courses document tool');
+
 		if(!isset($_GET['pid']))
 		{
 			if(PlatformSetting :: get('enable_introduction', 'weblcms'))

@@ -35,7 +35,7 @@ class LinkToolViewerComponent extends LinkToolComponent
         }
         if(Request :: get('pid') != null)
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses link tool');
 		
 		echo '<br /><a name="top"></a>';
 		if(!isset($_GET['pid']))

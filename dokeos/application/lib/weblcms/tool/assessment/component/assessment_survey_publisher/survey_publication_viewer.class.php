@@ -22,7 +22,7 @@ class SurveyPublicationViewer extends SurveyPublisherComponent
 
 		$table = new SurveyUserTable($this, $this->get_user, $pid);
 
-		$this->parent->display_header($trail);
+		$this->parent->display_header($trail, true, 'courses assessment tool');
 		echo $toolbar->as_html();
 		//echo '<br/><br/>'.Translation :: get('UsersInvitedToTakeSurvey').': <br/>';
 		echo '<h4>' . $survey->get_title() . '</h4>';

@@ -40,7 +40,7 @@ class ToolAccessDetailsViewerComponent extends ToolComponent
         }
 
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view_reporting_template', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'template_name' => Request :: get('template_name'))), Translation :: get('Reporting')));
-        $this->display_header($trail);
+        $this->display_header($trail, true, 'courses reporting');
         $rtv->show_reporting_template_by_name($classname, $params);
         $this->display_footer();
     }

@@ -20,7 +20,7 @@ class CourseGroupToolSubscribeBrowserComponent extends CourseGroupToolComponent
 		
 		$trail = new BreadcrumbTrail();
 		$html = array ();
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses group');
 		$html[] = '<div style="clear: both;">&nbsp;</div>';
 
 		$this->action_bar = $this->get_action_bar();

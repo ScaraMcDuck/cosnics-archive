@@ -84,13 +84,13 @@ class LearningPathTool extends Tool
 			$pub = new LearningObjectPublisher($this, 'learning_path');
 			$html[] = '<p><a href="' . $this->get_url(array('admin' => 0), array(), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
-			$this->display_header($trail);
+			$this->display_header($trail, true, 'courses learnpath tool');
 			echo implode("\n",$html);
 			$this->display_footer();
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, true, 'courses learnpath tool');
 			if($this->is_allowed(ADD_RIGHT))
 			{
 				echo '<p><a href="' . $this->get_url(array('admin' => 1), array(), true) . '"><img src="'.Theme :: get_common_image_path().'action_publish.png" alt="'.Translation :: get('Publish').'" style="vertical-align:middle;"/> '.Translation :: get('Publish').'</a></p>';

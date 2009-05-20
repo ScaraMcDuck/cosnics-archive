@@ -27,7 +27,7 @@ class GlossaryToolBrowserComponent extends GlossaryToolComponent
 		$browser = new GlossaryBrowser($this);
 		$trail = new BreadcrumbTrail();
 		
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses glossary tool');
 		
 		//echo '<br /><a name="top"></a>';
 		//echo $this->perform_requested_actions();

@@ -12,7 +12,7 @@ class LearningPathToolScormImporterComponent extends LearningPathToolComponent
 		
 		$trail = new BreadCrumbTrail();
 		$trail->add(new BreadCrumb($this->get_url($parameters), Translation :: get('ImportScorm')));
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses learnpath tool');
 		
 		$objects = Request :: get('objects');
 		

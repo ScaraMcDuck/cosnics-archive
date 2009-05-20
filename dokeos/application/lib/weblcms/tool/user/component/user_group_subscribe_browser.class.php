@@ -20,10 +20,10 @@ class UserToolGroupSubscribeBrowserComponent extends UserToolComponent
 		
 		$this->action_bar = $this->get_action_bar();
 		$trail = new BreadcrumbTrail();
-		$extra[] = new BreadCrumb($this->get_url(), Translation :: get('SubscribeGroups'));
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_GROUPS)), Translation :: get('SubscribeGroups')));
+		$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => UserTool :: ACTION_SUBSCRIBE_GROUPS)), Translation :: get('SubscribeGroups')));
+        $trail->add(new BreadCrumb($this->get_url(), Translation :: get('SubscribeGroups')));
         $this->add_group_menu_breadcrumbs($trail);
-		$this->display_header($trail, $extra);
+		$this->display_header($trail, true, 'courses user');
 		
 		echo $this->action_bar->as_html();
 		echo $this->get_group_menu();

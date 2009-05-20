@@ -74,7 +74,7 @@ class ToolComplexEditComponent extends ToolComponent
                 }
                 else
                 {
-                    $this->display_header($trail);
+                    $this->display_header($trail, true, 'courses general');
                     $form->display();
                     $this->display_footer();
                 }

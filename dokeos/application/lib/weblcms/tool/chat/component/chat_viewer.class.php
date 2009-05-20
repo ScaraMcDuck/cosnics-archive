@@ -43,7 +43,7 @@ class ChatToolViewerComponent extends ChatToolComponent
 		
 		$chat = new phpFreeChat($params);
 		
-		$this->display_header(new BreadCrumbTrail());
+		$this->display_header(new BreadCrumbTrail(), true, 'courses chat tool');
 		if(!function_exists('filemtime'))
 			echo Translation :: get('FileMTimeWarning');
 			

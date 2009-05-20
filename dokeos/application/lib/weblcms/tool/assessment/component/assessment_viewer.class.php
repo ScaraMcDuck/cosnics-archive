@@ -32,7 +32,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 		$this->set_parameter($tree_id, $_GET[$tree_id]);
 		
 		$trail = new BreadCrumbTrail();
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses assessment tool');
 				
 		$this->action_bar = $this->get_toolbar(true);
 		

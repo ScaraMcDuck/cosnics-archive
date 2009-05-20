@@ -45,7 +45,7 @@ class ForumToolTopicViewerComponent extends ForumToolComponent
         
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_TOPIC, Tool :: PARAM_PUBLICATION_ID => $pid, Tool :: PARAM_COMPLEX_ID => $cid)), RepositoryDataManager :: get_instance()->retrieve_learning_object($lo)->get_title()));
 		
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses forum tool');
 		echo '<a name="top"></a>';
 
 		echo $this->action_bar->as_html() . '<br />';

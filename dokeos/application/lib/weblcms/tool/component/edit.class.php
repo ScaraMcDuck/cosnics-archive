@@ -59,14 +59,14 @@ class ToolEditComponent extends ToolComponent
                     }
                     else
                     {
-                        $this->display_header($trail);
+                        $this->display_header($trail, true, 'courses general');
                         $publication_form->display();
                         $this->display_footer();
                     }
                 }
                 else
                 {
-                    $this->display_header($trail);
+                    $this->display_header($trail, true, 'courses general');
                     $form->display();
                     $this->display_footer();
                 }

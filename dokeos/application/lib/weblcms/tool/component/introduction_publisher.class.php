@@ -48,7 +48,7 @@ class ToolIntroductionPublisherComponent extends ToolComponent
 			$this->redirect(Translation :: get('IntroductionPublished'), (false), $parameters);
 		}
 
-		$this->display_header($trail);
+		$this->display_header($trail, true, 'courses general');
 		echo implode("\n",$html);
 		$this->display_footer();
 	}
