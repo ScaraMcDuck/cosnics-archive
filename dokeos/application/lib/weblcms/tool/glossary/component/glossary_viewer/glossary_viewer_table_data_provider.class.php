@@ -20,7 +20,7 @@ class GlossaryViewerTableDataProvider extends ObjectTableDataProvider
 	
 	private $parent;
 	
-	private $pid;
+	private $lo;
 	/**
 	 * Constructor.
 	 * @param int $owner The user id of the current active user.
@@ -32,7 +32,7 @@ class GlossaryViewerTableDataProvider extends ObjectTableDataProvider
     {
     	$this->owner = $owner;
     	$this->parent = $parent;
-    	$this->pid = $pid;
+        $this->lo = WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid)->get_learning_object()->get_id();
     }
 	/*
 	 * Inherited
@@ -43,13 +43,13 @@ class GlossaryViewerTableDataProvider extends ObjectTableDataProvider
     	$order_direction = $this->get_order_direction($order_direction);
     	$dm = RepositoryDataManager :: get_instance();
     	
-    	return $dm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->pid));
+    	return ($dm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->lo)));
     }
     
     function get_object_count()
     {
     	$dm = RepositoryDataManager :: get_instance();
-    	$count = $dm->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->pid));
+    	$count = $dm->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->lo));
     	return $count;
     	
     }

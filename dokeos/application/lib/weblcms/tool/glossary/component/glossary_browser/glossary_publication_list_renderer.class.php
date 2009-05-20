@@ -31,7 +31,7 @@ class GlossaryPublicationListRenderer extends TableLearningObjectPublicationList
    function render_title($publication) {
     	//$html[] = '<a href="'.htmlentities($publication->get_learning_object()->get_url()).'" style="float:left;margin-right: 20px;">'.parent::render_title($publication).'</a>';
     	$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_VIEW_GLOSSARY;
-    	$parameters[Tool :: PARAM_PUBLICATION_ID] =  $publication->get_learning_object()->get_id();
+    	$parameters[Tool :: PARAM_PUBLICATION_ID] =  $publication->get_id();
     	$html[] = '<a href="'.$this->get_url($parameters).'">' . parent :: render_title($publication) . '</a>';
     	return implode("\n",$html);
     }
@@ -69,7 +69,7 @@ class GlossaryPublicationListRenderer extends TableLearningObjectPublicationList
 	{
 		$img = '<img src="'.Theme :: get_common_image_path().'action_browser.png" alt=""/>';
 		$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_VIEW_GLOSSARY;
-    	$parameters[Tool :: PARAM_PUBLICATION_ID] =  $publication->get_learning_object()->get_id();
+    	$parameters[Tool :: PARAM_PUBLICATION_ID] =  $publication->get_id();
     	$html = '<a href="'.$this->get_url($parameters).'">' . $img . '</a>';
     	return $html;
 	}

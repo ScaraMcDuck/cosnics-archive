@@ -18,6 +18,12 @@ class ToolComplexCreatorComponent extends ToolComponent
 				$this->display_error_message(Translation :: get('NoParentSelected'));
 				$this->display_footer();
 			}
+            else
+            {
+                $trail = new BreadCrumbTrail();
+                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'), 'type' => Request :: get('type'))), Translation :: get('Create')));
+            }
 
 			$type = Request :: get('type');
 
@@ -28,11 +34,13 @@ class ToolComplexCreatorComponent extends ToolComponent
 
 			$object_id = Request :: get('object');
 
+
+
 			if(!isset($object_id))
 			{
 				$html[] = '<p><a href="' . $this->get_url(array('type' => $type, 'pid' => $pid)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 				$html[] =  $pub->as_html();
-				$this->display_header(new BreadCrumbTrail());
+				$this->display_header($trail);
 				echo implode("\n",$html);
 				$this->display_footer();
 			}
@@ -42,7 +50,7 @@ class ToolComplexCreatorComponent extends ToolComponent
 
 				$cloi->set_ref($object_id);
 				$cloi->set_user_id($this->get_user_id());
-				$cloi->set_parent($pid);
+                $cloi->set_parent(WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid)->get_learning_object()->get_id());
 				$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($pid));
 
 				$cloi_form = ComplexLearningObjectItemForm :: factory(ComplexLearningObjectItemForm :: TYPE_CREATE, $cloi, 'create_complex', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, 'object' => $object_id)));
