@@ -1,7 +1,7 @@
 <?php
 /**
  * @package repository.repositorymanager
- * 
+ *
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
@@ -20,16 +20,16 @@ class RepositoryManagerPublicationUpdaterComponent extends RepositoryManagerComp
 	{
 		$application = $_GET[RepositoryManager :: PARAM_PUBLICATION_APPLICATION];
 		$publication_id = $_GET[RepositoryManager :: PARAM_PUBLICATION_ID];
-		
+
 		if (!empty ($application) && !empty ($publication_id))
 		{
 			$pub = $this->get_parent()->get_learning_object_publication_attribute($publication_id, $application);
 			$latest_version = $pub->get_publication_object()->get_latest_version_id();
-			
+
 			$pub->set_publication_object_id($latest_version);
 			$success = $pub->update();
-			
-			$this->redirect(RepositoryManager :: ACTION_VIEW_MY_PUBLICATIONS, Translation :: get($success ? 'PublicationUpdated' : 'PublicationUpdateFailed'));
+
+			$this->redirect(Translation :: get($success ? 'PublicationUpdated' : 'PublicationUpdateFailed'), ($success ? false : true), array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_MY_PUBLICATIONS));
 		}
 		else
 		{

@@ -18,7 +18,7 @@ class RepositoryManagerAddLearningObjectsComponent extends RepositoryManagerComp
 		$ids = $_GET[RepositoryManager :: PARAM_CLOI_REF];
 		$root = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
 		$parent = $_GET[RepositoryManager :: PARAM_CLOI_ID];
-		 
+
 		$failures = 0;
 
 		//echo($root . ' ' . $parent);
@@ -28,25 +28,25 @@ class RepositoryManagerAddLearningObjectsComponent extends RepositoryManagerComp
 			{
 				$ids = array ($ids);
 			}
-			
+
 			foreach ($ids as $ref)
 			{
 				$type = RepositoryDataManager :: get_instance()->determine_learning_object_type($ref);
-				
+
 				$cloi = ComplexLearningObjectItem :: factory($type);
-				
+
 				$cloi->set_ref($ref);
 				$cloi->set_user_id($this->get_user()->get_id());
 				$cloi->set_parent($parent);
 				$cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($parent));
-			
+
 				if(!$cloi->create())
 				{
 					$failures++;
 				}
-			
+
 			}
-			
+
 			if ($failures)
 				{
 					if (count($ids) == 1)
@@ -69,8 +69,14 @@ class RepositoryManagerAddLearningObjectsComponent extends RepositoryManagerComp
 						$message = 'AllSelectedObjectsAdded';
 					}
 				}
-				
-			$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get($message), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $parent,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root, 'publish' => $_GET['publish']));
+
+			$parameters = array();
+			$parameters[RepositoryManager :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS;
+			$parameters[RepositoryManager :: PARAM_CLOI_ID] = $parent;
+			$parameters[RepositoryManager :: PARAM_CLOI_ROOT_ID] = $root;
+			$parameters['publish'] = $_GET['publish'];
+
+			$this->redirect(Translation :: get($message), false, $parameters);
 		}
 		else
 		{

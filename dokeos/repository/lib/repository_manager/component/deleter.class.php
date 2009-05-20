@@ -23,7 +23,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 			{
 				$ids = array ($ids);
 			}
-			
+
 			$failures = 0;
 			$delete_version = $_GET[RepositoryManager :: PARAM_DELETE_VERSION];
 			$permanent = $_GET[RepositoryManager :: PARAM_DELETE_PERMANENTLY];
@@ -78,7 +78,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 					$failures ++;
 				}
 			}
-			
+
 			if ($delete_version)
 			{
 				if ($failures)
@@ -115,7 +115,11 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 					}
 				}
 			}
-			$this->redirect(($permanent ? RepositoryManager :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS : RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS), Translation :: get($message));
+
+			$parameters = array();
+			$parameters[RepositoryManager :: PARAM_ACTION] = ($permanent ? RepositoryManager :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS : RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS);
+
+			$this->redirect(Translation :: get($message), ($failures ? true : false), $parameters);
 		}
 		else
 		{

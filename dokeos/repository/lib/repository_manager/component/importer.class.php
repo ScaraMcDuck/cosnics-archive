@@ -18,14 +18,14 @@ class RepositoryManagerImporterComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$clo_id = $_GET[RepositoryManager :: PARAM_CLOI_ID]; 
+		$clo_id = $_GET[RepositoryManager :: PARAM_CLOI_ID];
 		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
-		
+
 		$trail = new BreadcrumbTrail(false);
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('LearningObjectImport')));
-		
+
 		$extra_params = array();
-		
+
 		if(isset($clo_id) && isset($root_id))
 		{
 			$clo = $this->retrieve_learning_object($clo_id);
@@ -34,43 +34,43 @@ class RepositoryManagerImporterComponent extends RepositoryManagerComponent
 			{
 				$type_options[$type] = Translation :: get(LearningObject :: type_to_class($type).'TypeName');
 			}
-			
-			$extra_params = array(RepositoryManager :: PARAM_CLOI_ID => $clo_id, 
+
+			$extra_params = array(RepositoryManager :: PARAM_CLOI_ID => $clo_id,
 								  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id);
 			$extra = '<a href="' . $this->get_add_existing_learning_object_url($root_id, $clo_id) . '">' . Translation :: get('AddExistingLearningObject') . '</a><br /><br />';
-			
+
 			$root = $this->retrieve_learning_object($root_id);
 			$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), $root->get_title()));
 			$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $clo_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
 		}
-		
+
 		$import_form = new LearningObjectImportForm('import', 'post', $this->get_url($extra_params), $this->get_parameter(RepositoryManager :: PARAM_CATEGORY_ID), $this->get_user());
-		
+
 		if ($import_form->validate())
 		{
 			$learning_object = $import_form->import_learning_object();
-			
+
 			if ($learning_object === false)
 			{
-				$this->display_header($trail);	
-				Display :: warning_message(Translation :: get('LearningObjectNotImported'));			
+				$this->display_header($trail);
+				Display :: warning_message(Translation :: get('LearningObjectNotImported'));
 				$this->display_footer();
 			}
 			else
 			{
 				if(count($extra_params) == 2)
 				{
-					$params = array_merge(array(RepositoryManager :: PARAM_CLOI_REF => $learning_object->get_id()), $extra_params);
-					$this->redirect(RepositoryManager :: ACTION_CREATE_COMPLEX_LEARNING_OBJECTS, null, 0, false, $params);
+					$params = array_merge(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_CREATE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_REF => $learning_object->get_id()), $extra_params);
+					$this->redirect(null, false, $params);
 				}
 				else
 				{
-					$this->redirect(RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, Translation :: get('LearningObjectImported'), 0, false, array(RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
+					$this->redirect(Translation :: get('LearningObjectImported'), false, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 				}
 			}
 		}
 		else
-		{				
+		{
 			$this->display_header($trail);
 			$import_form->display();
 			$this->display_footer();

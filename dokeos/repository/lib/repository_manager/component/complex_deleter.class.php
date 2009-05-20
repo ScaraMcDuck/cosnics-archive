@@ -19,14 +19,14 @@ class RepositoryManagerComplexDeleterComponent extends RepositoryManagerComponen
 		$root = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
 		$failures = 0;
 		$parent = 0;
-		
+
 		if (!empty ($ids))
 		{
 			if (!is_array($ids))
 			{
 				$ids = array ($ids);
 			}
-			
+
 			foreach ($ids as $cloi_id)
 			{
 				$cloi = $this->retrieve_complex_learning_object_item($cloi_id);
@@ -48,7 +48,7 @@ class RepositoryManagerComplexDeleterComponent extends RepositoryManagerComponen
 					$failures ++;
 				}
 			}
-			
+
 			if ($failures)
 			{
 				if (count($ids) == 1)
@@ -71,8 +71,8 @@ class RepositoryManagerComplexDeleterComponent extends RepositoryManagerComponen
 					$message = 'AllSelectedObjectsDeleted';
 				}
 			}
-			
-			$this->redirect(RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, Translation :: get($message), 0, false, array(RepositoryManager :: PARAM_CLOI_ID => $parent,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root, 'publish' => $_GET['publish'], 'clo_action' => 'organise'));
+
+			$this->redirect(Translation :: get($message), false, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $parent,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root, 'publish' => $_GET['publish'], 'clo_action' => 'organise'));
 		}
 		else
 		{
