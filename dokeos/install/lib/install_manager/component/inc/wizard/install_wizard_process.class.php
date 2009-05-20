@@ -209,7 +209,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		foreach($applications as $application)
 		{
 			$toolPath = Path :: get_application_path() . 'lib/'. $application .'/install';
-			if (is_dir($toolPath) && Application :: is_application_name($application))
+			if (is_dir($toolPath) && WebApplication :: is_application_name($application))
 			{
 				$check_name = 'install_' . $application;
 				if (isset($values[$check_name]) && $values[$check_name] == '1')
@@ -258,7 +258,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		foreach($applications as $application)
 		{
 			$toolPath = Path :: get_application_path() . 'lib/' . $application . '/install';
-			if(is_dir($toolPath) && Application :: is_application_name($application))
+			if(is_dir($toolPath) && WebApplication :: is_application_name($application))
 			{
 				$check_name = 'install_'.$application;
 				if (isset($values[$check_name]) && $values[$check_name]=='1')
@@ -297,7 +297,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		foreach($applications as $application)
 		{
 			$toolPath = Path :: get_application_path() . 'lib/' . $application .'/install';
-			if (is_dir($toolPath) && Application :: is_application_name($application))
+			if (is_dir($toolPath) && WebApplication :: is_application_name($application))
 			{
 				$check_name = 'install_' . $application;
 				if (isset($values[$check_name]) && $values[$check_name] == '1')
@@ -344,7 +344,7 @@ class InstallWizardProcess extends HTML_QuickForm_Action
 		foreach($applications as $application)
 		{
 			$toolPath = Path :: get_application_path() . 'lib/' . $application .'/install';
-			if (is_dir($toolPath) && Application :: is_application_name($application))
+			if (is_dir($toolPath) && WebApplication :: is_application_name($application))
 			{
 				$check_name = 'install_' . $application;
 				if (isset($values[$check_name]) && $values[$check_name] == '1')
