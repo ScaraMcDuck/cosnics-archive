@@ -270,7 +270,8 @@ abstract class Tool
 		{
 			$course_group = $this->parent->get_course_group();
 			$trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, WeblcmsManager :: PARAM_COURSE_GROUP=>null)),Translation :: get('CourseGroups')));
-			$trail->add(new Breadcrumb($this->get_url(array('tool_action' => null)), $course_group->get_name()));
+			//if(Request :: get('tool_action') != null)
+            //$trail->add(new Breadcrumb($this->get_url(array('tool_action' => 'course_group_unsubscribe')), $course_group->get_name()));
 		}
 		elseif($this->get_tool_id() == 'course_group')
 		{

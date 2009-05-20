@@ -17,6 +17,8 @@ class CourseGroupToolEditorComponent extends CourseGroupToolComponent
 		}
 
 		$trail = new BreadcrumbTrail();
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE)), WebLcmsDataManager :: get_instance()->retrieve_course_group(Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP))->get_name()));
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_EDIT_COURSE_GROUP)), Translation :: get('Edit')));
 		$course_group_id = Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP);
 		$wdm = WeblcmsDataManager :: get_instance();
 		$course_group = $wdm->retrieve_course_group($course_group_id);
