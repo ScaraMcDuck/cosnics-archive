@@ -175,7 +175,7 @@ abstract class Application
 	 * Displays the header.
 	 * @param array $breadcrumbtrail The breadcrumbtrail to show in the header.
 	 */
-	function display_header($breadcrumbtrail)
+	function display_header($breadcrumbtrail, $help_item)
 	{
 		if (is_null($breadcrumbtrail))
 		{
@@ -193,7 +193,7 @@ abstract class Application
 		}
 
 		$title = $breadcrumbtrail->get_last()->get_name();
-		Display :: header($breadcrumbtrail);
+		Display :: header($breadcrumbtrail, $help_item);
 
 		// If there is an application-wide menu, show it
 		if ($this->has_menu())

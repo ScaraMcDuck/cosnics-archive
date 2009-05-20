@@ -122,7 +122,7 @@ img
 	/* border-bottom: 1px solid #666; */
 }
 
-#breadcrumbtrail
+#trailbox
 {
 	clear: both;
 	position: relative;
@@ -130,10 +130,19 @@ img
 	right: 0px;
 	padding: 5px 1% 5px 1%;
 	margin-bottom: 10px;
-	
 	color: #444444;
 	background-color: #f2f2f2;
 	border-bottom: 1px solid black;
+}
+
+#breadcrumbtrail
+{
+	float: left;
+}
+
+#helpitem
+{
+	float: right;
 }
 
 #breadcrumbtrail a

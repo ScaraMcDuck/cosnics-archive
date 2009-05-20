@@ -210,7 +210,7 @@ class Display
 	 * page title)
 	 * @param string $help
 	 */
-	public static function header($breadcrumbtrail, $help = NULL)
+	public static function header($breadcrumbtrail, $help_item = null)
 	{
 		global $language_interface, $adm, $httpHeadXtra, $htmlHeadXtra, $text_dir, $plugins, $interbreadcrumb, $charset, $noPHP_SELF;
 		include (Path :: get(SYS_LIB_PATH).'html/header.inc.php');
