@@ -30,7 +30,7 @@ class AdminManager extends CoreApplication
 {
 	const APPLICATION_NAME = 'admin';
 
-	const PARAM_APPLICATION = 'application';
+	const PARAM_WEB_APPLICATION = 'web_application';
 	const PARAM_SYSTEM_ANNOUNCEMENT_ID = 'announcement';
 
 	const PARAM_DELETE_SELECTED = 'delete_selected';

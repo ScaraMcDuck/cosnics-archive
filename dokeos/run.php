@@ -6,7 +6,7 @@
  * This script will load the requested application and call its run() function.
  */
 require_once dirname(__FILE__).'/common/global.inc.php';
-require_once Path :: get_user_path(). 'lib/user_manager/user_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 require_once Path :: get_application_path() . 'lib/web_application.class.php';
 
 $application_name = Request :: get('application');
@@ -18,7 +18,7 @@ if(!WebApplication :: is_active($application_name))
 	Display :: not_allowed();
 }
 
-//require_once Path ::get_application_path().'lib/weblcms/tool/assessment/assessment_tool.class.php';
+require_once Path ::get_application_path().'lib/weblcms/tool/assessment/assessment_tool.class.php';
 
 Translation :: set_application($this_section);
 Theme :: set_application($this_section);
@@ -29,11 +29,19 @@ if (!Authentication :: is_valid() && !isset($_GET[AssessmentTool :: PARAM_INVITA
 }
 
 // Load the current user
-$user_manager = new UserManager(Session :: get_user_id());
-$user = $user_manager->retrieve_user(Session :: get_user_id());
+$user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
 
 // Load & run the application
-$application = WebApplication :: factory($application_name, $user);
-$application->set_parameter('application', $application_name);
-$application->run();
+try
+{
+	$application = WebApplication :: factory($application_name, $user);
+	$application->set_parameter('application', $application_name);
+	$application->run();
+}
+catch(Exception $exception)
+{
+	$application->display_header();
+	Display :: error_message($exception->getMessage());
+	$application->display_footer();
+}
 ?>

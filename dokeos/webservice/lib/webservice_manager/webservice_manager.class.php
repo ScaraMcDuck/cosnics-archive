@@ -18,7 +18,7 @@ require_once Path :: get_library_path() . 'core_application.class.php';
 	const PARAM_REMOVE_SELECTED = 'delete';
 	const PARAM_FIRSTLETTER = 'firstletter';
 	const PARAM_COMPONENT_ACTION = 'action';
-    const PARAM_APPLICATION = 'application';
+    const PARAM_SOURCE = 'source';
 
     const PARAM_LOCATION_ID = 'location';
 	const PARAM_WEBSERVICE_ID = 'webservice';
@@ -99,7 +99,10 @@ require_once Path :: get_library_path() . 'core_application.class.php';
 							'description' => Translation :: get('ListDescription'),
 							'action' => 'list',
 							'url' => $this->get_link(array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)));
-		return array('application' => array('name' => Translation :: get('Webservice'), 'class' => 'webservice'), 'links' => $links, 'search' => null);
+		$info = parent :: get_application_platform_admin_links();
+		$info['links'] = $links;
+
+		return $info;
 	}
 
     public function get_manage_roles_url($webservice)

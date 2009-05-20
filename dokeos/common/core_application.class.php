@@ -9,7 +9,33 @@ abstract class CoreApplication extends Application
      */
     function is_active($application)
     {
-        return true;
+        if (self :: exists($application))
+        {
+        	return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Determines if a given application exists
+     * @param string $name
+     * @return boolean
+     */
+    public static function exists($name)
+    {
+        $application_path = self :: get_application_path($name);
+        $application_manager_path = $application_path . '/lib/' . $name . '_manager' . '/' . $name . '_manager.class.php';
+        if (file_exists($application_path) && is_dir($application_path) && file_exists($application_manager_path))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 	/**

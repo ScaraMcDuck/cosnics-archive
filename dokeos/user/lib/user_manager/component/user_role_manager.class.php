@@ -16,8 +16,7 @@ class UserManagerUserRoleManagerComponent extends UserManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$admin = new AdminManager();
-		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION =>  UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
 
 		$user_id = Request :: get(UserManager :: PARAM_USER_USER_ID);
@@ -28,7 +27,7 @@ class UserManagerUserRoleManagerComponent extends UserManagerComponent
 			$this->display_footer();
 			exit();
 		}
-		
+
 		$user = $this->retrieve_user($user_id);
 
         $trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_USER_USER_ID => $user_id)), $user->get_fullname()));
@@ -44,9 +43,9 @@ class UserManagerUserRoleManagerComponent extends UserManagerComponent
 		else
 		{
 			$this->display_header($trail, false, 'user general');
-			
+
 			echo sprintf(Translation :: get('ModifyRolesForUser'), $user->get_fullname());
-			
+
 			$form->display();
 			$this->display_footer();
 		}

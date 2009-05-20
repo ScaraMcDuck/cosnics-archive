@@ -18,26 +18,26 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
  class TrackingManager extends CoreApplication
  {
 	const APPLICATION_NAME = 'tracking';
-	
+
 	const PARAM_EVENT_ID = 'event_id';
 	const PARAM_TRACKER_ID = 'track_id';
 	const PARAM_REF_ID = 'ref_id';
 	const PARAM_TYPE = 'type';
 	const PARAM_EXTRA = 'extra';
-	
+
 	const ACTION_BROWSE_EVENTS = 'browse_events';
 	const ACTION_VIEW_EVENT = 'view_event';
 	const ACTION_CHANGE_ACTIVE = 'changeactive';
 	const ACTION_EMPTY_TRACKER = 'empty_tracker';
 	const ACTION_ARCHIVE = 'archive';
-	
+
 	private $tdm;
-	
+
 	/**
 	 * Constructor
 	 * @param User $user The active user
 	 */
-    function TrackingManager($user) 
+    function TrackingManager($user)
     {
 		parent :: __construct($user);
 		$this->tdm = TrackingDataManager :: get_instance();
@@ -47,7 +47,7 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
     {
     	return self :: APPLICATION_NAME;
     }
-    
+
     /**
 	 * Run this tracking manager
 	 */
@@ -76,11 +76,11 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 				$component = TrackingManagerComponent :: factory('Archiver', $this);
 				break;
 		}
-		
+
 		if($component)
 			$component->run();
 	}
-	
+
 	/**
 	 * Method used by the administrator module to get the application links
 	 */
@@ -95,10 +95,13 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 							'description' => Translation :: get('ArchiveDescription'),
 							'action' => 'archive',
 							'url' => $this->get_link(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)));
-		
-		return array('application' => array('name' => Translation :: get('Tracking'), 'class' => 'tracking'), 'links' => $links);
+
+		$info = parent :: get_application_platform_admin_links();
+		$info['links'] = $links;
+
+		return $info;
 	}
-	
+
 	/**
 	 * Gets the url for the event browser
 	 * @return String URL for event browser
@@ -107,7 +110,7 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_EVENTS));
 	}
-	
+
 	/**
 	 * Retrieves the change active url
 	 * @param string $type event or tracker
@@ -122,33 +125,33 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 		$parameters[self :: PARAM_EVENT_ID] = $event_id;
 		if($tracker_id)
 			$parameters[self :: PARAM_TRACKER_ID] = $tracker_id;
-		
+
 		return $this->get_url($parameters);
 	}
-	
-	/** 
+
+	/**
 	 * Retrieves the event viewer url
 	 * @param Event $event
 	 * @return the event viewer url for the given event
 	 */
 	function get_event_viewer_url($event)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_EVENT, 
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_EVENT,
 			self :: PARAM_EVENT_ID => $event->get_id()));
 	}
-	
-	/** 
+
+	/**
 	 * Retrieves the empty tracker url
 	 * @see TrackingManager :: get_empty_tracker_url()
 	 */
 	function get_empty_tracker_url($type, $event_id, $tracker_id = null)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EMPTY_TRACKER, 
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EMPTY_TRACKER,
 			self :: PARAM_EVENT_ID => $event_id,
 			self :: PARAM_TRACKER_ID => $tracker_id,
 			self :: PARAM_TYPE => $type));
 	}
-	
+
 	/**
 	 * Retrieves the platform administration link
 	 */
@@ -156,7 +159,7 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 	{
 		return Path :: get(WEB_PATH) . 'index_admin.php';
 	}
-	
+
 	/**
 	 * Retrieves the events
 	 * @param Condition $condition
@@ -169,7 +172,7 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 	{
 		return $this->tdm->retrieve_events($condition, $offset, $count, $order_property, $order_direction);
 	}
-	
+
 	/**
 	 * Count the events from a given condition
 	 * @param Condition $conditions
@@ -178,7 +181,7 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 	{
 		return $this->tdm->count_events($conditions);
 	}
-	
+
 	/**
 	 * Retrieves an event by the given id
 	 * @param int $event_id
@@ -188,7 +191,7 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 	{
 		return $this->tdm->retrieve_event($event_id);
 	}
-	
+
 	/**
 	 * Retrieves the trackers from a given event
 	 * @param int $event_id the event id
@@ -198,7 +201,7 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 	{
 		return $this->tdm->retrieve_trackers_from_event($event_id, false);
 	}
-	
+
 	/**
 	 * Retrieves the event tracker relation by given id's
 	 * @param int $event_id the event id
@@ -209,7 +212,7 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 	{
 		return $this->tdm->retrieve_event_tracker_relation($event_id, $tracker_id);
 	}
-	
+
 	/**
 	 * Retrieves the tracker for the given id
 	 * @param int $tracker_id the given tracker id
@@ -219,17 +222,17 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 	{
 		return $this->tdm->retrieve_tracker_registration($tracker_id);
 	}
-	
+
 	/**
 	 * Retrieves an event by name
-	 * @param string $eventname 
+	 * @param string $eventname
 	 * @return Event event
 	 */
 	function retrieve_event_by_name($eventname)
 	{
 		return $this->tdm->retrieve_event_by_name($eventname);
 	}
-	
+
 	private function parse_input_from_table()
 	{
 		if (isset ($_POST['action']))
@@ -237,7 +240,7 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 			$action = $_POST['action'];
 
 			$selected_ids = $_POST[EventTable :: DEFAULT_NAME.EventTable :: CHECKBOX_NAME_SUFFIX];
-				
+
 			if (empty ($selected_ids))
 			{
 				$selected_ids = array ();
@@ -249,20 +252,20 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 			if($action == 'enable' || $action == 'disable')
 	 		{
 	 			$this->redirect('url', null, null, array(
-		 				Application :: PARAM_ACTION => TrackingManager :: ACTION_CHANGE_ACTIVE, 
-		 				TrackingManager :: PARAM_EVENT_ID => $selected_ids, 
+		 				Application :: PARAM_ACTION => TrackingManager :: ACTION_CHANGE_ACTIVE,
+		 				TrackingManager :: PARAM_EVENT_ID => $selected_ids,
 		 				TrackingManager :: PARAM_TYPE => 'event',
 		 				TrackingManager :: PARAM_EXTRA => $action));
 	 		}
 	 		else
 	 		{
 		 		$this->redirect('url', null, null, array(
-		 				Application :: PARAM_ACTION => $action, 
-		 				TrackingManager :: PARAM_EVENT_ID => $selected_ids, 
+		 				Application :: PARAM_ACTION => $action,
+		 				TrackingManager :: PARAM_EVENT_ID => $selected_ids,
 		 				TrackingManager :: PARAM_TYPE => 'event'));
 	 		}
 		}
 	}
-	
+
 }
 ?>

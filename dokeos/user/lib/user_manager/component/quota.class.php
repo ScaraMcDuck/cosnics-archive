@@ -14,23 +14,22 @@ class UserManagerQuotaComponent extends UserManagerComponent
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{		
+	{
 		$user_id = $this->get_user_id();
-		
+
 		$trail = new BreadcrumbTrail();
-		$admin = new AdminManager();
-		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
-		
-		
-		if (!$this->get_user()->is_platform_admin()) 
+
+
+		if (!$this->get_user()->is_platform_admin())
 		{
 			Display :: not_allowed();
 		}
 		$id = $_GET[UserManager :: PARAM_USER_USER_ID];
 		if ($id)
 		{
-	
+
 			$user = $this->retrieve_user($id);
 
             $trail->add(new Breadcrumb($this->get_url(), $user->get_fullname()));

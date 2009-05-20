@@ -18,8 +18,7 @@ class UserManagerReportingComponent extends UserManagerComponent
         $params = Reporting :: get_params($this);
 
         $trail = new BreadcrumbTrail();
-        $admin = new AdminManager();
-        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION =>  UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
 
         $user = $this->retrieve_user($params[ReportingManager::PARAM_USER_ID]);

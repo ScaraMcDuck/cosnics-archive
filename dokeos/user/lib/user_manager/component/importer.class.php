@@ -8,17 +8,16 @@ require_once dirname(__FILE__).'/../../forms/user_import_form.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
 
 class UserManagerImporterComponent extends UserManagerComponent
-{	
+{
 	/**
 	 * Runs this component and displays its output.
 	 */
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$admin = new AdminManager();
-		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserCreateCsv')));
-		
+
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($trail, false, 'user general');
@@ -26,9 +25,9 @@ class UserManagerImporterComponent extends UserManagerComponent
 			$this->display_footer();
 			exit;
 		}
-		
+
 		$form = new UserImportForm(UserImportForm :: TYPE_IMPORT, $this->get_url(), $this->get_user());
-		
+
 		if($form->validate())
 		{
 			$success = $form->import_users();
@@ -42,7 +41,7 @@ class UserManagerImporterComponent extends UserManagerComponent
 			$this->display_footer();
 		}
 	}
-	
+
 	function display_extra_information()
 	{
 		$html = array();
@@ -53,7 +52,7 @@ class UserManagerImporterComponent extends UserManagerComponent
 		$html[] = '<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;<b>xxx</b>;xxx;platform/ldap;xxx;<b>xxx</b>;1/5;xxx;1/0;date/0;date/0';
 		$html[] = '</pre>';
 		$html[] = '</blockquote>';
-		
+
 		$html[] = '<p>'. Translation :: get('XMLMustLookLike') .' ('. Translation :: get('MandatoryFields') .')</p>';
 		$html[] = '<blockquote>';
 		$html[] = '<pre>';
@@ -84,8 +83,8 @@ class UserManagerImporterComponent extends UserManagerComponent
 		$html[] = '&lt;/Contacts&gt;';
 		$html[] = '</pre>';
 		$html[] = '</blockquote>';
-		
-		echo implode($html, "\n");		
+
+		echo implode($html, "\n");
 	}
 }
 ?>

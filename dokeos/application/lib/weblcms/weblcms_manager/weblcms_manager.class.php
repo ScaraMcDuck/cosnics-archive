@@ -349,7 +349,7 @@ class WeblcmsManager extends WebApplication
 			echo '<form method="get" action="'.$this->get_url().'" style="display: inline;">';
 			echo '<input type="hidden" name="'.self :: PARAM_ACTION.'" value="courseviewer" />';
 			echo '<input type="hidden" name="'.self :: PARAM_COURSE.'" value="'. $this->get_course_id() .'" />';
-			echo '<input type="hidden" name="'.WebApplication :: PARAM_APPLICATION.'" value="'.$this->get_parameter('application').'"/>';
+			echo '<input type="hidden" name="'.Application :: PARAM_APPLICATION.'" value="'.$this->get_parameter('application').'"/>';
 			echo '<select name="'.self :: PARAM_TOOL.'" onchange="submit();">';
 			$tools = array ();
 			foreach ($this->get_registered_tools() as $t)

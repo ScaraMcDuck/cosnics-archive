@@ -14,17 +14,16 @@ class RightsManagerRoleEditorComponent extends RightsManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-        $admin = new AdminManager();
-        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRole')));
-		
+
 		$id = $_GET[RightsManager :: PARAM_ROLE_ID];
-		
+
 		if ($id)
 		{
 			$role = $this->retrieve_role($id);
-		
+
 			if (!$this->get_user()->is_platform_admin())
 			{
 				$this->display_header($trail, false, 'rights general');
@@ -32,7 +31,7 @@ class RightsManagerRoleEditorComponent extends RightsManagerComponent
 				$this->display_footer();
 				exit;
 			}
-			
+
 			$form = new RoleForm(RoleForm :: TYPE_EDIT, $role, $this->get_url(array(RightsManager :: PARAM_ROLE_ID => $id)));
 
 			if($form->validate())

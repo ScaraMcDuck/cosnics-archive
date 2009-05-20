@@ -19,8 +19,6 @@ class RepositoryManagerUserViewCreatorComponent extends RepositoryManagerCompone
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserViewList')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserViewCreate')));
 
-        $admin = new AdminManager();
-
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($trail, false, true, 'repository userviews');
