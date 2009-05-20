@@ -1,6 +1,6 @@
 <?php
 /**
- * @package groups.groupsmanager
+ * @package group.group_manager.component
  */
 require_once dirname(__FILE__).'/../group_manager.class.php';
 require_once dirname(__FILE__).'/../group_manager_component.class.php';
@@ -36,7 +36,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 		
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'group subscribe users');
 			Display :: error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
@@ -44,7 +44,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 		$this->ab = $this->get_action_bar();
 		$output = $this->get_user_subscribe_html();
 		
-		$this->display_header($trail, false, false);
+		$this->display_header($trail, false, 'group subscribe users');
 		echo $this->ab->as_html() . '<br />';
 		echo $output;
 		$this->display_footer();

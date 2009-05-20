@@ -1,6 +1,6 @@
 <?php
 /**
- * @package groups.lib.groupmanager.component
+ * @package group.group_manager.component
  */
 require_once dirname(__FILE__).'/../group_manager.class.php';
 require_once dirname(__FILE__).'/../group_manager_component.class.php';
@@ -21,7 +21,7 @@ class GroupManagerImporterComponent extends GroupManagerComponent
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'group importer');
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -36,7 +36,7 @@ class GroupManagerImporterComponent extends GroupManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'group importer');
 			$form->display();
 			$this->display_extra_information();
 			$this->display_footer();

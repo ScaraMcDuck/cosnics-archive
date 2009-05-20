@@ -47,7 +47,7 @@ class SubscribeWizardDisplay extends HTML_QuickForm_Action_Display
 		
 		$trail->add(new Breadcrumb($this->parent->get_url(), Translation :: get('SubscribeUsersToGroup')));
 		
-		$this->parent->display_header($trail);
+		$this->parent->display_header($trail, false, 'group subscribe users');
 		if(isset($_SESSION['subscribe_message']))
 		{
 			Display :: normal_message($_SESSION['subscribe_message']);

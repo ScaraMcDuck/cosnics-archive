@@ -1,6 +1,6 @@
 <?php
 /**
- * @package groups.lib.groupmanager.component
+ * @package group.group_manager.component
  */
 require_once dirname(__FILE__).'/../group_manager.class.php';
 require_once dirname(__FILE__).'/../group_manager_component.class.php';
@@ -23,7 +23,7 @@ class GroupManagerGroupRoleManagerComponent extends GroupManagerComponent
 		$group_id = Request :: get(GroupManager :: PARAM_GROUP_ID);
 		if(!$group_id)
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'group rights');
 			$this->display_error_message('NoObjectSelected');
 			$this->display_footer();
 			exit();
@@ -42,7 +42,7 @@ class GroupManagerGroupRoleManagerComponent extends GroupManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'group rights');
 
 			echo sprintf(Translation :: get('ModifyRolesForGroup'), $group->get_name());
 

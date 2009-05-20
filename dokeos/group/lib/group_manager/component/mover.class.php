@@ -1,6 +1,6 @@
 <?php
 /**
- * @package groups.groupsmanager
+ * @package group.group_manager.component
  */
 require_once dirname(__FILE__).'/../group_manager.class.php';
 require_once dirname(__FILE__).'/../group_manager_component.class.php';
@@ -21,7 +21,7 @@ class GroupManagerMoverComponent extends GroupManagerComponent
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'group general');
 			Display :: warning_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
@@ -41,7 +41,7 @@ class GroupManagerMoverComponent extends GroupManagerComponent
 		else
 		{
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'group general');
 			echo Translation :: get('Group') . ': ' . $group->get_name();
 			$form->display();
 			$this->display_footer();

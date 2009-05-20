@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package group.group_manager.component
+ */
 require_once dirname(__FILE__).'/../group_manager.class.php';
 require_once dirname(__FILE__).'/../group_manager_component.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.php';
@@ -20,7 +23,7 @@ class GroupManagerTruncaterComponent extends GroupManagerComponent
 			$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('EmptyGroup')));
 
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'group general');
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
