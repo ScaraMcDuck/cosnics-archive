@@ -33,7 +33,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 		$user = $this->get_user();
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'menu general');
 			Display :: error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
@@ -77,7 +77,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SortMenuManagerCategories')));
 
-		$this->display_header($trail, false);
+		$this->display_header($trail, false, 'menu general');
 
 		echo $this->action_bar->as_html();
 
@@ -164,7 +164,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 			$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddMenuManagerCategory')));
 
-			$this->display_header($trail, false);
+			$this->display_header($trail, false, 'menu general');
 			echo '<div style="float: left; width: 12%; overflow:auto;">';
 			echo $this->get_menu()->render_as_tree();
 			echo '</div>';
@@ -194,7 +194,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 			$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU)), Translation :: get('Menu')));
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UpdateMenuManagerCategory')));
 
-			$this->display_header($trail, false);
+			$this->display_header($trail, false, 'menu general');
 			echo '<div style="float: left; width: 12%; overflow:auto;">';
 			echo $this->get_menu()->render_as_tree();
 			echo '</div>';
