@@ -88,7 +88,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 
 		if (!isset($this->application) && !isset($this->location))
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, 'rights general');
 			$this->display_warning_message(Translation :: get('SelectApplication'));
 			$this->display_footer();
 			exit;
@@ -115,7 +115,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 				}
 				else
 				{
-					$this->display_header($trail);
+					$this->display_header($trail, 'rights general');
 					$this->display_warning_message(Translation :: get('NoSuchLocationAndOrApplication'));
 					$this->display_footer();
 					exit;
@@ -138,7 +138,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 				$trail->add(new Breadcrumb($this->get_url(array('location' => $parent->get_id())), $parent->get_location()));
 			}
 
-			$this->display_header($trail);
+			$this->display_header($trail, 'rights general');
 			echo $this->get_modification_links();
 			echo $this->get_rights_table_html();
 			echo $this->get_location_information();
@@ -368,9 +368,9 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		return implode("\n", $html);
 	}
 
-	function display_header($trail)
+	function display_header($trail, $helpitem)
 	{
-		$this->get_parent()->display_header($trail);
+		$this->get_parent()->display_header($trail, $helpitem);
 		echo $this->get_applications();
 		echo '<div class="clear">&nbsp;</div>';
 	}
