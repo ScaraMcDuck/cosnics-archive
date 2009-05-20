@@ -71,7 +71,8 @@ class RepositoryManagerRestorerComponent extends RepositoryManagerComponent
 					$message = 'AllSelectedObjectsRestored';
 				}
 			}
-			$this->redirect(RepositoryManager :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS, Translation :: get($message));
+
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS));
 		}
 		else
 		{

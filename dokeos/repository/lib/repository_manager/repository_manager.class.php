@@ -3,6 +3,8 @@
  * $Id$
  * @package repository.repositorymanager
  */
+require_once Path :: get_library_path() . 'core_application.class.php';
+
 require_once dirname(__FILE__).'/repository_manager_component.class.php';
 require_once dirname(__FILE__).'/repository_search_form.class.php';
 require_once dirname(__FILE__).'/../repository_data_manager.class.php';
@@ -19,6 +21,7 @@ require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 require_once dirname(__FILE__).'/../repository_block.class.php';
 require_once dirname(__FILE__).'/../repository_rights.class.php';
 require_once dirname(__FILE__).'/../complex_builder/complex_builder.class.php';
+
 /**
  * A repository manager provides some functionalities to the end user to manage
  * his learning objects in the repository. For each functionality a component is
@@ -29,7 +32,7 @@ require_once dirname(__FILE__).'/../complex_builder/complex_builder.class.php';
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-class RepositoryManager
+class RepositoryManager extends CoreApplication
 {
 	const APPLICATION_NAME = 'repository';
 
@@ -67,7 +70,7 @@ class RepositoryManager
 	const PARAM_DIRECTION_UP = 'up';
 	const PARAM_DIRECTION_DOWN = 'down';
 	const PARAM_ADD_OBJECTS = 'add_objects';
-	const PARAM_DELETE_SELECTED_USER_VIEW = 'delete_user_view'; 
+	const PARAM_DELETE_SELECTED_USER_VIEW = 'delete_user_view';
 
 	/**#@-*/
    /**#@+
@@ -102,21 +105,18 @@ class RepositoryManager
 	const ACTION_MANAGE_CATEGORIES = 'manage_categories';
 	const ACTION_VIEW_ATTACHMENT = 'view_attachment';
 	const ACTION_BUILD_COMPLEX_LEARNING_OBJECT = 'build_complex';
-	
+
 	const ACTION_BROWSE_USER_VIEWS = 'browse_views';
 	const ACTION_CREATE_USER_VIEW = 'create_view';
 	const ACTION_DELETE_USER_VIEW = 'delete_view';
 	const ACTION_UPDATE_USER_VIEW = 'update_view';
-	
+
 	const PARAM_USER_VIEW = 'user_view';
-	
-	/**#@-*/
-   /**#@+
+
+   /**
     * Property of this repository manager.
  	*/
-	private $parameters;
 	private $search_parameters;
-	private $user;
 	private $search_form;
 	private $category_menu;
 	private $quota_url;
@@ -124,17 +124,14 @@ class RepositoryManager
 	private $create_url;
 	private $import_url;
 	private $recycle_bin_url;
-	private $breadcrumbs;
-	/**#@-*/
+
 	/**
 	 * Constructor
 	 * @param int $user_id The user id of current user
 	 */
 	function RepositoryManager($user)
 	{
-		$this->user = $user;
-		$this->parameters = array ();
-		$this->set_action(isset($_GET[self :: PARAM_ACTION]) ? $_GET[self :: PARAM_ACTION] : null);
+	    parent :: __construct($user);
 		$this->parse_input_from_table();
 		$this->determine_search_settings();
 		$this->publication_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_VIEW_MY_PUBLICATIONS), false, false, 'dddd');
@@ -240,19 +237,19 @@ class RepositoryManager
 			case self :: ACTION_PUBLISH_LEARNING_OBJECT :
 				$component = RepositoryManagerComponent :: factory('Publisher', $this);
 				break;
-			case self :: ACTION_MANAGE_CATEGORIES : 
+			case self :: ACTION_MANAGE_CATEGORIES :
 				$component = RepositoryManagerComponent :: factory('CategoryManager', $this);
 				break;
-			case self :: ACTION_BROWSE_USER_VIEWS : 
+			case self :: ACTION_BROWSE_USER_VIEWS :
 				$component = RepositoryManagerComponent :: factory('UserViewBrowser', $this);
 				break;
-			case self :: ACTION_CREATE_USER_VIEW : 
+			case self :: ACTION_CREATE_USER_VIEW :
 				$component = RepositoryManagerComponent :: factory('UserViewCreator', $this);
 				break;
-			case self :: ACTION_UPDATE_USER_VIEW : 
+			case self :: ACTION_UPDATE_USER_VIEW :
 				$component = RepositoryManagerComponent :: factory('UserViewUpdater', $this);
 				break;
-			case self :: ACTION_DELETE_USER_VIEW : 
+			case self :: ACTION_DELETE_USER_VIEW :
 				$component = RepositoryManagerComponent :: factory('UserViewDeleter', $this);
 				break;
 			case self :: ACTION_VIEW_ATTACHMENT :
@@ -272,7 +269,7 @@ class RepositoryManager
 	 * @todo Clean this up. It's all SortableTable's fault. :-(
 	 */
 	private function parse_input_from_table()
-	{ 
+	{
 		if (isset ($_POST['action']))
 		{
 			$selected_ids = $_POST[RepositoryBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
@@ -323,23 +320,7 @@ class RepositoryManager
 			}
 		}
 	}
-	/**
-	 * Gets the current action.
-	 * @see get_parameter()
-	 * @return string The current action.
-	 */
-	function get_action()
-	{
-		return $this->get_parameter(self :: PARAM_ACTION);
-	}
-	/**
-	 * Sets the current action.
-	 * @param string $action The new action.
-	 */
-	function set_action($action)
-	{
-		return $this->set_parameter(self :: PARAM_ACTION, $action);
-	}
+
 	/**
 	 * Displays the header.
 	 * @param array $breadcrumbs Breadcrumbs to show in the header.
@@ -382,7 +363,7 @@ class RepositoryManager
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
 		Display :: header($breadcrumbtrail);
-		
+
 		if($display_menu)
 		{
 			echo '<div id="repository_tree_container" style="float: left; width: 12%;">';
@@ -394,7 +375,7 @@ class RepositoryManager
 		{
 			echo '<div>';
 		}
-		
+
 		echo '<div>';
 		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
 		if ($display_search)
@@ -421,60 +402,7 @@ class RepositoryManager
 		echo '<div class="clear">&nbsp;</div>';
 		Display :: footer();
 	}
-	/**
-	 * Displays a normal message.
-	 * @param string $message The message.
-	 */
-	function display_message($message)
-	{
-		Display :: normal_message($message);
-	}
-	/**
-	 * Displays an error message.
-	 * @param string $message The message.
-	 */
-	function display_error_message($message)
-	{
-		Display :: error_message($message);
-	}
-	/**
-	 * Displays a warning message.
-	 * @param string $message The message.
-	 */
-	function display_warning_message($message)
-	{
-		Display :: warning_message($message);
-	}
-	/**
-	 * Displays an error page.
-	 * @param string $message The message.
-	 */
-	function display_error_page($message)
-	{
-		$this->display_header();
-		$this->display_error_message($message);
-		$this->display_footer();
-	}
 
-	/**
-	 * Displays a warning page.
-	 * @param string $message The message.
-	 */
-	function display_warning_page($message)
-	{
-		$this->display_header();
-		$this->display_warning_message($message);
-		$this->display_footer();
-	}
-
-	/**
-	 * Displays a popup form.
-	 * @param string $message The message.
-	 */
-	function display_popup_form($form_html)
-	{
-		Display :: normal_message($form_html);
-	}
 	/**
 	 * Gets the parameter list
 	 * @param boolean $include_search Include the search parameters in the
@@ -485,29 +413,12 @@ class RepositoryManager
 	{
 		if ($include_search && isset ($this->search_parameters))
 		{
-			return array_merge($this->search_parameters, $this->parameters);
+			return array_merge($this->search_parameters, parent :: get_parameters());
 		}
 
-		return $this->parameters;
+		return parent :: get_parameters();
 	}
-	/**
-	 * Gets the value of a parameter.
-	 * @param string $name The parameter name.
-	 * @return string The parameter value.
-	 */
-	function get_parameter($name)
-	{
-		return $this->parameters[$name];
-	}
-	/**
-	 * Sets the value of a parameter.
-	 * @param string $name The parameter name.
-	 * @param mixed $value The parameter value.
-	 */
-	function set_parameter($name, $value)
-	{
-		$this->parameters[$name] = $value;
-	}
+
 	/**
 	 * Gets the value of a search parameter.
 	 * @param string $name The search parameter name.
@@ -517,39 +428,7 @@ class RepositoryManager
 	{
 		return $this->search_parameters[$name];
 	}
-	/**
-	 * Redirect the end user to another location.
-	 * @param string $action The action to take (default = browse learning
-	 * objects).
-	 * @param string $message The message to show (default = no message).
-	 * @param int $new_category_id The category to show (default = root
-	 * category).
-	 * @param boolean $error_message Is the passed message an error message?
-	 */
-	function redirect($action = self :: ACTION_BROWSE_LEARNING_OBJECTS, $message = null, $new_category_id = 0, $error_message = false, $extra_params = null)
-	{
-		$params = array ();
-		$params[self :: PARAM_ACTION] = $action;
-		if (isset ($message))
-		{
-			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
-		}
-		if ($new_category_id)
-		{
-			$params[self :: PARAM_CATEGORY_ID] = $new_category_id;
-		}
-		if (isset($extra_params))
-		{
-			foreach($extra_params as $key => $extra)
-			{
-				$params[$key] = $extra;
-			}
-		}
-		$url = $this->get_url($params);
 
-
-		header('Location: '.$url);
-	}
 	/**
 	 * Sets the active URL in the navigation menu.
 	 * @param string $url The active URL.
@@ -597,44 +476,6 @@ class RepositoryManager
 	function get_recycle_bin_url()
 	{
 		return $this->recycle_bin_url;
-	}
-	/**
-	 * Gets an URL.
-	 * @param array $additional_parameters Additional parameters to add in the
-	 * query string (default = no additional parameters).
-	 * @param boolean $include_search Include the search parameters in the
-	 * query string of the URL? (default = false).
-	 * @param boolean $encode_entities Apply php function htmlentities to the
-	 * resulting URL ? (default = false).
-	 * @return string The requested URL.
-	 */
-	function get_url($additional_parameters = array (), $include_search = false, $encode_entities = false, $x = null)
-	{
-		$eventual_parameters = array_merge($this->get_parameters($include_search), $additional_parameters);
-		$url = $_SERVER['PHP_SELF'].'?'.http_build_query($eventual_parameters);
-		if ($encode_entities)
-		{
-			$url = htmlentities($url);
-		}
-
-		return $url;
-	}
-	/**
-	 * Gets the user id.
-	 * @return int The user id.
-	 */
-	function get_user_id()
-	{
-		return $this->user->get_id();
-	}
-
-	/**
-	 * Gets the user.
-	 * @return int The user.
-	 */
-	function get_user()
-	{
-		return $this->user;
 	}
 
 	/**
@@ -899,20 +740,6 @@ class RepositoryManager
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->get_registered_types($only_master_types);
 	}
-	/**
-	 * Gets the URL to the Dokeos claroline folder.
-	 */
-	function get_path($path_type)
-	{
-		return Path :: get($path_type);
-	}
-	/**
-	 * Wrapper for Display :: not_allowed().
-	 */
-	function not_allowed()
-	{
-		Display :: not_allowed();
-	}
 
 	/**
 	 * Gets some user information
@@ -1072,12 +899,12 @@ class RepositoryManager
 			{
 				$trash['class'] = 'trash';
 			}
-			
+
 			$uv = array ();
 			$uv['title'] = Translation :: get('UserViews');
 			$uv['url'] = $this->get_browse_user_views_url();
 			$uv['class'] = 'userview';
-			
+
 			$extra_items[] = $pub;
 			$extra_items[] = $trash;
 			$extra_items[] = $create;
@@ -1135,154 +962,151 @@ class RepositoryManager
 
 	public function get_application_platform_admin_links()
 	{
-		$links = array();
-		return array('application' => array('name' => Translation :: get('Repository'), 'class' => self :: APPLICATION_NAME), 'links' => $links, 'search' => $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS)));
+	    $info = parent :: get_application_platform_admin_links();
+	    $info['search'] = $this->get_link(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_LEARNING_OBJECTS));
+	    return $info;
 	}
 
-	public function get_link($parameters = array (), $encode = false)
-	{
-		$link = 'index_'. self :: APPLICATION_NAME .'_manager.php';
-		if (count($parameters))
-		{
-			$link .= '?'.http_build_query($parameters);
-		}
-		if ($encode)
-		{
-			$link = htmlentities($link);
-		}
-		return $link;
-	}
-	
-	function get_platform_setting($variable, $application = self :: APPLICATION_NAME)
-	{
-		return PlatformSetting :: get($variable, $application = self :: APPLICATION_NAME);
-	}
-	
 	function count_complex_learning_object_items($condition)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->count_complex_learning_object_items($condition);
 	}
-	
+
 	function retrieve_complex_learning_object_items($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->retrieve_complex_learning_object_items($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
-	
+
 	function retrieve_complex_learning_object_item($cloi_id)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->retrieve_complex_learning_object_item($cloi_id);
 	}
-	
+
 	function get_complex_learning_object_item_edit_url($cloi, $root_id)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_COMPLEX_LEARNING_OBJECTS, 
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_COMPLEX_LEARNING_OBJECTS,
 			self :: PARAM_CLOI_ID => $cloi->get_id(),
 			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));
 	}
-	
+
 	function get_complex_learning_object_item_delete_url($cloi, $root_id)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_LEARNING_OBJECTS, 
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_LEARNING_OBJECTS,
 			self :: PARAM_CLOI_ID => $cloi->get_id(),
 			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));
 	}
-	
+
 	function get_complex_learning_object_item_move_url($cloi, $root_id, $direction)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MOVE_COMPLEX_LEARNING_OBJECTS, 
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MOVE_COMPLEX_LEARNING_OBJECTS,
 			self :: PARAM_CLOI_ID => $cloi->get_id(),
 			self :: PARAM_CLOI_ROOT_ID => $root_id,
 			self :: PARAM_MOVE_DIRECTION => $direction, 'publish' => $_GET['publish']));
 	}
-	
+
 	function get_browse_complex_learning_object_url($object)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BUILD_COMPLEX_LEARNING_OBJECT,
 			ComplexBuilder :: PARAM_ROOT_LO => $object->get_id()));
 	}
-	
+
 	function get_add_existing_learning_object_url($root_id, $clo_id)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SELECT_LEARNING_OBJECTS, 
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SELECT_LEARNING_OBJECTS,
 			self :: PARAM_CLOI_ID => $clo_id,
 			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));
 	}
-	
+
 	function get_add_learning_object_url($learning_object, $cloi_id, $root_id)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_ADD_LEARNING_OBJECT, 
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_ADD_LEARNING_OBJECT,
 			self :: PARAM_CLOI_REF => $learning_object->get_id(),
 			self :: PARAM_CLOI_ID => $cloi_id,
 			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));
 	}
 	function get_learning_object_exporting_url($learning_object)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EXPORT_LEARNING_OBJECTS, 
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_EXPORT_LEARNING_OBJECTS,
 			self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
-	
+
 	function get_publish_learning_object_url($learning_object)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_PUBLISH_LEARNING_OBJECT, 
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_PUBLISH_LEARNING_OBJECT,
 			self :: PARAM_LEARNING_OBJECT_ID => $learning_object->get_id()));
 	}
-	
+
 	function count_categories($conditions = null)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->count_categories($conditions);
 	}
-	
+
 	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->retrieve_categories($condition, $offset, $count, $order_property, $order_direction);
 	}
-	
+
 	function count_user_views($conditions = null)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->count_user_views($conditions);
 	}
-	
+
 	function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->retrieve_user_views($condition, $offset, $count, $order_property, $order_direction);
 	}
-	
+
     /**
-	 * Renders the users block and returns it. 
+	 * Renders the users block and returns it.
 	 */
 	function render_block($block)
 	{
 		$repository_block = RepositoryBlock :: factory($this, $block);
 		return $repository_block->run();
 	}
-	
+
 	function get_browse_user_views_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_BROWSE_USER_VIEWS));
 	}
-	
+
 	function create_user_view_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_USER_VIEW));
 	}
-	
+
 	function update_user_view_url($user_view_id)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_UPDATE_USER_VIEW,
 			self :: PARAM_USER_VIEW => $user_view_id));
 	}
-	
+
 	function delete_user_view_url($user_view_id)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_USER_VIEW,
 			self :: PARAM_USER_VIEW => $user_view_id));
+	}
+
+	/**
+	 * Helper function for the Application class,
+	 * pending access to class constants via variables in PHP 5.3
+	 * e.g. $name = $class :: APPLICATION_NAME
+	 *
+	 * DO NOT USE IN THIS APPLICATION'S CONTEXT
+	 * Instead use:
+	 * - self :: APPLICATION_NAME in the context of this class
+	 * - YourApplicationManager :: APPLICATION_NAME in all other application classes
+	 */
+	function get_application_name()
+	{
+		return self :: APPLICATION_NAME;
 	}
 }
 ?>

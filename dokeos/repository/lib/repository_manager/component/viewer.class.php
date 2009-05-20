@@ -2,7 +2,7 @@
 /**
  * $Id$
  * @package repository.repositorymanager
- * 
+ *
  * @author Bart Mollet
  * @author Tim De Pauw
  * @author Hans De Bisschop
@@ -23,7 +23,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{        
+	{
 		$id = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
 		if ($id)
 		{
@@ -36,7 +36,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 
 			$display = LearningObjectDisplay :: factory($object);
 			$trail = new BreadcrumbTrail(false);
-            
+
 			if ($object->get_state() == LearningObject :: STATE_RECYCLED)
 			{
 				$trail->add(new Breadcrumb($this->get_recycle_bin_url(), Translation :: get('RecycleBin')));
@@ -57,7 +57,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			}
 
 			$this->action_bar = $this->get_action_bar($object);
-			
+
 			if (count($versions) >= 2)
 			{
 				DokeosUtilities :: order_learning_objects_by_id_desc($versions);
@@ -96,15 +96,16 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				if ($form->validate())
 				{
 					$params = $form->compare_learning_object();
-					$this->redirect(RepositoryManager :: ACTION_COMPARE_LEARNING_OBJECTS, null, null, false, $params);
+					$params[RepositoryManager :: PARAM_ACTION] = RepositoryManager :: ACTION_COMPARE_LEARNING_OBJECTS;
+					$this->redirect(null, false, $params);
 				}
 				else
 				{
 					$this->display_header($trail);
-					
+
 					if($this->action_bar)
 						echo '<br />' . $this->action_bar->as_html();
-					
+
 					echo $display->get_full_html();
 					echo DokeosUtilities :: add_block_hider();
 					echo DokeosUtilities :: build_block_hider('learning_object_extras');
@@ -115,10 +116,10 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			elseif (count($publication_attr) > 0)
 			{
 				$this->display_header($trail);
-				
+
 				if($this->action_bar)
 					echo '<br />' . $this->action_bar->as_html();
-				
+
 				echo $display->get_full_html();
 				echo DokeosUtilities :: add_block_hider();
 				echo DokeosUtilities :: build_block_hider('learning_object_extras');
@@ -129,7 +130,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 
 				if($this->action_bar)
 					echo '<br />' . $this->action_bar->as_html();
-					
+
 				echo $display->get_full_html();
 			}
 
@@ -143,7 +144,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			{
 				echo DokeosUtilities :: build_block_hider();
 			}
-			
+
 			$this->display_footer();
 		}
 		else
@@ -151,11 +152,11 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			$this->display_error_page(htmlentities(Translation :: get('NoObjectSelected')));
 		}
 	}
-	
+
 	private function get_action_bar($object)
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		
+
 		$edit_url = $this->get_learning_object_editing_url($object);
 		if (isset($edit_url))
 		{
@@ -178,7 +179,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 					$recycle_bin_button = new ToolbarItem(Translation :: get('Remove'), Theme :: get_common_image_path().'action_recycle_bin_na.png');
 				}
 			}
-			
+
 			if(!$in_recycle_bin)
 			{
 				$delete_link_url = $this->get_learning_object_delete_publications_url($object);
@@ -187,7 +188,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				{
 					$force_delete_button = new ToolbarItem(Translation :: get('Unlink'), Theme :: get_common_image_path().'action_unlink.png', $delete_link_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true);
 				}
-				
+
 				$edit_url = $this->get_learning_object_editing_url($object);
 				if (isset($edit_url))
 				{
@@ -197,7 +198,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				{
 					$action_bar->add_common_action(new ToolbarItem(Translation :: get('EditNA'), Theme :: get_common_image_path().'action_edit_na.png'));
 				}
-				
+
 				if(isset($recycle_bin_button))
 				{
 					$action_bar->add_common_action($recycle_bin_button);
@@ -207,20 +208,20 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				{
 					$action_bar->add_common_action($force_delete_button);
 				}
-				
+
 				$dm = RepositoryDataManager::get_instance();
 				if($dm->get_number_of_categories($this->get_user_id()) > 1)
 				{
 					$move_url = $this->get_learning_object_moving_url($object);
 					$action_bar->add_common_action(new ToolbarItem(Translation :: get('Move'), Theme :: get_common_image_path().'action_move.png', $move_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
 				}
-				
+
 				$metadata_url = $this->get_learning_object_metadata_editing_url($object);
 				$action_bar->add_common_action(new ToolbarItem(Translation :: get('Metadata'), Theme :: get_common_image_path().'action_metadata.png', $metadata_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
-				
+
 				$rights_url = $this->get_learning_object_rights_editing_url($object);
 				$action_bar->add_common_action(new ToolbarItem(Translation :: get('Rights'), Theme :: get_common_image_path().'action_rights.png', $rights_url, ToolbarItem :: DISPLAY_ICON_AND_LABEL, true));
-				
+
 				if($object->is_complex_learning_object())
 				{
 					$clo_url = $this->get_browse_complex_learning_object_url($object);
@@ -238,12 +239,12 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			}
 		}
 		$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('repository'));
-		
+
 		return $action_bar;
-		
-		
+
+
 	}
-	
+
 	/* $edit_url = $this->get_learning_object_editing_url($object);
 			if (isset($edit_url))
 			{

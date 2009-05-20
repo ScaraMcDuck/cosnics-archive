@@ -2,7 +2,7 @@
 /**
  * $Id$
  * @package repository.repositorymanager
- * 
+ *
  * @author Bart Mollet
  * @author Tim De Pauw
  * @author Hans De Bisschop
@@ -25,7 +25,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail(false);
-		
+
 		$ids = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
 		if (!empty ($ids))
 		{
@@ -33,14 +33,14 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 			{
 				$ids = array ($ids);
 			}
-			
+
 			$object = $this->retrieve_learning_object($ids[0]);
 			$parent = $object->get_parent_id();
-			
+
 			$this->tree = array();
 			if($parent != 0)
 				$this->tree[] = Translation :: get('Repository');
-			
+
 			$this->get_categories_for_select(0, $parent);
 			$form = new FormValidator('move', 'post', $this->get_url(array (RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $ids)));
 			$form->addElement('select', RepositoryManager :: PARAM_DESTINATION_LEARNING_OBJECT_ID, Translation :: get('NewCategory'), $this->tree);
@@ -53,7 +53,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 				{
 					$object = $this->retrieve_learning_object($id);
 					$versions = $this->get_version_ids($object);
-					
+
 					foreach ($versions as $version)
 					{
 						$object = $this->retrieve_learning_object($version);
@@ -76,7 +76,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 						}
 					}
 				}
-				
+
 				// TODO: SCARA - Correctto reflect possible version errors
 				if ($failures)
 				{
@@ -100,7 +100,11 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 						$message = 'AllSelectedObjectsMoved';
 					}
 				}
-				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get($message), ($failures ? null : $destination));
+
+				$parameters = array();
+                $parameters[RepositoryManager :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
+                $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $object->get_parent_id();
+				$this->redirect(Translation :: get($message), ($failures ? true : false), $parameters);
 			}
 			else
 			{
@@ -112,7 +116,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
                     $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $ids)), $this->retrieve_learning_object($ids)->get_title()));
                 else
                     $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_BROWSE_LEARNING_OBJECTS), Translation :: get('Objects'))));
-                    
+
 				$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));
 				$this->display_header($trail);
 				echo $form->toHTML();
@@ -132,19 +136,19 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 	 * @return array A list of possible categories from which a user can choose.
 	 * Can be used as input for a QuickForm select field.
 	 */
-	 
+
 	 private $level = 1;
 	 private $tree = array();
-	 
+
 	private function get_categories_for_select($parent_id, $current_parent)
 	{
 		$conditions[] = new EqualityCondition(PlatformCategory :: PROPERTY_PARENT, $parent_id);
 		$conditions[] = new NotCondition(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $current_parent));
-			
+
 		$condition = new AndCondition($conditions);
 
 		$categories = $this->retrieve_categories($condition);
-		
+
 		$tree = array();
 		while($cat = $categories->next_result())
 		{

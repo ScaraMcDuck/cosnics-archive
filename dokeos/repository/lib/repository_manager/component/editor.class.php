@@ -2,7 +2,7 @@
 /**
  * $Id$
  * @package repository.repositorymanager
- * 
+ *
  * @author Bart Mollet
  * @author Tim De Pauw
  * @author Hans De Bisschop
@@ -22,7 +22,7 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail(false);
-		
+
 		$id = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
 		if ($id)
 		{
@@ -34,14 +34,23 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 			}
 			elseif (!$object->is_latest_version())
 			{
-				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get('EditNotAllowed'), $object->get_parent_id(), true);
+                $parameters = array();
+                $parameters[RepositoryManager :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
+                $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $object->get_parent_id();
+
+				$this->redirect(Translation :: get('EditNotAllowed'), true, $parameters);
 			}
 			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $object, 'edit', 'post', $this->get_url(array (RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $id)));
 			if ($form->validate())
 			{
 				$success = $form->update_learning_object();
 				$category_id = $object->get_parent_id();
-				$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get($success == LearningObjectForm :: RESULT_SUCCESS ? 'ObjectUpdated' : 'ObjectUpdateFailed'), $category_id);
+
+                $parameters = array();
+                $parameters[RepositoryManager :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
+                $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $category_id;
+
+				$this->redirect(Translation :: get($success == LearningObjectForm :: RESULT_SUCCESS ? 'ObjectUpdated' : 'ObjectUpdateFailed'), ($success == LearningObjectForm :: RESULT_SUCCESS ? false : true), $parameters);
 			}
 			else
 			{

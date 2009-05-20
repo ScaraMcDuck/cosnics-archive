@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../repository_manager_component.class.php';
 /**
  * Repository manager component which provides functionality to revert a
  * learning object from the users repository to a previous state.
- * 
+ *
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
@@ -47,7 +47,7 @@ class RepositoryManagerReverterComponent extends RepositoryManagerComponent
 					$failures ++;
 				}
 			}
-			
+
 			if ($failures)
 			{
 				$message = 'SelectedObjectNotReverted';
@@ -56,7 +56,7 @@ class RepositoryManagerReverterComponent extends RepositoryManagerComponent
 			{
 				$message = 'SelectedObjectReverted';
 			}
-			$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get($message));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS));
 		}
 		else
 		{

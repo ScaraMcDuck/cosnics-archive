@@ -1,7 +1,7 @@
 <?php
 /**
  * @package repository.repositorymanager
- * 
+ *
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
@@ -28,7 +28,7 @@ class RepositoryManagerPublicationDeleterComponent extends RepositoryManagerComp
 			if ($object->get_owner_id() == $this->get_user_id())
 			{
 				$versions = $object->get_learning_object_versions();
-				
+
 				foreach ($versions as $version)
 				{
 					if (!$version->delete_links())
@@ -41,9 +41,9 @@ class RepositoryManagerPublicationDeleterComponent extends RepositoryManagerComp
 			{
 				$failures ++;
 			}
-			
+
 			// TODO: SCARA - Structurize + cleanup (possible) failures
-			
+
 
 			if ($failures)
 			{
@@ -60,7 +60,7 @@ class RepositoryManagerPublicationDeleterComponent extends RepositoryManagerComp
 			{
 				$message = 'SelectedObjectUnlinked';
 			}
-			$this->redirect(RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS, Translation :: get($message));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS));
 		}
 		else
 		{

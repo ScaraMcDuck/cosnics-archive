@@ -19,25 +19,25 @@ class RepositoryManagerUserViewDeleterComponent extends RepositoryManagerCompone
 		$ids = $_GET[RepositoryManager :: PARAM_USER_VIEW];
 
 		$failures = 0;
-		
+
 		if (!empty ($ids))
 		{
 			if (!is_array($ids))
 			{
 				$ids = array ($ids);
 			}
-			
+
 			foreach ($ids as $user_view_id)
 			{
 				$uv = new UserView();
-				$uv->set_id($user_view_id);	
-				
+				$uv->set_id($user_view_id);
+
 				if (!$uv->delete())
 				{
 					$failures ++;
 				}
 			}
-			
+
 			if ($failures)
 			{
 				if (count($ids) == 1)
@@ -60,8 +60,8 @@ class RepositoryManagerUserViewDeleterComponent extends RepositoryManagerCompone
 					$message = 'AllSelectedUserViewsDeleted';
 				}
 			}
-			
-			$this->redirect(RepositoryManager :: ACTION_BROWSE_USER_VIEWS, Translation :: get($message), 0, false, array());
+
+			$this->redirect(Translation :: get($message), $failures ? true : false, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS));
 		}
 		else
 		{
