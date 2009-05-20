@@ -16,7 +16,7 @@ class ReportingManagerEditComponent extends ReportingManagerComponent {
         $trail = new BreadcrumbTrail();
         $admin = new AdminManager();
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-        $trail->add(new Breadcrumb($this->get_url(array(ReportingManager::PARAM_ACTION => ReportingManager::ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager::ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
 
 		$id = $_GET[ReportingManager :: PARAM_TEMPLATE_ID];
 
@@ -24,7 +24,7 @@ class ReportingManagerEditComponent extends ReportingManagerComponent {
 		{
 			$reporting_template_registration = $this->retrieve_reporting_template_registration($id);
 
-            $trail->add(new Breadcrumb($this->get_url(array(ReportingManager::PARAM_ACTION => ReportingManager::ACTION_VIEW_TEMPLATE, ReportingManager::PARAM_TEMPLATE_ID => $id)), Translation :: get($reporting_template_registration->get_title())));
+            $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager::ACTION_VIEW_TEMPLATE, ReportingManager::PARAM_TEMPLATE_ID => $id)), Translation :: get($reporting_template_registration->get_title())));
 
 			if (!$this->get_user()->is_platform_admin())
 			{
@@ -39,7 +39,7 @@ class ReportingManagerEditComponent extends ReportingManagerComponent {
 			if($form->validate())
 			{
 				$success = $form->update_reporting_template_registration();
-				$this->redirect(Translation :: get($success ? 'ReportingTemplateRegistrationUpdated' : 'ReportingTemplateRegistrationNotUpdated'), ($success ? false : true), array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES));
+				$this->redirect(Translation :: get($success ? 'ReportingTemplateRegistrationUpdated' : 'ReportingTemplateRegistrationNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES));
 			}
 			else
 			{

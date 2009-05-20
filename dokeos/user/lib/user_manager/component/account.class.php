@@ -27,7 +27,7 @@ class UserManagerAccountComponent extends UserManagerComponent
 		if($form->validate())
 		{
 			$success = $form->update_account();
-			$this->redirect(Translation :: get($success ? 'UserProfileUpdated' : 'UserProfileNotUpdated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_ACCOUNT));
+			$this->redirect(Translation :: get($success ? 'UserProfileUpdated' : 'UserProfileNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_ACCOUNT));
 		}
 		else
 		{

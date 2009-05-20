@@ -123,11 +123,11 @@ require_once Path :: get_library_path() . 'core_application.class.php';
 		$links[]	= array('name' => Translation :: get('Roles'),
 							'description' => Translation :: get('RolesDescription'),
 							'action' => 'list',
-							'url' => $this->get_link(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES)));
 		$links[]	= array('name' => Translation :: get('Rights'),
 							'description' => Translation :: get('RightsDescription'),
 							'action' => 'manage',
-							'url' => $this->get_link(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)));
 		return array('application' => array('name' => Translation :: get('Rights'), 'class' => 'rights'), 'links' => $links, 'search' => null);
 	}
 	

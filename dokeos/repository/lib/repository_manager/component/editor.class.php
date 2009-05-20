@@ -35,7 +35,7 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 			elseif (!$object->is_latest_version())
 			{
                 $parameters = array();
-                $parameters[RepositoryManager :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
+                $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
                 $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $object->get_parent_id();
 
 				$this->redirect(Translation :: get('EditNotAllowed'), true, $parameters);
@@ -47,7 +47,7 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 				$category_id = $object->get_parent_id();
 
                 $parameters = array();
-                $parameters[RepositoryManager :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
+                $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
                 $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $category_id;
 
 				$this->redirect(Translation :: get($success == LearningObjectForm :: RESULT_SUCCESS ? 'ObjectUpdated' : 'ObjectUpdateFailed'), ($success == LearningObjectForm :: RESULT_SUCCESS ? false : true), $parameters);

@@ -104,9 +104,9 @@ class ReportingManager extends CoreApplication
         $links[]	= array('name' => Translation :: get('List'),
 							'description' => Translation :: get('ListDescription'),
 							'action' => 'list',
-							'url' => $this->get_link(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)));
-        //$links[] = array('name' => Translation :: get('Create'), 'action' => 'add', 'url' => $this->get_link(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_ADD_TEMPLATE)));
-        //$links[] = array('name' => Translation :: get('Delete'), 'action' => 'remove', 'url' => $this->get_link(array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_DELETE_TEMPLATE)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)));
+        //$links[] = array('name' => Translation :: get('Create'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_ADD_TEMPLATE)));
+        //$links[] = array('name' => Translation :: get('Delete'), 'action' => 'remove', 'url' => $this->get_link(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_DELETE_TEMPLATE)));
         return array('application' => array('name' => Translation :: get('Reporting'), 'class' => 'reporting'), 'links' => $links, 'search' => null);
     }
 
@@ -134,13 +134,13 @@ class ReportingManager extends CoreApplication
         if($template = $templates->next_result())
         {
             $parameters = array();
-            $parameters[ReportingManager :: PARAM_ACTION] = ReportingManager ::ACTION_VIEW_TEMPLATE;
+            $parameters[Application :: PARAM_ACTION] = ReportingManager ::ACTION_VIEW_TEMPLATE;
             $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = $template->get_id();
             $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $para;
         }else
         {
             $parameters = array();
-            $parameters[ReportingManager :: PARAM_ACTION] = ReportingManager ::ACTION_VIEW_TEMPLATE;
+            $parameters[Application :: PARAM_ACTION] = ReportingManager ::ACTION_VIEW_TEMPLATE;
             $parameters[ReportingManager :: PARAM_TEMPLATE_ID] = 0;
         }
 

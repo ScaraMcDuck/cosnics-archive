@@ -29,7 +29,7 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
 		}
 
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Settings')));
 
 		if (!AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'settings', 'admin_manager_component'))
@@ -45,7 +45,7 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
 		if($form->validate())
 		{
 			$success = $form->update_configuration();
-			$this->redirect(Translation :: get($success ? 'ConfigurationUpdated' : 'ConfigurationNotUpdated'), ($success ? false : true), array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_APPLICATION => $application));
+			$this->redirect(Translation :: get($success ? 'ConfigurationUpdated' : 'ConfigurationNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_APPLICATION => $application));
 		}
 		else
 		{
@@ -77,7 +77,7 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
 			{
 				$html[] = '<div class="application">';
 			}
-			$html[] = '<a href="'. $this->get_url(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
+			$html[] = '<a href="'. $this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
 			$html[] = '<img src="'. Theme :: get_image_path() . 'place_' . $application_links['application']['class'] .'.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'];
 			$html[] = '</a>';
 			$html[] = '</div>';

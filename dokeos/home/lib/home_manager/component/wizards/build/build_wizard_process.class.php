@@ -103,7 +103,7 @@ class BuildWizardProcess extends HTML_QuickForm_Action
 		}
 
 		$page->controller->container(true);
-		$this->parent->redirect(Translation :: get($message), ($failures ? true : false), array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
+		$this->parent->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
 	}
 }
 ?>

@@ -44,7 +44,7 @@ class RepositoryManagerUserViewBrowserComponent extends RepositoryManagerCompone
 	
 	function get_user_html()
 	{		
-		$table = new UserViewBrowserTable($this, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS), $this->get_condition());
+		$table = new UserViewBrowserTable($this, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS), $this->get_condition());
 		
 		$html = array();
 		$html[] = '<div style="float: right; width:100%;">';

@@ -101,7 +101,7 @@ require_once Path :: get_library_path() . 'core_application.class.php';
 		$links[]	= array('name' => Translation :: get('List'),
 							'description' => Translation :: get('ListDescription'),
 							'action' => 'list',
-							'url' => $this->get_link(array(WebserviceManager :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => WebserviceManager :: ACTION_BROWSE_WEBSERVICES)));
 		return array('application' => array('name' => Translation :: get('Webservice'), 'class' => 'webservice'), 'links' => $links, 'search' => null);
 	}
 

@@ -71,7 +71,7 @@ class RepositoryManagerAddLearningObjectsComponent extends RepositoryManagerComp
 				}
 
 			$parameters = array();
-			$parameters[RepositoryManager :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS;
+			$parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS;
 			$parameters[RepositoryManager :: PARAM_CLOI_ID] = $parent;
 			$parameters[RepositoryManager :: PARAM_CLOI_ROOT_ID] = $root;
 			$parameters['publish'] = $_GET['publish'];

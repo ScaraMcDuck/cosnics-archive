@@ -56,7 +56,7 @@ class AdminManagerSystemAnnouncementHiderComponent extends AdminManagerComponent
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
 		}
 		else
 		{

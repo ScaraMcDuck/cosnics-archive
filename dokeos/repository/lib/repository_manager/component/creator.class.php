@@ -56,8 +56,8 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			$root = $this->retrieve_learning_object($root_id);
 			if(!isset($_GET['publish']))
 			{
-				$trail->add(new Breadcrumb($this->get_link(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), $root->get_title()));
-				$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $clo_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
+				$trail->add(new Breadcrumb($this->get_link(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), $root->get_title()));
+				$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $clo_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
 			}
 		}
 		else
@@ -90,7 +90,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 
 				if(!is_array($object) && ($object->is_complex_learning_object() || count($extra_params) == 2 || count($extra_params) == 3))
 				{
-					$parameters = array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BUILD_COMPLEX_LEARNING_OBJECT, ComplexBuilder :: PARAM_ROOT_LO => $object->get_id());
+					$parameters = array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BUILD_COMPLEX_LEARNING_OBJECT, ComplexBuilder :: PARAM_ROOT_LO => $object->get_id());
 					$filter = array('category');
 					$this->redirect(null, false, $parameters, $filter);
 				}
@@ -106,7 +106,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 					}
 
 					$parameters = array();
-					$parameters[RepositoryManager :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
+					$parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
 					$parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $parent;
 					$this->redirect(Translation :: get('ObjectCreated'), $parameters);
 				}

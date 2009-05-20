@@ -60,7 +60,7 @@ class UserManagerBuddyListItemDeleterComponent extends UserManagerComponent
 			
 			$ajax = Request :: get('ajax');
 			if(!$ajax)
-				$this->redirect(Translation :: get($message), ($failures ? true : false), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
+				$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
 		}
 		else
 		{

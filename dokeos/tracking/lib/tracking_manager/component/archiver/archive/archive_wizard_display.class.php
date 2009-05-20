@@ -40,7 +40,7 @@ class ArchiveWizardDisplay extends HTML_QuickForm_Action_Display
 		$current_page->accept($renderer);
 		
 		$trail = new BreadCrumbTrail();
-		$trail->add(new Breadcrumb($this->parent->get_url(array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)), Translation :: get('Archiver')));
+		$trail->add(new Breadcrumb($this->parent->get_url(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)), Translation :: get('Archiver')));
 		
 		$this->parent->display_header($trail);
 		

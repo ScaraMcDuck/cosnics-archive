@@ -63,7 +63,7 @@ class SystemAnnouncerMultipublisher
 				$message = Translation :: get('ObjectPublished');
 			}
 			
-			$this->parent->redirect($message, (!$publication ? true : false), array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
+			$this->parent->redirect($message, (!$publication ? true : false), array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS));
 		}
 		else
 		{

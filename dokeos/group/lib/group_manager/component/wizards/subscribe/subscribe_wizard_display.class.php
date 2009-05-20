@@ -35,14 +35,14 @@ class SubscribeWizardDisplay extends HTML_QuickForm_Action_Display
 		$trail = new BreadcrumbTrail();
 		$admin = new AdminManager();
 		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->parent->get_url(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
+		$trail->add(new Breadcrumb($this->parent->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
 		
 		$group_id = $_GET[GroupManager :: PARAM_GROUP_ID];
 		
 		if(isset($group_id))
 		{
 			$group = $this->parent->retrieve_group($group_id);
-			$trail->add(new Breadcrumb($this->parent->get_url(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group_id)), $group->get_name()));
+			$trail->add(new Breadcrumb($this->parent->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $group_id)), $group->get_name()));
 		}
 		
 		$trail->add(new Breadcrumb($this->parent->get_url(), Translation :: get('SubscribeUsersToGroup')));

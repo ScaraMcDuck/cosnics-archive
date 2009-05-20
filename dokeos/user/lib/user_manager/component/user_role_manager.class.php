@@ -18,7 +18,7 @@ class UserManagerUserRoleManagerComponent extends UserManagerComponent
 		$trail = new BreadcrumbTrail();
 		$admin = new AdminManager();
 		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(UserManager :: PARAM_ACTION =>  UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION =>  UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
 
 		$user_id = Request :: get(UserManager :: PARAM_USER_USER_ID);
 		if(!$user_id)
@@ -39,7 +39,7 @@ class UserManagerUserRoleManagerComponent extends UserManagerComponent
 		if($form->validate())
 		{
 			$success = $form->update_user_roles();
-			$this->redirect(Translation :: get($success ? 'UserRolesChanged' : 'UserRolesNotChanged'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+			$this->redirect(Translation :: get($success ? 'UserRolesChanged' : 'UserRolesNotChanged'), ($success ? false : true), array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
 		}
 		else
 		{

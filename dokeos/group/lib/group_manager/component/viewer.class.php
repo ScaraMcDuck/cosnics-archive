@@ -33,7 +33,7 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 			
 			$admin = new AdminManager();
 			$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-			$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
+			$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
 			$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $id)), $group->get_name()));
 			
 			$this->display_header($trail, false);
@@ -64,7 +64,7 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 			
 			echo '<div class="learning_object" style="background-image: url('. Theme :: get_common_image_path() .'place_users.png);">';
 			echo '<div class="title">'. Translation :: get('Users') .'</div>';
-			$table = new GroupRelUserBrowserTable($this, array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $id), $this->get_condition());
+			$table = new GroupRelUserBrowserTable($this, array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $id), $this->get_condition());
 			echo $table->as_html();
 			echo '</div>';
 			

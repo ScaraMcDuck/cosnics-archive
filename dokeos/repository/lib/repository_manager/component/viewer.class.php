@@ -96,7 +96,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				if ($form->validate())
 				{
 					$params = $form->compare_learning_object();
-					$params[RepositoryManager :: PARAM_ACTION] = RepositoryManager :: ACTION_COMPARE_LEARNING_OBJECTS;
+					$params[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_COMPARE_LEARNING_OBJECTS;
 					$this->redirect(null, false, $params);
 				}
 				else

@@ -117,7 +117,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 			}
 
 			$parameters = array();
-			$parameters[RepositoryManager :: PARAM_ACTION] = ($permanent ? RepositoryManager :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS : RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS);
+			$parameters[Application :: PARAM_ACTION] = ($permanent ? RepositoryManager :: ACTION_BROWSE_RECYCLED_LEARNING_OBJECTS : RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS);
 
 			$this->redirect(Translation :: get($message), ($failures ? true : false), $parameters);
 		}

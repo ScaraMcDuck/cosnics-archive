@@ -102,7 +102,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 				}
 
 				$parameters = array();
-                $parameters[RepositoryManager :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
+                $parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS;
                 $parameters[RepositoryManager :: PARAM_CATEGORY_ID] = $object->get_parent_id();
 				$this->redirect(Translation :: get($message), ($failures ? true : false), $parameters);
 			}

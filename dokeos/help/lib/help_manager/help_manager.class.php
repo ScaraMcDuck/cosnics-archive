@@ -64,7 +64,7 @@ class HelpManager extends CoreApplication
 		$links[]	= array('name' => Translation :: get('List'),
 							'description' => Translation :: get('ListDescription'),
 							'action' => 'list',
-							'url' => $this->get_link(array(HelpManager :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS)));
+							'url' => $this->get_link(array(Application :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS)));
 
 		$info = parent :: get_application_platform_admin_links();
 		$info['links'] = $links;

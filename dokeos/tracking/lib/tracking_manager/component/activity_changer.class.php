@@ -76,7 +76,7 @@ class TrackingManagerActivityChangerComponent extends TrackingManagerComponent
 			}
 			
 			$this->redirect(Translation :: get($success ? 'ActivityUpdated' : 'ActivityNotUpdated'), ($success ? false : true), array(
-				TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
+				Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
 		}
 	}
 	
@@ -111,7 +111,7 @@ class TrackingManagerActivityChangerComponent extends TrackingManagerComponent
 			}
 			
 			$this->redirect(Translation :: get($success ? 'ActivityUpdated' : 'ActivityNotUpdated'), ($success ? false : true), array(
-				TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_VIEW_EVENT, 
+				Application :: PARAM_ACTION => TrackingManager :: ACTION_VIEW_EVENT, 
 				TrackingManager :: PARAM_EVENT_ID => $event_id));
 			
 		}
@@ -128,7 +128,7 @@ class TrackingManagerActivityChangerComponent extends TrackingManagerComponent
 		$success = $setting->update();
 		
 		$this->redirect(Translation :: get($success ? 'ActivityUpdated' : 'ActivityNotUpdated'), ($success ? false : true), array(
-				TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
+				Application :: PARAM_ACTION => TrackingManager :: ACTION_BROWSE_EVENTS));
 	}
 
 }

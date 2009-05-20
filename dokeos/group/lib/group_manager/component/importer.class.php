@@ -32,7 +32,7 @@ class GroupManagerImporterComponent extends GroupManagerComponent
 		if($form->validate())
 		{
 			$success = $form->import_groups();
-			$this->redirect(Translation :: get($success ? 'GroupCreatedCsv' : 'GroupNotCreatedCsv'), ($success ? false : true), array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
+			$this->redirect(Translation :: get($success ? 'GroupCreatedCsv' : 'GroupNotCreatedCsv'), ($success ? false : true), array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS));
 		}
 		else
 		{

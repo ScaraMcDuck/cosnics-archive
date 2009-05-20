@@ -76,7 +76,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 		}*/
 		
 		$temp_replacement = '__FIRSTLETTER__';
-		$url_format = $this->get_url(array (UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS, UserManager :: PARAM_FIRSTLETTER => $temp_replacement));
+		$url_format = $this->get_url(array (Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS, UserManager :: PARAM_FIRSTLETTER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$user_menu = new UserMenu($this->firstletter, $url_format, $extra_items);
 		$this->menu_breadcrumbs = $user_menu->get_breadcrumbs();
@@ -130,7 +130,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 		
 		$action_bar->set_search_url($this->get_url());
 		
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(UserManager :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('users'));
 		return $action_bar;

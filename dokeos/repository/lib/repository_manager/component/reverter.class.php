@@ -56,7 +56,7 @@ class RepositoryManagerReverterComponent extends RepositoryManagerComponent
 			{
 				$message = 'SelectedObjectReverted';
 			}
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS));
 		}
 		else
 		{

@@ -28,7 +28,7 @@ class GroupManagerMoverComponent extends GroupManagerComponent
 		}
 		$group = $this->retrieve_groups(new EqualityCondition(Group :: PROPERTY_ID, $_GET[GroupManager :: PARAM_GROUP_ID]))->next_result();
 
-        $trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $_GET[GroupManager :: PARAM_GROUP_ID])), $group->get_name()));
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_VIEW_GROUP, GroupManager :: PARAM_GROUP_ID => $_GET[GroupManager :: PARAM_GROUP_ID])), $group->get_name()));
 
 		$form = new GroupMoveForm($group, $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $_GET[GroupManager :: PARAM_GROUP_ID])), $this->get_user());
 
@@ -36,7 +36,7 @@ class GroupManagerMoverComponent extends GroupManagerComponent
 		{
 			$success = $form->move_group();
 			$parent = $form->get_new_parent();
-			$this->redirect($success?Translation :: get('GroupMoved'):Translation :: get('GroupNotMoved'), $success?(false):true, array(GroupManager :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS, GroupManager :: PARAM_GROUP_ID => $parent));
+			$this->redirect($success?Translation :: get('GroupMoved'):Translation :: get('GroupNotMoved'), $success?(false):true, array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS, GroupManager :: PARAM_GROUP_ID => $parent));
 		}
 		else
 		{

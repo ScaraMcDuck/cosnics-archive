@@ -18,8 +18,8 @@ class RightsManagerRoleCreatorComponent extends UserManagerComponent
 		$trail = new BreadcrumbTrail();
         $admin = new AdminManager();
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
-		$trail->add(new Breadcrumb($this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('CreateRole')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('CreateRole')));
 			
 		if (!$this->get_user()->is_platform_admin()) 
 		{
@@ -34,7 +34,7 @@ class RightsManagerRoleCreatorComponent extends UserManagerComponent
 		if($form->validate())
 		{
 			$success = $form->create_role();
-			$this->redirect(Translation :: get($success ? 'RoleCreated' : 'RoleNotCreated'), ($success ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES));
+			$this->redirect(Translation :: get($success ? 'RoleCreated' : 'RoleNotCreated'), ($success ? false : true), array(Application :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES));
 		}
 		else
 		{

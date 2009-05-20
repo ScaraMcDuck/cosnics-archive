@@ -29,7 +29,7 @@ class RepositoryManagerPublicationUpdaterComponent extends RepositoryManagerComp
 			$pub->set_publication_object_id($latest_version);
 			$success = $pub->update();
 
-			$this->redirect(Translation :: get($success ? 'PublicationUpdated' : 'PublicationUpdateFailed'), ($success ? false : true), array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_MY_PUBLICATIONS));
+			$this->redirect(Translation :: get($success ? 'PublicationUpdated' : 'PublicationUpdateFailed'), ($success ? false : true), array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_MY_PUBLICATIONS));
 		}
 		else
 		{

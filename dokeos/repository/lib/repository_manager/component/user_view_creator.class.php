@@ -39,7 +39,7 @@ class RepositoryManagerUserViewCreatorComponent extends RepositoryManagerCompone
 
 			$message = $success ? Translation :: get('UserViewCreated') : Translation :: get('UserViewNotCreated');
 
-			$this->redirect($message, $success ? false: true, array(RepositoryManager :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS));
+			$this->redirect($message, $success ? false: true, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS));
 		}
 		else
 		{

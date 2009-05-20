@@ -25,7 +25,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 		$trail = new BreadcrumbTrail();
         $admin = new AdminManager();
         $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
-		$trail->add(new Breadcrumb($this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
+		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeManager')));
 		
 		$user = $this->get_user();		
