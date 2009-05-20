@@ -27,10 +27,10 @@ class HomeManagerCreatorComponent extends HomeManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
         $trail->add(new Breadcrumb($this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManager')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeCreator')));
-		
-		$user = $this->get_user();		
+
+		$user = $this->get_user();
 		$user_home_allowed = $this->get_platform_setting('allow_user_home');
-		
+
 		if ($user_home_allowed && Authentication :: is_valid())
 		{
 			$user_id = $user->get_id();
@@ -44,10 +44,10 @@ class HomeManagerCreatorComponent extends HomeManagerComponent
 				$this->display_footer();
 				exit;
 			}
-			
+
 			$user_id = '0';
 		}
-		
+
 		if ($type)
 		{
 			$url = $this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_CREATE_HOME, HomeManager :: PARAM_HOME_TYPE => $type));
@@ -69,13 +69,13 @@ class HomeManagerCreatorComponent extends HomeManagerComponent
 					$form = new HomeRowForm(HomeRowForm :: TYPE_CREATE, $object, $url);
 					break;
 			}
-			
+
 			if ($object->get_user() == $user_id || ($object->get_user() == '0' && $user->is_platform_admin()))
 			{
 				if ($form->validate())
 				{
 					$success = $form->create_object();
-					$this->redirect('url', Translation :: get($success ? 'HomeCreated' : 'HomeNotCreated'), ($success ? false : true), array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
+					$this->redirect(Translation :: get($success ? 'HomeCreated' : 'HomeNotCreated'), ($success ? false : true), array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
 				}
 				else
 				{

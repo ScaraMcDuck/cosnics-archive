@@ -20,7 +20,7 @@ class HomeManagerEditorComponent extends HomeManagerComponent
 	{
 		global $this_section;
 		$this_section='platform_admin';
-		
+
 		$id = $_GET[HomeManager :: PARAM_HOME_ID];
 		$type = $_GET[HomeManager :: PARAM_HOME_TYPE];
 		$trail = new BreadcrumbTrail();
@@ -29,12 +29,12 @@ class HomeManagerEditorComponent extends HomeManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
         $trail->add(new Breadcrumb($this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManager')));
         $trail->add(new Breadcrumb($this->get_url(array(HomeManager::PARAM_HOME_TYPE => $type, HomeManager::PARAM_HOME_ID => $id)), Translation :: get('HomeEditor')));
-		
-		$user = $this->get_user();		
+
+		$user = $this->get_user();
 		$user_home_allowed = $this->get_platform_setting('allow_user_home');
-		
+
 		// TODO: Introduce an extra parameter to allow admins to adapt a user's homepage
-		
+
 		if ($user_home_allowed && Authentication :: is_valid())
 		{
 			$user_id = $user->get_id();
@@ -48,10 +48,10 @@ class HomeManagerEditorComponent extends HomeManagerComponent
 				$this->display_footer();
 				exit;
 			}
-			
+
 			$user_id = '0';
 		}
-		
+
 		if ($id && $type)
 		{
 			$url = $this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME, HomeManager :: PARAM_HOME_TYPE => $type, HomeManager :: PARAM_HOME_ID => $id));
@@ -70,13 +70,13 @@ class HomeManagerEditorComponent extends HomeManagerComponent
 					$form = new HomeRowForm(HomeRowForm :: TYPE_EDIT, $object, $url);
 					break;
 			}
-			
+
 			if ($object->get_user() == $user_id || ($object->get_user() == '0' && $user->is_platform_admin()))
 			{
 				if ($form->validate())
 				{
 					$success = $form->update_object();
-					$this->redirect('url', Translation :: get($success ? 'HomeUpdated' : 'HomeNotUpdated'), ($success ? false : true), array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
+					$this->redirect(Translation :: get($success ? 'HomeUpdated' : 'HomeNotUpdated'), ($success ? false : true), array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
 				}
 				else
 				{

@@ -17,7 +17,7 @@ class HomeManagerMoverComponent extends HomeManagerComponent
 	{
 		global $this_section;
 		$this_section='platform_admin';
-		
+
 		$id = $_GET[HomeManager :: PARAM_HOME_ID];
 		$type = $_GET[HomeManager :: PARAM_HOME_TYPE];
 		$direction = $_GET[HomeManager :: PARAM_DIRECTION];
@@ -27,7 +27,7 @@ class HomeManagerMoverComponent extends HomeManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
         $trail->add(new Breadcrumb($this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManager')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeMover')));
-		
+
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($trail);
@@ -35,7 +35,7 @@ class HomeManagerMoverComponent extends HomeManagerComponent
 			$this->display_footer();
 			exit;
 		}
-		
+
 		if ($id && $type)
 		{
 			$url = $this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME, HomeManager :: PARAM_HOME_TYPE => $type, HomeManager :: PARAM_HOME_ID => $id));
@@ -57,7 +57,7 @@ class HomeManagerMoverComponent extends HomeManagerComponent
 					$next_home = $this->retrieve_home_row_at_sort($sort, $direction);
 					break;
 			}
-			
+
 			if ($direction == 'up')
 			{
 				$move_home->set_sort($sort-1);
@@ -68,7 +68,7 @@ class HomeManagerMoverComponent extends HomeManagerComponent
 				$move_home->set_sort($sort+1);
 				$next_home->set_sort($sort);
 			}
-			
+
 			if ($move_home->update() && $next_home->update())
 			{
 				$success = true;
@@ -77,8 +77,8 @@ class HomeManagerMoverComponent extends HomeManagerComponent
 			{
 				$success = false;
 			}
-			
-			$this->redirect('url', Translation :: get($success ? 'HomeMoved' : 'HomeNotMoved'), ($success ? false : true), array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));	
+
+			$this->redirect(Translation :: get($success ? 'HomeMoved' : 'HomeNotMoved'), ($success ? false : true), array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
 		}
 		else
 		{
