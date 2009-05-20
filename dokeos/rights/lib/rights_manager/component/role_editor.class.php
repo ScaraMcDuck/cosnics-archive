@@ -27,7 +27,7 @@ class RightsManagerRoleEditorComponent extends RightsManagerComponent
 		
 			if (!$this->get_user()->is_platform_admin())
 			{
-				$this->display_header();
+				$this->display_header($trail, false, 'rights general');
 				Display :: error_message(Translation :: get("NotAllowed"));
 				$this->display_footer();
 				exit;
@@ -42,7 +42,7 @@ class RightsManagerRoleEditorComponent extends RightsManagerComponent
 			}
 			else
 			{
-				$this->display_header($trail);
+				$this->display_header($trail, false, 'rights general');
 				$form->display();
 				$this->display_footer();
 			}

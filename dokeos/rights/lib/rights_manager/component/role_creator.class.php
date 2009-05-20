@@ -38,7 +38,7 @@ class RightsManagerRoleCreatorComponent extends UserManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'rights general');
 			$form->display();
 			$this->display_footer();
 		}
