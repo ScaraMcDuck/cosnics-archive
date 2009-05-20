@@ -26,7 +26,14 @@ class LinkToolViewerComponent extends LinkToolComponent
 		
 		$browser = new LinkBrowser($this);
 		$trail = new BreadcrumbTrail();
-		
+        if(Request :: get('pcattree') != null)
+        {
+            foreach(Tool ::get_pcattree_parents(Request :: get('pcattree')) as $breadcrumb)
+            {
+                $trail->add(new BreadCrumb($this->get_url(), $breadcrumb->get_name()));
+            }
+        }
+        //dump($browser->get_publication_category_tree()->get_breadcrumbs());
 		$this->display_header($trail);
 		
 		echo '<br /><a name="top"></a>';
