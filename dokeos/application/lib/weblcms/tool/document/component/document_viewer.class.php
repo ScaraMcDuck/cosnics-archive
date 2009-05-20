@@ -26,7 +26,27 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 		
 		$browser = new DocumentBrowser($this);
 		$trail = new BreadcrumbTrail();
-		
+
+        if(Request :: get('tool_action') == null && Request :: get('pid') == null)
+        {
+            $breadcrumbs = $browser->get_publication_category_tree()->get_breadcrumbs();
+            unset($breadcrumbs[0]);
+            foreach($breadcrumbs as $breadcrumb)
+            {
+                $trail->add(new BreadCrumb($breadcrumb['url'], $breadcrumb['title']));
+            }
+        }
+        elseif(Request :: get('pcattree') > 0)
+        {
+            foreach(Tool ::get_pcattree_parents(Request :: get('pcattree')) as $breadcrumb)
+            {
+                $trail->add(new BreadCrumb($this->get_url(), $breadcrumb->get_name()));
+            }
+        }
+        //dump($browser->get_publication_category_tree()->get_breadcrumbs());
+        //dump(Tool ::get_pcattree_parents(Request :: get('pcattree')));
+        if(Request :: get('pid') != null)
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool ::ACTION_VIEW_DOCUMENTS, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
 		$this->display_header($trail);
 		
 		//echo '<br /><a name="top"></a>';

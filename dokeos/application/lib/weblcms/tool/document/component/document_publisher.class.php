@@ -16,6 +16,14 @@ class DocumentToolPublisherComponent extends DocumentToolComponent
 		}
 		
 		$trail = new BreadcrumbTrail();
+        if(Request :: get('pcattree') > 0)
+        {
+            foreach(Tool ::get_pcattree_parents(Request :: get('pcattree')) as $breadcrumb)
+            {
+                $trail->add(new BreadCrumb($this->get_url(), $breadcrumb->get_name()));
+            }
+        }
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_PUBLISH)), Translation :: get('Publish')));
 		
 		$object = $_GET['object'];
 		$pub = new LearningObjectRepoViewer($this, 'document', true);

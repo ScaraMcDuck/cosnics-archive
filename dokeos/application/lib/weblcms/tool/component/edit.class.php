@@ -8,7 +8,7 @@ class ToolEditComponent extends ToolComponent
 	function run()
 	{
 		if($this->is_allowed(EDIT_RIGHT))
-		{
+		{ 
 			$pid = isset($_GET[Tool :: PARAM_PUBLICATION_ID]) ? $_GET[Tool :: PARAM_PUBLICATION_ID] : $_POST[Tool :: PARAM_PUBLICATION_ID];
 
                 $datamanager = WeblcmsDataManager :: get_instance();
@@ -19,16 +19,13 @@ class ToolEditComponent extends ToolComponent
 
                 $trail = new BreadcrumbTrail();
 
-                if(Request :: get('tool')=='blog' && isset($_SESSION['blog_breadcrumbs']))
+                if(Request :: get('pcattree') > 0)
                 {
-                    $breadcrumbs = $_SESSION['blog_breadcrumbs'];
-                    foreach($breadcrumbs as $breadcrumb)
+                    foreach(Tool ::get_pcattree_parents(Request :: get('pcattree')) as $breadcrumb)
                     {
-                        $trail->add(new BreadCrumb($breadcrumb['url'], $breadcrumb['title']));
+                        $trail->add(new BreadCrumb($this->get_url(), $breadcrumb->get_name()));
                     }
                 }
-
-
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => $pid)), $learning_object->get_title()));
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'edit', Tool :: PARAM_PUBLICATION_ID => $pid)), Translation :: get('Edit')));
                
