@@ -16,7 +16,8 @@ abstract class GroupManagerComponent extends CoreApplicationComponent
 	 * @param GroupsManager $groups_manager The user manager which
 	 * provides this component
 	 */
-    function GroupManagerComponent($group_manager) {
+    function GroupManagerComponent($group_manager)
+    {
     	parent :: __construct($group_manager);
     }
 

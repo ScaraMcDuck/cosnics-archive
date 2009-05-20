@@ -201,6 +201,14 @@ class ApplicationComponent
 	{
 		return $this->get_parent()->get_user_id();
 	}
+    /**
+     * @see Application :: get_application_platform_admin_links()
+     */
+	function get_application_platform_admin_links()
+	{
+		return $this->get_parent()->get_application_platform_admin_links();
+	}
+
 
 	/**
 	 * Create a new application component

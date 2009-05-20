@@ -4,6 +4,8 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
+require_once Path :: get_library_path() . 'core_application.class.php';
+
 require_once dirname(__FILE__).'/admin_manager_component.class.php';
 require_once dirname(__FILE__).'/../admin_data_manager.class.php';
 
@@ -24,7 +26,7 @@ require_once dirname(__FILE__).'/../admin_block.class.php';
 /**
  * The admin allows the platform admin to configure certain aspects of his platform
  */
-class AdminManager
+class AdminManager extends CoreApplication
 {
 	const APPLICATION_NAME = 'admin';
 
@@ -50,18 +52,13 @@ class AdminManager
 	const ACTION_WHOIS_ONLINE = 'whois_online';
 	const ACTION_DIAGNOSE = 'diagnose';
 
-	private $parameters;
-
-	private $user;
-
 	/**
 	 * Constructor
 	 * @param User $user The current user
 	 */
-    function AdminManager($user = null) {
-    	$this->user = $user;
-		$this->parameters = array ();
-		$this->set_action(isset($_GET[self :: PARAM_ACTION]) ? $_GET[self :: PARAM_ACTION] : null);
+    function AdminManager($user = null)
+    {
+        parent :: __construct($user);
     }
 
 	/**
@@ -155,191 +152,6 @@ class AdminManager
 		echo '<div class="clear">&nbsp;</div>';
 		Display :: footer();
 	}
-	/**
-	 * Displays a normal message.
-	 * @param string $message The message.
-	 */
-	function display_message($message)
-	{
-		Display :: normal_message($message);
-	}
-	/**
-	 * Displays an error message.
-	 * @param string $message The message.
-	 */
-	function display_error_message($message)
-	{
-		Display :: error_message($message);
-	}
-	/**
-	 * Displays a warning message.
-	 * @param string $message The message.
-	 */
-	function display_warning_message($message)
-	{
-		Display :: warning_message($message);
-	}
-	/**
-	 * Displays an error page.
-	 * @param string $message The message.
-	 */
-	function display_error_page($message)
-	{
-		$this->display_header();
-		$this->display_error_message($message);
-		$this->display_footer();
-	}
-
-	/**
-	 * Displays a warning page.
-	 * @param string $message The message.
-	 */
-	function display_warning_page($message)
-	{
-		$this->display_header();
-		$this->display_warning_message($message);
-		$this->display_footer();
-	}
-
-	/**
-	 * Displays a popup form.
-	 * @param string $message The message.
-	 */
-	function display_popup_form($form_html)
-	{
-		Display :: normal_message($form_html);
-	}
-
-	/**
-	 * Gets the parameter list
-	 * @param boolean $include_search Include the search parameters in the
-	 * returned list?
-	 * @return array The list of parameters.
-	 */
-	function get_parameters($include_search = false)
-	{
-		return $this->parameters;
-	}
-
-	/**
-	 * Gets the current action.
-	 * @see get_parameter()
-	 * @return string The current action.
-	 */
-	function get_action()
-	{
-		return $this->get_parameter(self :: PARAM_ACTION);
-	}
-
-	/**
-	 * Sets the current action.
-	 * @param string $action The new action.
-	 */
-	function set_action($action)
-	{
-		return $this->set_parameter(self :: PARAM_ACTION, $action);
-	}
-
-	/**
-	 * Gets the value of a parameter.
-	 * @param string $name The parameter name.
-	 * @return string The parameter value.
-	 */
-	function get_parameter($name)
-	{
-		return $this->parameters[$name];
-	}
-
-	/**
-	 * Gets an URL.
-	 * @param array $additional_parameters Additional parameters to add in the
-	 * query string (default = no additional parameters).
-	 * @param boolean $include_search Include the search parameters in the
-	 * query string of the URL? (default = false).
-	 * @param boolean $encode_entities Apply php function htmlentities to the
-	 * resulting URL ? (default = false).
-	 * @return string The requested URL.
-	 */
-	function get_url($additional_parameters = array (), $include_search = false, $encode_entities = false, $x = null)
-	{
-		$eventual_parameters = array_merge($this->get_parameters($include_search), $additional_parameters);
-		$url = $_SERVER['PHP_SELF'].'?'.http_build_query($eventual_parameters);
-		if ($encode_entities)
-		{
-			$url = htmlentities($url);
-		}
-
-		return $url;
-	}
-
-	public function get_link($parameters = array (), $encode = false)
-	{
-		$link = 'index_'. self :: APPLICATION_NAME . '.php';
-		if (count($parameters))
-		{
-			$link .= '?'.http_build_query($parameters);
-		}
-		if ($encode)
-		{
-			$link = htmlentities($link);
-		}
-		return $link;
-	}
-
-	/**
-	 * Redirect the end user to another location.
-	 * @param string $action The action to take (default = browse learning
-	 * objects).
-	 * @param string $message The message to show (default = no message).
-	 * @param int $new_category_id The category to show (default = root
-	 * category).
-	 * @param boolean $error_message Is the passed message an error message?
-	 */
-	function redirect($type = 'url', $message = null, $error_message = false, $extra_params = null)
-	{
-		$params = array ();
-		if (isset ($message))
-		{
-			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
-		}
-		if (isset($extra_params))
-		{
-			foreach($extra_params as $key => $extra)
-			{
-				$params[$key] = $extra;
-			}
-		}
-		if ($type == 'url')
-		{
-			$url = $this->get_url($params);
-		}
-		elseif ($type == 'link')
-		{
-			$url = 'index.php';
-		}
-
-		header('Location: '.$url);
-	}
-
-	function get_user()
-	{
-		return $this->user;
-	}
-
-	function get_user_id()
-	{
-		return $this->user->get_id();
-	}
-
-	/**
-	 * Sets the value of a parameter.
-	 * @param string $name The parameter name.
-	 * @param mixed $value The parameter value.
-	 */
-	function set_parameter($name, $value)
-	{
-		$this->parameters[$name] = $value;
-	}
 
 	function get_application_platform_admin_links()
 	{
@@ -365,7 +177,9 @@ class AdminManager
 							'action' => 'information',
 							'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DIAGNOSE)));
 
-		$info[]		= array('application' => array('name' => Translation :: get('Admin'), 'class' => self :: APPLICATION_NAME), 'links' => $links);
+		$admin_info = parent :: get_application_platform_admin_links();
+		$admin_info['links'] = $links;
+		$info[]		= $admin_info;
 
 		// 2. Repository
 		$repository_manager = new RepositoryManager($user);
@@ -426,13 +240,6 @@ class AdminManager
 		return $info;
 	}
 
-	/**
-	 * Gets the URL to the Dokeos claroline folder.
-	 */
-	function get_path($path_type)
-	{
-		return Path :: get($path_type);
-	}
 
 	/**
 	 * Count the system announcements
@@ -494,14 +301,6 @@ class AdminManager
 	function get_system_announcement_publication_creating_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_SYSTEM_ANNOUNCEMENT));
-	}
-
-	/**
-	 * Wrapper for Display :: not_allowed().
-	 */
-	function not_allowed()
-	{
-		Display :: not_allowed();
 	}
 
     /**
