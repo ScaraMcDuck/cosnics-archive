@@ -107,6 +107,14 @@ class ApplicationComponent
 	}
 
 	/**
+	 * @see Application :: display_portal_header()
+	 */
+	function display_portal_header()
+	{
+		return $this->get_parent()->display_portal_header();
+	}
+
+	/**
 	 * @see Application :: display_message()
 	 */
 	function display_message($message)
@@ -136,6 +144,14 @@ class ApplicationComponent
 	function display_footer()
 	{
 		return $this->get_parent()->display_footer();
+	}
+
+	/**
+	 * @see Application :: display_portal_footer()
+	 */
+	function display_portal_footer()
+	{
+		return $this->get_parent()->display_portal_footer();
 	}
 
 	/**

@@ -28,47 +28,47 @@ class BuildWizardProcess extends HTML_QuickForm_Action
 	{
 		$values = $page->controller->exportValues();
 		$failures = 0;
-		
+
 		$user_id = $this->parent->get_build_user_id();
-		
+
 		if (!$this->parent->truncate_home($user_id))
 		{
 			$failures++;
 		}
-		
+
 		$row_amount = $values['rowsamount'];
-				
+
 		for ($i=1; $i <= $row_amount; $i++)
 		{
 			$row = new HomeRow();
 			$row->set_title($values['row'.$i]['title']);
 			$row->set_sort($i);
 			$row->set_user($user_id);
-			
+
 			if (!$row->create())
 			{
 				$failures++;
 			}
-			
+
 			$column_amount = $values['row'.$i]['columnsamount'];
-			
+
 			for ($j=1; $j <= $column_amount; $j++)
 			{
-				
+
 				$column = new HomeColumn();
 				$column->set_row($row->get_id());
 				$column->set_title($values['row'.$i]['column'. $j]['title']);
 				$column->set_width($values['row'.$i]['column'. $j]['width']);
 				$column->set_sort($j);
 				$column->set_user($user_id);
-				
+
 				if (!$column->create())
 				{
 					$failures++;
 				}
-				
+
 				$block_amount = $values['row'.$i]['column'. $j]['blocksamount'];
-				
+
 				for ($k=1; $k <= $block_amount; $k++)
 				{
 					$block = new HomeBlock();
@@ -79,20 +79,20 @@ class BuildWizardProcess extends HTML_QuickForm_Action
 					$block->set_application($component[0]);
 					$block->set_component($component[1]);
 					$block->set_user($user_id);
-					
+
 					if (!$block->create())
 					{
 						$failures++;
 					}
-					
+
 					if (!HomeDataManager :: get_instance()->create_block_properties($block))
 					{
 						$failures++;
 					}
-				}	
+				}
 			}
 		}
-		
+
 		if ($failures)
 		{
 			$message = 'HomeNotBuildProperly';
@@ -101,9 +101,9 @@ class BuildWizardProcess extends HTML_QuickForm_Action
 		{
 			$message = 'HomeBuildProperly';
 		}
-		
-		$page->controller->container(true);	
-		$this->parent->redirect('url', Translation :: get($message), ($failures ? true : false), array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
+
+		$page->controller->container(true);
+		$this->parent->redirect(Translation :: get($message), ($failures ? true : false), array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
 	}
 }
 ?>

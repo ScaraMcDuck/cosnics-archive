@@ -17,14 +17,14 @@ class HomeManagerDeleterComponent extends HomeManagerComponent
 	{
 		global $this_section;
 		$this_section='platform_admin';
-		
+
 		$id = $_GET[HomeManager :: PARAM_HOME_ID];
 		$type = $_GET[HomeManager :: PARAM_HOME_TYPE];
 		$trail = new BreadcrumbTrail();
-		
+
 		$trail->add(new Breadcrumb($this->get_url(array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeDeleter')));
-		
+
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($trail);
@@ -32,7 +32,7 @@ class HomeManagerDeleterComponent extends HomeManagerComponent
 			$this->display_footer();
 			exit;
 		}
-		
+
 		if ($id && $type)
 		{
 			switch($type)
@@ -47,7 +47,7 @@ class HomeManagerDeleterComponent extends HomeManagerComponent
 					$object = $this->retrieve_home_row($id);
 					break;
 			}
-			
+
 			if (!$object->delete())
 			{
 				$success = false;
@@ -56,8 +56,8 @@ class HomeManagerDeleterComponent extends HomeManagerComponent
 			{
 				$success = true;
 			}
-			
-			$this->redirect('url', Translation :: get($success ? 'HomeDeleted' : 'HomeNotDeleted'), ($success ? false : true), array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
+
+			$this->redirect(Translation :: get($success ? 'HomeDeleted' : 'HomeNotDeleted'), ($success ? false : true), array(HomeManager :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
 		}
 		else
 		{

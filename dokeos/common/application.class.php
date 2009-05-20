@@ -150,10 +150,30 @@ abstract class Application
 	}
 
 	/**
+	 * Displays the portal header. This does NOT include:
+	 * - breadcrumbs
+	 * - title
+	 * - menu
+	 * - ...
+	 */
+	function display_portal_header()
+	{
+		Display :: header();
+	}
+
+	/**
+	 * Displays the portal footer.
+	 * To be used in conjunction with
+	 * Application :: display_portal_header()
+	 */
+	function display_portal_footer()
+	{
+		Display :: footer();
+	}
+
+	/**
 	 * Displays the header.
-	 * @param array $breadcrumbs Breadcrumbs to show in the header.
-	 * @param boolean $display_search Should the header include a search form or
-	 * not?
+	 * @param array $breadcrumbtrail The breadcrumbtrail to show in the header.
 	 */
 	function display_header($breadcrumbtrail)
 	{
