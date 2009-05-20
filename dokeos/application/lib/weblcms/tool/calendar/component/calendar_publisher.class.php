@@ -16,6 +16,7 @@ class CalendarToolPublisherComponent extends CalendarToolComponent
 		}
 		
 		$trail = new BreadcrumbTrail();
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => CalendarTool :: ACTION_PUBLISH)), Translation :: get('Publish')));
 		//$pub = new LearningObjectPublisher($this, 'calendar_event', true);
 		
 		$event = new CalendarEvent();

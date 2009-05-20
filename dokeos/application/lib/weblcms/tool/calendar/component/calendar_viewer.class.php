@@ -29,6 +29,21 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 		$browser = new CalendarBrowser($this);
 		
 		$trail = new BreadcrumbTrail();
+
+        if(Request :: get('view') != null)
+        {
+            if(Request :: get('today') == 1)
+            {
+                $title = 'Today';
+                $trail->add(new BreadCrumb($this->get_url(array('today' => 1)), $title));
+            }
+            else
+            {
+                $title = Translation :: get(ucfirst(Request :: get('view')).'View');
+                $trail->add(new BreadCrumb($this->get_url(), $title));
+            }
+        }
+        
 		$this->display_header($trail);
 		echo '<br /><a name="top"></a>';
 		if(!isset($_GET['pid']))
@@ -77,7 +92,7 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('MonthView'), Theme :: get_image_path().'tool_calendar_month.png', $this->get_url(array('view'=>'month', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('WeekView'), Theme :: get_image_path().'tool_calendar_week.png', $this->get_url(array('view'=>'week', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_image_path().'tool_calendar_day.png', $this->get_url(array('view'=>'day', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path().'tool_calendar_today.png', $this->get_url(array('view' => (isset ($_GET['view']) ? $_GET['view'] : 'month'), 'time' => time())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path().'tool_calendar_today.png', $this->get_url(array('view' => (isset ($_GET['view']) ? $_GET['view'] : 'month'), 'time' => time(), 'today' => true)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 		$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('calendar tool'));
         
