@@ -622,5 +622,20 @@ abstract class Tool
             return new ToolbarItem('');
         }
     }
+
+    static function get_pcattree_parents($pcattree)
+    {
+        $parent = WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($pcattree);
+        $parents[] = $parent; 
+
+        while($parent->get_parent() != 0)
+        {
+            $parent = WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($parent->get_parent());
+            $parents[] = $parent;
+        }
+        $parents = array_reverse($parents);
+
+        return $parents;
+    }
 }
 ?>
