@@ -34,7 +34,7 @@ class RightsManagerRoleCreatorComponent extends UserManagerComponent
 		if($form->validate())
 		{
 			$success = $form->create_role();
-			$this->redirect('url', Translation :: get($success ? 'RoleCreated' : 'RoleNotCreated'), ($success ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES));
+			$this->redirect(Translation :: get($success ? 'RoleCreated' : 'RoleNotCreated'), ($success ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES));
 		}
 		else
 		{

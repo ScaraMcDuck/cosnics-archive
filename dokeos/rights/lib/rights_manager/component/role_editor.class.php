@@ -38,7 +38,7 @@ class RightsManagerRoleEditorComponent extends RightsManagerComponent
 			if($form->validate())
 			{
 				$success = $form->update_role();
-				$this->redirect('url', Translation :: get($success ? 'RoleUpdated' : 'RoleNotUpdated'), ($success ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES));
+				$this->redirect(Translation :: get($success ? 'RoleUpdated' : 'RoleNotUpdated'), ($success ? false : true), array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_BROWSE_ROLES));
 			}
 			else
 			{
