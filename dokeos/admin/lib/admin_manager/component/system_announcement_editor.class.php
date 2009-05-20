@@ -53,7 +53,7 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponen
 				}
 				else
 				{
-					$this->display_header($trail);
+					$this->display_header($trail, false, 'administration system announcements');
 					echo LearningObjectDisplay :: factory($system_announcement_publication->get_publication_object())->get_full_html();
 					$publication_form->display();
 					$this->display_footer();
@@ -62,7 +62,7 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponen
 			}
 			else
 			{
-				$this->display_header(new BreadCrumbTrail());
+				$this->display_header(new BreadCrumbTrail(), false, 'administration system announcements');
 				$form->display();
 				$this->display_footer();
 			}

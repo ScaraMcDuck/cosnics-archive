@@ -23,13 +23,13 @@ class AdminManagerDiagnoserComponent extends AdminManagerComponent
 
 		if (!AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'root', 'root'))
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, 'administration diagnoser');
 			$this->display_error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
 		}
 
-		$this->display_header($trail);
+		$this->display_header($trail, 'administration diagnoser');
 
 		$diag = new Diagnoser($this);
 		echo $diag->to_html();

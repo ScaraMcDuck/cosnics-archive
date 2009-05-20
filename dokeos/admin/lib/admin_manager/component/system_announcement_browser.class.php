@@ -32,7 +32,8 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManagerCompone
 		$publications_table = $this->get_publications_html();
 		$toolbar = $this->get_action_bar();
 
-		$this->display_header($trail, true);
+		$this->display_header($trail, true, 'administration system announcements');
+		
 		echo $this->action_bar->as_html();
 		echo '<div id="action_bar_browser">';
 		echo $publications_table;
@@ -85,7 +86,6 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManagerCompone
 			$time_conditions = array();
 
 			$forever_conditions = array();
-			//$forever_conditions[] = new EqualityCondition();
 			$forever_conditions[] = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_FROM_DATE, 0);
 			$forever_conditions[] = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_TO_DATE, 0);
 			$time_conditions[] = new AndCondition($forever_conditions);

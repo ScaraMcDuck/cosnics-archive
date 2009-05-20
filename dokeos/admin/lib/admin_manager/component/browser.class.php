@@ -24,7 +24,7 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
 
 		if (!AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'root', 'root'))
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, 'administration');
 			$this->display_error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
@@ -32,12 +32,8 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
 
 		$links = $this->get_application_platform_admin_links();
 
-		$this->display_header($trail);
+		$this->display_header($trail, 'administration');
 		echo $this->get_application_platform_admin_tabs($links);
-//		echo '<div class="clear"></div>';
-//		echo '<br /><br /><br /><br />';
-//		echo '<div class="clear"></div>';
-		//echo $this->get_application_platform_admin_sections($links);
 		$this->display_footer();
 	}
 

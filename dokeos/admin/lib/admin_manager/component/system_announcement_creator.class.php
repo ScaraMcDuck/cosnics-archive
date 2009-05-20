@@ -21,7 +21,7 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManagerCompone
 
 		$publisher = $this->get_publisher_html();
 
-		$this->display_header($trail);
+		$this->display_header($trail, 'administration system announcements');
 		echo $publisher;
 		echo '<div style="clear: both;"></div>';
 		$this->display_footer();
