@@ -24,7 +24,7 @@ class TrackingManagerAdminEventViewerComponent extends TrackingManagerComponent
 		
 		if (!$this->get_user() || !$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'tracking general');
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -41,7 +41,7 @@ class TrackingManagerAdminEventViewerComponent extends TrackingManagerComponent
 		$trackers = $this->retrieve_trackers_from_event($event_id);
 		$trackertable = new SimpleTable($trackers, $cellrenderer, $actionhandler, "trackertable");
 		
-		$this->display_header($trail);
+		$this->display_header($trail, false, 'tracking general');
 		
 		echo Translation :: get('You_are_viewing_trackers_for_event') . ': ' . $event->get_name() . '<br /><br />'; 
 		

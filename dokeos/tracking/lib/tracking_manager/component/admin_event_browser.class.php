@@ -24,13 +24,13 @@ class TrackingManagerAdminEventBrowserComponent extends TrackingManagerComponent
 		
 		if (!$this->get_user() || !$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'tracking general');
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
 		}
 		
-		$this->display_header($trail);
+		$this->display_header($trail, false, 'tracking general');
 		
 		$isactive = (PlatformSetting :: get('enable_tracking', 'tracking') == 1);
 		

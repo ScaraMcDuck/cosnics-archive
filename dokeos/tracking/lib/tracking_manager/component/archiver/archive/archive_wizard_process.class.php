@@ -41,7 +41,7 @@ class ArchiveWizardProcess extends HTML_QuickForm_Action
 		$trail = new BreadCrumbTrail();
 		$trail->add(new Breadcrumb($this->parent->get_url(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)), Translation :: get('Archiver')));
 	
-		$this->parent->display_header($trail);
+		$this->parent->display_header($trail, false, 'tracking general');
 		
 		$startdate = $exports['start_date']; 
 		list ($syear, $smonth, $sday) = split('-', $startdate); 

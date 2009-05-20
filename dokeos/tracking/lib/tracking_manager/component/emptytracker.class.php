@@ -21,7 +21,7 @@ class TrackingManagerEmptyTrackerComponent extends TrackingManagerComponent
 		
 		if (!$this->get_user() || !$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'tracking general');
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -41,7 +41,7 @@ class TrackingManagerEmptyTrackerComponent extends TrackingManagerComponent
 		}
 		else
 		{
-			$this->display_header();
+			$this->display_header($trail, false, 'tracking general');
 			$this->display_error_message(Translation :: get("NoObjectSelected"));
 			$this->display_footer();
 		}

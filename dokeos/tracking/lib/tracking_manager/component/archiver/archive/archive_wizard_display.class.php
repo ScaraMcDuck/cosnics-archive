@@ -42,7 +42,7 @@ class ArchiveWizardDisplay extends HTML_QuickForm_Action_Display
 		$trail = new BreadCrumbTrail();
 		$trail->add(new Breadcrumb($this->parent->get_url(array(Application :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)), Translation :: get('Archiver')));
 		
-		$this->parent->display_header($trail);
+		$this->parent->display_header($trail, false, 'tracking general');
 		
 		echo '<div style="float: left; background-color:#EFEFEF;margin-right: 20px;padding: 15px; min-height: 400px;">';
 		echo '<img src="layout/img/bluelogo.gif" alt="logo"/>';
