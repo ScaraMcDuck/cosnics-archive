@@ -21,7 +21,7 @@ class PersonalCalendarManagerAttachmentViewerComponent extends PersonalCalendarM
 		{
 			$trail = new BreadCrumbTrail();
 			$trail->add(new BreadCrumb($this->get_url(array('object' => $object_id)), Translation :: get('ViewAttachment')));
-			$this->display_header($trail);
+			$this->display_header($trail, 'personal calender general');
 			
 			echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
 			
@@ -35,7 +35,7 @@ class PersonalCalendarManagerAttachmentViewerComponent extends PersonalCalendarM
 		}
 		else
 		{
-			$this->display_header(new BreadCrumbTrail());
+			$this->display_header(new BreadCrumbTrail(), 'personal calendar general');
 			$this->display_error_message('NoObjectSelected');
 			$this->display_footer();
 		}
