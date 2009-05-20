@@ -39,7 +39,7 @@ class ReportingManagerEditComponent extends ReportingManagerComponent {
 			if($form->validate())
 			{
 				$success = $form->update_reporting_template_registration();
-				$this->redirect('url', Translation :: get($success ? 'ReportingTemplateRegistrationUpdated' : 'ReportingTemplateRegistrationNotUpdated'), ($success ? false : true), array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES));
+				$this->redirect(Translation :: get($success ? 'ReportingTemplateRegistrationUpdated' : 'ReportingTemplateRegistrationNotUpdated'), ($success ? false : true), array(ReportingManager :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES));
 			}
 			else
 			{
