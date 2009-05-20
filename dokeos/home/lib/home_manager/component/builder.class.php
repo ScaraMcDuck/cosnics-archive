@@ -1,6 +1,6 @@
 <?php
 /**
- * @package groups.groupsmanager
+ * @package home.homemanager.component
  */
 require_once dirname(__FILE__).'/../home_manager.class.php';
 require_once dirname(__FILE__).'/../home_manager_component.class.php';
@@ -37,7 +37,7 @@ class HomeManagerBuilderComponent extends HomeManagerComponent
 		{
 			if (!$user->is_platform_admin())
 			{
-				$this->display_header($trail);
+				$this->display_header($trail,false,'home build');
 				Display :: error_message(Translation :: get('NotAllowed'));
 				$this->display_footer();
 				exit;

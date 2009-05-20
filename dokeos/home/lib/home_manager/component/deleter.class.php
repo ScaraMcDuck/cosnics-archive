@@ -1,7 +1,6 @@
 <?php
 /**
- * $Id: editor.class.php 11337 2007-03-02 13:29:08Z Scara84 $
- * @package repository.repositorymanager
+ * @package home.homemanager.component
  */
 require_once dirname(__FILE__).'/../home_manager.class.php';
 require_once dirname(__FILE__).'/../home_manager_component.class.php';
@@ -27,7 +26,7 @@ class HomeManagerDeleterComponent extends HomeManagerComponent
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'home general');
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;

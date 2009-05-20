@@ -1,7 +1,6 @@
 <?php
 /**
- * $Id: editor.class.php 11337 2007-03-02 13:29:08Z Scara84 $
- * @package repository.repositorymanager
+ * @package home.homemanager.component
  */
 require_once dirname(__FILE__).'/../home_manager.class.php';
 require_once dirname(__FILE__).'/../home_manager_component.class.php';
@@ -39,7 +38,7 @@ class HomeManagerCreatorComponent extends HomeManagerComponent
 		{
 			if (!$user->is_platform_admin())
 			{
-				$this->display_header($trail);
+				$this->display_header($trail, false, 'home general');
 				Display :: error_message(Translation :: get('NotAllowed'));
 				$this->display_footer();
 				exit;
@@ -79,8 +78,7 @@ class HomeManagerCreatorComponent extends HomeManagerComponent
 				}
 				else
 				{
-					//$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => $object->get_title());
-					$this->display_header($trail);
+					$this->display_header($trail, false, 'home general');
 					$form->display();
 					$this->display_footer();
 				}
