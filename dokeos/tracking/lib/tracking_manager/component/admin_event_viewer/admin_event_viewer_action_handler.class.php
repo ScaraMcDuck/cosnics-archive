@@ -55,7 +55,7 @@ class AdminEventViewerActionHandler
 	 		
 	 		if($action == 'enable' || $action == 'disable')
 	 		{
-	 			$this->eventviewer->redirect('url', null, null, array(
+	 			$this->eventviewer->redirect(null, null, array(
 		 				TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_CHANGE_ACTIVE, 
 		 				TrackingManager :: PARAM_EVENT_ID => $this->event->get_id(), 
 		 				TrackingManager :: PARAM_TRACKER_ID => $ids,
@@ -64,7 +64,7 @@ class AdminEventViewerActionHandler
 	 		}
 	 		else
 	 		{
-	 			$this->eventviewer->redirect('url', null, null, array(
+	 			$this->eventviewer->redirect(null, null, array(
 	 				TrackingManager :: PARAM_ACTION => $action, 
 	 				TrackingManager :: PARAM_EVENT_ID => $this->event->get_id(), 
 	 				TrackingManager :: PARAM_TRACKER_ID => $ids,

@@ -2,15 +2,12 @@
 /**
  * @package tracking.lib.trackingmanager
  */
+require_once Path :: get_library_path() . 'core_application.class.php';
 require_once dirname(__FILE__).'/tracking_manager_component.class.php';
 require_once dirname(__FILE__).'/../tracking_data_manager.class.php';
 require_once dirname(__FILE__).'/../tracker_registration.class.php';
 require_once dirname(__FILE__).'/../event.class.php';
 require_once dirname(__FILE__).'/../event_rel_tracker.class.php';
-require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once Path :: get_library_path().'condition/or_condition.class.php';
-require_once Path :: get_library_path().'condition/and_condition.class.php';
-require_once Path :: get_library_path().'condition/equality_condition.class.php';
 require_once Path :: get_user_path().'lib/user_data_manager.class.php';
 require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 
@@ -18,13 +15,9 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
  * A tracking manager provides some functionalities to the admin to manage
  * his trackers and events. For each functionality a component is available.
  */
- class TrackingManager 
+ class TrackingManager extends CoreApplication
  {
 	const APPLICATION_NAME = 'tracking';
-	
-	const PARAM_ACTION = 'go';
-	const PARAM_MESSAGE = 'message';
-	const PARAM_ERROR_MESSAGE = 'error_message';
 	
 	const PARAM_EVENT_ID = 'event_id';
 	const PARAM_TRACKER_ID = 'track_id';
@@ -38,7 +31,6 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 	const ACTION_EMPTY_TRACKER = 'empty_tracker';
 	const ACTION_ARCHIVE = 'archive';
 	
-	private $user;
 	private $tdm;
 	
 	/**
@@ -47,12 +39,15 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 	 */
     function TrackingManager($user) 
     {
-		$this->set_action($_GET[self :: PARAM_ACTION]);
-		$this->user = $user;
+		parent :: __construct($user);
 		$this->tdm = TrackingDataManager :: get_instance();
-		$this->parse_input_from_table();
     }
 
+    function get_application_name()
+    {
+    	return self :: APPLICATION_NAME;
+    }
+    
     /**
 	 * Run this tracking manager
 	 */
@@ -85,194 +80,6 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 		if($component)
 			$component->run();
 	}
-	/**
-	 * Gets the current action.
-	 * @see get_parameter()
-	 * @return string The current action.
-	 */
-	function get_action()
-	{
-		return $this->get_parameter(self :: PARAM_ACTION);
-	}
-	/**
-	 * Sets the current action.
-	 * @param string $action The new action.
-	 */
-	function set_action($action)
-	{
-		return $this->set_parameter(self :: PARAM_ACTION, $action);
-	}
-
-	/**
-	 * Displays a normal message.
-	 * @param string $message The message.
-	 */
-	function display_message($message)
-	{
-		Display :: normal_message($message);
-	}
-	/**
-	 * Displays an error message.
-	 * @param string $message The message.
-	 */
-	function display_error_message($message)
-	{
-		Display :: error_message($message);
-	}
-	/**
-	 * Displays a warning message.
-	 * @param string $message The message.
-	 */
-	function display_warning_message($message)
-	{
-		Display :: warning_message($message);
-	}
-	
-	/**
-	 * Displays the header.
-	 * @param array $breadcrumbs Breadcrumbs to show in the header.
-	 * @param boolean $display_search Should the header include a search form or
-	 * not?
-	 */
-	function display_header($breadcrumbtrail, $display_search = false)
-	{
-		if (is_null($breadcrumbtrail))
-		{ 
-			$breadcrumbtrail = new BreadcrumbTrail();
-		}
-		
-		$title = $breadcrumbtrail->get_last()->get_name();
-		$title_short = $title;
-		if (strlen($title_short) > 53)
-		{
-			$title_short = substr($title_short, 0, 50).'&hellip;';
-		}
-		Display :: header($breadcrumbtrail);
-		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
-		if ($display_search)
-		{
-			$this->display_search_form();
-		}
-		echo '<div class="clear">&nbsp;</div>';
-		if ($msg = $_GET[self :: PARAM_MESSAGE])
-		{
-			$this->display_message($msg);
-		}
-		if($msg = $_GET[self::PARAM_ERROR_MESSAGE])
-		{
-			$this->display_error_message($msg);
-		}
-	}
-	
-	/**
-	 * Displays the footer.
-	 */
-	function display_footer()
-	{
-		echo '<div class="clear">&nbsp;</div>';
-		Display :: footer();
-	}
-	
-	/**
-	 * Displays an error page.
-	 * @param string $message The message.
-	 */
-	function display_error_page($message)
-	{
-		$this->display_header();
-		$this->display_error_message($message);
-		$this->display_footer();
-	}
-
-	/**
-	 * Displays a warning page.
-	 * @param string $message The message.
-	 */
-	function display_warning_page($message)
-	{
-		$this->display_header();
-		$this->display_warning_message($message);
-		$this->display_footer();
-	}
-
-	/**
-	 * Displays a popup form.
-	 * @param string $message The message.
-	 */
-	function display_popup_form($form_html)
-	{
-		Display :: normal_message($form_html);
-	}
-	
-	/**
-	 * Builds a link with the given parameters
-	 * @param Array $parameters An array of parameters
-	 * @param Bool $encode to encode the link (default false)
-	 */
-	public function get_link($parameters = array (), $encode = false)
-	{
-		$link = 'index_'. self :: APPLICATION_NAME .'.php';
-		if (count($parameters))
-		{
-			$link .= '?'.http_build_query($parameters);
-		}
-		if ($encode)
-		{
-			$link = htmlentities($link);
-		}
-		return $link;
-	}
-	
-	/**
-	 * Builds an url with the given parameters and the existing parameters
-	 * @param Array $additional_parameters Additional parameters that have to be added
-	 * @param Bool $encode_entities to encode the url (default false)
-	 */
-	function get_url($additional_parameters = array (), $encode_entities = false)
-	{
-		$url = parse_url(Path :: get(WEB_PATH));
-		$url = $url['scheme'].'://'.$url['host'];
-		$eventual_parameters = array_merge($this->get_parameters(), $additional_parameters);
-		$url .= $_SERVER['PHP_SELF'].'?'.http_build_query($eventual_parameters);
-		if ($encode_entities)
-		{
-			$url .= htmlentities($url);
-		}
-
-		return $url;
-	}
-	
-	/**
-	 * Redirect the user to a given url
-	 * @param String $type the type of redirection link (url or link - default url)
-	 * @param String $message the message added to the url (default null)
-	 * @param Bool $error_message wether to view the message as error message (default false);
-	 * @param Array $extra_params Extra parameters to add to the url
-	 */
-	function redirect($type = 'url', $message = null, $error_message = false, $extra_params = null)
-	{
-		$params = array (); 
-		if (isset ($message))
-		{
-			$params[$error_message ? self :: PARAM_ERROR_MESSAGE :  self :: PARAM_MESSAGE] = $message;
-		}
-		if (isset($extra_params))
-		{
-			foreach($extra_params as $key => $extra)
-			{
-				$params[$key] = $extra;
-			}
-		}
-		if ($type == 'url')
-		{
-			$url = $this->get_url($params);
-		}
-		elseif ($type == 'link')
-		{
-			$url = 'index.php';
-		}
-		header('Location: '.$url);
-	}
 	
 	/**
 	 * Method used by the administrator module to get the application links
@@ -290,43 +97,6 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 							'url' => $this->get_link(array(TrackingManager :: PARAM_ACTION => TrackingManager :: ACTION_ARCHIVE)));
 		
 		return array('application' => array('name' => Translation :: get('Tracking'), 'class' => 'tracking'), 'links' => $links);
-	}
-	
-	/**
-	 * Gets the parameters
-	 * @return Array the parameters list
-	 */
-	function get_parameters()
-	{
-		return $this->parameters;
-	}
-	
-	/**
-	 * Gets the value of a parameter.
-	 * @param string $name The parameter name.
-	 * @return string The parameter value.
-	 */
-	function get_parameter($name)
-	{
-		return $this->parameters[$name];
-	}
-	/**
-	 * Sets the value of a parameter.
-	 * @param string $name The parameter name.
-	 * @param mixed $value The parameter value.
-	 */
-	function set_parameter($name, $value)
-	{
-		$this->parameters[$name] = $value;
-	}
-	
-	/**
-	 * Gets the active user
-	 * @return User Active user
-	 */
-	function get_user()
-	{
-		return $this->user;
 	}
 	
 	/**
@@ -426,7 +196,7 @@ require_once dirname(__FILE__).'/../event_table/event_table.class.php';
 	 */
 	function retrieve_trackers_from_event($event_id)
 	{
-		return $this->tdm->retrieve_trackers_from_event($event_id, $false);
+		return $this->tdm->retrieve_trackers_from_event($event_id, false);
 	}
 	
 	/**
