@@ -47,7 +47,7 @@ class UserManagerQuotaComponent extends UserManagerComponent
 			if($form->validate())
 			{
 				$success = $form->update_quota();
-				$this->redirect('url', Translation :: get($success ? 'UserQuotaUpdated' : 'UserQuotaNotUpdated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => ACTION_BROWSE_USERS));
+				$this->redirect(Translation :: get($success ? 'UserQuotaUpdated' : 'UserQuotaNotUpdated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => ACTION_BROWSE_USERS));
 			}
 			else
 			{

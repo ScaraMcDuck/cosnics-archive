@@ -35,17 +35,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 		}
 		
 		$this->ab = $this->get_action_bar();
-		$menu = $this->get_menu_html();
 		$output = $this->get_user_html();
-		
-		$categories = $this->menu_breadcrumbs;
-		if (count($categories) > 0)
-		{
-			foreach($categories as $category)
-			{
-			//	$trail->add(new Breadcrumb($category['url'], $category['title']));
-			}
-		}
 		
 		$this->display_header($trail, false);
 		
@@ -70,7 +60,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 	function get_menu_html()
 	{
 		$extra_items = array ();
-		if ($this->get_search_validate())
+		/*if ($this->get_search_validate())
 		{
 			// $search_url = $this->get_url();
 			$search_url = '#';
@@ -83,18 +73,13 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 		else
 		{
 			$search_url = null;
-		}
+		}*/
 		
 		$temp_replacement = '__FIRSTLETTER__';
 		$url_format = $this->get_url(array (UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS, UserManager :: PARAM_FIRSTLETTER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$user_menu = new UserMenu($this->firstletter, $url_format, $extra_items);
 		$this->menu_breadcrumbs = $user_menu->get_breadcrumbs();
-		
-		if (isset ($search_url))
-		{
-			$user_menu->forceCurrentUrl($search_url, true);
-		}
 		
 		$html = array();
 		$html[] = '<div style="float: left; width: 20%;">';

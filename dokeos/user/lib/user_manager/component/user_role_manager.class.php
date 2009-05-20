@@ -39,7 +39,7 @@ class UserManagerUserRoleManagerComponent extends UserManagerComponent
 		if($form->validate())
 		{
 			$success = $form->update_user_roles();
-			$this->redirect('url', Translation :: get($success ? 'UserRolesChanged' : 'UserRolesNotChanged'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+			$this->redirect(Translation :: get($success ? 'UserRolesChanged' : 'UserRolesNotChanged'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
 		}
 		else
 		{

@@ -20,7 +20,7 @@ class UserManagerBuddyListCategoryEditorComponent extends UserManagerComponent
 			if($form->validate())
 			{
 				$success = $form->update_category();
-				$this->redirect('url', Translation :: get($success ? 'CategoryUpdated' : 'CategoryNotUpdated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
+				$this->redirect(Translation :: get($success ? 'CategoryUpdated' : 'CategoryNotUpdated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
 			}
 			else
 			{

@@ -20,7 +20,7 @@ class UserManagerBuddyListItemCreatorComponent extends UserManagerComponent
 		if($form->validate())
 		{
 			$success = $form->create_items();
-			$this->redirect('url', Translation :: get($success ? 'BuddyListItemsCreated' : 'BuddyListItemsNotCreated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
+			$this->redirect(Translation :: get($success ? 'BuddyListItemsCreated' : 'BuddyListItemsNotCreated'), ($success ? false : true), array(UserManager :: PARAM_ACTION => UserManager :: ACTION_VIEW_BUDDYLIST));
 		}
 		else
 		{
