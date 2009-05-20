@@ -28,7 +28,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
 
 		if (!$this->get_user()->is_teacher() && !$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, true, 'courses create');
 			echo '<div class="clear"></div><br />';
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
@@ -53,7 +53,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, true, 'courses create');
 			echo '<div class="clear"></div><br />';
 			$form->display();
 			$this->display_footer();
