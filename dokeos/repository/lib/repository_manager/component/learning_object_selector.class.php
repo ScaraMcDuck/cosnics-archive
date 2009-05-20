@@ -41,7 +41,7 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 		}
 		else
 		{
-			$this->display_header($trail, false);
+			$this->display_header($trail, false, true, 'repository general');
 			$this->display_error_message(Translation :: get('NoCLOISelected'));
 			$this->display_footer();
 			exit;
@@ -55,7 +55,7 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 		}
 		
 		$output = $this->get_learning_objects_html();
-		$this->display_header($trail, true, false);
+		$this->display_header($trail, false, true, 'repository general');
 		echo $output;
 		$this->display_footer();
 	}

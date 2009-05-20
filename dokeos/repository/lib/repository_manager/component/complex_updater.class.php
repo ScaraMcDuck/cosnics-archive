@@ -25,7 +25,7 @@ class RepositoryManagerComplexUpdaterComponent extends RepositoryManagerComponen
 
 		if(!isset($cloi_id) || !isset($root_id))
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, true, 'repository general');
 			Display :: warning_message('Reference is not set');
 			$this->display_footer();
 			exit();
@@ -45,7 +45,7 @@ class RepositoryManagerComplexUpdaterComponent extends RepositoryManagerComponen
 		}
 		else
 		{
-			$this->display_header($trail, false, false);
+			$this->display_header($trail, false, false, 'repository general');
 			//echo '<p>' . Translation :: get('FillIn') . '</p>';
 			$cloi_form->display();
 			$this->display_footer();

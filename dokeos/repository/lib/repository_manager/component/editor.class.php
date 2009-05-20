@@ -56,7 +56,7 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 			{
                 $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_VIEW_LEARNING_OBJECTS,RepositoryManager::PARAM_LEARNING_OBJECT_ID => $id)), $object->get_title()));
 				$trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_LEARNING_OBJECT_ID => $id)), Translation :: get('Edit')));
-				$this->display_header($trail);
+				$this->display_header($trail, false, true, 'repository general');
 				$form->display();
 				$this->display_footer();
 			}

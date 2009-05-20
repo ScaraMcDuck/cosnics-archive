@@ -54,7 +54,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
         }
 
 
-        $this->display_header($trail, false);
+        $this->display_header($trail, false, true, 'repository general');
 
         echo $this->action_bar->as_html();
         echo '<br />' . $this->form->display() . '<br />';

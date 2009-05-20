@@ -39,7 +39,7 @@ class PublisherWizardDisplay extends HTML_QuickForm_Action_Display
 		HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>'.Translation :: get('ThisFieldIsRequired').'</small>');
 		$current_page->accept($renderer);
 		
-		$this->parent->display_header(new BreadCrumbTrail(new BreadCrumb($this->parent->get_url(), Translation :: get('Publish'))));
+		$this->parent->display_header(new BreadCrumbTrail(new BreadCrumb($this->parent->get_url(), Translation :: get('Publish'))), false, true, 'repository publication wizard');
 		
 		/*echo '<div style="background-color:#EFEFEF;padding: 10px; height: 35px;">';
 		$all_pages = $current_page->controller->_pages;

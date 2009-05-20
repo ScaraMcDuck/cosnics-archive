@@ -52,7 +52,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		}
 		else
 		{
-			$this->display_header($trail, false, false);
+			$this->display_header($trail, false, false, 'repository general');
 			$this->display_error_message(Translation :: get('NoCLOISelected'));
 			$this->display_footer();
 			exit;
@@ -69,7 +69,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		$output = $this->get_content_html($object);
 		$menu = $this->get_menu();
 
-		$this->display_header($trail, false, false);
+		$this->display_header($trail, false, false, 'repository general');
 
 		if($this->action_bar)
 			echo '<br />' . $this->action_bar->as_html();

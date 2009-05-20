@@ -20,7 +20,7 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 		$trail = new BreadcrumbTrail(false);
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('RecycleBin')));
 		
-		$this->display_header($trail);
+		$this->display_header($trail, false, true, 'repository recyclebin');
 		if ($_GET[RepositoryManager :: PARAM_EMPTY_RECYCLE_BIN])
 		{
 			$this->empty_recycle_bin();

@@ -25,7 +25,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 		if(empty($ids)) 
 		{
 			$_GET['message'] = Translation :: get('NoObjectSelected');
-			$this->get_parent()->display_header($trail);
+			$this->get_parent()->display_header($trail, false, true, 'repository publication wizard');
 			$this->get_parent()->display_footer();
 			exit();
 		}
@@ -44,7 +44,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 				if($this->type != $lo->get_type())
 				{
 					$_GET['message'] = Translation :: get('ObjectsNotSameType');
-					$this->get_parent()->display_header($trail);
+					$this->get_parent()->display_header($trail, false, true, 'repository publication wizard');
 					$this->get_parent()->display_footer();
 					exit();
 				}

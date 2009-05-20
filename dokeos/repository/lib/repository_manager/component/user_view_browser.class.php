@@ -26,7 +26,7 @@ class RepositoryManagerUserViewBrowserComponent extends RepositoryManagerCompone
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail);
+			$this->display_header($trail, false, true, 'repository userviews');
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -36,7 +36,7 @@ class RepositoryManagerUserViewBrowserComponent extends RepositoryManagerCompone
 		
 		$output = $this->get_user_html();
 		
-		$this->display_header($trail, false);
+		$this->display_header($trail, false, true, 'repository userviews');
 		echo '<br />' . $this->ab->as_html() . '<br />';
 		echo $output;
 		$this->display_footer();

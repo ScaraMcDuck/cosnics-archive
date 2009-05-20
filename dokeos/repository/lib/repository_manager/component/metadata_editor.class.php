@@ -32,7 +32,7 @@ class RepositoryManagerMetadataEditorComponent extends RepositoryManagerComponen
             $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $id)), $object->get_title()));
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Metadata')));
 			$lom = IeeeLomGenerator::generate($object);
-			$this->display_header($trail);
+			$this->display_header($trail, false, true, 'repository metadata');
 			echo '<div class="metadata" style="background-image: url('.Theme :: get_common_image_path().'place_metadata.png);">';
 			echo '<div class="title">'. $object->get_title(). '</div>';
 			echo '<pre>';

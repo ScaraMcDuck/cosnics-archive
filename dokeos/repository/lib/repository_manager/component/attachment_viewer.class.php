@@ -21,7 +21,7 @@ class RepositoryManagerAttachmentViewerComponent extends RepositoryManagerCompon
 		{
 			$trail = new BreadCrumbTrail();
 			$trail->add(new BreadCrumb($this->get_url(array('object' => $object_id)), Translation :: get('ViewAttachment')));
-			$this->display_header($trail, false, false);
+			$this->display_header($trail, false, false, 'repository general');
 			
 			echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
 			
@@ -35,7 +35,7 @@ class RepositoryManagerAttachmentViewerComponent extends RepositoryManagerCompon
 		}
 		else
 		{
-			$this->display_header(new BreadCrumbTrail());
+			$this->display_header(new BreadCrumbTrail(), false, true, 'repository general');
 			$this->display_error_message('NoObjectSelected');
 			$this->display_footer();
 		}
