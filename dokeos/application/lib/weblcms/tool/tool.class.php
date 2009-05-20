@@ -279,7 +279,7 @@ abstract class Tool
 		// TODO: make this the default
 		if($this->get_tool_id() != 'course_group')
 		{
-			$trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, 'pcattree' => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
+			$trail->add(new Breadcrumb($this->get_url(array('tool_action' => null, 'pcattree' => null, 'view' => null, 'time' => null)), Translation :: get(Tool :: type_to_class($this->parent->get_tool_id()) . 'Title')));
 		}
 
 		$breadcrumbs = $breadcrumbtrail->get_breadcrumbs();
