@@ -12,7 +12,7 @@ class WikiBuilderBrowserComponent extends WikiBuilderComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('Repository')));
 		$trail->add(new Breadcrumb($this->get_url(array(ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id())), $this->get_root_lo()->get_title()));
-		$this->display_header($trail);
+		$this->display_header($trail, 'repository wiki builder');
 		$wiki = $this->get_root_lo();
 		$action_bar = $this->get_action_bar($wiki);
 		

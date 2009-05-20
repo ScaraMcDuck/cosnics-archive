@@ -61,7 +61,7 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 		}
 		else
 		{
-			$this->display_header(new BreadCrumbTrail());
+			$this->display_header(new BreadCrumbTrail(), 'repository builder');
 			echo $lo_form->toHTML();
 			$this->display_footer();
 		}

@@ -21,5 +21,10 @@ class RepositoryManagerComplexBuilderComponent extends RepositoryManagerComponen
 		$complex_builder = ComplexBuilder :: factory($this);
 		$complex_builder->run();
 	}
+	
+	function display_header($breadcrumbtrail, $helpitem)
+	{
+		$this->get_parent()->display_header($breadcrumbtrail, false, false, $helpitem)
+	}
 }
 ?>

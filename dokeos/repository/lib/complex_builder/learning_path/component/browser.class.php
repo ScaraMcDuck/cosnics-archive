@@ -22,7 +22,7 @@ class LearningPathBuilderBrowserComponent extends LearningPathBuilderComponent
 			$lo = $this->get_root_lo();
 		}
 		
-		$this->display_header($trail);
+		$this->display_header($trail, 'repository learnpath builder');
 		$action_bar = $this->get_action_bar($lo);
 		
 		if($action_bar)
