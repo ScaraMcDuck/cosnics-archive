@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../../category_manager/admin_category_manager.c
 /**
  * Weblcms component allows the user to manage course categories
  */
-class AdminCategoryManagerComponent extends AdminManagerComponent
+class AdminManagerCategoryManagerComponent extends AdminManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.

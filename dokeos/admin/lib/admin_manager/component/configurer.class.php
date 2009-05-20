@@ -13,7 +13,7 @@ require_once dirname(__FILE__).'/../../admin_rights.class.php';
 /**
  * Admin component
  */
-class AdminConfigurerComponent extends AdminManagerComponent
+class AdminManagerConfigurerComponent extends AdminManagerComponent
 {
 	private $application;
 

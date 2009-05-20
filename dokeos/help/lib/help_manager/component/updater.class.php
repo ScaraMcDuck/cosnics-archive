@@ -12,18 +12,18 @@ class HelpManagerUpdaterComponent extends HelpManagerComponent
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{	
+	{
 		$trail = new BreadcrumbTrail();
 		$admin = new AdminManager();
 		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(HelpManager :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS)), Translation :: get('HelpItemList')));
-		
+
 		$id = Request :: Get(HelpManager :: PARAM_HELP_ITEM);
 		if ($id)
 		{
 			$help_item = $this->retrieve_help_item($id);
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HelpItemUpdate')));
-		
+
 			if (!$this->get_user()->is_platform_admin())
 			{
 				$this->display_header();
@@ -31,14 +31,14 @@ class HelpManagerUpdaterComponent extends HelpManagerComponent
 				$this->display_footer();
 				exit;
 			}
-			
+
 			$form = new HelpItemForm($help_item, $this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $id)));
 
 			if($form->validate())
 			{
 				$success = $form->update_help_item();
 				$help_item = $form->get_help_item();
-				$this->redirect('url', Translation :: get($success ? 'HelpItemUpdated' : 'HelpItemNotUpdated'), ($success ? false : true), array(HelpManager :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS));
+				$this->redirect(Translation :: get($success ? 'HelpItemUpdated' : 'HelpItemNotUpdated'), ($success ? false : true), array(HelpManager :: PARAM_ACTION => HelpManager :: ACTION_BROWSE_HELP_ITEMS));
 			}
 			else
 			{

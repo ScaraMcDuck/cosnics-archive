@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../admin_manager_component.class.php';
 require_once dirname(__FILE__).'/../../system_announcement_publication_form.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
 
-class AdminSystemAnnouncementEditorComponent extends AdminManagerComponent
+class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponent
 {
 	/**
 	 * Runs this component and displays its output.
