@@ -14,8 +14,7 @@ class ReportingManagerEditComponent extends ReportingManagerComponent {
 	function run()
 	{
         $trail = new BreadcrumbTrail();
-        $admin = new AdminManager();
-        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager::ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
 
 		$id = $_GET[ReportingManager :: PARAM_TEMPLATE_ID];

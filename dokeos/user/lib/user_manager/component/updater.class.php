@@ -14,11 +14,10 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{	
-		
+	{
+
 		$trail = new BreadcrumbTrail();
-		$admin = new AdminManager();
-		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
 		$id = $_GET[UserManager :: PARAM_USER_USER_ID];
 		if ($id)
@@ -26,7 +25,7 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 			$user = $this->retrieve_user($id);
 
             $trail->add(new Breadcrumb($this->get_url(), $user->get_fullname()));
-		
+
 			if (!$this->get_user()->is_platform_admin())
 			{
 				$this->display_header($trail, false, 'user general');
@@ -34,7 +33,7 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 				$this->display_footer();
 				exit;
 			}
-			
+
 			$form = new Userform(UserForm :: TYPE_EDIT, $user, $this->get_user(), $this->get_url(array(UserManager :: PARAM_USER_USER_ID => $id)));
 
 			if($form->validate())

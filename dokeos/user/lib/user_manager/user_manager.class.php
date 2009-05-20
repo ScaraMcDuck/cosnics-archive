@@ -11,7 +11,7 @@ require_once dirname(__FILE__).'/../user_block.class.php';
  * A user manager provides some functionalities to the admin to manage
  * his users. For each functionality a component is available.
  */
- class UserManager extends CoreApplication 
+ class UserManager extends CoreApplication
  {
 
  	const APPLICATION_NAME = 'user';
@@ -33,7 +33,7 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	const ACTION_CHANGE_USER = 'change_user';
 	const ACTION_MANAGE_ROLES = 'manage_user_roles';
     const ACTION_REPORTING = 'reporting';
-	
+
 	const ACTION_VIEW_BUDDYLIST = 'buddy_view';
 	const ACTION_CREATE_BUDDYLIST_CATEGORY = 'buddy_create_category';
 	const ACTION_DELETE_BUDDYLIST_CATEGORY = 'buddy_delete_category';
@@ -42,7 +42,7 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	const ACTION_DELETE_BUDDYLIST_ITEM = 'buddy_delete_item';
 	const ACTION_CHANGE_BUDDYLIST_ITEM_STATUS = 'buddy_status_change';
 	const ACTION_CHANGE_BUDDYLIST_ITEM_CATEGORY = 'buddy_category_change';
-	
+
 	const PARAM_BUDDYLIST_CATEGORY = 'buddylist_category';
 	const PARAM_BUDDYLIST_ITEM = 'buddylist_item';
 
@@ -53,19 +53,19 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 
     function UserManager($user = null)
     {
-    	$user = $this->load_user($user); 
+    	$user = $this->load_user($user);
     	parent :: __construct($user);
-    	
+
     	$this->load_user_theme();
-    	
+
     	// Can users set their own theme and if they
     	// can, do they have one set ? If so apply it
     	$user = $this->get_user();
-    	
+
     	if (is_object($user))
     	{
     		$user_can_set_theme = $this->get_platform_setting('allow_user_theme_selection');
-    		
+
     		if ($user_can_set_theme && $user->has_theme())
     		{
     			Theme :: set_theme($user->get_theme());
@@ -73,7 +73,7 @@ require_once dirname(__FILE__).'/../user_block.class.php';
     	}
 		$this->create_url = $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_USER));
     }
-    
+
 	/**
 	 * Sets the current user based on the input passed on to the UserManager.
 	 * @param mixed $user The user.
@@ -99,7 +99,7 @@ require_once dirname(__FILE__).'/../user_block.class.php';
     		}
     	}
     }
-    
+
 	/**
 	 * Sets the platform theme to the user's selection if allowed.
 	 */
@@ -107,11 +107,11 @@ require_once dirname(__FILE__).'/../user_block.class.php';
     {
     	// TODO: Add theme to userforms.
     	$user = $this->get_user();
-    	
+
     	if (is_object($user))
     	{
     		$user_can_set_theme = $this->get_platform_setting('allow_user_theme_selection');
-    		
+
     		if ($user_can_set_theme && $user->has_theme())
     		{
     			Theme :: set_theme($user->get_theme());
@@ -178,7 +178,7 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 			case self :: ACTION_UPDATE_BUDDYLIST_CATEGORY :
 				$component = UserManagerComponent :: factory('BuddyListCategoryEditor', $this);
 				break;
-			case self :: ACTION_CREATE_BUDDYLIST_ITEM :	
+			case self :: ACTION_CREATE_BUDDYLIST_ITEM :
 				$component = UserManagerComponent :: factory('BuddyListItemCreator', $this);
 				break;
 			case self :: ACTION_DELETE_BUDDYLIST_ITEM :
@@ -199,16 +199,16 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 		}
 		$component->run();
 	}
-	
+
     /**
-	 * Renders the users block and returns it. 
+	 * Renders the users block and returns it.
 	 */
 	function render_block($block)
 	{
 		$user_block = UserBlock :: factory($this, $block);
 		return $user_block->run();
 	}
-	
+
 	/**
 	 * Counts the users
 	 * @param $condition
@@ -279,8 +279,12 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 							'description' => Translation :: get('ImportDescription'),
 							'action' => 'import',
 							'url' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_IMPORT_USERS)));
-		
-		return array('application' => array('name' => Translation :: get('Users'), 'class' => 'user'), 'links' => $links, 'search' => $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)));
+
+		$info = parent :: get_application_platform_admin_links();
+		$info['links'] = $links;
+		$info['search'] = $this->get_link(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS));
+
+		return $info;
 	}
 
 	/**
@@ -291,10 +295,10 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_USER, self :: PARAM_USER_USER_ID => $user->get_id()));
 	}
-	
+
 	function get_change_user_url($user)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CHANGE_USER, 
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CHANGE_USER,
 															   self :: PARAM_USER_USER_ID => $user->get_id()));
 	}
 
@@ -314,40 +318,40 @@ require_once dirname(__FILE__).'/../user_block.class.php';
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_USER, self :: PARAM_USER_USER_ID => $user->get_id()));
 	}
-	
+
 	function get_manage_roles_url($user)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MANAGE_ROLES, self :: PARAM_USER_USER_ID => $user->get_id()));
 	}
-	
+
 	function get_create_buddylist_category_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_BUDDYLIST_CATEGORY));
 	}
-	
+
  	function get_delete_buddylist_category_url($category_id)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_BUDDYLIST_CATEGORY,
 									 self :: PARAM_BUDDYLIST_CATEGORY => $category_id));
 	}
-	
+
  	function get_update_buddylist_category_url($category_id)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_BUDDYLIST_CATEGORY,
 									 self :: PARAM_BUDDYLIST_CATEGORY => $category_id));
 	}
-	
+
  	function get_create_buddylist_item_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CREATE_BUDDYLIST_ITEM));
 	}
-	
+
  	function get_delete_buddylist_item_url($item_id)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_BUDDYLIST_ITEM,
 									 self :: PARAM_BUDDYLIST_ITEM => $item_id));
 	}
-	
+
  	function get_change_buddylist_item_status_url($item_id, $status)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_CHANGE_BUDDYLIST_ITEM_STATUS,
@@ -358,11 +362,11 @@ require_once dirname(__FILE__).'/../user_block.class.php';
     {
         return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, ReportingManager::PARAM_TEMPLATE_NAME => $classname, ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS => $params));
     }
-    
+
     function get_application_name()
     {
     	return self :: APPLICATION_NAME;
     }
-	
+
 }
 ?>

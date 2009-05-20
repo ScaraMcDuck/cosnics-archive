@@ -18,8 +18,8 @@ $user = $usermgr->retrieve_user(Session :: get_user_id());
 $wsmgr = new WebserviceManager($user);
 
 try
-{	
-	$wsmgr->run();	
+{
+	$wsmgr->run();
 }
 catch(Exception $exception)
 {

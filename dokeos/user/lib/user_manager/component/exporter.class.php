@@ -16,8 +16,7 @@ class UserManagerExporterComponent extends UserManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$admin = new AdminManager();
-		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserCreateExport')));
 
 		if (!$this->get_user()->is_platform_admin())
@@ -47,23 +46,23 @@ class UserManagerExporterComponent extends UserManagerComponent
      			$user_array[User::PROPERTY_ACTIVE] = $user->get_active();
      			$user_array[User::PROPERTY_OFFICIAL_CODE] = $user->get_official_code();
      			$user_array[User::PROPERTY_PHONE] = $user->get_phone();
-     			
+
      			$act_date = $user->get_activation_date();
      			if($act_date != 0)
      				$act_date = DokeosUtilities :: to_db_date($act_date);
-     			
+
      			$user_array[User::PROPERTY_ACTIVATION_DATE] = $act_date;
-     			
+
      			$exp_date = $user->get_expiration_date();
      			if($exp_date != 0)
      				$exp_date = DokeosUtilities :: to_db_date($exp_date);
-     			
+
      			$user_array[User::PROPERTY_EXPIRATION_DATE] = $exp_date;
-     			
+
      			$user_array[User::PROPERTY_AUTH_SOURCE] = $user->get_auth_source();
      			 Events :: trigger_event('export', 'user', array('target_user_id' => $user->get_id(), 'action_user_id' => $this->get_user()->get_id()));
-     			$data[] = $user_array; 
- 	        } 
+     			$data[] = $user_array;
+ 	        }
 			$this->export_users($file_type,$data);
 		}
 		else
@@ -75,12 +74,12 @@ class UserManagerExporterComponent extends UserManagerComponent
 	}
 
 	function export_users($file_type, $data)
-    {  
+    {
     	$filename = 'export_users_'.date('Y-m-d_H-i-s');
-    	$export = Export::factory($file_type,$filename); 
+    	$export = Export::factory($file_type,$filename);
     	if($file_type == 'pdf')
     		$data = array(array('key' => 'users', 'data' => $data));
-    	$export->write_to_file($data);  
+    	$export->write_to_file($data);
     	return;
     }
 }

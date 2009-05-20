@@ -92,11 +92,11 @@ abstract class ProfilerManagerComponent extends WebApplicationComponent
 	{
 		return $this->get_parent()->get_profiler_category_manager_url();
 	}
-	
-	function display_header($trail, false, $helpitem)
+
+	function display_header($trail, $display_search = false, $helpitem)
 	{
-		return $this->get_parent->display_header($trail, false, $helpitem);
+		return $this->get_parent->display_header($trail, $display_search, $helpitem);
 	}
-	
+
 }
 ?>

@@ -23,13 +23,13 @@ class GroupMenu extends HTML_Menu
 	 * The array renderer used to determine the breadcrumbs.
 	 */
 	private $array_renderer;
-	
+
 	private $include_root;
-	
+
 	private $exclude_children;
-	
+
 	private $current_category;
-	
+
 	/**
 	 * Creates a new category navigation menu.
 	 * @param int $owner The ID of the owner of the categories to provide in
@@ -41,37 +41,37 @@ class GroupMenu extends HTML_Menu
 	 * @param array $extra_items An array of extra tree items, added to the
 	 *                           root.
 	 */
-	function GroupMenu($current_category, $url_format = '?go=browse&group_id=%s', $include_root = true, $exclude_children = false)
+	function GroupMenu($current_category, $url_format = '?application=group&go=browse&group_id=%s', $include_root = true, $exclude_children = false)
 	{
 		$this->include_root = $include_root;
 		$this->exclude_children = $exclude_children;
 		$this->current_category = $current_category;
-		
+
 		if ($current_category == '0')
 		{
 			$condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
 			$group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, array(Group :: PROPERTY_SORT), array(SORT_ASC))->next_result();
-			
+
 			$this->current_category = $group->get_id();
 		}
-		
+
 		$this->urlFmt = $url_format;
 		$menu = $this->get_menu();
 		parent :: __construct($menu);
 		$this->array_renderer = new HTML_Menu_ArrayRenderer();
 		$this->forceCurrentUrl($this->get_url($current_category));
 	}
-	
+
 	function get_menu()
 	{
 		//$xtmr = new XmlTreeMenuRenderer($this);
 		//return $xtmr->get_tree();
-		
+
 		$include_root = $this->include_root;
-		
+
 		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, 0);
 		$group = GroupDataManager :: get_instance()->retrieve_groups($condition, null, 1, array(Group :: PROPERTY_SORT), array(SORT_ASC))->next_result();
-		
+
 		if (!$include_root)
 		{
 			return $this->get_menu_items($group->get_id());
@@ -79,24 +79,24 @@ class GroupMenu extends HTML_Menu
 		else
 		{
 			$menu = array();
-			
+
 			$menu_item = array();
 			$menu_item['title'] = $group->get_name();
 			$menu_item['url'] = $this->get_url($group->get_id());
-		
+
 			$sub_menu_items = $this->get_menu_items($group->get_id());
 			if(count($sub_menu_items) > 0)
 			{
 				$menu_item['sub'] = $sub_menu_items;
 			}
-		
+
 			$menu_item['class'] = 'home';
 			$menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
 			$menu[$group->get_id()] = $menu_item;
 			return $menu;
 		}
 	}
-	
+
 	/**
 	 * Returns the menu items.
 	 * @param array $extra_items An array of extra tree items, added to the
@@ -106,39 +106,39 @@ class GroupMenu extends HTML_Menu
 	 *               class is based.
 	 */
 	private function get_menu_items($parent_id = 0)
-	{ 
+	{
 		$exclude_children = $this->exclude_children;
 		$current_category = $this->current_category;
-		
+
 		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, $parent_id);
 		$groups = GroupDataManager :: get_instance()->retrieve_groups($condition, null, null, array(Group :: PROPERTY_SORT), array(SORT_ASC));
-		
+
 		while ($group = $groups->next_result())
 		{
 			$group_id = $group->get_id();
-			
+
 			if (!($exclude_children && $group_id == $current_category))
 			{
 				$menu_item = array();
 				$menu_item['title'] = $group->get_name();
 				$menu_item['url'] = $this->get_url($group->get_id());
-				
+
 				$sub_menu_items = $this->get_menu_items($group->get_id());
-				
+
 				if(count($sub_menu_items) > 0)
 				{
 					$menu_item['sub'] = $sub_menu_items;
 				}
-				
+
 				$menu_item['class'] = 'category';
 				$menu_item[OptionsMenuRenderer :: KEY_ID] = $group->get_id();
 				$menu[$group->get_id()] = $menu_item;
 			}
 		}
-		
+
 		return $menu;
 	}
-	
+
 	/**
 	 * Gets the URL of a given category
 	 * @param int $category The id of the category
@@ -149,7 +149,7 @@ class GroupMenu extends HTML_Menu
 		// TODO: Put another class in charge of the htmlentities() invocation
 		return htmlentities(sprintf($this->urlFmt, $group));
 	}
-	
+
 	private function get_home_url ($category)
 	{
 		// TODO: Put another class in charge of the htmlentities() invocation

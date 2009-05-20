@@ -22,7 +22,7 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
 	 */
 	function run()
 	{
-		$application = $this->application = Request :: get('application');
+		$application = $this->application = Request :: get(AdminManager :: PARAM_WEB_APPLICATION);
 		if (!isset($application))
 		{
 			$application = $this->application = 'admin';
@@ -40,12 +40,12 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
 			exit;
 		}
 
-		$form = new ConfigurationForm($application, 'config', 'post', $this->get_url(array(AdminManager :: PARAM_APPLICATION => $application)));
+		$form = new ConfigurationForm($application, 'config', 'post', $this->get_url(array(AdminManager :: PARAM_WEB_APPLICATION => $application)));
 
 		if($form->validate())
 		{
 			$success = $form->update_configuration();
-			$this->redirect(Translation :: get($success ? 'ConfigurationUpdated' : 'ConfigurationNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_APPLICATION => $application));
+			$this->redirect(Translation :: get($success ? 'ConfigurationUpdated' : 'ConfigurationNotUpdated'), ($success ? false : true), array(Application :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_WEB_APPLICATION => $application));
 		}
 		else
 		{
@@ -77,7 +77,7 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
 			{
 				$html[] = '<div class="application">';
 			}
-			$html[] = '<a href="'. $this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_APPLICATION => $application_links['application']['class'])) .'">';
+			$html[] = '<a href="'. $this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_CONFIGURE_PLATFORM, AdminManager :: PARAM_WEB_APPLICATION => $application_links['application']['class'])) .'">';
 			$html[] = '<img src="'. Theme :: get_image_path() . 'place_' . $application_links['application']['class'] .'.png" border="0" style="vertical-align: middle;" alt="' . $application_links['application']['name'] . '" title="' . $application_links['application']['name'] . '"/><br />'. $application_links['application']['name'];
 			$html[] = '</a>';
 			$html[] = '</div>';

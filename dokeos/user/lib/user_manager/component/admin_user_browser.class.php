@@ -14,7 +14,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 	private $firstletter;
 	private $menu_breadcrumbs;
 	private $ab;
-	
+
 	/**
 	 * Runs this component and displays its output.
 	 */
@@ -22,10 +22,9 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 	{
 		$this->firstletter = $_GET[UserManager :: PARAM_FIRSTLETTER];
 		$trail = new BreadcrumbTrail();
-		$admin = new AdminManager();
-		$trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserList')));
-		
+
 		if (!$this->get_user()->is_platform_admin())
 		{
 			$this->display_header($trail, false, 'user general');
@@ -33,30 +32,30 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 			$this->display_footer();
 			exit;
 		}
-		
+
 		$this->ab = $this->get_action_bar();
 		$output = $this->get_user_html();
-		
+
 		$this->display_header($trail, false, 'user general');
-		
+
 		echo $this->ab->as_html() . '<br />';
 		//echo $menu;
 		echo $output;
 		$this->display_footer();
 	}
-	
+
 	function get_user_html()
-	{		
+	{
 		$table = new AdminUserBrowserTable($this, null, $this->get_condition());
-		
+
 		$html = array();
 		$html[] = '<div style="float: right; width: 100%;">';
 		$html[] = $table->as_html();
 		$html[] = '</div>';
-		
+
 		return implode($html, "\n");
 	}
-	
+
 	function get_menu_html()
 	{
 		$extra_items = array ();
@@ -74,25 +73,25 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 		{
 			$search_url = null;
 		}*/
-		
+
 		$temp_replacement = '__FIRSTLETTER__';
 		$url_format = $this->get_url(array (Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS, UserManager :: PARAM_FIRSTLETTER => $temp_replacement));
 		$url_format = str_replace($temp_replacement, '%s', $url_format);
 		$user_menu = new UserMenu($this->firstletter, $url_format, $extra_items);
 		$this->menu_breadcrumbs = $user_menu->get_breadcrumbs();
-		
+
 		$html = array();
 		$html[] = '<div style="float: left; width: 20%;">';
 		$html[] = $user_menu->render_as_tree();
 		$html[] = '</div>';
-		
+
 		return implode($html, "\n");
 	}
 
 	function get_condition()
 	{
 		$query = $this->ab->get_query();
-		
+
 		if(isset($query) && $query != '')
 		{
 			$or_conditions[] = new LikeCondition(User :: PROPERTY_FIRSTNAME, $query);
@@ -100,7 +99,7 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 			$or_conditions[] = new LikeCondition(User :: PROPERTY_USERNAME, $query);
 			$search_conditions = new OrCondition($or_conditions);
 		}
-		
+
 		$condition = null;
 		if (isset($this->firstletter))
 		{
@@ -123,13 +122,13 @@ class UserManagerAdminUserBrowserComponent extends UserManagerComponent
 		}
 		return $condition;
 	}
-	
+
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		
+
 		$action_bar->set_search_url($this->get_url());
-		
+
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_CREATE_USER)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('users'));

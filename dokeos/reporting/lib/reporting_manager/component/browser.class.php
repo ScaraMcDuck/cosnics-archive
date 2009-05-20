@@ -20,8 +20,7 @@ class ReportingManagerBrowserComponent extends ReportingManagerComponent
         $application = $this->application = Request :: get('application');
 
         $trail = new BreadcrumbTrail();
-        $admin = new AdminManager();
-        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
         //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application)), Translation :: get(Application :: application_to_class($application)) . '&nbsp;' . Translation :: get('Template')));
 
@@ -67,8 +66,10 @@ class ReportingManagerBrowserComponent extends ReportingManagerComponent
         $html[] = '<div class="dock" id="dock">';
         $html[] = '<div class="dock-container"> ';
         $applications = WebApplication :: load_all();
+        $admin_manager = CoreApplication :: factory('admin', $this->get_user());
+        $links = $admin_manager->get_application_platform_admin_links();
 
-        foreach (AdminManager :: get_application_platform_admin_links() as $application_links)
+        foreach ($links as $application_links)
         {
             if (isset($application) && $application == $application_links['application']['class'])
             {
@@ -98,7 +99,11 @@ class ReportingManagerBrowserComponent extends ReportingManagerComponent
         $html = array();
 
         $html[] = '<div id="applications-list" class="applications-list" >';
-        foreach(AdminManager :: get_application_platform_admin_links() as $application_links)
+
+        $admin_manager = CoreApplication :: factory('admin', $this->get_user());
+        $links = $admin_manager->get_application_platform_admin_links();
+
+        foreach($links as $application_links)
         {
             $this->application = $application_links['application']['class'];
             $html[] = '<div id="application-'. $this->application .'">';

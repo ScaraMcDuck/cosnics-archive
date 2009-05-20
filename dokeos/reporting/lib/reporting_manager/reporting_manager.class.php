@@ -11,7 +11,7 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table.
  * A reporting manager provides some functionalities to the admin to manage
  * the reporting
  */
-class ReportingManager extends CoreApplication 
+class ReportingManager extends CoreApplication
 {
 
     const APPLICATION_NAME = 'reporting';
@@ -28,7 +28,7 @@ class ReportingManager extends CoreApplication
     const PARAM_USER_ID = 'user_id';
     const PARAM_COURSE_ID = 'course_id';
     const PARAM_REPORTING_PARENT = 'reporting_parent';
-    
+
     const ACTION_BROWSE_TEMPLATES = 'browse_templates';
     const ACTION_ADD_TEMPLATE = 'add_template';
     const ACTION_DELETE_TEMPLATE = 'delete_template';
@@ -41,7 +41,7 @@ class ReportingManager extends CoreApplication
     {
        parent :: __construct($user);
     }
-    
+
     function get_application_name()
     {
     	return self :: APPLICATION_NAME;
@@ -81,7 +81,7 @@ class ReportingManager extends CoreApplication
         }
         $component->run();
     }
-   
+
     function count_reporting_template_registrations($condition = null)
     {
         return ReportingDataManager :: get_instance()->count_reporting_template_registrations($condition);
@@ -105,9 +105,11 @@ class ReportingManager extends CoreApplication
 							'description' => Translation :: get('ListDescription'),
 							'action' => 'list',
 							'url' => $this->get_link(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)));
-        //$links[] = array('name' => Translation :: get('Create'), 'action' => 'add', 'url' => $this->get_link(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_ADD_TEMPLATE)));
-        //$links[] = array('name' => Translation :: get('Delete'), 'action' => 'remove', 'url' => $this->get_link(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_DELETE_TEMPLATE)));
-        return array('application' => array('name' => Translation :: get('Reporting'), 'class' => 'reporting'), 'links' => $links, 'search' => null);
+
+		$info = parent :: get_application_platform_admin_links();
+		$info['links'] = $links;
+
+		return $info;
     }
 
     function get_reporting_template_registration_viewing_url($reporting_template_registration)

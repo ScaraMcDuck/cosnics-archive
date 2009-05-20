@@ -15,11 +15,6 @@ abstract class PersonalCalendarManagerComponent extends WebApplicationComponent
 		parent :: __construct($pcm);
 	}
 
-	function is_allowed($right, $locations = array())
-	{
-		return $this->get_parent()->is_allowed($right, $locations);
-	}
-
 	function retrieve_calendar_event_publication($publication_id)
 	{
 		return $this->get_parent()->retrieve_calendar_event_publication($publication_id);
@@ -86,16 +81,6 @@ abstract class PersonalCalendarManagerComponent extends WebApplicationComponent
 	function force_menu_url($url)
 	{
 		return $this->get_parent()->force_menu_url($url);
-	}
-
-	function display_light_header($object = null)
-	{
-		return $this->get_parent()->display_light_header($object);
-	}
-
-	function display_light_footer()
-	{
-		return $this->get_parent()->display_light_footer();
 	}
 
 	function get_publication_attachment_viewing_url($calendar)

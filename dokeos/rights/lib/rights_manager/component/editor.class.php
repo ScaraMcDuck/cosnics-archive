@@ -17,7 +17,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 	 */
 	function run()
 	{
-		$this->application = Request :: get('application');
+		$this->application = Request :: get(RightsManager :: PARAM_SOURCE);
 		$location = Request :: get('location');
 		if (isset($location))
 		{
@@ -81,8 +81,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 	function show_rights_list()
 	{
 		$trail = new BreadcrumbTrail();
-        $admin = new AdminManager();
-        $trail->add(new Breadcrumb($admin->get_link(array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('Administration')));
+        $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRights')));
 
@@ -255,7 +254,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 		$html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/application.js' .'"></script>';
 		$html[] = '<div class="configure">';
 
-		$the_applications = Application :: load_all();
+		$the_applications = WebApplication :: load_all();
 		$the_applications = array_merge(array('admin', 'tracking', 'repository', 'user', 'group', 'rights', 'home', 'menu', 'webservice', 'reporting'), $the_applications);
 
 		foreach ($the_applications as $the_application)
@@ -271,7 +270,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 
 			$application_name = Translation :: get(DokeosUtilities :: underscores_to_camelcase($the_application));
 
-			$html[] = '<a href="'. $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, RightsManager :: PARAM_APPLICATION => $the_application)) .'">';
+			$html[] = '<a href="'. $this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS, RightsManager :: PARAM_SOURCE => $the_application)) .'">';
 			$html[] = '<img src="'. Theme :: get_image_path('admin') . 'place_' . $the_application .'.png" border="0" style="vertical-align: middle;" alt="' . $application_name . '" title="' . $application_name . '"/><br />'. $application_name;
 			$html[] = '</a>';
 			$html[] = '</div>';
