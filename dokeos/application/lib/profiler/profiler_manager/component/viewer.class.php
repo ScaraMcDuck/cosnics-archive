@@ -28,7 +28,7 @@ class ProfilerManagerViewerComponent extends ProfilerManagerComponent
 			$this->publication = $this->retrieve_profile_publication($id);			
             $trail->add(new Breadcrumb($this->get_url(array(ProfilerManager :: PARAM_PROFILE_ID => $id)),  $this->publication->get_publication_object()->get_title()));
 			
-			$this->display_header($trail);
+			$this->display_header($trail, false, 'profiler general');
 			echo $this->get_publication_as_html();
 			
 			$this->display_footer();

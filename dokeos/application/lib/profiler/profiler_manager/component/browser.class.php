@@ -27,7 +27,7 @@ class ProfilerManagerBrowserComponent extends ProfilerManagerComponent
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyProfiler')));
         $trail->merge($menu->get_breadcrumbs());
 		
-		$this->display_header($trail, false);
+		$this->display_header($trail, false, 'profiler general');
 		
 		echo $this->action_bar->as_html();
 		echo '<div class="clear"></div>';
