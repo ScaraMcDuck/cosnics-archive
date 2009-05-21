@@ -12,7 +12,7 @@ class Banner
 {
 	private $breadcrumbtrail;
 	private $help_item;
-	
+
 	/**
 	 * Constructor
 	 */
@@ -21,12 +21,12 @@ class Banner
 		$this->breadcrumbtrail = $breadcrumbtrail;
 		$this->help_item = $help_item;
 	}
-	
+
 	function get_setting($variable, $application)
 	{
 		return PlatformSetting :: get($variable, $application);
 	}
-	
+
 	/**
 	 * Displays the banner.
 	 */
@@ -49,35 +49,35 @@ class Banner
 		$output[] = '<div id="header">  <!-- header section start -->';
 		$output[] = '<div id="header1"> <!-- top of banner with institution name/hompage link -->';
 		$output[] = '<div class="banner"><a href="' . $this->get_path(WEB_PATH) . 'index.php" target="_top"><div class="logo"></div><div class="text">' . $this->get_setting('site_name', 'admin') . '</div></a></div>';
-		
-		if (Authentication :: is_valid()) 
+
+		if (Authentication :: is_valid())
 		{
 			$output[] = '<div class="menu_container">';
 			$output[] = '<div class="applications">';
-			
+
 			$usermgr = new UserManager($_SESSION['_uid']);
 			$user = $usermgr->get_user();
-			
+
 			$menumanager = new MenuManager($user);
 			$output[] = $menumanager->render_menu('render_mini_bar');
-			
+
 			$output[] = '<div class="clear">&nbsp;</div>';
 			$output[] = '</div>';
 			$output[] = '<div class="clear">&nbsp;</div>';
 			$output[] = '</div>';
 		}
-		
+
 		//$output[] = '<div id="institution">';
 		//$output[] = '<a href="'.$this->get_path(WEB_PATH).'index.php" target="_top">'.$this->get_setting('site_name', 'admin').'</a>';
 		//$output[] = '-';
 		//$output[] = '<a href="'.$this->get_setting('institution_url', 'admin').'" target="_top">'.$this->get_setting('institution', 'admin').'</a>';
 		//$output[] = '</div>';
-		
+
 //		$world = PlatformSetting :: get('whoisonlineaccess');
-//		
+//
 //		if($world == "1" || $_SESSION['_uid'] && $world == "2")
 //		{
-//		
+//
 //			$output[] = '<div style="float:right;">';
 //			$output[] = '<a href="' . $this->get_path(WEB_PATH). 'index_admin.php?go=whois_online">' . Translation :: get('WhoisOnline') . '</a>';
 //			$output[] = '</div>';
@@ -87,12 +87,12 @@ class Banner
 		$output[] = '<div class="clear">&nbsp;</div>';
 		$output[] = '</div> <!-- end of #header1 -->';
 //		$output[] = '<div id="header2">';
-//		
+//
 //		if (isset($_SESSION['_uid']))
 //		{
 //			$usermgr = new UserManager($_SESSION['_uid']);
 //			$user = $usermgr->get_user();
-//			
+//
 //			$menumanager = new MenuManager($user);
 //			$output[] = $menumanager->render_menu('render_bar');
 //		}
@@ -105,24 +105,24 @@ class Banner
 			User section
 		-----------------------------------------------------------------------------
 		*/
-		
+
 		$breadcrumbtrail = $this->breadcrumbtrail;
 		$help_item = $this->help_item;
-		
+
 		if(!is_null($breadcrumbtrail) || !is_null($help_item))
 		{
 			$output[] = '<div id="trailbox">';
-			
+
 			if (!is_null($breadcrumbtrail))
 			{
-				$output[] = '<div id="breadcrumbtrail">';
+				//$output[] = '<div id="breadcrumbtrail">';
 				$output[] = $breadcrumbtrail->render();
-				$output[] = '</div>';
+				//$output[] = '</div>';
 			}
-			
-			
+
+
 			if (!is_null($help_item))
-			{ 
+			{
 				$help_item = HelpManager :: get_tool_bar_help_item($help_item);
 				if($help_item)
 				{
@@ -134,13 +134,13 @@ class Banner
 					$output[] = '</div>';
 				}
 			}
-			
+
 			$output[] = '<div class="clear">&nbsp;</div></div>';
-		
+
 		}
-		
+
 		// TODO: Check whether we still need anything from the old breadcrumb-generating code
-		
+
 //		global $interbreadcrumb;
 //		if (isset ($nameTools) || is_array($interbreadcrumb))
 //		{
@@ -188,7 +188,7 @@ class Banner
 
 		return implode("\n", $output);
 	}
-	
+
 	function get_path($path_type)
 	{
 		return Path :: get($path_type);
