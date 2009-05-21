@@ -128,38 +128,56 @@ img
 	position: relative;
 	left: 0px;
 	right: 0px;
-	padding: 5px 1% 5px 1%;
+	padding: 0px 1% 0px 1%;
 	margin-bottom: 10px;
 	color: #444444;
 	background-color: #f2f2f2;
 	border-bottom: 1px solid #dcdcdc;
-	border-top: 1px solid white;
+}
+
+#trailbox ul, #breadcrumbtrail li
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
 }
 
 #breadcrumbtrail
 {
 	float: left;
+	height: 26px;
+}
+
+#breadcrumbtrail li
+{
+	float: left;
+	line-height: 26px;
+	padding-left: 10px;
+	color: #777;
+}
+
+#breadcrumbtrail li a
+{
+	display:block;
+	padding:0 15px 0 0;
+	background:url(../img/common/background_breadcrumb.png) no-repeat right center;
+	color: #444444;
+}
+
+#breadcrumbtrail li a:hover
+{
+	color: red;
+}
+
+#breadcrumbtrail li a:active
+{
+	color: #fa8500;
+	outline: none;
 }
 
 #helpitem
 {
 	float: right;
-}
-
-#breadcrumbtrail a
-{
-	color: #444444;
-}
-
-#breadcrumbtrail a:hover
-{
-	color: red;
-}
-
-#breadcrumbtrail a:active
-{
-	color: #fa8500;
-	outline: none;
 }
 
 /*****************************************************
