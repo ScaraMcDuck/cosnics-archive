@@ -59,6 +59,12 @@
 	border-spacing: 0px;
 }
 
+.data_table tbody
+{
+	background-image: url(../img/common/background_table_body.png);
+	background-repeat: repeat-x;
+}
+
 .data_table th
 {
 	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
