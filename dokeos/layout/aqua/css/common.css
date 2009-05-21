@@ -132,7 +132,8 @@ img
 	margin-bottom: 10px;
 	color: #444444;
 	background-color: #f2f2f2;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #dcdcdc;
+	border-top: 1px solid white;
 }
 
 #breadcrumbtrail
@@ -1235,28 +1236,29 @@ ul.toolbar li.last span, ul.toolbar_horizontal li.last span, ul.toolbar_vertical
  *******************/
 
 div.action_bar
-{
-	background-color: #E5EDF9; 
-	border: 1px solid #4271B5;
-	padding-bottom: 5px;
+{ 
+	border: 1px solid #b5cae7;
 	margin-bottom: 10px;
 	position: relative;
 	-moz-border-radius-topleft: 15px;
 	-moz-border-radius-bottomright: 15px;
-	padding: 5px;
 	min-height: 40px;
-	/*
-	overflow: hidden;
-	*/
+	background: #d4e0f1 url(../img/common/background_action_bar.png) no-repeat;
+}
+
+div.action_bar div.bevel
+{
+	border-left: 1px solid white;
+	border-top: 1px solid white;
+	padding: 5px;
+	clear:both;
+	-moz-border-radius-topleft: 15px;
+	-moz-border-radius-bottomright: 15px;
 }
 
 div.action_bar div.common_menu
 {
 	padding: 5px;
-	/*
-	padding: 5px 5px 1000px 5px;
-	margin-bottom: -1000px;
-	*/
 	float: left;
 	width: 32%;
 	height: 40px;
@@ -1265,24 +1267,17 @@ div.action_bar div.common_menu
 div.action_bar div.tool_menu
 {
 	padding: 5px;
-	/*
-	padding: 5px 5px 1000px 5px;
-	margin-bottom: -1000px;
-	*/
 	float: left;
-	width: 32%;
+	width: 33%;
 	height: 40px;
 }
 
 div.action_bar div.search_menu
 {
 	padding: 5px;
-	/*
-	padding: 5px 5px 1000px 5px;
-	margin-bottom: -1000px;
-	*/
-	float: right;
-	width: 33%;
+	float: left;
+	width: 32%;
+	height: 40px;
 }
 
 div.action_bar div.search_menu div.search_form
@@ -1330,7 +1325,12 @@ div.action_bar div.simple_search
 
 div.action_bar div.split
 {
-	border-right: 1px solid #4271B5;
+	border-right: 1px solid #b5cae7;
+}
+
+div.action_bar div.split_bevel
+{
+	border-left: 1px solid white;
 }
 
 div.action_bar_left
