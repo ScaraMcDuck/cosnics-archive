@@ -17,6 +17,7 @@ abstract class Application
 
 	const PARAM_MESSAGE = 'message';
 	const PARAM_ERROR_MESSAGE = 'error_message';
+	const PARAM_WARNING_MESSAGE = 'warning_message';
 	const PARAM_APPLICATION = 'application';
 
 	function Application($user)
@@ -217,6 +218,12 @@ abstract class Application
 		if($message)
 		{
 			$this->display_error_message($message);
+		}
+
+		$message = Request :: get(self :: PARAM_WARNING_MESSAGE);
+		if($message)
+		{
+			$this->display_warning_message($message);
 		}
 	}
 

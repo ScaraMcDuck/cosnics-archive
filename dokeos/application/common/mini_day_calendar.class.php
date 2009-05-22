@@ -11,27 +11,27 @@ require_once ('day_calendar.class.php');
 class MiniDayCalendar extends DayCalendar
 {
 	private $start_hour;
-	
+
 	private $end_hour;
-	
+
 	function MiniDayCalendar($display_time, $hour_step = '1', $start_hour = '0', $end_hour = '24')
 	{
 		$this->start_hour = $start_hour;
 		$this->end_hour = $end_hour;
 		parent :: DayCalendar($display_time, $hour_step);
-		$this->updateAttributes('class="calendar mini"');
+		$this->updateAttributes('class="calendar_table mini_calendar"');
 	}
-	
+
 	function get_start_hour()
 	{
 		return $this->start_hour;
 	}
-	
+
 	function get_end_hour()
 	{
 		return $this->end_hour;
 	}
-	
+
 	/**
 	 * Gets the first date which will be displayed by this calendar.
 	 * @return int
@@ -48,21 +48,21 @@ class MiniDayCalendar extends DayCalendar
 	{
 		return strtotime(date('Y-m-d '. ($this->get_end_hour() - 1) .':59:59', $this->get_display_time()));
 	}
-	
+
 	protected function build_table()
 	{
 		$start_hour = $this->get_start_hour();
 		$end_hour = $this->get_end_hour();
-		
+
 		for ($hour = $start_hour; $hour < $end_hour; $hour += $this->get_hour_step())
 		{
 			$row_id = ($hour / $this->get_hour_step()) - $start_hour;
-			
+
 			$table_start_date = mktime($hour, 0, 0, date('m', $this->get_display_time()), date('d', $this->get_display_time()), date('Y', $this->get_display_time()));
 			$table_end_date = strtotime('+'.$this->get_hour_step().' hours', $table_start_date);
 			$cell_contents = $hour.'u - '. ($hour + $this->get_hour_step()).'u <br />';
 			$this->setCellContents($row_id, 0, $cell_contents);
-			
+
 			// Highlight current hour
 			if (date('Y-m-d') == date('Y-m-d', $this->get_display_time()))
 			{
@@ -78,7 +78,7 @@ class MiniDayCalendar extends DayCalendar
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns a html-representation of this minidaycalendar
 	 * @return string
@@ -86,10 +86,10 @@ class MiniDayCalendar extends DayCalendar
 	public function toHtml()
 	{
 		$html = parent :: toHtml();
-		$html = str_replace('class="calendar_navigation"', 'class="calendar_navigation mini"', $html);
+		$html = str_replace('class="calendar_navigation"', 'class="calendar_navigation mini_calendar"', $html);
 		return $html;
 	}
-	
+
 	/**
 	 * Adds the events to the calendar
 	 */
@@ -102,7 +102,7 @@ class MiniDayCalendar extends DayCalendar
 			{
 				continue;
 			}
-			
+
 			$row = (date('H', $time) / $this->get_hour_step()) - ($this->get_start_hour() / $this->get_hour_step());
 			foreach ($items as $index => $item)
 			{
@@ -113,7 +113,7 @@ class MiniDayCalendar extends DayCalendar
 		}
 
 	}
-	
+
 	public function render()
 	{
 		$this->add_events();

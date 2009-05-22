@@ -373,25 +373,25 @@ img
 	border-width: 1px;
 	border-style: solid;
 	background-repeat: no-repeat;
-	background-position: 5px 5px;
+	background-position: 10px 10px;
 	padding: 10px;
 	padding-left: 50px;
 }
 .normal-message {
 	background-image: url('../img/common/status_confirmation_medium.png');
 	background-color: #E5EDF9;
-	border-color: #4171B5;
+	border-color: #b9d0ef;
 }
 .error-message {
 	background-image: url('../img/common/status_error.png');
 	background-color: #FFD1D1;
-	border-color: red;
+	border-color: #ff9b9d;
 }
 
 .warning-message {
 	background-image: url('../img/common/status_warning.png');
 	background-color: #ffedd1;
-	border-color: #ff9900;
+	border-color: #ffd89b;
 }
 
 /* Chatbox LO-style */
@@ -1059,103 +1059,6 @@ div.survey-categories-header, div.survey-outline-header, div.survey-result-heade
 	min-height: 15em;
 	-moz-border-radius-topright: 10px;
 	-moz-border-radius-bottomleft: 10px;
-}
-
-/*****************************************************
- *  CALENDAR TABLE STYLES                            *
- *****************************************************/
-table.calendar
-{
-	width: 100%;
-	border-collapse: collapse;
-	font-size: 10px;
-}
-
-table.calendar tr
-{
-	margin: 0px;
-	padding: 0px;
-}
-
-table.calendar td
-{
-	border: 1px solid #CCCCCC;
-	margin: 0px;
-	padding: 2px;
-	height: 60px;
-	vertical-align: top;
-	width:13%;
-}
-
-table.calendar th
-{
-	width: 13%;
-}
-
-div.event
-{
- 	border: 1px solid #CCCCCC;
- 	background-color: #F3F4F6;
- 	margin: 1px;
- 	padding: 2px;
-	/* height: 20px;*/
-}
-
-div.event:hover
-{
- 	background-color: #DDFFDD;
-}
-
-div.event_fade
-{
-	background-color: #f1f1f1;
-	color: #757575;
-}
-
-div.event_fade a
-{
-	color: #7b7b7b;
-}
-
-table.calendar td.highlight
-{
-	border: 2px solid #FA8500;
-	background-color: #FFCA8D;
-}
-
-table.calendar td.weekend
-{
-	background-color: #F8F8F8;
-}
-
-table.calendar td.disabled_month
-{
-	background-color: #EAEAEA;
-}
-
-table.mini td
-{
-	height: 30px;
-}
-
-table.calendar_navigation
-{
-	width: 100%;
-	background-color: #E5EDF9;
-	border: 1px solid #CCCCCC;
-	font-weight: bold;
-	margin-bottom: 5px;
-}
-
-table.calendar_navigation td
-{
-	height: 10px;
-}
-
-table.mini
-{
-	float: left;
-	width: 100%;
 }
 
 /*****************************************************
