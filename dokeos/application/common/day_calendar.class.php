@@ -28,7 +28,7 @@ class DayCalendar extends CalendarTable
 	{
 		$this->navigation_html = '';
 		$this->hour_step = $hour_step;
-		parent::CalendarTable($display_time);
+		parent :: CalendarTable($display_time);
 		$cell_mapping = array ();
 		$this->build_table();
 	}
@@ -40,7 +40,7 @@ class DayCalendar extends CalendarTable
 	{
 		return $this->hour_step;
 	}
-	
+
 	/**
 	 * Sets the number of hours for one table cell.
 	 * @return int
@@ -49,7 +49,7 @@ class DayCalendar extends CalendarTable
 	{
 		$this->hour_step = $hour_step;
 	}
-	
+
 	/**
 	 * Gets the first date which will be displayed by this calendar.
 	 * @return int
@@ -71,24 +71,37 @@ class DayCalendar extends CalendarTable
 	 */
 	protected function build_table()
 	{
+		$header = $this->getHeader();
+		$header->addRow(array(Translation :: get('Day') . ' ' . date('z', $this->get_display_time())));
+		$header->setRowType(0, 'th');
+
 		for ($hour = 0; $hour < 24; $hour += $this->get_hour_step())
 		{
 			$table_start_date = mktime($hour, 0, 0, date('m', $this->get_display_time()), date('d', $this->get_display_time()), date('Y', $this->get_display_time()));
 			$table_end_date = strtotime('+'.$this->get_hour_step().' hours', $table_start_date);
 			$cell_contents = $hour.'u - '. ($hour + $this->get_hour_step()).'u';
-			$this->setCellContents($hour / $this->get_hour_step(), 0, $cell_contents);
+
+			$row = $hour / $this->get_hour_step();
+
+			$this->setCellContents($row, 0, $cell_contents);
 			// Highlight current hour
 			if (date('Y-m-d') == date('Y-m-d', $this->get_display_time()))
 			{
 				if (date('H') >= $hour && date('H') < $hour + $this->get_hour_step())
 				{
-					$this->updateCellAttributes($hour / $this->get_hour_step(), 0, 'class="highlight"');
+					$this->updateCellAttributes($row, 0, 'class="highlight"');
 				}
 			}
+
+			$working_start = PlatformSetting :: get('working_hours_start');
+			$working_end = PlatformSetting :: get('working_hours_end');
+
+			$working_start = '8';
+			$working_end = '18';
 			// Is current table hour during working hours?
-			if ($hour < 8 || $hour > 18)
+			if ($hour < $working_start || $hour > $working_end)
 			{
-				$this->updateCellAttributes($hour / $this->get_hour_step(), 0, 'class="disabled_month"');
+				$this->updateCellAttributes($row, 0, 'class="disabled_month"');
 			}
 		}
 	}
@@ -151,10 +164,12 @@ class DayCalendar extends CalendarTable
 	 */
 	public function toHtml()
 	{
-		$html = parent :: toHtml();
-		return $this->navigation_html.$html;
+		$html = array();
+		$html[] = $this->navigation_html;
+		$html[] = parent :: toHtml();
+		return implode("\n", $html);
 	}
-	
+
 	public function render()
 	{
 		$this->add_events();

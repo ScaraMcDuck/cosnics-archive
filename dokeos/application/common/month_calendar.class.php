@@ -63,8 +63,9 @@ class MonthCalendar extends CalendarTable
 	{
 		$first_day = mktime(0, 0, 0, date('m',  $this->get_display_time()), 1, date('Y',  $this->get_display_time()));
 		$first_day_nr = date('w', $first_day) == 0 ? 6 : date('w', $first_day) - 1;
-		$this->addRow(array (Translation :: get('MondayLong'), Translation :: get('TuesdayLong'), Translation :: get('WednesdayLong'), Translation :: get('ThursdayLong'), Translation :: get('FridayLong'), Translation :: get('SaturdayLong'), Translation :: get('SundayLong')));
-		$this->setRowType(0, 'th');
+		$header = $this->getHeader();
+		$header->addRow(array (Translation :: get('MondayLong'), Translation :: get('TuesdayLong'), Translation :: get('WednesdayLong'), Translation :: get('ThursdayLong'), Translation :: get('FridayLong'), Translation :: get('SaturdayLong'), Translation :: get('SundayLong')));
+		$header->setRowType(0, 'th');
 		$first_table_date = strtotime('Next Monday', strtotime('-1 Week', $first_day));
 		$table_date = $first_table_date;
 		$cell = 0;
@@ -73,7 +74,7 @@ class MonthCalendar extends CalendarTable
 			do
 			{
 				$cell_contents = date('d', $table_date);
-				$row = intval($cell / 7) + 1;
+				$row = intval($cell / 7);
 				$column = $cell % 7;
 				$this->setCellContents($row, $column, $cell_contents);
 				$this->cell_mapping[date('Ymd', $table_date)] = array ($row, $column);
@@ -95,14 +96,14 @@ class MonthCalendar extends CalendarTable
 				}
 				if (count($class) > 0)
 				{
-					$this->updateCellAttributes(intval($cell / 7) + 1, $cell % 7, 'class="'.implode(' ', $class).'"');
+					$this->updateCellAttributes($row, $column, 'class="'.implode(' ', $class).'"');
 				}
 				$cell ++;
 				$table_date = strtotime('+1 Day', $table_date);
 			}
 			while ($cell % 7 != 0);
 		}
-		$this->setRowType(0, 'th');
+		//$this->setRowType(0, 'th');
 	}
 	/**
 	 * Adds the events to the calendar
@@ -150,9 +151,10 @@ class MonthCalendar extends CalendarTable
 	 */
 	public function set_daynames($daynames)
 	{
+		$header = $this->getHeader();
 		for ($day = 0; $day < 7; $day ++)
 		{
-			$this->setCellContents(0, $day, $daynames[$day]);
+			$header->setHeaderContents(0, $day, $daynames[$day]);
 		}
 	}
 	/**
@@ -161,10 +163,12 @@ class MonthCalendar extends CalendarTable
 	 */
 	public function toHtml()
 	{
-		$html = parent :: toHtml();
-		return $this->navigation_html.$html;
+		$html = array();
+		$html[] = $this->navigation_html;
+		$html[] = parent :: toHtml();
+		return implode("\n", $html);
 	}
-	
+
 	public function render()
 	{
 		$this->add_events();

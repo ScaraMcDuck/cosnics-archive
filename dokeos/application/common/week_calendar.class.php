@@ -62,22 +62,28 @@ class WeekCalendar extends CalendarTable
 	 */
 	private function build_table()
 	{
+		$header = $this->getHeader();
+		$header->setRowType(0, 'th');
+		$header->setHeaderContents(0, 0, '');
+
 		$week_number = date('W',$this->get_display_time());
 		// Go 1 week back end them jump to the next monday to reach the first day of this week
 		$first_day = $this->get_start_time();
 		$last_day = $this->get_end_time;
+
 		for($hour = 0; $hour < 24; $hour += $this->hour_step)
 		{
-			$cell_content = $hour.'u - '.($hour+$this->hour_step).'u';
-			$this->setCellContents($hour/$this->hour_step+1,0,$cell_content);
+			$cell_content = $hour . 'u - ' . ($hour + $this->hour_step) . 'u';
+			$this->setCellContents($hour/$this->hour_step, 0, $cell_content);
 		}
-		$this->updateColAttributes(0,'style="width: 50px;border:0px solid red;"');
+
+		$this->updateColAttributes(0, 'class="week_hours"');
 		$dates[] = '';
 		$today = date('Y-m-d');
 		for($day = 0; $day < 7; $day++)
 		{
 			$week_day = strtotime('+'.$day.' days',$first_day);
-			$this->setCellContents(0,$day+1,Translation :: get(date('l',$week_day).'Long').'<br/>'.date('Y-m-d',$week_day));
+			$header->setHeaderContents(0, $day + 1, Translation :: get(date('l', $week_day) . 'Long') . '<br/>' . date('Y-m-d', $week_day));
 			for($hour = 0; $hour < 24; $hour += $this->hour_step)
 			{
 				$class = array();
@@ -95,12 +101,12 @@ class WeekCalendar extends CalendarTable
 				}
 				if(count($class) > 0)
 				{
-					$this->updateCellAttributes($hour/$this->hour_step+1,$day+1,'class="'.implode(' ',$class).'"');
+					$this->updateCellAttributes($hour/$this->hour_step, $day + 1, 'class="' . implode(' ', $class) . '"');
 				}
 			}
 		}
-		$this->setRowType(0,'th');
-		$this->setColType(0,'th');
+		//$this->setRowType(0,'th');
+		//$this->setColType(0,'th');
 	}
 	/**
 	 * Adds the events to the calendar
@@ -152,9 +158,10 @@ class WeekCalendar extends CalendarTable
 	 */
 	public function set_daynames($daynames)
 	{
-		for($day = 0; $day < 7; $day++)
+		$header = $this->getHeader();
+		for ($day = 0; $day < 7; $day ++)
 		{
-			$this->setCellContents(0,$day+1,$daynames[$day]);
+			$header->setHeaderContents(0, $day + 1, $daynames[$day]);
 		}
 	}
 	/**
@@ -163,10 +170,12 @@ class WeekCalendar extends CalendarTable
 	 */
 	public function toHtml()
 	{
-		$html = parent::toHtml();
-		return $this->navigation_html.$html;
+		$html = array();
+		$html[] = $this->navigation_html;
+		$html[] = parent :: toHtml();
+		return implode("\n", $html);
 	}
-	
+
 	public function render()
 	{
 		$this->add_events();

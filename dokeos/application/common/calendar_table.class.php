@@ -27,7 +27,7 @@ abstract class CalendarTable extends HTML_Table
 			$display_time = time();
 		}
 		$this->display_time = $display_time;
-		parent::HTML_Table(array('class'=>'calendar'));
+		parent::HTML_Table(array('class'=>'calendar_table'));
 	}
 	/**
 	 *
@@ -61,12 +61,12 @@ abstract class CalendarTable extends HTML_Table
 		ksort($this->events_to_show);
 		return $this->events_to_show;
 	}
-	
+
 	public function contains_events_for_time($time)
 	{
 		return count($this->events_to_show[$time]) > 0;
 	}
-	
+
 	/**
 	 * Gets the first date which will be displayed by this calendar.
 	 * @return int
