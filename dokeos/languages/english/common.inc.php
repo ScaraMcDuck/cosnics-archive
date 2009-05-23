@@ -1,12 +1,12 @@
 <?php
 $lang['common']['InvalidDataRetrievedFromDatabase'] = 'Invalid data retrieved from database';
 $lang['common']['ConfirmYourChoice'] = 'Confirm your choice';
-$lang['common']['SundayShort'] = 'Sun';
-$lang['common']['MondayShort'] = 'Mon';
-$lang['common']['TuesdayShort'] = 'Tue';
-$lang['common']['WednesdayShort'] = 'Wed';
-$lang['common']['ThursdayShort'] = 'Thu';
-$lang['common']['FridayShort'] = 'Fri';
+$lang['common']['SundayShort'] = 'S';
+$lang['common']['MondayShort'] = 'M';
+$lang['common']['TuesdayShort'] = 'T';
+$lang['common']['WednesdayShort'] = 'W';
+$lang['common']['ThursdayShort'] = 'T';
+$lang['common']['FridayShort'] = 'F';
 $lang['common']['SundayLong'] = 'Sunday';
 $lang['common']['MondayLong'] = 'Monday';
 $lang['common']['TuesdayLong'] = 'Tuesday';
@@ -87,7 +87,7 @@ $lang['common']['AccountNotActive'] = 'Account not active';
 $lang['common']['UsernameOrPasswordIncorrect'] = 'Username or password are incorrect';
 $lang['common']['Delete'] = 'Delete';
 $lang['common']['WhoisOnline'] = 'Users online';
-$lang['common']['SaturdayShort'] = 'Sat';
+$lang['common']['SaturdayShort'] = 'S';
 $lang['common']['SaturdayLong'] = 'Saturday';
 $lang['common']['FinderTitle'] = 'Find';
 $lang['common']['YourBlockIsBeingAdded'] = 'Your block is being added';

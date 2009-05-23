@@ -120,6 +120,7 @@ a.dock-item2 {
 .reporting_block
 {
     -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
     border: 1px solid #ccc;
 	margin: 4px;
 	padding: 4px;
@@ -157,6 +158,7 @@ a.dock-item2 {
 .reporting_template_container
 {
     -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
     width: 100%;
 }
 
@@ -221,6 +223,7 @@ div.reporting_template_menu ul ul a:hover, ul ul a:active{
 
 div.reporting_template_menu ul li{
     -moz-border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
     border: 1px solid #ccc;
     background-color: #F6F6F6;
     padding: 1px;
@@ -229,6 +232,7 @@ div.reporting_template_menu ul li{
 
 div.reporting_template_menu ul ul li{
     -moz-border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
     border: none;
     background-color: #E5EDF9;
     border-top: 1px solid #FFF;

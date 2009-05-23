@@ -31,6 +31,7 @@ div.block
 	background-repeat: no-repeat;
 	clear: both;
 	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
 }
 
 div.block div.title
@@ -97,6 +98,7 @@ div.empty_column
 	padding: 15px 15px 15px 15px;
 	clear: both;
 	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
 }
 
 #homeOverlay
@@ -113,6 +115,7 @@ div.empty_column
 	background-color: #FFFFFF;
 	border: 2px solid #E5EDF9;
 	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
 }
 
 a.modalCloseImg
@@ -145,10 +148,11 @@ a.modalCloseImg
 	border-bottom: 1px solid #dcdcdc;
 	margin-left: -1%;
 	margin-right: -1%;
-	margin-top: -9px;
+	margin-top: 0px;
 	left: 0px;
 	right: 0px; 
 	margin-bottom: 10px;
+	height: 15px;
 }
 
 #tab_menu ul
@@ -165,6 +169,8 @@ a.modalCloseImg
 {
 	-moz-border-radius-topright: 10px;
 	-moz-border-radius-topleft: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-webkit-border-top-left-radius: 10px;
 	float: left;
 	margin: -1px 0px 0px 0px;
 	padding: 0px 9px 0px 9px;
@@ -241,6 +247,7 @@ div.deleteColumn
 	background-color: #FFFFFF;
 	border: 2px solid #E5EDF9;
 	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
 }
 
 #editTab
@@ -265,6 +272,7 @@ div.deleteColumn
 	border: 1px dashed #c0c0c0;
 	background-color: #F2F2F2;
 	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
 	margin: 0px 0px 1em 0px;
 }
 
@@ -274,6 +282,8 @@ div.deleteColumn
 	background-color: #F2F2F2;
 	-moz-border-radius-topright: 10px;
 	-moz-border-radius-topleft: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-webkit-border-top-left-radius: 10px;
 }
 
 .droppable-active

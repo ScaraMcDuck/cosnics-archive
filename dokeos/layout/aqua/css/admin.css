@@ -16,6 +16,8 @@ div.admin_section {
 	border: 1px solid #ebebeb;
 	-moz-border-radius-topright: 10px;
 	-moz-border-radius-bottomleft: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-webkit-border-bottom-left-radius: 
 	background-color: #f6f6f6;
 }
 
@@ -33,6 +35,7 @@ div.admin_header span.category {
 	border-bottom: 0px solid #efefef;
 	margin: 0px 0px -1px 15px;
 	-moz-border-radius-topright: 10px;
+	-webkit-border-top-right-radius: 10px;
 	/*
 	background-image: url('../img/admin/background_tab.png');
 	background-repeat: repeat-x;

@@ -84,6 +84,7 @@ class HomeManagerHomeComponent extends HomeManagerComponent
 				$html[] = '</div>';
 			}
 
+			$html[] = '<div style="font-size: 0px; clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
 			$html[] = '</div>';
 			$html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
 		//}
