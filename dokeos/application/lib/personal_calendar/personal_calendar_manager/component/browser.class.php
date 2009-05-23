@@ -19,35 +19,35 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerCom
 	 * Runs this component and displays its output.
 	 */
 	function run()
-	{		
+	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PersonalCalendar')));
-		
+
 		$this->display_header($trail, 'personal calendar general');
-		echo '<br /><a name="top"></a>';
-		echo $this->get_action_bar_html() . '<br />';
+		echo '<a name="top"></a>';
+		echo $this->get_action_bar_html() . '';
 		echo '<div id="action_bar_browser">';
 		echo $this->get_calendar_html();
 		echo '</div>';
 		$this->display_footer();
 	}
-	
+
 	function get_calendar_html()
 	{
 		$html = array();
-		
+
 		$time = isset ($_GET['time']) ? intval($_GET['time']) : time();
 		$view = isset ($_GET['view']) ? $_GET['view'] : 'month';
 		$this->set_parameter('time', $time);
 		$this->set_parameter('view', $view);
-		
+
 		$minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this, $time);
 		$html[] = '<div class="mini_calendar">';
 		$html[] = $minimonthcalendar->render();
 		$html[] = '</div>';
 		$html[] = '<div class="normal_calendar">';
 		$show_calendar = true;
-		
+
 		if(isset($_GET['pid']))
 		{
 			$pid = $_GET['pid'];
@@ -80,7 +80,7 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerCom
 				$html[] = DokeosUtilities :: build_toolbar($toolbar_data, array(), 'margin-top: 1em;');
 			}
 		}
-		
+
 		if($show_calendar)
 		{
 			switch ($view)
@@ -100,16 +100,16 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerCom
 			}
 			$html[] = $renderer->render();
 		}
-		
+
 		$html[] = '</div>';
-		
+
 		return implode("\n", $html);
 	}
-	
+
 	function get_action_bar_html()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-	
+
 		if (PlatformSetting :: get('allow_personal_agenda', 'user'))
 		{
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_CREATE_PUBLICATION))));
@@ -117,12 +117,12 @@ class PersonalCalendarManagerBrowserComponent extends PersonalCalendarManagerCom
 
 		$view = isset ($_GET['view']) ? $_GET['view'] : 'month';
 		$time = $_GET['time'];
-		
+
 		if($view == 'list')
 		{
 			$action_bar->set_search_url($this->get_url(array('view' => $view, 'time' => $time)));
 		}
-		
+
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView'), Theme :: get_image_path().'tool_calendar_down.png', $this->get_url(array (Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'list'))));
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('MonthView'), Theme :: get_image_path().'tool_calendar_month.png', $this->get_url(array (Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'month'))));
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('WeekView'), Theme :: get_image_path().'tool_calendar_week.png', $this->get_url(array (Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'week'))));

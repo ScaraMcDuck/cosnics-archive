@@ -15,7 +15,7 @@
 .data_table th
 {
 	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-	color: #4f6b72;
+	color: #4171b5;
 	border-top: 1px solid white;
 	border-left: 1px solid white;
 	border-right: 1px solid #b5cae7;
@@ -46,7 +46,7 @@
 	border-right: 1px solid #b5cae7;
 	border-top: 1px solid #b5cae7;
 	padding: 6px 6px 6px 12px;
-	color: #4f6b72;
+	color: #4171b5;
 }
 
 .data_table tr.row_odd td
@@ -120,7 +120,7 @@
 
 .calendar_table td.week_hours
 {
-	color: #4f6b72;
+	color: #4171b5;
 	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	letter-spacing: 2px;
 	text-transform: uppercase;
@@ -133,7 +133,7 @@
 {
 	width: 13%;
 	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-	color: #4f6b72;
+	color: #4171b5;
 	border-top: 1px solid white;
 	border-left: 1px solid white;
 	border-right: 1px solid #b5cae7;
@@ -191,9 +191,11 @@ div.event_fade a
 	background-color: #E5EDF9;
 	border: 1px solid #b5cae7;
 	font-weight: bold;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 	-moz-border-radius-topright: 10px;
 	-moz-border-radius-bottomleft: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
 }
 
 .mini_calendar td

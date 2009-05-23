@@ -50,9 +50,10 @@ img
 	background-color: #264269;
 	color: #ffffff;
 	/*border-bottom: 1px solid white;*/
-	height: 101px;
+	height: 80px;
 	background-image: url('../img/common/background_header.png');
 	background-repeat: repeat-x;
+	background-position: center left;
 }
 #header1 a
 {
@@ -68,17 +69,17 @@ img
 #header1 div.banner
 {
 	float: left;
-	margin: 18px 19px 19px 19px;
-	height: 64px;
-	width: 218px;
+	margin: 16px 19px 16px 19px;
+	height: 48px;
+	width: 160px;
 }
 
 #header1 div.banner div.logo
 {
 	background-image: url('../img/common/dokeos_banner.png');
 	background-repeat: no-repeat;
-	height: 64px;
-	width: 218px;
+	height: 48px;
+	width: 160px;
 }
 
 #header1 div.banner div.text
@@ -89,7 +90,7 @@ img
 #header1 div.menu_container
 {
 	position: relative;
-	margin-left: 256px;
+	margin-left: 198px;
 	right: 0px;
 	left: 0px;
 	margin-right: 19px;
@@ -132,6 +133,7 @@ img
 	margin-bottom: 10px;
 	color: #444444;
 	background-color: #f2f2f2;
+	border-top: 1px solid white;
 	border-bottom: 1px solid #dcdcdc;
 }
 
@@ -301,7 +303,7 @@ img
 {
 	position: relative; /* to avoid the IE peekabo bug*/
 	margin: 0px auto;
-	margin-top: 10px;
+	margin-top: 0px;
 	margin-bottom: 10px;
 	width: 98%;
 	padding: 0px 10px 10px 10px;
@@ -458,7 +460,7 @@ h3
 	font-size: 15px;
 	margin-top: 0px;
 	padding-top: 0px;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 }
 
 h4
@@ -565,6 +567,8 @@ div.learning_object
 	background-repeat: no-repeat;
 	-moz-border-radius-topleft: 10px;
 	-moz-border-radius-bottomright: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
 }
 div.learning_object div.title
 {
@@ -1036,6 +1040,8 @@ div.survey-categories-header, div.survey-outline-header, div.survey-result-heade
 	border: 1px solid #4271b5;
 	-moz-border-radius-topleft: 5px;
 	-moz-border-radius-topright: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
 }
 .tabbed-pane-tabs li a:hover, .tabbed-pane-tabs li a.current
 {
@@ -1059,6 +1065,8 @@ div.survey-categories-header, div.survey-outline-header, div.survey-result-heade
 	min-height: 15em;
 	-moz-border-radius-topright: 10px;
 	-moz-border-radius-bottomleft: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
 }
 
 /*****************************************************
@@ -1163,6 +1171,8 @@ div.action_bar
 	position: relative;
 	-moz-border-radius-topleft: 15px;
 	-moz-border-radius-bottomright: 15px;
+	-webkit-border-top-left-radius: 15px;
+	-webkit-border-bottom-right-radius: 15px;
 	min-height: 40px;
 	background: #d4e0f1 url(../img/common/background_action_bar.png) no-repeat;
 }
@@ -1175,6 +1185,8 @@ div.action_bar div.bevel
 	clear:both;
 	-moz-border-radius-topleft: 15px;
 	-moz-border-radius-bottomright: 15px;
+	-webkit-border-top-left-radius: 15px;
+	-webkit-border-bottom-right-radius: 15px;
 }
 
 div.action_bar div.common_menu
@@ -1341,6 +1353,7 @@ div.block
 	background-repeat: no-repeat;
 	clear: both;
 	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
 }
 
 div.block div.title
@@ -1409,6 +1422,7 @@ div.padding_10
 	border: 2px solid #cccccc;
 	padding: 15px;
 	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
 }
 
 #modalContainer a.modalCloseImg
@@ -1648,6 +1662,7 @@ div.padding_10
 	margin-top: 10px;
 	_height: 29px;
 	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
 }
 
 .helpdialog .ui-draggable .ui-dialog-titlebar,
@@ -1712,6 +1727,7 @@ div.padding_10
 .reporting_block
 {
     -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
     border: 1px solid #ccc;
 	margin: 4px;
 	padding: 4px;
@@ -1749,6 +1765,7 @@ div.padding_10
 .reporting_template_container
 {
     -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
     width: 100%;
 }
 
@@ -1813,6 +1830,7 @@ div.reporting_template_menu ul ul a:hover, ul ul a:active{
 
 div.reporting_template_menu ul li{
     -moz-border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
     border: 1px solid #ccc;
     background-color: #F6F6F6;
     padding: 1px;
@@ -1821,6 +1839,7 @@ div.reporting_template_menu ul li{
 
 div.reporting_template_menu ul ul li{
     -moz-border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
     border: none;
     background-color: #E5EDF9;
     border-top: 1px solid #FFF;
@@ -1842,6 +1861,7 @@ div.reporting_center
  {
  	background-color: #F6F6F6;
  	-moz-border-radius: 10px;
+ 	-webkit-border-radius: 10px;
  	width: 300px;
  	padding: 10px;
  }

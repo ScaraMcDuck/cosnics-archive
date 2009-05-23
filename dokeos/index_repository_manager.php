@@ -1,5 +1,5 @@
 <?php
-$this_section = 'myrepository';
+$this_section = 'repository';
 require_once dirname(__FILE__).'/common/global.inc.php';
 require_once Path :: get_repository_path(). 'lib/repository_manager/repository_manager.class.php';
 require_once Path :: get_user_path(). 'lib/user_manager/user_manager.class.php';
