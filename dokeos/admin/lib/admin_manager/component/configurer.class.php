@@ -31,10 +31,11 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Settings')));
+		$trail->add_help('administration');
 
 		if (!AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'settings', 'admin_manager_component'))
 		{
-			$this->display_header($trail, 'administration');
+			$this->display_header($trail);
 			$this->display_error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
@@ -49,7 +50,7 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail, 'administration');
+			$this->display_header($trail);
 			echo $this->get_applications();
 			$form->display();
 			$this->display_footer();

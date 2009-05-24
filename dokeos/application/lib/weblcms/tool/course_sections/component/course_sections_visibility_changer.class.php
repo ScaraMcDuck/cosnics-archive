@@ -16,7 +16,8 @@ class CourseSectionsToolVisibilityChangerComponent extends CourseSectionsToolCom
 		if (!$user->is_platform_admin())
 		{
 			$trail = new BreadcrumbTrail();
-			$this->display_header($trail, true, 'courses sections');
+			$trail->add_help('courses sections');
+			$this->display_header($trail, true);
 			Display :: error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;

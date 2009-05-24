@@ -28,6 +28,7 @@ class AssessmentToolRepoviewerComponent extends AssessmentToolComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new BreadCrumb($this->get_url($redirect_params), Translation :: get('PreviousPage')));
 		$trail->add(new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_REPOVIEWER, AssessmentTool :: PARAM_REPO_TYPES => $types)), Translation :: get('Repoviewer')));
+		$trail->add_help('courses assessment tool');
 
 		$object = $_GET['object'];
 
@@ -48,7 +49,7 @@ class AssessmentToolRepoviewerComponent extends AssessmentToolComponent
 			$this->redirect(null, false, $redirect_params);
 		}
 
-		$this->display_header($trail, true, 'courses assessment tool');
+		$this->display_header($trail, true);
 
 		echo implode("\n",$html);
 		$this->display_footer();

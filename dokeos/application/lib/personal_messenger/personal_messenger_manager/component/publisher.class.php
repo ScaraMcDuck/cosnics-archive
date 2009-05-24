@@ -20,6 +20,7 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
         $user = Request :: get(PersonalMessengerManager :: PARAM_USER_ID);
 
         $trail = new BreadcrumbTrail();
+        $trail->add_help('personal messenger general');
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION=>PersonalMessengerManager :: ACTION_BROWSE_MESSAGES,PersonalMessengerManager :: PARAM_FOLDER => PersonalMessengerManager :: ACTION_FOLDER_INBOX)),Translation :: get('MyPersonalMessenger')));
 
         $object = $_GET['object'];
@@ -56,7 +57,7 @@ class PersonalMessengerManagerPublisherComponent extends PersonalMessengerManage
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Send')));
         }
 
-        $this->display_header($trail, 'personal messenger general');
+        $this->display_header($trail);
         echo implode("\n", $html);
         echo '<div style="clear: both;"></div>';
         $this->display_footer();

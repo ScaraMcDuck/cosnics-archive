@@ -15,12 +15,13 @@ class AnnouncementToolPublisherComponent extends AnnouncementToolComponent
 			return;
 		}
 		$trail = new BreadcrumbTrail();
-        
+		$trail->add_help('courses announcement tool');
+
 		$object = $_GET['object'];
 		$pub = new LearningObjectRepoViewer($this, 'announcement', true);
-		
+
 		if(!isset($object))
-		{	
+		{
 			$html[] =  $pub->as_html();
 		}
 		else
@@ -29,8 +30,8 @@ class AnnouncementToolPublisherComponent extends AnnouncementToolComponent
 			$publisher = new LearningObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}
-		
-		$this->display_header($trail, true, 'courses announcement tool');
+
+		$this->display_header($trail, true);
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

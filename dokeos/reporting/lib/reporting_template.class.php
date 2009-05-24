@@ -66,7 +66,6 @@ abstract class ReportingTemplate {
         $url = 'index_reporting.php?go=export&template='.$this->get_registration_id().'&export=pdf&'.http_build_query($parameters);
 
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('ExportToPdf'), null, $url));
-        //$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('reporting'));
 
         return $action_bar;
     }

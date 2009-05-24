@@ -19,6 +19,7 @@ class RightsManagerRoleCreatorComponent extends UserManagerComponent
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('CreateRole')));
+		$trail->add_help('rights general');
 
 		if (!$this->get_user()->is_platform_admin())
 		{
@@ -37,7 +38,7 @@ class RightsManagerRoleCreatorComponent extends UserManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail, false, 'rights general');
+			$this->display_header($trail);
 			$form->display();
 			$this->display_footer();
 		}

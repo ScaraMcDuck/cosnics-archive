@@ -27,6 +27,8 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Webservices')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseWebservices')));
+		$trail->add_help('webservice general');
+
         $category = WebserviceDataManager::get_instance()->retrieve_webservice_category($this->get_webservice_category());
         if($category)
         {
@@ -34,7 +36,7 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
         }
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail, false, 'webservice general');
+			$this->display_header($trail);
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -44,7 +46,7 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
 		$output = $this->get_user_html();
 		$menu = $this->get_menu_html();
 
-		$this->display_header($trail, false, 'webservice general');
+		$this->display_header($trail);
 		echo '<br />' . $this->action_bar->as_html() . '<br />';
 		echo $output;
 		echo $menu;
@@ -109,10 +111,9 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-        $ID = Request :: get('webservice_category_id');
+        $id = Request :: get('webservice_category_id');
 		$action_bar->set_search_url($this->get_url(array(WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID => $this->get_webservice_category())));
-        $action_bar->add_common_action(WebserviceManager :: get_tool_bar_item($ID));
-        $action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('webservice'));
+        $action_bar->add_common_action(WebserviceManager :: get_tool_bar_item($id));
 
 		return $action_bar;
 	}

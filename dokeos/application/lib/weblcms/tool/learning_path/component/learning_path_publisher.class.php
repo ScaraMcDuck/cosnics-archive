@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/../../../publisher/learning_object_publisher.
 
 class LearningPathToolPublisherComponent extends LearningPathToolComponent
 {
-	function run() 
+	function run()
 	{
 		if (!$this->is_allowed(ADD_RIGHT))
 		{
@@ -14,12 +14,13 @@ class LearningPathToolPublisherComponent extends LearningPathToolComponent
 		}
 
 		$trail = new BreadcrumbTrail();
-		
+		$trail->add_help('courses learnpath tool');
+
 		$object = $_GET['object'];
 		$pub = new LearningObjectRepoViewer($this, 'learning_path', true);
-		
+
 		if(!isset($object))
-		{	
+		{
 			$html[] =  $pub->as_html();
 		}
 		else
@@ -27,9 +28,9 @@ class LearningPathToolPublisherComponent extends LearningPathToolComponent
 			$publisher = new LearningObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}
-		
-		$this->display_header($trail, true, 'courses learnpath tool');
-		
+
+		$this->display_header($trail, true);
+
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

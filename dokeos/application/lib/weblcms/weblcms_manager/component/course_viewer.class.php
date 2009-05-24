@@ -281,6 +281,5 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 
 		return implode("\n",$html);
 	}
-
 }
 ?>

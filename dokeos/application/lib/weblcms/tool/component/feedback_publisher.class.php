@@ -26,6 +26,8 @@ class ToolFeedbackPublisherComponent extends ToolComponent
         }
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_ACTION => 'view')), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_FEEDBACK)), Translation :: get('AddFeedback')));
+        $trail->add_help('courses general');
+
         $object = Request :: get('object');
 		$pub = new LearningObjectRepoViewer($this, 'feedback', true);
 		$pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_PUBLISH_FEEDBACK);
@@ -40,7 +42,7 @@ class ToolFeedbackPublisherComponent extends ToolComponent
 		{
 			$html[] = '<p><a href="' . $this->get_url() . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $pub->as_html();
-			$this->display_header($trail, true, 'courses general');
+			$this->display_header($trail, true);
 			echo implode("\n",$html);
 			$this->display_footer();
 		}

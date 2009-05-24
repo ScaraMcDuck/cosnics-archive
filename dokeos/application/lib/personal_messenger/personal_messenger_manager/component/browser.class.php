@@ -19,8 +19,9 @@ class PersonalMessengerManagerBrowserComponent extends PersonalMessengerManagerC
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('MyPersonalMessenger')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get(ucfirst($this->get_folder()))));
+        $trail->add_help('personal messenger general');
 
-		$this->display_header($trail, 'personal messenger general');
+		$this->display_header($trail);
 		echo $this->get_publications_html();
 		$this->display_footer();
 	}

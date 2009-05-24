@@ -26,6 +26,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeManager')));
+		$trail->add_help('home general');
 
 		$user = $this->get_user();
 		$user_home_allowed = $this->get_platform_setting('allow_user_home');
@@ -39,7 +40,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 		{
 			if (!$user->is_platform_admin())
 			{
-				$this->display_header($trail, false, 'home general');
+				$this->display_header($trail);
 				Display :: error_message(Translation :: get('NotAllowed'));
 				$this->display_footer();
 				exit;
@@ -48,7 +49,7 @@ class HomeManagerManagerComponent extends HomeManagerComponent
 			$this->user_id = '0';
 		}
 
-		$this->display_header($trail, false, 'home general');
+		$this->display_header($trail);
 		echo Translation :: get('HomeManagerIntro') . '<br /><br />';
 		echo $this->get_manager_modification_links();
 		echo $this->get_preview_html();

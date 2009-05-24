@@ -109,55 +109,6 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 		return $block->run();
 	}
 
-	/**
-	 * Displays the header.
-	 * @param array $breadcrumbs Breadcrumbs to show in the header.
-	 * @param boolean $display_search Should the header include a search form or
-	 * not?
-	 */
-	function display_header($breadcrumbtrail, $display_search = false, $helpitem)
-	{
-		if (is_null($breadcrumbtrail))
-		{
-			$breadcrumbtrail = new BreadcrumbTrail();
-		}
-
-		$categories = $this->breadcrumbs;
-		if (count($categories) > 0)
-		{
-			foreach($categories as $category)
-			{
-				$breadcrumbtrail->add(new Breadcrumb($category['url'], $category['title']));
-			}
-		}
-
-		$title = $breadcrumbtrail->get_last()->get_name();
-		$title_short = $title;
-		if (strlen($title_short) > 53)
-		{
-			$title_short = substr($title_short, 0, 50).'&hellip;';
-		}
-		Display :: header($breadcrumbtrail, $helpitem);
-
-		//echo $this->get_menu_html();
-		echo '<div style="float: right; width: 100%;">';
-		echo '<h3 style="float: left;" title="'.$title.'">'.$title_short.'</h3>';
-		if ($display_search)
-		{
-			$this->display_search_form();
-		}
-		echo '<div class="clear">&nbsp;</div>';
-
-		if ($msg = $_GET[Application :: PARAM_MESSAGE])
-		{
-			$this->display_message($msg);
-		}
-		if($msg = $_GET[Application :: PARAM_ERROR_MESSAGE])
-		{
-			$this->display_error_message($msg);
-		}
-	}
-
 	/*
 	 * Displays the menu html
 	 *

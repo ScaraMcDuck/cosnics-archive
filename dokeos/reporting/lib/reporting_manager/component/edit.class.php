@@ -24,10 +24,11 @@ class ReportingManagerEditComponent extends ReportingManagerComponent {
 			$reporting_template_registration = $this->retrieve_reporting_template_registration($id);
 
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager::ACTION_VIEW_TEMPLATE, ReportingManager::PARAM_TEMPLATE_ID => $id)), Translation :: get($reporting_template_registration->get_title())));
+            $trail->add_help('reporting general');
 
 			if (!$this->get_user()->is_platform_admin())
 			{
-				$this->display_header($trail, false, 'reporting general');
+				$this->display_header($trail);
 				Display :: error_message(Translation :: get("NotAllowed"));
 				$this->display_footer();
 				exit;
@@ -43,7 +44,7 @@ class ReportingManagerEditComponent extends ReportingManagerComponent {
 			else
 			{
                 $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Edit')));
-				$this->display_header($trail, false, 'reporting general');
+				$this->display_header($trail);
 				$form->display();
 				$this->display_footer();
 			}

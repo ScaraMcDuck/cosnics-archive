@@ -8,9 +8,9 @@ require_once Path :: get_application_path().'lib/weblcms/tool/tool_component.cla
  * The base class for all assessment tool components.
  *
  */
-class AssessmentToolComponent extends ToolComponent 
+class AssessmentToolComponent extends ToolComponent
 {
-	
+
 	/**
 	 * Inherited
 	 *
@@ -18,15 +18,15 @@ class AssessmentToolComponent extends ToolComponent
 	 * @param unknown_type $assessment_tool
 	 * @return unknown
 	 */
-	static function factory ($component_name, $assessment_tool) 
+	static function factory ($component_name, $assessment_tool)
 	{
 		return parent :: factory('Assessment', $component_name, $assessment_tool);
 	}
-	
-	function get_toolbar($search = false) 
+
+	function get_toolbar($search = false)
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		
+
 		//public functions
 		if ($search)
 		{
@@ -37,13 +37,13 @@ class AssessmentToolComponent extends ToolComponent
 				)
 			);
 		}
-		
+
 		$action_bar->add_common_action(
 			new ToolbarItem(
 				Translation :: get('Browse'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_ASSESSMENTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
-		
+
 		//results
 		if ($this->is_allowed(EDIT_RIGHT))
 		{
@@ -57,7 +57,7 @@ class AssessmentToolComponent extends ToolComponent
 				$action_name, Theme :: get_common_image_path().'action_view_results.png', $this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
-		
+
 		//admin only functions
 		if ($this->is_allowed(EDIT_RIGHT))
 		{
@@ -67,11 +67,10 @@ class AssessmentToolComponent extends ToolComponent
 				)
 			);
 		}
-		$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('assessment tool'));
-		
+
 		return $action_bar;
 	}
-	
+
 }
 
 ?>

@@ -14,22 +14,23 @@ class CalendarToolPublisherComponent extends CalendarToolComponent
 			Display :: not_allowed();
 			return;
 		}
-		
+
 		$trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => CalendarTool :: ACTION_PUBLISH)), Translation :: get('Publish')));
+        $trail->add_help('courses calendar tool');
 		//$pub = new LearningObjectPublisher($this, 'calendar_event', true);
-		
+
 		$event = new CalendarEvent();
 		$event->set_owner_id($this->get_user_id());
 		$event->set_start_date(intval($_GET['default_start_date']));
 		$event->set_end_date(intval($_GET['default_end_date']));
-		
+
 		$object = $_GET['object'];
 		$pub = new LearningObjectRepoViewer($this, 'calendar_event', true);
 		$pub->set_default_learning_object('calendar_event',$event);
-		
+
 		if(!isset($object))
-		{	
+		{
 			$html[] =  $pub->as_html();
 		}
 		else
@@ -38,8 +39,8 @@ class CalendarToolPublisherComponent extends CalendarToolComponent
 			$publisher = new LearningObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}
-		
-		$this->display_header($trail, true, 'courses calendar tool');
+
+		$this->display_header($trail, true);
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

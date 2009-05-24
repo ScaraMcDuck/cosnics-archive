@@ -20,7 +20,7 @@ class UserManagerQuotaComponent extends UserManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
-
+		$trail->add_help('user general');
 
 		if (!$this->get_user()->is_platform_admin())
 		{
@@ -36,7 +36,7 @@ class UserManagerQuotaComponent extends UserManagerComponent
 
 			if (!$this->get_user()->is_platform_admin())
 			{
-				$this->display_header($trail, false, 'user general');
+				$this->display_header($trail);
 				Display :: error_message(Translation :: get("NotAllowed"));
 				$this->display_footer();
 				exit;
@@ -51,7 +51,7 @@ class UserManagerQuotaComponent extends UserManagerComponent
 			else
 			{
                 $trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserQuota')));
-				$this->display_header($trail, false, 'user general');
+				$this->display_header($trail);
 				$form->display();
 				$this->display_footer();
 			}

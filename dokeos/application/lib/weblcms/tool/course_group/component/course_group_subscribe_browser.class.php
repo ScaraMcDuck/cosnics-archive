@@ -9,22 +9,24 @@ require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.
 class CourseGroupToolSubscribeBrowserComponent extends CourseGroupToolComponent
 {
 	private $action_bar;
-	
+
 	function run()
-	{ 
+	{
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
 			Display :: not_allowed();
 			return;
-		} 
-		
+		}
+
 		$trail = new BreadcrumbTrail();
+		$trail->add_help('courses group');
+
 		$html = array ();
-		$this->display_header($trail, true, 'courses group');
+		$this->display_header($trail, true);
 		$html[] = '<div style="clear: both;">&nbsp;</div>';
 
 		$this->action_bar = $this->get_action_bar();
-		
+
 		if(isset($_GET[WeblcmsManager :: PARAM_USERS]))
 		{
 			$udm = UserDataManager :: get_instance();
@@ -39,21 +41,21 @@ class CourseGroupToolSubscribeBrowserComponent extends CourseGroupToolComponent
 		echo implode($html, "\n");
 		$this->display_footer();
 	}
-	
+
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		
+
 		//$action_bar->set_search_url($this->get_url());
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('UnSubscribeUsers'), Theme :: get_common_image_path().'action_unsubscribe.png', $this->get_url(array (CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		
+
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		//$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Delete'), Theme :: get_common_image_path().'action_delete.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		
+
 		return $action_bar;
 	}
-	
+
 	function get_condition()
 	{
 		$query = $this->action_bar->get_query();

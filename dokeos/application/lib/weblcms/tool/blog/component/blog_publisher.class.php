@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/../../../publisher/learning_object_publisher.
 
 class BlogToolPublisherComponent extends BlogToolComponent
 {
-	function run() 
+	function run()
 	{
 		if (!$this->is_allowed(ADD_RIGHT))
 		{
@@ -24,12 +24,13 @@ class BlogToolPublisherComponent extends BlogToolComponent
             }
         }
 		$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), Translation :: get('Publisher')));
-		
+		$trail->add_help('courses blog tool');
+
 		$object = $_GET['object'];
 		$pub = new LearningObjectRepoViewer($this, 'blog_item', true);
-		
+
 		if(!isset($object))
-		{	
+		{
 			$html[] =  $pub->as_html();
 		}
 		else
@@ -37,9 +38,9 @@ class BlogToolPublisherComponent extends BlogToolComponent
 			$publisher = new LearningObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}
-		
-		$this->display_header($trail, true, 'courses blog tool');
-		
+
+		$this->display_header($trail, true);
+
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

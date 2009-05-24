@@ -33,10 +33,11 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalMessengerManager :: ACTION_BROWSE_MESSAGES)), Translation :: get('MyPersonalMessenger')));
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION=>PersonalMessengerManager :: ACTION_BROWSE_MESSAGES)),Translation :: get(ucfirst($this->folder))));
             $trail->add(new Breadcrumb($this->get_url(), $publication->get_publication_object()->get_title()));
+            $trail->add_help('personal messenger general');
 
             if ($this->get_user_id() != $publication->get_user())
             {
-                $this->display_header($trail, 'personal messenger general');
+                $this->display_header($trail);
                 Display :: error_message(Translation :: get('NotAllowed'));
                 $this->display_footer();
                 exit;
@@ -50,7 +51,7 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
 
             $this->action_bar = $this->get_action_bar($publication);
 
-            $this->display_header($trail, 'personal messenger general');
+            $this->display_header($trail);
             echo $this->action_bar->as_html();
             echo '<br />' . $this->get_publication_modification_links();
             echo '<div class="clear"></div><br />';
@@ -71,7 +72,6 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
         {
         	$action_bar->add_common_action(new ToolbarItem(Translation :: get('Reply'), Theme :: get_common_image_path().'action_reply.png', $this->get_publication_reply_url($personal_message), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         }
-        $action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('announcement tool'));
 
         return $action_bar;
     }

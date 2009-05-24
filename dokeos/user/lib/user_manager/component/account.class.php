@@ -19,6 +19,7 @@ class UserManagerAccountComponent extends UserManagerComponent
 
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ModifyProfile')));
+		$trail->add_help('user general');
 
 		$user = $this->get_user();
 
@@ -31,7 +32,7 @@ class UserManagerAccountComponent extends UserManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail, false, 'user general');
+			$this->display_header($trail);
 			$form->display();
 			$this->display_footer();
 		}

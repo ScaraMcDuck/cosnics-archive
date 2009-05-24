@@ -21,6 +21,7 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewPersonalMessageAttachments')));
+		$trail->add_help('personal messenger general');
 
 		$id = $_GET[PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID];
 
@@ -30,14 +31,13 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
 			$publication = $this->publication;
 			if ($this->get_user_id() != $publication->get_user())
 			{
-				$this->display_header($trail, 'personal messenger general');
-				Display :: error_message(Translation :: get("NotAllowed"));
+				$this->display_header($trail);
+				Display :: error_message(Translation :: get('NotAllowed'));
 				$this->display_footer();
 				exit;
 			}
 
-
-			$this->display_header($trail, 'personal messenger general');
+			$this->display_header($trail);
 			echo $this->get_publication_as_html();
 			$this->display_footer();
 		}

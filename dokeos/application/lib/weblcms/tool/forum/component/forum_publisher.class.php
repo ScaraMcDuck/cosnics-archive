@@ -15,12 +15,13 @@ class ForumToolPublisherComponent extends ForumToolComponent
 			return;
 		}
 		$trail = new BreadcrumbTrail();
-		
+		$trail->add_help('courses forum tool');
+
 		$object = $_GET['object'];
 		$pub = new LearningObjectRepoViewer($this, 'forum', true);
-		
+
 		if(!isset($object))
-		{	
+		{
 			$html[] =  $pub->as_html();
 		}
 		else
@@ -29,8 +30,8 @@ class ForumToolPublisherComponent extends ForumToolComponent
 			$publisher = new LearningObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}
-		
-		$this->display_header($trail, true, 'courses forum tool');
+
+		$this->display_header($trail, true);
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

@@ -16,10 +16,11 @@ class AdminManagerWhoisOnlineComponent extends AdminManagerComponent
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('WhoisOnline')));
+		$trail->add_help('common whoisonline');
 
 		$world = PlatformSetting :: get('whoisonlineaccess');
 
-		if($world == "1" || $this->get_user_id() && $world == "2")
+		if($world == "1" || ($this->get_user_id() && $world == "2"))
 		{
 			$user_id = Request :: get('uid');
 			if(isset($user_id))
@@ -31,13 +32,13 @@ class AdminManagerWhoisOnlineComponent extends AdminManagerComponent
 			{
 				$output = $this->get_table_html();
 			}
-			$this->display_header($trail, true, 'common whoisonline');
+			$this->display_header($trail);
 			echo $output;
 			$this->display_footer();
 		}
 		else
 		{
-			$this->display_header($trail, true, 'common whoisonline');
+			$this->display_header($trail);
 			$this->display_error_message('NotAllowed');
 			$this->display_footer();
 		}

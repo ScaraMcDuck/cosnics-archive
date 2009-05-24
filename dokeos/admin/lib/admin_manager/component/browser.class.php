@@ -21,10 +21,11 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PlatformAdmin')));
+		$trail->add_help('administration');
 
 		if (!AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'root', 'root'))
 		{
-			$this->display_header($trail, 'administration');
+			$this->display_header($trail);
 			$this->display_error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
@@ -32,7 +33,7 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
 
 		$links = $this->get_application_platform_admin_links();
 
-		$this->display_header($trail, 'administration');
+		$this->display_header($trail);
 		echo $this->get_application_platform_admin_tabs($links);
 		$this->display_footer();
 	}

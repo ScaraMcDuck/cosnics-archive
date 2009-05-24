@@ -16,6 +16,7 @@ class ToolComplexFeedbackComponent extends ToolComponent
 	function run()
 	{
         $trail = new BreadcrumbTrail();
+        $trail->add_help('courses general');
 
 		$object = $_GET['object'];
 		$this->pub = new LearningObjectRepoViewer($this, 'feedback', true);
@@ -30,7 +31,7 @@ class ToolComplexFeedbackComponent extends ToolComponent
 		{
 			$html[] = '<p><a href="' . $this->get_url() . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 			$html[] =  $this->pub->as_html();
-			$this->display_header($trail, true, 'courses general');
+			$this->display_header($trail, true);
 			echo implode("\n",$html);
 			$this->display_footer();
 		}

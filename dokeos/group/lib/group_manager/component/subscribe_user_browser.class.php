@@ -22,6 +22,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
+		$trail->add_help('group subscribe users');
 
 		$group_id = $_GET[GroupManager :: PARAM_GROUP_ID];
 
@@ -35,7 +36,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail, false, 'group subscribe users');
+			$this->display_header($trail);
 			Display :: error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
@@ -43,7 +44,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 		$this->ab = $this->get_action_bar();
 		$output = $this->get_user_subscribe_html();
 
-		$this->display_header($trail, false, 'group subscribe users');
+		$this->display_header($trail);
 		echo $this->ab->as_html() . '<br />';
 		echo $output;
 		$this->display_footer();

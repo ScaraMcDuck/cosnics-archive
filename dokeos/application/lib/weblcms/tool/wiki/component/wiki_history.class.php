@@ -30,8 +30,8 @@ class WikiToolHistoryComponent extends WikiToolComponent
 			Display :: not_allowed();
 			return;
 		}
-        
-                    
+
+
         $dm = RepositoryDataManager :: get_instance();
         $rm = new RepositoryManager();
 
@@ -42,7 +42,7 @@ class WikiToolHistoryComponent extends WikiToolComponent
          *  2) the learning object ( actual inforamation about a wiki_page is stored here )
          *
          */
-        
+
         $this->publication_id = Request :: get('pid');
         $this->cid = Request :: get('cid');
 
@@ -66,17 +66,19 @@ class WikiToolHistoryComponent extends WikiToolComponent
          */
         $version_data = array();
         $publication_attr = array();
-		$versions = $wiki_page->get_learning_object_versions();         
+		$versions = $wiki_page->get_learning_object_versions();
 
         $trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $this->publication_id)), DokeosUtilities::truncate_string($_SESSION['wiki_title'],20)));
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->publication_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
-        $this->display_header($trail, true, 'courses wiki tool');
-        
+        $trail->add_help('courses wiki tool');
+
+        $this->display_header($trail, true);
+
         $this->action_bar = $this->get_toolbar();
         echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
         echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'. Translation :: get('HistoryForThe').' ' .$wiki_page->get_title() .' ' . Translation :: get('Page') .'</div><hr style="height:1px;color:#4271B5;width:100%;">';
-       
+
 
         /*
          * All versions for a wiki_page will be looped and the publications attributes are stored in the $publication_attr array
@@ -93,10 +95,10 @@ class WikiToolHistoryComponent extends WikiToolComponent
          *  Every version will be looped and it's information stored in the version_entry array.
          */
         if (count($versions) >= 2)
-        {            
+        {
             //DokeosUtilities :: order_learning_objects_by_id_desc($versions);
             foreach ($versions as $version)
-            {                
+            {
                 $version_entry = array();
                 $version_entry['id'] = $version->get_id();
                 if (strlen($version->get_title()) > 20)
@@ -135,7 +137,7 @@ class WikiToolHistoryComponent extends WikiToolComponent
             $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_COMPARE, $wiki_page, 'compare', 'post', $this->get_url(array(Tool::PARAM_ACTION => 'history', 'pid' => $this->publication_id, 'cid' => $this->cid)), array('version_data' => $version_data));
             if ($form->validate())
             {
-                 $params = $form->compare_learning_object();                 
+                 $params = $form->compare_learning_object();
                  $rdm = RepositoryDataManager :: get_instance();
                  $object = $rdm->retrieve_learning_object($params['compare']);
                  $diff = $object->get_difference($params['object']);
@@ -143,14 +145,14 @@ class WikiToolHistoryComponent extends WikiToolComponent
                  /*
                   *  A block hider is added to hide , and show the legend for the LearningObjectDifferenceDisplay
                   */
-                
-                 echo DokeosUtilities :: add_block_hider();                  
-                 echo DokeosUtilities :: build_block_hider('compare_legend');                 
+
+                 echo DokeosUtilities :: add_block_hider();
+                 echo DokeosUtilities :: build_block_hider('compare_legend');
                  echo $diff_display->get_legend();
-                 echo DokeosUtilities :: build_block_hider();                 
+                 echo DokeosUtilities :: build_block_hider();
                  echo $diff_display->get_diff_as_html();
-                 echo $display->get_version_quota_as_html($version_data);           
-                
+                 echo $display->get_version_quota_as_html($version_data);
+
             }
 
             $form->display();
@@ -160,7 +162,7 @@ class WikiToolHistoryComponent extends WikiToolComponent
             echo Translation :: get('NoModificationsMadeToThisPage');
         }
 
-        
+
         echo '</div>';
         $this->display_footer();
     }
@@ -195,7 +197,7 @@ class WikiToolHistoryComponent extends WikiToolComponent
 				Translation :: get('Discuss'), Theme :: get_common_image_path().'action_users.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_DISCUSS, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
-       
+
 
          $action_bar->add_common_action(
 			new ToolbarItem(

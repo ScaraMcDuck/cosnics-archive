@@ -12,12 +12,13 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 	function run()
 	{
 		$trail = new BreadCrumbTrail();
+		$trail->add_help('courses learnpath tool');
 
 		$pid = Request :: get('pid');
 
 		if(!$pid)
 		{
-			$this->display_header($trail, true, 'courses learnpath tool');
+			$this->display_header($trail, true);
 			$this->display_error_message(Translation :: get('NoObjectSelected'));
 			$this->display_footer();
 		}
@@ -83,7 +84,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 			$display = $template->to_html();
 		}
 
-		$this->display_header($trail, true, 'courses learnpath tool');
+		$this->display_header($trail, true);
 		echo $display;
 		$this->display_footer();
 	}

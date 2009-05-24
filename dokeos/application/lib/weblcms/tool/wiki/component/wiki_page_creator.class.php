@@ -29,6 +29,8 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
 		}
 		$trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), DokeosUtilities::truncate_string($_SESSION['wiki_title'],20)));
+        $trail->add_help('courses wiki tool');
+
         //if(!WikiTool ::is_wiki_locked(Request :: get('wiki_id')))
         //{
             $object = Request :: get('object'); //the object that was made, needed to set the reference for the complex object
@@ -49,7 +51,7 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
             {
                 $html[] = '<p><a href="' . $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS), array(), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
                 $html[] =  $this->pub->as_html();
-                $this->display_header($trail, true, 'courses wiki tool');
+                $this->display_header($trail, true);
                 echo implode("\n",$html);
 
             }
@@ -71,7 +73,7 @@ class WikiToolPageCreatorComponent extends WikiToolComponent
                 }
                 else
                 {
-                    $this->display_header($trail, true, 'courses wiki tool');
+                    $this->display_header($trail, true);
                     $this->display_error_message(Translation :: get('WikiPageTitleError'));
                     $this->display_footer();
                 }
