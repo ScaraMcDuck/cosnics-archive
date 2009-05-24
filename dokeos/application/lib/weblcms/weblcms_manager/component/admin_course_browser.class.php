@@ -20,8 +20,7 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManagerComponent
 	 */
 	function run()
 	{
-		global $this_section;
-		$this_section='platform_admin';
+		Header :: set_section('admin');
 
 		$this->category = $_GET[WeblcmsManager :: PARAM_COURSE_CATEGORY_ID];
 
@@ -29,6 +28,7 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManagerComponent
         //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_APPLICATION => 'weblcms')), Translation :: get('MyCourses')));
         $trail->add(new Breadcrumb('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?application=weblcms", Translation :: get('MyCourses')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseList')));
+        $trail->add_help('courses general');
 
         if($this->category)
         {
@@ -38,7 +38,7 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManagerComponent
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail, false, true, 'courses general');
+			$this->display_header($trail, false, true);
 			echo '<div class="clear"></div><br />';
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
@@ -49,7 +49,7 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManagerComponent
 		$menu = $this->get_menu_html();
 		$output = $this->get_course_html();
 
-		$this->display_header($trail, false, true, 'courses general');
+		$this->display_header($trail, false, true);
 		echo '<div class="clear"></div>';
 		echo '<br />' . $this->action_bar->as_html() . '<br />';
 		echo $menu;

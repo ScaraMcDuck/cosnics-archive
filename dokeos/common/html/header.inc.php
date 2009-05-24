@@ -54,7 +54,7 @@ echo '<!-- #outerframe container to control some general layout of all pages -->
 echo '<div id="outerframe">'."\n";
 
 //  Banner
-$banner = new Banner($breadcrumbtrail, $help_item);
+$banner = new Banner($breadcrumbtrail);
 $banner->display();
 
 echo '<div id="main"> <!-- start of #main wrapper for #content and #menu divs -->';

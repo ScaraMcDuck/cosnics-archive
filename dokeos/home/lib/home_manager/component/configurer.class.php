@@ -15,8 +15,7 @@ class HomeManagerConfigurerComponent extends HomeManagerComponent
 	 */
 	function run()
 	{
-		global $this_section;
-		$this_section='platform_admin';
+		Header :: set_section('admin');
 
 		$id = $_GET[HomeManager :: PARAM_HOME_ID];
 		$trail = new BreadcrumbTrail();

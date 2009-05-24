@@ -6,7 +6,7 @@ require_once Path :: get_plugin_path() . '/phpfreechat/src/phpfreechat.class.php
 
 class ChatToolViewerComponent extends ChatToolComponent
 {
-	
+
 	function run()
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
@@ -18,18 +18,18 @@ class ChatToolViewerComponent extends ChatToolComponent
 		$course = $this->get_course();
 		$user = $this->get_user();
 		$course_rel_user = WeblcmsDataManager :: get_instance()->retrieve_course_user_relation($course->get_id(), $user->get_id());
-		
+
 		$params = array();
-		
+
 		if(($course_rel_user && $course_rel_user->get_status() == 1) || $user->is_platform_admin())
 			$params["isadmin"] = true;
-		
+
 		$params["data_public_url"] = Path :: get(WEB_PATH)  . 'plugin/phpfreechat/data/public';
 		$params["data_public_path"] = Path :: get(SYS_PATH)  . 'plugin/phpfreechat/data/public';
 		$params["server_script_url"] = $_SERVER['REQUEST_URI'];
-		$params["serverid"] = $course->get_id(); 
-		$params["title"] = $course->get_name(); 
-		$params["nick"] = $user->get_username(); 
+		$params["serverid"] = $course->get_id();
+		$params["title"] = $course->get_name();
+		$params["nick"] = $user->get_username();
 		$params["frozen_nick"] = true;
 		$params["channels"] = array($course->get_name());
 		$params["max_channels"] = 1;
@@ -40,16 +40,19 @@ class ChatToolViewerComponent extends ChatToolComponent
 		$params["btn_sh_whosonline"] = false;
 		$params["btn_sh_smileys"] = false;
 		$params["displaytabimage"] = false;
-		
+
 		$chat = new phpFreeChat($params);
-		
-		$this->display_header(new BreadCrumbTrail(), true, 'courses chat tool');
+
+		$trail = new BreadcrumbTrail();
+		$trail->add_help('courses chat tool');
+
+		$this->display_header($trail, true);
 		if(!function_exists('filemtime'))
 			echo Translation :: get('FileMTimeWarning');
-			
+
 		$chat->printChat();
 		$this->display_footer();
 	}
-	
+
 }
 ?>

@@ -16,7 +16,9 @@ class ForumToolPostCreatorComponent extends ForumToolComponent
 
 			if(!$pid || !$cid)
 			{
-				$this->display_header(new BreadCrumbTrail(), true, 'courses forum tool');
+				$trail = new BreadcrumbTrail();
+				$trail->add_help('courses forum tool');
+				$this->display_header($trail, true);
 				$this->display_error_message(Translation :: get('NoParentSelected'));
 				$this->display_footer();
 			}
@@ -51,7 +53,9 @@ class ForumToolPostCreatorComponent extends ForumToolComponent
 			{
 				$html[] = '<p><a href="' . $this->get_url(array('type' => $type, 'pid' => $pid)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 				$html[] =  $pub->as_html();
-				$this->display_header(new BreadCrumbTrail(), true, 'courses forum tool');
+				$trail = new BreadcrumbTrail();
+				$trail->add_help('courses forum tool');
+				$this->display_header($trail, true);
 				echo implode("\n",$html);
 				$this->display_footer();
 			}

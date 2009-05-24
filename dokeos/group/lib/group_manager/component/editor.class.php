@@ -16,6 +16,7 @@ class GroupManagerEditorComponent extends GroupManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
+		$trail->add_help('group general');
 		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
 
@@ -28,7 +29,7 @@ class GroupManagerEditorComponent extends GroupManagerComponent
 
 			if (!$this->get_user()->is_platform_admin())
 			{
-				$this->display_header($trail,false,'group general');
+				$this->display_header($trail, false);
 				Display :: error_message(Translation :: get("NotAllowed"));
 				$this->display_footer();
 				exit;
@@ -44,7 +45,7 @@ class GroupManagerEditorComponent extends GroupManagerComponent
 			}
 			else
 			{
-				$this->display_header($trail,false,'group general');
+				$this->display_header($trail, false);
 				$form->display();
 				$this->display_footer();
 			}

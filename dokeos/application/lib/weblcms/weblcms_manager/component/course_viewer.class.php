@@ -29,9 +29,12 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 	 */
 	function run()
 	{
+		$trail = new BreadcrumbTrail();
+		$trail->add_help('courses general');
+
 		if(!$this->is_course())
 		{
-			$this->display_header($trail, false, true, 'courses general');
+			$this->display_header($trail, false, true);
 			Display :: error_message(Translation :: get("NotACourse"));
 			$this->display_footer();
 			exit;
@@ -55,7 +58,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 		//TODO: Roles & Rights
 		//if(!$this->is_allowed(VIEW_RIGHT) && !$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail, false, true, 'courses general');
+			$this->display_header($trail, false, true);
 			Display :: not_allowed();
 			$this->display_footer();
 			exit;
@@ -135,9 +138,11 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
                     $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'course' => null)), Translation :: get('MyCourses')));
                 }
 				$trail->add(new Breadcrumb($this->get_url(), $title));
+				$trail->add_help('courses general');
 
 				$wdm = WeblcmsDataManager :: get_instance();
-				$this->display_header($$trail, false, true, 'courses general');
+
+				$this->display_header($trail, false, true);
 
 				/*$tb_data = array();
 				$tb_data[] = array(

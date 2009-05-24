@@ -17,7 +17,9 @@ class ForumToolPostQuoterComponent extends ForumToolComponent
 
 			if(!$pid || !$cid || !$quote)
 			{
-				$this->display_header(new BreadCrumbTrail(), true, 'courses forum tool');
+				$trail = new BreadcrumbTrail();
+				$trail->add_help('courses forum tool');
+				$this->display_header($trail, true);
 				$this->display_error_message(Translation :: get('NoParentSelected'));
 				$this->display_footer();
 			}
@@ -60,7 +62,9 @@ class ForumToolPostQuoterComponent extends ForumToolComponent
 			}
 			else
 			{
-				$this->display_header(new BreadCrumbTrail(), true, 'courses forum tool');
+				$trail = new BreadcrumbTrail();
+				$trail->add_help('courses forum tool');
+				$this->display_header($trail, true);
 				$form->display();
 				$this->display_footer();
 			}

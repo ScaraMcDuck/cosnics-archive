@@ -27,7 +27,10 @@ class WeblcmsManagerIntroductionEditorComponent extends WeblcmsManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail, false, true, 'courses general');
+			$trail = new BreadcrumbTrail();
+			$trail->add_help('courses general');
+
+			$this->display_header($trail, false, true);
 			echo '<div class="clear"></div><br />';
 			$form->display();
 			$this->display_footer();

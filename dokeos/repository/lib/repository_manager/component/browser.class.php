@@ -27,7 +27,8 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
     function run()
     {
         $trail = new BreadcrumbTrail(false);
-        
+        $trail->add_help('repository general');
+
         $this->action_bar = $this->get_action_bar();
         $this->form = new RepositoryFilterForm($this, $this->get_url(array('category' => $this->get_parent_id())));
         $output = $this->get_learning_objects_html();
@@ -54,7 +55,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
         }
 
 
-        $this->display_header($trail, false, true, 'repository general');
+        $this->display_header($trail, false, true);
 
         echo $this->action_bar->as_html();
         echo '<br />' . $this->form->display() . '<br />';

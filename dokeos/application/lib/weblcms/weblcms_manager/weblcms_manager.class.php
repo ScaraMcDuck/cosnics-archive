@@ -314,7 +314,7 @@ class WeblcmsManager extends WebApplication
 	 * Displays the header of this application
 	 * @param array $breadcrumbs The breadcrumbs which should be displayed
 	 */
-	function display_header($breadcrumbtrail, $display_search = false, $display_title = true, $help_item = null)
+	function display_header($breadcrumbtrail, $display_search = false, $display_title = true)
 	{
 		if (is_null($breadcrumbtrail))
 		{
@@ -341,7 +341,7 @@ class WeblcmsManager extends WebApplication
 		{
 			$title_short = substr($title_short, 0, 50).'&hellip;';
 		}
-		Display :: header($breadcrumbtrail, $help_item);
+		Display :: header($breadcrumbtrail);
 
 		if (isset ($this->tool_class))
 		{

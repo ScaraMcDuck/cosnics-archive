@@ -142,18 +142,24 @@ class Header
 		$output[] = ' </head>';
 		return implode("\n",$output);
 	}
-	
+
 	function get_path($path_type)
 	{
 		return Path :: get($path_type);
 	}
-	
-	function get_section()
+
+	static function get_section()
 	{
 		global $this_section;
 		return $this_section;
 	}
-	
+
+	static function set_section($section)
+	{
+		global $this_section;
+		$this_section = $section;
+	}
+
 	function get_setting($variable, $application)
 	{
 		return PlatformSetting :: get($variable, $application);

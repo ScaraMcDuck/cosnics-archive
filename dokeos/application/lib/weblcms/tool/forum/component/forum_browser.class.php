@@ -26,7 +26,9 @@ class ForumToolBrowserComponent extends ForumToolComponent
 
 		$table = $this->get_table_html();
 
-		$this->display_header(new BreadcrumbTrail(), true, 'courses forum tool');
+		$trail = new BreadcrumbTrail();
+		$trail->add_help('courses forum tool');
+		$this->display_header($trail, true);
 
 		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
 		{

@@ -27,6 +27,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail(false);
+		$trail->add_help('repository general');
 
 		$clo_id= $_GET[RepositoryManager :: PARAM_CLOI_ID];
 		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
@@ -117,11 +118,11 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 				{
                     $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
 					$trail->add(new Breadcrumb($this->get_url(), Translation :: get(LearningObject :: type_to_class($type).'CreationFormTitle')));
-					$this->display_header($trail, false, true, 'repository general');
+					$this->display_header($trail, false, true);
 				}
 				else
 				{
-					$this->display_header($trail, false, true, 'repository general');
+					$this->display_header($trail, false, true);
 				}
 
 				$lo_form->display();
@@ -144,11 +145,11 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 
 			if(isset($_GET['publish']))
 			{
-				$this->display_header($trail, false, true, 'repository general');
+				$this->display_header($trail, false, true);
 			}
 			else
 			{
-				$this->display_header($trail, false, true, 'repository general');
+				$this->display_header($trail, false, true);
 			}
 
 			//echo $extra;

@@ -17,9 +17,10 @@ class HomeManagerCreatorComponent extends HomeManagerComponent
 	 */
 	function run()
 	{
-		global $this_section;
-		$this_section='platform_admin';
+		Header :: set_section('admin');
+
 		$type = $_GET[HomeManager :: PARAM_HOME_TYPE];
+
 		$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));

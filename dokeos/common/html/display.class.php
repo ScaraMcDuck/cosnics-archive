@@ -210,7 +210,7 @@ class Display
 	 * page title)
 	 * @param string $help
 	 */
-	public static function header($breadcrumbtrail, $help_item = null)
+	public static function header($breadcrumbtrail)
 	{
 		global $language_interface, $adm, $httpHeadXtra, $htmlHeadXtra, $text_dir, $plugins, $interbreadcrumb, $charset, $noPHP_SELF;
 		include (Path :: get(SYS_LIB_PATH).'html/header.inc.php');
@@ -223,7 +223,7 @@ class Display
 		$footer = new Footer();
 		$footer->display();
 	}
-	
+
 	public static function not_allowed($trail = null)
 	{
 		if (is_null($trail))
@@ -232,16 +232,16 @@ class Display
 		}
 		self :: header($trail);
 		$home_url = Path :: get(WEB_PATH);
-		
+
 		$html[] = '<p>Either you are not allowed here or your session has expired.</p>'; //<br><br>You may try <a href=\"$home_url\" target=\"_top\">reconnecting on the home page</a>.</p>';
 		$html[] = self :: display_login_form();
-		
+
 		self :: error_message(implode("\n", $html));
 		$_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
 		self :: footer();
 		exit;
 	}
-	
+
 	static function display_login_form()
 	{
 		$form = new FormValidator('formLogin', 'post', Path :: get(WEB_PATH) . 'index.php');
@@ -258,7 +258,7 @@ class Display
 		$form->setDefaults(array('login' => Translation :: get('Username'), 'password' => '*******'));
 		return $form->toHtml();
 	}
-	
+
 	public static function tool_title($titleElement)
 	{
 		if (is_string($titleElement))

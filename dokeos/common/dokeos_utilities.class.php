@@ -538,11 +538,5 @@ class DokeosUtilities
             }
         }
     }
-
-	static function section($section)
-	{
-		global $this_section;
-		$this_section = $section;
-	}
 }
 ?>

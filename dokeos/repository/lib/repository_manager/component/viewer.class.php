@@ -36,6 +36,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 
 			$display = LearningObjectDisplay :: factory($object);
 			$trail = new BreadcrumbTrail(false);
+			$trail->add_help('repository general');
 
 			if ($object->get_state() == LearningObject :: STATE_RECYCLED)
 			{
@@ -101,7 +102,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				}
 				else
 				{
-					$this->display_header($trail, false, true, 'repository general');
+					$this->display_header($trail, false, true);
 
 					if($this->action_bar)
 						echo '<br />' . $this->action_bar->as_html();
@@ -115,7 +116,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			}
 			elseif (count($publication_attr) > 0)
 			{
-				$this->display_header($trail, false, true, 'repository general');
+				$this->display_header($trail, false, true);
 
 				if($this->action_bar)
 					echo '<br />' . $this->action_bar->as_html();
@@ -126,7 +127,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 			}
 			else
 			{
-				$this->display_header($trail, false, true, 'repository general');
+				$this->display_header($trail, false, true);
 
 				if($this->action_bar)
 					echo '<br />' . $this->action_bar->as_html();

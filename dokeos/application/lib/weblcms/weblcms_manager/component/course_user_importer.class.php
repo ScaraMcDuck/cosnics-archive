@@ -19,10 +19,11 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManagerComponent
 		$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?application=weblcms", Translation :: get('MyCourses')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseUserImportCSV')));
+        $trail->add_help('courses user_importer');
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail, false, true, 'courses user importer');
+			$this->display_header($trail, false, true);
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -37,7 +38,7 @@ class WeblcmsManagerCourseUserImporterComponent extends WeblcmsManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail, false, true, 'courses user importer');
+			$this->display_header($trail, false, true);
 			$form->display();
 			$this->display_extra_information();
 			$this->display_footer();

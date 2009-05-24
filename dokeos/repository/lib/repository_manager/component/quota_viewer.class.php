@@ -28,8 +28,9 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 	{
 		$trail = new BreadcrumbTrail(false);
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Quota')));
+		$trail->add_help('repository quota');
 
-        $this->display_header($trail, false, true, 'repository quota');
+        $this->display_header($trail, false, true);
 		$quotamanager = new QuotaManager($this->get_user());
 		echo '<h3>'.htmlentities(Translation :: get('DiskSpace')).'</h3>';
 		echo self :: get_bar($quotamanager->get_used_disk_space_percent(), Filesystem :: format_file_size($quotamanager->get_used_disk_space()).' / '. Filesystem :: format_file_size($quotamanager->get_max_disk_space()));
@@ -105,7 +106,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 	}
 
 	private $table;
-	
+
 	function get_registered_types_count()
 	{
 		return count($this->get_registered_types()) + 1;
@@ -116,18 +117,18 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 		$pager = $this->table->get_pager();
 		$current_page = $pager->_currentPage;
 		$items_per_page = $pager->_perPage;
-		
+
 		$start = ($current_page - 1) * $items_per_page;
 		$stop = $start + $items_per_page;
 		//dump($start);
-		
+
 		$user = $this->get_user();
 		$user_version_quota = $user->get_version_quota();
 		$types = $this->get_registered_types();
 		$quota_data = array();
 
 		$counter = -1;
-		
+
 		if($start == 0)
 		{
 			$quota_data_row = array();
@@ -144,7 +145,7 @@ class RepositoryManagerQuotaViewerComponent extends RepositoryManagerComponent
 
 			if($counter < $start || $counter >= $stop)
 				continue;
-				
+
 			$quota_data_row = array();
 
 			$quota_data_row[] = '<img src="'. Theme :: get_common_image_path() . 'learning_object/' . $type .'.png" alt="'.$type.'"/>';

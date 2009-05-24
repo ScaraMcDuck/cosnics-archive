@@ -18,17 +18,17 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
 	{
 		if ($this->get_user()->is_platform_admin())
 		{
-			global $this_section;
-			$this_section='platform_admin';
+			Header :: set_section('admin');
 		}
 
 		$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'course' => null)), Translation :: get('MyCourses')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
+		$trail->add_help('courses create');
 
 		if (!$this->get_user()->is_teacher() && !$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail, false, true, 'courses create');
+			$this->display_header($trail, false, true);
 			echo '<div class="clear"></div><br />';
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
@@ -53,7 +53,7 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail, false, true, 'courses create');
+			$this->display_header($trail, false, true);
 			echo '<div class="clear"></div><br />';
 			$form->display();
 			$this->display_footer();

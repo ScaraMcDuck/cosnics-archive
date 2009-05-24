@@ -15,6 +15,7 @@ class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManagerCompone
 		}*/
 
 		$trail = new BreadcrumbTrail();
+		$trail->add_help('courses general');
 		/*$pub = new LearningObjectPublisher($this, 'introduction', true);
 
 		$html[] = '<p><a href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
@@ -44,7 +45,7 @@ class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManagerCompone
 			$this->redirect(Translation :: get('IntroductionPublished'), (false), $parameters);
 		}
 
-		$this->display_header($trail, false, true, 'courses general');
+		$this->display_header($trail, false, true);
 		echo '<div class="clear"></div><br />';
 		echo implode("\n",$html);
 		$this->display_footer();
