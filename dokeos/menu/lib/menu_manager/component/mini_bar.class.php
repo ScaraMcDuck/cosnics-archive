@@ -17,6 +17,10 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
 
 		$html[] = '<div class="minidropnav">';
 
+		$html[] = '<ul>';
+		$html[] = '<li' . ($this_section == 'home' ? ' class="current""' : '') . '><a' . ($this_section == 'home' ? ' class="current""' : '') . ' href="index.php">' . Translation :: get('Home') . '</a></li>';
+		$html[] = '</ul>';
+
 		//$html[] = '<ul class="bracket_left"><li></li></ul>';
 
 		while ($root_item = $root_items->next_result())
