@@ -14,6 +14,7 @@ class RepositoryManagerUserViewUpdaterComponent extends RepositoryManagerCompone
     function run()
     {
         $trail = new BreadcrumbTrail(false);
+        $trail->add_help('repository userviews');
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('PlatformAdmin')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_USER_VIEWS)), Translation :: get('UserViewList')));
 
@@ -26,7 +27,7 @@ class RepositoryManagerUserViewUpdaterComponent extends RepositoryManagerCompone
 
             if (!$this->get_user()->is_platform_admin())
             {
-                $this->display_header($trail, false, true, 'repository userviews');
+                $this->display_header($trail, false, true);
                 Display :: error_message(Translation :: get("NotAllowed"));
                 $this->display_footer();
                 exit;
@@ -42,7 +43,7 @@ class RepositoryManagerUserViewUpdaterComponent extends RepositoryManagerCompone
             }
             else
             {
-                $this->display_header($trail, false, true, 'repository general');
+                $this->display_header($trail, false, true);
                 $form->display();
                 $this->display_footer();
             }

@@ -94,6 +94,7 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CourseSubscribe')));
+		$trail->add_help('courses subscribe');
 
         $this->action_bar = $this->get_action_bar();
 
@@ -104,7 +105,7 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
 
 		$output = $this->get_course_html();
 
-		$this->display_header($trail, false, true, 'courses subscribe');
+		$this->display_header($trail, false, true);
 		echo '<div class="clear"></div>';
 		echo '<br />' . $this->action_bar->as_html() . '<br />';
 		echo $menu;

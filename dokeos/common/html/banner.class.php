@@ -11,15 +11,13 @@ require_once Path :: get_menu_path().'lib/menu_manager/menu_manager.class.php';
 class Banner
 {
 	private $breadcrumbtrail;
-	private $help_item;
 
 	/**
 	 * Constructor
 	 */
-	function Banner($breadcrumbtrail, $help_item = null)
+	function Banner($breadcrumbtrail)
 	{
 		$this->breadcrumbtrail = $breadcrumbtrail;
-		$this->help_item = $help_item;
 	}
 
 	function get_setting($variable, $application)
@@ -107,9 +105,8 @@ class Banner
 		*/
 
 		$breadcrumbtrail = $this->breadcrumbtrail;
-		$help_item = $this->help_item;
 
-		if(!is_null($breadcrumbtrail) || !is_null($help_item))
+		if(!is_null($breadcrumbtrail))
 		{
 			$output[] = '<div id="trailbox">';
 
@@ -120,22 +117,7 @@ class Banner
 				//$output[] = '</div>';
 			}
 
-//			if (!is_null($help_item))
-//			{
-//				$help_item = HelpManager :: get_tool_bar_help_item($help_item);
-//				if($help_item)
-//				{
-//					$output[] = '<div id="helpitem">';
-//					$toolbar = new Toolbar();
-//					$toolbar->set_items(array($help_item));
-//					$toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
-//					$output[] = $toolbar->as_html();
-//					$output[] = '</div>';
-//				}
-//			}
-
 			$output[] = '<div class="clear">&nbsp;</div></div>';
-
 		}
 
 		// TODO: Check whether we still need anything from the old breadcrumb-generating code

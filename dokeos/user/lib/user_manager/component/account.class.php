@@ -14,8 +14,7 @@ class UserManagerAccountComponent extends UserManagerComponent
 	 */
 	function run()
 	{
-		global $this_section;
-		$this_section='myaccount';
+		Header :: set_section('my_account');
 
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ModifyProfile')));

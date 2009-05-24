@@ -237,9 +237,12 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(null, array(Application :: PARAM_ACTION)), Translation :: get('MyCourses')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_MANAGER_SORT)), Translation :: get('SortMyCourses')));
+        $trail->add_help('courses general');
         if(!empty($title))
-        $trail->add(new Breadcrumb($this->get_url(array('category' => Request :: get('category'))), $title));
-		$this->display_header($trail, false, true, 'courses general');
+        {
+        	$trail->add(new Breadcrumb($this->get_url(array('category' => Request :: get('category'))), $title));
+        }
+		$this->display_header($trail, false, true);
 		echo '<div class="clear"></div><br />';
 	}
 

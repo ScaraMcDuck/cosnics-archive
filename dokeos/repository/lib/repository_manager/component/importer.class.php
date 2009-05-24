@@ -23,6 +23,7 @@ class RepositoryManagerImporterComponent extends RepositoryManagerComponent
 
 		$trail = new BreadcrumbTrail(false);
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('LearningObjectImport')));
+		$trail->add_help('repository importer');
 
 		$extra_params = array();
 
@@ -52,7 +53,7 @@ class RepositoryManagerImporterComponent extends RepositoryManagerComponent
 
 			if ($learning_object === false)
 			{
-				$this->display_header($trail, false, true, 'repository importer');
+				$this->display_header($trail, false, true);
 				Display :: warning_message(Translation :: get('LearningObjectNotImported'));
 				$this->display_footer();
 			}
@@ -71,7 +72,7 @@ class RepositoryManagerImporterComponent extends RepositoryManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail, false, true, 'repository importer');
+			$this->display_header($trail, false, true);
 			$import_form->display();
 			$this->display_footer();
 		}

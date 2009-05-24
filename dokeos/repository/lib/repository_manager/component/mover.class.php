@@ -25,6 +25,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail(false);
+		$trail->add_help('repository general');
 
 		$ids = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
 		if (!empty ($ids))
@@ -118,7 +119,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
                     $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_BROWSE_LEARNING_OBJECTS), Translation :: get('Objects'))));
 
 				$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));
-				$this->display_header($trail, false, true, 'repository general');
+				$this->display_header($trail, false, true);
 				echo $form->toHTML();
 				$this->display_footer();
 			}

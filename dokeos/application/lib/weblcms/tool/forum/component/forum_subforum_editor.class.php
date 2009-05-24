@@ -17,7 +17,9 @@ class ForumToolSubforumEditorComponent extends ForumToolComponent
 
 			if(!$pid || !$subforum)
 			{
-				$this->display_header(new BreadCrumbTrail(), true, 'courses forum tool');
+				$trail = new BreadcrumbTrail();
+				$trail->add_help('courses forum tool');
+				$this->display_header($trail, true);
 				$this->display_error_message(Translation :: get('NoParentSelected'));
 				$this->display_footer();
 			}
@@ -44,7 +46,9 @@ class ForumToolSubforumEditorComponent extends ForumToolComponent
 			}
 			else
 			{
-				$this->display_header(new BreadCrumbTrail(), true, 'courses forum tool');
+				$trail = new BreadcrumbTrail();
+				$trail->add_help('courses forum tool');
+				$this->display_header($trail, true);
 				$form->display();
 				$this->display_footer();
 			}

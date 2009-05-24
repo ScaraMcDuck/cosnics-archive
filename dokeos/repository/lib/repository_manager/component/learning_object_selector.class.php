@@ -2,7 +2,7 @@
 /**
  * $Id: browser.class.php 15472 2008-05-27 18:47:47Z Scara84 $
  * @package repository.repositorymanager
- * 
+ *
  * @author Bart Mollet
  * @author Tim De Pauw
  * @author Hans De Bisschop
@@ -20,20 +20,24 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 	/**
 	 * Runs this component and displays its output.
 	 */
-	
+
 	private $root_id;
 	private $cloi_id;
-	
+
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
 		$cloi_id = $_GET[RepositoryManager :: PARAM_CLOI_ID];
 		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
-		
+
 		$trail = new BreadcrumbTrail();
+		$trail->add_help('repository general');
+
 		if(!isset($_GET['publish']))
+		{
 			$trail->add(new Breadcrumb($this->get_link(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('Repository')));
-		
+		}
+
 		if(isset($cloi_id) && isset($root_id))
 		{
 			$this->cloi_id = $cloi_id;
@@ -41,7 +45,7 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 		}
 		else
 		{
-			$this->display_header($trail, false, true, 'repository general');
+			$this->display_header($trail, false, true);
 			$this->display_error_message(Translation :: get('NoCLOISelected'));
 			$this->display_footer();
 			exit;
@@ -53,9 +57,9 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 			$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
 			$trail->add(new Breadcrumb($this->get_url(), Translation :: get('AddExistingLearningObject')));
 		}
-		
+
 		$output = $this->get_learning_objects_html();
-		$this->display_header($trail, false, true, 'repository general');
+		$this->display_header($trail, false, true);
 		echo $output;
 		$this->display_footer();
 	}
@@ -72,20 +76,20 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 		{
 			$parameters[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE] = $types;
 		}
-		$parameters = array_merge($parameters, 
+		$parameters = array_merge($parameters,
 			array(RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),
 				  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => $_GET['publish']));
-			
+
 		$table = new RepositoryBrowserTable($this, $parameters, $condition);
 		return $table->as_html();
 	}
-	
+
 	private function get_condition()
 	{
-		
+
 		$conditions = array();
 		$conditions[] = $this->get_search_condition();
-		
+
 		$clo = $this->retrieve_learning_object($this->cloi_id);
 		$types = $clo->get_allowed_types();
 		$conditions1 = array();
@@ -94,23 +98,23 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 			$conditions1[] = new EqualityCondition(LearningObject :: PROPERTY_TYPE, $type);
 		}
 		$conditions[] = new OrCondition($conditions1);
-		
+
 		$conditions = array_merge($conditions, $this->retrieve_used_items($this->root_id));
 		$conditions[] = new NotCondition(new EqualityCondition(LearningObject :: PROPERTY_ID, $this->root_id));
-		
+
 		return new AndCondition($conditions);
 	}
-	
+
 	function get_root_id()
 	{
 		return $this->root_id;
 	}
-	
+
 	function get_cloi_id()
 	{
 		return $this->cloi_id;
 	}
-	
+
 	/**
 	 * This function is beeing used to determine all the complex learning objects that are used in a learning object
 	 * so we won't get stuck in an endless loop and returns a conditionslist to exclude the items
@@ -118,7 +122,7 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 	function retrieve_used_items($cloi_id)
 	{
 		$conditions = array();
-		
+
 		$clois = $this->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $cloi_id));
 		while($cloi = $clois->next_result())
 		{
@@ -128,7 +132,7 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 				$conditions = array_merge($conditions, $this->retrieve_used_items($cloi->get_ref()));
 			}
 		}
-		
+
 		return $conditions;
 	}
 }

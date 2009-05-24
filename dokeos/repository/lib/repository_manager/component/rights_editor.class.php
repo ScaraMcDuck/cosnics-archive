@@ -216,12 +216,13 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 		$trail = new BreadcrumbTrail(false);
         $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_ACTION => RepositoryManager::ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager::PARAM_LEARNING_OBJECT_ID => $object)), $lo->get_title()));
         $trail->add(new Breadcrumb($this->get_url(array(RepositoryManager::PARAM_LEARNING_OBJECT_ID => $object)), Translation :: get('EditRights')));
+        $trail->add_help('repository rights');
 
-			$this->display_header($trail, false, true, 'repository rights');
-			echo $this->get_modification_links();
-			echo $this->get_rights_table_html();
-			echo RightsUtilities :: get_rights_legend();
-			$this->display_footer();
+		$this->display_header($trail, false, true);
+		echo $this->get_modification_links();
+		echo $this->get_rights_table_html();
+		echo RightsUtilities :: get_rights_legend();
+		$this->display_footer();
 	}
 }
 ?>

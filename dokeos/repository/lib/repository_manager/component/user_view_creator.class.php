@@ -18,10 +18,11 @@ class RepositoryManagerUserViewCreatorComponent extends RepositoryManagerCompone
 		$trail = new BreadcrumbTrail(false);
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserViewList')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserViewCreate')));
+		$trail->add_help('repository userviews');
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail, false, true, 'repository userviews');
+			$this->display_header($trail, false, true);
 			Display :: warning_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
@@ -41,7 +42,7 @@ class RepositoryManagerUserViewCreatorComponent extends RepositoryManagerCompone
 		}
 		else
 		{
-			$this->display_header($trail, false, true, 'repository userviews');
+			$this->display_header($trail, false, true);
 			$form->display();
 			$this->display_footer();
 		}

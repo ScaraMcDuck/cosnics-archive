@@ -19,6 +19,7 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
+		$trail->add_help('repository general');
 
 		$owner = $this->get_user()->get_id();
 		$ref = $_GET[RepositoryManager :: PARAM_CLOI_REF];
@@ -27,7 +28,7 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 
 		if(!isset($ref))
 		{
-			$this->display_header($trail, false, true, 'repository general');
+			$this->display_header($trail, false, true);
 			Display :: warning_message('Reference is not set');
 			$this->display_footer();
 		}
@@ -59,7 +60,7 @@ class RepositoryManagerComplexCreatorComponent extends RepositoryManagerComponen
 				}
 				else
 				{
-					$this->display_header($trail, false, false, 'repository general');
+					$this->display_header($trail, false, false);
 					echo '<p>' . Translation :: get('FillIn') . '</p>';
 					$cloi_form->display();
 					$this->display_footer();

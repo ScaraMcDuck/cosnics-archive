@@ -12,7 +12,7 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
 		$root_item_condition = new EqualityCondition(MenuItem :: PROPERTY_CATEGORY, 0);
 		$root_items = $this->retrieve_menu_items($root_item_condition);
 
-		global $this_section;
+		$this_section = Header :: get_section();
 		$html = array();
 
 		$html[] = '<div class="minidropnav">';
@@ -115,7 +115,7 @@ class MenuManagerMiniBarComponent extends MenuManagerComponent
 		if (isset($user))
 		{
 			$html[] = '<ul class="admin">';
-			$html[] = '<li class="admin' . ($this_section == 'user' ? ' current' : '') . '"><a' . ($this_section == 'user' ? ' class="current""' : '') . ' href="index_user.php?go=account">' . Translation :: get('MyAccount') . '</a></li>';
+			$html[] = '<li class="admin' . ($this_section == 'my_account' ? ' current' : '') . '"><a' . ($this_section == 'my_account' ? ' class="current""' : '') . ' href="index_user.php?go=account">' . Translation :: get('MyAccount') . '</a></li>';
 			$html[] = '</ul>';
 
 //			$html[] = '<ul class="admin">';

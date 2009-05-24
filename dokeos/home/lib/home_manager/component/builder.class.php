@@ -16,14 +16,14 @@ class HomeManagerBuilderComponent extends HomeManagerComponent
 	 */
 	function run()
 	{
-		global $this_section;
-		$this_section='platform_admin';
+		Header :: set_section('admin');
 		$trail = new BreadcrumbTrail();
 
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManager')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeBuilder')));
+		$trail->add_help('home_build');
 
 		$user = $this->get_user();
 		$user_home_allowed = $this->get_platform_setting('allow_user_home');
@@ -36,7 +36,7 @@ class HomeManagerBuilderComponent extends HomeManagerComponent
 		{
 			if (!$user->is_platform_admin())
 			{
-				$this->display_header($trail,false,'home build');
+				$this->display_header($trail, false);
 				Display :: error_message(Translation :: get('NotAllowed'));
 				$this->display_footer();
 				exit;
