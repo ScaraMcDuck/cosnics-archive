@@ -238,7 +238,6 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 				}
 			}
 		}
-		$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('repository'));
 
 		return $action_bar;
 

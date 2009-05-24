@@ -27,6 +27,7 @@ class HomeManagerEditorComponent extends HomeManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManager')));
         $trail->add(new Breadcrumb($this->get_url(array(HomeManager::PARAM_HOME_TYPE => $type, HomeManager::PARAM_HOME_ID => $id)), Translation :: get('HomeEditor')));
+        $trail->add_help('home general');
 
 		$user = $this->get_user();
 		$user_home_allowed = $this->get_platform_setting('allow_user_home');
@@ -41,7 +42,7 @@ class HomeManagerEditorComponent extends HomeManagerComponent
 		{
 			if (!$user->is_platform_admin())
 			{
-				$this->display_header($trail, false, 'home general');
+				$this->display_header($trail);
 				Display :: error_message(Translation :: get('NotAllowed'));
 				$this->display_footer();
 				exit;
@@ -78,7 +79,7 @@ class HomeManagerEditorComponent extends HomeManagerComponent
 				}
 				else
 				{
-					$this->display_header($trail, false, 'home general');
+					$this->display_header($trail);
 					$form->display();
 					$this->display_footer();
 				}

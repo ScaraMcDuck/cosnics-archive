@@ -8,7 +8,7 @@ class ToolEditComponent extends ToolComponent
 	function run()
 	{
 		if($this->is_allowed(EDIT_RIGHT))
-		{ 
+		{
 			$pid = isset($_GET[Tool :: PARAM_PUBLICATION_ID]) ? $_GET[Tool :: PARAM_PUBLICATION_ID] : $_POST[Tool :: PARAM_PUBLICATION_ID];
 
                 $datamanager = WeblcmsDataManager :: get_instance();
@@ -28,7 +28,8 @@ class ToolEditComponent extends ToolComponent
                 }
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => $pid)), $learning_object->get_title()));
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'edit', Tool :: PARAM_PUBLICATION_ID => $pid)), Translation :: get('Edit')));
-               
+                $trail->add_help('courses general');
+
                 if( $form->validate() || $_GET['validated'])
                 {
                     if(!$_GET['validated'])
@@ -59,14 +60,14 @@ class ToolEditComponent extends ToolComponent
                     }
                     else
                     {
-                        $this->display_header($trail, true, 'courses general');
+                        $this->display_header($trail, true);
                         $publication_form->display();
                         $this->display_footer();
                     }
                 }
                 else
                 {
-                    $this->display_header($trail, true, 'courses general');
+                    $this->display_header($trail, true);
                     $form->display();
                     $this->display_footer();
                 }

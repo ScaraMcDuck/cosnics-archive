@@ -16,6 +16,7 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponen
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('EditSystemAnnouncementPublication')));
+		$trail->add_help('administration system announcements');
 
 		$user = $this->get_user();
 
@@ -53,7 +54,7 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponen
 				}
 				else
 				{
-					$this->display_header($trail, false, 'administration system announcements');
+					$this->display_header($trail);
 					echo LearningObjectDisplay :: factory($system_announcement_publication->get_publication_object())->get_full_html();
 					$publication_form->display();
 					$this->display_footer();
@@ -62,7 +63,7 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponen
 			}
 			else
 			{
-				$this->display_header(new BreadCrumbTrail(), false, 'administration system announcements');
+				$this->display_header($trail);
 				$form->display();
 				$this->display_footer();
 			}

@@ -27,10 +27,11 @@ class ReportingManagerViewComponent extends ReportingManagerComponent
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager::ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager::ACTION_VIEW_TEMPLATE, ReportingManager::PARAM_TEMPLATE_ID => $template)), Translation :: get($reporting_template_registration->get_title())));
+        $trail->add_help('reporting general');
 
         $rtv = new ReportingTemplateViewer($this);
 
-        $this->display_header($trail, false, 'reporting general');
+        $this->display_header($trail);
         $rtv->show_reporting_template($template, $params);
         $this->display_footer();
 //		if (!isset($template))

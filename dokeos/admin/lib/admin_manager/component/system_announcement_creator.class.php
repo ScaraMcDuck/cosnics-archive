@@ -18,10 +18,11 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManagerCompone
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)), Translation :: get('SystemAnnouncements')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PublishSystemAnnouncement')));
+		$trail->add_help('administration system announcements');
 
 		$publisher = $this->get_publisher_html();
 
-		$this->display_header($trail, 'administration system announcements');
+		$this->display_header($trail);
 		echo $publisher;
 		echo '<div style="clear: both;"></div>';
 		$this->display_footer();

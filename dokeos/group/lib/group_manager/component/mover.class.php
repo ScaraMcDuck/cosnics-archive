@@ -17,10 +17,11 @@ class GroupManagerMoverComponent extends GroupManagerComponent
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
+		$trail->add_help('group general');
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail, false, 'group general');
+			$this->display_header($trail);
 			Display :: warning_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
@@ -40,7 +41,7 @@ class GroupManagerMoverComponent extends GroupManagerComponent
 		else
 		{
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Move')));
-			$this->display_header($trail, false, 'group general');
+			$this->display_header($trail);
 			echo Translation :: get('Group') . ': ' . $group->get_name();
 			$form->display();
 			$this->display_footer();

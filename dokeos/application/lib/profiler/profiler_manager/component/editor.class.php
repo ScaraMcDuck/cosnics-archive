@@ -10,7 +10,7 @@ require_once Path :: get_repository_path() . 'lib/learning_object_display.class.
 require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
 
 class ProfilerManagerEditorComponent extends ProfilerManagerComponent
-{	
+{
     private $folder;
     private $publication;
 
@@ -40,6 +40,7 @@ class ProfilerManagerEditorComponent extends ProfilerManagerComponent
 
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_VIEW_PUBLICATION, ProfilerManager :: PARAM_PROFILE_ID => $id)), $learning_object->get_title()));
             $trail->add(new Breadcrumb($this->get_url(array(ProfilerManager :: PARAM_PROFILE_ID => $id)), Translation :: get('Edit')));
+            $trail->add_help('profiler general');
 
             $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_EDIT_PUBLICATION, ProfilerManager :: PARAM_PROFILE_ID => $profile_publication->get_id())));
             if( $form->validate())
@@ -66,7 +67,7 @@ class ProfilerManagerEditorComponent extends ProfilerManagerComponent
                     }
                     else
                     {
-                        $this->display_header($trail, false, 'profiler general');
+                        $this->display_header($trail);
                         echo LearningObjectDisplay :: factory($profile_publication->get_publication_object())->get_full_html();
                         $publication_form->display();
                         $this->display_footer();
@@ -80,7 +81,7 @@ class ProfilerManagerEditorComponent extends ProfilerManagerComponent
             }
             else
             {
-                $this->display_header($trail, false, 'profiler general');
+                $this->display_header($trail);
                 $form->display();
                 $this->display_footer();
             }

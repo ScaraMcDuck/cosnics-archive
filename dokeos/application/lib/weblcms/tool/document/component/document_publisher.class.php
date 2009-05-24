@@ -14,7 +14,7 @@ class DocumentToolPublisherComponent extends DocumentToolComponent
 			Display :: not_allowed();
 			return;
 		}
-		
+
 		$trail = new BreadcrumbTrail();
         if(Request :: get('pcattree') > 0)
         {
@@ -24,12 +24,13 @@ class DocumentToolPublisherComponent extends DocumentToolComponent
             }
         }
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => DocumentTool :: ACTION_PUBLISH)), Translation :: get('Publish')));
-		
+        $trail->add_help('courses document tool');
+
 		$object = $_GET['object'];
 		$pub = new LearningObjectRepoViewer($this, 'document', true);
-		
+
 		if(!isset($object))
-		{	
+		{
 			$html[] =  $pub->as_html();
 		}
 		else
@@ -37,8 +38,8 @@ class DocumentToolPublisherComponent extends DocumentToolComponent
 			$publisher = new LearningObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}
-		
-		$this->display_header($trail, true, 'courses document tool');
+
+		$this->display_header($trail, true);
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

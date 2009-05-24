@@ -12,10 +12,11 @@ class CourseSectionsToolUpdaterComponent extends CourseSectionsToolComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
+		$trail->add_help('courses sections');
 
 		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user()))
 		{
-			$this->display_header($trail, true, 'courses sections');
+			$this->display_header($trail, true);
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -36,7 +37,7 @@ class CourseSectionsToolUpdaterComponent extends CourseSectionsToolComponent
 			}
 			else
 			{
-				$this->display_header($trail, true, 'courses sections');
+				$this->display_header($trail, true);
 				$form->display();
 				$this->display_footer();
 			}

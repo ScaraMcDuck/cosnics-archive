@@ -26,6 +26,7 @@ class ToolComplexEditComponent extends ToolComponent
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $learning_object->get_title()));
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))),Translation :: get('Edit')));
+                $trail->add_help('courses general');
 
                 //$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $pid)), $_SESSION['wiki_title']));
                 //$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $pid, Tool :: PARAM_COMPLEX_ID => $cid)), $learning_object->get_title()));
@@ -74,7 +75,7 @@ class ToolComplexEditComponent extends ToolComponent
                 }
                 else
                 {
-                    $this->display_header($trail, true, 'courses general');
+                    $this->display_header($trail, true);
                     $form->display();
                     $this->display_footer();
                 }

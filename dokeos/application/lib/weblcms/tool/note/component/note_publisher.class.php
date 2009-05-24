@@ -16,13 +16,13 @@ class NoteToolPublisherComponent extends NoteToolComponent
 		}
 		$trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'publish')), Translation :: get('Publish')));
+		$trail->add_help('courses note tool');
 
-		
 		$object = $_GET['object'];
 		$pub = new LearningObjectRepoViewer($this, 'note', true);
-		
+
 		if(!isset($object))
-		{	
+		{
 			$html[] =  $pub->as_html();
 		}
 		else
@@ -30,8 +30,8 @@ class NoteToolPublisherComponent extends NoteToolComponent
 			$publisher = new LearningObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}
-		
-		$this->display_header($trail, true, 'courses note tool');
+
+		$this->display_header($trail, true);
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

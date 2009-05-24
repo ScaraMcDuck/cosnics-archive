@@ -20,6 +20,7 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManagerCompone
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('SystemAnnouncements')));
+		$trail->add_help('administration system announcements');
 
 		$user = $this->get_user();
 
@@ -32,8 +33,8 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManagerCompone
 		$publications_table = $this->get_publications_html();
 		$toolbar = $this->get_action_bar();
 
-		$this->display_header($trail, true, 'administration system announcements');
-		
+		$this->display_header($trail);
+
 		echo $this->action_bar->as_html();
 		echo '<div id="action_bar_browser">';
 		echo $publications_table;
@@ -68,7 +69,6 @@ class AdminManagerSystemAnnouncementBrowserComponent extends AdminManagerCompone
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_system_announcement_publication_creating_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('announcement tool'));
 		return $action_bar;
 	}
 

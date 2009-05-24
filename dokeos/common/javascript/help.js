@@ -4,23 +4,13 @@
 	{ 
 	    var href = $(this).attr("href");
 	   
-	    var loadingHTML  = '<iframe style="width: 100%; height:100%;" src="' + href + '" frameborder="0">';
+	    var loadingHTML  = '<iframe style="margin: 20px; width: 760px; height: 560px;" src="' + href + '" frameborder="0">';
 	    loadingHTML += '</iframe>';
-	    
-	    var box = $("#helpbox");
-	    box.empty();
-	    box.append(loadingHTML);
 	   
-	    /*$.modal(loadingHTML, {
+	    $.modal(loadingHTML, {
 			overlayId: 'modalOverlay',
 		  	containerId: 'modalContainer',
 		  	opacity: 75
-		});*/
-		
-		box.dialog({
-			width: '800px',
-			height: '600px',
-			title: 'Help'
 		});
 		
 		return false;

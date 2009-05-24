@@ -19,6 +19,8 @@ class CourseGroupToolManageSubscriptionsComponent extends CourseGroupToolCompone
 		$trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_UNSUBSCRIBE)), WebLcmsDataManager :: get_instance()->retrieve_course_group(Request :: get(CourseGroupTool :: PARAM_COURSE_GROUP))->get_name()));
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseGroupTool :: ACTION_MANAGE_SUBSCRIPTIONS)), Translation :: get('ManageSubscriptions')));
+        $trail->add_help('courses group');
+
 		$course_group = $this->get_course_group();
 
 		$form = new CourseGroupSubscriptionsForm($course_group, $this->get_url(array(CourseGroupTool :: PARAM_ACTION => CourseGroupTool :: ACTION_MANAGE_SUBSCRIPTIONS, CourseGroupTool :: PARAM_COURSE_GROUP => $course_group->get_id())), $this);
@@ -35,7 +37,7 @@ class CourseGroupToolManageSubscriptionsComponent extends CourseGroupToolCompone
 		}
 		else
 		{
-			$this->display_header($trail, true, 'courses group');
+			$this->display_header($trail, true);
 			$form->display();
 			$this->display_footer();
 		}

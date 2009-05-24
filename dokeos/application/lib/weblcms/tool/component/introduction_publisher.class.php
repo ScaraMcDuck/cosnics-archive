@@ -17,6 +17,7 @@ class ToolIntroductionPublisherComponent extends ToolComponent
 
 		$trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), Translation :: get('PublishIntroductionText')));
+        $trail->add_help('courses general');
 		/*$pub = new LearningObjectPublisher($this, 'introduction', true);
 
 		$html[] = '<p><a href="' . $this->get_url() . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
@@ -48,7 +49,7 @@ class ToolIntroductionPublisherComponent extends ToolComponent
 			$this->redirect(Translation :: get('IntroductionPublished'), (false), $parameters);
 		}
 
-		$this->display_header($trail, true, 'courses general');
+		$this->display_header($trail, true);
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

@@ -16,12 +16,13 @@ class GlossaryToolPublisherComponent extends GlossaryToolComponent
 		}
 		$trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_PUBLISH)), Translation :: get('Publish')));
-		
+        $trail->add_help('courses glossary tool');
+
 		$object = $_GET['object'];
 		$pub = new LearningObjectRepoViewer($this, 'glossary', true);
-		
+
 		if(!isset($object))
-		{	
+		{
 			$html[] =  $pub->as_html();
 		}
 		else
@@ -30,8 +31,8 @@ class GlossaryToolPublisherComponent extends GlossaryToolComponent
 			$publisher = new LearningObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
 		}
-		
-		$this->display_header($trail, true, 'courses glossary tool');
+
+		$this->display_header($trail, true);
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

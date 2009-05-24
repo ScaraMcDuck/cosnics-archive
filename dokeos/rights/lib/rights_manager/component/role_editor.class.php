@@ -17,6 +17,7 @@ class RightsManagerRoleEditorComponent extends RightsManagerComponent
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRole')));
+		$trail->add_help('rights general');
 
 		$id = $_GET[RightsManager :: PARAM_ROLE_ID];
 
@@ -26,7 +27,7 @@ class RightsManagerRoleEditorComponent extends RightsManagerComponent
 
 			if (!$this->get_user()->is_platform_admin())
 			{
-				$this->display_header($trail, false, 'rights general');
+				$this->display_header($trail);
 				Display :: error_message(Translation :: get("NotAllowed"));
 				$this->display_footer();
 				exit;
@@ -41,7 +42,7 @@ class RightsManagerRoleEditorComponent extends RightsManagerComponent
 			}
 			else
 			{
-				$this->display_header($trail, false, 'rights general');
+				$this->display_header($trail);
 				$form->display();
 				$this->display_footer();
 			}

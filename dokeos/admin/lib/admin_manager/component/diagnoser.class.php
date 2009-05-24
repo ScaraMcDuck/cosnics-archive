@@ -20,16 +20,17 @@ class AdminManagerDiagnoserComponent extends AdminManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Diagnose')));
+		$trail->add_help('administration diagnoser');
 
 		if (!AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'root', 'root'))
 		{
-			$this->display_header($trail, 'administration diagnoser');
+			$this->display_header($trail);
 			$this->display_error_message(Translation :: get('NotAllowed'));
 			$this->display_footer();
 			exit;
 		}
 
-		$this->display_header($trail, 'administration diagnoser');
+		$this->display_header($trail);
 
 		$diag = new Diagnoser($this);
 		echo $diag->to_html();

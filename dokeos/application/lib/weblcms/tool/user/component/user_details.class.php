@@ -7,7 +7,7 @@ require_once dirname(__FILE__) . '/../../../../../common/user_details.class.php'
 
 class UserToolDetailsComponent extends UserToolComponent
 {
-	
+
 	function run()
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
@@ -16,14 +16,16 @@ class UserToolDetailsComponent extends UserToolComponent
 			return;
 		}
 		$trail = new BreadcrumbTrail();
+		$trail->add_help('courses user');
+
         if(Request :: get('users') != null)
         {
             $user = DatabaseUserDataManager :: get_instance()->retrieve_user(Request :: get('users'));
             $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => Request :: get('users'))), $user->get_firstname().' '.$user->get_lastname()));
         }
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => Request :: get('users'))), Translation :: get('Details')));
-		$this->display_header($trail, true, 'courses user');
-		
+		$this->display_header($trail, true);
+
 		$udm = UserDataManager::get_instance();
 		if(isset($_GET[WeblcmsManager :: PARAM_USERS]))
 		{
@@ -40,7 +42,7 @@ class UserToolDetailsComponent extends UserToolComponent
 				echo $details->toHtml();
 			}
 		}
-		
+
 		$this->display_footer();
 	}
 

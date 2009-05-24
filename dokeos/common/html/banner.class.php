@@ -120,20 +120,19 @@ class Banner
 				//$output[] = '</div>';
 			}
 
-
-			if (!is_null($help_item))
-			{
-				$help_item = HelpManager :: get_tool_bar_help_item($help_item);
-				if($help_item)
-				{
-					$output[] = '<div id="helpitem">';
-					$toolbar = new Toolbar();
-					$toolbar->set_items(array($help_item));
-					$toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
-					$output[] = $toolbar->as_html();
-					$output[] = '</div>';
-				}
-			}
+//			if (!is_null($help_item))
+//			{
+//				$help_item = HelpManager :: get_tool_bar_help_item($help_item);
+//				if($help_item)
+//				{
+//					$output[] = '<div id="helpitem">';
+//					$toolbar = new Toolbar();
+//					$toolbar->set_items(array($help_item));
+//					$toolbar->set_type(Toolbar :: TYPE_HORIZONTAL);
+//					$output[] = $toolbar->as_html();
+//					$output[] = '</div>';
+//				}
+//			}
 
 			$output[] = '<div class="clear">&nbsp;</div></div>';
 

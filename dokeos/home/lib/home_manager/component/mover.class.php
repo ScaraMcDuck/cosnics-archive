@@ -25,10 +25,11 @@ class HomeManagerMoverComponent extends HomeManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManager')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeMover')));
+		$trail->add_help('home general');
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail, false, 'home general');
+			$this->display_header($trail);
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;

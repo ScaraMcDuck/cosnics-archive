@@ -17,10 +17,11 @@ class GroupManagerImporterComponent extends GroupManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('GroupCreateCsv')));
+		$trail->add_help('group importer');
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail, false, 'group importer');
+			$this->display_header($trail);
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -35,7 +36,7 @@ class GroupManagerImporterComponent extends GroupManagerComponent
 		}
 		else
 		{
-			$this->display_header($trail, false, 'group importer');
+			$this->display_header($trail);
 			$form->display();
 			$this->display_extra_information();
 			$this->display_footer();

@@ -22,10 +22,11 @@ class HelpManagerBrowserComponent extends HelpManagerComponent
 		$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('HelpItemList')));
+		$trail->add_help('help general');
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail, false, 'help general');
+			$this->display_header($trail);
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -34,7 +35,7 @@ class HelpManagerBrowserComponent extends HelpManagerComponent
 		$this->ab = $this->get_action_bar();
 		$output = $this->get_user_html();
 
-		$this->display_header($trail, false, 'help general');
+		$this->display_header($trail);
 		echo '<br />' . $this->ab->as_html() . '<br />';
 		echo $output;
 		$this->display_footer();
@@ -75,7 +76,6 @@ class HelpManagerBrowserComponent extends HelpManagerComponent
 		$action_bar->set_search_url($this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $this->get_help_item())));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(HelpManager :: PARAM_HELP_ITEM => $this->get_help_item())), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-		$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('help manager'));
 		return $action_bar;
 	}
 }

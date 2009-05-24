@@ -4,10 +4,10 @@ require_once dirname(__FILE__).'/assessment_results_export_form/export.class.php
 
 class AssessmentToolResultsExportComponent extends AssessmentToolComponent
 {
-	
+
 	private $rdm;
 	private $wdm;
-	
+
 	function run()
 	{
 		if (!$this->is_allowed(VIEW_RIGHT) || !$this->is_allowed(EDIT_RIGHT))
@@ -16,15 +16,16 @@ class AssessmentToolResultsExportComponent extends AssessmentToolComponent
 			return;
 		}
 		$trail = new BreadcrumbTrail();
+		$trail->add_help('courses assessment tool');
 		$toolbar = $this->get_toolbar();
-		
+
 		if (isset($_GET[AssessmentTool :: PARAM_USER_ASSESSMENT]))
 		{
 			$id = $_GET[AssessmentTool :: PARAM_USER_ASSESSMENT];
 			$trail->add(new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $id)), Translation :: get('ExportResults')));
 			$type = 'user_assessment';
 			$export_form = new AssessmentResultsExportForm($this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $id)));
-		} 
+		}
 		else
 		{
 			$id = $_GET[AssessmentTool :: PARAM_PUBLICATION_ID];
@@ -32,7 +33,7 @@ class AssessmentToolResultsExportComponent extends AssessmentToolComponent
 			$type = 'assessment';
 			$export_form = new AssessmentResultsExportForm($this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_PUBLICATION_ID => $id)));
 		}
-		
+
 		if ($export_form->validate())
 		{
 			$values = $export_form->exportValues();
@@ -41,25 +42,25 @@ class AssessmentToolResultsExportComponent extends AssessmentToolComponent
 		}
 		else
 		{
-			$this->display_header($trail, true, 'courses assessment tool');
+			$this->display_header($trail, true);
 			echo $toolbar->as_html();
 			echo $export_form->toHtml();
 			$this->display_footer();
 		}
 	}
-	
+
 	function export($type, $id, $filetype)
 	{
 		$exporter = Export :: factory($filetype, 'export_'.$type.$id);
 		$results_exporter = ResultsExport :: factory($filetype);
-		
+
 		$this->rdm = RepositoryDataManager :: get_instance();
 		$this->wdm = WeblcmsDataManager :: get_instance();
-		
+
 		$data = $results_exporter->export_results($type, $id);
 		$exporter->write_to_file($data);
 	}
-	
-	
+
+
 }
 ?>

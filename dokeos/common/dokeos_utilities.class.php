@@ -463,21 +463,25 @@ class DokeosUtilities
         }
         return null;
     }
-    
+
     static function format_seconds_to_hours($seconds)
     {
     	$hours = floor($seconds / 3600);
     	$rest = $seconds % 3600;
-    	
+
     	$minutes = floor($rest / 60);
     	$seconds = $rest % 60;
 
     	if($minutes < 10)
+    	{
     		$minutes = '0' . $minutes;
-    	
+    	}
+
     	if($seconds < 10)
+    	{
     		$seconds = '0' . $seconds;
-    	
+    	}
+
     	return $hours . ':' . $minutes . ':' . $seconds;
     }
 
@@ -497,17 +501,17 @@ class DokeosUtilities
         {
             $string = strip_tags($string);
         }
-        
+
         $decoded_string = html_entity_decode($string);
         if(strlen($decoded_string) >= $length)
         {
             mb_internal_encoding("UTF-8");
             $string = htmlentities(mb_substr($string, 0, $length-3)) . $char;
         }
-        
+
         return $string;
     }
-    
+
     static function extract_xml_file($file, $extra_options = array())
     {
         if (file_exists($file))
@@ -517,7 +521,7 @@ class DokeosUtilities
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
-            
+
             foreach($extra_options as $op => $value)
             	 $unserializer->setOption($op, $value);
 
@@ -535,5 +539,10 @@ class DokeosUtilities
         }
     }
 
+	static function section($section)
+	{
+		global $this_section;
+		$this_section = $section;
+	}
 }
 ?>

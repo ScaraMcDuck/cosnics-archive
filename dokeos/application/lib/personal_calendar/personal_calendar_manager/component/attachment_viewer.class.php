@@ -10,12 +10,15 @@ class PersonalCalendarManagerAttachmentViewerComponent extends PersonalCalendarM
 
 	function run()
 	{
+		$trail = new BreadCrumbTrail();
+		$trail->add_help('personal calender general');
+
 		$object_id = Request :: get('object');
+
 		if($object_id)
 		{
-			$trail = new BreadCrumbTrail();
 			$trail->add(new BreadCrumb($this->get_url(array('object' => $object_id)), Translation :: get('ViewAttachment')));
-			$this->display_header($trail, 'personal calender general');
+			$this->display_header($trail);
 
 			echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
 
@@ -29,7 +32,7 @@ class PersonalCalendarManagerAttachmentViewerComponent extends PersonalCalendarM
 		}
 		else
 		{
-			$this->display_header(new BreadCrumbTrail(), 'personal calendar general');
+			$this->display_header($trail);
 			$this->display_error_message('NoObjectSelected');
 			$this->display_footer();
 		}

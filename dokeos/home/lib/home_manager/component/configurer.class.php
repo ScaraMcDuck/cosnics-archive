@@ -24,10 +24,11 @@ class HomeManagerConfigurerComponent extends HomeManagerComponent
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManager')));
+        $trail->add_help('home general');
 
 		if (!$this->get_user()->is_platform_admin())
 		{
-			$this->display_header($trail, false, 'home general');
+			$this->display_header($trail);
 			Display :: error_message(Translation :: get("NotAllowed"));
 			$this->display_footer();
 			exit;
@@ -51,14 +52,14 @@ class HomeManagerConfigurerComponent extends HomeManagerComponent
 				}
 				else
 				{
-					$this->display_header($trail, false, 'home general');
+					$this->display_header($trail);
 					$form->display();
 					$this->display_footer();
 				}
 			}
 			else
 			{
-				$this->display_header($trail, false, 'home genral');
+				$this->display_header($trail);
 				$this->display_warning_message(Translation :: get('NothingToConfigure'));
 				$this->display_footer();
 			}

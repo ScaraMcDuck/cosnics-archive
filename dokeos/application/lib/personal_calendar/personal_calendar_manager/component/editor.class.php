@@ -11,7 +11,7 @@ require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
 
 class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComponent
-{	
+{
     private $folder;
     private $publication;
 
@@ -41,6 +41,7 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComp
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR)), Translation :: get('PersonalCalendar')));
             $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_VIEW_PUBLICATION,PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $id)), $learning_object->get_title()));
             $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Edit')));
+            $trail->add_help('personal calender general');
 
             $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_EDIT_PUBLICATION, PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID => $calendar_event_publication->get_id())));
             if( $form->validate())
@@ -56,7 +57,7 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComp
             }
             else
             {
-                $this->display_header($trail, 'personal calendar general');
+                $this->display_header($trail);
                 $form->display();
                 $this->display_footer();
             }

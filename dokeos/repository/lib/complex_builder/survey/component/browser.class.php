@@ -11,26 +11,28 @@ class SurveyBuilderBrowserComponent extends SurveyBuilderComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array('builder_action' => null, Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('Repository')));
 		$trail->add(new Breadcrumb($this->get_url(array(ComplexBuilder :: PARAM_ROOT_LO => $this->get_root_lo()->get_id())), $this->get_root_lo()->get_title()));
-		$this->display_header($trail, 'repository survey builder');
+		$trail->add_help('repository survey builder');
+
+		$this->display_header($trail);
 		$survey = $this->get_root_lo();
 		$action_bar = $this->get_action_bar($survey);
-		
+
 		echo '<br />';
 		if($action_bar)
 		{
 			echo $action_bar->as_html();
 			echo '<br />';
 		}
-		
+
 		$display = LearningObjectDisplay :: factory($this->get_root_lo());
 		echo $display->get_full_html();
-		
+
 		echo '<br />';
 		echo $this->get_creation_links($survey);
 		echo '<div class="clear">&nbsp;</div><br />';
-		
+
 		echo $this->get_clo_table_html();
-		
+
 		$this->display_footer();
 	}
 }

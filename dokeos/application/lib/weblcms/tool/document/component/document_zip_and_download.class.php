@@ -7,7 +7,7 @@ require_once Path :: get_library_path() . 'filecompression/filecompression.class
 class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 {
 	private $action_bar;
-	
+
 	function run()
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
@@ -16,12 +16,13 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 			return;
 		}
 		$trail = new BreadcrumbTrail();
-		$this->display_header($trail, true, 'courses document tool');
+		$trail->add_help('courses document tool');
+		$this->display_header($trail, true);
 		$archive_url = $this->create_document_archive();
 		echo Display :: normal_message('<a href="'.$archive_url.'">'.Translation :: get('Download').'</a>',true);
 		$this->display_footer();
 	}
-	
+
 	private function create_document_archive()
 	{
 		$parent = $this->get_parent();
@@ -42,12 +43,12 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 			$user_id = $this->get_user_id();
 			$course_groups = $this->get_course_groups();
 		}
-		$target_path = current($category_folder_mapping); 
+		$target_path = current($category_folder_mapping);
 		foreach($category_folder_mapping as $category_id => $dir)
 		{
 			$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'document');
 			$cond = new EqualityCondition('type','document');
-			
+
 			$publications = $dm->retrieve_learning_object_publications($this->get_course_id(), $category_id, $user_id, $course_groups, $condition, false, array (), array (), 0, -1, null, $cond);
 			while($publication = $publications->next_result())
 			{
@@ -81,14 +82,14 @@ class DocumentToolZipAndDownloadComponent extends DocumentToolComponent
 			$parent = $this->get_parent();
 			$course = $parent->get_course_id();
 			$tool = $parent->get_parameter(WeblcmsManager :: PARAM_TOOL);
-			
+
 			$conditions[] = new EqualityCondition('course',$course);
 			$conditions[] = new EqualityCondition('tool',$tool);
 			$conditions[] = new EqualityCondition('parent',$parent_cat);
 			$condition = new AndCondition($conditions); //dump($condition);
-			
+
 			$categories = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($condition);
-		
+
 			while($category = $categories->next_result())
 			{
 				$category_path = Filesystem::create_unique_name($path.'/'.$category->get_name());

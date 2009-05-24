@@ -3,7 +3,7 @@
 /*
  * This is the compenent that allows the user to view all pages of a wiki.
  * If no homepage is set all available pages will be shown, otherwise the homepage will be shown.
- * 
+ *
  * Author: Stefan Billiet
  * Author: Nick De Feyter
  */
@@ -17,10 +17,10 @@ require_once dirname(__FILE__).'/wiki_parser.class.php';
 class WikiToolViewerComponent extends WikiToolComponent
 {
 	private $action_bar;
-    private $publication_id; 
+    private $publication_id;
     private $cid;
     private $links;
-	
+
 	function run()
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
@@ -28,7 +28,7 @@ class WikiToolViewerComponent extends WikiToolComponent
 			Display :: not_allowed();
 			return;
 		}
-        
+
         $dm = RepositoryDataManager :: get_instance();
 
         /*
@@ -38,7 +38,7 @@ class WikiToolViewerComponent extends WikiToolComponent
          *  2) the learning object ( actual inforamation about a wiki_page is stored here )
          *
          */
-        
+
         $this->publication_id = Request :: get('pid');
         $this->cid = Request :: get('cid');
 
@@ -49,7 +49,7 @@ class WikiToolViewerComponent extends WikiToolComponent
          *      2)the method get_id() is only called when the publication object is made.
          */
         if(!empty($this->publication_id))
-        {           
+        {
             $wm = WeblcmsDataManager :: get_instance();
             $publication = $wm->retrieve_learning_object_publication($this->publication_id);
             if(isset($publication))
@@ -62,10 +62,12 @@ class WikiToolViewerComponent extends WikiToolComponent
 
         $trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $this->publication_id)), DokeosUtilities::truncate_string($publication->get_learning_object()->get_title(),20)));
-        $this->display_header($trail, true, 'courses wiki tool');
+        $trail->add_help('courses wiki tool');
+
+        $this->display_header($trail, true);
 
         $this->links = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links();
-        
+
 		$this->action_bar = $this->get_toolbar($wiki);
         echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
         if(!empty($wiki))
@@ -76,7 +78,7 @@ class WikiToolViewerComponent extends WikiToolComponent
         }
         $this->display_footer();
 	}
-    
+
     function get_condition()
 	{
 		$query = $this->action_bar->get_query();
@@ -113,12 +115,12 @@ class WikiToolViewerComponent extends WikiToolComponent
 				Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(WikiTool :: PARAM_ACTION => Tool:: ACTION_DELETE, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
 			)
 		);
-        
+
         $action_bar->add_common_action(
         new ToolbarItem(
 				Translation :: get('BrowseWikis'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			));
-        
+
 
         //INFORMATION
         $action_bar->add_tool_action(
@@ -127,17 +129,16 @@ class WikiToolViewerComponent extends WikiToolComponent
 			)
 		);
         $action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
-        $action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('wiki tool'));
 
         /*$action_bar->add_tool_action(
 			new ToolbarItem(
 				Translation :: get('NotifyChanges'), Theme :: get_common_image_path().'action_subscribe.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_HISTORY, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);*/
-        
+
 
         //NAVIGATION
-        
+
         if(!empty($this->links))
         {
             $p = new WikiToolParserComponent($this->publication_id,$this->get_course()->get_id(),$this->links);
@@ -169,6 +170,6 @@ class WikiToolViewerComponent extends WikiToolComponent
 		return $action_bar;
 	}
 
-    
+
 }
 ?>

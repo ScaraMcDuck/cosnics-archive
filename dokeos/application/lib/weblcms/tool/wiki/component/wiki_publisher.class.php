@@ -13,7 +13,7 @@ require_once dirname(__FILE__) . '/../../../publisher/learning_object_publisher.
 
 class WikiToolPublisherComponent extends WikiToolComponent
 {
-	function run() 
+	function run()
 	{
 		if (!$this->is_allowed(ADD_RIGHT))
 		{
@@ -22,6 +22,8 @@ class WikiToolPublisherComponent extends WikiToolComponent
 		}
 
 		$trail = new BreadcrumbTrail();
+		$trail->add_help('courses wiki tool');
+
         /*
          *  The object that was created
          */
@@ -36,7 +38,7 @@ class WikiToolPublisherComponent extends WikiToolComponent
          *  If no page was created you'll be redirected to the wiki_browser page, otherwise we'll get publications from the object
          */
 		if(empty($object))
-		{  
+		{
 			$html[] =  $pub->as_html();
 		}
 		else
@@ -44,9 +46,9 @@ class WikiToolPublisherComponent extends WikiToolComponent
 			$publisher = new LearningObjectPublisher($pub);
 			$html[] = $publisher->get_publications_form($object);
         }
-		
-		$this->display_header($trail, true, 'courses wiki tool');
-		
+
+		$this->display_header($trail, true);
+
 		echo implode("\n",$html);
 		$this->display_footer();
 	}

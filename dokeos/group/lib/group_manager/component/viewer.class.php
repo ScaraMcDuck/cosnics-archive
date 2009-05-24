@@ -37,8 +37,9 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 			$trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 			$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
 			$trail->add(new Breadcrumb($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $id)), $group->get_name()));
+			$trail->add_help('group general');
 
-			$this->display_header($trail, false, 'group general');
+			$this->display_header($trail);
 			$this->ab = $this->get_action_bar();
 			echo $this->ab->as_html() . '<br />';
 
@@ -150,8 +151,6 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('TruncateNA'), Theme :: get_common_image_path().'action_recycle_bin_na.png', null, ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 
-
-		$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('groups'));
 		return $action_bar;
 	}
 

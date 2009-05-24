@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -26,6 +26,7 @@ class ToolAccessDetailsViewerComponent extends ToolComponent
         $params = Reporting :: get_params($this);
 
         $trail = new BreadcrumbTrail();
+        $trail->add_help('courses reporting');
 
         if(Request :: get('pcattree') != null && Request :: get('pcattree') > 0)
         $this->add_pcattree_breadcrumbs(Request :: get('pcattree'),$trail);
@@ -35,12 +36,12 @@ class ToolAccessDetailsViewerComponent extends ToolComponent
 
         if(!empty($params['user_id']) && Request :: get('template_name') == 'CourseStudentTrackerDetailReportingTemplate')
         {
-            $user = DatabaseUserDataManager :: get_instance()->retrieve_user($params['user_id']);        
+            $user = DatabaseUserDataManager :: get_instance()->retrieve_user($params['user_id']);
             $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => $params['user_id'])), $user->get_firstname().' '.$user->get_lastname()));
         }
 
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view_reporting_template', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'template_name' => Request :: get('template_name'))), Translation :: get('Reporting')));
-        $this->display_header($trail, true, 'courses reporting');
+        $this->display_header($trail, true);
         $rtv->show_reporting_template_by_name($classname, $params);
         $this->display_footer();
     }

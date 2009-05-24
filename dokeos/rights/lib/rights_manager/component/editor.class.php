@@ -84,10 +84,11 @@ class RightsManagerEditorComponent extends RightsManagerComponent
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('RolesAndRights')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRights')));
+		$trail->add_help('rights general');
 
 		if (!isset($this->application) && !isset($this->location))
 		{
-			$this->display_header($trail, 'rights general');
+			$this->display_header($trail);
 			$this->display_warning_message(Translation :: get('SelectApplication'));
 			$this->display_footer();
 			exit;
@@ -114,7 +115,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 				}
 				else
 				{
-					$this->display_header($trail, 'rights general');
+					$this->display_header($trail);
 					$this->display_warning_message(Translation :: get('NoSuchLocationAndOrApplication'));
 					$this->display_footer();
 					exit;
@@ -137,7 +138,7 @@ class RightsManagerEditorComponent extends RightsManagerComponent
 				$trail->add(new Breadcrumb($this->get_url(array('location' => $parent->get_id())), $parent->get_location()));
 			}
 
-			$this->display_header($trail, 'rights general');
+			$this->display_header($trail);
 			echo $this->get_modification_links();
 			echo $this->get_rights_table_html();
 			echo $this->get_location_information();

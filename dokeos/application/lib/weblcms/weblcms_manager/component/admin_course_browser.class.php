@@ -63,7 +63,6 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManagerComponent
 
 		$action_bar->set_search_url($this->get_url(array('category' => Request :: get('category'))));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array('category' => Request :: get('category'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('courses'));
 		return $action_bar;
 	}
 

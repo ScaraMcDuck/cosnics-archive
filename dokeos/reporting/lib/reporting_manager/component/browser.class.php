@@ -23,10 +23,11 @@ class ReportingManagerBrowserComponent extends ReportingManagerComponent
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES)), Translation :: get('Reporting')));
         //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => ReportingManager :: ACTION_BROWSE_TEMPLATES, ReportingManager :: PARAM_APPLICATION => $application)), Translation :: get(Application :: application_to_class($application)) . '&nbsp;' . Translation :: get('Template')));
+        $trail->add_help('reporting general');
 
         if (!$this->get_user()->is_platform_admin())
         {
-            $this->display_header($trail, false, 'reporting general');
+            $this->display_header($trail);
             Display :: error_message(Translation :: get("NotAllowed"));
             $this->display_footer();
             exit;
@@ -35,7 +36,7 @@ class ReportingManagerBrowserComponent extends ReportingManagerComponent
         $this->action_bar = $this->get_action_bar();
         //$output = $this->get_template_html();
 
-        $this->display_header($trail, false, 'reporting general');
+        $this->display_header($trail);
         echo '<br />' . $this->action_bar->as_html() . '<br />';
         echo '<div id="applications" class="applications">';
         echo $this->get_applications();
@@ -161,7 +162,6 @@ class ReportingManagerBrowserComponent extends ReportingManagerComponent
 
         $action_bar->set_search_url($this->get_url(array(ReportingManager :: PARAM_TEMPLATE_ID => $this->get_reporting_template())));
         //$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(RightsManager :: PARAM_ACTION => RightsManager :: ACTION_CREATE_ROLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        //$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('reporting'));
 
         return $action_bar;
     }

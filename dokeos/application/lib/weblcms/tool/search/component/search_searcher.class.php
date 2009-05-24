@@ -25,8 +25,10 @@ class SearchToolSearcherComponent extends SearchToolComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
+		$trail->add_help('courses search tool');
+
 		$this->action_bar = $this->get_action_bar();
-		$this->display_header($trail, true, 'courses search tool');
+		$this->display_header($trail, true);
 		// Display the search form
 		//$form = new SearchForm($this);
 		echo '<div style="text-align:center">';
@@ -40,35 +42,35 @@ class SearchToolSearcherComponent extends SearchToolComponent
 			$course_groups = $this->get_course_groups();
 			$publications = $datamanager->retrieve_learning_object_publications($this->get_course_id(), null, $user_id, $course_groups);
 			$tools = array();
-		
+
 			while($publication = $publications->next_result())
 			{
 				$tools[$publication->get_tool()][] = $publication;
 			}
-			
+
 			$results = 0;
 			foreach($tools as $tool => $publications)
 			{
 				if(strpos($tool, 'feedback') !== false) continue;
-				
+
 				$objects = array();
-				
+
 				foreach($publications as $publication)
 				{
 					$lo = $publication->get_learning_object();
 					$lo_title = $lo->get_title();
 					$lo_description = $lo->get_description();
-					
+
 					if(stripos($lo_title, $query) !== false || stripos($lo_description, $query) !== false)
 						$objects[] = $publication;
-					
+
 				}
 				$count = count($objects);
 				if($count > 0)
 				{
 					$html[] = '<h4>' . Translation :: get(ucfirst($tool) . 'ToolTitle') . ' (' . $count . ' ' . Translation :: get('result(s)') . ') </h4>';
 					$results += $count;
-					
+
 					foreach($objects as $index => $pub)
 					{
 						$object = $pub->get_learning_object();
@@ -80,17 +82,17 @@ class SearchToolSearcherComponent extends SearchToolComponent
 					}
 				}
 			}
-			
+
 			if($results == 0)
 			{
 				$html[] = Translation :: get('NoSearchResults');
 			}
-			
+
 			echo $results . ' ' . Translation :: get('ResultsFoundFor') . ' <span style="background-color: yellow;">' . $query . '</span>';
 			echo implode("\n", $html);
 		}
 		$this->display_footer();
-		
+
 	}
 	private static function create_pager($total, $per_page)
 	{
@@ -104,32 +106,32 @@ class SearchToolSearcherComponent extends SearchToolComponent
 	{
 		return '<div style="text-align: center; margin: 1em 0;">'.$pager_links .= $pager->links.'</div>';
 	}
-	
+
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		
+
 		$action_bar->set_search_url($this->get_url(array(Tool :: PARAM_ACTION => SearchTool :: ACTION_SEARCH)));
-		
+
 		return $action_bar;
 	}
-	
+
 	function get_condition()
 	{
 		$query = $this->get_query();
 		if(!$query)
 			$query = Request :: post('query');
-		
+
 		if(isset($query) && $query != '')
 		{
 			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_TITLE, $query);
 			$conditions[] = new LikeCondition(LearningObject :: PROPERTY_DESCRIPTION, $query);
 			return new OrCondition($conditions);
 		}
-		
+
 		return null;
 	}
-	
+
 	function get_query()
 	{
 		return $this->action_bar->get_query();
