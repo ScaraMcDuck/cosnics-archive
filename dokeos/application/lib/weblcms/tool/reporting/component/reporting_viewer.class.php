@@ -12,8 +12,16 @@ class ReportingToolViewerComponent extends ReportingToolComponent
         $classname = 'CourseStudentTrackerReportingTemplate';
 
         $params = Reporting :: get_params($this);
+        $url =array();
+        $url[Tool :: PARAM_ACTION] = 'view_reporting_template';
+        $url['template_name'] = $classname;
+        foreach($params as $key => $param)
+        {
+            $url[$key] = $param;
+        }
+        unset($url['parent']);
 
-        header('location:'.$this->get_parent()->get_reporting_url($classname,$params));
+        header('location:'.$this->get_url($url));
     }
 }
 ?>
