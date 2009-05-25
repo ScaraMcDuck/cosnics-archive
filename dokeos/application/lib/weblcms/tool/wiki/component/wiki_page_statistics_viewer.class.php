@@ -26,14 +26,10 @@ class WikiToolPageStatisticsViewerComponent extends WikiToolComponent
          *  We use the Reporting Tool, for more information about it, please read the information provided in the reporting class
          */
         
-        $params = array();
-        $params[ReportingManager :: PARAM_COURSE_ID] = $this->get_course_id();
-        $params['pid'] = Request :: get('pid');
-        $params['cid'] = Request :: get('cid');
         /*
          *  The publication id and complex object id are requested and passed to the url
          */
-        $url = ReportingManager :: get_reporting_template_registration_url_content($this,'WikiPageReportingTemplate',$params);
+        $url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, 'template_name' => 'WikiPageReportingTemplate', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid')));
         header('location: '.$url);
     }
 }

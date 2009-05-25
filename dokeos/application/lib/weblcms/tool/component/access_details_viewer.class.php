@@ -40,6 +40,8 @@ class ToolAccessDetailsViewerComponent extends ToolComponent
             $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => $params['user_id'])), $user->get_firstname().' '.$user->get_lastname()));
         }
 
+        $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool ::ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'), 'template_name' => Request :: get('template_name'))), Translation :: get('Reporting')));
+
         $this->display_header($trail, true);
         $rtv->show_reporting_template_by_name($classname, $params);
         $this->display_footer();
