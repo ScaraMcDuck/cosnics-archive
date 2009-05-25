@@ -2,13 +2,13 @@
 
 require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_learning_object_item_form.class.php';
-require_once dirname(__FILE__).'/../../../learning_object_repo_viewer.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/learning_object_repo_viewer.class.php';
 
-class ForumToolSubforumEditorComponent extends ForumToolComponent
+class ForumDisplayForumSubforumEditorComponent extends ForumDisplayComponent
 {
 	function run()
 	{
-		if($this->is_allowed(EDIT_RIGHT))
+		if($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
 		{
 			$pid = Request :: get('pid');
 			$subforum = Request :: get('subforum');
@@ -17,15 +17,13 @@ class ForumToolSubforumEditorComponent extends ForumToolComponent
 
 			if(!$pid || !$subforum)
 			{
-				$trail = new BreadcrumbTrail();
-				$trail->add_help('courses forum tool');
-				$this->display_header($trail, true);
+				$this->display_header(new BreadCrumbTrail());
 				$this->display_error_message(Translation :: get('NoParentSelected'));
 				$this->display_footer();
 			}
 
-			$url = $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_EDIT_SUBFORUM,
-										Tool :: PARAM_PUBLICATION_ID => $pid, 'subforum' => $subforum, 'is_subforum' => $is_subforum, 'forum' => $forum));
+            $url = $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_EDIT_SUBFORUM,
+										'pid' => $pid, 'subforum' => $subforum, 'is_subforum' => $is_subforum, 'forum' => $forum));
 
 			$datamanager = RepositoryDataManager :: get_instance();
 			$cloi = $datamanager->retrieve_complex_learning_object_item($subforum);
@@ -46,9 +44,7 @@ class ForumToolSubforumEditorComponent extends ForumToolComponent
 			}
 			else
 			{
-				$trail = new BreadcrumbTrail();
-				$trail->add_help('courses forum tool');
-				$this->display_header($trail, true);
+				$this->display_header(new BreadCrumbTrail());
 				$form->display();
 				$this->display_footer();
 			}
@@ -57,11 +53,11 @@ class ForumToolSubforumEditorComponent extends ForumToolComponent
 
 	private function my_redirect($pid, $is_subforum, $forum)
 	{
-		$message = htmlentities(Translation :: get('SubforumCreated'));
+		$message = htmlentities(Translation :: get('SubforumEdited'));
 
 		$params = array();
 		$params['pid'] = $pid;
-		$params['tool_action'] = 'view';
+        $params[ComplexDisplay::PARAM_DISPLAY_ACTION] = ForumDisplay::ACTION_VIEW_FORUM;
 		if($is_subforum)
 			$params['forum'] = $forum;
 

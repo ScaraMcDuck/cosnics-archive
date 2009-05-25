@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . '/../forum_tool.class.php';
 require_once dirname(__FILE__) . '/../forum_tool_component.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path() . '/lib/learning_object/forum/forum.class.php';
+require_once Path :: get_repository_path() . 'lib/complex_display/forum/forum_display.class.php';
 require_once 'HTML/Table.php';
 
 class ForumToolBrowserComponent extends ForumToolComponent
@@ -119,7 +120,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
 			$last = $counter == ($size - 1) ? true : false;
 
 			$forum = $publication->get_learning_object();
-			$title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '">' . $forum->get_title() . '</a><br />' . strip_tags($forum->get_description());
+			$title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM,ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '">' . $forum->get_title() . '</a><br />' . strip_tags($forum->get_description());
 
 			if($publication->is_hidden())
 			{
