@@ -55,7 +55,13 @@ class RuleConditionTranslator
 			$rules = $pre_condition_rule->get_conditions();
 			$action = $pre_condition_rule->get_action();
 			$operator = $pre_condition_rule->get_conditions_operator();
-			$status = true;
+			switch($operator)
+			{
+				case "all":
+					$status = true;
+				case "any":
+					$status = false;
+			} 
 			
 			foreach($rules as $rule)
 			{
