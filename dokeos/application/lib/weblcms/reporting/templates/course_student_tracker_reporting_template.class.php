@@ -36,12 +36,26 @@ class CourseStudentTrackerReportingTemplate extends ReportingTemplate
         //template menu
         //$html[] = $this->get_menu();
         $params = $this->params;
-        //$params['url'] = ReportingManager :: get_reporting_template_registration_url_content($this->parent);
+
+        /*$url =array();
+        $url[Tool :: PARAM_ACTION] = 'view_reporting_template';
+        $url['template_name'] = $classname;
+        foreach($params as $key => $param)
+        {
+            $url[$key] = $param;
+        }
+        unset($url['parent']);*/
+        $url_params = '';
+        unset($params['parent']);
+        foreach($params as $key => $param)
+        {
+            $url_params = $url_params . '&template_parameters['.$key.']='.$param;
+        }
+        $url_params = $url_params . '&tool_action=view_reporting_template';
+
         $html[] = '<div class="reporting_center">';
-        $url = ReportingManager :: get_reporting_template_registration_url_content($this->parent,'CourseStudentTrackerReportingTemplate',$params);
         $html[] = Translation :: get('CourseStudentTrackerReportingTemplateTitle').' | ';
-        $url = ReportingManager :: get_reporting_template_registration_url_content($this->parent,'CourseTrackerReportingTemplate',$params);
-        $html[] = '<a href="'.$url.'" />'.Translation :: get('CourseTrackerReportingTemplateTitle').'</a>';
+        $html[] = '<a href="'.$params['url'].$url_params.'&template_name=CourseTrackerReportingTemplate'.'" />'.Translation :: get('CourseTrackerReportingTemplateTitle').'</a>';
         $html[] = '</div><br />';
         //show visible blocks
         $html[] = $this->get_visible_reporting_blocks();
