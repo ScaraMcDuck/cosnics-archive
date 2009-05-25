@@ -16,14 +16,16 @@ class PortfolioViewerComponent extends PortfolioComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewPortfolio')));
+		$trail->add(new Breadcrumb($this->get_url(array('portfolio_action' => null, 'item' => null)), Translation :: get('MyPortfolio')));
 		
 		//$id = $_GET[MyPortfolioManager :: PARAM_ITEM];
 		$item=$this->get_parent()->get_item_id();
-		
+
 		if ($item >= 0)
 		{
-			$this->publication = $this->retrieve_portfolio_publication_from_item($item);			
+			$this->publication = $this->retrieve_portfolio_publication_from_item($item);
+            if ($item > 1)
+            $trail->add(new BreadCrumb($this->get_url(), $this->publication->get_publication_object()->get_title()));
 			$this->display_header($trail);
 
 			$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
