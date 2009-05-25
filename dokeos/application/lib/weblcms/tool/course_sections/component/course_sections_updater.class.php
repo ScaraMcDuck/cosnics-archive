@@ -22,8 +22,8 @@ class CourseSectionsToolUpdaterComponent extends CourseSectionsToolComponent
 			exit;
 		}
 
-		$id = $_GET[CourseSectionsTool :: PARAM_COURSE_SECTION_ID];
-		if ($id)
+		$id = Request :: get(CourseSectionsTool :: PARAM_COURSE_SECTION_ID);
+		if (!empty($id))
 		{
 			$course_section = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $id))->next_result();
 
@@ -37,6 +37,8 @@ class CourseSectionsToolUpdaterComponent extends CourseSectionsToolComponent
 			}
 			else
 			{
+                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS)),$course_section->get_name()));
+                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseSectionsTool :: ACTION_UPDATE_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $id)), Translation :: get('Update')));
 				$this->display_header($trail, true);
 				$form->display();
 				$this->display_footer();
@@ -44,7 +46,9 @@ class CourseSectionsToolUpdaterComponent extends CourseSectionsToolComponent
 		}
 		else
 		{
-			$this->display_error_page(htmlentities(Translation :: get('NoCourseSectionSelected')));
+            $this->display_header(new BreadCrumbTrail());
+            $this->display_error_message(Translation :: get('NoCourseSectionSelected'));//display_error_page(htmlentities(Translation :: get('NoCourseSectionSelected')));
+            $this->display_footer();
 		}
 	}
 }

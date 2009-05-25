@@ -13,6 +13,7 @@ class CourseSectionsToolCreatorComponent extends CourseSectionsToolComponent
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('courses sections');
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseSectionsTool :: ACTION_CREATE_COURSE_SECTION)), Translation :: get('Create')));
 
 		if (!$this->get_course()->is_course_admin($this->get_parent()->get_user()))
 		{
