@@ -16,7 +16,7 @@ class PortfolioEditorComponent extends PortfolioComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewPortfolio')));
+		$trail->add(new Breadcrumb($this->get_url(array('portfolio_action' => null, 'item' => null)), Translation :: get('MyPortfolio')));
 		$item=$this->get_parent()->get_item_id();
 		
 		if ($item >= -1)
@@ -57,8 +57,8 @@ class PortfolioEditorComponent extends PortfolioComponent
 			}
 			else
 			{
-				$breadcrumbs = array(array('url' => $this->get_url(), 'name' => Translation :: get('Edit')));
-				//$this->display_header($breadcrumbs);
+				$trail->add(new BreadCrumb($this->get_url(array('portfolio_action' => 'pf_item_view')), $this->publication->get_publication_object()->get_title()));
+				$trail->add(new BreadCrumb($this->get_url(), Translation :: get('Edit')));
 				$this->display_header($trail);
 				echo $out;
 				$form->display();

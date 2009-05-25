@@ -16,7 +16,9 @@ class PortfolioThesesComponent extends PortfolioComponent
 	{
          
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewPortfolio')));
+		$trail->add(new Breadcrumb($this->get_url(array('portfolio_action' => null, 'item' => null)), Translation :: get('MyPortfolio')));
+        $trail->add(new Breadcrumb($this->get_url(array('portfolio_action' => null)), Translation :: get('MyResearch')));
+        $trail->add(new Breadcrumb($this->get_url(array('portfolio_action' => 'pf_thes', 'user' => Request ::get('user'), 'item' => Request :: get('item'))), Translation :: get('MyThesis')));
 
 		$item=$this->get_parent()->get_item_id();
          $agency = Configuration :: get_instance()->get_parameter('portfolio', 'agency'); //nog generiek maken via xml.  xml settings???
@@ -26,9 +28,8 @@ class PortfolioThesesComponent extends PortfolioComponent
 		{
 			$this->publication = $this->retrieve_portfolio_publication_from_item($item);
 
-			$breadcrumbs = array();
-			$breadcrumbs[] = array ('url' => $this->get_url(), 'name' => Translation :: get('ViewPortfolio') . ': ' . $this->publication->get_publication_publisher()->get_username());
-
+			if($item>1)
+            $trail->add(new BreadCrumb($this->get_url(),$this->publication->get_publication_object()->get_title()));
 
 			$this->display_header($trail);
 			$out = '<div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
