@@ -177,4 +177,9 @@ $lang['common']['Search'] = 'Search';
 $lang['common']['PageActions'] = 'Page actions';
 $lang['common']['Navigation'] = 'Navigation';
 $lang['common']['Information'] = 'Information';
+$lang['common']['Home'] = 'Home';
+$lang['common']['MyAccount'] = 'MyAccount';
+$lang['common']['Repository'] = 'Repository';
+$lang['common']['Administration'] = 'Administration';
+$lang['common']['Logout'] = 'Logout';
 ?>

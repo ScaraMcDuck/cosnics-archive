@@ -148,6 +148,7 @@ img
 {
 	float: left;
 	height: 26px;
+	overflow: hidden;
 }
 
 #breadcrumbtrail li
@@ -1195,7 +1196,7 @@ div.action_bar div.common_menu
 {
 	padding: 5px;
 	float: left;
-	width: 32%;
+	width: 31%;
 	height: 40px;
 }
 
@@ -1203,7 +1204,7 @@ div.action_bar div.tool_menu
 {
 	padding: 5px;
 	float: left;
-	width: 33%;
+	width: 31%;
 	height: 40px;
 }
 
@@ -1211,7 +1212,7 @@ div.action_bar div.search_menu
 {
 	padding: 5px;
 	float: left;
-	width: 32%;
+	width: 31%;
 	height: 40px;
 }
 
