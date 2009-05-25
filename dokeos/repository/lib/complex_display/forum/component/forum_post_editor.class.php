@@ -2,11 +2,11 @@
 
 require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
 
-class ForumToolPostEditorComponent extends ForumToolComponent
+class ForumDisplayForumPostEditorComponent extends ForumDisplayComponent
 {
 	function run()
 	{
-		if($this->is_allowed(EDIT_RIGHT))
+		if($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
 		{
 			$cid = Request :: get('cid');
 			$pid = Request :: get('pid');
@@ -14,16 +14,14 @@ class ForumToolPostEditorComponent extends ForumToolComponent
 
 			if(!$pid || !$cid || !$post)
 			{
-				$trail = new BreadcrumbTrail();
-				$trail->add_help('courses forum tool');
-				$this->display_header($trail, true);
+				$this->display_header(new BreadCrumbTrail());
 				$this->display_error_message(Translation :: get('ObjectNotSelected'));
 				$this->display_footer();
 			}
 
-			$url = $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_EDIT_FORUM_POST,
-										Tool :: PARAM_COMPLEX_ID => $cid,
-										Tool :: PARAM_PUBLICATION_ID => $pid, 'post' => $post));
+			$url = $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_EDIT_FORUM_POST,
+										'cid' => $cid,
+										'pid' => $pid, 'post' => $post));
 
 			$datamanager = RepositoryDataManager :: get_instance();
 			$cloi = $datamanager->retrieve_complex_learning_object_item($post);
@@ -52,16 +50,14 @@ class ForumToolPostEditorComponent extends ForumToolComponent
 				$params = array();
 				$params['pid'] = $pid;
 				$params['cid'] = $cid;
-				$params['tool_action'] = 'view_topic';
+                $params[ComplexDisplay::PARAM_DISPLAY_ACTION] = ForumDisplay::ACTION_VIEW_TOPIC;
 
 				$this->redirect($message, '', $params);
 
 			}
 			else
 			{
-				$trail = new BreadcrumbTrail();
-				$trail->add_help('courses forum tool');
-				$this->display_header($trail, true);
+				$this->display_header(new BreadCrumbTrail());
 				$form->display();
 				$this->display_footer();
 			}

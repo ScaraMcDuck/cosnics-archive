@@ -1,15 +1,15 @@
 <?php
 
-class ForumToolSubforumDeleterComponent extends ForumToolComponent
+class ForumDisplayForumSubforumDeleterComponent extends ForumDisplayComponent
 {
 	function run()
 	{
-		if($this->is_allowed(DELETE_RIGHT))
+		if($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
 		{
 			$forum = Request :: get('forum');
 			$subforums = Request :: get('subforum');
 			$is_subforum = Request :: get('is_subforum');
-			$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+			$pid = Request :: get('pid');
 
 			if (!is_array($subforums))
 			{
@@ -17,7 +17,9 @@ class ForumToolSubforumDeleterComponent extends ForumToolComponent
 			}
 
 			$datamanager = RepositoryDataManager :: get_instance();
-			$params = array(Tool :: PARAM_ACTION => 'view', 'pid' => $pid);
+			$params = array('pid' => $pid);
+            $params[ComplexDisplay::PARAM_DISPLAY_ACTION] = ForumDisplay::ACTION_VIEW_FORUM;
+            
 			if($is_subforum)
 				$params['forum'] = $forum;
 

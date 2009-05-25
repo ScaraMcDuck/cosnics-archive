@@ -2,13 +2,13 @@
 
 require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_learning_object_item_form.class.php';
-require_once dirname(__FILE__).'/../../../learning_object_repo_viewer.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/learning_object_repo_viewer.class.php';
 
-class ForumToolSubforumCreatorComponent extends ForumToolComponent
+class ForumDisplayForumSubforumCreatorComponent extends ForumDisplayComponent
 {
 	function run()
 	{
-		if($this->is_allowed(ADD_RIGHT))
+		if($this->get_parent()->get_parent()->is_allowed(ADD_RIGHT))
 		{
 			$pid = Request :: get('pid');
 			$forum = Request :: get('forum');
@@ -16,15 +16,13 @@ class ForumToolSubforumCreatorComponent extends ForumToolComponent
 
 			if(!$pid || !$forum)
 			{
-				$trail = new BreadcrumbTrail();
-				$trail->add_help('courses forum tool');
-				$this->display_header($trail, true);
+				$this->display_header(new BreadCrumbTrail());
 				$this->display_error_message(Translation :: get('NoParentSelected'));
 				$this->display_footer();
 			}
 
 			$pub = new LearningObjectRepoViewer($this, 'forum', true);
-			$pub->set_parameter(Tool :: PARAM_ACTION, ForumTool :: ACTION_CREATE_SUBFORUM);
+            $pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay::ACTION_CREATE_SUBFORUM);
 			$pub->set_parameter('pid', $pid);
 			$pub->set_parameter('forum', $forum);
 			$pub->set_parameter('is_subforum', $is_subforum);
@@ -35,9 +33,7 @@ class ForumToolSubforumCreatorComponent extends ForumToolComponent
 			{
 				$html[] = '<p><a href="' . $this->get_url(array('forum' => $forum, 'pid' => $pid)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 				$html[] =  $pub->as_html();
-				$trail = new BreadcrumbTrail();
-				$trail->add_help('courses forum tool');
-				$this->display_header($trail, true);
+				$this->display_header(new BreadCrumbTrail());
 				echo implode("\n",$html);
 				$this->display_footer();
 			}
@@ -73,7 +69,7 @@ class ForumToolSubforumCreatorComponent extends ForumToolComponent
 
 		$params = array();
 		$params['pid'] = $pid;
-		$params['tool_action'] = 'view';
+        $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ForumDisplay::ACTION_VIEW_FORUM;
 
 		if($is_subforum)
 			$params['forum'] = $forum;
