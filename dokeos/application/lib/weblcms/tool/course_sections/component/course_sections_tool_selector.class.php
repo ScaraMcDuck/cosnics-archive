@@ -35,6 +35,8 @@ class CourseSectionsToolToolSelectorComponent extends CourseSectionsToolComponen
 			}
 			else
 			{
+                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseSectionsTool :: ACTION_VIEW_COURSE_SECTIONS)),$course_section->get_name()));
+                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => CourseSectionsTool :: ACTION_SELECT_TOOLS_COURSE_SECTION, CourseSectionsTool :: PARAM_COURSE_SECTION_ID => $id)), Translation :: get('SelectTools')));
 				$this->display_header($trail, true);
 				$form->display();
 				$this->display_footer();
