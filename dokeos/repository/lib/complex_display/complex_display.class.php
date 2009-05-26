@@ -37,14 +37,15 @@ abstract class ComplexDisplay
 		$this->parent = $parent;
 		$action = Request :: get(self :: PARAM_DISPLAY_ACTION);
 
-		if(!$action)
-			$action = self :: ACTION_VIEW_CLO;
+		//if(!$action)
+		//	$action = self :: ACTION_VIEW_CLO;
 
 		$this->set_action($action);
 
 		$root_id = Request :: get(self :: PARAM_ROOT_LO);
 		$cloi_id = Request :: get(self :: PARAM_CLOI_ID);
 
+        if($root_id)
 		$this->root = RepositoryDataManager :: get_instance()->retrieve_learning_object($root_id);
 		if($cloi_id)
 		{
