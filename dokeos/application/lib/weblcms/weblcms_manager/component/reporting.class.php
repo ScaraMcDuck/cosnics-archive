@@ -20,9 +20,8 @@ class WeblcmsManagerReportingComponent extends WeblcmsManagerComponent
 
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses reporting');
-        //$trail->add(new Breadcrumb($this->get_url(array('go' => null, 'pcattree' => null, 'course' => null)), Translation :: get('MyCourses')));
-        //$trail->add(new Breadcrumb($this->get_url(array('go'=> 'courseviewer','pcattree' => null)), WebLcmsDataManager :: get_instance()->retrieve_course(Request :: get('course'))->get_name()));
-        $trail = $_SESSION['breadcrumbtrail'];
+        $trail->add(new Breadcrumb($this->get_url(array('go' => null, 'pcattree' => null, 'course' => null)), Translation :: get('MyCourses')));
+        $trail->add(new Breadcrumb($this->get_url(array('go'=> 'courseviewer','pcattree' => null, 'tool' => null)), WebLcmsDataManager :: get_instance()->retrieve_course(Request :: get('course'))->get_name()));
         if($trail->get_last() != new Breadcrumb($this->get_parent()->get_reporting_url($classname, $params), Translation :: get('Reporting')))
         $trail->add(new Breadcrumb($this->get_parent()->get_reporting_url($classname, $params), Translation :: get('Reporting')));
 

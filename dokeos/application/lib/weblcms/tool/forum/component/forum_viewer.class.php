@@ -15,8 +15,8 @@ class ForumToolViewerComponent extends ForumToolComponent
 			return;
 		}
 
-        $cid = Request :: get(Tool :: PARAM_COMPLEX_ID);
-		$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+//        $cid = Request :: get(Tool :: PARAM_COMPLEX_ID);
+//		$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
 
         $cd = ComplexDisplay :: factory($this);
         $cd->run();
