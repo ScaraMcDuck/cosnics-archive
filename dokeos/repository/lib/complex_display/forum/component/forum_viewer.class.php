@@ -18,7 +18,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
     function run()
     {
         $this->pid = Request :: get('pid');
-        $this->forum = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($this->pid)->get_learning_object();
+        $this->forum = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->pid);
 
         $current_id = Request :: get('forum');
         if(!isset($current_id))
@@ -40,7 +40,8 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         $topics_table = $this->get_topics_table_html();
         $forum_table =  $this->get_forums_table_html();
 
-        $trail = new BreadcrumbTrail();
+        $trail = ($this->get_parent()->get_parent()->trail)?$this->get_parent()->get_parent()->trail:new BreadcrumbTrail();
+
         $trail->add(new BreadCrumb($this->get_url(array('pid' => $this->pid)), $this->forum->get_title()));
 
         $this->display_header($trail);
@@ -234,7 +235,7 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
                 $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_CREATE_TOPIC)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
         $action_bar->add_common_action(new ToolbarItem(Translation :: get('NewSubForum'), /*Theme :: get_image_path() . 'forum/buttons/button_topic_new.gif'*/ Theme :: get_common_image_path().'action_add.png',
                 $this->get_url(array('pid' => $this->pid, 'forum' => $this->current_forum->get_id(), 'is_subforum' => $this->is_subforum, ComplexDisplay::PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_CREATE_SUBFORUM)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-        $action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('forum tool'));
+        //$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('forum tool'));
 
         //$action_bar->add_tool_action($this->get_access_details_toolbar_item($this));
 

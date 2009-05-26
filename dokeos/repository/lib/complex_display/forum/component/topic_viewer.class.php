@@ -16,14 +16,14 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
 		$cid = Request :: get('cid');
 		$pid = Request :: get('pid');
 
-		$this->forum = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid)->get_learning_object();
+        $this->forum = RepositoryDataManager :: get_instance()->retrieve_learning_object($pid);
 
 		$lo = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition('id', $cid))->next_result()->get_ref();
 		$this->retrieve_children($lo);
 
 		$this->action_bar = $this->get_action_bar();
 		$table = $this->get_posts_table();
-		$trail = new BreadcrumbTrail();
+		$trail = ($this->get_parent()->get_parent()->trail)?$this->get_parent()->get_parent()->trail:new BreadcrumbTrail();
 		//$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $pid)), $this->forum->get_title()));
 
 		$this->display_header($trail);

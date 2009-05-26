@@ -23,18 +23,25 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 			return;
 		}
 
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','forum'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
-		$this->introduction_text = $publications->next_result();
+        //$rdm = RepositoryDataManager::get_instance();
+        //$publications = $this->retrieve_forum_publications();
+
+
+		//$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','forum'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
+		//$this->introduction_text = $publications->next_result();
 		$this->action_bar = $this->get_action_bar();
 
 		$table = $this->get_table_html();
 
-		$this->display_header(new BreadcrumbTrail());
+        $trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('forum')));
 
-		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
-		{
-			echo $this->display_introduction_text($this->introduction_text);
-		}
+		$this->display_header($trail);
+
+//		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
+//		{
+//			echo $this->display_introduction_text($this->introduction_text);
+//		}
 		
 		echo $this->action_bar->as_html();
 		echo $table->toHtml();
@@ -52,7 +59,7 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 		$this->create_table_header($table);
 		$row = 2;
 		$this->create_table_forums($table, $row, 0);
-		$this->create_table_categories($table, $row);
+		//$this->create_table_categories($table, $row);
 
 		return $table;
 	}
@@ -96,19 +103,19 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 
 	function create_table_forums($table, &$row, $parent)
 	{
-		$condition = new EqualityCondition(LearningObjectPublication :: PROPERTY_TOOL, 'forum');
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			$user_id = null;
-			$course_groups = null;
 		}
 		else
 		{
 			$user_id = $this->get_user_id();
-			$course_groups = $this->get_course_groups();
 		}
-		$cond = new EqualityCondition('type','forum');
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), $parent, $user_id, $course_groups, $condition, false, array (Forum :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_ASC), 0, -1, null, $cond);
+//
+        $publications = $this->retrieve_forum_publications();
+        $rdm = RepositoryDataManager::get_instance();
+
+		//$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), $parent, $user_id, $course_groups, $condition, false, array (Forum :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_ASC), 0, -1, null, $cond);
 
 		$size = $publications->size();
 		$this->size = $size;
@@ -119,13 +126,13 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 			$first = $counter == 0? true : false;
 			$last = $counter == ($size - 1) ? true : false;
 
-			$forum = $publication->get_learning_object();
-			$title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM,ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '">' . $forum->get_title() . '</a><br />' . strip_tags($forum->get_description());
+            $forum = $rdm->retrieve_learning_object($publication->get_forum_id(), 'forum');
+            $title = '<a href="' . $this->get_url(array(ForumManager::PARAM_ACTION => ForumManager::ACTION_VIEW_FORUM_PUBLICATIONS, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, ForumManager::PARAM_PUBLICATION_ID => $publication->get_forum_id())) . '">' . $forum->get_title() . '</a><br />' . DokeosUtilities::truncate_string($forum->get_description());
 
-			if($publication->is_hidden())
-			{
-				$title = '<span style="color: grey;">' . $title . '</span>';
-			}
+//			if($publication->is_hidden())
+//			{
+//				$title = '<span style="color: grey;">' . $title . '</span>';
+//			}
 
 			$table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.png" />');
 			$table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px;'));
@@ -149,7 +156,7 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 		if($this->is_allowed(DELETE_RIGHT))
 		{
 			$delete = array(
-				'href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_DELETE)),
+                'href' => $this->get_url(array('pid' => $publication->get_forum_id(), ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_DELETE_SUBFORUM)),
 				'label' => Translation :: get('Delete'),
 				'img' => Theme :: get_common_image_path() . 'action_delete.png',
 				'confirm' => true
@@ -158,22 +165,22 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 
 		if($this->is_allowed(EDIT_RIGHT))
 		{
-			if($publication->is_hidden())
-			{
-				$actions[] = array(
-					'href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)),
-					'label' => Translation :: get('Show'),
-					'img' => Theme :: get_common_image_path() . 'action_invisible.png'
-				);
-			}
-			else
-			{
-				$actions[] = array(
-					'href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)),
-					'label' => Translation :: get('Hide'),
-					'img' => Theme :: get_common_image_path() . 'action_visible.png'
-				);
-			}
+//			if($publication->is_hidden())
+//			{
+//				$actions[] = array(
+//					'href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)),
+//					'label' => Translation :: get('Show'),
+//					'img' => Theme :: get_common_image_path() . 'action_invisible.png'
+//				);
+//			}
+//			else
+//			{
+//				$actions[] = array(
+//					'href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_TOGGLE_VISIBILITY)),
+//					'label' => Translation :: get('Hide'),
+//					'img' => Theme :: get_common_image_path() . 'action_visible.png'
+//				);
+//			}
 
 			if($first)
 			{
@@ -230,13 +237,13 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		//$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
-		{
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		}
+//		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
+//		{
+//			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+//		}
 
 		//$action_bar->set_help_action(HelpManager :: get_tool_bar_help_item('general'));
 

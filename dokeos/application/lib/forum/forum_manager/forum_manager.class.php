@@ -16,20 +16,19 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 
  	const PARAM_ACTION = 'go';
 	const PARAM_DELETE_SELECTED = 'delete_selected';
-
 	const PARAM_FORUM_PUBLICATION = 'forum_publication';
+    const PARAM_PUBLICATION_ID = 'pid';
 
 	const ACTION_DELETE_FORUM_PUBLICATION = 'delete_forum_publication';
 	const ACTION_EDIT_FORUM_PUBLICATION = 'edit_forum_publication';
 	const ACTION_CREATE_FORUM_PUBLICATION = 'create_forum_publication';
-	const ACTION_BROWSE_FORUM_PUBLICATIONS = 'browse_forum_publications';
+    const ACTION_VIEW_FORUM_PUBLICATIONS = 'view_forum_publications';
     const ACTION_PUBLISH = 'publish';
-
-
 	const ACTION_BROWSE = 'browse';
 
 	private $parameters;
 	private $user;
+    private $rights;
 
 	/**
 	 * Constructor
@@ -39,6 +38,7 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
     {
     	$this->user = $user;
 		$this->parameters = array ();
+        $this->load_rights();
 		$this->set_action($_GET[self :: PARAM_ACTION]);
     }
 
@@ -51,9 +51,6 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 		$component = null;
 		switch ($action)
 		{
-			case self :: ACTION_BROWSE_FORUM_PUBLICATIONS :
-				$component = ForumManagerComponent :: factory('ForumPublicationsBrowser', $this);
-				break;
 			case self :: ACTION_DELETE_FORUM_PUBLICATION :
 				$component = ForumManagerComponent :: factory('Deleter', $this);
 				break;
@@ -63,6 +60,9 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 			case self :: ACTION_BROWSE:
 				$component = ForumManagerComponent :: factory('Browser', $this);
 				break;
+            case self :: ACTION_VIEW_FORUM_PUBLICATIONS:
+                $component = ForumManagerComponent :: factory('Viewer', $this);
+                break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE);
 				$component = ForumManagerComponent :: factory('Browser', $this);
@@ -169,5 +169,32 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
     {
         return $this->user->get_id();
     }
+
+    function is_allowed($right)
+	{
+		return $this->rights[$right];
+	}
+
+    /**
+	 * Load the rights for the current user in this tool
+	 */
+	private function load_rights()
+	{
+		$this->rights[VIEW_RIGHT] = true;
+		$this->rights[EDIT_RIGHT] = false;
+		$this->rights[ADD_RIGHT] = false;
+		$this->rights[DELETE_RIGHT] = false;
+		$user = $this->user;
+		if ($user != null)
+		{
+			if($user->is_platform_admin())
+			{
+				$this->rights[EDIT_RIGHT] = true;
+				$this->rights[ADD_RIGHT] = true;
+				$this->rights[DELETE_RIGHT] = true;
+			}
+		}
+		return;
+	}
 }
 ?>

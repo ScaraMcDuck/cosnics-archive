@@ -212,6 +212,11 @@ abstract class ForumManagerComponent
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
 	}
 
+    function is_allowed($right)
+	{
+		return $this->get_parent()->is_allowed($right);
+	}
+
 	/**
 	 * Create a new profile component
 	 * @param string $type The type of the component to create.
