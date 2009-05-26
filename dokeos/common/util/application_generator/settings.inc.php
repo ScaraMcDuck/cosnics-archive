@@ -2,9 +2,9 @@
 /**
  * Settings for dataclass generator
  */
-$application['location'] = dirname(__FILE__) . '/examples/tester/';
-$application['name'] = 'tester';
-$application['author'] = 'Sven Vanpoucke';
+$application['location'] = dirname(__FILE__) . '/infrastructuur/';
+$application['name'] = 'itdevices';
+$application['author'] = 'Sven Vanpoucke & Ludwig Theunis';
 
-$application['options']['test_link']['table'] = 1;
+$application['options']['it_device']['table'] = 1;
 ?>

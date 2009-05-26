@@ -106,7 +106,7 @@ function create_folders($location, $name)
 function move_file($location, $file)
 {
 	$new_file = $location . 'install/' . basename($file);
-	FileSystem :: copy_file($file, $new_file);
+	FileSystem :: copy_file($location . $file, $new_file);
 	return $new_file;
 }
 
