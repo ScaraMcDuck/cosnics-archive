@@ -3,9 +3,10 @@
  * @package application.weblcms.tool.assessment.component
  */
 
-require_once dirname(__FILE__).'/glossary_viewer/glossary_viewer_table.class.php';
+//require_once dirname(__FILE__).'/glossary_viewer/glossary_viewer_table.class.php';
 require_once Path :: get_library_path().'/html/action_bar/action_bar_renderer.class.php';
-require_once dirname(__FILE__).'/../../../browser/learningobjectpublicationcategorytree.class.php';
+//require_once dirname(__FILE__).'/../../../browser/learningobjectpublicationcategorytree.class.php';
+require_once Path :: get_repository_path().'/lib/complex_display/complex_display.class.php';
 
 /**
  * Represents the view component for the assessment tool.
@@ -13,7 +14,40 @@ require_once dirname(__FILE__).'/../../../browser/learningobjectpublicationcateg
  */
 class GlossaryToolViewerComponent extends GlossaryToolComponent 
 {
-	private $action_bar;
+    function run()
+	{
+		if(!$this->is_allowed(VIEW_RIGHT))
+		{
+			Display :: not_allowed();
+			return;
+		}
+
+        $cid = Request :: get(Tool :: PARAM_COMPLEX_ID);
+		$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
+        Request :: get('view') == null ? $view = 'table' : $view = Request :: get('view');
+        $cd = ComplexDisplay :: factory($this);
+        $cd->run();
+
+        switch($cd->get_action())
+        {
+            case GlossaryDisplay :: ACTION_VIEW_GLOSSARY:
+                Events :: trigger_event('view', 'weblcms', array('publication_id' => $pid, 'view' => $view));
+                break;
+        }
+    }
+
+	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
+	{
+		return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
+	}
+
+    function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
+	{
+        $parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_VIEW_GLOSSARY;
+		$this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
+	}
+
+	/*private $action_bar;
 	
 	const PARAM_VIEW = 'view';
 	const VIEW_LIST = 'list';
@@ -116,14 +150,15 @@ class GlossaryToolViewerComponent extends GlossaryToolComponent
 		
 		//$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'type' => 'glossary_item', self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		/*$action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'type' => 'glossary_item', self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsTable'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_VIEW_GLOSSARY, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsList'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_VIEW_GLOSSARY, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), self :: PARAM_VIEW => self :: VIEW_LIST)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		
 		return $action_bar;
-	}
+	}*/
+
 }
 
 ?>
