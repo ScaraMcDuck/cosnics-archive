@@ -19,10 +19,10 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 	const PARAM_FORUM_PUBLICATION = 'forum_publication';
     const PARAM_PUBLICATION_ID = 'pid';
 
-	const ACTION_DELETE_FORUM_PUBLICATION = 'delete_forum_publication';
-	const ACTION_EDIT_FORUM_PUBLICATION = 'edit_forum_publication';
-	const ACTION_CREATE_FORUM_PUBLICATION = 'create_forum_publication';
-    const ACTION_VIEW_FORUM_PUBLICATIONS = 'view_forum_publications';
+	const ACTION_DELETE = 'delete_forum_publication';
+	const ACTION_EDIT = 'edit_forum_publication';
+	const ACTION_CREATE = 'create_forum_publication';
+    const ACTION_VIEW = 'view_forum_publications';
     const ACTION_PUBLISH = 'publish';
 	const ACTION_BROWSE = 'browse';
 
@@ -51,16 +51,16 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 		$component = null;
 		switch ($action)
 		{
-			case self :: ACTION_DELETE_FORUM_PUBLICATION :
+			case self :: ACTION_DELETE :
 				$component = ForumManagerComponent :: factory('Deleter', $this);
 				break;
-			case self :: ACTION_CREATE_FORUM_PUBLICATION :
+			case self :: ACTION_CREATE :
 				$component = ForumManagerComponent :: factory('Creator', $this);
 				break;
 			case self :: ACTION_BROWSE:
 				$component = ForumManagerComponent :: factory('Browser', $this);
 				break;
-            case self :: ACTION_VIEW_FORUM_PUBLICATIONS:
+            case self :: ACTION_VIEW:
                 $component = ForumManagerComponent :: factory('Viewer', $this);
                 break;
 			default :
@@ -174,6 +174,11 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 	{
 		return $this->rights[$right];
 	}
+
+    function get_user()
+    {
+        return $this->user;
+    }
 
     /**
 	 * Load the rights for the current user in this tool
