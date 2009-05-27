@@ -39,13 +39,13 @@ class ForumManagerViewerComponent extends ForumManagerComponent
 
 	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
 	{
-        $parameters[ForumManager :: PARAM_ACTION] = ForumManager :: ACTION_VIEW_FORUM_PUBLICATIONS;
+        $parameters[ForumManager :: PARAM_ACTION] = ForumManager :: ACTION_VIEW;
 		return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
 	}
 
     function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
 	{
-        $parameters[ForumManager :: PARAM_ACTION] = ForumManager :: ACTION_VIEW_FORUM_PUBLICATIONS;
+        $parameters[ForumManager :: PARAM_ACTION] = ForumManager :: ACTION_VIEW;
 		$this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
 	}
 }

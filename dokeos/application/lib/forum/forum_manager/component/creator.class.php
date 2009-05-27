@@ -21,7 +21,7 @@ class ForumManagerCreatorComponent extends ForumManagerComponent
     {
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForum')));
-        $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE_FORUM_PUBLICATIONS)), Translation :: get('BrowseForumPublications')));
+        $trail->add(new Breadcrumb($this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE)), Translation :: get('BrowseForumPublications')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateForumPublication')));
 
         $object = $_GET['object'];

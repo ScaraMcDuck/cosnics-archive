@@ -59,7 +59,7 @@ class ForumManagerDeleterComponent extends ForumManagerComponent
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE_FORUM_PUBLICATIONS));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_BROWSE));
 		}
 		else
 		{

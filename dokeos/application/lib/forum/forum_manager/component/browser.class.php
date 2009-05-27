@@ -22,13 +22,6 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 			Display :: not_allowed();
 			return;
 		}
-
-        //$rdm = RepositoryDataManager::get_instance();
-        //$publications = $this->retrieve_forum_publications();
-
-
-		//$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','forum'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
-		//$this->introduction_text = $publications->next_result();
 		$this->action_bar = $this->get_action_bar();
 
 		$table = $this->get_table_html();
@@ -37,11 +30,6 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('forum')));
 
 		$this->display_header($trail);
-
-//		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
-//		{
-//			echo $this->display_introduction_text($this->introduction_text);
-//		}
 		
 		echo $this->action_bar->as_html();
 		echo $table->toHtml();
@@ -111,11 +99,9 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 		{
 			$user_id = $this->get_user_id();
 		}
-//
+
         $publications = $this->retrieve_forum_publications();
         $rdm = RepositoryDataManager::get_instance();
-
-		//$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), $parent, $user_id, $course_groups, $condition, false, array (Forum :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_ASC), 0, -1, null, $cond);
 
 		$size = $publications->size();
 		$this->size = $size;
@@ -127,7 +113,7 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 			$last = $counter == ($size - 1) ? true : false;
 
             $forum = $rdm->retrieve_learning_object($publication->get_forum_id(), 'forum');
-            $title = '<a href="' . $this->get_url(array(ForumManager::PARAM_ACTION => ForumManager::ACTION_VIEW_FORUM_PUBLICATIONS, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, ForumManager::PARAM_PUBLICATION_ID => $publication->get_forum_id())) . '">' . $forum->get_title() . '</a><br />' . DokeosUtilities::truncate_string($forum->get_description());
+            $title = '<a href="' . $this->get_url(array(ForumManager::PARAM_ACTION => ForumManager::ACTION_VIEW, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, ForumManager::PARAM_PUBLICATION_ID => $publication->get_forum_id())) . '">' . $forum->get_title() . '</a><br />' . DokeosUtilities::truncate_string($forum->get_description());
 
 //			if($publication->is_hidden())
 //			{
@@ -156,7 +142,7 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 		if($this->is_allowed(DELETE_RIGHT))
 		{
 			$delete = array(
-                'href' => $this->get_url(array('pid' => $publication->get_forum_id(), ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_DELETE_SUBFORUM)),
+                'href' => $this->get_url(array(ForumManager::PARAM_FORUM_PUBLICATION => $publication->get_id(), ForumManager::PARAM_ACTION => ForumManager :: ACTION_DELETE)),
 				'label' => Translation :: get('Delete'),
 				'img' => Theme :: get_common_image_path() . 'action_delete.png',
 				'confirm' => true
@@ -237,7 +223,7 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(ForumManager :: PARAM_ACTION => ForumManager :: ACTION_CREATE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		//$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 //		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))

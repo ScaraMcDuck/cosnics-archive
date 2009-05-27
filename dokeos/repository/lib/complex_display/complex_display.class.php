@@ -18,11 +18,11 @@ abstract class ComplexDisplay
 	const PARAM_TYPE = 'type';
 	const PARAM_DIRECTION = 'direction';
 
-	const ACTION_DELETE_CLOI = 'delete_cloi';
-	const ACTION_UPDATE_CLOI = 'update_cloi';
-	const ACTION_CREATE_CLOI = 'create_cloi';
-	const ACTION_MOVE_CLOI = 'move_cloi';
-	const ACTION_BROWSE_CLO = 'browse';
+	const ACTION_DELETE = 'delete';
+	const ACTION_UPDATE = 'update';
+	const ACTION_CREATE = 'create';
+	const ACTION_MOVE = 'move';
+	const ACTION_BROWSE = 'browse';
 
     const ACTION_VIEW_CLO = 'view';
 
@@ -84,6 +84,9 @@ abstract class ComplexDisplay
 		{
             case self :: ACTION_VIEW_CLO :
                 $component = ComplexDisplayComponent :: factory(null, 'Viewer', $this);
+                break;
+            case self :: ACTION_DELETE :
+                $component = ComplexDisplayComponent :: factory(null,'Deleter',$this);
                 break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_CLO);
