@@ -55,7 +55,7 @@ class PersonalCalendarManagerDeleterComponent extends PersonalCalendarManagerCom
 				}
 			}
 
-			$this->redirect(Translation :: get($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR));
+			$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR));
 		}
 		else
 		{
