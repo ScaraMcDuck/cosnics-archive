@@ -178,7 +178,7 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 			else
 			{
 				$actions[] = array(
-					'href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE => -1)),
+                    'href' => $this->get_url(array('pid' => $publication->get_id(), ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay::ACTION_MOVE, ComplexDisplay :: PARAM_MOVE => -1)),
 					'label' => Translation :: get('MoveUp'),
 					'img' => Theme :: get_common_image_path() . 'action_up.png'
 				);
@@ -194,20 +194,20 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 			else
 			{
 				$actions[] = array(
-					'href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE, Tool :: PARAM_MOVE => 1)),
+					'href' => $this->get_url(array('pid' => $publication->get_id(), ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay::ACTION_MOVE, ComplexDisplay :: PARAM_MOVE => 1)),
 					'label' => Translation :: get('MoveDown'),
 					'img' => Theme :: get_common_image_path() . 'action_down.png'
 				);
 			}
 
 			$actions[] = array(
-				'href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_MOVE_TO_CATEGORY)),
+				'href' => $this->get_url(array('pid' => $publication->get_id(), ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_MOVE_TO_CATEGORY)),
 				'label' => Translation :: get('Move'),
 				'img' => Theme :: get_common_image_path() . 'action_move.png'
 			);
 
 			$actions[] = array(
-				'href' => $this->get_url(array('pid' => $publication->get_id(), Tool :: PARAM_ACTION => Tool :: ACTION_EDIT)),
+				'href' => $this->get_url(array('pid' => $publication->get_id(), ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_EDIT)),
 				'label' => Translation :: get('Edit'),
 				'img' => Theme :: get_common_image_path() . 'action_edit.png'
 			);
