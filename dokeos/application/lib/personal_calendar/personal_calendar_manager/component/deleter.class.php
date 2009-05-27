@@ -4,7 +4,6 @@
  */
 require_once dirname(__FILE__).'/../personal_calendar_manager.class.php';
 require_once dirname(__FILE__).'/../personal_calendar_manager_component.class.php';
-require_once dirname(__FILE__).'/../../../profiler/profiler_manager/profiler.class.php';
 
 class PersonalCalendarManagerDeleterComponent extends PersonalCalendarManagerComponent
 {
@@ -15,24 +14,24 @@ class PersonalCalendarManagerDeleterComponent extends PersonalCalendarManagerCom
 	{
 		$ids = $_GET[PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID];
 		$failures = 0;
-		
+
 		if (!empty ($ids))
 		{
 			if (!is_array($ids))
 			{
 				$ids = array ($ids);
 			}
-			
+
 			foreach ($ids as $id)
 			{
 				$publication = $this->get_parent()->retrieve_calendar_event_publication($id);
-				
+
 				if (!$publication->delete())
 				{
 					$failures++;
 				}
 			}
-			
+
 			if ($failures)
 			{
 				if (count($ids) == 1)
@@ -55,7 +54,7 @@ class PersonalCalendarManagerDeleterComponent extends PersonalCalendarManagerCom
 					$message = 'SelectedPublicationsDeleted';
 				}
 			}
-			
+
 			$this->redirect(Translation :: get($message), ($failures ? true : false), array(Profiler :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR));
 		}
 		else
