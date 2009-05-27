@@ -125,4 +125,8 @@ $lang['home']['YourColumnIsBeingAdded'] = 'Your column is being added';
 $lang['home']['Create'] = 'Create';
 $lang['home']['ManageDescription'] = 'Manage description';
 $lang['home']['BuildDescription'] = 'Build description';
+$lang['home']['Object'] = 'Object';
+$lang['home']['UseObject'] = 'Use object';
+$lang['home']['CreateRssFeedFirst'] = 'Create RSS feed first';
+$lang['home']['BlockConfigUpdated'] = 'Block configuration updated';
 ?>

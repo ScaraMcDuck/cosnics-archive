@@ -105,4 +105,16 @@ $lang['user']['LoginAsUser'] = 'Login as user';
 $lang['user']['ManageRoles'] = 'Manage roles';
 $lang['user']['expiration_date'] = 'Expiration date';
 $lang['user']['Repository'] = 'Repository';
+$lang['user']['UserProfileUpdated'] = 'User profile updated';
+$lang['user']['ShowVersionData'] = 'Show version data';
+$lang['user']['EnablePlatformAuthentication'] = 'Enable platform authentication';
+$lang['user']['EnableExternalAuthentication'] = 'Enable external authentication';
+$lang['user']['ExternalAuthentication'] = 'External authentication';
+$lang['user']['EnableLdapAuthentication'] = 'Enable LDAP Authentication';
+$lang['user']['EnableCasAuthentication'] = 'Enable CAS Authentication';
+$lang['user']['LdapAuthentication'] = 'LDAP authentication';
+$lang['user']['CasAuthentication'] = 'CAS authentication';
+$lang['user']['CasHost'] = 'CAS Host';
+$lang['user']['CasPort'] = 'CAS port';
+$lang['user']['CasUri'] = 'CAS Uri';
 ?>

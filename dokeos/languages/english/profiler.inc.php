@@ -86,4 +86,6 @@ $lang['profiler']['AddCategory'] = 'Add category';
 $lang['profiler']['CategoryMoved'] = 'Category moved';
 $lang['profiler']['Move'] = 'Move';
 $lang['profiler']['UpdateCategory'] = 'Update category';
+$lang['profiler']['PublishSelected'] = 'Publish selected';
+$lang['profiler']['CategoryDeleted'] = 'Category deleted';
 ?>

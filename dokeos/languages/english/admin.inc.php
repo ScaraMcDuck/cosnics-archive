@@ -302,4 +302,6 @@ $lang['admin']['NoteActive'] = 'Note active';
 $lang['admin']['UserActive'] = 'User active';
 $lang['admin']['LearningObject'] = 'Object';
 $lang['admin']['Published'] = 'Published';
+$lang['admin']['UserImportDescription'] = ' ';
+$lang['admin']['CourseCategoryManagementDescription'] = ' ';
 ?>

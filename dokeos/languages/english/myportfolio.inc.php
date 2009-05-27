@@ -38,4 +38,8 @@ $lang['myportfolio']['timeNoSecFormat'] = '%I:%M %p';
 $lang['myportfolio']['Edit'] = 'Edit';
 $lang['myportfolio']['EditNotAllowed'] = 'Edit not allowed';
 $lang['myportfolio']['NoObjectSelected'] = 'No object selected';
+$lang['myportfolio']['BrowsePortfolios'] = 'Browse portfolios';
+$lang['myportfolio']['MyPublications'] = 'My publications';
+$lang['myportfolio']['MyThesis'] = 'My Thesis';
+$lang['myportfolio']['MyProjects'] = 'My Projects';
 ?>
