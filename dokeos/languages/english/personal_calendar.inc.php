@@ -69,4 +69,8 @@ $lang['personal_calendar']['Searching'] = 'Searching';
 $lang['personal_calendar']['NoResults'] = 'No results found';
 $lang['personal_calendar']['Error'] = 'Error';
 $lang['personal_calendar']['SharedWith'] = 'Shared with';
+$lang['personal_calendar']['Day'] = 'Day';
+$lang['personal_calendar']['CreateAsNewVersion'] = 'Create as new version';
+$lang['personal_calendar']['Update'] = 'Update';
+$lang['personal_calendar']['CalendarEventPublicationUpdated'] = 'Calendar event publication updated';
 ?>

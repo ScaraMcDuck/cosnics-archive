@@ -19,4 +19,8 @@ $lang['webservice']['LockedFalse'] = 'Locked false';
 $lang['webservice']['LocationNoInherit'] = 'Location no inherit';
 $lang['webservice']['LocationInherit'] = 'Location inherit';
 $lang['webservice']['ManageWebservices'] = 'Manage webservices';
+$lang['webservice']['EditRightsForAllProvidedWebservices'] = 'Edit rights for all provided webservices';
+$lang['webservice']['SetRightsForThe'] = 'Set rights for the';
+$lang['webservice']['Category'] = 'Category';
+$lang['webservice']['LockedTrue'] = 'Locked';
 ?>

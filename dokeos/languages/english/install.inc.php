@@ -116,4 +116,7 @@ $lang['install']['TrackingAdded'] = 'Tracking added';
 $lang['install']['HashingAlgorithm'] = 'Hashing algorithm';
 $lang['install']['TestUserAccountCreated'] = 'Testuser account created';
 $lang['install']['Anonymous'] = 'Anonymous';
+$lang['install']['License'] = 'License';
+$lang['install']['PrivacyPolicy'] = 'Privacy Policy';
+$lang['install']['Forum'] = 'Forum';
 ?>
