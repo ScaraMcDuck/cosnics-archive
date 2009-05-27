@@ -47,9 +47,19 @@ class WeblcmsManagerCourseCreatorComponent extends WeblcmsManagerComponent
 		$form = new CourseForm(CourseForm :: TYPE_CREATE, $course, $this->get_user(), $this->get_url());
 
 		if($form->validate())
-		{
-			$success = $form->create_course();
-			$this->redirect(Translation :: get($success ? 'CourseCreated' : 'CourseNotCreated'), ($success ? false : true), array('go' => WeblcmsManager :: ACTION_VIEW_COURSE, 'course' => $course->get_id()));
+        {
+            if(WebLcmsDataManager :: get_instance()->retrieve_courses(null, new EqualityCondition(Course ::PROPERTY_VISUAL,$form->exportValue(Course :: PROPERTY_VISUAL)))->next_result())
+			{
+                  $this->display_header($trail, false, true);
+                  $this->display_error_message(Translation :: get('CourseCodeAlreadyExists'));
+                  $form->display();
+                  $this->display_footer();
+            }
+            else
+            {
+                $success = $form->create_course();
+                $this->redirect(Translation :: get($success ? 'CourseCreated' : 'CourseNotCreated'), ($success ? false : true), array('go' => WeblcmsManager :: ACTION_VIEW_COURSE, 'course' => $course->get_id()));
+            }
 		}
 		else
 		{
