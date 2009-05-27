@@ -9,21 +9,15 @@
  */
 
 require_once Path :: get_library_path().'/html/action_bar/action_bar_renderer.class.php';
-require_once Path :: get_repository_path().'/lib/complex_display/complex_display.class.php';
+require_once dirname(__FILE__).'/wiki_publication_table/wiki_publication_table.class.php';
 
-class WikiToolBrowserComponent extends WikiToolComponent
+class WikiDisplayWikiBrowserComponent extends WikiDisplayComponent
 {
 	private $action_bar;
 
-	/*function run()
+	function run()
 	{
-		if (!$this->is_allowed(VIEW_RIGHT))
-		{
-			Display :: not_allowed();
-			return;
-		}
-
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','wiki'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_parent()->get_parent()->get_course_id(), null, null, null, new EqualityCondition('tool','wiki'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
 		$this->introduction_text = $publications->next_result();
 
 		$this->action_bar = $this->get_toolbar();
@@ -38,44 +32,10 @@ class WikiToolBrowserComponent extends WikiToolComponent
 		}
 
 		echo $this->action_bar->as_html();
-		$table = new WikiPublicationTable($this, $this->get_user(), array('wiki'), null);
+		$table = new WikiPublicationTable($this->get_parent()->get_parent(), $this->get_user(), array('wiki'), null);
 		echo $table->as_html();
 
 		$this->display_footer();
-	}*/
-
-
-    function run()
-	{
-		if(!$this->is_allowed(VIEW_RIGHT))
-		{
-			Display :: not_allowed();
-			return;
-		}
-
-        $this->action_bar = $this->get_toolbar();
-
-        $cd = ComplexDisplay :: factory($this);
-        $cd->run();
-
-        switch($cd->get_action())
-        {
-            case WikiDisplay ::ACTION_BROWSE_WIKIS:
-                Events :: trigger_event('browse', 'weblcms', array('course' => Request :: get('course')));
-                break;
-        }
-    }
-
-	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
-	{
-        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
-		return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
-	}
-
-    function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
-	{
-        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
-		$this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
 	}
 
 

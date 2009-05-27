@@ -9,8 +9,7 @@
 
 require_once dirname(__FILE__) . '/../wiki_tool.class.php';
 require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
-require_once dirname(__FILE__).'/wiki_page_table/wiki_page_table.class.php';
-require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
+require_once Path :: get_repository_path().'/lib/complex_display/complex_display.class.php';
 
 class WikiToolStatisticsViewerComponent extends WikiToolComponent
 {
@@ -22,15 +21,27 @@ class WikiToolStatisticsViewerComponent extends WikiToolComponent
 			return;
 		}
 
-        /*
-         *  We use the Reporting Tool, for more information about it, please read the information provided in the reporting class
-         */
-        
-        $params = array();
-        $params[ReportingManager :: PARAM_COURSE_ID] = $this->get_course_id();
-        $params['pid'] = Request :: get('pid');
-        $url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, 'template_name' => 'WikiReportingTemplate', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid')));//ReportingManager :: get_reporting_template_registration_url_content($this,'WikiReportingTemplate',$params);
-        header('location: '.$url);
+        $cd = ComplexDisplay :: factory($this);
+        $cd->run();
+
+        switch($cd->get_action())
+        {
+            case WikiDisplay :: ACTION_STATISTICS:
+                Events :: trigger_event('statistics', 'weblcms', array('course' => Request :: get('course'), Tool :: PARAM_PUBLICATION_ID => Request :: get('pid')));
+                break;
+        }
     }
+
+	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
+	{
+        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
+		return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
+	}
+
+    function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
+	{
+        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
+		$this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
+	}
 }
 ?>
