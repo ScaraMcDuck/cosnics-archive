@@ -1,0 +1,32 @@
+<?php
+$lang['forum']['ObjectNotPublished'] = 'Object not published';
+$lang['forum']['ObjectPublished'] = 'Object published';
+$lang['forum']['forum'] = 'Forum';
+$lang['forum']['NoPublications'] = 'No publications';
+$lang['forum']['Topics'] = 'Topics';
+$lang['forum']['Posts'] = 'Posts';
+$lang['forum']['LastPost'] = 'Last post';
+$lang['forum']['NoNewPosts'] = 'No new posts';
+$lang['forum']['Delete'] = 'Delete';
+$lang['forum']['Show'] = 'Show';
+$lang['forum']['Hide'] = 'Hide';
+$lang['forum']['MoveUpNA'] = 'Move up not available';
+$lang['forum']['MoveUp'] = 'Move up';
+$lang['forum']['MoveDownNA'] = 'Move down not available';
+$lang['forum']['MoveDown'] = 'Move down';
+$lang['forum']['Move'] = 'Move';
+$lang['forum']['Edit'] = 'Edit';
+$lang['forum']['Publish'] = 'Publish';
+$lang['forum']['ManageCategories'] = 'Manage categories';
+$lang['forum']['PublishIntroductionText'] = 'Publish introduction text';
+$lang['forum']['BrowseForum'] = 'Browse forum';
+$lang['forum']['BrowseForumPublications'] = 'Browse forum publications';
+$lang['forum']['CreateForumPublication'] = 'Create forum publication';
+$lang['forum']['browse'] = 'Browse';
+$lang['forum']['NoForumPublicationsSelected'] = 'No publications selected';
+$lang['forum']['PublishFor'] = 'Publish for';
+$lang['forum']['Hidden'] = 'Hidden';
+$lang['forum']['ShowOnHomepage'] = 'Show on homepage';
+$lang['forum']['Reset'] = 'Reset';
+$lang['forum']['Ok'] = 'OK';
+?>
