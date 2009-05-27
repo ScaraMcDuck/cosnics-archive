@@ -6,38 +6,40 @@
  * Author: Nick De Feyter
  */
 
-require_once dirname(__FILE__).'/../../../learning_object_repo_viewer.class.php';
-require_once Path::get_library_path().'/html/action_bar/action_bar_renderer.class.php';
-require_once dirname(__FILE__) . '/../../../publisher/learning_object_publisher.class.php';
-require_once Path::get_repository_path().'/lib/complex_learning_object_item.class.php';
-require_once Path::get_repository_path().'/lib/data_manager/database.class.php';
-require_once Path::get_repository_path().'/lib/learning_object/wiki_page/complex_wiki_page.class.php';
+require_once Path :: get_repository_path().'/lib/complex_display/complex_display.class.php';
 
 class WikiToolHomepageSetterComponent extends WikiToolComponent
 {
-	function run()
+    function run()
 	{
-        if (!$this->is_allowed(EDIT_RIGHT))
+		if(!$this->is_allowed(EDIT_RIGHT))
 		{
 			Display :: not_allowed();
 			return;
 		}
 
-		$trail = new BreadcrumbTrail();
+        $cd = ComplexDisplay :: factory($this);
+        $cd->run();
 
-        $dm = RepositoryDataManager :: get_instance();
-        $page = $dm->retrieve_complex_learning_object_item(Request :: get('cid'));
-        /*
-         *  If the wiki_page isn't empy the homepage will be set
-         */
-        if(!empty($page))
+        switch($cd->get_action())
         {
-            $page->set_is_homepage(true);
-            $page->update();
+            case WikiDisplay :: ACTION_SET_AS_HOMEPAGE:
+                Events :: trigger_event('set_as_homepage', 'weblcms', array('course' => Request :: get('course'), Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid')));
+                break;
         }
-        $this->redirect(null, '', array(Tool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'pid' => Request :: get('pid')));
-
     }
+
+	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
+	{
+        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
+		return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
+	}
+
+    function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
+	{
+        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
+		$this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
+	}
 }
 
 ?>

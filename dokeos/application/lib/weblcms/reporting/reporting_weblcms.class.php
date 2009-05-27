@@ -548,8 +548,8 @@ class ReportingWeblcms {
         arsort($visits);
         $keys=array_keys($visits);
         $page = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi_refs[$keys[0]]);
-        $link = '<a href='. 'http://' . $_SERVER['HTTP_HOST'] ."/run.php?go=courseviewer&course={$params['course_id']}&tool=wiki&application=weblcms&tool_action=view_item&cid={$keys[0]}&pid={$params['pid']}" . '>' . htmlspecialchars($page->get_title()) . '</a>';
-        $arr[Translation :: get('MostVisitedPage')][] = $link;
+        $url = (Redirect ::get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => 'view_item', 'pid' => $params['pid'], 'cid' => $keys[0])));
+        $arr[Translation :: get('MostVisitedPage')][] = '<a href="'.$url.'">'. htmlspecialchars($page->get_title()) . '</a>';
         $arr[Translation :: get('NumberOfVisits')][] = $visits[$keys[0]];
 
         return Reporting::getSerieArray($arr);
@@ -578,8 +578,8 @@ class ReportingWeblcms {
         }
         arsort($edits);
         $keys=array_keys($edits);
-        $link = '<a href='.'http://' . $_SERVER['HTTP_HOST']."/run.php?go=courseviewer&course={$params['course_id']}&tool=wiki&application=weblcms&tool_action=view_item&cid={$page_ids[$keys[0]]}&pid={$wiki->get_id()}". '>' . htmlspecialchars($keys[0]) . '</a>';
-        $arr[Translation :: get('MostEditedPage')][] = $link;
+        $url = (Redirect ::get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => 'view_item', 'pid' => $wiki->get_id(), 'cid' => $page_ids[$keys[0]])));
+        $arr[Translation :: get('MostEditedPage')][] = '<a href="'.$url.'">' . htmlspecialchars($keys[0]) . '</a>';
         $arr[Translation :: get('NumberOfEdits')][] = $edits[$keys[0]];
         return Reporting::getSerieArray($arr);
     }

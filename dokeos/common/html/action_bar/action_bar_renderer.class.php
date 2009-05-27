@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . '/action_bar_search_form.class.php';
 require_once Path :: get_library_path().'html/toolbar/toolbar.class.php';
 require_once Path :: get_library_path().'html/toolbar/toolbar_item.class.php';
-require_once Path ::get_application_path().'lib/weblcms/tool/wiki/component/wiki_actionbar.class.php';
+require_once Path ::get_repository_path().'lib/complex_display/wiki/component/wiki_actionbar.class.php';
 
 /**
  * Class that renders an action bar divided in 3 parts, a left menu for actions, a middle menu for actions

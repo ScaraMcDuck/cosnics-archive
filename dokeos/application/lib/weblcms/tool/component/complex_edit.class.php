@@ -28,22 +28,14 @@ class ToolComplexEditComponent extends ToolComponent
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))),Translation :: get('Edit')));
                 $trail->add_help('courses general');
 
-                //$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $pid)), $_SESSION['wiki_title']));
-                //$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $pid, Tool :: PARAM_COMPLEX_ID => $cid)), $learning_object->get_title()));
-
 
                 if( $form->validate() || $_GET['validated'])
                 {
                     $form->update_learning_object();
                     if($form->is_version())
                     {
-                        echo 'test';
                         $cloi->set_ref($learning_object->get_latest_version()->get_id());
                         $cloi->update();
-                    }
-                    //else
-                    {
-                       // echo 'fack';
                     }
 
                     $message = htmlentities(Translation :: get('LearningObjectUpdated'));
@@ -67,7 +59,6 @@ class ToolComplexEditComponent extends ToolComponent
                         $params['cid'] = $cid;
                         $params['tool_action'] = 'view_item';
                     }
-
 
 
                     $this->redirect($message, '', $params);

@@ -202,6 +202,8 @@ class Reporting{
 
         if(isset($_GET['pid']))
             $params['pid'] = $_GET['pid'];
+        if(Request :: get('cid') != null)
+            $params['cid'] = Request :: get('cid');
 
         $params['url'] = $parent->get_url();
 
