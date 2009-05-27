@@ -72,7 +72,10 @@ class ForumDisplay extends ComplexDisplay
 				break;
 		}
         
-		$component->run();
+		if(!$component)
+			parent :: run();
+		else
+			$component->run();
 	}
 }
 

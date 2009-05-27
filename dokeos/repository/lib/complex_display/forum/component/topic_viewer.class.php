@@ -107,7 +107,7 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
 
 				foreach($attachments as $attachment)
 				{
-                    $message .= '<li><a href="' . $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_ATTACHMENT, 'object_id' => $attachment->get_id())) . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
+                    $message .= '<li><a href="' . $this->get_url(array(ComplexDisplay::PARAM_DISPLAY_ACTION => ComplexDisplay::ACTION_VIEW_ATTACHMENT, 'object_id' => $attachment->get_id())) . '"><img src="'.Theme :: get_common_image_path().'treemenu_types/'.$attachment->get_type().'.png" alt="'.htmlentities(Translation :: get(LearningObject :: type_to_class($attachment->get_type()).'TypeName')).'"/> '.$attachment->get_title().'</a></li>';
 				}
 
 				$message .= '</ul></div>';

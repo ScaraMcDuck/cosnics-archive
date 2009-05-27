@@ -17,12 +17,16 @@ abstract class ComplexDisplay
 	const PARAM_MOVE_SELECTED_CLOI = 'move_selected_cloi';
 	const PARAM_TYPE = 'type';
 	const PARAM_DIRECTION = 'direction';
+    const PARAM_MOVE = 'move';
 
 	const ACTION_DELETE = 'delete';
 	const ACTION_UPDATE = 'update';
 	const ACTION_CREATE = 'create';
 	const ACTION_MOVE = 'move';
 	const ACTION_BROWSE = 'browse';
+    const ACTION_VIEW_ATTACHMENT = 'view_attachment';
+    const ACTION_MOVE_TO_CATEGORY = 'move_to_category';
+    const ACTION_EDIT = 'edit';
 
     const ACTION_VIEW_CLO = 'view';
 
@@ -82,11 +86,26 @@ abstract class ComplexDisplay
 		$action = $this->get_action();
 		switch($action)
 		{
-            case self :: ACTION_VIEW_CLO :
-                $component = ComplexDisplayComponent :: factory(null, 'Viewer', $this);
-                break;
             case self :: ACTION_DELETE :
                 $component = ComplexDisplayComponent :: factory(null,'Deleter',$this);
+                break;
+            case self :: ACTION_UPDATE :
+                $component = ComplexDisplayComponent :: factory(null,'Updater',$this);
+                break;
+            case self :: ACTION_CREATE:
+                $component = ComplexDisplayComponent :: factory(null,'Creator',$this);
+                break;
+            case self :: ACTION_MOVE:
+                $component = ComplexDisplayComponent :: factory(null,'Mover',$this);
+                break;
+            case self :: ACTION_BROWSE:
+                $component = ComplexDisplayComponent :: factory(null,'Browser',$this);
+                break;
+            case self :: ACTION_VIEW_ATTACHMENT :
+                $component = ComplexDisplayComponent :: factory(null,'AttachmentViewer',$this);
+                break;
+            case self :: ACTION_VIEW_CLO :
+                $component = ComplexDisplayComponent :: factory(null, 'Viewer', $this);
                 break;
 			default :
 				$this->set_action(self :: ACTION_VIEW_CLO);
