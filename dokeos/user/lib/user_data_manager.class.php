@@ -6,6 +6,7 @@
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
 require_once Path :: get_library_path().'authentication/authentication.class.php';
+require_once Path :: get_application_path().'/lib/weblcms/data_manager/database.class.php';
 /**
  *	This is a skeleton for a data manager for the Users table.
  *	Data managers must extend this class and implement its abstract methods.
@@ -209,7 +210,17 @@ abstract class UserDataManager
 	function user_deletion_allowed($user)
 	{
 		// TODO: Check if the user can be deleted (fe: can an admin delete another admin etc)
-		return true;
+
+        //A check to not delete a user when he's an active teacher
+        {
+            $courses = WebLcmsDataManager :: get_instance()->retrieve_courses(null, new EqualityCondition(Course :: PROPERTY_TITULAR,$user->get_id()))->size();
+            if($courses>0)
+            return false;
+        }
+
+        
+
+        return true;
 	}
 
 	/**
