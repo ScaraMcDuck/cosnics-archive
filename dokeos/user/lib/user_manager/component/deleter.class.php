@@ -29,6 +29,7 @@ class UserManagerDeleterComponent extends UserManagerComponent
 				exit;
 			}
 
+            if(UserDataManager :: get_instance()->user_deletion_allowed($user))
 			$success = $user->delete();
 
 			if($success)
