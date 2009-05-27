@@ -136,7 +136,7 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
 
         if(!empty($this->links))
         {
-            $p = new WikiToolParserComponent($this->publication_id,$this->get_course()->get_id(),$this->links);
+            $p = new WikiToolParserComponent($this->publication_id,$this->get_parent()->get_parent()->get_course()->get_id(),$this->links);
             $toolboxlinks = $p->handle_toolbox_links($this->links);
             $this->links = explode(';',$this->links);
             $i=0;
