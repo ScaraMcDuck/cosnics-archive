@@ -6,7 +6,7 @@ require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.p
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 
 /**
- *	This class represents a CalendarEventPublication. 
+ *	This class represents a CalendarEventPublication.
  *
  *	CalendarEventPublication objects have a number of default properties:
  *	- id: the numeric ID of the CalendarEventPublication;
@@ -21,14 +21,14 @@ class CalendarEventPublication
 	const PROPERTY_ID = 'id';
 	const PROPERTY_CALENDAR_EVENT = 'calendar_event';
 	const PROPERTY_PUBLISHER = 'publisher';
-	const PROPERTY_PUBLISHED = 'published';	
-	
+	const PROPERTY_PUBLISHED = 'published';
+
 	private $id;
 	private $defaultProperties;
-	
+
 	private $target_groups;
 	private $target_users;
-	
+
 	/**
 	 * Creates a new calendar_event object.
 	 * @param int $id The numeric ID of the CalendarEventPublication object. May be omitted
@@ -41,7 +41,7 @@ class CalendarEventPublication
 		$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
 	}
-	
+
 	/**
 	 * Gets a default property of this CalendarEventPublication object by name.
 	 * @param string $name The name of the property.
@@ -50,7 +50,7 @@ class CalendarEventPublication
 	{
 		return $this->defaultProperties[$name];
 	}
-	
+
 	/**
 	 * Gets the default properties of this CalendarEventPublication.
 	 * @return array An associative array containing the properties.
@@ -59,7 +59,7 @@ class CalendarEventPublication
 	{
 		return $this->defaultProperties;
 	}
-	
+
 	/**
 	 * Get the default properties of all CalendarEventPublications.
 	 * @return array The property names.
@@ -68,7 +68,7 @@ class CalendarEventPublication
 	{
 		return array (self :: PROPERTY_ID, self :: PROPERTY_CALENDAR_EVENT, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED);
 	}
-	
+
 	/**
 	 * Sets a default property of this CalendarEventPublication by name.
 	 * @param string $name The name of the property.
@@ -78,7 +78,7 @@ class CalendarEventPublication
 	{
 		$this->defaultProperties[$name] = $value;
 	}
-	
+
 	/**
 	 * Checks if the given identifier is the name of a default calendar_eventr
 	 * property.
@@ -90,7 +90,7 @@ class CalendarEventPublication
 	{
 		return in_array($name, self :: get_default_property_names());
 	}
-	
+
 	/**
 	 * Returns the id of this CalendarEventPublication.
 	 * @return int The CalendarEventPublication id.
@@ -99,7 +99,7 @@ class CalendarEventPublication
 	{
 		return $this->id;
 	}
-	
+
 	/**
 	 * Returns the learning object id from this CalendarEventPublication object
 	 * @return int The CalendarEvent ID
@@ -108,7 +108,7 @@ class CalendarEventPublication
 	{
 		return $this->get_default_property(self :: PROPERTY_CALENDAR_EVENT);
 	}
-	
+
 	 /**
 	  * Returns the user of this CalendarEventPublication object
 	  * @return int the user
@@ -117,7 +117,7 @@ class CalendarEventPublication
 	{
 		return $this->get_default_property(self :: PROPERTY_PUBLISHER);
 	}
-	
+
 	/**
 	 * Returns the published timestamp of this CalendarEventPublication object
 	 * @return Timestamp the published date
@@ -125,8 +125,8 @@ class CalendarEventPublication
 	function get_published()
 	{
 		return $this->get_default_property(self :: PROPERTY_PUBLISHED);
-	} 
-	  
+	}
+
 	/**
 	 * Sets the id of this CalendarEventPublication.
 	 * @param int $pm_id The CalendarEventPublication id.
@@ -134,8 +134,8 @@ class CalendarEventPublication
 	function set_id($id)
 	{
 		$this->id = $id;
-	}	
-	
+	}
+
 	/**
 	 * Sets the learning object id of this CalendarEventPublication.
 	 * @param Int $id the calendar_event ID.
@@ -144,7 +144,7 @@ class CalendarEventPublication
 	{
 		$this->set_default_property(self :: PROPERTY_CALENDAR_EVENT, $id);
 	}
-	
+
 	/**
 	 * Sets the user of this CalendarEventPublication.
 	 * @param int $user the User.
@@ -153,7 +153,7 @@ class CalendarEventPublication
 	{
 		$this->set_default_property(self :: PROPERTY_PUBLISHER, $publisher);
 	}
-	
+
 	/**
 	 * Sets the published date of this CalendarEventPublication.
 	 * @param int $published the timestamp of the published date.
@@ -162,19 +162,19 @@ class CalendarEventPublication
 	{
 		$this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
 	}
-	
+
 	function get_publication_object()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->retrieve_learning_object($this->get_calendar_event());
 	}
-	
+
 	function get_publication_publisher()
 	{
 		$udm = UserDataManager :: get_instance();
 		return $udm->retrieve_user($this->get_publisher());
 	}
-	
+
 	/**
 	 * Instructs the data manager to create the personal message publication, making it
 	 * persistent. Also assigns a unique ID to the publication and sets
@@ -194,8 +194,8 @@ class CalendarEventPublication
 		{
 			$users = $this->get_target_users();
 			$groups = $this->get_target_groups();
-			
-			
+
+
 		}
 		else
 		{
@@ -203,7 +203,7 @@ class CalendarEventPublication
 		}
 		*/
 	}
-	
+
 	/**
 	 * Create all needed for migration tool to set the published time manually
 	 */
@@ -214,7 +214,7 @@ class CalendarEventPublication
 		$this->set_id($id);
 		return $pmdm->create_calendar_event_publication($this);
 	}
-	
+
 	/**
 	 * Deletes this publication from persistent storage
 	 * @see PersonalCalendarDataManager::delete_calendar_event_publication()
@@ -223,7 +223,7 @@ class CalendarEventPublication
 	{
 		return PersonalCalendarDataManager :: get_instance()->delete_calendar_event_publication($this);
 	}
-	
+
 	/**
 	 * Updates this publication in persistent storage
 	 * @see PersonalCalendarDataManager::update_calendar_event_publication()
@@ -232,24 +232,7 @@ class CalendarEventPublication
 	{
 		return PersonalCalendarDataManager :: get_instance()->update_calendar_event_publication($this);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	function get_target_users()
 	{
 		if (!isset($this->target_users))
@@ -257,10 +240,10 @@ class CalendarEventPublication
 			$pcdm = PersonalCalendarDataManager :: get_instance();
 			$this->target_users = $pcdm->retrieve_calendar_event_publication_target_users($this);
 		}
-		
+
 		return $this->target_users;
 	}
-	
+
 	function get_target_groups()
 	{
 		if (!isset($this->target_groups))
@@ -268,15 +251,15 @@ class CalendarEventPublication
 			$pcdm = PersonalCalendarDataManager :: get_instance();
 			$this->target_groups = $pcdm->retrieve_calendar_event_publication_target_groups($this);
 		}
-		
+
 		return $this->target_groups;
 	}
-	
+
 	function set_target_users($target_users)
 	{
 		$this->target_users = $target_users;
 	}
-	
+
 	function set_target_groups($target_groups)
 	{
 		$this->target_groups = $target_groups;

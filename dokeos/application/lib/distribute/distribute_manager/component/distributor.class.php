@@ -16,12 +16,12 @@ class DistributeManagerDistributorComponent extends DistributeManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => DistributeManager :: ACTION_BROWSE_DISTRIBUTE_PUBLICATIONS)), Translation :: get('Distribute')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
+        $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => DistributeManager :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS)), Translation :: get('Distribute')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Compose')));
 		$trail->add_help('distribute general');
 
-		$object = $_GET['object'];
-		$pub = new RepoViewer($this, 'announcement', true);
+		$object = Request :: get('object');
+		$pub = new RepoViewer($this, 'announcement');
 
 		if(!isset($object))
 		{

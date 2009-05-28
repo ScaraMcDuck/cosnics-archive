@@ -71,7 +71,7 @@ class AnnouncementDistributor
 				$message = Translation :: get('ObjectPublished');
 			}
 
-			$this->parent->redirect($message, (!$publication ? true : false), array(Application :: PARAM_ACTION => DistributeManager :: ACTION_BROWSE_DISTRIBUTE_PUBLICATIONS));
+			$this->parent->redirect($message, (!$publication ? true : false), array(Application :: PARAM_ACTION => DistributeManager :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS));
 		}
 		else
 		{

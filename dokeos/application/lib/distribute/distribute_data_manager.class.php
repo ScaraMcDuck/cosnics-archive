@@ -39,15 +39,25 @@ abstract class DistributeDataManager
 	}
 
 	abstract function initialize();
+
 	abstract function create_storage_unit($name, $properties, $indexes);
 
 	abstract function get_next_announcement_distribution_id();
+
 	abstract function create_announcement_distribution($announcement_distribution);
+
 	abstract function update_announcement_distribution($announcement_distribution);
+
 	abstract function delete_announcement_distribution($announcement_distribution);
+
 	abstract function count_announcement_distributions($conditions = null);
+
 	abstract function retrieve_announcement_distribution($id);
+
 	abstract function retrieve_announcement_distributions($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
+    abstract function retrieve_announcement_distribution_target_groups($announcement_distribution);
+
+    abstract function retrieve_announcement_distribution_target_users($announcement_distribution);
 }
 ?>

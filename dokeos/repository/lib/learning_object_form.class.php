@@ -2,7 +2,7 @@
 /**
  * $Id$
  * @package repository
- * 
+ *
  * @author Bart Mollet
  * @author Tim De Pauw
  * @author Hans De Bisschop
@@ -42,7 +42,7 @@ abstract class LearningObjectForm extends FormValidator
 	 * Any extra information passed to the form.
 	 */
 	private $extra;
-	
+
 	protected $form_type;
 
 	/**
@@ -57,7 +57,7 @@ abstract class LearningObjectForm extends FormValidator
 	 * @param string $method The method to use ('post' or 'get').
 	 * @param string $action The URL to which the form should be submitted.
 	 */
-	protected function __construct($form_type, $learning_object, $form_name, $method = 'post', 
+	protected function __construct($form_type, $learning_object, $form_name, $method = 'post',
 						$action = null, $extra = null, $additional_elements)
 	{
 		parent :: __construct($form_name, $method, $action);
@@ -66,7 +66,7 @@ abstract class LearningObjectForm extends FormValidator
 		$this->owner_id = $learning_object->get_owner_id();
 		$this->extra = $extra;
 		$this->additional_elements = $additional_elements;
-		
+
 		if ($this->form_type == self :: TYPE_EDIT || $this->form_type == self :: TYPE_REPLY)
 		{
 			$this->build_editing_form();
@@ -118,12 +118,12 @@ abstract class LearningObjectForm extends FormValidator
 		}
 		return $this->learning_object;
 	}
-	
+
 	protected function get_learning_object_type()
 	{
 		return $this->learning_object->get_type();
 	}
-	
+
 	protected function get_learning_object_class()
 	{
 		return DokeosUtilities :: underscores_to_camelcase($this->get_learning_object_type());
@@ -137,7 +137,7 @@ abstract class LearningObjectForm extends FormValidator
 	{
 		$this->learning_object = $learning_object;
 	}
-	
+
 	function get_form_type() {
 		return $this->form_type;
 	}
@@ -172,7 +172,7 @@ abstract class LearningObjectForm extends FormValidator
 		$object = $this->learning_object;
 		$owner = UserDataManager :: get_instance()->retrieve_user($this->get_owner_id());
 		$quotamanager = new QuotaManager($owner);
-		
+
 		$this->addElement('category', Translation :: get('GeneralProperties'));
 		$this->build_basic_form();
 		if($object->is_versionable())
@@ -262,11 +262,11 @@ EOT;
 				$this->addGroup($versions, null, null, "\n");
 				$i++;
 			}
-			
+
 			//$this->addElement('submit', 'submit', Translation :: get('CompareVersions'));
 			$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('CompareVersions'), array('class' => 'normal compare'));
 			$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
-			
+
 			$this->addElement('html', '</div>');
 		}
 	}
@@ -298,11 +298,11 @@ EOT;
 	protected function add_footer()
 	{
 		$object = $this->learning_object;
-		//$elem = $this->addElement('advmultiselect', 'ihsTest', 'Hierarchical select:', array("test"), array('style' => 'width: 20em;'), '<br />'); 
+		//$elem = $this->addElement('advmultiselect', 'ihsTest', 'Hierarchical select:', array("test"), array('style' => 'width: 20em;'), '<br />');
 
 		if ($this->supports_attachments())
 		{
-			
+
 			if ($this->form_type != self :: TYPE_REPLY)
 			{
 				$attached_objects = $object->get_attached_learning_objects();
@@ -312,13 +312,13 @@ EOT;
 			{
 				$attachments = array();
 			}
-			
+
 			$los = RepositoryDataManager :: get_instance()->retrieve_learning_objects(null, new EqualityCondition('owner', $this->owner_id));
 			while($lo = $los->next_result())
 			{
 				$defaults[$lo->get_id()] = array('title' => $lo->get_title(), 'description', $lo->get_description(), 'class' => $lo->get_type());
 			}
-			
+
 			$url = $this->get_path(WEB_PATH).'repository/xml_feed.php';
 			$locale = array ();
 			$locale['Display'] = Translation :: get('AddAttachments');
@@ -326,22 +326,22 @@ EOT;
 			$locale['NoResults'] = Translation :: get('NoResults');
 			$locale['Error'] = Translation :: get('Error');
 			$hidden = true;
-			
-			$this->addElement('category', Translation :: get('Attachments'));
+
+			$this->addElement('category', Translation :: get('Attachments'), 'learning_object_attachments');
 			$elem = $this->addElement('element_finder', 'attachments', null, $url, $locale, $attachments);
 			$this->addElement('category');
-			
+
 			$elem->setDefaults($defaults);
-			
+
 			if ($id = $object->get_id())
 			{
 				$elem->excludeElements(array($object->get_id()));
 			}
 			$elem->setDefaultCollapsed(count($attachments) == 0);
 		}
-		
-		
-		
+
+
+
 		if(count($this->additional_elements) > 0)
 		{
 			$count = 0;
@@ -361,9 +361,9 @@ EOT;
 				$this->addElement('category');
 			}
 		}
-		
+
 		$buttons = array();
-		
+
 		switch($this->form_type)
 		{
 			case self :: TYPE_COMPARE :
@@ -382,7 +382,7 @@ EOT;
 				$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
 				break;
 		}
-		
+
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 	}
@@ -397,35 +397,35 @@ EOT;
 	{
 		$lo = $this->learning_object;
 		$defaults[LearningObject :: PROPERTY_ID] = $lo->get_id();
-	
+
 		if ($this->form_type == self :: TYPE_REPLY)
 		{
 			$defaults[LearningObject :: PROPERTY_TITLE] = Translation :: get('ReplyShort'). ' ' . $lo->get_title();
 		}
 		else
-		{			
+		{
 			$defaults[LearningObject :: PROPERTY_TITLE] = $defaults[LearningObject :: PROPERTY_TITLE]==null?$lo->get_title():$defaults[LearningObject :: PROPERTY_TITLE];
 			$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $lo->get_description();
 		}
-	
+
 		if($lo->is_versioning_required() && $this->form_type == self :: TYPE_EDIT)
 		{
 			$defaults['version'] = 1;
 		}
-		
+
 		parent :: setDefaults($defaults);
 	}
-	
+
 	function setParentDefaults($defaults)
 	{
 		parent :: setDefaults($defaults);
 	}
-	
+
 	function set_values($defaults)
 	{
 		parent :: setDefaults($defaults);
 	}
-	
+
 	/**
 	 * Creates a learning object from the submitted form values. Traditionally,
 	 * you override this method to ensure that the form's learning object is
@@ -435,7 +435,7 @@ EOT;
 	function create_learning_object()
 	{
 		$values = $this->exportValues();
-		
+
 		$object = $this->learning_object;
 		$object->set_owner_id($this->get_owner_id());
 		$object->set_title($values[LearningObject :: PROPERTY_TITLE]);
@@ -445,12 +445,12 @@ EOT;
 		{
 			$object->set_parent_id($values[LearningObject :: PROPERTY_PARENT_ID]);
 		}
-		
+
 		$object->create();
-		
-		// Process includes		
+
+		// Process includes
 		LearningObjectIncludeParser :: parse_includes($this);
-		
+
 		// Process attachments
 		if ($object->supports_attachments())
 		{
@@ -477,15 +477,15 @@ EOT;
 	 * additional learning object properties, and then call the super method.
 	 * @return boolean True if the update succeeded, false otherwise.
 	 */
-	function update_learning_object() 
+	function update_learning_object()
 	{
 		$object = $this->learning_object;
-		$values = $this->exportValues();        
+		$values = $this->exportValues();
 
 		$object->set_title($values[LearningObject :: PROPERTY_TITLE]);
 		$desc = $values[LearningObject :: PROPERTY_DESCRIPTION]?$values[LearningObject :: PROPERTY_DESCRIPTION]:'';
 		$object->set_description($desc?$desc:'');
-		
+
 		if ($this->allows_category_selection())
 		{
 			$parent = $values[LearningObject :: PROPERTY_PARENT_ID];
@@ -494,7 +494,7 @@ EOT;
 				if ($object->move_allowed($parent))
 				{
 					$object->set_parent_id($parent);
-                    
+
 				}
 				else
 				{
@@ -517,12 +517,12 @@ EOT;
 		{
 			$result = $object->update();
 		}
-		
-		// Process includes		
+
+		// Process includes
 		LearningObjectIncludeParser :: parse_includes($this);
-		
+
 		//$include_parser->parse_editors();
-		
+
 		// Process attachments
 		if ($object->supports_attachments())
 		{
@@ -542,7 +542,7 @@ EOT;
 		}
 		return $result;
 	}
-	
+
 	function is_version()
 	{
 		$values = $this->exportValues();
@@ -615,10 +615,10 @@ EOT;
 				return false;
 			}
 		}
-		
+
 		return parent :: validate();
 	}
-	
+
 	function get_path($path_type)
 	{
 		return Path :: get($path_type);

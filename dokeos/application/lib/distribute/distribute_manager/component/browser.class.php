@@ -29,7 +29,7 @@ class DistributeManagerBrowserComponent extends DistributeManagerComponent
 	function get_action_bar_html()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Send'), Theme :: get_common_image_path().'action_mail.png', $this->get_url(array(Application :: PARAM_ACTION => DistributeManager :: ACTION_CREATE_DISTRIBUTE_PUBLICATION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Send'), Theme :: get_common_image_path().'action_mail.png', $this->get_url(array(Application :: PARAM_ACTION => DistributeManager :: ACTION_DISTRIBUTE_ANNOUNCEMENT)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		return $action_bar->as_html();
 	}

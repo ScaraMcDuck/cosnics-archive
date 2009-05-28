@@ -4,16 +4,16 @@
  */
 
 /**
- * This class describes a AnnouncementPublication data object
+ * This class describes a AnnouncementDistribution data object
  *
  * @author Hans De Bisschop
  */
-class AnnouncementPublication
+class AnnouncementDistribution
 {
 	const CLASS_NAME = __CLASS__;
 
 	/**
-	 * AnnouncementPublication properties
+	 * AnnouncementDistribution properties
 	 */
 	const PROPERTY_ID = 'id';
 	const PROPERTY_ANNOUNCEMENT = 'announcement';
@@ -31,11 +31,14 @@ class AnnouncementPublication
 	 */
 	private $defaultProperties;
 
+	private $target_groups;
+	private $target_users;
+
 	/**
-	 * Creates a new AnnouncementPublication object
+	 * Creates a new AnnouncementDistribution object
 	 * @param array $defaultProperties The default properties
 	 */
-	function AnnouncementPublication($defaultProperties = array ())
+	function AnnouncementDistribution($defaultProperties = array ())
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
@@ -86,7 +89,7 @@ class AnnouncementPublication
 	}
 
 	/**
-	 * Returns the id of this AnnouncementPublication.
+	 * Returns the id of this AnnouncementDistribution.
 	 * @return the id.
 	 */
 	function get_id()
@@ -95,7 +98,7 @@ class AnnouncementPublication
 	}
 
 	/**
-	 * Sets the id of this AnnouncementPublication.
+	 * Sets the id of this AnnouncementDistribution.
 	 * @param id
 	 */
 	function set_id($id)
@@ -103,7 +106,7 @@ class AnnouncementPublication
 		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
 	/**
-	 * Returns the announcement of this AnnouncementPublication.
+	 * Returns the announcement of this AnnouncementDistribution.
 	 * @return the announcement.
 	 */
 	function get_announcement()
@@ -112,7 +115,7 @@ class AnnouncementPublication
 	}
 
 	/**
-	 * Sets the announcement of this AnnouncementPublication.
+	 * Sets the announcement of this AnnouncementDistribution.
 	 * @param announcement
 	 */
 	function set_announcement($announcement)
@@ -120,7 +123,7 @@ class AnnouncementPublication
 		$this->set_default_property(self :: PROPERTY_ANNOUNCEMENT, $announcement);
 	}
 	/**
-	 * Returns the publisher of this AnnouncementPublication.
+	 * Returns the publisher of this AnnouncementDistribution.
 	 * @return the publisher.
 	 */
 	function get_publisher()
@@ -129,7 +132,7 @@ class AnnouncementPublication
 	}
 
 	/**
-	 * Sets the publisher of this AnnouncementPublication.
+	 * Sets the publisher of this AnnouncementDistribution.
 	 * @param publisher
 	 */
 	function set_publisher($publisher)
@@ -137,7 +140,7 @@ class AnnouncementPublication
 		$this->set_default_property(self :: PROPERTY_PUBLISHER, $publisher);
 	}
 	/**
-	 * Returns the published of this AnnouncementPublication.
+	 * Returns the published of this AnnouncementDistribution.
 	 * @return the published.
 	 */
 	function get_published()
@@ -146,7 +149,7 @@ class AnnouncementPublication
 	}
 
 	/**
-	 * Sets the published of this AnnouncementPublication.
+	 * Sets the published of this AnnouncementDistribution.
 	 * @param published
 	 */
 	function set_published($published)
@@ -155,7 +158,7 @@ class AnnouncementPublication
 	}
 
 	/**
-	 * Returns the status of this AnnouncementPublication.
+	 * Returns the status of this AnnouncementDistribution.
 	 * @return the status.
 	 */
 	function get_status()
@@ -164,7 +167,7 @@ class AnnouncementPublication
 	}
 
 	/**
-	 * Sets the status of this AnnouncementPublication.
+	 * Sets the status of this AnnouncementDistribution.
 	 * @param status
 	 */
 	function set_status($status)
@@ -175,26 +178,57 @@ class AnnouncementPublication
 	function delete()
 	{
 		$dm = DistributeDataManager :: get_instance();
-		return $dm->delete_announcement_publication($this);
+		return $dm->delete_announcement_distribution($this);
 	}
 
 	function create()
 	{
 		$dm = DistributeDataManager :: get_instance();
-		$this->set_id($dm->get_next_announcement_publication_id());
-       	return $dm->create_announcement_publication($this);
+		$this->set_id($dm->get_next_announcement_distribution_id());
+       	return $dm->create_announcement_distribution($this);
 	}
 
 	function update()
 	{
 		$dm = DistributeDataManager :: get_instance();
-		return $dm->update_announcement_publication($this);
+		return $dm->update_announcement_distribution($this);
 	}
 
 	static function get_table_name()
 	{
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-}
 
+	function get_target_users()
+	{
+		if (!isset($this->target_users))
+		{
+			$ddm = DistributeDataManager :: get_instance();
+			$this->target_users = $ddm->retrieve_announcement_distribution_target_users($this);
+		}
+
+		return $this->target_users;
+	}
+
+	function get_target_groups()
+	{
+		if (!isset($this->target_groups))
+		{
+			$ddm = DistributeDataManager :: get_instance();
+			$this->target_groups = $ddm->retrieve_announcement_distribution_target_groups($this);
+		}
+
+		return $this->target_groups;
+	}
+
+	function set_target_users($target_users)
+	{
+		$this->target_users = $target_users;
+	}
+
+	function set_target_groups($target_groups)
+	{
+		$this->target_groups = $target_groups;
+	}
+}
 ?>

@@ -36,9 +36,33 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 		return $this->database->get_next_id(AnnouncementDistribution :: get_table_name());
 	}
 
-	function create_announcement_distribution($distribute_publication)
+	function create_announcement_distribution($announcement_distribution)
 	{
-		return $this->database->create($distribute_publication);
+		if ($this->database->create($announcement_distribution))
+		{
+			$users = $announcement_distribution->get_target_users();
+			foreach($users as $index => $user_id)
+			{
+				$props = array();
+				$props[$this->database->escape_column_name('distribution')] = $announcement_distribution->get_id();
+				$props[$this->database->escape_column_name('user')] = $user_id;
+				$this->database->get_connection()->extended->autoExecute($this->database->get_table_name('announcement_distribution_user'), $props, MDB2_AUTOQUERY_INSERT);
+			}
+			$groups = $announcement_distribution->get_target_groups();
+			foreach($groups as $index => $group_id)
+			{
+				$props = array();
+				$props[$this->database->escape_column_name('distribution')] = $announcement_distribution->get_id();
+				$props[$this->database->escape_column_name('group_id')] = $group_id;
+				$this->database->get_connection()->extended->autoExecute($this->database->get_table_name('announcement_distribution_group'), $props, MDB2_AUTOQUERY_INSERT);
+			}
+
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	function update_announcement_distribution($distribute_publication)
@@ -69,5 +93,14 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 		return $this->database->retrieve_objects(AnnouncementDistribution :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 
+	function retrieve_announcement_distribution_target_groups($announcement_distribution)
+	{
+		return array();
+	}
+
+	function retrieve_announcement_distribution_target_users($announcement_distribution)
+	{
+		return array();
+	}
 }
 ?>
