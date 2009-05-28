@@ -26,7 +26,12 @@ abstract class Application
 		$this->parameters = array();
 		$this->search_parameters = array();
 		$this->breadcrumbs = array();
-		$this->set_action($_GET[self :: PARAM_ACTION]);
+
+		$action = Request :: get(self :: PARAM_ACTION);
+		if ($action)
+		{
+			$this->set_action(Request :: get(self :: PARAM_ACTION));
+		}
 	}
 
 	/**
@@ -176,7 +181,7 @@ abstract class Application
 	 * Displays the header.
 	 * @param array $breadcrumbtrail The breadcrumbtrail to show in the header.
 	 */
-	function display_header($breadcrumbtrail)
+	function display_header($breadcrumbtrail = null)
 	{
 		if (is_null($breadcrumbtrail))
 		{
