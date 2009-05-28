@@ -1,20 +1,21 @@
 <?php // $Id$
 /**
 ==============================================================================
-* It is recommended that ALL dokeos scripts include this important file.
-* This script manages
-* - http get, post, post_files, session, server-vars extraction into global namespace;
-*   (which doesn't occur anymore when servertype config setting is set to test,
-*    and which will disappear completely in Dokeos 1.6.1)
-* - selecting the main database;
-* - include of language files.
-*
-* @package dokeos.include
+ * It is recommended that ALL dokeos scripts include this important file.
+ * This script manages
+ * - http get, post, post_files, session, server-vars extraction into global namespace;
+ *   (which doesn't occur anymore when servertype config setting is set to test,
+ *    and which will disappear completely in Dokeos 1.6.1)
+ * - selecting the main database;
+ * - include of language files.
+ *
+ * @package dokeos.include
 ==============================================================================
-*/
+ */
 
 // Determine the directory path where this current file lies
 // This path will be useful to include the other intialisation files
+
 
 $includePath = dirname(__FILE__);
 
@@ -23,8 +24,8 @@ $main_configuration_file_path = $includePath . '/configuration/configuration.php
 $already_installed = false;
 if (file_exists($main_configuration_file_path))
 {
-	require_once($main_configuration_file_path);
-	$already_installed = true;
+    require_once ($main_configuration_file_path);
+    $already_installed = true;
 }
 
 $error_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -39,17 +40,15 @@ $error_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 
 $version = phpversion();
 
-if($version >= 5.2)
+if ($version >= 5.2)
 {
-	$error_message .= '<form action="install/index.php" method="get"><input type="submit" value="&nbsp;&nbsp; Click to INSTALL DOKEOS &nbsp;&nbsp;" /></form><br />
+    $error_message .= '<form action="install/index.php" method="get"><input type="submit" value="&nbsp;&nbsp; Click to INSTALL DOKEOS &nbsp;&nbsp;" /></form><br />
 				or <a href="documentation/installation_guide.html" target="_blank">read the installation guide</a><br /><br />';
-}
-else
+} else
 {
-	$error_message .= '<div class="error-message">Your version of PHP is not recent enough to use dokeos 2.0. 
+    $error_message .= '<div class="error-message">Your version of PHP is not recent enough to use dokeos 2.0.
 					   <br /><a href="http://www.php.net">Please upgrade to PHP version 5.2 or higher</a></div><br /><br />';
 }
-
 
 $error_message .= '</div>
 		<div id="footer">
@@ -60,13 +59,14 @@ $error_message .= '</div>
 </html>
 ';
 
-// 
-if (!$already_installed)
+//
+if (! $already_installed)
 {
-	die($error_message);
+    die($error_message);
 }
 
 // include the main Dokeos platform library file
+
 
 // TODO: Temporary solution till these are relocated to a more suitable location
 //USER STATUS CONSTANTS
@@ -119,33 +119,34 @@ define('TOOL_COURSE_HOMEPAGE', 'course_homepage');
 define('TOOL_COURSE_RIGHTS_OVERVIEW', 'course_rights');
 
 // Add the path to the pear packages to the include path
-require_once dirname(__FILE__).'/configuration/configuration.class.php';
-require_once dirname(__FILE__).'/filesystem/path.class.php';
-require_once Path :: get_library_path().'/configuration/platform_setting.class.php';
-ini_set('include_path',realpath(Path :: get_plugin_path().'pear'));
+require_once dirname(__FILE__) . '/configuration/configuration.class.php';
+require_once dirname(__FILE__) . '/filesystem/path.class.php';
+require_once Path :: get_library_path() . '/configuration/platform_setting.class.php';
+ini_set('include_path', realpath(Path :: get_plugin_path() . 'pear'));
 
-require_once Path :: get_library_path().'/database/connection.class.php';
+require_once Path :: get_library_path() . '/database/connection.class.php';
 
 // TODO: Move this to a common area since it's used everywhere.
-require_once Path :: get_library_path().'session/request.class.php';
-require_once Path :: get_library_path().'session/session.class.php';
-require_once Path :: get_library_path().'session/cookie.class.php';
-require_once Path :: get_library_path().'translation/translation.class.php';
-require_once Path :: get_library_path().'hashing/hashing.class.php';
-require_once Path :: get_library_path().'html/text.class.php';
-require_once Path :: get_library_path().'mail/mail.class.php';
-require_once Path :: get_library_path().'html/theme.class.php';
-require_once Path :: get_library_path().'html/breadcrumb_trail.class.php';
-require_once Path :: get_library_path().'html/breadcrumb.class.php';
-require_once Path :: get_library_path().'html/display.class.php';
-require_once Path :: get_library_path().'html/header.class.php';
-require_once Path :: get_help_path(). 'lib/help_manager/help_manager.class.php';
+require_once Path :: get_library_path() . 'session/request.class.php';
+require_once Path :: get_library_path() . 'session/session.class.php';
+require_once Path :: get_library_path() . 'session/cookie.class.php';
+require_once Path :: get_library_path() . 'translation/translation.class.php';
+require_once Path :: get_library_path() . 'hashing/hashing.class.php';
+require_once Path :: get_library_path() . 'html/text.class.php';
+require_once Path :: get_library_path() . 'mail/mail.class.php';
+require_once Path :: get_library_path() . 'html/theme.class.php';
+require_once Path :: get_library_path() . 'html/breadcrumb_trail.class.php';
+require_once Path :: get_library_path() . 'html/breadcrumb.class.php';
+require_once Path :: get_library_path() . 'html/display.class.php';
+require_once Path :: get_library_path() . 'html/header.class.php';
+require_once Path :: get_help_path() . 'lib/help_manager/help_manager.class.php';
 
-require_once(Path :: get_admin_path().'lib/admin_data_manager.class.php');
-require_once(Path :: get_tracking_path().'lib/events.class.php');
+require_once (Path :: get_admin_path() . 'lib/admin_data_manager.class.php');
+require_once (Path :: get_tracking_path() . 'lib/events.class.php');
 require_once 'MDB2.php';
 
 // Start session
+
 
 Session :: start($already_installed);
 
@@ -154,7 +155,7 @@ $connection = Connection :: get_instance()->get_connection();
 
 if (MDB2 :: isError($connection))
 {
-	die($error_message);
+    die($error_message);
 }
 unset($error_message);
 
@@ -164,54 +165,51 @@ unset($error_message);
 --------------------------------------------
 */
 
-if(PlatformSetting :: get('server_type') == 'test')
+if (PlatformSetting :: get('server_type') == 'test')
 {
-	/*
+    /*
 	--------------------------------------------
 	Server type is test
 	- high error reporting level
 	- only do addslashes on $_GET and $_POST
 	--------------------------------------------
 	*/
-	error_reporting(E_ALL & ~E_NOTICE);
-
-	//Addslashes to all $_GET variables
-	foreach($_GET as $key=>$val)
-	{
-		if(!ini_get('magic_quotes_gpc'))
-		{
-			if(is_string($val))
-			{
-				$_GET[$key]=addslashes($val);
-			}
-		}
-	}
-
-	//Addslashes to all $_POST variables
-	foreach($_POST as $key=>$val)
-	{
-		if(!ini_get('magic_quotes_gpc'))
-		{
-			if(is_string($val))
-			{
-				$_POST[$key]=addslashes($val);
-			}
-		}
-	}
-}
-else
+    error_reporting(E_ALL & ~ E_NOTICE);
+    
+    //Addslashes to all $_GET variables
+    foreach ($_GET as $key => $val)
+    {
+        if (! ini_get('magic_quotes_gpc'))
+        {
+            if (is_string($val))
+            {
+                $_GET[$key] = addslashes($val);
+            }
+        }
+    }
+    
+    //Addslashes to all $_POST variables
+    foreach ($_POST as $key => $val)
+    {
+        if (! ini_get('magic_quotes_gpc'))
+        {
+            if (is_string($val))
+            {
+                $_POST[$key] = addslashes($val);
+            }
+        }
+    }
+} else
 {
-	/*
+    /*
 	--------------------------------------------
 	Server type is not test
 	- normal error reporting level
 	- full fake register globals block
 	--------------------------------------------
 	*/
-	error_reporting(E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR);
+    error_reporting(E_COMPILE_ERROR | E_ERROR | E_CORE_ERROR);
 }
-
-//error_reporting(E_ALL);
 
 /*
  * Handle login and logout
@@ -219,153 +217,102 @@ else
  */
 
 // TODO: Are these includes still necessary ?
-require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
-//dump($_SESSION); dump($_SERVER);
+require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
+
 // Login
-if(isset($_POST['login']))
+if (isset($_POST['login']))
 {
-	$udm = UserDataManager::get_instance();
-	$user = $udm->login($_POST['login'],$_POST['password']);
-	if(get_class($user) == 'User')
-	{
-		Session :: register('_uid', $user->get_id());
-		Events :: trigger_event('login', 'user', array('server' => $_SERVER, 'user' => $user));
-		
-		$request_uri = Session :: retrieve('request_uri');
-		
-		if($request_uri)
-		{
-			$request_uris = explode("/", $request_uri);
-			$request_uri = array_pop($request_uris);
-			header('Location: ' . $request_uri);
-		}
-		
-		$login_page = PlatformSetting :: get('page_after_login');
-		if($login_page == 'weblcms')
-			header('Location: run.php?application=weblcms');
-		// TODO: Tracking framework
-		//loginCheck($_SESSION['_uid']);
-		//event_login();
-//		if ($user->is_platform_admin())
-//		{
-//			// decode all open event informations and fill the track_c_* tables
-//			include (api_get_library_path()."/stats.lib.inc.php");
-//			decodeOpenInfos();
-//		}
-	}
-	else
-	{
-		Session :: unregister('_uid');
-		header('Location: index.php?loginFailed=1&message=' . $user);
-		exit;
-	}
-}
-else
+    $udm = UserDataManager :: get_instance();
+    $user = $udm->login($_POST['login'], $_POST['password']);
+    if (get_class($user) == 'User')
+    {
+        Session :: register('_uid', $user->get_id());
+        Events :: trigger_event('login', 'user', array('server' => $_SERVER, 'user' => $user));
+        
+        $request_uri = Session :: retrieve('request_uri');
+        
+        if ($request_uri)
+        {
+            $request_uris = explode("/", $request_uri);
+            $request_uri = array_pop($request_uris);
+            header('Location: ' . $request_uri);
+        }
+        
+        $login_page = PlatformSetting :: get('page_after_login');
+        if ($login_page == 'weblcms')
+        {
+            header('Location: run.php?application=weblcms');
+        }
+    } else
+    {
+        Session :: unregister('_uid');
+        header('Location: index.php?loginFailed=1&message=' . $user);
+        exit();
+    }
+} else
 {
-	Session :: unregister('request_uri');
+    Session :: unregister('request_uri');
 }
 // Log out
 if (isset($_GET['logout']))
 {
-	$query_string='';
-	if(!empty($_SESSION['user_language_choice']))
-	{
-		$query_string='?language='.$_SESSION['user_language_choice'];
-	}
-	
-	$udm = UserDataManager::get_instance();
-	$user = $udm->retrieve_user(Session :: get_user_id());
-	
-	$udm = UserDataManager::get_instance();
-	$udm->logout();
-	Events :: trigger_event('logout', 'user', array('server' => $_SERVER, 'user' => $user));
-	header("Location: index.php");
-	exit();
+    $query_string = '';
+    if (! empty($_SESSION['user_language_choice']))
+    {
+        $query_string = '?language=' . $_SESSION['user_language_choice'];
+    }
+    
+    $udm = UserDataManager :: get_instance();
+    $user = $udm->retrieve_user(Session :: get_user_id());
+    
+    $udm = UserDataManager :: get_instance();
+    $udm->logout();
+    Events :: trigger_event('logout', 'user', array('server' => $_SERVER, 'user' => $user));
+    header("Location: index.php");
+    exit();
 }
 //unset($_SESSION['_uid']);
 
-if(isset($_GET['adminuser']))
+
+if (isset($_GET['adminuser']))
 {
-	$_SESSION['_uid'] = $_SESSION['_as_admin'];
-	$_SESSION['_as_admin'] = null;
-	unset($_SESSION['as_admin']);
+    $_SESSION['_uid'] = $_SESSION['_as_admin'];
+    $_SESSION['_as_admin'] = null;
+    unset($_SESSION['as_admin']);
 }
 
 $user = Session :: get_user_id();
-if($user)
-	Events :: trigger_event('online', 'admin', array('user' => $user));
-
-// ===== "who is logged in?" module section =====
-
-//include_once($includePath."/lib/online.inc.php");
-// TODO: Tracking framework
-// check and modify the date of user in the track.e.online table
-//if (!$x=strpos($_SERVER['PHP_SELF'],'whoisonline.php')) { LoginCheck(isset($_uid) ? $_uid : '',$statsDbName); }
-
-// ===== end "who is logged in?" module section =====
-
-/*
------------------------------------------------------------
-	LOAD LANGUAGE FILES SECTION
------------------------------------------------------------
-*/
-
-//// if we use the javascript version (without go button) we receive a get
-//// if we use the non-javascript version (with the go button) we receive a post
-//$user_language = Request :: get('language');
-//
-//if (isset($_POST["language_list"]))
-//{
-//	$user_language = str_replace("index.php?language=", "", $_POST['language_list']);
-//}
-//
-//// Checking if we have a valid language. If not we set it to the platform language.
-//$languages = $adm->retrieve_languages();
-//$valid_languages = array();
-//while ($language = $languages->next_result())
-//{
-//	$valid_languages[] = $language->get_folder();	
-//}
-//
-//if (!in_array($user_language, $valid_languages))
-//{
-//	$user_language = PlatformSetting :: get('platform_language');
-//}
-//
-//
-//if (in_array($user_language, $valid_languages) and (isset($_GET['language']) OR isset($_POST['language_list'])))
-//{
-//		echo $user_language;
-//	$user_selected_language = $user_language; // $_GET["language"];
-//	$_SESSION['user_language_choice'] = $user_selected_language;
-//	$platformLanguage = $user_selected_language;
-//}
+if ($user)
+{
+    Events :: trigger_event('online', 'admin', array('user' => $user));
+}
 
 $language_interface = PlatformSetting :: get('platform_language');
 
 if (isset($_SESSION['_uid']))
 {
-	require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
-	$user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
-	if($user)
-	{
-		$language_interface = $user->get_language();
-    }
-
-    if(strpos($_SERVER['REQUEST_URI'], 'leave.php') === false && strpos($_SERVER['REQUEST_URI'], 'ajax') === false)
+    require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
+    $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
+    
+    if ($user)
     {
-        $return = Events :: trigger_event('enter','user',array('location' => $_SERVER['REQUEST_URI'], 'user' => $user,'event'=>'enter'));
+        $language_interface = $user->get_language();
+    }
+    
+    if (strpos($_SERVER['REQUEST_URI'], 'leave.php') === false && strpos($_SERVER['REQUEST_URI'], 'ajax') === false)
+    {
+        $return = Events :: trigger_event('enter', 'user', array('location' => $_SERVER['REQUEST_URI'], 'user' => $user, 'event' => 'enter'));
         $htmlHeadXtra[] = '<script language="javascript">var tracker=' . $return[0] . '</script>';
     }
 }
-//echo Hashing :: hash('apple'); echo '<br />' . sha1('apple');
+
 /**
  * Dump functionality with decent output
  */
 function dump($variable)
 {
-	echo '<pre>';
-	print_r($variable);
-	echo '</pre>';
+    echo '<pre>';
+    print_r($variable);
+    echo '</pre>';
 }
 ?>
