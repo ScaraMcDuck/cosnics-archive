@@ -127,7 +127,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 							</script>';
 		$this->addElement('html', $html);
 
-		$applications = Application::load_all_from_filesystem(true);
+		$applications = WebApplication::load_all_from_filesystem(true);
 		$apps = array();
 		foreach($applications as $application_name)
 		{
