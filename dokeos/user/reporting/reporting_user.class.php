@@ -435,6 +435,7 @@ class ReportingUser {
     {
         require_once Path :: get_application_path().'/lib/weblcms/weblcms_data_manager.class.php';
         require_once(dirname(__FILE__) . '/../trackers/visit_tracker.class.php');
+
         $course_id = $params[ReportingManager::PARAM_COURSE_ID];
         $wdm = WeblcmsDataManager::get_instance();
         $udm = UserDataManager::get_instance();
@@ -461,10 +462,7 @@ class ReportingUser {
             $arr[Translation :: get('LearningPathProgress')][] = 0;
             $arr[Translation :: get('ExcerciseProgress')][] = 0;
             $arr[Translation :: get('TotalPublications')][] = $rdm->count_learning_objects(null, new EqualityCondition(LearningObject::PROPERTY_OWNER_ID,$user_id));
-            $url = $params['url'].'&'.ReportingManager :: PARAM_TEMPLATE_NAME .'=CourseStudentTrackerDetailReportingTemplate&';
-            $parameters[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
-            $url .= http_build_query($parameters);
-            //$url = ReportingManager :: get_reporting_template_registration_url_content($_SESSION[ReportingManager::PARAM_REPORTING_PARENT],'CourseStudentTrackerDetailReportingTemplate',$params);
+            $url = Reporting :: get_weblcms_reporting_url('CourseStudentTrackerDetailReportingTemplate', $params);
             $arr[Translation :: get('UserDetail')][] = '<a href="'.$url.'">'.Translation :: get('Detail').'</a>';
         }
 

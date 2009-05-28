@@ -1243,7 +1243,7 @@ class WeblcmsManager extends WebApplication
 
     function get_reporting_url($classname, $params)
     {
-        return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_REPORTING, ReportingManager::PARAM_TEMPLATE_NAME => $classname, ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS => $params));
+        return $this->get_url(array('application' => 'weblcms',self :: PARAM_TOOL => null,self :: PARAM_ACTION => self :: ACTION_REPORTING, ReportingManager::PARAM_TEMPLATE_NAME => $classname, ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS => $params));
     }
 
 	/**
