@@ -16,7 +16,7 @@ class CalendarEventPublicationForm extends FormValidator
    /**#@+
     * Constant defining a form parameter
  	*/
- 	
+
 	const TYPE_SINGLE = 1;
 	const TYPE_MULTI = 2;
 
@@ -30,7 +30,7 @@ class CalendarEventPublicationForm extends FormValidator
 	 * publication)
 	 */
 	private $form_user;
-	
+
 	private $form_type;
 
 	/**
@@ -46,7 +46,7 @@ class CalendarEventPublicationForm extends FormValidator
 		$this->form_type = $form_type;
 		$this->learning_object = $learning_object;
 		$this->form_user = $form_user;
-		
+
 		switch($this->form_type)
 		{
 			case self :: TYPE_SINGLE:
@@ -71,18 +71,18 @@ class CalendarEventPublicationForm extends FormValidator
     	$defaults = array();
 		parent :: setDefaults($defaults);
     }
-    
+
     function build_single_form()
     {
     	$this->build_form();
     }
-    
+
     function build_multi_form()
     {
-    	$this->build_form();    	
+    	$this->build_form();
     	$this->addElement('hidden', 'ids', serialize($this->learning_object));
     }
-    
+
 	/**
 	 * Builds the form by adding the necessary form elements.
 	 */
@@ -112,7 +112,7 @@ class CalendarEventPublicationForm extends FormValidator
 		$elem->excludeElements(array($this->form_user->get_id()));
 		$elem->setDefaultCollapsed(false);
     }
-    
+
     function add_footer()
     {
     	$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive'));
@@ -129,11 +129,14 @@ class CalendarEventPublicationForm extends FormValidator
     function create_learning_object_publication()
     {
 		$values = $this->exportValues();
+		$shares = $values['share'];
 
 		$pub = new CalendarEventPublication();
 		$pub->set_calendar_event($this->learning_object->get_id());
 		$pub->set_publisher($this->form_user->get_id());
 		$pub->set_published(time());
+		$pub->set_target_users($shares['user']);
+		$pub->set_target_groups($shares['group']);
 
 		if ($pub->create())
 		{
@@ -144,15 +147,15 @@ class CalendarEventPublicationForm extends FormValidator
 			return false;
 		}
     }
-    
+
     function create_learning_object_publications()
     {
 		$values = $this->exportValues();
 
     	$ids = unserialize($values['ids']);
-    	
+
     	$shares = $values['share'];
-    	
+
     	foreach($ids as $id)
     	{
 			$pub = new CalendarEventPublication();
@@ -161,7 +164,7 @@ class CalendarEventPublicationForm extends FormValidator
 			$pub->set_published(time());
 			$pub->set_target_users($shares['user']);
 			$pub->set_target_groups($shares['group']);
-	
+
 			if (!$pub->create())
 			{
 				return false;

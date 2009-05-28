@@ -3,7 +3,7 @@ require_once 'HTML/QuickForm/html.php';
 
 /**
  * A pseudo-element used for adding raw HTML to form
- * 
+ *
  * Intended for use with the default renderer only, template-based
  * ones may (and probably will) completely ignore this
  *
@@ -16,18 +16,18 @@ class HTML_QuickForm_category extends HTML_QuickForm_html
 
    /**
     * Class constructor
-    * 
+    *
     * @param string $text   raw HTML to add
     * @access public
     * @return void
     */
-    function HTML_QuickForm_category($title = null)
+    function HTML_QuickForm_category($title = null, $extra_classes = null)
     {
     	$html = array();
-    	
+
     	if ($title != null)
     	{
-			$html[] = '<div class="configuration_form">';
+			$html[] = '<div class="configuration_form' . ($extra_classes ? ' ' . $extra_classes : '') . '" >';
 			$html[] = '<span class="category">' . $title .'</span>';
     	}
     	else
@@ -35,9 +35,9 @@ class HTML_QuickForm_category extends HTML_QuickForm_html
 			$html[] = '<div style="clear: both;"></div>';
 			$html[] = '</div>';
     	}
-    	
+
     	$html = implode("\n", $html);
-    	
+
 		parent :: HTML_QuickForm_html($html);
     }
 

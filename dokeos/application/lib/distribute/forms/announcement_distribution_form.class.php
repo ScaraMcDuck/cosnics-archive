@@ -1,12 +1,12 @@
 <?php
 require_once Path :: get_library_path() . 'html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__) . '/../distribute_publication.class.php';
+require_once dirname(__FILE__) . '/../announcement_distribution.class.php';
 
 /**
  * This class describes the form for a AnnouncementPublication object.
  * @author Hans De Bisschop
  **/
-class AnnouncementPublicationForm extends FormValidator
+class AnnouncementDistributionForm extends FormValidator
 {
    /**#@+
     * Constant defining a form parameter
@@ -35,7 +35,7 @@ class AnnouncementPublicationForm extends FormValidator
 	 * @param boolean $email_option Add option in form to send the learning
 	 * object by email to the receivers
 	 */
-    function AnnouncementPublicationForm($form_type, $learning_object, $form_user, $action)
+    function AnnouncementDistributionForm($form_type, $learning_object, $form_user, $action)
     {
 		parent :: __construct('publish', 'post', $action);
 		$this->form_type = $form_type;
@@ -83,7 +83,7 @@ class AnnouncementPublicationForm extends FormValidator
 	 */
     function build_form()
     {
-//    	$shares = array ();
+    	$shares = array ();
 //    	if ($publication)
 //    	{
 //			$publication = $this->publication;
@@ -96,16 +96,16 @@ class AnnouncementPublicationForm extends FormValidator
 //			$recipients[$recipient['id']] = $recipient;
 //    	}
 
-//		$url = Path :: get(WEB_PATH).'application/lib/personal_calendar/xml_user_feed.php';
-//		$locale = array ();
-//		$locale['Display'] = Translation :: get('ShareWith');
-//		$locale['Searching'] = Translation :: get('Searching');
-//		$locale['NoResults'] = Translation :: get('NoResults');
-//		$locale['Error'] = Translation :: get('Error');
-//		$hidden = false;
-//		$elem = $this->addElement('user_group_finder', 'share', Translation :: get('SharedWith'), $url, $locale, $shares);
-//		$elem->excludeElements(array($this->form_user->get_id()));
-//		$elem->setDefaultCollapsed(false);
+		$url = Path :: get(WEB_PATH).'application/lib/distribute/xml_user_feed.php';
+		$locale = array ();
+		$locale['Display'] = Translation :: get('ShareWith');
+		$locale['Searching'] = Translation :: get('Searching');
+		$locale['NoResults'] = Translation :: get('NoResults');
+		$locale['Error'] = Translation :: get('Error');
+		$hidden = false;
+		$elem = $this->addElement('user_group_finder', 'recipients', Translation :: get('SendTo'), $url, $locale, $shares);
+		$elem->excludeElements(array($this->form_user->get_id()));
+		$elem->setDefaultCollapsed(false);
     }
 
     function add_footer()
@@ -124,11 +124,14 @@ class AnnouncementPublicationForm extends FormValidator
     function create_announcement_distribution()
     {
 		$values = $this->exportValues();
+		$recipients = $values['recipients'];
 
 		$pub = new AnnouncementDistribution();
 		$pub->set_announcement($this->learning_object->get_id());
 		$pub->set_publisher($this->form_user->get_id());
 		$pub->set_published(time());
+		$pub->set_target_users($recipients['user']);
+		$pub->set_target_groups($recipients['group']);
 
 		if ($pub->create())
 		{
@@ -143,10 +146,8 @@ class AnnouncementPublicationForm extends FormValidator
     function create_announcement_distributions()
     {
 		$values = $this->exportValues();
-
     	$ids = unserialize($values['ids']);
-
-    	//$shares = $values['share'];
+    	$recipients = $values['recipients'];
 
     	foreach($ids as $id)
     	{
@@ -154,8 +155,8 @@ class AnnouncementPublicationForm extends FormValidator
 			$pub->set_announcement($id);
 			$pub->set_publisher($this->form_user->get_id());
 			$pub->set_published(time());
-			//$pub->set_target_users($shares['user']);
-			//$pub->set_target_groups($shares['group']);
+			$pub->set_target_users($recipients['user']);
+			$pub->set_target_groups($recipients['group']);
 
 			if (!$pub->create())
 			{
