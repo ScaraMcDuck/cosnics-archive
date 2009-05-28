@@ -44,8 +44,9 @@ class ToolComplexDeleterComponent extends ToolComponent
             $wiki = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'));
             if(!empty($wiki))
             {
+                $wiki_homepage_cloi = WikiTool ::get_wiki_homepage($wiki->get_learning_object()->get_id());
                 if(WikiTool ::get_wiki_homepage($wiki->get_learning_object()->get_id())!=null)
-                $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view_item', 'cid' => $wiki_homepage[0]->get_id()));
+                $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view_item', 'cid' => $wiki_homepage_cloi->get_id(), 'pid' => Request :: get('pid')));
                 else
                 $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view', 'pid' => Request :: get ('pid')));
             }
