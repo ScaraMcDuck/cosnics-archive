@@ -82,8 +82,8 @@ class ReportingWeblcms {
         foreach($tools as $key => $value)
         {
             $name = $value->name;
-            //$link = '<img src="'.Theme :: get_image_path('weblcms').'tool_'.$name.'.png" style="vertical-align: middle;" />';// <a href="run.php?go=courseviewer&course='.$course_id.'&tool='.$name.'&application=weblcms">'.Translation :: get(DokeosUtilities::underscores_to_camelcase($name)).'</a>';
-            $link = ' <a href="run.php?go=courseviewer&course='.$course_id.'&tool='.$name.'&application=weblcms">'.Translation :: get(DokeosUtilities::underscores_to_camelcase($name)).'</a>';
+            $link = '<img src="'.Theme :: get_image_path('weblcms').'tool_'.$name.'.png" style="vertical-align: middle;" />';// <a href="run.php?go=courseviewer&course='.$course_id.'&tool='.$name.'&application=weblcms">'.Translation :: get(DokeosUtilities::underscores_to_camelcase($name)).'</a>';
+            $link .= ' <a href="run.php?go=courseviewer&course='.$course_id.'&tool='.$name.'&application=weblcms">'.Translation :: get(DokeosUtilities::underscores_to_camelcase($name)).'</a>';
             $date = $wdm->get_last_visit_date_per_course($course_id,$name);
             if($date)
             {
@@ -114,11 +114,7 @@ class ReportingWeblcms {
             $arr[$link][] = $date;
             $arr[$link][] = count($trackerdata);
             $params['tool'] = $name;
-            $url = $params['url'].'&'.ReportingManager :: PARAM_TEMPLATE_NAME .'=ToolPublicationsDetailReportingTemplate&';
-            $parameters[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
-            $url .= http_build_query($parameters);
-            //$url = ReportingManager::get_reporting_template_registration_url_content($_SESSION[ReportingManager::PARAM_REPORTING_PARENT],'ToolPublicationsDetailReportingTemplate',$params);
-            //$url = ReportingManager :: get_reporting_template_registration_url_content($params[ReportingManager::PARAM_REPORTING_PARENT],'ToolPublicationsDetailReportingTemplate',$params);
+            $url = Reporting :: get_weblcms_reporting_url('ToolPublicationsDetailReportingTemplate', $params);
             $arr[$link][] = '<a href="'.$url.'">'.Translation :: get('ViewPublications').'</a>';
         }
 
@@ -149,10 +145,7 @@ class ReportingWeblcms {
 
             $arr[$link][] = count($trackerdata);
             $params['tool'] = $name;
-            $url = $params['url'].'&'.ReportingManager :: PARAM_TEMPLATE_NAME .'=ToolPublicationsDetailReportingTemplate&';
-            $parameters[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
-            $url .= http_build_query($parameters);
-            //$url = ReportingManager :: get_reporting_template_registration_url('ToolPublicationsDetailReportingTemplate',$params);
+            $url = Reporting :: get_weblcms_reporting_url('ToolPublicationsDetailReportingTemplate', $params);
             $arr[$link][] = '<a href="'.$url.'">'.Translation :: get('ViewPublications').'</a>';
         }
 
@@ -616,10 +609,7 @@ class ReportingWeblcms {
             $arr[Translation :: get('LastAccess')][] = $lastaccess;
             $arr[Translation :: get('TotalTimesAccessed')][] = count($trackerdata);
             $params['pid'] = $lop->get_id();
-            $url = $params['url'].'&'.ReportingManager :: PARAM_TEMPLATE_NAME .'=PublicationDetailReportingTemplate&';
-            $parameters[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
-            $url .= http_build_query($parameters);
-            //$url = ReportingManager :: get_reporting_template_registration_url_content($_SESSION[ReportingManager::PARAM_REPORTING_PARENT],'PublicationDetailReportingTemplate',$params);
+            $url = Reporting :: get_weblcms_reporting_url('PublicationDetailReportingTemplate', $params);
             $arr[Translation :: get('PublicationDetails')][] = '<a href="'.$url.'">'.Translation :: get('AccessDetails').'</a>';
         }
 

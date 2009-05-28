@@ -205,15 +205,26 @@ class Reporting{
         if(Request :: get('cid') != null)
             $params['cid'] = Request :: get('cid');
 
-        $params['url'] = $parent->get_url();
+        //$params['url'] = $parent->get_url();
 
-        $params['parent'] = $parent;
+//        $params['parent'] = $parent;
 
         $_SESSION[ReportingManager::PARAM_REPORTING_PARENT] = $parent;
 
         $_SESSION[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $params;
 
         return $params;
+    }
+
+    public static function get_weblcms_reporting_url($classname,$params)
+    {
+        require_once Path :: get_application_path().'lib/weblcms/weblcms_manager/weblcms_manager.class.php';
+        $manager = new WeblcmsManager();
+
+        $url = $manager->get_reporting_url($classname,$params);
+
+        $url = strstr($url, '?');
+        return 'run.php'.$url;
     }
 }//class reporting
 ?>

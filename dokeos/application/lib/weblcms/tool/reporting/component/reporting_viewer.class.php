@@ -9,6 +9,7 @@ class ReportingToolViewerComponent extends ReportingToolComponent
 {
     function run()
     {
+        echo 'bus';
         $classname = 'CourseStudentTrackerReportingTemplate';
 
         $params = Reporting :: get_params($this);
@@ -19,7 +20,6 @@ class ReportingToolViewerComponent extends ReportingToolComponent
         {
             $url[$key] = $param;
         }
-        unset($url['parent']);
 
         header('location:'.$this->get_url($url));
     }

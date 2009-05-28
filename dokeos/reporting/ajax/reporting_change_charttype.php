@@ -16,14 +16,6 @@ Theme :: set_application($this_section);
 
 $block_id = $_POST['block'];
 $type = $_POST['type'];
-//$params = $_POST['para'];
-//
-//$params_exploded = explode(',',$params);
-//$params_final = array();
-//foreach ($params_exploded as $key => $value) {
-//    $dummy = explode('=>',$value);
-//    $params_final[$dummy[0]] = $dummy[1];
-//}
 
 $params_final = $_SESSION[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
 
