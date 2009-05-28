@@ -76,7 +76,7 @@ class ProfilerManagerEditorComponent extends ProfilerManagerComponent
                 }
                 else
                 {
-                    $this->redirect('url', Translation :: get(($success ? 'ProfilePublicationUpdated' : 'ProfilePublicationNotUpdated')), ($success ? false : true), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
+                    $this->redirect(Translation :: get(($success ? 'ProfilePublicationUpdated' : 'ProfilePublicationNotUpdated')), ($success ? false : true), array(Application :: PARAM_ACTION => ProfilerManager :: ACTION_BROWSE_PROFILES));
                 }
             }
             else
