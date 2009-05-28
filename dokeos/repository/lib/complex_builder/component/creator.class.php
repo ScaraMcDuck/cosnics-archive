@@ -86,8 +86,10 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 
 			$this->redirect(Translation :: get('ObjectAdded'), false, array('go' => 'build_complex', ComplexBuilder :: PARAM_BUILDER_ACTION => ComplexBuilder :: ACTION_BROWSE_CLO, ComplexBuilder :: PARAM_ROOT_LO => $root_lo, ComplexBuilder :: PARAM_CLOI_ID => $cloi_id, 'publish' => Request :: get('publish')));
 		}
+        $trail->add(new BreadCrumb($this->get_url(array('builder_action' => null, 'root_lo' => $root_lo, 'publish' => Request :: get('publish'))), RepositoryDataManager :: get_instance()->retrieve_learning_object($root_lo)->get_title()));
+        $trail->add(new BreadCrumb($this->get_url(array('builder_action' => 'create_cloi', 'type' => Request :: get('type'), 'root_lo' => $root_lo, 'publish' => Request :: get('publish'))), Translation :: get('Create').' '.Translation :: get(DokeosUtilities ::underscores_to_camelcase(Request :: get('type')))));
 
-		$this->display_header($trail);
+        $this->display_header($trail);
 		echo '<br />' . implode("\n",$html);
 		$this->display_footer();
 	}
