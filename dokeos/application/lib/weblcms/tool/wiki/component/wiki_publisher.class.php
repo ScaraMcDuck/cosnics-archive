@@ -23,6 +23,7 @@ class WikiToolPublisherComponent extends WikiToolComponent
 
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('courses wiki tool');
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), Translation :: get('Publish')));
 
         /*
          *  The object that was created

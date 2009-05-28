@@ -23,6 +23,8 @@ class LearningObjectRepoViewer extends RepoViewer
 	{
 		parent :: __construct($parent, $types, $mail_option, $maximum_select, array(), false);
 		$this->set_parameter(Tool :: PARAM_ACTION, $action);
+        if(Request :: get('pid') != null)
+        $this->set_parameter('pid',Request :: get('pid'));
 		$this->set_repo_viewer_actions(array ('creator','browser', 'finder'));
 		$this->parse_input_from_table();
 	}
