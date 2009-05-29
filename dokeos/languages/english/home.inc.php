@@ -129,4 +129,5 @@ $lang['home']['Object'] = 'Object';
 $lang['home']['UseObject'] = 'Use object';
 $lang['home']['CreateRssFeedFirst'] = 'Create RSS feed first';
 $lang['home']['BlockConfigUpdated'] = 'Block configuration updated';
+$lang['home']['NoNewAnnouncements'] = 'No new announcements';
 ?>

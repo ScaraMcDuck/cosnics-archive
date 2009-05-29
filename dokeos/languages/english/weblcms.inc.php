@@ -732,4 +732,5 @@ $lang['weblcms']['NotFound'] = 'Not found';
 $lang['weblcms']['CategoryMoved'] = 'Category moved';
 $lang['weblcms']['UpdateCategory'] = 'Update category';
 $lang['weblcms']['GeneralCategoriesCopied'] = 'General categories copied';
+$lang['weblcms']['UserSubscribedToCourse'] = 'User subscribed to course';
 ?>

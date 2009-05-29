@@ -45,4 +45,12 @@ $lang['menu']['Reset'] = 'Reset';
 $lang['menu']['Update'] = 'Update';
 $lang['menu']['Create'] = 'Create';
 $lang['menu']['ManageDescription'] = 'Manage description';
+$lang['menu']['MenuManagerCategoryUpdated'] = 'Menu item updated';
+$lang['menu']['MenuManagerCategoryAdded'] = 'Menu item added';
+$lang['menu']['Help'] = 'Help';
+$lang['menu']['SearchPortal'] = 'Search Portal';
+$lang['menu']['Profiler'] = 'Profiler';
+$lang['menu']['PersonalMessenger'] = 'Personal Messenger';
+$lang['menu']['PersonalCalendar'] = 'Personal Calendar';
+$lang['menu']['Weblcms'] = 'Courses';
 ?>
