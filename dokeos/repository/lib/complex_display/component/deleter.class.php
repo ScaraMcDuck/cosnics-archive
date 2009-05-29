@@ -21,7 +21,7 @@ class ComplexDisplayDeleterComponent extends ComplexDisplayComponent
 
             $datamanager = RepositoryDataManager :: get_instance();
 
-			foreach($publication_ids as $index => $pid)
+			foreach($publication_ids as $pid)
 			{
 				$publication = $datamanager->retrieve_learning_object($pid);
 				$publication->delete();

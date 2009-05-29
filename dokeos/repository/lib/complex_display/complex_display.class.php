@@ -84,6 +84,7 @@ abstract class ComplexDisplay
 	function run()
 	{
 		$action = $this->get_action();
+
 		switch($action)
 		{
             case self :: ACTION_DELETE :
