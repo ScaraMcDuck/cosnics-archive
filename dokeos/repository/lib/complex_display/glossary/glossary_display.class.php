@@ -13,9 +13,7 @@ require_once dirname(__FILE__) . '/glossary_display_component.class.php';
  */
 class GlossaryDisplay extends ComplexDisplay
 {
-	const ACTION_BROWSE_GLOSSARIES = 'browse';
 	const ACTION_VIEW_GLOSSARY = 'view';
-    const ACTION_PUBLISH = 'publish';
 
 	/**
 	 * Inherited.
@@ -23,34 +21,16 @@ class GlossaryDisplay extends ComplexDisplay
 	function run()
 	{
 		$action = $this->get_parent()->get_action();
-		/*$component = parent :: run();
-
-		if($component)
-		{
-			return;
-		}*/
 
 		switch ($action)
 		{
-			case self :: ACTION_BROWSE_GLOSSARIES :
-				$component = GlossaryDisplayComponent :: factory('GlossaryBrowser', $this);
-				break;
 			case self :: ACTION_VIEW_GLOSSARY :
 				$component = GlossaryDisplayComponent :: factory('GlossaryViewer', $this);
 				break;
-			case self :: ACTION_PUBLISH :
-				$component = GlossaryDisplayComponent :: factory('GlossaryPublisher', $this);
-				break;
-
 			default :
-				$component = GlossaryDisplayComponent :: factory('GlossaryBrowser', $this);
+				$component = GlossaryDisplayComponent :: factory('GlossaryViewer', $this);
 		}
 		$component->run();
-	}
-
-	static function get_allowed_types()
-	{
-		return array('glossary');
 	}
 }
 ?>

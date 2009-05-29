@@ -19,8 +19,7 @@ class GlossaryViewerTableDataProvider extends ObjectTableDataProvider
 	private $owner;
 	
 	private $parent;
-	
-	private $lo;
+
 	/**
 	 * Constructor.
 	 * @param int $owner The user id of the current active user.
@@ -28,11 +27,10 @@ class GlossaryViewerTableDataProvider extends ObjectTableDataProvider
 	 * selected.
 	 * @param string $query The search query.
 	 */
-    function GlossaryViewerTableDataProvider($parent, $owner, $pid = null)
+    function GlossaryViewerTableDataProvider($parent, $owner)
     {
     	$this->owner = $owner;
     	$this->parent = $parent;
-        $this->lo = WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid)->get_learning_object()->get_id();
     }
 	/*
 	 * Inherited
@@ -43,13 +41,13 @@ class GlossaryViewerTableDataProvider extends ObjectTableDataProvider
     	$order_direction = $this->get_order_direction($order_direction);
     	$dm = RepositoryDataManager :: get_instance();
     	
-    	return ($dm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->lo)));
+    	return ($dm->retrieve_complex_learning_object_items($this->parent->get_condition()));
     }
     
     function get_object_count()
     {
     	$dm = RepositoryDataManager :: get_instance();
-    	$count = $dm->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $this->lo));
+    	$count = $dm->count_complex_learning_object_items($this->parent->get_condition());
     	return $count;
     	
     }

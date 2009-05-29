@@ -214,6 +214,11 @@ abstract class ComplexDisplay
 	{
 		$this->get_parent()->display_popup_form($form_html);
 	}
+	
+	function is_allowed($right)
+	{
+		return $this->get_parent()->is_allowed($right);
+	}
 
 	function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
 	{

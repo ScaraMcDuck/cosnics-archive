@@ -5,7 +5,6 @@
 
 require_once dirname(__FILE__).'/glossary_viewer/glossary_viewer_table.class.php';
 require_once Path :: get_library_path().'/html/action_bar/action_bar_renderer.class.php';
-//require_once dirname(__FILE__).'/../../../browser/learningobjectpublicationcategorytree.class.php';
 require_once Path :: get_application_path() . '/lib/weblcms/browser/learningobjectpublicationcategorytree.class.php';
 
 /**
@@ -24,21 +23,24 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
 	{
 		$this->action_bar = $this->get_action_bar();
 
+		$object_id = Request :: get('pid');
+		$dm = RepositoryDataManager :: get_instance();
+		$object = $dm->retrieve_learning_object($object_id);
+		
 		$trail = new BreadCrumbTrail();
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_VIEW_GLOSSARY, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_VIEW_GLOSSARY, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $object->get_title()));
 		$this->display_header($trail);
 
 		echo $this->action_bar->as_html();
 
 		if($this->get_view() == self :: VIEW_TABLE)
 		{
-			$table = new GlossaryViewerTable($this->get_parent()->get_parent(), $this->get_user(), Request :: get(Tool :: PARAM_PUBLICATION_ID));
+			$table = new GlossaryViewerTable($this, $this->get_user(), Request :: get(Tool :: PARAM_PUBLICATION_ID));
 			echo $table->as_html();
 		}
 		else
-		{
-			$dm = RepositoryDataManager :: get_instance();
-            $children = $dm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get(Tool :: PARAM_PUBLICATION_ID))->get_learning_object()->get_id()));
+		{ 
+            $children = $dm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $object->get_id()));
             while($child = $children->next_result())
     		{
     			$lo = $dm->retrieve_learning_object($child->get_ref());
@@ -103,14 +105,6 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		/*if(!isset($_GET['pid']))
-		{
-			$action_bar->set_search_url($this->get_url());
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(GlossaryTool :: PARAM_ACTION => GlossaryTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		}*/
-
-		//$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'type' => 'glossary_item', self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsTable'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_VIEW_GLOSSARY, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -118,6 +112,11 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
 
 
 		return $action_bar;
+	}
+	
+	function get_condition()
+	{
+		return new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, Request :: get('pid'));
 	}
 }
 
