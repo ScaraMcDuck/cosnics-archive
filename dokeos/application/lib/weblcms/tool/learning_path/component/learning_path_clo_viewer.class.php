@@ -6,7 +6,9 @@ class LearningPathToolCloViewerComponent extends LearningPathToolComponent
 {
 	function run()
 	{
-        $display = ComplexDisplay :: factory($this, 'forum');
+        $object_id = Request :: get('pid');
+        $object = RepositoryDataManager :: get_instance()->retrieve_learning_object($object_id);
+		$display = ComplexDisplay :: factory($this, $object->get_type());
         $display->run();
 	}
 
