@@ -93,7 +93,7 @@ class RepoViewer
 			{
 				$out .= ' class="current"';
 			}
-			$out .= ' href="'.$this->get_url(array (RepoViewer :: PARAM_ACTION => $repo_viewer_action), true).'">'.htmlentities(Translation :: get(ucfirst($repo_viewer_action).'Title')).'</a></li>';
+			$out .= ' href="'.$this->get_url(array_merge($this->get_parameters(), array (RepoViewer :: PARAM_ACTION => $repo_viewer_action)), true).'">'.htmlentities(Translation :: get(ucfirst($repo_viewer_action).'Title')).'</a></li>';
 		}
 		$out .= '</ul><div class="tabbed-pane-content">';
 

@@ -37,6 +37,24 @@ class LearningPathBrowserTableCellRenderer extends ComplexBrowserTableCellRender
 			}
 		}
 		
+		switch ($column->get_title())
+		{ 
+			case Translation :: get(DokeosUtilities :: underscores_to_camelcase(LearningObject :: PROPERTY_TITLE)) :
+				$title = htmlspecialchars($ref_lo->get_title());
+				$title_short = $title;
+
+                $title_short = DokeosUtilities::truncate_string($title_short,53,false);
+				
+				if($ref_lo->get_type() == 'learning_path')
+				{
+					$title_short = '<a href="' . $this->browser->get_url(
+						array(ComplexBuilder :: PARAM_ROOT_LO => $this->browser->get_root(), 
+							  ComplexBuilder :: PARAM_CLOI_ID => $cloi->get_id(), 'publish' => $_GET['publish'])) . '">' . $title_short . '</a>'; 
+				}
+				
+				return $title_short;
+		}
+		
 		return parent :: render_cell($column, $cloi, $ref_lo);
 	}
 

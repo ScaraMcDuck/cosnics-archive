@@ -70,6 +70,9 @@ class ForumDisplay extends ComplexDisplay
 			case self :: ACTION_DELETE_SUBFORUM :
 				$component = ForumDisplayComponent :: factory('ForumSubforumDeleter', $this);
 				break;
+			default :
+				$this->set_action(self :: ACTION_VIEW_CLO);
+				$component = ForumDisplayComponent :: factory('ForumViewer', $this);
 		}
         
 		if(!$component)
