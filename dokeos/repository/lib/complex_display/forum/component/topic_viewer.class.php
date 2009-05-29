@@ -23,17 +23,11 @@ class ForumDisplayTopicViewerComponent extends ForumDisplayComponent
 
 		$this->action_bar = $this->get_action_bar();
 		$table = $this->get_posts_table();
-		$trail = ($this->get_parent()->get_parent()->trail)?$this->get_parent()->get_parent()->trail:new BreadcrumbTrail();
-		//$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $pid)), $this->forum->get_title()));
-
-		$this->display_header($trail);
 		echo '<a name="top"></a>';
 
 		echo $this->action_bar->as_html() . '<br />';
 		echo $table->toHtml();
 		echo '<br />';
-
-		$this->display_footer();
 	}
 
 	function retrieve_children($lo)

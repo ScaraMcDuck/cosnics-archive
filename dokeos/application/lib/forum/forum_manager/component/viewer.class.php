@@ -15,18 +15,21 @@ class ForumManagerViewerComponent extends ForumManagerComponent
     /**
      * Runs this component and displays its output.
      */
-    public $trail;
     function run()
     {
-        $this->trail = new BreadcrumbTrail();
-        $this->trail->add(new Breadcrumb($this->get_url(), Translation :: get('forum')));
-        $this->trail->add(new Breadcrumb($this->get_url(), Translation :: get('browse')));
+        $trail = new BreadcrumbTrail();
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('forum')));
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('browse')));
 
         $pid = Request :: get('pid');
         $cid = Request :: get('cid');
+
+        $this->display_header($trail);
         
         $cd = ComplexDisplay :: factory($this,'forum');
         $cd->run();
+
+        $this->display_footer();
 
         switch($cd->get_action())
         {
