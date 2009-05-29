@@ -847,7 +847,7 @@ class WeblcmsManager extends WebApplication
 			$conditions = array();
 			$conditions[] = new EqualityCondition('tool',$tool);
 			$conditions[] = new InequalityCondition('modified',InequalityCondition::GREATER_THAN,$last_visit_date);
-			if (!$this->get_course()->is_course_admin($this->get_user()) && !$this->user->is_platform_admin())
+			if ((!$this->get_course()->is_course_admin($this->get_user()) && !$this->get_user()->is_platform_admin()))
 			{
 				// Only select visible publications
 				$conditions[] = new EqualityCondition('hidden',0);
