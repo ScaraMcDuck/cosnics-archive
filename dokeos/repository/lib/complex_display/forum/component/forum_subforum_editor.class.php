@@ -17,9 +17,8 @@ class ForumDisplayForumSubforumEditorComponent extends ForumDisplayComponent
 
 			if(!$pid || !$subforum)
 			{
-				$this->display_header(new BreadCrumbTrail());
+                //trail here
 				$this->display_error_message(Translation :: get('NoParentSelected'));
-				$this->display_footer();
 			}
 
             $url = $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_EDIT_SUBFORUM,
@@ -44,9 +43,8 @@ class ForumDisplayForumSubforumEditorComponent extends ForumDisplayComponent
 			}
 			else
 			{
-				$this->display_header(new BreadCrumbTrail());
+				//trail here
 				$form->display();
-				$this->display_footer();
 			}
 		}
 	}
