@@ -2,7 +2,7 @@
 
 require_once Path :: get_repository_path() . 'lib/learning_object_form.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_learning_object_item_form.class.php';
-require_once Path :: get_application_path() . 'lib/weblcms/learning_object_repo_viewer.class.php';
+require_once Path :: get_application_path() . 'common/repo_viewer/repo_viewer.class.php';
 
 class ForumDisplayForumTopicCreatorComponent extends ForumDisplayComponent
 {
@@ -21,7 +21,7 @@ class ForumDisplayForumTopicCreatorComponent extends ForumDisplayComponent
 				$this->display_footer();
 			}
 			
-			$pub = new LearningObjectRepoViewer($this, 'forum_topic', true);
+			$pub = new RepoViewer($this, 'forum_topic', true);
             $pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, ForumDisplay::ACTION_CREATE_TOPIC);
 			$pub->set_parameter('pid', $pid);
 			$pub->set_parameter('forum', $forum);
