@@ -20,7 +20,7 @@ class WikiDisplayWikiHomepageSetterComponent extends WikiDisplayComponent
             $page->set_is_homepage(true);
             $page->update();
         }
-        $this->redirect(null, '', array(Tool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'pid' => Request :: get('pid')));
+        $this->redirect(null, '', array(Tool :: PARAM_ACTION => 'view', WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, 'pid' => Request :: get('pid')));
 
     }
 }

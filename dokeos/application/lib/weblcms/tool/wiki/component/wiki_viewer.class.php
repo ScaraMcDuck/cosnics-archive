@@ -1,86 +1,13 @@
 <?php
 
-/*
- * This is the compenent that allows the user to view all pages of a wiki.
- * If no homepage is set all available pages will be shown, otherwise the homepage will be shown.
- *
- * Author: Stefan Billiet
- * Author: Nick De Feyter
- */
-
 require_once dirname(__FILE__) . '/../wiki_tool.class.php';
 require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
-//require_once dirname(__FILE__).'/wiki_page_table/wiki_page_table.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
-//require_once dirname(__FILE__).'/wiki_parser.class.php';
-require_once Path :: get_repository_path().'/lib/complex_display/complex_display.class.php';
+require_once Path :: get_repository_path() . 'lib/complex_display/complex_display.class.php';
 
 class WikiToolViewerComponent extends WikiToolComponent
 {
-	private $action_bar;
-    private $publication_id;
-    private $cid;
-    private $links;
-
-//	function run()
-//	{
-//		if(!$this->is_allowed(VIEW_RIGHT))
-//		{
-//			Display :: not_allowed();
-//			return;
-//		}
-//
-//        $dm = RepositoryDataManager :: get_instance();
-//
-//        /*
-//         * publication and complex object id are requested.
-//         * These are used to retrieve
-//         *  1) the complex object ( reference is stored )
-//         *  2) the learning object ( actual inforamation about a wiki_page is stored here )
-//         *
-//         */
-//
-//        $this->publication_id = Request :: get('pid');
-//        $this->cid = Request :: get('cid');
-//
-//        /*
-//         *  If the publication id isn't empty the publication will be retrieved.
-//         *  This controle make sure that
-//         *      1)the retrieve learning object publication is valid
-//         *      2)the method get_id() is only called when the publication object is made.
-//         */
-//        if(!empty($this->publication_id))
-//        {
-//            $wm = WeblcmsDataManager :: get_instance();
-//            $publication = $wm->retrieve_learning_object_publication($this->publication_id);
-//            if(isset($publication))
-//                $this->wiki_id = $publication->get_learning_object()->get_id();
-//            $wiki = $dm->retrieve_learning_object($this->wiki_id);
-//        }
-//
-//        $_SESSION['wiki_title'] = $publication->get_learning_object()->get_title();
-//        $_SESSION['wiki_id'] = $this->publication_id;
-//
-//        $trail = new BreadcrumbTrail();
-//        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $this->publication_id)), DokeosUtilities::truncate_string($publication->get_learning_object()->get_title(),20)));
-//        $trail->add_help('courses wiki tool');
-//
-//        $this->display_header($trail, true);
-//
-//        $this->links = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links();
-//
-//		$this->action_bar = $this->get_toolbar($wiki);
-//        echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
-//        if(!empty($wiki))
-//        {
-//            echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'.$wiki->get_default_property('title').'</div><hr style="height:1px;color:#4271B5;width:100%;">';
-//            $table = new WikiPageTable($this, $wiki->get_id());
-//            echo $table->as_html().'</div>';
-//        }
-//        $this->display_footer();
-//	}
-
-    function run()
+	function run()
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
@@ -113,7 +40,7 @@ class WikiToolViewerComponent extends WikiToolComponent
 		$this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
 	}
 
-    function get_condition()
+     function get_condition()
 	{
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
@@ -203,7 +130,5 @@ class WikiToolViewerComponent extends WikiToolComponent
 
 		return $action_bar;
 	}
-
-
 }
 ?>

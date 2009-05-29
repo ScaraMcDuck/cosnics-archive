@@ -6,6 +6,7 @@ require_once Path :: get_repository_path(). 'lib/learning_object_table/default_l
 require_once Path :: get_repository_path(). 'lib/learning_object.class.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once dirname(__FILE__).'/wiki_publication_table_column_model.class.php';
+require_once Path :: get_repository_path().'lib/complex_display/wiki/wiki_display.class.php';
 /**
  * This class is a cell renderer for a publication candidate table
  */
@@ -46,9 +47,9 @@ class WikiPublicationTableCellRenderer extends DefaultLearningObjectTableCellRen
                     case LearningObject :: PROPERTY_TITLE :                       
                         $homepage = WikiTool :: get_wiki_homepage($learning_object->get_id());
                         if(empty($homepage))
-                            $url = $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() ));
+                            $url = $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() ));
                         else
-                            $url = $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, 'cid' => $homepage->get_id(), 'pid' => $publication->get_id()));
+                            $url = $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'cid' => $homepage->get_id(), 'pid' => $publication->get_id()));
                         if($publication->is_hidden())
                         return '<a class="invisible" href="'.$url.'">' . htmlspecialchars($learning_object->get_title()) . '</a>';
                         else

@@ -1,4 +1,5 @@
 <?php
+require_once Path :: get_repository_path().'lib/complex_display/wiki/wiki_display.class.php';
 
 class ToolComplexDeleterComponent extends ToolComponent
 {
@@ -45,10 +46,10 @@ class ToolComplexDeleterComponent extends ToolComponent
             if(!empty($wiki))
             {
                 $wiki_homepage_cloi = WikiTool ::get_wiki_homepage($wiki->get_learning_object()->get_id());
-                if(WikiTool ::get_wiki_homepage($wiki->get_learning_object()->get_id())!=null)
-                $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view_item', 'cid' => $wiki_homepage_cloi->get_id(), 'pid' => Request :: get('pid')));
+                if($wiki_homepage_cloi != null)
+                $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view', WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'cid' => $wiki_homepage_cloi->get_id(), 'pid' => Request :: get('pid')));
                 else
-                $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view', 'pid' => Request :: get ('pid')));
+                $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view', WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, 'pid' => Request :: get ('pid')));
             }
             else
             {

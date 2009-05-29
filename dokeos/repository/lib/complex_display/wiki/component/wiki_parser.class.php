@@ -92,7 +92,7 @@ class WikiToolParserComponent
         }
     }
 
-    private function get_wiki_page_url(&$title, $viewTitle = null)
+    private function get_wiki_page_url(&$title, $viewTitle = null, $return_ids = false)
     {
     	$page = RepositoryDataManager :: get_instance()->retrieve_learning_objects('wiki_page', new EqualityCondition(LearningObject :: PROPERTY_TITLE,$title))->as_array();
     	if($viewTitle!=null)
@@ -105,13 +105,11 @@ class WikiToolParserComponent
         {
             $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition('ref',$page->get_id()))->as_array();
             if(!empty($cloi))
-            return '<a href="'.'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?go=courseviewer&course={$this->course_id}&tool=wiki&application=weblcms&tool_action=view_item&cid={$cloi[0]->get_id()}&pid={$this->pid}" . '">' . htmlspecialchars($title) . '</a>';
-            else
-            return;
+            return '<a href="'.'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?go=courseviewer&course={$this->course_id}&tool=wiki&application=weblcms&tool_action=view&display_action=view_item&cid={$cloi[0]->get_id()}&pid={$this->pid}" . '">' . htmlspecialchars($title) . '</a>';
         }
         else
         {
-            return '<a class="does_not_exist" href="'.'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?go=courseviewer&course={$this->course_id}&tool=wiki&application=weblcms&&tool_action=create_page&pid={$this->pid}&title={$title}" . '">' . htmlspecialchars($title) . '</a>';
+            return '<a class="does_not_exist" href="'.'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?go=courseviewer&course={$this->course_id}&tool=wiki&application=weblcms&tool_action=view&display_action=create_page&pid={$this->pid}&title={$title}" . '">' . htmlspecialchars($title) . '</a>';
         }
     }
 

@@ -60,6 +60,11 @@ class ToolComplexEditComponent extends ToolComponent
                         $params['tool_action'] = 'view_item';
                     }
 
+                    if(Request :: get('tool') == 'wiki')
+                    {
+                        $params['tool_action'] = 'view';
+                        $params['display_action'] = 'view_item';
+                    }
 
                     $this->redirect($message, '', $params);
 
