@@ -16,9 +16,7 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
 
 			if(!$pid || !$cid)
 			{
-				$this->display_header(new BreadCrumbTrail());
 				$this->display_error_message(Translation :: get('NoParentSelected'));
-				$this->display_footer();
 			}
 
 			$rdm = RepositoryDataManager :: get_instance();
@@ -51,9 +49,7 @@ class ForumDisplayForumPostCreatorComponent extends ForumDisplayComponent
 			{
 				$html[] = '<p><a href="' . $this->get_url(array('type' => $type, 'pid' => $pid)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 				$html[] =  $pub->as_html();
-				$this->display_header(new BreadCrumbTrail());
 				echo implode("\n",$html);
-				$this->display_footer();
 			}
 			else
 			{

@@ -14,9 +14,8 @@ class ForumDisplayForumPostEditorComponent extends ForumDisplayComponent
 
 			if(!$pid || !$cid || !$post)
 			{
-				$this->display_header(new BreadCrumbTrail());
+                //trail here
 				$this->display_error_message(Translation :: get('ObjectNotSelected'));
-				$this->display_footer();
 			}
 
 			$url = $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay::ACTION_EDIT_FORUM_POST,
@@ -57,9 +56,8 @@ class ForumDisplayForumPostEditorComponent extends ForumDisplayComponent
 			}
 			else
 			{
-				$this->display_header(new BreadCrumbTrail());
+                //trail here
 				$form->display();
-				$this->display_footer();
 			}
 
 		}
