@@ -576,4 +576,8 @@ $lang['repository']['Forums'] = 'Forums';
 $lang['repository']['ForumTopics'] = 'Forum topics';
 $lang['repository']['Search'] = 'Search';
 $lang['repository']['Objects'] = 'Objects';
+$lang['repository']['PortalHomeCreationFormTitle'] = 'Create Portal Home block';
+$lang['repository']['PortalHomeFormTitle'] = 'Title';
+$lang['repository']['PortalHomeFormDescription'] = 'Description';
+$lang['repository']['Home'] = 'Home';
 ?>
