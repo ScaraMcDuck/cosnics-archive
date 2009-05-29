@@ -170,6 +170,11 @@ abstract class ComplexDisplayComponent
 	{
 		return $this->get_parent()->get_creation_links($lo, $types);
 	}
+	
+	function is_allowed($right)
+	{
+		return $this->get_parent()->is_allowed($right);
+	}
 }
 
 ?>
