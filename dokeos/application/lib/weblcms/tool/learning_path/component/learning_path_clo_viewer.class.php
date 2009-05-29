@@ -10,7 +10,11 @@ class LearningPathToolCloViewerComponent extends LearningPathToolComponent
         $object = RepositoryDataManager :: get_instance()->retrieve_learning_object($object_id);
         $this->set_parameter(LearningPathTool :: PARAM_ACTION, LearningPathTool :: ACTION_VIEW_CLO);
 		$display = ComplexDisplay :: factory($this, $object->get_type());
-        $display->run();
+
+		Display :: small_header();
+		
+		$display->run();
+		
 	}
 
 }

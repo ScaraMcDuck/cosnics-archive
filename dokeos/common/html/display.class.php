@@ -215,6 +215,25 @@ class Display
 		global $language_interface, $adm, $httpHeadXtra, $htmlHeadXtra, $text_dir, $plugins, $interbreadcrumb, $charset, $noPHP_SELF;
 		include (Path :: get(SYS_LIB_PATH).'html/header.inc.php');
 	}
+	
+	public static function small_header()
+	{
+		global $language_interface;
+		$document_language = AdminDataManager :: get_instance()->retrieve_language_from_english_name($language_interface)->get_isocode();
+		if(empty($document_language))
+		{
+		  //if there was no valid iso-code, use the english one
+		  $document_language = 'en';
+		}
+
+		$header = new Header($document_language);
+		$header->add_default_headers();
+		$header->set_page_title(PlatformSetting :: get('site_name'));
+		$header->display();
+		
+		echo '<style type="text/css">body {background-color:white; padding: 10px;}</style>';
+	}
+	
 	/**
 	 * Display the page footer
 	 */
