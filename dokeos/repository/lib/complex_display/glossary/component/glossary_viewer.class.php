@@ -29,8 +29,8 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
 		
 		$trail = new BreadCrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_VIEW_GLOSSARY, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $object->get_title()));
-		$this->display_header($trail);
-
+		//$this->display_header($trail);
+        
 		echo $this->action_bar->as_html();
 
 		if($this->get_view() == self :: VIEW_TABLE)
@@ -48,7 +48,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
     		}
 		}
 
-		$this->display_footer();
+		//$this->display_footer();
 	}
 
 	function display_learning_object($lo,$cloi)
@@ -105,10 +105,10 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_CREATE_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'type' => 'glossary_item', self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'type' => 'glossary_item', self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsTable'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_VIEW_GLOSSARY, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsList'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_VIEW_GLOSSARY, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), self :: PARAM_VIEW => self :: VIEW_LIST)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsTable'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array('pid' => Request :: get('pid'), self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsList'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array('pid' => Request :: get('pid'), self :: PARAM_VIEW => self :: VIEW_LIST)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 
 		return $action_bar;
