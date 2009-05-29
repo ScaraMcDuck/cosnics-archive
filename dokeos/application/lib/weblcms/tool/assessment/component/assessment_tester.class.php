@@ -48,7 +48,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 		if($this->assessment->get_assessment_type() == 'hotpotatoes')
 		{
 			$track = new WeblcmsAssessmentAttemptsTracker();
-			$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $pid);
+			$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ASSESSMENT_ID, $this->pid);
 			$trackers = $track->retrieve_tracker_items($condition);
 
 			if (count($trackers) < $this->assessment->get_maximum_attempts() || $this->assessment->get_maximum_attempts() == 0)
