@@ -4,6 +4,7 @@
  */
 require_once dirname(__FILE__).'/../forum_manager.class.php';
 require_once dirname(__FILE__).'/../forum_manager_component.class.php';
+require_once dirname(__FILE__).'/../../forum_publication.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path() . '/lib/learning_object/forum/forum.class.php';
 require_once Path :: get_repository_path() . 'lib/complex_display/forum/forum_display.class.php';
@@ -100,7 +101,7 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
 			$user_id = $this->get_user_id();
 		}
 
-        $publications = $this->retrieve_forum_publications();
+        $publications = $this->retrieve_forum_publications(null,null,null,array (ForumPublication::PROPERTY_DISPLAY_ORDER));
         $rdm = RepositoryDataManager::get_instance();
 
 		$size = $publications->size();
@@ -115,10 +116,10 @@ class ForumManagerBrowserComponent extends ForumManagerComponent
             $forum = $rdm->retrieve_learning_object($publication->get_forum_id(), 'forum');
             $title = '<a href="' . $this->get_url(array(ForumManager::PARAM_ACTION => ForumManager::ACTION_VIEW, ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, ForumManager::PARAM_PUBLICATION_ID => $publication->get_forum_id())) . '">' . $forum->get_title() . '</a><br />' . DokeosUtilities::truncate_string($forum->get_description());
 
-//			if($publication->is_hidden())
-//			{
-//				$title = '<span style="color: grey;">' . $title . '</span>';
-//			}
+			if($publication->is_hidden())
+			{
+				$title = '<span style="color: grey;">' . $title . '</span>';
+			}
 
 			$table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') . '" src="' . Theme :: get_image_path() . 'forum/forum_read.png" />');
 			$table->setCellAttributes($row, 0, array('width' => 50, 'class' => 'row1', 'style' => 'height:50px;'));

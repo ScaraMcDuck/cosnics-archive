@@ -150,6 +150,16 @@ class ForumPublication
 		$this->set_default_property(self :: PROPERTY_DATE, $date);
 	}
 
+    function get_display_order()
+    {
+        return $this->get_default_property(self :: PROPERTY_DISPLAY_ORDER);
+    }
+
+    function set_display_order($value)
+    {
+        $this->set_default_property(self :: PROPERTY_DISPLAY_ORDER, $value);
+    }
+
 	function delete()
 	{
 		$dm = ForumDataManager :: get_instance();
@@ -171,22 +181,23 @@ class ForumPublication
 
     function is_hidden()
     {
-        return false;
+        return $this->get_default_property(self :: PROPERTY_HIDDEN);
     }
 
     function set_hidden($hidden)
     {
-        return true;
+        $this->set_default_property(self :: PROPERTY_HIDDEN, $hidden);
     }
 
     function toggle_visibility()
     {
-        return true;
+        $hidden = $this->get_default_property(self :: PROPERTY_HIDDEN);
+        $this->set_default_property(self :: PROPERTY_HIDDEN, !$hidden);
     }
 
     function move($move)
     {
-        return true;
+        return ForumDataManager::get_instance()->move_forum_publication($this, $move);
     }
 
 	static function get_table_name()
