@@ -18,6 +18,7 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 	const PARAM_DELETE_SELECTED = 'delete_selected';
 	const PARAM_FORUM_PUBLICATION = 'forum_publication';
     const PARAM_PUBLICATION_ID = 'pid';
+    const PARAM_MOVE = 'move';
 
 	const ACTION_DELETE = 'delete_forum_publication';
 	const ACTION_EDIT = 'edit_forum_publication';
@@ -25,6 +26,8 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
     const ACTION_VIEW = 'view_forum_publications';
     const ACTION_PUBLISH = 'publish';
 	const ACTION_BROWSE = 'browse';
+    const ACTION_TOGGLE_VISIBILITY = 'toggle_visibility';
+    const ACTION_MOVE = 'move';
 
 	private $parameters;
 	private $user;
@@ -62,6 +65,15 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 				break;
             case self :: ACTION_VIEW:
                 $component = ForumManagerComponent :: factory('Viewer', $this);
+                break;
+            case self :: ACTION_EDIT:
+                $component = ForumManagerComponent :: factory('Editor', $this);
+                break;
+            case self :: ACTION_MOVE:
+                $component = ForumManagerComponent :: factory('Mover',$this);
+                break;
+            case self :: ACTION_TOGGLE_VISIBILITY :
+                $component = ForumManagerComponent :: factory('ToggleVisibility',$this);
                 break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE);

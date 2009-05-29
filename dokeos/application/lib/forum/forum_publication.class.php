@@ -19,6 +19,8 @@ class ForumPublication
 	const PROPERTY_FORUM_ID = 'forum_id';
 	const PROPERTY_AUTHOR = 'author';
 	const PROPERTY_DATE = 'date';
+    const PROPERTY_HIDDEN = 'hidden';
+    const PROPERTY_DISPLAY_ORDER = 'display_order';
 
 	/**
 	 * Default properties stored in an associative array.
@@ -58,7 +60,7 @@ class ForumPublication
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_FORUM_ID, self :: PROPERTY_AUTHOR, self :: PROPERTY_DATE);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_FORUM_ID, self :: PROPERTY_AUTHOR, self :: PROPERTY_DATE, self :: PROPERTY_HIDDEN, self :: PROPERTY_DISPLAY_ORDER);
 	}
 
 	/**
@@ -166,6 +168,26 @@ class ForumPublication
 		$dm = ForumDataManager :: get_instance();
 		return $dm->update_forum_publication($this);
 	}
+
+    function is_hidden()
+    {
+        return false;
+    }
+
+    function set_hidden($hidden)
+    {
+        return true;
+    }
+
+    function toggle_visibility()
+    {
+        return true;
+    }
+
+    function move($move)
+    {
+        return true;
+    }
 
 	static function get_table_name()
 	{

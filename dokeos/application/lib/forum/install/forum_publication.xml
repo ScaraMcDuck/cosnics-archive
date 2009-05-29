@@ -5,6 +5,8 @@
   <property name="forum_id" type="integer" unsigned="1" notnull="1"/>
   <property name="author" type="integer" unsigned="1" notnull="1"/>
   <property name="date" type="integer" unsigned="1" notnull="1"/>
+  <property name="hidden" type="integer" length="1" unsigned="1" notnull="1"/>
+   <property name="display_order" type="integer" unsigned="1" notnull="1"/>
  </properties>
  <index name="id" type="primary">
  <indexproperty name="id"/>

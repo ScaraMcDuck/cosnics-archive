@@ -40,11 +40,10 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         $topics_table = $this->get_topics_table_html();
         $forum_table =  $this->get_forums_table_html();
 
-        $trail = ($this->get_parent()->get_parent()->trail)?$this->get_parent()->get_parent()->trail:new BreadcrumbTrail();
+        //$trail = new BreadcrumbTrail();
+        //$trail->add('bla','test');
+        //$trail->render();
 
-        $trail->add(new BreadCrumb($this->get_url(array('pid' => $this->pid)), $this->forum->get_title()));
-
-        $this->display_header($trail);
         echo $this->action_bar->as_html();
 
         echo '<br />';
@@ -52,7 +51,6 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         echo '<br /><br />';
 
         echo $forum_table->toHtml();
-        $this->display_footer();
     }
 
     function retrieve_children($current_forum)

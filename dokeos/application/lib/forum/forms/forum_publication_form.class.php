@@ -151,7 +151,7 @@ class ForumPublicationForm extends FormValidator
 		$attributes = array(self :: PARAM_RECEIVERS => $receiver_choices);
 		$this->addElement('receivers', self :: PARAM_TARGETS, Translation :: get('PublishFor'),$attributes);
 		$this->add_forever_or_timewindow();
-		//$this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));
+		$this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));
 
 		//$this->addElement('checkbox', LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, Translation :: get('ShowOnHomepage'));
     }
