@@ -69,5 +69,12 @@ class DatabaseForumDataManager extends ForumDataManager
 		return $this->database->retrieve_objects(ForumPublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 
+    function move_forum_publication($publication, $places)
+	{
+        $oldIndex = $publication->get_display_order();
+        $publication->set_display_order($oldIndex+$places);
+        $publication->update();
+	}
+
 }
 ?>
