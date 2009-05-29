@@ -15,33 +15,15 @@ class WikiToolStatisticsViewerComponent extends WikiToolComponent
 {
     function run()
 	{
-		if(!$this->is_allowed(VIEW_RIGHT))
-		{
-			Display :: not_allowed();
-			return;
-		}
+		/*
+         *  We use the Reporting Tool, for more information about it, please read the information provided in the reporting class
+         */
 
-        $cd = ComplexDisplay :: factory($this);
-        $cd->run();
-
-        switch($cd->get_action())
-        {
-            case WikiDisplay :: ACTION_STATISTICS:
-                Events :: trigger_event('statistics', 'weblcms', array('course' => Request :: get('course'), Tool :: PARAM_PUBLICATION_ID => Request :: get('pid')));
-                break;
-        }
+        $params = array();
+        $params[ReportingManager :: PARAM_COURSE_ID] = Request :: get('course_id');
+        $params['pid'] = Request :: get('pid');
+        $url = $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE, 'template_name' => 'WikiReportingTemplate', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid')));
+        header('location: '.$url);
     }
-
-	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
-	{
-        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
-		return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
-	}
-
-    function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
-	{
-        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
-		$this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
-	}
 }
 ?>

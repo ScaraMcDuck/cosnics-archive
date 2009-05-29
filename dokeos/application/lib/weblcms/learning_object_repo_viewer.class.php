@@ -22,6 +22,14 @@ class LearningObjectRepoViewer extends RepoViewer
 	function LearningObjectRepoViewer($parent, $types, $mail_option = false, $maximum_select = RepoViewer :: SELECT_MULTIPLE, $action = TOOL :: ACTION_PUBLISH)
 	{
 		parent :: __construct($parent, $types, $mail_option, $maximum_select, array(), false);
+        if(is_array($action))
+        {
+            foreach($action as $type => $action)
+            {
+                $this->set_parameter($type, $action);
+            }
+        }
+        else
 		$this->set_parameter(Tool :: PARAM_ACTION, $action);
         if(Request :: get('pid') != null)
         $this->set_parameter('pid',Request :: get('pid'));

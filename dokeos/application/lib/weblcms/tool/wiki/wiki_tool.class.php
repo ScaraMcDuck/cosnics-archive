@@ -41,7 +41,7 @@ class WikiTool extends Tool
         //wiki tool
 		$action = $this->get_action();
 		$component = parent :: run();
-		
+
 		if($component)
 		{
 			return;

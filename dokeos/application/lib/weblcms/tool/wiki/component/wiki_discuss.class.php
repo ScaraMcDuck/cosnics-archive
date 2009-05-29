@@ -10,6 +10,8 @@ require_once dirname(__FILE__) . '/../wiki_tool.class.php';
 require_once dirname(__FILE__) . '/../wiki_tool_component.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path().'/lib/complex_display/complex_display.class.php';
+require_once Path :: get_repository_path().'/lib/complex_display/wiki/component/wiki_parser.class.php';
+require_once Path :: get_repository_path().'lib/learning_object_pub_feedback.class.php';
 
 class WikiToolDiscussComponent extends WikiToolComponent
 {
@@ -24,99 +26,7 @@ class WikiToolDiscussComponent extends WikiToolComponent
     const DESCRIPTION_MARKER = '<!-- /description -->';
 
 
-//	function run()
-//	{
-//		if(!$this->is_allowed(VIEW_RIGHT))
-//		{
-//			Display :: not_allowed();
-//			return;
-//		}
-//
-//        $dm = RepositoryDataManager :: get_instance();
-//        $rm = new RepositoryManager();
-//
-//        /*
-//         * publication and complex object id are requested.
-//         * These are used to retrieve
-//         *  1) the complex object ( reference is stored )
-//         *  2) the learning object ( actual inforamation about a wiki_page is stored here )
-//         *
-//         */
-//        $this->publication_id = Request :: get('pid');
-//        $this->cid = Request :: get('cid');
-//
-//        $complexeObject = $dm->retrieve_complex_learning_object_item($this->cid);
-//        if(isset($complexeObject))
-//        {
-//            $this->wiki_page_id = $complexeObject->get_ref();
-//            $this->wiki_id = $complexeObject->get_parent();
-//        }
-//        $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
-//        $this->links = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links();
-//
-//        $trail = new BreadcrumbTrail();
-//        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $this->publication_id)), DokeosUtilities::truncate_string($_SESSION['wiki_title'],20)));
-//        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->publication_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
-//        $trail->add_help('courses wiki tool');
-//
-//        $this->display_header($trail, true);
-//
-//        $this->action_bar = $this->get_toolbar();
-//        echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
-//        echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'.Translation :: get('DiscussThe'). ' ' .$wiki_page->get_title().' ' . Translation :: get('Page') .'<hr style="height:1px;color:#4271B5;width:100%;"></div>';
-//
-//        /*
-//         *  We make use of the existing LearningObjectDisplay class, changing the type to wiki_page
-//         */
-//        $display = LearningObjectDisplay :: factory($wiki_page);
-//        /*
-//         *  Here we make the call to the wiki_parser.
-//         *  For more information about the parser, please read the information in the wiki_parser class.
-//         */
-//
-//        $parser = new WikiToolParserComponent(Request :: get('pid'), $this->get_course_id(), $display->get_full_html());
-//        $parser->parse_wiki_text();
-//
-//        $this->set_script();
-//        echo '<a href="#" onclick="showhide();">'. Translation :: get('Show/HideContent').'</a><br /><br />';
-//        echo '<div id="content" style="display:inline;">'.$parser->get_wiki_text().'</div><br />';
-//
-//        /*
-//         *  We make use of the existing condition framework to show the data we want.
-//         *  If the publication id , and the compled object id are equal to the ones passed the feedback will be shown.
-//         */
-//
-//        if(isset($this->cid)&& isset($this->publication_id))
-//        {
-//            $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_PUBLICATION_ID, $this->publication_id);
-//            $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_CLOI_ID, $this->cid);
-//            $condition = new AndCondition($conditions);
-//            $feedbacks = $dm->retrieve_learning_object_pub_feedback($condition);
-//
-//            while($feedback = $feedbacks->next_result())
-//            {
-//                if($i == 0)
-//                {
-//                    echo '<div style="font-size:18px;">' . Translation :: get('Feedback') .'</div><hr>';
-//                    echo $this->show_add_feedback().'<br /><br />';
-//                }
-//                $this->fid = $feedback->get_feedback_id();
-//                /*
-//                 *  We retrieve the learning object, because that one contains the information we want to show.
-//                 *  We then display it using the LearningObjectDisplay and setting the type to feedback
-//                 */
-//                $feedback_display = $dm->retrieve_learning_object($this->fid);
-//                echo $this->show_feedback($feedback_display);
-//                $i++;
-//
-//            }
-//        }
-//
-//        echo '</div>';
-//        $this->display_footer();
-//    }
-
-    function run()
+	function run()
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
@@ -124,30 +34,122 @@ class WikiToolDiscussComponent extends WikiToolComponent
 			return;
 		}
 
-        $this->action_bar = $this->get_toolbar();
+        $dm = RepositoryDataManager :: get_instance();
+        $rm = new RepositoryManager();
 
-        $cd = ComplexDisplay :: factory($this);
-        $cd->run();
+        /*
+         * publication and complex object id are requested.
+         * These are used to retrieve
+         *  1) the complex object ( reference is stored )
+         *  2) the learning object ( actual inforamation about a wiki_page is stored here )
+         *
+         */
+        $this->publication_id = Request :: get('pid');
+        $this->cid = Request :: get('cid');
 
-        switch($cd->get_action())
+        $complexeObject = $dm->retrieve_complex_learning_object_item($this->cid);
+        if(isset($complexeObject))
         {
-            case WikiDisplay :: ACTION_DISCUSS:
-                Events :: trigger_event('discuss', 'weblcms', array('course' => Request :: get('course'), Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid')));
-                break;
+            $this->wiki_page_id = $complexeObject->get_ref();
+            $this->wiki_id = $complexeObject->get_parent();
         }
+        $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
+        $this->links = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links();
+
+        $trail = new BreadcrumbTrail();
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $this->publication_id)), DokeosUtilities::truncate_string($_SESSION['wiki_title'],20)));
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->publication_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
+        $trail->add_help('courses wiki tool');
+
+        $this->display_header($trail, true);
+
+        $this->action_bar = $this->get_toolbar();
+        echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
+        echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'.Translation :: get('DiscussThe'). ' ' .$wiki_page->get_title().' ' . Translation :: get('Page') .'<hr style="height:1px;color:#4271B5;width:100%;"></div>';
+
+        /*
+         *  We make use of the existing LearningObjectDisplay class, changing the type to wiki_page
+         */
+        $display = LearningObjectDisplay :: factory($wiki_page);
+        /*
+         *  Here we make the call to the wiki_parser.
+         *  For more information about the parser, please read the information in the wiki_parser class.
+         */
+
+        $parser = new WikiToolParserComponent(Request :: get('pid'), $this->get_course_id(), $display->get_full_html());
+        $parser->parse_wiki_text();
+
+        $this->set_script();
+        echo '<a href="#" onclick="showhide();">'. Translation :: get('Show/HideContent').'</a><br /><br />';
+        echo '<div id="content" style="display:inline;">'.$parser->get_wiki_text().'</div><br />';
+
+        /*
+         *  We make use of the existing condition framework to show the data we want.
+         *  If the publication id , and the compled object id are equal to the ones passed the feedback will be shown.
+         */
+
+        if(isset($this->cid)&& isset($this->publication_id))
+        {
+            $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_PUBLICATION_ID, $this->publication_id);
+            $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_CLOI_ID, $this->cid);
+            $condition = new AndCondition($conditions);
+            $feedbacks = $dm->retrieve_learning_object_pub_feedback($condition);
+
+            while($feedback = $feedbacks->next_result())
+            {
+                if($i == 0)
+                {
+                    echo '<div style="font-size:18px;">' . Translation :: get('Feedback') .'</div><hr>';
+                    echo $this->show_add_feedback().'<br /><br />';
+                }
+                $this->fid = $feedback->get_feedback_id();
+                /*
+                 *  We retrieve the learning object, because that one contains the information we want to show.
+                 *  We then display it using the LearningObjectDisplay and setting the type to feedback
+                 */
+                $feedback_display = $dm->retrieve_learning_object($this->fid);
+                echo $this->show_feedback($feedback_display);
+                $i++;
+
+            }
+        }
+
+        echo '</div>';
+        $this->display_footer();
     }
 
-	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
-	{
-        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
-		return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
-	}
-
-    function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
-	{
-        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
-		$this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
-	}
+//    function run()
+//	{
+//		if(!$this->is_allowed(VIEW_RIGHT))
+//		{
+//			Display :: not_allowed();
+//			return;
+//		}
+//
+//        $this->action_bar = $this->get_toolbar();
+//
+//        $cd = ComplexDisplay :: factory($this);
+//        $cd->run();
+//
+//        switch($cd->get_action())
+//        {
+//            case WikiDisplay :: ACTION_DISCUSS:
+//                Events :: trigger_event('discuss', 'weblcms', array('course' => Request :: get('course'), Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid')));
+//                break;
+//        }
+//    }
+//
+//	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
+//	{
+//        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
+//		return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
+//	}
+//
+//    function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
+//	{
+//        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
+//		$this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
+//	}
 
 
     function build_feedback_actions()

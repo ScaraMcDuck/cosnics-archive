@@ -10,12 +10,14 @@
 
 require_once Path :: get_library_path().'/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path().'/lib/complex_display/complex_display.class.php';
+require_once Path :: get_repository_path().'/lib/complex_display/wiki/component/wiki_publication_table/wiki_publication_table.class.php';
 
 class WikiToolBrowserComponent extends WikiToolComponent
 {
 	private $action_bar;
+    private $introduction_text;
 
-	/*function run()
+	function run()
 	{
 		if (!$this->is_allowed(VIEW_RIGHT))
 		{
@@ -42,41 +44,41 @@ class WikiToolBrowserComponent extends WikiToolComponent
 		echo $table->as_html();
 
 		$this->display_footer();
-	}*/
-
-
-    function run()
-	{
-		if(!$this->is_allowed(VIEW_RIGHT))
-		{
-			Display :: not_allowed();
-			return;
-		}
-
-        $this->action_bar = $this->get_toolbar();
-
-        $cd = ComplexDisplay :: factory($this);
-        $cd->run();
-
-        switch($cd->get_action())
-        {
-            case WikiDisplay ::ACTION_BROWSE_WIKIS:
-                Events :: trigger_event('browse', 'weblcms', array('course' => Request :: get('course')));
-                break;
-        }
-    }
-
-	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
-	{
-        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
-		return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
 	}
 
-    function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
-	{
-        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
-		$this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
-	}
+
+//    function run()
+//	{
+//		if(!$this->is_allowed(VIEW_RIGHT))
+//		{
+//			Display :: not_allowed();
+//			return;
+//		}
+//
+//        $this->action_bar = $this->get_toolbar();
+//
+//        $cd = ComplexDisplay :: factory($this);
+//        $cd->run();
+//
+//        switch($cd->get_action())
+//        {
+//            case WikiDisplay ::ACTION_BROWSE_WIKIS:
+//                Events :: trigger_event('browse', 'weblcms', array('course' => Request :: get('course')));
+//                break;
+//        }
+//    }
+//
+//	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
+//	{
+//        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
+//		return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
+//	}
+//
+//    function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
+//	{
+//        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
+//		$this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
+//	}
 
 
 
