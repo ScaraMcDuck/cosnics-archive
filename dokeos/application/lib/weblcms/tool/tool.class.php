@@ -128,6 +128,7 @@ abstract class Tool
 
 	function set_action($action)
 	{
+		$this->set_parameter(self :: PARAM_ACTION, $action);
 		$this->action = $action;
 	}
 

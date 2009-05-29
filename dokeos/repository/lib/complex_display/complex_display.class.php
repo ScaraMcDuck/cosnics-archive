@@ -64,11 +64,11 @@ abstract class ComplexDisplay
 	{
 		if(is_null(self :: $instance))
 		{
-            if($parent->get_parent() instanceof WeblcmsManager)
+           /* if($parent && $parent->get_parent() instanceof WeblcmsManager)
             {
                 $properties = $parent->get_tool()->get_properties();
                 $name = $properties->name;
-            }else
+            }else*/
             {
                 $name = $app_name;
             }
