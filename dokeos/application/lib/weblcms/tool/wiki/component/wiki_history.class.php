@@ -14,6 +14,7 @@ require_once Path :: get_repository_path().'/lib/complex_display/wiki/component/
 require_once Path :: get_repository_path().'lib/learning_object_display.class.php';
 require_once Path :: get_repository_path().'lib/learning_object_difference_display.class.php';
 require_once Path :: get_repository_path().'lib/learning_object_form.class.php';
+require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_display.class.php';
 
 
 class WikiToolHistoryComponent extends WikiToolComponent
@@ -70,8 +71,8 @@ class WikiToolHistoryComponent extends WikiToolComponent
 		$versions = $wiki_page->get_learning_object_versions();
 
         $trail = new BreadcrumbTrail();
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $this->publication_id)), DokeosUtilities::truncate_string($_SESSION['wiki_title'],20)));
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->publication_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $this->publication_id)), DokeosUtilities::truncate_string(WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title(),20)));
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $this->publication_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
         $trail->add_help('courses wiki tool');
 
         $this->display_header($trail, true);
@@ -235,7 +236,7 @@ class WikiToolHistoryComponent extends WikiToolComponent
 
          $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
@@ -269,6 +270,14 @@ class WikiToolHistoryComponent extends WikiToolComponent
 
             foreach($toolboxlinks as $link)
             {
+                if(substr_count($link,'www.')==1)
+                {
+                    $action_bar->add_navigation_link(
+                    new ToolbarItem(
+                        ucfirst($p->get_title_from_url($link)), null, $link, ToolbarItem ::DISPLAY_LABEL));
+                    continue;
+                }
+                
                 if(substr_count($link,'class="does_not_exist"'))
                 {
                     $action_bar->add_navigation_link(

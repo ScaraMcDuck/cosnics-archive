@@ -15,6 +15,7 @@ class WikiToolViewerComponent extends WikiToolComponent
 			return;
 		}
 
+
         $this->action_bar = $this->get_toolbar();
 
         $cd = ComplexDisplay :: factory($this);
