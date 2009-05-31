@@ -24,14 +24,14 @@ class ToolComplexFeedbackComponent extends ToolComponent
 		if(isset($_GET['pid']))
         {
             $this->pub->set_parameter('pid', $_GET['pid']);
-            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
         }
 
 		if(isset($_GET['cid']))
 		{
             $this->pub->set_parameter('cid', $_GET['cid']);
             $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item(Request :: get('cid'));
-            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $cloi->get_id())), RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref())->get_title()));
+            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $cloi->get_id())), RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref())->get_title()));
         }
 
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Request :: get('tool_action'), 'pid' => Request :: get('pid'), 'cid' => Request :: get('cid'))), Translation :: get('AddFeedback')));

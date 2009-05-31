@@ -92,20 +92,24 @@ class WikiToolParserComponent
         }
     }
 
-    private function get_wiki_page_url(&$title, $viewTitle = null, $return_ids = false)
+    private function get_wiki_page_url(&$title, $viewTitle = null)
     {
-    	$page = RepositoryDataManager :: get_instance()->retrieve_learning_objects('wiki_page', new EqualityCondition(LearningObject :: PROPERTY_TITLE,$title))->as_array();
+    	$pages = RepositoryDataManager :: get_instance()->retrieve_learning_objects('wiki_page', new EqualityCondition(LearningObject :: PROPERTY_TITLE,$title))->as_array();dump($page);
     	if($viewTitle!=null)
     	$title = $viewTitle;
-        if(!empty($page))
+        foreach($pages as $page)
         {
-            $page = $page[count($page)-1];
-        }
-        if(!empty($page))
-        {
-            $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition('ref',$page->get_id()))->as_array();
+            $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition('ref',$page->get_id()))->next_result();
             if(!empty($cloi))
-            return '<a href="'.'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?go=courseviewer&course={$this->course_id}&tool=wiki&application=weblcms&tool_action=view&display_action=view_item&cid={$cloi[0]->get_id()}&pid={$this->pid}" . '">' . htmlspecialchars($title) . '</a>';
+            break;
+        }
+//        if(!empty($pages))
+//        {
+//            $pages = $pages[count($pages)-1];
+//        }
+        if(!empty($cloi))
+        {
+            return '<a href="'.'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?go=courseviewer&course={$this->course_id}&tool=wiki&application=weblcms&tool_action=view&display_action=view_item&cid={$cloi->get_id()}&pid={$this->pid}" . '">' . htmlspecialchars($title) . '</a>';
         }
         else
         {
@@ -256,12 +260,12 @@ class WikiToolParserComponent
         return $this->get_wiki_text();       
     }
 
-    public function get_title_from_url($link)
-    {
-        $link = str_replace('</a>','',$link);
-        $pattern = '/(<a.*>)/';
-        return preg_replace($pattern,'',$link);
-    }
+//    public function get_title_from_url($link)
+//    {
+//        $link = str_replace('</a>','',$link);
+//        $pattern = '/(<a.*>)/';
+//        return preg_replace($pattern,'',$link);
+//    }
 
     public function get_title_from_wiki_tag($tag,$viewTitle = false)
     {
@@ -308,6 +312,12 @@ class WikiToolParserComponent
         }
 
         return $matches[0][0];
+    }
+
+    public function get_title_from_url($link)
+    {
+        $items = explode('.',$link);
+        return $items[1];
     }
 }
 

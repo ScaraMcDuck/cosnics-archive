@@ -32,13 +32,21 @@ class ToolAccessDetailsViewerComponent extends ToolComponent
         $this->add_pcattree_breadcrumbs(Request :: get('pcattree'),$trail);
 
         if(Request :: get('pid') != null && Request :: get('template_name')!='CourseStudentTrackerReportingTemplate' && Request :: get('template_name')!='CourseTrackerReportingTemplate')
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
 
         if(!empty($params['user_id']) && Request :: get('template_name') == 'CourseStudentTrackerDetailReportingTemplate')
         {
             $user = DatabaseUserDataManager :: get_instance()->retrieve_user($params['user_id']);
             $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'user_details', 'users' => $params['user_id'])), $user->get_firstname().' '.$user->get_lastname()));
         }
+
+        if(Request :: get('cid') != null)
+        {
+            $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item(Request :: get('cid'));
+            $wp = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref());
+            $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))),$wp->get_title()));
+
+         }
 
         $trail->add(new Breadcrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool ::ACTION_VIEW_REPORTING_TEMPLATE, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'), 'template_name' => Request :: get('template_name'))), Translation :: get('Reporting')));
 

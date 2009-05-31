@@ -43,7 +43,8 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
          *  This controle make sure that
          *      1)the retrieve learning object publication is valid
          *      2)the method get_id() is only called when the publication object is made.
-         */
+         */       
+
         if(!empty($this->publication_id))
         {
             $wm = WeblcmsDataManager :: get_instance();
@@ -56,7 +57,6 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
         $trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $this->publication_id)), DokeosUtilities::truncate_string($publication->get_learning_object()->get_title(),20)));
         $trail->add_help('courses wiki tool');
-
         $this->display_header($trail, true);
 
         $this->links = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links();
@@ -100,19 +100,19 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
 
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, WikiDisplay :: PARAM_DISPLAY_ACTION => null, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(WikiTool :: PARAM_ACTION => Tool:: ACTION_DELETE, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
+				Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(WikiTool :: PARAM_ACTION => Tool:: ACTION_DELETE, WikiDisplay :: PARAM_DISPLAY_ACTION => null, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
 			)
 		);
 
         $action_bar->add_common_action(
         new ToolbarItem(
-				Translation :: get('BrowseWikis'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('BrowseWikis'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS, WikiDisplay :: PARAM_DISPLAY_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			));
 
 
@@ -142,6 +142,14 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
 
             foreach($toolboxlinks as $link)
             {
+                if(substr_count($link,'www.')==1)
+                {
+                    $action_bar->add_navigation_link(
+                    new ToolbarItem(
+                        ucfirst($p->get_title_from_url($link)), null, $link, ToolbarItem ::DISPLAY_LABEL));
+                    continue;
+                }
+                
                 if(substr_count($link,'class="does_not_exist"'))
                 {
                     $action_bar->add_navigation_link(
@@ -159,7 +167,6 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
                 $i++;
             }
         }
-
 
 		return $action_bar;
 	}
