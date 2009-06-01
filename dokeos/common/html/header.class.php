@@ -47,6 +47,7 @@ class Header
 		//$this->add_css_file_header($this->get_path(WEB_CSS_PATH) .'print.css','print');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.min.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.dimensions.min.js');
+		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.tabula.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.tablednd.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.ui.min.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.ui.tabs.paging.js');
