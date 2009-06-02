@@ -136,7 +136,7 @@ class WikiToolParserComponent
             $html[] =        '<div id="contentbox">'. Translation :: get('Contents');
             $html[] =        '<a id="showhide" href="#">['. Translation :: get(Hide).']</a><br /></div>';
             $html[] =        '<br />';
-            $html[] =        '<div id="headers">';
+            $html[] =        '<div id="content">';
             $html[] =           $this->fill_content_box($list);
             $html[] =        '</div></div>';
 
