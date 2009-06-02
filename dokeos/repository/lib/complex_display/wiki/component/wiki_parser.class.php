@@ -103,28 +103,28 @@ class WikiToolParserComponent
             if(!empty($cloi))
             break;
         }
-//        if(!empty($pages))
-//        {
-//            $pages = $pages[count($pages)-1];
-//        }
         if(!empty($cloi))
         {
-            return '<a href="'.'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?go=courseviewer&course={$this->course_id}&tool=wiki&application=weblcms&tool_action=view&display_action=view_item&cid={$cloi->get_id()}&pid={$this->pid}" . '">' . htmlspecialchars($title) . '</a>';
+            $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->pid, Tool :: PARAM_COMPLEX_ID => $cloi->get_id())));
+            return '<a href="'.$url. '">' . htmlspecialchars($title) . '</a>';
         }
         else
         {
-            return '<a class="does_not_exist" href="'.'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?go=courseviewer&course={$this->course_id}&tool=wiki&application=weblcms&tool_action=view&display_action=create_page&pid={$this->pid}&title={$title}" . '">' . htmlspecialchars($title) . '</a>';
+            $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->pid)));
+            return '<a class="does_not_exist" href="'.$url. '">' . htmlspecialchars($title) . '</a>';
         }
     }
 
     private function get_wiki_page_discussion_url()
     {
-        return '<a href="'.'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']."?go=courseviewer&course={$this->course_id}&tool=wiki&application=weblcms&tool_action=discuss&cid={$this->cid}&pid={$this->pid}" . '">' . htmlspecialchars(Translation :: get('discussionPage')) . '</a>';
+        $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_DISCUSS, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->pid, Tool :: PARAM_COMPLEX_ID => $this->cid)));
+        return '<a href="'.$url. '">' . htmlspecialchars(Translation :: get('discussionPage')) . '</a>';
     }
 
     private function create_wiki_contentsbox()
-    {              
-        $linkCount = substr_count($this->wikiText,'<p>==');
+    {
+        $pattern = '/(==+[[:print:] àèùìòáéúíóäëÿüïöÀÈÙÌÒÁÉÚÍÓÄËŸÜÏÖ]+==+)/u';
+        $linkCount = preg_match($pattern, $this->wikiText);
         $list = $this->parse_wiki_headers($this->wikiText);
 
         if($linkCount > 0)
@@ -150,8 +150,7 @@ class WikiToolParserComponent
     {
         $list= array();
 
-        $pattern = '/(==+[[:alnum:] ]+==+)/';
-
+        $pattern = '/(==+[[:print:] àèùìòáéúíóäëÿüïöÀÈÙÌÒÁÉÚÍÓÄËŸÜÏÖ]+==+)/u';
         preg_match_all($pattern, $this->wikiText, $matches, PREG_PATTERN_ORDER);
        
         foreach($matches[1] as $value)
