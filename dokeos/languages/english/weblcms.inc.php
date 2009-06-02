@@ -733,5 +733,11 @@ $lang['weblcms']['CategoryMoved'] = 'Category moved';
 $lang['weblcms']['UpdateCategory'] = 'Update category';
 $lang['weblcms']['GeneralCategoriesCopied'] = 'General categories copied';
 $lang['weblcms']['UserSubscribedToCourse'] = 'User subscribed to course';
-$lang['weblcms']['CourseCodeAlreadyExists'] = ' ';
+$lang['weblcms']['CourseCodeAlreadyExists'] = 'A course with the provided code already exists in the database. Please choose another course code.';
+$lang['weblcms']['WikiLocked'] = 'Locked';
+$lang['weblcms']['WikiToolBoxLinks'] = 'Link toolbox: enter the links you wish to appear in the wiki link toolbox. You can enter 2 types of links:<br />
+-Wiki links: [[insert page title here|optional link title here]]<br />
+-Absolute links: http://www.google.com (don\'t forget the \'http://\')';
+$lang['weblcms']['Modified'] = 'Modified';
+$lang['weblcms']['Versions'] = 'Versions';
 ?>

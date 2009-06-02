@@ -603,5 +603,11 @@ $lang['repository']['Contents'] = 'Contents';
 $lang['repository']['Disputed'] = 'Disputed';
 $lang['repository']['ThereIsDoubtAboutTheFactualAccuracyOfThisPart'] = 'There is doubt about the factual accuracy of this part';
 $lang['repository']['ConsultThe'] = 'Consult the';
-$lang['repository']['ForMoreInformationAndModifyTheArticleIfDesirable'] = ' ';
+$lang['repository']['ForMoreInformationAndModifyTheArticleIfDesirable'] = 'for more information and modify the article if desirable';
+$lang['repository']['MultipleChoiceQuestion'] = 'Multiple choice question';
+$lang['repository']['RatingQuestion'] = 'Rating question';
+$lang['repository']['HotspotQuestion'] = 'Hotspot question';
+$lang['repository']['WikiPage'] = 'Wiki page';
+$lang['repository']['Course'] = 'Course';
+$lang['repository']['Tool'] = 'Tool';
 ?>
