@@ -65,16 +65,18 @@ class RepositoryFilterForm extends FormValidator
 			$filters[$registrations[$i]] = Translation :: get(DokeosUtilities :: underscores_to_camelcase($registrations[$i] . 'TypeName'));
 		}
 		
-		$this->addElement('select', self :: FILTER_TYPE, null, $filters);
+		$this->addElement('select', self :: FILTER_TYPE, null, $filters, array('class' => 'postback'));
 		$this->addElement('style_submit_button', 'submit', Translation :: get('Filter'), array('class' => 'normal filter'));
 		
 		$this->setDefaults(array(self :: FILTER_TYPE => 0, 'published' => 1));
+		
+		$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/postback.js'));
 	}
 	
 	function get_filter_conditions()
-	{
+	{ 
 		if($this->validate())
-		{
+		{ 
 			$values = $this->exportValues();
 			$filter_type = $values[self :: FILTER_TYPE];
 			
