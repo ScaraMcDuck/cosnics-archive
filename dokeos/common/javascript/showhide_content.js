@@ -1,23 +1,17 @@
-function showhide()
+
+(function ($)
 {
-
-	theBox = document.getElementById('content');
-    show = document.getElementById('show');
-    hide = document.getElementById('hide');
-	
-	if (theBox.style.display == "inline")
+	$(document).ready(function () 
     {
-		theBox.style.display = "none";
-        show.style.display = "inline";
-        hide.style.display = "none";
+        $("#showhide").click(function()
+        {
+            $(this).text($(this).text() == '[Hide]' ? '[Show]' : '[Hide]');
+            $("#headers").toggle();return false;
+        
+        });
+	});
 
-	} else
-    {
-		theBox.style.display = "inline";
-        show.style.display = "none";
-        hide.style.display = "inline";
-	}
-}
+})(jQuery);
 
    
 

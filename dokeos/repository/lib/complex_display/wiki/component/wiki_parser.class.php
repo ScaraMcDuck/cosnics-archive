@@ -132,12 +132,11 @@ class WikiToolParserComponent
             $this->set_script();
             $html = array();
             
-            $html[] =        '<div name="top" style="float: left; margin-right:100%;margin-bottom:15px;margin-top:15px;min-width: 150px; padding:5px;border:1px solid #4271B5;background-color:#faf7f7;">';
-            $html[] =        '<div id="hide" style="align:center;font-family:Arial;font-size:13px;display:inline;font-weight:bold;">'. Translation :: get('Contents');
-            $html[] =        '<a href="#" onclick="showhide();">['. Translation :: get(Hide).']</a><br /></div>';
-            $html[] =         '<div id="show" style="align:center;font-family:Arial;font-size:13px;font-weight:bold;display:none">'. Translation :: get('Contents');
-            $html[] =        '<a href="#" onclick="showhide();">['. Translation :: get(Show).']</a><br /></div><br />';
-            $html[] =        '<div id="content" style="display:inline;">';
+            $html[] =        '<div id="top" name="top">';
+            $html[] =        '<div id="contentbox">'. Translation :: get('Contents');
+            $html[] =        '<a id="showhide" href="#">['. Translation :: get(Hide).']</a><br /></div>';
+            $html[] =        '<br />';
+            $html[] =        '<div id="headers">';
             $html[] =           $this->fill_content_box($list);
             $html[] =        '</div></div>';
 
@@ -166,7 +165,7 @@ class WikiToolParserComponent
             {
                 case 1:
                     {
-                        $index[$value] = $heads[1].'.';
+                        $index[$value] = $heads[1];
                         break;
                     }
                 case 2:
@@ -238,7 +237,8 @@ class WikiToolParserComponent
     {
         foreach($list as $key => $value)
         {
-             $html .= '<a href ="#'.str_replace(' ','',$key).'">'.$value.' '.$key.'</a><br />';
+            $head_number = substr_count($value,'.')+1;
+            $html .= '<a style="padding-left: '.$head_number. '0px" href ="#'.str_replace(' ','',$key).'">'.$value.' '.$key.'</a><br />';
         }
         
         return $html;
@@ -247,7 +247,7 @@ class WikiToolParserComponent
 
     private function set_script()
     {
-        echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/showhide_content.js');;
+        echo ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/showhide_content.js');
     }
 
 
@@ -258,13 +258,6 @@ class WikiToolParserComponent
         $this->wikiText = explode(';',$this->wikiText);
         return $this->get_wiki_text();       
     }
-
-//    public function get_title_from_url($link)
-//    {
-//        $link = str_replace('</a>','',$link);
-//        $pattern = '/(<a.*>)/';
-//        return preg_replace($pattern,'',$link);
-//    }
 
     public function get_title_from_wiki_tag($tag,$viewTitle = false)
     {
