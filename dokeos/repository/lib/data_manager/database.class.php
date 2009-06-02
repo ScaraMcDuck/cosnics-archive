@@ -1386,7 +1386,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		if (isset ($condition))
 		{
-			$translator = new ConditionTranslator($this->database, $params, self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE);
+			$translator = new ConditionTranslator($this->database, $params, null);
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
