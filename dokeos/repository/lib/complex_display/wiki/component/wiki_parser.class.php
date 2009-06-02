@@ -118,7 +118,7 @@ class WikiToolParserComponent
     private function get_wiki_page_discussion_url()
     {
         $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_DISCUSS, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->pid, Tool :: PARAM_COMPLEX_ID => $this->cid)));
-        return '<a href="'.$url. '">' . htmlspecialchars(Translation :: get('discussionPage')) . '</a>';
+        return '<a href="'.$url. '">' . Translation :: get('discussionPage') . '</a>';
     }
 
     private function create_wiki_contentsbox()
