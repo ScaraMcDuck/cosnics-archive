@@ -198,19 +198,19 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 	private function load_rights()
 	{
 		$this->rights[VIEW_RIGHT] = true;
-		$this->rights[EDIT_RIGHT] = false;
-		$this->rights[ADD_RIGHT] = false;
-		$this->rights[DELETE_RIGHT] = false;
-		$user = $this->user;
-		if ($user != null)
-		{
-			if($user->is_platform_admin())
-			{
-				$this->rights[EDIT_RIGHT] = true;
-				$this->rights[ADD_RIGHT] = true;
-				$this->rights[DELETE_RIGHT] = true;
-			}
-		}
+		$this->rights[EDIT_RIGHT] = true;
+		$this->rights[ADD_RIGHT] = true;
+		$this->rights[DELETE_RIGHT] = true;
+//		$user = $this->user;
+//		if ($user != null)
+//		{
+//			if($user->is_platform_admin())
+//			{
+//				$this->rights[EDIT_RIGHT] = true;
+//				$this->rights[ADD_RIGHT] = true;
+//				$this->rights[DELETE_RIGHT] = true;
+//			}
+//		}
 		return;
 	}
 }
