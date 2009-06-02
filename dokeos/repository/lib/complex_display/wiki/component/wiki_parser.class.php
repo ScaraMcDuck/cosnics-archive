@@ -150,7 +150,7 @@ class WikiToolParserComponent
     {
         $list= array();
 
-        $pattern = '/(<p>==*?[[:alnum:] ]*?==*?<\/p>)/';
+        $pattern = '/(==+[[:alnum:] ]+==+)/';
 
         preg_match_all($pattern, $this->wikiText, $matches, PREG_PATTERN_ORDER);
        
