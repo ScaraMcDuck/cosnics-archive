@@ -30,7 +30,19 @@ class ForumBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
 	
 	function get_modification_links($cloi)
 	{
-		return parent :: get_modification_links($cloi, array(), true);
+        //check if cloi is sticky or notification, if so disable correct button
+        $array = array();
+        $array[]= array(
+				'href' => $this->browser->get_complex_learning_object_item_sticky_url($cloi,$this->browser->get_root()),
+				'label' => Translation :: get('MakeSticky'),
+				'img' => Theme :: get_common_image_path().'sticky_read.gif'
+		);
+        $array[]= array(
+				'href' => $this->browser->get_complex_learning_object_item_important_url($cloi,$this->browser->get_root()),
+				'label' => Translation :: get('MakeImportant'),
+				'img' => Theme :: get_common_image_path().'announce_read.gif'
+		);
+		return parent :: get_modification_links($cloi, $array, true);
 	}
 }
 ?>
