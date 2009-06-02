@@ -34,6 +34,8 @@ class ToolComplexFeedbackComponent extends ToolComponent
             $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $cloi->get_id())), RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref())->get_title()));
         }
 
+        if(Request :: get('tool') == 'wiki')
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_DISCUSS, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), Translation :: get('Discuss')));
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Request :: get('tool_action'), 'pid' => Request :: get('pid'), 'cid' => Request :: get('cid'))), Translation :: get('AddFeedback')));
 
         if(!isset($object))

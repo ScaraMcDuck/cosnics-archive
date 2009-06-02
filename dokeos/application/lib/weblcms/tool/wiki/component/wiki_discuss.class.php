@@ -60,6 +60,7 @@ class WikiToolDiscussComponent extends WikiToolComponent
         $trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $this->publication_id)), DokeosUtilities::truncate_string(WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title(),20)));
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $this->publication_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_DISCUSS, Tool :: PARAM_PUBLICATION_ID => $this->publication_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), Translation :: get('Discuss')));
         $trail->add_help('courses wiki tool');
 
         $this->display_header($trail, true);
@@ -81,8 +82,8 @@ class WikiToolDiscussComponent extends WikiToolComponent
         $parser->parse_wiki_text();
 
         $this->set_script();
-        echo '<a href="#" onclick="showhide();">'. Translation :: get('Show/HideContent').'</a><br /><br />';
-        echo '<div id="content" style="display:inline;">'.$parser->get_wiki_text().'</div><br />';
+        echo '<a id="showhide" href="#">['. Translation :: get('Hide').']</a><br /><br />';
+        echo '<div id="content" style="line-height: 110%;">'.$parser->get_wiki_text().'</div><br />';
 
         /*
          *  We make use of the existing condition framework to show the data we want.
