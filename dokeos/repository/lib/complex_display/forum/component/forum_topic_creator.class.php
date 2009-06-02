@@ -25,6 +25,7 @@ class ForumDisplayForumTopicCreatorComponent extends ForumDisplayComponent
 			$pub->set_parameter('pid', $pid);
 			$pub->set_parameter('forum', $forum);
 			$pub->set_parameter('is_subforum', $is_subforum);
+            $pub->set_redirect(false);
 			
 			$object_id = Request :: get('object');
 			
