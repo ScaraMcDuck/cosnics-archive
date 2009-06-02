@@ -196,5 +196,5 @@ $lang['common']['Edit'] = 'Edit';
 $lang['common']['{PROPERTIES.PROPERTY_C}'] = ' ';
 $lang['common']['Update'] = 'Update';
 $lang['common']['Reset'] = 'Reset';
-$lang['common']['BlockAdded'] = ' ';
+$lang['common']['BlockAdded'] = 'Block added';
 ?>
