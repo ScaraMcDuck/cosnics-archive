@@ -236,7 +236,7 @@ class Block {
 	function get_platform_blocks_deprecated()
 	{
 		$application_components = array();
-		$applications = Application :: load_all(false);
+		$applications = WebApplication :: load_all(false);
 
 		$path = Path :: get_application_path() .'/lib/';
 
