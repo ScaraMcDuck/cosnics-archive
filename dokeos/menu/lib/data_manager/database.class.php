@@ -283,18 +283,30 @@ class DatabaseMenuDataManager extends MenuDataManager
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		
-		$old_category = $this->retrieve_menu_item($menu_item->get_id());
+		$old_menu_item = $this->retrieve_menu_item($menu_item->get_id());
 		
-		if ($old_category->get_category() !== $menu_item->get_category())
+		if ($old_menu_item->get_category() !== $menu_item->get_category())
 		{
 			$condition = new EqualityCondition(MenuItem :: PROPERTY_CATEGORY, $menu_item->get_category());
 			$sort = $this->retrieve_max_sort_value('item', MenuItem :: PROPERTY_SORT, $condition);
-			
+
 			$props[$this->escape_column_name(MenuItem :: PROPERTY_SORT)] = $sort+1;
 		}
 		
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('item'), $props, MDB2_AUTOQUERY_UPDATE, $where);
+		
+		
+		if($old_menu_item->get_category() != $menu_item->get_category())
+		{
+			$query = 'UPDATE ' . $this->escape_table_name('item') . ' SET sort = sort - 1 WHERE ' . 
+								 $this->escape_column_name(MenuItem :: PROPERTY_SORT) . ' > ? AND ' .
+								 $this->escape_column_name(MenuItem :: PROPERTY_CATEGORY) . ' = ?;';
+			
+			$statement = $this->connection->prepare($query);
+			$statement->execute(array($old_menu_item->get_sort(), $old_menu_item->get_category()));					
+		}
+		
 		return true;
 	}
 	

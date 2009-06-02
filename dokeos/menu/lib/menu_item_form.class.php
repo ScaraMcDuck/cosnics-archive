@@ -135,8 +135,8 @@ class MenuItemForm extends FormValidator {
     		$menuitem->set_section('');
     	}
 
-    	$menuitem->set_category($values[MenuItem :: PROPERTY_CATEGORY]);
     	$menuitem->set_extra($values[MenuItem :: PROPERTY_EXTRA]);
+		$menuitem->set_category($values[MenuItem :: PROPERTY_CATEGORY]);
 
     	return $menuitem->update();
     }
