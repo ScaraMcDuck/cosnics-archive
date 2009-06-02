@@ -47,6 +47,8 @@ class RepoViewer
 
 	private $excluded_objects;
 
+    private $redirect;
+
 	/**
 	 * You have two choices for the select multiple
 	 * 0 / SELECT MULTIPLE - you can select as many lo as you want
@@ -61,7 +63,7 @@ class RepoViewer
 	 * @param  boolean $email_option If true the repo_viewer has the option to
 	 * send the repoviewered learning object by email to the selecter target users.
 	 */
-	function RepoViewer($parent, $types, $mail_option = false, $maximum_select = self :: SELECT_MULTIPLE, $excluded_objects = array(), $parse_input = true)
+	function RepoViewer($parent, $types, $mail_option = false, $maximum_select = self :: SELECT_MULTIPLE, $excluded_objects = array(), $parse_input = true,$redirect = true)
 	{
 		$this->maximum_select = $maximum_select;
 		$this->parent = $parent;
@@ -74,6 +76,7 @@ class RepoViewer
 		$this->set_parameter(RepoViewer :: PARAM_ACTION, ($_GET[RepoViewer :: PARAM_ACTION] ? $_GET[RepoViewer :: PARAM_ACTION] : 'creator'));
 		if($parse_input)
 			$this->parse_input_from_table();
+        $this->redirect = $redirect;
 	}
 
 	function as_html()
@@ -199,8 +202,18 @@ class RepoViewer
 
 	function redirect_complex($type)
 	{
-		return true;
+		return $this->redirect;
 	}
+
+    function get_redirect()
+    {
+        return $this->redirect;
+    }
+
+    function set_redirect($value)
+    {
+        $this->redirect = $value;
+    }
 
 	/**
 	 * Sets a default learning object. When the creator component of this
