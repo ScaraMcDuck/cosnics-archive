@@ -119,6 +119,8 @@
 			<setting name="cas_host" field="text" default="" />
 			<setting name="cas_port" field="text" default="" />
 			<setting name="cas_uri" field="text" default="" />
+			<setting name="cas_certificate" field="text" default="" />
+			<setting name="cas_log" field="text" default="" />
 		</category>
 	</settings>
 </application>

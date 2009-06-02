@@ -96,6 +96,7 @@ $(function () {
 
 	$(document).ready( function () {
 		addClosers();
+		$(".minidropnav").tabula({ cycle: false, follow: false, nextButton : ">>", prevButton : "<<" });
 		//hideMessages();
 		
 		//placeFooter();

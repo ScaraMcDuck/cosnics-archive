@@ -138,7 +138,6 @@ $(function () {
 		
 		$("#tabs").tabs();
 		$('#tabs').tabs('paging', { cycle: false, follow: false, nextButton : "", prevButton : "" } );
-		//$(".minidropnav").tabula($(".minidropnav"), { cycle: true, follow: false, nextButton : "<a href=\"\">>></a>", prevButton : "<a href=\"\"><<</a>" });
 		//applyScroll();
 		//placeFooter();
 	});
