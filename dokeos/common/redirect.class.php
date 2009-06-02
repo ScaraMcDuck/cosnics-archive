@@ -28,7 +28,7 @@ class Redirect
     			$parameters['application'] = $application;
     			break;
     		default :
-    			$link = 'index_'. $application;
+    			$link = 'index';
     			break;
     	}
 

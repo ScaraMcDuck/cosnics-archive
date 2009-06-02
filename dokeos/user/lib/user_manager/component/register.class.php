@@ -21,12 +21,12 @@ class UserManagerRegisterComponent extends UserManagerComponent
 			Display :: not_allowed();
 		}
 
-		$user_id = $this->get_user_id();
+		$user = $this->get_user();
 
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('UserRegister')));
 		$trail->add_help('user general');
 
-		if (isset($user_id))
+		if (isset($user))
 		{
 			$this->display_header($trail);
 			Display :: warning_message(Translation :: get('AlreadyRegistered'));
@@ -45,7 +45,8 @@ class UserManagerRegisterComponent extends UserManagerComponent
 			$success = $form->create_user();
 			if($success == 1)
 			{
-				$this->redirect('link', Translation :: get($success ? 'UserRegistered' : 'UserNotRegistered'), ($success ? false : true));
+				//$this->redirect(Translation :: get($success ? 'UserRegistered' : 'UserNotRegistered'), ($success ? false : true), array(), array(), false, Redirect :: TYPE_LINK);
+				Redirect :: link('', array(), array(), false, null);
 			}
 			else
 			{
