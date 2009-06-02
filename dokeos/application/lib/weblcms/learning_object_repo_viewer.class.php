@@ -37,7 +37,7 @@ class LearningObjectRepoViewer extends RepoViewer
 		$this->parse_input_from_table();
 	}
 
-	function redirect_complex($type)
+	function get_redirect_complex($type)
 	{
 		switch ($type)
 		{
