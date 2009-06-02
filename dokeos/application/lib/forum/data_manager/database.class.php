@@ -72,7 +72,21 @@ class DatabaseForumDataManager extends ForumDataManager
     function move_forum_publication($publication, $places)
 	{
         $oldIndex = $publication->get_display_order();
-        $publication->set_display_order($oldIndex+$places);
+        $newIndex = $oldIndex+$places;
+
+        $publications = $this->retrieve_forum_publications();
+
+        while($pub = $publications->next_result())
+        {
+            $index = $pub->get_display_order();
+
+            if($index == $newIndex)
+                $pub->set_display_order($index-$places);
+                
+            $pub->update();
+        }
+
+        $publication->set_display_order($newIndex);
         $publication->update();
 	}
 
