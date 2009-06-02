@@ -31,13 +31,13 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
 		if (isset($course_code))
 		{
 			$course = $this->retrieve_course($course_code);
-			if (isset($users) && count($users) > 0 && $this->get_course()->is_course_admin($this->get_user()))
-			{
+			if (isset($users) && count($users) > 0 && ($this->get_course()->is_course_admin($this->get_user()) || $this->get_user()->is_platform_admin()))
+			{ 
 				$failures = 0;
 
 				foreach ($users as $user_id)
 				{
-					if ($user_id != $this->get_user_id())
+					//if ($user_id != $this->get_user_id())
 					{
 						$status = isset($_GET[WeblcmsManager :: PARAM_STATUS]) ? $_GET[WeblcmsManager :: PARAM_STATUS] : 5;
 						if (!$this->subscribe_user_to_course($course, $status, '0', $user_id))
