@@ -20,13 +20,6 @@ class WikiToolViewerComponent extends WikiToolComponent
 
         $cd = ComplexDisplay :: factory($this);
         $cd->run();
-
-        switch($cd->get_action())
-        {
-            case WikiDisplay :: ACTION_VIEW_WIKI:
-                Events :: trigger_event('view', 'weblcms', array('course' => Request :: get('course'), Tool :: PARAM_PUBLICATION_ID => Request :: get('pid')));
-                break;
-        }
     }
 
 	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
