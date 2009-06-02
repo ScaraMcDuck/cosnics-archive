@@ -108,7 +108,9 @@ class ForumToolBrowserComponent extends ForumToolComponent
 			$course_groups = $this->get_course_groups();
 		}
 		$cond = new EqualityCondition('type','forum');
+
 		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), $parent, $user_id, $course_groups, $condition, false, array (Forum :: PROPERTY_DISPLAY_ORDER_INDEX), array (SORT_ASC), 0, -1, null, $cond);
+        $rdm = RepositoryDataManager::get_instance();
 
 		$size = $publications->size();
 		$this->size = $size;
@@ -119,7 +121,8 @@ class ForumToolBrowserComponent extends ForumToolComponent
 			$first = $counter == 0? true : false;
 			$last = $counter == ($size - 1) ? true : false;
 
-			$forum = $publication->get_learning_object();
+            $forum = $rdm->retrieve_learning_object($publication->get_id(), 'forum');
+			//$forum = $publication->get_learning_object();
 			$title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM,ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '">' . $forum->get_title() . '</a><br />' . strip_tags($forum->get_description());
 
 			if($publication->is_hidden())
