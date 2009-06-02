@@ -527,7 +527,7 @@ table.forum .quotecontent, .attachcontent
 }
 
 /*****************************************************
- *  Wiki head styles                                *
+ *  Wiki head styles                                 *
  *****************************************************/
 
 .head1
@@ -567,7 +567,44 @@ table.forum .quotecontent, .attachcontent
 	font-family: verdana, arial, helvetica, sans-serif;
 }
 
+/*****************************************************
+ *  Wiki page styles                                 *
+ *****************************************************/
 
+#top
+{
+    float: left;
+        margin-right:100%;
+        margin-bottom:15px;
+        margin-top:15px;
+        min-width: 200px;
+        padding:5px;
+        border:1px solid #4271B5;
+        background-color:#faf7f7;
+}
 
+#contentbox
+{
+    align:center;
+    font-family:Arial;
+    font-size:13px;
+    display:inline;
+    font-weight:bold;
+}
+
+#show
+{
+    align:center;
+    font-family:Arial;
+    font-size:13px;
+    font-weight:bold;
+    display:none;
+}
+
+#headers
+{
+    line-height: 160%;
+
+}
 
 
