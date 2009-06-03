@@ -43,8 +43,12 @@ abstract class ComplexDisplay
 		$root_id = Request :: get(self :: PARAM_ROOT_LO);
 		$cloi_id = Request :: get(self :: PARAM_CLOI_ID);
 
+		if(get_class($this) == 'WikiDisplay') return;
+		
         if($root_id)
-		$this->root = RepositoryDataManager :: get_instance()->retrieve_learning_object($root_id);
+		{
+			$this->root = RepositoryDataManager :: get_instance()->retrieve_learning_object($root_id); 
+		}
 		if($cloi_id)
 		{
 			$cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($cloi_id);
