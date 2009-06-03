@@ -64,10 +64,8 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         }
         echo $this->action_bar->as_html();
 
-        echo $trail->render();
-        echo '<div class="clear"></div>';
-
-        echo '<br />';
+        echo '<div id="trailbox2">'.$trail->render().'</div>';
+        echo '<div class="clear"></div><br />';
         echo $topics_table->toHtml();
         echo '<br /><br />';
 
