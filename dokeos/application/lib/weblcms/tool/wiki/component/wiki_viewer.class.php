@@ -15,11 +15,11 @@ class WikiToolViewerComponent extends WikiToolComponent
 			return;
 		}
 		
-		$this->display_header(new breadcrumbTrail());
+		//$this->display_header(new breadcrumbTrail());
         $cd = ComplexDisplay :: factory($this, 'wiki');
 
         $cd->run();
-        $this->display_footer();
+        //$this->display_footer();
     }
 }
 ?>
