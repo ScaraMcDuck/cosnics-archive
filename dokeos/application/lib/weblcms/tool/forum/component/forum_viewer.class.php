@@ -22,7 +22,7 @@ class ForumToolViewerComponent extends ForumToolComponent
 
         $this->display_header(new BreadcrumbTrail());
 
-        $cd = ComplexDisplay :: factory($this);
+        $cd = ComplexDisplay :: factory($this,'forum');
         $cd->run();
 
         $this->display_footer();

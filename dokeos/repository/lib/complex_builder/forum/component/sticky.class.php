@@ -8,7 +8,24 @@ class ForumBuilderStickyComponent extends ForumBuilderComponent
 {
 	function run()
 	{
-        echo 'sticky';
+        $rdm = RepositoryDataManager::get_instance();
+
+        $topic = $rdm->retrieve_complex_learning_object_item(Request :: get(ComplexBuilder::PARAM_SELECTED_CLOI_ID));
+
+        if($topic->get_type() == 1)
+        {
+            $topic->set_type(null);
+            $message = 'TopicUnStickied';
+        }else
+        {
+            $topic->set_type(1);
+            $message = 'TopicStickied';
+        }
+        $topic->update();
+
+        
+
+        $this->redirect($message, '', array(ComplexBuilder::PARAM_ROOT_LO => Request :: get(ComplexBuilder::PARAM_ROOT_LO), ComplexBuilder::PARAM_BUILDER_ACTION => ComplexBuilder::ACTION_BROWSE_CLO));
 	}
 }
 
