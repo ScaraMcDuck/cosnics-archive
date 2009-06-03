@@ -123,6 +123,23 @@ img
 	/* border-bottom: 1px solid #666; */
 }
 
+#trailbox2
+{
+    clear: both;
+	position: relative;
+	left: 0px;
+	right: 0px;
+	padding: 0px 1% 0px 1%;
+	margin-bottom: 10px;
+}
+
+#trailbox2 ul, #breadcrumbtrail li
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
 #trailbox
 {
 	clear: both;
