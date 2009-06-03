@@ -1,10 +1,6 @@
 /*****************************************************
  *  TREEMENU STYLES                                  *
  *****************************************************/
- 
-/*
- * General treemenu styles
- */
 ul.tree-menu, ul.tree-menu ul
 {
 	list-style: none;
@@ -164,3 +160,162 @@ ul.tree-menu li.current_path ul li.current_path div a.category
 	background-image: url(../img/common/treemenu/tree-folder-open.png);
 }
 */
+
+/*************************************************
+ * Learning object type icon classes for treemenus
+ *************************************************/
+ 
+ul.tree-menu li div a.type_announcement
+{
+	background-image: url(../img/common/treemenu_types/announcement.png);
+}
+
+ul.tree-menu li div a.type_assessment
+{
+	background-image: url(../img/common/treemenu_types/assessment.png);
+}
+
+ul.tree-menu li div a.type_blog_item
+{
+	background-image: url(../img/common/treemenu_types/blog_item.png);
+}
+
+ul.tree-menu li div a.type_calendar_event
+{
+	background-image: url(../img/common/treemenu_types/calendar_event.png);
+}
+
+ul.tree-menu li div a.type_description
+{
+	background-image: url(../img/common/treemenu_types/description.png);
+}
+
+ul.tree-menu li div a.type_document
+{
+	background-image: url(../img/common/treemenu_types/document.png);
+}
+
+ul.tree-menu li div a.type_feedback
+{
+	background-image: url(../img/common/treemenu_types/feedback.png);
+}
+
+ul.tree-menu li div a.type_fill_in_blanks_question
+{
+	background-image: url(../img/common/treemenu_types/fill_in_blanks_question.png);
+}
+
+ul.tree-menu li div a.type_forum
+{
+	background-image: url(../img/common/treemenu_types/forum.png);
+}
+
+ul.tree-menu li div a.type_forum_post
+{
+	background-image: url(../img/common/treemenu_types/forum_post.png);
+}
+
+ul.tree-menu li div a.type_forum_topic
+{
+	background-image: url(../img/common/treemenu_types/forum_topic.png);
+}
+
+ul.tree-menu li div a.type_glossary
+{
+	background-image: url(../img/common/treemenu_types/glossary.png);
+}
+
+ul.tree-menu li div a.type_glossary_item
+{
+	background-image: url(../img/common/treemenu_types/glossary_item.png);
+}
+
+ul.tree-menu li div a.type_hotpotatoes
+{
+	background-image: url(../img/common/treemenu_types/hotpotatoes.png);
+}
+
+ul.tree-menu li div a.type_hotspot_question
+{
+	background-image: url(../img/common/treemenu_types/hotspot_question.png);
+}
+
+ul.tree-menu li div a.type_introduction
+{
+	background-image: url(../img/common/treemenu_types/introduction.png);
+}
+
+ul.tree-menu li div a.type_learning_path
+{
+	background-image: url(../img/common/treemenu_types/learning_path.png);
+}
+
+ul.tree-menu li div a.type_learning_path_item
+{
+	background-image: url(../img/common/treemenu_types/learning_path_item.png);
+}
+
+ul.tree-menu li div a.type_link
+{
+	background-image: url(../img/common/treemenu_types/link.png);
+}
+
+ul.tree-menu li div a.type_matching_question
+{
+	background-image: url(../img/common/treemenu_types/matching_question.png);
+}
+
+ul.tree-menu li div a.type_multiple_choice_question
+{
+	background-image: url(../img/common/treemenu_types/multiple_choice_question.png);
+}
+
+ul.tree-menu li div a.type_note
+{
+	background-image: url(../img/common/treemenu_types/note.png);
+}
+
+ul.tree-menu li div a.type_open_question
+{
+	background-image: url(../img/common/treemenu_types/open_question.png);
+}
+
+ul.tree-menu li div a.type_personal_message
+{
+	background-image: url(../img/common/treemenu_types/personal_message.png);
+}
+
+ul.tree-menu li div a.type_portfolio_item
+{
+	background-image: url(../img/common/treemenu_types/portfolio_item.png);
+}
+
+ul.tree-menu li div a.type_profile
+{
+	background-image: url(../img/common/treemenu_types/profile.png);
+}
+
+ul.tree-menu li div a.type_rss_feed
+{
+	background-image: url(../img/common/treemenu_types/rss_feed.png);
+}
+
+ul.tree-menu li div a.type_rating_question
+{
+	background-image: url(../img/common/treemenu_types/rating_question.png);
+}
+
+ul.tree-menu li div a.type_survey
+{
+	background-image: url(../img/common/treemenu_types/survey.png);
+}
+
+ul.tree-menu li div a.type_template
+{
+	background-image: url(../img/common/treemenu_types/template.png);
+}
+
+ul.tree-menu li div a.type_wiki
+{
+	background-image: url(../img/common/treemenu_types/wiki.png);
+}
