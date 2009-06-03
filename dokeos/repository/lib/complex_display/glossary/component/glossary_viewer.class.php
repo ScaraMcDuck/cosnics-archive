@@ -74,7 +74,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
 		if($this->get_parent()->get_parent()->is_allowed(EDIT_RIGHT))
 		{
 			$actions[] = array(
-				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cloi->get_id(), Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))),
+				'href' => $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE, 'selected_cloi' => $cloi->get_id(), 'pid' => Request :: get('pid'))),
 				'label' => Translation :: get('Edit'),
 				'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
@@ -83,7 +83,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
 		if($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT))
 		{
 			$actions[] = array(
-				'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE_CLOI, Tool :: PARAM_COMPLEX_ID => $cloi->get_id(), Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))),
+				'href' => $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_DELETE, 'selected_cloi' => $cloi->get_id(), 'pid' => Request :: get('pid'))),
 				'label' => Translation :: get('Delete'),
 				'img' => Theme :: get_common_image_path().'action_delete.png'
 			);
@@ -105,7 +105,7 @@ class GlossaryDisplayGlossaryViewerComponent extends GlossaryDisplayComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'type' => 'glossary_item', self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Create'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_CREATE, 'pid' => Request :: get('pid'), 'type' => 'glossary_item', self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsTable'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array('pid' => Request :: get('pid'), self :: PARAM_VIEW => self :: VIEW_TABLE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ShowAsList'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array('pid' => Request :: get('pid'), self :: PARAM_VIEW => self :: VIEW_LIST)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
