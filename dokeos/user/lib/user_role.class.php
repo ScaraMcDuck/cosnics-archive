@@ -120,7 +120,7 @@ class UserRole
 	
 	function create()
 	{
-		$udm = UsersDataManager :: get_instance();
+		$udm = UserDataManager :: get_instance();
 		return $udm->create_user_role($this);
 	}
 	
