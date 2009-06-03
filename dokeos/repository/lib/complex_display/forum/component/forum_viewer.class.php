@@ -40,17 +40,56 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         $topics_table = $this->get_topics_table_html();
         $forum_table =  $this->get_forums_table_html();
 
-        //$trail = new BreadcrumbTrail();
-        //$trail->add('bla','test');
-        //$trail->render();
+        $trail = new BreadcrumbTrail(false);
+        $trail->add(new Breadcrumb($this->get_url(array('pid' => $this->pid, 'forum' => null)),$this->forum->get_title()));
 
+        if($this->is_subforum)
+        {
+            $forums = $this->retrieve_children_trail($this->forum);
+            while($forums)
+            {
+                $forum = $forums[0]->get_ref();
+
+                if($forums[0]->get_id() != Request :: get('forum'))
+                {
+                    $trail->add(new Breadcrumb($this->get_url(array('pid' => $this->pid, 'forum' => $forums[0]->get_id())),$forum->get_title()));
+                    $forums = $this->retrieve_children_trail($forum);
+                }
+                else
+                {
+                    $trail->add(new Breadcrumb($this->get_url(array('pid' => $this->pid, 'forum' => $forums[0]->get_id())),$forum->get_title()));
+                    $forums = null;
+                }
+            }
+        }
         echo $this->action_bar->as_html();
+
+        echo $trail->render();
+        echo '<div class="clear"></div>';
 
         echo '<br />';
         echo $topics_table->toHtml();
         echo '<br /><br />';
 
         echo $forum_table->toHtml();
+    }
+
+    private function retrieve_children_trail($forum)
+    {
+        $rdm = RepositoryDataManager :: get_instance();
+
+        $children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $forum->get_id()));
+        while($child = $children->next_result())
+        {
+            $lo = $rdm->retrieve_learning_object($child->get_ref());
+            $child->set_ref($lo);
+            if($lo->get_type() != 'forum_topic')
+            {
+                $forums[] = $child;
+            }
+        }
+
+        return $forums;
     }
 
     function retrieve_children($current_forum)
@@ -80,8 +119,11 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
         $sorted_array = array();
         foreach ($this->topics as $key => $value)
         {
-            $sorted_array[$value->get_type()][] = $value;
+            $type = ($value->get_type())?$value->get_type():100;
+            $sorted_array[$type][] = $value;
         }
+
+        ksort($sorted_array);
 
         $array = array();
         foreach ($sorted_array as $key => $value)
