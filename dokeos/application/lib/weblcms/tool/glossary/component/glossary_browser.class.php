@@ -2,16 +2,16 @@
 
 require_once dirname(__FILE__) . '/../glossary_tool.class.php';
 require_once dirname(__FILE__) . '/../glossary_tool_component.class.php';
-//require_once dirname(__FILE__) . '/glossary_browser/glossary_browser.class.php';
+require_once dirname(__FILE__) . '/glossary_browser/glossary_browser.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path() . 'lib/learning_object/glossary/glossary.class.php';
-require_once Path :: get_repository_path().'/lib/complex_display/complex_display.class.php';
 
 class GlossaryToolBrowserComponent extends GlossaryToolComponent
 {
-    private $action_bar;
+	private $action_bar;
+	private $introduction_text;
 
-    function run()
+	function run()
 	{
 		if(!$this->is_allowed(VIEW_RIGHT))
 		{
@@ -19,66 +19,32 @@ class GlossaryToolBrowserComponent extends GlossaryToolComponent
 			return;
 		}
 
-        $this->action_bar = $this->get_action_bar();
+		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','glossary'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
+		$this->introduction_text = $publications->next_result();
 
-        $cd = ComplexDisplay :: factory($this);
-        $cd->run();
+		$this->action_bar = $this->get_action_bar();
 
-        switch($cd->get_action())
-        {
-            case GlossaryDisplay :: ACTION_BROWSE_GLOSSARIES:
-                Events :: trigger_event('browse', 'weblcms', array('course' => Request :: get('course')));
-                break;
-        }
-    }
+		$browser = new GlossaryBrowser($this);
+		$trail = new BreadcrumbTrail();
+		$trail->add_help('courses glossary tool');
 
-	function get_url($parameters = array (), $filter = array(), $encode_entities = false)
-	{
-        //$parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
-		return $this->get_parent()->get_url($parameters, $filter, $encode_entities);
+		$this->display_header($trail, true);
+
+		//echo '<br /><a name="top"></a>';
+		//echo $this->perform_requested_actions();
+		if(!isset($_GET['pid']))
+		{
+			if(PlatformSetting :: get('enable_introduction', 'weblcms'))
+			{
+				echo $this->display_introduction_text($this->introduction_text);
+			}
+		}
+		echo $this->action_bar->as_html();
+		echo $browser->as_html();
+
+		$this->display_footer();
 	}
 
-    function redirect($message = null, $error_message = false, $parameters = array(), $filter = array(), $encode_entities = false)
-	{
-        $parameters[Tool :: PARAM_ACTION] = GlossaryTool :: ACTION_BROWSE_GLOSSARIES;
-		$this->get_parent()->redirect($message, $error_message, $parameters, $filter, $encode_entities);
-	}
-//	
-//
-//	function run()
-//	{
-//		if(!$this->is_allowed(VIEW_RIGHT))
-//		{
-//			Display :: not_allowed();
-//			return;
-//		}
-//
-//		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','glossary'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
-//		$this->introduction_text = $publications->next_result();
-//
-//		$this->action_bar = $this->get_action_bar();
-//
-//		$browser = new GlossaryBrowser($this);
-//		$trail = new BreadcrumbTrail();
-//		$trail->add_help('courses glossary tool');
-//
-//		$this->display_header($trail, true);
-//
-//		//echo '<br /><a name="top"></a>';
-//		//echo $this->perform_requested_actions();
-//		if(!isset($_GET['pid']))
-//		{
-//			if(PlatformSetting :: get('enable_introduction', 'weblcms'))
-//			{
-//				echo $this->display_introduction_text($this->introduction_text);
-//			}
-//		}
-//		echo $this->action_bar->as_html();
-//		echo $browser->as_html();
-//
-//		$this->display_footer();
-//	}
-//
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
