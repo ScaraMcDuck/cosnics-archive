@@ -57,7 +57,7 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
         $trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $this->publication_id)), DokeosUtilities::truncate_string($publication->get_learning_object()->get_title(),20)));
         $trail->add_help('courses wiki tool');
-        $this->display_header($trail, true);
+        $this->get_parent()->get_parent()->display_header($trail, true);
 
         $this->links = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links();
 
@@ -69,7 +69,6 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
             $table = new WikiPageTable($this, $wiki->get_id());
             echo $table->as_html().'</div>';
         }
-        $this->display_footer();
 	}
 
     function get_condition()
@@ -119,7 +118,7 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
         //INFORMATION
         $action_bar->add_tool_action(
 			new ToolbarItem(
-				Translation :: get('WikiStatistics'), Theme :: get_common_image_path().'action_reporting.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_STATISTICS, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('WikiStatistics'), Theme :: get_common_image_path().'action_reporting.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_STATISTICS, 'pid' => $this->publication_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
         $action_bar->add_tool_action($this->get_parent()->get_parent()->get_access_details_toolbar_item($this));

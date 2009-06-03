@@ -26,6 +26,9 @@ class ToolEditComponent extends ToolComponent
                         $trail->add(new BreadCrumb($this->get_url(), $breadcrumb->get_name()));
                     }
                 }
+                if(Request :: get('tool') == 'wiki')
+                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $pid)), $learning_object->get_title()));
+                else
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => $pid)), $learning_object->get_title()));
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'edit', Tool :: PARAM_PUBLICATION_ID => $pid)), Translation :: get('Edit')));
                 $trail->add_help('courses general');

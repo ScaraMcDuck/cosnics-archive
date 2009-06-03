@@ -67,7 +67,6 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
                     $this->display_header($trail, true);
                     $this->display_error_message(Translation :: get('WikiPageTitleError'));
                     echo $this->pub->as_html();
-                    $this->display_footer();
                 }
             }
         /*}
@@ -75,7 +74,6 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
         {
             $this->redirect(htmlentities(Translation :: get('WikiIsLocked')), '', $params);
         }*/
-        $this->display_footer();
     }
 }
 ?>

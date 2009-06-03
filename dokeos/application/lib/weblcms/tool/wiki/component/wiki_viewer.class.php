@@ -15,10 +15,10 @@ class WikiToolViewerComponent extends WikiToolComponent
 			return;
 		}
 
-        $_GET['display_action'] = 'view';
         $cd = ComplexDisplay :: factory($this, 'wiki');
 
         $cd->run();
+        $this->display_footer();
     }
 }
 ?>
