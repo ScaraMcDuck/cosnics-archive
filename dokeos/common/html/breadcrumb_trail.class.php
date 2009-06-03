@@ -69,7 +69,7 @@ class BreadcrumbTrail
 		{
 			foreach ($breadcrumbtrail as $breadcrumb)
 			{
-				$html[] = '<li><a href="'.$breadcrumb->get_url().'" target="_top">'.$breadcrumb->get_name().'</a></li>';
+				$html[] = '<li><a href="'.$breadcrumb->get_url().'" target="_self">'.$breadcrumb->get_name().'</a></li>';
 			}
 		}
 
