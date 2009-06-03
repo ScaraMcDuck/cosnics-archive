@@ -63,4 +63,14 @@ $lang['forum']['AddAttachments'] = 'Add attachments';
 $lang['forum']['MyRepository'] = 'My repository';
 $lang['forum']['Subject'] = 'Subject';
 $lang['forum']['ReplyOnTopic   '] = 'Reply on topic';
+$lang['forum']['LearningObjectCreated'] = 'Object created';
+$lang['forum']['Message'] = 'Message';
+$lang['forum']['Top'] = 'Top';
+$lang['forum']['ForumPostFormTitle'] = 'Title';
+$lang['forum']['ForumPostFormDescription'] = 'Description';
+$lang['forum']['wrote'] = 'wrote';
+$lang['forum']['Reply'] = 'Reply';
+$lang['forum']['Quote'] = 'Quote';
+$lang['forum']['ViewLastPost'] = 'View last post';
+$lang['forum']['ForumPostUpdated'] = 'Forum post updated';
 ?>

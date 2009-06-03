@@ -15,4 +15,5 @@ $lang['search_portal']['Repository'] = 'Repository';
 $lang['search_portal']['Administration'] = 'Administration';
 $lang['search_portal']['Logout'] = 'Logout';
 $lang['search_portal']['SearchResultsFor'] = 'Search results for';
+$lang['search_portal']['Home'] = 'Home';
 ?>

@@ -16,4 +16,5 @@ $lang['linker']['UpdateLink'] = 'Update link';
 $lang['linker']['LinkUpdated'] = 'Link updated';
 $lang['linker']['LinkNotUpdated'] = 'Link not updated';
 $lang['linker']['NoLinksSelected'] = 'No link selected';
+$lang['linker']['MyAccount'] = 'My account';
 ?>

@@ -42,4 +42,5 @@ $lang['myportfolio']['BrowsePortfolios'] = 'Browse portfolios';
 $lang['myportfolio']['MyPublications'] = 'My publications';
 $lang['myportfolio']['MyThesis'] = 'My Thesis';
 $lang['myportfolio']['MyProjects'] = 'My Projects';
+$lang['myportfolio']['Home'] = 'Home';
 ?>

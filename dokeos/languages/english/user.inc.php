@@ -117,4 +117,5 @@ $lang['user']['CasAuthentication'] = 'CAS authentication';
 $lang['user']['CasHost'] = 'CAS Host';
 $lang['user']['CasPort'] = 'CAS port';
 $lang['user']['CasUri'] = 'CAS Uri';
+$lang['user']['UserUpdated'] = 'User updated';
 ?>
