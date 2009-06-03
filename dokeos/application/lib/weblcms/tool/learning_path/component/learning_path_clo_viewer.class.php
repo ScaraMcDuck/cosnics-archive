@@ -12,7 +12,6 @@ class LearningPathToolCloViewerComponent extends LearningPathToolComponent
 		$display = ComplexDisplay :: factory($this, $object->get_type());
 
 		Display :: small_header();
-		
 		$display->run();
 		
 	}
