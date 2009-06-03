@@ -73,4 +73,7 @@ $lang['personal_calendar']['Day'] = 'Day';
 $lang['personal_calendar']['CreateAsNewVersion'] = 'Create as new version';
 $lang['personal_calendar']['Update'] = 'Update';
 $lang['personal_calendar']['CalendarEventPublicationUpdated'] = 'Calendar event publication updated';
+$lang['personal_calendar']['Home'] = 'Home';
+$lang['personal_calendar']['SharedEvents'] = 'Shared events';
+$lang['personal_calendar']['SelectedPublicationDeleted'] = 'Selected publication deleted';
 ?>

@@ -119,4 +119,5 @@ $lang['install']['Anonymous'] = 'Anonymous';
 $lang['install']['License'] = 'License';
 $lang['install']['PrivacyPolicy'] = 'Privacy Policy';
 $lang['install']['Forum'] = 'Forum';
+$lang['install']['Linker'] = 'Linker';
 ?>

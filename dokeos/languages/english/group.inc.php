@@ -54,7 +54,7 @@ $lang['group']['Home'] = 'Home';
 $lang['group']['YZ'] = 'YZ';
 $lang['group']['GroupList'] = 'Grouplist';
 $lang['group']['Add'] = 'Add';
-$lang['group']['ShowAll'] = 'Show All Agenda Items';
+$lang['group']['ShowAll'] = 'Show All';
 $lang['group']['ShowGroup'] = 'Show group';
 $lang['group']['GroupCreate'] = 'Group created';
 $lang['group']['GroupCreated'] = 'created ! You can now add question(s) to the new group';
@@ -118,4 +118,8 @@ $lang['group']['ErrorDeletingGroup'] = 'Error deleting group';
 $lang['group']['ErrorSubscribingOrUnsubscribingUser'] = 'Error subscribing or unsubscribing user';
 $lang['group']['ToFrom'] = 'to / from';
 $lang['group']['Client'] = 'Client';
+$lang['group']['MyAccount'] = 'My account';
+$lang['group']['Repository'] = 'Repository';
+$lang['group']['Logout'] = 'Logout';
+$lang['group']['Help'] = 'Help';
 ?>

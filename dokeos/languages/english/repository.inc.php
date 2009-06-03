@@ -610,4 +610,6 @@ $lang['repository']['HotspotQuestion'] = 'Hotspot question';
 $lang['repository']['WikiPage'] = 'Wiki page';
 $lang['repository']['Course'] = 'Course';
 $lang['repository']['Tool'] = 'Tool';
+$lang['repository']['MakeSticky'] = 'Make sticky';
+$lang['repository']['MakeImportant'] = 'Make important';
 ?>

@@ -328,4 +328,5 @@ $lang['admin']['Warning'] = 'Warning';
 $lang['admin']['Stop'] = 'Stop';
 $lang['admin']['Question'] = 'Question';
 $lang['admin']['Config'] = 'Configuration';
+$lang['admin']['AddCategory'] = 'Add category';
 ?>
