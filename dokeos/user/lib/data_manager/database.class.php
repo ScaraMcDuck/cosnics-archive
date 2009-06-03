@@ -117,6 +117,12 @@ class DatabaseUserDataManager extends UserDataManager
 		return $this->database->retrieve_object(User :: get_table_name(), $condition);
 	}
 	
+	function retrieve_user_by_external_uid($external_uid)
+	{
+		$condition = new EqualityCondition(User :: PROPERTY_EXTERNAL_UID, $external_uid);
+		return $this->database->retrieve_object(User :: get_table_name(), $condition);
+	}
+	
 	function retrieve_users_by_email($email)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_EMAIL, $email);
