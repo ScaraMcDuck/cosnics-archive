@@ -59,18 +59,18 @@ abstract class ComplexDisplay
 
 	}
 
-	static function factory($parent,$app_name)
+	static function factory($parent,$name)
 	{
 		if(is_null(self :: $instance))
 		{
-            if($parent && $parent->get_parent() instanceof WeblcmsManager)
+            /*if($parent && $parent->get_parent() instanceof WeblcmsManager)
             {
                 $properties = $parent->get_tool()->get_properties();
                 $name = $properties->name;
             }else
             {
                 $name = $app_name;
-            }
+            }*/
             $file = dirname(__FILE__) . '/' . $name . '/' . $name . '_display.class.php';
             require_once $file;
             $class = ucfirst($name).'Display';
