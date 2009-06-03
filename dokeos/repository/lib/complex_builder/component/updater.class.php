@@ -42,7 +42,16 @@ class ComplexBuilderUpdaterComponent extends ComplexBuilderComponent
 
 			if($lo_form->is_version())
 			{
-				$cloi->set_ref($lo->get_latest_version()->get_id());
+				$old_id = $cloi->get_ref();
+				$new_id = $lo->get_latest_version()->get_id();
+				$cloi->set_ref($new_id);
+				
+				$children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $old_id));
+				while($child = $children->next_result())
+				{
+					$child->set_parent($new_id);
+					$child->update();
+				}
 			}
 
 			if($cloi_form)
