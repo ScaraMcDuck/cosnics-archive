@@ -21,8 +21,9 @@ class ForumToolBrowserComponent extends ForumToolComponent
 			return;
 		}
 
-		$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','forum'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
-		$this->introduction_text = $publications->next_result();
+        $publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','forum'));
+		//$publications = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publications($this->get_course_id(), null, null, null, new EqualityCondition('tool','forum'),false, null, null, 0, -1, null, new EqualityCondition('type','introduction'));
+		//$this->introduction_text = $publications->next_result();
 		$this->action_bar = $this->get_action_bar();
 
 		$table = $this->get_table_html();
@@ -31,10 +32,10 @@ class ForumToolBrowserComponent extends ForumToolComponent
 		$trail->add_help('courses forum tool');
 		$this->display_header($trail, true);
 
-		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
-		{
-			echo $this->display_introduction_text($this->introduction_text);
-		}
+//		if(PlatformSetting :: get('enable_introduction', 'weblcms'))
+//		{
+//			echo $this->display_introduction_text($this->introduction_text);
+//		}
 
 		echo $this->action_bar->as_html();
 		echo $table->toHtml();
@@ -236,10 +237,10 @@ class ForumToolBrowserComponent extends ForumToolComponent
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => AnnouncementTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
-		{
-			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-		}
+//		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
+//		{
+//			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+//		}
 
 		return $action_bar;
 	}
