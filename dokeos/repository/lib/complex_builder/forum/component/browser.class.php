@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . '/../forum_builder_component.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path() . '/lib/learning_object/forum/forum.class.php';
 require_once dirname(__FILE__) . '/browser/forum_browser_table_cell_renderer.class.php';
+require_once dirname(__FILE__) . '/browser/forum_browser_table_column_model.class.php';
 
 class ForumBuilderBrowserComponent extends ForumBuilderComponent
 {
@@ -77,7 +78,7 @@ class ForumBuilderBrowserComponent extends ForumBuilderComponent
 		$condition = new AndCondition($conditions);
 
 		$html[] = '<br /><h3>' . Translation :: get('ForumTopics') . '</h3>';
-		$table = new ComplexBrowserTable($this->get_parent(), array_merge($this->get_parameters(), $parameters), $condition, true, null, new ForumBrowserTableCellRenderer($this->get_parent(), $condition));
+		$table = new ComplexBrowserTable($this->get_parent(), array_merge($this->get_parameters(), $parameters), $condition, true, new ForumBrowserTableColumnModel(true), new ForumBrowserTableCellRenderer($this->get_parent(), $condition));
 		$html[] = $table->as_html();
 
 		return implode("\n", $html);

@@ -25,6 +25,12 @@ class ForumBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
             return $this->get_modification_links($cloi);
         }
 
+        switch($column->get_title())
+        {
+        	case Translation :: get('AddDate'):
+        		return $cloi->get_add_date();
+        }
+        
         return parent :: render_cell($column, $cloi);
     }
 
