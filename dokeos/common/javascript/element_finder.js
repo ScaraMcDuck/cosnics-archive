@@ -126,6 +126,8 @@ ElementFinder.lastChild = function(node) {
 ElementFinder.buildResults = function(node, ul, destinationID) {
 	var li = document.createElement('li');
 	ul.appendChild(li);
+	var div = document.createElement('div');
+	li.appendChild(div);
 	var a = document.createElement('a');
 	a.appendChild(document.createTextNode(node.getAttribute('title')));
 	a.setAttribute('href', 'javascript:void(0);');
@@ -133,7 +135,7 @@ ElementFinder.buildResults = function(node, ul, destinationID) {
 	if (className) {
 		a.className = className;
 	}
-	li.appendChild(a);
+	div.appendChild(a);
 	var ulSub = document.createElement('ul');
 	li.appendChild(ulSub);
 	var childNodes = ElementFinder.filterTextNodes(node.childNodes);
@@ -146,6 +148,8 @@ ElementFinder.buildResults = function(node, ul, destinationID) {
 				var id = child.getAttribute('id');
 				var className = child.getAttribute('class');
 				var li = document.createElement('li');
+				var div = document.createElement('div');
+				li.appendChild(div);
 				var a = document.createElement('a');
 				var aID = destinationID + '_' + id;
 				a.setAttribute('id', aID);
@@ -159,7 +163,7 @@ ElementFinder.buildResults = function(node, ul, destinationID) {
 					a.setAttribute('title', description);
 				}
 				a.appendChild(document.createTextNode(title));
-				li.appendChild(a);
+				div.appendChild(a);
 				ulSub.appendChild(li);
 				break;
 			case 'node':
