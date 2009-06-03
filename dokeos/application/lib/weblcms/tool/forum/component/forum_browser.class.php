@@ -27,7 +27,7 @@ class ForumToolBrowserComponent extends ForumToolComponent
 		$this->action_bar = $this->get_action_bar();
 
 		$table = $this->get_table_html();
-
+ 
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('courses forum tool');
 		$this->display_header($trail, true);
@@ -122,9 +122,9 @@ class ForumToolBrowserComponent extends ForumToolComponent
 			$first = $counter == 0? true : false;
 			$last = $counter == ($size - 1) ? true : false;
 
-            $forum = $rdm->retrieve_learning_object($publication->get_id(), 'forum');
-			//$forum = $publication->get_learning_object();
-			$title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM,ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $publication->get_id())) . '">' . $forum->get_title() . '</a><br />' . strip_tags($forum->get_description());
+            //$forum = $rdm->retrieve_learning_object($publication->get_id(), 'forum');
+			$forum = $publication->get_learning_object();
+			$title = '<a href="' . $this->get_url(array(Tool :: PARAM_ACTION => ForumTool :: ACTION_VIEW_FORUM,ComplexDisplay :: PARAM_DISPLAY_ACTION => ForumDisplay :: ACTION_VIEW_FORUM, Tool :: PARAM_PUBLICATION_ID => $publication->get_learning_object()->get_id())) . '">' . $forum->get_title() . '</a><br />' . strip_tags($forum->get_description());
 
 			if($publication->is_hidden())
 			{
