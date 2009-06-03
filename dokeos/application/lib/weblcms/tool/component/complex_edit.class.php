@@ -23,8 +23,17 @@ class ToolComplexEditComponent extends ToolComponent
                 $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cid, Tool :: PARAM_PUBLICATION_ID => $pid, 'details' => $_GET['details'])));
 
                 $trail = new BreadcrumbTrail();
-                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
-                $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $learning_object->get_title()));
+                if(Request :: get('tool') == 'wiki')
+                {
+                    $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+                    $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'),  Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), $learning_object->get_title()));
+                }
+                else
+                {
+                    $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+                    $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'),  Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), $learning_object->get_title()));
+                }
+                
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))),Translation :: get('Edit')));
                 $trail->add_help('courses general');
 

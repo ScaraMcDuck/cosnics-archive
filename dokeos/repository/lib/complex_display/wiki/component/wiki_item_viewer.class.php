@@ -71,7 +71,6 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
          */
         echo '<div ><a href=#top>'.'back to top'.'</a></div>';
         echo '</div>';
-        $this->display_footer();
 	}
 
     function get_toolbar()
@@ -101,7 +100,7 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
 
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Discuss'), Theme :: get_common_image_path().'action_users.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_DISCUSS, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Discuss'), Theme :: get_common_image_path().'action_users.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
         /*$action_bar->add_common_action(
@@ -118,7 +117,7 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
         //INFORMATION
         $action_bar->add_tool_action(
 			new ToolbarItem(
-				Translation :: get('History'), Theme :: get_common_image_path().'action_versions.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_HISTORY, WikiDisplay :: PARAM_DISPLAY_ACTION => null, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('History'), Theme :: get_common_image_path().'action_versions.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_HISTORY, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
@@ -131,7 +130,7 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
 
         $action_bar->add_tool_action(
 			new ToolbarItem(
-				Translation :: get('Statistics'), Theme :: get_common_image_path().'action_reporting.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_PAGE_STATISTICS, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Statistics'), Theme :: get_common_image_path().'action_reporting.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay ::ACTION_PAGE_STATISTICS, 'pid' => $this->publication_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
