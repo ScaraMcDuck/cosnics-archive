@@ -754,6 +754,12 @@ class User
 		}
 	}
 	
+	function get_user_groups()
+	{
+	    $gdm = GroupDataManager :: get_instance();
+		return $gdm->retrieve_user_groups($this->get_id());
+	}
+	
 	function get_roles()
 	{
 		$udm = UserDataManager :: get_instance();
