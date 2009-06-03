@@ -53,7 +53,7 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->publication_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($this->wiki_page->get_title(),20)));
         
 
-        $this->display_header($trail, true);
+        $this->get_parent()->get_parent()->display_header($trail, true);
 
         $this->action_bar = $this->get_toolbar();
         echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
