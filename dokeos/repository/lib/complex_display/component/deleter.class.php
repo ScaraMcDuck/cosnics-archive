@@ -7,36 +7,44 @@ class ComplexDisplayDeleterComponent extends ComplexDisplayComponent
 {
     function run()
 	{
-        if($this->get_parent()->get_parent()->is_allowed(DELETE_RIGHT) /*&& !WikiTool :: is_wiki_locked(Request :: get(Tool :: PARAM_PUBLICATION_ID))*/)
+		if($this->is_allowed(DELETE_RIGHT))
 		{
-			if(isset($_GET[Tool :: PARAM_PUBLICATION_ID]))
-				$publication_ids = $_GET[Tool :: PARAM_PUBLICATION_ID];
-			else
-				$publication_ids = $_POST[Tool :: PARAM_PUBLICATION_ID];
-
-			if (!is_array($publication_ids))
+			if(isset($_GET['selected_cloi']))
 			{
-				$publication_ids = array ($publication_ids);
-			}
-
-            $datamanager = RepositoryDataManager :: get_instance();
-
-			foreach($publication_ids as $pid)
-			{
-				$publication = $datamanager->retrieve_learning_object($pid);
-				$publication->delete();
-			}
-			if(count($publication_ids) > 1)
-			{
-				$message = htmlentities(Translation :: get('LearningObjectsDeleted'));
+				$cloi_ids = $_GET['selected_cloi'];
 			}
 			else
 			{
-				$message = htmlentities(Translation :: get('LearningObjectDeleted'));
+				$cloi_ids = $_POST['selected_cloi'];
 			}
 
-			$this->redirect($message, '', array('pid' => null));
+			if (!is_array($cloi_ids))
+			{
+				$cloi_ids = array ($cloi_ids);
+			}
+
+			foreach($cloi_ids as $cid)
+			{
+                {
+                    $cloi = new ComplexLearningObjectItem();
+                    $cloi->set_id($cid);
+                    $cloi->delete();
+                }
+
+			}
+			
+            if(count($cloi_ids) > 1)
+            {
+                $message = htmlentities(Translation :: get('ComplexLearningObjectItemsDeleted'));
+            }
+            else
+            {
+                $message = htmlentities(Translation :: get('ComplexLearningObjectItemDeleted'));
+            }
+
+            $this->redirect($message, false, array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_VIEW_CLO, 'pid' => Request :: get('pid'), 'cid' => Request :: get('cid')));
 		}
 	}
+
 }
 ?>

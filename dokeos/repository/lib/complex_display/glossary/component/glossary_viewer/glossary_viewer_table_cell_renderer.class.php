@@ -55,7 +55,7 @@ class GlossaryViewerTableCellRenderer extends DefaultLearningObjectTableCellRend
 		if($this->browser->is_allowed(EDIT_RIGHT))
 		{
 			$actions[] = array(
-				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $glossary_item->get_id(), Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))),
+				'href' => $this->browser->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE, 'selected_cloi' => $glossary_item->get_id(), 'pid' => Request :: get('pid'))),
 				'label' => Translation :: get('Edit'),
 				'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
@@ -64,7 +64,7 @@ class GlossaryViewerTableCellRenderer extends DefaultLearningObjectTableCellRend
 		if($this->browser->is_allowed(DELETE_RIGHT))
 		{
 			$actions[] = array(
-				'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE_CLOI, Tool :: PARAM_COMPLEX_ID => $glossary_item->get_id(), Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))),
+				'href' => $this->browser->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_DELETE, 'selected_cloi' => $glossary_item->get_id(), 'pid' => Request :: get('pid'))),
 				'label' => Translation :: get('Delete'),
 				'img' => Theme :: get_common_image_path().'action_delete.png'
 			);

@@ -20,16 +20,22 @@ class GlossaryDisplay extends ComplexDisplay
 	 */
 	function run()
 	{
-		$action = $this->get_parent()->get_action();
-
-		switch ($action)
+		$component = parent :: run();
+	
+		if(!$component)
 		{
-			case self :: ACTION_VIEW_GLOSSARY :
-				$component = GlossaryDisplayComponent :: factory('GlossaryViewer', $this);
-				break;
-			default :
-				$component = GlossaryDisplayComponent :: factory('GlossaryViewer', $this);
+			$action = $this->get_action();
+			
+			switch ($action)
+			{
+				case self :: ACTION_VIEW_GLOSSARY :
+					$component = GlossaryDisplayComponent :: factory('GlossaryViewer', $this);
+					break;
+				default :
+					$component = GlossaryDisplayComponent :: factory('GlossaryViewer', $this);
+			}
 		}
+		
 		$component->run();
 	}
 }
