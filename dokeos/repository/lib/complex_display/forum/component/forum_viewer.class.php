@@ -71,6 +71,28 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
                 $this->forums[] = $child;
             }
         }
+
+        $this->sort_topics();
+    }
+
+    private function sort_topics()
+    {
+        $sorted_array = array();
+        foreach ($this->topics as $key => $value)
+        {
+            $sorted_array[$value->get_type()][] = $value;
+        }
+
+        $array = array();
+        foreach ($sorted_array as $key => $value)
+        {
+            foreach ($value as $key2 => $value2)
+            {
+                $array[] = $value2;
+            }
+        }
+
+        $this->topics = $array;
     }
 
     function get_topics_table_html()
@@ -122,8 +144,21 @@ class ForumDisplayForumViewerComponent extends ForumDisplayComponent
             $count = $rdm->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id()));
             $last_post = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $topic->get_ref()->get_id()), array(ComplexLearningObjectItem :: PROPERTY_ADD_DATE), array(SORT_DESC), 0, 1 )->next_result();
 
-            $table->setCellContents($row, 0, '<img title="' . Translation :: get('NoNewPosts') .
-                                             '" src="' . Theme :: get_image_path() . 'forum/topic_read.png" />');
+            $src = 'forum/topic_read.png';
+            $hover = 'NoNewPosts';
+            switch($topic->get_type())
+            {
+                case 1:
+                    $src = 'forum/sticky_read.gif';
+                    $hover = 'Sticky';
+                    break;
+                case 2:
+                    $src = 'forum/important_read.gif';
+                    $hover = 'Important';
+                    break;
+            }
+            $table->setCellContents($row, 0, '<img title="' . Translation :: get($hover) .
+                                             '" src="' . Theme :: get_image_path() . $src.'"/>');
             $table->setCellAttributes($row, 0, array('width' => 25, 'class' => 'row1', 'style' => 'height: 30px;'));
             $table->setCellContents($row, 1, $title);
             $table->setCellAttributes($row, 1, array('class' => 'row1'));
