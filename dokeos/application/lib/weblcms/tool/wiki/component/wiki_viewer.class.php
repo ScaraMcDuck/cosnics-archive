@@ -14,7 +14,8 @@ class WikiToolViewerComponent extends WikiToolComponent
 			Display :: not_allowed();
 			return;
 		}
-
+		
+		$this->display_header(new breadcrumbTrail());
         $cd = ComplexDisplay :: factory($this, 'wiki');
 
         $cd->run();
