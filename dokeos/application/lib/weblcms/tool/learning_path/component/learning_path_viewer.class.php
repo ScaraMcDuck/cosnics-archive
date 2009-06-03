@@ -87,21 +87,31 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		}
 		else
 		{
-			$lpi_tracker = $menu->get_current_tracker();
-			if(!$lpi_tracker)
+			if($cloi)
 			{
-				$lpi_tracker = $this->create_lpi_tracker($this->trackers['lp_tracker'], $cloi);
-				$lpi_attempt_data[$cloi->get_id()]['active_tracker'] = $lpi_tracker;
+				$lpi_tracker = $menu->get_current_tracker();
+				if(!$lpi_tracker)
+				{
+					$lpi_tracker = $this->create_lpi_tracker($this->trackers['lp_tracker'], $cloi);
+					$lpi_attempt_data[$cloi->get_id()]['active_tracker'] = $lpi_tracker;
+				}
+				else
+				{
+					$lpi_tracker->set_start_time(time());
+					$lpi_tracker->update();
+				}
+	
+				$this->trackers['lpi_tracker'] = $lpi_tracker;
+
+				$display = LearningPathLearningObjectDisplay :: factory($this, $object->get_type())->display_learning_object($object, $lpi_attempt_data[$cloi->get_id()], $menu->get_continue_url(), $menu->get_previous_url(), $menu->get_jump_urls());
 			}
 			else
 			{
-				$lpi_tracker->set_start_time(time());
-				$lpi_tracker->update();
+				$this->display_header($trail, true);
+				$this->display_error_message(Translation :: get('EmptyLearningPath'));
+				$this->display_footer();
+				exit();
 			}
-
-			$this->trackers['lpi_tracker'] = $lpi_tracker;
-
-			$display = LearningPathLearningObjectDisplay :: factory($this, $object->get_type())->display_learning_object($object, $lpi_attempt_data[$cloi->get_id()], $menu->get_continue_url(), $menu->get_previous_url(), $menu->get_jump_urls());
 		}
 
 		$this->display_header($trail, true);
