@@ -36,34 +36,34 @@ class ForumBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
             $array[]= array(
                 'href' => $this->browser->get_complex_learning_object_item_sticky_url($cloi,$this->browser->get_root()),
                 'label' => Translation :: get('UnSticky'),
-                'img' => Theme :: get_common_image_path().'unsticky_read.gif'
+                'img' => Theme :: get_common_image_path().'unsticky_read.png'
             );
             $array[]= array(
                 'label' => Translation :: get('ImportantNa'),
-                'img' => Theme :: get_common_image_path().'important_na.gif'
+                'img' => Theme :: get_common_image_path().'important_na.png'
             );
         }else if($cloi->get_type() == 2)
         {
             $array[]= array(
                 'label' => Translation :: get('StickyNa'),
-                'img' => Theme :: get_common_image_path().'sticky_na.gif'
+                'img' => Theme :: get_common_image_path().'sticky_na.png'
             );
             $array[]= array(
                 'href' => $this->browser->get_complex_learning_object_item_important_url($cloi,$this->browser->get_root()),
                 'label' => Translation :: get('UnImportant'),
-                'img' => Theme :: get_common_image_path().'unimportant_read.gif'
+                'img' => Theme :: get_common_image_path().'unimportant_read.png'
             );
         }else
         {
             $array[]= array(
                 'href' => $this->browser->get_complex_learning_object_item_sticky_url($cloi,$this->browser->get_root()),
                 'label' => Translation :: get('MakeSticky'),
-                'img' => Theme :: get_common_image_path().'sticky_read.gif'
+                'img' => Theme :: get_common_image_path().'sticky_read.png'
             );
             $array[]= array(
                 'href' => $this->browser->get_complex_learning_object_item_important_url($cloi,$this->browser->get_root()),
                 'label' => Translation :: get('MakeImportant'),
-                'img' => Theme :: get_common_image_path().'important_read.gif'
+                'img' => Theme :: get_common_image_path().'important_read.png'
             );
         }
         return parent :: get_modification_links($cloi, $array, true);
