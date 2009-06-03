@@ -82,8 +82,8 @@ class ReportingWeblcms {
         foreach($tools as $key => $value)
         {
             $name = $value->name;
-            $link = '<img src="'.Theme :: get_image_path('weblcms').'tool_'.$name.'.png" style="vertical-align: middle;" />';// <a href="run.php?go=courseviewer&course='.$course_id.'&tool='.$name.'&application=weblcms">'.Translation :: get(DokeosUtilities::underscores_to_camelcase($name)).'</a>';
-            $link .= ' <a href="run.php?go=courseviewer&course='.$course_id.'&tool='.$name.'&application=weblcms">'.Translation :: get(DokeosUtilities::underscores_to_camelcase($name)).'</a>';
+            //$link = '<img src="'.Theme :: get_image_path('weblcms').'tool_'.$name.'.png" style="vertical-align: middle;" />';// <a href="run.php?go=courseviewer&course='.$course_id.'&tool='.$name.'&application=weblcms">'.Translation :: get(DokeosUtilities::underscores_to_camelcase($name)).'</a>';
+            $link = ' <a href="run.php?go=courseviewer&course='.$course_id.'&tool='.$name.'&application=weblcms">'.Translation :: get(DokeosUtilities::underscores_to_camelcase($name)).'</a>';
             $date = $wdm->get_last_visit_date_per_course($course_id,$name);
             if($date)
             {
