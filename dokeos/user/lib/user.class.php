@@ -14,6 +14,7 @@ require_once Path :: get_group_path() . 'lib/group_data_manager.class.php';
  *	- firstname: the firstname of the user;
  *	- password: the password for this user;
  *	- auth_source:
+ *  - external_uid: the external authentication system unique id of the user (eg: Shibboleth uid, OpenID uid, ...)
  *	- email: the email address of this user;
  *	- status: the status of this user: 1 is teacher, 5 is a student;
  *	- phone: the phone number of the user;
@@ -39,6 +40,7 @@ class User
 	const PROPERTY_USERNAME = 'username';
 	const PROPERTY_PASSWORD = 'password';
 	const PROPERTY_AUTH_SOURCE = 'auth_source';
+	const PROPERTY_EXTERNAL_UID = 'external_uid';
 	const PROPERTY_EMAIL = 'email';
 	const PROPERTY_STATUS = 'status';
 	const PROPERTY_PLATFORMADMIN = 'admin';
@@ -134,6 +136,7 @@ class User
 		return array (self :: PROPERTY_USER_ID, self :: PROPERTY_LASTNAME, 
 					  self :: PROPERTY_FIRSTNAME, self :: PROPERTY_USERNAME, 
 					  self :: PROPERTY_PASSWORD, self :: PROPERTY_AUTH_SOURCE, 
+					  self :: PROPERTY_EXTERNAL_UID,
 					  self :: PROPERTY_EMAIL, self :: PROPERTY_STATUS, 
 					  self :: PROPERTY_PLATFORMADMIN, self :: PROPERTY_PHONE, 
 					  self :: PROPERTY_OFFICIAL_CODE, self ::PROPERTY_PICTURE_URI, 
@@ -241,6 +244,17 @@ class User
 		return $this->get_default_property(self :: PROPERTY_AUTH_SOURCE);
 	}
 
+	/**
+	 * Returns the external authentication system unique id for this user 
+	 * (useful for instance with : Shibboleth, OpenID, LDAP, ...)
+	 * 
+	 * @return String The external unique id
+	 */
+	function get_external_uid()
+	{
+	    return $this->get_default_property(self :: PROPERTY_EXTERNAL_UID);
+	}
+	
 	/**
 	 * Returns the email for this user.
 	 * @return String The email address
@@ -428,6 +442,17 @@ class User
 		$this->set_default_property(self :: PROPERTY_AUTH_SOURCE, $auth_source);
 	}
 
+	/**
+	 * Sets the external authentication system unique id for this user 
+	 * (useful for instance with : Shibboleth, OpenID, LDAP, ...)
+	 * 
+	 * @param String $external_uid the external unique id
+	 */
+	function set_external_uid($external_uid)
+	{
+	    $this->set_default_property(self :: PROPERTY_EXTERNAL_UID, $external_uid);
+	}
+	
 	/**
 	 * Sets the email for this user.
 	 * @param String $email the email.
