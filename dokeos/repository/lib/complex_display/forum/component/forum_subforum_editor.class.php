@@ -35,8 +35,17 @@ class ForumDisplayForumSubforumEditorComponent extends ForumDisplayComponent
 				$form->update_learning_object();
 				if($form->is_version())
 				{
-					$cloi->set_ref($learning_object->get_latest_version()->get_id());
+					$old_id = $cloi->get_ref();
+					$new_id = $learning_object->get_latest_version()->get_id();
+					$cloi->set_ref($new_id);
 					$cloi->update();
+					
+					$children = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $old_id));
+					while($child = $children->next_result())
+					{
+						$child->set_parent($new_id);
+						$child->update();
+					}
 				}
 
 				$this->my_redirect($pid, $is_subforum, $forum);
