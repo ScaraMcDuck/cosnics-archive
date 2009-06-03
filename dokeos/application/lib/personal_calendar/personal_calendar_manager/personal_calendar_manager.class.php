@@ -115,7 +115,7 @@ class PersonalCalendarManager extends WebApplication
 		foreach($files as $file)
 		{
 			$application = str_replace('_connector.class.php', '', $file);
-			$application = preg_replace(PersonalCalendarManager :: APPLICATION_NAME, '', $application, 1);
+			$application = str_replace(PersonalCalendarManager :: APPLICATION_NAME . '_', '', $application);
 			$application = DokeosUtilities :: camelcase_to_underscores($application);
 
 			if (WebApplication :: is_active($application))
@@ -125,7 +125,7 @@ class PersonalCalendarManager extends WebApplication
 				$class = DokeosUtilities :: underscores_to_camelcase($file_class[0]);
 
 				$connector = new $class;
-				$events = array_merge($events, $connector->get_events($this->user, $from_date, $to_date));
+				$events = array_merge($events, $connector->get_events($this->get_user(), $from_date, $to_date));
 			}
 		}
 
