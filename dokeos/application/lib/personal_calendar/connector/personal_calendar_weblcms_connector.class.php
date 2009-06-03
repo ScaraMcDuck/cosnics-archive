@@ -10,7 +10,7 @@ require_once (dirname(__FILE__).'/../../weblcms/weblcms_data_manager.class.php')
  * published calendar events in the WebLcms application.
  */
 class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
-{	
+{
 	/**
 	 * @see PersonalCalendarConnector
 	 */
@@ -27,11 +27,11 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
 		while ($publication = $publications->next_result())
 		{
 			$object = $publication->get_learning_object();
-			
+
 			if ($object->repeats())
 			{
 				$repeats = $object->get_repeats($from_date, $to_date);
-				
+
 				foreach($repeats as $repeat)
 				{
 					$event = new PersonalCalendarEvent();
@@ -41,7 +41,7 @@ class PersonalCalendarWeblcmsConnector implements PersonalCalendarConnector
 					$event->set_title($repeat->get_title());
 					$event->set_content($repeat->get_description());
 					$event->set_source('weblcms');
-					
+
 					$result[] = $event;
 				}
 			}
