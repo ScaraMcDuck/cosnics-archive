@@ -19,12 +19,20 @@ class GlossaryToolViewerComponent extends GlossaryToolComponent
 			return;
 		}
 
-		$publication_id = Request :: get('pid');
+		/*$publication_id = Request :: get('pid');
 		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($publication_id);
-		$_GET['pid'] = $publication->get_learning_object()->get_id();
+		$object = $publication->get_learning_object();
+	
+		$_GET['pid'] = $object->get_id();*/
 		
-		$display = ComplexDisplay :: factory($this, 'glossary');
+		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object(Request :: get('pid'));
+		
+		$this->set_parameter(Tool :: PARAM_ACTION, GlossaryTool :: ACTION_VIEW_GLOSSARY);
+		
+		$this->display_header(new BreadcrumbTrail()); 
+		$display = ComplexDisplay :: factory($this, $object->get_type());
         $display->run();
+        $this->display_footer();
 	}
 }
 
