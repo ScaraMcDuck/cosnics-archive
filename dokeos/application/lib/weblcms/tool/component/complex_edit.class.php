@@ -25,7 +25,7 @@ class ToolComplexEditComponent extends ToolComponent
                 $trail = new BreadcrumbTrail();
                 if(Request :: get('tool') == 'wiki')
                 {
-                    $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
+                    $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $datamanager->retrieve_learning_object(Request :: get('pid'))->get_title()));
                     $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'),  Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), $learning_object->get_title()));
                 }
                 else

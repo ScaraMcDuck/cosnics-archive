@@ -10,7 +10,7 @@
 
 require_once Path :: get_library_path().'/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path().'/lib/complex_display/complex_display.class.php';
-require_once Path :: get_repository_path().'/lib/complex_display/wiki/component/wiki_publication_table/wiki_publication_table.class.php';
+require_once Path :: get_application_path().'/lib/weblcms/tool/wiki/component/wiki_publication_table/wiki_publication_table.class.php';
 
 class WikiToolBrowserComponent extends WikiToolComponent
 {

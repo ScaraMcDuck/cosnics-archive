@@ -21,27 +21,27 @@
 
 class WikiToolParserComponent
 {
-    private $pid;
+    private $wiki_id;
     private $course_id;
     private $cid;
     private $wikiText;    
 
-    function __construct($pId,$courseId, $wikiText, $cId)
+    function __construct($wikiId,$courseId, $wikiText, $cId)
     {
-         $this->pid = $pId;
+         $this->wiki_id = $wikiId;
          $this->course_id = $courseId;
          $this->wikiText = $wikiText;
          $this->cid = $cId;
     }
 
-    function set_pid($value)
+    function set_wiki_id($value)
     {
-        $this->pid = $value;
+        $this->wiki_id = $value;
     }
 
-    function get_pid()
+    function get_wiki_id()
     {
-        return $this->pid;
+        return $this->wiki_id;
     }
 
     function set_course_id($value)
@@ -94,7 +94,7 @@ class WikiToolParserComponent
 
     private function get_wiki_page_url(&$title, $viewTitle = null)
     {
-    	$pages = RepositoryDataManager :: get_instance()->retrieve_learning_objects('wiki_page', new EqualityCondition(LearningObject :: PROPERTY_TITLE,$title))->as_array();dump($page);
+    	$pages = RepositoryDataManager :: get_instance()->retrieve_learning_objects('wiki_page', new EqualityCondition(LearningObject :: PROPERTY_TITLE,$title))->as_array();
     	if($viewTitle!=null)
     	$title = $viewTitle;
         foreach($pages as $page)
@@ -105,19 +105,19 @@ class WikiToolParserComponent
         }
         if(!empty($cloi))
         {
-            $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->pid, Tool :: PARAM_COMPLEX_ID => $cloi->get_id())));
+            $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, Tool :: PARAM_COMPLEX_ID => $cloi->get_id())));
             return '<a href="'.$url. '">' . htmlspecialchars($title) . '</a>';
         }
         else
         {
-            $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->pid)));
+            $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->wiki_id)));
             return '<a class="does_not_exist" href="'.$url. '">' . htmlspecialchars($title) . '</a>';
         }
     }
 
     private function get_wiki_page_discussion_url()
     {
-        $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_DISCUSS, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->pid, Tool :: PARAM_COMPLEX_ID => $this->cid)));
+        $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, Tool :: PARAM_COMPLEX_ID => $this->cid)));
         return '<a href="'.$url. '">' . Translation :: get('discussionPage') . '</a>';
     }
 

@@ -16,14 +16,16 @@ require_once Path::get_repository_path().'lib/complex_builder/complex_repo_viewe
 class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
 {
     private $pub;
-    private $publication_id;
+    private $wiki_id;
 
 	function run()
 	{
-        $wiki = WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object();
+        $this->wiki_id = Request :: get('pid');
+
+        $wiki = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id);
 		$trail = new BreadcrumbTrail();
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), DokeosUtilities::truncate_string($wiki->get_title(),20)));
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), Translation :: get('CreateWikiPage')));
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $this->wiki_id)), DokeosUtilities::truncate_string($wiki->get_title(),20)));
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->wiki_id)), Translation :: get('CreateWikiPage')));
         $trail->add_help('courses wiki tool');
 
         //if(!WikiTool ::is_wiki_locked(Request :: get('wiki_id')))
@@ -32,16 +34,8 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
 
             $this->pub = new LearningObjectRepoViewer($this->get_parent()->get_parent(), 'wiki_page', true, RepoViewer :: SELECT_MULTIPLE, array(Tool :: PARAM_ACTION => 'view', 'display_action' =>WikiDisplay :: ACTION_CREATE_PAGE));
 
-            $this->publication_id = Request :: get('pid');
-            if(!empty($this->publication_id))
-            {
-                $wm = WeblcmsDataManager :: get_instance();
-                $publication = $wm->retrieve_learning_object_publication($this->publication_id);
-            }
-
             if(empty($object))
             {
-                $html[] = '<p><a href="' . $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS), array(), true) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
                 $html[] =  $this->pub->as_html();
                 $this->get_parent()->get_parent()->display_header($trail, true);
                 echo implode("\n",$html);
@@ -60,7 +54,7 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
                     $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($wiki->get_id()));
                     $cloi->set_additional_properties(array('is_homepage' => 0));
                     $cloi->create();
-                    $this->redirect($message, '', array(Tool :: PARAM_ACTION => 'view', WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_COMPLEX_ID => $cloi->get_id(), 'pid' => $this->publication_id));
+                    $this->redirect($message, '', array(Tool :: PARAM_ACTION => 'view', WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_COMPLEX_ID => $cloi->get_id(), 'pid' => $this->wiki_id));
                 }
                 else
                 {
