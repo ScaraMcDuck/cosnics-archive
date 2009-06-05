@@ -53,7 +53,6 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
 
             $this->display_header($trail);
             echo $this->action_bar->as_html();
-            echo '<br />' . $this->get_publication_modification_links();
             echo '<div class="clear"></div><br />';
             echo $this->get_publication_as_html();
 
@@ -148,25 +147,6 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
 
 
         return implode("\n",$html);
-    }
-
-    function get_publication_modification_links()
-    {
-        $publication = $this->publication;
-
-        $toolbar_data = array();
-
-        //		if ($publication->get_recipient() == $this->get_user_id())
-        //		{
-        //			$toolbar_data[] = array(
-        //				'href' => $this->get_publication_reply_url($publication),
-        //				'label' => Translation :: get('Reply'),
-        //				'img' => Theme :: get_common_image_path().'action_reply.png',
-        //				'display' => DokeosUtilities :: TOOLBAR_DISPLAY_ICON_AND_LABEL
-        //			);
-        //		}
-
-        return DokeosUtilities :: build_toolbar($toolbar_data);
     }
 }
 ?>

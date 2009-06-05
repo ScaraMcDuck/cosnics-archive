@@ -1193,7 +1193,7 @@ div.action_bar
 	-moz-border-radius-bottomright: 15px;
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-bottom-right-radius: 15px;
-	min-height: 40px;
+	height: 60px;
 	background: #d4e0f1 url(../img/common/background_action_bar.png) no-repeat;
 }
 
@@ -1202,7 +1202,7 @@ div.action_bar div.bevel
 	border-left: 1px solid white;
 	border-top: 1px solid white;
 	padding: 5px;
-	clear:both;
+	clear: both;
 	-moz-border-radius-topleft: 15px;
 	-moz-border-radius-bottomright: 15px;
 	-webkit-border-top-left-radius: 15px;

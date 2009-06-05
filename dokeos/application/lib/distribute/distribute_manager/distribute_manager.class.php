@@ -40,8 +40,14 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 		$component = null;
 		switch ($action)
 		{
+		    case self :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS :
+		        $component = DistributeManagerComponent :: factory('Browser', $this);
+		        break;
 		    case self :: ACTION_DISTRIBUTE_ANNOUNCEMENT :
 		        $component = DistributeManagerComponent :: factory('Distributor', $this);
+		        break;
+		    case self :: ACTION_VIEW_ANNOUNCEMENT_DISTRIBUTION :
+		        $component = DistributeManagerComponent :: factory('Viewer', $this);
 		        break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS);
