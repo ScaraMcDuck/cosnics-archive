@@ -67,9 +67,9 @@ class FormValidatorPage extends FormValidator
     *
     * @access public
     */
-    function HTML_QuickForm_Page($formName, $method = 'post', $target = '', $attributes = null)
+    function FormValidatorPage($formName, $method = 'post', $target = '', $attributes = null)
     {
-        $this->HTML_QuickForm($formName, $method, '', $target, $attributes);
+        parent :: __construct($formName, $method, '', $target, $attributes);
     }
 
 
