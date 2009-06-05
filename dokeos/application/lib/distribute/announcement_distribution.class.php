@@ -2,9 +2,10 @@
 /**
  * distribute
  */
-
+require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.php';
+require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 /**
- * This class describes a AnnouncementDistribution data object
+ * This class describes a DistributePublication data object
  *
  * @author Hans De Bisschop
  */
@@ -13,7 +14,7 @@ class AnnouncementDistribution
 	const CLASS_NAME = __CLASS__;
 
 	/**
-	 * AnnouncementDistribution properties
+	 * DistributePublication properties
 	 */
 	const PROPERTY_ID = 'id';
 	const PROPERTY_ANNOUNCEMENT = 'announcement';
@@ -21,10 +22,11 @@ class AnnouncementDistribution
 	const PROPERTY_PUBLISHED = 'published';
 	const PROPERTY_STATUS = 'status';
 
-	const STATUS_ADDED = 1;
+	const STATUS_PENDING = 1;
 	const STATUS_VERIFIED = 2;
 	const STATUS_REFUSED = 3;
-	const STATUS_SENT = 4;
+	const STATUS_SENDING = 4;
+	const STATUS_SENT = 5;
 
 	/**
 	 * Default properties stored in an associative array.
@@ -35,7 +37,7 @@ class AnnouncementDistribution
 	private $target_users;
 
 	/**
-	 * Creates a new AnnouncementDistribution object
+	 * Creates a new DistributePublication object
 	 * @param array $defaultProperties The default properties
 	 */
 	function AnnouncementDistribution($defaultProperties = array ())
@@ -89,7 +91,7 @@ class AnnouncementDistribution
 	}
 
 	/**
-	 * Returns the id of this AnnouncementDistribution.
+	 * Returns the id of this DistributePublication.
 	 * @return the id.
 	 */
 	function get_id()
@@ -98,7 +100,7 @@ class AnnouncementDistribution
 	}
 
 	/**
-	 * Sets the id of this AnnouncementDistribution.
+	 * Sets the id of this DistributePublication.
 	 * @param id
 	 */
 	function set_id($id)
@@ -106,7 +108,7 @@ class AnnouncementDistribution
 		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
 	/**
-	 * Returns the announcement of this AnnouncementDistribution.
+	 * Returns the announcement of this DistributePublication.
 	 * @return the announcement.
 	 */
 	function get_announcement()
@@ -115,7 +117,7 @@ class AnnouncementDistribution
 	}
 
 	/**
-	 * Sets the announcement of this AnnouncementDistribution.
+	 * Sets the announcement of this DistributePublication.
 	 * @param announcement
 	 */
 	function set_announcement($announcement)
@@ -123,7 +125,7 @@ class AnnouncementDistribution
 		$this->set_default_property(self :: PROPERTY_ANNOUNCEMENT, $announcement);
 	}
 	/**
-	 * Returns the publisher of this AnnouncementDistribution.
+	 * Returns the publisher of this DistributePublication.
 	 * @return the publisher.
 	 */
 	function get_publisher()
@@ -132,7 +134,7 @@ class AnnouncementDistribution
 	}
 
 	/**
-	 * Sets the publisher of this AnnouncementDistribution.
+	 * Sets the publisher of this DistributePublication.
 	 * @param publisher
 	 */
 	function set_publisher($publisher)
@@ -140,7 +142,7 @@ class AnnouncementDistribution
 		$this->set_default_property(self :: PROPERTY_PUBLISHER, $publisher);
 	}
 	/**
-	 * Returns the published of this AnnouncementDistribution.
+	 * Returns the published of this DistributePublication.
 	 * @return the published.
 	 */
 	function get_published()
@@ -149,7 +151,7 @@ class AnnouncementDistribution
 	}
 
 	/**
-	 * Sets the published of this AnnouncementDistribution.
+	 * Sets the published of this DistributePublication.
 	 * @param published
 	 */
 	function set_published($published)
@@ -158,7 +160,7 @@ class AnnouncementDistribution
 	}
 
 	/**
-	 * Returns the status of this AnnouncementDistribution.
+	 * Returns the status of this DistributePublication.
 	 * @return the status.
 	 */
 	function get_status()
@@ -167,7 +169,7 @@ class AnnouncementDistribution
 	}
 
 	/**
-	 * Sets the status of this AnnouncementDistribution.
+	 * Sets the status of this DistributePublication.
 	 * @param status
 	 */
 	function set_status($status)
@@ -178,7 +180,7 @@ class AnnouncementDistribution
 	function delete()
 	{
 		$dm = DistributeDataManager :: get_instance();
-		return $dm->delete_announcement_distribution($this);
+		return $dm->delete_announcement_publication($this);
 	}
 
 	function create()
@@ -197,6 +199,18 @@ class AnnouncementDistribution
 	static function get_table_name()
 	{
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
+
+	function get_distribution_object()
+	{
+		$rdm = RepositoryDataManager :: get_instance();
+		return $rdm->retrieve_learning_object($this->get_announcement());
+	}
+
+	function get_distribution_publisher()
+	{
+		$udm = UserDataManager :: get_instance();
+		return $udm->retrieve_user($this->get_publisher());
 	}
 
 	function get_target_users()
@@ -230,5 +244,35 @@ class AnnouncementDistribution
 	{
 		$this->target_groups = $target_groups;
 	}
+
+	function get_status_icon()
+	{
+	    $status = $this->get_status();
+
+	    switch($status)
+	    {
+	        case STATUS_PENDING :
+	            $status = array('icon' => 'pending', 'description' => 'Pending');
+	            break;
+	        case STATUS_VERIFIED :
+	            $status = array('icon' => 'verified', 'description' => 'Accepted');
+	            break;
+	        case STATUS_REFUSED :
+	            $status = array('icon' => 'refused', 'description' => 'Refused');
+	            break;
+	        case STATUS_SENDING :
+	            $status = array('icon' => 'sending', 'description' => 'BeingSent');
+	            break;
+	        case STATUS_SENT :
+	            $status = array('icon' => 'sent', 'description' => 'Sent');
+	            break;
+	        default :
+	            $status = array('icon' => 'unknown', 'description' => 'StatusUnknown');
+	            break;
+	    }
+
+	    return Theme :: get_image('status_' . $status['icon'], 'png', Translation :: get('Message' . $status['description']), null, ToolbarItem :: DISPLAY_ICON);
+	}
 }
+
 ?>

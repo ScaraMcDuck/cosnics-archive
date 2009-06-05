@@ -15,7 +15,7 @@ abstract class ObjectTableDataProvider
 	 * The condition used to select the learning objects
 	 */
 	private $condition;
-	
+
 	/**
 	 * Constructor
 	 * @param ApplicationManagerComponent $browser
@@ -26,7 +26,7 @@ abstract class ObjectTableDataProvider
     	$this->browser = $browser;
     	$this->condition = $condition;
 	}
-	
+
   	/**
   	 * Gets the condition
   	 * @return Condition
@@ -35,7 +35,7 @@ abstract class ObjectTableDataProvider
 	{
 		return $this->condition;
 	}
-	
+
   	/**
   	 * Sets the condition
   	 * @param Condition $condition
@@ -44,7 +44,7 @@ abstract class ObjectTableDataProvider
 	{
 		$this->condition = $condition;
 	}
-	
+
 	/**
 	 * Gets the browser
 	 * @return ApplicationManagerComponent
@@ -53,7 +53,7 @@ abstract class ObjectTableDataProvider
     {
       return $this->browser;
     }
-    
+
   	/**
   	 * Sets the ApplicationManagerComponent
   	 * @param ApplicationManagerComponent $browser
@@ -62,7 +62,7 @@ abstract class ObjectTableDataProvider
 	{
 		$this->browser = $browser;
 	}
-    
+
     function get_order_direction($order_direction)
     {
     	if (is_null($order_direction))
@@ -73,10 +73,10 @@ abstract class ObjectTableDataProvider
     	{
     		$order_direction = array($order_direction);
     	}
-    	
+
     	return $order_direction;
     }
-    
+
     function get_order_property($order_property)
     {
 		if (is_null($order_property))
@@ -87,10 +87,10 @@ abstract class ObjectTableDataProvider
 		{
 			$order_property = array($order_property);
 		}
-		
+
 		return $order_property;
     }
-	
+
     abstract function get_objects($offset, $count, $order_property = null, $order_direction = null);
 
     abstract function get_object_count();

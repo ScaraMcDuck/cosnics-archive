@@ -151,9 +151,9 @@ class ActionBarRenderer extends WikiActionbar
 
 		$html[] = '</div>';
 
+		$html[] = '<div class="search_menu split_bevel">';
 		if (!is_null($this->search_form))
 		{
-			$html[] = '<div class="search_menu split_bevel">';
 			$search_form = $this->search_form;
 			if($search_form)
 			{
@@ -161,8 +161,8 @@ class ActionBarRenderer extends WikiActionbar
 				$html[] = $search_form->as_html();
 				$html[] = '</div>';
 			}
-			$html[] = '</div>';
 		}
+		$html[] = '</div>';
 
 		$html[] = '<div class="clear"></div>';
 		$html[] = '<div id="'. $this->get_name() .'_action_bar_hide_container" class="action_bar_hide_container">';

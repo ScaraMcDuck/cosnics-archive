@@ -15,7 +15,10 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
  {
  	const APPLICATION_NAME = 'distribute';
 
+ 	const PARAM_ANNOUNCEMENT_DISTRIBUTION = 'distribution';
+
 	const ACTION_BROWSE_ANNOUNCEMENT_DISTRIBUTIONS = 'browse';
+	const ACTION_VIEW_ANNOUNCEMENT_DISTRIBUTION = 'view';
 	const ACTION_DISTRIBUTE_ANNOUNCEMENT = 'distribute';
 
 	/**
@@ -55,48 +58,49 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 
 	// Data Retrieving
 
-	function count_distribute_publications($condition)
+	function count_announcement_distributions($condition)
 	{
-		return DistributeDataManager :: get_instance()->count_distribute_publications($condition);
+		return DistributeDataManager :: get_instance()->count_announcement_distributions($condition);
 	}
 
-	function retrieve_distribute_publications($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_announcement_distributions($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return DistributeDataManager :: get_instance()->retrieve_distribute_publications($condition, $offset, $count, $order_property, $order_direction);
+		return DistributeDataManager :: get_instance()->retrieve_announcement_distributions($condition, $offset, $count, $order_property, $order_direction);
 	}
 
- 	function retrieve_distribute_publication($id)
+ 	function retrieve_announcement_distribution($id)
 	{
-		return DistributeDataManager :: get_instance()->retrieve_distribute_publication($id);
+		return DistributeDataManager :: get_instance()->retrieve_announcement_distribution($id);
 	}
 
 	// Url Creation
 
-	function get_create_distribute_publication_url()
+	function get_create_announcement_distribution_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_DISTRIBUTE_PUBLICATION));
 	}
 
-	function get_update_distribute_publication_url($distribute_publication)
+	function get_update_announcement_distribution_url($announcement_distribution)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_DISTRIBUTE_PUBLICATION,
-								    self :: PARAM_DISTRIBUTE_PUBLICATION => $distribute_publication->get_id()));
+								    self :: PARAM_DISTRIBUTE_PUBLICATION => $announcement_distribution->get_id()));
 	}
 
- 	function get_delete_distribute_publication_url($distribute_publication)
+ 	function get_delete_announcement_distribution_url($announcement_distribution)
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DELETE_DISTRIBUTE_PUBLICATION,
-								    self :: PARAM_DISTRIBUTE_PUBLICATION => $distribute_publication->get_id()));
+								    self :: PARAM_DISTRIBUTE_PUBLICATION => $announcement_distribution->get_id()));
 	}
 
-	function get_browse_distribute_publications_url()
+	function get_browse_announcement_distributions_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_DISTRIBUTE_PUBLICATIONS));
 	}
 
-	function get_browse_url()
+ 	function get_announcement_distribution_viewing_url($announcement_distribution)
 	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
+		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_VIEW_ANNOUNCEMENT_DISTRIBUTION,
+								    self :: PARAM_ANNOUNCEMENT_DISTRIBUTION => $announcement_distribution->get_id()));
 	}
 
 	// Dummy Methods which are needed because we don't work with learning objects

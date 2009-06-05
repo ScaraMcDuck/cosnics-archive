@@ -1,9 +1,10 @@
 <?php
 /**
- * @package application.distribute.distribute.component
+ * @package application.distribute
  */
 require_once dirname(__FILE__).'/../distribute_manager.class.php';
 require_once dirname(__FILE__).'/../distribute_manager_component.class.php';
+require_once dirname(__FILE__).'/announcement_distribution_browser/announcement_distribution_browser_table.class.php';
 
 /**
  * Distribute component which allows the user to browse the distribute application
@@ -36,7 +37,47 @@ class DistributeManagerBrowserComponent extends DistributeManagerComponent
 
 	function get_browser_html()
 	{
-	    return 'Content goes here ...';
+		$parameters = $this->get_parameters(true);
+
+		$table = new AnnouncementDistributionBrowserTable($this, null, $parameters, $this->get_condition());
+
+		$html = array();
+		$html[] = $table->as_html();
+
+		return implode($html, "\n");
+	}
+
+	function get_condition()
+	{
+	    return null;
+
+//		$conditions = array();
+//		$folder = $this->get_folder();
+//		if (isset($folder))
+//		{
+//			$folder_condition = null;
+//
+//			switch ($folder)
+//			{
+//				case PersonalMessengerManager :: ACTION_FOLDER_INBOX :
+//					$folder_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
+//					break;
+//				case PersonalMessengerManager :: ACTION_FOLDER_OUTBOX :
+//					$folder_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_SENDER, $this->get_user_id());
+//					break;
+//				default :
+//					$folder_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
+//			}
+//		}
+//		else
+//		{
+//			$folder_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_RECIPIENT, $this->get_user_id());
+//		}
+//
+//		$condition = $folder_condition;
+//
+//		$user_condition = new EqualityCondition(PersonalMessagePublication :: PROPERTY_USER, $this->get_user_id());
+//		return new AndCondition($condition, $user_condition);
 	}
 }
 ?>

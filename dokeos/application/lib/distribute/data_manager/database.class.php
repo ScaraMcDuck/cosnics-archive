@@ -19,10 +19,10 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 
 	function initialize()
 	{
-		$aliasses = array();
-		$aliasses[AnnouncementDistribution :: get_table_name()] = 'dion';
+		$aliases = array();
+		$aliases[AnnouncementDistribution :: get_table_name()] = 'dion';
 
-		$this->database = new Database($aliasses);
+		$this->database = new Database($aliases);
 		$this->database->set_prefix('distribute_');
 	}
 
@@ -88,7 +88,7 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 		return $this->database->retrieve_object(AnnouncementDistribution :: get_table_name(), $condition);
 	}
 
-	function retrieve_announcement_distributions($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	function retrieve_announcement_distributions($condition = null, $offset = null, $maxObjects = null, $orderBy = array(), $orderDir = array())
 	{
 		return $this->database->retrieve_objects(AnnouncementDistribution :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
