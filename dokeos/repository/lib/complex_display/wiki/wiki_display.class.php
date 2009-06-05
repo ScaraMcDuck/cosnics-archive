@@ -82,7 +82,7 @@ class WikiDisplay extends ComplexDisplay
                 $component = WikiDisplayComponent :: factory('', 'WikiLinkCreator', $this);
 				break;
 			default :
-				$component = WikiDisplayComponent :: factory('WikiBrowser', $this);
+				$component = WikiDisplayComponent :: factory('WikiViewer', $this);
 		}
 		$component->run();
 	}
