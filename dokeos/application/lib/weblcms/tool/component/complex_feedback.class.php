@@ -76,6 +76,9 @@ class ToolComplexFeedbackComponent extends ToolComponent
                 $learning_object_pub_feedback->set_feedback_id(0);
 
             $learning_object_pub_feedback->create();
+            if(Request :: get('tool') == 'wiki')
+            $this->redirect(Translation :: get('FeedbackAdded'), '', array(Tool :: PARAM_ACTION => 'view', 'display_action' => Request :: get('cid')!=null?'discuss':'view_item', Request :: get('cid')!=null?'cid':'pid' => $this->cid, 'pid' => $this->pid));
+            else
             $this->redirect(Translation :: get('FeedbackAdded'), '', array(Tool :: PARAM_ACTION => Request :: get('cid')!=null?'discuss':'view_item', Request :: get('cid')!=null?'cid':'pid' => $this->cid, 'pid' => $this->pid));
 
 
