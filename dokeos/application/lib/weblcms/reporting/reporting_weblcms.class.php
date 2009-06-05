@@ -552,7 +552,7 @@ class ReportingWeblcms {
     {
         require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
         require_once Path :: get_application_path().'lib/weblcms/data_manager/database.class.php';
-        $wiki = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($params['pid'])->get_learning_object();
+        $wiki = RepositoryDataManager :: get_instance()->retrieve_learning_object($params['pid']);
         
         $clois = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexlearningObjectItem :: PROPERTY_PARENT, $wiki->get_id()))->as_array();
 
