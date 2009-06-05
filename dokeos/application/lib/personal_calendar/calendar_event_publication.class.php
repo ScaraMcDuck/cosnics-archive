@@ -189,19 +189,6 @@ class CalendarEventPublication
 		$id = $pcdm->get_next_calendar_event_publication_id();
 		$this->set_id($id);
 		return $pcdm->create_calendar_event_publication($this);
-		/*
-		if ($success)
-		{
-			$users = $this->get_target_users();
-			$groups = $this->get_target_groups();
-
-
-		}
-		else
-		{
-			return false;
-		}
-		*/
 	}
 
 	/**
