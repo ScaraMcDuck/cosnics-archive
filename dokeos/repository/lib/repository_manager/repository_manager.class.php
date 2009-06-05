@@ -381,11 +381,11 @@ class RepositoryManager extends CoreApplication
 		}
 		echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
-		if ($msg = $_GET[Application :: PARAM_MESSAGE])
+		if ($msg = Request :: get(Application :: PARAM_MESSAGE))
 		{
 			$this->display_message($msg);
 		}
-		if($msg = $_GET[Application :: PARAM_ERROR_MESSAGE])
+		if($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
 		{
 			$this->display_error_message($msg);
 		}
