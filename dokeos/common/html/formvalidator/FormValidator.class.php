@@ -37,12 +37,12 @@ define('TEACHER_HTML_FULLPAGE',5);
 class FormValidator extends HTML_QuickForm
 {
 	private $no_errors;
-	
+
 	/**
 	 * The HTML-editors in this form
 	 */
 	private $html_editors;
-	
+
 	/**
 	 * Constructor
 	 * @param string $form_name Name of the form
@@ -60,7 +60,7 @@ class FormValidator extends HTML_QuickForm
 			$attributes = array();
 		}
 		$attributes['onreset'] = 'resetEditor()';
-		
+
 		$this->HTML_QuickForm($form_name, $method,$action, $target, $attributes, $trackSubmit);
 		// Load some custom elements and rules
 		$dir = dirname(__FILE__).'/';
@@ -88,7 +88,7 @@ class FormValidator extends HTML_QuickForm
 		$this->registerRule('filetype',null,'HTML_QuickForm_Rule_Filetype',$dir.'Rule/Filetype.php');
 		$this->registerRule('disk_quota',null,'HTML_QuickForm_Rule_DiskQuota',$dir.'Rule/DiskQuota.php');
 		$this->registerRule('max_value',null,'HTML_QuickForm_Rule_MaxValue',$dir.'Rule/MaxValue.php');
-		
+
 		$this->addElement('html', '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) .'javascript/reset_fckeditor.js"></script>');
 
 		// Modify the default templates
@@ -104,11 +104,11 @@ class FormValidator extends HTML_QuickForm
 
 EOT;
 		$renderer->setFormTemplate($form_template);
-		
+
 		$element_template = array();
 		$element_template[] = '<div class="row">';
 		$element_template[] = '<div class="label">';
-		$element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="'. Theme :: get_common_image_path() .'/action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
+		$element_template[] = '{label}<!-- BEGIN required --><span class="form_required"><img src="'. Theme :: get_common_image_path() .'action_required.png" alt="*" title ="*"/></span> <!-- END required -->';
 		$element_template[] = '</div>';
 		$element_template[] = '<div class="formw">';
 		$element_template[] = '<div class="element"><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}</div>';
@@ -116,17 +116,17 @@ EOT;
 		$element_template[] = '<div class="clear">&nbsp;</div>';
 		$element_template[] = '</div>';
 		$element_template = implode("\n", $element_template);
-		
+
 		$renderer->setElementTemplate($element_template);
-		
+
 		$header_template = array();
 		$header_template[] = '<div class="row">';
 		$header_template[] = '<div class="form_header">{header}</div>';
 		$header_template[] = '</div>';
 		$header_template = implode("\n", $header_template);
-		
+
 		$renderer->setHeaderTemplate($header_template);
-		
+
 		HTML_QuickForm :: setRequiredNote('<span class="form_required"><img src="'. Theme :: get_common_image_path() .'/action_required.png" alt="*" title ="*"/>&nbsp;<small>'.Translation :: get('ThisFieldIsRequired').'</small></span>');
 		$required_note_template = <<<EOT
 	<div class="row">
@@ -135,13 +135,13 @@ EOT;
 	</div>
 EOT;
 		$renderer->setRequiredNoteTemplate($required_note_template);
-		
+
 		foreach($this->_submitValues as $index => $value)
 		{
 			$this->_submitValues[$index] = Security :: remove_XSS($value);
 		}
 	}
-	
+
 	function set_error_reporting ($enabled)
 	{
 		$this->no_errors = !$enabled;
@@ -170,7 +170,7 @@ EOT;
 		}
 		return $element;
 	}
-	
+
 	/**
 	 * Adds a select control to the form.
 	 * @param string $name The element name.
@@ -190,7 +190,7 @@ EOT;
 		}
 		return $element;
 	}
-	 
+
 	/**
 	 * Add a HTML-editor to the form to fill in a title.
 	 * A trim-filter is attached to the field.
@@ -205,7 +205,7 @@ EOT;
 	{
 		$type = 'fckeditor';
 		$element = $this->addElement($type . '_html_editor',$name,$label,'rows="15" cols="80"');
-		
+
 		$this->applyFilter($name,'trim');
 		$html_type = $_SESSION['status'] == COURSEMANAGER ? TEACHER_HTML : STUDENT_HTML;
 		if($full_page)
@@ -230,12 +230,12 @@ EOT;
 		}
 		//Add rule to check not-allowed HTML
 		$this->addRule($name,Translation :: get('SomeHTMLNotAllowed'),'html',$html_type);
-		
+
 		// Register the html editor for possible post processing afterwards
 		$this->html_editors[] = $name;
 		return $element;
 	}
-	
+
 	function create_html_editor($name, $label)
 	{
 		$type = 'fckeditor';
@@ -243,7 +243,7 @@ EOT;
 		$this->html_editors[] = $name;
 		return $element;
 	}
-	
+
 	function get_html_editors()
 	{
 		return $this->html_editors;
@@ -301,7 +301,7 @@ EOT;
 					/* ]]> */
 					</script>\n");
 	}
-	
+
 	/**
 	 *
 	 */
@@ -331,7 +331,7 @@ EOT;
 					/* ]]> */
 					</script>\n");
 	}
-	
+
 	/**
 	 * Add a button to the form to add resources.
 	 */
@@ -362,36 +362,36 @@ EOT;
 		include_once('HTML/QuickForm/RuleRegistry.php');
 		$registry =& HTML_QuickForm_RuleRegistry::singleton();
 		$rulenr='-1';
-		foreach ($this->_rules as $target => $rules) 
+		foreach ($this->_rules as $target => $rules)
 		{
 		  $rulenr++;
 		  $submitValue = $value[$rulenr];
-		  foreach ($rules as $elementName => $rule) 
+		  foreach ($rules as $elementName => $rule)
 		  {
 		   $result = $registry->validate($rule['type'], $submitValue, $rule['format'], false);
-                	if (!$this->isElementRequired($target)) 
+                	if (!$this->isElementRequired($target))
                 	{
-                   	 if (!isset($submitValue) || '' == $submitValue) 
-                   	 {                    
+                   	 if (!isset($submitValue) || '' == $submitValue)
+                   	 {
                         continue 2;
-                  	 } 
-               		}              	
-              			        
-		  if (!$result || (!empty($rule['howmany']) && $rule['howmany'] > (int)$result)) 
+                  	 }
+               		}
+
+		  if (!$result || (!empty($rule['howmany']) && $rule['howmany'] > (int)$result))
 		  {
-                    
-                    if (isset($rule['group'])) 
+
+                    if (isset($rule['group']))
                     {
-                        
+
                         $this->_errors[$rule['group']] = $rule['message'];
-                    } 
-                    else 
+                    }
+                    else
                     {
                         $this->_errors[$target] = $rule['message'];
                     }
                  }
-                }	
-              }   
+                }
+              }
 	return (0 == count($this->_errors));
        }
 
@@ -412,7 +412,7 @@ EOT;
 		$html .= $message.'</div></div>';
 		$this->addElement('html', $html);
     }
-    
+
 	/**
 	 * Adds javascript code to hide a certain element.
      */
@@ -491,13 +491,13 @@ EOT;
 		{
 			$html[]  = '</div>';
 		}
-		
+
 		if (isset($html))
 		{
 			$this->addElement('html', implode("\n", $html));
 		}
     }
-    
+
 	/**
 	 * Display the form.
 	 * If an element in the form didn't validate, an error message is showed

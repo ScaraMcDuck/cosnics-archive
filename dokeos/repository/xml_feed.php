@@ -43,7 +43,7 @@ if (Authentication :: is_valid())
 	$objects = $dm->retrieve_learning_objects(null, $condition, array (LearningObject :: PROPERTY_TITLE), array (SORT_ASC));
 
 	while ($lo = $objects->next_result())
-	{		
+	{
 		/*$cat = $dm->retrieve_categories(new EqualityCondition('id', $lo->get_parent_id()))->next_result();
 		$cid = $cat->get_id();*/
 		$cid = $lo->get_parent_id();
@@ -63,7 +63,7 @@ if (Authentication :: is_valid())
 	$root->set_name(Translation :: get('MyRepository'));
 	$root->set_parent(-1);
 	$categories[-1] = array($root);
-	
+
 	$cats = $dm->retrieve_categories(new EqualityCondition('user_id', Session :: get_user_id()));
 	while ($cat = $cats->next_result())
 	{
@@ -122,7 +122,7 @@ function dump_tree($tree, $objects)
 			$title = $node['obj']->get_name();
 		else
 			$title = $node['obj']->get_title();
-			
+
 		echo '<node id="', $id, '" class="type_category unlinked" title="', htmlentities($title), '">', "\n";
 		dump_tree($node['sub'], $objects);
 		foreach ($objects[$id] as $lo)

@@ -28,7 +28,8 @@ $(function () {
 		}
 	}
 	
-	$(document).ready(function () {
+	function processTree()
+	{
 		$("ul li:last-child > div").addClass("last");
 		$("ul li:last-child > ul").css("background-image", "none");
 		
@@ -37,6 +38,10 @@ $(function () {
 		
 		$("ul li:has(ul) > div").toggle(collapseItem, expandItem);
 		$("ul li:has(ul) > div > a").click(function(e){e.stopPropagation();});
+	}
+	
+	$(document).ready(function () {
+		processTree();
 	});
 
 });

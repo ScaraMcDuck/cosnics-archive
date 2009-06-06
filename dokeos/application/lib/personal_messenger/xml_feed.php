@@ -55,7 +55,7 @@ if (Authentication :: is_valid())
 	{
 		$users[] =$lo;
 	}
-	
+
 	$dm = GroupDataManager :: get_instance();
 	$grs = $dm->retrieve_groups();
 	while($group = $grs->next_result())
@@ -82,7 +82,7 @@ function dump_tree($users, $groups)
 			echo '<leaf id="user|'. $lo->get_id(). '" class="'. 'type type_user'. '" title="'. htmlentities($lo->get_username()). '" description="'. htmlentities($lo->get_firstname()) . ' ' . htmlentities($lo->get_lastname()) . '"/>'. "\n";
 		}
 		echo '</node>', "\n";
-		
+
 		echo '<node id="group" class="type_category unlinked" title="Groups">', "\n";
 		foreach ($groups as $group)
 		{
