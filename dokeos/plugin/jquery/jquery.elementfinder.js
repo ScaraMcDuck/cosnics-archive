@@ -9,7 +9,8 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 			//Settings list and the default values
 			var defaults = {
 					name: '',
-					search: ''
+					search: '',
+					nodesSelectable: false
 			};
 			
 			var settings = $.extend(defaults, options);
@@ -92,16 +93,19 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 				
 				if((tree.node && $(tree.node).size() > 0) || (tree.leaf && $(tree.leaf).size() > 0))
 				{
-					$.each(tree.node, function(i, the_node){
-							var li = $('<li><div><a href="#" class="category">' + the_node.title + '</a></div></li>');
-							$(ul).append(li);
-							buildElement(the_node, li);
-						});
+					if (tree.node && $(tree.node).size() > 0)
+					{
+						$.each(tree.node, function(i, the_node){
+								var li = $('<li><div><a href="#" id="' + the_node.id + '" class="category">' + the_node.title + '</a></div></li>');
+								$(ul).append(li);
+								buildElement(the_node, li);
+							});
+					}
 					
 					if (tree.leaf && $(tree.leaf).size() > 0)
 					{
 						$.each(tree.leaf, function(i, the_leaf){
-							var li = $('<li><div><a href="#"" class="' + the_leaf.class + '">' + the_leaf.title + '</a></div></li>');
+							var li = $('<li><div><a href="#" id="' + the_leaf.id + '" class="' + the_leaf.class + '">' + the_leaf.title + '</a></div></li>');
 							$(ul).append(li);
 						});
 					}
@@ -124,7 +128,7 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 					if (the_node.node && $(the_node.node).size() > 0)
 					{
 						$.each(the_node.node, function(i, a_node){
-							var li = $('<li><div><a href="#" class="category">' + a_node.title + '</a></div></li>');
+							var li = $('<li><div><a href="#" id="' + a_node.id + '" class="category">' + a_node.title + '</a></div></li>');
 							$(ul).append(li);
 							buildElement(a_node, li);
 						});
@@ -133,7 +137,7 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 					if (the_node.leaf && $(the_node.leaf).size() > 0)
 					{
 						$.each(the_node.leaf, function(i, a_leaf){
-							var li = $('<li><div><a href="#"" class="' + a_leaf.class + '">' + a_leaf.title + '</a></div></li>');
+							var li = $('<li><div><a href="#" id="' + a_leaf.id + '" class="' + a_leaf.class + '">' + a_leaf.title + '</a></div></li>');
 							$(ul).append(li);
 						});
 					}
@@ -142,21 +146,71 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 			
 			function updateSearchResults()
 			{
-				displayMessage('Searching', inactiveBox);
+				displayMessage('<div class="element_finder_loading"></div>', inactiveBox);
 				var searchResults = getSearchResults();
 				buildElementTree(searchResults);
 				processTree();
 			}
 			
+			function setActivatedElements()
+			{
+				activatedElements = $.json.deserialize($("#elf_attachments_active_hidden", self).val());
+				
+				var ul = $('<ul class="tree-menu"></ul>');
+				
+				$.each(activatedElements.elements, function(i, activatedElement){
+					var li = $('<li><div><a href="#" id="' + activatedElement.id + '" class="' + activatedElement.class + '">' + activatedElement.title + '</a></div></li>');
+					ul.append(li);
+				});
+				
+				$(activeBox).html(ul);
+			}
+			
+			function disableActivatedElements()
+			{
+				$.each(activatedElements.elements, function(i, activatedElement){
+					var current_element = $('#' + activatedElement.id, inactiveBox);
+					current_element.addClass('disabled');
+					current_element.css("background-image", current_element.css("background-image").replace(".png", "_na.png"));
+				});
+			}
+			
+			function deactivateElement(e)
+			{
+				e.preventDefault();
+				var the_element = $('#' + $(this).attr('id'), inactiveBox);
+				the_element.removeClass('disabled');
+				the_element.css("background-image", the_element.css("background-image").replace("_na.png", ".png"));
+				$(this).parent().parent().remove();
+			}
+			
+			function activateElement(e)
+			{
+				e.preventDefault();
+				var elementHtml = $(this).parent().parent().html();
+				
+				var the_element = $('#' + $(this).attr('id'), inactiveBox);
+				the_element.addClass('disabled');
+				the_element.css("background-image", the_element.css("background-image").replace(".png", "_na.png"));
+				
+//				var the_element = $('#' + $(this).attr('id'), inactiveBox);
+//				the_element.removeClass('disabled');
+//				the_element.css("background-image", the_element.css("background-image").replace("_na.png", ".png"));
+//				$(this).parent().parent().remove();
+			}
+			
 			function init()
 			{
 				id = $(self).attr('id');
-				activatedElements = $("#elf_attachments_active_hidden", self);
 				inactiveBox = $('#elf_' + settings.name + '_inactive');
 				activeBox = $('#elf_' + settings.name + '_active');
 				
-				var searchResults = getSearchResults();
-				buildElementTree(searchResults);
+				setActivatedElements();
+				updateSearchResults();
+				disableActivatedElements();
+				
+				$("a", activeBox).live("click", deactivateElement);
+				$("a:not(.disabled)", inactiveBox).live("click", activateElement);
 				
 				$('#attachments_search_field').keypress( function() {
 						// Avoid searches being started after every character

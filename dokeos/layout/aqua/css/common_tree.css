@@ -78,6 +78,13 @@ ul.tree-menu li div a
 	background-image: url(../img/common/treemenu/tree-document.png);
 	
 	white-space: nowrap;
+	font-weight: bold;
+}
+
+ul.tree-menu li div a.disabled
+{
+	color: #9f9f9f;
+	cursor: default;
 }
 
 ul.tree-menu li div img

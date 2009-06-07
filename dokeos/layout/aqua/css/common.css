@@ -1543,7 +1543,7 @@ a.modalCloseImg
 	display: inline-block;
 }
 
-.loading_Small
+.loadingSmall
 {
 	background-image: url(../img/common/action_loading_small.gif);
 	background-repeat: no-repeat;
@@ -1799,113 +1799,130 @@ div.reporting_center
  * BuddyList Styles					         *
  *********************************************/
  
- div.buddylist
- {
+div.buddylist
+{
  	background-color: #F6F6F6;
  	-moz-border-radius: 10px;
  	-webkit-border-radius: 10px;
  	width: 300px;
  	padding: 10px;
- }
+}
  
- div.buddylist div.buddylist_header
- {
+div.buddylist div.buddylist_header
+{
  	height: 30px;
  	border-bottom: 1px dotted grey;
- }
+}
  
- div.buddylist div.buddylist_header span.title
- {
+div.buddylist div.buddylist_header span.title
+{
  	color: #000066;
 	font-size: 14px;
 	font-weight: bold;
 	position: relative;
 	top: -5px;
 	left: 5px;
- }
+}
  
- div.buddylist div.buddylist_content
- {
+div.buddylist div.buddylist_content
+{
  	padding: 10px;
- }
+}
  
- div.buddylist div.buddylist_footer
- {
+div.buddylist div.buddylist_footer
+{
  	height: 20px;
  	border-top: 1px dotted grey;
  	padding-top: 10px;
- }
+}
  
- div.buddylist div.buddylist_footer_actions
- {
+div.buddylist div.buddylist_footer_actions
+{
  	float: right;
  	padding-right: 8px;
- }
+}
  
- div.buddylist ul.category_list
- {
+div.buddylist ul.category_list
+{
  	margin: 0px;
  	padding: 0px;
- }
+}
  
- div.buddylist li.category_list_item
- {
+div.buddylist li.category_list_item
+{
  	list-style: none;
- }
+}
  
- div.buddylist li.category_list_item_static
- {
+div.buddylist li.category_list_item_static
+{
  	list-style: none;
- }
+}
  
- div.buddylist img.category_toggle, 
- div.buddylist img.item_toggle 
- {
+div.buddylist img.category_toggle, 
+div.buddylist img.item_toggle 
+{
  	float: left;
  	padding-right: 5px;
- }
+}
  
- div.buddylist span.title
- {
+div.buddylist span.title
+{
  	font-weight: bold;
  	position: relative;
- }
+}
  
- div.buddylist ul.buddy_list
- {
+div.buddylist ul.buddy_list
+{
  	margin: 0px;
  	margin-left: 20px;
  	padding: 0px;
  	padding-bottom: 6px;
  	padding-top: 5px;
- }
+}
  
- div.buddylist li.buddy_list_item
- {
+div.buddylist li.buddy_list_item
+{
  	list-style: none;
- }
+}
  
- div.buddylist li.buddy_list_item_static
- {
+div.buddylist li.buddy_list_item_static
+{
  	list-style: none;
- }
+}
  
- div.buddylist div.buddy_list_item_text
- {
+div.buddylist div.buddy_list_item_text
+{
  	float: left;
- }
+}
  
- div.buddylist div.buddy_list_item_actions
- {
+div.buddylist div.buddy_list_item_actions
+{
  	float: right;
- }
+}
  
- div.buddylist span.info
- {
+div.buddylist span.info
+{
  	font-weight: bold;
- }
+}
  
- li.buddyDrop
- {
+li.buddyDrop
+{
  	background-color: #4171B5;
- }
+}
+ 
+/************************************
+ * ADDITIONAL ELEMENT FINDER STYLES *
+ ************************************/
+
+.element_finder_loading
+{
+	background-image: url(../img/common/action_loading_huge.gif);
+	background-repeat: no-repeat;
+	background-position: center center;
+	width: 100%;
+	height: 64px;
+	display: inline-block;
+	position: relative;
+	top: 50%;
+	margin-top: -32px;
+}
