@@ -14,7 +14,7 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 			};
 			
 			var settings = $.extend(defaults, options);
-			var self = this, id, activatedElements, excludedElements,
+			var self = this, id, originalActivatedElements, activatedElements = new Array() , excludedElements,
 				inactiveBox, activeBox;
 			var timer;
 			
@@ -149,30 +149,49 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 				displayMessage('<div class="element_finder_loading"></div>', inactiveBox);
 				var searchResults = getSearchResults();
 				buildElementTree(searchResults);
+				disableActivatedElements();
 				processTree();
 			}
 			
-			function setActivatedElements()
-			{
-				activatedElements = $.json.deserialize($("#elf_attachments_active_hidden", self).val());
-				
+			function setOriginalActivatedElements()
+			{				
 				var ul = $('<ul class="tree-menu"></ul>');
 				
-				$.each(activatedElements.elements, function(i, activatedElement){
+				$.each(originalActivatedElements, function(i, activatedElement){
+					activatedElements.push(activatedElement.id);
 					var li = $('<li><div><a href="#" id="' + activatedElement.id + '" class="' + activatedElement.class + '">' + activatedElement.title + '</a></div></li>');
 					ul.append(li);
 				});
+				
+				$("#elf_attachments_active_hidden", self).val(serialize(activatedElements));
 				
 				$(activeBox).html(ul);
 			}
 			
 			function disableActivatedElements()
 			{
-				$.each(activatedElements.elements, function(i, activatedElement){
-					var current_element = $('#' + activatedElement.id, inactiveBox);
-					current_element.addClass('disabled');
-					current_element.css("background-image", current_element.css("background-image").replace(".png", "_na.png"));
+				$.each(activatedElements, function(i, activatedElement){
+					var current_element = $('#' + activatedElement, inactiveBox);
+					if(current_element.css("background-image"))
+					{
+						if (!current_element.hasClass('disabled'))
+						{
+							current_element.addClass('disabled');
+							current_element.css("background-image", current_element.css("background-image").replace(".png", "_na.png"));
+						}
+					}
 				});
+			}
+			
+			function removeActivatedElement(arrayElement)
+			{
+				for(var i=0; i < activatedElements.length;i++ )
+				{ 
+					if(activatedElements[i] == arrayElement)
+					{
+						activatedElements.splice(i,1);
+					}
+				} 
 			}
 			
 			function deactivateElement(e)
@@ -181,7 +200,10 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 				var the_element = $('#' + $(this).attr('id'), inactiveBox);
 				the_element.removeClass('disabled');
 				the_element.css("background-image", the_element.css("background-image").replace("_na.png", ".png"));
+				removeActivatedElement($(this).attr('id'));
 				$(this).parent().parent().remove();
+				
+				$("#elf_attachments_active_hidden", self).val(serialize(activatedElements));
 			}
 			
 			function activateElement(e)
@@ -189,28 +211,37 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 				e.preventDefault();
 				var elementHtml = $(this).parent().parent().html();
 				
-				var the_element = $('#' + $(this).attr('id'), inactiveBox);
-				the_element.addClass('disabled');
-				the_element.css("background-image", the_element.css("background-image").replace(".png", "_na.png"));
+				activatedElements.push($(this).attr('id'));
 				
-//				var the_element = $('#' + $(this).attr('id'), inactiveBox);
-//				the_element.removeClass('disabled');
-//				the_element.css("background-image", the_element.css("background-image").replace("_na.png", ".png"));
-//				$(this).parent().parent().remove();
-			}
+				var li = $('<li></li>');
+				li.append(elementHtml);
+				
+				$("ul:first", activeBox).append(li);
+				
+				$("#elf_attachments_active_hidden", self).val(serialize(activatedElements));
+				disableActivatedElements();
+			}			
 			
 			function init()
 			{
 				id = $(self).attr('id');
 				inactiveBox = $('#elf_' + settings.name + '_inactive');
-				activeBox = $('#elf_' + settings.name + '_active');
+				activeBox = $('#elf_' + settings.name + '_active');				originalActivatedElements = unserialize($("#elf_attachments_active_hidden", self).val());
 				
-				setActivatedElements();
+				setOriginalActivatedElements();
 				updateSearchResults();
-				disableActivatedElements();
 				
 				$("a", activeBox).live("click", deactivateElement);
-				$("a:not(.disabled)", inactiveBox).live("click", activateElement);
+				
+				if (settings.nodesSelectable)
+				{
+					$("a:not(.disabled)", inactiveBox).live("click", activateElement);
+				}
+				else
+				{
+					$("a:not(.disabled, .category)", inactiveBox).live("click", activateElement);
+					$("a.category", inactiveBox).css("cursor", "default");
+				}
 				
 				$('#attachments_search_field').keypress( function() {
 						// Avoid searches being started after every character

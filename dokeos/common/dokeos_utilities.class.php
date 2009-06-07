@@ -151,7 +151,8 @@ class DokeosUtilities
         $return = array ();
         foreach ($objects as $object)
         {
-            $return[] = self :: learning_object_for_element_finder($object);
+            $id = $object->get_id();
+            $return[$id] = self :: learning_object_for_element_finder($object);
         }
         return $return;
     }
@@ -168,7 +169,7 @@ class DokeosUtilities
         // TODO: i18n
         $date = date('r', $object->get_modification_date());
         $return = array ();
-        $return['id'] = $object->get_id();
+        $return['id'] = 'lo_' . $object->get_id();
         $return['class'] = 'type type_'.$type;
         $return['title'] = $object->get_title();
         $return['description'] = Translation :: get(LearningObject :: type_to_class($type).'TypeName').' ('.$date.')';
