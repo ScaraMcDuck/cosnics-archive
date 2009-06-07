@@ -306,7 +306,7 @@ EOT;
 			if ($this->form_type != self :: TYPE_REPLY)
 			{
 				$attached_objects = $object->get_attached_learning_objects();
-				$attachments = DokeosUtilities :: learning_objects_for_element_finder($attached_objects);
+				$attachments['elements'] = DokeosUtilities :: learning_objects_for_element_finder($attached_objects);
 			}
 			else
 			{
