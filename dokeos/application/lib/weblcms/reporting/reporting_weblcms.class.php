@@ -515,7 +515,7 @@ class ReportingWeblcms {
         require_once Path :: get_tracking_path().'lib/tracking_data_manager.class.php';
         require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
         $tdm = TrackingDataManager :: get_instance();
-        $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*tool_action=view_item*&pid='.$params['pid'].'*');
+        $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*display_action=view_item*&pid='.$params['pid'].'*');
         $items = $tdm->retrieve_tracker_items('visit', 'VisitTracker', $condition);
         if(empty($items))
         return Reporting::getSerieArray($arr);
@@ -541,7 +541,7 @@ class ReportingWeblcms {
         arsort($visits);
         $keys=array_keys($visits);
         $page = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi_refs[$keys[0]]);
-        $url = (Redirect ::get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => 'view_item', 'pid' => $params['pid'], 'cid' => $keys[0])));
+        $url = (Redirect ::get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => 'view', 'display_action' => 'view_item', 'pid' => $params['pid'], 'cid' => $keys[0])));
         $arr[Translation :: get('MostVisitedPage')][] = '<a href="'.$url.'">'. htmlspecialchars($page->get_title()) . '</a>';
         $arr[Translation :: get('NumberOfVisits')][] = $visits[$keys[0]];
 
@@ -571,7 +571,7 @@ class ReportingWeblcms {
         }
         arsort($edits);
         $keys=array_keys($edits);
-        $url = (Redirect ::get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => 'view_item', 'pid' => $wiki->get_id(), 'cid' => $page_ids[$keys[0]])));
+        $url = (Redirect ::get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => 'view', 'display_action' => 'view_item', 'pid' => $wiki->get_id(), 'cid' => $page_ids[$keys[0]])));
         $arr[Translation :: get('MostEditedPage')][] = '<a href="'.$url.'">' . htmlspecialchars($keys[0]) . '</a>';
         $arr[Translation :: get('NumberOfEdits')][] = $edits[$keys[0]];
         return Reporting::getSerieArray($arr);
