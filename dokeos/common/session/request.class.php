@@ -17,6 +17,11 @@ class Request
 			return null;
 		}
 	}
+
+    function set_get($variable,$value)
+    {
+        $_GET[$variable] = $value;
+    }
 	
 	function post($variable)
 	{
