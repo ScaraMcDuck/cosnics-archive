@@ -19,11 +19,12 @@ require_once Path :: get_library_path() . 'core_application.class.php';
 
 	const PARAM_ROLE_ID = 'role';
 
-	const ACTION_EDIT_RIGHTS = 'edit';
-	const ACTION_BROWSE_ROLES = 'browse_roles';
-	const ACTION_EDIT_ROLES = 'edit_role';
-	const ACTION_DELETE_ROLES = 'delete_role';
-	const ACTION_CREATE_ROLE = 'create_role';
+	const ACTION_EDIT_RIGHTS   = 'edit';
+	const ACTION_BROWSE_ROLES  = 'browse_roles';
+	const ACTION_EDIT_ROLES    = 'edit_role';
+	const ACTION_DELETE_ROLES  = 'delete_role';
+	const ACTION_CREATE_ROLE   = 'create_role';
+	const ACTION_REQUEST_RIGHT = 'request_rights';
 
 	private $quota_url;
 	private $publication_url;
@@ -69,6 +70,9 @@ require_once Path :: get_library_path() . 'core_application.class.php';
 				break;
 			case self :: ACTION_DELETE_ROLES :
 				$component = RightsManagerComponent :: factory('RoleDeleter', $this);
+				break;
+			case self :: ACTION_REQUEST_RIGHT :
+				$component = RightsManagerComponent :: factory('RightRequester', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_EDIT_RIGHTS);
