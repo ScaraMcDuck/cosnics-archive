@@ -88,8 +88,8 @@ class PersonalMessagePublicationForm extends FormValidator
 		$locale['Searching'] = Translation :: get('Searching');
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
-		$hidden = false;
-		$elem = $this->addElement('element_finder', 'recipients', Translation :: get('Recipients'), $url, $locale, $recipients);
+
+		$elem = $this->addElement('user_group_finder', 'recipients', Translation :: get('Recipients'), $url, $locale, $recipients);
 		$elem->excludeElements(array($this->form_user->get_id()));
 		$elem->setDefaultCollapsed(false);
 
@@ -102,7 +102,7 @@ class PersonalMessagePublicationForm extends FormValidator
 
 	private $failures = 0;
 	private $sent_users = array();
-	
+
 	/**
 	 * Creates a learning object publication using the values from the form.
 	 * @return LearningObjectPublication The new publication
@@ -110,38 +110,31 @@ class PersonalMessagePublicationForm extends FormValidator
     function create_learning_object_publication($extra_rec = array())
     {
 		$values = $this->exportValues();
-		$pmdm = PersonalMessengerDataManager :: get_instance();
-	
+		$failures = 0;
+
+		$recipients = $values['recipients'];
+
 		if($extra_rec && (count($extra_rec) > 0))
 		{
-			$recipients = array_merge($extra_rec, $values['recipients']);
+			$selected_users = array_merge($extra_rec, $recipients['user']);
 		}
 		else
 		{
-			$recipients = $values['recipients'];
+			$selected_users = $recipients['user'];
 		}
-		
-		foreach ($recipients as $recipient)
-		{ 
-			$split = explode("|", $recipient);
-			$type = $split[0];
-			$recip = $split[1];
 
-			if($type == 'user')
+		foreach ($recipients['group'] as $group)
+		{
+			$grus = GroupDataManager :: get_instance()->retrieve_group_rel_users(new EqualityCondition('group_id', $group));
+			while($gru = $grus->next_result())
 			{
-				$users[] = $recip;
+				$selected_users[] = $gru->get_user_id();
 			}
-			else
-			{
-				$grus = GroupDataManager :: get_instance()->retrieve_group_rel_users(new EqualityCondition('group_id', $recip));
-				while($gru = $grus->next_result())
-					$users[] = $gru->get_user_id();
-			}
-			
+
 		}
-		
-		foreach($users as $user)
-		{ 
+
+		foreach($selected_users as $user)
+		{
 			if ($user != $this->form_user->get_id())
 			{
 				if(!in_array($user, $this->sent_users))
@@ -151,11 +144,11 @@ class PersonalMessagePublicationForm extends FormValidator
 			}
 			else
 			{
-				$this->failures++;
+				$failures++;
 			}
 		}
 
-		if ($this->failures > 0)
+		if ($failures > 0)
 		{
 			return false;
 		}
@@ -164,7 +157,7 @@ class PersonalMessagePublicationForm extends FormValidator
 			return true;
 		}
     }
-    
+
     private function send_to_recipient($recip)
     {
     	$sender_pub = new PersonalMessagePublication();
@@ -197,7 +190,7 @@ class PersonalMessagePublicationForm extends FormValidator
 		{
 			$this->failures++;
 		}
-		
+
     }
 }
 ?>

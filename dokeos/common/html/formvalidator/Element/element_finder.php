@@ -82,7 +82,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$this->_elements = array ();
 		$this->_elements[] = new HTML_QuickForm_hidden($this->getName().'_active_hidden', null, array ('id' => $active_hidden_id));
 		// TODO: Figure out why this doesn't happen automatically.
-		$this->_elements[0]->setValue($_REQUEST[$this->_elements[0]->getName()]);
+		//$this->_elements[0]->setValue($_REQUEST[$this->_elements[0]->getName()]);
 		//$find = 'ElementFinder.find(this.value, \''.$this->search_url.'\', document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));';
 		//$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array ('onkeyup' => $find, 'onchange' => $find, 'onkeypress' => 'var evt = (window.event || event); if (evt && evt.keyCode == 13) return false;', 'class' => 'element_query', 'id' => $this->getName().'_search_field'));
 		$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array ('class' => 'element_query', 'id' => $this->getName().'_search_field'));
@@ -247,7 +247,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 				$exclude_ids[] = "'$exclude_id'";
 			}
 		}
-		$html[] = 'var ' . $this->getName() . '_excluded = new Array('.implode(',', $exclude_ids).')';
+		$html[] = 'var ' . $this->getName() . '_excluded = new Array('.implode(',', $exclude_ids).');';
 
 		$html[] = '$("#' . $id . '").elementfinder({ name: "'. $this->getName() .'", search: "'. $this->search_url .'" });';
 		$html[] = '</script>';

@@ -352,7 +352,7 @@ class DokeosUtilities
     {
         $html = array();
 
-        $html[]   = '<script language="JavaScript" type="">';
+        $html[]   = '<script language="JavaScript" type="text/javascript">';
         $html[]  .= 'function showElement(item)';
         $html[]  .= '{';
         $html[]  .= '	if (document.getElementById(item).style.display == \'block\')';

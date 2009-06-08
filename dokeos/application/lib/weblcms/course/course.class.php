@@ -4,8 +4,9 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
-require_once dirname(__FILE__).'/../weblcms_manager/weblcms_manager.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/weblcms_data_manager.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/weblcms_manager/weblcms_manager.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/course_group/course_group.class.php';
 
 /**
  *	This class represents a course in the weblcms.
@@ -64,10 +65,10 @@ class Course {
 	const LAYOUT_3_COLUMNS = 2;
 	const LAYOUT_2_COLUMNS_GROUP_INACTIVE = 3;
 	const LAYOUT_3_COLUMNS_GROUP_INACTIVE = 4;
-	
+
 	const TOOL_SHORTCUT_OFF = 1;
 	const TOOL_SHORTCUT_ON = 2;
-	
+
 	const MENU_OFF = 1;
 	const MENU_LEFT_ICON = 2;
 	const MENU_LEFT_ICON_TEXT = 3;
@@ -75,7 +76,7 @@ class Course {
 	const MENU_RIGHT_ICON = 5;
 	const MENU_RIGHT_ICON_TEXT = 6;
 	const MENU_RIGHT_TEXT = 7;
-	
+
 	const BREADCRUMB_TITLE = 1;
 	const BREADCRUMB_CODE = 2;
 	const BREADCRUMB_COURSE_HOME = 3;
@@ -91,13 +92,13 @@ class Course {
 					 self :: LAYOUT_2_COLUMNS_GROUP_INACTIVE => Translation :: get('TwoColumnsGroupInactive'),
 					 self :: LAYOUT_3_COLUMNS_GROUP_INACTIVE => Translation :: get('ThreeColumnsGroupInactive'));
 	}
-	
+
 	static function get_tool_shortcut_options()
 	{
 		return array(self ::TOOL_SHORTCUT_OFF => Translation :: get('Off'),
 					 self ::TOOL_SHORTCUT_ON => Translation :: get('On'));
 	}
-	
+
 	static function get_menu_options()
 	{
 		return array(self ::MENU_OFF => Translation :: get('Off'),
@@ -108,7 +109,7 @@ class Course {
 					 self ::MENU_RIGHT_ICON_TEXT => Translation :: get('RightIconText'),
 					 self ::MENU_RIGHT_TEXT => Translation :: get('RightText'));
 	}
-	
+
 	static function get_breadcrumb_options()
 	{
 		return array(self ::BREADCRUMB_TITLE => Translation :: get('Title'),
@@ -156,7 +157,7 @@ class Course {
 	{
 		$this->defaultProperties[$name] = $value;
 	}
-	
+
     function set_default_properties($defaultProperties)
 	{
 		$this->defaultProperties = $defaultProperties;
@@ -168,11 +169,11 @@ class Course {
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_LAYOUT, self :: PROPERTY_VISUAL, 
+		return array (self :: PROPERTY_ID, self :: PROPERTY_LAYOUT, self :: PROPERTY_VISUAL,
 				      self :: PROPERTY_CATEGORY, self :: PROPERTY_NAME, self :: PROPERTY_SHOW_SCORE,
-				      self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE, 
-				      self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME, 
-				      self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED, 
+				      self :: PROPERTY_TITULAR, self :: PROPERTY_LANGUAGE,
+				      self :: PROPERTY_EXTLINK_URL, self :: PROPERTY_EXTLINK_NAME,
+				      self :: PROPERTY_VISIBILITY, self :: PROPERTY_SUBSCRIBE_ALLOWED,
 				      self :: PROPERTY_UNSUBSCRIBE_ALLOWED, self :: PROPERTY_THEME,
 				      self :: PROPERTY_TOOL_SHORTCUT, self :: PROPERTY_MENU, self :: PROPERTY_BREADCRUMB,
 				      self :: PROPERTY_ALLOW_FEEDBACK, self :: PROPERTY_DISK_QUOTA);
@@ -222,14 +223,14 @@ class Course {
     {
     	return $this->get_default_property(self :: PROPERTY_TITULAR);
     }
-    
+
     /**
      * Returns the titular as a string
      */
     function get_titular_string()
     {
     	$titular_id = $this->get_titular();
-    	
+
     	if (!is_null($titular_id))
     	{
 			$udm = UserDataManager :: get_instance();
@@ -241,7 +242,7 @@ class Course {
     		return null;
     	}
     }
-    
+
     /**
      * Returns the language of this course object
      * @return String The Language
@@ -295,7 +296,7 @@ class Course {
     {
     	return $this->get_default_property(self :: PROPERTY_UNSUBSCRIBE_ALLOWED);
     }
-    
+
     /**
      * Returns the course theme
      * @return string The theme
@@ -404,52 +405,52 @@ class Course {
 	{
 		$this->set_default_property(self :: PROPERTY_UNSUBSCRIBE_ALLOWED, $subscribe);
 	}
-	
+
 	function set_layout($layout)
 	{
 		$this->set_default_property(self :: PROPERTY_LAYOUT, $layout);
 	}
-	
+
 	function get_layout()
 	{
 		return $this->get_default_property(self :: PROPERTY_LAYOUT);
 	}
-	
+
 	function set_menu($menu)
 	{
 		$this->set_default_property(self :: PROPERTY_MENU, $menu);
 	}
-	
+
 	function get_menu()
 	{
 		return $this->get_default_property(self :: PROPERTY_MENU);
 	}
-	
+
 	function set_tool_shortcut($tool_shortcut)
 	{
 		$this->set_default_property(self :: PROPERTY_TOOL_SHORTCUT, $tool_shortcut);
 	}
-	
+
 	function get_tool_shortcut()
 	{
 		return $this->get_default_property(self :: PROPERTY_TOOL_SHORTCUT);
 	}
-	
+
 	function set_breadcrumb($breadcrumb)
 	{
 		$this->set_default_property(self :: PROPERTY_BREADCRUMB, $breadcrumb);
 	}
-	
+
 	function get_breadcrumb()
 	{
 		return $this->get_default_property(self :: PROPERTY_BREADCRUMB);
 	}
-	
+
 	function set_allow_feedback($allow_feedback)
 	{
 		$this->set_default_property(self :: PROPERTY_ALLOW_FEEDBACK, $allow_feedback);
 	}
-	
+
 	function get_allow_feedback()
 	{
 		return $this->get_default_property(self :: PROPERTY_ALLOW_FEEDBACK);
@@ -464,7 +465,7 @@ class Course {
 	{
 		return $this->set_default_property(self :: PROPERTY_SHOW_SCORE);
 	}
-	
+
 	/**
 	 * Sets the theme of this course object
 	 * @param String $theme The theme of this course object
@@ -491,41 +492,41 @@ class Course {
 	function create()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
-		
+
 		$id = $wdm->get_next_course_id();
 		$this->set_id($id);
-		
+
 		if (!$wdm->create_course($this))
 		{
 			return false;
 		}
-		
+
 		require_once(dirname(__FILE__) . '/../category_manager/learning_object_publication_category.class.php');
 		$dropbox = new LearningObjectPublicationCategory();
 		$dropbox->create_dropbox($this->get_id());
-		
+
 		$location = new Location();
 		$location->set_location($this->get_name());
 		$location->set_application(WeblcmsManager :: APPLICATION_NAME);
 		$location->set_type($this);
 		$location->set_identifier($this->get_id());
-		
+
         $parent = WeblcmsRights :: get_location_id_by_identifier('course_category', 1);
 		//echo 'parent : ' . $parent;
-        
+
 		if($parent)
 			$location->set_parent($parent);
 		else
 			$location->set_parent(0);
-			
+
 		if (!$location->create())
 		{
 			return false;
 		}
-	
+
 		return true;
 	}
-	
+
 	function create_all()
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
@@ -562,7 +563,7 @@ class Course {
 		$wdm = WeblcmsDataManager :: get_instance();
 		return $wdm->is_course_admin($this, $user->get_id());
 	}
-	
+
 	/**
 	 * Determines if this course has a theme
 	 * @return boolean
@@ -571,7 +572,7 @@ class Course {
 	{
 		return (!is_null($this->get_theme()) ? true : false);
 	}
-	
+
 	/**
 	 * Gets the subscribed users of this course
 	 * @return array An array of CourseUserRelation objects
@@ -585,12 +586,14 @@ class Course {
 	 * Gets the course_groups defined in this course
 	 * @return array An array of CourseGroup objects
 	 */
-	function get_course_groups()
+	function get_course_groups($as_array = true)
 	{
 		$wdm = WeblcmsDataManager::get_instance();
-		return $wdm->retrieve_course_groups($this->get_id())->as_array();
+		$condition = new EqualityCondition(CourseGroup :: PROPERTY_COURSE_CODE, $this->get_id());
+		$result = $wdm->retrieve_course_groups($condition, null, null, array(CourseGroup :: PROPERTY_NAME));
+		return ($as_array ? $result->as_array() : $result);
 	}
-	
+
 	function is_layout_configurable()
 	{
 		$theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
@@ -598,7 +601,7 @@ class Course {
 		$shortcut = PlatformSetting :: get('allow_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME);
 		$menu = PlatformSetting :: get('allow_course_menu_selection', WeblcmsManager :: APPLICATION_NAME);
 		$breadcrumbs = PlatformSetting :: get('allow_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME);
-		
+
 		if (!$theme && !$layout && !$shortcut && !$menu && !$breadcrumbs)
 		{
 			return false;
@@ -613,6 +616,6 @@ class Course {
 	{
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
-	
+
 }
 ?>

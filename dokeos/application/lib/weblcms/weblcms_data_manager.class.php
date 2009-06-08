@@ -190,7 +190,7 @@ abstract class WeblcmsDataManager
      * @return int
      */
     abstract function count_distinct_course_user_relations();
-    
+
 	/**
 	 * Count the number of course user relations
 	 * @param Condition $condition
@@ -210,7 +210,7 @@ abstract class WeblcmsDataManager
 	 * @return int The ID.
 	 */
 	abstract function get_next_learning_object_publication_id();
-	
+
 	abstract function get_next_course_id();
 
 	/**
@@ -343,13 +343,13 @@ abstract class WeblcmsDataManager
 	 * @return boolean True if creation succceeded, false otherwise.
 	 */
 	abstract function delete_course_user_category($courseusercategory);
-	
+
 	/**
 	 * Deletes a course user object from persistent storage.
 	 * @param CourseUserRelation $courseuser The course user to make persistent.
 	 * @return boolean True if creation succceeded, false otherwise.
 	 */
-	
+
 	abstract function delete_course_user($courseuser);
 
 	/**
@@ -471,7 +471,7 @@ abstract class WeblcmsDataManager
 	 * @return array The list of available course modules
 	 */
 	abstract function get_course_modules($course_code);
-	
+
 	abstract function get_course_sections($course_code);
 
     /**
@@ -688,7 +688,7 @@ abstract class WeblcmsDataManager
 	 * Retrieves the course_groups defined in a given course
 	 * @param string $course_code
 	 */
-	abstract function retrieve_course_groups($course_code,$category = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+	abstract function retrieve_course_groups($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	/**
 	 * Retrieves the course_groups from a given course in which the given user is
 	 * subscribed
@@ -729,7 +729,7 @@ abstract class WeblcmsDataManager
 	 * Is user member of the course_group
 	 */
 	abstract function is_course_group_member($course_group,$user);
-	
+
 	abstract function get_next_category_id();
 	abstract function select_next_display_order($parent_category_id);
 	abstract function delete_category($category);
@@ -737,7 +737,7 @@ abstract class WeblcmsDataManager
 	abstract function create_category($category);
 	abstract function count_categories($conditions = null);
 	abstract function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	abstract function get_next_learning_object_publication_category_id();
 	abstract function select_next_learning_object_publication_category_display_order($parent_learning_object_publication_category_id);
 	abstract function delete_learning_object_publication_category($learning_object_publication_category);
@@ -745,7 +745,7 @@ abstract class WeblcmsDataManager
 	abstract function create_learning_object_publication_category($learning_object_publication_category);
 	abstract function count_learning_object_publication_categories($conditions = null);
 	abstract function retrieve_learning_object_publication_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 	abstract function get_next_course_section_id();
 	abstract function select_next_course_section_display_order($course_section);
 	abstract function delete_course_section($course_section);
@@ -753,6 +753,6 @@ abstract class WeblcmsDataManager
 	abstract function create_course_section($course_section);
 	abstract function count_course_sections($conditions = null);
 	abstract function retrieve_course_sections($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
+
 }
 ?>

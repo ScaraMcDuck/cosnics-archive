@@ -156,7 +156,6 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 			function setOriginalActivatedElements()
 			{				
 				var ul = $('<ul class="tree-menu"></ul>');
-				
 				$.each(originalActivatedElements, function(i, activatedElement){
 					activatedElements.push(activatedElement.id);
 					var li = $('<li><div><a href="#" id="' + activatedElement.id + '" class="' + activatedElement.class + '">' + activatedElement.title + '</a></div></li>');
