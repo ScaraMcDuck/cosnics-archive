@@ -72,7 +72,7 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 			
 			function getSearchResults()
 			{
-				var query = $('#attachments_search_field').val();
+				var query = $('#' + settings.name + '_search_field').val();
 				
 				var response = $.ajax({
 					type: "GET",
@@ -163,7 +163,7 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 					ul.append(li);
 				});
 				
-				$("#elf_attachments_active_hidden", self).val(serialize(activatedElements));
+				$("#elf_" + settings.name + "_active_hidden", self).val(serialize(activatedElements));
 				
 				$(activeBox).html(ul);
 			}
@@ -203,7 +203,7 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 				removeActivatedElement($(this).attr('id'));
 				$(this).parent().parent().remove();
 				
-				$("#elf_attachments_active_hidden", self).val(serialize(activatedElements));
+				$("#elf_" + settings.name + "_active_hidden", self).val(serialize(activatedElements));
 			}
 			
 			function activateElement(e)
@@ -218,15 +218,21 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 				
 				$("ul:first", activeBox).append(li);
 				
-				$("#elf_attachments_active_hidden", self).val(serialize(activatedElements));
+				$("#elf_" + settings.name + "_active_hidden", self).val(serialize(activatedElements));
 				disableActivatedElements();
-			}			
+			}
+			
+			function showElementFinder()
+			{
+				$(this).hide();
+				$('#tbl_' + settings.name).show();
+			}
 			
 			function init()
 			{
 				id = $(self).attr('id');
 				inactiveBox = $('#elf_' + settings.name + '_inactive');
-				activeBox = $('#elf_' + settings.name + '_active');				originalActivatedElements = unserialize($("#elf_attachments_active_hidden", self).val());
+				activeBox = $('#elf_' + settings.name + '_active');				originalActivatedElements = unserialize($("#elf_" + settings.name + "_active_hidden", self).val());
 				
 				setOriginalActivatedElements();
 				updateSearchResults();
@@ -243,7 +249,9 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 					$("a.category", inactiveBox).css("cursor", "default");
 				}
 				
-				$('#attachments_search_field').keypress( function() {
+				$('#' + settings.name + '_expand_button').click(showElementFinder);
+				
+				$('#' + settings.name + '_search_field').keypress( function() {
 						// Avoid searches being started after every character
 						clearTimeout(timer);
 						timer = setTimeout(updateSearchResults, 750);
