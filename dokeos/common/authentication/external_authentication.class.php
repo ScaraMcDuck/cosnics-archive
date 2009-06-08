@@ -2,6 +2,7 @@
 require_once dirname(__FILE__) . '/../global.inc.php';
 require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
 require_once Path :: get_user_path() . 'lib/user.class.php';
+require_once Path :: get_rights_path() . 'lib/rights_manager/component/right_requester.class.php';
 
 /**
  * This class gives basic functionalities for authentication with external authentication systems.
@@ -19,6 +20,7 @@ abstract class ExternalAuthentication extends Authentication
     const FIELDS_TO_UPDATE_AT_LOGIN                = 'FIELDS_TO_UPDATE_AT_LOGIN';
     const USER_ATTRIBUTES_MAPPING                  = 'USER_ATTRIBUTES_MAPPING';
     const USER_ROLE_ATTRIBUTE_MAPPING              = 'USER_ROLE_ATTRIBUTE_MAPPING';
+    const LET_USER_ASK_RIGHT_WHEN_UNCLEAR          = 'LET_USER_ASK_RIGHT_WHEN_UNCLEAR';
     
     const PARAM_MAPPING_EXTERNAL_UID               = 'external_uid';
     const PARAM_MAPPING_FIRSTNAME                  = 'firstname';
@@ -272,7 +274,7 @@ abstract class ExternalAuthentication extends Authentication
     /**
      * Checks if some user fields must be updated when a user logs in again
      *
-     * @return unknown
+     * @return bool
      */
     protected function has_fields_to_update_at_login()
     {
@@ -346,6 +348,42 @@ abstract class ExternalAuthentication extends Authentication
         return $this->get_config_parameter(self :: USER_ROLE_ATTRIBUTE_MAPPING);
     }
     
+	/**
+     * Enable / disable the possibility for the user to ask for rights when its rights status is unclear 
+     *
+     * @param bool $enabled
+     */
+    protected function set_display_rights_form_when_unclear_status($enabled)
+    {
+        if(is_bool($enabled))
+        {
+             $this->set_config_parameter(self :: LET_USER_ASK_RIGHT_WHEN_UNCLEAR, $enabled);
+        }
+        else
+        {
+            $this->set_config_parameter(self :: LET_USER_ASK_RIGHT_WHEN_UNCLEAR, false);
+        }
+    }
+    
+    /**
+     * Check if the possibility for the user to ask for rights when its rights status is unclear is enabled
+     *
+     * @return bool
+     */
+    protected function get_display_rights_form_when_unclear_status()
+    {
+        $enabled = $this->get_config_parameter(self :: LET_USER_ASK_RIGHT_WHEN_UNCLEAR);
+        
+        if(isset($enabled) && is_bool($enabled))
+        {
+            return $enabled;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
     /**
      * Set a configuration value for the given parameter name
      *
@@ -402,16 +440,45 @@ abstract class ExternalAuthentication extends Authentication
      * Create a session for the user and redirect to the Dokeos homepage
      *
      * @param User $user
+     * @param bool $redirect_to_homepage Indicates if the user must be redirected to the homepage
      */
-    protected function login($user)
+    protected function login($user, $redirect_to_homepage = true)
     {
         if(is_a($user, self :: USER_OBJECT_CLASSNAME))
         {
             Session :: register('_uid', $user->get_id());
             
-            header('Location: ' . Configuration :: get_instance()->get_parameter('general', 'root_web'));
-            exit;
+            if($redirect_to_homepage)
+            {
+                $this->redirect_to_home_page();
+            }
         }
+    }
+    
+    /*
+     * Redirects to the Dokeos homepage 
+     */
+    protected function redirect_to_home_page()
+    {
+        header('Location: ' . Configuration :: get_instance()->get_parameter('general', 'root_web'));
+        exit;
+    }
+    
+	/**
+     * Redirects to the right request page 
+     * 
+     * @param bool $as_new_user Indicates wether the text on the request form page must be formatted for newly created user
+     */
+    protected function redirect_to_rights_request_form($as_new_user = true)
+    {
+        $link_params = array('go' => 'request_rights');
+        if($as_new_user)
+        {
+            $link_params[RightsManagerRoleRequesterComponent :: PARAM_IS_NEW_USER] = '1';
+        }
+        
+        header('Location: ' . Configuration :: get_instance()->get_parameter('general', 'root_web') . '/' . Redirect :: get_link('rights', $link_params, null, false, Redirect :: TYPE_CORE));
+        exit;
     }
     
 	/**

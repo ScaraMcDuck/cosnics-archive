@@ -44,6 +44,7 @@ class ShibbolethAuthentication extends ExternalAuthentication
     const RIGHTS_SEPARATOR            = 'RIGHTS_SEPARATOR';
     
     private $config_xml_document      = null;
+    private $user_status_is_unclear   = false;
     
     /*
      * Constructor
@@ -94,6 +95,7 @@ class ShibbolethAuthentication extends ExternalAuthentication
         /*
          * Check if user already exists
          */
+        $is_new_user = false;
         $user = $this->get_existing_user();
         
         if(isset($user) && is_a($user, self :: USER_OBJECT_CLASSNAME))
@@ -129,6 +131,8 @@ class ShibbolethAuthentication extends ExternalAuthentication
         {
             //user does not exist yet
             
+            $is_new_user = true;
+            
             if($this->is_automatic_registration_enabled())
             {
                 $user = $this->get_new_user();
@@ -158,7 +162,15 @@ class ShibbolethAuthentication extends ExternalAuthentication
          */
         if(isset($user) && is_a($user, self :: USER_OBJECT_CLASSNAME))
         {
-            $this->login($user);
+            if($this->user_status_is_unclear && $this->get_display_rights_form_when_unclear_status())
+            {
+                $this->login($user, false);
+                $this->redirect_to_rights_request_form($is_new_user);
+            }
+            else
+            {
+                $this->login($user, true);
+            }
         }
         else
         {
@@ -217,6 +229,16 @@ class ShibbolethAuthentication extends ExternalAuthentication
         {
             $separator = $this->config_xml_document->xpath('/authentication/role_mapping/@name_separator');
             $this->set_config_parameter(self :: RIGHTS_SEPARATOR, $separator[0]);
+            
+            $display_form = $this->config_xml_document->xpath('/authentication/role_mapping/@display_request_form_when_unclear');
+            if(isset($display_form[0]) && $display_form[0] == 'true')
+            {
+                $this->set_display_rights_form_when_unclear_status(true);
+            }
+            else
+            {
+                $this->set_display_rights_form_when_unclear_status(false);
+            }
             
             $role_mapping = array();
             
@@ -411,7 +433,7 @@ class ShibbolethAuthentication extends ExternalAuthentication
                 $affiliation  = $this->get_shibboleth_value($user_mapping[self :: PARAM_MAPPING_AFFILIATION]['name']);
                 
                 /*
-                 * Default value if not value is found
+                 * Default value if no value is found
                  */
                 if(!isset($affiliation))
                 {
@@ -424,6 +446,27 @@ class ShibbolethAuthentication extends ExternalAuthentication
                 $affiliation_values = explode($this->get_config_parameter(self :: RIGHTS_SEPARATOR), $affiliation);  
                 
                 $role_mapping = $this->get_user_role_attribute_mapping();
+                
+                /*
+                 * If the user has an affiliation value that the config file doesn't know,
+                 * his status is considered as unclear
+                 */
+                $configured_affiliation_values = array();
+                
+                foreach ($role_mapping as $mapping_for_precedence) 
+                {
+                    foreach ($mapping_for_precedence as $attribute_value => $rights) 
+                    {
+                        $configured_affiliation_values[] = $attribute_value;
+                    }
+                }
+                foreach ($affiliation_values as $affiliation_value) 
+                {
+                	if(!in_array($affiliation_value, $configured_affiliation_values))
+                	{
+                	    $this->user_status_is_unclear = true;
+                	}
+                }
                 
                 /*
                  * Loops on each level of precedence and checks if a corresponding
