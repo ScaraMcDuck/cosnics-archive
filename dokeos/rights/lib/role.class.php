@@ -193,7 +193,7 @@ class Role
 		return $rdm->create_role($this);
 	}
 	
-	function get_users()
+	function get_users($user_condition)
 	{
 		$udm = UserDataManager :: get_instance();
 		$condition = new EqualityCondition(UserRole :: PROPERTY_ROLE_ID, $this->get_id());
@@ -208,7 +208,12 @@ class Role
 		
 		if (count($user_ids) > 0)
 		{
-			$condition = new InCondition(User :: PROPERTY_USER_ID, $user_ids);
+			$conditions = array();
+			$conditions[] = new InCondition(User :: PROPERTY_USER_ID, $user_ids);
+			if(isset($user_condition)){
+				$conditions[] = $user_condition; 
+			}
+			$condition = new AndCondition($conditions);
 			return $udm->retrieve_users($condition);
 		}
 		else
