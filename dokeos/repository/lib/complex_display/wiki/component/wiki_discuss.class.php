@@ -54,9 +54,9 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
         $this->links = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links();
 
         $trail = new BreadcrumbTrail();
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $this->wiki_id)), DokeosUtilities::truncate_string(WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title(),20)));
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, 'display_action' => 'discuss', Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), Translation :: get('Discuss')));
+        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $this->wiki_id)), DokeosUtilities::truncate_string(RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_title(),20)));
+        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
+        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'discuss', Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), Translation :: get('Discuss')));
         $trail->add_help('courses wiki tool');
         
         $this->get_parent()->get_parent()->display_header($trail, true);
@@ -157,7 +157,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
         //PAGE ACTIONS
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => 'view', WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE
+				Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE
                         , 'pid' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
@@ -170,32 +170,32 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
 
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(WikiTool :: PARAM_ACTION => Tool:: ACTION_DELETE_CLOI, 'pid' => $this->wiki_id,'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
+				Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool:: ACTION_DELETE_CLOI, 'pid' => $this->wiki_id,'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
 			)
 		);
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(WikiTool :: PARAM_ACTION => Tool :: ACTION_FEEDBACK_CLOI, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_FEEDBACK_CLOI, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Discuss'), Theme :: get_common_image_path().'action_users.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_DISCUSS, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Discuss'), Theme :: get_common_image_path().'action_users.png', $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
 
          $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, 'display_action' => 'view', 'pid' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, 'pid' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
         //INFORMATION
         $action_bar->add_tool_action(
 			new ToolbarItem(
-				Translation :: get('History'), Theme :: get_common_image_path().'action_versions.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_HISTORY, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('History'), Theme :: get_common_image_path().'action_versions.png', $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_HISTORY, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
@@ -208,7 +208,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
 
         $action_bar->add_tool_action(
 			new ToolbarItem(
-				Translation :: get('Statistics'), Theme :: get_common_image_path().'action_reporting.png', $this->get_url(array(WikiTool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_PAGE_STATISTICS, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Statistics'), Theme :: get_common_image_path().'action_reporting.png', $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_PAGE_STATISTICS, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
@@ -234,14 +234,14 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
                 {
                     $action_bar->add_navigation_link(
                     new ToolbarItem(
-                        $p->get_title_from_wiki_tag($this->links[$i],true), null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), 'title' =>$p->get_title_from_wiki_tag($this->links[$i],false))), ToolbarItem :: DISPLAY_ICON_AND_LABEL,null,'does_not_exist'
+                        $p->get_title_from_wiki_tag($this->links[$i],true), null, $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), 'title' =>$p->get_title_from_wiki_tag($this->links[$i],false))), ToolbarItem :: DISPLAY_ICON_AND_LABEL,null,'does_not_exist'
                     ));
                 }
                 else
                 {
                     $action_bar->add_navigation_link(
                     new ToolbarItem(
-                        $p->get_title_from_wiki_tag($this->links[$i],true), null, $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), Tool :: PARAM_COMPLEX_ID =>$p->get_cid_from_url($link) )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                        $p->get_title_from_wiki_tag($this->links[$i],true), null, $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), Tool :: PARAM_COMPLEX_ID =>$p->get_cid_from_url($link) )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
                     ));
                 }
                 $i++;

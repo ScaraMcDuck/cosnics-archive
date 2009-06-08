@@ -64,8 +64,7 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
         //PAGE ACTIONS
         $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(Tool :: PARAM_ACTION => 'view', WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE
-                        , 'pid' => $this->current_wiki->get_id())), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(ComplexDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, 'pid' => $this->current_wiki->get_id())), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
 
@@ -90,7 +89,7 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
         //INFORMATION
         $action_bar->add_tool_action(
 			new ToolbarItem(
-				Translation :: get('WikiStatistics'), Theme :: get_common_image_path().'action_reporting.png', $this->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_STATISTICS, 'pid' => $this->current_wiki->get_id())), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('WikiStatistics'), Theme :: get_common_image_path().'action_reporting.png', $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_STATISTICS, 'pid' => $this->current_wiki->get_id())), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
 		);
         $action_bar->add_tool_action($this->get_parent()->get_parent()->get_access_details_toolbar_item($this));

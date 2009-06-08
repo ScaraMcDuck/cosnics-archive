@@ -42,18 +42,14 @@ class ToolComplexDeleterComponent extends ToolComponent
                 }
             }
 
-            $wiki = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'));
-            if(!empty($wiki))
+            switch(Request :: get('tool'))
             {
-                $wiki_homepage_cloi = WikiTool ::get_wiki_homepage($wiki->get_learning_object()->get_id());
-                if($wiki_homepage_cloi != null)
-                $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view', WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'cid' => $wiki_homepage_cloi->get_id(), 'pid' => Request :: get('pid')));
-                else
-                $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view', WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, 'pid' => Request :: get ('pid')));
-            }
-            else
-            {
-                $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view', 'pid' => Request :: get ('pid')));
+                case 'wiki':
+                $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view', WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, 'pid' => Request :: get('pid')));
+                break;
+
+                case 'learning_path':
+                $this->redirect($message, false, array(Tool :: PARAM_ACTION => 'view_clo', 'pid' => Request :: get('pid')));
             }
 		}
 	}
