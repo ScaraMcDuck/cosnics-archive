@@ -326,3 +326,13 @@ ul.tree-menu li div a.type_wiki
 {
 	background-image: url(../img/common/treemenu_types/wiki.png);
 }
+
+ul.tree-menu li div a.type_user
+{
+	background-image: url(../img/common/treemenu/user.png);
+}
+
+ul.tree-menu li div a.type_group
+{
+	background-image: url(../img/common/treemenu/group.png);
+}

@@ -204,6 +204,7 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 				$(this).parent().parent().remove();
 				
 				$("#elf_" + settings.name + "_active_hidden", self).val(serialize(activatedElements));
+				processTree();
 			}
 			
 			function activateElement(e)
@@ -220,6 +221,7 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 				
 				$("#elf_" + settings.name + "_active_hidden", self).val(serialize(activatedElements));
 				disableActivatedElements();
+				processTree();
 			}
 			
 			function showElementFinder()

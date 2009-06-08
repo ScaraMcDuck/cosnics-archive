@@ -321,10 +321,10 @@ EOT;
 
 			$url = $this->get_path(WEB_PATH).'repository/xml_feed.php';
 			$locale = array ();
-//			$locale['Display'] = Translation :: get('AddAttachments');
-//			$locale['Searching'] = Translation :: get('Searching');
-//			$locale['NoResults'] = Translation :: get('NoResults');
-//			$locale['Error'] = Translation :: get('Error');
+			$locale['Display'] = Translation :: get('AddAttachments');
+			$locale['Searching'] = Translation :: get('Searching');
+			$locale['NoResults'] = Translation :: get('NoResults');
+			$locale['Error'] = Translation :: get('Error');
 			$hidden = true;
 
 			$this->addElement('category', Translation :: get('Attachments'), 'learning_object_attachments');
