@@ -7,7 +7,7 @@ require_once Path :: get_library_path().'html/formvalidator/Element/element_find
  */
 class HTML_QuickForm_user_group_finder extends HTML_QuickForm_element_finder
 {
-	
+
 	function HTML_QuickForm_user_group_finder($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default_values = array ())
 	{
 		parent :: __construct($elementName, $elementLabel, $search_url, $locale, $default_values);
@@ -19,17 +19,17 @@ class HTML_QuickForm_user_group_finder extends HTML_QuickForm_element_finder
 		$results = array();
 		$results['user'] = array();
 		$results['group'] = array();
-		
+
 		$values = array_keys($this->get_active_elements());
-		
+
 		// Process the array values so we end up with a 2-dimensional array (users and groups)
-		
+
 		foreach($values as $value)
 		{
-			$value = explode('|', $value);
+			$value = explode('_', $value);
 			$results[$value[0]][] = $value[1];
 		}
-		
+
 		return $results;
 	}
 }
