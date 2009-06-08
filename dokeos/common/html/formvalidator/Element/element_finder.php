@@ -110,12 +110,12 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 
 	function setValue($value, $element_id = 0)
 	{
-		if (empty($value))
-		{
-			$serialized = '';
-		}
-		else
-		{
+//		if (empty($value))
+//		{
+//			$serialized = '';
+//		}
+//		else
+//		{
 //			$parts = array();
 //			foreach ($value as $id => $array)
 //			{
@@ -125,7 +125,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 //			}
 //			$serialized = implode("\t", $parts);
 			$serialized = serialize($value);
-		}
+//		}
 		$this->_elements[$element_id]->setValue($serialized);
 	}
 
@@ -238,6 +238,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.elementfinder.js');
 		$html[] = '<script type="text/javascript">';
 
+		$exclude_ids = array();
 		if (count($this->exclude))
 		{
 			$exclude_ids = array();
@@ -245,8 +246,8 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 			{
 				$exclude_ids[] = "'$exclude_id'";
 			}
-			$html[] = 'var ' . $this->getName() . '_excluded = new Array('.implode(',', $exclude_ids).')';
 		}
+		$html[] = 'var ' . $this->getName() . '_excluded = new Array('.implode(',', $exclude_ids).')';
 
 		$html[] = '$("#' . $id . '").elementfinder({ name: "'. $this->getName() .'", search: "'. $this->search_url .'" });';
 		$html[] = '</script>';
