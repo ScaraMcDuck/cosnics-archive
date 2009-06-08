@@ -41,7 +41,7 @@ class WikiDisplay extends ComplexDisplay
 	function run()
 	{
         //wiki tool
-        $action = Request :: get('display_action');
+        $action = $this->get_action();//Request :: get('display_action');
 		
 		switch ($action)
 		{

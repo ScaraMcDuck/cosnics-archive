@@ -61,7 +61,7 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
                 switch ($property)
                 {
                     case 'Title' :
-                        return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->pid, Tool :: PARAM_COMPLEX_ID =>$this->cid )) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>'.$homepage;
+                        return '<a href="' . $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->pid, Tool :: PARAM_COMPLEX_ID =>$this->cid )) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>'.$homepage;
                         //default:
                         //return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>';
                     case 'versions' :
@@ -96,7 +96,7 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
             if(($publication->get_additional_property('is_homepage')==0))
             {
                 $actions[] = array(
-                'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool ::ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_SET_AS_HOMEPAGE, 'cid' => $this->cid, 'pid' => Request :: get('pid'))),
+                'href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_SET_AS_HOMEPAGE, 'cid' => $this->cid, 'pid' => Request :: get('pid'))),
                 'label' => Translation :: get('SetAsHomepage'),
                 'img' => Theme :: get_common_image_path().'action_home.png'
                 );

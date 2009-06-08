@@ -536,15 +536,26 @@ class ReportingWeblcms {
         {
             $visits[$cid] = $visits[$cid]+1;
             $cloi = RepositoryDataManager ::get_instance()->retrieve_complex_learning_object_item($cid);
+            if(!empty($cloi))
             $cloi_refs[$cid] = $cloi->get_ref();
         }
-        arsort($visits);
-        $keys=array_keys($visits);
-        $page = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi_refs[$keys[0]]);
-        $url = (Redirect ::get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => 'view', 'display_action' => 'view_item', 'pid' => $params['pid'], 'cid' => $keys[0])));
-        $arr[Translation :: get('MostVisitedPage')][] = '<a href="'.$url.'">'. htmlspecialchars($page->get_title()) . '</a>';
-        $arr[Translation :: get('NumberOfVisits')][] = $visits[$keys[0]];
-
+        if(!empty($cloi_refs))
+        {
+            arsort($visits);
+            $keys=array_keys($visits);
+            foreach($keys as $key)
+            {
+                if(in_array($key,array_keys($cloi_refs)))
+                {
+                    $page = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi_refs[$key]);
+                    $url = (Redirect ::get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => 'view', 'display_action' => 'view_item', 'pid' => $params['pid'], 'cid' => $keys[0])));
+                    $arr[Translation :: get('MostVisitedPage')][] = '<a href="'.$url.'">'. htmlspecialchars($page->get_title()) . '</a>';
+                    $arr[Translation :: get('NumberOfVisits')][] = $visits[$keys[0]];
+                    break;
+                }
+            }
+            
+        }
         return Reporting::getSerieArray($arr);
     }
 
