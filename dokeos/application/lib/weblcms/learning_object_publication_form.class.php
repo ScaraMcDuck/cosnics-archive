@@ -19,7 +19,7 @@ class LearningObjectPublicationForm extends FormValidator
  	*/
 	const TYPE_SINGLE = 1;
 	const TYPE_MULTI = 2;
- 	
+
 	// XXX: Some of these constants heavily depend on FormValidator.
 	const PARAM_CATEGORY_ID = 'category';
 	const PARAM_TARGETS = 'target_users_and_course_groups';
@@ -56,9 +56,9 @@ class LearningObjectPublicationForm extends FormValidator
 	private $course;
 
 	private $user;
-	
+
 	private $repo_viewer;
-	
+
 	private $form_type;
 	/**
 	 * Creates a new learning object publication form.
@@ -71,7 +71,7 @@ class LearningObjectPublicationForm extends FormValidator
     {
     	if($repo_viewer)
     		$pub_param = $repo_viewer->get_parameters();
-    		
+
     	$this->form_type = $form_type;
 		switch($this->form_type)
 		{
@@ -89,14 +89,14 @@ class LearningObjectPublicationForm extends FormValidator
 				$parameters = array_merge($pub_param, array (Tool :: PARAM_ACTION => $in_repo_viewer?Tool :: ACTION_PUBLISH:null, LearningObjectRepoViewer :: PARAM_ID => $learning_object));
 				break;
 		}
-    		
+
     	$parameters = array_merge($parameters, $extra_parameters);
-    	
+
     	$url = $repo_viewer->get_url($parameters);
 		parent :: __construct('publish', 'post', $url);
-		
+
 		$this->repo_viewer = $repo_viewer;
-		
+
 		if($in_repo_viewer)
 		{
 			$this->tool = $repo_viewer->get_parent()->get_parent();
@@ -105,12 +105,12 @@ class LearningObjectPublicationForm extends FormValidator
 		{
 			$this->tool = $repo_viewer->get_parent();
 		}
-		
+
 		$this->learning_object = $learning_object;
 		$this->email_option = $email_option;
 		$this->course = $course;
 		$this->user = $repo_viewer->get_user();
-		
+
 		switch($this->form_type)
 		{
 			case self :: TYPE_SINGLE:
@@ -168,28 +168,28 @@ class LearningObjectPublicationForm extends FormValidator
 		$defaults[self :: PARAM_CATEGORY_ID] = Request :: get('pcattree');
 		parent :: setDefaults($defaults);
     }
-    
+
     function build_single_form()
     {
     	$this->build_form();
     }
-    
+
     function build_multi_form()
     {
-    	$this->build_form();    	
+    	$this->build_form();
     	$this->addElement('hidden', 'ids', serialize($this->learning_object));
     }
-    
+
     private $categories;
     private $level = 1;
-    
+
     function get_categories($parent_id)
     {
     	$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $_GET['course']);
 		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, $_GET['tool']);
 		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_PARENT, $parent_id);
 		$condition = new AndCondition($conditions);
-		
+
 		$cats = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication_categories($condition);
 		while($cat = $cats->next_result())
 		{
@@ -206,7 +206,7 @@ class LearningObjectPublicationForm extends FormValidator
     {
 		$this->categories[0] = Translation :: get('Root');
 		$this->get_categories(0);
-		
+
 		//$categories = $this->repo_viewer->get_categories(true);
 		if(count($this->categories) > 1)
 		{
@@ -230,9 +230,21 @@ class LearningObjectPublicationForm extends FormValidator
 		foreach($course_groups as $index => $course_group)
 		{
 			$receiver_choices[self :: PARAM_TARGET_COURSE_GROUP_PREFIX.'-'.$course_group->get_id()] = Translation :: get('CourseGroup').': '.$course_group->get_name();
-		} 
+		}
 		$attributes = array(self :: PARAM_RECEIVERS => $receiver_choices);
 		$this->addElement('receivers', self :: PARAM_TARGETS, Translation :: get('PublishFor'),$attributes);
+
+		$url = Path :: get(WEB_PATH).'application/lib/weblcms/xml_course_user_group_feed.php?course=' . $this->course->get_id();
+		$locale = array ();
+		$locale['Display'] = Translation :: get('SelectRecipients');
+		$locale['Searching'] = Translation :: get('Searching');
+		$locale['NoResults'] = Translation :: get('NoResults');
+		$locale['Error'] = Translation :: get('Error');
+
+		//$elem = $this->addElement('user_group_finder', 'test', Translation :: get('Recipients'), $url, $locale, array());
+		//$elem->excludeElements(array($this->form_user->get_id()));
+		//$elem->setDefaultCollapsed(false);
+
 		$this->add_forever_or_timewindow();
 		$this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));
 		if($this->email_option)
@@ -241,7 +253,7 @@ class LearningObjectPublicationForm extends FormValidator
 		}
 		$this->addElement('checkbox', LearningObjectPublication :: PROPERTY_SHOW_ON_HOMEPAGE, Translation :: get('ShowOnHomepage'));
     }
-    
+
     function add_footer()
     {
     	$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Publish'), array('class' => 'positive publish'));
@@ -288,7 +300,7 @@ class LearningObjectPublicationForm extends FormValidator
 				}
 			}
 		}
-		
+
 		$pub = $this->publication;
 		$pub->set_from_date($from);
 		$pub->set_to_date($to);
@@ -342,12 +354,12 @@ class LearningObjectPublicationForm extends FormValidator
 		}
 		$course = $this->course->get_id();
 		$tool = $this->repo_viewer->get_tool()->get_tool_id();
-		
+
 		if($tool == null)
 		{
 			$tool = 'introduction';
-		} 
-			
+		}
+
 		$dm = WeblcmsDataManager :: get_instance();
 		$displayOrder = $dm->get_next_learning_object_publication_display_order_index($course,$tool,$category);
 		$repo_viewer = $this->user->get_id();
@@ -363,7 +375,7 @@ class LearningObjectPublicationForm extends FormValidator
 		{
 			$learning_object = $this->learning_object;
 			$display = LearningObjectDisplay::factory($learning_object);
-			
+
 			$adm = AdminDataManager :: get_instance();
 			$site_name_setting = PlatformSetting :: get('site_name');
 
@@ -372,12 +384,12 @@ class LearningObjectPublicationForm extends FormValidator
 			// TODO: send email to correct users/course_groups. For testing, the email is sent now to the repo_viewer.
 			$user = $this->user;
 			$mail = Mail :: factory($learning_object->get_title(), $body->get_text(), $user->get_email());
-			
+
 			if($mail->send())
 			{
 				$pub->set_email_sent(true);
 			}
-			
+
 			if (!$pub->update())
 			{
 				return false;
@@ -385,17 +397,17 @@ class LearningObjectPublicationForm extends FormValidator
 		}
 		return $pub;
     }
-    
+
     function create_learning_object_publications()
     {
     	$values = $this->exportValues();
-    	
+
     	$ids = unserialize($values['ids']);
-    	
+
     	foreach($ids as $id)
     	{
     		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($id);
-    		
+
 			if ($values[self :: PARAM_FOREVER] != 0)
 			{
 				$from = $to = 0;
@@ -426,12 +438,12 @@ class LearningObjectPublicationForm extends FormValidator
 			}
 			$course = $this->course->get_id();
 			$tool = $this->repo_viewer->get_tool()->get_tool_id();
-			
+
 			if($tool == null)
 			{
 				$tool = 'introduction';
-			} 
-				
+			}
+
 			$dm = WeblcmsDataManager :: get_instance();
 			$displayOrder = $dm->get_next_learning_object_publication_display_order_index($course,$tool,$category);
 			$repo_viewer = $this->user->get_id();
@@ -446,21 +458,21 @@ class LearningObjectPublicationForm extends FormValidator
 			if($this->email_option && $values[self::PARAM_EMAIL])
 			{
 				$display = LearningObjectDisplay::factory($learning_object);
-				
+
 				$adm = AdminDataManager :: get_instance();
 				$site_name_setting = PlatformSetting :: get('site_name');
-				
+
 				$subject = '['.$site_name_setting.'] '.$learning_object->get_title();
 				$body = new html2text($display->get_full_html());
 				// TODO: send email to correct users/course_groups. For testing, the email is sent now to the repo_viewer.
 				$user = $this->user;
 				$mail = Mail :: factory($learning_object->get_title(), $body->get_text(), $user->get_email());
-				
+
 				if($mail->send())
 				{
 					$pub->set_email_sent(true);
 				}
-				
+
 				if (!$pub->update())
 				{
 					return false;

@@ -175,7 +175,7 @@ if (PlatformSetting :: get('server_type') == 'test')
 	--------------------------------------------
 	*/
     error_reporting(E_ALL & ~ E_NOTICE);
-    
+
     //Addslashes to all $_GET variables
     foreach ($_GET as $key => $val)
     {
@@ -187,7 +187,7 @@ if (PlatformSetting :: get('server_type') == 'test')
             }
         }
     }
-    
+
     //Addslashes to all $_POST variables
     foreach ($_POST as $key => $val)
     {
@@ -228,16 +228,16 @@ if (isset($_POST['login']))
     {
         Session :: register('_uid', $user->get_id());
         Events :: trigger_event('login', 'user', array('server' => $_SERVER, 'user' => $user));
-        
+
         $request_uri = Session :: retrieve('request_uri');
-        
+
         if ($request_uri)
         {
             $request_uris = explode("/", $request_uri);
             $request_uri = array_pop($request_uris);
             header('Location: ' . $request_uri);
         }
-        
+
         $login_page = PlatformSetting :: get('page_after_login');
         if ($login_page == 'weblcms')
         {
@@ -261,10 +261,10 @@ if (isset($_GET['logout']))
     {
         $query_string = '?language=' . $_SESSION['user_language_choice'];
     }
-    
+
     $udm = UserDataManager :: get_instance();
     $user = $udm->retrieve_user(Session :: get_user_id());
-    
+
     $udm = UserDataManager :: get_instance();
     $udm->logout();
     Events :: trigger_event('logout', 'user', array('server' => $_SERVER, 'user' => $user));
@@ -293,16 +293,16 @@ if (isset($_SESSION['_uid']))
 {
     require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
     $user = UserDataManager :: get_instance()->retrieve_user(Session :: get_user_id());
-    
+
     if ($user)
     {
         $language_interface = $user->get_language();
     }
-    
+
     if (strpos($_SERVER['REQUEST_URI'], 'leave.php') === false && strpos($_SERVER['REQUEST_URI'], 'ajax') === false)
     {
         $return = Events :: trigger_event('enter', 'user', array('location' => $_SERVER['REQUEST_URI'], 'user' => $user, 'event' => 'enter'));
-        $htmlHeadXtra[] = '<script language="javascript">var tracker=' . $return[0] . '</script>';
+        $htmlHeadXtra[] = '<script language="JavaScript" type="text/javascript">var tracker=' . $return[0] . '</script>';
     }
 }
 

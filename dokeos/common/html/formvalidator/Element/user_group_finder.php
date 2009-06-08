@@ -20,7 +20,7 @@ class HTML_QuickForm_user_group_finder extends HTML_QuickForm_element_finder
 		$results['user'] = array();
 		$results['group'] = array();
 
-		$values = array_keys($this->get_active_elements());
+		$values = $this->get_active_elements();
 
 		// Process the array values so we end up with a 2-dimensional array (users and groups)
 

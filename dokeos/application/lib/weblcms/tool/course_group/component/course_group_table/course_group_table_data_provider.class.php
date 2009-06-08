@@ -16,22 +16,20 @@ class CourseGroupTableDataProvider
 	{
 		return $this->course_group_tool;
 	}
-    function get_course_groups($category = null, $offset, $count, $order_property, $order_direction)
+    function get_course_groups($offset, $count, $order_property, $order_direction)
     {
 		$dm = WeblcmsDataManager :: get_instance();
-		$course = $this->course_group_tool->get_parent()->get_course();
-		
+
 		$order_property = array($order_property);
 		$order_direction = array($order_direction);
-		
-		return $dm->retrieve_course_groups($course->get_id(),$category, $offset, $count, $order_property, $order_direction);
+
+		return $dm->retrieve_course_groups($this->course_group_tool->get_condition(), $offset, $count, $order_property, $order_direction);
     }
 
     function get_course_group_count()
     {
 		$dm = WeblcmsDataManager :: get_instance();
-		$course = $this->course_group_tool->get_parent()->get_course();
-		return $dm->retrieve_course_groups($course->get_id())->size();
+		return $dm->retrieve_course_groups($this->course_group_tool->get_condition())->size();
     }
 }
 ?>

@@ -67,8 +67,8 @@ class CourseGroupToolBrowserComponent extends CourseGroupToolComponent
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')
 		{
-			$conditions[] = new LikeCondition(Group :: PROPERTY_NAME, $query);
-			$conditions[] = new LikeCondition(Group :: PROPERTY_DESCRIPTION, $query);
+			$conditions[] = new LikeCondition(CourseGroup :: PROPERTY_NAME, $query);
+			$conditions[] = new LikeCondition(CourseGroup :: PROPERTY_DESCRIPTION, $query);
 			return new OrCondition($conditions);
 		}
 

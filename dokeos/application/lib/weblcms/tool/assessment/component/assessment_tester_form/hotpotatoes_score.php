@@ -26,5 +26,5 @@ if ($trackers[0] != null)
 }
 $path = Path :: get(WEB_PATH) . 'run.php?course=' . $course . '&go=courseviewer&application=weblcms&tool=assessment';
 
-echo '<script language="javascript" type="text/javascript">'."window.open('$path', '_top', '')".'</script>';
+echo '<script language="JavaScript" type="text/javascript">'."window.open('$path', '_top', '')".'</script>';
 ?>
