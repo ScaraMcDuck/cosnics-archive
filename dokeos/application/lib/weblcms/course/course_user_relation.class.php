@@ -26,7 +26,9 @@ require_once dirname(__FILE__).'/../weblcms_data_manager.class.php';
  *
  */
 
-class CourseUserRelation {
+class CourseUserRelation
+{
+    const CLASS_NAME = __CLASS__;
 
 	const PROPERTY_COURSE = 'course_code';
 	const PROPERTY_USER = 'user_id';
@@ -37,8 +39,6 @@ class CourseUserRelation {
 	const PROPERTY_SORT = 'sort';
 	const PROPERTY_CATEGORY = 'user_course_cat';
 
-	private $course;
-	private $user;
 	private $defaultProperties;
 
 	/**
@@ -48,10 +48,8 @@ class CourseUserRelation {
 	 * @param array $defaultProperties The default properties of the course user relation
 	 *                object. Associative array.
 	 */
-    function CourseUserRelation($course = null, $user = null, $defaultProperties = array ())
+    function CourseUserRelation($defaultProperties = array ())
     {
-    	$this->course = $course;
-    	$this->user = $user;
 		$this->defaultProperties = $defaultProperties;
     }
 
@@ -82,7 +80,7 @@ class CourseUserRelation {
 	{
 		$this->defaultProperties[$name] = $value;
 	}
-	
+
 	function set_default_properties($defaultProperties)
 	{
 		$this->defaultProperties = $defaultProperties;
@@ -103,7 +101,7 @@ class CourseUserRelation {
 	 */
     function get_course()
     {
-    	return $this->course;
+    	return $this->get_default_property(self :: PROPERTY_COURSE);
     }
 
 	/**
@@ -112,7 +110,7 @@ class CourseUserRelation {
 	 */
     function set_course($course)
 	{
-		$this->course = $course;
+		$this->set_default_property(self :: PROPERTY_COURSE, $course);
 	}
 
 	/**
@@ -121,7 +119,7 @@ class CourseUserRelation {
 	 */
     function get_user()
     {
-    	return $this->user;
+    	return $this->get_default_property(self :: PROPERTY_USER);
     }
 
 	/**
@@ -130,7 +128,7 @@ class CourseUserRelation {
 	 */
 	function set_user($user)
 	{
-		$this->user = $user;
+		$this->set_default_property(self :: PROPERTY_USER, $user);
 	}
 
 	/**
@@ -142,7 +140,7 @@ class CourseUserRelation {
 	function get_user_object()
 	{
 		$udm = UserDataManager::get_instance();
-		return $udm->retrieve_user($this->user);
+		return $udm->retrieve_user($this->get_user());
 	}
 
 	/**
@@ -277,7 +275,7 @@ class CourseUserRelation {
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
 		$success = $wdm->create_course_user_relation($this);
-		
+
 		if (!$success)
 		{
 			return false;
@@ -299,6 +297,11 @@ class CourseUserRelation {
 		}
 
 		return true;
+	}
+
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>

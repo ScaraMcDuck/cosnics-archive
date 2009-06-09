@@ -205,14 +205,19 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 		$course_user_category_id = $_GET[WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID];
 		$courseusercategory = $this->retrieve_course_user_category($course_user_category_id);
 
-		$relations = $this->retrieve_course_user_relations($this->get_user_id(), $course_user_category_id);
+		$relation_conditions = array();
+		$relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
+		$relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, $this->get_user_id());
+		$relation_condition = new AndCondition($relation_conditions);
+
+		$relations = $this->retrieve_course_user_relations($relation_condition, null, null, array(CourseUserRelation :: PROPERTY_SORT));
 
 		$conditions = array();
 		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_USER, $this->get_user_id());
 		$conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_CATEGORY, 0);
 		$condition = new AndCondition($conditions);
 
-		$sort = $this->retrieve_max_sort_value('course_rel_user', CourseUserRelation :: PROPERTY_SORT, $condition);
+		$sort = $this->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);
 
 		while ($relation = $relations->next_result())
 		{

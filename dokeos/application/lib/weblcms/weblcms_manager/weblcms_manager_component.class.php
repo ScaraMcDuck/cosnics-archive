@@ -292,17 +292,9 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
 	/**
 	 * @see WeblcmsManager :: retrieve_course_user_relations()
 	 */
-	function retrieve_course_user_relations($user_id, $course_user_category)
+	function retrieve_course_user_relations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->get_parent()->retrieve_course_user_relations($user_id, $course_user_category);
-	}
-
-	/**
-	 * @see WeblcmsManager :: retrieve_course_users()
-	 */
-	function retrieve_course_users($course)
-	{
-		return $this->get_parent()->retrieve_course_users($course);
+		return $this->get_parent()->retrieve_course_user_relations($condition, $offset, $count, $order_property, $order_direction);
 	}
 
 	/**
@@ -501,7 +493,7 @@ abstract class WeblcmsManagerComponent extends WebApplicationComponent
     {
         return $this->get_parent()->get_reporting_url($classname, $params);
     }
-    
+
     function display_header($breadcrumbtrail, $display_search = false, $display_title = true, $help_item = null)
     {
     	return $this->get_parent()->display_header($breadcrumbtrail, $display_search, $display_title, $help_item);
