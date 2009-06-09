@@ -21,7 +21,6 @@ class ToolComplexEditComponent extends ToolComponent
                 $learning_object = $datamanager->retrieve_learning_object($cloi->get_ref());
                 $learning_object->set_default_property('owner',$this->get_user_id());
                 $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cid, Tool :: PARAM_PUBLICATION_ID => $pid, 'details' => Request :: get('details'))));
-                dump($this->get_parameters());
                 $trail = new BreadcrumbTrail();
                 if(Request :: get('tool') == 'learning_path')
                 {
