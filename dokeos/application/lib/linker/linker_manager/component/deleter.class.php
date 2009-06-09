@@ -12,7 +12,7 @@ class LinkerManagerDeleterComponent extends LinkerManagerComponent
 	 */
 	function run()
 	{
-		$ids = $_GET[LinkerManager :: PARAM_LINK_ID];
+		$ids = Request :: get(LinkerManager :: PARAM_LINK_ID);
 		$failures = 0;
 		
 		if (!empty ($ids))
