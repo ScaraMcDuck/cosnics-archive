@@ -27,7 +27,7 @@ class PersonalCalendarMonth extends PersonalCalendarBlock
 		
 		$html[] = $this->display_header();
 		
-		$time = isset ($_GET['time']) ? intval($_GET['time']) : time();
+		$time = Request :: get('time') ? intval(Request :: get('time')) : time();
 		$minimonthcalendar = new PersonalCalendarMiniMonthRenderer($this->get_parent(), $time, 'link');
 		$html[] =   $minimonthcalendar->render();
 		

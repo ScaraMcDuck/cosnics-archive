@@ -12,7 +12,7 @@ class PersonalCalendarManagerDeleterComponent extends PersonalCalendarManagerCom
 	 */
 	function run()
 	{
-		$ids = $_GET[PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID];
+		$ids = Request :: get(PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID);
 		$failures = 0;
 
 		if (!empty ($ids))

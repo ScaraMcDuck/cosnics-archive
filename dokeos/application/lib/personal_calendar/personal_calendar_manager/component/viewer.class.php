@@ -19,7 +19,7 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
      */
     function run()
     {
-        $id = $_GET[PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID];
+        $id = Request :: get(PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID);
 
         if ($id)
         {
@@ -54,8 +54,8 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
         $display = LearningObjectDisplay :: factory($learning_object);
         $html = array();
 
-        $time = isset ($_GET['time']) ? intval($_GET['time']) : time();
-        $view = isset ($_GET['view']) ? $_GET['view'] : 'month';
+        $time = Request :: get('time') ? intval(Request :: get('time')) : time();
+        $view = Request :: get('view') ? Request :: get('view') : 'month';
         $this->set_parameter('time', $time);
         $this->set_parameter('view', $view);
         $this->set_parameter(Application :: PARAM_ACTION, PersonalCalendarManager :: ACTION_BROWSE_CALENDAR);
@@ -94,7 +94,7 @@ class PersonalCalendarManagerViewerComponent extends PersonalCalendarManagerComp
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('MonthView'), Theme :: get_image_path().'tool_calendar_month.png', $this->get_url(array (Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'month'))));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('WeekView'), Theme :: get_image_path().'tool_calendar_week.png', $this->get_url(array (Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'week'))));
         $action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_image_path().'tool_calendar_day.png', $this->get_url(array (Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => 'day'))));
-        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path().'tool_calendar_today.png', $this->get_url(array (Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => (isset ($_GET['view']) ? $_GET['view'] : 'month'), 'time' => time()))));
+        $action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path().'tool_calendar_today.png', $this->get_url(array (Application :: PARAM_ACTION => PersonalCalendarManager :: ACTION_BROWSE_CALENDAR, 'view' => (Request :: get('view') ? Request :: get('view') : 'month'), 'time' => time()))));
         return $action_bar;
     }
 }
