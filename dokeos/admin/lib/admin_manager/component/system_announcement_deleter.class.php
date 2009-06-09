@@ -12,7 +12,7 @@ class AdminManagerSystemAnnouncementDeleterComponent extends AdminManagerCompone
 	 */
 	function run()
 	{
-		$ids = $_GET[AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID];
+		$ids = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
 		$failures = 0;
 
 		if (!empty ($ids))
