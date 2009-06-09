@@ -33,7 +33,7 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
     {
     	$this->user = $user;
 		$this->parameters = array ();
-		$this->set_action($_GET[self :: PARAM_ACTION]);
+		$this->set_action(Request :: get(self :: PARAM_ACTION));
     }
 
     /**
