@@ -23,7 +23,7 @@ class PersonalMessengerManagerAttachmentViewerComponent extends PersonalMessenge
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewPersonalMessageAttachments')));
 		$trail->add_help('personal messenger general');
 
-		$id = $_GET[PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID];
+		$id = Request :: get(PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID);
 
 		if ($id)
 		{

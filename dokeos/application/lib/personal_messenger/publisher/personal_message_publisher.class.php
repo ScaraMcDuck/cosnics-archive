@@ -29,8 +29,8 @@ class PersonalMessagePublisher
 		$out = ($new ? Display :: normal_message(htmlentities(Translation :: get('LearningObjectCreated')), true) : '');
 		//$tool = $this->get_parent()->get_parent();
 		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($learning_object_id);
-		$edit = $_GET['reply'];
-		$user = $_GET[PersonalMessengerManager :: PARAM_USER_ID];
+		$edit = Request :: get('reply');
+		$user = Request :: get(PersonalMessengerManager :: PARAM_USER_ID);
 		
 		$form_action_parameters = array_merge($this->parent->get_parameters(), array (RepoViewer :: PARAM_ID => $learning_object->get_id()));
 		$form = new PersonalMessagePublicationForm($learning_object, $this->parent->get_user(),$this->parent->get_url($form_action_parameters));
