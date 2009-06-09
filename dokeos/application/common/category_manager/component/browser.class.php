@@ -20,7 +20,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 	function run()
 	{		
 		$this->ab = $this->get_action_bar(); //new ActionBarRenderer($this->get_left_toolbar_data(), array(), );	
-		$menu = new CategoryMenu($_GET[CategoryManager :: PARAM_CATEGORY_ID], $this->get_parent());
+		$menu = new CategoryMenu(Request :: get(CategoryManager :: PARAM_CATEGORY_ID), $this->get_parent());
 
         $trail = $this->get_breadcrumb_trail();
         $trail->merge($menu->get_breadcrumbs());
@@ -69,7 +69,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 	
 	function get_category()
 	{
-		return (isset($_GET[CategoryManager :: PARAM_CATEGORY_ID])?$_GET[CategoryManager :: PARAM_CATEGORY_ID]:0);
+		return (Request :: get(CategoryManager :: PARAM_CATEGORY_ID)?Request :: get(CategoryManager :: PARAM_CATEGORY_ID):0);
 	}
 	
 	function get_action_bar()
@@ -78,7 +78,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 		
 		$action_bar->set_search_url($this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $this->get_category())));
 		
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_create_category_url($_GET[CategoryManager :: PARAM_CATEGORY_ID]), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_add.png', $this->get_create_category_url(Request :: get(CategoryManager :: PARAM_CATEGORY_ID)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		$not_allowed = array('LearningObjectPublicationCategoryManager', 'AdminCategoryManager', 'RepositoryCategoryManager');
 		if(!in_array(get_class($this->get_parent()),$not_allowed))
@@ -86,7 +86,7 @@ class CategoryManagerBrowserComponent extends CategoryManagerComponent
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('CopyGeneralCategories'), Theme :: get_common_image_path().'treemenu_types/exercise.png', $this->get_copy_general_categories_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 		
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => $_GET[CategoryManager :: PARAM_CATEGORY_ID])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(CategoryManager :: PARAM_CATEGORY_ID => Request :: get(CategoryManager :: PARAM_CATEGORY_ID))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		
 		return $action_bar;
 	}

@@ -14,7 +14,7 @@ class CategoryManagerDeleterComponent extends CategoryManagerComponent
 	 */
 	function run()
 	{ 
-		$ids = $_GET[CategoryManager :: PARAM_CATEGORY_ID];
+		$ids = Request :: get(CategoryManager :: PARAM_CATEGORY_ID);
 		
 		if (!$this->get_user())
 		{

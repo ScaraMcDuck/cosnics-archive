@@ -15,7 +15,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 	{
 		$user = $this->get_user();
 
-		$ids = $_GET[CategoryManager :: PARAM_CATEGORY_ID];
+		$ids = Request :: get(CategoryManager :: PARAM_CATEGORY_ID);
 
         $this->get_breadcrumb_trail()->add(new Breadcrumb($this->get_url(array(CategoryManager::PARAM_CATEGORY_ID => $ids)),Translation :: get('Move')));
 		
@@ -81,7 +81,7 @@ class CategoryManagerParentChangerComponent extends CategoryManagerComponent
 			$this->tree[0] = Translation :: get('Root');
 	
 		$this->build_category_tree(0, $selected_categories, $current_parent);
-		$form = new FormValidator('select_category', 'post', $this->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_CHANGE_CATEGORY_PARENT, CategoryManager :: PARAM_CATEGORY_ID => $_GET[CategoryManager :: PARAM_CATEGORY_ID])));
+		$form = new FormValidator('select_category', 'post', $this->get_url(array(CategoryManager :: PARAM_ACTION => CategoryManager :: ACTION_CHANGE_CATEGORY_PARENT, CategoryManager :: PARAM_CATEGORY_ID => Request :: get(CategoryManager :: PARAM_CATEGORY_ID))));
 		$form->addElement('select','category',Translation :: get('Category'),$this->tree);
 		$form->addElement('submit', 'submit', Translation :: get('Ok'));
 		return $form;
