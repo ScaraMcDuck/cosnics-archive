@@ -39,7 +39,7 @@ class DragAndDropTreeMenuRenderer extends HTML_Menu_DirectTreeRenderer
 		$root = ($level == 0);
 		if ($root)
 		{
-			$id = $_GET['application'];
+			$id = Request :: get('application');
 			if(!isset($id))
 			{
 				$id = $_SERVER['PHP_SELF'];
