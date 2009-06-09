@@ -5,9 +5,9 @@ class ForumManagerToggleVisibilityComponent extends ForumManagerComponent
 	{
 		if($this->is_allowed(DELETE_RIGHT))
 		{
-            if(isset($_GET[ForumManager::PARAM_FORUM_PUBLICATION]))
+            if(Request :: get(ForumManager::PARAM_FORUM_PUBLICATION))
 			{
-				$publication_ids = $_GET[ForumManager::PARAM_FORUM_PUBLICATION];
+				$publication_ids = Request :: get(ForumManager::PARAM_FORUM_PUBLICATION);
 			}
 			else
 			{
@@ -25,9 +25,9 @@ class ForumManagerToggleVisibilityComponent extends ForumManagerComponent
 			{
                 $publication = $datamanager->retrieve_forum_publication($pid);
 
-				if(isset($_GET[PARAM_VISIBILITY]))
+				if(Request :: get(PARAM_VISIBILITY))
 				{
-					$publication->set_hidden($_GET[PARAM_VISIBILITY]);
+					$publication->set_hidden(Request :: get(PARAM_VISIBILITY));
 				}
 				else
 				{
@@ -47,7 +47,7 @@ class ForumManagerToggleVisibilityComponent extends ForumManagerComponent
 			}
 
 			$params = array(ForumManager::PARAM_ACTION => ForumManager::ACTION_BROWSE);
-//			if($_GET['details'] == 1)
+//			if(Request :: get('details') == 1)
 //			{
 //				$params['pid'] = $pid;
 //				$params['tool_action'] = 'view';

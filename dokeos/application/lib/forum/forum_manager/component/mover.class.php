@@ -11,9 +11,9 @@ class ForumManagerMoverComponent extends ForumManagerComponent
 		{
 			$move = 0;
             $fpid = Request :: get(ForumManager :: PARAM_FORUM_PUBLICATION);
-			if (isset($_GET[ForumManager::PARAM_MOVE]))
+			if (Request :: get(ForumManager::PARAM_MOVE))
 			{
-				$move = $_GET[ForumManager::PARAM_MOVE];
+				$move = Request :: get(ForumManager::PARAM_MOVE);
 			}
 
             $datamanager = ForumDataManager :: get_instance();
