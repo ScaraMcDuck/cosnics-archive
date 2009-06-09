@@ -22,7 +22,7 @@ class PersonalMessengerManagerViewerComponent extends PersonalMessengerManagerCo
     {
         $this->folder = $this->get_folder();
 
-        $id = $_GET[PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID];
+        $id = Request :: get(PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID);
 
         if ($id)
         {

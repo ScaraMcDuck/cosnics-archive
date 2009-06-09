@@ -367,17 +367,17 @@ require_once dirname(__FILE__).'/../personal_messenger_block.class.php';
 			{
 				case self :: PARAM_MARK_SELECTED_READ :
 					$this->set_action(self :: ACTION_MARK_PUBLICATION);
-					$_GET[self :: PARAM_PERSONAL_MESSAGE_ID] = $selected_ids;
-					$_GET[self :: PARAM_MARK_TYPE] = self :: PARAM_MARK_SELECTED_READ;
+					Request :: set_get(self :: PARAM_PERSONAL_MESSAGE_ID,$selected_ids);
+					Request :: set_get(self :: PARAM_MARK_TYPE,self :: PARAM_MARK_SELECTED_READ);
 					break;
 				case self :: PARAM_MARK_SELECTED_UNREAD :
 					$this->set_action(self :: ACTION_MARK_PUBLICATION);
-					$_GET[self :: PARAM_PERSONAL_MESSAGE_ID] = $selected_ids;
-					$_GET[self :: PARAM_MARK_TYPE] = self :: PARAM_MARK_SELECTED_UNREAD;
+					Request :: set_get(self :: PARAM_PERSONAL_MESSAGE_ID,$selected_ids);
+					Request :: set_get(self :: PARAM_MARK_TYPE,self :: PARAM_MARK_SELECTED_UNREAD);
 					break;
 				case self :: PARAM_DELETE_SELECTED :
 					$this->set_action(self :: ACTION_DELETE_PUBLICATION);
-					$_GET[self :: PARAM_PERSONAL_MESSAGE_ID] = $selected_ids;
+					Request :: set_get(self :: PARAM_PERSONAL_MESSAGE_ID,$selected_ids);
 					break;
 			}
 		}

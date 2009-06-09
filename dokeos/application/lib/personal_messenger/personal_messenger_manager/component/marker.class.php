@@ -15,8 +15,8 @@ class PersonalMessengerManagerMarkerComponent extends PersonalMessengerManagerCo
 	 */
 	function run()
 	{
-		$ids = $_GET[PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID];
-		$mark_type = $_GET[PersonalMessengerManager :: PARAM_MARK_TYPE];
+		$ids = Request :: get(PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID);
+		$mark_type = Request :: get(PersonalMessengerManager :: PARAM_MARK_TYPE);
 		$failures = 0;
 
 		if (!empty ($ids))

@@ -15,7 +15,7 @@ class PersonalMessengerManagerDeleterComponent extends PersonalMessengerManagerC
 	 */
 	function run()
 	{
-		$ids = $_GET[PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID];
+		$ids = Request :: get(PersonalMessengerManager :: PARAM_PERSONAL_MESSAGE_ID);
 		$failures = 0;
 
 		if (!empty ($ids))
