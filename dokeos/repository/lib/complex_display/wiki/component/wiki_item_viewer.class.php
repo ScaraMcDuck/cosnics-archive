@@ -53,7 +53,7 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
 
         $this->get_parent()->get_parent()->display_header($trail, true);
 
-        $this->action_bar = $this->get_toolbar();
+        $this->action_bar = WikiDisplay :: get_toolbar($this,$this->wiki_id, $this->cid, $this->get_parent()->get_parent()->get_course()->get_id());//$this->get_toolbar();
         echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
         echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'.$this->wiki_page->get_title().'</div><hr style="height:1px;color:#4271B5;width:100%;">';
 
@@ -71,93 +71,93 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
         echo '</div>';
 	}
 
-    function get_toolbar()
-	{
-		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_WIKI);
-
-		$action_bar->set_search_url($this->get_url());
-
-        //PAGE ACTIONS
-        $action_bar->add_common_action(
-			new ToolbarItem(
-				Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, 'pid' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			)
-		);
-
-        $action_bar->add_common_action(
-			new ToolbarItem(
-				Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			)
-		);
-
-        $action_bar->add_common_action(
-			new ToolbarItem(
-				Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(WikiTool :: PARAM_ACTION => Tool:: ACTION_DELETE_CLOI, 'pid' => $this->wiki_id,'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
-			)
-		);
-
-        $action_bar->add_common_action(
-			new ToolbarItem(
-				Translation :: get('Discuss'), Theme :: get_common_image_path().'action_users.png', $this->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			)
-		);
-
-         $action_bar->add_common_action(
-			new ToolbarItem(
-				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, 'pid' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			)
-		);
-
-        //INFORMATION
-        $action_bar->add_tool_action(
-			new ToolbarItem(
-				Translation :: get('History'), Theme :: get_common_image_path().'action_versions.png', $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_HISTORY, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			)
-		);
-
-        $action_bar->add_tool_action(
-			new ToolbarItem(
-				Translation :: get('Statistics'), Theme :: get_common_image_path().'action_reporting.png', $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay ::ACTION_PAGE_STATISTICS, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-			)
-		);
-
-        //NAVIGATION
-        if(!empty($this->links))
-        {
-            $p = new WikiToolParserComponent($this->wiki_id,$this->get_parent()->get_parent()->get_course()->get_id(),$this->links);
-            $toolboxlinks = $p->handle_toolbox_links($this->links);
-            $this->links = explode(';',$this->links);
-            $i=0;
-
-            foreach($toolboxlinks as $link)
-            {
-                if(substr_count($link,'www.')==1)
-                {
-                    $action_bar->add_navigation_link(
-                    new ToolbarItem(
-                        ucfirst($p->get_title_from_url($link)), null, $link, ToolbarItem ::DISPLAY_LABEL));
-                    continue;
-                }
-
-                if(substr_count($link,'class="does_not_exist"'))
-                {
-                    $action_bar->add_navigation_link(
-                    new ToolbarItem(
-                        $p->get_title_from_wiki_tag($this->links[$i],true), null, $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), 'title' =>$p->get_title_from_wiki_tag($this->links[$i],false))), ToolbarItem :: DISPLAY_ICON_AND_LABEL,null,'does_not_exist'
-                    ));
-                }
-                else
-                {
-                    $action_bar->add_navigation_link(
-                    new ToolbarItem(
-                        $p->get_title_from_wiki_tag($this->links[$i],true), null, $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), Tool :: PARAM_COMPLEX_ID =>$p->get_cid_from_url($link) )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-                    ));
-                }
-                $i++;
-            }
-        }
-
-		return $action_bar;
-	}
+//    function get_toolbar()
+//	{
+//		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_WIKI);
+//
+//		$action_bar->set_search_url($this->get_url());
+//
+//        //PAGE ACTIONS
+//        $action_bar->add_common_action(
+//			new ToolbarItem(
+//				Translation :: get('CreateWikiPage'), Theme :: get_common_image_path().'action_create.png', $this->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, 'pid' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+//			)
+//		);
+//
+//        $action_bar->add_common_action(
+//			new ToolbarItem(
+//				Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+//			)
+//		);
+//
+//        $action_bar->add_common_action(
+//			new ToolbarItem(
+//				Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $this->get_url(array(WikiTool :: PARAM_ACTION => Tool:: ACTION_DELETE_CLOI, 'pid' => $this->wiki_id,'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
+//			)
+//		);
+//
+//        $action_bar->add_common_action(
+//			new ToolbarItem(
+//				Translation :: get('Discuss'), Theme :: get_common_image_path().'action_users.png', $this->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+//			)
+//		);
+//
+//         $action_bar->add_common_action(
+//			new ToolbarItem(
+//				Translation :: get('BrowseWiki'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, 'pid' => $this->wiki_id)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+//			)
+//		);
+//
+//        //INFORMATION
+//        $action_bar->add_tool_action(
+//			new ToolbarItem(
+//				Translation :: get('History'), Theme :: get_common_image_path().'action_versions.png', $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_HISTORY, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+//			)
+//		);
+//
+//        $action_bar->add_tool_action(
+//			new ToolbarItem(
+//				Translation :: get('Statistics'), Theme :: get_common_image_path().'action_reporting.png', $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay ::ACTION_PAGE_STATISTICS, 'pid' => $this->wiki_id, 'cid' => $this->cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+//			)
+//		);
+//
+//        //NAVIGATION
+//        if(!empty($this->links))
+//        {
+//            $p = new WikiToolParserComponent($this->wiki_id,$this->get_parent()->get_parent()->get_course()->get_id(),$this->links);
+//            $toolboxlinks = $p->handle_toolbox_links($this->links);
+//            $this->links = explode(';',$this->links);
+//            $i=0;
+//
+//            foreach($toolboxlinks as $link)
+//            {
+//                if(substr_count($link,'www.')==1)
+//                {
+//                    $action_bar->add_navigation_link(
+//                    new ToolbarItem(
+//                        ucfirst($p->get_title_from_url($link)), null, $link, ToolbarItem ::DISPLAY_LABEL));
+//                    continue;
+//                }
+//
+//                if(substr_count($link,'class="does_not_exist"'))
+//                {
+//                    $action_bar->add_navigation_link(
+//                    new ToolbarItem(
+//                        $p->get_title_from_wiki_tag($this->links[$i],true), null, $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), 'title' =>$p->get_title_from_wiki_tag($this->links[$i],false))), ToolbarItem :: DISPLAY_ICON_AND_LABEL,null,'does_not_exist'
+//                    ));
+//                }
+//                else
+//                {
+//                    $action_bar->add_navigation_link(
+//                    new ToolbarItem(
+//                        $p->get_title_from_wiki_tag($this->links[$i],true), null, $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), Tool :: PARAM_COMPLEX_ID =>$p->get_cid_from_url($link) )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+//                    ));
+//                }
+//                $i++;
+//            }
+//        }
+//
+//		return $action_bar;
+//	}
 }
 ?>
