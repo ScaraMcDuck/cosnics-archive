@@ -59,7 +59,7 @@ header('Content-Type: text/html; charset='.$charset);
 <?php
 
 $html_type = $_SESSION['status'] == COURSEMANAGER ? TEACHER_HTML : STUDENT_HTML;
-$fullpage = $_GET['fullpage'] == '0' ? false : true;
+$fullpage = Request :: get('fullpage') == '0' ? false : true;
 $tags = HTML_QuickForm_Rule_HTML :: get_allowed_tags($html_type,$fullpage);
 $table_header = array();
 $table_header[]= array('tag',true);

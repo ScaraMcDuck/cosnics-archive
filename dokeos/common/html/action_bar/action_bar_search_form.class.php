@@ -68,7 +68,7 @@ class ActionBarSearchForm extends FormValidator
 		}
 		foreach ($this->frozen_elements as $element)
 		{
-			$element->setValue($_GET[$element->getName()]);
+			$element->setValue(Request :: get($element->getName()));
 		}
 	}
 	/**

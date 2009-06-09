@@ -183,7 +183,8 @@ if (PlatformSetting :: get('server_type') == 'test')
         {
             if (is_string($val))
             {
-                $_GET[$key] = addslashes($val);
+                //Request :: set_get($key,addslashes($val))
+                Request :: set_get($key,addslashes($val));
             }
         }
     }
@@ -254,7 +255,7 @@ if (isset($_POST['login']))
     Session :: unregister('request_uri');
 }
 // Log out
-if (isset($_GET['logout']))
+if (Request :: get('logout'))
 {
     $query_string = '';
     if (! empty($_SESSION['user_language_choice']))
@@ -274,7 +275,7 @@ if (isset($_GET['logout']))
 //unset($_SESSION['_uid']);
 
 
-if (isset($_GET['adminuser']))
+if (Request :: get('adminuser'))
 {
     $_SESSION['_uid'] = $_SESSION['_as_admin'];
     $_SESSION['_as_admin'] = null;

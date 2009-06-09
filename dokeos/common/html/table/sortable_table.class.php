@@ -133,13 +133,13 @@ class SortableTable extends HTML_Table
 		$this->additional_parameters = array ();
 		$this->param_prefix = $table_name.'_';
 		$this->page_nr = isset ($_SESSION[$this->param_prefix.'page_nr']) ? $_SESSION[$this->param_prefix.'page_nr'] : 1;
-		$this->page_nr = isset ($_GET[$this->param_prefix.'page_nr']) ? $_GET[$this->param_prefix.'page_nr'] : $this->page_nr;
+		$this->page_nr = Request :: get($this->param_prefix.'page_nr') ? Request :: get($this->param_prefix.'page_nr') : $this->page_nr;
 		$this->column = isset ($_SESSION[$this->param_prefix.'column']) ? $_SESSION[$this->param_prefix.'column'] : $default_column;
-		$this->column = isset ($_GET[$this->param_prefix.'column']) ? $_GET[$this->param_prefix.'column'] : $this->column;
+		$this->column = Request :: get($this->param_prefix.'column') ? Request :: get($this->param_prefix.'column') : $this->column;
 		$this->direction = isset ($_SESSION[$this->param_prefix.'direction']) ? $_SESSION[$this->param_prefix.'direction'] : $default_order_direction;
-		$this->direction = isset ($_GET[$this->param_prefix.'direction']) ? $_GET[$this->param_prefix.'direction'] : $this->direction;
+		$this->direction = Request :: get($this->param_prefix.'direction') ? Request :: get($this->param_prefix.'direction') : $this->direction;
 		$this->per_page = isset ($_SESSION[$this->param_prefix.'per_page']) ? $_SESSION[$this->param_prefix.'per_page'] : $default_items_per_page;
-		$this->per_page = isset ($_GET[$this->param_prefix.'per_page']) ? $_GET[$this->param_prefix.'per_page'] : $this->per_page;
+		$this->per_page = Request :: get($this->param_prefix.'per_page') ? Request :: get($this->param_prefix.'per_page') : $this->per_page;
 		$_SESSION[$this->param_prefix.'per_page'] = $this->per_page;
 		$_SESSION[$this->param_prefix.'direction'] = $this->direction ;
 		$_SESSION[$this->param_prefix.'page_nr'] = $this->page_nr;
@@ -502,14 +502,14 @@ class SortableTable extends HTML_Table
 		$result = implode('&amp;', $param_string_parts);
 		foreach($this->other_tables as $index => $tablename)
 		{
-			if( isset($_GET[$tablename.'_direction']))
-				$param[$tablename.'_direction'] = $_GET[$tablename.'_direction'];
-			if( isset($_GET[$tablename.'_page_nr']))
-				$param[$tablename.'_page_nr'] = $_GET[$tablename.'_page_nr'];
-			if( isset($_GET[$tablename.'_per_page']))
-				$param[$tablename.'_per_page'] = $_GET[$tablename.'_per_page'];
-			if( isset($_GET[$tablename.'_column']))
-				$param[$tablename.'_column'] = $_GET[$tablename.'_column'];
+			if( Request :: get($tablename.'_direction'))
+				$param[$tablename.'_direction'] = Request :: get($tablename.'_direction');
+			if( Request :: get($tablename.'_page_nr'))
+				$param[$tablename.'_page_nr'] = Request :: get($tablename.'_page_nr');
+			if( Request :: get($tablename.'_per_page'))
+				$param[$tablename.'_per_page'] = Request :: get($tablename.'_per_page');
+			if( Request :: get($tablename.'_column'))
+				$param[$tablename.'_column'] = Request :: get($tablename.'_column');
 			$param_string_parts = array ();
 			foreach ($param as $key => $value)
 			{
@@ -604,7 +604,7 @@ class SortableTable extends HTML_Table
 			if (strlen($row[0]) > 0)
 			{
 				$row[0] = '<input type="checkbox" name="'.$this->checkbox_name.'[]" value="'.$row[0].'"';
-				if (isset ($_GET[$this->param_prefix.'selectall']))
+				if (Request :: get($this->param_prefix.'selectall'))
 				{
 					$row[0] .= ' checked="checked"';
 				}
