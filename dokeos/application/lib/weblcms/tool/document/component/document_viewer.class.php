@@ -50,7 +50,7 @@ class DocumentToolViewerComponent extends DocumentToolComponent
         $trail->add_help('courses document tool');
 		$this->display_header($trail, true);
 
-		if(!isset($_GET['pid']))
+		if(!Request :: get('pid'))
 		{
 			if(PlatformSetting :: get('enable_introduction', 'weblcms'))
 			{
@@ -72,7 +72,7 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		if(!isset($_GET['pid']))
+		if(!Request :: get('pid'))
 		{
 			$action_bar->set_search_url($this->get_url());
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
@@ -80,7 +80,7 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
-		if(!isset($_GET['pid']))
+		if(!Request :: get('pid'))
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('ManageCategories'), Theme :: get_common_image_path().'action_category.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_MANAGE_CATEGORIES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		if(!$this->introduction_text && PlatformSetting :: get('enable_introduction', 'weblcms'))
@@ -88,7 +88,7 @@ class DocumentToolViewerComponent extends DocumentToolComponent
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 
-		if(!isset($_GET['pid']))
+		if(!Request :: get('pid'))
 		{
 			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Download'), Theme :: get_common_image_path().'action_save.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_ZIP_AND_DOWNLOAD)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Slideshow'), Theme :: get_common_image_path().'action_slideshow.png', $this->get_url(array(DocumentTool :: PARAM_ACTION => DocumentTool :: ACTION_SLIDESHOW)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));

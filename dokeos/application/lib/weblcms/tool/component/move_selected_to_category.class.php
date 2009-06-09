@@ -10,7 +10,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 		if($this->is_allowed(EDIT_RIGHT))
 		{
 			$form = $this->build_move_to_category_form();
-			$publication_ids = $_GET['pid'];
+			$publication_ids = Request :: get('pid');
 			if (!is_array($publication_ids))
 			{
 				$publication_ids = array($publication_ids);
@@ -54,7 +54,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 
 	function build_move_to_category_form()
 	{
-		$publication_ids = $_GET['pid'];
+		$publication_ids = Request :: get('pid');
 		if (!is_array($publication_ids))
 		{
 			$publication_ids = array($publication_ids);
@@ -69,7 +69,7 @@ class ToolMoveSelectedToCategoryComponent extends ToolComponent
 				if($cat != 0)
 					$this->tree[0] = Translation :: get('Root');
 				$this->build_category_tree(0, $cat);
-				$form = new FormValidator('select_category', 'post', $this->get_url(array(Tool :: PARAM_ACTION => 'move_selected_to_category', 'pid' => $_GET['pid'])));
+				$form = new FormValidator('select_category', 'post', $this->get_url(array(Tool :: PARAM_ACTION => 'move_selected_to_category', 'pid' => Request :: get('pid'))));
 				$form->addElement('select','category',Translation :: get('Category'),$this->tree);
 				//$form->addElement('submit', 'submit', Translation :: get('Ok'));
 				$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Move'), array('class' => 'positive move'));

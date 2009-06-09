@@ -21,10 +21,10 @@ class CourseGroupToolUnsubscribeBrowserComponent extends CourseGroupToolComponen
 		$course_group = $this->get_course_group();
 		$html[] = '<div style="clear: both;">&nbsp;</div>';
 
-		if(isset($_GET[WeblcmsManager :: PARAM_USERS]))
+		if(Request :: get(WeblcmsManager :: PARAM_USERS))
 		{
 			$udm = UserDataManager :: get_instance();
-			$user = $udm->retrieve_user($_GET[WeblcmsManager :: PARAM_USERS]);
+			$user = $udm->retrieve_user(Request :: get(WeblcmsManager :: PARAM_USERS));
 			$course_group->unsubscribe_users($user);
 			$html[] = Display :: normal_message(Translation :: get('UserUnsubscribed'),true);
 		}

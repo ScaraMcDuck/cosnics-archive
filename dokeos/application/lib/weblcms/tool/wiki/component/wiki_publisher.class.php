@@ -28,7 +28,7 @@ class WikiToolPublisherComponent extends WikiToolComponent
         /*
          *  The object that was created
          */
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 
         /*
          *  We make use of the LearningObjectRepoViewer setting the type to wiki

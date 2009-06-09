@@ -73,7 +73,7 @@ abstract class Tool
 		$this->parent = $parent;
 		$this->properties = $parent->get_tool_properties($this->get_tool_id());
 		$this->load_rights();
-		$this->set_action(isset($_POST[self :: PARAM_ACTION]) ? $_POST[self :: PARAM_ACTION] : $_GET[self :: PARAM_ACTION]);
+		$this->set_action(isset($_POST[self :: PARAM_ACTION]) ? $_POST[self :: PARAM_ACTION] : Request :: get(self :: PARAM_ACTION));
 		$this->parse_input_from_table();
 	}
 
@@ -99,28 +99,28 @@ abstract class Tool
 			{
 				case self :: ACTION_MOVE_SELECTED_TO_CATEGORY :
 					$this->set_action(self :: ACTION_MOVE_SELECTED_TO_CATEGORY);
-					$_GET[self :: PARAM_PUBLICATION_ID] = $ids;
+					Request :: set_get(self :: PARAM_PUBLICATION_ID,$ids);
 					break;
 
 				case self :: ACTION_DELETE :
 					$this->set_action(self :: ACTION_DELETE);
-					$_GET[self :: PARAM_PUBLICATION_ID] = $ids;
+					Request :: set_get(self :: PARAM_PUBLICATION_ID,$ids);
 					break;
 
                 case self :: ACTION_DELETE_CLOI :
 					$this->set_action(self :: ACTION_DELETE_CLOI);
-					$_GET[self :: PARAM_COMPLEX_ID] = $_POST['page_table_id'];
-                    $_GET[self :: PARAM_PUBLICATION_ID] = Request :: get('pid');
+					Request :: set_get(self :: PARAM_COMPLEX_ID,$_POST['page_table_id']);
+                    Request :: set_get(self :: PARAM_PUBLICATION_ID,Request :: get('pid'));
 					break;
 
                 case self :: ACTION_HIDE :
 					$this->set_action(self :: ACTION_HIDE);
-					$_GET[self :: PARAM_PUBLICATION_ID] = $ids;
+					Request :: set_get(self :: PARAM_PUBLICATION_ID,$ids);
 					break;
 
                 case self :: ACTION_SHOW :
 					$this->set_action(self :: ACTION_SHOW);
-					$_GET[self :: PARAM_PUBLICATION_ID] = $ids;
+					Request :: set_get(self :: PARAM_PUBLICATION_ID,$ids);
 					break;
 			}
 		}
@@ -162,11 +162,11 @@ abstract class Tool
 				$component = ToolComponent :: factory('', 'CategoryManager', $this);
 				break;
 			case self :: ACTION_MOVE_UP:
-				$_GET[self :: PARAM_MOVE] = 1;
+				Request :: set_get(self :: PARAM_MOVE,1);
 				$component = ToolComponent :: factory('', 'Move', $this);
 				break;
 			case self :: ACTION_MOVE_DOWN:
-				$_GET[self :: PARAM_MOVE] = -1;
+				Request :: set_get(self :: PARAM_MOVE,-1);
 				$component = ToolComponent :: factory('', 'Move', $this);
 				break;
 			case self :: ACTION_MOVE:
@@ -200,11 +200,11 @@ abstract class Tool
 				$component = ToolComponent :: factory('', 'ToggleVisibility', $this);
 				break;
 			case self :: ACTION_SHOW :
-                $_GET[PARAM_VISIBILITY] = 0;
+                Request :: set_get(PARAM_VISIBILITY,0);
 				$component = ToolComponent :: factory('', 'ToggleVisibility', $this);
 				break;
 			case self :: ACTION_HIDE :
-                $_GET[PARAM_VISIBILITY] = 1;
+                Request :: set_get(PARAM_VISIBILITY,1);
 				$component = ToolComponent :: factory('', 'ToggleVisibility', $this);
 				break;
 			case self :: ACTION_VIEW_ATTACHMENT:
@@ -306,11 +306,11 @@ abstract class Tool
 
 		echo '<div class="clear"></div><br />';
 
-		if ($msg = $_GET[Application :: PARAM_MESSAGE])
+		if ($msg = Request :: get(Application :: PARAM_MESSAGE))
 		{
 			$this->parent->display_message($msg);
 		}
-		if($msg = $_GET[Application :: PARAM_ERROR_MESSAGE])
+		if($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
 		{
 			$this->parent->display_error_message($msg);
 		}
@@ -560,7 +560,7 @@ abstract class Tool
 
 		$form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		$parameters = $this->get_parameters();
-		$parameters['pcattree'] = $_GET['pcattree'];
+		$parameters['pcattree'] = Request :: get('pcattree');
 		$parameters[self :: PARAM_ACTION] = $action;
 		foreach($parameters as $key => $value)
 		{
@@ -612,7 +612,7 @@ abstract class Tool
 
     function get_access_details_toolbar_item($parent)
     {
-        if(isset($_GET['pid']))
+        if(Request :: get('pid'))
         {
             //Tool :: PARAM_ACTION => Tool :: ACTION_VIEW_REPORTING_TEMPLATE,
             $url = $this->parent->get_url(array (Tool :: PARAM_ACTION => Tool ::ACTION_VIEW_REPORTING_TEMPLATE, Tool::PARAM_PUBLICATION_ID => Request :: get('pid'), ReportingManager::PARAM_TEMPLATE_NAME => 'PublicationDetailReportingTemplate'));

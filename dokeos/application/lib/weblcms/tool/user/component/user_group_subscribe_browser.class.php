@@ -48,13 +48,13 @@ class UserToolGroupSubscribeBrowserComponent extends UserToolComponent
 
 	function get_group_menu()
 	{
-		$groupmenu = new GroupMenu($_GET['group_id'], '?application=weblcms&go=courseviewer&course=' . $this->get_course()->get_id() . '&tool=user&tool_action=subscribe_groups&group_id=%s');
+		$groupmenu = new GroupMenu(Request :: get('group_id'), '?application=weblcms&go=courseviewer&course=' . $this->get_course()->get_id() . '&tool=user&tool_action=subscribe_groups&group_id=%s');
         return '<div style="overflow: auto; width: 20%; float: left;">' . $groupmenu->render_as_tree() . '<br /></div>';
 	}
 
     private function add_group_menu_breadcrumbs(&$breadcrumb_trail)
     {
-        $groupmenu = new GroupMenu($_GET['group_id'], '?application=weblcms&go=courseviewer&course=' . $this->get_course()->get_id() . '&tool=user&tool_action=subscribe_groups&group_id=%s');
+        $groupmenu = new GroupMenu(Request :: get('group_id'), '?application=weblcms&go=courseviewer&course=' . $this->get_course()->get_id() . '&tool=user&tool_action=subscribe_groups&group_id=%s');
         foreach($groupmenu->get_breadcrumbs() as $breadcrumb)
         {
             $breadcrumb_trail->add(new BreadCrumb($breadcrumb['url'], $breadcrumb['title']));
@@ -75,7 +75,7 @@ class UserToolGroupSubscribeBrowserComponent extends UserToolComponent
 
 	function get_condition()
 	{
-		$conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, $_GET['group_id']?$_GET['group_id']:0);
+		$conditions[] = new EqualityCondition(Group :: PROPERTY_PARENT, Request :: get('group_id')?Request :: get('group_id'):0);
 
 		$query = $this->action_bar->get_query();
 		if(isset($query) && $query != '')

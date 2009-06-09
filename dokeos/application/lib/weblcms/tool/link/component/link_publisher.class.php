@@ -26,7 +26,7 @@ class LinkToolPublisherComponent extends LinkToolComponent
             }
         }
 		$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), Translation :: get('Publish')));
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 		$pub = new LearningObjectRepoViewer($this, 'link', true);
 
 		if(!isset($object))

@@ -16,8 +16,8 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
 	 */
 	function run()
 	{
-		$course_code = $_GET[WeblcmsManager :: PARAM_COURSE];
-		$groups = $_GET['group_id'];
+		$course_code = Request :: get(WeblcmsManager :: PARAM_COURSE);
+		$groups = Request :: get('group_id');
 
 		if(!is_array($groups))
 		{
@@ -60,7 +60,7 @@ class WeblcmsManagerGroupSubscribeComponent extends WeblcmsManagerComponent
 			$user_id = $user->get_user_id();
 			if ($user_id != $this->get_user_id())
 			{
-				$status = isset($_GET[WeblcmsManager :: PARAM_STATUS]) ? $_GET[WeblcmsManager :: PARAM_STATUS] : 5;
+				$status = Request :: get(WeblcmsManager :: PARAM_STATUS) ? Request :: get(WeblcmsManager :: PARAM_STATUS) : 5;
 				$this->subscribe_user_to_course($course, $status, '0', $user_id);
 			}
 		}

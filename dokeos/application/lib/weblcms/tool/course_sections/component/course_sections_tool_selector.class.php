@@ -21,7 +21,7 @@ class CourseSectionsToolToolSelectorComponent extends CourseSectionsToolComponen
 			$this->display_footer();
 			exit;
 		}
-		$id = $_GET[CourseSectionsTool :: PARAM_COURSE_SECTION_ID];
+		$id = Request :: get(CourseSectionsTool :: PARAM_COURSE_SECTION_ID);
 		if ($id)
 		{
 			$course_section = WeblcmsDataManager :: get_instance()->retrieve_course_sections(new EqualityCondition('id', $id))->next_result();

@@ -33,7 +33,7 @@ class DocumentToolSlideshowComponent extends DocumentToolComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		if($_GET['thumbnails'])
+		if(Request :: get('thumbnails'))
 		{
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Slideshow'), Theme :: get_common_image_path().'action_slideshow.png', $this->get_url(array('tool_action' => 'slideshow', 'thumbnails'=>null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}

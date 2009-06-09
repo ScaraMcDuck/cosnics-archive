@@ -52,7 +52,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		}
 		else
 		{
-			$step = $_GET[LearningPathTool :: PARAM_LP_STEP]?$_GET[LearningPathTool :: PARAM_LP_STEP]:1;
+			$step = Request :: get(LearningPathTool :: PARAM_LP_STEP)?Request :: get(LearningPathTool :: PARAM_LP_STEP):1;
 		}
 
 		$menu = $this->get_menu($root_object->get_id(), $step, $pid, $lpi_attempt_data);
@@ -138,7 +138,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 	private function get_menu($root_object_id, $selected_object_id, $pid, $lp_tracker)
 	{
 		$menu = new LearningPathTree($root_object_id, $selected_object_id,
-			Path :: get(WEB_PATH) . 'run.php?go=courseviewer&course=' . $_GET['course'] . '&application=weblcms&tool=learning_path&tool_action=view&pid=' .
+			Path :: get(WEB_PATH) . 'run.php?go=courseviewer&course=' . Request :: get('course') . '&application=weblcms&tool=learning_path&tool_action=view&pid=' .
 			$pid . '&'.LearningPathTool :: PARAM_LP_STEP.'=%s', $lp_tracker);
 
 		return $menu;
@@ -170,7 +170,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 	{
 		if(!$current_step)
 		{
-			$previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => $_GET['pid'], 'step' => $total_steps));
+			$previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'step' => $total_steps));
 
 			$actions[] = array(
 				'href' => $previous_url,
@@ -197,7 +197,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 
 			if($current_step > 1 && $menu->get_previous_url())
 			{
-				//$previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => $_GET['pid'], 'step' => $current_step - 1));
+				//$previous_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'step' => $current_step - 1));
 				$previous_url = $menu->get_previous_url();
 
 				if(!in_array('previous', $hide_lms_ui))
@@ -230,7 +230,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 
 			if(($current_step < $total_steps))
 			{
-				//$continue_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => $_GET['pid'], 'step' => $current_step + 1));
+				//$continue_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'step' => $current_step + 1));
 
 				$continue_url = $menu->get_continue_url();
 
@@ -249,7 +249,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 			}
 			else
 			{
-				//$continue_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => $_GET['pid'], 'lp_action' => 'view_progress'));
+				//$continue_url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, LearningPathTool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'lp_action' => 'view_progress'));
 
 				$continue_url = $menu->get_continue_url();
 

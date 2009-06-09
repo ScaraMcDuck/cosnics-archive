@@ -23,8 +23,8 @@ class CourseSectionsToolMoverComponent extends CourseSectionsToolComponent
 			exit;
 		}
 
-		$id = $_GET[CourseSectionsTool :: PARAM_COURSE_SECTION_ID];
-		$direction = $_GET[CourseSectionsTool :: PARAM_DIRECTION];
+		$id = Request :: get(CourseSectionsTool :: PARAM_COURSE_SECTION_ID);
+		$direction = Request :: get(CourseSectionsTool :: PARAM_DIRECTION);
 		$failures = 0;
 
 		if (!empty ($id))

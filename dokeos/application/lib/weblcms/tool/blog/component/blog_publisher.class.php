@@ -26,7 +26,7 @@ class BlogToolPublisherComponent extends BlogToolComponent
 		$trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), Translation :: get('Publisher')));
 		$trail->add_help('courses blog tool');
 
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 		$pub = new LearningObjectRepoViewer($this, 'blog_item', true);
 
 		if(!isset($object))

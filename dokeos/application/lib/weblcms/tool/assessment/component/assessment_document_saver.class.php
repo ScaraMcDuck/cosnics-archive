@@ -7,15 +7,15 @@ class AssessmentToolDocumentSaverComponent extends AssessmentToolComponent
 {
 	function run()
 	{
-		if (isset($_GET[AssessmentTool :: PARAM_ASSESSMENT]))
+		if (Request :: get(AssessmentTool :: PARAM_ASSESSMENT))
 		{
-			$id = $_GET[AssessmentTool :: PARAM_ASSESSMENT];
+			$id = Request :: get(AssessmentTool :: PARAM_ASSESSMENT);
 			$type = AssessmentTool :: PARAM_ASSESSMENT;
 			$filenames = $this->save_assessment_docs($id);
 		}
-		else if (isset($_GET[AssessmentTool :: PARAM_USER_ASSESSMENT]))
+		else if (Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT))
 		{
-			$id = $_GET[AssessmentTool :: PARAM_USER_ASSESSMENT];
+			$id = Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT);
 			$type = AssessmentTool :: PARAM_USER_ASSESSMENT;
 			$track = new WeblcmsAssessmentAttemptsTracker();
 			$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ID, $id);

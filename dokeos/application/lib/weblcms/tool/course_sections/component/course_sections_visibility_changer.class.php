@@ -23,7 +23,7 @@ class CourseSectionsToolVisibilityChangerComponent extends CourseSectionsToolCom
 			exit;
 		}
 
-		$ids = $_GET[CourseSectionsTool :: PARAM_COURSE_SECTION_ID];
+		$ids = Request :: get(CourseSectionsTool :: PARAM_COURSE_SECTION_ID);
 		$failures = 0;
 
 		if (!empty ($ids))

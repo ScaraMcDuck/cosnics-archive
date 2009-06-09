@@ -21,7 +21,7 @@ class WeblcmsManagerIntroductionPublisherComponent extends WeblcmsManagerCompone
 		$html[] = '<p><a href="' . $this->get_url(array(Application :: PARAM_ACTION => WeblcmsManager :: ACTION_VIEW_COURSE)) . '"><img src="'.Theme :: get_common_image_path().'action_browser.png" alt="'.Translation :: get('BrowserTitle').'" style="vertical-align:middle;"/> '.Translation :: get('BrowserTitle').'</a></p>';
 		$html[] =  $pub->as_html();*/
 
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 		$pub = new LearningObjectRepoViewer($this, 'introduction', true);
 
 		if(!isset($object))

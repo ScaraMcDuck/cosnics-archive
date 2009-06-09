@@ -17,7 +17,7 @@ class ForumToolPublisherComponent extends ForumToolComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('courses forum tool');
 
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 		$pub = new LearningObjectRepoViewer($this, 'forum', true);
 
 		if(!isset($object))

@@ -115,9 +115,9 @@ class AssessmentTesterDisplay
 				{
 					$control_id = $parts[1].'_'.$parts[2];
 					
-					if (isset($_GET['object']))
+					if (Request :: get('object'))
 					{
-						$objects = $_GET['object'];
+						$objects = Request :: get('object');
 						if (is_array($objects))
 							$object = $objects[0];
 						else

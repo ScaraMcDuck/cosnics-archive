@@ -21,9 +21,9 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
 	 */
 	function run()
 	{
-		$this->category = $_GET[WeblcmsManager :: PARAM_COURSE_CATEGORY_ID];
-		$course_code = $_GET[WeblcmsManager :: PARAM_COURSE];
-		$users = $_GET[WeblcmsManager :: PARAM_USERS];
+		$this->category = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
+		$course_code = Request :: get(WeblcmsManager :: PARAM_COURSE);
+		$users = Request :: get(WeblcmsManager :: PARAM_USERS);
 		if(isset($users) && !is_array($users))
 		{
 			$users = array($users);
@@ -39,7 +39,7 @@ class WeblcmsManagerSubscribeComponent extends WeblcmsManagerComponent
 				{
 					//if ($user_id != $this->get_user_id())
 					{
-						$status = isset($_GET[WeblcmsManager :: PARAM_STATUS]) ? $_GET[WeblcmsManager :: PARAM_STATUS] : 5;
+						$status = Request :: get(WeblcmsManager :: PARAM_STATUS) ? Request :: get(WeblcmsManager :: PARAM_STATUS) : 5;
 						if (!$this->subscribe_user_to_course($course, $status, '0', $user_id))
 						{
 							$failures++;

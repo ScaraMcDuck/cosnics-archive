@@ -15,9 +15,9 @@ class AssessmentResultsExportForm extends FormValidator
 		$wdm = WeblcmsDataManager :: get_instance();
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		if (isset($_GET[AssessmentTool :: PARAM_USER_ASSESSMENT]))
+		if (Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT))
 		{
-			$uaid = $_GET[AssessmentTool :: PARAM_USER_ASSESSMENT];
+			$uaid = Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT);
 			$track = new WeblcmsAssessmentAttemptsTracker();
 			$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ID, $uaid);
 			$uass = $track->retrieve_tracker_items($condition);
@@ -38,9 +38,9 @@ class AssessmentResultsExportForm extends FormValidator
 			
 			$this->addElement('html', implode("\n", $html));
 		} 
-		else if (isset($_GET[AssessmentTool :: PARAM_PUBLICATION_ID]))
+		else if (Request :: get(AssessmentTool :: PARAM_PUBLICATION_ID))
 		{
-			$aid = $_GET[AssessmentTool :: PARAM_PUBLICATION_ID];
+			$aid = Request :: get(AssessmentTool :: PARAM_PUBLICATION_ID);
 			$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($aid);
 		
 			$this->addElement('html', '<h3>Assessment: '.$publication->get_learning_object()->get_title().'</h3><br/>');

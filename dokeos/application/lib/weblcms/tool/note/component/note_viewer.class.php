@@ -32,7 +32,7 @@ class NoteToolViewerComponent extends NoteToolComponent
         $this->display_header($trail, true);
 
 		//echo $this->perform_requested_actions();
-		if(!isset($_GET['pid']))
+		if(!Request :: get('pid'))
 		{
 			if(PlatformSetting :: get('enable_introduction', 'weblcms'))
 			{
@@ -56,7 +56,7 @@ class NoteToolViewerComponent extends NoteToolComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		if(!isset($_GET['pid']))
+		if(!Request :: get('pid'))
 		{
 			$action_bar->set_search_url($this->get_url());
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(NoteTool :: PARAM_ACTION => NoteTool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));

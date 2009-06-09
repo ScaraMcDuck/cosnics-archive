@@ -56,7 +56,7 @@ class DayCalendarLearningObjectPublicationListRenderer extends LearningObjectPub
 
 			$table_date = $next_table_date;
 		}
-		$url_format = $this->get_url(array('time' => '-TIME-', 'view' => $_GET['view']));
+		$url_format = $this->get_url(array('time' => '-TIME-', 'view' => Request :: get('view')));
 		$calendar_table->add_calendar_navigation($url_format);
 		$html[] = $calendar_table->render();
 		return implode("\n",$html);

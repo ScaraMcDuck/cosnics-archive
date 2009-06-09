@@ -23,9 +23,9 @@ class NoteBrowser extends LearningObjectPublicationBrowser
 	function NoteBrowser($parent)
 	{
 		parent :: __construct($parent, 'note');
-		if(isset($_GET['pid']) && $parent->get_action() == 'view')
+		if(Request :: get('pid') && $parent->get_action() == 'view')
 		{
-			$this->set_publication_id($_GET['pid']);
+			$this->set_publication_id(Request :: get('pid'));
 			$parent->set_parameter(Tool :: PARAM_ACTION, NoteTool :: ACTION_VIEW_NOTES);
 			$renderer = new LearningObjectPublicationDetailsRenderer($this);
 		}

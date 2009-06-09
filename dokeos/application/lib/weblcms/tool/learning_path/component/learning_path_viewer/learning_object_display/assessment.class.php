@@ -40,7 +40,7 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 		$this->assessment = $assessment;
 		$this->datamanager = WeblcmsDataManager :: get_instance();
 
-		$url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, Tool :: PARAM_PUBLICATION_ID => $_GET[Tool :: PARAM_PUBLICATION_ID], LearningPathTool :: PARAM_LP_STEP => $_GET[LearningPathTool :: PARAM_LP_STEP]));
+		$url = $this->get_url(array(Tool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID), LearningPathTool :: PARAM_LP_STEP => Request :: get(LearningPathTool :: PARAM_LP_STEP)));
 
 		if (!$this->get_parent()->is_allowed(VIEW_RIGHT))
 		{
@@ -178,8 +178,8 @@ class AssessmentDisplay extends LearningPathLearningObjectDisplay
 		$_SESSION['redirect_params'] = array(
 			WeblcmsManager :: PARAM_TOOL => 'learning_path',
 			LearningPathTool :: PARAM_ACTION => LearningPathTool :: ACTION_VIEW_LEARNING_PATH,
-			Tool :: PARAM_PUBLICATION_ID => $_GET[Tool :: PARAM_PUBLICATION_ID],
-			LearningPathTool :: PARAM_LP_STEP => $_GET[LearningPathTool :: PARAM_LP_STEP]
+			Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID),
+			LearningPathTool :: PARAM_LP_STEP => Request :: get(LearningPathTool :: PARAM_LP_STEP)
 		);
 		$this->redirect(null, false, array(WeblcmsManager :: PARAM_TOOL => 'assessment', AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_REPOVIEWER, AssessmentTool :: PARAM_REPO_TYPES => array('document')));
 	}

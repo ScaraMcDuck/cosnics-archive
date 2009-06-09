@@ -18,7 +18,7 @@ class NoteToolPublisherComponent extends NoteToolComponent
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'publish')), Translation :: get('Publish')));
 		$trail->add_help('courses note tool');
 
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 		$pub = new LearningObjectRepoViewer($this, 'note', true);
 
 		if(!isset($object))

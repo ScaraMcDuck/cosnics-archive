@@ -18,9 +18,9 @@ class LinkBrowser extends LearningObjectPublicationBrowser
 	{
 		parent :: __construct($parent, 'link');
 		
-		if(isset($_GET['pid']))
+		if(Request :: get('pid'))
 		{
-			$this->set_publication_id($_GET['pid']);
+			$this->set_publication_id(Request :: get('pid'));
 			//$renderer = new LearningObjectPublicationDetailsRenderer($this);
 			$renderer = new LinkDetailsRenderer($this);
 		}

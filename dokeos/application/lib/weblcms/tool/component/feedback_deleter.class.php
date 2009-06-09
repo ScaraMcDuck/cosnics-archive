@@ -11,18 +11,18 @@ class ToolFeedbackDeleterComponent extends ToolComponent
 	{
         if($this->is_allowed(DELETE_RIGHT) /*&& !WikiTool :: is_wiki_locked(Request :: get(Tool :: PARAM_PUBLICATION_ID))*/)
 		{
-			if(isset($_GET['fid']))
-				$feedback_ids = $_GET['fid'];
+			if(Request :: get('fid'))
+				$feedback_ids = Request :: get('fid');
 			else
 				$feedback_ids = $_POST['fid'];
 
-            if(isset($_GET['cid']))
-				$this->cid = $_GET['cid'];
+            if(Request :: get('cid'))
+				$this->cid = Request :: get('cid');
 			else
 				$this->cid = $_POST['cid'];
 
-            if(isset($_GET['pid']))
-				$this->pid = $_GET['pid'];
+            if(Request :: get('pid'))
+				$this->pid = Request :: get('pid');
 			else
 				$this->pid = $_POST['pid'];
 

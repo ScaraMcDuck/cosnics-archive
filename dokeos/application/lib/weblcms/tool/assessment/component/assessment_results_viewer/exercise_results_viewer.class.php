@@ -66,7 +66,7 @@ class ExerciseResultsViewer extends ResultsViewer
 			$count++;
 			$question_result->display_exercise();
 		}
-		if ($_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
+		if (Request :: get(AssessmentTool :: PARAM_ADD_FEEDBACK) == '1')
 		{
 			$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
 			$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));

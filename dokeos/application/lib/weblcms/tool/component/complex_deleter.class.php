@@ -7,8 +7,8 @@ class ToolComplexDeleterComponent extends ToolComponent
 	{
 		if($this->is_allowed(DELETE_RIGHT))
 		{
-			if(isset($_GET[Tool :: PARAM_COMPLEX_ID]))
-				$cloi_ids = $_GET[Tool :: PARAM_COMPLEX_ID];
+			if(Request :: get(Tool :: PARAM_COMPLEX_ID))
+				$cloi_ids = Request :: get(Tool :: PARAM_COMPLEX_ID);
 			else
 				$cloi_ids = $_POST[Tool :: PARAM_COMPLEX_ID];
 

@@ -5,9 +5,9 @@ class ToolToggleVisibilityComponent extends ToolComponent
 	{
 		if($this->is_allowed(DELETE_RIGHT))
 		{
-			if(isset($_GET[Tool :: PARAM_PUBLICATION_ID]))
+			if(Request :: get(Tool :: PARAM_PUBLICATION_ID))
 			{
-				$publication_ids = $_GET[Tool :: PARAM_PUBLICATION_ID];
+				$publication_ids = Request :: get(Tool :: PARAM_PUBLICATION_ID);
 			}
 			else
 			{
@@ -25,9 +25,9 @@ class ToolToggleVisibilityComponent extends ToolComponent
 			{
 				$publication = $datamanager->retrieve_learning_object_publication($pid);
 
-				if(isset($_GET[PARAM_VISIBILITY]))
+				if(Request :: get(PARAM_VISIBILITY))
 				{
-					$publication->set_hidden($_GET[PARAM_VISIBILITY]);
+					$publication->set_hidden(Request :: get(PARAM_VISIBILITY));
 				}
 				else
 				{
@@ -47,7 +47,7 @@ class ToolToggleVisibilityComponent extends ToolComponent
 			}
 
 			$params = array();
-			if($_GET['details'] == 1)
+			if(Request :: get('details') == 1)
 			{
 				$params['pid'] = $pid;
 				$params['tool_action'] = 'view';

@@ -23,9 +23,9 @@ class AnnouncementBrowser extends LearningObjectPublicationBrowser
 	function AnnouncementBrowser($parent)
 	{
 		parent :: __construct($parent, 'announcement');
-		if(isset($_GET['pid']) && $parent->get_action() == 'view')
+		if(Request :: get('pid') && $parent->get_action() == 'view')
 		{
-			$this->set_publication_id($_GET['pid']);
+			$this->set_publication_id(Request :: get('pid'));
 			$parent->set_parameter(Tool :: PARAM_ACTION, AnnouncementTool :: ACTION_VIEW_ANNOUNCEMENTS);
 			$renderer = new LearningObjectPublicationDetailsRenderer($this);
 		}

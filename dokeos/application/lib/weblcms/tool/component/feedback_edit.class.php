@@ -10,9 +10,9 @@ class ToolFeedbackEditComponent extends ToolComponent
 	{
         if($this->is_allowed(EDIT_RIGHT))
 		{
-			$cid = isset($_GET[Tool :: PARAM_COMPLEX_ID]) ? $_GET[Tool :: PARAM_COMPLEX_ID] : $_POST[Tool :: PARAM_COMPLEX_ID];
-            $pid = isset($_GET[Tool :: PARAM_PUBLICATION_ID]) ? $_GET[Tool :: PARAM_PUBLICATION_ID] : $_POST[Tool :: PARAM_PUBLICATION_ID];
-            $fid = isset($_GET[LearningObjectPubFeedback :: PROPERTY_FEEDBACK_ID]) ? $_GET[LearningObjectPubFeedback :: PROPERTY_FEEDBACK_ID] : $_POST[LearningObjectPubFeedback :: PROPERTY_FEEDBACK_ID];
+			$cid = Request :: get(Tool :: PARAM_COMPLEX_ID) ? Request :: get(Tool :: PARAM_COMPLEX_ID) : $_POST[Tool :: PARAM_COMPLEX_ID];
+            $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID) ? Request :: get(Tool :: PARAM_PUBLICATION_ID) : $_POST[Tool :: PARAM_PUBLICATION_ID];
+            $fid = Request :: get(LearningObjectPubFeedback :: PROPERTY_FEEDBACK_ID) ? Request :: get(LearningObjectPubFeedback :: PROPERTY_FEEDBACK_ID) : $_POST[LearningObjectPubFeedback :: PROPERTY_FEEDBACK_ID];
 
 			$datamanager = RepositoryDataManager :: get_instance();
             $condition = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_FEEDBACK_ID, $fid);
@@ -20,9 +20,9 @@ class ToolFeedbackEditComponent extends ToolComponent
             while($feedback = $feedbacks->next_result())
             {
                 $feedback_display = $datamanager->retrieve_learning_object($feedback->get_feedback_id());
-                $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $feedback_display, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_FEEDBACK,LearningObjectPubFeedback :: PROPERTY_FEEDBACK_ID => $fid, Tool :: PARAM_COMPLEX_ID => $cid, Tool :: PARAM_PUBLICATION_ID => $pid, 'details' => $_GET['details'])));
+                $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $feedback_display, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_FEEDBACK,LearningObjectPubFeedback :: PROPERTY_FEEDBACK_ID => $fid, Tool :: PARAM_COMPLEX_ID => $cid, Tool :: PARAM_PUBLICATION_ID => $pid, 'details' => Request :: get('details'))));
 
-                if( $form->validate() || $_GET['validated'])
+                if( $form->validate() || Request :: get('validated'))
                 {
                     $form->update_learning_object();
                     /*if($form->is_version())
@@ -50,7 +50,7 @@ class ToolFeedbackEditComponent extends ToolComponent
                         $params['fid'] = Request :: get('fid');
                     }
 
-                    if($_GET['details'] == 1)
+                    if(Request :: get('details') == 1)
                     {
                         $params['cid'] = $cid;
                         $params['tool_action'] = 'discuss';

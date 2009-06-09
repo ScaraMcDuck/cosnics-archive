@@ -187,8 +187,8 @@ class LearningObjectPublicationForm extends FormValidator
 
     function get_categories($parent_id)
     {
-    	$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, $_GET['course']);
-		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, $_GET['tool']);
+    	$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_COURSE, Request :: get('course'));
+		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_TOOL, Request :: get('tool'));
 		$conditions[] = new EqualityCondition(LearningObjectPublicationCategory :: PROPERTY_PARENT, $parent_id);
 		$condition = new AndCondition($conditions);
 
