@@ -33,7 +33,7 @@ class PersonalCalendarDay extends PersonalCalendarBlock
 		
 		$html[] = $this->display_header();
 		
-		$time = isset ($_GET['time']) ? intval($_GET['time']) : time();
+		$time = Request :: get('time') ? intval(Request :: get('time')) : time();
 		$minidaycalendar = new PersonalCalendarMiniDayRenderer($this->get_parent(), $time, $hour_step, $time_start, $time_end);
 		$html[] =   $minidaycalendar->render();
 		

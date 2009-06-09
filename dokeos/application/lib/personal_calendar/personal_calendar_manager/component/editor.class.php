@@ -29,7 +29,7 @@ class PersonalCalendarManagerEditorComponent extends PersonalCalendarManagerComp
             exit;
         }
 
-        $id = $_GET[PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID];
+        $id = Request :: get(PersonalCalendarManager :: PARAM_CALENDAR_EVENT_ID);
 
         if ($id)
         {

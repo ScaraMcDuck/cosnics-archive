@@ -22,7 +22,7 @@ class PersonalCalendarManagerPublisherComponent extends PersonalCalendarManagerC
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Publish')));
 		$trail->add_help('personal calender general');
 
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 		$pub = new RepoViewer($this, 'calendar_event', true);
 
 		if(!isset($object))
