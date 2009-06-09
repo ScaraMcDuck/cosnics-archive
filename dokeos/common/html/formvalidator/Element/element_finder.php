@@ -79,17 +79,10 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$active_hidden_id = 'elf_'.$this->getName().'_active_hidden';
 		$activate_button_id = $inactive_id.'_button';
 		$deactivate_button_id = $active_id.'_button';
+
 		$this->_elements = array ();
 		$this->_elements[] = new HTML_QuickForm_hidden($this->getName().'_active_hidden', null, array ('id' => $active_hidden_id));
-		// TODO: Figure out why this doesn't happen automatically.
-		//$this->_elements[0]->setValue($_REQUEST[$this->_elements[0]->getName()]);
-		//$find = 'ElementFinder.find(this.value, \''.$this->search_url.'\', document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));';
-		//$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array ('onkeyup' => $find, 'onchange' => $find, 'onkeypress' => 'var evt = (window.event || event); if (evt && evt.keyCode == 13) return false;', 'class' => 'element_query', 'id' => $this->getName().'_search_field'));
 		$this->_elements[] = new HTML_QuickForm_text($this->getName().'_search', null, array ('class' => 'element_query', 'id' => $this->getName().'_search_field'));
-//		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '>>', array ('onclick' => 'ElementFinder.activate(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\'));', 'id' => $activate_button_id, 'disabled' => 'disabled', 'class' => 'activate_elements'));
-//		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '<<', array ('onclick' => 'ElementFinder.deactivate(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));',  'id' => $deactivate_button_id, 'disabled' => 'disabled', 'class' => 'deactivate_elements'));
-		//$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '', array ('onclick' => 'ElementFinder.activate(document.getElementById(\''.$inactive_id.'\'), document.getElementById(\''.$active_id.'\'));', 'id' => $activate_button_id, 'disabled' => 'disabled', 'class' => 'activate_elements'));
-		//$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '', array ('onclick' => 'ElementFinder.deactivate(document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));',  'id' => $deactivate_button_id, 'disabled' => 'disabled', 'class' => 'deactivate_elements'));
 		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_activate', '', array ('id' => $activate_button_id, 'disabled' => 'disabled', 'class' => 'activate_elements'));
 		$this->_elements[] = new HTML_QuickForm_button($this->getName().'_deactivate', '', array ('id' => $deactivate_button_id, 'disabled' => 'disabled', 'class' => 'deactivate_elements'));
 	}
@@ -110,44 +103,13 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 
 	function setValue($value, $element_id = 0)
 	{
-//		if (empty($value))
-//		{
-//			$serialized = '';
-//		}
-//		else
-//		{
-//			$parts = array();
-//			foreach ($value as $id => $array)
-//			{
-//				array_walk($array, array(get_class(), 'remove_tabs'));
-//				$string = implode("\t", array($array['class'], $array['title'], $array['description']));
-//				$parts[] = $id."\t".$string;
-//			}
-//			$serialized = implode("\t", $parts);
 			$serialized = serialize($value);
-//		}
 		$this->_elements[$element_id]->setValue($serialized);
-	}
-
-	private static function remove_tabs($string, $key)
-	{
-		$string = str_replace("\t", ' ', $string);
 	}
 
 	function get_active_elements()
 	{
 		return unserialize($this->_elements[0]->getValue());
-//		$result = array ();
-//		for ($i = 0; $i < count($temp) - 3; $i += 4)
-//		{
-//			$id = $temp[$i];
-//			$value = array();
-//			$value['class'] = $temp[$i + 1];
-//			$value['title'] = $temp[$i + 2];
-//			$value['description'] = $temp[$i + 3];
-//			$result[$id] = $value;
-//		}
-//		return $result;
 	}
 
 	function toHTML()
@@ -159,22 +121,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		 * 3 activate
 		 */
 		$html = array ();
-		if (!self :: $initialized)
-		{
-			//$rm = ResourceManager :: get_instance();
-			//$html[] = $rm->get_resource_html(Path :: get(WEB_LIB_PATH).'javascript/treemenu.js');
-			//$html[] = $rm->get_resource_html(Path :: get(WEB_LIB_PATH).'javascript/element_finder_v2.js');
-			self :: $initialized = true;
-		}
-//		if (count($this->locale))
-//		{
-//			$html[] = '<script type="text/javascript">';
-//			foreach ($this->locale as $name => $value)
-//			{
-//				$html[] = 'ElementFinder.locale["'.addslashes($name).'"] = "'.addslashes($value).'";';
-//			}
-//			$html[] = '</script>';
-//		}
+
 		$id = 'tbl_'.$this->getName();
 
 		$html[] = '<div class="element_finder" id="'.$id.'" style="'. ($this->isCollapsed() ? ' display: none;' : '').'">';
@@ -226,13 +173,6 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		    //$html[] = '<input type="button" value="'.htmlentities($this->locale['Display']).'" '.'onclick="document.getElementById(\''.$id.'\').style.display = \'\'; this.style.display = \'none\'; document.getElementById(\''.$this->getName().'_search_field\').focus();" id="'.$this->getName().'_expand_button" />';
 			$html[] = '<input type="button" value="'.htmlentities($this->locale['Display']).'" '.'id="'.$this->getName().'_expand_button" />';
 		}
-//		$html[] = '<script type="text/javascript">';
-//		$html[] = 'ElementFinder.restoreFromCache(document.getElementById(\'elf_'.$this->getName().'_active_hidden\'), document.getElementById(\'elf_'.$this->getName().'_active\'));';
-//
-//		$active_id = 'elf_'.$this->getName().'_active';
-//		$inactive_id = 'elf_'.$this->getName().'_inactive';
-//		$html[] = 'ElementFinder.find(\'*\', \''.$this->search_url.'\', document.getElementById(\''.$active_id.'\'), document.getElementById(\''.$inactive_id.'\'));';
-//		$html[] = '</script>';
 
 		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js');
 		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.elementfinder.js');
@@ -247,6 +187,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 				$exclude_ids[] = "'$exclude_id'";
 			}
 		}
+
 		$html[] = 'var ' . $this->getName() . '_excluded = new Array('.implode(',', $exclude_ids).');';
 
 		$html[] = '$("#' . $id . '").elementfinder({ name: "'. $this->getName() .'", search: "'. $this->search_url .'" });';
