@@ -11,7 +11,6 @@ require_once Path :: get_admin_path(). 'settings/settings_admin_connector.class.
 require_once dirname(__FILE__).'/course.class.php';
 require_once dirname(__FILE__).'/../category_manager/course_category.class.php';
 
-
 class CourseForm extends FormValidator {
 
 	const TYPE_CREATE = 1;
@@ -45,7 +44,7 @@ class CourseForm extends FormValidator {
 
 	private $categories;
 	private $level = 1;
-	
+
 	function get_categories($parent_id)
 	{
 		$wdm = WeblcmsDataManager :: get_instance();
@@ -61,7 +60,7 @@ class CourseForm extends FormValidator {
 	}
 
     function build_basic_form()
-    {	
+    {
 		$this->addElement('text', Course :: PROPERTY_VISUAL, Translation :: get('VisualCode'), array("size" => "50"));
 		$this->addRule(Course :: PROPERTY_VISUAL, Translation :: get('ThisFieldIsRequired'), 'required');
 
@@ -72,13 +71,13 @@ class CourseForm extends FormValidator {
 		else*/
 		{
 			$user_options = array();
-			
+
 			$udm = UserDataManager :: get_instance();
-			
+
 			if($this->form_type == self :: TYPE_CREATE)
 			{
 				$users = $udm->retrieve_users(new EqualityCondition(User :: PROPERTY_STATUS, 1));
-	
+
 				while ($userobject = $users->next_result())
 				{
 					$user_options[$userobject->get_id()] = $userobject->get_lastname() . '&nbsp;' . $userobject->get_firstname();
@@ -87,15 +86,18 @@ class CourseForm extends FormValidator {
 			else
 			{
 				$wdm = WeblcmsDataManager :: get_instance();
-				$users = $wdm->retrieve_course_users($this->course);
-	
+
+				$user_conditions = array();
+				$user_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->course->get_id());
+				$user_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_STATUS, 1);
+				$user_condition = new AndCondition($user_conditions);
+
+				$users = $wdm->retrieve_course_user_relations($user_condition);
+
 				while ($user = $users->next_result())
 				{
-					if($user->get_status() == 1)
-					{
-						$userobject = $udm->retrieve_user($user->get_user());
-						$user_options[$userobject->get_id()] = $userobject->get_lastname() . '&nbsp;' . $userobject->get_firstname();
-					}
+					$userobject = $udm->retrieve_user($user->get_user());
+					$user_options[$userobject->get_id()] = $userobject->get_lastname() . '&nbsp;' . $userobject->get_firstname();
 				}
 			}
 
@@ -113,7 +115,7 @@ class CourseForm extends FormValidator {
 
 		$cat_options = array();
 		$parent = $this->parent;
-		
+
 		//$this->categories[0] = Translation :: get('Root');
 		$this->get_categories(0);
 
@@ -121,7 +123,7 @@ class CourseForm extends FormValidator {
 
 		/*$this->addElement('text', Course :: PROPERTY_EXTLINK_NAME, Translation :: get('Department'));
 		$this->addElement('text', Course :: PROPERTY_EXTLINK_URL, Translation :: get('DepartmentUrl'));*/
-		
+
 		if (PlatformSetting :: get('allow_course_language_selection', WeblcmsManager :: APPLICATION_NAME))
 		{
 			$adm = AdminDataManager :: get_instance();
@@ -153,19 +155,19 @@ class CourseForm extends FormValidator {
 			$feedback_allowed[] =& $this->createElement('radio', null, null, Translation :: get('Yes'), 1);
 			$feedback_allowed[] =& $this->createElement('radio', null, null, Translation :: get('No'), 0);
 			$this->addGroup($feedback_allowed, Course :: PROPERTY_ALLOW_FEEDBACK, Translation :: get('AllowFeedback'), '<br />');
-			
+
 		}
-		
+
 		$this->addElement('html', '<div style="clear: both;"></div>');
 		$this->addElement('html', '</div>');
-		
+
 		if ($this->course->is_layout_configurable())
 		{
 			$this->addElement('html', '<div class="configuration_form">');
 			$this->addElement('html', '<span class="category">'. Translation :: get('Layout') .'</span>');
-			
+
 			$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
-			
+
 			if ($course_can_have_theme)
 			{
 				$theme_options = array();
@@ -173,28 +175,28 @@ class CourseForm extends FormValidator {
 				$theme_options = array_merge($theme_options, Theme :: get_themes());
 				$this->addElement('select', Course :: PROPERTY_THEME, Translation :: get('Theme'), $theme_options);
 			}
-			
-			
+
+
 			if (PlatformSetting :: get('allow_course_layout_selection', WeblcmsManager :: APPLICATION_NAME))
 			{
 				$this->addElement('select', Course :: PROPERTY_LAYOUT, Translation :: get('Layout'), Course :: get_layouts());
 			}
-			
+
 			if (PlatformSetting :: get('allow_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME))
 			{
 				$this->addElement('select', Course :: PROPERTY_TOOL_SHORTCUT, Translation :: get('ToolShortcut'), Course :: get_tool_shortcut_options());
 			}
-			
+
 			if (PlatformSetting :: get('allow_course_menu_selection', WeblcmsManager :: APPLICATION_NAME))
 			{
 				$this->addElement('select', Course :: PROPERTY_MENU, Translation :: get('Menu'), Course :: get_menu_options());
 			}
-			
+
 			if (PlatformSetting :: get('allow_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME))
 			{
 				$this->addElement('select', Course :: PROPERTY_BREADCRUMB, Translation :: get('Breadcrumb'), Course :: get_breadcrumb_options());
 			}
-			
+
 			$this->addElement('html', '<div style="clear: both;"></div>');
 			$this->addElement('html', '</div>');
 		}
@@ -204,14 +206,14 @@ class CourseForm extends FormValidator {
     {
     	$course = $this->course;
     	$parent = $this->parent;
-    	
+
 		$this->addElement('html', '<div class="configuration_form">');
 		$this->addElement('html', '<span class="category">'. Translation :: get('Required') .'</span>');
-		
+
     	$this->build_basic_form();
 
     	$this->addElement('hidden', Course :: PROPERTY_ID);
-    	
+
 		//$this->addElement('submit', 'course_settings', Translation :: get('Ok'));
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -223,11 +225,11 @@ class CourseForm extends FormValidator {
     {
     	$this->addElement('html', '<div class="configuration_form">');
 		$this->addElement('html', '<span class="category">'. Translation :: get('Required') .'</span>');
-    	
+
     	//$this->addElement('text', Course :: PROPERTY_ID, Translation :: get('CourseCode'));
     	//$this->addRule(Course :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
     	$this->build_basic_form();
-    	
+
 		//$this->addElement('submit', 'course_settings', Translation :: get('Ok'));
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Create'), array('class' => 'positive'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -243,29 +245,29 @@ class CourseForm extends FormValidator {
     	$course->set_visual($values[Course :: PROPERTY_VISUAL]);
     	$course->set_name($values[Course :: PROPERTY_NAME]);
     	$course->set_category($values[Course :: PROPERTY_CATEGORY]);
-    	
+
 		$course->set_titular($values[Course :: PROPERTY_TITULAR]);
 		$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
     	$course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
-		
+
 		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
 		if ($course_can_have_theme)
 		{
 			$course->set_theme($values[Course :: PROPERTY_THEME]);
 		}
-		
+
 		$language = $values[Course :: PROPERTY_LANGUAGE];
     	$course->set_language($language ? $language : PlatformSetting :: get('platform_language'));
-		
+
 		$layout = $values[Course :: PROPERTY_LAYOUT];
 		$course->set_layout($layout? $layout : PlatformSetting :: get('default_course_layout', WeblcmsManager :: APPLICATION_NAME));
-		
+
 		$tool_shortcut = $values[Course :: PROPERTY_TOOL_SHORTCUT];
 		$course->set_tool_shortcut($tool_shortcut?$tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME));
-		
+
 		$menu = $values[Course :: PROPERTY_MENU];
 		$course->set_menu($menu ? $menu : PlatformSetting :: get('default_course_menu_selection', WeblcmsManager :: APPLICATION_NAME));
-		
+
 		$breadcrumb = $values[Course :: PROPERTY_BREADCRUMB];
 		$course->set_breadcrumb($breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME));
 
@@ -291,32 +293,32 @@ class CourseForm extends FormValidator {
 		$course->set_titular($values[Course :: PROPERTY_TITULAR]);
     	$course->set_extlink_name($values[Course :: PROPERTY_EXTLINK_NAME]);
     	$course->set_extlink_url($values[Course :: PROPERTY_EXTLINK_URL]);
-    	
+
 		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
 		if ($course_can_have_theme)
 		{
 			$course->set_theme($values[Course :: PROPERTY_THEME]);
 		}
-    	
+
     	$course->set_visibility($values[Course :: PROPERTY_VISIBILITY]);
     	$course->set_subscribe_allowed($values[Course :: PROPERTY_SUBSCRIBE_ALLOWED]);
     	$course->set_unsubscribe_allowed($values[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED]);
-		
+
 		$language = $values[Course :: PROPERTY_LANGUAGE];
     	$course->set_language($language ? $language : PlatformSetting :: get('platform_language'));
-		
+
 		$layout = $values[Course :: PROPERTY_LAYOUT];
 		$course->set_layout($layout? $layout : PlatformSetting :: get('default_course_layout', WeblcmsManager :: APPLICATION_NAME));
-		
+
 		$tool_shortcut = $values[Course :: PROPERTY_TOOL_SHORTCUT];
 		$course->set_tool_shortcut($tool_shortcut?$tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME));
-		
+
 		$menu = $values[Course :: PROPERTY_MENU];
 		$course->set_menu($menu ? $menu : PlatformSetting :: get('default_course_menu_selection', WeblcmsManager :: APPLICATION_NAME));
-		
+
 		$breadcrumb = $values[Course :: PROPERTY_BREADCRUMB];
 		$course->set_breadcrumb($breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME));
-		
+
 		$allow_feedback = $values[Course :: PROPERTY_ALLOW_FEEDBACK];
 		$course->set_allow_feedback($allow_feedback ? $allow_feedback : PlatformSetting :: get('feedback', WeblcmsManager :: APPLICATION_NAME));
 
@@ -369,29 +371,29 @@ class CourseForm extends FormValidator {
 		$defaults[Course :: PROPERTY_VISIBILITY] = $course->get_visibility();
 		$defaults[Course :: PROPERTY_SUBSCRIBE_ALLOWED] = $course->get_subscribe_allowed();
 		$defaults[Course :: PROPERTY_UNSUBSCRIBE_ALLOWED] = $course->get_unsubscribe_allowed();
-		
+
 		$layout = $course->get_layout();
 		$defaults[Course :: PROPERTY_LAYOUT] = $layout? $layout : PlatformSetting :: get('default_course_layout', WeblcmsManager :: APPLICATION_NAME);
-		
+
 		$tool_shortcut = $course->get_tool_shortcut();
 		$defaults[Course :: PROPERTY_TOOL_SHORTCUT] = $tool_shortcut?$tool_shortcut : PlatformSetting :: get('default_course_tool_short_cut_selection', WeblcmsManager :: APPLICATION_NAME);
-		
+
 		$menu = $course->get_menu();
 		$defaults[Course :: PROPERTY_MENU] = $menu ? $menu : PlatformSetting :: get('default_course_menu_selection', WeblcmsManager :: APPLICATION_NAME);
-		
+
 		$breadcrumb = $course->get_breadcrumb();
 		$defaults[Course :: PROPERTY_BREADCRUMB] = $breadcrumb ? $breadcrumb : PlatformSetting :: get('default_course_breadcrumbs', WeblcmsManager :: APPLICATION_NAME);
-		
+
 		$feedback = $course->get_allow_feedback();
 		$defaults[Course :: PROPERTY_ALLOW_FEEDBACK] = $feedback ? $feedback : PlatformSetting :: get('feedback', WeblcmsManager :: APPLICATION_NAME);
-		
+
 		$course_can_have_theme = PlatformSetting :: get('allow_course_theme_selection', WeblcmsManager :: APPLICATION_NAME);
-		
+
 		if ($course_can_have_theme)
 		{
 			$defaults[Course :: PROPERTY_THEME] = $course->get_theme();
 		}
-		
+
 		parent :: setDefaults($defaults);
 	}
 }

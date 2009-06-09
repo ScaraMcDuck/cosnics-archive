@@ -24,79 +24,104 @@ if (Authentication :: is_valid())
         $wdm = WeblcmsDataManager :: get_instance();
         $course = $wdm->retrieve_course($course);
 
-        $users = array();
-        $course_users = $course->get_subscribed_users();
-        foreach($course_users as $course_user)
-        {
-            $users[] = $course_user->get_user_object();
-        }
-
         $query = Request :: get('query');
         $exclude = Request :: get('exclude');
 
-//    	$user_conditions = array ();
+    	$user_conditions = array ();
     	$group_conditions = array ();
-//
+
     	if ($query)
     	{
     		$q = '*' . $query . '*';
-//
-//    		$user_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, $q);
+
+    		$user_conditions[] = new PatternMatchCondition(User :: PROPERTY_USERNAME, $q);
     		$group_conditions[] = new PatternMatchCondition(CourseGroup :: PROPERTY_NAME, $q);
     	}
-//
-//    	if ($exclude)
-//    	{
-//    	    if (!is_array($exclude))
-//    	    {
-//    	        $exclude = array($exclude);
-//    	    }
-//
-//    		$exclude_conditions = array ();
-//    		$exclude_conditions['user'] = array();
-//    		$exclude_conditions['group'] = array();
-//
-//    		foreach ($exclude as $id)
-//    		{
-//    		    $id = explode('_', $id);
-//
-//    		    if($id[0] == 'user')
-//    		    {
-//    		        $condition = new EqualityCondition(User :: PROPERTY_USER_ID, $id[1]);
-//    		    }
-//    		    elseif($id[0] == 'group')
-//    		    {
-//    		        $condition = new EqualityCondition(Group :: PROPERTY_GROUP_ID, $id[1]);
-//    		    }
-//
-//    		    $exclude_conditions[$id[0]] = $condition;
-//    		}
-//
-//    		$user_conditions[] = new NotCondition(new OrCondition($exclude_conditions['user']));
-//    		$group_conditions[] = new NotCondition(new OrCondition($exclude_conditions['group']));
-//    	}
-//
-    	if ($query || $exclude)
+
+    	if ($exclude)
     	{
-//    		$user_condition = new AndCondition($user_conditions);
-    		$group_condition = new AndCondition($group_conditions);
+    	    if (!is_array($exclude))
+    	    {
+    	        $exclude = array($exclude);
+    	    }
+
+    		$exclude_conditions = array ();
+    		$exclude_conditions['user'] = array();
+    		$exclude_conditions['group'] = array();
+
+    		foreach ($exclude as $id)
+    		{
+    		    $id = explode('_', $id);
+
+    		    if($id[0] == 'user')
+    		    {
+    		        $condition = new NotCondition(new EqualityCondition(User :: PROPERTY_USER_ID, $id[1]));
+    		    }
+    		    elseif($id[0] == 'group')
+    		    {
+    		        $condition = new NotCondition(new EqualityCondition(Group :: PROPERTY_GROUP_ID, $id[1]));
+    		    }
+
+    		    $exclude_conditions[$id[0]][] = $condition;
+    		}
+
+    		if(count($exclude_conditions['user']) > 0)
+    		{
+    		    $user_conditions[] = new AndCondition($exclude_conditions['user']);
+    		}
+
+    		if(count($exclude_conditions['group']) > 0)
+    		{
+    		    $group_conditions[] = new AndCondition($exclude_conditions['group']);
+    		}
+    	}
+
+    	//if ($user_conditions)
+    	if (count($user_conditions) > 0)
+    	{
+    	    $user_condition = new AndCondition($user_conditions);
     	}
     	else
     	{
-//    		$user_conditions = null;
-    		$group_condition = null;
+    	    $user_condition = null;
     	}
-//
-//    	$udm = UserDataManager :: get_instance();
-//    	$objects = $udm->retrieve_users($user_condition);
-//    	while ($lo = $objects->next_result())
-//    	{
-//    		$users[] =$lo;
-//    	}
-//
+
+    	//if ($group_conditions)
+        if (count($group_conditions) > 0)
+    	{
+    	    $group_condition = new AndCondition($group_conditions);
+    	}
+    	else
+    	{
+    	    $group_condition = null;
+    	}
+
+    	$udm = UserDataManager :: get_instance();
     	$wdm = WeblcmsDataManager :: get_instance();
-    	$grs = $wdm->retrieve_course_groups($group_condition);
-    	while($group = $grs->next_result())
+
+    	$user_result_set = $udm->retrieve_users($user_condition);
+    	$relation_condition = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course);
+    	$course_user_relation_result_set = $wdm->retrieve_course_user_relations();
+
+    	$user_ids = array();
+        while ($course_user = $course_user_relation_result_set->next_result())
+    	{
+    		$user_ids[] = $course_user->get_user();
+    	}
+
+    	$users = array();
+    	while ($user = $user_result_set->next_result())
+    	{
+    	    if (in_array($user->get_id(), $user_ids))
+    	    {
+    		    $users[] = $user;
+    	    }
+    	}
+
+    	$groups = array();
+    	$wdm = WeblcmsDataManager :: get_instance();
+    	$group_result_set = $wdm->retrieve_course_groups($group_condition);
+    	while($group = $group_result_set->next_result())
     	{
     		$groups[] = $group;
     	}
@@ -120,9 +145,9 @@ function dump_tree($users, $groups)
 	if (contains_results($users) || contains_results($groups))
 	{
 		echo '<node id="user" class="type_category unlinked" title="Users">', "\n";
-		foreach ($users as $lo)
+		foreach ($users as $user)
 		{
-			echo '<leaf id="user_'. $lo->get_id(). '" class="'. 'type type_user'. '" title="'. htmlentities($lo->get_username()). '" description="'. htmlentities($lo->get_firstname()) . ' ' . htmlentities($lo->get_lastname()) . '"/>'. "\n";
+			echo '<leaf id="user_'. $user->get_id(). '" class="'. 'type type_user'. '" title="'. htmlentities($user->get_username()). '" description="'. htmlentities($user->get_fullname()) . '"/>'. "\n";
 		}
 		echo '</node>', "\n";
 

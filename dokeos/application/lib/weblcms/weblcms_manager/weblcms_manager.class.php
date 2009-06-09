@@ -751,19 +751,9 @@ class WeblcmsManager extends WebApplication
 	 * @param int $user_id
 	 * @param string $course_user_category
 	 */
-	function retrieve_course_user_relations($user_id, $course_user_category)
+	function retrieve_course_user_relations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return WeblcmsDataManager :: get_instance()->retrieve_course_user_relations($user_id, $course_user_category);
-	}
-
-	/**
-	 * Retrieves the relations for the users subscribed to a certain course.
-	 * @param Course $course
-	 * @return CourseUserRelationResultSet
-	 */
-	function retrieve_course_users($course)
-	{
-		return WeblcmsDataManager :: get_instance()->retrieve_course_users($course);
+		return WeblcmsDataManager :: get_instance()->retrieve_course_user_relations($condition, $offset, $count, $order_property, $order_direction);
 	}
 
 	/**

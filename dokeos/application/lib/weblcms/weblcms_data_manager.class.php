@@ -579,13 +579,6 @@ abstract class WeblcmsDataManager
 	abstract function retrieve_course_user_relation($course_code, $user_id);
 
 	/**
-	 * Retrieves the relations for the users subscribed to a certain course.
-	 * @param Course $course
-	 * @return CourseUserRelationResultSet
-	 */
-	abstract function retrieve_course_users($course);
-
-	/**
 	 * Retrieves the next course user relation according to.
 	 * @param int $user_id
 	 * @param int $category_id
@@ -600,7 +593,7 @@ abstract class WeblcmsDataManager
 	 * @param int $user_id
 	 * @param string $course_user_category
 	 */
-	abstract function retrieve_course_user_relations($user_id, $course_user_category);
+	abstract function retrieve_course_user_relations($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 
 	/**
 	 * Creates a storage unit

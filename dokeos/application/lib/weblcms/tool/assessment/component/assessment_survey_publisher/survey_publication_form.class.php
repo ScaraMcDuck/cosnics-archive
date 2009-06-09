@@ -3,28 +3,33 @@ require_once Path::get_library_path().'html/formvalidator/FormValidator.class.ph
 
 class SurveyPublicationForm extends FormValidator
 {
-	
+
 	function SurveyPublicationForm($parent, $survey, $url = '')
 	{
 		parent :: __construct('assessment', 'post', $url);
-		
+
 		$this->addElement('html', '<h4>' . $survey->get_title() . '</h4>');
 		$course = $parent->get_course();
-		$user_relations = WeblcmsDataManager :: get_instance()->retrieve_course_users($course);
+
+		$relation_conditions = array();
+		$relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $course->get_id());
+		$relation_condition = new AndCondition($relation_conditions);
+
+		$user_relations = WeblcmsDataManager :: get_instance()->retrieve_course_user_relations($relation_condition);
 		while ($user_relation = $user_relations->next_result())
 		{
 			$user = $user_relation->get_user_object();
 			$course_users[$user->get_id()] = $user->get_fullname();
 		}
-		
+
 		$this->addElement('text', 'email_header', Translation :: get('EmailTitle'), array('size' => 80));
 		$this->addRule('email_header', Translation :: get('ThisFieldIsRequired'), 'required');
 		$this->add_html_editor('email_content', Translation :: get('EmailContent'), true);
-		
+
 		$this->addElement('advmultiselect', 'course_users', Translation :: get('SelectUsers'), $course_users, 'style="width: 250px;"');
 		$this->addElement('textarea', 'additional_users', Translation :: get('AdditionalUsers'), array ('cols' => 50, 'rows' => 2));
-		
-		$this->addElement('html', '<br />' . Translation :: get('PublishSurveySendMailInfo') . '<br /><br />');		
+
+		$this->addElement('html', '<br />' . Translation :: get('PublishSurveySendMailInfo') . '<br /><br />');
 		$this->addElement('checkbox', 'resend', Translation :: get('ResendEmail'));
 		$this->addElement('html', '<br />' . Translation :: get('PublishSurveyResendMailInfo') . '<br /><br />');
 		//$this->addElement('submit', 'submit', Translation :: get('SendMail'));

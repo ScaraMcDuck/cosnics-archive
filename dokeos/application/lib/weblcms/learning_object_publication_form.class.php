@@ -70,7 +70,9 @@ class LearningObjectPublicationForm extends FormValidator
     function LearningObjectPublicationForm($form_type, $learning_object, $repo_viewer, $email_option = false, $course, $in_repo_viewer = true, $extra_parameters = array())
     {
     	if($repo_viewer)
+    	{
     		$pub_param = $repo_viewer->get_parameters();
+    	}
 
     	$this->form_type = $form_type;
 		switch($this->form_type)
@@ -241,9 +243,10 @@ class LearningObjectPublicationForm extends FormValidator
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
 
-		//$elem = $this->addElement('user_group_finder', 'test', Translation :: get('Recipients'), $url, $locale, array());
-		//$elem->excludeElements(array($this->form_user->get_id()));
-		//$elem->setDefaultCollapsed(false);
+		$elem = $this->addElement('user_group_finder', 'test', Translation :: get('Recipients'), $url, $locale, array());
+		$current_user = 'user_' . $this->tool->get_user_id();
+		$elem->excludeElements(array($current_user));
+		$elem->setDefaultCollapsed(false);
 
 		$this->add_forever_or_timewindow();
 		$this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));

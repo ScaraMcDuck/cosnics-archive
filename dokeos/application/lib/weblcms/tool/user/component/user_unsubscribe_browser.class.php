@@ -70,7 +70,11 @@ class UserToolUnsubscribeBrowserComponent extends UserToolComponent
 	{
 		$condition = null;
 
-		$users = $this->get_parent()->retrieve_course_users($this->get_course());
+		$relation_conditions = array();
+		$relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_course()->get_id());
+		$relation_condition = new AndCondition($relation_conditions);
+
+		$users = $this->get_parent()->retrieve_course_user_relations($relation_condition);
 
 		$conditions = array();
 		while ($user = $users->next_result())

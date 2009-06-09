@@ -580,7 +580,12 @@ class Course {
 	function get_subscribed_users()
 	{
 		$wdm = WeblcmsDataManager::get_instance();
-		return $wdm->retrieve_course_users($this)->as_array();
+
+		$relation_conditions = array();
+		$relation_conditions[] = new EqualityCondition(CourseUserRelation :: PROPERTY_COURSE, $this->get_id());
+		$relation_condition = new AndCondition($relation_conditions);
+
+		return $wdm->retrieve_course_user_relations($relation_condition)->as_array();
 	}
 	/**
 	 * Gets the course_groups defined in this course
