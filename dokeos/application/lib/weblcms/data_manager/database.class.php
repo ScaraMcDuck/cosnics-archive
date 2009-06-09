@@ -1299,7 +1299,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 
 		$sort = $this->retrieve_max_sort_value(CourseUserRelation :: get_table_name(), CourseUserRelation :: PROPERTY_SORT, $condition);
 
-		$courseuserrelation = new CourseUserRelation($course->get_id(), $user_id);
+		$courseuserrelation = new CourseUserRelation();
+		$courseuserrelation->set_course($course->get_id());
+		$courseuserrelation->set_user($user_id);
 		$courseuserrelation->set_status($status);
 		$courseuserrelation->set_role(null);
 		$courseuserrelation->set_tutor($tutor_id);
@@ -1340,8 +1342,6 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 			$props[$this->escape_column_name($key)] = $value;
 		}
 
-		$props[CourseUserRelation :: PROPERTY_COURSE] = $courseuserrelation->get_course();
-		$props[CourseUserRelation :: PROPERTY_USER] = $courseuserrelation->get_user();
 		$this->connection->loadModule('Extended');
 		if ($this->connection->extended->autoExecute($this->get_table_name(CourseUserRelation :: get_table_name()), $props, MDB2_AUTOQUERY_INSERT))
 		{
