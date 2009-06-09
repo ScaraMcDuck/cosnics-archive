@@ -18,7 +18,7 @@ class PortfolioViewerComponent extends PortfolioComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array('portfolio_action' => null, 'item' => null)), Translation :: get('MyPortfolio')));
 		
-		//$id = $_GET[MyPortfolioManager :: PARAM_ITEM];
+		//$id = Request :: get(MyPortfolioManager :: PARAM_ITEM);
 		$item=$this->get_parent()->get_item_id();
 
 		if ($item >= 0)

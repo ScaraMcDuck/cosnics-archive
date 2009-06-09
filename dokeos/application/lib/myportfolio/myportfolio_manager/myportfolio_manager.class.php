@@ -57,14 +57,14 @@ class MyPortfolioManager extends WebApplication
 			$this->set_parameter(self :: PARAM_ACTION, $_POST[self :: PARAM_ACTION]);
 		}
 		else {
-			$this->set_parameter(self :: PARAM_ACTION, $_GET[self :: PARAM_ACTION]);
+			$this->set_parameter(self :: PARAM_ACTION, Request :: get(self :: PARAM_ACTION));
 		}
 		if(isset($_POST[self :: PARAM_ITEM]))
 		{
 			$this->set_parameter(self :: PARAM_ITEM, $_POST[self :: PARAM_ITEM]);
 		}
 		else {
-			$this->set_parameter(self :: PARAM_ITEM, $_GET[self :: PARAM_ITEM]);
+			$this->set_parameter(self :: PARAM_ITEM, Request :: get(self :: PARAM_ITEM));
 		}
 
 		$this->user = $user;

@@ -66,7 +66,7 @@ class PortfolioThesesComponent extends PortfolioComponent
     function get_theses_as_html()
 	{
 		//fracking dirty hack for presentation
-		$userid= htmlspecialchars($_GET["user"]);
+		$userid= htmlspecialchars(Request :: get("user"));
 //		echo $userid;
 		$user = UserDataManager::get_instance()->retrieve_user($userid);
 

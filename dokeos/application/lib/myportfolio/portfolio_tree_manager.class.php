@@ -79,7 +79,7 @@ class PFTreeManager
 		$this->show_item($url, $root, 0);
 		//echo '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_PUBS.'&user='.$this->owner->get_user_id().'>'.Translation :: get('Mypubs').'</a></li>';
 		//print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_PFPUBS.'&user='.$user->get_id().'>'.Translation :: get('MyResearch').'</a>';
-		//if ($_GET['alles']==1){
+		//if (Request :: get('alles')==1){
         print '<li><a>'.Translation :: get('MyResearch').'</a>';
 		print '<ul>';
 		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_PFPUBS.'&user='.$user->get_id().'&item='.$root.'>'.Translation :: get('Mypubs').'</a>';

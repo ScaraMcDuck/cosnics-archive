@@ -80,7 +80,7 @@ class PortfolioEditorComponent extends PortfolioComponent
 		$publication = $this->publication;
 		$object = $publication->get_publication_object();
 		
-		$id = $_GET[MyPortfolioManager :: PARAM_ITEM];
+		$id = Request :: get(MyPortfolioManager :: PARAM_ITEM);
 		if (true)
 		{
 			// TODO: Roles & Rights.
