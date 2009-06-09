@@ -142,7 +142,47 @@ class LearningObjectPublicationForm extends FormValidator
 			$defaults['forever'] = 0;
 		}
 		$defaults['hidden'] = $publication->is_hidden();
+
+		$udm = UserDataManager :: get_instance();
+		$wdm = WeblcmsDataManager :: get_instance();
+
+		$target_groups = $this->publication->get_target_course_groups();
+		$target_users = $this->publication->get_target_users();
+
 		$defaults[self :: PARAM_TARGET_ELEMENTS] = array();
+		foreach($target_groups as $target_group)
+		{
+		    $group = $wdm->retrieve_course_group($target_group);
+
+		    $selected_group = array ();
+            $selected_group['id'] = 'group_' . $group->get_id();
+            $selected_group['class'] = 'type type_group';
+            $selected_group['title'] = $group->get_name();
+            $selected_group['description'] = $group->get_description();
+
+            $defaults[self :: PARAM_TARGET_ELEMENTS][$selected_group['id']] = $selected_group;
+		}
+    	foreach($target_users as $target_user)
+		{
+		    $user = $udm->retrieve_user($target_user);
+
+		    $selected_user = array ();
+            $selected_user['id'] = 'user_' . $user->get_id();
+            $selected_user['class'] = 'type type_user';
+            $selected_user['title'] = $user->get_fullname();
+            $selected_user['description'] = $user->get_username();
+
+            $defaults[self :: PARAM_TARGET_ELEMENTS][$selected_user['id']] = $selected_user;
+		}
+
+		if (count($defaults[self :: PARAM_TARGET_ELEMENTS]) > 0)
+		{
+            $defaults[self :: PARAM_TARGET_OPTION] = '1';
+		}
+
+		$active = $this->getElement(self :: PARAM_TARGET_ELEMENTS);
+		$active->_elements[0]->setValue(serialize($defaults[self :: PARAM_TARGET_ELEMENTS]));
+
 		parent::setDefaults($defaults);
     }
 	/**

@@ -103,7 +103,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 
 	function setValue($value, $element_id = 0)
 	{
-			$serialized = serialize($value);
+		$serialized = serialize($value);
 		$this->_elements[$element_id]->setValue($serialized);
 	}
 
