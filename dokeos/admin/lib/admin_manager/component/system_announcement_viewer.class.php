@@ -24,7 +24,7 @@ class AdminManagerSystemAnnouncementViewerComponent extends AdminManagerComponen
 			exit;
 		}
 
-		$id = $_GET[AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID];
+		$id = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
 
 		if ($id)
 		{

@@ -26,7 +26,7 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponen
 			exit;
 		}
 
-		$id = $_GET[AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID];
+		$id = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
 
 		if ($id)
 		{
@@ -35,7 +35,7 @@ class AdminManagerSystemAnnouncementEditorComponent extends AdminManagerComponen
 			$learning_object = $system_announcement_publication->get_publication_object();
 
 			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_EDIT_SYSTEM_ANNOUNCEMENT, AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID => $system_announcement_publication->get_id())));
-			if( $form->validate() || $_GET['validated'])
+			if( $form->validate() || Request :: get('validated'))
 			{
 				$form->update_learning_object();
 				if($form->is_version())

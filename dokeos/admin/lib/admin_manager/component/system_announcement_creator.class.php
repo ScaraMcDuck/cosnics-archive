@@ -30,7 +30,7 @@ class AdminManagerSystemAnnouncementCreatorComponent extends AdminManagerCompone
 
 	private function get_publisher_html()
 	{
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 		$pub = new RepoViewer($this, 'system_announcement', true);
 
 		if(!isset($object))

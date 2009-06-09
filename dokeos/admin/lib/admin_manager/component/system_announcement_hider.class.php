@@ -12,7 +12,9 @@ class AdminManagerSystemAnnouncementHiderComponent extends AdminManagerComponent
 	 */
 	function run()
 	{
-		$ids = $_GET[AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID];
+        //@Todo: security issue
+        //Replace $_GET by Request :: get
+		$ids = Request :: get(AdminManager :: PARAM_SYSTEM_ANNOUNCEMENT_ID);
 		$failures = 0;
 
 		if (!empty ($ids))
