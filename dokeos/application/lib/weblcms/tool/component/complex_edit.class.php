@@ -21,17 +21,17 @@ class ToolComplexEditComponent extends ToolComponent
                 $learning_object = $datamanager->retrieve_learning_object($cloi->get_ref());
                 $learning_object->set_default_property('owner',$this->get_user_id());
                 $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cid, Tool :: PARAM_PUBLICATION_ID => $pid, 'details' => Request :: get('details'))));
-
+                dump($this->get_parameters());
                 $trail = new BreadcrumbTrail();
-                if(Request :: get('tool') == 'wiki')
+                if(Request :: get('tool') == 'learning_path')
                 {
-                    $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $datamanager->retrieve_learning_object(Request :: get('pid'))->get_title()));
-                    $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'),  Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), $learning_object->get_title()));
+                    $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view_clo', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $datamanager->retrieve_learning_object(Request :: get('pid'))->get_title()));
+                    $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view_clo', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'),  Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), $learning_object->get_title()));
                 }
                 else
                 {
-                    $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
-                    $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'),  Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), $learning_object->get_title()));
+                    $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view','display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), RepositoryDataManager :: get_instance()->retrieve_learning_object(Request :: get('pid'))->get_title()));
+                    $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view','display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'),  Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))), $learning_object->get_title()));
                 }
                 
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => Request :: get('cid'))),Translation :: get('Edit')));
@@ -71,6 +71,9 @@ class ToolComplexEditComponent extends ToolComponent
 
                     if(Request :: get('tool') == 'wiki')
                     {
+                        if(Request :: get('tool') == 'learning_path')
+                        $params['tool_action'] = 'view_clo';
+                        else
                         $params['tool_action'] = 'view';
                         $params['display_action'] = 'view_item';
                     }

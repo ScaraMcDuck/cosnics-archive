@@ -59,6 +59,12 @@ class ToolEditComponent extends ToolComponent
                             $params['tool_action'] = 'view';
                         }
 
+                        if(Request :: get('tool') == 'learning_path')
+                        {
+                            $params['tool_action'] = 'view_clo';
+                            $params['pid'] = Request :: get('pid');
+                        }
+
                         $this->redirect($message, '', $params);
                     }
                     else
