@@ -9,7 +9,7 @@
 		<attribute name="Shib-EP-Affiliation"          mapped_to="affiliation"  default_value="student" update_at_login="false" />
 	</attribute_mapping>
 	
-	<role_mapping name_separator=";">
+	<role_mapping name_separator=";" display_request_form_when_unclear="true">
 		<value name="faculty"   precedence="0" group_id="" role_id="" />
 		
 		<value name="student"   precedence="1" group_id="" role_id="" />
