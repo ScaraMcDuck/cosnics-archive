@@ -643,6 +643,19 @@ class ReportingWeblcms {
         $wdm = WeblcmsDataManager::get_instance();
         $condition = new EqualityCondition(WeblcmsManager :: PARAM_TOOL,$tool);
         $lop = $wdm->retrieve_learning_object_publication($pid);
+        if(empty($lop))
+        {
+            $lop = RepositoryDataManager :: get_instance()->retrieve_learning_object($pid);
+            $title = $lop->get_title();
+            $id = $lop->get_id();
+            $descr = $lop->get_description();
+        }
+        else
+        {
+            $title = $lop->get_learning_object()->get_title();
+            $id = $pid;
+            $descr = $lop->get_learning_object()->get_description();
+        }
         //$lops = $wdm->retrieve_learning_object_publications($course_id, null, $user_id, null, $condition);
 
         $condition = new PatternMatchCondition(VisitTracker::PROPERTY_LOCATION,'*pid='.$pid.'*');
@@ -654,11 +667,10 @@ class ReportingWeblcms {
             $lastaccess = $value->get_leave_date();
         }
         //      run.php?go=courseviewer&course=1&tool=announcement&application=weblcms&pid=1&tool_action=view
-        $url = 'run.php?go=courseviewer&course='.$course_id.'&tool='.$tool.'&application=weblcms&pid='.$lop->get_id().'&tool_action=view';
-        $arr[Translation :: get('Title')][] = '<a href="'.$url.'">'.$lop->get_learning_object()->get_title().'</a>';
+        $url = 'run.php?go=courseviewer&course='.$course_id.'&tool='.$tool.'&application=weblcms&pid='.$id.'&tool_action=view';
+        $arr[Translation :: get('Title')][] = '<a href="'.$url.'">'.$title.'</a>';
 
-        $des = $lop->get_learning_object()->get_description();
-        $arr[Translation :: get('Description')][] = DokeosUtilities::truncate_string($des, 50);
+        $arr[Translation :: get('Description')][] = DokeosUtilities::truncate_string($descr, 50);
         $arr[Translation :: get('LastAccess')][] = $lastaccess;
         $arr[Translation :: get('TotalTimesAccessed')][] = count($trackerdata);
 
