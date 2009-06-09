@@ -14,7 +14,7 @@ class CategoryManagerUpdaterComponent extends CategoryManagerComponent
 	 */
 	function run()
 	{     
-		$category_id = $_GET[CategoryManager :: PARAM_CATEGORY_ID];
+		$category_id = Request :: get(CategoryManager :: PARAM_CATEGORY_ID);
 		$user = $this->get_user();
 
 		$categories = $this->retrieve_categories(new EqualityCondition(PlatformCategory :: PROPERTY_ID, $category_id));

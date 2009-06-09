@@ -66,7 +66,7 @@ class RepoViewerBrowserComponent extends RepoViewerComponent
 	function get_menu()
 	{
 		$url = $_SERVER['REQUEST_URI'] . '&category=%s';
-		$menu = new LearningObjectCategoryMenu($this->get_user_id(), $_GET['category']?$_GET['category']:0,$url);
+		$menu = new LearningObjectCategoryMenu($this->get_user_id(), Request :: get('category')?Request :: get('category'):0,$url);
 		return $menu;
 	}
 	

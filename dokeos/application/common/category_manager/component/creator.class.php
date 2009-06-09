@@ -24,7 +24,7 @@ class CategoryManagerCreatorComponent extends CategoryManagerComponent
         }
         $trail->add(new Breadcrumb($this->get_url(),Translation :: get('AddCategory')));
         
-		$category_id = $_GET[CategoryManager :: PARAM_CATEGORY_ID];
+		$category_id = Request :: get(CategoryManager :: PARAM_CATEGORY_ID);
 		$user = $this->get_user();
 
 		$category = $this->get_category();

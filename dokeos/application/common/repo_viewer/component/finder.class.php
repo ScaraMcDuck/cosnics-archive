@@ -62,9 +62,9 @@ class RepoViewerFinderComponent extends RepoViewerBrowserComponent
 		{
 			return $this->form->exportValue('query');
 		}
-		if ($_GET['query'])
+		if (Request :: get('query')
 		{
-			return $_GET['query'];
+			return Request :: get('query');
 		}
 		return null;
 	}

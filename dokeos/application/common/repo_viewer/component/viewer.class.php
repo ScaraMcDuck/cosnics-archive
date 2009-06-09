@@ -18,9 +18,9 @@ class RepoViewerViewerComponent extends RepoViewerComponent
 	 */
 	function as_html()
 	{
-		if ($_GET[RepoViewer :: PARAM_ID])
+		if (Request :: get(RepoViewer :: PARAM_ID))
 		{
-			$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($_GET[RepoViewer :: PARAM_ID]);
+			$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object(Request :: get(RepoViewer :: PARAM_ID));
 			$toolbar_data = array();
 			$toolbar_data[] = array(
 				'href' => $this->get_url(array_merge($this->get_parameters(), array (RepoViewer :: PARAM_ACTION => 'publicationcreator', RepoViewer :: PARAM_ID => $learning_object->get_id()))),

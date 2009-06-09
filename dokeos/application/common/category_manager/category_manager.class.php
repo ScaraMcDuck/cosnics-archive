@@ -130,7 +130,7 @@ abstract class CategoryManager
 	 */
 	function get_action()
 	{
-		return $_GET[self :: PARAM_ACTION];
+		return Request :: get(self :: PARAM_ACTION);
 	}
 
 	function get_url($parameters = array(), $encode = false)
@@ -270,13 +270,13 @@ abstract class CategoryManager
 			{
 				case self :: PARAM_REMOVE_SELECTED_CATEGORIES :
 					$this->set_parameter(self :: PARAM_ACTION, self :: ACTION_DELETE_CATEGORY);
-					$_GET[self :: PARAM_ACTION] = self :: ACTION_DELETE_CATEGORY;
-					$_GET[self :: PARAM_CATEGORY_ID] = $selected_ids;
+					Request :: set_get(self :: PARAM_ACTION,self :: ACTION_DELETE_CATEGORY);
+					Request :: set_get(self :: PARAM_CATEGORY_ID,$selected_ids);
 					break;
 				case self :: PARAM_MOVE_SELECTED_CATEGORIES :
 					$this->set_parameter(self :: PARAM_ACTION, self :: ACTION_CHANGE_CATEGORY_PARENT);
-					$_GET[self :: PARAM_ACTION] = self :: ACTION_CHANGE_CATEGORY_PARENT;
-					$_GET[self :: PARAM_CATEGORY_ID] = $selected_ids;
+					Request :: set_get(self :: PARAM_ACTION,self :: ACTION_CHANGE_CATEGORY_PARENT);
+					Request :: set_get(self :: PARAM_CATEGORY_ID,$selected_ids);
 					break;
 			}
 		}

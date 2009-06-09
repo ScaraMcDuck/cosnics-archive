@@ -20,17 +20,17 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
 	 */
 	function as_html($params = array())
 	{
-		$oid = $_GET[RepoViewer :: PARAM_EDIT_ID];
+		$oid = Request :: get(RepoViewer :: PARAM_EDIT_ID);
 		if ($oid)
 		{
-			//if ($_GET[RepoViewer :: PARAM_EDIT])
+			//if (Request :: get(RepoViewer :: PARAM_EDIT))
 			//{
 				return $this->get_editing_form($oid, $params);
 			//}
 		}
-		/*else if ($_GET[RepoViewer :: PARAM_ID])
+		/*else if (Request :: get(RepoViewer :: PARAM_ID))
 		{
-			$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => $_GET[RepoViewer :: PARAM_ID]));
+			$redirect_params = array_merge($this->get_parameters(), array(RepoViewer :: PARAM_ID => Request :: get(RepoViewer :: PARAM_ID)));
 			$this->redirect(null, false, $redirect_params);
 		}*/
 		else
@@ -70,7 +70,7 @@ class RepoViewerCreatorComponent extends RepoViewerComponent
 		$form->addElement('hidden', RepoViewer :: PARAM_ACTION);
 		$form->addElement('select', 'type', '', $types);
 		$form->addElement('submit', 'submit', Translation :: get('Ok'));
-		$form->setDefaults(array (RepoViewer :: PARAM_ACTION => $_GET[RepoViewer :: PARAM_ACTION]));
+		$form->setDefaults(array (RepoViewer :: PARAM_ACTION => Request :: get(RepoViewer :: PARAM_ACTION)));
 		
 		if ($form->validate())
 		{

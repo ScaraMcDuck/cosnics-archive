@@ -68,7 +68,7 @@ class LearningObjectTableDataProvider extends ObjectTableDataProvider
     {
     	$owner = $this->owner;
     	
-    	$category = $_GET['category'];
+    	$category = Request :: get('category');
     	$category = $category?$category:0;
     	
     	$conds = array();

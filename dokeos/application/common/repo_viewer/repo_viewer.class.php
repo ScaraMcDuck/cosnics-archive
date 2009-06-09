@@ -73,7 +73,7 @@ class RepoViewer
 		$this->mail_option = $mail_option;
 		$this->set_repo_viewer_actions(array ('creator','browser', 'finder'));
 		$this->excluded_objects = $excluded_objects;
-		$this->set_parameter(RepoViewer :: PARAM_ACTION, ($_GET[RepoViewer :: PARAM_ACTION] ? $_GET[RepoViewer :: PARAM_ACTION] : 'creator'));
+		$this->set_parameter(RepoViewer :: PARAM_ACTION, (Request :: get(RepoViewer :: PARAM_ACTION) ? Request :: get(RepoViewer :: PARAM_ACTION) : 'creator'));
 		if($parse_input)
 			$this->parse_input_from_table();
         $this->redirect = $redirect;
@@ -282,9 +282,9 @@ class RepoViewer
 					{
 						if(count($selected_publication_ids) > $this->get_maximum_select())
 						{
-							$_GET['message'] = sprintf(Translation :: get('MaximumSelectableLOReached'), count($selected_publication_ids), $this->get_maximum_select());
+							Request :: set_get('message',sprintf(Translation :: get('MaximumSelectableLOReached'), count($selected_publication_ids), $this->get_maximum_select()));
 							$_POST['action'] = null;
-							$_GET['action'] = null;
+							Request :: set_get('action',null);
 							return;
 						}
 					}
