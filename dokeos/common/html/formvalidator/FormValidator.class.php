@@ -332,6 +332,37 @@ EOT;
 					</script>\n");
 	}
 
+	function add_receivers($elementName, $elementLabel, $attributes)
+	{
+	    $choices = array();
+        $choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('Everybody'), '0', array ('onclick' => 'javascript:receivers_hide(\'receivers_window\')', 'id' => 'receiver'));
+		$choices[] = $this->createElement('radio', $elementName . '_option', '', Translation :: get('SelectGroupsUsers'), '1', array ('onclick' => 'javascript:receivers_show(\'receivers_window\')'));
+		$this->addGroup($choices, null, Translation :: get($elementLabel), '<br />', false);
+		$this->addElement('html','<div style="margin-left: 25px; display: block;" id="receivers_window">');
+
+		$element_finder = $this->createElement('user_group_finder', $elementName . '_elements', '', $attributes['search_url'], $attributes['locale'], $attributes['defaults']);
+		$element_finder->excludeElements($attributes['exclude']);
+		$this->addElement($element_finder);
+		$this->addElement('html','</div>');
+		$this->addElement('html',"<script type=\"text/javascript\">
+					/* <![CDATA[ */
+					var expiration = document.getElementById('receiver');
+					if (expiration.checked)
+					{
+						receivers_hide('receivers_window');
+					}
+					function receivers_show(item) {
+						el = document.getElementById(item);
+						el.style.display='';
+					}
+					function receivers_hide(item) {
+						el = document.getElementById(item);
+						el.style.display='none';
+					}
+					/* ]]> */
+					</script>\n");
+	}
+
 	/**
 	 * Add a button to the form to add resources.
 	 */

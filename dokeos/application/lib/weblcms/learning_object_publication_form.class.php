@@ -22,11 +22,9 @@ class LearningObjectPublicationForm extends FormValidator
 
 	// XXX: Some of these constants heavily depend on FormValidator.
 	const PARAM_CATEGORY_ID = 'category';
-	const PARAM_TARGETS = 'target_users_and_course_groups';
-	const PARAM_RECEIVERS = 'receivers';
-	const PARAM_TARGETS_TO = 'to';
-	const PARAM_TARGET_USER_PREFIX = 'user';
-	const PARAM_TARGET_COURSE_GROUP_PREFIX = 'course_group';
+	const PARAM_TARGET = 'target_users_and_course_groups';
+	const PARAM_TARGET_ELEMENTS = 'target_users_and_course_groups_elements';
+	const PARAM_TARGET_OPTION = 'target_users_and_course_groups_option';
 	const PARAM_FOREVER = 'forever';
 	const PARAM_FROM_DATE = 'from_date';
 	const PARAM_TO_DATE = 'to_date';
@@ -144,16 +142,7 @@ class LearningObjectPublicationForm extends FormValidator
 			$defaults['forever'] = 0;
 		}
 		$defaults['hidden'] = $publication->is_hidden();
-		$users = $publication->get_target_users();
-		foreach($users as $index => $user_id)
-		{
-			$defaults['target_users_and_course_groups']['to'][] = 'user-'.$user_id;
-		}
-		$course_groups = $publication->get_target_course_groups();
-		foreach($course_groups as $index => $course_group_id)
-		{
-			$defaults['target_users_and_course_groups']['to'][] = 'course_group-'.$course_group_id;
-		}
+		$defaults[self :: PARAM_TARGET_ELEMENTS] = array();
 		parent::setDefaults($defaults);
     }
 	/**
@@ -165,7 +154,7 @@ class LearningObjectPublicationForm extends FormValidator
     function setDefaults()
     {
     	$defaults = array();
-    	$defaults[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] = 0;
+    	$defaults[self :: PARAM_TARGET_OPTION] = 0;
 		$defaults[self :: PARAM_FOREVER] = 1;
 		$defaults[self :: PARAM_CATEGORY_ID] = Request :: get('pcattree');
 		parent :: setDefaults($defaults);
@@ -218,35 +207,21 @@ class LearningObjectPublicationForm extends FormValidator
 		else
 		{
 			// Only root category -> store object in root category
-			$this->addElement('hidden',LearningObjectPublication :: PROPERTY_CATEGORY_ID,0);
-		}
-		$user_relations = $this->course->get_subscribed_users();
-		$receiver_choices = array();
-		foreach($user_relations as $index => $user_relation)
-		{
-			$user = $user_relation->get_user_object();
-			$receiver_choices[self :: PARAM_TARGET_USER_PREFIX.'-'.$user->get_id()] = $user->get_fullname();
+			$this->addElement('hidden', LearningObjectPublication :: PROPERTY_CATEGORY_ID, 0);
 		}
 
-		$course_groups = $this->course->get_course_groups();
-		foreach($course_groups as $index => $course_group)
-		{
-			$receiver_choices[self :: PARAM_TARGET_COURSE_GROUP_PREFIX.'-'.$course_group->get_id()] = Translation :: get('CourseGroup').': '.$course_group->get_name();
-		}
-		$attributes = array(self :: PARAM_RECEIVERS => $receiver_choices);
-		$this->addElement('receivers', self :: PARAM_TARGETS, Translation :: get('PublishFor'),$attributes);
-
-		$url = Path :: get(WEB_PATH).'application/lib/weblcms/xml_course_user_group_feed.php?course=' . $this->course->get_id();
+		$attributes = array();
+		$attributes['search_url'] = Path :: get(WEB_PATH).'application/lib/weblcms/xml_course_user_group_feed.php?course=' . $this->course->get_id();
 		$locale = array ();
 		$locale['Display'] = Translation :: get('SelectRecipients');
 		$locale['Searching'] = Translation :: get('Searching');
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
+		$attributes['locale'] = $locale;
+		$attributes['exclude'] = array('user_' . $this->tool->get_user_id());
+		$attributes['defaults'] = array();
 
-		$elem = $this->addElement('user_group_finder', 'test', Translation :: get('Recipients'), $url, $locale, array());
-		$current_user = 'user_' . $this->tool->get_user_id();
-		$elem->excludeElements(array($current_user));
-		$elem->setDefaultCollapsed(false);
+		$this->add_receivers(self :: PARAM_TARGET, Translation :: get('PublishFor'), $attributes);
 
 		$this->add_forever_or_timewindow();
 		$this->addElement('checkbox', self :: PARAM_HIDDEN, Translation :: get('Hidden'));
@@ -286,23 +261,9 @@ class LearningObjectPublicationForm extends FormValidator
 		}
 		$hidden = ($values[self :: PARAM_HIDDEN] ? 1 : 0);
 		$category = $values[self :: PARAM_CATEGORY_ID];
-		$users = array ();
-		$course_groups = array ();
-		if($values[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] == 1)
-		{
-			foreach($values[self::PARAM_TARGETS][self :: PARAM_TARGETS_TO] as $index => $target)
-			{
-				list($type,$id) = explode('-',$target);
-				if($type == self :: PARAM_TARGET_COURSE_GROUP_PREFIX)
-				{
-					$course_groups[] = $id;
-				}
-				elseif($type == self :: PARAM_TARGET_USER_PREFIX)
-				{
-					$users[] = $id;
-				}
-			}
-		}
+
+		$users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
+		$course_groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
 
 		$pub = $this->publication;
 		$pub->set_from_date($from);
@@ -338,23 +299,10 @@ class LearningObjectPublicationForm extends FormValidator
 		}
 		$hidden = ($values[self :: PARAM_HIDDEN] ? 1 : 0);
 		$category = $values[self :: PARAM_CATEGORY_ID];
-		$users = array ();
-		$course_groups = array ();
-		if($values[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] == 1)
-		{
-			foreach($values[self::PARAM_TARGETS][self :: PARAM_TARGETS_TO] as $index => $target)
-			{
-				list($type,$id) = explode('-',$target);
-				if($type == self :: PARAM_TARGET_COURSE_GROUP_PREFIX)
-				{
-					$course_groups[] = $id;
-				}
-				elseif($type == self :: PARAM_TARGET_USER_PREFIX)
-				{
-					$users[] = $id;
-				}
-			}
-		}
+
+		$users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
+		$course_groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
+
 		$course = $this->course->get_id();
 		$tool = $this->repo_viewer->get_tool()->get_tool_id();
 
@@ -422,23 +370,10 @@ class LearningObjectPublicationForm extends FormValidator
 			}
 			$hidden = ($values[self :: PARAM_HIDDEN] ? 1 : 0);
 			$category = $values[self :: PARAM_CATEGORY_ID];
-			$users = array ();
-			$course_groups = array ();
-			if($values[self :: PARAM_TARGETS][self :: PARAM_RECEIVERS] == 1)
-			{
-				foreach($values[self::PARAM_TARGETS][self :: PARAM_TARGETS_TO] as $index => $target)
-				{
-					list($type,$id) = explode('-',$target);
-					if($type == self :: PARAM_TARGET_COURSE_GROUP_PREFIX)
-					{
-						$course_groups[] = $id;
-					}
-					elseif($type == self :: PARAM_TARGET_USER_PREFIX)
-					{
-						$users[] = $id;
-					}
-				}
-			}
+
+			$users = $values[self :: PARAM_TARGET_ELEMENTS]['user'];
+			$course_groups = $values[self :: PARAM_TARGET_ELEMENTS]['group'];
+
 			$course = $this->course->get_id();
 			$tool = $this->repo_viewer->get_tool()->get_tool_id();
 
