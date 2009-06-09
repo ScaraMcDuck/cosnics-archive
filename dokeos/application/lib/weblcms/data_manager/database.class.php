@@ -117,6 +117,9 @@ class DatabaseWeblcmsDataManager extends WeblcmsDataManager
 		$query = 'SELECT * FROM '.$this->escape_table_name('learning_object_publication').' WHERE '.$this->escape_column_name(LearningObjectPublication :: PROPERTY_ID).'=?';
 		$res = $this->limitQuery($query, 1, null, array ($pid));
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+        if(empty($record))
+        return null;
+        else
 		return $this->record_to_publication($record);
 	}
 
