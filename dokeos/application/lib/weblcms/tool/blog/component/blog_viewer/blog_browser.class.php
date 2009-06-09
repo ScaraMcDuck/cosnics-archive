@@ -23,9 +23,9 @@ class BlogBrowser extends LearningObjectPublicationBrowser
 	function BlogBrowser($parent)
 	{
 		parent :: __construct($parent, 'blog');
-		if(isset($_GET['pid']) && $parent->get_action() == 'view')
+		if(Request :: get('pid') && $parent->get_action() == 'view')
 		{
-			$this->set_publication_id($_GET['pid']);
+			$this->set_publication_id(Request :: get('pid'));
 			$parent->set_parameter(Tool :: PARAM_ACTION, BlogTool :: ACTION_VIEW_BLOGS);
 			$renderer = new LearningObjectPublicationDetailsRenderer($this);
 		}

@@ -21,7 +21,7 @@ class ToolAccessDetailsViewerComponent extends ToolComponent
     {
         $rtv = new ReportingTemplateViewer($this);
 
-        $classname = $_GET[ReportingManager::PARAM_TEMPLATE_NAME];
+        $classname = Request :: get(ReportingManager::PARAM_TEMPLATE_NAME);
 
         $params = Reporting :: get_params($this);
 
@@ -31,8 +31,8 @@ class ToolAccessDetailsViewerComponent extends ToolComponent
         if(Request :: get('pcattree') != null && Request :: get('pcattree') > 0)
         $this->add_pcattree_breadcrumbs(Request :: get('pcattree'),$trail);
 
-        if(Request :: get('pid') != null && Request :: get('template_name')!='CourseStudentTrackerReportingTemplate' && Request :: get('tool') == 'wiki' && Request :: get('template_name')!='CourseTrackerReportingTemplate')
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), RepositoryDataManager :: get_instance()->retrieve_learning_object(Request :: get('pid'))->get_title()));
+        if(Request :: get('pid') != null && Request :: get('template_name')!='CourseStudentTrackerReportingTemplate' && Request :: get('template_name')!='CourseTrackerReportingTemplate')
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
 
         if(!empty($params['user_id']) && Request :: get('template_name') == 'CourseStudentTrackerDetailReportingTemplate')
         {

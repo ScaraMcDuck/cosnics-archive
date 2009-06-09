@@ -91,17 +91,17 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 						$this->load_tools();
 						break;
 					case 'make_publication_invisible':
-						$publication = $wdm->retrieve_learning_object_publication($_GET['pid']);
+						$publication = $wdm->retrieve_learning_object_publication(Request :: get('pid'));
 						$publication->set_hidden(1);
 						$publication->update();
 						break;
 					case 'make_publication_visible':
-						$publication = $wdm->retrieve_learning_object_publication($_GET['pid']);
+						$publication = $wdm->retrieve_learning_object_publication(Request :: get('pid'));
 						$publication->set_hidden(0);
 						$publication->update();
 						break;
 					case 'delete_publication':
-						$publication = $wdm->retrieve_learning_object_publication($_GET['pid']);
+						$publication = $wdm->retrieve_learning_object_publication(Request :: get('pid'));
 						$publication->set_show_on_homepage(0);
 						$publication->update();
 						break;

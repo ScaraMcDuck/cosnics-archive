@@ -22,10 +22,10 @@ class CalendarToolPublisherComponent extends CalendarToolComponent
 
 		$event = new CalendarEvent();
 		$event->set_owner_id($this->get_user_id());
-		$event->set_start_date(intval($_GET['default_start_date']));
-		$event->set_end_date(intval($_GET['default_end_date']));
+		$event->set_start_date(intval(Request :: get('default_start_date')));
+		$event->set_end_date(intval(Request :: get('default_end_date')));
 
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 		$pub = new LearningObjectRepoViewer($this, 'calendar_event', true);
 		$pub->set_default_learning_object('calendar_event',$event);
 

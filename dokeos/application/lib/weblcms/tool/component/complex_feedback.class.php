@@ -18,18 +18,18 @@ class ToolComplexFeedbackComponent extends ToolComponent
         $trail = new BreadcrumbTrail();
         $trail->add_help('courses general');
 
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 		$this->pub = new LearningObjectRepoViewer($this, 'feedback', true);
 		$this->pub->set_parameter(Tool :: PARAM_ACTION, Tool :: ACTION_FEEDBACK_CLOI);
-		if(isset($_GET['pid']))
+		if(Request :: get('pid'))
         {
-            $this->pub->set_parameter('pid', $_GET['pid']);
+            $this->pub->set_parameter('pid', Request :: get('pid'));
             $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
         }
 
-		if(isset($_GET['cid']))
+		if(Request :: get('cid'))
 		{
-            $this->pub->set_parameter('cid', $_GET['cid']);
+            $this->pub->set_parameter('cid', Request :: get('cid'));
             $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item(Request :: get('cid'));
             $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'view', 'display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $cloi->get_id())), RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref())->get_title()));
         }
@@ -51,8 +51,8 @@ class ToolComplexFeedbackComponent extends ToolComponent
 			$feedback = new Feedback();
 			$feedback->set_id($object);
             $this->fid = $feedback->get_id();
-			$this->cid = $_GET['cid'];
-			$this->pid = $_GET['pid'];
+			$this->cid = Request :: get('cid');
+			$this->pid = Request :: get('pid');
 
             /*
              * change in the feedback, create new tabel linking the feedback object to the wiki_page

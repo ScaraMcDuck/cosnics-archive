@@ -29,7 +29,7 @@ class AssessmentToolViewerComponent extends AssessmentToolComponent
 
 		$tree_id = WeblcmsManager :: PARAM_CATEGORY;
 		$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);
-		$this->set_parameter($tree_id, $_GET[$tree_id]);
+		$this->set_parameter($tree_id, Request :: get($tree_id));
 
 		$trail = new BreadCrumbTrail();
 		$trail->add_help('courses assessment tool');

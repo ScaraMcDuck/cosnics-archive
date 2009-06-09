@@ -22,7 +22,7 @@ class WeblcmsManagerAdminCourseBrowserComponent extends WeblcmsManagerComponent
 	{
 		Header :: set_section('admin');
 
-		$this->category = $_GET[WeblcmsManager :: PARAM_COURSE_CATEGORY_ID];
+		$this->category = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
 
 		$trail = new BreadcrumbTrail();
         //$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_APPLICATION => 'weblcms')), Translation :: get('MyCourses')));

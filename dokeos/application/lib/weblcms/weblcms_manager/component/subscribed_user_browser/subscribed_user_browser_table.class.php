@@ -26,7 +26,7 @@ class SubscribedUserBrowserTable extends ObjectTable
 		parent :: __construct($data_provider, SubscribedUserBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
-		if ($_GET[WeblcmsManager :: PARAM_TOOL_ACTION] != WeblcmsManager :: ACTION_SUBSCRIBE)
+		if (Request :: get(WeblcmsManager :: PARAM_TOOL_ACTION) != WeblcmsManager :: ACTION_SUBSCRIBE)
 		{
 			$actions[WeblcmsManager :: PARAM_UNSUBSCRIBE_SELECTED] = Translation :: get('UnsubscribeSelected');
 		}

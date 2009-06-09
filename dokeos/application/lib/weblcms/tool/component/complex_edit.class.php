@@ -9,8 +9,8 @@ class ToolComplexEditComponent extends ToolComponent
 	{
         if($this->is_allowed(EDIT_RIGHT))
 		{
-			$cid = isset($_GET[Tool :: PARAM_COMPLEX_ID]) ? $_GET[Tool :: PARAM_COMPLEX_ID] : $_POST[Tool :: PARAM_COMPLEX_ID];
-            $pid = isset($_GET[Tool :: PARAM_PUBLICATION_ID]) ? $_GET[Tool :: PARAM_PUBLICATION_ID] : $_POST[Tool :: PARAM_PUBLICATION_ID];
+			$cid = Request :: get(Tool :: PARAM_COMPLEX_ID) ? Request :: get(Tool :: PARAM_COMPLEX_ID) : $_POST[Tool :: PARAM_COMPLEX_ID];
+            $pid = Request :: get(Tool :: PARAM_PUBLICATION_ID) ? Request :: get(Tool :: PARAM_PUBLICATION_ID) : $_POST[Tool :: PARAM_PUBLICATION_ID];
 
 			$datamanager = RepositoryDataManager :: get_instance();
 			$cloi = $datamanager->retrieve_complex_learning_object_item($cid);
@@ -20,7 +20,7 @@ class ToolComplexEditComponent extends ToolComponent
                 $cloi->set_default_property('user_id',$this->get_user_id());
                 $learning_object = $datamanager->retrieve_learning_object($cloi->get_ref());
                 $learning_object->set_default_property('owner',$this->get_user_id());
-                $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cid, Tool :: PARAM_PUBLICATION_ID => $pid, 'details' => $_GET['details'])));
+                $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $cid, Tool :: PARAM_PUBLICATION_ID => $pid, 'details' => Request :: get('details'))));
 
                 $trail = new BreadcrumbTrail();
                 if(Request :: get('tool') == 'wiki')
@@ -38,7 +38,7 @@ class ToolComplexEditComponent extends ToolComponent
                 $trail->add_help('courses general');
 
 
-                if( $form->validate() || $_GET['validated'])
+                if( $form->validate() || Request :: get('validated'))
                 {
                     $form->update_learning_object();
                     if($form->is_version())
@@ -63,7 +63,7 @@ class ToolComplexEditComponent extends ToolComponent
                     }
 
 
-                    if($_GET['details'] == 1)
+                    if(Request :: get('details') == 1)
                     {
                         $params['cid'] = $cid;
                         $params['tool_action'] = 'view_item';

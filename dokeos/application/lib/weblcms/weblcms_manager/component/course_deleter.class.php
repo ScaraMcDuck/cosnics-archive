@@ -14,7 +14,7 @@ class WeblcmsManagerCourseDeleterComponent extends WeblcmsManagerComponent
 	 */
 	function run()
 	{
-		$course_codes = $_GET[WeblcmsManager :: PARAM_COURSE];
+		$course_codes = Request :: get(WeblcmsManager :: PARAM_COURSE);
 		$failures = 0;
 
 		if (!$this->get_user()->is_platform_admin())

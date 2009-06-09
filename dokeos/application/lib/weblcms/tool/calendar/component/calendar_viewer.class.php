@@ -22,8 +22,8 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 		$this->introduction_text = $publications->next_result();
 		$this->action_bar = $this->get_action_bar();
 
-		$time = isset($_GET['time']) ? intval($_GET['time']) : time();
-		$view = isset ($_GET['view']) ? $_GET['view'] : 'month';
+		$time = Request :: get('time') ? intval(Request :: get('time')) : time();
+		$view = Request :: get('view') ? Request :: get('view') : 'month';
 		$this->set_parameter('time',$time);
 		$this->set_parameter('view', $view);
 		$browser = new CalendarBrowser($this);
@@ -52,7 +52,7 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 
 		$this->display_header($trail, true);
 		echo '<br /><a name="top"></a>';
-		if(!isset($_GET['pid']))
+		if(!Request :: get('pid'))
 		{
 			if(PlatformSetting :: get('enable_introduction', 'weblcms'))
 			{
@@ -76,13 +76,13 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		if(!isset($_GET['pid']))
+		if(!Request :: get('pid'))
 		{
-			$action_bar->set_search_url(($_GET['view'] == 'list') ? $this->get_url(array('view' => $_GET['view'])) : null);
+			$action_bar->set_search_url((Request :: get('view') == 'list') ? $this->get_url(array('view' => Request :: get('view'))) : null);
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('Publish'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_PUBLISH)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 
-		if($_GET['view'] == 'list')
+		if(Request :: get('view') == 'list')
 		{
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array('view' => 'list')), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
@@ -92,13 +92,13 @@ class CalendarToolViewerComponent extends CalendarToolComponent
 			$action_bar->add_common_action(new ToolbarItem(Translation :: get('PublishIntroductionText'), Theme :: get_common_image_path().'action_publish.png', $this->get_url(array(AnnouncementTool :: PARAM_ACTION => Tool :: ACTION_PUBLISH_INTRODUCTION)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 
-		if(!isset($_GET['pid']))
+		if(!Request :: get('pid'))
 		{
-			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView'), Theme :: get_image_path().'tool_calendar_down.png', $this->get_url(array('view'=>'list', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('MonthView'), Theme :: get_image_path().'tool_calendar_month.png', $this->get_url(array('view'=>'month', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('WeekView'), Theme :: get_image_path().'tool_calendar_week.png', $this->get_url(array('view'=>'week', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_image_path().'tool_calendar_day.png', $this->get_url(array('view'=>'day', 'time' => $_GET['time'])), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path().'tool_calendar_today.png', $this->get_url(array('view' => (isset ($_GET['view']) ? $_GET['view'] : 'month'), 'time' => time(), 'today' => true)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('ListView'), Theme :: get_image_path().'tool_calendar_down.png', $this->get_url(array('view'=>'list', 'time' => Request :: get('time'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('MonthView'), Theme :: get_image_path().'tool_calendar_month.png', $this->get_url(array('view'=>'month', 'time' => Request :: get('time'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('WeekView'), Theme :: get_image_path().'tool_calendar_week.png', $this->get_url(array('view'=>'week', 'time' => Request :: get('time'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('DayView'), Theme :: get_image_path().'tool_calendar_day.png', $this->get_url(array('view'=>'day', 'time' => Request :: get('time'))), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+			$action_bar->add_tool_action(new ToolbarItem(Translation :: get('Today'), Theme :: get_image_path().'tool_calendar_today.png', $this->get_url(array('view' => (Request :: get('view') ? Request :: get('view') : 'month'), 'time' => time(), 'today' => true)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		}
 
         $action_bar->add_tool_action($this->get_access_details_toolbar_item($this));

@@ -14,13 +14,13 @@ class SurveyPublisher extends SurveyPublisherComponent
 			return;
 		}
 		$trail = new BreadCrumbTrail();
-		$trail->add(new BreadCrumb($this->parent->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ACTION => AssessmentTool :: ACTION_PUBLISH, Tool :: PARAM_PUBLICATION_ID => $_GET[Tool :: PARAM_PUBLICATION_ID])), Translation :: get('PublishSurvey')));
+		$trail->add(new BreadCrumb($this->parent->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ACTION => AssessmentTool :: ACTION_PUBLISH, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID))), Translation :: get('PublishSurvey')));
 		$toolbar = $this->parent->get_toolbar();
 		
 		$wdm = WeblcmsDataManager :: get_instance();
 		$rdm = RepositoryDataManager :: get_instance();
 		
-		$pid = $_GET[Tool :: PARAM_PUBLICATION_ID];
+		$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
 		$publication = $wdm->retrieve_learning_object_publication($pid);
 		$survey = $publication->get_learning_object();
 		
@@ -30,7 +30,7 @@ class SurveyPublisher extends SurveyPublisherComponent
 		{
 			$values = $form->exportValues();
 			$this->parse_values($values, $survey, $pid);
-			$this->parent->redirect(null, false, array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ACTION => AssessmentTool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => $_GET[Tool :: PARAM_PUBLICATION_ID]));
+			$this->parent->redirect(null, false, array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH_SURVEY, AssessmentTool :: PARAM_PUBLICATION_ACTION => AssessmentTool :: ACTION_VIEW, Tool :: PARAM_PUBLICATION_ID => Request :: get(Tool :: PARAM_PUBLICATION_ID)));
 		}
 		else
 		{

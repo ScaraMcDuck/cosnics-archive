@@ -2,10 +2,10 @@
 include_once dirname(__FILE__).'/../../../../../../../common/global.inc.php';
 require_once dirname(__FILE__).'/../../../../trackers/weblcms_assessment_attempts_tracker.class.php';
 
-$tracker_id = $_GET['tracker'];
-//$user_id = $_GET['user_id'];
-$score = $_GET['score'];
-$course = $_GET['course'];
+$tracker_id = Request :: get('tracker');
+//$user_id = Request :: get('user_id');
+$score = Request :: get('score');
+$course = Request :: get('course');
 
 //dump($_GET);
 

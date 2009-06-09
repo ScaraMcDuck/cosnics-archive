@@ -56,7 +56,7 @@ class LearningObjectPublicationCategoryTree extends HTML_Menu
 	 */
 	function get_current_category_id()
 	{
-		return intval($_GET[$this->tree_id]);
+		return intval(Request :: get($this->tree_id));
 	}
 	
 	private function get_menu_items($extra_items)

@@ -27,8 +27,8 @@ class AssessmentToolPublisherComponent extends AssessmentToolComponent
 		$trail->add(new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_PUBLISH)), Translation :: get('PublishAssessment')));
 		$trail->add_help('courses assessment tool');
 
-		$object = $_GET['object'];
-		//$edit = $_GET['edit'];
+		$object = Request :: get('object');
+		//$edit = Request :: get('edit');
 
 		$pub = new LearningObjectRepoViewer($this, array('assessment', 'survey', 'hotpotatoes'), true, RepoViewer :: SELECT_MULTIPLE);
 

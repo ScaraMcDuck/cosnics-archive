@@ -30,10 +30,10 @@ class CourseSectionToolSelectorForm extends FormValidator
     function get_tools()
     {
     	$wdm = WeblcmsDataManager :: get_instance();
-    	$modules = $wdm->get_course_modules($_GET['course']);
+    	$modules = $wdm->get_course_modules(Request :: get('course'));
     	
     	$conditions[] = new EqualityCondition(CourseSection :: PROPERTY_NAME, Translation :: get('CourseAdministration'));
-    	$conditions[] = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, $_GET['course']);
+    	$conditions[] = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, Request :: get('course'));
     	
     	$admin_section = $wdm->retrieve_course_sections(new AndCondition($conditions))->next_result();
     	
@@ -51,7 +51,7 @@ class CourseSectionToolSelectorForm extends FormValidator
     function get_registered_tools()
     {
     	$wdm = WeblcmsDataManager :: get_instance();
-    	$modules = $wdm->get_course_modules($_GET['course']);
+    	$modules = $wdm->get_course_modules(Request :: get('course'));
     	
     	foreach($modules as $module)
 		{
@@ -71,10 +71,10 @@ class CourseSectionToolSelectorForm extends FormValidator
     	//dump($values);
     	
     	$wdm = WeblcmsDataManager :: get_instance();
-    	$modules = $wdm->get_course_modules($_GET['course']);
+    	$modules = $wdm->get_course_modules(Request :: get('course'));
     	
     	$conditions[] = new EqualityCondition(CourseSection :: PROPERTY_NAME, Translation :: get('Tools'));
-    	$conditions[] = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, $_GET['course']);
+    	$conditions[] = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, Request :: get('course'));
     	
     	$main_section = $wdm->retrieve_course_sections(new AndCondition($conditions))->next_result();
     	

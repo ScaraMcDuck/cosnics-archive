@@ -23,7 +23,7 @@ class CourseSectionsToolDeleterComponent extends CourseSectionsToolComponent
 			exit;
 		}
 
-		$ids = $_GET[CourseSectionsTool :: PARAM_COURSE_SECTION_ID];
+		$ids = Request :: get(CourseSectionsTool :: PARAM_COURSE_SECTION_ID);
 		$failures = 0;
 
 		if (!empty ($ids))
@@ -44,10 +44,10 @@ class CourseSectionsToolDeleterComponent extends CourseSectionsToolComponent
 				}
 
 				$wdm = WeblcmsDataManager :: get_instance();
-				$tools = $wdm->get_course_modules($_GET['course']);
+				$tools = $wdm->get_course_modules(Request :: get('course'));
 
 				$conditions[] = new EqualityCondition(CourseSection :: PROPERTY_NAME, Translation :: get('Tools'));
-    			$conditions[] = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, $_GET['course']);
+    			$conditions[] = new EqualityCondition(CourseSection :: PROPERTY_COURSE_CODE, Request :: get('course'));
 
     			$main_section = $wdm->retrieve_course_sections(new AndCondition($conditions))->next_result();
 

@@ -52,7 +52,7 @@ class FillInBlanksQuestionResult extends QuestionResult
 		$this->display_score($score_line);
 		$this->display_feedback();
 		
-		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
+		if ($this->get_edit_rights() == 1 && $feedback = Request :: get(AssessmentTool :: PARAM_ADD_FEEDBACK) == '1')
 			$this->add_feedback_controls();
 			
 		$this->display_footer();
@@ -122,7 +122,7 @@ class FillInBlanksQuestionResult extends QuestionResult
 		$this->display_score($score_line);
 		$this->display_feedback();
 		
-		if ($this->get_edit_rights() == 1 && $feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
+		if ($this->get_edit_rights() == 1 && $feedback = Request :: get(AssessmentTool :: PARAM_ADD_FEEDBACK) == '1')
 			$this->add_feedback_controls();
 			
 		$this->display_footer();

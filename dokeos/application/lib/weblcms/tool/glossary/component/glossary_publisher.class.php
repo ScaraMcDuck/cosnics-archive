@@ -18,7 +18,7 @@ class GlossaryToolPublisherComponent extends GlossaryToolComponent
         $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => GlossaryTool :: ACTION_PUBLISH)), Translation :: get('Publish')));
         $trail->add_help('courses glossary tool');
 
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 		$pub = new LearningObjectRepoViewer($this, 'glossary', true);
 
 		if(!isset($object))

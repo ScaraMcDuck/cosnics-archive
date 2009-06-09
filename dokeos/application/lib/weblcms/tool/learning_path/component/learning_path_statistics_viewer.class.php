@@ -92,7 +92,7 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 	private function get_menu($root_object_id, $selected_object_id, $pid, $lpi_tracker_data)
 	{
 		$menu = new LearningPathTree($root_object_id, $selected_object_id,
-			'?go=courseviewer&course=' . $_GET['course'] . '&application=weblcms&tool=learning_path&tool_action=view&pid=' .
+			'?go=courseviewer&course=' . Request :: get('course') . '&application=weblcms&tool=learning_path&tool_action=view&pid=' .
 			$pid . '&'.LearningPathTool :: PARAM_LP_STEP.'=%s', $lpi_tracker_data);
 
 		return $menu;

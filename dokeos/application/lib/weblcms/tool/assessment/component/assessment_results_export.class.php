@@ -19,16 +19,16 @@ class AssessmentToolResultsExportComponent extends AssessmentToolComponent
 		$trail->add_help('courses assessment tool');
 		$toolbar = $this->get_toolbar();
 
-		if (isset($_GET[AssessmentTool :: PARAM_USER_ASSESSMENT]))
+		if (Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT))
 		{
-			$id = $_GET[AssessmentTool :: PARAM_USER_ASSESSMENT];
+			$id = Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT);
 			$trail->add(new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $id)), Translation :: get('ExportResults')));
 			$type = 'user_assessment';
 			$export_form = new AssessmentResultsExportForm($this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $id)));
 		}
 		else
 		{
-			$id = $_GET[AssessmentTool :: PARAM_PUBLICATION_ID];
+			$id = Request :: get(AssessmentTool :: PARAM_PUBLICATION_ID);
 			$trail->add(new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_PUBLICATION_ID => $id)), Translation :: get('ExportResults')));
 			$type = 'assessment';
 			$export_form = new AssessmentResultsExportForm($this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_EXPORT_RESULTS, AssessmentTool :: PARAM_PUBLICATION_ID => $id)));

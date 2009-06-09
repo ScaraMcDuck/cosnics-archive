@@ -23,9 +23,9 @@ class DescriptionBrowser extends LearningObjectPublicationBrowser
 	function DescriptionBrowser($parent, $types)
 	{
 		parent :: __construct($parent, 'description');
-		if(isset($_GET['pid']) && $parent->get_action() == 'view')
+		if(Request :: get('pid') && $parent->get_action() == 'view')
 		{
-			$this->set_publication_id($_GET['pid']);
+			$this->set_publication_id(Request :: get('pid'));
 			$parent->set_parameter(Tool :: PARAM_ACTION, DescriptionTool :: ACTION_VIEW_DESCRIPTIONS);
 			$renderer = new LearningObjectPublicationDetailsRenderer($this);
 		}

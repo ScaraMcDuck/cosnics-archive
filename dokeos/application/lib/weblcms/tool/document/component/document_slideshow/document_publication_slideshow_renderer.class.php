@@ -18,15 +18,15 @@ class DocumentPublicationSlideshowRenderer extends ListLearningObjectPublication
 			$html[] = Display :: normal_message(Translation :: get('NoPublicationsAvailable'), true);
 			return implode("\n", $html);
 		}
-		if (!isset ($_GET['slideshow_index']))
+		if (!Request :: get('slideshow_index'))
 		{
 			$slideshow_index = 0;
 		}
 		else
 		{
-			$slideshow_index = $_GET['slideshow_index'];
+			$slideshow_index = Request :: get('slideshow_index');
 		}
-		if (isset ($_GET['thumbnails']))
+		if (Request :: get('thumbnails'))
 		{
 			/*$toolbar_data[] = array(
 				'img'=>Theme :: get_common_image_path().'action_slideshow.png',

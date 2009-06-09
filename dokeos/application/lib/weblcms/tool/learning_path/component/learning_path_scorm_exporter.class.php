@@ -5,7 +5,7 @@ class LearningPathToolScormExporterComponent extends LearningPathToolComponent
 {
 	function run()
 	{
-		$lpid = $_GET[LearningPathTool :: PARAM_LEARNING_PATH_ID];
+		$lpid = Request :: get(LearningPathTool :: PARAM_LEARNING_PATH_ID);
 		$learning_path = RepositoryDataManager :: get_instance()->retrieve_learning_object($lpid);
 		$exporter = LearningObjectExport::factory('scorm', $learning_path);
 		$exporter->export_learning_object();

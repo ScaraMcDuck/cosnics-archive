@@ -27,19 +27,19 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 	function CalendarBrowser($parent)
 	{
 		parent :: __construct($parent, 'calendar');
-		if(isset($_GET['pid']))
+		if(Request :: get('pid'))
 		{
-			$this->set_publication_id($_GET['pid']);
+			$this->set_publication_id(Request :: get('pid'));
 			//$renderer = new LearningObjectPublicationDetailsRenderer($this);
 			$renderer = new CalendarDetailsRenderer($this);
 		}
 		else
 		{
-			$time = isset($_GET['time']) ? intval($_GET['time']) : time();
+			$time = Request :: get('time') ? intval(Request :: get('time')) : time();
 			$this->time = $time;
 			//$this->set_parameter('time',$time);
 
-			switch($_GET['view'])
+			switch(Request :: get('view'))
 			{
 				case CalendarBrowser::CALENDAR_DAY_VIEW:
 				{
@@ -151,7 +151,7 @@ class CalendarBrowser extends LearningObjectPublicationBrowser
 	}
 	public function as_html()
 	{
-		if(!isset($_GET['pid']))
+		if(!Request :: get('pid'))
 		{
 			$minimonthcalendar = new MiniMonthCalendarLearningObjectPublicationListRenderer($this);
 			$minimonthcalendar->set_display_time($this->time);

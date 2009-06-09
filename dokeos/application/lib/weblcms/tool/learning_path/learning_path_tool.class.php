@@ -79,9 +79,9 @@ class LearningPathTool extends Tool
 			Display :: not_allowed();
 			return;
 		}
-		if (isset($_GET['admin']))
+		if (Request :: get('admin'))
 		{
-			$_SESSION['wikiadmin'] = $_GET['admin'];
+			$_SESSION['wikiadmin'] = Request :: get('admin');
 		}
 		if ($_SESSION['wikiadmin'] && $this->is_allowed(ADD_RIGHT))
 		{

@@ -25,9 +25,9 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 	{
 		$this->datamanager = WeblcmsDataManager :: get_instance();
 		$this->showlcms = true;
-		if (isset($_GET[Tool :: PARAM_PUBLICATION_ID]))
+		if (Request :: get(Tool :: PARAM_PUBLICATION_ID))
 		{
-			$this->pid = $_GET[Tool :: PARAM_PUBLICATION_ID];
+			$this->pid = Request :: get(Tool :: PARAM_PUBLICATION_ID);
 			$this->pub = $this->datamanager->retrieve_learning_object_publication($this->pid);
 			$this->assessment = $this->pub->get_learning_object();
 			$url = $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_TAKE_ASSESSMENT, Tool :: PARAM_PUBLICATION_ID => $this->pid));
@@ -73,9 +73,9 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			}
 		}
 
-		if (isset($_GET[AssessmentTool :: PARAM_INVITATION_ID]))
+		if (Request :: get(AssessmentTool :: PARAM_INVITATION_ID))
 		{
-			$this->iid = $_GET[AssessmentTool :: PARAM_INVITATION_ID];
+			$this->iid = Request :: get(AssessmentTool :: PARAM_INVITATION_ID);
 			$this->showlcms = false;
 			$condition = new EqualityCondition(SurveyInvitation :: PROPERTY_INVITATION_CODE, $this->iid);
 			$this->invitation = $this->datamanager->retrieve_survey_invitations($condition)->next_result();
@@ -90,7 +90,7 @@ class AssessmentToolTesterComponent extends AssessmentToolComponent
 			return;
 		}
 
-		if (isset($_GET['start']))
+		if (Request :: get('start'))
 		{
 			$_SESSION[AssessmentTool :: PARAM_ASSESSMENT_PAGE] = null;
 			$_SESSION['formvalues'] = null;

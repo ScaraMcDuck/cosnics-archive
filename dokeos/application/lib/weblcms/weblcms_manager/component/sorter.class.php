@@ -52,8 +52,8 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 
 	function move_course_list()
 	{
-		$direction = $_GET[WeblcmsManager :: PARAM_DIRECTION];
-		$course = $_GET[WeblcmsManager :: PARAM_COURSE_USER];
+		$direction = Request :: get(WeblcmsManager :: PARAM_DIRECTION);
+		$course = Request :: get(WeblcmsManager :: PARAM_COURSE_USER);
 
 		if (isset($direction) && isset($course))
 		{
@@ -68,8 +68,8 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 
 	function move_category_list()
 	{
-		$direction = $_GET[WeblcmsManager :: PARAM_DIRECTION];
-		$category = $_GET[WeblcmsManager :: PARAM_COURSE_CATEGORY_ID];
+		$direction = Request :: get(WeblcmsManager :: PARAM_DIRECTION);
+		$category = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
 
 		if (isset($direction) && isset($category))
 		{
@@ -84,7 +84,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 
 	function assign_course_category()
 	{
-		$course_id = $_GET[WeblcmsManager :: PARAM_COURSE_USER];
+		$course_id = Request :: get(WeblcmsManager :: PARAM_COURSE_USER);
 		$courseuserrelation = $this->retrieve_course_user_relation($course_id, $this->get_user_id());
 		$form = new CourseUserRelationForm(CourseUserRelationForm :: TYPE_EDIT, $courseuserrelation, $this->get_user(), $this->get_url(array()));
 
@@ -180,7 +180,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 
 	function edit_course_user_category()
 	{
-		$course_user_category_id = $_GET[WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID];
+		$course_user_category_id = Request :: get(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID);
 		$courseusercategory = $this->retrieve_course_user_category($course_user_category_id);
 
 		$form = new CourseUserCategoryForm(CourseUserCategoryForm :: TYPE_EDIT, $courseusercategory, $this->get_user(), $this->get_url(array(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID => $course_user_category_id)));
@@ -202,7 +202,7 @@ class WeblcmsManagerSorterComponent extends WeblcmsManagerComponent
 
 	function delete_course_user_category()
 	{
-		$course_user_category_id = $_GET[WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID];
+		$course_user_category_id = Request :: get(WeblcmsManager :: PARAM_COURSE_USER_CATEGORY_ID);
 		$courseusercategory = $this->retrieve_course_user_category($course_user_category_id);
 
 		$relation_conditions = array();

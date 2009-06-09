@@ -9,7 +9,7 @@ class ToolEditComponent extends ToolComponent
 	{
 		if($this->is_allowed(EDIT_RIGHT))
 		{
-			$pid = isset($_GET[Tool :: PARAM_PUBLICATION_ID]) ? $_GET[Tool :: PARAM_PUBLICATION_ID] : $_POST[Tool :: PARAM_PUBLICATION_ID];
+			$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID) ? Request :: get(Tool :: PARAM_PUBLICATION_ID) : $_POST[Tool :: PARAM_PUBLICATION_ID];
 
                 $datamanager = WeblcmsDataManager :: get_instance();
                 $publication = $datamanager->retrieve_learning_object_publication($pid);
@@ -33,9 +33,9 @@ class ToolEditComponent extends ToolComponent
                 $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => 'edit', Tool :: PARAM_PUBLICATION_ID => $pid)), Translation :: get('Edit')));
                 $trail->add_help('courses general');
 
-                if( $form->validate() || $_GET['validated'])
+                if( $form->validate() || Request :: get('validated'))
                 {
-                    if(!$_GET['validated'])
+                    if(!Request :: get('validated'))
                         $form->update_learning_object();
 
                     if($form->is_version())
@@ -53,7 +53,7 @@ class ToolEditComponent extends ToolComponent
                         $message = htmlentities(Translation :: get('LearningObjectUpdated'));
 
                         $params = array();
-                        if($_GET['details'] == 1)
+                        if(Request :: get('details') == 1)
                         {
                             $params['pid'] = $pid;
                             $params['tool_action'] = 'view';

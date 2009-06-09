@@ -70,7 +70,7 @@ class SubscribedUserBrowserTableCellRenderer extends DefaultUserTableCellRendere
 	private function get_modification_links($user)
 	{
 		$toolbar_data = array();
-		if($_GET[WeblcmsManager :: PARAM_TOOL_ACTION] == WeblcmsManager :: ACTION_SUBSCRIBE)
+		if(Request :: get(WeblcmsManager :: PARAM_TOOL_ACTION) == WeblcmsManager :: ACTION_SUBSCRIBE)
 		{
 			$parameters = array();
 			$parameters[Application :: PARAM_ACTION] = WeblcmsManager :: ACTION_SUBSCRIBE;

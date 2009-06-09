@@ -17,7 +17,7 @@ class AnnouncementToolPublisherComponent extends AnnouncementToolComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('courses announcement tool');
 
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 		$pub = new LearningObjectRepoViewer($this, 'announcement', true);
 
 		if(!isset($object))

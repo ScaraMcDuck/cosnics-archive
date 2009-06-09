@@ -23,7 +23,7 @@ class GlossaryToolViewerComponent extends GlossaryToolComponent
 		$publication = WeblcmsDataManager :: get_instance()->retrieve_learning_object_publication($publication_id);
 		$object = $publication->get_learning_object();
 	
-		$_GET['pid'] = $object->get_id();*/
+		Request :: set_get('pid',$object->get_id())*/
 		
 		$object = RepositoryDataManager :: get_instance()->retrieve_learning_object(Request :: get('pid'));
 		

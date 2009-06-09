@@ -111,12 +111,12 @@ class WeblcmsManager extends WebApplication
 	function WeblcmsManager($user)
 	{
 		parent :: __construct($user);
-		$this->set_parameter(self :: PARAM_ACTION, $_GET[self :: PARAM_ACTION]);
-		$this->set_parameter(self :: PARAM_COMPONENT_ACTION, $_GET[self :: PARAM_COMPONENT_ACTION]);
-		$this->set_parameter(self :: PARAM_CATEGORY, $_GET[self :: PARAM_CATEGORY]);
-		$this->set_parameter(self :: PARAM_COURSE, $_GET[self :: PARAM_COURSE]);
-		$this->set_parameter(self :: PARAM_COURSE_GROUP, $_GET[self :: PARAM_COURSE_GROUP]);
-		$this->set_parameter(self :: PARAM_TOOL, $_GET[self :: PARAM_TOOL]);
+		$this->set_parameter(self :: PARAM_ACTION, Request :: get(self :: PARAM_ACTION));
+		$this->set_parameter(self :: PARAM_COMPONENT_ACTION,Request :: get(self :: PARAM_COMPONENT_ACTION));
+		$this->set_parameter(self :: PARAM_CATEGORY, Request :: get(self :: PARAM_CATEGORY));
+		$this->set_parameter(self :: PARAM_COURSE, Request :: get(self :: PARAM_COURSE));
+		$this->set_parameter(self :: PARAM_COURSE_GROUP, Request :: get(self :: PARAM_COURSE_GROUP));
+		$this->set_parameter(self :: PARAM_TOOL, Request :: get(self :: PARAM_TOOL));
 
 		$this->parse_input_from_table();
 
@@ -398,12 +398,12 @@ class WeblcmsManager extends WebApplication
 
 		if (!isset ($this->tool_class))
 		{
-			if ($msg = $_GET[Application :: PARAM_MESSAGE])
+			if ($msg = Request :: get(Application :: PARAM_MESSAGE))
 			{
 				echo '<br />';
 				$this->display_message($msg);
 			}
-			if($msg = $_GET[Application :: PARAM_ERROR_MESSAGE])
+			if($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
 			{
 				echo '<br />';
 				$this->display_error_message($msg);
@@ -1120,29 +1120,29 @@ class WeblcmsManager extends WebApplication
 			{
 				case self :: PARAM_REMOVE_SELECTED :
 					$this->set_action(self :: ACTION_DELETE_COURSE);
-					$_GET[self :: PARAM_COURSE] = $selected_course_ids;
+					Request :: set_get(self :: PARAM_COURSE,$selected_course_ids);
 					break;
 
 				case self :: PARAM_UNSUBSCRIBE_SELECTED :
 					$this->set_action(self :: ACTION_MANAGER_UNSUBSCRIBE);
-					$_GET[self :: PARAM_USERS] = $selected_user_ids;
+					Request :: set_get(self :: PARAM_USERS,$selected_user_ids);
 					break;
 
 				case self :: PARAM_SUBSCRIBE_SELECTED_AS_STUDENT :
 					$this->set_action(self :: ACTION_MANAGER_SUBSCRIBE);
-					$_GET[self :: PARAM_USERS] = $selected_user_ids;
-					$_GET[self :: PARAM_STATUS] = 5;
+					Request :: set_get(self :: PARAM_USERS,$selected_user_ids);
+					Request :: set_get(self :: PARAM_STATUS,5);
 					break;
 
 				case self :: PARAM_SUBSCRIBE_SELECTED_AS_ADMIN :
 					$this->set_action(self :: ACTION_MANAGER_SUBSCRIBE);
-					$_GET[self :: PARAM_USERS] = $selected_user_ids;
-					$_GET[self :: PARAM_STATUS] = 1;
+					Request :: set_get(self :: PARAM_USERS,$selected_user_ids);
+					Request :: set_get(self :: PARAM_STATUS,1);
 					break;
 				case self :: PARAM_SUBSCRIBE_SELECTED_GROUP :
 					$this->set_action(self :: ACTION_SUBSCRIBE_GROUPS);
-					$_GET['group_id'] = $selected_group_ids;
-					$_GET[self :: PARAM_STATUS] = 1;
+					Request :: set_get('group_id',$selected_group_ids);
+					Request :: set_get(self :: PARAM_STATUS,1);
 					break;
 			}
 		}

@@ -18,15 +18,15 @@ class GlossaryBrowser extends LearningObjectPublicationBrowser
 	{
 		parent :: __construct($parent, 'glossary');
 		
-//		if(isset($_GET['pid']))
+//		if(Request :: get('pid'))
 //		{
-//			$this->set_publication_id($_GET['pid']);
+//			$this->set_publication_id(Request :: get('pid'));
 //			$renderer = new LearningObjectPublicationDetailsRenderer($this);
 //		}
 //		else
 //		{
 //			$tree_id = 'pcattree';
-//			$value = $_GET[$tree_id]?$_GET[$tree_id]:0;
+//			$value = Request :: get($tree_id)?Request :: get($tree_id):0;
 //			$parent->set_parameter($tree_id, $value);
 //			
 //			$tree = new LearningObjectPublicationCategoryTree($this, $tree_id);

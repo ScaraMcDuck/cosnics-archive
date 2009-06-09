@@ -20,7 +20,7 @@ class CalendarListRenderer extends ListLearningObjectPublicationListRenderer
 		}
 		
 		if($this->get_actions())
-			$html[] = '<form name="publication_list" action="' . $this->get_url(array('view' => $_GET['view'])) . '" method="GET" >';
+			$html[] = '<form name="publication_list" action="' . $this->get_url(array('view' => Request :: get('view'))) . '" method="GET" >';
 		
 		foreach ($publications as $index => $publication)
 		{

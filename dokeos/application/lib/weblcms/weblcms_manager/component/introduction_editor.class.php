@@ -13,7 +13,7 @@ class WeblcmsManagerIntroductionEditorComponent extends WeblcmsManagerComponent
 		$introduction_text = $publications->next_result();
 
 		$lo = $introduction_text->get_learning_object();
-		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $lo, 'edit', 'post', $this->get_url(array('edit_introduction' => $_GET['edit_introduction'])));
+		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $lo, 'edit', 'post', $this->get_url(array('edit_introduction' => Request :: get('edit_introduction'))));
 
 		if( $form->validate())
 		{

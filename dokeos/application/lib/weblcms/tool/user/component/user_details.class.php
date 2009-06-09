@@ -27,9 +27,9 @@ class UserToolDetailsComponent extends UserToolComponent
 		$this->display_header($trail, true);
 
 		$udm = UserDataManager::get_instance();
-		if(isset($_GET[WeblcmsManager :: PARAM_USERS]))
+		if(Request :: get(WeblcmsManager :: PARAM_USERS))
 		{
-			$user = $udm->retrieve_user($_GET[WeblcmsManager :: PARAM_USERS]);
+			$user = $udm->retrieve_user(Request :: get(WeblcmsManager :: PARAM_USERS));
 			$details = new UserDetails($user);
 			echo $details->toHtml();
 		}

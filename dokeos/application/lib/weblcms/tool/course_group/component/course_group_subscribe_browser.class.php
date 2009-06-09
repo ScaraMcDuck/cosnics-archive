@@ -27,10 +27,10 @@ class CourseGroupToolSubscribeBrowserComponent extends CourseGroupToolComponent
 
 		$this->action_bar = $this->get_action_bar();
 
-		if(isset($_GET[WeblcmsManager :: PARAM_USERS]))
+		if(Request :: get(WeblcmsManager :: PARAM_USERS))
 		{
 			$udm = UserDataManager :: get_instance();
-			$user = $udm->retrieve_user($_GET[WeblcmsManager :: PARAM_USERS]);
+			$user = $udm->retrieve_user(Request :: get(WeblcmsManager :: PARAM_USERS));
 			$course_group = $this->get_parent()->get_course_group();
 			$course_group->subscribe_users($user);
 			$html[] = Display :: normal_message(Translation :: get('UserSubscribed'),true);

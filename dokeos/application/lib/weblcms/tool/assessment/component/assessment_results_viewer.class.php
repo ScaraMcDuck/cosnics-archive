@@ -11,11 +11,11 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 	
 	function run() 
 	{
-		if (isset($_GET[AssessmentTool :: PARAM_USER_ASSESSMENT]))
+		if (Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT))
 		{
 			$this->view_single_result();
 		}
-		else if (isset($_GET[AssessmentTool :: PARAM_ASSESSMENT]))
+		else if (Request :: get(AssessmentTool :: PARAM_ASSESSMENT))
 		{
 			$this->view_assessment_results();
 		}
@@ -40,7 +40,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			$tree_id = WeblcmsManager :: PARAM_CATEGORY;
 			$params = array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS);
 			$tree = new LearningObjectPublicationCategoryTree($this, $tree_id, $params);
-			$this->set_parameter($tree_id, $_GET[$tree_id]);
+			$this->set_parameter($tree_id, Request :: get($tree_id));
 			echo '<div style="width:18%; float: left; overflow: auto;">';
 			echo $tree->as_html();
 			echo '</div>';
@@ -63,7 +63,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 	
 	function view_assessment_results()
 	{
-		$pid = $_GET[AssessmentTool :: PARAM_ASSESSMENT];
+		$pid = Request :: get(AssessmentTool :: PARAM_ASSESSMENT);
 		$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS)), Translation :: get('ViewResults')); 
 		$crumbs[] = new BreadCrumb($this->get_url(array(AssessmentTool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_ASSESSMENT => $pid)), Translation :: get('AssessmentResults'));	
 		
@@ -104,7 +104,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		echo Translation :: get('AverageScore').': '.$avg_line;
 		echo '<br/>'.Translation :: get('TimesTaken').': '.$track->get_times_taken($publication);
 		echo '</div>';
-		$table = new AssessmentResultsTableDetail($this, $this->get_user(), $_GET[AssessmentTool :: PARAM_ASSESSMENT]);
+		$table = new AssessmentResultsTableDetail($this, $this->get_user(), Request :: get(AssessmentTool :: PARAM_ASSESSMENT));
 		echo $table->as_html();
 		
 		$this->display_footer();
@@ -113,7 +113,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 	function view_single_result() 
 	{
 		$datamanager = WeblcmsDataManager :: get_instance();
-		$uaid = $_GET[AssessmentTool :: PARAM_USER_ASSESSMENT];
+		$uaid = Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT);
 		
 		$url = $this->get_url(array(Tool :: PARAM_ACTION => AssessmentTool :: ACTION_VIEW_RESULTS, AssessmentTool :: PARAM_USER_ASSESSMENT => $uaid, AssessmentTool :: PARAM_ADD_FEEDBACK => '1'));
 		$track = new WeblcmsAssessmentAttemptsTracker();
@@ -125,7 +125,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 		$subcomponent = ResultsViewer :: factory($user_assessment, $edit_rights, $url, $this);
 		$subcomponent->build();
 		
-		if ($subcomponent->validate() && $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK] == '1')
+		if ($subcomponent->validate() && Request :: get(AssessmentTool :: PARAM_ADD_FEEDBACK) == '1')
 		{
 			$values = $subcomponent->exportValues();
 			if (isset($values['submit']))
@@ -163,7 +163,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 					{
 						//print_r($parts);
 						$control_id = $parts[1];
-						$objects = $_GET['object'];
+						$objects = Request :: get('object');
 						if (is_array($objects))
 							$object = $objects[0];
 						else
@@ -252,7 +252,7 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 	
 	function display_header($breadcrumbs = array())
 	{
-		if (!isset($_GET[AssessmentTool :: PARAM_INVITATION_ID]))
+		if (!Request :: get(AssessmentTool :: PARAM_INVITATION_ID))
 		{
 			if (!$this->is_allowed(VIEW_RIGHT))
 			{
@@ -277,10 +277,10 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 	{
 		$action_bar = parent :: get_toolbar();
 		
-		if(isset($_GET[AssessmentTool :: PARAM_USER_ASSESSMENT]) && $this->is_allowed(EDIT_RIGHT))
+		if(Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT) && $this->is_allowed(EDIT_RIGHT))
 		{
-			$uaid = $_GET[AssessmentTool :: PARAM_USER_ASSESSMENT];
-			$feedback = $_GET[AssessmentTool :: PARAM_ADD_FEEDBACK];
+			$uaid = Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT);
+			$feedback = Request :: get(AssessmentTool :: PARAM_ADD_FEEDBACK);
 			$feedback = 1 - $feedback;
 			
 			$label = ($feedback == 1)?'AddFeedback':'HideFeedbackForm';
@@ -291,9 +291,9 @@ class AssessmentToolResultsViewerComponent extends AssessmentToolComponent
 			);
 		}
 		
-		if (isset($_GET[AssessmentTool :: PARAM_ASSESSMENT]) && $this->is_allowed(EDIT_RIGHT))
+		if (Request :: get(AssessmentTool :: PARAM_ASSESSMENT) && $this->is_allowed(EDIT_RIGHT))
 		{
-			$aid = $_GET[AssessmentTool :: PARAM_ASSESSMENT];
+			$aid = Request :: get(AssessmentTool :: PARAM_ASSESSMENT);
 			$action_bar->add_tool_action(new ToolbarItem(
 				Translation :: get('DownloadDocuments'),
 				Theme :: get_common_image_path().'action_save.png',

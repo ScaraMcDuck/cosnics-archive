@@ -25,7 +25,7 @@ class CourseSectionsToolChangeSectionComponent extends CourseSectionsToolCompone
 
 		$parent = $this->get_parent();
 
-		foreach ($wdm->get_course_modules($_GET['course']) as $tool)
+		foreach ($wdm->get_course_modules(Request :: get('course')) as $tool)
 		{
 			if($this->group_inactive)
 			{

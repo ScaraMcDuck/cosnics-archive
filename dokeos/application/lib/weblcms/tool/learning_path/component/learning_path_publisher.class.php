@@ -16,7 +16,7 @@ class LearningPathToolPublisherComponent extends LearningPathToolComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('courses learnpath tool');
 
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 		$pub = new LearningObjectRepoViewer($this, 'learning_path', true);
 
 		if(!isset($object))

@@ -19,9 +19,9 @@ class WeblcmsManagerUnsubscribeComponent extends WeblcmsManagerComponent
 	 */
 	function run()
 	{
-		$this->category = $_GET[WeblcmsManager :: PARAM_COURSE_CATEGORY_ID];
-		$course_code = $_GET[WeblcmsManager :: PARAM_COURSE];
-		$users = $_GET[WeblcmsManager :: PARAM_USERS];
+		$this->category = Request :: get(WeblcmsManager :: PARAM_COURSE_CATEGORY_ID);
+		$course_code = Request :: get(WeblcmsManager :: PARAM_COURSE);
+		$users = Request :: get(WeblcmsManager :: PARAM_USERS);
 		if(!is_array($users))
 		{
 			$users = array($users);

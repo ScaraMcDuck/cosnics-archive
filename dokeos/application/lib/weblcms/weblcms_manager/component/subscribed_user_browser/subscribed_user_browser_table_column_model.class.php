@@ -21,7 +21,7 @@ class SubscribedUserBrowserTableColumnModel extends DefaultUserTableColumnModel
 		parent :: __construct();
 		$this->add_column(new ObjectTableColumn(User :: PROPERTY_USERNAME, true));
 		$this->add_column(new ObjectTableColumn(User :: PROPERTY_EMAIL, true));
-		if ($_GET[WeblcmsManager :: PARAM_TOOL_ACTION] != WeblcmsManager :: ACTION_SUBSCRIBE)
+		if (Request :: get(WeblcmsManager :: PARAM_TOOL_ACTION) != WeblcmsManager :: ACTION_SUBSCRIBE)
 		{
 			$this->add_column(new ObjectTableColumn(User :: PROPERTY_STATUS, true));
 		}

@@ -12,9 +12,9 @@ class AssessmentToolResultsDeleterComponent extends AssessmentToolComponent
 			return;
 		}
 		
-		if (isset($_GET[AssessmentTool :: PARAM_USER_ASSESSMENT]))
+		if (Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT))
 		{
-			$uaid = $_GET[AssessmentTool :: PARAM_USER_ASSESSMENT];
+			$uaid = Request :: get(AssessmentTool :: PARAM_USER_ASSESSMENT);
 			$track = new WeblcmsAssessmentAttemptsTracker();
 			$condition = new EqualityCondition(WeblcmsAssessmentAttemptsTracker :: PROPERTY_ID, $uaid);
 			$items = $track->retrieve_tracker_items($condition);
@@ -26,9 +26,9 @@ class AssessmentToolResultsDeleterComponent extends AssessmentToolComponent
 			$this->delete_user_assessment_results($items[0]);
 		}
 		
-		if (isset($_GET[AssessmentTool :: PARAM_ASSESSMENT]))
+		if (Request :: get(AssessmentTool :: PARAM_ASSESSMENT))
 		{
-			$aid = $_GET[AssessmentTool :: PARAM_ASSESSMENT];
+			$aid = Request :: get(AssessmentTool :: PARAM_ASSESSMENT);
 			$this->delete_assessment_results($aid);
 		}
 		
