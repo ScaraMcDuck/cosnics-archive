@@ -17,8 +17,8 @@ class PortfolioBrowserComponent extends PortfolioComponent
 	 */
 	function run()
 	{
-		$this->firstletter = $_GET[MyPortfolioManager :: PARAM_FIRSTLETTER];
-		$this->example = $_GET[MyPortfolioManager :: PARAM_EXAMPLE];
+		$this->firstletter = Request :: get(MyPortfolioManager :: PARAM_FIRSTLETTER);
+		$this->example = Request :: get(MyPortfolioManager :: PARAM_EXAMPLE);
 		
 		
 		$output = $this->get_publications_html();

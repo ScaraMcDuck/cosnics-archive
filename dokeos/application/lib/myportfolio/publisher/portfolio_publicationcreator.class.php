@@ -22,10 +22,10 @@ class PortfolioPublicationCreator extends PortfolioPublisherComponent
 	 */
 	function as_html()
 	{
-		$oid = $_GET[PortfolioPublisher :: PARAM_LEARNING_OBJECT_ID];
+		$oid = Request :: get(PortfolioPublisher :: PARAM_LEARNING_OBJECT_ID);
 		if ($oid)
 		{
-			if ($_GET[PortfolioPublisher :: PARAM_EDIT])
+			if (Request :: get(PortfolioPublisher :: PARAM_EDIT))
 			{
 				return $this->get_editing_form($oid);
 			}
@@ -68,7 +68,7 @@ class PortfolioPublicationCreator extends PortfolioPublisherComponent
 		$form->addElement('hidden', PortfolioPublisher :: PARAM_ACTION);
 		$form->addElement('select', 'type', '', $types);
 		$form->addElement('submit', 'submit', Translation :: get('Ok'));
-		$form->setDefaults(array ('tool' => $_GET['tool'], PortfolioPublisher :: PARAM_ACTION => $_GET[PortfolioPublisher :: PARAM_ACTION]));
+		$form->setDefaults(array ('tool' => Request :: get('tool'), PortfolioPublisher :: PARAM_ACTION => Request :: get(PortfolioPublisher :: PARAM_ACTION)));
 		return $form->asHtml();
 	}
 	/**

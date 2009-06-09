@@ -12,7 +12,7 @@ class PortfolioDeleterComponent extends PortfolioComponent
 	 */
 	function run()
 	{
-		$ids = $_GET[MyPortfolioManager :: PARAM_PROFILE_ID];
+		$ids = Request :: get(MyPortfolioManager :: PARAM_PROFILE_ID);
 		$failures = 0;
 		
 		if (!empty ($ids))

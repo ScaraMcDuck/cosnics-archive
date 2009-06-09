@@ -105,7 +105,7 @@ class PortfolioPublisher
 	 */
 	function get_action()
 	{
-		return ($_GET[PortfolioPublisher :: PARAM_ACTION] ? $_GET[PortfolioPublisher :: PARAM_ACTION] : 'publicationcreator');
+		return (Request :: get(PortfolioPublisher :: PARAM_ACTION) ? Request :: get(PortfolioPublisher :: PARAM_ACTION) : 'publicationcreator');
 	}
 
 	/**

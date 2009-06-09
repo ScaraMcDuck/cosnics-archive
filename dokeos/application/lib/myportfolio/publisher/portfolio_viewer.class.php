@@ -18,9 +18,9 @@ class PortfolioViewer extends PortfolioPublisherComponent
 	 */
 	function as_html()
 	{
-		if ($_GET[PortfolioPublisher :: PARAM_LEARNING_OBJECT_ID])
+		if (Request :: get(PortfolioPublisher :: PARAM_LEARNING_OBJECT_ID))
 		{
-			$object = RepositoryDataManager :: get_instance()->retrieve_learning_object($_GET[PortfolioPublisher :: PARAM_LEARNING_OBJECT_ID]);
+			$object = RepositoryDataManager :: get_instance()->retrieve_learning_object(Request :: get(PortfolioPublisher :: PARAM_LEARNING_OBJECT_ID));
 			$toolbar_data = array();
 			$toolbar_data[] = array(
 				'href' => $this->get_url(array (LearningObjectPublisher :: PARAM_ACTION => 'publicationcreator', LearningObjectPublisher :: PARAM_LEARNING_OBJECT_ID => $object->get_id())),
