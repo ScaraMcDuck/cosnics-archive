@@ -62,7 +62,7 @@ class ProfilerManagerBrowserComponent extends ProfilerManagerComponent
 
 	function get_category()
 	{
-		return $_GET['category']?$_GET['category']:0;
+		return Request :: get('category')?Request :: get('category'):0;
 	}
 
 	private function get_publications_html()

@@ -22,7 +22,7 @@ class ProfilerManagerViewerComponent extends ProfilerManagerComponent
 		//$trail->add(new Breadcrumb($this->get_url(), Translation :: get('ViewProfile')));
 		$trail->add_help('profiler general');
 
-		$id = $_GET[ProfilerManager :: PARAM_PROFILE_ID];
+		$id = Request :: get(ProfilerManager :: PARAM_PROFILE_ID);
 
 		if ($id)
 		{

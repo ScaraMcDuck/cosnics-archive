@@ -12,7 +12,7 @@ class ProfilerManagerDeleterComponent extends ProfilerManagerComponent
 	 */
 	function run()
 	{
-		$ids = $_GET[ProfilerManager :: PARAM_PROFILE_ID];
+		$ids = Request :: get(ProfilerManager :: PARAM_PROFILE_ID);
 		$failures = 0;
 		
 		if (!empty ($ids))
