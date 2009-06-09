@@ -55,9 +55,9 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
     	parent :: __construct($user);
 		$this->parse_input_from_table();
 
-		if (isset($_GET[ProfilerManager :: PARAM_FIRSTLETTER]))
+		if (Request :: get(ProfilerManager :: PARAM_FIRSTLETTER))
 		{
-			$this->firstletter = $_GET[ProfilerManager :: PARAM_FIRSTLETTER];
+			$this->firstletter = Request :: get(ProfilerManager :: PARAM_FIRSTLETTER);
 		}
     }
 
@@ -478,17 +478,17 @@ require_once dirname(__FILE__).'/../profiler_block.class.php';
 			{
 				case self :: PARAM_MARK_SELECTED_READ :
 					$this->set_action(self :: ACTION_MARK_PUBLICATION);
-					$_GET[self :: PARAM_PROFILE_ID] = $selected_ids;
-					$_GET[self :: PARAM_MARK_TYPE] = self :: PARAM_MARK_SELECTED_READ;
+					Request :: set_get(self :: PARAM_PROFILE_ID,$selected_ids);
+					Request :: set_get(self :: PARAM_MARK_TYPE,self :: PARAM_MARK_SELECTED_READ);
 					break;
 				case self :: PARAM_MARK_SELECTED_UNREAD :
 					$this->set_action(self :: ACTION_MARK_PUBLICATION);
-					$_GET[self :: PARAM_PROFILE_ID] = $selected_ids;
-					$_GET[self :: PARAM_MARK_TYPE] = self :: PARAM_MARK_SELECTED_UNREAD;
+					Request :: set_get(self :: PARAM_PROFILE_ID,$selected_ids);
+					Request :: set_get(self :: PARAM_MARK_TYPE,self :: PARAM_MARK_SELECTED_UNREAD);
 					break;
 				case self :: PARAM_DELETE_SELECTED :
 					$this->set_action(self :: ACTION_DELETE_PUBLICATION);
-					$_GET[self :: PARAM_PROFILE_ID] = $selected_ids;
+					Request :: set_get(self :: PARAM_PROFILE_ID,$selected_ids);
 					break;
 			}
 		}

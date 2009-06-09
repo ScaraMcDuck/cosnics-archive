@@ -30,7 +30,7 @@ class ProfilerManagerEditorComponent extends ProfilerManagerComponent
             exit;
         }
 
-        $id = $_GET[ProfilerManager :: PARAM_PROFILE_ID];
+        $id = Request :: get(ProfilerManager :: PARAM_PROFILE_ID);
 
         if ($id)
         {
