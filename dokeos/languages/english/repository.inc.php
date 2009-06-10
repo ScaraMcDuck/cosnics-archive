@@ -618,5 +618,9 @@ $lang['repository']['SwitchToCheckboxes'] = 'Switch to checkboxes';
 $lang['repository']['SwitchToRadioButtons'] = 'Switch to radio buttons';
 $lang['repository']['AddMultipleChoiceOption'] = 'Add an option';
 $lang['repository']['MultipleChoiceQuestionCreationFormTitle'] = 'Create a multiple choice question';
-
+$lang['repository']['Assignment'] = 'Assignment';
+$lang['repository']['Unlimited'] = 'Unlimited';
+$lang['repository']['Limited'] = 'Limited';
+$lang['repository']['AllQuestionsOnOnePage'] = 'All';
+$lang['repository']['LimitedQuestionsOnOnePage'] = 'Limited amount';
 ?>
