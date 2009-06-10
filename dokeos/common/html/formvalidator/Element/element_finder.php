@@ -145,14 +145,14 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$html[] = '</div>';
 
 		// Buttons
-		$html[] = '<div class="element_finder_buttons" style="height: '.$this->getHeight().'px;">';
-		$html[] = '<div class="button_elements" style="margin-top: '. (($this->height - 46) / 2) .'px">';
-		$html[] = $this->_elements[2]->toHTML();
-		$html[] = '<br />';
-		$html[] = $this->_elements[3]->toHTML();
-		$html[] = '</div>';
-		$html[] = '<div class="clear"></div>';
-		$html[] = '</div>';
+//		$html[] = '<div class="element_finder_buttons" style="height: '.$this->getHeight().'px;">';
+//		$html[] = '<div class="button_elements" style="margin-top: '. (($this->height - 46) / 2) .'px">';
+//		$html[] = $this->_elements[2]->toHTML();
+//		$html[] = '<br />';
+//		$html[] = $this->_elements[3]->toHTML();
+//		$html[] = '</div>';
+//		$html[] = '<div class="clear"></div>';
+//		$html[] = '</div>';
 
 		// Active
 		$html[] = '<div class="element_finder_active">';

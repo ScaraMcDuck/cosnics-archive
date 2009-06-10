@@ -20,6 +20,10 @@ class CalendarEventPublicationForm extends FormValidator
 	const TYPE_SINGLE = 1;
 	const TYPE_MULTI = 2;
 
+	const PARAM_SHARE = 'share_users_and_groups';
+	const PARAM_SHARE_ELEMENTS = 'share_users_and_groups_elements';
+	const PARAM_SHARE_OPTION = 'share_users_and_groups_option';
+
 	/**#@-*/
 	/**
 	 * The learning object that will be published
@@ -69,6 +73,7 @@ class CalendarEventPublicationForm extends FormValidator
     function setDefaults()
     {
     	$defaults = array();
+    	$defaults[self :: PARAM_SHARE_OPTION] = 0;
 		parent :: setDefaults($defaults);
     }
 
@@ -89,6 +94,7 @@ class CalendarEventPublicationForm extends FormValidator
     function build_form()
     {
     	$shares = array ();
+    	// TODO: Make publications editable
 //    	if ($publication)
 //    	{
 //			$publication = $this->publication;
@@ -101,16 +107,18 @@ class CalendarEventPublicationForm extends FormValidator
 //			$recipients[$recipient['id']] = $recipient;
 //    	}
 
-		$url = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
+		$attributes = array();
+		$attributes['search_url'] = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
 		$locale = array ();
 		$locale['Display'] = Translation :: get('ShareWith');
 		$locale['Searching'] = Translation :: get('Searching');
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
-		$hidden = false;
-		$elem = $this->addElement('user_group_finder', 'share', Translation :: get('SharedWith'), $url, $locale, $shares);
-		$elem->excludeElements(array('user_' . $this->form_user->get_id()));
-		$elem->setDefaultCollapsed(false);
+		$attributes['locale'] = $locale;
+		$attributes['exclude'] = array('user_' . $this->form_user->get_id());
+		$attributes['defaults'] = array();
+
+		$this->add_receivers(self :: PARAM_SHARE, Translation :: get('ShareWith'), $attributes);
     }
 
     function add_footer()
