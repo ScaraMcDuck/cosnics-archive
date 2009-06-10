@@ -46,13 +46,21 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 				}
 			}
 			
-			function processTree()
+			function destroyTree()
 			{
+				$("div", self).removeClass("last");
+				$("div", self).removeClass("collapse");
+				$("div", self).removeClass("lastCollapse");
+			}
+			
+			function processFinderTree()
+			{
+				destroyTree();
 				$("ul li:last-child > div", self).addClass("last");
 				$("ul li:last-child > ul", self).css("background-image", "none");
 				
 				$("ul li:not(:last-child):has(ul) > div", self).addClass("collapse");
-				$("ul li:last-child:has(ul) > div").addClass("lastCollapse");
+				$("ul li:last-child:has(ul) > div", self).addClass("lastCollapse");
 				
 				$("ul li:has(ul) > div", self).toggle(collapseItem, expandItem);
 				$("ul li:has(ul) > div > a", self).click(function(e){e.stopPropagation();});
@@ -150,7 +158,7 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 				var searchResults = getSearchResults();
 				buildElementTree(searchResults);
 				disableActivatedElements();
-				processTree();
+				processFinderTree();
 			}
 			
 			function setOriginalActivatedElements()
@@ -203,7 +211,7 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 				$(this).parent().parent().remove();
 				
 				$("#elf_" + settings.name + "_active_hidden", self).val(serialize(activatedElements));
-				processTree();
+				processFinderTree();
 			}
 			
 			function activateElement(e)
@@ -220,7 +228,7 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 				
 				$("#elf_" + settings.name + "_active_hidden", self).val(serialize(activatedElements));
 				disableActivatedElements();
-				processTree();
+				processFinderTree();
 			}
 			
 			function showElementFinder()
