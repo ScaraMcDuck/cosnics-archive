@@ -165,24 +165,33 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 
         $buttons = array();
         $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array('class' => 'normal switch'));
+        //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
         $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddMultipleChoiceOption'), array('class' => 'normal add'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
-        $renderer->setElementTemplate('<div style="margin-bottom: 10px;">{element}<div class="clear"></div></div>', 'question_buttons');
-        $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
 
-
-        //$this->addElement('style_submit_button', 'change_answer_type', 'add', array('class' => 'normal switch'));
-
-        //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
-        //$this->addElement('image', 'add[]', Theme :: get_common_image_path() . 'action_list_add.png');
         $show_label = true;
         $count = 1;
 
         $html_editor_options = array();
-        $html_editor_options['width'] = '350';
+        $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = '65';
         $html_editor_options['show_toolbar'] = false;
         $html_editor_options['show_tags'] = false;
+        $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
+
+        $table_header = array();
+        $table_header[] = '<table class="data_table">';
+        $table_header[] = '<thead>';
+        $table_header[] = '<tr>';
+        $table_header[] = '<th style="width: 30px;"></th>';
+        $table_header[] = '<th>Answer</th>';
+        $table_header[] = '<th>Comment</th>';
+        $table_header[] = '<th style="width: 50px;">Weight</th>';
+        $table_header[] = '<th style="width: 22px;"></th>';
+        $table_header[] = '</tr>';
+        $table_header[] = '</thead>';
+        $table_header[] = '<tbody>';
+        $this->addElement('html', implode("\n", $table_header));
 
         for($option_number = 0; $option_number < $number_of_options; $option_number ++)
         {
@@ -201,13 +210,15 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 
                 $group[] = $this->create_html_editor('option[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
                 $group[] = $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
-                //$this->add_html_editor('option[' . $option_number . ']', Translation :: get('Answer'), true);
-                //$this->add_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), false);
                 $group[] =& $this->createElement('text', 'option_weight[' . $option_number . ']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
 
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 2)
                 {
-                    $group[] =& $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_list_remove.png');
+                    $group[] =& $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png');
+                }
+                else
+                {
+                	$group[] =& $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
                 $count ++;
 
@@ -223,14 +234,19 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
                     )
                 ));
 
-			    $renderer->setElementTemplate('<div class="'. ($option_number % 2 == 0 ? 'question_even' : 'question_odd') .'">{element}<div class="clear"></div></div>', 'option_' . $option_number);
-    			$renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'option_' . $option_number);
-
-
-                //$this->addRule('option_weight[' . $option_number . ']', Translation :: get('ThisFieldIsRequired'), 'required');
-                //$this->addRule('option_weight[' . $option_number . ']', Translation :: get('ValueShouldBeNumeric'), 'numeric');
+			    $renderer->setElementTemplate('<tr>{element}</tr>', 'option_' . $option_number);
+    			$renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
             }
         }
+
+        $table_footer[] = '</tbody>';
+        $table_footer[] = '</table>';
+        $this->addElement('html', implode("\n", $table_footer));
+
+        $this->addGroup($buttons, 'question_buttons', null, '', false);
+
+        $renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
+        $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
     }
 
     function validate_selected_answers($fields)

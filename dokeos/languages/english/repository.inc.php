@@ -612,4 +612,11 @@ $lang['repository']['Course'] = 'Course';
 $lang['repository']['Tool'] = 'Tool';
 $lang['repository']['MakeSticky'] = 'Make sticky';
 $lang['repository']['MakeImportant'] = 'Make important';
+
+$lang['repository']['MultipleChoiceQuestionFormOptions'] = 'Answer options';
+$lang['repository']['SwitchToCheckboxes'] = 'Switch to checkboxes';
+$lang['repository']['SwitchToRadioButtons'] = 'Switch to radio buttons';
+$lang['repository']['AddMultipleChoiceOption'] = 'Add an option';
+$lang['repository']['MultipleChoiceQuestionCreationFormTitle'] = 'Create a multiple choice question';
+
 ?>
