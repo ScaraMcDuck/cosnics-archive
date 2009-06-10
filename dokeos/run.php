@@ -23,7 +23,7 @@ require_once Path ::get_application_path().'lib/weblcms/tool/assessment/assessme
 Translation :: set_application($this_section);
 Theme :: set_application($this_section);
 
-if (!Authentication :: is_valid() && !isset($_GET[AssessmentTool :: PARAM_INVITATION_ID]))
+if (!Authentication :: is_valid() && !Request :: get(AssessmentTool :: PARAM_INVITATION_ID))
 {
 	Display :: not_allowed();
 }
