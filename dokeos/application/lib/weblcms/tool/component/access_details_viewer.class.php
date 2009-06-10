@@ -32,7 +32,7 @@ class ToolAccessDetailsViewerComponent extends ToolComponent
         $this->add_pcattree_breadcrumbs(Request :: get('pcattree'),$trail);
 
         if(Request :: get('pid') != null && Request :: get('template_name')!='CourseStudentTrackerReportingTemplate' && Request :: get('template_name')!='CourseTrackerReportingTemplate')
-        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Request :: get('tool')=='learning_path'?'view_clo':'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), RepositoryDataManager :: get_instance()->retrieve_learning_object(Request :: get('pid'))->get_title()));
+        $trail->add(new BreadCrumb($this->get_url(array(Tool :: PARAM_ACTION => Request :: get('tool')=='learning_path'?'view_clo':'view', 'display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object()->get_title()));
 
         if(!empty($params['user_id']) && Request :: get('template_name') == 'CourseStudentTrackerDetailReportingTemplate')
         {

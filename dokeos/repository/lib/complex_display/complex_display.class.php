@@ -58,6 +58,11 @@ abstract class ComplexDisplay
 
 	}
 
+    function set_root_lo($lo)
+    {
+        $this->root = $lo;
+    }
+
 	static function factory($parent,$name)
 	{
 		if(is_null(self :: $instance))

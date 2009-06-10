@@ -51,9 +51,22 @@ class ToolFeedbackDeleterComponent extends ToolComponent
 				$message = htmlentities(Translation :: get('LearningObjectFeedbackDeleted'));
 			}
 
-			$this->redirect($message, '', array(Tool :: PARAM_ACTION => 'discuss', 'pid' => $this->pid, 'cid' => $this->cid));
+            switch(Request :: get('tool'))
+            {
+                case 'learning_path':
+                    $tool_action = 'view_clo';
+                    break;
+                case 'wiki':
+                    $tool_action = 'view';
+                    break;
+                default:
+                    $tool_action = 'discuss';
+                    break;
+            }
+
+            $this->redirect($message, '', array(Tool :: PARAM_ACTION => $tool_action, 'display_action' => Request :: get('display_action'), 'pid' => $this->pid, 'cid' => $this->cid));
 		}
-	}
+    }
 
 }
 ?>

@@ -18,7 +18,6 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
     private $wiki_page_id;
     private $cid;
     private $fid;
-    private $wiki_id;
     private $links;
     const TITLE_MARKER = '<!-- /title -->';
     const DESCRIPTION_MARKER = '<!-- /description -->';
@@ -42,26 +41,25 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
          *  2) the learning object ( actual inforamation about a wiki_page is stored here )
          *
          */
-        $this->wiki_id = Request :: get('pid');
+        
         $this->cid = Request :: get('cid');
 
         $complexeObject = $dm->retrieve_complex_learning_object_item($this->cid);
         if(isset($complexeObject))
         {
-            $this->wiki_page_id = $complexeObject->get_ref();
+            $this->wiki_page_id = $complexeObject->get_ref();$dm->retrieve_learning_object($this->wiki_page_id);
         }
         $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
-        $this->links = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links();
-
+        
         $trail = new BreadcrumbTrail();
-        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $this->wiki_id)), DokeosUtilities::truncate_string(RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_title(),20)));
-        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
-        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'discuss', Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), Translation :: get('Discuss')));
+        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), DokeosUtilities::truncate_string($this->get_root_lo()->get_title(),20)));
+        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
+        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'discuss', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $this->cid)), Translation :: get('Discuss')));
         $trail->add_help('courses wiki tool');
         
         $this->get_parent()->get_parent()->display_header($trail, true);
 
-        $this->action_bar = WikiDisplay :: get_toolbar($this,$this->wiki_id, $this->cid, $this->get_parent()->get_parent()->get_course()->get_id());//$this->get_toolbar();
+        $this->action_bar = WikiDisplay :: get_toolbar($this,Request :: get('pid'),$this->get_root_lo(), $this->cid, $this->get_parent()->get_parent()->get_course()->get_id());//$this->get_toolbar();
         echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
         echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'.Translation :: get('DiscussThe'). ' ' .$wiki_page->get_title().' ' . Translation :: get('Page') .'<hr style="height:1px;color:#4271B5;width:100%;"></div>';
 
@@ -74,7 +72,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
          *  For more information about the parser, please read the information in the wiki_parser class.
          */
 
-        $parser = new WikiToolParserComponent($this->wiki_id, $this->get_parent()->get_parent()->get_course_id(), $display->get_full_html(),$this->cid);
+        $parser = new WikiToolParserComponent($this->get_root_lo()->get_id(), $this->get_parent()->get_parent()->get_course_id(), $display->get_full_html(),$this->cid);
         $parser->parse_wiki_text();
 
         $this->set_script();
@@ -86,9 +84,9 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
          *  If the publication id , and the compled object id are equal to the ones passed the feedback will be shown.
          */
 
-        if(isset($this->cid)&& isset($this->wiki_id))
+        if(isset($this->cid)&& $this->get_root_lo()->get_id() != null)
         {
-            $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_PUBLICATION_ID, $this->wiki_id);
+            $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_PUBLICATION_ID, Request :: get('pid'));
             $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_CLOI_ID, $this->cid);
             $condition = new AndCondition($conditions);
             $feedbacks = $dm->retrieve_learning_object_pub_feedback($condition);
@@ -119,14 +117,14 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
     function build_feedback_actions()
     {
         $actions[] = array(
-			'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE_FEEDBACK, 'fid' => $this->fid, 'cid' => $this->cid, 'pid' => $this->wiki_id)),
+			'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE_FEEDBACK, 'fid' => $this->fid, 'cid' => $this->cid, 'pid' => Request :: get('pid'))),
 			'label' => Translation :: get('Delete'),
 			'img' => Theme :: get_common_image_path().'action_delete.png',
             'confirm' => true
 			);
 
         $actions[] = array(
-			'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_FEEDBACK, 'fid' => $this->fid, 'cid' => $this->cid, 'pid' => $this->wiki_id)),
+			'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_FEEDBACK, 'fid' => $this->fid, 'cid' => $this->cid, 'pid' => Request :: get('pid'))),
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
@@ -138,7 +136,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
     function show_add_feedback()
     {
         $actions[] = array(
-			'href' => $this->get_url(array(WikiTool :: PARAM_ACTION => Tool :: ACTION_FEEDBACK_CLOI, 'pid' => $this->wiki_id, 'cid' => $this->cid)),
+			'href' => $this->get_url(array(WikiTool :: PARAM_ACTION => Tool :: ACTION_FEEDBACK_CLOI, 'pid' => Request :: get('pid'), 'cid' => $this->cid)),
 			'label' => Translation :: get('AddFeedback'),
 			'img' => Theme :: get_common_image_path().'action_add.png',
             'confirm' => false
