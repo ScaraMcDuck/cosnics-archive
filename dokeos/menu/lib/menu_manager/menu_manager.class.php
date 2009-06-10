@@ -209,8 +209,8 @@ class MenuManager extends CoreApplication
 			{
 				case self :: PARAM_DELETE_SELECTED :
 					$this->set_action(self :: ACTION_SORT_MENU);
-					$_GET[self :: PARAM_COMPONENT_ACTION] = self :: ACTION_COMPONENT_DELETE_CATEGORY;
-					$_GET[self :: PARAM_CATEGORY] = $selected_ids;
+					Request :: set_get(self :: PARAM_COMPONENT_ACTION,self :: ACTION_COMPONENT_DELETE_CATEGORY);
+					Request :: set_get(self :: PARAM_CATEGORY,$selected_ids);
 					break;
 			}
 		}

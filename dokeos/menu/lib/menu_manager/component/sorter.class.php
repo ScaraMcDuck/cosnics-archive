@@ -38,8 +38,8 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 			exit;
 		}
 
-		$this->category = $_GET[MenuManager :: PARAM_CATEGORY];
-		$component_action = $_GET[MenuManager :: PARAM_COMPONENT_ACTION];
+		$this->category = Request :: get(MenuManager :: PARAM_CATEGORY);
+		$component_action = Request :: get(MenuManager :: PARAM_COMPONENT_ACTION);
 
 		switch($component_action)
 		{
@@ -103,8 +103,8 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 
 	function move_menu_item()
 	{
-		$direction = $_GET[MenuManager :: PARAM_DIRECTION];
-		$category = $_GET[MenuManager :: PARAM_CATEGORY];
+		$direction = Request :: get(MenuManager :: PARAM_DIRECTION);
+		$category = Request :: get(MenuManager :: PARAM_CATEGORY);
 
 		if (isset($direction) && isset($category))
 		{
@@ -205,7 +205,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 
 	function delete_menu_item()
 	{
-		$menu_item_id = $_GET[MenuManager :: PARAM_CATEGORY];
+		$menu_item_id = Request :: get(MenuManager :: PARAM_CATEGORY);
 		$parent = 0;
 		$failures = 0;
 
@@ -292,7 +292,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 			$url_format = str_replace($temp_replacement, '%s', $url_format);
 			$this->menu = new MenuItemMenu($this->category, $url_format, null, null);
 
-			$component_action = $_GET[MenuManager :: PARAM_COMPONENT_ACTION];
+			$component_action = Request :: get(MenuManager :: PARAM_COMPONENT_ACTION);
 
 			if ($component_action == MenuManager :: ACTION_COMPONENT_ADD_CATEGORY)
 			{
