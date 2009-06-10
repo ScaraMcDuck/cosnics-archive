@@ -5,8 +5,8 @@ require_once Path :: get_application_path().'lib/weblcms/trackers/weblcms_questi
 
 // set vars
 $userId        = 0;//$_user['user_id'];
-$clo_questionId    = $_GET['modifyAnswers'];
-$exe_id    = $_GET['exe_id'];
+$clo_questionId    = Request :: get('modifyAnswers');
+$exe_id    = Request :: get('exe_id');
 
 $clo_question = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($clo_questionId);
 $question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());//Question :: read($questionId);
@@ -46,7 +46,7 @@ for ($i; $i <= 12; $i++)
 }
 
 // set vars
-$questionId    = $_GET['modifyAnswers'];
+$questionId    = Request :: get('modifyAnswers');
 $course_code = ''; //$_course['id'];
 
 $track = new WeblcmsQuestionAttemptsTracker();

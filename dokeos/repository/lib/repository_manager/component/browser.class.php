@@ -72,7 +72,7 @@ class RepositoryManagerBrowserComponent extends RepositoryManagerComponent
     {
         $condition = $this->get_condition();
         $parameters = $this->get_parameters(true);
-        $types = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
+        $types = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE);
         if (is_array($types) && count($types))
         {
             $parameters[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE] = $types;

@@ -16,7 +16,7 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$ids = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
+		$ids = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
 		if (!empty ($ids))
 		{
 			if (!is_array($ids))
@@ -25,9 +25,9 @@ class RepositoryManagerDeleterComponent extends RepositoryManagerComponent
 			}
 
 			$failures = 0;
-			$delete_version = $_GET[RepositoryManager :: PARAM_DELETE_VERSION];
-			$permanent = $_GET[RepositoryManager :: PARAM_DELETE_PERMANENTLY];
-			$recycled = $_GET[RepositoryManager :: PARAM_DELETE_RECYCLED];
+			$delete_version = Request :: get(RepositoryManager :: PARAM_DELETE_VERSION);
+			$permanent = Request :: get(RepositoryManager :: PARAM_DELETE_PERMANENTLY);
+			$recycled = Request :: get(RepositoryManager :: PARAM_DELETE_RECYCLED);
 			foreach ($ids as $object_id)
 			{
 				$object = $this->get_parent()->retrieve_learning_object($object_id);

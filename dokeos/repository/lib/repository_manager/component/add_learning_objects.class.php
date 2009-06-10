@@ -15,9 +15,9 @@ class RepositoryManagerAddLearningObjectsComponent extends RepositoryManagerComp
 	 */
 	function run()
 	{
-		$ids = $_GET[RepositoryManager :: PARAM_CLOI_REF];
-		$root = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
-		$parent = $_GET[RepositoryManager :: PARAM_CLOI_ID];
+		$ids = Request :: get(RepositoryManager :: PARAM_CLOI_REF);
+		$root = Request :: get(RepositoryManager :: PARAM_CLOI_ROOT_ID);
+		$parent = Request :: get(RepositoryManager :: PARAM_CLOI_ID);
 
 		$failures = 0;
 
@@ -74,7 +74,7 @@ class RepositoryManagerAddLearningObjectsComponent extends RepositoryManagerComp
 			$parameters[Application :: PARAM_ACTION] = RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS;
 			$parameters[RepositoryManager :: PARAM_CLOI_ID] = $parent;
 			$parameters[RepositoryManager :: PARAM_CLOI_ROOT_ID] = $root;
-			$parameters['publish'] = $_GET['publish'];
+			$parameters['publish'] = Request :: get('publish');
 
 			$this->redirect(Translation :: get($message), false, $parameters);
 		}

@@ -126,7 +126,7 @@ abstract class ComplexBuilder
 			{
 				case self :: PARAM_DELETE_SELECTED_CLOI :
 					$this->set_action(self :: ACTION_DELETE_CLOI);
-					$_GET[self :: PARAM_SELECTED_CLOI_ID] = $selected_ids;
+					Request :: set_get(self :: PARAM_SELECTED_CLOI_ID,$selected_ids);
 
 					break;
 			}

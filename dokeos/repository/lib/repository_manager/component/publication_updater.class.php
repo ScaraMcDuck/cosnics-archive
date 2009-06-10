@@ -18,8 +18,8 @@ class RepositoryManagerPublicationUpdaterComponent extends RepositoryManagerComp
 	 */
 	function run()
 	{
-		$application = $_GET[RepositoryManager :: PARAM_PUBLICATION_APPLICATION];
-		$publication_id = $_GET[RepositoryManager :: PARAM_PUBLICATION_ID];
+		$application = Request :: get(RepositoryManager :: PARAM_PUBLICATION_APPLICATION);
+		$publication_id = Request :: get(RepositoryManager :: PARAM_PUBLICATION_ID);
 
 		if (!empty ($application) && !empty ($publication_id))
 		{

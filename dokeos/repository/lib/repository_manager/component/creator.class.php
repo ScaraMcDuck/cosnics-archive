@@ -29,8 +29,8 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		$trail = new BreadcrumbTrail(false);
 		$trail->add_help('repository general');
 
-		$clo_id= $_GET[RepositoryManager :: PARAM_CLOI_ID];
-		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
+		$clo_id= Request :: get(RepositoryManager :: PARAM_CLOI_ID);
+		$root_id = Request :: get(RepositoryManager :: PARAM_CLOI_ROOT_ID);
 
 		$type_options = array ();
 		$type_options[''] = '-- ' . Translation :: get('SelectObject') . ' --';
@@ -46,16 +46,16 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			}
 
 			$extra_params = array(RepositoryManager :: PARAM_CLOI_ID => $clo_id,
-								  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']);
-			if(isset($_GET['publish']))
+								  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish'));
+			if(Request :: get('publish'))
 			{
-				$extra = '&publish=' . $_GET['publish'];
+				$extra = '&publish=' . Request :: get('publish');
 			}
 
 			$extra = '<a href="' . $this->get_add_existing_learning_object_url($root_id, $clo_id) . $extra . '">' . Translation :: get('AddExistingLearningObject') . '</a><br /><br />';
 
 			$root = $this->retrieve_learning_object($root_id);
-			if(!isset($_GET['publish']))
+			if(!Request :: get('publish'))
 			{
 				$trail->add(new Breadcrumb($this->get_link(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), $root->get_title()));
 				$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $clo_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
@@ -78,11 +78,11 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		$type_form->addElement('style_submit_button', 'submit', Translation :: get('Select'), array('class' => 'normal select'));
 		$type_form->addElement('html', '<br /><br />' . ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/postback.js'));
 		
-		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE) : $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE]);
+		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE) : Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE));
 
 		if ($type)
 		{
-			$category = $_GET[RepositoryManager :: PARAM_CATEGORY_ID];
+			$category = Request :: get(RepositoryManager :: PARAM_CATEGORY_ID);
 			$object = new AbstractLearningObject($type, $this->get_user_id(), $category);
 			$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array_merge($extra_params,array(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE => $type))), null);
 
@@ -115,7 +115,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 			}
 			else
 			{
-				if(!isset($_GET['publish']))
+				if(!Request :: get('publish'))
 				{
                     $trail->add(new Breadcrumb($this->get_url(), Translation :: get('Create')));
 					$trail->add(new Breadcrumb($this->get_url(), Translation :: get(LearningObject :: type_to_class($type).'CreationFormTitle')));
@@ -132,7 +132,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		}
 		else
 		{
-			if(!isset($_GET['publish']))
+			if(!Request :: get('publish'))
 			{
 				if($extra)
 				{
@@ -144,7 +144,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 				}
 			}
 
-			if(isset($_GET['publish']))
+			if(Request :: get('publish'))
 			{
 				$this->display_header($trail, false, true);
 			}

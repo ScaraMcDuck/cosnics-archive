@@ -83,9 +83,9 @@ class RepositorySearchForm extends FormValidator
 		$this->renderer = clone $this->defaultRenderer();
 		$this->manager = $manager;
 		$this->frozen_elements = array ();
-		if (isset ($_GET[self :: PARAM_ADVANCED_SEARCH]))
+		if (Request :: get(self :: PARAM_ADVANCED_SEARCH))
 		{
-			$_SESSION[self :: SESSION_KEY_ADVANCED_SEARCH] = $_GET[self :: PARAM_ADVANCED_SEARCH];
+			$_SESSION[self :: SESSION_KEY_ADVANCED_SEARCH] = Request :: get(self :: PARAM_ADVANCED_SEARCH);
 		}
 		$this->advanced = $_SESSION[self :: SESSION_KEY_ADVANCED_SEARCH];
 		if ($this->advanced)
@@ -123,7 +123,7 @@ class RepositorySearchForm extends FormValidator
 		}
 		foreach ($this->frozen_elements as $element)
 		{
-			$element->setValue($_GET[$element->getName()]);
+			$element->setValue(Request :: get($element->getName()));
 		}
 	}
 	/**
@@ -283,9 +283,9 @@ class RepositorySearchForm extends FormValidator
 	 */
 	private function get_types()
 	{
-		if(isset($_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE]))
+		if(Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE))
 		{
-			$types = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
+			$types = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE);
 		}
 		else
 		{

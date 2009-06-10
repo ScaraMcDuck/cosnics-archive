@@ -17,14 +17,14 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 	public function LocationSelectionPublisherWizardPage($name,$parent)
 	{
 		parent :: PublisherWizardPage($name, $parent);
-		$ids = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
+		$ids = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
 
         $trail = new BreadCrumbTrail();
         $trail->add(new Breadcrumb($this->get_parent()->get_url(), 'test'));
 		
 		if(empty($ids)) 
 		{
-			$_GET['message'] = Translation :: get('NoObjectSelected');
+			Request :: set_get('message',Translation :: get('NoObjectSelected');)
 			$this->get_parent()->display_header($trail, false, true, 'repository publication wizard');
 			$this->get_parent()->display_footer();
 			exit();
@@ -43,7 +43,7 @@ class LocationSelectionPublisherWizardPage extends PublisherWizardPage
 			{
 				if($this->type != $lo->get_type())
 				{
-					$_GET['message'] = Translation :: get('ObjectsNotSameType');
+					Request :: set_get('message',Translation :: get('ObjectsNotSameType');)
 					$this->get_parent()->display_header($trail, false, true, 'repository publication wizard');
 					$this->get_parent()->display_footer();
 					exit();

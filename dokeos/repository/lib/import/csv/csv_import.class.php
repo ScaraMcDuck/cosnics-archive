@@ -19,7 +19,7 @@ class CsvImport extends LearningObjectImport
 	
 	public function import_learning_object()
 	{
-		$category = $_GET[RepositoryManager :: PARAM_CATEGORY_ID];
+		$category = Request :: get(RepositoryManager :: PARAM_CATEGORY_ID);
 		$csvarray = Import :: read_csv($this->get_learning_object_file_property('tmp_name'));			
 		$csvcreator = new CSVCreator();
 

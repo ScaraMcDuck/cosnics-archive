@@ -11,9 +11,9 @@ class ComplexDisplayUpdaterComponent extends ComplexDisplayComponent
 	{
         if($this->is_allowed(EDIT_RIGHT))
 		{
-			$cid = isset($_GET['cid']) ? $_GET['cid'] : $_POST['cid'];
-            $pid = isset($_GET['pid']) ? $_GET['pid'] : $_POST['pid'];
-			$selected_cloi = isset($_GET['selected_cloi']) ? $_GET['selected_cloi'] : $_POST['selected_cloi'];
+			$cid = Request :: get('cid') ? Request :: get('cid') : $_POST['cid'];
+            $pid = Request :: get('pid') ? Request :: get('pid') : $_POST['pid'];
+			$selected_cloi = Request :: get('selected_cloi') ? Request :: get('selected_cloi') : $_POST['selected_cloi'];
             
 			$datamanager = RepositoryDataManager :: get_instance();
 			$cloi = $datamanager->retrieve_complex_learning_object_item($selected_cloi);
@@ -24,7 +24,7 @@ class ComplexDisplayUpdaterComponent extends ComplexDisplayComponent
             $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE, 'selected_cloi' => $selected_cloi, 'cid' => $cid, 'pid' => $pid)));
 
 
-            if( $form->validate() || $_GET['validated'])
+            if( $form->validate() || Request :: get('validated'))
             {
                 $form->update_learning_object();
                 if($form->is_version())

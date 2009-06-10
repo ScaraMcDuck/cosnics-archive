@@ -25,7 +25,7 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 		$trail = new BreadcrumbTrail(false);
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('EditRights')));
 
-		$component_action = $_GET[RightsManager :: PARAM_COMPONENT_ACTION];
+		$component_action = Request :: get(RightsManager :: PARAM_COMPONENT_ACTION);
 
 		switch($component_action)
 		{
@@ -173,8 +173,8 @@ class RepositoryManagerRightsEditorComponent extends RepositoryManagerComponent
 
 	function edit_right()
 	{
-		$role = $_GET['role_id'];
-		$right = $_GET['right_id'];
+		$role = Request :: get('role_id');
+		$right = Request :: get('right_id');
 		$location =  $this->location;
 
 		$success = RightsUtilities :: invert_role_right_location($right, $role, $location);

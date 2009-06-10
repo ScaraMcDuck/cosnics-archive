@@ -24,7 +24,7 @@ class RepositoryManagerViewerComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$id = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
+		$id = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
 		if ($id)
 		{
 			$object = $this->retrieve_learning_object($id);

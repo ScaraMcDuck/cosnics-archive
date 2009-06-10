@@ -13,7 +13,7 @@ class ComplexBuilderCreatorComponent extends ComplexBuilderComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('repository builder');
 
-		$object = $_GET['object'];
+		$object = Request :: get('object');
 		$root_lo = Request :: get(ComplexBuilder :: PARAM_ROOT_LO);
 		$cloi_id = Request :: get(ComplexBuilder :: PARAM_CLOI_ID);
 		$publish = Request :: get('publish');
