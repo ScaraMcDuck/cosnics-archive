@@ -20,7 +20,7 @@ class TrackingManagerAdminEventViewerComponent extends TrackingManagerComponent
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_browser_url(), Translation :: get('EventsList')));
-		$trail->add(new Breadcrumb($this->get_url(array(TrackingManager :: PARAM_EVENT_ID => $_GET['event_id'])), Translation :: get('ViewEvent')));
+		$trail->add(new Breadcrumb($this->get_url(array(TrackingManager :: PARAM_EVENT_ID => Request :: get('event_id'))), Translation :: get('ViewEvent')));
 		$trail->add_help('tracking general');
 
 		if (!$this->get_user() || !$this->get_user()->is_platform_admin())
@@ -31,7 +31,7 @@ class TrackingManagerAdminEventViewerComponent extends TrackingManagerComponent
 			exit;
 		}
 
-		$event_id = $_GET['event_id'];
+		$event_id = Request :: get('event_id');
 		if(!$event_id) return;
 
 		$event = $this->retrieve_event($event_id);
