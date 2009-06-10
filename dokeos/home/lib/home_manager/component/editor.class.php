@@ -19,8 +19,8 @@ class HomeManagerEditorComponent extends HomeManagerComponent
 	{
 		Header :: set_section('admin');
 
-		$id = $_GET[HomeManager :: PARAM_HOME_ID];
-		$type = $_GET[HomeManager :: PARAM_HOME_TYPE];
+		$id = Request :: get(HomeManager :: PARAM_HOME_ID);
+		$type = Request :: get(HomeManager :: PARAM_HOME_TYPE);
 		$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('Home')));
