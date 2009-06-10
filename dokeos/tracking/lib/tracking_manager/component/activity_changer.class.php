@@ -18,9 +18,9 @@ class TrackingManagerActivityChangerComponent extends TrackingManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('tracking general');
 
-		$tracker_ids = $_GET[TrackingManager :: PARAM_TRACKER_ID];
-		$type = $_GET[TrackingManager :: PARAM_TYPE];
-		$event_ids = $_GET[TrackingManager :: PARAM_EVENT_ID];
+		$tracker_ids = Request :: get(TrackingManager :: PARAM_TRACKER_ID);
+		$type = Request :: get(TrackingManager :: PARAM_TYPE);
+		$event_ids = Request :: get(TrackingManager :: PARAM_EVENT_ID);
 
 		if (!$this->get_user() || !$this->get_user()->is_platform_admin())
 		{
@@ -68,9 +68,9 @@ class TrackingManagerActivityChangerComponent extends TrackingManagerComponent
 			foreach ($event_ids as $event_id)
 			{
 				$event = $this->retrieve_event($event_id);
-				if(isset($_GET['extra']))
+				if(Request :: get('extra'))
 				{
-					$event->set_active($_GET['extra'] == 'enable'?1:0);
+					$event->set_active(Request :: get('extra') == 'enable'?1:0);
 				}
 				else
 					$event->set_active(!$event->get_active());
@@ -103,9 +103,9 @@ class TrackingManagerActivityChangerComponent extends TrackingManagerComponent
 			{
 				$relation = $this->retrieve_event_tracker_relation($event_id, $tracker_id);
 
-				if(isset($_GET['extra']))
+				if(Request :: get('extra'))
 				{
-					$relation->set_active($_GET['extra'] == 'enable'?1:0);
+					$relation->set_active(Request :: get('extra') == 'enable'?1:0);
 				}
 				else
 					$relation->set_active(!$relation->get_active());

@@ -18,9 +18,9 @@ class TrackingManagerEmptyTrackerComponent extends TrackingManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('tracking general');
 
-		$tracker_ids = $_GET[TrackingManager :: PARAM_TRACKER_ID];
-		$event_ids = $_GET[TrackingManager :: PARAM_EVENT_ID];
-		$type = $_GET[TrackingManager :: PARAM_TYPE];
+		$tracker_ids = Request :: get(TrackingManager :: PARAM_TRACKER_ID);
+		$event_ids = Request :: get(TrackingManager :: PARAM_EVENT_ID);
+		$type = Request :: get(TrackingManager :: PARAM_TYPE);
 
 		if (!$this->get_user() || !$this->get_user()->is_platform_admin())
 		{
