@@ -228,6 +228,7 @@ class Display
 
 		$header = new Header($document_language);
 		$header->add_default_headers();
+		$header->add_javascript_file_header(Path :: get(WEB_PLUGIN_PATH).'html_editor/fckeditor/fckeditor.js');
 		$header->set_page_title(PlatformSetting :: get('site_name'));
 		$header->display();
 		

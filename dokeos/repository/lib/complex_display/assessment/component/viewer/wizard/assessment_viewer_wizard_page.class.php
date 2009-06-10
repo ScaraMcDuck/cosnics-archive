@@ -19,7 +19,7 @@ abstract class AssessmentViewerWizardPage extends FormValidatorPage
 	public function AssessmentViewerWizardPage($name,$parent)
 	{
 		$this->parent = $parent;
-		parent::HTML_QuickForm_Page($name,'post');
+		parent :: FormValidatorPage($name,'post');
 		$this->updateAttributes(array('action'=> $parent->get_parent()->get_url()));
 	}
 	
