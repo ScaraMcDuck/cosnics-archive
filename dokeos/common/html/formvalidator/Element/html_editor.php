@@ -29,27 +29,47 @@ require_once (Path :: get_admin_path().'lib/admin_data_manager.class.php');
 */
 abstract class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 {
-	/**
-	 * Full page
-	 */
-	var $fullPage;
+    var $options;
+
 	/**
 	 * Class constructor
 	 * @param   string  HTML editor name/id
 	 * @param   string  HTML editor  label
 	 * @param   string  Attributes for the textarea
 	 */
-	function HTML_QuickForm_html_editor($elementName = null, $elementLabel = null, $attributes = null)
+	function HTML_QuickForm_html_editor($elementName = null, $elementLabel = null, $attributes = null, $options = array())
 	{
-		HTML_QuickForm_element :: HTML_QuickForm_element($elementName, $elementLabel, $attributes);
-		
+        $this->options['width'] = (isset($options['width']) ? $options['width'] : '650');
+        $this->options['height'] = (isset($options['height']) ? $options['height'] : '150');
+        $this->options['show_toolbar'] = (isset($options['show_toolbar']) ? $options['show_toolbar'] : true);
+        $this->options['show_tags'] = (isset($options['show_tags']) ? $options['show_tags'] : true);
+        $this->options['full_page'] = (isset($options['full_page']) ? $options['full_page'] : false);
+
 		$this->_persistantFreeze = true;
-		$this->fullPage = false;
 		$this->set_type();
+
+		HTML_QuickForm_element :: HTML_QuickForm_element($elementName, $elementLabel, $attributes);
 	}
-	
+
+	function get_options()
+	{
+	    return $this->options;
+	}
+
+	function get_option($name)
+	{
+	    if (isset($this->options[$name]))
+	    {
+	        return $this->options[$name];
+	    }
+	    else
+	    {
+	        return null;
+	    }
+	}
+
 	abstract function set_type();
-	
+
 	/**
 	 * Check if the browser supports th editor
 	 *
@@ -90,12 +110,12 @@ abstract class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 			return $this->build_editor();
 		}
 	}
-	
+
 	function render_textarea()
 	{
 		return parent :: toHTML();
 	}
-	
+
 	/**
 	 * Returns the frozen content in HTML
 	 *@return string

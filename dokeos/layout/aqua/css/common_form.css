@@ -300,6 +300,16 @@ button.register, a.register_button
 	background-image: url(../img/common/buttons/button_register.png);
 }
 
+button.switch, a.switch_button
+{
+	background-image: url(../img/common/buttons/button_switch.png);
+}
+
+button.add, a.add_button
+{
+	background-image: url(../img/common/buttons/button_add.png);
+}
+
 /*IE-fix to avoid adding unwanted margins to the form*/
 div.simple_search form
 {
@@ -541,4 +551,17 @@ input.link_alike:hover
 form br
 {
 	clear: both;
+}
+
+.question_even, .question_odd
+{
+	padding: 5px;
+	margin-top: -1px;
+	background-color: #FFFFFF;
+	border: 1px solid #B5CAE7;
+}
+
+.question_odd
+{
+	background-color: #eef5fa;
 }

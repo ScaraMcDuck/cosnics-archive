@@ -201,14 +201,14 @@ EOT;
 	 * @param boolean $required Is the form-element required (default=true)
 	 * @return HTML_QuickForm_html_editor The element.
 	 */
-	function add_html_editor($name, $label, $required = true, $full_page = false)
+	function add_html_editor($name, $label, $required = true, $options = array('full_page' => false))
 	{
 		$type = 'fckeditor';
-		$element = $this->addElement($type . '_html_editor',$name,$label,'rows="15" cols="80"');
+		$element = $this->addElement($type . '_html_editor', $name, $label, 'rows="15" cols="80"', $options);
 
 		$this->applyFilter($name,'trim');
 		$html_type = $_SESSION['status'] == COURSEMANAGER ? TEACHER_HTML : STUDENT_HTML;
-		if($full_page)
+		if($options['full_page'] == true)
 		{
 			$html_type = $_SESSION['status'] == COURSEMANAGER ? TEACHER_HTML_FULLPAGE : STUDENT_HTML_FULLPAGE;
 			//First *filter* the HTML (markup, indenting, ...)
@@ -223,7 +223,7 @@ EOT;
 		{
 			$this->addRule($name, Translation :: get('ThisFieldIsRequired'), 'required');
 		}
-		if($full_page)
+		if($options['full_page'] == true)
 		{
 			$el = $this->getElement($name);
 			$el->fullPage = true;
@@ -236,10 +236,10 @@ EOT;
 		return $element;
 	}
 
-	function create_html_editor($name, $label)
+	function create_html_editor($name, $label, $options)
 	{
 		$type = 'fckeditor';
-		$element = $this->createElement($type . '_html_editor',$name,$label,'rows="15" cols="80"');
+		$element = $this->createElement($type . '_html_editor',$name,$label,'rows="15" cols="80"', $options);
 		$this->html_editors[] = $name;
 		return $element;
 	}
