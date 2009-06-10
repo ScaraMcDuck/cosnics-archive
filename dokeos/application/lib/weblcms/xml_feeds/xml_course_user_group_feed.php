@@ -4,7 +4,7 @@
  * @author Hans De Bisschop
  * @author Dieter De Neef
  */
-require_once dirname(__FILE__) . '/../../../common/global.inc.php';
+require_once dirname(__FILE__) . '/../../../../common/global.inc.php';
 require_once Path :: get_library_path() . 'dokeos_utilities.class.php';
 require_once Path :: get_user_path() . 'lib/user.class.php';
 require_once Path :: get_library_path() . 'condition/equality_condition.class.php';

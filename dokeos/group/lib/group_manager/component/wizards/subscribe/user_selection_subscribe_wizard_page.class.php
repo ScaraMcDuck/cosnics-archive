@@ -13,8 +13,8 @@ class UserSelectionSubscribeWizardPage extends SubscribeWizardPage
 {
 	function buildForm()
 	{
-		$url = Path :: get(WEB_PATH).'group/lib/xml_user_feed.php';
-	
+		$url = Path :: get(WEB_PATH) . 'user/xml_feeds/xml_user_feed.php';
+
 		$locale = array ();
 		$locale['Display'] = Translation :: get('SelectUsers');
 		$locale['Searching'] = Translation :: get('Searching');

@@ -251,7 +251,7 @@ class LearningObjectPublicationForm extends FormValidator
 		}
 
 		$attributes = array();
-		$attributes['search_url'] = Path :: get(WEB_PATH).'application/lib/weblcms/xml_course_user_group_feed.php?course=' . $this->course->get_id();
+		$attributes['search_url'] = Path :: get(WEB_PATH).'application/lib/weblcms/xml_feeds/xml_course_user_group_feed.php?course=' . $this->course->get_id();
 		$locale = array ();
 		$locale['Display'] = Translation :: get('SelectRecipients');
 		$locale['Searching'] = Translation :: get('Searching');
