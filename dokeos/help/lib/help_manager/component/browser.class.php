@@ -55,7 +55,7 @@ class HelpManagerBrowserComponent extends HelpManagerComponent
 
 	function get_help_item()
 	{
-		return (isset($_GET[HelpManager :: PARAM_HELP_ITEM])?$_GET[HelpManager :: PARAM_HELP_ITEM]:0);
+		return (Request :: get(HelpManager :: PARAM_HELP_ITEM)?Request :: get(HelpManager :: PARAM_HELP_ITEM):0);
 	}
 
 	function get_condition()
