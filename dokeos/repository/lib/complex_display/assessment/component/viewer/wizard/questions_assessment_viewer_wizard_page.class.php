@@ -23,8 +23,8 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
 		
 		while($question = $this->questions->next_result())
 		{
-			$display = QuestionDisplay :: factory($question, $i);
-			$display->add_to($this);
+			$question_display = QuestionDisplay :: factory($this, $question, $i);
+			$question_display->display();
 			$i++;	
 		}
 	}
