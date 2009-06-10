@@ -6,7 +6,7 @@ require_once Path :: get_user_path(). 'lib/user_manager/user_manager.class.php';
 Translation :: set_application($this_section);
 Theme :: set_application($this_section);
 
-if (!Session :: get_user_id() && !($_GET['go'] == 'register' || $_GET['go'] == 'reset_password'))
+if (!Session :: get_user_id() && !(Request :: get('go') == 'register' || Request :: get('go') == 'reset_password'))
 {
 	Display :: not_allowed();
 }

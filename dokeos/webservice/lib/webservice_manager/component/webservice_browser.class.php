@@ -100,12 +100,12 @@ class WebserviceManagerWebserviceBrowserComponent extends WebserviceManagerCompo
 	function get_webservice()
     {
 
-		return (isset($_GET[WebserviceManager :: PARAM_WEBSERVICE_ID]) ? $_GET[WebserviceManager :: PARAM_WEBSERVICE_ID] : 0);
+		return (Request :: get(WebserviceManager :: PARAM_WEBSERVICE_ID) ? Request :: get(WebserviceManager :: PARAM_WEBSERVICE_ID) : 0);
 	}
 
 	function get_webservice_category()
 	{
-		return (isset($_GET[WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID]) ? $_GET[WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID] : 0);
+		return (Request :: get(WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID) ? Request :: get(WebserviceManager :: PARAM_WEBSERVICE_CATEGORY_ID) : 0);
 	}
 
 	function get_action_bar()

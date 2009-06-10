@@ -51,7 +51,7 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
             $this->submessage = Translation :: get('SetRightsForWebservice ') .$this->location->get_location() ;
         }
 
-		$component_action = $_GET[WebserviceManager :: PARAM_COMPONENT_ACTION];
+		$component_action = Request :: get(WebserviceManager :: PARAM_COMPONENT_ACTION);
 
 		switch($component_action)
 		{
@@ -199,8 +199,8 @@ class WebserviceManagerRightsEditorComponent extends WebserviceManagerComponent
 	function edit_right()
 	{
 
-		$role = $_GET['role_id'];
-		$right = $_GET['right_id'];
+		$role = Request :: get('role_id');
+		$right = Request :: get('right_id');
 		$location =  $this->location;
 
         $success = RightsUtilities :: invert_role_right_location($right, $role, $location);
