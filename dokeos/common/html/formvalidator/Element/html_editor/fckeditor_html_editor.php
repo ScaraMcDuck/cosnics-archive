@@ -48,12 +48,12 @@ class HTML_QuickForm_fckeditor_html_editor extends HTML_QuickForm_html_editor
 		$result []= "\n/* <![CDATA[ */\n";
 		$result []= 'var oFCKeditor = new FCKeditor( \''.$name.'\' ) ;';
 		$result []= 'oFCKeditor.BasePath = "'.Path :: get(WEB_PLUGIN_PATH).'html_editor/fckeditor/";';
-		$result []= 'oFCKeditor.Width = '. $this->get_option('width') .';';
+		$result []= 'oFCKeditor.Width = "'. $this->get_option('width') .'";';
 		$result []= 'oFCKeditor.Height = '. ($this->get_option('full_page') ? '500' : $this->get_option('height')).';';
 		$result []= 'oFCKeditor.Config[ "FullPage" ] = '. ($this->get_option('full_page') ? 'true' : 'false').';';
 		$result []= 'oFCKeditor.Config[ "DefaultLanguage" ] = "'.$editor_lang.'" ;';
 		$result []= 'oFCKeditor.Value = "'.str_replace('"', '\"', str_replace(array ("\r\n", "\n", "\r", "/"), array (' ', ' ', ' ', '\/'), $this->getValue())).'" ;';
-		$result []= 'oFCKeditor.ToolbarSet = \''. ($this->fullPage ? 'FullHTML' : 'Basic' ).'\';';
+		$result []= 'oFCKeditor.ToolbarSet = \''. $this->get_option('toolbar_set').'\';';
 		$result []= 'oFCKeditor.Config[ "SkinPath" ] = oFCKeditor.BasePath + "editor/skins/'. Theme :: get_theme() .'/";';
 		$result []= 'oFCKeditor.Config["CustomConfigurationsPath"] = "'. Path :: get(WEB_LIB_PATH) .'configuration/html_editor/fckconfig.js";';
 		$result []= 'oFCKeditor.Config[ "ToolbarStartExpanded" ] = ' . ($this->get_option('show_toolbar') ? 'true' : 'false') . ';';

@@ -60,7 +60,7 @@
 	border-left: 1px solid white;
 	border-top: 1px solid white;
 	border-bottom: 1px solid #f2f2f2;
-	z-index:20000;
+	z-index:1000;
 }
 
 #header1 div.applications ul li:hover

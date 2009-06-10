@@ -120,6 +120,10 @@ FCKConfig.ToolbarSets["Basic"] = [
 	['Bold','Italic','Underline','-','OrderedList','UnorderedList','-','Link','Unlink','-','TextColor','BGColor','-','Rule','-','Image','Flash','YouTube','WikiLink','-','Templates']
 ] ;
 
+FCKConfig.ToolbarSets["RepositoryQuestion"] = [
+	['FitWindow','Bold','Italic','Underline','-','OrderedList','UnorderedList','-','TextColor','BGColor','-','Image','Flash','YouTube']
+] ;
+
 FCKConfig.EnterMode = 'p' ;			// p | div | br
 FCKConfig.ShiftEnterMode = 'br' ;	// p | div | br
 

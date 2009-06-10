@@ -44,6 +44,7 @@ abstract class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
         $this->options['show_toolbar'] = (isset($options['show_toolbar']) ? $options['show_toolbar'] : true);
         $this->options['show_tags'] = (isset($options['show_tags']) ? $options['show_tags'] : true);
         $this->options['full_page'] = (isset($options['full_page']) ? $options['full_page'] : false);
+        $this->options['toolbar_set'] = (isset($options['toolbar_set']) ? $options['toolbar_set'] : 'Basic');
 
 		$this->_persistantFreeze = true;
 		$this->set_type();
