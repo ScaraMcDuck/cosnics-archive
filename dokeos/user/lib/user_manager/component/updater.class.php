@@ -21,7 +21,7 @@ class UserManagerUpdaterComponent extends UserManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => UserManager :: ACTION_BROWSE_USERS)), Translation :: get('UserList')));
 		$trail->add_help('user general');
 
-		$id = $_GET[UserManager :: PARAM_USER_USER_ID];
+		$id = Request :: get(UserManager :: PARAM_USER_USER_ID);
 		if ($id)
 		{
 			$user = $this->retrieve_user($id);

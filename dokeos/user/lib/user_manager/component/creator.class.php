@@ -48,7 +48,7 @@ class UserManagerCreatorComponent extends UserManagerComponent
 			}
 			else
 			{
-				$_GET['error_message'] = Translation :: get('UsernameNotAvailable');
+				Request :: set_get('error_message',Translation :: get('UsernameNotAvailable'));
 				$this->display_header($trail);
 				$form->display();
 				$this->display_footer();

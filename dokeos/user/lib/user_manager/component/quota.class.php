@@ -26,7 +26,7 @@ class UserManagerQuotaComponent extends UserManagerComponent
 		{
 			Display :: not_allowed();
 		}
-		$id = $_GET[UserManager :: PARAM_USER_USER_ID];
+		$id = Request :: get(UserManager :: PARAM_USER_USER_ID);
 		if ($id)
 		{
 
