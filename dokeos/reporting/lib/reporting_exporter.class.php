@@ -108,9 +108,9 @@ class ReportingExporter {
             $template = new $classname($this->parent);
             $template->set_reporting_blocks_function_parameters($params);
             $template->set_registration_id($ti);
-            if(isset($_GET['s']))
+            if(Request :: get('s'))
             {
-                $template->show_reporting_block($_GET['s']);
+                $template->show_reporting_block(Request :: get('s'));
             }
             $html .= $this->get_export_header();
             $html .= $template->to_html_export();

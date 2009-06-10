@@ -59,7 +59,7 @@ abstract class ReportingTemplate {
     function get_action_bar()
     {
         $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $this->params;
-        $parameters['s'] = $_GET['s'];
+        $parameters['s'] = Request :: get('s');
         $action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
         //$url = $this->parent->get_url(array (Tool :: PARAM_ACTION=>ReportingTool::ACTION_EXPORT_REPORT,ReportingManager::PARAM_TEMPLATE_ID => $this->id,ReportingManager::PARAM_EXPORT_TYPE=>'pdf',ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS => $this->params));
@@ -110,7 +110,7 @@ abstract class ReportingTemplate {
     function get_footer()
     {
         $parameters = array();
-        $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+        $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = Request :: get(ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS);
 
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_charttype.js' .'"></script>';
         $html[] = '<script type="text/javascript" src="'. Path :: get(WEB_LIB_PATH) . 'javascript/reporting_template_ajax.js' .'"></script>';

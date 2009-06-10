@@ -48,7 +48,7 @@ class ReportingTableFormatter extends ReportingFormatter {
         $table = new SortableTableFromArray($data,$column,10,'table_'.$this->reporting_block->get_id());
         foreach ($_GET as $key => $value) {
             if(strstr($key, 'table_'.$this->reporting_block->get_id()))
-                unset($_GET[$key]);
+                Request :: set_get($key,null);
         }
         $table->set_additional_parameters($_GET);
 
@@ -61,7 +61,7 @@ class ReportingTableFormatter extends ReportingFormatter {
             }
         }
 
-        if(isset($_GET['export']))
+        if(Request :: get('export'))
             return $table->toHTML_export();
 
         return $table->toHTML();

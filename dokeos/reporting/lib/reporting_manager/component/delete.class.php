@@ -67,7 +67,7 @@ class ReportingManagerDeleteComponent extends ReportingManagerComponent
 
 	function get_template()
 	{
-		return (isset($_GET[ReportingManager :: PARAM_TEMPLATE_ID]) ? $_GET[ReportingManager :: PARAM_TEMPLATE_ID] : 0);
+		return (Request :: get(ReportingManager :: PARAM_TEMPLATE_ID) ? Request :: get(ReportingManager :: PARAM_TEMPLATE_ID) : 0);
 	}
 
 	function get_action_bar()
