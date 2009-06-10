@@ -333,13 +333,20 @@ div.configuration_form span.category
  * ----------------------------------------- *
  * Don't change unless you have a death wish *
  *********************************************/
+.element_finder_inactive
+{
+	margin-right: 10px;
+}
 
 .active_elements, .inactive_elements
 {
 	background-color: #f5f5f5;
 	border: 1px solid #dedede;
 	padding: 2px 4px 2px 4px;
-	width: 294px; 
+	/*****************
+	 * width: 294px; *
+	 *****************/
+	width: 310px; 
 }
 
 .active_elements:hover, .active_elements:focus , .inactive_elements:hover, .inactive_elements:focus 
@@ -350,7 +357,10 @@ div.configuration_form span.category
 
 input[type=text].element_query
 {
-	width: 278px;
+	/*****************
+	 * width: 278px; *
+	 *****************/
+	width: 294px;
 	background-image: url('../img/common/buttons/button_search.png');
 	background-repeat: no-repeat;
 	background-position: 2px 2px;
