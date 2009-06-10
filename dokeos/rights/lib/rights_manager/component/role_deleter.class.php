@@ -10,7 +10,7 @@ class RightsManagerRoleDeleterComponent extends RightsManagerComponent
 	 */
 	function run()
 	{
-		$ids = $_GET[RightsManager :: PARAM_ROLE_ID];
+		$ids = Request :: get(RightsManager :: PARAM_ROLE_ID);
 		$failures = 0;
 		
 		if (!empty($ids))

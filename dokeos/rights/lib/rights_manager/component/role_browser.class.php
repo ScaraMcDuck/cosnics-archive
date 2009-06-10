@@ -67,7 +67,7 @@ class RightsManagerRoleBrowserComponent extends RightsManagerComponent
 
 	function get_role()
 	{
-		return (isset($_GET[RightsManager :: PARAM_ROLE_ID]) ? $_GET[RightsManager :: PARAM_ROLE_ID] : 0);
+		return (Request :: get(RightsManager :: PARAM_ROLE_ID) ? Request :: get(RightsManager :: PARAM_ROLE_ID) : 0);
 	}
 
 	function get_action_bar()

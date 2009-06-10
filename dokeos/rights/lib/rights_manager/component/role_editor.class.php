@@ -19,7 +19,7 @@ class RightsManagerRoleEditorComponent extends RightsManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RightsManager :: ACTION_EDIT_RIGHTS)), Translation :: get('EditRole')));
 		$trail->add_help('rights general');
 
-		$id = $_GET[RightsManager :: PARAM_ROLE_ID];
+		$id = Request :: get(RightsManager :: PARAM_ROLE_ID);
 
 		if ($id)
 		{
