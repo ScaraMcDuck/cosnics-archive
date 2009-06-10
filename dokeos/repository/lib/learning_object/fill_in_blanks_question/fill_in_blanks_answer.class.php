@@ -6,7 +6,8 @@ class FillInBlanksQuestionAnswer
 	private $weight;
 	private $comment;
 
-    function FillInBlanksQuestionAnswer($value, $weight, $comment) {
+    function FillInBlanksQuestionAnswer($value, $weight, $comment) 
+    {
     	$this->value = $value;
     	$this->weight = $weight;
     	$this->comment = $comment;
