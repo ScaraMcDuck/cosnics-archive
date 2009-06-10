@@ -96,7 +96,7 @@ class AnnouncementDistributionForm extends FormValidator
 //			$recipients[$recipient['id']] = $recipient;
 //    	}
 
-		$url = Path :: get(WEB_PATH).'application/lib/distribute/xml_user_feed.php';
+		$url = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
 		$locale = array ();
 		$locale['Display'] = Translation :: get('ShareWith');
 		$locale['Searching'] = Translation :: get('Searching');
@@ -104,7 +104,7 @@ class AnnouncementDistributionForm extends FormValidator
 		$locale['Error'] = Translation :: get('Error');
 		$hidden = false;
 		$elem = $this->addElement('user_group_finder', 'recipients', Translation :: get('SendTo'), $url, $locale, $shares);
-		$elem->excludeElements(array($this->form_user->get_id()));
+		$elem->excludeElements(array('user_' . $this->form_user->get_id()));
 		$elem->setDefaultCollapsed(false);
     }
 

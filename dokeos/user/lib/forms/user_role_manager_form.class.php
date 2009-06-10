@@ -6,7 +6,7 @@ require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.
 require_once dirname(__FILE__).'/../user.class.php';
 require_once dirname(__FILE__).'/../user_data_manager.class.php';
 
-class UserRoleManagerForm extends FormValidator 
+class UserRoleManagerForm extends FormValidator
 {
 	private $parent;
 	private $user;
@@ -16,7 +16,7 @@ class UserRoleManagerForm extends FormValidator
 	 * Creates a new UserForm
 	 * Used by the admin to create/update a user
 	 */
-    function UserRoleManagerForm($user, $form_user, $action) 
+    function UserRoleManagerForm($user, $form_user, $action)
     {
     	parent :: __construct('user_role_manager_form', 'post', $action);
 
@@ -42,18 +42,18 @@ class UserRoleManagerForm extends FormValidator
 		{
 			$defaults[$role->get_id()] = array('title' => $role->get_name(), 'description', $role->get_description(), 'class' => 'role');
 		}
-		
-		$url = Path :: get(WEB_PATH).'rights/xml_role_feed.php';
+
+		$url = Path :: get(WEB_PATH).'rights/xml_feeds/xml_role_feed.php';
 		$locale = array ();
 		$locale['Display'] = Translation :: get('AddRoles');
 		$locale['Searching'] = Translation :: get('Searching');
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
 		$hidden = true;
-		
+
 		$elem = $this->addElement('element_finder', 'roles', null, $url, $locale, $user_roles);
 		$elem->setDefaults($defaults);
-		
+
 		// Submit button
 		//$this->addElement('submit', 'user_settings', 'OK');
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));

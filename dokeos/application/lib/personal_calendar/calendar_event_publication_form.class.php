@@ -101,7 +101,7 @@ class CalendarEventPublicationForm extends FormValidator
 //			$recipients[$recipient['id']] = $recipient;
 //    	}
 
-		$url = Path :: get(WEB_PATH).'application/lib/personal_calendar/xml_user_feed.php';
+		$url = Path :: get(WEB_PATH) . 'common/xml_feeds/xml_user_group_feed.php';
 		$locale = array ();
 		$locale['Display'] = Translation :: get('ShareWith');
 		$locale['Searching'] = Translation :: get('Searching');
@@ -109,7 +109,7 @@ class CalendarEventPublicationForm extends FormValidator
 		$locale['Error'] = Translation :: get('Error');
 		$hidden = false;
 		$elem = $this->addElement('user_group_finder', 'share', Translation :: get('SharedWith'), $url, $locale, $shares);
-		$elem->excludeElements(array($this->form_user->get_id()));
+		$elem->excludeElements(array('user_' . $this->form_user->get_id()));
 		$elem->setDefaultCollapsed(false);
     }
 
