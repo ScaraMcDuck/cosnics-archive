@@ -29,7 +29,7 @@ class GroupManagerUnsubscriberComponent extends GroupManagerComponent
 			exit;
 		}
 
-		$ids = $_GET[GroupManager :: PARAM_GROUP_REL_USER_ID];
+		$ids = Request :: get(GroupManager :: PARAM_GROUP_REL_USER_ID);
 		$failures = 0;
 
 		if (!empty ($ids))

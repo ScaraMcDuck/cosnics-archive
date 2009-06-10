@@ -23,7 +23,7 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 	{
 		$trail = new BreadcrumbTrail();
 
-		$id = $_GET[GroupManager :: PARAM_GROUP_ID];
+		$id = Request :: get(GroupManager :: PARAM_GROUP_ID);
 		if ($id)
 		{
 			$this->group = $this->retrieve_group($id);
@@ -82,7 +82,7 @@ class GroupManagerViewerComponent extends GroupManagerComponent
 	function get_condition()
 	{
 		$conditions = array();
-		$conditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $_GET[GroupManager :: PARAM_GROUP_ID]);
+		$conditions[] = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, Request :: get(GroupManager :: PARAM_GROUP_ID));
 
 		$query = $this->ab->get_query();
 

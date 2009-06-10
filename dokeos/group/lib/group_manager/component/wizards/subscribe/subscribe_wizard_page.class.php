@@ -27,7 +27,7 @@ abstract class SubscribeWizardPage extends HTML_QuickForm_Page
 		$this->parent = $parent;
 		$this->wizard = $wizard;
 		parent::HTML_QuickForm_Page($name,'post');
-		$this->updateAttributes(array('action'=>$parent->get_url(array(GroupManager :: PARAM_GROUP_ID => $_GET[GroupManager :: PARAM_GROUP_ID]))));
+		$this->updateAttributes(array('action'=>$parent->get_url(array(GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID)))));
 	}
 	/**
 	 * Returns the repository tool in which this wizard runs

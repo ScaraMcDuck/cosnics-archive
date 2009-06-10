@@ -29,7 +29,7 @@ class GroupManagerDeleterComponent extends GroupManagerComponent
 			exit;
 		}
 
-		$ids = $_GET[GroupManager :: PARAM_GROUP_ID];
+		$ids = Request :: get(GroupManager :: PARAM_GROUP_ID);
 		$failures = 0;
 
 		if (!empty ($ids))

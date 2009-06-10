@@ -43,7 +43,7 @@ class GroupSelectionSubscribeWizardPage extends SubscribeWizardPage
 	function set_defaults()
 	{
 		$defaults = array();
-		$defaults['Group'] = $_GET[GroupManager :: PARAM_GROUP_ID];
+		$defaults['Group'] = Request :: get(GroupManager :: PARAM_GROUP_ID);
 		$this->setDefaults($defaults);
 	}
 }

@@ -14,7 +14,7 @@ class GroupManagerSubscriberComponent extends GroupManagerComponent
 	function run()
 	{
 		$user = $this->get_user();
-		$group_id = $_GET[GroupManager :: PARAM_GROUP_ID];
+		$group_id = Request :: get(GroupManager :: PARAM_GROUP_ID);
 		if (!$user->is_platform_admin())
 		{
 			$trail = new BreadcrumbTrail();
@@ -29,7 +29,7 @@ class GroupManagerSubscriberComponent extends GroupManagerComponent
 			exit;
 		}
 
-		$users = $_GET[GroupManager :: PARAM_USER_ID];
+		$users = Request :: get(GroupManager :: PARAM_USER_ID);
 
 		$failures = 0;
 

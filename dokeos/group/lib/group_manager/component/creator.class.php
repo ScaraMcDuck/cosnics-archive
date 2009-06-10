@@ -28,8 +28,8 @@ class GroupManagerCreatorComponent extends GroupManagerComponent
 			exit;
 		}
 		$group = new Group();
-		$group->set_parent($_GET[GroupManager :: PARAM_GROUP_ID]);
-		$form = new GroupForm(GroupForm :: TYPE_CREATE, $group, $this->get_url(array(GroupManager :: PARAM_GROUP_ID => $_GET[GroupManager :: PARAM_GROUP_ID])), $this->get_user());
+		$group->set_parent(Request :: get(GroupManager :: PARAM_GROUP_ID));
+		$form = new GroupForm(GroupForm :: TYPE_CREATE, $group, $this->get_url(array(GroupManager :: PARAM_GROUP_ID => Request :: get(GroupManager :: PARAM_GROUP_ID))), $this->get_user());
 
 		if($form->validate())
 		{

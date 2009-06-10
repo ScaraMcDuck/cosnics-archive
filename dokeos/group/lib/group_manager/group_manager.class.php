@@ -165,11 +165,11 @@ class GroupManager extends CoreApplication
 		}
 
 		echo '<div class="clear">&nbsp;</div>';
-		if ($msg = $_GET[Application :: PARAM_MESSAGE])
+		if ($msg = Request :: get(Application :: PARAM_MESSAGE))
 		{
 			$this->display_message($msg);
 		}
-		if($msg = $_GET[Application :: PARAM_ERROR_MESSAGE])
+		if($msg = Request :: get(Application :: PARAM_ERROR_MESSAGE))
 		{
 			$this->display_error_message($msg);
 		}
@@ -228,7 +228,7 @@ class GroupManager extends CoreApplication
 	{
 		if (!isset ($this->user_search_form))
 		{
-			$this->user_search_form = new UserSearchForm($this, $this->get_url(array(self :: PARAM_GROUP_ID => $_GET[self :: PARAM_GROUP_ID])));
+			$this->user_search_form = new UserSearchForm($this, $this->get_url(array(self :: PARAM_GROUP_ID => Request :: get(self :: PARAM_GROUP_ID))));
 		}
 		return $this->user_search_form;
 	}
@@ -398,19 +398,19 @@ class GroupManager extends CoreApplication
 			{
 				case self :: PARAM_UNSUBSCRIBE_SELECTED :
 					$this->set_action(self :: ACTION_UNSUBSCRIBE_USER_FROM_GROUP);
-					$_GET[self :: PARAM_GROUP_REL_USER_ID] = $selected_ids;
+					Request :: set_get(self :: PARAM_GROUP_REL_USER_ID,$selected_ids);
 					break;
 				case self :: PARAM_SUBSCRIBE_SELECTED :
 					$this->set_action(self :: ACTION_SUBSCRIBE_USER_TO_GROUP);
-					$_GET[self :: PARAM_USER_ID] = $selected_ids;
+					Request :: set_get(self :: PARAM_USER_ID,$selected_ids);
 					break;
 				case self :: PARAM_REMOVE_SELECTED :
 					$this->set_action(self :: ACTION_DELETE_GROUP);
-					$_GET[self :: PARAM_GROUP_ID] = $selected_ids;
+					Request :: set_get(self :: PARAM_GROUP_ID,$selected_ids);
 					break;
 				case self :: PARAM_TRUNCATE_SELECTED :
 					$this->set_action(self :: ACTION_TRUNCATE_GROUP);
-					$_GET[self :: PARAM_GROUP_ID] = $selected_ids;
+					Request :: set_get(self :: PARAM_GROUP_ID,$selected_ids);
 					break;
 			}
 
