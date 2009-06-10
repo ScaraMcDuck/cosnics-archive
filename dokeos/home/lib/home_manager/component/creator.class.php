@@ -19,7 +19,7 @@ class HomeManagerCreatorComponent extends HomeManagerComponent
 	{
 		Header :: set_section('admin');
 
-		$type = $_GET[HomeManager :: PARAM_HOME_TYPE];
+		$type = Request :: get(HomeManager :: PARAM_HOME_TYPE);
 
 		$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
