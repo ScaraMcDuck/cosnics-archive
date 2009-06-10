@@ -228,7 +228,7 @@ function GetCurrentFolder()
 	if (!isset($_GET)) {
 		global $_GET;
 	}
-	$sCurrentFolder	= isset( $_GET['CurrentFolder'] ) ? $_GET['CurrentFolder'] : '/' ;
+	$sCurrentFolder	= Request :: get('CurrentFolder') ? Request :: get('CurrentFolder') : '/' ;
 
 	// Check the current folder syntax (must begin and start with a slash).
 	if ( !preg_match( '|/$|', $sCurrentFolder ) )

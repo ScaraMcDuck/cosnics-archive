@@ -41,7 +41,7 @@ if ( !$Config['Enabled'] )
 $sCommand = 'QuickUpload' ;
 
 // The file type (from the QueryString, by default 'File').
-$sType = isset( $_GET['Type'] ) ? $_GET['Type'] : 'File' ;
+$sType = Request :: get('Type') ? Request :: get('Type') : 'File' ;
 
 $sCurrentFolder	= GetCurrentFolder() ;
 
