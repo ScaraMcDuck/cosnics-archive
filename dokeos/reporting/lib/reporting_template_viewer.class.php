@@ -60,9 +60,9 @@ class ReportingTemplateViewer {
 
         $template = new $classname($this->parent,$reporting_template_registration->get_id(),$params);
 
-        if(isset($_GET['s']))
+        if(Request :: get('s'))
 		{
-            $template->show_reporting_block($_GET['s']);
+            $template->show_reporting_block(Request :: get('s'));
 		}
         echo $template->to_html();
     }

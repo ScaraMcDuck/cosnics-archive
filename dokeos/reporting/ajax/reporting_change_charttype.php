@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/../lib/reporting_data_manager.class.php';
 require_once dirname(__FILE__).'/../lib/reporting_formatter.class.php';
 
 //$this_section = 'reporting';
-$this_section = (isset($_GET['application']))?$_GET['application']:'reporting';
+$this_section = (Request :: get('application'))?Request :: get('application'):'reporting';
 
 Translation :: set_application($this_section);
 Theme :: set_application($this_section);

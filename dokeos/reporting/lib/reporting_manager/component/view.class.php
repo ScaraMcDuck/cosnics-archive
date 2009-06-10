@@ -79,9 +79,9 @@ class ReportingManagerViewComponent extends ReportingManagerComponent
 //        $template = new $classname($this,$reporting_template_registration->get_id());
 //        //$template->set_registration_id($reporting_template_registration->get_id());
 //
-//        if(isset($_GET[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS]))
+//        if(Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS))
 //        {
-//            $params = $_GET[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+//            $params = Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS);
 //            $template->set_reporting_blocks_function_parameters($params);
 //        }
 //
@@ -89,9 +89,9 @@ class ReportingManagerViewComponent extends ReportingManagerComponent
 //
 //        echo '<a href="javascript:history.go(-1)">' . Translation :: get('Back') . '</a><br /><br />';
 //
-//        if(isset($_GET['s']))
+//        if(Request :: get('s'))
 //		{
-//            $template->show_reporting_block($_GET['s']);
+//            $template->show_reporting_block(Request :: get('s'));
 //		}
 //        echo $template->to_html();
 //		$this->display_footer();

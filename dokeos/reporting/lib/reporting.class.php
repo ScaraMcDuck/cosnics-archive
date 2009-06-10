@@ -184,10 +184,10 @@ class Reporting{
         }
     }//sort_array
 
-    public static function get_params($parent)
+    public static function get_params()
     {
         $params_session = $_SESSION[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
-        $params_get = $_GET[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+        $params_get = Request :: get(ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS);
 
         foreach ($params_session as $key => $value) {
             $params[$key] = $value;
@@ -200,8 +200,8 @@ class Reporting{
         if(!isset($params[ReportingManager::PARAM_COURSE_ID]))
             $params[ReportingManager::PARAM_COURSE_ID] = Request :: get('course');
 
-        if(isset($_GET['pid']))
-            $params['pid'] = $_GET['pid'];
+        if(Request :: get('pid'))
+            $params['pid'] = Request :: get('pid');
         if(Request :: get('cid') != null)
             $params['cid'] = Request :: get('cid');
 
