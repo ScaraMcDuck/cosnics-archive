@@ -42,7 +42,7 @@ class RepoViewerFinderComponent extends RepoViewerBrowserComponent
 		$this->renderer = clone $this->form->defaultRenderer();
 		$this->renderer->setElementTemplate('<span>{element}</span> ');
 		$this->form->accept($this->renderer);
-		
+
 		$html = array();
 		$html[] = '<div class="lofinder_search_form" style="margin: 0 0 1em 0;">';
 		$html[] = $this->renderer->toHTML();
@@ -62,13 +62,13 @@ class RepoViewerFinderComponent extends RepoViewerBrowserComponent
 		{
 			return $this->form->exportValue('query');
 		}
-		if (Request :: get('query')
+		if (Request :: get('query'))
 		{
 			return Request :: get('query');
 		}
 		return null;
 	}
-	
+
 	function get_form()
 	{
 		return $this->form;

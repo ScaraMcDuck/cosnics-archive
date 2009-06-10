@@ -33,7 +33,7 @@ if (Authentication :: is_valid())
 		}
 		$conditions[] = new NotCondition(new OrCondition($c));
 	}
-	
+
 	if(count($conditions) > 0)
 	{
 		$condition = new AndCondition($conditions);
@@ -67,14 +67,14 @@ function dump_tree($users)
 	{
 		return;
 	}
-	
+
 	echo '<node id="0" class="type_category unlinked" title="', Translation :: get('Users'), '">', "\n";
-	
+
 	while ($user = $users->next_result())
 	{
-		echo '<leaf id="', $user->get_id(), '" class="user" title="', htmlentities($user->get_fullname()), '" description="', htmlentities($user->get_fullname()), '"/>', "\n";
+		echo '<leaf id="', $user->get_id(), '" class="type type_user" title="', htmlentities($user->get_fullname()), '" description="', htmlentities($user->get_fullname()), '"/>', "\n";
 	}
-	
+
 	echo '</node>', "\n";
 }
 
