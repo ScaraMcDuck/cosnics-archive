@@ -497,7 +497,7 @@ class CASClient
 		
 		phpCAS::traceBegin();
 		
-		if (!$this->isLogoutRequest() && !empty($_GET['ticket']) && $start_session) {
+		if (!$this->isLogoutRequest() && !Request :: get('ticket') && $start_session) {
             // copy old session vars and destroy the current session
             if (!isset($_SESSION)) {
             	session_start();
@@ -505,7 +505,7 @@ class CASClient
             $old_session = $_SESSION;
             session_destroy();
             // set up a new session, of name based on the ticket
-			$session_id = preg_replace('/[^\w]/','',$_GET['ticket']);
+			$session_id = preg_replace('/[^\w]/','',Request :: get('ticket'));
 			phpCAS::LOG("Session ID: " . $session_id);
 			session_id($session_id);
             if (!isset($_SESSION)) {
@@ -565,7 +565,7 @@ class CASClient
 		
 		//set to callback mode if PgtIou and PgtId CGI GET parameters are provided 
 		if ( $this->isProxy() ) {
-			$this->setCallbackMode(!empty($_GET['pgtIou'])&&!empty($_GET['pgtId']));
+			$this->setCallbackMode(!Request :: get('pgtIou')&&!Request :: get('pgtId'));
 		}
 		
 		if ( $this->isCallbackMode() ) {
@@ -575,7 +575,7 @@ class CASClient
 			}
 		} else {
 			//normal mode: get ticket and remove it from CGI parameters for developpers
-			$ticket = (isset($_GET['ticket']) ? $_GET['ticket'] : null);
+			$ticket = (Request :: get('ticket') ? Request :: get('ticket') : null);
 			switch ($this->getServerVersion()) {
 				case CAS_VERSION_1_0: // check for a Service Ticket
 					if( preg_match('/^ST-/',$ticket) ) {
@@ -583,7 +583,7 @@ class CASClient
 						//ST present
 						$this->setST($ticket);
 						//ticket has been taken into account, unset it to hide it to applications
-						unset($_GET['ticket']);
+                        Request :: set_get('ticket',null);
 					} else if ( !empty($ticket) ) {
 						//ill-formed ticket, halt
 						phpCAS::error('ill-formed ticket found in the URL (ticket=`'.htmlentities($ticket).'\')');
@@ -593,7 +593,7 @@ class CASClient
 					if( preg_match('/^[SP]T-/',$ticket) ) {
 						phpCAS::trace('ST or PT \''.$ticket.'\' found');
 						$this->setPT($ticket);
-						unset($_GET['ticket']);
+						Request :: set_get('ticket',null);
 					} else if ( !empty($ticket) ) {
 						//ill-formed ticket, halt
 						phpCAS::error('ill-formed ticket found in the URL (ticket=`'.htmlentities($ticket).'\')');
@@ -1040,7 +1040,7 @@ class CASClient
 		// fix New session ID
 		session_id($session_id);
 		$_COOKIE[session_name()]=$session_id;
-		$_GET[session_name()]=$session_id;
+		Request :: set_get(session_name(),$session_id);
 		
 		// Overwrite session
 		session_start();	
@@ -1488,8 +1488,8 @@ class CASClient
 		{
 		phpCAS::traceBegin();
 		$this->printHTMLHeader('phpCAS callback');
-		$pgt_iou = $_GET['pgtIou'];
-		$pgt = $_GET['pgtId'];
+		$pgt_iou = Request :: get('pgtIou');
+		$pgt = Request :: get('pgtId');
 		phpCAS::trace('Storing PGT `'.$pgt.'\' (id=`'.$pgt_iou.'\')');
 		echo '<p>Storing PGT `'.$pgt.'\' (id=`'.$pgt_iou.'\').</p>';
 		$this->storePGT($pgt,$pgt_iou);

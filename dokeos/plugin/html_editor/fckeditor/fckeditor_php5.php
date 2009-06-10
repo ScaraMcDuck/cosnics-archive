@@ -161,7 +161,7 @@ class FCKeditor
 
 		if ( $this->IsCompatible() )
 		{
-			if ( isset( $_GET['fcksource'] ) && $_GET['fcksource'] == "true" )
+			if (Request :: get('fcksource') && Request :: get('fcksource') == "true" )
 				$File = 'fckeditor.original.html' ;
 			else
 				$File = 'fckeditor.html' ;
