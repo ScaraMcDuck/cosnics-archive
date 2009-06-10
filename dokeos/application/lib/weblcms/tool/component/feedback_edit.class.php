@@ -33,6 +33,21 @@ class ToolFeedbackEditComponent extends ToolComponent
                     $feedback_display->update();
                     $message = htmlentities(Translation :: get('LearningObjectFeedbackUpdated'));
 
+                    switch(Request :: get('tool'))
+                    {
+                        case 'learning_path':
+                            $tool_action = 'view_clo';
+                            $display_action = 'discuss';
+                            break;
+                        case 'wiki':
+                            $tool_action = 'view';
+                            $display_action = 'discuss';
+                            break;
+                        default:
+                            $tool_action = 'discuss';
+                            break;
+                    }
+
                     $params = array();
                     if(Request :: get('pid')!=null)
                     {
@@ -42,7 +57,8 @@ class ToolFeedbackEditComponent extends ToolComponent
                     if(Request :: get('cid')!=null)
                     {
                         $params['cid'] = Request :: get('cid');
-                        $params['tool_action'] = 'discuss';
+                        $params['tool_action'] = $tool_action;
+                        $params['display_action'] = $display_action;//'discuss';
                     }
 
                     if(Request :: get('fid')!=null)
@@ -55,7 +71,6 @@ class ToolFeedbackEditComponent extends ToolComponent
                         $params['cid'] = $cid;
                         $params['tool_action'] = 'discuss';
                     }
-
                     $this->redirect($message, '', $params);
 
                 }

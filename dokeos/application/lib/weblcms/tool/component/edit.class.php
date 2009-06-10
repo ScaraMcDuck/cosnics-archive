@@ -12,9 +12,14 @@ class ToolEditComponent extends ToolComponent
 			$pid = Request :: get(Tool :: PARAM_PUBLICATION_ID) ? Request :: get(Tool :: PARAM_PUBLICATION_ID) : $_POST[Tool :: PARAM_PUBLICATION_ID];
 
                 $datamanager = WeblcmsDataManager :: get_instance();
-                $publication = $datamanager->retrieve_learning_object_publication($pid);
-
-                $learning_object = $publication->get_learning_object(); //RepositoryDataManager :: get_instance()->retrieve_learning_object($publication->get_learning_object()->get_id());
+                if(Request :: get('tool') == 'learning_path')
+                $learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($pid);
+                else
+                {
+                    $publication = $datamanager->retrieve_learning_object_publication($pid);
+                    $learning_object = $publication->get_learning_object(); //RepositoryDataManager :: get_instance()->retrieve_learning_object($publication->get_learning_object()->get_id());
+                }
+                
                 $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $pid)));
 
                 $trail = new BreadcrumbTrail();

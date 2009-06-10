@@ -70,10 +70,13 @@ class ToolComplexEditComponent extends ToolComponent
 
                     if(Request :: get('tool') == 'wiki')
                     {
-                        if(Request :: get('tool') == 'learning_path')
-                        $params['tool_action'] = 'view_clo';
-                        else
                         $params['tool_action'] = 'view';
+                        $params['display_action'] = 'view_item';
+                    }
+
+                    if(Request :: get('tool') == 'learning_path')
+                    {
+                        $params['tool_action'] = 'view_clo';
                         $params['display_action'] = 'view_item';
                     }
 

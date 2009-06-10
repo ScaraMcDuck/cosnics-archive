@@ -42,7 +42,6 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
          *
          */
 
-        $this->wiki_id = Request :: get('pid');
         $this->cid = Request :: get('cid');
 
         $complexeObject = $dm->retrieve_complex_learning_object_item($this->cid);
@@ -50,7 +49,7 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
         {
             $this->wiki_page_id = $complexeObject->get_ref();
         }
-        $this->links = RepositoryDataManager :: get_instance()->retrieve_learning_object($this->wiki_id)->get_links();
+
         $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
 
         /*
@@ -67,14 +66,14 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
 		$versions = $wiki_page->get_learning_object_versions();
 
         $trail = new BreadcrumbTrail();
-        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => $this->wiki_id)), DokeosUtilities::truncate_string(RepositoryDataManager :: get_instance()->retrieve_learning_object(Request :: get('pid'))->get_title(),20)));
-        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
-        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'history', Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, Tool :: PARAM_COMPLEX_ID => $this->cid)), Translation :: get('History')));
+        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), DokeosUtilities::truncate_string($this->get_root_lo()->get_title(),20)));
+        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
+        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'history', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $this->cid)), Translation :: get('History')));
         $trail->add_help('courses wiki tool');
 
         $this->get_parent()->get_parent()->display_header($trail, true);
 
-        $this->action_bar = WikiDisplay :: get_toolbar($this,$this->wiki_id, $this->cid, $this->get_parent()->get_parent()->get_course()->get_id());//$this->get_toolbar();
+        $this->action_bar = WikiDisplay :: get_toolbar($this,Request :: get('pid'),$this->get_root_lo(), $this->cid, $this->get_parent()->get_parent()->get_course()->get_id());//$this->get_toolbar();
         echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
         echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'. Translation :: get('HistoryForThe').' ' .$wiki_page->get_title() .' ' . Translation :: get('Page') .'</div><hr style="height:1px;color:#4271B5;width:100%;">';
 
@@ -133,7 +132,7 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
              *  You can select 2 versions to compare.
              *  The first selected version ('object') will be compared with the second selected version ('compare') and it's differences shown using the LearningObjectDifferenceDisplay
              */
-            $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_COMPARE, $wiki_page, 'compare', 'post', $this->get_url(array(Tool::PARAM_ACTION => Request :: get('tool')=='learning_path'?'view_clo':'view', 'pid' => $this->wiki_id, 'cid' => $this->cid)), array('version_data' => $version_data));
+            $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_COMPARE, $wiki_page, 'compare', 'post', $this->get_url(array(Tool::PARAM_ACTION => Request :: get('tool')=='learning_path'?'view_clo':'view', 'pid' => Request :: get('pid'), 'cid' => $this->cid)), array('version_data' => $version_data));
             if ($form->validate())
             {
                  $params = $form->compare_learning_object();
