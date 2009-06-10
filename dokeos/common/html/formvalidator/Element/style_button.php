@@ -51,6 +51,7 @@ class HTML_QuickForm_stylebutton extends HTML_QuickForm_element
     function HTML_QuickForm_stylebutton($elementName=null, $elementLabel=null, $attributes=null)
     {
         $this->HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+        $this->setValue($elementLabel);
     } //end constructor
 
     // }}}

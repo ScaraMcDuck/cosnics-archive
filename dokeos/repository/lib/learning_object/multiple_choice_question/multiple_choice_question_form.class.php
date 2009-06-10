@@ -3,222 +3,244 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
-require_once dirname(__FILE__).'/multiple_choice_question.class.php';
+require_once dirname(__FILE__) . '/../../learning_object_form.class.php';
+require_once dirname(__FILE__) . '/multiple_choice_question.class.php';
 class MultipleChoiceQuestionForm extends LearningObjectForm
 {
-	protected function build_creation_form()
-	{
-		parent :: build_creation_form();
-		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-		$this->add_options();
-		$this->addElement('category');
-	}
-	protected function build_editing_form()
-	{
-		parent :: build_editing_form();
-		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-		$this->add_options();
-		$this->addElement('category');
-	}
-	function setDefaults($defaults = array ())
-	{
-		if(!$this->isSubmitted())
-		{
-			$object = $this->get_learning_object();
-			if(!is_null($object))
-			{
-				$options = $object->get_options();
-				foreach($options as $index => $option)
-				{
-					$defaults['option'][$index] = $option->get_value();
-					$defaults['option_weight'][$index] = $option->get_weight();
-					$defaults['comment'][$index] = $option->get_comment();
-					if($object->get_answer_type() == 'checkbox')
-					{
-						$defaults['correct'][$index] = $option->is_correct();
-					}
-					elseif($option->is_correct())
-					{
-						$defaults['correct'] = $index;
-					}
-				}
-			}
-			else
-			{
-				$number_of_options = intval($_SESSION['mc_number_of_options']);
-			
-				for($option_number = 0; $option_number <$number_of_options ; $option_number++)
-				{
-					$defaults['option_weight'][$option_number] = 1;
-				}
-			}
-		}
-		//print_r($defaults);
-		parent :: setDefaults($defaults);
-	}
-	function create_learning_object()
-	{
-		$object = new MultipleChoiceQuestion();
-		$this->set_learning_object($object);
-		$this->add_options_to_object();
-		return parent :: create_learning_object();
-	}
-	function update_learning_object()
-	{
-		$this->add_options_to_object();
-		return parent :: update_learning_object();
-	}
-	private function add_options_to_object()
-	{
-		$object = $this->get_learning_object();
-		$values = $this->exportValues();
-		$options = array();
-		foreach($values['option'] as $option_id => $value)
-		{
-			$weight = $values['option_weight'][$option_id];
-			$comment = $values['comment'][$option_id];
-			if($_SESSION['mc_answer_type'] == 'radio')
-			{
-				$correct = $values['correct'] == $option_id;
-			}
-			else
-			{
-				$correct = $values['correct'][$option_id];
-			}
-			$options[] = new MultipleChoiceQuestionOption($value,$correct,$weight,$comment);
-		}
-		$object->set_answer_type($_SESSION['mc_answer_type']);
-		$object->set_options($options);
-	}
-	function validate()
-	{
-		if(isset($_POST['add']) || isset($_POST['remove']) || isset($_POST['change_answer_type']))
-		{
-			return false;
-		}
-		return parent::validate();
-	}
-	/**
-	 * Adds the form-fields to the form to provide the possible options for this
-	 * multiple choice question
-	 */
-	private function add_options()
-	{
-		if(!$this->isSubmitted())
-		{
-			unset($_SESSION['mc_number_of_options']);
-			unset($_SESSION['mc_skip_options']);
-			unset($_SESSION['mc_answer_type']);
-		}
-		if(!isset($_SESSION['mc_number_of_options']))
-		{
-			$_SESSION['mc_number_of_options'] = 3;
-		}
-		if(!isset($_SESSION['mc_skip_options']))
-		{
-			$_SESSION['mc_skip_options'] = array();
-		}
-		if(!isset($_SESSION['mc_answer_type']))
-		{
-			$_SESSION['mc_answer_type'] = 'radio';
-		}
-		if(isset($_POST['add']))
-		{
-			$_SESSION['mc_number_of_options'] = $_SESSION['mc_number_of_options']+1;
-		}
-		if(isset($_POST['remove']))
-		{
-			$indexes = array_keys($_POST['remove']);
-			$_SESSION['mc_skip_options'][] = $indexes[0];
-		}
-		if(isset($_POST['change_answer_type']))
-		{
-			$_SESSION['mc_answer_type'] = $_SESSION['mc_answer_type'] == 'radio' ? 'checkbox' : 'radio';
-		}
-		$object = $this->get_learning_object();
-		if(!$this->isSubmitted() && !is_null($object))
-		{
-			$_SESSION['mc_number_of_options'] = $object->get_number_of_options();
-			$_SESSION['mc_answer_type'] = $object->get_answer_type();
-		}
-		$number_of_options = intval($_SESSION['mc_number_of_options']);
-		//Todo: Style this element
-		$this->addElement('submit','change_answer_type','radio <-> checkbox');
-		$show_label = true; $count = 1;
-		for($option_number = 0; $option_number <$number_of_options ; $option_number++)
-		{
-			if(!in_array($option_number,$_SESSION['mc_skip_options']))
-			{
-				$this->addElement('category', Translation :: get('Answer') . ' ' . ($count));
-				
-				if($_SESSION['mc_answer_type'] == 'checkbox')
-				{
-					//$group[] = $this->createElement('checkbox','correct['.$option_number.']');
-					$this->addElement('checkbox','correct['.$option_number.']', Translation :: get('Correct'));
-				}
-				else
-				{
-					//$group[] = $this->createElement('radio','correct','','',$option_number);
-					$this->addElement('radio','correct',Translation :: get('Correct'),'',$option_number);
-				}
 
-				$this->add_html_editor('option['.$option_number.']', Translation :: get('Answer'), true);
-				$this->add_html_editor('comment['.$option_number.']', Translation :: get('Comment'), false);
-				$this->addElement('text','option_weight['.$option_number.']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
-				$this->addRule('option_weight['.$option_number.']', Translation :: get('ThisFieldIsRequired'), 'required');
-				$this->addRule('option_weight['.$option_number.']', Translation :: get('ValueShouldBeNumeric'), 'numeric');
-				
-				if($number_of_options - count($_SESSION['mc_skip_options']) > 2)
-				{
-					$this->addElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
-				}
-				$this->addElement('category');
-				$count++;
-				
-				/*$group[] = $this->createElement('text','option['.$option_number.']', '','size="40"');
-				$group[] = $this->createElement('text','option_weight['.$option_number.']','','size="2"  class="input_numeric"');
-				$group[] = $this->createElement('text','comment['.$option_number.']', '','size="40"');
-				if($number_of_options - count($_SESSION['mc_skip_options']) > 2)
-				{
-					$group[] = $this->createElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
-				}
-				$label = $show_label ? Translation :: get('Answers') : '';
-				$show_label = false;
-				$this->addGroup($group,'options_group_'.$option_number,$label,'',false);
-				$this->addGroupRule('options_group_'.$option_number,
-					array(
-						'option['.$option_number.']' =>
-							array(
-								array(
-									Translation :: get('ThisFieldIsRequired'),'required'
-								)
-							),
-						'option_weight['.$option_number.']' =>
-							array(
-								array(
-									Translation :: get('ThisFieldIsRequired'), 'required'
-								),
-								array(
-									Translation :: get('ValueShouldBeNumeric'),'numeric'
-								)
-							)
-					)
-				);*/
-			}
-		}
-		//$this->addFormRule(array('MultipleChoiceQuestionForm','validate_selected_answers'));
-		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
-		$this->addElement('image','add[]',Theme :: get_common_image_path().'action_list_add.png');
-	}
-	function validate_selected_answers($fields)
-	{
-		if(!isset($fields['correct']))
-		{
-			$message = $_SESSION['mc_answer_type'] == 'checkbox' ? Translation :: get('SelectAtLeastOneCorrectAnswer') : Translation :: get('SelectACorrectAnswer');
-			 return array('change_answer_type' => $message);
-		}
-		return true;
-	}
+    protected function build_creation_form()
+    {
+        parent :: build_creation_form();
+        $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
+        $this->add_options();
+        $this->addElement('category');
+    }
+
+    protected function build_editing_form()
+    {
+        parent :: build_editing_form();
+        $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
+        $this->add_options();
+        $this->addElement('category');
+    }
+
+    function setDefaults($defaults = array ())
+    {
+        if (! $this->isSubmitted())
+        {
+            $object = $this->get_learning_object();
+            if (! is_null($object))
+            {
+                $options = $object->get_options();
+                foreach ($options as $index => $option)
+                {
+                    $defaults['option'][$index] = $option->get_value();
+                    $defaults['option_weight'][$index] = $option->get_weight();
+                    $defaults['comment'][$index] = $option->get_comment();
+                    if ($object->get_answer_type() == 'checkbox')
+                    {
+                        $defaults['correct'][$index] = $option->is_correct();
+                    }
+                    elseif ($option->is_correct())
+                    {
+                        $defaults['correct'] = $index;
+                    }
+                }
+            }
+            else
+            {
+                $number_of_options = intval($_SESSION['mc_number_of_options']);
+
+                for($option_number = 0; $option_number < $number_of_options; $option_number ++)
+                {
+                    $defaults['option_weight'][$option_number] = 1;
+                }
+            }
+        }
+        //print_r($defaults);
+        parent :: setDefaults($defaults);
+    }
+
+    function create_learning_object()
+    {
+        $object = new MultipleChoiceQuestion();
+        $this->set_learning_object($object);
+        $this->add_options_to_object();
+        return parent :: create_learning_object();
+    }
+
+    function update_learning_object()
+    {
+        $this->add_options_to_object();
+        return parent :: update_learning_object();
+    }
+
+    private function add_options_to_object()
+    {
+        $object = $this->get_learning_object();
+        $values = $this->exportValues();
+        $options = array();
+        foreach ($values['option'] as $option_id => $value)
+        {
+            $weight = $values['option_weight'][$option_id];
+            $comment = $values['comment'][$option_id];
+            if ($_SESSION['mc_answer_type'] == 'radio')
+            {
+                $correct = $values['correct'] == $option_id;
+            }
+            else
+            {
+                $correct = $values['correct'][$option_id];
+            }
+            $options[] = new MultipleChoiceQuestionOption($value, $correct, $weight, $comment);
+        }
+        $object->set_answer_type($_SESSION['mc_answer_type']);
+        $object->set_options($options);
+    }
+
+    function validate()
+    {
+        if (isset($_POST['add']) || isset($_POST['remove']) || isset($_POST['change_answer_type']))
+        {
+            return false;
+        }
+        return parent :: validate();
+    }
+
+    /**
+     * Adds the form-fields to the form to provide the possible options for this
+     * multiple choice question
+     */
+    private function add_options()
+    {
+        $renderer = $this->defaultRenderer();
+
+        if (! $this->isSubmitted())
+        {
+            unset($_SESSION['mc_number_of_options']);
+            unset($_SESSION['mc_skip_options']);
+            unset($_SESSION['mc_answer_type']);
+        }
+        if (! isset($_SESSION['mc_number_of_options']))
+        {
+            $_SESSION['mc_number_of_options'] = 3;
+        }
+        if (! isset($_SESSION['mc_skip_options']))
+        {
+            $_SESSION['mc_skip_options'] = array();
+        }
+        if (! isset($_SESSION['mc_answer_type']))
+        {
+            $_SESSION['mc_answer_type'] = 'radio';
+        }
+        if (isset($_POST['add']))
+        {
+            $_SESSION['mc_number_of_options'] = $_SESSION['mc_number_of_options'] + 1;
+        }
+        if (isset($_POST['remove']))
+        {
+            $indexes = array_keys($_POST['remove']);
+            $_SESSION['mc_skip_options'][] = $indexes[0];
+        }
+        if (isset($_POST['change_answer_type']))
+        {
+            $_SESSION['mc_answer_type'] = $_SESSION['mc_answer_type'] == 'radio' ? 'checkbox' : 'radio';
+        }
+        $object = $this->get_learning_object();
+        if (! $this->isSubmitted() && ! is_null($object))
+        {
+            $_SESSION['mc_number_of_options'] = $object->get_number_of_options();
+            $_SESSION['mc_answer_type'] = $object->get_answer_type();
+        }
+        $number_of_options = intval($_SESSION['mc_number_of_options']);
+
+        if ($_SESSION['mc_answer_type'] == 'radio')
+        {
+            $switch_label = Translation :: get('SwitchToCheckboxes');
+        }
+        elseif ($_SESSION['mc_answer_type'] == 'checkbox')
+        {
+            $switch_label = Translation :: get('SwitchToRadioButtons');
+        }
+
+        $buttons = array();
+        $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array('class' => 'normal switch'));
+        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddMultipleChoiceOption'), array('class' => 'normal add'));
+        $this->addGroup($buttons, 'question_buttons', null, '', false);
+        $renderer->setElementTemplate('<div style="margin-bottom: 10px;">{element}<div class="clear"></div></div>', 'question_buttons');
+        $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
+
+
+        //$this->addElement('style_submit_button', 'change_answer_type', 'add', array('class' => 'normal switch'));
+
+        //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
+        //$this->addElement('image', 'add[]', Theme :: get_common_image_path() . 'action_list_add.png');
+        $show_label = true;
+        $count = 1;
+
+        $html_editor_options = array();
+        $html_editor_options['width'] = '350';
+        $html_editor_options['height'] = '65';
+        $html_editor_options['show_toolbar'] = false;
+        $html_editor_options['show_tags'] = false;
+
+        for($option_number = 0; $option_number < $number_of_options; $option_number ++)
+        {
+            if (!in_array($option_number, $_SESSION['mc_skip_options']))
+            {
+                $group = array();
+
+                if ($_SESSION['mc_answer_type'] == 'checkbox')
+                {
+                    $group[] =& $this->createElement('checkbox', 'correct[' . $option_number . ']', Translation :: get('Correct'));
+                }
+                else
+                {
+                    $group[] =& $this->createElement('radio', 'correct', Translation :: get('Correct'), '', $option_number);
+                }
+
+                $group[] = $this->create_html_editor('option[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
+                $group[] = $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
+                //$this->add_html_editor('option[' . $option_number . ']', Translation :: get('Answer'), true);
+                //$this->add_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), false);
+                $group[] =& $this->createElement('text', 'option_weight[' . $option_number . ']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
+
+                if ($number_of_options - count($_SESSION['mc_skip_options']) > 2)
+                {
+                    $group[] =& $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_list_remove.png');
+                }
+                $count ++;
+
+                $this->addGroup($group, 'option_' . $option_number, null, '', false);
+
+                $this->addGroupRule('option_' . $option_number, array(
+                    'option[' . $option_number . ']' => array(
+                        array(Translation :: get('ThisFieldIsRequired'), 'required')
+                    ),
+                    'option_weight[' . $option_number . ']' => array(
+                        array(Translation :: get('ThisFieldIsRequired'), 'required'),
+                        array(Translation :: get('ValueShouldBeNumeric'), 'numeric')
+                    )
+                ));
+
+			    $renderer->setElementTemplate('<div class="'. ($option_number % 2 == 0 ? 'question_even' : 'question_odd') .'">{element}<div class="clear"></div></div>', 'option_' . $option_number);
+    			$renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'option_' . $option_number);
+
+
+                //$this->addRule('option_weight[' . $option_number . ']', Translation :: get('ThisFieldIsRequired'), 'required');
+                //$this->addRule('option_weight[' . $option_number . ']', Translation :: get('ValueShouldBeNumeric'), 'numeric');
+            }
+        }
+    }
+
+    function validate_selected_answers($fields)
+    {
+        if (! isset($fields['correct']))
+        {
+            $message = $_SESSION['mc_answer_type'] == 'checkbox' ? Translation :: get('SelectAtLeastOneCorrectAnswer') : Translation :: get('SelectACorrectAnswer');
+            return array('change_answer_type' => $message);
+        }
+        return true;
+    }
 }
 ?>

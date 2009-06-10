@@ -192,10 +192,6 @@ div.event_fade a
 	border: 1px solid #b5cae7;
 	font-weight: bold;
 	margin-bottom: 10px;
-	-moz-border-radius-topright: 10px;
-	-moz-border-radius-bottomleft: 10px;
-	-webkit-border-top-right-radius: 10px;
-	-webkit-border-bottom-left-radius: 10px;
 }
 
 .mini_calendar td
