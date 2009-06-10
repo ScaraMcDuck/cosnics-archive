@@ -51,8 +51,8 @@ class ComplexMenu extends HTML_Menu
 		
 		foreach($extra as $item)
 		{
-			if(isset($_GET[$item]))
-				$url_format .= '&' . $item . '=' . $_GET[$item];
+			if(Request :: get($item))
+				$url_format .= '&' . $item . '=' . Request :: get($item);
 		}
 		
 		$this->cloi = $cloi;

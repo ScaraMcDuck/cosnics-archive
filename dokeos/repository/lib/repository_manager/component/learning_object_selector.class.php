@@ -27,13 +27,13 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$cloi_id = $_GET[RepositoryManager :: PARAM_CLOI_ID];
-		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
+		$cloi_id = Request :: get(RepositoryManager :: PARAM_CLOI_ID);
+		$root_id = Request :: get(RepositoryManager :: PARAM_CLOI_ROOT_ID);
 
 		$trail = new BreadcrumbTrail();
 		$trail->add_help('repository general');
 
-		if(!isset($_GET['publish']))
+		if(!Request :: get('publish'))
 		{
 			$trail->add(new Breadcrumb($this->get_link(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_LEARNING_OBJECTS)), Translation :: get('Repository')));
 		}
@@ -51,7 +51,7 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 			exit;
 		}
 		$root = $this->retrieve_learning_object($root_id);
-		if(!isset($_GET['publish']))
+		if(!Request :: get('publish'))
 		{
 			$trail->add(new Breadcrumb($this->get_link(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_VIEW_LEARNING_OBJECTS, RepositoryManager :: PARAM_LEARNING_OBJECT_ID => $root_id)), $root->get_title()));
 			$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id)), Translation :: get('ViewComplexLearningObject')));
@@ -71,14 +71,14 @@ class RepositoryManagerLearningObjectSelectorComponent extends RepositoryManager
 	{
 		$condition = $this->get_condition();
 		$parameters = $this->get_parameters(true);
-		$types = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE];
+		$types = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE);
 		if (is_array($types) && count($types))
 		{
 			$parameters[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE] = $types;
 		}
 		$parameters = array_merge($parameters,
 			array(RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),
-				  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => $_GET['publish']));
+				  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => Request :: get('publish')));
 
 		$table = new RepositoryBrowserTable($this, $parameters, $condition);
 		return $table->as_html();

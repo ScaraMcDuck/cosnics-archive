@@ -20,8 +20,8 @@ class RepositoryManagerComparerComponent extends RepositoryManagerComponent
 	{
 		$trail = new BreadcrumbTrail();
 
-		$object_id = $_GET[RepositoryManager :: PARAM_COMPARE_OBJECT];
-		$version_id = $_GET[RepositoryManager :: PARAM_COMPARE_VERSION];
+		$object_id = Request :: get(RepositoryManager :: PARAM_COMPARE_OBJECT);
+		$version_id = Request :: get(RepositoryManager :: PARAM_COMPARE_VERSION);
 
 		if ($object_id && $version_id)
 		{

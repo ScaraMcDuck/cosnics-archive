@@ -22,7 +22,7 @@ class RepositoryManagerRecycleBinBrowserComponent extends RepositoryManagerCompo
 		$trail->add_help('repository recyclebin');
 
 		$this->display_header($trail, false, true);
-		if ($_GET[RepositoryManager :: PARAM_EMPTY_RECYCLE_BIN])
+		if (Request :: get(RepositoryManager :: PARAM_EMPTY_RECYCLE_BIN))
 		{
 			$this->empty_recycle_bin();
 			$this->display_message(htmlentities(Translation :: get('RecycleBinEmptied')));

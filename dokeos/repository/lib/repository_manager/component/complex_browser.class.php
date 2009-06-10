@@ -33,11 +33,11 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 	 */
 	function run()
 	{
-		$cloi_id = $_GET[RepositoryManager :: PARAM_CLOI_ID];
-		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
-		$publish = $_GET['publish'];
+		$cloi_id = Request :: get(RepositoryManager :: PARAM_CLOI_ID);
+		$root_id = Request :: get(RepositoryManager :: PARAM_CLOI_ROOT_ID);
+		$publish = Request :: get('publish');
 
-		$action = $_GET['clo_action'];
+		$action = Request :: get('clo_action');
 		if(!isset($action)) $action = 'build';
 		$this->action = $action;
 
@@ -76,8 +76,8 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			echo '<br />' . $this->action_bar->as_html();
 
 		echo '<br /><div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
-		echo '<li><a ' . ($action == 'build'?'class=current':'') . ' href="'.$this->get_url(array (RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'clo_action' => 'build', 'publish' => $_GET['publish'])) . '">' . Translation :: get('Build') . '</a></li>';
-		echo '<li><a ' . ($action == 'organise'?'class=current':'') . ' href="'.$this->get_url(array (RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'clo_action' => 'organise', 'publish' => $_GET['publish'])) . '">' . Translation :: get('Organise') . '</a></li>';
+		echo '<li><a ' . ($action == 'build'?'class=current':'') . ' href="'.$this->get_url(array (RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'clo_action' => 'build', 'publish' => Request :: get('publish'))) . '">' . Translation :: get('Build') . '</a></li>';
+		echo '<li><a ' . ($action == 'organise'?'class=current':'') . ' href="'.$this->get_url(array (RepositoryManager :: PARAM_CLOI_ID => $cloi_id, RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'clo_action' => 'organise', 'publish' => Request :: get('publish'))) . '">' . Translation :: get('Organise') . '</a></li>';
 		echo '</ul><div class="tabbed-pane-content">';
 		echo '<br /><div style="width: 17%; float: left; overflow:auto;">' . $menu->render_as_tree() . '</div>';
 		echo '<div style="width: 80%; float: right; border-left: 1px solid #4271B5; padding: 10px; padding-left: 20px;">' . $output . '</div>';
@@ -140,9 +140,9 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 		//$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 		$type_form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 
-		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE) : $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE]);
+		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE) : Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE));
 
-		if ($type || isset($_GET['type']))
+		if ($type || Request :: get('type'))
 		{
 			$this->in_creation = true;
 			$object = new AbstractLearningObject($type, $this->get_user_id(), null);
@@ -163,11 +163,11 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 			$lo_form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_CREATE, $object, 'create', 'post', $this->get_url(array_merge($this->get_parameters(), array('type' => $type))), null, $elements);
 			$lo_form->setDefaults($defaults);
 
-			if ($lo_form->validate() || isset($_GET['object']))
+			if ($lo_form->validate() || Request :: get('object'))
 			{
-				/*if(isset($_GET['object']))
+				/*if(Request :: get('object'))
 				{
-					$objectid = $_GET['object'];
+					$objectid = Request :: get('object');
 				}
 				else
 				{*/
@@ -187,7 +187,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 				}
 
 				$this->in_creation = false;
-				$this->redirect(Translation :: get('LearningObjectAdded'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => $_GET['publish'], 'clo_action' => 'build'));
+				$this->redirect(Translation :: get('LearningObjectAdded'), false, array(Application :: PARAM_ACTION => RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => Request :: get('publish'), 'clo_action' => 'build'));
 
 				/*$cloi = ComplexLearningObjectItem :: factory($type);
 
@@ -206,13 +206,13 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 						/*$cloi = $cloi_form->get_complex_learning_object_item();
 						$root_id = $root_id?$root_id:$cloi->get_id();
 						if($cloi->is_complex()) $id = $cloi->get_ref(); else $id = $cloi->get_parent();
-						$this->redirect(Translation :: get('ObjectCreated'), false, array(Application :: PARAM_ACTION => RepositoryManager :: RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));*/
+						$this->redirect(Translation :: get('ObjectCreated'), false, array(Application :: PARAM_ACTION => RepositoryManager :: RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $id,  RepositoryManager :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));*/
 						/*$renderer = clone $type_form->defaultRenderer();
 						$renderer->setElementTemplate('{label} {element} ');
 						$type_form->accept($renderer);
 						$html[] = $renderer->toHTML();
 						$this->in_creation = false;
-						$this->redirect(Translation :: get('LearningObjectAdded'), false, array(Application :: PARAM_ACTION => RepositoryManager :: RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => $_GET['publish'], 'clo_action' => 'build'));
+						$this->redirect(Translation :: get('LearningObjectAdded'), false, array(Application :: PARAM_ACTION => RepositoryManager :: RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => Request :: get('publish'), 'clo_action' => 'build'));
 					}
 					else
 					{
@@ -228,7 +228,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 					$renderer->setElementTemplate('{label} {element} ');
 					$type_form->accept($renderer);
 					$html[] = $renderer->toHTML();
-					$this->redirect(Translation :: get('LearningObjectAdded'), false, array(Application :: PARAM_ACTION => RepositoryManager :: RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => $_GET['publish'], 'clo_action' => 'build'));
+					$this->redirect(Translation :: get('LearningObjectAdded'), false, array(Application :: PARAM_ACTION => RepositoryManager :: RepositoryManager :: ACTION_BROWSE_COMPLEX_LEARNING_OBJECTS, RepositoryManager :: PARAM_CLOI_ID => $this->get_cloi_id(),  RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->get_root_id(), 'publish' => Request :: get('publish'), 'clo_action' => 'build'));
 				}*/
 
 			}
@@ -276,7 +276,7 @@ class RepositoryManagerComplexBrowserComponent extends RepositoryManagerComponen
 
 	public function get_parameters()
 	{
-		$param = array(RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->root_id, RepositoryManager :: PARAM_CLOI_ID => $this->cloi_id, 'publish' => $_GET['publish'], 'action' => $this->action);
+		$param = array(RepositoryManager :: PARAM_CLOI_ROOT_ID => $this->root_id, RepositoryManager :: PARAM_CLOI_ID => $this->cloi_id, 'publish' => Request :: get('publish'), 'action' => $this->action);
 		return array_merge($param, parent :: get_parameters());
 	}
 

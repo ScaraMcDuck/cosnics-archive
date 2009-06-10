@@ -27,7 +27,7 @@ class RepositoryManagerMoverComponent extends RepositoryManagerComponent
 		$trail = new BreadcrumbTrail(false);
 		$trail->add_help('repository general');
 
-		$ids = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
+		$ids = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
 		if (!empty ($ids))
 		{
 			if (!is_array($ids))

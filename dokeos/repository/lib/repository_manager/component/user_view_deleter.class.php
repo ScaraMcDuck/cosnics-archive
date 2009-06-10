@@ -16,7 +16,7 @@ class RepositoryManagerUserViewDeleterComponent extends RepositoryManagerCompone
 	 */
 	function run()
 	{
-		$ids = $_GET[RepositoryManager :: PARAM_USER_VIEW];
+		$ids = Request :: get(RepositoryManager :: PARAM_USER_VIEW);
 
 		$failures = 0;
 

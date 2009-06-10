@@ -16,7 +16,7 @@ class RepositoryManagerRestorerComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$ids = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
+		$ids = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
 		if (!empty($ids))
 		{
 			if (!is_array($ids))

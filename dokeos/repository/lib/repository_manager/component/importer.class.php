@@ -18,8 +18,8 @@ class RepositoryManagerImporterComponent extends RepositoryManagerComponent
 	 */
 	function run()
 	{
-		$clo_id = $_GET[RepositoryManager :: PARAM_CLOI_ID];
-		$root_id = $_GET[RepositoryManager :: PARAM_CLOI_ROOT_ID];
+		$clo_id = Request :: get(RepositoryManager :: PARAM_CLOI_ID);
+		$root_id = Request :: get(RepositoryManager :: PARAM_CLOI_ROOT_ID);
 
 		$trail = new BreadcrumbTrail(false);
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('LearningObjectImport')));

@@ -24,7 +24,7 @@ class RepositoryManagerEditorComponent extends RepositoryManagerComponent
 		$trail = new BreadcrumbTrail(false);
 		$trail->add_help('repository general');
 
-		$id = $_GET[RepositoryManager :: PARAM_LEARNING_OBJECT_ID];
+		$id = Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_ID);
 		if ($id)
 		{
 			$object = $this->retrieve_learning_object($id);

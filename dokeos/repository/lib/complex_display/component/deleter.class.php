@@ -9,9 +9,9 @@ class ComplexDisplayDeleterComponent extends ComplexDisplayComponent
 	{
 		if($this->is_allowed(DELETE_RIGHT))
 		{
-			if(isset($_GET['selected_cloi']))
+			if(Request :: get('selected_cloi'))
 			{
-				$cloi_ids = $_GET['selected_cloi'];
+				$cloi_ids = Request :: get('selected_cloi');
 			}
 			else
 			{

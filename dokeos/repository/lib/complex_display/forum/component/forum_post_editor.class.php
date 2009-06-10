@@ -28,7 +28,7 @@ class ForumDisplayForumPostEditorComponent extends ForumDisplayComponent
 
 			$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $url);
 
-			if( $form->validate() || $_GET['validated'])
+			if( $form->validate() || Request :: get('validated'))
 			{
 				$form->update_learning_object();
 				if($form->is_version())

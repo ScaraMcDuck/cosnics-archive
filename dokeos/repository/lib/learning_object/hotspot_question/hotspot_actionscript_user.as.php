@@ -2,7 +2,7 @@
 	include_once dirname(__FILE__).'/../../../../common/global.inc.php';
 	
 	// set vars
-	$clo_questionId = $_GET['modifyAnswers'];
+	$clo_questionId = Request :: get('modifyAnswers');
 	$clo_question = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($clo_questionId);
 	//$objQuestion = Question::read($questionId);
 	$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());

@@ -18,7 +18,7 @@ if (Authentication :: is_valid())
 {
 	$conditions = array ();
 
-	$query_condition = DokeosUtilities :: query_to_condition($_GET['query'], LearningObject :: PROPERTY_TITLE);
+	$query_condition = DokeosUtilities :: query_to_condition(Request :: get('query'), LearningObject :: PROPERTY_TITLE);
 	if (isset ($query_condition))
 	{
 		$conditions[] = $query_condition;
@@ -27,10 +27,10 @@ if (Authentication :: is_valid())
 	$owner_condition = new EqualityCondition(LearningObject :: PROPERTY_OWNER_ID, Session :: get_user_id());
 	$conditions[] = $owner_condition;
 
-	if (is_array($_GET['exclude']))
+	if (is_array(Request :: get('exclude')))
 	{
 		$c = array ();
-		foreach ($_GET['exclude'] as $id)
+		foreach (Request :: get('exclude') as $id)
 		{
 			$c[] = new EqualityCondition(LearningObject :: PROPERTY_ID, $id);
 		}

@@ -282,37 +282,37 @@ class RepositoryManager extends CoreApplication
 			{
 				case self :: PARAM_RECYCLE_SELECTED :
 					$this->set_action(self :: ACTION_DELETE_LEARNING_OBJECTS);
-					$_GET[self :: PARAM_LEARNING_OBJECT_ID] = $selected_ids;
-					$_GET[self :: PARAM_DELETE_RECYCLED] = 1;
+					Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID,$selected_ids);
+					Request :: set_get(self :: PARAM_DELETE_RECYCLED,1);
 					break;
 				case self :: PARAM_MOVE_SELECTED :
 					$this->set_action(self :: ACTION_MOVE_LEARNING_OBJECTS);
-					$_GET[self :: PARAM_LEARNING_OBJECT_ID] = $selected_ids;
+					Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID,$selected_ids);
 					break;
 				case self :: PARAM_RESTORE_SELECTED :
 					$this->set_action(self :: ACTION_RESTORE_LEARNING_OBJECTS);
-					$_GET[self :: PARAM_LEARNING_OBJECT_ID] = $selected_ids;
+					Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID,$selected_ids);
 					break;
 				case self :: PARAM_DELETE_SELECTED :
 					$this->set_action(self :: ACTION_DELETE_LEARNING_OBJECTS);
-					$_GET[self :: PARAM_LEARNING_OBJECT_ID] = $selected_ids;
-					$_GET[self :: PARAM_DELETE_PERMANENTLY] = 1;
+					Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID,$selected_ids);
+					Request :: set_get(self :: PARAM_DELETE_PERMANENTLY,1);
 					break;
 				case self :: PARAM_REMOVE_SELECTED_CLOI :
 					$this->set_action(self :: ACTION_DELETE_COMPLEX_LEARNING_OBJECTS);
-					$_GET[self :: PARAM_CLOI_ID] = $selected_ids;
+					Request :: set_get(self :: PARAM_CLOI_ID,$selected_ids);
 					break;
 				case self :: PARAM_ADD_OBJECTS :
 					$this->set_action(self :: ACTION_ADD_LEARNING_OBJECT);
-					$_GET[self :: PARAM_CLOI_REF] = $selected_ids;
+					Request :: set_get(self :: PARAM_CLOI_REF,$selected_ids);
 					break;
 				case self :: PARAM_PUBLISH_SELECTED :
 					$this->set_action(self :: ACTION_PUBLISH_LEARNING_OBJECT);
-					$_GET[self :: PARAM_LEARNING_OBJECT_ID] = $selected_ids;
+					Request :: set_get(self :: PARAM_LEARNING_OBJECT_ID,$selected_ids);
 					break;
 				case self :: PARAM_DELETE_SELECTED_USER_VIEW:
 					$this->set_action(self :: ACTION_DELETE_USER_VIEW);
-					$_GET[self :: PARAM_USER_VIEW] = $selected_ids;
+					Request :: set_get(self :: PARAM_USER_VIEW,$selected_ids);
 					break;
 			}
 		}
@@ -830,9 +830,9 @@ class RepositoryManager extends CoreApplication
 	 */
 	private function determine_search_settings()
 	{
-		if (isset ($_GET[self :: PARAM_CATEGORY_ID]))
+		if (Request :: get(self :: PARAM_CATEGORY_ID))
 		{
-			$this->set_parameter(self :: PARAM_CATEGORY_ID, intval($_GET[self :: PARAM_CATEGORY_ID]));
+			$this->set_parameter(self :: PARAM_CATEGORY_ID, intval(Request :: get(self :: PARAM_CATEGORY_ID)));
 		}
 		$form = $this->get_search_form();
 		$this->search_parameters = $form->get_frozen_values();
@@ -986,14 +986,14 @@ class RepositoryManager extends CoreApplication
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_UPDATE_COMPLEX_LEARNING_OBJECTS,
 			self :: PARAM_CLOI_ID => $cloi->get_id(),
-			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));
+			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
 	}
 
 	function get_complex_learning_object_item_delete_url($cloi, $root_id)
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_DELETE_COMPLEX_LEARNING_OBJECTS,
 			self :: PARAM_CLOI_ID => $cloi->get_id(),
-			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));
+			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
 	}
 
 	function get_complex_learning_object_item_move_url($cloi, $root_id, $direction)
@@ -1001,7 +1001,7 @@ class RepositoryManager extends CoreApplication
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_MOVE_COMPLEX_LEARNING_OBJECTS,
 			self :: PARAM_CLOI_ID => $cloi->get_id(),
 			self :: PARAM_CLOI_ROOT_ID => $root_id,
-			self :: PARAM_MOVE_DIRECTION => $direction, 'publish' => $_GET['publish']));
+			self :: PARAM_MOVE_DIRECTION => $direction, 'publish' => Request :: get('publish')));
 	}
 
 	function get_browse_complex_learning_object_url($object)
@@ -1014,7 +1014,7 @@ class RepositoryManager extends CoreApplication
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SELECT_LEARNING_OBJECTS,
 			self :: PARAM_CLOI_ID => $clo_id,
-			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));
+			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
 	}
 
 	function get_add_learning_object_url($learning_object, $cloi_id, $root_id)
@@ -1022,7 +1022,7 @@ class RepositoryManager extends CoreApplication
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_ADD_LEARNING_OBJECT,
 			self :: PARAM_CLOI_REF => $learning_object->get_id(),
 			self :: PARAM_CLOI_ID => $cloi_id,
-			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => $_GET['publish']));
+			self :: PARAM_CLOI_ROOT_ID => $root_id, 'publish' => Request :: get('publish')));
 	}
 	function get_learning_object_exporting_url($learning_object)
 	{
