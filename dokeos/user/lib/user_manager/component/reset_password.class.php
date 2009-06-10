@@ -40,8 +40,8 @@ class UserManagerResetPasswordComponent extends UserManagerComponent
 			exit;
 		}
 		$this->display_header($trail);
-		$request_key = $_GET[self::PARAM_RESET_KEY];
-		$request_user_id = $_GET[User::PROPERTY_USER_ID];
+		$request_key = Request :: get(self::PARAM_RESET_KEY);
+		$request_user_id = Request :: get(User::PROPERTY_USER_ID);
 		if(!is_null($request_key) && !is_null($request_user_id))
 		{
 			$udm = UserDataManager :: get_instance();

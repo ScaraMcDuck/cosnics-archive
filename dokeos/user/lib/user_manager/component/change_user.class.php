@@ -12,7 +12,7 @@ class UserManagerChangeUserComponent extends UserManagerComponent
 	 */
 	function run()
 	{
-		$id = $_GET[UserManager :: PARAM_USER_USER_ID];
+		$id = Request :: get(UserManager :: PARAM_USER_USER_ID);
 		if ($id)
 		{
 			$success = true;

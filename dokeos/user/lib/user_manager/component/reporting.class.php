@@ -13,7 +13,7 @@ class UserManagerReportingComponent extends UserManagerComponent
 	{
         $rtv = new ReportingTemplateViewer($this);
 
-        $classname = $_GET[ReportingManager::PARAM_TEMPLATE_NAME];
+        $classname = Request :: get(ReportingManager::PARAM_TEMPLATE_NAME);
 
         $params = Reporting :: get_params($this);
 
