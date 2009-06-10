@@ -1,18 +1,17 @@
 <?php
 class HotspotQuestionDisplay extends QuestionDisplay
 {
-	function add_to($formvalidator)
+	function add_question_form($formvalidator)
 	{
-		$formvalidator->addElement('html', parent :: display_header());
 		$clo_question = $this->get_clo_question();
 		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
 		$this->add_scripts_element($clo_question->get_id(), $formvalidator);
 		//$formvalidator->addElement('html', '<br/>');
 		$answers = $question->get_answers();
 		foreach ($answers as $i => $answer)
-		$formvalidator->addElement('hidden', $clo_question->get_id().'_'.$i, '', array('id' => $clo_question->get_id().'_'.$i));
-		//$formvalidator->addElement('hidden', $question->get_id().'_'.$i.'_answer','', array('id='.$question->get_id().'_'.$i.'_answer'));
-		$formvalidator->addElement('html', $this->display_footer());
+		{
+			$formvalidator->addElement('hidden', $clo_question->get_id().'_'.$i, '', array('id' => $clo_question->get_id().'_'.$i));
+		}
 	}
 	
 	function add_scripts_element($hotspot_id, $formvalidator)

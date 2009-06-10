@@ -1,12 +1,14 @@
 <?php
 
-class QuestionDisplay 
+abstract class QuestionDisplay 
 {
 	private $clo_question;
 	private $question_nr;
+	private $formvalidator;
 	
-	function QuestionDisplay($clo_question, $question_nr)
+	function QuestionDisplay($formvalidator, $clo_question, $question_nr)
 	{
+		$this->formvalidator = $formvalidator;
 		$this->clo_question = $clo_question;
 		$this->question_nr = $question_nr;
 	}
@@ -16,12 +18,18 @@ class QuestionDisplay
 		return $this->clo_question;
 	}
 	
-	function add_to($formvalidator) {
-		$formvalidator->addElement('html', $this->display_header());
-	}
-
-	function display_header()
+	function display()
 	{
+		$this->add_header();
+		$this->add_question_form($this->formvalidator);
+		$this->add_footer();
+	}
+	
+	abstract function add_question_form($formvalidator); 
+
+	function add_header()
+	{
+		$formvalidator = $this->formvalidator;
 		$clo_question = $this->get_clo_question();
 		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
 		
@@ -33,53 +41,44 @@ class QuestionDisplay
 		$description = $learning_object->get_description();
 
 		if($description != '<p>&#160;</p>' && count($description) > 0 )
+		{
 			$html[] = '<div style="font-style: italic; ">' . $description . '</div>';
+		}
 		else
+		{
 			$html[] = '<br />';
-			
-		/*$html[] = '</div>';
-		$html[] = '<div class="answers">';*/
+		}
 		
-		return implode("\n", $html);
+		$header = implode("\n", $html);
+		$formvalidator->addElement('html', $header);
 	}
 	
-	function display_footer()
+	function add_footer($formvalidator)
 	{
-		$html[] = '<br/></div>';
+		$formvalidator = $this->formvalidator;
+		$html[] = '<br/><br /></div>';
 		$html[] = '</div>';
 		
-		return implode("\n", $html);
+		$footer = implode("\n", $html);
+		$formvalidator->addElement('html', $footer);
 	}
 
-	static function factory($clo_question, $question_nr) {
+	static function factory($formvalidator, $clo_question, $question_nr) 
+	{
 		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
 		$type = $question->get_type();
 		
-		require_once dirname(__FILE__) . '/question_display/' . $type . '.class.php';
+		$file = dirname(__FILE__) . '/question_display/' . $type . '.class.php';
 		
-		switch($type)
+		if(!file_exists($file))
 		{
-		case 'open_question':
-			$question_display = new OpenQuestionDisplay($clo_question, $question_nr);
-			break;
-		case 'fill_in_blanks_question':
-			$question_display = new FillInBlanksQuestionDisplay($clo_question, $question_nr);
-			break;
-		case 'matching_question':
-			$question_display = new MatchingQuestionDisplay($clo_question, $question_nr);
-			break;
-		case 'multiple_choice_question':
-			$question_display = new MultipleChoiceQuestionDisplay($clo_question, $question_nr);
-			break;
-		case 'rating_question':
-			$question_display = new RatingQuestionDisplay($clo_question, $question_nr);
-			break;
-		case 'hotspot_question':
-			$question_display = new HotSpotQuestionDisplay($clo_question, $question_nr);
-			break;
-		default:
-			$question_display = null;
+			die('file does not exist: ' . $file);
 		}
+		
+		require_once $file;
+		
+		$class = DokeosUtilities :: underscores_to_camelcase($type) . 'Display';
+		$question_display = new $class($formvalidator, $clo_question, $question_nr);
 		return $question_display;
 	}
 }
