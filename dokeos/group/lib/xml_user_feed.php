@@ -19,9 +19,9 @@ if (Authentication :: is_valid())
 {
 	$conditions = array ();
 
-	if (isset($_GET['query']))
+	if (Request :: get('query'))
 	{
-		$query_condition = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*'. $_GET['query'] .'*');
+		$query_condition = new PatternMatchCondition(User :: PROPERTY_USERNAME, '*'. Request :: get('query') .'*');
 		
 		if (isset ($query_condition))
 		{
@@ -29,17 +29,17 @@ if (Authentication :: is_valid())
 		}
 	}
 
-	if (is_array($_GET['exclude']))
+	if (is_array(Request :: get('exclude')))
 	{
 		$c = array ();
-		foreach ($_GET['exclude'] as $id)
+		foreach (Request :: get('exclude') as $id)
 		{
 			$c[] = new EqualityCondition(User :: PROPERTY_USER_ID, $id);
 		}
 		$conditions[] = new NotCondition(new OrCondition($c));
 	}
 
-	if (isset($_GET['query']) || is_array($_GET['exclude']))
+	if (Request :: get('query') || is_array(Request :: get('exclude')))
 	{
 		$condition = new AndCondition($conditions);
 	}

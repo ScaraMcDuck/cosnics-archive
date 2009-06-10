@@ -70,7 +70,7 @@ class GroupManagerBrowserComponent extends GroupManagerComponent
 
 	function get_group()
 	{
-		return (isset($_GET[GroupManager :: PARAM_GROUP_ID])?$_GET[GroupManager :: PARAM_GROUP_ID]:0);
+		return (Request :: get(GroupManager :: PARAM_GROUP_ID)?Request :: get(GroupManager :: PARAM_GROUP_ID):0);
 	}
 
 	function get_condition()

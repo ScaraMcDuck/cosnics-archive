@@ -24,7 +24,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => GroupManager :: ACTION_BROWSE_GROUPS)), Translation :: get('GroupList')));
 		$trail->add_help('group subscribe users');
 
-		$group_id = $_GET[GroupManager :: PARAM_GROUP_ID];
+		$group_id = Request :: get(GroupManager :: PARAM_GROUP_ID);
 
 		if(isset($group_id))
 		{
@@ -62,7 +62,7 @@ class GroupManagerSubscribeUserBrowserComponent extends GroupManagerComponent
 
 	function get_subscribe_condition()
 	{
-		$condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, $_GET[GroupRelUser :: PROPERTY_GROUP_ID]);
+		$condition = new EqualityCondition(GroupRelUser :: PROPERTY_GROUP_ID, Request :: get(GroupRelUser :: PROPERTY_GROUP_ID));
 
 		$users = $this->get_parent()->retrieve_group_rel_users($condition);
 
