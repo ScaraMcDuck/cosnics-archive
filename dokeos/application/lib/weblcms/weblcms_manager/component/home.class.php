@@ -21,7 +21,7 @@ class WeblcmsManagerHomeComponent extends WeblcmsManagerComponent
 		$trail->add_help('courses general');
 
 		$this->display_header($trail, false, true);
-		echo '<div class="clear"></div><br />';
+		echo '<div class="clear"></div>';
 		$course_categories = $this->retrieve_course_user_categories(null, null, null, array(CourseUserCategory :: PROPERTY_SORT), array(SORT_ASC));
 
 		echo $this->display_menu();

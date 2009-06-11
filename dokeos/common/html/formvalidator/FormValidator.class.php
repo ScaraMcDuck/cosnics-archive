@@ -156,7 +156,7 @@ EOT;
 	 * @param array $attributes Optional list of attributes for the form-element
 	 * @return HTML_QuickForm_input The element.
 	 */
-	function add_textfield( $name, $label,$required = true, $attributes = array())
+	function add_textfield($name, $label, $required = true, $attributes = array())
 	{
 		if (!array_key_exists('size', $attributes))
 		{

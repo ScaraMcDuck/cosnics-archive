@@ -164,7 +164,7 @@ class WeblcmsManagerCourseViewerComponent extends WeblcmsManagerComponent
 					echo '</div>';
 				}
 
-				echo '<div class="clear"></div><br />';
+				echo '<div class="clear"></div>';
 
 				//Display menu
 				$menu_style = $this->get_course()->get_menu();

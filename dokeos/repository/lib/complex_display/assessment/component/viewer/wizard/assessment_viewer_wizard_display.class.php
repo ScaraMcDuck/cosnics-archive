@@ -2,19 +2,19 @@
 require_once Path :: get_library_path().'resource_manager.class.php';
 
 /**
- * 
+ *
  * @author Sven Vanpoucke
  */
 class AssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 {
 
 	private $parent;
-	
+
 	public function AssessmentViewerWizardDisplay($parent)
 	{
 		$this->parent = $parent;
 	}
-	
+
 	/**
 	 * Displays the HTML-code of a page in the wizard
 	 * @param HTML_Quickform_Page $page The page to display.
@@ -30,11 +30,18 @@ class AssessmentViewerWizardDisplay extends HTML_QuickForm_Action_Display
 		HTML_QuickForm :: setRequiredNote('<font color="red">*</font> <small>'.Translation :: get('ThisFieldIsRequired').'</small>');
 		$current_page->accept($renderer);
 
-		echo '<div>';
+		echo '<div class="assessment">';
 		echo '<h2>' . $this->parent->get_assessment()->get_title() . '</h2>';
-		echo $this->parent->get_assessment()->get_description();
+
+		$description = $this->parent->get_assessment()->get_description();
+		if($description != '<p>&#160;</p>' && count($description) > 0 )
+		{
+			echo '<div class="description">';
+			echo $this->parent->get_assessment()->get_description();
+			echo '</div>';
+		}
 		echo '</div>';
-		
+
 		echo '<div>';
 		parent :: _renderForm($current_page);
 		echo '</div>';

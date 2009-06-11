@@ -39,31 +39,25 @@ abstract class QuestionDisplay
 
 		$html[] = '<div class="question">';
 		$html[] = '<div class="title">';
-//		$html[] = '<div class="number">';
-//		$html[] = '<div class="bevel">';
-//		$html[] = $this->question_nr . '.';
-//		$html[] = '<img src="'. Theme :: get_common_image_path(). 'treemenu_types/' .$learning_object->get_icon_name().'.png">';
-//		$html[] = '</div>';
-//		$html[] = '</div>';
-		$html[] = '<div class="text">';
-		$html[] = '<div class="bevel">';
-		$html[] = '<img src="'. Theme :: get_common_image_path(). 'treemenu_types/' .$learning_object->get_icon_name().'.png">';
-		$html[] = Translation :: get('Question') . ' ' . $current_question . '/' . $number_of_questions . '&nbsp;' . $learning_object->get_title();
-		//$html[] = $learning_object->get_title();
+		$html[] = '<div class="number">';
+		$html[] = $this->question_nr . '.';
 		$html[] = '</div>';
+		$html[] = '<div class="text">';
+		$html[] = '<img src="'. Theme :: get_common_image_path(). 'treemenu_types/' .$learning_object->get_icon_name().'.png">';
+		$html[] = $learning_object->get_title();
 		$html[] = '</div>';
 		$html[] = '<div class="clear"></div>';
 		$html[] = '</div>';
 		$html[] = '<div class="answer">';
-		$html[] = '<div class="description">';
-		$description = $learning_object->get_description();
 
+		$description = $learning_object->get_description();
 		if($description != '<p>&#160;</p>' && count($description) > 0 )
 		{
+			$html[] = '<div class="description">';
 			$html[] = $description;
+			$html[] = '</div>';
 		}
 
-		$html[] = '</div>';
 		$html[] = '<div class="clear"></div>';
 
 		$header = implode("\n", $html);

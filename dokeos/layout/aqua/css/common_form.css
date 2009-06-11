@@ -143,6 +143,19 @@ input[text]
 	text-align: right;
 }
 
+input.rating_question_low_value, input.rating_question_high_value
+{
+	background-image: url(../img/common/buttons/button_low.png);
+	background-position: 4px center;
+	background-repeat: no-repeat;
+	padding-left: 24px;
+}
+
+input.rating_question_high_value
+{
+	background-image: url(../img/common/buttons/button_high.png);
+}
+
 button, a.button
 {
     margin:0 7px 0 0;
@@ -308,6 +321,16 @@ button.switch, a.switch_button
 button.add, a.add_button
 {
 	background-image: url(../img/common/buttons/button_add.png);
+}
+
+button.low, a.low_button
+{
+	background-image: url(../img/common/buttons/button_low.png);
+}
+
+button.high, a.high_button
+{
+	background-image: url(../img/common/buttons/button_high.png);
 }
 
 /*IE-fix to avoid adding unwanted margins to the form*/
