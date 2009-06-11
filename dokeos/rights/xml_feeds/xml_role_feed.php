@@ -2,7 +2,7 @@
 /**
  * @package repository
  */
-require_once dirname(__FILE__).'/../common/global.inc.php';
+require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
 require_once Path :: get_rights_path() . 'lib/role.class.php';
@@ -33,7 +33,7 @@ if (Authentication :: is_valid())
 		}
 		$conditions[] = new NotCondition(new OrCondition($c));
 	}
-	
+
 	if(count($conditions) > 0)
 	{
 		$condition = new AndCondition($conditions);
@@ -67,15 +67,15 @@ function dump_tree($roles)
 	{
 		return;
 	}
-	
+
 	echo '<node id="0" class="type_category unlinked" title="', Translation :: get('Roles'), '">', "\n";
-	
+
 	while ($role = $roles->next_result())
 	{
 		$value = RightsUtilities :: role_for_element_finder($role);
 		echo '<leaf id="', $role->get_id(), '" class="', $value['class'], '" title="', htmlentities($value['title']), '" description="', htmlentities(isset($value['description']) && !empty($value['description']) ? $value['description'] : $value['title']), '"/>', "\n";
 	}
-	
+
 	echo '</node>', "\n";
 }
 
