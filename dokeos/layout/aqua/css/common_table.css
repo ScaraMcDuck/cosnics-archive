@@ -213,12 +213,17 @@ div.event_fade a
 /*************************************
  * EXTRA STYLES FOR QUESTION OPTIONS *
  *************************************/
-th.checkbox
+th.list
+{
+	width: 10px;
+}
+ 
+th.checkbox, th.empty
 {
 	width: 30px;
 }
 
-th.numeric
+th.numeric, th.code
 {
 	width: 50px;
 }

@@ -100,7 +100,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 					$lpi_tracker->set_start_time(time());
 					$lpi_tracker->update();
 				}
-	
+
 				$this->trackers['lpi_tracker'] = $lpi_tracker;
 
 				$display = LearningPathLearningObjectDisplay :: factory($this, $object->get_type())->display_learning_object($object, $lpi_attempt_data[$cloi->get_id()], $menu->get_continue_url(), $menu->get_previous_url(), $menu->get_jump_urls());
@@ -115,7 +115,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		}
 
 		$this->display_header($trail, true);
-		echo '<br />';
+		//echo '<br />';
 		echo '<div style="width: 18%; overflow: auto; float: left;">';
 		echo $menu->render_as_tree(). '<br /><br />';
 		echo $this->get_progress_bar($menu->get_progress());

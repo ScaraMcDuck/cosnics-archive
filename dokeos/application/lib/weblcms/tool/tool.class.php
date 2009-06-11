@@ -304,7 +304,7 @@ abstract class Tool
 			echo '</div>';
 		}
 
-		echo '<div class="clear"></div><br />';
+		echo '<div class="clear"></div>';
 
 		if ($msg = Request :: get(Application :: PARAM_MESSAGE))
 		{
@@ -626,7 +626,7 @@ abstract class Tool
     static function get_pcattree_parents($pcattree)
     {
         $parent = WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication_category($pcattree);
-        $parents[] = $parent; 
+        $parents[] = $parent;
 
         while($parent->get_parent() != 0)
         {

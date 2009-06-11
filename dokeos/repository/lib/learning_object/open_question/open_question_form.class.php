@@ -43,7 +43,7 @@ class OpenQuestionForm extends LearningObjectForm
         {
             $choices[] = $this->createElement('radio', OpenQuestion :: PROPERTY_QUESTION_TYPE, '', $type_label, $type_id);
         }
-        $this->addGroup($choices, null, Translation :: get('OpenQuestionType'), '<br />', false);
+        $this->addGroup($choices, null, Translation :: get('OpenQuestionQuestionType'), '<br />', false);
         $this->addElement('category');
     }
 
