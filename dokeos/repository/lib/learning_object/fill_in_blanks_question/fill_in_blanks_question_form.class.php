@@ -46,9 +46,8 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 					$defaults['comment'][$index] = $option->get_comment();
 					$defaults['size'][$index] = $option->get_size();
 				}
+				$defaults['answer'] = $object->get_answer_text();
 			}
-			
-			$defaults['answer'] = $object->get_answer_text();
 	
 			parent :: setDefaults($defaults);
 			return;
@@ -130,7 +129,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 		$renderer = $this->defaultRenderer();
 		
 		$table_header = array();
-        $table_header[] = '<table class="data_table" style="' . $visible . 'width: 655px; margin:auto; left: -30px; position: relative;">';
+        $table_header[] = '<table class="data_table" style="' . $visible . 'width: 654px; margin:auto; left: -29px; position: relative;">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
         $table_header[] = '<th></th>';
@@ -161,6 +160,29 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 			$group[] = $this->createElement('text','size['.$option_number.']', Translation :: get('Size'), 'size="2"');
 			
 			$this->addGroup($group, 'option_' . $option_number, null, '', false);
+			
+			$this->addGroupRule('option_'.$option_number,
+					array(
+						'match_weight['.$option_number.']' =>
+							array(
+								array(
+									Translation :: get('ThisFieldIsRequired'), 'required'
+								),
+								array(
+									Translation :: get('ValueShouldBeNumeric'),'numeric'
+								)
+							),
+						'size['.$option_number.']' =>
+							array(
+								array(
+									Translation :: get('ThisFieldIsRequired'), 'required'
+								),
+								array(
+									Translation :: get('ValueShouldBeNumeric'),'numeric'
+								)
+							)
+					)
+				);
 			
 			$renderer->setElementTemplate('<tr>{element}</tr>', 'option_' . $option_number);
    			$renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);

@@ -6,28 +6,21 @@
 /**
  * This class represents an option in a matching question.
  */
-class MatchingQuestionOption {
-	/**
-	 * The value of the option
-	 */
+class MatchingQuestionOption 
+{
 	private $value;
-	/**
-	 * Is this a correct answer to the question?
-	 */
 	private $match;
-	/**
-	 *
-	 */
 	private $weight;
-	
 	private $comment;
+	
 	/**
 	 * Creates a new option for a matching question
 	 * @param string $value The value of the option
 	 * @param int $match The index of the match corresponding to this option
 	 * @param int $weight The weight of this answer in the question
 	 */
-    function MatchingQuestionOption($value, $match, $weight, $comment) {
+    function MatchingQuestionOption($value, $match, $weight, $comment) 
+    {
     	$this->value = $value;
     	$this->match = $match;
     	$this->weight = $weight;
