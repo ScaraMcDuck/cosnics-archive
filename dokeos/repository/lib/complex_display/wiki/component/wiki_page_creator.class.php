@@ -52,7 +52,7 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
                 $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($this->get_root_lo()->get_id()));
                 $cloi->set_additional_properties(array('is_homepage' => 0));
                 $cloi->create();
-                $this->redirect($message, '', array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_COMPLEX_ID => $cloi->get_id(), 'pid' => Request :: get('pid')));
+                $this->redirect($message, '', array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'selected_cloi' => $cloi->get_id(), 'pid' => Request :: get('pid')));
             }
             else
             {

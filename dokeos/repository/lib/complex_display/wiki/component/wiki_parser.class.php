@@ -23,7 +23,7 @@ class WikiToolParserComponent
 {
     private $wiki_id;
     private $course_id;
-    private $cid;
+    private $selected_cloi;
     private $wikiText;    
 
     function __construct($wikiId,$courseId, $wikiText, $cId)
@@ -31,7 +31,7 @@ class WikiToolParserComponent
          $this->wiki_id = $wikiId;
          $this->course_id = $courseId;
          $this->wikiText = $wikiText;
-         $this->cid = $cId;
+         $this->selected_cloi = $cId;
     }
 
     function set_wiki_id($value)
@@ -105,19 +105,19 @@ class WikiToolParserComponent
         }
         if(!empty($cloi))
         {
-            $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, Tool :: PARAM_COMPLEX_ID => $cloi->get_id())));
+            $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, 'selected_cloi' => $cloi->get_id())));
             return '<a href="'.$url. '">' . htmlspecialchars($title) . '</a>';
         }
         else
         {
-            $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->wiki_id)));
+            $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->wiki_id, 'title' => $title)));
             return '<a class="does_not_exist" href="'.$url. '">' . htmlspecialchars($title) . '</a>';
         }
     }
 
     private function get_wiki_page_discussion_url()
     {
-        $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $this->cid)));
+        $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'selected_cloi' => $this->selected_cloi)));
         return '<a href="'.$url. '">' . Translation :: get('discussionPage') . '</a>';
     }
 

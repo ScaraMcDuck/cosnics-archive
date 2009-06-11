@@ -11,7 +11,7 @@ class ComplexDisplayUpdaterComponent extends ComplexDisplayComponent
 	{
         if($this->is_allowed(EDIT_RIGHT))
 		{
-			$cid = Request :: get('cid') ? Request :: get('cid') : $_POST['cid'];
+			$cid = Request :: get('selected_cloi') ? Request :: get('selected_cloi') : $_POST['selected_cloi'];
             $pid = Request :: get('pid') ? Request :: get('pid') : $_POST['pid'];
 			$selected_cloi = Request :: get('selected_cloi') ? Request :: get('selected_cloi') : $_POST['selected_cloi'];
             
@@ -21,7 +21,7 @@ class ComplexDisplayUpdaterComponent extends ComplexDisplayComponent
  			$cloi->set_default_property('user_id',$this->get_user_id());
             $learning_object = $datamanager->retrieve_learning_object($cloi->get_ref());
             $learning_object->set_default_property('owner',$this->get_user_id());
-            $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE, 'selected_cloi' => $selected_cloi, 'cid' => $cid, 'pid' => $pid)));
+            $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $learning_object, 'edit', 'post', $this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE, 'selected_cloi' => $selected_cloi, 'selected_cloi' => $cid, 'pid' => $pid)));
 
 
             if( $form->validate() || Request :: get('validated'))
@@ -46,8 +46,9 @@ class ComplexDisplayUpdaterComponent extends ComplexDisplayComponent
 
                 $params = array();
                 $params['pid'] = Request :: get('pid');
-                $params['cid'] = Request :: get('cid');
+                $params['selected_cloi'] = $cid;
                 $params[ComplexDisplay :: PARAM_DISPLAY_ACTION] = ComplexDisplay :: ACTION_VIEW_CLO;
+                $params['display_action'] = 'view_item';
 
                 $this->redirect($message, '', $params);
 

@@ -42,7 +42,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
          *
          */
         
-        $this->cid = Request :: get('cid');
+        $this->cid = Request :: get('selected_cloi');
 
         $complexeObject = $dm->retrieve_complex_learning_object_item($this->cid);
         if(isset($complexeObject))
@@ -52,10 +52,10 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
         $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
         
         $trail = new BreadcrumbTrail();
-        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), DokeosUtilities::truncate_string($this->get_root_lo()->get_title(),20)));
-        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
-        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'discuss', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $this->cid)), Translation :: get('Discuss')));
-        $trail->add_help('courses wiki tool');
+//        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), DokeosUtilities::truncate_string($this->get_root_lo()->get_title(),20)));
+//        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'selected_cloi' => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
+//        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'discuss', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'selected_cloi' => $this->cid)), Translation :: get('Discuss')));
+//        $trail->add_help('courses wiki tool');
         
         $this->get_parent()->get_parent()->display_header($trail, true);
 
@@ -117,14 +117,14 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
     function build_feedback_actions()
     {
         $actions[] = array(
-			'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE_FEEDBACK, 'fid' => $this->fid, 'cid' => $this->cid, 'pid' => Request :: get('pid'))),
+			'href' => $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DELETE_FEEDBACK, 'fid' => $this->fid, 'selected_cloi' => $this->cid, 'pid' => Request :: get('pid'))),
 			'label' => Translation :: get('Delete'),
 			'img' => Theme :: get_common_image_path().'action_delete.png',
             'confirm' => true
 			);
 
         $actions[] = array(
-			'href' => $this->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_FEEDBACK, 'fid' => $this->fid, 'cid' => $this->cid, 'pid' => Request :: get('pid'))),
+			'href' => $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_EDIT_FEEDBACK, 'fid' => $this->fid, 'selected_cloi' => $this->cid, 'pid' => Request :: get('pid'))),
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
@@ -136,7 +136,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
     function show_add_feedback()
     {
         $actions[] = array(
-			'href' => $this->get_url(array(WikiTool :: PARAM_ACTION => Tool :: ACTION_FEEDBACK_CLOI, 'pid' => Request :: get('pid'), 'cid' => $this->cid)),
+			'href' => $this->get_url(array(WikiTool :: PARAM_ACTION => Tool :: ACTION_FEEDBACK_CLOI, 'pid' => Request :: get('pid'), 'selected_cloi' => $this->cid)),
 			'label' => Translation :: get('AddFeedback'),
 			'img' => Theme :: get_common_image_path().'action_add.png',
             'confirm' => false

@@ -42,29 +42,29 @@ class WikiDisplay extends ComplexDisplay
 	{
         //wiki tool
         $action = $this->get_action();//Request :: get('display_action');
-		
+
 		switch ($action)
 		{
+            case self :: ACTION_UPDATE :
+                $component = ComplexDisplayComponent :: factory(null,'Updater',$this);
+                break;
+            case self :: ACTION_UPDATE_LO :
+                $component = ComplexDisplayComponent :: factory(null,'LearningObjectUpdater',$this);
+                break;
+            case self :: ACTION_DELETE:
+                $component = ComplexDisplayComponent :: factory(null,'Deleter',$this);
+                break;
 			case self :: ACTION_VIEW_WIKI :
 				$component = WikiDisplayComponent :: factory('WikiViewer', $this);
 				break;
 			case self :: ACTION_VIEW_WIKI_PAGE :
 				$component = WikiDisplayComponent :: factory('WikiItemViewer', $this);
 				break;
-            case self :: ACTION_PUBLISH :
-				$component = WikiDisplayComponent :: factory('WikiPublisher', $this);
-				break;
             case self :: ACTION_CREATE_PAGE :
                 $component = WikiDisplayComponent :: factory('WikiPageCreator', $this);
                 break;
             case self :: ACTION_SET_AS_HOMEPAGE :
                 $component = WikiDisplayComponent :: factory('WikiHomepageSetter', $this);
-                break;
-            case self :: ACTION_LOCK :
-                $component = WikiDisplayComponent :: factory('WikiLocker', $this);
-                break;
-            case self :: ACTION_DELETE_WIKI_CONTENTS :
-                $component = WikiDisplayComponent :: factory('WikiContentsDeleter', $this);
                 break;
             case self :: ACTION_DISCUSS :
                 $component = WikiDisplayComponent :: factory('WikiDiscuss', $this);
@@ -78,9 +78,15 @@ class WikiDisplay extends ComplexDisplay
             case self :: ACTION_STATISTICS :
                 $component = WikiDisplayComponent :: factory('WikiStatisticsViewer', $this);
                 break;
-            case self :: ACTION_ADD_LINK :
-                $component = WikiDisplayComponent :: factory('', 'WikiLinkCreator', $this);
-				break;
+            case self :: ACTION_FEEDBACK_CLOI:
+                $component = ComplexDisplayComponent :: factory(null,'ComplexFeedback',$this);
+                break;
+            case self :: ACTION_EDIT_FEEDBACK:
+                $component = ComplexDisplayComponent :: factory(null,'FeedbackEdit',$this);
+                break;
+            case self :: ACTION_DELETE_FEEDBACK:
+                $component = ComplexDisplayComponent :: factory(null,'FeedbackDeleter',$this);
+                break;
 			default :
 				$component = WikiDisplayComponent :: factory('WikiViewer', $this);
 		}
@@ -107,7 +113,7 @@ class WikiDisplay extends ComplexDisplay
         return $wiki_homepage[0];
     }
 
-    static function get_toolbar($parent,$pid,$lo,$cid,$course_id)
+    static function get_toolbar($parent,$pid,$lo,$selected_cloi,$course_id)
 	{
         require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 
@@ -122,17 +128,17 @@ class WikiDisplay extends ComplexDisplay
 			)
 		);
 
-        if(!empty($cid))
+        if(!empty($selected_cloi))
         {
             $action_bar->add_common_action(
                 new ToolbarItem(
-                    Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, 'pid' => $pid, 'cid' => $cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                    Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $parent->get_url(array(/*Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI*/ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE, 'pid' => $pid, 'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
                 )
             );
 
             $action_bar->add_common_action(
                 new ToolbarItem(
-                    Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $parent->get_url(array(WikiTool :: PARAM_ACTION => Tool:: ACTION_DELETE_CLOI, 'pid' => $pid,'cid' => $cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
+                    Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $parent->get_url(array(/*WikiTool :: PARAM_ACTION => Tool:: ACTION_DELETE_CLOI*/ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_DELETE, 'pid' => $pid,'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
                 )
             );
 
@@ -140,14 +146,14 @@ class WikiDisplay extends ComplexDisplay
             {
                 $action_bar->add_common_action(
                 new ToolbarItem(
-                    Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_FEEDBACK_CLOI, 'pid' => $pid, 'cid' => $cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                    Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $parent->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_FEEDBACK_CLOI, 'pid' => $pid, 'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
                 )
                 );
             }
 
             $action_bar->add_common_action(
                 new ToolbarItem(
-                    Translation :: get('Discuss'), Theme :: get_common_image_path().'action_users.png', $parent->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, 'pid' => $pid, 'cid' => $cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                    Translation :: get('Discuss'), Theme :: get_common_image_path().'action_users.png', $parent->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, 'pid' => $pid, 'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
                 )
             );
 
@@ -160,13 +166,13 @@ class WikiDisplay extends ComplexDisplay
             //INFORMATION
             $action_bar->add_tool_action(
                 new ToolbarItem(
-                    Translation :: get('History'), Theme :: get_common_image_path().'action_versions.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_HISTORY, 'pid' => $pid, 'cid' => $cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                    Translation :: get('History'), Theme :: get_common_image_path().'action_versions.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_HISTORY, 'pid' => $pid, 'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
                 )
             );
 
             $action_bar->add_tool_action(
 			new ToolbarItem(
-				Translation :: get('Statistics'), Theme :: get_common_image_path().'action_reporting.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay ::ACTION_PAGE_STATISTICS, 'pid' => $pid, 'cid' => $cid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Statistics'), Theme :: get_common_image_path().'action_reporting.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay ::ACTION_PAGE_STATISTICS, 'pid' => $pid, 'cid' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
             );
         }
@@ -174,11 +180,13 @@ class WikiDisplay extends ComplexDisplay
         {
             $action_bar->add_common_action(
 			new ToolbarItem(
-				Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $parent->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, WikiDisplay :: PARAM_DISPLAY_ACTION => null, 'pid' => $pid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Edit'), Theme :: get_common_image_path().'action_edit.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_UPDATE_LO, 'pid' => $pid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
             );
 
-            $action_bar->add_common_action(
+            if(Request :: get('tool') != 'learning_path')
+            {
+                $action_bar->add_common_action(
                 new ToolbarItem(
                     Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $parent->get_url(array(WikiTool :: PARAM_ACTION => Tool:: ACTION_DELETE, WikiDisplay :: PARAM_DISPLAY_ACTION => null, 'pid' => $pid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
                 )
@@ -188,6 +196,8 @@ class WikiDisplay extends ComplexDisplay
             new ToolbarItem(
                     Translation :: get('BrowseWikis'), Theme :: get_common_image_path().'action_browser.png', $parent->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS, WikiDisplay :: PARAM_DISPLAY_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
                 ));
+
+            }
 
 
             //INFORMATION
@@ -230,7 +240,7 @@ class WikiDisplay extends ComplexDisplay
                 {
                     $action_bar->add_navigation_link(
                     new ToolbarItem(
-                        $p->get_title_from_wiki_tag($links[$i],true), null, $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), Tool :: PARAM_COMPLEX_ID =>$p->get_cid_from_url($link) )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                        $p->get_title_from_wiki_tag($links[$i],true), null, $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $p->get_pid_from_url($link), 'selected_cloi' =>$p->get_cid_from_url($link) )), ToolbarItem :: DISPLAY_ICON_AND_LABEL
                     ));
                 }
                 $i++;

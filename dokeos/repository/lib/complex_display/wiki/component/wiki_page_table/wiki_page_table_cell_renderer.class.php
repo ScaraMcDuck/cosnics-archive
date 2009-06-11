@@ -61,7 +61,7 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
                 switch ($property)
                 {
                     case 'Title' :
-                        return '<a href="' . $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->pid, Tool :: PARAM_COMPLEX_ID =>$this->cid )) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>'.$homepage;
+                        return '<a href="' . $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => $this->pid, 'selected_cloi' =>$this->cid )) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>'.$homepage;
                         //default:
                         //return '<a href="' . $this->browser->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => $publication->get_id() )) . '">' . htmlspecialchars($wiki_page->get_title()) . '</a>';
                     case 'versions' :
@@ -81,14 +81,14 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
 		//if(!WikiTool ::is_wiki_locked($publication->get_parent()))
         {
 			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_DELETE_CLOI, Tool :: PARAM_COMPLEX_ID => $publication->get_id(), Tool :: PARAM_PUBLICATION_ID => $this->pid)),
+			'href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DELETE, 'selected_cloi' => $publication->get_id(), Tool :: PARAM_PUBLICATION_ID => $this->pid)),
 			'label' => Translation :: get('Delete'),
 			'img' => Theme :: get_common_image_path().'action_delete.png',
             'confirm' => true
 			);
 
 			$actions[] = array(
-			'href' => $this->browser->get_url(array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT_CLOI, Tool :: PARAM_COMPLEX_ID => $publication->get_id(), Tool :: PARAM_PUBLICATION_ID => $this->pid)),
+			'href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_UPDATE, 'selected_cloi' => $publication->get_id(), Tool :: PARAM_PUBLICATION_ID => $this->pid)),
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 			);

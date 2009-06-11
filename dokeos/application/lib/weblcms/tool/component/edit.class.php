@@ -49,7 +49,7 @@ class ToolEditComponent extends ToolComponent
                         $publication->update();
                     }
 
-                    $publication_form = new LearningObjectPublicationForm(LearningObjectPublicationForm :: TYPE_SINGLE, $publication->get_learning_object(),$this, false, $this->get_course(), false, array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $pid, 'validated' => 1));
+                    $publication_form = new LearningObjectPublicationForm(LearningObjectPublicationForm :: TYPE_SINGLE, $learning_object,$this, false, $this->get_course(), false, array(Tool :: PARAM_ACTION => Tool :: ACTION_EDIT, Tool :: PARAM_PUBLICATION_ID => $pid, 'validated' => 1));
                     $publication_form->set_publication($publication);
 
                     if( $publication_form->validate())
@@ -67,6 +67,7 @@ class ToolEditComponent extends ToolComponent
                         if(Request :: get('tool') == 'learning_path')
                         {
                             $params['tool_action'] = 'view_clo';
+                            $params['display_action'] = 'view';
                             $params['pid'] = Request :: get('pid');
                         }
 

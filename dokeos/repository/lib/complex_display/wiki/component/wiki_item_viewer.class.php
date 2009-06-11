@@ -30,7 +30,7 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
          *  2) the learning object ( actual inforamation about a wiki_page is stored here )
          *
          */
-        $this->cid = Request :: get('cid');
+        $this->cid = Request :: get('selected_cloi');
         $dm = RepositoryDataManager :: get_instance();
 
        /*
@@ -40,13 +40,13 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
         {
             $cloi = $dm->retrieve_complex_learning_object_item($this->cid);
             $this->wiki_page = $dm->retrieve_learning_object($cloi->get_ref());
-        }
+        }dump($this->cid);
 
         $trail = new BreadcrumbTrail();
-        $trail->add_help('courses wiki tool');
-        $trail->add(new BreadCrumb($this->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $dm->retrieve_learning_object($this->get_root_lo()->get_id())->get_title()));
-        $trail->add(new BreadCrumb($this->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($this->wiki_page->get_title(),20)));
-        
+//        $trail->add_help('courses wiki tool');
+//        $trail->add(new BreadCrumb($this->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), $this->get_root_lo()->get_title()));
+//        $trail->add(new BreadCrumb($this->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'selected_cloi' => $this->cid)), DokeosUtilities::truncate_string($this->wiki_page->get_title(),20)));
+//
 
         $this->get_parent()->get_parent()->display_header($trail, true);
 
