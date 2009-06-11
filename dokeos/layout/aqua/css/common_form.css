@@ -1,6 +1,6 @@
-/*****************************************************
- *  FORM STYLES                                      *
- *****************************************************/
+/****************
+ *  FORM STYLES *
+ ****************/
 div.row
 {
 	clear: both;
@@ -339,7 +339,7 @@ div.configuration_form span.category
 }
 
 /*********************************************
- * Quickform Element Finder Styles           *
+ * QUICKFORM ELEMENT FINDER STYLES           *
  * ----------------------------------------- *
  * Don't change unless you have a death wish *
  *********************************************/
@@ -445,9 +445,9 @@ div.element_finder_buttons
 	margin: 0px 10px 0px 10px;
 }
 
-/*************************************
- * Filter form styles
- *************************************/
+/**********************
+ * FILTER FORM STYLES *
+ **********************/
 
 div.filter_form
 {
@@ -551,17 +551,4 @@ input.link_alike:hover
 form br
 {
 	clear: both;
-}
-
-.question_even, .question_odd
-{
-	padding: 5px;
-	margin-top: -1px;
-	background-color: #FFFFFF;
-	border: 1px solid #B5CAE7;
-}
-
-.question_odd
-{
-	background-color: #eef5fa;
 }

@@ -209,3 +209,21 @@ div.event_fade a
 	float: left;
 	width: 100%;
 }
+
+/*************************************
+ * EXTRA STYLES FOR QUESTION OPTIONS *
+ *************************************/
+th.checkbox
+{
+	width: 30px;
+}
+
+th.numeric
+{
+	width: 50px;
+}
+
+th.action
+{
+	width: 22px;
+}
