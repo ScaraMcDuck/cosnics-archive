@@ -11,7 +11,7 @@ class WikiDisplayWikiHomepageSetterComponent extends WikiDisplayComponent
 	function run()
 	{
         $dm = RepositoryDataManager :: get_instance();
-        $page = $dm->retrieve_complex_learning_object_item(Request :: get('cid'));
+        $page = $dm->retrieve_complex_learning_object_item(Request :: get('selected_cloi'));
         /*
          *  If the wiki_page isn't empy the homepage will be set
          */

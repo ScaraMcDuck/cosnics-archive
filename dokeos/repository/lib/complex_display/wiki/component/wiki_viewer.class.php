@@ -22,13 +22,10 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
 	{
         $dm = RepositoryDataManager :: get_instance();    
 
-        $trail = new BreadcrumbTrail();
-        $trail->add(new BreadCrumb($this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), DokeosUtilities::truncate_string($this->get_root_lo()->get_title(),20)));
-        $trail->add_help('courses wiki tool');
-        $this->get_parent()->get_parent()->display_header($trail, true);
-
         $this->action_bar = WikiDisplay :: get_toolbar($this,Request :: get('pid'),$this->get_root_lo(), null, $this->get_parent()->get_parent()->get_course()->get_id());
+        echo '<div id="trailbox2" style="padding:0px;">'.$this->get_parent()->get_breadcrumbtrail()->render().'<br /><br /><br /></div>';
         echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
+        
         if($this->get_root_lo() != null)
         {
             echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'.$this->get_root_lo()->get_title().'</div><hr style="height:1px;color:#4271B5;width:100%;">';
