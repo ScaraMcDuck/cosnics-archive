@@ -314,42 +314,60 @@ class HotspotQuestionForm extends LearningObjectForm
 			$this->addElement('html', '<div class="learning_object">');
 			$this->addElement('html', '</div>');
 		}
-		$counter = 0;
+		
+	    $buttons = array();
+        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddMultipleChoiceOption'), array('class' => 'normal add'));
+        $this->addGroup($buttons, 'question_buttons', null, '', false);
+		
+        $renderer = $this->defaultRenderer();
+        
+		$html_editor_options = array();
+        $html_editor_options['width'] = '100%';
+        $html_editor_options['height'] = '65';
+        $html_editor_options['show_toolbar'] = false;
+        $html_editor_options['show_tags'] = false;
+        $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
+
+        $table_header = array();
+        $table_header[] = '<table class="data_table">';
+        $table_header[] = '<thead>';
+        $table_header[] = '<tr>';
+        $table_header[] = '<th>Answer</th>';
+        $table_header[] = '<th>Comment</th>';
+        $table_header[] = '<th style="width: 50px;">Weight</th>';
+       	$table_header[] = '<th style="width: 22px;"></th>';
+        $table_header[] = '</tr>';
+        $table_header[] = '</thead>';
+        $table_header[] = '<tbody>';
+        $this->addElement('html', implode("\n", $table_header));
+		
 		for($option_number = 0; $option_number <$number_of_options ; $option_number++)
 		{
 			if(!in_array($option_number,$_SESSION['mc_skip_options']))
 			{
-				$counter ++;
-				/*$group = array();
-				$group[] = $this->createElement('text','answer['.$option_number.']', 'Answer:','size="40"');
-				$group[] = $this->createElement('text','comment['.$option_number.']', '','size="40"');
-				$group[] = $this->createElement('text','option_weight['.$option_number.']','','size="2"  class="input_numeric"');
+				$group = array();
+				$group[] = $this->createElement('hidden','type['.$option_number.']', '');
 				$group[] = $this->createElement('hidden','coordinates['.$option_number.']', '');
-				$group[] = $this->createElement('hidden','type['.$option_number.']', '');*/
+				$group[] = $this->create_html_editor('answer[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
+                $group[] = $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
+                $group[] =& $this->createElement('text', 'option_weight[' . $option_number . ']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
 				
-				$this->addElement('category', Translation :: get('Answer') . ' ' . ($counter));
-
-				$this->add_html_editor('answer['.$option_number.']', Translation :: get('Answer'), true);
-				//$this->addElement('text','answer['.$option_number.']', Translation :: get('Answer'),'size="40"');
-				$this->add_html_editor('comment['.$option_number.']', Translation :: get('Comment'), false);
-				$this->addElement('text','option_weight['.$option_number.']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
-				$this->addRule('option_weight['.$option_number.']', Translation :: get('ThisFieldIsRequired'), 'required');
-				$this->addRule('option_weight['.$option_number.']', Translation :: get('ValueShouldBeNumeric'), 'numeric');
-				$this->addElement('hidden','coordinates['.$option_number.']', '');
-				$this->addElement('hidden','type['.$option_number.']', '');
-
-				if($number_of_options - count($_SESSION['mc_skip_options']) > 1 && $option_number == $number_of_options - 1)
+				
+				if($number_of_options - count($_SESSION['mc_skip_options']) > 1)
 				{
-					//$group[] = $this->createElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
-					$this->addElement('image','remove['.$option_number.']',Theme :: get_common_image_path().'action_list_remove.png');
+					$group[] =& $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png');
 				}
+				else
+				{
+					$group[] =& $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+				}
+
+				$this->addGroup($group, 'option_' . $option_number, null, '', false);
 				
-				$this->addElement('category');
-				
-				/*$label = $show_label ? Translation :: get('Answers') : '';
-				$show_label = false;
-				$this->addGroup($group,'options_group_'.$option_number,$label,'',false);
-				$this->addGroupRule('options_group_'.$option_number,
+				$renderer->setElementTemplate('<tr>{element}</tr>', 'option_' . $option_number);
+    			$renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
+				 
+				$this->addGroupRule('option_'.$option_number,
 					array(
 						'answer['.$option_number.']' =>
 							array(
@@ -367,15 +385,22 @@ class HotspotQuestionForm extends LearningObjectForm
 								)
 							)
 					)
-				);*/
+				);
 			}
 		}
 		
 		$this->setDefaults();
 		
-		$_SESSION['mc_num_options'] = $counter;
-		//Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
-		$this->addElement('image','add[]',Theme :: get_common_image_path().'action_list_add.png');
+		$_SESSION['mc_num_options'] = $number_of_options;
+		$table_footer[] = '</tbody>';
+        $table_footer[] = '</table>';
+        $this->addElement('html', implode("\n", $table_footer));
+
+        $this->addGroup($buttons, 'question_buttons', null, '', false);
+
+        $renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
+        $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
+  
 	}
 }
 ?>

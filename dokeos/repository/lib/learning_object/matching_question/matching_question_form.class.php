@@ -212,7 +212,7 @@ class MatchingQuestionForm extends LearningObjectForm
         $table_header[] = '<th>' . Translation :: get('Answer') . '</th>';
         $table_header[] = '<th>' . Translation :: get('Feedback') . '</th>';
         $table_header[] = '<th style="width: 50px;">' . Translation :: get('Weight') . '</th>';
-        $table_header[] = '<th style="width: 25px;"></th>';
+        $table_header[] = '<th style="width: 22px;"></th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
@@ -301,7 +301,7 @@ class MatchingQuestionForm extends LearningObjectForm
         $table_header[] = '<th>' . Translation :: get('Answer') . '</th>';
         if($number_of_matches - count($_SESSION['mq_skip_matches']) > 2)
 		{
-       		$table_header[] = '<th style="width: 25px;"></th>';
+       		$table_header[] = '<th style="width: 22px;"></th>';
 		}
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
