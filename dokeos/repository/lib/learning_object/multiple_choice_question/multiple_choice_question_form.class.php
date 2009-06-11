@@ -169,9 +169,6 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
         $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddMultipleChoiceOption'), array('class' => 'normal add'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
-        $show_label = true;
-        $count = 1;
-
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = '65';
@@ -183,11 +180,11 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
         $table_header[] = '<table class="data_table">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
-        $table_header[] = '<th style="width: 30px;"></th>';
-        $table_header[] = '<th>Answer</th>';
-        $table_header[] = '<th>Comment</th>';
-        $table_header[] = '<th style="width: 50px;">Weight</th>';
-        $table_header[] = '<th style="width: 22px;"></th>';
+        $table_header[] = '<th class="checkbox"></th>';
+        $table_header[] = '<th>' . Translation :: get('Answer') . '</th>';
+        $table_header[] = '<th>' . Translation :: get('Comment') . '</th>';
+        $table_header[] = '<th class="numeric">' . Translation :: get('Score') . '</th>';
+        $table_header[] = '<th class="action"></th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
@@ -220,7 +217,6 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
                 {
                 	$group[] =& $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
-                $count ++;
 
                 $this->addGroup($group, 'option_' . $option_number, null, '', false);
 
