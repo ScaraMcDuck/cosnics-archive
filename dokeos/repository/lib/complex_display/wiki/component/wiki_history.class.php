@@ -42,7 +42,7 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
          *
          */
 
-        $this->cid = Request :: get('cid');
+        $this->cid = Request :: get('selected_cloi');
 
         $complexeObject = $dm->retrieve_complex_learning_object_item($this->cid);
         if(isset($complexeObject))
@@ -67,8 +67,8 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
 
         $trail = new BreadcrumbTrail();
         $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), DokeosUtilities::truncate_string($this->get_root_lo()->get_title(),20)));
-        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
-        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'history', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), Tool :: PARAM_COMPLEX_ID => $this->cid)), Translation :: get('History')));
+        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'view_item', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'selected_cloi' => $this->cid)), DokeosUtilities::truncate_string($wiki_page->get_title(),20)));
+        $trail->add(new BreadCrumb($this->get_url(array('display_action' => 'history', Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'selected_cloi' => $this->cid)), Translation :: get('History')));
         $trail->add_help('courses wiki tool');
 
         $this->get_parent()->get_parent()->display_header($trail, true);

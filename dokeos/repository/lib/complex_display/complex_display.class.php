@@ -20,9 +20,13 @@ abstract class ComplexDisplay
 
 	const ACTION_DELETE = 'delete';
 	const ACTION_UPDATE = 'update';
+    const ACTION_UPDATE_LO = 'update_lo';
 	const ACTION_CREATE = 'create';
     const ACTION_VIEW_ATTACHMENT = 'view_attachment';
     const ACTION_VIEW_CLO = 'view';
+    const ACTION_FEEDBACK_CLOI = 'feedback_cloi';
+    const ACTION_EDIT_FEEDBACK = 'edit_feedback';
+    const ACTION_DELETE_FEEDBACK = 'delete_feedback';
 
 	private $menu;
 	private $root;
