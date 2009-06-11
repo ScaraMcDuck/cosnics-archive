@@ -96,7 +96,7 @@ class WikiPageTableCellRenderer extends DefaultLearningObjectTableCellRenderer
             if(($publication->get_additional_property('is_homepage')==0))
             {
                 $actions[] = array(
-                'href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_SET_AS_HOMEPAGE, 'cid' => $this->cid, 'pid' => Request :: get('pid'))),
+                'href' => $this->browser->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_SET_AS_HOMEPAGE, 'selected_cloi' => $this->cid, 'pid' => Request :: get('pid'))),
                 'label' => Translation :: get('SetAsHomepage'),
                 'img' => Theme :: get_common_image_path().'action_home.png'
                 );

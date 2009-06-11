@@ -117,7 +117,7 @@ class WikiToolParserComponent
 
     private function get_wiki_page_discussion_url()
     {
-        $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => WikiTool :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'selected_cloi' => $this->selected_cloi)));
+        $url = (Redirect ::get_url(array('go' => 'courseviewer', strtolower(Course ::CLASS_NAME) => $this->course_id, 'tool' => 'wiki', 'application' => 'weblcms', Tool :: PARAM_ACTION => Request :: get(Tool :: PARAM_ACTION), WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'), 'selected_cloi' => $this->selected_cloi)));
         return '<a href="'.$url. '">' . Translation :: get('discussionPage') . '</a>';
     }
 
@@ -294,13 +294,13 @@ class WikiToolParserComponent
 
     public function get_cid_from_url($link)
     {
-        $pattern = '/(cid=[0-9]*)/';
+        $pattern = '/(selected_cloi=[0-9]*)/';
 
         preg_match_all($pattern, $link, $matches, PREG_PATTERN_ORDER);
 
         foreach($matches as &$match)
         {
-            $match = str_replace('cid=','',$match);
+            $match = str_replace('selected_cloi=','',$match);
         }
 
         return $matches[0][0];

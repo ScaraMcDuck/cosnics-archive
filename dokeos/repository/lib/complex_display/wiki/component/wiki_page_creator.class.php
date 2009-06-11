@@ -20,14 +20,10 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
 
 	function run()
 	{
-        $trail = new BreadcrumbTrail();
-        $trail->add(new BreadCrumb($this->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), DokeosUtilities::truncate_string($this->get_root_lo()->get_title(),20)));
-        $trail->add(new BreadCrumb($this->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, Tool :: PARAM_PUBLICATION_ID => Request :: get('pid'))), Translation :: get('CreateWikiPage')));
-        $trail->add_help('courses wiki tool');
-
+        echo '<div id="trailbox2" style="padding:0px;">'.$this->get_parent()->get_breadcrumbtrail()->render().'<br /><br /><br /></div>';
+        
         $object = Request :: get('object'); //the object that was made, needed to set the reference for the complex object
 
-        //$this->pub = new LearningObjectRepoViewer($this->get_parent()->get_parent(), 'wiki_page', true, RepoViewer :: SELECT_MULTIPLE, array('display_action' =>WikiDisplay :: ACTION_CREATE_PAGE));
         $this->pub = new RepoViewer($this, 'wiki_page', true);
         $this->pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_CREATE_PAGE);
         $this->pub->set_parameter('pid', Request :: get('pid'));
@@ -35,7 +31,7 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
         if(empty($object))
         {
             $html[] =  $this->pub->as_html();
-            $this->get_parent()->get_parent()->display_header($trail, true);
+            //$this->get_parent()->get_parent()->display_header($trail, true);
             echo implode("\n",$html);
 
         }

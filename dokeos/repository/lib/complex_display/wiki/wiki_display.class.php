@@ -29,11 +29,9 @@ class WikiDisplay extends ComplexDisplay
     const ACTION_PAGE_STATISTICS = 'page_statistics';
     const ACTION_COMPARE = 'compare';
     const ACTION_STATISTICS = 'statistics';
+    const ACTION_ACCESS_DETAILS = 'access_details';
     const ACTION_LOCK = 'lock';
     const ACTION_ADD_LINK = 'add_wiki_link';
-
-
-
 
 	/**
 	 * Inherited.
@@ -73,10 +71,16 @@ class WikiDisplay extends ComplexDisplay
                 $component = WikiDisplayComponent :: factory('WikiHistory', $this);
                 break;
             case self :: ACTION_PAGE_STATISTICS :
-                $component = WikiDisplayComponent :: factory('WikiPageStatisticsViewer', $this);
+                $component = ComplexDisplayComponent :: factory(null, 'ReportingTemplateViewer', $this);
+                $component->set_template_name('WikiPageReportingTemplate');
                 break;
             case self :: ACTION_STATISTICS :
-                $component = WikiDisplayComponent :: factory('WikiStatisticsViewer', $this);
+                $component = ComplexDisplayComponent :: factory(null, 'ReportingTemplateViewer', $this);
+                $component->set_template_name('WikiReportingTemplate');
+                break;
+            case self :: ACTION_ACCESS_DETAILS :
+                $component = ComplexDisplayComponent :: factory(null, 'ReportingTemplateViewer', $this);
+                $component->set_template_name('PublicationDetailReportingTemplate');
                 break;
             case self :: ACTION_FEEDBACK_CLOI:
                 $component = ComplexDisplayComponent :: factory(null,'ComplexFeedback',$this);
@@ -172,7 +176,7 @@ class WikiDisplay extends ComplexDisplay
 
             $action_bar->add_tool_action(
 			new ToolbarItem(
-				Translation :: get('Statistics'), Theme :: get_common_image_path().'action_reporting.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay ::ACTION_PAGE_STATISTICS, 'pid' => $pid, 'cid' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+				Translation :: get('Statistics'), Theme :: get_common_image_path().'action_reporting.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay ::ACTION_PAGE_STATISTICS, 'pid' => $pid, 'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 			)
             );
         }
@@ -206,7 +210,13 @@ class WikiDisplay extends ComplexDisplay
                     Translation :: get('WikiStatistics'), Theme :: get_common_image_path().'action_reporting.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_STATISTICS, 'pid' => $pid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
                 )
             );
-            $action_bar->add_tool_action($parent->get_parent()->get_parent()->get_access_details_toolbar_item($parent));
+
+            $action_bar->add_tool_action(
+                new ToolbarItem(
+                    Translation :: get('AccessDetails'), Theme :: get_common_image_path().'action_reporting.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_ACCESS_DETAILS, 'pid' => $pid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                )
+            );
+            //$action_bar->add_tool_action($parent->get_parent()->get_parent()->get_access_details_toolbar_item($parent));
         }
 
         $links = $lo->get_links();//RepositoryDataManager :: get_instance()->retrieve_learning_object(WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication($pid)->get_learning_object()->get_id())->get_links();
@@ -249,6 +259,60 @@ class WikiDisplay extends ComplexDisplay
 
 		return $action_bar;
 	}
+
+    function get_breadcrumbtrail()
+    {
+        $trail = new BreadcrumbTrail(false);
+        $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_VIEW_CLO, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'))),$this->get_root_lo()->get_title()));
+        switch(Request :: get(ComplexDisplay :: PARAM_DISPLAY_ACTION))
+        {
+            case ComplexDisplay :: ACTION_VIEW_CLO:
+                break;
+            case WikiDisplay :: ACTION_CREATE_PAGE:
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_CREATE_PAGE, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'))), Translation :: get('CreateWikiPage')));
+                break;
+            case WikiDisplay :: ACTION_UPDATE_LO:
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_UPDATE_LO, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'))), Translation :: get('Edit')));
+                break;
+            case WikiDisplay :: ACTION_STATISTICS :
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_STATISTICS, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('Reporting')));
+                break;
+            case WikiDisplay :: ACTION_ACCESS_DETAILS :
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_ACCESS_DETAILS, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('Reporting')));
+                break;
+            case WikiDisplay :: ACTION_VIEW_WIKI_PAGE:
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), $this->get_lo_from_cid(Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))->get_title()));
+                break;
+            case WikiDisplay :: ACTION_UPDATE:
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), $this->get_lo_from_cid(Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))->get_title()));
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_UPDATE, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('Edit')));
+                break;
+            case WikiDisplay :: ACTION_DISCUSS :
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), $this->get_lo_from_cid(Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))->get_title()));
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => Request :: get(ComplexDisplay :: PARAM_DISPLAY_ACTION), ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('Discuss')));
+                break;
+            case WikiDisplay ::ACTION_HISTORY :
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), $this->get_lo_from_cid(Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))->get_title()));
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => Request :: get(ComplexDisplay :: PARAM_DISPLAY_ACTION), ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('History')));
+                break;
+            case WikiDisplay :: ACTION_PAGE_STATISTICS :
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), $this->get_lo_from_cid(Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))->get_title()));
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_PAGE_STATISTICS, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('Reporting')));
+                break;
+            case WikiDisplay ::ACTION_FEEDBACK_CLOI :
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), $this->get_lo_from_cid(Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))->get_title()));
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('Discuss')));
+                $trail->add(new BreadCrumb($this->get_url(array(ComplexDisplay :: PARAM_DISPLAY_ACTION => Request :: get(ComplexDisplay :: PARAM_DISPLAY_ACTION), ComplexDisplay :: PARAM_ROOT_LO => Request :: get('pid'), ComplexDisplay :: PARAM_SELECTED_CLOI_ID => Request :: get(ComplexDisplay :: PARAM_SELECTED_CLOI_ID))), Translation :: get('AddFeedback')));
+                break;
+        }
+        return $trail;
+    }
+
+    private function get_lo_from_cid($cid)
+    {
+        $cloi = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_item($cid);
+        return RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi->get_ref());
+    }
 
 }
 ?>

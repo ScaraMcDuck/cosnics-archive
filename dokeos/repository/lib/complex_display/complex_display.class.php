@@ -33,6 +33,7 @@ abstract class ComplexDisplay
 	private $cloi;
     private $parent;
     private static $instance;
+    
 
 	function ComplexDisplay($parent)
 	{
