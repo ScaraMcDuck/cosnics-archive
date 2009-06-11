@@ -28,7 +28,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 
 	private $defaults;
 
-	function HTML_QuickForm_element_finder($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default_values = array ())
+	function HTML_QuickForm_element_finder($elementName, $elementLabel, $search_url, $locale = array ('Display' => 'Display'), $default_values = array (), $options = array())
 	{
 		parent :: __construct($elementName, $elementLabel);
 		$this->_type = 'element_finder';
@@ -38,6 +38,7 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 		$this->exclude = array();
 		$this->height = self :: DEFAULT_HEIGHT;
 		$this->search_url = $search_url;
+		$this->options = $options;
 		$this->build_elements();
 		$this->setValue($default_values, 0);
 	}
@@ -190,7 +191,13 @@ class HTML_QuickForm_element_finder extends HTML_QuickForm_group
 
 		$html[] = 'var ' . $this->getName() . '_excluded = new Array('.implode(',', $exclude_ids).');';
 
-		$html[] = '$("#' . $id . '").elementfinder({ name: "'. $this->getName() .'", search: "'. $this->search_url .'" });';
+		$load_elements = $this->options['load_elements'];
+		$load_elements = (isset($load_elements) && $load_elements == false ? ', loadElements: false' : ', loadElements: true');
+
+		$default_query = $this->options['default_query'];
+		$default_query = (isset($default_query) && !empty($default_query) ? ', defaultQuery: "'. $default_query .'"' : '');
+
+		$html[] = '$("#' . $id . '").elementfinder({ name: "'. $this->getName() .'", search: "'. $this->search_url .'"'. $load_elements . $default_query .' });';
 		$html[] = '</script>';
 
 		return implode("\n", $html);
