@@ -182,7 +182,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
         $table_header[] = '<tr>';
         $table_header[] = '<th class="checkbox"></th>';
         $table_header[] = '<th>' . Translation :: get('Answer') . '</th>';
-        $table_header[] = '<th>' . Translation :: get('Comment') . '</th>';
+        $table_header[] = '<th>' . Translation :: get('Feedback') . '</th>';
         $table_header[] = '<th class="numeric">' . Translation :: get('Score') . '</th>';
         $table_header[] = '<th class="action"></th>';
         $table_header[] = '</tr>';
@@ -230,7 +230,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
                     )
                 ));
 
-			    $renderer->setElementTemplate('<tr>{element}</tr>', 'option_' . $option_number);
+			    $renderer->setElementTemplate('<tr class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $option_number);
     			$renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
             }
         }

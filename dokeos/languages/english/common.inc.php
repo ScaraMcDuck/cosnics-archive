@@ -185,4 +185,5 @@ $lang['common']['Edit'] = 'Edit';
 $lang['common']['Update'] = 'Update';
 $lang['common']['Reset'] = 'Reset';
 $lang['common']['BlockAdded'] = 'Block added';
+$lang['common']['SelectCorrectAnswer'] = 'Select the correct answer';
 ?>
