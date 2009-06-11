@@ -1554,7 +1554,7 @@ class Pager_Common
 
         //autodetect http method
         if (!isset($options['httpMethod'])
-            && !Request :: get($this->_urlVar)
+            && !isset($_GET[$this->_urlVar])
             && isset($_POST[$this->_urlVar])
         ) {
             $this->_httpMethod = 'POST';
