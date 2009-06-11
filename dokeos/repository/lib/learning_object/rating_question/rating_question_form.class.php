@@ -29,12 +29,16 @@ class RatingQuestionForm extends LearningObjectForm
 
 			if ($object->get_low() == 0 && $object->get_high() == 100)
 			{
-				$defaults['type'] = 0;
+				$defaults['ratingtype'] = 0;
 			}
 			else
 			{
-				$defaults['type'] = 1;
+				$defaults['ratingtype'] = 1;
 			}
+		}
+		else
+		{
+			$defaults['ratingtype'] = 1;
 		}
 
 		parent :: setDefaults($defaults);
@@ -47,7 +51,7 @@ class RatingQuestionForm extends LearningObjectForm
 
 		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Percentage'), 1, array ('onclick' => 'javascript:hide_controls(\'buttons\')'));
 		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Rating'), 0, array ('onclick' => 'javascript:show_controls(\'buttons\')'));
-		$this->addGroup($elem,'type',Translation :: get('type'),'<br />',false);
+		$this->addGroup($elem, 'type', Translation :: get('type'), '<br />', false);
 
 		$this->addElement('html', '<div style="margin-left: 25px; display: block;" id="buttons">');
 		$ratings[] = $this->createElement('text', RatingQuestion :: PROPERTY_LOW, null, array('class' => 'rating_question_low_value', 'style' => 'width: 124px; margin-right: 4px;'));
@@ -86,22 +90,25 @@ class RatingQuestionForm extends LearningObjectForm
 	{
 		parent :: build_editing_form();
 		$this->addElement('category', Translation :: get(get_class($this) .'Properties'));
-		$elem[] = $this->createElement('radio', null, null, Translation :: get('Percentage'), 1, array ('onclick' => 'javascript:hide_controls(\'buttons\')'));
-		$elem[] = $this->createElement('radio', null, null, Translation :: get('Rating'), 0, array ('onclick' => 'javascript:show_controls(\'buttons\')'));
-		$this->addGroup($elem, 'type', 'test');
-		$this->addElement('html', '<div style="margin-left:25px;display:block;" id="buttons">');
-		$this->add_textfield(RatingQuestion :: PROPERTY_LOW, Translation :: get ('LowValue'), false);
-		$this->add_textfield(RatingQuestion :: PROPERTY_HIGH, Translation :: get('HighValue'), false);
-		$this->add_textfield(RatingQuestion :: PROPERTY_CORRECT, Translation :: get('CorrectValue'));
 
-		$this->addRule(RatingQuestion :: PROPERTY_LOW, Translation :: get('ValueShouldBeNumeric'), 'numeric');
-		$this->addRule(RatingQuestion :: PROPERTY_HIGH, Translation :: get('ValueShouldBeNumeric'), 'numeric');
-		$this->addRule(RatingQuestion :: PROPERTY_CORRECT, Translation :: get('ValueShouldBeNumeric'), 'numeric');
+		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Percentage'), 1, array ('onclick' => 'javascript:hide_controls(\'buttons\')', 'id' => 'ratingtype_percentage'));
+		$elem[] = $this->createElement('radio', 'ratingtype', null, Translation :: get('Rating'), 0, array ('onclick' => 'javascript:show_controls(\'buttons\')'));
+		$this->addGroup($elem,'type',Translation :: get('type'),'<br />',false);
 
+		$this->addElement('html', '<div style="margin-left: 25px; display: block;" id="buttons">');
+		$ratings[] = $this->createElement('text', RatingQuestion :: PROPERTY_LOW, null, array('class' => 'rating_question_low_value', 'style' => 'width: 124px; margin-right: 4px;'));
+		$ratings[] = $this->createElement('text', RatingQuestion :: PROPERTY_HIGH, null, array('class' => 'rating_question_high_value', 'style' => 'width: 124px;'));
+		$this->addGroup($ratings, 'ratings', null, '', false);
 		$this->addElement('html', '</div>');
 
+		$this->add_textfield(RatingQuestion :: PROPERTY_CORRECT, Translation :: get('CorrectValue'), false);
 		$this->addElement('html',"<script type=\"text/javascript\">
 			/* <![CDATA[ */
+			var ratingtype_percentage = document.getElementById('ratingtype_percentage');
+			if (ratingtype_percentage.checked)
+			{
+				hide_controls('buttons');
+			}
 			function show_controls(elem) {
 				el = document.getElementById(elem);
 				el.style.display='';
@@ -113,6 +120,17 @@ class RatingQuestionForm extends LearningObjectForm
 			/* ]]> */
 				</script>\n");
 		$this->addElement('category');
+
+        $this->addGroupRule('ratings', array(
+            RatingQuestion :: PROPERTY_LOW => array(
+                array(Translation :: get('ValueShouldBeNumeric'), 'numeric')
+            ),
+            RatingQuestion :: PROPERTY_HIGH => array(
+                array(Translation :: get('ValueShouldBeNumeric'), 'numeric')
+            )
+        ));
+
+		$this->addRule(RatingQuestion :: PROPERTY_CORRECT, Translation :: get('ValueShouldBeNumeric'), 'numeric');
 	}
 
 	function create_learning_object()
