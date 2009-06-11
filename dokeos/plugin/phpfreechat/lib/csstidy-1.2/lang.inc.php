@@ -1,6 +1,6 @@
 <?php
-if(Request :: get('lang')) {
-	$l = Request :: get('lang');
+if(isset($_GET['lang'])) {
+	$l = $_GET['lang'];
 } else {
 	$l = getenv('HTTP_ACCEPT_LANGUAGE');
 	$l = strtolower(substr($l,0,2));

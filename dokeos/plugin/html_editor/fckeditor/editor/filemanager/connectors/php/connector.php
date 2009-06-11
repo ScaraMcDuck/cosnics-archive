@@ -41,12 +41,12 @@ function DoResponse()
     if (!isset($_GET)) {
         global $_GET;
     }
-	if ( !Request :: get('Command') || !Request :: get('Type') || !Request :: get('CurrentFolder') )
+	if ( !isset( $_GET['Command'] ) || !isset( $_GET['Type'] ) || !isset( $_GET['CurrentFolder'] ) )
 		return ;
 
 	// Get the main request informaiton.
-	$sCommand		= Request :: get('Command') ;
-	$sResourceType	= Request :: get('Type') ;
+	$sCommand		= $_GET['Command'] ;
+	$sResourceType	= $_GET['Type'] ;
 	$sCurrentFolder	= GetCurrentFolder() ;
 
 	// Check if it is an allowed command
