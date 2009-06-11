@@ -1933,8 +1933,7 @@ li.buddyDrop
 div.question
 {
 	margin: 0px 0px 20px 0px;
-	padding: 0px 0px 20px 0px;
-	border-bottom: 1px dotted #141f37;
+	padding: 0px;
 }
 
 div.question div.title
