@@ -10,7 +10,9 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 			var defaults = {
 					name: '',
 					search: '',
-					nodesSelectable: false
+					nodesSelectable: false,
+					loadElements: true,
+					defaultQuery: ''
 			};
 			
 			var settings = $.extend(defaults, options);
@@ -154,11 +156,20 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 			
 			function updateSearchResults()
 			{
-				displayMessage('<div class="element_finder_loading"></div>', inactiveBox);
-				var searchResults = getSearchResults();
-				buildElementTree(searchResults);
-				disableActivatedElements();
-				processFinderTree();
+				var query = $('#' + settings.name + '_search_field').val();
+				
+				if (query.length === 0 && !settings.loadElements)
+				{
+					displayMessage('Please enter a search query', inactiveBox);
+				}
+				else
+				{
+					displayMessage('<div class="element_finder_loading"></div>', inactiveBox);
+					var searchResults = getSearchResults();
+					buildElementTree(searchResults);
+					disableActivatedElements();
+					processFinderTree();
+				}
 			}
 			
 			function setOriginalActivatedElements()
@@ -243,8 +254,20 @@ Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based)
 				inactiveBox = $('#elf_' + settings.name + '_inactive');
 				activeBox = $('#elf_' + settings.name + '_active');				originalActivatedElements = unserialize($("#elf_" + settings.name + "_active_hidden", self).val());
 				
+				if (settings.defaultQuery !== '')
+				{
+					$('#' + settings.name + '_search_field').val(settings.defaultQuery);
+				}
+				
 				setOriginalActivatedElements();
-				updateSearchResults();
+				if (settings.loadElements)
+				{
+					updateSearchResults();
+				}
+				else
+				{
+					displayMessage('Please enter a search query', inactiveBox);
+				}
 				
 				$("a", activeBox).live("click", deactivateElement);
 				
