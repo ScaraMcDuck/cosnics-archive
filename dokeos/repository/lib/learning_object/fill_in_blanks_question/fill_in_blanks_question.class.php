@@ -8,6 +8,7 @@ require_once dirname(__FILE__) .'/fill_in_blanks_answer.class.php';
 class FillInBlanksQuestion extends LearningObject
 {
 	const PROPERTY_ANSWERS = 'answers';
+	const PROPERTY_ANSWER_TEXT = 'answer_text';
 	
 	public function add_answer($answer)
 	{
@@ -35,9 +36,19 @@ class FillInBlanksQuestion extends LearningObject
 		return count($this->get_answers());
 	}
 	
+	public function get_answer_text()
+	{
+		return $this->get_additional_property(self :: PROPERTY_ANSWER_TEXT);
+	}
+	
+	public function set_answer_text($answer_text)
+	{
+		$this->set_additional_property(self :: PROPERTY_ANSWER_TEXT, $answer_text);
+	}
+	
 	static function get_additional_property_names()
 	{
-		return array (self :: PROPERTY_ANSWERS);
+		return array (self :: PROPERTY_ANSWERS, self :: PROPERTY_ANSWER_TEXT);
 	}
 }
 ?>

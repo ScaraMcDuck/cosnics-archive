@@ -5,12 +5,14 @@ class FillInBlanksQuestionAnswer
 	private $value;
 	private $weight;
 	private $comment;
+	private $size;
 
-    function FillInBlanksQuestionAnswer($value, $weight, $comment) 
+    function FillInBlanksQuestionAnswer($value, $weight, $comment, $size) 
     {
     	$this->value = $value;
     	$this->weight = $weight;
     	$this->comment = $comment;
+    	$this->size = $size;
     }
     
     function get_comment()
@@ -26,6 +28,11 @@ class FillInBlanksQuestionAnswer
     function get_weight()
     {
     	return $this->weight;
+    }
+    
+    function get_size()
+    {
+    	return $this->size;
     }
 }
 ?>
