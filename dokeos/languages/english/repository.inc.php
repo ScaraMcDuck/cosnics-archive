@@ -621,6 +621,7 @@ $lang['repository']['MultipleChoiceQuestionCreationFormTitle'] = 'Create a multi
 $lang['repository']['Assignment'] = 'Assignment';
 $lang['repository']['Unlimited'] = 'Unlimited';
 $lang['repository']['Limited'] = 'Limited';
+$lang['repository']['Size'] = 'Size';
 $lang['repository']['AllQuestionsOnOnePage'] = 'All';
 $lang['repository']['LimitedQuestionsOnOnePage'] = 'Limited amount';
 ?>

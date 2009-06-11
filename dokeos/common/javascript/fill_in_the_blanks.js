@@ -1,30 +1,32 @@
 ( function($) 
 {
+	var default_size = 20;
+	
 	var answer_changed = function(ev, ui) 
-	{ 
-	      var value = $(this).attr('value');
-	      var pattern = /\[[a-zA-Z0-9_-]*\]/g;
+	{   
+		var value = $(this).attr('value');
+	    var pattern = /\[[a-zA-Z0-9_-]*\]/g;
 
-	      var result = value.match(pattern);
-	      var table = $(".data_table");
-	      var body = $("tbody", table);
-    	  body.empty();
-    	  
-	      if(result && result.length > 0)
-	      {  
-	    	  table.css('display', null);	    	
-	    	  
-		      for(var i = 0; i < result.length; i++)
-		      {
-		    	  add_match_to_table(body, result[i], i);
-		      }
-	      }
-	      else
-	      {
-	    	  table.css('display', 'none');	    	
-	      }
+	    var result = value.match(pattern);
+	    var table = $(".data_table");
+	    var body = $("tbody", table);
+    	body.empty();
+    	 
+	    if(result && result.length > 0)
+	    {  
+	    	table.css('display', null);	    	
+	     
+		    for(var i = 0; i < result.length; i++)
+		    {
+		    	add_match_to_table(body, result[i], i);
+		    }
+	    }
+	    else
+	    {
+	    	table.css('display', 'none');	    	
+	    }
 	      
-	      return true;
+	    return true;
 	} 
 	
 	function add_match_to_table(body, match, matchnumber)
@@ -52,7 +54,8 @@
 //		 	string +=	'<noscript><textarea rows="5" cols="50" name="comment[' + matchnumber + ']"></textarea></noscript>';
 			string +=   '<textarea style="width: 100%;" rows="3" name="comment[' + matchnumber + ']"></textarea>';
 			string +=	'</div></td>';
-			string +=	'<td><input size="2" name="weight[' + matchnumber + ']" type="text" value="1" /></td></tr>';
+			string +=	'<td><input size="2" name="match_weight[' + matchnumber + ']" type="text" value="1" /></td>';
+			string +=   '<td><input size="2" name="size[' + matchnumber + ']" type="text" value="' + default_size + '" /></td></tr>';
 		
 		body.append(string);
 		
@@ -61,7 +64,6 @@
 	$(document).ready( function() 
 	{
 		$(".answer").live('keyup', answer_changed);
-		
 		$(".add_matches").toggle();
 	});
 	
