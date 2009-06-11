@@ -46,12 +46,12 @@
 	border-right: 1px solid #b5cae7;
 	border-top: 1px solid #b5cae7;
 	padding: 6px 6px 6px 12px;
-	color: #4171b5;
+	color: #797268;
 }
 
 .data_table tr.row_odd td
 {
-	color: #797268;
+	color: #4171b5;
 }
 
 
@@ -226,4 +226,10 @@ th.numeric
 th.action
 {
 	width: 22px;
+}
+
+td p
+{
+	margin: 0px;
+	padding: 0px;
 }

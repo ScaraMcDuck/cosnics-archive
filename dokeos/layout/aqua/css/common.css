@@ -1926,3 +1926,81 @@ li.buddyDrop
 	top: 50%;
 	margin-top: -32px;
 }
+
+/*********************************************
+ * GENERAL STYLES FOR DISPLAYING ASSESSMENTS *
+ *********************************************/
+div.question
+{
+	margin: 0px 0px 20px 0px;
+	padding: 0px 0px 20px 0px;
+	border-bottom: 1px dotted #141f37;
+}
+
+div.question div.title
+{
+	color: #444444;
+	font-weight: bold;
+	font-size: 12px;
+}	
+
+div.question div.title div.number
+{
+	float: left;
+	
+	text-align: center;
+	
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+	
+	border: 1px solid #cecece;
+}
+
+div.question div.title div.number div.bevel
+{
+	width: 16px;
+	
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+}
+
+div.question div.title div.text
+{
+	/*margin: 0px 0px 0px 50px;*/
+	margin: 0px;
+	padding: 0px;
+	
+	border: 1px solid #141F37;
+}
+
+div.question div.title div.text img
+{
+	vertical-align: middle;
+	margin-right: 12px;
+}
+
+div.question div.title div.bevel
+{
+	height: 16px;
+	color: white;
+	border-top: 1px solid #8eadd8;
+	border-left: 1px solid #8eadd8;
+	padding: 6px 12px 6px 12px;
+	background: #1E2D51 url(../img/common/background_table_header_dark.png) repeat-x;
+}
+
+div.question div.answer
+{
+	/*padding-left: 50px;*/
+}
+
+div.question div.answer div.description
+{
+	padding: 6px 12px 6px 12px;
+	border-left: 1px solid #B5CAE7;
+	border-right: 1px solid #B5CAE7;
+}
