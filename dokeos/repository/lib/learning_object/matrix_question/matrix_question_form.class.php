@@ -4,9 +4,9 @@
  * @subpackage exercise
  */
 require_once dirname(__FILE__).'/../../learning_object_form.class.php';
-require_once dirname(__FILE__).'/matching_question.class.php';
+require_once dirname(__FILE__).'/matrix_question.class.php';
 
-class MatchingQuestionForm extends LearningObjectForm
+class MatrixQuestionForm extends LearningObjectForm
 {
 	protected function build_creation_form()
 	{
@@ -31,8 +31,6 @@ class MatchingQuestionForm extends LearningObjectForm
 
 	function setDefaults($defaults = array ())
 	{
-		//if(!$this->isSubmitted())
-		//{
 		$object = $this->get_learning_object();
 		if(!is_null($object))
 		{
@@ -41,7 +39,7 @@ class MatchingQuestionForm extends LearningObjectForm
 			{
 				$defaults['option'][$index] = $option->get_value();
 				$defaults['option_weight'][$index] = $option->get_weight();
-				$defaults['matches_to'][$index] = $option->get_match();
+				$defaults['matches_to'][$index] = $option->get_matches();
 				$defaults['comment'][$index] = $option->get_comment();
 			}
 			$matches = $object->get_matches();
@@ -53,13 +51,13 @@ class MatchingQuestionForm extends LearningObjectForm
 		else
 		{
 			$number_of_options = intval($_SESSION['mq_number_of_options']);
-
+		
 			for($option_number = 0; $option_number <$number_of_options ; $option_number++)
 			{
 				$defaults['option_weight'][$option_number] = 1;
 			}
 		}
-
+		
 		parent :: setDefaults($defaults);
 	}
 
@@ -72,16 +70,21 @@ class MatchingQuestionForm extends LearningObjectForm
 
 	function create_learning_object()
 	{
-		$object = new MatchingQuestion();
+		$object = new MatrixQuestion();
 		$this->set_learning_object($object);
-		$this->add_answer();
+		$this->add_answers();
 		return parent :: create_learning_object();
 	}
 
 	function update_learning_object()
 	{
-		$this->add_answer();
+		$this->add_answers();
 		return parent :: update_learning_object();
+	}
+	
+	function remove_XSS_recursive()
+	{
+		
 	}
 
 	/**
@@ -89,20 +92,18 @@ class MatchingQuestionForm extends LearningObjectForm
 	 * This function adds the list of possible options and matches and the
 	 * relation between the options and the matches to the question.
 	 */
-	private function add_answer()
+	private function add_answers()
 	{
 		$object = $this->get_learning_object();
 		$values = $this->exportValues();
 		$options = array();
 		$matches = array();
 
-		//Get an array with a mapping from the match-id to its index in the $values['match'] array
-		$matches_indexes = array_flip(array_keys($values['match']));
 		foreach($values['option'] as $option_id => $value)
 		{
 			//Create the option with it corresponding match
-			$options[] = new MatchingQuestionOption($value,
-							$matches_indexes[$values['matches_to'][$option_id]],
+			$options[] = new MatrixQuestionOption($value,
+							$_POST['matches_to'][$option_id],
 							$values['option_weight'][$option_id],
 							$values['comment'][$option_id]);
 		}
@@ -113,11 +114,12 @@ class MatchingQuestionForm extends LearningObjectForm
 		}
 		$object->set_options($options);
 		$object->set_matches($matches);
+		$object->set_matrix_type($_SESSION['mq_matrix_type']);
 	}
 
 	function validate()
 	{
-		if(isset($_POST['add_match']) || isset($_POST['remove_match']) || isset($_POST['remove_option']) || isset($_POST['add_option']))
+		if(isset($_POST['add_match']) || isset($_POST['remove_match']) || isset($_POST['remove_option']) || isset($_POST['add_option']) || isset($_POST['change_matrix_type']))
 		{
 			return false;
 		}
@@ -137,46 +139,67 @@ class MatchingQuestionForm extends LearningObjectForm
 			unset($_SESSION['mq_skip_options']);
 			unset($_SESSION['mq_number_of_matches']);
 			unset($_SESSION['mq_skip_matches']);
+			unset($_SESSION['mq_matrix_type']);
 		}
+		
 		if(!isset($_SESSION['mq_number_of_options']))
 		{
 			$_SESSION['mq_number_of_options'] = 3;
 		}
+		
 		if(!isset($_SESSION['mq_skip_options']))
 		{
 			$_SESSION['mq_skip_options'] = array();
 		}
+		
+	 	if (! isset($_SESSION['mq_matrix_type']))
+        {
+            $_SESSION['mq_matrix_type'] = MatrixQuestion :: MATRIX_TYPE_RADIO;
+        }
+        
 		if(isset($_POST['add_option']))
 		{
 			$_SESSION['mq_number_of_options'] = $_SESSION['mq_number_of_options']+1;
 		}
+		
 		if(isset($_POST['remove_option']))
 		{
 			$indexes = array_keys($_POST['remove_option']);
 			$_SESSION['mq_skip_options'][] = $indexes[0];
 		}
+		
 		if(!isset($_SESSION['mq_number_of_matches']))
 		{
 			$_SESSION['mq_number_of_matches'] = 3;
 		}
+		
 		if(!isset($_SESSION['mq_skip_matches']))
 		{
 			$_SESSION['mq_skip_matches'] = array();
 		}
+		
 		if(isset($_POST['add_match']))
 		{
 			$_SESSION['mq_number_of_matches'] = $_SESSION['mq_number_of_matches']+1;
 		}
+		
 		if(isset($_POST['remove_match']))
 		{
 			$indexes = array_keys($_POST['remove_match']);
 			$_SESSION['mq_skip_matches'][] = $indexes[0];
 		}
+		
+		if (isset($_POST['change_matrix_type']))
+        {
+            $_SESSION['mq_matrix_type'] = $_SESSION['mq_matrix_type'] == MatrixQuestion :: MATRIX_TYPE_RADIO ? MatrixQuestion :: MATRIX_TYPE_CHECKBOX : MatrixQuestion :: MATRIX_TYPE_RADIO;
+        }
+        
 		$object = $this->get_learning_object();
 		if(!$this->isSubmitted() && !is_null($object))
 		{
 			$_SESSION['mq_number_of_options'] = $object->get_number_of_options();
 			$_SESSION['mq_number_of_matches'] = $object->get_number_of_matches();
+			$_SESSION['mq_matrix_type'] = $object->get_matrix_type();
 		}
 	}
 
@@ -201,8 +224,20 @@ class MatchingQuestionForm extends LearningObjectForm
 
 		$this->addElement('category', Translation :: get('Options'));
 
+		if ($_SESSION['mq_matrix_type'] == MatrixQuestion :: MATRIX_TYPE_RADIO)
+        {
+            $switch_label = Translation :: get('SwitchToMultipleMatches');
+            $multiple = false;
+        }
+        elseif ($_SESSION['mq_matrix_type'] == MatrixQuestion :: MATRIX_TYPE_CHECKBOX)
+        {
+            $switch_label = Translation :: get('SwitchToSingleMatch');
+            $multiple = true;
+        }
+		
 		$buttons = array();
-        $buttons[] = $this->createElement('style_button', 'add_option[]', Translation :: get('AddMatchingQuestionOption'), array('class' => 'normal add'));
+		$buttons[] = $this->createElement('style_submit_button', 'change_matrix_type[]', $switch_label, array('class' => 'normal switch'));
+        $buttons[] = $this->createElement('style_button', 'add_option[]', Translation :: get('AddMatrixQuestionOption'), array('class' => 'normal add'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
 		$renderer = $this->defaultRenderer();
@@ -239,7 +274,9 @@ class MatchingQuestionForm extends LearningObjectForm
 				$visual_number++;
 				$group[] = $this->createElement('static', null, null, $visual_number);
 				$group[] = $this->create_html_editor('option[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
-				$group[] = $this->createElement('select','matches_to['.$option_number.']',Translation :: get('Matches'),$matches);
+				$element = $this->createElement('select','matches_to['.$option_number.']',Translation :: get('Matches'),$matches);
+				$element->setMultiple($multiple);
+				$group[] = $element;
 				$group[] = $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
 				$group[] = $this->createElement('text','option_weight['.$option_number.']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
 
@@ -292,7 +329,7 @@ class MatchingQuestionForm extends LearningObjectForm
 
 	/**
 	 * Adds the form-fields to the form to provide the possible matches for this
-	 * matching question
+	 * matrix question
 	 */
 	private function add_matches()
 	{

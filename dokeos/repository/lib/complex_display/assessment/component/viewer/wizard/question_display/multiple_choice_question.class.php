@@ -76,5 +76,10 @@ class MultipleChoiceQuestionDisplay extends QuestionDisplay
         $table_footer[] = '</table>';
         $formvalidator->addElement('html', implode("\n", $table_footer));
     }
+    
+	function add_border()
+	{
+		return false;
+	}
 }
 ?>
