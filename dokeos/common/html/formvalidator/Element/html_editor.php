@@ -114,7 +114,23 @@ abstract class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 
 	function render_textarea()
 	{
-		return parent :: toHTML();
+	    $html = parent :: toHTML();
+
+	    $width = $this->options['width'];
+	    if (strpos($width, '%') === false)
+	    {
+	        $width .= 'px';
+	    }
+
+		$height = $this->options['height'];
+	    if (strpos($height, '%') === false)
+	    {
+	        $height .= 'px';
+	    }
+
+	    $string = '<textarea style="width: ' . $width . '; height: ' . $height . ';"';
+	    $html = str_replace('<textarea', $string, $html);
+	    return $html;
 	}
 
 	/**

@@ -3,132 +3,159 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
-require_once dirname(__FILE__).'/fill_in_blanks_question.class.php';
-require_once dirname(__FILE__).'/fill_in_blanks_answer.class.php';
+require_once dirname(__FILE__) . '/../../learning_object_form.class.php';
+require_once dirname(__FILE__) . '/fill_in_blanks_question.class.php';
+require_once dirname(__FILE__) . '/fill_in_blanks_answer.class.php';
 
 class FillInBlanksQuestionForm extends LearningObjectForm
 {
-	const DEFAULT_SIZE = 20;
+    const DEFAULT_SIZE = 20;
 
-	protected function build_creation_form()
-	{
-		parent :: build_creation_form();
-		$this->addElement('category', Translation :: get('AnswerOptions'));
-		$this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" cols="79" class="answer"');
-		$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
-		$this->add_options();
-		$this->addElement('category');
-	}
+    protected function build_creation_form()
+    {
+        parent :: build_creation_form();
+        $this->addElement('category', Translation :: get('AnswerOptions'));
+        $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" cols="79" class="answer"');
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
+        $this->add_options();
+        $this->addElement('category');
+    }
 
-	protected function build_editing_form()
-	{
-		parent :: build_editing_form();
-		$this->addElement('category', Translation :: get('AnswerOptions'));
-		$this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" cols="79" class="answer"');
-		$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
-		$this->setDefaults();
-		$this->add_options();
-		$this->addElement('category');
-	}
+    protected function build_editing_form()
+    {
+        parent :: build_editing_form();
+        $this->addElement('category', Translation :: get('AnswerOptions'));
+        $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" cols="79" class="answer"');
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
+        $this->setDefaults();
+        $this->add_options();
+        $this->addElement('category');
+    }
 
-	function setDefaults($defaults = array ())
-	{
-		if(!$this->isSubmitted())
-		{
-			$object = $this->get_learning_object();
-			if(!is_null($object))
-			{
-				$options = $object->get_answers();
-				foreach($options as $index => $option)
-				{
-					$defaults['match_weight'][$index] = $option->get_weight()?$option->get_weight():0;
-					$defaults['comment'][$index] = $option->get_comment();
-					$defaults['size'][$index] = $option->get_size();
-				}
-				$defaults['answer'] = $object->get_answer_text();
-			}
+    function setDefaults($defaults = array ())
+    {
+        if (! $this->isSubmitted())
+        {
+            $object = $this->get_learning_object();
+            if (! is_null($object))
+            {
+                $options = $object->get_answers();
+                foreach ($options as $index => $option)
+                {
+                    $defaults['match_weight'][$index] = $option->get_weight() ? $option->get_weight() : 0;
+                    $defaults['comment'][$index] = $option->get_comment();
+                    $defaults['size'][$index] = $option->get_size();
+                }
+                $defaults['answer'] = $object->get_answer_text();
+            }
 
-			parent :: setDefaults($defaults);
-			return;
-		}
+            parent :: setDefaults($defaults);
+            return;
+        }
 
-		if(!$this->validate())
-		{
-			for($option_number = 0; $option_number < count($defaults['match']) ; $option_number++)
-			{
-				$defaults['match_weight'][$option_number] = 1;
-				$defaults['comment'][$option_number] = '';
-				$defaults['size'][self :: DEFAULT_SIZE];
-			}
+        if (! $this->validate())
+        {
+            for($option_number = 0; $option_number < count($defaults['match']); $option_number ++)
+            {
+                $defaults['match_weight'][$option_number] = 1;
+                $defaults['comment'][$option_number] = '';
+                $defaults['size'][self :: DEFAULT_SIZE];
+            }
 
-			parent :: setConstants($defaults);
-		}
-	}
+            parent :: setConstants($defaults);
+        }
+    }
 
-	function create_learning_object()
-	{
-		$object = new FillInBlanksQuestion();
-		$this->set_learning_object($object);
-		$object->set_answer_text($this->exportValue('answer'));
-		$this->add_options_to_object();
-		return parent :: create_learning_object();
-	}
+    function create_learning_object()
+    {
+        $object = new FillInBlanksQuestion();
+        $this->set_learning_object($object);
+        $object->set_answer_text($this->exportValue('answer'));
+        $this->add_options_to_object();
+        return parent :: create_learning_object();
+    }
 
-	function update_learning_object()
-	{
-		$object = $this->get_learning_object();
-		$object->set_answer_text($this->exportValue('answer'));
-		$this->add_options_to_object();
-		return parent :: update_learning_object();
-	}
+    function update_learning_object()
+    {
+        $object = $this->get_learning_object();
+        $object->set_answer_text($this->exportValue('answer'));
+        $this->add_options_to_object();
+        return parent :: update_learning_object();
+    }
 
-	private function add_options_to_object()
-	{
-		$object = $this->get_learning_object();
-		$values = $this->exportValues();
+    private function add_options_to_object()
+    {
+        $object = $this->get_learning_object();
+        $values = $this->exportValues();
 
-		$count = count($values['match']);
-		for($i = 0; $i < $count; $i++)
-		{
-			$weight = $values['match_weight'][$i];
-			$comment = $values['comment'][$i];
-			$size = $values['size'][$i];
-			$value = substr($values['match'][$i], 1, strlen($values['match'][$i]) - 2);
+        $count = count($values['match']);
+        for($i = 0; $i < $count; $i ++)
+        {
+            $weight = $values['match_weight'][$i];
+            $comment = $values['comment'][$i];
+            $size = $values['size'][$i];
+            $position = $values['position'][$i];
+            $value = substr($values['match'][$i], 1, strlen($values['match'][$i]) - 2);
 
-			$options[] = new FillInBlanksQuestionAnswer($value, $weight, $comment, $size);
-		}
-		$object->set_answers($options);
-	}
+            $options[] = new FillInBlanksQuestionAnswer($value, $weight, $comment, $size, $position);
+        }
+        $object->set_answers($options);
+    }
 
-	function validate()
-	{
-		if(isset($_POST['add']))
-		{
-			return false;
-		}
-		return parent::validate();
-	}
-	/**
-	 * Adds the form-fields to the form to provide the possible options for this
-	 * multiple choice question
-	 */
-	private function add_options()
-	{
-		$values = $this->exportValues();
-		$renderer = $this->defaultRenderer();
+    function validate()
+    {
+        if (isset($_POST['add']))
+        {
+            return false;
+        }
+        return parent :: validate();
+    }
 
-		$matches = array();
-		preg_match_all('/\[[a-zA-Z0-9_\s\-]*\]/', $values['answer'], $matches);
-		$matches = $matches[0];
+    function mb_preg_match_all($ps_pattern, $ps_subject, &$pa_matches, $pn_flags = PREG_PATTERN_ORDER, $pn_offset = 0, $ps_encoding = NULL)
+    {
+        // WARNING! - All this function does is to correct offsets, nothing else:
+        //
+        if (is_null($ps_encoding))
+            $ps_encoding = mb_internal_encoding();
 
-		//$this->addElement('image','add[]',Theme :: get_common_image_path().'action_list_add.png', 'class="add_matches"');
+        $pn_offset = strlen(mb_substr($ps_subject, 0, $pn_offset, $ps_encoding));
+        $ret = preg_match_all($ps_pattern, $ps_subject, $pa_matches, $pn_flags, $pn_offset);
 
-		$visible = (count($matches) == 0) ? 'display: none;' : '';
+        if ($ret && ($pn_flags & PREG_OFFSET_CAPTURE))
+            foreach ($pa_matches as &$ha_match)
+                foreach ($ha_match as &$ha_match)
+                    $ha_match[1] = mb_strlen(substr($ps_subject, 0, $ha_match[1]), $ps_encoding);
+            //
+        // (code is independent of PREG_PATTER_ORDER / PREG_SET_ORDER)
 
-		$table_header = array();
-		$table_header[] = '<div id="answers_table" class="row" style="' . $visible . '">';
-		$table_header[] = '<div class="label">';
+
+        return $ret;
+    }
+
+    /**
+     * Adds the form-fields to the form to provide the possible options for this
+     * multiple choice question
+     */
+    private function add_options()
+    {
+        $values = $this->exportValues();
+        $renderer = $this->defaultRenderer();
+
+        echo strlen($values['answer']);
+
+        $matches = array();
+        preg_match_all('/\[[a-zA-Z0-9_\s\-]*\]/', $values['answer'], $matches, PREG_OFFSET_CAPTURE);
+        $matches = $matches[0];
+
+        $buttons = array();
+        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('RefreshBlanks'), array('class' => 'normal refresh add_matches'));
+        $this->addGroup($buttons, 'question_buttons', null, '', false);
+
+        $visible = (count($matches) == 0) ? 'display: none;' : '';
+
+        $table_header = array();
+        $table_header[] = '<div id="answers_table" class="row" style="' . $visible . '">';
+        $table_header[] = '<div class="label">';
         $table_header[] = Translation :: get('Answers');
         $table_header[] = '</div>';
         $table_header[] = '<div class="formw">';
@@ -153,49 +180,34 @@ class FillInBlanksQuestionForm extends LearningObjectForm
         $html_editor_options['show_tags'] = false;
         $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
 
-		for($option_number = 0; $option_number < count($matches) ; $option_number++)
-		{
-			$group = array();
+        for($option_number = 0; $option_number < count($matches); $option_number ++)
+        {
+            $group = array();
 
-			$element = $this->createElement('text','match['.$option_number.']', Translation :: get('Match'), 'style="width: 90%;" ');
-			$element->freeze();
-			$group[] = $element;
-			$group[] = $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
-			$group[] = $this->createElement('text','match_weight['.$option_number.']', Translation :: get('Weight'), 'size="2"');
-			$group[] = $this->createElement('text','size['.$option_number.']', Translation :: get('Size'), 'size="2"');
+            $element = $this->createElement('text', 'match[' . $option_number . ']', Translation :: get('Match'), 'style="width: 90%;" ');
+            $element->freeze();
+            $group[] = $element;
 
-			$this->addGroup($group, 'option_' . $option_number, null, '', false);
+            $element = $this->createElement('hidden', 'position[' . $option_number . ']', null);
+            $element->freeze();
+            $group[] = $element;
 
-			$this->addGroupRule('option_'.$option_number,
-					array(
-						'match_weight['.$option_number.']' =>
-							array(
-								array(
-									Translation :: get('ThisFieldIsRequired'), 'required'
-								),
-								array(
-									Translation :: get('ValueShouldBeNumeric'),'numeric'
-								)
-							),
-						'size['.$option_number.']' =>
-							array(
-								array(
-									Translation :: get('ThisFieldIsRequired'), 'required'
-								),
-								array(
-									Translation :: get('ValueShouldBeNumeric'),'numeric'
-								)
-							)
-					)
-				);
+            $group[] = $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
+            $group[] = $this->createElement('text', 'match_weight[' . $option_number . ']', Translation :: get('Weight'), 'size="2"');
+            $group[] = $this->createElement('text', 'size[' . $option_number . ']', Translation :: get('Size'), 'size="2"');
 
-			$renderer->setElementTemplate('<tr>{element}</tr>', 'option_' . $option_number);
-   			$renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
+            $this->addGroup($group, 'option_' . $option_number, null, '', false);
 
-   			$defaults['match'][$option_number] = $matches[$option_number];
-		}
+            $this->addGroupRule('option_' . $option_number, array('match_weight[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric')), 'size[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
 
-		$table_footer[] = '</tbody>';
+            $renderer->setElementTemplate('<tr>{element}</tr>', 'option_' . $option_number);
+            $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
+
+            $defaults['match'][$option_number] = $matches[$option_number][0];
+            $defaults['position'][$option_number] = $matches[$option_number][1];
+        }
+
+        $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $table_footer[] = '</div>';
         $table_footer[] = '<div class="form_feedback"></div></div>';
@@ -204,7 +216,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 
         $this->addElement('html', implode("\n", $table_footer));
 
-		$this->setDefaults($defaults);
-	}
+        $this->setDefaults($defaults);
+    }
 }
 ?>

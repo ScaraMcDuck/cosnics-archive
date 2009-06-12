@@ -338,6 +338,11 @@ button.high, a.high_button
 	background-image: url(../img/common/buttons/button_high.png);
 }
 
+button.refresh, a.refresh_button
+{
+	background-image: url(../img/common/buttons/button_refresh.png);
+}
+
 /*IE-fix to avoid adding unwanted margins to the form*/
 div.simple_search form
 {
