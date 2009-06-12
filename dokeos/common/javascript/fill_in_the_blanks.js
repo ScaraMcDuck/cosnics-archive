@@ -1,13 +1,63 @@
+String.prototype.getBytes = function() {
+    return encodeURIComponent(this).replace(/%../g, 'x').length;
+};
+
+
 ( function($) 
 {
 	var default_size = 20, tableElement, tableBody;
+	
+	function imatch(string, regexp, flags, doubleReturn)
+	{
+		if(typeof(string)!="string" || !regexp)
+		{
+			return null;
+		};
+		
+		flags = (flags && typeof(flags) == "string") ? flags : "";
+		
+		var re = (typeof(regexp) == "string") ? new RegExp(regexp, flags) : regexp;
+		var matches = string.match(re);
+		
+		if(!matches)
+		{
+			return null;
+		
+		}
+		var found = 0;
+		var indexes = new Array(matches.length);
+		
+		for(var m = 0; m < matches.length; m++)
+		{
+			found = string.substring(0, found).length;
+			//alert("Length previous: " + found);
+			indexes[m] = found + string.substring(found).search(re);
+			//alert(string.substring(found));
+			//alert(string.substring(found).search(re));
+			//alert("index: " + indexes[m]);
+			//alert("match: " + matches[m]);
+			//alert("match-length: " + matches[m].length);
+			found = indexes[m] + matches[m].length;
+		}
+		
+		return (!doubleReturn)? indexes: [indexes, matches];
+		/*keep this comment to use freely
+		http://www.fullposter.com/?1 */
+	}
+	
 	
 	var answer_changed = function(ev, ui) 
 	{   
 		var value = $(this).attr('value');
 	    var pattern = /\[[a-zA-Z0-9_\s\-]*\]/g;
 
-	    var result = value.match(pattern);
+	    var result = imatch(value, pattern, "", true);
+	    
+	    alert(encodeURIComponent(value));
+	    alert(encodeURIComponent(value).replace(/%../g, 'x'));
+	    alert(encodeURIComponent(value).replace(/%../g, 'x').length);
+	    exit;
+	    
 	    tableBody.empty();
     	 
 	    if(result && result.length > 0)
