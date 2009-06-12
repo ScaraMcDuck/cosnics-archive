@@ -49,14 +49,28 @@ abstract class QuestionDisplay
 		$html[] = '<div class="clear"></div>';
 		$html[] = '</div>';
 		$html[] = '<div class="answer">';
-
+		
+		if($this->add_border())
+			$html[] = '<div style="border: 1px solid #B5CAE7;">';
+		
 		$description = $learning_object->get_description();
 		if($description != '<p>&#160;</p>' && count($description) > 0 )
 		{
-			$html[] = '<div class="description">';
+			if($this->add_border())
+			{
+				$html[] = '<div class="description" style="border: none;">';
+			}
+			else
+			{
+				$html[] = '<div class="description">'; 
+			}
+				
 			$html[] = $description;
 			$html[] = '</div>';
 		}
+		
+		if($this->add_border())
+			$html[] = '<div style="padding: 10px;">';
 
 		$html[] = '<div class="clear"></div>';
 
@@ -67,6 +81,13 @@ abstract class QuestionDisplay
 	function add_footer($formvalidator)
 	{
 		$formvalidator = $this->formvalidator;
+		
+		if($this->add_border())
+		{
+			$html[] = '</div>';
+			$html[] = '</div>';
+		}
+		
 		$html[] = '</div>';
 		$html[] = '</div>';
 
@@ -74,6 +95,11 @@ abstract class QuestionDisplay
 		$formvalidator->addElement('html', $footer);
 	}
 
+	function add_border()
+	{
+		return true;
+	}
+	
 	static function factory($formvalidator, $clo_question, $question_nr)
 	{
 		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());

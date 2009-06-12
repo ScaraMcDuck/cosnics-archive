@@ -36,7 +36,7 @@ class MatchingQuestionDisplay extends QuestionDisplay
 		{
 			$formvalidator->addElement('html', '<li>'.$match.'</li>');
 		}
-		$formvalidator->addElement('html', '</ol></div>');
+		$formvalidator->addElement('html', '</ol></div><div class="clear"></div>');
 	}
 	
 	function shuffle_with_keys(&$array) 
