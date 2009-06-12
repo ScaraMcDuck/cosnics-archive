@@ -138,6 +138,11 @@ input[text]
 	font-size: 12px;
 }
 
+textarea
+{
+	padding: 2px 4px 2px 4px;
+}
+
 .input_numeric
 {
 	text-align: right;
