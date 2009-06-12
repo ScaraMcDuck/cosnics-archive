@@ -15,7 +15,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('AnswerOptions'));
-        $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" cols="79" class="answer"');
+        $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" class="answer"');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
         $this->add_options();
         $this->addElement('category');
@@ -25,7 +25,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get('AnswerOptions'));
-        $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" cols="79" class="answer"');
+        $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" class="answer"');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
         $this->setDefaults();
         $this->add_options();
@@ -37,7 +37,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
         if (! $this->isSubmitted())
         {
             $object = $this->get_learning_object();
-            if (! is_null($object))
+            if (!is_null($object))
             {
                 $options = $object->get_answers();
                 foreach ($options as $index => $option)
@@ -45,8 +45,14 @@ class FillInBlanksQuestionForm extends LearningObjectForm
                     $defaults['match_weight'][$index] = $option->get_weight() ? $option->get_weight() : 0;
                     $defaults['comment'][$index] = $option->get_comment();
                     $defaults['size'][$index] = $option->get_size();
+                    $defaults['position'][$index] = $option->get_position();
                 }
                 $defaults['answer'] = $object->get_answer_text();
+
+//				$linefeeds = array("\r\n", "\n", "\r");
+//				$answer_data = str_replace($linefeeds, ' ', $object->get_answer_text());
+//
+//                $defaults['answer_data'] = base64_encode($answer_data);
             }
 
             parent :: setDefaults($defaults);
@@ -59,7 +65,8 @@ class FillInBlanksQuestionForm extends LearningObjectForm
             {
                 $defaults['match_weight'][$option_number] = 1;
                 $defaults['comment'][$option_number] = '';
-                $defaults['size'][self :: DEFAULT_SIZE];
+                $defaults['size'][$option_number] = self :: DEFAULT_SIZE;
+                $defaults['position'][$option_number] = 0;
             }
 
             parent :: setConstants($defaults);
@@ -83,22 +90,43 @@ class FillInBlanksQuestionForm extends LearningObjectForm
         return parent :: update_learning_object();
     }
 
+	private function get_matches($source)
+	{
+		$linefeeds = array("\r\n", "\n", "\r");
+		$source = str_replace($linefeeds, ' ', $source);
+
+        $matches = array();
+        preg_match_all('/\[[a-zA-Z0-9_\s\-]*\]/', $source, $matches, PREG_OFFSET_CAPTURE);
+
+        $results = array();
+
+        foreach($matches[0] as $match)
+        {
+			$results[$match[1]] = $match[0];
+        }
+
+        return $results;
+	}
+
     private function add_options_to_object()
     {
         $object = $this->get_learning_object();
         $values = $this->exportValues();
 
-        $count = count($values['match']);
-        for($i = 0; $i < $count; $i ++)
+        $matches = $this->get_matches($values['answer']);
+
+        $i = 0;
+        foreach($matches as $position => $match)
         {
             $weight = $values['match_weight'][$i];
             $comment = $values['comment'][$i];
             $size = $values['size'][$i];
-            $position = $values['position'][$i];
-            $value = substr($values['match'][$i], 1, strlen($values['match'][$i]) - 2);
+            $value = substr($match, 1, strlen($match) - 2);
 
-            $options[] = new FillInBlanksQuestionAnswer($value, $weight, $comment, $size, $position);
+            $options[] = new FillInBlanksQuestionAnswer($match, $weight, $comment, $size, $position);
+            $i++;
         }
+
         $object->set_answers($options);
     }
 
@@ -111,27 +139,6 @@ class FillInBlanksQuestionForm extends LearningObjectForm
         return parent :: validate();
     }
 
-    function mb_preg_match_all($ps_pattern, $ps_subject, &$pa_matches, $pn_flags = PREG_PATTERN_ORDER, $pn_offset = 0, $ps_encoding = NULL)
-    {
-        // WARNING! - All this function does is to correct offsets, nothing else:
-        //
-        if (is_null($ps_encoding))
-            $ps_encoding = mb_internal_encoding();
-
-        $pn_offset = strlen(mb_substr($ps_subject, 0, $pn_offset, $ps_encoding));
-        $ret = preg_match_all($ps_pattern, $ps_subject, $pa_matches, $pn_flags, $pn_offset);
-
-        if ($ret && ($pn_flags & PREG_OFFSET_CAPTURE))
-            foreach ($pa_matches as &$ha_match)
-                foreach ($ha_match as &$ha_match)
-                    $ha_match[1] = mb_strlen(substr($ps_subject, 0, $ha_match[1]), $ps_encoding);
-            //
-        // (code is independent of PREG_PATTER_ORDER / PREG_SET_ORDER)
-
-
-        return $ret;
-    }
-
     /**
      * Adds the form-fields to the form to provide the possible options for this
      * multiple choice question
@@ -141,7 +148,8 @@ class FillInBlanksQuestionForm extends LearningObjectForm
         $values = $this->exportValues();
         $renderer = $this->defaultRenderer();
 
-        echo strlen($values['answer']);
+		$linefeeds = array("\r\n", "\n", "\r");
+		$answer_data = str_replace($linefeeds, ' ', $values['answer']);
 
         $matches = array();
         preg_match_all('/\[[a-zA-Z0-9_\s\-]*\]/', $values['answer'], $matches, PREG_OFFSET_CAPTURE);
@@ -165,6 +173,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
         $table_header[] = '<th></th>';
+        $table_header[] = '<th>' . Translation :: get('Blank') . '</th>';
         $table_header[] = '<th>' . Translation :: get('Feedback') . '</th>';
         $table_header[] = '<th class="numeric">' . Translation :: get('Score') . '</th>';
         $table_header[] = '<th class="numeric">' . Translation :: get('Size') . '</th>';
@@ -184,6 +193,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
         {
             $group = array();
 
+			$group[] = $this->createElement('static', null, null, $option_number + 1);
             $element = $this->createElement('text', 'match[' . $option_number . ']', Translation :: get('Match'), 'style="width: 90%;" ');
             $element->freeze();
             $group[] = $element;
@@ -200,7 +210,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 
             $this->addGroupRule('option_' . $option_number, array('match_weight[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric')), 'size[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
 
-            $renderer->setElementTemplate('<tr>{element}</tr>', 'option_' . $option_number);
+            $renderer->setElementTemplate('<tr class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '"">{element}</tr>', 'option_' . $option_number);
             $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
 
             $defaults['match'][$option_number] = $matches[$option_number][0];

@@ -47,6 +47,7 @@ div.formw input[type=text], div.row div.formw input[type=password], div.row div.
 div.formw input[type=text]:hover, div.row div.formw input[type=text]:focus,
 div.row div.formw input[type=password]:hover, div.row div.formw input[type=password]:focus,
 div.row div.formw select:hover, div.row div.formw select:focus
+div.row div.formw textarea:hover, div.row div.formw textarea:focus
 {
 	background-color: #f7fbfd;
 	border-color: #4171B5;
@@ -141,6 +142,11 @@ input[text]
 textarea
 {
 	padding: 2px 4px 2px 4px;
+}
+
+textarea.answer
+{
+	width: 651px;
 }
 
 .input_numeric
