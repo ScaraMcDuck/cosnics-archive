@@ -21,8 +21,21 @@ abstract class QuestionDisplay
 
 	function display()
 	{
+		$formvalidator = $this->formvalidator;
 		$this->add_header();
-		$this->add_question_form($this->formvalidator);
+		if ($this->add_borders())
+		{
+			$header = '<div class="with_borders">';
+			$formvalidator->addElement('html', $header);
+		}
+		$this->add_question_form($formvalidator);
+		if ($this->add_borders())
+		{
+			$footer = array();
+			$footer[] = '<div class="clear"></div>';
+			$footer[] = '</div>';
+			$formvalidator->addElement('html', implode("\n", $footer));
+		}
 		$this->add_footer();
 	}
 
@@ -40,37 +53,27 @@ abstract class QuestionDisplay
 		$html[] = '<div class="question">';
 		$html[] = '<div class="title">';
 		$html[] = '<div class="number">';
+		$html[] = '<div class="bevel">';
 		$html[] = $this->question_nr . '.';
 		$html[] = '</div>';
+		$html[] = '</div>';
 		$html[] = '<div class="text">';
+		$html[] = '<div class="bevel">';
 		$html[] = '<img src="'. Theme :: get_common_image_path(). 'treemenu_types/' .$learning_object->get_icon_name().'.png">';
 		$html[] = $learning_object->get_title();
+		$html[] = '</div>';
 		$html[] = '</div>';
 		$html[] = '<div class="clear"></div>';
 		$html[] = '</div>';
 		$html[] = '<div class="answer">';
-		
-		if($this->add_border())
-			$html[] = '<div style="border: 1px solid #B5CAE7;">';
-		
+
 		$description = $learning_object->get_description();
 		if($description != '<p>&#160;</p>' && count($description) > 0 )
 		{
-			if($this->add_border())
-			{
-				$html[] = '<div class="description" style="border: none;">';
-			}
-			else
-			{
-				$html[] = '<div class="description">'; 
-			}
-				
+			$html[] = '<div class="description">';
 			$html[] = $description;
 			$html[] = '</div>';
 		}
-		
-		if($this->add_border())
-			$html[] = '<div style="padding: 10px;">';
 
 		$html[] = '<div class="clear"></div>';
 
@@ -81,13 +84,7 @@ abstract class QuestionDisplay
 	function add_footer($formvalidator)
 	{
 		$formvalidator = $this->formvalidator;
-		
-		if($this->add_border())
-		{
-			$html[] = '</div>';
-			$html[] = '</div>';
-		}
-		
+
 		$html[] = '</div>';
 		$html[] = '</div>';
 
@@ -95,11 +92,11 @@ abstract class QuestionDisplay
 		$formvalidator->addElement('html', $footer);
 	}
 
-	function add_border()
+	function add_borders()
 	{
-		return true;
+		return false;
 	}
-	
+
 	static function factory($formvalidator, $clo_question, $question_nr)
 	{
 		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());

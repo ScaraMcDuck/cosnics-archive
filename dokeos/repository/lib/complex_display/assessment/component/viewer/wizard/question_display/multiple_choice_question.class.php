@@ -14,11 +14,11 @@ class MultipleChoiceQuestionDisplay extends QuestionDisplay
         $renderer = $formvalidator->defaultRenderer();
 
         $table_header = array();
-        $table_header[] = '<table class="data_table">';
+        $table_header[] = '<table class="data_table take_assessment">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
         $table_header[] = '<th class="checkbox"></th>';
-        $table_header[] = '<th>' . Translation :: get('SelectCorrectAnswer') . '</th>';
+        $table_header[] = '<th></th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
@@ -76,7 +76,7 @@ class MultipleChoiceQuestionDisplay extends QuestionDisplay
         $table_footer[] = '</table>';
         $formvalidator->addElement('html', implode("\n", $table_footer));
     }
-    
+
 	function add_border()
 	{
 		return false;

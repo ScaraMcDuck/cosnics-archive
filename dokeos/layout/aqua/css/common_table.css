@@ -210,9 +210,9 @@ div.event_fade a
 	width: 100%;
 }
 
-/*************************************
- * EXTRA STYLES FOR QUESTION OPTIONS *
- *************************************/
+/*****************************************************
+ * EXTRA STYLES FOR ASSESSMENTS AND QUESTION OPTIONS *
+ *****************************************************/
 th.list
 {
 	width: 10px;
@@ -237,4 +237,12 @@ td p
 {
 	margin: 0px;
 	padding: 0px;
+}
+
+.take_assessment th
+{
+	font-size: 11px;
+	text-transform: none;
+	letter-spacing: normal;
+	padding: 3px 6px 3px 12px;
 }

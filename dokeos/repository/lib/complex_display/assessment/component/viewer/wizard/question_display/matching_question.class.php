@@ -30,7 +30,7 @@ class MatchingQuestionDisplay extends QuestionDisplay
 			$formvalidator->addElement('html', '<li>' . $answer_text . '</li>');
 		}
 		$formvalidator->addElement('html', '</ol></div>');
-		
+
 		$formvalidator->addElement('html', '<div style="width: 50%; float: right;">'.Translation :: get('Matches').': <br/><ol type="a">');
 		foreach ($matchcontents as $match)
 		{
@@ -38,8 +38,8 @@ class MatchingQuestionDisplay extends QuestionDisplay
 		}
 		$formvalidator->addElement('html', '</ol></div><div class="clear"></div>');
 	}
-	
-	function shuffle_with_keys(&$array) 
+
+	function shuffle_with_keys(&$array)
 	{
 	    /* Auxiliary array to hold the new order */
 	    $aux = array();
@@ -57,5 +57,10 @@ class MatchingQuestionDisplay extends QuestionDisplay
 	    /* The auxiliary array with the new order overwrites the old variable */
 	    $array = $aux;
   	}
+
+	function add_borders()
+	{
+		return true;
+	}
 }
 ?>

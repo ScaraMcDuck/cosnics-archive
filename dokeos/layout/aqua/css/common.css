@@ -1962,15 +1962,21 @@ div.question
 
 div.question div.title
 {
-	color: #c7d6eb;
+	color: #4171b5;
 	font-weight: bold;
 	font-size: 12px;
-}	
+}
+
+div.question div.title div.number,
+div.question div.title div.text
+{
+	border: 1px solid #b5cae7;
+	background: #4171b5 url(../img/common/background_table_header.png) repeat-x;
+}
 
 div.question div.title div.number
 {
 	float: left;
-	width: 24px;
 	
 	text-align: center;
 	
@@ -1978,26 +1984,29 @@ div.question div.title div.number
 	-moz-border-radius-bottomright: 10px;
 	-webkit-border-top-left-radius: 10px;
 	-webkit-border-bottom-right-radius: 10px;
-	
-	border: 1px solid #141F37;
-	
-	background: #2b3f71 url(../img/common/background_table_header_dark.png) repeat-x;
-	padding: 6px 6px 6px 6px;
 }
 
 div.question div.title div.text
 {
 	margin: 0px 0px 0px 50px;
-	/*margin: 0px;*/
+}
+
+div.question div.title div.text div.bevel,
+div.question div.title div.number div.bevel
+{
 	padding: 6px 12px 6px 12px;
-	
-	border: 1px solid #141F37;
-	background: #2b3f71 url(../img/common/background_table_header_dark.png) repeat-x;
-	
-	/*
-	letter-spacing: 2px;
-	text-transform: uppercase;
-	*/
+	border-left: 1px solid white;
+	border-top: 1px solid white;
+}
+
+div.question div.title div.number div.bevel
+{
+	width: 24px;
+	padding: 6px 6px 6px 6px;
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
 }
 
 div.question div.title div.text img
@@ -2022,4 +2031,12 @@ div.question div.answer div.description p
 {
 	padding: 0px;
 	margin: 0px;
+}
+
+div.question div.answer div.with_borders
+{
+	padding: 10px;
+	border: 1px solid #B5CAE7;
+	/*border-top: 0px solid white;*/
+	background-color: #eef5fa;
 }

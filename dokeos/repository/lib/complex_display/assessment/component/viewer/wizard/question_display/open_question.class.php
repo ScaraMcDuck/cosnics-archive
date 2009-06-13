@@ -9,7 +9,7 @@ class OpenQuestionDisplay extends QuestionDisplay
 		$clo_question = $this->get_clo_question();
 		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
 		$type = $question->get_question_type();
-		
+
 		switch ($type)
 		{
 			case OpenQuestion :: TYPE_DOCUMENT:
@@ -22,7 +22,7 @@ class OpenQuestionDisplay extends QuestionDisplay
 				break;
 			case OpenQuestion :: TYPE_OPEN:
 				$name = $clo_question->get_id().'_0';
-				$formvalidator->add_html_editor($name, '', false);
+				$formvalidator->add_html_editor($name, '', false, array('width' => '100%'));
 				break;
 			case OpenQuestion :: TYPE_OPEN_WITH_DOCUMENT:
 				$name = $clo_question->get_id().'_1';
@@ -31,10 +31,15 @@ class OpenQuestionDisplay extends QuestionDisplay
 				$formvalidator->addElement('hidden', $name, '');
 				$formvalidator->addElement('text', $name.'_name', Translation :: get('SelectedDocument'));
 				$buttons[] = $formvalidator->createElement('style_submit_button', 'repoviewer_'.$name, Translation :: get('Select'), array('class' => 'positive'));
-				
+
 				$formvalidator->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 				break;
 		}
+	}
+
+	function add_borders()
+	{
+		return true;
 	}
 }
 ?>
