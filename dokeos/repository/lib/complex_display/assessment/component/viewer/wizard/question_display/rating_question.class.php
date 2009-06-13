@@ -10,12 +10,17 @@ class RatingQuestionDisplay extends QuestionDisplay
 		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
 		$min = $question->get_low();
 		$max = $question->get_high();
-	
+
 		for ($i = $min; $i <= $max; $i++)
 		{
 			$scores[$i] = $i;
 		}
 		$formvalidator->addElement('select',$this->get_clo_question()->get_id().'_0', Translation :: get('Rating') . ': ',$scores);
+	}
+
+	function add_borders()
+	{
+		return true;
 	}
 }
 ?>
