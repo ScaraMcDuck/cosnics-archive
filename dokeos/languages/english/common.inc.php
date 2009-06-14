@@ -188,4 +188,5 @@ $lang['common']['BlockAdded'] = 'Block added';
 $lang['common']['SelectCorrectAnswer'] = 'Select the correct answer';
 $lang['common']['Blank'] = 'Blank';
 $lang['common']['Feedback'] = 'Feedback';
+$lang['common']['MatchOptionAnswer'] = 'Match the items';
 ?>

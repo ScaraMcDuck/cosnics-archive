@@ -25,8 +25,15 @@ abstract class QuestionDisplay
 		$this->add_header();
 		if ($this->add_borders())
 		{
-			$header = '<div class="with_borders">';
-			$formvalidator->addElement('html', $header);
+			$header = array();
+			$header[] = '<div class="splitter">';
+			$header[] = '<div class="bevel">';
+			$header[] = $this->get_instruction();
+			$header[] = '</div>';
+			$header[] = '</div>';
+			$header[] = '<div class="with_borders">';
+
+			$formvalidator->addElement('html', implode("\n", $header));
 		}
 		$this->add_question_form($formvalidator);
 		if ($this->add_borders())
@@ -59,7 +66,7 @@ abstract class QuestionDisplay
 		$html[] = '</div>';
 		$html[] = '<div class="text">';
 		$html[] = '<div class="bevel">';
-		$html[] = '<img src="'. Theme :: get_common_image_path(). 'treemenu_types/' .$learning_object->get_icon_name().'.png">';
+		//$html[] = '<img src="'. Theme :: get_common_image_path(). 'treemenu_types/' .$learning_object->get_icon_name().'.png" />';
 		$html[] = $learning_object->get_title();
 		$html[] = '</div>';
 		$html[] = '</div>';
@@ -68,7 +75,7 @@ abstract class QuestionDisplay
 		$html[] = '<div class="answer">';
 
 		$description = $learning_object->get_description();
-		if($description != '<p>&#160;</p>' && count($description) > 0 )
+		if($learning_object->has_description())
 		{
 			$html[] = '<div class="description">';
 			$html[] = $description;
@@ -96,6 +103,8 @@ abstract class QuestionDisplay
 	{
 		return false;
 	}
+
+	abstract function get_instruction();
 
 	static function factory($formvalidator, $clo_question, $question_nr)
 	{

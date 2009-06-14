@@ -9,37 +9,57 @@ class MatchingQuestionDisplay extends QuestionDisplay
 		$clo_question = $this->get_clo_question();
 		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
 		$answers = $question->get_options();
-		$dbmatches = $question->get_matches();
+		$matches = $question->get_matches();
+		$renderer = $formvalidator->defaultRenderer();
 
-		$this->shuffle_with_keys($dbmatches);
-		$i = 0;
-		foreach ($dbmatches as $num => $match)
-		{
-			$matches[$num] = ($i+1);
-			$match = substr($match, 3, strlen($match) - 7);
-			$matchcontents[$i] = $match;
-			$i++;
-		}
-		//dump($matches);
-		$formvalidator->addElement('html', '<div style="width: 50%; float: left;">' . Translation :: get('Options') . ': <br/><ol>');
-		foreach($answers as $i => $answer)
-		{
-			//$name = $this->get_clo_question()->get_id().'_'.$i;
-			$answer_text = substr($answer->get_value(), 3, strlen($answer->get_value()) - 7);
-			//$formvalidator->addElement('select', $name, $answer_text, $matches);
-			$formvalidator->addElement('html', '<li>' . $answer_text . '</li>');
-		}
-		$formvalidator->addElement('html', '</ol></div>');
+        $table_header = array();
+        $table_header[] = '<table class="data_table take_assessment">';
+        $table_header[] = '<thead>';
+        $table_header[] = '<tr>';
+        $table_header[] = '<th class="list"></th>';
+        $table_header[] = '<th colspan="2">' . Translation :: get('MatchOptionAnswer') . '</th>';
+//		$table_header[] = '<th></th>';
+//		$table_header[] = '<th>' . Translation :: get('Options') . '</th>';
+//		$table_header[] = '<th>' . Translation :: get('Matches') . '</th>';
+        $table_header[] = '</tr>';
+        $table_header[] = '</thead>';
+        $table_header[] = '<tbody>';
+        $formvalidator->addElement('html', implode("\n", $table_header));
 
-		$formvalidator->addElement('html', '<div style="width: 50%; float: right;">'.Translation :: get('Matches').': <br/><ol type="a">');
-		foreach ($matchcontents as $match)
+        $question_id = $clo_question->get_id();
+
+        $answers = $this->shuffle_with_keys($answers);
+
+        $answer_count = 0;
+		foreach($answers as $answer_id => $answer)
 		{
-			$formvalidator->addElement('html', '<li>'.$match.'</li>');
+			$answer_name = $question_id . '_' . $answer_id;
+
+			$group = array();
+			$answer_number = ($answer_count + 1) . '.';
+			$group[] = $formvalidator->createElement('static', null, null, $answer_number);
+			$group[] = $formvalidator->createElement('static', null, null, $answer->get_value());
+			$group[] = $formvalidator->createElement('select', $answer_name, null, $this->prepare_matches($matches));
+
+            $formvalidator->addGroup($group, 'group_' . $answer_name, null, '', false);
+
+            $renderer->setElementTemplate('<tr class="' . ($answer_count % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'group_' . $answer_name);
+            $renderer->setGroupElementTemplate('<td>{element}</td>', 'group_' . $answer_name);
+            $answer_count++;
 		}
-		$formvalidator->addElement('html', '</ol></div><div class="clear"></div>');
+
+        $table_footer[] = '</tbody>';
+        $table_footer[] = '</table>';
+        $formvalidator->addElement('html', implode("\n", $table_footer));
 	}
 
-	function shuffle_with_keys(&$array)
+	function prepare_matches($matches)
+	{
+		$matches = $this->shuffle_with_keys($matches);
+		return $matches;
+	}
+
+	function shuffle_with_keys($array)
 	{
 	    /* Auxiliary array to hold the new order */
 	    $aux = array();
@@ -48,19 +68,19 @@ class MatchingQuestionDisplay extends QuestionDisplay
 	    /* We shuffle the keys */
 	    shuffle($keys);
 	    /* We iterate thru' the new order of the keys */
-	    foreach($keys as $key) {
+	    foreach($keys as $key)
+	    {
 	      /* We insert the key, value pair in its new order */
 	      $aux[$key] = $array[$key];
 	      /* We remove the element from the old array to save memory */
-	      unset($array[$key]);
 	    }
 	    /* The auxiliary array with the new order overwrites the old variable */
-	    $array = $aux;
-  	}
+	    return $aux;
+	}
 
-	function add_borders()
+	function get_instruction()
 	{
-		return true;
+		return Translation :: get('SelectCorrectAnswers');
 	}
 }
 ?>

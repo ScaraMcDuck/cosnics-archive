@@ -1943,7 +1943,7 @@ div.assessment h2
 
 div.assessment div.description
 {
-	padding: 6px 12px 6px 12px;
+	padding: 6px 10px 6px 10px;
 	border: 1px solid #b5cae7;
 	background-color: #eef5fa;
 }
@@ -1957,7 +1957,8 @@ div.assessment div.description p
 div.question
 {
 	margin: 0px 0px 15px 0px;
-	padding: 0px;
+	padding: 0px 0px 15px 0px;
+	border-bottom: 1px dotted #cccccc;
 }
 
 div.question div.title
@@ -1965,6 +1966,7 @@ div.question div.title
 	color: #4171b5;
 	font-weight: bold;
 	font-size: 12px;
+	margin-bottom: 10px;
 }
 
 div.question div.title div.number,
@@ -1994,7 +1996,7 @@ div.question div.title div.text
 div.question div.title div.text div.bevel,
 div.question div.title div.number div.bevel
 {
-	padding: 6px 12px 6px 12px;
+	padding: 6px 10px 6px 10px;
 	border-left: 1px solid white;
 	border-top: 1px solid white;
 }
@@ -2009,10 +2011,17 @@ div.question div.title div.number div.bevel
 	-webkit-border-bottom-right-radius: 10px;
 }
 
+div.question div.title div.text div.bevel
+{
+	background-repeat: no-repeat;
+	background-position: center 5px;
+}
+
 div.question div.title div.text img
 {
+	float: right;
 	vertical-align: middle;
-	margin-right: 12px;
+	margin-left: 10px;
 }
 
 div.question div.answer
@@ -2022,9 +2031,14 @@ div.question div.answer
 
 div.question div.answer div.description
 {
-	padding: 6px 12px 6px 12px;
-	border-left: 1px solid #B5CAE7;
-	border-right: 1px solid #B5CAE7;
+	padding: 6px 10px 6px 10px;
+	border: 1px solid #B5CAE7;
+	border-bottom: 0px solid white;
+}
+
+div.question div.answer div.empty
+{
+	padding: 3px;
 }
 
 div.question div.answer div.description p
@@ -2037,14 +2051,39 @@ div.question div.answer div.with_borders
 {
 	padding: 10px;
 	border: 1px solid #B5CAE7;
-	/*border-top: 0px solid white;*/
+	border-top: 0px solid white;
 	background-color: #eef5fa;
 }
 
-div.question div.answer div.with_borders div.splitter
+div.question div.answer div.splitter
 {
 	border: 1px solid #b5cae7;
-	border-bottom: 0px solid white;
 	background: #4171b5 url(../img/common/background_table_header.png) repeat-x;
-	padding: 3px 6px 3px 12px;
+	color: #4171b5;
+	font-weight: bold;
+	font-size: 11px;
+	font-family: "Trebuchet MS",Verdana,Arial,Helvetica,sans-serif;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+
+div.question div.answer div.splitter div.bevel
+{
+	border-left: 1px solid white;
+	border-top: 1px solid white;
+	padding: 3px 10px 3px 10px;
+}
+
+div.question div.answer div.slider
+{
+	float: left;
+	width: 300px;
+}
+
+div.question div.answer div.caption
+{
+	float:left;
+	font-weight: bold;
+	color: #4171b5;
+	margin-left: 10px;
 }

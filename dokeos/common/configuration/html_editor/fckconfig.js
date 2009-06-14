@@ -124,6 +124,10 @@ FCKConfig.ToolbarSets["RepositoryQuestion"] = [
 	['FitWindow','Bold','Italic','Underline','-','OrderedList','UnorderedList','-','TextColor','BGColor','-','Image','Flash','YouTube']
 ] ;
 
+FCKConfig.ToolbarSets["Assessment"] = [
+	['Bold','Italic','Underline','-','OrderedList','UnorderedList','-','TextColor','BGColor']
+] ;
+
 FCKConfig.EnterMode = 'p' ;			// p | div | br
 FCKConfig.ShiftEnterMode = 'br' ;	// p | div | br
 

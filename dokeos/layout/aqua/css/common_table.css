@@ -220,7 +220,7 @@ th.list
  
 th.checkbox, th.empty
 {
-	width: 30px;
+	width: 24px;
 }
 
 th.numeric, th.code
@@ -241,8 +241,20 @@ td p
 
 .take_assessment th
 {
-	font-size: 11px;
-	text-transform: none;
-	letter-spacing: normal;
-	padding: 3px 6px 3px 12px;
+	padding: 3px 10px 3px 10px;
+}
+
+.take_assessment th
+{
+	padding: 3px 10px 3px 10px;
+}
+
+.take_assessment tr.row_even:hover
+{
+  	background-color: #ffffff;
+}
+
+.take_assessment tr.row_odd:hover
+{
+  	background-color: #eef5fa;
 }
