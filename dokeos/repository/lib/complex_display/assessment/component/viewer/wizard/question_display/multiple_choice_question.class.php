@@ -4,11 +4,12 @@ require_once dirname(__FILE__) . '/../question_display.class.php';
 
 class MultipleChoiceQuestionDisplay extends QuestionDisplay
 {
+	private $question;
 
     function add_question_form($formvalidator)
     {
         $clo_question = $this->get_clo_question();
-        $question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
+        $question = $this->question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
         $answers = $question->get_options();
         $type = $question->get_answer_type();
         $renderer = $formvalidator->defaultRenderer();
@@ -18,7 +19,7 @@ class MultipleChoiceQuestionDisplay extends QuestionDisplay
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
         $table_header[] = '<th class="checkbox"></th>';
-        $table_header[] = '<th></th>';
+        $table_header[] = '<th>' . $this->get_instruction() . '</th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
@@ -49,29 +50,6 @@ class MultipleChoiceQuestionDisplay extends QuestionDisplay
             $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $i);
         }
 
-//        if ($type == 'radio')
-//        {
-//            $i = 0;
-//            foreach ($answers as $answer)
-//            {
-//                $answer_text = substr($answer->get_value(), 3, strlen($answer->get_value()) - 7);
-//                $elements[] = $formvalidator->createElement('radio', null, null, $answer_text, $i);
-//                $i ++;
-//            }
-//            $name = $this->get_clo_question()->get_id() . '_0';
-//            $formvalidator->addGroup($elements, $name, null, '<br/>');
-//        }
-//        else
-//            if ($type == 'checkbox')
-//            {
-//                foreach ($answers as $i => $answer)
-//                {
-//                    $answer_text = substr($answer->get_value(), 3, strlen($answer->get_value()) - 7);
-//                    $name = $this->get_clo_question()->get_id() . '_' . ($i + 1);
-//                    $formvalidator->addElement('checkbox', $name, '', $answer_text);
-//                }
-//            }
-
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $formvalidator->addElement('html', implode("\n", $table_footer));
@@ -80,6 +58,27 @@ class MultipleChoiceQuestionDisplay extends QuestionDisplay
 	function add_border()
 	{
 		return false;
+	}
+
+	function get_instruction()
+	{
+		$question = $this->question;
+		$type = $question->get_answer_type();
+
+		if ($type == 'radio' && $question->has_description())
+		{
+			$title = Translation :: get('SelectCorrectAnswer');
+		}
+		elseif ($type == 'checkbox' && $question->has_description())
+		{
+			$title = Translation :: get('SelectCorrectAnswers');
+		}
+		else
+		{
+			$title = '';
+		}
+
+		return $title;
 	}
 }
 ?>

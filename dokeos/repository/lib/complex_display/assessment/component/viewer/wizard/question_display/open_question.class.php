@@ -9,6 +9,13 @@ class OpenQuestionDisplay extends QuestionDisplay
 		$clo_question = $this->get_clo_question();
 		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
 		$type = $question->get_question_type();
+		$renderer = $formvalidator->defaultRenderer();
+
+        $html_editor_options = array();
+        $html_editor_options['width'] = '100%';
+        $html_editor_options['height'] = '150';
+        $html_editor_options['show_tags'] = false;
+        $html_editor_options['toolbar_set'] = 'Assessment';
 
 		switch ($type)
 		{
@@ -21,8 +28,17 @@ class OpenQuestionDisplay extends QuestionDisplay
 				$formvalidator->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 				break;
 			case OpenQuestion :: TYPE_OPEN:
-				$name = $clo_question->get_id().'_0';
-				$formvalidator->add_html_editor($name, '', false, array('width' => '100%'));
+				$element_template = array();
+				$element_template[] = '<div><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}';
+				$element_template[] = '<div class="clear">&nbsp;</div>';
+				$element_template[] = '<div class="form_feedback"></div>';
+				$element_template[] = '<div class="clear">&nbsp;</div>';
+				$element_template[] = '</div>';
+				$element_template = implode("\n", $element_template);
+
+				$name = $clo_question->get_id() . '_0';
+				$formvalidator->add_html_editor($name, '', false, $html_editor_options);
+				$renderer->setElementTemplate($element_template, $name);
 				break;
 			case OpenQuestion :: TYPE_OPEN_WITH_DOCUMENT:
 				$name = $clo_question->get_id().'_1';
@@ -40,6 +56,11 @@ class OpenQuestionDisplay extends QuestionDisplay
 	function add_borders()
 	{
 		return true;
+	}
+
+	function get_instruction()
+	{
+		return Translation :: get('EnterAnswer');
 	}
 }
 ?>

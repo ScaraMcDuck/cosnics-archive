@@ -123,7 +123,7 @@ class LearningObject implements AccessibleLearningObject
 	 * Learning objects attached to this learning object.
 	 */
 	private $attachments;
-	
+
 	/**
 	 * Learning objects included into this learning object.
 	 */
@@ -209,6 +209,12 @@ class LearningObject implements AccessibleLearningObject
 	function get_description()
 	{
 		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
+	}
+
+	function has_description()
+	{
+		$description = $this->get_description();
+		return ($description != '<p>&#160;</p>' && count($description) > 0 );
 	}
 
 	/**
@@ -298,7 +304,7 @@ class LearningObject implements AccessibleLearningObject
 		}
 		return $this->attachments;
 	}
-	
+
 	/**
 	 * Returns the learning objects included into this learning object.
 	 * @return array The learning objects.
@@ -328,7 +334,7 @@ class LearningObject implements AccessibleLearningObject
 		$dm = RepositoryDataManager :: get_instance();
 		return $dm->get_latest_version_id($this);
 	}
-	
+
 	function get_latest_version()
 	{
 		$dm = RepositoryDataManager :: get_instance();
@@ -525,7 +531,7 @@ class LearningObject implements AccessibleLearningObject
 		$dm = RepositoryDataManager :: get_instance();
 		return $dm->attach_learning_object($this, $id);
 	}
-	
+
 	/**
 	 * Includes the learning object with the given ID in this learning object.
 	 * @param int $id The ID of the learning object to include.
@@ -549,7 +555,7 @@ class LearningObject implements AccessibleLearningObject
 		$dm = RepositoryDataManager :: get_instance();
 		return $dm->detach_learning_object($this, $id);
 	}
-	
+
 	/**
 	 * Removes the learning object with the given ID from this learning
 	 * object's include list.
@@ -625,7 +631,7 @@ class LearningObject implements AccessibleLearningObject
 		$this->check_for_additional_properties();
 		return $this->additionalProperties;
 	}
-	
+
 	/**
 	 * Sets the additional (type-specific) properties of this learning
 	 * object.
@@ -635,7 +641,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		$this->additionalProperties = $additional_properties;
 	}
-	
+
 	/**
 	 * Assigns the learning object a display order index. Only applicable
 	 * if this type allows ordering. This also happens automatically upon
@@ -667,24 +673,24 @@ class LearningObject implements AccessibleLearningObject
 	{
 		$dm = RepositoryDataManager :: get_instance();
 		$now = time();
-		
+
 		$this->assign_display_order_index();
 		$this->set_creation_date($now);
 		$this->set_modification_date($now);
 		$this->set_id($dm->get_next_learning_object_id());
 		$this->set_object_number($dm->get_next_learning_object_number());
-		
+
 		if (!$dm->create_learning_object($this, 'new'))
 		{
 			return false;
 		}
-		
+
 		$location = new Location();
 		$location->set_location($this->get_title());
 		$location->set_application(RepositoryManager :: APPLICATION_NAME);
 		$location->set_type('learning_object');
 		$location->set_identifier($this->get_id());
-		
+
 		$parent = $this->get_parent_id();
 		/*if ($parent == 0)
 		{
@@ -694,16 +700,16 @@ class LearningObject implements AccessibleLearningObject
 		{
 			$parent = RepositoryRights :: get_location_id_by_identifier('repository_category', $this->get_parent_id());
 		}*/
-		
+
 		$location->set_parent($parent);
 		if (!$location->create())
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	function create_all()
 	{
 		$this->assign_display_order_index();
@@ -904,7 +910,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return false;
 	}
-	
+
 	/**
 	 * Determines whether this learning object supports includes, i.e.
 	 * whether other learning objects may be included into it.
@@ -914,7 +920,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Determines whether this learning object is a complex learning object
 	 * @return boolean True if the LO is a CLO
@@ -924,7 +930,7 @@ class LearningObject implements AccessibleLearningObject
 //		$file = dirname(__FILE__) . '/learning_object/' . $this->get_type() . '/complex_' . $this->get_type() . '.class.php';
 //
 //		if(file_exists($file))
-//		{ 
+//		{
 //			require_once($file);
 //			$class = 'Complex' . $this->type_to_class($this->get_type());
 //			$object = new $class();
@@ -934,12 +940,12 @@ class LearningObject implements AccessibleLearningObject
 
 		return count($this->get_allowed_types()) > 0;
 	}
-	
+
 	function get_allowed_types()
 	{
 		return array();
 	}
-	
+
 	/**
 	 * Gets the name of the icon corresponding to this learning object.
 	 */
@@ -947,13 +953,13 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return $this->get_type();
 	}
-	
+
 	function get_icon()
 	{
 		$src = Theme :: get_common_image_path() . 'learning_object/' . $this->get_icon_name() . '.png';
 		return '<img src="' . $src . '" alt="' . $this->get_icon_name() . '" />';
 	}
-	
+
 	/**
 	 * Checks if the learning object's additional properties have already been
 	 * loaded, and requests them from the data manager if they have not.
@@ -976,7 +982,7 @@ class LearningObject implements AccessibleLearningObject
 	{
 		return array (self :: PROPERTY_ID,self :: PROPERTY_OWNER_ID,self :: PROPERTY_TYPE, self :: PROPERTY_TITLE, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_PARENT_ID, self :: PROPERTY_CREATION_DATE, self :: PROPERTY_MODIFICATION_DATE, self :: PROPERTY_OBJECT_NUMBER, self :: PROPERTY_STATE, self :: PROPERTY_DISPLAY_ORDER_INDEX, self :: PROPERTY_COMMENT);
 	}
-	
+
 	static function get_additional_property_names()
 	{
 		return array ();
@@ -1061,12 +1067,12 @@ class LearningObject implements AccessibleLearningObject
 		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'.class.php';
 		return new $class ($id, $defaultProperties, $additionalProperties);
 	}
-	
+
 	function get_path($path_type)
 	{
 		return Path :: get($path_type);
 	}
-	
+
 	/**
 	 * Determines whether an edit of a learning object requires a new version or not
 	 * @return false
