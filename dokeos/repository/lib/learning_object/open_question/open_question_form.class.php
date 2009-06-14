@@ -29,6 +29,10 @@ class OpenQuestionForm extends LearningObjectForm
         {
             $defaults[OpenQuestion :: PROPERTY_QUESTION_TYPE] = $object->get_question_type();
         }
+        else
+        {
+        	 $defaults[OpenQuestion :: PROPERTY_QUESTION_TYPE] = OpenQuestion :: TYPE_OPEN;
+        }
 
         parent :: setDefaults($defaults);
     }
