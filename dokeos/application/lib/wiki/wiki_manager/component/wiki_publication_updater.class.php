@@ -26,18 +26,29 @@ class WikiManagerWikiPublicationUpdaterComponent extends WikiManagerComponent
 		$wiki_publication = $this->retrieve_wiki_publication(Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
 
         $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $wiki_publication->get_learning_object(), 'edit', 'post', $this->get_url(array(WikiManager :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id())));
-
-		if($form->validate())
+        $this->display_header($trail);
+		if($form->validate() || Request :: get('validated'))
 		{
+            if(Request :: get('validated'))
 			$success = $form->update_learning_object();
-			$this->redirect($success ? Translation :: get('WikiPublicationUpdated') : Translation :: get('WikiPublicationNotUpdated'), !$success, array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS));
+
+            $pub_form = new WikiPublicationForm(WikiPublicationForm :: TYPE_EDIT, $wiki_publication, $this->get_url(array(WikiManager ::PARAM_WIKI_PUBLICATION => $wiki_publication->get_id(), 'validated' => 1)),$this->get_user());
+            if($pub_form->validate())
+            {
+                $success = $pub_form->update_wiki_publication();
+                $this->redirect($success ? Translation :: get('WikiPublicationUpdated') : Translation :: get('WikiPublicationNotUpdated'), !$success, array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS));
+            }
+            else
+            {
+                $pub_form->display();
+            }
+			
 		}
 		else
 		{
-			$this->display_header($trail);
-			$form->display();
-			$this->display_footer();
+			$form->display();			
 		}
+        $this->display_footer();
 	}
 }
 ?>

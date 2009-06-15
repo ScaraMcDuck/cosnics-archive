@@ -46,42 +46,6 @@ class WikiPublicationForm extends FormValidator
 
     function build_basic_form()
     {
-//		$this->addElement('text', WikiPublication :: PROPERTY_ID, Translation :: get('Id'));
-//		$this->addRule(WikiPublication :: PROPERTY_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-//
-//		$this->addElement('text', WikiPublication :: PROPERTY_LEARNING_OBJECT, Translation :: get('LearningObject'));
-//		$this->addRule(WikiPublication :: PROPERTY_LEARNING_OBJECT, Translation :: get('ThisFieldIsRequired'), 'required');
-//
-//		$this->addElement('text', WikiPublication :: PROPERTY_PARENT_ID, Translation :: get('ParentId'));
-//		$this->addRule(WikiPublication :: PROPERTY_PARENT_ID, Translation :: get('ThisFieldIsRequired'), 'required');
-//
-//		$this->addElement('text', WikiPublication :: PROPERTY_CATEGORY, Translation :: get('Category'));
-//		$this->addRule(WikiPublication :: PROPERTY_CATEGORY, Translation :: get('ThisFieldIsRequired'), 'required');
-//
-//		$this->addElement('text', WikiPublication :: PROPERTY_FROM_DATE, Translation :: get('FromDate'));
-//		$this->addRule(WikiPublication :: PROPERTY_FROM_DATE, Translation :: get('ThisFieldIsRequired'), 'required');
-//
-//		$this->addElement('text', WikiPublication :: PROPERTY_TO_DATE, Translation :: get('ToDate'));
-//		$this->addRule(WikiPublication :: PROPERTY_TO_DATE, Translation :: get('ThisFieldIsRequired'), 'required');
-//
-//		$this->addElement('text', WikiPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
-//		$this->addRule(WikiPublication :: PROPERTY_HIDDEN, Translation :: get('ThisFieldIsRequired'), 'required');
-//
-//		$this->addElement('text', WikiPublication :: PROPERTY_PUBLISHER, Translation :: get('Publisher'));
-//		$this->addRule(WikiPublication :: PROPERTY_PUBLISHER, Translation :: get('ThisFieldIsRequired'), 'required');
-//
-//		$this->addElement('text', WikiPublication :: PROPERTY_PUBLISHED, Translation :: get('Published'));
-//		$this->addRule(WikiPublication :: PROPERTY_PUBLISHED, Translation :: get('ThisFieldIsRequired'), 'required');
-//
-//		$this->addElement('text', WikiPublication :: PROPERTY_MODIFIED, Translation :: get('Modified'));
-//		$this->addRule(WikiPublication :: PROPERTY_MODIFIED, Translation :: get('ThisFieldIsRequired'), 'required');
-//
-//		$this->addElement('text', WikiPublication :: PROPERTY_DISPLAY_ORDER, Translation :: get('DisplayOrder'));
-//		$this->addRule(WikiPublication :: PROPERTY_DISPLAY_ORDER, Translation :: get('ThisFieldIsRequired'), 'required');
-//
-//		$this->addElement('text', WikiPublication :: PROPERTY_EMAIL_SENT, Translation :: get('EmailSent'));
-//		$this->addRule(WikiPublication :: PROPERTY_EMAIL_SENT, Translation :: get('ThisFieldIsRequired'), 'required');
-
         $attributes = array();
 		//$attributes['search_url'] = Path :: get(WEB_PATH).'application/lib/weblcms/xml_feeds/xml_course_user_group_feed.php?course=' . $this->course->get_id();
 		$locale = array ();
@@ -126,6 +90,8 @@ class WikiPublicationForm extends FormValidator
     function update_wiki_publication()
     {
     	$wiki_publication = $this->wiki_publication;
+        $wiki_publication->set_learning_object($wiki_publication->get_learning_object()->get_id());
+        
     	$values = $this->exportValues();
 
         if ($values[self :: PARAM_FOREVER] != 0)

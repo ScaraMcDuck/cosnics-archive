@@ -28,7 +28,7 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
         /*
          *  We make use of the LearningObjectRepoViewer setting the type to wiki
          */
-		$pub = new LearningObjectRepoViewer($this, 'wiki', true);
+		$pub = new RepoViewer($this, 'wiki', true);
 
         /*
          *  If no page was created you'll be redirected to the wiki_browser page, otherwise we'll get publications from the object
@@ -42,7 +42,7 @@ class WikiManagerWikiPublicationCreatorComponent extends WikiManagerComponent
 		else
 		{
             $wp = new WikiPublication();
-            $wp->set_learning_object(/*RepositoryDataManager :: get_instance()->retrieve_learning_object*/($object));
+            $wp->set_learning_object($object);
             $form = new WikiPublicationForm(WikiPublicationForm :: TYPE_CREATE, $wp, $this->get_url(array('object' => $object, 'tool_action' => 'publish')),$this->get_user());
             if($form->validate())
             {
