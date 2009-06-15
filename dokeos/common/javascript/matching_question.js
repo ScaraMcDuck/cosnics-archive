@@ -94,7 +94,7 @@
 		
 		var comment_field = add_fck_editor('comment', number_of_options, null);
 		var score_field = '<input class="input_numeric" type="text" value="1" name="option_weight[' + number_of_options + ']" size="2" />';
-		var delete_field = '<input id="' + number_of_options + '" class="remove_option" type="image" src="http://localhost/lcms/layout/aqua/img/common/action_delete.png" name="remove[' + number_of_options + ']" />';
+		var delete_field = '<input id="' + number_of_options + '" class="remove_option" type="image" src="http://localhost/lcms/layout/aqua/img/common/action_delete.png" name="remove_option[' + number_of_options + ']" />';
 		
 		var string = '<tr class="' + row_class + '"><td>' + option_field + '</td><td>' + answer_field + '</td><td>'+ matches_field + '</td><td>' 
 					 + comment_field + '</td><td>' + score_field + '</td><td>' + delete_field + '</td></tr>';
@@ -109,7 +109,7 @@
 	function fix_delete_option_images()
 	{
 		var na_delete_image = '<img src="http://localhost/lcms/layout/aqua/img/common/action_delete_na.png"/>';
-		var delete_field = '<input id="$option_number" class="remove_option" type="image" src="http://localhost/lcms/layout/aqua/img/common/action_delete.png" name="remove[$option_number]" />';
+		var delete_field = '<input id="$option_number" class="remove_option" type="image" src="http://localhost/lcms/layout/aqua/img/common/action_delete.png" name="remove_option[$option_number]" />';
 		var body = $('tbody', $('.options'));
 		var children = body.children();
 
@@ -161,6 +161,20 @@
 			row++;
 		});
 		
+		var select_box = $('select[name*="matches_to"]');
+		$('option[value="' + id + '"]', select_box).remove();
+		
+		
+		select_box.each(function()
+		{
+			counter = 0;
+			$(this).children().each(function()
+			{
+				$(this).text(labels[counter]);
+				counter++;
+			});
+		});
+		
 		skipped_matches++;
 		
 		fix_matches_delete_images();
@@ -186,11 +200,14 @@
 		
 		var option_field = labels[new_number] + '<input type="hidden" value="' + labels[new_number] + '" name="match_label[' + number_of_matches + ']" />';
 		var answer_field = add_fck_editor('match', number_of_matches, null);
-		var delete_field = '<input id="' + number_of_matches + '" class="remove_match" type="image" src="http://localhost/lcms/layout/aqua/img/common/action_delete.png" name="remove[' + number_of_matches + ']" />';
+		var delete_field = '<input id="' + number_of_matches + '" class="remove_match" type="image" src="http://localhost/lcms/layout/aqua/img/common/action_delete.png" name="remove_match[' + number_of_matches + ']" />';
 		
 		var string = '<tr class="' + row_class + '"><td>' + option_field + '</td><td>' + answer_field + '</td><td>' + delete_field + '</td></tr>';
 		
 		$('tbody', $('.matches')).append(string);
+		
+		var select_box = $('select[name*="matches_to"]');
+		select_box.append('<option value="' + number_of_matches + '">' + labels[number_of_matches - skipped_matches] + '</option>');
 		
 		fix_matches_delete_images();
 		
@@ -200,24 +217,24 @@
 	function fix_matches_delete_images()
 	{
 		var na_delete_image = '<img src="http://localhost/lcms/layout/aqua/img/common/action_delete_na.png"/>';
-		var delete_field = '<input id="$option_number" class="remove_match" type="image" src="http://localhost/lcms/layout/aqua/img/common/action_delete.png" name="remove[$option_number]" />';
+		var delete_field = '<input id="$option_number" class="remove_match" type="image" src="http://localhost/lcms/layout/aqua/img/common/action_delete.png" name="remove_match[$option_number]" />';
 		var body = $('tbody', $('.matches'));
 		var children = body.children();
 
 		if(children.size() <= 2)
 			var delete_field = na_delete_image;
-		
+
 		var counter = 0;
 		
 		children.each(function()
 		{
 			var name = $('input[name*="match_label"]', $(this)).attr('name');
-			id = name.substr(14, name.length - 15);
-			
+			id = name.substr(12, name.length - 13);
+	
 			var append_field = delete_field.replace(/\$option_number/g, id);
 			
-			$(this).children().eq(5).empty();
-			$(this).children().eq(5).append(append_field);
+			$(this).children().eq(2).empty();
+			$(this).children().eq(2).append(append_field);
 			
 			$(this).children().eq(0).empty();
 			$(this).children().eq(0).append(labels[counter] + '<input type="hidden" value="' + labels[counter] + '" name="' + name + '" />');
