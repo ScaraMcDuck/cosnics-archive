@@ -67,5 +67,10 @@ class MatrixQuestionDisplay extends QuestionDisplay
 	{
 		return false;
 	}
+	
+	function get_instruction()
+	{
+		
+	}
 }
 ?>

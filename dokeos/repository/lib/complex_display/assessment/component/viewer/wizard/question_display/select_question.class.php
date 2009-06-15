@@ -27,5 +27,10 @@ class SelectQuestionDisplay extends QuestionDisplay
         	 $formvalidator->addElement('select', $question_id .'_0', '', $answers, 'style="width: 200px;"');
         }
     }
+    
+	function get_instruction()
+	{
+		
+	}
 }
 ?>

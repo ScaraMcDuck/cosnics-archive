@@ -23,5 +23,10 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
 		
 		$formvalidator->addElement('static', null, null, $answer_text);
 	}
+	
+	function get_instruction()
+	{
+		
+	}
 }
 ?>
