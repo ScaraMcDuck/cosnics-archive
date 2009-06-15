@@ -45,5 +45,10 @@ class HotspotQuestionDisplay extends QuestionDisplay
 			</script>'
 		);
 	}
+	
+	function get_instruction()
+	{
+		
+	}
 }
 ?>
