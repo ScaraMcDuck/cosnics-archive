@@ -3,20 +3,39 @@
 abstract class QuestionDisplay
 {
 	private $clo_question;
+	private $question;
 	private $question_nr;
 	private $formvalidator;
+	private $renderer;
 
 	function QuestionDisplay($formvalidator, $clo_question, $question_nr)
 	{
 		$this->formvalidator = $formvalidator;
+		$this->renderer = $formvalidator->defaultRenderer();
 
 		$this->clo_question = $clo_question;
 		$this->question_nr = $question_nr;
+		$this->question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
 	}
 
 	function get_clo_question()
 	{
 		return $this->clo_question;
+	}
+
+	function get_question()
+	{
+		return $this->question;
+	}
+
+	function get_renderer()
+	{
+		return $this->renderer;
+	}
+
+	function get_formvalidator()
+	{
+		return $this->formvalidator;
 	}
 
 	function display()
@@ -26,14 +45,12 @@ abstract class QuestionDisplay
 		if ($this->add_borders())
 		{
 			$header = array();
-			$header[] = '<div class="splitter">';
 			$header[] = $this->get_instruction();
-			$header[] = '</div>';
 			$header[] = '<div class="with_borders">';
 
 			$formvalidator->addElement('html', implode("\n", $header));
 		}
-		$this->add_question_form($formvalidator);
+		$this->add_question_form();
 		if ($this->add_borders())
 		{
 			$footer = array();
@@ -44,7 +61,7 @@ abstract class QuestionDisplay
 		$this->add_footer();
 	}
 
-	abstract function add_question_form($formvalidator);
+	abstract function add_question_form();
 
 	function add_header()
 	{
@@ -121,6 +138,29 @@ abstract class QuestionDisplay
 		$class = DokeosUtilities :: underscores_to_camelcase($type) . 'Display';
 		$question_display = new $class($formvalidator, $clo_question, $question_nr);
 		return $question_display;
+	}
+
+	/**
+	 * @author Antonio Ognio
+	 * @source http://www.php.net/manual/en/function.shuffle.php (06-May-2008 04:42)
+	 */
+	function shuffle_with_keys($array)
+	{
+	    /* Auxiliary array to hold the new order */
+	    $aux = array();
+	    /* We work with an array of the keys */
+	    $keys = array_keys($array);
+	    /* We shuffle the keys */
+	    shuffle($keys);
+	    /* We iterate thru' the new order of the keys */
+	    foreach($keys as $key)
+	    {
+	      /* We insert the key, value pair in its new order */
+	      $aux[$key] = $array[$key];
+	      /* We remove the element from the old array to save memory */
+	    }
+	    /* The auxiliary array with the new order overwrites the old variable */
+	    return $aux;
 	}
 }
 ?>

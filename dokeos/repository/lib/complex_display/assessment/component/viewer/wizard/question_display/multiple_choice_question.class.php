@@ -4,15 +4,14 @@ require_once dirname(__FILE__) . '/../question_display.class.php';
 
 class MultipleChoiceQuestionDisplay extends QuestionDisplay
 {
-	private $question;
-
-    function add_question_form($formvalidator)
+    function add_question_form()
     {
+    	$formvalidator = $this->get_formvalidator();
         $clo_question = $this->get_clo_question();
-        $question = $this->question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
-        $answers = $question->get_options();
+        $question = $this->get_question();
+        $answers = $this->shuffle_with_keys($question->get_options());
         $type = $question->get_answer_type();
-        $renderer = $formvalidator->defaultRenderer();
+        $renderer = $this->get_renderer();
 
         $table_header = array();
         $table_header[] = '<table class="data_table take_assessment">';
@@ -62,7 +61,7 @@ class MultipleChoiceQuestionDisplay extends QuestionDisplay
 
 	function get_instruction()
 	{
-		$question = $this->question;
+		$question = $this->get_question();
 		$type = $question->get_answer_type();
 
 		if ($type == 'radio' && $question->has_description())

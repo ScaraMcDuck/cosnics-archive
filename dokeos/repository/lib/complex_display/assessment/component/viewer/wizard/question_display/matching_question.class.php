@@ -4,13 +4,58 @@ require_once dirname(__FILE__).'/../question_display.class.php';
 
 class MatchingQuestionDisplay extends QuestionDisplay
 {
-	function add_question_form($formvalidator)
+	private $matches;
+	private $answers;
+
+	function add_question_form()
 	{
-		$clo_question = $this->get_clo_question();
-		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
-		$answers = $question->get_options();
-		$matches = $question->get_matches();
-		$renderer = $formvalidator->defaultRenderer();
+		$this->answers = $this->shuffle_with_keys($this->get_question()->get_options());
+		$this->matches = $this->prepare_matches($this->get_question()->get_matches());
+
+		$this->add_matches();
+		$this->add_answers();
+	}
+
+	function add_matches()
+	{
+		$formvalidator = $this->get_formvalidator();
+		$renderer = $this->get_renderer();
+
+        $table_header = array();
+        $table_header[] = '<table class="data_table take_assessment">';
+        $table_header[] = '<thead>';
+        $table_header[] = '<tr>';
+        $table_header[] = '<th class="list"></th>';
+        $table_header[] = '<th>' . Translation :: get('PossibleMatches') . '</th>';
+        $table_header[] = '</tr>';
+        $table_header[] = '</thead>';
+        $table_header[] = '<tbody>';
+        $formvalidator->addElement('html', implode("\n", $table_header));
+
+        $matches = $this->matches;
+
+        $match_label = 'A';
+        foreach($matches as $index => $match)
+        {
+        	$group = array();
+        	$group[] = $formvalidator->createElement('static', null, null, $match_label);
+        	$group[] = $formvalidator->createElement('static', null, null, $match);
+            $formvalidator->addGroup($group, 'match_' . $match_label, null, '', false);
+
+            $renderer->setElementTemplate('<tr class="' . ($index % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'match_' . $match_label);
+            $renderer->setGroupElementTemplate('<td>{element}</td>', 'match_' . $match_label);
+        	$match_label++;
+        }
+
+        $table_footer[] = '</tbody>';
+        $table_footer[] = '</table>';
+        $formvalidator->addElement('html', implode("\n", $table_footer));
+	}
+
+	function add_answers()
+	{
+		$formvalidator = $this->get_formvalidator();
+		$renderer = $this->get_renderer();
 
         $table_header = array();
         $table_header[] = '<table class="data_table take_assessment">';
@@ -26,9 +71,18 @@ class MatchingQuestionDisplay extends QuestionDisplay
         $table_header[] = '<tbody>';
         $formvalidator->addElement('html', implode("\n", $table_header));
 
-        $question_id = $clo_question->get_id();
+        $question_id = $this->get_clo_question()->get_id();
 
-        $answers = $this->shuffle_with_keys($answers);
+        $answers = $this->answers;
+        $matches = $this->matches;
+
+        $options = array();
+        $match_label = 'A';
+        foreach($matches as $index => $match)
+        {
+        	$options[$index] = $match_label;
+        	$match_label++;
+        }
 
         $answer_count = 0;
 		foreach($answers as $answer_id => $answer)
@@ -39,7 +93,7 @@ class MatchingQuestionDisplay extends QuestionDisplay
 			$answer_number = ($answer_count + 1) . '.';
 			$group[] = $formvalidator->createElement('static', null, null, $answer_number);
 			$group[] = $formvalidator->createElement('static', null, null, $answer->get_value());
-			$group[] = $formvalidator->createElement('select', $answer_name, null, $this->prepare_matches($matches));
+			$group[] = $formvalidator->createElement('select', $answer_name, null, $options);
 
             $formvalidator->addGroup($group, 'group_' . $answer_name, null, '', false);
 
@@ -57,25 +111,6 @@ class MatchingQuestionDisplay extends QuestionDisplay
 	{
 		$matches = $this->shuffle_with_keys($matches);
 		return $matches;
-	}
-
-	function shuffle_with_keys($array)
-	{
-	    /* Auxiliary array to hold the new order */
-	    $aux = array();
-	    /* We work with an array of the keys */
-	    $keys = array_keys($array);
-	    /* We shuffle the keys */
-	    shuffle($keys);
-	    /* We iterate thru' the new order of the keys */
-	    foreach($keys as $key)
-	    {
-	      /* We insert the key, value pair in its new order */
-	      $aux[$key] = $array[$key];
-	      /* We remove the element from the old array to save memory */
-	    }
-	    /* The auxiliary array with the new order overwrites the old variable */
-	    return $aux;
 	}
 
 	function get_instruction()

@@ -1,10 +1,12 @@
 <?php
 class HotspotQuestionDisplay extends QuestionDisplay
 {
-	function add_question_form($formvalidator)
+	function add_question_form()
 	{
+		$formvalidator = $this->get_formvalidator();
 		$clo_question = $this->get_clo_question();
-		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
+		$question = $this->get_question();
+
 		$this->add_scripts_element($clo_question->get_id(), $formvalidator);
 		//$formvalidator->addElement('html', '<br/>');
 		$answers = $question->get_answers();
@@ -13,7 +15,7 @@ class HotspotQuestionDisplay extends QuestionDisplay
 			$formvalidator->addElement('hidden', $clo_question->get_id().'_'.$i, '', array('id' => $clo_question->get_id().'_'.$i));
 		}
 	}
-	
+
 	function add_scripts_element($hotspot_id, $formvalidator)
 	{
 		$hotspot_path = Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/hotspot_user.swf';
@@ -23,7 +25,7 @@ class HotspotQuestionDisplay extends QuestionDisplay
 			<script type="text/javascript" src="'.Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/hotspot.js" ></script>
 			<script type="text/javascript" src="'.Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/jsmethods.js" ></script>
 			<script type="text/vbscript" src="'.Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/vbmethods.vbscript" ></script>
-			<script type="text/javascript" >		
+			<script type="text/javascript" >
 				var requiredMajorVersion = 7;
 				var requiredMinorVersion = 0;
 				var requiredRevision = 0;
@@ -45,10 +47,10 @@ class HotspotQuestionDisplay extends QuestionDisplay
 			</script>'
 		);
 	}
-	
+
 	function get_instruction()
 	{
-		
+
 	}
 }
 ?>

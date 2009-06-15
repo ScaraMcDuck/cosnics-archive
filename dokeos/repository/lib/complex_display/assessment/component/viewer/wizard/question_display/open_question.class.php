@@ -4,12 +4,13 @@ require_once dirname(__FILE__).'/../question_display.class.php';
 
 class OpenQuestionDisplay extends QuestionDisplay
 {
-	function add_question_form($formvalidator)
+	function add_question_form()
 	{
 		$clo_question = $this->get_clo_question();
-		$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
+		$question = $this->get_question();
 		$type = $question->get_question_type();
-		$renderer = $formvalidator->defaultRenderer();
+		$formvalidator = $this->get_formvalidator();
+		$renderer = $this->get_renderer();
 
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
@@ -60,7 +61,21 @@ class OpenQuestionDisplay extends QuestionDisplay
 
 	function get_instruction()
 	{
-		return Translation :: get('EnterAnswer');
+		$instruction = array();
+		$question = $this->get_question();
+
+		if ($question->has_description())
+		{
+			$instruction[] = '<div class="splitter">';
+			$instruction[] = Translation :: get('EnterAnswer');
+			$instruction[] = '</div>';
+		}
+		else
+		{
+			$instruction = array();
+		}
+
+		return implode("\n", $instruction);
 	}
 }
 ?>
