@@ -17,14 +17,14 @@ class MatrixQuestionDisplay extends QuestionDisplay
         $type = $question->get_matrix_type();
 
         $table_header = array();
-        $table_header[] = '<table class="data_table">';
+        $table_header[] = '<table class="data_table take_assessment">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
-        $table_header[] = '<th style="width: 100px;"></th>';
+        $table_header[] = '<th class="caption"></th>';
 
         foreach($matches as $match)
         {
-       		$table_header[] = '<th style="text-align: center;">' . $match . '</th>';
+       		$table_header[] = '<th class="center">' . $match . '</th>';
         }
 
         $table_header[] = '</tr>';
