@@ -11,12 +11,14 @@ class MatchingQuestionForm extends LearningObjectForm
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
+		$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/matching_question.js'));
 		$this->build_options_and_matches();
 	}
 
 	protected function build_editing_form()
 	{
 		parent :: build_editing_form();
+		$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/matching_question.js'));
 		$this->build_options_and_matches();
 	}
 	/**
@@ -200,15 +202,16 @@ class MatchingQuestionForm extends LearningObjectForm
 		}
 
 		$this->addElement('category', Translation :: get('Options'));
-
+		$this->addElement('hidden', 'mq_number_of_options', $_SESSION['mq_number_of_options'], array('id' => 'mq_number_of_options'));
+		
 		$buttons = array();
-        $buttons[] = $this->createElement('style_button', 'add_option[]', Translation :: get('AddMatchingQuestionOption'), array('class' => 'normal add'));
+        $buttons[] = $this->createElement('style_button', 'add_option[]', Translation :: get('AddMatchingQuestionOption'), array('class' => 'normal add', 'id' => 'add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
 		$renderer = $this->defaultRenderer();
 
 		$table_header = array();
-        $table_header[] = '<table class="data_table">';
+        $table_header[] = '<table class="data_table options">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
         $table_header[] = '<th class="list"></th>';
@@ -245,7 +248,7 @@ class MatchingQuestionForm extends LearningObjectForm
 
 				if($number_of_options - count($_SESSION['mq_skip_options']) > 2)
 				{
-					$group[] = $this->createElement('image','remove_option['.$option_number.']',Theme :: get_common_image_path().'action_delete.png');
+					$group[] = $this->createElement('image','remove_option['.$option_number.']',Theme :: get_common_image_path().'action_delete.png', array('class' => 'remove_option', 'id' => $option_number));
 				}
                 else
                 {
@@ -299,14 +302,16 @@ class MatchingQuestionForm extends LearningObjectForm
 		$number_of_matches = intval($_SESSION['mq_number_of_matches']);
 		$this->addElement('category', Translation :: get('Matches'));
 
+		$this->addElement('hidden', 'mq_number_of_matches', $_SESSION['mq_number_of_matches'], array('id' => 'mq_number_of_matches'));
+		
 		$buttons = array();
-        $buttons[] = $this->createElement('style_button', 'add_match[]', Translation :: get('AddMatch'), array('class' => 'normal add'));
+        $buttons[] = $this->createElement('style_button', 'add_match[]', Translation :: get('AddMatch'), array('class' => 'normal add', 'id' => 'add_match'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
 		$renderer = $this->defaultRenderer();
 
 		$table_header = array();
-        $table_header[] = '<table class="data_table">';
+        $table_header[] = '<table class="data_table matches">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
         $table_header[] = '<th class="list"></th>';
@@ -339,7 +344,7 @@ class MatchingQuestionForm extends LearningObjectForm
 
 				if($number_of_matches - count($_SESSION['mq_skip_matches']) > 2)
 				{
-					$group[] = $this->createElement('image','remove_match['.$match_number.']',Theme :: get_common_image_path().'action_delete.png');
+					$group[] = $this->createElement('image','remove_match['.$match_number.']',Theme :: get_common_image_path().'action_delete.png', array('class' => 'remove_match', 'id' => $match_number));
 				}
                 else
                 {
@@ -348,7 +353,7 @@ class MatchingQuestionForm extends LearningObjectForm
 
 				$this->addGroup($group, 'match_' . $match_number, null, '', false);
 
-				$renderer->setElementTemplate('<tr>{element}</tr>', 'match_' . $match_number);
+				$renderer->setElementTemplate('<tr class="' . ($match_number - 1 % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', 'match_' . $match_number);
    				$renderer->setGroupElementTemplate('<td>{element}</td>', 'match_' . $match_number);
 
 
