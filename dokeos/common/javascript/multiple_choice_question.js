@@ -1,5 +1,7 @@
 ( function($) 
 {
+	var skipped_options = 0;
+	
 	function switch_clicked(ev, ui) 
 	{   
 		var answer_type = $('#mc_answer_type').attr('value');
@@ -41,11 +43,11 @@
 			type: "POST",
 			url: "./common/javascript/ajax/memory.php",
 			data: { action: 'set', variable: 'mc_answer_type', value: new_type },
-			async: false
+			async: true
 		}).responseText;
 		
-		$('#change_answer_type').attr('value', new_label);
-		$('#change_answer_type').text(new_label);
+		$('.switch').attr('value', new_label);
+		$('.switch').text(new_label);
 		
 		return false;
 	} 
@@ -75,6 +77,8 @@
 			
 			row++;
 		});
+		
+		skipped_options++;
 		
 		fix_delete_images();
 		
@@ -120,7 +124,7 @@
 		$('#mc_number_of_options').attr('value', new_number);
 		
 		var mc_answer_type = $('#mc_answer_type').attr('value');
-		var row_class = number_of_options % 2 == 0 ? 'row_even' : 'row_odd';
+		var row_class = (number_of_options - skipped_options) % 2 == 0 ? 'row_even' : 'row_odd';
 		
 		var name = 'correct[' + number_of_options + ']';
 		var id = name;
