@@ -61,8 +61,8 @@ require_once dirname(__FILE__).'/component/wiki_publication_browser/wiki_publica
 				$component = WikiManagerComponent :: factory('Browser', $this);
 				break;
 			default :
-				$this->set_action(self :: ACTION_BROWSE);
-				$component = WikiManagerComponent :: factory('Browser', $this);
+				$this->set_action(self :: ACTION_BROWSE_WIKI_PUBLICATIONS);
+				$component = WikiManagerComponent :: factory('WikiPublicationsBrowser', $this);
 
 		}
 		$component->run();
