@@ -233,6 +233,16 @@ th.action
 	width: 22px;
 }
 
+th.center
+{
+	text-align: center;
+}
+
+th.caption
+{
+	width: 100px;
+}
+
 td p
 {
 	margin: 0px;
@@ -242,6 +252,12 @@ td p
 .take_assessment th
 {
 	padding: 3px 10px 3px 10px;
+}
+
+.take_assessment th p
+{
+	margin: 0px;
+	padding: 0px;
 }
 
 .take_assessment
