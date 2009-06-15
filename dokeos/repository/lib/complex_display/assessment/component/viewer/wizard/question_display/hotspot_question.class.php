@@ -48,9 +48,28 @@ class HotspotQuestionDisplay extends QuestionDisplay
 		);
 	}
 
+	function add_borders()
+	{
+		return true;
+	}
+
 	function get_instruction()
 	{
+		$instruction = array();
+		$question = $this->get_question();
 
+		if ($question->has_description())
+		{
+			$instruction[] = '<div class="splitter">';
+			$instruction[] = Translation :: get('Hotspot');
+			$instruction[] = '</div>';
+		}
+		else
+		{
+			$instruction = array();
+		}
+
+		return implode("\n", $instruction);
 	}
 }
 ?>

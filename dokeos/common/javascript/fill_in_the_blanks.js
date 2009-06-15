@@ -263,7 +263,7 @@ function utf8_encode ( argString ) {
 	    
 	    var utf_value = utf8_encode(value);
 	    
-	    alert(imatch(utf_value, pattern, "", true));
+	    //alert(imatch(utf_value, pattern, "", true));
 	    //alert(data.val());
 	    //var res = getNewPositions(base64_encode(value));
 	    //alert(res);

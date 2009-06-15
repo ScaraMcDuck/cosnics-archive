@@ -193,4 +193,5 @@ $lang['common']['SelectCorrectRating'] = 'Select the correct rating';
 $lang['common']['EnterAnswer'] = 'Enter your answer';
 $lang['common']['SelectCorrectAnswers'] = 'Select the correct answer(s)';
 $lang['common']['PossibleMatches'] = 'Possible match(es)';
+$lang['common']['FillInTheBlanks'] = 'Fill in the blanks';
 ?>
