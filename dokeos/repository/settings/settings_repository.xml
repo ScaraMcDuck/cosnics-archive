@@ -103,7 +103,7 @@
 			<setting name="allow_rss_feed_creation" field="checkbox" default="1">
 				<options type="static"><option name="allow_rss_feed_creation" value="1" /></options>
 			</setting>
-			<setting name="allow_select_question_creation" field="checkbox" default="0">
+			<setting name="allow_select_question_creation" field="checkbox" default="1">
 				<options type="static"><option name="allow_select_question_creation" value="1" /></options>
 			</setting>
 			<setting name="allow_scorm_item_creation" field="checkbox" default="0">
