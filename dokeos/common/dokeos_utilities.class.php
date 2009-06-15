@@ -507,7 +507,7 @@ class DokeosUtilities
         if(strlen($decoded_string) >= $length)
         {
             mb_internal_encoding("UTF-8");
-            $string = htmlentities(mb_substr($string, 0, $length-3)) . $char;
+            $string = mb_substr($string, 0, $length-3) . $char;
         }
 
         return $string;
