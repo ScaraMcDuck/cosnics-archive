@@ -23,7 +23,7 @@ class WikiPublicationBrowserTableColumnModel extends DefaultWikiPublicationTable
 	 */
 	function WikiPublicationBrowserTableColumnModel()
 	{
-		parent :: __construct();
+        parent :: __construct();
 		$this->set_default_order_column(1);
 		$this->add_column(self :: get_modification_column());
 	}
@@ -39,6 +39,14 @@ class WikiPublicationBrowserTableColumnModel extends DefaultWikiPublicationTable
 			self :: $modification_column = new ObjectTableColumn('');
 		}
 		return self :: $modification_column;
+	}
+
+    public static function get_columns()
+	{
+		$columns = array();
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
+		$columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);
+		return $columns;
 	}
 }
 ?>

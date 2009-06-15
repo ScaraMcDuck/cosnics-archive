@@ -61,22 +61,15 @@ class DatabaseWikiDataManager extends WikiDataManager
 	function retrieve_wiki_publication($id)
 	{
 		$condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $id);
-		return $this->database->retrieve_object(WikiPublication :: get_table_name(), $condition);
+		$object = $this->database->retrieve_object(WikiPublication :: get_table_name(), $condition);
+        $object->set_default_property('learning_object', RepositoryDataManager :: get_instance()->retrieve_learning_object($object->get_default_property('learning_object')));
+        return $object;
 	}
 
 	function retrieve_wiki_publications($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
-        $publications = $this->database->retrieve_objects(WikiPublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir)->as_array();
-        foreach($publications as $publication)
-        {
-            $publication->set_default_property('learning_object',$this->retrieve_wiki($publication->get_default_property('learning_object')));
-        }
+        return $this->database->retrieve_objects(WikiPublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
-
-    function retrieve_wiki($id)
-    {
-        return RepositoryDataManager :: get_instance()->retrieve_learning_object($id);
-    }
 
 }
 ?>

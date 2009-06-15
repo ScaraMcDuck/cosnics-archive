@@ -30,13 +30,13 @@ class WikiPublicationBrowserTableDataProvider extends ObjectTableDataProvider
     {
 		$order_property = $this->get_order_property($order_property);
 		$order_direction = $this->get_order_property($order_direction);
-        $publications = $this->get_browser()->retrieve_wiki_publications($this->get_condition())->as_array();
-        foreach($publications as $publication)
+
+     	$publications = $this->get_browser()->retrieve_wiki_publications($this->get_condition(), $offset, $count, null, null)->as_array();
+        foreach($publications as &$publication)
         {
-            $learning_objects[] = RepositoryDataManager :: get_instance()->retrieve_learning_object($publication->get_learning_object());
+            $publication->set_learning_object(RepositoryDataManager :: get_instance()->retrieve_learning_object($publication->get_learning_object()));
         }
-        return $learning_objects;
-     	//return $this->get_browser()->retrieve_wiki_publications($this->get_condition(), $offset, $count, $order_property, $order_direction);
+        return $publications;
     }
   /**
    * Gets the number of objects in the table
