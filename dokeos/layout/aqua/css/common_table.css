@@ -244,9 +244,30 @@ td p
 	padding: 3px 10px 3px 10px;
 }
 
+.take_assessment
+{
+	border: 1px solid #B5CAE7;
+}
+
 .take_assessment th
 {
+	border: 0px solid #EEF5FA;
+	border-bottom: 1px solid #B5CAE7;
 	padding: 3px 10px 3px 10px;
+	background-color: #EEF5FA;
+	background-image: none;
+}
+
+.take_assessment td
+{
+	border: 0px solid white;
+	padding: 6px 10px 6px 10px;
+}
+
+.take_assessment tr.row_even td,
+.take_assessment tr.row_odd td
+{
+	color: black;
 }
 
 .take_assessment tr.row_even:hover
@@ -254,7 +275,8 @@ td p
   	background-color: #ffffff;
 }
 
+.take_assessment tr.row_odd,
 .take_assessment tr.row_odd:hover
 {
-  	background-color: #eef5fa;
+  	background-color: #ffffff;
 }

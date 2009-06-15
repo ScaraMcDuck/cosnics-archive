@@ -594,7 +594,7 @@ div.learning_object div.title
 {
 	font-weight: bold;
 	border-bottom: 1px solid #CCCCCC;
-	width: 60%;
+	width: 100%;
 	margin-bottom: 1em;
 }
 
@@ -1957,8 +1957,10 @@ div.assessment div.description p
 div.question
 {
 	margin: 0px 0px 15px 0px;
+	/*
 	padding: 0px 0px 15px 0px;
 	border-bottom: 1px dotted #cccccc;
+	*/
 }
 
 div.question div.title
@@ -1966,7 +1968,7 @@ div.question div.title
 	color: #4171b5;
 	font-weight: bold;
 	font-size: 12px;
-	margin-bottom: 10px;
+	/*margin-bottom: 10px;*/
 }
 
 div.question div.title div.number,
@@ -2034,6 +2036,7 @@ div.question div.answer div.description
 	padding: 6px 10px 6px 10px;
 	border: 1px solid #B5CAE7;
 	border-bottom: 0px solid white;
+	border-top: 0px solid white;
 }
 
 div.question div.answer div.empty
@@ -2052,25 +2055,18 @@ div.question div.answer div.with_borders
 	padding: 10px;
 	border: 1px solid #B5CAE7;
 	border-top: 0px solid white;
-	background-color: #eef5fa;
 }
 
 div.question div.answer div.splitter
 {
 	border: 1px solid #b5cae7;
-	background: #4171b5 url(../img/common/background_table_header.png) repeat-x;
+	background: #EEF5FA;
 	color: #4171b5;
 	font-weight: bold;
 	font-size: 11px;
 	font-family: "Trebuchet MS",Verdana,Arial,Helvetica,sans-serif;
 	letter-spacing: 2px;
 	text-transform: uppercase;
-}
-
-div.question div.answer div.splitter div.bevel
-{
-	border-left: 1px solid white;
-	border-top: 1px solid white;
 	padding: 3px 10px 3px 10px;
 }
 
@@ -2078,6 +2074,7 @@ div.question div.answer div.slider
 {
 	float: left;
 	width: 300px;
+	margin-left: 0.6em;
 }
 
 div.question div.answer div.caption
@@ -2085,5 +2082,5 @@ div.question div.answer div.caption
 	float:left;
 	font-weight: bold;
 	color: #4171b5;
-	margin-left: 10px;
+	margin-left: 20px;
 }

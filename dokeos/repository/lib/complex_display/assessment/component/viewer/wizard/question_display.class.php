@@ -27,9 +27,7 @@ abstract class QuestionDisplay
 		{
 			$header = array();
 			$header[] = '<div class="splitter">';
-			$header[] = '<div class="bevel">';
 			$header[] = $this->get_instruction();
-			$header[] = '</div>';
 			$header[] = '</div>';
 			$header[] = '<div class="with_borders">';
 
