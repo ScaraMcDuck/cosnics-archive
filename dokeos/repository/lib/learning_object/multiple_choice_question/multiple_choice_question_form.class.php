@@ -12,6 +12,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/multiple_choice_question.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -20,6 +21,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/multiple_choice_question.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -163,10 +165,13 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
             $switch_label = Translation :: get('SwitchToRadioButtons');
         }
 
+        $this->addElement('hidden', 'mc_answer_type', $_SESSION['mc_answer_type'], array('id' => 'mc_answer_type'));
+        $this->addElement('hidden', 'mc_number_of_options', $_SESSION['mc_number_of_options'], array('id' => 'mc_number_of_options'));
+        
         $buttons = array();
-        $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array('class' => 'normal switch'));
+        $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array('class' => 'normal switch', 'id' => 'change_answer_type'));
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
-        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddMultipleChoiceOption'), array('class' => 'normal add'));
+        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddMultipleChoiceOption'), array('class' => 'normal add', 'id' => 'add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $html_editor_options = array();
@@ -198,11 +203,11 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 
                 if ($_SESSION['mc_answer_type'] == 'checkbox')
                 {
-                    $group[] =& $this->createElement('checkbox', 'correct[' . $option_number . ']', Translation :: get('Correct'));
+                    $group[] =& $this->createElement('checkbox', 'correct[' . $option_number . ']', Translation :: get('Correct'), '', array('class' => 'option', 'id' => 'correct[' . $option_number . ']'));
                 }
                 else
                 {
-                    $group[] =& $this->createElement('radio', 'correct', Translation :: get('Correct'), '', $option_number);
+                    $group[] =& $this->createElement('radio', 'correct', Translation :: get('Correct'), '', $option_number, array('class' => 'option', 'id' => 'correct[' . $option_number . ']'));
                 }
 
                 $group[] = $this->create_html_editor('option[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
@@ -211,7 +216,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 2)
                 {
-                    $group[] =& $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png');
+                    $group[] =& $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => $option_number));
                 }
                 else
                 {
