@@ -246,13 +246,13 @@ td p
 
 .take_assessment
 {
-	border: 1px solid #B5CAE7;
+	border-top: 0px solid white;
 }
 
 .take_assessment th
 {
-	border: 0px solid #EEF5FA;
-	border-bottom: 1px solid #B5CAE7;
+	border-left: 0px solid #EEF5FA;
+	border-top: 0px solid #EEF5FA;
 	padding: 3px 10px 3px 10px;
 	background-color: #EEF5FA;
 	background-image: none;
@@ -260,7 +260,6 @@ td p
 
 .take_assessment td
 {
-	border: 0px solid white;
 	padding: 6px 10px 6px 10px;
 }
 

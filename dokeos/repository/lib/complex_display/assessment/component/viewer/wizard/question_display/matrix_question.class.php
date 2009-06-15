@@ -5,26 +5,28 @@ require_once dirname(__FILE__) . '/../question_display.class.php';
 class MatrixQuestionDisplay extends QuestionDisplay
 {
 
-    function add_question_form($formvalidator)
+    function add_question_form()
     {
-        $clo_question = $this->get_clo_question();
-        $question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
+		$formvalidator = $this->get_formvalidator();
+		$renderer = $this->get_renderer();
+		$clo_question = $this->get_clo_question();
+		$question = $this->get_question();
+
         $options = $question->get_options();
         $matches = $question->get_matches();
         $type = $question->get_matrix_type();
-        $renderer = $formvalidator->defaultRenderer();
 
         $table_header = array();
         $table_header[] = '<table class="data_table">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
         $table_header[] = '<th style="width: 100px;"></th>';
-        
+
         foreach($matches as $match)
         {
        		$table_header[] = '<th style="text-align: center;">' . $match . '</th>';
         }
-        
+
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
@@ -37,7 +39,7 @@ class MatrixQuestionDisplay extends QuestionDisplay
             $group = array();
 
             $group[] = $formvalidator->createElement('static', null, null, $option->get_value());
-            
+
             foreach($matches as $j => $match)
             {
 	            if ($type == MatrixQuestion :: MATRIX_TYPE_RADIO)
@@ -57,20 +59,20 @@ class MatrixQuestionDisplay extends QuestionDisplay
             $renderer->setElementTemplate('<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'matrix_option_' . $i);
             $renderer->setGroupElementTemplate('<td style="text-align: center;">{element}</td>', 'matrix_option_' . $i);
         }
-        
+
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $formvalidator->addElement('html', implode("\n", $table_footer));
     }
-    
+
 	function add_border()
 	{
 		return false;
 	}
-	
+
 	function get_instruction()
 	{
-		
+
 	}
 }
 ?>
