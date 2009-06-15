@@ -31,5 +31,28 @@ class WikiPublicationBrowserTable extends ObjectTable
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}
+
+    function get_objects($offset, $count, $order_property = null, $order_direction = null)
+	{
+		$objects = $this->get_data_provider()->get_objects($offset, $count, $order_property, $order_direction);
+		$table_data = array ();
+		$column_count = $this->get_column_model()->get_column_count();
+		foreach($objects as $object)
+		{
+			$row = array ();
+			if ($this->has_form_actions())
+			{
+				$row[] = $this->get_cell_renderer()->render_id_cell($object);
+				//$row[] = $object->get_id();
+			}
+			for ($i = 0; $i < $column_count; $i ++)
+			{
+				$row[] = $this->get_cell_renderer()->render_cell($this->get_column_model()->get_column($i), $object);
+			}
+			$table_data[] = $row;
+		}
+		return $table_data;
+
+	}
 }
 ?>

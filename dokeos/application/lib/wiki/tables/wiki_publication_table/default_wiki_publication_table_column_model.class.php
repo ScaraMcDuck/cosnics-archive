@@ -15,9 +15,9 @@ class DefaultWikiPublicationTableColumnModel extends ObjectTableColumnModel
 	/**
 	 * Constructor
 	 */
-	function DefaultWikiPublicationTableColumnModel()
+	function DefaultWikiPublicationTableColumnModel($columns)
 	{
-		parent :: __construct(self :: get_default_columns(), 1);
+		parent :: __construct(empty($columns)?self :: get_default_columns():$columns, 1);
 	}
 
 	/**
@@ -29,7 +29,8 @@ class DefaultWikiPublicationTableColumnModel extends ObjectTableColumnModel
 		$columns = array();
 
 //		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_ID, true);
-//		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_LEARNING_OBJECT, true);
+        $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
+        $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);
 //		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_PARENT_ID, true);
 //		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_CATEGORY, true);
 //		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_FROM_DATE, true);
@@ -40,9 +41,6 @@ class DefaultWikiPublicationTableColumnModel extends ObjectTableColumnModel
 //		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_MODIFIED, true);
 //		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_DISPLAY_ORDER, true);
 //		$columns[] = new ObjectTableColumn(WikiPublication :: PROPERTY_EMAIL_SENT, true);
-
-        $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_TITLE, true);
-        $columns[] = new ObjectTableColumn(LearningObject :: PROPERTY_DESCRIPTION, true);
 
 		return $columns;
 	}

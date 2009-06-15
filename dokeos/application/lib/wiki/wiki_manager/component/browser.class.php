@@ -20,8 +20,6 @@ class WikiManagerBrowserComponent extends WikiManagerComponent
 		$this->display_header($trail);
 
 		echo '<br /><a href="' . $this->get_browse_wiki_publications_url() . '">' . Translation :: get('BrowseWikiPublications') . '</a>';
-        $table = new WikiPublicationBrowserTable($this);
-		echo $table->as_html();
 
 		$this->display_footer();
 	}

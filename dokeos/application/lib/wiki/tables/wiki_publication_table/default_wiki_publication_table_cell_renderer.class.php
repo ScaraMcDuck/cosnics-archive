@@ -32,30 +32,10 @@ class DefaultWikiPublicationTableCellRenderer implements ObjectTableCellRenderer
 		{
 			switch ($property)
 			{
-				case WikiPublication :: PROPERTY_ID :
-					return $wiki_publication->get_id();
-				case WikiPublication :: PROPERTY_LEARNING_OBJECT :
-					return $wiki_publication->get_learning_object();
-				case WikiPublication :: PROPERTY_PARENT_ID :
-					return $wiki_publication->get_parent_id();
-				case WikiPublication :: PROPERTY_CATEGORY :
-					return $wiki_publication->get_category();
-				case WikiPublication :: PROPERTY_FROM_DATE :
-					return $wiki_publication->get_from_date();
-				case WikiPublication :: PROPERTY_TO_DATE :
-					return $wiki_publication->get_to_date();
-				case WikiPublication :: PROPERTY_HIDDEN :
-					return $wiki_publication->get_hidden();
-				case WikiPublication :: PROPERTY_PUBLISHER :
-					return $wiki_publication->get_publisher();
-				case WikiPublication :: PROPERTY_PUBLISHED :
-					return $wiki_publication->get_published();
-				case WikiPublication :: PROPERTY_MODIFIED :
-					return $wiki_publication->get_modified();
-				case WikiPublication :: PROPERTY_DISPLAY_ORDER :
-					return $wiki_publication->get_display_order();
-				case WikiPublication :: PROPERTY_EMAIL_SENT :
-					return $wiki_publication->get_email_sent();
+                case LearningObject :: PROPERTY_TITLE :
+                    return $wiki_publication->get_learning_object()->get_title();
+                case LearningObject :: PROPERTY_DESCRIPTION:
+                    return $wiki_publication->get_learning_object()->get_description();
 			}
 		}
 		return '&nbsp;';
