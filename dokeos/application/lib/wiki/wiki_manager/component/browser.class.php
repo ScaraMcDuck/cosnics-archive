@@ -15,7 +15,7 @@ class WikiManagerBrowserComponent extends WikiManagerComponent
 	function run()
 	{
 		$trail = new BreadcrumbTrail();
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('BrowseWiki')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Wiki')));
 
 		$this->display_header($trail);
 
