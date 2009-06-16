@@ -117,7 +117,7 @@ class WikiDisplay extends ComplexDisplay
         return $wiki_homepage[0];
     }
 
-    static function get_toolbar($parent,$pid,$lo,$selected_cloi,$course_id)
+    static function get_toolbar($parent,$pid,$lo,$selected_cloi)
 	{
         require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 
@@ -192,16 +192,16 @@ class WikiDisplay extends ComplexDisplay
             {
                 $action_bar->add_common_action(
                 new ToolbarItem(
-                    Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $parent->get_url(array(WikiTool :: PARAM_ACTION => Tool:: ACTION_DELETE, WikiDisplay :: PARAM_DISPLAY_ACTION => null, 'pid' => $pid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
+                    Translation :: get('Delete'),Theme :: get_common_image_path().'action_delete.png', $parent->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => ComplexDisplay :: ACTION_DELETE, 'pid' => $pid)), ToolbarItem :: DISPLAY_ICON_AND_LABEL,true
                 )
             );
 
-            $action_bar->add_common_action(
-            new ToolbarItem(
-                    Translation :: get('BrowseWikis'), Theme :: get_common_image_path().'action_browser.png', $parent->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS, WikiDisplay :: PARAM_DISPLAY_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
-                ));
-
-            }
+//            $action_bar->add_common_action(
+//            new ToolbarItem(
+//                    Translation :: get('BrowseWikis'), Theme :: get_common_image_path().'action_browser.png', $parent->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS, WikiDisplay :: PARAM_DISPLAY_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+//                ));
+//
+//            }
 
 
             //INFORMATION
@@ -224,7 +224,7 @@ class WikiDisplay extends ComplexDisplay
         //NAVIGATION
         if(!empty($links))
         {
-            $p = new WikiToolParserComponent($pid,$course_id,$links);
+            $p = new WikiDisplayWikiParserComponent($pid, $links);
             $toolboxlinks = $p->handle_toolbox_links($links);
             $links = explode(';',$links);
             $i=0;

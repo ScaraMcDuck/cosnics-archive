@@ -32,11 +32,17 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
 	// Inherited
 	function render_cell($column, $wiki_publication)
 	{
-		if ($column === WikiPublicationBrowserTableColumnModel :: get_modification_column())
+        if ($property = $column->get_object_property())
 		{
-			return $this->get_modification_links($wiki_publication);
+			switch ($property)
+			{
+                case LearningObject :: PROPERTY_TITLE :
+                    $url = $this->browser->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, WikiManager :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
+                    return '<a href="'.$url.'">' . htmlspecialchars($wiki_publication->get_learning_object()->get_title()) . '</a>';
+                case LearningObject :: PROPERTY_DESCRIPTION:
+                    return $wiki_publication->get_learning_object()->get_description();
+			}
 		}
-
 		return parent :: render_cell($column, $wiki_publication);
 	}
 

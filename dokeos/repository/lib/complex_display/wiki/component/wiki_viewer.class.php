@@ -22,7 +22,7 @@ class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
 	{
         $dm = RepositoryDataManager :: get_instance();    
 
-        $this->action_bar = WikiDisplay :: get_toolbar($this,Request :: get('pid'),$this->get_root_lo(), null, $this->get_parent()->get_parent()->get_course()->get_id());
+        $this->action_bar = WikiDisplay :: get_toolbar($this,Request :: get('pid'),$this->get_root_lo(), null);
         echo '<div id="trailbox2" style="padding:0px;">'.$this->get_parent()->get_breadcrumbtrail()->render().'<br /><br /><br /></div>';
         echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
         

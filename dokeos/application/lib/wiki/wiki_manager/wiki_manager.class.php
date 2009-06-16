@@ -22,6 +22,7 @@ require_once dirname(__FILE__).'/component/wiki_publication_browser/wiki_publica
 	const ACTION_EDIT_WIKI_PUBLICATION = 'edit_wiki_publication';
 	const ACTION_CREATE_WIKI_PUBLICATION = 'create_wiki_publication';
 	const ACTION_BROWSE_WIKI_PUBLICATIONS = 'browse_wiki_publications';
+    const ACTION_VIEW_WIKI = 'view';
 
 
 	const ACTION_BROWSE = 'browse';
@@ -59,6 +60,9 @@ require_once dirname(__FILE__).'/component/wiki_publication_browser/wiki_publica
 				break;
 			case self :: ACTION_BROWSE:
 				$component = WikiManagerComponent :: factory('Browser', $this);
+				break;
+            case self :: ACTION_VIEW_WIKI:
+				$component = WikiManagerComponent :: factory('WikiViewer', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_WIKI_PUBLICATIONS);
