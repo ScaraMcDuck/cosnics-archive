@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application name="webconferencing">
 	<settings>
+		<category name="DimDimServerSettings">
+			<setting name="dimdim_server_url" field="text" default="www1.dimdim.com"/>
+			<setting name="dimdim_server_port" field="text" default="80"/>
+		</category>
 		<category name="general">
 			<setting name="allow_network_quality_selection" field="radio" default="1">
 				<options type="static">

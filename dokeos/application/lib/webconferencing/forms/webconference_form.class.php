@@ -178,7 +178,6 @@ class WebconferenceForm extends FormValidator
 		$webconference->create();
     	
 		$options = $values['option'];
-		//dump($options); exit;
 		
     	foreach($options as $name => $value)
     	{
