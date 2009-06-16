@@ -26,15 +26,13 @@ class WikiManagerWikiPublicationsBrowserComponent extends WikiManagerComponent
         $this->action_bar = $this->get_toolbar();
         echo $this->action_bar->as_html();
 
-		//echo '<a href="' . $this->get_create_wiki_publication_url() . '">' . Translation :: get('CreateWikiPublication') . '</a>';
-		echo '<br /><br />';
 		echo $this->get_table();
 		$this->display_footer();
 	}
 
 	function get_table()
 	{
-		$table = new WikiPublicationBrowserTable($this, array(Application :: PARAM_APPLICATION => 'tester', Application :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS), null);
+		$table = new WikiPublicationBrowserTable($this, array(Application :: PARAM_APPLICATION => WikiManager ::APPLICATION_NAME, Application :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS), null);
 		return $table->as_html();
 	}
 
