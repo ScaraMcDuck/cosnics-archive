@@ -33,7 +33,7 @@ class SelectQuestionDisplay extends QuestionDisplay
 
     	if ($type == 'checkbox')
         {
-        	$advanced_select = $formvalidator->createElement('advmultiselect', $question_name, '', $answers, array('class' => 'advanced_select_question'));
+        	$advanced_select = $formvalidator->createElement('advmultiselect', $question_name, '', $answers, array('style' => 'width: 200px;', 'class' => 'advanced_select_question'));
         	$advanced_select->setButtonAttributes('add', 'class="add"');
         	$advanced_select->setButtonAttributes('remove', 'class="remove"');
         	$formvalidator->addElement($advanced_select);
