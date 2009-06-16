@@ -29,7 +29,7 @@ class WebconferencingManagerWebconferencesBrowserComponent extends Webconferenci
 
 	function get_table()
 	{
-		$table = new WebconferenceBrowserTable($this, array(Application :: PARAM_APPLICATION => 'tester', Application :: PARAM_ACTION => WebconferencingManager :: ACTION_BROWSE_WEBCONFERENCES), null);
+		$table = new WebconferenceBrowserTable($this, array(Application :: PARAM_APPLICATION => 'webconferencing', Application :: PARAM_ACTION => WebconferencingManager :: ACTION_BROWSE_WEBCONFERENCES), null);
 		return $table->as_html();
 	}
 

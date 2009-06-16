@@ -32,9 +32,12 @@ class WebconferenceForm extends FormValidator
 			$this->build_creation_form();
 		}
 
-		$this->setDefaults();
+		//$this->setDefaults();
     }
 
+   	private $defaults_create;
+   	private $defaults_update;
+    
     function build_basic_form()
     {
 		$this->addElement('text', Webconference :: PROPERTY_CONFNAME, Translation :: get('Confname'));
@@ -47,7 +50,7 @@ class WebconferenceForm extends FormValidator
 		$this->add_html_editor('option[agenda]', Translation :: get('Agenda'),false);
 		$network_options = array('L' => Translation :: get('Low'),'M' => Translation :: get('Medium'), 'H' => Translation :: get('High'));
 		$this->addElement('select', 'option[network]', Translation :: get('NetworkQuality'),$network_options);
-		$mike_options = array(1,2,3,4,5);
+		$mike_options = array(1 => 1 ,2 => 2, 3 => 3, 4 => 4, 5 => 5);
 		$this->addElement('select', 'option[mikes]', Translation :: get('Mikes'),$mike_options);
 		$this->addElement('text', 'option[moderatorPassCode]', Translation :: get('ModeratorPassCode'));
 		$this->addElement('text', 'option[attendeePassCode]', Translation :: get('AttendeePassCode'));
@@ -57,16 +60,17 @@ class WebconferenceForm extends FormValidator
 		$this->addElement('select', 'option[audioVideo]', Translation :: get('AudioVideo'),$audio_video_options);
 		
 		$yes_no_items = array('waitingarea','featureWhiteboard','featurePublisher','featurePrivateChat','featurePublicChat','featureDocShare','featureCobShare','featureRecording','feedback','participantList','AssignMikeOnJoin','HandsFreeOnLoad','allowAttendeeInvites');
+		
 		foreach($yes_no_items as $yes_no_item)
 		{
 			$group = array();
 			$group[] =& $this->createElement('radio', $yes_no_item, null,Translation :: get('Yes'),1);
 			$group[] =& $this->createElement('radio', $yes_no_item, null,Translation :: get('No'),0);
 			$this->addGroup($group, 'option', Translation :: get('Option' . DokeosUtilities :: underscores_to_camelcase($yes_no_item)), '&nbsp;');
-			$defaults['option[' . $yes_no_item . ']'] = 1;
+			$this->defaults_create['option[' . $yes_no_item . ']'] = 1;
+			$this->defaults_update['option[' . $yes_no_item . ']'] = 0;
 		}
 
-		$this->setDefaults($defaults);
     }
 
     function build_editing_form()
@@ -79,6 +83,7 @@ class WebconferenceForm extends FormValidator
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		$this->setDefaults($this->defaults_update);
     }
 
     function build_creation_form()
@@ -89,6 +94,8 @@ class WebconferenceForm extends FormValidator
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		
+		$this->setDefaults($this->defaults_create);
     }
 
     function update_webconference()
@@ -96,14 +103,13 @@ class WebconferenceForm extends FormValidator
     	$webconference = $this->webconference;
     	$values = $this->exportValues();
 
-    	$webconference->set_id($values[Webconference :: PROPERTY_ID]);
     	$webconference->set_confkey('test');
     	$webconference->set_confname($values[Webconference :: PROPERTY_CONFNAME]);
     	$webconference->set_duration($values[Webconference :: PROPERTY_DURATION]);
 
     	//delete all webconference_options
-    	
     	WebconferencingDataManager :: get_instance()->delete_webconference_options($webconference);
+    	$options = $values['option'];
     	
     	foreach($options as $name => $value)
     	{
@@ -130,6 +136,7 @@ class WebconferenceForm extends FormValidator
 		$webconference->create();
     	
 		$options = $values['option'];
+		//dump($options); exit;
 		
     	foreach($options as $name => $value)
     	{
@@ -164,18 +171,17 @@ class WebconferenceForm extends FormValidator
     	$defaults[Webconference :: PROPERTY_DURATION] = $webconference->get_duration();
 
     	//loop all webconference_options and place them in defaults
-    	/*
+
     	if($webconference)
     	{
     		//loop all webconference_options and place them in defaults
     		$wdm = WebconferencingDataManager :: get_instance();
-    		$options = $wdm->->retrieve_webconference_options($webconference->get_id());
-    		foreach($options as $name => $value)
+    		$options = $wdm->retrieve_webconference_options(new EqualityCondition(WebconferenceOption :: PROPERTY_CONF_ID, $webconference->get_id()));
+    		while($option = $options->next_result())
     		{
-	    		$defaults['option['. $name . ']'] = $value;
+	    		$defaults['option['. $option->get_name() . ']'] = $option->get_value();
     		}
     	}
-		*/
 		parent :: setDefaults($defaults);
 	}
 }
