@@ -125,7 +125,8 @@ class WikiDisplayWikiHistoryComponent extends WikiDisplayComponent
              *  You can select 2 versions to compare.
              *  The first selected version ('object') will be compared with the second selected version ('compare') and it's differences shown using the LearningObjectDifferenceDisplay
              */
-            $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_COMPARE, $wiki_page, 'compare', 'post', $this->get_url(array(Tool::PARAM_ACTION => Request :: get('tool')=='learning_path'?'view_clo':'view', 'pid' => Request :: get('pid'), 'cid' => $this->cid)), array('version_data' => $version_data));
+            $form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_COMPARE, $wiki_page, 'compare', 'post', $this->get_url(array(Tool::PARAM_ACTION => Request :: get('tool')=='learning_path'?'view_clo':'view', 'display_action' => 'history', 'pid' => $this->get_root_lo()->get_id(), 'selected_cloi' => $this->cid)), array('version_data' => $version_data));
+
             if ($form->validate())
             {
                  $params = $form->compare_learning_object();
