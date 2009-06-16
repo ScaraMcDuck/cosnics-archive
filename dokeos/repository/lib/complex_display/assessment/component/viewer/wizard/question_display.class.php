@@ -8,14 +8,14 @@ abstract class QuestionDisplay
 	private $formvalidator;
 	private $renderer;
 
-	function QuestionDisplay($formvalidator, $clo_question, $question_nr)
+	function QuestionDisplay($formvalidator, $clo_question, $question_nr, $question)
 	{
 		$this->formvalidator = $formvalidator;
 		$this->renderer = $formvalidator->defaultRenderer();
 
 		$this->clo_question = $clo_question;
 		$this->question_nr = $question_nr;
-		$this->question = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
+		$this->question = $question;
 	}
 
 	function get_clo_question()
@@ -66,11 +66,10 @@ abstract class QuestionDisplay
 	function add_header()
 	{
 		$formvalidator = $this->formvalidator;
-		$clo_question = $this->get_clo_question();
-		$learning_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($clo_question->get_ref());
+		/*$clo_question = $this->get_clo_question();
 
 		$number_of_questions = $formvalidator->get_number_of_questions();
-		$current_question = $this->question_nr;
+		$current_question = $this->question_nr;*/
 
 		$html[] = '<div class="question">';
 		$html[] = '<div class="title">';
@@ -81,16 +80,16 @@ abstract class QuestionDisplay
 		$html[] = '</div>';
 		$html[] = '<div class="text">';
 		$html[] = '<div class="bevel">';
-		//$html[] = '<img src="'. Theme :: get_common_image_path(). 'treemenu_types/' .$learning_object->get_icon_name().'.png" />';
-		$html[] = $learning_object->get_title();
+		//$html[] = '<img src="'. Theme :: get_common_image_path(). 'treemenu_types/' .$this->question->get_icon_name().'.png" />';
+		$html[] = $this->question->get_title();
 		$html[] = '</div>';
 		$html[] = '</div>';
 		$html[] = '<div class="clear"></div>';
 		$html[] = '</div>';
 		$html[] = '<div class="answer">';
 
-		$description = $learning_object->get_description();
-		if($learning_object->has_description())
+		$description = $this->question->get_description();
+		if($this->question->has_description())
 		{
 			$html[] = '<div class="description">';
 			$html[] = $description;
@@ -136,7 +135,7 @@ abstract class QuestionDisplay
 		require_once $file;
 
 		$class = DokeosUtilities :: underscores_to_camelcase($type) . 'Display';
-		$question_display = new $class($formvalidator, $clo_question, $question_nr);
+		$question_display = new $class($formvalidator, $clo_question, $question_nr, $question);
 		return $question_display;
 	}
 
