@@ -5,6 +5,7 @@
 
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../wiki_publication.class.php';
+require_once Path :: get_repository_path().'lib/complex_display/wiki/wiki_display.class.php';
 
 /**
  * Default cell renderer for the wiki_publication table
@@ -33,7 +34,9 @@ class DefaultWikiPublicationTableCellRenderer implements ObjectTableCellRenderer
 			switch ($property)
 			{
                 case LearningObject :: PROPERTY_TITLE :
-                    return $wiki_publication->get_learning_object()->get_title();
+                    //return $wiki_publication->get_learning_object()->get_title();
+                    $url = $this->browser->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_VIEW_WIKI, WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI, WikiManager :: PARAM_WIKI_PUBLICATION => $wiki_publication->get_id()));
+                    return '<a href="'.$url.'">' . htmlspecialchars($wiki_publication->get_learning_object()->get_title()) . '</a>';
                 case LearningObject :: PROPERTY_DESCRIPTION:
                     return $wiki_publication->get_learning_object()->get_description();
 			}
