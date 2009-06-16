@@ -42,7 +42,7 @@ var selected_question_id = 0;
 function object_selected(object)
 {
 	jQuery.modal.close();
-	jQuery('.select_file_hidden[name="' + selected_question_id + '_2"]').attr('value', object);
+	jQuery('#' + selected_question_id + '_2').attr('value', object);
 	
 	var title = jQuery.ajax({
 		type: "POST",
