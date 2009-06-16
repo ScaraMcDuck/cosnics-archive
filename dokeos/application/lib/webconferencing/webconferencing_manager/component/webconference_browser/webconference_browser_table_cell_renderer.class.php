@@ -50,17 +50,20 @@ class WebconferenceBrowserTableCellRenderer extends DefaultWebconferenceTableCel
 	{
 		$toolbar_data = array();
 
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_update_webconference_url($webconference),
-			'label' => Translation :: get('Edit'),
-			'img' => Theme :: get_common_image_path().'action_edit.png'
-		);
+		if ($this->browser->get_user()->is_platform_admin() || $webconference->get_user_id() == $this->browser->get_user()->get_id())
+		{
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_update_webconference_url($webconference),
+				'label' => Translation :: get('Edit'),
+				'img' => Theme :: get_common_image_path().'action_edit.png'
+			);
 
-		$toolbar_data[] = array(
-			'href' => $this->browser->get_delete_webconference_url($webconference),
-			'label' => Translation :: get('Delete'),
-			'img' => Theme :: get_common_image_path().'action_delete.png',
-		);
+			$toolbar_data[] = array(
+				'href' => $this->browser->get_delete_webconference_url($webconference),
+				'label' => Translation :: get('Delete'),
+				'img' => Theme :: get_common_image_path().'action_delete.png',
+			);
+		}
 
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}

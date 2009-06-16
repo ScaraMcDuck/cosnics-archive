@@ -2,6 +2,7 @@
 <object name="webconference">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1"/>
+  <property name="user_id" type="integer" unsigned="1" notnull="1"/>
   <property name="confkey" type="text" length="100" notnull="1" default=""/>
   <property name="confname" type="text" length="500" notnull="1" default=""/>
   <property name="duration" type="integer" unsigned="1" notnull="1"/>
