@@ -42,7 +42,7 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
             $this->wiki_page = $dm->retrieve_learning_object($cloi->get_ref());
         }
 
-        $this->action_bar = WikiDisplay :: get_toolbar($this,Request :: get('pid'), $this->get_root_lo(), $this->cid, $this->get_parent()->get_parent()->get_course()->get_id());//$this->get_toolbar();
+        $this->action_bar = $this->get_parent()->get_toolbar($this,Request :: get('pid'), $this->get_root_lo(), $this->cid);//$this->get_toolbar();
         echo '<div id="trailbox2" style="padding:0px;">'.$this->get_parent()->get_breadcrumbtrail()->render().'<br /><br /><br /></div>';
         echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
         
@@ -52,7 +52,7 @@ class WikiDisplayWikiItemViewerComponent extends WikiDisplayComponent
          *  Here we create the wiki_parser component.
          *  For more information about the parser, please read the information provided in the wiki_parser class
          */
-		$parser = new WikiToolParserComponent($this->get_root_lo()->get_id(),$this->get_parent()->get_parent()->get_course_id(),$this->wiki_page->get_description(),$this->cid);
+		$parser = new WikiDisplayWikiParserComponent($this->get_root_lo()->get_id(), $this->wiki_page->get_description(),$this->cid);
         echo $parser->parse_wiki_text();
         echo $parser->get_wiki_text();
         /*

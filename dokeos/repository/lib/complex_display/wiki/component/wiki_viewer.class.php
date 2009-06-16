@@ -16,13 +16,12 @@ require_once Path :: get_repository_path().'lib/complex_display/wiki/wiki_displa
 class WikiDisplayWikiViewerComponent extends WikiDisplayComponent
 {
 	private $action_bar;
-    private $links;
 
 	function run()
 	{
-        $dm = RepositoryDataManager :: get_instance();    
+        $dm = RepositoryDataManager :: get_instance();
 
-        $this->action_bar = WikiDisplay :: get_toolbar($this,Request :: get('pid'),$this->get_root_lo(), null);
+        $this->action_bar = $this->get_parent()->get_toolbar($this,$this->get_root_lo()->get_id(),$this->get_root_lo(), null);
         echo '<div id="trailbox2" style="padding:0px;">'.$this->get_parent()->get_breadcrumbtrail()->render().'<br /><br /><br /></div>';
         echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
         

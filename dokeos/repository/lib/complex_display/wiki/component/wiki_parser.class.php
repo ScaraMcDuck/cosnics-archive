@@ -18,6 +18,7 @@
  * Author: Stefan Billiet
  * Author: Nick De Feyter
  */
+require_once Path :: get_repository_path() . 'lib/complex_display/wiki/wiki_display_component.class.php';
 
 class WikiDisplayWikiParserComponent extends WikiDisplayComponent
 {

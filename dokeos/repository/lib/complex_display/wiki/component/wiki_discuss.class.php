@@ -51,7 +51,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
         }
         $wiki_page = $dm->retrieve_learning_object($this->wiki_page_id);
         
-        $this->action_bar = WikiDisplay :: get_toolbar($this,Request :: get('pid'),$this->get_root_lo(), $this->cid, $this->get_parent()->get_parent()->get_course()->get_id());//$this->get_toolbar();
+        $this->action_bar = $this->get_parent()->get_toolbar($this,$this->get_root_lo()->get_id(),$this->get_root_lo(), $this->cid);//$this->get_toolbar();
         echo '<div id="trailbox2" style="padding:0px;">'.$this->get_parent()->get_breadcrumbtrail()->render().'<br /><br /><br /></div>';
         echo  '<div style="float:left; width: 135px;">'.$this->action_bar->as_html().'</div>';
         echo  '<div style="padding-left: 15px; margin-left: 150px; border-left: 1px solid grey;"><div style="font-size:20px;">'.Translation :: get('DiscussThe'). ' ' .$wiki_page->get_title().' ' . Translation :: get('Page') .'<hr style="height:1px;color:#4271B5;width:100%;"></div>';
@@ -65,7 +65,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
          *  For more information about the parser, please read the information in the wiki_parser class.
          */
 
-        $parser = new WikiToolParserComponent($this->get_root_lo()->get_id(), $this->get_parent()->get_parent()->get_course_id(), $display->get_full_html(),$this->cid);
+        $parser = new WikiDisplayWikiParserComponent($this->get_root_lo()->get_id(), $display->get_full_html(),$this->cid);
         $parser->parse_wiki_text();
 
         $this->set_script();

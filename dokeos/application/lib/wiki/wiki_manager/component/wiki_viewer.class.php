@@ -11,16 +11,21 @@ class WikiManagerWikiViewerComponent extends WikiManagerComponent
     private $cd;
 	function run()
 	{
-//		if(!$this->is_allowed(VIEW_RIGHT))
-//		{
-//			Display :: not_allowed();
-//			return;
-//		}
+		if(!$this->is_allowed(VIEW_RIGHT))
+		{
+			Display :: not_allowed();
+			return;
+		}
+        $trail = new BreadcrumbTrail();
+		$trail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE)), Translation :: get('Wiki')));
+		$trail->add(new Breadcrumb($this->get_url(array(WikiManager :: PARAM_ACTION => WikiManager :: ACTION_BROWSE_WIKI_PUBLICATIONS)), Translation :: get('BrowseWikiPublications')));
+
 
 		$this->set_parameter(WikiManager :: PARAM_ACTION, WikiManager :: ACTION_VIEW_WIKI);
+        $this->set_parameter(WikiManager :: PARAM_WIKI_PUBLICATION, Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION));
         $this->cd = ComplexDisplay :: factory($this, 'wiki');
-        $this->cd->set_root_lo(WikiDataManager :: get_instance()->retrieve_wiki_publication(Request :: get(WikiManager :: PARAM_WIKI_PUBLICATION))->get_learning_object());
-        $this->display_header(new BreadcrumbTrail());
+        $this->cd->set_root_lo(WikiDataManager :: get_instance()->retrieve_wiki_publication($this->get_parameter(WikiManager :: PARAM_WIKI_PUBLICATION))->get_learning_object());
+        $this->display_header($trail, false);
         $this->cd->run();
         $this->display_footer();
     }

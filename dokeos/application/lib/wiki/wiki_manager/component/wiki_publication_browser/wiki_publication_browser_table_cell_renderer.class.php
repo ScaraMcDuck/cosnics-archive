@@ -43,6 +43,10 @@ class WikiPublicationBrowserTableCellRenderer extends DefaultWikiPublicationTabl
                     return $wiki_publication->get_learning_object()->get_description();
 			}
 		}
+        if ($column === WikiPublicationBrowserTableColumnModel :: get_modification_column())
+		{
+			return $this->get_modification_links($wiki_publication);
+		}
 		return parent :: render_cell($column, $wiki_publication);
 	}
 

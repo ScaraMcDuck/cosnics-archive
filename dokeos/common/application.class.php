@@ -181,7 +181,7 @@ abstract class Application
 	 * Displays the header.
 	 * @param array $breadcrumbtrail The breadcrumbtrail to show in the header.
 	 */
-	function display_header($breadcrumbtrail = null)
+	function display_header($breadcrumbtrail = null, $display_title = true)
 	{
 		if (is_null($breadcrumbtrail))
 		{
@@ -210,6 +210,7 @@ abstract class Application
 			echo '<div style="float: right; width: 85%;">';
 		}
 
+        if($display_title)
 		echo '<h3 style="float: left;" title="' . $title . '">' . DokeosUtilities :: truncate_string($title) . '</h3>';
 		echo '<div class="clear">&nbsp;</div>';
 

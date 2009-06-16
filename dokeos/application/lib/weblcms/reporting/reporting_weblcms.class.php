@@ -515,7 +515,14 @@ class ReportingWeblcms {
         require_once Path :: get_tracking_path().'lib/tracking_data_manager.class.php';
         require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
         $tdm = TrackingDataManager :: get_instance();
-        $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*display_action=view_item*&pid='.$params['pid'].'*');
+        if(Request :: get('application') == 'wiki')
+        {
+            $parameter = 'wiki_publication';
+        }
+        else
+        $parameter = 'pid';
+        
+        $condition = new PatternMatchCondition(VisitTracker :: PROPERTY_LOCATION, '*display_action=view_item*&'.$parameter.'='.$params['pid'].'*');
         $items = $tdm->retrieve_tracker_items('visit', 'VisitTracker', $condition);
         if(empty($items))
         return Reporting::getSerieArray($arr);
@@ -528,7 +535,7 @@ class ReportingWeblcms {
             foreach($piece as &$entry)
             {
                 $entry = (explode('=',$entry));
-                if(strcmp($entry[0],'cid')===0)
+                if(strcmp($entry[0],'selected_cloi')===0)
                 $cids[] = $entry[1];
             }
         }
@@ -557,7 +564,7 @@ class ReportingWeblcms {
                 if(in_array($key,array_keys($cloi_refs)))
                 {
                     $page = RepositoryDataManager :: get_instance()->retrieve_learning_object($cloi_refs[$key]);
-                    $url = (Redirect ::get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => $tool_action, 'display_action' => 'view_item', 'pid' => $params['pid'], 'cid' => $keys[0])));
+                    $url = (Redirect ::get_url(array('go' => 'courseviewer', 'course' => $params['course_id'], 'tool' => 'wiki', 'application' => 'weblcms', 'tool_action' => $tool_action, 'display_action' => 'view_item', 'pid' => $params['pid'], 'selected_cloi' => $keys[0])));
                     $arr[Translation :: get('MostVisitedPage')][] = '<a href="'.$url.'">'. htmlspecialchars($page->get_title()) . '</a>';
                     $arr[Translation :: get('NumberOfVisits')][] = $visits[$keys[0]];
                     break;
