@@ -117,7 +117,7 @@ class WikiDisplay extends ComplexDisplay
         return $wiki_homepage[0];
     }
 
-    static function get_toolbar($parent,$pid,$lo,$selected_cloi)
+    public function get_toolbar($parent,$pid,$lo,$selected_cloi)
 	{
         require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 
@@ -201,7 +201,7 @@ class WikiDisplay extends ComplexDisplay
 //                    Translation :: get('BrowseWikis'), Theme :: get_common_image_path().'action_browser.png', $parent->get_url(array(Tool :: PARAM_ACTION => WikiTool :: ACTION_BROWSE_WIKIS, WikiDisplay :: PARAM_DISPLAY_ACTION => null)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
 //                ));
 //
-//            }
+            }
 
 
             //INFORMATION
@@ -225,6 +225,7 @@ class WikiDisplay extends ComplexDisplay
         if(!empty($links))
         {
             $p = new WikiDisplayWikiParserComponent($pid, $links);
+            $p->set_parent($this);
             $toolboxlinks = $p->handle_toolbox_links($links);
             $links = explode(';',$links);
             $i=0;

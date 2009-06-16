@@ -20,16 +20,15 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
 
 	function run()
 	{
-        echo '<div id="trailbox2" style="padding:0px;">'.$this->get_parent()->get_breadcrumbtrail()->render().'<br /><br /><br /></div>';
-        
         $object = Request :: get('object'); //the object that was made, needed to set the reference for the complex object
 
         $this->pub = new RepoViewer($this, 'wiki_page', true);
         $this->pub->set_parameter(ComplexDisplay :: PARAM_DISPLAY_ACTION, WikiDisplay :: ACTION_CREATE_PAGE);
-        $this->pub->set_parameter('pid', Request :: get('pid'));
+        $this->pub->set_parameter('pid', $this->get_parent()->get_root_lo()->get_id());
 
         if(empty($object))
         {
+            echo '<div id="trailbox2" style="padding:0px;">'.$this->get_parent()->get_breadcrumbtrail()->render().'<br /><br /><br /></div>';
             $html[] =  $this->pub->as_html();
             //$this->get_parent()->get_parent()->display_header($trail, true);
             echo implode("\n",$html);
@@ -48,7 +47,7 @@ class WikiDisplayWikiPageCreatorComponent extends WikiDisplayComponent
                 $cloi->set_display_order(RepositoryDataManager :: get_instance()->select_next_display_order($this->get_root_lo()->get_id()));
                 $cloi->set_additional_properties(array('is_homepage' => 0));
                 $cloi->create();
-                $this->redirect($message, '', array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'selected_cloi' => $cloi->get_id(), 'pid' => Request :: get('pid')));
+                $this->redirect($message, '', array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_VIEW_WIKI_PAGE, 'selected_cloi' => $cloi->get_id(), 'pid' => $this->get_root_lo()->get_id()));
             }
             else
             {

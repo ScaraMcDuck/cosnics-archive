@@ -15,7 +15,7 @@ class WikiToolViewerComponent extends WikiToolComponent
 		{
 			Display :: not_allowed();
 			return;
-		}
+        }
 		$this->set_parameter(Tool :: PARAM_ACTION, WikiTool :: ACTION_VIEW_WIKI);
         $this->cd = ComplexDisplay :: factory($this, 'wiki');
         $this->cd->set_root_lo(WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object());

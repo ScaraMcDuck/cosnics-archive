@@ -21,6 +21,8 @@ abstract class WikiManagerComponent
 	 */
 	private $id;
 
+    private $rights;
+
 	/**
 	 * Constructor
 	 * @param Wiki $wiki The wiki which
@@ -30,6 +32,7 @@ abstract class WikiManagerComponent
 	{
 		$this->pm = $wiki;
 		$this->id =  ++self :: $component_count;
+        $this->load_rights();
 	}
 
 	/**
@@ -210,6 +213,25 @@ abstract class WikiManagerComponent
 	function get_browse_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE));
+	}
+
+    private function load_rights()
+	{
+		/**
+		 * Here we set the rights depending on the user status in the course.
+		 * This completely ignores the roles-rights library.
+		 * TODO: WORK NEEDED FOR PROPPER ROLES-RIGHTS LIBRARY
+		 */
+
+		$this->rights[VIEW_RIGHT] = true;
+		$this->rights[EDIT_RIGHT] = true;
+		$this->rights[ADD_RIGHT] = true;
+		$this->rights[DELETE_RIGHT] = true;
+	}
+
+    function is_allowed($right)
+	{
+		return $this->rights[$right];
 	}
 
 	/**
