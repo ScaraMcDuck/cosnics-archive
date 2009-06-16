@@ -30,7 +30,7 @@ class {APPLICATION_NAME}Manager{OBJECT_CLASSES}BrowserComponent extends {APPLICA
 	
 	function get_table()
 	{
-		$table = new {OBJECT_CLASS}BrowserTable($this, array(Application :: PARAM_APPLICATION => 'tester', Application :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES}), null);
+		$table = new {OBJECT_CLASS}BrowserTable($this, array(Application :: PARAM_APPLICATION => '{L_APPLICATION_NAME}', Application :: PARAM_ACTION => {APPLICATION_NAME}Manager :: ACTION_BROWSE_{U_OBJECT_CLASSES}), null);
 		return $table->as_html();
 	}
 
