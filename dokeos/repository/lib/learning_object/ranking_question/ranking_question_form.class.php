@@ -4,15 +4,15 @@
  * @subpackage exercise
  */
 require_once dirname(__FILE__) . '/../../learning_object_form.class.php';
-require_once dirname(__FILE__) . '/match_question.class.php';
-class MatchQuestionForm extends LearningObjectForm
+require_once dirname(__FILE__) . '/ranking_question.class.php';
+class RankingQuestionForm extends LearningObjectForm
 {
 
     protected function build_creation_form()
     {
         parent :: build_creation_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_question.js'));
+        $this->addElement('category', Translation :: get(get_class($this) . 'Items'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/ranking_question.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -20,8 +20,8 @@ class MatchQuestionForm extends LearningObjectForm
     protected function build_editing_form()
     {
         parent :: build_editing_form();
-        $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_question.js'));
+        $this->addElement('category', Translation :: get(get_class($this) . 'Items'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/ranking_question.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -37,17 +37,16 @@ class MatchQuestionForm extends LearningObjectForm
                 foreach ($options as $index => $option)
                 {
                     $defaults['option'][$index] = $option->get_value();
-                    $defaults['option_weight'][$index] = $option->get_weight();
-                    $defaults['comment'][$index] = $option->get_comment();
+                    $defaults['option_rank'][$index] = $option->get_rank();
                 }
             }
             else
             {
-                $number_of_options = intval($_SESSION['match_number_of_options']);
+                $number_of_options = intval($_SESSION['ranking_number_of_options']);
 
                 for($option_number = 0; $option_number < $number_of_options; $option_number ++)
                 {
-                    $defaults['option_weight'][$option_number] = 1;
+                    $defaults['option_rank'][$option_number] = $option_number + 1;
                 }
             }
         }
@@ -57,7 +56,7 @@ class MatchQuestionForm extends LearningObjectForm
 
     function create_learning_object()
     {
-        $object = new MatchQuestion();
+        $object = new RankingQuestion();
         $this->set_learning_object($object);
         $this->add_options_to_object();
         return parent :: create_learning_object();
@@ -76,11 +75,9 @@ class MatchQuestionForm extends LearningObjectForm
         $options = array();
         foreach ($values['option'] as $option_id => $value)
         {
-            $weight = $values['option_weight'][$option_id];
-            $comment = $values['comment'][$option_id];
-            $options[] = new MatchQuestionOption($value, $weight, $comment);
+            $rank = $values['option_rank'][$option_id];
+            $options[] = new RankingQuestionOption($value, $rank);
         }
-        $object->set_answer_type($_SESSION['match_answer_type']);
         $object->set_options($options);
     }
 
@@ -95,7 +92,7 @@ class MatchQuestionForm extends LearningObjectForm
 
     /**
      * Adds the form-fields to the form to provide the possible options for this
-     * match question
+     * ranking question
      */
     private function add_options()
     {
@@ -103,45 +100,34 @@ class MatchQuestionForm extends LearningObjectForm
 
         if (! $this->isSubmitted())
         {
-            unset($_SESSION['match_number_of_options']);
-            unset($_SESSION['match_skip_options']);
-            unset($_SESSION['match_answer_type']);
+            unset($_SESSION['ranking_number_of_options']);
+            unset($_SESSION['ranking_skip_options']);
         }
-        if (! isset($_SESSION['match_number_of_options']))
+        if (! isset($_SESSION['ranking_number_of_options']))
         {
-            $_SESSION['match_number_of_options'] = 3;
+            $_SESSION['ranking_number_of_options'] = 3;
         }
-        if (! isset($_SESSION['match_skip_options']))
+        if (! isset($_SESSION['ranking_skip_options']))
         {
-            $_SESSION['match_skip_options'] = array();
-        }
-        if (! isset($_SESSION['match_answer_type']))
-        {
-            $_SESSION['match_answer_type'] = 'radio';
+            $_SESSION['ranking_skip_options'] = array();
         }
         if (isset($_POST['add']))
         {
-            $_SESSION['match_number_of_options'] = $_SESSION['match_number_of_options'] + 1;
+            $_SESSION['ranking_number_of_options'] = $_SESSION['ranking_number_of_options'] + 1;
         }
         if (isset($_POST['remove']))
         {
             $indexes = array_keys($_POST['remove']);
-            $_SESSION['match_skip_options'][] = $indexes[0];
-        }
-        if (isset($_POST['change_answer_type']))
-        {
-            $_SESSION['match_answer_type'] = $_SESSION['match_answer_type'] == 'radio' ? 'checkbox' : 'radio';
+            $_SESSION['ranking_skip_options'][] = $indexes[0];
         }
         $object = $this->get_learning_object();
         if (! $this->isSubmitted() && ! is_null($object))
         {
-            $_SESSION['match_number_of_options'] = $object->get_number_of_options();
-            $_SESSION['match_answer_type'] = $object->get_answer_type();
+            $_SESSION['ranking_number_of_options'] = $object->get_number_of_options();
         }
-        $number_of_options = intval($_SESSION['match_number_of_options']);
+        $number_of_options = intval($_SESSION['ranking_number_of_options']);
 
-        $this->addElement('hidden', 'match_answer_type', $_SESSION['match_answer_type'], array('id' => 'match_answer_type'));
-        $this->addElement('hidden', 'match_number_of_options', $_SESSION['match_number_of_options'], array('id' => 'match_number_of_options'));
+        $this->addElement('hidden', 'ranking_number_of_options', $_SESSION['ranking_number_of_options'], array('id' => 'ranking_number_of_options'));
 
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
@@ -154,40 +140,30 @@ class MatchQuestionForm extends LearningObjectForm
         $table_header[] = '<table class="data_table">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
-        $table_header[] = '<th class="list"></th>';
-        $table_header[] = '<th>' . Translation :: get('PossibleAnswer') . '</th>';
-        $table_header[] = '<th>' . Translation :: get('Feedback') . '</th>';
-        $table_header[] = '<th class="numeric">' . Translation :: get('Score') . '</th>';
+        $table_header[] = '<th>' . Translation :: get('Item') . '</th>';
+        $table_header[] = '<th>' . Translation :: get('Rank') . '</th>';
         $table_header[] = '<th class="action"></th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
         $this->addElement('html', implode("\n", $table_header));
 
-        $textarea_height = $html_editor_options['height'];
-        $textarea_width = $html_editor_options['width'];
-
-        if (strpos($textarea_height, '%') === false)
+        $select_options = array();
+        for($i = 1; $i <= $number_of_options; $i++)
         {
-            $textarea_height .= 'px';
-        }
-        if (strpos($textarea_width, '%') === false)
-        {
-            $textarea_width .= 'px';
+        	$select_options[$i] = $i;
         }
 
-        for($option_number = 0; $option_number < $number_of_options; $option_number ++)
+        for($option_number = 0; $option_number < $number_of_options; $option_number++)
         {
-            if (! in_array($option_number, $_SESSION['match_skip_options']))
+            if (! in_array($option_number, $_SESSION['ranking_skip_options']))
             {
                 $group = array();
 
-                $group[] = & $this->createElement('static', null, null, $option_number + 1 . '.');
-                $group[] = $this->createElement('textarea', 'option[' . $option_number . ']', Translation :: get('Answer'), array('style' => 'width: 100%; height:' . $textarea_height));
-                $group[] = $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
-                $group[] = & $this->createElement('text', 'option_weight[' . $option_number . ']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
+                $group[] = $this->create_html_editor('option[' . $option_number . ']', Translation :: get('Item'), $html_editor_options);
+                $group[] = & $this->createElement('select', 'option_rank[' . $option_number . ']', Translation :: get('Rank'), $select_options, 'class="input_numeric"');
 
-                if ($number_of_options - count($_SESSION['match_skip_options']) > 2)
+                if ($number_of_options - count($_SESSION['ranking_skip_options']) > 2)
                 {
                     $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => $option_number));
                 }
@@ -198,7 +174,7 @@ class MatchQuestionForm extends LearningObjectForm
 
                 $this->addGroup($group, 'option_' . $option_number, null, '', false);
 
-                $this->addGroupRule('option_' . $option_number, array('option[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required')), 'option_weight[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
+                $this->addGroupRule('option_' . $option_number, array('option[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'))));
 
                 $renderer->setElementTemplate('<tr class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);

@@ -13,10 +13,6 @@ class MatchQuestionOption
      */
     private $value;
     /**
-     * Is this a correct answer to the question?
-     */
-    private $correct;
-    /**
      * The weight of this answer in the question
      */
     private $weight;
