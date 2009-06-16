@@ -172,7 +172,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
         $table_header[] = '<table class="data_table" style="width: 661px;">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
-        //$table_header[] = '<th></th>';
+        $table_header[] = '<th></th>';
         $table_header[] = '<th>' . Translation :: get('Blank') . '</th>';
         $table_header[] = '<th>' . Translation :: get('Feedback') . '</th>';
         $table_header[] = '<th class="numeric">' . Translation :: get('Score') . '</th>';
