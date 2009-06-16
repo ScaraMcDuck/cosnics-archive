@@ -1442,6 +1442,17 @@ div.padding_10
 	-webkit-border-radius: 10px;
 }
 
+#repoViewerModalContainer
+{
+	position: fixed;
+	width: 1000px;
+	height: 550px;
+	background-color: #FFFFFF;
+	border: 2px solid #E5EDF9;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
 a.modalCloseImg
 {
 	background: url(../img/home/background_modal_close.png) no-repeat;

@@ -102,6 +102,7 @@ class RepositoryManager extends CoreApplication
 	const ACTION_MANAGE_CATEGORIES = 'manage_categories';
 	const ACTION_VIEW_ATTACHMENT = 'view_attachment';
 	const ACTION_BUILD_COMPLEX_LEARNING_OBJECT = 'build_complex';
+	const ACTION_VIEW_REPO = 'repo_viewer';
 
 	const ACTION_BROWSE_USER_VIEWS = 'browse_views';
 	const ACTION_CREATE_USER_VIEW = 'create_view';
@@ -254,6 +255,9 @@ class RepositoryManager extends CoreApplication
 				break;
 			case self :: ACTION_BUILD_COMPLEX_LEARNING_OBJECT :
 				$component = RepositoryManagerComponent :: factory('ComplexBuilder', $this);
+				break;
+			case self :: ACTION_VIEW_REPO :
+				$component = RepositoryManagerComponent :: factory('RepoViewer', $this);
 				break;
 			default :
 				$this->set_action(self :: ACTION_BROWSE_LEARNING_OBJECTS);
