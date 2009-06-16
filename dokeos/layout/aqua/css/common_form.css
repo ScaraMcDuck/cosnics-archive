@@ -286,6 +286,20 @@ button.normal, a.normal_button
 	background-position: 10px center;
 }
 
+button.next, a.next_button
+{
+	background-image: url(../img/common/buttons/button_next.png);
+	background-repeat: no-repeat;
+	background-position: 10px center;
+}
+
+button.previous, a.previous_button
+{
+	background-image: url(../img/common/buttons/button_previous.png);
+	background-repeat: no-repeat;
+	background-position: 10px center;
+}
+
 a.normal_button:hover, button.normal:hover{
     background-color: #dff4ff;
     border: 1px solid #c2e1ef;

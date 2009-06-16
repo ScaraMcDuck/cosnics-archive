@@ -10,48 +10,48 @@ class OpenQuestionDisplay extends QuestionDisplay
 		$question = $this->get_question();
 		$type = $question->get_question_type();
 		$formvalidator = $this->get_formvalidator();
-		$renderer = $this->get_renderer();
-
-        $html_editor_options = array();
-        $html_editor_options['width'] = '100%';
-        $html_editor_options['height'] = '150';
-        $html_editor_options['show_tags'] = false;
-        $html_editor_options['toolbar_set'] = 'Assessment';
 
 		switch ($type)
 		{
 			case OpenQuestion :: TYPE_DOCUMENT:
-				$name = $this->get_clo_question()->get_id().'_0';
-				$formvalidator->addElement('hidden', $name, '');
-				$formvalidator->addElement('text', $name.'_name', Translation :: get('SelectedDocument'));
-				$buttons[] = $formvalidator->createElement('style_submit_button', 'repoviewer_'.$name, Translation :: get('Select'), array('class' => 'positive'));
-
-				$formvalidator->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+				$this->add_document($clo_question, $formvalidator);
 				break;
 			case OpenQuestion :: TYPE_OPEN:
-				$element_template = array();
-				$element_template[] = '<div><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}';
-				$element_template[] = '<div class="clear">&nbsp;</div>';
-				$element_template[] = '<div class="form_feedback"></div>';
-				$element_template[] = '<div class="clear">&nbsp;</div>';
-				$element_template[] = '</div>';
-				$element_template = implode("\n", $element_template);
-
-				$name = $clo_question->get_id() . '_0';
-				$formvalidator->add_html_editor($name, '', false, $html_editor_options);
-				$renderer->setElementTemplate($element_template, $name);
+				$this->add_html_editor($clo_question, $formvalidator);
 				break;
 			case OpenQuestion :: TYPE_OPEN_WITH_DOCUMENT:
-				$name = $clo_question->get_id().'_1';
-				$formvalidator->add_html_editor($name, '', false);
-				$name = $this->get_clo_question()->get_id().'_0';
-				$formvalidator->addElement('hidden', $name, '');
-				$formvalidator->addElement('text', $name.'_name', Translation :: get('SelectedDocument'));
-				$buttons[] = $formvalidator->createElement('style_submit_button', 'repoviewer_'.$name, Translation :: get('Select'), array('class' => 'positive'));
-
-				$formvalidator->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+				$this->add_html_editor($clo_question, $formvalidator);
+				$this->add_document($clo_question, $formvalidator);
 				break;
 		}
+	}
+	
+	function add_html_editor($clo_question, $formvalidator)
+	{
+		$html_editor_options = array();
+        $html_editor_options['width'] = '100%';
+        $html_editor_options['height'] = '150';
+        $html_editor_options['show_tags'] = false;
+        $html_editor_options['toolbar_set'] = 'Assessment';
+        
+        $element_template = array();
+		$element_template[] = '<div><!-- BEGIN error --><span class="form_error">{error}</span><br /><!-- END error -->	{element}';
+		$element_template[] = '<div class="clear">&nbsp;</div>';
+		$element_template[] = '<div class="form_feedback"></div>';
+		$element_template[] = '<div class="clear">&nbsp;</div>';
+		$element_template[] = '</div>';
+		$element_template = implode("\n", $element_template);
+		$renderer = $this->get_renderer();
+        
+		$name = $clo_question->get_id() . '_0';
+		$formvalidator->add_html_editor($name, '', false, $html_editor_options);
+		$renderer->setElementTemplate($element_template, $name);
+	}
+	
+	function add_document($clo_question, $formvalidator)
+	{
+		$name = $clo_question->get_id().'_1';
+		$formvalidator->addElement('file', $name);
 	}
 
 	function add_borders()
