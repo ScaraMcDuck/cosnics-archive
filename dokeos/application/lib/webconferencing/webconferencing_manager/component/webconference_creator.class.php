@@ -22,6 +22,7 @@ class WebconferencingManagerWebconferenceCreatorComponent extends Webconferencin
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('CreateWebconference')));
 
 		$webconference = new Webconference();
+		$webconference->set_user_id($this->get_user_id());
 		$form = new WebconferenceForm(WebconferenceForm :: TYPE_CREATE, $webconference, $this->get_url(), $this->get_user());
 
 		if($form->validate())
