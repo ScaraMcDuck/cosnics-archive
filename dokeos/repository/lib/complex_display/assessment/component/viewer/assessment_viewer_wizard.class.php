@@ -44,5 +44,10 @@ class AssessmentViewerWizard extends HTML_QuickForm_Controller
 		return $this->assessment;
 	}
 	
+	function get_total_pages()
+	{
+		return 1;
+	}
+	
 }
 ?>

@@ -14,6 +14,7 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 	{
 		$this->values = $page->controller->exportValues();
 
+		dump($this->values);
 	}
 }
 ?>
