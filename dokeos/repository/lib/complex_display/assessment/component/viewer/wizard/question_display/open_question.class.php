@@ -54,7 +54,7 @@ class OpenQuestionDisplay extends QuestionDisplay
 		$name_2 = $clo_question->get_id() . '_2';
 		$formvalidator->addElement('file', $name_1, '', array('class' => 'select_file'));
 		$group = array();
-		$group[] =& $formvalidator->createElement('text', $name_2 + '_text', '', array('class' => 'select_file_text', 'disabled' => 'disabled', 'style' => 'display: none; width: 200px; height: 20px'));
+		$group[] =& $formvalidator->createElement('text', ($name_2 . '_text'), '', array('class' => 'select_file_text', 'disabled' => 'disabled', 'style' => 'display: none; width: 200px; height: 20px'));
 		$group[] =& $formvalidator->createElement('hidden', $name_2, '', array('class' => 'select_file_hidden'));
 		$group[] =& $formvalidator->createElement('style_submit_button', 'select_file', Translation :: get('SelectFile'), array('class' => 'select_file_button positive', 'style' => 'display: none;', 'id' => $clo_question->get_id()));
 		$formvalidator->addGroup($group, '');
