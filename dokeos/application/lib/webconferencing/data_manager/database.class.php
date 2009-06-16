@@ -51,6 +51,7 @@ class DatabaseWebconferencingDataManager extends WebconferencingDataManager
 
 	function delete_webconference($webconference)
 	{
+		$this->delete_webconference_options($webconference);
 		$condition = new EqualityCondition(Webconference :: PROPERTY_ID, $webconference->get_id());
 		return $this->database->delete($webconference->get_table_name(), $condition);
 	}
