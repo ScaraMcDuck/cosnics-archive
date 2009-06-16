@@ -51,5 +51,5 @@ function object_selected(object)
 		async: false
 	}).responseText;
 	
-	jQuery('.select_file_text[name="' + selected_question_id + '"]').attr('value', title);
+	jQuery('.select_file_text[name="' + selected_question_id + '_2_text"]').attr('value', title);
 }
