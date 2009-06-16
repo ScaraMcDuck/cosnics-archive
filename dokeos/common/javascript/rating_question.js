@@ -12,14 +12,12 @@
 	function addSlider()
 	{
 		var id = $(this).attr("name");
-		var minValue = (int) $('option:first', this).val();		
-		var maxValue = (int) $('option:last', this).val();
+		var minValue = parseInt($('option:first', this).val());		
+		var maxValue = parseInt($('option:last', this).val());
 		var slider = $('<div class="slider" id="slider_' + id + '"></div>');
 		var caption = $('<div class="caption" id="slider_caption_' + id + '"></div>');
 		$(this).after(caption).after(slider);
 		$(this).toggle();
-		
-		alert(minValue);
 		
 		$(slider).slider({
 			animate: true,
