@@ -4,15 +4,15 @@
  * @subpackage exercise
  */
 require_once dirname(__FILE__) . '/../../learning_object_form.class.php';
-require_once dirname(__FILE__) . '/multiple_choice_question.class.php';
-class MultipleChoiceQuestionForm extends LearningObjectForm
+require_once dirname(__FILE__) . '/match_question.class.php';
+class MatchQuestionForm extends LearningObjectForm
 {
 
     protected function build_creation_form()
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/multiple_choice_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_question.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -21,7 +21,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Options'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/multiple_choice_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/match_question.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -34,7 +34,6 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
             if (! is_null($object))
             {
                 $options = $object->get_options();
-
                 foreach ($options as $index => $option)
                 {
                     $defaults['option'][$index] = $option->get_value();
@@ -52,7 +51,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
             }
             else
             {
-                $number_of_options = intval($_SESSION['mc_number_of_options']);
+                $number_of_options = intval($_SESSION['match_number_of_options']);
 
                 for($option_number = 0; $option_number < $number_of_options; $option_number ++)
                 {
@@ -66,7 +65,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 
     function create_learning_object()
     {
-        $object = new MultipleChoiceQuestion();
+        $object = new MatchQuestion();
         $this->set_learning_object($object);
         $this->add_options_to_object();
         return parent :: create_learning_object();
@@ -87,17 +86,9 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
         {
             $weight = $values['option_weight'][$option_id];
             $comment = $values['comment'][$option_id];
-            if ($_SESSION['mc_answer_type'] == 'radio')
-            {
-                $correct = $values['correct'] == $option_id;
-            }
-            else
-            {
-                $correct = $values['correct'][$option_id];
-            }
-            $options[] = new MultipleChoiceQuestionOption($value, $correct, $weight, $comment);
+            $options[] = new MatchQuestionOption($value, $weight, $comment);
         }
-        $object->set_answer_type($_SESSION['mc_answer_type']);
+        $object->set_answer_type($_SESSION['match_answer_type']);
         $object->set_options($options);
     }
 
@@ -112,7 +103,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 
     /**
      * Adds the form-fields to the form to provide the possible options for this
-     * multiple choice question
+     * match question
      */
     private function add_options()
     {
@@ -120,60 +111,45 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
 
         if (! $this->isSubmitted())
         {
-            unset($_SESSION['mc_number_of_options']);
-            unset($_SESSION['mc_skip_options']);
-            unset($_SESSION['mc_answer_type']);
+            unset($_SESSION['match_number_of_options']);
+            unset($_SESSION['match_skip_options']);
+            unset($_SESSION['match_answer_type']);
         }
-        if (! isset($_SESSION['mc_number_of_options']))
+        if (! isset($_SESSION['match_number_of_options']))
         {
-            $_SESSION['mc_number_of_options'] = 3;
+            $_SESSION['match_number_of_options'] = 3;
         }
-        if (! isset($_SESSION['mc_skip_options']))
+        if (! isset($_SESSION['match_skip_options']))
         {
-            $_SESSION['mc_skip_options'] = array();
+            $_SESSION['match_skip_options'] = array();
         }
-        if (! isset($_SESSION['mc_answer_type']))
+        if (! isset($_SESSION['match_answer_type']))
         {
-            $_SESSION['mc_answer_type'] = 'radio';
+            $_SESSION['match_answer_type'] = 'radio';
         }
         if (isset($_POST['add']))
         {
-            $_SESSION['mc_number_of_options'] = $_SESSION['mc_number_of_options'] + 1;
+            $_SESSION['match_number_of_options'] = $_SESSION['match_number_of_options'] + 1;
         }
         if (isset($_POST['remove']))
         {
             $indexes = array_keys($_POST['remove']);
-            $_SESSION['mc_skip_options'][] = $indexes[0];
+            $_SESSION['match_skip_options'][] = $indexes[0];
         }
         if (isset($_POST['change_answer_type']))
         {
-            $_SESSION['mc_answer_type'] = $_SESSION['mc_answer_type'] == 'radio' ? 'checkbox' : 'radio';
+            $_SESSION['match_answer_type'] = $_SESSION['match_answer_type'] == 'radio' ? 'checkbox' : 'radio';
         }
         $object = $this->get_learning_object();
         if (! $this->isSubmitted() && ! is_null($object))
         {
-            $_SESSION['mc_number_of_options'] = $object->get_number_of_options();
-            $_SESSION['mc_answer_type'] = $object->get_answer_type();
+            $_SESSION['match_number_of_options'] = $object->get_number_of_options();
+            $_SESSION['match_answer_type'] = $object->get_answer_type();
         }
-        $number_of_options = intval($_SESSION['mc_number_of_options']);
+        $number_of_options = intval($_SESSION['match_number_of_options']);
 
-        if ($_SESSION['mc_answer_type'] == 'radio')
-        {
-            $switch_label = Translation :: get('SwitchToCheckboxes');
-        }
-        elseif ($_SESSION['mc_answer_type'] == 'checkbox')
-        {
-            $switch_label = Translation :: get('SwitchToRadioButtons');
-        }
-
-        $this->addElement('hidden', 'mc_answer_type', $_SESSION['mc_answer_type'], array('id' => 'mc_answer_type'));
-        $this->addElement('hidden', 'mc_number_of_options', $_SESSION['mc_number_of_options'], array('id' => 'mc_number_of_options'));
-
-        $buttons = array();
-        $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array('class' => 'normal switch', 'id' => 'change_answer_type'));
-        //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
-        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddMultipleChoiceOption'), array('class' => 'normal add', 'id' => 'add_option'));
-        $this->addGroup($buttons, 'question_buttons', null, '', false);
+        $this->addElement('hidden', 'match_answer_type', $_SESSION['match_answer_type'], array('id' => 'match_answer_type'));
+        $this->addElement('hidden', 'match_number_of_options', $_SESSION['match_number_of_options'], array('id' => 'match_number_of_options'));
 
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
@@ -186,8 +162,8 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
         $table_header[] = '<table class="data_table">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
-        $table_header[] = '<th class="checkbox"></th>';
-        $table_header[] = '<th>' . Translation :: get('Answer') . '</th>';
+        $table_header[] = '<th class="list"></th>';
+        $table_header[] = '<th>' . Translation :: get('PossibleAnswer') . '</th>';
         $table_header[] = '<th>' . Translation :: get('Feedback') . '</th>';
         $table_header[] = '<th class="numeric">' . Translation :: get('Score') . '</th>';
         $table_header[] = '<th class="action"></th>';
@@ -196,56 +172,50 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
         $table_header[] = '<tbody>';
         $this->addElement('html', implode("\n", $table_header));
 
+        $textarea_height = $html_editor_options['height'];
+        $textarea_width = $html_editor_options['width'];
+
+        if (strpos($textarea_height, '%') === false)
+        {
+            $textarea_height .= 'px';
+        }
+        if (strpos($textarea_width, '%') === false)
+        {
+            $textarea_width .= 'px';
+        }
+
         for($option_number = 0; $option_number < $number_of_options; $option_number ++)
         {
-            if (!in_array($option_number, $_SESSION['mc_skip_options']))
+            if (! in_array($option_number, $_SESSION['match_skip_options']))
             {
                 $group = array();
 
-                if ($_SESSION['mc_answer_type'] == 'checkbox')
-                {
-                    $group[] =& $this->createElement('checkbox', 'correct[' . $option_number . ']', Translation :: get('Correct'), '', array('class' => 'option', 'id' => 'correct[' . $option_number . ']'));
-                }
-                else
-                {
-                    $group[] =& $this->createElement('radio', 'correct', Translation :: get('Correct'), '', $option_number, array('class' => 'option', 'id' => 'correct[' . $option_number . ']'));
-                }
-
-                $group[] = $this->create_html_editor('option[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
+                $group[] = & $this->createElement('static', null, null, $option_number + 1 . '.');
+                $group[] = $this->createElement('textarea', 'option[' . $option_number . ']', Translation :: get('Answer'), array('style' => 'width: 100%; height:' . $textarea_height));
                 $group[] = $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
-                $group[] =& $this->createElement('text', 'option_weight[' . $option_number . ']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
+                $group[] = & $this->createElement('text', 'option_weight[' . $option_number . ']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
 
-                if ($number_of_options - count($_SESSION['mc_skip_options']) > 2)
+                if ($number_of_options - count($_SESSION['match_skip_options']) > 2)
                 {
-                    $group[] =& $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => $option_number));
+                    $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => $option_number));
                 }
                 else
                 {
-                	$group[] =& $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                    $group[] = & $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
 
                 $this->addGroup($group, 'option_' . $option_number, null, '', false);
 
-                $this->addGroupRule('option_' . $option_number, array(
-                    'option[' . $option_number . ']' => array(
-                        array(Translation :: get('ThisFieldIsRequired'), 'required')
-                    ),
-                    'option_weight[' . $option_number . ']' => array(
-                        array(Translation :: get('ThisFieldIsRequired'), 'required'),
-                        array(Translation :: get('ValueShouldBeNumeric'), 'numeric')
-                    )
-                ));
+                $this->addGroupRule('option_' . $option_number, array('option[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required')), 'option_weight[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
 
-			    $renderer->setElementTemplate('<tr class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $option_number);
-    			$renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
+                $renderer->setElementTemplate('<tr class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $option_number);
+                $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
             }
         }
 
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $this->addElement('html', implode("\n", $table_footer));
-
-        $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
         $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
@@ -255,7 +225,7 @@ class MultipleChoiceQuestionForm extends LearningObjectForm
     {
         if (! isset($fields['correct']))
         {
-            $message = $_SESSION['mc_answer_type'] == 'checkbox' ? Translation :: get('SelectAtLeastOneCorrectAnswer') : Translation :: get('SelectACorrectAnswer');
+            $message = $_SESSION['match_answer_type'] == 'checkbox' ? Translation :: get('SelectAtLeastOneCorrectAnswer') : Translation :: get('SelectACorrectAnswer');
             return array('change_answer_type' => $message);
         }
         return true;
