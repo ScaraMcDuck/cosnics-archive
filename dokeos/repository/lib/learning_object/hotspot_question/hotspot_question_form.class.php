@@ -173,6 +173,12 @@ class HotspotQuestionForm extends LearningObjectForm
 				$web_path = Path :: get(WEB_REPO_PATH).$path;
 				move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "'.$full_path.'"');
 				chmod($full_path, 0777);
+				
+				$path = Path :: get(SYS_REPO_PATH);
+				$image_manipulation = ImageManipulation :: factory($full_path);
+				$image_manipulation->scale(650,720);
+				$image_manipulation->write_to_file();
+				
 				$_SESSION['hotspot_path'] = htmlspecialchars($owner.'/'.$filename);
 				$_SESSION['web_path'] = $web_path;
 				$_SESSION['full_path'] = $full_path;
