@@ -11,12 +11,14 @@ class MatrixQuestionForm extends LearningObjectForm
 	protected function build_creation_form()
 	{
 		parent :: build_creation_form();
+		$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/matrix_question.js'));
 		$this->build_options_and_matches();
 	}
 
 	protected function build_editing_form()
 	{
 		parent :: build_editing_form();
+		$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/matrix_question.js'));
 		$this->build_options_and_matches();
 	}
 	/**
@@ -201,6 +203,10 @@ class MatrixQuestionForm extends LearningObjectForm
 			$_SESSION['mq_number_of_matches'] = $object->get_number_of_matches();
 			$_SESSION['mq_matrix_type'] = $object->get_matrix_type();
 		}
+		
+		$this->addElement('hidden', 'mq_number_of_options', $_SESSION['mq_number_of_options'], array('id' => 'mq_number_of_options'));
+		$this->addElement('hidden', 'mq_number_of_matches', $_SESSION['mq_number_of_matches'], array('id' => 'mq_number_of_matches'));
+		$this->addElement('hidden', 'mq_matrix_type', $_SESSION['mq_matrix_type'], array('id' => 'mq_matrix_type'));
 	}
 
 	/**
@@ -236,14 +242,14 @@ class MatrixQuestionForm extends LearningObjectForm
         }
 		
 		$buttons = array();
-		$buttons[] = $this->createElement('style_submit_button', 'change_matrix_type[]', $switch_label, array('class' => 'normal switch'));
-        $buttons[] = $this->createElement('style_button', 'add_option[]', Translation :: get('AddMatrixQuestionOption'), array('class' => 'normal add'));
+		$buttons[] = $this->createElement('style_submit_button', 'change_matrix_type[]', $switch_label, array('class' => 'normal switch change_matrix_type'));
+        $buttons[] = $this->createElement('style_button', 'add_option[]', Translation :: get('AddMatrixQuestionOption'), array('class' => 'normal add', 'id' => 'add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
 		$renderer = $this->defaultRenderer();
 
 		$table_header = array();
-        $table_header[] = '<table class="data_table">';
+        $table_header[] = '<table class="data_table options">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
         $table_header[] = '<th class="list"></th>';
@@ -274,7 +280,7 @@ class MatrixQuestionForm extends LearningObjectForm
 				$visual_number++;
 				$group[] = $this->createElement('static', null, null, $visual_number);
 				$group[] = $this->create_html_editor('option[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
-				$element = $this->createElement('select','matches_to['.$option_number.']',Translation :: get('Matches'),$matches);
+				$element = $this->createElement('select','matches_to['.$option_number.']',Translation :: get('Matches'),$matches, array('class' => 'option_matches'));
 				$element->setMultiple($multiple);
 				$group[] = $element;
 				$group[] = $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
@@ -282,7 +288,7 @@ class MatrixQuestionForm extends LearningObjectForm
 
 				if($number_of_options - count($_SESSION['mq_skip_options']) > 2)
 				{
-					$group[] = $this->createElement('image','remove_option['.$option_number.']',Theme :: get_common_image_path().'action_delete.png');
+					$group[] = $this->createElement('image','remove_option['.$option_number.']',Theme :: get_common_image_path().'action_delete.png', array('class' => 'remove_option', 'id' => $option_number));
 				}
                 else
                 {
@@ -337,13 +343,13 @@ class MatrixQuestionForm extends LearningObjectForm
 		$this->addElement('category', Translation :: get('Matches'));
 
 		$buttons = array();
-        $buttons[] = $this->createElement('style_button', 'add_match[]', Translation :: get('AddMatch'), array('class' => 'normal add'));
+        $buttons[] = $this->createElement('style_button', 'add_match[]', Translation :: get('AddMatch'), array('class' => 'normal add', 'id' => 'add_match'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
 		$renderer = $this->defaultRenderer();
 
 		$table_header = array();
-        $table_header[] = '<table class="data_table">';
+        $table_header[] = '<table class="data_table matches">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
         $table_header[] = '<th class="list"></th>';
@@ -376,7 +382,7 @@ class MatrixQuestionForm extends LearningObjectForm
 
 				if($number_of_matches - count($_SESSION['mq_skip_matches']) > 2)
 				{
-					$group[] = $this->createElement('image','remove_match['.$match_number.']',Theme :: get_common_image_path().'action_delete.png');
+					$group[] = $this->createElement('image','remove_match['.$match_number.']',Theme :: get_common_image_path().'action_delete.png', array('class' => 'remove_match', 'id' => $match_number));
 				}
                 else
                 {
