@@ -171,6 +171,16 @@ EOT;
 		return $element;
 	}
 
+	function create_textfield($name, $label, $attributes = array())
+	{
+		if (!array_key_exists('size', $attributes))
+		{
+			$attributes['size'] = 50;
+		}
+		$element = $this->createElement('text', $name, $label, $attributes);
+		return $element;
+	}
+
 	/**
 	 * Adds a select control to the form.
 	 * @param string $name The element name.

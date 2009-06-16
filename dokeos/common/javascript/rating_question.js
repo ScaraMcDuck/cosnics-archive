@@ -12,7 +12,7 @@
 	function addSlider()
 	{
 		var id = $(this).attr("name");
-		var minValue = $('option:first', this).val();
+		var minValue = $('option:first', this).val();		
 		var maxValue = $('option:last', this).val();
 		var slider = $('<div class="slider" id="slider_' + id + '"></div>');
 		var caption = $('<div class="caption" id="slider_caption_' + id + '"></div>');
@@ -24,7 +24,8 @@
 			min: minValue,
 			max: maxValue,
 			stop: setValue,
-			slide: setValue
+			slide: setValue,
+			step: 1
 			});
 	}
 	

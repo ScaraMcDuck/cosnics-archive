@@ -74,8 +74,18 @@ class Assessment extends LearningObject
 
 	function get_allowed_types()
 	{
-		return array('rating_question', 'open_question', 'hotspot_question', 'fill_in_blanks_question', 'multiple_choice_question',
-					 'matching_question', 'select_question', 'matrix_question');
+	    $allowed_types = array();
+	    $allowed_types[] = 'rating_question';
+	    $allowed_types[] = 'open_question';
+	    $allowed_types[] = 'hotspot_question';
+	    $allowed_types[] = 'fill_in_blanks_question';
+	    $allowed_types[] = 'multiple_choice_question';
+	    $allowed_types[] = 'matching_question';
+	    $allowed_types[] = 'select_question';
+	    $allowed_types[] = 'matrix_question';
+	    $allowed_types[] = 'match_question';
+	    //$allowed_types[] = '';
+	    return $allowed_types;
 	}
 
 	function get_table()

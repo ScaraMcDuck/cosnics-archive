@@ -76,6 +76,9 @@
 			<setting name="allow_matrix_question_creation" field="checkbox" default="1">
 				<options type="static"><option name="allow_matrix_question_creation" value="1" /></options>
 			</setting>
+			<setting name="allow_match_question_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_match_question_creation" value="1" /></options>
+			</setting>
 			<setting name="allow_multiple_choice_question_creation" field="checkbox" default="1">
 				<options type="static"><option name="allow_multiple_choice_question_creation" value="1" /></options>
 			</setting>
