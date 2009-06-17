@@ -7,11 +7,18 @@ $action = Request :: post('action');
 
 switch($action)
 {
-	case 'set': $_SESSION[$variable] = $value; break;
-	case 'get': echo $_SESSION[$variable]; break;
-	case 'clear': unset($_SESSION[$variable]); break;
+	case 'set':
+	    $_SESSION[$variable] = $value;
+	    break;
+	case 'get':
+	    echo $_SESSION[$variable];
+	    break;
+	case 'clear':
+	    unset($_SESSION[$variable]);
+	    break;
 	default:
-		echo $_SESSION[$variable]; break;
+		echo $_SESSION[$variable];
+		break;
 }
 
 ?>
