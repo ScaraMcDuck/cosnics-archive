@@ -195,7 +195,7 @@ class RightsUtilities
 
 					while ($group_role = $group_roles->next_result())
 					{
-						$roles[] = $group_role->get_id();
+						$roles[] = $group_role->get_role_id();
 					}
 				}
 			}
@@ -411,6 +411,7 @@ class RightsUtilities
 	static function role_for_element_finder($role)
 	{
 		$return = array ();
+		$return['id'] = $role->get_id();
 		$return['class'] = 'type type_role';
 		$return['title'] = $role->get_name();
 		$return['description'] = strip_tags($role->get_description());

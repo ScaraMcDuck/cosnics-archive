@@ -36,12 +36,12 @@ class GroupRelUserBrowserTableCellRenderer extends DefaultGroupRelUserTableCellR
 		switch ($column->get_object_property())
 		{
 			// Exceptions that need post-processing go here ...
-			case 'User' :
+			case GroupRelUser :: PROPERTY_USER_ID :
 				$user_id = parent :: render_cell($column, $groupreluser);
 				$user = UserManager :: retrieve_user($user_id);
 //				return '<a href="' . Path :: get(WEB_PATH) . 'index_user.php?go=view&id=' . $user->get_id() .
 //					'">' . $user->get_username() . '</a>';
-				return $user->get_username();
+				return $user->get_fullname();
 		}
 		return parent :: render_cell($column, $groupreluser);
 	}
