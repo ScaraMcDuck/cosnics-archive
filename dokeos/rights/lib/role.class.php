@@ -210,7 +210,7 @@ class Role
 		if(isset($groups)){
 			$group_user_ids = array();
 			while($group = $groups->next_result()){
-				$group_user_ids = $group->get_users(false, false);
+				$group_user_ids = $group->get_users(true, true);
 				foreach($group_user_ids as $id){
 					$user_ids[]=$id;
 				}
