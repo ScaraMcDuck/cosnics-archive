@@ -14,6 +14,7 @@ class AssessmentViewerWizard extends HTML_QuickForm_Controller
 
 	private $parent;
 	private $assessment;
+	private $total_pages;
 
 	function AssessmentViewerWizard($parent, $assessment)
 	{
@@ -22,16 +23,41 @@ class AssessmentViewerWizard extends HTML_QuickForm_Controller
 		$this->parent = $parent;
 		$this->assessment = $assessment;
 
-		$this->addpages($assessment);
+		$this->addpages();
 		
 		$this->addAction('process', new AssessmentViewerWizardProcess($this));
 		$this->addAction('display', new AssessmentViewerWizardDisplay($this));
 	}
 	
-	function addpages($assessment)
+	function addpages()
 	{
-		$questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id()));
-		$this->addPage(new QuestionsAssessmentViewerWizardPage('page_1', $this, 1, $questions));
+		$assessment = $this->assessment;
+		$total_questions = RepositoryDataManager :: get_instance()->count_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id()));
+		$questions_per_page = $assessment->get_questions_per_page();
+		
+		if($questions_per_page == 0)
+		{
+			$this->total_pages = 1;
+		}
+		else
+		{
+			$this->total_pages = ceil($total_questions / $questions_per_page);
+		}
+		
+		for($i = 1; $i <= $this->total_pages; $i++ )
+			$this->addPage(new QuestionsAssessmentViewerWizardPage('question_page_' . $i, $this, $i));
+			
+	}
+	
+	function get_questions($page_number)
+	{
+		$assessment = $this->assessment;
+		$questions_per_page = $this->assessment->get_questions_per_page();
+		$start = (($page_number - 1) * $questions_per_page);
+		$stop = $questions_per_page;
+		
+		$questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id()), array(), array(), $start, $stop);
+		return $questions;
 	}
 	
 	function get_parent()
@@ -46,7 +72,7 @@ class AssessmentViewerWizard extends HTML_QuickForm_Controller
 	
 	function get_total_pages()
 	{
-		return 1;
+		return $this->total_pages;
 	}
 	
 }

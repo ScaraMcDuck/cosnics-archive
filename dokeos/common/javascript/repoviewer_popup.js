@@ -42,7 +42,6 @@ var selected_question_id = 0;
 function object_selected(object)
 {
 	jQuery.modal.close();
-	jQuery('#' + selected_question_id + '_2').attr('value', object);
 	
 	var title = jQuery.ajax({
 		type: "POST",
@@ -52,4 +51,5 @@ function object_selected(object)
 	}).responseText;
 	
 	jQuery('.select_file_text[name="' + selected_question_id + '_2_text"]').attr('value', title);
+	jQuery('#' + selected_question_id + '_2').attr('value', object);
 }
