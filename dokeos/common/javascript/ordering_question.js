@@ -2,7 +2,7 @@
 
 $(function ()
 {
-    var skippedOptions = 0, baseWebPath = getPath('WEB_PATH');
+    var skippedOptions = 0, baseWebPath = getPath('WEB_PATH'), currentNumberOfOptions;
     
     function getDeleteIcon()
     {
@@ -11,7 +11,7 @@ $(function ()
     
     function getSelectOptions()
     {
-		return $('.data_table tbody tr:first select').html();
+		return $('.data_table tbody tr:first select[name*="option_rank"]').html();
     }
     
     function processItems()
@@ -31,13 +31,24 @@ $(function ()
 		{
 			var rankFieldName, id, appendField;
 		    
-			rankFieldName = $('select[name*="option_rank"]', this).attr('name');
+			rankField = $('select[name*="option_rank"]', this);
+			if (rows.size() > currentNumberOfOptions)
+			{
+				rankField.append($('<option value="'+ rows.size() +'">'+ rows.size() +'</option>'));
+			}
+			else
+			{
+				$('option:last', rankField).remove();
+			}
+			rankFieldName = rankField.attr('name');
 		    id = rankFieldName.substr(12, rankFieldName.length - 13);
 		    appendField = deleteField.replace(/\$option_number/g, id);
 	
 		    $('.remove_option', this).remove();
 		    $('td:last', this).append(appendField);
 		});
+		
+		currentNumberOfOptions = rows.size();
     }
 
     function removeOption(ev, ui) {
@@ -103,7 +114,7 @@ $(function ()
 		editorName = 'option[' + numberOfOptions + ']';
 	
 		fieldAnswer = renderFckEditor(editorName, parameters);
-		fieldOrder = '<select name="option_rank[' + numberOfOptions + ']"></select>';
+		fieldOrder = '<select name="option_rank[' + numberOfOptions + ']">'+ getSelectOptions() +'</select>';
 		fieldDelete = '<input id="' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		string = '<tr class="' + rowClass + '"><td>' + fieldAnswer + '</td><td>' + fieldOrder + '</td><td>' + fieldDelete + '</td></tr>';
 	
@@ -114,10 +125,9 @@ $(function ()
 
     $(document).ready(function ()
     {
+    	currentNumberOfOptions = $('.data_table tbody tr').size();
 		$('.remove_option').live('click', removeOption);
 		$('#add_option').live('click', addOption);
-		
-		alert(getSelectOptions());
     });
     
 });
