@@ -19,7 +19,7 @@ $(function ()
     	var deleteImage, deleteField, rows;
     	
 		deleteImage = '<img class="remove_option" src="' + getDeleteIcon().replace('.png', '_na.png') + '"/>';
-		deleteField = '<input id="$option_number" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[$option_number]" />';
+		deleteField = '<input id="remove_$option_number" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[$option_number]" />';
 		rows = $('.data_table tbody tr');
 	
 		if (rows.size() <= 2)
@@ -58,7 +58,8 @@ $(function ()
 	
 		tableBody = $(this).parent().parent().parent();
 		id = $(this).attr('id');
-		$(this).parent().parent().remove();
+		id = id.replace('remove_', '');
+		$('tr#' + id, tableBody).remove();
 	
 		rows = $('tr', tableBody);
 	
@@ -89,7 +90,7 @@ $(function ()
 		ev.preventDefault();
 		
 		var	numberOfOptions, newNumber, response, rowClass, id, fieldAnswer,
-			fieldOrder, fieldDelete, string, parameters, editorName;
+			fieldOrder, fieldDelete, string, parameters, editorName, highestOptionValue;
 	
 		numberOfOptions = $('#ordering_number_of_options').attr('value');
 		newNumber = parseInt(numberOfOptions, 10) + 1;
@@ -115,12 +116,15 @@ $(function ()
 	
 		fieldAnswer = renderFckEditor(editorName, parameters);
 		fieldOrder = '<select name="option_rank[' + numberOfOptions + ']">'+ getSelectOptions() +'</select>';
-		fieldDelete = '<input id="' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
-		string = '<tr class="' + rowClass + '"><td>' + fieldAnswer + '</td><td>' + fieldOrder + '</td><td>' + fieldDelete + '</td></tr>';
+		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
+		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldAnswer + '</td><td>' + fieldOrder + '</td><td>' + fieldDelete + '</td></tr>';
 	
 		$('tbody', $('.data_table')).append(string);
 	
 		processItems();
+		
+		highestOptionValue = $('.data_table tbody tr:first select[name*="option_rank"] option:last').val();
+		$('.data_table tbody tr:last select[name*="option_rank"]').val(highestOptionValue);
     }
 
     $(document).ready(function ()
@@ -128,6 +132,8 @@ $(function ()
     	currentNumberOfOptions = $('.data_table tbody tr').size();
 		$('.remove_option').live('click', removeOption);
 		$('#add_option').live('click', addOption);
+		//$('.data_table thead tr th:nth-child(2)').hide();
+		//$('.data_table tbody tr td:nth-child(2)').hide();
     });
     
 });
