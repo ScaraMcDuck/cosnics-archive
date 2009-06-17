@@ -4,7 +4,7 @@
   <property name="user_id" type="integer" unsigned="1" notnull="1"/>
   <property name="lastname" type="text" length="60"/>
   <property name="firstname" type="text" length="60"/>
-  <property name="username" type="text" length="20" notnull="1" default=""/>
+  <property name="username" type="text" length="60" notnull="1" default=""/>
   <property name="password" type="text" length="150" notnull="1" default=""/>
   <property name="auth_source" type="text" length="50" default="platform"/>
   <property name="external_uid" type="text" length="50" />
