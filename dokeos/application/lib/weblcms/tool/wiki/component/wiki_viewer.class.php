@@ -18,7 +18,12 @@ class WikiToolViewerComponent extends WikiToolComponent
         }
 		$this->set_parameter(Tool :: PARAM_ACTION, WikiTool :: ACTION_VIEW_WIKI);
         $this->cd = ComplexDisplay :: factory($this, 'wiki');
-        $this->cd->set_root_lo(WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'))->get_learning_object());
+        $o = WebLcmsDataManager :: get_instance()->retrieve_learning_object_publication(Request :: get('pid'));
+        if(empty($o))
+        $o = RepositoryDataManager :: get_instance()->retrieve_learning_object(Request :: get('pid'));
+        else
+        $o = $o->get_learning_object();
+        $this->cd->set_root_lo($o);
         $this->display_header(new BreadcrumbTrail());
         $this->cd->run();
         $this->display_footer();

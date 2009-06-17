@@ -9,10 +9,10 @@
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 require_once Path :: get_repository_path().'lib/complex_display/complex_display.class.php';
 require_once Path :: get_repository_path().'lib/complex_display/wiki/component/wiki_parser.class.php';
-require_once Path :: get_repository_path().'lib/learning_object_pub_feedback.class.php';
+require_once Path :: get_application_path().'lib/wiki/wiki_pub_feedback.class.php';
 require_once Path :: get_repository_path().'lib/complex_display/wiki/wiki_display.class.php';
 
-class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
+class WikiDisplayWikiPubDiscussComponent extends WikiDisplayComponent
 {
 	private $action_bar;
     private $wiki_page_id;
@@ -79,20 +79,11 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
 
         if(isset($this->cid)&& $this->get_root_lo()->get_id() != null)
         {
-            if(Request :: get('application') == 'wiki')
-            {
-                $conditions[] = new EqualityCondition(WikiPubFeedback :: PROPERTY_WIKI_PUBLICATION_ID, Request :: get('wiki_publication'));
-                $conditions[] = new EqualityCondition(WikiPubFeedback :: PROPERTY_CLOI_ID, $this->cid);
-                $condition = new AndCondition($conditions);
-                $feedbacks = WikiDataManager :: get_instance()->retrieve_wiki_pub_feedbacks($condition);
-            }
-            else
-            {
-                $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_PUBLICATION_ID, Request :: get('pid'));
-                $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_CLOI_ID, $this->cid);
-                $condition = new AndCondition($conditions);
-                $feedbacks = $dm->retrieve_learning_object_pub_feedback($condition);
-            }
+            $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_PUBLICATION_ID, Request :: get('pid'));
+            $conditions[] = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_CLOI_ID, $this->cid);
+            $condition = new AndCondition($conditions);
+            $feedbacks = $dm->retrieve_learning_object_pub_feedback($condition);
+
             while($feedback = $feedbacks->next_result())
             {
                 if($i == 0)
@@ -119,14 +110,14 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
     function build_feedback_actions()
     {
         $actions[] = array(
-			'href' => $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DELETE_FEEDBACK, 'fid' => $this->fid, 'selected_cloi' => $this->cid, 'pid' => Request :: get('pid'), 'wiki_publication' => Request :: get('wiki_publication'))),
+			'href' => $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DELETE_FEEDBACK, 'fid' => $this->fid, 'selected_cloi' => $this->cid, 'pid' => Request :: get('pid'))),
 			'label' => Translation :: get('Delete'),
 			'img' => Theme :: get_common_image_path().'action_delete.png',
             'confirm' => true
 			);
 
         $actions[] = array(
-			'href' => $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_EDIT_FEEDBACK, 'fid' => $this->fid, 'selected_cloi' => $this->cid, 'pid' => Request :: get('pid'), 'wiki_publication' => Request :: get('wiki_publication'))),
+			'href' => $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_EDIT_FEEDBACK, 'fid' => $this->fid, 'selected_cloi' => $this->cid, 'pid' => Request :: get('pid'))),
 			'label' => Translation :: get('Edit'),
 			'img' => Theme :: get_common_image_path().'action_edit.png'
 			);
@@ -138,7 +129,7 @@ class WikiDisplayWikiDiscussComponent extends WikiDisplayComponent
     function show_add_feedback()
     {
         $actions[] = array(
-			'href' => $this->get_url(array(WikiDisplay :: PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_FEEDBACK_CLOI, 'pid' => Request :: get('pid'), 'wiki_publication' => Request :: get('wiki_publication'), 'selected_cloi' => $this->cid)),
+			'href' => $this->get_url(array(WikiTool :: PARAM_ACTION => Tool :: ACTION_FEEDBACK_CLOI, 'pid' => Request :: get('pid'), 'selected_cloi' => $this->cid)),
 			'label' => Translation :: get('AddFeedback'),
 			'img' => Theme :: get_common_image_path().'action_add.png',
             'confirm' => false

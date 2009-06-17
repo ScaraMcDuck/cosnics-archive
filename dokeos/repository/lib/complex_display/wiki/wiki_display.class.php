@@ -83,12 +83,21 @@ class WikiDisplay extends ComplexDisplay
                 $component->set_template_name('PublicationDetailReportingTemplate');
                 break;
             case self :: ACTION_FEEDBACK_CLOI:
+                if(Request :: get('application') == 'wiki')
+                $component = WikiDisplayComponent :: factory('WikiPubFeedbackCreator',$this);
+                else
                 $component = ComplexDisplayComponent :: factory(null,'ComplexFeedback',$this);
                 break;
             case self :: ACTION_EDIT_FEEDBACK:
+                if(Request :: get('application') == 'wiki')
+                $component = WikiDisplayComponent :: factory('WikiPubFeedbackEditor',$this);
+                else
                 $component = ComplexDisplayComponent :: factory(null,'FeedbackEdit',$this);
                 break;
             case self :: ACTION_DELETE_FEEDBACK:
+                if(Request :: get('application') == 'wiki')
+                $component = WikiDisplayComponent :: factory('WikiPubFeedbackDeleter',$this);
+                else
                 $component = ComplexDisplayComponent :: factory(null,'FeedbackDeleter',$this);
                 break;
 			default :
@@ -150,14 +159,14 @@ class WikiDisplay extends ComplexDisplay
             {
                 $action_bar->add_common_action(
                 new ToolbarItem(
-                    Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $parent->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_FEEDBACK_CLOI, 'pid' => $pid, 'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                    Translation :: get('AddFeedback'), Theme :: get_common_image_path().'action_add.png', $parent->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_FEEDBACK_CLOI, 'pid' => $pid, 'wiki_publication' => Request :: get('wiki_publication'), 'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
                 )
                 );
             }
 
             $action_bar->add_common_action(
                 new ToolbarItem(
-                    Translation :: get('Discuss'), Theme :: get_common_image_path().'action_users.png', $parent->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, 'pid' => $pid, 'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
+                    Translation :: get('Discuss'), Theme :: get_common_image_path().'action_users.png', $parent->get_url(array(WikiDisplay ::PARAM_DISPLAY_ACTION => WikiDisplay :: ACTION_DISCUSS, 'pid' => $pid, 'wiki_publication' => Request :: get('wiki_publication'), 'selected_cloi' => $selected_cloi)), ToolbarItem :: DISPLAY_ICON_AND_LABEL
                 )
             );
 
