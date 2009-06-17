@@ -7,12 +7,10 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
 	private $page_number;
 	private $questions;
 
-	function QuestionsAssessmentViewerWizardPage($name, $parent, $number, $questions)
+	function QuestionsAssessmentViewerWizardPage($name, $parent, $number)
 	{
 		parent :: AssessmentViewerWizardPage($name, $parent);
-
 		$this->page_number = $number;
-		$this->questions = $questions;
 	}
 
 	function get_number_of_questions()
@@ -23,7 +21,8 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
 	function buildForm()
 	{
 		$this->_formBuilt = true;
-
+		$this->questions = $this->get_parent()->get_questions($this->page_number);
+		
 		// Add buttons
 		if($this->page_number > 1)
 			$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('back'), Translation :: get('Back'), array('class' => 'previous'));
@@ -34,7 +33,7 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		
 		// Add question forms
-		$i = 1;
+		$i = (($this->page_number - 1) * $this->get_parent()->get_assessment()->get_questions_per_page()) + 1;
 
 		while($question = $this->questions->next_result())
 		{
