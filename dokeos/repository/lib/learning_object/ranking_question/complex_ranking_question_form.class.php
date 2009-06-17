@@ -4,11 +4,11 @@
  * @subpackage complex_assessment
  */
 require_once dirname(__FILE__) . '/../../complex_learning_object_item_form.class.php';
-require_once dirname(__FILE__) . '/complex_ranking_question.class.php';
+require_once dirname(__FILE__) . '/complex_ordering_question.class.php';
 /**
  * This class represents a form to create or update complex assessments
  */
-class ComplexRankingQuestionForm extends ComplexLearningObjectItemForm
+class ComplexOrderingQuestionForm extends ComplexLearningObjectItemForm
 {
 	protected function build_creation_form()
     {
@@ -32,7 +32,7 @@ class ComplexRankingQuestionForm extends ComplexLearningObjectItemForm
 	
 	public function get_elements()
 	{
-		$elements[] = $this->createElement('text', ComplexRankingQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'), array("size" => "50"));
+		$elements[] = $this->createElement('text', ComplexOrderingQuestion :: PROPERTY_WEIGHT, Translation :: get('Weight'), array("size" => "50"));
 		return $elements;
 	}
 	
@@ -48,7 +48,7 @@ class ComplexRankingQuestionForm extends ComplexLearningObjectItemForm
 	
 		if (isset ($cloi))
 		{
-			$defaults[ComplexRankingQuestion :: PROPERTY_WEIGHT] = $cloi->get_weight() ? $cloi->get_weight() : 0;
+			$defaults[ComplexOrderingQuestion :: PROPERTY_WEIGHT] = $cloi->get_weight() ? $cloi->get_weight() : 0;
 		}
 		
 		return $defaults;
@@ -59,21 +59,21 @@ class ComplexRankingQuestionForm extends ComplexLearningObjectItemForm
 	{ 
 		$cloi = $this->get_complex_learning_object_item();
 		$values = $this->exportValues();
-		$cloi->set_weight($values[ComplexRankingQuestion :: PROPERTY_WEIGHT]); 
+		$cloi->set_weight($values[ComplexOrderingQuestion :: PROPERTY_WEIGHT]); 
 		return parent :: create_complex_learning_object_item();
 	}
 	
 	function create_cloi_from_values($values)
 	{
 		$cloi = $this->get_complex_learning_object_item();
-		$cloi->set_weight($values[ComplexRankingQuestion :: PROPERTY_WEIGHT]); 
+		$cloi->set_weight($values[ComplexOrderingQuestion :: PROPERTY_WEIGHT]); 
 		return parent :: create_complex_learning_object_item();
 	}
 	
 	function update_cloi_from_values($values)
 	{
 		$cloi = $this->get_complex_learning_object_item();
-		$cloi->set_weight($values[ComplexRankingQuestion :: PROPERTY_WEIGHT]); 
+		$cloi->set_weight($values[ComplexOrderingQuestion :: PROPERTY_WEIGHT]); 
 		return parent :: update_complex_learning_object_item();
 	}
 	
@@ -82,7 +82,7 @@ class ComplexRankingQuestionForm extends ComplexLearningObjectItemForm
 	{
 		$cloi = $this->get_complex_learning_object_item();
 		$values = $this->exportValues();
-		$cloi->set_weight($values[ComplexRankingQuestion :: PROPERTY_WEIGHT]);
+		$cloi->set_weight($values[ComplexOrderingQuestion :: PROPERTY_WEIGHT]);
 		return parent :: update_complex_learning_object_item();
 	}
 }

@@ -3,7 +3,7 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-class RankingQuestionDisplay extends LearningObjectDisplay
+class OrderingQuestionDisplay extends LearningObjectDisplay
 {
 
     function get_full_html()

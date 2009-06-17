@@ -84,7 +84,7 @@ class Assessment extends LearningObject
 	    $allowed_types[] = 'select_question';
 	    $allowed_types[] = 'matrix_question';
 	    $allowed_types[] = 'match_question';
-	    $allowed_types[] = 'ranking_question';
+	    $allowed_types[] = 'ordering_question';
 	    //$allowed_types[] = '';
 	    return $allowed_types;
 	}
