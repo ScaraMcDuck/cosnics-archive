@@ -89,6 +89,10 @@ class DatabaseUserDataManager extends UserDataManager
 		return $this->database->delete($user_role->get_table_name(), $condition);
 	}
 	
+	function create_user_role($user_role){
+		return $this->database->create($user_role);
+	}
+	
 	function delete_all_users()
 	{
 		$users = $this->retrieve_users()->as_array();

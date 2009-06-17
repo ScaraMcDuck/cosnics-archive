@@ -236,6 +236,8 @@ abstract class UserDataManager
 	
 	abstract function retrieve_user_roles($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
 	
+	abstract function create_user_role($user_role);
+	
 	abstract function delete_user_roles($condition);
 	
 	abstract function add_role_link($group, $role_id);

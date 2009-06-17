@@ -29,7 +29,7 @@ class DefaultGroupRelUserTableCellRenderer implements ObjectTableCellRenderer
 		{
 			switch ($property)
 			{
-				case 'User' :
+				case GroupRelUser :: PROPERTY_USER_ID :
 					return $groupreluser->get_user_id();
 			}
 		}

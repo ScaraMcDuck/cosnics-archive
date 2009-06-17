@@ -9,7 +9,7 @@ require_once Path :: get_group_path() . 'lib/group_role.class.php';
  * @package users
  */
 /**
- *	This class represents a role. 
+ *	This class represents a role.
  *
  *	User objects have a number of default properties:
  *	- user_id: the numeric ID of the user;
@@ -39,7 +39,7 @@ class Role
 	const PROPERTY_TYPE = 'type';
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_DESCRIPTION = 'description';
-	
+
 	/**#@-*/
 
 	/**
@@ -53,7 +53,7 @@ class Role
 	 */
 	private $defaultProperties;
 
-	function update() 
+	function update()
 	{
 		$rdm = RightsDataManager :: get_instance();
 		$success = $rdm->update_role($this);
@@ -62,7 +62,7 @@ class Role
 			return false;
 		}
 
-		return true;	
+		return true;
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Role
 		$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
 	}
-	
+
 	/**
 	 * Gets a default property of this user object by name.
 	 * @param string $name The name of the property.
@@ -86,7 +86,7 @@ class Role
 	{
 		return $this->defaultProperties[$name];
 	}
-	
+
 	/**
 	 * Gets the default properties of this user.
 	 * @return array An associative array containing the properties.
@@ -95,7 +95,7 @@ class Role
 	{
 		return $this->defaultProperties;
 	}
-	
+
 	/**
 	 * Get the default properties of all users.
 	 * @return array The property names.
@@ -104,7 +104,7 @@ class Role
 	{
 		return array (self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_TYPE, self :: PROPERTY_USER_ID, self :: PROPERTY_DESCRIPTION);
 	}
-		
+
 	/**
 	 * Sets a default property of this user by name.
 	 * @param string $name The name of the property.
@@ -114,7 +114,7 @@ class Role
 	{
 		$this->defaultProperties[$name] = $value;
 	}
-	
+
 	/**
 	 * Checks if the given identifier is the name of a default user
 	 * property.
@@ -126,57 +126,57 @@ class Role
 	{
 		return in_array($name, self :: get_default_property_names());
 	}
-	
+
 	function get_id()
 	{
 		return $this->id;
 	}
-	
+
 	function get_user_id()
 	{
 		return $this->get_default_property(self :: PROPERTY_USER_ID);
 	}
-	
+
 	function get_name()
 	{
 		return $this->get_default_property(self :: PROPERTY_NAME);
 	}
-	
+
 	function get_type()
 	{
 		return $this->get_default_property(self :: PROPERTY_TYPE);
 	}
-	
+
 	function get_description()
 	{
 		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
 	}
-	
+
 	function set_id($id)
 	{
 		$this->id = $id;
-	}	
-	
+	}
+
 	function set_user_id($user_id)
 	{
 		$this->set_default_property(self :: PROPERTY_USER_ID, $user_id);
 	}
-	
+
 	function set_name($name)
 	{
 		$this->set_default_property(self :: PROPERTY_NAME, $name);
 	}
-	
+
 	function set_type($type)
 	{
 		$this->set_default_property(self :: PROPERTY_TYPE, $type);
 	}
-	
+
 	function set_description($description)
 	{
 		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
 	}
-	
+
 	/**
 	 * Instructs the Datamanager to delete this user.
 	 * @return boolean True if success, false otherwise.
@@ -185,56 +185,68 @@ class Role
 	{
 		return RightsDataManager :: get_instance()->delete_role($this);
 	}
-	
+
 	function create()
 	{
 		$rdm = RightsDataManager :: get_instance();
 		$this->set_id($rdm->get_next_role_id());
 		return $rdm->create_role($this);
 	}
-	
-	function get_users($user_condition)
+
+	function get_users($user_condition, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
 		$udm = UserDataManager :: get_instance();
 		$condition = new EqualityCondition(UserRole :: PROPERTY_ROLE_ID, $this->get_id());
-		
+
 		$user_roles = $udm->retrieve_user_roles($condition);
 		$user_ids = array();
-		
+
 		while($user_role = $user_roles->next_result())
 		{
 			$user_ids[] = $user_role->get_user_id();
 		}
-		
+
+		$groups = $this->get_groups();
+		if(isset($groups)){
+			$group_user_ids = array();
+			while($group = $groups->next_result()){
+				$group_user_ids = $group->get_users(false, false);
+				foreach($group_user_ids as $id){
+					$user_ids[]=$id;
+				}
+			}
+		}
+
+
 		if (count($user_ids) > 0)
 		{
 			$conditions = array();
 			$conditions[] = new InCondition(User :: PROPERTY_USER_ID, $user_ids);
 			if(isset($user_condition)){
-				$conditions[] = $user_condition; 
+				$conditions[] = $user_condition;
 			}
 			$condition = new AndCondition($conditions);
-			return $udm->retrieve_users($condition);
+			return $udm->retrieve_users($condition, $offset , $maxObjects , $orderBy , $orderDir );
 		}
 		else
 		{
 			return null;
 		}
 	}
-	
+
 	function get_groups()
 	{
 		$gdm = GroupDataManager :: get_instance();
 		$condition = new EqualityCondition(GroupRole :: PROPERTY_ROLE_ID, $this->get_id());
-		
+
 		$group_roles = $gdm->retrieve_group_roles($condition);
 		$group_ids = array();
-		
+
 		while($group_role = $group_roles->next_result())
 		{
-			$group_ids[] = $group_role->get_user_id();
+			$group_ids[] = $group_role->get_group_id();
 		}
-		
+
 		if (count($group_ids) > 0)
 		{
 			$condition = new InCondition(Group :: PROPERTY_ID, $group_ids);
