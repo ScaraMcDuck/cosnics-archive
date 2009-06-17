@@ -3,6 +3,7 @@
  * @package wiki.datamanager
  */
 require_once dirname(__FILE__).'/../wiki_publication.class.php';
+require_once dirname(__FILE__).'/../wiki_pub_feedback.class.php';
 require_once Path :: get_library_path() . 'database/database.class.php';
 require_once 'MDB2.php';
 
@@ -21,6 +22,7 @@ class DatabaseWikiDataManager extends WikiDataManager
 	{
 		$aliasses = array();
 		$aliasses[WikiPublication :: get_table_name()] = 'wion';
+        $aliasses[WikiPubFeedback :: get_table_name()] = 'wpf';
 
 		$this->database = new Database($aliasses);
 		$this->database->set_prefix('wiki_');
@@ -69,6 +71,39 @@ class DatabaseWikiDataManager extends WikiDataManager
 	function retrieve_wiki_publications($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
         return $this->database->retrieve_objects(WikiPublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+	}
+
+    function retrieve_wiki_pub_feedback($id)
+    {
+        $condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $id);
+		$object = $this->database->retrieve_object(WikiPubFeedback :: get_table_name(), $condition);
+    }
+
+    function retrieve_wiki_pub_feedbacks($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+    {
+        return $this->database->retrieve_objects(WikiPubFeedback :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+    }
+
+    function get_next_wiki_pub_feedback_id()
+    {
+        return $this->database->get_next_id(WikiPubFeedback :: get_table_name());
+    }
+
+    function create_wiki_pub_feedback($feedback)
+    {
+        return $this->database->create($feedback);
+    }
+
+    function update_wiki_pub_feedback($feedback)
+	{
+		$condition = new EqualityCondition(WikiPubFeedback :: PROPERTY_ID, $feedback->get_id());
+		return $this->database->update($feedback, $condition);
+	}
+
+    function delete_wiki_pub_feedback($feedback)
+	{
+		$condition = new EqualityCondition(WikiPublication :: PROPERTY_ID, $feedback->get_id());
+        return $this->database->delete(WikiPubFeedback :: get_table_name(), $condition);
 	}
 
 }
