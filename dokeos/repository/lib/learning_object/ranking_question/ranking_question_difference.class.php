@@ -4,9 +4,9 @@
  * @subpackage multiplechoicequestion
  */
 /**
- * This class can be used to get the difference between ranking questions
+ * This class can be used to get the difference between ordering questions
  */
-class RankingQuestionDifference extends LearningObjectDifference
+class OrderingQuestionDifference extends LearningObjectDifference
 {
 }
 ?>

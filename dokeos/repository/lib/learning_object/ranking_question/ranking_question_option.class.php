@@ -4,9 +4,9 @@
  * @subpackage exercise
  */
 /**
- * This class represents an option in a ranking question.
+ * This class represents an option in a ordering question.
  */
-class RankingQuestionOption
+class OrderingQuestionOption
 {
     /**
      * The value of the option
@@ -18,11 +18,11 @@ class RankingQuestionOption
     private $rank;
 
     /**
-     * Creates a new option for a ranking question
+     * Creates a new option for a ordering question
      * @param string $value The value of the option
      * @param int $rank The rank of this answer in the question
      */
-    function RankingQuestionOption($value, $rank)
+    function OrderingQuestionOption($value, $rank)
     {
         $this->value = $value;
         $this->rank = $rank;

@@ -4,15 +4,15 @@
  * @subpackage exercise
  */
 require_once dirname(__FILE__) . '/../../learning_object_form.class.php';
-require_once dirname(__FILE__) . '/ranking_question.class.php';
-class RankingQuestionForm extends LearningObjectForm
+require_once dirname(__FILE__) . '/ordering_question.class.php';
+class OrderingQuestionForm extends LearningObjectForm
 {
 
     protected function build_creation_form()
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Items'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/ranking_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/ordering_question.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -21,7 +21,7 @@ class RankingQuestionForm extends LearningObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get(get_class($this) . 'Items'));
-        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/ranking_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/ordering_question.js'));
         $this->add_options();
         $this->addElement('category');
     }
@@ -42,7 +42,7 @@ class RankingQuestionForm extends LearningObjectForm
             }
             else
             {
-                $number_of_options = intval($_SESSION['ranking_number_of_options']);
+                $number_of_options = intval($_SESSION['ordering_number_of_options']);
 
                 for($option_number = 0; $option_number < $number_of_options; $option_number ++)
                 {
@@ -56,7 +56,7 @@ class RankingQuestionForm extends LearningObjectForm
 
     function create_learning_object()
     {
-        $object = new RankingQuestion();
+        $object = new OrderingQuestion();
         $this->set_learning_object($object);
         $this->add_options_to_object();
         return parent :: create_learning_object();
@@ -76,7 +76,7 @@ class RankingQuestionForm extends LearningObjectForm
         foreach ($values['option'] as $option_id => $value)
         {
             $rank = $values['option_rank'][$option_id];
-            $options[] = new RankingQuestionOption($value, $rank);
+            $options[] = new OrderingQuestionOption($value, $rank);
         }
         $object->set_options($options);
     }
@@ -92,7 +92,7 @@ class RankingQuestionForm extends LearningObjectForm
 
     /**
      * Adds the form-fields to the form to provide the possible options for this
-     * ranking question
+     * ordering question
      */
     private function add_options()
     {
@@ -100,34 +100,34 @@ class RankingQuestionForm extends LearningObjectForm
 
         if (! $this->isSubmitted())
         {
-            unset($_SESSION['ranking_number_of_options']);
-            unset($_SESSION['ranking_skip_options']);
+            unset($_SESSION['ordering_number_of_options']);
+            unset($_SESSION['ordering_skip_options']);
         }
-        if (! isset($_SESSION['ranking_number_of_options']))
+        if (! isset($_SESSION['ordering_number_of_options']))
         {
-            $_SESSION['ranking_number_of_options'] = 3;
+            $_SESSION['ordering_number_of_options'] = 3;
         }
-        if (! isset($_SESSION['ranking_skip_options']))
+        if (! isset($_SESSION['ordering_skip_options']))
         {
-            $_SESSION['ranking_skip_options'] = array();
+            $_SESSION['ordering_skip_options'] = array();
         }
         if (isset($_POST['add']))
         {
-            $_SESSION['ranking_number_of_options'] = $_SESSION['ranking_number_of_options'] + 1;
+            $_SESSION['ordering_number_of_options'] = $_SESSION['ordering_number_of_options'] + 1;
         }
         if (isset($_POST['remove']))
         {
             $indexes = array_keys($_POST['remove']);
-            $_SESSION['ranking_skip_options'][] = $indexes[0];
+            $_SESSION['ordering_skip_options'][] = $indexes[0];
         }
         $object = $this->get_learning_object();
         if (! $this->isSubmitted() && ! is_null($object))
         {
-            $_SESSION['ranking_number_of_options'] = $object->get_number_of_options();
+            $_SESSION['ordering_number_of_options'] = $object->get_number_of_options();
         }
-        $number_of_options = intval($_SESSION['ranking_number_of_options']);
+        $number_of_options = intval($_SESSION['ordering_number_of_options']);
 
-        $this->addElement('hidden', 'ranking_number_of_options', $_SESSION['ranking_number_of_options'], array('id' => 'ranking_number_of_options'));
+        $this->addElement('hidden', 'ordering_number_of_options', $_SESSION['ordering_number_of_options'], array('id' => 'ordering_number_of_options'));
 
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
@@ -156,14 +156,14 @@ class RankingQuestionForm extends LearningObjectForm
 
         for($option_number = 0; $option_number < $number_of_options; $option_number++)
         {
-            if (! in_array($option_number, $_SESSION['ranking_skip_options']))
+            if (! in_array($option_number, $_SESSION['ordering_skip_options']))
             {
                 $group = array();
 
                 $group[] = $this->create_html_editor('option[' . $option_number . ']', Translation :: get('Item'), $html_editor_options);
                 $group[] = & $this->createElement('select', 'option_rank[' . $option_number . ']', Translation :: get('Rank'), $select_options, 'class="input_numeric"');
 
-                if ($number_of_options - count($_SESSION['ranking_skip_options']) > 2)
+                if ($number_of_options - count($_SESSION['ordering_skip_options']) > 2)
                 {
                     $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => $option_number));
                 }
