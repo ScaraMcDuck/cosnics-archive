@@ -99,7 +99,7 @@ $(function () {
 		
 		columnId = $(this).attr("id");
 		rowId = $(this).parent().attr("id");
-		countColumns = $("div.column" , $(this).parent()).length;
+		countColumns = $("div.column", $(this).parent()).length;
 
 		widthBox = $(this).width();
 		widthRow = $(this).parent().width();

@@ -40,15 +40,6 @@ class OrderingQuestionForm extends LearningObjectForm
                     $defaults['option_rank'][$index] = $option->get_rank();
                 }
             }
-            else
-            {
-                $number_of_options = intval($_SESSION['ordering_number_of_options']);
-
-                for($option_number = 0; $option_number < $number_of_options; $option_number ++)
-                {
-                    $defaults['option_rank'][$option_number] = $option_number + 1;
-                }
-            }
         }
         //print_r($defaults);
         parent :: setDefaults($defaults);
@@ -129,6 +120,11 @@ class OrderingQuestionForm extends LearningObjectForm
 
         $this->addElement('hidden', 'ordering_number_of_options', $_SESSION['ordering_number_of_options'], array('id' => 'ordering_number_of_options'));
 
+        $buttons = array();
+        //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
+        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddItem'), array('class' => 'normal add', 'id' => 'add_option'));
+        $this->addGroup($buttons, 'question_buttons', null, '', false);
+
         $html_editor_options = array();
         $html_editor_options['width'] = '100%';
         $html_editor_options['height'] = '65';
@@ -141,7 +137,7 @@ class OrderingQuestionForm extends LearningObjectForm
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
         $table_header[] = '<th>' . Translation :: get('Item') . '</th>';
-        $table_header[] = '<th>' . Translation :: get('Rank') . '</th>';
+        $table_header[] = '<th class="numeric">' . Translation :: get('Order') . '</th>';
         $table_header[] = '<th class="action"></th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
@@ -161,7 +157,7 @@ class OrderingQuestionForm extends LearningObjectForm
                 $group = array();
 
                 $group[] = $this->create_html_editor('option[' . $option_number . ']', Translation :: get('Item'), $html_editor_options);
-                $group[] = & $this->createElement('select', 'option_rank[' . $option_number . ']', Translation :: get('Rank'), $select_options, 'class="input_numeric"');
+                $group[] = & $this->createElement('select', 'option_rank[' . $option_number . ']', Translation :: get('Rank'), $select_options);
 
                 if ($number_of_options - count($_SESSION['ordering_skip_options']) > 2)
                 {
@@ -169,7 +165,7 @@ class OrderingQuestionForm extends LearningObjectForm
                 }
                 else
                 {
-                    $group[] = & $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                    $group[] = & $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" class="remove_option" />');
                 }
 
                 $this->addGroup($group, 'option_' . $option_number, null, '', false);
@@ -184,6 +180,8 @@ class OrderingQuestionForm extends LearningObjectForm
         $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $this->addElement('html', implode("\n", $table_footer));
+
+        $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
         $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
