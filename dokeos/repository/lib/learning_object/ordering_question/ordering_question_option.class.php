@@ -13,28 +13,28 @@ class OrderingQuestionOption
      */
     private $value;
     /**
-     * The rank of the option
+     * The order of the option
      */
-    private $rank;
+    private $order;
 
     /**
      * Creates a new option for a ordering question
      * @param string $value The value of the option
      * @param int $rank The rank of this answer in the question
      */
-    function OrderingQuestionOption($value, $rank)
+    function OrderingQuestionOption($value, $order)
     {
         $this->value = $value;
-        $this->rank = $rank;
+        $this->order = $order;
     }
 
     /**
-     * Gets the rank of this option
+     * Gets the order of this option
      * @return int
      */
-    function get_rank()
+    function get_order()
     {
-        return $this->rank;
+        return $this->order;
     }
 
     /**
