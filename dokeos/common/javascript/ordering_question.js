@@ -29,12 +29,12 @@ $(function ()
 	
 		rows.each(function ()
 		{
-			var rankFieldName, id, appendField;
+			var rankField, rankFieldName, id, appendField;
 		    
 			rankField = $('select[name*="option_rank"]', this);
 			if (rows.size() > currentNumberOfOptions)
 			{
-				rankField.append($('<option value="'+ rows.size() +'">'+ rows.size() +'</option>'));
+				rankField.append($('<option value="' + rows.size() + '">' + rows.size() + '</option>'));
 			}
 			else
 			{
@@ -79,10 +79,10 @@ $(function ()
 		rows.each(function () {
 		    var rowClass = row % 2 === 0 ? 'row_even' : 'row_odd';
 		    $(this).attr('class', rowClass);
-		    row++;
+		    row += 1;
 		});
 	
-		skippedOptions++;
+		skippedOptions += 1;
 	
 		processItems();
     }
@@ -117,7 +117,7 @@ $(function ()
 		editorName = 'option[' + numberOfOptions + ']';
 	
 		fieldAnswer = renderFckEditor(editorName, parameters);
-		fieldOrder = '<select name="option_rank[' + numberOfOptions + ']">'+ getSelectOptions() +'</select>';
+		fieldOrder = '<select name="option_rank[' + numberOfOptions + ']">' + getSelectOptions() + '</select>';
 		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldAnswer + '</td><td>' + fieldOrder + '</td><td>' + fieldDelete + '</td></tr>';
 	

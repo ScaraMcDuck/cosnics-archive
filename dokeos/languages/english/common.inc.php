@@ -196,4 +196,10 @@ $lang['common']['PossibleMatches'] = 'Possible match(es)';
 $lang['common']['FillInTheBlanks'] = 'Fill in the blanks';
 $lang['common']['Order'] = 'Order';
 $lang['common']['Item'] = 'Item';
+$lang['common']['SwitchToMultipleSelect'] = 'Allow multiple answers';
+$lang['common']['SwitchToSingleSelect'] = 'Allow one answer';
+$lang['common']['AddSelectOption'] = 'Add option';
+$lang['common']['SelectQuestionFormTitle'] = 'Question';
+$lang['common']['SelectQuestionFormDescription'] = 'Description';
+$lang['common']['SelectQuestionFormOptions'] = 'Options';
 ?>

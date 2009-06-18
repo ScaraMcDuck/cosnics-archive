@@ -40,7 +40,7 @@ $(function ()
 	{
 		ev.preventDefault();
 		
-		var answerType = $('#mc_answer_type').val(),
+		var answerType = $('#select_answer_type').val(),
 			newLabel = getTranslation('SwitchToMultipleSelect', 'repository'),
 			newType = 'radio',
 			counter = 0;
@@ -69,12 +69,12 @@ $(function ()
 			parent = $(this).parent();
 			parent.empty();
 			parent.append(newField);
-			counter++;
+			counter += 1;
 			
 		});
 		
-		$('#mc_answer_type').val(newType);
-		setMemory('mc_answer_type', newType);
+		$('#select_answer_type').val(newType);
+		setMemory('select_answer_type', newType);
 		
 		$('.switch').val(newLabel);
 		$('.switch').text(newLabel);
@@ -87,7 +87,7 @@ $(function ()
 		var tableBody = $(this).parent().parent().parent(),
 			id = $(this).attr('id'),
 			row = 0,
-			answer_type = $('#mc_answer_type').val(),
+			answer_type = $('#select_answer_type').val(),
 			rows;
 		
 		id = id.replace('remove_', '');
@@ -95,16 +95,16 @@ $(function ()
 		
 		rows = $('tr', tableBody);
 		
-		doAjaxPost("./common/javascript/ajax/mc_question.php", { action: 'skip_option', value: id });
+		doAjaxPost("./common/javascript/ajax/select_question.php", { action: 'skip_option', value: id });
 		
 		rows.each(function ()
 		{
 			var row_class = row % 2 === 0 ? 'row_even' : 'row_odd';
 			$(this).attr('class', row_class);
-			row++;
+			row += 1;
 		});
 		
-		skippedOptions++;
+		skippedOptions += 1;
 		
 		processOptions();
 	}
@@ -113,9 +113,9 @@ $(function ()
 	{
 		ev.preventDefault();
 		
-		var numberOfOptions = $('#mc_number_of_options').val(),
+		var numberOfOptions = $('#select_number_of_options').val(),
 			newNumber = (parseInt(numberOfOptions, 10) + 1),
-			mcAnswerType = $('#mc_answer_type').val(),
+			mcAnswerType = $('#select_answer_type').val(),
 			rowClass = (numberOfOptions - skippedOptions) % 2 === 0 ? 'row_even' : 'row_odd',
 			name = 'correct[' + numberOfOptions + ']',
 			id = name,
@@ -123,9 +123,9 @@ $(function ()
 			fieldOption, fieldAnswer, fieldComment, fieldScore, fieldDelete, string,
 			parameters, editorName;
 		
-		setMemory('mc_number_of_options', newNumber);
+		setMemory('select_number_of_options', newNumber);
 		
-		$('#mc_number_of_options').val(newNumber);
+		$('#select_number_of_options').val(newNumber);
 		
 		if (mcAnswerType === 'radio')
 		{
@@ -140,7 +140,7 @@ $(function ()
 		fieldAnswer = '<input type="text" name="option[' + numberOfOptions + ']" style="width: 300px;" />';
 		fieldComment = renderFckEditor(editorName, parameters);
 		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
-		fieldDelete = '<input id="' + numberOfOptions + '" class="remove_option" type="image" src="http://localhost/lcms/layout/aqua/img/common/action_delete.png" name="remove[' + numberOfOptions + ']" />';
+		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="http://localhost/lcms/layout/aqua/img/common/action_delete.png" name="remove[' + numberOfOptions + ']" />';
 		
 		string = '<tr class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
 				 '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';

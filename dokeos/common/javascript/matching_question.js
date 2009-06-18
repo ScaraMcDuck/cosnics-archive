@@ -1,4 +1,4 @@
-/*global $, document, FCKeditor, renderFckEditor, getPath, getTranslation, getTheme */
+/*global $, document, FCKeditor, renderFckEditor, getPath, getTranslation, getTheme, doAjaxPost, setMemory */
 
 $(function ()
 {
@@ -24,18 +24,16 @@ $(function ()
 	function processMatches()
 	{
 		var deleteImage, deleteField, rows,
-			counter = 1;
+			counter = 0;
 	
 		deleteImage = '<img class="remove_match" src="' + getDeleteIconMatches().replace('.png', '_na.png') + '"/>';
 		deleteField = '<input id="remove_match_$option_number" class="remove_match" type="image" src="' + getDeleteIconMatches() + '" name="remove_match[$option_number]" />';
 		rows = $('.data_table.matches tbody tr');
 	
-		if(rows.size() <= 2)
+		if (rows.size() <= 2)
 		{
 			deleteField = deleteImage;
 		}
-		
-		var counter = 0;
 		
 		rows.each(function ()
 		{
@@ -51,7 +49,7 @@ $(function ()
 		    $('td:last', this).append(appendField);
 		    $('td:first', this).html(labels[counter] + '<input type="hidden" value="' + labels[counter] + '" name="' + labelFieldName + '" />');
 			
-			counter++;
+			counter += 1;
 		});
 	}
 	
@@ -64,14 +62,12 @@ $(function ()
 		deleteField = '<input id="remove_option_$option_number" class="remove_option" type="image" src="' + getDeleteIconOptions() + '" name="remove_option[$option_number]" />';
 		rows = $('.data_table.options tbody tr');
 
-		if(rows.size() <= 2)
+		if (rows.size() <= 2)
 		{
 			deleteField = deleteImage;
 		}
 		
-		var counter = 1;
-		
-		rows.each(function()
+		rows.each(function ()
 		{
 			var weightField, weightFieldName, id, appendField;
 			
@@ -85,7 +81,7 @@ $(function ()
 		    $('td:last', this).append(appendField);
 		    $('td:first', this).html(counter);
 			
-			counter++;
+			counter += 1;
 		});
 	}
 	
@@ -103,12 +99,12 @@ $(function ()
 		rows = $('tr', tableBody);
 		rows.each(function ()
 		{
-			var rowClass = row % 2 == 0 ? 'row_even' : 'row_odd';
+			var rowClass = row % 2 === 0 ? 'row_even' : 'row_odd';
 			$(this).attr('class', rowClass);
-			row++;
+			row += 1;
 		});
 		
-		skippedOptions++;
+		skippedOptions += 1;
 		processOptions();
 	}
 	
@@ -118,11 +114,11 @@ $(function ()
 		
 		var numberOfOptions = $('#mq_number_of_options').val(),
 			numberOfMatches = $('#mq_number_of_matches').val(),
-			newNumber = (parseInt(numberOfOptions) + 1),
-			rowClass = ((numberOfOptions - skippedOptions) % 2 == 0 ? 'row_even' : 'row_odd'),
+			newNumber = (parseInt(numberOfOptions, 10) + 1),
+			rowClass = ((numberOfOptions - skippedOptions) % 2 === 0 ? 'row_even' : 'row_odd'),
 			fieldOption = newNumber,
 			fieldAnswer, fieldMatches, fieldComment, fieldScore, fieldDelete, string,
-			parameters, editorName,
+			parameters, editorNameAnswer, editorNameComment,
 			counter = 0;
 		
 		setMemory('mq_number_of_options', newNumber);
@@ -139,8 +135,8 @@ $(function ()
 		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
 		fieldDelete = '<input id="remove_option_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIconOptions() + '" name="remove_option[' + numberOfOptions + ']" />';
 		
-		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>'+ fieldMatches + '</td><td>' 
-					 + fieldComment + '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';
+		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldMatches + '</td><td>' + 
+				fieldComment + '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';
 		
 		$('.data_table.options tbody').append(string);
 		
@@ -161,11 +157,11 @@ $(function ()
 		doAjaxPost("./common/javascript/ajax/matching_question.php", { action: 'skip_match', value: id });
 		
 		rows = $('tr', tableBody);
-		rows.each(function()
+		rows.each(function ()
 		{
-			var rowClass = row % 2 == 0 ? 'row_even' : 'row_odd';
+			var rowClass = row % 2 === 0 ? 'row_even' : 'row_odd';
 			$(this).attr('class', rowClass);
-			row++;
+			row += 1;
 		});
 		
 		selectBox = $('.data_table.options select[name*="matches_to"]');
@@ -177,11 +173,11 @@ $(function ()
 			$('option', this).each(function ()
 			{
 				$(this).text(labels[counter]);
-				counter++;
+				counter += 1;
 			});
 		});
 		
-		skippedMatches++;
+		skippedMatches += 1;
 		processMatches();
 	}
 	
@@ -190,8 +186,8 @@ $(function ()
 		ev.preventDefault();
 		
 		var numberOfMatches = $('#mq_number_of_matches').val(),
-			newNumber = (parseInt(numberOfMatches) + 1),
-			rowClass = ((numberOfMatches - skippedMatches) % 2 == 0 ? 'row_even' : 'row_odd'),
+			newNumber = (parseInt(numberOfMatches, 10) + 1),
+			rowClass = ((numberOfMatches - skippedMatches) % 2 === 0 ? 'row_even' : 'row_odd'),
 			fieldOption, fieldAnswer, fieldDelete, string, selectBox,
 			editorName, parameters;
 		
