@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/question_display.class.php';
+require_once dirname(__FILE__) . '/inc/question_display.class.php';
 
 class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
 {
