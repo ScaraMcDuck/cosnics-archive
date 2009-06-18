@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/../score_calculator.class.php';
 
 class HotspotScoreCalculator extends ScoreCalculator
 {
-	function get_score()
+	function calculate_score()
 	{
 		$answers = $this->get_question()->get_answers();
 		$num = $this->get_answer_num();

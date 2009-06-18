@@ -15,7 +15,7 @@ abstract class ScoreCalculator
 		$this->question = $question;
 	}
 	
-	abstract function get_score();
+	abstract function calculate_score();
 	
 	function get_answer()
 	{
@@ -30,7 +30,7 @@ abstract class ScoreCalculator
 	static function factory($question, $answer)
 	{
 		$type = $question->get_type();
-
+		$type = str_replace('_question', '', $type);
 		$file = dirname(__FILE__) . '/score_calculator/' . $type . '_score_calculator.class.php';
 
 		if(!file_exists($file))

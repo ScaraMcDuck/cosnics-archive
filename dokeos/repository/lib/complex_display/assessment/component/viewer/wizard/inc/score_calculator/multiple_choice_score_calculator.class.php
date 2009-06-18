@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/../score_calculator.class.php';
 class MultipleChoiceScoreCalculator extends ScoreCalculator
 {
 	
-	function get_score()
+	function calculate_score()
 	{
 		$question = $this->get_question();
 		if ($question->get_answer_type() == 'radio')

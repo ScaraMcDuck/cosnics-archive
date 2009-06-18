@@ -56,9 +56,17 @@ class AssessmentViewerWizard extends HTML_QuickForm_Controller
 	{
 		$assessment = $this->assessment;
 		$questions_per_page = $this->assessment->get_questions_per_page();
-		$start = (($page_number - 1) * $questions_per_page);
-		$stop = $questions_per_page;
 		
+		if($questions_per_page == 0)
+		{
+			$start = null;
+			$stop = null;
+		}
+		else 
+		{
+			$start = (($page_number - 1) * $questions_per_page);
+			$stop = $questions_per_page;
+		}
 		$questions = RepositoryDataManager :: get_instance()->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $assessment->get_id()), array(), array(), $start, $stop);
 		return $questions;
 	}
