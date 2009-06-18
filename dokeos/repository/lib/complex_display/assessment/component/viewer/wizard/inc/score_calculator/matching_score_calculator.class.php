@@ -4,7 +4,7 @@ require_once dirname(__FILE__).'/../score_calculator.class.php';
 class MatchingScoreCalculator extends ScoreCalculator
 {
 	
-	function get_score()
+	function calculate_score()
 	{
 		$answers = $this->get_question()->get_options();
 		$matches = $this->get_question()->get_matches();

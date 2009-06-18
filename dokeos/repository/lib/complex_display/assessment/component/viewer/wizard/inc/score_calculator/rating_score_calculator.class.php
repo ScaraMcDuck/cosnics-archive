@@ -1,10 +1,10 @@
 <?php
 require_once dirname(__FILE__).'/../score_calculator.class.php';
 
-class ScoreCalculatorScoreCalculator extends ScoreCalculator
+class RatingScoreCalculator extends ScoreCalculator
 {
 	
-	function get_score()
+	function calculate_score()
 	{
 		$question = parent :: get_question();
 		if ($question->get_correct() == null)
