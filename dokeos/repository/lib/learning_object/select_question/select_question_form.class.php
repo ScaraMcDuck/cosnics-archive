@@ -50,7 +50,7 @@ class SelectQuestionForm extends LearningObjectForm
             }
             else
             {
-                $number_of_options = intval($_SESSION['mc_number_of_options']);
+                $number_of_options = intval($_SESSION['select_number_of_options']);
 
                 for($option_number = 0; $option_number < $number_of_options; $option_number ++)
                 {
@@ -85,7 +85,7 @@ class SelectQuestionForm extends LearningObjectForm
         {
             $weight = $values['option_weight'][$option_id];
             $comment = $values['comment'][$option_id];
-            if ($_SESSION['mc_answer_type'] == 'radio')
+            if ($_SESSION['select_answer_type'] == 'radio')
             {
                 $correct = $values['correct'] == $option_id;
             }
@@ -95,7 +95,7 @@ class SelectQuestionForm extends LearningObjectForm
             }
             $options[] = new SelectQuestionOption($value, $correct, $weight, $comment);
         }
-        $object->set_answer_type($_SESSION['mc_answer_type']);
+        $object->set_answer_type($_SESSION['select_answer_type']);
         $object->set_options($options);
     }
 
@@ -118,54 +118,54 @@ class SelectQuestionForm extends LearningObjectForm
 
         if (! $this->isSubmitted())
         {
-            unset($_SESSION['mc_number_of_options']);
-            unset($_SESSION['mc_skip_options']);
-            unset($_SESSION['mc_answer_type']);
+            unset($_SESSION['select_number_of_options']);
+            unset($_SESSION['select_skip_options']);
+            unset($_SESSION['select_answer_type']);
         }
-        if (! isset($_SESSION['mc_number_of_options']))
+        if (! isset($_SESSION['select_number_of_options']))
         {
-            $_SESSION['mc_number_of_options'] = 3;
+            $_SESSION['select_number_of_options'] = 3;
         }
-        if (! isset($_SESSION['mc_skip_options']))
+        if (! isset($_SESSION['select_skip_options']))
         {
-            $_SESSION['mc_skip_options'] = array();
+            $_SESSION['select_skip_options'] = array();
         }
-        if (! isset($_SESSION['mc_answer_type']))
+        if (! isset($_SESSION['select_answer_type']))
         {
-            $_SESSION['mc_answer_type'] = 'radio';
+            $_SESSION['select_answer_type'] = 'radio';
         }
         if (isset($_POST['add']))
         {
-            $_SESSION['mc_number_of_options'] = $_SESSION['mc_number_of_options'] + 1;
+            $_SESSION['select_number_of_options'] = $_SESSION['select_number_of_options'] + 1;
         }
         if (isset($_POST['remove']))
         {
             $indexes = array_keys($_POST['remove']);
-            $_SESSION['mc_skip_options'][] = $indexes[0];
+            $_SESSION['select_skip_options'][] = $indexes[0];
         }
         if (isset($_POST['change_answer_type']))
         {
-            $_SESSION['mc_answer_type'] = $_SESSION['mc_answer_type'] == 'radio' ? 'checkbox' : 'radio';
+            $_SESSION['select_answer_type'] = $_SESSION['select_answer_type'] == 'radio' ? 'checkbox' : 'radio';
         }
         $object = $this->get_learning_object();
         if (! $this->isSubmitted() && ! is_null($object))
         {
-            $_SESSION['mc_number_of_options'] = $object->get_number_of_options();
-            $_SESSION['mc_answer_type'] = $object->get_answer_type();
+            $_SESSION['select_number_of_options'] = $object->get_number_of_options();
+            $_SESSION['select_answer_type'] = $object->get_answer_type();
         }
-        $number_of_options = intval($_SESSION['mc_number_of_options']);
+        $number_of_options = intval($_SESSION['select_number_of_options']);
 
-        if ($_SESSION['mc_answer_type'] == 'radio')
+        if ($_SESSION['select_answer_type'] == 'radio')
         {
             $switch_label = Translation :: get('SwitchToMultipleSelect');
         }
-        elseif ($_SESSION['mc_answer_type'] == 'checkbox')
+        elseif ($_SESSION['select_answer_type'] == 'checkbox')
         {
             $switch_label = Translation :: get('SwitchToSingleSelect');
         }
 
-        $this->addElement('hidden', 'mc_answer_type', $_SESSION['mc_answer_type'], array('id' => 'mc_answer_type'));
-        $this->addElement('hidden', 'mc_number_of_options', $_SESSION['mc_number_of_options'], array('id' => 'mc_number_of_options'));
+        $this->addElement('hidden', 'select_answer_type', $_SESSION['select_answer_type'], array('id' => 'select_answer_type'));
+        $this->addElement('hidden', 'select_number_of_options', $_SESSION['select_number_of_options'], array('id' => 'select_number_of_options'));
 
         $buttons = array();
         $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array('class' => 'normal switch', 'id' => 'change_answer_type'));
@@ -196,11 +196,11 @@ class SelectQuestionForm extends LearningObjectForm
 
         for($option_number = 0; $option_number < $number_of_options; $option_number ++)
         {
-            if (!in_array($option_number, $_SESSION['mc_skip_options']))
+            if (!in_array($option_number, $_SESSION['select_skip_options']))
             {
                 $group = array();
 
-                if ($_SESSION['mc_answer_type'] == 'checkbox')
+                if ($_SESSION['select_answer_type'] == 'checkbox')
                 {
                     $group[] =& $this->createElement('checkbox', 'correct[' . $option_number . ']', Translation :: get('Correct'), '', array('class' => 'option', 'id' => 'correct[' . $option_number . ']'));
                 }
@@ -214,7 +214,7 @@ class SelectQuestionForm extends LearningObjectForm
                 $group[] =& $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
                 $group[] =& $this->createElement('text', 'option_weight[' . $option_number . ']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
 
-                if ($number_of_options - count($_SESSION['mc_skip_options']) > 2)
+                if ($number_of_options - count($_SESSION['select_skip_options']) > 2)
                 {
                     $group[] =& $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
                 }
@@ -254,7 +254,7 @@ class SelectQuestionForm extends LearningObjectForm
     {
         if (! isset($fields['correct']))
         {
-            $message = $_SESSION['mc_answer_type'] == 'checkbox' ? Translation :: get('SelectAtLeastOneCorrectAnswer') : Translation :: get('SelectACorrectAnswer');
+            $message = $_SESSION['select_answer_type'] == 'checkbox' ? Translation :: get('SelectAtLeastOneCorrectAnswer') : Translation :: get('SelectACorrectAnswer');
             return array('change_answer_type' => $message);
         }
         return true;

@@ -1,197 +1,161 @@
-( function($) 
+/*global $, document, renderFckEditor, getPath, getTranslation, getTheme, setMemory, doAjaxPost */
+
+$(function ()
 {
-	var skipped_options = 0;
+	var skippedOptions = 0;
 	
-	function switch_clicked(ev, ui) 
-	{   
-		var answer_type = $('#mc_answer_type').attr('value');
-		var new_type = 'radio';
-		var new_label = translation('SwitchToCheckboxes', 'repository');
+    function getDeleteIcon()
+    {
+		return $('.data_table tbody tr:first td:last .remove_option').attr('src').replace('_na.png', '.png');
+    }
+    
+	function processOptions()
+	{
+		var deleteImage, deleteField, rows;
 		
-		if(answer_type == 'radio')
+		deleteImage = '<img class="remove_option" src="' + getDeleteIcon().replace('.png', '_na.png') + '"/>';
+		deleteField = '<input id="remove_$option_number" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[$option_number]" />';
+		rows = $('.data_table tbody tr');
+		
+		if (rows.size() <= 2)
 		{
-			new_type = 'checkbox';
-			new_label = translation('SwitchToRadioButtons', 'repository');
+		    deleteField = deleteImage;
 		}
 		
-		var counter = 0;
-		
-		$('.option').each(function()
+		rows.each(function ()
 		{
-			var id = $(this).attr('id');
+			var weightField, weightFieldName, id, appendField;
+		    
+			weightField = $('input[name*="option_weight"]', this);
+			weightFieldName = weightField.attr('name');
+		    id = weightFieldName.substr(14, weightFieldName.length - 15);
+		    appendField = deleteField.replace(/\$option_number/g, id);
+	
+		    $('.remove_option', this).remove();
+		    $('td:last', this).append(appendField);
+		});
+	}
+	
+	function convertType(ev, ui) 
+	{
+		ev.preventDefault();
+		
+		var answerType = $('#mc_answer_type').val(),
+			newLabel = getTranslation('SwitchToCheckboxes', 'repository'),
+			newType = 'radio',
+			counter = 0;
+		
+		if (answerType === 'radio')
+		{
+			newType = 'checkbox';
+			newLabel = getTranslation('SwitchToRadioButtons', 'repository');
+		}
+		
+		$('.option').each(function ()
+		{
+			var id, correct, value, newField, parent;
 			
-			var correct = 'correct[' + counter + ']';
-			var value = 1;
+			id = $(this).attr('id');
+			correct = 'correct[' + counter + ']';
+			value = 1;
 			
-			if(new_type == 'radio')
+			if (newType === 'radio')
 			{
 				correct = 'correct';
 				value = counter;
 			}
 			
-			var new_field = '<input id="' + id + '" class="option" type="' + new_type + '" value="' + value + '" name="' + correct + '" />';
-			var parent = $(this).parent();
+			newField = '<input id="' + id + '" class="option" type="' + newType + '" value="' + value + '" name="' + correct + '" />';
+			parent = $(this).parent();
 			parent.empty();
-			parent.append(new_field);
-			counter++;
+			parent.append(newField);
+			counter += 1;
 			
 		});
 		
-		$('#mc_answer_type').attr('value', new_type);
+		$('#mc_answer_type').val(newType);
+		setMemory('mc_answer_type', newType);
 		
-		var response = $.ajax({
-			type: "POST",
-			url: "./common/javascript/ajax/memory.php",
-			data: { action: 'set', variable: 'mc_answer_type', value: new_type },
-			async: true
-		}).responseText;
-		
-		$('.switch').attr('value', new_label);
-		$('.switch').text(new_label);
-		
-		return false;
-	} 
+		$('.switch').val(newLabel);
+		$('.switch').text(newLabel);
+	}
 	
-	function remove_option_clicked(ev, ui)
+	function removeOption(ev, ui)
 	{
-		var table_body = $(this).parent().parent().parent();
-		var id = $(this).attr('id');
-		$(this).parent().parent().remove();
+		ev.preventDefault();
 		
-		tr_children = table_body.children();
+		var tableBody = $(this).parent().parent().parent(),
+			id = $(this).attr('id'),
+			row = 0,
+			answer_type = $('#mc_answer_type').val(),
+			rows;
 		
-		var row = 0;
-		var answer_type = $('#mc_answer_type').attr('value');
+		id = id.replace('remove_', '');
+		$('tr#option_' + id, tableBody).remove();
 		
-		var response = $.ajax({
-			type: "POST",
-			url: "./common/javascript/ajax/mc_question.php",
-			data: { action: 'skip_option', value: id },
-			async: false
-		}).responseText;
+		rows = $('tr', tableBody);
 		
-		tr_children.each(function()
+		doAjaxPost("./common/javascript/ajax/mc_question.php", { action: 'skip_option', value: id });
+		
+		rows.each(function ()
 		{
-			var row_class = row % 2 == 0 ? 'row_even' : 'row_odd';
+			var row_class = row % 2 === 0 ? 'row_even' : 'row_odd';
 			$(this).attr('class', row_class);
-			
-			row++;
+			row += 1;
 		});
 		
-		skipped_options++;
+		skippedOptions += 1;
 		
-		fix_delete_images();
-		
-		return false;
+		processOptions();
 	}
 	
-	function add_fck_editor(name, number, defaultvalue)
+	function addOption(ev, ui)
 	{
-		var oFCKeditor = new FCKeditor( name + '[' + number + ']' );
-		oFCKeditor.BasePath = "http://localhost/lcms/plugin/html_editor/fckeditor/";
-		oFCKeditor.Width = "100%";
-		oFCKeditor.Height = 65;
-		oFCKeditor.Config[ "FullPage" ] = false;
-		oFCKeditor.Config[ "DefaultLanguage" ] = "en" ;
-		if(defaultvalue)
-		{
-			oFCKeditor.Value = defaultvalue;
-		}
-		else
-		{
-			oFCKeditor.Value = "";
-		}
-		oFCKeditor.ToolbarSet = "RepositoryQuestion";
-		oFCKeditor.Config[ "SkinPath" ] = oFCKeditor.BasePath + "editor/skins/aqua/";
-		oFCKeditor.Config["CustomConfigurationsPath"] = "http://localhost/lcms/common/configuration/html_editor/fckconfig.js";
-		oFCKeditor.Config[ "ToolbarStartExpanded" ] = false;
+		ev.preventDefault();
 		
-		return oFCKeditor.CreateHtml();
-	}
-	
-	function add_option_clicked(ev, ui)
-	{
-		var number_of_options = $('#mc_number_of_options').attr('value');
-		var new_number = (parseInt(number_of_options) + 1);
+		var numberOfOptions = $('#mc_number_of_options').val(),
+			newNumber = (parseInt(numberOfOptions, 10) + 1),
+			mcAnswerType = $('#mc_answer_type').val(),
+			rowClass = (numberOfOptions - skippedOptions) % 2 === 0 ? 'row_even' : 'row_odd',
+			name = 'correct[' + numberOfOptions + ']',
+			id = name,
+			value = 1,
+			fieldOption, fieldAnswer, fieldComment, fieldScore, fieldDelete, string,
+			parameters, editorNameAnswer, editorNameComment;
 		
-		var response = $.ajax({
-			type: "POST",
-			url: "./common/javascript/ajax/memory.php",
-			data: { action: 'set', variable: 'mc_number_of_options', value: new_number },
-			async: false
-		}).responseText;
+		setMemory('mc_number_of_options', newNumber);
 		
-		$('#mc_number_of_options').attr('value', new_number);
+		$('#mc_number_of_options').val(newNumber);
 		
-		var mc_answer_type = $('#mc_answer_type').attr('value');
-		var row_class = (number_of_options - skipped_options) % 2 == 0 ? 'row_even' : 'row_odd';
-		
-		var name = 'correct[' + number_of_options + ']';
-		var id = name;
-		var value = 1;
-		
-		if(mc_answer_type == 'radio')
+		if (mcAnswerType === 'radio')
 		{
 			name = 'correct';
-			value = number_of_options;
+			value = numberOfOptions;
 		}
 		
-		var option_field = '<input id="' + id + '" class="option" type="' + mc_answer_type + '" value="' + value + '" name="' + name + '" />';
-		var answer_field = add_fck_editor('option', number_of_options, null);
-		var comment_field = add_fck_editor('comment', number_of_options, null);
-		var score_field = '<input class="input_numeric" type="text" value="1" name="option_weight[' + number_of_options + ']" size="2" />';
-		var delete_field = '<input id="' + number_of_options + '" class="remove_option" type="image" src="http://localhost/lcms/layout/aqua/img/common/action_delete.png" name="remove[' + number_of_options + ']" />';
+		parameters = { width: '100%', height: '65', toolbarSet: 'RepositoryQuestion', toolbarExpanded: false};
+		editorNameAnswer = 'option[' + numberOfOptions + ']';
+		editorNameComment = 'comment[' + numberOfOptions + ']';
 		
-		var string = '<tr class="' + row_class + '"><td>' + option_field + '</td><td>' + answer_field + '</td><td>' + comment_field + 
-					 '</td><td>' + score_field + '</td><td>' + delete_field + '</td></tr>';
+		fieldOption = '<input id="' + id + '" class="option" type="' + mcAnswerType + '" value="' + value + '" name="' + name + '" />';
+		fieldAnswer = renderFckEditor(editorNameAnswer, parameters);
+		fieldComment = renderFckEditor(editorNameComment, parameters);
+		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
+		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="http://localhost/lcms/layout/aqua/img/common/action_delete.png" name="remove[' + numberOfOptions + ']" />';
 		
-		$('tbody', $('.data_table')).append(string);
+		string = '<tr class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
+				 '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';
 		
-		fix_delete_images();
+		$('.data_table tbody').append(string);
 		
-		return false;
-	}
-	
-	function fix_delete_images()
-	{
-		var na_delete_image = '<img src="http://localhost/lcms/layout/aqua/img/common/action_delete_na.png"/>';
-		var delete_field = '<input id="$option_number" class="remove_option" type="image" src="http://localhost/lcms/layout/aqua/img/common/action_delete.png" name="remove[$option_number]" />';
-		var body = $('tbody', $('.data_table'));
-		var children = body.children();
-
-		if(children.size() <= 2)
-			var delete_field = na_delete_image;
-		
-		children.each(function()
-		{
-			var id = $('input[name*="option_weight"]', $(this)).attr('name');
-			id = id.substr(14, id.length - 15);
-			
-			var append_field = delete_field.replace(/\$option_number/g, id);
-			
-			$(this).children().eq(4).empty();
-			$(this).children().eq(4).append(append_field);
-		});
-		
+		processOptions();
 	}
 
 	$(document).ready( function() 
 	{
-		$('#change_answer_type').live('click', switch_clicked);
-		$('.remove_option').live('click', remove_option_clicked);
-		$('#add_option').live('click', add_option_clicked);
+		$('#change_answer_type').live('click', convertType);
+		$('.remove_option').live('click', removeOption);
+		$('#add_option').live('click', addOption);
 	});
 	
-	function translation(string, application) 
-	{		
-		var translated_string = $.ajax({
-			type: "POST",
-			url: "./common/javascript/ajax/translation.php",
-			data: { string: string, application: application },
-			async: false
-		}).responseText;
-		
-		return translated_string;
-	}
-	
-})(jQuery);
+});
