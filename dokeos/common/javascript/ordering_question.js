@@ -11,7 +11,7 @@ $(function ()
     
     function getSelectOptions()
     {
-		return $('.data_table tbody tr:first select[name*="option_rank"]').html();
+		return $('.data_table tbody tr:first select[name*="option_order"]').html();
     }
     
     function processItems()
@@ -29,19 +29,19 @@ $(function ()
 	
 		rows.each(function ()
 		{
-			var rankField, rankFieldName, id, appendField;
+			var orderField, orderFieldName, id, appendField;
 		    
-			rankField = $('select[name*="option_rank"]', this);
+			orderField = $('select[name*="option_order"]', this);
 			if (rows.size() > currentNumberOfOptions)
 			{
-				rankField.append($('<option value="' + rows.size() + '">' + rows.size() + '</option>'));
+				orderField.append($('<option value="' + rows.size() + '">' + rows.size() + '</option>'));
 			}
 			else
 			{
-				$('option:last', rankField).remove();
+				$('option:last', orderField).remove();
 			}
-			rankFieldName = rankField.attr('name');
-		    id = rankFieldName.substr(12, rankFieldName.length - 13);
+			orderFieldName = orderField.attr('name');
+		    id = orderFieldName.substr(12, orderFieldName.length - 13);
 		    appendField = deleteField.replace(/\$option_number/g, id);
 	
 		    $('.remove_option', this).remove();
@@ -117,7 +117,7 @@ $(function ()
 		editorName = 'option[' + numberOfOptions + ']';
 	
 		fieldAnswer = renderFckEditor(editorName, parameters);
-		fieldOrder = '<select name="option_rank[' + numberOfOptions + ']">' + getSelectOptions() + '</select>';
+		fieldOrder = '<select name="option_order[' + numberOfOptions + ']">' + getSelectOptions() + '</select>';
 		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldAnswer + '</td><td>' + fieldOrder + '</td><td>' + fieldDelete + '</td></tr>';
 	
@@ -125,8 +125,8 @@ $(function ()
 	
 		processItems();
 		
-		highestOptionValue = $('.data_table tbody tr:first select[name*="option_rank"] option:last').val();
-		$('.data_table tbody tr:last select[name*="option_rank"]').val(highestOptionValue);
+		highestOptionValue = $('.data_table tbody tr:first select[name*="option_order"] option:last').val();
+		$('.data_table tbody tr:last select[name*="option_order"]').val(highestOptionValue);
     }
 
     $(document).ready(function ()

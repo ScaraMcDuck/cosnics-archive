@@ -37,7 +37,7 @@ class OrderingQuestionForm extends LearningObjectForm
                 foreach ($options as $index => $option)
                 {
                     $defaults['option'][$index] = $option->get_value();
-                    $defaults['option_rank'][$index] = $option->get_rank();
+                    $defaults['option_order'][$index] = $option->get_order();
                 }
             }
         }
@@ -66,8 +66,8 @@ class OrderingQuestionForm extends LearningObjectForm
         $options = array();
         foreach ($values['option'] as $option_id => $value)
         {
-            $rank = $values['option_rank'][$option_id];
-            $options[] = new OrderingQuestionOption($value, $rank);
+            $order = $values['option_order'][$option_id];
+            $options[] = new OrderingQuestionOption($value, $order);
         }
         $object->set_options($options);
     }
@@ -157,7 +157,7 @@ class OrderingQuestionForm extends LearningObjectForm
                 $group = array();
 
                 $group[] = $this->create_html_editor('option[' . $option_number . ']', Translation :: get('Item'), $html_editor_options);
-                $group[] = & $this->createElement('select', 'option_rank[' . $option_number . ']', Translation :: get('Rank'), $select_options);
+                $group[] = & $this->createElement('select', 'option_order[' . $option_number . ']', Translation :: get('Rank'), $select_options);
 
                 if ($number_of_options - count($_SESSION['ordering_skip_options']) > 2)
                 {

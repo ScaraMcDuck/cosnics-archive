@@ -312,7 +312,7 @@ if (isset($_SESSION['_uid']))
  */
 function dump($variable)
 {
-    echo '<pre>';
+    echo '<pre style="background-color: white; color: black;">';
     print_r($variable);
     echo '</pre>';
 }
