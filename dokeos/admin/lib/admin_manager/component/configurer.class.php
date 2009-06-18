@@ -53,6 +53,11 @@ class AdminManagerConfigurerComponent extends AdminManagerComponent
 			$this->display_header($trail);
 			echo $this->get_applications();
 			$form->display();
+			echo '<script language="JavaScript" type="text/javascript">';
+			echo '$(document).ready(function() {';
+			echo '$(\':checkbox\').iphoneStyle({ checkedLabel: \''. Translation :: get('On') .'\', uncheckedLabel: \''. Translation :: get('Off') .'\'});';
+			echo '});';
+			echo '</script>';
 			$this->display_footer();
 		}
 	}
