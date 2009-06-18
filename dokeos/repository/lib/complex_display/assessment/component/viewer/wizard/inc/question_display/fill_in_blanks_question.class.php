@@ -28,11 +28,12 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
 		foreach($matches as $i => $match)
 		{
 			$name = $clo_question->get_id().'_'.$i;
-			$element = $formvalidator->createElement('text', $name, '('.$i.')');
+			$element = $formvalidator->createElement('text', $name);
 			$answer_text = str_replace($match, $element->toHtml(), $answer_text);
 		}
 
-		$formvalidator->addElement('static', 'blanks', null, $answer_text);
+		//$formvalidator->addElement('static', 'blanks', null, $answer_text);
+		$formvalidator->addElement('html', $answer_text);
 		$renderer->setElementTemplate($element_template, 'blanks');
 	}
 

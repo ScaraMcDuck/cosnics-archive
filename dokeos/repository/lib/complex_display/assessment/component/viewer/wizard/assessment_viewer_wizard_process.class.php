@@ -13,7 +13,7 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 	
 	function perform($page, $actionName)
 	{
-		$values = $page->controller->exportValues();
+		$values = $this->parent->exportValues();
 		dump($values);
 		//$question_numbers = $_SESSION['questions'];
 		
