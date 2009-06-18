@@ -209,6 +209,8 @@ function utf8_encode ( argString ) {
 		});
 		
 		$(".add_matches").toggle();
+		
+		$(':checkbox').iphoneStyle({ checkedLabel: getTranslation('On'), uncheckedLabel: getTranslation('Off')});
 	});
 	
 })(jQuery);

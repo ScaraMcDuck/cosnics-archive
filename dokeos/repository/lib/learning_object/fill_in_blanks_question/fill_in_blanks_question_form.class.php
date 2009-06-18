@@ -15,6 +15,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('AnswerOptions'));
+        $this->addElement('checkbox', FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE, Translation :: get('UseSelectBox'));
         $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" class="answer"');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
         $this->add_options();
@@ -25,6 +26,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get('AnswerOptions'));
+        $this->addElement('checkbox', FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE, Translation :: get('UseSelectBox'));
         $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" class="answer"');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
         $this->setDefaults();
@@ -48,18 +50,14 @@ class FillInBlanksQuestionForm extends LearningObjectForm
                     $defaults['position'][$index] = $option->get_position();
                 }
                 $defaults['answer'] = $object->get_answer_text();
-
-//				$linefeeds = array("\r\n", "\n", "\r");
-//				$answer_data = str_replace($linefeeds, ' ', $object->get_answer_text());
-//
-//                $defaults['answer_data'] = base64_encode($answer_data);
+                $defaults[FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE] = $object->get_question_type();
             }
 
             parent :: setDefaults($defaults);
             return;
         }
 
-        if (! $this->validate())
+        if (!$this->validate())
         {
             for($option_number = 0; $option_number < count($defaults['match']); $option_number ++)
             {
@@ -75,17 +73,23 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 
     function create_learning_object()
     {
+        $values = $this->exportValues();
+
         $object = new FillInBlanksQuestion();
         $this->set_learning_object($object);
-        $object->set_answer_text($this->exportValue('answer'));
+        $object->set_answer_text($values['answer']);
+        $object->set_question_type($values[FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE]);
         $this->add_options_to_object();
         return parent :: create_learning_object();
     }
 
     function update_learning_object()
     {
+        $values = $this->exportValues();
+
         $object = $this->get_learning_object();
-        $object->set_answer_text($this->exportValue('answer'));
+        $object->set_answer_text($values['answer']);
+        $object->set_question_type($values[FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE]);
         $this->add_options_to_object();
         return parent :: update_learning_object();
     }
@@ -147,9 +151,6 @@ class FillInBlanksQuestionForm extends LearningObjectForm
     {
         $values = $this->exportValues();
         $renderer = $this->defaultRenderer();
-
-		$linefeeds = array("\r\n", "\n", "\r");
-		$answer_data = str_replace($linefeeds, ' ', $values['answer']);
 
         $matches = array();
         preg_match_all('/\[[a-zA-Z0-9_\s\-]*\]/', $values['answer'], $matches, PREG_OFFSET_CAPTURE);
