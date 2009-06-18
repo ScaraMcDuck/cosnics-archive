@@ -13,6 +13,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 	private $pid;
 	private $trackers;
 	private $lpi_attempt_data;
+	private $cloi;
 
 	function run()
 	{
@@ -58,6 +59,7 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		$menu = $this->get_menu($root_object->get_id(), $step, $pid, $lpi_attempt_data);
 		$object = $menu->get_current_object();
 		$cloi = $menu->get_current_cloi();
+		$this->cloi = $cloi;
 
 		// Update main tracker
 		$this->trackers['lp_tracker']->set_progress($menu->get_progress());
@@ -154,6 +156,11 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 	function get_trackers()
 	{
 		return $this->trackers;
+	}
+	
+	function get_cloi()
+	{
+		return $this->cloi;
 	}
 
 	// Layout functionality

@@ -29,7 +29,9 @@ class QuestionsAssessmentViewerWizardPage extends AssessmentViewerWizardPage
 		
 		if($this->page_number < $this->get_parent()->get_total_pages())
 			$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('next'), Translation :: get('Next'), array('class' => 'next'));
-		$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit'), array('class' => 'positive'));
+		else
+			$buttons[] = $this->createElement('style_submit_button', $this->getButtonName('submit'), Translation :: get('Submit'), array('class' => 'positive'));
+			
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		
 		// Add question forms
