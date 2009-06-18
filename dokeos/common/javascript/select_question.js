@@ -88,7 +88,6 @@ $(function ()
 			id = $(this).attr('id'),
 			row = 0,
 			answer_type = $('#mc_answer_type').val(),
-			response,
 			rows;
 		
 		id = id.replace('remove_', '');
