@@ -7,9 +7,19 @@ class FillInBlanksScoreCalculator extends ScoreCalculator
 	function calculate_score()
 	{
 		$blanks = $this->get_question()->get_answers();
-		$question = $this->get_question();
 		$answers = $this->get_answer();
 		
+		$score = 0;
+		
+		foreach($blanks as $i => $blank)
+		{
+			if($blank->get_value() == '[' . $answers[$i] . ']')
+			{
+				$score += $blank->get_weight();		
+			}
+		}
+		
+		return $score;
 	}
 }
 ?>
