@@ -53,13 +53,13 @@ class MatrixQuestionForm extends LearningObjectForm
 		else
 		{
 			$number_of_options = intval($_SESSION['mq_number_of_options']);
-		
+
 			for($option_number = 0; $option_number <$number_of_options ; $option_number++)
 			{
 				$defaults['option_weight'][$option_number] = 1;
 			}
 		}
-		
+
 		parent :: setDefaults($defaults);
 	}
 
@@ -83,10 +83,10 @@ class MatrixQuestionForm extends LearningObjectForm
 		$this->add_answers();
 		return parent :: update_learning_object();
 	}
-	
+
 	function remove_XSS_recursive()
 	{
-		
+
 	}
 
 	/**
@@ -143,59 +143,59 @@ class MatrixQuestionForm extends LearningObjectForm
 			unset($_SESSION['mq_skip_matches']);
 			unset($_SESSION['mq_matrix_type']);
 		}
-		
+
 		if(!isset($_SESSION['mq_number_of_options']))
 		{
 			$_SESSION['mq_number_of_options'] = 3;
 		}
-		
+
 		if(!isset($_SESSION['mq_skip_options']))
 		{
 			$_SESSION['mq_skip_options'] = array();
 		}
-		
+
 	 	if (! isset($_SESSION['mq_matrix_type']))
         {
             $_SESSION['mq_matrix_type'] = MatrixQuestion :: MATRIX_TYPE_RADIO;
         }
-        
+
 		if(isset($_POST['add_option']))
 		{
 			$_SESSION['mq_number_of_options'] = $_SESSION['mq_number_of_options']+1;
 		}
-		
+
 		if(isset($_POST['remove_option']))
 		{
 			$indexes = array_keys($_POST['remove_option']);
 			$_SESSION['mq_skip_options'][] = $indexes[0];
 		}
-		
+
 		if(!isset($_SESSION['mq_number_of_matches']))
 		{
 			$_SESSION['mq_number_of_matches'] = 3;
 		}
-		
+
 		if(!isset($_SESSION['mq_skip_matches']))
 		{
 			$_SESSION['mq_skip_matches'] = array();
 		}
-		
+
 		if(isset($_POST['add_match']))
 		{
 			$_SESSION['mq_number_of_matches'] = $_SESSION['mq_number_of_matches']+1;
 		}
-		
+
 		if(isset($_POST['remove_match']))
 		{
 			$indexes = array_keys($_POST['remove_match']);
 			$_SESSION['mq_skip_matches'][] = $indexes[0];
 		}
-		
+
 		if (isset($_POST['change_matrix_type']))
         {
             $_SESSION['mq_matrix_type'] = $_SESSION['mq_matrix_type'] == MatrixQuestion :: MATRIX_TYPE_RADIO ? MatrixQuestion :: MATRIX_TYPE_CHECKBOX : MatrixQuestion :: MATRIX_TYPE_RADIO;
         }
-        
+
 		$object = $this->get_learning_object();
 		if(!$this->isSubmitted() && !is_null($object))
 		{
@@ -203,7 +203,7 @@ class MatrixQuestionForm extends LearningObjectForm
 			$_SESSION['mq_number_of_matches'] = $object->get_number_of_matches();
 			$_SESSION['mq_matrix_type'] = $object->get_matrix_type();
 		}
-		
+
 		$this->addElement('hidden', 'mq_number_of_options', $_SESSION['mq_number_of_options'], array('id' => 'mq_number_of_options'));
 		$this->addElement('hidden', 'mq_number_of_matches', $_SESSION['mq_number_of_matches'], array('id' => 'mq_number_of_matches'));
 		$this->addElement('hidden', 'mq_matrix_type', $_SESSION['mq_matrix_type'], array('id' => 'mq_matrix_type'));
@@ -240,7 +240,7 @@ class MatrixQuestionForm extends LearningObjectForm
             $switch_label = Translation :: get('SwitchToSingleMatch');
             $multiple = true;
         }
-		
+
 		$buttons = array();
 		$buttons[] = $this->createElement('style_submit_button', 'change_matrix_type[]', $switch_label, array('class' => 'normal switch change_matrix_type'));
         $buttons[] = $this->createElement('style_button', 'add_option[]', Translation :: get('AddMatrixQuestionOption'), array('class' => 'normal add', 'id' => 'add_option'));
@@ -288,16 +288,16 @@ class MatrixQuestionForm extends LearningObjectForm
 
 				if($number_of_options - count($_SESSION['mq_skip_options']) > 2)
 				{
-					$group[] = $this->createElement('image','remove_option['.$option_number.']',Theme :: get_common_image_path().'action_delete.png', array('class' => 'remove_option', 'id' => $option_number));
+					$group[] = $this->createElement('image','remove_option['.$option_number.']',Theme :: get_common_image_path().'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_option_' . $option_number));
 				}
                 else
                 {
-                	$group[] =& $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                	$group[] =& $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
 
 				$this->addGroup($group, 'option_' . $option_number, null, '', false);
 
-				$renderer->setElementTemplate('<tr class="' . ($visual_number % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', 'option_' . $option_number);
+				$renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($visual_number % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', 'option_' . $option_number);
    				$renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
 
 				$this->addGroupRule('option_'.$option_number,
@@ -382,16 +382,16 @@ class MatrixQuestionForm extends LearningObjectForm
 
 				if($number_of_matches - count($_SESSION['mq_skip_matches']) > 2)
 				{
-					$group[] = $this->createElement('image','remove_match['.$match_number.']',Theme :: get_common_image_path().'action_delete.png', array('class' => 'remove_match', 'id' => $match_number));
+					$group[] = $this->createElement('image','remove_match['.$match_number.']',Theme :: get_common_image_path().'action_delete.png', array('class' => 'remove_match', 'id' => 'remove_match_' . $match_number));
 				}
                 else
                 {
-                	$group[] =& $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                	$group[] =& $this->createElement('static', null, null, '<img class="remove_match" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
 
 				$this->addGroup($group, 'match_' . $match_number, null, '', false);
 
-				$renderer->setElementTemplate('<tr>{element}</tr>', 'match_' . $match_number);
+				$renderer->setElementTemplate('<tr id="match_' . $match_number . '" class="' . ($match_number - 1 % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', 'match_' . $match_number);
    				$renderer->setGroupElementTemplate('<td>{element}</td>', 'match_' . $match_number);
 
 
