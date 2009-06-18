@@ -1,20 +1,44 @@
+// Get a translation
 function getTranslation(string, application)
 {
 	return getUtilities('translation', { string: string, application: application }).translation;
 }
 
+// Get a platform path
 function getPath(path)
 {
 	return getUtilities('path', { path: path }).path;
 }
 
+// Get the current theme
 function getTheme()
 {
 	return getUtilities('theme').theme;
 }
 
+// Get a memorized variable
+function getMemory(variable)
+{
+	return getUtilities('memory', { action: 'get', variable: variable }).value;
+}
+
+// Set a memorized variable
+function setMemory(variable, value)
+{
+	getUtilities('memory', { action: 'set', variable: variable, value: value });
+}
+
+// Clear a memorized variable
+function clearMemory(variable)
+{
+	getUtilities('memory', { action: 'clear', variable: variable });
+}
+
+// General function to retrieve and process utilities-calls.
 function getUtilities(type, parameters)
 {
+	var response;
+	
 	if (typeof parameters == "undefined")
 	{
 		parameters = new Object();
@@ -22,16 +46,41 @@ function getUtilities(type, parameters)
 	
 	parameters.type = type;
 	
+	response = doAjaxPost("./common/javascript/ajax/utilities.php", parameters);
+	return eval('(' + response + ')');
+}
+
+// Wrapper for an Ajax POST
+function doAjaxPost(url, parameters)
+{
+	return doAjax("POST", url, parameters);
+}
+
+//Wrapper for an Ajax GET
+function doAjaxGet(url, parameters)
+{
+	return doAjax("GET", url, parameters);
+}
+
+// Execute an Ajax postback
+function doAjax(type, url, parameters)
+{
+	if (typeof parameters == "undefined")
+	{
+		parameters = new Object();
+	}
+	
 	var response = $.ajax({
-		type: "POST",
-		url: "./common/javascript/ajax/utilities.php",
+		type: type,
+		url: url,
 		data: parameters,
 		async: false
 	}).responseText;
 	
-	return eval('(' + response + ')');
+	return response;
 }
 
+// Return an FckEditor
 function renderFckEditor(name, options)
 {
 	var defaults = {

@@ -166,7 +166,7 @@ class SelectQuestionForm extends LearningObjectForm
 
         $this->addElement('hidden', 'mc_answer_type', $_SESSION['mc_answer_type'], array('id' => 'mc_answer_type'));
         $this->addElement('hidden', 'mc_number_of_options', $_SESSION['mc_number_of_options'], array('id' => 'mc_number_of_options'));
-        
+
         $buttons = array();
         $buttons[] = $this->createElement('style_submit_button', 'change_answer_type', $switch_label, array('class' => 'normal switch', 'id' => 'change_answer_type'));
         //Notice: The [] are added to this element name so we don't have to deal with the _x and _y suffixes added when clicking an image button
@@ -216,11 +216,11 @@ class SelectQuestionForm extends LearningObjectForm
 
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 2)
                 {
-                    $group[] =& $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => $option_number));
+                    $group[] =& $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
                 }
                 else
                 {
-                	$group[] =& $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                	$group[] =& $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
 
                 $this->addGroup($group, 'option_' . $option_number, null, '', false);
@@ -235,7 +235,7 @@ class SelectQuestionForm extends LearningObjectForm
                     )
                 ));
 
-			    $renderer->setElementTemplate('<tr class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $option_number);
+			    $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $option_number);
     			$renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
             }
         }

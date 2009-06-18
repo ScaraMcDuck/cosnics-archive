@@ -59,6 +59,7 @@ class Header
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.scrollable.pack.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.xml2json.pack.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.json.js');
+		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.iphone.checkboxes.js');
 		$this->add_javascript_file_header($this->get_path(WEB_LIB_PATH).'javascript/utilities.js');
 		$this->add_javascript_file_header($this->get_path(WEB_LIB_PATH).'javascript/notifications.js');
 		$this->add_javascript_file_header($this->get_path(WEB_LIB_PATH).'javascript/help.js');

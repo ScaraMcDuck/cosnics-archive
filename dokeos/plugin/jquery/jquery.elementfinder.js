@@ -1,6 +1,6 @@
-/*
-Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based) plugin
-*/
+/**
+ * Copyright (c) 2009, Hans De Bisschop, conversion to seperate (non ui-tabs based) plugin
+ */
 
 (function($){
 	$.fn.extend({ 

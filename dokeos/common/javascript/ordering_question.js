@@ -51,7 +51,8 @@ $(function ()
 		currentNumberOfOptions = rows.size();
     }
 
-    function removeOption(ev, ui) {
+    function removeOption(ev, ui)
+    {
     	ev.preventDefault();
 
 		var tableBody, id, rows, row, response;
@@ -59,7 +60,7 @@ $(function ()
 		tableBody = $(this).parent().parent().parent();
 		id = $(this).attr('id');
 		id = id.replace('remove_', '');
-		$('tr#' + id, tableBody).remove();
+		$('tr#option_' + id, tableBody).remove();
 	
 		rows = $('tr', tableBody);
 	
@@ -86,13 +87,14 @@ $(function ()
 		processItems();
     }
 
-    function addOption(ev, ui) {
+    function addOption(ev, ui)
+    {
 		ev.preventDefault();
 		
 		var	numberOfOptions, newNumber, response, rowClass, id, fieldAnswer,
 			fieldOrder, fieldDelete, string, parameters, editorName, highestOptionValue;
 	
-		numberOfOptions = $('#ordering_number_of_options').attr('value');
+		numberOfOptions = $('#ordering_number_of_options').val();
 		newNumber = parseInt(numberOfOptions, 10) + 1;
 	
 		response = $.ajax({
@@ -106,7 +108,7 @@ $(function ()
 		    async : false
 		}).responseText;
 	
-		$('#ordering_number_of_options').attr('value', newNumber);
+		$('#ordering_number_of_options').val(newNumber);
 	
 		rowClass = (numberOfOptions - skippedOptions) % 2 === 0 ? 'row_even' : 'row_odd';
 		id = 'correct[' + numberOfOptions + ']';
@@ -119,7 +121,7 @@ $(function ()
 		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldAnswer + '</td><td>' + fieldOrder + '</td><td>' + fieldDelete + '</td></tr>';
 	
-		$('tbody', $('.data_table')).append(string);
+		$('.data_table tbody').append(string);
 	
 		processItems();
 		
