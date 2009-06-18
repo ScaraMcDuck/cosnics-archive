@@ -47,6 +47,9 @@ class AssessmentViewerWizard extends HTML_QuickForm_Controller
 		for($i = 1; $i <= $this->total_pages; $i++ )
 			$this->addPage(new QuestionsAssessmentViewerWizardPage('question_page_' . $i, $this, $i));
 			
+		if(!isset($_SESSION['questions']))
+			$_SESSION['questions'] = 'all';
+			
 	}
 	
 	function get_questions($page_number)
