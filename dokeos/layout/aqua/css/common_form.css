@@ -416,6 +416,11 @@ button.refresh, a.refresh_button
 	background-image: url(../img/common/buttons/button_refresh.png);
 }
 
+button.upload, a.submit_upload
+{
+	background-image: url(../img/common/buttons/button_upload.png);
+}
+
 /*IE-fix to avoid adding unwanted margins to the form*/
 div.simple_search form
 {
