@@ -13,6 +13,8 @@ require_once dirname(__FILE__) . '/hotspot_question_answer.class.php';
 class HotspotQuestionForm extends LearningObjectForm
 {
 
+	private $colours = array('#00315b', '#00adef', '#aecee7', '#9dcfc3', '#016c62', '#c7ac21', '#ff5329', '#bd0019', '#e7ad7b', '#bd0084', '#9d8384', '#42212a', '#005b84', '#e0eeef', '#00ad9c', '#ffe62a', '#f71932', '#ff9429', '#f6d7c5', '#7a2893');
+
     protected function build_creation_form()
     {
         parent :: build_creation_form();
@@ -24,25 +26,28 @@ class HotspotQuestionForm extends LearningObjectForm
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/hotspot_question.js'));
 
-        if (! $this->isSubmitted())
-        {
-            unset($_SESSION['web_path']);
-        }
+        $_SESSION['full_path'] = 'G:\Wamp\www\LCMS\files\repository\2\Mig_Messenger.jpg';
+		$_SESSION['web_path'] = 'http://localhost/LCMS/files/repository/2/Mig_Messenger.jpg';
 
-        if (! isset($_SESSION['web_path']))
-        {
-            $this->addElement('file', 'file', Translation :: get('UploadImage'));
-            $this->addElement('style_submit_button', 'fileupload', Translation :: get('Upload'), array('class' => 'positive upload'));
-            $this->addElement('category');
-        }
-        else
-        {
+//        if (! $this->isSubmitted())
+//        {
+//            unset($_SESSION['web_path']);
+//        }
+//
+//        if (! isset($_SESSION['web_path']))
+//        {
+//            $this->addElement('file', 'file', Translation :: get('UploadImage'));
+//            $this->addElement('style_submit_button', 'fileupload', Translation :: get('Upload'), array('class' => 'positive upload'));
+//            $this->addElement('category');
+//        }
+//        else
+//        {
             $this->add_options();
             $this->addElement('hidden', 'filename', Translation :: get('Filename'));
             $this->addElement('category');
             $this->add_image();
             //$this->addElement($this->get_scripts_element());
-        }
+//        }
         $this->set_session_answers();
     }
 
@@ -228,7 +233,7 @@ class HotspotQuestionForm extends LearningObjectForm
         $this->addElement('category', Translation :: get('HotspotImage'));
 
         $dimensions = getimagesize($_SESSION['full_path']);
-        $html = '<div id="hotspot_image" style="position: relative; width: '. $dimensions[0] .'px; height: '. $dimensions[1] .'px; background-image: url('. $_SESSION['web_path'] .')"></div>';
+        $html = '<div style="position: relative; padding: 1px; background-color: #b5cae7; float: left;"><div id="hotspot_image" style="position: relative; width: '. $dimensions[0] .'px; height: '. $dimensions[1] .'px; background-image: url('. $_SESSION['web_path'] .')"></div></div>';
 
         $this->addElement('html', $html);
         $this->addElement('category');
@@ -329,34 +334,43 @@ class HotspotQuestionForm extends LearningObjectForm
         $table_header[] = '<table class="data_table">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
-        $table_header[] = '<th>Answer</th>';
-        $table_header[] = '<th>Comment</th>';
-        $table_header[] = '<th style="width: 50px;">Weight</th>';
-        $table_header[] = '<th style="width: 22px;"></th>';
+        $table_header[] = '<th class="list"></th>';
+        $table_header[] = '<th>' . Translation :: get('HotspotDescription') . '</th>';
+        $table_header[] = '<th>' . Translation :: get('Feedback') . '</th>';
+        $table_header[] = '<th class="numeric">' . Translation :: get('Score') . '</th>';
+        $table_header[] = '<th></th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
         $this->addElement('html', implode("\n", $table_header));
+
+        $colours = $this->colours;
 
         for($option_number = 0; $option_number < $number_of_options; $option_number ++)
         {
             if (! in_array($option_number, $_SESSION['mc_skip_options']))
             {
                 $group = array();
+                $group[] = $this->createElement('static', null, null, '<div style="width: 15px; height: 15px; background-color: ' . $colours[$option_number] . '"></div>');
                 $group[] = $this->createElement('hidden', 'type[' . $option_number . ']', '');
                 $group[] = $this->createElement('hidden', 'coordinates[' . $option_number . ']', '');
                 $group[] = $this->create_html_editor('answer[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
                 $group[] = $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
-                $group[] = & $this->createElement('text', 'option_weight[' . $option_number . ']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
+                $group[] = $this->createElement('text', 'option_weight[' . $option_number . ']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
+
+				$hotspot_actions = array();
+				$hotspot_actions[] = $this->createElement('image', 'edit[' . $option_number . ']', Theme :: get_common_image_path() . 'action_edit.png');
+				$hotspot_actions[] = $this->createElement('image', 'reset[' . $option_number . ']', Theme :: get_common_image_path() . 'action_reset.png');
 
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 1)
                 {
-                    $group[] = & $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png');
+                   $hotspot_actions[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png');
                 }
                 else
                 {
-                    $group[] = & $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                    $hotspot_actions[] = $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
+                $group[] = $this->createElement('static', null, null, $this->createElement('group', null, null, $hotspot_actions, '&nbsp;&nbsp;', false)->toHtml());
 
                 $this->addGroup($group, 'option_' . $option_number, null, '', false);
 
