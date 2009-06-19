@@ -88,6 +88,9 @@
 			<setting name="allow_open_question_creation" field="checkbox" default="1">
 				<options type="static"><option name="allow_open_question_creation" value="1" /></options>
 			</setting>
+			<setting name="allow_ordering_question_creation" field="checkbox" default="1">
+				<options type="static"><option name="allow_ordering_question_creation" value="1" /></options>
+			</setting>
 			<setting name="allow_personal_message_creation" field="checkbox" default="1">
 				<options type="static"><option name="allow_personal_message_creation" value="1" /></options>
 			</setting>

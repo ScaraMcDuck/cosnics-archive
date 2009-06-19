@@ -202,4 +202,9 @@ $lang['common']['AddSelectOption'] = 'Add option';
 $lang['common']['SelectQuestionFormTitle'] = 'Question';
 $lang['common']['SelectQuestionFormDescription'] = 'Description';
 $lang['common']['SelectQuestionFormOptions'] = 'Options';
+$lang['common']['HotspotDescription'] = 'Description';
+$lang['common']['HotspotQuestionFormHotspots'] = 'Hotspots';
+$lang['common']['HotspotImage'] = 'Image';
+$lang['common']['Item'] = 'Item';
+$lang['common']['Item'] = 'Item';
 ?>
