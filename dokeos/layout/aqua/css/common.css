@@ -2089,3 +2089,41 @@ div.question div.answer div.caption
 	color: #4171b5;
 	margin-left: 20px;
 }
+
+#hotspot_image
+{
+	position: relative;
+}
+
+.colour_box
+{
+	width: 15px;
+	height: 15px;
+	border: 1px solid black;
+}
+
+#hotspot_container
+{
+	float: left;
+	position: relative;
+	padding: 1px;
+	background-color: #b5cae7;
+}
+
+#hotspot_marking
+{
+	height: 15px;
+	line-height: 15px;
+	margin-bottom: 10px;
+}
+
+#hotspot_marking .colour_box,
+#hotspot_marking .colour_box_label
+{
+	float: left;
+}
+
+#hotspot_marking .colour_box
+{
+	margin-left: 10px;
+}
