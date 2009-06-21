@@ -1,9 +1,9 @@
 $(function ()
 {
-	var colors = ['#00315b', '#00adef', '#aecee7', '#9dcfc3', '#016c62', '#c7ac21', '#ff5329', '#bd0019', '#e7ad7b', '#bd0084', '#9d8384', '#42212a', '#005b84', '#e0eeef', '#00ad9c', '#ffe62a', '#f71932', '#ff9429', '#f6d7c5', '#7a2893'];
+	var colours = ['#00315b', '#00adef', '#aecee7', '#9dcfc3', '#016c62', '#c7ac21', '#ff5329', '#bd0019', '#e7ad7b', '#bd0084', '#9d8384', '#42212a', '#005b84', '#e0eeef', '#00ad9c', '#ffe62a', '#f71932', '#ff9429', '#f6d7c5', '#7a2893'];
 
 	var offset = $('#hotspot_image').offset();
-	var currentPolygon = 0;
+	var currentPolygon = null;
 	var positions = [];
 
 	function redrawPolygon()
@@ -11,58 +11,104 @@ $(function ()
 		$('.polygon_fill_' + currentPolygon, $('#hotspot_image')).remove();
 		$('.polygon_line_' + currentPolygon, $('#hotspot_image')).remove();
 
-		$('#hotspot_image').fillPolygon(positions[currentPolygon].X, positions[currentPolygon].Y, {clss: 'polygon_fill_' + currentPolygon, color: colors[currentPolygon], alpha: .5});
-		$('#hotspot_image').drawPolygon(positions[currentPolygon].X, positions[currentPolygon].Y, {clss: 'polygon_line_' + currentPolygon, color: colors[currentPolygon], stroke: 1, alpha: .9});
+		$('#hotspot_image').fillPolygon(positions[currentPolygon].X, positions[currentPolygon].Y, {clss: 'polygon_fill_' + currentPolygon, color: colours[currentPolygon], alpha: .5});
+		$('#hotspot_image').drawPolygon(positions[currentPolygon].X, positions[currentPolygon].Y, {clss: 'polygon_line_' + currentPolygon, color: colours[currentPolygon], stroke: 1, alpha: .9});
+	}
+	
+	function setCoordinates()
+	{
+		var coordinatesField = $('input[name="coordinates[' + currentPolygon + ']"]'),
+			coordinatesData = [],
+			currentCoordinates = positions[currentPolygon];
+		
+		$.each(currentCoordinates.X, function(index, item){
+			coordinatesData.push([item, currentCoordinates.Y[index]]);
+			});
+		
+		coordinatesField.val((serialize(coordinatesData)));
 	}
 
 	function getCoordinates(ev, ui)
 	{
-		var pX, pY;
-
-		pX = ev.pageX - offset.left;
-		pY = ev.pageY - offset.top;
-		pX = pX.toFixed(0);
-		pY = pY.toFixed(0);
-		positions[currentPolygon].X.push(parseInt(pX, 10));
-		positions[currentPolygon].Y.push(parseInt(pY, 10));
-
-		redrawPolygon();
+		if (currentPolygon != null)
+		{
+			var pX, pY;
+	
+			pX = ev.pageX - offset.left;
+			pY = ev.pageY - offset.top;
+			pX = pX.toFixed(0);
+			pY = pY.toFixed(0);
+			positions[currentPolygon].X.push(parseInt(pX, 10));
+			positions[currentPolygon].Y.push(parseInt(pY, 10));
+	
+			redrawPolygon();
+			setCoordinates();
+		}
 	}
-
-	function startNewPolygon(ev, ui)
+	
+	function resetPolygonObject(id)
 	{
-		ev.preventDefault();
-
-		// Get the coordinates, serialize and add them to the page
-		var coordinates = new Array(positions[currentPolygon].X, positions[currentPolygon].Y);
-		$('#hotspot_image').parent().append('<div style="height: 25px; background-color: #EEEEEE; margin-bottom: 10px;" id="polygon_data_' + currentPolygon + '">' + serialize(coordinates) + '</div')
-
-		// Increment the polygon counter
-		currentPolygon += 1;
-
-		// Initialize the newly created polygon
-		positions.push(new Object());
+		currentPolygon = id;
+		
+		positions[currentPolygon] = new Object();
 		positions[currentPolygon].X = [];
 		positions[currentPolygon].Y = [];
+		
+		$('.polygon_fill_' + currentPolygon, $('#hotspot_image')).remove();
+		$('.polygon_line_' + currentPolygon, $('#hotspot_image')).remove();
 	}
-
-//	function drawIntro(svg)
-//	{
-//		svg.polygon([[10, 10], [112, 10], [112,111], [10,111]], {fill: "lime", stroke: "blue", strokeWidth: 10});
-//	}
+	
+	function resetPolygon(ev, ui)
+	{
+		ev.preventDefault();
+		var id = $(this).attr(('id')).replace('reset_', '');
+		$('#hotspot_marking .colour_box').css('background-color', colours[id]);
+		resetPolygonObject(id);
+	}
+	
+	function editPolygon(ev, ui)
+	{
+		ev.preventDefault();
+		var id = $(this).attr(('id')).replace('edit_', '');
+		$('#hotspot_marking .colour_box').css('background-color', colours[id]);
+		resetPolygonObject(id);
+	}
+	
+	function initializePolygons()
+	{
+		$('input[name*="coordinates"]').each(function (i)
+		{
+			var fieldName = $(this).attr('name'),
+				id = fieldName.substr(12, fieldName.length - 13),
+				fieldValue = $(this).val();
+			
+			if (fieldValue != '')
+			{
+				fieldValue = unserialize(fieldValue);
+				
+				currentPolygon = id;
+				resetPolygonObject(id)
+				
+				$.each(fieldValue, function(index, item){
+					positions[id].X.push(item[0]);
+					positions[id].Y.push(item[1]);
+				});
+				
+				redrawPolygon();
+			}
+		});
+	}
 
 	$(document).ready(function ()
 	{
-		// Initialize a polygon
-		positions.push(new Object());
-		positions[currentPolygon].X = [];
-		positions[currentPolygon].Y = [];
+		initializePolygons();
+		
+		//Bind clicks on the edit and reset buttons
+		$('input[name*="edit"]').live('click', editPolygon);
+		$('input[name*="reset"]').live('click', resetPolygon);
 
-		// Bind clicks on the image and the new polygon button
+		//Bind clicks on the image
 		$('#hotspot_image').click(getCoordinates);
-		//$('#new_polygon').click(startNewPolygon);
-
-//		$('#test_area').svg({onLoad: drawIntro});
 	});
 
 });

@@ -46,7 +46,6 @@ class HotspotQuestionForm extends LearningObjectForm
             $this->addElement('hidden', 'filename', Translation :: get('Filename'));
             $this->addElement('category');
             $this->add_image();
-            //$this->addElement($this->get_scripts_element());
 //        }
         $this->set_session_answers();
     }
@@ -55,20 +54,19 @@ class HotspotQuestionForm extends LearningObjectForm
     {
         parent :: build_creation_form();
 
+        $_SESSION['full_path'] = 'G:\Wamp\www\LCMS\files\repository\2\Mig_Messenger.jpg';
+		$_SESSION['web_path'] = 'http://localhost/LCMS/files/repository/2/Mig_Messenger.jpg';
+
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
-        $this->check_upload();
-        if (! isset($_SESSION['web_path']))
-        {
-            $_SESSION['web_path'] = Path :: get(WEB_REPO_PATH) . $this->get_learning_object()->get_image();
-            $_SESSION['full_path'] = Path :: get(SYS_REPO_PATH) . $this->get_learning_object()->get_image();
-            $_SESSION['hotspot_path'] = $this->get_learning_object()->get_image();
-        }
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.draw.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/hotspot_question.js'));
         $this->add_options();
         $this->addElement('hidden', 'filename', Translation :: get('Filename'));
-        $this->addElement($this->get_scripts_element());
-
-        $this->set_session_answers();
         $this->addElement('category');
+
+		$this->add_image();
+		$this->set_session_answers();
     }
 
     function setDefaults($defaults = array ())
@@ -233,41 +231,13 @@ class HotspotQuestionForm extends LearningObjectForm
         $this->addElement('category', Translation :: get('HotspotImage'));
 
         $dimensions = getimagesize($_SESSION['full_path']);
-        $html = '<div style="position: relative; padding: 1px; background-color: #b5cae7; float: left;"><div id="hotspot_image" style="position: relative; width: '. $dimensions[0] .'px; height: '. $dimensions[1] .'px; background-image: url('. $_SESSION['web_path'] .')"></div></div>';
 
-        $this->addElement('html', $html);
+        $html = array();
+        $html[] = '<div id="hotspot_marking"><div class="colour_box_label">' . Translation :: get('CurrentlyMarking') . '</div><div class="colour_box"></div></div>';
+        $html[] = '<div id="hotspot_container"><div id="hotspot_image" style="width: '. $dimensions[0] .'px; height: '. $dimensions[1] .'px; background-image: url('. $_SESSION['web_path'] .')"></div></div>';
+
+        $this->addElement('html', implode("\n", $html));
         $this->addElement('category');
-    }
-
-    function get_scripts_element()
-    {
-        $hotspot_path = Path :: get(WEB_PLUGIN_PATH) . '/hotspot/hotspot/hotspot_admin.swf';
-        //dump($hotspot_path);
-        return $this->createElement('html', '
-			<script type="text/javascript" src="' . Path :: get(WEB_PLUGIN_PATH) . 'hotspot/hotspot/JavaScriptFlashGateway.js" ></script>
-			<script type="text/javascript" src="' . Path :: get(WEB_PLUGIN_PATH) . 'hotspot/hotspot/hotspot.js" ></script>
-			<script type="text/javascript" src="' . Path :: get(WEB_PLUGIN_PATH) . 'hotspot/hotspot/jsmethods.js" ></script>
-			<script type="text/vbscript" src="' . Path :: get(WEB_PLUGIN_PATH) . 'hotspot/hotspot/vbmethods.vbscript" ></script>
-			<script type="text/javascript" >
-				var requiredMajorVersion = 7;
-				var requiredMinorVersion = 0;
-				var requiredRevision = 0;
-				//var hasRequestedVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
-				var hasRequestedVersion = true;
-				// Check to see if the version meets the requirements for playback
-				if (hasRequestedVersion) {  // if weve detected an acceptable version
-				    var oeTags = \'<object type="application/x-shockwave-flash" data="' . $hotspot_path . '?modifyAnswers=' . $id . '" width="720" height="650">\'
-								+ \'<param name="movie" value="' . $hotspot_path . '?modifyAnswers=' . $id . '" />\'
-								//+ \'<param name="test" value="OOoowww fo shooww" />\'
-								+ \'</object>\';
-				    document.write(oeTags);   // embed the Flash Content SWF when all tests are passed
-				} else {  // flash is too old or we can\'t detect the plugin
-					var alternateContent = "Error<br \/>"
-						+ \'This content requires the Macromedia Flash Player.<br \/>\'
-						+ \'<a href="http://www.macromedia.com/go/getflash/">Get Flash<\/a>\';
-					document.write(alternateContent);  // insert non-flash content
-				}
-			</script>');
     }
 
     /**
@@ -351,7 +321,7 @@ class HotspotQuestionForm extends LearningObjectForm
             if (! in_array($option_number, $_SESSION['mc_skip_options']))
             {
                 $group = array();
-                $group[] = $this->createElement('static', null, null, '<div style="width: 15px; height: 15px; background-color: ' . $colours[$option_number] . '"></div>');
+                $group[] = $this->createElement('static', null, null, '<div class="colour_box" style="background-color: ' . $colours[$option_number] . '"></div>');
                 $group[] = $this->createElement('hidden', 'type[' . $option_number . ']', '');
                 $group[] = $this->createElement('hidden', 'coordinates[' . $option_number . ']', '');
                 $group[] = $this->create_html_editor('answer[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
@@ -359,22 +329,22 @@ class HotspotQuestionForm extends LearningObjectForm
                 $group[] = $this->createElement('text', 'option_weight[' . $option_number . ']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
 
 				$hotspot_actions = array();
-				$hotspot_actions[] = $this->createElement('image', 'edit[' . $option_number . ']', Theme :: get_common_image_path() . 'action_edit.png');
-				$hotspot_actions[] = $this->createElement('image', 'reset[' . $option_number . ']', Theme :: get_common_image_path() . 'action_reset.png');
+				$hotspot_actions[] = $this->createElement('image', 'edit[' . $option_number . ']', Theme :: get_common_image_path() . 'action_edit.png', array('class' => 'edit_option', 'id' => 'edit_' . $option_number));
+				$hotspot_actions[] = $this->createElement('image', 'reset[' . $option_number . ']', Theme :: get_common_image_path() . 'action_reset.png', array('class' => 'reset_option', 'id' => 'reset_' . $option_number));
 
                 if ($number_of_options - count($_SESSION['mc_skip_options']) > 1)
                 {
-                   $hotspot_actions[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png');
+                   $hotspot_actions[] = $this->createElement('image', 'remove[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_' . $option_number));
                 }
                 else
                 {
-                    $hotspot_actions[] = $this->createElement('static', null, null, '<img src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                    $hotspot_actions[] = $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
                 $group[] = $this->createElement('static', null, null, $this->createElement('group', null, null, $hotspot_actions, '&nbsp;&nbsp;', false)->toHtml());
 
                 $this->addGroup($group, 'option_' . $option_number, null, '', false);
 
-                $renderer->setElementTemplate('<tr>{element}</tr>', 'option_' . $option_number);
+                $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($option_number % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $option_number);
                 $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
 
                 $this->addGroupRule('option_' . $option_number, array('answer[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required')), 'option_weight[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
@@ -392,7 +362,6 @@ class HotspotQuestionForm extends LearningObjectForm
 
         $renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
         $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
-
     }
 }
 ?>
