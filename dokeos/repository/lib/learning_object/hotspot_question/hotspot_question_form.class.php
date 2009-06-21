@@ -80,7 +80,6 @@ class HotspotQuestionForm extends LearningObjectForm
                 foreach ($answers as $i => $answer)
                 {
                     $defaults['answer'][$i] = $answer->get_answer();
-                    $defaults['type'][$i] = $answer->get_hotspot_type();
                     $defaults['comment'][$i] = $answer->get_comment();
                     $defaults['coordinates'][$i] = $answer->get_hotspot_coordinates();
                     $defaults['option_weight'][$i] = $answer->get_weight();
@@ -140,13 +139,12 @@ class HotspotQuestionForm extends LearningObjectForm
         $values = $this->exportValues();
         $answers = $values['answer'];
         $comments = $values['comment'];
-        $types = $values['type'];
         $coordinates = $values['coordinates'];
         $weights = $values['option_weight'];
 
         for($i = 0; $i < $_SESSION['mc_number_of_options']; $i ++)
         {
-            $answer = new HotspotQuestionAnswer($answers[$i], $comments[$i], $weights[$i], $coordinates[$i], $types[$i]);
+            $answer = new HotspotQuestionAnswer($answers[$i], $comments[$i], $weights[$i], $coordinates[$i]);
             $object->add_answer($answer);
         }
     }
@@ -208,19 +206,16 @@ class HotspotQuestionForm extends LearningObjectForm
         if (count($defaults) == 0)
         {
             $answers = $_POST['answer'];
-            $types = $_POST['type'];
             $weights = $_POST['option_weight'];
             $coords = $_POST['coordinates'];
 
             $_SESSION['answers'] = $answers;
-            $_SESSION['types'] = $types;
             $_SESSION['option_weight'] = $weights;
             $_SESSION['coordinates'] = $coords;
         }
         else
         {
             $_SESSION['answers'] = $defaults['answer'];
-            $_SESSION['types'] = $defaults['type'];
             $_SESSION['weights'] = $defaults['weight'];
             $_SESSION['coordinates'] = $defaults['coordinates'];
         }
@@ -287,8 +282,10 @@ class HotspotQuestionForm extends LearningObjectForm
             $this->addElement('html', '</div>');
         }
 
+        $this->addElement('hidden', 'mc_number_of_options', $_SESSION['mc_number_of_options'], array('id' => 'mc_number_of_options'));
+
         $buttons = array();
-        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddMultipleChoiceOption'), array('class' => 'normal add'));
+        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddMultipleChoiceOption'), array('class' => 'normal add add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $renderer = $this->defaultRenderer();
@@ -321,8 +318,8 @@ class HotspotQuestionForm extends LearningObjectForm
             if (! in_array($option_number, $_SESSION['mc_skip_options']))
             {
                 $group = array();
-                $group[] = $this->createElement('static', null, null, '<div class="colour_box" style="background-color: ' . $colours[$option_number] . '"></div>');
-                $group[] = $this->createElement('hidden', 'type[' . $option_number . ']', '');
+                $group[] = $this->createElement('static', null, null, '<div class="colour_box" style="background-color: ' . $colours[$option_number] . ';"></div>');
+                //$group[] = $this->createElement('hidden', 'type[' . $option_number . ']', '');
                 $group[] = $this->createElement('hidden', 'coordinates[' . $option_number . ']', '');
                 $group[] = $this->create_html_editor('answer[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
                 $group[] = $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
