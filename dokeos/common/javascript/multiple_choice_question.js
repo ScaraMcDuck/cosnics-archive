@@ -141,9 +141,9 @@ $(function ()
 		fieldAnswer = renderFckEditor(editorNameAnswer, parameters);
 		fieldComment = renderFckEditor(editorNameComment, parameters);
 		fieldScore = '<input class="input_numeric" type="text" value="1" name="option_weight[' + numberOfOptions + ']" size="2" />';
-		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="http://localhost/lcms/layout/aqua/img/common/action_delete.png" name="remove[' + numberOfOptions + ']" />';
+		fieldDelete = '<input id="remove_' + numberOfOptions + '" class="remove_option" type="image" src="' + getDeleteIcon() + '" name="remove[' + numberOfOptions + ']" />';
 		
-		string = '<tr class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
+		string = '<tr id="option_' + numberOfOptions + '" class="' + rowClass + '"><td>' + fieldOption + '</td><td>' + fieldAnswer + '</td><td>' + fieldComment + 
 				 '</td><td>' + fieldScore + '</td><td>' + fieldDelete + '</td></tr>';
 		
 		$('.data_table tbody').append(string);
@@ -153,9 +153,9 @@ $(function ()
 
 	$(document).ready( function() 
 	{
-		$('#change_answer_type').live('click', convertType);
+		$('.change_answer_type').live('click', convertType);
 		$('.remove_option').live('click', removeOption);
-		$('#add_option').live('click', addOption);
+		$('.add_option').live('click', addOption);
 	});
 	
 });
