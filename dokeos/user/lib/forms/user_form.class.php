@@ -122,7 +122,7 @@ class UserForm extends FormValidator {
 		// Platform admin
 		if ($this->user->is_platform_admin() && $this->user->get_id() == $this->form_user->get_id() && $this->form_type == self :: TYPE_EDIT)
 		{
-		$this->add_warning_message(null, Translation :: get('LockOutWarningMessage'));
+		$this->add_warning_message('admin_lockout_message', null, Translation :: get('LockOutWarningMessage'));
 		}
 		$group = array();
 		$group[] =& $this->createElement('radio', User :: PROPERTY_PLATFORMADMIN,null,Translation :: get('Yes'),1);

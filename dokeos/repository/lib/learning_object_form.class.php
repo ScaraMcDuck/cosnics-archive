@@ -194,7 +194,7 @@ abstract class LearningObjectForm extends FormValidator
 			}
 			else
 			{
-				$this->add_warning_message(null, Translation :: get('VersionQuotaExceeded'));
+				$this->add_warning_message('version_quotum_message', null, Translation :: get('VersionQuotaExceeded'));
 			}
 		}
 		$this->addElement('hidden', LearningObject :: PROPERTY_ID);
