@@ -31,9 +31,10 @@ class HotspotQuestionForm extends LearningObjectForm
 		$locale['NoResults'] = Translation :: get('NoResults');
 		$locale['Error'] = Translation :: get('Error');
 
-		$this->addElement('html', '<div id="hotspot_select">');
+		$this->add_warning_message('hotspot_javascript', Translation :: get('HotspotJavascriptWarning'), Translation :: get('HotspotJavascriptRequired'), true);
+
+		$this->addElement('html', '<div id="hotspot_select" style="display: none;">');
 		$this->addElement('category', Translation :: get(get_class($this) . 'Hotspots'));
-		$this->add_warning_message('hotspot_javascript', Translation :: get('HotspotJavascriptWarning'), Translation :: get('HotspotJavascriptRequired'));
 		$this->addElement('static', 'uploadify', Translation :: get('UploadImage'), '<div id="uploadify"></div>');
 		$this->addElement('element_finder', 'image', Translation :: get('SelectImage'), $url, $locale, array());
 		$this->addElement('category');
