@@ -443,9 +443,9 @@ EOT;
 	 * @param string $label The label for the error message
 	 * @param string $message The actual error message
      */
-	function add_warning_message($name, $label, $message)
+	function add_warning_message($name, $label, $message, $no_margin = false)
 	{
-		$html = '<div id="' . $name . '" class="row"><div class="forme">';
+		$html = '<div id="' . $name . '" class="row"><div class="forme'. ($no_margin ? ' forme_no_margin' : '') .'">';
 		if ($label)
 		{
 			$html .= '<b>'. $label .'</b><br />';

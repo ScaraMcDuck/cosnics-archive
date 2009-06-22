@@ -11,6 +11,7 @@ $full_path = $object->get_full_path();
 $dimensions = getimagesize($full_path);
 
 $properties = array();
+$properties[LearningObject :: PROPERTY_ID] = $object->get_id();
 $properties[LearningObject :: PROPERTY_TITLE] = $object->get_title();
 $properties['fullPath'] = $full_path;
 $properties['webPath'] = $object->get_url();

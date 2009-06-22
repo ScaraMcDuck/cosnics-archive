@@ -53,14 +53,25 @@ div.row div.formw textarea:hover, div.row div.formw textarea:focus
 	border-color: #4171B5;
 }
 
-div.row div.forme
+div.row div.forme,
+div.row div.forme_no_margin
 {
 	margin-left: 20%;
 	border-width: 1px;
+	padding: 10px 10px 10px 50px;
+	
 	border-style: solid;
-	padding: 10px;
+	background-repeat: no-repeat;
+	background-position: 10px 10px;
+	
+	background-image: url('../img/common/status_warning.png');
 	background-color: #ffedd1;
-	border-color: #ff9900;
+	border-color: #ffd89b;
+}
+
+div.row div.forme_no_margin
+{
+	margin-left: 0px;
 }
 
 [dir=ltr] div.row div.label, [dir=rtl] div.row div.formw
