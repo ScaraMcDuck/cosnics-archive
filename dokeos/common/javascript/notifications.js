@@ -101,7 +101,7 @@ $(function () {
 		
 		//placeFooter();
 		
-		$('iframe:not(.processed)').TextAreaResizer();
+		//$('iframe:not(.processed)').TextAreaResizer();
 	});
 
 });

@@ -227,7 +227,24 @@ $(function ()
 		// Prepare the positions array and hotspots image
 		$('#hotspot_marking .colour_box').css('background-color', colours[numberOfOptions]);
 		resetPolygonObject(numberOfOptions);
-	}	
+	}
+	
+	function setHotspotImage(ev, ui)
+	{
+		var learningObjectId = $(this).attr('id').replace('lo_', ''),
+			imageProperties;
+		$('input[name="image_object"]').val(learningObjectId);
+		
+		imageProperties = doAjaxPost("./common/javascript/ajax/image_properties.php", { learning_object: learningObjectId });
+		imageProperties = eval('(' + imageProperties + ')');
+		
+		$('#hotspot_image').css('width', imageProperties.width + 'px');
+		$('#hotspot_image').css('height', imageProperties.height + 'px');
+		$('#hotspot_image').css('background-image', 'url(' + imageProperties.webPath + ')');
+		
+		$('#hotspot_select').hide();
+		$('#hotspot_options').show();
+	}
 
 	$(document).ready(function ()
 	{
@@ -243,6 +260,9 @@ $(function ()
 		//Bind actions to option management buttons
 		$('.remove_option').live('click', removeOption);
 		$('.add_option').live('click', addOption);
+		
+		//Process image selection
+		$('.inactive_elements a:not(.disabled, .category)').live('click', setHotspotImage);
 	});
 
 });
