@@ -100,6 +100,8 @@ $(function () {
 		//hideMessages();
 		
 		//placeFooter();
+		
+		$('iframe:not(.processed)').TextAreaResizer();
 	});
 
 });

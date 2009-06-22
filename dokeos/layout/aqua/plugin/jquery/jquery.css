@@ -1,4 +1,6 @@
+@CHARSET "ISO-8859-1";
 @import url('iphone_checkboxes/style.css');
+@import url('textarea_resizer/textarea_resizer.css');
 
 /*
 * jQuery UI CSS Framework

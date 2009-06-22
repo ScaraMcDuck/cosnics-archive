@@ -39,10 +39,6 @@ class Header
 		$this->add_http_header('Content-Type: text/html; charset=UTF-8');
 		$this->add_css_file_header(Theme :: get_theme_path() . 'plugin/jquery/jquery.css');
 		$this->add_css_file_header(Theme :: get_common_css_path());
-		$this->add_css_file_header(Theme :: get_theme_path() . 'css/common_form.css');
-		$this->add_css_file_header(Theme :: get_theme_path() . 'css/common_menu.css');
-		$this->add_css_file_header(Theme :: get_theme_path() . 'css/common_table.css');
-		$this->add_css_file_header(Theme :: get_theme_path() . 'css/common_tree.css');
 		$this->add_css_file_header(Theme :: get_css_path());
 		//$this->add_css_file_header($this->get_path(WEB_CSS_PATH) .'print.css','print');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.min.js');
@@ -60,6 +56,7 @@ class Header
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.xml2json.pack.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.json.js');
 		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.iphone.checkboxes.js');
+		$this->add_javascript_file_header($this->get_path(WEB_PLUGIN_PATH).'jquery/jquery.textarearesizer.js');
 		$this->add_javascript_file_header($this->get_path(WEB_LIB_PATH).'javascript/utilities.js');
 		$this->add_javascript_file_header($this->get_path(WEB_LIB_PATH).'javascript/notifications.js');
 		$this->add_javascript_file_header($this->get_path(WEB_LIB_PATH).'javascript/help.js');
