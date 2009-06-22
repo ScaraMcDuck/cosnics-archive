@@ -19,34 +19,31 @@ class HotspotQuestionForm extends LearningObjectForm
     {
         parent :: build_creation_form();
 
-        $this->check_upload();
-
-        $this->addElement('category', Translation :: get(get_class($this) . 'Hotspots'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.draw.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/hotspot_question.js'));
 
-        $_SESSION['full_path'] = 'G:\Wamp\www\LCMS\files\repository\2\Mig_Messenger.jpg';
-		$_SESSION['web_path'] = 'http://localhost/LCMS/files/repository/2/Mig_Messenger.jpg';
+		$url = $this->get_path(WEB_PATH).'repository/xml_feeds/xml_image_feed.php';
+		$locale = array ();
+		$locale['Display'] = Translation :: get('AddAttachments');
+		$locale['Searching'] = Translation :: get('Searching');
+		$locale['NoResults'] = Translation :: get('NoResults');
+		$locale['Error'] = Translation :: get('Error');
 
-//        if (! $this->isSubmitted())
-//        {
-//            unset($_SESSION['web_path']);
-//        }
-//
-//        if (! isset($_SESSION['web_path']))
-//        {
-//            $this->addElement('file', 'file', Translation :: get('UploadImage'));
-//            $this->addElement('style_submit_button', 'fileupload', Translation :: get('Upload'), array('class' => 'positive upload'));
-//            $this->addElement('category');
-//        }
-//        else
-//        {
-            $this->add_options();
-            $this->addElement('hidden', 'filename', Translation :: get('Filename'));
-            $this->addElement('category');
-            $this->add_image();
-//        }
+		$this->addElement('html', '<div id="hotspot_select">');
+		$this->addElement('category', Translation :: get(get_class($this) . 'Hotspots'));
+		$this->addElement('element_finder', 'image', Translation :: get('SelectImage'), $url, $locale, array());
+		$this->addElement('category');
+		$this->addElement('html', '</div>');
+
+		$this->addElement('html', '<div id="hotspot_options" style="display: none;">');
+		$this->addElement('category', Translation :: get(get_class($this) . 'Hotspots'));
+        $this->add_options();
+        $this->addElement('hidden', 'image_object', Translation :: get('ImageObject'));
+        $this->addElement('category');
+        $this->add_image();
+        $this->addElement('html', '</div>');
+
         $this->set_session_answers();
     }
 
@@ -54,15 +51,13 @@ class HotspotQuestionForm extends LearningObjectForm
     {
         parent :: build_creation_form();
 
-        $_SESSION['full_path'] = 'G:\Wamp\www\LCMS\files\repository\2\Mig_Messenger.jpg';
-		$_SESSION['web_path'] = 'http://localhost/LCMS/files/repository/2/Mig_Messenger.jpg';
-
         $this->addElement('category', Translation :: get(get_class($this) . 'Properties'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.draw.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/hotspot_question.js'));
         $this->add_options();
-        $this->addElement('hidden', 'filename', Translation :: get('Filename'));
+        $this->addElement('hidden', 'image_object', Translation :: get('ImageObject'));
+
         $this->addElement('category');
 
 		$this->add_image();
@@ -85,16 +80,12 @@ class HotspotQuestionForm extends LearningObjectForm
                     $defaults['option_weight'][$i] = $answer->get_weight();
                 }
 
-                /*$options = $object->get_answers();
-				foreach($options as $index => $option)
-				{
-					$defaults['option'][$index] = $option->get_value();
-					$defaults['weight'][$index] = $option->get_weight();
-				}*/
                 for($i = count($answers); $i < $_SESSION['mc_number_of_options']; $i ++)
                 {
                     $defaults['option_weight'][$i] = 1;
                 }
+
+                $defaults['image_object'] = $object->get_image();
                 $this->set_session_answers($defaults);
             }
         }
@@ -108,20 +99,26 @@ class HotspotQuestionForm extends LearningObjectForm
             }
         }
 
-        $defaults['filename'] = $_SESSION['web_path'];
         parent :: setDefaults($defaults);
     }
 
     function create_learning_object()
     {
+        $values = $this->exportValues();
         $object = new HotspotQuestion();
-        $object->set_image($_SESSION['hotspot_path']);
-        //dump($object);
+        $object->set_image($values['image_object']);
         $this->set_learning_object($object);
         $this->add_options_to_object();
-        unset($_SESSION['web_path']);
-        unset($_SESSION['hotspot_path']);
-        return parent :: create_learning_object();
+        $success = parent :: create_learning_object();
+
+        if ($success)
+        {
+            return $object->attach_learning_object($values['image_object']);
+        }
+        else
+        {
+            return false;
+        }
     }
 
     function update_learning_object()
@@ -158,49 +155,6 @@ class HotspotQuestionForm extends LearningObjectForm
         return parent :: validate();
     }
 
-    function check_upload()
-    {
-        if ($_FILES['file'] != null && $_SESSION['web_path'] == null)
-        {
-            $allowed_types = array();
-            $allowed_types[] = 'image/pjpeg';
-            $allowed_types[] = 'image/jpeg';
-            $allowed_types[] = 'image/png';
-            $allowed_types[] = 'image/gif';
-
-            $filetype = $_FILES['file']['type'];
-
-            if (in_array($filetype, $allowed_types))
-            {
-                $owner = $this->get_owner_id();
-                $filename = Filesystem :: create_unique_name(Path :: get(SYS_REPO_PATH) . $owner, $_FILES['file']['name']);
-
-                $repo_path = Path :: get(SYS_REPO_PATH) . $owner . '/';
-                $full_path = $repo_path . $filename;
-
-                if (! is_dir($repo_path))
-                {
-                    Filesystem :: create_dir($repo_path);
-                }
-
-                $web_path = Path :: get(WEB_REPO_PATH) . $owner . '/' . $filename;
-                if (move_uploaded_file($_FILES['file']['tmp_name'], $full_path) or die('Failed to create "' . $full_path . '"'))
-                {
-                    chmod($full_path, 0777);
-
-                    $image_manipulation = ImageManipulation :: factory($full_path);
-                    $image_manipulation->scale(600, 600);
-                    $image_manipulation->write_to_file();
-
-                    $_SESSION['hotspot_path'] = htmlspecialchars($owner . '/' . $filename);
-                    $_SESSION['web_path'] = $web_path;
-                    $_SESSION['full_path'] = $full_path;
-                    $_FILES['file'] = null;
-                }
-            }
-        }
-    }
-
     function set_session_answers($defaults = array())
     {
         if (count($defaults) == 0)
@@ -223,13 +177,25 @@ class HotspotQuestionForm extends LearningObjectForm
 
     function add_image()
     {
-        $this->addElement('category', Translation :: get('HotspotImage'));
+        $object = $this->get_learning_object();
 
-        $dimensions = getimagesize($_SESSION['full_path']);
+        $this->addElement('category', Translation :: get('HotspotImage'));
 
         $html = array();
         $html[] = '<div id="hotspot_marking"><div class="colour_box_label">' . Translation :: get('CurrentlyMarking') . '</div><div class="colour_box"></div></div>';
-        $html[] = '<div id="hotspot_container"><div id="hotspot_image" style="width: '. $dimensions[0] .'px; height: '. $dimensions[1] .'px; background-image: url('. $_SESSION['web_path'] .')"></div></div>';
+
+        if (! is_null($object))
+        {
+            $image_id = $object->get_image();
+            $image_object = RepositoryDataManager :: get_instance()->retrieve_learning_object($image_id);
+
+            $dimensions = getimagesize($image_object->get_full_path());
+            $html[] = '<div id="hotspot_container"><div id="hotspot_image" style="width: '. $dimensions[0] .'px; height: '. $dimensions[1] .'px; background-image: url('. $image_object->get_url() .')"></div></div>';
+        }
+        else
+        {
+            $html[] = '<div id="hotspot_container"><div id="hotspot_image"></div></div>';
+        }
 
         $this->addElement('html', implode("\n", $html));
         $this->addElement('category');
