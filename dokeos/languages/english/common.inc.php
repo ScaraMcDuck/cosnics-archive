@@ -205,6 +205,7 @@ $lang['common']['SelectQuestionFormOptions'] = 'Options';
 $lang['common']['HotspotDescription'] = 'Description';
 $lang['common']['HotspotQuestionFormHotspots'] = 'Hotspots';
 $lang['common']['HotspotImage'] = 'Image';
-$lang['common']['Item'] = 'Item';
-$lang['common']['Item'] = 'Item';
+$lang['common']['HotspotJavascriptRequired'] = 'Due to their interactive nature, management of "Hotspot" questions requires a JavaScript enabled browser. If this form is not working properly, please consider using one of the following browsers:<br /><ul style="font-style: italic; margin-top: 10px; margin-bottom: 0px;"><li>Microsoft Internet Explorer 6.0+</li><li>Mozilla Firefox 2.0+</li><li>Safari 3.0+</li><li>Opera 9.0+</li><li>Google Chrome</li></ul>';
+$lang['common']['HotspotJavascriptWarning'] = 'Javascript required !';
+$lang['common']['Browse'] = 'Browse';
 ?>

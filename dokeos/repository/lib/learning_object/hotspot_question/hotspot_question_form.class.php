@@ -22,6 +22,7 @@ class HotspotQuestionForm extends LearningObjectForm
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.draw.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/hotspot_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify/jquery.uploadify.js'));
 
 		$url = $this->get_path(WEB_PATH).'repository/xml_feeds/xml_image_feed.php';
 		$locale = array ();
@@ -32,6 +33,8 @@ class HotspotQuestionForm extends LearningObjectForm
 
 		$this->addElement('html', '<div id="hotspot_select">');
 		$this->addElement('category', Translation :: get(get_class($this) . 'Hotspots'));
+		$this->add_warning_message('hotspot_javascript', Translation :: get('HotspotJavascriptWarning'), Translation :: get('HotspotJavascriptRequired'));
+		$this->addElement('static', 'uploadify', Translation :: get('UploadImage'), '<div id="uploadify"></div>');
 		$this->addElement('element_finder', 'image', Translation :: get('SelectImage'), $url, $locale, array());
 		$this->addElement('category');
 		$this->addElement('html', '</div>');
@@ -41,6 +44,7 @@ class HotspotQuestionForm extends LearningObjectForm
         $this->add_options();
         $this->addElement('hidden', 'image_object', Translation :: get('ImageObject'));
         $this->addElement('category');
+
         $this->add_image();
         $this->addElement('html', '</div>');
 

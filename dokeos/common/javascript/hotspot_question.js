@@ -248,20 +248,38 @@ $(function ()
 
 	$(document).ready(function ()
 	{
+		// We've got JavaScript so we hide the warning message
+		$('#hotspot_javascript').hide();
+		
+		// Initialize the uploadify plugin
+		$('#uploadify').fileUpload ({
+			'uploader': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/uploader-cms.swf',
+			'script': getPath('WEB_PATH') + 'common/javascript/ajax/upload_image.php',
+			'cancelImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/cancel.png',
+			'buttonText': getTranslation('Browse', 'repository'),
+			'buttonImg': getPath('WEB_LAYOUT_PATH') + getTheme() + '/plugin/jquery/uploadify/button.png',
+			'rollover': true,
+			'auto': true,
+			'width': 84,
+			'height': 27,
+			'displayData': 'percentage'
+			});
+		
+		// Initialize possible existing polygons
 		initializePolygons();
 		
-		//Bind clicks on the edit and reset buttons
+		// Bind clicks on the edit and reset buttons
 		$('input[name*="edit"]').live('click', editPolygon);
 		$('input[name*="reset"]').live('click', resetPolygon);
 
-		//Bind clicks on the image
+		// Bind clicks on the image
 		$('#hotspot_image').click(getCoordinates);
 		
-		//Bind actions to option management buttons
+		// Bind actions to option management buttons
 		$('.remove_option').live('click', removeOption);
 		$('.add_option').live('click', addOption);
 		
-		//Process image selection
+		// Process image selection
 		$('.inactive_elements a:not(.disabled, .category)').live('click', setHotspotImage);
 	});
 
