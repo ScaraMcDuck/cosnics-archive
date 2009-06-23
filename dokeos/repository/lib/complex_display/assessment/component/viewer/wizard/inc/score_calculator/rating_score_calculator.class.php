@@ -6,19 +6,16 @@ class RatingScoreCalculator extends ScoreCalculator
 
     function calculate_score()
     {
-        $question = parent :: get_question();
-        if ($question->get_correct() == null)
-            return parent :: get_answer();
+        $user_answers = $this->get_answer();
+        $question = $this->get_question();
+
+        if ($question->get_correct() == $user_answers[0])
+        {
+            return 1;
+        }
         else
         {
-            if (parent :: get_answer() == $question->get_correct())
-            {
-                return $question->get_high();
-            }
-            else
-            {
-                return 0;
-            }
+            return 0;
         }
     }
 }
