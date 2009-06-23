@@ -1,19 +1,66 @@
 <?php
 class HotspotQuestionDisplay extends QuestionDisplay
 {
+	private $colours = array('#00315b', '#00adef', '#aecee7', '#9dcfc3', '#016c62', '#c7ac21', '#ff5329', '#bd0019', '#e7ad7b', '#bd0084', '#9d8384', '#42212a', '#005b84', '#e0eeef', '#00ad9c', '#ffe62a', '#f71932', '#ff9429', '#f6d7c5', '#7a2893');
+
 	function add_question_form()
 	{
 		$formvalidator = $this->get_formvalidator();
 		$clo_question = $this->get_clo_question();
 		$question = $this->get_question();
+		$answers = $this->shuffle_with_keys($question->get_answers());
+        $renderer = $this->get_renderer();
 
-		$this->add_scripts_element($clo_question->get_id(), $formvalidator);
-		//$formvalidator->addElement('html', '<br/>');
-		$answers = $question->get_answers();
-		foreach ($answers as $i => $answer)
-		{
-			$formvalidator->addElement('hidden', $clo_question->get_id().'_'.$i, '', array('id' => $clo_question->get_id().'_'.$i));
-		}
+        $image_html = array();
+		$image_object = $question->get_image_object();
+		$dimensions = getimagesize($image_object->get_full_path());
+		$image_html[] = '<div class="description_hotspot">';
+		$image_html[] = '<div id="hotspot_container"><div id="hotspot_image" style="width: '. $dimensions[0] .'px; height: '. $dimensions[1] .'px; background-image: url('. $image_object->get_url() .')"></div></div>';
+		$image_html[] = '<div class="clear"></div>';
+		$image_html[] = '<div id="hotspot_marking"><div class="colour_box_label">' . Translation :: get('CurrentlyMarking') . '</div><div class="colour_box"></div></div>';
+		$image_html[] = '<div class="clear"></div>';
+		$image_html[] = '</div>';
+		$formvalidator->addElement('html', implode("\n", $image_html));
+
+        $table_header = array();
+        $table_header[] = '<table class="data_table take_assessment">';
+        $table_header[] = '<thead>';
+        $table_header[] = '<tr>';
+        $table_header[] = '<th class="checkbox"></th>';
+        $table_header[] = '<th>' . $this->get_instruction() . '</th>';
+        $table_header[] = '</tr>';
+        $table_header[] = '</thead>';
+        $table_header[] = '<tbody>';
+        $formvalidator->addElement('html', implode("\n", $table_header));
+
+        $question_id = $clo_question->get_id();
+
+        foreach ($answers as $i => $answer)
+        {
+        	$answer_name = $question_id . '_' . $i;
+
+            $group = array();
+            $group[] = $formvalidator->createElement('static', null, null, '<div class="colour_box" style="background-color: ' . $this->colours[$i] . ';"></div>');
+            $group[] = $formvalidator->createElement('static', null, null, $answer->get_answer());
+            $group[] = $formvalidator->createElement('hidden', $answer_name, '');
+
+            $formvalidator->addGroup($group, 'option_' . $i, null, '', false);
+
+            $renderer->setElementTemplate('<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $i);
+            $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $i);
+        }
+
+        $table_footer[] = '</tbody>';
+        $table_footer[] = '</table>';
+        $formvalidator->addElement('html', implode("\n", $table_footer));
+
+//		$this->add_scripts_element($clo_question->get_id(), $formvalidator);
+//		//$formvalidator->addElement('html', '<br/>');
+//		$answers = $question->get_answers();
+//		foreach ($answers as $i => $answer)
+//		{
+//			$formvalidator->addElement('hidden', $clo_question->get_id().'_'.$i, '', array('id' => $clo_question->get_id().'_'.$i));
+//		}
 	}
 
 	function add_scripts_element($hotspot_id, $formvalidator)
@@ -48,28 +95,9 @@ class HotspotQuestionDisplay extends QuestionDisplay
 		);
 	}
 
-	function add_borders()
-	{
-		return true;
-	}
-
 	function get_instruction()
 	{
-		$instruction = array();
-		$question = $this->get_question();
-
-		if ($question->has_description())
-		{
-			$instruction[] = '<div class="splitter">';
-			$instruction[] = Translation :: get('Hotspot');
-			$instruction[] = '</div>';
-		}
-		else
-		{
-			$instruction = array();
-		}
-
-		return implode("\n", $instruction);
+		return Translation :: get('MarkHotspots');
 	}
 }
 ?>

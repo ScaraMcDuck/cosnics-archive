@@ -2134,6 +2134,19 @@ div.question div.answer div.caption
 	margin-left: 10px;
 }
 
+div.description_hotspot
+{
+	padding: 10px 10px 10px 10px;
+	border: 1px solid #B5CAE7;
+	border-top: 0px solid white;
+}
+
+div.description_hotspot #hotspot_marking
+{
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+
 /*
 Default style definitions for:
 
