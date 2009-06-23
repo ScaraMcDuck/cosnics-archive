@@ -104,13 +104,13 @@ class WebconferenceForm extends FormValidator
 		foreach($yes_no_items as $yes_no_item)
 		{
 			$group = array();
-			$group[] =& $this->createElement('radio', $yes_no_item, null,Translation :: get('Yes'),1);
-			$group[] =& $this->createElement('radio', $yes_no_item, null,Translation :: get('No'),0);
+			$group[] =& $this->createElement('radio', $yes_no_item, null,Translation :: get('Yes'),true);
+			$group[] =& $this->createElement('radio', $yes_no_item, null,Translation :: get('No'),false);
 			if (PlatformSetting :: get('allow_'. strtolower($yes_no_item) .'_selection', WebconferencingManager :: APPLICATION_NAME) == 1)
 			{	
 				$this->addGroup($group, 'option', Translation :: get('Option' . DokeosUtilities :: underscores_to_camelcase($yes_no_item)), '&nbsp;');
 				$this->defaults_create['option[' . $yes_no_item . ']'] = PlatformSetting :: get('default_'. strtolower($yes_no_item), WebconferencingManager :: APPLICATION_NAME);
-				$this->defaults_update['option[' . $yes_no_item . ']'] = 0;
+				$this->defaults_update['option[' . $yes_no_item . ']'] = false;
 			}
 		}
     }
@@ -145,7 +145,6 @@ class WebconferenceForm extends FormValidator
     	$webconference = $this->webconference;
     	$values = $this->exportValues();
 
-    	$webconference->set_confkey('test');
     	$webconference->set_confname($values[Webconference :: PROPERTY_CONFNAME]);
     	$webconference->set_duration($values[Webconference :: PROPERTY_DURATION]);
 
@@ -172,7 +171,7 @@ class WebconferenceForm extends FormValidator
     	$webconference = $this->webconference;
     	$values = $this->exportValues();
 
-    	$webconference->set_confkey('test');
+    	$webconference->set_confkey('123454345876');
     	$webconference->set_confname($values[Webconference :: PROPERTY_CONFNAME]);
     	$webconference->set_duration($values[Webconference :: PROPERTY_DURATION]);
 		$webconference->create();
