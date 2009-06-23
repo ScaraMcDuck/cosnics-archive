@@ -218,23 +218,31 @@ class RightsUtilities
 			// TODO: Use anonymous user for this, he may or may not have some rights too
 			return false;
 		}
-
+		
+		$the_parents = array();
+		
 		while($parent = $parents->next_result())
 		{
+			$the_parents[] = $parent;
+		}
+		
 			foreach($roles as $role)
 			{
-				$has_right = $rdm->retrieve_role_right_location($right, $role, $parent->get_id())->get_value();
-
-				if ($has_right)
+				
+				foreach($the_parents as $parent)
 				{
-					return true;
-				}
-				elseif(!$parent->inherits())
-				{
-					return false;
+					$has_right = $rdm->retrieve_role_right_location($right, $role, $parent->get_id())->get_value();
+	
+					if ($has_right)
+					{
+						return true;
+					}
+					elseif(!$parent->inherits())
+					{
+						break;
+					}
 				}
 			}
-		}
 
 		return false;
 	}
