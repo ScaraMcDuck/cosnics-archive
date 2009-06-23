@@ -245,7 +245,14 @@ class ConfigurationForm extends FormValidator
 				{
 					$adm = AdminDataManager :: get_instance();
 					$setting = $adm->retrieve_setting_from_variable_name($name, $application);
-					$setting->set_value($values[$name]);
+					if (isset($values[$name]))
+					{
+					    $setting->set_value($values[$name]);
+					}
+					else
+					{
+					    $setting->set_value(0);
+					}
 					if (!$setting->update())
 					{
 						$problems++;

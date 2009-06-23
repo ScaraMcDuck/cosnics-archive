@@ -54,7 +54,15 @@
           onlabel.animate({ opacity: 0 }, 200);
         }
         
-        elem.attr('checked', !is_onstate);
+        if (is_onstate)
+        {
+        	elem.attr('checked', "true");
+        }
+        else
+        {
+        	elem.removeAttr('checked');
+        }
+        
         return false;
       });
       
