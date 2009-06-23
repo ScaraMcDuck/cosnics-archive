@@ -740,4 +740,9 @@ $lang['weblcms']['WikiToolBoxLinks'] = 'Link toolbox: enter the links you wish t
 -Absolute links: http://www.google.com (don\'t forget the \'http://\')';
 $lang['weblcms']['Modified'] = 'Modified';
 $lang['weblcms']['Versions'] = 'Versions';
+$lang['weblcms']['EmptyLearningPath'] = 'Empty learning path';
+$lang['weblcms']['SelectRecipients'] = 'Select recipients';
+$lang['weblcms']['Searching'] = 'Searching';
+$lang['weblcms']['NoResults'] = 'No results found';
+$lang['weblcms']['Error'] = 'Error';
 ?>

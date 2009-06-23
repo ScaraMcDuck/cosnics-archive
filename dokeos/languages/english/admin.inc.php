@@ -329,4 +329,6 @@ $lang['admin']['Stop'] = 'Stop';
 $lang['admin']['Question'] = 'Question';
 $lang['admin']['Config'] = 'Configuration';
 $lang['admin']['AddCategory'] = 'Add category';
+$lang['admin']['Searching'] = 'Searching';
+$lang['admin']['NoResults'] = 'No results found';
 ?>
