@@ -1,24 +1,25 @@
 <?php
-require_once dirname(__FILE__).'/../score_calculator.class.php';
+require_once dirname(__FILE__) . '/../score_calculator.class.php';
 
 class HotspotScoreCalculator extends ScoreCalculator
 {
-	function calculate_score()
-	{
-		$answers = $this->get_question()->get_answers();
-		$num = $this->get_answer_num();
-		$answer = $this->get_answer();
-		
-		$parts = split('-', $answer);
-		$correct = $parts[1];
-		if ($correct == 1)
-		{
-			return $answers[$num]->get_weight();
-		}
-		else
-		{
-			return 0;
-		}
-	}
+
+    function calculate_score()
+    {
+        $answers = $this->get_question()->get_answers();
+        $num = $this->get_answer_num();
+        $answer = $this->get_answer();
+
+        $parts = split('-', $answer);
+        $correct = $parts[1];
+        if ($correct == 1)
+        {
+            return $answers[$num]->get_weight();
+        }
+        else
+        {
+            return 0;
+        }
+    }
 }
 ?>
