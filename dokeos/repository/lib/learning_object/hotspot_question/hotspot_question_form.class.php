@@ -60,6 +60,7 @@ class HotspotQuestionForm extends LearningObjectForm
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.draw.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js'));
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/hotspot_question.js'));
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/uploadify/jquery.uploadify.js'));
         $this->add_options();
         $this->addElement('hidden', 'image_object', Translation :: get('ImageObject'));
 
@@ -118,12 +119,10 @@ class HotspotQuestionForm extends LearningObjectForm
 
         if ($success)
         {
-            return $object->attach_learning_object($values['image_object']);
+            $object->attach_learning_object($values['image_object']);
         }
-        else
-        {
-            return false;
-        }
+
+        return $object;
     }
 
     function update_learning_object()
@@ -245,7 +244,6 @@ class HotspotQuestionForm extends LearningObjectForm
             //$_SESSION['mc_answer_type'] = $object->get_answer_type();
         }
         $number_of_options = intval($_SESSION['mc_number_of_options']);
-        $show_label = true;
 
         if (isset($_SESSION['file']))
         {
@@ -256,7 +254,7 @@ class HotspotQuestionForm extends LearningObjectForm
         $this->addElement('hidden', 'mc_number_of_options', $_SESSION['mc_number_of_options'], array('id' => 'mc_number_of_options'));
 
         $buttons = array();
-        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddMultipleChoiceOption'), array('class' => 'normal add add_option'));
+        $buttons[] = $this->createElement('style_button', 'add[]', Translation :: get('AddHotspotOption'), array('class' => 'normal add add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
         $renderer = $this->defaultRenderer();
