@@ -6,10 +6,19 @@ class MatchScoreCalculator extends ScoreCalculator
 
     function calculate_score()
     {
-        $blanks = $this->get_question()->get_answers();
+        $user_answers = $this->get_answer();
         $question = $this->get_question();
-        $answers = $this->get_answer();
+        $options = $question->get_options();
 
+        foreach($options as $option)
+        {
+            if ($option->get_value() == trim($user_answers[0]))
+            {
+                return $option->get_weight();
+            }
+        }
+
+        return 0;
     }
 }
 ?>

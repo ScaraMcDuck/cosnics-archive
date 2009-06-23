@@ -45,7 +45,7 @@ class MatrixQuestionDisplay extends QuestionDisplay
 	            if ($type == MatrixQuestion :: MATRIX_TYPE_RADIO)
 	            {
 	            	$answer_name = $question_id . '_' . $i . '_0';
-	                $group[] = $formvalidator->createElement('radio', $answer_name, null, null, $i);
+	                $group[] = $formvalidator->createElement('radio', $answer_name, null, null, $j);
 	            }
 	            elseif ($type == MatrixQuestion :: MATRIX_TYPE_CHECKBOX)
 	            {
