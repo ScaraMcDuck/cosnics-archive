@@ -1,0 +1,30 @@
+<?php
+$lang['wiki']['ObjectNotPublished'] = 'Object not published';
+$lang['wiki']['ObjectPublished'] = 'Object published';
+$lang['wiki']['SelectRecipients'] = 'Select recipients';
+$lang['wiki']['Searching'] = 'Searching';
+$lang['wiki']['NoResults'] = 'No results found';
+$lang['wiki']['Error'] = 'Error';
+$lang['wiki']['PublishFor'] = 'Publish for';
+$lang['wiki']['Hidden'] = 'Hidden';
+$lang['wiki']['SendByEMail'] = 'Send by email';
+$lang['wiki']['Update'] = 'Update';
+$lang['wiki']['Reset'] = 'Reset';
+$lang['wiki']['Create'] = 'Create';
+$lang['wiki']['Wiki'] = 'Wiki';
+$lang['wiki']['BrowseWikiPublications'] = 'Browse wiki publications';
+$lang['wiki']['BrowseWiki'] = 'Browse wiki';
+$lang['wiki']['CreateWikiPublication'] = 'Create wiki publication';
+$lang['wiki']['WikiPublicationCreated'] = 'Wiki publication created';
+$lang['wiki']['WikiPublicationNotCreated'] = 'Wiki publication not created';
+$lang['wiki']['CreateWiki'] = 'Create wiki';
+$lang['wiki']['Browse'] = 'Browse';
+$lang['wiki']['PublishIntroductionText'] = 'Publish introduction text';
+$lang['wiki']['UpdateWikiPublication'] = 'Update wiki publication';
+$lang['wiki']['WikiPublicationUpdated'] = 'Wiki publication updated';
+$lang['wiki']['WikiPublicationNotUpdated'] = 'Wiki publication not updated';
+$lang['wiki']['NoWikiPublicationsSelected'] = 'No wiki publications selected';
+$lang['wiki']['RemoveSelected'] = 'Remove selected';
+$lang['wiki']['Edit'] = 'Edit';
+$lang['wiki']['Delete'] = 'Delete';
+?>
