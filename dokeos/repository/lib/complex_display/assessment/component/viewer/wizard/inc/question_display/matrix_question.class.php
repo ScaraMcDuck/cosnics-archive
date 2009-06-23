@@ -49,7 +49,7 @@ class MatrixQuestionDisplay extends QuestionDisplay
 	            }
 	            elseif ($type == MatrixQuestion :: MATRIX_TYPE_CHECKBOX)
 	            {
-	                $answer_name = $question_id . '_' . $i . '_' . ($j + 1);
+	                $answer_name = $question_id . '_' . $i . '[' . $j . ']';
 	                $group[] = $formvalidator->createElement('checkbox', $answer_name);
 	            }
             }
