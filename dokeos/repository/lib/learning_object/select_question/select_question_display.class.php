@@ -24,18 +24,25 @@ class SelectQuestionDisplay extends LearningObjectDisplay
         $html[] = '<table class="data_table">';
         $html[] = '<thead>';
         $html[] = '<tr>';
-        $html[] = '<th class="checkbox"></th>';
-        $html[] = '<th>' . Translation :: get('Answer') . '</th>';
+        $html[] = '<th>' . Translation :: get($type == 'radio' ? 'SelectCorrectAnswer' : 'SelectCorrectAnswers') . '</th>';
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
-        foreach ($options as $index => $option)
+
+        $select_options = array();
+        foreach ($options as $option)
         {
-            $html[] = '<tr class="' . ($index % 2 == 0 ? 'row_even' : 'row_odd') . '">';
-            $html[] = '<td><input type="' . $type . '" name="option[]"/></td>';
-            $html[] = '<td>' . $option->get_value() . '</td>';
-            $html[] = '</tr>';
+            $select_options[] = '<option>' . $option->get_value() . '</option>';
         }
+
+        $html[] = '<tr>';
+        $html[] = '<td>';
+        $html[] = '<select style="width: 200px;"' . ($type == 'checkbox' ? ' multiple="true"' : '' ) . '>';
+        $html[] = implode("\n", $select_options);
+        $html[] = '</select>';
+        $html[] = '</td>';
+        $html[] = '</tr>';
+
         $html[] = '</tbody>';
         $html[] = '</table>';
         return implode("\n", $html);
