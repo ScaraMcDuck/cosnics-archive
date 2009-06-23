@@ -690,4 +690,11 @@ $lang['repository']['UnSticky'] = 'Unsticky';
 $lang['repository']['ImportantNa'] = 'Important not available';
 $lang['repository']['StickyNa'] = 'Sticky not available';
 $lang['repository']['UnImportant'] = 'Unimportant';
+$lang['repository']['MultipleChoiceQuestionFormOptions'] = 'Answer options';
+$lang['repository']['SwitchToCheckboxes'] = 'Switch to checkboxes';
+$lang['repository']['SwitchToRadioButtons'] = 'Switch to radio buttons';
+$lang['repository']['AddMultipleChoiceOption'] = 'Add an option';
+$lang['repository']['MultipleChoiceQuestionCreationFormTitle'] = 'Create a multiple choice question';
+$lang['repository']['AllQuestionsOnOnePage'] = 'All';
+$lang['repository']['LimitedQuestionsOnOnePage'] = 'Limited amount';
 ?>
