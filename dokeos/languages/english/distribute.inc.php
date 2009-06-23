@@ -22,4 +22,9 @@ $lang['distribute']['RemoveSelected'] = 'Remove selected';
 $lang['distribute']['NoAnnouncementDistributionSelected'] = 'No announcement distribution selected';
 $lang['distribute']['Back'] = 'Back';
 $lang['distribute']['Edit'] = 'Edit';
+$lang['distribute']['Home'] = 'Home';
+$lang['distribute']['MyAccount'] = 'My account';
+$lang['distribute']['MyRepository'] = 'My repository';
+$lang['distribute']['Administration'] = 'Administration';
+$lang['distribute']['Logout'] = 'Logout';
 ?>
