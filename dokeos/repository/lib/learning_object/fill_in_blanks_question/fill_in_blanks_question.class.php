@@ -11,6 +11,9 @@ class FillInBlanksQuestion extends LearningObject
 	const PROPERTY_ANSWER_TEXT = 'answer_text';
 	const PROPERTY_QUESTION_TYPE = 'question_type';
 
+	const TYPE_TEXT = 0;
+	const TYPE_SELECT = 1;
+
 	public function add_answer($answer)
 	{
 		$answers = $this->get_answers();

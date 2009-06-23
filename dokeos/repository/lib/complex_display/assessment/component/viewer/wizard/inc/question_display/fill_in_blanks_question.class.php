@@ -22,13 +22,25 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
 		$answer_text = $question->get_answer_text();
 		$answer_text = nl2br($answer_text);
 
+		$question_type = $question->get_question_type();
+		$answer_options = $this->get_possible_answers();
+
 		$matches = array();
 		preg_match_all('/\[[a-zA-Z0-9_-\s]*\]/', $answer_text, $matches);
 		$matches = $matches[0];
 		foreach($matches as $i => $match)
 		{
-			$name = $clo_question->get_id().'_'.$i;
-			$element = $formvalidator->createElement('text', $name);
+		    $name = $clo_question->get_id().'_'.$i;
+
+		    if ($question_type == FillInBlanksQuestion :: TYPE_SELECT)
+		    {
+                $element_options = $this->shuffle_with_keys($answer_options);
+		        $element = $formvalidator->createElement('select', $name, null, $element_options);
+		    }
+		    else
+		    {
+		        $element = $formvalidator->createElement('text', $name);
+		    }
 			$answer_text = str_replace($match, $element->toHtml(), $answer_text);
 		}
 
@@ -59,6 +71,22 @@ class FillInBlanksQuestionDisplay extends QuestionDisplay
 		}
 
 		return implode("\n", $instruction);
+	}
+
+	function get_possible_answers()
+	{
+        $answers = $this->get_question()->get_answers();
+        $options = array();
+
+        foreach($answers as $answer)
+        {
+            $option = str_replace(array('[', ']'), '', $answer->get_value());
+            $options[$option] = $option;
+        }
+
+        asort($options);
+
+        return $options;
 	}
 }
 ?>

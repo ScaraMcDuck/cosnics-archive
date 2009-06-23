@@ -15,7 +15,12 @@ class FillInBlanksQuestionForm extends LearningObjectForm
     {
         parent :: build_creation_form();
         $this->addElement('category', Translation :: get('AnswerOptions'));
-        $this->addElement('checkbox', FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE, Translation :: get('UseSelectBox'));
+
+        $type_options = array();
+        $type_options[] = $this->createElement('radio', FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE, null, Translation :: get('SelectBox'), FillInBlanksQuestion :: TYPE_SELECT);
+        $type_options[] = $this->createElement('radio', FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE, null, Translation :: get('TextField'), FillInBlanksQuestion :: TYPE_TEXT);
+        $this->addElement('group', null, Translation :: get('UseSelectBox'), $type_options, '<br />', false);
+
         $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" class="answer"');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
         $this->add_options();
@@ -26,7 +31,12 @@ class FillInBlanksQuestionForm extends LearningObjectForm
     {
         parent :: build_editing_form();
         $this->addElement('category', Translation :: get('AnswerOptions'));
-        $this->addElement('checkbox', FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE, Translation :: get('UseSelectBox'));
+
+        $type_options = array();
+        $type_options[] = $this->createElement('radio', FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE, null, Translation :: get('SelectBox'), FillInBlanksQuestion :: TYPE_SELECT);
+        $type_options[] = $this->createElement('radio', FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE, null, Translation :: get('TextField'), FillInBlanksQuestion :: TYPE_TEXT);
+        $this->addElement('group', null, Translation :: get('UseSelectBox'), $type_options, '<br />', false);
+
         $this->addElement('textarea', 'answer', Translation :: get('QuestionText'), 'rows="10" class="answer"');
         $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/fill_in_the_blanks.js'));
         $this->setDefaults();
@@ -36,6 +46,7 @@ class FillInBlanksQuestionForm extends LearningObjectForm
 
     function setDefaults($defaults = array ())
     {
+
         if (! $this->isSubmitted())
         {
             $object = $this->get_learning_object();
@@ -51,6 +62,10 @@ class FillInBlanksQuestionForm extends LearningObjectForm
                 }
                 $defaults['answer'] = $object->get_answer_text();
                 $defaults[FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE] = $object->get_question_type();
+            }
+            else
+            {
+                $defaults[FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE] = FillInBlanksQuestion::TYPE_TEXT;
             }
 
             parent :: setDefaults($defaults);
@@ -86,10 +101,10 @@ class FillInBlanksQuestionForm extends LearningObjectForm
     function update_learning_object()
     {
         $values = $this->exportValues();
-
         $object = $this->get_learning_object();
         $object->set_answer_text($values['answer']);
         $object->set_question_type($values[FillInBlanksQuestion :: PROPERTY_QUESTION_TYPE]);
+
         $this->add_options_to_object();
         return parent :: update_learning_object();
     }
