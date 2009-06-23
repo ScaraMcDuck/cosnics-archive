@@ -6,20 +6,21 @@ class MatchingScoreCalculator extends ScoreCalculator
 
     function calculate_score()
     {
-        $answers = $this->get_question()->get_options();
-        $matches = $this->get_question()->get_matches();
-        $correct = $answers[$this->get_answer_num()];
-        $answer = $matches[$this->get_answer()];
-        $match = $matches[$correct->get_match()];
+        $user_answers = $this->get_answer();
 
-        if ($answer == $match)
+        $answers = $this->get_question()->get_options();
+        $score = 0;
+
+        foreach($user_answers as $question => $user_answer)
         {
-            return $correct->get_weight();
+            $correct_answer = $answers[$question]->get_match();
+            if ($user_answer == $correct_answer)
+            {
+                $score += $answers[$question]->get_weight();
+            }
         }
-        else
-        {
-            return 0;
-        }
+
+        return $score;
     }
 }
 ?>

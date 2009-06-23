@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../score_calculator.class.php';
 
-class SelectQuestionScoreCalculator extends ScoreCalculator
+class SelectScoreCalculator extends ScoreCalculator
 {
 
     function calculate_score()
