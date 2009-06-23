@@ -2095,6 +2095,12 @@ div.question div.answer div.caption
 	position: relative;
 }
 
+.hotspot_image
+{
+	border: 1px solid #b5cae7;
+	margin-bottom: 10px;
+}
+
 .colour_box
 {
 	width: 15px;

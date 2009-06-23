@@ -12,22 +12,55 @@ class MatrixQuestionDisplay extends LearningObjectDisplay
 	}
 	function get_description()
 	{
-		$html = parent::get_description();
-		$options = $this->get_learning_object()->get_options();
-		$html .= '<table><tr><td><ol>';
-		foreach($options as $option)
-		{
-			$html .= '<li>'.$option->get_value().'</li>';
-		}
-		$html .= '</ol></td>';
-		$matches = $this->get_learning_object()->get_matches();
-		$html .= '<td><ol type="A">';
-		foreach($matches as $match)
-		{
-			$html .= '<li>'.$match.'</li>';
-		}
-		$html .= '</ol></td></tr></table>';
-		return $html;
+        $learning_object = $this->get_learning_object();
+        $matches = $learning_object->get_matches();
+        $options = $learning_object->get_options();
+        $type = $learning_object->get_matrix_type();
+
+        $html = array();
+        $html[] = parent :: get_description();
+
+        $table_header = array();
+        $table_header[] = '<table class="data_table">';
+        $table_header[] = '<thead>';
+        $table_header[] = '<tr>';
+        $table_header[] = '<th class="caption"></th>';
+
+        foreach($matches as $match)
+        {
+       		$table_header[] = '<th class="center">' . strip_tags($match) . '</th>';
+        }
+
+        $table_header[] = '</tr>';
+        $table_header[] = '</thead>';
+        $table_header[] = '<tbody>';
+        $html[] = implode("\n", $table_header);
+
+        foreach ($options as $index => $option)
+        {
+            $html[] = '<tr class="' . ($index % 2 == 0 ? 'row_even' : 'row_odd') . '">';
+            $html[] = '<td>' . $option->get_value() . '</td>';
+
+            foreach($matches as $match)
+            {
+	            if ($type == MatrixQuestion :: MATRIX_TYPE_RADIO)
+	            {
+	                $html[] = '<td style="text-align: center;"><input type="radio" name="option[]"/></td>';
+	            }
+	            elseif ($type == MatrixQuestion :: MATRIX_TYPE_CHECKBOX)
+	            {
+	                $html[] = '<td style="text-align: center;"><input type="checkbox" name="option[]"/></td>';
+	            }
+            }
+
+            $html[] = '</tr>';
+        }
+
+        $table_footer[] = '</tbody>';
+        $table_footer[] = '</table>';
+        $html[] = implode("\n", $table_footer);
+
+		return implode("\n", $html);
 	}
 }
 ?>
