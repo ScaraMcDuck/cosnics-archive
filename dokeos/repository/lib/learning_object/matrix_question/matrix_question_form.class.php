@@ -3,234 +3,233 @@
  * @package repository.learningobject
  * @subpackage exercise
  */
-require_once dirname(__FILE__).'/../../learning_object_form.class.php';
-require_once dirname(__FILE__).'/matrix_question.class.php';
+require_once dirname(__FILE__) . '/../../learning_object_form.class.php';
+require_once dirname(__FILE__) . '/matrix_question.class.php';
 
 class MatrixQuestionForm extends LearningObjectForm
 {
-	protected function build_creation_form()
-	{
-		parent :: build_creation_form();
-		$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/matrix_question.js'));
-		$this->build_options_and_matches();
-	}
 
-	protected function build_editing_form()
-	{
-		parent :: build_editing_form();
-		$this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/matrix_question.js'));
-		$this->build_options_and_matches();
-	}
-	/**
-	 * Adds the options and matches to the form
-	 */
-	private function build_options_and_matches()
-	{
-		$this->update_number_of_options_and_matches();
-		$this->add_options();
-		$this->add_matches();
-	}
+    protected function build_creation_form()
+    {
+        parent :: build_creation_form();
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/matrix_question.js'));
+        $this->build_options_and_matches();
+    }
 
-	function setDefaults($defaults = array ())
-	{
-		$object = $this->get_learning_object();
-		if(!is_null($object))
-		{
-			$options = $object->get_options();
-			foreach($options as $index => $option)
-			{
-				$defaults['option'][$index] = $option->get_value();
-				$defaults['option_weight'][$index] = $option->get_weight();
-				$defaults['matches_to'][$index] = $option->get_matches();
-				$defaults['comment'][$index] = $option->get_comment();
-			}
-			$matches = $object->get_matches();
-			foreach($matches as $index => $match)
-			{
-				$defaults['match'][$index] = $match;
-			}
-		}
-		else
-		{
-			$number_of_options = intval($_SESSION['mq_number_of_options']);
+    protected function build_editing_form()
+    {
+        parent :: build_editing_form();
+        $this->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/matrix_question.js'));
+        $this->build_options_and_matches();
+    }
 
-			for($option_number = 0; $option_number <$number_of_options ; $option_number++)
-			{
-				$defaults['option_weight'][$option_number] = 1;
-			}
-		}
+    /**
+     * Adds the options and matches to the form
+     */
+    private function build_options_and_matches()
+    {
+        $this->update_number_of_options_and_matches();
+        $this->add_options();
+        $this->add_matches();
+    }
 
-		parent :: setDefaults($defaults);
-	}
+    function setDefaults($defaults = array ())
+    {
+        $object = $this->get_learning_object();
+        if (! is_null($object))
+        {
+            $options = $object->get_options();
+            foreach ($options as $index => $option)
+            {
+                $defaults['option'][$index] = $option->get_value();
+                $defaults['option_weight'][$index] = $option->get_weight();
+                $defaults['matches_to'][$index] = $option->get_matches();
+                $defaults['comment'][$index] = $option->get_comment();
+            }
+            $matches = $object->get_matches();
+            foreach ($matches as $index => $match)
+            {
+                $defaults['match'][$index] = $match;
+            }
+        }
+        else
+        {
+            $number_of_options = intval($_SESSION['mq_number_of_options']);
 
-	function setCsvValues($valuearray)
-	{
-		$defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
-		$defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
-		parent :: setValues($defaults);
-	}
+            for($option_number = 0; $option_number < $number_of_options; $option_number ++)
+            {
+                $defaults['option_weight'][$option_number] = 1;
+            }
+        }
 
-	function create_learning_object()
-	{
-		$object = new MatrixQuestion();
-		$this->set_learning_object($object);
-		$this->add_answers();
-		return parent :: create_learning_object();
-	}
+        parent :: setDefaults($defaults);
+    }
 
-	function update_learning_object()
-	{
-		$this->add_answers();
-		return parent :: update_learning_object();
-	}
+    function setCsvValues($valuearray)
+    {
+        $defaults[LearningObject :: PROPERTY_TITLE] = $valuearray[0];
+        $defaults[LearningObject :: PROPERTY_DESCRIPTION] = $valuearray[1];
+        parent :: setValues($defaults);
+    }
 
-	function remove_XSS_recursive()
-	{
+    function create_learning_object()
+    {
+        $object = new MatrixQuestion();
+        $this->set_learning_object($object);
+        $this->add_answers();
+        return parent :: create_learning_object();
+    }
 
-	}
+    function update_learning_object()
+    {
+        $this->add_answers();
+        return parent :: update_learning_object();
+    }
 
-	/**
-	 * Adds the answer to the current learning object.
-	 * This function adds the list of possible options and matches and the
-	 * relation between the options and the matches to the question.
-	 */
-	private function add_answers()
-	{
-		$object = $this->get_learning_object();
-		$values = $this->exportValues();
-		$options = array();
-		$matches = array();
+    function remove_XSS_recursive()
+    {
 
-		foreach($values['option'] as $option_id => $value)
-		{
-			//Create the option with it corresponding match
-			$options[] = new MatrixQuestionOption($value,
-							$_POST['matches_to'][$option_id],
-							$values['option_weight'][$option_id],
-							$values['comment'][$option_id]);
-		}
+    }
 
-		foreach($values['match'] as $match)
-		{
-			$matches[] = $match;
-		}
-		$object->set_options($options);
-		$object->set_matches($matches);
-		$object->set_matrix_type($_SESSION['mq_matrix_type']);
-	}
+    /**
+     * Adds the answer to the current learning object.
+     * This function adds the list of possible options and matches and the
+     * relation between the options and the matches to the question.
+     */
+    private function add_answers()
+    {
+        $object = $this->get_learning_object();
+        $values = $this->exportValues();
+        $options = array();
+        $matches = array();
 
-	function validate()
-	{
-		if(isset($_POST['add_match']) || isset($_POST['remove_match']) || isset($_POST['remove_option']) || isset($_POST['add_option']) || isset($_POST['change_matrix_type']))
-		{
-			return false;
-		}
-		return parent::validate();
-	}
+        foreach ($values['option'] as $option_id => $value)
+        {
+            //Create the option with it corresponding match
+            $options[] = new MatrixQuestionOption($value, serialize($_POST['matches_to'][$option_id]), $values['option_weight'][$option_id], $values['comment'][$option_id]);
+        }
 
-	/**
-	 * Updates the session variables to keep track of the current number of
-	 * options and matches.
-	 * @todo This code needs some cleaning :)
-	 */
-	private function update_number_of_options_and_matches()
-	{
-		if(!$this->isSubmitted())
-		{
-			unset($_SESSION['mq_number_of_options']);
-			unset($_SESSION['mq_skip_options']);
-			unset($_SESSION['mq_number_of_matches']);
-			unset($_SESSION['mq_skip_matches']);
-			unset($_SESSION['mq_matrix_type']);
-		}
+        foreach ($values['match'] as $match)
+        {
+            $matches[] = $match;
+        }
+        $object->set_options($options);
+        $object->set_matches($matches);
+        $object->set_matrix_type($_SESSION['mq_matrix_type']);
+    }
 
-		if(!isset($_SESSION['mq_number_of_options']))
-		{
-			$_SESSION['mq_number_of_options'] = 3;
-		}
+    function validate()
+    {
+        if (isset($_POST['add_match']) || isset($_POST['remove_match']) || isset($_POST['remove_option']) || isset($_POST['add_option']) || isset($_POST['change_matrix_type']))
+        {
+            return false;
+        }
+        return parent :: validate();
+    }
 
-		if(!isset($_SESSION['mq_skip_options']))
-		{
-			$_SESSION['mq_skip_options'] = array();
-		}
+    /**
+     * Updates the session variables to keep track of the current number of
+     * options and matches.
+     * @todo This code needs some cleaning :)
+     */
+    private function update_number_of_options_and_matches()
+    {
+        if (! $this->isSubmitted())
+        {
+            unset($_SESSION['mq_number_of_options']);
+            unset($_SESSION['mq_skip_options']);
+            unset($_SESSION['mq_number_of_matches']);
+            unset($_SESSION['mq_skip_matches']);
+            unset($_SESSION['mq_matrix_type']);
+        }
 
-	 	if (! isset($_SESSION['mq_matrix_type']))
+        if (! isset($_SESSION['mq_number_of_options']))
+        {
+            $_SESSION['mq_number_of_options'] = 3;
+        }
+
+        if (! isset($_SESSION['mq_skip_options']))
+        {
+            $_SESSION['mq_skip_options'] = array();
+        }
+
+        if (! isset($_SESSION['mq_matrix_type']))
         {
             $_SESSION['mq_matrix_type'] = MatrixQuestion :: MATRIX_TYPE_RADIO;
         }
 
-		if(isset($_POST['add_option']))
-		{
-			$_SESSION['mq_number_of_options'] = $_SESSION['mq_number_of_options']+1;
-		}
+        if (isset($_POST['add_option']))
+        {
+            $_SESSION['mq_number_of_options'] = $_SESSION['mq_number_of_options'] + 1;
+        }
 
-		if(isset($_POST['remove_option']))
-		{
-			$indexes = array_keys($_POST['remove_option']);
-			$_SESSION['mq_skip_options'][] = $indexes[0];
-		}
+        if (isset($_POST['remove_option']))
+        {
+            $indexes = array_keys($_POST['remove_option']);
+            $_SESSION['mq_skip_options'][] = $indexes[0];
+        }
 
-		if(!isset($_SESSION['mq_number_of_matches']))
-		{
-			$_SESSION['mq_number_of_matches'] = 3;
-		}
+        if (! isset($_SESSION['mq_number_of_matches']))
+        {
+            $_SESSION['mq_number_of_matches'] = 3;
+        }
 
-		if(!isset($_SESSION['mq_skip_matches']))
-		{
-			$_SESSION['mq_skip_matches'] = array();
-		}
+        if (! isset($_SESSION['mq_skip_matches']))
+        {
+            $_SESSION['mq_skip_matches'] = array();
+        }
 
-		if(isset($_POST['add_match']))
-		{
-			$_SESSION['mq_number_of_matches'] = $_SESSION['mq_number_of_matches']+1;
-		}
+        if (isset($_POST['add_match']))
+        {
+            $_SESSION['mq_number_of_matches'] = $_SESSION['mq_number_of_matches'] + 1;
+        }
 
-		if(isset($_POST['remove_match']))
-		{
-			$indexes = array_keys($_POST['remove_match']);
-			$_SESSION['mq_skip_matches'][] = $indexes[0];
-		}
+        if (isset($_POST['remove_match']))
+        {
+            $indexes = array_keys($_POST['remove_match']);
+            $_SESSION['mq_skip_matches'][] = $indexes[0];
+        }
 
-		if (isset($_POST['change_matrix_type']))
+        if (isset($_POST['change_matrix_type']))
         {
             $_SESSION['mq_matrix_type'] = $_SESSION['mq_matrix_type'] == MatrixQuestion :: MATRIX_TYPE_RADIO ? MatrixQuestion :: MATRIX_TYPE_CHECKBOX : MatrixQuestion :: MATRIX_TYPE_RADIO;
         }
 
-		$object = $this->get_learning_object();
-		if(!$this->isSubmitted() && !is_null($object))
-		{
-			$_SESSION['mq_number_of_options'] = $object->get_number_of_options();
-			$_SESSION['mq_number_of_matches'] = $object->get_number_of_matches();
-			$_SESSION['mq_matrix_type'] = $object->get_matrix_type();
-		}
+        $object = $this->get_learning_object();
+        if (! $this->isSubmitted() && ! is_null($object))
+        {
+            $_SESSION['mq_number_of_options'] = $object->get_number_of_options();
+            $_SESSION['mq_number_of_matches'] = $object->get_number_of_matches();
+            $_SESSION['mq_matrix_type'] = $object->get_matrix_type();
+        }
 
-		$this->addElement('hidden', 'mq_number_of_options', $_SESSION['mq_number_of_options'], array('id' => 'mq_number_of_options'));
-		$this->addElement('hidden', 'mq_number_of_matches', $_SESSION['mq_number_of_matches'], array('id' => 'mq_number_of_matches'));
-		$this->addElement('hidden', 'mq_matrix_type', $_SESSION['mq_matrix_type'], array('id' => 'mq_matrix_type'));
-	}
+        $this->addElement('hidden', 'mq_number_of_options', $_SESSION['mq_number_of_options'], array('id' => 'mq_number_of_options'));
+        $this->addElement('hidden', 'mq_number_of_matches', $_SESSION['mq_number_of_matches'], array('id' => 'mq_number_of_matches'));
+        $this->addElement('hidden', 'mq_matrix_type', $_SESSION['mq_matrix_type'], array('id' => 'mq_matrix_type'));
+    }
 
-	/**
-	 * Adds the form-fields to the form to provide the possible options for this
-	 * multiple choice question
-	 * @todo Add rules to require options and matches
-	 */
-	private function add_options()
-	{
-		$number_of_options = intval($_SESSION['mq_number_of_options']);
-		$matches = array();
-		$match_label = 'A';
+    /**
+     * Adds the form-fields to the form to provide the possible options for this
+     * multiple choice question
+     * @todo Add rules to require options and matches
+     */
+    private function add_options()
+    {
+        $number_of_options = intval($_SESSION['mq_number_of_options']);
+        $matches = array();
+        $match_label = 'A';
 
-		for($match_number = 0; $match_number<$_SESSION['mq_number_of_matches']; $match_number++)
-		{
-			if(!in_array($match_number, $_SESSION['mq_skip_matches']))
-			{
-				$matches[$match_number] = $match_label++;
-			}
-		}
+        for($match_number = 0; $match_number < $_SESSION['mq_number_of_matches']; $match_number ++)
+        {
+            if (! in_array($match_number, $_SESSION['mq_skip_matches']))
+            {
+                $matches[$match_number] = $match_label ++;
+            }
+        }
 
-		$this->addElement('category', Translation :: get('Options'));
+        $this->addElement('category', Translation :: get('Options'));
 
-		if ($_SESSION['mq_matrix_type'] == MatrixQuestion :: MATRIX_TYPE_RADIO)
+        if ($_SESSION['mq_matrix_type'] == MatrixQuestion :: MATRIX_TYPE_RADIO)
         {
             $switch_label = Translation :: get('SwitchToMultipleMatches');
             $multiple = false;
@@ -241,14 +240,14 @@ class MatrixQuestionForm extends LearningObjectForm
             $multiple = true;
         }
 
-		$buttons = array();
-		$buttons[] = $this->createElement('style_submit_button', 'change_matrix_type[]', $switch_label, array('class' => 'normal switch change_matrix_type'));
+        $buttons = array();
+        $buttons[] = $this->createElement('style_submit_button', 'change_matrix_type[]', $switch_label, array('class' => 'normal switch change_matrix_type'));
         $buttons[] = $this->createElement('style_button', 'add_option[]', Translation :: get('AddMatrixQuestionOption'), array('class' => 'normal add', 'id' => 'add_option'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
-		$renderer = $this->defaultRenderer();
+        $renderer = $this->defaultRenderer();
 
-		$table_header = array();
+        $table_header = array();
         $table_header[] = '<table class="data_table options">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
@@ -272,89 +271,70 @@ class MatrixQuestionForm extends LearningObjectForm
 
         $visual_number = 0;
 
-		for($option_number = 0; $option_number <$number_of_options ; $option_number++)
-		{
-			$group = array();
-			if(!in_array($option_number,$_SESSION['mq_skip_options']))
-			{
-				$visual_number++;
-				$group[] = $this->createElement('static', null, null, $visual_number);
-				$group[] = $this->create_html_editor('option[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
-				$element = $this->createElement('select','matches_to['.$option_number.']',Translation :: get('Matches'),$matches, array('class' => 'option_matches'));
-				$element->setMultiple($multiple);
-				$group[] = $element;
-				$group[] = $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
-				$group[] = $this->createElement('text','option_weight['.$option_number.']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
+        for($option_number = 0; $option_number < $number_of_options; $option_number ++)
+        {
+            $group = array();
+            if (! in_array($option_number, $_SESSION['mq_skip_options']))
+            {
+                $visual_number ++;
+                $group[] = $this->createElement('static', null, null, $visual_number);
+                $group[] = $this->create_html_editor('option[' . $option_number . ']', Translation :: get('Answer'), $html_editor_options);
+                $group[] = $this->createElement('select', 'matches_to[' . $option_number . ']', Translation :: get('Matches'), $matches, array('class' => 'option_matches'));
+                $group[2]->setMultiple($multiple);
+                $group[] = $this->create_html_editor('comment[' . $option_number . ']', Translation :: get('Comment'), $html_editor_options);
+                $group[] = $this->createElement('text', 'option_weight[' . $option_number . ']', Translation :: get('Weight'), 'size="2"  class="input_numeric"');
 
-				if($number_of_options - count($_SESSION['mq_skip_options']) > 2)
-				{
-					$group[] = $this->createElement('image','remove_option['.$option_number.']',Theme :: get_common_image_path().'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_option_' . $option_number));
-				}
+                if ($number_of_options - count($_SESSION['mq_skip_options']) > 2)
+                {
+                    $group[] = $this->createElement('image', 'remove_option[' . $option_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_option', 'id' => 'remove_option_' . $option_number));
+                }
                 else
                 {
-                	$group[] =& $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                    $group[] = & $this->createElement('static', null, null, '<img class="remove_option" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
 
-				$this->addGroup($group, 'option_' . $option_number, null, '', false);
+                $this->addGroup($group, 'option_' . $option_number, null, '', false);
 
-				$renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($visual_number % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', 'option_' . $option_number);
-   				$renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
+                $renderer->setElementTemplate('<tr id="option_' . $option_number . '" class="' . ($visual_number % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', 'option_' . $option_number);
+                $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $option_number);
 
-				$this->addGroupRule('option_'.$option_number,
-					array(
-						'option['.$option_number.']' =>
-							array(
-								array(
-									Translation :: get('ThisFieldIsRequired'),'required'
-								)
-							),
-						'option_weight['.$option_number.']' =>
-							array(
-								array(
-									Translation :: get('ThisFieldIsRequired'), 'required'
-								),
-								array(
-									Translation :: get('ValueShouldBeNumeric'),'numeric'
-								)
-							)
-					)
-				);
-			}
-		}
-		$table_footer[] = '</tbody>';
+                $this->addGroupRule('option_' . $option_number, array('option[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required')), 'option_weight[' . $option_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'), array(Translation :: get('ValueShouldBeNumeric'), 'numeric'))));
+            }
+        }
+        $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $this->addElement('html', implode("\n", $table_footer));
 
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
-      	$renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
+        $renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
         $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
 
-		$this->addElement('category');
-	}
+        $this->addElement('category');
+    }
 
-	/**
-	 * Adds the form-fields to the form to provide the possible matches for this
-	 * matrix question
-	 */
-	private function add_matches()
-	{
-		$number_of_matches = intval($_SESSION['mq_number_of_matches']);
-		$this->addElement('category', Translation :: get('Matches'));
+    /**
+     * Adds the form-fields to the form to provide the possible matches for this
+     * matrix question
+     */
+    private function add_matches()
+    {
+        $number_of_matches = intval($_SESSION['mq_number_of_matches']);
+        $this->addElement('category', Translation :: get('Matches'));
 
-		$buttons = array();
+        $buttons = array();
         $buttons[] = $this->createElement('style_button', 'add_match[]', Translation :: get('AddMatch'), array('class' => 'normal add', 'id' => 'add_match'));
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
-		$renderer = $this->defaultRenderer();
+        $renderer = $this->defaultRenderer();
 
-		$table_header = array();
+        $table_header = array();
         $table_header[] = '<table class="data_table matches">';
         $table_header[] = '<thead>';
         $table_header[] = '<tr>';
         $table_header[] = '<th class="list"></th>';
         $table_header[] = '<th>' . Translation :: get('Answer') . '</th>';
-       	$table_header[] = '<th class="action"></th>';
+        $table_header[] = '<th class="action"></th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
@@ -367,59 +347,49 @@ class MatrixQuestionForm extends LearningObjectForm
         $html_editor_options['show_tags'] = false;
         $html_editor_options['toolbar_set'] = 'RepositoryQuestion';
 
-		$label = 'A';
-		for($match_number = 0; $match_number <$number_of_matches ; $match_number++)
-		{
-			$group = array();
+        $label = 'A';
+        for($match_number = 0; $match_number < $number_of_matches; $match_number ++)
+        {
+            $group = array();
 
-			if(!in_array($match_number,$_SESSION['mq_skip_matches']))
-			{
-				$defaults['match_label'][$match_number] = $label++;
-				$element = $this->createElement('text','match_label['.$match_number.']', Translation :: get('Match'), 'style="width: 90%;" ');
-				$element->freeze();
-				$group[] = $element;
-				$group[] = $this->create_html_editor('match[' . $match_number . ']', Translation :: get('Match'), $html_editor_options);
+            if (! in_array($match_number, $_SESSION['mq_skip_matches']))
+            {
+                $defaults['match_label'][$match_number] = $label ++;
+                $element = $this->createElement('text', 'match_label[' . $match_number . ']', Translation :: get('Match'), 'style="width: 90%;" ');
+                $element->freeze();
+                $group[] = $element;
+                $group[] = $this->create_html_editor('match[' . $match_number . ']', Translation :: get('Match'), $html_editor_options);
 
-				if($number_of_matches - count($_SESSION['mq_skip_matches']) > 2)
-				{
-					$group[] = $this->createElement('image','remove_match['.$match_number.']',Theme :: get_common_image_path().'action_delete.png', array('class' => 'remove_match', 'id' => 'remove_match_' . $match_number));
-				}
+                if ($number_of_matches - count($_SESSION['mq_skip_matches']) > 2)
+                {
+                    $group[] = $this->createElement('image', 'remove_match[' . $match_number . ']', Theme :: get_common_image_path() . 'action_delete.png', array('class' => 'remove_match', 'id' => 'remove_match_' . $match_number));
+                }
                 else
                 {
-                	$group[] =& $this->createElement('static', null, null, '<img class="remove_match" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
+                    $group[] = & $this->createElement('static', null, null, '<img class="remove_match" src="' . Theme :: get_common_image_path() . 'action_delete_na.png" />');
                 }
 
-				$this->addGroup($group, 'match_' . $match_number, null, '', false);
+                $this->addGroup($group, 'match_' . $match_number, null, '', false);
 
-				$renderer->setElementTemplate('<tr id="match_' . $match_number . '" class="' . ($match_number - 1 % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', 'match_' . $match_number);
-   				$renderer->setGroupElementTemplate('<td>{element}</td>', 'match_' . $match_number);
+                $renderer->setElementTemplate('<tr id="match_' . $match_number . '" class="' . ($match_number - 1 % 2 == 0 ? 'row_odd' : 'row_even') . '">{element}</tr>', 'match_' . $match_number);
+                $renderer->setGroupElementTemplate('<td>{element}</td>', 'match_' . $match_number);
 
+                $this->addGroupRule('match_' . $match_number, array('match[' . $match_number . ']' => array(array(Translation :: get('ThisFieldIsRequired'), 'required'))));
+            }
 
-				$this->addGroupRule('match_'.$match_number,
-					array(
-						'match['.$match_number.']' =>
-							array(
-								array(
-									Translation :: get('ThisFieldIsRequired'),'required'
-								)
-							),
-					)
-				);
-			}
+            $this->setConstants($defaults);
+        }
 
-			$this->setConstants($defaults);
-		}
-
-		$table_footer[] = '</tbody>';
+        $table_footer[] = '</tbody>';
         $table_footer[] = '</table>';
         $this->addElement('html', implode("\n", $table_footer));
 
         $this->addGroup($buttons, 'question_buttons', null, '', false);
 
-      	$renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
+        $renderer->setElementTemplate('<div style="margin: 10px 0px 10px 0px;">{element}<div class="clear"></div></div>', 'question_buttons');
         $renderer->setGroupElementTemplate('<div style="float:left; text-align: center; margin-right: 10px;">{element}</div>', 'question_buttons');
 
-		$this->addElement('category');
-	}
+        $this->addElement('category');
+    }
 }
 ?>

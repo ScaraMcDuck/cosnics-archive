@@ -5,13 +5,15 @@
  */
 class MatrixQuestionDisplay extends LearningObjectDisplay
 {
-	function get_full_html()
-	{
-		$html = parent :: get_full_html();
-		return $html;
-	}
-	function get_description()
-	{
+
+    function get_full_html()
+    {
+        $html = parent :: get_full_html();
+        return $html;
+    }
+
+    function get_description()
+    {
         $learning_object = $this->get_learning_object();
         $matches = $learning_object->get_matches();
         $options = $learning_object->get_options();
@@ -26,9 +28,9 @@ class MatrixQuestionDisplay extends LearningObjectDisplay
         $table_header[] = '<tr>';
         $table_header[] = '<th class="caption"></th>';
 
-        foreach($matches as $match)
+        foreach ($matches as $match)
         {
-       		$table_header[] = '<th class="center">' . strip_tags($match) . '</th>';
+            $table_header[] = '<th class="center">' . strip_tags($match) . '</th>';
         }
 
         $table_header[] = '</tr>';
@@ -41,16 +43,16 @@ class MatrixQuestionDisplay extends LearningObjectDisplay
             $html[] = '<tr class="' . ($index % 2 == 0 ? 'row_even' : 'row_odd') . '">';
             $html[] = '<td>' . $option->get_value() . '</td>';
 
-            foreach($matches as $match)
+            foreach ($matches as $match)
             {
-	            if ($type == MatrixQuestion :: MATRIX_TYPE_RADIO)
-	            {
-	                $html[] = '<td style="text-align: center;"><input type="radio" name="option[]"/></td>';
-	            }
-	            elseif ($type == MatrixQuestion :: MATRIX_TYPE_CHECKBOX)
-	            {
-	                $html[] = '<td style="text-align: center;"><input type="checkbox" name="option[]"/></td>';
-	            }
+                if ($type == MatrixQuestion :: MATRIX_TYPE_RADIO)
+                {
+                    $html[] = '<td style="text-align: center;"><input type="radio" name="option[]"/></td>';
+                }
+                elseif ($type == MatrixQuestion :: MATRIX_TYPE_CHECKBOX)
+                {
+                    $html[] = '<td style="text-align: center;"><input type="checkbox" name="option[]"/></td>';
+                }
             }
 
             $html[] = '</tr>';
@@ -60,7 +62,7 @@ class MatrixQuestionDisplay extends LearningObjectDisplay
         $table_footer[] = '</table>';
         $html[] = implode("\n", $table_footer);
 
-		return implode("\n", $html);
-	}
+        return implode("\n", $html);
+    }
 }
 ?>

@@ -8,18 +8,40 @@ class MatrixScoreCalculator extends ScoreCalculator
     {
         $user_answers = $this->get_answer();
         $question = $this->get_question();
+        $options = $question->get_options();
+        //$matches = $question->get_matches();
 
-        dump($user_answers);
-        exit;
+        //dump($user_answers);
 
-        if ($question->get_correct() == $user_answers[0])
+        $score = 0;
+
+        if ($question->get_matrix_type() == MatrixQuestion :: MATRIX_TYPE_RADIO)
         {
-            return 1;
+            foreach ($user_answers as $question => $answer)
+            {
+                if ($answer == $options[$question]->get_matches())
+                {
+                    $score += $options[$question]->get_weight();
+                }
+            }
         }
         else
         {
-            return 0;
+            foreach($options as $index => $option)
+            {
+                $answers = array_keys($user_answers[$index]);
+                $matches = $option->get_matches();
+
+                $difference = array_diff($answers, $matches);
+
+                if (count($difference) == 0)
+                {
+                    $score += $option->get_weight();
+                }
+            }
         }
+
+        return $score;
     }
 }
 ?>
