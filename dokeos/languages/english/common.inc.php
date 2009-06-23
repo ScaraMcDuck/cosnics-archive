@@ -209,4 +209,5 @@ $lang['common']['HotspotJavascriptRequired'] = 'Due to their interactive nature,
 $lang['common']['HotspotJavascriptWarning'] = 'Javascript required !';
 $lang['common']['Browse'] = 'Browse';
 $lang['common']['HotspotTableTitle'] = 'Hotspot(s)';
+$lang['common']['PutAnswersCorrectOrder'] = 'Put the answers in the correct order';
 ?>

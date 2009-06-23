@@ -5,7 +5,7 @@
  */
 require_once dirname(__FILE__) . '/../../learning_object_form.class.php';
 require_once dirname(__FILE__) . '/fill_in_blanks_question.class.php';
-require_once dirname(__FILE__) . '/fill_in_blanks_answer.class.php';
+require_once dirname(__FILE__) . '/fill_in_blanks_question_answer.class.php';
 
 class FillInBlanksQuestionForm extends LearningObjectForm
 {
