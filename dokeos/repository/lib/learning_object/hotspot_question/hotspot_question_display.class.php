@@ -21,7 +21,7 @@ class HotspotQuestionDisplay extends LearningObjectDisplay
 
         $html[] = parent :: get_description();
 
-        $html[] = '<img class="hotspot_image" src="' . $image->get_url() . '" alt="' . $image->get_title() . '" title="' . $image->get_title() . '" />';
+        $html[] = '<img class="hotspot_image_display" src="' . $image->get_url() . '" alt="' . $image->get_title() . '" title="' . $image->get_title() . '" />';
         $html[] = '';
 
         $html[] = '<table class="data_table">';
