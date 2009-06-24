@@ -68,11 +68,11 @@ function dump_tree($users)
 		return;
 	}
 
-	echo '<node id="0" class="type_category unlinked" title="', Translation :: get('Users'), '">', "\n";
+	echo '<node id="0" classes="type_category unlinked" title="', Translation :: get('Users'), '">', "\n";
 
 	while ($user = $users->next_result())
 	{
-		echo '<leaf id="', $user->get_id(), '" class="type type_user" title="', htmlentities($user->get_fullname()), '" description="', htmlentities($user->get_fullname()), '"/>', "\n";
+		echo '<leaf id="', $user->get_id(), '" classes="type type_user" title="', htmlentities($user->get_fullname()), '" description="', htmlentities($user->get_fullname()), '"/>', "\n";
 	}
 
 	echo '</node>', "\n";

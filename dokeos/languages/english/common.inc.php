@@ -222,4 +222,5 @@ $lang['common']['HotspotJavascriptWarning'] = 'Javascript required !';
 $lang['common']['Browse'] = 'Browse';
 $lang['common']['HotspotTableTitle'] = 'Hotspot(s)';
 $lang['common']['PutAnswersCorrectOrder'] = 'Put the answers in the correct order';
+$lang['common']['ConfirmHotspotSelection'] = 'Confirm selection';
 ?>

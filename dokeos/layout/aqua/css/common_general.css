@@ -2090,12 +2090,13 @@ div.question div.answer div.caption
 	margin-left: 20px;
 }
 
-#hotspot_image
+#hotspot_image,
+.hotspot_image
 {
 	position: relative;
 }
 
-.hotspot_image
+.hotspot_image_display
 {
 	border: 1px solid #b5cae7;
 	margin-bottom: 10px;
@@ -2108,7 +2109,8 @@ div.question div.answer div.caption
 	border: 1px solid black;
 }
 
-#hotspot_container
+#hotspot_container,
+.hotspot_container
 {
 	float: left;
 	position: relative;
@@ -2116,22 +2118,26 @@ div.question div.answer div.caption
 	background-color: #b5cae7;
 }
 
-#hotspot_marking
+#hotspot_marking,
+.hotspot_marking
 {
-	height: 15px;
-	line-height: 15px;
 	margin-bottom: 10px;
 }
 
 #hotspot_marking .colour_box,
-#hotspot_marking .colour_box_label
+#hotspot_marking .colour_box_label,
+.hotspot_marking .colour_box,
+.hotspot_marking .colour_box_label
 {
 	float: left;
+	font-weight: bold;
 }
 
-#hotspot_marking .colour_box
+#hotspot_marking .colour_box,
+.hotspot_marking .colour_box
 {
 	margin-left: 10px;
+	margin-right: 10px;
 }
 
 div.description_hotspot
@@ -2141,10 +2147,21 @@ div.description_hotspot
 	border-top: 0px solid white;
 }
 
-div.description_hotspot #hotspot_marking
+div.description_hotspot #hotspot_marking,
+div.description_hotspot .hotspot_marking
 {
 	margin-top: 10px;
 	margin-bottom: 0px;
+}
+
+img.set_hotspot
+{
+	cursor: pointer;
+}
+
+img.save_hotspot
+{
+	cursor: pointer;
 }
 
 /*

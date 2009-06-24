@@ -1,7 +1,8 @@
 <?php
 class HotspotQuestionDisplay extends QuestionDisplay
 {
-	private $colours = array('#00315b', '#00adef', '#aecee7', '#9dcfc3', '#016c62', '#c7ac21', '#ff5329', '#bd0019', '#e7ad7b', '#bd0084', '#9d8384', '#42212a', '#005b84', '#e0eeef', '#00ad9c', '#ffe62a', '#f71932', '#ff9429', '#f6d7c5', '#7a2893');
+	//private $colours = array('#00315b', '#00adef', '#aecee7', '#9dcfc3', '#016c62', '#c7ac21', '#ff5329', '#bd0019', '#e7ad7b', '#bd0084', '#9d8384', '#42212a', '#005b84', '#e0eeef', '#00ad9c', '#ffe62a', '#f71932', '#ff9429', '#f6d7c5', '#7a2893');
+	private $colours = array('#ff0000', '#f2ef00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#0080ff', '#ff0080', '#00ff80', '#ff8000', '#8000ff');
 
 	function add_question_form()
 	{
@@ -11,13 +12,24 @@ class HotspotQuestionDisplay extends QuestionDisplay
 		$answers = $this->shuffle_with_keys($question->get_answers());
         $renderer = $this->get_renderer();
 
+        $question_id = $clo_question->get_id();
+
+        $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/jquery.draw.js'));
+        $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH) . 'jquery/serializer.pack.js'));
+        $formvalidator->addElement('html', ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/hotspot_question_display.js'));
+
         $image_html = array();
 		$image_object = $question->get_image_object();
 		$dimensions = getimagesize($image_object->get_full_path());
 		$image_html[] = '<div class="description_hotspot">';
-		$image_html[] = '<div id="hotspot_container"><div id="hotspot_image" style="width: '. $dimensions[0] .'px; height: '. $dimensions[1] .'px; background-image: url('. $image_object->get_url() .')"></div></div>';
+		$image_html[] = '<div id="hotspot_container_' . $question_id . '" class="hotspot_container"><div id="hotspot_image_' . $question_id . '" class="hotspot_image" style="width: '. $dimensions[0] .'px; height: '. $dimensions[1] .'px; background-image: url('. $image_object->get_url() .')"></div></div>';
 		$image_html[] = '<div class="clear"></div>';
-		$image_html[] = '<div id="hotspot_marking"><div class="colour_box_label">' . Translation :: get('CurrentlyMarking') . '</div><div class="colour_box"></div></div>';
+		$image_html[] = '<div id="hotspot_marking_' . $question_id . '" class="hotspot_marking">';
+		$image_html[] = '<div class="colour_box_label">' . Translation :: get('CurrentlyMarking') . '</div>';
+		$image_html[] = '<div class="colour_box"></div>';
+		$image_html[] = '<a href="#" class="button positive_button confirm_hotspot" style="display: none;">'. Translation :: get('ConfirmHotspotSelection') .'</a>';
+		$image_html[] = '<div class="clear"></div>';
+		$image_html[] = '</div>';
 		$image_html[] = '<div class="clear"></div>';
 		$image_html[] = '</div>';
 		$formvalidator->addElement('html', implode("\n", $image_html));
@@ -28,12 +40,12 @@ class HotspotQuestionDisplay extends QuestionDisplay
         $table_header[] = '<tr>';
         $table_header[] = '<th class="checkbox"></th>';
         $table_header[] = '<th>' . $this->get_instruction() . '</th>';
+        $table_header[] = '<th class="action"></th>';
+        $table_header[] = '<th class="action"></th>';
         $table_header[] = '</tr>';
         $table_header[] = '</thead>';
         $table_header[] = '<tbody>';
         $formvalidator->addElement('html', implode("\n", $table_header));
-
-        $question_id = $clo_question->get_id();
 
         foreach ($answers as $i => $answer)
         {
@@ -42,11 +54,13 @@ class HotspotQuestionDisplay extends QuestionDisplay
             $group = array();
             $group[] = $formvalidator->createElement('static', null, null, '<div class="colour_box" style="background-color: ' . $this->colours[$i] . ';"></div>');
             $group[] = $formvalidator->createElement('static', null, null, $answer->get_answer());
+            $group[] = $formvalidator->createElement('static', null, null, '<img id="edit_' . $answer_name . '" class="edit_option" type="image" src="' . Theme :: get_common_image_path() . 'action_edit.png" />');
+            $group[] = $formvalidator->createElement('static', null, null, '<img id="reset_' . $answer_name . '" class="reset_option" type="image" src="' . Theme :: get_common_image_path() . 'action_reset.png" />');
             $group[] = $formvalidator->createElement('hidden', $answer_name, '');
 
             $formvalidator->addGroup($group, 'option_' . $i, null, '', false);
 
-            $renderer->setElementTemplate('<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $i);
+            $renderer->setElementTemplate('<tr id="'. $answer_name .'" class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">{element}</tr>', 'option_' . $i);
             $renderer->setGroupElementTemplate('<td>{element}</td>', 'option_' . $i);
         }
 
@@ -61,38 +75,6 @@ class HotspotQuestionDisplay extends QuestionDisplay
 //		{
 //			$formvalidator->addElement('hidden', $clo_question->get_id().'_'.$i, '', array('id' => $clo_question->get_id().'_'.$i));
 //		}
-	}
-
-	function add_scripts_element($hotspot_id, $formvalidator)
-	{
-		$hotspot_path = Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/hotspot_user.swf';
-		//dump($hotspot_path);
-		return $formvalidator->addElement('html','
-			<script type="text/javascript" src="'.Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/JavaScriptFlashGateway.js" ></script>
-			<script type="text/javascript" src="'.Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/hotspot.js" ></script>
-			<script type="text/javascript" src="'.Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/jsmethods.js" ></script>
-			<script type="text/vbscript" src="'.Path :: get(WEB_PLUGIN_PATH).'hotspot/hotspot/vbmethods.vbscript" ></script>
-			<script type="text/javascript" >
-				var requiredMajorVersion = 7;
-				var requiredMinorVersion = 0;
-				var requiredRevision = 0;
-				//var hasRequestedVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
-				var hasRequestedVersion = true;
-				// Check to see if the version meets the requirements for playback
-				if (hasRequestedVersion) {  // if weve detected an acceptable version
-				    var oeTags = \'<object type="application/x-shockwave-flash" data="'.$hotspot_path.'?modifyAnswers=' . $hotspot_id.'" width="720" height="650">\'
-								+ \'<param name="movie" value="'.$hotspot_path.'?modifyAnswers=' . $hotspot_id.'" />\'
-								//+ \'<param name="test" value="OOoowww fo shooww" />\'
-								+ \'</object>\';
-				    document.write(oeTags);   // embed the Flash Content SWF when all tests are passed
-				} else {  // flash is too old or we can\'t detect the plugin
-					var alternateContent = "Error<br \/>"
-						+ \'This content requires the Macromedia Flash Player.<br \/>\'
-						+ \'<a href="http://www.macromedia.com/go/getflash/">Get Flash<\/a>\';
-					document.write(alternateContent);  // insert non-flash content
-				}
-			</script>'
-		);
 	}
 
 	function get_instruction()

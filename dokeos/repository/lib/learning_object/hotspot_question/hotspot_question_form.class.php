@@ -13,7 +13,8 @@ require_once dirname(__FILE__) . '/hotspot_question_answer.class.php';
 class HotspotQuestionForm extends LearningObjectForm
 {
 
-	private $colours = array('#00315b', '#00adef', '#aecee7', '#9dcfc3', '#016c62', '#c7ac21', '#ff5329', '#bd0019', '#e7ad7b', '#bd0084', '#9d8384', '#42212a', '#005b84', '#e0eeef', '#00ad9c', '#ffe62a', '#f71932', '#ff9429', '#f6d7c5', '#7a2893');
+	//private $colours = array('#00315b', '#00adef', '#aecee7', '#9dcfc3', '#016c62', '#c7ac21', '#ff5329', '#bd0019', '#e7ad7b', '#bd0084', '#9d8384', '#42212a', '#005b84', '#e0eeef', '#00ad9c', '#ffe62a', '#f71932', '#ff9429', '#f6d7c5', '#7a2893');
+	private $colours = array('#ff0000', '#f2ef00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#0080ff', '#ff0080', '#00ff80', '#ff8000', '#8000ff');
 
     protected function build_creation_form()
     {
@@ -187,6 +188,9 @@ class HotspotQuestionForm extends LearningObjectForm
 
         $html = array();
         $html[] = '<div id="hotspot_marking"><div class="colour_box_label">' . Translation :: get('CurrentlyMarking') . '</div><div class="colour_box"></div></div>';
+        $html[] = '<div class="clear"></div>';
+        $html[] = '<br />';
+        $html[] = '<div class="clear"></div>';
 
         if (! is_null($object))
         {

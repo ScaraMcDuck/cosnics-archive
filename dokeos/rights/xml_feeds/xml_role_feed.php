@@ -68,12 +68,12 @@ function dump_tree($roles)
 		return;
 	}
 
-	echo '<node id="0" class="type_category unlinked" title="', Translation :: get('Roles'), '">', "\n";
+	echo '<node id="0" classes="type_category unlinked" title="', Translation :: get('Roles'), '">', "\n";
 
 	while ($role = $roles->next_result())
 	{
 		$value = RightsUtilities :: role_for_element_finder($role);
-		echo '<leaf id="', $role->get_id(), '" class="', $value['class'], '" title="', htmlentities($value['title']), '" description="', htmlentities(isset($value['description']) && !empty($value['description']) ? $value['description'] : $value['title']), '"/>', "\n";
+		echo '<leaf id="', $role->get_id(), '" classes="', $value['class'], '" title="', htmlentities($value['title']), '" description="', htmlentities(isset($value['description']) && !empty($value['description']) ? $value['description'] : $value['title']), '"/>', "\n";
 	}
 
 	echo '</node>', "\n";
