@@ -73,8 +73,8 @@ THE SOFTWARE.
 				// loops through LIs, get width of each tab when selected and unselected.
 				self.lis.each(function(i) {
 					var listElement = $("li:first", this);
-					tabWidths[i] = $(this).width();
-					selectedTabWidths[i] = $(this).width();
+					tabWidths[i] = listElement.width();
+					selectedTabWidths[i] = listElement.width();
 					allTabsWidth += selectedTabWidths[i];
 					
 					if($(listElement).hasClass("current"))
