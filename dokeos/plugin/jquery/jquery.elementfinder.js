@@ -115,7 +115,7 @@
 					if (tree.leaf && $(tree.leaf).size() > 0)
 					{
 						$.each(tree.leaf, function(i, the_leaf){
-							var li = $('<li><div><a href="#" id="' + the_leaf.id + '" class="' + the_leaf.class + '">' + the_leaf.title + '</a></div></li>');
+							var li = $('<li><div><a href="#" id="' + the_leaf.id + '" class="' + the_leaf.classes + '">' + the_leaf.title + '</a></div></li>');
 							$(ul).append(li);
 						});
 					}
@@ -147,7 +147,7 @@
 					if (the_node.leaf && $(the_node.leaf).size() > 0)
 					{
 						$.each(the_node.leaf, function(i, a_leaf){
-							var li = $('<li><div><a href="#" id="' + a_leaf.id + '" class="' + a_leaf.class + '">' + a_leaf.title + '</a></div></li>');
+							var li = $('<li><div><a href="#" id="' + a_leaf.id + '" class="' + a_leaf.classes + '">' + a_leaf.title + '</a></div></li>');
 							$(ul).append(li);
 						});
 					}
@@ -177,7 +177,7 @@
 				var ul = $('<ul class="tree-menu"></ul>');
 				$.each(originalActivatedElements, function(i, activatedElement){
 					activatedElements.push(activatedElement.id);
-					var li = $('<li><div><a href="#" id="' + activatedElement.id + '" class="' + activatedElement.class + '">' + activatedElement.title + '</a></div></li>');
+					var li = $('<li><div><a href="#" id="' + activatedElement.id + '" class="' + activatedElement.classes + '">' + activatedElement.title + '</a></div></li>');
 					ul.append(li);
 				});
 				
