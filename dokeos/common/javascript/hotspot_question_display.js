@@ -97,6 +97,9 @@ $(function ()
 		$('#hotspot_marking_' + question_id + ' .colour_box').css('background-color', 'transparent');
 		resetPolygonObject(question_id, option_id);
 		
+		$('tr#' + currentHotspot + '_' + currentPolygon + ' img.hotspot_configured').hide();
+		$('tr#' + currentHotspot + '_' + currentPolygon + ' img.edit_option').show();
+		
 		currentHotspot = null;
 		currentPolygon = null;
 	}
@@ -110,7 +113,6 @@ $(function ()
 		
 		$('#hotspot_marking_' + question_id + ' .colour_box').css('background-color', colours[option_id]);
 		$('#hotspot_marking_' + question_id + ' .confirm_hotspot').show();
-		$('tr#' + question_id + '_' + option_id + ' .hotspot_configured').remove();
 		resetPolygonObject(question_id, option_id);
 	}
 	
@@ -126,8 +128,10 @@ $(function ()
 	
 	function addCheck()
 	{
-		var html = '<img class="hotspot_configured" src="' + getPath('WEB_LAYOUT_PATH') + getTheme() + '/img/common/buttons/button_confirm.png" style="float: right;" />';
-		$('tr#' + currentHotspot + '_' + currentPolygon + ' td:nth-child(2)').append(html);
+		$('tr#' + currentHotspot + '_' + currentPolygon + ' img.edit_option').hide();
+		$('tr#' + currentHotspot + '_' + currentPolygon + ' img.hotspot_configured').show();
+		//var html = '<img class="hotspot_configured" src="' + getPath('WEB_LAYOUT_PATH') + getTheme() + '/img/common/buttons/button_confirm.png" style="float: right;" />';
+		//$('tr#' + currentHotspot + '_' + currentPolygon + ' td:nth-child(2)').append(html);
 	}
 
 	$(document).ready(function ()
