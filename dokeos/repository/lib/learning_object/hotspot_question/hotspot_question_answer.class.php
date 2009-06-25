@@ -7,7 +7,7 @@ class HotspotQuestionAnswer
 	private $weight;
 	private $hotspot_coordinates;
 
-	function HotSpotQuestionAnswer($answer, $comment, $weight, $coords, $type)
+	function HotSpotQuestionAnswer($answer, $comment, $weight, $coords)
 	{
 		$this->set_answer($answer);
 		$this->set_comment($comment);

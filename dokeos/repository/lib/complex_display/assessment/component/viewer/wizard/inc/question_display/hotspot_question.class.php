@@ -56,7 +56,7 @@ class HotspotQuestionDisplay extends QuestionDisplay
             $group[] = $formvalidator->createElement('static', null, null, $answer->get_answer());
             $group[] = $formvalidator->createElement('static', null, null, '<img class="hotspot_configured" src="' . Theme :: get_common_image_path() . 'action_confirm.png" style="display: none;" /><img id="edit_' . $answer_name . '" class="edit_option" type="image" src="' . Theme :: get_common_image_path() . 'action_edit.png" />');
             $group[] = $formvalidator->createElement('static', null, null, '<img id="reset_' . $answer_name . '" class="reset_option" type="image" src="' . Theme :: get_common_image_path() . 'action_reset.png" />');
-            $group[] = $formvalidator->createElement('hidden', $answer_name, '');
+            $group[] = $formvalidator->createElement('hidden', $answer_name);
 
             $formvalidator->addGroup($group, 'option_' . $i, null, '', false);
 

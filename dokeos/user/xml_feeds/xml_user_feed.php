@@ -2,7 +2,7 @@
 /**
  * @package repository
  */
-require_once dirname(__FILE__).'/../common/global.inc.php';
+require_once dirname(__FILE__).'/../../common/global.inc.php';
 require_once Path :: get_rights_path() . 'lib/rights_data_manager.class.php';
 require_once Path :: get_rights_path() . 'lib/rights_utilities.class.php';
 require_once Path :: get_rights_path() . 'lib/role.class.php';
