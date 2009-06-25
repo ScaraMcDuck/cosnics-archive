@@ -57,7 +57,11 @@ $(function ()
 		currentHotspot = question;
 		currentPolygon = option;
 		
-		positions[currentHotspot] = {};
+		if (typeof positions[currentHotspot] === 'undefined')
+		{
+			positions[currentHotspot] = {};
+		}
+		
 		positions[currentHotspot][currentPolygon] = {};
 		positions[currentHotspot][currentPolygon].X = [];
 		positions[currentHotspot][currentPolygon].Y = [];
@@ -133,9 +137,42 @@ $(function ()
 		//var html = '<img class="hotspot_configured" src="' + getPath('WEB_LAYOUT_PATH') + getTheme() + '/img/common/buttons/button_confirm.png" style="float: right;" />';
 		//$('tr#' + currentHotspot + '_' + currentPolygon + ' td:nth-child(2)').append(html);
 	}
+	
+	function initializePolygons()
+	{
+		var hotspotQuestions = $('input.hotspot_coordinates');
+		
+		hotspotQuestions.each(function (i)
+		{
+			var fieldIds = $(this).attr('name').split('_'),
+				fieldValue = $(this).val(),
+				questionId = fieldIds[0],
+				answerId = fieldIds[1];
+			
+			if (fieldValue !== '')
+			{
+				fieldValue = unserialize(fieldValue);
+				
+				currentHotspot = questionId;
+				currentPolygon = answerId;
+				
+				resetPolygonObject(questionId, answerId);
+				
+				positions[currentHotspot][currentPolygon].X = fieldValue[0];
+				positions[currentHotspot][currentPolygon].Y = fieldValue[1];
+				
+				redrawPolygon();
+			}
+				
+		});
+	}
 
 	$(document).ready(function ()
 	{
+		// Initialize possible existing polygons
+		// Possible when going back to a previous page or the likes.
+		initializePolygons();
+		
 		// Bind clicks on the edit and reset buttons
 		$('.edit_option').live('click', editPolygon);
 		$('.reset_option').live('click', resetPolygon);
