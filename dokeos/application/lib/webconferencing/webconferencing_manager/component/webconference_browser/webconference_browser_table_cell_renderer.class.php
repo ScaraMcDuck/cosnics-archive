@@ -70,7 +70,6 @@ class WebconferenceBrowserTableCellRenderer extends DefaultWebconferenceTableCel
     				{
 	    				$view_url = $view_url . '&'.$option->get_name().'='.$option->get_value();
     				}
-    				
 				}
 				else
 				{
@@ -78,24 +77,44 @@ class WebconferenceBrowserTableCellRenderer extends DefaultWebconferenceTableCel
 					$view_url = $view_url . 'email='.$user_email;
 					$view_url = $view_url . '&displayName='.$user_displayname;
 					$view_url = $view_url . '&confKey='.$confkey;
+					
 					//if value set for attendeePassCode, moderatorPassCode, attendeePwd, presenterPwd
-					if()
+					//add parameter to the url
+					$conf_condition = new EqualityCondition(WebconferenceOption :: PROPERTY_CONF_ID, $webconference->get_id());
+					$option_condition = new EqualityCondition(WebconferenceOption :: PROPERTY_NAME, 'attendeePasscode');
+	   				$option_values = WebconferencingDataManager :: get_instance()->retrieve_webconference_options(new AndCondition($conf_condition, $option_condition));
+					if($option_values->size() == 1)
 					{
-						$view_url = $view_url . '&attendeePassCode='.$confkey;
+						$option = $options->next_result();
+						$view_url = $view_url . '&attendeePassCode='. $option->$get_value();
 					}
-					if()
+					
+					$option_condition = new EqualityCondition(WebconferenceOption :: PROPERTY_NAME, 'moderatorPassCode');
+					$option_values = WebconferencingDataManager :: get_instance()->retrieve_webconference_options(new AndCondition($conf_condition, $option_condition));
+					if($option_values->size() == 1)
 					{
-						$view_url = $view_url . '&moderatorPassCode='.$confkey;
+						$option = $options->next_result();
+						$view_url = $view_url . '&moderatorPassCode='.$option->$get_value();
 					}
-					if()
+					
+					$option_condition = new EqualityCondition(WebconferenceOption :: PROPERTY_NAME, 'attendeePwd');
+	   				$option_values = WebconferencingDataManager :: get_instance()->retrieve_webconference_options(new AndCondition($conf_condition, $option_condition));
+					if($option_values->size() == 1)
 					{
-						$view_url = $view_url . '&attendeePwd='.$confkey;
+						$option = $options->next_result();
+						$view_url = $view_url . '&attendeePwd='.$option->$get_value();
 					}
-					if()
+					
+					$option_condition = new EqualityCondition(WebconferenceOption :: PROPERTY_NAME, 'presenterPwd');
+	   				$option_values = WebconferencingDataManager :: get_instance()->retrieve_webconference_options(new AndCondition($conf_condition, $option_condition));
+					if($option_values->size() == 1)
 					{
-						$view_url = $view_url . '&presenterPwd='.$confkey;
+						$option = $options->next_result();
+						$view_url = $view_url . '&presenterPwd='.$option->$get_value();
 					}
 				}
+				//add returnUrl
+				$view_url = $view_url . '&returnUrl='. Path :: get('WEB_PATH'); 
 				
 				return '<a href="'.htmlentities($view_url).'" title="'.$confname.'">'.$confname.'</a>';
 				break;	
