@@ -27,7 +27,7 @@ class CasAuthentication extends Authentication
             phpCAS :: client(CAS_VERSION_3_0, $settings['host'], (int) $settings['port'], '', true, 'saml');
 
             // SSL validation for the CAS server
-            $crt_path = Path :: get(SYS_PATH) . 'cas_ehb_be.cer';
+            $crt_path = $settings['certificate'];
             phpCAS :: setExtraCurlOption(CURLOPT_SSLVERSION, 3);
             phpCAS :: setCasServerCACert($crt_path);
             //phpCAS :: setNoCasServerValidation();
@@ -159,6 +159,7 @@ class CasAuthentication extends Authentication
             $cas['host'] = PlatformSetting :: get('cas_host');
             $cas['port'] = PlatformSetting :: get('cas_port');
             $cas['uri'] = PlatformSetting :: get('cas_uri');
+            $cas['certificate'] = PlatformSetting :: get('cas_certificate');
 
             $this->cas_settings = $cas;
         }
