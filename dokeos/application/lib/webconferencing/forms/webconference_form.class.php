@@ -43,7 +43,7 @@ class WebconferenceForm extends FormValidator
 		$this->addElement('text', Webconference :: PROPERTY_CONFNAME, Translation :: get('Confname'));
 		$this->addRule(Webconference :: PROPERTY_CONFNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		if (PlatformSetting :: get('allow_duration_selection', WebconferencingManager :: APPLICATION_NAME) == 1)
+		if (PlatformSetting :: get('allow_duration_selection', WebconferencingManager :: APPLICATION_NAME) == 'true')
 		{
 			$this->addElement('text', Webconference :: PROPERTY_DURATION, Translation :: get('DurationInMinutes'));
 			$this->defaults_create[Webconference :: PROPERTY_DURATION] = PlatformSetting :: get('default_webconference_duration', WebconferencingManager :: APPLICATION_NAME);
@@ -54,46 +54,46 @@ class WebconferenceForm extends FormValidator
 		
 		$this->add_html_editor('option[agenda]', Translation :: get('Agenda'),false);
 		
-		if (PlatformSetting :: get('allow_network_quality_selection', WebconferencingManager :: APPLICATION_NAME) == 1)
+		if (PlatformSetting :: get('allow_network_quality_selection', WebconferencingManager :: APPLICATION_NAME) == 'true')
 		{
 			$network_options = array('L' => Translation :: get('Low'),'M' => Translation :: get('Medium'), 'H' => Translation :: get('High'));
 			$this->addElement('select', 'option[network]', Translation :: get('NetworkQuality'),$network_options);
 			$this->defaults_create['option[network]'] = PlatformSetting :: get('default_network_quality', WebconferencingManager :: APPLICATION_NAME);
 		}
 		
-    	if (PlatformSetting :: get('allow_audiovideo_selection', WebconferencingManager :: APPLICATION_NAME) == 1)
+    	if (PlatformSetting :: get('allow_audiovideo_selection', WebconferencingManager :: APPLICATION_NAME) == 'true')
 		{
 			$audio_video_options = array('A' => Translation :: get('Audio'),'X' => Translation :: get('VideoOnly'),'V' => Translation :: get('AudioVideoAllowed'),'D' => Translation :: get('AudioVideoDisabled'));
 			$this->addElement('select', 'option[audioVideo]', Translation :: get('AudioVideo'),$audio_video_options);
 			$this->defaults_create['option[audioVideo]'] = PlatformSetting :: get('default_audio_video', WebconferencingManager :: APPLICATION_NAME);
 		}
 		
-		if (PlatformSetting :: get('allow_mikes_selection', WebconferencingManager :: APPLICATION_NAME) == 1)
+		if (PlatformSetting :: get('allow_mikes_selection', WebconferencingManager :: APPLICATION_NAME) == 'true')
 		{
 			$mike_options = array(1 => 1 ,2 => 2, 3 => 3, 4 => 4, 5 => 5);
 			$this->addElement('select', 'option[mikes]', Translation :: get('Mikes'),$mike_options);
 			$this->defaults_create['option[mikes]'] = PlatformSetting :: get('default_mikes', WebconferencingManager :: APPLICATION_NAME);
 		}
     	
-		if (PlatformSetting :: get('allow_moderatorpasscode_selection', WebconferencingManager :: APPLICATION_NAME) == 1)
+		if (PlatformSetting :: get('allow_moderatorpasscode_selection', WebconferencingManager :: APPLICATION_NAME) == 'true')
 		{
 			$this->addElement('text', 'option[moderatorPassCode]', Translation :: get('ModeratorPassCode'));
 			$this->defaults_create['option[moderatorPassCode]'] = PlatformSetting :: get('default_moderatorpasscode', WebconferencingManager :: APPLICATION_NAME);
 		}
    		
-		if (PlatformSetting :: get('allow_attendeepasscode_selection', WebconferencingManager :: APPLICATION_NAME) == 1)
+		if (PlatformSetting :: get('allow_attendeepasscode_selection', WebconferencingManager :: APPLICATION_NAME) =='true')
 		{
 			$this->addElement('text', 'option[attendeePassCode]', Translation :: get('AttendeePassCode'));
 			$this->defaults_create['option[attendeePassCode]'] = PlatformSetting :: get('default_attendeepasscode', WebconferencingManager :: APPLICATION_NAME);
 		}
     	
-		if (PlatformSetting :: get('allow_presenterpwd_selection', WebconferencingManager :: APPLICATION_NAME) == 1)
+		if (PlatformSetting :: get('allow_presenterpwd_selection', WebconferencingManager :: APPLICATION_NAME) == 'true')
 		{
 			$this->addElement('text', 'option[presenterPwd]', Translation :: get('PresenterPwd'));
 			$this->defaults_create['option[presenterPwd]'] = PlatformSetting :: get('default_presenterpwd', WebconferencingManager :: APPLICATION_NAME);
 		}
     	
-		if (PlatformSetting :: get('allow_attendeepwd_selection', WebconferencingManager :: APPLICATION_NAME) == 1)
+		if (PlatformSetting :: get('allow_attendeepwd_selection', WebconferencingManager :: APPLICATION_NAME) == 'true')
 		{
 			$this->addElement('text', 'option[attendeePwd]', Translation :: get('AttendeePwd'));
 			$this->defaults_create['option[attendeePwd]'] = PlatformSetting :: get('default_attendeepwd', WebconferencingManager :: APPLICATION_NAME);
@@ -104,13 +104,13 @@ class WebconferenceForm extends FormValidator
 		foreach($yes_no_items as $yes_no_item)
 		{
 			$group = array();
-			$group[] =& $this->createElement('radio', $yes_no_item, null,Translation :: get('Yes'),true);
-			$group[] =& $this->createElement('radio', $yes_no_item, null,Translation :: get('No'),false);
-			if (PlatformSetting :: get('allow_'. strtolower($yes_no_item) .'_selection', WebconferencingManager :: APPLICATION_NAME) == 1)
+			$group[] =& $this->createElement('radio', $yes_no_item, null,Translation :: get('Yes'),'true');
+			$group[] =& $this->createElement('radio', $yes_no_item, null,Translation :: get('No'),'false');
+			if (PlatformSetting :: get('allow_'. strtolower($yes_no_item) .'_selection', WebconferencingManager :: APPLICATION_NAME) == 'true')
 			{	
 				$this->addGroup($group, 'option', Translation :: get('Option' . DokeosUtilities :: underscores_to_camelcase($yes_no_item)), '&nbsp;');
 				$this->defaults_create['option[' . $yes_no_item . ']'] = PlatformSetting :: get('default_'. strtolower($yes_no_item), WebconferencingManager :: APPLICATION_NAME);
-				$this->defaults_update['option[' . $yes_no_item . ']'] = false;
+				$this->defaults_update['option[' . $yes_no_item . ']'] = 'false';
 			}
 		}
     }
@@ -171,7 +171,8 @@ class WebconferenceForm extends FormValidator
     	$webconference = $this->webconference;
     	$values = $this->exportValues();
 
-    	$webconference->set_confkey('123454345876');
+    	$build_conf_key = md5(time());
+    	$webconference->set_confkey($build_conf_key);
     	$webconference->set_confname($values[Webconference :: PROPERTY_CONFNAME]);
     	$webconference->set_duration($values[Webconference :: PROPERTY_DURATION]);
 		$webconference->create();
