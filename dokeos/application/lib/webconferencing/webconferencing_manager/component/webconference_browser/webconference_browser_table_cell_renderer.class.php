@@ -54,7 +54,7 @@ class WebconferenceBrowserTableCellRenderer extends DefaultWebconferenceTableCel
 				$user_displayname = $this->browser->get_user()->get_firstname() . $this->browser->get_user()->get_lastname();
 				
 				//start building url
-				$view_url = $server . ':' .$port;
+				$view_url = 'http://'.$server . ':' .$port;
 				if ($this->browser->get_user()->is_platform_admin() || $webconference->get_user_id() == $this->browser->get_user()->get_id())
 				{
 					
@@ -78,6 +78,23 @@ class WebconferenceBrowserTableCellRenderer extends DefaultWebconferenceTableCel
 					$view_url = $view_url . 'email='.$user_email;
 					$view_url = $view_url . '&displayName='.$user_displayname;
 					$view_url = $view_url . '&confKey='.$confkey;
+					//if value set for attendeePassCode, moderatorPassCode, attendeePwd, presenterPwd
+					if()
+					{
+						$view_url = $view_url . '&attendeePassCode='.$confkey;
+					}
+					if()
+					{
+						$view_url = $view_url . '&moderatorPassCode='.$confkey;
+					}
+					if()
+					{
+						$view_url = $view_url . '&attendeePwd='.$confkey;
+					}
+					if()
+					{
+						$view_url = $view_url . '&presenterPwd='.$confkey;
+					}
 				}
 				
 				return '<a href="'.htmlentities($view_url).'" title="'.$confname.'">'.$confname.'</a>';
