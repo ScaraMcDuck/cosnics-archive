@@ -7,8 +7,7 @@ $(function ()
 		offset,
 		currentPolygon = null,
 		currentHotspot = null,
-		positions = [],
-		skippedOptions = 0;
+		positions = [];
 	
 	/********************************
 	 * Functionality to draw hotspots
@@ -120,22 +119,20 @@ $(function ()
 		resetPolygonObject(question_id, option_id);
 	}
 	
-	function setHotspot(ev, ui)
-	{
-		ev.preventDefault();
-		
-		var id = $(this).parent().attr('id').replace('hotspot_marking_', '');
-		setCoordinates();
-		addCheck();
-		$(this).hide();
-	}
-	
 	function addCheck()
 	{
 		$('tr#' + currentHotspot + '_' + currentPolygon + ' img.edit_option').hide();
 		$('tr#' + currentHotspot + '_' + currentPolygon + ' img.hotspot_configured').show();
-		//var html = '<img class="hotspot_configured" src="' + getPath('WEB_LAYOUT_PATH') + getTheme() + '/img/common/buttons/button_confirm.png" style="float: right;" />';
-		//$('tr#' + currentHotspot + '_' + currentPolygon + ' td:nth-child(2)').append(html);
+	}
+	
+	function setHotspot(ev, ui)
+	{
+		ev.preventDefault();
+		
+		//var id = $(this).parent().attr('id').replace('hotspot_marking_', '');
+		setCoordinates();
+		addCheck();
+		$(this).hide();
 	}
 	
 	function initializePolygons()
