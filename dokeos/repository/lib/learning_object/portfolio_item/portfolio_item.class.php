@@ -6,16 +6,21 @@ require_once dirname(__FILE__) . '/../../learning_object.class.php';
  */
 class PortfolioItem extends LearningObject
 {
-/*
-	// Inherited
-	function is_master_type()
+	const PROPERTY_REFERENCE = 'reference';
+
+	static function get_additional_property_names()
 	{
-		return false;
+		return array (self :: PROPERTY_REFERENCE);
 	}
-*/
-	function supports_attachments()
+
+	function get_reference()
 	{
-		return true;
+		return $this->get_additional_property(self :: PROPERTY_REFERENCE);
+	}
+
+	function set_reference($reference)
+	{
+		$this->set_additional_property(self :: PROPERTY_REFERENCE, $reference);
 	}
 }
 ?>
