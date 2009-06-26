@@ -28,6 +28,7 @@ class DefaultWebconferenceTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 		$columns[] = new ObjectTableColumn(Webconference :: PROPERTY_CONFNAME, true);
+		$columns[] = new ObjectTableColumn(Webconference :: PROPERTY_DESCRIPTION, true);
 		$columns[] = new ObjectTableColumn(Webconference :: PROPERTY_DURATION, true);
 
 		return $columns;

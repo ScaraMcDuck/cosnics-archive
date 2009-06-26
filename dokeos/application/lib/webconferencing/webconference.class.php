@@ -19,6 +19,7 @@ class Webconference
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_CONFKEY = 'confkey';
 	const PROPERTY_CONFNAME = 'confname';
+	const PROPERTY_DESCRIPTION = 'description';
 	const PROPERTY_DURATION = 'duration';
 
 	/**
@@ -59,7 +60,7 @@ class Webconference
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_CONFKEY, self :: PROPERTY_CONFNAME, self :: PROPERTY_DURATION);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_USER_ID, self :: PROPERTY_CONFKEY, self :: PROPERTY_CONFNAME, self :: PROPERTY_DESCRIPTION, self :: PROPERTY_DURATION);
 	}
 
 	/**
@@ -151,6 +152,25 @@ class Webconference
 	{
 		$this->set_default_property(self :: PROPERTY_CONFNAME, $confname);
 	}
+	
+	/**
+	 * Returns the description of this Webconference.
+	 * @return the conference description.
+	 */
+	function get_description()
+	{
+		return $this->get_default_property(self :: PROPERTY_DESCRIPTION);
+	}
+
+	/**
+	 * Sets the description this Webconference.
+	 * @param the conference description
+	 */
+	function set_description($description)
+	{
+		$this->set_default_property(self :: PROPERTY_DESCRIPTION, $description);
+	}
+	
 	/**
 	 * Returns the duration of this Webconference.
 	 * @return the duration.

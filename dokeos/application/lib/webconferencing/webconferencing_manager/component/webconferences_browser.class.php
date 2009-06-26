@@ -58,12 +58,12 @@ class WebconferencingManagerWebconferencesBrowserComponent extends Webconferenci
 	function get_condition()
 	{
 		$condition = null;
-		$user = $this->get_user();
+		$search = $this->action_bar->get_query();
 
-		if (!$user->is_platform_admin())
+		if(isset($search) && $search != '')
 		{
+			$condition = new PatternMatchCondition(Webconference :: PROPERTY_CONFNAME, '*' . $search  . '*');
 		}
-
 		return $condition;
 	}
 
