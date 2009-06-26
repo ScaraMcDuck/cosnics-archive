@@ -36,6 +36,8 @@ class DefaultWebconferenceTableCellRenderer implements ObjectTableCellRenderer
 					return $webconference->get_id();
 				case Webconference :: PROPERTY_CONFNAME :
 					return $webconference->get_confname();
+				case Webconference :: PROPERTY_DESCRIPTION :
+					return $webconference->get_description();
 				case Webconference :: PROPERTY_DURATION :
 					return $webconference->get_duration();
 			}

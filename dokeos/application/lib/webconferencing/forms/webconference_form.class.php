@@ -43,6 +43,11 @@ class WebconferenceForm extends FormValidator
 		$this->addElement('text', Webconference :: PROPERTY_CONFNAME, Translation :: get('Confname'));
 		$this->addRule(Webconference :: PROPERTY_CONFNAME, Translation :: get('ThisFieldIsRequired'), 'required');
 
+		$value = PlatformSetting :: get('description_required', 'repository');
+		$required = ($value == 'true')?true:false;
+		$this->add_html_editor(Webconference :: PROPERTY_DESCRIPTION, Translation :: get('Description'), $required);
+		$this->addRule(Webconference :: PROPERTY_DESCRIPTION, Translation :: get('ThisFieldIsRequired'), 'required');
+		
 		if (PlatformSetting :: get('allow_duration_selection', WebconferencingManager :: APPLICATION_NAME) == 'true')
 		{
 			$this->addElement('text', Webconference :: PROPERTY_DURATION, Translation :: get('DurationInMinutes'));
@@ -146,6 +151,7 @@ class WebconferenceForm extends FormValidator
     	$values = $this->exportValues();
 
     	$webconference->set_confname($values[Webconference :: PROPERTY_CONFNAME]);
+		$webconference->set_description($values[Webconference :: PROPERTY_DESCRIPTION]);
     	$webconference->set_duration($values[Webconference :: PROPERTY_DURATION]);
 
     	//delete all webconference_options
@@ -174,6 +180,7 @@ class WebconferenceForm extends FormValidator
     	$build_conf_key = md5(time());
     	$webconference->set_confkey($build_conf_key);
     	$webconference->set_confname($values[Webconference :: PROPERTY_CONFNAME]);
+    	$webconference->set_description($values[Webconference :: PROPERTY_DESCRIPTION]);
     	$webconference->set_duration($values[Webconference :: PROPERTY_DURATION]);
 		$webconference->create();
     	
@@ -207,11 +214,10 @@ class WebconferenceForm extends FormValidator
 		$webconference = $this->webconference;
 
     	$defaults[Webconference :: PROPERTY_ID] = $webconference->get_id();
-    	//$defaults[Webconference :: PROPERTY_CONFKEY] = $webconference->get_confkey();
     	$defaults[Webconference :: PROPERTY_CONFNAME] = $webconference->get_confname();
-
-    	//loop all webconference_options and place them in defaults
-
+		$defaults[Webconference :: PROPERTY_DESCRIPTION] = $webconference->get_description();
+    	
+		//loop all webconference_options and place them in defaults
     	if($webconference)
     	{
     		$duration = $webconference->get_duration();
