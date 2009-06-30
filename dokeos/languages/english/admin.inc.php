@@ -331,4 +331,8 @@ $lang['admin']['Config'] = 'Configuration';
 $lang['admin']['AddCategory'] = 'Add category';
 $lang['admin']['Searching'] = 'Searching';
 $lang['admin']['NoResults'] = 'No results found';
+$lang['admin']['Install'] = 'Install Package';
+$lang['admin']['PackageManager'] = 'Package manager';
+$lang['admin']['InstalledPackageList'] = 'Currently installed packages';
+$lang['admin']['Type'] = 'Type';
 ?>

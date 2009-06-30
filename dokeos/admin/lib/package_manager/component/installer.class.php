@@ -13,6 +13,7 @@ class PackageManagerInstallerComponent extends PackageManagerComponent
 	{
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
+		$trail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManager')));
 		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Install')));
 		$trail->add_help('administration install');
 
@@ -25,6 +26,8 @@ class PackageManagerInstallerComponent extends PackageManagerComponent
 		}
 
 		$this->display_header($trail);
+		
+		echo 'Install from: local filesystem (app and lo-folder combined with registrations), online resource (DK-planet server ?) as well as uploaded archives.';
 
 		$this->display_footer();
 	}
