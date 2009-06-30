@@ -9,7 +9,7 @@ require_once Path :: get_library_path() . '/dokeos_utilities.class.php';
 
 /**
  * This class provides basic functionality for database connections
- * Create Table, Get next id, Insert, Update, Delete, 
+ * Create Table, Get next id, Insert, Update, Delete,
  * Select(with use of conditions), Count(with use of conditions)
  * @author Sven Vanpoucke
  */
@@ -18,7 +18,7 @@ class Database
 	private $connection;
 	private $prefix;
 	private $aliases;
-	
+
 	/**
 	 * Constructor
 	 */
@@ -27,7 +27,7 @@ class Database
 		$this->aliases = $aliases;
 		$this->initialize();
 	}
-	
+
 	/**
 	 * Initialiser, creates the connection and sets the database to UTF8
 	 */
@@ -35,9 +35,9 @@ class Database
 	{
 		$this->connection = Connection :: get_instance()->get_connection();
 		$this->connection->setOption('debug_handler', array(get_class($this),'debug'));
-		$this->connection->query('SET NAMES utf8'); 
+		$this->connection->query('SET NAMES utf8');
 	}
-	
+
 	/**
 	 * Returns the prefix
 	 * @return String the prefix
@@ -46,16 +46,16 @@ class Database
 	{
 		return $this->prefix;
 	}
-	
+
 	/**
 	 * Sets the prefix
 	 * @param String $prefix
 	 */
 	function set_prefix($prefix)
 	{
-		$this->prefix = $prefix;		
+		$this->prefix = $prefix;
 	}
-	
+
 	/**
 	 * Returns the connection
 	 * @return Connection the connection
@@ -64,7 +64,7 @@ class Database
 	{
 		return $this->connection;
 	}
-	
+
 	/**
 	 * Sets the connection
 	 * @param Connection $connection
@@ -73,7 +73,7 @@ class Database
 	{
 		$this->connection = $connection;
 	}
-	
+
 	/**
 	 * Debug function
 	 * Uncomment the lines if you want to debug
@@ -89,7 +89,7 @@ class Database
 		 	echo '</pre>';*/
 		}
 	}
-	
+
 	/**
 	 * Escapes a column name in accordance with the database type.
 	 * @param string $name The column name.
@@ -111,20 +111,20 @@ class Database
 		{
 			list($table, $column) = explode('.', $name, 2);
 		}
-		
+
 		$prefix = '';
 		if (isset($column))
 		{
 			$prefix = $table.'.';
 			$name = $column;
 		}
-		elseif ($prefix_properties) 
+		elseif ($prefix_properties)
 		{
 			$prefix = $prefix_properties . '.';
 		}
 		return $prefix.$this->connection->quoteIdentifier($name);
 	}
-	
+
 	/**
 	 * Expands a table identifier to the real table name. Currently, this
 	 * method prefixes the given table name with the user-defined prefix, if
@@ -149,7 +149,7 @@ class Database
 		$database_name = $this->connection->quoteIdentifier($dsn['database']);
 		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
-		
+
 	/**
 	 * Maps a record to an object
 	 * @param Record $record a record from the database
@@ -157,24 +157,24 @@ class Database
 	 * @return new object from type Class
 	 */
 	function record_to_object($record, $class_name)
-	{ 
+	{
 	    if (!is_array($record) || !count($record))
-		{ 
-		    throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase') ); 
+		{
+		    throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase') );
 		}
 		$default_properties = array ();
-		 
+
 		$object = new $class_name($default_properties);
-		 
+
 		foreach ($object->get_default_property_names() as $property)
 		{
-		    $default_properties[$property] = $record[$property]; 
+		    $default_properties[$property] = $record[$property];
 		}
-		
+
 		$object->set_default_properties($default_properties);
 		return $object;
 	}
-	
+
 	/**
 	 * Creates a storage unit in the system
 	 * @param String $name the table name
@@ -223,7 +223,7 @@ class Database
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Retrieves the next id for a given table
 	 * @param String $table_name
@@ -234,21 +234,21 @@ class Database
 		$id = $this->connection->nextID($this->get_table_name($table_name));
 		return $id;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	function create($object)
 	{
 		$object_table = $object->get_table_name();
-		
+
 		$props = array();
 		foreach ($object->get_default_properties() as $key => $value)
 		{
 			$props[$this->escape_column_name($key)] = $value;
-		}		
+		}
 		$this->connection->loadModule('Extended');
-		
+
 		if ($this->connection->extended->autoExecute($this->get_table_name($object_table), $props, MDB2_AUTOQUERY_INSERT))
 		{
 			return true;
@@ -258,18 +258,18 @@ class Database
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Update functionality (can only be used when table has an ID)
 	 * @param Object $object the object that has to be updated
-	 * @param String $table_name the table name 
+	 * @param String $table_name the table name
 	 * @param Condition $condition The condition for the item that has to be updated
 	 * @return True if update is successfull
 	 */
 	function update($object, $condition)
 	{
-		$object_table = $object->get_table_name(); 
-		
+		$object_table = $object->get_table_name();
+
 		$props = array();
 		foreach ($object->get_default_properties() as $key => $value)
 		{
@@ -277,10 +277,10 @@ class Database
 		}
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name($object_table), $props, MDB2_AUTOQUERY_UPDATE, $condition);
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Deletes an object from a table with a given condition
 	 * @param String $table_name
@@ -291,8 +291,8 @@ class Database
 	{
 		$query = 'DELETE FROM ' . $this->escape_table_name($table_name) . ' WHERE ' . $condition;
 		$sth = $this->connection->prepare($query);
-		
-		
+
+
 		if($res = $sth->execute())
 		{
 			return true;
@@ -302,7 +302,7 @@ class Database
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Counts the objects of a table with a given condition
 	 * @param String $table_name
@@ -313,7 +313,7 @@ class Database
 	{
 		$params = array ();
 		$query = 'SELECT COUNT(*) FROM '.$this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
-		
+
 		if (isset ($condition))
 		{
 			$translator = new ConditionTranslator($this, $params, $this->get_alias($table_name));
@@ -321,13 +321,13 @@ class Database
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
-	
+
 	/**
 	 * Retrieves the objects of a given table
 	 * @param String $table_name
@@ -338,7 +338,7 @@ class Database
 	 * @param Array(String) $orderBy the list of column names that the objects have to be ordered by
 	 * @param Array(String) $orderDir the list of order directions for the orderBy list
 	 * @param String $resultset - Optional, the resultset to map the items to
-	 * @return ResultSet 
+	 * @return ResultSet
 	 */
 	function retrieve_objects($table_name, $condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
@@ -351,9 +351,9 @@ class Database
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$order = array ();
-		
+
 		for ($i = 0; $i < count($orderBy); $i ++)
 		{
 			$order[] = $this->escape_column_name($orderBy[$i], $this->get_alias($table_name)).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
@@ -366,19 +366,19 @@ class Database
 		{
 			$maxObjects = null;
 		}
-	
+
 		$this->connection->setLimit(intval($maxObjects),intval($offset));
 		$statement = $this->connection->prepare($query);
-		
+
 		$res = $statement->execute($params);
 
 		return new ObjectResultSet($this, $res, $table_name);
 	}
-	
+
 	function retrieve_object($table_name, $condition = null)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name($table_name);
-		
+
 		$params = array ();
 		if (isset ($condition))
 		{
@@ -387,10 +387,10 @@ class Database
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
-		
+
 		$res = $statement->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$res->free();
@@ -401,11 +401,11 @@ class Database
 			return self :: record_to_object($record, $class_name);
 		}
 	}
-	
+
 	function retrieve_distinct($table_name, $column_name, $condition = null)
 	{
 		$query = 'SELECT DISTINCT(' . $this->escape_column_name($column_name) . ') FROM '.$this->escape_table_name($table_name);
-		
+
 		$params = array ();
 		if (isset ($condition))
 		{
@@ -414,24 +414,24 @@ class Database
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$statement = $this->connection->prepare($query);
-		
+
 		$res = $statement->execute($params);
-		
+
 		$distinct_elements = array();
 		while($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
 		{
 			$distinct_elements[] = $record[$column_name];
 		}
-		
+
 		return $distinct_elements;
 	}
-	
+
 	function count_distinct($table_name, $column_name, $condition = null)
 	{
 		$query = 'SELECT COUNT(DISTINCT(' . $this->escape_column_name($column_name) . ')) FROM '.$this->escape_table_name($table_name);
-		
+
 		$params = array ();
 		if (isset ($condition))
 		{
@@ -440,14 +440,14 @@ class Database
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$statement = $this->connection->prepare($query);
-		
+
 		$res = $statement->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
-	
+
 	function get_alias($table_name)
 	{
 		if(!$this->aliases[$table_name])
@@ -461,7 +461,7 @@ class Database
 			}
 			$this->aliases[$table_name] = $possible_name;
 		}
-		
+
 		return $this->aliases[$table_name];
 	}
 

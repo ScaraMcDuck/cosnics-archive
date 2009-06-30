@@ -14,7 +14,7 @@ if (!$_SERVER['REQUEST_URI']) {
 // another one by Vangelis Haniotakis also to make phpCAS work with PHP5
 //
 if (version_compare(PHP_VERSION,'5','>=')) {
-	require_once(dirname(__FILE__).'/CAS/domxml-php4-php5.php');
+	require_once(dirname(__FILE__).'/CAS/domxml-php4-to-php5.php');
 }
 
 /**
@@ -35,7 +35,7 @@ if (version_compare(PHP_VERSION,'5','>=')) {
 /**
  * phpCAS version. accessible for the user by phpCAS::getVersion().
  */
-define('PHPCAS_VERSION','1.0.1');
+define('PHPCAS_VERSION','1.0.2-EhB');
 
 // ------------------------------------------------------------------------
 //  CAS VERSIONS
@@ -53,6 +53,13 @@ define("CAS_VERSION_1_0",'1.0');
  * CAS version 2.0
  */
 define("CAS_VERSION_2_0",'2.0');
+/*!
+ * CAS version 3.0
+ *
+ * Ghent University addition to work with CAS 3.0 and SAML
+ *
+ */
+define("CAS_VERSION_3_0",'3.0');
 
 /** @} */
  /**
@@ -226,6 +233,22 @@ $GLOBALS['PHPCAS_DEBUG']  = array('filename' => FALSE,
 	'indent' => 0,
 	'unique_id' => '');
 
+/**
+ * available protocols
+ * 
+ * Ghent University addition to work with CAS 3.0 and SAML
+ * 
+ */
+$GLOBALS['PHPCAS_3_0_PROTOCOLS'] = array('service', 'proxy', 'saml');
+
+/**
+ * user attribute
+ * 
+ * Ghent University addition to work with CAS 3.0 and SAML
+ * 
+ */
+$GLOBALS['PHPCAS_SAML_USER_ATTRIBUTE'] = 'uid';
+
 /** @} */
 
 // ########################################################################
@@ -283,7 +306,9 @@ class phpCAS
 					$server_hostname,
 					$server_port,
 					$server_uri,
-					$start_session = true)
+					$start_session = true,
+					// Ghent University addition to work with CAS 3.0 and SAML
+					$protocol = '')
 		{
 		global $PHPCAS_CLIENT, $PHPCAS_INIT_CALL;
 		
@@ -304,7 +329,7 @@ class phpCAS
 			phpCAS::error('type mismatched for parameter $server_uri (should be `string\')');
 		}
 		
-		// store where the initialzer is called from
+		// store where the initializer is called from
 		$dbg = phpCAS::backtrace();
 		$PHPCAS_INIT_CALL = array('done' => TRUE,
 			'file' => $dbg[0]['file'],
@@ -312,7 +337,7 @@ class phpCAS
 			'method' => __CLASS__.'::'.__FUNCTION__);
 		
 		// initialize the global object $PHPCAS_CLIENT
-		$PHPCAS_CLIENT = new CASClient($server_version,FALSE/*proxy*/,$server_hostname,$server_port,$server_uri,$start_session);
+		$PHPCAS_CLIENT = new CASClient($server_version,FALSE/*proxy*/,$server_hostname,$server_port,$server_uri,$start_session, $protocol);
 		phpCAS::traceEnd();
 		}
 	
@@ -797,6 +822,7 @@ class phpCAS
 	 * 
 	 * @param $url a string giving the URL of the service, including the mailing box
 	 * for IMAP URLs, as accepted by imap_open().
+	 * @param $service a string giving for CAS retrieve Proxy ticket
 	 * @param $flags options given to imap_open().
 	 * @param $err_code an error code Possible values are PHPCAS_SERVICE_OK (on
 	 * success), PHPCAS_SERVICE_PT_NO_SERVER_RESPONSE, PHPCAS_SERVICE_PT_BAD_SERVER_RESPONSE,
@@ -808,7 +834,7 @@ class phpCAS
 	 * @return an IMAP stream on success, FALSE otherwise (in this later case, $err_code
 	 * gives the reason why it failed and $err_msg contains an error message).
 	 */
-	function serviceMail($url,$flags,&$err_code,&$err_msg,&$pt)
+	function serviceMail($url,$service,$flags,&$err_code,&$err_msg,&$pt)
 		{
 		global $PHPCAS_CLIENT, $PHPCAS_AUTH_CHECK_CALL;
 		
@@ -833,7 +859,7 @@ class phpCAS
 			phpCAS::error('type mismatched for parameter $flags (should be `integer\')');
 		}
 		
-		$res = $PHPCAS_CLIENT->serviceMail($url,$flags,$err_code,$err_msg,$pt);
+		$res = $PHPCAS_CLIENT->serviceMail($url,$service,$flags,$err_code,$err_msg,$pt);
 		
 		phpCAS::traceEnd($res);
 		return $res;
@@ -1020,6 +1046,31 @@ class phpCAS
 			phpCAS::error('authentication was checked (by '.$PHPCAS_AUTH_CHECK_CALL['method'].'() at '.$PHPCAS_AUTH_CHECK_CALL['file'].':'.$PHPCAS_AUTH_CHECK_CALL['line'].') but the method returned FALSE');
 		}
 		return $PHPCAS_CLIENT->getUser();
+		}
+		
+	/**
+	 * 
+	 * // Ghent University addition to work with CAS 3.0 and SAML
+	 * 
+	 * This method returns the CAS user's attributes
+	 * @warning should not be called only after phpCAS::forceAuthentication()
+	 * or phpCAS::checkAuthentication().
+	 *
+	 * @return array the attributes of the authenticated user
+	 */
+	function getAttributes()
+		{
+		global $PHPCAS_CLIENT, $PHPCAS_AUTH_CHECK_CALL;
+		if ( !is_object($PHPCAS_CLIENT) ) {
+			phpCAS::error('this method should not be called before '.__CLASS__.'::client() or '.__CLASS__.'::proxy()');
+		}
+		if ( !$PHPCAS_AUTH_CHECK_CALL['done'] ) {
+			phpCAS::error('this method should only be called after '.__CLASS__.'::forceAuthentication() or '.__CLASS__.'::isAuthenticated()');
+		}
+		if ( !$PHPCAS_AUTH_CHECK_CALL['result'] ) {
+			phpCAS::error('authentication was checked (by '.$PHPCAS_AUTH_CHECK_CALL['method'].'() at '.$PHPCAS_AUTH_CHECK_CALL['file'].':'.$PHPCAS_AUTH_CHECK_CALL['line'].') but the method returned FALSE');
+		}
+		return $PHPCAS_CLIENT->getAttributes();
 		}
 	
     /**

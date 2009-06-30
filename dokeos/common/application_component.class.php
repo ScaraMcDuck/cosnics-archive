@@ -225,7 +225,6 @@ class ApplicationComponent
 		return $this->get_parent()->get_application_platform_admin_links();
 	}
 
-
 	/**
 	 * Create a new application component
 	 * @param string $type The type of the component to create.
@@ -234,20 +233,19 @@ class ApplicationComponent
 	 */
 	static function factory($type, $manager)
 	{
-		$application_name = $manager->get_application_name();
-		$application_class = Application :: application_to_class($application_name);
+	    $manager_class = get_class($manager);
 
 		$file = $manager->get_application_component_path() . DokeosUtilities :: camelcase_to_underscores($type) . '.class.php';
 
 		if (!file_exists($file) || !is_file($file))
 		{
 			$message = Translation :: get('ComponentFailedToLoad'). ': ';
-			$message .= Translation :: get($application_class) . ' ==> ';
+			$message .= Translation :: get($manager_class) . ' ==> ';
 			$message .= Translation :: get($type);
 			Display :: error_message($message);
 		}
 
-		$class = $application_class . 'Manager' . $type . 'Component';
+		$class = $manager_class . $type . 'Component';
 		require_once $file;
 		return new $class($manager);
 	}
