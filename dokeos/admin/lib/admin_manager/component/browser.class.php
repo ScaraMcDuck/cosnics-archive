@@ -96,7 +96,7 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
 
 					$html[] = '<div class="vertical_action"'. ($count == 1 ? ' style="border-top: 0px solid #FAFCFC;"' : '') .'>';
 					$html[] = '<div class="icon">';
-					$html[] = '<a href="'.$link['url'] .'" ' . $onclick . '><img src="'. Theme :: get_image_path() .'action_'. $link['action'] .'.png" alt="'. $link['name'] .'" title="'. $link['name'] .'"/></a>';
+					$html[] = '<a href="'.$link['url'] .'" ' . $onclick . '><img src="'. Theme :: get_image_path() .'browse_'. $link['action'] .'.png" alt="'. $link['name'] .'" title="'. $link['name'] .'"/></a>';
 					$html[] = '</div>';
 					$html[] = '<h4>' . $link['name'] . '</h4>';
 					$html[] = $link['description'];
@@ -126,16 +126,8 @@ class AdminManagerBrowserComponent extends AdminManagerComponent
 			}
 		}
 
-
 		$html[] = '</div>';
-
 		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/admin_ajax.js');
-
-
-
-
-
-
 
 		return implode("\n", $html);
 	}

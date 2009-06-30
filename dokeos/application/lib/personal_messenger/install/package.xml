@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package>
+	<name>Personal Messenger</name>
+	<author></author>
+	<version>1.0.0</version>
+	<id>personal_messenger</id>
+	<type>application</type>
+	
+	<dependencies>
+		<server>
+			<dependency>
+				<id>php</id>
+				<version type="4">5.2.0</version>
+				<severity>1</severity>
+			</dependency>
+		</server>
+		
+		<settings>
+			<dependency>
+				<id>memory_limit</id>
+				<value type="4">128M</value>
+				<severity>3</severity>
+			</dependency>
+			<dependency>
+				<id>display_errors</id>
+				<value type="1">Off</value>
+				<severity>4</severity>
+			</dependency>
+		</settings>
+		
+		<extensions>
+			<dependency>
+				<id>gd</id>
+				<severity>3</severity>
+			</dependency>
+			<dependency>
+				<id>mysql</id>
+				<severity>1</severity>
+			</dependency>
+		</extensions>
+		
+		<learning_objects>
+			<dependency>
+	  			<id>personal_message</id>
+	  			<version type="4">1.0.0</version>
+	  			<severity>4</severity>
+			</dependency>
+		</learning_objects>
+		
+		<applications>
+			<dependency>
+	  			<id>personal_calendar</id>
+	  			<version type="4">1.0.0</version>
+	  			<severity>1</severity>
+			</dependency>
+		</applications>
+	</dependencies>
+</package>

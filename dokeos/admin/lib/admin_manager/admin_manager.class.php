@@ -39,6 +39,7 @@ class AdminManager extends CoreApplication
 	const ACTION_ADMIN_BROWSER = 'browse';
 	const ACTION_LANGUAGES = 'languages';
 	const ACTION_CONFIGURE_PLATFORM = 'configure';
+	const ACTION_MANAGE_PACKAGES = 'package';
 	const ACTION_CREATE_SYSTEM_ANNOUNCEMENT = 'sysannouncer';
 	const ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS = 'sysbrowser';
 	const ACTION_EDIT_SYSTEM_ANNOUNCEMENT = 'syseditor';
@@ -96,6 +97,9 @@ class AdminManager extends CoreApplication
 				break;
 			case self :: ACTION_DIAGNOSE :
 				$component = AdminManagerComponent :: factory('Diagnoser', $this);
+				break;
+			case self :: ACTION_MANAGE_PACKAGES :
+				$component = AdminManagerComponent :: factory('Packager', $this);
 				break;
 			default :
 				$component = AdminManagerComponent :: factory('Browser', $this);
@@ -161,6 +165,10 @@ class AdminManager extends CoreApplication
 							'description' => Translation :: get('SettingsDescription'),
 							'action' => 'manage',
 							'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM)));
+		$links[]	= array('name' => Translation :: get('Install'),
+							'description' => Translation :: get('InstallDescription'),
+							'action' => 'build',
+							'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_PACKAGES)));
 		$links[]	= array('name' => Translation :: get('SystemAnnouncements'),
 							'description' => Translation :: get('SystemAnnouncementsDescription'),
 							'action' => 'list',
@@ -249,6 +257,12 @@ class AdminManager extends CoreApplication
 		return $pmdm->count_system_announcement_publications($condition);
 	}
 
+	function count_registrations($condition = null)
+	{
+		$pmdm = AdminDataManager :: get_instance();
+		return $pmdm->count_registrations($condition);
+	}
+
 	/**
 	 * Retrieve a system announcement
 	 * @param int $id
@@ -258,6 +272,12 @@ class AdminManager extends CoreApplication
 	{
 		$pmdm = AdminDataManager :: get_instance();
 		return $pmdm->retrieve_system_announcement_publication($id);
+	}
+
+	function retrieve_registrations($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+		$pmdm = AdminDataManager :: get_instance();
+		return $pmdm->retrieve_registrations($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
 
 	/**

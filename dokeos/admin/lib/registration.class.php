@@ -9,21 +9,22 @@ require_once dirname(__FILE__).'/admin_data_manager.class.php';
 class Registration
 {
 	const CLASS_NAME				= __CLASS__;
-	
+
 	const PROPERTY_ID		= 'id';
 	const PROPERTY_TYPE		= 'type';
 	const PROPERTY_NAME		= 'name';
 	const PROPERTY_STATUS	= 'status';
-	
+	const PROPERTY_VERSION	= 'version';
+
 	const TYPE_LEARNING_OBJECT = 'learning_object';
 	const TYPE_APPLICATION = 'application';
-	
+
 	const STATUS_ACTIVE = 1;
 	const STATUS_INACTIVE = 0;
-	
+
 	private $id;
 	private $defaultProperties;
-	
+
 	/**
 	 * Creates a new registration.
 	 * @param int $id The numeric ID of the registration. May be omitted
@@ -35,7 +36,7 @@ class Registration
 		$this->set_id($id);
 		$this->defaultProperties = $defaultProperties;
 	}
-	
+
 	/**
 	 * Gets a default property of this registration by name.
 	 * @param string $name The name of the property.
@@ -44,7 +45,7 @@ class Registration
 	{
 		return $this->defaultProperties[$name];
 	}
-	
+
 	/**
 	 * Gets the default properties of this registration.
 	 * @return array An associative array containing the properties.
@@ -53,21 +54,21 @@ class Registration
 	{
 		return $this->defaultProperties;
 	}
-	
+
 	function set_default_properties($defaultProperties)
 	{
 		$this->defaultProperties = $defaultProperties;
 	}
-	
+
 	/**
 	 * Get the default properties of registrations.
 	 * @return array The property names.
 	 */
 	static function get_default_property_names()
 	{
-		return array (self :: PROPERTY_ID, self :: PROPERTY_TYPE, self :: PROPERTY_NAME, self :: PROPERTY_STATUS);
+		return array (self :: PROPERTY_ID, self :: PROPERTY_TYPE, self :: PROPERTY_NAME, self :: PROPERTY_STATUS, self :: PROPERTY_VERSION);
 	}
-	
+
 	/**
 	 * Sets a default property of this registration by name.
 	 * @param string $name The name of the property.
@@ -77,7 +78,7 @@ class Registration
 	{
 		$this->defaultProperties[$name] = $value;
 	}
-	
+
 	/**
 	 * Checks if the given identifier is the name of a default registration
 	 * property.
@@ -89,7 +90,7 @@ class Registration
 	{
 		return in_array($name, self :: get_default_property_names());
 	}
-	
+
 	/**
 	 * Returns the id of this registration.
 	 * @return int The registration id
@@ -98,7 +99,7 @@ class Registration
 	{
 		return $this->get_default_property(self :: PROPERTY_ID);
 	}
-	
+
 	/**
 	 * Returns the type of this registration.
 	 * @return int The type
@@ -107,7 +108,7 @@ class Registration
 	{
 		return $this->get_default_property(self :: PROPERTY_TYPE);
 	}
-	 
+
 	/**
 	 * Returns the name of this registration.
 	 * @return int the name
@@ -116,7 +117,7 @@ class Registration
 	{
 	 	return $this->get_default_property(self :: PROPERTY_NAME);
 	}
-	
+
 	 /**
 	  * Returns the status of this registration.
 	  * @return int the status
@@ -125,7 +126,16 @@ class Registration
 	{
 		return $this->get_default_property(self :: PROPERTY_STATUS);
 	}
-	  
+
+	 /**
+	  * Returns the version of the registered item.
+	  * @return String the version
+	  */
+	function get_version()
+	{
+		return $this->get_default_property(self :: PROPERTY_VERSION);
+	}
+
 	/**
 	 * Sets the id of this registration.
 	 * @param int $pm_id The registration id.
@@ -133,8 +143,8 @@ class Registration
 	function set_id($id)
 	{
 		$this->set_default_property(self :: PROPERTY_ID, $id);
-	}		
-	
+	}
+
 	/**
 	 * Sets the type of this registration.
 	 * @param Int $id the registration type.
@@ -143,7 +153,7 @@ class Registration
 	{
 		$this->set_default_property(self :: PROPERTY_TYPE, $type);
 	}
-	
+
 	/**
 	 * Sets the name of this registration.
 	 * @param int $name the name.
@@ -152,7 +162,7 @@ class Registration
 	{
 		$this->set_default_property(self :: PROPERTY_NAME, $name);
 	}
-	
+
 	/**
 	 * Sets the status of this registration.
 	 * @param int $status the status.
@@ -161,12 +171,21 @@ class Registration
 	{
 		$this->set_default_property(self :: PROPERTY_STATUS, $status);
 	}
-	
+
+	/**
+	 * Sets the version of this registered item.
+	 * @param String $version the version.
+	 */
+	function set_version($version)
+	{
+		$this->set_default_property(self :: PROPERTY_VERSION, $version);
+	}
+
 	function is_active()
 	{
 		return $this->get_status();
 	}
-	
+
 	/**
 	 * Instructs the data manager to create the registration, making it
 	 * persistent. Also assigns a unique ID to the registration.
@@ -179,7 +198,7 @@ class Registration
 		$this->set_id($id);
 		return $adm->create_registration($this);
 	}
-	
+
 	/**
 	 * Deletes this registration from persistent storage
 	 * @see AdminDataManager :: delete_registration()
@@ -188,7 +207,7 @@ class Registration
 	{
 		return AdminDataManager :: get_instance()->delete_registration($this);
 	}
-	
+
 	/**
 	 * Updates this registration in persistent storage
 	 * @see AdminDataManager :: update_registration()
@@ -197,7 +216,7 @@ class Registration
 	{
 		return AdminDataManager :: get_instance()->update_registration($this);
 	}
-	
+
 	static function get_table_name()
 	{
 		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
