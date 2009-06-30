@@ -186,6 +186,11 @@ class Registration
 		return $this->get_status();
 	}
 
+	function toggle_status()
+	{
+	    $this->set_status(!$this->get_status());
+	}
+
 	/**
 	 * Instructs the data manager to create the registration, making it
 	 * persistent. Also assigns a unique ID to the registration.

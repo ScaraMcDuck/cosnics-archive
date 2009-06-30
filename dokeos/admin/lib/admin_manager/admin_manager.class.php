@@ -274,10 +274,16 @@ class AdminManager extends CoreApplication
 		return $pmdm->retrieve_system_announcement_publication($id);
 	}
 
+	function retrieve_registration($id)
+	{
+		$adm = AdminDataManager :: get_instance();
+		return $adm->retrieve_registration($id);
+	}
+
 	function retrieve_registrations($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
-		$pmdm = AdminDataManager :: get_instance();
-		return $pmdm->retrieve_registrations($condition, $orderBy, $orderDir, $offset, $maxObjects);
+		$adm = AdminDataManager :: get_instance();
+		return $adm->retrieve_registrations($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
 
 	/**

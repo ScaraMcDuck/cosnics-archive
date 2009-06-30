@@ -41,6 +41,12 @@ class DatabaseAdminDataManager extends AdminDataManager
 		return $this->database->count_objects(Registration :: get_table_name(), $condition);
 	}
 
+	function retrieve_registration($id)
+	{
+		$condition = new EqualityCondition(Registration :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(Registration :: get_table_name(), $condition);
+	}
+
 	function retrieve_registrations($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
 	{
 		return $this->database->retrieve_objects(Registration :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);

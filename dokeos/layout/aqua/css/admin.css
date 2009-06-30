@@ -166,6 +166,16 @@ div.vertical_action h4
 	padding: 0px;
 }
 
+span.active
+{
+	color: green;
+}
+
+span.inactive
+{
+	color: red;
+}
+
 /*********************************************
  * jQuery CSS: Tabs
  *********************************************/

@@ -33,9 +33,11 @@ class DefaultRegistrationTableCellRenderer implements ObjectTableCellRenderer
 					return Translation :: get(DokeosUtilities :: underscores_to_camelcase($registration->get_type()));
 				case Registration :: PROPERTY_NAME :
 					return DokeosUtilities :: underscores_to_camelcase_with_spaces($registration->get_name());
+				case Registration :: PROPERTY_VERSION :
+				    return $registration->get_version();
 				case Registration :: PROPERTY_STATUS :
 				    $is_active = $registration->is_active();
-				    return Theme :: get_image('action_' . ($is_active ? 'active' : 'inactive'));
+				    return '<span class="' . ($is_active ? 'active' : 'inactive') . '">' . Translation :: get($is_active ? 'Active' : 'Inactive') . '</span>';
 			}
 		}
 		return '&nbsp;';
