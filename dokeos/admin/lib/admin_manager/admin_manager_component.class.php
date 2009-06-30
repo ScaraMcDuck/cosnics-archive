@@ -30,6 +30,11 @@ abstract class AdminManagerComponent extends CoreApplicationComponent
         return $this->get_parent()->count_registrations($condition);
     }
 
+    function retrieve_registration($id)
+    {
+        return $this->get_parent()->retrieve_registration($id);
+    }
+
     /**
      * @see AdminManager :: retrieve_registrations()
      */

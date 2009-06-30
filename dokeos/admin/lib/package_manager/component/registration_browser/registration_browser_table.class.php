@@ -26,8 +26,8 @@ class RegistrationBrowserTable extends ObjectTable
 		parent :: __construct($data_provider, RegistrationBrowserTable :: DEFAULT_NAME, $model, $renderer);
 		$this->set_additional_parameters($parameters);
 		$actions = array();
-		$actions[GroupManager :: PARAM_REMOVE_SELECTED] = Translation :: get('RemoveSelected');
-//		$actions[GroupManager :: PARAM_TRUNCATE_SELECTED] = Translation :: get('TruncateSelected');
+		$actions[PackageManager :: PARAM_ACTIVATE_SELECTED] = Translation :: get('ActivateSelected');
+		$actions[PackageManager :: PARAM_DEACTIVATE_SELECTED] = Translation :: get('DeactivateSelected');
 		$this->set_form_actions($actions);
 		$this->set_default_row_count(20);
 	}
