@@ -19,6 +19,7 @@ class PackageManager extends SubManager
     const ACTION_ACTIVATE_PACKAGE = 'activate';
     const ACTION_DEACTIVATE_PACKAGE = 'deactivate';
     const ACTION_INSTALL_PACKAGE = 'install';
+    const ACTION_SYNCHRONISE_REMOTE_PACKAGES = 'synchronise';
 
     function PackageManager($admin_manager)
     {
@@ -48,6 +49,9 @@ class PackageManager extends SubManager
                 break;
             case self :: ACTION_INSTALL_PACKAGE :
                 $component = PackageManagerComponent :: factory('Installer', $this);
+                break;
+            case self :: ACTION_SYNCHRONISE_REMOTE_PACKAGES :
+                $component = PackageManagerComponent :: factory('Synchroniser', $this);
                 break;
             default :
                 $component = PackageManagerComponent :: factory('Browser', $this);

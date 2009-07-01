@@ -62,7 +62,7 @@ class PackageManagerInstallerComponent extends PackageManagerComponent
 
 		$action_bar->set_search_url($this->get_url());
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('UpdateList'), Theme :: get_image_path().'action_refresh.png', $this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('UpdateList'), Theme :: get_image_path().'action_refresh.png', $this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_SYNCHRONISE_REMOTE_PACKAGES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		return $action_bar;
 	}

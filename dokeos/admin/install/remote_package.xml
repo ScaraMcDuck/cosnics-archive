@@ -21,4 +21,7 @@
 	<index name="id" type="primary">
 		<indexproperty name="id" />
 	</index>
+	<index name="code" type="unique">
+		<indexproperty name="code" />
+	</index>
 </object>
