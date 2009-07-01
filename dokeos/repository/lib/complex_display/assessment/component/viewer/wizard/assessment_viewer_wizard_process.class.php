@@ -1,6 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/inc/score_calculator.class.php';
+require_once dirname(__FILE__) . '/inc/question_result_display.class.php';
 
 class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 {
@@ -38,8 +39,10 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 			$question = $rdm->retrieve_learning_object($question_cloi->get_ref());
 			$score_calculator = ScoreCalculator :: factory($question, $values[$question_cloi->get_id()]);
 			$score = $score_calculator->calculate_score();
-			dump($question);
-			echo 'score: ' . $score . '<br />';
+			//dump($question);
+			//echo 'score: ' . $score . '<br />';
+			
+			//$display = QuestionResultDisplay ::  
 		}
 
 	}
