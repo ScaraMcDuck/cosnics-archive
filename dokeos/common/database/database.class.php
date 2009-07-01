@@ -375,6 +375,41 @@ class Database
 		return new ObjectResultSet($this, $res, $table_name);
 	}
 
+	function truncate_storage_unit($table_name, $optimize = true)
+	{
+		$this->connection->loadModule('Manager');
+		$manager = $this->connection->manager;
+		if ($manager->truncateTable($this->escape_table_name($table_name)))
+		{
+		    if ($optimize)
+		    {
+                return $this->optimize_storage_unit($table_name);
+		    }
+		    else
+		    {
+		        return true;
+		    }
+		}
+		else
+		{
+		    return false;
+		}
+	}
+
+	function optimize_storage_unit($table_name)
+	{
+		$this->connection->loadModule('Manager');
+		$manager = $this->connection->manager;
+		if ($manager->vacuum($this->escape_table_name($table_name)))
+		{
+		    return true;
+		}
+		else
+		{
+		    return false;
+		}
+	}
+
 	function retrieve_object($table_name, $condition = null)
 	{
 		$query = 'SELECT * FROM '.$this->escape_table_name($table_name);
