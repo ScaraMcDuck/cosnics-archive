@@ -32,6 +32,7 @@ class PackageManagerSynchroniserComponent extends PackageManagerComponent
 		{
 			if ($this->parse_remote_packages_data($data))
 			{
+				$message = 'RemotePackagesListSynchronised';
 				$this->redirect(Translation :: get($message), ($failures ? true : false), array(Application :: PARAM_ACTION => AdminManager :: ACTION_MANAGE_PACKAGES, PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE));
 			}
 			else
