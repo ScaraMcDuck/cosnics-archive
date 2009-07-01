@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../question_result.class.php';
 
-class FillInBlanksQuestionResult extends QuestionResult
+class FillInBlanksResultDisplay extends ResultDisplay
 {
 	function display_exercise()
 	{
