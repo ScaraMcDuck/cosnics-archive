@@ -84,9 +84,14 @@ abstract class QuestionResultDisplay
 		$html[] = '</div>';
 		$html[] = '</div>';
 		$html[] = '<div class="text">';
-		$html[] = '<div class="bevel">';
+		
+		$html[] = '<div class="bevel" style="float: left;">';
 		$html[] = $this->question->get_title();
 		$html[] = '</div>';
+		$html[] = '<div class="bevel" style="text-align: right;">';
+		$html[] = $this->get_score() . ' / ' . $this->get_clo_question()->get_weight();
+		$html[] = '</div>';
+
 		$html[] = '</div>';
 		$html[] = '<div class="clear"></div>';
 		$html[] = '</div>';

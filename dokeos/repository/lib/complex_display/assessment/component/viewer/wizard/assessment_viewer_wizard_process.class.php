@@ -35,6 +35,8 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 			ComplexLearningObjectItem :: PROPERTY_PARENT, $this->parent->get_assessment()->get_id()));
 
 		$question_number = 1;
+		$total_score = 0;
+		$total_weight = 0;
 			
 		while($question_cloi = $questions_cloi->next_result())
 		{
@@ -44,12 +46,32 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 			
 			$score_calculator = ScoreCalculator :: factory($question, $answers);
 			$score = $score_calculator->calculate_score();
+			$total_score += $score;
+			$total_weight += $question_cloi->get_weight();
 			
 			$display = QuestionResultDisplay :: factory($question_cloi, $question_number, $answers, $score);
 			$display->display();
 			
 			$question_number++;
 		}
+		
+		$html[] = '<div class="question">';
+		$html[] = '<div class="title">';
+		$html[] = '<div class="text">';
+		$html[] = '<div class="bevel" style="float: left;">';
+		$html[] = Translation :: get('TotalScore');
+		$html[] = '</div>';
+		$html[] = '<div class="bevel" style="text-align: right;">';
+		
+		$percent = (round(($total_score / $total_weight) * 10000 ) / 100);
+		 
+		$html[] = $total_score . ' / ' . $total_weight . ' (' . $percent . '%)';
+		$html[] = '</div>';
+
+		$html[] = '</div></div></div>';
+		$html[] = '<div class="clear"></div>';
+		
+		echo implode("\n", $html);
 
 	}
 }
