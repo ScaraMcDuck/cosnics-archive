@@ -34,15 +34,21 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 		$questions_cloi = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(
 			ComplexLearningObjectItem :: PROPERTY_PARENT, $this->parent->get_assessment()->get_id()));
 
+		$question_number = 1;
+			
 		while($question_cloi = $questions_cloi->next_result())
 		{
-			$question = $rdm->retrieve_learning_object($question_cloi->get_ref());
-			$score_calculator = ScoreCalculator :: factory($question, $values[$question_cloi->get_id()]);
-			$score = $score_calculator->calculate_score();
-			//dump($question);
-			//echo 'score: ' . $score . '<br />';
+			$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($question_cloi->get_ref());
+			$answers = $values[$question_cloi->get_id()];
+			$question_cloi->set_ref($question);
 			
-			//$display = QuestionResultDisplay ::  
+			$score_calculator = ScoreCalculator :: factory($question, $answers);
+			$score = $score_calculator->calculate_score();
+			
+			$display = QuestionResultDisplay :: factory($question_cloi, $question_number, $answers, $score);
+			$display->display();
+			
+			$question_number++;
 		}
 
 	}
