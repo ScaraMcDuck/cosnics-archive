@@ -402,5 +402,43 @@ class DatabaseAdminDataManager extends AdminDataManager
 		$condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_LEARNING_OBJECT_ID,$object_id);
 		$this->database->delete('system_announcement_publication',$condition);
 	}
+
+	function get_next_remote_package_id()
+	{
+		return $this->database->get_next_id(RemotePackage :: get_table_name());
+	}
+
+	function create_remote_package($remote_package)
+	{
+		return $this->database->create($remote_package);
+	}
+
+	function update_remote_package($remote_package)
+	{
+		$condition = new EqualityCondition(RemotePackage :: PROPERTY_ID, $remote_package->get_id());
+		return $this->database->update($remote_package, $condition);
+	}
+
+	function delete_remote_package($remote_package)
+	{
+		$condition = new EqualityCondition(RemotePackage :: PROPERTY_ID, $remote_package->get_id());
+		return $this->database->delete($remote_package->get_table_name(), $condition);
+	}
+
+	function count_remote_packages($condition = null)
+	{
+		return $this->database->count_objects(RemotePackage :: get_table_name(), $condition);
+	}
+
+	function retrieve_remote_package($id)
+	{
+		$condition = new EqualityCondition(RemotePackage :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(RemotePackage :: get_table_name(), $condition);
+	}
+
+	function retrieve_remote_packages($condition = null, $orderBy = array(), $orderDir = array(), $offset = null, $maxObjects = null)
+	{
+		return $this->database->retrieve_objects(RemotePackage :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+	}
 }
 ?>

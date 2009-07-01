@@ -335,4 +335,7 @@ $lang['admin']['Install'] = 'Install Package';
 $lang['admin']['PackageManager'] = 'Package manager';
 $lang['admin']['InstalledPackageList'] = 'Currently installed packages';
 $lang['admin']['Type'] = 'Type';
+$lang['admin']['InstallLocal'] = 'Local folder';
+$lang['admin']['InstallRemote'] = 'Repository';
+$lang['admin']['InstallArchive'] = 'Package';
 ?>

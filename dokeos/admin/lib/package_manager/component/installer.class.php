@@ -4,8 +4,13 @@
  * @subpackage package_manager
  * @author Hans De Bisschop
  */
+require_once Path :: get_admin_path() . 'lib/package_manager/component/remote_package_browser/remote_package_browser_table.class.php';
+require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
+
 class PackageManagerInstallerComponent extends PackageManagerComponent
 {
+    private $action_bar;
+
 	/**
 	 * Runs this component and displays its output.
 	 */
@@ -25,11 +30,41 @@ class PackageManagerInstallerComponent extends PackageManagerComponent
 			exit;
 		}
 
-		$this->display_header($trail);
-		
-		echo 'Install from: local filesystem (app and lo-folder combined with registrations), online resource (DK-planet server ?) as well as uploaded archives.';
+		$this->action_bar = $this->get_action_bar();
+		$table = new RemotePackageBrowserTable($this, array(Application :: PARAM_ACTION => AdminManager :: ACTION_MANAGE_PACKAGES), $this->get_condition());
 
+		$this->display_header($trail);
+		echo $this->action_bar->as_html();
+		echo '<div class="clear"></div>';
+		echo $table->as_html();
 		$this->display_footer();
+	}
+
+	function get_condition()
+	{
+		$query = $this->action_bar->get_query();
+
+		if(isset($query) && $query != '')
+		{
+			$condition = new PatternMatchCondition(Registration :: PROPERTY_NAME, '*' . $query . '*');
+		}
+		else
+		{
+		    $condition = null;
+		}
+
+		return $condition;
+	}
+
+	function get_action_bar()
+	{
+		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
+
+		$action_bar->set_search_url($this->get_url());
+
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('UpdateList'), Theme :: get_image_path().'action_refresh.png', $this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+
+		return $action_bar;
 	}
 }
 ?>

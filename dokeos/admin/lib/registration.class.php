@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/admin_data_manager.class.php';
 
 class Registration
 {
-	const CLASS_NAME				= __CLASS__;
+	const CLASS_NAME		= __CLASS__;
 
 	const PROPERTY_ID		= 'id';
 	const PROPERTY_TYPE		= 'type';
@@ -22,7 +22,6 @@ class Registration
 	const STATUS_ACTIVE = 1;
 	const STATUS_INACTIVE = 0;
 
-	private $id;
 	private $defaultProperties;
 
 	/**
@@ -31,9 +30,8 @@ class Registration
 	 *                if creating a new registration.
 	 * @param array $defaultProperties The default properties of the registration. Associative array.
 	 */
-	function Registration($id = 0, $defaultProperties = array ())
+	function Registration($defaultProperties = array ())
 	{
-		$this->set_id($id);
 		$this->defaultProperties = $defaultProperties;
 	}
 
