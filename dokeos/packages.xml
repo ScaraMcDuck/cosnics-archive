@@ -2,7 +2,7 @@
 <packages>
 	<package>
 		<name>Personal Messenger</name>
-		<id>personal_messenger</id>
+		<code>personal_messenger</code>
 		<section>application</section>
 		<author>Alexander Graham Bell &lt;alexander.graham@bell.co.uk&gt;</author>
 		<version>1.0.0</version>
@@ -63,7 +63,7 @@
 	</package>
 	<package>
 		<name>Personal Calendar</name>
-		<id>personal_calendar</id>
+		<code>personal_calendar</code>
 		<section>application</section>
 		<author>Gaius Julius Caesar &lt;gaius.julius@caesar.it&gt;</author>
 		<version>1.0.0</version>

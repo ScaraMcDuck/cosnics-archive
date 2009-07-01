@@ -55,22 +55,11 @@ class RemotePackageBrowserTableCellRenderer extends DefaultRemotePackageTableCel
 	{
 		$toolbar_data = array();
 
-		if ($remote_package->is_active())
-		{
-    		$toolbar_data[] = array(
-    			'href' => $this->browser->get_remote_package_deactivation_url($remote_package),
-    			'label' => Translation :: get('Deactivate'),
-    			'img' => Theme :: get_image_path().'action_deactivate.png'
-    		);
-		}
-		else
-		{
-    		$toolbar_data[] = array(
-    			'href' => $this->browser->get_remote_package_activation_url($remote_package),
-    			'label' => Translation :: get('Activate'),
-    			'img' => Theme :: get_image_path().'action_activate.png'
-    		);
-		}
+    	$toolbar_data[] = array(
+//    		'href' => $this->browser->get_remote_package_deactivation_url($remote_package),
+    		'label' => Translation :: get('Deactivate'),
+    		'img' => Theme :: get_image_path() . 'action_install.png'
+    	);
 
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}
