@@ -12,7 +12,7 @@ require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.c
 class PackageManagerBrowserComponent extends PackageManagerComponent
 {
 	private $action_bar;
-	
+
 	/**
 	 * Runs this component and displays its output.
 	 */
@@ -31,7 +31,7 @@ class PackageManagerBrowserComponent extends PackageManagerComponent
 			$this->display_footer();
 			exit;
 		}
-		
+
 		$this->action_bar = $this->get_action_bar();
 		$table = new RegistrationBrowserTable($this, array(Application :: PARAM_ACTION => AdminManager :: ACTION_MANAGE_PACKAGES), $this->get_condition());
 
@@ -44,34 +44,29 @@ class PackageManagerBrowserComponent extends PackageManagerComponent
 
 	function get_condition()
 	{
-	    return null;
+		$query = $this->action_bar->get_query();
 
-//		$condition = new EqualityCondition(Group :: PROPERTY_PARENT, $this->get_group());
-//
-//		$query = $this->ab->get_query();
-//		if(isset($query) && $query != '')
-//		{
-//			$or_conditions = array();
-//			$or_conditions[] = new LikeCondition(Group :: PROPERTY_NAME, $query);
-//			$or_conditions[] = new LikeCondition(Group :: PROPERTY_DESCRIPTION, $query);
-//			$or_condition = new OrCondition($or_conditions);
-//
-//			$and_conditions[] = array();
-//			$and_conditions = $condition;
-//			$and_conditions = $or_condition;
-//			$condition = new AndCondition($and_conditions);
-//		}
-//
-//		return $condition;
+		if(isset($query) && $query != '')
+		{
+			$condition = new PatternMatchCondition(Registration :: PROPERTY_NAME, '*' . $query . '*');
+		}
+		else
+		{
+		    $condition = null;
+		}
+
+		return $condition;
 	}
-	
+
 	function get_action_bar()
 	{
 		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
 
-		//$action_bar->set_search_url($this->get_url(array(GroupManager :: PARAM_GROUP_ID => $this->get_group())));
+		$action_bar->set_search_url($this->get_url());
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Install'), Theme :: get_image_path().'action_install.png', $this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('InstallRemote'), Theme :: get_image_path().'action_install_remote.png', $this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('InstallLocal'), Theme :: get_image_path().'action_install_local.png', $this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('InstallArchive'), Theme :: get_image_path().'action_install_archive.png', $this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		return $action_bar;
 	}

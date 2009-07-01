@@ -61,7 +61,15 @@ abstract class AdminDataManager
 
 	abstract function retrieve_settings($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
 
+	abstract function retrieve_remote_packages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+
+	abstract function retrieve_registration($id);
+
+	abstract function retrieve_remote_package($id);
+
 	abstract function retrieve_registrations($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1);
+
+	abstract function count_remote_packages($condition = null);
 
 	abstract function count_registrations($condition = null);
 

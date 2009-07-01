@@ -13,6 +13,7 @@ class PackageManager extends SubManager
     const PARAM_REGISTRATION = 'registration';
     const PARAM_ACTIVATE_SELECTED = 'activate';
     const PARAM_DEACTIVATE_SELECTED = 'deactivate';
+    const PARAM_INSTALL_SELECTED = 'install';
 
     const ACTION_BROWSE_PACKAGES = 'browse';
     const ACTION_ACTIVATE_PACKAGE = 'activate';
@@ -87,6 +88,30 @@ class PackageManager extends SubManager
     function get_registration_deactivation_url($registration)
     {
         return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_DEACTIVATE_PACKAGE, self :: PARAM_REGISTRATION => $registration->get_id()));
+    }
+
+    /**
+     * @see AdminManager :: count_remote_packages()
+     */
+    function count_remote_packages($condition = null)
+    {
+        return $this->get_parent()->count_remote_packages($condition);
+    }
+
+    /**
+     * @see AdminManager :: retrieve_remote_package()
+     */
+    function retrieve_remote_package($id)
+    {
+        return $this->get_parent()->retrieve_remote_package($id);
+    }
+
+    /**
+     * @see AdminManager :: retrieve_remote_packages()
+     */
+    function retrieve_remote_packages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+    {
+        return $this->get_parent()->retrieve_remote_packages($condition, $orderBy, $orderDir, $offset, $maxObjects);
     }
 }
 ?>

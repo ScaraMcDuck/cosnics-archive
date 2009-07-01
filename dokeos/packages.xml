@@ -4,9 +4,9 @@
 		<name>Personal Messenger</name>
 		<id>personal_messenger</id>
 		<section>application</section>
-		<author>Alexander Graham Bell &lt;alexander.graham@bell.com&gt;</author>
+		<author>Alexander Graham Bell &lt;alexander.graham@bell.co.uk&gt;</author>
 		<version>1.0.0</version>
-		<filename>pool/main/p/personal_messenger/personal_messenger-1.0.0-.zip</filename>
+		<filename>pool/main/p/personal_messenger/personal_messenger-1.0.0.zip</filename>
 		<size>38602</size>
 		<md5>51dd556ff08bf794a15b851699d68b20</md5>
 		<sha1>e69816e9339d6733fea1439ae4d24a6e77e67709</sha1>
@@ -57,6 +57,45 @@
 		  			<id>personal_calendar</id>
 		  			<version type="4">1.0.0</version>
 		  			<severity>1</severity>
+				</dependency>
+			</applications>
+		</dependencies>
+	</package>
+	<package>
+		<name>Personal Calendar</name>
+		<id>personal_calendar</id>
+		<section>application</section>
+		<author>Gaius Julius Caesar &lt;gaius.julius@caesar.it&gt;</author>
+		<version>1.0.0</version>
+		<filename>pool/main/p/personal_calendar/personal_calendar-1.0.0.zip</filename>
+		<size>38602</size>
+		<md5>51dd556ff08bf794a15b851699d68b20</md5>
+		<sha1>e69816e9339d6733fea1439ae4d24a6e77e67709</sha1>
+		<sha256>62779abb84ee46d18ca5e62ef353a3ba7ad703604d5182d6b75c688125414a43</sha256>
+		<sha512>9251aeb35c3d7b38b33df49e21f4726708cacf7c0217de7e74aa4827052fe7ba32dcf11f31cc0130d24a118a3669e231ac7bdd82ac39935f4023b8484402bda7</sha512>
+		<tagline>From Wikipedia, the free encyclopedia</tagline>
+		<description>A calendar is a system of organizing days for social, religious, commercial, or administrative purposes. This is done by giving names to periods of time, typically days, weeks, months, and years. The name given to each day is known as a date. Periods in a calendar (such as years and months) are usually, though not necessarily, synchronized with the cycles of some astronomical phenomenon, such as the cycle of the sun or the moon. Many civilizations and societies have devised a calendar, usually derived from other calendars on which they model their systems, suited to their particular needs.</description>
+		<homepage>http://www.dokeosplanet.org/</homepage>
+		<dependencies>
+			<server>
+				<dependency>
+					<id>php</id>
+					<version type="4">5.2.0</version>
+					<severity>1</severity>
+				</dependency>
+			</server>
+			<learning_objects>
+				<dependency>
+		  			<id>calendar_event</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>4</severity>
+				</dependency>
+			</learning_objects>
+			<applications>
+				<dependency>
+		  			<id>weblcms</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>5</severity>
 				</dependency>
 			</applications>
 		</dependencies>

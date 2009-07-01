@@ -263,6 +263,12 @@ class AdminManager extends CoreApplication
 		return $pmdm->count_registrations($condition);
 	}
 
+	function count_remote_packages($condition = null)
+	{
+		$pmdm = AdminDataManager :: get_instance();
+		return $pmdm->count_remote_packages($condition);
+	}
+
 	/**
 	 * Retrieve a system announcement
 	 * @param int $id
@@ -272,6 +278,18 @@ class AdminManager extends CoreApplication
 	{
 		$pmdm = AdminDataManager :: get_instance();
 		return $pmdm->retrieve_system_announcement_publication($id);
+	}
+
+	function retrieve_remote_package($id)
+	{
+		$adm = AdminDataManager :: get_instance();
+		return $adm->retrieve_remote_package($id);
+	}
+
+	function retrieve_remote_packages($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+		$adm = AdminDataManager :: get_instance();
+		return $adm->retrieve_remote_packages($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
 
 	function retrieve_registration($id)
