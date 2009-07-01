@@ -76,10 +76,5 @@ class FillInBlanksQuestionResultDisplay extends QuestionResultDisplay
 		echo implode("\n", $html);
 	}
 	
-	function add_borders()
-	{
-		return false;
-	}
-	
 }
 ?>
