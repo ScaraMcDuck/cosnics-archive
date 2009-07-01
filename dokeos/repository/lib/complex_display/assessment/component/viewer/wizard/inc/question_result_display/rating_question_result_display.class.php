@@ -6,12 +6,12 @@ class RatingQuestionResultDisplay extends QuestionResultDisplay
 {
 	function display_question_result()
 	{		
-        $html[] = '<table class="data_table">';
+        $html[] = '<table class="data_table take_assessment">';
         $html[] = '<thead>';
         $html[] = '<tr>';
-        $html[] = '<th>' . Translation :: get('YourValue') . '</th>';
-        $html[] = '<th>' . Translation :: get('CorrectValue') . '</th>';
-        $html[] = '<th>' . Translation :: get('Feedback') . '</th>';
+        $html[] = '<th class="list">' . Translation :: get('YourValue') . '</th>';
+        $html[] = '<th class="list">' . Translation :: get('CorrectValue') . '</th>';
+        $html[] = '<th class="list">' . Translation :: get('Feedback') . '</th>';
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
