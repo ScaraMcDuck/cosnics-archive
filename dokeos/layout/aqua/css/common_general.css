@@ -1184,6 +1184,22 @@ ul.toolbar li.last span, ul.toolbar_horizontal li.last span, ul.toolbar_vertical
  * Actionbar styles
  *******************/
 
+div.action_bar_text
+{ 
+	border: 1px solid #b5cae7;
+	margin-bottom: 10px;
+	-moz-border-radius-topleft: 15px;
+	-moz-border-radius-bottomright: 15px;
+	-webkit-border-top-left-radius: 15px;
+	-webkit-border-bottom-right-radius: 15px;
+	background: #d4e0f1 url(../img/common/background_action_bar.png) no-repeat;
+}
+
+div.action_bar_text img
+{
+	margin-right: 10px;
+}
+
 div.action_bar
 { 
 	border: 1px solid #b5cae7;
@@ -1197,6 +1213,7 @@ div.action_bar
 	background: #d4e0f1 url(../img/common/background_action_bar.png) no-repeat;
 }
 
+div.action_bar_text div.bevel,
 div.action_bar div.bevel
 {
 	border-left: 1px solid white;
@@ -1207,6 +1224,11 @@ div.action_bar div.bevel
 	-moz-border-radius-bottomright: 15px;
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-bottom-right-radius: 15px;
+}
+
+div.action_bar_text div.bevel
+{
+	padding: 5px 10px 5px 10px;
 }
 
 div.action_bar div.common_menu

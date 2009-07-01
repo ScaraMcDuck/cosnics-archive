@@ -208,6 +208,14 @@ class Database
 						return false;
 					}
 				}
+				elseif($index_info['type'] == 'unique')
+				{
+					$index_info['unique'] = 1;
+					if (MDB2 :: isError($manager->createConstraint($name,$index_name,$index_info)))
+					{
+						return false;
+					}
+				}
 				else
 				{
 					if (MDB2 :: isError($manager->createIndex($name,$index_name,$index_info)))

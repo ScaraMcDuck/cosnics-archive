@@ -119,7 +119,7 @@ class ActionBarRenderer extends WikiActionbar
 	{
 		$html = array();
 
-		$html[] = '<div id="'. $this->get_name() .'_action_bar_text" class="action_bar_text" style="float:left; display: none; margin-bottom: 10px;"><a href="#"><img src="'. Theme :: get_common_image_path() .'action_bar.png" style="vertical-align: middle;" />&nbsp;'. Translation :: get('ShowActionBar') .'</a></div>';
+		$html[] = '<div id="'. $this->get_name() .'_action_bar_text" class="action_bar_text" style="float:left; display: none;"><div class="bevel"><a href="#"><img src="'. Theme :: get_common_image_path() .'action_bar.png" style="vertical-align: middle;" />'. Translation :: get('ShowActionBar') .'</a></div></div>';
 		$html[] = '<div style="clear: both; height: 0px; line-height: 0px;">&nbsp;</div>';
 		$html[] = '<div id="'. $this->get_name() .'_action_bar" class="action_bar">';
 		$html[] = '<div class="bevel">';
