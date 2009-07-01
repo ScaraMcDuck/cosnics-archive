@@ -6,13 +6,13 @@ class MultipleChoiceQuestionResultDisplay extends QuestionResultDisplay
 {
 	function display_question_result()
 	{		
-        $html[] = '<table class="data_table">';
+        $html[] = '<table class="data_table take_assessment">';
         $html[] = '<thead>';
         $html[] = '<tr>';
-        $html[] = '<th>' . Translation :: get('Choice') . '</th>';
-        $html[] = '<th>' . Translation :: get('Correct') . '</th>';
-        $html[] = '<th>' . Translation :: get('Answer') . '</th>';
-        $html[] = '<th>' . Translation :: get('Feedback') . '</th>';
+        $html[] = '<th class="list">' . Translation :: get('Choice') . '</th>';
+        $html[] = '<th class="list">' . Translation :: get('Correct') . '</th>';
+        $html[] = '<th class="list">' . Translation :: get('Answer') . '</th>';
+        $html[] = '<th class="list">' . Translation :: get('Feedback') . '</th>';
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
@@ -23,7 +23,7 @@ class MultipleChoiceQuestionResultDisplay extends QuestionResultDisplay
       
         foreach($options as $i => $option)
         {
-       		$html[] = '<tr>';
+       		$html[] = '<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">';
        		
        		if(array_key_exists($i + 1, $answers))
        		{
