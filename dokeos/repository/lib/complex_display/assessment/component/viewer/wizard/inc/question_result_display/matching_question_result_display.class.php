@@ -6,7 +6,8 @@ class MatchingQuestionResultDisplay extends QuestionResultDisplay
 {
 	function display_question_result()
 	{		
-        $html[] = '<table class="data_table take_assessment">';
+        $labels = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+		$html[] = '<table class="data_table take_assessment">';
         $html[] = '<thead>';
         $html[] = '<tr>';
         $html[] = '<th class="list"></th>';
@@ -46,8 +47,8 @@ class MatchingQuestionResultDisplay extends QuestionResultDisplay
         foreach($options as $i => $option)
         {
         	$html[] = '<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">';
-        	$html[] = '<td>' . $answers[$i] . '</td>';
-        	$html[] = '<td>' . $option->get_match() . '</td>';
+        	$html[] = '<td>' . $labels[$answers[$i]] . '</td>';
+        	$html[] = '<td>' . $labels[$option->get_match()] . '</td>';
         	$html[] = '<td>' . $option->get_value() . '</td>';
         	$html[] = '<td>' . $option->get_comment() . '</td>';
         	$html[] = '</tr>';
