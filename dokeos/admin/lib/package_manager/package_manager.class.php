@@ -25,7 +25,6 @@ class PackageManager extends SubManager
     const ACTION_INSTALL_PACKAGE = 'install';
 
     const INSTALL_REMOTE = 'remote';
-    const INSTALL_LOCAL = 'local';
     const INSTALL_ARCHIVE = 'archive';
 
     function PackageManager($admin_manager)
