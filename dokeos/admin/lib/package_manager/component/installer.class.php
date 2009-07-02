@@ -9,8 +9,6 @@ require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.c
 
 class PackageManagerInstallerComponent extends PackageManagerComponent
 {
-    private $action_bar;
-
 	/**
 	 * Runs this component and displays its output.
 	 */
@@ -19,7 +17,7 @@ class PackageManagerInstallerComponent extends PackageManagerComponent
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
 		$trail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManager')));
-		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('Install')));
+		$trail->add(new Breadcrumb($this->get_url(), Translation :: get('PackageInstallation')));
 		$trail->add_help('administration install');
 
 		if (!AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'root', 'root'))
@@ -30,41 +28,8 @@ class PackageManagerInstallerComponent extends PackageManagerComponent
 			exit;
 		}
 
-		$this->action_bar = $this->get_action_bar();
-		$table = new RemotePackageBrowserTable($this, array(Application :: PARAM_ACTION => AdminManager :: ACTION_MANAGE_PACKAGES), $this->get_condition());
-
 		$this->display_header($trail);
-		echo $this->action_bar->as_html();
-		echo '<div class="clear"></div>';
-		echo $table->as_html();
 		$this->display_footer();
-	}
-
-	function get_condition()
-	{
-		$query = $this->action_bar->get_query();
-
-		if(isset($query) && $query != '')
-		{
-			$condition = new PatternMatchCondition(Registration :: PROPERTY_NAME, '*' . $query . '*');
-		}
-		else
-		{
-		    $condition = null;
-		}
-
-		return $condition;
-	}
-
-	function get_action_bar()
-	{
-		$action_bar = new ActionBarRenderer(ActionBarRenderer :: TYPE_HORIZONTAL);
-
-		$action_bar->set_search_url($this->get_url());
-
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('UpdateList'), Theme :: get_image_path().'action_refresh.png', $this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_SYNCHRONISE_REMOTE_PACKAGES)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
-
-		return $action_bar;
 	}
 }
 ?>

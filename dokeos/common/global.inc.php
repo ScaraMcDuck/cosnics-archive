@@ -263,12 +263,18 @@ if (Request :: get('logout'))
         $query_string = '?language=' . $_SESSION['user_language_choice'];
     }
 
-    $udm = UserDataManager :: get_instance();
-    $user = $udm->retrieve_user(Session :: get_user_id());
+    $user_id = Session :: get_user_id();
 
-    $udm = UserDataManager :: get_instance();
-    $udm->logout();
-    Events :: trigger_event('logout', 'user', array('server' => $_SERVER, 'user' => $user));
+    if (isset($user_id))
+    {
+        $udm = UserDataManager :: get_instance();
+        $user = $udm->retrieve_user(Session :: get_user_id());
+
+        $udm = UserDataManager :: get_instance();
+        $udm->logout();
+        Events :: trigger_event('logout', 'user', array('server' => $_SERVER, 'user' => $user));
+    }
+
     header("Location: index.php");
     exit();
 }
