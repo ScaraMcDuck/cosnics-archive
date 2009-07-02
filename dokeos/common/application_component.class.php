@@ -243,6 +243,7 @@ class ApplicationComponent
 			$message .= Translation :: get($manager_class) . ' ==> ';
 			$message .= Translation :: get($type);
 			Display :: error_message($message);
+			exit;
 		}
 
 		$class = $manager_class . $type . 'Component';

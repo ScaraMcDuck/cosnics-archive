@@ -28,6 +28,11 @@ class PackageManagerComponent extends SubManagerComponent
         return $this->get_parent()->get_registration_deactivation_url($registration);
     }
 
+    function get_remote_package_installation_url($remote_package)
+    {
+        return $this->get_parent()->get_remote_package_installation_url($remote_package);
+    }
+
     /**
      * @see AdminManager :: count_remote_packages()
      */

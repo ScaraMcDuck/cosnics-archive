@@ -56,8 +56,8 @@ class RemotePackageBrowserTableCellRenderer extends DefaultRemotePackageTableCel
 		$toolbar_data = array();
 
     	$toolbar_data[] = array(
-//    		'href' => $this->browser->get_remote_package_deactivation_url($remote_package),
-    		'label' => Translation :: get('Deactivate'),
+    		'href' => $this->browser->get_remote_package_installation_url($remote_package),
+    		'label' => Translation :: get('Install'),
     		'img' => Theme :: get_image_path() . 'action_install.png'
     	);
 

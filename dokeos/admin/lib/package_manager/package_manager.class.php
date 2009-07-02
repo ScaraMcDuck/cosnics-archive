@@ -14,12 +14,19 @@ class PackageManager extends SubManager
     const PARAM_ACTIVATE_SELECTED = 'activate';
     const PARAM_DEACTIVATE_SELECTED = 'deactivate';
     const PARAM_INSTALL_SELECTED = 'install';
+    const PARAM_PACKAGE = 'package';
+    const PARAM_INSTALL_TYPE = 'type';
 
     const ACTION_BROWSE_PACKAGES = 'browse';
     const ACTION_ACTIVATE_PACKAGE = 'activate';
     const ACTION_DEACTIVATE_PACKAGE = 'deactivate';
-    const ACTION_INSTALL_PACKAGE = 'install';
+    const ACTION_REMOTE_PACKAGE = 'remote';
     const ACTION_SYNCHRONISE_REMOTE_PACKAGES = 'synchronise';
+    const ACTION_INSTALL_PACKAGE = 'install';
+
+    const INSTALL_REMOTE = 'remote';
+    const INSTALL_LOCAL = 'local';
+    const INSTALL_ARCHIVE = 'archive';
 
     function PackageManager($admin_manager)
     {
@@ -47,14 +54,18 @@ class PackageManager extends SubManager
             case self :: ACTION_DEACTIVATE_PACKAGE :
                 $component = PackageManagerComponent :: factory('Deactivator', $this);
                 break;
-            case self :: ACTION_INSTALL_PACKAGE :
-                $component = PackageManagerComponent :: factory('Installer', $this);
+            case self :: ACTION_REMOTE_PACKAGE :
+                $component = PackageManagerComponent :: factory('Remote', $this);
                 break;
             case self :: ACTION_SYNCHRONISE_REMOTE_PACKAGES :
                 $component = PackageManagerComponent :: factory('Synchroniser', $this);
                 break;
+            case self :: ACTION_INSTALL_PACKAGE :
+                $component = PackageManagerComponent :: factory('Installer', $this);
+                break;
             default :
                 $component = PackageManagerComponent :: factory('Browser', $this);
+                break;
         }
 
         $component->run();
@@ -88,6 +99,11 @@ class PackageManager extends SubManager
     function get_registration_deactivation_url($registration)
     {
         return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_DEACTIVATE_PACKAGE, self :: PARAM_REGISTRATION => $registration->get_id()));
+    }
+
+    function get_remote_package_installation_url($remote_package)
+    {
+        return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_INSTALL_PACKAGE, self :: PARAM_INSTALL_TYPE => self :: INSTALL_REMOTE, self :: PARAM_PACKAGE => $remote_package->get_id()));
     }
 
     /**
