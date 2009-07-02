@@ -11,7 +11,7 @@ abstract class Hashing
 	 * Instance of this class for the singleton pattern.
 	 */
 	private static $instance;
-	
+
 	static function get_instance()
 	{
 		if (!isset (self :: $instance))
@@ -33,15 +33,15 @@ abstract class Hashing
 		$instance = self :: get_instance();
 		return $instance->create_hash($value);
 	}
-	
+
 	static function hash_file($file)
 	{
 		$instance = self :: get_instance();
 		return $instance->create_file_has($file);
 	}
-	
+
 	abstract function create_hash($value);
 	abstract function create_file_hash($file);
-	
+
 }
 ?>

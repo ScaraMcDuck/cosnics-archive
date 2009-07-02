@@ -6,6 +6,7 @@
  */
 require_once Path :: get_admin_path() . 'lib/package_manager/component/remote_package_browser/remote_package_browser_table.class.php';
 require_once Path :: get_library_path() . 'html/action_bar/action_bar_renderer.class.php';
+require_once Path :: get_admin_path() . 'lib/package_installer/package_installer.class.php';
 
 class PackageManagerInstallerComponent extends PackageManagerComponent
 {
@@ -29,6 +30,8 @@ class PackageManagerInstallerComponent extends PackageManagerComponent
 		}
 
 		$this->display_header($trail);
+		$installer = new PackageInstaller();
+		$installer->run();
 		$this->display_footer();
 	}
 }
