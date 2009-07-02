@@ -30,7 +30,10 @@ class MatrixScoreCalculator extends ScoreCalculator
             foreach($options as $index => $option)
             {
                 $answers = array_keys($user_answers[$index]);
-                $matches = $option->get_matches();
+                $matches = $option->get_matches(); 
+                
+                if($matches == null) 
+                	$matches = array();
 
                 $difference = array_diff($answers, $matches);
 
