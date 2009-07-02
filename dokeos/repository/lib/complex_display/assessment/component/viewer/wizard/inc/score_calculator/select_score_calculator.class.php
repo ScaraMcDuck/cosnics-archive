@@ -27,10 +27,10 @@ class SelectScoreCalculator extends ScoreCalculator
         {
             $answers = $question->get_options();
             $score = 0;
-
+            
             foreach(array_keys($user_answers) as $user_answer)
             {
-                $answer = $answers[$user_answer - 1];
+                $answer = $answers[$user_answer];
                 $score += $answer->get_weight();
             }
 

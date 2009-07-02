@@ -20,27 +20,36 @@ class MultipleChoiceQuestionResultDisplay extends QuestionResultDisplay
         $answers = $this->get_answers();
         $options = $this->get_question()->get_options();
         $type = $this->get_question()->get_answer_type();
-      
+        
         foreach($options as $i => $option)
         {
        		$html[] = '<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">';
        		
-       		if(array_key_exists($i + 1, $answers))
-       		{
-       			$selected = " checked ";
-       		}
-       		else
-       		{
-       			$selected = "";
-       		}
-       		
        		if($type == 'radio')
        		{	
-       			$html[] = '<td>' . '<input type="radio" name="yourchoice" value="' . $i . '" disabled' . $selected . '/>' . '</td>';
+	      		if(in_array($i + 1, $answers))
+	      		{
+	      			$selected = " checked ";
+	      		}
+	      		else
+	      		{
+	      			$selected = "";
+	      		}
+	      		
+       			$html[] = '<td>' . '<input type="radio" name="yourchoice_' . $this->get_clo_question()->get_id() . '" value="' . $i . '" disabled' . $selected . '/>' . '</td>';
        		}
        		else
        		{
-       			$html[] = '<td>' . '<input type="checkbox" name="correctchoice_' . $i . '" disabled' . $selected . '/>' . '</td>';
+	       		if(array_key_exists($i + 1, $answers))
+	       		{
+	       			$selected = " checked ";
+	       		}
+	       		else
+	       		{
+	       			$selected = "";
+	       		}
+	       		
+       			$html[] = '<td>' . '<input type="checkbox" name="yourchoice' . $i . '" disabled' . $selected . '/>' . '</td>';
        		}
        		
        		if($option->is_correct())
@@ -54,13 +63,12 @@ class MultipleChoiceQuestionResultDisplay extends QuestionResultDisplay
 
        		if($type == 'radio')
        		{
-       			$html[] = '<td>' . '<input type="radio" name="correctchoice" value="' . $i . '" disabled' . $selected . '/>' . '</td>';
+       			$html[] = '<td>' . '<input type="radio" name="correctchoice_' . $this->get_clo_question()->get_id() . '" value="' . $i . '" disabled' . $selected . '/>' . '</td>';
        		}
        		else 
        		{
        			$html[] = '<td>' . '<input type="checkbox" name="correctchoice_' . $i . '" disabled' . $selected . '/>' . '</td>';
        		}
-       		
        		
        		$html[] = '<td>' . $option->get_value() . '</td>';
        		$html[] = '<td>' . $option->get_comment() . '</td>';
