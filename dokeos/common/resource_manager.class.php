@@ -18,7 +18,8 @@ class ResourceManager
 	
 	function resource_loaded($path)
 	{
-		return in_array($path, $this->resources);
+		return false;
+		//return in_array($path, $this->resources);
 	}
 	
 	function get_resource_html($path)
