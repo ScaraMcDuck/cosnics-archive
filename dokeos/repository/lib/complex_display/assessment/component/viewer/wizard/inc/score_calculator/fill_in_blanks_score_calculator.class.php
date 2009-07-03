@@ -10,6 +10,7 @@ class FillInBlanksScoreCalculator extends ScoreCalculator
         $answers = $this->get_answer();
 
         $score = 0;
+        $total_weight = 0;
 
         foreach ($blanks as $i => $blank)
         {
@@ -17,9 +18,11 @@ class FillInBlanksScoreCalculator extends ScoreCalculator
             {
                 $score += $blank->get_weight();
             }
+            
+            $total_weight += $blank->get_weight();
         }
 
-        return $score;
+        return $this->make_score_relative($score, $total_weight);
     }
 }
 ?>

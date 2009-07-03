@@ -14,7 +14,7 @@ class MatchScoreCalculator extends ScoreCalculator
         {
             if ($option->get_value() == trim($user_answers[0]))
             {
-                return $option->get_weight();
+                return $this->make_score_relative($option->get_weight(), $option->get_weight());
             }
         }
 

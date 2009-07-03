@@ -10,6 +10,7 @@ class OrderingScoreCalculator extends ScoreCalculator
     	$answers = $this->get_question()->get_options();
     	
     	$score = 0;
+    	$total_weight = 0;
     	
     	foreach($answers as $i => $answer)
     	{
@@ -18,9 +19,11 @@ class OrderingScoreCalculator extends ScoreCalculator
     			$score++;
     			//$score += $answer->get_weight();	    	
     		}
+    		
+    		$total_weight++;
     	}
     	
-    	return $score;
+    	return $this->make_score_relative($score, $total_weight);
     }
 }
 ?>

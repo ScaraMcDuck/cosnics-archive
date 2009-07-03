@@ -23,7 +23,7 @@ class OrderingQuestionResultDisplay extends QuestionResultDisplay
         foreach($answers as $i => $answer)
         {
         	$html[] = '<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">';
-        	$html[] = '<td>' . $user_answers[$i - 1] . '</td>';
+        	$html[] = '<td>' . $user_answers[$i + 1] . '</td>';
         	$html[] = '<td>' .  $answer->get_order() . '</td>';
         	$html[] = '<td>' . $answer->get_value() . '</td>';
         	$html[] = '<td>' . Translation :: get('NoFeedback') . '</td>';

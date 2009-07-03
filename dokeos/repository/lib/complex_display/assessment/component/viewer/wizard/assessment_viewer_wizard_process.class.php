@@ -44,7 +44,7 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 			$answers = $values[$question_cloi->get_id()];
 			$question_cloi->set_ref($question);
 			
-			$score_calculator = ScoreCalculator :: factory($question, $answers);
+			$score_calculator = ScoreCalculator :: factory($question, $answers, $question_cloi->get_weight());
 			$score = $score_calculator->calculate_score();
 			$total_score += $score;
 			$total_weight += $question_cloi->get_weight();
