@@ -14,6 +14,7 @@ require_once dirname(__FILE__) . '/assessment_display_component.class.php';
 class AssessmentDisplay extends ComplexDisplay
 {
 	const ACTION_VIEW_ASSESSMENT = 'view';
+	const ACTION_VIEW_ASSESSMENT_RESULT = 'view_result';
 
 	/**
 	 * Inherited.
@@ -31,12 +32,20 @@ class AssessmentDisplay extends ComplexDisplay
 				case self :: ACTION_VIEW_ASSESSMENT :
 					$component = AssessmentDisplayComponent :: factory('AssessmentViewer', $this);
 					break;
+				case self :: ACTION_VIEW_ASSESSMENT_RESULT :
+					$component = AssessmentDisplayComponent :: factory('AssessmentResultViewer', $this);
+					break;
 				default :
 					$component = AssessmentDisplayComponent :: factory('AssessmentViewer', $this);
 			}
 		}
 		
 		$component->run();
+	}
+	
+	function change_answer_data($complex_question_id, $score, $feedback)
+	{
+		return $this->get_parent()->change_answer_data($complex_question_id, $score, $feedback);
 	}
 	
 	function save_answer($complex_question_id, $answer, $score)
