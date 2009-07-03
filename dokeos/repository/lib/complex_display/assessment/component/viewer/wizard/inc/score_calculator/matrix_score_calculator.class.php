@@ -14,7 +14,8 @@ class MatrixScoreCalculator extends ScoreCalculator
         //dump($user_answers);
 
         $score = 0;
-
+        $total_weight = 0;
+        
         if ($question->get_matrix_type() == MatrixQuestion :: MATRIX_TYPE_RADIO)
         {
             foreach ($user_answers as $question => $answer)
@@ -44,7 +45,7 @@ class MatrixScoreCalculator extends ScoreCalculator
             }
         }
 
-        return $score;
+         return $this->make_score_relative($score, $total_weight);
     }
 }
 ?>

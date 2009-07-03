@@ -9,10 +9,11 @@ abstract class ScoreCalculator
 	private $answer;
 	private $question;
 	
-	function ScoreCalculator($question, $answer)
+	function ScoreCalculator($question, $answer, $weight)
 	{
 		$this->answer = $answer;
 		$this->question = $question;
+		$this->weight = $weight;
 	}
 	
 	abstract function calculate_score();
@@ -27,7 +28,21 @@ abstract class ScoreCalculator
 		return $this->question;
 	}
 	
-	static function factory($question, $answer)
+	function get_weight()
+	{
+		return $this->weight;
+	}
+	
+	function make_score_relative($score, $total_weight)
+	{
+		$relative_weight = $this->weight;
+		$factor = ($total_weight / $relative_weight);
+		$new_score = round(($score / $factor) * 100) / 100;
+		
+		return $new_score;
+	}
+	
+	static function factory($question, $answer, $weight)
 	{
 		$type = $question->get_type();
 		$type = str_replace('_question', '', $type);
@@ -41,7 +56,7 @@ abstract class ScoreCalculator
 		require_once $file;
 
 		$class = DokeosUtilities :: underscores_to_camelcase($type) . 'ScoreCalculator';
-		$score_calculator = new $class($question, $answer);
+		$score_calculator = new $class($question, $answer, $weight);
 		return $score_calculator;
 	}
 }
