@@ -25,10 +25,10 @@ class DefaultRemotePackageTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_SECTION, true);
+		//$columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_SECTION, true);
 		$columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_NAME, true);
 		$columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_VERSION, true);
-		//$columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_STATUS, true);
+		$columns[] = new ObjectTableColumn(RemotePackage :: PROPERTY_DESCRIPTION, true);
 		return $columns;
 	}
 }

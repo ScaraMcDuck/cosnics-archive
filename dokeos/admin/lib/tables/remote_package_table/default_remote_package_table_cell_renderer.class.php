@@ -29,12 +29,14 @@ class DefaultRemotePackageTableCellRenderer implements ObjectTableCellRenderer
 		{
 			switch ($property)
 			{
-				case RemotePackage :: PROPERTY_SECTION :
-					return $remote_package->get_section();
+//				case RemotePackage :: PROPERTY_SECTION :
+//					return $remote_package->get_section();
 				case RemotePackage :: PROPERTY_NAME :
 					return $remote_package->get_name();
 				case RemotePackage :: PROPERTY_VERSION :
 				    return $remote_package->get_version();
+				case RemotePackage :: PROPERTY_DESCRIPTION :
+				    return $remote_package->get_description();
 			}
 		}
 		return '&nbsp;';

@@ -3,10 +3,12 @@ require_once Path :: get_admin_path() . 'lib/package_installer/package_installer
 
 abstract class PackageInstallerType
 {
+    private $parent;
     private $source;
 
-    function PackageInstallerType($source)
+    function PackageInstallerType($parent, $source)
     {
+        $this->set_parent($parent);
         $this->source = $source;
     }
 
@@ -15,13 +17,49 @@ abstract class PackageInstallerType
         return $this->source;
     }
 
+    function get_parent()
+    {
+        return $this->parent;
+    }
+
+    function set_parent($parent)
+    {
+        $this->parent = $parent;
+    }
+
+    function add_message($message, $type = PackageInstaller :: TYPE_NORMAL)
+    {
+        $this->get_parent()->add_message($message, $type);
+    }
+
+    function installation_failed($error_message)
+    {
+        $this->get_parent()->installation_failed($error_message);
+    }
+
+    function installation_successful($type)
+    {
+        $this->get_parent()->installation_successful($type);
+    }
+
+    function process_result($type)
+    {
+        $this->get_parent()->process_result($type);
+    }
+
     abstract function install();
 
     function cleanup()
     {
         $source = $this->get_source();
-        Filesystem :: remove($source->get_package_file());
-        Filesystem :: remove($source->get_package_folder());
+        if (Filesystem :: remove($source->get_package_file()) && Filesystem :: remove($source->get_package_folder()))
+        {
+            $this->get_parent()->add_message(Translation :: get('TemporaryFilesRemoved'));
+        }
+        else
+        {
+            $this->get_parent()->add_message(Translation :: get('ProblemRemovingTemporaryFiles'), PackageInstaller :: TYPE_WARNING);
+        }
     }
 
     function verify_dependencies()
@@ -32,10 +70,10 @@ abstract class PackageInstallerType
 
         foreach($dependency as $type => $dependencies)
         {
-            $verifier = PackageInstallerDependency :: factory($type, $dependencies['dependency']);
+            $verifier = PackageInstallerDependency :: factory($this, $type, $dependencies['dependency']);
             if (!$verifier->verify())
             {
-                return false;
+                return $this->get_parent()->installation_failed('dependencies', Translation :: get('PackageDependencyFailed'));
             }
         }
 
@@ -46,11 +84,11 @@ abstract class PackageInstallerType
 	 * Invokes the constructor of the class that corresponds to the specified
 	 * type of package installer type.
 	 */
-	static function factory($type, $source)
+	static function factory($parent, $type, $source)
 	{
 		$class = 'PackageInstaller' . DokeosUtilities :: underscores_to_camelcase($type) . 'Type';
 		require_once dirname(__FILE__) . '/type/' . $type . '.class.php';
-		return new $class($source);
+		return new $class($parent, $source);
 	}
 }
 ?>

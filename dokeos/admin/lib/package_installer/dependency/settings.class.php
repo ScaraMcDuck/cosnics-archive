@@ -5,7 +5,11 @@ class PackageInstallerSettingsDependency extends PackageInstallerDependency
 {
     function check($dependency)
     {
-        return $this->compare($dependency['value']['type'], $dependency['value']['_content'], ini_get($dependency['id']));
+        $setting = ini_get($dependency['id']);
+        $message = Translation :: get('DependencyCheckSetting') . ': ' . $dependency['id'] . '. ' . Translation :: get('Expecting') . ': ' . $dependency['value']['_content'] . ' ' . Translation :: get('Found') . ': ' . $setting;
+
+        $this->add_message($message);
+        return $this->compare($dependency['value']['type'], $dependency['value']['_content'], $setting);
     }
 }
 ?>

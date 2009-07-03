@@ -1,6 +1,12 @@
 <?php
 abstract class PackageInstallerDependency
 {
+    const FAILURE_CRITICAL = 1;
+    const FAILURE_HIGH = 2;
+    const FAILURE_MEDIUM = 3;
+    const FAILURE_LOW = 4;
+    const FAILURE_VERY_LOW = 5;
+
     const COMPARE_EQUAL = 1;
     const COMPARE_NOT_EQUAL = 2;
     const COMPARE_GREATER_THEN = 3;
@@ -9,9 +15,11 @@ abstract class PackageInstallerDependency
     const COMPARE_LESS_THEN_OR_EQUAL = 6;
 
     private $dependencies;
+    private $parent;
 
-    function PackageInstallerDependency($dependencies)
+    function PackageInstallerDependency($parent, $dependencies)
     {
+        $this->parent = $parent;
         $this->dependencies = $dependencies;
     }
 
@@ -20,9 +28,33 @@ abstract class PackageInstallerDependency
         return $this->dependencies;
     }
 
+    function get_parent()
+    {
+        return $this->parent;
+    }
+
+    function add_message($message, $type = PackageInstaller :: TYPE_NORMAL)
+    {
+        $this->get_parent()->add_message($message, $type);
+    }
+
+    function installation_failed($error_message)
+    {
+        $this->get_parent()->installation_failed($error_message);
+    }
+
+    function installation_successful($type)
+    {
+        $this->get_parent()->installation_succesful($type);
+    }
+
+    function process_result($type)
+    {
+        $this->get_parent()->process_result($type);
+    }
+
     function compare($type, $reference, $value)
     {
-//        echo $reference . ' ' . $value . '<br />';
         switch($type)
         {
             case self :: COMPARE_EQUAL :
@@ -51,7 +83,6 @@ abstract class PackageInstallerDependency
 
     function version_compare($type, $reference, $value)
     {
-//        echo $reference . ' ' . $value . '<br />';
         switch($type)
         {
             case self :: COMPARE_EQUAL :
@@ -81,14 +112,36 @@ abstract class PackageInstallerDependency
     function verify()
     {
         $dependencies = $this->get_dependencies();
-//        dump($dependencies);
 
         foreach($dependencies as $dependency)
         {
             if (!$this->check($dependency))
             {
-                dump($dependencies);
-                return false;
+                switch ($dependency['severity'])
+                {
+                    case self :: FAILURE_CRITICAL :
+                        return false;
+                        break;
+                    case self :: FAILURE_HIGH :
+                        return false;
+                        break;
+                    case self :: FAILURE_MEDIUM :
+                        return true;
+                        break;
+                    case self :: FAILURE_LOW :
+                        return true;
+                        break;
+                    case self :: FAILURE_VERY_LOW :
+                        return true;
+                        break;
+                    default :
+                        return false;
+                        break;
+                }
+            }
+            else
+            {
+                return true;
             }
         }
 
@@ -101,11 +154,11 @@ abstract class PackageInstallerDependency
 	 * Invokes the constructor of the class that corresponds to the specified
 	 * type of package installer type.
 	 */
-	static function factory($type, $dependencies)
+	static function factory($parent, $type, $dependencies)
 	{
 		$class = 'PackageInstaller' . DokeosUtilities :: underscores_to_camelcase($type) . 'Dependency';
 		require_once dirname(__FILE__) . '/dependency/' . $type . '.class.php';
-		return new $class($dependencies);
+		return new $class($parent, $dependencies);
 	}
 }
 ?>

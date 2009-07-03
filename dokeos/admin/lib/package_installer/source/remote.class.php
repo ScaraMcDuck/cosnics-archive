@@ -23,6 +23,7 @@ class PackageInstallerRemoteSource extends PackageInstallerSource
 
         if ($remote_handle)
         {
+            $this->get_parent()->add_message(Translation :: get('RemotePackageFound'));
             while($line = fread($remote_handle, 1024))
             {
                 fwrite($local_handle, $line);
@@ -31,10 +32,18 @@ class PackageInstallerRemoteSource extends PackageInstallerSource
             fclose($remote_handle);
             fclose($local_handle);
         }
+        else
+        {
+            return $this->get_parent()->installation_failed('source', Translation :: get('RemotePackageNotFound'));
+        }
 
         if (!$this->verify_hashes($local_path))
         {
-            return false;
+            return $this->get_parent()->installation_failed('source', Translation :: get('RemotePackageHashFail'));
+        }
+        else
+        {
+            $this->get_parent()->add_message(Translation :: get('RemotePackageHashVerified'));
         }
 
         return $local_path;

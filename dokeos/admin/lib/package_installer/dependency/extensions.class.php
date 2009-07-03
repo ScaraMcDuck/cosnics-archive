@@ -5,6 +5,9 @@ class PackageInstallerExtensionsDependency extends PackageInstallerDependency
 {
     function check($dependency)
     {
+        $message = Translation :: get('DependencyCheckextension') . ': ' . $dependency['id'];
+        $this->add_message($message);
+
         return extension_loaded($dependency['id']);
     }
 }
