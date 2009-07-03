@@ -120,7 +120,7 @@ class DlofImport extends LearningObjectImport
 				if($subitem->nodeName == "#text") continue;
 				
 				$learning_object = $subitem->getElementsByTagname('learning_object')->item(0);
-				$childlo = $this->import_lo($learning_object);
+				$childlo = $this->create_learning_object($learning_object);
 				
 				$cloi = ComplexLearningObjectItem :: factory($childlo->get_type);
 				
@@ -137,7 +137,7 @@ class DlofImport extends LearningObjectImport
 						$additionalProperties[$attrName] = $attrNode;
 					}
 					
-					$cloi->setAdditionalProperties($additionalProperties);
+					$cloi->set_additional_properties($additionalProperties);
 				}
 				
 				$cloi->create();
