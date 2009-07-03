@@ -4,6 +4,7 @@
  */
 require_once dirname(__FILE__).'/../learning_object_export.class.php';
 require_once Path :: get_library_path() . 'filecompression/filecompression.class.php';
+require_once 'XML/Serializer.php';
 
 /**
  * Exports learning object to the dokeos learning object format (xml)
@@ -23,7 +24,7 @@ class DlofExport extends LearningObjectExport
 	public function export_learning_object()
 	{
 		$learning_object = $this->get_learning_object();
-		$this->doc = new DOMDocument();
+		$this->doc = new DOMDocument('1.0', 'UTF-8');
   		$this->doc->formatOutput = true;
   		$this->render_xml($learning_object, $this->doc);
   		$temp_dir = Path :: get(SYS_TEMP_PATH). $learning_object->get_owner_id() . '/export_' . $learning_object->get_id() . '/';
@@ -48,7 +49,7 @@ class DlofExport extends LearningObjectExport
 		$zippath = $zip->create_archive($temp_dir);
 		
 		Filesystem :: remove($temp_dir);
-
+		
 		return $zippath;
 	}
 	
@@ -84,8 +85,19 @@ class DlofExport extends LearningObjectExport
   		
   		foreach($learning_object->get_additional_properties() as $prop => $value)
   		{
-  			$property = $doc->createElement( $prop);
+  			$property = $doc->createElement($prop); 
 	  		$extended->appendChild($property);
+	  		
+	  		if(($uvalue = unserialize($value)) != 0)
+	  		{
+	  			$options = array(
+  					XML_SERIALIZER_OPTION_INDENT        => '    ',
+  					XML_SERIALIZER_OPTION_RETURN_RESULT => true
+  				);
+  				
+	  			$serializer = new XML_Serializer($options);
+	  			$value = $serializer->serialize($uvalue); dump($value); exit();
+	  		}
 	  		
 	  		$text = $doc->createTextNode($value);
 			$text = $property->appendChild($text);
