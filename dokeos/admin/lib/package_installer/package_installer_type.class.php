@@ -1,4 +1,6 @@
 <?php
+require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_dependency.class.php';
+
 abstract class PackageInstallerType
 {
     private $source;
@@ -20,6 +22,24 @@ abstract class PackageInstallerType
         $source = $this->get_source();
         Filesystem :: remove($source->get_package_file());
         Filesystem :: remove($source->get_package_folder());
+    }
+
+    function verify_dependencies()
+    {
+        $source = $this->get_source();
+        $attributes = $source->get_attributes();
+        $dependency = unserialize($attributes->get_dependencies());
+
+        foreach($dependency as $type => $dependencies)
+        {
+            $verifier = PackageInstallerDependency :: factory($type, $dependencies['dependency']);
+            if (!$verifier->verify())
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 	/**
