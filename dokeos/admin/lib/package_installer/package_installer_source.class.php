@@ -3,26 +3,58 @@ require_once Path :: get_common_path() . 'filecompression/filecompression.class.
 
 abstract class PackageInstallerSource
 {
+    private $parent;
     private $package_file;
     private $package_folder;
     private $attributes;
 
-    function PackageInstallerSource()
+    function PackageInstallerSource($parent)
     {
+        $this->set_parent($parent);
         $this->set_package_file(null);
         $this->set_package_folder(null);
         $this->set_attributes(null);
+    }
+
+    function get_parent()
+    {
+        return $this->parent;
+    }
+
+    function set_parent($parent)
+    {
+        $this->parent = $parent;
+    }
+
+    function add_message($message, $type = PackageInstaller :: TYPE_NORMAL)
+    {
+        $this->get_parent()->add_message($message, $type);
+    }
+
+    function installation_failed($error_message)
+    {
+        $this->get_parent()->installation_failed($error_message);
+    }
+
+    function installation_successful($type)
+    {
+        $this->get_parent()->installation_succesful($type);
+    }
+
+    function process_result($type)
+    {
+        $this->get_parent()->process_result($type);
     }
 
 	/**
 	 * Invokes the constructor of the class that corresponds to the specified
 	 * type of package installer source.
 	 */
-	static function factory($type)
+	static function factory($parent, $type)
 	{
 		$class = 'PackageInstaller' . DokeosUtilities :: underscores_to_camelcase($type) . 'Source';
 		require_once dirname(__FILE__) . '/source/' . $type . '.class.php';
-		return new $class();
+		return new $class($parent);
 	}
 
 	abstract function get_archive();
@@ -32,12 +64,21 @@ abstract class PackageInstallerSource
         $this->set_package_file($this->get_archive());
         if (!$this->get_package_file())
         {
-            return false;
+            return $this->get_parent()->installation_failed('source', Translation :: get('RemotePackageNotRetrieved'));
         }
         else
         {
-            $this->set_package_folder($this->extract_archive());
-            return true;
+            $extract_path = $this->extract_archive();
+            if (!$extract_path)
+            {
+                return $this->get_parent()->installation_failed('source', Translation :: get('RemotePackageNotExtracted'));
+            }
+            else
+            {
+                $this->set_package_folder($extract_path);
+                $this->get_parent()->add_message(Translation :: get('RemotePackageExtracted'));
+                return true;
+            }
         }
     }
 

@@ -31,14 +31,8 @@ class PackageManagerInstallerComponent extends PackageManagerComponent
 
 		$this->display_header($trail);
 		$installer = new PackageInstaller();
-		if (!$installer->run())
-		{
-		    echo 'Doh';
-		}
-		else
-		{
-		    echo 'Woohoo';
-		}
+		$result = $installer->run();
+		echo $installer->retrieve_result();
 		$this->display_footer();
 	}
 }

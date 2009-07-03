@@ -5,6 +5,8 @@ class PackageInstallerLearningObjectsDependency extends PackageInstallerDependen
 {
     function check($dependency)
     {
+        $message = Translation :: get('DependencyCheckLearningObject') . ': ' . Translation :: get(DokeosUtilities :: underscores_to_camelcase($dependency['id']) . 'TypeName') . ', ' . Translation :: get('Version') . ': ' . $dependency['version']['_content'] . ' ' . Translation :: get('Found') . ': ';
+
         $conditions = array();
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $dependency['id']);
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_LEARNING_OBJECT);
@@ -14,26 +16,39 @@ class PackageInstallerLearningObjectsDependency extends PackageInstallerDependen
 
         if ($registrations->size() === 0)
         {
+            $message .= '--' . Translation :: get('Nothing') . '--';
+            $this->add_message($message);
             return false;
         }
         else
         {
             $registration = $registrations->next_result();
-            if (!$registration->is_active())
+
+            $learning_object_version = $this->version_compare($dependency['version']['type'], $dependency['version']['_content'], $registration->get_version());
+            if (!$learning_object_version)
             {
+                $message .= '--' . Translation :: get('WrongVersion') . '--';
+                $this->add_message($message);
+                $this->add_message(Translation :: get('DependencyObjectWrongVersion'), PackageInstaller :: TYPE_WARNING);
                 return false;
             }
             else
             {
-                $learning_object_version = $this->version_compare($dependency['version']['type'], $dependency['version']['_content'], $registration->get_version());
-                if (!$learning_object_version)
+                if (!$registration->is_active())
                 {
-                    return false;
+                    $message .= '--' . Translation :: get('InactiveObject') . '--';
+                    $this->add_message($message);
+                    $this->add_message(Translation :: get('DependencyActivateObjectWarning'), PackageInstaller :: TYPE_WARNING);
                 }
+                else
+                {
+                    $message .= $registration->get_version();
+                    $this->add_message($message);
+                }
+
+                return true;
             }
         }
-
-        return true;
     }
 }
 ?>
