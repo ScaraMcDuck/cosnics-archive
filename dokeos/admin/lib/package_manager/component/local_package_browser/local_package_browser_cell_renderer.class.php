@@ -1,6 +1,6 @@
 <?php
 
-class DiagnoserCellRenderer
+class LocalPackageBrowserCellRenderer
 {
 	function render_cell($default_property, $data)
 	{
@@ -16,12 +16,10 @@ class DiagnoserCellRenderer
 	
 	function get_properties()
 	{
-		return array('', 
-					 'Section', 
-					 'Setting',
-					 'Current', 
-					 'Expected', 
-					 'Comment');
+		$properties = array();
+		$properties[] = 'Name';
+		$properties[] = '';
+		return $properties;
 	}
 	
 	function get_prefix()

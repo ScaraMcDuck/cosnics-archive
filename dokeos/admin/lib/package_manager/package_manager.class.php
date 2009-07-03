@@ -16,16 +16,19 @@ class PackageManager extends SubManager
     const PARAM_INSTALL_SELECTED = 'install';
     const PARAM_PACKAGE = 'package';
     const PARAM_INSTALL_TYPE = 'type';
+    const PARAM_SECTION = 'section';
 
     const ACTION_BROWSE_PACKAGES = 'browse';
     const ACTION_ACTIVATE_PACKAGE = 'activate';
     const ACTION_DEACTIVATE_PACKAGE = 'deactivate';
     const ACTION_REMOTE_PACKAGE = 'remote';
+    const ACTION_LOCAL_PACKAGE = 'local';
     const ACTION_SYNCHRONISE_REMOTE_PACKAGES = 'synchronise';
     const ACTION_INSTALL_PACKAGE = 'install';
 
     const INSTALL_REMOTE = 'remote';
     const INSTALL_ARCHIVE = 'archive';
+    const INSTALL_LOCAL = 'local';
 
     function PackageManager($admin_manager)
     {
@@ -61,6 +64,9 @@ class PackageManager extends SubManager
                 break;
             case self :: ACTION_INSTALL_PACKAGE :
                 $component = PackageManagerComponent :: factory('Installer', $this);
+                break;
+            case self :: ACTION_LOCAL_PACKAGE :
+                $component = PackageManagerComponent :: factory('Local', $this);
                 break;
             default :
                 $component = PackageManagerComponent :: factory('Browser', $this);
