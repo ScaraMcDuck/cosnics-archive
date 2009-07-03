@@ -27,6 +27,27 @@ class LearningPathToolAssessmentCloViewerComponent extends LearningPathToolCompo
 		$display->run();
 	}
 	
+	function change_answer_data($complex_question_id, $score, $feedback)
+	{
+		if(!$score && !$feedback) return;
+		
+		$conditions = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LPI_ATTEMPT_ID, $this->lpi_attempt_id);
+		$conditions = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $complex_question_id);
+		$condition = new AndCondition($conditions);
+
+		$dummy = new WeblcmsLearningPathQuestionAttemptsTracker();
+		$trackers = $dummy->retrieve_tracker_items($condition);
+		$lpi_tracker = $trackers[0];
+		
+		if($score)
+			$lpi_tracker->set_score($score);
+		
+		if($feedback)
+			$lpi_tracker->set_feedback($feedback);
+			
+		$lpi_tracker->update();
+	}
+	
 	function save_answer($complex_question_id, $answer, $score)
 	{
 		$parameters = array();
