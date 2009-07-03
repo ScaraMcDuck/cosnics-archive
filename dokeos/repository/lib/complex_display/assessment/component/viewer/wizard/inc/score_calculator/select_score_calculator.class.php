@@ -16,7 +16,7 @@ class SelectScoreCalculator extends ScoreCalculator
 
             if ($selected->is_correct())
             {
-                return $selected->get_weight();
+                 return $this->make_score_relative($selected->get_weight(), $selected->get_weight());
             }
             else
             {
@@ -27,14 +27,21 @@ class SelectScoreCalculator extends ScoreCalculator
         {
             $answers = $question->get_options();
             $score = 0;
-            
-            foreach($user_answers[0] as $user_answer)
-            {
-            	$answer = $answers[$user_answer];
-                $score += $answer->get_weight();
-            }
+            $total_weight = 0;
 
-            return $score;
+            foreach($answers as $i => $answer)
+            {
+            	if(in_array($i, $user_answers[0]))
+            	{
+            		$score += $answer->get_weight();
+            	}
+            	
+            	if($answer->is_correct())
+            	{
+            		$total_weight += $answer->get_weight();	
+            	}
+            }
+            return $this->make_score_relative($score, $total_weight);
         }
     }
 }

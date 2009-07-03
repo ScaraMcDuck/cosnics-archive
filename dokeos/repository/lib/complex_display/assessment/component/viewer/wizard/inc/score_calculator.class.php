@@ -36,6 +36,10 @@ abstract class ScoreCalculator
 	function make_score_relative($score, $total_weight)
 	{
 		$relative_weight = $this->weight;
+		
+		if($relative_weight == 0)
+			return $score;
+		
 		$factor = ($total_weight / $relative_weight);
 		$new_score = round(($score / $factor) * 100) / 100;
 		

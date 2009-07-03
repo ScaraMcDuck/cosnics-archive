@@ -11,16 +11,15 @@ class MatchingScoreCalculator extends ScoreCalculator
         $answers = $this->get_question()->get_options();
         $score = 0;
         $total_weight = 0;
-
-        foreach($user_answers as $question => $user_answer)
+        
+        foreach($answers as $i => $answer)
         {
-            $correct_answer = $answers[$question]->get_match();
-            if ($user_answer == $correct_answer)
-            {
-                $score += $answers[$question]->get_weight();
-            }
-            
-            $total_weight += $answers[$question]->get_weight();
+        	if($user_answers[$i] == $answer->get_match())
+        	{
+        		$score += $answer->get_weight();
+        	}
+        	
+        	$total_weight += $answer->get_weight();
         }
 
          return $this->make_score_relative($score, $total_weight);

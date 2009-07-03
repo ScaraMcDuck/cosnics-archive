@@ -13,13 +13,13 @@ class HotspotScoreCalculator extends ScoreCalculator
 
         $score = 0;
         $total_weight = 0;
-
-        foreach($user_answers as $question => $user_answer)
+        
+        foreach($answers as $index => $answer)
         {
-            $answer = $answers[$question];
-            $hotspot_coordinates = $answer->get_hotspot_coordinates();
-
-            $polygon = new PointInPolygon(unserialize($hotspot_coordinates));
+        	$user_answer = $user_answers[$index];
+        	$hotspot_coordinates = $answer->get_hotspot_coordinates();
+        	
+        	$polygon = new PointInPolygon(unserialize($hotspot_coordinates));
             $is_inside = $polygon->is_inside(unserialize($user_answer));
 
             switch($is_inside)

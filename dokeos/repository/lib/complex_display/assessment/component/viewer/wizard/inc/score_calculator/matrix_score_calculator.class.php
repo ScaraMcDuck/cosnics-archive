@@ -18,13 +18,15 @@ class MatrixScoreCalculator extends ScoreCalculator
         
         if ($question->get_matrix_type() == MatrixQuestion :: MATRIX_TYPE_RADIO)
         {
-            foreach ($user_answers as $question => $answer)
-            {
-                if ($answer == $options[$question]->get_matches())
-                {
-                    $score += $options[$question]->get_weight();
-                }
-            }
+        	foreach($options as $index => $option)
+        	{
+        		if($user_answers[$index] == $option->get_matches())
+        		{
+        			 $score += $option->get_weight();
+        		}
+        		
+        		$total_weight += $option->get_weight();
+        	}
         }
         else
         {
@@ -42,6 +44,8 @@ class MatrixScoreCalculator extends ScoreCalculator
                 {
                     $score += $option->get_weight();
                 }
+                
+                $total_weight += $option->get_weight();
             }
         }
 
