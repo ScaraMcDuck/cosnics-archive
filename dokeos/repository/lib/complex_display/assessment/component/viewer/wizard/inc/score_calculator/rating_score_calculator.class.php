@@ -11,12 +11,14 @@ class RatingScoreCalculator extends ScoreCalculator
 
         if ($question->get_correct() == $user_answers[0])
         {
-            return 1;
+            $score = 1;
         }
         else
         {
-            return 0;
+            $score = 0;
         }
+        
+        return $this->make_score_relative($score, 1);
     }
 }
 ?>
