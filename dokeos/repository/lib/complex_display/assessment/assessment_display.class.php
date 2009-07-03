@@ -38,5 +38,15 @@ class AssessmentDisplay extends ComplexDisplay
 		
 		$component->run();
 	}
+	
+	function save_answer($complex_question_id, $answer, $score)
+	{
+		return $this->get_parent()->save_answer($complex_question_id, $answer, $score);
+	}
+	
+	function finish_assessment($total_score)
+	{
+		return $this->get_parent()->finish_assessment($total_score);
+	}
 }
 ?>

@@ -53,6 +53,9 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 			$display->display();
 			
 			$question_number++;
+			
+			$this->parent->get_parent()->save_answer($question_cloi->get_id(), serialize($answers), $score);
+			
 		}
 		
 		$html[] = '<div class="question">';
@@ -63,15 +66,17 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 		$html[] = '</div>';
 		$html[] = '<div class="bevel" style="text-align: right;">';
 		
-		$percent = (round(($total_score / $total_weight) * 10000 ) / 100);
+		$percent = round(($total_score / $total_weight) * 100 );
 		 
-		$html[] = $total_score . ' / ' . $total_weight . ' (' . $percent . '%)';
+		$html[] =  $total_score . ' / ' . $total_weight . ' (' . $percent . '%)';
 		$html[] = '</div>';
 
 		$html[] = '</div></div></div>';
 		$html[] = '<div class="clear"></div>';
 		
 		echo implode("\n", $html);
+		
+		$this->parent->get_parent()->finish_assessment($percent);
 
 	}
 }

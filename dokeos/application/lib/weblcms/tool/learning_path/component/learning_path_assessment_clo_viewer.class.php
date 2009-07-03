@@ -1,6 +1,7 @@
 <?php
 
 require_once Path :: get_repository_path() . 'lib/complex_display/complex_display.class.php';
+require_once Path :: get_application_path() . 'lib/weblcms/trackers/weblcms_lpi_attempt_tracker.class.php';
 
 class LearningPathToolAssessmentCloViewerComponent extends LearningPathToolComponent
 {
@@ -35,7 +36,7 @@ class LearningPathToolAssessmentCloViewerComponent extends LearningPathToolCompo
 		$parameters['score'] = $score;
 		$parameters['feedback'] = '';
 		
-		Events :: trigger_event('learning_path_question_attempts', 'weblcms', $parameters);
+		Events :: trigger_event('attempt_learning_path_question', 'weblcms', $parameters);
 	}
 	
 	function finish_assessment($total_score)
