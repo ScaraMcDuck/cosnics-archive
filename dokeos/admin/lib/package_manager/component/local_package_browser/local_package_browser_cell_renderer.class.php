@@ -22,6 +22,11 @@ class LocalPackageBrowserCellRenderer
 		return $properties;
 	}
 	
+	function get_property_count()
+	{
+		return count($this->get_properties());
+	}
+	
 	function get_prefix()
 	{
 		return '';

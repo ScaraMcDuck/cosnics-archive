@@ -25,6 +25,7 @@ class DokeosUtilities
     const TOOLBAR_DISPLAY_ICON_AND_LABEL = 3;
 
     private static $us_camel_map = array ();
+    private static $us_camel_map_with_spaces = array ();
     private static $camel_us_map = array ();
 
     /**
@@ -192,11 +193,11 @@ class DokeosUtilities
 
     static function underscores_to_camelcase_with_spaces($string)
     {
-        if (!isset (self :: $us_camel_map[$string]))
+        if (!isset (self :: $us_camel_map_with_spaces[$string]))
         {
-            self :: $us_camel_map[$string] = ucfirst(preg_replace('/_([a-z])/e', '" " . strtoupper("\1")', $string));
+            self :: $us_camel_map_with_spaces[$string] = ucfirst(preg_replace('/_([a-z])/e', '" " . strtoupper("\1")', $string));
         }
-        return self :: $us_camel_map[$string];
+        return self :: $us_camel_map_with_spaces[$string];
     }
 
     /**

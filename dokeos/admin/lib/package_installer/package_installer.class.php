@@ -40,7 +40,8 @@ class PackageInstaller
             }
             else
             {
-                return $this->installation_successful('settings', Translation :: get('PackageCompletelyInstalled'));
+            	$this->installation_successful('settings', Translation :: get('ApplicationSettingsDone'));
+                return $this->installation_successful('finished', Translation :: get('PackageCompletelyInstalled'));
             }
         }
     }
