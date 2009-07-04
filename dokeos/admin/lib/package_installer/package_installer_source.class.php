@@ -88,6 +88,27 @@ abstract class PackageInstallerSource
         $compression = Filecompression :: factory();
         return $compression->extract_file($file_path);
     }
+    
+	function move_package_to_destination($destination_path)
+	{
+        $package_folder = $this->get_package_folder();
+        
+        if ($package_folder)
+        {	        
+	        if (!Filesystem :: move_file($package_folder, $destination_path))
+	        {
+	        	$this->installation_failed('source', Translation :: get('PackageMoveFailed'));
+	        }
+	        else
+	        {
+	        	$this->add_message(Translation :: get('PackageMovedSucessfully'));
+	        }
+        }
+        else
+        {
+        	$this->add_message(Translation :: get('PackageMoveNotNecessary'));
+        }
+	}
 
     function get_package_file()
     {
