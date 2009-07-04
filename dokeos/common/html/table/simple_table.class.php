@@ -131,30 +131,40 @@ class SimpleTable extends HTML_Table
 	function build_table_data()
 	{
 		$i = 0;
-
-		foreach($this->data_array as $data)
+		
+		if (count($this->data_array) > 0)
+		{
+			foreach($this->data_array as $data)
+			{
+				$contents = array();
+	
+				if($this->actionhandler)
+				{
+					$element = $this->tableform->createElement('checkbox', 'id' . $data->get_id(), '');
+					$this->tableform->addElement($element);
+					$contents[] = '<div style="text-align: center;">' . $element->toHtml() . '</div>';
+	
+				}
+	
+				foreach($this->defaultproperties as $index => $defaultproperty)
+				{
+					$contents[] = $this->cellrenderer->render_cell($index, $data);
+				}
+	
+				if(method_exists($this->cellrenderer, 'get_modification_links'))
+					$contents[] = $this->cellrenderer->get_modification_links($data);
+	
+				$this->addRow($contents);
+	
+				$i++;
+			}
+		}
+		else
 		{
 			$contents = array();
-
-			if($this->actionhandler)
-			{
-				$element = $this->tableform->createElement('checkbox', 'id' . $data->get_id(), '');
-				$this->tableform->addElement($element);
-				$contents[] = '<div style="text-align: center;">' . $element->toHtml() . '</div>';
-
-			}
-
-			foreach($this->defaultproperties as $index => $defaultproperty)
-			{
-				$contents[] = $this->cellrenderer->render_cell($index, $data);
-			}
-
-			if(method_exists($this->cellrenderer, 'get_modification_links'))
-				$contents[] = $this->cellrenderer->get_modification_links($data);
-
-			$this->addRow($contents);
-
-			$i++;
+			$contents[] = Translation :: get('NoSearchResults');
+			$row = $this->addRow($contents);
+			$this->setCellAttributes($row, 0, 'style="font-style: italic;text-align:center;" colspan=' . $this->cellrenderer->get_property_count());
 		}
 	}
 

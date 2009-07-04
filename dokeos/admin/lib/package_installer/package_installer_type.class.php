@@ -48,6 +48,8 @@ abstract class PackageInstallerType
     }
 
     abstract function install();
+    
+    abstract function move_package_to_destination();
 
     function cleanup()
     {

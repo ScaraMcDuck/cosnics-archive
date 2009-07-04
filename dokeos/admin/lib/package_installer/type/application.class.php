@@ -6,16 +6,31 @@ require_once path :: get_menu_path() . 'lib/menu_item.class.php';
 
 class PackageInstallerApplicationType extends PackageInstallerType
 {
+	function move_package_to_destination()
+	{
+        $source = $this->get_source();
+        $attributes = $source->get_attributes();
+        $application_name = $attributes->get_code();
+        
+        $package_folder = $source->get_package_folder();
+        
+        if ($package_folder)
+        {
+	        $application_path = Path :: get_application_path() . 'lib/';
+	        $application_full_path = $application_path . $application_name;
+	        
+	        Filesystem :: move_file($source->get_package_folder(), $application_full_path);
+        }
+	}
+	
     function install()
     {
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $application_name = $attributes->get_code();
-
-        $application_path = Path :: get_application_path() . 'lib/';
-        $application_full_path = $application_path . $application_name;
-
-        //Filesystem :: move_file($source->get_package_folder(), $application_full_path);
+        
+        $this->move_package_to_destination();
+        
         if ($this->verify_dependencies())
         {
             $this->get_parent()->installation_successful('dependencies', Translation :: get('ApplicationDependenciesVerified'));
