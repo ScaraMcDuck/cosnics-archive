@@ -162,7 +162,7 @@ class SimpleTable extends HTML_Table
 		else
 		{
 			$contents = array();
-			$contents[] = Translation :: get('NoSearchResults');
+			$contents[] = Translation :: get('NoResults');
 			$row = $this->addRow($contents);
 			$this->setCellAttributes($row, 0, 'style="font-style: italic;text-align:center;" colspan=' . $this->cellrenderer->get_property_count());
 		}

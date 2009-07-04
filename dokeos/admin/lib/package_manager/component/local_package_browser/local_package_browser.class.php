@@ -30,7 +30,7 @@ class LocalPackageBrowser
 	
 	function to_html()
 	{
-		$sections = array('learning_object', 'application');
+		$sections = array('application', 'learning_object', 'language');
 		
 		$current_section = Request :: get(PackageManager :: PARAM_SECTION);
 		$current_section = $current_section ? $current_section : 'learning_object';
@@ -60,10 +60,47 @@ class LocalPackageBrowser
 		return implode("\n", $html);
 	}
 	
-	/**
-	 * Functions to get the data for the dokeos diagnostics
-	 * @return array of data
-	 */
+	function get_language_data()
+	{
+		$languages = array();
+		
+		$language_path = Path :: get_language_path();
+		$language_folders = Filesystem :: get_directory_content($language_path, Filesystem :: LIST_DIRECTORIES, false);
+		
+		$active_languages = AdminDataManager :: get_instance()->retrieve_languages();
+		$installed_languages = array();
+		
+		while($active_language = $active_languages->next_result())
+		{
+			$installed_languages[] = $active_language->get_folder();
+		}
+		
+		$installable_languages = array_diff($language_folders, $installed_languages);
+		sort($installable_languages, SORT_STRING);
+		
+		foreach($installable_languages as $installable_language)
+		{
+			if ($installable_language !== '.svn')
+			{
+				$data = array();
+				$data[] = DokeosUtilities :: underscores_to_camelcase_with_spaces($installable_language);
+				
+				$toolbar_data = array();
+	    		$toolbar_data[] = array(
+	    			'href' => $this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_SECTION => 'language', PackageManager :: PARAM_PACKAGE => $installable_language)),
+	    			'label' => Translation :: get('Install'),
+	    			'img' => Theme :: get_image_path().'action_install.png'
+	    		);
+	    		
+				$data[] = DokeosUtilities :: build_toolbar($toolbar_data);
+				
+				$languages[] = $data;
+			}
+		}
+		
+		return $languages;
+	}
+	
 	function get_learning_object_data()
 	{
 		$objects = array();
@@ -106,10 +143,6 @@ class LocalPackageBrowser
 		return $objects;
 	}
 	
-	/**
-	 * Functions to get the data for the mysql diagnostics
-	 * @return array of data
-	 */
 	function get_application_data()
 	{
 		$applications = array();
@@ -150,66 +183,6 @@ class LocalPackageBrowser
 		}
 		
 		return $applications;
-	}
-	
-	/**
-	 * Additional functions needed for fast integration
-	 */
-	function build_setting($status, $section, $title, $url, $current_value, $expected_value, $formatter, $comment)
-	{
-		switch($status)
-		{
-			case self :: STATUS_OK: 
-				$img = 'status_ok_mini.png';
-				break;
-			case self :: STATUS_WARNING: 
-				$img = 'status_warning_mini.png';
-				break;
-			case self :: STATUS_ERROR: 
-				$img = 'status_error_mini.png';
-				break;
-			case self :: STATUS_INFORMATION: 
-				$img = 'status_confirmation_mini.png';
-				break;
-		}
-		
-		$image = '<img src="' . Theme :: get_common_image_path() . $img . '" alt="' . $status . '" />';
-		$url = $this->get_link($title, $url);
-		
-		$formatted_current_value = $current_value;
-		$formatted_expected_value = $expected_value;
-		
-		if($formatter)
-		{
-			if(method_exists($this, 'format_' . $formatter))
-			{
-				$formatted_current_value = call_user_func(array($this, 'format_' . $formatter), $current_value);
-				$formatted_expected_value = call_user_func(array($this, 'format_' . $formatter), $expected_value);
-			}	
-		}
-		
-		return array($image, $section, $url, $formatted_current_value, $formatted_expected_value, $comment);
-	}
-	
-	/**
-	 * Create a link with a url and a title
-	 * @param $title
-	 * @param $url
-	 * @return string the url
-	 */
-	function get_link($title, $url)
-	{
-		return '<a href="' . $url . '" target="about:bank">' . $title . '</a>';	
-	}
-	
-	function format_yes_no($value)
-	{
-		return $value ? Translation :: get('Yes') : Translation :: get('No');
-	}
-	
-	function format_on_off($value)
-	{
-		return $value ? Translation :: get('On') : Translation :: get('Off');
 	}
 }
 ?>

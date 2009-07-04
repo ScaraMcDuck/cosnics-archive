@@ -350,7 +350,8 @@ $lang['admin']['ApplicationMenuItemAdded'] = 'Adding a menu-tab for the applicat
 $lang['admin']['ProblemRemovingTemporaryFiles'] = 'There was a problem cleaning up some temporary files.<br />(There may not have been anything to clean up, verify manually to make sure)';
 $lang['admin']['PackageCompletelyInstalled'] = 'The package was installed succesfully';
 $lang['admin']['ApplicationSettingsDone'] = 'Additional settings were succesfully configured';
-$lang['admin']['LearningObjectTitle'] = 'Object types';
+$lang['admin']['LearningObjectTitle'] = 'Objects';
 $lang['admin']['ApplicationTitle'] = 'Applications';
+$lang['admin']['LanguageTitle'] = 'Languages';
 $lang['admin']['PackageInstallation'] = 'Package installation';
 ?>
