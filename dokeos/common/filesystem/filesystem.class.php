@@ -281,7 +281,7 @@ class Filesystem
 		{
 			$it = new DirectoryIterator($path);
 		}
-		foreach ( $it as $entry)
+		foreach ($it as $entry)
 		{ 
 			if($it->isDot())
 			{

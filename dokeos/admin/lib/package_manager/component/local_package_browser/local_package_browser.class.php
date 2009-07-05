@@ -129,7 +129,7 @@ class LocalPackageBrowser
 				
 				$toolbar_data = array();
 	    		$toolbar_data[] = array(
-	    			'href' => $this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_SECTION => 'learning_object', PackageManager :: PARAM_PACKAGE => $installable_object)),
+	    			'href' => $this->manager->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_INSTALL_PACKAGE, PackageManager :: PARAM_INSTALL_TYPE => PackageManager :: INSTALL_LOCAL, PackageManager :: PARAM_SECTION => 'learning_object', PackageManager :: PARAM_PACKAGE => $installable_object)),
 	    			'label' => Translation :: get('Install'),
 	    			'img' => Theme :: get_image_path().'action_install.png'
 	    		);
