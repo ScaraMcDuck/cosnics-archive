@@ -11,7 +11,6 @@ class PackageInstallerApplicationType extends PackageInstallerType
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $application_name = $attributes->get_code();
-		$source->move_package_to_destination(Path :: get_application_path() . 'lib/' . $application_name);
         
         if ($this->verify_dependencies())
         {
@@ -63,7 +62,7 @@ class PackageInstallerApplicationType extends PackageInstallerType
             return $this->get_parent()->installation_failed('dependencies', Translation :: get('PackageDependenciesFailed'));
         }
 
-        $this->cleanup();
+        $source->cleanup();
 
         return true;
     }

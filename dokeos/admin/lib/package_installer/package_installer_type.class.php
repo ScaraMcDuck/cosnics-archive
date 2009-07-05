@@ -49,28 +49,6 @@ abstract class PackageInstallerType
 
     abstract function install();
 
-    function cleanup()
-    {
-        $source = $this->get_source();
-        $package_folder = $source->get_package_folder();
-        
-        if (!$package_folder)
-        {
-        	$this->get_parent()->add_message(Translation :: get('NoTemporaryFilesToClean'));
-        }
-        else
-        {
-	        if (Filesystem :: remove($source->get_package_file()) && Filesystem :: remove($source->get_package_folder()))
-	        {
-	            $this->get_parent()->add_message(Translation :: get('TemporaryFilesRemoved'));
-	        }
-	        else
-	        {
-	            $this->get_parent()->add_message(Translation :: get('ProblemRemovingTemporaryFiles'), PackageInstaller :: TYPE_WARNING);
-	        }
-        }
-    }
-
     function verify_dependencies()
     {
         $source = $this->get_source();
