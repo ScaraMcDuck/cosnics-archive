@@ -300,7 +300,6 @@ class Database
 		$query = 'DELETE FROM ' . $this->escape_table_name($table_name) . ' WHERE ' . $condition;
 		$sth = $this->connection->prepare($query);
 
-
 		if($res = $sth->execute())
 		{
 			return true;
@@ -308,6 +307,58 @@ class Database
 		else
 		{
 			return false;
+		}
+	}
+	
+	/**
+	 * Deletes the objects of a given table
+	 * @param String $table_name
+	 * @param Condition $condition the condition
+	 * @return boolean
+	 */
+	function delete_objects($table_name, $condition = null)
+	{
+		$query = 'DELETE '. $this->get_alias($table_name) .'.* FROM '. $this->escape_table_name($table_name). ' AS '. $this->get_alias($table_name);
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $this->get_alias($table_name));
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$statement = $this->connection->prepare($query);
+		
+		if($res = $statement->execute($params))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * Drop a given storage unit
+	 * @param String $table_name
+	 * @return boolean
+	 */
+	function drop_storage_unit($table_name)
+	{
+		$this->connection->loadModule('Manager');
+		$manager = $this->connection->manager;
+		
+		$result = $manager->dropTable($this->escape_table_name($table_name));
+		
+		if (MDB2 :: isError($result))
+		{
+			return false;
+		}
+		else
+		{
+		    return true;
 		}
 	}
 

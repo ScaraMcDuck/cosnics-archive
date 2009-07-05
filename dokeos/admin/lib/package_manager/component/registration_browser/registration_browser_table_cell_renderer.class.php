@@ -60,7 +60,7 @@ class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellR
     		$toolbar_data[] = array(
     			'href' => $this->browser->get_registration_deactivation_url($registration),
     			'label' => Translation :: get('Deactivate'),
-    			'img' => Theme :: get_image_path().'action_deactivate.png'
+    			'img' => Theme :: get_image_path() . 'action_deactivate.png'
     		);
 		}
 		else
@@ -68,9 +68,15 @@ class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellR
     		$toolbar_data[] = array(
     			'href' => $this->browser->get_registration_activation_url($registration),
     			'label' => Translation :: get('Activate'),
-    			'img' => Theme :: get_image_path().'action_activate.png'
+    			'img' => Theme :: get_image_path() . 'action_activate.png'
     		);
 		}
+		
+    	$toolbar_data[] = array(
+    		'href' => $this->browser->get_registration_removal_url($registration),
+    		'label' => Translation :: get('Deinstall'),
+    		'img' => Theme :: get_common_image_path() . 'action_recycle_bin.png'
+    	);
 
 		return DokeosUtilities :: build_toolbar($toolbar_data);
 	}

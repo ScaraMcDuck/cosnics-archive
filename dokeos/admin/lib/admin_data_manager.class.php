@@ -152,6 +152,7 @@ abstract class AdminDataManager
 	abstract function count_publication_attributes($type = null, $condition = null);
 
 	abstract function delete_learning_object_publications($object_id);
-
+	
+    abstract function delete_settings($condition = null);
 }
 ?>

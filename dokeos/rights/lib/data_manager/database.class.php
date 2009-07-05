@@ -34,6 +34,8 @@ class DatabaseRightsDataManager extends RightsDataManager
 	 * The database connection.
 	 */
 	private $connection;
+	
+	private $database;
 
 	/**
 	 * The table name prefix, if any.
@@ -42,6 +44,9 @@ class DatabaseRightsDataManager extends RightsDataManager
 
 	function initialize()
 	{
+		$this->database = new Database();
+		$this->database->set_prefix('rights_');
+		
 		$this->connection = Connection :: get_instance()->get_connection();
 		$this->connection->setOption('debug_handler', array(get_class($this),'debug'));
 		
@@ -950,6 +955,20 @@ class DatabaseRightsDataManager extends RightsDataManager
 		$res = $sth->execute(array($role->get_id()));
 		
 		return true;
+	}
+	
+    function delete_locations($condition = null)
+	{
+		return $this->database->delete_objects(Location :: get_table_name(), $condition);
+	}
+	
+	function delete_orphaned_role_right_locations()
+	{
+		$query = 'DELETE FROM '.$this->escape_table_name('role_right_location').' WHERE ';
+		$query .= $this->escape_column_name(RoleRightLocation :: PROPERTY_LOCATION_ID).' NOT IN (SELECT '.$this->escape_column_name(Location :: PROPERTY_ID).' FROM '.$this->escape_table_name('location').') OR ';
+		$query .= $this->escape_column_name(RoleRightLocation :: PROPERTY_ROLE_ID).' NOT IN (SELECT '.$this->escape_column_name(Role :: PROPERTY_ID).' FROM '.$this->escape_table_name('role').')';
+		$sth = $this->connection->prepare($query);
+		return $sth->execute();
 	}
 }
 ?>
