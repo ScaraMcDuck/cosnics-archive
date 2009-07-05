@@ -9,10 +9,9 @@ class PackageInstallerApplicationType extends PackageInstallerType
     function install()
     {
         $source = $this->get_source();
-        $source->move_package_to_destination();
-        
         $attributes = $source->get_attributes();
         $application_name = $attributes->get_code();
+		$source->move_package_to_destination(Path :: get_application_path() . 'lib/' . $application_name);
         
         if ($this->verify_dependencies())
         {

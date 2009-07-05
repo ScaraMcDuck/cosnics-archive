@@ -5,7 +5,9 @@ class PackageInstallerLocalSource extends PackageInstallerSource
 {
 	function get_archive()
 	{
-		
+		/**
+		 * Nothing to get since we're performing a local installation.
+		 */
 	}
 	
     function process()
@@ -18,6 +20,7 @@ class PackageInstallerLocalSource extends PackageInstallerSource
 		$package->set_section($package_section);
 		$package->set_code($package_code);
 		$package->set_name($package_name);
+		$package->set_version('1.0.0');
 		$package->set_dependencies(serialize(array()));
 		
 		$this->set_attributes($package);

@@ -354,4 +354,15 @@ $lang['admin']['LearningObjectTitle'] = 'Objects';
 $lang['admin']['ApplicationTitle'] = 'Applications';
 $lang['admin']['LanguageTitle'] = 'Languages';
 $lang['admin']['PackageInstallation'] = 'Package installation';
+$lang['admin']['PackageMoveNotNecessary'] = 'Package is already in the right place, no file moving necessary';
+
+$lang['admin']['LearningObjectDependenciesVerified'] = 'Object dependencies were succesfully verified';
+$lang['admin']['LearningObjectStorageUnitsSuccessfullyCreated'] = 'Object storage units were successfully created';
+$lang['admin']['LearningObjectRegistrationAdded'] = 'Object registration was added';
+$lang['admin']['NoTemporaryFilesToClean'] = 'No temporary files were found, so there\'s nothing to clean up';
+$lang['admin'][''] = '';
+$lang['admin'][''] = '';
+$lang['admin'][''] = '';
+$lang['admin'][''] = '';
+$lang['admin'][''] = '';
 ?>
