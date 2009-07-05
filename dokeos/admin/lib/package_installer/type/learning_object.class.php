@@ -12,7 +12,6 @@ class PackageInstallerLearningObjectType extends PackageInstallerType
         $attributes = $source->get_attributes();
         $object_name = $attributes->get_code();
         $object_path = Path :: get_repository_path() . 'lib/learning_object/' . $object_name;
-		$source->move_package_to_destination($object_path);
         
         if ($this->verify_dependencies())
         {
@@ -55,7 +54,7 @@ class PackageInstallerLearningObjectType extends PackageInstallerType
             return $this->get_parent()->installation_failed('dependencies', Translation :: get('PackageDependenciesFailed'));
         }
 
-        $this->cleanup();
+        $source->cleanup();
 
         return true;
     }

@@ -75,8 +75,18 @@ abstract class PackageInstallerSource
             }
             else
             {
-                $this->set_package_folder($extract_path);
+            	$this->set_package_folder($extract_path);
                 $this->get_parent()->add_message(Translation :: get('RemotePackageExtracted'));
+                
+				if (!Filesystem :: move_file($extract_path, Path :: get(SYS_PATH)))
+		        {
+		        	$this->installation_failed('source', Translation :: get('PackageMoveFailed'));
+		        }
+		        else
+		        {
+		        	$this->add_message(Translation :: get('PackageMovedSucessfully'));
+		        }
+                
                 return true;
             }
         }
@@ -88,27 +98,6 @@ abstract class PackageInstallerSource
         $compression = Filecompression :: factory();
         return $compression->extract_file($file_path);
     }
-    
-	function move_package_to_destination($destination_path)
-	{
-        $package_folder = $this->get_package_folder();
-        
-        if ($package_folder)
-        {	        
-	        if (!Filesystem :: move_file($package_folder, $destination_path))
-	        {
-	        	$this->installation_failed('source', Translation :: get('PackageMoveFailed'));
-	        }
-	        else
-	        {
-	        	$this->add_message(Translation :: get('PackageMovedSucessfully'));
-	        }
-        }
-        else
-        {
-        	$this->add_message(Translation :: get('PackageMoveNotNecessary'));
-        }
-	}
 
     function get_package_file()
     {
@@ -119,7 +108,7 @@ abstract class PackageInstallerSource
     {
         $this->package_file = $package_file;
     }
-
+    
     function get_package_folder()
     {
         return $this->package_folder;
@@ -138,6 +127,27 @@ abstract class PackageInstallerSource
     function set_attributes($attributes)
     {
         $this->attributes = $attributes;
+    }
+    
+    function cleanup()
+    {
+		$package_folder = $this->get_package_folder();
+        
+        if (!$package_folder)
+        {
+        	$this->get_parent()->add_message(Translation :: get('NoTemporaryFilesToClean'));
+        }
+        else
+        {
+	        if (Filesystem :: remove($source->get_package_file()) && Filesystem :: remove($source->get_package_folder()))
+	        {
+	            $this->get_parent()->add_message(Translation :: get('TemporaryFilesRemoved'));
+	        }
+	        else
+	        {
+	            $this->get_parent()->add_message(Translation :: get('ProblemRemovingTemporaryFiles'), PackageInstaller :: TYPE_WARNING);
+	        }
+        }
     }
 }
 ?>
