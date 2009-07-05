@@ -25,6 +25,7 @@ class PackageManager extends SubManager
     const ACTION_LOCAL_PACKAGE = 'local';
     const ACTION_SYNCHRONISE_REMOTE_PACKAGES = 'synchronise';
     const ACTION_INSTALL_PACKAGE = 'install';
+    const ACTION_REMOVE_PACKAGE = 'remove';
 
     const INSTALL_REMOTE = 'remote';
     const INSTALL_ARCHIVE = 'archive';
@@ -68,6 +69,9 @@ class PackageManager extends SubManager
             case self :: ACTION_LOCAL_PACKAGE :
                 $component = PackageManagerComponent :: factory('Local', $this);
                 break;
+            case self :: ACTION_REMOVE_PACKAGE :
+                $component = PackageManagerComponent :: factory('Remover', $this);
+                break;
             default :
                 $component = PackageManagerComponent :: factory('Browser', $this);
                 break;
@@ -104,6 +108,11 @@ class PackageManager extends SubManager
     function get_registration_deactivation_url($registration)
     {
         return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_DEACTIVATE_PACKAGE, self :: PARAM_REGISTRATION => $registration->get_id()));
+    }
+    
+    function get_registration_removal_url($registration)
+    {
+        return $this->get_url(array(self :: PARAM_PACKAGE_ACTION => self :: ACTION_REMOVE_PACKAGE, self :: PARAM_SECTION => $registration->get_type(), self :: PARAM_PACKAGE => $registration->get_id()));
     }
 
     function get_remote_package_installation_url($remote_package)

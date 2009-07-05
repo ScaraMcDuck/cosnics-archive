@@ -33,7 +33,7 @@ class LocalPackageBrowser
 		$sections = array('application', 'learning_object', 'language');
 		
 		$current_section = Request :: get(PackageManager :: PARAM_SECTION);
-		$current_section = $current_section ? $current_section : 'learning_object';
+		$current_section = $current_section ? $current_section : 'application';
 		$html[] = '<br /><div class="tabbed-pane"><ul class="tabbed-pane-tabs">';
 		
 		foreach ($sections as $section)

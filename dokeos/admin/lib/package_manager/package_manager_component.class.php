@@ -27,6 +27,11 @@ class PackageManagerComponent extends SubManagerComponent
     {
         return $this->get_parent()->get_registration_deactivation_url($registration);
     }
+    
+    function get_registration_removal_url($registration)
+    {
+        return $this->get_parent()->get_registration_removal_url($registration);
+    }
 
     function get_remote_package_installation_url($remote_package)
     {

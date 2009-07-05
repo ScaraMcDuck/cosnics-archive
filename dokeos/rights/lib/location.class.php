@@ -10,6 +10,8 @@ require_once dirname(__FILE__).'/rights_utilities.class.php';
 
 class Location
 {
+	const CLASS_NAME = __CLASS__;
+	
 	const PROPERTY_ID = 'id';
 	const PROPERTY_LOCATION = 'location';
 	const PROPERTY_LEFT_VALUE = 'left_value';
@@ -499,6 +501,11 @@ class Location
         }
         
         return true;
+	}
+	
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>

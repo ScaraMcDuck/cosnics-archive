@@ -88,5 +88,9 @@ abstract class RightsDataManager
 	abstract function update_role($role);
 	
 	abstract function delete_role($role);
+	
+	abstract function delete_locations($condition = null);
+	
+	abstract function delete_orphaned_role_right_locations();
 }
 ?>
