@@ -93,8 +93,8 @@ class DatabaseMenuDataManager extends MenuDataManager
 
     function update_navigation_item($navigation_item)
     {
-		$condition = new EqualityCondition(NavigationItem :: PROPERTY_ID, $navigation_item->get_id());
-		$this->database->update($navigation_item, $condition);
+        $condition = new EqualityCondition(NavigationItem :: PROPERTY_ID, $navigation_item->get_id());
+        $this->database->update($navigation_item, $condition);
 
         $old_navigation_item = $this->retrieve_navigation_item($navigation_item->get_id());
 
@@ -127,7 +127,7 @@ class DatabaseMenuDataManager extends MenuDataManager
 
     function retrieve_max_sort_value($table, $column, $condition = null)
     {
-        return $this->database->max_sort_value($table, $column, $condition);
+        return $this->database->retrieve_max_sort_value($table, $column, $condition);
     }
 
     function create_navigation_item($navigation_item)

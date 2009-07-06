@@ -3,9 +3,9 @@ require_once dirname(__FILE__) . '/menu_data_manager.class.php';
 
 class NavigationItem
 {
-    
+
     const CLASS_NAME = __CLASS__;
-    
+
     const PROPERTY_ID = 'id';
     const PROPERTY_CATEGORY = 'category';
     const PROPERTY_TITLE = 'title';
@@ -14,7 +14,7 @@ class NavigationItem
     const PROPERTY_SECTION = 'section';
     const PROPERTY_EXTRA = 'extra';
     const PROPERTY_URL = 'url';
-    
+
     private $defaultProperties;
 
     function NavigationItem($defaultProperties = array ())
@@ -139,7 +139,7 @@ class NavigationItem
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -147,13 +147,17 @@ class NavigationItem
     {
         $mdm = MenuDataManager :: get_instance();
         $id = $mdm->get_next_navigation_item_id();
+        $condition = new EqualityCondition(self :: PROPERTY_CATEGORY, $this->get_category());
+        $sort = $mdm->retrieve_max_sort_value(self :: get_table_name(), self :: PROPERTY_SORT, $condition);
+
+        $this->set_sort($sort + 1);
         $this->set_id($id);
         $success = $mdm->create_navigation_item($this);
         if (! $success)
         {
             return false;
         }
-        
+
         return true;
     }
 
@@ -165,7 +169,7 @@ class NavigationItem
         {
             return false;
         }
-        
+
         return true;
     }
 

@@ -45,7 +45,7 @@ class NavigationItemBrowserTableCellRenderer extends DefaultNavigationItemTableC
     {
         $order = $menu->get_sort();
         $max = $this->browser->count_navigation_items($this->browser->get_condition());
-        
+
         if ($max == 1)
         {
             $index = 'single';
@@ -68,11 +68,11 @@ class NavigationItemBrowserTableCellRenderer extends DefaultNavigationItemTableC
                 }
             }
         }
-        
+
         $toolbar_data = array();
         $edit_url = $this->browser->get_navigation_item_editing_url($menu);
         $toolbar_data[] = array('href' => $edit_url, 'label' => Translation :: get('Edit'), 'img' => Theme :: get_common_image_path() . 'action_edit.png');
-        
+
         if ($index == 'first' || $index == 'single')
         {
             $toolbar_data[] = array('label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up_na.png');
@@ -82,7 +82,7 @@ class NavigationItemBrowserTableCellRenderer extends DefaultNavigationItemTableC
             $move_url = $this->browser->get_navigation_item_moving_url($menu, 'up');
             $toolbar_data[] = array('href' => $move_url, 'label' => Translation :: get('MoveUp'), 'img' => Theme :: get_common_image_path() . 'action_up.png');
         }
-        
+
         if ($index == 'last' || $index == 'single')
         {
             $toolbar_data[] = array('label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down_na.png');
@@ -92,10 +92,10 @@ class NavigationItemBrowserTableCellRenderer extends DefaultNavigationItemTableC
             $move_url = $this->browser->get_navigation_item_moving_url($menu, 'down');
             $toolbar_data[] = array('href' => $move_url, 'label' => Translation :: get('MoveDown'), 'img' => Theme :: get_common_image_path() . 'action_down.png');
         }
-        
+
         $delete_url = $this->browser->get_navigation_item_deleting_url($menu);
         $toolbar_data[] = array('href' => $delete_url, 'label' => Translation :: get('Delete'), 'confirm' => true, 'img' => Theme :: get_common_image_path() . 'action_delete.png');
-        
+
         return DokeosUtilities :: build_toolbar($toolbar_data);
     }
 }
