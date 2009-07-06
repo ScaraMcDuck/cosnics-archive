@@ -2,11 +2,11 @@
 /**
  * @package application.lib.menu.menu_manager.component.menupublicationbrowser
  */
-require_once dirname(__FILE__).'/../../../menu_item_table/default_menu_item_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../navigation_item_table/default_navigation_item_table_column_model.class.php';
 /**
  * Table column model for the publication browser table
  */
-class MenuItemBrowserTableColumnModel extends DefaultMenuItemTableColumnModel
+class NavigationItemBrowserTableColumnModel extends DefaultNavigationItemTableColumnModel
 {
 	/**
 	 * The tables modification column
@@ -15,7 +15,7 @@ class MenuItemBrowserTableColumnModel extends DefaultMenuItemTableColumnModel
 	/**
 	 * Constructor
 	 */
-	function MenuItemBrowserTableColumnModel($browser)
+	function NavigationItemBrowserTableColumnModel($browser)
 	{
 		parent :: __construct();
 		$this->set_default_order_column(0);

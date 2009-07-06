@@ -26,13 +26,13 @@ abstract class MenuDataManager
 	{
 		$this->initialize();
 	}
-	
+
 	/**
 	 * Initializes the data manager.
 	 */
 	abstract function initialize();
-	
-	abstract function get_next_menu_item_id();
+
+	abstract function get_next_navigation_item_id();
 
 	/**
 	 * Uses a singleton pattern and a factory pattern to return the data
@@ -51,7 +51,7 @@ abstract class MenuDataManager
 		}
 		return self :: $instance;
 	}
-	
+
 	/**
 	 * Creates a storage unit
 	 * @param string $name Name of the storage unit
@@ -60,15 +60,17 @@ abstract class MenuDataManager
 	 * storage unit
 	 */
 	abstract function create_storage_unit($name,$properties,$indexes);
-	
-	abstract function count_menu_items($condition = null);
-	
-	abstract function retrieve_menu_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
-	
-	abstract function retrieve_menu_item($id);
-	
-	abstract function retrieve_menu_item_at_sort($parent, $sort, $direction);
-	
-	abstract function update_menu_item($menuitem);
+
+	abstract function count_navigation_items($condition = null);
+
+	abstract function retrieve_navigation_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null);
+
+	abstract function retrieve_navigation_item($id);
+
+	abstract function retrieve_navigation_item_at_sort($parent, $sort, $direction);
+
+	abstract function update_navigation_item($menuitem);
+
+	abstract function delete_navigation_items($condition = null);
 }
 ?>

@@ -46,46 +46,46 @@ abstract class PackageInstallerSource
         $this->get_parent()->process_result($type);
     }
 
-	/**
-	 * Invokes the constructor of the class that corresponds to the specified
-	 * type of package installer source.
-	 */
-	static function factory($parent, $type)
-	{
-		$class = 'PackageInstaller' . DokeosUtilities :: underscores_to_camelcase($type) . 'Source';
-		require_once dirname(__FILE__) . '/source/' . $type . '.class.php';
-		return new $class($parent);
-	}
+    /**
+     * Invokes the constructor of the class that corresponds to the specified
+     * type of package installer source.
+     */
+    static function factory($parent, $type)
+    {
+        $class = 'PackageInstaller' . DokeosUtilities :: underscores_to_camelcase($type) . 'Source';
+        require_once dirname(__FILE__) . '/source/' . $type . '.class.php';
+        return new $class($parent);
+    }
 
-	abstract function get_archive();
+    abstract function get_archive();
 
     function process()
     {
         $this->set_package_file($this->get_archive());
-        if (!$this->get_package_file())
+        if (! $this->get_package_file())
         {
             return $this->get_parent()->installation_failed('source', Translation :: get('RemotePackageNotRetrieved'));
         }
         else
         {
             $extract_path = $this->extract_archive();
-            if (!$extract_path)
+            if (! $extract_path)
             {
                 return $this->get_parent()->installation_failed('source', Translation :: get('RemotePackageNotExtracted'));
             }
             else
             {
-            	$this->set_package_folder($extract_path);
+                $this->set_package_folder($extract_path);
                 $this->get_parent()->add_message(Translation :: get('RemotePackageExtracted'));
                 
-				if (!Filesystem :: move_file($extract_path, Path :: get(SYS_PATH)))
-		        {
-		        	$this->installation_failed('source', Translation :: get('PackageMoveFailed'));
-		        }
-		        else
-		        {
-		        	$this->add_message(Translation :: get('PackageMovedSucessfully'));
-		        }
+                if (! Filesystem :: move_file($extract_path, Path :: get(SYS_PATH)))
+                {
+                    $this->installation_failed('source', Translation :: get('PackageMoveFailed'));
+                }
+                else
+                {
+                    $this->add_message(Translation :: get('PackageMovedSucessfully'));
+                }
                 
                 return true;
             }
@@ -108,7 +108,7 @@ abstract class PackageInstallerSource
     {
         $this->package_file = $package_file;
     }
-    
+
     function get_package_folder()
     {
         return $this->package_folder;
@@ -128,25 +128,25 @@ abstract class PackageInstallerSource
     {
         $this->attributes = $attributes;
     }
-    
+
     function cleanup()
     {
-		$package_folder = $this->get_package_folder();
+        $package_folder = $this->get_package_folder();
         
-        if (!$package_folder)
+        if (! $package_folder)
         {
-        	$this->get_parent()->add_message(Translation :: get('NoTemporaryFilesToClean'));
+            $this->get_parent()->add_message(Translation :: get('NoTemporaryFilesToClean'));
         }
         else
         {
-	        if (Filesystem :: remove($source->get_package_file()) && Filesystem :: remove($source->get_package_folder()))
-	        {
-	            $this->get_parent()->add_message(Translation :: get('TemporaryFilesRemoved'));
-	        }
-	        else
-	        {
-	            $this->get_parent()->add_message(Translation :: get('ProblemRemovingTemporaryFiles'), PackageInstaller :: TYPE_WARNING);
-	        }
+            if (Filesystem :: remove($source->get_package_file()) && Filesystem :: remove($source->get_package_folder()))
+            {
+                $this->get_parent()->add_message(Translation :: get('TemporaryFilesRemoved'));
+            }
+            else
+            {
+                $this->get_parent()->add_message(Translation :: get('ProblemRemovingTemporaryFiles'), PackageInstaller :: TYPE_WARNING);
+            }
         }
     }
 }

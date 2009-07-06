@@ -27,6 +27,16 @@ class BreadcrumbTrail
     	$this->help_items[] = $help_item;
     }
 
+    function get_help_items()
+    {
+        return $this->help_items;
+    }
+
+    function set_help_items($help_items)
+    {
+        $this->help_items = $help_items;
+    }
+
     function remove($breadcrumb)
     {
     	// TODO: Write function to remove a specific element

@@ -3,7 +3,7 @@
  * @package application.menu
  */
 require_once dirname(__FILE__).'/../lib/menu_data_manager.class.php';
-require_once dirname(__FILE__).'/../lib/menu_item.class.php';
+require_once dirname(__FILE__).'/../lib/navigation_item.class.php';
 require_once Path :: get_library_path().'installer.class.php';
 require_once Path :: get_library_path().'filesystem/filesystem.class.php';
 require_once Path :: get_tracking_path() .'lib/events.class.php';
@@ -62,12 +62,12 @@ class MenuInstaller extends Installer
 			// TODO: Temporary fix.
 			if(isset($values['install_' . $application]) && $application != '.svn')
 			{
-				$menu_item = new MenuItem();
-				$menu_item->set_title($name);
-				$menu_item->set_application($application);
-				$menu_item->set_section($application);
-				$menu_item->set_category(0);
-				$menu_item->create();
+				$navigation_item = new NavigationItem();
+				$navigation_item->set_title($name);
+				$navigation_item->set_application($application);
+				$navigation_item->set_section($application);
+				$navigation_item->set_category(0);
+				$navigation_item->create();
 			}
 		}
 		

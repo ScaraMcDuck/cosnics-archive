@@ -6,14 +6,14 @@
 // TODO: Add functionality to menu item so it "knows" whether it's the first or the last item
 
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_cell_renderer.class.php';
-require_once dirname(__FILE__).'/../menu_item.class.php';
+require_once dirname(__FILE__).'/../navigation_item.class.php';
 
-class DefaultMenuItemTableCellRenderer implements ObjectTableCellRenderer
+class DefaultNavigationItemTableCellRenderer implements ObjectTableCellRenderer
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultMenuItemTableCellRenderer()
+	function DefaultNavigationItemTableCellRenderer()
 	{
 	}
 	/**
@@ -23,14 +23,14 @@ class DefaultMenuItemTableCellRenderer implements ObjectTableCellRenderer
 	 * @param Learning Object $menu_publication The learning object to render
 	 * @return string A HTML representation of the rendered table cell
 	 */
-	function render_cell($column, $menu_item)
+	function render_cell($column, $navigation_item)
 	{
 		if ($property = $column->get_object_property())
 		{
 			switch ($property)
 			{
-				case MenuItem :: PROPERTY_TITLE :
-					return $menu_item->get_title();
+				case NavigationItem :: PROPERTY_TITLE :
+					return $navigation_item->get_title();
 			}
 		}
 		
@@ -38,8 +38,8 @@ class DefaultMenuItemTableCellRenderer implements ObjectTableCellRenderer
 		{
 			switch ($title)
 			{
-				case Translation :: get(ucfirst(MenuItem :: PROPERTY_TITLE)) :
-					return $menu_item->get_title();
+				case Translation :: get(ucfirst(NavigationItem :: PROPERTY_TITLE)) :
+					return $navigation_item->get_title();
 			}
 		}
 		

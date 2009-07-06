@@ -9,7 +9,7 @@ class PackageInstaller
     const TYPE_CONFIRM = '2';
     const TYPE_WARNING = '3';
     const TYPE_ERROR = '4';
-
+    
     private $source;
     private $message;
     private $html;
@@ -24,23 +24,23 @@ class PackageInstaller
     function run()
     {
         $installer_source = PackageInstallerSource :: factory($this, $this->source);
-        if (!$installer_source->process())
+        if (! $installer_source->process())
         {
             return $this->installation_failed('source', Translation :: get('PackageRetrievalFailed'));
         }
         else
         {
             $this->process_result('Source');
-
+            
             $attributes = $installer_source->get_attributes();
             $package = PackageInstallerType :: factory($this, $attributes->get_section(), $installer_source);
-            if (!$package->install())
+            if (! $package->install())
             {
                 return $this->installation_failed('settings', Translation :: get('PackageProcessingFailed'));
             }
             else
             {
-            	$this->installation_successful('settings', Translation :: get('ApplicationSettingsDone'));
+                $this->installation_successful('settings', Translation :: get('ApplicationSettingsDone'));
                 return $this->installation_successful('finished', Translation :: get('PackageCompletelyInstalled'));
             }
         }
@@ -90,7 +90,7 @@ class PackageInstaller
 
     function retrieve_message()
     {
-        $message = implode('<br />'."\n", $this->get_message());
+        $message = implode('<br />' . "\n", $this->get_message());
         $this->set_message(array());
         return $message;
     }
@@ -123,13 +123,13 @@ class PackageInstaller
 
     function process_result($type = '')
     {
-		$this->add_html('<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(' . Theme :: get_image_path() . 'place_'. $type .'.png);">');
-//		$this->add_html('<div class="learning_object">');
-		$this->add_html('<div class="title">'. Translation :: get(DokeosUtilities :: underscores_to_camelcase($type)) .'</div>');
-		$this->add_html('<div class="description">');
-		$this->add_html($this->retrieve_message());
-		$this->add_html('</div>');
-		$this->add_html('</div>');
+        $this->add_html('<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(' . Theme :: get_image_path() . 'place_' . $type . '.png);">');
+        //		$this->add_html('<div class="learning_object">');
+        $this->add_html('<div class="title">' . Translation :: get(DokeosUtilities :: underscores_to_camelcase($type)) . '</div>');
+        $this->add_html('<div class="description">');
+        $this->add_html($this->retrieve_message());
+        $this->add_html('</div>');
+        $this->add_html('</div>');
     }
 
     function retrieve_result()

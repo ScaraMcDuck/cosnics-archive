@@ -5,7 +5,8 @@ require_once Path :: get_admin_path() . 'lib/registration.class.php';
 require_once Path :: get_repository_path() . 'lib/repository_data_manager.class.php';
 
 class PackageInstallerLearningObjectType extends PackageInstallerType
-{	
+{
+
     function install()
     {
         $source = $this->get_source();
@@ -23,39 +24,39 @@ class PackageInstallerLearningObjectType extends PackageInstallerType
             $rdm = RepositoryDataManager :: get_instance();
             $object_files = Filesystem :: get_directory_content($object_path, Filesystem :: LIST_FILES, false);
             
-            foreach($object_files as $file)
+            foreach ($object_files as $file)
             {
-            	if ((substr($file, -3) == 'xml'))
-				{
-					$storage_unit = $object_path . '/' . $file;
-					// Create the learning object table that stores the additional lo-properties
-					if (!$this->create_storage_unit($storage_unit))
-					{
-						return false;
-					}
-					else
-					{
-						$this->get_parent()->installation_successful('initilization', Translation :: get('LearningObjectStorageUnitsSuccessfullyCreated'));
-					}
-				}
+                if ((substr($file, - 3) == 'xml'))
+                {
+                    $storage_unit = $object_path . '/' . $file;
+                    // Create the learning object table that stores the additional lo-properties
+                    if (! $this->create_storage_unit($storage_unit))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        $this->get_parent()->installation_successful('initilization', Translation :: get('LearningObjectStorageUnitsSuccessfullyCreated'));
+                    }
+                }
             }
-
-    		if (!$this->add_registration())
-    		{
-    		    $this->get_parent()->add_message(Translation :: get('LearningObjectRegistrationNotAdded'), PackageInstaller :: TYPE_WARNING);
-    		}
-    		else
-    		{
-    		    $this->get_parent()->add_message(Translation :: get('LearningObjectRegistrationAdded'));
-    		}
+            
+            if (! $this->add_registration())
+            {
+                $this->get_parent()->add_message(Translation :: get('LearningObjectRegistrationNotAdded'), PackageInstaller :: TYPE_WARNING);
+            }
+            else
+            {
+                $this->get_parent()->add_message(Translation :: get('LearningObjectRegistrationAdded'));
+            }
         }
         else
         {
             return $this->get_parent()->installation_failed('dependencies', Translation :: get('PackageDependenciesFailed'));
         }
-
+        
         $source->cleanup();
-
+        
         return true;
     }
 
@@ -73,13 +74,13 @@ class PackageInstallerLearningObjectType extends PackageInstallerType
         
         return $registration->create();
     }
-    
+
     function create_storage_unit($path)
     {
-    	$rdm = RepositoryDataManager :: get_instance();
+        $rdm = RepositoryDataManager :: get_instance();
         $storage_unit_info = self :: parse_xml_file($path);
         $this->get_parent()->add_message(Translation :: get('StorageUnitCreation') . ': <em>' . $storage_unit_info['name'] . '</em>');
-        if (!$rdm->create_storage_unit($storage_unit_info['name'], $storage_unit_info['properties'], $storage_unit_info['indexes']))
+        if (! $rdm->create_storage_unit($storage_unit_info['name'], $storage_unit_info['properties'], $storage_unit_info['indexes']))
         {
             return $this->get_parent()->installation_failed(Translation :: get('StorageUnitCreationFailed') . ': <em>' . $storage_unit_info['name'] . '</em>');
         }
@@ -88,7 +89,7 @@ class PackageInstallerLearningObjectType extends PackageInstallerType
             return true;
         }
     }
-    
+
     /**
      * Parses an XML file describing a storage unit.
      * For defining the 'type' of the field, the same definition is used as the
@@ -106,13 +107,13 @@ class PackageInstallerLearningObjectType extends PackageInstallerType
         $object = $doc->getElementsByTagname('object')->item(0);
         $name = $object->getAttribute('name');
         $xml_properties = $doc->getElementsByTagname('property');
-        $attributes = array('type','length','unsigned','notnull','default','autoincrement','fixed');
-        foreach($xml_properties as $index => $property)
+        $attributes = array('type', 'length', 'unsigned', 'notnull', 'default', 'autoincrement', 'fixed');
+        foreach ($xml_properties as $index => $property)
         {
             $property_info = array();
-            foreach($attributes as $index => $attribute)
+            foreach ($attributes as $index => $attribute)
             {
-                if($property->hasAttribute($attribute))
+                if ($property->hasAttribute($attribute))
                 {
                     $property_info[$attribute] = $property->getAttribute($attribute);
                 }
@@ -120,12 +121,12 @@ class PackageInstallerLearningObjectType extends PackageInstallerType
             $properties[$property->getAttribute('name')] = $property_info;
         }
         $xml_indexes = $doc->getElementsByTagname('index');
-        foreach($xml_indexes as $key => $index)
+        foreach ($xml_indexes as $key => $index)
         {
             $index_info = array();
             $index_info['type'] = $index->getAttribute('type');
             $index_properties = $index->getElementsByTagname('indexproperty');
-            foreach($index_properties as $subkey => $index_property)
+            foreach ($index_properties as $subkey => $index_property)
             {
                 $index_info['fields'][$index_property->getAttribute('name')] = array('length' => $index_property->getAttribute('length'));
             }
@@ -135,7 +136,7 @@ class PackageInstallerLearningObjectType extends PackageInstallerType
         $result['name'] = $name;
         $result['properties'] = $properties;
         $result['indexes'] = $indexes;
-
+        
         return $result;
     }
 }

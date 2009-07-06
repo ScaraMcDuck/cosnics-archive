@@ -12,23 +12,23 @@ require_once Path :: get_admin_path() . 'lib/package_manager/component/remote_pa
  */
 class RemotePackageBrowserTable extends ObjectTable
 {
-	const DEFAULT_NAME = 'remote_package_browser_table';
+    const DEFAULT_NAME = 'remote_package_browser_table';
 
-	/**
-	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
-	 */
-	function RemotePackageBrowserTable($browser, $parameters, $condition)
-	{
-		$model = new RemotePackageBrowserTableColumnModel();
-		$renderer = new RemotePackageBrowserTableCellRenderer($browser);
-		$data_provider = new RemotePackageBrowserTableDataProvider($browser, $condition);
-		parent :: __construct($data_provider, RemotePackageBrowserTable :: DEFAULT_NAME, $model, $renderer);
-		$this->set_additional_parameters($parameters);
-		$actions = array();
-		$actions[PackageManager :: PARAM_INSTALL_SELECTED] = Translation :: get('InstallSelected');
-		$this->set_form_actions($actions);
-		$this->set_default_row_count(20);
-	}
+    /**
+     * Constructor
+     * @see LearningObjectTable::LearningObjectTable()
+     */
+    function RemotePackageBrowserTable($browser, $parameters, $condition)
+    {
+        $model = new RemotePackageBrowserTableColumnModel();
+        $renderer = new RemotePackageBrowserTableCellRenderer($browser);
+        $data_provider = new RemotePackageBrowserTableDataProvider($browser, $condition);
+        parent :: __construct($data_provider, RemotePackageBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        $this->set_additional_parameters($parameters);
+        $actions = array();
+        $actions[PackageManager :: PARAM_INSTALL_SELECTED] = Translation :: get('InstallSelected');
+        $this->set_form_actions($actions);
+        $this->set_default_row_count(20);
+    }
 }
 ?>

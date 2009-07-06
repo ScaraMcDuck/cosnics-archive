@@ -2,7 +2,8 @@
 <application name="admin">
 	<settings>
 		<category name="administrator">
-			<setting name="show_administrator_data" field="radio" default="true">
+			<setting name="show_administrator_data" field="radio"
+				default="true">
 				<options type="static">
 					<option name="true" value="true" />
 					<option name="false" value="false" />
@@ -10,7 +11,8 @@
 			</setting>
 			<setting name="administrator_firstname" field="text" default="Dokeos" />
 			<setting name="administrator_surname" field="text" default="Administrator" />
-			<setting name="administrator_email" field="text" default="dokeos.admin@mydokeos.com" />
+			<setting name="administrator_email" field="text"
+				default="dokeos.admin@mydokeos.com" />
 			<setting name="administrator_telephone" field="text" default="000/1234567" />
 		</category>
 		<category name="whoisonline">
@@ -26,7 +28,8 @@
 		<category name="platform">
 			<setting name="site_name" field="text" default="Dokeos" />
 			<setting name="institution" field="text" default="Dokeos" />
-			<setting name="institution_url" field="text" default="http://www.dokeosplanet.org" />
+			<setting name="institution_url" field="text"
+				default="http://www.dokeosplanet.org" />
 			<setting name="no_reply_email" field="text" default="" />
 			<setting name="page_after_login" field="radio" default="home">
 				<options type="static">
@@ -34,7 +37,8 @@
 					<option name="courses" value="weblcms" />
 				</options>
 			</setting>
-			<setting name="public_pages_compliance_to_wai" field="radio" default="0">
+			<setting name="public_pages_compliance_to_wai" field="radio"
+				default="0">
 				<options type="static">
 					<option name="true" value="1" />
 					<option name="false" value="0" />
@@ -65,7 +69,7 @@
 					<option name="test" value="test" />
 				</options>
 			</setting>
-			<setting name="version" field="text" default="2.0" locked="true"/>
+			<setting name="version" field="text" default="2.0" locked="true" />
 			<setting name="show_version_data" field="radio" default="0">
 				<options type="static">
 					<option name="true" value="1" />
@@ -89,23 +93,32 @@
 				</options>
 			</setting>
 			<setting name="replacement_extension" field="text" default="" />
-			<setting name="permissions_new_directories" field="text" default="0770" />
+			<setting name="permissions_new_directories" field="text"
+				default="0770" />
 			<setting name="permissions_new_files" field="text" default="0660" />
 		</category>
 		<category name="authentication">
 			<setting name="enable_platform_authentication" field="checkbox">
-				<options type="static"><option name="enable_platform_authentication" value="1" /></options>
+				<options type="static">
+					<option name="enable_platform_authentication" value="1" />
+				</options>
 			</setting>
 			<setting name="enable_external_authentication" field="checkbox">
-				<options type="static"><option name="enable_external_authentication" value="1" /></options>
+				<options type="static">
+					<option name="enable_external_authentication" value="1" />
+				</options>
 			</setting>
 		</category>
 		<category name="external_authentication">
 			<setting name="enable_ldap_authentication" field="checkbox">
-				<options type="static"><option name="enable_ldap_authentication" value="1" /></options>
+				<options type="static">
+					<option name="enable_ldap_authentication" value="1" />
+				</options>
 			</setting>
 			<setting name="enable_cas_authentication" field="checkbox">
-				<options type="static"><option name="enable_cas_authentication" value="1" /></options>
+				<options type="static">
+					<option name="enable_cas_authentication" value="1" />
+				</options>
 			</setting>
 		</category>
 		<category name="ldap_authentication">

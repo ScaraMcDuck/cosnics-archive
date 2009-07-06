@@ -250,9 +250,10 @@ abstract class Tool
 	/**
 	 * @see Application :: display_header()
 	 */
-	function display_header($breadcrumbtrail, $display_title, $help_item)
+	function display_header($breadcrumbtrail, $display_title)
 	{
 		$trail = new BreadcrumbTrail();
+		$trail->set_help_items($breadcrumbtrail->get_help_items());
 		switch($this->parent->get_course()->get_breadcrumb())
 		{
 			case Course :: BREADCRUMB_TITLE : $title = $this->parent->get_course()->get_name(); break;

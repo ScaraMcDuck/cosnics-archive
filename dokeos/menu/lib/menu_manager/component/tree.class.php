@@ -10,8 +10,8 @@ class MenuManagerTreeComponent extends MenuManagerComponent
 	function run()
 	{
 		// TODO: Develop further, still in experimental stage.
-		$root_item_condition = new EqualityCondition(MenuItem :: PROPERTY_CATEGORY, 0);
-		$root_items = $this->retrieve_menu_items($root_item_condition);
+		$root_item_condition = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, 0);
+		$root_items = $this->retrieve_navigation_items($root_item_condition);
 
 		$this_section = Header :: get_section();
 		$html = array();
@@ -30,8 +30,8 @@ class MenuManagerTreeComponent extends MenuManagerComponent
 				$url = 'index.php';
 			}
 
-			$subitem_condition = new EqualityCondition(MenuItem :: PROPERTY_CATEGORY, $root_item->get_id());
-			$subitems = $this->retrieve_menu_items($subitem_condition);
+			$subitem_condition = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, $root_item->get_id());
+			$subitems = $this->retrieve_navigation_items($subitem_condition);
 			$count = $subitems->size();
 			if ($count > 0)
 			{

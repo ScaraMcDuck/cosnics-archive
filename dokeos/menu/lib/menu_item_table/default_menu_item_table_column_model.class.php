@@ -4,14 +4,14 @@
  */
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column_model.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table_column.class.php';
-require_once dirname(__FILE__).'/../menu_item.class.php';
+require_once dirname(__FILE__).'/../navigation_item.class.php';
 
-class DefaultMenuItemTableColumnModel extends ObjectTableColumnModel
+class DefaultNavigationItemTableColumnModel extends ObjectTableColumnModel
 {
 	/**
 	 * Constructor
 	 */
-	function DefaultMenuItemTableColumnModel()
+	function DefaultNavigationItemTableColumnModel()
 	{
 		parent :: __construct(self :: get_default_columns(), 1);
 	}
@@ -22,7 +22,7 @@ class DefaultMenuItemTableColumnModel extends ObjectTableColumnModel
 	private static function get_default_columns()
 	{
 		$columns = array();
-		$columns[] = new ObjectTableColumn(Translation :: get(ucfirst(MenuItem :: PROPERTY_TITLE)), false, false);
+		$columns[] = new ObjectTableColumn(Translation :: get(ucfirst(NavigationItem :: PROPERTY_TITLE)), false, false);
 		return $columns;
 	}
 }

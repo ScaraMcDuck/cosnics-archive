@@ -2,13 +2,13 @@
 /**
  * @package application.lib.menu.menu_manager.component.menupublicationbrowser
  */
-require_once dirname(__FILE__).'/menu_item_browser_table_column_model.class.php';
-require_once dirname(__FILE__).'/../../../menu_item_table/default_menu_item_table_cell_renderer.class.php';
+require_once dirname(__FILE__).'/navigation_item_browser_table_column_model.class.php';
+require_once dirname(__FILE__).'/../../../navigation_item_table/default_navigation_item_table_cell_renderer.class.php';
 require_once dirname(__FILE__).'/../../menu_manager.class.php';
 /**
  * Cell renderer for the learning object browser table
  */
-class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
+class NavigationItemBrowserTableCellRenderer extends DefaultNavigationItemTableCellRenderer
 {
 	/**
 	 * The repository browser component
@@ -18,7 +18,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 	 * Constructor
 	 * @param MenuManagerManagerBrowserComponent $browser
 	 */
-	function MenuItemBrowserTableCellRenderer($browser)
+	function NavigationItemBrowserTableCellRenderer($browser)
 	{
 		parent :: __construct();
 		$this->browser = $browser;
@@ -26,7 +26,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 	// Inherited
 	function render_cell($column, $menu)
 	{
-		if ($column === MenuItemBrowserTableColumnModel :: get_modification_column())
+		if ($column === NavigationItemBrowserTableColumnModel :: get_modification_column())
 		{
 			return $this->get_modification_links($menu);
 		}
@@ -41,7 +41,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 	private function get_modification_links($menu)
 	{
 		$order = $menu->get_sort();
-		$max = $this->browser->count_menu_items($this->browser->get_condition());
+		$max = $this->browser->count_navigation_items($this->browser->get_condition());
 		
 		if($max == 1)
 		{
@@ -67,7 +67,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 		}
 		
 		$toolbar_data = array();
-		$edit_url = $this->browser->get_menu_item_editing_url($menu);
+		$edit_url = $this->browser->get_navigation_item_editing_url($menu);
 		$toolbar_data[] = array(
 			'href' => $edit_url,
 			'label' => Translation :: get('Edit'),
@@ -83,7 +83,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 		}
 		else
 		{
-			$move_url = $this->browser->get_menu_item_moving_url($menu, 'up');
+			$move_url = $this->browser->get_navigation_item_moving_url($menu, 'up');
 			$toolbar_data[] = array(
 				'href' => $move_url,
 				'label' => Translation :: get('MoveUp'),
@@ -100,7 +100,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 		}
 		else
 		{
-			$move_url = $this->browser->get_menu_item_moving_url($menu, 'down');
+			$move_url = $this->browser->get_navigation_item_moving_url($menu, 'down');
 			$toolbar_data[] = array(
 				'href' => $move_url,
 				'label' => Translation :: get('MoveDown'),
@@ -108,7 +108,7 @@ class MenuItemBrowserTableCellRenderer extends DefaultMenuItemTableCellRenderer
 			);
 		}
 
-		$delete_url = $this->browser->get_menu_item_deleting_url($menu);
+		$delete_url = $this->browser->get_navigation_item_deleting_url($menu);
 		$toolbar_data[] = array(
 			'href' => $delete_url,
 			'label' => Translation :: get('Delete'),

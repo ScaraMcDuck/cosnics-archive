@@ -6,14 +6,14 @@ require_once Path :: get_library_path() . 'core_application.class.php';
 
 require_once dirname(__FILE__).'/menu_manager_component.class.php';
 require_once dirname(__FILE__).'/../menu_data_manager.class.php';
-require_once dirname(__FILE__).'/../menu_item.class.php';
+require_once dirname(__FILE__).'/../navigation_item.class.php';
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/or_condition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/and_condition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/equality_condition.class.php';
 require_once dirname(__FILE__).'/../../../common/condition/pattern_match_condition.class.php';
 require_once Path :: get_library_path() . 'html/table/object_table/object_table.class.php';
-require_once dirname(__FILE__).'/component/menu_item_browser/menu_item_browser_table.class.php';
+require_once dirname(__FILE__).'/component/navigation_item_browser/navigation_item_browser_table.class.php';
 /**
  * A user manager provides some functionalities to the admin to manage
  * his users. For each functionality a component is available.
@@ -98,24 +98,24 @@ class MenuManager extends CoreApplication
 		return $component->run();
 	}
 
-	function count_menu_items($condition = null)
+	function count_navigation_items($condition = null)
 	{
-		return MenuDataManager :: get_instance()->count_menu_items($condition);
+		return MenuDataManager :: get_instance()->count_navigation_items($condition);
 	}
 
-	function retrieve_menu_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_navigation_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return MenuDataManager :: get_instance()->retrieve_menu_items($condition, $offset, $count, $order_property, $order_direction);
+		return MenuDataManager :: get_instance()->retrieve_navigation_items($condition, $offset, $count, $order_property, $order_direction);
 	}
 
-	function retrieve_menu_item($id)
+	function retrieve_navigation_item($id)
 	{
-		return MenuDataManager :: get_instance()->retrieve_menu_item($id);
+		return MenuDataManager :: get_instance()->retrieve_navigation_item($id);
 	}
 
-	function retrieve_menu_item_at_sort($parent, $sort, $direction)
+	function retrieve_navigation_item_at_sort($parent, $sort, $direction)
 	{
-		return MenuDataManager :: get_instance()->retrieve_menu_item_at_sort($parent, $sort, $direction);
+		return MenuDataManager :: get_instance()->retrieve_navigation_item_at_sort($parent, $sort, $direction);
 	}
 
 	function is_allowed($right, $locations = array())
@@ -171,31 +171,31 @@ class MenuManager extends CoreApplication
 		return $info;
 	}
 
-	function get_menu_item_creation_url()
+	function get_navigation_item_creation_url()
 	{
 		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_ADD_CATEGORY));
 	}
 
-	function get_menu_item_editing_url($menu_item)
+	function get_navigation_item_editing_url($navigation_item)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_EDIT_CATEGORY, self :: PARAM_CATEGORY => $menu_item->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_EDIT_CATEGORY, self :: PARAM_CATEGORY => $navigation_item->get_id()));
 	}
 
-	function get_menu_item_deleting_url($menu_item)
+	function get_navigation_item_deleting_url($navigation_item)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_DELETE_CATEGORY, self :: PARAM_CATEGORY => $menu_item->get_id()));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_DELETE_CATEGORY, self :: PARAM_CATEGORY => $navigation_item->get_id()));
 	}
 
-	function get_menu_item_moving_url($menu_item, $direction)
+	function get_navigation_item_moving_url($navigation_item, $direction)
 	{
-		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_MOVE_CATEGORY, self :: PARAM_CATEGORY => $menu_item->get_id(), self :: PARAM_DIRECTION => $direction));
+		return $this->get_url(array (self :: PARAM_ACTION => self :: ACTION_SORT_MENU, self :: PARAM_COMPONENT_ACTION => self :: ACTION_COMPONENT_MOVE_CATEGORY, self :: PARAM_CATEGORY => $navigation_item->get_id(), self :: PARAM_DIRECTION => $direction));
 	}
 
 	private function parse_input_from_table()
 	{
 		if (isset ($_POST['action']))
 		{
-			$selected_ids = $_POST[MenuItemBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
+			$selected_ids = $_POST[NavigationItemBrowserTable :: DEFAULT_NAME.ObjectTable :: CHECKBOX_NAME_SUFFIX];
 			if (empty ($selected_ids))
 			{
 				$selected_ids = array ();

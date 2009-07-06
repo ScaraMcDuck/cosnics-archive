@@ -5,19 +5,20 @@ require_once path :: get_menu_path() . 'lib/menu_data_manager.class.php';
 require_once path :: get_menu_path() . 'lib/menu_item.class.php';
 
 class PackageInstallerApplicationType extends PackageInstallerType
-{	
+{
+
     function install()
     {
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $application_name = $attributes->get_code();
-        
+
         if ($this->verify_dependencies())
         {
             $this->get_parent()->installation_successful('dependencies', Translation :: get('ApplicationDependenciesVerified'));
             $installer = Installer :: factory($application_name, array());
 
-            if(!$installer->install())
+            if (! $installer->install())
             {
                 return $this->get_parent->installation_failed('initilization', Translation :: get('ApplicationInitilizationFailed'));
             }
@@ -29,33 +30,33 @@ class PackageInstallerApplicationType extends PackageInstallerType
 
             $installer->set_message(array());
 
-    		if (!$installer->post_process())
-    		{
-    		    return $this->get_parent->installation_failed('processing', Translation :: get('ApplicationPostProcessingFailed'));
-    		}
+            if (! $installer->post_process())
+            {
+                return $this->get_parent->installation_failed('processing', Translation :: get('ApplicationPostProcessingFailed'));
+            }
             else
             {
                 $this->add_message($installer->retrieve_message());
                 $this->installation_successful('processing');
             }
 
-    		if (!$this->set_version())
-    		{
-    		    $this->get_parent()->add_message(Translation :: get('ApplicationVersionNotSet'), PackageInstaller :: TYPE_WARNING);
-    		}
-    		else
-    		{
-    		    $this->get_parent()->add_message(Translation :: get('ApplicationVersionSet'));
-    		}
+            if (! $this->set_version())
+            {
+                $this->get_parent()->add_message(Translation :: get('ApplicationVersionNotSet'), PackageInstaller :: TYPE_WARNING);
+            }
+            else
+            {
+                $this->get_parent()->add_message(Translation :: get('ApplicationVersionSet'));
+            }
 
-            if (!$this->add_menu_item())
-    		{
-    		    $this->get_parent()->add_message(Translation :: get('ApplicationMenuItemNotAdded'), PackageInstaller :: TYPE_WARNING);
-    		}
-    		else
-    		{
-    		    $this->get_parent()->add_message(Translation :: get('ApplicationMenuItemAdded'));
-    		}
+            if (! $this->add_navigation_item())
+            {
+                $this->get_parent()->add_message(Translation :: get('ApplicationMenuItemNotAdded'), PackageInstaller :: TYPE_WARNING);
+            }
+            else
+            {
+                $this->get_parent()->add_message(Translation :: get('ApplicationMenuItemAdded'));
+            }
         }
         else
         {
@@ -84,18 +85,18 @@ class PackageInstallerApplicationType extends PackageInstallerType
         return $registration->update();
     }
 
-    function add_menu_item()
+    function add_navigation_item()
     {
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $application_name = $attributes->get_code();
 
-		$menu_item = new MenuItem();
-		$menu_item->set_title(Translation :: get(DokeosUtilities :: underscores_to_camelcase($application_name)));
-		$menu_item->set_application($application_name);
-		$menu_item->set_section($application_name);
-		$menu_item->set_category(0);
-		return $menu_item->create();
+        $navigation_item = new NavigationItem();
+        $navigation_item->set_title(Translation :: get(DokeosUtilities :: underscores_to_camelcase($application_name)));
+        $navigation_item->set_application($application_name);
+        $navigation_item->set_section($application_name);
+        $navigation_item->set_category(0);
+        return $navigation_item->create();
     }
 }
 ?>

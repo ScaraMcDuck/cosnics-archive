@@ -5,10 +5,10 @@
  * @author Dieter De Neef
  */
 require_once Path :: get_library_path().'html/formvalidator/FormValidator.class.php';
-require_once dirname(__FILE__).'/menu_item.class.php';
-require_once dirname(__FILE__).'/menu_item_menu.class.php';
+require_once dirname(__FILE__).'/navigation_item.class.php';
+require_once dirname(__FILE__).'/navigation_item_menu.class.php';
 
-class MenuItemForm extends FormValidator {
+class NavigationItemForm extends FormValidator {
 
 	const TYPE_CREATE = 1;
 	const TYPE_EDIT = 2;
@@ -17,8 +17,8 @@ class MenuItemForm extends FormValidator {
 
 	private $menuitem;
 
-    function MenuItemForm($form_type, $menuitem, $action) {
-    	parent :: __construct('menu_item', 'post', $action);
+    function NavigationItemForm($form_type, $menuitem, $action) {
+    	parent :: __construct('navigation_item', 'post', $action);
 
     	$this->menuitem = $menuitem;
 		$this->form_type = $form_type;
@@ -38,11 +38,11 @@ class MenuItemForm extends FormValidator {
     {
 		$this->addElement('html', '<div class="configuration_form">');
 		$this->addElement('html', '<span class="category">'. Translation :: get('Main') .'</span>');
-		$this->addElement('text', MenuItem :: PROPERTY_TITLE, Translation :: get('MenuItemTitle'), array("size" => "50"));
-		$this->addRule(MenuItem :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('text', NavigationItem :: PROPERTY_TITLE, Translation :: get('NavigationItemTitle'), array("size" => "50"));
+		$this->addRule(NavigationItem :: PROPERTY_TITLE, Translation :: get('ThisFieldIsRequired'), 'required');
 
-		$this->addElement('select', MenuItem :: PROPERTY_CATEGORY, Translation :: get('MenuItemParent'), $this->get_categories());
-		$this->addRule(MenuItem :: PROPERTY_CATEGORY, Translation :: get('ThisFieldIsRequired'), 'required');
+		$this->addElement('select', NavigationItem :: PROPERTY_CATEGORY, Translation :: get('NavigationItemParent'), $this->get_categories());
+		$this->addRule(NavigationItem :: PROPERTY_CATEGORY, Translation :: get('ThisFieldIsRequired'), 'required');
 
 		$this->addElement('html', '<div style="clear: both;"></div>');
 		$this->addElement('html', '</div>');
@@ -55,12 +55,12 @@ class MenuItemForm extends FormValidator {
 		$this->addGroup($choices,null,Translation :: get('applink'),'<br />',false);
 
 		$this->addElement('html','<div style="margin-left:25px;display:block;" id="application">');
-		$this->addElement('select', MenuItem :: PROPERTY_APPLICATION, Translation :: get('MenuItemApplication'), $this->get_applications());
-		$this->addElement('text', MenuItem :: PROPERTY_EXTRA, Translation :: get('MenuItemExtra'), array("size" => "50"));
+		$this->addElement('select', NavigationItem :: PROPERTY_APPLICATION, Translation :: get('NavigationItemApplication'), $this->get_applications());
+		$this->addElement('text', NavigationItem :: PROPERTY_EXTRA, Translation :: get('NavigationItemExtra'), array("size" => "50"));
 		$this->addElement('html','</div>');
 
 		$this->addElement('html','<div style="margin-left:25px;display:block;" id="external_link">');
-		$this->addElement('text', MenuItem :: PROPERTY_URL, Translation :: get('Url'), array("size" => "50"));
+		$this->addElement('text', NavigationItem :: PROPERTY_URL, Translation :: get('Url'), array("size" => "50"));
 		$this->addElement('html','</div>');
 
 		$hidden = 'external_link';
@@ -87,13 +87,13 @@ class MenuItemForm extends FormValidator {
 		$this->addElement('html', '<div style="clear: both;"></div>');
 		$this->addElement('html', '</div>');
 
-		//$this->addElement('submit', 'menu_item', Translation :: get('Ok'));
+		//$this->addElement('submit', 'navigation_item', Translation :: get('Ok'));
     }
 
     function build_editing_form()
     {
 	   	$this->build_basic_form();
-    	$this->addElement('hidden', MenuItem :: PROPERTY_ID );
+    	$this->addElement('hidden', NavigationItem :: PROPERTY_ID );
 
 		$buttons[] = $this->createElement('style_submit_button', 'submit', Translation :: get('Update'), array('class' => 'positive update'));
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
@@ -111,22 +111,22 @@ class MenuItemForm extends FormValidator {
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
     }
 
-    function update_menu_item()
+    function update_navigation_item()
     {
     	$menuitem = $this->menuitem;
     	$values = $this->exportValues();
 
-    	$menuitem->set_title($values[MenuItem :: PROPERTY_TITLE]);
+    	$menuitem->set_title($values[NavigationItem :: PROPERTY_TITLE]);
 
     	if($values['app'] == 0)
     	{
-    		$menuitem->set_application($values[MenuItem :: PROPERTY_APPLICATION]);
-    		$menuitem->set_section($values[MenuItem :: PROPERTY_APPLICATION]);
+    		$menuitem->set_application($values[NavigationItem :: PROPERTY_APPLICATION]);
+    		$menuitem->set_section($values[NavigationItem :: PROPERTY_APPLICATION]);
     		$menuitem->set_url(' ');
     	}
     	else
     	{
-    		$url = $values[MenuItem :: PROPERTY_URL];
+    		$url = $values[NavigationItem :: PROPERTY_URL];
     		if(!$url || $url == '') $url = 'http://www.dokeos.com';
     		if(substr($url, 0, 7) != 'http://') $url = 'http://' . $url;
 
@@ -135,28 +135,28 @@ class MenuItemForm extends FormValidator {
     		$menuitem->set_section('');
     	}
 
-    	$menuitem->set_extra($values[MenuItem :: PROPERTY_EXTRA]);
-		$menuitem->set_category($values[MenuItem :: PROPERTY_CATEGORY]);
+    	$menuitem->set_extra($values[NavigationItem :: PROPERTY_EXTRA]);
+		$menuitem->set_category($values[NavigationItem :: PROPERTY_CATEGORY]);
 
     	return $menuitem->update();
     }
 
-    function create_menu_item()
+    function create_navigation_item()
     {
     	$menuitem = $this->menuitem;
     	$values = $this->exportValues();
 
-    	$menuitem->set_title($values[MenuItem :: PROPERTY_TITLE]);
+    	$menuitem->set_title($values[NavigationItem :: PROPERTY_TITLE]);
 
     	if($values['app'] == 0)
     	{
-    		$menuitem->set_application($values[MenuItem :: PROPERTY_APPLICATION]);
-    		$menuitem->set_section($values[MenuItem :: PROPERTY_APPLICATION]);
+    		$menuitem->set_application($values[NavigationItem :: PROPERTY_APPLICATION]);
+    		$menuitem->set_section($values[NavigationItem :: PROPERTY_APPLICATION]);
     		$menuitem->set_url(' ');
     	}
     	else
     	{
-    		$url = $values[MenuItem :: PROPERTY_URL];
+    		$url = $values[NavigationItem :: PROPERTY_URL];
     		if(!$url  || $url == '') $url = 'http://www.dokeos.com';
     		if(substr($url, 0, 7) != 'http://') $url = 'http://' . $url;
 
@@ -165,17 +165,17 @@ class MenuItemForm extends FormValidator {
     		$menuitem->set_section('');
     	}
 
-    	$menuitem->set_category($values[MenuItem :: PROPERTY_CATEGORY]);
-    	$menuitem->set_extra($values[MenuItem :: PROPERTY_EXTRA]);
+    	$menuitem->set_category($values[NavigationItem :: PROPERTY_CATEGORY]);
+    	$menuitem->set_extra($values[NavigationItem :: PROPERTY_EXTRA]);
 
     	return $menuitem->create();
     }
 
 	function get_categories()
 	{
-		$condition = new EqualityCondition(MenuItem :: PROPERTY_CATEGORY, 0);
+		$condition = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, 0);
 
-		$items = MenuDataManager :: get_instance()->retrieve_menu_items($condition, null, null, array(MenuItem :: PROPERTY_SORT), array(SORT_ASC));
+		$items = MenuDataManager :: get_instance()->retrieve_navigation_items($condition, null, null, array(NavigationItem :: PROPERTY_SORT), array(SORT_ASC));
 		$item_options = array();
 		$item_options[0] = Translation :: get('Root');
 
@@ -208,19 +208,19 @@ class MenuItemForm extends FormValidator {
 	function setDefaults($defaults = array ())
 	{
 		$menuitem = $this->menuitem;
-		$defaults[MenuItem :: PROPERTY_TITLE] = $menuitem->get_title();
-		$defaults[MenuItem :: PROPERTY_CATEGORY] = $menuitem->get_category();
+		$defaults[NavigationItem :: PROPERTY_TITLE] = $menuitem->get_title();
+		$defaults[NavigationItem :: PROPERTY_CATEGORY] = $menuitem->get_category();
 		if($this->form_type == self :: TYPE_EDIT)
 			$defaults['app'] = ($menuitem->get_application() != '')?0:1;
 		else
 			$defaults['app'] = 0;
-		$defaults[MenuItem :: PROPERTY_APPLICATION] = $menuitem->get_application();
-		$defaults[MenuItem :: PROPERTY_URL] = $menuitem->get_url();
-		$defaults[MenuItem :: PROPERTY_EXTRA] = $menuitem->get_extra();
+		$defaults[NavigationItem :: PROPERTY_APPLICATION] = $menuitem->get_application();
+		$defaults[NavigationItem :: PROPERTY_URL] = $menuitem->get_url();
+		$defaults[NavigationItem :: PROPERTY_EXTRA] = $menuitem->get_extra();
 		parent :: setDefaults($defaults);
 	}
 
-	function get_menu_item()
+	function get_navigation_item()
 	{
 		return $this->menuitem;
 	}

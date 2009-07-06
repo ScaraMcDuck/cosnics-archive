@@ -11,74 +11,63 @@ require_once Path :: get_admin_path() . 'lib/admin_manager/admin_manager.class.p
  */
 class RegistrationBrowserTableCellRenderer extends DefaultRegistrationTableCellRenderer
 {
-	/**
-	 * The repository browser component
-	 */
-	private $browser;
+    /**
+     * The repository browser component
+     */
+    private $browser;
 
-	/**
-	 * Constructor
-	 * @param RepositoryManagerBrowserComponent $browser
-	 */
-	function RegistrationBrowserTableCellRenderer($browser)
-	{
-		parent :: __construct();
-		$this->browser = $browser;
-	}
+    /**
+     * Constructor
+     * @param RepositoryManagerBrowserComponent $browser
+     */
+    function RegistrationBrowserTableCellRenderer($browser)
+    {
+        parent :: __construct();
+        $this->browser = $browser;
+    }
 
-	// Inherited
-	function render_cell($column, $registration)
-	{
-		if ($column === RegistrationBrowserTableColumnModel :: get_modification_column())
-		{
-			return $this->get_modification_links($registration);
-		}
+    // Inherited
+    function render_cell($column, $registration)
+    {
+        if ($column === RegistrationBrowserTableColumnModel :: get_modification_column())
+        {
+            return $this->get_modification_links($registration);
+        }
+        
+        // Add special features here
+        switch ($column->get_object_property())
+        {
+        }
+        
+        switch ($column->get_title())
+        {
+        }
+        
+        return parent :: render_cell($column, $registration);
+    }
 
-		// Add special features here
-		switch ($column->get_object_property())
-		{
-		}
-
-		switch($column->get_title())
-		{
-		}
-
-		return parent :: render_cell($column, $registration);
-	}
-	/**
-	 * Gets the action links to display
-	 * @param LearningObject $learning_object The learning object for which the
-	 * action links should be returned
-	 * @return string A HTML representation of the action links
-	 */
-	private function get_modification_links($registration)
-	{
-		$toolbar_data = array();
-
-		if ($registration->is_active())
-		{
-    		$toolbar_data[] = array(
-    			'href' => $this->browser->get_registration_deactivation_url($registration),
-    			'label' => Translation :: get('Deactivate'),
-    			'img' => Theme :: get_image_path() . 'action_deactivate.png'
-    		);
-		}
-		else
-		{
-    		$toolbar_data[] = array(
-    			'href' => $this->browser->get_registration_activation_url($registration),
-    			'label' => Translation :: get('Activate'),
-    			'img' => Theme :: get_image_path() . 'action_activate.png'
-    		);
-		}
-		
-    	$toolbar_data[] = array(
-    		'href' => $this->browser->get_registration_removal_url($registration),
-    		'label' => Translation :: get('Deinstall'),
-    		'img' => Theme :: get_common_image_path() . 'action_recycle_bin.png'
-    	);
-
-		return DokeosUtilities :: build_toolbar($toolbar_data);
-	}
+    /**
+     * Gets the action links to display
+     * @param LearningObject $learning_object The learning object for which the
+     * action links should be returned
+     * @return string A HTML representation of the action links
+     */
+    private function get_modification_links($registration)
+    {
+        $toolbar_data = array();
+        
+        if ($registration->is_active())
+        {
+            $toolbar_data[] = array('href' => $this->browser->get_registration_deactivation_url($registration), 'label' => Translation :: get('Deactivate'), 'img' => Theme :: get_image_path() . 'action_deactivate.png');
+        }
+        else
+        {
+            $toolbar_data[] = array('href' => $this->browser->get_registration_activation_url($registration), 'label' => Translation :: get('Activate'), 'img' => Theme :: get_image_path() . 'action_activate.png');
+        }
+        
+        $toolbar_data[] = array('href' => $this->browser->get_registration_removal_url($registration), 'label' => Translation :: get('Deinstall'), 'img' => Theme :: get_common_image_path() . 'action_recycle_bin.png', 'confirm' => true);
+        
+        return DokeosUtilities :: build_toolbar($toolbar_data);
+    }
 }
 ?>

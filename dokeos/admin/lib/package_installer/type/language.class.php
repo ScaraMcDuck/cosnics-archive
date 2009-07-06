@@ -5,29 +5,30 @@ require_once Path :: get_admin_path() . 'lib/registration.class.php';
 require_once Path :: get_repository_path() . 'lib/repository_data_manager.class.php';
 
 class PackageInstallerLanguageType extends PackageInstallerType
-{	
+{
+
     function install()
     {
         if ($this->verify_dependencies())
         {
             $this->get_parent()->installation_successful('dependencies', Translation :: get('LanguageDependenciesVerified'));
             
-    		if (!$this->add_registration())
-    		{
-    		    $this->get_parent()->add_message(Translation :: get('LearningObjectRegistrationNotAdded'), PackageInstaller :: TYPE_WARNING);
-    		}
-    		else
-    		{
-    		    $this->get_parent()->add_message(Translation :: get('LearningObjectRegistrationAdded'));
-    		}
+            if (! $this->add_registration())
+            {
+                $this->get_parent()->add_message(Translation :: get('LearningObjectRegistrationNotAdded'), PackageInstaller :: TYPE_WARNING);
+            }
+            else
+            {
+                $this->get_parent()->add_message(Translation :: get('LearningObjectRegistrationAdded'));
+            }
         }
         else
         {
             return $this->get_parent()->installation_failed('dependencies', Translation :: get('PackageDependenciesFailed'));
         }
-
+        
         $this->cleanup();
-
+        
         return true;
     }
 

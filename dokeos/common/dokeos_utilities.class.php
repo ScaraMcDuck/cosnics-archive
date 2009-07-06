@@ -4,11 +4,11 @@
  * @package repository
  */
 
-require_once Path :: get_library_path().'condition/and_condition.class.php';
-require_once Path :: get_library_path().'condition/or_condition.class.php';
-require_once Path :: get_library_path().'condition/pattern_match_condition.class.php';
-require_once Path :: get_repository_path().'lib/repository_data_manager.class.php';
-require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
+require_once Path :: get_library_path() . 'condition/and_condition.class.php';
+require_once Path :: get_library_path() . 'condition/or_condition.class.php';
+require_once Path :: get_library_path() . 'condition/pattern_match_condition.class.php';
+require_once Path :: get_repository_path() . 'lib/repository_data_manager.class.php';
+require_once Path :: get_user_path() . 'lib/user_data_manager.class.php';
 
 /**
  * This class provides some common methods that are used throughout the
@@ -24,9 +24,9 @@ class DokeosUtilities
     const TOOLBAR_DISPLAY_LABEL = 2;
     const TOOLBAR_DISPLAY_ICON_AND_LABEL = 3;
 
-    private static $us_camel_map = array ();
-    private static $us_camel_map_with_spaces = array ();
-    private static $camel_us_map = array ();
+    private static $us_camel_map = array();
+    private static $us_camel_map_with_spaces = array();
+    private static $camel_us_map = array();
 
     /**
      * Splits a Google-style search query. For example, the query
@@ -39,13 +39,13 @@ class DokeosUtilities
     {
         $matches = array();
         preg_match_all('/(?:"([^"]+)"|""|(\S+))/', $pattern, $matches);
-        $parts = array ();
-        for ($i = 1; $i <= 2; $i ++)
+        $parts = array();
+        for($i = 1; $i <= 2; $i ++)
         {
             foreach ($matches[$i] as $m)
             {
-                if (!is_null($m) && strlen($m) > 0)
-                $parts[] = $m;
+                if (! is_null($m) && strlen($m) > 0)
+                    $parts[] = $m;
             }
         }
         return (count($parts) ? $parts : null);
@@ -69,20 +69,20 @@ class DokeosUtilities
      */
     static function query_to_condition($query, $properties = array (LearningObject :: PROPERTY_TITLE, LearningObject :: PROPERTY_DESCRIPTION))
     {
-        if (!is_array($properties))
+        if (! is_array($properties))
         {
-            $properties = array ($properties);
+            $properties = array($properties);
         }
         $queries = self :: split_query($query);
         if (is_null($queries))
         {
             return null;
         }
-        $cond = array ();
+        $cond = array();
         foreach ($queries as $q)
         {
-            $q = '*'.$q.'*';
-            $pattern_conditions = array ();
+            $q = '*' . $q . '*';
+            $pattern_conditions = array();
             foreach ($properties as $index => $property)
             {
                 $pattern_conditions[] = new PatternMatchCondition($property, $q);
@@ -108,9 +108,9 @@ class DokeosUtilities
      */
     static function time_from_datepicker($string)
     {
-        list ($date, $time) = split(' ', $string);
-        list ($year, $month, $day) = split('-', $date);
-        list ($hours, $minutes, $seconds) = split(':', $time);
+        list($date, $time) = split(' ', $string);
+        list($year, $month, $day) = split('-', $date);
+        list($hours, $minutes, $seconds) = split(':', $time);
         return mktime($hours, $minutes, $seconds, $month, $day, $year);
     }
 
@@ -122,7 +122,7 @@ class DokeosUtilities
      */
     static function time_from_datepicker_without_timepicker($string, $h = 0, $m = 0, $s = 0)
     {
-        list ($year, $month, $day) = split('-', $string);
+        list($year, $month, $day) = split('-', $string);
         return mktime($h, $m, $s, $month, $day, $year);
     }
 
@@ -133,12 +133,12 @@ class DokeosUtilities
      */
     static function order_learning_objects_by_title($objects)
     {
-        usort($objects, array (get_class(), 'by_title'));
+        usort($objects, array(get_class(), 'by_title'));
     }
 
     static function order_learning_objects_by_id_desc($objects)
     {
-        usort($objects, array (get_class(), 'by_id_desc'));
+        usort($objects, array(get_class(), 'by_id_desc'));
     }
 
     /**
@@ -149,7 +149,7 @@ class DokeosUtilities
      */
     static function learning_objects_for_element_finder($objects)
     {
-        $return = array ();
+        $return = array();
         foreach ($objects as $object)
         {
             $id = $object->get_id();
@@ -169,11 +169,11 @@ class DokeosUtilities
         $type = $object->get_type();
         // TODO: i18n
         $date = date('r', $object->get_modification_date());
-        $return = array ();
+        $return = array();
         $return['id'] = 'lo_' . $object->get_id();
-        $return['class'] = 'type type_'.$type;
+        $return['class'] = 'type type_' . $type;
         $return['title'] = $object->get_title();
-        $return['description'] = Translation :: get(LearningObject :: type_to_class($type).'TypeName').' ('.$date.')';
+        $return['description'] = Translation :: get(LearningObject :: type_to_class($type) . 'TypeName') . ' (' . $date . ')';
         return $return;
     }
 
@@ -184,7 +184,7 @@ class DokeosUtilities
      */
     static function underscores_to_camelcase($string)
     {
-        if (!isset (self :: $us_camel_map[$string]))
+        if (! isset(self :: $us_camel_map[$string]))
         {
             self :: $us_camel_map[$string] = ucfirst(preg_replace('/_([a-z])/e', 'strtoupper(\1)', $string));
         }
@@ -193,7 +193,7 @@ class DokeosUtilities
 
     static function underscores_to_camelcase_with_spaces($string)
     {
-        if (!isset (self :: $us_camel_map_with_spaces[$string]))
+        if (! isset(self :: $us_camel_map_with_spaces[$string]))
         {
             self :: $us_camel_map_with_spaces[$string] = ucfirst(preg_replace('/_([a-z])/e', '" " . strtoupper("\1")', $string));
         }
@@ -207,9 +207,9 @@ class DokeosUtilities
      */
     static function camelcase_to_underscores($string)
     {
-        if (!isset (self :: $camel_us_map[$string]))
+        if (! isset(self :: $camel_us_map[$string]))
         {
-            self :: $camel_us_map[$string] = preg_replace(array ('/^([A-Z])/e', '/([A-Z])/e'), array ('strtolower("\1")', '"_".strtolower("\1")'), $string);
+            self :: $camel_us_map[$string] = preg_replace(array('/^([A-Z])/e', '/([A-Z])/e'), array('strtolower("\1")', '"_".strtolower("\1")'), $string);
         }
         return self :: $camel_us_map[$string];
     }
@@ -248,35 +248,35 @@ class DokeosUtilities
      */
     function build_toolbar($toolbar_data, $class_names = array (), $css = null)
     {
-        if (!is_array($class_names))
+        if (! is_array($class_names))
         {
-            $class_names = array ($class_names);
+            $class_names = array($class_names);
         }
         $class_names[] = 'toolbar';
-        $html = array ();
-        $html[] = '<ul class="'.implode(' ', $class_names).'"'. (isset ($css) ? ' style="'.$css.'"' : '').'>';
+        $html = array();
+        $html[] = '<ul class="' . implode(' ', $class_names) . '"' . (isset($css) ? ' style="' . $css . '"' : '') . '>';
         foreach ($toolbar_data as $index => $elmt)
         {
-            $label = (isset ($elmt['label']) ? htmlentities($elmt['label']) : null);
-            if (!array_key_exists('display', $elmt))
+            $label = (isset($elmt['label']) ? htmlentities($elmt['label']) : null);
+            if (! array_key_exists('display', $elmt))
             {
                 $elmt['display'] = self :: TOOLBAR_DISPLAY_ICON;
             }
-            $display_label = ($elmt['display'] & self :: TOOLBAR_DISPLAY_LABEL) == self :: TOOLBAR_DISPLAY_LABEL && !empty ($label);
+            $display_label = ($elmt['display'] & self :: TOOLBAR_DISPLAY_LABEL) == self :: TOOLBAR_DISPLAY_LABEL && ! empty($label);
             $button = '';
-            if (($elmt['display'] & self :: TOOLBAR_DISPLAY_ICON) == self :: TOOLBAR_DISPLAY_ICON && isset ($elmt['img']))
+            if (($elmt['display'] & self :: TOOLBAR_DISPLAY_ICON) == self :: TOOLBAR_DISPLAY_ICON && isset($elmt['img']))
             {
-                $button .= '<img src="'.htmlentities($elmt['img']).'" alt="'.$label.'" title="'.$label.'"'. ($display_label ? ' class="labeled"' : '').'/>';
+                $button .= '<img src="' . htmlentities($elmt['img']) . '" alt="' . $label . '" title="' . $label . '"' . ($display_label ? ' class="labeled"' : '') . '/>';
             }
             if ($display_label)
             {
-                $button .= '<span>'.$label.'</span>';
+                $button .= '<span>' . $label . '</span>';
             }
-            if (isset ($elmt['href']))
+            if (isset($elmt['href']))
             {
                 $class = isset($elmt['class']) ? 'class="' . $elmt['class'] . '" ' : '';
                 $id = isset($elmt['id']) ? 'id="' . $elmt['id'] . '" ' : '';
-                $button = '<a ' . $id . $class . 'href="'.htmlentities($elmt['href']).'" title="'.$label.'"'. ($elmt['confirm'] ? ' onclick="return confirm(\''.addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))).'\');"' : '').'>'.$button.'</a>';
+                $button = '<a ' . $id . $class . 'href="' . htmlentities($elmt['href']) . '" title="' . $label . '"' . ($elmt['confirm'] ? ' onclick="return confirm(\'' . addslashes(htmlentities(Translation :: get('ConfirmYourChoice'))) . '\');"' : '') . '>' . $button . '</a>';
             }
 
             $classes = array();
@@ -289,12 +289,13 @@ class DokeosUtilities
             {
                 $classes[] = 'last';
             }
-            $html[] = '<li'.(count($classes) ? ' class="'.implode(' ', $classes).'"' : '').'>'.$button.'</li>';
+            $html[] = '<li' . (count($classes) ? ' class="' . implode(' ', $classes) . '"' : '') . '>' . $button . '</li>';
         }
         $html[] = '</ul>';
         // Don't separate by linefeeds. It creates additional whitespace.
         return implode($html);
     }
+
     /**
      * Compares learning objects by title.
      * @param LearningObject $learning_object_1
@@ -308,7 +309,7 @@ class DokeosUtilities
 
     private static function by_id_desc($learning_object_1, $learning_object_2)
     {
-        return ($learning_object_1->get_id() < $learning_object_2->get_id() ? 1 : -1);
+        return ($learning_object_1->get_id() < $learning_object_2->get_id() ? 1 : - 1);
     }
 
     /**
@@ -324,7 +325,7 @@ class DokeosUtilities
     {
         $rdm = RepositoryDataManager :: get_instance();
         $udm = UserDataManager :: get_instance();
-        $html 	= array ();
+        $html = array();
         $html[] = '<ul class="publications_list">';
         foreach ($publication_attr as $info)
         {
@@ -335,13 +336,13 @@ class DokeosUtilities
             // TODO: SCARA - Find cleaner solution to display Learning Object title + url
             if ($info->get_url())
             {
-                $html[] = '<a href="'.$info->get_url(). '">' . $info->get_application().': '.$info->get_location().'</a>';
+                $html[] = '<a href="' . $info->get_url() . '">' . $info->get_application() . ': ' . $info->get_location() . '</a>';
             }
             else
             {
-                $html[] = $info->get_application().': '.$info->get_location();
+                $html[] = $info->get_application() . ': ' . $info->get_location();
             }
-            $html[] = ' > <a href="'. $object->get_view_url() .'">'. $object->get_title() .'</a> ('.$publisher->get_firstname().' '.$publisher->get_lastname().', '.date('r', $info->get_publication_date()).')';
+            $html[] = ' > <a href="' . $object->get_view_url() . '">' . $object->get_title() . '</a> (' . $publisher->get_firstname() . ' ' . $publisher->get_lastname() . ', ' . date('r', $info->get_publication_date()) . ')';
             $html[] = '</li>';
         }
         $html[] = '</ul>';
@@ -353,24 +354,24 @@ class DokeosUtilities
     {
         $html = array();
 
-        $html[]   = '<script language="JavaScript" type="text/javascript">';
-        $html[]  .= 'function showElement(item)';
-        $html[]  .= '{';
-        $html[]  .= '	if (document.getElementById(item).style.display == \'block\')';
-        $html[]  .= '  {';
-        $html[]  .= '		document.getElementById(item).style.display = \'none\';';
-        $html[]  .= '		document.getElementById(\'plus-\'+item).style.display = \'inline\';';
-        $html[]  .= '		document.getElementById(\'minus-\'+item).style.display = \'none\';';
-        $html[]  .= '  }';
-        $html[]  .= '	else';
-        $html[]  .= '  {';
-        $html[]  .= '		document.getElementById(item).style.display = \'block\';';
-        $html[]  .= '		document.getElementById(\'plus-\'+item).style.display = \'none\';';
-        $html[]  .= '		document.getElementById(\'minus-\'+item).style.display = \'inline\';';
-        $html[]  .= '		document.getElementById(item).value = \'Version comments here ...\';';
-        $html[]  .= '	}';
-        $html[]  .= '}';
-        $html[]  .= '</script>';
+        $html[] = '<script language="JavaScript" type="text/javascript">';
+        $html[] .= 'function showElement(item)';
+        $html[] .= '{';
+        $html[] .= '	if (document.getElementById(item).style.display == \'block\')';
+        $html[] .= '  {';
+        $html[] .= '		document.getElementById(item).style.display = \'none\';';
+        $html[] .= '		document.getElementById(\'plus-\'+item).style.display = \'inline\';';
+        $html[] .= '		document.getElementById(\'minus-\'+item).style.display = \'none\';';
+        $html[] .= '  }';
+        $html[] .= '	else';
+        $html[] .= '  {';
+        $html[] .= '		document.getElementById(item).style.display = \'block\';';
+        $html[] .= '		document.getElementById(\'plus-\'+item).style.display = \'none\';';
+        $html[] .= '		document.getElementById(\'minus-\'+item).style.display = \'inline\';';
+        $html[] .= '		document.getElementById(item).value = \'Version comments here ...\';';
+        $html[] .= '	}';
+        $html[] .= '}';
+        $html[] .= '</script>';
 
         return implode("\n", $html);
     }
@@ -379,9 +380,9 @@ class DokeosUtilities
     {
         $html = array();
 
-        if(isset($id))
+        if (isset($id))
         {
-            if (!isset($message))
+            if (! isset($message))
             {
                 $message = self :: underscores_to_camelcase($id);
             }
@@ -389,13 +390,13 @@ class DokeosUtilities
             $show_message = 'Show' . $message;
             $hide_message = 'Hide' . $message;
 
-            $html[] = '<div id="plus-'.$id.'"><a href="javascript:showElement(\''. $id .'\')">'. Translation :: get('Show' . $message) .'</a></div>';
-            $html[] = '<div id="minus-'.$id.'" style="display: none;"><a href="javascript:showElement(\''. $id .'\')">'. Translation :: get('Hide' . $message) .'</a></div>';
-            $html[] = '<div id="'. $id .'" style="display: none;">';
+            $html[] = '<div id="plus-' . $id . '"><a href="javascript:showElement(\'' . $id . '\')">' . Translation :: get('Show' . $message) . '</a></div>';
+            $html[] = '<div id="minus-' . $id . '" style="display: none;"><a href="javascript:showElement(\'' . $id . '\')">' . Translation :: get('Hide' . $message) . '</a></div>';
+            $html[] = '<div id="' . $id . '" style="display: none;">';
         }
         else
         {
-            $html[]   = '</div>';
+            $html[] = '</div>';
         }
 
         return implode("\n", $html);
@@ -404,21 +405,21 @@ class DokeosUtilities
     // 2 simple functions to display an array, a bit prettier as print_r
     // for testing purposes only!
     // @author Dieter De Neef
-    function DisplayArray ($array)
+    function DisplayArray($array)
     {
         $depth = 0;
         if (is_array($array))
         {
             echo "Array (<br />";
-            for ($i = 0; $i < count($array); $i++)
+            for($i = 0; $i < count($array); $i ++)
             {
                 if (is_array($array[$i]))
                 {
-                    DisplayInlineArray($array[$i], $depth +1, $i);
+                    DisplayInlineArray($array[$i], $depth + 1, $i);
                 }
                 else
                 {
-                    echo "[" .$i. "] => " .$array[$i];
+                    echo "[" . $i . "] => " . $array[$i];
                     echo "<br />";
                     $depth = 0;
                 }
@@ -434,32 +435,32 @@ class DokeosUtilities
     function DisplayInlineArray($inlinearray, $depth, $element)
     {
         $spaces = null;
-        for ($j = 0; $j < $depth - 1; $j++)
+        for($j = 0; $j < $depth - 1; $j ++)
         {
             $spaces .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
         }
-        echo $spaces. "[".$element. "]" . "Array (<br />";
+        echo $spaces . "[" . $element . "]" . "Array (<br />";
         $spaces .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-        for ($i = 0; $i < count($inlinearray); $i++)
+        for($i = 0; $i < count($inlinearray); $i ++)
         {
             $key = key($inlinearray);
             if (is_array($inlinearray[$i]))
             {
-                DisplayInlineArray($inlinearray[$i], $depth +1, $i);
+                DisplayInlineArray($inlinearray[$i], $depth + 1, $i);
             }
             else
             {
-                echo $spaces ."[" .$key. "] => " .$inlinearray[$key];
+                echo $spaces . "[" . $key . "] => " . $inlinearray[$key];
                 echo "<br />";
             }
             next($inlinearray);
         }
-        echo $spaces .")<br />";
+        echo $spaces . ")<br />";
     }
 
     static function to_db_date($date)
     {
-        if (isset ($date))
+        if (isset($date))
         {
             return date('Y-m-d H:i:s', $date);
         }
@@ -468,23 +469,23 @@ class DokeosUtilities
 
     static function format_seconds_to_hours($seconds)
     {
-    	$hours = floor($seconds / 3600);
-    	$rest = $seconds % 3600;
+        $hours = floor($seconds / 3600);
+        $rest = $seconds % 3600;
 
-    	$minutes = floor($rest / 60);
-    	$seconds = $rest % 60;
+        $minutes = floor($rest / 60);
+        $seconds = $rest % 60;
 
-    	if($minutes < 10)
-    	{
-    		$minutes = '0' . $minutes;
-    	}
+        if ($minutes < 10)
+        {
+            $minutes = '0' . $minutes;
+        }
 
-    	if($seconds < 10)
-    	{
-    		$seconds = '0' . $seconds;
-    	}
+        if ($seconds < 10)
+        {
+            $seconds = '0' . $seconds;
+        }
 
-    	return $hours . ':' . $minutes . ':' . $seconds;
+        return $hours . ':' . $minutes . ':' . $seconds;
     }
 
     /**
@@ -499,16 +500,16 @@ class DokeosUtilities
      */
     static function truncate_string($string, $length = 200, $strip = true, $char = '&hellip;')
     {
-        if($strip)
+        if ($strip)
         {
             $string = strip_tags($string);
         }
 
         $decoded_string = html_entity_decode($string);
-        if(strlen($decoded_string) >= $length)
+        if (strlen($decoded_string) >= $length)
         {
             mb_internal_encoding("UTF-8");
-            $string = mb_substr($string, 0, $length-3) . $char;
+            $string = mb_substr($string, 0, $length - 3) . $char;
         }
 
         return $string;
@@ -524,12 +525,12 @@ class DokeosUtilities
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
             $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
 
-            foreach($extra_options as $op => $value)
-            	 $unserializer->setOption($op, $value);
+            foreach ($extra_options as $op => $value)
+                $unserializer->setOption($op, $value);
 
             // userialize the document
             $status = $unserializer->unserialize($file, true);
-            if (PEAR::isError($status))
+            if (PEAR :: isError($status))
             {
                 return false;
             }

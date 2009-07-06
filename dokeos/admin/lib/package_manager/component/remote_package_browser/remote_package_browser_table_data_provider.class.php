@@ -11,37 +11,40 @@ require_once Path :: get_library_path() . 'html/table/object_table/object_table_
  */
 class RemotePackageBrowserTableDataProvider extends ObjectTableDataProvider
 {
-  /**
-   * Constructor
-   * @param RepositoryManagerComponent $browser
-   * @param Condition $condition
-   */
-  function RemotePackageBrowserTableDataProvider($browser, $condition)
-  {
-		parent :: __construct($browser, $condition);
-  }
-  /**
-   * Gets the learning objects
-   * @param int $offset
-   * @param int $count
-   * @param string $order_property
-   * @param int $order_direction (SORT_ASC or SORT_DESC)
-   * @return ResultSet A set of matching learning objects.
-   */
+
+    /**
+     * Constructor
+     * @param RepositoryManagerComponent $browser
+     * @param Condition $condition
+     */
+    function RemotePackageBrowserTableDataProvider($browser, $condition)
+    {
+        parent :: __construct($browser, $condition);
+    }
+
+    /**
+     * Gets the learning objects
+     * @param int $offset
+     * @param int $count
+     * @param string $order_property
+     * @param int $order_direction (SORT_ASC or SORT_DESC)
+     * @return ResultSet A set of matching learning objects.
+     */
     function get_objects($offset, $count, $order_property = null, $order_direction = null)
     {
         $order_property = $this->get_order_property($order_property);
         $order_direction = $this->get_order_property($order_direction);
-
+        
         return $this->get_browser()->retrieve_remote_packages($this->get_condition(), $order_property, $order_direction, $offset, $count);
     }
-  /**
-   * Gets the number of learning objects in the table
-   * @return int
-   */
+
+    /**
+     * Gets the number of learning objects in the table
+     * @return int
+     */
     function get_object_count()
     {
-      return $this->get_browser()->count_remote_packages($this->get_condition());
+        return $this->get_browser()->count_remote_packages($this->get_condition());
     }
 }
 ?>
