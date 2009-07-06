@@ -3,9 +3,9 @@ require_once dirname(__FILE__) . '/menu_data_manager.class.php';
 
 class NavigationItem
 {
-
+    
     const CLASS_NAME = __CLASS__;
-
+    
     const PROPERTY_ID = 'id';
     const PROPERTY_CATEGORY = 'category';
     const PROPERTY_TITLE = 'title';
@@ -14,7 +14,7 @@ class NavigationItem
     const PROPERTY_SECTION = 'section';
     const PROPERTY_EXTRA = 'extra';
     const PROPERTY_URL = 'url';
-
+    
     private $defaultProperties;
 
     function NavigationItem($defaultProperties = array ())
@@ -139,7 +139,7 @@ class NavigationItem
         {
             return false;
         }
-
+        
         return true;
     }
 
@@ -153,7 +153,7 @@ class NavigationItem
         {
             return false;
         }
-
+        
         return true;
     }
 
@@ -165,7 +165,7 @@ class NavigationItem
         {
             return false;
         }
-
+        
         return true;
     }
 
@@ -174,9 +174,9 @@ class NavigationItem
         return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
 
-	function set_default_properties($defaultProperties)
-	{
-		$this->defaultProperties = $defaultProperties;
-	}
+    function set_default_properties($defaultProperties)
+    {
+        $this->defaultProperties = $defaultProperties;
+    }
 }
 ?>
