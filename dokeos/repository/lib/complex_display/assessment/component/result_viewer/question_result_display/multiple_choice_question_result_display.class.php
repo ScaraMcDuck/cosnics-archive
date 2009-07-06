@@ -12,7 +12,6 @@ class MultipleChoiceQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '<th class="list">' . Translation :: get('Choice') . '</th>';
         $html[] = '<th class="list">' . Translation :: get('Correct') . '</th>';
         $html[] = '<th class="list">' . Translation :: get('Answer') . '</th>';
-        $html[] = '<th class="list">' . Translation :: get('Feedback') . '</th>';
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
@@ -71,7 +70,6 @@ class MultipleChoiceQuestionResultDisplay extends QuestionResultDisplay
        		}
        		
        		$html[] = '<td>' . $option->get_value() . '</td>';
-       		$html[] = '<td>' . $option->get_comment() . '</td>';
        		$html[] = '</tr>';
         }
         

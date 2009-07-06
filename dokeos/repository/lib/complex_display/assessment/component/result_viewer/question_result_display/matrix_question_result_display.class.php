@@ -20,8 +20,6 @@ class MatrixQuestionResultDisplay extends QuestionResultDisplay
         {
         	$html[] = '<th>' . $match . '</th>';
         }
-
-        $html[] = '<th>' . Translation :: get('Feedback') . '</th>';
         
         $html[] = '</tr>';
         $html[] = '</thead>';
@@ -103,7 +101,6 @@ class MatrixQuestionResultDisplay extends QuestionResultDisplay
 	       		$html[] = '</td>';
        		}
 
-       		$html[] = '<td>' . $option->get_comment() . '</td>';
        		$html[] = '</tr>';
         }
         

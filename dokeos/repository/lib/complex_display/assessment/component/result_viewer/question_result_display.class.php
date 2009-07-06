@@ -7,14 +7,18 @@ abstract class QuestionResultDisplay
 	private $question_nr;
 	private $answers;
 	private $score;
+	private $feedback;
+	private $form;
 
-	function QuestionResultDisplay($clo_question, $question_nr, $answers, $score)
+	function QuestionResultDisplay($form, $clo_question, $question_nr, $answers, $score, $feedback)
 	{
 		$this->clo_question = $clo_question;
 		$this->question_nr = $question_nr;
 		$this->question = $clo_question->get_ref();
 		$this->answers = $answers;
 		$this->score = $score;
+		$this->feedback = $feedback;
+		$this->form = $form;
 	}
 
 	function get_clo_question()
@@ -42,6 +46,11 @@ abstract class QuestionResultDisplay
 		return $this->score;
 	}
 	
+	function get_feedback()
+	{
+		return $this->feedback;
+	}
+	
 	function display()
 	{
 		$this->display_header();
@@ -63,6 +72,8 @@ abstract class QuestionResultDisplay
 			$footer[] = '</div>';
 			echo(implode("\n", $footer));
 		}
+		
+		$this->display_feedback();
 		
 		$this->display_footer();
 	}
@@ -110,8 +121,24 @@ abstract class QuestionResultDisplay
 		$header = implode("\n", $html);
 		echo $header;
 	}
+	
+	function display_feedback()
+	{
+		$html[] = '<div class="splitter">';
+		$html[] = Translation :: get('Feedback');
+		$html[] = '</div>';
+		$html[] = '<div class="with_borders">';
+		
+		$feedback = $this->feedback ? $this->feedback : Translation :: get('NoFeedback');
+		$html[] = $feedback;
+		
+		$html[] = '</div>';
+		
+		$feedback = implode("\n", $html);
+		echo $feedback;
+	}
 
-	function display_footer($formvalidator)
+	function display_footer()
 	{
 		$html[] = '</div>';
 		$html[] = '</div>';
@@ -125,7 +152,7 @@ abstract class QuestionResultDisplay
 		return false;
 	}
 
-	static function factory($clo_question, $question_nr, $answers, $score)
+	static function factory($form, $clo_question, $question_nr, $answers, $score, $feedback)
 	{
 		$type = $clo_question->get_ref()->get_type();
 
@@ -139,7 +166,7 @@ abstract class QuestionResultDisplay
 		require_once $file;
  		
 		$class = DokeosUtilities :: underscores_to_camelcase($type) . 'ResultDisplay';
-		$question_result_display = new $class($clo_question, $question_nr, $answers, $score);
+		$question_result_display = new $class($form, $clo_question, $question_nr, $answers, $score, $feedback);
 		return $question_result_display;
 	}
 }

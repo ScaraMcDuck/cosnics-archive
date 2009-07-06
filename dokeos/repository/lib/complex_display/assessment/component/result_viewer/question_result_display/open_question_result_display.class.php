@@ -26,12 +26,6 @@ class OpenQuestionResultDisplay extends QuestionResultDisplay
 				break;
 		}
 		
-		$html[] = '<div class="splitter" style="margin: -10px; border-left: none; border-right: none; border-top: 1px solid #B5CAE7;">';
-		$html[] = Translation :: get('Feedback');
-		$html[] = '</div><br />';
-		
-		$html[] = '<div class="warning-message">' . Translation :: get('NotYetRatedWarning') . '</div>';
-		
 		return implode("\n", $html);
 	}
 	
