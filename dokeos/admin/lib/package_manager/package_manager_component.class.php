@@ -3,6 +3,7 @@ require_once Path :: get_common_path() . 'sub_manager_component.class.php';
 
 class PackageManagerComponent extends SubManagerComponent
 {
+
     function retrieve_registration($id)
     {
         return $this->get_parent()->retrieve_registration($id);
@@ -27,7 +28,7 @@ class PackageManagerComponent extends SubManagerComponent
     {
         return $this->get_parent()->get_registration_deactivation_url($registration);
     }
-    
+
     function get_registration_removal_url($registration)
     {
         return $this->get_parent()->get_registration_removal_url($registration);

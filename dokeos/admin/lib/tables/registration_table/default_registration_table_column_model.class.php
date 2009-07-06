@@ -11,25 +11,27 @@ require_once Path :: get_admin_path() . '/lib/registration.class.php';
  */
 class DefaultRegistrationTableColumnModel extends ObjectTableColumnModel
 {
-	/**
-	 * Constructor
-	 */
-	function DefaultRegistrationTableColumnModel()
-	{
-		parent :: __construct(self :: get_default_columns(), 1);
-	}
-	/**
-	 * Gets the default columns for this model
-	 * @return LearningObjectTableColumn[]
-	 */
-	private static function get_default_columns()
-	{
-		$columns = array();
-		$columns[] = new ObjectTableColumn(Registration :: PROPERTY_TYPE, true);
-		$columns[] = new ObjectTableColumn(Registration :: PROPERTY_NAME, true);
-		$columns[] = new ObjectTableColumn(Registration :: PROPERTY_VERSION, true);
-		//$columns[] = new ObjectTableColumn(Registration :: PROPERTY_STATUS, true);
-		return $columns;
-	}
+
+    /**
+     * Constructor
+     */
+    function DefaultRegistrationTableColumnModel()
+    {
+        parent :: __construct(self :: get_default_columns(), 1);
+    }
+
+    /**
+     * Gets the default columns for this model
+     * @return LearningObjectTableColumn[]
+     */
+    private static function get_default_columns()
+    {
+        $columns = array();
+        $columns[] = new ObjectTableColumn(Registration :: PROPERTY_TYPE, true);
+        $columns[] = new ObjectTableColumn(Registration :: PROPERTY_NAME, true);
+        $columns[] = new ObjectTableColumn(Registration :: PROPERTY_VERSION, true);
+        //$columns[] = new ObjectTableColumn(Registration :: PROPERTY_STATUS, true);
+        return $columns;
+    }
 }
 ?>

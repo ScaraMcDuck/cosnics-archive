@@ -12,24 +12,24 @@ require_once Path :: get_admin_path() . 'lib/package_manager/component/registrat
  */
 class RegistrationBrowserTable extends ObjectTable
 {
-	const DEFAULT_NAME = 'registration_browser_table';
+    const DEFAULT_NAME = 'registration_browser_table';
 
-	/**
-	 * Constructor
-	 * @see LearningObjectTable::LearningObjectTable()
-	 */
-	function RegistrationBrowserTable($browser, $parameters, $condition)
-	{
-		$model = new RegistrationBrowserTableColumnModel();
-		$renderer = new RegistrationBrowserTableCellRenderer($browser);
-		$data_provider = new RegistrationBrowserTableDataProvider($browser, $condition);
-		parent :: __construct($data_provider, RegistrationBrowserTable :: DEFAULT_NAME, $model, $renderer);
-		$this->set_additional_parameters($parameters);
-		$actions = array();
-		$actions[PackageManager :: PARAM_ACTIVATE_SELECTED] = Translation :: get('ActivateSelected');
-		$actions[PackageManager :: PARAM_DEACTIVATE_SELECTED] = Translation :: get('DeactivateSelected');
-		$this->set_form_actions($actions);
-		$this->set_default_row_count(20);
-	}
+    /**
+     * Constructor
+     * @see LearningObjectTable::LearningObjectTable()
+     */
+    function RegistrationBrowserTable($browser, $parameters, $condition)
+    {
+        $model = new RegistrationBrowserTableColumnModel();
+        $renderer = new RegistrationBrowserTableCellRenderer($browser);
+        $data_provider = new RegistrationBrowserTableDataProvider($browser, $condition);
+        parent :: __construct($data_provider, RegistrationBrowserTable :: DEFAULT_NAME, $model, $renderer);
+        $this->set_additional_parameters($parameters);
+        $actions = array();
+        $actions[PackageManager :: PARAM_ACTIVATE_SELECTED] = Translation :: get('ActivateSelected');
+        $actions[PackageManager :: PARAM_DEACTIVATE_SELECTED] = Translation :: get('DeactivateSelected');
+        $this->set_form_actions($actions);
+        $this->set_default_row_count(20);
+    }
 }
 ?>

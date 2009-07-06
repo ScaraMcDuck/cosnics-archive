@@ -3,9 +3,9 @@
  * @package users
  * @subpackage datamanager
  */
-require_once dirname(__FILE__).'/database/database_menu_item_result_set.class.php';
+require_once dirname(__FILE__).'/database/database_navigation_item_result_set.class.php';
 require_once dirname(__FILE__).'/../menu_data_manager.class.php';
-require_once dirname(__FILE__).'/../menu_item.class.php';
+require_once dirname(__FILE__).'/../navigation_item.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once 'MDB2.php';
 
@@ -35,15 +35,20 @@ class DatabaseMenuDataManager extends MenuDataManager
 	 */
 	private $prefix;
 
+	private $database;
+
 	function initialize()
 	{
+		$this->database = new Database();
+		$this->database->set_prefix('menu_');
+
 		$this->connection = Connection :: get_instance()->get_connection();
 		$this->connection->setOption('debug_handler', array(get_class($this),'debug'));
-		
+
 		$this->prefix = 'menu_';
 		$this->connection->query('SET NAMES utf8');
 	}
-	
+
 	function debug()
 	{
 		$args = func_get_args();
@@ -55,7 +60,7 @@ class DatabaseMenuDataManager extends MenuDataManager
 		 	//echo '</pre>';
 		}
 	}
-	
+
 	/**
 	 * Escapes a column name in accordance with the database type.
 	 * @param string $name The column name.
@@ -78,20 +83,20 @@ class DatabaseMenuDataManager extends MenuDataManager
 		{
 			list($table, $column) = explode('.', $name, 2);
 		}
-		
+
 		$prefix = '';
 		if (isset($column))
 		{
 			$prefix = $table.'.';
 			$name = $column;
 		}
-//		elseif ($prefix_user_object_properties && self :: is_menu_item_column($name))
+//		elseif ($prefix_user_object_properties && self :: is_navigation_item_column($name))
 //		{
 //			$prefix = self :: ALIAS_ITEM_TABLE.'.';
 //		}
 		return $prefix.$this->connection->quoteIdentifier($name);
 	}
-	
+
 	/**
 	 * Expands a table identifier to the real table name. Currently, this
 	 * method prefixes the given table name with the user-defined prefix, if
@@ -116,18 +121,18 @@ class DatabaseMenuDataManager extends MenuDataManager
 		$database_name = $this->connection->quoteIdentifier($dsn['database']);
 		return $database_name.'.'.$this->connection->quoteIdentifier($this->prefix.$name);
 	}
-		
-	private static function is_menu_item_column($name)
+
+	private static function is_navigation_item_column($name)
 	{
-		return MenuItem :: is_default_property_name($name); //|| $name == User :: PROPERTY_TYPE || $name == User :: PROPERTY_DISPLAY_ORDER_INDEX || $name == User :: PROPERTY_USER_ID;
+		return NavigationItem :: is_default_property_name($name); //|| $name == User :: PROPERTY_TYPE || $name == User :: PROPERTY_DISPLAY_ORDER_INDEX || $name == User :: PROPERTY_USER_ID;
 	}
-	
-	function get_next_menu_item_id()
+
+	function get_next_navigation_item_id()
 	{
-		$id = $this->connection->nextID($this->get_table_name('item'));
+		$id = $this->database->get_next_id(NavigationItem :: get_table_name());
 		return $id;
 	}
-	
+
 	function create_storage_unit($name,$properties,$indexes)
 	{
 		$name = $this->get_table_name($name);
@@ -170,10 +175,10 @@ class DatabaseMenuDataManager extends MenuDataManager
 		}
 
 	}
-	
-	function count_menu_items($condition = null)
+
+	function count_navigation_items($condition = null)
 	{
-		$query = 'SELECT COUNT('.$this->escape_column_name(MenuItem :: PROPERTY_ID).') FROM '.$this->escape_table_name('item').' AS '. self :: ALIAS_ITEM_TABLE;
+		$query = 'SELECT COUNT('.$this->escape_column_name(NavigationItem :: PROPERTY_ID).') FROM '.$this->escape_table_name('item').' AS '. self :: ALIAS_ITEM_TABLE;
 
 		$params = array ();
 		if (isset ($condition))
@@ -189,141 +194,99 @@ class DatabaseMenuDataManager extends MenuDataManager
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		return $record[0];
 	}
-	
-	function retrieve_menu_items($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+
+	function retrieve_navigation_items($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
-		$query = 'SELECT * FROM '. $this->escape_table_name('item'). ' AS '. self :: ALIAS_CATEGORY_TABLE;
-
-		$params = array ();
-		if (isset ($condition))
-		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
-		}
-
-		/*
-		 * Always respect display order as a last resort.
-		 */
-		$orderBy[] = MenuItem :: PROPERTY_SORT;
-		$orderDir[] = SORT_ASC;
-		$order = array ();
-		
-		for ($i = 0; $i < count($orderBy); $i ++)
-		{
-			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
-		}
-		if (count($order))
-		{
-			$query .= ' ORDER BY '.implode(', ', $order);
-		}
-		if ($maxObjects < 0)
-		{
-			$maxObjects = null;
-		}
-		$this->connection->setLimit(intval($maxObjects),intval($offset));
-		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($params);
-		return new DatabaseMenuItemResultSet($this, $res);
+		return $this->database->retrieve_objects(NavigationItem :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
-	
-    function retrieve_menu_item($id)
+
+    function retrieve_navigation_item($id)
 	{
-		
+
 		$query = 'SELECT * FROM '.$this->escape_table_name('item');
-		$query .= ' WHERE '.$this->escape_column_name(MenuItem :: PROPERTY_ID).'=?';
-		
+		$query .= ' WHERE '.$this->escape_column_name(NavigationItem :: PROPERTY_ID).'=?';
+
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$res->free();
-		return self :: record_to_menu_item($record);
+		return self :: record_to_navigation_item($record);
 	}
-	
-	function retrieve_menu_item_at_sort($parent, $sort, $direction)
+
+	function retrieve_navigation_item_at_sort($parent, $sort, $direction)
 	{
-		$query = 'SELECT * FROM '. $this->escape_table_name('item') .' WHERE '.$this->escape_column_name(MenuItem :: PROPERTY_CATEGORY).'=?';
+		$query = 'SELECT * FROM '. $this->escape_table_name('item') .' WHERE '.$this->escape_column_name(NavigationItem :: PROPERTY_CATEGORY).'=?';
 		if ($direction == 'up')
 		{
-			$query .= ' AND '.$this->escape_column_name(MenuItem :: PROPERTY_SORT).'<? ORDER BY '.$this->escape_column_name(MenuItem :: PROPERTY_SORT) . 'DESC';
+			$query .= ' AND '.$this->escape_column_name(NavigationItem :: PROPERTY_SORT).'<? ORDER BY '.$this->escape_column_name(NavigationItem :: PROPERTY_SORT) . 'DESC';
 		}
 		elseif ($direction == 'down')
 		{
-			$query .= ' AND '.$this->escape_column_name(MenuItem :: PROPERTY_SORT).'>? ORDER BY '.$this->escape_column_name(MenuItem :: PROPERTY_SORT) . 'ASC';
+			$query .= ' AND '.$this->escape_column_name(NavigationItem :: PROPERTY_SORT).'>? ORDER BY '.$this->escape_column_name(NavigationItem :: PROPERTY_SORT) . 'ASC';
 		}
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute(array ($parent, $sort));
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-		return $this->record_to_menu_item($record);
+		return $this->record_to_navigation_item($record);
 	}
-	
-	function record_to_menu_item($record)
+
+	function record_to_navigation_item($record)
 	{
 		if (!is_array($record) || !count($record))
 		{
 			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
 		$defaultProp = array ();
-		foreach (MenuItem :: get_default_property_names() as $prop)
+		foreach (NavigationItem :: get_default_property_names() as $prop)
 		{
 			$defaultProp[$prop] = $record[$prop];
 		}
-		return new MenuItem($record[MenuItem :: PROPERTY_ID], $defaultProp);
+		return new NavigationItem($record[NavigationItem :: PROPERTY_ID], $defaultProp);
 	}
-	
-	function update_menu_item($menu_item)
+
+	function update_navigation_item($navigation_item)
 	{
-		$where = $this->escape_column_name(MenuItem :: PROPERTY_ID).'='.$menu_item->get_id();
+		$where = $this->escape_column_name(NavigationItem :: PROPERTY_ID).'='.$navigation_item->get_id();
 		$props = array();
-		foreach ($menu_item->get_default_properties() as $key => $value)
+		foreach ($navigation_item->get_default_properties() as $key => $value)
 		{
 			$props[$this->escape_column_name($key)] = $value;
 		}
-		
-		$old_menu_item = $this->retrieve_menu_item($menu_item->get_id());
-		
-		if ($old_menu_item->get_category() !== $menu_item->get_category())
-		{
-			$condition = new EqualityCondition(MenuItem :: PROPERTY_CATEGORY, $menu_item->get_category());
-			$sort = $this->retrieve_max_sort_value('item', MenuItem :: PROPERTY_SORT, $condition);
 
-			$props[$this->escape_column_name(MenuItem :: PROPERTY_SORT)] = $sort+1;
+		$old_navigation_item = $this->retrieve_navigation_item($navigation_item->get_id());
+
+		if ($old_navigation_item->get_category() !== $navigation_item->get_category())
+		{
+			$condition = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, $navigation_item->get_category());
+			$sort = $this->retrieve_max_sort_value('item', NavigationItem :: PROPERTY_SORT, $condition);
+
+			$props[$this->escape_column_name(NavigationItem :: PROPERTY_SORT)] = $sort+1;
 		}
-		
+
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('item'), $props, MDB2_AUTOQUERY_UPDATE, $where);
-		
-		
-		if($old_menu_item->get_category() != $menu_item->get_category())
+
+
+		if($old_navigation_item->get_category() != $navigation_item->get_category())
 		{
-			$query = 'UPDATE ' . $this->escape_table_name('item') . ' SET sort = sort - 1 WHERE ' . 
-								 $this->escape_column_name(MenuItem :: PROPERTY_SORT) . ' > ? AND ' .
-								 $this->escape_column_name(MenuItem :: PROPERTY_CATEGORY) . ' = ?;';
-			
+			$query = 'UPDATE ' . $this->escape_table_name('item') . ' SET sort = sort - 1 WHERE ' .
+								 $this->escape_column_name(NavigationItem :: PROPERTY_SORT) . ' > ? AND ' .
+								 $this->escape_column_name(NavigationItem :: PROPERTY_CATEGORY) . ' = ?;';
+
 			$statement = $this->connection->prepare($query);
-			$statement->execute(array($old_menu_item->get_sort(), $old_menu_item->get_category()));					
+			$statement->execute(array($old_navigation_item->get_sort(), $old_navigation_item->get_category()));
 		}
-		
+
 		return true;
 	}
-	
-	function delete_menu_item($menu_item)
+
+	function delete_navigation_item($navigation_item)
 	{
-		$query = 'DELETE FROM '.$this->escape_table_name('item').' WHERE '.$this->escape_column_name(MenuItem :: PROPERTY_ID).'=?';
-		$statement = $this->connection->prepare($query);
-		if ($statement->execute($menu_item->get_id()))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+	    return $this->database->delete($navigation_item);
 	}
-	
+
 	function retrieve_max_sort_value($table, $column, $condition = null)
 	{
 		$query .= 'SELECT MAX('. $this->escape_column_name($column) .') as '. self :: ALIAS_MAX_SORT .' FROM'. $this->escape_table_name($table);
@@ -336,7 +299,7 @@ class DatabaseMenuDataManager extends MenuDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		if ($res->numRows() >= 1)
@@ -348,35 +311,15 @@ class DatabaseMenuDataManager extends MenuDataManager
 		{
 			$max = 0;
 		}
-		
+
 		return $max;
 	}
-	
-	function create_menu_item($menu_item)
+
+	function create_navigation_item($navigation_item)
 	{
-		$props = array();
-		foreach ($menu_item->get_default_properties() as $key => $value)
-		{
-			$props[$this->escape_column_name($key)] = $value;
-		}
-		$props[$this->escape_column_name(MenuItem :: PROPERTY_ID)] = $menu_item->get_id();
-		
-		$condition = new EqualityCondition(MenuItem :: PROPERTY_CATEGORY, $menu_item->get_category());
-		$sort = $this->retrieve_max_sort_value('item', MenuItem :: PROPERTY_SORT, $condition);
-		
-		$props[$this->escape_column_name(MenuItem :: PROPERTY_SORT)] = $sort+1;
-		
-		$this->connection->loadModule('Extended');
-		if ($this->connection->extended->autoExecute($this->get_table_name('item'), $props, MDB2_AUTOQUERY_INSERT))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+	    return $this->database->create($navigation_item);
 	}
-	
+
 	/**
 	 * Checks whether the given column name is the name of a column that
 	 * contains a date value, and hence should be formatted as such.
@@ -386,6 +329,12 @@ class DatabaseMenuDataManager extends MenuDataManager
 	static function is_date_column($name)
 	{
 		return false;
+	}
+
+	function delete_navigation_items($condition = null)
+	{
+	    //return $this->database->delete_objects('item', $condition);
+	    return $this->database->delete_objects(NavigationItem :: get_table_name(), $condition);
 	}
 }
 ?>

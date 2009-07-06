@@ -3,17 +3,18 @@ require_once Path :: get_admin_path() . 'lib/package_installer/package_installer
 
 class PackageInstallerLearningObjectsDependency extends PackageInstallerDependency
 {
+
     function check($dependency)
     {
         $message = Translation :: get('DependencyCheckLearningObject') . ': ' . Translation :: get(DokeosUtilities :: underscores_to_camelcase($dependency['id']) . 'TypeName') . ', ' . Translation :: get('Version') . ': ' . $dependency['version']['_content'] . ' ' . Translation :: get('Found') . ': ';
-
+        
         $conditions = array();
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_NAME, $dependency['id']);
         $conditions[] = new EqualityCondition(Registration :: PROPERTY_TYPE, Registration :: TYPE_LEARNING_OBJECT);
         $condition = new AndCondition($conditions);
-
+        
         $registrations = AdminDataManager :: get_instance()->retrieve_registrations($condition, array(), array(), 0, 1);
-
+        
         if ($registrations->size() === 0)
         {
             $message .= '--' . Translation :: get('Nothing') . '--';
@@ -23,9 +24,9 @@ class PackageInstallerLearningObjectsDependency extends PackageInstallerDependen
         else
         {
             $registration = $registrations->next_result();
-
+            
             $learning_object_version = $this->version_compare($dependency['version']['type'], $dependency['version']['_content'], $registration->get_version());
-            if (!$learning_object_version)
+            if (! $learning_object_version)
             {
                 $message .= '--' . Translation :: get('WrongVersion') . '--';
                 $this->add_message($message);
@@ -34,7 +35,7 @@ class PackageInstallerLearningObjectsDependency extends PackageInstallerDependen
             }
             else
             {
-                if (!$registration->is_active())
+                if (! $registration->is_active())
                 {
                     $message .= '--' . Translation :: get('InactiveObject') . '--';
                     $this->add_message($message);
@@ -45,7 +46,7 @@ class PackageInstallerLearningObjectsDependency extends PackageInstallerDependen
                     $message .= $registration->get_version();
                     $this->add_message($message);
                 }
-
+                
                 return true;
             }
         }

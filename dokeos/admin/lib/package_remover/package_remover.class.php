@@ -7,12 +7,12 @@ abstract class PackageRemover
     const TYPE_CONFIRM = '2';
     const TYPE_WARNING = '3';
     const TYPE_ERROR = '4';
-	
-	private $parent;
-	private $package;
+    
+    private $parent;
+    private $package;
     private $message;
     private $html;
-	
+
     function PackageRemover($package_manager)
     {
         $this->parent = $package_manager;
@@ -20,40 +20,40 @@ abstract class PackageRemover
         $this->message = array();
         $this->html = array();
     }
-    
+
     function get_parent()
     {
-    	return $this->parent;
+        return $this->parent;
     }
-    
+
     function section($parent)
     {
-    	$this->parent = $parent;
+        $this->parent = $parent;
     }
-    
+
     function get_package()
     {
-    	return $this->package;
+        return $this->package;
     }
-    
+
     function set_package($package)
     {
-    	$this->package = $package;
+        $this->package = $package;
     }
-    
+
     abstract function run();
-    
-	/**
-	 * Invokes the constructor of the class that corresponds to the specified
-	 * type of package remover.
-	 */
-	static function factory($type, $parent)
-	{
-		$class = 'Package' . DokeosUtilities :: underscores_to_camelcase($type) . 'Remover';
-		require_once dirname(__FILE__) . '/type/' . $type . '.class.php';
-		return new $class($parent);
-	}
-	
+
+    /**
+     * Invokes the constructor of the class that corresponds to the specified
+     * type of package remover.
+     */
+    static function factory($type, $parent)
+    {
+        $class = 'Package' . DokeosUtilities :: underscores_to_camelcase($type) . 'Remover';
+        require_once dirname(__FILE__) . '/type/' . $type . '.class.php';
+        return new $class($parent);
+    }
+
     function add_message($message, $type = self :: TYPE_NORMAL)
     {
         switch ($type)
@@ -98,7 +98,7 @@ abstract class PackageRemover
 
     function retrieve_message()
     {
-        $message = implode('<br />'."\n", $this->get_message());
+        $message = implode('<br />' . "\n", $this->get_message());
         $this->set_message(array());
         return $message;
     }
@@ -131,13 +131,13 @@ abstract class PackageRemover
 
     function process_result($type = '')
     {
-		$this->add_html('<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(' . Theme :: get_image_path() . 'place_'. $type .'.png);">');
-//		$this->add_html('<div class="learning_object">');
-		$this->add_html('<div class="title">'. Translation :: get(DokeosUtilities :: underscores_to_camelcase($type)) .'</div>');
-		$this->add_html('<div class="description">');
-		$this->add_html($this->retrieve_message());
-		$this->add_html('</div>');
-		$this->add_html('</div>');
+        $this->add_html('<div class="learning_object" style="padding: 15px 15px 15px 76px; background-image: url(' . Theme :: get_image_path() . 'place_' . $type . '.png);">');
+        //		$this->add_html('<div class="learning_object">');
+        $this->add_html('<div class="title">' . Translation :: get(DokeosUtilities :: underscores_to_camelcase($type)) . '</div>');
+        $this->add_html('<div class="description">');
+        $this->add_html($this->retrieve_message());
+        $this->add_html('</div>');
+        $this->add_html('</div>');
     }
 
     function retrieve_result()

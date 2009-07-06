@@ -6,14 +6,14 @@ abstract class PackageInstallerDependency
     const FAILURE_MEDIUM = 3;
     const FAILURE_LOW = 4;
     const FAILURE_VERY_LOW = 5;
-
+    
     const COMPARE_EQUAL = 1;
     const COMPARE_NOT_EQUAL = 2;
     const COMPARE_GREATER_THEN = 3;
     const COMPARE_GREATER_THEN_OR_EQUAL = 4;
     const COMPARE_LESS_THEN = 5;
     const COMPARE_LESS_THEN_OR_EQUAL = 6;
-
+    
     private $dependencies;
     private $parent;
 
@@ -55,7 +55,7 @@ abstract class PackageInstallerDependency
 
     function compare($type, $reference, $value)
     {
-        switch($type)
+        switch ($type)
         {
             case self :: COMPARE_EQUAL :
                 return ($reference == $value);
@@ -83,7 +83,7 @@ abstract class PackageInstallerDependency
 
     function version_compare($type, $reference, $value)
     {
-        switch($type)
+        switch ($type)
         {
             case self :: COMPARE_EQUAL :
                 return version_compare($reference, $value, '==');
@@ -112,10 +112,10 @@ abstract class PackageInstallerDependency
     function verify()
     {
         $dependencies = $this->get_dependencies();
-
-        foreach($dependencies as $dependency)
+        
+        foreach ($dependencies as $dependency)
         {
-            if (!$this->check($dependency))
+            if (! $this->check($dependency))
             {
                 switch ($dependency['severity'])
                 {
@@ -144,21 +144,21 @@ abstract class PackageInstallerDependency
                 return true;
             }
         }
-
+        
         return true;
     }
 
     abstract function check($dependency);
 
-	/**
-	 * Invokes the constructor of the class that corresponds to the specified
-	 * type of package installer type.
-	 */
-	static function factory($parent, $type, $dependencies)
-	{
-		$class = 'PackageInstaller' . DokeosUtilities :: underscores_to_camelcase($type) . 'Dependency';
-		require_once dirname(__FILE__) . '/dependency/' . $type . '.class.php';
-		return new $class($parent, $dependencies);
-	}
+    /**
+     * Invokes the constructor of the class that corresponds to the specified
+     * type of package installer type.
+     */
+    static function factory($parent, $type, $dependencies)
+    {
+        $class = 'PackageInstaller' . DokeosUtilities :: underscores_to_camelcase($type) . 'Dependency';
+        require_once dirname(__FILE__) . '/dependency/' . $type . '.class.php';
+        return new $class($parent, $dependencies);
+    }
 }
 ?>

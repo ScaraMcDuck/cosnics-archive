@@ -5,7 +5,8 @@
  * @author: Michael Kyndt
  */
 
-class ReportingBlock{
+class ReportingBlock
+{
     const CLASS_NAME = __CLASS__;
 
     const PROPERTY_ID = 'id';
@@ -17,14 +18,14 @@ class ReportingBlock{
     const PROPERTY_WIDTH = 'width';
     const PROPERTY_HEIGHT = 'height';
 
-    private $properties, $data,$params;
+    private $properties, $data, $params;
 
     public function ReportingBlock($properties = array())
     {
         $this->properties = $properties;
     }
 
-     /**
+    /**
      * Gets a default property by name.
      * @param string $name The name of the property.
      */
@@ -48,16 +49,7 @@ class ReportingBlock{
      */
     static function get_default_property_names()
     {
-        return array (
-            self :: PROPERTY_ID,
-            self :: PROPERTY_NAME,
-            self :: PROPERTY_APPLICATION,
-            self :: PROPERTY_FUNCTION,
-            self :: PROPERTY_DISPLAYMODE,
-            self :: PROPERTY_WIDTH,
-            self :: PROPERTY_HEIGHT,
-            self :: PROPERTY_EXCLUDE_DISPLAYMODES
-        );
+        return array(self :: PROPERTY_ID, self :: PROPERTY_NAME, self :: PROPERTY_APPLICATION, self :: PROPERTY_FUNCTION, self :: PROPERTY_DISPLAYMODE, self :: PROPERTY_WIDTH, self :: PROPERTY_HEIGHT, self :: PROPERTY_EXCLUDE_DISPLAYMODES);
     }
 
     /**
@@ -84,11 +76,11 @@ class ReportingBlock{
     private function retrieve_data()
     {
         //require_once($this->get_applicationUrl());
-        $base_path = (WebApplication :: is_application($this->get_application()) ? Path :: get_application_path().'lib/' : Path :: get(SYS_PATH));
+        $base_path = (WebApplication :: is_application($this->get_application()) ? Path :: get_application_path() . 'lib/' : Path :: get(SYS_PATH));
 
-        $file = $base_path .$this->get_application(). '/reporting/reporting_'.$this->get_application().'.class.php';
+        $file = $base_path . $this->get_application() . '/reporting/reporting_' . $this->get_application() . '.class.php';
         require_once $file;
-        $this->data = call_user_func('Reporting'.$this->get_application().'::'.$this->get_function(), $this->get_function_parameters());
+        $this->data = call_user_func('Reporting' . $this->get_application() . '::' . $this->get_function(), $this->get_function_parameters());
     }
 
     /**
@@ -113,35 +105,36 @@ class ReportingBlock{
     /**
      * Returns all available displaymodes
      */
-//    public function get_displaymodes()
-//    {
-//        $data = $this->get_data();
-//        $datadescription = $data[1];
-//        $chartdata = $data[0];
-//        $names = sizeof($chartdata);
-//        $series = sizeof($datadescription["Values"]);
-//
-//        $modes = array();
-//        $modes["Text"] = Translation :: get('Text');
-//        $modes["Table"] = Translation :: get('Table');
-//        if($series == 1)
-//        {
-//            $modes["Chart:Pie"] = Translation :: get('Pie');
-//            if($names > 2)
-//            {
-//                $modes["Chart:Bar"] = Translation :: get('Bar');
-//                $modes["Chart:Line"] = Translation :: get('Line');
-//                $modes["Chart:FilledCubic"] = Translation :: get('FilledCubic');
-//            }
-//        }else
-//        {
-//            $modes["Chart:Bar"] = Translation :: get('Bar');
-//            $modes["Chart:Line"] = Translation :: get('Line');
-//            $modes["Chart:FilledCubic"] = Translation :: get('FilledCubic');
-//        }
-//
-//        return $modes;
-//    }
+    //    public function get_displaymodes()
+    //    {
+    //        $data = $this->get_data();
+    //        $datadescription = $data[1];
+    //        $chartdata = $data[0];
+    //        $names = sizeof($chartdata);
+    //        $series = sizeof($datadescription["Values"]);
+    //
+    //        $modes = array();
+    //        $modes["Text"] = Translation :: get('Text');
+    //        $modes["Table"] = Translation :: get('Table');
+    //        if($series == 1)
+    //        {
+    //            $modes["Chart:Pie"] = Translation :: get('Pie');
+    //            if($names > 2)
+    //            {
+    //                $modes["Chart:Bar"] = Translation :: get('Bar');
+    //                $modes["Chart:Line"] = Translation :: get('Line');
+    //                $modes["Chart:FilledCubic"] = Translation :: get('FilledCubic');
+    //            }
+    //        }else
+    //        {
+    //            $modes["Chart:Bar"] = Translation :: get('Bar');
+    //            $modes["Chart:Line"] = Translation :: get('Line');
+    //            $modes["Chart:FilledCubic"] = Translation :: get('FilledCubic');
+    //        }
+    //
+    //        return $modes;
+    //    }
+
 
     public function get_displaymodes()
     {
@@ -153,22 +146,22 @@ class ReportingBlock{
 
         $modes = $this->get_available_displaymodes();
         $excluded = $this->get_excluded_displaymodes();
-        $excluded = explode(',',$excluded);
+        $excluded = explode(',', $excluded);
 
-        if($series == 1 && $names <= 1)
+        if ($series == 1 && $names <= 1)
         {
             $excluded[] = 'Chart:Bar';
             $excluded[] = 'Chart:Line';
             $excluded[] = 'Chart:FilledCubic';
         }
-        if($series > 1 || $names > 5)
+        if ($series > 1 || $names > 5)
         {
             $excluded[] = 'Chart:Pie';
         }
 
-        if(in_array('Charts', $excluded))
+        if (in_array('Charts', $excluded))
         {
-            unset($excluded[array_search('Charts',$excluded)]);
+            unset($excluded[array_search('Charts', $excluded)]);
             $excluded[] = 'Chart:Pie';
             $excluded[] = 'Chart:Bar';
             $excluded[] = 'Chart:Line';
@@ -181,7 +174,7 @@ class ReportingBlock{
         }
         $diff = array_diff($modes, $excluded);
         return $diff;
-     }
+    }
 
     /**
      *
@@ -202,20 +195,21 @@ class ReportingBlock{
 
     public function get_export_links()
     {
-        require_once Path :: get_library_path().'export/export.class.php';
-        $list = Export::get_supported_filetypes(array('ical'));
+        require_once Path :: get_library_path() . 'export/export.class.php';
+        $list = Export :: get_supported_filetypes(array('ical'));
 
         $array = array();
 
-        foreach ($list as $export_format) {
+        foreach ($list as $export_format)
+        {
             $arr = array();
-            $file = Theme :: get_common_image_path().'export_'.$export_format.'.png';
-            $sys_file = Theme :: get_instance()->get_path(SYS_IMG_PATH) .'common/export_'.$export_format.'.png';
+            $file = Theme :: get_common_image_path() . 'export_' . $export_format . '.png';
+            $sys_file = Theme :: get_instance()->get_path(SYS_IMG_PATH) . 'common/export_' . $export_format . '.png';
             $parameters = array();
-            $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = Request :: get(ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS)?Request :: get(ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS):$_SESSION[ReportingManager::PARAM_TEMPLATE_FUNCTION_PARAMETERS];
-            if(!file_exists($sys_file))
-                $file = Theme :: get_common_image_path().'export_unknown.png';
-            $arr[] = '<a href="index_reporting.php?'.Application :: PARAM_ACTION.'='.ReportingManager::ACTION_EXPORT.'&'.ReportingManager::PARAM_REPORTING_BLOCK_ID.'='.$this->get_id().'&'.ReportingManager::PARAM_EXPORT_TYPE.'='.$export_format.'&'.http_build_query($parameters).'" />';
+            $parameters[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS] = Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS) ? Request :: get(ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS) : $_SESSION[ReportingManager :: PARAM_TEMPLATE_FUNCTION_PARAMETERS];
+            if (! file_exists($sys_file))
+                $file = Theme :: get_common_image_path() . 'export_unknown.png';
+            $arr[] = '<a href="index_reporting.php?' . Application :: PARAM_ACTION . '=' . ReportingManager :: ACTION_EXPORT . '&' . ReportingManager :: PARAM_REPORTING_BLOCK_ID . '=' . $this->get_id() . '&' . ReportingManager :: PARAM_EXPORT_TYPE . '=' . $export_format . '&' . http_build_query($parameters) . '" />';
             //$arr[] = '<img src="'.$file.'" border="0" title="'.$export_format.'" alt="'.$export_format.'" width="12" height="12" />';
             $arr[] = $export_format;
             $arr[] = '</a>';
@@ -223,7 +217,7 @@ class ReportingBlock{
             $array[] = implode("\n", $arr);
         }
 
-        $return = Translation :: get('Export').': ';
+        $return = Translation :: get('Export') . ': ';
         $return .= implode('|', $array);
 
         return $return;
@@ -235,14 +229,14 @@ class ReportingBlock{
 
     public function get_data()
     {
-        if(!$this->data)
+        if (! $this->data)
         {
             $this->retrieve_data();
         }
         return $this->data;
     }
 
-    public function add_function_parameter($key,$value)
+    public function add_function_parameter($key, $value)
     {
         $this->params[$key] = $value;
     }
@@ -272,35 +266,44 @@ class ReportingBlock{
         $this->set_default_property(self :: PROPERTY_ID, $id);
     }
 
-    public function get_name(){
+    public function get_name()
+    {
         return $this->get_default_property(self :: PROPERTY_NAME);
     }
-    public function set_name($value){
-        $this->set_default_property(self :: PROPERTY_NAME,$value);
+
+    public function set_name($value)
+    {
+        $this->set_default_property(self :: PROPERTY_NAME, $value);
     }
 
-    public function get_application(){
+    public function get_application()
+    {
         return $this->get_default_property(self :: PROPERTY_APPLICATION);
     }
 
-    public function set_application($value){
-        $this->set_default_property(self :: PROPERTY_APPLICATION,$value);
+    public function set_application($value)
+    {
+        $this->set_default_property(self :: PROPERTY_APPLICATION, $value);
     }
 
-    public function get_function(){
+    public function get_function()
+    {
         return $this->get_default_property(self :: PROPERTY_FUNCTION);
     }
 
-    public function set_function($value){
-        $this->set_default_property(self :: PROPERTY_FUNCTION,$value);
+    public function set_function($value)
+    {
+        $this->set_default_property(self :: PROPERTY_FUNCTION, $value);
     }
 
-    public function get_displaymode(){
+    public function get_displaymode()
+    {
         return $this->get_default_property(self :: PROPERTY_DISPLAYMODE);
     }
 
-    public function set_displaymode($value){
-        $this->set_default_property(self :: PROPERTY_DISPLAYMODE,$value);
+    public function set_displaymode($value)
+    {
+        $this->set_default_property(self :: PROPERTY_DISPLAYMODE, $value);
     }
 
     public function get_excluded_displaymodes()
@@ -320,7 +323,7 @@ class ReportingBlock{
 
     public function set_width($value)
     {
-        $this->set_default_property(self :: PROPERTY_WIDTH,$value);
+        $this->set_default_property(self :: PROPERTY_WIDTH, $value);
     }
 
     public function get_height()
@@ -330,12 +333,12 @@ class ReportingBlock{
 
     public function set_height($value)
     {
-        $this->set_default_property(self :: PROPERTY_HEIGHT,$value);
+        $this->set_default_property(self :: PROPERTY_HEIGHT, $value);
     }
 
     static function get_table_name()
     {
         return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
-}//class Reporting_Block
+}
 ?>

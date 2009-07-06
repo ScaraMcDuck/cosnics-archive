@@ -54,28 +54,28 @@ abstract class PackageInstallerType
         $source = $this->get_source();
         $attributes = $source->get_attributes();
         $dependency = unserialize($attributes->get_dependencies());
-
-        foreach($dependency as $type => $dependencies)
+        
+        foreach ($dependency as $type => $dependencies)
         {
             $verifier = PackageInstallerDependency :: factory($this, $type, $dependencies['dependency']);
-            if (!$verifier->verify())
+            if (! $verifier->verify())
             {
                 return $this->get_parent()->installation_failed('dependencies', Translation :: get('PackageDependencyFailed'));
             }
         }
-
+        
         return true;
     }
 
-	/**
-	 * Invokes the constructor of the class that corresponds to the specified
-	 * type of package installer type.
-	 */
-	static function factory($parent, $type, $source)
-	{
-		$class = 'PackageInstaller' . DokeosUtilities :: underscores_to_camelcase($type) . 'Type';
-		require_once dirname(__FILE__) . '/type/' . $type . '.class.php';
-		return new $class($parent, $source);
-	}
+    /**
+     * Invokes the constructor of the class that corresponds to the specified
+     * type of package installer type.
+     */
+    static function factory($parent, $type, $source)
+    {
+        $class = 'PackageInstaller' . DokeosUtilities :: underscores_to_camelcase($type) . 'Type';
+        require_once dirname(__FILE__) . '/type/' . $type . '.class.php';
+        return new $class($parent, $source);
+    }
 }
 ?>

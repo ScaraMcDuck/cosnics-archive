@@ -25,9 +25,9 @@ abstract class MenuManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->count_menu_categories($conditions);
 	}
 
-	function count_menu_items($conditions = null)
+	function count_navigation_items($conditions = null)
 	{
-		return $this->get_parent()->count_menu_items($conditions);
+		return $this->get_parent()->count_navigation_items($conditions);
 	}
 
 	function display_popup_form($form_html)
@@ -40,19 +40,19 @@ abstract class MenuManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->retrieve_menu_categories($condition, $offset, $count, $order_property, $order_direction);
 	}
 
-	function retrieve_menu_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	function retrieve_navigation_items($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
-		return $this->get_parent()->retrieve_menu_items($condition, $offset, $count, $order_property, $order_direction);
+		return $this->get_parent()->retrieve_navigation_items($condition, $offset, $count, $order_property, $order_direction);
 	}
 
-	function retrieve_menu_item($id)
+	function retrieve_navigation_item($id)
 	{
-		return $this->get_parent()->retrieve_menu_item($id);
+		return $this->get_parent()->retrieve_navigation_item($id);
 	}
 
-	function retrieve_menu_item_at_sort($parent, $sort, $direction)
+	function retrieve_navigation_item_at_sort($parent, $sort, $direction)
 	{
-		return $this->get_parent()->retrieve_menu_item_at_sort($parent, $sort, $direction);
+		return $this->get_parent()->retrieve_navigation_item_at_sort($parent, $sort, $direction);
 	}
 
 	function is_allowed($right, $locations = array())
@@ -60,24 +60,24 @@ abstract class MenuManagerComponent extends CoreApplicationComponent
 		return $this->get_parent()->is_allowed($right, $locations);
 	}
 
-	function get_menu_item_creation_url()
+	function get_navigation_item_creation_url()
 	{
-		return $this->get_parent()->get_menu_item_creation_url();
+		return $this->get_parent()->get_navigation_item_creation_url();
 	}
 
-	function get_menu_item_editing_url($menu_item)
+	function get_navigation_item_editing_url($navigation_item)
 	{
-		return $this->get_parent()->get_menu_item_editing_url($menu_item);
+		return $this->get_parent()->get_navigation_item_editing_url($navigation_item);
 	}
 
-	function get_menu_item_deleting_url($menu_item)
+	function get_navigation_item_deleting_url($navigation_item)
 	{
-		return $this->get_parent()->get_menu_item_deleting_url($menu_item);
+		return $this->get_parent()->get_navigation_item_deleting_url($navigation_item);
 	}
 
-	function get_menu_item_moving_url($menu_item, $direction)
+	function get_navigation_item_moving_url($navigation_item, $direction)
 	{
-		return $this->get_parent()->get_menu_item_moving_url($menu_item, $direction);
+		return $this->get_parent()->get_navigation_item_moving_url($navigation_item, $direction);
 	}
 }
 ?>

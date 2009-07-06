@@ -2,11 +2,11 @@
 /**
  * @package application.weblcms.weblcms_manager.component
  */
-require_once dirname(__FILE__).'/menu_item_browser/menu_item_browser_table.class.php';
+require_once dirname(__FILE__).'/navigation_item_browser/navigation_item_browser_table.class.php';
 require_once dirname(__FILE__).'/../menu_manager.class.php';
 require_once dirname(__FILE__).'/../menu_manager_component.class.php';
-require_once dirname(__FILE__).'/../../menu_item_form.class.php';
-require_once dirname(__FILE__).'/../../menu_item_menu.class.php';
+require_once dirname(__FILE__).'/../../navigation_item_form.class.php';
+require_once dirname(__FILE__).'/../../navigation_item_menu.class.php';
 require_once Path :: get_library_path() . '/html/action_bar/action_bar_renderer.class.php';
 
 /**
@@ -44,31 +44,31 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 		switch($component_action)
 		{
 			case 'edit':
-				$this->edit_menu_item();
+				$this->edit_navigation_item();
 				break;
 			case 'delete':
-				$this->delete_menu_item();
+				$this->delete_navigation_item();
 				break;
 			case 'add':
-				$this->add_menu_item();
+				$this->add_navigation_item();
 				break;
 			case 'move':
-				$this->move_menu_item();
+				$this->move_navigation_item();
 				break;
 			default :
-				$this->show_menu_item_list();
+				$this->show_navigation_item_list();
 		}
 	}
 
 	private $action_bar;
 
-	function show_menu_item_list()
+	function show_navigation_item_list()
 	{
 		$this->action_bar = $this->get_action_bar();
 
 		$parameters = $this->get_parameters(true);
 
-		$table = new MenuItemBrowserTable($this, $parameters, $this->get_condition());
+		$table = new NavigationItemBrowserTable($this, $parameters, $this->get_condition());
 
 		$trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb(Redirect :: get_link(AdminManager :: APPLICATION_NAME, array(AdminManager :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER), array(), false, Redirect :: TYPE_CORE), Translation :: get('Administration')));
@@ -95,22 +95,22 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 		$category = (isset($this->category) ? $this->category : 0);
 		$action_bar->set_search_url($this->get_url(array('category' => $category)));
 
-		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_create.png', $this->get_menu_item_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
+		$action_bar->add_common_action(new ToolbarItem(Translation :: get('Add'), Theme :: get_common_image_path().'action_create.png', $this->get_navigation_item_creation_url(), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 		$action_bar->add_common_action(new ToolbarItem(Translation :: get('ShowAll'), Theme :: get_common_image_path().'action_browser.png', $this->get_url(array('category' => $category)), ToolbarItem :: DISPLAY_ICON_AND_LABEL));
 
 		return $action_bar;
 	}
 
-	function move_menu_item()
+	function move_navigation_item()
 	{
 		$direction = Request :: get(MenuManager :: PARAM_DIRECTION);
 		$category = Request :: get(MenuManager :: PARAM_CATEGORY);
 
 		if (isset($direction) && isset($category))
 		{
-			$move_category = $this->retrieve_menu_item($category);
+			$move_category = $this->retrieve_navigation_item($category);
 			$sort = $move_category->get_sort();
-			$next_category = $this->retrieve_menu_item_at_sort($move_category->get_category(), $sort, $direction);
+			$next_category = $this->retrieve_navigation_item_at_sort($move_category->get_category(), $sort, $direction);
 
 			if ($direction == 'up')
 			{
@@ -136,23 +136,23 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 		}
 		else
 		{
-			$this->show_menu_item_list();
+			$this->show_navigation_item_list();
 		}
 	}
 
-	function add_menu_item()
+	function add_navigation_item()
 	{
-		$menucategory = new MenuItem();
+		$menucategory = new NavigationItem();
 
 		$menucategory->set_application('');
 		$menucategory->set_category(0);
 
-		$form = new MenuItemForm(MenuItemForm :: TYPE_CREATE, $menucategory, $this->get_url(array(MenuManager :: PARAM_COMPONENT_ACTION => MenuManager :: ACTION_COMPONENT_ADD_CATEGORY)));
+		$form = new NavigationItemForm(NavigationItemForm :: TYPE_CREATE, $menucategory, $this->get_url(array(MenuManager :: PARAM_COMPONENT_ACTION => MenuManager :: ACTION_COMPONENT_ADD_CATEGORY)));
 
 		if($form->validate())
 		{
-			$success = $form->create_menu_item();
-			$this->redirect(Translation :: get($success ? 'MenuManagerCategoryAdded' : 'MenuManagerCategoryNotAdded'), ($success ? false : true), array(MenuManager :: PARAM_CATEGORY => $form->get_menu_item()->get_category()));
+			$success = $form->create_navigation_item();
+			$this->redirect(Translation :: get($success ? 'MenuManagerCategoryAdded' : 'MenuManagerCategoryNotAdded'), ($success ? false : true), array(MenuManager :: PARAM_CATEGORY => $form->get_navigation_item()->get_category()));
 		}
 		else
 		{
@@ -173,16 +173,16 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 		}
 	}
 
-	function edit_menu_item()
+	function edit_navigation_item()
 	{
-		$menucategory = $this->retrieve_menu_item($this->category);
+		$menucategory = $this->retrieve_navigation_item($this->category);
 
-		$form = new MenuItemForm(MenuItemForm :: TYPE_EDIT, $menucategory, $this->get_url(array(MenuManager :: PARAM_COMPONENT_ACTION => MenuManager :: ACTION_COMPONENT_EDIT_CATEGORY, MenuManager :: PARAM_CATEGORY => $menucategory->get_id())));
+		$form = new NavigationItemForm(NavigationItemForm :: TYPE_EDIT, $menucategory, $this->get_url(array(MenuManager :: PARAM_COMPONENT_ACTION => MenuManager :: ACTION_COMPONENT_EDIT_CATEGORY, MenuManager :: PARAM_CATEGORY => $menucategory->get_id())));
 
 		if($form->validate())
 		{
-			$success = $form->update_menu_item();
-			$this->redirect(Translation :: get($success ? 'MenuManagerCategoryUpdated' : 'MenuManagerCategoryNotUpdated'), ($success ? false : true), array(MenuManager :: PARAM_CATEGORY => $form->get_menu_item()->get_category()));
+			$success = $form->update_navigation_item();
+			$this->redirect(Translation :: get($success ? 'MenuManagerCategoryUpdated' : 'MenuManagerCategoryNotUpdated'), ($success ? false : true), array(MenuManager :: PARAM_CATEGORY => $form->get_navigation_item()->get_category()));
 		}
 		else
 		{
@@ -203,22 +203,22 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 		}
 	}
 
-	function delete_menu_item()
+	function delete_navigation_item()
 	{
-		$menu_item_id = Request :: get(MenuManager :: PARAM_CATEGORY);
+		$navigation_item_id = Request :: get(MenuManager :: PARAM_CATEGORY);
 		$parent = 0;
 		$failures = 0;
 
-		if (!empty ($menu_item_id))
+		if (!empty ($navigation_item_id))
 		{
-			if (!is_array($menu_item_id))
+			if (!is_array($navigation_item_id))
 			{
-				$menu_item_id = array ($menu_item_id);
+				$navigation_item_id = array ($navigation_item_id);
 			}
 
-			foreach ($menu_item_id as $id)
+			foreach ($navigation_item_id as $id)
 			{
-				$category = $this->retrieve_menu_item($id);
+				$category = $this->retrieve_navigation_item($id);
 				$parent = $category->get_category();
 
 				if (!$category->delete())
@@ -229,7 +229,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 
 			if ($failures)
 			{
-				if (count($menu_item_id) == 1)
+				if (count($navigation_item_id) == 1)
 				{
 					$message = 'SelectedCategoryNotDeleted';
 				}
@@ -240,7 +240,7 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 			}
 			else
 			{
-				if (count($menu_item_id) == 1)
+				if (count($navigation_item_id) == 1)
 				{
 					$message = 'SelectedCategoryDeleted';
 				}
@@ -262,13 +262,13 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 	{
 		$condition = null;
 		$category = (isset($this->category) ? $this->category : 0);
-		$condition = new EqualityCondition(MenuItem :: PROPERTY_CATEGORY, $category);
+		$condition = new EqualityCondition(NavigationItem :: PROPERTY_CATEGORY, $category);
 
 		$search = $this->action_bar->get_query();
 		if(isset($search) && $search != '')
 		{
 			$conditions[] = $condition;
-			$conditions[] = new LikeCondition(MenuItem :: PROPERTY_TITLE, $search);
+			$conditions[] = new LikeCondition(NavigationItem :: PROPERTY_TITLE, $search);
 			$condition = new AndCondition($conditions);
 		}
 
@@ -283,20 +283,20 @@ class MenuManagerSorterComponent extends MenuManagerComponent
 
 			$create = array ();
 			$create['title'] = Translation :: get('Add');
-			$create['url'] = $this->get_menu_item_creation_url();
+			$create['url'] = $this->get_navigation_item_creation_url();
 			$create['class'] = 'create';
 			$extra_items_after[] = & $create;*/
 
 			$temp_replacement = '__CATEGORY__';
 			$url_format = $this->get_url(array(Application :: PARAM_ACTION => MenuManager :: ACTION_SORT_MENU, MenuManager :: PARAM_CATEGORY => $temp_replacement));
 			$url_format = str_replace($temp_replacement, '%s', $url_format);
-			$this->menu = new MenuItemMenu($this->category, $url_format, null, null);
+			$this->menu = new NavigationItemMenu($this->category, $url_format, null, null);
 
 			$component_action = Request :: get(MenuManager :: PARAM_COMPONENT_ACTION);
 
 			if ($component_action == MenuManager :: ACTION_COMPONENT_ADD_CATEGORY)
 			{
-				$this->menu->forceCurrentUrl($this->get_menu_item_creation_url(), true);
+				$this->menu->forceCurrentUrl($this->get_navigation_item_creation_url(), true);
 			}
 //			elseif(!isset($this->category))
 //			{
