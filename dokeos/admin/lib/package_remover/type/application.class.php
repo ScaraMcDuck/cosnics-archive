@@ -203,10 +203,10 @@ class PackageApplicationRemover extends PackageRemover
             return false;
         }
 
-//        if (! $rdm->delete_orphaned_role_right_locations())
-//        {
-//            $this->add_message(Translation :: get('DeletingOrphanedRoleRightLocationsFailed'), self :: TYPE_WARNING);
-//        }
+        if (! $tdm->delete_orphaned_event_rel_tracker())
+        {
+            $this->add_message(Translation :: get('DeletingOrphanedEventRelTrackersFailed'), self :: TYPE_WARNING);
+        }
 
         return true;
     }
