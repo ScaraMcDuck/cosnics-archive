@@ -438,7 +438,7 @@ class Database
 
 	function retrieve_max_sort_value($table_name, $column, $condition = null)
 	{
-		$query .= 'SELECT MAX('. $this->escape_column_name($column) .') as '. self :: ALIAS_MAX_SORT .' FROM'. $this->escape_table_name($table_name);
+		$query .= 'SELECT MAX('. $this->escape_column_name($column) .') as '. self :: ALIAS_MAX_SORT .' FROM'. $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
 
 		$params = array ();
 		if (isset ($condition))
