@@ -173,5 +173,10 @@ class NavigationItem
     {
         return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
     }
+
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
 }
 ?>
