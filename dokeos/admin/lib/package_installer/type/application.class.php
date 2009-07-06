@@ -2,7 +2,7 @@
 require_once Path :: get_admin_path() . 'lib/package_installer/package_installer_type.class.php';
 require_once Path :: get_library_path() . 'installer.class.php';
 require_once path :: get_menu_path() . 'lib/menu_data_manager.class.php';
-require_once path :: get_menu_path() . 'lib/menu_item.class.php';
+require_once path :: get_menu_path() . 'lib/navigation_item.class.php';
 
 class PackageInstallerApplicationType extends PackageInstallerType
 {

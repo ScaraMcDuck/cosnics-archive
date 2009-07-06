@@ -24,8 +24,8 @@ class PackageApplicationRemover extends PackageRemover
             $mdm = MenuDataManager :: get_instance();
             $this->add_message(Translation :: get('RemovingMenuItems'));
 
-            $condition = new EqualityCondition(MenuItem :: PROPERTY_APPLICATION, $registration->get_name());
-            if ($mdm->delete_menu_items($condition))
+            $condition = new EqualityCondition(NavigationItem :: PROPERTY_APPLICATION, $registration->get_name());
+            if ($mdm->delete_navigation_items($condition))
             {
                 $this->installation_successful('initilization', Translation :: get('ApplicationSuccessfullyDeactivated'));
             }

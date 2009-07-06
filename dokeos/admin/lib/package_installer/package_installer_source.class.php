@@ -77,7 +77,7 @@ abstract class PackageInstallerSource
             {
                 $this->set_package_folder($extract_path);
                 $this->get_parent()->add_message(Translation :: get('RemotePackageExtracted'));
-                
+
                 if (! Filesystem :: move_file($extract_path, Path :: get(SYS_PATH)))
                 {
                     $this->installation_failed('source', Translation :: get('PackageMoveFailed'));
@@ -86,7 +86,7 @@ abstract class PackageInstallerSource
                 {
                     $this->add_message(Translation :: get('PackageMovedSucessfully'));
                 }
-                
+
                 return true;
             }
         }
@@ -132,14 +132,14 @@ abstract class PackageInstallerSource
     function cleanup()
     {
         $package_folder = $this->get_package_folder();
-        
+
         if (! $package_folder)
         {
             $this->get_parent()->add_message(Translation :: get('NoTemporaryFilesToClean'));
         }
         else
         {
-            if (Filesystem :: remove($source->get_package_file()) && Filesystem :: remove($source->get_package_folder()))
+            if (Filesystem :: remove($this->get_package_file()) && Filesystem :: remove($this->get_package_folder()))
             {
                 $this->get_parent()->add_message(Translation :: get('TemporaryFilesRemoved'));
             }
