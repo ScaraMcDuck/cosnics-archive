@@ -11,7 +11,6 @@ class RatingQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '<tr>';
         $html[] = '<th class="list">' . Translation :: get('YourValue') . '</th>';
         $html[] = '<th class="list">' . Translation :: get('CorrectValue') . '</th>';
-        $html[] = '<th class="list">' . Translation :: get('Feedback') . '</th>';
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
@@ -21,7 +20,6 @@ class RatingQuestionResultDisplay extends QuestionResultDisplay
        	$html[] = '<tr>';
        	$html[] = '<td>' . $answers[0] . '</td>';
        	$html[] = '<td>' . $this->get_question()->get_correct() . '</td>';
-       	$html[] = '<td></td>';
        	$html[] = '</tr>';
         
         $html[] = '</tbody>';

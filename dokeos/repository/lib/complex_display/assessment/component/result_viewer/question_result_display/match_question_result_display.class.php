@@ -19,7 +19,6 @@ class MatchQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '<thead>';
         $html[] = '<tr>';
         $html[] = '<th>' . Translation :: get('PossibleAnswer') . '</th>';
-        $html[] = '<th>' . Translation :: get('Feedback') . '</th>';
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
@@ -30,7 +29,6 @@ class MatchQuestionResultDisplay extends QuestionResultDisplay
         {
         	$html[] = '<tr class="' . ($i % 2 == 0 ? 'row_even' : 'row_odd') . '">';
         	$html[] = '<td>' . $answer->get_value() . '</td>';
-        	$html[] = '<td>' . $answer->get_comment() . '</td>';
         	$html[] = '</tr>';
         }
         

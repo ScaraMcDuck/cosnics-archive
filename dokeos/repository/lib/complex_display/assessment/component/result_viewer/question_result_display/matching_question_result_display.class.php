@@ -36,7 +36,6 @@ class MatchingQuestionResultDisplay extends QuestionResultDisplay
         $html[] = '<th>' . Translation :: get('YourMatch') . '</th>';
         $html[] = '<th>' . Translation :: get('Correct') . '</th>';
         $html[] = '<th>' . Translation :: get('Option') . '</th>';
-        $html[] = '<th>' . Translation :: get('Feedback') . '</th>';
         $html[] = '</tr>';
         $html[] = '</thead>';
         $html[] = '<tbody>';
@@ -50,7 +49,6 @@ class MatchingQuestionResultDisplay extends QuestionResultDisplay
         	$html[] = '<td>' . $labels[$answers[$i]] . '</td>';
         	$html[] = '<td>' . $labels[$option->get_match()] . '</td>';
         	$html[] = '<td>' . $option->get_value() . '</td>';
-        	$html[] = '<td>' . $option->get_comment() . '</td>';
         	$html[] = '</tr>';
         }
         

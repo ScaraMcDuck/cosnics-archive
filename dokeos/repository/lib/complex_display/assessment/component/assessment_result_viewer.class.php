@@ -13,6 +13,8 @@ class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplay
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		
+		$form = new FormValidator('result_viewer', 'post', $this->get_url());
+		
 		$results = $this->get_parent()->get_parent()->retrieve_assessment_results();
 		$question_cids = array_keys($results);
 		
@@ -29,6 +31,8 @@ class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplay
 			
 			$question = $rdm->retrieve_learning_object($question_cloi->get_ref());
 			$answers = unserialize($result['answer']);
+			$feedback = $result['feedback'];
+			
 			$question_cloi->set_ref($question);
 
 			$score = $result['score'];
@@ -37,7 +41,7 @@ class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplay
 			$total_score += $score;
 			$total_weight += $question_cloi->get_weight();
 			
-			$display = QuestionResultDisplay :: factory($question_cloi, $question_number, $answers, $score);
+			$display = QuestionResultDisplay :: factory($form, $question_cloi, $question_number, $answers, $score, $feedback);
 			$display->display();
 			
 			$question_number++;

@@ -111,7 +111,7 @@ abstract class QuestionResultDisplay
 		echo $header;
 	}
 
-	function display_footer($formvalidator)
+	function display_footer()
 	{
 		$html[] = '</div>';
 		$html[] = '</div>';
