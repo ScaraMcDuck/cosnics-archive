@@ -15,6 +15,8 @@ require_once Path :: get_library_path() . '/dokeos_utilities.class.php';
  */
 class Database
 {
+    const ALIAS_MAX_SORT = 'max_sort';
+
 	private $connection;
 	private $prefix;
 	private $aliases;
@@ -309,7 +311,7 @@ class Database
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Deletes the objects of a given table
 	 * @param String $table_name
@@ -329,7 +331,7 @@ class Database
 		}
 
 		$statement = $this->connection->prepare($query);
-		
+
 		if($res = $statement->execute($params))
 		{
 			return true;
@@ -339,7 +341,7 @@ class Database
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Drop a given storage unit
 	 * @param String $table_name
@@ -349,9 +351,9 @@ class Database
 	{
 		$this->connection->loadModule('Manager');
 		$manager = $this->connection->manager;
-		
+
 		$result = $manager->dropTable($this->escape_table_name($table_name));
-		
+
 		if (MDB2 :: isError($result))
 		{
 			return false;
@@ -434,6 +436,33 @@ class Database
 		return new ObjectResultSet($this, $res, $table_name);
 	}
 
+	function retrieve_max_sort_value($table_name, $column, $condition = null)
+	{
+		$query .= 'SELECT MAX('. $this->escape_column_name($column) .') as '. self :: ALIAS_MAX_SORT .' FROM'. $this->escape_table_name($table_name);
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $this->get_alias($table_name));
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+
+		if ($res->numRows() >= 1)
+		{
+			$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+			return $record[0];
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
 	function truncate_storage_unit($table_name, $optimize = true)
 	{
 		$this->connection->loadModule('Manager');
@@ -469,9 +498,9 @@ class Database
 		}
 	}
 
-	function retrieve_object($table_name, $condition = null)
+	function retrieve_object($table_name, $condition = null, $orderBy = null, $orderDir = null)
 	{
-		$query = 'SELECT * FROM '.$this->escape_table_name($table_name);
+		$query = 'SELECT * FROM '.$this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
 
 		$params = array ();
 		if (isset ($condition))
@@ -480,6 +509,17 @@ class Database
 			$translator->translate($condition);
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
+		}
+
+		$order = array ();
+
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->escape_column_name($orderBy[$i], $this->get_alias($table_name)).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
 		}
 
 		$this->connection->setLimit(1);
@@ -493,6 +533,10 @@ class Database
 		if($record)
 		{
 			return self :: record_to_object($record, $class_name);
+		}
+		else
+		{
+		    return false;
 		}
 	}
 
