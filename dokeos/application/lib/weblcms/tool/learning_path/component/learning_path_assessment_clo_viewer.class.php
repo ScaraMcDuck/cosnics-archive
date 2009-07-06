@@ -52,7 +52,7 @@ class LearningPathToolAssessmentCloViewerComponent extends LearningPathToolCompo
 	{
 		$parameters = array();
 		$parameters['lpi_attempt_id'] = $this->lpi_attempt_id;
-		$parameters['lpi_attempt_id'] = $complex_question_id;
+		$parameters['question_cid'] = $complex_question_id;
 		$parameters['answer'] = $answer;
 		$parameters['score'] = $score;
 		$parameters['feedback'] = '';

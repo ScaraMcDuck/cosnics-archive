@@ -43,11 +43,6 @@ class AssessmentDisplay extends ComplexDisplay
 		$component->run();
 	}
 	
-	function change_answer_data($complex_question_id, $score, $feedback)
-	{
-		return $this->get_parent()->change_answer_data($complex_question_id, $score, $feedback);
-	}
-	
 	function save_answer($complex_question_id, $answer, $score)
 	{
 		return $this->get_parent()->save_answer($complex_question_id, $answer, $score);

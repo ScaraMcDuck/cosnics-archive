@@ -30,7 +30,7 @@ class WeblcmsLearningPathQuestionAttemptsTracker extends MainTracker
     	$score = $parameters['score'];
     	
     	$this->set_lpi_attempt_id($lpi_attempt_id);
-    	$this->get_question_cid($question_id);
+    	$this->set_question_cid($question_id);
     	$this->set_answer($answer);
     	$this->set_feedback($feedback);
     	$this->set_score($score);

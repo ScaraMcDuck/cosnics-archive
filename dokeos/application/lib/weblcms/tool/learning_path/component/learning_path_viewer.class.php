@@ -7,6 +7,8 @@ require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_learning_o
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lp_attempt_tracker.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lpi_attempt_tracker.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lpi_attempt_objective_tracker.class.php';
+require_once dirname(__FILE__).'/../../../trackers/weblcms_learning_path_question_attempts_tracker.class.php';
+require_once Path :: get_repository_path() . 'lib/complex_display/complex_display.class.php';
 
 class LearningPathToolViewerComponent extends LearningPathToolComponent
 {
@@ -76,16 +78,36 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 			require_once(Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_progress_reporting_template.class.php');
 			$objects = $menu->get_objects();
 			$cid = Request :: get('cid');
+			$details = Request :: get('details');
 
 			if($cid)
 			{
 				$trail->add(new BreadCrumb($this->get_url(array('tool_action' => 'view', 'pid' => $pid, 'lp_action' => 'view_progress', 'cid' => $cid)), Translation :: get('ItemDetails')));
 			}
 
-			$parameters = array('objects' => $objects, 'attempt_data' => $lpi_attempt_data, 'cid' => $cid, 'url' => $url);
-			$template = new LearningPathProgressReportingTemplate($this ,0, $parameters, $trail, $objects[$cid]);
-			$template->set_reporting_blocks_function_parameters($parameters);
-			$display = $template->to_html();
+			if($details)
+			{
+				$trail->add(new BreadCrumb($this->get_url(array('tool_action' => 'view', 'pid' => $pid, 'lp_action' => 'view_progress', 'cid' => $cid, 'details' => $details)), Translation :: get('AssessmentResult')));
+				
+				$this->set_parameter('tool_action', 'view');
+				$this->set_parameter('pid', $pid);
+				$this->set_parameter('lp_action', 'view_progress');
+				$this->set_parameter('cid', $cid);
+				$this->set_parameter('details', $details);
+				$_GET['display_action'] = 'view_result';
+				
+				$object = $objects[$cid];
+				
+				$display = ComplexDisplay :: factory($this, $object->get_type());
+        		$display->set_root_lo($object);				
+			}
+			else 
+			{
+				$parameters = array('objects' => $objects, 'attempt_data' => $lpi_attempt_data, 'cid' => $cid, 'url' => $url);
+				$template = new LearningPathProgressReportingTemplate($this ,0, $parameters, $trail, $objects[$cid]);
+				$template->set_reporting_blocks_function_parameters($parameters);
+				$display = $template->to_html();
+			}
 		}
 		else
 		{
@@ -123,7 +145,17 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		echo $this->get_progress_bar($menu->get_progress());
 		echo $navigation . '<br /><br />';
 		echo '</div>';
-		echo '<div style="width: 80%; float: right; padding-left: 10px; min-height: 500px;">' . $display . '</div>';
+		echo '<div style="width: 80%; float: right; padding-left: 10px; min-height: 500px;">';
+		
+		if(get_class($display) == 'AssessmentDisplay')
+		{
+			$display->run();
+		}
+		else 
+		{
+			echo $display;
+		}
+		echo '</div>';
 		echo '<div class="clear">&nbsp;</div>';
 		$this->display_footer();
 	}
@@ -385,7 +417,26 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		return $lpi_tracker;
 	}
 
+	function retrieve_assessment_results()
+	{
+		$condition = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LPI_ATTEMPT_ID, Request :: get('details'));
 
-
+		$dummy = new WeblcmsLearningPathQuestionAttemptsTracker();
+		$trackers = $dummy->retrieve_tracker_items($condition);
+		
+		$results = array();
+		
+		foreach($trackers as $tracker)
+		{
+			$results[$tracker->get_question_cid()] = array(
+				'persistent_id' => $tracker->get_id(),
+				'answer' => $tracker->get_answer(),
+				'feedback' => $tracker->get_feedback(),
+				'score' => $tracker->get_score() 
+			);
+		}
+		
+		return $results;
+	}
 }
 ?>
