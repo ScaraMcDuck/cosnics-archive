@@ -9,8 +9,9 @@ abstract class QuestionResultDisplay
 	private $score;
 	private $feedback;
 	private $form;
+	private $can_change;
 
-	function QuestionResultDisplay(&$form, $clo_question, $question_nr, $answers, $score, $feedback)
+	function QuestionResultDisplay(&$form, $clo_question, $question_nr, $answers, $score, $feedback, $can_change)
 	{
 		$this->clo_question = $clo_question;
 		$this->question_nr = $question_nr;
@@ -19,6 +20,7 @@ abstract class QuestionResultDisplay
 		$this->score = $score;
 		$this->feedback = $feedback;
 		$this->form = $form;
+		$this->can_change = $can_change;
 	}
 
 	function get_clo_question()
@@ -100,23 +102,28 @@ abstract class QuestionResultDisplay
 		$html[] = $this->question->get_title();
 		$html[] = '</div>';
 		$html[] = '<div class="bevel" style="text-align: right;">';
-		//$html[] = $this->get_score() . ' / ' . $this->get_clo_question()->get_weight();
-		
 		$this->form->addElement('html', implode("\n", $html));
+		$html = array();
 		
-		for($i = -$this->get_clo_question()->get_weight(); $i <= $this->get_clo_question()->get_weight(); $i++)
+		if(!$this->can_change)
 		{
-			$score[$i] = $i;
+			$html[] = $this->get_score() . ' / ' . $this->get_clo_question()->get_weight();
+		}
+		else 
+		{
+			for($i = -$this->get_clo_question()->get_weight(); $i <= $this->get_clo_question()->get_weight(); $i++)
+			{
+				$score[$i] = $i;
+			}
+		
+			$renderer = $this->form->defaultRenderer();
+		
+			$this->form->addElement('select', $this->clo_question->get_id() . '_score', '', $score);
+			$renderer->setElementTemplate('{element}', $this->clo_question->get_id() . '_score');
+			$defaults[$this->clo_question->get_id() . '_score'] = $this->get_score();
+			$this->form->setDefaults($defaults);
 		}
 		
-		$renderer = $this->form->defaultRenderer();
-		
-		$this->form->addElement('select', $this->clo_question->get_id() . '_score', '', $score);
-		$renderer->setElementTemplate('{element}', $this->clo_question->get_id() . '_score');
-		$defaults[$this->clo_question->get_id() . '_score'] = $this->get_score();
-		$this->form->setDefaults($defaults);
-		
-		$html = array();
 		$html[] = '</div>';
 
 		$html[] = '</div>';
@@ -145,15 +152,20 @@ abstract class QuestionResultDisplay
 		$html[] = '<div class="with_borders">';
 		
 		$this->form->addElement('html', implode("\n", $html));
-		
-		/*$feedback = $this->feedback ? $this->feedback : Translation :: get('NoFeedback');
-		$html[] = $feedback;*/
-		
-		$this->form->add_html_editor($this->clo_question->get_id() . '_feedback', '', false);
-		$defaults[$this->clo_question->get_id() . '_feedback'] = $this->get_feedback();
-		$this->form->setDefaults($defaults);
-		
 		$html = array();
+		
+		if(!$this->can_change)
+		{
+			$feedback = $this->feedback ? $this->feedback : Translation :: get('NoFeedback');
+			$html[] = $feedback;
+		}
+		else
+		{
+			$this->form->add_html_editor($this->clo_question->get_id() . '_feedback', '', false);
+			$defaults[$this->clo_question->get_id() . '_feedback'] = $this->get_feedback();
+			$this->form->setDefaults($defaults);
+		}
+		
 		$html[] = '</div>';
 		
 		$this->form->addElement('html', implode("\n", $html));
@@ -173,7 +185,7 @@ abstract class QuestionResultDisplay
 		return false;
 	}
 
-	static function factory(&$form, $clo_question, $question_nr, $answers, $score, $feedback)
+	static function factory(&$form, $clo_question, $question_nr, $answers, $score, $feedback, $can_change)
 	{
 		$type = $clo_question->get_ref()->get_type();
 
@@ -187,7 +199,7 @@ abstract class QuestionResultDisplay
 		require_once $file;
  		
 		$class = DokeosUtilities :: underscores_to_camelcase($type) . 'ResultDisplay';
-		$question_result_display = new $class($form, $clo_question, $question_nr, $answers, $score, $feedback);
+		$question_result_display = new $class($form, $clo_question, $question_nr, $answers, $score, $feedback, $can_change);
 		return $question_result_display;
 	}
 }

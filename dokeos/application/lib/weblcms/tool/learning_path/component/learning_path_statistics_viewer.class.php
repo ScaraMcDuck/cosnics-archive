@@ -3,9 +3,9 @@
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lp_attempt_tracker.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lpi_attempt_tracker.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_lpi_attempt_objective_tracker.class.php';
-require_once dirname(__FILE__).'/../../../trackers/weblcms_learning_path_assessment_attempts_tracker.class.php';
 require_once dirname(__FILE__).'/../../../trackers/weblcms_learning_path_question_attempts_tracker.class.php';
 require_once dirname(__FILE__) . '/learning_path_viewer/learning_path_tree.class.php';
+require_once Path :: get_repository_path() . 'lib/complex_display/complex_display.class.php';
 
 class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponent
 {
@@ -68,12 +68,33 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 				$trail->add(new BreadCrumb($url, Translation :: get('ItemDetails')));
 			}
 
-			require_once(Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_progress_reporting_template.class.php');
 			$objects = $menu->get_objects();
-			$parameters = array('objects' => $menu->get_objects(), 'attempt_data' => $attempt_data, 'cid' => $cid, 'url' => $url, 'delete' => true);
-			$template = new LearningPathProgressReportingTemplate($this, 0, $parameters, $trail, $objects[$cid]);
-			$template->set_reporting_blocks_function_parameters($parameters);
-			$display = $template->to_html();
+			$details = Request :: get('details');
+			
+			if($details)
+			{
+				
+				$trail->add(new BreadCrumb($this->get_url($parameters), Translation :: get('AssessmentResult')));
+				$this->set_parameter('tool_action', 'stats');
+				$this->set_parameter('pid', $pid);
+				$this->set_parameter('attempt_id', $attempt_id);
+				$this->set_parameter('cid', $cid);
+				$this->set_parameter('details', $details);
+				$_GET['display_action'] = 'view_result';
+				
+				$object = $objects[$cid];
+				
+				$display = ComplexDisplay :: factory($this, $object->get_type());
+        		$display->set_root_lo($object);				
+			}
+			else 
+			{
+				require_once(Path :: get_application_path() . 'lib/weblcms/reporting/templates/learning_path_progress_reporting_template.class.php');
+				$parameters = array('objects' => $menu->get_objects(), 'attempt_data' => $attempt_data, 'cid' => $cid, 'url' => $url, 'delete' => true);
+				$template = new LearningPathProgressReportingTemplate($this, 0, $parameters, $trail, $objects[$cid]);
+				$template->set_reporting_blocks_function_parameters($parameters);
+				$display = $template->to_html();
+			}
 		}
 		else
 		{
@@ -85,7 +106,16 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 		}
 
 		$this->display_header($trail, true);
-		echo $display;
+		
+		if(get_class($display) == 'AssessmentDisplay')
+		{
+			$display->run();
+		}
+		else 
+		{
+			echo $display;
+		}
+		
 		$this->display_footer();
 	}
 
@@ -186,5 +216,46 @@ class LearningPathToolStatisticsViewerComponent extends LearningPathToolComponen
 
 		$this->redirect(Translation :: get('LpiAttemptsDeleted'), false, $params, array(WeblcmsManager :: PARAM_TOOL));
 	}
+	
+	function can_change_answer_data()
+	{
+		return true;
+	}
+	
+	function retrieve_assessment_results()
+	{
+		$condition = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LPI_ATTEMPT_ID, Request :: get('details'));
+
+		$dummy = new WeblcmsLearningPathQuestionAttemptsTracker();
+		$trackers = $dummy->retrieve_tracker_items($condition);
+		
+		$results = array();
+		
+		foreach($trackers as $tracker)
+		{
+			$results[$tracker->get_question_cid()] = array(
+				'answer' => $tracker->get_answer(),
+				'feedback' => $tracker->get_feedback(),
+				'score' => $tracker->get_score() 
+			);
+		}
+		
+		return $results;
+	}
+	
+	function change_answer_data($question_cid, $score, $feedback)
+	{
+		$conditions[] = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LPI_ATTEMPT_ID, Request :: get('details'));
+		$conditions[] = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $question_cid);
+		$condition = new AndCondition($conditions);
+
+		$dummy = new WeblcmsLearningPathQuestionAttemptsTracker();
+		$trackers = $dummy->retrieve_tracker_items($condition);
+		$tracker = $trackers[0];
+		$tracker->set_score($score);
+		$tracker->set_feedback($feedback);
+		$tracker->update();
+	}
+	
 }
 ?>
