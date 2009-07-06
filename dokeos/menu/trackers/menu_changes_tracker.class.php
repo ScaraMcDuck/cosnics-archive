@@ -11,6 +11,7 @@ require_once Path :: get_tracking_path() . 'lib/default_tracker.class.php';
  */
 class MenuChangesTracker extends DefaultTracker
 {
+    const CLASS_NAME = __CLASS__;
 
     /**
      * Constructor sets the default values
@@ -29,12 +30,12 @@ class MenuChangesTracker extends DefaultTracker
         $target = $parameters['target_id'];
         $action_user = $parameters['action_user_id'];
         $action = $parameters['event'];
-        
+
         $this->set_user_id($action_user);
         $this->set_reference_id($target);
         $this->set_action($action);
         $this->set_date(time());
-        
+
         $this->create();
     }
 
@@ -67,5 +68,9 @@ class MenuChangesTracker extends DefaultTracker
         return false;
     }
 
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
 }
 ?>

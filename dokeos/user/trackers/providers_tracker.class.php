@@ -3,34 +3,36 @@
 /**
  * @package users.lib.trackers
  */
- 
+
 require_once dirname(__FILE__) . '/user_tracker.class.php';
- 
+
 /**
  * This class tracks the provider that a user uses
  */
 class ProvidersTracker extends UserTracker
 {
+    const CLASS_NAME = __CLASS__;
+
 	/**
 	 * Constructor sets the default values
 	 */
-    function ProvidersTracker() 
+    function ProvidersTracker()
     {
     	parent :: UserTracker();
     	$this->set_property(self :: PROPERTY_TYPE, 'provider');
     }
-    
+
     function track($parameters = array())
     {
     	$server = $parameters['server'];
     	$hostname = gethostbyaddr($server['REMOTE_ADDR']);
     	$provider = $this->extract_provider($hostname);
-    	
+
     	$conditions = array();
     	$conditions[] = new EqualityCondition('type', 'provider');
     	$conditions[] = new EqualityCondition('name', $provider);
     	$condtion = new AndCondition($conditions);
-    	
+
     	$trackeritems = $this->retrieve_tracker_items($condtion);
     	if(count($trackeritems) != 0)
     	{
@@ -45,7 +47,7 @@ class ProvidersTracker extends UserTracker
     		$this->create();
     	}
     }
-    
+
     /**
      * Inherited
      * @see MainTracker :: empty_tracker
@@ -55,7 +57,7 @@ class ProvidersTracker extends UserTracker
     	$condition = new EqualityCondition('type', 'provider');
     	return $this->remove($condition);
     }
-    
+
     /**
      * Inherited
      */
@@ -64,7 +66,7 @@ class ProvidersTracker extends UserTracker
     	$condition = new EqualityCondition('type', 'provider');
     	return $this->retrieve_tracker_items($condition);
     }
-    
+
     /**
      * Extracts a provider from a given hostname
      * @param string $remhost The remote hostname
@@ -74,16 +76,21 @@ class ProvidersTracker extends UserTracker
 	{
 	    if($remhost == "Unknown")
 	    return $remhost;
-	    	
+
 	    $explodedRemhost = explode(".", $remhost);
 	    $provider = $explodedRemhost[sizeof( $explodedRemhost )-2]
 	    			."."
 	    			.$explodedRemhost[sizeof( $explodedRemhost )-1];
-	    	
+
 	    if($provider == "co.uk" || $provider == "co.jp")
 	    	return $explodedRemhost[sizeof( $explodedRemhost )-3].$provider;
 	    else return $provider;
-	    
+
+	}
+
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>

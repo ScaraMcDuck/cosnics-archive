@@ -3,34 +3,36 @@
 /**
  * @package users.lib.trackers
  */
- 
+
 require_once dirname(__FILE__) . '/user_tracker.class.php';
- 
+
 /**
  * This class tracks the country that a user uses
  */
 class CountriesTracker extends UserTracker
 {
+    const CLASS_NAME = __CLASS__;
+
 	/**
 	 * Constructor sets the default values
 	 */
-    function CountriesTracker() 
+    function CountriesTracker()
     {
     	parent :: UserTracker();
     	$this->set_property(self :: PROPERTY_TYPE, 'country');
     }
-    
+
     function track($parameters = array())
     {
     	$server = $parameters['server'];
     	$hostname = gethostbyaddr($server['REMOTE_ADDR']);
     	$country = $this->extract_country($hostname);
-    	
+
     	$conditions = array();
     	$conditions[] = new EqualityCondition('type', 'country');
     	$conditions[] = new EqualityCondition('name', $country);
     	$condtion = new AndCondition($conditions);
-    	
+
     	$trackeritems = $this->retrieve_tracker_items($condtion);
     	if(count($trackeritems) != 0)
     	{
@@ -45,7 +47,7 @@ class CountriesTracker extends UserTracker
     		$this->create();
     	}
     }
-    
+
     /**
      * Inherited
      * @see MainTracker :: empty_tracker
@@ -55,7 +57,7 @@ class CountriesTracker extends UserTracker
     	$condition = new EqualityCondition('type', 'country');
     	return $this->remove($condition);
     }
-    
+
     /**
      * Inherited
      */
@@ -64,7 +66,7 @@ class CountriesTracker extends UserTracker
     	$condition = new EqualityCondition('type', 'country');
     	return $this->retrieve_tracker_items($condition);
     }
-    
+
     /**
      * Extracts the country code from the remote host
      * @param Remote Host $remhost instance of $_SERVER['REMOTE_ADDR']
@@ -74,15 +76,20 @@ class CountriesTracker extends UserTracker
 	{
 	    if($remhost == "Unknown")
 	        return $remhost;
-	        
+
 	    // country code is the last value of remote host
 	    $explodedRemhost = explode(".",$remhost);
 	    $code = $explodedRemhost[sizeof( $explodedRemhost )-1];
-	    
+
 	    if($code == 'localhost')
 	    	return "Unknown";
 	    else
 	    	return $code;
+	}
+
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>

@@ -94,6 +94,8 @@ class PackageApplicationRemover extends PackageRemover
         {
             $this->installation_successful('finished', Translation :: get('ApplicationSuccessfullyDeleted'));
         }
+
+        return true;
     }
 
     function remove_webservices()
@@ -154,8 +156,57 @@ class PackageApplicationRemover extends PackageRemover
 
     function remove_tracking()
     {
-        // TODO: Remove the tracking data / objects
+        $registration = $this->registration;
+        $base_path = Path :: get_application_path() . 'lib/' . $registration->get_name() . '/trackers/tracker_tables/';
 
+        $database = new Database();
+        $database->set_prefix('tracking_');
+
+        if (is_dir($base_path))
+        {
+            $files = FileSystem :: get_directory_content($base_path, FileSystem :: LIST_FILES);
+
+            if(count($files) > 0)
+            {
+                foreach($files as $file)
+                {
+                    if ((substr($file, -3) == 'xml'))
+                    {
+                        $doc = new DOMDocument();
+                        $doc->load($file);
+                        $object = $doc->getElementsByTagname('object')->item(0);
+                        $name = $object->getAttribute('name');
+
+                        $this->add_message(Translation :: get('DroppingTrackingStorageUnit') . ': <em>' . $name . '</em>');
+                        if (! $database->drop_storage_unit($name))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        $condition = new EqualityCondition(Event :: PROPERTY_BLOCK, $registration->get_name());
+        $tdm = TrackingDataManager :: get_instance();
+        $this->add_message(Translation :: get('DeletingApplicationEvents'));
+        if (! $tdm->delete_events($condition))
+        {
+            return false;
+        }
+
+        $tracker_path = 'application/lib/' . $registration->get_name() . '/trackers/';
+        $condition = new EqualityCondition(TrackerRegistration :: PROPERTY_PATH, $tracker_path);
+        $this->add_message(Translation :: get('DeletingApplicationTrackerRegistrations'));
+        if (! $tdm->delete_tracker_registrations($condition))
+        {
+            return false;
+        }
+
+//        if (! $rdm->delete_orphaned_role_right_locations())
+//        {
+//            $this->add_message(Translation :: get('DeletingOrphanedRoleRightLocationsFailed'), self :: TYPE_WARNING);
+//        }
 
         return true;
     }
