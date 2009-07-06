@@ -828,7 +828,7 @@ class ReportingWeblcms {
 	    		$total += $tracker->get_total_time();
 	    		
 	    		if($params['delete'])
-	    			$data[''][] = Text :: create_link($params['url'] . '&stats_action=delete_lpi_attempt&delete_id=' . $tracker->get_id(), Theme :: get_common_image('action_delete'));
+	    			$data['  '][] = Text :: create_link($params['url'] . '&stats_action=delete_lpi_attempt&delete_id=' . $tracker->get_id(), Theme :: get_common_image('action_delete'));
     		}
     	}
     	else 
@@ -855,7 +855,7 @@ class ReportingWeblcms {
 	    		}
 	    		
 	    		if($params['delete'])
-	    			$data[' '][] = Text :: create_link($params['url'] . '&stats_action=delete_lpi_attempts&item_id=' . $wrapper_id, Theme :: get_common_image('action_delete'));
+	    			$data['  '][] = Text :: create_link($params['url'] . '&stats_action=delete_lpi_attempts&item_id=' . $wrapper_id, Theme :: get_common_image('action_delete'));
 	    	}
     	}
 
@@ -888,7 +888,7 @@ class ReportingWeblcms {
 			$data[Translation :: get('User')][] = $user->get_fullname();
 			$data[Translation :: get('Progress')][] = $tracker->get_progress() . '%';
 			//$data[Translation :: get('Details')][] = '<a href="' . $url . '">' . Theme :: get_common_image('action_reporting') . '</a>';
-			$data[''][] = Text :: create_link($url, Theme :: get_common_image('action_reporting')) . ' ' . 
+			$data[' '][] = Text :: create_link($url, Theme :: get_common_image('action_reporting')) . ' ' . 
 						  Text :: create_link($delete_url, Theme :: get_common_image('action_delete'));
 		}
 		

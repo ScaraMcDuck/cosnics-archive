@@ -451,5 +451,10 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		$tracker->set_feedback($feedback);
 		$tracker->update();
 	}
+	
+	function can_change_answer_data()
+	{
+		return false;
+	}
 }
 ?>

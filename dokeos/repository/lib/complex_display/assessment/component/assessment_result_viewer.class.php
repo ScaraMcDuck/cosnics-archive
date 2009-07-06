@@ -40,7 +40,7 @@ class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplay
 			$total_score += $score;
 			$total_weight += $question_cloi->get_weight();
 			
-			$display = QuestionResultDisplay :: factory($form, $question_cloi, $question_number, $answers, $score, $feedback);
+			$display = QuestionResultDisplay :: factory($form, $question_cloi, $question_number, $answers, $score, $feedback, $this->get_parent()->get_parent()->can_change_answer_data());
 			$display->display();
 			
 			$question_number++;
@@ -68,7 +68,8 @@ class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplay
 		$buttons[] = $form->createElement('style_submit_button', 'submit', Translation :: get('Save'), array('class' => 'positive'));
 		$buttons[] = $form->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
-		$form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		if($this->get_parent()->get_parent()->can_change_answer_data())
+			$form->addGroup($buttons, 'buttons', null, '&nbsp;', false);
 		
 		if($form->validate())
 		{
@@ -91,6 +92,7 @@ class AssessmentDisplayAssessmentResultViewerComponent extends AssessmentDisplay
 				
 				$this->change_answer_data($question_id, $score, $feedback);
 			}
+			$form->display();
 		}
 		else
 		{
