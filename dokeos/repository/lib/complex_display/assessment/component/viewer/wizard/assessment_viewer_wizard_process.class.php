@@ -40,7 +40,7 @@ class AssessmentViewerWizardProcess extends HTML_QuickForm_Action
 			
 		while($question_cloi = $questions_cloi->next_result())
 		{
-			$question = RepositoryDataManager :: get_instance()->retrieve_learning_object($question_cloi->get_ref());
+			$question = $rdm->retrieve_learning_object($question_cloi->get_ref());
 			$answers = $values[$question_cloi->get_id()];
 			$question_cloi->set_ref($question);
 			

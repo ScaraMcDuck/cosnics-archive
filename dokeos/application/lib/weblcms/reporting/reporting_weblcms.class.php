@@ -813,9 +813,14 @@ class ReportingWeblcms {
     	{
     		$object = $objects[$cid];
     		$tracker_datas = $attempt_data[$cid];
-    		
+
     		foreach($tracker_datas['trackers'] as $tracker)
     		{
+    			if(get_class($object) == 'Assessment')
+    			{
+    				$data[' '][] = '<a href="' . $url . '&cid=' . $cid . '&details=' . $tracker->get_id() . '">' . Theme :: get_common_image('action_view_results') . '</a>';
+    			}
+    				
     			$data[Translation :: get('LastStartTime')][] = DokeosUtilities :: to_db_date($tracker->get_start_time());
     			$data[Translation :: get('Status')][] = Translation :: get($tracker->get_status() == 'completed'?'Completed':'Incomplete');
 	    		$data[Translation :: get('Score')][] = $tracker->get_score() . '%';
@@ -832,7 +837,7 @@ class ReportingWeblcms {
 	    	{
 	    		$tracker_data = $attempt_data[$wrapper_id];
 	    		
-	    		$data[''][] = $object->get_icon();
+	    		$data[' '][] = $object->get_icon();
 	    		$data[Translation :: get('Title')][] = '<a href="' . $url . '&cid=' . $wrapper_id . '">' . $object->get_title() . '</a>';
 	    		
 	    		if($tracker_data)
