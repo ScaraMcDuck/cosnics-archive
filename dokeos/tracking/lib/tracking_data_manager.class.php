@@ -189,5 +189,7 @@ abstract class TrackingDataManager
     abstract function delete_events($condition = null);
 
     abstract function delete_tracker_registrations($condition = null);
+
+    abstract function delete_orphaned_event_rel_tracker();
 }
 ?>
