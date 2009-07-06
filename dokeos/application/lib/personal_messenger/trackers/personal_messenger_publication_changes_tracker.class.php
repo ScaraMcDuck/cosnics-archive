@@ -3,22 +3,24 @@
 /**
  * @package users.lib.trackers
  */
- 
+
 require_once Path :: get_tracking_path() . 'lib/default_tracker.class.php';
- 
+
 /**
  * This class tracks the login that a user uses
  */
 class PersonalMessengerPublicationChangesTracker extends DefaultTracker
-{	
+{
+    const CLASS_NAME = __CLASS__;
+
 	/**
 	 * Constructor sets the default values
 	 */
-    function PersonalMessengerPublicationChangesTracker() 
+    function PersonalMessengerPublicationChangesTracker()
     {
     	parent :: MainTracker('personal_messenger_publication_changes');
     }
-    
+
     /**
      * Inherited
      * @see MainTracker :: track()
@@ -28,15 +30,15 @@ class PersonalMessengerPublicationChangesTracker extends DefaultTracker
     	$target = $parameters['target_id'];
     	$action_user = $parameters['action_user_id'];
     	$action = $parameters['event'];
-    	
+
     	$this->set_user_id($action_user);
     	$this->set_reference_id($target);
     	$this->set_action($action);
     	$this->set_date(time());
-    	
+
     	$this->create();
     }
-    
+
     /**
      * Inherited
      * @see MainTracker :: empty_tracker
@@ -46,7 +48,7 @@ class PersonalMessengerPublicationChangesTracker extends DefaultTracker
     	$condition = new EqualityCondition('action', $event->get_name());
     	return $this->remove($condition);
     }
-    
+
     /**
      * Inherited
      */
@@ -56,7 +58,7 @@ class PersonalMessengerPublicationChangesTracker extends DefaultTracker
     	$conditions[] = new EqualityCondition('action', $event->get_name());
     	return parent :: export($start_date, $end_date, $conditions);
     }
-    
+
     /**
      * Inherited
      * @see MainTracker :: is_summary_tracker
@@ -66,5 +68,9 @@ class PersonalMessengerPublicationChangesTracker extends DefaultTracker
     	return false;
     }
 
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
 }
 ?>

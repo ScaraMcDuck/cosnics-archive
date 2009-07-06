@@ -29,13 +29,13 @@ require_once dirname(__FILE__) . '/../admin_block.class.php';
 class AdminManager extends CoreApplication
 {
     const APPLICATION_NAME = 'admin';
-    
+
     const PARAM_WEB_APPLICATION = 'web_application';
     const PARAM_SYSTEM_ANNOUNCEMENT_ID = 'announcement';
-    
+
     const PARAM_DELETE_SELECTED = 'delete_selected';
     const PARAM_EDIT_SELECTED = 'edit_selected';
-    
+
     const ACTION_ADMIN_BROWSER = 'browse';
     const ACTION_LANGUAGES = 'languages';
     const ACTION_CONFIGURE_PLATFORM = 'configure';
@@ -119,7 +119,7 @@ class AdminManager extends CoreApplication
         {
             $breadcrumbtrail = new BreadcrumbTrail();
         }
-        
+
         $title = $breadcrumbtrail->get_last()->get_name();
         $title_short = $title;
         if (strlen($title_short) > 53)
@@ -133,7 +133,7 @@ class AdminManager extends CoreApplication
             //$this->display_search_form();
         }
         echo '<div class="clear">&nbsp;</div>';
-        
+
         $message = Request :: get(Application :: PARAM_MESSAGE);
         if (isset($message))
         {
@@ -159,62 +159,62 @@ class AdminManager extends CoreApplication
     {
         $info = array();
         $user = $this->get_user();
-        
+
         // 1. Admin-core components
         $links = array();
         $links[] = array('name' => Translation :: get('Settings'), 'description' => Translation :: get('SettingsDescription'), 'action' => 'manage', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CONFIGURE_PLATFORM)));
-        $links[] = array('name' => Translation :: get('Install'), 'description' => Translation :: get('InstallDescription'), 'action' => 'build', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_PACKAGES)));
+        $links[] = array('name' => Translation :: get('Manage'), 'description' => Translation :: get('ManageDescription'), 'action' => 'build', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_PACKAGES)));
         $links[] = array('name' => Translation :: get('SystemAnnouncements'), 'description' => Translation :: get('SystemAnnouncementsDescription'), 'action' => 'list', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_BROWSE_SYSTEM_ANNOUNCEMENTS)));
         $links[] = array('name' => Translation :: get('ManageCategories'), 'description' => Translation :: get('ManageCategoriesDescription'), 'action' => 'list', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_MANAGE_CATEGORIES)));
         $links[] = array('name' => Translation :: get('Diagnose'), 'description' => Translation :: get('DiagnoseDescription'), 'action' => 'information', 'url' => $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_DIAGNOSE)));
-        
+
         $admin_info = parent :: get_application_platform_admin_links();
         $admin_info['links'] = $links;
         $info[] = $admin_info;
-        
+
         // 2. Repository
         $repository_manager = new RepositoryManager($user);
         $info[] = $repository_manager->get_application_platform_admin_links();
-        
+
         // 3. UserManager
         $user_manager = new UserManager($user->get_id());
         $info[] = $user_manager->get_application_platform_admin_links();
-        
+
         // 4. Roles'n'Rights
         $rights_manager = new RightsManager($user->get_id());
         $info[] = $rights_manager->get_application_platform_admin_links();
-        
+
         // 5. Groups
         $group_manager = new GroupManager($user->get_id());
         $info[] = $group_manager->get_application_platform_admin_links();
-        
+
         // 6. Webservices
         $webservice_manager = new WebserviceManager($user->get_id());
         $info[] = $webservice_manager->get_application_platform_admin_links();
-        
+
         // 7. Tracking
         $tracking_manager = new TrackingManager($user);
         $info[] = $tracking_manager->get_application_platform_admin_links();
-        
+
         // 8. Reporting
         $reporting_manager = new ReportingManager($user);
         $info[] = $reporting_manager->get_application_platform_admin_links();
-        
+
         // 9. Home
         $home_manager = new HomeManager($user->get_id());
         $info[] = $home_manager->get_application_platform_admin_links();
-        
+
         // 10. Menu
         $menu_manager = new MenuManager($user->get_id());
         $info[] = $menu_manager->get_application_platform_admin_links();
-        
+
         // 11. Migration
         $migration_manager = new MigrationManager($user->get_id());
         $info[] = $migration_manager->get_application_platform_admin_links();
-        
+
         $help_manager = new HelpManager($user->get_id());
         $info[] = $help_manager->get_application_platform_admin_links();
-        
+
         // 12.The links for the plugin applications running on top of the essential Dokeos components
         $applications = WebApplication :: load_all();
         foreach ($applications as $index => $application_name)
@@ -227,7 +227,7 @@ class AdminManager extends CoreApplication
                 $info[] = $links;
             }
         }
-        
+
         return $info;
     }
 

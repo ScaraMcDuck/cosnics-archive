@@ -524,8 +524,6 @@ abstract class Installer
         return true;
     }
 
-
-
     function configure_application()
     {
         $application = $this->get_application();

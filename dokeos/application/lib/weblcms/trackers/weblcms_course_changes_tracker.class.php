@@ -3,25 +3,27 @@
 /**
  * @package users.lib.trackers
  */
- 
+
 require_once Path :: get_tracking_path() . 'lib/default_tracker.class.php';
- 
+
 /**
  * This class tracks the login that a user uses
  */
 class WeblcmsCourseChangesTracker extends DefaultTracker
-{	
+{
+    const CLASS_NAME = __CLASS__;
+
 	// Can be used for subscribsion of users / classes
 	const PROPERTY_TARGET_REFERENCE_ID = 'target_reference_id';
-	
+
 	/**
 	 * Constructor sets the default values
 	 */
-    function WeblcmsCourseChangesTracker() 
+    function WeblcmsCourseChangesTracker()
     {
     	parent :: MainTracker('weblcms_course_changes');
     }
-    
+
     /**
      * Inherited
      * @see MainTracker :: track()
@@ -32,20 +34,20 @@ class WeblcmsCourseChangesTracker extends DefaultTracker
     	$target_reference = $parameters['target_reference_id'];
     	$action_user = $parameters['action_user_id'];
     	$action = $parameters['event'];
-    	
+
     	$this->set_user_id($action_user);
     	$this->set_reference_id($target);
     	$this->set_action($action);
     	$this->set_date(time());
-    	
-    	if($target_reference) 
+
+    	if($target_reference)
     		$this->set_target_reference_id($target_reference);
     	else
     		$this->set_target_reference_id(0);
-    	
+
     	$this->create();
     }
-    
+
     /**
      * Inherited
      * @see MainTracker :: empty_tracker
@@ -55,7 +57,7 @@ class WeblcmsCourseChangesTracker extends DefaultTracker
     	$condition = new EqualityCondition('action', $event->get_name());
     	return $this->remove($condition);
     }
-    
+
     /**
      * Inherited
      */
@@ -65,7 +67,7 @@ class WeblcmsCourseChangesTracker extends DefaultTracker
     	$conditions[] = new EqualityCondition('action', $event->get_name());
     	return parent :: export($start_date, $end_date, $conditions);
     }
-    
+
     /**
      * Inherited
      * @see MainTracker :: is_summary_tracker
@@ -74,7 +76,7 @@ class WeblcmsCourseChangesTracker extends DefaultTracker
     {
     	return false;
     }
-    
+
     /**
      * Inherited
      */
@@ -82,7 +84,7 @@ class WeblcmsCourseChangesTracker extends DefaultTracker
     {
     	return array_merge(parent :: get_property_names(), array(self :: PROPERTY_TARGET_REFERENCE_ID));
     }
-    
+
     /**
      * Get's the reference_id of the default tracker
      * @return int $reference_id the reference_id
@@ -91,7 +93,7 @@ class WeblcmsCourseChangesTracker extends DefaultTracker
     {
     	return $this->get_property(self :: PROPERTY_TARGET_REFERENCE_ID);
     }
-    
+
     /**
      * Sets the target_reference_id of the default tracker
      * @param int $target_reference_id the target_reference_id
@@ -100,7 +102,10 @@ class WeblcmsCourseChangesTracker extends DefaultTracker
     {
     	$this->set_property(self :: PROPERTY_TARGET_REFERENCE_ID, $target_reference_id);
     }
-    
 
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
 }
 ?>

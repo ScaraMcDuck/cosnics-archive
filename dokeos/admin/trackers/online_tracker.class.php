@@ -11,6 +11,8 @@ require_once Path :: get_tracking_path() . 'lib/main_tracker.class.php';
  */
 class OnlineTracker extends MainTracker
 {
+    const CLASS_NAME = __CLASS__;
+
     const PROPERTY_USER_ID = 'user_id';
     const PROPERTY_LAST_ACCESS_DATE = 'last_access_date';
 
@@ -29,17 +31,17 @@ class OnlineTracker extends MainTracker
     function track($parameters = array())
     {
         $user = $parameters['user'];
-        
+
         $this->remove_user($user);
-        
+
         $time = time();
         $active_time = PlatformSetting :: get('timelimit');
         $past_time = strtotime('-' . $active_time . ' seconds', $time);
         $this->empty_tracker_before_date($past_time);
-        
+
         $this->set_user_id($user);
         $this->set_last_access_date(DokeosUtilities :: to_db_date($time));
-        
+
         $this->create(true);
     }
 
@@ -95,5 +97,9 @@ class OnlineTracker extends MainTracker
         $this->set_property(self :: PROPERTY_LAST_ACCESS_DATE, $last_access_date);
     }
 
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
 }
 ?>

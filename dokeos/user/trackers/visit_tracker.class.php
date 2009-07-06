@@ -9,6 +9,8 @@ require_once Path :: get_tracking_path() . 'lib/main_tracker.class.php';
  */
 class VisitTracker extends MainTracker
 {
+    const CLASS_NAME = __CLASS__;
+
 	const PROPERTY_USER_ID = 'user_id';
 	const PROPERTY_ENTER_DATE = 'enter_date';
     const PROPERTY_LEAVE_DATE = 'leave_date';
@@ -171,7 +173,7 @@ class VisitTracker extends MainTracker
      */
     function get_default_property_names()
     {
-    	return array_merge(MainTracker :: get_default_property_names(), 
+    	return array_merge(MainTracker :: get_default_property_names(),
             array(self :: PROPERTY_USER_ID, self :: PROPERTY_ENTER_DATE, self :: PROPERTY_LEAVE_DATE, self :: PROPERTY_LOCATION));
     }
 
@@ -184,5 +186,9 @@ class VisitTracker extends MainTracker
     	return false;
     }
 
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
 }
 ?>

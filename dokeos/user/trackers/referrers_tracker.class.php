@@ -3,33 +3,35 @@
 /**
  * @package users.lib.trackers
  */
- 
+
 require_once dirname(__FILE__) . '/user_tracker.class.php';
- 
+
 /**
  * This class tracks the referer that a user uses
  */
 class ReferrersTracker extends UserTracker
 {
+    const CLASS_NAME = __CLASS__;
+
 	/**
 	 * Constructor sets the default values
 	 */
-    function ReferrersTracker() 
+    function ReferrersTracker()
     {
     	parent :: UserTracker();
     	$this->set_property(self :: PROPERTY_TYPE, 'referer');
     }
-    
+
     function track($parameters = array())
     {
     	$server = $parameters['server'];
 		$referer = $server['HTTP_REFERER'];
-		
+
 		$conditions = array();
     	$conditions[] = new EqualityCondition('type', 'referer');
     	$conditions[] = new EqualityCondition('name', $referer);
     	$condtion = new AndCondition($conditions);
-    	
+
     	$trackeritems = $this->retrieve_tracker_items($condtion);
     	if(count($trackeritems) != 0)
     	{
@@ -44,7 +46,7 @@ class ReferrersTracker extends UserTracker
     		$this->create();
     	}
     }
-    
+
     /**
      * Inherited
      * @see MainTracker :: empty_tracker
@@ -54,7 +56,7 @@ class ReferrersTracker extends UserTracker
     	$condition = new EqualityCondition('type', 'referer');
     	return $this->remove($condition);
     }
-    
+
     /**
      * Inherited
      */
@@ -63,5 +65,10 @@ class ReferrersTracker extends UserTracker
     	$condition = new EqualityCondition('type', 'referer');
     	return $this->retrieve_tracker_items($condition);
     }
+
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+	}
 }
 ?>

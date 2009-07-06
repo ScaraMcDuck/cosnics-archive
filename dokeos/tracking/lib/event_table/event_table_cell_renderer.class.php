@@ -9,9 +9,10 @@
  */
 interface EventTableCellRenderer
 {
-	/**
-	 * TODO: Add comment
-	 */
-	function render_cell($column, $group);
+
+    /**
+     * TODO: Add comment
+     */
+    function render_cell($column, $group);
 }
 ?>
