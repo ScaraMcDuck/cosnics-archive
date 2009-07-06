@@ -10,7 +10,7 @@ abstract class QuestionResultDisplay
 	private $feedback;
 	private $form;
 
-	function QuestionResultDisplay($form, $clo_question, $question_nr, $answers, $score, $feedback)
+	function QuestionResultDisplay(&$form, $clo_question, $question_nr, $answers, $score, $feedback)
 	{
 		$this->clo_question = $clo_question;
 		$this->question_nr = $question_nr;
@@ -60,27 +60,27 @@ abstract class QuestionResultDisplay
 			$header = array();
 			$header[] = '<div class="with_borders">';
 
-			echo(implode("\n", $header));
+			$this->form->addElement('html', implode("\n", $header));
 		}
 		
-		echo $this->display_question_result();
+		$this->form->addElement('html', $this->display_question_result());
 		
 		if ($this->add_borders())
 		{
 			$footer = array();
 			$footer[] = '<div class="clear"></div>';
 			$footer[] = '</div>';
-			echo(implode("\n", $footer));
+			$this->form->addElement('html', implode("\n", $footer));
 		}
 		
 		$this->display_feedback();
 		
-		$this->display_footer();
+		$this->form->addElement('html', $this->display_footer());
 	}
 
 	function display_question_result()
 	{
-		echo $this->get_score() . '<br />';
+		return $this->get_score() . '<br />';
 	}
 
 	function display_header()
@@ -100,7 +100,23 @@ abstract class QuestionResultDisplay
 		$html[] = $this->question->get_title();
 		$html[] = '</div>';
 		$html[] = '<div class="bevel" style="text-align: right;">';
-		$html[] = $this->get_score() . ' / ' . $this->get_clo_question()->get_weight();
+		//$html[] = $this->get_score() . ' / ' . $this->get_clo_question()->get_weight();
+		
+		$this->form->addElement('html', implode("\n", $html));
+		
+		for($i = -$this->get_clo_question()->get_weight(); $i <= $this->get_clo_question()->get_weight(); $i++)
+		{
+			$score[$i] = $i;
+		}
+		
+		$renderer = $this->form->defaultRenderer();
+		
+		$this->form->addElement('select', $this->clo_question->get_id() . '_score', '', $score);
+		$renderer->setElementTemplate('{element}', $this->clo_question->get_id() . '_score');
+		$defaults[$this->clo_question->get_id() . '_score'] = $this->get_score();
+		$this->form->setDefaults($defaults);
+		
+		$html = array();
 		$html[] = '</div>';
 
 		$html[] = '</div>';
@@ -118,8 +134,7 @@ abstract class QuestionResultDisplay
 
 		$html[] = '<div class="clear"></div>';
 
-		$header = implode("\n", $html);
-		echo $header;
+		$this->form->addElement('html', implode("\n", $html));
 	}
 	
 	function display_feedback()
@@ -129,13 +144,19 @@ abstract class QuestionResultDisplay
 		$html[] = '</div>';
 		$html[] = '<div class="with_borders">';
 		
-		$feedback = $this->feedback ? $this->feedback : Translation :: get('NoFeedback');
-		$html[] = $feedback;
+		$this->form->addElement('html', implode("\n", $html));
 		
+		/*$feedback = $this->feedback ? $this->feedback : Translation :: get('NoFeedback');
+		$html[] = $feedback;*/
+		
+		$this->form->add_html_editor($this->clo_question->get_id() . '_feedback', '', false);
+		$defaults[$this->clo_question->get_id() . '_feedback'] = $this->get_feedback();
+		$this->form->setDefaults($defaults);
+		
+		$html = array();
 		$html[] = '</div>';
 		
-		$feedback = implode("\n", $html);
-		echo $feedback;
+		$this->form->addElement('html', implode("\n", $html));
 	}
 
 	function display_footer()
@@ -144,7 +165,7 @@ abstract class QuestionResultDisplay
 		$html[] = '</div>';
 
 		$footer = implode("\n", $html);
-		echo $footer;
+		return $footer;
 	}
 
 	function add_borders()
@@ -152,7 +173,7 @@ abstract class QuestionResultDisplay
 		return false;
 	}
 
-	static function factory($form, $clo_question, $question_nr, $answers, $score, $feedback)
+	static function factory(&$form, $clo_question, $question_nr, $answers, $score, $feedback)
 	{
 		$type = $clo_question->get_ref()->get_type();
 

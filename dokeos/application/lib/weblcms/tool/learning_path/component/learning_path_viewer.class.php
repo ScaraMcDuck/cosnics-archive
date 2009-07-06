@@ -429,7 +429,6 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		foreach($trackers as $tracker)
 		{
 			$results[$tracker->get_question_cid()] = array(
-				'persistent_id' => $tracker->get_id(),
 				'answer' => $tracker->get_answer(),
 				'feedback' => $tracker->get_feedback(),
 				'score' => $tracker->get_score() 
@@ -437,6 +436,20 @@ class LearningPathToolViewerComponent extends LearningPathToolComponent
 		}
 		
 		return $results;
+	}
+	
+	function change_answer_data($question_cid, $score, $feedback)
+	{
+		$conditions[] = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_LPI_ATTEMPT_ID, Request :: get('details'));
+		$conditions[] = new EqualityCondition(WeblcmsLearningPathQuestionAttemptsTracker :: PROPERTY_QUESTION_CID, $question_cid);
+		$condition = new AndCondition($conditions);
+
+		$dummy = new WeblcmsLearningPathQuestionAttemptsTracker();
+		$trackers = $dummy->retrieve_tracker_items($condition);
+		$tracker = $trackers[0];
+		$tracker->set_score($score);
+		$tracker->set_feedback($feedback);
+		$tracker->update();
 	}
 }
 ?>
