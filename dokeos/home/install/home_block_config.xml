@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="home_block_config">
+<object name="block_config">
 	<properties>
 		<property name="block_id" type="integer" unsigned="1"
 			notnull="1" />

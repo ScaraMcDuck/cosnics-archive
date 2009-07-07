@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . '/home_data_manager.class.php';
 class HomeRow
 {
     const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'row';
     
     const PROPERTY_ID = 'id';
     const PROPERTY_TITLE = 'title';
@@ -147,7 +148,7 @@ class HomeRow
 
     static function get_table_name()
     {
-        return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    	return self :: TABLE_NAME;
     }
 }
 ?>

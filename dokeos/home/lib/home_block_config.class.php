@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . '/home_data_manager.class.php';
 class HomeBlockConfig
 {
     const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'block_config';
 
     const PROPERTY_BLOCK_ID = 'block_id';
     const PROPERTY_VARIABLE = 'variable';
@@ -118,7 +119,7 @@ class HomeBlockConfig
 
     static function get_table_name()
     {
-        return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return self :: TABLE_NAME;
     }
 }
 ?>

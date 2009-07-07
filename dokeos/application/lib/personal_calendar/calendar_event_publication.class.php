@@ -18,6 +18,8 @@ require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
  */
 class CalendarEventPublication
 {
+	const CLASS_NAME = __CLASS__;
+	
 	const PROPERTY_ID = 'id';
 	const PROPERTY_CALENDAR_EVENT = 'calendar_event';
 	const PROPERTY_PUBLISHER = 'publisher';
@@ -250,6 +252,11 @@ class CalendarEventPublication
 	function set_target_groups($target_groups)
 	{
 		$this->target_groups = $target_groups;
+	}
+	
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>

@@ -401,7 +401,7 @@ class Database
      * @param String $resultset - Optional, the resultset to map the items to
      * @return ResultSet
      */
-    function retrieve_objects($table_name, $condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+    function retrieve_objects($table_name, $condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null, $class_name = null)
     {
         $query = 'SELECT * FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
         $params = array();
@@ -432,8 +432,13 @@ class Database
         $statement = $this->connection->prepare($query);
 
         $res = $statement->execute($params);
+        
+        if (is_null($class_name))
+        {
+        	$class_name = DokeosUtilities :: underscores_to_camelcase($table_name);
+        }
 
-        return new ObjectResultSet($this, $res, $table_name);
+        return new ObjectResultSet($this, $res, $class_name);
     }
 
     function retrieve_max_sort_value($table_name, $column, $condition = null)
@@ -498,7 +503,7 @@ class Database
         }
     }
 
-    function retrieve_object($table_name, $condition = null, $orderBy = null, $orderDir = null)
+    function retrieve_object($table_name, $condition = null, $orderBy = array(), $orderDir = array(), $class_name = null)
     {
         $query = 'SELECT * FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
 
@@ -529,7 +534,11 @@ class Database
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
         $res->free();
 
-        $class_name = DokeosUtilities :: underscores_to_camelcase($table_name);
+        if (is_null($class_name))
+        {
+        	$class_name = DokeosUtilities :: underscores_to_camelcase($table_name);
+        }
+        
         if ($record)
         {
             return self :: record_to_object($record, $class_name);

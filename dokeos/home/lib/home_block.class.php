@@ -6,6 +6,7 @@ require_once 'XML/Unserializer.php';
 class HomeBlock
 {
     const CLASS_NAME = __CLASS__;
+    const TABLE_NAME = 'block';
     
     const PROPERTY_ID = 'id';
     const PROPERTY_COLUMN = 'column';
@@ -285,7 +286,7 @@ class HomeBlock
 
     static function get_table_name()
     {
-        return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+        return self :: TABLE_NAME;
     }
 }
 ?>

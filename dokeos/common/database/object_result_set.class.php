@@ -38,11 +38,11 @@ class ObjectResultSet extends ResultSet
      * @param DB_result $handle The handle to retrieve records from a database
      * resultset
      */
-    function ObjectResultSet($data_manager, $handle, $table_name)
+    function ObjectResultSet($data_manager, $handle, $class_name)
     {
         $this->data_manager = $data_manager;
         $this->handle = $handle;
-        $this->class_name = DokeosUtilities :: underscores_to_camelcase($table_name);
+        $this->class_name = $class_name;
     }
 
     /*
