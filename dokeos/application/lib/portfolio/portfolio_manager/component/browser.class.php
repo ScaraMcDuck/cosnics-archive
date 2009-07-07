@@ -4,6 +4,7 @@
  */
 require_once dirname(__FILE__).'/../portfolio_manager.class.php';
 require_once dirname(__FILE__).'/../portfolio_manager_component.class.php';
+require_once dirname(__FILE__).'/../../user_menu.class.php';
 
 /**
  * Portfolio component which allows the user to browse the portfolio application
@@ -19,8 +20,9 @@ class PortfolioManagerBrowserComponent extends PortfolioManagerComponent
 
 		$this->display_header($trail);
 
-		echo '<br /><a href="' . $this->get_browse_portfolio_publications_url() . '">' . Translation :: get('BrowsePortfolioPublications') . '</a>';
-
+		$menu = new UserMenu('A');
+		echo $menu->render_as_tree();
+	
 		$this->display_footer();
 	}
 
