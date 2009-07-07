@@ -6,8 +6,6 @@ require_once dirname(__FILE__).'/portfolio_manager_component.class.php';
 require_once dirname(__FILE__).'/../portfolio_data_manager.class.php';
 require_once dirname(__FILE__).'/../../web_application.class.php';
 require_once dirname(__FILE__).'/component/portfolio_publication_browser/portfolio_publication_browser_table.class.php';
-require_once dirname(__FILE__).'/component/portfolio_publication_group_browser/portfolio_publication_group_browser_table.class.php';
-require_once dirname(__FILE__).'/component/portfolio_publication_user_browser/portfolio_publication_user_browser_table.class.php';
 
 /**
  * A portfolio manager
