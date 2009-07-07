@@ -8,8 +8,7 @@ class PackageLearningObjectRemover extends PackageRemover
     function run()
     {
         $adm = AdminDataManager :: get_instance();
-        $registration_id = Request :: get(PackageManager :: PARAM_PACKAGE);
-        $registration = $adm->retrieve_registration($registration_id);
+        $registration = $adm->retrieve_registration($this->get_package());
         $this->registration = $registration;
 
         // Check dependencies before doing anything at all
@@ -48,6 +47,15 @@ class PackageLearningObjectRemover extends PackageRemover
         else
         {
             $this->installation_successful('database', Translation :: get('StorageUnitsSuccessfullyDeleted'));
+        }
+
+        if (!$this->remove_learning_object())
+        {
+            return $this->installation_failed('failed', Translation :: get('ObjectDeletionFailed'));
+        }
+        else
+        {
+            $this->installation_successful('finished', Translation :: get('ObjectSuccessfullyDeleted'));
         }
 
         return true;
@@ -148,6 +156,12 @@ class PackageLearningObjectRemover extends PackageRemover
         }
 
         $this->add_message(Translation :: get('DeletingLearningObject'));
+        $path = Path :: get_reporting_path() . 'lib/learning_object/' . $registration->get_name() . '/';
+        if (!Filesystem :: remove($path))
+        {
+            return false;
+        }
+
         return true;
     }
 }

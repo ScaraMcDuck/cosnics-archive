@@ -45,7 +45,47 @@ abstract class PackageRemover
 
     function check_dependencies()
     {
-        return true;
+        $adm = AdminDataManager :: get_instance();
+        $package = $adm->retrieve_registration($this->get_package());
+
+        $condition = new NotCondition(new EqualityCondition(Registration :: PROPERTY_ID, $this->get_package()));
+        $registrations = $adm->retrieve_registrations($condition);
+
+        $failures = 0;
+
+        while($registration = $registrations->next_result())
+        {
+            $type = $registration->get_type();
+
+            switch ($type)
+            {
+                case Registration :: TYPE_APPLICATION :
+                    $info_path = Path :: get_application_path() . 'lib/' . $registration->get_name() . '/package.info';
+                    break;
+                case Registration :: TYPE_LEARNING_OBJECT :
+                    $info_path = Path :: get_repository_path() . 'lib/learning_object/' . $registration->get_name() . '/package.info';
+                    break;
+            }
+
+            $package_data = $this->get_package_info($info_path);
+
+            if ($package_data)
+            {
+                if (!$this->parse_packages_info($package, $package_data))
+                {
+                    $failures++;
+                }
+            }
+        }
+
+        if ($failures > 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     /**
@@ -148,6 +188,73 @@ abstract class PackageRemover
     function retrieve_result()
     {
         return implode("\n", $this->get_html());
+    }
+
+    function get_package_info($info_path)
+    {
+        $xml_data = file_get_contents($info_path);
+
+        if ($xml_data)
+        {
+            $unserializer = new XML_Unserializer();
+            $unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
+            $unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
+            $unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);
+            $unserializer->setOption(XML_UNSERIALIZER_OPTION_GUESS_TYPES, true);
+            $unserializer->setOption(XML_UNSERIALIZER_OPTION_FORCE_ENUM, array('package', 'dependency'));
+
+            // userialize the document
+            $status = $unserializer->unserialize($xml_data);
+
+            if (PEAR :: isError($status))
+            {
+                $this->display_error_page($status->getMessage());
+                exit;
+            }
+            else
+            {
+                return $unserializer->getUnserializedData();
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    function parse_packages_info($registration, $data)
+    {
+        $type = $registration->get_type();
+
+        switch ($type)
+        {
+            case Registration :: TYPE_APPLICATION :
+                $dependency_type = 'applications';
+                break;
+            case Registration :: TYPE_LEARNING_OBJECT :
+                $dependency_type = 'learning_objects';
+                break;
+        }
+
+        foreach ($data['package'] as $package)
+        {
+            $dependencies = $package['dependencies'];
+
+            if (isset($dependencies[$dependency_type]))
+            {
+                foreach($dependencies[$dependency_type]['dependency'] as $dependency)
+                {
+                    if ($dependency['id'] === $registration->get_name())
+                    {
+                        $message = Translation :: get('PackageDependency') . ': <em>' . $package['name'] . ' (' . $package['code'] . ')</em>';
+                        $this->add_message($message);
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 }
 ?>
