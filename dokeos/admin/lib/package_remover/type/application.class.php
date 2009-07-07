@@ -8,8 +8,7 @@ class PackageApplicationRemover extends PackageRemover
     function run()
     {
         $adm = AdminDataManager :: get_instance();
-        $registration_id = Request :: get(PackageManager :: PARAM_PACKAGE);
-        $registration = $adm->retrieve_registration($registration_id);
+        $registration = $adm->retrieve_registration($this->get_package());
         $this->registration = $registration;
 
         // Deactivate the application, thus making it inaccesible
@@ -166,11 +165,11 @@ class PackageApplicationRemover extends PackageRemover
         {
             $files = FileSystem :: get_directory_content($base_path, FileSystem :: LIST_FILES);
 
-            if(count($files) > 0)
+            if (count($files) > 0)
             {
-                foreach($files as $file)
+                foreach ($files as $file)
                 {
-                    if ((substr($file, -3) == 'xml'))
+                    if ((substr($file, - 3) == 'xml'))
                     {
                         $doc = new DOMDocument();
                         $doc->load($file);
@@ -283,6 +282,12 @@ class PackageApplicationRemover extends PackageRemover
         }
 
         $this->add_message(Translation :: get('DeletingApplication'));
+        $path = Path :: get_application_path() . 'lib/' . $registration->get_name() . '/';
+        if (! Filesystem :: remove($path))
+        {
+            return false;
+        }
+
         return true;
     }
 }

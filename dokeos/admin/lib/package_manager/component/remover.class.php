@@ -19,9 +19,9 @@ class PackageManagerRemoverComponent extends PackageManagerComponent
         $trail = new BreadcrumbTrail();
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => AdminManager :: ACTION_ADMIN_BROWSER)), Translation :: get('PlatformAdmin')));
         $trail->add(new Breadcrumb($this->get_url(array(PackageManager :: PARAM_PACKAGE_ACTION => PackageManager :: ACTION_BROWSE_PACKAGES)), Translation :: get('PackageManager')));
-        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PackageInstallation')));
-        $trail->add_help('administration install');
-        
+        $trail->add(new Breadcrumb($this->get_url(), Translation :: get('PackageRemoval')));
+        $trail->add_help('administration remove');
+
         if (! AdminRights :: is_allowed(AdminRights :: VIEW_RIGHT, 'root', 'root'))
         {
             $this->display_header($trail);
@@ -29,9 +29,9 @@ class PackageManagerRemoverComponent extends PackageManagerComponent
             $this->display_footer();
             exit();
         }
-        
+
         $type = Request :: get(PackageManager :: PARAM_SECTION);
-        
+
         if ($type)
         {
             $this->display_header($trail);
