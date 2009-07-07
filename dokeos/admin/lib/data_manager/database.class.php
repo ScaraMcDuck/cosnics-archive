@@ -3,9 +3,6 @@
  * @package admin
  * @subpackage datamanager
  */
-require_once Path :: get_admin_path() . 'lib/data_manager/database/database_setting_result_set.class.php';
-require_once Path :: get_admin_path() . 'lib/data_manager/database/database_language_result_set.class.php';
-require_once Path :: get_admin_path() . 'lib/data_manager/database/database_registration_result_set.class.php';
 require_once Path :: get_admin_path() . 'lib/admin_data_manager.class.php';
 require_once Path :: get_admin_path() . 'lib/language.class.php';
 require_once Path :: get_admin_path() . 'lib/registration.class.php';

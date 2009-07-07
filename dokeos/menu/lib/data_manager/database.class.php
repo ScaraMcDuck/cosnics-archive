@@ -3,7 +3,6 @@
  * @package users
  * @subpackage datamanager
  */
-require_once dirname(__FILE__) . '/database/database_navigation_item_result_set.class.php';
 require_once dirname(__FILE__) . '/../menu_data_manager.class.php';
 require_once dirname(__FILE__) . '/../navigation_item.class.php';
 require_once Path :: get_library_path() . 'condition/condition_translator.class.php';
