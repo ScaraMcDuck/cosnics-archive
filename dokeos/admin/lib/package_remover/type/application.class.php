@@ -281,12 +281,12 @@ class PackageApplicationRemover extends PackageRemover
             return false;
         }
 
-        $this->add_message(Translation :: get('DeletingApplication'));
-        $path = Path :: get_application_path() . 'lib/' . $registration->get_name() . '/';
-        if (! Filesystem :: remove($path))
-        {
-            return false;
-        }
+//        $this->add_message(Translation :: get('DeletingApplication'));
+//        $path = Path :: get_application_path() . 'lib/' . $registration->get_name() . '/';
+//        if (! Filesystem :: remove($path))
+//        {
+//            return false;
+//        }
 
         return true;
     }

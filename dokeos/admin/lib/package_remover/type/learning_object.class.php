@@ -155,12 +155,12 @@ class PackageLearningObjectRemover extends PackageRemover
             return false;
         }
 
-        $this->add_message(Translation :: get('DeletingLearningObject'));
-        $path = Path :: get_reporting_path() . 'lib/learning_object/' . $registration->get_name() . '/';
-        if (!Filesystem :: remove($path))
-        {
-            return false;
-        }
+//        $this->add_message(Translation :: get('DeletingLearningObject'));
+//        $path = Path :: get_reporting_path() . 'lib/learning_object/' . $registration->get_name() . '/';
+//        if (!Filesystem :: remove($path))
+//        {
+//            return false;
+//        }
 
         return true;
     }
