@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<object name="weblcms_lpi_attempt">
+<object name="weblcms_lpi_attempt_tracker">
  <properties>
   <property name="id" type="integer" unsigned="1" notnull="1" />
   <property name="lp_item_id" type="integer" unsigned="1" notnull="1" />

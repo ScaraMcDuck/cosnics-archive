@@ -21,7 +21,7 @@ class WeblcmsForumTopicViewsTracker extends MainTracker
 	 */
     function WeblcmsForumTopicViewsTracker()
     {
-    	parent :: MainTracker('weblcms_forum_topic_views');
+    	parent :: MainTracker('weblcms_forum_topic_views_tracker');
     }
 
     /**
