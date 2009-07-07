@@ -92,7 +92,7 @@ class RightsUtilities
 
 		if (file_exists($file))
 		{
-			$unserializer = &new XML_Unserializer();
+			$unserializer = new XML_Unserializer();
 			$unserializer->setOption(XML_UNSERIALIZER_OPTION_COMPLEXTYPE, 'array');
 			$unserializer->setOption(XML_UNSERIALIZER_OPTION_ATTRIBUTES_PARSE, true);
 			$unserializer->setOption(XML_UNSERIALIZER_OPTION_RETURN_RESULT, true);

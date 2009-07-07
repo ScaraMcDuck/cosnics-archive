@@ -85,18 +85,20 @@ abstract class AdminDataManager
 
     abstract function delete_registration($registration);
 
+    abstract function delete_setting($setting);
+
     abstract function delete_system_announcement_publication($system_announcement_publication);
 
     function get_languages()
     {
         $options = array();
-        
+
         $languages = $this->retrieve_languages();
         while ($language = $languages->next_result())
         {
             $options[$language->get_folder()] = $language->get_original_name();
         }
-        
+
         return $options;
     }
 
