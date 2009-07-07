@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <packages>
 	<package>
-		<name>Glossary</name>
-		<code>glossary</code>
+		<name>Open Question</name>
+		<code>open_question</code>
 		<section>learning_object</section>
 		<author></author>
 		<version>1.0.0</version>
-		<filename>pool/main/objects/g/glossary/glossary-1.0.0.zip</filename>
+		<filename>pool/main/objects/o/open_question/open_question-1.0.0.zip</filename>
 		<size></size>
 		<md5></md5>
 		<sha1></sha1>
@@ -23,13 +23,6 @@
 					<severity>1</severity>
 				</dependency>
 			</server>
-			<learning_objects>
-				<dependency>
-		  			<id>glossary_item</id>
-		  			<version type="4">1.0.0</version>
-		  			<severity>1</severity>
-				</dependency>
-			</learning_objects>
 		</dependencies>
 	</package>
 </packages>
