@@ -77,7 +77,7 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		$type_form->addElement('select', RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE, Translation :: get('CreateANew'), $type_options, array('class' => 'learning-object-creation-type postback'));
 		$type_form->addElement('style_submit_button', 'submit', Translation :: get('Select'), array('class' => 'normal select'));
 		$type_form->addElement('html', '<br /><br />' . ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PATH) . 'common/javascript/postback.js'));
-		
+
 		$type = ($type_form->validate() ? $type_form->exportValue(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE) : Request :: get(RepositoryManager :: PARAM_LEARNING_OBJECT_TYPE));
 
 		if ($type)
@@ -242,14 +242,19 @@ class RepositoryManagerCreatorComponent extends RepositoryManagerComponent
 		$html[] = implode("\n", $used_html);
 		$html[] = '<div class="clear"></div>';
 		$html[] = '</div>';
-		$html[] = DokeosUtilities :: add_block_hider();
-		$html[] = DokeosUtilities :: build_block_hider('other_learning_object_types');
-		//$html[] = '<h3>'. Translation :: get('OtherObjectTypes') .'</h3>';
-		$html[] = '<div class="learning_object_selection">';
-		$html[] = implode("\n", $unused_html);
-		$html[] = '<div class="clear"></div>';
-		$html[] = '</div>';
-		$html[] = DokeosUtilities :: build_block_hider();
+
+		if (count($unused_html) > 0)
+		{
+    		$html[] = DokeosUtilities :: add_block_hider();
+    		$html[] = DokeosUtilities :: build_block_hider('other_learning_object_types');
+    		//$html[] = '<h3>'. Translation :: get('OtherObjectTypes') .'</h3>';
+    		$html[] = '<div class="learning_object_selection">';
+    		$html[] = implode("\n", $unused_html);
+    		$html[] = '<div class="clear"></div>';
+    		$html[] = '</div>';
+    		$html[] = DokeosUtilities :: build_block_hider();
+		}
+
 		$html[] = ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_LIB_PATH) . 'javascript/repository.js');
 
 		return implode("\n", $html);;
