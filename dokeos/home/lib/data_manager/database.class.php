@@ -131,11 +131,10 @@ class DatabaseHomeDataManager extends HomeDataManager
 
 	function retrieve_home_tab_blocks($home_tab)
 	{
-		$query = 'SELECT * FROM '. $this->escape_table_name('block'). ' AS '. self :: ALIAS_BLOCK_TABLE . ' WHERE ' . $this->escape_column_name(HomeBlock :: PROPERTY_COLUMN) . ' IN (SELECT '. $this->escape_column_name(HomeColumn :: PROPERTY_ID) .' FROM '. $this->escape_table_name('column') .' AS '. self :: ALIAS_COLUMN_TABLE .' WHERE '. $this->escape_column_name(HomeColumn :: PROPERTY_ROW) .' IN (SELECT '. $this->escape_column_name(HomeRow :: PROPERTY_ID) .' FROM '. $this->escape_table_name('row') .' AS '. self :: ALIAS_ROW_TABLE .' WHERE '. $this->escape_column_name(HomeRow :: PROPERTY_TAB) .' = ?))';
-
-		$statement = $this->connection->prepare($query);
+		$query = 'SELECT * FROM '. $this->database->escape_table_name(HomeBlock :: get_table_name()). ' AS '. self :: ALIAS_BLOCK_TABLE . ' WHERE ' . $this->database->escape_column_name(HomeBlock :: PROPERTY_COLUMN) . ' IN (SELECT '. $this->database->escape_column_name(HomeColumn :: PROPERTY_ID) .' FROM '. $this->database->escape_table_name(HomeColumn :: get_table_name()) .' AS '. self :: ALIAS_COLUMN_TABLE .' WHERE '. $this->database->escape_column_name(HomeColumn :: PROPERTY_ROW) .' IN (SELECT '. $this->database->escape_column_name(HomeRow :: PROPERTY_ID) .' FROM '. $this->database->escape_table_name(HomeRow :: get_table_name()) .' AS '. self :: ALIAS_ROW_TABLE .' WHERE '. $this->database->escape_column_name(HomeRow :: PROPERTY_TAB) .' = ?))';
+		$statement = $this->database->get_connection()->prepare($query);
 		$res = $statement->execute($home_tab->get_id());
-		return new DatabaseHomeBlockResultSet($this, $res);
+		return new ObjectResultSet($this->database, $res, HomeBlock :: get_table_name());
 	}
 
 	function retrieve_home_columns($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
@@ -172,22 +171,7 @@ class DatabaseHomeDataManager extends HomeDataManager
 
 	function create_home_block_config($home_block_config)
 	{
-		$props = array();
-		foreach ($home_block_config->get_default_properties() as $key => $value)
-		{
-			$props[$this->escape_column_name($key)] = $value;
-		}
-		$props[$this->escape_column_name(HomeBlockConfig :: PROPERTY_BLOCK_ID)] = $home_block_config->get_block_id();
-
-		$this->connection->loadModule('Extended');
-		if ($this->connection->extended->autoExecute($this->get_table_name('block_config'), $props, MDB2_AUTOQUERY_INSERT))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+	    return $this->database->create($home_block_config);
 	}
 
 	function create_home_column($home_column)
@@ -467,98 +451,28 @@ class DatabaseHomeDataManager extends HomeDataManager
 
 	function delete_home_block_config($home_block_config)
 	{
-		$query = 'DELETE FROM '.$this->escape_table_name('block_config').' WHERE '.$this->escape_column_name(HomeBlockConfig :: PROPERTY_BLOCK_ID).'=? AND '.$this->escape_column_name(HomeBlockConfig :: PROPERTY_VARIABLE).'=?';
-		$statement = $this->connection->prepare($query);
-		if ($statement->execute(array($home_block_config->get_block_id(), $home_block_config->get_variable())))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+        $conditions = array();
+        $conditions[] = new EqualityCondition(HomeBlockConfig :: PROPERTY_BLOCK_ID, $home_block_config->get_block_id());
+        $conditions[] = new EqualityCondition(HomeBlockConfig :: PROPERTY_VARIABLE, $home_block_config->get_variable());
+        $condition = new AndCondition($conditions);
+
+        return $this->database->delete(HomeBlockConfig :: get_table_name(), $condition);
 	}
 
 	function delete_home_block_configs($home_block)
 	{
-		$query = 'DELETE FROM '.$this->escape_table_name('block_config').' WHERE '.$this->escape_column_name(HomeBlockConfig :: PROPERTY_BLOCK_ID).'=?';
-		$statement = $this->connection->prepare($query);
-		if ($statement->execute($home_block->get_id()))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+        $condition = new EqualityCondition(HomeBlockConfig :: PROPERTY_BLOCK_ID, $home_block->get_id());
+        return $this->database->delete(HomeBlockConfig :: get_table_name(), $condition);
 	}
 
 	function retrieve_home_block_config($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
 	{
-		$query = 'SELECT * FROM '. $this->escape_table_name('block_config'). ' AS '. self :: ALIAS_BLOCK_CONFIG_TABLE;
-
-		$params = array ();
-		if (isset ($condition))
-		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
-		}
-
-		/*
-		 * Always respect display order as a last resort.
-		 */
-		$orderBy[] = HomeBlockConfig :: PROPERTY_VARIABLE;
-		$orderDir[] = SORT_ASC;
-		$order = array ();
-
-		for ($i = 0; $i < count($orderBy); $i ++)
-		{
-			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
-		}
-		if (count($order))
-		{
-			$query .= ' ORDER BY '.implode(', ', $order);
-		}
-		if ($maxObjects < 0)
-		{
-			$maxObjects = null;
-		}
-		$this->connection->setLimit(intval($maxObjects),intval($offset));
-		$statement = $this->connection->prepare($query);
-		$res = $statement->execute($params);
-		return new DatabaseHomeBlockConfigResultSet($this, $res);
+	    return $this->database->retrieve_objects(HomeBlockConfig :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 
 	function count_home_block_config($condition = null)
 	{
-		$query = 'SELECT COUNT('.$this->escape_column_name(HomeBlockConfig :: PROPERTY_BLOCK_ID).') FROM '.$this->escape_table_name('block_config').' AS '. self :: ALIAS_BLOCK_CONFIG_TABLE;
-
-		$params = array ();
-		if (isset ($condition))
-		{
-			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
-			$translator->translate($condition);
-			$query .= $translator->render_query();
-			$params = $translator->get_parameters();
-		}
-
-		$sth = $this->connection->prepare($query);
-		$res = $sth->execute($params);
-		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
-		return $record[0];
-	}
-
-	/**
-	 * Checks whether the given column name is the name of a column that
-	 * contains a date value, and hence should be formatted as such.
-	 * @param string $name The column name.
-	 * @return boolean True if the column is a date column, false otherwise.
-	 */
-	static function is_date_column($name)
-	{
-		return false;
+	    return $this->database->count_objects(HomeBlockConfig :: get_table_name(), $condition);
 	}
 }
 ?>

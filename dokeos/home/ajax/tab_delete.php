@@ -11,12 +11,12 @@ $user_home_allowed = PlatformSetting :: get('allow_user_home', HomeManager :: AP
 if ($user_home_allowed && Authentication :: is_valid())
 {
 	$user_id	= Session :: get_user_id();
-	$tab		= $_POST['tab'];
-	
+	$tab		= Request :: post('tab');
+
 	$hdm = HomeDataManager :: get_instance();
-	
+
 	$tab = $hdm->retrieve_home_tab($tab);
-	
+
 	if ($tab->get_user() == $user_id && $tab->can_be_deleted())
 	{
 		if ($tab->delete())
@@ -27,7 +27,7 @@ if ($user_home_allowed && Authentication :: is_valid())
 		else
 		{
 			$json_result['success'] = '0';
-			$json_result['message'] = Translation :: get('TabNotDeleted');			
+			$json_result['message'] = Translation :: get('TabNotDeleted');
 		}
 	}
 	else

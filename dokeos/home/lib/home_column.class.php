@@ -28,6 +28,11 @@ class HomeColumn {
 		return $this->defaultProperties;
 	}
 
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
+
 	function set_default_property($name, $value)
 	{
 		$this->defaultProperties[$name] = $value;

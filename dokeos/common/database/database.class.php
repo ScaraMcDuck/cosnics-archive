@@ -16,7 +16,7 @@ require_once Path :: get_library_path() . '/dokeos_utilities.class.php';
 class Database
 {
     const ALIAS_MAX_SORT = 'max_sort';
-    
+
     private $connection;
     private $prefix;
     private $aliases;
@@ -113,7 +113,7 @@ class Database
         {
             list($table, $column) = explode('.', $name, 2);
         }
-        
+
         $prefix = '';
         if (isset($column))
         {
@@ -165,14 +165,14 @@ class Database
             throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
         }
         $default_properties = array();
-        
+
         $object = new $class_name($default_properties);
-        
+
         foreach ($object->get_default_property_names() as $property)
         {
             $default_properties[$property] = $record[$property];
         }
-        
+
         $object->set_default_properties($default_properties);
         return $object;
     }
@@ -251,14 +251,14 @@ class Database
     function create($object)
     {
         $object_table = $object->get_table_name();
-        
+
         $props = array();
         foreach ($object->get_default_properties() as $key => $value)
         {
             $props[$this->escape_column_name($key)] = $value;
         }
         $this->connection->loadModule('Extended');
-        
+
         if ($this->connection->extended->autoExecute($this->get_table_name($object_table), $props, MDB2_AUTOQUERY_INSERT))
         {
             return true;
@@ -279,7 +279,7 @@ class Database
     function update($object, $condition)
     {
         $object_table = $object->get_table_name();
-        
+
         $props = array();
         foreach ($object->get_default_properties() as $key => $value)
         {
@@ -287,7 +287,7 @@ class Database
         }
         $this->connection->loadModule('Extended');
         $this->connection->extended->autoExecute($this->get_table_name($object_table), $props, MDB2_AUTOQUERY_UPDATE, $condition);
-        
+
         return true;
     }
 
@@ -301,7 +301,7 @@ class Database
     {
         $query = 'DELETE FROM ' . $this->escape_table_name($table_name) . ' WHERE ' . $condition;
         $sth = $this->connection->prepare($query);
-        
+
         if ($res = $sth->execute())
         {
             return true;
@@ -329,9 +329,9 @@ class Database
             $query .= $translator->render_query();
             $params = $translator->get_parameters();
         }
-        
+
         $statement = $this->connection->prepare($query);
-        
+
         if ($res = $statement->execute($params))
         {
             return true;
@@ -351,9 +351,9 @@ class Database
     {
         $this->connection->loadModule('Manager');
         $manager = $this->connection->manager;
-        
+
         $result = $manager->dropTable($this->escape_table_name($table_name));
-        
+
         if (MDB2 :: isError($result))
         {
             return false;
@@ -374,7 +374,7 @@ class Database
     {
         $params = array();
         $query = 'SELECT COUNT(*) FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
-        
+
         if (isset($condition))
         {
             $translator = new ConditionTranslator($this, $params, $this->get_alias($table_name));
@@ -382,7 +382,7 @@ class Database
             $query .= $translator->render_query();
             $params = $translator->get_parameters();
         }
-        
+
         $sth = $this->connection->prepare($query);
         $res = $sth->execute($params);
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -412,9 +412,9 @@ class Database
             $query .= $translator->render_query();
             $params = $translator->get_parameters();
         }
-        
+
         $order = array();
-        
+
         for($i = 0; $i < count($orderBy); $i ++)
         {
             $order[] = $this->escape_column_name($orderBy[$i], $this->get_alias($table_name)) . ' ' . ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
@@ -427,19 +427,19 @@ class Database
         {
             $maxObjects = null;
         }
-        
+
         $this->connection->setLimit(intval($maxObjects), intval($offset));
         $statement = $this->connection->prepare($query);
-        
+
         $res = $statement->execute($params);
-        
+
         return new ObjectResultSet($this, $res, $table_name);
     }
 
     function retrieve_max_sort_value($table_name, $column, $condition = null)
     {
         $query .= 'SELECT MAX(' . $this->escape_column_name($column) . ') as ' . self :: ALIAS_MAX_SORT . ' FROM' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
-        
+
         $params = array();
         if (isset($condition))
         {
@@ -448,10 +448,10 @@ class Database
             $query .= $translator->render_query();
             $params = $translator->get_parameters();
         }
-        
+
         $sth = $this->connection->prepare($query);
         $res = $sth->execute($params);
-        
+
         if ($res->numRows() >= 1)
         {
             $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
@@ -501,7 +501,7 @@ class Database
     function retrieve_object($table_name, $condition = null, $orderBy = null, $orderDir = null)
     {
         $query = 'SELECT * FROM ' . $this->escape_table_name($table_name) . ' AS ' . $this->get_alias($table_name);
-        
+
         $params = array();
         if (isset($condition))
         {
@@ -510,9 +510,9 @@ class Database
             $query .= $translator->render_query();
             $params = $translator->get_parameters();
         }
-        
+
         $order = array();
-        
+
         for($i = 0; $i < count($orderBy); $i ++)
         {
             $order[] = $this->escape_column_name($orderBy[$i], $this->get_alias($table_name)) . ' ' . ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
@@ -521,14 +521,14 @@ class Database
         {
             $query .= ' ORDER BY ' . implode(', ', $order);
         }
-        
+
         $this->connection->setLimit(1);
         $statement = $this->connection->prepare($query);
-        
+
         $res = $statement->execute($params);
         $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
         $res->free();
-        
+
         $class_name = DokeosUtilities :: underscores_to_camelcase($table_name);
         if ($record)
         {
@@ -543,7 +543,7 @@ class Database
     function retrieve_distinct($table_name, $column_name, $condition = null)
     {
         $query = 'SELECT DISTINCT(' . $this->escape_column_name($column_name) . ') FROM ' . $this->escape_table_name($table_name);
-        
+
         $params = array();
         if (isset($condition))
         {
@@ -552,24 +552,24 @@ class Database
             $query .= $translator->render_query();
             $params = $translator->get_parameters();
         }
-        
+
         $statement = $this->connection->prepare($query);
-        
+
         $res = $statement->execute($params);
-        
+
         $distinct_elements = array();
         while ($record = $res->fetchRow(MDB2_FETCHMODE_ASSOC))
         {
             $distinct_elements[] = $record[$column_name];
         }
-        
+
         return $distinct_elements;
     }
 
     function count_distinct($table_name, $column_name, $condition = null)
     {
         $query = 'SELECT COUNT(DISTINCT(' . $this->escape_column_name($column_name) . ')) FROM ' . $this->escape_table_name($table_name);
-        
+
         $params = array();
         if (isset($condition))
         {
@@ -578,9 +578,9 @@ class Database
             $query .= $translator->render_query();
             $params = $translator->get_parameters();
         }
-        
+
         $statement = $this->connection->prepare($query);
-        
+
         $res = $statement->execute($params);
         $record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
         return $record[0];
@@ -599,7 +599,7 @@ class Database
             }
             $this->aliases[$table_name] = $possible_name;
         }
-        
+
         return $this->aliases[$table_name];
     }
 
