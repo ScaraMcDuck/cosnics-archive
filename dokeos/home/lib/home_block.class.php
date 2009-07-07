@@ -4,6 +4,7 @@ require_once dirname(__FILE__).'/home_data_manager.class.php';
 require_once 'XML/Unserializer.php';
 
 class HomeBlock {
+    const CLASS_NAME = __CLASS__;
 
 	const PROPERTY_ID = 'id';
 	const PROPERTY_COLUMN = 'column';
@@ -14,12 +15,10 @@ class HomeBlock {
 	const PROPERTY_VISIBILITY = 'visibility';
 	const PROPERTY_USER = 'user';
 
-	private $id;
 	private $defaultProperties;
 
-    function HomeBlock($id = null, $defaultProperties = array ())
+    function HomeBlock($defaultProperties = array ())
     {
-    	$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
     }
 
@@ -52,14 +51,14 @@ class HomeBlock {
 		return in_array($name, self :: get_default_property_names());
 	}
 
-    function get_id()
-    {
-    	return $this->id;
-    }
-
-    function set_id($id)
+	function get_id()
 	{
-		$this->id = $id;
+		return $this->get_default_property(self :: PROPERTY_ID);
+	}
+
+	function set_id($id)
+	{
+		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
 
     function get_sort()
@@ -164,6 +163,10 @@ class HomeBlock {
 		$wdm = HomeDataManager :: get_instance();
 		$id = $wdm->get_next_home_block_id();
 		$this->set_id($id);
+
+        $condition = new EqualityCondition(self :: PROPERTY_COLUMN, $this->get_column());
+        $sort = $wdm->retrieve_max_sort_value(self :: get_table_name(), self :: PROPERTY_SORT, $condition);
+        $this->set_sort($sort + 1);
 
 		$success_block = $wdm->create_home_block($this);
 		if (!$success_block)
@@ -272,6 +275,11 @@ class HomeBlock {
 		{
 			return false;
 		}
+	}
+
+	static function get_table_name()
+	{
+		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
 	}
 }
 ?>
