@@ -12,6 +12,16 @@ class PackageLearningObjectRemover extends PackageRemover
         $registration = $adm->retrieve_registration($registration_id);
         $this->registration = $registration;
 
+        // Check dependencies before doing anything at all
+        if (! $this->check_dependencies())
+        {
+            return $this->installation_failed('failed', Translation :: get('OtherPackagesDependOnThisPackage'));
+        }
+        else
+        {
+            $this->installation_successful('dependencies', Translation :: get('NoConflictingDependencies'));
+        }
+
         // Deactivate the learning object, thus making it inaccesible
         if (! $this->deactivate_learning_object_type())
         {

@@ -7,7 +7,7 @@ abstract class PackageRemover
     const TYPE_CONFIRM = '2';
     const TYPE_WARNING = '3';
     const TYPE_ERROR = '4';
-    
+
     private $parent;
     private $package;
     private $message;
@@ -42,6 +42,11 @@ abstract class PackageRemover
     }
 
     abstract function run();
+
+    function check_dependencies()
+    {
+        return true;
+    }
 
     /**
      * Invokes the constructor of the class that corresponds to the specified
