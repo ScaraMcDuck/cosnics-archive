@@ -21,49 +21,54 @@
  */
 abstract class ResultSet
 {
-	/**
-	 * Retrieves next item from this result set
-	 * @return mixed The item, or null if none.
-	 */
-	abstract function next_result();
-	/**
-	 * Retrieves the number of items in this result set.
-	 * @return int The number of items.
-	 */
-	abstract function size();
-	/**
-	 * Checks whether this result set is empty. The default implementation of
-	 * this method checks whether the size() function returns 0.
-	 * @return boolean True if empty, false otherwise.
-	 */
-	function is_empty()
-	{
-		return ($this->size() == 0);
-	}
-	/**
-	 * Skips a number of items. The default implementation of this method
-	 * merely discards the output of the next_result() function $count times.
-	 * @param int $count The number of items to skip.
-	 */
-	function skip($count)
-	{
-		for ($i = 0; $i < $count; $i++)
-		{
-			$this->next_result();
-		}
-	}
-	/**
-	 * Returns an array representation of this result set.
-	 * @return array An array containing all the items in the set.
-	 */
-	function as_array()
-	{
-		$array = array();
-		while ($result = $this->next_result())
-		{
-			$array[] = $result;
-		}
-		return $array;
-	}
+
+    /**
+     * Retrieves next item from this result set
+     * @return mixed The item, or null if none.
+     */
+    abstract function next_result();
+
+    /**
+     * Retrieves the number of items in this result set.
+     * @return int The number of items.
+     */
+    abstract function size();
+
+    /**
+     * Checks whether this result set is empty. The default implementation of
+     * this method checks whether the size() function returns 0.
+     * @return boolean True if empty, false otherwise.
+     */
+    function is_empty()
+    {
+        return ($this->size() == 0);
+    }
+
+    /**
+     * Skips a number of items. The default implementation of this method
+     * merely discards the output of the next_result() function $count times.
+     * @param int $count The number of items to skip.
+     */
+    function skip($count)
+    {
+        for($i = 0; $i < $count; $i ++)
+        {
+            $this->next_result();
+        }
+    }
+
+    /**
+     * Returns an array representation of this result set.
+     * @return array An array containing all the items in the set.
+     */
+    function as_array()
+    {
+        $array = array();
+        while ($result = $this->next_result())
+        {
+            $array[] = $result;
+        }
+        return $array;
+    }
 }
 ?>

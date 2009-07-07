@@ -5,6 +5,7 @@ require_once Path :: get_library_path() . 'session/request.class.php';
 
 class Security
 {
+
     /**
      * This function tackles the XSS injections.
      *
@@ -17,21 +18,22 @@ class Security
     {
         // TODO: Should this be UTF-8 by default ?
         //return htmlentities($variable, ENT_QUOTES, 'UTF-8');
+        
 
-        $removers = array('<script' => '&lt;script', '</script>' => '&lt;\script&gt;', 'onunload' => '', 'onclick' => '', 'onload' => '',
-                          'onUnload' => '', 'onClick' => '', 'onLoad' => '');
-
-        if(is_array($variable))
+        $removers = array('<script' => '&lt;script', '</script>' => '&lt;\script&gt;', 'onunload' => '', 'onclick' => '', 'onload' => '', 'onUnload' => '', 'onClick' => '', 'onLoad' => '');
+        
+        if (is_array($variable))
         {
             $variable = self :: remove_XSS_recursive($variable);
-        }else
+        }
+        else
         {
-            foreach($removers as $tag => $replace)
+            foreach ($removers as $tag => $replace)
             {
                 $variable = str_replace($tag, $replace, $variable);
             }
         }
-
+        
         return $variable;
     }
 
@@ -40,8 +42,8 @@ class Security
         foreach ($array as $key => $value)
         {
             $key2 = self :: remove_XSS($key);
-            $value2 = (is_array($value))?$this->remove_XSS_recursive($value):self :: remove_XSS($value);
-
+            $value2 = (is_array($value)) ? $this->remove_XSS_recursive($value) : self :: remove_XSS($value);
+            
             unset($array[$key]);
             $array[$key2] = $value2;
         }
@@ -68,8 +70,8 @@ class Security
     {
         $session_agent = Session :: retrieve('sec_ua');
         $current_agent = Request :: server('HTTP_USER_AGENT') . Session :: retrieve('sec_ua_seed');
-
-        if(isset($session_agent) and $session_agent === $current_agent)
+        
+        if (isset($session_agent) and $session_agent === $current_agent)
         {
             return true;
         }
@@ -100,33 +102,33 @@ class Security
      */
     function check_token($array = 'post')
     {
-        $session_token =  Session :: retrieve('sec_token');
-
-        switch($array)
+        $session_token = Session :: retrieve('sec_token');
+        
+        switch ($array)
         {
-            case 'get':
+            case 'get' :
                 $get_token = Request :: get('sec_token');
-                if(isset($session_token) && isset($get_token) && $session_token === $get_token)
+                if (isset($session_token) && isset($get_token) && $session_token === $get_token)
                 {
                     return true;
                 }
                 return false;
-                case 'post':
-                    $post_token = Request :: post('sec_token');
-                    if(isset($session_token) && isset($post_token) && $session_token === $post_token)
-                    {
-                        return true;
-                    }
-                    return false;
-                    default:
-                        if(isset($session_token) && isset($array) && $session_token === $array)
-                        {
-                            return true;
-                        }
-                        return false;
-                    }
-                    // Just in case, don't let anything slip
-                    return false;
+            case 'post' :
+                $post_token = Request :: post('sec_token');
+                if (isset($session_token) && isset($post_token) && $session_token === $post_token)
+                {
+                    return true;
                 }
-            }
-            ?>
+                return false;
+            default :
+                if (isset($session_token) && isset($array) && $session_token === $array)
+                {
+                    return true;
+                }
+                return false;
+        }
+        // Just in case, don't let anything slip
+        return false;
+    }
+}
+?>

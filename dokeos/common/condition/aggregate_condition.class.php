@@ -3,7 +3,7 @@
  * $Id$
  * @package repository.condition
  */
-require_once dirname(__FILE__).'/condition.class.php';
+require_once dirname(__FILE__) . '/condition.class.php';
 /**
  *	All conditions that aggregate other conditions for learning object
  *	selection in the data source must extend this class. By using instances of

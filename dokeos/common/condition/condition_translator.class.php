@@ -1,258 +1,257 @@
 <?php
-require_once dirname(__FILE__).'/condition.class.php';
-require_once dirname(__FILE__).'/equality_condition.class.php';
-require_once dirname(__FILE__).'/inequality_condition.class.php';
-require_once dirname(__FILE__).'/pattern_match_condition.class.php';
-require_once dirname(__FILE__).'/aggregate_condition.class.php';
-require_once dirname(__FILE__).'/and_condition.class.php';
-require_once dirname(__FILE__).'/or_condition.class.php';
-require_once dirname(__FILE__).'/not_condition.class.php';
-require_once dirname(__FILE__).'/in_condition.class.php';
-require_once dirname(__FILE__).'/like_condition.class.php';
-require_once dirname(__FILE__).'/subselect_condition.class.php';
+require_once dirname(__FILE__) . '/condition.class.php';
+require_once dirname(__FILE__) . '/equality_condition.class.php';
+require_once dirname(__FILE__) . '/inequality_condition.class.php';
+require_once dirname(__FILE__) . '/pattern_match_condition.class.php';
+require_once dirname(__FILE__) . '/aggregate_condition.class.php';
+require_once dirname(__FILE__) . '/and_condition.class.php';
+require_once dirname(__FILE__) . '/or_condition.class.php';
+require_once dirname(__FILE__) . '/not_condition.class.php';
+require_once dirname(__FILE__) . '/in_condition.class.php';
+require_once dirname(__FILE__) . '/like_condition.class.php';
+require_once dirname(__FILE__) . '/subselect_condition.class.php';
 
 class ConditionTranslator
 {
-	private $data_manager;
-	private $prefix_properties;
-	private $parameters;
-	private $strings;
-	
-	// TODO: Wouldn't it be more logical to use the tostring method of the conditions to do the actual translating ?
+    private $data_manager;
+    private $prefix_properties;
+    private $parameters;
+    private $strings;
+
+    // TODO: Wouldn't it be more logical to use the tostring method of the conditions to do the actual translating ?
     function ConditionTranslator($data_manager, $parameters, $prefix_properties = false)
     {
-    	$this->data_manager = $data_manager;
-    	$this->parameters = $parameters;
-    	$this->prefix_properties = $prefix_properties;
-    	$this->strings = array();
+        $this->data_manager = $data_manager;
+        $this->parameters = $parameters;
+        $this->prefix_properties = $prefix_properties;
+        $this->strings = array();
     }
-    
+
     function translate($condition)
     {
-		if ($condition instanceof AggregateCondition)
-		{
-			$this->translate_aggregate_condition($condition);
-		}
-		elseif ($condition instanceof InCondition)
-		{
-			$this->strings[] = $this->translate_in_condition($condition);
-		}
-		elseif ($condition instanceof SubselectCondition)
-		{
-			$this->translate_subselect_condition($condition);
-		}
-  		elseif ($condition instanceof Condition)
-		{
-			$this->strings[] = $this->translate_simple_condition($condition);
-		}
-		else
-		{ 
-			//print_r($condition);
-			die('Need a Condition instance');
-		}
+        if ($condition instanceof AggregateCondition)
+        {
+            $this->translate_aggregate_condition($condition);
+        }
+        elseif ($condition instanceof InCondition)
+        {
+            $this->strings[] = $this->translate_in_condition($condition);
+        }
+        elseif ($condition instanceof SubselectCondition)
+        {
+            $this->translate_subselect_condition($condition);
+        }
+        elseif ($condition instanceof Condition)
+        {
+            $this->strings[] = $this->translate_simple_condition($condition);
+        }
+        else
+        {
+            //print_r($condition);
+            die('Need a Condition instance');
+        }
     }
-    
-	/**
-	 * Translates an aggregate condition to a SQL WHERE clause.
-	 * @param AggregateCondition $condition The AggregateCondition object.
-	 * @param array $parameters A reference to the query's parameter list.
-	 * @param boolean $prefix_properties Whether or not to
-	 *                                                   prefix learning
-	 *                                                   object properties
-	 *                                                   to avoid collisions.
-	 * @return string The WHERE clause.
-	 */
-	function translate_aggregate_condition($condition)
-	{		
-		if ($condition instanceof AndCondition)
-		{
-			$cond = array ();
-			$count = 0;
-			
-			$this->strings[] = '(';
-			foreach ($condition->get_conditions() as $c)
-			{
-				$cond[] = $this->translate($c);
-				$count ++;
-				if ($count < count ($condition->get_conditions()))
-				$this->strings[] = ' AND ';
-			}
-			$this->strings[] = ')';
-		}
-		elseif ($condition instanceof OrCondition)
-		{
-			$cond = array ();
-			$count = 0;
-			
-			$this->strings[] = '(';
-			foreach ($condition->get_conditions() as $c)
-			{
-				$cond[] = $this->translate($c);
-				$count ++;
-				if ($count < count ($condition->get_conditions()))
-				$this->strings[] = ' OR ';
-			}
-			$this->strings[] = ')';
-		}
-		elseif ($condition instanceof NotCondition)
-		{
-			$this->strings[] = 'NOT (';
-			$this->translate($condition->get_condition());
-			$this->strings[] = ')';
-		}
-		else
-		{
-			die('Cannot translate aggregate condition');
-		}
-	}
-    
-	/**
-	 * Translates an in condition to a SQL WHERE clause.
-	 * @param InCondition $condition The InCondition object.
-	 * @param array $parameters A reference to the query's parameter list.
-	 * @param boolean $prefix_properties Whether or not to
-	 *                                                   prefix learning
-	 *                                                   object properties
-	 *                                                   to avoid collisions.
-	 * @return string The WHERE clause.
-	 */
-	function translate_in_condition($condition)
-	{
-    	$prefix_properties = $this->prefix_properties;
-		
-		if ($condition instanceof InCondition)
-		{
-			$name = $condition->get_name();
-			$where_clause = $this->data_manager->escape_column_name($name, $prefix_properties).' IN (';
-			$values = $condition->get_values();
-			$placeholders = array();
-			foreach($values as $value)
-			{
-				$placeholders[] = '?';
-				$this->parameters[] = $value;
-			}
-			$where_clause .= implode(',',$placeholders).')';
-			return $where_clause;
-		}
-		else
-		{
-			die('Cannot translate in condition');
-		}
-	}
-	
-	function translate_subselect_condition($condition)
-	{	
-		if ($condition instanceof SubselectCondition)
-		{
-			$prefix_properties = $this->prefix_properties;
-			
-			$name = $condition->get_name();
-			$value = $condition->get_value();
-			$table = $condition->get_table();
-			$etable = $this->data_manager->escape_table_name($table);
-			$sub_condition = $condition->get_condition();
-			
-			$alias = $this->data_manager->get_alias($table);
-			
-			$this->prefix_properties = $alias;
-			$this->strings[] = $this->data_manager->escape_column_name($name, $prefix_properties) . 
-							' IN ( SELECT ' .  $this->data_manager->escape_column_name($value, $alias) . ' FROM ' . $etable . ' AS ' . $alias;
-			
-			if($sub_condition)
-			{
-				$this->strings[] = ' WHERE ';
-				$this->translate($sub_condition);
-			}
-			
-			$this->strings[] = ')';
-			$this->prefix_properties = $prefix_properties;
-		}
-		else
-		{
-			die('Cannot translate in condition');
-		}
-	}
-	
-	/**
-	 * Translates a simple condition to a SQL WHERE clause.
-	 * @param Condition $condition The Condition object.
-	 * @param array $parameters A reference to the query's parameter list.
-	 * @param boolean $prefix_properties Whether or not to
-	 *                                                   prefix learning
-	 *                                                   object properties
-	 *                                                   to avoid collisions.
-	 * @return string The WHERE clause.
-	 */
-	function translate_simple_condition($condition)
-	{
-    	$prefix_properties = $this->prefix_properties;
-    	$data_manager = $this->data_manager;
-		
-		if ($condition instanceof EqualityCondition)
-		{
-			$name = $condition->get_name();
-			$value = $condition->get_value();
-			if ($data_manager->is_date_column($name))
-			{
-				$value = self :: to_db_date($value);
-			}
-			if (is_null($value))
-			{
-				return $this->data_manager->escape_column_name($name).' IS NULL';
-			}
-			$this->parameters[] = $value;
-			return $this->data_manager->escape_column_name($name, $prefix_properties).' = ?';
-		}
-		elseif ($condition instanceof InequalityCondition)
-		{
-			$name = $condition->get_name();
-			$value = $condition->get_value();
-						
-			if ($data_manager->is_date_column($name))
-			{
-				$value = self :: to_db_date($value);
-			}
-			$this->parameters[] = $value;
-			switch ($condition->get_operator())
-			{
-				case InequalityCondition :: GREATER_THAN :
-					$operator = '>';
-					break;
-				case InequalityCondition :: GREATER_THAN_OR_EQUAL :
-					$operator = '>=';
-					break;
-				case InequalityCondition :: LESS_THAN :
-					$operator = '<';
-					break;
-				case InequalityCondition :: LESS_THAN_OR_EQUAL :
-					$operator = '<=';
-					break;
-				default :
-					die('Unknown operator for inequality condition');
-			}
-			return $this->data_manager->escape_column_name($name, $prefix_properties).' '.$operator.' ?';
-		}
-		elseif ($condition instanceof PatternMatchCondition)
-		{
-			$this->parameters[] = $this->translate_search_string($condition->get_pattern());
-			return $this->data_manager->escape_column_name($condition->get_name(), $prefix_properties).' LIKE ?';
-		}
-		else
-		{
-			return $condition; //die('Cannot translate condition');
-		}
-	}
-	
-	/**
-	 * Translates a string with wildcard characters "?" (single character)
-	 * and "*" (any character sequence) to a SQL pattern for use in a LIKE
-	 * condition. Should be suitable for any SQL flavor.
-	 * @param string $string The string that contains wildcard characters.
-	 * @return string The escaped string.
-	 */
-	static function translate_search_string($string)
-	{
-		/*
+
+    /**
+     * Translates an aggregate condition to a SQL WHERE clause.
+     * @param AggregateCondition $condition The AggregateCondition object.
+     * @param array $parameters A reference to the query's parameter list.
+     * @param boolean $prefix_properties Whether or not to
+     *                                                   prefix learning
+     *                                                   object properties
+     *                                                   to avoid collisions.
+     * @return string The WHERE clause.
+     */
+    function translate_aggregate_condition($condition)
+    {
+        if ($condition instanceof AndCondition)
+        {
+            $cond = array();
+            $count = 0;
+            
+            $this->strings[] = '(';
+            foreach ($condition->get_conditions() as $c)
+            {
+                $cond[] = $this->translate($c);
+                $count ++;
+                if ($count < count($condition->get_conditions()))
+                    $this->strings[] = ' AND ';
+            }
+            $this->strings[] = ')';
+        }
+        elseif ($condition instanceof OrCondition)
+        {
+            $cond = array();
+            $count = 0;
+            
+            $this->strings[] = '(';
+            foreach ($condition->get_conditions() as $c)
+            {
+                $cond[] = $this->translate($c);
+                $count ++;
+                if ($count < count($condition->get_conditions()))
+                    $this->strings[] = ' OR ';
+            }
+            $this->strings[] = ')';
+        }
+        elseif ($condition instanceof NotCondition)
+        {
+            $this->strings[] = 'NOT (';
+            $this->translate($condition->get_condition());
+            $this->strings[] = ')';
+        }
+        else
+        {
+            die('Cannot translate aggregate condition');
+        }
+    }
+
+    /**
+     * Translates an in condition to a SQL WHERE clause.
+     * @param InCondition $condition The InCondition object.
+     * @param array $parameters A reference to the query's parameter list.
+     * @param boolean $prefix_properties Whether or not to
+     *                                                   prefix learning
+     *                                                   object properties
+     *                                                   to avoid collisions.
+     * @return string The WHERE clause.
+     */
+    function translate_in_condition($condition)
+    {
+        $prefix_properties = $this->prefix_properties;
+        
+        if ($condition instanceof InCondition)
+        {
+            $name = $condition->get_name();
+            $where_clause = $this->data_manager->escape_column_name($name, $prefix_properties) . ' IN (';
+            $values = $condition->get_values();
+            $placeholders = array();
+            foreach ($values as $value)
+            {
+                $placeholders[] = '?';
+                $this->parameters[] = $value;
+            }
+            $where_clause .= implode(',', $placeholders) . ')';
+            return $where_clause;
+        }
+        else
+        {
+            die('Cannot translate in condition');
+        }
+    }
+
+    function translate_subselect_condition($condition)
+    {
+        if ($condition instanceof SubselectCondition)
+        {
+            $prefix_properties = $this->prefix_properties;
+            
+            $name = $condition->get_name();
+            $value = $condition->get_value();
+            $table = $condition->get_table();
+            $etable = $this->data_manager->escape_table_name($table);
+            $sub_condition = $condition->get_condition();
+            
+            $alias = $this->data_manager->get_alias($table);
+            
+            $this->prefix_properties = $alias;
+            $this->strings[] = $this->data_manager->escape_column_name($name, $prefix_properties) . ' IN ( SELECT ' . $this->data_manager->escape_column_name($value, $alias) . ' FROM ' . $etable . ' AS ' . $alias;
+            
+            if ($sub_condition)
+            {
+                $this->strings[] = ' WHERE ';
+                $this->translate($sub_condition);
+            }
+            
+            $this->strings[] = ')';
+            $this->prefix_properties = $prefix_properties;
+        }
+        else
+        {
+            die('Cannot translate in condition');
+        }
+    }
+
+    /**
+     * Translates a simple condition to a SQL WHERE clause.
+     * @param Condition $condition The Condition object.
+     * @param array $parameters A reference to the query's parameter list.
+     * @param boolean $prefix_properties Whether or not to
+     *                                                   prefix learning
+     *                                                   object properties
+     *                                                   to avoid collisions.
+     * @return string The WHERE clause.
+     */
+    function translate_simple_condition($condition)
+    {
+        $prefix_properties = $this->prefix_properties;
+        $data_manager = $this->data_manager;
+        
+        if ($condition instanceof EqualityCondition)
+        {
+            $name = $condition->get_name();
+            $value = $condition->get_value();
+            if ($data_manager->is_date_column($name))
+            {
+                $value = self :: to_db_date($value);
+            }
+            if (is_null($value))
+            {
+                return $this->data_manager->escape_column_name($name) . ' IS NULL';
+            }
+            $this->parameters[] = $value;
+            return $this->data_manager->escape_column_name($name, $prefix_properties) . ' = ?';
+        }
+        elseif ($condition instanceof InequalityCondition)
+        {
+            $name = $condition->get_name();
+            $value = $condition->get_value();
+            
+            if ($data_manager->is_date_column($name))
+            {
+                $value = self :: to_db_date($value);
+            }
+            $this->parameters[] = $value;
+            switch ($condition->get_operator())
+            {
+                case InequalityCondition :: GREATER_THAN :
+                    $operator = '>';
+                    break;
+                case InequalityCondition :: GREATER_THAN_OR_EQUAL :
+                    $operator = '>=';
+                    break;
+                case InequalityCondition :: LESS_THAN :
+                    $operator = '<';
+                    break;
+                case InequalityCondition :: LESS_THAN_OR_EQUAL :
+                    $operator = '<=';
+                    break;
+                default :
+                    die('Unknown operator for inequality condition');
+            }
+            return $this->data_manager->escape_column_name($name, $prefix_properties) . ' ' . $operator . ' ?';
+        }
+        elseif ($condition instanceof PatternMatchCondition)
+        {
+            $this->parameters[] = $this->translate_search_string($condition->get_pattern());
+            return $this->data_manager->escape_column_name($condition->get_name(), $prefix_properties) . ' LIKE ?';
+        }
+        else
+        {
+            return $condition; //die('Cannot translate condition');
+        }
+    }
+
+    /**
+     * Translates a string with wildcard characters "?" (single character)
+     * and "*" (any character sequence) to a SQL pattern for use in a LIKE
+     * condition. Should be suitable for any SQL flavor.
+     * @param string $string The string that contains wildcard characters.
+     * @return string The escaped string.
+     */
+    static function translate_search_string($string)
+    {
+        /*
 		======================================================================
 		 * A brief explanation of these regexps:
 		 * - The first one escapes SQL wildcard characters, thus prefixing
@@ -264,32 +263,32 @@ class ConditionTranslator
 		 *   marks that are not escaped with the SQL equivalent _.
 		======================================================================
 		 */
-		return preg_replace(array ('/([%\'\\\\_])/e', '/(?<!\\\\)\*/', '/(?<!\\\\)\?/'), array ("'\\\\\\\\' . '\\1'", '%', '_'), $string);
-	}
-	
-	function render_query()
-	{
-		return ' WHERE '. implode('', $this->strings);
-	}
-	
-	function get_parameters()
-	{
-		return $this->parameters;
-	}
-	
-	/**
-	 * Converts a UNIX timestamp (as returned by time()) to a datetime string
-	 * for use in SQL queries.
-	 * @param int $date The date as a UNIX timestamp.
-	 * @return string The date in datetime format.
-	 */
-	static function to_db_date($date)
-	{
-		if (isset ($date))
-		{
-			return date('Y-m-d H:i:s', $date);
-		}
-		return null;
-	}
+        return preg_replace(array('/([%\'\\\\_])/e', '/(?<!\\\\)\*/', '/(?<!\\\\)\?/'), array("'\\\\\\\\' . '\\1'", '%', '_'), $string);
+    }
+
+    function render_query()
+    {
+        return ' WHERE ' . implode('', $this->strings);
+    }
+
+    function get_parameters()
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * Converts a UNIX timestamp (as returned by time()) to a datetime string
+     * for use in SQL queries.
+     * @param int $date The date as a UNIX timestamp.
+     * @return string The date in datetime format.
+     */
+    static function to_db_date($date)
+    {
+        if (isset($date))
+        {
+            return date('Y-m-d H:i:s', $date);
+        }
+        return null;
+    }
 }
 ?>

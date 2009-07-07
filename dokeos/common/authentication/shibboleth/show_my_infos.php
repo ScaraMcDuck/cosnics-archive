@@ -13,15 +13,14 @@ require_once dirname(__FILE__) . '/shibboleth_authentication.class.php';
  */
 $security_code = '';
 
-if(strlen($security_code) > 0)
+if (strlen($security_code) > 0)
 {
     $request = new Request();
-    if($request->get('code') <> $security_code)
+    if ($request->get('code') != $security_code)
     {
         die();
     }
 }
-
 
 $shibAuth = new ShibbolethAuthentication();
 $shibAuth->print_shibboleth_attributes();

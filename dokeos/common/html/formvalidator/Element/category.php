@@ -12,33 +12,35 @@ require_once 'HTML/QuickForm/html.php';
  */
 class HTML_QuickForm_category extends HTML_QuickForm_html
 {
-    // {{{ constructor
 
-   /**
-    * Class constructor
-    *
-    * @param string $text   raw HTML to add
-    * @access public
-    * @return void
-    */
+    // {{{ constructor
+    
+
+    /**
+     * Class constructor
+     *
+     * @param string $text   raw HTML to add
+     * @access public
+     * @return void
+     */
     function HTML_QuickForm_category($title = null, $extra_classes = null)
     {
-    	$html = array();
-
-    	if ($title != null)
-    	{
-			$html[] = '<div class="configuration_form' . ($extra_classes ? ' ' . $extra_classes : '') . '" >';
-			$html[] = '<span class="category">' . $title .'</span>';
-    	}
-    	else
-    	{
-			$html[] = '<div style="clear: both;"></div>';
-			$html[] = '</div>';
-    	}
-
-    	$html = implode("\n", $html);
-
-		parent :: HTML_QuickForm_html($html);
+        $html = array();
+        
+        if ($title != null)
+        {
+            $html[] = '<div class="configuration_form' . ($extra_classes ? ' ' . $extra_classes : '') . '" >';
+            $html[] = '<span class="category">' . $title . '</span>';
+        }
+        else
+        {
+            $html[] = '<div style="clear: both;"></div>';
+            $html[] = '</div>';
+        }
+        
+        $html = implode("\n", $html);
+        
+        parent :: HTML_QuickForm_html($html);
     }
 
 } //end class HTML_QuickForm_header

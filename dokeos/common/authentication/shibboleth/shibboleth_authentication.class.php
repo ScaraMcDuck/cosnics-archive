@@ -40,12 +40,12 @@ require_once dirname(__FILE__) . '/../external_authentication.class.php';
  */
 class ShibbolethAuthentication extends ExternalAuthentication
 {
-    const SHIBBOLETH_AUTHENTICATION   = 'shibboleth';
-    const RIGHTS_SEPARATOR            = 'RIGHTS_SEPARATOR';
+    const SHIBBOLETH_AUTHENTICATION = 'shibboleth';
+    const RIGHTS_SEPARATOR = 'RIGHTS_SEPARATOR';
     
-    private $config_xml_document      = null;
-    private $user_status_is_unclear   = false;
-    
+    private $config_xml_document = null;
+    private $user_status_is_unclear = false;
+
     /*
      * Constructor
      */
@@ -53,19 +53,19 @@ class ShibbolethAuthentication extends ExternalAuthentication
     {
         $this->initialize();
     }
-    
+
     /*
      * Initialize the Shibboleth authentication configuration
      */
     protected function initialize()
     {
         $doc = simplexml_load_file('shibboleth.xml');
-        if($doc !== false)
+        if ($doc !== false)
         {
             $this->config_xml_document = $doc;
             
             parent :: initialize();
-
+            
             $this->set_authentication_source_name(self :: SHIBBOLETH_AUTHENTICATION);
             $this->set_automatic_registration(true);
             $this->set_register_user_without_role(false);
@@ -75,7 +75,7 @@ class ShibbolethAuthentication extends ExternalAuthentication
             echo 'unable to load configuration';
         }
     }
-    
+
     /**
      * Inherited. Note that with Shibboleth $user, $username and $password are not used
      *
@@ -98,11 +98,12 @@ class ShibbolethAuthentication extends ExternalAuthentication
         $is_new_user = false;
         $user = $this->get_existing_user();
         
-        if(isset($user) && is_a($user, self :: USER_OBJECT_CLASSNAME))
+        if (isset($user) && is_a($user, self :: USER_OBJECT_CLASSNAME))
         {
             //user already exists
             
-            if($this->has_fields_to_update_at_login())
+
+            if ($this->has_fields_to_update_at_login())
             {
                 /*
                  * Update user's fields that must be updated when an existing user logs in 
@@ -111,15 +112,15 @@ class ShibbolethAuthentication extends ExternalAuthentication
                 $user = $this->set_user_attributes($user, $this->get_fields_to_update_at_login());
                 
                 //save user in datasource
-                if(!$user->update())
+                if (! $user->update())
                 {
                     echo 'An error occured while updating your informations';
                 }
                 else
                 {
-                    if(in_array(self :: PARAM_MAPPING_AFFILIATION, $this->get_fields_to_update_at_login()))
+                    if (in_array(self :: PARAM_MAPPING_AFFILIATION, $this->get_fields_to_update_at_login()))
                     {
-                        if(!$this->set_user_rights($user))
+                        if (! $this->set_user_rights($user))
                         {
                             echo 'Unable to set the user rights';
                         }
@@ -131,19 +132,20 @@ class ShibbolethAuthentication extends ExternalAuthentication
         {
             //user does not exist yet
             
+
             $is_new_user = true;
             
-            if($this->is_automatic_registration_enabled())
+            if ($this->is_automatic_registration_enabled())
             {
                 $user = $this->get_new_user();
                 
-                if(isset($user) && is_a($user, self :: USER_OBJECT_CLASSNAME))
+                if (isset($user) && is_a($user, self :: USER_OBJECT_CLASSNAME))
                 {
-                    if($user->create())
+                    if ($user->create())
                     {
-                        if(array_key_exists(self :: PARAM_MAPPING_AFFILIATION, $this->get_user_attribute_mapping()))
+                        if (array_key_exists(self :: PARAM_MAPPING_AFFILIATION, $this->get_user_attribute_mapping()))
                         {
-                            if(!$this->set_user_rights($user))
+                            if (! $this->set_user_rights($user))
                             {
                                 echo 'Unable to set the user rights';
                             }
@@ -160,9 +162,9 @@ class ShibbolethAuthentication extends ExternalAuthentication
         /*
          * Login user
          */
-        if(isset($user) && is_a($user, self :: USER_OBJECT_CLASSNAME))
+        if (isset($user) && is_a($user, self :: USER_OBJECT_CLASSNAME))
         {
-            if($this->user_status_is_unclear && $this->get_display_rights_form_when_unclear_status())
+            if ($this->user_status_is_unclear && $this->get_display_rights_form_when_unclear_status())
             {
                 $this->login($user, false);
                 $this->redirect_to_rights_request_form($is_new_user);
@@ -177,29 +179,29 @@ class ShibbolethAuthentication extends ExternalAuthentication
             echo 'Unable to perform login';
         }
     }
-    
+
     /**
      * override
      */
     protected function initialize_user_attributes_mapping()
     {
-        if(isset($this->config_xml_document))
+        if (isset($this->config_xml_document))
         {
             $attributes_mapping = $this->config_xml_document->xpath('/authentication/attribute_mapping/attribute');
             
-            $user_attribute_mapping    = array();
+            $user_attribute_mapping = array();
             $fields_to_update_at_login = array();
             
-            foreach ($attributes_mapping as $attribute) 
+            foreach ($attributes_mapping as $attribute)
             {
-            	$user_attribute_mapping[(string)$attribute->attributes()->mapped_to] = array('name' => (string)$attribute->attributes()->name, 'default' => (string)$attribute->attributes()->default_value);
-            	
-            	if(isset($attribute->attributes()->update_at_login) && $attribute->attributes()->update_at_login == 'true')
-            	{
-            	    $fields_to_update_at_login[] = (string)$attribute->attributes()->mapped_to;
-            	}
+                $user_attribute_mapping[(string) $attribute->attributes()->mapped_to] = array('name' => (string) $attribute->attributes()->name, 'default' => (string) $attribute->attributes()->default_value);
+                
+                if (isset($attribute->attributes()->update_at_login) && $attribute->attributes()->update_at_login == 'true')
+                {
+                    $fields_to_update_at_login[] = (string) $attribute->attributes()->mapped_to;
+                }
             }
-
+            
             $this->set_user_attribute_mapping($user_attribute_mapping);
             $this->set_fields_to_update_at_login($fields_to_update_at_login);
         }
@@ -208,7 +210,7 @@ class ShibbolethAuthentication extends ExternalAuthentication
             echo '<p>Attribute mapping initialization error</p>';
         }
     }
-    
+
     /**
      * override
      */
@@ -219,19 +221,19 @@ class ShibbolethAuthentication extends ExternalAuthentication
          * 'initialize_user_attributes_mapping()' is called;
          */
     }
-    
+
     /**
      * override
      */
     protected function initialize_role_attributes_mapping()
     {
-        if(isset($this->config_xml_document))
+        if (isset($this->config_xml_document))
         {
             $separator = $this->config_xml_document->xpath('/authentication/role_mapping/@name_separator');
             $this->set_config_parameter(self :: RIGHTS_SEPARATOR, $separator[0]);
             
             $display_form = $this->config_xml_document->xpath('/authentication/role_mapping/@display_request_form_when_unclear');
-            if(isset($display_form[0]) && $display_form[0] == 'true')
+            if (isset($display_form[0]) && $display_form[0] == 'true')
             {
                 $this->set_display_rights_form_when_unclear_status(true);
             }
@@ -244,33 +246,33 @@ class ShibbolethAuthentication extends ExternalAuthentication
             
             $value_nodes = $this->config_xml_document->xpath('/authentication/role_mapping/value');
             
-            foreach ($value_nodes as $value_node) 
+            foreach ($value_nodes as $value_node)
             {
-            	$name       = (string)$value_node->attributes()->name;
-            	$precedence = (string)$value_node->attributes()->precedence;
-            	$group_id   = (string)$value_node->attributes()->group_id;
-            	$role_id    = (string)$value_node->attributes()->role_id;
-
-            	if(!array_key_exists($precedence, $role_mapping))
-            	{
-            	    $role_mapping[$precedence] = array();
-            	}
-            	
-            	if(!array_key_exists($name, $role_mapping[$precedence]))
-            	{
-            	    $role_mapping[$precedence][$name]             = array();
-            	    $role_mapping[$precedence][$name]['group_id'] = array();
-            	    $role_mapping[$precedence][$name]['role_id']  = array();
-            	}
-            	
-            	if(isset($group_id) && strlen($group_id) > 0)
-            	{
-            	    $role_mapping[$precedence][$name]['group_id'][] = $group_id;
-            	}
-            	if(isset($role_id) && strlen($role_id) > 0)
-            	{
-            	    $role_mapping[$precedence][$name]['role_id'][] = $role_id;
-            	}
+                $name = (string) $value_node->attributes()->name;
+                $precedence = (string) $value_node->attributes()->precedence;
+                $group_id = (string) $value_node->attributes()->group_id;
+                $role_id = (string) $value_node->attributes()->role_id;
+                
+                if (! array_key_exists($precedence, $role_mapping))
+                {
+                    $role_mapping[$precedence] = array();
+                }
+                
+                if (! array_key_exists($name, $role_mapping[$precedence]))
+                {
+                    $role_mapping[$precedence][$name] = array();
+                    $role_mapping[$precedence][$name]['group_id'] = array();
+                    $role_mapping[$precedence][$name]['role_id'] = array();
+                }
+                
+                if (isset($group_id) && strlen($group_id) > 0)
+                {
+                    $role_mapping[$precedence][$name]['group_id'][] = $group_id;
+                }
+                if (isset($role_id) && strlen($role_id) > 0)
+                {
+                    $role_mapping[$precedence][$name]['role_id'][] = $role_id;
+                }
             }
             
             $this->set_user_role_attribute_mapping($role_mapping);
@@ -280,7 +282,7 @@ class ShibbolethAuthentication extends ExternalAuthentication
             echo '<p>Role mapping initialization error</p>';
         }
     }
-    
+
     /**
      * Returns the current user logged through Shibboleth if he already
      * exists in the datasource. Otherwise return null.
@@ -294,7 +296,7 @@ class ShibbolethAuthentication extends ExternalAuthentication
         
         $user = $this->retrieve_user_by_external_uid($shibboleth_id);
         
-        if(isset($user))
+        if (isset($user))
         {
             return $user;
         }
@@ -303,7 +305,7 @@ class ShibbolethAuthentication extends ExternalAuthentication
             return null;
         }
     }
-    
+
     /**
      * Creates and returns a new User based on the Shibboleth attributes
      *
@@ -315,7 +317,7 @@ class ShibbolethAuthentication extends ExternalAuthentication
         $user = $this->set_user_attributes($user);
         return $user;
     }
-    
+
     /**
      * override
      *
@@ -325,47 +327,46 @@ class ShibbolethAuthentication extends ExternalAuthentication
      */
     protected function set_user_attributes($user, $fields_to_set = null)
     {
-        foreach ($this->get_user_attribute_mapping() as $field_name => $field_source) 
+        foreach ($this->get_user_attribute_mapping() as $field_name => $field_source)
         {
-        	$must_set = true;
-        	if(isset($fields_to_set) && is_array($fields_to_set) && count($fields_to_set) > 0
-        	    && !in_array($field_name, $fields_to_set))
-        	{
-        	    $must_set = false;
-        	}
-        	
-        	if($must_set)
-        	{
-        	    $value = $this->get_shibboleth_value($field_source['name']);
-        	    
-        	    /*
+            $must_set = true;
+            if (isset($fields_to_set) && is_array($fields_to_set) && count($fields_to_set) > 0 && ! in_array($field_name, $fields_to_set))
+            {
+                $must_set = false;
+            }
+            
+            if ($must_set)
+            {
+                $value = $this->get_shibboleth_value($field_source['name']);
+                
+                /*
         	     * Default value if no value is found
         	     */
-        	    if(!isset($value))
-        	    {
-        	        if(isset($field_source['default']) && strlen($field_source['default']) > 0)
+                if (! isset($value))
+                {
+                    if (isset($field_source['default']) && strlen($field_source['default']) > 0)
                     {
                         $value = $field_source['default'];
                     }
-        	    }
-        	    
-        	    if($field_name == self :: PARAM_MAPPING_LANG)
-        	    {
-        	        $lang = $this->get_language_code($value);
-        	        $user->set_language($lang);
-        	    }
-        	    elseif(method_exists($user, 'set_' . $field_name))
-        	    {
-        	        call_user_func_array(array($user, 'set_' . $field_name, ), array($value));
-        	    }
-        	}
+                }
+                
+                if ($field_name == self :: PARAM_MAPPING_LANG)
+                {
+                    $lang = $this->get_language_code($value);
+                    $user->set_language($lang);
+                }
+                elseif (method_exists($user, 'set_' . $field_name))
+                {
+                    call_user_func_array(array($user, 'set_' . $field_name), array($value));
+                }
+            }
         }
         
         /*
          * Default mandatory values if no mapping is defined
          */
-        $user_lang = $user->get_language(); 
-        if(!isset($user_lang))
+        $user_lang = $user->get_language();
+        if (! isset($user_lang))
         {
             $lang = $this->get_language_code(null);
             $user->set_language($lang);
@@ -375,17 +376,17 @@ class ShibbolethAuthentication extends ExternalAuthentication
          * case of new user -> init some more default values
          */
         $user_id = $user->get_id();
-        if(!isset($user_id))
+        if (! isset($user_id))
         {
             $user->set_username($this->generate_username($user->get_firstname(), $user->get_lastname()));
-            $user->set_password(md5($this->generate_random_password()));    //generate random password to prevent security hole if the user's auth_source is modified
+            $user->set_password(md5($this->generate_random_password())); //generate random password to prevent security hole if the user's auth_source is modified
             $user->set_auth_source($this->get_authentication_source_name());
             $user->set_platformadmin(0);
         }
         
         return $user;
     }
-    
+
     /**
      * Add the given user in groups and / or grant the user roles.
      * The user must already have an id (as it is used to create groups and /or role links)
@@ -395,55 +396,55 @@ class ShibbolethAuthentication extends ExternalAuthentication
      */
     protected function set_user_rights($user)
     {
-        if($this->has_user_role_attribute_mapping() && array_key_exists(self :: PARAM_MAPPING_AFFILIATION, $this->get_user_attribute_mapping()))
+        if ($this->has_user_role_attribute_mapping() && array_key_exists(self :: PARAM_MAPPING_AFFILIATION, $this->get_user_attribute_mapping()))
         {
             $user_id = $user->get_id();
-            if(isset($user) && is_a($user, self :: USER_OBJECT_CLASSNAME) && isset($user_id))
+            if (isset($user) && is_a($user, self :: USER_OBJECT_CLASSNAME) && isset($user_id))
             {
                 /*
                  * Deletes all user_role and user_group relations for the user 
                  * before recreating them with his affiliation attribute
                  */
-                $user_roles  = $user->get_roles();
+                $user_roles = $user->get_roles();
                 $user_groups = $user->get_user_groups();
                 
-                if(isset($user_groups))
+                if (isset($user_groups))
                 {
-                    while($user_group = $user_groups->next_result())
-            		{
-            			if(!$user_group->delete())
-            			{
-            			    echo 'Unable to clear user groups';
-            			}
-            		}
+                    while ($user_group = $user_groups->next_result())
+                    {
+                        if (! $user_group->delete())
+                        {
+                            echo 'Unable to clear user groups';
+                        }
+                    }
                 }
                 
-                if(isset($user_roles))
+                if (isset($user_roles))
                 {
-                    while($user_role = $user_roles->next_result())
-            		{
-            			if(!$user_role->delete())
-            			{
-            			    echo 'Unable to clear user roles';
-            			}
-            		}
+                    while ($user_role = $user_roles->next_result())
+                    {
+                        if (! $user_role->delete())
+                        {
+                            echo 'Unable to clear user roles';
+                        }
+                    }
                 }
                 
                 $user_mapping = $this->get_user_attribute_mapping();
-                $affiliation  = $this->get_shibboleth_value($user_mapping[self :: PARAM_MAPPING_AFFILIATION]['name']);
+                $affiliation = $this->get_shibboleth_value($user_mapping[self :: PARAM_MAPPING_AFFILIATION]['name']);
                 
                 /*
                  * Default value if no value is found
                  */
-                if(!isset($affiliation))
+                if (! isset($affiliation))
                 {
-                    if(isset($user_mapping[self :: PARAM_MAPPING_AFFILIATION]['default']) && strlen($user_mapping[self :: PARAM_MAPPING_AFFILIATION]['default']) > 0)
+                    if (isset($user_mapping[self :: PARAM_MAPPING_AFFILIATION]['default']) && strlen($user_mapping[self :: PARAM_MAPPING_AFFILIATION]['default']) > 0)
                     {
                         $affiliation = $user_mapping[self :: PARAM_MAPPING_AFFILIATION]['default'];
                     }
                 }
                 
-                $affiliation_values = explode($this->get_config_parameter(self :: RIGHTS_SEPARATOR), $affiliation);  
+                $affiliation_values = explode($this->get_config_parameter(self :: RIGHTS_SEPARATOR), $affiliation);
                 
                 $role_mapping = $this->get_user_role_attribute_mapping();
                 
@@ -453,19 +454,19 @@ class ShibbolethAuthentication extends ExternalAuthentication
                  */
                 $configured_affiliation_values = array();
                 
-                foreach ($role_mapping as $mapping_for_precedence) 
+                foreach ($role_mapping as $mapping_for_precedence)
                 {
-                    foreach ($mapping_for_precedence as $attribute_value => $rights) 
+                    foreach ($mapping_for_precedence as $attribute_value => $rights)
                     {
                         $configured_affiliation_values[] = $attribute_value;
                     }
                 }
-                foreach ($affiliation_values as $affiliation_value) 
+                foreach ($affiliation_values as $affiliation_value)
                 {
-                	if(!in_array($affiliation_value, $configured_affiliation_values))
-                	{
-                	    $this->user_status_is_unclear = true;
-                	}
+                    if (! in_array($affiliation_value, $configured_affiliation_values))
+                    {
+                        $this->user_status_is_unclear = true;
+                    }
                 }
                 
                 /*
@@ -478,76 +479,76 @@ class ShibbolethAuthentication extends ExternalAuthentication
                  * 
                  */
                 $mapping_found = false;
-                foreach ($role_mapping as $mapping_for_precedence) 
+                foreach ($role_mapping as $mapping_for_precedence)
                 {
-                    if($mapping_found)
+                    if ($mapping_found)
                     {
                         break;
                     }
                     
                     $groups = array();
-                    $roles  = array();
-
-                    foreach ($mapping_for_precedence as $attribute_value => $rights) 
+                    $roles = array();
+                    
+                    foreach ($mapping_for_precedence as $attribute_value => $rights)
                     {
-                    	if(in_array($attribute_value, $affiliation_values))
-                    	{
-                    	    /*
+                        if (in_array($attribute_value, $affiliation_values))
+                        {
+                            /*
                     	     * Find group mappings
                     	     */
-                    	    foreach ($rights['group_id'] as $group_id) 
-                    	    {
-                    	    	if(!in_array($group_id, $groups))
-                    	    	{
-                    	    	    $groups[] = $group_id;
-                    	    	}
-                    	    }
-                    	    
-                    	    /*
+                            foreach ($rights['group_id'] as $group_id)
+                            {
+                                if (! in_array($group_id, $groups))
+                                {
+                                    $groups[] = $group_id;
+                                }
+                            }
+                            
+                            /*
                     	     * Find role mappings
                     	     */
-                    	    foreach ($rights['role_id'] as $role_id) 
-                    	    {
-                    	    	if(!in_array($role_id, $roles))
-                    	    	{
-                    	    	    $roles[] = $role_id;
-                    	    	}
-                    	    }
-                    	    
-                    	    $mapping_found = true;
-                    	}
+                            foreach ($rights['role_id'] as $role_id)
+                            {
+                                if (! in_array($role_id, $roles))
+                                {
+                                    $roles[] = $role_id;
+                                }
+                            }
+                            
+                            $mapping_found = true;
+                        }
                     }
                 }
                 
-                if(count($groups) > 0)
+                if (count($groups) > 0)
                 {
                     /*
                      * Create group_user records
                      */
-                    foreach ($groups as $group_id) 
+                    foreach ($groups as $group_id)
                     {
-                    	$group_user = new GroupRelUser();
-                    	$group_user->set_user_id($user_id);
-                    	$group_user->set_group_id($group_id);
-                    	
-                    	if(!$group_user->create())
-                    	{
-                    	    echo 'Unable to add user in group ' . $group_id;
-                    	}
+                        $group_user = new GroupRelUser();
+                        $group_user->set_user_id($user_id);
+                        $group_user->set_group_id($group_id);
+                        
+                        if (! $group_user->create())
+                        {
+                            echo 'Unable to add user in group ' . $group_id;
+                        }
                     }
                 }
                 
-                if(count($roles) > 0)
+                if (count($roles) > 0)
                 {
                     /*
                      * Create user_role records
                      */
-                    foreach ($roles as $role_id) 
+                    foreach ($roles as $role_id)
                     {
-                    	if(!$user->add_role_link($role_id))
-                    	{
-                    	    echo 'Unable to grant role ' . $role_id . ' to the user';
-                    	}
+                        if (! $user->add_role_link($role_id))
+                        {
+                            echo 'Unable to grant role ' . $role_id . ' to the user';
+                        }
                     }
                 }
                 
@@ -563,7 +564,7 @@ class ShibbolethAuthentication extends ExternalAuthentication
             return false;
         }
     }
-    
+
     /**
      * Return the shibboleth attribute value for the given attribute name
      * 
@@ -578,8 +579,8 @@ class ShibbolethAuthentication extends ExternalAuthentication
         $request = new Request();
         return $request->server($shibboleth_param_name);
     }
-    
-	/**
+
+    /**
      * Print a table in the page with the current Shibboleth attributes.
      * Mainly useful for debugging the Shibboleth system.
      * 
@@ -590,21 +591,21 @@ class ShibbolethAuthentication extends ExternalAuthentication
     {
         echo '<table cellpadding="5" cellspacing="0">';
         echo '<tr>';
-    	echo '<th>User property</th><th></th><th>Shibboleth parameter name</th><th></th><th>User value</th><th></th><th>Default value</th>';
-    	echo '</tr>';
-        	
-        foreach ($this->get_user_attribute_mapping() as $field_name => $field_source) 
+        echo '<th>User property</th><th></th><th>Shibboleth parameter name</th><th></th><th>User value</th><th></th><th>Default value</th>';
+        echo '</tr>';
+        
+        foreach ($this->get_user_attribute_mapping() as $field_name => $field_source)
         {
-        	
-        	echo '<tr>';
-        	echo '  <td>' . $field_name . '</td>';
-        	echo '  <td>&rarr;</td>';
-        	echo '  <td>' . $field_source['name'] . '</td>';
-        	echo '  <td>&rarr;</td>';
-        	echo '  <td>' . $this->get_shibboleth_value($field_source['name']) . '</td>';
-        	echo '  <td>&rarr;</td>';
-        	echo '  <td>' . $this->get_shibboleth_value($field_source['default']) . '</td>';
-        	echo '</tr>';
+            
+            echo '<tr>';
+            echo '  <td>' . $field_name . '</td>';
+            echo '  <td>&rarr;</td>';
+            echo '  <td>' . $field_source['name'] . '</td>';
+            echo '  <td>&rarr;</td>';
+            echo '  <td>' . $this->get_shibboleth_value($field_source['name']) . '</td>';
+            echo '  <td>&rarr;</td>';
+            echo '  <td>' . $this->get_shibboleth_value($field_source['default']) . '</td>';
+            echo '</tr>';
         }
         
         echo '</table>';

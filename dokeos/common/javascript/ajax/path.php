@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../../global.inc.php';
+require_once dirname(__FILE__) . '/../../global.inc.php';
 
 $path = $_POST['path'];
 

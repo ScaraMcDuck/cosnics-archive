@@ -22,74 +22,75 @@
 ==============================================================================
 */
 require_once ('HTML/QuickForm/textarea.php');
-require_once (Path :: get_library_path().'resource_manager.class.php');
-require_once (Path :: get_admin_path().'lib/admin_data_manager.class.php');
+require_once (Path :: get_library_path() . 'resource_manager.class.php');
+require_once (Path :: get_admin_path() . 'lib/admin_data_manager.class.php');
 /**
-* A html editor field to use with QuickForm
-*/
+ * A html editor field to use with QuickForm
+ */
 abstract class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 {
     var $options;
 
-	/**
-	 * Class constructor
-	 * @param   string  HTML editor name/id
-	 * @param   string  HTML editor  label
-	 * @param   string  Attributes for the textarea
-	 */
-	function HTML_QuickForm_html_editor($elementName = null, $elementLabel = null, $attributes = null, $options = array())
-	{
+    /**
+     * Class constructor
+     * @param   string  HTML editor name/id
+     * @param   string  HTML editor  label
+     * @param   string  Attributes for the textarea
+     */
+    function HTML_QuickForm_html_editor($elementName = null, $elementLabel = null, $attributes = null, $options = array())
+    {
         $this->options['width'] = (isset($options['width']) ? $options['width'] : '650');
         $this->options['height'] = (isset($options['height']) ? $options['height'] : '150');
         $this->options['show_toolbar'] = (isset($options['show_toolbar']) ? $options['show_toolbar'] : true);
         $this->options['show_tags'] = (isset($options['show_tags']) ? $options['show_tags'] : true);
         $this->options['full_page'] = (isset($options['full_page']) ? $options['full_page'] : false);
         $this->options['toolbar_set'] = (isset($options['toolbar_set']) ? $options['toolbar_set'] : 'Basic');
+        
+        $this->_persistantFreeze = true;
+        $this->set_type();
+        
+        HTML_QuickForm_element :: HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+    }
 
-		$this->_persistantFreeze = true;
-		$this->set_type();
+    function get_options()
+    {
+        return $this->options;
+    }
 
-		HTML_QuickForm_element :: HTML_QuickForm_element($elementName, $elementLabel, $attributes);
-	}
+    function get_option($name)
+    {
+        if (isset($this->options[$name]))
+        {
+            return $this->options[$name];
+        }
+        else
+        {
+            return null;
+        }
+    }
 
-	function get_options()
-	{
-	    return $this->options;
-	}
+    abstract function set_type();
 
-	function get_option($name)
-	{
-	    if (isset($this->options[$name]))
-	    {
-	        return $this->options[$name];
-	    }
-	    else
-	    {
-	        return null;
-	    }
-	}
+    /**
+     * Check if the browser supports th editor
+     *
+     * @access public
+     * @return boolean
+     */
+    abstract function browserSupported();
 
-	abstract function set_type();
-
-	/**
-	 * Check if the browser supports th editor
-	 *
-	 * @access public
-	 * @return boolean
-	 */
-	abstract function browserSupported();
-	/**
-	 * Return the HTML editor in HTML
-	 * @return string
-	 */
-	function toHtml()
-	{
-		$value = $this->getValue();
-		if ($this->fullPage)
-		{
-			if (strlen(trim($value)) == 0)
-			{
-				$value = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    /**
+     * Return the HTML editor in HTML
+     * @return string
+     */
+    function toHtml()
+    {
+        $value = $this->getValue();
+        if ($this->fullPage)
+        {
+            if (strlen(trim($value)) == 0)
+            {
+                $value = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 							<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 							<head>
 							<title></title>
@@ -99,54 +100,53 @@ abstract class HTML_QuickForm_html_editor extends HTML_QuickForm_textarea
 							<body>
 							</body>
 							</html>';
-				$this->setValue($value);
-			}
-		}
-		if ($this->_flagFrozen)
-		{
-			return $this->getFrozenHtml();
-		}
-		else
-		{
-			return $this->build_editor();
-		}
-	}
+                $this->setValue($value);
+            }
+        }
+        if ($this->_flagFrozen)
+        {
+            return $this->getFrozenHtml();
+        }
+        else
+        {
+            return $this->build_editor();
+        }
+    }
 
-	function render_textarea()
-	{
-	    $html = parent :: toHTML();
+    function render_textarea()
+    {
+        $html = parent :: toHTML();
+        
+        $width = $this->options['width'];
+        if (strpos($width, '%') === false)
+        {
+            $width .= 'px';
+        }
+        
+        $height = $this->options['height'];
+        if (strpos($height, '%') === false)
+        {
+            $height .= 'px';
+        }
+        
+        $string = '<textarea style="width: ' . $width . '; height: ' . $height . ';"';
+        $html = str_replace('<textarea', $string, $html);
+        return $html;
+    }
 
-	    $width = $this->options['width'];
-	    if (strpos($width, '%') === false)
-	    {
-	        $width .= 'px';
-	    }
+    /**
+     * Returns the frozen content in HTML
+     *@return string
+     */
+    function getFrozenHtml()
+    {
+        $val = $this->getValue();
+        return $val . '<input type="hidden" name="' . htmlspecialchars($this->getName()) . '"' . ' value="' . htmlspecialchars($val) . '"/>';
+    }
 
-		$height = $this->options['height'];
-	    if (strpos($height, '%') === false)
-	    {
-	        $height .= 'px';
-	    }
-
-	    $string = '<textarea style="width: ' . $width . '; height: ' . $height . ';"';
-	    $html = str_replace('<textarea', $string, $html);
-	    return $html;
-	}
-
-	/**
-	 * Returns the frozen content in HTML
-	 *@return string
-	 */
-	function getFrozenHtml()
-	{
-		$val = $this->getValue();
-		return $val
-			. '<input type="hidden" name="' . htmlspecialchars($this->getName()) . '"'
-			. ' value="' . htmlspecialchars($val) . '"/>';
-	}
-	/**
-	 * Build this element using the editor
-	 */
-	abstract function build_editor();
+    /**
+     * Build this element using the editor
+     */
+    abstract function build_editor();
 }
 ?>

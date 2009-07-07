@@ -2,7 +2,7 @@
 $client = new SoapClient('https://studentad.ehb.be/wsAuthenticateStudent.asmx?wsdl');
 
 // Parameters als object ...
-$params = new stdClass;
+$params = new stdClass();
 $params->login = "lobke.dhondt";
 $params->paswoord = "GQCJa7";
 $params->strAppID = "dokeos";
@@ -35,5 +35,6 @@ var_dump($result);
 //echo '<h2>Request</h2><pre>' . htmlspecialchars($client->request, ENT_QUOTES) . '</pre>';
 //echo '<h2>Response</h2><pre>' . htmlspecialchars($client->response, ENT_QUOTES) . '</pre>';
 //echo '<h2>Debug</h2><pre>' . htmlspecialchars($client->getDebug(), ENT_QUOTES) . '</pre>';
+
 
 ?>
