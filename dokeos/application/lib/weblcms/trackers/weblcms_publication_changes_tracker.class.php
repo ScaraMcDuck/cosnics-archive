@@ -18,7 +18,7 @@ class WeblcmsPublicationChangesTracker extends DefaultTracker
 	 */
     function WeblcmsPublicationChangesTracker()
     {
-    	parent :: MainTracker('weblcms_publication_changes');
+    	parent :: MainTracker('weblcms_publication_changes_tracker');
     }
 
     /**

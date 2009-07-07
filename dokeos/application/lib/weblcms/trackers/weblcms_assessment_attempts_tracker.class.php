@@ -22,7 +22,7 @@ class WeblcmsAssessmentAttemptsTracker extends MainTracker
 	 */
     function WeblcmsAssessmentAttemptsTracker()
     {
-    	parent :: MainTracker('weblcms_assessment_attempts');
+    	parent :: MainTracker('weblcms_assessment_attempts_tracker');
     }
 
     /**

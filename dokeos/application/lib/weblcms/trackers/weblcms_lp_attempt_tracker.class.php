@@ -15,7 +15,7 @@ class WeblcmsLpAttemptTracker extends MainTracker
 	 */
     function WeblcmsLpAttemptTracker()
     {
-    	parent :: MainTracker('weblcms_lp_attempt');
+    	parent :: MainTracker('weblcms_lp_attempt_tracker');
     }
 
     /**

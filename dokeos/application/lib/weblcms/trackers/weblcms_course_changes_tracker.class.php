@@ -21,7 +21,7 @@ class WeblcmsCourseChangesTracker extends DefaultTracker
 	 */
     function WeblcmsCourseChangesTracker()
     {
-    	parent :: MainTracker('weblcms_course_changes');
+    	parent :: MainTracker('weblcms_course_changes_tracker');
     }
 
     /**

@@ -19,7 +19,7 @@ class WeblcmsQuestionAttemptsTracker extends MainTracker
 	 */
     function WeblcmsQuestionAttemptsTracker()
     {
-    	parent :: MainTracker('weblcms_question_attempts');
+    	parent :: MainTracker('weblcms_question_attempts_tracker');
     }
 
     /**

@@ -21,7 +21,7 @@ class WeblcmsLpiAttemptInteractionTracker extends MainTracker
 	 */
     function WeblcmsLpiAttemptInteractionTracker()
     {
-    	parent :: MainTracker('weblcms_lpi_attempt_interaction');
+    	parent :: MainTracker('weblcms_lpi_attempt_interaction_tracker');
     }
 
     /**
