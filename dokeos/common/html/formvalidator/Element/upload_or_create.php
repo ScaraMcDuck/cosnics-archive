@@ -33,53 +33,57 @@ require_once 'HTML/QuickForm/file.php';
  */
 class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
 {
-	/**
-	 * Constructor
-	 * @param string $elementName
-	 * @param string $elementLabel
-	 * @param array $attributes This should contain the keys 'receivers' and
-	 * 'receivers_selected'
-	 */
-	function HTML_QuickForm_upload_or_create($elementName = null, $elementLabel = null, $attributes = null)
-	{
-		$this->HTML_QuickForm_element($elementName, $elementLabel, $attributes);
-		$this->_persistantFreeze = true;
-		$this->_appendName = false;
-		$this->_type = 'upload_or_create';
-	}
-	/**
-	 * Create the form elements to build this element group
-	 */
-	function _createElements()
-	{
-		$this->_elements[0] = new HTML_QuickForm_Radio('choice', '', Translation :: get('Upload'), '0', array ('onclick' => 'javascript:editor_hide(\'editor_html_content\')'));
-		$this->_elements[0]->setChecked(true);
-		$this->_elements[1] = new HTML_QuickForm_file('file','');
-		$this->_elements[2] = new HTML_QuickForm_Radio('choice', '', Translation :: get('Create'), '1', array ('onclick' => 'javascript:editor_show(\'editor_html_content\')'));
-		$this->_elements[3] = new HTML_QuickForm_fckeditor_html_editor('html_content','');
-		$this->_elements[3]->fullPage = true;
-	}
-	/**
-	 * HTML representation
-	 */
-	function toHtml()
-	{
-		$html[] = $this->_elements[0]->toHtml();
-		$html[] = $this->_elements[1]->toHtml();
-		$html[] = '<br />';
-		$html[] = $this->_elements[2]->toHtml();
-		$html[] = '<div style="margin-left:20px;display:block;" id="editor_html_content">';
-		$html[] = $this->_elements[3]->toHtml();
-		$html[] = '</div>';
-		$html[] = $this->getElementJS();
-		return implode("\n",$html);
-	}
-	/**
-	 * Get the necessary javascript
-	 */
-	function getElementJS()
-	{
-		$js = "<script language=\"JavaScript\" type=\"text/javascript\">
+
+    /**
+     * Constructor
+     * @param string $elementName
+     * @param string $elementLabel
+     * @param array $attributes This should contain the keys 'receivers' and
+     * 'receivers_selected'
+     */
+    function HTML_QuickForm_upload_or_create($elementName = null, $elementLabel = null, $attributes = null)
+    {
+        $this->HTML_QuickForm_element($elementName, $elementLabel, $attributes);
+        $this->_persistantFreeze = true;
+        $this->_appendName = false;
+        $this->_type = 'upload_or_create';
+    }
+
+    /**
+     * Create the form elements to build this element group
+     */
+    function _createElements()
+    {
+        $this->_elements[0] = new HTML_QuickForm_Radio('choice', '', Translation :: get('Upload'), '0', array('onclick' => 'javascript:editor_hide(\'editor_html_content\')'));
+        $this->_elements[0]->setChecked(true);
+        $this->_elements[1] = new HTML_QuickForm_file('file', '');
+        $this->_elements[2] = new HTML_QuickForm_Radio('choice', '', Translation :: get('Create'), '1', array('onclick' => 'javascript:editor_show(\'editor_html_content\')'));
+        $this->_elements[3] = new HTML_QuickForm_fckeditor_html_editor('html_content', '');
+        $this->_elements[3]->fullPage = true;
+    }
+
+    /**
+     * HTML representation
+     */
+    function toHtml()
+    {
+        $html[] = $this->_elements[0]->toHtml();
+        $html[] = $this->_elements[1]->toHtml();
+        $html[] = '<br />';
+        $html[] = $this->_elements[2]->toHtml();
+        $html[] = '<div style="margin-left:20px;display:block;" id="editor_html_content">';
+        $html[] = $this->_elements[3]->toHtml();
+        $html[] = '</div>';
+        $html[] = $this->getElementJS();
+        return implode("\n", $html);
+    }
+
+    /**
+     * Get the necessary javascript
+     */
+    function getElementJS()
+    {
+        $js = "<script language=\"JavaScript\" type=\"text/javascript\">
 					editor_hide('editor_html_content');
 					function editor_show(item) {
 						el = document.getElementById(item);
@@ -91,14 +95,15 @@ class HTML_QuickForm_upload_or_create extends HTML_QuickForm_group
 					}
 					</script>
 				";
-		return $js;
-	}
-	/**
-	 * accept renderer
-	 */
-	function accept($renderer, $required = false, $error = null)
-	{
-		$renderer->renderElement($this, $required, $error);
-	}
+        return $js;
+    }
+
+    /**
+     * accept renderer
+     */
+    function accept($renderer, $required = false, $error = null)
+    {
+        $renderer->renderElement($this, $required, $error);
+    }
 }
 ?>

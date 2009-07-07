@@ -2,33 +2,33 @@
 
 class Breadcrumb
 {
-	private $url;
-	private $name;
+    private $url;
+    private $name;
 
     function Breadcrumb($url, $name)
     {
-    	$this->url 		= $url;
-    	$this->name 	= $name;
+        $this->url = $url;
+        $this->name = $name;
     }
-    
+
     function get_url()
     {
-    	return $this->url;
-	}
-	
+        return $this->url;
+    }
+
     function get_name()
     {
-    	return $this->name;
-	}
-	
+        return $this->name;
+    }
+
     function set_url($url)
     {
-    	$this->url = $url;
-	}
-	
+        $this->url = $url;
+    }
+
     function set_name($name)
     {
-    	$this->name = $name;
-	}
+        $this->name = $name;
+    }
 }
 ?>

@@ -3,7 +3,7 @@
  * $Id$
  * @package repository.condition
  */
-require_once dirname(__FILE__).'/aggregate_condition.class.php';
+require_once dirname(__FILE__) . '/aggregate_condition.class.php';
 /**
  *	This type of aggregate condition negates a single condition, thus
  *	requiring that that condition not be met.
@@ -12,33 +12,36 @@ require_once dirname(__FILE__).'/aggregate_condition.class.php';
  */
 class NotCondition extends AggregateCondition
 {
-	/**
-	 * The condition to negate
-	 */
-	private $condition;
-	/**
-	 * Constructor
-	 * @param Condition $condition
-	 */
-	function NotCondition($condition)
-	{
-		$this->condition = $condition;
-	}
-	/**
-	 * Gets the condition to negate
-	 * @return Condition
-	 */
-	function get_condition()
-	{
-		return $this->condition;
-	}
-	/**
-	 * Gets a string representation of this condition
-	 * @return string
-	 */
-	function __toString()
-	{
-		return ' NOT ('.$this->get_condition().')';
-	}
+    /**
+     * The condition to negate
+     */
+    private $condition;
+
+    /**
+     * Constructor
+     * @param Condition $condition
+     */
+    function NotCondition($condition)
+    {
+        $this->condition = $condition;
+    }
+
+    /**
+     * Gets the condition to negate
+     * @return Condition
+     */
+    function get_condition()
+    {
+        return $this->condition;
+    }
+
+    /**
+     * Gets a string representation of this condition
+     * @return string
+     */
+    function __toString()
+    {
+        return ' NOT (' . $this->get_condition() . ')';
+    }
 }
 ?>

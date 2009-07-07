@@ -4,7 +4,6 @@ require_once Path :: get_group_path() . '/validator/group_validator.class.php';
 require_once Path :: get_application_path() . 'lib/weblcms/validator/course_validator.class.php';
 require_once Path :: get_reporting_path() . '/validator/reporting_validator.class.php';
 
-
 /**
  * This is the abstract validator class. It is to be a base class for specific validators
  * for User/Group/Course/Reporting webservices.
@@ -20,18 +19,18 @@ abstract class Validator
 {
     protected $errorMessage;
     protected $errorSource;
-    
+
     public static function get_validator($type)
     {
-        switch($type)
+        switch ($type)
         {
-            case 'user':
+            case 'user' :
                 return new UserValidator();
-            case 'group':
+            case 'group' :
                 return new GroupValidator();
-            case 'course':
+            case 'course' :
                 return new CourseValidator();
-            case 'reporting':
+            case 'reporting' :
                 return new ReportingValidator();
         }
     }
@@ -54,32 +53,31 @@ abstract class Validator
 
     abstract function validate_delete(&$object);
 
-    public function validate_properties($properties,$requiredProperties)
+    public function validate_properties($properties, $requiredProperties)
     {
-        foreach($requiredProperties as $property)
+        foreach ($requiredProperties as $property)
         {
-            if($properties[$property] == null)
+            if ($properties[$property] == null)
             {
-                $this->errorMessage = Translation :: get('Property').' '.$property.' '.Translation :: get('IsNotPresentButRequired');
+                $this->errorMessage = Translation :: get('Property') . ' ' . $property . ' ' . Translation :: get('IsNotPresentButRequired');
                 return false;
             }
         }
         return true;
     }
 
-    public function validate_property_names($properties,$defaultProperties)
+    public function validate_property_names($properties, $defaultProperties)
     {
-        foreach($properties as $property => $value)
+        foreach ($properties as $property => $value)
         {
-            if(!in_array($property,array_keys($defaultProperties)))
+            if (! in_array($property, array_keys($defaultProperties)))
             {
-                $this->errorMessage = Translation :: get('Property').' '.$property.' '.Translation :: get('IsNotAValidPropertyName');
+                $this->errorMessage = Translation :: get('Property') . ' ' . $property . ' ' . Translation :: get('IsNotAValidPropertyName');
                 return false;
             }
         }
         return true;
     }
-
 
 }
 ?>

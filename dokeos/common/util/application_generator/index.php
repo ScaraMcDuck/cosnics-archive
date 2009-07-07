@@ -1,16 +1,16 @@
 <?php
-ini_set('include_path',realpath(dirname(__FILE__).'/../../../plugin/pear'));
-require_once dirname(__FILE__).'/../../global.inc.php';
-include(dirname(__FILE__) . '/settings.inc.php');
-include(dirname(__FILE__) . '/../my_template.php');
-include(dirname(__FILE__) . '/data_class_generator/data_class_generator.class.php');
-include(dirname(__FILE__) . '/form_generator/form_generator.class.php');
-include(dirname(__FILE__) . '/sortable_table_generator/sortable_table_generator.class.php');
-include(dirname(__FILE__) . '/data_manager_generator/data_manager_generator.class.php');
-include(dirname(__FILE__) . '/manager_generator/manager_generator.class.php');
-include(dirname(__FILE__) . '/component_generator/component_generator.class.php');
-include(dirname(__FILE__) . '/rights_generator/rights_generator.class.php');
-include(dirname(__FILE__) . '/install_generator/install_generator.class.php');
+ini_set('include_path', realpath(dirname(__FILE__) . '/../../../plugin/pear'));
+require_once dirname(__FILE__) . '/../../global.inc.php';
+include (dirname(__FILE__) . '/settings.inc.php');
+include (dirname(__FILE__) . '/../my_template.php');
+include (dirname(__FILE__) . '/data_class_generator/data_class_generator.class.php');
+include (dirname(__FILE__) . '/form_generator/form_generator.class.php');
+include (dirname(__FILE__) . '/sortable_table_generator/sortable_table_generator.class.php');
+include (dirname(__FILE__) . '/data_manager_generator/data_manager_generator.class.php');
+include (dirname(__FILE__) . '/manager_generator/manager_generator.class.php');
+include (dirname(__FILE__) . '/component_generator/component_generator.class.php');
+include (dirname(__FILE__) . '/rights_generator/rights_generator.class.php');
+include (dirname(__FILE__) . '/install_generator/install_generator.class.php');
 
 $location = $application['location'];
 $name = $application['name'];
@@ -32,28 +32,28 @@ log_message('Folders succesfully created.');
  */
 log_message('Generating dataclasses, forms and tables...');
 $files = FileSystem :: get_directory_content($location, FileSystem :: LIST_FILES, false);
-foreach($files as $file)
+foreach ($files as $file)
 {
-	if(substr($file, -4) != '.xml')
-		continue;
-		
-	$new_path = move_file($location, $file); 
-	
-	$properties = retrieve_properties_from_xml_file($location, $file);
-	$lclass = str_replace('.xml', '', basename($file));
-	$classname = DokeosUtilities :: underscores_to_camelcase($lclass);
-
-	$description = 'This class describes a ' . $classname . ' data object';
-
-	$data_class_generator->generate_data_class($location, $classname , $properties, $name, $description, $author, $name);
-	$form_generator->generate_form($location . 'forms/', $classname, $properties, $author);
-	
-	if($application['options'][$lclass]['table'] == 1)
-	{
-		generate_sortable_table($location, $classname , $properties, $name, $author);
-	}
-	
-	$classes[] = $classname;
+    if (substr($file, - 4) != '.xml')
+        continue;
+    
+    $new_path = move_file($location, $file);
+    
+    $properties = retrieve_properties_from_xml_file($location, $file);
+    $lclass = str_replace('.xml', '', basename($file));
+    $classname = DokeosUtilities :: underscores_to_camelcase($lclass);
+    
+    $description = 'This class describes a ' . $classname . ' data object';
+    
+    $data_class_generator->generate_data_class($location, $classname, $properties, $name, $description, $author, $name);
+    $form_generator->generate_form($location . 'forms/', $classname, $properties, $author);
+    
+    if ($application['options'][$lclass]['table'] == 1)
+    {
+        generate_sortable_table($location, $classname, $properties, $name, $author);
+    }
+    
+    $classes[] = $classname;
 }
 log_message('Dataclasses and forms generated.');
 
@@ -90,11 +90,11 @@ log_message('Install files generated.');
  */
 function create_folders($location, $name)
 {
-	$folders = array('data_manager', 'forms', 'install', $name . '_manager', $name . '_manager/component' ,'rights', 'tables');
-	foreach($folders as $folder)
-	{
-		FileSystem :: create_dir($location . $folder);
-	}
+    $folders = array('data_manager', 'forms', 'install', $name . '_manager', $name . '_manager/component', 'rights', 'tables');
+    foreach ($folders as $folder)
+    {
+        FileSystem :: create_dir($location . $folder);
+    }
 }
 
 /**
@@ -105,9 +105,9 @@ function create_folders($location, $name)
  */
 function move_file($location, $file)
 {
-	$new_file = $location . 'install/' . basename($file);
-	FileSystem :: copy_file($location . $file, $new_file);
-	return $new_file;
+    $new_file = $location . 'install/' . basename($file);
+    FileSystem :: copy_file($location . $file, $new_file);
+    return $new_file;
 }
 
 /**
@@ -118,17 +118,17 @@ function move_file($location, $file)
  */
 function retrieve_properties_from_xml_file($location, $file)
 {
-	$properties = array();
-	
-	$options[] = array(XML_UNSERIALIZER_OPTION_FORCE_ENUM => array('property'));
-	$array = DokeosUtilities :: extract_xml_file($location . $file, $options);
-
-	foreach($array['properties']['property'] as $property)
-	{
-		$properties[] = $property['name'];
-	}
-
-	return $properties;
+    $properties = array();
+    
+    $options[] = array(XML_UNSERIALIZER_OPTION_FORCE_ENUM => array('property'));
+    $array = DokeosUtilities :: extract_xml_file($location . $file, $options);
+    
+    foreach ($array['properties']['property'] as $property)
+    {
+        $properties[] = $property['name'];
+    }
+    
+    return $properties;
 }
 
 /**
@@ -140,15 +140,15 @@ function retrieve_properties_from_xml_file($location, $file)
  * @param String $name - The application name
  * @param String $author - The Author
  */
-function generate_sortable_table($location, $classname , $properties, $name, $author)
+function generate_sortable_table($location, $classname, $properties, $name, $author)
 {
-	$l_class = DokeosUtilities :: camelcase_to_underscores($classname);
-	
-	$default_location = $location . 'tables/' . $l_class . '_table/';
-	$browser_table_location = $location . $name . '_manager/component/' . $l_class . '_browser/';
-	
-	global $sortable_table_generator;
-	$sortable_table_generator->generate_tables($default_location, $browser_table_location, $name, $properties, $classname, $author);
+    $l_class = DokeosUtilities :: camelcase_to_underscores($classname);
+    
+    $default_location = $location . 'tables/' . $l_class . '_table/';
+    $browser_table_location = $location . $name . '_manager/component/' . $l_class . '_browser/';
+    
+    global $sortable_table_generator;
+    $sortable_table_generator->generate_tables($default_location, $browser_table_location, $name, $properties, $classname, $author);
 }
 
 /**
@@ -161,10 +161,10 @@ function generate_sortable_table($location, $classname , $properties, $name, $au
  */
 function generate_data_managers($location, $name, $classes, $author)
 {
-	$data_manager_location = $location;
-	$database_location = $location . 'data_manager/';
-	$data_manager_generator = new DataManagerGenerator();
-	$data_manager_generator->generate_data_managers($data_manager_location, $database_location, $name, $classes, $author);
+    $data_manager_location = $location;
+    $database_location = $location . 'data_manager/';
+    $data_manager_generator = new DataManagerGenerator();
+    $data_manager_generator->generate_data_managers($data_manager_location, $database_location, $name, $classes, $author);
 }
 
 /**
@@ -177,9 +177,9 @@ function generate_data_managers($location, $name, $classes, $author)
  */
 function generate_managers($location, $name, $classes, $author)
 {
-	$manager_location = $location . DokeosUtilities :: camelcase_to_underscores($name) . '_manager/';
-	$manager_generator = new ManagerGenerator();
-	$manager_generator->generate_managers($manager_location, $name, $classes, $author);
+    $manager_location = $location . DokeosUtilities :: camelcase_to_underscores($name) . '_manager/';
+    $manager_generator = new ManagerGenerator();
+    $manager_generator->generate_managers($manager_location, $name, $classes, $author);
 }
 
 /**
@@ -192,12 +192,12 @@ function generate_managers($location, $name, $classes, $author)
  */
 function generate_components($location, $name, $classes, $author)
 {
-	$manager_location = $location . DokeosUtilities :: camelcase_to_underscores($name) . '_manager/component/';
-	$component_generator = new ComponentGenerator();
-	
-	global $application;
-	
-	$component_generator->generate_components($manager_location, $name, $classes, $author, $application['options']);
+    $manager_location = $location . DokeosUtilities :: camelcase_to_underscores($name) . '_manager/component/';
+    $component_generator = new ComponentGenerator();
+    
+    global $application;
+    
+    $component_generator->generate_components($manager_location, $name, $classes, $author, $application['options']);
 }
 
 /**
@@ -208,9 +208,9 @@ function generate_components($location, $name, $classes, $author)
  */
 function generate_rights_files($location, $name)
 {
-	$rights_location = $location . 'rights/';
-	$rights_generator = new RightsGenerator();
-	$rights_generator->generate_right_files($rights_location, $name);
+    $rights_location = $location . 'rights/';
+    $rights_generator = new RightsGenerator();
+    $rights_generator->generate_right_files($rights_location, $name);
 }
 
 /**
@@ -221,9 +221,9 @@ function generate_rights_files($location, $name)
  */
 function generate_install_files($location, $name, $author)
 {
-	$install_location = $location . 'install/';
-	$install_generator = new InstallGenerator();
-	$install_generator->generate_install_files($install_location, $name, $author);
+    $install_location = $location . 'install/';
+    $install_generator = new InstallGenerator();
+    $install_generator->generate_install_files($install_location, $name, $author);
 }
 
 /**
@@ -232,7 +232,7 @@ function generate_install_files($location, $name, $author)
  */
 function log_message($message)
 {
-	$total_message = date('[H:m:s] ') . $message . '<br />';
-	echo $total_message;
+    $total_message = date('[H:m:s] ') . $message . '<br />';
+    echo $total_message;
 }
 ?>

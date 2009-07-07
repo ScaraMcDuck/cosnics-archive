@@ -29,150 +29,154 @@
 */
 /**
 ==============================================================================
-*	This class allows to manage the session. Session is stored in
-*	the database
-*
-*	@package dokeos.library
+ *	This class allows to manage the session. Session is stored in
+ *	the database
+ *
+ *	@package dokeos.library
 ==============================================================================
-*/
+ */
 
 // TODO: Not used right now ... do we want to implement this option ?
 // TODO: Rewrite to use MDB2 if used at some point
 
+
 class session_handler
 {
-	var $connexion;
-	var $idConnexion;
+    var $connexion;
+    var $idConnexion;
+    
+    var $lifetime;
+    
+    var $sessionName;
 
-	var $lifetime;
+    function session_handler()
+    {
+        
+        $this->lifetime = 60; // 60 minutes
+        
 
-	var $sessionName;
+        //$this->connexion=array('server' => $dbHost,'login' => $dbLogin,'password' => $dbPass,'base' => $mainDbName);
+        
 
-	function session_handler()
-	{
+        $this->idConnexion = false;
+    }
 
-		$this->lifetime=60; // 60 minutes
+    function sqlConnect()
+    {
+        if (! $this->idConnexion)
+        {
+            $this->idConnexion = @mysql_connect($this->connexion['server'], $this->connexion['login'], $this->connexion['password'], true);
+        }
+        
+        return $this->idConnexion ? true : false;
+    }
 
-		//$this->connexion=array('server' => $dbHost,'login' => $dbLogin,'password' => $dbPass,'base' => $mainDbName);
+    function sqlClose()
+    {
+        if ($this->idConnexion)
+        {
+            mysql_close($this->idConnexion);
+            
+            $this->idConnexion = false;
+            
+            return true;
+        }
+        
+        return false;
+    }
 
-		$this->idConnexion=false;
-	}
+    function sqlQuery($query, $die_on_error = true)
+    {
+        $result = mysql_query($query, $this->idConnexion);
+        
+        if ($die_on_error && ! $result)
+        {
+            $this->sqlClose();
+            
+            exit();
+        }
+        
+        return $result;
+    }
 
-	function sqlConnect()
-	{
-		if(!$this->idConnexion)
-		{
-			$this->idConnexion=@mysql_connect($this->connexion['server'],$this->connexion['login'],$this->connexion['password'],true);
-		}
+    function open($path, $name)
+    {
+        $this->sessionName = $name;
+        
+        return true;
+    }
 
-		return $this->idConnexion?true:false;
-	}
+    function close()
+    {
+        return $this->garbage(0) ? true : false;
+    }
 
-	function sqlClose()
-	{
-		if($this->idConnexion)
-		{
-			mysql_close($this->idConnexion);
+    function read($sess_id)
+    {
+        if ($this->sqlConnect())
+        {
+            $result = $this->sqlQuery("SELECT sess_value FROM " . $this->connexion['base'] . ".session WHERE sess_id='$sess_id'");
+            
+            if ($row = mysql_fetch_assoc($result))
+            {
+                return $row['sess_value'];
+            }
+        }
+        
+        return '';
+    }
 
-			$this->idConnexion=false;
+    function write($sess_id, $sess_value)
+    {
+        $time = time();
+        
+        if ($this->sqlConnect())
+        {
+            $result = $this->sqlQuery("INSERT INTO " . $this->connexion['base'] . ".session(sess_id,sess_name,sess_time,sess_start,sess_value) VALUES('$sess_id','" . $this->sessionName . "','$time','$time','" . addslashes($sess_value) . "')", false);
+            
+            if (! $result)
+            {
+                $this->sqlQuery("UPDATE " . $this->connexion['base'] . ".session SET sess_name='" . $this->sessionName . "',sess_time='$time',sess_value='" . addslashes($sess_value) . "' WHERE sess_id='$sess_id'");
+            }
+            
+            return true;
+        }
+        
+        return false;
+    }
 
-			return true;
-		}
+    function destroy($sess_id)
+    {
+        if ($this->sqlConnect())
+        {
+            $this->sqlQuery("DELETE FROM " . $this->connexion['base'] . ".session WHERE sess_id='$sess_id'");
+            
+            return true;
+        }
+        
+        return false;
+    }
 
-		return false;
-	}
-
-	function sqlQuery($query,$die_on_error=true)
-	{
-		$result=mysql_query($query,$this->idConnexion);
-
-		if($die_on_error && !$result)
-		{
-			$this->sqlClose();
-
-			exit();
-		}
-
-		return $result;
-	}
-
-	function open($path,$name)
-	{
-		$this->sessionName=$name;
-
-		return true;
-	}
-
-	function close()
-	{
-		return $this->garbage(0)?true:false;
-	}
-
-	function read($sess_id)
-	{
-		if($this->sqlConnect())
-		{
-			$result=$this->sqlQuery("SELECT sess_value FROM ".$this->connexion['base'].".session WHERE sess_id='$sess_id'");
-
-			if($row=mysql_fetch_assoc($result))
-			{
-				return $row['sess_value'];
-			}
-		}
-
-		return '';
-	}
-
-	function write($sess_id,$sess_value)
-	{
-		$time=time();
-
-		if($this->sqlConnect())
-		{
-			$result=$this->sqlQuery("INSERT INTO ".$this->connexion['base'].".session(sess_id,sess_name,sess_time,sess_start,sess_value) VALUES('$sess_id','".$this->sessionName."','$time','$time','".addslashes($sess_value)."')",false);
-
-			if(!$result)
-			{
-				$this->sqlQuery("UPDATE ".$this->connexion['base'].".session SET sess_name='".$this->sessionName."',sess_time='$time',sess_value='".addslashes($sess_value)."' WHERE sess_id='$sess_id'");
-			}
-
-			return true;
-		}
-
-		return false;
-	}
-
-	function destroy($sess_id)
-	{
-		if($this->sqlConnect())
-		{
-			$this->sqlQuery("DELETE FROM ".$this->connexion['base'].".session WHERE sess_id='$sess_id'");
-
-			return true;
-		}
-
-		return false;
-	}
-
-	function garbage($lifetime)
-	{
-		if($this->sqlConnect())
-		{
-			$result=$this->sqlQuery("SELECT COUNT(sess_id) FROM ".$this->connexion['base'].".session");
-
-			list($nbr_results)=mysql_fetch_row($result);
-
-			if($nbr_results > 5000)
-			{
-				$this->sqlQuery("DELETE FROM ".$this->connexion['base'].".session WHERE sess_time<'".strtotime('-'.$this->lifetime.' minutes')."'");
-			}
-
-			$this->sqlClose();
-
-			return true;
-		}
-
-		return false;
-	}
-};
+    function garbage($lifetime)
+    {
+        if ($this->sqlConnect())
+        {
+            $result = $this->sqlQuery("SELECT COUNT(sess_id) FROM " . $this->connexion['base'] . ".session");
+            
+            list($nbr_results) = mysql_fetch_row($result);
+            
+            if ($nbr_results > 5000)
+            {
+                $this->sqlQuery("DELETE FROM " . $this->connexion['base'] . ".session WHERE sess_time<'" . strtotime('-' . $this->lifetime . ' minutes') . "'");
+            }
+            
+            $this->sqlClose();
+            
+            return true;
+        }
+        
+        return false;
+    }
+}
+;
 ?>

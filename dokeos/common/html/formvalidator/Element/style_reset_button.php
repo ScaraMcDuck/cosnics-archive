@@ -39,7 +39,9 @@ require_once 'style_button.php';
  */
 class HTML_QuickForm_styleresetbutton extends HTML_QuickForm_stylebutton
 {
+
     // {{{ constructor
+    
 
     /**
      * Class constructor
@@ -51,15 +53,17 @@ class HTML_QuickForm_styleresetbutton extends HTML_QuickForm_stylebutton
      * @access    public
      * @return    void
      */
-    function HTML_QuickForm_styleresetbutton($elementName=null, $value=null, $attributes=null)
+    function HTML_QuickForm_styleresetbutton($elementName = null, $value = null, $attributes = null)
     {
-        HTML_QuickForm_stylebutton::HTML_QuickForm_stylebutton($elementName, null, $attributes, $value);
+        HTML_QuickForm_stylebutton :: HTML_QuickForm_stylebutton($elementName, null, $attributes, $value);
         $this->setValue($value);
         $this->setType('reset');
     } //end constructor
+
     
     // }}}
     // {{{ freeze()
+    
 
     /**
      * Freeze the element so that only its value is returned
@@ -72,18 +76,20 @@ class HTML_QuickForm_styleresetbutton extends HTML_QuickForm_stylebutton
         return false;
     } //end func freeze
 
+    
     // }}}
     // {{{ exportValue()
+    
 
-   /**
-    * Only return the value if it is found within $submitValues (i.e. if
-    * this particular submit button was clicked)
-    */
+    /**
+     * Only return the value if it is found within $submitValues (i.e. if
+     * this particular submit button was clicked)
+     */
     function exportValue(&$submitValues, $assoc = false)
     {
         return $this->_prepareValue($this->_findValue($submitValues), $assoc);
     }
-
-    // }}}
+    
+// }}}
 } //end class HTML_QuickForm_submit
 ?>

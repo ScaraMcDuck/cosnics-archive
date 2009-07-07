@@ -32,69 +32,75 @@ $DaysLong = array(Translation :: get("SundayLong"), Translation :: get("MondayLo
 // Defining the months of the year to allow translation of the months
 $MonthsLong = array(Translation :: get("JanuaryLong"), Translation :: get("FebruaryLong"), Translation :: get("MarchLong"), Translation :: get("AprilLong"), Translation :: get("MayLong"), Translation :: get("JuneLong"), Translation :: get("JulyLong"), Translation :: get("AugustLong"), Translation :: get("SeptemberLong"), Translation :: get("OctoberLong"), Translation :: get("NovemberLong"), Translation :: get("DecemberLong"));
 
-
 $iso_lang = AdminDataManager :: get_instance()->retrieve_language_from_english_name($language_interface)->get_isocode();
-if(empty($document_language))
+if (empty($document_language))
 {
-  //if there was no valid iso-code, use the english one
-  $iso_lang = 'en';
+    //if there was no valid iso-code, use the english one
+    $iso_lang = 'en';
 }
 ?>
 <!DOCTYPE html
      PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $iso_lang; ?>" lang="<?php echo $iso_lang; ?>">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xml:lang="<?php
+echo $iso_lang;
+?>" lang="<?php
+echo $iso_lang;
+?>">
 <head>
 <title>Calendar</title>
-<link rel="stylesheet" type="text/css" href="<?php echo Path :: get(WEB_CODE_PATH); ?>/css/default.css"/>
+<link rel="stylesheet" type="text/css"
+	href="<?php
+echo Path :: get(WEB_CODE_PATH);
+?>/css/default.css" />
 <style type="text/css">
 /*<![CDATA[*/
-table.calendar
-{
+table.calendar {
 	width: 100%;
 	font-size: 11px;
 	font-family: verdana, arial, helvetica, sans-serif;
 }
-table.calendar .monthyear
-{
+
+table.calendar .monthyear {
 	background-color: #4171B5;
 	text-align: center;
 	color: #ffffff;
 }
-table.calendar .daynames
-{
+
+table.calendar .daynames {
 	background-color: #D3DFF1;
 	text-align: center;
 }
-table.calendar td
-{
+
+table.calendar td {
 	width: 25px;
 	height: 25px;
 	background-color: #f5f5f5;
 	text-align: center;
 }
-table.calendar td.selected
-{
+
+table.calendar td.selected {
 	border: 1px solid #ff0000;
 	background-color: #FFCECE;
 }
-table.calendar td a
-{
+
+table.calendar td a {
 	width: 25px;
 	height: 25px;
 	text-decoration: none;
 }
-table.calendar td a:hover
-{
+
+table.calendar td a:hover {
 	background-color: #ffff00;
 }
-table.calendar .monthyear a
-{
+
+table.calendar .monthyear a {
 	text-align: center;
 	color: #ffffff;
 }
-table.calendar .monthyear a:hover
-{
+
+table.calendar .monthyear a:hover {
 	text-align: center;
 	color: #ff0000;
 	background-color: #ffff00;
@@ -138,17 +144,17 @@ table.calendar .monthyear a:hover
 /* <![CDATA[ */
 var month_names = new Array(
 <?php
-foreach($MonthsLong as $index => $month)
+foreach ($MonthsLong as $index => $month)
 {
-	echo '"'.$month.'",';
+    echo '"' . $month . '",';
 }
 ?>
 "");
 var day_names = new Array(
 <?php
-foreach($DaysShort as $index => $day)
+foreach ($DaysShort as $index => $day)
 {
-	echo '"'.$day.'",';
+    echo '"' . $day . '",';
 }
 ?>
 "");
