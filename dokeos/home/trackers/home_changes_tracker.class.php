@@ -13,12 +13,12 @@ class HomeChangesTracker extends DefaultTracker
 {
     const CLASS_NAME = __CLASS__;
 
-	/**
-	 * Constructor sets the default values
-	 */
+    /**
+     * Constructor sets the default values
+     */
     function HomeChangesTracker()
     {
-    	parent :: MainTracker('home_changes');
+        parent :: MainTracker('home_changes');
     }
 
     /**
@@ -27,16 +27,16 @@ class HomeChangesTracker extends DefaultTracker
      */
     function track($parameters = array())
     {
-    	$target = $parameters['target_id'];
-    	$action_user = $parameters['action_user_id'];
-    	$action = $parameters['event'];
-
-    	$this->set_user_id($action_user);
-    	$this->set_reference_id($target);
-    	$this->set_action($action);
-    	$this->set_date(time());
-
-    	$this->create();
+        $target = $parameters['target_id'];
+        $action_user = $parameters['action_user_id'];
+        $action = $parameters['event'];
+        
+        $this->set_user_id($action_user);
+        $this->set_reference_id($target);
+        $this->set_action($action);
+        $this->set_date(time());
+        
+        $this->create();
     }
 
     /**
@@ -45,8 +45,8 @@ class HomeChangesTracker extends DefaultTracker
      */
     function empty_tracker($event)
     {
-    	$condition = new EqualityCondition('action', $event->get_name());
-    	return $this->remove($condition);
+        $condition = new EqualityCondition('action', $event->get_name());
+        return $this->remove($condition);
     }
 
     /**
@@ -54,9 +54,9 @@ class HomeChangesTracker extends DefaultTracker
      */
     function export($start_date, $end_date, $event)
     {
-    	$conditions = array();
-    	$conditions[] = new EqualityCondition('action', $event->get_name());
-    	return parent :: export($start_date, $end_date, $conditions);
+        $conditions = array();
+        $conditions[] = new EqualityCondition('action', $event->get_name());
+        return parent :: export($start_date, $end_date, $conditions);
     }
 
     /**
@@ -65,12 +65,12 @@ class HomeChangesTracker extends DefaultTracker
      */
     function is_summary_tracker()
     {
-    	return false;
+        return false;
     }
 
-	static function get_table_name()
-	{
-		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
-	}
+    static function get_table_name()
+    {
+        return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+    }
 }
 ?>

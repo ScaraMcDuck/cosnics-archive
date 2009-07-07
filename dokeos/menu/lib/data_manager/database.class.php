@@ -92,9 +92,6 @@ class DatabaseMenuDataManager extends MenuDataManager
 
     function update_navigation_item($navigation_item)
     {
-        $condition = new EqualityCondition(NavigationItem :: PROPERTY_ID, $navigation_item->get_id());
-        $this->database->update($navigation_item, $condition);
-
         $old_navigation_item = $this->retrieve_navigation_item($navigation_item->get_id());
 
         if ($old_navigation_item->get_category() !== $navigation_item->get_category())
@@ -105,6 +102,7 @@ class DatabaseMenuDataManager extends MenuDataManager
             $navigation_item->set_sort($sort + 1);
         }
 
+        $condition = new EqualityCondition(NavigationItem :: PROPERTY_ID, $navigation_item->get_id());
         $this->database->update($navigation_item, $condition);
 
         if ($old_navigation_item->get_category() !== $navigation_item->get_category())
