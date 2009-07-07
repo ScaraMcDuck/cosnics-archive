@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<packages>
+	<package>
+		<name>Distribute</name>
+		<code>distribute</code>
+		<section>application</section>
+		<author></author>
+		<version>1.0.0</version>
+		<filename>pool/main/applications/d/distribute/distribute-1.0.0.zip</filename>
+		<size></size>
+		<md5></md5>
+		<sha1></sha1>
+		<sha256></sha256>
+		<sha512></sha512>
+		<tagline></tagline>
+		<description></description>
+		<homepage></homepage>
+		<dependencies>
+			<server>
+				<dependency>
+					<id>php</id>
+					<version type="4">5.2.0</version>
+					<severity>1</severity>
+				</dependency>
+			</server>
+			<learning_objects>
+				<dependency>
+		  			<id>announcement</id>
+		  			<version type="4">1.0.0</version>
+		  			<severity>1</severity>
+				</dependency>
+			</learning_objects>
+		</dependencies>
+	</package>

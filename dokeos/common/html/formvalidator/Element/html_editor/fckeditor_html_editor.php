@@ -4,6 +4,11 @@ require_once Path :: get_plugin_path() . 'html_editor/fckeditor/fckeditor.php';
 
 class HTML_QuickForm_fckeditor_html_editor extends HTML_QuickForm_html_editor
 {
+    function HTML_QuickForm_fckeditor_html_editor($elementName = null, $elementLabel = null, $attributes = null, $options = array())
+    {
+        parent :: __construct($elementName, $elementLabel, $attributes, $options);
+    }
+
 	function set_type()
 	{
 		$this->_type = 'fckeditor_html_editor';

@@ -3,11 +3,16 @@ require_once Path :: get_library_path() . 'html/formvalidator/Element/html_edito
 
 class HTML_QuickForm_tinymce_html_editor extends HTML_QuickForm_html_editor
 {
+    function HTML_QuickForm_tinymce_html_editor($elementName = null, $elementLabel = null, $attributes = null, $options = array())
+    {
+        parent :: __construct($elementName, $elementLabel, $attributes, $options);
+    }
+
 	function set_type()
 	{
 		$this->_type = 'tinymce_html_editor';
 	}
-	
+
 	/**
 	 * Check if the browser supports FCKeditor
 	 *
@@ -18,7 +23,7 @@ class HTML_QuickForm_tinymce_html_editor extends HTML_QuickForm_html_editor
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Build this element using FCKeditor
 	 */
@@ -29,7 +34,7 @@ class HTML_QuickForm_tinymce_html_editor extends HTML_QuickForm_html_editor
 		{
 			return $this->render_textarea();
 		}
-	
+
 		$adm = AdminDataManager :: get_instance();
 		$editor_lang = $adm->retrieve_language_from_english_name($language_interface)->get_isocode();
 		$language_file = Path :: get_plugin_path().'fckeditor/editor/lang/'.$editor_lang.'.js';
@@ -38,7 +43,7 @@ class HTML_QuickForm_tinymce_html_editor extends HTML_QuickForm_html_editor
 			//if there was no valid iso-code, use the english one
 			$editor_lang = 'en';
 		}
-		
+
 		$name = $this->getAttribute('name');
 		$result []= ResourceManager :: get_instance()->get_resource_html(Path :: get(WEB_PLUGIN_PATH).'html_editor/tinymce/tiny_mce.js');
 		$result []= '<script type="text/javascript">';
