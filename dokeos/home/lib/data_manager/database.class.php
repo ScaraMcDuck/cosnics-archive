@@ -254,13 +254,12 @@ class DatabaseHomeDataManager extends HomeDataManager
 
     function update_home_block_config($home_block_config)
     {
-        $where = $this->escape_column_name(HomeBlockConfig :: PROPERTY_BLOCK_ID) . '=' . $home_block_config->get_block_id() . ' AND ' . $this->escape_column_name(HomeBlockConfig :: PROPERTY_VARIABLE) . '= "' . $home_block_config->get_variable() . '"';
-        $props = array();
-        $props[HomeBlockConfig :: PROPERTY_VALUE] = $home_block_config->get_value();
+        $conditions = array();
+        $conditions[] = new EqualityCondition(HomeBlockConfig :: PROPERTY_BLOCK_ID, $home_block_config->get_block_id());
+        $conditions[] = new EqualityCondition(HomeBlockConfig :: PROPERTY_VARIABLE, $home_block_config->get_variable());
+        $condition = new AndCondition($conditions);
 
-        $this->connection->loadModule('Extended');
-        $this->connection->extended->autoExecute($this->get_table_name('block_config'), $props, MDB2_AUTOQUERY_UPDATE, $where);
-        return true;
+        return $this->database->update($home_block_config, $condition);
     }
 
     function update_home_row($home_row)
@@ -321,74 +320,81 @@ class DatabaseHomeDataManager extends HomeDataManager
 
     function retrieve_home_block_at_sort($parent, $sort, $direction)
     {
-        $query = 'SELECT * FROM ' . $this->escape_table_name('block') . ' WHERE ' . $this->escape_column_name(HomeBlock :: PROPERTY_COLUMN) . '=?';
+        $conditions = array();
+        $conditions[] = new EqualityCondition(HomeBlock :: PROPERTY_COLUMN, $parent);
+
         if ($direction == 'up')
         {
-            $query .= ' AND ' . $this->escape_column_name(HomeBlock :: PROPERTY_SORT) . '<? ORDER BY ' . $this->escape_column_name(HomeBlock :: PROPERTY_SORT) . 'DESC';
+            $conditions[] = new InequalityCondition(HomeBlock :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
+            $order_direction = array(SORT_DESC);
         }
         elseif ($direction == 'down')
         {
-            $query .= ' AND ' . $this->escape_column_name(HomeBlock :: PROPERTY_SORT) . '>? ORDER BY ' . $this->escape_column_name(HomeBlock :: PROPERTY_SORT) . 'ASC';
+            $conditions[] = new InequalityCondition(HomeBlock :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
+            $order_direction = array(SORT_ASC);
         }
-        $res = $this->limitQuery($query, 1, null, array($parent, $sort));
-        $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-        return $this->record_to_home_block($record);
+
+        $condition = new AndCondition($conditions);
+
+        return $this->database->retrieve_object(HomeBlock :: get_table_name(), $condition, array(HomeBlock :: PROPERTY_SORT), $order_direction);
     }
 
     function retrieve_home_column_at_sort($parent, $sort, $direction)
     {
-        $query = 'SELECT * FROM ' . $this->escape_table_name('column') . ' WHERE ' . $this->escape_column_name(HomeColumn :: PROPERTY_ROW) . '=?';
+        $conditions = array();
+        $conditions[] = new EqualityCondition(HomeColumn :: PROPERTY_ROW, $parent);
+
         if ($direction == 'up')
         {
-            $query .= ' AND ' . $this->escape_column_name(HomeColumn :: PROPERTY_SORT) . '<? ORDER BY ' . $this->escape_column_name(HomeColumn :: PROPERTY_SORT) . 'DESC';
+            $conditions[] = new InequalityCondition(HomeColumn :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
+            $order_direction = array(SORT_DESC);
         }
         elseif ($direction == 'down')
         {
-            $query .= ' AND ' . $this->escape_column_name(HomeColumn :: PROPERTY_SORT) . '>? ORDER BY ' . $this->escape_column_name(HomeColumn :: PROPERTY_SORT) . 'ASC';
+            $conditions[] = new InequalityCondition(HomeColumn :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
+            $order_direction = array(SORT_ASC);
         }
-        $res = $this->limitQuery($query, 1, null, array($parent, $sort));
-        $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-        return $this->record_to_home_column($record);
+
+        $condition = new AndCondition($conditions);
+
+        return $this->database->retrieve_object(HomeColumn :: get_table_name(), $condition, array(HomeColumn :: PROPERTY_SORT), $order_direction);
     }
 
-    function retrieve_home_row_at_sort($sort, $direction)
+    function retrieve_home_row_at_sort($parent, $sort, $direction)
     {
-        $query = 'SELECT * FROM ' . $this->escape_table_name('row') . ' WHERE ';
+        $conditions = array();
+        $conditions[] = new EqualityCondition(HomeRow :: PROPERTY_TAB, $parent);
+
         if ($direction == 'up')
         {
-            $query .= $this->escape_column_name(HomeRow :: PROPERTY_SORT) . '<? ORDER BY ' . $this->escape_column_name(HomeRow :: PROPERTY_SORT) . 'DESC';
+            $conditions[] = new InequalityCondition(HomeRow :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
+            $order_direction = array(SORT_DESC);
         }
         elseif ($direction == 'down')
         {
-            $query .= $this->escape_column_name(HomeRow :: PROPERTY_SORT) . '>? ORDER BY ' . $this->escape_column_name(HomeRow :: PROPERTY_SORT) . 'ASC';
+            $conditions[] = new InequalityCondition(HomeRow :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
+            $order_direction = array(SORT_ASC);
         }
-        $res = $this->limitQuery($query, 1, null, array($sort));
-        $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-        return $this->record_to_home_row($record);
+
+        $condition = new AndCondition($conditions);
+
+        return $this->database->retrieve_object(HomeRow :: get_table_name(), $condition, array(HomeRow :: PROPERTY_SORT), $order_direction);
     }
 
     function retrieve_home_tab_at_sort($sort, $direction)
     {
-        $query = 'SELECT * FROM ' . $this->escape_table_name('tab') . ' WHERE ';
         if ($direction == 'up')
         {
-            $query .= $this->escape_column_name(HomeTab :: PROPERTY_SORT) . '<? ORDER BY ' . $this->escape_column_name(HomeTab :: PROPERTY_SORT) . 'DESC';
+            $condition = new InequalityCondition(HomeTab :: PROPERTY_SORT, InequalityCondition :: LESS_THAN, $sort);
+            $order_direction = array(SORT_DESC);
         }
         elseif ($direction == 'down')
         {
-            $query .= $this->escape_column_name(HomeTab :: PROPERTY_SORT) . '>? ORDER BY ' . $this->escape_column_name(HomeTab :: PROPERTY_SORT) . 'ASC';
+            $condition = new InequalityCondition(HomeTab :: PROPERTY_SORT, InequalityCondition :: GREATER_THAN, $sort);
+            $order_direction = array(SORT_ASC);
         }
-        $res = $this->limitQuery($query, 1, null, array($sort));
-        $record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
-        return $this->record_to_home_tab($record);
-    }
 
-    private function limitQuery($query, $limit, $offset, $params, $is_manip = false)
-    {
-        $this->connection->setLimit($limit, $offset);
-        $statement = $this->connection->prepare($query, null, ($is_manip ? MDB2_PREPARE_MANIP : null));
-        $res = $statement->execute($params);
-        return $res;
+        return $this->database->retrieve_object(HomeTab :: get_table_name(), $condition, array(HomeTab :: PROPERTY_SORT), $order_direction);
     }
 
     function delete_home_row($home_row)

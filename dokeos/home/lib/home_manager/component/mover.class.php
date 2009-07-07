@@ -16,7 +16,7 @@ class HomeManagerMoverComponent extends HomeManagerComponent
     function run()
     {
         Header :: set_section('admin');
-        
+
         $id = Request :: get(HomeManager :: PARAM_HOME_ID);
         $type = Request :: get(HomeManager :: PARAM_HOME_TYPE);
         $direction = Request :: get(HomeManager :: PARAM_DIRECTION);
@@ -26,7 +26,7 @@ class HomeManagerMoverComponent extends HomeManagerComponent
         $trail->add(new Breadcrumb($this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME)), Translation :: get('HomeManager')));
         $trail->add(new Breadcrumb($this->get_url(), Translation :: get('HomeMover')));
         $trail->add_help('home general');
-        
+
         if (! $this->get_user()->is_platform_admin())
         {
             $this->display_header($trail);
@@ -34,7 +34,7 @@ class HomeManagerMoverComponent extends HomeManagerComponent
             $this->display_footer();
             exit();
         }
-        
+
         if ($id && $type)
         {
             $url = $this->get_url(array(Application :: PARAM_ACTION => HomeManager :: ACTION_EDIT_HOME, HomeManager :: PARAM_HOME_TYPE => $type, HomeManager :: PARAM_HOME_ID => $id));
@@ -53,10 +53,10 @@ class HomeManagerMoverComponent extends HomeManagerComponent
                 case HomeManager :: TYPE_ROW :
                     $move_home = $this->retrieve_home_row($id);
                     $sort = $move_home->get_sort();
-                    $next_home = $this->retrieve_home_row_at_sort($sort, $direction);
+                    $next_home = $this->retrieve_home_row_at_sort($move_home->get_tab(), $sort, $direction);
                     break;
             }
-            
+
             if ($direction == 'up')
             {
                 $move_home->set_sort($sort - 1);
@@ -67,7 +67,7 @@ class HomeManagerMoverComponent extends HomeManagerComponent
                 $move_home->set_sort($sort + 1);
                 $next_home->set_sort($sort);
             }
-            
+
             if ($move_home->update() && $next_home->update())
             {
                 $success = true;
@@ -76,7 +76,7 @@ class HomeManagerMoverComponent extends HomeManagerComponent
             {
                 $success = false;
             }
-            
+
             $this->redirect(Translation :: get($success ? 'HomeMoved' : 'HomeNotMoved'), ($success ? false : true), array(Application :: PARAM_ACTION => HomeManager :: ACTION_MANAGE_HOME));
         }
         else

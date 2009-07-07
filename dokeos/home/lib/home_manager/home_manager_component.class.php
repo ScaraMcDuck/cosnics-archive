@@ -177,9 +177,9 @@ abstract class HomeManagerComponent extends CoreApplicationComponent
         return $this->get_parent()->retrieve_home_column_at_sort($parent, $sort, $direction);
     }
 
-    function retrieve_home_row_at_sort($sort, $direction)
+    function retrieve_home_row_at_sort($parent, $sort, $direction)
     {
-        return $this->get_parent()->retrieve_home_row_at_sort($sort, $direction);
+        return $this->get_parent()->retrieve_home_row_at_sort($parent, $sort, $direction);
     }
 
     function retrieve_home_tab_at_sort($sort, $direction)

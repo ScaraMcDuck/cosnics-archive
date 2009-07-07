@@ -23,12 +23,12 @@ require_once dirname(__FILE__) . '/../../../common/condition/pattern_match_condi
 class HomeManager extends CoreApplication
 {
     const APPLICATION_NAME = 'home';
-    
+
     const PARAM_HOME_ID = 'id';
     const PARAM_HOME_TYPE = 'type';
     const PARAM_DIRECTION = 'direction';
     const PARAM_TAB_ID = 'tab';
-    
+
     const ACTION_VIEW_HOME = 'home';
     const ACTION_BUILD_HOME = 'build';
     const ACTION_MANAGE_HOME = 'manage';
@@ -37,11 +37,11 @@ class HomeManager extends CoreApplication
     const ACTION_MOVE_HOME = 'move';
     const ACTION_CREATE_HOME = 'create';
     const ACTION_CONFIGURE_HOME = 'configure';
-    
+
     const TYPE_BLOCK = 'block';
     const TYPE_COLUMN = 'column';
     const TYPE_ROW = 'row';
-    
+
     private $parameters;
     private $user;
     private $breadcrumbs;
@@ -176,7 +176,7 @@ class HomeManager extends CoreApplication
         $links[] = array('name' => Translation :: get('Build'), 'description' => Translation :: get('BuildDescription'), 'action' => 'build', 'url' => $this->get_link(array(Application :: PARAM_ACTION => HomeManager :: ACTION_BUILD_HOME)));
         $info = parent :: get_application_platform_admin_links();
         $info['links'] = $links;
-        
+
         return $info;
     }
 
@@ -262,10 +262,10 @@ class HomeManager extends CoreApplication
         return $hdm->retrieve_home_column_at_sort($parent, $sort, $direction);
     }
 
-    function retrieve_home_row_at_sort($sort, $direction)
+    function retrieve_home_row_at_sort($parent, $sort, $direction)
     {
         $hdm = HomeDataManager :: get_instance();
-        return $hdm->retrieve_home_row_at_sort($sort, $direction);
+        return $hdm->retrieve_home_row_at_sort($parent, $sort, $direction);
     }
 
     function retrieve_home_tab_at_sort($sort, $direction)
