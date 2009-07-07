@@ -19,13 +19,13 @@ require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 class CalendarEventPublication
 {
 	const CLASS_NAME = __CLASS__;
+	const TABLE_NAME = 'publication';
 	
 	const PROPERTY_ID = 'id';
 	const PROPERTY_CALENDAR_EVENT = 'calendar_event';
 	const PROPERTY_PUBLISHER = 'publisher';
 	const PROPERTY_PUBLISHED = 'published';
 
-	private $id;
 	private $defaultProperties;
 
 	private $target_groups;
@@ -38,9 +38,8 @@ class CalendarEventPublication
 	 * @param array $defaultProperties The default properties of the CalendarEventPublication
 	 *                                 object. Associative array.
 	 */
-	function CalendarEventPublication($id = 0, $defaultProperties = array ())
+	function CalendarEventPublication($defaultProperties = array ())
 	{
-		$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
 	}
 
@@ -60,6 +59,11 @@ class CalendarEventPublication
 	function get_default_properties()
 	{
 		return $this->defaultProperties;
+	}
+	
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
 	}
 
 	/**
@@ -99,7 +103,7 @@ class CalendarEventPublication
 	 */
 	function get_id()
 	{
-		return $this->id;
+		return $this->get_default_property(self :: PROPERTY_ID);
 	}
 
 	/**
@@ -135,7 +139,7 @@ class CalendarEventPublication
 	 */
 	function set_id($id)
 	{
-		$this->id = $id;
+		$this->set_default_property(self :: PROPERTY_ID, $id);
 	}
 
 	/**
@@ -256,7 +260,7 @@ class CalendarEventPublication
 	
 	static function get_table_name()
 	{
-		return DokeosUtilities :: camelcase_to_underscores(self :: CLASS_NAME);
+		return self :: TABLE_NAME;
 	}
 }
 ?>
