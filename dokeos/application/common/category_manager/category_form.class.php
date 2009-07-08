@@ -76,7 +76,8 @@ class CategoryForm extends FormValidator {
      * Creates a new basic form
      */
     function build_creation_form()
-    {	
+    {
+     
     	if(!$this->isSubmitted())
 		{
 			unset($_SESSION['mc_number_of_options']);

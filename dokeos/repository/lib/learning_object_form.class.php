@@ -599,6 +599,7 @@ EOT;
 	static function factory($form_type, $learning_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements)
 	{
 		$type = $learning_object->get_type();
+        
 		$class = LearningObject :: type_to_class($type).'Form';
 		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_form.class.php';
 		return new $class ($form_type, $learning_object, $form_name, $method, $action, $extra, $additional_elements);
