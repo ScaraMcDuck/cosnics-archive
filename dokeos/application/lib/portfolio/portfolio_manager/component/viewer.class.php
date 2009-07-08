@@ -61,7 +61,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 			$this->action_bar = $this->get_action_bar();
 			echo $this->action_bar->as_html();
 			
-			$actions = array('view');
+			$actions = array('view', 'feedback');
 			
 			if($pid && !$cid)
 			{
@@ -132,6 +132,15 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 		{
 			$html[] = Translation :: get('PortfolioIntroduction');
 		}
+		
+		return implode("\n", $html);
+	}
+	
+	function display_feedback_page()
+	{
+		$html = array();
+
+		echo('Pieter you have to do your feedback list here');
 		
 		return implode("\n", $html);
 	}
