@@ -37,6 +37,10 @@ class PortfolioBrowserTableCellRenderer extends ComplexBrowserTableCellRenderer
 				$ref_lo = $this->lpi_ref_object;
 			}
 		}
+		else 
+		{
+			$ref_lo = $lo;
+		}
 
 		switch ($column->get_title())
 		{

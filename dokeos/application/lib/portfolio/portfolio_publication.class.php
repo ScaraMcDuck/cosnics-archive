@@ -246,6 +246,11 @@ class PortfolioPublication
 		
 		return $this->target_users;
 	}
+	
+	function is_visible_for_target_user($user_id)
+	{
+		return true;
+	}
 
 	function delete()
 	{

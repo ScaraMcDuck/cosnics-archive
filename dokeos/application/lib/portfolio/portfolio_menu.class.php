@@ -1,3 +1,187 @@
 <?php
+/**
+ * @package application.lib.profiler
+ */
+require_once 'HTML/Menu.php';
+require_once 'HTML/Menu/ArrayRenderer.php';
+require_once Path :: get_library_path() . 'html/menu/tree_menu_renderer.class.php';
 
-?>
+/**
+ * This class provides a navigation menu to allow a user to browse through portfolio publications
+ * @author Sven Vanpoucke
+ */
+class PortfolioMenu extends HTML_Menu
+{
+    /**
+     * The string passed to sprintf() to format category URLs
+     */
+    private $urlFmt;
+    
+    /**
+     * The array renderer used to determine the breadcrumbs.
+     */
+    private $array_renderer;
+    
+    private $user;
+    
+    /**
+     * Creates a new category navigation menu.
+     * @param int $owner The ID of the owner of the categories to provide in
+     * this menu.
+     * @param int $current_category The ID of the current category in the menu.
+     * @param string $url_format The format to use for the URL of a category.
+     *                           Passed to sprintf(). Defaults to the string
+     *                           "?category=%s".
+     * @param array $extra_items An array of extra tree items, added to the
+     *                           root.
+     */
+    function PortfolioMenu($user, $url_format, $pid, $cid)
+    {
+        $this->urlFmt = $url_format;
+        $this->user = $user;
+        
+        $menu = $this->get_menu();
+        parent :: __construct($menu);
+        $this->array_renderer = new HTML_Menu_ArrayRenderer();
+        
+        if(!$pid && !$cid)
+        {
+        	$this->forceCurrentUrl($this->get_root_url());
+        }
+        elseif(!$cid && $pid)
+        {
+        	$this->forceCurrentUrl($this->get_publication_url($pid));
+        }
+        else 
+        {
+        	$this->forceCurrentUrl($this->get_sub_item_url($pid, $cid));
+        }
+        
+    }
+    
+    /**
+     * Returns the menu items.
+     * @param array $extra_items An array of extra tree items, added to the
+     *                           root.
+     * @return array An array with all menu items. The structure of this array
+     *               is the structure needed by PEAR::HTML_Menu, on which this
+     *               class is based.
+     */
+    private function get_menu()
+    {
+        $menu = array();
+
+        $users = array ();
+        $users['title'] = Translation :: get('MyPortfolio');
+        $users['url'] = $this->get_root_url();
+        $users['class'] = 'home';
+        $users['sub'] = $this->get_publications();
+        $menu[] = $users;
+
+        return $menu;
+    }
+    
+    private function get_publications()
+    {
+    	$menu = array();
+    	
+    	$pdm = PortfolioDataManager :: get_instance();
+    	$rdm = RepositoryDataManager :: get_instance();
+    	
+    	$publications = $pdm->retrieve_portfolio_publications();
+    	while($publication = $publications->next_result())
+    	{
+    		if($publication->is_visible_for_target_user($this->user->get_id()))
+    		{
+    			$lo = $rdm->retrieve_learning_object($publication->get_learning_object());
+    			
+    			$pub = array ();
+		        $pub['title'] = $lo->get_title();
+		        $pub['url'] = $this->get_publication_url($publication->get_id());
+		        $pub['class'] = 'portfolio';
+		        $pub['sub'] = $this->get_portfolio_items($publication->get_learning_object(), $publication->get_id());
+		        $menu[] = $pub;
+    		}
+    	}
+    	
+    	return $menu;
+    }
+    
+    private function get_portfolio_items($parent, $pub_id)
+    {
+    	$menu = array();
+    	$rdm = RepositoryDataManager :: get_instance();
+    	
+    	$children = $rdm->retrieve_complex_learning_object_items(new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent));
+    	
+    	while($child = $children->next_result())
+    	{
+    		$lo = $rdm->retrieve_learning_object($child->get_ref());
+    		
+    		$item = array ();
+    		
+    		if($lo->get_type() == 'portfolio_item')
+    		{ 
+    			$lo = $rdm->retrieve_learning_object($lo->get_reference());
+    		}
+    		else
+    		{
+    			 $item['sub'] = $this->get_portfolio_items($child->get_ref(), $pub_id);
+    		}
+    		
+    		
+	        $item['title'] = $lo->get_title();
+	        $item['url'] = $this->get_sub_item_url($pub_id, $child->get_id());
+	        $item['class'] = 'portfolio';
+	       
+	        $menu[] = $item;
+    	}
+    	
+    	return $menu;
+    }
+
+    private function get_publication_url($pid)
+    {
+    	$fmt = str_replace('&cid=%s', '', $this->urlFmt);
+    	return htmlentities(sprintf($fmt, $pid));
+    }
+    
+    private function get_root_url()
+    {
+    	$fmt = str_replace('&cid=%s', '', $this->urlFmt);
+    	$fmt = str_replace('&pid=%s', '', $fmt);
+    	return $fmt;
+    }
+    
+    private function get_sub_item_url($pid, $cid)
+    {
+    	return htmlentities(sprintf($this->urlFmt, $pid, $cid));
+    }
+
+    /**
+     * Get the breadcrumbs which lead to the current category.
+     * @return array The breadcrumbs.
+     */
+    function get_breadcrumbs()
+    {
+        $trail = new BreadcrumbTrail(false);
+        $this->render($this->array_renderer, 'urhere');
+        $breadcrumbs = $this->array_renderer->toArray();
+        foreach ($breadcrumbs as $crumb)
+        {
+            if($crumb['title'] == Translation :: get('MyPortfolio')) continue;
+            $trail->add(new Breadcrumb($crumb['url'], $crumb['title']));
+        }
+        return $trail;
+    }
+    /**
+     * Renders the menu as a tree
+     * @return string The HTML formatted tree
+     */
+    function render_as_tree()
+    {
+        $renderer = new TreeMenuRenderer();
+        $this->render($renderer, 'sitemap');
+        return $renderer->toHTML();
+    }
+}
