@@ -16,10 +16,8 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 
 	const PARAM_PORTFOLIO_PUBLICATION = 'portfolio_publication';
 	const PARAM_USER_ID = 'user_id';
-	const PARAM_DELETE_SELECTED_PORTFOLIO_PUBLICATIONS = 'delete_selected_portfolio_publications';
 
 	const ACTION_DELETE_PORTFOLIO_PUBLICATION = 'delete_portfolio_publication';
-	const ACTION_EDIT_PORTFOLIO_PUBLICATION = 'edit_portfolio_publication';
 	const ACTION_CREATE_PORTFOLIO_PUBLICATION = 'create_portfolio_publication';
 	const ACTION_VIEW_PORTFOLIO = 'view_portfolio';
 	const ACTION_BROWSE = 'browse';
@@ -47,9 +45,6 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 				break;
 			case self :: ACTION_DELETE_PORTFOLIO_PUBLICATION :
 				$component = PortfolioManagerComponent :: factory('PortfolioPublicationDeleter', $this);
-				break;
-			case self :: ACTION_EDIT_PORTFOLIO_PUBLICATION :
-				$component = PortfolioManagerComponent :: factory('PortfolioPublicationUpdater', $this);
 				break;
 			case self :: ACTION_CREATE_PORTFOLIO_PUBLICATION :
 				$component = PortfolioManagerComponent :: factory('PortfolioPublicationCreator', $this);
@@ -122,12 +117,6 @@ require_once dirname(__FILE__).'/../../web_application.class.php';
 	function get_create_portfolio_publication_url()
 	{
 		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_CREATE_PORTFOLIO_PUBLICATION));
-	}
-
-	function get_update_portfolio_publication_url($portfolio_publication)
-	{
-		return $this->get_url(array(self :: PARAM_ACTION => self :: ACTION_EDIT_PORTFOLIO_PUBLICATION,
-								    self :: PARAM_PORTFOLIO_PUBLICATION => $portfolio_publication->get_id()));
 	}
 
  	function get_delete_portfolio_publication_url($portfolio_publication)
