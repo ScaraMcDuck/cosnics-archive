@@ -240,7 +240,7 @@ class PortfolioPublication
 			
 			while($user = $users->next_result())
 			{
-				$this->target_users[] = $user->get_user_id();
+				$this->target_users[] = $user->get_user();
 			}
 		}
 		

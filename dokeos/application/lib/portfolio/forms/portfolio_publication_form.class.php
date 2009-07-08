@@ -45,17 +45,45 @@ class PortfolioPublicationForm extends FormValidator
 		$locale['Error'] = Translation :: get('Error');
 		$attributes['locale'] = $locale;
 		$attributes['exclude'] = array('user_' . $this->user->get_id());
-		$attributes['defaults'] = array();
+		
+		$pub = $this->portfolio_publication;
+		$udm = UserDataManager :: get_instance();
+		$gdm = GroupDataManager :: get_instance();
+		
+		foreach($pub->get_target_users() as $user_id)
+		{
+			$user = $udm->retrieve_user($user_id);
+			$default = array(); 
+			$default['id'] = 'user_' . $user_id;
+        	$default['classes'] = 'type type_user';
+        	$default['title'] = $user->get_fullname();
+        	$default['description'] = $user->get_fullname();
+        
+			$attributes['defaults'][] = $default;
+		}
+		
+   		foreach($pub->get_target_groups() as $group_id)
+		{
+			$group = $gdm->retrieve_group($group_id);
+			$default = array(); 
+			$default['id'] = 'group_' . $group_id;
+        	$default['classes'] = 'type type_group';
+        	$default['title'] = $group->get_name();
+        	$default['description'] = $group->get_name();
+        
+			$attributes['defaults'][] = $default;
+		}
 
 		$this->add_receivers('target', Translation :: get('PublishFor'), $attributes);
 
 		$this->add_forever_or_timewindow();
 		$this->addElement('checkbox', PortfolioPublication :: PROPERTY_HIDDEN, Translation :: get('Hidden'));
-
     }
 
     function build_editing_form()
     {
+    	$pub = $this->portfolio_publication;
+    	
     	$this->build_basic_form();
 
     	$this->addElement('hidden', PortfolioPublication :: PROPERTY_ID);
@@ -64,6 +92,28 @@ class PortfolioPublicationForm extends FormValidator
 		$buttons[] = $this->createElement('style_reset_button', 'reset', Translation :: get('Reset'), array('class' => 'normal empty'));
 
 		$this->addGroup($buttons, 'buttons', null, '&nbsp;', false);
+		
+		$defaults = array();
+        
+        if($pub->get_from_date() == 0 && $pub->get_to_date() == 0)
+        {
+       		$defaults['forever'] = 1;
+        }
+        else 
+        {
+        	$defaults['forever'] = 0;
+        }
+        
+   		if($pub->get_target_groups() == 0 && $pub->get_target_users() == 0)
+        {
+       		$defaults['target_option'] = 0;
+        }
+        else 
+        {
+        	$defaults['target_option'] = 1;
+        }
+        
+        parent :: setDefaults($defaults);
     }
 
     function build_creation_form()
@@ -85,15 +135,23 @@ class PortfolioPublicationForm extends FormValidator
     {
     	$portfolio_publication = $this->portfolio_publication;
     	$values = $this->exportValues();
-
-    	$portfolio_publication->set_id($values[PortfolioPublication :: PROPERTY_ID]);
-    	$portfolio_publication->set_learning_object($values[PortfolioPublication :: PROPERTY_LEARNING_OBJECT]);
-    	$portfolio_publication->set_from_date($values[PortfolioPublication :: PROPERTY_FROM_DATE]);
-    	$portfolio_publication->set_to_date($values[PortfolioPublication :: PROPERTY_TO_DATE]);
-    	$portfolio_publication->set_hidden($values[PortfolioPublication :: PROPERTY_HIDDEN]);
-    	$portfolio_publication->set_publisher($values[PortfolioPublication :: PROPERTY_PUBLISHER]);
-    	$portfolio_publication->set_published($values[PortfolioPublication :: PROPERTY_PUBLISHED]);
-
+    	
+    	if($values['forever'] == 1)
+    	{
+    		$from = $to = 0;
+    	}
+    	else 
+    	{
+    		$from = DokeosUtilities :: time_from_datepicker($values['from_date']);
+    		$to = DokeosUtilities :: time_from_datepicker($values['to_date']);
+    	}
+ 
+	    $portfolio_publication->set_from_date($from);
+	    $portfolio_publication->set_to_date($to);
+	    $portfolio_publication->set_hidden($values[PortfolioPublication :: PROPERTY_HIDDEN]);
+	    $portfolio_publication->set_target_groups($values['target_elements']['group']);
+	    $portfolio_publication->set_target_users($values['target_elements']['user']);
+	    
     	return $portfolio_publication->update();
     }
 
