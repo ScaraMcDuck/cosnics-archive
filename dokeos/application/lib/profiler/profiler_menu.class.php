@@ -23,6 +23,7 @@ class ProfilerMenu extends HTML_Menu
      * The array renderer used to determine the breadcrumbs.
      */
     private $array_renderer;
+
     /**
      * Creates a new category navigation menu.
      * @param int $owner The ID of the owner of the categories to provide in
@@ -42,6 +43,7 @@ class ProfilerMenu extends HTML_Menu
         $this->array_renderer = new HTML_Menu_ArrayRenderer();
         $this->forceCurrentUrl($this->get_category_url($current_category));
     }
+
     /**
      * Returns the menu items.
      * @param array $extra_items An array of extra tree items, added to the
@@ -53,14 +55,14 @@ class ProfilerMenu extends HTML_Menu
     private function get_menu()
     {
         $menu = array();
-
-        $home = array ();
+        
+        $home = array();
         $home['title'] = Translation :: get('Home');
         $home['url'] = $this->get_category_url(0);
         $home['class'] = 'home';
         $home['sub'] = $this->get_menu_items(0);
         $menu[] = $home;
-
+        
         return $menu;
     }
 
@@ -69,8 +71,8 @@ class ProfilerMenu extends HTML_Menu
         $pdm = ProfilerDataManager :: get_instance();
         $condition = new EqualityCondition(ProfilerCategory :: PROPERTY_PARENT, $parent_id);
         $categories = $pdm->retrieve_categories($condition);
-
-        while($category = $categories->next_result())
+        
+        while ($category = $categories->next_result())
         {
             $item['title'] = $category->get_name();
             $item['url'] = $this->get_category_url($category->get_id());
@@ -78,7 +80,7 @@ class ProfilerMenu extends HTML_Menu
             $item['sub'] = $this->get_menu_items($category->get_id());
             $tree[] = $item;
         }
-
+        
         return $tree;
     }
 
@@ -87,7 +89,7 @@ class ProfilerMenu extends HTML_Menu
      * @param int $category The id of the category
      * @return string The requested URL
      */
-    private function get_category_url ($category)
+    private function get_category_url($category)
     {
         // TODO: Put another class in charge of the htmlentities() invocation
         return htmlentities(sprintf($this->urlFmt, $category));
@@ -104,19 +106,21 @@ class ProfilerMenu extends HTML_Menu
         $breadcrumbs = $this->array_renderer->toArray();
         foreach ($breadcrumbs as $crumb)
         {
-            if($crumb['title'] == Translation :: get('Home')) continue;
+            if ($crumb['title'] == Translation :: get('Home'))
+                continue;
             $trail->add(new Breadcrumb($crumb['url'], $crumb['title']));
         }
         return $trail;
-//        $this->render($this->array_renderer, 'urhere');
-//        $breadcrumbs = $this->array_renderer->toArray();
-//        foreach ($breadcrumbs as $crumb)
-//        {
-//            $crumb['name'] = $crumb['title'];
-//            unset($crumb['title']);
-//        }
-//        return $breadcrumbs;
+        //        $this->render($this->array_renderer, 'urhere');
+    //        $breadcrumbs = $this->array_renderer->toArray();
+    //        foreach ($breadcrumbs as $crumb)
+    //        {
+    //            $crumb['name'] = $crumb['title'];
+    //            unset($crumb['title']);
+    //        }
+    //        return $breadcrumbs;
     }
+
     /**
      * Renders the menu as a tree
      * @return string The HTML formatted tree
