@@ -41,6 +41,7 @@ abstract class LearningObjectDisplay
 	 */
 	protected function __construct($learning_object, $url_format = null)
 	{
+        
 		$this->learning_object = $learning_object;
 		if (!isset($url_format))
 		{
@@ -332,6 +333,7 @@ abstract class LearningObjectDisplay
 	static function factory(&$object)
 	{
 		$type = $object->get_type();
+       
 		$class = LearningObject :: type_to_class($type).'Display';
 		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_display.class.php';
 		return new $class($object);

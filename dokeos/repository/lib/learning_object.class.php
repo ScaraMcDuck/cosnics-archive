@@ -671,6 +671,7 @@ class LearningObject implements AccessibleLearningObject
 	 */
 	function create()
 	{
+     
 		$dm = RepositoryDataManager :: get_instance();
 		$now = time();
 
@@ -712,6 +713,7 @@ class LearningObject implements AccessibleLearningObject
 
 	function create_all()
 	{
+     
 		$this->assign_display_order_index();
 		$dm = RepositoryDataManager :: get_instance();
 		$id = $dm->get_next_learning_object_id();

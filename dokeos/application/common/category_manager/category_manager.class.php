@@ -55,6 +55,7 @@ abstract class CategoryManager
 	
 	function run()
 	{
+        
 		$action = $this->get_action();
 		$component = null;
 		switch ($action)
@@ -90,6 +91,7 @@ abstract class CategoryManager
 				$component = CategoryManagerComponent :: factory('Browser', $this);
 		}
 		$component->run();
+        
 	}
 
 	/**
