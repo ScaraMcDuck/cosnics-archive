@@ -31,6 +31,8 @@ abstract class LearningObjectForm extends FormValidator
 	const RESULT_SUCCESS = 'ObjectUpdated';
 	const RESULT_ERROR = 'ObjectUpdateFailed';
 
+	private $allow_new_version;
+	
 	private $owner_id;
 
 	/**
@@ -58,7 +60,7 @@ abstract class LearningObjectForm extends FormValidator
 	 * @param string $action The URL to which the form should be submitted.
 	 */
 	protected function __construct($form_type, $learning_object, $form_name, $method = 'post',
-						$action = null, $extra = null, $additional_elements)
+						$action = null, $extra = null, $additional_elements, $allow_new_version = true)
 	{
 		parent :: __construct($form_name, $method, $action);
 		$this->form_type = $form_type;
@@ -66,6 +68,7 @@ abstract class LearningObjectForm extends FormValidator
 		$this->owner_id = $learning_object->get_owner_id();
 		$this->extra = $extra;
 		$this->additional_elements = $additional_elements;
+		$this->allow_new_version = $allow_new_version;
 
 		if ($this->form_type == self :: TYPE_EDIT || $this->form_type == self :: TYPE_REPLY)
 		{
@@ -86,7 +89,7 @@ abstract class LearningObjectForm extends FormValidator
 		}
 		$this->setDefaults();
 	}
-
+	
 	/**
 	 * Returns the ID of the owner of the learning object being created or
 	 * edited.
@@ -175,7 +178,7 @@ abstract class LearningObjectForm extends FormValidator
 
 		$this->addElement('category', Translation :: get('GeneralProperties'));
 		$this->build_basic_form();
-		if($object->is_versionable())
+		if($object->is_versionable() && $this->allow_new_version)
 		{
 			if ($object->get_version_count() < $quotamanager->get_max_versions($object->get_type()))
 			{
@@ -596,13 +599,13 @@ EOT;
 	 * @param string $method The method to use ('post' or 'get').
 	 * @param string $action The URL to which the form should be submitted.
 	 */
-	static function factory($form_type, $learning_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements)
+	static function factory($form_type, $learning_object, $form_name, $method = 'post', $action = null, $extra = null, $additional_elements, $allow_new_version)
 	{
 		$type = $learning_object->get_type();
         
 		$class = LearningObject :: type_to_class($type).'Form';
 		require_once dirname(__FILE__).'/learning_object/'.$type.'/'.$type.'_form.class.php';
-		return new $class ($form_type, $learning_object, $form_name, $method, $action, $extra, $additional_elements);
+		return new $class ($form_type, $learning_object, $form_name, $method, $action, $extra, $additional_elements, $allow_new_version);
 	}
 	/**
 	 * Validates this form
