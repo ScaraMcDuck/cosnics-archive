@@ -66,7 +66,7 @@ class ObjectTableColumn implements TableColumn
      */
     function is_sortable()
     {
-        return true;
+        return false;
     }
 
     /**
