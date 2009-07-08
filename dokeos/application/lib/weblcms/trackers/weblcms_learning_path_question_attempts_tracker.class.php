@@ -16,7 +16,7 @@ class WeblcmsLearningPathQuestionAttemptsTracker extends MainTracker
 	 */
     function WeblcmsLearningPathQuestionAttemptsTracker()
     {
-    	parent :: MainTracker('weblcms_lp_question_attempts_tracker');
+    	parent :: MainTracker('weblcms_learning_path_question_attempts_tracker');
     }
 
     /**
