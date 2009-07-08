@@ -38,6 +38,7 @@ class PortfolioPublishingComponent extends PortfolioComponent
 	
 	private function get_publisher_html()
 	{
+        echo hallo;
 		$pub = new PortfolioPublisher($this, 'portfolio_item', true);
 		$html[] =  $pub->as_html();
 		

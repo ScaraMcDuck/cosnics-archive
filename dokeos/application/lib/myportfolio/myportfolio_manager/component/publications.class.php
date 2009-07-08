@@ -6,6 +6,7 @@
 
 require_once dirname(__FILE__).'/../myportfolio_manager.class.php';
 require_once dirname(__FILE__).'/../portfolio_component.class.php';
+require_once Path :: get_application_path().'/common/feedback_manager/feedback_manager.class.php';
 
 class PortfolioPublicationsComponent extends PortfolioComponent
 {
@@ -14,6 +15,7 @@ class PortfolioPublicationsComponent extends PortfolioComponent
 	 */
 	function run()
 	{
+
 		$trail = new BreadcrumbTrail();
 		$trail->add(new Breadcrumb($this->get_url(array('portfolio_action' => null, 'item' => null)), Translation :: get('MyPortfolio')));
         $trail->add(new Breadcrumb($this->get_url(array('portfolio_action' => null)), Translation :: get('MyResearch')));
@@ -21,9 +23,9 @@ class PortfolioPublicationsComponent extends PortfolioComponent
 
 		$item=$this->get_parent()->get_item_id();
         //willen we vub veranderen dan gaan we naar ../../install/myportfolio_installer.php
-        $agency = 'vub';//Configuration :: get_instance()->get_parameter('portfolio', 'agency');
-        $file = dirname(__FILE__).'/../../'.$agency.'/publications.class.php';
-
+       // $agency = 'vub';//Configuration :: get_instance()->get_parameter('portfolio', 'agency');
+        //$file = dirname(__FILE__).'/../../'.$agency.'/publication2.class.php';
+        
 
 		if ($item >= 0)
 		{
@@ -46,12 +48,12 @@ class PortfolioPublicationsComponent extends PortfolioComponent
 
             // when their is no agency specefied it gives a blank page
 
-            if (file_exists($file)){
-            require_once $file;
-                 $out.= Publications::get_publication_as_html();
-            } else {
+           // if (file_exists($file)){
+            //require_once $file;
+              //   $out.= Publications2::get_publication_as_html();
+            //} else {
                 $out.= $this -> get_publication_as_html();
-            }
+            //}
 			
 
 			$out .= '</div></div>';
@@ -68,20 +70,49 @@ class PortfolioPublicationsComponent extends PortfolioComponent
     
 	function get_publication_as_html()
 	{
-		//fracking dirty hack for presentation
+        $html = array();
+        $publications = $this->retrieve_rdpublications();
+        // $events = $this->retrieve_rdevents();
+        
+        if (isset($publications)){
 		$userid= htmlspecialchars(Request :: get("user"));
-//		echo $userid;
 		$user = UserDataManager::get_instance()->retrieve_user($userid);
+		$html[]= "<b>Publications of ";
+		$html[]= $user->get_firstname()." ".$user->get_lastname();
+		$html[]= "</b><br /><br />";
 
-		$html.= "<b>Publications of ";
-		//$html.= $this->get_parent()->get_owner()->get_firstname()." ".$this->get_parent()->get_owner()->get_lastname();
-		$html.= $user->get_firstname()." ".$user->get_lastname();
-		$html.= "</b><br /><br />";
+        
+        while($publication = $publications->next_result())
+		{
+            
+            $id = $publication->get_rdpublication();
+            $object = RepositoryDataManager :: get_instance()->retrieve_learning_object($id);
+            if ($publication->get_publisher()==$user->get_id()){
+            $display = LearningObjectDisplay :: factory($object);
+            $html[] = $display->get_full_html($userid);
+            }
+
+            $fbm = new FeedbackManager();
+            $fbm->run(FeedbackManager::ACTION_CREATE_FEEDBACK);
+              /*  $feedback = new Feedback();
+
+                $form =  FeedbackForm::factory('create', $feedback, edback,'feedback', NULL);
+                $form->display();*/
+        }
+        } else  {
+
 
 		
-		$html.= "No Publications found";
-
-		return $html;
-	}
+		$html[]= "No Publications found!!!";
+        
+        //$db = Databasevub :: get_instance();
+		
+        }
+        return implode("\n",$html);
+        }
+     function count_rdpublications(){
+         
+          return $this->count_rdpublications();
+     }
 }
 ?>

@@ -17,7 +17,7 @@ require_once dirname(__FILE__).'/../myportfolio_block.class.php';
 ================================================================================
  */
 
-class MyPortfolioManager extends WebApplication
+class MyPortfolio extends WebApplication
 {	
 
 	const APPLICATION_NAME = 'myportfolio';
@@ -49,22 +49,23 @@ class MyPortfolioManager extends WebApplication
 
 //	public static $item;
 
-	function MyPortfolioManager($user)
+	function MyPortfolio($user)
 	{
+        
 		parent :: __construct();
 		if(isset($_POST[self :: PARAM_ACTION]))
 		{
 			$this->set_parameter(self :: PARAM_ACTION, $_POST[self :: PARAM_ACTION]);
 		}
 		else {
-			$this->set_parameter(self :: PARAM_ACTION, Request :: get(self :: PARAM_ACTION));
+			$this->set_parameter(self :: PARAM_ACTION, $_GET[self :: PARAM_ACTION]);
 		}
 		if(isset($_POST[self :: PARAM_ITEM]))
 		{
 			$this->set_parameter(self :: PARAM_ITEM, $_POST[self :: PARAM_ITEM]);
 		}
 		else {
-			$this->set_parameter(self :: PARAM_ITEM, Request :: get(self :: PARAM_ITEM));
+			$this->set_parameter(self :: PARAM_ITEM, $_GET[self :: PARAM_ITEM]);
 		}
 
 		$this->user = $user;
@@ -136,6 +137,7 @@ class MyPortfolioManager extends WebApplication
 
 	function display_header($breadcrumbtrail, $display_search = false)
 	{
+        
 		if (is_null($breadcrumbtrail))
 		{
 			$breadcrumbtrail = new BreadcrumbTrail();
@@ -298,12 +300,6 @@ class MyPortfolioManager extends WebApplication
 		$pmdm = PortfolioDataManager :: get_instance();
 		return $pmdm->count_portfolio_publications($condition);
 	}
-
-    function count_rdpublications($condition = null)
-	{
-		$pmdm = PortfolioDataManager :: get_instance();
-		return $pmdm->count_rdpublications($condition);
-	}
 	
 	function get_application_platform_admin_links()
 	{
@@ -385,12 +381,6 @@ class MyPortfolioManager extends WebApplication
 		return $pdm->retrieve_portfolio_publication($id);
 	}
 
-    function retrieve_rdpublication($id)
-	{
-		$pdm = PortfolioDataManager :: get_instance();
-		return $pdm->retrieve_rdpublication($id);
-	}
-
 	function retrieve_portfolio_publication_from_item($item)
 	{
 		$pdm = PortfolioDataManager :: get_instance();
@@ -403,16 +393,7 @@ class MyPortfolioManager extends WebApplication
 		return $pmdm->retrieve_portfolio_publications($condition, $orderBy, $orderDir, $offset, $maxObjects);
 	}
 
-    function retrieve_rdpublications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
-	{
-		$pmdm = PortfolioDataManager :: get_instance();
-		return $pmdm->retrieve_rdpublications($condition, $orderBy, $orderDir, $offset, $maxObjects);
-	}
-
-    function retrieve_publications($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
-	{
-		return DatabasePortfolioDataManager :: get_instance()->retrieve_publications($condition, $offset, $count, $order_property, $order_direction);
-	}
+    
 
 	function get_user_id()
 	{
@@ -452,10 +433,10 @@ class MyPortfolioManager extends WebApplication
 	{
 		return Path :: get($path_type);
 	}
-	
-	function get_application_name()
-	{
-		return self :: APPLICATION_NAME;
-	}
+
+    function validatePublication($id){
+        $pdm = DatabasePortfolioDataManager::get_instance();
+                $pdm->validatePublication($id);
+    }
 }
 ?>

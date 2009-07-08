@@ -7,10 +7,10 @@
 require_once dirname(__FILE__).'/portfolio_data_manager.class.php';
 require_once dirname(__FILE__).'/../../../repository/lib/learning_object/portfolio_item/portfolio_item.class.php';
 require_once dirname(__FILE__).'/portfolio_publication.class.php';
-
+require_once dirname(__FILE__).'/myportfolio_manager/component/publications.class.php';
 /**
 ================================================================================
- *	
+ *
  *
  *	@author Roel Neefs
 ================================================================================
@@ -21,6 +21,7 @@ class PFTreeManager
 
 	private static $instance;
 	private $current;
+
 
 	function PFTreeManager()
 	{
@@ -48,7 +49,7 @@ class PFTreeManager
 		{
 			//$pdm->create_root_element($user);
 			//Now create the learning object that is attached to the first tree element
-			
+
 			$lo = new PortfolioItem();
 			$lo->set_owner_id($user->get_id());
 			$lo->set_title(htmlspecialchars(Translation :: get('PortfolioOf').$user->get_firstname()." ".$user->get_lastname()));
@@ -80,18 +81,28 @@ class PFTreeManager
 		//echo '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_PUBS.'&user='.$this->owner->get_user_id().'>'.Translation :: get('Mypubs').'</a></li>';
 		//print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_PFPUBS.'&user='.$user->get_id().'>'.Translation :: get('MyResearch').'</a>';
 		//if (Request :: get('alles')==1){
+       /* $agency = 'vub';
+        $file = dirname(__FILE__).'/'.$agency.'/manager.class.php';
+        if (file_exists($file)){
+            require_once $file;
+
+            Manager::get_tree_branche($user);
+        } else {*/
+        print '<ul class=tree-menu>';
         print '<li><a>'.Translation :: get('MyResearch').'</a>';
 		print '<ul>';
-		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_PFPUBS.'&user='.$user->get_id().'&item='.$root.'>'.Translation :: get('Mypubs').'</a>';
+        
+		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_PFPUBS.'&user='.$user->get_id().'&item='.$root.'>'.Translation :: get('Mypubs').' [ '.$this->count_rdpublications($user).' ] </a>';
 		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_PFPROJ.'&user='.$user->get_id().'&item='.$root.'>'.Translation :: get('Myproj').'</a>';
 		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_PFTHES.'&user='.$user->get_id().'&item='.$root.'>'.Translation :: get('Mythes').'</a>';
-		print '</ul>';	
+		print '</ul>';
 		print '</li>';
+       // }
        // } else {
           //  print '<a href="'.$_SERVER["REQUEST_URI"].'&alles=1">+</a>';
         //}
 		print '</ul><br />';
-		print '<ul class=tree-menu>';	
+		print '<ul class=tree-menu>';
 		print '<li><a>Browse Portfolios</a>';
 		print '<ul>';
 		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_BROWSE.'&'.MyPortfolioManager :: PARAM_EXAMPLE.'=1 class=type_home>Examples</a></li>';
@@ -106,10 +117,13 @@ class PFTreeManager
 		print '<li><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_BROWSE.'&'.MyPortfolioManager :: PARAM_FIRSTLETTER.'=y class=type_home>Y-Z</a></li>';
 		print '</ul>';
 		print '</li>';
-		
-		
+
+
 		print '</ul>';
+
 	}
+
+
 
 	function show_item_old($url, $item, $indent = 0)
 	{
@@ -127,12 +141,12 @@ class PFTreeManager
 			print '<a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_VIEW.'&item='.$item.'>'.$title.'</a><br>';
 		}
 		$children=$pdm->get_item_children($item);
-		
+
 		foreach($children as $child)
 		{
 			$this->show_item_old($url, $child, $indent+1);
 		}
-		
+
 	}
 	function show_item($url, $item)
 	{
@@ -141,11 +155,11 @@ class PFTreeManager
 		$portpub = $pdm->retrieve_portfolio_publication_from_item($item);
 		$title = $portpub->get_publication_object()->get_title();
 		//$title=$pdm->get_item_title($item);
-		
+
 		print '<li';
 		if($cur==$item) print ' class=current';
 		print '><a href='.$_SERVER['PHP_SELF'].'?application=myportfolio&portfolio_action='.MyPortfolioManager :: ACTION_VIEW.'&item='.$item.' class=type_document>'.$title.'</a>';
-		
+
 		$children=$pdm->get_item_children($item);
 		if ($children) print '<ul>';
 		foreach($children as $child)
@@ -154,10 +168,10 @@ class PFTreeManager
 		}
 		if ($children) print '</ul>';
 		print '</li>';
-		
+
 	}
-	
-	
+
+
 	function create_child($item, $user)
 	{
 		$pdm = PortfolioDataManager :: get_instance();
@@ -165,12 +179,12 @@ class PFTreeManager
 		$pdm->connect_parent_to_child($item, $new_item,$user);
 		return $new_item;
 	}
-	
+
 	function delete_item($item,$user)
 	{
 		$pdm = PortfolioDataManager :: get_instance();
 		$root= $pdm->get_root_element($user);
-		if($item != "" && $item != $root) 
+		if($item != "" && $item != $root)
 		{
 			$parent=$this->get_parent($item);
 			$children=$pdm->get_item_children($item);
@@ -187,19 +201,19 @@ class PFTreeManager
 		$pdm = PortfolioDataManager :: get_instance();
 		return $pdm->get_parent($item);
 	}
-	
+
 	function set_parent($item,$new_parent)
 	{
 		$pdm = PortfolioDataManager :: get_instance();
 		return $pdm->set_parent($item,$new_parent);
 	}
-	
+
 	function get_children($item)
 	{
 		$pdm = PortfolioDataManager :: get_instance();
 		return $pdm->get_item_children($item);
 	}
-	
+
 	function get_current_item()
 	{
 		return $this->current;
@@ -209,5 +223,10 @@ class PFTreeManager
 	{
 		$this->current=$item;
 	}
+    function count_rdpublications($user){
+       $pdm = PortfolioDataManager :: get_instance();
+       
+		return $pdm->count_rdpublications($user);
+    }
 }
 ?>

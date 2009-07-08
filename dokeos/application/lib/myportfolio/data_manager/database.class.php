@@ -8,10 +8,13 @@
 
 require_once dirname(__FILE__).'/../portfolio_data_manager.class.php';
 require_once dirname(__FILE__).'/../portfolio_publication.class.php';
+require_once dirname(__FILE__).'/../rdpublication_publication.class.php';
+require_once dirname(__FILE__).'/../rdpublication_publication.class.php';
 require_once Path :: get_library_path().'configuration/configuration.class.php';
 require_once Path :: get_library_path().'condition/condition_translator.class.php';
 require_once dirname(__FILE__).'/database/database_portfolio_publication_result_set.class.php';
-
+require_once dirname(__FILE__).'/database/database_rdpublication_result_set.class.php';
+//require_once Path :: get_repository_path().'/lib/learning_object/rdpublication/rdpublication.class.php';
 
 class DatabasePortfolioDataManager extends PortfolioDataManager
 {
@@ -24,6 +27,8 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	
 	private $userDM;
 
+    private $database;
+
 	function initialize()
 	{
 		$this->userDM = UserDataManager :: get_instance();
@@ -33,6 +38,9 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		
 		$this->prefix = 'myportfolio_';
 		$this->connection->query('SET NAMES utf8');
+
+        $this->database = new Database();
+		$this->database->set_prefix('repository_');
 
 	}
 	
@@ -145,6 +153,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			return $result['title'];
 		}
 	}
+
 
 	function get_owner($item)
 	{
@@ -281,6 +290,16 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		return $this->connection->nextID($this->get_table_name('publication'));
 	}
 
+    function get_next_rdpublication_id()
+	{
+		return $this->connection->nextID($this->get_table_name('rdpublication'));
+	}
+
+    function get_next_rdevent_id()
+	{
+		return $this->connection->nextID($this->get_table_name('rdpublication'));
+	}
+
 		//Inherited.
 	function get_next_tree_item_id()
 	{
@@ -292,7 +311,6 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
     {
 		$query = 'SELECT COUNT('.$this->escape_column_name(PortfolioPublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('publication');
 		$query .= 'JOIN '.'user_user ' . 'ON' . $this->escape_table_name('publication'). '.' . $this->escape_column_name(PortfolioPublication :: PROPERTY_PUBLISHER) .'='. 'user_user' .'.'. 'user_id';
-
 		$params = array ();
 		if (isset ($condition))
 		{
@@ -308,6 +326,54 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$res->free();
 		return $record[0];
     }
+    //Inherited.
+    function count_rdpublications($user,$condition = null)
+    {
+        $id = $user->get_id();
+        
+		$query = 'SELECT COUNT('.$this->escape_column_name(RdpublicationPublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('rdpublication');
+		$query .= 'JOIN '.'user_user ' . 'ON' . $this->escape_table_name('rdpublication'). '.' . $this->escape_column_name(RdpublicationPublication :: PROPERTY_PUBLISHER) .'='. 'user_user' .'.'. 'user_id';
+		$query .= ' WHERE user_user.user_id = '.$id;
+        $params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+		return $record[0];
+    }
+
+    function count_rdevents($user,$condition = null)
+    {
+        $id = $user->get_id();
+
+		$query = 'SELECT COUNT('.$this->escape_column_name(RdeventPublication :: PROPERTY_ID).') FROM '.$this->escape_table_name('rdevent');
+		$query .= 'JOIN '.'user_user ' . 'ON' . $this->escape_table_name('rdevent'). '.' . $this->escape_column_name(RdeventPublication :: PROPERTY_PUBLISHER) .'='. 'user_user' .'.'. 'user_id';
+		$query .= ' WHERE user_user.user_id = '.$id;
+        $params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+
+		$sth = $this->connection->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+		return $record[0];
+    }
+
+
 
     //Inherited
     function retrieve_portfolio_publication($id)
@@ -323,6 +389,36 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		$res->free();
 		return self :: record_to_portfolio_publication($record);
+	}
+
+    function retrieve_rdpublication($id)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('rdpublication');
+		$query .= ' JOIN '.'user_user' . ' ON ' . $this->escape_table_name('rdpublication'). '.' . $this->escape_column_name(Rdpublication :: PROPERTY_PUBLISHER) .'='. 'user_user' .'.'. 'user_id';
+		$query .= ' WHERE '.$this->escape_column_name(Rdpublication :: PROPERTY_ID).'=?';
+		echo $query;
+
+		$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($id);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$res->free();
+		return self :: record_to_rdpublication($record);
+	}
+
+     function retrieve_rdevent($id)
+	{
+		$query = 'SELECT * FROM '.$this->escape_table_name('rdevent');
+		$query .= ' JOIN '.'user_user' . ' ON ' . $this->escape_table_name('rdevent'). '.' . $this->escape_column_name(Rdevent :: PROPERTY_PUBLISHER) .'='. 'user_user' .'.'. 'user_id';
+		$query .= ' WHERE '.$this->escape_column_name(Rdevent :: PROPERTY_ID).'=?';
+		echo $query;
+
+		$this->connection->setLimit(1);
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($id);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
+		$res->free();
+		return self :: record_to_rdevent($record);
 	}
 
 
@@ -384,6 +480,78 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		return new DatabasePortfolioPublicationResultSet($this, $res);
 	}
 
+    function retrieve_rdpublications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+
+		$query = 'SELECT * FROM '.$this->escape_table_name('rdpublication');
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			//echo $query;
+			$params = $translator->get_parameters();
+		}
+
+		$order = array ();
+
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects < 0)
+		{
+			$maxObjects = null;
+		}
+
+		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		return new DatabaseRdPublicationResultSet($this, $res);
+	}
+
+    function retrieve_rdevents($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+
+		$query = 'SELECT * FROM '.$this->escape_table_name('rdevent');
+
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this, $params, $prefix_properties = true);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			//echo $query;
+			$params = $translator->get_parameters();
+		}
+
+		$order = array ();
+
+		for ($i = 0; $i < count($orderBy); $i ++)
+		{
+			$order[] = $this->escape_column_name($orderBy[$i], true).' '. ($orderDir[$i] == SORT_DESC ? 'DESC' : 'ASC');
+		}
+		if (count($order))
+		{
+			$query .= ' ORDER BY '.implode(', ', $order);
+		}
+		if ($maxObjects < 0)
+		{
+			$maxObjects = null;
+		}
+
+		$this->connection->setLimit(intval($maxObjects),intval($offset));
+		$statement = $this->connection->prepare($query);
+		$res = $statement->execute($params);
+		return new DatabaseRdPublicationResultSet($this, $res);
+	}
+
 	//Inherited.
 	function record_to_portfolio_publication($record)
 	{
@@ -397,6 +565,34 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			$defaultProp[$prop] = $record[$prop];
 		}
 		return new PortfolioPublication($record[PortfolioPublication :: PROPERTY_ID], $defaultProp);
+	}
+
+    function record_to_rdpublication($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (RdpublicationPublication :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new RdpublicationPublication($record[RdpublicationPublication :: PROPERTY_ID], $defaultProp);
+	}
+
+    function record_to_rdevent($record)
+	{
+		if (!is_array($record) || !count($record))
+		{
+			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
+		}
+		$defaultProp = array ();
+		foreach (RdeventPublication :: get_default_property_names() as $prop)
+		{
+			$defaultProp[$prop] = $record[$prop];
+		}
+		return new RdeventPublication($record[RdeventPublication :: PROPERTY_ID], $defaultProp);
 	}
 
 	//Inherited.
@@ -414,11 +610,11 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	}
 
 	//Inherited
-	function delete_portfolio_publication($portfolio_publication)
+	function delete_portfolio_publication($rdpublication)
 	{
-		$query = 'DELETE FROM '.$this->escape_table_name('publication').' WHERE '.$this->escape_column_name(PortfolioPublication :: PROPERTY_ID).'=?';
+		$query = 'DELETE FROM '.$this->escape_table_name('rdpublication').' WHERE '.$this->escape_column_name(Rdpublication :: PROPERTY_ID).'=?';
 		$statement = $this->connection->prepare($query);
-		if ($statement->execute($portfolio_publication->get_id()))
+		if ($statement->execute($rdpublication->get_id()))
 		{
 			return true;
 		}
@@ -456,6 +652,11 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		{
 			return false;
 		}
+	}
+
+    function retrieve_publications($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
+	{
+		return $this->database->retrieve_objects(Rdpublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
 	}
 
 	//Inherited.
@@ -539,7 +740,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			$info->set_location(Translation :: get('List'));
 			$info->set_url('index_myportfolio.php?go=view&portfolio='.$publication->get_id());
 			$info->set_publication_object_id($publication->get_portfolio());
-
+            echo $info;
 			$publication_attr[] = $info;
 		}
 		return $publication_attr;
@@ -603,11 +804,61 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			return false;
 		}
 	}
+
+    function create_rdpublication($publication)
+	{
+		$props = array();
+		foreach ($publication->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$props[$this->escape_column_name(RdpublicationPublication :: PROPERTY_ID)] = $publication->get_id();
+
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('rdpublication'), $props, MDB2_AUTOQUERY_INSERT))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+    function create_rdevent($event)
+	{
+		$props = array();
+		foreach ($event->get_default_properties() as $key => $value)
+		{
+			$props[$this->escape_column_name($key)] = $value;
+		}
+		$props[$this->escape_column_name(RdeventPublication :: PROPERTY_ID)] = $event->get_id();
+
+		$this->connection->loadModule('Extended');
+		if ($this->connection->extended->autoExecute($this->get_table_name('rdevent'), $props, MDB2_AUTOQUERY_INSERT))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+
 	function change_visibility($user, $visi)
 	{
 		$query='UPDATE '.$this->escape_table_name('publication'). 'SET visibility="'.$visi.'" WHERE publisher="'.$user.'"';
 		$statement = $this->connection->prepare($query);
 		$statement->execute();
 	}
+
+    function validatePublication($id){
+       // $query='UPDATE repository_publication SET validate="'.$datum.'" WHERE id = "'$id'"';
+       $datum = date('Y-m-d');
+       $query='UPDATE repository_publication SET validate="'.$datum.'" WHERE id="'.$id.'"';
+       $statement = $this->connection->prepare($query);
+		$statement->execute();
+    }
 }
 ?>

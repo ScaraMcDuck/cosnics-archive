@@ -36,6 +36,7 @@ class PortfolioPropertiesForm extends FormValidator
 		$this->parent = $parent;
 		$this->build_form();
 		$this->setDefaults();
+        
     }
 
 	/**
