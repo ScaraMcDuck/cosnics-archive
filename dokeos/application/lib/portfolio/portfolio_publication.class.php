@@ -265,10 +265,10 @@ class PortfolioPublication
        	return $dm->create_portfolio_publication($this);
 	}
 
-	function update()
+	function update($delete_targets = true)
 	{
 		$dm = PortfolioDataManager :: get_instance();
-		return $dm->update_portfolio_publication($this);
+		return $dm->update_portfolio_publication($this, $delete_targets);
 	}
 
 	static function get_table_name()

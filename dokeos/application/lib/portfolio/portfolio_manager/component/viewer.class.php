@@ -18,6 +18,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 	private $action_bar;
 	private $selected_object;
 	private $publication;
+	private $portfolio_item;
 	private $cid;
 	private $pid;
 	
@@ -38,6 +39,7 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 			
 			if($this->selected_object->get_type() == 'portfolio_item')
 			{
+				$this->portfolio_item = $this->selected_object;
 				$this->selected_object = $rdm->retrieve_learning_object($this->selected_object->get_reference());
 			}
 		}
@@ -138,10 +140,29 @@ class PortfolioManagerViewerComponent extends PortfolioManagerComponent
 	{
 		$html = array();
 
-		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $this->selected_object, 'learning_object_form', 'post', $this->get_url(array('user_id' => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'edit')), $this->get_user());
+		$allow_new_version = ($this->selected_object->get_type() != 'portfolio');
+		
+		$form = LearningObjectForm :: factory(LearningObjectForm :: TYPE_EDIT, $this->selected_object, 'learning_object_form', 'post', $this->get_url(array('user_id' => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid, 'action' => 'edit')), null, null, $allow_new_version);
+		
 		if($form->validate())
 		{
 			$success = $form->update_learning_object();
+			
+			if($form->is_version())
+			{
+				$object = $form->get_learning_object();
+				if($this->publication)
+				{
+					$this->publication->set_learning_object($object->get_latest_version()->get_id());
+	                $this->publication->update(false);
+				}
+				else 
+				{
+					$this->portfolio_item->set_reference($object->get_latest_version()->get_id());
+					$this->portfolio_item->update();
+				}
+			}
+		
 			$this->redirect($success ? Translation :: get('PortfolioUpdated') : Translation :: get('PortfolioNotUpdated'), !$success, array(PortfolioManager :: PARAM_ACTION => PortfolioManager :: ACTION_VIEW_PORTFOLIO, PortfolioManager :: PARAM_USER_ID => $this->get_user_id(), 'pid' => $this->pid, 'cid' => $this->cid));
 		}
 		else
