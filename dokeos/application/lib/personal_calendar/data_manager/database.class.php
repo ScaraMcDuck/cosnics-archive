@@ -142,9 +142,6 @@ class DatabasePersonalCalendarDatamanager extends PersonalCalendarDatamanager
      */
     function update_learning_object_publication_id($publication_attr)
     {
-        //$condition = new EqualityCondition('id',$publiction->get_id());
-
-
         $where = $this->database->escape_column_name('id') . '=' . $publication_attr->get_id();
         $props = array();
         $props[$this->database->escape_column_name('learning_object')] = $publication_attr->get_publication_object_id();
