@@ -12,6 +12,9 @@ require_once dirname(__FILE__) . '/../profiler_data_manager.class.php';
 
 class ProfilerCategory extends PlatformCategory
 {
+	const CLASS_NAME = __CLASS__;
+	const TABLE_NAME = 'category';
+
 	function create()
 	{
 		$wdm = ProfilerDataManager :: get_instance();
@@ -19,19 +22,19 @@ class ProfilerCategory extends PlatformCategory
 		$this->set_display_order($wdm->select_next_category_display_order($this->get_parent()));
 		return $wdm->create_category($this);
 	}
-	
+
 	function update()
 	{
 		return ProfilerDataManager :: get_instance()->update_category($this);
 	}
-	
+
 	function delete()
 	{
 		return ProfilerDataManager :: get_instance()->delete_category($this);
 	}
-	
+
 	static function get_table_name()
 	{
-		return DokeosUtilities :: camelcase_to_underscores('ProfilerCategory');
+		return self :: TABLE_NAME;
 	}
 }

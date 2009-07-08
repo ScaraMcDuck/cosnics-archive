@@ -25,9 +25,10 @@ class DefaultProfilePublicationTableColumnModel extends ObjectTableColumnModel
 	{
 		$columns = array();
 		$columns[] = new ObjectTableColumn(ProfilePublication :: PROPERTY_PROFILE, true);
-		$columns[] = new ObjectTableColumn(User :: PROPERTY_USERNAME, true);
-		$columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, true);
-		$columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, true);
+		// TODO: Make this work by refactoring JOIN statements.
+		//$columns[] = new ObjectTableColumn(User :: PROPERTY_USERNAME, true);
+		//$columns[] = new ObjectTableColumn(User :: PROPERTY_LASTNAME, true);
+		//$columns[] = new ObjectTableColumn(User :: PROPERTY_FIRSTNAME, true);
 		return $columns;
 	}
 }

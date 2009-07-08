@@ -6,7 +6,7 @@ require_once Path :: get_repository_path(). 'lib/repository_data_manager.class.p
 require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
 
 /**
- *	This class represents a ProfilePublication. 
+ *	This class represents a ProfilePublication.
  *
  *	ProfilePublication objects have a number of default properties:
  *	- id: the numeric ID of the ProfilePublication;
@@ -18,15 +18,17 @@ require_once Path :: get_user_path(). 'lib/user_data_manager.class.php';
  */
 class ProfilePublication
 {
+	const CLASS_NAME = __CLASS__;
+	const TABLE_NAME = 'publication';
+
 	const PROPERTY_ID = 'id';
 	const PROPERTY_PROFILE = 'profile';
 	const PROPERTY_PUBLISHER = 'publisher';
-	const PROPERTY_PUBLISHED = 'published';	
+	const PROPERTY_PUBLISHED = 'published';
 	const PROPERTY_CATEGORY = 'category';
-	
-	private $id;
+
 	private $defaultProperties;
-	
+
 	/**
 	 * Creates a new profile object.
 	 * @param int $id The numeric ID of the ProfilePublication object. May be omitted
@@ -34,12 +36,11 @@ class ProfilePublication
 	 * @param array $defaultProperties The default properties of the ProfilePublication
 	 *                                 object. Associative array.
 	 */
-	function ProfilePublication($id = 0, $defaultProperties = array ())
+	function ProfilePublication($defaultProperties = array ())
 	{
-		$this->id = $id;
 		$this->defaultProperties = $defaultProperties;
 	}
-	
+
 	/**
 	 * Gets a default property of this ProfilePublication object by name.
 	 * @param string $name The name of the property.
@@ -48,7 +49,7 @@ class ProfilePublication
 	{
 		return $this->defaultProperties[$name];
 	}
-	
+
 	/**
 	 * Gets the default properties of this ProfilePublication.
 	 * @return array An associative array containing the properties.
@@ -57,7 +58,12 @@ class ProfilePublication
 	{
 		return $this->defaultProperties;
 	}
-	
+
+	function set_default_properties($defaultProperties)
+	{
+		$this->defaultProperties = $defaultProperties;
+	}
+
 	/**
 	 * Get the default properties of all ProfilePublications.
 	 * @return array The property names.
@@ -66,7 +72,7 @@ class ProfilePublication
 	{
 		return array (self :: PROPERTY_ID, self :: PROPERTY_CATEGORY,  self :: PROPERTY_PROFILE, self :: PROPERTY_PUBLISHER, self :: PROPERTY_PUBLISHED);
 	}
-	
+
 	/**
 	 * Sets a default property of this ProfilePublication by name.
 	 * @param string $name The name of the property.
@@ -76,7 +82,7 @@ class ProfilePublication
 	{
 		$this->defaultProperties[$name] = $value;
 	}
-	
+
 	/**
 	 * Checks if the given identifier is the name of a default profiler
 	 * property.
@@ -88,16 +94,16 @@ class ProfilePublication
 	{
 		return in_array($name, self :: get_default_property_names());
 	}
-	
+
 	/**
 	 * Returns the id of this ProfilePublication.
 	 * @return int The ProfilePublication id.
 	 */
 	function get_id()
 	{
-		return $this->id;
+		return $this->get_default_property(self :: PROPERTY_ID);
 	}
-	
+
 	/**
 	 * Returns the learning object id from this ProfilePublication object
 	 * @return int The Profile ID
@@ -106,7 +112,7 @@ class ProfilePublication
 	{
 		return $this->get_default_property(self :: PROPERTY_PROFILE);
 	}
-	
+
 	 /**
 	  * Returns the user of this ProfilePublication object
 	  * @return int the user
@@ -115,7 +121,7 @@ class ProfilePublication
 	{
 		return $this->get_default_property(self :: PROPERTY_PUBLISHER);
 	}
-	
+
 	/**
 	 * Returns the published timestamp of this ProfilePublication object
 	 * @return Timestamp the published date
@@ -123,22 +129,22 @@ class ProfilePublication
 	function get_published()
 	{
 		return $this->get_default_property(self :: PROPERTY_PUBLISHED);
-	} 
-	
+	}
+
 	function get_category()
 	{
 		return $this->get_default_property(self :: PROPERTY_CATEGORY);
 	}
-	  
+
 	/**
 	 * Sets the id of this ProfilePublication.
 	 * @param int $pm_id The ProfilePublication id.
 	 */
 	function set_id($id)
 	{
-		$this->id = $id;
-	}	
-	
+		$this->set_default_property(self :: PROPERTY_ID, $id);
+	}
+
 	/**
 	 * Sets the learning object id of this ProfilePublication.
 	 * @param Int $id the profile ID.
@@ -147,7 +153,7 @@ class ProfilePublication
 	{
 		$this->set_default_property(self :: PROPERTY_PROFILE, $id);
 	}
-	
+
 	/**
 	 * Sets the user of this ProfilePublication.
 	 * @param int $user the User.
@@ -156,7 +162,7 @@ class ProfilePublication
 	{
 		$this->set_default_property(self :: PROPERTY_PUBLISHER, $publisher);
 	}
-	
+
 	/**
 	 * Sets the published date of this ProfilePublication.
 	 * @param int $published the timestamp of the published date.
@@ -165,24 +171,24 @@ class ProfilePublication
 	{
 		$this->set_default_property(self :: PROPERTY_PUBLISHED, $published);
 	}
-	
+
 	function set_category($category)
 	{
 		$this->set_default_property(self :: PROPERTY_CATEGORY, $category);
 	}
-	
+
 	function get_publication_object()
 	{
 		$rdm = RepositoryDataManager :: get_instance();
 		return $rdm->retrieve_learning_object($this->get_profile());
 	}
-	
+
 	function get_publication_publisher()
 	{
 		$udm = UserDataManager :: get_instance();
 		return $udm->retrieve_user($this->get_publisher());
 	}
-	
+
 	/**
 	 * Instructs the data manager to create the personal message publication, making it
 	 * persistent. Also assigns a unique ID to the publication and sets
@@ -198,7 +204,7 @@ class ProfilePublication
 		$this->set_id($id);
 		return $pmdm->create_profile_publication($this);
 	}
-	
+
 	/**
 	 * Deletes this publication from persistent storage
 	 * @see ProfilerDataManager::delete_profile_publication()
@@ -207,7 +213,7 @@ class ProfilePublication
 	{
 		return ProfilerDataManager :: get_instance()->delete_profile_publication($this);
 	}
-	
+
 	/**
 	 * Updates this publication in persistent storage
 	 * @see ProfilerDataManager::update_profile_publication()
@@ -215,6 +221,11 @@ class ProfilePublication
 	function update()
 	{
 		return ProfilerDataManager :: get_instance()->update_profile_publication($this);
+	}
+
+	static function get_table_name()
+	{
+		return self :: TABLE_NAME;
 	}
 }
 ?>
