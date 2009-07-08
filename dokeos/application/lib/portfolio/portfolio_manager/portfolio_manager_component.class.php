@@ -231,51 +231,10 @@ abstract class PortfolioManagerComponent
 		return $this->get_parent()->get_delete_portfolio_publication_url($portfolio_publication);
 	}
 
-	function get_browse_portfolio_publications_url()
+	function get_view_portfolio_url($user)
 	{
-		return $this->get_parent()->get_browse_portfolio_publications_url();
+		return $this->get_parent()->get_view_portfolio_url($user);
 	}
-
-	function get_create_portfolio_publication_group_url()
-	{
-		return $this->get_parent()->get_create_portfolio_publication_group_url();
-	}
-
-	function get_update_portfolio_publication_group_url($portfolio_publication_group)
-	{
-		return $this->get_parent()->get_update_portfolio_publication_group_url($portfolio_publication_group);
-	}
-
- 	function get_delete_portfolio_publication_group_url($portfolio_publication_group)
-	{
-		return $this->get_parent()->get_delete_portfolio_publication_group_url($portfolio_publication_group);
-	}
-
-	function get_browse_portfolio_publication_groups_url()
-	{
-		return $this->get_parent()->get_browse_portfolio_publication_groups_url();
-	}
-
-	function get_create_portfolio_publication_user_url()
-	{
-		return $this->get_parent()->get_create_portfolio_publication_user_url();
-	}
-
-	function get_update_portfolio_publication_user_url($portfolio_publication_user)
-	{
-		return $this->get_parent()->get_update_portfolio_publication_user_url($portfolio_publication_user);
-	}
-
- 	function get_delete_portfolio_publication_user_url($portfolio_publication_user)
-	{
-		return $this->get_parent()->get_delete_portfolio_publication_user_url($portfolio_publication_user);
-	}
-
-	function get_browse_portfolio_publication_users_url()
-	{
-		return $this->get_parent()->get_browse_portfolio_publication_users_url();
-	}
-
 
 	function get_browse_url()
 	{
