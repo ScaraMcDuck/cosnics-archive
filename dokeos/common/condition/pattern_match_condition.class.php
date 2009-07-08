@@ -24,16 +24,21 @@ class PatternMatchCondition implements Condition
      * Pattern
      */
     private $pattern;
+    /**
+     * Storage unit
+     */
+    private $storage_unit;
 
     /**
      * Constructor
      * @param string $name
      * @param string $pattern
      */
-    function PatternMatchCondition($name, $pattern)
+    function PatternMatchCondition($name, $pattern, $storage_unit = null)
     {
         $this->name = $name;
         $this->pattern = $pattern;
+        $this->storage_unit = $storage_unit;
     }
 
     /**
@@ -43,6 +48,15 @@ class PatternMatchCondition implements Condition
     function get_name()
     {
         return $this->name;
+    }
+
+    /**
+     * Gets the storage unit
+     * @return string
+     */
+    function get_storage_unit()
+    {
+        return $this->storage_unit;
     }
 
     /**

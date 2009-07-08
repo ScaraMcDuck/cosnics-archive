@@ -46,7 +46,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	 * The table name prefix, if any.
 	 */
 	private $prefix;
-	
+
 	private $database;
 
 	// Inherited.
@@ -62,10 +62,15 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		$this->prefix = 'repository_';
 		$this->connection->query('SET NAMES utf8');
-		
+
 		$this->database = new Database(array('repository_category' => 'cat', 'user_view' => 'uv', 'user_view_rel_learning_object' => 'uvrlo', 'learning_object_pub_feedback' => 'lopf'));
-		$this->database->set_prefix('repository_'); 
+		$this->database->set_prefix('repository_');
 	}
+
+    function get_database()
+    {
+        return $this->database;
+    }
 
 	/**
 	 * This function can be used to handle some debug info from MDB2
@@ -98,7 +103,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if (is_null($type))
 		{
 			$type = $this->determine_learning_object_type($id);
-		} 
+		}
 		if ($this->is_extended_type($type))
 		{
 			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' JOIN '.$this->escape_table_name($type).' AS '.self :: ALIAS_TYPE_TABLE.' ON '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'='.self :: ALIAS_TYPE_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).' WHERE '.self :: ALIAS_LEARNING_OBJECT_TABLE.'.'.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
@@ -106,7 +111,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		else
 		{
 			$query = 'SELECT * FROM '.$this->escape_table_name('learning_object').' AS '.self :: ALIAS_LEARNING_OBJECT_TABLE.' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
-		} 
+		}
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
@@ -218,7 +223,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if(count($array) == 0)
 			$array = array("*");
 		$query = 'SELECT '.implode(',', $array).' FROM '.$this->escape_table_name($type).' WHERE '.$this->escape_column_name(LearningObject :: PROPERTY_ID).'=?';
-		
+
 		$this->connection->setLimit(1);
 		$statement = $this->connection->prepare($query);
 		$res = $statement->execute($id);
@@ -386,7 +391,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res = $statement->execute($user_id);
 		return new DatabaseLearningObjectResultSet($this, $res, isset($type));
 	}
-	
+
 	function delete_learning_object_by_id($object_id)
 	{
 		$object = $this->retrieve_learning_object($object_id);
@@ -630,7 +635,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$res->free();
 		return $attachments;
 	}
-	
+
 	// Inherited.
 	function retrieve_included_learning_objects ($object)
 	{
@@ -693,7 +698,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$affectedRows = $statement->execute(array ($object->get_id(), $attachment_id));
 		return ($affectedRows > 0);
 	}
-	
+
 	// Inherited.
 	function include_learning_object ($object, $include_id)
 	{
@@ -846,13 +851,13 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		$defaultProp[LearningObject :: PROPERTY_CREATION_DATE] = self :: from_db_date($defaultProp[LearningObject :: PROPERTY_CREATION_DATE]);
 		$defaultProp[LearningObject :: PROPERTY_MODIFICATION_DATE] = self :: from_db_date($defaultProp[LearningObject :: PROPERTY_MODIFICATION_DATE]);
-		
+
 		$learning_object = LearningObject :: factory($record[LearningObject :: PROPERTY_TYPE], $record[LearningObject :: PROPERTY_ID], $defaultProp);
-	
+
 		if ($additional_properties_known)
 		{
 			$properties = $learning_object->get_additional_property_names();
-			
+
 			$additionalProp = array ();
 			if (count($properties) > 0)
 			{
@@ -866,9 +871,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			$additionalProp = null;
 		}
-		
+
 		$learning_object->set_additional_properties($additionalProp);
-		
+
 		return $learning_object;
 	}
 
@@ -1023,7 +1028,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	// Inherited
 	function create_storage_unit($name,$properties,$indexes)
 	{
-		$name = $this->get_table_name($name);        
+		$name = $this->get_table_name($name);
 		$this->connection->loadModule('Manager');
 		$manager = $this->connection->manager;
 		// If table allready exists -> drop it
@@ -1121,15 +1126,15 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		$props = array();
 		foreach ($clo_item->get_default_properties() as $key => $value)
-		{ 
+		{
 			$props[$this->escape_column_name($key)] = $value;
 		}
 		$this->connection->loadModule('Extended');
 		$this->connection->extended->autoExecute($this->get_table_name('complex_learning_object_item'), $props, MDB2_AUTOQUERY_INSERT);
 		if ($clo_item->is_extended())
-		{ 
+		{
 			$ref = $clo_item->get_ref();
-			
+
 			$props = array();
 			foreach ($clo_item->get_additional_properties() as $key => $value)
 			{
@@ -1163,7 +1168,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if ($clo_item->is_extended())
 		{
 			$ref = $clo_item->get_ref();
-			
+
 			$props = array();
 			foreach ($clo_item->get_additional_properties() as $key => $value)
 			{
@@ -1174,7 +1179,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Deletes a complex learning object in the database
 	 * @param ComplexLearningObject $clo - The complex learning object
@@ -1183,9 +1188,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	function delete_complex_learning_object_item($clo_item)
 	{
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_ID, $clo_item->get_id());
-		
+
 		$query = 'DELETE FROM '.$this->escape_table_name('complex_learning_object_item');
-		
+
 		$params = array ();
 		if (isset ($condition))
 		{
@@ -1202,7 +1207,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if ($clo_item->is_extended())
 		{
 			$ref = $clo_item->get_ref();
-			
+
 			$type = $this->determine_learning_object_type($ref);
 			$query = 'DELETE FROM '.$this->get_table_name('complex_' . $type);
 
@@ -1219,15 +1224,15 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$statement = $this->connection->prepare($query);
 			$res = $statement->execute($params);
 		}
-		
+
 		$query = 'UPDATE '.$this->escape_table_name('complex_learning_object_item').' SET '.
 			 $this->escape_column_name('display_order').'='.
 			 $this->escape_column_name('display_order').'-1 WHERE '.
 			 $this->escape_column_name('display_order').'>? AND ' .
 			 $this->escape_column_name('parent') . '=?';
-		$statement = $this->connection->prepare($query); 
+		$statement = $this->connection->prepare($query);
 		$statement->execute(array($clo_item->get_display_order(), $clo_item->get_parent()));
-		
+
 		return true;
 
 	}
@@ -1261,19 +1266,19 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$record = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 		if(!$record)
 			return null;
-		
+
 		// Determine type
 
 		$ref = $record[ComplexLearningObjectItem :: PROPERTY_REF];
 
 		$type = $this->determine_learning_object_type($ref);
 		$cloi = ComplexLearningObjectItem :: factory($type, array(), array());
-		
+
 		$bool = false;
-		
+
 		if($cloi->is_extended())
 			$bool = true;
-		
+
 		return self :: record_to_complex_learning_object_item($record, $type, $bool);
 	}
 
@@ -1288,9 +1293,9 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		{
 			throw new Exception(Translation :: get('InvalidDataRetrievedFromDatabase'));
 		}
-		
+
 		$cloi = ComplexLearningObjectItem :: factory($type, array(), array());
-		
+
 		$defaultProp = array ();
 		foreach ($cloi->get_default_property_names() as $prop)
 		{
@@ -1301,12 +1306,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		if ($additional_properties_known && $type && $cloi->is_extended())
 		{
 			$additionalProp = array ();
-			
+
 			$query = 'SELECT * FROM '.$this->escape_table_name('complex_' . $type).' AS '.
 					 self :: ALIAS_TYPE_TABLE;
-			
+
 			$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_ID, $record['id']);
-			
+
 			$params = array ();
 			if (isset ($condition))
 			{
@@ -1315,18 +1320,18 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				$query .= $translator->render_query();
 				$params = $translator->get_parameters();
 			}
-		
+
 			$this->connection->setLimit(1);
 			$statement = $this->connection->prepare($query);
 			$res = $statement->execute($params);
 			$rec2 = $res->fetchRow(MDB2_FETCHMODE_ASSOC);
 			$res->free();
-			
+
 			foreach ($cloi->get_additional_property_names() as $prop)
-			{ 
+			{
 				$additionalProp[$prop] = $rec2[$prop];
 			}
-			
+
 			$cloi->set_additional_properties($additionalProp);
 		}
 		else
@@ -1348,7 +1353,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 				 $this->escape_column_name(ComplexLearningObjectItem :: PROPERTY_ID).') FROM '.
 				 $this->escape_table_name('complex_learning_object_item').' AS '.
 				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
-				
+
 		$params = array ();
 		if (isset ($condition))
 		{
@@ -1375,7 +1380,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$query = 'SELECT * FROM ' . $this->escape_table_name('complex_learning_object_item') . ' AS ' .
 				 self :: ALIAS_COMPLEX_LEARNING_OBJECT_ITEM_TABLE;
         $params = array ();
-		
+
         if (isset ($type))
 		{
             switch($type)
@@ -1415,14 +1420,14 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		return new DatabaseComplexLearningObjectItemResultSet($this, $res, true);
 		//return $this->database->retrieve_objects('complex_learning_object_item', $condition, $offset, $maxObjects, $orderBy, $orderDir, 'DatabaseComplexLearningObjectItemResultSet');
 	}
-	
+
 	function select_next_display_order($parent_id)
 	{
-		$query = 'SELECT MAX(' . ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
+		$query = 'SELECT MAX(' . ComplexLearningObjectItem :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' .
 			$this->escape_table_name('complex_learning_object_item');
-	
+
 		$condition = new EqualityCondition(ComplexLearningObjectItem :: PROPERTY_PARENT, $parent_id);
-		
+
 		$params = array ();
 		if (isset ($condition))
 		{
@@ -1431,62 +1436,62 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$sth = $this->connection->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
-	
+
 		return $record[0] + 1;
 	}
-	
+
 	function get_next_category_id()
 	{
 		return $this->database->get_next_id('repository_category');
 	}
-	
+
 	function delete_category($category)
 	{
 		$condition = new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $category->get_id());
 		$succes = $this->database->delete('repository_category', $condition);
-		
+
 		$query = 'UPDATE '.$this->database->escape_table_name('repository_category').' SET '.
 				 $this->database->escape_column_name(RepositoryCategory :: PROPERTY_DISPLAY_ORDER).'='.
 				 $this->database->escape_column_name(RepositoryCategory :: PROPERTY_DISPLAY_ORDER).'-1 WHERE '.
 				 $this->database->escape_column_name(RepositoryCategory :: PROPERTY_DISPLAY_ORDER).'>? AND ' .
 				 $this->database->escape_column_name(RepositoryCategory :: PROPERTY_PARENT) . '=?';
-		$statement = $this->database->get_connection()->prepare($query); 
+		$statement = $this->database->get_connection()->prepare($query);
 		$statement->execute(array($category->get_display_order(), $category->get_parent()));
-		
+
 		$query = 'UPDATE ' . $this->database->escape_table_name('learning_object').' SET ' .
 		 		 $this->database->escape_column_name('state').'=1 WHERE '.
 		 		 $this->database->escape_column_name('parent').'=?';
-		$statement = $this->database->get_connection()->prepare($query); 
-		$statement->execute(array($category->get_id())); 		
-		
+		$statement = $this->database->get_connection()->prepare($query);
+		$statement->execute(array($category->get_id()));
+
 		$categories = $this->retrieve_categories(new EqualityCondition('parent', $category->get_id()));
 		while($category = $categories->next_result())
 			$this->delete_category($category);
-		
+
 		return $succes;
 	}
-	
+
 	function update_category($category)
-	{ 
+	{
 		$condition = new EqualityCondition(RepositoryCategory :: PROPERTY_ID, $category->get_id());
 		return $this->database->update($category, $condition);
 	}
-	
+
 	function create_category($category)
 	{
 		return $this->database->create($category);
 	}
-	
+
 	function count_categories($conditions = null)
 	{
 		return $this->database->count_objects('repository_category', $conditions);
 	}
-	
+
 	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		$order_property[] = 'parent';
@@ -1495,16 +1500,16 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 		$order_direction[] = SORT_ASC;
 		return $this->database->retrieve_objects('repository_category', $condition, $offset, $count, $order_property, $order_direction);
 	}
-	
+
 	function select_next_category_display_order($parent_category_id, $user_id)
 	{
-		$query = 'SELECT MAX(' . RepositoryCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
+		$query = 'SELECT MAX(' . RepositoryCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' .
 		$this->database->escape_table_name('repository_category');
-	
+
 		$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_PARENT, $parent_category_id);
 		$conditions[] = new EqualityCondition(RepositoryCategory :: PROPERTY_USER_ID, $user_id);
 		$condition = new AndCondition($conditions);
-		
+
 		$params = array ();
 		if (isset ($condition))
 		{
@@ -1513,12 +1518,12 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 			$query .= $translator->render_query();
 			$params = $translator->get_parameters();
 		}
-		
+
 		$sth = $this->database->get_connection()->prepare($query);
 		$res = $sth->execute($params);
 		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
 		$res->free();
-	
+
 		return $record[0] + 1;
 	}
 
@@ -1526,46 +1531,46 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		return $this->database->get_next_id('user_view');
 	}
-	
+
 	function delete_user_view($user_view)
 	{
 		$condition = new EqualityCondition(UserView :: PROPERTY_ID, $user_view->get_id());
 		$success = $this->database->delete('user_view', $condition);
-		
+
 		$condition = new EqualityCondition(UserViewRelLearningObject :: PROPERTY_VIEW_ID, $user_view->get_id());
 		$success &= $this->database->delete('user_view_rel_learning_object', $condition);
-		
+
 		return $success;
 	}
-	
+
 	function update_user_view($user_view)
 	{
 		$condition = new EqualityCondition(UserView :: PROPERTY_ID, $user_view->get_id());
 		return $this->database->update($user_view, $condition);
 	}
-	
+
 	function create_user_view($user_view)
 	{
 		return $this->database->create($user_view);
 	}
-	
+
 	function count_user_views($conditions = null)
 	{
 		return $this->database->count_objects('user_view', $conditions);
 	}
-	
+
 	function retrieve_user_views($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return $this->database->retrieve_objects('user_view', $condition, $offset, $count, $order_property, $order_direction);
 	}
-	
+
 	function update_user_view_rel_learning_object($user_view_rel_learning_object)
 	{
 		$conditions[] = new EqualityCondition(UserViewRelLearningObject :: PROPERTY_VIEW_ID, $user_view_rel_learning_object->get_view_id());
 		$conditions[] = new EqualityCondition(UserViewRelLearningObject :: PROPERTY_LEARNING_OBJECT_TYPE, $user_view_rel_learning_object->get_learning_object_type());
-		
+
 		$condition = new AndCondition($conditions);
-		
+
 		return $this->database->update($user_view_rel_learning_object, $condition);
 	}
 
@@ -1579,7 +1584,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 
 		return $this->database->update($learning_object_pub_feedback, $condition);
 	}
-	
+
 	function create_user_view_rel_learning_object($user_view_rel_learning_object)
 	{
 		return $this->database->create($user_view_rel_learning_object);
@@ -1589,7 +1594,7 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	{
 		return $this->database->create($learning_object_pub_feedback);
 	}
-	
+
 	function retrieve_user_view_rel_learning_objects($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
 	{
 		return $this->database->retrieve_objects('user_view_rel_learning_object', $condition, $offset, $count, $order_property, $order_direction);
@@ -1601,22 +1606,22 @@ class DatabaseRepositoryDataManager extends RepositoryDataManager
 	}
 
     function delete_learning_object_pub_feedback($learning_object_pub_feedback)
-	{		
+	{
 
         $condition = new EqualityCondition(LearningObjectPubFeedback :: PROPERTY_FEEDBACK_ID, $learning_object_pub_feedback->get_feedback_id());
-        
+
 		$success = $this->database->delete('learning_object_pub_feedback', $condition);
 
 		return $success;
 	}
-	
+
 	function reset_user_view($user_view)
 	{
 		$query = 'UPDATE '.$this->database->escape_table_name('user_view_rel_learning_object').' SET '.
 				 $this->database->escape_column_name(UserViewRelLearningObject :: PROPERTY_VISIBILITY).'=0 WHERE '.
 				 $this->database->escape_column_name(UserViewRelLearningObject :: PROPERTY_VIEW_ID).'=?;';
-				 
-		$statement = $this->database->get_connection()->prepare($query); 
+
+		$statement = $this->database->get_connection()->prepare($query);
 		return $statement->execute(array($user_view->get_id()));
 	}
 }

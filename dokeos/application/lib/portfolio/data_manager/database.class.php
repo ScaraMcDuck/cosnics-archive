@@ -30,6 +30,11 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 		$this->database->set_prefix('portfolio_');
 	}
 
+    function get_database()
+    {
+        return $this->database;
+    }
+
 	function create_storage_unit($name, $properties, $indexes)
 	{
 		return $this->database->create_storage_unit($name, $properties, $indexes);
@@ -43,7 +48,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	function create_portfolio_publication($portfolio_publication)
 	{
 		$succes = $this->database->create($portfolio_publication);
-		
+
 		foreach($portfolio_publication->get_target_groups() as $group)
 		{
 			$pfpg = new PortfolioPublicationGroup();
@@ -51,7 +56,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			$pfpg->set_group_id($group);
 			$succes &= $pfpg->create();
 		}
-		
+
 		foreach($portfolio_publication->get_target_users() as $user)
 		{
 			$pfpg = new PortfolioPublicationUser();
@@ -59,7 +64,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			$pfpg->set_user($user);
 			$succes &= $pfpg->create();
 		}
-		
+
 		return $succes;
 	}
 
@@ -67,13 +72,13 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	{
 		$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_ID, $portfolio_publication->get_id());
 		$succes = $this->database->update($portfolio_publication, $condition);
-		
+
 		$condition = new EqualityCondition(PortfolioPublicationGroup :: PROPERTY_PORTFOLIO_PUBLICATION, $portfolio_publication->get_id());
 		$succes &= $this->database->delete(PortfolioPublicationGroup :: get_table_name(), $condition);
-		
+
 		$condition = new EqualityCondition(PortfolioPublicationUser :: PROPERTY_PORTFOLIO_PUBLICATION, $portfolio_publication->get_id());
 		$succes &= $this->database->delete(PortfolioPublicationUser :: get_table_name(), $condition);
-		
+
 		foreach($portfolio_publication->get_target_groups() as $group)
 		{
 			$pfpg = new PortfolioPublicationGroup();
@@ -81,7 +86,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			$pfpg->set_group_id($group);
 			$succes &= $pfpg->create();
 		}
-		
+
 		foreach($portfolio_publication->get_target_users() as $user)
 		{
 			$pfpu = new PortfolioPublicationUser();
@@ -89,7 +94,7 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 			$pfpu->set_user($user);
 			$succes &= $pfpu->create();
 		}
-		
+
 		return $succes;
 	}
 
@@ -97,13 +102,13 @@ class DatabasePortfolioDataManager extends PortfolioDataManager
 	{
 		$condition = new EqualityCondition(PortfolioPublication :: PROPERTY_ID, $portfolio_publication->get_id());
 		$succes = $this->database->delete($portfolio_publication->get_table_name(), $condition);
-		
+
 		$condition = new EqualityCondition(PortfolioPublicationGroup :: PROPERTY_PORTFOLIO_PUBLICATION, $portfolio_publication->get_id());
 		$succes &= $this->database->delete(PortfolioPublicationGroup :: get_table_name(), $condition);
-		
+
 		$condition = new EqualityCondition(PortfolioPublicationUser :: PROPERTY_PORTFOLIO_PUBLICATION, $portfolio_publication->get_id());
 		$succes &= $this->database->delete(PortfolioPublicationUser :: get_table_name(), $condition);
-		
+
 		return $succes;
 	}
 

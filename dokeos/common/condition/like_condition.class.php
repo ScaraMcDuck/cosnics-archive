@@ -22,16 +22,21 @@ class LikeCondition implements Condition
      * Value
      */
     private $value;
+    /**
+     * Storage unit
+     */
+    private $storage_unit;
 
     /**
      * Constructor
      * @param string $name
      * @param string $value
      */
-    function LikeCondition($name, $value)
+    function LikeCondition($name, $value, $storage_unit = null)
     {
         $this->name = $name;
         $this->value = $value;
+        $this->storage_unit = $storage_unit;
     }
 
     /**
@@ -50,6 +55,15 @@ class LikeCondition implements Condition
     function get_value()
     {
         return $this->value;
+    }
+
+    /**
+     * Gets the storage unit
+     * @return string
+     */
+    function get_storage_unit()
+    {
+        return $this->storage_unit;
     }
 
     /**

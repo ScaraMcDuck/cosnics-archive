@@ -22,16 +22,21 @@ class InCondition implements Condition
      * Values
      */
     private $values;
+    /**
+     * Storage unit
+     */
+    private $storage_unit;
 
     /**
      * Constructor
      * @param string $name
      * @param array $values
      */
-    function InCondition($name, $values)
+    function InCondition($name, $values, $storage_unit = null)
     {
         $this->name = $name;
         $this->values = $values;
+        $this->storage_unit = $storage_unit;
     }
 
     /**
@@ -50,6 +55,15 @@ class InCondition implements Condition
     function get_values()
     {
         return $this->values;
+    }
+
+    /**
+     * Gets the storage unit
+     * @return string
+     */
+    function get_storage_unit()
+    {
+        return $this->storage_unit;
     }
 
     /**

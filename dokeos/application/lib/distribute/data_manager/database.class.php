@@ -26,6 +26,11 @@ class DatabaseDistributeDataManager extends DistributeDataManager
 		$this->database->set_prefix('distribute_');
 	}
 
+    function get_database()
+    {
+        return $this->database;
+    }
+
 	function create_storage_unit($name, $properties, $indexes)
 	{
 		return $this->database->create_storage_unit($name, $properties, $indexes);

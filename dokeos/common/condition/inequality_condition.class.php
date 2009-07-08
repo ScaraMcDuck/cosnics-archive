@@ -40,6 +40,10 @@ class InequalityCondition implements Condition
      * Value
      */
     private $value;
+    /**
+     * Storage unit
+     */
+    private $storage_unit;
 
     /**
      * Constructor
@@ -47,11 +51,12 @@ class InequalityCondition implements Condition
      * @param int $operator (LESS_THAN, LESS_THAN_OR_EQUAL, GREATER_THAN,
      * GREATER_THAN_OR_EQUAL)
      */
-    function InequalityCondition($name, $operator, $value)
+    function InequalityCondition($name, $operator, $value, $storage_unit = null)
     {
         $this->name = $name;
         $this->operator = $operator;
         $this->value = $value;
+        $this->storage_unit = $storage_unit;
     }
 
     /**
@@ -79,6 +84,15 @@ class InequalityCondition implements Condition
     function get_value()
     {
         return $this->value;
+    }
+
+    /**
+     * Gets the storage unit
+     * @return string
+     */
+    function get_storage_unit()
+    {
+        return $this->storage_unit;
     }
 
     function __toString()

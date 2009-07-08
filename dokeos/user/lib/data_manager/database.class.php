@@ -39,6 +39,11 @@ class DatabaseUserDataManager extends UserDataManager
 		$this->database->set_prefix('user_');
 	}
 
+    function get_database()
+    {
+        return $this->database;
+    }
+
 	function update_user($user)
 	{
 		$condition = new EqualityCondition(User :: PROPERTY_USER_ID, $user->get_id());
@@ -210,11 +215,6 @@ class DatabaseUserDataManager extends UserDataManager
 			return null;
 		}
 		*/
-	}
-
-	function get_database()
-	{
-		return $this->database;
 	}
 
 	function retrieve_user_roles($condition = null, $offset = null, $maxObjects = null, $orderBy = null, $orderDir = null)
