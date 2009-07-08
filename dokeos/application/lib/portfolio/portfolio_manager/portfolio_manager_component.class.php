@@ -221,11 +221,6 @@ abstract class PortfolioManagerComponent
 		return $this->get_parent()->get_create_portfolio_publication_url();
 	}
 
-	function get_update_portfolio_publication_url($portfolio_publication)
-	{
-		return $this->get_parent()->get_update_portfolio_publication_url($portfolio_publication);
-	}
-
  	function get_delete_portfolio_publication_url($portfolio_publication)
 	{
 		return $this->get_parent()->get_delete_portfolio_publication_url($portfolio_publication);
