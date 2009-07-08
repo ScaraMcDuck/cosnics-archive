@@ -14,16 +14,16 @@ require_once dirname(__FILE__) . '/subselect_condition.class.php';
 class ConditionTranslator
 {
     private $data_manager;
-    private $prefix_properties;
+    private $storage_unit;
     private $parameters;
     private $strings;
 
     // TODO: Wouldn't it be more logical to use the tostring method of the conditions to do the actual translating ?
-    function ConditionTranslator($data_manager, $parameters, $prefix_properties = false)
+    function ConditionTranslator($data_manager, $parameters, $storage_unit = null)
     {
         $this->data_manager = $data_manager;
         $this->parameters = $parameters;
-        $this->prefix_properties = $prefix_properties;
+        $this->storage_unit = $storage_unit;
         $this->strings = array();
     }
 
@@ -56,7 +56,7 @@ class ConditionTranslator
      * Translates an aggregate condition to a SQL WHERE clause.
      * @param AggregateCondition $condition The AggregateCondition object.
      * @param array $parameters A reference to the query's parameter list.
-     * @param boolean $prefix_properties Whether or not to
+     * @param boolean $storage_unit Whether or not to
      *                                                   prefix learning
      *                                                   object properties
      *                                                   to avoid collisions.
@@ -68,7 +68,7 @@ class ConditionTranslator
         {
             $cond = array();
             $count = 0;
-            
+
             $this->strings[] = '(';
             foreach ($condition->get_conditions() as $c)
             {
@@ -83,7 +83,7 @@ class ConditionTranslator
         {
             $cond = array();
             $count = 0;
-            
+
             $this->strings[] = '(';
             foreach ($condition->get_conditions() as $c)
             {
@@ -110,7 +110,7 @@ class ConditionTranslator
      * Translates an in condition to a SQL WHERE clause.
      * @param InCondition $condition The InCondition object.
      * @param array $parameters A reference to the query's parameter list.
-     * @param boolean $prefix_properties Whether or not to
+     * @param boolean $storage_unit Whether or not to
      *                                                   prefix learning
      *                                                   object properties
      *                                                   to avoid collisions.
@@ -118,12 +118,18 @@ class ConditionTranslator
      */
     function translate_in_condition($condition)
     {
-        $prefix_properties = $this->prefix_properties;
-        
+        $storage_unit = $this->storage_unit;
+        $condition_storage_unit = $condition->get_storage_unit();
+
+        if (!is_null($condition_storage_unit))
+        {
+            $storage_unit = $this->data_manager->get_alias($condition_storage_unit);
+        }
+
         if ($condition instanceof InCondition)
         {
             $name = $condition->get_name();
-            $where_clause = $this->data_manager->escape_column_name($name, $prefix_properties) . ' IN (';
+            $where_clause = $this->data_manager->escape_column_name($name, $storage_unit) . ' IN (';
             $values = $condition->get_values();
             $placeholders = array();
             foreach ($values as $value)
@@ -144,27 +150,27 @@ class ConditionTranslator
     {
         if ($condition instanceof SubselectCondition)
         {
-            $prefix_properties = $this->prefix_properties;
-            
+            $storage_unit = $this->storage_unit;
+
             $name = $condition->get_name();
             $value = $condition->get_value();
-            $table = $condition->get_table();
+            $table = $condition->get_storage_unit();
             $etable = $this->data_manager->escape_table_name($table);
             $sub_condition = $condition->get_condition();
-            
+
             $alias = $this->data_manager->get_alias($table);
-            
-            $this->prefix_properties = $alias;
-            $this->strings[] = $this->data_manager->escape_column_name($name, $prefix_properties) . ' IN ( SELECT ' . $this->data_manager->escape_column_name($value, $alias) . ' FROM ' . $etable . ' AS ' . $alias;
-            
+
+            $this->storage_unit = $alias;
+            $this->strings[] = $this->data_manager->escape_column_name($name, $storage_unit) . ' IN ( SELECT ' . $this->data_manager->escape_column_name($value, $alias) . ' FROM ' . $etable . ' AS ' . $alias;
+
             if ($sub_condition)
             {
                 $this->strings[] = ' WHERE ';
                 $this->translate($sub_condition);
             }
-            
+
             $this->strings[] = ')';
-            $this->prefix_properties = $prefix_properties;
+            $this->storage_unit = $storage_unit;
         }
         else
         {
@@ -176,7 +182,7 @@ class ConditionTranslator
      * Translates a simple condition to a SQL WHERE clause.
      * @param Condition $condition The Condition object.
      * @param array $parameters A reference to the query's parameter list.
-     * @param boolean $prefix_properties Whether or not to
+     * @param boolean $storage_unit Whether or not to
      *                                                   prefix learning
      *                                                   object properties
      *                                                   to avoid collisions.
@@ -184,34 +190,48 @@ class ConditionTranslator
      */
     function translate_simple_condition($condition)
     {
-        $prefix_properties = $this->prefix_properties;
+        $storage_unit = $this->storage_unit;
         $data_manager = $this->data_manager;
-        
+
         if ($condition instanceof EqualityCondition)
         {
             $name = $condition->get_name();
             $value = $condition->get_value();
+            $condition_storage_unit = $condition->get_storage_unit();
+
+            if (!is_null($condition_storage_unit))
+            {
+                $storage_unit = $this->data_manager->get_alias($condition_storage_unit);
+            }
+
             if ($data_manager->is_date_column($name))
             {
                 $value = self :: to_db_date($value);
             }
             if (is_null($value))
             {
-                return $this->data_manager->escape_column_name($name) . ' IS NULL';
+                return $this->data_manager->escape_column_name($name, $storage_unit) . ' IS NULL';
             }
             $this->parameters[] = $value;
-            return $this->data_manager->escape_column_name($name, $prefix_properties) . ' = ?';
+            return $this->data_manager->escape_column_name($name, $storage_unit) . ' = ?';
         }
         elseif ($condition instanceof InequalityCondition)
         {
             $name = $condition->get_name();
             $value = $condition->get_value();
-            
+            $condition_storage_unit = $condition->get_storage_unit();
+
+            if (!is_null($condition_storage_unit))
+            {
+                $storage_unit = $this->data_manager->get_alias($condition_storage_unit);
+            }
+
             if ($data_manager->is_date_column($name))
             {
                 $value = self :: to_db_date($value);
             }
             $this->parameters[] = $value;
+
             switch ($condition->get_operator())
             {
                 case InequalityCondition :: GREATER_THAN :
@@ -229,12 +249,20 @@ class ConditionTranslator
                 default :
                     die('Unknown operator for inequality condition');
             }
-            return $this->data_manager->escape_column_name($name, $prefix_properties) . ' ' . $operator . ' ?';
+
+            return $this->data_manager->escape_column_name($name, $storage_unit) . ' ' . $operator . ' ?';
         }
         elseif ($condition instanceof PatternMatchCondition)
         {
+            $condition_storage_unit = $condition->get_storage_unit();
+
+            if (!is_null($condition_storage_unit))
+            {
+                $storage_unit = $this->data_manager->get_alias($condition_storage_unit);
+            }
+
             $this->parameters[] = $this->translate_search_string($condition->get_pattern());
-            return $this->data_manager->escape_column_name($condition->get_name(), $prefix_properties) . ' LIKE ?';
+            return $this->data_manager->escape_column_name($condition->get_name(), $storage_unit) . ' LIKE ?';
         }
         else
         {
