@@ -29,9 +29,225 @@ class DatabaseAdminDataManager extends AdminDataManager
     }
 
     function retrieve_settings($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
-    {
-        return $this->database->retrieve_objects(Setting :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
-    }
+	{
+		return $this->database->retrieve_objects(Setting :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+	}
+	
+	function retrieve_registrations($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+		return $this->database->retrieve_objects(Registration :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+	}
+	
+	function retrieve_language_from_english_name($english_name)
+	{
+		$condition = new EqualityCondition(Language :: PROPERTY_ENGLISH_NAME, $english_name);
+		return $this->database->retrieve_object(Language :: get_table_name(), $condition);
+	}
+	
+	function retrieve_setting_from_variable_name($variable, $application = 'admin')
+	{
+		$conditions[] = new EqualityCondition(Setting :: PROPERTY_APPLICATION, $application);
+		$conditions[] = new EqualityCondition(Setting :: PROPERTY_VARIABLE, $variable);
+		$condition = new AndCondition($conditions);
+	
+		return $this->database->retrieve_object(Setting :: get_table_name(), $condition);
+	}
+	
+	function update_setting($setting)
+	{
+		$condition = new EqualityCondition(Setting :: PROPERTY_ID, $setting->get_id());
+		return $this->database->update($setting, $condition);
+	}
+    
+    function update_feedback($feedback)
+	{
+		$condition = new EqualityCondition(Feedback :: PROPERTY_ID, $feedback->get_id());
+		return $this->database->update($feedback, $condition);
+	}
+
+	
+	function update_registration($registration)
+	{
+		$condition = new EqualityCondition(Registration :: PROPERTY_ID, $registration->get_id());
+		return $this->database->update($registration, $condition);
+	}
+	
+	function update_system_announcement_publication($system_announcement_publication)
+	{
+		$condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_ID, $system_announcement_publication->get_id());
+		return $this->database->update($system_announcement_publication, $condition);
+	}
+	
+	function delete_registration($registration)
+	{
+		$condition = new EqualityCondition(Registration :: PROPERTY_ID, $registration->get_id());
+		return $this->database->delete($registration->get_table_name(), $condition);
+	}
+
+    function delete_feedback($feedback)
+	{
+		$condition = new EqualityCondition(Feedback :: PROPERTY_ID, $feedback->get_id());
+		return $this->database->delete($feedback->get_table_name(), $condition);
+	}
+	
+	function delete_system_announcement_publication($system_announcement_publication)
+	{
+		$condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_ID, $system_announcement_publication->get_id());
+		return $this->database->delete($system_announcement_publication->get_table_name(), $condition);
+	}
+	
+	// Inherited.
+	function get_next_language_id()
+	{
+		return $this->database->get_next_id(Language :: get_table_name());
+	}
+	
+	// Inherited.
+	function get_next_registration_id()
+	{
+		return $this->database->get_next_id(Registration :: get_table_name());
+	}
+	
+	// Inherited.
+	function get_next_setting_id()
+	{
+		return $this->database->get_next_id(Setting :: get_table_name());
+	}
+	
+	function get_next_system_announcement_publication_id()
+	{
+		return $this->database->get_next_id(SystemAnnouncementPublication :: get_table_name());
+	}
+	
+	function create_language($language)
+	{
+		return $this->database->create($language);
+	}
+	
+	function create_registration($registration)
+	{
+		return $this->database->create($registration);
+	}
+	
+	function create_setting($setting)
+	{
+		return $this->database->create($setting);
+	}
+
+    function create_feedback($feedback)
+	{
+		return $this->database->create($feedback);
+	}
+	
+	function create_system_announcement_publication($system_announcement_publication)
+	{
+		return $this->database->create($system_announcement_publication);
+	}
+	
+	function create_storage_unit($name, $properties, $indexes)
+	{
+		return $this->database->create_storage_unit($name, $properties, $indexes);
+	}
+	
+	function count_system_announcement_publications($condition = null)
+	{
+		return $this->database->count_objects(SystemAnnouncementPublication :: get_table_name(), $condition);
+	}
+	
+	function retrieve_system_announcement_publication($id)
+	{
+		$condition = new EqualityCondition(SystemAnnouncementPublication :: PROPERTY_ID, $id);
+		return $this->database->retrieve_object(SystemAnnouncementPublication :: get_table_name(), $condition);
+	}	
+	
+	function retrieve_system_announcement_publications($condition = null, $orderBy = array (), $orderDir = array (), $offset = 0, $maxObjects = -1)
+	{
+		return $this->database->retrieve_objects(SystemAnnouncementPublication :: get_table_name(), $condition, $offset, $maxObjects, $orderBy, $orderDir);
+	}
+	
+	function retrieve_system_announcement_publication_target_groups($system_announcement_publication)
+	{
+		return array();
+	}
+	
+	function retrieve_system_announcement_publication_target_users($system_announcement_publication)
+	{
+		return array();
+	}
+	
+	function get_next_category_id()
+	{
+		return $this->database->get_next_id('admin_category');
+	}
+	
+	function delete_category($category)
+	{
+		$condition = new EqualityCondition(AdminCategory :: PROPERTY_ID, $category->get_id());
+		$succes = $this->database->delete('admin_category', $condition);
+		
+		$query = 'UPDATE '.$this->database->escape_table_name('admin_category').' SET '.
+				 $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER).'='.
+				 $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER).'-1 WHERE '.
+				 $this->database->escape_column_name(AdminCategory :: PROPERTY_DISPLAY_ORDER).'>? AND ' .
+				 $this->database->escape_column_name(AdminCategory :: PROPERTY_PARENT) . '=?';
+		$statement = $this->database->get_connection()->prepare($query); 
+		$statement->execute(array($category->get_display_order(), $category->get_parent()));
+		
+		return $succes;
+	}
+	
+	function update_category($category)
+	{ 
+		$condition = new EqualityCondition(AdminCategory :: PROPERTY_ID, $category->get_id());
+		return $this->database->update($category, $condition);
+	}
+	
+	function create_category($category)
+	{
+		return $this->database->create($category);
+	}
+	
+	function count_categories($conditions = null)
+	{
+		return $this->database->count_objects('admin_category', $conditions);
+	}
+	
+	function retrieve_categories($condition = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		return $this->database->retrieve_objects('admin_category', $condition, $offset, $count, $order_property, $order_direction);
+	}
+	
+	function select_next_display_order($parent_category_id)
+	{
+		$query = 'SELECT MAX(' . AdminCategory :: PROPERTY_DISPLAY_ORDER . ') AS do FROM ' . 
+		$this->database->escape_table_name('admin_category');
+	
+		$condition = new EqualityCondition(AdminCategory :: PROPERTY_PARENT, $parent_category_id);
+		
+		$params = array ();
+		if (isset ($condition))
+		{
+			$translator = new ConditionTranslator($this->database, $params, $prefix_properties = false);
+			$translator->translate($condition);
+			$query .= $translator->render_query();
+			$params = $translator->get_parameters();
+		}
+		
+		$sth = $this->database->get_connection()->prepare($query);
+		$res = $sth->execute($params);
+		$record = $res->fetchRow(MDB2_FETCHMODE_ORDERED);
+		$res->free();
+	
+		return $record[0] + 1;
+	}
+	
+	public function get_learning_object_publication_attributes($object_id, $type = null, $offset = null, $count = null, $order_property = null, $order_direction = null)
+	{
+		if (isset($type))
+		{
+			if ($type == 'user')
+			{
+				$query = 'SELECT * FROM '.$this->database->get_table_name('system_announcement_publication').' WHERE '.$this->database->escape_column_name('publisher').'=?';
 
     function delete_settings($condition = null)
     {
